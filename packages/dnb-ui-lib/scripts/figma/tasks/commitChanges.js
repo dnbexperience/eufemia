@@ -14,7 +14,8 @@ if (require.main === module) {
       '/src/components/icon/', // visual snapshots
       '/assets/icons/',
       'version.lock',
-      'icons.lock',
+      'icons-svg.lock',
+      'icons-pdf.lock',
       'icons-meta.json'
     ],
     // Skip CI if files are only one or both

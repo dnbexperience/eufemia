@@ -20,12 +20,12 @@ import {
   md5
 } from '../helpers/docHelpers'
 import properties from '../../../src/style/properties'
-import { create } from 'tar'
+import { create, extract } from 'tar'
 
 const prettierrc = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
 )
-export function IconsConfig() {
+export function IconsConfig(overwrite = {}) {
   const iconPrimaryList = process.env.FIGMA_ICONS_PRIMARY_LIST || [
     'chevron_left',
     'chevron_right',
@@ -83,7 +83,7 @@ export function IconsConfig() {
   const iconsDest = path.resolve(__dirname, '../../../assets/icons')
   const iconsLockFile = path.resolve(
     __dirname,
-    `../../../src/icons/icons.lock`
+    `../../../src/icons/icons-svg.lock`
   )
 
   return {
@@ -97,7 +97,8 @@ export function IconsConfig() {
     iconCloneList,
     iconSelector,
     iconNameCleaner,
-    iconsDest
+    iconsDest,
+    ...overwrite
   }
 }
 
@@ -134,24 +135,52 @@ export const PDFConverter = async ({
       '> Figma: started to fetch PDFs by using runFrameIconsFactory'
     )
 
-    // Load and save additional PDFs
+    const tarFile = path.resolve(`${destDir}`, outputName)
+    if (fs.existsSync(tarFile)) {
+      await extract({
+        cwd: destDir,
+        file: tarFile
+      })
+    }
+
+    const iconsLockFile = path.resolve(
+      __dirname,
+      `../../../src/icons/icons-pdf.lock`
+    )
+
+    const listOfnewFiles = []
     const listOfProcessedPdfs = await asyncForEach(
+      // Load and save additional PDFs
       framesInTheCanvas,
-      async (frameDoc) =>
-        await runFrameIconsFactory({
+      async (frameDoc) => {
+        const { files, newFiles } = await runFrameIconsFactory({
           frameDoc,
           figmaFile,
           destDir,
           format: 'pdf',
+          ...IconsConfig({ iconsLockFile }),
           ...rest
         })
-    )
 
+        listOfnewFiles.concat(newFiles)
+        return files
+      }
+    )
     log.info(
-      `> Figma: finished fetching PDFs by using runFrameIconsFactory. Got ${listOfProcessedPdfs.length} items.`
+      `> Figma: finished fetching PDFs by using runFrameIconsFactory. Processed ${listOfProcessedPdfs.length} files along with ${listOfnewFiles.length} new files.`
     )
 
-    if (listOfProcessedPdfs.length > 0) {
+    // save the lockFile content
+    await saveIconsLockFile({
+      file: iconsLockFile,
+      data: listOfProcessedPdfs.reduce((acc, { iconFile, ...cur }) => {
+        acc[iconFile] = cur
+        return acc
+      }, {})
+    })
+    log.info(`> Figma: ${iconsLockFile} file got generated`)
+
+    if (listOfnewFiles.length > 0) {
       log.info(`> Figma: started to create ${outputName}`)
 
       const fileList = listOfProcessedPdfs.reduce((acc, { iconFile }) => {
@@ -163,24 +192,24 @@ export const PDFConverter = async ({
         {
           gzip: true,
           cwd: destDir,
-          file: path.resolve(`${destDir}`, outputName)
+          file: tarFile
         },
         fileList
       )
 
-      // Remove the pdfs
-      await asyncForEach(listOfProcessedPdfs, async ({ iconFile }) => {
-        const file = path.resolve(destDir, iconFile)
-        try {
-          await fs.unlink(file)
-          log.info(`> Figma: File got removed: ${iconFile}`)
-        } catch (e) {
-          log.fail(new ErrorHandler(`Failed to remove ${iconFile}`, e))
-        }
-      })
-
       log.succeed(`> Figma: finished to create ${outputName}`)
     }
+
+    // Remove the pdfs
+    await asyncForEach(listOfProcessedPdfs, async ({ iconFile }) => {
+      const file = path.resolve(destDir, iconFile)
+      try {
+        await fs.unlink(file)
+        log.info(`> Figma: File got removed: ${iconFile}`)
+      } catch (e) {
+        log.fail(new ErrorHandler(`Failed to remove ${iconFile}`, e))
+      }
+    })
 
     return listOfProcessedPdfs
   } catch (e) {
@@ -222,21 +251,36 @@ export const SVGIconsConverter = async ({
       '> Figma: started to fetch svg icons by using runFrameIconsFactory'
     )
 
+    const listOfnewFiles = []
     const listOfProcessedIcons = await asyncForEach(
       framesInTheCanvas,
-      async (frameDoc) =>
-        await runFrameIconsFactory({
+      async (frameDoc) => {
+        const { files, newFiles } = await runFrameIconsFactory({
           frameDoc,
           figmaFile,
           destDir: iconsDest,
           format: 'svg',
+          ...IconsConfig(),
           ...rest
         })
+
+        listOfnewFiles.concat(newFiles)
+        return files
+      }
+    )
+    log.info(
+      `> Figma: finished fetching svg icons by using runFrameIconsFactory. Processed ${listOfProcessedIcons.length} files along with ${listOfnewFiles.length} new files.`
     )
 
-    log.info(
-      `> Figma: finished fetching svg icons by using runFrameIconsFactory. Got ${listOfProcessedIcons.length} items.`
-    )
+    // save the lockFile content
+    await saveIconsLockFile({
+      file: iconsLockFile,
+      data: listOfProcessedIcons.reduce((acc, { iconFile, ...cur }) => {
+        acc[iconFile] = cur
+        return acc
+      }, {})
+    })
+    log.info(`> Figma: ${iconsLockFile} file got generated`)
 
     await asyncForEach(
       listOfProcessedIcons,
@@ -255,16 +299,6 @@ export const SVGIconsConverter = async ({
         log.info(`> Figma: Icon was optimized: ${iconFile}`)
       }
     )
-
-    // save the lockFile content
-    await saveIconsLockFile({
-      file: iconsLockFile,
-      data: listOfProcessedIcons.reduce((acc, { iconFile, ...cur }) => {
-        acc[iconFile] = cur
-        return acc
-      }, {})
-    })
-    log.info(`> Figma: icons.lock file got generated`)
 
     // save the metaFile content
     await saveIconsMetaFile(
@@ -323,24 +357,27 @@ const runFrameIconsFactory = async ({
   figmaFile,
   destDir,
   forceRedownload = null,
-  format = 'svg'
+  format = 'svg',
+  frameNameSelector,
+  sizeSeperator,
+  iconsLockFile,
+  iconSelector,
+  iconPrimaryList,
+  iconCloneList,
+  ignoreAddingSizeList
 }) => {
-  if (/#skip/.test(frameDoc.name)) {
-    return []
-  }
+  const newFiles = []
+  const existingFiles = []
 
-  const {
-    frameNameSelector,
-    sizeSeperator,
-    iconsLockFile,
-    iconSelector,
-    iconPrimaryList,
-    iconCloneList,
-    ignoreAddingSizeList
-  } = IconsConfig()
-
-  if (!frameNameSelector.test(frameDoc.name)) {
-    return []
+  if (
+    /#skip/.test(frameDoc.name) ||
+    !frameNameSelector.test(frameDoc.name)
+  ) {
+    return {
+      files: [],
+      newFiles,
+      existingFiles
+    }
   }
 
   const frameId = frameDoc.id
@@ -447,9 +484,8 @@ const runFrameIconsFactory = async ({
     `> Figma: Starting to fetch process ${listOfIconsToProcess.length} icons`
   )
 
-  const listOfProcessedIcons = await asyncForEach(
-    listOfIconsToProcess,
-    async ({ id, url, name }) => {
+  const listOfProcessedIcons = (
+    await asyncForEach(listOfIconsToProcess, async ({ id, url, name }) => {
       try {
         const iconName = prerenderIconName(name, size)
         const iconFile = prerenderIconFile(iconName, format)
@@ -490,12 +526,14 @@ const runFrameIconsFactory = async ({
           lockFileFrameContent.slug === md5(figmaFile + frameId) &&
           fs.existsSync(file)
         ) {
-          ret.created = lockFileFrameContent.created
-          ret.updated = Date.now()
+          ret.created = lockFileFrameContent?.created
+          ret.updated = lockFileFrameContent?.updated
 
           log.info(
             `> Figma: File already exists: ${iconFile} (ID=${id}, CREATED=${ret.created})`
           )
+
+          existingFiles.push(ret)
         } else {
           const { content } = await streamToDisk(
             {
@@ -509,13 +547,18 @@ const runFrameIconsFactory = async ({
           )
 
           if (content) {
-            ret.created = Date.now()
-            ret.updated = ret.created
+            ret.created = lockFileFrameContent?.created || Date.now()
+            ret.updated = Date.now()
 
             log.info(
               `> Figma: Saved file ${iconFile} (ID=${id}, CREATED=${ret.created})`
             )
+            newFiles.push(ret)
           } else {
+            if (fs.existsSync(file)) {
+              await fs.unlink(file)
+            }
+
             return null
           }
         }
@@ -524,10 +567,10 @@ const runFrameIconsFactory = async ({
       } catch (e) {
         log.fail(new ErrorHandler('Failed to process new icons', e))
       }
-    }
-  )
+    })
+  ).filter(Boolean)
 
-  return listOfProcessedIcons.filter(Boolean)
+  return { files: listOfProcessedIcons, newFiles, existingFiles }
 }
 
 const prerenderIconName = (name, size = null) => {

@@ -183,7 +183,7 @@ const makeIconsEntryFiles = async ({
       .join(', ')
 
     log.info(
-      `> PrePublish: Files where not found in the icons.lock file: ${listNotFoundInLockFile}`
+      `> PrePublish: Files where not found in the icons-svg.lock file: ${listNotFoundInLockFile}`
     )
 
     if (delteOldFiles) {
