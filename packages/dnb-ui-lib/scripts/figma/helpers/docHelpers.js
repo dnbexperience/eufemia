@@ -207,10 +207,17 @@ export const getFigmaDoc = async ({
 
   log.start('> Figma: Fetching the figma doc')
 
-  if (forceRefetch !== false && process.argv.indexOf('-u') !== -1) {
+  /**
+   * Use "-u" to run force refetch
+   */
+  if (
+    forceRefetch !== false &&
+    process.argv.indexOf('--force-refetch') !== -1
+  ) {
     forceRefetch = true
   }
 
+  // Skip the cache checks
   if (forceRefetch !== true && preventUpdate !== true) {
     log.start('> Figma: Trying to get the newest online version')
 

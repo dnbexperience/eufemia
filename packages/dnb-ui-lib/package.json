@@ -47,7 +47,7 @@
     "figma-ci-prebuild": "yarn figma",
     "figma:dev:commit": "nodemon --exec 'babel-node ./scripts/figma/tasks/commitChanges'",
     "figma:dev:icons": "nodemon --exec 'babel-node ./scripts/figma/updateIcons' --ignore '*.svg' --ignore '*.json'",
-    "figma:refetch": "yarn figma -u",
+    "figma:refetch": "yarn figma --force-refetch",
     "figma:reset": "babel-node ./scripts/figma/reset && babel-node ./scripts/tools/convertIcons",
     "jest": "cross-env NODE_ICU_DATA=../../node_modules/full-icu jest",
     "lint": "eslint --quiet ./src ./scripts ./stories",
