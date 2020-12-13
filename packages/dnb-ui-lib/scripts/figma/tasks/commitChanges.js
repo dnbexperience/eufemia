@@ -15,8 +15,7 @@ if (require.main === module) {
       '/assets/icons/',
       'version.lock',
       'icons.lock',
-      'icons-meta.json',
-      " -- ':!/src/icons/*.d.ts' ':!/src/components/icon/*.d.ts'"
+      'icons-meta.json'
     ],
     // Skip CI if files are only one or both
     skipCI: (files) => files.length < 4, // in case we only update the "version.lock"
