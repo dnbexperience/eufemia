@@ -13,7 +13,7 @@ function bank(props) {
       {...props}
     >
       <path
-        d="M1 15.5h14M3.5 8v5h3V8m3 0v5h3V8M15 5.5H1L7.46 1.66a1 1 0 011.08 0L15 5.5z"
+        d="M1 15.5h14M3.5 8v5h3V8m3 0v5h3V8M15 5.5H1l6.46-3.84a1 1 0 011.08 0L15 5.5z"
         stroke="#000"
         strokeWidth={1.5}
         strokeLinecap="round"

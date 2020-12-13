@@ -13,7 +13,7 @@ function shopping_cart_medium(props) {
       {...props}
     >
       <path
-        d="M16 21a1 1 0 100 2 1 1 0 000-2zM9 21a1 1 0 100 2 1 1 0 000-2z"
+        d="M16 21a1 1 0 100 2 1 1 0 000-2zm-7 0a1 1 0 100 2 1 1 0 000-2z"
         fill="#000"
       />
       <path

@@ -13,7 +13,7 @@ function more_vertical_medium(props) {
       {...props}
     >
       <path
-        d="M14 6a2 2 0 11-4 0 2 2 0 014 0zM12 14a2 2 0 100-4 2 2 0 000 4zM12 20a2 2 0 100-4 2 2 0 000 4z"
+        d="M14 6a2 2 0 11-4 0 2 2 0 014 0zm-2 8a2 2 0 100-4 2 2 0 000 4zm0 6a2 2 0 100-4 2 2 0 000 4z"
         fill="#000"
       />
     </svg>
