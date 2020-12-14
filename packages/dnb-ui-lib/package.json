@@ -15,7 +15,7 @@
   "main": "index.js",
   "module": "index.js",
   "scripts": {
-    "audit:ci": "yarn audit-ci:yarn",
+    "audit:ci": "yarn audit:ci:yarn",
     "audit:ci:npm": "audit-ci --config ./audit-ci.json --report-type summary",
     "audit:ci:yarn": "audit-ci --config ./audit-ci.json --package-manager=yarn --report-type summary",
     "audit:ci:yarn-outdated": "babel-node ./scripts/prepub/audit/toOpt && audit-ci --config ./audit-ci.json --package-manager=yarn --report-type full && babel-node ./scripts/prepub/audit/toDev",
