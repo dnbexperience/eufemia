@@ -171,6 +171,11 @@ steps:
           - ftr/*
           - fix/*
           - rc/*
+        exclude:
+          - figma*
+          - ftr/figma*
+          - fix/figma*
+          - rc/figma*
 
   - name: deploy portal
     image: tujoworker/docker-node-puppeteer
