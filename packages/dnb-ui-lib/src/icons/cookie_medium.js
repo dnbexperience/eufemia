@@ -20,14 +20,14 @@ function cookie_medium(props) {
         strokeLinejoin="round"
       />
       <path
-        d="M7.5 13a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM14.5 19a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+        d="M7.5 13a2.5 2.5 0 100-5 2.5 2.5 0 000 5zm7 6a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
         stroke="#000"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
-        d="M8 17a1 1 0 11-2 0 1 1 0 012 0zM15 10a1 1 0 11-2 0 1 1 0 012 0zM20 13a1 1 0 11-2 0 1 1 0 012 0z"
+        d="M8 17a1 1 0 11-2 0 1 1 0 012 0zm7-7a1 1 0 11-2 0 1 1 0 012 0zm5 3a1 1 0 11-2 0 1 1 0 012 0z"
         fill="#000"
       />
     </svg>

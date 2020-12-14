@@ -11,22 +11,16 @@ import traverse from 'traverse'
 import isEqual from 'lodash.isequal'
 import isEqualWith from 'lodash.isequalwith'
 import Color from 'color'
-import { ErrorHandler, ERROR_HARMLESS, ERROR_FATAL } from '../../lib/error'
+import { ErrorHandler, ERROR_HARMLESS } from '../../lib/error'
 import { log } from '../../lib'
 import crypto from 'crypto'
 import dotenv from 'dotenv'
-import packpath from 'packpath'
 
 // import .env variables
 dotenv.config()
 
-process.env.ROOT_DIR = packpath.self()
-
-export const defaultFigmaToken = process.env.FIGMA_TOKEN
-export const defaultFigmaFile = process.env.FIGMA_MAIN_FILE
-
 const Figma = Client({
-  personalAccessToken: defaultFigmaToken
+  personalAccessToken: process.env.FIGMA_TOKEN
 })
 
 export const fetchTextColor = (node) => {
@@ -139,10 +133,7 @@ export const findNode = (doc, find, ignore = null) =>
 export const findAllNodes = (doc, find, ignore = null) =>
   findAll(doc, 'children', find, ignore)
 
-export const getLiveVersionOfFigmaDoc = async ({ figmaFile = null }) => {
-  if (!figmaFile) {
-    figmaFile = defaultFigmaFile
-  }
+export const getLiveVersionOfFigmaDoc = async ({ figmaFile }) => {
   try {
     const {
       data: { versions }
@@ -151,17 +142,11 @@ export const getLiveVersionOfFigmaDoc = async ({ figmaFile = null }) => {
 
     return versions[0].id
   } catch (e) {
-    console.log('Could not get version!', e)
+    new ErrorHandler('Could not get version!', e)
   }
 }
 
-const saveLiveVersionOfFigmaDoc = async ({
-  figmaFile = null,
-  version
-}) => {
-  if (!figmaFile) {
-    figmaFile = defaultFigmaFile
-  }
+const saveLiveVersionOfFigmaDoc = async ({ figmaFile, version }) => {
   if (!version) {
     return null
   }
@@ -187,12 +172,7 @@ const saveLiveVersionOfFigmaDoc = async ({
   }
 }
 
-export const getLocalVersionFromLockFile = async ({
-  figmaFile = null
-}) => {
-  if (!figmaFile) {
-    figmaFile = defaultFigmaFile
-  }
+export const getLocalVersionFromLockFile = async ({ figmaFile }) => {
   const lockFile = path.resolve(__dirname, `../version.lock`)
   try {
     if (fs.existsSync(lockFile)) {
@@ -200,27 +180,23 @@ export const getLocalVersionFromLockFile = async ({
       return fileContent[md5(figmaFile)]
     }
   } catch (e) {
-    console.log('Could not get version from lock file!', e)
+    new ErrorHandler('Could not get version from lock file!', e)
   }
   return null
 }
 
 export const getFigmaDoc = async ({
-  figmaFile = null,
+  figmaFile,
   localFile = null,
   forceRefetch = null,
   preventUpdate = null
 } = {}) => {
-  if (!figmaFile) {
-    figmaFile = defaultFigmaFile
-  }
-
   if (
     !(typeof figmaFile === 'string' && figmaFile.length > 0) &&
     !localFile
   ) {
     new ErrorHandler(
-      'No Figma Main File defined. Make sure there is a .env file with a valid FIGMA_MAIN_FILE defined!'
+      'No Figma file defined. Make sure there is a .env file with a valid "figmaFile" defined!'
     )
   }
 
@@ -231,10 +207,17 @@ export const getFigmaDoc = async ({
 
   log.start('> Figma: Fetching the figma doc')
 
-  if (forceRefetch !== false && process.argv.indexOf('-u') !== -1) {
+  /**
+   * Use "-u" to run force refetch
+   */
+  if (
+    forceRefetch !== false &&
+    process.argv.indexOf('--force-refetch') !== -1
+  ) {
     forceRefetch = true
   }
 
+  // Skip the cache checks
   if (forceRefetch !== true && preventUpdate !== true) {
     log.start('> Figma: Trying to get the newest online version')
 
@@ -331,7 +314,7 @@ export const getFigmaUrlByImageIds = async ({
 
 export const streamToDisk = (
   { file = '.tmp/file.json', url },
-  { errorExceptionType = ERROR_FATAL }
+  { errorExceptionType = ERROR_HARMLESS }
 ) =>
   new Promise((resolve, reject) => {
     const streamHandler = ({ localFile, oldContent = null }) => {
@@ -352,15 +335,23 @@ export const streamToDisk = (
           writeStream.close()
 
           const newContent = await fs.readFile(localFile, 'utf-8')
+          const isEmpty = String(newContent).trim().length === 0
+
+          if (isEmpty) {
+            new ErrorHandler(
+              `streamToDisk failed because the stream did not end with content by using the url: ${url}`
+            )
+          }
 
           // reset the file, if its empty
-          if (String(newContent).trim().length === 0) {
-            await fs.writeFile(localFile, oldContent)
-            resolve({ localFile, content: oldContent })
-            new ErrorHandler(
-              `streamToDisk failed as the stream did not end with content. Using the old content for: ${localFile}`,
-              errorExceptionType
-            )
+          if (isEmpty) {
+            if (oldContent) {
+              await fs.writeFile(localFile, oldContent)
+              new ErrorHandler(`Using the old content for: ${localFile}`)
+            } else {
+              await fs.unlink(localFile)
+            }
+            resolve({ localFile })
           } else {
             resolve({ localFile, content: newContent })
           }

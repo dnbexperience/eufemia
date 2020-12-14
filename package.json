@@ -14,23 +14,14 @@
   ],
   "main": "./packages/dnb-ui-lib/index.js",
   "scripts": {
-    "audit-ci": "yarn workspace dnb-ui-lib audit-ci",
-    "prebuild-ci": "yarn workspace dnb-ui-lib prebuild-ci",
     "precommit": "if git-branch-is release; then yarn -v; else yarn workspace dnb-ui-lib precommit && yarn workspace dnb-design-system-portal precommit; fi",
     "postinstall": "yarn workspace dnb-ui-lib lint:lockfile",
-    "build-portal-ci": "yarn workspace dnb-design-system-portal build-portal-ci",
-    "deploy-ci": "yarn workspace dnb-design-system-portal deploy-ci",
     "start": "yarn workspace dnb-design-system-portal start",
-    "lint-ci": "yarn workspace dnb-ui-lib lint-ci && yarn workspace dnb-design-system-portal lint-ci",
-    "publish-ci": "yarn workspace dnb-ui-lib publish-ci",
     "publish:dry": "yarn workspace dnb-ui-lib publish:dry",
     "reset": "rm -rf ./node_modules && yarn workspace dnb-ui-lib reset && yarn workspace dnb-design-system-portal reset && yarn install",
     "build": "yarn workspace dnb-ui-lib build && yarn workspace dnb-design-system-portal build",
     "test": "yarn workspace dnb-ui-lib test",
-    "test:update": "yarn workspace dnb-ui-lib test:update",
-    "test-ci": "yarn workspace dnb-ui-lib test-ci && yarn workspace dnb-design-system-portal test-ci",
-    "test-ci-release": "yarn workspace dnb-design-system-portal cypress:run-ci",
-    "test-ci-screenshots": "yarn workspace dnb-ui-lib test-ci-screenshots"
+    "test:update": "yarn workspace dnb-ui-lib test:update"
   },
   "devDependencies": {
     "git-branch-is": "^3.0.0",

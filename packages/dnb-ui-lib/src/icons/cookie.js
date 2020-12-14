@@ -27,7 +27,7 @@ function cookie(props) {
         strokeLinejoin="round"
       />
       <path
-        d="M8 11a1 1 0 11-2 0 1 1 0 012 0zM12 9a1 1 0 11-2 0 1 1 0 012 0z"
+        d="M8 11a1 1 0 11-2 0 1 1 0 012 0zm4-2a1 1 0 11-2 0 1 1 0 012 0z"
         fill="#000"
       />
     </svg>

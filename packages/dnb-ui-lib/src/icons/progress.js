@@ -19,7 +19,7 @@ function progress(props) {
         strokeLinecap="round"
       />
       <path
-        d="M7.25 6.25a1 1 0 11-2 0 1 1 0 012 0zM10.75 9.75a1 1 0 11-2 0 1 1 0 012 0z"
+        d="M7.25 6.25a1 1 0 11-2 0 1 1 0 012 0zm3.5 3.5a1 1 0 11-2 0 1 1 0 012 0z"
         fill="#000"
       />
     </svg>
