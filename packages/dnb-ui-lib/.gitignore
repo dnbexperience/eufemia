@@ -6,9 +6,6 @@
 /jest-screenshot-report
 /reports/jest-screenshot-report
 
-# ts
-/src/icons/*.d.ts
-
 # production
 *.min.mjs
 /build

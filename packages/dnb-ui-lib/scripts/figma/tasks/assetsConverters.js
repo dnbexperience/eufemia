@@ -282,23 +282,25 @@ export const SVGIconsConverter = async ({
     })
     log.info(`> Figma: ${iconsLockFile} file got generated`)
 
-    await asyncForEach(
-      listOfProcessedIcons,
-      async ({ iconFile, created, updated }) => {
-        const file = path.resolve(iconsDest, iconFile)
-        await optimizeSVG(file)
-
-        /**
-         * Run twice, because then we get a possible small change on paths,
-         * that else will be added next time, and messes up test snapshots
-         */
-        if (created === updated) {
+    if (listOfnewFiles.length > 0) {
+      await asyncForEach(
+        listOfnewFiles,
+        async ({ iconFile, created, updated }) => {
+          const file = path.resolve(iconsDest, iconFile)
           await optimizeSVG(file)
-        }
 
-        log.info(`> Figma: Icon was optimized: ${iconFile}`)
-      }
-    )
+          /**
+           * Run twice, because then we get a possible small change on paths,
+           * that else will be added next time, and messes up test snapshots
+           */
+          if (created === updated) {
+            await optimizeSVG(file)
+          }
+
+          log.info(`> Figma: Icon was optimized: ${iconFile}`)
+        }
+      )
+    }
 
     // save the metaFile content
     await saveIconsMetaFile(

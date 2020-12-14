@@ -68,7 +68,6 @@ export const runPrepublishTasks = async ({
     await makeMainStyle()
     await makePropertiesFile()
     await prepareTemplates()
-    await generateTypes()
 
     // NB: Deprecated and replaced by Babel only build
     // await makeLibModules()
