@@ -138,8 +138,10 @@ export const PDFConverter = async ({
       '> Figma: started to fetch PDFs by using runFrameIconsFactory'
     )
 
-    const tarFile = path.resolve(`${destDir}`, outputName)
+    let tarFileSize = 0
+    const tarFile = path.resolve(destDir, outputName)
     if (fs.existsSync(tarFile)) {
+      tarFileSize = (await fs.stat(tarFile)).size
       await extract({
         cwd: destDir,
         file: tarFile
@@ -183,8 +185,33 @@ export const PDFConverter = async ({
     })
     log.info(`> Figma: ${iconsLockFile} file got generated`)
 
-    if (listWithNewFiles.length > 0) {
+    if (listOfProcessedPdfs.length > 0) {
       log.info(`> Figma: started to create ${outputName}`)
+
+      const hasSizeChanged = async () => {
+        const fileList = listOfProcessedPdfs.reduce(
+          (acc, { iconFile }) => {
+            acc.push(iconFile)
+            return acc
+          },
+          []
+        )
+
+        const tmp = path.resolve(destDir, 'tmp.tgz')
+        await create(
+          {
+            gzip: true,
+            cwd: destDir,
+            file: tmp
+          },
+          fileList
+        )
+        const tmpSize = (await fs.stat(tmp)).size
+
+        await fs.unlink(tmp)
+
+        return Math.abs(tarFileSize - tmpSize) > 30
+      }
 
       const createTarWithoutCategories = async () => {
         const fileList = listOfProcessedPdfs.reduce(
@@ -231,7 +258,7 @@ export const PDFConverter = async ({
           []
         )
 
-        const tarFile = path.resolve(`${destDir}`, outputNameCategorized)
+        const tarFile = path.resolve(destDir, outputNameCategorized)
         await create(
           {
             gzip: true,
@@ -249,8 +276,11 @@ export const PDFConverter = async ({
         })
       }
 
-      await createTarWithoutCategories()
-      await createTarWithCategories()
+      const sizeHasChanged = await hasSizeChanged()
+      if (sizeHasChanged) {
+        await createTarWithoutCategories()
+        await createTarWithCategories()
+      }
 
       log.succeed(`> Figma: finished to create ${outputName}`)
     }
@@ -339,7 +369,7 @@ export const SVGIconsConverter = async ({
     })
     log.info(`> Figma: ${iconsLockFile} file got generated`)
 
-    if (listWithNewFiles.length > 0) {
+    if (listOfProcessedIcons.length > 0) {
       await asyncForEach(
         listWithNewFiles,
         async ({ iconFile, created, updated }) => {
