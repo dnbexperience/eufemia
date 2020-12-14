@@ -44,7 +44,6 @@ steps:
     when:
       branch:
         include:
-          - figma*
           - ftr/figma*
           - fix/figma*
           - rc/figma*
@@ -143,7 +142,6 @@ steps:
     when:
       branch:
         include:
-          - figma*
           - ftr/figma*
           - fix/figma*
           - rc/figma*
