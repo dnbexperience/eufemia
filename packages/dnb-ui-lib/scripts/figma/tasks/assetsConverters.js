@@ -109,6 +109,7 @@ export const PDFConverter = async ({
   figmaDoc = null,
   forceReconvert = null,
   outputName = 'eufemia-icons-pdf.tgz',
+  outputNameCategorized = 'eufemia-icons-pdf-categorized.tgz',
   ...rest
 }) => {
   try {
@@ -185,19 +186,71 @@ export const PDFConverter = async ({
     if (listWithNewFiles.length > 0) {
       log.info(`> Figma: started to create ${outputName}`)
 
-      const fileList = listOfProcessedPdfs.reduce((acc, { iconFile }) => {
-        acc.push(iconFile)
-        return acc
-      }, [])
+      const createTarWithoutCategories = async () => {
+        const fileList = listOfProcessedPdfs.reduce(
+          (acc, { iconFile }) => {
+            acc.push(iconFile)
+            return acc
+          },
+          []
+        )
 
-      await create(
-        {
-          gzip: true,
-          cwd: destDir,
-          file: tarFile
-        },
-        fileList
-      )
+        await create(
+          {
+            gzip: true,
+            cwd: destDir,
+            file: tarFile
+          },
+          fileList
+        )
+      }
+
+      const createTarWithCategories = async () => {
+        const { getCategory } = IconsConfig()
+
+        await asyncForEach(
+          listOfProcessedPdfs,
+          async ({ name, iconFile }) => {
+            const folder = getCategory(name)
+            const source = path.resolve(destDir, iconFile)
+            const dest = path.resolve(destDir, `${folder}/${iconFile}`)
+
+            if (fs.existsSync(source)) {
+              await fs.move(source, dest)
+            }
+          }
+        )
+
+        const fileList = listOfProcessedPdfs.reduce(
+          (acc, { name, iconFile }) => {
+            const folder = getCategory(name)
+            const file = `${folder}/${iconFile}`
+            acc.push(file)
+            return acc
+          },
+          []
+        )
+
+        const tarFile = path.resolve(`${destDir}`, outputNameCategorized)
+        await create(
+          {
+            gzip: true,
+            cwd: destDir,
+            file: tarFile
+          },
+          fileList
+        )
+
+        await asyncForEach(fileList, async (file) => {
+          file = path.resolve(destDir, file)
+          if (fs.existsSync(file)) {
+            await fs.unlink(file)
+          }
+        })
+      }
+
+      await createTarWithoutCategories()
+      await createTarWithCategories()
 
       log.succeed(`> Figma: finished to create ${outputName}`)
     }
@@ -205,11 +258,13 @@ export const PDFConverter = async ({
     // Remove the pdfs
     await asyncForEach(listOfProcessedPdfs, async ({ iconFile }) => {
       const file = path.resolve(destDir, iconFile)
-      try {
-        await fs.unlink(file)
-        log.info(`> Figma: File got removed: ${iconFile}`)
-      } catch (e) {
-        log.fail(new ErrorHandler(`Failed to remove ${iconFile}`, e))
+      if (fs.existsSync(file)) {
+        try {
+          await fs.unlink(file)
+          log.info(`> Figma: File got removed: ${iconFile}`)
+        } catch (e) {
+          log.fail(new ErrorHandler(`Failed to remove ${iconFile}`, e))
+        }
       }
     })
 
