@@ -104,7 +104,7 @@ export function IconsConfig(overwrite = {}) {
   }
 }
 
-export const PDFConverter = async ({
+export const extractIconsAsPDF = async ({
   figmaFile,
   figmaDoc = null,
   forceReconvert = null,
@@ -300,11 +300,11 @@ export const PDFConverter = async ({
 
     return listOfProcessedPdfs
   } catch (e) {
-    log.fail(new ErrorHandler('PDFConverter failed', e))
+    log.fail(new ErrorHandler('extractIconsAsPDF failed', e))
   }
 }
 
-export const SVGIconsConverter = async ({
+export const extractIconsAsSVG = async ({
   figmaFile,
   figmaDoc = null,
   forceReconvert = null,
@@ -437,7 +437,7 @@ export const SVGIconsConverter = async ({
 
     return listOfProcessedIcons
   } catch (e) {
-    log.fail(new ErrorHandler('SVGIconsConverter failed', e))
+    log.fail(new ErrorHandler('extractIconsAsSVG failed', e))
   }
 }
 
