@@ -85,6 +85,7 @@ export function IconsConfig(overwrite = {}) {
     __dirname,
     `../../../src/icons/icons-svg.lock`
   )
+  const getCategory = (name) => String(name).split(/\//)[0]
 
   return {
     canvasNameSelector,
@@ -98,6 +99,7 @@ export function IconsConfig(overwrite = {}) {
     iconSelector,
     iconNameCleaner,
     iconsDest,
+    getCategory,
     ...overwrite
   }
 }
@@ -148,7 +150,7 @@ export const PDFConverter = async ({
       `../../../src/icons/icons-pdf.lock`
     )
 
-    const listOfnewFiles = []
+    const listWithNewFiles = []
     const listOfProcessedPdfs = await asyncForEach(
       // Load and save additional PDFs
       framesInTheCanvas,
@@ -162,12 +164,12 @@ export const PDFConverter = async ({
           ...rest
         })
 
-        listOfnewFiles.concat(newFiles)
+        listWithNewFiles.concat(newFiles)
         return files
       }
     )
     log.info(
-      `> Figma: finished fetching PDFs by using runFrameIconsFactory. Processed ${listOfProcessedPdfs.length} files along with ${listOfnewFiles.length} new files.`
+      `> Figma: finished fetching PDFs by using runFrameIconsFactory. Processed ${listOfProcessedPdfs.length} files along with ${listWithNewFiles.length} new files.`
     )
 
     // save the lockFile content
@@ -180,7 +182,7 @@ export const PDFConverter = async ({
     })
     log.info(`> Figma: ${iconsLockFile} file got generated`)
 
-    if (listOfnewFiles.length > 0) {
+    if (listWithNewFiles.length > 0) {
       log.info(`> Figma: started to create ${outputName}`)
 
       const fileList = listOfProcessedPdfs.reduce((acc, { iconFile }) => {
@@ -251,7 +253,7 @@ export const SVGIconsConverter = async ({
       '> Figma: started to fetch svg icons by using runFrameIconsFactory'
     )
 
-    const listOfnewFiles = []
+    const listWithNewFiles = []
     const listOfProcessedIcons = await asyncForEach(
       framesInTheCanvas,
       async (frameDoc) => {
@@ -264,12 +266,12 @@ export const SVGIconsConverter = async ({
           ...rest
         })
 
-        listOfnewFiles.concat(newFiles)
+        listWithNewFiles.concat(newFiles)
         return files
       }
     )
     log.info(
-      `> Figma: finished fetching svg icons by using runFrameIconsFactory. Processed ${listOfProcessedIcons.length} files along with ${listOfnewFiles.length} new files.`
+      `> Figma: finished fetching svg icons by using runFrameIconsFactory. Processed ${listOfProcessedIcons.length} files along with ${listWithNewFiles.length} new files.`
     )
 
     // save the lockFile content
@@ -282,9 +284,9 @@ export const SVGIconsConverter = async ({
     })
     log.info(`> Figma: ${iconsLockFile} file got generated`)
 
-    if (listOfnewFiles.length > 0) {
+    if (listWithNewFiles.length > 0) {
       await asyncForEach(
-        listOfnewFiles,
+        listWithNewFiles,
         async ({ iconFile, created, updated }) => {
           const file = path.resolve(iconsDest, iconFile)
           await optimizeSVG(file)
