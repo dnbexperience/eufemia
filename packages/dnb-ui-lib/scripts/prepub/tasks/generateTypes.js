@@ -16,13 +16,11 @@ export default async function generateTypes({
   paths = [
     './src/*.js',
     './src/**/*.js',
-    '!./src/core/**',
     '!**/__tests__',
     '!./src/esm/',
     '!./src/cjs/',
     '!./src/umd/',
     '!./src/style/',
-    '!./src/icons/',
     '!./src/**/web-component.js',
     '!./src/**/web-components.js'
   ]
@@ -53,14 +51,15 @@ const createTypes = async (listOfAllFiles) => {
       if (
         /^index/.test(basename) ||
         (/^[A-Z]/.test(basename) &&
-          !(await fileContains(file, 'PropTypes')))
+          !(await fileContains(file, 'propTypes')))
       ) {
         if (!(await fs.exists(destFile))) {
           await fs.copyFile(file, destFile)
         }
       } else if (
-        /^[A-Z]/.test(basename) &&
-        (await fileContains(file, 'PropTypes'))
+        (/^[A-Z]/.test(basename) &&
+          (await fileContains(file, 'propTypes'))) ||
+        file.includes('src/icons/')
       ) {
         const docs = await fetchPropertiesFromDocs({ file })
 

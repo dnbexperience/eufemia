@@ -29,16 +29,33 @@ export const getListOfIcons = (icons) => {
     })
 }
 
+const groupByCategory = (sourceIcons) => {
+  const cache = {}
+  const categories = []
+  sourceIcons.forEach((item) => {
+    cache[item.category] = cache[item.category] || []
+    cache[item.category].push(item)
+  })
+  Object.entries(cache).forEach(([category, icons]) => {
+    const categoryName =
+      category.charAt(0).toUpperCase() + category.slice(1)
+    categories.push([categoryName, icons])
+  })
+  return categories
+}
+
 const grabCategory = (name) => {
   return String(name).split(/\//)[0]
 }
 
-export default class Icons extends React.PureComponent {
+export default class ListAllIcons extends React.PureComponent {
   state = { iconsToRender: [] }
   static propTypes = {
+    groupBy: PropTypes.string,
     variant: PropTypes.string
   }
   static defaultProps = {
+    groupBy: null,
     variant: null
   }
   constructor(props) {
@@ -61,41 +78,55 @@ export default class Icons extends React.PureComponent {
 
     this.state.iconsToRender = getListOfIcons(icons)
   }
+  renderListItem(icons) {
+    return icons.map(({ iconName, Svg, variant, tags }) => {
+      const SvgMedium = (variant === 'primary'
+        ? PrimaryIconsMedium
+        : SecondaryIconsMedium)[`${iconName}_medium`]
+      return (
+        <ListItem key={iconName}>
+          <ListItemInner>
+            <figure aria-labelledby={`icon-${iconName}`} aria-hidden>
+              {(SvgMedium && <Icon icon={SvgMedium} size="medium" />) || (
+                <Icon icon={Svg} />
+              )}
+            </figure>
+
+            <AutoLinkHeader
+              level={3}
+              size="medium"
+              element="figcaption"
+              useSlug={iconName}
+            >
+              {iconName}
+            </AutoLinkHeader>
+
+            <P>{tags.length > 0 ? tags.join(', ') : '(no tags)'}</P>
+          </ListItemInner>
+        </ListItem>
+      )
+    })
+  }
+
   render() {
     if (this.state.iconsToRender.length === 0) {
       return <></>
     }
 
-    const icons = this.state.iconsToRender.map(
-      ({ iconName, Svg, variant, tags }) => {
-        const SvgMedium = (variant === 'primary'
-          ? PrimaryIconsMedium
-          : SecondaryIconsMedium)[`${iconName}_medium`]
-        return (
-          <ListItem key={iconName}>
-            <ListItemInner>
-              <figure aria-labelledby={`icon-${iconName}`} aria-hidden>
-                {(SvgMedium && (
-                  <Icon icon={SvgMedium} size="medium" />
-                )) || <Icon icon={Svg} />}
-              </figure>
-
-              <AutoLinkHeader
-                level={3}
-                size="medium"
-                element="figcaption"
-                useSlug={iconName}
-              >
-                {iconName}
-              </AutoLinkHeader>
-
-              <P>{tags.length > 0 ? tags.join(', ') : '(no tags)'}</P>
-            </ListItemInner>
-          </ListItem>
+    if (this.props.groupBy === 'category') {
+      return groupByCategory(this.state.iconsToRender).map(
+        ([categoryName, icons]) => (
+          <React.Fragment key={categoryName}>
+            <AutoLinkHeader level={2} size="large" useSlug={categoryName}>
+              {categoryName}
+            </AutoLinkHeader>
+            <List>{this.renderListItem(icons)}</List>
+          </React.Fragment>
         )
-      }
-    )
-    return <List>{icons}</List>
+      )
+    } else {
+      return <List>{this.renderListItem(this.state.iconsToRender)}</List>
+    }
   }
 }
 

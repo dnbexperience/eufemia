@@ -13,8 +13,8 @@ function chevron_down_medium(props) {
       {...props}
     >
       <path
-        d="M19 8.5L12 15.5L5 8.5"
-        stroke="black"
+        d="M19 8.5l-7 7-7-7"
+        stroke="#000"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"

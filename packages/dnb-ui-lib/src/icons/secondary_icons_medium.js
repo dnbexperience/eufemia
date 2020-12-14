@@ -35,6 +35,7 @@ import coins_3_medium from './coins_3_medium.js'
 import compose_medium from './compose_medium.js'
 import confetti_medium from './confetti_medium.js'
 import contacts_medium from './contacts_medium.js'
+import cookie_medium from './cookie_medium.js'
 import copy_medium from './copy_medium.js'
 import currency_medium from './currency_medium.js'
 import customer_service_medium from './customer_service_medium.js'
@@ -57,6 +58,7 @@ import exclamation_triangle_medium from './exclamation_triangle_medium.js'
 import file_medium from './file_medium.js'
 import filter_medium from './filter_medium.js'
 import flying_money_medium from './flying_money_medium.js'
+import folder_medium from './folder_medium.js'
 import fullscreen_medium from './fullscreen_medium.js'
 import funds_in_medium from './funds_in_medium.js'
 import funds_medium from './funds_medium.js'
@@ -105,6 +107,7 @@ import people_1_medium from './people_1_medium.js'
 import people_2_medium from './people_2_medium.js'
 import person_medium from './person_medium.js'
 import phone_medium from './phone_medium.js'
+import photo_medium from './photo_medium.js'
 import pin_code_medium from './pin_code_medium.js'
 import plant_medium from './plant_medium.js'
 import products_account_percent_medium from './products_account_percent_medium.js'
@@ -183,6 +186,7 @@ export {
   compose_medium,
   confetti_medium,
   contacts_medium,
+  cookie_medium,
   copy_medium,
   currency_medium,
   customer_service_medium,
@@ -205,6 +209,7 @@ export {
   file_medium,
   filter_medium,
   flying_money_medium,
+  folder_medium,
   fullscreen_medium,
   funds_in_medium,
   funds_medium,
@@ -253,6 +258,7 @@ export {
   people_2_medium,
   person_medium,
   phone_medium,
+  photo_medium,
   pin_code_medium,
   plant_medium,
   products_account_percent_medium,

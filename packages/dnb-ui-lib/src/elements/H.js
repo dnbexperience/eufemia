@@ -9,7 +9,30 @@ import classnames from 'classnames'
 import E from './Element'
 import { setNextLevel } from '../components/heading/HeadingHelpers'
 
-class H extends React.PureComponent {
+export default class H extends React.PureComponent {
+  static propTypes = {
+    className: PropTypes.string,
+    is: PropTypes.string,
+    level: PropTypes.string,
+    size: PropTypes.oneOf([
+      'xx-large',
+      'x-large',
+      'large',
+      'medium',
+      'basis',
+      'small',
+      'x-small'
+    ]),
+    style_type: PropTypes.string // deprecated
+  }
+  static defaultProps = {
+    className: null,
+    level: null,
+    is: 'h1',
+    size: 'xx-large',
+    style_type: null // deprecated
+  }
+
   constructor(props) {
     super(props)
     if (props.level === 'use') {
@@ -40,26 +63,3 @@ class H extends React.PureComponent {
     )
   }
 }
-H.propTypes = {
-  className: PropTypes.string,
-  is: PropTypes.string,
-  level: PropTypes.string,
-  size: PropTypes.oneOf([
-    'xx-large',
-    'x-large',
-    'large',
-    'medium',
-    'basis',
-    'small',
-    'x-small'
-  ]),
-  style_type: PropTypes.string // deprecated
-}
-H.defaultProps = {
-  className: null,
-  level: null,
-  is: 'h1',
-  size: 'xx-large',
-  style_type: null // deprecated
-}
-export default H

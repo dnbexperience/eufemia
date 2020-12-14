@@ -47,11 +47,15 @@
 
 @mixin htmlDefault() {
   html {
-    font-size: 100%;
-    @supports (-webkit-touch-callout: none) and (font: -apple-system-body) {
-      font: -apple-system-body; /* stylelint-disable-line */
-    }
     scroll-behavior: smooth;
+    font-size: 100%;
+
+    // IS_SAFARI_MOBILE
+    @supports (-webkit-touch-callout: none) {
+      @supports (font: -apple-system-body) {
+        font: -apple-system-body; /* stylelint-disable-line */
+      }
+    }
   }
 
   // reset ePlatform css

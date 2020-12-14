@@ -17,9 +17,13 @@ import { asyncForEach } from '../../tools'
 import { log } from '../../lib'
 import { md5 } from '../../figma/helpers/docHelpers'
 import {
-  readLockFile as readSvgLockFile,
-  saveLockFile as saveSvgLockFile
-} from '../../figma/tasks/iconsConverter'
+  IconsConfig,
+  readIconsLockFile,
+  saveIconsLockFile
+} from '../../figma/tasks/assetsConverters'
+import packpath from 'packpath'
+
+const ROOT_DIR = packpath.self()
 
 export default async function convertSvgToJsx({
   srcPath = ['./assets/icons/*.svg'],
@@ -56,14 +60,14 @@ const transformSvgToReact = ({ srcPath, destPath }) =>
   new Promise((resolve, reject) => {
     try {
       gulp
-        .src(srcPath, { cwd: process.env.ROOT_DIR })
+        .src(srcPath, { cwd: ROOT_DIR })
         .pipe(transform('utf8', transformToJsx))
         .pipe(
           rename({
             extname: '.js'
           })
         )
-        .pipe(gulp.dest(destPath, { cwd: process.env.ROOT_DIR }))
+        .pipe(gulp.dest(destPath, { cwd: ROOT_DIR }))
         .on('end', resolve)
         .on('error', reject)
     } catch (e) {
@@ -139,7 +143,8 @@ const makeIconsEntryFiles = async ({
     .sort(({ name: a }, { name: b }) => (a > b ? 1 : -1))
 
   // get the svg lock file
-  const lockFileContent = await readSvgLockFile()
+  const { iconsLockFile } = IconsConfig()
+  const lockFileContent = await readIconsLockFile({ file: iconsLockFile })
 
   // from the svg lock file we can generate groups out of the "bundleName"
   const groups = Object.entries(lockFileContent).reduce(
@@ -150,9 +155,7 @@ const makeIconsEntryFiles = async ({
 
       // make sure the file actually exists
       if (
-        fs.existsSync(
-          path.resolve(process.env.ROOT_DIR, destPath, `${filename}.js`)
-        )
+        fs.existsSync(path.resolve(ROOT_DIR, destPath, `${filename}.js`))
       ) {
         acc[bundleName].push({
           filename,
@@ -180,7 +183,7 @@ const makeIconsEntryFiles = async ({
       .join(', ')
 
     log.info(
-      `> PrePublish: Files where not found in the icons.lock file: ${listNotFoundInLockFile}`
+      `> PrePublish: Files where not found in the icons-svg.lock file: ${listNotFoundInLockFile}`
     )
 
     if (delteOldFiles) {
@@ -193,7 +196,7 @@ const makeIconsEntryFiles = async ({
             : srcPath
           const svgFile = path.resolve(
             path.resolve(
-              process.env.ROOT_DIR,
+              ROOT_DIR,
               /\*/.test(cleanSrcPath)
                 ? path.dirname(cleanSrcPath)
                 : cleanSrcPath
@@ -214,7 +217,7 @@ const makeIconsEntryFiles = async ({
             : destPath
           const jsxFile = path.resolve(
             path.resolve(
-              process.env.ROOT_DIR,
+              ROOT_DIR,
               /\*/.test(cleanDestPath)
                 ? path.dirname(cleanDestPath)
                 : cleanDestPath
@@ -229,7 +232,11 @@ const makeIconsEntryFiles = async ({
       )
 
       // since we change the lock file content, we update it with the newest lock content
-      await saveSvgLockFile(lockFileContent)
+      const { iconsLockFile } = IconsConfig()
+      await saveIconsLockFile({
+        file: iconsLockFile,
+        data: lockFileContent
+      })
     }
   }
 
@@ -255,11 +262,7 @@ const makeIconsEntryFiles = async ({
   )
 
   try {
-    const indexFile = path.resolve(
-      process.env.ROOT_DIR,
-      destPath,
-      `index.js`
-    )
+    const indexFile = path.resolve(ROOT_DIR, destPath, `index.js`)
     await fs.writeFile(indexFile, indexContent)
 
     await asyncForEach(
@@ -269,7 +272,7 @@ const makeIconsEntryFiles = async ({
           a > b ? 1 : -1
         )
         const groupFile = path.resolve(
-          process.env.ROOT_DIR,
+          ROOT_DIR,
           destPath,
           `${groupName}.js`
         )

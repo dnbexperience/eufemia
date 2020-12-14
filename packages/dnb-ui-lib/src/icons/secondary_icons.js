@@ -36,6 +36,7 @@ import coins_3 from './coins_3.js'
 import compose from './compose.js'
 import confetti from './confetti.js'
 import contacts from './contacts.js'
+import cookie from './cookie.js'
 import copy from './copy.js'
 import currency from './currency.js'
 import customer_service from './customer_service.js'
@@ -58,6 +59,7 @@ import exclamation_triangle from './exclamation_triangle.js'
 import file from './file.js'
 import filter from './filter.js'
 import flying_money from './flying_money.js'
+import folder from './folder.js'
 import fullscreen from './fullscreen.js'
 import fund_in from './fund_in.js'
 import fund_out from './fund_out.js'
@@ -106,6 +108,7 @@ import people_1 from './people_1.js'
 import people_2 from './people_2.js'
 import person from './person.js'
 import phone from './phone.js'
+import photo from './photo.js'
 import pin_code from './pin_code.js'
 import plant from './plant.js'
 import printer from './printer.js'
@@ -185,6 +188,7 @@ export {
   compose,
   confetti,
   contacts,
+  cookie,
   copy,
   currency,
   customer_service,
@@ -207,6 +211,7 @@ export {
   file,
   filter,
   flying_money,
+  folder,
   fullscreen,
   fund_in,
   fund_out,
@@ -255,6 +260,7 @@ export {
   people_2,
   person,
   phone,
+  photo,
   pin_code,
   plant,
   printer,

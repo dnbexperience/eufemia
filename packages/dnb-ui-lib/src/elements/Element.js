@@ -20,6 +20,29 @@ import {
 
 class Elem extends React.PureComponent {
   static contextType = Context
+  static propTypes = {
+    is: PropTypes.string.isRequired,
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton_method: PropTypes.string,
+    className: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object,
+      PropTypes.array
+    ]),
+    class: PropTypes.string,
+    internalClass: PropTypes.string,
+    css: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    _ref: PropTypes.object
+  }
+  static defaultProps = {
+    skeleton: null,
+    skeleton_method: 'font',
+    className: null,
+    class: null,
+    internalClass: null,
+    css: null,
+    _ref: null
+  }
 
   constructor(props) {
     super(props)
@@ -69,32 +92,11 @@ class Elem extends React.PureComponent {
     return <Tag ref={_ref} {...rest} />
   }
 }
-Elem.propTypes = {
-  is: PropTypes.string.isRequired,
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton_method: PropTypes.string,
-  className: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.array
-  ]),
-  class: PropTypes.string,
-  internalClass: PropTypes.string,
-  css: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  _ref: PropTypes.object
-}
-Elem.defaultProps = {
-  skeleton: null,
-  skeleton_method: 'font',
-  className: null,
-  class: null,
-  internalClass: null,
-  css: null,
-  _ref: null
-}
 
 const Element = React.forwardRef((props, ref) => {
   return <Elem _ref={ref} {...props} />
 })
+Element.propTypes = Elem.propTypes
+Element.defaultProps = Elem.defaultProps
 
 export default Element

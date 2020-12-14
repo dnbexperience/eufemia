@@ -6,8 +6,6 @@
  *
  */
 
-process.env.ROOT_DIR = require('packpath').self()
-
 import { ErrorHandler, log } from '../lib'
 import del from 'del'
 
@@ -70,7 +68,6 @@ export const runPrepublishTasks = async ({
     await makeMainStyle()
     await makePropertiesFile()
     await prepareTemplates()
-    await generateTypes()
 
     // NB: Deprecated and replaced by Babel only build
     // await makeLibModules()

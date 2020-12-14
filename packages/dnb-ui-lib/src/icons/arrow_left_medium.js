@@ -13,8 +13,8 @@ function arrow_left_medium(props) {
       {...props}
     >
       <path
-        d="M22.25 11.5H2M9.5 4L2 11.5M2 11.5L9.5 19"
-        stroke="black"
+        d="M22.25 11.5H2M9.5 4L2 11.5m0 0L9.5 19"
+        stroke="#000"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"

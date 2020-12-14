@@ -19,7 +19,7 @@ export const runFigmaReset = async () => {
     }
     const iconsLockFile = path.resolve(
       __dirname,
-      '../../src/icons/icons.lock'
+      '../../src/icons/icons-svg.lock'
     )
     if (fs.existsSync(iconsLockFile)) {
       await fs.unlink(iconsLockFile)

@@ -980,8 +980,8 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                d="M5 19L19 5M19 19L5 5"
-                                stroke="black"
+                                d="M5 19L19 5m0 14L5 5"
+                                stroke="#000"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth={1.5}

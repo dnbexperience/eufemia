@@ -13,8 +13,8 @@ function check_medium(props) {
       {...props}
     >
       <path
-        d="M1.5 15L7.5 21L22.5 3"
-        stroke="black"
+        d="M1.5 15l6 6 15-18"
+        stroke="#000"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"

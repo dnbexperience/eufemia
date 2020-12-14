@@ -53,18 +53,20 @@ const makeRepo = async () => {
 }
 
 const getBranchName = async ({ repo = null, requiredBranch = null }) => {
-  // in case we set the branch as an enviroment variable (see TravisCI config)
+  // in case we set the branch as an environment variable (see TravisCI config)
   const branchName =
     typeof process.env.BRANCH === 'string'
       ? process.env.BRANCH
       : (await (repo || (await makeRepo())).branch()).current
 
-  if (typeof requiredBranch === 'string') {
+  if (!Array.isArray(requiredBranch)) {
     requiredBranch = [requiredBranch]
   }
   if (
     requiredBranch &&
-    !requiredBranch.some((name) => new RegExp(name).test(branchName))
+    !requiredBranch.some((name) =>
+      (name instanceof RegExp ? name : new RegExp(name)).test(branchName)
+    )
   ) {
     log.fail(
       `The current branch (${branchName}) was not the required one: ${requiredBranch.join(

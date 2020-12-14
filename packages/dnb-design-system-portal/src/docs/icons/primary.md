@@ -5,7 +5,7 @@ icon: 'primary'
 order: 2
 ---
 
-import Icons from "Parts/icons/ListAllIcons";
+import ListAllIcons from "Parts/icons/ListAllIcons";
 
 # Primary Icons
 
@@ -21,8 +21,17 @@ They are integrated by using the `<IconPrimary />` [Icon Component](/uilib/compo
 <Button icon="chevron_right" />
 ```
 
+You can also import them like the [Secondary](/icons/secondary) icons:
+
+```jsx
+import { bell_medium, chevron_right } from 'dnb-ui-lib/icons'
+
+<Icon icon={bell_medium} size="medium" />
+<Button icon={chevron_right} />
+```
+
 ## A list of all Primary Icons
 
 Title in parentheses are the icon's variable name used in coding.
 
-<Icons variant="primary" />
+<ListAllIcons variant="primary" />

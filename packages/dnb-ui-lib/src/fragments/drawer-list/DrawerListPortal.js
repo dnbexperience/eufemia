@@ -89,7 +89,7 @@ class DrawerListPortal extends React.PureComponent {
         })
         elem.node.setAttribute('role', 'presentation')
         elem.node.className = 'dnb-drawer-list__portal dnb-core-style'
-        document.body.appendChild(elem.node)
+        document.body.insertBefore(elem.node, document.body.firstChild)
       } catch (e) {
         warn('Could not create DrawerListPortal!', e)
       }
