@@ -15,27 +15,41 @@ steps:
   - name: dependencies audit
     image: tujoworker/docker-node-puppeteer
     commands:
-      - yarn audit-ci
+      - yarn workspace dnb-ui-lib audit:ci
     when:
       branch:
         exclude:
           - fix/*
           - ftr/*
-          - rc/*
+          - eufemia-icons
 
   - name: run integration tests
     image: tujoworker/docker-node-puppeteer
     commands:
-      - yarn lint-ci
-      - yarn test-ci
+      - yarn workspace dnb-ui-lib lint:ci && yarn workspace dnb-design-system-portal lint:ci
+      - yarn workspace dnb-ui-lib test:ci && yarn workspace dnb-design-system-portal test:ci
+
+  - name: run Figma converters
+    image: tujoworker/docker-node-puppeteer
+    environment:
+      FIGMA_STYLES_FILE:
+        from_secret: FIGMA_STYLES_FILE
+      FIGMA_ICONS_FILE:
+        from_secret: FIGMA_ICONS_FILE
+      FIGMA_ILLUSTRATIONS_FILE:
+        from_secret: FIGMA_ILLUSTRATIONS_FILE
+      FIGMA_TOKEN:
+        from_secret: FIGMA_TOKEN
+    commands:
+      - yarn workspace dnb-ui-lib prebuild:ci:figma
+    when:
+      branch:
+        include:
+          - eufemia-icons
 
   - name: prebuild
     image: tujoworker/docker-node-puppeteer
     environment:
-      FIGMA_MAIN_FILE:
-        from_secret: FIGMA_MAIN_FILE
-      FIGMA_TOKEN:
-        from_secret: FIGMA_TOKEN
       GH_EMAIL:
         from_secret: GH_EMAIL
       GH_NAME:
@@ -43,7 +57,7 @@ steps:
       GH_TOKEN:
         from_secret: GH_TOKEN
     commands:
-      - yarn prebuild-ci
+      - yarn workspace dnb-ui-lib prebuild:ci
     when:
       branch:
         include:
@@ -53,6 +67,7 @@ steps:
           - alpha
           - next
           - develop
+          - eufemia-icons
           - ftr/*
           - fix/*
           - rc/*
@@ -60,10 +75,6 @@ steps:
   - name: make build of portal
     image: tujoworker/docker-node-puppeteer
     environment:
-      FIGMA_MAIN_FILE:
-        from_secret: FIGMA_MAIN_FILE
-      FIGMA_TOKEN:
-        from_secret: FIGMA_TOKEN
       GH_EMAIL:
         from_secret: GH_EMAIL
       GH_NAME:
@@ -79,7 +90,7 @@ steps:
       ALGOLIA_API_KEY:
         from_secret: ALGOLIA_API_KEY
     commands:
-      - yarn build-portal-ci
+      - yarn workspace dnb-design-system-portal build-portal-ci
     when:
       branch:
         include:
@@ -89,6 +100,7 @@ steps:
           - alpha
           - next
           - develop
+          - eufemia-icons
           - ftr/*
           - fix/*
           - rc/*
@@ -96,10 +108,6 @@ steps:
   - name: run screenshot tests
     image: tujoworker/docker-node-puppeteer
     environment:
-      FIGMA_MAIN_FILE:
-        from_secret: FIGMA_MAIN_FILE
-      FIGMA_TOKEN:
-        from_secret: FIGMA_TOKEN
       GH_EMAIL:
         from_secret: GH_EMAIL
       GH_NAME:
@@ -107,7 +115,7 @@ steps:
       GH_TOKEN:
         from_secret: GH_TOKEN
     commands:
-      - yarn test-ci-screenshots
+      - yarn workspace dnb-ui-lib test:screenshots:ci
     when:
       branch:
         include:
@@ -117,9 +125,45 @@ steps:
           - alpha
           - next
           - develop
+          - eufemia-icons
           - ftr/*
           - fix/*
           - rc/*
+
+  - name: run Figma post build
+    image: tujoworker/docker-node-puppeteer
+    environment:
+      GH_EMAIL:
+        from_secret: GH_EMAIL
+      GH_NAME:
+        from_secret: GH_NAME
+      GH_TOKEN:
+        from_secret: GH_TOKEN
+    commands:
+      - yarn workspace dnb-ui-lib postbuild:ci:figma
+    when:
+      branch:
+        include:
+          - eufemia-icons
+
+  - name: postbuild
+    image: tujoworker/docker-node-puppeteer
+    environment:
+      GH_EMAIL:
+        from_secret: GH_EMAIL
+      GH_NAME:
+        from_secret: GH_NAME
+      GH_TOKEN:
+        from_secret: GH_TOKEN
+    commands:
+      - yarn workspace dnb-ui-lib postbuild:ci
+    when:
+      branch:
+        include:
+          - release
+          - beta
+          - alpha
+          - next
 
   - name: deploy portal
     image: tujoworker/docker-node-puppeteer
@@ -130,18 +174,8 @@ steps:
         from_secret: GH_NAME
       GH_TOKEN:
         from_secret: GH_TOKEN
-      NPM_TOKEN:
-        from_secret: NPM_TOKEN
-      ALGOLIA_APP_ID:
-        from_secret: ALGOLIA_APP_ID
-      ALGOLIA_INDEX_NAME:
-        from_secret: ALGOLIA_INDEX_NAME
-      ALGOLIA_SEARCH_KEY:
-        from_secret: ALGOLIA_SEARCH_KEY
-      ALGOLIA_API_KEY:
-        from_secret: ALGOLIA_API_KEY
     commands:
-      - yarn deploy-ci
+      - yarn workspace dnb-design-system-portal deploy-ci
     when:
       event:
         - push
@@ -162,7 +196,7 @@ steps:
       NPM_TOKEN:
         from_secret: NPM_TOKEN
     commands:
-      - yarn publish-ci
+      - yarn workspace dnb-ui-lib publish:ci
     when:
       event:
         - push
@@ -176,7 +210,7 @@ steps:
   # - name: test release
   #   image: cypress/browsers:node10.16.0-chrome77
   #   commands:
-  #     - yarn test-ci-release
+  #     - yarn workspace dnb-design-system-portal cypress:run-ci
   #   when:
   #     event:
   #       - push
@@ -190,8 +224,8 @@ steps:
     image: plugins/slack
     settings:
       webhook:
-        from_secret: SLACK_WEBHOOK_TUJO
-      channel: eufemia
+        from_secret: SLACK_WEBHOOK
+      channel: eufemia-dev
       link_names: true
       template: >
         {{#success build.status}}

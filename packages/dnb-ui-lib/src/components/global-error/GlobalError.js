@@ -35,7 +35,6 @@ export default class GlobalError extends React.PureComponent {
     href: PropTypes.string,
     alt: PropTypes.string,
 
-    /** React props */
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,

@@ -9,6 +9,9 @@ import { log } from '../../lib'
 import path from 'path'
 import fs from 'fs-extra'
 import { create } from 'tar'
+import packpath from 'packpath'
+
+const ROOT_DIR = packpath.self()
 
 export default async function makeResourcesPackage() {
   try {
@@ -34,14 +37,14 @@ const copyStylePackages = (
     try {
       gulp
         .src(src, {
-          cwd: process.env.ROOT_DIR
+          cwd: ROOT_DIR
         })
         .pipe(transform('utf8', transformPaths('/assets/', '/resources/')))
         .pipe(
           returnResult
             ? transform('utf8', (result) => resolve(result))
             : gulp.dest('./dnb-ui-resources/style', {
-                cwd: process.env.ROOT_DIR
+                cwd: ROOT_DIR
               })
         )
         .on('end', resolve)
@@ -57,11 +60,11 @@ const copyFonts = (src = ['./assets/fonts/*', '!./assets/fonts/*.zip']) =>
     try {
       gulp
         .src(src, {
-          cwd: process.env.ROOT_DIR
+          cwd: ROOT_DIR
         })
         .pipe(
           gulp.dest('./dnb-ui-resources/resources/fonts', {
-            cwd: process.env.ROOT_DIR
+            cwd: ROOT_DIR
           })
         )
         .on('end', resolve)
@@ -79,11 +82,11 @@ const copyBrowser = (
     try {
       gulp
         .src(src, {
-          cwd: process.env.ROOT_DIR
+          cwd: ROOT_DIR
         })
         .pipe(
           gulp.dest('./dnb-ui-resources/resources/browser', {
-            cwd: process.env.ROOT_DIR
+            cwd: ROOT_DIR
           })
         )
         .on('end', resolve)
@@ -99,11 +102,11 @@ const copyUMD = (src = ['./umd/*', '../../node_modules/react/umd/*']) =>
     try {
       gulp
         .src(src, {
-          cwd: process.env.ROOT_DIR
+          cwd: ROOT_DIR
         })
         .pipe(
           gulp.dest('./dnb-ui-resources/umd', {
-            cwd: process.env.ROOT_DIR
+            cwd: ROOT_DIR
           })
         )
         .on('end', resolve)

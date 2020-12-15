@@ -28,7 +28,7 @@ export default class DescriptionList extends React.PureComponent {
     ]).isRequired,
     info: PropTypes.string,
     class: PropTypes.string,
-    /** React props */
+
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
   }
@@ -37,7 +37,7 @@ export default class DescriptionList extends React.PureComponent {
     data: [],
     info: null,
     class: null,
-    /** React props */
+
     className: null,
     children: null
   }

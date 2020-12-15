@@ -12,25 +12,13 @@ function trash(props) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <g
-        clipPath="url(#clip-306390)"
+      <path
+        d="M9.5 11.5v-5m-3 5v-5M1 3h14m-2.423 11.083a1 1 0 01-.997.917H4.42a1 1 0 01-.996-.917L2.5 3h11l-.923 11.083zM9.5 1h-3a1 1 0 00-1 1v1h5V2a1 1 0 00-1-1z"
         stroke="#000"
+        strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
-      >
-        <path d="M1.002 3.25h14" strokeWidth={1.5} />
-        <path
-          clipRule="evenodd"
-          d="M9.502.75h-3a1 1 0 00-1 1v1.5h5v-1.5a1 1 0 00-1-1z"
-          strokeWidth={1.5}
-        />
-        <path d="M6.502 11.75v-5m3 5v-5" strokeWidth={1.2} />
-        <path
-          clipRule="evenodd"
-          d="M12.58 14.333a1 1 0 01-.998.917H4.423a1 1 0 01-.997-.917L2.502 3.25h11l-.923 11.083z"
-          strokeWidth={1.5}
-        />
-      </g>
+      />
     </svg>
   )
 }

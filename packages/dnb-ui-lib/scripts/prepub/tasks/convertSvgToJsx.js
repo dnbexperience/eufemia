@@ -7,7 +7,6 @@ import fs from 'fs-extra'
 import path from 'path'
 import del from 'del'
 import gulp from 'gulp'
-// import file from 'gulp-file' // before we used to pipe only one file though gulp
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import svgr from '@svgr/core'
@@ -18,9 +17,13 @@ import { asyncForEach } from '../../tools'
 import { log } from '../../lib'
 import { md5 } from '../../figma/helpers/docHelpers'
 import {
-  readLockFile as readSvgLockFile,
-  saveLockFile as saveSvgLockFile
-} from '../../figma/tasks/iconsConverter'
+  IconsConfig,
+  readIconsLockFile,
+  saveIconsLockFile
+} from '../../figma/tasks/assetsExtractors'
+import packpath from 'packpath'
+
+const ROOT_DIR = packpath.self()
 
 export default async function convertSvgToJsx({
   srcPath = ['./assets/icons/*.svg'],
@@ -40,8 +43,6 @@ export default async function convertSvgToJsx({
     await transformSvgToReact({ srcPath, destPath })
 
     const icons = await makeIconsEntryFiles({
-      // do exclude large images from beeting in the entry files
-      // srcPath: srcPath.concat(['!**/**_large.svg']),
       srcPath,
       destPath
     })
@@ -59,14 +60,14 @@ const transformSvgToReact = ({ srcPath, destPath }) =>
   new Promise((resolve, reject) => {
     try {
       gulp
-        .src(srcPath, { cwd: process.env.ROOT_DIR })
+        .src(srcPath, { cwd: ROOT_DIR })
         .pipe(transform('utf8', transformToJsx))
         .pipe(
           rename({
             extname: '.js'
           })
         )
-        .pipe(gulp.dest(destPath, { cwd: process.env.ROOT_DIR }))
+        .pipe(gulp.dest(destPath, { cwd: ROOT_DIR }))
         .on('end', resolve)
         .on('error', reject)
     } catch (e) {
@@ -142,22 +143,21 @@ const makeIconsEntryFiles = async ({
     .sort(({ name: a }, { name: b }) => (a > b ? 1 : -1))
 
   // get the svg lock file
-  const lockFileContent = await readSvgLockFile()
+  const { iconsLockFile } = IconsConfig()
+  const lockFileContent = await readIconsLockFile({ file: iconsLockFile })
 
-  // from the svg lock file we can generate groups out of the "frame"
+  // from the svg lock file we can generate groups out of the "bundleName"
   const groups = Object.entries(lockFileContent).reduce(
-    (acc, [file, { frame }]) => {
-      acc[frame] = acc[frame] || []
+    (acc, [file, { bundleName }]) => {
+      acc[bundleName] = acc[bundleName] || []
       const basename = path.basename(file)
       const filename = basename.replace(path.extname(file), '')
 
       // make sure the file actually exists
       if (
-        fs.existsSync(
-          path.resolve(process.env.ROOT_DIR, destPath, `${filename}.js`)
-        )
+        fs.existsSync(path.resolve(ROOT_DIR, destPath, `${filename}.js`))
       ) {
-        acc[frame].push({
+        acc[bundleName].push({
           filename,
           basename,
           name: iconCase(filename)
@@ -183,7 +183,7 @@ const makeIconsEntryFiles = async ({
       .join(', ')
 
     log.info(
-      `> PrePublish: Files where not found in the icons.lock file: ${listNotFoundInLockFile}`
+      `> PrePublish: Files where not found in the icons-svg.lock file: ${listNotFoundInLockFile}`
     )
 
     if (delteOldFiles) {
@@ -196,7 +196,7 @@ const makeIconsEntryFiles = async ({
             : srcPath
           const svgFile = path.resolve(
             path.resolve(
-              process.env.ROOT_DIR,
+              ROOT_DIR,
               /\*/.test(cleanSrcPath)
                 ? path.dirname(cleanSrcPath)
                 : cleanSrcPath
@@ -217,7 +217,7 @@ const makeIconsEntryFiles = async ({
             : destPath
           const jsxFile = path.resolve(
             path.resolve(
-              process.env.ROOT_DIR,
+              ROOT_DIR,
               /\*/.test(cleanDestPath)
                 ? path.dirname(cleanDestPath)
                 : cleanDestPath
@@ -232,7 +232,11 @@ const makeIconsEntryFiles = async ({
       )
 
       // since we change the lock file content, we update it with the newest lock content
-      await saveSvgLockFile(lockFileContent)
+      const { iconsLockFile } = IconsConfig()
+      await saveIconsLockFile({
+        file: iconsLockFile,
+        data: lockFileContent
+      })
     }
   }
 
@@ -258,11 +262,7 @@ const makeIconsEntryFiles = async ({
   )
 
   try {
-    const indexFile = path.resolve(
-      process.env.ROOT_DIR,
-      destPath,
-      `index.js`
-    )
+    const indexFile = path.resolve(ROOT_DIR, destPath, `index.js`)
     await fs.writeFile(indexFile, indexContent)
 
     await asyncForEach(
@@ -272,7 +272,7 @@ const makeIconsEntryFiles = async ({
           a > b ? 1 : -1
         )
         const groupFile = path.resolve(
-          process.env.ROOT_DIR,
+          ROOT_DIR,
           destPath,
           `${groupName}.js`
         )

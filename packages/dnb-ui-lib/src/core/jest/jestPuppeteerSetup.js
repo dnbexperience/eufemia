@@ -30,20 +30,26 @@ const startStaticServer = async () => {
         packpath.self(),
         '../dnb-design-system-portal/public/'
       )
-      liveServer.start({
-        host: testScreenshotOnHost,
-        port: testScreenshotOnPort,
-        root,
-        open: false,
-        watch: [],
-        quiet: isCI,
-        wait: 10e3
-      })
-      await waitOn({
-        resources: [
-          `http://${testScreenshotOnHost}:${testScreenshotOnPort}`
-        ]
-      })
+      if (fs.existsSync(root)) {
+        liveServer.start({
+          host: testScreenshotOnHost,
+          port: testScreenshotOnPort,
+          root,
+          open: false,
+          watch: [],
+          quiet: isCI,
+          wait: 10e3
+        })
+        await waitOn({
+          resources: [
+            `http://${testScreenshotOnHost}:${testScreenshotOnPort}`
+          ]
+        })
+      } else {
+        throw new Error(
+          'No /public folder found. Make sure you run "yarn workspace dnb-design-system-portal build" first!'
+        )
+      }
     }
   } catch (e) {
     throw new Error(e)

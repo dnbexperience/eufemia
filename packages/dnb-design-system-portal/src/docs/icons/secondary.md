@@ -2,10 +2,10 @@
 title: 'Secondary'
 description: 'The secondary icons will be extended over time to include all the often used Eufemia icons.'
 icon: 'secondary'
-order: 2
+order: 3
 ---
 
-import Icons from "Parts/icons/ListAllIcons";
+import ListAllIcons from "Parts/icons/ListAllIcons";
 
 # Secondary Icons
 
@@ -27,6 +27,4 @@ import { hamburger_medium as HamburgerIcon, bubble } from 'dnb-ui-lib/icons'
 
 ## A list of all Secondary Icons
 
----
-
-<Icons type="secondary" />
+<ListAllIcons variant="secondary" />

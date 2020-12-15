@@ -18,7 +18,7 @@ export default class Form extends React.PureComponent {
   static propTypes = {
     class: PropTypes.string,
     range_val: PropTypes.string,
-    /** React props */
+
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
   }
@@ -26,7 +26,7 @@ export default class Form extends React.PureComponent {
   static defaultProps = {
     class: null,
     range_val: null,
-    /** React props */
+
     className: null,
     children: null
   }

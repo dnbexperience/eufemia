@@ -46,8 +46,14 @@ exports[`Skeleton component have to match snapshot 1`] = `
             style_type={null}
           >
             <ForwardRef
+              _ref={null}
+              class={null}
               className="dnb-p"
+              css={null}
+              internalClass={null}
               is="p"
+              skeleton={null}
+              skeleton_method="font"
             >
               <Elem
                 _ref={null}
@@ -104,7 +110,7 @@ exports[`Skeleton component have to match snapshot 1`] = `
             status_animation={null}
             status_state="error"
             stretch={null}
-            submit_button_icon="search"
+            submit_button_icon="loupe"
             submit_button_status={null}
             submit_button_title={null}
             submit_button_variant="secondary"

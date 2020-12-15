@@ -1,5 +1,5 @@
 ---
-title: 'React'
+title: 'React & TypeScript'
 order: 5
 ---
 
@@ -50,3 +50,7 @@ Also, you may be interested in more code examples? Have a look at the [Demo App 
 ## Examples
 
 Have a look at [the demos](/uilib/getting-started/demos) as well as a [Webpack example app](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-react) and [SSR example](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-ssr).
+
+## TypeScript
+
+The `dnb-ui-lib` does support TypeScript definitions for properties, including the documentation.

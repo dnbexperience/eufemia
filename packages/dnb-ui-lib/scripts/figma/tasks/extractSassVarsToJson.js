@@ -6,6 +6,9 @@
 import path from 'path'
 import fs from 'fs-extra'
 import { parse as parseSass } from 'sass-variable-parser'
+import packpath from 'packpath'
+
+const ROOT_DIR = packpath.self()
 
 export const extractSassVars = async ({
   file,
@@ -34,7 +37,7 @@ export const extractSassVars = async ({
   )
   // we only reset the cwd, as this looks like bug in sass-variable-parser
   parseSass('', {
-    cwd: process.env.ROOT_DIR
+    cwd: ROOT_DIR
   })
 
   return Promise.resolve(vars)

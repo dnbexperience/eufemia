@@ -4,63 +4,100 @@
  */
 
 import { ConvertAndSaveComponentsStyle } from './tasks/componentsStyleConverter'
-// import { FetchImages } from './tasks/imageStore'
-import { IconsConverter } from './tasks/iconsConverter'
+import {
+  extractIconsAsSVG,
+  extractIconsAsPDF
+} from './tasks/assetsExtractors'
+import { getFigmaDoc } from './helpers/docHelpers'
 import { getBranchName } from './../prepub/commitToBranch'
 import { log, ErrorHandler } from '../lib'
-import { getFigmaDoc } from './helpers/docHelpers'
 
 log.start('> Figma: Preparing for connecting to the Figma API ...')
 
-export const fetchFigmaStyles = async (args = {}) => {
+export const fetchFigmaStyles = async ({
+  figmaFile = process.env.FIGMA_STYLES_FILE,
+  ...args
+} = {}) => {
+  if (!figmaFile) {
+    return log.info(
+      '> Figma: No "FIGMA_STYLES_FILE" defined, skipped to run fetchFigmaStyles'
+    )
+  }
+
   try {
-    log.start('> Figma: Starting the style conversion.')
-    const styles = await ConvertAndSaveComponentsStyle(args, {
-      doReplaceVars: true
-    })
-    log.succeed(`> Figma: Style conversion done (${styles.length} styles)`)
+    log.start('> Figma: Starting the style fetch')
+    const styles = await ConvertAndSaveComponentsStyle(
+      { figmaFile, ...args },
+      {
+        doReplaceVars: true
+      }
+    )
+    log.succeed(
+      `> Figma: Style conversion done (${styles?.length} styles)`
+    )
   } catch (e) {
-    log.fail(e)
-    new ErrorHandler(e)
+    log.fail(new ErrorHandler('Failed during fetchFigmaStyles', e))
   }
 }
 
-export const fetchFigmaIcons = async (args = {}) => {
+export const fetchFigmaIcons = async ({
+  figmaFile = process.env.FIGMA_ICONS_FILE,
+  ...args
+} = {}) => {
+  if (!figmaFile) {
+    return log.info(
+      '> Figma: No "FIGMA_ICONS_FILE" defined, skipped to run fetchFigmaIcons'
+    )
+  }
+
+  // Get the same figmaFile for the icons fetch
+  const figmaDoc = await getFigmaDoc({
+    figmaFile
+  })
+
   try {
-    log.start('> Figma: Starting the icons conversion')
-    const icons = await IconsConverter(args)
-    log.succeed(`> Figma: Icons conversion done (${icons.length} icons)`)
+    log.start('> Figma: Starting the icons fetch')
+    const icons = await extractIconsAsSVG({
+      figmaFile,
+      figmaDoc,
+      ...args
+    })
+    log.succeed(`> Figma: Icons conversion done (${icons?.length} icons)`)
   } catch (e) {
-    log.fail(e)
-    new ErrorHandler(e)
+    log.fail(new ErrorHandler('Failed during extractIconsAsSVG', e))
+  }
+
+  try {
+    log.start('> Figma: Starting the pdf fetch')
+    const pdfs = await extractIconsAsPDF({
+      figmaFile,
+      figmaDoc,
+      ...args
+    })
+    log.succeed(`> Figma: PDFs conversion done (${pdfs?.length} pdfs)`)
+  } catch (e) {
+    log.fail(new ErrorHandler('Failed during extractIconsAsPDF', e))
   }
 }
 
 export const fetchFigmaAll = async ({
-  figmaDoc = null,
-  figmaFile = null,
   ignoreBranchCheck = null,
-  ...rest
+  ...args
 } = {}) => {
   try {
     // make sure we are on the develop branch
-    const branchName = await getBranchName({ requiredBranch: 'icons' }) // as RegExp
+    const branchName = await getBranchName({ requiredBranch: 'figma' }) // as RegExp
 
     if (ignoreBranchCheck !== true && !branchName) {
       log.fail('> Figma: Could not continue, as we require another branch')
       return
     }
 
-    if (!figmaDoc) {
-      figmaDoc = await getFigmaDoc({ figmaFile })
-    }
-
-    await fetchFigmaStyles({ ...rest, figmaDoc })
-    await fetchFigmaIcons({ ...rest, figmaDoc })
+    await fetchFigmaStyles(args)
+    await fetchFigmaIcons(args)
 
     log.succeed('> Figma: All done')
   } catch (e) {
-    log.fail(e)
-    new ErrorHandler(e)
+    log.fail(new ErrorHandler('Failed during fetchFigmaAll', e))
   }
 }

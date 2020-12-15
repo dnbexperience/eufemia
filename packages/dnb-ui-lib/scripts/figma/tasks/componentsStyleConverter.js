@@ -10,24 +10,15 @@ import {
   getComponentsDocs,
   extractFigmaStylesFromComponents
 } from './extractStylesFromFigmaDoc'
-import {
-  findNode,
-  saveToFile,
-  getFigmaDoc,
-  defaultFigmaFile
-} from '../helpers/docHelpers'
+import { findNode, saveToFile, getFigmaDoc } from '../helpers/docHelpers'
 
 const frameName = process.env.FIGMA_STYLES_FRAME || 'Components' // before we used "dnb-ui-components"
 
 export const ConvertAndSaveComponentsStyle = async ({
+  figmaFile,
   figmaDoc = null,
-  figmaFile = null,
   convertOptions = {}
 }) => {
-  if (!figmaFile) {
-    figmaFile = defaultFigmaFile
-  }
-
   if (figmaDoc === null) {
     log.info('> Figma: Fetching the figma doc.')
     figmaDoc = await getFigmaDoc({ figmaFile })

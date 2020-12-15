@@ -1129,7 +1129,7 @@ class CustomContent extends React.PureComponent {
     class: PropTypes.string
   }
   static defaultProps = {
-    displayName: 'CustomContent' /** React props */,
+    displayName: 'CustomContent',
     title: null,
     hash: null,
     selected: null,

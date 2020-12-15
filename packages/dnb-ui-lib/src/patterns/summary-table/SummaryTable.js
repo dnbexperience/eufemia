@@ -25,7 +25,7 @@ export default class SummaryTable extends React.PureComponent {
     prev_title: PropTypes.string,
     next_title: PropTypes.string,
     class: PropTypes.string,
-    /** React props */
+
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
@@ -41,7 +41,7 @@ export default class SummaryTable extends React.PureComponent {
     prev_title: 'Go back',
     next_title: 'Go next',
     class: null,
-    /** React props */
+
     className: null,
     children: null,
 

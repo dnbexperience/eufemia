@@ -1,82 +1,17 @@
 ---
 title: 'Icons Library'
-description: 'An overview of our most used icons.'
+description: 'List of all Eufemia icons.'
 order: 1
 ---
 
-import Img from 'Tags/Img'
-import IconNearestNeighbour from 'Pages/quickguide-designer/assets/icon-nearest-neighbour.svg'
-import FormStatusIcons from 'Pages/icons/form-status.md'
+import ListAllIcons from "Parts/icons/ListAllIcons";
 
 # Icons
 
-At DNB we are currently using Streamline icons as our source for off-the-shelf vector icons.
+This is a list of all icons available sorted in categories. Its a list where primary and secondary icons are combined. You may be interested to [read more](/icons/details) about what [the difference](/icons/primary) is and [how to import](/icons/secondary#react-example-usage).
 
-[Link to streamlineicons.com](https://www.streamlineicons.com/)
+- for Web there are both [icons as SVG](https://github.com/dnbexperience/eufemia/blob/develop/packages/dnb-ui-lib/assets/icons) and ready to use [React Components](/icons/secondary#react-example-usage).
+- for iOS there is a [custom PDF package](https://github.com/dnbexperience/eufemia/blob/develop/packages/dnb-ui-lib/assets/icons/eufemia-icons-pdf.tgz) and a [categorized PDF package](https://github.com/dnbexperience/eufemia/blob/develop/packages/dnb-ui-lib/assets/icons/eufemia-icons-pdf-categorized.tgz).
+- for Android there is a [custom XML (drawable) package](https://github.com/dnbexperience/eufemia/blob/develop/packages/dnb-ui-lib/assets/icons/eufemia-icons-xml.tgz) and a [categorized XML (drawable) package](https://github.com/dnbexperience/eufemia/blob/develop/packages/dnb-ui-lib/assets/icons/eufemia-icons-xml-categorized.tgz).
 
-## Using Icons
-
-The icons are in SVG format and are optimized for performance and to have the smallest footprint possible in the package build process.
-
-The sources are located in the [assets folder](https://unpkg.com/dnb-ui-lib@latest/assets/icons/).
-
-They also exists as [React Components](/uilib/components/icon) to be easily integrated, without need of an additional SVG file loader.
-
-## Icon color
-
-Eufemia SVG icons do simply inherit the used color. In case you don't can use the [Icon component](/uilib/components/icon), you have to handle colors by yourself.
-
-**Example color usage of CSS**
-
-```css
-color: var(--custom-color);
-svg {
-  color: inherit;
-  fill: currentColor;
-  stroke: currentColor;
-}
-```
-
-## Sizing
-
-Eufemia icons come in **two** sizes:
-
-- **Default Size** 1.0rem with 1.5px stroke weight
-- **Medium Size** 1.5rem with 1.5px stroke weight
-
-The reason why there are two sizes, is mainly do to the SVG artifact, that the Icons, alongside with the strokes, will scale up, once we use them with a larger width and height.
-
-### Scalability in web
-
-To ensure that the relative size of the SVG icons are scalable by the inherited CSS font size, do not explicitly specify the SVG, unless for older browsers like Internet Explorer.
-
-**Example size definition by CSS**
-
-```css
-font-size: 1.5rem;
-svg {
-  width: 1em;
-  height: 1em;
-
-  font-size: inherit;
-}
-```
-
-## Spacing
-
-Icons should have a minimum area of 8px between them and their nearest neighbor.
-
-<div class="image-box">
-  <Img
-    src={IconNearestNeighbour}
-    caption="Icons with nearest neighbour 8px (0.5rem) distance"
-    alt="Icon's nearest neighbour"
-    height="136"
-  />
-</div>
-
-## Custom Icons
-
-[Streamline](https://www.streamlineicons.com/) caters for pretty much all of Eufemia's icon needs. However, sometimes there is a need for a custom icon. In these cases please contact one of Eufemia's [design leads](/design-system/contact).
-
-<FormStatusIcons />
+<ListAllIcons groupBy="category" />

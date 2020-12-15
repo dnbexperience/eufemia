@@ -13,10 +13,11 @@ function close_medium(props) {
       {...props}
     >
       <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M4.78 3.914a.75.75 0 00-1.06 1.061l7.22 7.22-7.22 7.22a.75.75 0 001.06 1.06l7.22-7.22 7.22 7.22a.75.75 0 001.06-1.06l-7.22-7.22 7.22-7.22a.75.75 0 00-1.06-1.06L12 11.134l-7.22-7.22z"
-        fill="#000"
+        d="M5 19L19 5m0 14L5 5"
+        stroke="#000"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   )
