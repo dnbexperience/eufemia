@@ -21,6 +21,7 @@ steps:
         exclude:
           - fix/*
           - ftr/*
+          - eufemia-icons
 
   - name: run integration tests
     image: tujoworker/docker-node-puppeteer
@@ -44,9 +45,7 @@ steps:
     when:
       branch:
         include:
-          - ftr/figma*
-          - fix/figma*
-          - rc/figma*
+          - eufemia-icons
 
   - name: prebuild
     image: tujoworker/docker-node-puppeteer
@@ -68,6 +67,7 @@ steps:
           - alpha
           - next
           - develop
+          - eufemia-icons
           - ftr/*
           - fix/*
           - rc/*
@@ -100,6 +100,7 @@ steps:
           - alpha
           - next
           - develop
+          - eufemia-icons
           - ftr/*
           - fix/*
           - rc/*
@@ -124,6 +125,7 @@ steps:
           - alpha
           - next
           - develop
+          - eufemia-icons
           - ftr/*
           - fix/*
           - rc/*
@@ -142,9 +144,7 @@ steps:
     when:
       branch:
         include:
-          - ftr/figma*
-          - fix/figma*
-          - rc/figma*
+          - eufemia-icons
 
   - name: postbuild
     image: tujoworker/docker-node-puppeteer
