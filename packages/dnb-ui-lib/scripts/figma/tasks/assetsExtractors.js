@@ -7,6 +7,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import prettier from 'prettier'
 import SVGOptim from 'svgo'
+import svg2vectordrawable from 'svg2vectordrawable/lib/svg-file-to-vectordrawable-file'
 import { asyncForEach } from '../../tools'
 import { ERROR_HARMLESS } from '../../lib/error'
 import { log, ErrorHandler } from '../../lib'
@@ -56,18 +57,12 @@ export function IconsConfig(overwrite = {}) {
     { from: 'repeat', to: 'refresh' },
     { from: 'document', to: 'file' },
     { from: 'more_horizontal', to: 'more' }
-    // { from: 'loupe', to: 'settings' },
-    // { from: 'loupe', to: 'search' },
-    // { from: 'hide', to: 'view_off' },
-    // { from: 'log_in', to: 'login' },
-    // { from: 'log_out', to: 'logout' },
   ]
 
   const iconCloneList =
     process.env.FIGMA_ICONS_CLONE_LIST ||
     [
       // As of now, we only rename these icons
-      // { from: 'loupe', to: 'search' },
     ]
 
   const canvasNameSelector =
@@ -85,6 +80,7 @@ export function IconsConfig(overwrite = {}) {
     __dirname,
     `../../../src/icons/icons-svg.lock`
   )
+  const getCategoryFromIconName = (name) => String(name).split(/\//)[0]
 
   return {
     canvasNameSelector,
@@ -98,126 +94,12 @@ export function IconsConfig(overwrite = {}) {
     iconSelector,
     iconNameCleaner,
     iconsDest,
+    getCategoryFromIconName,
     ...overwrite
   }
 }
 
-export const PDFConverter = async ({
-  figmaFile,
-  figmaDoc = null,
-  forceReconvert = null,
-  outputName = 'eufemia-icons-pdf.tgz',
-  ...rest
-}) => {
-  try {
-    if (figmaDoc === null) {
-      figmaDoc = await getFigmaDoc({
-        figmaFile,
-        preventUpdate: forceReconvert
-      })
-    }
-
-    // juice out, if no changes
-    if (!figmaDoc) return []
-
-    const canvasDoc = getIconCanvasDoc({ figmaDoc })
-
-    const framesInTheCanvas = findAllNodes(canvasDoc, {
-      type: 'FRAME'
-    })
-
-    const destDir = path.resolve(__dirname, '../../../assets/icons')
-    if (!fs.existsSync(destDir)) {
-      fs.mkdir(destDir)
-    }
-
-    log.start(
-      '> Figma: started to fetch PDFs by using runFrameIconsFactory'
-    )
-
-    const tarFile = path.resolve(`${destDir}`, outputName)
-    if (fs.existsSync(tarFile)) {
-      await extract({
-        cwd: destDir,
-        file: tarFile
-      })
-    }
-
-    const iconsLockFile = path.resolve(
-      __dirname,
-      `../../../src/icons/icons-pdf.lock`
-    )
-
-    const listOfnewFiles = []
-    const listOfProcessedPdfs = await asyncForEach(
-      // Load and save additional PDFs
-      framesInTheCanvas,
-      async (frameDoc) => {
-        const { files, newFiles } = await runFrameIconsFactory({
-          frameDoc,
-          figmaFile,
-          destDir,
-          format: 'pdf',
-          ...IconsConfig({ iconsLockFile }),
-          ...rest
-        })
-
-        listOfnewFiles.concat(newFiles)
-        return files
-      }
-    )
-    log.info(
-      `> Figma: finished fetching PDFs by using runFrameIconsFactory. Processed ${listOfProcessedPdfs.length} files along with ${listOfnewFiles.length} new files.`
-    )
-
-    // save the lockFile content
-    await saveIconsLockFile({
-      file: iconsLockFile,
-      data: listOfProcessedPdfs.reduce((acc, { iconFile, ...cur }) => {
-        acc[iconFile] = cur
-        return acc
-      }, {})
-    })
-    log.info(`> Figma: ${iconsLockFile} file got generated`)
-
-    if (listOfnewFiles.length > 0) {
-      log.info(`> Figma: started to create ${outputName}`)
-
-      const fileList = listOfProcessedPdfs.reduce((acc, { iconFile }) => {
-        acc.push(iconFile)
-        return acc
-      }, [])
-
-      await create(
-        {
-          gzip: true,
-          cwd: destDir,
-          file: tarFile
-        },
-        fileList
-      )
-
-      log.succeed(`> Figma: finished to create ${outputName}`)
-    }
-
-    // Remove the pdfs
-    await asyncForEach(listOfProcessedPdfs, async ({ iconFile }) => {
-      const file = path.resolve(destDir, iconFile)
-      try {
-        await fs.unlink(file)
-        log.info(`> Figma: File got removed: ${iconFile}`)
-      } catch (e) {
-        log.fail(new ErrorHandler(`Failed to remove ${iconFile}`, e))
-      }
-    })
-
-    return listOfProcessedPdfs
-  } catch (e) {
-    log.fail(new ErrorHandler('PDFConverter failed', e))
-  }
-}
-
-export const SVGIconsConverter = async ({
+export const extractIconsAsSVG = async ({
   figmaFile,
   figmaDoc = null,
   forceReconvert = null,
@@ -251,7 +133,7 @@ export const SVGIconsConverter = async ({
       '> Figma: started to fetch svg icons by using runFrameIconsFactory'
     )
 
-    const listOfnewFiles = []
+    const listWithNewFiles = []
     const listOfProcessedIcons = await asyncForEach(
       framesInTheCanvas,
       async (frameDoc) => {
@@ -264,12 +146,12 @@ export const SVGIconsConverter = async ({
           ...rest
         })
 
-        listOfnewFiles.concat(newFiles)
+        listWithNewFiles.concat(newFiles)
         return files
       }
     )
     log.info(
-      `> Figma: finished fetching svg icons by using runFrameIconsFactory. Processed ${listOfProcessedIcons.length} files along with ${listOfnewFiles.length} new files.`
+      `> Figma: finished fetching svg icons by using runFrameIconsFactory. Processed ${listOfProcessedIcons.length} files along with ${listWithNewFiles.length} new files.`
     )
 
     // save the lockFile content
@@ -282,75 +164,214 @@ export const SVGIconsConverter = async ({
     })
     log.info(`> Figma: ${iconsLockFile} file got generated`)
 
-    if (listOfnewFiles.length > 0) {
-      await asyncForEach(
-        listOfnewFiles,
-        async ({ iconFile, created, updated }) => {
-          const file = path.resolve(iconsDest, iconFile)
-          await optimizeSVG(file)
-
-          /**
-           * Run twice, because then we get a possible small change on paths,
-           * that else will be added next time, and messes up test snapshots
-           */
-          if (created === updated) {
-            await optimizeSVG(file)
-          }
-
-          log.info(`> Figma: Icon was optimized: ${iconFile}`)
-        }
-      )
+    if (listWithNewFiles.length > 0) {
+      await optimizeSVGIcons({ iconsDest, listWithNewFiles })
+      await createXMLTarBundles({
+        destDir: iconsDest,
+        iconsDest,
+        listOfProcessedIcons
+      })
     }
 
-    // save the metaFile content
-    await saveIconsMetaFile(
-      listOfProcessedIcons.reduce(
-        (acc, { iconName, size, id, created, name, variant }) => {
-          const cleanSize = !ignoreAddingSizeList.includes(size)
-            ? size
-            : null
-          if (cleanSize && iconName.includes(cleanSize)) {
-            iconName = iconName.replace(`_${cleanSize}`, '')
-          }
-
-          const { description } = figmaDoc.components[id]
-          const tags = description
-            .split(/[,;|]/g)
-            .map((s) => (s ? s.trim() : null))
-            .filter(Boolean)
-
-          const foundRename = iconRenameList.find(
-            ({ to }) => to === iconName
-          )
-          if (foundRename) {
-            tags.push(foundRename.from)
-          }
-
-          if (acc[iconName]) {
-            const existing = acc[iconName]
-
-            acc[iconName] = {
-              ...existing,
-              tags: tags.reduce((acc, cur) => {
-                if (!acc.includes(cur)) {
-                  acc.push(cur)
-                }
-                return acc
-              }, existing.tags)
-            }
-          } else {
-            acc[iconName] = { tags, created, name, variant }
-          }
-          return acc
-        },
-        {}
-      )
-    )
-    log.info('> Figma: icons-meta.json file got generated')
+    makeMetaFile({
+      listOfProcessedIcons,
+      ignoreAddingSizeList,
+      figmaDoc,
+      iconRenameList
+    })
 
     return listOfProcessedIcons
   } catch (e) {
-    log.fail(new ErrorHandler('SVGIconsConverter failed', e))
+    log.fail(new ErrorHandler('extractIconsAsSVG failed', e))
+  }
+}
+
+export const extractIconsAsPDF = async ({
+  figmaFile,
+  figmaDoc = null,
+  forceReconvert = null,
+  outputName = 'eufemia-icons-pdf.tgz',
+  outputNameCategorized = 'eufemia-icons-pdf-categorized.tgz',
+  ...rest
+}) => {
+  try {
+    if (figmaDoc === null) {
+      figmaDoc = await getFigmaDoc({
+        figmaFile,
+        preventUpdate: forceReconvert
+      })
+    }
+
+    // juice out, if no changes
+    if (!figmaDoc) return []
+
+    const canvasDoc = getIconCanvasDoc({ figmaDoc })
+
+    const framesInTheCanvas = findAllNodes(canvasDoc, {
+      type: 'FRAME'
+    })
+
+    const destDir = path.resolve(__dirname, '../../../assets/icons')
+    if (!fs.existsSync(destDir)) {
+      fs.mkdir(destDir)
+    }
+
+    log.start(
+      '> Figma: started to fetch PDFs by using runFrameIconsFactory'
+    )
+
+    let tarFileSize = 0
+    const tarFile = path.resolve(destDir, outputName)
+    if (fs.existsSync(tarFile)) {
+      tarFileSize = (await fs.stat(tarFile)).size
+      await extract({
+        cwd: destDir,
+        file: tarFile
+      })
+    }
+
+    const iconsLockFile = path.resolve(
+      __dirname,
+      `../../../src/icons/icons-pdf.lock`
+    )
+
+    const listWithNewFiles = []
+    const listOfProcessedPdfs = await asyncForEach(
+      // Load and save additional PDFs
+      framesInTheCanvas,
+      async (frameDoc) => {
+        const { files, newFiles } = await runFrameIconsFactory({
+          frameDoc,
+          figmaFile,
+          destDir,
+          format: 'pdf',
+          ...IconsConfig({ iconsLockFile }),
+          ...rest
+        })
+
+        listWithNewFiles.concat(newFiles)
+        return files
+      }
+    )
+    log.info(
+      `> Figma: finished fetching PDFs by using runFrameIconsFactory. Processed ${listOfProcessedPdfs.length} files along with ${listWithNewFiles.length} new files.`
+    )
+
+    // save the lockFile content
+    await saveIconsLockFile({
+      file: iconsLockFile,
+      data: listOfProcessedPdfs.reduce((acc, { iconFile, ...cur }) => {
+        acc[iconFile] = cur
+        return acc
+      }, {})
+    })
+    log.info(`> Figma: ${iconsLockFile} file got generated`)
+
+    if (listOfProcessedPdfs.length > 0) {
+      log.info(`> Figma: started to create ${outputName}`)
+
+      const hasSizeChanged = async () => {
+        const fileList = listOfProcessedPdfs.map(
+          ({ iconFile }) => iconFile
+        )
+
+        const tmp = path.resolve(destDir, 'tmp.tgz')
+        await create(
+          {
+            gzip: true,
+            cwd: destDir,
+            file: tmp
+          },
+          fileList
+        )
+        const tmpSize = (await fs.stat(tmp)).size
+
+        await fs.unlink(tmp)
+
+        return Math.abs(tarFileSize - tmpSize) > 30
+      }
+
+      const createTarWithoutCategories = async () => {
+        const fileList = listOfProcessedPdfs.map(
+          ({ iconFile }) => iconFile
+        )
+
+        await create(
+          {
+            gzip: true,
+            cwd: destDir,
+            file: tarFile
+          },
+          fileList
+        )
+      }
+
+      const createTarWithCategories = async () => {
+        const { getCategoryFromIconName } = IconsConfig()
+
+        await asyncForEach(
+          listOfProcessedPdfs,
+          async ({ name, iconFile }) => {
+            const source = path.resolve(destDir, iconFile)
+            const dest = path.resolve(
+              destDir,
+              `${getCategoryFromIconName(name)}/${iconFile}`
+            )
+
+            if (fs.existsSync(source)) {
+              await fs.move(source, dest)
+            }
+          }
+        )
+
+        const fileList = listOfProcessedPdfs.map(
+          ({ name, iconFile }) =>
+            `${getCategoryFromIconName(name)}/${iconFile}`
+        )
+
+        const tarFile = path.resolve(destDir, outputNameCategorized)
+        await create(
+          {
+            gzip: true,
+            cwd: destDir,
+            file: tarFile
+          },
+          fileList
+        )
+
+        await asyncForEach(fileList, async (file) => {
+          file = path.resolve(destDir, file)
+          if (fs.existsSync(file)) {
+            await fs.unlink(file)
+          }
+        })
+      }
+
+      const sizeHasChanged = await hasSizeChanged()
+      if (sizeHasChanged) {
+        await createTarWithoutCategories()
+        await createTarWithCategories()
+      }
+
+      log.succeed(`> Figma: finished to create ${outputName}`)
+    }
+
+    // Remove the pdfs
+    await asyncForEach(listOfProcessedPdfs, async ({ iconFile }) => {
+      const file = path.resolve(destDir, iconFile)
+      if (fs.existsSync(file)) {
+        try {
+          await fs.unlink(file)
+          log.info(`> Figma: File got removed: ${iconFile}`)
+        } catch (e) {
+          log.fail(new ErrorHandler(`Failed to remove ${iconFile}`, e))
+        }
+      }
+    })
+
+    return listOfProcessedPdfs
+  } catch (e) {
+    log.fail(new ErrorHandler('extractIconsAsPDF failed', e))
   }
 }
 
@@ -617,6 +638,216 @@ const prerenderIconName = (name, size = null) => {
 const prerenderIconFile = (name, format = 'svg') => {
   // make the frameName ready for creating a collection file for every frame
   return `${name}.${format}`
+}
+
+const makeMetaFile = async ({
+  listOfProcessedIcons,
+  ignoreAddingSizeList,
+  figmaDoc,
+  iconRenameList
+}) => {
+  // save the metaFile content
+  await saveIconsMetaFile(
+    listOfProcessedIcons.reduce(
+      (acc, { iconName, size, id, created, name, variant }) => {
+        const cleanSize = !ignoreAddingSizeList.includes(size)
+          ? size
+          : null
+        if (cleanSize && iconName.includes(cleanSize)) {
+          iconName = iconName.replace(`_${cleanSize}`, '')
+        }
+
+        const { description } = figmaDoc.components[id]
+        const tags = description
+          .split(/[,;|]/g)
+          .map((s) => (s ? s.trim() : null))
+          .filter(Boolean)
+
+        const foundRename = iconRenameList.find(
+          ({ to }) => to === iconName
+        )
+        if (foundRename) {
+          tags.push(foundRename.from)
+        }
+
+        if (acc[iconName]) {
+          const existing = acc[iconName]
+
+          acc[iconName] = {
+            ...existing,
+            tags: tags.reduce((acc, cur) => {
+              if (!acc.includes(cur)) {
+                acc.push(cur)
+              }
+              return acc
+            }, existing.tags)
+          }
+        } else {
+          acc[iconName] = { tags, created, name, variant }
+        }
+        return acc
+      },
+      {}
+    )
+  )
+  log.info('> Figma: icons-meta.json file got generated')
+}
+
+const createXMLTarBundles = async ({
+  floatPrecision = 3, // If undefined, the default precision is 2
+  destDir,
+  listOfProcessedIcons,
+  outputName = 'eufemia-icons-xml.tgz',
+  outputNameCategorized = 'eufemia-icons-xml-categorized.tgz'
+}) => {
+  log.info(`> Figma: started to create ${outputName}`)
+
+  let tarFileSize = 0
+  const tarFile = path.resolve(destDir, outputName)
+  if (fs.existsSync(tarFile)) {
+    tarFileSize = (await fs.stat(tarFile)).size
+    await extract({
+      cwd: destDir,
+      file: tarFile
+    })
+  }
+
+  listOfProcessedIcons = listOfProcessedIcons.map(
+    ({ iconFile, ...rest }) => {
+      const iconFileXML = iconFile.replace(/\.svg$/, '.xml')
+      return { iconFileXML, iconFile, ...rest }
+    }
+  )
+
+  const convertSvgToXml = async () => {
+    await asyncForEach(
+      listOfProcessedIcons,
+      async ({ iconFile, iconFileXML }) => {
+        const source = path.resolve(destDir, iconFile)
+        const dest = path.resolve(destDir, iconFileXML)
+
+        await svg2vectordrawable(source, dest, floatPrecision)
+      }
+    )
+  }
+
+  const removeGeneratedXmlFiles = async () => {
+    await asyncForEach(listOfProcessedIcons, async ({ iconFileXML }) => {
+      const file = path.resolve(destDir, iconFileXML)
+      if (fs.existsSync(file)) {
+        await fs.unlink(file)
+      }
+    })
+  }
+
+  const hasSizeChanged = async () => {
+    const fileList = listOfProcessedIcons.map(
+      ({ iconFileXML }) => iconFileXML
+    )
+
+    const tmp = path.resolve(destDir, 'tmp.tgz')
+    await create(
+      {
+        gzip: true,
+        cwd: destDir,
+        file: tmp
+      },
+      fileList
+    )
+    const tmpSize = (await fs.stat(tmp)).size
+
+    await fs.unlink(tmp)
+
+    return Math.abs(tarFileSize - tmpSize) > 30
+  }
+
+  const createTarWithoutCategories = async () => {
+    const fileList = listOfProcessedIcons.map(
+      ({ iconFileXML }) => iconFileXML
+    )
+
+    await create(
+      {
+        gzip: true,
+        cwd: destDir,
+        file: tarFile
+      },
+      fileList
+    )
+  }
+
+  const createTarWithCategories = async () => {
+    const { getCategoryFromIconName } = IconsConfig()
+
+    await asyncForEach(
+      listOfProcessedIcons,
+      async ({ name, iconFileXML }) => {
+        const source = path.resolve(destDir, iconFileXML)
+        const dest = path.resolve(
+          destDir,
+          `${getCategoryFromIconName(name)}/${iconFileXML}`
+        )
+
+        if (fs.existsSync(source)) {
+          await fs.move(source, dest)
+        }
+      }
+    )
+
+    const fileList = listOfProcessedIcons.map(
+      ({ name, iconFileXML }) =>
+        `${getCategoryFromIconName(name)}/${iconFileXML}`
+    )
+
+    const tarFile = path.resolve(destDir, outputNameCategorized)
+    await create(
+      {
+        gzip: true,
+        cwd: destDir,
+        file: tarFile
+      },
+      fileList
+    )
+
+    await asyncForEach(fileList, async (file) => {
+      file = path.resolve(destDir, file)
+      if (fs.existsSync(file)) {
+        await fs.unlink(file)
+      }
+    })
+  }
+
+  await convertSvgToXml()
+  const sizeHasChanged = await hasSizeChanged()
+
+  if (sizeHasChanged) {
+    await createTarWithoutCategories()
+    await createTarWithCategories()
+  }
+
+  await removeGeneratedXmlFiles()
+
+  log.succeed(`> Figma: finished to create ${outputName}`)
+}
+
+const optimizeSVGIcons = async ({ iconsDest, listWithNewFiles }) => {
+  await asyncForEach(
+    listWithNewFiles,
+    async ({ iconFile, created, updated }) => {
+      const file = path.resolve(iconsDest, iconFile)
+      await optimizeSVG(file)
+
+      /**
+       * Run twice, because then we get a possible small change on paths,
+       * that else will be added next time, and messes up test snapshots
+       */
+      if (created === updated) {
+        await optimizeSVG(file)
+      }
+
+      log.info(`> Figma: Icon was optimized: ${iconFile}`)
+    }
+  )
 }
 
 const optimizeSVG = async (file) => {

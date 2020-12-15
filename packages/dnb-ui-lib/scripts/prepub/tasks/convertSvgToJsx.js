@@ -20,7 +20,7 @@ import {
   IconsConfig,
   readIconsLockFile,
   saveIconsLockFile
-} from '../../figma/tasks/assetsConverters'
+} from '../../figma/tasks/assetsExtractors'
 import packpath from 'packpath'
 
 const ROOT_DIR = packpath.self()

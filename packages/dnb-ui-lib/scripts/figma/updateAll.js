@@ -4,4 +4,4 @@
  */
 
 import { fetchFigmaAll } from './index'
-fetchFigmaAll({})
+fetchFigmaAll({ ignoreBranchCheck: true })

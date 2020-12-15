@@ -15,18 +15,19 @@ steps:
   - name: dependencies audit
     image: tujoworker/docker-node-puppeteer
     commands:
-      - yarn workspace dnb-ui-lib audit-ci
+      - yarn workspace dnb-ui-lib audit:ci
     when:
       branch:
         exclude:
           - fix/*
           - ftr/*
+          - eufemia-icons
 
   - name: run integration tests
     image: tujoworker/docker-node-puppeteer
     commands:
-      - yarn workspace dnb-ui-lib lint-ci && yarn workspace dnb-design-system-portal lint-ci
-      - yarn workspace dnb-ui-lib test-ci && yarn workspace dnb-design-system-portal test-ci
+      - yarn workspace dnb-ui-lib lint:ci && yarn workspace dnb-design-system-portal lint:ci
+      - yarn workspace dnb-ui-lib test:ci && yarn workspace dnb-design-system-portal test:ci
 
   - name: run Figma converters
     image: tujoworker/docker-node-puppeteer
@@ -40,14 +41,11 @@ steps:
       FIGMA_TOKEN:
         from_secret: FIGMA_TOKEN
     commands:
-      - yarn workspace dnb-ui-lib prebuild-figma-ci
+      - yarn workspace dnb-ui-lib prebuild:ci:figma
     when:
       branch:
         include:
-          - figma*
-          - ftr/figma*
-          - fix/figma*
-          - rc/figma*
+          - eufemia-icons
 
   - name: prebuild
     image: tujoworker/docker-node-puppeteer
@@ -59,7 +57,7 @@ steps:
       GH_TOKEN:
         from_secret: GH_TOKEN
     commands:
-      - yarn workspace dnb-ui-lib prebuild-ci
+      - yarn workspace dnb-ui-lib prebuild:ci
     when:
       branch:
         include:
@@ -69,6 +67,7 @@ steps:
           - alpha
           - next
           - develop
+          - eufemia-icons
           - ftr/*
           - fix/*
           - rc/*
@@ -101,6 +100,7 @@ steps:
           - alpha
           - next
           - develop
+          - eufemia-icons
           - ftr/*
           - fix/*
           - rc/*
@@ -115,7 +115,7 @@ steps:
       GH_TOKEN:
         from_secret: GH_TOKEN
     commands:
-      - yarn workspace dnb-ui-lib test-ci-screenshots
+      - yarn workspace dnb-ui-lib test:screenshots:ci
     when:
       branch:
         include:
@@ -125,6 +125,7 @@ steps:
           - alpha
           - next
           - develop
+          - eufemia-icons
           - ftr/*
           - fix/*
           - rc/*
@@ -139,14 +140,11 @@ steps:
       GH_TOKEN:
         from_secret: GH_TOKEN
     commands:
-      - yarn workspace dnb-ui-lib postbuild-figma-ci
+      - yarn workspace dnb-ui-lib postbuild:ci:figma
     when:
       branch:
         include:
-          - figma*
-          - ftr/figma*
-          - fix/figma*
-          - rc/figma*
+          - eufemia-icons
 
   - name: postbuild
     image: tujoworker/docker-node-puppeteer
@@ -158,24 +156,14 @@ steps:
       GH_TOKEN:
         from_secret: GH_TOKEN
     commands:
-      - yarn workspace dnb-ui-lib postbuild-ci
+      - yarn workspace dnb-ui-lib postbuild:ci
     when:
       branch:
         include:
           - release
-          - portal
           - beta
           - alpha
           - next
-          - develop
-          - ftr/*
-          - fix/*
-          - rc/*
-        exclude:
-          - figma*
-          - ftr/figma*
-          - fix/figma*
-          - rc/figma*
 
   - name: deploy portal
     image: tujoworker/docker-node-puppeteer
@@ -208,7 +196,7 @@ steps:
       NPM_TOKEN:
         from_secret: NPM_TOKEN
     commands:
-      - yarn workspace dnb-ui-lib publish-ci
+      - yarn workspace dnb-ui-lib publish:ci
     when:
       event:
         - push
