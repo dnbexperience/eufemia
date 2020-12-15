@@ -1,4 +1,4 @@
-## December, 14. 2020
+## December, 15. 2020
 
 Added Eufemia Icon library, with many new icons.
 
