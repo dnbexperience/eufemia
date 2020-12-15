@@ -53,7 +53,7 @@ const createTypes = async (listOfAllFiles) => {
         (/^[A-Z]/.test(basename) &&
           !(await fileContains(file, 'propTypes')))
       ) {
-        if (!(await fs.exists(destFile))) {
+        if (!fs.existsSync(destFile)) {
           await fs.copyFile(file, destFile)
         }
       } else if (
@@ -79,7 +79,7 @@ const createTypes = async (listOfAllFiles) => {
          *    like special comments/definition we may need to customize our generated type definitions.
          */
 
-        if (await fs.exists(destFile)) {
+        if (fs.existsSync(destFile)) {
           const { code } = await babel.transformFileAsync(destFile, {
             configFile: false,
             plugins: [

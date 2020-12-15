@@ -6,6 +6,7 @@
 import fs from 'fs-extra'
 import path from 'path'
 import { log } from '../../lib'
+import { asyncForEach } from '../../tools'
 import { Extractor } from 'markdown-tables-to-json'
 
 export async function fetchPropertiesFromDocs({ file } = {}) {
@@ -15,69 +16,108 @@ export async function fetchPropertiesFromDocs({ file } = {}) {
   const filename = basename.replace(path.extname(file), '')
 
   try {
+    const rootDir = path.resolve(
+      path.dirname(
+        require.resolve('dnb-design-system-portal/package.json')
+      ),
+      'src/docs/uilib'
+    )
+
     const parts = file
       .split('/')
       .map((fn) =>
         path.basename(fn).replace(path.extname(file), '').toLowerCase()
       )
     const index = parts.findIndex((fn) => fn === filename.toLowerCase())
-    const group = parts[index - 1]
-    const markdownFile = path.resolve(
-      path.dirname(
-        require.resolve('dnb-design-system-portal/package.json')
-      ),
-      `src/docs/uilib/${group}/${filename.toLowerCase()}/properties.md`
-    )
-    if (!(await fs.exists(markdownFile))) {
-      return null
-    }
+    const groupDir = parts[index - 1]
+    const componentDir = filename.toLowerCase()
 
-    const mdContent = await fs.readFile(markdownFile, 'utf-8')
-
-    const json = Extractor.extractObject(mdContent, 'rows') // Here we may extend with "extractAllObjects"
-
-    const collection = {}
-
-    for (let key in json) {
-      let description = json[key]?.Properties || json[key]
-      if (description) {
-        description = String(description)
-          .replace(/<em>\((optional|mandatory)\)<\/em> /, '')
-          .replace(/<strong>([^<]*)<\/strong>/g, '"$1"')
-          .replace(/<code>([^<]*)<\/code>/g, '`$1`')
-        description = htmlDecode(description)
-
-        description =
-          description.charAt(0).toUpperCase() + description.slice(1)
-      }
-
-      key = key.replace(/<code>([^<]*)<\/code>/g, '$1')
-
-      // Remove "Space" docs
-      if (key.includes('<a')) {
-        continue
-      }
-
-      // Duplicate if several props do have the same docs
-      key = key.replace(/( or )/g, '|')
-      if (key.includes('|')) {
-        const keys = key.split('|')
-        keys.forEach((key) => {
-          collection[key] = description
-        })
-        continue
-      }
-
-      collection[key] = description
-    }
+    const markdownFiles = [
+      path.resolve(rootDir, groupDir, componentDir, 'properties.md'),
+      path.resolve(rootDir, groupDir, componentDir, 'events.md')
+    ]
+    const collection = await extractorFactor(markdownFiles)
 
     log.succeed(`> PrePublish: Collected docs for ${filename}`)
 
     return collection
   } catch (e) {
-    log.fail('Failed to load docs/properties')
+    log.fail('Failed to load docs')
     throw new Error(e)
   }
+}
+
+async function extractorFactor(markdownFiles) {
+  const collections = await asyncForEach(
+    markdownFiles,
+    async (markdownFile) => {
+      if (!fs.existsSync(markdownFile)) {
+        return null
+      }
+
+      const mdContent = await fs.readFile(markdownFile, 'utf-8')
+
+      const json = Extractor.extractObject(mdContent, 'rows') // Here we may extend with "extractAllObjects"
+
+      const collection = {}
+
+      for (let key in json) {
+        let description
+
+        if (json[key]?.Properties) {
+          description = json[key]?.Properties
+        } else if (json[key]?.Events) {
+          description = json[key]?.Events
+          console.log('description', description)
+        } else if (json[key]) {
+          description = json[key]
+        }
+
+        if (description) {
+          description = String(description)
+            .replace(/<em>\((optional|mandatory)\)<\/em> /, '')
+            .replace(/<strong>([^<]*)<\/strong>/g, '"$1"')
+            .replace(/<code>([^<]*)<\/code>/g, '`$1`')
+          description = htmlDecode(description)
+
+          description =
+            description.charAt(0).toUpperCase() + description.slice(1)
+        }
+
+        key = key.replace(/<code>([^<]*)<\/code>/g, '$1')
+
+        // Remove "Space" docs
+        if (key.includes('<a')) {
+          continue
+        }
+
+        // Duplicate if several props do have the same docs
+        key = key.replace(/( or )/g, '|')
+        if (key.includes('|')) {
+          const keys = key.split('|')
+          keys.forEach((key) => {
+            if (description) {
+              collection[key] = description
+            }
+          })
+          continue
+        }
+
+        if (description) {
+          collection[key] = description
+        }
+      }
+
+      return collection
+    }
+  )
+
+  const docs = collections.reduce(
+    (acc, cur) => Object.assign(acc, cur),
+    collections
+  )
+
+  return docs
 }
 
 function htmlDecode(input) {
