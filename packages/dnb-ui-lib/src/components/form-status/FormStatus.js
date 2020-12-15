@@ -65,7 +65,6 @@ export default class FormStatus extends React.PureComponent {
     animation: PropTypes.string,
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
-    /** React props */
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,
@@ -94,7 +93,6 @@ export default class FormStatus extends React.PureComponent {
     animation: null, // could be 'fade-in'
     skeleton: null,
 
-    /** React props */
     className: null,
     children: null
   }

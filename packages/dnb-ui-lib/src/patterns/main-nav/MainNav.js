@@ -29,7 +29,7 @@ export default class MainNav extends React.PureComponent {
       PropTypes.number
     ]),
     class: PropTypes.string,
-    /** React props */
+
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
   }
@@ -40,7 +40,7 @@ export default class MainNav extends React.PureComponent {
     // baseurl: null,
     notification_amount: 0,
     class: null,
-    /** React props */
+
     className: null,
     children: null
   }

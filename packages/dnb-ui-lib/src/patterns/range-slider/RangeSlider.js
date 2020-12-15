@@ -30,7 +30,7 @@ export default class RangeSlider extends React.PureComponent {
     range_trigger_text: PropTypes.string.isRequired,
     range_modal_text: PropTypes.string.isRequired,
     class: PropTypes.string,
-    /** React props */
+
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
   }
@@ -41,7 +41,7 @@ export default class RangeSlider extends React.PureComponent {
     descriptionListData: null,
     descriptionListInfo: null,
     class: null,
-    /** React props */
+
     className: null,
     children: null
   }

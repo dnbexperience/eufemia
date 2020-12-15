@@ -26,7 +26,6 @@ export default class Section extends React.PureComponent {
     element: PropTypes.string,
     class: PropTypes.string,
 
-    /** React props */
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,
@@ -41,7 +40,6 @@ export default class Section extends React.PureComponent {
     element: 'section',
     class: null,
 
-    /** React props */
     className: null,
     children: null
   }

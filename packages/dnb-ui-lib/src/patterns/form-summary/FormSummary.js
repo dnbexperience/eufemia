@@ -25,7 +25,7 @@ export default class FormSummary extends React.PureComponent {
     ]),
     descriptionListInfo: PropTypes.string,
     class: PropTypes.string,
-    /** React props */
+
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
   }
@@ -36,7 +36,7 @@ export default class FormSummary extends React.PureComponent {
     descriptionListData: null,
     descriptionListInfo: null,
     class: null,
-    /** React props */
+
     className: null,
     children: null
   }

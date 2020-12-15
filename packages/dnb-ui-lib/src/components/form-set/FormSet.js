@@ -35,7 +35,6 @@ export default class FormSet extends React.PureComponent {
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     class: PropTypes.string,
 
-    /** React props */
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,
@@ -55,7 +54,6 @@ export default class FormSet extends React.PureComponent {
     disabled: null,
     class: null,
 
-    /** React props */
     className: null,
     children: null,
 

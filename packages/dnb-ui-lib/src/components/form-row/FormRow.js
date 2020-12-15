@@ -54,7 +54,6 @@ export default class FormRow extends React.PureComponent {
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     class: PropTypes.string,
 
-    /** React props */
     skipContentWrapperIfNested: PropTypes.bool,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
@@ -90,7 +89,6 @@ export default class FormRow extends React.PureComponent {
     skeleton: null,
     class: null,
 
-    /** React props */
     skipContentWrapperIfNested: false,
     className: null,
     children: null,

@@ -18,7 +18,7 @@ export default class Footer extends React.PureComponent {
 
   static propTypes = {
     class: PropTypes.string,
-    /** React props */
+
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,
@@ -29,7 +29,7 @@ export default class Footer extends React.PureComponent {
 
   static defaultProps = {
     class: null,
-    /** React props */
+
     className: null,
     children: null
   }

@@ -20,7 +20,7 @@ export default class ViewTitle extends React.PureComponent {
     text: PropTypes.string,
     tag: PropTypes.string,
     class: PropTypes.string,
-    /** React props */
+
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,
@@ -33,7 +33,7 @@ export default class ViewTitle extends React.PureComponent {
     text: null,
     tag: 'h1',
     class: null,
-    /** React props */
+
     className: null,
     children: null
   }

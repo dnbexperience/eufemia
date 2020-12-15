@@ -36,7 +36,6 @@ export default class LineTitle extends React.PureComponent {
     tag: 'h2',
     class: null,
 
-    /** React props */
     className: null,
     children: null
   }

@@ -141,7 +141,6 @@ export default class AccordionHeader extends React.PureComponent {
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
-    /// React props
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,

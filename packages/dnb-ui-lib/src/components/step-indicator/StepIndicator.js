@@ -61,7 +61,6 @@ export default class StepIndicator extends React.PureComponent {
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     class: PropTypes.string,
 
-    /** React props */
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
@@ -79,7 +78,6 @@ export default class StepIndicator extends React.PureComponent {
     skeleton: false,
     class: null,
 
-    /** React props */
     className: null,
     children: null,
 

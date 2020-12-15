@@ -41,7 +41,6 @@ export default class FormLabel extends React.PureComponent {
     vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
-    /** React props */
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,
@@ -63,7 +62,6 @@ export default class FormLabel extends React.PureComponent {
     vertical: null,
     sr_only: null,
 
-    /** React props */
     className: null,
     children: null
   }
