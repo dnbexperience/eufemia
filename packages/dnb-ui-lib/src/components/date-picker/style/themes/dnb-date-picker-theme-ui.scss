@@ -152,6 +152,10 @@
     @include defaultDropShadow();
   }
 
+  .dnb-input__submit-button__button {
+    color: var(--color-emerald-green);
+  }
+
   /* stylelint-disable */
   &__status--error
     &:not(#{&}--opened)

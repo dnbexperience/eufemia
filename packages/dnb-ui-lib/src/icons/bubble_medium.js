@@ -13,8 +13,7 @@ function bubble_medium(props) {
       {...props}
     >
       <path
-        clipRule="evenodd"
-        d="M12.75.75a10.485 10.485 0 00-8.917 16.025L.75 23.25l6.474-3.083A10.5 10.5 0 1012.75.75z"
+        d="M12.75.75a10.485 10.485 0 00-8.917 16.025L.75 23.25l6.474-3.083A10.5 10.5 0 1012.75.75v0z"
         stroke="#000"
         strokeWidth={1.5}
         strokeLinecap="round"

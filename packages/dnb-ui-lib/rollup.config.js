@@ -100,11 +100,13 @@ export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
         'build/umd/dnb-ui-icons.min.js',
         { name: 'dnbIcons', format: 'umd' }
       ),
-      makeRollupConfig(
-        './src/umd/dnb-ui-icons-archive.js',
-        'build/umd/dnb-ui-icons-archive.min.js',
-        { name: 'dnbIcons', format: 'umd' }
-      ),
+
+      // Skip creating this huge package – as there is currently no need
+      // makeRollupConfig(
+      //   './src/umd/dnb-ui-icons-archive.js',
+      //   'build/umd/dnb-ui-icons-archive.min.js',
+      //   { name: 'dnbIcons', format: 'umd' }
+      // ),
 
       // es libs
       makeRollupConfig(
@@ -158,12 +160,14 @@ export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
         './src/esm/dnb-ui-icons.js',
         'build/esm/dnb-ui-icons.min.mjs',
         { format: 'esm' }
-      ),
-      makeRollupConfig(
-        './src/esm/dnb-ui-icons-archive.js',
-        'build/esm/dnb-ui-icons-archive.min.mjs',
-        { format: 'esm' }
       )
+
+      // Skip creating this huge package – as there is currently no need
+      // makeRollupConfig(
+      //   './src/esm/dnb-ui-icons-archive.js',
+      //   'build/esm/dnb-ui-icons-archive.min.mjs',
+      //   { format: 'esm' }
+      // )
 
       // make esm of React, only for testing
       // makeRollupConfig(

@@ -35,3 +35,13 @@ Many defaults are given by the linting and prettier configurations. But to keep 
 Create a Fork, make your changes and create a _Pull Request_) - or commit your changes to a new branch. From there an admin will create a _Pull Request_ into the `origin/develop` branch. Once Your commits got approved on CI, we will create a _Pull Request_ to merge the changes in to the `origin/release` branch.
 
 As soon as the _Pull Request_ gets merged into `origin/release`, a CI/CD server will check all commits and figure out the new NPM **Version Number** and publish a new version based on the message decorations.
+
+## Other development topics
+
+- [Changes](/uilib/development/changes)
+- [Commit](/uilib/development/commit)
+- [Deploy](/uilib/development/deploy)
+- [Library](/uilib/development/ui-lib)
+- [Portal](/uilib/development/portal)
+- [Naming](/uilib/development/naming)
+- [Icons](/uilib/development/icons)

@@ -16,13 +16,11 @@ export default async function generateTypes({
   paths = [
     './src/*.js',
     './src/**/*.js',
-    '!./src/core/**',
     '!**/__tests__',
     '!./src/esm/',
     '!./src/cjs/',
     '!./src/umd/',
     '!./src/style/',
-    '!./src/icons/',
     '!./src/**/web-component.js',
     '!./src/**/web-components.js'
   ]
@@ -44,7 +42,6 @@ const createTypes = async (listOfAllFiles) => {
   try {
     await asyncForEach(listOfAllFiles, async (file) => {
       const basename = path.basename(file)
-      const filename = basename.replace(path.extname(file), '')
       const destFile = file.replace(path.extname(file), '.d.ts')
 
       if (file.includes('__tests__')) {
@@ -54,14 +51,15 @@ const createTypes = async (listOfAllFiles) => {
       if (
         /^index/.test(basename) ||
         (/^[A-Z]/.test(basename) &&
-          !(await fileContains(file, 'PropTypes')))
+          !(await fileContains(file, 'propTypes')))
       ) {
         if (!(await fs.exists(destFile))) {
           await fs.copyFile(file, destFile)
         }
       } else if (
-        /^[A-Z]/.test(basename) &&
-        (await fileContains(file, 'PropTypes'))
+        (/^[A-Z]/.test(basename) &&
+          (await fileContains(file, 'propTypes'))) ||
+        file.includes('src/icons/')
       ) {
         const docs = await fetchPropertiesFromDocs({ file })
 
@@ -143,7 +141,12 @@ const createTypes = async (listOfAllFiles) => {
             ignore: ['node_modules/**']
           })
 
-          definitionContent = generateFromSource(filename, code)
+          /**
+           * Note: Before we have send in "filename" as the first argument of generateFromSource
+           * Like so: const filename = basename.replace(path.extname(file), '')
+           * But this creates the 'declare module' which created trouobles
+           */
+          definitionContent = generateFromSource(null, code)
         }
 
         await fs.writeFile(destFile, definitionContent)

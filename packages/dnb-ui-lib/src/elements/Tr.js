@@ -4,6 +4,7 @@
  */
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import E from './Element'
 
 const Tr = (p = {}) => (
@@ -15,5 +16,11 @@ const Tr = (p = {}) => (
   />
 )
 Tr.tagName = 'dnb-table__tr'
+Tr.propTypes = {
+  children: PropTypes.node
+}
+Tr.defaultProps = {
+  children: null
+}
 
 export default Tr

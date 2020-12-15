@@ -187,10 +187,8 @@ exports[`Slider component have to match snapshot 1`] = `
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        d="M1.75 8h12.5"
-                        stroke="#000"
-                        strokeLinecap="round"
-                        strokeWidth={1.5}
+                        d="M14 8.75a.75.75 0 000-1.5v1.5zM2 7.25a.75.75 0 000 1.5v-1.5zm12 0H2v1.5h12v-1.5z"
+                        fill="#000"
                       />
                     </svg>
                   </subtract>
@@ -443,10 +441,8 @@ exports[`Slider component have to match snapshot 1`] = `
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        clipRule="evenodd"
-                        d="M8.75 1.75a.75.75 0 00-1.5 0v5.5h-5.5a.75.75 0 000 1.5h5.5v5.5a.75.75 0 001.5 0v-5.5h5.5a.75.75 0 000-1.5h-5.5v-5.5z"
+                        d="M7.25 14a.75.75 0 001.5 0h-1.5zm1.5-12a.75.75 0 00-1.5 0h1.5zM14 8.75a.75.75 0 000-1.5v1.5zM2 7.25a.75.75 0 000 1.5v-1.5zM8.75 14V2h-1.5v12h1.5zM14 7.25H2v1.5h12v-1.5z"
                         fill="#000"
-                        fillRule="evenodd"
                       />
                     </svg>
                   </add>

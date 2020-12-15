@@ -13,10 +13,11 @@ function chevron_up(props) {
       {...props}
     >
       <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M8.53 5.22l4.5 4.5a.75.75 0 11-1.06 1.06L8 6.81l-3.97 3.97a.75.75 0 11-1.06-1.06l4.5-4.5a.748.748 0 011.06 0z"
-        fill="#000"
+        d="M3 10.5l5-5 5 5"
+        stroke="#000"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   )

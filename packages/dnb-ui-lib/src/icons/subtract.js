@@ -13,10 +13,8 @@ function subtract(props) {
       {...props}
     >
       <path
-        stroke="#000"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        d="M1.75 8h12.5"
+        d="M14 8.75a.75.75 0 000-1.5v1.5zM2 7.25a.75.75 0 000 1.5v-1.5zm12 0H2v1.5h12v-1.5z"
+        fill="#000"
       />
     </svg>
   )

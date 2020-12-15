@@ -216,7 +216,7 @@ export default class Autocomplete extends React.PureComponent {
     icon_size: null,
     icon_position: 'left',
     triangle_position: null,
-    input_icon: 'search',
+    input_icon: 'loupe',
     label: null,
     label_direction: null,
     label_sr_only: null,

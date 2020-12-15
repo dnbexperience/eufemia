@@ -35,7 +35,7 @@ const getCurrentBranchName = async () => {
   return (await repo.branch()).current
 }
 
-const makeRepo = async () => {
+const getRepo = async () => {
   const pathToRepo = path.resolve(__dirname, '../../../../')
   const repo = simpleGit(pathToRepo)
 
@@ -53,18 +53,20 @@ const makeRepo = async () => {
 }
 
 const getBranchName = async ({ repo = null, requiredBranch = null }) => {
-  // in case we set the branch as an enviroment variable (see TravisCI config)
+  // in case we set the branch as an environment variable (see TravisCI config)
   const branchName =
     typeof process.env.BRANCH === 'string'
       ? process.env.BRANCH
-      : (await (repo || (await makeRepo())).branch()).current
+      : (await (repo || (await getRepo())).branch()).current
 
-  if (typeof requiredBranch === 'string') {
+  if (!Array.isArray(requiredBranch)) {
     requiredBranch = [requiredBranch]
   }
   if (
     requiredBranch &&
-    !requiredBranch.some((name) => new RegExp(name).test(branchName))
+    !requiredBranch.some((name) =>
+      (name instanceof RegExp ? name : new RegExp(name)).test(branchName)
+    )
   ) {
     log.fail(
       `The current branch (${branchName}) was not the required one: ${requiredBranch.join(
@@ -79,13 +81,14 @@ const getBranchName = async ({ repo = null, requiredBranch = null }) => {
 
 const commitToBranch = async ({
   requiredBranch = 'develop',
+  newBranch = null,
   what = 'files',
   filePathsIncludelist = [],
   skipCI = false,
   isFeature = false
 } = {}) => {
   try {
-    const repo = await makeRepo()
+    const repo = await getRepo()
 
     const branchName = await getBranchName({ repo, requiredBranch })
 
@@ -143,6 +146,11 @@ const commitToBranch = async ({
         }`
       ).trim()
       log.info(`> Commit: ${commitMessage}`)
+
+      if (newBranch) {
+        await repo.checkoutLocalBranch(newBranch)
+        log.info(`> Commit: created a new branch: ${newBranch}`)
+      }
 
       await repo.commit(commitMessage, null, {
         '--no-verify': null

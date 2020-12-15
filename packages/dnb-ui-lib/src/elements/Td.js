@@ -4,6 +4,7 @@
  */
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import E from './Element'
 
 const Td = (p = {}) => (
@@ -15,5 +16,11 @@ const Td = (p = {}) => (
   />
 )
 Td.tagName = 'dnb-table__td'
+Td.propTypes = {
+  children: PropTypes.node
+}
+Td.defaultProps = {
+  children: null
+}
 
 export default Td

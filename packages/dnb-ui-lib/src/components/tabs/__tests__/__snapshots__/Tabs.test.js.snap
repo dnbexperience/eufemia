@@ -231,10 +231,11 @@ exports[`Tabs component have to match snapshot 1`] = `
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            clipRule="evenodd"
-                            d="M15.905 5.78a.75.75 0 00-1.06-1.06l-6.75 6.75a.75.75 0 000 1.061l6.75 6.75a.75.75 0 101.06-1.061L9.685 12l6.22-6.22z"
-                            fill="#000"
-                            fillRule="evenodd"
+                            d="M15 5l-7 7 7 7"
+                            stroke="#000"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
                           />
                         </svg>
                       </chevron_left_medium>
@@ -469,10 +470,11 @@ exports[`Tabs component have to match snapshot 1`] = `
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            clipRule="evenodd"
-                            d="M9.155 4.72a.75.75 0 00-1.06 1.06l6.22 6.22-6.22 6.22a.75.75 0 101.06 1.06l6.75-6.749a.75.75 0 000-1.061l-6.75-6.75z"
-                            fill="#000"
-                            fillRule="evenodd"
+                            d="M9 19l7-7-7-7"
+                            stroke="#000"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
                           />
                         </svg>
                       </chevron_right_medium>

@@ -6,8 +6,6 @@
  *
  */
 
-process.env.ROOT_DIR = require('packpath').self()
-
 import { ErrorHandler, log } from '../lib'
 import del from 'del'
 
@@ -25,8 +23,6 @@ import makeLibStyles from './tasks/makeLibStyles'
 import makeMainStyle from './tasks/makeMainStyle'
 import makePropertiesFile from './tasks/makePropertiesFile'
 import generateTypes from './tasks/generateTypes'
-import getCurrentBranchName from 'current-git-branch'
-// import { isCI } from 'ci-info'
 
 // NB: Deprecated and replaced by Babel only build
 // import makeLibModules from './tasks/makeLibModules'
@@ -71,16 +67,7 @@ export const runPrepublishTasks = async ({
     await makeLibStyles() // have to run before "makeLibModules"
     await makeMainStyle()
     await makePropertiesFile()
-
     await prepareTemplates()
-
-    // Wait until v8 to generate types, as long as it is not locally run
-    if (
-      // !isCI ||
-      /^beta$/.test(getCurrentBranchName())
-    ) {
-      await generateTypes()
-    }
 
     // NB: Deprecated and replaced by Babel only build
     // await makeLibModules()

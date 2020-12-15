@@ -7,7 +7,10 @@ import gulp from 'gulp'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import prettier from 'prettier'
+import packpath from 'packpath'
 import { log } from '../../lib'
+
+const ROOT_DIR = packpath.self()
 
 export default async function makePropertiesFile() {
   await runFactory()
@@ -60,7 +63,7 @@ export const runFactory = ({ returnResult = false } = {}) =>
             '!**/*_not_in_use*/**/*'
           ],
           {
-            cwd: process.env.ROOT_DIR
+            cwd: ROOT_DIR
           }
         )
         .pipe(transform('utf8', transformModulesContent))
@@ -76,7 +79,7 @@ export const runFactory = ({ returnResult = false } = {}) =>
             ? transform('utf8', (result) => resolve(result))
             : gulp.dest('./src/style', {
                 overwrite: true,
-                cwd: process.env.ROOT_DIR
+                cwd: ROOT_DIR
               })
         )
         .on('end', resolve)

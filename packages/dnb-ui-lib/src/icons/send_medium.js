@@ -13,23 +13,7 @@ function send_medium(props) {
       {...props}
     >
       <path
-        clipRule="evenodd"
-        d="M2.759 15.632a1.664 1.664 0 01-.882-3.075L20.36 1.003a1.663 1.663 0 012.516 1.72l-3.6 19.173a1.664 1.664 0 01-2.966.691l-5.21-6.955H2.759z"
-        stroke="#000"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        clipRule="evenodd"
-        d="M11.1 15.632H8.6v5.171a1.663 1.663 0 002.6 1.374l3.178-2.166-3.278-4.379z"
-        stroke="#000"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M11.099 15.632l11.08-14.59"
+        d="M11.1 15.632l5.21 6.955a1.664 1.664 0 002.966-.69l3.6-19.174a1.663 1.663 0 00-2.516-1.72L1.877 12.557a1.664 1.664 0 00.882 3.075H11.1zm0 0H8.6v5.171a1.663 1.663 0 002.6 1.374l3.178-2.166-3.278-4.379zm-.001 0l11.08-14.59"
         stroke="#000"
         strokeWidth={1.5}
         strokeLinecap="round"
