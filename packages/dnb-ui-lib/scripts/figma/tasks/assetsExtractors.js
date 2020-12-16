@@ -75,7 +75,7 @@ export function IconsConfig(overwrite = {}) {
   const iconNameCleaner =
     process.env.FIGMA_ICONS_NAME_SPLIT || /.*\/(.*)_[0-9]{1,2}/
   const ignoreAddingSizeList = ['basis', 'default']
-  const iconsDest = path.resolve(__dirname, '../../../assets/icons')
+  const destDir = path.resolve(__dirname, '../../../assets/icons')
   const iconsLockFile = path.resolve(
     __dirname,
     `../../../src/icons/icons-svg.lock`
@@ -93,7 +93,7 @@ export function IconsConfig(overwrite = {}) {
     iconCloneList,
     iconSelector,
     iconNameCleaner,
-    iconsDest,
+    destDir,
     getCategoryFromIconName,
     ...overwrite
   }
@@ -126,7 +126,7 @@ export const extractIconsAsSVG = async ({
       iconsLockFile,
       ignoreAddingSizeList,
       iconRenameList,
-      iconsDest
+      destDir
     } = IconsConfig()
 
     log.start(
@@ -140,7 +140,7 @@ export const extractIconsAsSVG = async ({
         const { files, newFiles } = await runFrameIconsFactory({
           frameDoc,
           figmaFile,
-          destDir: iconsDest,
+          destDir,
           format: 'svg',
           ...IconsConfig(),
           ...rest
@@ -165,10 +165,9 @@ export const extractIconsAsSVG = async ({
     log.info(`> Figma: ${iconsLockFile} file got generated`)
 
     if (listWithNewFiles.length > 0) {
-      await optimizeSVGIcons({ iconsDest, listWithNewFiles })
+      await optimizeSVGIcons({ destDir, listWithNewFiles })
       await createXMLTarBundles({
-        destDir: iconsDest,
-        iconsDest,
+        destDir,
         listOfProcessedIcons
       })
     }
@@ -830,11 +829,11 @@ const createXMLTarBundles = async ({
   log.succeed(`> Figma: finished to create ${outputName}`)
 }
 
-const optimizeSVGIcons = async ({ iconsDest, listWithNewFiles }) => {
+const optimizeSVGIcons = async ({ destDir, listWithNewFiles }) => {
   await asyncForEach(
     listWithNewFiles,
     async ({ iconFile, created, updated }) => {
-      const file = path.resolve(iconsDest, iconFile)
+      const file = path.resolve(destDir, iconFile)
       await optimizeSVG(file)
 
       /**
