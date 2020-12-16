@@ -130,14 +130,14 @@ export const extractIconsAsSVG = async ({
     } = IconsConfig()
 
     log.start(
-      '> Figma: started to fetch svg icons by using runFrameIconsFactory'
+      '> Figma: started to fetch svg icons by using frameIconsFactory'
     )
 
     const listWithNewFiles = []
-    const listOfProcessedIcons = await asyncForEach(
+    const listOfProcessedFiles = await asyncForEach(
       framesInTheCanvas,
       async (frameDoc) => {
-        const { files, newFiles } = await runFrameIconsFactory({
+        const { files, newFiles } = await frameIconsFactory({
           frameDoc,
           figmaFile,
           destDir,
@@ -151,13 +151,13 @@ export const extractIconsAsSVG = async ({
       }
     )
     log.info(
-      `> Figma: finished fetching svg icons by using runFrameIconsFactory. Processed ${listOfProcessedIcons.length} files along with ${listWithNewFiles.length} new files.`
+      `> Figma: finished fetching svg icons by using frameIconsFactory. Processed ${listOfProcessedFiles.length} files along with ${listWithNewFiles.length} new files.`
     )
 
     // save the lockFile content
     await saveIconsLockFile({
       file: iconsLockFile,
-      data: listOfProcessedIcons.reduce((acc, { iconFile, ...cur }) => {
+      data: listOfProcessedFiles.reduce((acc, { iconFile, ...cur }) => {
         acc[iconFile] = cur
         return acc
       }, {})
@@ -168,18 +168,18 @@ export const extractIconsAsSVG = async ({
       await optimizeSVGIcons({ destDir, listWithNewFiles })
       await createXMLTarBundles({
         destDir,
-        listOfProcessedIcons
+        listOfProcessedFiles
       })
     }
 
     makeMetaFile({
-      listOfProcessedIcons,
+      listOfProcessedFiles,
       ignoreAddingSizeList,
       figmaDoc,
       iconRenameList
     })
 
-    return listOfProcessedIcons
+    return listOfProcessedFiles
   } catch (e) {
     log.fail(new ErrorHandler('extractIconsAsSVG failed', e))
   }
@@ -215,9 +215,7 @@ export const extractIconsAsPDF = async ({
       fs.mkdir(destDir)
     }
 
-    log.start(
-      '> Figma: started to fetch PDFs by using runFrameIconsFactory'
-    )
+    log.start('> Figma: started to fetch PDFs by using frameIconsFactory')
 
     let tarFileSize = 0
     const tarFile = path.resolve(destDir, outputName)
@@ -235,11 +233,11 @@ export const extractIconsAsPDF = async ({
     )
 
     const listWithNewFiles = []
-    const listOfProcessedPdfs = await asyncForEach(
+    const listOfProcessedFiles = await asyncForEach(
       // Load and save additional PDFs
       framesInTheCanvas,
       async (frameDoc) => {
-        const { files, newFiles } = await runFrameIconsFactory({
+        const { files, newFiles } = await frameIconsFactory({
           frameDoc,
           figmaFile,
           destDir,
@@ -253,24 +251,24 @@ export const extractIconsAsPDF = async ({
       }
     )
     log.info(
-      `> Figma: finished fetching PDFs by using runFrameIconsFactory. Processed ${listOfProcessedPdfs.length} files along with ${listWithNewFiles.length} new files.`
+      `> Figma: finished fetching PDFs by using frameIconsFactory. Processed ${listOfProcessedFiles.length} files along with ${listWithNewFiles.length} new files.`
     )
 
     // save the lockFile content
     await saveIconsLockFile({
       file: iconsLockFile,
-      data: listOfProcessedPdfs.reduce((acc, { iconFile, ...cur }) => {
+      data: listOfProcessedFiles.reduce((acc, { iconFile, ...cur }) => {
         acc[iconFile] = cur
         return acc
       }, {})
     })
     log.info(`> Figma: ${iconsLockFile} file got generated`)
 
-    if (listOfProcessedPdfs.length > 0) {
+    if (listOfProcessedFiles.length > 0) {
       log.info(`> Figma: started to create ${outputName}`)
 
       const hasSizeChanged = async () => {
-        const fileList = listOfProcessedPdfs.map(
+        const fileList = listOfProcessedFiles.map(
           ({ iconFile }) => iconFile
         )
 
@@ -291,7 +289,7 @@ export const extractIconsAsPDF = async ({
       }
 
       const createTarWithoutCategories = async () => {
-        const fileList = listOfProcessedPdfs.map(
+        const fileList = listOfProcessedFiles.map(
           ({ iconFile }) => iconFile
         )
 
@@ -309,7 +307,7 @@ export const extractIconsAsPDF = async ({
         const { getCategoryFromIconName } = IconsConfig()
 
         await asyncForEach(
-          listOfProcessedPdfs,
+          listOfProcessedFiles,
           async ({ name, iconFile }) => {
             const source = path.resolve(destDir, iconFile)
             const dest = path.resolve(
@@ -323,7 +321,7 @@ export const extractIconsAsPDF = async ({
           }
         )
 
-        const fileList = listOfProcessedPdfs.map(
+        const fileList = listOfProcessedFiles.map(
           ({ name, iconFile }) =>
             `${getCategoryFromIconName(name)}/${iconFile}`
         )
@@ -356,25 +354,24 @@ export const extractIconsAsPDF = async ({
     }
 
     // Remove the pdfs
-    await asyncForEach(listOfProcessedPdfs, async ({ iconFile }) => {
+    await asyncForEach(listOfProcessedFiles, async ({ iconFile }) => {
       const file = path.resolve(destDir, iconFile)
       if (fs.existsSync(file)) {
         try {
           await fs.unlink(file)
-          log.info(`> Figma: File got removed: ${iconFile}`)
         } catch (e) {
           log.fail(new ErrorHandler(`Failed to remove ${iconFile}`, e))
         }
       }
     })
 
-    return listOfProcessedPdfs
+    return listOfProcessedFiles
   } catch (e) {
     log.fail(new ErrorHandler('extractIconsAsPDF failed', e))
   }
 }
 
-const runFrameIconsFactory = async ({
+const frameIconsFactory = async ({
   frameDoc,
   figmaFile,
   destDir,
@@ -506,7 +503,7 @@ const runFrameIconsFactory = async ({
     `> Figma: Starting to fetch process ${listOfIconsToProcess.length} icons`
   )
 
-  const listOfProcessedIcons = (
+  const listOfProcessedFiles = (
     await asyncForEach(listOfIconsToProcess, async ({ id, url, name }) => {
       try {
         const iconName = prerenderIconName(name, size)
@@ -592,7 +589,7 @@ const runFrameIconsFactory = async ({
     })
   ).filter(Boolean)
 
-  return { files: listOfProcessedIcons, newFiles, existingFiles }
+  return { files: listOfProcessedFiles, newFiles, existingFiles }
 }
 
 const prerenderIconName = (name, size = null) => {
@@ -640,14 +637,14 @@ const prerenderIconFile = (name, format = 'svg') => {
 }
 
 const makeMetaFile = async ({
-  listOfProcessedIcons,
+  listOfProcessedFiles,
   ignoreAddingSizeList,
   figmaDoc,
   iconRenameList
 }) => {
   // save the metaFile content
   await saveIconsMetaFile(
-    listOfProcessedIcons.reduce(
+    listOfProcessedFiles.reduce(
       (acc, { iconName, size, id, created, name, variant }) => {
         const cleanSize = !ignoreAddingSizeList.includes(size)
           ? size
@@ -695,7 +692,7 @@ const makeMetaFile = async ({
 const createXMLTarBundles = async ({
   floatPrecision = 3, // If undefined, the default precision is 2
   destDir,
-  listOfProcessedIcons,
+  listOfProcessedFiles,
   outputName = 'eufemia-icons-xml.tgz',
   outputNameCategorized = 'eufemia-icons-xml-categorized.tgz'
 }) => {
@@ -711,7 +708,7 @@ const createXMLTarBundles = async ({
     })
   }
 
-  listOfProcessedIcons = listOfProcessedIcons.map(
+  listOfProcessedFiles = listOfProcessedFiles.map(
     ({ iconFile, ...rest }) => {
       const iconFileXML = iconFile.replace(/\.svg$/, '.xml')
       return { iconFileXML, iconFile, ...rest }
@@ -720,7 +717,7 @@ const createXMLTarBundles = async ({
 
   const convertSvgToXml = async () => {
     await asyncForEach(
-      listOfProcessedIcons,
+      listOfProcessedFiles,
       async ({ iconFile, iconFileXML }) => {
         const source = path.resolve(destDir, iconFile)
         const dest = path.resolve(destDir, iconFileXML)
@@ -731,7 +728,7 @@ const createXMLTarBundles = async ({
   }
 
   const removeGeneratedXmlFiles = async () => {
-    await asyncForEach(listOfProcessedIcons, async ({ iconFileXML }) => {
+    await asyncForEach(listOfProcessedFiles, async ({ iconFileXML }) => {
       const file = path.resolve(destDir, iconFileXML)
       if (fs.existsSync(file)) {
         await fs.unlink(file)
@@ -740,7 +737,7 @@ const createXMLTarBundles = async ({
   }
 
   const hasSizeChanged = async () => {
-    const fileList = listOfProcessedIcons.map(
+    const fileList = listOfProcessedFiles.map(
       ({ iconFileXML }) => iconFileXML
     )
 
@@ -761,7 +758,7 @@ const createXMLTarBundles = async ({
   }
 
   const createTarWithoutCategories = async () => {
-    const fileList = listOfProcessedIcons.map(
+    const fileList = listOfProcessedFiles.map(
       ({ iconFileXML }) => iconFileXML
     )
 
@@ -779,7 +776,7 @@ const createXMLTarBundles = async ({
     const { getCategoryFromIconName } = IconsConfig()
 
     await asyncForEach(
-      listOfProcessedIcons,
+      listOfProcessedFiles,
       async ({ name, iconFileXML }) => {
         const source = path.resolve(destDir, iconFileXML)
         const dest = path.resolve(
@@ -793,7 +790,7 @@ const createXMLTarBundles = async ({
       }
     )
 
-    const fileList = listOfProcessedIcons.map(
+    const fileList = listOfProcessedFiles.map(
       ({ name, iconFileXML }) =>
         `${getCategoryFromIconName(name)}/${iconFileXML}`
     )
