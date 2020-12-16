@@ -116,12 +116,6 @@ export const extractIconsAsSVG = async ({
     // juice out, if no changes
     if (!figmaDoc) return []
 
-    const canvasDoc = getIconCanvasDoc({ figmaDoc })
-
-    const framesInTheCanvas = findAllNodes(canvasDoc, {
-      type: 'FRAME'
-    })
-
     const {
       iconsLockFile,
       ignoreAddingSizeList,
@@ -130,28 +124,21 @@ export const extractIconsAsSVG = async ({
     } = IconsConfig()
 
     log.start(
-      '> Figma: started to fetch svg icons by using frameIconsFactory'
+      '> Figma: started to fetch SVGs icons by using frameIconsFactory'
     )
 
-    const listWithNewFiles = []
-    const listOfProcessedFiles = await asyncForEach(
-      framesInTheCanvas,
-      async (frameDoc) => {
-        const { files, newFiles } = await frameIconsFactory({
-          frameDoc,
-          figmaFile,
-          destDir,
-          format: 'svg',
-          ...IconsConfig(),
-          ...rest
-        })
+    const {
+      listOfProcessedFiles,
+      listWithNewFiles
+    } = await collectIconsFromFigmaDoc({
+      figmaFile,
+      figmaDoc,
+      format: 'svg',
+      ...rest
+    })
 
-        listWithNewFiles.concat(newFiles)
-        return files
-      }
-    )
     log.info(
-      `> Figma: finished fetching svg icons by using frameIconsFactory. Processed ${listOfProcessedFiles.length} files along with ${listWithNewFiles.length} new files.`
+      `> Figma: finished fetching SVGs icons by using frameIconsFactory. Processed ${listOfProcessedFiles.length} files along with ${listWithNewFiles.length} new files.`
     )
 
     // save the lockFile content
@@ -185,6 +172,80 @@ export const extractIconsAsSVG = async ({
   }
 }
 
+async function collectIconsFromFigmaDoc({ figmaDoc, figmaFile, ...rest }) {
+  const { frameNameSelector, destDir } = IconsConfig()
+
+  const canvasDoc = getIconCanvasDoc({ figmaDoc })
+  const framesInTheCanvas = findAllNodes(canvasDoc, {
+    type: 'FRAME'
+  })
+
+  const controllStorage = []
+  const listWithNewFiles = []
+  const listOfProcessedFiles = await asyncForEach(
+    framesInTheCanvas,
+    async (frameDoc) => {
+      if (
+        /#skip/.test(frameDoc.name) ||
+        !frameNameSelector.test(frameDoc.name)
+      ) {
+        return // stop here
+      }
+
+      const { files, newFiles } = await frameIconsFactory({
+        frameDoc,
+        figmaFile,
+        destDir,
+        ...IconsConfig(),
+        ...rest
+      })
+
+      controllStorage.push(files)
+      listWithNewFiles.concat(newFiles)
+
+      return files
+    }
+  )
+
+  runDiffControll({ controllStorage })
+
+  return {
+    listWithNewFiles,
+    listOfProcessedFiles
+  }
+}
+
+const runDiffControll = ({ controllStorage }) => {
+  const collectDiff = []
+  const removeSizes = (n) => n.replace(/(_16|_24)$/, '')
+  const getDiff = (a, b) =>
+    a.filter(
+      ({ name }) =>
+        !b.some(({ name: n }) => removeSizes(n) === removeSizes(name))
+    )
+
+  if (controllStorage.length > 0) {
+    controllStorage.forEach((cur, i, arr) => {
+      getDiff(arr[0], cur).forEach(({ size, name }) => {
+        collectDiff.push({ [size]: name })
+      })
+    })
+    controllStorage.reverse().forEach((cur, i, arr) => {
+      getDiff(arr[0], cur).forEach(({ size, name }) => {
+        collectDiff.push({ [size]: name })
+      })
+    })
+
+    log.fail(
+      `> Figma: Detected a difference between the frames!. Here are the differences:\n ${JSON.stringify(
+        collectDiff,
+        null,
+        4
+      )}`
+    )
+  }
+}
+
 export const extractIconsAsPDF = async ({
   figmaFile,
   figmaDoc = null,
@@ -204,18 +265,12 @@ export const extractIconsAsPDF = async ({
     // juice out, if no changes
     if (!figmaDoc) return []
 
-    const canvasDoc = getIconCanvasDoc({ figmaDoc })
-
-    const framesInTheCanvas = findAllNodes(canvasDoc, {
-      type: 'FRAME'
-    })
+    log.start('> Figma: started to fetch PDFs by using frameIconsFactory')
 
     const destDir = path.resolve(__dirname, '../../../assets/icons')
     if (!fs.existsSync(destDir)) {
       fs.mkdir(destDir)
     }
-
-    log.start('> Figma: started to fetch PDFs by using frameIconsFactory')
 
     let tarFileSize = 0
     const tarFile = path.resolve(destDir, outputName)
@@ -229,27 +284,20 @@ export const extractIconsAsPDF = async ({
 
     const iconsLockFile = path.resolve(
       __dirname,
-      `../../../src/icons/icons-pdf.lock`
+      '../../../src/icons/icons-pdf.lock'
     )
 
-    const listWithNewFiles = []
-    const listOfProcessedFiles = await asyncForEach(
-      // Load and save additional PDFs
-      framesInTheCanvas,
-      async (frameDoc) => {
-        const { files, newFiles } = await frameIconsFactory({
-          frameDoc,
-          figmaFile,
-          destDir,
-          format: 'pdf',
-          ...IconsConfig({ iconsLockFile }),
-          ...rest
-        })
+    const {
+      listOfProcessedFiles,
+      listWithNewFiles
+    } = await collectIconsFromFigmaDoc({
+      figmaFile,
+      figmaDoc,
+      format: 'pdf',
+      ...IconsConfig({ iconsLockFile }),
+      ...rest
+    })
 
-        listWithNewFiles.concat(newFiles)
-        return files
-      }
-    )
     log.info(
       `> Figma: finished fetching PDFs by using frameIconsFactory. Processed ${listOfProcessedFiles.length} files along with ${listWithNewFiles.length} new files.`
     )
@@ -262,6 +310,7 @@ export const extractIconsAsPDF = async ({
         return acc
       }, {})
     })
+
     log.info(`> Figma: ${iconsLockFile} file got generated`)
 
     if (listOfProcessedFiles.length > 0) {
@@ -377,7 +426,6 @@ const frameIconsFactory = async ({
   destDir,
   forceRedownload = null,
   format = 'svg',
-  frameNameSelector,
   sizeSeperator,
   iconsLockFile,
   iconSelector,
@@ -388,16 +436,7 @@ const frameIconsFactory = async ({
   const newFiles = []
   const existingFiles = []
 
-  if (
-    /#skip/.test(frameDoc.name) ||
-    !frameNameSelector.test(frameDoc.name)
-  ) {
-    return {
-      files: [],
-      newFiles,
-      existingFiles
-    }
-  }
+  console.log('frameDoc.name', frameDoc.name)
 
   const frameId = frameDoc.id
   const originalFrameName = String(frameDoc.name)
@@ -589,7 +628,7 @@ const frameIconsFactory = async ({
     })
   ).filter(Boolean)
 
-  return { files: listOfProcessedFiles, newFiles, existingFiles }
+  return { size, files: listOfProcessedFiles, newFiles, existingFiles }
 }
 
 const prerenderIconName = (name, size = null) => {
