@@ -61,6 +61,16 @@ describe('Icon screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+})
+
+describe('Icon screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/icon/demos',
+    screenshotConfig: {
+      // use 10% on CI because of the font rendering differences
+      pixelThresholdRelative: isCI ? 0.01 : 0
+    }
+  })
   it('have to match all primary icons', async () => {
     const screenshot = await testPageScreenshot({
       style: {
