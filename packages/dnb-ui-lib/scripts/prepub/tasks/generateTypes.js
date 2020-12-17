@@ -45,7 +45,15 @@ const createTypes = async (listOfAllFiles) => {
       const destFile = file.replace(path.extname(file), '.d.ts')
 
       if (file.includes('__tests__')) {
-        return
+        return // stop here
+      }
+
+      // For dev (build:types:dev) mode only
+      if (
+        !file.includes('/button/') &&
+        process.env.npm_config_argv.includes('build:types:dev')
+      ) {
+        return // stop here
       }
 
       if (
