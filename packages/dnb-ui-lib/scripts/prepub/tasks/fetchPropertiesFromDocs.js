@@ -34,11 +34,8 @@ export async function fetchPropertiesFromDocs({ file } = {}) {
       path.resolve(rootDir, groupDir, componentDir, 'properties.md'),
       path.resolve(rootDir, groupDir, componentDir, 'events.md')
     ]
-    const collection = await extractorFactory(markdownFiles)
 
-    log.succeed(`> PrePublish: Collected docs for ${filename}`)
-
-    return collection
+    return await extractorFactory(markdownFiles)
   } catch (e) {
     log.fail('Failed to load docs')
     throw new Error(e)
@@ -125,14 +122,15 @@ async function extractorFactory(markdownFiles) {
         }
       }
 
+      log.succeed(`> PrePublish: Collected docs for ${markdownFile}`)
+
       return collection
     }
   )
 
-  const docs = collections.reduce(
-    (acc, cur) => Object.assign(acc, cur),
-    collections
-  )
+  const docs = collections
+    .filter(Boolean)
+    .reduce((acc, cur) => Object.assign(acc, cur), collections)
 
   return docs
 }
