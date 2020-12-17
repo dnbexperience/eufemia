@@ -154,8 +154,10 @@ import fullscreen_medium from './fullscreen_medium.js'
 import fund_in from './fund_in.js'
 import fund_out from './fund_out.js'
 import funds from './funds.js'
+import funds_in from './funds_in.js'
 import funds_in_medium from './funds_in_medium.js'
 import funds_medium from './funds_medium.js'
+import funds_out from './funds_out.js'
 import funds_out_medium from './funds_out_medium.js'
 import globe from './globe.js'
 import globe_medium from './globe_medium.js'
@@ -258,6 +260,7 @@ import pin_code_medium from './pin_code_medium.js'
 import plant from './plant.js'
 import plant_medium from './plant_medium.js'
 import printer from './printer.js'
+import printer_medium from './printer_medium.js'
 import products_account_percent_medium from './products_account_percent_medium.js'
 import profile from './profile.js'
 import profile_medium from './profile_medium.js'
@@ -499,8 +502,10 @@ export {
   fund_in,
   fund_out,
   funds,
+  funds_in,
   funds_in_medium,
   funds_medium,
+  funds_out,
   funds_out_medium,
   globe,
   globe_medium,
@@ -603,6 +608,7 @@ export {
   plant,
   plant_medium,
   printer,
+  printer_medium,
   products_account_percent_medium,
   profile,
   profile_medium,

@@ -61,9 +61,9 @@ import filter from './filter.js'
 import flying_money from './flying_money.js'
 import folder from './folder.js'
 import fullscreen from './fullscreen.js'
-import fund_in from './fund_in.js'
-import fund_out from './fund_out.js'
 import funds from './funds.js'
+import funds_in from './funds_in.js'
+import funds_out from './funds_out.js'
 import globe from './globe.js'
 import grabber from './grabber.js'
 import graph_decrease from './graph_decrease.js'
@@ -213,9 +213,9 @@ export {
   flying_money,
   folder,
   fullscreen,
-  fund_in,
-  fund_out,
   funds,
+  funds_in,
+  funds_out,
   globe,
   grabber,
   graph_decrease,

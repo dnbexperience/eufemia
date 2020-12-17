@@ -104,7 +104,7 @@
   "exclamation_triangle": {
     "tags": ["warning", "!", "alert"],
     "created": 1607888419375,
-    "name": "essentials/Exclamation_triangle_16",
+    "name": "essentials/exclamation_triangle_16",
     "variant": "secondary"
   },
   "exclamation_circled": {
@@ -695,16 +695,16 @@
     "name": "actions/loan_in_16",
     "variant": "secondary"
   },
-  "fund_out": {
+  "funds_out": {
     "tags": ["graph"],
-    "created": 1607888499596,
-    "name": "actions/fund_out_16",
+    "created": 1608200753101,
+    "name": "actions/funds_out_16",
     "variant": "secondary"
   },
-  "fund_in": {
+  "funds_in": {
     "tags": ["graph"],
-    "created": 1607888500386,
-    "name": "actions/fund_in_16",
+    "created": 1608200753385,
+    "name": "actions/funds_in_16",
     "variant": "secondary"
   },
   "card_out": {
@@ -1035,18 +1035,6 @@
     "tags": ["Loan value ratio"],
     "created": 1607888639580,
     "name": "products/account_percent",
-    "variant": "secondary"
-  },
-  "funds_out": {
-    "tags": ["graph"],
-    "created": 1607888643563,
-    "name": "actions/funds_out_24",
-    "variant": "secondary"
-  },
-  "funds_in": {
-    "tags": ["graph"],
-    "created": 1607888644434,
-    "name": "actions/funds_in_24",
     "variant": "secondary"
   }
 }
