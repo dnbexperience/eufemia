@@ -180,7 +180,7 @@ async function collectIconsFromFigmaDoc({ figmaDoc, figmaFile, ...rest }) {
     type: 'FRAME'
   })
 
-  const controllStorage = []
+  const controllStorageLists = []
   const listWithNewFiles = []
   const listOfProcessedFiles = await asyncForEach(
     framesInTheCanvas,
@@ -200,14 +200,14 @@ async function collectIconsFromFigmaDoc({ figmaDoc, figmaFile, ...rest }) {
         ...rest
       })
 
-      controllStorage.push(files)
+      controllStorageLists.push(files)
       listWithNewFiles.concat(newFiles)
 
       return files
     }
   )
 
-  runDiffControll({ controllStorage })
+  runDiffControll({ controllStorageLists })
 
   return {
     listWithNewFiles,
@@ -215,7 +215,7 @@ async function collectIconsFromFigmaDoc({ figmaDoc, figmaFile, ...rest }) {
   }
 }
 
-const runDiffControll = ({ controllStorage }) => {
+const runDiffControll = ({ controllStorageLists }) => {
   const collectDiff = []
   const removeSizes = (n) => n.replace(/(_16|_24)$/, '')
   const getDiff = (a, b) =>
@@ -224,18 +224,18 @@ const runDiffControll = ({ controllStorage }) => {
         !b.some(({ name: n }) => removeSizes(n) === removeSizes(name))
     )
 
-  if (controllStorage.length > 0) {
-    controllStorage.forEach((cur, i, arr) => {
-      getDiff(arr[0], cur).forEach(({ size, name }) => {
-        collectDiff.push({ [size]: name })
-      })
+  controllStorageLists.forEach((cur, i, arr) => {
+    getDiff(arr[0], cur).forEach(({ size, name }) => {
+      collectDiff.push({ [size]: name })
     })
-    controllStorage.reverse().forEach((cur, i, arr) => {
-      getDiff(arr[0], cur).forEach(({ size, name }) => {
-        collectDiff.push({ [size]: name })
-      })
+  })
+  controllStorageLists.reverse().forEach((cur, i, arr) => {
+    getDiff(arr[0], cur).forEach(({ size, name }) => {
+      collectDiff.push({ [size]: name })
     })
+  })
 
+  if (collectDiff.length > 0) {
     log.fail(
       `> Figma: Detected a difference between the frames!. Here are the differences:\n ${JSON.stringify(
         collectDiff,
