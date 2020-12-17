@@ -9,6 +9,11 @@ import { log } from '../../lib'
 import { asyncForEach } from '../../tools'
 import { Extractor } from 'markdown-tables-to-json'
 
+const rootDir = path.resolve(
+  path.dirname(require.resolve('dnb-design-system-portal/package.json')),
+  'src/docs/uilib'
+)
+
 export async function fetchPropertiesFromDocs({ file } = {}) {
   log.start('> PrePublish: generating types')
 
@@ -16,13 +21,6 @@ export async function fetchPropertiesFromDocs({ file } = {}) {
   const filename = basename.replace(path.extname(file), '')
 
   try {
-    const rootDir = path.resolve(
-      path.dirname(
-        require.resolve('dnb-design-system-portal/package.json')
-      ),
-      'src/docs/uilib'
-    )
-
     const parts = file
       .split('/')
       .map((fn) =>
@@ -36,7 +34,7 @@ export async function fetchPropertiesFromDocs({ file } = {}) {
       path.resolve(rootDir, groupDir, componentDir, 'properties.md'),
       path.resolve(rootDir, groupDir, componentDir, 'events.md')
     ]
-    const collection = await extractorFactor(markdownFiles)
+    const collection = await extractorFactory(markdownFiles)
 
     log.succeed(`> PrePublish: Collected docs for ${filename}`)
 
@@ -47,7 +45,7 @@ export async function fetchPropertiesFromDocs({ file } = {}) {
   }
 }
 
-async function extractorFactor(markdownFiles) {
+async function extractorFactory(markdownFiles) {
   const collections = await asyncForEach(
     markdownFiles,
     async (markdownFile) => {
@@ -68,7 +66,6 @@ async function extractorFactor(markdownFiles) {
           description = json[key]?.Properties
         } else if (json[key]?.Events) {
           description = json[key]?.Events
-          console.log('description', description)
         } else if (json[key]) {
           description = json[key]
         }
@@ -86,9 +83,29 @@ async function extractorFactor(markdownFiles) {
 
         key = key.replace(/<code>([^<]*)<\/code>/g, '$1')
 
-        // Remove "Space" docs
+        // Enhance props with e.g. "Space" docs/props
         if (key.includes('<a')) {
-          continue
+          const href = /href="([^"]+)"/g.exec(key)[1]
+          if (href[0] === '/') {
+            const dir = path.resolve(rootDir, '../')
+            const file = path.resolve(dir, href.replace(/^\//, '') + '.md')
+            if (fs.existsSync(file)) {
+              const subCollections = await extractorFactory([file])
+
+              if (
+                Array.isArray(subCollections) &&
+                subCollections.length > 0
+              ) {
+                subCollections.forEach((subCol) => {
+                  Object.assign(collection, subCol)
+                })
+              }
+            } else {
+              continue
+            }
+          } else {
+            continue
+          }
         }
 
         // Duplicate if several props do have the same docs

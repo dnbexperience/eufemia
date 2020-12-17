@@ -110,6 +110,7 @@ import phone_medium from './phone_medium.js'
 import photo_medium from './photo_medium.js'
 import pin_code_medium from './pin_code_medium.js'
 import plant_medium from './plant_medium.js'
+import printer_medium from './printer_medium.js'
 import products_account_percent_medium from './products_account_percent_medium.js'
 import profile_medium from './profile_medium.js'
 import progress_medium from './progress_medium.js'
@@ -261,6 +262,7 @@ export {
   photo_medium,
   pin_code_medium,
   plant_medium,
+  printer_medium,
   products_account_percent_medium,
   profile_medium,
   progress_medium,

@@ -7,7 +7,7 @@ import { commitToBranch } from '../../prepub/commitToBranch'
 
 if (require.main === module) {
   commitToBranch({
-    requiredBranch: 'develop|figma',
+    requiredBranch: 'develop|eufemia-icons',
     what: 'icons/assets',
     filePathsIncludelist: [
       '/src/icons/',

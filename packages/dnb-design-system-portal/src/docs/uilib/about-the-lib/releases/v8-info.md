@@ -5,6 +5,7 @@ draft: true
 # v8
 
 - [Migration](#migration)
+- [Changes](#changes)
 
 ## Migration
 
@@ -43,4 +44,4 @@ To upgrade to v8 with NPM, use:
 $ npm i dnb-ui-lib@8
 ```
 
-_December, 14. 2020_
+_December, 15. 2020_
