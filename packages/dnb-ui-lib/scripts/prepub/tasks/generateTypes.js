@@ -59,11 +59,11 @@ export const createTypes = async (
       }
 
       // For dev (build:types:dev) mode only
-      if (
+      const isDev =
         process.env.npm_config_argv.includes('build:types:dev') &&
-        !file.includes('/Button.js/') &&
+        !file.includes('/Button.js') &&
         !file.includes('/Space.js')
-      ) {
+      if (isDev) {
         return // stop here
       }
 
@@ -105,7 +105,7 @@ export const createTypes = async (
          *    like special comments/definition we may need to customize our generated type definitions.
          */
 
-        if (fs.existsSync(destFile)) {
+        if (!isDev && fs.existsSync(destFile)) {
           const { code } = await transformFileAsync(destFile, {
             plugins: [
               [
