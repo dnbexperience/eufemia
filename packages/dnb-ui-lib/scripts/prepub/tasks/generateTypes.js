@@ -39,7 +39,7 @@ export default async function generateTypes({
 
   try {
     const files = await globby(paths)
-    await createTypes(files)
+    await createTypes(files, { includeSpecialDirs: true })
 
     log.succeed(`> PrePublish: Converting "types" is done`)
   } catch (e) {
@@ -48,10 +48,13 @@ export default async function generateTypes({
   }
 }
 
-const createTypes = async (listOfAllFiles) => {
+export const createTypes = async (
+  listOfAllFiles,
+  { isTest = false, ...opts } = {}
+) => {
   try {
-    await asyncForEach(listOfAllFiles, async (file) => {
-      if (file.includes('__tests__')) {
+    return await asyncForEach(listOfAllFiles, async (file) => {
+      if (!isTest && file.includes('__tests__')) {
         return // stop here
       }
 
@@ -83,7 +86,7 @@ const createTypes = async (listOfAllFiles) => {
       ) {
         const docs = await fetchPropertiesFromDocs({
           file,
-          includeSpecialDirs: true
+          ...opts
         })
 
         let definitionContent
@@ -152,7 +155,11 @@ const createTypes = async (listOfAllFiles) => {
           definitionContent = generateFromSource(null, code)
         }
 
-        await fs.writeFile(destFile, definitionContent)
+        if (isTest) {
+          return { destFile, definitionContent }
+        } else {
+          await fs.writeFile(destFile, definitionContent)
+        }
       }
     })
   } catch (e) {

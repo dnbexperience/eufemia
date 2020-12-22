@@ -6,6 +6,7 @@
 import { transformFileAsync } from '@babel/core'
 import nodePath from 'path'
 import {
+  createTypes,
   babelPluginDefaults,
   babelPluginPropTypesRelations,
   babelPluginCorrectTypes,
@@ -64,11 +65,11 @@ describe('babelPluginCorrectTypes', () => {
 })
 
 describe('babelPluginIncludeDocs', () => {
-  const file = nodePath.resolve(__dirname, '__mocks__/PrimaryComponent.js')
+  const docsDir = nodePath.resolve(__dirname, '__mocks__')
+  const file = nodePath.resolve(docsDir, 'PrimaryComponent.js')
   let docs = {}
 
   it('has to match docs snapshot', async () => {
-    const docsDir = nodePath.resolve(__dirname, '__mocks__/')
     docs = await fetchPropertiesFromDocs({
       file,
       docsDir,
@@ -105,5 +106,20 @@ describe('babelPluginIncludeDocs', () => {
     })
 
     expect(code).toMatchSnapshot()
+  })
+})
+
+describe('generateTypes', () => {
+  it('has to match snapshot', async () => {
+    const docsDir = nodePath.resolve(__dirname, '__mocks__')
+    const file = nodePath.resolve(docsDir, 'PrimaryComponent.js')
+    const [{ destFile, definitionContent }] = await createTypes([file], {
+      isTest: true,
+      docsDir,
+      findFiles: ['PrimaryComponent.md']
+    })
+
+    expect(destFile).toContain('__mocks__/PrimaryComponent.d.ts')
+    expect(definitionContent).toMatchSnapshot()
   })
 })
