@@ -3,7 +3,61 @@
  *
  */
 
+import PropTypes from 'prop-types'
 import { warn } from '../../shared/component-helper'
+
+export const spacingPropTypes = {
+  space: PropTypes.shape({
+    top: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ]),
+    right: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ]),
+    bottom: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ]),
+    left: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ])
+  }),
+  top: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ]),
+  right: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ]),
+  bottom: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ]),
+  left: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ])
+}
+
+export const spacingDefaultProps = {
+  space: null,
+  top: null,
+  right: null,
+  bottom: null,
+  left: null
+}
 
 // IMPORTANT: Keep the shorthand after the long type names
 export const spacePatterns = {
@@ -148,8 +202,17 @@ export const removeSpaceProps = ({ ...props }) => {
 }
 
 // Creates a valid space CSS class out from given space types
-export const createSpacingClasses = (props, Element = null) =>
-  Object.entries(props).reduce((acc, [direction, cur]) => {
+export const createSpacingClasses = (props, Element = null) => {
+  if (typeof props.space !== 'undefined') {
+    for (let i in props.space) {
+      if (isValidSpaceProp(i)) {
+        props[i] = props.space[i]
+      }
+      delete props.space
+    }
+  }
+
+  return Object.entries(props).reduce((acc, [direction, cur]) => {
     if (isValidSpaceProp(direction)) {
       if (String(cur) === '0' || String(cur) === 'false') {
         acc.push(`dnb-space__${direction}--zero`)
@@ -185,6 +248,7 @@ export const createSpacingClasses = (props, Element = null) =>
 
     return acc
   }, [])
+}
 
 // Creates a CSS Style Object out from given space types
 export const createStyleObject = (props) => {
