@@ -2,17 +2,18 @@
 
 exports[`Space component have to match snapshot 1`] = `
 <Space
-  bottom="bottom"
+  bottom={null}
   class="class"
   className="className"
   element="div"
   id="space"
   inline="inline"
-  left="left"
+  left={null}
   no_collapse={false}
-  right="right"
+  right={null}
   skeleton="skeleton"
-  top="top"
+  space={null}
+  top={null}
 >
   <Element
     className="dnb-space className class"

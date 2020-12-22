@@ -14,11 +14,18 @@ import {
   validateDOMAttributes
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import { createSpacingClasses, isInline } from './SpacingHelper'
+import {
+  createSpacingClasses,
+  isInline,
+  spacingPropTypes,
+  spacingDefaultProps
+} from './SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass
 } from '../skeleton/SkeletonHelper'
+
+export { spacingPropTypes }
 
 export default class Space extends React.PureComponent {
   static tagName = 'dnb-space'
@@ -29,29 +36,11 @@ export default class Space extends React.PureComponent {
     element: PropTypes.string,
     inline: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_collapse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    top: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool
-    ]),
-    right: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool
-    ]),
-    bottom: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool
-    ]),
-    left: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool
-    ]),
+
+    ...spacingPropTypes,
+
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     class: PropTypes.string,
-
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,
@@ -65,10 +54,9 @@ export default class Space extends React.PureComponent {
     element: 'div',
     inline: null,
     no_collapse: null, // avoid margin collapsing
-    top: null,
-    right: null,
-    bottom: null,
-    left: null,
+
+    ...spacingDefaultProps,
+
     skeleton: null,
     class: null,
 

@@ -18,7 +18,10 @@ import {
   getStatusState,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass
@@ -82,6 +85,8 @@ export default class Button extends React.PureComponent {
       PropTypes.node
     ]),
     element: PropTypes.node,
+
+    ...spacingPropTypes,
 
     custom_element: PropTypes.object,
     custom_method: PropTypes.func,
