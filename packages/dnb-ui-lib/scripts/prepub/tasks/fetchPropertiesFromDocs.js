@@ -9,12 +9,17 @@ import { log } from '../../lib'
 import { asyncForEach } from '../../tools'
 import { Extractor } from 'markdown-tables-to-json'
 
-const rootDir = path.resolve(
+const ROOT_DIR = path.resolve(
   path.dirname(require.resolve('dnb-design-system-portal/package.json')),
   'src/docs/uilib'
 )
 
-export async function fetchPropertiesFromDocs({ file } = {}) {
+export async function fetchPropertiesFromDocs({
+  file, // Component file
+  docsDir = ROOT_DIR, // The dir, where the docs are placed
+  findFiles = ['properties.md', 'events.md'], // type of .md files to look for
+  includeSpecialDirs = false // special path setup
+} = {}) {
   log.start('> PrePublish: generating types')
 
   const basename = path.basename(file)
@@ -27,22 +32,21 @@ export async function fetchPropertiesFromDocs({ file } = {}) {
         path.basename(fn).replace(path.extname(file), '').toLowerCase()
       )
     const index = parts.findIndex((fn) => fn === filename.toLowerCase())
-    const groupDir = parts[index - 1]
-    const componentDir = filename.toLowerCase()
+    const groupDir = includeSpecialDirs ? parts[index - 1] : ''
+    const componentDir = includeSpecialDirs ? filename.toLowerCase() : ''
 
-    const markdownFiles = [
-      path.resolve(rootDir, groupDir, componentDir, 'properties.md'),
-      path.resolve(rootDir, groupDir, componentDir, 'events.md')
-    ]
+    const markdownFiles = findFiles.map((file) => {
+      return path.resolve(docsDir, groupDir, componentDir, file)
+    })
 
-    return await extractorFactory(markdownFiles)
+    return await extractorFactory(markdownFiles, docsDir)
   } catch (e) {
     log.fail('Failed to load docs')
     throw new Error(e)
   }
 }
 
-async function extractorFactory(markdownFiles) {
+async function extractorFactory(markdownFiles, docsDir = ROOT_DIR) {
   const collections = await asyncForEach(
     markdownFiles,
     async (markdownFile) => {
@@ -84,10 +88,13 @@ async function extractorFactory(markdownFiles) {
         if (key.includes('<a')) {
           const href = /href="([^"]+)"/g.exec(key)[1]
           if (href[0] === '/') {
-            const dir = path.resolve(rootDir, '../')
+            const dir = path.resolve(docsDir, '../')
             const file = path.resolve(dir, href.replace(/^\//, '') + '.md')
             if (fs.existsSync(file)) {
-              const subCollections = await extractorFactory([file])
+              const subCollections = await extractorFactory(
+                [file],
+                docsDir
+              )
 
               if (
                 Array.isArray(subCollections) &&
@@ -97,12 +104,10 @@ async function extractorFactory(markdownFiles) {
                   Object.assign(collection, subCol)
                 })
               }
-            } else {
-              continue
             }
-          } else {
-            continue
           }
+
+          continue
         }
 
         // Duplicate if several props do have the same docs
