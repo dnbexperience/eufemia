@@ -14,7 +14,10 @@ import {
   validateDOMAttributes,
   extendPropsWithContext
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../../components/space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../../components/space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass
@@ -58,6 +61,9 @@ export default class PaymentCard extends React.PureComponent {
     locale: PropTypes.string,
 
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    ...spacingPropTypes,
+
     class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([

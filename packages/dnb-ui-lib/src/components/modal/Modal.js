@@ -18,7 +18,10 @@ import {
   processChildren,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 import Button from '../button/Button'
 import Section from '../section/Section'
 import HelpButtonInstance from '../help-button/HelpButtonInstance'
@@ -79,8 +82,10 @@ export default class Modal extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
-    class: PropTypes.string,
 
+    ...spacingPropTypes,
+
+    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 

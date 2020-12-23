@@ -15,7 +15,10 @@ import {
   processChildren,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 import Context from '../../shared/Context'
 import hashSum from '../../shared/libs/HashSum'
 import { defaultProps as formRowDefaultProps } from '../form-row/FormRow'
@@ -34,6 +37,8 @@ export default class FormSet extends React.PureComponent {
     ]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     class: PropTypes.string,
+
+    ...spacingPropTypes,
 
     className: PropTypes.string,
     children: PropTypes.oneOfType([

@@ -28,7 +28,10 @@ import {
   debounce
 } from '../../shared/helpers'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
@@ -182,6 +185,8 @@ export default class Autocomplete extends React.PureComponent {
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     drawer_class: PropTypes.string,
     class: PropTypes.string,
+
+    ...spacingPropTypes,
 
     className: PropTypes.string,
     children: PropTypes.oneOfType([

@@ -12,7 +12,10 @@ import {
   registerElement,
   extendPropsWithContext
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 
 export default class Logo extends React.PureComponent {
   static tagName = 'dnb-logo'
@@ -26,6 +29,8 @@ export default class Logo extends React.PureComponent {
     alt: PropTypes.string,
     color: PropTypes.string,
     class: PropTypes.string,
+
+    ...spacingPropTypes,
 
     className: PropTypes.string
   }

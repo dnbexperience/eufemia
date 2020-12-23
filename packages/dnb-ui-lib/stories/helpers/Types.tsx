@@ -14,9 +14,14 @@ export default {
 export const TypesSandbox = () => {
   return (
     <div>
-      <H1 size="small">Hello Eufemia</H1>
-      <P>Start editing to see some magic happen!</P>
-      <Button variant="primary" icon={bell}>
+      {/* <H1 size="small">Hello Eufemia</H1>
+      <P>Start editing to see some magic happen!</P> */}
+      <Button
+        variant="primary"
+        space={{ right: 1 }}
+        right="1rem"
+        icon={bell}
+      >
         Button
       </Button>
       <Input size="default">test</Input>

@@ -12,7 +12,10 @@ import {
   registerElement,
   processChildren
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 import Button from '../button/Button'
 import H1 from '../../elements/H1'
 import P from '../../elements/P'
@@ -34,6 +37,8 @@ export default class GlobalError extends React.PureComponent {
     back: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     href: PropTypes.string,
     alt: PropTypes.string,
+
+    ...spacingPropTypes,
 
     className: PropTypes.string,
     children: PropTypes.oneOfType([

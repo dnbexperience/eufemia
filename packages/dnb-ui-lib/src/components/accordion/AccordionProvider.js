@@ -14,7 +14,10 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 
 import Context from '../../shared/Context'
 import AccordionGroupContext from './AccordionProviderContext'
@@ -41,6 +44,9 @@ export default class AccordionGroup extends React.PureComponent {
     ]),
     on_change: PropTypes.func,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    ...spacingPropTypes,
+
     id: PropTypes.string,
     group: PropTypes.string,
     onInit: PropTypes.func

@@ -14,7 +14,10 @@ import {
   processChildren,
   extendPropsWithContext
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass
@@ -59,8 +62,10 @@ export default class StepIndicator extends React.PureComponent {
     ]),
     on_item_render: PropTypes.func,
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    class: PropTypes.string,
 
+    ...spacingPropTypes,
+
+    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 

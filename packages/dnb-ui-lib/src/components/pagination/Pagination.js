@@ -13,7 +13,10 @@ import {
   validateDOMAttributes,
   extendPropsWithContext
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 
 import { PaginationIndicator } from './PaginationHelpers'
 import InfinityScroller from './PaginationInfinity'
@@ -72,8 +75,10 @@ const propTypes = {
     PropTypes.string
   ]),
   align: PropTypes.string,
-  class: PropTypes.string,
 
+  ...spacingPropTypes,
+
+  class: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.oneOfType([
     // PropTypes.array,
@@ -105,8 +110,8 @@ const defaultProps = {
   parallel_load_count: 1,
   place_maker_before_content: false,
   min_wait_time: 400,
-  class: null,
 
+  class: null,
   className: null,
   children: null,
 

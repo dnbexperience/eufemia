@@ -20,7 +20,10 @@ import {
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 import { format } from '../number/Number'
 import {
   createSkeletonClass,
@@ -83,8 +86,10 @@ export default class Slider extends React.PureComponent {
       PropTypes.bool
     ]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    class: PropTypes.string,
 
+    ...spacingPropTypes,
+
+    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 

@@ -702,6 +702,8 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                       className="dnb-pagination__indicator__inner"
                     >
                       <ProgressIndicator
+                        class={null}
+                        className={null}
                         indicator_label={null}
                         label={null}
                         label_direction="horizontal"

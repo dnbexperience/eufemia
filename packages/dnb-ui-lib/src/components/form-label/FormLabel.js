@@ -13,7 +13,10 @@ import {
   validateDOMAttributes,
   processChildren
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 import {
   createSkeletonClass,
   skeletonDOMAttributes
@@ -40,6 +43,8 @@ export default class FormLabel extends React.PureComponent {
     label_direction: PropTypes.oneOf(['vertical', 'horizontal']),
     vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    ...spacingPropTypes,
 
     className: PropTypes.string,
     children: PropTypes.oneOfType([

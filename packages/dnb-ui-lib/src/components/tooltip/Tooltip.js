@@ -15,7 +15,10 @@ import {
   processChildren
   // dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 import TooltipWithEvents from './TooltipWithEvents'
 import TooltipPortal from './TooltipPortal'
 
@@ -40,7 +43,6 @@ export default class Tooltip extends React.PureComponent {
       'left'
     ]),
     align: PropTypes.oneOf([null, 'center', 'right', 'left']),
-    class: PropTypes.string,
     animate_position: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
@@ -48,6 +50,9 @@ export default class Tooltip extends React.PureComponent {
     show_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     hide_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
+    ...spacingPropTypes,
+
+    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,

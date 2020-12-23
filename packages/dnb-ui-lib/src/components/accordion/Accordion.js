@@ -15,7 +15,10 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 
 import AccordionProvider from './AccordionProvider'
 import AccordionHeader from './AccordionHeader'
@@ -102,6 +105,8 @@ export default class Accordion extends React.PureComponent {
 
     className: PropTypes.string,
     children: PropTypes.node,
+
+    ...spacingPropTypes,
 
     custom_element: PropTypes.object,
     custom_method: PropTypes.func,

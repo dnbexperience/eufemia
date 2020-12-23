@@ -77,6 +77,8 @@ export default class Button extends React.PureComponent {
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     inner_ref: PropTypes.object,
 
+    ...spacingPropTypes,
+
     className: PropTypes.string,
     innerRef: PropTypes.object,
     children: PropTypes.oneOfType([

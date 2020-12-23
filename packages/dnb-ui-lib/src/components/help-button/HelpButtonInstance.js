@@ -11,7 +11,10 @@ import {
   extendPropsWithContext
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 import Button from '../button/Button'
 
 export default class HelpButtonInstance extends React.PureComponent {
@@ -26,6 +29,8 @@ export default class HelpButtonInstance extends React.PureComponent {
       PropTypes.func
     ]),
     icon_position: PropTypes.string,
+    ...spacingPropTypes,
+    className: PropTypes.string,
     class: PropTypes.string
   }
 
@@ -34,6 +39,7 @@ export default class HelpButtonInstance extends React.PureComponent {
     variant: 'secondary',
     icon: null,
     icon_position: 'left',
+    className: null,
     class: null
   }
 

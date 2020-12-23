@@ -19,7 +19,10 @@ import {
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 
 import Radio from '../radio/Radio'
 import Checkbox from '../checkbox/Checkbox'
@@ -84,8 +87,10 @@ export default class ToggleButton extends React.PureComponent {
     icon_size: PropTypes.string,
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    class: PropTypes.string,
 
+    ...spacingPropTypes,
+
+    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 

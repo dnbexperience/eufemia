@@ -14,7 +14,10 @@ import {
   dispatchCustomElementEvent,
   extendPropsWithContext
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 
 export default class ProgressIndicator extends React.PureComponent {
@@ -30,8 +33,14 @@ export default class ProgressIndicator extends React.PureComponent {
     label: PropTypes.node,
     label_direction: PropTypes.string,
     show_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     indicator_label: PropTypes.string,
+
+    ...spacingPropTypes,
+
+    class: PropTypes.string,
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+
     on_complete: PropTypes.func
   }
 
@@ -44,8 +53,11 @@ export default class ProgressIndicator extends React.PureComponent {
     label: null,
     label_direction: 'horizontal',
     show_label: false,
-    children: null,
     indicator_label: null,
+
+    class: null,
+    className: null,
+    children: null,
 
     on_complete: null
   }
@@ -112,6 +124,8 @@ export default class ProgressIndicator extends React.PureComponent {
       indicator_label,
       label_direction,
       show_label,
+      className,
+      class: _className,
       children,
       progress: _progress, //eslint-disable-line
       visible: _visible, //eslint-disable-line
@@ -142,7 +156,9 @@ export default class ProgressIndicator extends React.PureComponent {
           complete && 'dnb-progress-indicator--complete',
           label_direction && `dnb-progress-indicator--${label_direction}`,
           isTrue(no_animation) && 'dnb-progress-indicator--no-animation',
-          createSpacingClasses(props)
+          createSpacingClasses(props),
+          className,
+          _className
         )}
         {...params}
       >

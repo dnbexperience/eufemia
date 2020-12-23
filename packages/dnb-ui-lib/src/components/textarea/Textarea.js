@@ -20,7 +20,10 @@ import {
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass
@@ -74,6 +77,8 @@ export default class Textarea extends React.PureComponent {
     readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     cols: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+
+    ...spacingPropTypes,
 
     className: PropTypes.string,
     textarea_element: PropTypes.oneOfType([

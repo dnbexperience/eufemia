@@ -7,6 +7,8 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
       "displayName": "ProgressIndicator",
       "props": Object {
         "children": "children",
+        "class": "class",
+        "className": "className",
         "indicator_label": "indicator_label",
         "label": "label",
         "label_direction": "label_direction",
@@ -20,6 +22,8 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
       },
     }
   }
+  class={null}
+  className={null}
   indicator_label={null}
   label={null}
   label_direction="horizontal"

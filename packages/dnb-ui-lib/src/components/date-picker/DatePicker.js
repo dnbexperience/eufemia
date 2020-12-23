@@ -19,7 +19,10 @@ import {
   validateDOMAttributes
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 
 // date-fns
@@ -164,6 +167,8 @@ export default class DatePicker extends React.PureComponent {
     align_picker: PropTypes.oneOf(['auto', 'left', 'right']),
     class: PropTypes.string,
     className: PropTypes.string,
+
+    ...spacingPropTypes,
 
     custom_element: PropTypes.object,
     custom_method: PropTypes.func,

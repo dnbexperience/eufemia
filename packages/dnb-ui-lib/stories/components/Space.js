@@ -19,7 +19,7 @@ import {
 } from '../../src/components'
 import { H1, H2 } from '../../src/elements'
 import Provider from '../../src/shared/Provider'
-// import { createSpacingClasses } from '../../src/components/space/SpacingHelper'
+// import { spacingPropTypes, createSpacingClasses } from '../../src/components/space/SpacingHelper'
 
 export default {
   title: 'Eufemia/Components/Space'

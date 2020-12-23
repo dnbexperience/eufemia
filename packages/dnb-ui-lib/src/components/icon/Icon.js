@@ -14,11 +14,11 @@ import {
   processChildren,
   extendPropsWithContext
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
 import {
-  // skeletonDOMAttributes,
-  createSkeletonClass
-} from '../skeleton/SkeletonHelper'
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
+import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
 
 export const DefaultIconSize = 16
@@ -69,6 +69,8 @@ export default class Icon extends React.PureComponent {
     title: PropTypes.string,
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+
+    ...spacingPropTypes,
 
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
