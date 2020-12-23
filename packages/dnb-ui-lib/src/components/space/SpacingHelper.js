@@ -105,7 +105,10 @@ export const sumTypes = (types) =>
 
 // Returns an array with modifiers e.g. ["--large" + "--x-small"]
 export const createTypeModifyers = (types) => {
-  return splitTypes(types).reduce((acc, type) => {
+  if (typeof types === 'number') {
+    types = String(types)
+  }
+  return (splitTypes(types) || []).reduce((acc, type) => {
     if (type) {
       const firstLetter = type[0]
       if (parseFloat(firstLetter) > -1) {
@@ -205,7 +208,7 @@ export const removeSpaceProps = ({ ...props }) => {
 export const createSpacingClasses = (props, Element = null) => {
   if (typeof props.space !== 'undefined') {
     for (let i in props.space) {
-      if (isValidSpaceProp(i)) {
+      if (!props[i] && isValidSpaceProp(i)) {
         props[i] = props.space[i]
       }
       delete props.space
