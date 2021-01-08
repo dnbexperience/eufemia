@@ -72,17 +72,19 @@ export const createTypes = async (
       const sourceDir = path.dirname(file)
 
       if (
-        /^index/.test(basename) ||
-        (/^[A-Z]/.test(basename) &&
-          !(await fileContains(file, 'propTypes')))
+        /^index/.test(basename)
+        //  ||
+        // (/^[A-Z]/.test(basename) &&
+        //   !(await fileContains(file, 'propTypes')))
       ) {
         if (!fs.existsSync(destFile)) {
           await fs.copyFile(file, destFile)
         }
       } else if (
-        (/^[A-Z]/.test(basename) &&
-          (await fileContains(file, 'propTypes'))) ||
-        file.includes('src/icons/')
+        /^[A-Z]/.test(basename) &&
+        (await fileContains(file, 'propTypes'))
+        //    ||
+        // file.includes('src/icons/')
       ) {
         const docs = await fetchPropertiesFromDocs({
           file,
