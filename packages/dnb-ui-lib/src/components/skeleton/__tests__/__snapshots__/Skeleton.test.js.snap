@@ -24,6 +24,7 @@ exports[`Skeleton component have to match snapshot 1`] = `
     no_collapse={null}
     right={null}
     skeleton={null}
+    space={null}
     top={null}
   >
     <Element

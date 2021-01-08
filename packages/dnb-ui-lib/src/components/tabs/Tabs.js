@@ -20,7 +20,10 @@ import {
   getPreviousSibling,
   filterProps
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 import {
   createSkeletonClass,
   skeletonDOMAttributes
@@ -81,8 +84,10 @@ export default class Tabs extends React.PureComponent {
     scroll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     id: PropTypes.string,
-    class: PropTypes.string,
 
+    ...spacingPropTypes,
+
+    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.object,
@@ -1124,6 +1129,9 @@ class CustomContent extends React.PureComponent {
     hash: PropTypes.string, // eslint-disable-line
     selected: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
+
+    ...spacingPropTypes,
+
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
     class: PropTypes.string

@@ -15,7 +15,10 @@ import {
   combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 
 import FormRow from '../form-row/FormRow'
 import FormStatus from '../form-status/FormStatus'
@@ -63,8 +66,10 @@ export default class RadioGroup extends React.PureComponent {
     vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     value: PropTypes.string,
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    class: PropTypes.string,
 
+    ...spacingPropTypes,
+
+    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,

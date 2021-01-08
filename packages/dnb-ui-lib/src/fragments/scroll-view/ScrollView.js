@@ -13,13 +13,17 @@ import {
   processChildren
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import { createSpacingClasses } from '../../components/space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../../components/space/SpacingHelper'
 
 class ScrollView extends React.PureComponent {
   static tagName = 'dnb-scroll-view'
   static contextType = Context
 
   static propTypes = {
+    ...spacingPropTypes,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,

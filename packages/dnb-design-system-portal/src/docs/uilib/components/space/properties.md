@@ -6,12 +6,13 @@ showTabs: true
 
 These properties are available in many other components and elements.
 
-| Properties | Description                                                                                       |
-| ---------- | ------------------------------------------------------------------------------------------------- |
-| `top`      | _(optional)_ Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.    |
-| `left`     | _(optional)_ Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.   |
-| `bottom`   | _(optional)_ Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`. |
-| `right`    | _(optional)_ Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.  |
+| Properties | Description                                                                                                                                  |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `space`    | _(optional)_ Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`. |
+| `top`      | _(optional)_ Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.                                               |
+| `right`    | _(optional)_ Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.                                             |
+| `bottom`   | _(optional)_ Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.                                            |
+| `left`     | _(optional)_ Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.                                              |
 
 ## Component Properties
 

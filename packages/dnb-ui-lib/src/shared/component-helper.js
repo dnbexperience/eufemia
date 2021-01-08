@@ -105,6 +105,9 @@ export const validateDOMAttributes = (props, params) => {
   if (params.disabled === null || params.disabled === 'false') {
     delete params.disabled
   }
+  if (typeof params.space !== 'undefined') {
+    delete params.space
+  }
   if (typeof params.top !== 'undefined') {
     delete params.top
   }
@@ -438,7 +441,11 @@ export const toPascalCase = (s) =>
 
 // transform MyComponent to my_component
 export const toSnakeCase = (str) =>
-  str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`)
+  str.replace(/\B[A-Z]/g, (letter) => `_${letter}`).toLowerCase()
+
+// transform MyComponent to my-component
+export const toLispCase = (str) =>
+  str.replace(/\B[A-Z]/g, (letter) => `-${letter}`).toLowerCase()
 
 // Removed as we now run function props from Web Components (custom-element)
 // export const pickRenderProps = (props, renderProps) =>

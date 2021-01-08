@@ -23,7 +23,10 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass
 } from '../skeleton/SkeletonHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 import GlobalStatusController, {
   GlobalStatusInterceptor
 } from './GlobalStatusController'
@@ -84,8 +87,10 @@ export default class GlobalStatus extends React.PureComponent {
     ]),
     status_anchor_text: PropTypes.string,
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    class: PropTypes.string,
 
+    ...spacingPropTypes,
+
+    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,

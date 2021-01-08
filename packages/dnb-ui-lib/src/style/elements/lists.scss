@@ -38,9 +38,14 @@
   }
 }
 @mixin ulStyle() {
-  margin: 0;
+  &:not([class*='dnb-space']) {
+    margin: 0;
+  }
+
   padding: 0;
-  padding-left: 2rem;
+  &:not([class*='dnb-space__left']) {
+    padding-left: 2rem;
+  }
 
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
@@ -98,7 +103,9 @@
   }
 }
 @mixin dlStyle() {
-  margin: 0;
+  &:not([class*='dnb-space']) {
+    margin: 0;
+  }
   padding: 0;
 
   font-size: var(--font-size-basis);
@@ -198,9 +205,14 @@
 
 // Un-styled list helper
 @mixin unstyledList() {
-  margin: 0;
   list-style-type: none;
-  padding-left: 0;
+
+  &:not([class*='dnb-space']) {
+    margin: 0;
+  }
+  &:not([class*='dnb-space__left']) {
+    padding-left: 0;
+  }
 
   > li {
     list-style-type: none;

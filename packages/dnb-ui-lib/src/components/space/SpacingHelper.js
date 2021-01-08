@@ -3,7 +3,61 @@
  *
  */
 
+import PropTypes from 'prop-types'
 import { warn } from '../../shared/component-helper'
+
+export const spacingPropTypes = {
+  space: PropTypes.shape({
+    top: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ]),
+    right: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ]),
+    bottom: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ]),
+    left: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ])
+  }),
+  top: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ]),
+  right: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ]),
+  bottom: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ]),
+  left: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool
+  ])
+}
+
+export const spacingDefaultProps = {
+  space: null,
+  top: null,
+  right: null,
+  bottom: null,
+  left: null
+}
 
 // IMPORTANT: Keep the shorthand after the long type names
 export const spacePatterns = {
@@ -51,7 +105,10 @@ export const sumTypes = (types) =>
 
 // Returns an array with modifiers e.g. ["--large" + "--x-small"]
 export const createTypeModifyers = (types) => {
-  return splitTypes(types).reduce((acc, type) => {
+  if (typeof types === 'number') {
+    types = String(types)
+  }
+  return (splitTypes(types) || []).reduce((acc, type) => {
     if (type) {
       const firstLetter = type[0]
       if (parseFloat(firstLetter) > -1) {
@@ -148,8 +205,17 @@ export const removeSpaceProps = ({ ...props }) => {
 }
 
 // Creates a valid space CSS class out from given space types
-export const createSpacingClasses = (props, Element = null) =>
-  Object.entries(props).reduce((acc, [direction, cur]) => {
+export const createSpacingClasses = (props, Element = null) => {
+  if (typeof props.space !== 'undefined') {
+    for (let i in props.space) {
+      if (!props[i] && isValidSpaceProp(i)) {
+        props[i] = props.space[i]
+      }
+      delete props.space
+    }
+  }
+
+  return Object.entries(props).reduce((acc, [direction, cur]) => {
     if (isValidSpaceProp(direction)) {
       if (String(cur) === '0' || String(cur) === 'false') {
         acc.push(`dnb-space__${direction}--zero`)
@@ -185,6 +251,7 @@ export const createSpacingClasses = (props, Element = null) =>
 
     return acc
   }, [])
+}
 
 // Creates a CSS Style Object out from given space types
 export const createStyleObject = (props) => {

@@ -15,7 +15,10 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../../components/space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../../components/space/SpacingHelper'
 
 import DrawerListContext from './DrawerListContext'
 import DrawerListProvider from './DrawerListProvider'
@@ -127,6 +130,8 @@ export default class DrawerList extends React.PureComponent {
       PropTypes.func
     ]),
     ignore_events: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    ...spacingPropTypes,
 
     className: PropTypes.string,
     children: PropTypes.oneOfType([

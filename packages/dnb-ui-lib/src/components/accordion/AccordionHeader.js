@@ -14,7 +14,10 @@ import IconPrimary from '../../components/icon-primary/IconPrimary'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import AccordionContext from './AccordionContext'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass
@@ -33,6 +36,7 @@ function AccordionHeaderTitle({ children, ...rest }) {
   )
 }
 AccordionHeaderTitle.propTypes = {
+  ...spacingPropTypes,
   children: PropTypes.node
 }
 AccordionHeaderTitle.defaultProps = {
@@ -52,6 +56,7 @@ function AccordionHeaderDescription({ children, ...rest }) {
   ) : null
 }
 AccordionHeaderDescription.propTypes = {
+  ...spacingPropTypes,
   children: PropTypes.node
 }
 AccordionHeaderDescription.defaultProps = {
@@ -71,6 +76,7 @@ function AccordionHeaderContainer({ children, ...rest }) {
   ) : null
 }
 AccordionHeaderContainer.propTypes = {
+  ...spacingPropTypes,
   children: PropTypes.node
 }
 AccordionHeaderContainer.defaultProps = {
@@ -140,6 +146,8 @@ export default class AccordionHeader extends React.PureComponent {
     icon_size: PropTypes.string,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
+    ...spacingPropTypes,
 
     className: PropTypes.string,
     children: PropTypes.oneOfType([

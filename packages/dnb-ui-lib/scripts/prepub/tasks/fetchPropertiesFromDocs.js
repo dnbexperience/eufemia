@@ -8,13 +8,19 @@ import path from 'path'
 import { log } from '../../lib'
 import { asyncForEach } from '../../tools'
 import { Extractor } from 'markdown-tables-to-json'
+import { toLispCase } from '../../../src/shared/component-helper'
 
-const rootDir = path.resolve(
+const ROOT_DIR = path.resolve(
   path.dirname(require.resolve('dnb-design-system-portal/package.json')),
   'src/docs/uilib'
 )
 
-export async function fetchPropertiesFromDocs({ file } = {}) {
+export async function fetchPropertiesFromDocs({
+  file, // Component file
+  docsDir = ROOT_DIR, // The dir, where the docs are placed
+  findFiles = ['properties.md', 'events.md'], // type of .md files to look for
+  includeSpecialDirs = false // special path setup
+} = {}) {
   log.start('> PrePublish: generating types')
 
   const basename = path.basename(file)
@@ -24,28 +30,24 @@ export async function fetchPropertiesFromDocs({ file } = {}) {
     const parts = file
       .split('/')
       .map((fn) =>
-        path.basename(fn).replace(path.extname(file), '').toLowerCase()
+        toLispCase(path.basename(fn).replace(path.extname(file), ''))
       )
-    const index = parts.findIndex((fn) => fn === filename.toLowerCase())
-    const groupDir = parts[index - 1]
-    const componentDir = filename.toLowerCase()
+    const index = parts.findIndex((fn) => fn === toLispCase(filename))
+    const groupDir = includeSpecialDirs ? parts[index - 1] : ''
+    const componentDir = includeSpecialDirs ? toLispCase(filename) : ''
 
-    const markdownFiles = [
-      path.resolve(rootDir, groupDir, componentDir, 'properties.md'),
-      path.resolve(rootDir, groupDir, componentDir, 'events.md')
-    ]
-    const collection = await extractorFactory(markdownFiles)
+    const markdownFiles = findFiles.map((file) => {
+      return path.resolve(docsDir, groupDir, componentDir, file)
+    })
 
-    log.succeed(`> PrePublish: Collected docs for ${filename}`)
-
-    return collection
+    return await extractorFactory(markdownFiles, docsDir)
   } catch (e) {
     log.fail('Failed to load docs')
     throw new Error(e)
   }
 }
 
-async function extractorFactory(markdownFiles) {
+async function extractorFactory(markdownFiles, docsDir = ROOT_DIR) {
   const collections = await asyncForEach(
     markdownFiles,
     async (markdownFile) => {
@@ -87,10 +89,13 @@ async function extractorFactory(markdownFiles) {
         if (key.includes('<a')) {
           const href = /href="([^"]+)"/g.exec(key)[1]
           if (href[0] === '/') {
-            const dir = path.resolve(rootDir, '../')
+            const dir = path.resolve(docsDir, '../')
             const file = path.resolve(dir, href.replace(/^\//, '') + '.md')
             if (fs.existsSync(file)) {
-              const subCollections = await extractorFactory([file])
+              const subCollections = await extractorFactory(
+                [file],
+                docsDir
+              )
 
               if (
                 Array.isArray(subCollections) &&
@@ -100,12 +105,10 @@ async function extractorFactory(markdownFiles) {
                   Object.assign(collection, subCol)
                 })
               }
-            } else {
-              continue
             }
-          } else {
-            continue
           }
+
+          continue
         }
 
         // Duplicate if several props do have the same docs
@@ -125,14 +128,15 @@ async function extractorFactory(markdownFiles) {
         }
       }
 
+      log.succeed(`> PrePublish: Collected docs for ${markdownFile}`)
+
       return collection
     }
   )
 
-  const docs = collections.reduce(
-    (acc, cur) => Object.assign(acc, cur),
-    collections
-  )
+  const docs = collections
+    .filter(Boolean)
+    .reduce((acc, cur) => Object.assign(acc, cur), collections)
 
   return docs
 }

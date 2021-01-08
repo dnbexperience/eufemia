@@ -11,7 +11,10 @@ import {
   validateDOMAttributes,
   extendPropsWithContext
 } from '../shared/component-helper'
-import { createSpacingClasses } from '../components/space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../components/space/SpacingHelper'
 import {
   // AutoSize,
   createSkeletonClass,
@@ -24,6 +27,9 @@ class Elem extends React.PureComponent {
     is: PropTypes.string.isRequired,
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton_method: PropTypes.string,
+
+    ...spacingPropTypes,
+
     className: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.object,

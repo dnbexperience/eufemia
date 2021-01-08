@@ -16,7 +16,10 @@ import {
   combineDescribedBy,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 
 import FormRow from '../form-row/FormRow'
 import FormStatus from '../form-status/FormStatus'
@@ -68,8 +71,10 @@ export default class ToggleButtonGroup extends React.PureComponent {
     ]),
     values: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    class: PropTypes.string,
 
+    ...spacingPropTypes,
+
+    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,

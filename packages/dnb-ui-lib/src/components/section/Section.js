@@ -14,7 +14,10 @@ import {
   processChildren,
   extendPropsWithContext
 } from '../../shared/component-helper'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 
 export default class Section extends React.PureComponent {
   static tagName = 'dnb-section'
@@ -24,8 +27,10 @@ export default class Section extends React.PureComponent {
     style_type: PropTypes.string,
     spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     element: PropTypes.string,
-    class: PropTypes.string,
 
+    ...spacingPropTypes,
+
+    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,

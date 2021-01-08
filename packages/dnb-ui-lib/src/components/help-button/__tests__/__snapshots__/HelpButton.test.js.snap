@@ -13,6 +13,7 @@ exports[`HelpButton component have to match snapshot 1`] = `
 >
   <HelpButtonInstance
     class={null}
+    className={null}
     icon="question"
     icon_position="left"
     id="help-button"

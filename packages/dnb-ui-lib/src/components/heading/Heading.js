@@ -12,7 +12,10 @@ import {
   registerElement
 } from '../../shared/component-helper'
 import '../../shared/helpers'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 import HeadingContext from './HeadingContext'
 import Context from '../../shared/Context'
 import HeadingProvider from './HeadingProvider'
@@ -78,8 +81,10 @@ export default class Heading extends React.PureComponent {
 
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     element: PropTypes.string,
-    class: PropTypes.string,
 
+    ...spacingPropTypes,
+
+    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
   }

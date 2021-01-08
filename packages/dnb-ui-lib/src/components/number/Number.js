@@ -27,7 +27,10 @@ import {
   IS_WIN,
   IS_IE11
 } from '../../shared/helpers'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 
 const NUMBER_CHARS = '-0-9,.'
 
@@ -72,8 +75,10 @@ export default class Number extends React.PureComponent {
     omit_rounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     clean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     element: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    class: PropTypes.string,
 
+    ...spacingPropTypes,
+
+    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
   }

@@ -18,7 +18,10 @@ import AlignmentHelper from '../../shared/AlignmentHelper'
 import Context from '../../shared/Context'
 import hashSum from '../../shared/libs/HashSum'
 import FormLabel from '../form-label/FormLabel'
-import { createSpacingClasses } from '../space/SpacingHelper'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 
 export default class FormRow extends React.PureComponent {
   static tagName = 'dnb-form-row'
@@ -55,6 +58,9 @@ export default class FormRow extends React.PureComponent {
     class: PropTypes.string,
 
     skipContentWrapperIfNested: PropTypes.bool,
+
+    ...spacingPropTypes,
+
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,

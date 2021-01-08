@@ -5,9 +5,14 @@
 
 @mixin hrStyle() {
   position: relative;
-  margin: 0;
   padding: 0;
   height: 0;
+
+  display: flex;
+
+  &:not([class*='dnb-space']) {
+    margin: 0;
+  }
 
   border: 0;
   color: var(--color-black-80);

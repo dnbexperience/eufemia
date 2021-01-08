@@ -67,6 +67,9 @@ describe('createTypeModifyers', () => {
       'large'
     ])
     expect(createTypeModifyers('2 0.5')).toEqual(['large', 'x-small'])
+    expect(createTypeModifyers(1)).toEqual(['small'])
+    expect(createTypeModifyers(true)).toEqual(['small'])
+    expect(createTypeModifyers(null)).toEqual([])
   })
 })
 
