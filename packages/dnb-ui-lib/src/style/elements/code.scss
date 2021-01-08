@@ -20,7 +20,9 @@
 @mixin preStyle() {
   display: block;
 
-  margin: 0;
+  &:not([class*='dnb-space']) {
+    margin: 0;
+  }
   padding: 1rem;
 
   border-radius: 0.5rem;

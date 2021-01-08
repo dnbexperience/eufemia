@@ -56,19 +56,15 @@ render(<>
   <Dl>
     <Dt>Light 0.5px</Dt>
     <Dd><Hr light /></Dd>
-    <Dd>{' '}</Dd>
   </Dl>
   <Dl>
     <Dt>Default 1px</Dt>
     <Dd><Hr /></Dd>
-    <Dd>{' '}</Dd>
   </Dl>
   <Dl>
     <Dt>Medium 1.5px</Dt>
     <Dd><Hr medium /></Dd>
-    <Dd>{' '}</Dd>
   </Dl>
-  {' '}
 </>)
 `}
 </ComponentBox>

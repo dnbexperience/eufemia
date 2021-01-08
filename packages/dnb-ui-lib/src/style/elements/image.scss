@@ -40,7 +40,9 @@
 .dnb-img {
   display: inline-flex;
   flex-direction: column;
-  margin: 0;
+  &:not([class*='dnb-space']) {
+    margin: 0;
+  }
   padding: 0;
 
   text-align: center; // works on Chrome – hides the alt text

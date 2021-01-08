@@ -7,7 +7,9 @@
   display: inline-block;
   width: auto;
 
-  margin: 0;
+  &:not([class*='dnb-space']) {
+    margin: 0;
+  }
   padding: 1.5rem;
 
   font-size: var(--font-size-small);
@@ -33,6 +35,7 @@
   }
 
   // default
+  // stylelint-disable-next-line
   &,
   &.dnb-blockquote--left {
     padding-left: 6rem;
