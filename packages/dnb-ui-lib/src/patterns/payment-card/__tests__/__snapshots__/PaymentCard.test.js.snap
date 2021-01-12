@@ -224,10 +224,12 @@ exports[`PaymentCard have to match snapshot 1`] = `
                   <P
                     bold={null}
                     className="dnb-payment-card__card__holder"
+                    element="p"
                     medium={null}
-                    modifier={null}
+                    modifier="x-small bold"
+                    size={null}
                     small={null}
-                    style_type="x-small bold"
+                    style_type={null}
                   >
                     <ForwardRef
                       _ref={null}
@@ -260,8 +262,10 @@ exports[`PaymentCard have to match snapshot 1`] = `
                   <P
                     bold={null}
                     className="dnb-payment-card__card__numbers"
+                    element="p"
                     medium={null}
                     modifier={null}
+                    size={null}
                     small={null}
                     style_type={null}
                   >
