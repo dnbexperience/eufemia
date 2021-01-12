@@ -11,7 +11,7 @@ exports[`Icon component have to match snapshot 1`] = `
   icon={[Function]}
   inherit_color="inherit_color"
   modifier="modifier"
-  size="PropTypes.number"
+  size={1}
   skeleton="skeleton"
   title="title"
   width="width"
@@ -20,18 +20,20 @@ exports[`Icon component have to match snapshot 1`] = `
     alt="question mark"
     aria-label="SvgComponent icon"
     attributes="attributes"
-    className="dnb-icon dnb-icon--default className dnb-icon--modifier"
+    className="dnb-icon dnb-icon--custom-size className dnb-icon--modifier"
     role="img"
     title="title"
   >
     <SvgComponent
       color="color"
+      height={1}
+      width={1}
     >
       <svg
         color="color"
-        height="16"
+        height={1}
         viewBox="0 0 16 16"
-        width="16"
+        width={1}
       >
         <g
           clipPath="url(#clip0)"
