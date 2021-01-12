@@ -149,11 +149,11 @@ export default class InputMasked extends React.PureComponent {
           })
         }
         props.onMouseUp = (event) => {
-          fixPositionIssue(event.target)
+          fixPositionIssue(event.target, props)
           callEvent({ event }, 'on_mouse_up')
         }
         props.onTouchEnd = (event) => {
-          fixPositionIssue(event.target)
+          fixPositionIssue(event.target, props)
           callEvent({ event }, 'on_touch_end')
         }
         props.on_focus = (params) => {

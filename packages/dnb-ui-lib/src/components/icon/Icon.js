@@ -59,7 +59,7 @@ export default class Icon extends React.PureComponent {
     /**
      * The Icon size can be either a number or a string
      */
-    size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    size: PropTypes.oneOf([PropTypes.number, 'default', 'medium']),
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     border: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

@@ -33,14 +33,14 @@ import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 
 /**
- * The textarea component is an umbrella component for all textareas which share the same style as the classic `text` textarea field. Radio buttons and other form elements are not included here.
+ * The textarea component is an umbrella component for all textareas which share the same style as the classic `text` textarea field.
  */
 export default class Textarea extends React.PureComponent {
   static tagName = 'dnb-textarea'
   static contextType = Context
 
   static propTypes = {
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.string,
     id: PropTypes.string,
     label: PropTypes.oneOfType([
       PropTypes.string,

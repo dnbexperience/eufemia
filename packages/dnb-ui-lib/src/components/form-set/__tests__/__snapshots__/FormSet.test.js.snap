@@ -11,6 +11,7 @@ exports[`FormSet component have to match snapshot 1`] = `
   element="form"
   id="id"
   no_form="no_form"
+  on_submit={[Function]}
   prevent_submit="prevent_submit"
 >
   <Element
