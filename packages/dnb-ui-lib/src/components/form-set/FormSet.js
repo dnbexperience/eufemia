@@ -47,6 +47,8 @@ export default class FormSet extends React.PureComponent {
       PropTypes.node
     ]),
 
+    on_submit: PropTypes.func,
+
     custom_element: PropTypes.object,
     custom_method: PropTypes.func
   }
@@ -61,6 +63,8 @@ export default class FormSet extends React.PureComponent {
 
     className: null,
     children: null,
+
+    on_submit: null,
 
     custom_element: null,
     custom_method: null
