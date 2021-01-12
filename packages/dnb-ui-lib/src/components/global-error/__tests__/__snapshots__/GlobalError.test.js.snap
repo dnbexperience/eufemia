@@ -865,8 +865,10 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           bold={null}
           bottom="large"
           className={null}
+          element="p"
           medium={null}
           modifier={null}
+          size={null}
           small={null}
           style_type={null}
         >

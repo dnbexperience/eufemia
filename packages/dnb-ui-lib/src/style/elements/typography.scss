@@ -124,6 +124,26 @@
     font-weight: var(--font-weight-bold);
   }
 
+  &--xx-large {
+    font-size: var(--font-size-xx-large);
+    line-height: var(--line-height-x-large);
+  }
+  &--x-large {
+    font-size: var(--font-size-x-large);
+    line-height: var(--line-height-x-large);
+  }
+  &--large {
+    font-size: var(--font-size-large);
+    line-height: var(--line-height-large);
+  }
+  &--basis {
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+  }
+  &--medium {
+    font-size: var(--font-size-medium);
+    line-height: var(--line-height-medium);
+  }
   &--small,
   & > small {
     font-size: var(--font-size-small);

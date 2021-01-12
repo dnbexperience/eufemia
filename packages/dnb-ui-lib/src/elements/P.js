@@ -11,10 +11,12 @@ import E from './Element'
 const P = ({
   style_type,
   modifier,
+  element,
   className,
   small,
   medium,
   bold,
+  size,
 
   ...props
 }) => {
@@ -28,10 +30,11 @@ const P = ({
     modifier = []
   }
 
-  if (small === true) {
+  if (size) {
+    modifier.push(size)
+  } else if (small === true) {
     modifier.push('small')
-  }
-  if (medium === true) {
+  } else if (medium === true) {
     modifier.push('medium')
   }
   if (bold === true) {
@@ -46,7 +49,7 @@ const P = ({
 
   return (
     <E
-      is="p"
+      is={element}
       {...props}
       className={classnames('dnb-p', modifier, className)}
     />
@@ -54,18 +57,30 @@ const P = ({
 }
 P.tagName = 'dnb-p'
 P.propTypes = {
+  element: PropTypes.node,
   className: PropTypes.string,
   small: PropTypes.bool,
   medium: PropTypes.bool,
   bold: PropTypes.bool,
+  size: PropTypes.oneOf([
+    'x-small',
+    'small',
+    'basis',
+    'medium',
+    'large',
+    'x-large',
+    'xx-large'
+  ]),
   style_type: PropTypes.string, // deprecated
   modifier: PropTypes.string
 }
 P.defaultProps = {
+  element: 'p',
   className: null,
   small: null,
   medium: null,
   bold: null,
+  size: null,
   style_type: null, // deprecated
   modifier: null
 }

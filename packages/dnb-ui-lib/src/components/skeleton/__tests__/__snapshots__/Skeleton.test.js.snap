@@ -41,8 +41,10 @@ exports[`Skeleton component have to match snapshot 1`] = `
           <P
             bold={null}
             className={null}
+            element="p"
             medium={null}
             modifier={null}
+            size={null}
             small={null}
             style_type={null}
           >
