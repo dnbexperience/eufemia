@@ -61,7 +61,8 @@ export const createTypes = async (
       // For dev (build:types:dev) mode only
       const isDev =
         process.env.npm_config_argv.includes('build:types:dev') &&
-        !file.includes('/Button.js') &&
+        !file.includes('/Element.js') &&
+        !file.includes('/Blockquote.js') &&
         !file.includes('/Space.js')
       if (isDev) {
         return // stop here
@@ -71,20 +72,13 @@ export const createTypes = async (
       const destFile = file.replace(path.extname(file), '.d.ts')
       const sourceDir = path.dirname(file)
 
-      if (
-        /^index/.test(basename)
-        //  ||
-        // (/^[A-Z]/.test(basename) &&
-        //   !(await fileContains(file, 'propTypes')))
-      ) {
+      if (/^index/.test(basename)) {
         if (!fs.existsSync(destFile)) {
           await fs.copyFile(file, destFile)
         }
       } else if (
         /^[A-Z]/.test(basename) &&
         (await fileContains(file, 'propTypes'))
-        //    ||
-        // file.includes('src/icons/')
       ) {
         const docs = await fetchPropertiesFromDocs({
           file,
@@ -110,13 +104,13 @@ export const createTypes = async (
         if (!isDev && fs.existsSync(destFile)) {
           const { code } = await transformFileAsync(destFile, {
             plugins: [
+              ['@babel/plugin-syntax-typescript', {}],
               [
                 babelPluginIncludeDocs,
                 {
                   docs
                 }
-              ],
-              ['@babel/plugin-syntax-typescript', {}]
+              ]
             ],
             ...babelPluginDefaults
           })
