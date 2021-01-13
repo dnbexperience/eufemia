@@ -15,6 +15,7 @@ import bankid from './bankid.js'
 import bankid_mobile from './bankid_mobile.js'
 import bankid_qr from './bankid_qr.js'
 import bowling from './bowling.js'
+import broken_chain from './broken_chain.js'
 import brush from './brush.js'
 import bsu from './bsu.js'
 import bubble from './bubble.js'
@@ -144,6 +145,7 @@ import transfer_to from './transfer_to.js'
 import trash from './trash.js'
 import undo from './undo.js'
 import upload from './upload.js'
+import video from './video.js'
 import view from './view.js'
 import wallet from './wallet.js'
 import wearables from './wearables.js'
@@ -167,6 +169,7 @@ export {
   bankid_mobile,
   bankid_qr,
   bowling,
+  broken_chain,
   brush,
   bsu,
   bubble,
@@ -296,6 +299,7 @@ export {
   trash,
   undo,
   upload,
+  video,
   view,
   wallet,
   wearables,

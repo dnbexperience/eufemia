@@ -14,6 +14,7 @@ import bankid_medium from './bankid_medium.js'
 import bankid_mobile_medium from './bankid_mobile_medium.js'
 import bankid_qr_medium from './bankid_qr_medium.js'
 import bowling_medium from './bowling_medium.js'
+import broken_chain_medium from './broken_chain_medium.js'
 import brush_medium from './brush_medium.js'
 import bsu_medium from './bsu_medium.js'
 import bubble_medium from './bubble_medium.js'
@@ -144,6 +145,7 @@ import transfer_to_medium from './transfer_to_medium.js'
 import trash_medium from './trash_medium.js'
 import undo_medium from './undo_medium.js'
 import upload_medium from './upload_medium.js'
+import video_medium from './video_medium.js'
 import view_medium from './view_medium.js'
 import wallet_medium from './wallet_medium.js'
 import wearables_medium from './wearables_medium.js'
@@ -166,6 +168,7 @@ export {
   bankid_mobile_medium,
   bankid_qr_medium,
   bowling_medium,
+  broken_chain_medium,
   brush_medium,
   bsu_medium,
   bubble_medium,
@@ -296,6 +299,7 @@ export {
   trash_medium,
   undo_medium,
   upload_medium,
+  video_medium,
   view_medium,
   wallet_medium,
   wearables_medium,
