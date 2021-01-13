@@ -266,10 +266,15 @@ Svg.propTypes = {
     .isRequired
 }
 
-const Svg404 = ({ title, ...props }) => (
+const Svg404 = ({ title, width, height, ...props }) => (
   <svg
-    width="339"
-    height="360"
+    style={{
+      '--data-width': width,
+      '--data-height': height
+    }}
+    width={width}
+    height={height}
+    viewBox={`0 0 ${width} ${height}`}
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
@@ -363,13 +368,24 @@ const Svg404 = ({ title, ...props }) => (
   </svg>
 )
 Svg404.propTypes = {
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  width: PropTypes.number,
+  height: PropTypes.number
+}
+Svg404.defaultProps = {
+  width: 339,
+  height: 360
 }
 
-const Svg500 = ({ title, ...props }) => (
+const Svg500 = ({ title, width, height, ...props }) => (
   <svg
-    width="500"
-    height="360"
+    style={{
+      '--data-width': width,
+      '--data-height': height
+    }}
+    width={width}
+    height={height}
+    viewBox={`0 0 ${width} ${height}`}
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
@@ -568,5 +584,11 @@ const Svg500 = ({ title, ...props }) => (
   </svg>
 )
 Svg500.propTypes = {
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  width: PropTypes.number,
+  height: PropTypes.number
+}
+Svg500.defaultProps = {
+  width: 500,
+  height: 360
 }

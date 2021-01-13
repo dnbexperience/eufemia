@@ -512,7 +512,8 @@ button.dnb-button::-moz-focus-inner {
       .dnb-global-error__back.dnb-button--tertiary {
         left: var(--spacing-x-small); } }
   .dnb-global-error__gfx {
-    margin-top: 9rem; }
+    margin-top: 9rem;
+    shape-rendering: geometricPrecision; }
     @media screen and (max-width: 90em) {
       .dnb-global-error__gfx {
         margin-top: 8vw;
@@ -521,6 +522,10 @@ button.dnb-button::-moz-focus-inner {
       .dnb-global-error__gfx {
         margin-top: 0;
         transform: scale(0.8); } }
+    @supports (color: var(--data-width)) {
+      .dnb-global-error__gfx {
+        width: calc(var(--data-width, 100%) / 16 * 1em);
+        height: calc(var(--data-height, 100%) / 16 * 1em); } }
   @media screen and (max-width: 40em) {
     .dnb-global-error .dnb-h--xx-large.dnb-space__top--xx-large.dnb-space__top--x-small {
       margin-top: 0;
@@ -681,15 +686,24 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
       >
         <Svg404
           className="dnb-global-error__gfx"
+          height={360}
           role="presentation"
           title="alt"
+          width={339}
         >
           <svg
             className="dnb-global-error__gfx"
             fill="none"
-            height="360"
+            height={360}
             role="presentation"
-            width="339"
+            style={
+              Object {
+                "--data-height": 360,
+                "--data-width": 339,
+              }
+            }
+            viewBox="0 0 339 360"
+            width={339}
             xmlns="http://www.w3.org/2000/svg"
           >
             <title>

@@ -41,6 +41,8 @@ import bell from './bell.js'
 import bell_medium from './bell_medium.js'
 import bowling from './bowling.js'
 import bowling_medium from './bowling_medium.js'
+import broken_chain from './broken_chain.js'
+import broken_chain_medium from './broken_chain_medium.js'
 import brush from './brush.js'
 import brush_medium from './brush_medium.js'
 import bsu from './bsu.js'
@@ -334,6 +336,8 @@ import undo from './undo.js'
 import undo_medium from './undo_medium.js'
 import upload from './upload.js'
 import upload_medium from './upload_medium.js'
+import video from './video.js'
+import video_medium from './video_medium.js'
 import view from './view.js'
 import view_medium from './view_medium.js'
 import wallet from './wallet.js'
@@ -389,6 +393,8 @@ export {
   bell_medium,
   bowling,
   bowling_medium,
+  broken_chain,
+  broken_chain_medium,
   brush,
   brush_medium,
   bsu,
@@ -682,6 +688,8 @@ export {
   undo_medium,
   upload,
   upload_medium,
+  video,
+  video_medium,
   view,
   view_medium,
   wallet,

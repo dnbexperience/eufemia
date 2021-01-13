@@ -105,6 +105,22 @@ steps:
           - fix/*
           - rc/*
 
+  - name: run Figma post build
+    image: tujoworker/docker-node-puppeteer
+    environment:
+      GH_EMAIL:
+        from_secret: GH_EMAIL
+      GH_NAME:
+        from_secret: GH_NAME
+      GH_TOKEN:
+        from_secret: GH_TOKEN
+    commands:
+      - yarn workspace dnb-ui-lib postbuild:ci:figma
+    when:
+      branch:
+        include:
+          - eufemia-icons
+
   - name: run screenshot tests
     image: tujoworker/docker-node-puppeteer
     environment:
@@ -129,22 +145,6 @@ steps:
           - ftr/*
           - fix/*
           - rc/*
-
-  - name: run Figma post build
-    image: tujoworker/docker-node-puppeteer
-    environment:
-      GH_EMAIL:
-        from_secret: GH_EMAIL
-      GH_NAME:
-        from_secret: GH_NAME
-      GH_TOKEN:
-        from_secret: GH_TOKEN
-    commands:
-      - yarn workspace dnb-ui-lib postbuild:ci:figma
-    when:
-      branch:
-        include:
-          - eufemia-icons
 
   - name: postbuild
     image: tujoworker/docker-node-puppeteer

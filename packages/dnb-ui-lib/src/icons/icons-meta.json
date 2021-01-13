@@ -1031,6 +1031,18 @@
     "name": "navigation/hamburger_16",
     "variant": "secondary"
   },
+  "video": {
+    "tags": ["film", "movie", "play"],
+    "created": 1610569516405,
+    "name": "objects/video_16",
+    "variant": "secondary"
+  },
+  "broken_chain": {
+    "tags": ["broken link"],
+    "created": 1610569516806,
+    "name": "objects/broken_chain_16",
+    "variant": "secondary"
+  },
   "products_account_percent": {
     "tags": ["Loan value ratio"],
     "created": 1607888639580,
