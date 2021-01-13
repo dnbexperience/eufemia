@@ -1404,15 +1404,6 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-:root {
-  --date-picker-header-color: var(--color-black-80);
-  --date-picker-labels-day-color: var(--color-black-80);
-  --date-picker-selected-color: var(--color-mint-green-25);
-  --date-picker-inactive-color: var(--color-black-55);
-  --date-picker-selected-bg-color: var(--color-emerald-green);
-  --date-picker-selected-bg-color-hover: var(--color-emerald-green);
-  --date-picker-within-selection-bg-color: var(--color-mint-green-50); }
-
 .dnb-date-picker {
   /* stylelint-disable */
   /* stylelint-enable */ }
@@ -1443,11 +1434,11 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
     text-align: center;
     font-size: var(--font-size-basis);
     font-weight: var(--font-weight-medium);
-    color: var(--date-picker-header-color); }
+    color: var(--color-black-80); }
   .dnb-date-picker__labels__day {
     text-transform: capitalize;
     font-weight: var(--font-weight-medium);
-    color: var(--date-picker-labels-day-color); }
+    color: var(--color-black-80); }
   .dnb-date-picker__day, .dnb-date-picker__labels__day {
     text-align: center; }
   .dnb-date-picker__day--today .dnb-button {
@@ -1457,24 +1448,24 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
   .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:hover) {
     background-color: transparent; }
   .dnb-date-picker__day--preview:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date), .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) {
-    background-color: var(--date-picker-within-selection-bg-color); }
+    background-color: var(--color-mint-green-50); }
   .dnb-date-picker__day--start-date:not(.dnb-date-picker__day--inactive)::after, .dnb-date-picker__day--end-date:not(.dnb-date-picker__day--inactive)::after {
-    background-color: var(--date-picker-within-selection-bg-color); }
+    background-color: var(--color-mint-green-50); }
   .dnb-date-picker__day--start-date:not(.dnb-date-picker__day--inactive) .dnb-button, .dnb-date-picker__day--end-date:not(.dnb-date-picker__day--inactive) .dnb-button {
-    color: var(--date-picker-selected-color);
-    background-color: var(--date-picker-selected-bg-color); }
+    color: var(--color-mint-green-25);
+    background-color: var(--color-emerald-green); }
   .dnb-date-picker__day--start-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--preview) .dnb-button:hover, .dnb-date-picker__day--end-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--preview) .dnb-button:hover {
     box-shadow: none; }
   html:not([data-whatintent='touch'])
 .dnb-date-picker__day--start-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]),
   html:not([data-whatintent='touch'])
 .dnb-date-picker__day--end-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]) {
-    color: var(--date-picker-selected-color);
-    background-color: var(--date-picker-selected-bg-color-hover); }
+    color: var(--color-mint-green-25);
+    background-color: var(--color-emerald-green); }
   .dnb-date-picker__day--disabled .dnb-button {
     text-decoration: line-through; }
   .dnb-date-picker__day--inactive .dnb-button {
-    color: var(--date-picker-inactive-color); }
+    color: var(--color-black-55); }
   .dnb-date-picker__day--inactive .dnb-button[disabled],
   .dnb-date-picker__day--disabled .dnb-button[disabled] {
     box-shadow: none; }

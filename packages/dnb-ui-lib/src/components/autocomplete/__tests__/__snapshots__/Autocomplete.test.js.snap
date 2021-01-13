@@ -1086,23 +1086,19 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-:root {
-  --autocomplete-text-color: var(--color-emerald-green);
-  --autocomplete-border-color--selected: var(--color-emerald-green); }
-
 .dnb-autocomplete {
-  color: var(--autocomplete-text-color); }
+  color: var(--color-emerald-green); }
   .dnb-autocomplete__input.dnb-input {
-    color: var(--autocomplete-text-color); }
+    color: var(--color-emerald-green); }
   .dnb-autocomplete--opened .dnb-autocomplete__input.dnb-input .dnb-input__shell {
     box-shadow: none; }
   .dnb-autocomplete--opened .dnb-input__submit-button__button {
-    --border-color: var(--autocomplete-border-color--selected);
+    --border-color: var(--color-emerald-green);
     box-shadow: 0 0 0 0.125rem var(--border-color);
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-autocomplete--opened .dnb-input__submit-button__button {
-        box-shadow: 0 0 0 1px var(--autocomplete-border-color--selected); } }
+        box-shadow: 0 0 0 1px var(--color-emerald-green); } }
 
 .dnb-drawer-list__option__item--highlight {
   font-weight: var(--font-weight-bold); }
