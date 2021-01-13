@@ -6,7 +6,6 @@
 import {
   testPageScreenshot,
   setupPageScreenshot
-  // isCI
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('List screenshot', () => {
