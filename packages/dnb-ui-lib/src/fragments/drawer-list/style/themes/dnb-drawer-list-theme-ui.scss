@@ -6,21 +6,8 @@
 @import '../../../../style/themes/imports.scss';
 
 :root {
-  --drawer-list-text-color: var(--color-emerald-green);
-  --drawer-list-text-color--disabled: var(--color-sea-green-30);
-  --drawer-list-border-color: var(--color-sea-green);
-  --drawer-list-border-color--selected: var(--color-emerald-green);
   --drawer-list-options-border-radius: 0.25rem;
-  --drawer-list-option-color: var(--color-black-80);
-  --drawer-list-option-color--hover: var(--color-sea-green);
-  --drawer-list-option-background-color: var(--color-white);
-  --drawer-list-option-background-color--hover: var(--color-mint-green-12);
-  --drawer-list-option-color--selected: var(--color-white);
-  --drawer-list-option-background-color--selected: var(
-    --color-emerald-green
-  );
   --drawer-list-option-border-width: 0.0625rem;
-  --drawer-list-option-border-color: var(--color-mint-green-25);
 }
 
 @mixin drawerListBorderColor($color) {
@@ -28,11 +15,11 @@
 }
 
 .dnb-drawer-list {
-  color: var(--drawer-list-text-color);
+  color: var(--color-emerald-green);
 
   &__list {
     @include defaultDropShadow();
-    background-color: var(--drawer-list-option-background-color);
+    background-color: var(--color-white);
     border-radius: calc(
       var(--drawer-list-options-border-radius) + 0.15rem
     );
@@ -46,7 +33,7 @@
   // ul element
   &__options {
     border: none;
-    background-color: var(--drawer-list-option-background-color);
+    background-color: var(--color-white);
     border-radius: calc(
       var(--drawer-list-options-border-radius) + 0.15rem
     );
@@ -63,8 +50,8 @@
   // li element inner
   &__option {
     position: relative;
-    color: var(--drawer-list-option-color);
-    background-color: var(--drawer-list-option-background-color);
+    color: var(--color-black-80);
+    background-color: var(--color-white);
 
     &.ignore-events {
       pointer-events: none;
@@ -84,7 +71,7 @@
       // width: 100%; // 100% width would result in no margin right
       height: var(--drawer-list-option-border-width);
 
-      background-color: var(--drawer-list-option-border-color);
+      background-color: var(--color-mint-green-25);
     }
 
     &__item:nth-of-type(1) {
@@ -93,16 +80,14 @@
 
     &__inner {
       padding-right: 2rem;
-      background-color: var(--drawer-list-option-background-color);
+      background-color: var(--color-white);
     }
 
     @include hover() {
-      background-color: var(--drawer-list-option-background-color--hover);
+      background-color: var(--color-mint-green-12);
       .dnb-drawer-list__option__inner {
-        color: var(--drawer-list-option-color--hover);
-        background-color: var(
-          --drawer-list-option-background-color--hover
-        );
+        color: var(--color-sea-green);
+        background-color: var(--color-mint-green-12);
       }
     }
 
@@ -127,26 +112,22 @@
         background-color: transparent;
 
         @include fakeBorder(
-          var(--drawer-list-border-color--selected),
+          var(--color-emerald-green),
           var(--drawer-list-focus-border-width)
         );
       }
     }
 
     &--selected {
-      color: var(--drawer-list-option-color--selected);
-      background-color: var(
-        --drawer-list-option-background-color--selected
-      );
+      color: var(--color-white);
+      background-color: var(--color-emerald-green);
       .dnb-drawer-list__option__inner {
         color: inherit;
         background-color: inherit;
       }
       @include hover() {
-        color: var(--drawer-list-option-color--selected);
-        background-color: var(
-          --drawer-list-option-background-color--selected
-        );
+        color: var(--color-white);
+        background-color: var(--color-emerald-green);
         .dnb-drawer-list__option__inner {
           color: inherit;
           background-color: inherit;
@@ -176,18 +157,16 @@
 
     &--ignore {
       .dnb-drawer-list__option__inner {
-        color: var(--drawer-list-option-color);
-        background-color: var(--drawer-list-option-background-color);
+        color: var(--color-black-80);
+        background-color: var(--color-white);
       }
     }
 
     // Focus ring around item. Only for keyboard usage
     &--focus:not(#{&}--selected) {
       .dnb-drawer-list__option__inner {
-        color: var(--drawer-list-option-color--hover);
-        background-color: var(
-          --drawer-list-option-background-color--hover
-        );
+        color: var(--color-sea-green);
+        background-color: var(--color-mint-green-12);
       }
     }
 
@@ -259,7 +238,7 @@
   &--top
     &__option.closest-to-bottom#{&}__option--focus
     ~ &__triangle::before {
-    background-color: var(--drawer-list-option-background-color--hover);
+    background-color: var(--color-mint-green-12);
   }
 
   // selected
@@ -282,7 +261,7 @@
   &--top
     &__option.closest-to-bottom#{&}__option--selected
     ~ &__triangle::before {
-    background-color: var(--drawer-list-option-background-color--selected);
+    background-color: var(--color-emerald-green);
   }
 
   // ajust the form-status to the inner border for 2px

@@ -4,10 +4,6 @@
  */
 
 @mixin listDefaults() {
-  .dnb-anchor {
-    font-size: inherit;
-  }
-
   & ul,
   & ol {
     margin-top: 0;
@@ -35,6 +31,12 @@
       padding-right: 0;
       text-align: initial;
     }
+  }
+
+  color: var(--theme-color-black-80, inherit);
+
+  .dnb-anchor {
+    font-size: inherit;
   }
 }
 @mixin ulStyle() {
@@ -110,6 +112,7 @@
 
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
+  color: var(--theme-color-black-80, inherit);
 
   & > dt {
     padding: 0;

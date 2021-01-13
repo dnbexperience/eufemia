@@ -5,16 +5,6 @@
 
 @import '../../../../style/themes/imports.scss';
 
-:root {
-  --date-picker-header-color: var(--color-black-80);
-  --date-picker-labels-day-color: var(--color-black-80);
-  --date-picker-selected-color: var(--color-mint-green-25);
-  --date-picker-inactive-color: var(--color-black-55);
-  --date-picker-selected-bg-color: var(--color-emerald-green);
-  --date-picker-selected-bg-color-hover: var(--color-emerald-green);
-  --date-picker-within-selection-bg-color: var(--color-mint-green-50);
-}
-
 .dnb-date-picker {
   &:not(#{&}__status--error) & {
     &__input[value*='0'],
@@ -63,7 +53,7 @@
 
       font-size: var(--font-size-basis);
       font-weight: var(--font-weight-medium);
-      color: var(--date-picker-header-color);
+      color: var(--color-black-80);
     }
   }
 
@@ -71,7 +61,7 @@
     &__day {
       text-transform: capitalize;
       font-weight: var(--font-weight-medium);
-      color: var(--date-picker-labels-day-color);
+      color: var(--color-black-80);
     }
   }
 
@@ -94,17 +84,17 @@
 
     &--preview:not(#{&}--inactive):not(#{&}--start-date):not(#{&}--end-date),
     &--within-selection:not(#{&}--inactive):not(#{&}--start-date):not(#{&}--end-date) {
-      background-color: var(--date-picker-within-selection-bg-color);
+      background-color: var(--color-mint-green-50);
     }
 
     &--start-date:not(#{&}--inactive),
     &--end-date:not(#{&}--inactive) {
       &::after {
-        background-color: var(--date-picker-within-selection-bg-color);
+        background-color: var(--color-mint-green-50);
       }
       .dnb-button {
-        color: var(--date-picker-selected-color);
-        background-color: var(--date-picker-selected-bg-color);
+        color: var(--color-mint-green-25);
+        background-color: var(--color-emerald-green);
       }
     }
     &--start-date:not(#{&}--inactive):not(#{&}--preview),
@@ -122,8 +112,8 @@
     html:not([data-whatintent='touch'])
       &--end-date#{&}--within-selection
       .dnb-button:hover:not([disabled]) {
-      color: var(--date-picker-selected-color);
-      background-color: var(--date-picker-selected-bg-color-hover);
+      color: var(--color-mint-green-25);
+      background-color: var(--color-emerald-green);
     }
 
     &--disabled .dnb-button {
@@ -131,7 +121,7 @@
     }
 
     &--inactive .dnb-button {
-      color: var(--date-picker-inactive-color);
+      color: var(--color-black-55);
     }
 
     &--inactive .dnb-button,

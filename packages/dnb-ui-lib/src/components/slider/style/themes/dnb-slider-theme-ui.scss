@@ -5,18 +5,11 @@
 
 @import '../../../../style/themes/imports.scss';
 
-:root {
-  --slider-track-background: var(--color-sea-green);
-  --slider-track-background--after: var(--color-mint-green-50);
-  --slider-thumb-background: var(--color-white);
-  --slider-thumb-border-color: var(--color-mint-green-50);
-}
-
 .dnb-slider {
   &__line {
-    background-color: var(--slider-track-background);
+    background-color: var(--color-sea-green);
     &__after {
-      background-color: var(--slider-track-background--after);
+      background-color: var(--color-mint-green-50);
     }
   }
   &__state--disabled &__line {
@@ -28,10 +21,10 @@
 
   &__track {
     &::before {
-      background-color: var(--slider-track-background);
+      background-color: var(--color-sea-green);
     }
     &::after {
-      background-color: var(--slider-track-background--after);
+      background-color: var(--color-mint-green-50);
     }
   }
   &__state--disabled#{&}__track {
