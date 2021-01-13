@@ -264,7 +264,7 @@ function CardText({ cardNumber, translations, skeleton }) {
     >
       <P
         className="dnb-payment-card__card__holder"
-        style_type="x-small bold"
+        modifier="x-small bold"
       >
         {translations.text_card_number}
       </P>

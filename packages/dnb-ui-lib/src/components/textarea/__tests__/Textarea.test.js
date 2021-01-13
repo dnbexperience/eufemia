@@ -81,7 +81,7 @@ describe('Textarea component', () => {
 
     const newValue = 'new value'
     const emptyValue = null
-    const zeroValue = 0
+    const zeroValue = '0'
 
     Comp.setProps({
       value: newValue

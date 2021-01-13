@@ -224,15 +224,17 @@ exports[`PaymentCard have to match snapshot 1`] = `
                   <P
                     bold={null}
                     className="dnb-payment-card__card__holder"
+                    element="p"
                     medium={null}
-                    modifier={null}
+                    modifier="x-small bold"
+                    size={null}
                     small={null}
-                    style_type="x-small bold"
+                    style_type={null}
                   >
                     <ForwardRef
                       _ref={null}
                       class={null}
-                      className="dnb-p  dnb-p--x-small dnb-p--bold dnb-payment-card__card__holder"
+                      className="dnb-p  dnb-p__size--x-small dnb-p--bold dnb-payment-card__card__holder"
                       css={null}
                       internalClass={null}
                       is="p"
@@ -242,7 +244,7 @@ exports[`PaymentCard have to match snapshot 1`] = `
                       <Elem
                         _ref={null}
                         class={null}
-                        className="dnb-p  dnb-p--x-small dnb-p--bold dnb-payment-card__card__holder"
+                        className="dnb-p  dnb-p__size--x-small dnb-p--bold dnb-payment-card__card__holder"
                         css={null}
                         internalClass={null}
                         is="p"
@@ -250,7 +252,7 @@ exports[`PaymentCard have to match snapshot 1`] = `
                         skeleton_method="font"
                       >
                         <p
-                          className="dnb-p  dnb-p--x-small dnb-p--bold dnb-payment-card__card__holder"
+                          className="dnb-p  dnb-p__size--x-small dnb-p--bold dnb-payment-card__card__holder"
                         >
                           Kortnummer
                         </p>
@@ -260,8 +262,10 @@ exports[`PaymentCard have to match snapshot 1`] = `
                   <P
                     bold={null}
                     className="dnb-payment-card__card__numbers"
+                    element="p"
                     medium={null}
                     modifier={null}
+                    size={null}
                     small={null}
                     style_type={null}
                   >
