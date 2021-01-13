@@ -31,7 +31,7 @@
   font-size: var(--font-size-xx-large);
   line-height: var(--line-height-x-large);
 
-  // &--small,/* deprecated */
+  // &__size--small,/* deprecated */
   & > small {
     display: block;
     font-size: var(--font-size-x-large);
@@ -42,7 +42,7 @@
   font-size: var(--font-size-x-large);
   line-height: var(--line-height-large);
 
-  // &--small,/* deprecated */
+  // &__size--small,/* deprecated */
   & > small {
     display: block;
     font-size: var(--font-size-x-large);
@@ -53,7 +53,7 @@
   font-size: var(--font-size-large);
   line-height: var(--line-height-medium);
 
-  // &--small,/* deprecated */
+  // &__size--small,/* deprecated */
   & > small {
     font-size: var(--font-size-medium);
     line-height: calc(var(--line-height-medium) - 0.125rem);
@@ -64,7 +64,7 @@
   font-size: var(--font-size-medium);
   line-height: calc(var(--line-height-medium) - 0.25rem);
 
-  // &--small,/* deprecated */
+  // &__size--small,/* deprecated */
   & > small {
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
@@ -110,8 +110,8 @@
     @include headingStyle_medium();
   }
 
-  &__style--ingress,
-  &__style--medium {
+  &--ingress,
+  &--medium {
     font-weight: var(--font-weight-medium);
   }
 
@@ -120,36 +120,38 @@
     font-weight: var(--font-weight-medium);
   }
 
-  &__style--bold {
+  &--bold {
     font-weight: var(--font-weight-bold);
   }
 
-  &--xx-large {
+  &__size--xx-large {
     font-size: var(--font-size-xx-large);
     line-height: var(--line-height-x-large);
   }
-  &--x-large {
+  &__size--x-large {
     font-size: var(--font-size-x-large);
     line-height: var(--line-height-x-large);
   }
-  &--large {
+  &__size--large {
     font-size: var(--font-size-large);
     line-height: var(--line-height-large);
   }
-  &--basis {
+  &__size--basis {
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
   }
-  &--medium {
+  &__size--medium {
     font-size: var(--font-size-medium);
     line-height: var(--line-height-medium);
   }
-  &--small,
+  &--small ,// backwards compatibility
+  &__size--small,
   & > small {
     font-size: var(--font-size-small);
     line-height: var(--line-height-small);
   }
-  &--x-small {
+  &--x-small ,// backwards compatibility
+  &__size--x-small {
     font-size: var(--font-size-x-small);
     line-height: var(--line-height-x-small);
   }

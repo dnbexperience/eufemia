@@ -30,25 +30,23 @@ const P = ({
     modifier.push(style_type) // deprecated
   }
 
-  if (size) {
-    className = classnames(className, `dnb-p--${size}`)
-  } else if (small === true) {
-    className = classnames(className, 'dnb-p--small')
-  }
-
   if (medium === true) {
     modifier.push('medium')
   } else if (bold === true) {
     modifier.push('bold')
   }
 
-  if (Array.isArray(modifier)) {
-    modifier = modifier.filter(Boolean).reduce((acc, cur) => {
-      if (cur === 'small') {
-        return `${acc} dnb-p--${cur}`
-      }
-      return `${acc} dnb-p__style--${cur}`
-    }, '')
+  modifier = modifier.filter(Boolean).reduce((acc, cur) => {
+    if (['x-small', 'small'].includes(cur)) {
+      return `${acc} dnb-p__size--${cur}`
+    }
+    return `${acc} dnb-p--${cur}`
+  }, '')
+
+  if (size) {
+    className = classnames(className, `dnb-p__size--${size}`)
+  } else if (small === true) {
+    className = classnames(className, 'dnb-p__size--small')
   }
 
   return (
