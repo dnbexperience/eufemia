@@ -110,8 +110,8 @@
     @include headingStyle_medium();
   }
 
-  &--ingress,
-  &--medium {
+  &__style--ingress,
+  &__style--medium {
     font-weight: var(--font-weight-medium);
   }
 
@@ -120,7 +120,7 @@
     font-weight: var(--font-weight-medium);
   }
 
-  &--bold {
+  &__style--bold {
     font-weight: var(--font-weight-bold);
   }
 

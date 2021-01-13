@@ -20,14 +20,14 @@ import { Lead, P, Link, ... } from 'dnb-ui-lib/elements'
 
 <Lead>Lead style medium</Lead>
 <P>Paragraph style basis</P>
-<P modifier="small">Paragraph style small</P>
+<P size="small">Paragraph style small</P>
 ```
 
 <ComponentBox data-visual-test="paragraph-modifiers" caption="Default paragraph typography using React JSX">
 {`
 <P>Default paragraph</P>
 <P modifier="medium">Medium weight paragraph</P>
-<P modifier="small">Small paragraph</P>
+<P size="small">Small paragraph</P>
 <P modifier="small medium">Small paragraph with medium weight</P>
 {/*(Bold is currently not supported by DNB UX)*/}
 {/*<P modifier="bold">Bold weight paragraph</P>*/}

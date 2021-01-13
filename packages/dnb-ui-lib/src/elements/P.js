@@ -20,31 +20,35 @@ const P = ({
 
   ...props
 }) => {
-  if (style_type) {
-    modifier = style_type // deprecated
-  }
-
   if (typeof modifier === 'string' && / /.test(modifier)) {
     modifier = modifier.split(/ /g)
-  } else if (!modifier) {
-    modifier = []
+  } else if (!Array.isArray(modifier)) {
+    modifier = [modifier]
+  }
+
+  if (style_type) {
+    modifier.push(style_type) // deprecated
   }
 
   if (size) {
-    modifier.push(size)
+    className = classnames(className, `dnb-p--${size}`)
   } else if (small === true) {
-    modifier.push('small')
-  } else if (medium === true) {
-    modifier.push('medium')
+    className = classnames(className, 'dnb-p--small')
   }
-  if (bold === true) {
+
+  if (medium === true) {
+    modifier.push('medium')
+  } else if (bold === true) {
     modifier.push('bold')
   }
 
   if (Array.isArray(modifier)) {
-    modifier = modifier.reduce((acc, cur) => `${acc} dnb-p--${cur}`, '')
-  } else {
-    modifier = `dnb-p--${modifier}`
+    modifier = modifier.filter(Boolean).reduce((acc, cur) => {
+      if (cur === 'small') {
+        return `${acc} dnb-p--${cur}`
+      }
+      return `${acc} dnb-p__style--${cur}`
+    }, '')
   }
 
   return (
