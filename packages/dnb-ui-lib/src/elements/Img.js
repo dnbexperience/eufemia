@@ -7,6 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import E from './Element'
 import {
+  spacingPropTypes,
   createSpacingClasses,
   removeSpaceProps
 } from '../components/space/SpacingHelper'
@@ -48,6 +49,8 @@ const Img = ({
 }
 Img.tagName = 'dnb-img'
 Img.propTypes = {
+  ...spacingPropTypes,
+
   src: PropTypes.string.isRequired,
   alt: PropTypes.string.isRequired,
   skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

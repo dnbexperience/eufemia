@@ -6,6 +6,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import { spacingPropTypes } from '../components/space/SpacingHelper'
 import E from './Element'
 
 const Anchor = React.forwardRef(({ ...props }, ref) => {
@@ -26,6 +27,8 @@ const Anchor = React.forwardRef(({ ...props }, ref) => {
   )
 })
 Anchor.propTypes = {
+  ...spacingPropTypes,
+
   href: PropTypes.string,
   target: PropTypes.string,
   className: PropTypes.oneOfType([

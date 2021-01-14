@@ -5,6 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { spacingPropTypes } from '../components/space/SpacingHelper'
 import E from './Element'
 
 const Th = (p = {}) => (
@@ -17,6 +18,7 @@ const Th = (p = {}) => (
 )
 Th.tagName = 'dnb-table__th'
 Th.propTypes = {
+  ...spacingPropTypes,
   children: PropTypes.node
 }
 Th.defaultProps = {

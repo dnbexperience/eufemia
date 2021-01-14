@@ -6,6 +6,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import { spacingPropTypes } from '../components/space/SpacingHelper'
 import E from './Element'
 
 const P = ({
@@ -59,6 +60,8 @@ const P = ({
 }
 P.tagName = 'dnb-p'
 P.propTypes = {
+  ...spacingPropTypes,
+
   element: PropTypes.node,
   className: PropTypes.string,
   small: PropTypes.bool,

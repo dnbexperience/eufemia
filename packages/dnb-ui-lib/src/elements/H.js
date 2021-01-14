@@ -6,11 +6,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import { spacingPropTypes } from '../components/space/SpacingHelper'
 import E from './Element'
 import { setNextLevel } from '../components/heading/HeadingHelpers'
 
 export default class H extends React.PureComponent {
   static propTypes = {
+    ...spacingPropTypes,
+
     className: PropTypes.string,
     is: PropTypes.string,
     level: PropTypes.string,
