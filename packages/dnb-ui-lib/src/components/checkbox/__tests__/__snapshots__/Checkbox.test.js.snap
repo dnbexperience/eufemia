@@ -294,6 +294,12 @@ exports[`Checkbox scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
 /*
 * DNB FormLabel
 *
@@ -615,9 +621,7 @@ legend.dnb-form-label {
     display: inline-flex;
     align-items: baseline; }
   .dnb-checkbox__suffix {
-    order: 4;
-    padding-left: 0.5rem;
-    line-height: var(--line-height-basis); }
+    order: 4; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {

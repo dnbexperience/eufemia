@@ -1115,19 +1115,18 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 </DrawerListInstance>
               </DrawerList>
             </span>
-            <span
+            <Suffix
               className="dnb-dropdown__suffix"
-              id="dropdown-id-suffix"
-            >
-              <Suffix
-                action_menu={null}
-                align_dropdown={null}
-                class="class"
-                className="className"
-                custom_element={Object {}}
-                custom_method={[Function]}
-                data={
-                  Array [
+              context={
+                Object {
+                  "action_menu": null,
+                  "align_dropdown": null,
+                  "children": "children",
+                  "class": "class",
+                  "className": "className",
+                  "custom_element": Object {},
+                  "custom_method": [Function],
+                  "data": Array [
                     Object {
                       "content": Array [
                         "1234 56 78901",
@@ -1175,51 +1174,57 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       </React.Fragment>,
                     ],
                     "0y",
-                  ]
+                  ],
+                  "default_value": "default_value",
+                  "direction": "bottom",
+                  "disabled": "disabled",
+                  "focusable": "focusable",
+                  "global_status_id": "global_status_id",
+                  "icon": "icon",
+                  "icon_position": null,
+                  "icon_size": "icon_size",
+                  "id": "dropdown-id",
+                  "independent_width": "independent_width",
+                  "keep_open": "keep_open",
+                  "label": "label",
+                  "label_direction": "horizontal",
+                  "label_sr_only": "label_sr_only",
+                  "max_height": 1,
+                  "more_menu": null,
+                  "no_animation": true,
+                  "no_scroll_animation": "no_scroll_animation",
+                  "on_change": [Function],
+                  "on_hide": [Function],
+                  "on_select": [Function],
+                  "on_show": [Function],
+                  "on_state_update": [Function],
+                  "open_on_focus": "open_on_focus",
+                  "opened": true,
+                  "prevent_close": "prevent_close",
+                  "prevent_selection": null,
+                  "scrollable": "scrollable",
+                  "size": null,
+                  "skeleton": "skeleton",
+                  "skip_portal": true,
+                  "status": "status",
+                  "status_animation": "status_animation",
+                  "status_state": "error",
+                  "suffix": "suffix",
+                  "title": "title",
+                  "triangle_position": null,
+                  "trigger_component": null,
+                  "value": 2,
                 }
-                default_value="default_value"
-                direction="bottom"
-                disabled="disabled"
-                focusable="focusable"
-                global_status_id="global_status_id"
-                icon="icon"
-                icon_position={null}
-                icon_size="icon_size"
-                id="dropdown-id"
-                independent_width="independent_width"
-                keep_open="keep_open"
-                label="label"
-                label_direction="horizontal"
-                label_sr_only="label_sr_only"
-                max_height={1}
-                more_menu={null}
-                no_animation={true}
-                no_scroll_animation="no_scroll_animation"
-                on_change={[Function]}
-                on_hide={[Function]}
-                on_select={[Function]}
-                on_show={[Function]}
-                on_state_update={[Function]}
-                open_on_focus="open_on_focus"
-                opened={true}
-                prevent_close="prevent_close"
-                prevent_selection={null}
-                scrollable="scrollable"
-                size={null}
-                skeleton="skeleton"
-                skip_portal={true}
-                status="status"
-                status_animation="status_animation"
-                status_state="error"
-                suffix="suffix"
-                title="title"
-                triangle_position={null}
-                trigger_component={null}
-                value={2}
+              }
+              id="dropdown-id-suffix"
+            >
+              <span
+                className="dnb-suffix dnb-dropdown__suffix"
+                id="dropdown-id-suffix"
               >
                 suffix
-              </Suffix>
-            </span>
+              </span>
+            </Suffix>
           </span>
         </span>
       </span>
@@ -1299,6 +1304,12 @@ exports[`Dropdown scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
 /*
 * DNB icon
 *
@@ -1870,9 +1881,6 @@ legend.dnb-form-label {
     color: inherit; }
   .dnb-dropdown__row {
     display: inline-flex; }
-  .dnb-dropdown__suffix {
-    padding-left: 0.5rem;
-    line-height: var(--line-height-basis); }
   .dnb-dropdown--large .dnb-drawer-list__triangle {
     margin-left: calc(var(--dropdown-padding-horizontal) - 0.25rem); }
   .dnb-dropdown--icon-position-left.dnb-dropdown--large .dnb-drawer-list__triangle {

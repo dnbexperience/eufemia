@@ -50,11 +50,6 @@
     display: inline-flex;
   }
 
-  &__suffix {
-    padding-left: 0.5rem;
-    line-height: var(--line-height-basis);
-  }
-
   // NB: looks like we dont need this anymore!
   // &--default .dnb-drawer-list__list {
   //   top: var(--dropdown-height);

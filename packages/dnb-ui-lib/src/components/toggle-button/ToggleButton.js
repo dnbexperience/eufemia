@@ -468,12 +468,13 @@ export default class ToggleButton extends React.PureComponent {
                   </Button>
 
                   {suffix && (
-                    <span
+                    <Suffix
                       className="dnb-toggle-button__suffix"
                       id={id + '-suffix'} // used for "aria-describedby"
+                      context={props}
                     >
-                      <Suffix {...props}>{suffix}</Suffix>
-                    </span>
+                      {suffix}
+                    </Suffix>
                   )}
                 </span>
               </span>

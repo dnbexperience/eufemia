@@ -1515,6 +1515,12 @@ exports[`DatePicker scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
 /*
 * DNB Input
 *
@@ -2155,9 +2161,7 @@ legend.dnb-form-label {
     display: inline-flex;
     align-items: center; }
   .dnb-input__suffix {
-    color: inherit;
-    padding-left: 0.5rem;
-    line-height: var(--line-height-basis); }
+    color: inherit; }
   .dnb-input__submit-element {
     margin-left: calc(1px - 1px - var(--input-height));
     line-height: var(--line-height-basis); }
@@ -2450,9 +2454,7 @@ legend.dnb-form-label {
     display: inline-flex;
     align-items: baseline; }
   .dnb-checkbox__suffix {
-    order: 4;
-    padding-left: 0.5rem;
-    line-height: var(--line-height-basis); }
+    order: 4; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {
@@ -2619,13 +2621,11 @@ legend.dnb-form-label {
   .dnb-radio__row {
     display: inline-flex; }
   .dnb-radio__suffix {
-    order: 3;
-    padding-left: 0.5rem;
-    line-height: var(--line-height-basis); }
+    order: 3; }
     .dnb-radio__suffix .dnb-modal {
       margin-top: -0.25rem;
       margin-bottom: -0.25rem; }
-  .dnb-radio__suffix, .dnb-radio-group__suffix {
+  .dnb-radio-group__suffix {
     font-size: var(--font-size-basis); }
   .dnb-radio--large {
     line-height: var(--radio-height--large); }
@@ -2808,10 +2808,7 @@ legend.dnb-form-label {
     color: var(--color-mint-green); }
   :not(.dnb-toggle-button-group) > .dnb-form-label + .dnb-toggle-button {
     vertical-align: top; }
-  .dnb-toggle-button__suffix {
-    padding-left: 0.5rem;
-    line-height: var(--line-height-basis); }
-  .dnb-toggle-button__suffix, .dnb-toggle-button-group__suffix {
+  .dnb-toggle-button-group__suffix {
     font-size: var(--font-size-basis); }
   .dnb-toggle-button .dnb-form-status {
     order: 2;
@@ -2929,9 +2926,6 @@ legend.dnb-form-label {
     line-height: var(--date-picker-input-height); }
   .dnb-date-picker__row {
     display: inline-flex; }
-  .dnb-date-picker__suffix {
-    padding-left: 0.5rem;
-    line-height: var(--line-height-basis); }
   .dnb-date-picker__shell {
     position: relative;
     top: 0;

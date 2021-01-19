@@ -1692,12 +1692,13 @@ class AutocompleteInstance extends React.PureComponent {
             </span>
 
             {suffix && (
-              <span
+              <Suffix
                 className="dnb-autocomplete__suffix"
                 id={id + '-suffix'} // used for "aria-describedby"
+                context={props}
               >
-                <Suffix {...props}>{suffix}</Suffix>
-              </span>
+                {suffix}
+              </Suffix>
             )}
           </span>
         </span>

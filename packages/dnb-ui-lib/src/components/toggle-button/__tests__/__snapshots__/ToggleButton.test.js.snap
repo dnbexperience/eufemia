@@ -317,43 +317,50 @@ exports[`ToggleButton component have to match snapshot 1`] = `
             </Content>
           </button>
         </Button>
-        <span
+        <Suffix
           className="dnb-toggle-button__suffix"
+          context={
+            Object {
+              "attributes": "attributes",
+              "checked": "checked",
+              "children": "children",
+              "class": "class",
+              "className": "className",
+              "custom_element": Object {},
+              "custom_method": [Function],
+              "disabled": "disabled",
+              "global_status_id": "global_status_id",
+              "icon": "icon",
+              "icon_position": "left",
+              "icon_size": "icon_size",
+              "id": "toggle-button",
+              "label": "label",
+              "label_direction": "horizontal",
+              "label_sr_only": "label_sr_only",
+              "left_component": "left_component",
+              "on_change": [Function],
+              "on_state_update": [Function],
+              "readOnly": false,
+              "skeleton": "skeleton",
+              "status": null,
+              "status_animation": "status_animation",
+              "status_state": "status_state",
+              "suffix": "suffix",
+              "text": "text",
+              "title": "title",
+              "value": "value",
+              "variant": "checkbox",
+            }
+          }
           id="toggle-button-suffix"
         >
-          <Suffix
-            attributes="attributes"
-            checked="checked"
-            class="class"
-            className="className"
-            custom_element={Object {}}
-            custom_method={[Function]}
-            disabled="disabled"
-            global_status_id="global_status_id"
-            icon="icon"
-            icon_position="left"
-            icon_size="icon_size"
-            id="toggle-button"
-            label="label"
-            label_direction="horizontal"
-            label_sr_only="label_sr_only"
-            left_component="left_component"
-            on_change={[Function]}
-            on_state_update={[Function]}
-            readOnly={false}
-            skeleton="skeleton"
-            status={null}
-            status_animation="status_animation"
-            status_state="status_state"
-            suffix="suffix"
-            text="text"
-            title="title"
-            value="value"
-            variant="checkbox"
+          <span
+            className="dnb-suffix dnb-toggle-button__suffix"
+            id="toggle-button-suffix"
           >
             suffix
-          </Suffix>
-        </span>
+          </span>
+        </Suffix>
       </span>
     </span>
   </span>
@@ -1286,6 +1293,12 @@ exports[`ToggleButton scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
 /*
 * DNB FormLabel
 *
@@ -1917,9 +1930,7 @@ button.dnb-button::-moz-focus-inner {
     display: inline-flex;
     align-items: baseline; }
   .dnb-checkbox__suffix {
-    order: 4;
-    padding-left: 0.5rem;
-    line-height: var(--line-height-basis); }
+    order: 4; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
     order: 2; }
   .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {
@@ -2086,13 +2097,11 @@ button.dnb-button::-moz-focus-inner {
   .dnb-radio__row {
     display: inline-flex; }
   .dnb-radio__suffix {
-    order: 3;
-    padding-left: 0.5rem;
-    line-height: var(--line-height-basis); }
+    order: 3; }
     .dnb-radio__suffix .dnb-modal {
       margin-top: -0.25rem;
       margin-bottom: -0.25rem; }
-  .dnb-radio__suffix, .dnb-radio-group__suffix {
+  .dnb-radio-group__suffix {
     font-size: var(--font-size-basis); }
   .dnb-radio--large {
     line-height: var(--radio-height--large); }
@@ -2275,10 +2284,7 @@ button.dnb-button::-moz-focus-inner {
     color: var(--color-mint-green); }
   :not(.dnb-toggle-button-group) > .dnb-form-label + .dnb-toggle-button {
     vertical-align: top; }
-  .dnb-toggle-button__suffix {
-    padding-left: 0.5rem;
-    line-height: var(--line-height-basis); }
-  .dnb-toggle-button__suffix, .dnb-toggle-button-group__suffix {
+  .dnb-toggle-button-group__suffix {
     font-size: var(--font-size-basis); }
   .dnb-toggle-button .dnb-form-status {
     order: 2;
