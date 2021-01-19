@@ -79,7 +79,7 @@ export const InputMaskedExampleNumberMask = () => (
   suffix="kr."
   align="right"
   on_change={(e) => {
-    console.log('e', e)
+    console.log('e', parseInt(e.cleaned_value || 0, 10))
   }}
 />
           `
