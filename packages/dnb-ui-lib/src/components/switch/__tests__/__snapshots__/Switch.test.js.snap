@@ -110,40 +110,47 @@ exports[`Switch component have to match snapshot 1`] = `
               </span>
             </span>
           </span>
-          <span
+          <Suffix
             className="dnb-switch__suffix"
+            context={
+              Object {
+                "attributes": "attributes",
+                "checked": "checked",
+                "children": "children",
+                "class": "class",
+                "className": "className",
+                "custom_element": Object {},
+                "custom_method": [Function],
+                "default_state": "default_state",
+                "disabled": "disabled",
+                "global_status_id": "global_status_id",
+                "id": "id",
+                "label": "label",
+                "label_direction": "horizontal",
+                "label_position": "left",
+                "on_change": [Function],
+                "on_change_end": [Function],
+                "on_state_update": [Function],
+                "readOnly": false,
+                "size": "default",
+                "skeleton": "skeleton",
+                "status": null,
+                "status_animation": "status_animation",
+                "status_state": "status_state",
+                "suffix": "suffix",
+                "title": "title",
+                "value": "value",
+              }
+            }
             id="id-suffix"
           >
-            <Suffix
-              attributes="attributes"
-              checked="checked"
-              class="class"
-              className="className"
-              custom_element={Object {}}
-              custom_method={[Function]}
-              default_state="default_state"
-              disabled="disabled"
-              global_status_id="global_status_id"
-              id="id"
-              label="label"
-              label_direction="horizontal"
-              label_position="left"
-              on_change={[Function]}
-              on_change_end={[Function]}
-              on_state_update={[Function]}
-              readOnly={false}
-              size="default"
-              skeleton="skeleton"
-              status={null}
-              status_animation="status_animation"
-              status_state="status_state"
-              suffix="suffix"
-              title="title"
-              value="value"
+            <span
+              className="dnb-suffix dnb-switch__suffix"
+              id="id-suffix"
             >
               suffix
-            </Suffix>
-          </span>
+            </span>
+          </Suffix>
         </span>
       </span>
     </span>
@@ -333,6 +340,12 @@ exports[`Switch scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
 /*
 * DNB FormLabel
 *
@@ -681,11 +694,9 @@ legend.dnb-form-label {
   .dnb-switch__order {
     display: inline-flex; }
   .dnb-switch__suffix {
-    margin-left: 0.5rem;
-    order: 4;
-    line-height: var(--line-height-basis); }
+    order: 4; }
   .dnb-switch--label-position-left .dnb-switch__suffix {
-    margin-left: 1rem; }
+    padding-left: 1rem; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-switch__inner {
     order: 2; }
   .dnb-switch--label-position-left .dnb-switch__order .dnb-form-label {

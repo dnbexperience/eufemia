@@ -800,6 +800,12 @@ exports[`Input scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
 /*
 * DNB Button
 *
@@ -1436,9 +1442,7 @@ legend.dnb-form-label {
     display: inline-flex;
     align-items: center; }
   .dnb-input__suffix {
-    color: inherit;
-    padding-left: 0.5rem;
-    line-height: var(--line-height-basis); }
+    color: inherit; }
   .dnb-input__submit-element {
     margin-left: calc(1px - 1px - var(--input-height));
     line-height: var(--line-height-basis); }

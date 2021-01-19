@@ -58,6 +58,12 @@ exports[`FormSet scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
 .dnb-form-set {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);

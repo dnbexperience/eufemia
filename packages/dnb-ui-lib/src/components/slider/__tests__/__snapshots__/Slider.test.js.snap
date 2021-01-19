@@ -451,51 +451,56 @@ exports[`Slider component have to match snapshot 1`] = `
             </Content>
           </button>
         </Button>
-        <span
+        <Suffix
           className="dnb-slider__suffix"
-          id="id-suffix"
-        >
-          <Suffix
-            add_title="add_title"
-            class="class"
-            className="className"
-            disabled="disabled"
-            global_status_id="global_status_id"
-            hide_buttons="hide_buttons"
-            id="id"
-            label="label"
-            label_direction="horizontal"
-            label_sr_only="label_sr_only"
-            max={100}
-            min={0}
-            number_format={
-              Object {
+          context={
+            Object {
+              "add_title": "add_title",
+              "children": "children",
+              "class": "class",
+              "className": "className",
+              "disabled": "disabled",
+              "global_status_id": "global_status_id",
+              "hide_buttons": "hide_buttons",
+              "id": "id",
+              "label": "label",
+              "label_direction": "horizontal",
+              "label_sr_only": "label_sr_only",
+              "max": 100,
+              "min": 0,
+              "number_format": Object {
                 "currency": true,
                 "decimals": 0,
-              }
+              },
+              "on_change": [Function],
+              "on_drag_end": [Function],
+              "on_drag_start": [Function],
+              "on_init": [Function],
+              "on_state_update": [Function],
+              "reverse": "reverse",
+              "skeleton": "skeleton",
+              "status": null,
+              "status_animation": "status_animation",
+              "status_state": "status_state",
+              "step": 10,
+              "stretch": "stretch",
+              "subtract_title": "subtract_title",
+              "suffix": "suffix",
+              "thump_title": "thump_title",
+              "use_scrollwheel": "use_scrollwheel",
+              "value": 70,
+              "vertical": "vertical",
             }
-            on_change={[Function]}
-            on_drag_end={[Function]}
-            on_drag_start={[Function]}
-            on_init={[Function]}
-            on_state_update={[Function]}
-            reverse="reverse"
-            skeleton="skeleton"
-            status={null}
-            status_animation="status_animation"
-            status_state="status_state"
-            step={10}
-            stretch="stretch"
-            subtract_title="subtract_title"
-            suffix="suffix"
-            thump_title="thump_title"
-            use_scrollwheel="use_scrollwheel"
-            value={70}
-            vertical="vertical"
+          }
+          id="id-suffix"
+        >
+          <span
+            className="dnb-suffix dnb-slider__suffix"
+            id="id-suffix"
           >
             suffix
-          </Suffix>
-        </span>
+          </span>
+        </Suffix>
       </span>
     </span>
   </span>
@@ -523,6 +528,12 @@ exports[`Slider scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
 /*
 * DNB Button
 *
@@ -1095,9 +1106,7 @@ legend.dnb-form-label {
     display: inline-flex;
     height: var(--slider-thumb-size); }
   .dnb-slider__suffix {
-    align-self: center;
-    padding-left: 0.5rem;
-    line-height: var(--line-height-basis); }
+    align-self: center; }
   .dnb-slider--vertical .dnb-slider__suffix {
     padding-left: 0;
     padding-top: 0.5rem; }
