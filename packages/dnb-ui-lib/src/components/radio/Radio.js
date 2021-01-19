@@ -423,12 +423,13 @@ export default class Radio extends React.PureComponent {
                     {label_position !== 'left' && labelComp}
 
                     {suffix && (
-                      <span
+                      <Suffix
                         className="dnb-radio__suffix"
                         id={id + '-suffix'} // used for "aria-describedby"
+                        context={props}
                       >
-                        <Suffix {...props}>{suffix}</Suffix>
-                      </span>
+                        {suffix}
+                      </Suffix>
                     )}
                   </span>
                 </span>

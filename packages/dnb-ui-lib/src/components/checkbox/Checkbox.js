@@ -321,12 +321,13 @@ export default class Checkbox extends React.PureComponent {
           </span>
 
           {suffix && (
-            <span
+            <Suffix
               className="dnb-checkbox__suffix"
               id={id + '-suffix'} // used for "aria-describedby"
+              context={props}
             >
-              <Suffix {...props}>{suffix}</Suffix>
-            </span>
+              {suffix}
+            </Suffix>
           )}
         </span>
 
