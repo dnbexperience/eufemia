@@ -126,11 +126,7 @@
     vertical-align: top;
   }
 
-  &__suffix {
-    padding-left: 0.5rem;
-    line-height: var(--line-height-basis);
-  }
-  &__suffix,
+  // &__suffix,
   &-group__suffix {
     font-size: var(--font-size-basis);
   }
