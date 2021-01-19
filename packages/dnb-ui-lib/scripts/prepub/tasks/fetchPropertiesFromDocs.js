@@ -21,7 +21,9 @@ export async function fetchPropertiesFromDocs({
   findFiles = ['properties.md', 'events.md'], // type of .md files to look for
   includeSpecialDirs = false // special path setup
 } = {}) {
-  log.start('> PrePublish: generating types')
+  if (process.env.NODE_ENV !== 'test') {
+    log.start('> PrePublish: generating docs for types')
+  }
 
   const basename = path.basename(file)
   const filename = basename.replace(path.extname(file), '')
@@ -128,7 +130,9 @@ async function extractorFactory(markdownFiles, docsDir = ROOT_DIR) {
         }
       }
 
-      log.succeed(`> PrePublish: Collected docs for ${markdownFile}`)
+      if (process.env.NODE_ENV !== 'test') {
+        log.succeed(`> PrePublish: Collected docs for ${markdownFile}`)
+      }
 
       return collection
     }

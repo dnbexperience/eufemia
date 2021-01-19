@@ -6,10 +6,15 @@
 import fs from 'fs-extra'
 import path from 'path'
 import globby from 'globby'
+import prettier from 'prettier'
 import { asyncForEach } from '../../tools'
 import { log } from '../../lib'
 import { generateFromSource } from 'react-to-typescript-definitions'
-import { transformFileAsync, transformSync } from '@babel/core'
+import {
+  transformFileAsync,
+  transformSync,
+  transformAsync
+} from '@babel/core'
 import { fetchPropertiesFromDocs } from './fetchPropertiesFromDocs'
 
 const nodePath = path
@@ -35,7 +40,9 @@ export default async function generateTypes({
     '!./src/**/web-components.js'
   ]
 } = {}) {
-  log.start('> PrePublish: generating types')
+  if (process.env.NODE_ENV !== 'test') {
+    log.start('> PrePublish: generating types')
+  }
 
   try {
     const files = await globby(paths)
@@ -53,6 +60,10 @@ export const createTypes = async (
   { isTest = false, ...opts } = {}
 ) => {
   try {
+    const prettierrc = await prettier.resolveConfig()
+    prettierrc.semi = true
+    prettierrc.trailingComma = 'none'
+
     return await asyncForEach(listOfAllFiles, async (file) => {
       if (!isTest && file.includes('__tests__')) {
         return // stop here
@@ -63,6 +74,7 @@ export const createTypes = async (
         process.env.npm_config_argv.includes('build:types:dev') &&
         !file.includes('/Element.js') &&
         !file.includes('/Blockquote.js') &&
+        !file.includes('/Button.js') &&
         !file.includes('/Space.js')
       if (isDev) {
         return // stop here
@@ -148,8 +160,36 @@ export const createTypes = async (
            * Like so: const filename = basename.replace(path.extname(file), '')
            * But this creates the 'declare module' which created trouobles
            */
-          definitionContent = generateFromSource(null, code)
+          const generatedCode = generateFromSource(null, code)
+
+          // Process the TS code from now on
+          const { code: codeWithTransformedTypes } = await transformAsync(
+            generatedCode,
+            {
+              filename: destFile,
+              plugins: [
+                ['@babel/plugin-syntax-typescript', { isTSX: true }],
+                [
+                  babelPluginExtendTypes,
+                  {
+                    componentName: basename.replace(
+                      path.extname(file),
+                      'Props'
+                    )
+                  }
+                ]
+              ],
+              ...babelPluginDefaults
+            }
+          )
+
+          definitionContent = codeWithTransformedTypes
         }
+
+        definitionContent = prettier.format(definitionContent, {
+          ...prettierrc,
+          filepath: destFile
+        })
 
         if (isTest) {
           return { destFile, definitionContent }
@@ -391,6 +431,30 @@ export function babelPluginCorrectTypes(babel) {
   }
 }
 
+export function babelPluginExtendTypes(plugin, { componentName }) {
+  if (!componentName) {
+    return {} // stop here
+  }
+
+  return {
+    visitor: {
+      TSInterfaceDeclaration(path) {
+        path.traverse({
+          Identifier(path) {
+            if (
+              path.isIdentifier({ name: componentName }) &&
+              path.parentPath.isTSInterfaceDeclaration() &&
+              !(path.parentPath.node?.extends?.length > 0)
+            ) {
+              path.node.name = `${componentName} extends React.DOMAttributes<React.SyntheticEvent>`
+            }
+          }
+        })
+      }
+    }
+  }
+}
+
 export function babelPluginIncludeDocs(plugin, { docs }) {
   if (!docs) {
     return {} // stop here
@@ -453,6 +517,6 @@ export function babelPluginIncludeDocs(plugin, { docs }) {
 function inserDocs(path, name, docs) {
   if (typeof docs[name] !== 'undefined') {
     const comment = docs[name]
-    path.insertBefore(path.addComment('leading', `*\n * ${comment}\n `))
+    path.insertBefore(path.addComment('leading', `*\n * ${comment}\n`))
   }
 }

@@ -126,7 +126,7 @@ PrimaryComponent.propTypes = {
 
   /**
    * Text \`spacing\` or \`children\`.
-   */
+  */
   spacing: PropTypes.shape({
     top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
     right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -137,27 +137,27 @@ PrimaryComponent.propTypes = {
 
   /**
    * Text \`margin-top\`.
-   */
+  */
   top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
 
   /**
    * Text \`margin-right\`.
-   */
+  */
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
 
   /**
    * Text \`margin-bottom\`.
-   */
+  */
   bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
 
   /**
    * Text \`margin-left\`.
-   */
+  */
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
 
   /**
    * Text \`secondary\`.
-   */
+  */
   secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   secondary_spacing: PropTypes.shape({
@@ -166,7 +166,7 @@ PrimaryComponent.propTypes = {
 
   /**
    * Text \`spacing\` or \`children\`.
-   */
+  */
   children: PropTypes.node
 };
 PrimaryComponent.defaultProps = {
@@ -189,7 +189,7 @@ Element.propTypes = {
 
   /**
    * Text \`spacing\` or \`children\`.
-   */
+  */
   spacing: PropTypes.shape({
     top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
     right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -200,27 +200,27 @@ Element.propTypes = {
 
   /**
    * Text \`margin-top\`.
-   */
+  */
   top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
 
   /**
    * Text \`margin-right\`.
-   */
+  */
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
 
   /**
    * Text \`margin-bottom\`.
-   */
+  */
   bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
 
   /**
    * Text \`margin-left\`.
-   */
+  */
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
 
   /**
    * Text \`secondary\`.
-   */
+  */
   secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   secondary_spacing: PropTypes.shape({
@@ -229,7 +229,7 @@ Element.propTypes = {
 
   /**
    * Text \`spacing\` or \`children\`.
-   */
+  */
   children: PropTypes.node
 };
 Element.defaultProps = {
@@ -351,72 +351,70 @@ Element.defaultProps = {
 
 exports[`generateTypes has to match snapshot 1`] = `
 "import * as React from 'react';
-
 export interface PrimaryComponentSpacing {
-    top?: string | number | boolean;
-    right?: string | number | boolean;
-    bottom?: string | number | boolean;
-    left?: string | number | boolean;
+  top?: string | number | boolean;
+  right?: string | number | boolean;
+  bottom?: string | number | boolean;
+  left?: string | number | boolean;
 }
-
 export type PrimaryComponentFoo = string | number | boolean;
-
 export type PrimaryComponentTop = string | number | boolean;
-
 export type PrimaryComponentRight = string | number | boolean;
-
 export type PrimaryComponentBottom = string | number | boolean;
-
 export type PrimaryComponentLeft = string | number | boolean;
-
 export type PrimaryComponentSecondary = string | number | boolean;
-
 export type PrimaryComponentSecondaryFoo = string | number | boolean;
-
 export interface PrimaryComponentSecondarySpacing {
-    secondary?: string | number | boolean;
+  secondary?: string | number | boolean;
 }
+export interface PrimaryComponentProps
+  extends React.DOMAttributes<React.SyntheticEvent> {
+  boolean?: boolean;
+  number?: number;
+  /**
+   * Text \`spacing\` or \`children\`.
+   */
 
-export interface PrimaryComponentProps {
-    boolean?: boolean;
-    number?: number;
-    /**
-     * Text \`spacing\` or \`children\`.
-     */
-    spacing?: PrimaryComponentSpacing;
-    foo?: PrimaryComponentFoo;
-    /**
-     * Text \`margin-top\`.
-     */
-    top?: PrimaryComponentTop;
-    /**
-     * Text \`margin-right\`.
-     */
-    right?: PrimaryComponentRight;
-    /**
-     * Text \`margin-bottom\`.
-     */
-    bottom?: PrimaryComponentBottom;
-    /**
-     * Text \`margin-left\`.
-     */
-    left?: PrimaryComponentLeft;
-    /**
-     * Text \`secondary\`.
-     */
-    secondary?: PrimaryComponentSecondary;
-    secondary_foo?: PrimaryComponentSecondaryFoo;
-    secondary_spacing?: PrimaryComponentSecondarySpacing;
-    /**
-     * Text \`spacing\` or \`children\`.
-     */
-    children?: React.ReactNode;
+  spacing?: PrimaryComponentSpacing;
+  foo?: PrimaryComponentFoo;
+  /**
+   * Text \`margin-top\`.
+   */
+
+  top?: PrimaryComponentTop;
+  /**
+   * Text \`margin-right\`.
+   */
+
+  right?: PrimaryComponentRight;
+  /**
+   * Text \`margin-bottom\`.
+   */
+
+  bottom?: PrimaryComponentBottom;
+  /**
+   * Text \`margin-left\`.
+   */
+
+  left?: PrimaryComponentLeft;
+  /**
+   * Text \`secondary\`.
+   */
+
+  secondary?: PrimaryComponentSecondary;
+  secondary_foo?: PrimaryComponentSecondaryFoo;
+  secondary_spacing?: PrimaryComponentSecondarySpacing;
+  /**
+   * Text \`spacing\` or \`children\`.
+   */
+
+  children?: React.ReactNode;
 }
-
-export default class PrimaryComponent extends React.Component<PrimaryComponentProps, any> {
-    render(): JSX.Element;
-
+export default class PrimaryComponent extends React.Component<
+  PrimaryComponentProps,
+  any
+> {
+  render(): JSX.Element;
 }
-
 "
 `;
