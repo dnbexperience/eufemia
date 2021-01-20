@@ -64,10 +64,10 @@ export const createTypes = async (
       // For dev (build:types:dev) mode only
       const isDev =
         process.env.npm_config_argv.includes('build:types:dev') &&
-        !file.includes('/Element.js') &&
-        !file.includes('/Blockquote.js') &&
-        !file.includes('/Button.js') &&
-        !file.includes('/Space.js')
+        // !file.includes('/Element.js') &&
+        // !file.includes('/Blockquote.js') &&
+        // !file.includes('/Button.js') &&
+        !file.includes('/GlobalError.js')
       if (isDev) {
         return // stop here
       }
@@ -167,7 +167,10 @@ export const createTypes = async (
                     componentName: basename.replace(
                       nodePath.extname(file),
                       'Props'
-                    )
+                    ),
+                    addDefaultPropsTypeAnnotation: code.includes(
+                      'defaultProps'
+                    ) // Because they are available
                   }
                 ]
               ],

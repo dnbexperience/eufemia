@@ -1,7 +1,12 @@
-export function babelPluginExtendTypes(plugin, { componentName }) {
+export function babelPluginExtendTypes(
+  plugin,
+  { componentName, addDefaultPropsTypeAnnotation = true } = {}
+) {
   if (!componentName) {
     return {} // stop here
   }
+
+  const { types: t } = plugin
 
   return {
     visitor: {
@@ -17,6 +22,25 @@ export function babelPluginExtendTypes(plugin, { componentName }) {
             }
           }
         })
+      },
+      ClassDeclaration(path) {
+        if (
+          addDefaultPropsTypeAnnotation &&
+          path.node?.body?.type === 'ClassBody'
+        ) {
+          path.node.body?.body?.unshift(
+            t.classProperty(
+              t.identifier('defaultProps'),
+              null,
+              t.typeAnnotation(
+                t.genericTypeAnnotation(t.identifier('object'))
+              ),
+              null,
+              false,
+              true
+            )
+          )
+        }
       }
     }
   }

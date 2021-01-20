@@ -1,30 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`generateTypes has to match snapshot 1`] = `
+exports[`babelPluginExtendTypes has to match snapshot 1`] = `
 "import * as React from 'react';
-
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by \\"generateTypes.js\\" and \\"fetchPropertiesFromDocs.js\\".
- */
 export interface PrimaryComponentSpacing {
-  /**
-   * Text \`margin-top\`.
-   */
   top?: string | number | boolean;
-
-  /**
-   * Text \`margin-right\`.
-   */
   right?: string | number | boolean;
-
-  /**
-   * Text \`margin-bottom\`.
-   */
   bottom?: string | number | boolean;
-
-  /**
-   * Text \`margin-left\`.
-   */
   left?: string | number | boolean;
 }
 export type PrimaryComponentFoo = string | number | boolean;
@@ -34,67 +15,25 @@ export type PrimaryComponentBottom = string | number | boolean;
 export type PrimaryComponentLeft = string | number | boolean;
 export type PrimaryComponentSecondary = string | number | boolean;
 export type PrimaryComponentSecondaryFoo = string | number | boolean;
-
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by \\"generateTypes.js\\" and \\"fetchPropertiesFromDocs.js\\".
- */
 export interface PrimaryComponentSecondarySpacing {
-  /**
-   * Text \`secondary\`.
-   */
   secondary?: string | number | boolean;
 }
-
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by \\"generateTypes.js\\" and \\"fetchPropertiesFromDocs.js\\".
- */
 export interface PrimaryComponentProps {
   boolean?: boolean;
   number?: number;
-
-  /**
-   * Text \`spacing\` or \`children\`.
-   */
   spacing?: PrimaryComponentSpacing;
   foo?: PrimaryComponentFoo;
-
-  /**
-   * Text \`margin-top\`.
-   */
   top?: PrimaryComponentTop;
-
-  /**
-   * Text \`margin-right\`.
-   */
   right?: PrimaryComponentRight;
-
-  /**
-   * Text \`margin-bottom\`.
-   */
   bottom?: PrimaryComponentBottom;
-
-  /**
-   * Text \`margin-left\`.
-   */
   left?: PrimaryComponentLeft;
-
-  /**
-   * Text \`secondary\`.
-   */
   secondary?: PrimaryComponentSecondary;
   secondary_foo?: PrimaryComponentSecondaryFoo;
   secondary_spacing?: PrimaryComponentSecondarySpacing;
-
-  /**
-   * Text \`spacing\` or \`children\`.
-   */
   children?: React.ReactNode;
 }
-export default class PrimaryComponent extends React.Component<
-  PrimaryComponentProps,
-  any
-> {
+export default class PrimaryComponent extends React.Component<PrimaryComponentProps, any> {
+  static defaultProps: object;
   render(): JSX.Element;
-}
-"
+}"
 `;
