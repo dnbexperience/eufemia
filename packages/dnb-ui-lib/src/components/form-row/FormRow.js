@@ -116,7 +116,7 @@ export default class FormRow extends React.PureComponent {
 
     if (Array.isArray(props.children)) {
       children = children.reduce((pV, cV) => {
-        if (cV.type && cV.type.name === 'FormLabel') {
+        if (cV && cV.type && cV.type.name === 'FormLabel') {
           label = cV.props.children
         } else {
           pV.push(cV)
