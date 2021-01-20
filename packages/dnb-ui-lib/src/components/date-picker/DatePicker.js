@@ -696,12 +696,13 @@ export default class DatePicker extends React.PureComponent {
                 </span>
               </span>
               {suffix && (
-                <span
+                <Suffix
                   className="dnb-date-picker__suffix"
                   id={id + '-suffix'} // used for "aria-describedby"
+                  context={props}
                 >
-                  <Suffix {...props}>{suffix}</Suffix>
-                </span>
+                  {suffix}
+                </Suffix>
               )}
             </span>
           </span>

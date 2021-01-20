@@ -264,12 +264,13 @@ export default class RadioGroup extends React.PureComponent {
               {children}
 
               {suffix && (
-                <span
+                <Suffix
                   className="dnb-radio-group__suffix"
                   id={id + '-suffix'} // used for "aria-describedby"
+                  context={props}
                 >
-                  <Suffix {...props}>{suffix}</Suffix>
-                </span>
+                  {suffix}
+                </Suffix>
               )}
 
               {showStatus && (

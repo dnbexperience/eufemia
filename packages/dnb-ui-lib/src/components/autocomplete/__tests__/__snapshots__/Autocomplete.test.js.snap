@@ -978,19 +978,18 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 </DrawerListInstance>
               </DrawerList>
             </span>
-            <span
+            <Suffix
               className="dnb-autocomplete__suffix"
-              id="autocomplete-id-suffix"
-            >
-              <Suffix
-                align_autocomplete={null}
-                aria_live_options="aria_live_options"
-                class="class"
-                className="className"
-                custom_element={Object {}}
-                custom_method={[Function]}
-                data={
-                  Array [
+              context={
+                Object {
+                  "align_autocomplete": null,
+                  "aria_live_options": "aria_live_options",
+                  "children": "children",
+                  "class": "class",
+                  "className": "className",
+                  "custom_element": Object {},
+                  "custom_method": [Function],
+                  "data": Array [
                     "AA c",
                     "BB cc zethx",
                     Object {
@@ -999,68 +998,74 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         "cc",
                       ],
                     },
-                  ]
+                  ],
+                  "default_value": "default_value",
+                  "direction": "bottom",
+                  "disable_filter": "disable_filter",
+                  "disable_highlighting": "disable_highlighting",
+                  "disable_reorder": "disable_reorder",
+                  "disabled": "disabled",
+                  "drawer_class": "drawer_class",
+                  "focusable": "focusable",
+                  "global_status_id": "global_status_id",
+                  "icon_position": null,
+                  "icon_size": "icon_size",
+                  "id": "autocomplete-id",
+                  "indicator_label": "indicator_label",
+                  "input_component": null,
+                  "input_icon": "input_icon",
+                  "input_ref": null,
+                  "input_value": "input_value",
+                  "keep_open": "keep_open",
+                  "keep_value": "keep_value",
+                  "keep_value_and_selection": "keep_value_and_selection",
+                  "label": "Autocomplete Label:",
+                  "label_direction": "horizontal",
+                  "label_sr_only": "label_sr_only",
+                  "max_height": 1,
+                  "mode": "sync",
+                  "no_animation": true,
+                  "no_options": "no_options",
+                  "no_scroll_animation": "no_scroll_animation",
+                  "on_change": [Function],
+                  "on_hide": [Function],
+                  "on_select": [Function],
+                  "on_show": [Function],
+                  "on_state_update": [Function],
+                  "open_on_focus": "open_on_focus",
+                  "opened": true,
+                  "options_render": Object {},
+                  "placeholder": "placeholder",
+                  "prevent_close": "prevent_close",
+                  "prevent_selection": null,
+                  "scrollable": "scrollable",
+                  "search_in_word_index": "search_in_word_index",
+                  "show_all": "show_all",
+                  "show_submit_button": true,
+                  "size": null,
+                  "skeleton": "skeleton",
+                  "skip_portal": true,
+                  "status": "status",
+                  "status_animation": "status_animation",
+                  "status_state": "error",
+                  "submit_button_icon": "submit_button_icon",
+                  "submit_button_title": "submit_button_title",
+                  "submit_element": "submit_element",
+                  "suffix": "suffix",
+                  "title": "title",
+                  "triangle_position": null,
+                  "value": 2,
                 }
-                default_value="default_value"
-                direction="bottom"
-                disable_filter="disable_filter"
-                disable_highlighting="disable_highlighting"
-                disable_reorder="disable_reorder"
-                disabled="disabled"
-                drawer_class="drawer_class"
-                focusable="focusable"
-                global_status_id="global_status_id"
-                icon_position={null}
-                icon_size="icon_size"
-                id="autocomplete-id"
-                indicator_label="indicator_label"
-                input_component={null}
-                input_icon="input_icon"
-                input_ref={null}
-                input_value="input_value"
-                keep_open="keep_open"
-                keep_value="keep_value"
-                keep_value_and_selection="keep_value_and_selection"
-                label="Autocomplete Label:"
-                label_direction="horizontal"
-                label_sr_only="label_sr_only"
-                max_height={1}
-                mode="sync"
-                no_animation={true}
-                no_options="no_options"
-                no_scroll_animation="no_scroll_animation"
-                on_change={[Function]}
-                on_hide={[Function]}
-                on_select={[Function]}
-                on_show={[Function]}
-                on_state_update={[Function]}
-                open_on_focus="open_on_focus"
-                opened={true}
-                options_render={Object {}}
-                placeholder="placeholder"
-                prevent_close="prevent_close"
-                prevent_selection={null}
-                scrollable="scrollable"
-                search_in_word_index="search_in_word_index"
-                show_all="show_all"
-                show_submit_button={true}
-                size={null}
-                skeleton="skeleton"
-                skip_portal={true}
-                status="status"
-                status_animation="status_animation"
-                status_state="error"
-                submit_button_icon="submit_button_icon"
-                submit_button_title="submit_button_title"
-                submit_element="submit_element"
-                suffix="suffix"
-                title="title"
-                triangle_position={null}
-                value={2}
+              }
+              id="autocomplete-id-suffix"
+            >
+              <span
+                className="dnb-suffix dnb-autocomplete__suffix"
+                id="autocomplete-id-suffix"
               >
                 suffix
-              </Suffix>
-            </span>
+              </span>
+            </Suffix>
           </span>
         </span>
         <span
@@ -1130,6 +1135,12 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
 /*
 * DNB Input
 *
@@ -1770,9 +1781,7 @@ legend.dnb-form-label {
     display: inline-flex;
     align-items: center; }
   .dnb-input__suffix {
-    color: inherit;
-    padding-left: 0.5rem;
-    line-height: var(--line-height-basis); }
+    color: inherit; }
   .dnb-input__submit-element {
     margin-left: calc(1px - 1px - var(--input-height));
     line-height: var(--line-height-basis); }
@@ -2149,9 +2158,6 @@ legend.dnb-form-label {
     color: inherit; }
   .dnb-autocomplete__row {
     display: inline-flex; }
-  .dnb-autocomplete__suffix {
-    padding-left: 0.5rem;
-    line-height: var(--line-height-basis); }
   .dnb-autocomplete--small {
     line-height: var(--autocomplete-height--small); }
   .dnb-autocomplete--medium {

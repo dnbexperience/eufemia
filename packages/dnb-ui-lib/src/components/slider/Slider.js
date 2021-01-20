@@ -761,12 +761,13 @@ export default class Slider extends React.PureComponent {
             {showButtons && (reverse ? subtractButton : addButton)}
 
             {suffix && (
-              <span
+              <Suffix
                 className="dnb-slider__suffix"
                 id={id + '-suffix'} // used for "aria-describedby"
+                context={props}
               >
-                <Suffix {...props}>{suffix}</Suffix>
-              </span>
+                {suffix}
+              </Suffix>
             )}
           </span>
         </span>

@@ -115,9 +115,6 @@
 
   &__suffix {
     order: 3;
-    padding-left: 0.5rem;
-
-    line-height: var(--line-height-basis);
 
     // to be aligned to the label on the left side
     .dnb-modal {
@@ -125,7 +122,6 @@
       margin-bottom: -0.25rem;
     }
   }
-  &__suffix,
   &-group__suffix {
     font-size: var(--font-size-basis);
   }

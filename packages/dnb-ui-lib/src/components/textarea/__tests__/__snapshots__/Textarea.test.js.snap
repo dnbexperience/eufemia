@@ -289,6 +289,12 @@ exports[`Textarea scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
 /*
 * DNB FormLabel
 *
@@ -695,9 +701,7 @@ textarea.dnb-textarea {
   .dnb-textarea__row {
     display: inline-flex; }
   .dnb-textarea__suffix {
-    padding-left: 1.5rem;
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis); }
+    padding-left: 1.5rem; }
   .dnb-textarea__placeholder {
     pointer-events: none;
     position: absolute;

@@ -13,3 +13,11 @@
 // but as this is not prsent under dev enviroment, we cant use the components directly
 // @import '../core/fonts.scss';
 @import '../core/scopes.scss';
+
+.dnb-suffix {
+  padding-left: 0.5rem;
+
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; // because of "kr" usage together with "stretch" on a input/textarea
+}

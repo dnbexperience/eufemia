@@ -4,9 +4,10 @@
  */
 
 import React from 'react'
-import E from './Element'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import { spacingPropTypes } from '../components/space/SpacingHelper'
+import E from './Element'
 
 const Ol = ({ nested, inside, outside, ...p } = {}) => {
   if (nested) {
@@ -23,6 +24,7 @@ const Ol = ({ nested, inside, outside, ...p } = {}) => {
 }
 Ol.tagName = 'dnb-ol'
 Ol.propTypes = {
+  ...spacingPropTypes,
   className: PropTypes.string,
   inside: PropTypes.bool,
   outside: PropTypes.bool,

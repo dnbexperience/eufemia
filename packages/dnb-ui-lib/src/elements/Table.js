@@ -5,8 +5,8 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { spacingPropTypes } from '../components/space/SpacingHelper'
 import { warn, isTrue, registerElement } from '../shared/component-helper'
-
 import E from './Element'
 
 export const StickyHelper = () => {
@@ -21,6 +21,8 @@ export default class Table extends React.PureComponent {
   static tagName = 'dnb-table'
 
   static propTypes = {
+    ...spacingPropTypes,
+
     sticky: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     sticky_offset: PropTypes.oneOfType([
       PropTypes.string,

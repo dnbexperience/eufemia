@@ -103,39 +103,46 @@ exports[`Radio component have to match snapshot 1`] = `
               className="dnb-radio__dot"
             />
           </span>
-          <span
+          <Suffix
             className="dnb-radio__suffix"
+            context={
+              Object {
+                "attributes": "attributes",
+                "checked": "checked",
+                "children": "children",
+                "class": "class",
+                "className": "className",
+                "custom_element": Object {},
+                "custom_method": [Function],
+                "direction": "horizontal",
+                "disabled": "disabled",
+                "global_status_id": "global_status_id",
+                "group": null,
+                "id": "radio",
+                "label": "label",
+                "label_position": "left",
+                "label_sr_only": "label_sr_only",
+                "on_change": [Function],
+                "on_state_update": [Function],
+                "readOnly": false,
+                "size": null,
+                "skeleton": "skeleton",
+                "status": null,
+                "status_animation": "status_animation",
+                "status_state": "status_state",
+                "suffix": "suffix",
+                "value": "value",
+              }
+            }
             id="radio-suffix"
           >
-            <Suffix
-              attributes="attributes"
-              checked="checked"
-              class="class"
-              className="className"
-              custom_element={Object {}}
-              custom_method={[Function]}
-              direction="horizontal"
-              disabled="disabled"
-              global_status_id="global_status_id"
-              group={null}
-              id="radio"
-              label="label"
-              label_position="left"
-              label_sr_only="label_sr_only"
-              on_change={[Function]}
-              on_state_update={[Function]}
-              readOnly={false}
-              size={null}
-              skeleton="skeleton"
-              status={null}
-              status_animation="status_animation"
-              status_state="status_state"
-              suffix="suffix"
-              value="value"
+            <span
+              className="dnb-suffix dnb-radio__suffix"
+              id="radio-suffix"
             >
               suffix
-            </Suffix>
-          </span>
+            </span>
+          </Suffix>
         </span>
       </span>
     </span>
@@ -630,6 +637,12 @@ exports[`Radio scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
 /*
 * DNB FormLabel
 *
@@ -943,13 +956,11 @@ legend.dnb-form-label {
   .dnb-radio__row {
     display: inline-flex; }
   .dnb-radio__suffix {
-    order: 3;
-    padding-left: 0.5rem;
-    line-height: var(--line-height-basis); }
+    order: 3; }
     .dnb-radio__suffix .dnb-modal {
       margin-top: -0.25rem;
       margin-bottom: -0.25rem; }
-  .dnb-radio__suffix, .dnb-radio-group__suffix {
+  .dnb-radio-group__suffix {
     font-size: var(--font-size-basis); }
   .dnb-radio--large {
     line-height: var(--radio-height--large); }

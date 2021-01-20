@@ -5,10 +5,11 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
+import { spacingPropTypes } from '../components/space/SpacingHelper'
 import E from './Element'
 import Ul from './Ul'
 import Ol from './Ol'
-import classnames from 'classnames'
 
 const Li = ({ className, ...p } = {}) => {
   /**
@@ -29,6 +30,7 @@ const Li = ({ className, ...p } = {}) => {
 }
 Li.tagName = 'dnb-li'
 Li.propTypes = {
+  ...spacingPropTypes,
   className: PropTypes.string
 }
 Li.defaultProps = {

@@ -4,8 +4,9 @@
  */
 
 import React from 'react'
-import E from './Element'
 import PropTypes from 'prop-types'
+import { spacingPropTypes } from '../components/space/SpacingHelper'
+import E from './Element'
 import classnames from 'classnames'
 
 const Hr = ({ fullscreen, light, medium, ...props } = {}) => {
@@ -23,6 +24,8 @@ const Hr = ({ fullscreen, light, medium, ...props } = {}) => {
 }
 Hr.tagName = 'dnb-hr'
 Hr.propTypes = {
+  ...spacingPropTypes,
+
   className: PropTypes.string,
   light: PropTypes.bool,
   medium: PropTypes.bool,

@@ -9,6 +9,13 @@
   "trailingComma": "none",
   "overrides": [
     {
+      "files": "*.d.ts",
+      "options": {
+        "semi": true,
+        "trailingComma": "none"
+      }
+    },
+    {
       "files": "*.scss",
       "options": {
         "singleQuote": true
