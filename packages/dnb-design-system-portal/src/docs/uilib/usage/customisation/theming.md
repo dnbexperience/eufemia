@@ -8,13 +8,28 @@ order: 7
 Read the [Styling examples](/uilib/usage/customisation/styling) on how to include styles and a theme.
 This section is about how theming works and how to actually create a custom theme.
 
-## How Themes are built
+## WIP: Ready to use themes
+
+Right now, theres work going on to create Eufemia Themes that utilize both color and spacing and the [Spatial system](/quickguide-designer/spatial-system).
+
+The plan is to extend the documentation here later on on how to select and use a theme inside an application.
+
+### Chrome Extension: Eufemia Theme Manager
+
+Use the [Chrome Browser Extension](https://chrome.google.com/webstore/detail/eufemia-theme-manager/pijolaebmeacaekbhoefjmhogckdcclb) to:
+
+- test themes on web applications
+- create new possible themes
+- look how the outcome would be if a theme would be used
+- and create areas where a different or a modified theme would make more sense
+
+## How are component themes built
 
 By default, all the HTML Elements (components) are built by separating the "visual styling" parts from the "functional layout" parts. This way we can create new custom visual styles.
 
 Of course, we can still overwrite the functional layout properties to customize our theme even further.
 
-## The easy way
+### The total custom way
 
 Simply do not import **dnb-theme-ui** and create your own visual styles for every component you use in your App.
 
