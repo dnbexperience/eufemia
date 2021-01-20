@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`babelPluginPropTypesRelations has to match snapshot 1`] = `
+"/**
+ * Test mock file
+ *
+ */
+import React from 'react';
+import PropTypes from 'prop-types';
+import { defaultProps as secondaryDefaultProps, propTypes as secondaryPropTypes } from './SecondaryComponent';
+export const primaryPropTypes = {
+  top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+};
+export const primaryDefaultProps = {
+  space: null,
+  top: null,
+  right: null,
+  bottom: null,
+  left: null
+};
+export default class PrimaryComponent extends React.PureComponent {
+  render() {
+    return [this.props.boolean, this.props.number, this.props.spacing, this.props.foo, this.props.secondary_foo, this.props.secondary_spacing, this.props.children];
+  }
+
+}
+PrimaryComponent.propTypes = {
+  boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  spacing: PropTypes.shape({
+    top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+  }),
+  foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_spacing: PropTypes.shape({
+    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+  }),
+  children: PropTypes.node
+};
+PrimaryComponent.defaultProps = {
+  boolean: null,
+  number: null,
+  spacing: null,
+  foo: null,
+  ...primaryDefaultProps,
+  ...secondaryDefaultProps,
+  children: null
+};
+
+const Element = () => {
+  return null;
+};
+
+Element.propTypes = {
+  boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  spacing: PropTypes.shape({
+    top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+  }),
+  foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_spacing: PropTypes.shape({
+    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+  }),
+  children: PropTypes.node
+};
+Element.defaultProps = {
+  boolean: null,
+  number: null,
+  spacing: null,
+  foo: null,
+  ...primaryDefaultProps,
+  children: null
+};"
+`;

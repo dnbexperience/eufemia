@@ -5,10 +5,10 @@
 
 import fs from 'fs-extra'
 import path from 'path'
-import { log } from '../../lib'
-import { asyncForEach } from '../../tools'
+import { log } from '../../../lib'
+import { asyncForEach } from '../../../tools'
 import { Extractor } from 'markdown-tables-to-json'
-import { toLispCase } from '../../../src/shared/component-helper'
+import { toLispCase } from '../../../../src/shared/component-helper'
 
 const ROOT_DIR = path.resolve(
   path.dirname(require.resolve('dnb-design-system-portal/package.json')),
