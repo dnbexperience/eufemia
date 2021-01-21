@@ -128,21 +128,32 @@ export default class ModalContent extends React.PureComponent {
 
     const id = this.props.id
     dispatchCustomElementEvent(this, 'on_open', { id })
+
+    if (typeof window !== 'undefined') {
+      /** To ensure, we have always a working keydown, we call it both on the element and window */
+      window.addEventListener('keydown', this.onKeyDownHandler)
+    }
   }
 
   componentWillUnmount() {
     clearTimeout(this._focusTimeout)
 
+    const lastOne = [...getListOfModalRoots()].shift()
+
     this.removeAndroidFocusHelper()
     this.removeFromIndex()
 
-    if (getListOfModalRoots().length <= 1) {
+    if (lastOne === this) {
       this.revertScrollPossibility()
       this._ii.revert()
     }
 
     const id = this.props.id
     dispatchCustomElementEvent(this, 'on_close', { id })
+
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('keydown', this.onKeyDownHandler)
+    }
   }
 
   setAndroidFocusHelper() {
@@ -269,12 +280,18 @@ export default class ModalContent extends React.PureComponent {
 
   onKeyDownHandler = (e) => {
     switch (keycode(e)) {
-      case 'esc':
-        e.preventDefault()
-        this.props.closeModal(e, {
-          triggeredBy: 'keyboard'
-        })
+      case 'esc': {
+        const mostCurrent = [...getListOfModalRoots()].pop()
+
+        if (mostCurrent === this) {
+          e.preventDefault()
+          this.props.closeModal(e, {
+            triggeredBy: 'keyboard'
+          })
+        }
+
         break
+      }
     }
   }
 
