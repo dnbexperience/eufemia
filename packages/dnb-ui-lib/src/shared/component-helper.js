@@ -904,8 +904,8 @@ export class InteractionInvalidation {
     // by only finding elements that do not have tabindex="-1" we ensure we don't
     // corrupt the previous state of the element if a modal was already open
     this.nodesToInvalidate = Array.from(
-      (targetElement || document).querySelectorAll(
-        `body *${this.bypassSelectors
+      (targetElement || document.body).querySelectorAll(
+        `*${this.bypassSelectors
           .map((s) => `:not(${s})`)
           .join('')}:not(script):not(style):not(path)`
       )

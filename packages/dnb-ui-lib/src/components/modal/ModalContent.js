@@ -121,10 +121,23 @@ export default class ModalContent extends React.PureComponent {
   componentDidMount() {
     this.addToIndex()
 
-    this.removeScrollPossibility()
-    this._ii.activate()
-    this.setFocus()
+    const modalRoots = [...getListOfModalRoots()]
+    const firstLevel = modalRoots[0]
+
+    if (firstLevel === this) {
+      this.removeScrollPossibility()
+      this._ii.activate()
+    } else {
+      modalRoots.forEach((modal) => {
+        if (modal !== this && typeof modal._contentRef !== 'undefined') {
+          modal._iiLocal = new InteractionInvalidation()
+          modal._iiLocal.activate(modal._contentRef.current)
+        }
+      })
+    }
+
     this.setAndroidFocusHelper()
+    this.setFocus()
 
     const id = this.props.id
     dispatchCustomElementEvent(this, 'on_open', { id })
@@ -138,15 +151,23 @@ export default class ModalContent extends React.PureComponent {
   componentWillUnmount() {
     clearTimeout(this._focusTimeout)
 
-    const lastOne = [...getListOfModalRoots()].shift()
+    const modalRoots = [...getListOfModalRoots()]
+    const firstLevel = modalRoots[0]
 
-    this.removeAndroidFocusHelper()
     this.removeFromIndex()
 
-    if (lastOne === this) {
-      this.revertScrollPossibility()
+    if (firstLevel === this) {
       this._ii.revert()
+      this.revertScrollPossibility()
+    } else {
+      modalRoots.forEach((modal) => {
+        if (modal !== this && modal._iiLocal) {
+          modal._iiLocal.revert()
+        }
+      })
     }
+
+    this.removeAndroidFocusHelper()
 
     const id = this.props.id
     dispatchCustomElementEvent(this, 'on_close', { id })

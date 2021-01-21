@@ -154,6 +154,140 @@ describe('Modal component', () => {
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
     expect(on_close).toHaveBeenCalledTimes(2)
   })
+  it('has support for nested modals', async () => {
+    const on_open = {
+      first: jest.fn(),
+      second: jest.fn(),
+      third: jest.fn()
+    }
+    const on_close = {
+      first: jest.fn(),
+      second: jest.fn(),
+      third: jest.fn()
+    }
+
+    const props = {
+      direct_dom_return: false,
+      no_animation: true
+    }
+
+    const Comp = mount(
+      <Component
+        {...props}
+        id="modal-first"
+        on_open={on_open.first}
+        on_close={on_close.first}
+      >
+        <button id="content-first">content</button>
+        <Component
+          {...props}
+          id="modal-second"
+          on_open={on_open.second}
+          on_close={on_close.second}
+        >
+          <button id="content-second">content</button>
+          <Component
+            {...props}
+            id="modal-third"
+            on_open={on_open.third}
+            on_close={on_close.third}
+          >
+            <button id="content-third">content</button>
+          </Component>
+        </Component>
+      </Component>
+    )
+
+    expect(Comp.exists('#content-third')).toBe(false)
+
+    Comp.find('button#modal-first').simulate('click')
+    Comp.find('button#modal-second').simulate('click')
+    Comp.find('button#modal-third').simulate('click')
+
+    expect(on_open.first).toHaveBeenCalledTimes(1)
+    expect(on_open.second).toHaveBeenCalledTimes(1)
+    expect(on_open.third).toHaveBeenCalledTimes(1)
+
+    expect(Comp.find('button.dnb-modal__close-button').length).toBe(3)
+    expect(
+      Comp.find('#content-first').instance().hasAttribute('aria-hidden')
+    ).toBe(true)
+    expect(
+      Comp.find('#content-second').instance().hasAttribute('aria-hidden')
+    ).toBe(true)
+    expect(
+      Comp.find('#content-third').instance().hasAttribute('aria-hidden')
+    ).toBe(false)
+    expect(
+      Comp.find('button.dnb-modal__close-button')
+        .at(0)
+        .instance()
+        .hasAttribute('aria-hidden')
+    ).toBe(true)
+    expect(
+      Comp.find('button.dnb-modal__close-button')
+        .at(1)
+        .instance()
+        .hasAttribute('aria-hidden')
+    ).toBe(true)
+    expect(
+      Comp.find('button.dnb-modal__close-button')
+        .at(2)
+        .instance()
+        .hasAttribute('aria-hidden')
+    ).toBe(false)
+
+    // Close the third one
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    Comp.update()
+    expect(on_close.first).toHaveBeenCalledTimes(0)
+    expect(on_close.second).toHaveBeenCalledTimes(0)
+    expect(on_close.third).toHaveBeenCalledTimes(1)
+
+    expect(Comp.exists('#content-third')).toBe(false)
+    expect(
+      Comp.find('#content-second').instance().hasAttribute('aria-hidden')
+    ).toBe(false)
+    expect(
+      Comp.find('button.dnb-modal__close-button')
+        .at(0)
+        .instance()
+        .hasAttribute('aria-hidden')
+    ).toBe(true)
+    expect(
+      Comp.find('button.dnb-modal__close-button')
+        .at(1)
+        .instance()
+        .hasAttribute('aria-hidden')
+    ).toBe(false)
+
+    // Close the second one
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    Comp.update()
+    expect(on_close.first).toHaveBeenCalledTimes(0)
+    expect(on_close.second).toHaveBeenCalledTimes(1)
+    expect(on_close.third).toHaveBeenCalledTimes(1)
+
+    expect(Comp.exists('#content-second')).toBe(false)
+    expect(
+      Comp.find('#content-first').instance().hasAttribute('aria-hidden')
+    ).toBe(true)
+    expect(
+      Comp.find('button.dnb-modal__close-button')
+        .at(0)
+        .instance()
+        .hasAttribute('aria-hidden')
+    ).toBe(true)
+
+    // Close the first one
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    Comp.update()
+    expect(on_close.first).toHaveBeenCalledTimes(1)
+    expect(on_close.second).toHaveBeenCalledTimes(1)
+    expect(on_close.third).toHaveBeenCalledTimes(1)
+
+    expect(Comp.exists('#content-first')).toBe(false)
+  })
   it('will prevent closing the modal on prevent_close', () => {
     let preventClose = true
     const on_open = jest.fn()
