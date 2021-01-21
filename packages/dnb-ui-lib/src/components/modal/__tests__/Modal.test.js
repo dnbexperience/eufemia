@@ -148,6 +148,11 @@ describe('Modal component', () => {
     expect(on_close).toHaveBeenCalledWith({
       id: 'modal_id'
     })
+
+    // Also test the window event listener
+    Comp.find('button').simulate('click')
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    expect(on_close).toHaveBeenCalledTimes(2)
   })
   it('will prevent closing the modal on prevent_close', () => {
     let preventClose = true

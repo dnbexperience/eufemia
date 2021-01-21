@@ -129,9 +129,9 @@ export default class ModalContent extends React.PureComponent {
     const id = this.props.id
     dispatchCustomElementEvent(this, 'on_open', { id })
 
-    if (typeof window !== 'undefined') {
-      /** To ensure, we have always a working keydown, we call it both on the element and window */
-      window.addEventListener('keydown', this.onKeyDownHandler)
+    if (typeof document !== 'undefined') {
+      /** To ensure, we have always a working keydown, we call it both on the element and document */
+      document.addEventListener('keydown', this.onKeyDownHandler)
     }
   }
 
@@ -151,8 +151,8 @@ export default class ModalContent extends React.PureComponent {
     const id = this.props.id
     dispatchCustomElementEvent(this, 'on_close', { id })
 
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('keydown', this.onKeyDownHandler)
+    if (typeof document !== 'undefined') {
+      document.removeEventListener('keydown', this.onKeyDownHandler)
     }
   }
 
