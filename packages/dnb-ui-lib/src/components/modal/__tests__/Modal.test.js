@@ -154,7 +154,7 @@ describe('Modal component', () => {
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
     expect(on_close).toHaveBeenCalledTimes(2)
   })
-  it('has support for nested modals', async () => {
+  it('has support for nested modals', () => {
     const on_open = {
       first: jest.fn(),
       second: jest.fn(),
@@ -415,7 +415,7 @@ describe('Modal component', () => {
 
     expect(document.body.style.position).not.toBe('hidden')
   })
-  it('has expected open and close states', async () => {
+  it('has expected open and close states', () => {
     const Comp = mount(<Component {...props} />)
     Comp.setProps({ open_state: 'opened' })
 
