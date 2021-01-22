@@ -271,13 +271,13 @@ describe('Modal component', () => {
     expect(Comp.exists('#content-second')).toBe(false)
     expect(
       Comp.find('#content-first').instance().hasAttribute('aria-hidden')
-    ).toBe(true)
+    ).toBe(false)
     expect(
       Comp.find('button.dnb-modal__close-button')
         .at(0)
         .instance()
         .hasAttribute('aria-hidden')
-    ).toBe(true)
+    ).toBe(false)
 
     // Close the first one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
