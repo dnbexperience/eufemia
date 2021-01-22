@@ -23,6 +23,8 @@ Use the [Chrome Browser Extension](https://chrome.google.com/webstore/detail/euf
 - look how the outcome would be if a theme would be used
 - and create areas where a different or a modified theme would make more sense
 
+Contribute to the [Source Code](https://github.com/dnbexperience/eufemia-theme-manager)
+
 ## How are component themes built
 
 By default, all the HTML Elements (components) are built by separating the "visual styling" parts from the "functional layout" parts. This way we can create new custom visual styles.
