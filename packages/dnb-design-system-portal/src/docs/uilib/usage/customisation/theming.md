@@ -16,14 +16,18 @@ The plan is to extend the documentation here later on on how to select and use a
 
 ### Chrome Extension: Eufemia Theme Manager
 
-Use the [Chrome Browser Extension](https://chrome.google.com/webstore/detail/eufemia-theme-manager/pijolaebmeacaekbhoefjmhogckdcclb) to:
+<!-- Use the [Chrome Browser Extension](https://chrome.google.com/webstore/detail/eufemia-theme-manager/pijolaebmeacaekbhoefjmhogckdcclb) to: -->
+
+Use the Chrome Browser Extension to:
 
 - test themes on web applications
 - create new possible themes
 - look how the outcome would be if a theme would be used
 - and create areas where a different or a modified theme would make more sense
 
-Contribute to the [Source Code](https://github.com/dnbexperience/eufemia-theme-manager)
+You can download the [Chrome Browser Extension](https://github.com/dnbexperience/eufemia-theme-manager/tree/main/eufemia-theme-manager-extension/web-ext-artifacts), and install it manually in your browser. To do so, go to [chrome://extensions](chrome://extensions) and drag & drop the downloaded ZIP file in the opened extensions tab.
+
+Contributions are welcome. Heres the [source code](https://github.com/dnbexperience/eufemia-theme-manager).
 
 ## How are component themes built
 
