@@ -203,9 +203,10 @@ export default class Switch extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       Switch.defaultProps,
-      this.context.formRow,
       { skeleton: this.context?.skeleton },
-      this.context.translation.Switch
+      this.context.getTranslation(this.props).Switch,
+      this.context.FormRow,
+      this.context.Switch
     )
 
     const {

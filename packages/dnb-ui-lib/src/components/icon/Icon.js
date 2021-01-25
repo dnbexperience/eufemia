@@ -119,7 +119,8 @@ export default class Icon extends React.PureComponent {
       this.props,
       Icon.defaultProps,
       { skeleton: this.context?.skeleton },
-      this.context.formRow
+      this.context.FormRow,
+      this.context.Icon,
     )
 
     const { icon, size, wrapperParams, iconParams, alt } = prepareIcon(

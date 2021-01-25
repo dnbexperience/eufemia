@@ -264,7 +264,8 @@ export default class Radio extends React.PureComponent {
             Radio.defaultProps,
             this.context, // internal context
             { skeleton: context?.skeleton },
-            context.formRow
+            context.FormRow,
+            context.Radio
           )
 
           const {

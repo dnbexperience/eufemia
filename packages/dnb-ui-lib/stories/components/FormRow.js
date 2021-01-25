@@ -48,7 +48,7 @@ export const FormRowSandbox = () => (
       <Box>
         <H3 bottom="large">Horizontal label</H3>
         <Provider
-          formRow={{
+          FormRow={{
             // indent: true,
             // indent_offset: 'large',
             direction: 'horizontal'

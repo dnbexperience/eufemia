@@ -73,8 +73,10 @@ export default class InputPassword extends React.PureComponent {
       this.props,
       InputPassword.defaultProps,
       { skeleton: this.context?.skeleton },
-      this.context.formRow,
-      this.context.getTranslation(this.props).Input
+      this.context.getTranslation(this.props).Input,
+      this.context.FormRow,
+      this.context.Input,
+      this.context.InputPassword
     )
 
     const id = this._id

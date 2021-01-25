@@ -95,7 +95,7 @@ export const ToggleButtonSandbox = () => (
     </Box>
 
     <Box>
-      <Provider formRow={{ vertical: true }}>
+      <Provider FormRow={{ vertical: true }}>
         <FormRow disabled>
           <ToggleButton.Group>
             <ToggleButton

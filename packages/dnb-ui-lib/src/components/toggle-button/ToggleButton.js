@@ -284,8 +284,9 @@ export default class ToggleButton extends React.PureComponent {
             this.props,
             ToggleButton.defaultProps,
             this.context, // internal context
-            context.formRow,
-            context.translation.ToggleButton
+            context.translation.ToggleButton,
+            context.FormRow,
+            context.ToggleButton
           )
 
           const {

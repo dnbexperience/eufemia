@@ -153,8 +153,9 @@ class PaginationInstance extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       defaultProps,
-      this.context.formRow,
-      this.context.getTranslation(this.props).Pagination
+      this.context.getTranslation(this.props).Pagination,
+      this.context.FormRow,
+      this.context.Pagination
     )
 
     const {

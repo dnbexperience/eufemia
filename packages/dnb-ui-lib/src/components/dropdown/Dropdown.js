@@ -410,8 +410,9 @@ class DropdownInstance extends React.PureComponent {
       this.props,
       Dropdown.defaultProps,
       { skeleton: this.context?.skeleton },
-      this.context.formRow,
-      this.context.getTranslation(this.props).Dropdown
+      this.context.getTranslation(this.props).Dropdown,
+      this.context.FormRow,
+      this.context.Dropdown
     )
 
     const {

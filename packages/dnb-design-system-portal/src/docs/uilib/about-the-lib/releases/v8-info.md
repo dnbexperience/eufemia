@@ -1,7 +1,3 @@
----
-draft: true
----
-
 # v8
 
 - [Migration](#migration)

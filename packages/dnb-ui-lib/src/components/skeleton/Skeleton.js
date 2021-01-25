@@ -73,11 +73,11 @@ export default class Skeleton extends React.PureComponent {
       props,
       Skeleton.defaultProps,
       {
-        skeleton: context.skeleton,
+        skeleton: context.Skeleton || context.skeleton,
         style_type: context.skeleton_style_type,
         no_animation: context.skeleton_no_animation
       },
-      context.translation.Skeleton
+      context.getTranslation(props).Skeleton
     )
   }
 

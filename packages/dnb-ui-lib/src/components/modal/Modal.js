@@ -452,8 +452,9 @@ export default class Modal extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       Modal.defaultProps,
-      this.context.formRow,
-      this.context.getTranslation(this.props).Modal
+      this.context.getTranslation(this.props).Modal,
+      this.context.FormRow,
+      this.context.Modal
     )
 
     const {

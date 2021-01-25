@@ -48,8 +48,8 @@ export default class Provider extends React.PureComponent {
       }
 
       // 2. The reset will extend the Provider Context
-      if (newContext.formRow) {
-        newContext.formRow = prepareFormRowContext(newContext.formRow)
+      if (newContext.FormRow) {
+        newContext.FormRow = prepareFormRowContext(newContext.FormRow)
       }
 
       state = newContext
@@ -67,6 +67,15 @@ export default class Provider extends React.PureComponent {
       children, // eslint-disable-line
       ...startupProps
     } = props
+
+    /**
+     * Deprecated!
+     *
+     * This is only to ensure backwards compatibility, as the docs has showed before year 2021
+     */
+    if (typeof startupProps.formRow !== 'undefined') {
+      startupProps.FormRow = startupProps.formRow
+    }
 
     // NB: Make sure we create a copy, because we add some custom methods to it
     const newContext = { ...context, ...startupProps }

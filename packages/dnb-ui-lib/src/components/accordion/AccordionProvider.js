@@ -95,7 +95,8 @@ export default class AccordionGroup extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       AccordionGroup.defaultProps,
-      this.context.formRow,
+      this.context.FormRow,
+      this.context.Accordion,
       this.context.getTranslation(this.props).Accordion
     )
 

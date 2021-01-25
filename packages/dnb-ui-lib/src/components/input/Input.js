@@ -228,9 +228,9 @@ export default class Input extends React.PureComponent {
 
     this._id =
       props.id ||
-      (context.formRow &&
-        typeof context.formRow.useId === 'function' &&
-        context.formRow.useId()) ||
+      (context.FormRow &&
+        typeof context.FormRow.useId === 'function' &&
+        context.FormRow.useId()) ||
       makeUniqueId() // cause we need an id anyway
 
     // make sure we don't trigger getDerivedStateFromProps on startup
@@ -291,8 +291,9 @@ export default class Input extends React.PureComponent {
       this.props,
       Input.defaultProps,
       { skeleton: this.context?.skeleton },
-      this.context.formRow,
-      this.context.getTranslation(this.props).Input
+      this.context.getTranslation(this.props).Input,
+      this.context.FormRow,
+      this.context.Input
     )
 
     const {
