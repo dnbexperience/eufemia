@@ -18,7 +18,10 @@ describe('babelPluginExtendTypes', () => {
     const { code } = await transformFileAsync(file, {
       plugins: [
         ['@babel/plugin-syntax-typescript', { isTSX: true }],
-        [babelPluginExtendTypes, { componentName: 'PrimaryComponent' }]
+        [
+          babelPluginExtendTypes,
+          { componentName: 'PrimaryComponentProps' }
+        ]
       ],
       ...babelPluginConfigDefaults
     })
