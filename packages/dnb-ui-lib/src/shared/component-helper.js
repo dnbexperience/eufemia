@@ -802,7 +802,7 @@ export class InteractionInvalidation {
       return // stop here
     }
 
-    this._setNodesToInvalidate(targetElement)
+    this.nodesToInvalidate = this.getNodesToInvalidate(targetElement)
 
     if (Array.isArray(this.nodesToInvalidate)) {
       this.nodesToInvalidate.forEach((node) => {
@@ -881,7 +881,7 @@ export class InteractionInvalidation {
     })
   }
 
-  _setNodesToInvalidate(targetElement = null) {
+  getNodesToInvalidate(targetElement = null) {
     if (typeof document === 'undefined') {
       return // stop here
     }
@@ -903,11 +903,15 @@ export class InteractionInvalidation {
 
     // by only finding elements that do not have tabindex="-1" we ensure we don't
     // corrupt the previous state of the element if a modal was already open
-    this.nodesToInvalidate = Array.from(
-      (targetElement || document).querySelectorAll(
-        `body *${this.bypassSelectors
-          .map((s) => `:not(${s})`)
-          .join('')}:not(script):not(style):not(path)`
+    const rootSelector = targetElement ? '*' : 'html *'
+    const elementSelector = this.bypassSelectors
+      .map((s) => `:not(${s})`)
+      .join('')
+    const selector = `${rootSelector} ${elementSelector}:not(script):not(style):not(path)`
+
+    return Array.from(
+      (targetElement || document.documentElement).querySelectorAll(
+        selector
       )
     ).filter((node) => !skipTheseNodes.includes(node))
   }

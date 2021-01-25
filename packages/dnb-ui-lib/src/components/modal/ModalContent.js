@@ -121,28 +121,68 @@ export default class ModalContent extends React.PureComponent {
   componentDidMount() {
     this.addToIndex()
 
-    this.removeScrollPossibility()
-    this._ii.activate()
-    this.setFocus()
+    const modalRoots = getListOfModalRoots()
+    const firstLevel = modalRoots[0]
+
+    if (firstLevel === this) {
+      this.removeScrollPossibility()
+      this._ii.activate()
+    } else {
+      modalRoots.forEach((modal) => {
+        if (
+          modal !== this &&
+          typeof modal._iiLocal === 'undefined' &&
+          typeof modal._contentRef !== 'undefined'
+        ) {
+          modal._iiLocal = new InteractionInvalidation()
+          modal._iiLocal.activate(modal._contentRef.current)
+        }
+      })
+    }
+
     this.setAndroidFocusHelper()
+    this.setFocus()
 
     const id = this.props.id
     dispatchCustomElementEvent(this, 'on_open', { id })
+
+    if (typeof document !== 'undefined') {
+      /** To ensure, we have always a working keydown, we call it both on the element and document */
+      document.addEventListener('keydown', this.onKeyDownHandler)
+    }
   }
 
   componentWillUnmount() {
     clearTimeout(this._focusTimeout)
 
-    this.removeAndroidFocusHelper()
+    const modalRoots = getListOfModalRoots()
+    const firstLevel = modalRoots[0]
+
     this.removeFromIndex()
 
-    if (getListOfModalRoots().length <= 1) {
-      this.revertScrollPossibility()
+    if (firstLevel === this) {
       this._ii.revert()
+      this.revertScrollPossibility()
+    } else {
+      try {
+        const modal = modalRoots[modalRoots.length - 2]
+        if (modal !== this && modal._iiLocal) {
+          modal._iiLocal.revert()
+          delete modal._iiLocal
+        }
+      } catch (e) {
+        warn(e)
+      }
     }
+
+    this.removeAndroidFocusHelper()
 
     const id = this.props.id
     dispatchCustomElementEvent(this, 'on_close', { id })
+
+    if (typeof document !== 'undefined') {
+      document.removeEventListener('keydown', this.onKeyDownHandler)
+    }
   }
 
   setAndroidFocusHelper() {
@@ -269,12 +309,18 @@ export default class ModalContent extends React.PureComponent {
 
   onKeyDownHandler = (e) => {
     switch (keycode(e)) {
-      case 'esc':
-        e.preventDefault()
-        this.props.closeModal(e, {
-          triggeredBy: 'keyboard'
-        })
+      case 'esc': {
+        const mostCurrent = [...getListOfModalRoots()].pop()
+
+        if (mostCurrent === this) {
+          e.preventDefault()
+          this.props.closeModal(e, {
+            triggeredBy: 'keyboard'
+          })
+        }
+
         break
+      }
     }
   }
 
