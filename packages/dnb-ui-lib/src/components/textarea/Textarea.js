@@ -77,6 +77,7 @@ export default class Textarea extends React.PureComponent {
     readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     cols: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    inner_ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
 
     ...spacingPropTypes,
 
@@ -118,6 +119,7 @@ export default class Textarea extends React.PureComponent {
     readOnly: false,
     rows: null,
     cols: null,
+    inner_ref: null,
 
     className: null,
     textarea_element: null,
@@ -184,7 +186,7 @@ export default class Textarea extends React.PureComponent {
   constructor(props) {
     super(props)
 
-    this._ref = React.createRef()
+    this._ref = props.inner_ref || React.createRef()
     this._id = props.id || makeUniqueId() // cause we need an id anyway
 
     // make sure we dont trigger getDerivedStateFromProps on startup

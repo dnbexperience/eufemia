@@ -16,6 +16,7 @@ exports[`Textarea component have to match snapshot 1`] = `
         "disabled": "disabled",
         "global_status_id": "global_status_id",
         "id": "id",
+        "inner_ref": [Function],
         "label": "label",
         "label_direction": "'horizontal'",
         "label_sr_only": "label_sr_only",
@@ -49,6 +50,7 @@ exports[`Textarea component have to match snapshot 1`] = `
   disabled={false}
   global_status_id={null}
   id="textarea"
+  inner_ref={null}
   label={null}
   label_direction={null}
   label_sr_only={null}
