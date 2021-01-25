@@ -18,7 +18,7 @@ export function babelPluginExtendTypes(
               path.parentPath.isTSInterfaceDeclaration() &&
               !(path.parentPath.node?.extends?.length > 0)
             ) {
-              path.node.name = `${componentName} extends React.DOMAttributes<React.SyntheticEvent>`
+              path.node.name = `${componentName} extends React.HTMLProps<HTMLElement>`
             }
           }
         })

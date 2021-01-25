@@ -18,7 +18,7 @@ export type PrimaryComponentSecondaryFoo = string | number | boolean;
 export interface PrimaryComponentSecondarySpacing {
   secondary?: string | number | boolean;
 }
-export interface PrimaryComponentProps {
+export interface PrimaryComponentProps extends React.HTMLProps<HTMLElement> {
   boolean?: boolean;
   number?: number;
   spacing?: PrimaryComponentSpacing;
