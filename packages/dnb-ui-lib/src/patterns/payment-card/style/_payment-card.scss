@@ -34,8 +34,6 @@
     #241e23 6.31%,
     #251d23 85.2%
   );
-  --dnb-payment-bg-private: var(--color-black-80);
-  --dnb-payment-bg-mc-black: var(--color-black);
   --dnb-payment-bg-business-no-visa: linear-gradient(
     184.55deg,
     #50c9de 6.31%,
@@ -98,12 +96,12 @@
     }
 
     &--design-private {
-      background: var(--dnb-payment-bg-private);
+      background: var(--color-black-80);
       color: var(--color-white);
     }
 
     &--design-black {
-      background: var(--dnb-payment-bg-mc-black);
+      background: var(--color-black);
       color: var(--color-white);
     }
 

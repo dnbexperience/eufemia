@@ -5,23 +5,8 @@
 
 @import '../../../../style/themes/imports.scss';
 
-:root {
-  --input-text-color: var(--color-sea-green);
-  --input-text-color--focus: var(--color-sea-green);
-  --input-text-color--changed: var(--color-emerald-green);
-  --input-text-color--disabled: var(--color-sea-green-30);
-  --input-background-color: var(--color-white);
-  --input-background-color--focus: var(--color-white);
-  --input-background-color--changed: var(--color-white);
-  --input-background-color--disabled: var(--color-mint-green-12);
-  --input-border-color: var(--color-sea-green);
-  --input-border-color--focus: var(--color-emerald-green);
-  --input-border-color--changed: var(--color-sea-green);
-  --input-border-color--disabled: var(--color-sea-green-30);
-}
-
 .dnb-input {
-  color: var(--input-text-color);
+  color: var(--color-sea-green);
 
   &__inner {
     color: inherit;
@@ -29,11 +14,11 @@
 
   &__shell {
     color: inherit;
-    background-color: var(--input-background-color);
+    background-color: var(--color-white);
     border: none;
 
     @include fakeBorder(
-      var(--input-border-color),
+      var(--color-sea-green),
       var(--input-border-width),
       inset,
       true
@@ -41,30 +26,30 @@
 
     &[data-input-state='dirty'] {
       // Background color of input when it has content
-      color: var(--input-text-color--changed);
-      background-color: var(--input-background-color--changed);
+      color: var(--color-emerald-green);
+      background-color: var(--color-white);
     }
 
     &[data-input-state='disabled'] {
       &,
       .dnb-icon {
-        color: var(--input-text-color--disabled);
+        color: var(--color-sea-green-30);
       }
       -webkit-text-fill-color: currentColor;
       @include fakeBorder(
-        var(--input-border-color--disabled),
+        var(--color-sea-green-30),
         var(--input-border-width),
         inset,
         true
       );
-      background-color: var(--input-background-color--disabled);
+      background-color: var(--color-mint-green-12);
     }
 
     &:not([data-input-state='disabled']):hover,
     &[data-input-state='focus'] {
-      color: var(--input-text-color--focus);
-      background-color: var(--input-background-color--focus);
-      @include fakeBorder(var(--input-border-color--focus), 0.125rem);
+      color: var(--color-sea-green);
+      background-color: var(--color-white);
+      @include fakeBorder(var(--color-emerald-green), 0.125rem);
     }
   }
 
@@ -98,7 +83,7 @@
 
   &__input::selection {
     background-color: var(--color-mint-green);
-    color: var(--input-text-color--focus);
+    color: var(--color-sea-green);
     text-shadow: none;
   }
 
@@ -114,6 +99,6 @@
 
   // TODO: This has to be considdered with Jens
   // &__description {
-  //   color: var(--input-text-color);
+  //   color: var(--color-sea-green);
   // }
 }

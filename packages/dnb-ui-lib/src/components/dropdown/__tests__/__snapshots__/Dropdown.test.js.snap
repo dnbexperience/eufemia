@@ -1246,17 +1246,14 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-:root {
-  --dropdown-text-color: var(--color-emerald-green); }
-
 .dnb-dropdown {
-  color: var(--dropdown-text-color); }
+  color: var(--color-emerald-green); }
   .dnb-dropdown__trigger {
-    color: var(--dropdown-text-color); }
+    color: var(--color-emerald-green); }
     html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover:not([disabled]) {
-      color: var(--dropdown-text-color); }
+      color: var(--color-emerald-green); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
     --border-color: var(--color-fire-red);
     box-shadow: 0 0 0 0.125rem var(--border-color) !important;
