@@ -11,6 +11,7 @@ __tests__
 # production
 /build
 /package
+/dist
 /scripts
 /src
 /stories
