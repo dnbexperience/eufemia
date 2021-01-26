@@ -62,13 +62,13 @@ export const createTypes = async (
       }
 
       // For dev (build:types:dev) mode only
-      const isDev =
-        process.env.npm_config_argv.includes('build:types:dev') &&
-        // !file.includes('/Element.js') &&
-        // !file.includes('/Blockquote.js') &&
-        // !file.includes('/Button.js') &&
-        !file.includes('/GlobalError.js')
-      if (isDev) {
+      const isDev = process.env.npm_config_argv.includes('build:types:dev')
+      const isOfInterest =
+        // file.includes('/Element.js') ||
+        // file.includes('/Blockquote.js') ||
+        // file.includes('/Button.js') ||
+        file.includes('/Tabs.js')
+      if (isDev && !isOfInterest) {
         return // stop here
       }
 
