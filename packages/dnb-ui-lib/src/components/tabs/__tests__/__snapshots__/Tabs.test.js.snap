@@ -531,8 +531,8 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
 *
 */
 .dnb-tabs__tabs:not(.dnb-section)::before {
-  background-color: var(--color-mint-green-50);
-  box-shadow: 100vw 0 0 0 var(--color-mint-green-50); }
+  background-color: var(--color-black-8);
+  box-shadow: 100vw 0 0 0 var(--color-black-8); }
 
 .dnb-tabs__tabs__tablist:focus {
   border-radius: 0.5rem; }
