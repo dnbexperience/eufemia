@@ -1,3 +1,9 @@
+## January, 28. 2021
+
+- Change the [Number](/uilib/components/number) currency display from `symbol` to `narrowSymbol`.
+- Change the [Tabs](/uilib/components/tabs) spacing from 80px to 40px as basis, and use 32px for small viewports.
+- Change the [Tabs](/uilib/components/tabs) line color from `mint-green-50` to `black-8`.
+
 ## December, 15. 2020
 
 Added Eufemia Icon library, with many new icons.
