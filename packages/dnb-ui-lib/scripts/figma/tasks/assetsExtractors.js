@@ -55,15 +55,13 @@ export function IconsConfig(overwrite = {}) {
   const iconRenameList = process.env.FIGMA_ICONS_RENAME_LIST || [
     { from: 'checkmark', to: 'check' },
     { from: 'repeat', to: 'refresh' },
-    { from: 'document', to: 'file' },
     { from: 'more_horizontal', to: 'more' }
   ]
 
-  const iconCloneList =
-    process.env.FIGMA_ICONS_CLONE_LIST ||
-    [
-      // As of now, we only rename these icons
-    ]
+  const iconCloneList = process.env.FIGMA_ICONS_CLONE_LIST || [
+    // As of now, we only clone these icons
+    { from: 'document', to: 'file' } // deprecated
+  ]
 
   const canvasNameSelector =
     process.env.FIGMA_ICONS_PAGE_SELECTOR || /^Icons$/ // before we have used: ^[0-9]+[_\- ]Icons$
