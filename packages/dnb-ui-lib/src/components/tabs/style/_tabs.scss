@@ -101,11 +101,8 @@
 
   &__button__snap {
     display: flex;
-    padding: 0 2rem 0 2.5rem;
+    padding: 0 1rem 0 1.5rem;
 
-    @include allBelow(medium) {
-      padding: 0 1rem 0 1.5rem;
-    }
     @include allBelow(small) {
       padding: 0 1rem;
     }
@@ -119,7 +116,7 @@
   }
   &--has-scrollbar &__button__snap {
     &:last-of-type {
-      padding-right: 2.5rem;
+      padding-right: 1.5rem;
     }
   }
 

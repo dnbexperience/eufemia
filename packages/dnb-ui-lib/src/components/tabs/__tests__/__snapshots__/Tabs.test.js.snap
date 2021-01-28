@@ -778,10 +778,7 @@ html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
 
 .dnb-tabs__button__snap {
   display: flex;
-  padding: 0 2rem 0 2.5rem; }
-  @media screen and (max-width: 50em) {
-    .dnb-tabs__button__snap {
-      padding: 0 1rem 0 1.5rem; } }
+  padding: 0 1rem 0 1.5rem; }
   @media screen and (max-width: 40em) {
     .dnb-tabs__button__snap {
       padding: 0 1rem; } }
@@ -791,7 +788,7 @@ html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
     padding-right: 0.5rem; }
 
 .dnb-tabs--has-scrollbar .dnb-tabs__button__snap:last-of-type {
-  padding-right: 2.5rem; }
+  padding-right: 1.5rem; }
 
 .dnb-tabs__button,
 .dnb-core-style .dnb-tabs .dnb-tabs__button {
