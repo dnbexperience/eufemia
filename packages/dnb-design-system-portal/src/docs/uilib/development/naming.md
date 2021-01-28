@@ -11,31 +11,31 @@ The DNB Design System Eufemia uses the following naming conventions.
 
 - **pascal case** also known as _upper camel case_. Every word upper case. Example: `PascalCase`
 - **camel case** also known as _lower camel case_. First word lower case. Example: `camelCase`
-- **lisp case** also known as _kebab case_. Only lower case letters. Example: `lisp-case`
+- **kebab case** also known as _kebab case_. Only lower case letters. Example: `kebab-case`
 - **snake case**. Only lower case letters. Example: `snake_case`
 
 ## React components
 
 - React Components, both as files and as components use **pascal case**.
-- The folder containing the component uses **lisp case**.
+- The folder containing the component uses **kebab case**.
 
 ## Web components
 
-- Web components use **lisp case**.
+- Web components use **kebab case**.
 - They are prefixed with: `dnb-`
 
 ## CSS / SCSS
 
-- CSS classes and the files containing the styles use **lisp case**.
+- CSS classes and the files containing the styles use **kebab case**.
 - CSS classes are prefixed with: `dnb-`
-- CSS `Custom Properties` (CSS Variables) use **lisp case**.
+- CSS `Custom Properties` (CSS Variables) use **kebab case**.
 - SCSS Mixins use **camel case**.
 
 ## Javascript
 
 - `Functions` and `Variables` use **camel case**.
 - `Classes` use **pascal case**.
-- Other Javascript files use **lisp case**.
+- Other Javascript files use **kebab case**.
 
 ## Events and Properties
 
@@ -53,7 +53,7 @@ The DNB Design System Eufemia uses the following naming conventions.
 
 ## Documentation
 
-- `Pages` and directories use **lisp case**.
+- `Pages` and directories use **kebab case**.
 
 ---
 
@@ -63,7 +63,7 @@ The decision to use `snake_case` was made to not just adopt React terms (`Pascal
 
 But also the technical limitation that **Web Components** do not support `PascalCase` made us more confident to use another case style.
 
-HTML attributes uses `lisp-case`, so we needed something between.
+HTML attributes uses `kebab-case`, so we needed something between.
 
 The aspect to distinguish between case styles will also make code easier to read and support future code changes and refactoring.
 

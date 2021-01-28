@@ -8,7 +8,7 @@ import path from 'path'
 import { log } from '../../../lib'
 import { asyncForEach } from '../../../tools'
 import { Extractor } from 'markdown-tables-to-json'
-import { toLispCase } from '../../../../src/shared/component-helper'
+import { toKebabCase } from '../../../../src/shared/component-helper'
 
 const ROOT_DIR = path.resolve(
   path.dirname(require.resolve('dnb-design-system-portal/package.json')),
@@ -32,11 +32,11 @@ export async function fetchPropertiesFromDocs({
     const parts = file
       .split('/')
       .map((fn) =>
-        toLispCase(path.basename(fn).replace(path.extname(file), ''))
+        toKebabCase(path.basename(fn).replace(path.extname(file), ''))
       )
-    const index = parts.findIndex((fn) => fn === toLispCase(filename))
+    const index = parts.findIndex((fn) => fn === toKebabCase(filename))
     const groupDir = includeSpecialDirs ? parts[index - 1] : ''
-    const componentDir = includeSpecialDirs ? toLispCase(filename) : ''
+    const componentDir = includeSpecialDirs ? toKebabCase(filename) : ''
 
     const markdownFiles = findFiles.map((file) => {
       return path.resolve(docsDir, groupDir, componentDir, file)
