@@ -671,8 +671,8 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      d="M10 3L5 8l5 5"
-                      stroke="#000"
+                      d="M10 3L5 8L10 13"
+                      stroke="black"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={1.5}
