@@ -13,8 +13,8 @@ function hamburger(props) {
       {...props}
     >
       <path
-        d="M1 14h14M1 8h14M1 2h14"
-        stroke="#000"
+        d="M1 14L15 14M1 8L15 8M1 2L15 2"
+        stroke="black"
         strokeWidth={1.5}
         strokeLinecap="round"
       />

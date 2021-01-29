@@ -13,8 +13,8 @@ function clock(props) {
       {...props}
     >
       <path
-        d="M8 5.5V8l2.5 2.5M15 8A7 7 0 111 8a7 7 0 0114 0z"
-        stroke="#000"
+        d="M8 5.5V8L10.4995 10.5M15 8C15 11.866 11.866 15 8 15C4.13401 15 1 11.866 1 8C1 4.13401 4.13401 1 8 1C11.866 1 15 4.13401 15 8Z"
+        stroke="black"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"

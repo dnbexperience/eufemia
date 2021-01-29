@@ -13,8 +13,8 @@ function close_medium(props) {
       {...props}
     >
       <path
-        d="M5 19L19 5m0 14L5 5"
-        stroke="#000"
+        d="M5 19L19 5M19 19L5 5"
+        stroke="black"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"

@@ -55,6 +55,7 @@ export function IconsConfig(overwrite = {}) {
   const iconRenameList = process.env.FIGMA_ICONS_RENAME_LIST || [
     { from: 'checkmark', to: 'check' },
     { from: 'repeat', to: 'refresh' },
+    { from: 'document', to: 'file' },
     { from: 'more_horizontal', to: 'more' }
   ]
 
@@ -434,8 +435,6 @@ const frameIconsFactory = async ({
   const newFiles = []
   const existingFiles = []
 
-  console.log('frameDoc.name', frameDoc.name)
-
   const frameId = frameDoc.id
   const originalFrameName = String(frameDoc.name)
     // because the frame name contains a number first
@@ -524,12 +523,12 @@ const frameIconsFactory = async ({
 
   const listOfIconsToProcess = iconCloneList.reduce((acc, cur) => {
     const found = acc.find(({ name }) =>
-      new RegExp(`(^|/)${cur.from}(_|$)`).test(name)
+      new RegExp(`(^|/)${cur.from}(_[0-9]|$)`).test(name)
     )
     if (found && found.name) {
       acc.push({
         ...found,
-        name: found.name.replace(cur.from, cur.to)
+        name: found.name.replace(new RegExp(cur.from), cur.to)
       })
     }
 
@@ -602,7 +601,33 @@ const frameIconsFactory = async ({
             }
           )
 
-          if (content) {
+          let streamResult = null
+
+          if (!content) {
+            streamResult = 'IS_EMPTY'
+          } else if (content.includes('denied')) {
+            streamResult = 'ACCESS_DENIED'
+          } else {
+            streamResult = 'SUCCESS'
+          }
+
+          if (streamResult === 'ACCESS_DENIED') {
+            log.fail(
+              new ErrorHandler(
+                `> Figma: Failed to stream content of (${iconName}): ${content}`
+              )
+            )
+          }
+
+          if (['IS_EMPTY', 'ACCESS_DENIED'].includes(streamResult)) {
+            if (fs.existsSync(file)) {
+              await fs.unlink(file)
+            }
+
+            return null // stop here
+          }
+
+          if (streamResult === 'SUCCESS') {
             ret.created = lockFileFrameContent?.created || Date.now()
             ret.updated = Date.now()
 
@@ -610,12 +635,6 @@ const frameIconsFactory = async ({
               `> Figma: Saved file ${iconFile} (ID=${id}, CREATED=${ret.created})`
             )
             newFiles.push(ret)
-          } else {
-            if (fs.existsSync(file)) {
-              await fs.unlink(file)
-            }
-
-            return null
           }
         }
 

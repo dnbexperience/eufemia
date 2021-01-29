@@ -113,12 +113,14 @@ import digipost from './digipost.js'
 import digipost_medium from './digipost_medium.js'
 import dismiss_keyboard from './dismiss_keyboard.js'
 import dismiss_keyboard_medium from './dismiss_keyboard_medium.js'
+import document from './document.js'
 import document_add from './document_add.js'
 import document_add_medium from './document_add_medium.js'
 import document_contract from './document_contract.js'
 import document_contract_medium from './document_contract_medium.js'
 import document_loupe from './document_loupe.js'
 import document_loupe_medium from './document_loupe_medium.js'
+import document_medium from './document_medium.js'
 import document_pdf from './document_pdf.js'
 import document_pdf_medium from './document_pdf_medium.js'
 import document_rejected from './document_rejected.js'
@@ -145,6 +147,8 @@ import exclamation_triangle from './exclamation_triangle.js'
 import exclamation_triangle_medium from './exclamation_triangle_medium.js'
 import file from './file.js'
 import file_medium from './file_medium.js'
+import file_pdf from './file_pdf.js'
+import file_pdf_medium from './file_pdf_medium.js'
 import filter from './filter.js'
 import filter_medium from './filter_medium.js'
 import flying_money from './flying_money.js'
@@ -465,12 +469,14 @@ export {
   digipost_medium,
   dismiss_keyboard,
   dismiss_keyboard_medium,
+  document,
   document_add,
   document_add_medium,
   document_contract,
   document_contract_medium,
   document_loupe,
   document_loupe_medium,
+  document_medium,
   document_pdf,
   document_pdf_medium,
   document_rejected,
@@ -497,6 +503,8 @@ export {
   exclamation_triangle_medium,
   file,
   file_medium,
+  file_pdf,
+  file_pdf_medium,
   filter,
   filter_medium,
   flying_money,

@@ -13,8 +13,8 @@ function launch_medium(props) {
       {...props}
     >
       <path
-        d="M9.143 4H4v16h16v-5.143m-7.429-3.428L20 4m0 0h-5.714M20 4v5.714"
-        stroke="#000"
+        d="M9.14286 4H4V20H20V14.8571M12.5714 11.4286L20 4M20 4H14.2857M20 4V9.71429"
+        stroke="black"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
