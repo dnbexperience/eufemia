@@ -13,8 +13,8 @@ function hamburger_medium(props) {
       {...props}
     >
       <path
-        d="M.75 21h22.5M.75 12h22.5M.75 3h22.5"
-        stroke="#000"
+        d="M0.75 21L23.25 21M0.75 12L23.25 12M0.75 3L23.25 3"
+        stroke="black"
         strokeWidth={1.5}
         strokeLinecap="round"
       />

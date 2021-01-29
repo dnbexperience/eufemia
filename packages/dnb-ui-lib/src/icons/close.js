@@ -13,8 +13,8 @@ function close(props) {
       {...props}
     >
       <path
-        d="M3 13L13 3m0 10L3 3"
-        stroke="#000"
+        d="M3 13L13 3M13 13L3 3"
+        stroke="black"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"

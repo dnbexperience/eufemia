@@ -23,3 +23,7 @@ Icons are getting added mor or less automatically by extracting them from Figma.
 1. For SVG only: Create a JSX component.
 1. For SVG only: run integration and visual tests.
 1. Commit the extracted / generated files back to the repo.
+
+## Access denied
+
+If you get a access denied request from the Figma API – while streaming down by the GET image endpoint, you may reset the URLs from inside the icons.lock file by running this command: `yarn figma:reset`.
