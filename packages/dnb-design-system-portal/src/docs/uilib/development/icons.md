@@ -36,4 +36,4 @@ Icons are getting added mor or less automatically by extracting them from Figma.
 
 ## Access denied
 
-If you get a access denied request from the Figma API – while streaming down by the GET image endpoint, you may reset the URLs from inside the icons.lock file by running this command: `yarn figma:reset` and commit the re-generated files.
+If you get a access denied request from the Figma API – while streaming down by the GET image endpoint, you may reset the URLs from inside the icons.lock file by running this command: `yarn figma:reset` and commit the re-generated files. Image URL's expires after 30 days.
