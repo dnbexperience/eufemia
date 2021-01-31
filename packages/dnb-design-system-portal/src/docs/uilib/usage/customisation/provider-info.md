@@ -2,6 +2,24 @@
 draft: true
 ---
 
+## Send down component props
+
+You can use the Provider to send down component props. And because providers can be nested, it's a really powerful tool to handle generally properties used often by a component.
+
+```jsx
+import Provider from 'dnb-ui-lib/shared/Provider'
+
+render(
+  <MyApp>
+    ...
+    <Provider Button={{ size: 'large' }}>
+      ...
+      <Button>Large button</Button>
+    </Provider>
+  </MyApp>
+)
+```
+
 ## Changing locale or currency
 
 You can either set the locale as a properly e.g. `<Provider locale="en-GB" ...` and handle the change from the app root, or change it inside the app, respective Context:
