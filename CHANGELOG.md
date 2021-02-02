@@ -1,3 +1,7 @@
+## February, 2. 2021
+
+- A good amount of new icons where added. See [code commit](https://github.com/dnbexperience/eufemia/pull/755) for more details.
+
 ## January, 28. 2021
 
 - Change the [Number](/uilib/components/number) currency display from `symbol` to `narrowSymbol`.
