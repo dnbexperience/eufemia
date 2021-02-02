@@ -32,6 +32,19 @@ describe('Space component', () => {
     ).toBe(true)
   })
 
+  it('should accept space only prop', () => {
+    const Comp = mount(<Component element="span" space="large" />)
+    expect(
+      Object.values(Comp.find('span.dnb-space').instance().classList)
+    ).toEqual([
+      'dnb-space',
+      'dnb-space__top--large',
+      'dnb-space__right--large',
+      'dnb-space__bottom--large',
+      'dnb-space__left--large'
+    ])
+  })
+
   it('should have collapse CSS classe', () => {
     const Comp = mount(<Component top="large" no_collapse={true} />)
     expect(Comp.find('.dnb-space--no-collapse').exists()).toBe(true)

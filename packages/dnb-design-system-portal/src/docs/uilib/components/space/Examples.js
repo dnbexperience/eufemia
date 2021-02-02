@@ -321,25 +321,31 @@ const VisualSpace = ({ label, children, ...rest }) => {
 
   React.useEffect(() => {
     if (!label) {
-      try {
-        const style = window.getComputedStyle(ref.current.children[0])
-        const top = parseFloat(style.getPropertyValue('margin-top'))
-        const bottom = parseFloat(style.getPropertyValue('margin-bottom'))
-        let spaceInPixels = top
+      const elem = ref.current
+      const timeout = setTimeout(() => {
+        try {
+          const style = window.getComputedStyle(elem.children[0])
+          const top = parseFloat(style.getPropertyValue('margin-top'))
+          const bottom = parseFloat(
+            style.getPropertyValue('margin-bottom')
+          )
+          let spaceInPixels = top
 
-        if (bottom > 0) {
-          spaceInPixels = bottom
-          setDirection('bottom')
+          if (bottom > 0) {
+            spaceInPixels = bottom
+            setDirection('bottom')
+          }
+
+          const spaceInRem = `${spaceInPixels / 16}`
+          setLabel(spaceInRem)
+
+          const title = elem.parentElement.getAttribute('class')
+          setTitle(title)
+        } catch (e) {
+          console.warn(e)
         }
-
-        const spaceInRem = `${spaceInPixels / 16}`
-        setLabel(spaceInRem)
-
-        const title = ref.current.parentElement.getAttribute('class')
-        setTitle(title)
-      } catch (e) {
-        console.warn(e)
-      }
+      }, 1)
+      return () => clearTimeout(timeout)
     }
   }, [label, ref])
 

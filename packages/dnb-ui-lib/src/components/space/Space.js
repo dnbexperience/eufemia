@@ -92,6 +92,7 @@ export default class Space extends React.PureComponent {
       right,
       bottom,
       left,
+      space,
       skeleton,
       id: _id, // eslint-disable-line
       className,
@@ -108,7 +109,7 @@ export default class Space extends React.PureComponent {
         'dnb-space',
         isTrue(inline) && 'dnb-space--inline',
         createSkeletonClass(null, skeleton), // do not send along this.context
-        createSpacingClasses({ top, right, bottom, left }),
+        createSpacingClasses({ top, right, bottom, left, space }),
         className,
         _className
       ),
