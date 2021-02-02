@@ -1322,7 +1322,7 @@ button.dnb-button::-moz-focus-inner {
   --modal-animation-duration: 300ms;
   --modal-spacing: 2rem;
   --modal-spacing-minus: -2rem;
-  --modal-min-width: 20rem;
+  --modal-min-width: 320px;
   --modal-avg-width: 60vw;
   --modal-max-width: 60rem;
   --modal-content-top: 7rem;
