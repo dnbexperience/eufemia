@@ -485,12 +485,12 @@ export const format = (
       String(value).indexOf('.') === -1 &&
       cleanedNumber % 1 === 0
     ) {
-      opts.minimumFractionDigits = 0 // to enfoce Norwegian style
+      opts.minimumFractionDigits = 0 // to enforce Norwegian style
     }
 
     display = formatNumber(cleanedNumber, locale, opts)
     display = cleanupMinus(display)
-    display = prepareCurrencyPosition(display, currency_position)
+    display = prepareCurrencyPosition(display, currency_position, locale)
 
     // aria options
     aria = formatNumber(cleanedNumber, locale, {
@@ -553,7 +553,18 @@ export const format = (
     : display
 }
 
-const prepareCurrencyPosition = (display, position = null) => {
+const prepareCurrencyPosition = (
+  display,
+  position = null,
+  locale = null
+) => {
+  /**
+   * Make exception – if locale is nb, and no position is defined, then use position "after"
+   */
+  if (!position && locale && /no$/i.test(locale)) {
+    position = 'after'
+  }
+
   if (position) {
     const sign = String(display)
       .replace(new RegExp(`([${NUMBER_CHARS}])`, 'g'), '')

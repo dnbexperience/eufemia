@@ -70,7 +70,7 @@ describe('Slider component', () => {
 
     const initObject = {
       value: 70,
-      number: 'kr 70'
+      number: '70 kr'
     }
     expect(on_init).toBeCalledWith(initObject)
 
@@ -86,7 +86,7 @@ describe('Slider component', () => {
       rawValue: 80,
       raw_value: 80,
       value: 80,
-      number: 'kr 80',
+      number: '80 kr',
       width: 100
     }
     expect(on_change).toBeCalledWith(changeObject)
@@ -112,7 +112,7 @@ describe('Slider component', () => {
 
     const initObject = {
       value: 70,
-      number: 'kr 70,0'
+      number: '70,0 kr'
     }
     expect(on_init).toBeCalledWith(initObject)
 
@@ -128,7 +128,7 @@ describe('Slider component', () => {
       rawValue: 80,
       raw_value: 80,
       value: 80,
-      number: 'kr 80,0',
+      number: '80,0 kr',
       width: 100
     }
     expect(on_change).toBeCalledWith(changeObject)
