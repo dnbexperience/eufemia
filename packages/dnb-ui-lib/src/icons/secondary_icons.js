@@ -8,24 +8,32 @@ import account_out from './account_out.js'
 import account_percent from './account_percent.js'
 import add_circled from './add_circled.js'
 import ainvoice from './ainvoice.js'
+import ambulance from './ambulance.js'
 import apple_watch from './apple_watch.js'
 import attachment from './attachment.js'
+import baby from './baby.js'
+import bandage from './bandage.js'
 import bank from './bank.js'
 import bankid from './bankid.js'
 import bankid_mobile from './bankid_mobile.js'
 import bankid_qr from './bankid_qr.js'
+import bicycle from './bicycle.js'
+import boat from './boat.js'
 import bowling from './bowling.js'
 import broken_chain from './broken_chain.js'
 import brush from './brush.js'
 import bsu from './bsu.js'
 import bubble from './bubble.js'
 import camera from './camera.js'
+import camper_trailer from './camper_trailer.js'
 import car_1 from './car_1.js'
 import car_2 from './car_2.js'
+import caravan from './caravan.js'
 import card from './card.js'
 import card_in from './card_in.js'
 import card_out from './card_out.js'
 import card_with_padlock from './card_with_padlock.js'
+import cat from './cat.js'
 import chain from './chain.js'
 import chat from './chat.js'
 import chatbot from './chatbot.js'
@@ -41,16 +49,22 @@ import cookie from './cookie.js'
 import copy from './copy.js'
 import currency from './currency.js'
 import customer_service from './customer_service.js'
+import diamond from './diamond.js'
 import digipass from './digipass.js'
 import digipost from './digipost.js'
 import dismiss_keyboard from './dismiss_keyboard.js'
 import document_add from './document_add.js'
 import document_contract from './document_contract.js'
+import document_csv from './document_csv.js'
 import document_loupe from './document_loupe.js'
 import document_pdf from './document_pdf.js'
 import document_rejected from './document_rejected.js'
 import document_signing from './document_signing.js'
+import document_txt from './document_txt.js'
 import document_warning from './document_warning.js'
+import document_word from './document_word.js'
+import document_xls from './document_xls.js'
+import dog from './dog.js'
 import edit from './edit.js'
 import einvoice from './einvoice.js'
 import email from './email.js'
@@ -59,6 +73,7 @@ import exclamation_circled from './exclamation_circled.js'
 import exclamation_triangle from './exclamation_triangle.js'
 import file from './file.js'
 import filter from './filter.js'
+import first_aid from './first_aid.js'
 import flying_money from './flying_money.js'
 import folder from './folder.js'
 import fullscreen from './fullscreen.js'
@@ -76,6 +91,7 @@ import heart from './heart.js'
 import heart_rate from './heart_rate.js'
 import hide from './hide.js'
 import home from './home.js'
+import horse from './horse.js'
 import hourglass from './hourglass.js'
 import house_1 from './house_1.js'
 import house_2 from './house_2.js'
@@ -97,6 +113,7 @@ import mastercard from './mastercard.js'
 import mastercard_card from './mastercard_card.js'
 import microphone from './microphone.js'
 import more_vertical from './more_vertical.js'
+import motorcycle from './motorcycle.js'
 import move from './move.js'
 import office_buildings from './office_buildings.js'
 import owl from './owl.js'
@@ -127,6 +144,7 @@ import savings_account from './savings_account.js'
 import savings_account_in from './savings_account_in.js'
 import savings_account_out from './savings_account_out.js'
 import scissors from './scissors.js'
+import scooter from './scooter.js'
 import send from './send.js'
 import share_android from './share_android.js'
 import share_ios from './share_ios.js'
@@ -139,6 +157,7 @@ import stopwatch from './stopwatch.js'
 import subtract_circled from './subtract_circled.js'
 import support from './support.js'
 import swap from './swap.js'
+import trailer from './trailer.js'
 import train from './train.js'
 import transfer from './transfer.js'
 import transfer_to from './transfer_to.js'
@@ -150,6 +169,7 @@ import view from './view.js'
 import wallet from './wallet.js'
 import wearables from './wearables.js'
 import web from './web.js'
+import wheelchair from './wheelchair.js'
 import widget_android from './widget_android.js'
 import widget_ios from './widget_ios.js'
 
@@ -162,24 +182,32 @@ export {
   account_percent,
   add_circled,
   ainvoice,
+  ambulance,
   apple_watch,
   attachment,
+  baby,
+  bandage,
   bank,
   bankid,
   bankid_mobile,
   bankid_qr,
+  bicycle,
+  boat,
   bowling,
   broken_chain,
   brush,
   bsu,
   bubble,
   camera,
+  camper_trailer,
   car_1,
   car_2,
+  caravan,
   card,
   card_in,
   card_out,
   card_with_padlock,
+  cat,
   chain,
   chat,
   chatbot,
@@ -195,16 +223,22 @@ export {
   copy,
   currency,
   customer_service,
+  diamond,
   digipass,
   digipost,
   dismiss_keyboard,
   document_add,
   document_contract,
+  document_csv,
   document_loupe,
   document_pdf,
   document_rejected,
   document_signing,
+  document_txt,
   document_warning,
+  document_word,
+  document_xls,
+  dog,
   edit,
   einvoice,
   email,
@@ -213,6 +247,7 @@ export {
   exclamation_triangle,
   file,
   filter,
+  first_aid,
   flying_money,
   folder,
   fullscreen,
@@ -230,6 +265,7 @@ export {
   heart_rate,
   hide,
   home,
+  horse,
   hourglass,
   house_1,
   house_2,
@@ -251,6 +287,7 @@ export {
   mastercard_card,
   microphone,
   more_vertical,
+  motorcycle,
   move,
   office_buildings,
   owl,
@@ -281,6 +318,7 @@ export {
   savings_account_in,
   savings_account_out,
   scissors,
+  scooter,
   send,
   share_android,
   share_ios,
@@ -293,6 +331,7 @@ export {
   subtract_circled,
   support,
   swap,
+  trailer,
   train,
   transfer,
   transfer_to,
@@ -304,6 +343,7 @@ export {
   wallet,
   wearables,
   web,
+  wheelchair,
   widget_android,
   widget_ios
 }
