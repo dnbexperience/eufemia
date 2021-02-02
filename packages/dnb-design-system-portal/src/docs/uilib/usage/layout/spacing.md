@@ -25,8 +25,9 @@ Spacing follows a specific pattern:
 Also, have a look at the [Space](/uilib/components/space) component and the fact that every component supports [spacing out of the box](/uilib/components/space#components-and-spacing).
 
 ```jsx
-<Button top="small" text="Title" />
-<Input right="large x-small medium" placeholder="Title" />
+<Button top="small" />
+<Button right="large x-small medium" />
+<Button space={{ top='small', right: 'large x-small medium' }} />
 ```
 
 ### CSS Custom Property

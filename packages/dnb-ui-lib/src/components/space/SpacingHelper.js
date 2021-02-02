@@ -7,28 +7,33 @@ import PropTypes from 'prop-types'
 import { warn } from '../../shared/component-helper'
 
 export const spacingPropTypes = {
-  space: PropTypes.shape({
-    top: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool
-    ]),
-    right: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool
-    ]),
-    bottom: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool
-    ]),
-    left: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool
-    ])
-  }),
+  space: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool,
+    PropTypes.shape({
+      top: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+        PropTypes.bool
+      ]),
+      right: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+        PropTypes.bool
+      ]),
+      bottom: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+        PropTypes.bool
+      ]),
+      left: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+        PropTypes.bool
+      ])
+    })
+  ]),
   top: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -207,6 +212,13 @@ export const removeSpaceProps = ({ ...props }) => {
 // Creates a valid space CSS class out from given space types
 export const createSpacingClasses = (props, Element = null) => {
   if (typeof props.space !== 'undefined') {
+    if (
+      typeof props.space === 'string' ||
+      typeof props.space === 'number' ||
+      (typeof props.space === 'boolean' && props.space)
+    ) {
+      props.top = props.right = props.bottom = props.left = props.space
+    }
     for (let i in props.space) {
       if (!props[i] && isValidSpaceProp(i)) {
         props[i] = props.space[i]
