@@ -3,9 +3,10 @@ import React from 'react';
 
 // import { Button } from '../../src/components'
 import Button from '../../src/components/button/Button';
-import GlobalError from '../../src/components/global-error/GlobalError';
+import Tabs from '../../src/components/tabs/Tabs';
+// import GlobalError from '../../src/components/global-error/GlobalError';
 import Input from '../../src/components/input/Input';
-import { H1, P } from '../../src/elements';
+// import { H1, P } from '../../src/elements';
 import { bell } from '../../src/icons';
 
 export default {
@@ -15,8 +16,8 @@ export default {
 export const TypesSandbox = () => {
   return (
     <div>
-      <H1 size="small">Hello Eufemia</H1>
-      <P>Start editing to see some magic happen!</P>
+      {/* <H1 size="small">Hello Eufemia</H1>
+      <P>Start editing to see some magic happen!</P> */}
       <Button
         variant="primary"
         space={{ right: 1 }}
@@ -28,6 +29,12 @@ export const TypesSandbox = () => {
         Button
       </Button>
       <Input size="default">test</Input>
+
+      <Tabs onKeyDown={() => {}}>test</Tabs>
+
+      <Tabs.Content hash={'2'} title={'123'} onClick={() => {}}>
+        ...
+      </Tabs.Content>
     </div>
   );
 };
