@@ -7,7 +7,7 @@ exports[`babelPluginIncludeDocs has to match code snapshot 1`] = `
  */
 import React from 'react';
 import { PropTypes } from \\"react\\";
-import { defaultProps as secondaryDefaultProps, propTypes as secondaryPropTypes } from './SecondaryComponent';
+import SecondaryComponent, { defaultProps as secondaryDefaultProps, propTypes as secondaryPropTypes } from './SecondaryComponent';
 export const primaryPropTypes = {
   top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -85,6 +85,7 @@ PrimaryComponent.defaultProps = {
   ...secondaryDefaultProps,
   children: null
 };
+PrimaryComponent.Secondary = SecondaryComponent;
 
 const Element = () => {
   return null;
