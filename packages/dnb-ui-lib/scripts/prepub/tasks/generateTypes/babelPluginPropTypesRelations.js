@@ -1,7 +1,8 @@
 import fs from 'fs'
 import nodePath from 'path'
-import { transformSync } from '@babel/core'
-import { babelPluginConfigDefaults } from './babelPluginConfigDefaults'
+import { parse } from '@babel/parser'
+import traverse from '@babel/traverse'
+import { babylonConfigDefaults } from './babelPluginConfigDefaults'
 
 export function babelPluginPropTypesRelations(babel, { sourceDir }) {
   const { types: t } = babel
@@ -58,30 +59,19 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
     ) {
       const sourceFile = path.parentPath.parentPath.node.source.value
       const importName = path.parentPath.node.imported.name
-      // const importName = path.parentPath.node.local.name
-      // console.log('isImportSpecifier', name, importName, sourceFile)
 
-      const content = fs.readFileSync(
+      const code = fs.readFileSync(
         nodePath.resolve(sourceDir, sourceFile + '.js'),
         'utf-8'
       )
+      const ast = parse(code, babylonConfigDefaults)
 
-      transformSync(content, {
-        filename: sourceFile,
-        ...babelPluginConfigDefaults,
-        plugins: [
-          () => {
-            return {
-              visitor: {
-                VariableDeclarator(path) {
-                  if (path.node.id.name === importName) {
-                    selectedObjectExpression = path
-                  }
-                }
-              }
-            }
+      traverse(ast, {
+        VariableDeclarator(path) {
+          if (path.node.id.name === importName) {
+            selectedObjectExpression = path
           }
-        ]
+        }
       })
 
       if (selectedObjectExpression) {
