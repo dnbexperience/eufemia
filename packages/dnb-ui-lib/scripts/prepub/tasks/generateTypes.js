@@ -70,7 +70,7 @@ export const createTypes = async (
         // file.includes('/Element.js') ||
         // file.includes('/Blockquote.js') ||
         // file.includes('/Button.js') ||
-        file.includes('/IconP')
+        file.includes('/Provider')
       if (isDev && !isOfInterest) {
         return // stop here
       }

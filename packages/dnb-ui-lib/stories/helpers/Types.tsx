@@ -3,9 +3,11 @@ import React from 'react';
 
 // import { Button } from '../../src/components'
 import Button from '../../src/components/button/Button';
+import Number from '../../src/components/number/Number';
 import Tabs from '../../src/components/tabs/Tabs';
 // import GlobalError from '../../src/components/global-error/GlobalError';
 import Input from '../../src/components/input/Input';
+import { Provider } from '../../src/shared';
 // import { H1, P } from '../../src/elements';
 import { bell } from '../../src/icons';
 
@@ -18,16 +20,29 @@ export const TypesSandbox = () => {
     <div>
       {/* <H1 size="small">Hello Eufemia</H1>
       <P>Start editing to see some magic happen!</P> */}
-      <Button
-        variant="primary"
-        space={{ right: 1 }}
-        right="1rem"
-        icon={bell}
-        on_click={() => {}}
-        onKeyDown={() => {}}
+
+      <Provider
+        // FormRow={{
+        //   Button: { size: 'large' }
+        // }}
+        Button={{ size: 'large' }}
+        // locale="en-US"
+        // locale="nb-NO"
       >
-        Button
-      </Button>
+        <Button
+          variant="primary"
+          space={{ right: 1 }}
+          right="1rem"
+          icon={bell}
+          on_click={() => {}}
+          onKeyDown={() => {}}
+        >
+          Button
+        </Button>
+        <Number currency right>
+          12345
+        </Number>
+      </Provider>
       <Input size="default">test</Input>
 
       <Tabs onKeyDown={() => {}}>test</Tabs>

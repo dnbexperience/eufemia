@@ -206,20 +206,18 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
             ObjectExpression(path) {
               path.traverse({
                 Identifier(path) {
-                  if (/[a-z]PropType/.test(path.node.name)) {
-                    const targetPath = path
+                  const targetPath = path
 
-                    const { foundPath, ast } = findDeclarationRelation({
+                  const { foundPath, ast } = findDeclarationRelation({
+                    targetPath
+                  })
+
+                  if (foundPath) {
+                    handleDeclarationRelation({
+                      ast,
+                      path: foundPath,
                       targetPath
                     })
-
-                    if (foundPath) {
-                      handleDeclarationRelation({
-                        ast,
-                        path: foundPath,
-                        targetPath
-                      })
-                    }
                   }
                 }
               })
