@@ -16,6 +16,30 @@ describe('babelPluginIncludeDocs', () => {
   const file = nodePath.resolve(docsDir, 'PrimaryComponent.js')
   let docs = {}
 
+  async function runIncludeDocsTestSuite({ sourceDir, ...options }) {
+    const { code } = await transformFileAsync(file, {
+      plugins: [
+        ['@babel/plugin-proposal-class-properties', { loose: true }],
+        [babelPluginPropTypesRelations, { sourceDir }],
+        [
+          babelPluginCorrectTypes,
+          {
+            strictMode: false,
+            ...options
+          }
+        ],
+        [
+          babelPluginIncludeDocs,
+          {
+            docs
+          }
+        ]
+      ],
+      ...babelPluginConfigDefaults
+    })
+    return code
+  }
+
   it('has to match docs snapshot', async () => {
     docs = await fetchPropertiesFromDocs({
       file,
@@ -27,29 +51,21 @@ describe('babelPluginIncludeDocs', () => {
 
   it('has to match code snapshot', async () => {
     const sourceDir = nodePath.dirname(file)
+    const code = await runIncludeDocsTestSuite({ sourceDir })
 
-    const { code } = await transformFileAsync(file, {
-      plugins: [
-        ['@babel/plugin-proposal-class-properties', { loose: true }],
-        [babelPluginPropTypesRelations, { sourceDir }],
-        [
-          babelPluginCorrectTypes,
-          {
-            /**
-             * If strictMode is enabled,
-             * it will transform "string + bool" or "string + number" in to string or bool only
-             */
-            strictMode: true
-          }
-        ],
-        [
-          babelPluginIncludeDocs,
-          {
-            docs
-          }
-        ]
-      ],
-      ...babelPluginConfigDefaults
+    expect(code).toMatchSnapshot()
+  })
+
+  it('has to match code snapshot in strict mode', async () => {
+    const sourceDir = nodePath.dirname(file)
+    const code = await runIncludeDocsTestSuite({
+      sourceDir,
+
+      /**
+       * If strictMode is enabled,
+       * it will transform "string + bool" or "string + number" in to string or bool only
+       */
+      strictMode: true
     })
 
     expect(code).toMatchSnapshot()
