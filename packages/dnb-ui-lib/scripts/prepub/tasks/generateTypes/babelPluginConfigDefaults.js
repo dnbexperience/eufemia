@@ -11,16 +11,7 @@ export const babylonConfigDefaults = {
   allowReturnOutsideFunction: true,
   allowImportExportEverywhere: true,
   allowSuperOutsideMethod: true,
-  plugins: [
-    'jsx',
-    'asyncFunctions',
-    // 'classConstructorCall',
-    // 'trailingFunctionCommas',
-    'objectRestSpread',
-    'classProperties'
-    // 'exportExtensions',
-    // 'exponentiationOperator'
-  ]
+  plugins: ['jsx', 'asyncFunctions', 'objectRestSpread', 'classProperties']
 }
 
 export const babelPluginDefaultPlugins = [
