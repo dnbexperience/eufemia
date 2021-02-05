@@ -42,6 +42,35 @@ export const ValidIconSizes = [
   'xx-large' // 48px 3rem
 ]
 
+export const iconPropTypes = {
+  icon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
+  modifier: PropTypes.string,
+  size: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+    PropTypes.oneOf(['default', 'medium', 'large'])
+  ]),
+
+  ...spacingPropTypes,
+
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  border: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  color: PropTypes.string,
+  inherit_color: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  alt: PropTypes.string,
+  title: PropTypes.string,
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+
+  className: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+}
+
 /**
  * The icon component is a span wrapping an inline svg. When using this component in your preferred framework. To load an svg file dynamically, you may need a "svg-loader". Feel free to use whatever tool you want (regarding the setup/tooling), as long as the output is the same markup as shown below.
  */
@@ -50,34 +79,10 @@ export default class Icon extends React.PureComponent {
   static contextType = Context
 
   static propTypes = {
-    icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ]),
-    modifier: PropTypes.string,
     /**
-     * The Icon size can be either a number or a string
+     * Use spread, so generateTypes.js makes a valid copy to create the types
      */
-    size: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string,
-      PropTypes.oneOf(['default', 'medium', 'large'])
-    ]),
-    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    border: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    color: PropTypes.string,
-    inherit_color: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    alt: PropTypes.string,
-    title: PropTypes.string,
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-
-    ...spacingPropTypes,
-
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+    ...iconPropTypes
   }
 
   static defaultProps = {
@@ -120,7 +125,7 @@ export default class Icon extends React.PureComponent {
       Icon.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.FormRow,
-      this.context.Icon,
+      this.context.Icon
     )
 
     const { icon, size, wrapperParams, iconParams, alt } = prepareIcon(

@@ -70,7 +70,7 @@ export const createTypes = async (
         // file.includes('/Element.js') ||
         // file.includes('/Blockquote.js') ||
         // file.includes('/Button.js') ||
-        file.includes('/Tabs')
+        file.includes('/IconP')
       if (isDev && !isOfInterest) {
         return // stop here
       }
@@ -125,7 +125,6 @@ export const createTypes = async (
           definitionContent = code
         } else {
           const { code } = await transformFileAsync(file, {
-            presets: ['@babel/preset-react'],
             plugins: [
               ...babelPluginDefaultPlugins,
               [babelPluginPropTypesRelations, { sourceDir }],
