@@ -14,7 +14,18 @@ import { prepareFormRowContext } from '../components/form-row/FormRow'
 export default class Provider extends React.PureComponent {
   static contextType = Context
   static propTypes = {
+    /** Send in an object that gets spread as properties to the Provider */
+    value: PropTypes.object,
+    /** Define the locale used for every Eufemia components inside this Provider. Defaults to nb-NO */
+    locale: PropTypes.string,
+    /** Enable skeleton of every Eufemia component inside this Provider */
+    skeleton: PropTypes.bool,
     children: PropTypes.node.isRequired
+  }
+  static defaultProps = {
+    value: null,
+    locale: null,
+    skeleton: null
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -65,6 +76,7 @@ export default class Provider extends React.PureComponent {
 
     const {
       children, // eslint-disable-line
+      value,
       ...startupProps
     } = props
 
@@ -78,7 +90,7 @@ export default class Provider extends React.PureComponent {
     }
 
     // NB: Make sure we create a copy, because we add some custom methods to it
-    const newContext = { ...context, ...startupProps }
+    const newContext = { ...value, ...context, ...startupProps }
     const isRoot = !(newContext && newContext.__providerId)
     newContext.__providerId = makeUniqueId()
 

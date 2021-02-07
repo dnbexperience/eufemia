@@ -6,6 +6,7 @@
 // import React from 'react'
 import '../../../core/jest/jestSetup'
 import {
+  spacingPropTypes,
   spacePatterns,
   translateSpace,
   splitTypes,
@@ -133,5 +134,11 @@ describe('createStyleObject', () => {
     expect(createStyleObject({ top: 'medium large' })).toEqual({
       marginTop: '3.5rem'
     })
+  })
+})
+
+describe('SpacingHelper', () => {
+  it('should have valid spacingPropTypes', () => {
+    expect(typeof spacingPropTypes.space).toBe('function')
   })
 })

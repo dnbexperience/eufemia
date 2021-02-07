@@ -28,38 +28,13 @@ exports[`Tabs component have to match snapshot 1`] = `
   }
   1={
     Object {
-      "displayName": "ContentWrapper",
-      "props": Object {
-        "children": "children",
-        "id": "id",
-        "selected_key": "selected_key",
-      },
-    }
-  }
-  2={
-    Object {
-      "displayName": "CustomContent",
-      "props": Object {
-        "children": "children",
-        "class": "class",
-        "className": "className",
-        "disabled": "disabled",
-        "displayName": "displayName",
-        "hash": "hash",
-        "selected": "selected",
-        "title": Object {},
-      },
-    }
-  }
-  3={
-    Object {
       "displayName": "Dummy",
       "props": Object {
         "children": "children",
       },
     }
   }
-  4={
+  2={
     Object {
       "displayName": "ScrollNavButton",
       "props": Object {

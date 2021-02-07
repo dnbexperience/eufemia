@@ -19,6 +19,8 @@ exports[`PaymentCard have to match snapshot 1`] = `
 >
   <Provider
     locale="locale"
+    skeleton={null}
+    value={null}
   >
     <figure
       className="dnb-payment-card dnb-payment-card--normal className class"
