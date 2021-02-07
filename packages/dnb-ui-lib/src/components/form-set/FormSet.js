@@ -145,13 +145,13 @@ export default class FormSet extends React.PureComponent {
     if (hashSum(this._cachedContext) !== hashSum(this.context)) {
       this._cachedContext = this.context
 
-      const formRow = {
+      const FormRow = {
         ...formRowProps,
         disabled
         // isInsideFormSet: true // Not used yet
       }
       this._contextWeUse = extend(this.context, {
-        formRow
+        FormRow
       })
     }
 

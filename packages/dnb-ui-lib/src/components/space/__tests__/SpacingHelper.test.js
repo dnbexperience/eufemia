@@ -6,6 +6,7 @@
 // import React from 'react'
 import '../../../core/jest/jestSetup'
 import {
+  spacingPropTypes,
   spacePatterns,
   translateSpace,
   splitTypes,
@@ -104,6 +105,28 @@ describe('createSpacingClasses', () => {
     ])
     expect(createSpacingClasses({ right: null })).toEqual([])
   })
+  it('should handle the space prop for in all directions', () => {
+    expect(createSpacingClasses({ space: false })).toEqual([]) // we may extend that with all four "--zero" in future
+    expect(createSpacingClasses({ space: 0 })).toEqual([
+      'dnb-space__left--zero',
+      'dnb-space__bottom--zero',
+      'dnb-space__right--zero',
+      'dnb-space__top--zero'
+    ])
+    expect(createSpacingClasses({ space: true })).toEqual([
+      'dnb-space__left--small',
+      'dnb-space__bottom--small',
+      'dnb-space__right--small',
+      'dnb-space__top--small'
+    ])
+    expect(createSpacingClasses({ space: '1rem' })).toEqual([
+      'dnb-space__left--small',
+      'dnb-space__bottom--small',
+      'dnb-space__right--small',
+      'dnb-space__top--small'
+    ])
+    expect(createSpacingClasses({ space: null })).toEqual([])
+  })
 })
 
 describe('createStyleObject', () => {
@@ -111,5 +134,11 @@ describe('createStyleObject', () => {
     expect(createStyleObject({ top: 'medium large' })).toEqual({
       marginTop: '3.5rem'
     })
+  })
+})
+
+describe('SpacingHelper', () => {
+  it('should have valid spacingPropTypes', () => {
+    expect(typeof spacingPropTypes.space).toBe('function')
   })
 })

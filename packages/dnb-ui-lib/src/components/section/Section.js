@@ -68,7 +68,8 @@ export default class Section extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       Section.defaultProps,
-      this.context.formRow
+      this.context.FormRow,
+      this.context.Section
     )
 
     const {

@@ -174,7 +174,8 @@ export default class Button extends React.PureComponent {
       this.props,
       Button.defaultProps,
       { skeleton: this.context?.skeleton },
-      this.context.formRow
+      this.context.FormRow,
+      this.context.Button
     )
 
     const {

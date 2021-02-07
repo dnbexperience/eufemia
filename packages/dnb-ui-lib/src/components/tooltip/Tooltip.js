@@ -103,7 +103,9 @@ export default class Tooltip extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       Tooltip.defaultProps,
-      this.context.formRow
+      this.context.getTranslation(this.props).Tooltip,
+      this.context.FormRow,
+      this.context.Tooltip
     )
 
     const {

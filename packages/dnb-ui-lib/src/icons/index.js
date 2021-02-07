@@ -17,6 +17,8 @@ import add_circled_medium from './add_circled_medium.js'
 import add_medium from './add_medium.js'
 import ainvoice from './ainvoice.js'
 import ainvoice_medium from './ainvoice_medium.js'
+import ambulance from './ambulance.js'
+import ambulance_medium from './ambulance_medium.js'
 import apple_watch from './apple_watch.js'
 import apple_watch_medium from './apple_watch_medium.js'
 import arrow_down from './arrow_down.js'
@@ -29,6 +31,10 @@ import arrow_up from './arrow_up.js'
 import arrow_up_medium from './arrow_up_medium.js'
 import attachment from './attachment.js'
 import attachment_medium from './attachment_medium.js'
+import baby from './baby.js'
+import baby_medium from './baby_medium.js'
+import bandage from './bandage.js'
+import bandage_medium from './bandage_medium.js'
 import bank from './bank.js'
 import bank_medium from './bank_medium.js'
 import bankid from './bankid.js'
@@ -39,6 +45,10 @@ import bankid_qr from './bankid_qr.js'
 import bankid_qr_medium from './bankid_qr_medium.js'
 import bell from './bell.js'
 import bell_medium from './bell_medium.js'
+import bicycle from './bicycle.js'
+import bicycle_medium from './bicycle_medium.js'
+import boat from './boat.js'
+import boat_medium from './boat_medium.js'
 import bowling from './bowling.js'
 import bowling_medium from './bowling_medium.js'
 import broken_chain from './broken_chain.js'
@@ -53,10 +63,14 @@ import calendar from './calendar.js'
 import calendar_medium from './calendar_medium.js'
 import camera from './camera.js'
 import camera_medium from './camera_medium.js'
+import camper_trailer from './camper_trailer.js'
+import camper_trailer_medium from './camper_trailer_medium.js'
 import car_1 from './car_1.js'
 import car_1_medium from './car_1_medium.js'
 import car_2 from './car_2.js'
 import car_2_medium from './car_2_medium.js'
+import caravan from './caravan.js'
+import caravan_medium from './caravan_medium.js'
 import card from './card.js'
 import card_in from './card_in.js'
 import card_in_medium from './card_in_medium.js'
@@ -65,6 +79,8 @@ import card_out from './card_out.js'
 import card_out_medium from './card_out_medium.js'
 import card_with_padlock from './card_with_padlock.js'
 import card_with_padlock_medium from './card_with_padlock_medium.js'
+import cat from './cat.js'
+import cat_medium from './cat_medium.js'
 import chain from './chain.js'
 import chain_medium from './chain_medium.js'
 import chat from './chat.js'
@@ -107,26 +123,40 @@ import currency from './currency.js'
 import currency_medium from './currency_medium.js'
 import customer_service from './customer_service.js'
 import customer_service_medium from './customer_service_medium.js'
+import diamond from './diamond.js'
+import diamond_medium from './diamond_medium.js'
 import digipass from './digipass.js'
 import digipass_medium from './digipass_medium.js'
 import digipost from './digipost.js'
 import digipost_medium from './digipost_medium.js'
 import dismiss_keyboard from './dismiss_keyboard.js'
 import dismiss_keyboard_medium from './dismiss_keyboard_medium.js'
+import document from './document.js'
 import document_add from './document_add.js'
 import document_add_medium from './document_add_medium.js'
 import document_contract from './document_contract.js'
 import document_contract_medium from './document_contract_medium.js'
+import document_csv from './document_csv.js'
+import document_csv_medium from './document_csv_medium.js'
 import document_loupe from './document_loupe.js'
 import document_loupe_medium from './document_loupe_medium.js'
+import document_medium from './document_medium.js'
 import document_pdf from './document_pdf.js'
 import document_pdf_medium from './document_pdf_medium.js'
 import document_rejected from './document_rejected.js'
 import document_rejected_medium from './document_rejected_medium.js'
 import document_signing from './document_signing.js'
 import document_signing_medium from './document_signing_medium.js'
+import document_txt from './document_txt.js'
+import document_txt_medium from './document_txt_medium.js'
 import document_warning from './document_warning.js'
 import document_warning_medium from './document_warning_medium.js'
+import document_word from './document_word.js'
+import document_word_medium from './document_word_medium.js'
+import document_xls from './document_xls.js'
+import document_xls_medium from './document_xls_medium.js'
+import dog from './dog.js'
+import dog_medium from './dog_medium.js'
 import download from './download.js'
 import download_medium from './download_medium.js'
 import edit from './edit.js'
@@ -145,8 +175,12 @@ import exclamation_triangle from './exclamation_triangle.js'
 import exclamation_triangle_medium from './exclamation_triangle_medium.js'
 import file from './file.js'
 import file_medium from './file_medium.js'
+import file_pdf from './file_pdf.js'
+import file_pdf_medium from './file_pdf_medium.js'
 import filter from './filter.js'
 import filter_medium from './filter_medium.js'
+import first_aid from './first_aid.js'
+import first_aid_medium from './first_aid_medium.js'
 import flying_money from './flying_money.js'
 import flying_money_medium from './flying_money_medium.js'
 import folder from './folder.js'
@@ -183,6 +217,8 @@ import hide from './hide.js'
 import hide_medium from './hide_medium.js'
 import home from './home.js'
 import home_medium from './home_medium.js'
+import horse from './horse.js'
+import horse_medium from './horse_medium.js'
 import hourglass from './hourglass.js'
 import hourglass_medium from './hourglass_medium.js'
 import house_1 from './house_1.js'
@@ -231,6 +267,8 @@ import more from './more.js'
 import more_medium from './more_medium.js'
 import more_vertical from './more_vertical.js'
 import more_vertical_medium from './more_vertical_medium.js'
+import motorcycle from './motorcycle.js'
+import motorcycle_medium from './motorcycle_medium.js'
 import move from './move.js'
 import move_medium from './move_medium.js'
 import office_buildings from './office_buildings.js'
@@ -298,6 +336,8 @@ import savings_account_out from './savings_account_out.js'
 import savings_account_out_medium from './savings_account_out_medium.js'
 import scissors from './scissors.js'
 import scissors_medium from './scissors_medium.js'
+import scooter from './scooter.js'
+import scooter_medium from './scooter_medium.js'
 import send from './send.js'
 import send_medium from './send_medium.js'
 import share_android from './share_android.js'
@@ -324,6 +364,8 @@ import support from './support.js'
 import support_medium from './support_medium.js'
 import swap from './swap.js'
 import swap_medium from './swap_medium.js'
+import trailer from './trailer.js'
+import trailer_medium from './trailer_medium.js'
 import train from './train.js'
 import train_medium from './train_medium.js'
 import transfer from './transfer.js'
@@ -346,6 +388,8 @@ import wearables from './wearables.js'
 import wearables_medium from './wearables_medium.js'
 import web from './web.js'
 import web_medium from './web_medium.js'
+import wheelchair from './wheelchair.js'
+import wheelchair_medium from './wheelchair_medium.js'
 import widget_android from './widget_android.js'
 import widget_android_medium from './widget_android_medium.js'
 import widget_ios from './widget_ios.js'
@@ -369,6 +413,8 @@ export {
   add_medium,
   ainvoice,
   ainvoice_medium,
+  ambulance,
+  ambulance_medium,
   apple_watch,
   apple_watch_medium,
   arrow_down,
@@ -381,6 +427,10 @@ export {
   arrow_up_medium,
   attachment,
   attachment_medium,
+  baby,
+  baby_medium,
+  bandage,
+  bandage_medium,
   bank,
   bank_medium,
   bankid,
@@ -391,6 +441,10 @@ export {
   bankid_qr_medium,
   bell,
   bell_medium,
+  bicycle,
+  bicycle_medium,
+  boat,
+  boat_medium,
   bowling,
   bowling_medium,
   broken_chain,
@@ -405,10 +459,14 @@ export {
   calendar_medium,
   camera,
   camera_medium,
+  camper_trailer,
+  camper_trailer_medium,
   car_1,
   car_1_medium,
   car_2,
   car_2_medium,
+  caravan,
+  caravan_medium,
   card,
   card_in,
   card_in_medium,
@@ -417,6 +475,8 @@ export {
   card_out_medium,
   card_with_padlock,
   card_with_padlock_medium,
+  cat,
+  cat_medium,
   chain,
   chain_medium,
   chat,
@@ -459,26 +519,40 @@ export {
   currency_medium,
   customer_service,
   customer_service_medium,
+  diamond,
+  diamond_medium,
   digipass,
   digipass_medium,
   digipost,
   digipost_medium,
   dismiss_keyboard,
   dismiss_keyboard_medium,
+  document,
   document_add,
   document_add_medium,
   document_contract,
   document_contract_medium,
+  document_csv,
+  document_csv_medium,
   document_loupe,
   document_loupe_medium,
+  document_medium,
   document_pdf,
   document_pdf_medium,
   document_rejected,
   document_rejected_medium,
   document_signing,
   document_signing_medium,
+  document_txt,
+  document_txt_medium,
   document_warning,
   document_warning_medium,
+  document_word,
+  document_word_medium,
+  document_xls,
+  document_xls_medium,
+  dog,
+  dog_medium,
   download,
   download_medium,
   edit,
@@ -497,8 +571,12 @@ export {
   exclamation_triangle_medium,
   file,
   file_medium,
+  file_pdf,
+  file_pdf_medium,
   filter,
   filter_medium,
+  first_aid,
+  first_aid_medium,
   flying_money,
   flying_money_medium,
   folder,
@@ -535,6 +613,8 @@ export {
   hide_medium,
   home,
   home_medium,
+  horse,
+  horse_medium,
   hourglass,
   hourglass_medium,
   house_1,
@@ -583,6 +663,8 @@ export {
   more_medium,
   more_vertical,
   more_vertical_medium,
+  motorcycle,
+  motorcycle_medium,
   move,
   move_medium,
   office_buildings,
@@ -650,6 +732,8 @@ export {
   savings_account_out_medium,
   scissors,
   scissors_medium,
+  scooter,
+  scooter_medium,
   send,
   send_medium,
   share_android,
@@ -676,6 +760,8 @@ export {
   support_medium,
   swap,
   swap_medium,
+  trailer,
+  trailer_medium,
   train,
   train_medium,
   transfer,
@@ -698,6 +784,8 @@ export {
   wearables_medium,
   web,
   web_medium,
+  wheelchair,
+  wheelchair_medium,
   widget_android,
   widget_android_medium,
   widget_ios,

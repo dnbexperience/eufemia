@@ -5,7 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
+import SecondaryComponent, {
   defaultProps as secondaryDefaultProps,
   propTypes as secondaryPropTypes
 } from './SecondaryComponent'
@@ -67,6 +67,8 @@ export default class PrimaryComponent extends React.PureComponent {
 
     children: null
   }
+
+  static Secondary = SecondaryComponent
 
   render() {
     return [

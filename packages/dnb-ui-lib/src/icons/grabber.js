@@ -13,8 +13,8 @@ function grabber(props) {
       {...props}
     >
       <path
-        d="M1 5h14M1 8h14M1 11h14"
-        stroke="#000"
+        d="M1 5H15M1 8H15M1 11H15"
+        stroke="black"
         strokeWidth={1.56}
         strokeLinecap="round"
       />

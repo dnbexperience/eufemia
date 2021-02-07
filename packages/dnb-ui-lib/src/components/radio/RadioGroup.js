@@ -161,7 +161,8 @@ export default class RadioGroup extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       RadioGroup.defaultProps,
-      this.context.formRow
+      this.context.FormRow,
+      this.context.RadioGroup
     )
 
     const {

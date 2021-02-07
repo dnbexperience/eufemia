@@ -479,8 +479,8 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                d="M12.03 10.97a.75.75 0 10-1.06 1.06l1.06-1.06zm2.44 4.56a.75.75 0 101.06-1.06l-1.06 1.06zm-3.5-3.5l3.5 3.5 1.06-1.06-3.5-3.5-1.06 1.06zm.098-5.62a4.66 4.66 0 01-4.659 4.658v1.5a6.16 6.16 0 006.16-6.159h-1.5zM6.41 11.067A4.66 4.66 0 011.75 6.41H.25a6.16 6.16 0 006.16 6.16v-1.5zM1.75 6.41a4.66 4.66 0 014.66-4.66V.25A6.16 6.16 0 00.25 6.41h1.5zm4.66-4.66a4.66 4.66 0 014.658 4.66h1.5A6.16 6.16 0 006.41.25v1.5z"
-                                fill="#000"
+                                d="M12.0303 10.9697C11.7374 10.6768 11.2626 10.6768 10.9697 10.9697C10.6768 11.2626 10.6768 11.7374 10.9697 12.0303L12.0303 10.9697ZM14.4697 15.5303C14.7626 15.8232 15.2374 15.8232 15.5303 15.5303C15.8232 15.2374 15.8232 14.7626 15.5303 14.4697L14.4697 15.5303ZM10.9697 12.0303L14.4697 15.5303L15.5303 14.4697L12.0303 10.9697L10.9697 12.0303ZM11.0682 6.40909C11.0682 8.98224 8.98224 11.0682 6.40909 11.0682V12.5682C9.81066 12.5682 12.5682 9.81066 12.5682 6.40909H11.0682ZM6.40909 11.0682C3.83595 11.0682 1.75 8.98224 1.75 6.40909H0.25C0.25 9.81066 3.00752 12.5682 6.40909 12.5682V11.0682ZM1.75 6.40909C1.75 3.83595 3.83595 1.75 6.40909 1.75V0.25C3.00752 0.25 0.25 3.00752 0.25 6.40909H1.75ZM6.40909 1.75C8.98224 1.75 11.0682 3.83595 11.0682 6.40909H12.5682C12.5682 3.00752 9.81066 0.25 6.40909 0.25V1.75Z"
+                                fill="black"
                               />
                             </svg>
                           </loupe>
@@ -674,29 +674,15 @@ exports[`Input scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-:root {
-  --input-text-color: var(--color-sea-green);
-  --input-text-color--focus: var(--color-sea-green);
-  --input-text-color--changed: var(--color-emerald-green);
-  --input-text-color--disabled: var(--color-sea-green-30);
-  --input-background-color: var(--color-white);
-  --input-background-color--focus: var(--color-white);
-  --input-background-color--changed: var(--color-white);
-  --input-background-color--disabled: var(--color-mint-green-12);
-  --input-border-color: var(--color-sea-green);
-  --input-border-color--focus: var(--color-emerald-green);
-  --input-border-color--changed: var(--color-sea-green);
-  --input-border-color--disabled: var(--color-sea-green-30); }
-
 .dnb-input {
-  color: var(--input-text-color); }
+  color: var(--color-sea-green); }
   .dnb-input__inner {
     color: inherit; }
   .dnb-input__shell {
     color: inherit;
-    background-color: var(--input-background-color);
+    background-color: var(--color-white);
     border: none;
-    --border-color: var(--input-border-color);
+    --border-color: var(--color-sea-green);
     box-shadow: inset 0 0 0 var(--input-border-width) var(--border-color);
     /* iOS fix - because \\"inset\\" works not fine with border-radius */
     /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
@@ -710,21 +696,21 @@ exports[`Input scss have to match default theme snapshot 1`] = `
           box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } } }
     @media screen and (-ms-high-contrast: none) {
       .dnb-input__shell {
-        box-shadow: inset 0 0 0 1px var(--input-border-color); } }
+        box-shadow: inset 0 0 0 1px var(--color-sea-green); } }
     .dnb-input__shell[data-input-state='dirty'] {
-      color: var(--input-text-color--changed);
-      background-color: var(--input-background-color--changed); }
+      color: var(--color-emerald-green);
+      background-color: var(--color-white); }
     .dnb-input__shell[data-input-state='disabled'] {
       -webkit-text-fill-color: currentColor;
-      --border-color: var(--input-border-color--disabled);
+      --border-color: var(--color-sea-green-30);
       box-shadow: inset 0 0 0 var(--input-border-width) var(--border-color);
       /* iOS fix - because \\"inset\\" works not fine with border-radius */
       /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
       border-color: transparent;
-      background-color: var(--input-background-color--disabled); }
+      background-color: var(--color-mint-green-12); }
       .dnb-input__shell[data-input-state='disabled'],
       .dnb-input__shell[data-input-state='disabled'] .dnb-icon {
-        color: var(--input-text-color--disabled); }
+        color: var(--color-sea-green-30); }
       @supports (-webkit-touch-callout: none) {
         .dnb-input__shell[data-input-state='disabled'] {
           box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } }
@@ -734,16 +720,16 @@ exports[`Input scss have to match default theme snapshot 1`] = `
             box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } } }
       @media screen and (-ms-high-contrast: none) {
         .dnb-input__shell[data-input-state='disabled'] {
-          box-shadow: inset 0 0 0 1px var(--input-border-color--disabled); } }
+          box-shadow: inset 0 0 0 1px var(--color-sea-green-30); } }
     .dnb-input__shell:not([data-input-state='disabled']):hover, .dnb-input__shell[data-input-state='focus'] {
-      color: var(--input-text-color--focus);
-      background-color: var(--input-background-color--focus);
-      --border-color: var(--input-border-color--focus);
+      color: var(--color-sea-green);
+      background-color: var(--color-white);
+      --border-color: var(--color-emerald-green);
       box-shadow: 0 0 0 0.125rem var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         .dnb-input__shell:not([data-input-state='disabled']):hover, .dnb-input__shell[data-input-state='focus'] {
-          box-shadow: 0 0 0 0.125rem var(--input-border-color--focus); } }
+          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   .dnb-input:not([data-input-state='disabled']).dnb-input__submit-button svg {
     color: var(--color-sea-green); }
   .dnb-input__icon {
@@ -769,7 +755,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     color: var(--color-fire-red); }
   .dnb-input__input::selection {
     background-color: var(--color-mint-green);
-    color: var(--input-text-color--focus);
+    color: var(--color-sea-green);
     text-shadow: none; }
   .dnb-input__shell[data-input-state='focus'] .dnb-input__placeholder {
     display: none; }

@@ -66,7 +66,8 @@ class ScrollView extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       ScrollView.defaultProps,
-      this.context.formRow
+      this.context.FormRow,
+      this.context.ScrollView
     )
 
     const {

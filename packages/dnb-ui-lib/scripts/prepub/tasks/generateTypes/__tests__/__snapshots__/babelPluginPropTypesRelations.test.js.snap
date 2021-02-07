@@ -7,7 +7,7 @@ exports[`babelPluginPropTypesRelations has to match snapshot 1`] = `
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { defaultProps as secondaryDefaultProps, propTypes as secondaryPropTypes } from './SecondaryComponent';
+import SecondaryComponent, { defaultProps as secondaryDefaultProps, propTypes as secondaryPropTypes } from './SecondaryComponent';
 export const primaryPropTypes = {
   top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -57,6 +57,7 @@ PrimaryComponent.defaultProps = {
   ...secondaryDefaultProps,
   children: null
 };
+PrimaryComponent.Secondary = SecondaryComponent;
 
 const Element = () => {
   return null;

@@ -40,7 +40,7 @@ export const NumberCurrency = () => (
         /* @jsx */ `
 <P>
   <Number currency>12345</Number>
-  <Number currency currency_position="after" value={-12345678.9} />
+  <Number currency currency_position="before" value={-12345678.9} />
   <Number currency value={-12345678.95} decimals={0} />
   <Number currency value={-12345678.9} currency_display="code" />
 </P>

@@ -7,14 +7,6 @@
 
 :root {
   --textarea-rows: 2;
-  --textarea-text-color: var(--color-sea-green);
-  --textarea-text-color--focus: var(--color-sea-green);
-  --textarea-text-color--changed: var(--color-emerald-green);
-  --textarea-text-color--disabled: var(--color-sea-green-30);
-  --textarea-background-color: var(--color-white);
-  --textarea-background-color--focus: var(--color-white);
-  --textarea-background-color--changed: var(--color-white);
-  --textarea-background-color--disabled: var(--color-mint-green-12);
 }
 
 @mixin textareaTheme() {
@@ -23,15 +15,15 @@
   &,
   .dnb-textarea--virgin &,
   .dnb-textarea--initial & {
-    color: var(--textarea-text-color);
-    background-color: var(--textarea-background-color);
+    color: var(--color-sea-green);
+    background-color: var(--color-white);
   }
 
   // content changed
   .dnb-textarea--dirty & {
     // Background color of textarea when it has content
-    color: var(--textarea-text-color--changed);
-    background-color: var(--textarea-background-color--changed);
+    color: var(--color-emerald-green);
+    background-color: var(--color-white);
   }
 
   // hover and focus
@@ -40,8 +32,8 @@
   &:hover {
     outline: none;
     &:not([disabled]):not(#{&}--disabled) {
-      color: var(--textarea-text-color--focus);
-      background-color: var(--textarea-background-color--focus);
+      color: var(--color-sea-green);
+      background-color: var(--color-white);
       &:not(.status--error) /* for the HTML element */ {
         box-shadow: var(--textarea-border-inner),
           0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
@@ -65,8 +57,8 @@
     user-select: none;
     -webkit-user-select: none; // Safari / Touch fix
 
-    color: var(--textarea-text-color--disabled);
-    background-color: var(--textarea-background-color--disabled);
+    color: var(--color-sea-green-30);
+    background-color: var(--color-mint-green-12);
 
     box-shadow: 0 0 0 var(--textarea-padding-width)
         var(--color-mint-green-12),
@@ -97,7 +89,7 @@
 
   ::selection {
     background-color: var(--color-mint-green);
-    color: var(--textarea-text-color--focus);
+    color: var(--color-sea-green);
     text-shadow: none;
   }
 
@@ -119,7 +111,7 @@
   }
 
   &__placeholder {
-    color: var(--textarea-text-color);
+    color: var(--color-sea-green);
 
     // Required for line-clamp
     display: -webkit-box;

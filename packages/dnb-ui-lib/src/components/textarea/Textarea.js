@@ -225,8 +225,9 @@ export default class Textarea extends React.PureComponent {
       this.props,
       Textarea.defaultProps,
       { skeleton: this.context?.skeleton },
-      this.context.formRow,
-      this.context.translation.Textarea
+      this.context.getTranslation(this.props).Textarea,
+      this.context.FormRow,
+      this.context.Textarea
     )
 
     const {

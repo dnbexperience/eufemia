@@ -522,8 +522,9 @@ export default class Slider extends React.PureComponent {
       this.props,
       Slider.defaultProps,
       { skeleton: this.context?.skeleton },
-      this.context.formRow,
-      this.context.translation.Slider
+      this.context.getTranslation(this.props).Slider,
+      this.context.FormRow,
+      this.context.Slider
     )
 
     const {

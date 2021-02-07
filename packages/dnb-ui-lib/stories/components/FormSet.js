@@ -33,7 +33,7 @@ const Center = styled.div`
 export const FormSetSandbox = () => (
   <Center>
     <Wrapper>
-      <Provider formRow={{ indent: true, vertical: false }}>
+      <Provider FormRow={{ indent: true, vertical: false }}>
         <FormSet
         // indent="true" vertical="false"
         >
@@ -53,7 +53,7 @@ export const FormSetSandbox = () => (
             </FormRow>
           </Box>
           <Box>
-            <Provider formRow={{ vertical: true }}>
+            <Provider FormRow={{ vertical: true }}>
               <FormRow label="Input:" indent_offset="large">
                 <Input value="Value" />
               </FormRow>

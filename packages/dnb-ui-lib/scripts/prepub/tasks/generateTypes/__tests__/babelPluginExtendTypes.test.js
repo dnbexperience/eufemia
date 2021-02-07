@@ -10,17 +10,23 @@ import { babelPluginExtendTypes } from '../babelPluginExtendTypes'
 
 describe('babelPluginExtendTypes', () => {
   it('has to match snapshot', async () => {
-    const file = nodePath.resolve(
+    const targetFile = nodePath.resolve(
       __dirname,
       '__mocks__/PrimaryComponent.d.ts'
     )
+    const file = nodePath.resolve(
+      __dirname,
+      '__mocks__/PrimaryComponent.js'
+    )
 
-    const { code } = await transformFileAsync(file, {
+    const { code } = await transformFileAsync(targetFile, {
       plugins: [
         ['@babel/plugin-syntax-typescript', { isTSX: true }],
         [
           babelPluginExtendTypes,
-          { componentName: 'PrimaryComponentProps' }
+          {
+            file
+          }
         ]
       ],
       ...babelPluginConfigDefaults

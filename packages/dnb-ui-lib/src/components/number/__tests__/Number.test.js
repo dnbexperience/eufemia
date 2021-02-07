@@ -78,7 +78,7 @@ describe('Number component', () => {
     const Comp = mount(<Component value={-value} currency />)
 
     expect(Comp.find(displaySlector).first().text()).toBe(
-      'kr -12 345 678,99'
+      '-12 345 678,99 kr'
     )
 
     expect(Comp.find(ariaSlector).first().text()).toBe(
@@ -92,11 +92,11 @@ describe('Number component', () => {
       value: 12345
     })
 
-    expect(Comp.find(displaySlector).first().text()).toBe('kr 12 345')
+    expect(Comp.find(displaySlector).first().text()).toBe('12 345 kr')
   })
   it('have to match currency with large decimals', () => {
     const Comp = mount(<Component value="5000.0099" currency />)
-    expect(Comp.find(displaySlector).first().text()).toBe('kr 5 000,01')
+    expect(Comp.find(displaySlector).first().text()).toBe('5 000,01 kr')
   })
   it('has valid selected number', () => {
     const Comp = mount(<Component value={-value} currency />)
@@ -160,7 +160,7 @@ describe('Number component', () => {
   it('have to match currency under 100.000', () => {
     const Comp = mount(<Component value={-12345.95} currency />)
 
-    expect(Comp.find(displaySlector).first().text()).toBe('kr -12 345,95')
+    expect(Comp.find(displaySlector).first().text()).toBe('-12 345,95 kr')
 
     expect(Comp.find(ariaSlector).first().text()).toBe(
       '-12345,95 norske kroner'
@@ -171,7 +171,7 @@ describe('Number component', () => {
       <Component value={-12345.99} currency decimals={0} />
     )
 
-    expect(Comp.find(displaySlector).first().text()).toBe('kr -12 346')
+    expect(Comp.find(displaySlector).first().text()).toBe('-12 346 kr')
 
     expect(Comp.find(ariaSlector).first().text()).toBe(
       '-12346 norske kroner'
@@ -249,63 +249,63 @@ describe('Decimals format', () => {
     expect(format(num, { decimals: 3 })).toBe('-12 345,679')
     expect(format(num, { decimals: 4 })).toBe('-12 345,6789')
 
-    expect(format(num, { currency: true, decimals: 0 })).toBe('kr -12 346')
+    expect(format(num, { currency: true, decimals: 0 })).toBe('-12 346 kr')
     expect(format(num, { currency: true, decimals: 1 })).toBe(
-      'kr -12 345,7'
+      '-12 345,7 kr'
     )
     expect(format(num, { currency: true, decimals: 2 })).toBe(
-      'kr -12 345,68'
+      '-12 345,68 kr'
     )
     expect(format(num, { currency: true, decimals: 3 })).toBe(
-      'kr -12 345,679'
+      '-12 345,679 kr'
     )
     expect(format(num, { currency: true, decimals: 4 })).toBe(
-      'kr -12 345,6789'
+      '-12 345,6789 kr'
     )
   })
 
   it('should handle omit rounding', () => {
     expect(
       format(num, { currency: true, decimals: 0, omit_rounding: true })
-    ).toBe('kr -12 345')
+    ).toBe('-12 345 kr')
     expect(
       format(num, { currency: true, decimals: 1, omit_rounding: true })
-    ).toBe('kr -12 345,6')
+    ).toBe('-12 345,6 kr')
     expect(
       format(num, { currency: true, decimals: 2, omit_rounding: true })
-    ).toBe('kr -12 345,67')
+    ).toBe('-12 345,67 kr')
     expect(
       format(num, { currency: true, decimals: 3, omit_rounding: true })
-    ).toBe('kr -12 345,678')
+    ).toBe('-12 345,678 kr')
     expect(
       format(num, { currency: true, decimals: 4, omit_rounding: true })
-    ).toBe('kr -12 345,6789')
+    ).toBe('-12 345,6789 kr')
     expect(
       format(num, { currency: true, decimals: 5, omit_rounding: true })
-    ).toBe('kr -12 345,67890')
+    ).toBe('-12 345,67890 kr')
     expect(
       format(num, { currency: true, decimals: 6, omit_rounding: true })
-    ).toBe('kr -12 345,678900')
+    ).toBe('-12 345,678900 kr')
   })
 })
 
 describe('Currency format with dirty number', () => {
   it('should treat a dot as decimal', () => {
     expect(format(-12345.67, { clean: true, currency: true })).toBe(
-      'kr -12 345,67'
+      '-12 345,67 kr'
     )
     expect(
       format('prefix -123.45 suffix', { clean: true, currency: true })
-    ).toBe('kr -123,45')
+    ).toBe('-123,45 kr')
   })
 
   it('should treat danish/german style', () => {
     expect(
       format('prefix -12.345 suffix', { clean: true, currency: true })
-    ).toBe('kr -12 345,00')
+    ).toBe('-12 345,00 kr')
     expect(
       format('prefix -12.345,678 suffix', { clean: true, currency: true })
-    ).toBe('kr -12 345,68')
+    ).toBe('-12 345,68 kr')
   })
 
   it('should treat usa style', () => {
@@ -314,19 +314,19 @@ describe('Currency format with dirty number', () => {
         clean: true,
         currency: true
       })
-    ).toBe('kr -1 234 567,89')
+    ).toBe('-1 234 567,89 kr')
   })
 
   it('should treat norwegian style (SI style (French version))', () => {
     expect(
       format('prefix -12 345,678 suffix', { clean: true, currency: true })
-    ).toBe('kr -12 345,68')
+    ).toBe('-12 345,68 kr')
     expect(
       format('prefix -1 234 567,891 suffix', {
         clean: true,
         currency: true
       })
-    ).toBe('kr -1 234 567,89')
+    ).toBe('-1 234 567,89 kr')
   })
 
   it('should treat english style (SI style (English version))', () => {
@@ -335,7 +335,7 @@ describe('Currency format with dirty number', () => {
         clean: true,
         currency: true
       })
-    ).toBe('kr -1 234 567,89')
+    ).toBe('-1 234 567,89 kr')
   })
 
   it('should treat swiss style', () => {
@@ -344,31 +344,31 @@ describe('Currency format with dirty number', () => {
         clean: true,
         currency: true
       })
-    ).toBe('kr -1 234 567,89')
+    ).toBe('-1 234 567,89 kr')
   })
 
   it('should treat ireland style', () => {
     expect(
       format('prefix -12.345·678 suffix', { clean: true, currency: true })
-    ).toBe('kr -12 345,68')
+    ).toBe('-12 345,68 kr')
     expect(
       format('prefix -1,234,567·891 suffix', {
         clean: true,
         currency: true
       })
-    ).toBe('kr -1 234 567,89')
+    ).toBe('-1 234 567,89 kr')
   })
 
   it('should treat spain style', () => {
     expect(
       format("prefix -12.345'678 suffix", { clean: true, currency: true })
-    ).toBe('kr -12 345,68')
+    ).toBe('-12 345,68 kr')
     expect(
       format("prefix -1.234.567'891 suffix", {
         clean: true,
         currency: true
       })
-    ).toBe('kr -1 234 567,89')
+    ).toBe('-1 234 567,89 kr')
   })
 })
 

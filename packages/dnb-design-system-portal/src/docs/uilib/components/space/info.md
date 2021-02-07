@@ -31,12 +31,45 @@ To get a spacing of e.g. **2.5rem** (40px)- You may combine types `large` and `x
 <Space top="large x-small" right="2.5" bottom="2.5rem" left="40px" />
 ```
 
+With React, you can also use an object with the different directions:
+
+```jsx
+/** All of these methods will result in the same spacing */
+<Space
+  space={{
+    top: 'large x-small',
+    right: '2.5',
+    bottom: '2.5rem',
+    left: '40px'
+  }}
+/>
+```
+
 ### Components and Spacing
 
-Every component supports the spacing patterns, so it's possible to send in the `top`, `right`, `bottom` and `left` properties directly, like:
+Every component supports the spacing patterns, so it's possible to send in the `top`, `right`, `bottom`, `left` and `space` properties directly, like:
 
 ```jsx
 <Button top="large x-small medium" />
+<Button space={{ top: "large x-small medium" }} />
+```
+
+### Spacing shorthands
+
+A shorthand for getting 1rem (most used) is to simply send in a boolean, set as true. No given value in JSX means true, so you only need the property key:
+
+```jsx
+/** Equivalent to top="small" */
+<Button top />
+
+/** Equivalent to top="small" right="small" bottom="small" left="small" */
+<Button space />
+```
+
+In order to set all four directions at once, you can provide a string as the `space` value:
+
+```jsx
+<Button space="large x-small medium" />
 ```
 
 ### Does it not work as expected?

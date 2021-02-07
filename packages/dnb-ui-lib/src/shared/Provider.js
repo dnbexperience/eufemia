@@ -14,7 +14,18 @@ import { prepareFormRowContext } from '../components/form-row/FormRow'
 export default class Provider extends React.PureComponent {
   static contextType = Context
   static propTypes = {
+    /** Send in an object that gets spread as properties to the Provider */
+    value: PropTypes.object,
+    /** Define the locale used for every Eufemia components inside this Provider. Defaults to nb-NO */
+    locale: PropTypes.string,
+    /** Enable skeleton of every Eufemia component inside this Provider */
+    skeleton: PropTypes.bool,
     children: PropTypes.node.isRequired
+  }
+  static defaultProps = {
+    value: null,
+    locale: null,
+    skeleton: null
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -48,8 +59,8 @@ export default class Provider extends React.PureComponent {
       }
 
       // 2. The reset will extend the Provider Context
-      if (newContext.formRow) {
-        newContext.formRow = prepareFormRowContext(newContext.formRow)
+      if (newContext.FormRow) {
+        newContext.FormRow = prepareFormRowContext(newContext.FormRow)
       }
 
       state = newContext
@@ -65,11 +76,21 @@ export default class Provider extends React.PureComponent {
 
     const {
       children, // eslint-disable-line
+      value,
       ...startupProps
     } = props
 
+    /**
+     * Deprecated!
+     *
+     * This is only to ensure backwards compatibility, as the docs has showed before year 2021
+     */
+    if (typeof startupProps.formRow !== 'undefined') {
+      startupProps.FormRow = startupProps.formRow
+    }
+
     // NB: Make sure we create a copy, because we add some custom methods to it
-    const newContext = { ...context, ...startupProps }
+    const newContext = { ...value, ...context, ...startupProps }
     const isRoot = !(newContext && newContext.__providerId)
     newContext.__providerId = makeUniqueId()
 

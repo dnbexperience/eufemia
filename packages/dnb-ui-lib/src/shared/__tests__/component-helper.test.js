@@ -18,7 +18,7 @@ import {
   toPascalCase,
   toCamelCase,
   toSnakeCase,
-  toLispCase,
+  toKebabCase,
   // pickRenderProps,
   detectOutsideClick,
   makeUniqueId,
@@ -407,9 +407,9 @@ describe('"toSnakeCase" should', () => {
   })
 })
 
-describe('"toLispCase" should', () => {
-  it('transform a camel case event name to lisp case', () => {
-    expect(toLispCase('MyEventIsLong')).toBe('my-event-is-long')
+describe('"toKebabCase" should', () => {
+  it('transform a camel case event name to kebab case', () => {
+    expect(toKebabCase('MyEventIsLong')).toBe('my-event-is-long')
   })
 })
 

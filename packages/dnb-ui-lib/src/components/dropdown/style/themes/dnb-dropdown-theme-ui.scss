@@ -5,22 +5,18 @@
 
 @import '../../../../style/themes/imports.scss';
 
-:root {
-  --dropdown-text-color: var(--color-emerald-green);
-}
-
 @mixin dropdownBorderColor($color) {
   @include fakeBorder($color, 0.125rem, null, true, !important);
 }
 
 .dnb-dropdown {
-  color: var(--dropdown-text-color);
+  color: var(--color-emerald-green);
 
   // button
   &__trigger {
-    color: var(--dropdown-text-color);
+    color: var(--color-emerald-green);
     @include hover() {
-      color: var(--dropdown-text-color);
+      color: var(--color-emerald-green);
     }
   }
 

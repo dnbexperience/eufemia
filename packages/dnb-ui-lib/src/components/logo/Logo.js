@@ -56,8 +56,9 @@ export default class Logo extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       Logo.defaultProps,
-      this.context.formRow,
-      this.context.getTranslation(this.props).Logo
+      this.context.getTranslation(this.props).Logo,
+      this.context.FormRow,
+      this.context.Logo
     )
 
     let {

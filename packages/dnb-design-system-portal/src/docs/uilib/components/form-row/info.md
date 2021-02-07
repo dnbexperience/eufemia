@@ -86,7 +86,7 @@ To give a FormRow space, properties from [Space](/uilib/components/space/propert
 
 ## Provider
 
-You can send down the `formRow` as an application wide property (Context). More info about the [provider usage](/uilib/components/form-row/provider).
+You can send down the `FormRow` as an application wide property (Context). More info about the [provider usage](/uilib/components/form-row/provider).
 
 ## Responsiveness
 

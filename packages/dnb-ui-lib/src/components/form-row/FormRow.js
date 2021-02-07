@@ -134,7 +134,7 @@ export default class FormRow extends React.PureComponent {
 
     // Not used yet
     // this.isInsideFormSet =
-    //   context.formRow && context.formRow.isInsideFormSet
+    //   context.FormRow && context.FormRow.isInsideFormSet
   }
 
   render() {
@@ -142,7 +142,7 @@ export default class FormRow extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       FormRow.defaultProps,
-      this.context.formRow
+      this.context.FormRow
     )
 
     let {
@@ -174,7 +174,7 @@ export default class FormRow extends React.PureComponent {
     } = props
 
     const isNested =
-      this.context.formRow && this.context.formRow.itsMeAgain
+      this.context.FormRow && this.context.FormRow.itsMeAgain
 
     // in case we have a label already, we split this out and use this one instead
     const { label: nestedLabel, children } = FormRow.getContent(this.props)
@@ -199,8 +199,8 @@ export default class FormRow extends React.PureComponent {
         indent &&
           !(
             isNested &&
-            this.context.formRow.hasLabel &&
-            this.context.formRow.indent
+            this.context.FormRow.hasLabel &&
+            this.context.FormRow.indent
           ) &&
           `dnb-form-row__indent--${isTrue(indent) ? 'default' : indent}`,
         centered && 'dnb-form-row--centered',
@@ -236,7 +236,7 @@ export default class FormRow extends React.PureComponent {
       this._cachedContext = hashSum(this.context, false)
       this._cachedProps = hashSum(this.props, false)
 
-      const formRow = {
+      const FormRow = {
         useId: () => {
           if (this.isIsUsed) {
             // make a new ID, as we used one
@@ -257,7 +257,7 @@ export default class FormRow extends React.PureComponent {
         skeleton
       }
       this._contextWeUse = extend(this.context, {
-        formRow
+        FormRow
       })
     }
 

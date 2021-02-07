@@ -13,7 +13,10 @@ import { generateFromSource } from 'react-to-typescript-definitions'
 import { transformFileAsync, transformAsync } from '@babel/core'
 
 import { fetchPropertiesFromDocs } from './generateTypes/fetchPropertiesFromDocs'
-import { babelPluginConfigDefaults } from './generateTypes/babelPluginConfigDefaults'
+import {
+  babelPluginConfigDefaults,
+  babelPluginDefaultPlugins
+} from './generateTypes/babelPluginConfigDefaults'
 import { babelPluginCorrectTypes } from './generateTypes/babelPluginCorrectTypes'
 import { babelPluginExtendTypes } from './generateTypes/babelPluginExtendTypes'
 import { babelPluginIncludeDocs } from './generateTypes/babelPluginIncludeDocs'
@@ -62,13 +65,13 @@ export const createTypes = async (
       }
 
       // For dev (build:types:dev) mode only
-      const isDev =
-        process.env.npm_config_argv.includes('build:types:dev') &&
-        // !file.includes('/Element.js') &&
-        // !file.includes('/Blockquote.js') &&
-        // !file.includes('/Button.js') &&
-        !file.includes('/GlobalError.js')
-      if (isDev) {
+      const isDev = process.env.npm_config_argv.includes('build:types:dev')
+      const isOfInterest =
+        // file.includes('/Element.js') ||
+        // file.includes('/Blockquote.js') ||
+        // file.includes('/Button.js') ||
+        file.includes('/Provider')
+      if (isDev && !isOfInterest) {
         return // stop here
       }
 
@@ -122,10 +125,8 @@ export const createTypes = async (
           definitionContent = code
         } else {
           const { code } = await transformFileAsync(file, {
-            presets: ['@babel/preset-react'],
             plugins: [
-              ['@babel/plugin-proposal-class-properties', { loose: true }],
-              '@babel/plugin-proposal-optional-chaining',
+              ...babelPluginDefaultPlugins,
               [babelPluginPropTypesRelations, { sourceDir }],
               [
                 babelPluginCorrectTypes,
@@ -164,13 +165,7 @@ export const createTypes = async (
                 [
                   babelPluginExtendTypes,
                   {
-                    componentName: basename.replace(
-                      nodePath.extname(file),
-                      'Props'
-                    ),
-                    addDefaultPropsTypeAnnotation: code.includes(
-                      'defaultProps'
-                    ) // Because they are available
+                    file
                   }
                 ]
               ],

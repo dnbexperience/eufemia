@@ -4,10 +4,12 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
+// eslint-disable-next-line no-unused-vars
+import PropTypes from 'prop-types' // Is needed because of ts types
 import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import DefaultIcon, {
+  iconPropTypes,
   DefaultIconSize,
   prerenderIcon,
   prepareIcon
@@ -26,14 +28,10 @@ export default class IconPrimary extends React.PureComponent {
   static contextType = Context
 
   static propTypes = {
-    ...DefaultIcon.propTypes,
-    ...{
-      icon: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.node,
-        PropTypes.func
-      ])
-    }
+    /**
+     * Use spread, so generateTypes.js makes a valid copy to create the types
+     */
+    ...iconPropTypes
   }
   static defaultProps = { ...DefaultIcon.defaultProps }
 
@@ -51,7 +49,9 @@ export default class IconPrimary extends React.PureComponent {
       this.props,
       IconPrimary.defaultProps,
       { skeleton: this.context?.skeleton },
-      this.context.formRow
+      this.context.FormRow,
+      this.context.Icon,
+      this.context.IconPrimary
     )
 
     const { icon, size, wrapperParams, iconParams, alt } = prepareIcon(

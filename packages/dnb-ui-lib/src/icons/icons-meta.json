@@ -1,1051 +1,1171 @@
 {
   "grabber": {
     "tags": [],
-    "created": 1607888405433,
+    "created": 1611955551846,
     "name": "essentials/grabber_16",
     "variant": "secondary"
   },
   "check": {
     "tags": ["done", "complete", "success", "checkmark"],
-    "created": 1607888406335,
+    "created": 1611955552629,
     "name": "essentials/checkmark_16",
     "variant": "primary"
   },
   "list": {
     "tags": ["bulletpoints"],
-    "created": 1607888407120,
+    "created": 1611955553397,
     "name": "essentials/list_16",
     "variant": "secondary"
   },
   "paragraph": {
     "tags": ["law", "legal"],
-    "created": 1607888407981,
+    "created": 1611955554175,
     "name": "essentials/paragraph_16",
     "variant": "secondary"
   },
   "above_the_line": {
     "tags": ["Place over the line"],
-    "created": 1607888408806,
+    "created": 1611955554969,
     "name": "essentials/above_the_line_16",
     "variant": "secondary"
   },
   "star": {
     "tags": ["favourite", "rating"],
-    "created": 1607888409591,
+    "created": 1611955555733,
     "name": "essentials/star_16",
     "variant": "secondary"
   },
   "heart": {
     "tags": ["health", "love"],
-    "created": 1607888410457,
+    "created": 1611955556516,
     "name": "essentials/heart_16",
     "variant": "secondary"
   },
   "hand_money": {
     "tags": ["recieve"],
-    "created": 1607888411217,
+    "created": 1611955557276,
     "name": "essentials/hand_money_16",
     "variant": "secondary"
   },
   "support": {
     "tags": ["hand", "heart", "holding", "care"],
-    "created": 1607888412093,
+    "created": 1611955558057,
     "name": "essentials/support_16",
     "variant": "secondary"
   },
   "ref_number": {
     "tags": ["referance"],
-    "created": 1607888412962,
+    "created": 1611955558859,
     "name": "essentials/ref_number_16",
     "variant": "secondary"
   },
   "kid_number": {
     "tags": [],
-    "created": 1607888413879,
+    "created": 1611955559636,
     "name": "essentials/kid_number_16",
     "variant": "secondary"
   },
   "attachment": {
     "tags": ["attachment"],
-    "created": 1607888414654,
+    "created": 1611955560423,
     "name": "essentials/attachment_16",
     "variant": "secondary"
   },
   "chat": {
     "tags": ["message", "conversation", "talk", "communicate"],
-    "created": 1607888415428,
+    "created": 1611955561198,
     "name": "essentials/chat_16",
     "variant": "secondary"
   },
   "bubble": {
     "tags": ["message", "speak"],
-    "created": 1607888416218,
+    "created": 1611955561992,
     "name": "essentials/bubble_16",
     "variant": "secondary"
   },
   "web": {
     "tags": ["internet", "www"],
-    "created": 1607888417033,
+    "created": 1611955562767,
     "name": "essentials/web_16",
     "variant": "secondary"
   },
   "location": {
     "tags": ["place", "geo"],
-    "created": 1607888417816,
+    "created": 1611955563565,
     "name": "essentials/location_16",
     "variant": "secondary"
   },
   "exclamation": {
     "tags": ["warning", "!", "alert"],
-    "created": 1607888418582,
+    "created": 1611955564356,
     "name": "essentials/exclamation_16",
     "variant": "primary"
   },
   "exclamation_triangle": {
     "tags": ["warning", "!", "alert"],
-    "created": 1607888419375,
+    "created": 1611955565150,
     "name": "essentials/exclamation_triangle_16",
     "variant": "secondary"
   },
   "exclamation_circled": {
     "tags": ["warning", "!", "alert"],
-    "created": 1607888420260,
+    "created": 1611955565906,
     "name": "essentials/exclamation_circled_16",
     "variant": "secondary"
   },
   "question": {
     "tags": ["?", "questionmark", "help"],
-    "created": 1607888421075,
+    "created": 1611955566673,
     "name": "essentials/question_16",
     "variant": "primary"
   },
   "question_circled": {
     "tags": ["?", "questionmark", "help"],
-    "created": 1607888421898,
+    "created": 1611955567465,
     "name": "essentials/question_circled_16",
     "variant": "secondary"
   },
   "information": {
     "tags": ["i"],
-    "created": 1607888422688,
+    "created": 1611955568230,
     "name": "essentials/information_16",
     "variant": "primary"
   },
   "information_circled": {
     "tags": ["i"],
-    "created": 1607888423491,
+    "created": 1611955569038,
     "name": "essentials/information_circled_16",
     "variant": "secondary"
   },
   "information_bubble": {
     "tags": ["i"],
-    "created": 1607888424299,
+    "created": 1611955569805,
     "name": "essentials/information_bubble_16",
     "variant": "secondary"
   },
   "progress": {
     "tags": ["goal", "process", "%"],
-    "created": 1607888425115,
+    "created": 1611955570647,
     "name": "essentials/progress_16",
     "variant": "secondary"
   },
   "filter": {
     "tags": ["adjust"],
-    "created": 1607888426098,
+    "created": 1611955571418,
     "name": "essentials/filter_16",
     "variant": "secondary"
   },
   "people_2": {
     "tags": ["firend", "persons"],
-    "created": 1607888426874,
+    "created": 1611955572179,
     "name": "essentials/people_2_16",
     "variant": "secondary"
   },
   "people_1": {
     "tags": ["persons", "friends"],
-    "created": 1607888427671,
+    "created": 1611955572932,
     "name": "essentials/people_1_16",
     "variant": "secondary"
   },
   "person": {
     "tags": ["profile"],
-    "created": 1607888428458,
+    "created": 1611955573704,
     "name": "essentials/person_16",
     "variant": "secondary"
   },
   "profile": {
     "tags": ["head", "me", "person", "profile"],
-    "created": 1607888429243,
+    "created": 1611955574476,
     "name": "essentials/profile_16",
     "variant": "secondary"
   },
   "globe": {
     "tags": ["earth", "world"],
-    "created": 1607888430015,
+    "created": 1611955575264,
     "name": "essentials/globe_16",
     "variant": "secondary"
   },
   "digipass": {
     "tags": ["login", "authenticate"],
-    "created": 1607888430797,
+    "created": 1611955576009,
     "name": "essentials/digipass_16",
     "variant": "secondary"
   },
   "pin_code": {
     "tags": ["login", "authenticate"],
-    "created": 1607888431567,
+    "created": 1611955576797,
     "name": "essentials/pin_code_16",
     "variant": "secondary"
   },
   "bankid_qr": {
     "tags": ["login", "authenticate"],
-    "created": 1607888432345,
+    "created": 1611955577569,
     "name": "essentials/bankid_qr_16",
     "variant": "secondary"
   },
   "bankid_mobile": {
     "tags": ["login", "authenticate"],
-    "created": 1607888433096,
+    "created": 1611955578365,
     "name": "essentials/bankid_mobile_16",
     "variant": "secondary"
   },
   "bankid": {
     "tags": ["login", "authenticate"],
-    "created": 1607888433975,
+    "created": 1611955579153,
     "name": "essentials/bankid_16",
+    "variant": "secondary"
+  },
+  "video": {
+    "tags": ["film", "movie", "play"],
+    "created": 1611955579912,
+    "name": "objects/video_16",
     "variant": "secondary"
   },
   "cookie": {
     "tags": [],
-    "created": 1607888434764,
+    "created": 1611955580715,
     "name": "objects/cookie_16",
     "variant": "secondary"
   },
   "photo": {
     "tags": ["picture", "image", "gallery"],
-    "created": 1607888435594,
+    "created": 1611955581464,
     "name": "objects/photo_16",
     "variant": "secondary"
   },
   "folder": {
     "tags": ["file"],
-    "created": 1607888436381,
+    "created": 1611955582320,
     "name": "objects/folder_16",
     "variant": "secondary"
   },
   "hourglass": {
     "tags": ["timer", "time", "waiting"],
-    "created": 1607888437162,
+    "created": 1611955583102,
     "name": "objects/hourglass_16",
     "variant": "secondary"
   },
   "email": {
     "tags": [],
-    "created": 1607888437945,
+    "created": 1611955583864,
     "name": "objects/email_16",
     "variant": "secondary"
   },
   "paperclip": {
     "tags": ["attachment"],
-    "created": 1607888438818,
+    "created": 1611955584661,
     "name": "objects/paperclip_16",
     "variant": "secondary"
   },
   "printer": {
     "tags": ["print"],
-    "created": 1607888439610,
+    "created": 1611955585421,
     "name": "objects/printer_16",
     "variant": "secondary"
   },
   "customer_service": {
     "tags": ["headset"],
-    "created": 1607888440416,
+    "created": 1611955586180,
     "name": "objects/customer_service_16",
     "variant": "secondary"
   },
   "chatbot": {
     "tags": ["aino"],
-    "created": 1607888441240,
+    "created": 1611955586947,
     "name": "objects/chatbot_16",
+    "variant": "secondary"
+  },
+  "broken_chain": {
+    "tags": ["broken link"],
+    "created": 1611955587721,
+    "name": "objects/broken_chain_16",
     "variant": "secondary"
   },
   "chain": {
     "tags": ["link"],
-    "created": 1607888442067,
+    "created": 1611955588484,
     "name": "objects/chain_16",
     "variant": "secondary"
   },
   "microphone": {
     "tags": ["record"],
-    "created": 1607888442849,
+    "created": 1611955589244,
     "name": "objects/microphone_16",
     "variant": "secondary"
   },
   "wearables": {
     "tags": ["smartwatch"],
-    "created": 1607888443649,
+    "created": 1611955590002,
     "name": "objects/wearables_16",
     "variant": "secondary"
   },
   "apple_watch": {
     "tags": ["smartwatch"],
-    "created": 1607888444453,
+    "created": 1611955590788,
     "name": "objects/apple_watch_16",
     "variant": "secondary"
   },
   "widget_android": {
     "tags": [],
-    "created": 1607888445253,
+    "created": 1611955591576,
     "name": "objects/widget_android_16",
     "variant": "secondary"
   },
   "widget_ios": {
     "tags": ["puzzle", "piece"],
-    "created": 1607888446006,
+    "created": 1611955592352,
     "name": "objects/widget_ios_16",
     "variant": "secondary"
   },
   "owl": {
     "tags": ["knowledge"],
-    "created": 1607888446858,
+    "created": 1611955593138,
     "name": "objects/owl_16",
     "variant": "secondary"
   },
   "confetti": {
     "tags": ["tada", "party"],
-    "created": 1607888447674,
+    "created": 1611955593907,
     "name": "objects/confetti_16",
     "variant": "secondary"
   },
   "flying_money": {
     "tags": [],
-    "created": 1607888448485,
+    "created": 1611955594660,
     "name": "objects/flying_money_16",
     "variant": "secondary"
   },
   "restaurant": {
     "tags": ["food", "fork", "knife", "eat"],
-    "created": 1607888449264,
+    "created": 1611955595417,
     "name": "objects/restaurant_16",
     "variant": "secondary"
   },
   "hanger": {
     "tags": ["clothes"],
-    "created": 1607888450028,
+    "created": 1611955596183,
     "name": "objects/hanger_16",
     "variant": "secondary"
   },
   "plant": {
     "tags": ["garden"],
-    "created": 1607888450846,
+    "created": 1611955596956,
     "name": "objects/plant_16",
     "variant": "secondary"
   },
   "heart_rate": {
     "tags": ["health", "wellbeing"],
-    "created": 1607888451798,
+    "created": 1611955597716,
     "name": "objects/heart_rate_16",
     "variant": "secondary"
   },
   "bowling": {
     "tags": ["Categorization: Leisure"],
-    "created": 1607888452579,
+    "created": 1611955598481,
     "name": "objects/bowling_16",
     "variant": "secondary"
   },
   "shopping_cart": {
     "tags": ["groceries"],
-    "created": 1607888453442,
+    "created": 1611955599252,
     "name": "objects/shopping_cart_16",
     "variant": "secondary"
   },
   "lightbulb": {
     "tags": ["tips", "tricks", "idea", "light"],
-    "created": 1607888454216,
+    "created": 1611955600044,
     "name": "objects/lightbulb_16",
     "variant": "secondary"
   },
   "document_pdf": {
-    "tags": ["Attachment"],
-    "created": 1607888454997,
+    "tags": ["file"],
+    "created": 1611955600815,
     "name": "objects/document_pdf_16",
     "variant": "secondary"
   },
   "document_contract": {
     "tags": [],
-    "created": 1607888455793,
+    "created": 1611955601594,
     "name": "objects/document_contract_16",
     "variant": "secondary"
   },
   "document_warning": {
     "tags": [],
-    "created": 1607888456640,
+    "created": 1611955602391,
     "name": "objects/document_warning_16",
     "variant": "secondary"
   },
   "document_loupe": {
     "tags": [],
-    "created": 1607888457418,
+    "created": 1611955603157,
     "name": "objects/document_loupe_16",
     "variant": "secondary"
   },
   "document_rejected": {
     "tags": [],
-    "created": 1607888458249,
+    "created": 1611955603907,
     "name": "objects/document_rejected_16",
     "variant": "secondary"
   },
   "document_signing": {
     "tags": ["apply"],
-    "created": 1607888459484,
+    "created": 1611955604657,
     "name": "objects/document_signing_16",
     "variant": "secondary"
   },
   "document_add": {
     "tags": [],
-    "created": 1607888460246,
+    "created": 1611955605427,
     "name": "objects/document_add_16",
     "variant": "secondary"
   },
   "file": {
     "tags": ["file", "document"],
-    "created": 1607888461067,
+    "created": 1611955687108,
     "name": "objects/document_16",
     "variant": "secondary"
   },
   "phone": {
     "tags": ["mobilephone", "device"],
-    "created": 1607888461840,
+    "created": 1611955606955,
     "name": "objects/phone_16",
     "variant": "secondary"
   },
   "padlock": {
     "tags": [],
-    "created": 1607888462613,
+    "created": 1611955607722,
     "name": "objects/padlock_16",
     "variant": "secondary"
   },
   "contacts": {
     "tags": ["recipients"],
-    "created": 1607888463474,
+    "created": 1611955608492,
     "name": "objects/contacts_16",
     "variant": "secondary"
   },
   "camera": {
     "tags": ["scanner"],
-    "created": 1607888464270,
+    "created": 1611955609243,
     "name": "objects/camera_16",
     "variant": "secondary"
   },
   "brush": {
     "tags": ["theme", "colour"],
-    "created": 1607888465034,
+    "created": 1611955610042,
     "name": "objects/brush_16",
     "variant": "secondary"
   },
   "train": {
     "tags": ["transport", "travel"],
-    "created": 1607888465921,
+    "created": 1611955610846,
     "name": "objects/train_16",
     "variant": "secondary"
   },
   "car_2": {
     "tags": ["vehicle", "transport"],
-    "created": 1607888466762,
+    "created": 1611955611630,
     "name": "objects/car_2_16",
     "variant": "secondary"
   },
   "car_1": {
     "tags": ["vehicle", "transport"],
-    "created": 1607888467550,
+    "created": 1611955612414,
     "name": "objects/car_1_16",
     "variant": "secondary"
   },
   "coins_3": {
     "tags": ["Categorization: Other savings"],
-    "created": 1607888468315,
+    "created": 1611955613191,
     "name": "objects/coins_3_16",
     "variant": "secondary"
   },
   "coins_2": {
     "tags": ["Other savings"],
-    "created": 1607888469129,
+    "created": 1611955613998,
     "name": "objects/coins_2_16",
     "variant": "secondary"
   },
   "coins_1": {
     "tags": ["spending"],
-    "created": 1607888469951,
+    "created": 1611955614779,
     "name": "objects/coins_1_16",
     "variant": "secondary"
   },
   "wallet": {
     "tags": ["payments"],
-    "created": 1607888470813,
+    "created": 1611955615583,
     "name": "objects/wallet_16",
     "variant": "secondary"
   },
   "recurring": {
     "tags": ["calendar", "date"],
-    "created": 1607888471564,
+    "created": 1611955616362,
     "name": "objects/recurring_16",
     "variant": "secondary"
   },
   "calendar": {
     "tags": ["date"],
-    "created": 1607888472366,
+    "created": 1611955617147,
     "name": "objects/calendar_16",
     "variant": "primary"
   },
   "stopwatch": {
     "tags": ["timer", "countdown"],
-    "created": 1607888473147,
+    "created": 1611955617921,
     "name": "objects/stopwatch_16",
     "variant": "secondary"
   },
   "clock": {
     "tags": ["watch", "time", "expired"],
-    "created": 1607888473902,
+    "created": 1611955618713,
     "name": "objects/clock_16",
     "variant": "secondary"
   },
   "scissors": {
     "tags": ["cut"],
-    "created": 1607888474692,
+    "created": 1611955619514,
     "name": "objects/scissors_16",
     "variant": "secondary"
   },
   "office_buildings": {
     "tags": ["corporate"],
-    "created": 1607888475471,
+    "created": 1611955620312,
     "name": "objects/office_buildings_16",
     "variant": "secondary"
   },
   "bank": {
     "tags": ["pillars"],
-    "created": 1607888476253,
+    "created": 1611955621072,
     "name": "objects/bank_16",
     "variant": "secondary"
   },
   "house_value": {
     "tags": ["Categorization: Rental income"],
-    "created": 1607888477017,
+    "created": 1611955621833,
     "name": "objects/house_value_16",
     "variant": "secondary"
   },
   "house_2": {
-    "tags": ["Categorization: Utilities"],
-    "created": 1607888477817,
+    "tags": ["Categorization: Utilities", "cabin"],
+    "created": 1611955622607,
     "name": "objects/house_2_16",
     "variant": "secondary"
   },
   "house_1": {
     "tags": ["Property"],
-    "created": 1607888478611,
+    "created": 1611955623389,
     "name": "objects/house_1_16",
     "variant": "secondary"
   },
   "home": {
     "tags": ["house"],
-    "created": 1607888479417,
+    "created": 1611955624152,
     "name": "objects/home_16",
     "variant": "secondary"
   },
   "bell": {
     "tags": ["notification"],
-    "created": 1607888480198,
+    "created": 1611955624917,
     "name": "objects/bell_16",
     "variant": "primary"
   },
   "loupe": {
     "tags": ["search", "find"],
-    "created": 1607888481051,
+    "created": 1611955625699,
     "name": "objects/loupe_16",
     "variant": "primary"
   },
   "cog": {
     "tags": ["settings"],
-    "created": 1607888481866,
+    "created": 1611955626531,
     "name": "objects/cog_16",
     "variant": "secondary"
   },
   "pension": {
     "tags": ["binoculars", "pensjon"],
-    "created": 1607888482740,
+    "created": 1611955627311,
     "name": "products/pension_16",
     "variant": "secondary"
   },
   "currency": {
     "tags": ["currency"],
-    "created": 1607888483509,
+    "created": 1611955628095,
     "name": "products/currency_16",
     "variant": "secondary"
   },
   "bsu": {
     "tags": ["house"],
-    "created": 1607888484362,
+    "created": 1611955628858,
     "name": "products/bsu_16",
     "variant": "secondary"
   },
   "equities_and_mutual_funds": {
     "tags": ["graph"],
-    "created": 1607888485133,
+    "created": 1611955629680,
     "name": "products/equities_and_mutual_funds_16",
     "variant": "secondary"
   },
   "stocks": {
     "tags": ["graph"],
-    "created": 1607888485908,
+    "created": 1611955630454,
     "name": "products/stocks_16",
     "variant": "secondary"
   },
   "funds": {
     "tags": ["graph"],
-    "created": 1607888486698,
+    "created": 1611955631226,
     "name": "products/funds_16",
     "variant": "secondary"
   },
   "loan": {
     "tags": ["graph"],
-    "created": 1607888487477,
+    "created": 1611955632029,
     "name": "products/loan_16",
     "variant": "secondary"
   },
   "insurance": {
     "tags": ["umbrella", "forsikring"],
-    "created": 1607888488251,
+    "created": 1611955632814,
     "name": "products/insurance_16",
     "variant": "secondary"
   },
   "digipost": {
     "tags": [],
-    "created": 1607888489020,
+    "created": 1611955633562,
     "name": "products/digipost_16",
     "variant": "secondary"
   },
   "ainvoice": {
     "tags": ["avtalegiro"],
-    "created": 1607888489815,
+    "created": 1611955634338,
     "name": "products/ainvoice_16",
     "variant": "secondary"
   },
   "einvoice": {
     "tags": ["efaktura"],
-    "created": 1607888490597,
+    "created": 1611955635107,
     "name": "products/einvoice_16",
     "variant": "secondary"
   },
   "card_with_padlock": {
     "tags": ["blocked"],
-    "created": 1607888491416,
+    "created": 1611955635873,
     "name": "products/card_with_padlock_16",
     "variant": "secondary"
   },
   "card": {
     "tags": [],
-    "created": 1607888492248,
+    "created": 1611955636635,
     "name": "products/card_16",
     "variant": "secondary"
   },
   "savings_account": {
     "tags": ["piggybank"],
-    "created": 1607888493016,
+    "created": 1611955637433,
     "name": "products/savings_account_16",
     "variant": "secondary"
   },
   "mastercard_card": {
     "tags": ["Mastercard account with card"],
-    "created": 1607888493810,
+    "created": 1611955638236,
     "name": "products/mastercard_card_16",
     "variant": "secondary"
   },
   "mastercard": {
     "tags": ["Mastercard account"],
-    "created": 1607888494571,
+    "created": 1611955639015,
     "name": "products/mastercard_16",
     "variant": "secondary"
   },
   "account_card": {
     "tags": ["moneybag"],
-    "created": 1607888495441,
+    "created": 1611955639756,
     "name": "products/account_card_16",
     "variant": "secondary"
   },
   "account_percent": {
     "tags": ["moneybag"],
-    "created": 1607888496346,
+    "created": 1611955640514,
     "name": "products/account_percent_16",
     "variant": "secondary"
   },
   "account": {
     "tags": ["moneybag"],
-    "created": 1607888497130,
+    "created": 1611955641277,
     "name": "products/account_16",
     "variant": "secondary"
   },
   "loan_out": {
     "tags": ["graph"],
-    "created": 1607888497982,
+    "created": 1611955642078,
     "name": "actions/loan_out_16",
     "variant": "secondary"
   },
   "loan_in": {
     "tags": ["graph", "downpayment"],
-    "created": 1607888498746,
+    "created": 1611955642863,
     "name": "actions/loan_in_16",
     "variant": "secondary"
   },
   "funds_out": {
     "tags": ["graph"],
-    "created": 1608200753101,
+    "created": 1611955643657,
     "name": "actions/funds_out_16",
     "variant": "secondary"
   },
   "funds_in": {
     "tags": ["graph"],
-    "created": 1608200753385,
+    "created": 1611955644434,
     "name": "actions/funds_in_16",
     "variant": "secondary"
   },
   "card_out": {
     "tags": [],
-    "created": 1607888501256,
+    "created": 1611955645215,
     "name": "actions/card_out_16",
     "variant": "secondary"
   },
   "card_in": {
     "tags": [],
-    "created": 1607888502023,
+    "created": 1611955645977,
     "name": "actions/card_in_16",
     "variant": "secondary"
   },
   "savings_account_out": {
     "tags": ["piggybank"],
-    "created": 1607888502910,
+    "created": 1611955646755,
     "name": "actions/savings_account_out_16",
     "variant": "secondary"
   },
   "savings_account_in": {
     "tags": ["piggybank"],
-    "created": 1607888503717,
+    "created": 1611955647557,
     "name": "actions/savings_account_in_16",
     "variant": "secondary"
   },
   "account_out": {
     "tags": ["moneybag"],
-    "created": 1607888504580,
+    "created": 1611955648341,
     "name": "actions/account_out_16",
     "variant": "secondary"
   },
   "account_in": {
     "tags": ["moneybag"],
-    "created": 1607888505369,
+    "created": 1611955649112,
     "name": "actions/account_in_16",
     "variant": "secondary"
   },
   "dismiss_keyboard": {
     "tags": [],
-    "created": 1607888506166,
+    "created": 1611955649885,
     "name": "actions/dismiss_keyboard_16",
     "variant": "secondary"
   },
   "move": {
     "tags": [],
-    "created": 1607888506967,
+    "created": 1611955650645,
     "name": "actions/move_16",
     "variant": "secondary"
   },
   "split": {
     "tags": ["divide"],
-    "created": 1607888507758,
+    "created": 1611955651396,
     "name": "actions/split_16",
     "variant": "secondary"
   },
   "fullscreen": {
     "tags": ["full screen"],
-    "created": 1607888508631,
+    "created": 1611955652161,
     "name": "actions/fullscreen_16",
     "variant": "secondary"
   },
   "save": {
     "tags": [],
-    "created": 1607888509557,
+    "created": 1611955652935,
     "name": "actions/save_16",
     "variant": "primary"
   },
   "copy": {
     "tags": ["duplicate"],
-    "created": 1607888510368,
+    "created": 1611955653714,
     "name": "actions/copy_16",
     "variant": "secondary"
   },
   "subtract": {
     "tags": ["minus", "remove"],
-    "created": 1607888511167,
+    "created": 1611955654512,
     "name": "actions/subtract_16",
     "variant": "primary"
   },
   "subtract_circled": {
     "tags": ["minus", "remove"],
-    "created": 1607888511957,
+    "created": 1611955655295,
     "name": "actions/subtract_circled_16",
     "variant": "secondary"
   },
   "add": {
     "tags": ["plus"],
-    "created": 1607888512771,
+    "created": 1611955656047,
     "name": "actions/add_16",
     "variant": "primary"
   },
   "add_circled": {
     "tags": ["plus"],
-    "created": 1607888513569,
+    "created": 1611955656805,
     "name": "actions/add_circled_16",
     "variant": "secondary"
   },
   "reply": {
     "tags": [],
-    "created": 1607888514353,
+    "created": 1611955657634,
     "name": "actions/reply_16",
     "variant": "secondary"
   },
   "return_1": {
     "tags": [],
-    "created": 1607888515136,
+    "created": 1611955658438,
     "name": "actions/return_16",
     "variant": "secondary"
   },
   "redo": {
     "tags": ["Restart"],
-    "created": 1607888515973,
+    "created": 1611955659191,
     "name": "actions/redo_16",
     "variant": "secondary"
   },
   "undo": {
     "tags": ["restart"],
-    "created": 1607888516727,
+    "created": 1611955659956,
     "name": "actions/undo_16",
     "variant": "secondary"
   },
   "reset": {
     "tags": ["refresh"],
-    "created": 1607888517540,
+    "created": 1611955660727,
     "name": "actions/reset_16",
     "variant": "primary"
   },
   "refresh": {
     "tags": ["repeat"],
-    "created": 1607888518337,
+    "created": 1611955661501,
     "name": "actions/repeat_16",
     "variant": "secondary"
   },
   "stop": {
     "tags": ["Stop"],
-    "created": 1607888519171,
+    "created": 1611955662274,
     "name": "actions/stop_16",
     "variant": "secondary"
   },
   "log_out": {
     "tags": ["door"],
-    "created": 1607888520074,
+    "created": 1611955663046,
     "name": "actions/log_out_16",
     "variant": "secondary"
   },
   "log_in": {
     "tags": ["door"],
-    "created": 1607888520920,
+    "created": 1611955663821,
     "name": "actions/log_in_16",
     "variant": "secondary"
   },
   "share_android": {
     "tags": [],
-    "created": 1607888521841,
+    "created": 1611955664591,
     "name": "actions/share_android_16",
     "variant": "secondary"
   },
   "share_ios": {
     "tags": [],
-    "created": 1607888522676,
+    "created": 1611955665375,
     "name": "actions/share_ios_16",
     "variant": "secondary"
   },
   "upload": {
     "tags": [],
-    "created": 1607888523466,
+    "created": 1611955666131,
     "name": "actions/upload_16",
     "variant": "secondary"
   },
   "download": {
     "tags": [],
-    "created": 1607888524233,
+    "created": 1611955666899,
     "name": "actions/download_16",
     "variant": "primary"
   },
   "edit": {
     "tags": ["pencil"],
-    "created": 1607888524995,
+    "created": 1611955667667,
     "name": "actions/edit_16",
     "variant": "secondary"
   },
   "compose": {
     "tags": ["create", "write"],
-    "created": 1607888525851,
+    "created": 1611955668425,
     "name": "actions/compose_16",
     "variant": "secondary"
   },
   "hide": {
     "tags": ["eye"],
-    "created": 1607888526623,
+    "created": 1611955669187,
     "name": "actions/hide_16",
     "variant": "secondary"
   },
   "view": {
     "tags": ["show", "eye"],
-    "created": 1607888527419,
+    "created": 1611955669962,
     "name": "actions/view_16",
     "variant": "secondary"
   },
   "swap": {
     "tags": ["exchange"],
-    "created": 1607888528188,
+    "created": 1611955670759,
     "name": "actions/swap_16",
     "variant": "secondary"
   },
   "send": {
     "tags": ["paper plane"],
-    "created": 1607888529003,
+    "created": 1611955671526,
     "name": "actions/send_16",
     "variant": "secondary"
   },
   "trash": {
     "tags": ["delete"],
-    "created": 1607888529785,
+    "created": 1611955672304,
     "name": "actions/trash_16",
     "variant": "secondary"
   },
   "graph_increase": {
     "tags": ["loan"],
-    "created": 1607888530562,
+    "created": 1611955673149,
     "name": "actions/graph_increase_16",
     "variant": "secondary"
   },
   "graph_decrease": {
     "tags": ["downpayment", "loan"],
-    "created": 1607888531335,
+    "created": 1611955673936,
     "name": "actions/graph_decrease_16",
     "variant": "secondary"
   },
   "transfer": {
     "tags": ["Transfer"],
-    "created": 1607888532131,
+    "created": 1611955674708,
     "name": "actions/transfer_16",
     "variant": "secondary"
   },
   "transfer_to": {
     "tags": ["Transfer to"],
-    "created": 1607888532926,
+    "created": 1611955675484,
     "name": "actions/transfer_to_16",
     "variant": "secondary"
   },
   "pay_from": {
     "tags": ["Payment"],
-    "created": 1607888533733,
+    "created": 1611955676238,
     "name": "actions/pay_from_16",
     "variant": "secondary"
   },
   "chevron_up": {
     "tags": ["collapse"],
-    "created": 1607888534518,
+    "created": 1611955677034,
     "name": "navigation/chevron_up_16",
     "variant": "primary"
   },
   "chevron_down": {
     "tags": ["expand"],
-    "created": 1607888535359,
+    "created": 1611955677786,
     "name": "navigation/chevron_down_16",
     "variant": "primary"
   },
   "chevron_right": {
     "tags": [],
-    "created": 1607888536129,
+    "created": 1611955678561,
     "name": "navigation/chevron_right_16",
     "variant": "primary"
   },
   "chevron_left": {
     "tags": [],
-    "created": 1607888536966,
+    "created": 1611955679355,
     "name": "navigation/chevron_left_16",
     "variant": "primary"
   },
   "arrow_up": {
     "tags": ["upward"],
-    "created": 1607888537738,
+    "created": 1611955680165,
     "name": "navigation/arrow_up_16",
     "variant": "primary"
   },
   "arrow_down": {
     "tags": ["downward"],
-    "created": 1607888538569,
+    "created": 1611955680941,
     "name": "navigation/arrow_down_16",
     "variant": "primary"
   },
   "arrow_right": {
     "tags": ["forward"],
-    "created": 1607888539345,
+    "created": 1611955681711,
     "name": "navigation/arrow_right_16",
     "variant": "primary"
   },
   "arrow_left": {
     "tags": ["backward", "back"],
-    "created": 1607888540137,
+    "created": 1611955682464,
     "name": "navigation/arrow_left_16",
     "variant": "primary"
   },
   "launch": {
     "tags": ["open in new", "link out", "external"],
-    "created": 1607888540974,
+    "created": 1611955683227,
     "name": "navigation/launch_16",
     "variant": "secondary"
   },
   "close": {
     "tags": ["x", "exit", "dismiss"],
-    "created": 1607888541827,
+    "created": 1611955683974,
     "name": "navigation/close_16",
     "variant": "primary"
   },
   "more": {
     "tags": ["overflow", "local menu", "more_horizontal"],
-    "created": 1607888542639,
+    "created": 1611955684756,
     "name": "navigation/more_horizontal_16",
     "variant": "primary"
   },
   "more_vertical": {
     "tags": ["overflow", "local menu"],
-    "created": 1607888543413,
+    "created": 1611955685549,
     "name": "navigation/more_vertical_16",
     "variant": "secondary"
   },
   "hamburger": {
     "tags": ["menu", "drawer", "navigation drawer"],
-    "created": 1607888544179,
+    "created": 1611955686348,
     "name": "navigation/hamburger_16",
     "variant": "secondary"
   },
-  "video": {
-    "tags": ["film", "movie", "play"],
-    "created": 1610569516405,
-    "name": "objects/video_16",
+  "document_txt": {
+    "tags": ["text", "file"],
+    "created": 1612274386297,
+    "name": "objects/document_txt_16",
     "variant": "secondary"
   },
-  "broken_chain": {
-    "tags": ["broken link"],
-    "created": 1610569516806,
-    "name": "objects/broken_chain_16",
+  "document_csv": {
+    "tags": ["comma separated values", "file"],
+    "created": 1612274386582,
+    "name": "objects/document_csv_16",
+    "variant": "secondary"
+  },
+  "document_xls": {
+    "tags": ["file", "excel"],
+    "created": 1612274386845,
+    "name": "objects/document_xls_16",
+    "variant": "secondary"
+  },
+  "document_word": {
+    "tags": ["file"],
+    "created": 1612274387104,
+    "name": "objects/document_word_16",
+    "variant": "secondary"
+  },
+  "motorcycle": {
+    "tags": ["mc", "motorbike", "vehicle", "insurance"],
+    "created": 1612274387378,
+    "name": "products/motorcycle_16",
+    "variant": "secondary"
+  },
+  "scooter": {
+    "tags": ["scooter", "vehicle", "insurance"],
+    "created": 1612274387653,
+    "name": "products/scooter_16",
+    "variant": "secondary"
+  },
+  "boat": {
+    "tags": ["sailboat", "insurance"],
+    "created": 1612274387924,
+    "name": "products/boat_16",
+    "variant": "secondary"
+  },
+  "trailer": {
+    "tags": ["flatbead", "insurance"],
+    "created": 1612274388192,
+    "name": "products/trailer_16",
+    "variant": "secondary"
+  },
+  "camper_trailer": {
+    "tags": ["camping", "insurance"],
+    "created": 1612274388449,
+    "name": "products/camper_trailer_16",
+    "variant": "secondary"
+  },
+  "caravan": {
+    "tags": ["mobile home", "camping", "insurance"],
+    "created": 1612274388720,
+    "name": "products/caravan_16",
+    "variant": "secondary"
+  },
+  "first_aid": {
+    "tags": ["treatment", "insurance"],
+    "created": 1612274388988,
+    "name": "products/first_aid_16",
+    "variant": "secondary"
+  },
+  "ambulance": {
+    "tags": ["vehicle", "car", "sick", "sickness", "illness", "insurance"],
+    "created": 1612274389260,
+    "name": "products/ambulance_16",
+    "variant": "secondary"
+  },
+  "bandage": {
+    "tags": ["bandaid", "accident", "injury", "insurance"],
+    "created": 1612274389535,
+    "name": "products/bandage_16",
+    "variant": "secondary"
+  },
+  "wheelchair": {
+    "tags": ["disability", "insurance"],
+    "created": 1612274389800,
+    "name": "products/wheelchair_16",
+    "variant": "secondary"
+  },
+  "baby": {
+    "tags": ["kid", "child", "insurance"],
+    "created": 1612274390064,
+    "name": "products/baby_16",
+    "variant": "secondary"
+  },
+  "diamond": {
+    "tags": ["jewelry", "valuables", "insurance"],
+    "created": 1612274390345,
+    "name": "products/diamond_16",
+    "variant": "secondary"
+  },
+  "bicycle": {
+    "tags": ["bike", "insurance"],
+    "created": 1612274390614,
+    "name": "products/bicycle_16",
+    "variant": "secondary"
+  },
+  "horse": {
+    "tags": ["animal", "insurance"],
+    "created": 1612274390942,
+    "name": "products/horse_16",
+    "variant": "secondary"
+  },
+  "cat": {
+    "tags": ["animal", "insurance", "kitty"],
+    "created": 1612274391211,
+    "name": "products/cat_16",
+    "variant": "secondary"
+  },
+  "dog": {
+    "tags": ["animal", "insurance"],
+    "created": 1612274391473,
+    "name": "products/dog_16",
     "variant": "secondary"
   },
   "products_account_percent": {
     "tags": ["Loan value ratio"],
-    "created": 1607888639580,
+    "created": 1611955784997,
     "name": "products/account_percent",
     "variant": "secondary"
   }

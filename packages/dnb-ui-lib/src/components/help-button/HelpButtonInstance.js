@@ -48,7 +48,8 @@ export default class HelpButtonInstance extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       HelpButtonInstance.defaultProps,
-      this.context.formRow
+      this.context.FormRow,
+      this.context.HelpButton,
     )
 
     const {

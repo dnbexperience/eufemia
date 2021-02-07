@@ -265,7 +265,8 @@ export default class FormStatus extends React.PureComponent {
       this.props,
       FormStatus.defaultProps,
       { skeleton: this.context && this.context.skeleton },
-      this.context.formRow
+      this.context.FormRow,
+      this.context.FormStatus,
     )
 
     const {

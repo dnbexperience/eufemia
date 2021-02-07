@@ -30,6 +30,8 @@ import {
 } from '../skeleton/SkeletonHelper'
 import Button from '../button/Button'
 import whatInput from 'what-input'
+import CustomContent from './TabsCustomContent'
+import ContentWrapper from './TabsContentWrapper'
 
 export default class Tabs extends React.PureComponent {
   static tagName = 'dnb-tabs'
@@ -118,6 +120,9 @@ export default class Tabs extends React.PureComponent {
     children: null,
     render: null
   }
+
+  static Content = CustomContent
+  static ContentWrapper = ContentWrapper
 
   static enableWebComponent() {
     registerElement(Tabs.tagName, Tabs, Tabs.defaultProps)
@@ -1065,115 +1070,6 @@ export default class Tabs extends React.PureComponent {
     )
   }
 }
-
-class ContentWrapper extends React.PureComponent {
-  static propTypes = {
-    id: PropTypes.string.isRequired,
-    selected_key: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
-    children: PropTypes.node.isRequired
-  }
-  static defaultProps = {
-    selected_key: null
-  }
-  render() {
-    const { id, children, selected_key: key, ...rest } = this.props
-
-    if (!children) {
-      return <></>
-    }
-
-    const params = rest
-
-    if (key) {
-      params['aria-labelledby'] = `${id}-tab-${key}`
-    }
-
-    validateDOMAttributes(this.props, params)
-
-    return (
-      <div
-        role="tabpanel"
-        tabIndex="0"
-        id={`${id}-content`}
-        className={classnames(
-          'dnb-tabs__content dnb-no-focus',
-          createSpacingClasses(rest)
-        )}
-        {...params}
-      >
-        {children}
-      </div>
-    )
-  }
-}
-
-// This component is only a dummy component to collect data
-/*
-  Like:
-  <Tabs>
-    <Tabs.Content title="first" selected disabled>first</Tabs.Content>
-    <Tabs.Content title="second">second</Tabs.Content>
-  </Tabs>
- */
-class CustomContent extends React.PureComponent {
-  static propTypes = {
-    displayName: PropTypes.string,
-    title: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-      PropTypes.func
-    ]), // eslint-disable-line
-    hash: PropTypes.string, // eslint-disable-line
-    selected: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
-
-    ...spacingPropTypes,
-
-    children: PropTypes.node.isRequired,
-    className: PropTypes.string,
-    class: PropTypes.string
-  }
-  static defaultProps = {
-    displayName: 'CustomContent',
-    title: null,
-    hash: null,
-    selected: null,
-    disabled: null,
-    className: null,
-    class: null
-  }
-  render() {
-    const {
-      children,
-      displayName, // eslint-disable-line
-      title, // eslint-disable-line
-      hash, // eslint-disable-line
-      selected, // eslint-disable-line
-      disabled, // eslint-disable-line
-      className,
-      class: _className,
-      ...rest
-    } = this.props
-    return (
-      <div
-        className={classnames(
-          'dnb-tabs__content__inner',
-          createSpacingClasses(rest),
-          className,
-          _className
-        )}
-      >
-        {children}
-      </div>
-    )
-  }
-}
-
-Tabs.Content = CustomContent
-Tabs.ContentWrapper = ContentWrapper
 
 export const Dummy = ({ children }) => {
   /**

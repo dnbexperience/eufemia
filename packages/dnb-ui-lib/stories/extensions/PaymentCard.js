@@ -19,7 +19,7 @@ import '../../src/patterns/payment-card/style/themes/ui'
 // } from '../../src/patterns/PaymentCard'
 
 export default {
-  title: 'Eufemia/Extentions/PaymentCard'
+  title: 'Eufemia/Extensions/PaymentCard'
 }
 
 const CustomWrapper = styled(Wrapper)`

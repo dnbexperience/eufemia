@@ -10,7 +10,7 @@ If You are using React, You can make use of a [Provider](/uilib/usage/customisat
 import Provider from 'dnb-ui-lib/shared/Provider'
 
 render(
-  <Provider formRow={{ vertical: true }}>
+  <Provider FormRow={{ vertical: true }}>
     <App>
       ...
       <FormRow>Everything is vertical now</FormRow>

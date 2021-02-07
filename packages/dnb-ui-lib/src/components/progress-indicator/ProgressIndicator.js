@@ -111,8 +111,9 @@ export default class ProgressIndicator extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       ProgressIndicator.defaultProps,
-      this.context.formRow,
-      this.context.getTranslation(this.props).ProgressIndicator
+      this.context.getTranslation(this.props).ProgressIndicator,
+      this.context.FormRow,
+      this.context.ProgressIndicator
     )
 
     const {

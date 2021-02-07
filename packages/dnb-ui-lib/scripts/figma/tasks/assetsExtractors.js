@@ -59,11 +59,10 @@ export function IconsConfig(overwrite = {}) {
     { from: 'more_horizontal', to: 'more' }
   ]
 
-  const iconCloneList =
-    process.env.FIGMA_ICONS_CLONE_LIST ||
-    [
-      // As of now, we only rename these icons
-    ]
+  const iconCloneList = process.env.FIGMA_ICONS_CLONE_LIST || [
+    // As of now, we only clone these icons
+    { from: 'document', to: 'file' } // deprecated
+  ]
 
   const canvasNameSelector =
     process.env.FIGMA_ICONS_PAGE_SELECTOR || /^Icons$/ // before we have used: ^[0-9]+[_\- ]Icons$
@@ -75,6 +74,8 @@ export function IconsConfig(overwrite = {}) {
   const iconNameCleaner =
     process.env.FIGMA_ICONS_NAME_SPLIT || /.*\/(.*)_[0-9]{1,2}/
   const ignoreAddingSizeList = ['basis', 'default']
+  const imageUrlExpireAfterDays =
+    process.env.FIGMA_ICONS_URL_EXPIRES_AFTER || 30
   const destDir = path.resolve(__dirname, '../../../assets/icons')
   const iconsLockFile = path.resolve(
     __dirname,
@@ -93,6 +94,7 @@ export function IconsConfig(overwrite = {}) {
     iconCloneList,
     iconSelector,
     iconNameCleaner,
+    imageUrlExpireAfterDays,
     destDir,
     getCategoryFromIconName,
     ...overwrite
@@ -431,12 +433,11 @@ const frameIconsFactory = async ({
   iconSelector,
   iconPrimaryList,
   iconCloneList,
+  imageUrlExpireAfterDays,
   ignoreAddingSizeList
 }) => {
   const newFiles = []
   const existingFiles = []
-
-  console.log('frameDoc.name', frameDoc.name)
 
   const frameId = frameDoc.id
   const originalFrameName = String(frameDoc.name)
@@ -486,18 +487,37 @@ const frameIconsFactory = async ({
   // to fetch icons by using the url in the lock file
   // this way we do not lay on that we have a cached version
   // This is done to optimize the CI process
-  const listOfIconUrls = Object.entries(oldLockFileContent)
+  const listOfCachedIconUrls = Object.entries(oldLockFileContent)
     .filter(
       ([file, { id, url, slug }]) =>
         file && id && url && slug === md5(figmaFile + frameId)
     )
     // define the same format as we get from "getFigmaUrlByImageIds"
-    .map(([file, { id, url }]) => [id, url, file])
+    .map(([file, { id, url, updated }]) => ({
+      id,
+      url,
+      file,
+      updated
+    }))
 
   // remove the IDs if they are in the lock file so we font need to refetch the urls
-  const iconIdsToFetchFrom = iconIdsFromDoc.filter(
-    (refId) => !listOfIconUrls.some(([id]) => id === refId)
-  )
+  const iconIdsToFetchFrom = iconIdsFromDoc.filter((_id) => {
+    const found = listOfCachedIconUrls.find(({ id }) => id === _id)
+
+    if (found) {
+      // Check if created has passed 30 days
+      const countDays = Math.ceil(
+        (Date.now() - found.updated) / (1e3 * 60 * 60 * 24)
+      )
+      const outdated = countDays > imageUrlExpireAfterDays
+
+      if (outdated) {
+        return true // yes, re-fetch the url
+      }
+    }
+
+    return !found // no, we have it already
+  })
 
   log.start(
     `> Figma: Starting to fetch ${iconIdsToFetchFrom.length} icons from the "${originalFrameName}" Canvas`
@@ -510,12 +530,15 @@ const frameIconsFactory = async ({
       ids: iconIdsToFetchFrom,
       params: { format }
     })
-  )
+  ).map(([id, url]) => ({
+    id,
+    url
+  }))
 
-  const rawListOfIconsToProcess = listOfIconUrls
+  const rawListOfIconsToProcess = listOfCachedIconUrls
     .concat(listOfAdditionalIconUrls)
     // clean the list of icons we will process
-    .map(([id, url]) => {
+    .map(({ id, url }) => {
       return {
         ...frameDocChildren.find(({ id: i }) => i === id),
         url
@@ -526,12 +549,12 @@ const frameIconsFactory = async ({
 
   const listOfIconsToProcess = iconCloneList.reduce((acc, cur) => {
     const found = acc.find(({ name }) =>
-      new RegExp(`(^|/)${cur.from}(_|$)`).test(name)
+      new RegExp(`(^|/)${cur.from}(_[0-9]|$)`).test(name)
     )
     if (found && found.name) {
       acc.push({
         ...found,
-        name: found.name.replace(cur.from, cur.to)
+        name: found.name.replace(new RegExp(cur.from), cur.to)
       })
     }
 
@@ -573,7 +596,7 @@ const frameIconsFactory = async ({
           bundleName
         }
 
-        if (
+        let existsAndIsValid =
           forceRedownload !== true &&
           // compare the current id with the one in the lock file
           // if the id is the same, and the file exists, this version is not changed
@@ -583,7 +606,17 @@ const frameIconsFactory = async ({
           lockFileFrameContent &&
           lockFileFrameContent.slug === md5(figmaFile + frameId) &&
           fs.existsSync(file)
-        ) {
+
+        // Check if created has passed 30 days
+        const countDays = Math.ceil(
+          (Date.now() - lockFileFrameContent?.updated) /
+            (1e3 * 60 * 60 * 24)
+        )
+        if (countDays > imageUrlExpireAfterDays) {
+          existsAndIsValid = false
+        }
+
+        if (existsAndIsValid) {
           ret.created = lockFileFrameContent?.created
           ret.updated = lockFileFrameContent?.updated
 
@@ -604,7 +637,33 @@ const frameIconsFactory = async ({
             }
           )
 
-          if (content) {
+          let streamResult = null
+
+          if (!content) {
+            streamResult = 'IS_EMPTY'
+          } else if (content.includes('denied')) {
+            streamResult = 'ACCESS_DENIED'
+          } else {
+            streamResult = 'SUCCESS'
+          }
+
+          if (streamResult === 'ACCESS_DENIED') {
+            log.fail(
+              new ErrorHandler(
+                `> Figma: Failed to stream content of (${iconName}): ${content}`
+              )
+            )
+          }
+
+          if (['IS_EMPTY', 'ACCESS_DENIED'].includes(streamResult)) {
+            if (fs.existsSync(file)) {
+              await fs.unlink(file)
+            }
+
+            return null // stop here
+          }
+
+          if (streamResult === 'SUCCESS') {
             ret.created = lockFileFrameContent?.created || Date.now()
             ret.updated = Date.now()
 
@@ -612,12 +671,6 @@ const frameIconsFactory = async ({
               `> Figma: Saved file ${iconFile} (ID=${id}, CREATED=${ret.created})`
             )
             newFiles.push(ret)
-          } else {
-            if (fs.existsSync(file)) {
-              await fs.unlink(file)
-            }
-
-            return null
           }
         }
 

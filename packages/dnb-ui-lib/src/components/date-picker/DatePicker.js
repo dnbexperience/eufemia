@@ -466,8 +466,9 @@ export default class DatePicker extends React.PureComponent {
       this.props,
       DatePicker.defaultProps,
       { skeleton: this.context?.skeleton },
-      this.context.formRow,
-      this.context.translation.DatePicker
+      this.context.getTranslation(this.props).DatePicker,
+      this.context.FormRow,
+      this.context.DatePicker
     )
 
     if (props.locale !== enLocale && /en-/.test(this.context.locale)) {

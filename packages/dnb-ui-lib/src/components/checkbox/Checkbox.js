@@ -182,7 +182,9 @@ export default class Checkbox extends React.PureComponent {
       this.props,
       Checkbox.defaultProps,
       { skeleton: this.context && this.context.skeleton },
-      this.context.formRow
+      this.context.getTranslation(this.props).Checkbox,
+      this.context.FormRow,
+      this.context.Checkbox
     )
 
     const {

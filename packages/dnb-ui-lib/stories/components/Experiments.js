@@ -67,7 +67,7 @@ export const ExperimentsSandbox = () => (
       </Box>
       <Box>
         <Provider
-          formRow={{
+          FormRow={{
             vertical: true,
             label: 'Vertical input B'
           }}

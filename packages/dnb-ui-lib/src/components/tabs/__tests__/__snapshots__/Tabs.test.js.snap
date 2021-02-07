@@ -28,38 +28,13 @@ exports[`Tabs component have to match snapshot 1`] = `
   }
   1={
     Object {
-      "displayName": "ContentWrapper",
-      "props": Object {
-        "children": "children",
-        "id": "id",
-        "selected_key": "selected_key",
-      },
-    }
-  }
-  2={
-    Object {
-      "displayName": "CustomContent",
-      "props": Object {
-        "children": "children",
-        "class": "class",
-        "className": "className",
-        "disabled": "disabled",
-        "displayName": "displayName",
-        "hash": "hash",
-        "selected": "selected",
-        "title": Object {},
-      },
-    }
-  }
-  3={
-    Object {
       "displayName": "Dummy",
       "props": Object {
         "children": "children",
       },
     }
   }
-  4={
+  2={
     Object {
       "displayName": "ScrollNavButton",
       "props": Object {
@@ -231,8 +206,8 @@ exports[`Tabs component have to match snapshot 1`] = `
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M15 5l-7 7 7 7"
-                            stroke="#000"
+                            d="M15 5L8 12L15 19"
+                            stroke="black"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={1.5}
@@ -470,8 +445,8 @@ exports[`Tabs component have to match snapshot 1`] = `
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M9 19l7-7-7-7"
-                            stroke="#000"
+                            d="M9 19L16 12L9 5"
+                            stroke="black"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={1.5}
@@ -531,8 +506,8 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
 *
 */
 .dnb-tabs__tabs:not(.dnb-section)::before {
-  background-color: var(--color-mint-green-50);
-  box-shadow: 100vw 0 0 0 var(--color-mint-green-50); }
+  background-color: var(--color-black-8);
+  box-shadow: 100vw 0 0 0 var(--color-black-8); }
 
 .dnb-tabs__tabs__tablist:focus {
   border-radius: 0.5rem; }
@@ -778,10 +753,7 @@ html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
 
 .dnb-tabs__button__snap {
   display: flex;
-  padding: 0 2rem 0 2.5rem; }
-  @media screen and (max-width: 50em) {
-    .dnb-tabs__button__snap {
-      padding: 0 1rem 0 1.5rem; } }
+  padding: 0 1rem 0 1.5rem; }
   @media screen and (max-width: 40em) {
     .dnb-tabs__button__snap {
       padding: 0 1rem; } }
@@ -791,7 +763,7 @@ html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
     padding-right: 0.5rem; }
 
 .dnb-tabs--has-scrollbar .dnb-tabs__button__snap:last-of-type {
-  padding-right: 2.5rem; }
+  padding-right: 1.5rem; }
 
 .dnb-tabs__button,
 .dnb-core-style .dnb-tabs .dnb-tabs__button {

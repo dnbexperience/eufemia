@@ -495,8 +495,9 @@ export class CloseButton extends React.PureComponent {
     } = extendPropsWithContext(
       this.props,
       CloseButton.defaultProps,
-      this.context.formRow,
-      this.context.getTranslation(this.props).Modal
+      this.context.getTranslation(this.props).Modal,
+      this.context.FormRow,
+      this.context.ModalContent
     )
 
     if (style_type === 'cross') {

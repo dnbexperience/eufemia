@@ -110,14 +110,14 @@ describe('Tabs screenshot', () => {
 describe('Tabs screenshot', () => {
   setupPageScreenshot({
     pageViewport: {
-      width: 1200 // 75rem
+      width: 800 // 50rem
     },
     url: '/uilib/components/tabs/demos'
   })
   it('have to match last scrollable tabs', async () => {
     const screenshot = await testPageScreenshot({
       style: {
-        width: '75rem',
+        width: '50rem',
         padding: '0 3rem 4rem 3rem'
       },
       selector: '[data-visual-test="tabs-tablist-scrollable"]',

@@ -196,8 +196,9 @@ export default class ToggleButtonGroup extends React.PureComponent {
     const props = extendPropsWithContext(
       this.props,
       ToggleButtonGroup.defaultProps,
-      this.context.formRow,
-      this.context.translation.ToggleButton
+      this.context.getTranslation(this.props).ToggleButton,
+      this.context.FormRow,
+      this.context.ToggleButtonGroup
     )
 
     const {

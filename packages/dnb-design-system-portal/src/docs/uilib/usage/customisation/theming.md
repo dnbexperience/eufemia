@@ -25,7 +25,7 @@ Use the Chrome Browser Extension to:
 - look how the outcome would be if a theme would be used
 - and create areas where a different or a modified theme would make more sense
 
-You can download the [Chrome Browser Extension](https://github.com/dnbexperience/eufemia-theme-manager/tree/main/eufemia-theme-manager-extension/web-ext-artifacts), and install it manually in your browser. To do so, go to `chrome://extensions` and drag & drop the downloaded ZIP file in the opened extensions tab.
+You can download the [Chrome Browser Extension (ZIP)](https://github.com/dnbexperience/eufemia-theme-manager/raw/main/eufemia-theme-manager-extension/web-ext-artifacts/eufemia_theme_manager-latest.zip), and install it manually in your browser. To do so, go to `chrome://extensions` and drag & drop the downloaded ZIP file in the opened extensions tab.
 
 Contributions are welcome. Heres the [source code](https://github.com/dnbexperience/eufemia-theme-manager).
 

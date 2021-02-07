@@ -86,7 +86,8 @@ export default class FormLabel extends React.PureComponent {
       this.props,
       FormLabel.defaultProps,
       { skeleton: this.context?.skeleton },
-      this.context.formRow
+      this.context.FormRow,
+      this.context.FormLabel,
     )
 
     const {

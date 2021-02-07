@@ -17,7 +17,7 @@ export default {
 export const TextareaSandbox = () => (
   <Wrapper className="dnb-spacing">
     <Box>
-      <Provider formRow={{ vertical: true }}>
+      <Provider FormRow={{ vertical: true }}>
         <FormRow>
           <Textarea value="Text" label="Label:" suffix="123" />
         </FormRow>

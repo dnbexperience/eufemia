@@ -56,7 +56,7 @@ render(<UserData />)
 
 ## Skeleton using Eufemia Provider
 
-You can also use `formRow={{ skeleton: true }}`.
+You can also use `FormRow={{ skeleton: true }}`.
 
 <ComponentBox scope={{Provider}}>
 {`

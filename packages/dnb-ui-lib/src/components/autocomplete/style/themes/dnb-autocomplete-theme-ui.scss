@@ -5,19 +5,14 @@
 
 @import '../../../../style/themes/imports.scss';
 
-:root {
-  --autocomplete-text-color: var(--color-emerald-green);
-  --autocomplete-border-color--selected: var(--color-emerald-green);
-}
-
 .dnb-autocomplete {
-  color: var(--autocomplete-text-color);
+  color: var(--color-emerald-green);
 
   // input
   &__input.dnb-input {
-    color: var(--autocomplete-text-color);
+    color: var(--color-emerald-green);
     // :hover {
-    //   color: var(--autocomplete-text-color);
+    //   color: var(--color-emerald-green);
     // }
   }
   &--opened &__input.dnb-input .dnb-input__shell {
@@ -25,10 +20,10 @@
   }
   &--opened .dnb-input__submit-button__button {
     @include fakeBorder(
-      var(--autocomplete-border-color--selected),
+      var(--color-emerald-green),
       0.125rem,
       // could be 0.0625rem,
-        null,
+      null,
       true
     );
   }
