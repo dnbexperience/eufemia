@@ -25,7 +25,10 @@ export const TypesSandbox = () => {
         // FormRow={{
         //   Button: { size: 'large' }
         // }}
-        Button={{ size: 'large' }}
+        // Button={{ size: 'large' }}
+        value={{
+          Button: { size: 'large' }
+        }}
         // locale="en-US"
         // locale="nb-NO"
       >

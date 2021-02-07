@@ -20,6 +20,19 @@ render(
 )
 ```
 
+**NB:** If you use TypeScript, you may rather use the `value` prop to spread the component properties along:
+
+```jsx
+<Provider
+  value={{
+    Button: { size: 'large' }
+  }}
+>
+  ...
+  <Button>Large button</Button>
+</Provider>
+```
+
 ## Changing locale or currency
 
 You can either set the locale as a properly e.g. `<Provider locale="en-GB" ...` and handle the change from the app root, or change it inside the app, respective Context:
