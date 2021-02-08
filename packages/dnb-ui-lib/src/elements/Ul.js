@@ -28,7 +28,8 @@ Ul.propTypes = {
   className: PropTypes.string,
   inside: PropTypes.bool,
   outside: PropTypes.bool,
-  nested: PropTypes.bool
+  nested: PropTypes.bool,
+  children: PropTypes.node.isRequired
 }
 Ul.defaultProps = {
   className: null,

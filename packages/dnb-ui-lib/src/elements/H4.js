@@ -21,7 +21,8 @@ H4.propTypes = {
     'basis',
     'small',
     'x-small'
-  ])
+  ]),
+  children: PropTypes.node.isRequired
 }
 H4.defaultProps = {
   level: null,

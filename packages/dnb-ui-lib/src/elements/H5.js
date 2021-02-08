@@ -21,7 +21,8 @@ H5.propTypes = {
     'basis',
     'small',
     'x-small'
-  ])
+  ]),
+  children: PropTypes.node.isRequired
 }
 H5.defaultProps = {
   level: null,

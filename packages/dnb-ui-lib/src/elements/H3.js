@@ -21,7 +21,8 @@ H3.propTypes = {
     'basis',
     'small',
     'x-small'
-  ])
+  ]),
+  children: PropTypes.node.isRequired
 }
 H3.defaultProps = {
   level: null,

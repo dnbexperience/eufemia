@@ -21,7 +21,8 @@ H2.propTypes = {
     'basis',
     'small',
     'x-small'
-  ])
+  ]),
+  children: PropTypes.node.isRequired
 }
 H2.defaultProps = {
   level: null,

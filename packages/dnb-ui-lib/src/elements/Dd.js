@@ -12,10 +12,8 @@ const Dd = (p = {}) => <E is="dd" {...p} />
 Dd.tagName = 'dnb-dd'
 Dd.propTypes = {
   ...spacingPropTypes,
-  children: PropTypes.node
+  children: PropTypes.node.isRequired
 }
-Dd.defaultProps = {
-  children: null
-}
+Dd.defaultProps = {}
 
 export default Dd

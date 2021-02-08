@@ -26,7 +26,8 @@ export default class H extends React.PureComponent {
       'small',
       'x-small'
     ]),
-    style_type: PropTypes.string // deprecated
+    style_type: PropTypes.string, // deprecated
+    children: PropTypes.node.isRequired
   }
   static defaultProps = {
     className: null,

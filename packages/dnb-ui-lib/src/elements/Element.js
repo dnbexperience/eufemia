@@ -38,7 +38,8 @@ class Elem extends React.PureComponent {
     class: PropTypes.string,
     internalClass: PropTypes.string,
     css: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    _ref: PropTypes.object
+    _ref: PropTypes.object,
+    children: PropTypes.node
   }
   static defaultProps = {
     skeleton: null,
@@ -47,7 +48,8 @@ class Elem extends React.PureComponent {
     class: null,
     internalClass: null,
     css: null,
-    _ref: null
+    _ref: null,
+    children: null
   }
 
   constructor(props) {

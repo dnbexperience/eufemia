@@ -77,7 +77,8 @@ P.propTypes = {
     'xx-large'
   ]),
   style_type: PropTypes.string, // deprecated
-  modifier: PropTypes.string
+  modifier: PropTypes.string,
+  children: PropTypes.node.isRequired
 }
 P.defaultProps = {
   element: 'p',
