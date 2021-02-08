@@ -23,16 +23,17 @@ import {
   createSpacingClasses
 } from '../space/SpacingHelper'
 import Button from '../button/Button'
-import Section from '../section/Section'
 import HelpButtonInstance from '../help-button/HelpButtonInstance'
 import ModalContent, {
   CloseButton,
   getListOfModalRoots
 } from './ModalContent'
+import ModalInner from './ModalInner'
 
 export default class Modal extends React.PureComponent {
   static tagName = 'dnb-modal'
   static contextType = Context
+  static Inner = ModalInner
 
   static propTypes = {
     id: PropTypes.string,
@@ -77,7 +78,10 @@ export default class Modal extends React.PureComponent {
       'top',
       'bottom'
     ]),
-    open_state: PropTypes.oneOf(['opened', 'closed']),
+    open_state: PropTypes.oneOfType([
+      PropTypes.oneOf(['opened', 'closed']),
+      PropTypes.bool
+    ]),
     direct_dom_return: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
@@ -212,13 +216,17 @@ export default class Modal extends React.PureComponent {
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
       if (props.open_state !== state._open_state) {
-        switch (props.open_state) {
-          case 'opened':
-            state.modalActive = true
-            break
-          case 'closed':
-            state.modalActive = false
-            break
+        if (typeof props.open_state === 'boolean') {
+          state.modalActive = props.open_state
+        } else {
+          switch (props.open_state) {
+            case 'opened':
+              state.modalActive = true
+              break
+            case 'closed':
+              state.modalActive = false
+              break
+          }
         }
       }
     }
@@ -294,7 +302,7 @@ export default class Modal extends React.PureComponent {
       if (
         !this.isClosing &&
         !modalActive &&
-        props.open_state === 'opened'
+        (props.open_state === 'opened' || props.open_state === true)
       ) {
         this.toggleOpenClose(true)
       }
@@ -394,7 +402,11 @@ export default class Modal extends React.PureComponent {
         }
 
         // because the open_state was set to opened, we force
-        if (this.props.open_state === 'opened' && this.activeElement) {
+        if (
+          (this.props.open_state === 'opened' ||
+            this.props.open_state === true) &&
+          this.activeElement
+        ) {
           try {
             this.activeElement.focus({ preventScroll: true })
             this.activeElement = null
@@ -668,20 +680,3 @@ class ModalRoot extends React.PureComponent {
 }
 
 export { CloseButton }
-
-function Inner({ className, ...props }) {
-  return (
-    <Section
-      style_type="black-3"
-      className={classnames('dnb-modal__wrapper__inner', className)}
-      {...props}
-    />
-  )
-}
-Inner.propTypes = {
-  className: PropTypes.string
-}
-Inner.defaultProps = {
-  className: null
-}
-Modal.Inner = Inner

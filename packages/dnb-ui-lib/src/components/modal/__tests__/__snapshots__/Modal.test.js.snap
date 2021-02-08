@@ -61,14 +61,6 @@ exports[`Modal component have to match snapshot 1`] = `
       },
     }
   }
-  2={
-    Object {
-      "displayName": "Inner",
-      "props": Object {
-        "className": "className",
-      },
-    }
-  }
   align_content={null}
   animation_duration={300}
   class={null}
@@ -430,14 +422,6 @@ exports[`Modal component have to match snapshot 1`] = `
           },
         }
       }
-      2={
-        Object {
-          "displayName": "Inner",
-          "props": Object {
-            "className": "className",
-          },
-        }
-      }
       align_content={null}
       animation_duration={300}
       class={null}
@@ -527,14 +511,6 @@ exports[`Modal component have to match snapshot 1`] = `
               "direct_dom_return": "direct_dom_return",
               "id": "id",
               "root_id": "root_id",
-            },
-          }
-        }
-        2={
-          Object {
-            "displayName": "Inner",
-            "props": Object {
-              "className": "className",
             },
           }
         }
