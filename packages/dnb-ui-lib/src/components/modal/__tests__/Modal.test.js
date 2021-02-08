@@ -415,7 +415,7 @@ describe('Modal component', () => {
 
     expect(document.body.style.position).not.toBe('hidden')
   })
-  it('has expected open and close states', () => {
+  it('has correct opened state when "open_state" is used', () => {
     const Comp = mount(<Component {...props} />)
     Comp.setProps({ open_state: 'opened' })
 
@@ -425,19 +425,19 @@ describe('Modal component', () => {
     Comp.setProps({ open_state: 'closed' })
 
     expect(Comp.exists('div.dnb-modal__content')).toBe(false)
-    // await wait(100)
     expect(Comp.state().modalActive).toBe(false)
   })
-  it('has an opened modal if open_state is set to "opened"', () => {
+  it('has correct opened state when "open_state" is used with boolean', () => {
     const Comp = mount(<Component {...props} />)
-    Comp.setProps({
-      open_state: 'opened'
-    })
+    Comp.setProps({ open_state: true })
+
     expect(Comp.exists('div.dnb-modal__content')).toBe(true)
-    Comp.setProps({
-      open_state: 'closed'
-    })
+    expect(Comp.state().modalActive).toBe(true)
+
+    Comp.setProps({ open_state: false })
+
     expect(Comp.exists('div.dnb-modal__content')).toBe(false)
+    expect(Comp.state().modalActive).toBe(false)
   })
   it('should open and close by using mount / unmount routines', () => {
     const ModalTriggerExample = () => {
