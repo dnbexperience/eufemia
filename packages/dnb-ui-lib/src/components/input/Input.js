@@ -76,7 +76,7 @@ export default class Input extends React.PureComponent {
       PropTypes.func,
       PropTypes.node
     ]),
-    align: PropTypes.string,
+    align: PropTypes.oneOf(['left', 'center', 'right']),
     selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
