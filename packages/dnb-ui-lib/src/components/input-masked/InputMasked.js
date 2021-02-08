@@ -5,7 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import Input from '../input/Input'
+import Input, { inputPropTypes } from '../input/Input'
 import {
   isTrue,
   registerElement,
@@ -42,14 +42,15 @@ export default class InputMasked extends React.PureComponent {
       PropTypes.bool
     ]),
     placeholder_char: PropTypes.string,
-    align: PropTypes.oneOf(['left', 'center', 'right']),
 
     on_change: PropTypes.func,
     on_submit: PropTypes.func,
     on_focus: PropTypes.func,
     on_blur: PropTypes.func,
     on_submit_focus: PropTypes.func,
-    on_submit_blur: PropTypes.func
+    on_submit_blur: PropTypes.func,
+
+    ...inputPropTypes
   }
 
   static defaultProps = {
@@ -61,7 +62,6 @@ export default class InputMasked extends React.PureComponent {
     pipe: null,
     keep_char_positions: false,
     placeholder_char: '_',
-    align: null,
 
     on_change: null,
     on_submit: null,
