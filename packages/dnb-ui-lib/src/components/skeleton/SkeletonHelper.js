@@ -9,7 +9,11 @@ import { convertJsxToString, isTrue } from '../../shared/component-helper'
 import classnames from 'classnames'
 import { IS_IE11 } from '../../shared/helpers'
 
-export const skeletonDOMAttributes = (params, skeleton, context) => {
+export const skeletonDOMAttributes = (
+  params,
+  skeleton,
+  context = null
+) => {
   if (isTrue(skeleton) || context?.skeleton) {
     params.disabled = true
     params['aria-disabled'] = true
@@ -34,16 +38,8 @@ export const createSkeletonClass = (method, skeleton, context = null) => {
 
 export class AutoSize extends React.PureComponent {
   static propTypes = {
-    __element: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node
-    ]),
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node
-    ]),
+    __element: PropTypes.node,
+    children: PropTypes.node,
     className: PropTypes.string,
     style: PropTypes.object
   }

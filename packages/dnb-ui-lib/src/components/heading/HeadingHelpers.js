@@ -4,11 +4,7 @@
  */
 
 import React from 'react'
-import {
-  warn,
-  // makeUniqueId,
-  convertJsxToString
-} from '../../shared/component-helper'
+import { warn, convertJsxToString } from '../../shared/component-helper'
 
 export const globalSyncCounter = React.createRef()
 export const globalHeadingCounter = React.createRef(null)
