@@ -29,12 +29,13 @@ export default class Table extends React.PureComponent {
       PropTypes.number
     ]),
 
-    children: PropTypes.node.isRequired
+    children: PropTypes.node
   }
 
   static defaultProps = {
     sticky: false,
-    sticky_offset: null
+    sticky_offset: null,
+    children: null
   }
 
   static enableWebComponent() {

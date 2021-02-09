@@ -22,11 +22,12 @@ H1.propTypes = {
     'small',
     'x-small'
   ]),
-  children: PropTypes.node.isRequired
+  children: PropTypes.node
 }
 H1.defaultProps = {
   level: null,
-  size: 'xx-large'
+  size: 'xx-large',
+  children: null
 }
 
 export default H1

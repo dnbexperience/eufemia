@@ -78,7 +78,7 @@ P.propTypes = {
   ]),
   style_type: PropTypes.string, // deprecated
   modifier: PropTypes.string,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node
 }
 P.defaultProps = {
   element: 'p',
@@ -88,6 +88,7 @@ P.defaultProps = {
   bold: null,
   size: null,
   style_type: null, // deprecated
-  modifier: null
+  modifier: null,
+  children: null
 }
 export default P
