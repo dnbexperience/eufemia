@@ -127,10 +127,10 @@ const TestCase = (props) => {
 }
 render(
   <div className="spacing-patterns">
-    <P bottom small>With <Code>dnb-core-style</Code></P>
+    <P bottom>With <Code>dnb-core-style</Code></P>
     <TestCase className="dnb-core-style" />
     
-    <P top bottom small>Without</P>
+    <P top bottom>Without</P>
     <TestCase />
   </div>
 )
@@ -168,10 +168,10 @@ const TestCase = (props) => {
 }
 render(
   <div className="spacing-elements">
-    <P bottom small>With <Code>dnb-core-style</Code></P>
+    <P bottom>With <Code>dnb-core-style</Code></P>
     <TestCase className="dnb-core-style" />
     
-    <P top bottom small>Without</P>
+    <P top bottom>Without</P>
     <TestCase />
   </div>
 )
@@ -282,15 +282,37 @@ const MagicBox = ({ label, ...rest }) => {
   const [title, setTitle] = React.useState(null)
 
   React.useEffect(() => {
-    if (!label) {
-      const spaceInPixels = window
-        .getComputedStyle(ref.current.parentElement)
-        .getPropertyValue('margin-top')
-      const spaceInRem = `${parseFloat(spaceInPixels) / 16}`
-      setLabel(spaceInRem)
+    let _isMounted = true
+    const init = () => {
+      if (_isMounted) {
+        try {
+          if (!label) {
+            const spaceInPixels = window
+              .getComputedStyle(ref.current.parentElement)
+              .getPropertyValue('margin-top')
+            const spaceInRem = `${parseFloat(spaceInPixels) / 16}`
+            setLabel(spaceInRem)
 
-      const title = ref.current.parentElement.getAttribute('class')
-      setTitle(title)
+            const title = ref.current.parentElement.getAttribute('class')
+            setTitle(title)
+          }
+        } catch (e) {
+          console.warn(e)
+        }
+      }
+    }
+
+    if (document.readyState === 'complete') {
+      init()
+    } else if (typeof window !== 'undefined') {
+      window.addEventListener('load', init)
+    }
+
+    return () => {
+      _isMounted = false
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('load', init)
+      }
     }
   }, [label, ref])
 
@@ -321,31 +343,46 @@ const VisualSpace = ({ label, children, ...rest }) => {
 
   React.useEffect(() => {
     if (!label) {
-      const elem = ref.current
-      const timeout = setTimeout(() => {
-        try {
-          const style = window.getComputedStyle(elem.children[0])
-          const top = parseFloat(style.getPropertyValue('margin-top'))
-          const bottom = parseFloat(
-            style.getPropertyValue('margin-bottom')
-          )
-          let spaceInPixels = top
+      let _isMounted = true
+      const init = () => {
+        if (_isMounted) {
+          try {
+            const elem = ref.current
+            const style = window.getComputedStyle(elem.children[0])
+            const top = parseFloat(style.getPropertyValue('margin-top'))
+            const bottom = parseFloat(
+              style.getPropertyValue('margin-bottom')
+            )
+            let spaceInPixels = top
 
-          if (bottom > 0) {
-            spaceInPixels = bottom
-            setDirection('bottom')
+            if (bottom > 0) {
+              spaceInPixels = bottom
+              setDirection('bottom')
+            }
+
+            const spaceInRem = `${spaceInPixels / 16}`
+            setLabel(spaceInRem)
+
+            const title = elem.parentElement.getAttribute('class')
+            setTitle(title)
+          } catch (e) {
+            console.warn(e)
           }
-
-          const spaceInRem = `${spaceInPixels / 16}`
-          setLabel(spaceInRem)
-
-          const title = elem.parentElement.getAttribute('class')
-          setTitle(title)
-        } catch (e) {
-          console.warn(e)
         }
-      }, 1)
-      return () => clearTimeout(timeout)
+      }
+
+      if (document.readyState === 'complete') {
+        init()
+      } else if (typeof window !== 'undefined') {
+        window.addEventListener('load', init)
+      }
+
+      return () => {
+        _isMounted = false
+        if (typeof window !== 'undefined') {
+          window.removeEventListener('load', init)
+        }
+      }
     }
   }, [label, ref])
 
