@@ -28,7 +28,7 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass
 } from '../skeleton/SkeletonHelper'
-import Button from '../button/Button'
+import Button, { buttonVariantPropType } from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
@@ -95,7 +95,7 @@ export const inputPropTypes = {
 
   // Submit button
   submit_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-  submit_button_variant: Button.propTypes.variant,
+  submit_button_variant: buttonVariantPropType.variant,
   submit_button_icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -560,7 +560,7 @@ class InputSubmitButton extends React.PureComponent {
     id: PropTypes.string,
     value: PropTypes.string,
     title: PropTypes.string,
-    variant: Button.propTypes.variant,
+    variant: buttonVariantPropType.variant,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     icon: PropTypes.oneOfType([

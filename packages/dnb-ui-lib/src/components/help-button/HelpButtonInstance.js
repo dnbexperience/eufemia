@@ -15,14 +15,14 @@ import {
   spacingPropTypes,
   createSpacingClasses
 } from '../space/SpacingHelper'
-import Button from '../button/Button'
+import Button, { buttonVariantPropType } from '../button/Button'
 
 export default class HelpButtonInstance extends React.PureComponent {
   static contextType = Context
 
   static propTypes = {
     id: PropTypes.string,
-    variant: Button.propTypes.variant,
+    ...buttonVariantPropType,
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
@@ -49,7 +49,7 @@ export default class HelpButtonInstance extends React.PureComponent {
       this.props,
       HelpButtonInstance.defaultProps,
       this.context.FormRow,
-      this.context.HelpButton,
+      this.context.HelpButton
     )
 
     const {

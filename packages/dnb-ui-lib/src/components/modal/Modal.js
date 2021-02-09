@@ -22,7 +22,7 @@ import {
   spacingPropTypes,
   createSpacingClasses
 } from '../space/SpacingHelper'
-import Button from '../button/Button'
+import { buttonVariantPropType } from '../button/Button'
 import HelpButtonInstance from '../help-button/HelpButtonInstance'
 import ModalContent, {
   CloseButton,
@@ -109,7 +109,7 @@ export default class Modal extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
-    trigger_variant: Button.propTypes.variant,
+    trigger_variant: buttonVariantPropType.variant,
     trigger_text: PropTypes.string,
     trigger_title: PropTypes.string,
     trigger_size: PropTypes.string,
