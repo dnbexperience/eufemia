@@ -192,12 +192,34 @@ export default class FormStatus extends React.PureComponent {
     this._ref = React.createRef()
   }
 
-  componentDidMount() {
-    if (this.gsProvider) {
-      this.gsProvider.isReady()
-    }
+  init = () => {
+    if (this._isMounted) {
+      if (this.gsProvider) {
+        this.gsProvider.isReady()
+      }
 
-    this.updateWidth()
+      this.updateWidth()
+    }
+  }
+
+  componentDidMount() {
+    this._isMounted = true
+    if (document.readyState === 'complete') {
+      this.init()
+    } else if (typeof window !== 'undefined') {
+      window.addEventListener('load', this.init)
+    }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
+    if (this.gsProvider) {
+      const status_id = `${this.state.id}-gs`
+      this.gsProvider.remove(status_id)
+    }
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('load', this.init)
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -249,13 +271,6 @@ export default class FormStatus extends React.PureComponent {
         widthElement: width_element && width_element.current,
         widthSelector: width_selector
       })
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.gsProvider) {
-      const status_id = `${this.state.id}-gs`
-      this.gsProvider.remove(status_id)
     }
   }
 
