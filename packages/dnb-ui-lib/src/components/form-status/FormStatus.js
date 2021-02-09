@@ -266,7 +266,7 @@ export default class FormStatus extends React.PureComponent {
       FormStatus.defaultProps,
       { skeleton: this.context && this.context.skeleton },
       this.context.FormRow,
-      this.context.FormStatus,
+      this.context.FormStatus
     )
 
     const {
@@ -459,9 +459,7 @@ InfoIcon.defaultProps = {
   title: 'info'
 }
 
-FormStatus.setMaxWidthToElement = setMaxWidthToElement
-
-function setMaxWidthToElement({
+export function setMaxWidthToElement({
   element,
   id = null,
   widthElement = null,
