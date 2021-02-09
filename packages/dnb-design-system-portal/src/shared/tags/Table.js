@@ -10,11 +10,12 @@ import { Table as TableElement } from 'dnb-ui-lib/src/elements'
 
 export default class Table extends React.PureComponent {
   static propTypes = {
-    children: PropTypes.node.isRequired,
-    selectable: PropTypes.bool
+    selectable: PropTypes.bool,
+    children: PropTypes.node
   }
   static defaultProps = {
-    selectable: false
+    selectable: false,
+    children: null
   }
   render() {
     // make sure we get the table children

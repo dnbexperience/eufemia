@@ -192,12 +192,34 @@ export default class FormStatus extends React.PureComponent {
     this._ref = React.createRef()
   }
 
-  componentDidMount() {
-    if (this.gsProvider) {
-      this.gsProvider.isReady()
-    }
+  init = () => {
+    if (this._isMounted) {
+      if (this.gsProvider) {
+        this.gsProvider.isReady()
+      }
 
-    this.updateWidth()
+      this.updateWidth()
+    }
+  }
+
+  componentDidMount() {
+    this._isMounted = true
+    if (document.readyState === 'complete') {
+      this.init()
+    } else if (typeof window !== 'undefined') {
+      window.addEventListener('load', this.init)
+    }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
+    if (this.gsProvider) {
+      const status_id = `${this.state.id}-gs`
+      this.gsProvider.remove(status_id)
+    }
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('load', this.init)
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -252,13 +274,6 @@ export default class FormStatus extends React.PureComponent {
     }
   }
 
-  componentWillUnmount() {
-    if (this.gsProvider) {
-      const status_id = `${this.state.id}-gs`
-      this.gsProvider.remove(status_id)
-    }
-  }
-
   render() {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
@@ -266,7 +281,7 @@ export default class FormStatus extends React.PureComponent {
       FormStatus.defaultProps,
       { skeleton: this.context && this.context.skeleton },
       this.context.FormRow,
-      this.context.FormStatus,
+      this.context.FormStatus
     )
 
     const {
@@ -459,9 +474,7 @@ InfoIcon.defaultProps = {
   title: 'info'
 }
 
-FormStatus.setMaxWidthToElement = setMaxWidthToElement
-
-function setMaxWidthToElement({
+export function setMaxWidthToElement({
   element,
   id = null,
   widthElement = null,

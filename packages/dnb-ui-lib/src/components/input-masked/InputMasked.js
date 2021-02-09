@@ -54,6 +54,8 @@ export default class InputMasked extends React.PureComponent {
   }
 
   static defaultProps = {
+    ...Input.defaultProps,
+
     mask: [],
     number_mask: null,
     currency_mask: null,

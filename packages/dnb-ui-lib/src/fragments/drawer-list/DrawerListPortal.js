@@ -51,13 +51,27 @@ class DrawerListPortal extends React.PureComponent {
     this.ref = props.innerRef || React.createRef()
   }
 
-  componentDidMount() {
-    if (!this.props.inactive) {
+  init = () => {
+    if (this._isMounted && !this.props.inactive) {
       this.renderPortal()
     }
   }
 
+  componentDidMount() {
+    this._isMounted = true
+    if (document.readyState === 'complete') {
+      this.init()
+    } else if (typeof window !== 'undefined') {
+      window.addEventListener('load', this.init)
+    }
+  }
+
   componentWillUnmount() {
+    this._isMounted = false
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('load', this.init)
+    }
+
     const { id } = this.props
 
     if (drawerListPortal[id]) {

@@ -29,12 +29,13 @@ export default class Table extends React.PureComponent {
       PropTypes.number
     ]),
 
-    children: PropTypes.node.isRequired
+    children: PropTypes.node
   }
 
   static defaultProps = {
     sticky: false,
-    sticky_offset: null
+    sticky_offset: null,
+    children: null
   }
 
   static enableWebComponent() {
@@ -48,34 +49,45 @@ export default class Table extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (isTrue(this.props.sticky)) {
+    this._isMounted = true
+    if (document.readyState === 'complete') {
       this.init()
-    }
-  }
-
-  init = () => {
-    this.enableStickyHeader()
-
-    if (this.intersectionObserver && this._ref.current) {
-      try {
-        const tableElem = this._ref.current
-        const trElem = tableElem.querySelector('thead > tr:first-of-type')
-        trElem.classList.add('sticky')
-        const tdElem =
-          tableElem.querySelector(
-            'tbody > tr.dnb-table__sticky-helper > td:first-of-type'
-          ) || this.getTdElement(tableElem)
-        if (tdElem) {
-          this.intersectionObserver?.observe(tdElem)
-        }
-      } catch (e) {
-        this.stickyWarning(e)
-      }
+    } else if (typeof window !== 'undefined') {
+      window.addEventListener('load', this.init)
     }
   }
 
   componentWillUnmount() {
+    this._isMounted = false
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('load', this.init)
+    }
     this.intersectionObserver?.disconnect()
+  }
+
+  init = () => {
+    if (this._isMounted && isTrue(this.props.sticky)) {
+      this.enableStickyHeader()
+
+      if (this.intersectionObserver && this._ref.current) {
+        try {
+          const tableElem = this._ref.current
+          const trElem = tableElem.querySelector(
+            'thead > tr:first-of-type'
+          )
+          trElem.classList.add('sticky')
+          const tdElem =
+            tableElem.querySelector(
+              'tbody > tr.dnb-table__sticky-helper > td:first-of-type'
+            ) || this.getTdElement(tableElem)
+          if (tdElem) {
+            this.intersectionObserver?.observe(tdElem)
+          }
+        } catch (e) {
+          this.stickyWarning(e)
+        }
+      }
+    }
   }
 
   getTdElement(e) {

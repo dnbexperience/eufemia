@@ -180,9 +180,22 @@ I'm a vertical nudge. I have four nudges, which means I am 4rem units tall.
 // have a limit because this page is used for screenshot tests
 const Wrapper = styled.div`
   max-width: 40rem;
+
+  /*
+  *
+  * Helper Classes - some of them need
+  * visualising to see their effect
+  */
+
+  .dnb-nudge--vertical {
+    background-color: var(--color-mint-green-50);
+  }
+
+  .dnb-nudge--horizontal {
+    background-color: var(--color-mint-green-50);
+  }
 `
 
-export { Example }
 export default function StyledExample() {
   return (
     <Wrapper className="dnb-spacing">

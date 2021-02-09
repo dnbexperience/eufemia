@@ -22,11 +22,12 @@ H3.propTypes = {
     'small',
     'x-small'
   ]),
-  children: PropTypes.node.isRequired
+  children: PropTypes.node
 }
 H3.defaultProps = {
   level: null,
-  size: 'medium'
+  size: 'medium',
+  children: null
 }
 
 export default H3

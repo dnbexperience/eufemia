@@ -14,7 +14,10 @@ const Blockquote = (p) => (
 Blockquote.tagName = 'dnb-blockquote'
 Blockquote.propTypes = {
   ...spacingPropTypes,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node
+}
+Blockquote.defaultProps = {
+  children: null
 }
 
 export default Blockquote
