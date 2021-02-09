@@ -30,6 +30,10 @@ import IconPrimary from '../icon-primary/IconPrimary'
 import FormStatus from '../form-status/FormStatus'
 import Tooltip from '../tooltip/Tooltip'
 
+export const buttonVariantPropType = {
+  variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'signal'])
+}
+
 /**
  * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
  */
@@ -41,12 +45,7 @@ export default class Button extends React.PureComponent {
     text: PropTypes.string,
     type: PropTypes.string,
     title: PropTypes.string,
-    variant: PropTypes.oneOf([
-      'primary',
-      'secondary',
-      'tertiary',
-      'signal'
-    ]),
+    ...buttonVariantPropType,
     size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
     icon: PropTypes.oneOfType([
       PropTypes.string,

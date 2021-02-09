@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`generateTypes has to match snapshot 1`] = `
+exports[`generateTypes has to match PrimaryComponent snapshot 1`] = `
 "import * as React from 'react';
 
 /**
@@ -96,5 +96,15 @@ export default class PrimaryComponent extends React.Component<
 > {
   render(): JSX.Element;
 }
+"
+`;
+
+exports[`generateTypes has to match SecondaryComponent snapshot 1`] = `
+"import * as React from 'react';
+export interface ElementProps extends React.HTMLProps<HTMLElement> {
+  children?: React.ReactNode;
+}
+declare const Element: React.FC<ElementProps>;
+export default Element;
 "
 `;

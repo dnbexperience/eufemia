@@ -293,25 +293,38 @@ export default class Tabs extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.addScrollBehaviour()
-    this.scrollToLastPosition()
-    this.scrollToTab('selected')
+    this._isMounted = true
+    if (document.readyState === 'complete') {
+      this.init()
+    } else if (typeof window !== 'undefined') {
+      window.addEventListener('load', this.init)
+    }
+  }
 
-    if (this.getLastUsedTab() !== null) {
-      this.setState(null, this.setFocusOnTab)
+  componentWillUnmount() {
+    this._isMounted = false
+    this.resetWhatInput()
+    clearTimeout(this._scrollToTabTimeout)
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', this.onResizeHandler)
+      window.removeEventListener('load', this.init)
+    }
+  }
+
+  init = () => {
+    if (this._isMounted) {
+      this.addScrollBehaviour()
+      this.scrollToLastPosition()
+      this.scrollToTab('selected')
+
+      if (this.getLastUsedTab() !== null) {
+        this.setState(null, this.setFocusOnTab)
+      }
     }
   }
 
   componentDidUpdate() {
     this.onResizeHandler()
-  }
-
-  componentWillUnmount() {
-    this.resetWhatInput()
-    clearTimeout(this._scrollToTabTimeout)
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('resize', this.onResizeHandler)
-    }
   }
 
   getLastPosition() {
@@ -387,7 +400,6 @@ export default class Tabs extends React.PureComponent {
               if (val < 32) {
                 val = 32
               }
-              this._tablistRef.current.style.marginLeft = 0 // because of our "margin-left: -0.5px;" focus helper
               this._tablistRef.current.style.paddingLeft = `${val}px`
               this._tablistRef.current.style.paddingRight = `${val}px`
             }
@@ -395,7 +407,6 @@ export default class Tabs extends React.PureComponent {
         } else {
           this._tabsRef.current.style.marginLeft = ''
           this._tabsRef.current.style.marginRight = ''
-          this._tablistRef.current.style.marginLeft = ''
           this._tablistRef.current.style.paddingLeft = ''
           this._tablistRef.current.style.paddingRight = ''
         }

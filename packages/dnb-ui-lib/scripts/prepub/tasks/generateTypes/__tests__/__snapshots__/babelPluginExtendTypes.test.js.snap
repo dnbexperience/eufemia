@@ -34,8 +34,8 @@ export interface PrimaryComponentProps extends React.HTMLProps<HTMLElement> {
   children?: React.ReactNode;
 }
 export default class PrimaryComponent extends React.Component<PrimaryComponentProps, any> {
-  static Secondary = SecondaryComponent;
   static defaultProps: object;
+  static Secondary = SecondaryComponent;
   render(): JSX.Element;
 }"
 `;

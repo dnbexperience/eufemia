@@ -28,52 +28,73 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
     }
   }
 
-  return {
-    visitor: {
-      Program(root) {
-        root.traverse({
-          ClassDeclaration(path) {
-            if (path.parentPath.isExportDefaultDeclaration()) {
-              /**
-               * Insert "extends React.HTMLProps<HTMLElement>" if the prop type of the component exists
-               */
-              path.traverse({
-                TSTypeReference(path) {
-                  if (
-                    path.parentPath.isTSTypeParameterInstantiation() &&
-                    path.node.typeName
-                  ) {
-                    const name = path.node.typeName.name
+  /**
+   * Insert "extends React.HTMLProps<HTMLElement>" if the prop type of the component exists
+   */
+  const handleMainInterfaceProps = (path) => {
+    path.traverse({
+      TSTypeReference(path) {
+        if (
+          path.parentPath.isTSTypeParameterInstantiation() &&
+          path.node.typeName
+        ) {
+          path.stop()
 
-                    root.traverse({
-                      TSInterfaceDeclaration(path) {
-                        path.traverse({
-                          Identifier(path) {
-                            if (
-                              path.parentPath.isTSInterfaceDeclaration() &&
-                              path.isIdentifier({
-                                name
-                              })
-                            ) {
-                              path.node.name = `${name} extends React.HTMLProps<HTMLElement>`
-                              path.stop()
-                            }
-                          }
-                        })
-                      }
+          const name = path.node.typeName.name
+
+          root.traverse({
+            TSInterfaceDeclaration(path) {
+              path.traverse({
+                Identifier(path) {
+                  if (
+                    path.parentPath.isTSInterfaceDeclaration() &&
+                    path.isIdentifier({
+                      name
                     })
+                  ) {
+                    path.node.name = `${name} extends React.HTMLProps<HTMLElement>`
+                    path.stop()
                   }
                 }
               })
             }
+          })
+        }
+      }
+    })
+  }
 
-            /**
-             * Insert "defaultProps" if it actually exists
-             * Not that important, but nice to have
-             */
-            handleDefaultPropsProperty(path)
-          }
-        })
+  let root
+
+  return {
+    visitor: {
+      ClassDeclaration(path) {
+        /**
+         * Insert "defaultProps" if it actually exists
+         * Not that important, but nice to have
+         */
+        handleDefaultPropsProperty(path)
+      },
+      ExportDefaultDeclaration(path) {
+        if (path.node.declaration.type === 'ClassDeclaration') {
+          // Class components
+          handleMainInterfaceProps(path)
+        } else if (path.node.declaration.type === 'Identifier') {
+          // Function components
+          const name = path.node.declaration.name
+
+          root.traverse({
+            VariableDeclarator(path) {
+              if (path.node.id.name === name) {
+                path.stop()
+                handleMainInterfaceProps(path)
+              }
+            }
+          })
+        }
+      },
+      Program(path) {
+        root = path
 
         const classProperties = getListOfClassProperties({ file })
 

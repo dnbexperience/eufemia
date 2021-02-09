@@ -9,7 +9,7 @@ import { registerElement } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import Modal from '../modal/Modal'
 import HelpButtonInstance from './HelpButtonInstance'
-import Button from '../button/Button'
+import { buttonVariantPropType } from '../button/Button'
 
 export default class HelpButton extends React.PureComponent {
   static contextType = Context
@@ -18,7 +18,7 @@ export default class HelpButton extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string,
     title: PropTypes.node,
-    variant: Button.propTypes.variant,
+    ...buttonVariantPropType,
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,

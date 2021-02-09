@@ -11,7 +11,7 @@ import {
   toJson,
   loadScss
 } from '../../../core/jest/jestSetup'
-import Component from '../FormStatus'
+import Component, { setMaxWidthToElement } from '../FormStatus'
 import Input from '../../Input'
 
 const props = fakeProps(require.resolve('../FormStatus'), {
@@ -50,7 +50,7 @@ describe('FormStatus component', () => {
     const formStatusElement = Comp.find('.dnb-form-status').instance()
     const inputElement = Comp.find('.dnb-input__input').instance()
 
-    Component.setMaxWidthToElement({
+    setMaxWidthToElement({
       element: formStatusElement,
       widthElement: inputElement
     })

@@ -2,10 +2,28 @@
 
 exports[`InputMasked component have to match type="text" snapshot 1`] = `
 <InputMasked
+  align={null}
+  autocomplete="off"
+  class={null}
+  className={null}
   currency_mask="currency_mask"
+  custom_element={null}
+  custom_method={null}
   disabled={false}
+  global_status_id={null}
+  icon={null}
+  icon_position="left"
   id="input-masked"
+  inner_ref={null}
+  input_attributes={null}
+  input_class={null}
+  input_element={null}
+  input_state={null}
   keep_char_positions="keep_char_positions"
+  keep_placeholder={null}
+  label={null}
+  label_direction={null}
+  label_sr_only={null}
   mask={
     Array [
       /\\[a-z\\]/,
@@ -15,13 +33,29 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   on_blur={[Function]}
   on_change={[Function]}
   on_focus={[Function]}
+  on_state_update={null}
   on_submit={[Function]}
   on_submit_blur={[Function]}
   on_submit_focus={[Function]}
   pipe={null}
+  placeholder={null}
   placeholder_char="placeholder_char"
+  readOnly={false}
+  selectall={null}
   show_guide="show_guide"
   show_mask={true}
+  size={null}
+  skeleton={null}
+  status={null}
+  status_animation={null}
+  status_state="error"
+  stretch={null}
+  submit_button_icon="loupe"
+  submit_button_status={null}
+  submit_button_title={null}
+  submit_button_variant="secondary"
+  submit_element={null}
+  suffix={null}
   type="text"
   value="test"
 >

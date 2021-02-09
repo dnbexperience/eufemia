@@ -45,3 +45,4 @@ As soon as the _Pull Request_ gets merged into `origin/release`, a CI/CD server 
 - [Portal](/uilib/development/portal)
 - [Naming](/uilib/development/naming)
 - [Icons](/uilib/development/icons)
+- [Types](/uilib/development/types)

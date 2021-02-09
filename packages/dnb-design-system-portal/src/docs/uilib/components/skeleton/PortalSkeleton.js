@@ -21,7 +21,7 @@ export default function PortalSkeleton() {
   )
 }
 
-export function setSkeletonEnabled(skeleton) {
+function setSkeletonEnabled(skeleton) {
   try {
     window.localStorage.setItem(
       'skeleton-enabled',

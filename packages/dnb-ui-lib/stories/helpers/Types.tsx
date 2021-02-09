@@ -5,6 +5,7 @@ import React from 'react';
 import Button from '../../src/components/button/Button';
 import Number from '../../src/components/number/Number';
 import Tabs from '../../src/components/tabs/Tabs';
+import Modal from '../../src/components/modal/Modal';
 // import GlobalError from '../../src/components/global-error/GlobalError';
 import Input from '../../src/components/input/Input';
 import { Provider } from '../../src/shared';
@@ -49,6 +50,8 @@ export const TypesSandbox = () => {
       <Input size="default">test</Input>
 
       <Tabs onKeyDown={() => {}}>test</Tabs>
+
+      <Modal.Inner>test</Modal.Inner>
 
       <Tabs.Content hash={'2'} title={'123'} onClick={() => {}}>
         ...

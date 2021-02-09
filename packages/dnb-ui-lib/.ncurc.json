@@ -2,7 +2,6 @@
   "reject": [
     "react",
     "react-dom",
-    "core-js",
     "puppeteer"
   ]
 }

@@ -69,7 +69,9 @@ async function extractorFactory(markdownFiles, docsDir = ROOT_DIR) {
         if (json[key]?.Properties) {
           description = json[key]?.Properties
         } else if (json[key]?.Events) {
-          description = json[key]?.Events
+          description = json[key]?.Properties
+        } else if (json[key]?.Description) {
+          description = json[key]?.Description
         } else if (json[key]) {
           description = json[key]
         }

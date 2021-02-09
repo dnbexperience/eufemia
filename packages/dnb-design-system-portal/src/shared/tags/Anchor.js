@@ -41,10 +41,11 @@ const Anchor = ({ children, className, href, ...rest }) => {
 Anchor.propTypes = {
   href: PropTypes.string.isRequired,
   className: PropTypes.string,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node
 }
 Anchor.defaultProps = {
-  className: null
+  className: null,
+  children: null
 }
 
 export default Anchor

@@ -21,11 +21,13 @@ H4.propTypes = {
     'basis',
     'small',
     'x-small'
-  ])
+  ]),
+  children: PropTypes.node
 }
 H4.defaultProps = {
   level: null,
-  size: 'basis'
+  size: 'basis',
+  children: null
 }
 
 export default H4

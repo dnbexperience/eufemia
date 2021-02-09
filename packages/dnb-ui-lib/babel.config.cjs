@@ -29,7 +29,7 @@ if (process.env.BABEL_ENV === 'es') {
       {
         ...presets[0][1], // get preset options
         useBuiltIns: 'usage',
-        corejs: 2
+        corejs: 3
       }
     ],
     presets[1]

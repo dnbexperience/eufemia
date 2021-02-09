@@ -5,7 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import Input from '../input/Input'
+import Input, { inputPropTypes } from '../input/Input'
 import {
   isTrue,
   registerElement,
@@ -48,10 +48,14 @@ export default class InputMasked extends React.PureComponent {
     on_focus: PropTypes.func,
     on_blur: PropTypes.func,
     on_submit_focus: PropTypes.func,
-    on_submit_blur: PropTypes.func
+    on_submit_blur: PropTypes.func,
+
+    ...inputPropTypes
   }
 
   static defaultProps = {
+    ...Input.defaultProps,
+
     mask: [],
     number_mask: null,
     currency_mask: null,

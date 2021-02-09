@@ -21,11 +21,13 @@ H2.propTypes = {
     'basis',
     'small',
     'x-small'
-  ])
+  ]),
+  children: PropTypes.node
 }
 H2.defaultProps = {
   level: null,
-  size: 'large'
+  size: 'large',
+  children: null
 }
 
 export default H2

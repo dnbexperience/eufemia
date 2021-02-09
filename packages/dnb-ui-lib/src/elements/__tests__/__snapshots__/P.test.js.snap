@@ -33,7 +33,9 @@ exports[`P element have to match default P element snapshot 1`] = `
     >
       <p
         className="dnb-p  dnb-p--modifier dnb-p--style_type dnb-p--medium className dnb-p__size--x-small"
-      />
+      >
+        children
+      </p>
     </Elem>
   </ForwardRef>
 </P>
