@@ -307,6 +307,7 @@ export default class Tabs extends React.PureComponent {
     clearTimeout(this._scrollToTabTimeout)
     if (typeof window !== 'undefined') {
       window.removeEventListener('resize', this.onResizeHandler)
+      window.removeEventListener('load', this.init)
     }
   }
 
@@ -399,7 +400,6 @@ export default class Tabs extends React.PureComponent {
               if (val < 32) {
                 val = 32
               }
-              // this._tablistRef.current.style.marginLeft = 0 // because of our "margin-left: -0.5px;" focus helper
               this._tablistRef.current.style.paddingLeft = `${val}px`
               this._tablistRef.current.style.paddingRight = `${val}px`
             }
@@ -407,7 +407,6 @@ export default class Tabs extends React.PureComponent {
         } else {
           this._tabsRef.current.style.marginLeft = ''
           this._tabsRef.current.style.marginRight = ''
-          // this._tablistRef.current.style.marginLeft = ''
           this._tablistRef.current.style.paddingLeft = ''
           this._tablistRef.current.style.paddingRight = ''
         }
