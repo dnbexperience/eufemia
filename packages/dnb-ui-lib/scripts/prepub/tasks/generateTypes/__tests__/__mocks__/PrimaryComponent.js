@@ -47,7 +47,7 @@ export default class PrimaryComponent extends React.PureComponent {
     number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
     spacing: PropTypes.shape(primaryPropTypes),
-    foo: primaryPropTypes.top,
+    top: primaryPropTypes.top,
     ...primaryPropTypes,
     ...secondaryPropTypes,
     secondary_foo: secondaryPropTypes.secondary,
@@ -61,7 +61,7 @@ export default class PrimaryComponent extends React.PureComponent {
     number: null,
 
     spacing: null,
-    foo: null,
+    top: null,
     ...primaryDefaultProps,
     ...secondaryDefaultProps,
 
@@ -75,7 +75,7 @@ export default class PrimaryComponent extends React.PureComponent {
       this.props.boolean,
       this.props.number,
       this.props.spacing,
-      this.props.foo,
+      this.props.top,
       this.props.secondary_foo,
       this.props.secondary_spacing,
       this.props.children
@@ -91,7 +91,7 @@ Element.propTypes = {
   number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
   spacing: PropTypes.shape(primaryPropTypes),
-  foo: primaryPropTypes.top,
+  top: primaryPropTypes.top,
   ...primaryPropTypes,
   ...secondaryPropTypes,
   secondary_foo: secondaryPropTypes.secondary,
@@ -104,7 +104,7 @@ Element.defaultProps = {
   number: null,
 
   spacing: null,
-  foo: null,
+  top: null,
   ...primaryDefaultProps,
 
   children: null

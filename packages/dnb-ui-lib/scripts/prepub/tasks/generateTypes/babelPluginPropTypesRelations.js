@@ -11,12 +11,18 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
   const handleDeclarationRelation = ({ ast, path, targetPath }) => {
     if (targetPath?.parentPath?.isSpreadElement()) {
       const multireplaceList = []
-      const tmpKeys = {}
+      const existingPropKeys =
+        targetPath.parentPath?.container.reduce((acc, cur) => {
+          if (cur.key) {
+            acc[cur.key.name] = true
+          }
+          return acc
+        }, {}) || {}
 
       const addToMultireplaceList = (path) => {
         const hash = path.node.key.name
-        if (!tmpKeys[hash]) {
-          tmpKeys[hash] = true
+        if (!existingPropKeys[hash]) {
+          existingPropKeys[hash] = true
           multireplaceList.push(cloneNode(path.node))
         }
       }
