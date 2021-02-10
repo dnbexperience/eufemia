@@ -152,8 +152,10 @@ export const createTypes = async (
                   /**
                    * If strictMode is enabled,
                    * it will transform "string + bool" or "string + number" in to string or bool only
+                   *
+                   * NB: But there are way too many edge cases, so we have to deisable it as of now
                    */
-                  strictMode: true
+                  strictMode: false
                 }
               ],
               [
