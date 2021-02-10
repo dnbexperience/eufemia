@@ -94,6 +94,7 @@ export default class Autocomplete extends React.PureComponent {
     ]),
     status: PropTypes.oneOfType([
       PropTypes.string,
+      PropTypes.bool,
       PropTypes.func,
       PropTypes.node
     ]),

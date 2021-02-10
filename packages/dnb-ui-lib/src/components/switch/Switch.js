@@ -54,6 +54,7 @@ export default class Switch extends React.PureComponent {
     size: PropTypes.oneOf(['default', 'medium', 'large']),
     status: PropTypes.oneOfType([
       PropTypes.string,
+      PropTypes.bool,
       PropTypes.func,
       PropTypes.node
     ]),

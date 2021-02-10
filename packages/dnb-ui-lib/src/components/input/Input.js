@@ -53,6 +53,7 @@ export const inputPropTypes = {
   label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([
     PropTypes.string,
+    PropTypes.bool,
     PropTypes.func,
     PropTypes.node
   ]),
@@ -573,6 +574,7 @@ class InputSubmitButton extends React.PureComponent {
     icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     status: PropTypes.oneOfType([
       PropTypes.string,
+      PropTypes.bool,
       PropTypes.func,
       PropTypes.node
     ]),

@@ -54,6 +54,7 @@ export const buttonPropTypes = {
   ]),
   status: PropTypes.oneOfType([
     PropTypes.string,
+    PropTypes.bool,
     PropTypes.func,
     PropTypes.node
   ]),

@@ -61,6 +61,7 @@ export default class ToggleButton extends React.PureComponent {
     // group: PropTypes.string,
     status: PropTypes.oneOfType([
       PropTypes.string,
+      PropTypes.bool,
       PropTypes.func,
       PropTypes.node
     ]),
