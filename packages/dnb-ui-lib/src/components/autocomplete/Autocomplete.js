@@ -1661,6 +1661,7 @@ class AutocompleteInstance extends React.PureComponent {
                   }
                   size={size}
                   status={!opened && status ? status_state : null}
+                  status_state={status_state}
                   type={null}
                   submit_element={submitButton}
                   input_state={
