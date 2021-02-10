@@ -23,16 +23,20 @@ export default class PaginationBar extends React.PureComponent {
   static contextType = PaginationContext
 
   static propTypes = {
+    button_title: PropTypes.string, // eslint-disable-line
+    prev_title: PropTypes.string, // eslint-disable-line
+    next_title: PropTypes.string, // eslint-disable-line
+    more_pages: PropTypes.string, // eslint-disable-line
     contentRef: PropTypes.object,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
   }
   static defaultProps = {
-    contentRef: null,
-    children: null,
     button_title: null,
     prev_title: null,
     next_title: null,
-    more_pages: null
+    more_pages: null,
+    contentRef: null,
+    children: null
   }
 
   componentDidMount() {

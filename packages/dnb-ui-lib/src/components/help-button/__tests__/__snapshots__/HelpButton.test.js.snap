@@ -7,8 +7,6 @@ exports[`HelpButton component have to match snapshot 1`] = `
   id="help-button"
   modal_content={null}
   modal_props={null}
-  text={null}
-  title={null}
   variant="secondary"
 >
   <HelpButtonInstance
@@ -17,8 +15,6 @@ exports[`HelpButton component have to match snapshot 1`] = `
     icon="question"
     icon_position="left"
     id="help-button"
-    text={null}
-    title={null}
     variant="secondary"
   >
     <Button

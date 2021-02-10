@@ -83,7 +83,7 @@ export default class ToggleButton extends React.PureComponent {
       PropTypes.node,
       PropTypes.func
     ]),
-    icon_position: PropTypes.string,
+    icon_position: PropTypes.oneOf(['left', 'right']),
     icon_size: PropTypes.string,
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

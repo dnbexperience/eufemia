@@ -9,38 +9,30 @@ import { registerElement } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import Modal from '../modal/Modal'
 import HelpButtonInstance from './HelpButtonInstance'
-import { buttonVariantPropType } from '../button/Button'
+import { buttonPropTypes } from '../button/Button'
 
 export default class HelpButton extends React.PureComponent {
   static contextType = Context
   static tagName = 'dnb-help-button'
 
   static propTypes = {
-    id: PropTypes.string,
-    title: PropTypes.node,
-    ...buttonVariantPropType,
+    ...buttonPropTypes,
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
       PropTypes.func
     ]),
-    icon_position: PropTypes.string,
-    text: PropTypes.node,
+    icon_position: PropTypes.oneOf(['left', 'right']),
     modal_content: PropTypes.node,
-    modal_props: PropTypes.object,
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+    modal_props: PropTypes.object
   }
 
   static defaultProps = {
-    id: null,
-    title: null,
     variant: 'secondary',
     icon: null,
     icon_position: 'left',
-    text: null,
     modal_content: null,
-    modal_props: null,
-    children: null
+    modal_props: null
   }
 
   static enableWebComponent() {

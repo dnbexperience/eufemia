@@ -13,6 +13,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   global_status_id={null}
   icon={null}
   icon_position="left"
+  icon_size={null}
   id="input-masked"
   inner_ref={null}
   input_attributes={null}
@@ -70,6 +71,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     global_status_id={null}
     icon={null}
     icon_position="left"
+    icon_size={null}
     id="input-masked"
     inner_ref={null}
     input_attributes={null}

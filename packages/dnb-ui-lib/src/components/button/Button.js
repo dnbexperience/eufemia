@@ -33,6 +33,59 @@ import Tooltip from '../tooltip/Tooltip'
 export const buttonVariantPropType = {
   variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'signal'])
 }
+export const buttonPropTypes = {
+  text: PropTypes.string,
+  type: PropTypes.string,
+  title: PropTypes.string,
+  variant: buttonVariantPropType.variant,
+  // ...buttonVariantPropType,
+  size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
+  icon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func
+  ]),
+  icon_position: PropTypes.oneOf(['left', 'right']),
+  icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  tooltip: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
+  status: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
+  status_state: PropTypes.string,
+  status_animation: PropTypes.string,
+  global_status_id: PropTypes.string,
+  id: PropTypes.string,
+  class: PropTypes.string,
+  href: PropTypes.string,
+  wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  inner_ref: PropTypes.object,
+
+  className: PropTypes.string,
+  innerRef: PropTypes.object,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
+  element: PropTypes.node,
+
+  ...spacingPropTypes,
+
+  custom_element: PropTypes.object,
+  custom_method: PropTypes.func,
+
+  onClick: PropTypes.func,
+  on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+}
 
 /**
  * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
@@ -42,56 +95,7 @@ export default class Button extends React.PureComponent {
   static contextType = Context
 
   static propTypes = {
-    text: PropTypes.string,
-    type: PropTypes.string,
-    title: PropTypes.string,
-    ...buttonVariantPropType,
-    size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-    icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func
-    ]),
-    icon_position: PropTypes.oneOf(['left', 'right']),
-    icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    tooltip: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node
-    ]),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node
-    ]),
-    status_state: PropTypes.string,
-    status_animation: PropTypes.string,
-    global_status_id: PropTypes.string,
-    id: PropTypes.string,
-    class: PropTypes.string,
-    href: PropTypes.string,
-    wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    inner_ref: PropTypes.object,
-
-    className: PropTypes.string,
-    innerRef: PropTypes.object,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node
-    ]),
-    element: PropTypes.node,
-
-    ...spacingPropTypes,
-
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
-
-    onClick: PropTypes.func,
-    on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+    ...buttonPropTypes
   }
 
   static defaultProps = {

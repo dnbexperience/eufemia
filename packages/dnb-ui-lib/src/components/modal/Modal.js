@@ -66,6 +66,8 @@ export default class Modal extends React.PureComponent {
       PropTypes.bool
     ]),
     fullscreen: PropTypes.oneOf(['auto', true, false, 'true', 'false']),
+    min_width: PropTypes.string,
+    max_width: PropTypes.string,
     align_content: PropTypes.oneOf([
       'left',
       'center',
@@ -118,8 +120,11 @@ export default class Modal extends React.PureComponent {
       PropTypes.node,
       PropTypes.func
     ]),
-    trigger_icon_position: PropTypes.string,
+    trigger_icon_position: PropTypes.oneOf(['left', 'right']),
     trigger_class: PropTypes.string,
+
+    overlay_class: PropTypes.string,
+    content_class: PropTypes.string,
 
     modal_content: PropTypes.oneOfType([
       PropTypes.string,
@@ -147,6 +152,8 @@ export default class Modal extends React.PureComponent {
     no_animation: false,
     no_animation_on_mobile: false,
     fullscreen: 'auto',
+    min_width: null,
+    max_width: null,
     align_content: null,
     container_placement: null,
     open_state: null,
@@ -173,6 +180,9 @@ export default class Modal extends React.PureComponent {
     trigger_icon: null,
     trigger_icon_position: 'left',
     trigger_class: null,
+
+    overlay_class: null,
+    content_class: null,
 
     modal_content: null
   }

@@ -98,6 +98,7 @@ export default class GlobalStatus extends React.PureComponent {
       PropTypes.node
     ]),
 
+    on_adjust: PropTypes.func,
     on_open: PropTypes.func,
     on_show: PropTypes.func,
     on_close: PropTypes.func,
@@ -130,6 +131,7 @@ export default class GlobalStatus extends React.PureComponent {
     className: null,
     children: null,
 
+    on_adjust: null,
     on_open: null,
     on_show: null,
     on_close: null,

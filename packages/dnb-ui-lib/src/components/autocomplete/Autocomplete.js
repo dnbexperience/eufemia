@@ -71,6 +71,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.node,
       PropTypes.func
     ]),
+    input_ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     icon_size: PropTypes.string,
     icon_position: PropTypes.oneOf(['left', 'right']),
     triangle_position: PropTypes.oneOf(['left', 'right']),
@@ -177,6 +178,7 @@ export default class Autocomplete extends React.PureComponent {
     ]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     input_value: PropTypes.string,
+    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -184,10 +186,10 @@ export default class Autocomplete extends React.PureComponent {
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     drawer_class: PropTypes.string,
-    class: PropTypes.string,
 
     ...spacingPropTypes,
 
+    class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.string,
@@ -201,6 +203,9 @@ export default class Autocomplete extends React.PureComponent {
     custom_method: PropTypes.func,
 
     on_show: PropTypes.func,
+    on_type: PropTypes.func,
+    on_focus: PropTypes.func,
+    on_blur: PropTypes.func,
     on_hide: PropTypes.func,
     on_change: PropTypes.func,
     on_select: PropTypes.func,
@@ -218,6 +223,7 @@ export default class Autocomplete extends React.PureComponent {
     indicator_label: null,
     submit_button_title: null,
     submit_button_icon: 'chevron_down',
+    input_ref: null,
     icon_size: null,
     icon_position: 'left',
     triangle_position: null,
@@ -247,11 +253,13 @@ export default class Autocomplete extends React.PureComponent {
     prevent_selection: false,
     size: 'default',
     align_autocomplete: null,
+    options_render: null,
     data: null,
     search_in_word_index: 3,
     default_value: null,
     value: 'initval',
     input_value: 'initval',
+    icon: null,
     open_on_focus: false,
     prevent_close: false,
     keep_open: false,
@@ -259,8 +267,8 @@ export default class Autocomplete extends React.PureComponent {
     disabled: null,
     skeleton: null,
     drawer_class: null,
-    class: null,
 
+    class: null,
     className: null,
     children: null,
 
@@ -269,6 +277,9 @@ export default class Autocomplete extends React.PureComponent {
 
     on_show: null,
     on_hide: null,
+    on_type: null,
+    on_focus: null,
+    on_blur: null,
     on_change: null,
     on_select: null,
     on_state_update: null,

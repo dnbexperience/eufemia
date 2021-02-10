@@ -29,6 +29,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   drawer_class="drawer_class"
   focusable="focusable"
   global_status_id="global_status_id"
+  icon="icon"
   icon_position={null}
   icon_size="icon_size"
   id="autocomplete-id"
@@ -48,11 +49,14 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   no_animation={true}
   no_options="no_options"
   no_scroll_animation="no_scroll_animation"
+  on_blur={[Function]}
   on_change={[Function]}
+  on_focus={[Function]}
   on_hide={[Function]}
   on_select={[Function]}
   on_show={[Function]}
   on_state_update={[Function]}
+  on_type={[Function]}
   open_on_focus="open_on_focus"
   opened={true}
   options_render={Object {}}
@@ -107,6 +111,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     enable_closest_observer={null}
     focusable="focusable"
     global_status_id="global_status_id"
+    icon="icon"
     icon_position={null}
     icon_size="icon_size"
     id="autocomplete-id"
@@ -129,12 +134,15 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     no_options="no_options"
     no_scroll_animation="no_scroll_animation"
     observer_element={null}
+    on_blur={[Function]}
     on_change={[Function]}
+    on_focus={[Function]}
     on_hide={[Function]}
     on_resize={null}
     on_select={[Function]}
     on_show={[Function]}
     on_state_update={[Function]}
+    on_type={[Function]}
     open_on_focus="open_on_focus"
     opened={null}
     options_render={Object {}}
@@ -193,6 +201,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       drawer_class="drawer_class"
       focusable="focusable"
       global_status_id="global_status_id"
+      icon="icon"
       icon_position={null}
       icon_size="icon_size"
       id="autocomplete-id"
@@ -212,11 +221,14 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       no_animation={true}
       no_options="no_options"
       no_scroll_animation="no_scroll_animation"
+      on_blur={[Function]}
       on_change={[Function]}
+      on_focus={[Function]}
       on_hide={[Function]}
       on_select={[Function]}
       on_show={[Function]}
       on_state_update={[Function]}
+      on_type={[Function]}
       open_on_focus="open_on_focus"
       opened={true}
       options_render={Object {}}
@@ -401,7 +413,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 custom_method={null}
                 disabled="disabled"
                 global_status_id={null}
-                icon="input_icon"
+                icon="icon"
                 icon_position={null}
                 icon_size="icon_size"
                 id="autocomplete-id"
@@ -510,7 +522,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         />
                         <Component
                           className="dnb-input__icon"
-                          icon="input_icon"
+                          icon="icon"
                           size="icon_size"
                         >
                           <IconPrimary
@@ -520,7 +532,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             className="dnb-input__icon"
                             color={null}
                             height={null}
-                            icon="input_icon"
+                            icon="icon"
                             inherit_color={true}
                             modifier={null}
                             size="icon_size"
@@ -1008,6 +1020,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "drawer_class": "drawer_class",
                   "focusable": "focusable",
                   "global_status_id": "global_status_id",
+                  "icon": "icon",
                   "icon_position": null,
                   "icon_size": "icon_size",
                   "id": "autocomplete-id",
@@ -1027,11 +1040,14 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "no_animation": true,
                   "no_options": "no_options",
                   "no_scroll_animation": "no_scroll_animation",
+                  "on_blur": [Function],
                   "on_change": [Function],
+                  "on_focus": [Function],
                   "on_hide": [Function],
                   "on_select": [Function],
                   "on_show": [Function],
                   "on_state_update": [Function],
+                  "on_type": [Function],
                   "open_on_focus": "open_on_focus",
                   "opened": true,
                   "options_render": Object {},

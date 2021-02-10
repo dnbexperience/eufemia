@@ -758,6 +758,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
   no_animation={true}
   omit_set_focus="omit_set_focus"
   omit_set_focus_on_update="omit_set_focus_on_update"
+  on_adjust={[Function]}
   on_close={[Function]}
   on_hide={[Function]}
   on_open={[Function]}

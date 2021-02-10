@@ -7,25 +7,34 @@ exports[`Pagination bar component have to match snapshot 1`] = `
       "displayName": "Pagination",
       "props": Object {
         "align": "align",
+        "button_title": "button_title",
         "children": "children",
         "class": "class",
         "className": "className",
         "current_page": "current_page",
+        "end_infinity_handler": "end_infinity_handler",
         "fallback_element": Object {},
         "hide_progress_indicator": "hide_progress_indicator",
         "indicator_element": "indicator_element",
+        "is_loading_text": "is_loading_text",
         "items": "items",
+        "load_button_text": "load_button_text",
         "marker_element": Object {},
         "min_wait_time": "min_wait_time",
         "mode": "'pagination'",
+        "more_pages": "more_pages",
+        "next_title": "next_title",
         "on_change": [Function],
+        "on_end": [Function],
         "on_load": [Function],
         "on_startup": [Function],
         "page_count": "page_count",
         "page_element": Object {},
         "parallel_load_count": "parallel_load_count",
         "place_maker_before_content": "place_maker_before_content",
+        "prev_title": "prev_title",
         "reset_content_handler": "reset_content_handler",
+        "reset_pagination_handler": "reset_pagination_handler",
         "set_content_handler": "set_content_handler",
         "startup_count": "startup_count",
         "startup_page": "startup_page",
@@ -38,25 +47,34 @@ exports[`Pagination bar component have to match snapshot 1`] = `
       "displayName": "PaginationInstance",
       "props": Object {
         "align": "align",
+        "button_title": "button_title",
         "children": "children",
         "class": "class",
         "className": "className",
         "current_page": "current_page",
+        "end_infinity_handler": "end_infinity_handler",
         "fallback_element": Object {},
         "hide_progress_indicator": "hide_progress_indicator",
         "indicator_element": "indicator_element",
+        "is_loading_text": "is_loading_text",
         "items": "items",
+        "load_button_text": "load_button_text",
         "marker_element": Object {},
         "min_wait_time": "min_wait_time",
         "mode": "'pagination'",
+        "more_pages": "more_pages",
+        "next_title": "next_title",
         "on_change": [Function],
+        "on_end": [Function],
         "on_load": [Function],
         "on_startup": [Function],
         "page_count": "page_count",
         "page_element": Object {},
         "parallel_load_count": "parallel_load_count",
         "place_maker_before_content": "place_maker_before_content",
+        "prev_title": "prev_title",
         "reset_content_handler": "reset_content_handler",
+        "reset_pagination_handler": "reset_pagination_handler",
         "set_content_handler": "set_content_handler",
         "startup_count": "startup_count",
         "startup_page": "startup_page",
@@ -69,25 +87,34 @@ exports[`Pagination bar component have to match snapshot 1`] = `
       "displayName": "InfinityMarker",
       "props": Object {
         "align": "align",
+        "button_title": "button_title",
         "children": "children",
         "class": "class",
         "className": "className",
         "current_page": "current_page",
+        "end_infinity_handler": "end_infinity_handler",
         "fallback_element": Object {},
         "hide_progress_indicator": "hide_progress_indicator",
         "indicator_element": "indicator_element",
+        "is_loading_text": "is_loading_text",
         "items": "items",
+        "load_button_text": "load_button_text",
         "marker_element": Object {},
         "min_wait_time": "min_wait_time",
         "mode": "'pagination'",
+        "more_pages": "more_pages",
+        "next_title": "next_title",
         "on_change": [Function],
+        "on_end": [Function],
         "on_load": [Function],
         "on_startup": [Function],
         "page_count": "page_count",
         "page_element": Object {},
         "parallel_load_count": "parallel_load_count",
         "place_maker_before_content": "place_maker_before_content",
+        "prev_title": "prev_title",
         "reset_content_handler": "reset_content_handler",
+        "reset_pagination_handler": "reset_pagination_handler",
         "set_content_handler": "set_content_handler",
         "startup_count": "startup_count",
         "startup_page": "startup_page",
@@ -96,19 +123,26 @@ exports[`Pagination bar component have to match snapshot 1`] = `
     }
   }
   align="left"
+  button_title={null}
   class={null}
   className={null}
   current_page={null}
   hide_progress_indicator={false}
+  is_loading_text={null}
   items={null}
+  load_button_text={null}
   min_wait_time={400}
   mode="pagination"
+  more_pages={null}
+  next_title={null}
   on_change={null}
+  on_end={null}
   on_load={null}
   on_startup={null}
   page_count={null}
   parallel_load_count={1}
   place_maker_before_content={false}
+  prev_title={null}
   reset_content_handler={null}
   set_content_handler={null}
   startup_count={1}
@@ -121,25 +155,34 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "displayName": "Pagination",
         "props": Object {
           "align": "align",
+          "button_title": "button_title",
           "children": "children",
           "class": "class",
           "className": "className",
           "current_page": "current_page",
+          "end_infinity_handler": "end_infinity_handler",
           "fallback_element": Object {},
           "hide_progress_indicator": "hide_progress_indicator",
           "indicator_element": "indicator_element",
+          "is_loading_text": "is_loading_text",
           "items": "items",
+          "load_button_text": "load_button_text",
           "marker_element": Object {},
           "min_wait_time": "min_wait_time",
           "mode": "'pagination'",
+          "more_pages": "more_pages",
+          "next_title": "next_title",
           "on_change": [Function],
+          "on_end": [Function],
           "on_load": [Function],
           "on_startup": [Function],
           "page_count": "page_count",
           "page_element": Object {},
           "parallel_load_count": "parallel_load_count",
           "place_maker_before_content": "place_maker_before_content",
+          "prev_title": "prev_title",
           "reset_content_handler": "reset_content_handler",
+          "reset_pagination_handler": "reset_pagination_handler",
           "set_content_handler": "set_content_handler",
           "startup_count": "startup_count",
           "startup_page": "startup_page",
@@ -152,25 +195,34 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "displayName": "PaginationInstance",
         "props": Object {
           "align": "align",
+          "button_title": "button_title",
           "children": "children",
           "class": "class",
           "className": "className",
           "current_page": "current_page",
+          "end_infinity_handler": "end_infinity_handler",
           "fallback_element": Object {},
           "hide_progress_indicator": "hide_progress_indicator",
           "indicator_element": "indicator_element",
+          "is_loading_text": "is_loading_text",
           "items": "items",
+          "load_button_text": "load_button_text",
           "marker_element": Object {},
           "min_wait_time": "min_wait_time",
           "mode": "'pagination'",
+          "more_pages": "more_pages",
+          "next_title": "next_title",
           "on_change": [Function],
+          "on_end": [Function],
           "on_load": [Function],
           "on_startup": [Function],
           "page_count": "page_count",
           "page_element": Object {},
           "parallel_load_count": "parallel_load_count",
           "place_maker_before_content": "place_maker_before_content",
+          "prev_title": "prev_title",
           "reset_content_handler": "reset_content_handler",
+          "reset_pagination_handler": "reset_pagination_handler",
           "set_content_handler": "set_content_handler",
           "startup_count": "startup_count",
           "startup_page": "startup_page",
@@ -183,25 +235,34 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "displayName": "InfinityMarker",
         "props": Object {
           "align": "align",
+          "button_title": "button_title",
           "children": "children",
           "class": "class",
           "className": "className",
           "current_page": "current_page",
+          "end_infinity_handler": "end_infinity_handler",
           "fallback_element": Object {},
           "hide_progress_indicator": "hide_progress_indicator",
           "indicator_element": "indicator_element",
+          "is_loading_text": "is_loading_text",
           "items": "items",
+          "load_button_text": "load_button_text",
           "marker_element": Object {},
           "min_wait_time": "min_wait_time",
           "mode": "'pagination'",
+          "more_pages": "more_pages",
+          "next_title": "next_title",
           "on_change": [Function],
+          "on_end": [Function],
           "on_load": [Function],
           "on_startup": [Function],
           "page_count": "page_count",
           "page_element": Object {},
           "parallel_load_count": "parallel_load_count",
           "place_maker_before_content": "place_maker_before_content",
+          "prev_title": "prev_title",
           "reset_content_handler": "reset_content_handler",
+          "reset_pagination_handler": "reset_pagination_handler",
           "set_content_handler": "set_content_handler",
           "startup_count": "startup_count",
           "startup_page": "startup_page",
@@ -210,20 +271,27 @@ exports[`Pagination bar component have to match snapshot 1`] = `
       }
     }
     align="left"
+    button_title={null}
     class={null}
     className={null}
     current_page={null}
     end_infinity_handler={null}
     hide_progress_indicator={false}
+    is_loading_text={null}
     items={null}
+    load_button_text={null}
     min_wait_time={400}
     mode="pagination"
+    more_pages={null}
+    next_title={null}
     on_change={null}
+    on_end={null}
     on_load={null}
     on_startup={null}
     page_count={null}
     parallel_load_count={1}
     place_maker_before_content={false}
+    prev_title={null}
     rerender={null}
     reset_content_handler={null}
     reset_pagination_handler={null}
@@ -241,25 +309,34 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "displayName": "Pagination",
           "props": Object {
             "align": "align",
+            "button_title": "button_title",
             "children": "children",
             "class": "class",
             "className": "className",
             "current_page": "current_page",
+            "end_infinity_handler": "end_infinity_handler",
             "fallback_element": Object {},
             "hide_progress_indicator": "hide_progress_indicator",
             "indicator_element": "indicator_element",
+            "is_loading_text": "is_loading_text",
             "items": "items",
+            "load_button_text": "load_button_text",
             "marker_element": Object {},
             "min_wait_time": "min_wait_time",
             "mode": "'pagination'",
+            "more_pages": "more_pages",
+            "next_title": "next_title",
             "on_change": [Function],
+            "on_end": [Function],
             "on_load": [Function],
             "on_startup": [Function],
             "page_count": "page_count",
             "page_element": Object {},
             "parallel_load_count": "parallel_load_count",
             "place_maker_before_content": "place_maker_before_content",
+            "prev_title": "prev_title",
             "reset_content_handler": "reset_content_handler",
+            "reset_pagination_handler": "reset_pagination_handler",
             "set_content_handler": "set_content_handler",
             "startup_count": "startup_count",
             "startup_page": "startup_page",
@@ -272,25 +349,34 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "displayName": "PaginationInstance",
           "props": Object {
             "align": "align",
+            "button_title": "button_title",
             "children": "children",
             "class": "class",
             "className": "className",
             "current_page": "current_page",
+            "end_infinity_handler": "end_infinity_handler",
             "fallback_element": Object {},
             "hide_progress_indicator": "hide_progress_indicator",
             "indicator_element": "indicator_element",
+            "is_loading_text": "is_loading_text",
             "items": "items",
+            "load_button_text": "load_button_text",
             "marker_element": Object {},
             "min_wait_time": "min_wait_time",
             "mode": "'pagination'",
+            "more_pages": "more_pages",
+            "next_title": "next_title",
             "on_change": [Function],
+            "on_end": [Function],
             "on_load": [Function],
             "on_startup": [Function],
             "page_count": "page_count",
             "page_element": Object {},
             "parallel_load_count": "parallel_load_count",
             "place_maker_before_content": "place_maker_before_content",
+            "prev_title": "prev_title",
             "reset_content_handler": "reset_content_handler",
+            "reset_pagination_handler": "reset_pagination_handler",
             "set_content_handler": "set_content_handler",
             "startup_count": "startup_count",
             "startup_page": "startup_page",
@@ -303,25 +389,34 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "displayName": "InfinityMarker",
           "props": Object {
             "align": "align",
+            "button_title": "button_title",
             "children": "children",
             "class": "class",
             "className": "className",
             "current_page": "current_page",
+            "end_infinity_handler": "end_infinity_handler",
             "fallback_element": Object {},
             "hide_progress_indicator": "hide_progress_indicator",
             "indicator_element": "indicator_element",
+            "is_loading_text": "is_loading_text",
             "items": "items",
+            "load_button_text": "load_button_text",
             "marker_element": Object {},
             "min_wait_time": "min_wait_time",
             "mode": "'pagination'",
+            "more_pages": "more_pages",
+            "next_title": "next_title",
             "on_change": [Function],
+            "on_end": [Function],
             "on_load": [Function],
             "on_startup": [Function],
             "page_count": "page_count",
             "page_element": Object {},
             "parallel_load_count": "parallel_load_count",
             "place_maker_before_content": "place_maker_before_content",
+            "prev_title": "prev_title",
             "reset_content_handler": "reset_content_handler",
+            "reset_pagination_handler": "reset_pagination_handler",
             "set_content_handler": "set_content_handler",
             "startup_count": "startup_count",
             "startup_page": "startup_page",
@@ -330,19 +425,26 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         }
       }
       align="left"
+      button_title={null}
       class={null}
       className={null}
       current_page={null}
       hide_progress_indicator={false}
+      is_loading_text={null}
       items={null}
+      load_button_text={null}
       min_wait_time={400}
       mode="pagination"
+      more_pages={null}
+      next_title={null}
       on_change={null}
+      on_end={null}
       on_load={null}
       on_startup={null}
       page_count={null}
       parallel_load_count={1}
       place_maker_before_content={false}
+      prev_title={null}
       reset_content_handler={null}
       set_content_handler={null}
       startup_count={1}
@@ -710,6 +812,8 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                         no_animation={false}
                         on_complete={null}
                         progress={null}
+                        section_spacing={null}
+                        section_style={null}
                         show_label={false}
                         size="default"
                         type="circular"

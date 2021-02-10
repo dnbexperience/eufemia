@@ -28,7 +28,7 @@ export default class HelpButtonInstance extends React.PureComponent {
       PropTypes.node,
       PropTypes.func
     ]),
-    icon_position: PropTypes.string,
+    icon_position: PropTypes.oneOf(['left', 'right']),
     ...spacingPropTypes,
     className: PropTypes.string,
     class: PropTypes.string

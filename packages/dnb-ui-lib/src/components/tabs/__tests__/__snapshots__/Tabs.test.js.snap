@@ -14,6 +14,9 @@ exports[`Tabs component have to match snapshot 1`] = `
         "data": "data",
         "id": "id",
         "label": "label",
+        "on_change": [Function],
+        "on_click": [Function],
+        "on_focus": [Function],
         "prerender": "prerender",
         "prevent_rerender": "prevent_rerender",
         "render": [Function],
@@ -64,6 +67,9 @@ exports[`Tabs component have to match snapshot 1`] = `
   }
   id="id"
   label={null}
+  on_change={null}
+  on_click={null}
+  on_focus={null}
   prerender={false}
   prevent_rerender={false}
   render={null}

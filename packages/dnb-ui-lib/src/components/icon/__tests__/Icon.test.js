@@ -20,6 +20,7 @@ const props = fakeProps(require.resolve('../Icon'), {
 props.icon = question
 props.alt = 'question mark'
 props.border = false
+props['aria-hidden'] = null
 
 describe('Icon component', () => {
   it('have to match snapshot', () => {

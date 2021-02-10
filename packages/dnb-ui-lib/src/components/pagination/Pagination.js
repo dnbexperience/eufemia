@@ -22,7 +22,7 @@ import { PaginationIndicator } from './PaginationHelpers'
 import InfinityScroller from './PaginationInfinity'
 import PaginationBar from './PaginationBar'
 
-const propTypes = {
+const paginationPropTypes = {
   startup_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   current_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -51,6 +51,14 @@ const propTypes = {
     PropTypes.string,
     PropTypes.func
   ]),
+  reset_pagination_handler: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func
+  ]),
+  end_infinity_handler: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func
+  ]),
   page_element: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.node,
@@ -75,6 +83,12 @@ const propTypes = {
     PropTypes.string
   ]),
   align: PropTypes.string,
+  button_title: PropTypes.string,
+  prev_title: PropTypes.string,
+  next_title: PropTypes.string,
+  more_pages: PropTypes.string,
+  is_loading_text: PropTypes.string,
+  load_button_text: PropTypes.string,
 
   ...spacingPropTypes,
 
@@ -88,10 +102,11 @@ const propTypes = {
 
   on_change: PropTypes.func,
   on_startup: PropTypes.func,
-  on_load: PropTypes.func
+  on_load: PropTypes.func,
+  on_end: PropTypes.func
 }
 
-const defaultProps = {
+const paginationDefaultProps = {
   startup_page: null,
   current_page: null,
   page_count: null,
@@ -106,6 +121,12 @@ const defaultProps = {
   marker_element: undefined,
   indicator_element: undefined,
   align: 'left',
+  button_title: null,
+  prev_title: null,
+  next_title: null,
+  more_pages: null,
+  is_loading_text: null,
+  load_button_text: null,
   startup_count: 1,
   parallel_load_count: 1,
   place_maker_before_content: false,
@@ -117,16 +138,17 @@ const defaultProps = {
 
   on_change: null,
   on_startup: null,
-  on_load: null
+  on_load: null,
+  on_end: null
 }
 
 export default class Pagination extends React.PureComponent {
   static tagName = 'dnb-pagination'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static propTypes = { ...paginationPropTypes }
+  static defaultProps = paginationDefaultProps
 
   static enableWebComponent() {
-    registerElement(Pagination.tagName, Pagination, defaultProps)
+    registerElement(Pagination.tagName, Pagination, paginationDefaultProps)
   }
 
   render() {
@@ -139,8 +161,8 @@ export default class Pagination extends React.PureComponent {
 }
 
 class PaginationInstance extends React.PureComponent {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static propTypes = { ...paginationPropTypes }
+  static defaultProps = paginationDefaultProps
   static contextType = PaginationContext
 
   constructor(props) {
@@ -152,7 +174,7 @@ class PaginationInstance extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
-      defaultProps,
+      paginationDefaultProps,
       this.context.getTranslation(this.props).Pagination,
       this.context.FormRow,
       this.context.Pagination
@@ -234,11 +256,15 @@ class PaginationInstance extends React.PureComponent {
 
 export class InfinityMarker extends React.PureComponent {
   static tagName = 'dnb-infinity-marker'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static propTypes = { ...paginationPropTypes }
+  static defaultProps = paginationDefaultProps
 
   static enableWebComponent() {
-    registerElement(InfinityMarker.tagName, InfinityMarker, defaultProps)
+    registerElement(
+      InfinityMarker.tagName,
+      InfinityMarker,
+      paginationDefaultProps
+    )
   }
 
   render() {

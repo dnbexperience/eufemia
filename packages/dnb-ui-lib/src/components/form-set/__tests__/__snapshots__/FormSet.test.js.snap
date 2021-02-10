@@ -2,30 +2,18 @@
 
 exports[`FormSet component have to match snapshot 1`] = `
 <FormSet
-  class="class"
-  className="className"
   custom_element={Object {}}
   custom_method={[Function]}
   direction="horizontal"
-  disabled="disabled"
   element="form"
-  id="id"
   no_form="no_form"
   on_submit={[Function]}
   prevent_submit="prevent_submit"
 >
-  <Element
-    className="dnb-form-set className class"
-    is="form"
+  <form
+    className="dnb-form-set"
     onSubmit={[Function]}
-  >
-    <form
-      className="dnb-form-set className class"
-      onSubmit={[Function]}
-    >
-      children
-    </form>
-  </Element>
+  />
 </FormSet>
 `;
 

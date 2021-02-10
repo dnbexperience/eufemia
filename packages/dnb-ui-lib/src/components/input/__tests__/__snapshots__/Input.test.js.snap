@@ -16,7 +16,8 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "disabled": "disabled",
         "global_status_id": "global_status_id",
         "icon": "icon",
-        "icon_position": "icon_position",
+        "icon_position": "'left'",
+        "icon_size": "icon_size",
         "id": "id",
         "inner_ref": [Function],
         "input_attributes": "input_attributes",
@@ -85,6 +86,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   global_status_id={null}
   icon={null}
   icon_position="left"
+  icon_size={null}
   id="input"
   inner_ref={null}
   input_attributes={null}
@@ -175,7 +177,8 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "disabled": "disabled",
                   "global_status_id": "global_status_id",
                   "icon": "icon",
-                  "icon_position": "icon_position",
+                  "icon_position": "'left'",
+                  "icon_size": "icon_size",
                   "id": "id",
                   "inner_ref": [Function],
                   "input_attributes": "input_attributes",
@@ -272,7 +275,8 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     "disabled": "disabled",
                     "global_status_id": "global_status_id",
                     "icon": "icon",
-                    "icon_position": "icon_position",
+                    "icon_position": "'left'",
+                    "icon_size": "icon_size",
                     "id": "id",
                     "inner_ref": [Function],
                     "input_attributes": "input_attributes",
@@ -515,7 +519,8 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "disabled": "disabled",
         "global_status_id": "global_status_id",
         "icon": "icon",
-        "icon_position": "icon_position",
+        "icon_position": "'left'",
+        "icon_size": "icon_size",
         "id": "id",
         "inner_ref": [Function],
         "input_attributes": "input_attributes",
@@ -584,6 +589,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   global_status_id={null}
   icon={null}
   icon_position="left"
+  icon_size={null}
   id="input"
   inner_ref={null}
   input_attributes={null}
