@@ -97,7 +97,10 @@ export default class Tabs extends React.PureComponent {
       PropTypes.func
     ]),
 
-    render: PropTypes.func
+    render: PropTypes.func,
+    on_change: PropTypes.func,
+    on_click: PropTypes.func,
+    on_focus: PropTypes.func
   }
 
   static defaultProps = {
@@ -118,7 +121,10 @@ export default class Tabs extends React.PureComponent {
 
     className: null,
     children: null,
-    render: null
+    render: null,
+    on_change: null,
+    on_click: null,
+    on_focus: null
   }
 
   static Content = CustomContent

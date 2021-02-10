@@ -2,10 +2,6 @@
 
 exports[`generateTypes has to match PrimaryComponent snapshot 1`] = `
 "import * as React from 'react';
-
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by \\"generateTypes.js\\" and \\"fetchPropertiesFromDocs.js\\".
- */
 export interface PrimaryComponentSpacing {
   /**
    * Text \`margin-top\`.
@@ -34,20 +30,12 @@ export type PrimaryComponentBottom = string | number | boolean;
 export type PrimaryComponentLeft = string | number | boolean;
 export type PrimaryComponentSecondary = string | number | boolean;
 export type PrimaryComponentSecondaryFoo = string | number | boolean;
-
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by \\"generateTypes.js\\" and \\"fetchPropertiesFromDocs.js\\".
- */
 export interface PrimaryComponentSecondarySpacing {
   /**
    * Text \`secondary\`.
    */
   secondary?: string | number | boolean;
 }
-
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by \\"generateTypes.js\\" and \\"fetchPropertiesFromDocs.js\\".
- */
 export interface PrimaryComponentProps {
   boolean?: boolean;
   number?: number;
@@ -101,6 +89,10 @@ export default class PrimaryComponent extends React.Component<
 
 exports[`generateTypes has to match SecondaryComponent snapshot 1`] = `
 "import * as React from 'react';
+
+/**
+ * NB: Do not change the docs (comments) in here. The docs are updated during build time by \\"generateTypes.js\\" and \\"fetchPropertiesFromDocs.js\\".
+ */
 export interface ElementProps extends React.HTMLProps<HTMLElement> {
   children?: React.ReactNode;
 }

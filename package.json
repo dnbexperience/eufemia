@@ -27,56 +27,6 @@
     "git-branch-is": "^3.0.0",
     "husky": "^3.1.0"
   },
-  "release": {
-    "analyzeCommits": "simple-commit-message",
-    "branches": [
-      "+([1-9])?(.{+([1-9]),x}).x",
-      "release",
-      "next",
-      {
-        "name": "beta",
-        "prerelease": true
-      },
-      {
-        "name": "alpha",
-        "prerelease": true
-      }
-    ],
-    "ci": true,
-    "debug": false,
-    "dryRun": false,
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      [
-        "@semantic-release/changelog",
-        {
-          "changelogTitle": "# Changelog\n\nAll notable changes to dnb-ui-lib will be documented in this file. See\n[Conventional Commits](https://conventionalcommits.org) for commit guidelines."
-        }
-      ],
-      [
-        "@semantic-release/npm",
-        {
-          "tarballDir": "dist"
-        }
-      ],
-      [
-        "@semantic-release/github",
-        {
-          "assets": "dist/*.tgz"
-        }
-      ],
-      [
-        "@semantic-release/git",
-        {
-          "assets": [
-            "CHANGELOG.md"
-          ],
-          "message": "chore(release): ${nextRelease.version} [CI SKIP]\n\n${nextRelease.notes}"
-        }
-      ]
-    ]
-  },
   "engines": {
     "node": ">=10.22.0",
     "yarn": ">=1.17.0"

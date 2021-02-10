@@ -23,7 +23,7 @@ export const primaryDefaultProps = {
 };
 export default class PrimaryComponent extends React.PureComponent {
   render() {
-    return [this.props.boolean, this.props.number, this.props.spacing, this.props.foo, this.props.secondary_foo, this.props.secondary_spacing, this.props.children];
+    return [this.props.boolean, this.props.number, this.props.spacing, this.props.top, this.props.secondary_foo, this.props.secondary_spacing, this.props.children];
   }
 
 }
@@ -36,7 +36,6 @@ PrimaryComponent.propTypes = {
     bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
     left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
   }),
-  foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -52,7 +51,7 @@ PrimaryComponent.defaultProps = {
   boolean: null,
   number: null,
   spacing: null,
-  foo: null,
+  top: null,
   ...primaryDefaultProps,
   ...secondaryDefaultProps,
   children: null
@@ -72,7 +71,6 @@ Element.propTypes = {
     bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
     left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
   }),
-  foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -88,7 +86,7 @@ Element.defaultProps = {
   boolean: null,
   number: null,
   spacing: null,
-  foo: null,
+  top: null,
   ...primaryDefaultProps,
   children: null
 };"

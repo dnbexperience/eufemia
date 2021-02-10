@@ -34,6 +34,8 @@ export default class ProgressIndicator extends React.PureComponent {
     label_direction: PropTypes.string,
     show_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     indicator_label: PropTypes.string,
+    section_style: PropTypes.string,
+    section_spacing: PropTypes.string,
 
     ...spacingPropTypes,
 
@@ -54,6 +56,8 @@ export default class ProgressIndicator extends React.PureComponent {
     label_direction: 'horizontal',
     show_label: false,
     indicator_label: null,
+    section_style: null,
+    section_spacing: null,
 
     class: null,
     className: null,

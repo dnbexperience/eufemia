@@ -149,6 +149,7 @@ export default class DatePicker extends React.PureComponent {
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     status: PropTypes.oneOfType([
       PropTypes.string,
+      PropTypes.bool,
       PropTypes.func,
       PropTypes.node
     ]),

@@ -60,6 +60,7 @@ export default class Dropdown extends React.PureComponent {
     label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     status: PropTypes.oneOfType([
       PropTypes.string,
+      PropTypes.bool,
       PropTypes.func,
       PropTypes.node
     ]),

@@ -115,20 +115,36 @@ async function extractorFactory(markdownFiles, docsDir = ROOT_DIR) {
           continue
         }
 
+        // Remove deprecated props
+        if (key.includes('<del')) {
+          continue
+        }
+
+        let cleanedKey = key.replace(/<[^<]*>([^<]*)<\/[^<]*>/g, '$1') // removes e.g. <strong> defined as **
+
+        // Drop empty types
+        if (cleanedKey.trim() === '') {
+          log.fail(
+            `This file below has an empty prop-type entry!\n${markdownFile}\n\n`
+          )
+          continue
+        }
+
         // Duplicate if several props do have the same docs
-        key = key.replace(/( or )/g, '|')
-        if (key.includes('|')) {
-          const keys = key.split('|')
+        cleanedKey = cleanedKey.replace(/( or )/g, '|')
+        if (cleanedKey.includes('|')) {
+          const keys = cleanedKey.split('|')
           keys.forEach((key) => {
             if (description) {
               collection[key] = description
             }
           })
+
           continue
         }
 
         if (description) {
-          collection[key] = description
+          collection[cleanedKey] = description
         }
       }
 

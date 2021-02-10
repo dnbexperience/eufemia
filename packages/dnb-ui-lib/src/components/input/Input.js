@@ -53,6 +53,7 @@ export const inputPropTypes = {
   label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   status: PropTypes.oneOfType([
     PropTypes.string,
+    PropTypes.bool,
     PropTypes.func,
     PropTypes.node
   ]),
@@ -89,7 +90,8 @@ export const inputPropTypes = {
     PropTypes.node,
     PropTypes.func
   ]),
-  icon_position: PropTypes.string,
+  icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  icon_position: PropTypes.oneOf(['left', 'right']),
   inner_ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
@@ -155,6 +157,7 @@ export default class Input extends React.PureComponent {
     input_element: null,
     inner_ref: null,
     icon: null,
+    icon_size: null,
     icon_position: 'left',
     readOnly: false,
 
@@ -571,6 +574,7 @@ class InputSubmitButton extends React.PureComponent {
     icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     status: PropTypes.oneOfType([
       PropTypes.string,
+      PropTypes.bool,
       PropTypes.func,
       PropTypes.node
     ]),

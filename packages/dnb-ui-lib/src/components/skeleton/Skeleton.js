@@ -13,6 +13,10 @@ import {
 } from '../../shared/component-helper'
 import { LOCALE } from '../../shared/defaults'
 import Space from '../space/Space'
+import {
+  spacingPropTypes,
+  createSpacingClasses
+} from '../space/SpacingHelper'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 
@@ -31,6 +35,10 @@ export default class Skeleton extends React.PureComponent {
       PropTypes.func,
       PropTypes.node
     ]),
+    element: PropTypes.node,
+
+    ...spacingPropTypes,
+
     class: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.oneOfType([
@@ -48,6 +56,7 @@ export default class Skeleton extends React.PureComponent {
     figure: null,
     aria_bussy: null,
     aria_ready: null,
+    element: null,
     class: null,
     className: null,
     children: null
@@ -140,6 +149,7 @@ export default class Skeleton extends React.PureComponent {
         isTrue(showSkeleton) && 'dnb-skeleton',
         showSkeleton && style_type && `dnb-skeleton--${style_type}`,
         isTrue(no_animation) && 'dnb-skeleton--no-animation',
+        createSpacingClasses(props),
         className,
         _className
       ),

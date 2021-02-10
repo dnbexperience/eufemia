@@ -12,7 +12,6 @@ showTabs: true
 | `active_url`                                | _(optional)_ defines the active url marked step.                                                                                                       |
 | `hide_numbers`                              | _(optional)_ define whether to show automatically counted numbers or not. Defaults to `false`.                                                         |
 | `on_item_render`                            | _(optional)_ callback function to manipulate or wrap every item. Has to return a React Node.                                                           |
-|                                             |                                                                                                                                                        |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                  |
 
 ## Item Parameters

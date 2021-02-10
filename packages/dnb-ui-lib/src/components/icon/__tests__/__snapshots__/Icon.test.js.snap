@@ -3,6 +3,7 @@
 exports[`Icon component have to match snapshot 1`] = `
 <Icon
   alt="question mark"
+  aria-hidden={null}
   attributes="attributes"
   border={false}
   className="className"

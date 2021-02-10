@@ -14,6 +14,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "close_modal": [Function],
         "close_title": "close_title",
         "container_placement": "'left'",
+        "content_class": "content_class",
         "content_id": "content_id",
         "direct_dom_return": "direct_dom_return",
         "disabled": "disabled",
@@ -22,6 +23,8 @@ exports[`Modal component have to match snapshot 1`] = `
         "hide_close_button": "hide_close_button",
         "id": "id",
         "labelled_by": "labelled_by",
+        "max_width": "max_width",
+        "min_width": "min_width",
         "modal_content": "modal_content",
         "mode": "'modal'",
         "no_animation": "no_animation",
@@ -32,6 +35,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "open_delay": "open_delay",
         "open_modal": [Function],
         "open_state": "'opened'",
+        "overlay_class": "overlay_class",
         "prevent_close": "prevent_close",
         "prevent_core_style": "prevent_core_style",
         "root_id": "root_id",
@@ -42,7 +46,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "trigger_disabled": "trigger_disabled",
         "trigger_hidden": "trigger_hidden",
         "trigger_icon": "trigger_icon",
-        "trigger_icon_position": "trigger_icon_position",
+        "trigger_icon_position": "'left'",
         "trigger_size": "trigger_size",
         "trigger_text": "trigger_text",
         "trigger_title": "trigger_title",
@@ -68,6 +72,7 @@ exports[`Modal component have to match snapshot 1`] = `
   close_modal={null}
   close_title="close_title"
   container_placement={null}
+  content_class={null}
   content_id={null}
   direct_dom_return={true}
   disabled={null}
@@ -76,6 +81,8 @@ exports[`Modal component have to match snapshot 1`] = `
   hide_close_button={false}
   id="modal_id"
   labelled_by={null}
+  max_width={null}
+  min_width={null}
   modal_content="unique_modal_content"
   mode="modal"
   no_animation={true}
@@ -86,6 +93,7 @@ exports[`Modal component have to match snapshot 1`] = `
   open_delay={null}
   open_modal={null}
   open_state={null}
+  overlay_class={null}
   prevent_close={false}
   prevent_core_style={false}
   root_id="root"
@@ -375,6 +383,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "close_modal": [Function],
             "close_title": "close_title",
             "container_placement": "'left'",
+            "content_class": "content_class",
             "content_id": "content_id",
             "direct_dom_return": "direct_dom_return",
             "disabled": "disabled",
@@ -383,6 +392,8 @@ exports[`Modal component have to match snapshot 1`] = `
             "hide_close_button": "hide_close_button",
             "id": "id",
             "labelled_by": "labelled_by",
+            "max_width": "max_width",
+            "min_width": "min_width",
             "modal_content": "modal_content",
             "mode": "'modal'",
             "no_animation": "no_animation",
@@ -393,6 +404,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "open_delay": "open_delay",
             "open_modal": [Function],
             "open_state": "'opened'",
+            "overlay_class": "overlay_class",
             "prevent_close": "prevent_close",
             "prevent_core_style": "prevent_core_style",
             "root_id": "root_id",
@@ -403,7 +415,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "trigger_disabled": "trigger_disabled",
             "trigger_hidden": "trigger_hidden",
             "trigger_icon": "trigger_icon",
-            "trigger_icon_position": "trigger_icon_position",
+            "trigger_icon_position": "'left'",
             "trigger_size": "trigger_size",
             "trigger_text": "trigger_text",
             "trigger_title": "trigger_title",
@@ -430,6 +442,7 @@ exports[`Modal component have to match snapshot 1`] = `
       close_modal={null}
       close_title="close_title"
       container_placement={null}
+      content_class={null}
       content_id="dnb-modal-modal_id"
       direct_dom_return={true}
       focus_selector={null}
@@ -438,6 +451,8 @@ exports[`Modal component have to match snapshot 1`] = `
       hide_close_button={false}
       id="modal_id"
       labelled_by={null}
+      max_width={null}
+      min_width={null}
       modal_content="unique_modal_content"
       mode="modal"
       no_animation={true}
@@ -446,6 +461,7 @@ exports[`Modal component have to match snapshot 1`] = `
       on_close_prevent={null}
       on_open={null}
       open_modal={null}
+      overlay_class={null}
       prevent_close={false}
       prevent_core_style={false}
       root_id="root"
@@ -467,6 +483,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "close_modal": [Function],
               "close_title": "close_title",
               "container_placement": "'left'",
+              "content_class": "content_class",
               "content_id": "content_id",
               "direct_dom_return": "direct_dom_return",
               "disabled": "disabled",
@@ -475,6 +492,8 @@ exports[`Modal component have to match snapshot 1`] = `
               "hide_close_button": "hide_close_button",
               "id": "id",
               "labelled_by": "labelled_by",
+              "max_width": "max_width",
+              "min_width": "min_width",
               "modal_content": "modal_content",
               "mode": "'modal'",
               "no_animation": "no_animation",
@@ -485,6 +504,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "open_delay": "open_delay",
               "open_modal": [Function],
               "open_state": "'opened'",
+              "overlay_class": "overlay_class",
               "prevent_close": "prevent_close",
               "prevent_core_style": "prevent_core_style",
               "root_id": "root_id",
@@ -495,7 +515,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "trigger_disabled": "trigger_disabled",
               "trigger_hidden": "trigger_hidden",
               "trigger_icon": "trigger_icon",
-              "trigger_icon_position": "trigger_icon_position",
+              "trigger_icon_position": "'left'",
               "trigger_size": "trigger_size",
               "trigger_text": "trigger_text",
               "trigger_title": "trigger_title",

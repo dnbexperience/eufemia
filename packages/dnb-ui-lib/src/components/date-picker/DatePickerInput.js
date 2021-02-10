@@ -39,6 +39,7 @@ export default class DatePickerInput extends React.PureComponent {
     isRange: PropTypes.bool,
     status: PropTypes.oneOfType([
       PropTypes.string,
+      PropTypes.bool,
       PropTypes.func,
       PropTypes.node
     ]),

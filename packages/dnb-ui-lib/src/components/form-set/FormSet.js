@@ -15,37 +15,24 @@ import {
   processChildren,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
-import {
-  spacingPropTypes,
-  createSpacingClasses
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
 import hashSum from '../../shared/libs/HashSum'
-import { defaultProps as formRowDefaultProps } from '../form-row/FormRow'
+import { formRowDefaultProps, formRowPropTypes } from '../form-row/FormRow'
 
 export default class FormSet extends React.PureComponent {
   static tagName = 'dnb-form-set'
   static contextType = Context
 
   static propTypes = {
-    id: PropTypes.string,
     element: PropTypes.string,
     no_form: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_submit: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
     ]),
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    class: PropTypes.string,
 
-    ...spacingPropTypes,
-
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node
-    ]),
+    ...formRowPropTypes,
 
     on_submit: PropTypes.func,
 
@@ -54,15 +41,9 @@ export default class FormSet extends React.PureComponent {
   }
 
   static defaultProps = {
-    id: null,
     element: 'form',
     no_form: false,
     prevent_submit: false,
-    disabled: null,
-    class: null,
-
-    className: null,
-    children: null,
 
     on_submit: null,
 
@@ -155,20 +136,12 @@ export default class FormSet extends React.PureComponent {
       })
     }
 
+    const Element = isTrue(no_form) ? 'div' : element
+
     return (
       <Context.Provider value={this._contextWeUse}>
-        <Element is={isTrue(no_form) ? 'div' : element} {...params}>
-          {content}
-        </Element>
+        <Element {...params}>{content}</Element>
       </Context.Provider>
     )
   }
-}
-
-const Element = ({ is: Element, children, ...rest }) => (
-  <Element {...rest}>{children}</Element>
-)
-Element.propTypes = {
-  is: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
 }

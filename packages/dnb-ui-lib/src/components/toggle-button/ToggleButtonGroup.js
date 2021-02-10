@@ -50,6 +50,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
     name: PropTypes.string,
     status: PropTypes.oneOfType([
       PropTypes.string,
+      PropTypes.bool,
       PropTypes.func,
       PropTypes.node
     ]),
