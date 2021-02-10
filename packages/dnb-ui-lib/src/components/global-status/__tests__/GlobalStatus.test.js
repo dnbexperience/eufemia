@@ -12,6 +12,7 @@ import {
   loadScss
 } from '../../../core/jest/jestSetup'
 import Component from '../GlobalStatus'
+import Switch from '../../switch/Switch'
 
 const id = 'main'
 const status_id = null
@@ -381,6 +382,27 @@ describe('GlobalStatus component', () => {
 describe('GlobalStatus snapshot', () => {
   it('have to match component snapshot', () => {
     const Comp = mount(<Component {...snapshotProps} />)
+    expect(toJson(Comp)).toMatchSnapshot()
+  })
+
+  it('have to match linked components snapshot', () => {
+    const Comp = mount(
+      <>
+        <Component
+          id="linked"
+          show={true}
+          autoscroll={false}
+          delay={0}
+          no_animation={true}
+        />
+        <Switch
+          id="switch"
+          label={<span>Label</span>}
+          status="error-message"
+          global_status_id="linked"
+        />
+      </>
+    )
     expect(toJson(Comp)).toMatchSnapshot()
   })
 })

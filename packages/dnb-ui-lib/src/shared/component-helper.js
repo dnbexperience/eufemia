@@ -1095,11 +1095,19 @@ export class AnimateHeight {
     }
   }
   adjustFrom() {
+    if (!this.elem) {
+      return
+    }
+
     const height = this.getCloseHeight()
     this.elem.style.height = `${height}px`
     return height
   }
   adjustTo(fromHeight, { animate = true } = {}) {
+    if (!this.elem) {
+      return
+    }
+
     const toHeight = this.getOpenHeight('open')
 
     this.state = 'adjusting'
@@ -1123,7 +1131,11 @@ export class AnimateHeight {
     this.start(fromHeight, toHeight, { animate })
   }
   open({ animate = true } = {}) {
-    if (this.state === 'opened' || this.state === 'opening') {
+    if (
+      !this.elem ||
+      this.state === 'opened' ||
+      this.state === 'opening'
+    ) {
       return
     }
 
@@ -1150,7 +1162,11 @@ export class AnimateHeight {
     this.start(0, height, { animate })
   }
   close({ animate = true } = {}) {
-    if (this.state === 'closed' || this.state === 'closing') {
+    if (
+      !this.elem ||
+      this.state === 'closed' ||
+      this.state === 'closing'
+    ) {
       return
     }
 

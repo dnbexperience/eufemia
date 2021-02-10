@@ -16,6 +16,7 @@ import {
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
+  convertJsxToString,
   processChildren,
   extendPropsWithContext
 } from '../../shared/component-helper'
@@ -715,15 +716,22 @@ export default class GlobalStatus extends React.PureComponent {
     const renderedItems = itemsToRender.length > 0 && (
       <ul className="dnb-ul">
         {itemsToRender.map((item, i) => {
-          const id = item.id || makeUniqueId()
+          const id =
+            item.id || item.status_id
+              ? `${item.status_id}-${i}`
+              : makeUniqueId()
           const text = (item && item.text) || item
+          const label = React.isValidElement(item.status_anchor_label)
+            ? convertJsxToString(item.status_anchor_label)
+            : item.status_anchor_label || ''
           const anchorText = String(
             item.status_anchor_text || status_anchor_text
           )
-            .replace('%s', item.status_anchor_label || '')
+            .replace('%s', label)
             .replace(/[: ]$/g, '')
           const useAutolink =
             item.status_id && isTrue(item.status_anchor_url)
+
           return (
             <li key={i}>
               <p id={id} className="dnb-p">
