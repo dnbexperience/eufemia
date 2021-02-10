@@ -9,6 +9,7 @@
 # production
 *.min.mjs
 /build
+/dist
 /es
 /esm
 /cjs
