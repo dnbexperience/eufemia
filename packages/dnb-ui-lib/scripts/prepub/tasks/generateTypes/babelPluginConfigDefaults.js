@@ -2,6 +2,7 @@ export const babelPluginConfigDefaults = {
   configFile: false,
   sourceMaps: false,
   comments: true,
+  compact: false,
   ignore: ['node_modules/**'],
   presets: ['@babel/preset-react']
 }

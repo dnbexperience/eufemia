@@ -296,6 +296,181 @@ Element.defaultProps = {
 };"
 `;
 
+exports[`babelPluginIncludeDocs has to match collectProps snapshot given by onComplete 1`] = `
+"/**
+ * Test mock file
+ *
+ */
+import React from 'react';
+import { PropTypes } from \\"react\\";
+import SecondaryComponent, { defaultProps as secondaryDefaultProps, propTypes as secondaryPropTypes } from './SecondaryComponent';
+export const primaryPropTypes = {
+  top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+};
+export const primaryDefaultProps = {
+  space: null,
+  top: null,
+  right: null,
+  bottom: null,
+  left: null
+};
+export default class PrimaryComponent extends React.PureComponent {
+  render() {
+    return [this.props.boolean, this.props.number, this.props.spacing, this.props.top, this.props.secondary_foo, this.props.secondary_spacing, this.props.children];
+  }
+
+}
+PrimaryComponent.propTypes = {
+  boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+  /**
+   * Text \`spacing\` or \`children\`.
+  */
+  spacing: PropTypes.shape({
+    top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+  }),
+
+  /**
+   * Text \`margin-top\`.
+  */
+  top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+
+  /**
+   * Text \`margin-right\`.
+  */
+  right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+
+  /**
+   * Text \`margin-bottom\`.
+  */
+  bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+
+  /**
+   * Text \`margin-left\`.
+  */
+  left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+
+  /**
+   * Text \`secondary\`.
+  */
+  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_spacing: PropTypes.shape({
+    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+  }),
+
+  /**
+   * Text \`spacing\` or \`children\`.
+  */
+  children: PropTypes.node
+};
+PrimaryComponent.defaultProps = {
+  boolean: null,
+  number: null,
+  spacing: null,
+  top: null,
+  ...primaryDefaultProps,
+  ...secondaryDefaultProps,
+  children: null
+};
+PrimaryComponent.Secondary = SecondaryComponent;
+
+const Element = () => {
+  return null;
+};
+
+Element.propTypes = {
+  boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+  /**
+   * Text \`spacing\` or \`children\`.
+  */
+  spacing: PropTypes.shape({
+    top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+  }),
+
+  /**
+   * Text \`margin-top\`.
+  */
+  top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+
+  /**
+   * Text \`margin-right\`.
+  */
+  right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+
+  /**
+   * Text \`margin-bottom\`.
+  */
+  bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+
+  /**
+   * Text \`margin-left\`.
+  */
+  left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+
+  /**
+   * Text \`secondary\`.
+  */
+  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_spacing: PropTypes.shape({
+    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+  }),
+
+  /**
+   * Text \`spacing\` or \`children\`.
+  */
+  children: PropTypes.node
+};
+Element.defaultProps = {
+  boolean: null,
+  number: null,
+  spacing: null,
+  top: null,
+  ...primaryDefaultProps,
+  children: null
+};"
+`;
+
+exports[`babelPluginIncludeDocs has to match collectProps snapshot given by onComplete 2`] = `
+Array [
+  "boolean",
+  "number",
+  "spacing",
+  "top",
+  "right",
+  "bottom",
+  "left",
+  "secondary",
+  "secondary_foo",
+  "secondary_spacing",
+  "children",
+  "boolean",
+  "number",
+  "spacing",
+  "top",
+  "right",
+  "bottom",
+  "left",
+  "secondary",
+  "secondary_foo",
+  "secondary_spacing",
+  "children",
+]
+`;
+
 exports[`babelPluginIncludeDocs has to match docs snapshot 1`] = `
 Array [
   Object {

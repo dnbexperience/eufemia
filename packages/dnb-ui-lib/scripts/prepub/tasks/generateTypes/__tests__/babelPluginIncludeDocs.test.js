@@ -16,7 +16,11 @@ describe('babelPluginIncludeDocs', () => {
   const file = nodePath.resolve(docsDir, 'PrimaryComponent.js')
   let docs = {}
 
-  async function runIncludeDocsTestSuite({ sourceDir, ...options }) {
+  async function runIncludeDocsTestSuite({
+    sourceDir,
+    strictMode = false,
+    onComplete = null
+  }) {
     const { code } = await transformFileAsync(file, {
       plugins: [
         ['@babel/plugin-proposal-class-properties', { loose: true }],
@@ -24,14 +28,15 @@ describe('babelPluginIncludeDocs', () => {
         [
           babelPluginCorrectTypes,
           {
-            strictMode: false,
-            ...options
+            strictMode
           }
         ],
         [
           babelPluginIncludeDocs,
           {
-            docs
+            docs,
+            insertLeadingComment: true,
+            onComplete
           }
         ]
       ],
@@ -69,5 +74,23 @@ describe('babelPluginIncludeDocs', () => {
     })
 
     expect(code).toMatchSnapshot()
+  })
+
+  it('has to match collectProps snapshot given by onComplete', async () => {
+    let collectProps = null
+    const onComplete = jest.fn((params) => {
+      collectProps = params
+    })
+
+    const sourceDir = nodePath.dirname(file)
+    const code = await runIncludeDocsTestSuite({
+      sourceDir,
+      onComplete
+    })
+
+    expect(code).toMatchSnapshot()
+
+    expect(onComplete).toBeCalledTimes(1)
+    expect(collectProps).toMatchSnapshot()
   })
 })

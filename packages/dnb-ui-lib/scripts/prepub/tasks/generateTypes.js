@@ -6,6 +6,7 @@
 import fs from 'fs-extra'
 import nodePath from 'path'
 import globby from 'globby'
+import { exec } from 'child_process'
 import prettier from 'prettier'
 import { asyncForEach } from '../../tools'
 import { log } from '../../lib'
@@ -64,21 +65,21 @@ export const createTypes = async (
         return // stop here
       }
 
+      const basename = nodePath.basename(file)
+      const destFile = file.replace(nodePath.extname(file), '.d.ts')
+      const sourceDir = nodePath.dirname(file)
+      const componentName = basename.replace(nodePath.extname(file), '')
+
       // For dev (build:types:dev) mode only
       const isDev = process.env.npm_config_argv.includes('build:types:dev')
       const isOfInterest =
         // file.includes('/Element.js') ||
         // file.includes('/Blockquote.js') ||
-        // file.includes('/Button.js') ||
-        file.includes('/InputMasked')
-      if (isDev && !isOfInterest) {
+        // file.includes('/Button.js')
+        file.includes('/Skeleton')
+      if (isDev && (!isOfInterest || (await existsInGit(destFile)))) {
         return // stop here
       }
-
-      const basename = nodePath.basename(file)
-      const destFile = file.replace(nodePath.extname(file), '.d.ts')
-      const sourceDir = nodePath.dirname(file)
-      const componentName = basename.replace(nodePath.extname(file), '')
 
       const warnAboutMissingPropTypes = (collectProps, docs) => {
         if (docs) {
@@ -129,7 +130,7 @@ export const createTypes = async (
           const { code } = await transformFileAsync(destFile, {
             filename: destFile,
             plugins: [
-              ['@babel/plugin-syntax-typescript', {}],
+              ['@babel/plugin-syntax-typescript', { isTSX: true }],
               [
                 babelPluginIncludeDocs,
                 {
@@ -187,6 +188,7 @@ export const createTypes = async (
                   babelPluginIncludeDocs,
                   {
                     docs,
+                    insertLeadingComment: true,
                     onComplete: warnAboutMissingPropTypes
                   }
                 ]
@@ -217,3 +219,16 @@ export const createTypes = async (
 
 const fileContains = async (file, find) =>
   (await fs.readFile(file, 'utf-8')).includes(find)
+
+function existsInGit(destFile) {
+  return new Promise((resolve, reject) => {
+    try {
+      exec(`git show HEAD~1:${destFile}`, (error, stdout, stderr) =>
+        resolve(!(error || stderr))
+      )
+    } catch (e) {
+      log.fail(e)
+      reject(e)
+    }
+  })
+}

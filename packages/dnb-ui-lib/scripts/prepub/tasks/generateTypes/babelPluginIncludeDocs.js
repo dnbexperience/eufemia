@@ -1,6 +1,6 @@
 export function babelPluginIncludeDocs(
   plugin,
-  { docs, onComplete = null }
+  { docs, onComplete = null, insertLeadingComment = null }
 ) {
   if (!docs) {
     return {} // stop here
@@ -20,12 +20,17 @@ export function babelPluginIncludeDocs(
       ModuleDeclaration(path) {
         path.traverse({
           Identifier(path) {
-            if (path.parent.type === 'TSInterfaceDeclaration') {
+            if (
+              insertLeadingComment &&
+              path.parent.type === 'TSInterfaceDeclaration'
+            ) {
               if (!path.parentPath.parentPath.node.leadingComments) {
                 path.parentPath.parentPath.insertBefore(
                   path.parentPath.parentPath.addComment(
                     'leading',
-                    `*\n * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".\n `
+                    insertLeadingComment === true
+                      ? `*\n * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".\n `
+                      : insertLeadingComment
                   )
                 )
               }
