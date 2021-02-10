@@ -70,7 +70,7 @@ export const createTypes = async (
         // file.includes('/Element.js') ||
         // file.includes('/Blockquote.js') ||
         // file.includes('/Button.js') ||
-        file.includes('/Modal')
+        file.includes('/InputMasked')
       if (isDev && !isOfInterest) {
         return // stop here
       }
@@ -127,6 +127,7 @@ export const createTypes = async (
 
         if (!isDev && fs.existsSync(destFile)) {
           const { code } = await transformFileAsync(destFile, {
+            filename: destFile,
             plugins: [
               ['@babel/plugin-syntax-typescript', {}],
               [
@@ -157,13 +158,6 @@ export const createTypes = async (
                    */
                   strictMode: false
                 }
-              ],
-              [
-                babelPluginIncludeDocs,
-                {
-                  docs,
-                  onComplete: warnAboutMissingPropTypes
-                }
               ]
             ],
             ...babelPluginConfigDefaults
@@ -187,6 +181,13 @@ export const createTypes = async (
                   babelPluginExtendTypes,
                   {
                     file
+                  }
+                ],
+                [
+                  babelPluginIncludeDocs,
+                  {
+                    docs,
+                    onComplete: warnAboutMissingPropTypes
                   }
                 ]
               ],
