@@ -70,7 +70,7 @@ export const createTypes = async (
         // file.includes('/Element.js') ||
         // file.includes('/Blockquote.js') ||
         // file.includes('/Button.js') ||
-        file.includes('/Provider')
+        file.includes('/Modal')
       if (isDev && !isOfInterest) {
         return // stop here
       }
@@ -78,6 +78,23 @@ export const createTypes = async (
       const basename = nodePath.basename(file)
       const destFile = file.replace(nodePath.extname(file), '.d.ts')
       const sourceDir = nodePath.dirname(file)
+      const componentName = basename.replace(nodePath.extname(file), '')
+
+      const warnAboutMissingPropTypes = (collectProps, docs) => {
+        if (docs) {
+          docs.forEach((doc) => {
+            if (doc) {
+              Object.keys(doc).forEach((key) => {
+                if (collectProps.findIndex((k) => k === key) === -1) {
+                  log.fail(
+                    `The property "${key}" is not deinfed in PropTypes!\nComponent: ${componentName}\nFile: ${file}\n\n`
+                  )
+                }
+              })
+            }
+          })
+        }
+      }
 
       if (/^index/.test(basename)) {
         if (!fs.existsSync(destFile)) {
@@ -115,7 +132,8 @@ export const createTypes = async (
               [
                 babelPluginIncludeDocs,
                 {
-                  docs
+                  docs,
+                  onComplete: warnAboutMissingPropTypes
                 }
               ]
             ],
@@ -141,7 +159,8 @@ export const createTypes = async (
               [
                 babelPluginIncludeDocs,
                 {
-                  docs
+                  docs,
+                  onComplete: warnAboutMissingPropTypes
                 }
               ]
             ],
