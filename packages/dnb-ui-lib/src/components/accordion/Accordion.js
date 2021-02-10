@@ -98,7 +98,7 @@ export default class Accordion extends React.PureComponent {
       PropTypes.number
     ]),
     icon: PropTypes.node,
-    icon_position: PropTypes.string,
+    icon_position: PropTypes.oneOf(['left', 'right']),
     icon_size: PropTypes.string,
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     class: PropTypes.string,

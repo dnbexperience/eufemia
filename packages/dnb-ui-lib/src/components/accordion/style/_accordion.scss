@@ -64,6 +64,8 @@
       margin: 0 1rem;
     }
     &__icon {
+      align-self: flex-start;
+
       margin: 1.5rem 1rem;
 
       font-size: var(--font-size-small);
@@ -71,6 +73,9 @@
         --line-height-small
       ); // to ensure correct icon height
       transition: transform 400ms var(--accordion-easing);
+    }
+    &--description &__icon {
+      margin-top: 1rem;
     }
     &__icon--right {
       justify-content: space-between;

@@ -142,7 +142,7 @@ export default class AccordionHeader extends React.PureComponent {
       PropTypes.node,
       PropTypes.func
     ]),
-    icon_position: PropTypes.string,
+    icon_position: PropTypes.oneOf(['left', 'right']),
     icon_size: PropTypes.string,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
