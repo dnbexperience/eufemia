@@ -111,6 +111,10 @@ class DrawerListPortal extends React.PureComponent {
   }
 
   makeStyle() {
+    if (typeof window === 'undefined') {
+      return // stop here
+    }
+
     try {
       const {
         rootRef,
@@ -163,6 +167,10 @@ class DrawerListPortal extends React.PureComponent {
         scrollX +
         rect.left +
         (include_owner_width ? parseFloat(ownerWidth || 0) : 0)
+
+      if (width > window.innerWidth) {
+        width = window.innerWidth
+      }
 
       // NB:  before we recalculated the values to REM, but iOS rounds this and we get a wrong total value out of that!
       const style = {
