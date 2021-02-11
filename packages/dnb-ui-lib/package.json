@@ -284,13 +284,13 @@
       [
         "@semantic-release/npm",
         {
-          "tarballDir": "dist"
+          "tarballDir": "../dist"
         }
       ],
       [
         "@semantic-release/github",
         {
-          "assets": "dist/*.tgz"
+          "assets": "../dist/*.tgz"
         }
       ],
       [
