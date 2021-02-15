@@ -13,7 +13,8 @@ import {
 } from '../../../core/jest/jestSetup'
 import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
-import Number, { format, cleanNumber, copyWithEffect } from '../Number'
+import Number from '../Number'
+import { format, cleanNumber, copyWithEffect } from '../NumberUtils'
 
 const Component = (props) => {
   return <Number id="unique" {...props} />

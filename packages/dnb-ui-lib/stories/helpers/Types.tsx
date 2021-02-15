@@ -4,6 +4,7 @@ import React from 'react';
 // import { Button } from '../../src/components'
 import Button from '../../src/components/button/Button';
 import Number from '../../src/components/number/Number';
+import { format } from '../../src/components/number/NumberUtils';
 import Tabs from '../../src/components/tabs/Tabs';
 import Modal from '../../src/components/modal/Modal';
 // import GlobalError from '../../src/components/global-error/GlobalError';

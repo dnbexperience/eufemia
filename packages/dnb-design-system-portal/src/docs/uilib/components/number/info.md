@@ -56,7 +56,7 @@ To enhance the **Copy & Paste** experience of copying numbers into other applica
 You can use the formatting without using the Component. Have a look at the [available properties](/uilib/components/number/properties).
 
 ```js
-import { format } from 'dnb-ui-lib/components/Number'
+import { format } from 'dnb-ui-lib/components/number/NumberUtils'
 
 const value = 12345678.9
 
@@ -76,7 +76,7 @@ const { number, aria } = format(value, {
 You can use the clean helpers without using the Component. Have a look at the [available properties](/uilib/components/number/properties). Also, you may check out the related tests **Number cleanNumber** in the source code to find more examples.
 
 ```js
-import { cleanNumber } from 'dnb-ui-lib/components/Number'
+import { cleanNumber } from 'dnb-ui-lib/components/number/NumberUtils'
 
 const string = cleanNumber('prefix -12 345,678 suffix') // returns -12345.678
 const string = cleanNumber('prefix -12.345,678 suffix') // returns -12345.678

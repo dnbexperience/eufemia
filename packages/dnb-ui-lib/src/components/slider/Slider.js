@@ -24,7 +24,7 @@ import {
   spacingPropTypes,
   createSpacingClasses
 } from '../space/SpacingHelper'
-import { format } from '../number/Number'
+import { format } from '../number/NumberUtils'
 import {
   createSkeletonClass,
   skeletonDOMAttributes
