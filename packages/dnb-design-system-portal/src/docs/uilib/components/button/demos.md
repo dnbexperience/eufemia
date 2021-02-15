@@ -208,7 +208,6 @@ Large Signal button with medium sized icon. To import custom icons, use: `import
 <Button
   title="Default sized Button with medium Icon"
   icon="calendar"
-  icon_size="medium"
   size="default"
 />
 <Button

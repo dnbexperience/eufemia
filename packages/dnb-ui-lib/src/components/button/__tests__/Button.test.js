@@ -59,6 +59,12 @@ describe('Button component', () => {
     expect(Comp.find('.dnb-button--has-text').exists()).toBe(false)
   })
 
+  it('has size set to medium when button size is default', () => {
+    const Comp = mount(<Component icon="question" size="default" />)
+    expect(Comp.find('.dnb-button--icon-size-medium').exists()).toBe(true)
+    expect(Comp.find('.dnb-icon--medium').exists()).toBe(true)
+  })
+
   it('has medium icon if button size is large', () => {
     const Comp = mount(
       <Component text="Button" size="large" icon="question" />
@@ -66,12 +72,7 @@ describe('Button component', () => {
 
     // size "large
     expect(Comp.find('.dnb-button--size-large').exists()).toBe(true)
-
-    // has icon class with correct size
-    expect(
-      Comp.find('.dnb-button').hasClass('dnb-button--icon-size-medium')
-    ).toBe(true)
-    expect(Comp.find('.dnb-icon--medium').exists()).toBe(true)
+    expect(Comp.find('.dnb-icon--default').exists()).toBe(true)
   })
 
   it('has to have a bounding tag if property is set', () => {
@@ -134,11 +135,6 @@ describe('Button component', () => {
   it('has variant set to secondary when only setting icon', () => {
     const Comp = mount(<Component icon="question" />)
     expect(Comp.find('.dnb-button--secondary').exists()).toBe(true)
-  })
-
-  it('has size set to medium when only setting icon', () => {
-    const Comp = mount(<Component icon="question" />)
-    expect(Comp.find('.dnb-button--size-medium').exists()).toBe(true)
   })
 
   it('has variant tertiary', () => {

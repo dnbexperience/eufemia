@@ -215,6 +215,7 @@ export default class Button extends React.PureComponent {
     let { text, icon, icon_position: iconPosition } = props
     let usedVariant = variant
     let usedSize = size
+    let iconSize = icon_size
     let content = Button.getContent(this.props) || text
 
     if (variant === 'tertiary' && content && !icon && icon !== false) {
@@ -223,45 +224,14 @@ export default class Button extends React.PureComponent {
       )
     }
 
-    // NB: Nice API, but will create way too much code to maintain in future
-    // therefore we do not use this fro now
-    // if (content && React.isValidElement(content)) {
-    //   content = [content]
-    // }
-    // if (Array.isArray(content)) {
-    //   const res = content.reduce(
-    //     (acc, cur, i) => {
-    //       if (
-    //         React.isValidElement(cur) &&
-    //         /Icon/i.test(String(cur.type))
-    //       ) {
-    //         acc.icon = cur
-    //         if (i === 0) {
-    //           acc.iconPosition = 'left'
-    //         }
-    //       } else {
-    //         if (!acc.text) {
-    //           acc.text = []
-    //         }
-    //         acc.text.push(cur)
-    //       }
-    //       return acc
-    //     },
-    //     { text: null, icon, iconPosition }
-    //   )
-    //   if (res.icon) {
-    //     text = res.text || text
-    //     icon = res.icon
-    //     iconPosition = res.iconPosition
-    //     content = null
-    //   }
-    // }
-
     // if only has Icon, then resize it and define it as secondary
     const isIconOnly = Boolean(!text && !content && icon)
     if (isIconOnly) {
       if (!usedVariant) {
         usedVariant = 'secondary'
+      }
+      if (!iconSize && (usedSize === 'default' || usedSize === 'large')) {
+        iconSize = 'medium'
       }
       if (!usedSize) {
         usedSize = 'medium'
@@ -274,12 +244,6 @@ export default class Button extends React.PureComponent {
         usedSize = 'default'
       }
     }
-
-    // set icon size automatically if button size is changed
-    const iconSize =
-      usedSize === 'large' && (icon_size === 'default' || !icon_size)
-        ? 'medium'
-        : icon_size
 
     const classes = classnames(
       'dnb-button',

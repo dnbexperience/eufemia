@@ -102,6 +102,7 @@ export default class Modal extends React.PureComponent {
     close_modal: PropTypes.func,
 
     // All "trigger_" are deprecated
+    trigger: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     trigger_attributes: PropTypes.object,
     trigger_hidden: PropTypes.oneOfType([
       PropTypes.string,
@@ -170,6 +171,7 @@ export default class Modal extends React.PureComponent {
     close_modal: null,
 
     // All "trigger_" are deprecated
+    trigger: null,
     trigger_attributes: null,
     trigger_hidden: false,
     trigger_disabled: null,
@@ -491,6 +493,7 @@ export default class Modal extends React.PureComponent {
       focus_selector,
 
       // All "trigger_" are deprecated
+      trigger,
       trigger_attributes,
       trigger_hidden,
       trigger_disabled, // eslint-disable-line
@@ -559,7 +562,7 @@ export default class Modal extends React.PureComponent {
         triggerAttributes['aria-roledescription'] = null
       }
 
-      const TriggerButton = HelpButtonInstance
+      const TriggerButton = trigger ? trigger : HelpButtonInstance
 
       return (
         <div className="dnb-modal">

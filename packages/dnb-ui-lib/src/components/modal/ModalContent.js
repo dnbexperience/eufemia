@@ -107,6 +107,8 @@ export default class ModalContent extends React.PureComponent {
     children: null
   }
 
+  state = { triggeredBy: null, triggeredByEvent: null }
+
   constructor(props) {
     super(props)
     this._contentRef = React.createRef()
@@ -144,7 +146,9 @@ export default class ModalContent extends React.PureComponent {
     this.setFocus()
 
     const id = this.props.id
-    dispatchCustomElementEvent(this, 'on_open', { id })
+    dispatchCustomElementEvent(this, 'on_open', {
+      id
+    })
 
     if (typeof document !== 'undefined') {
       /** To ensure, we have always a working keydown, we call it both on the element and document */
@@ -178,7 +182,12 @@ export default class ModalContent extends React.PureComponent {
     this.removeAndroidFocusHelper()
 
     const id = this.props.id
-    dispatchCustomElementEvent(this, 'on_close', { id })
+    const { triggeredBy, triggeredByEvent } = this.state
+    dispatchCustomElementEvent(this, 'on_close', {
+      id,
+      event: triggeredByEvent,
+      triggeredBy: triggeredBy || 'unmount'
+    })
 
     if (typeof document !== 'undefined') {
       document.removeEventListener('keydown', this.onKeyDownHandler)
@@ -300,11 +309,11 @@ export default class ModalContent extends React.PureComponent {
   }
 
   onCloseClickHandler = (e) => {
-    this.props.closeModal(e, { triggeredBy: 'button' })
+    this.closeModal(e, { triggeredBy: 'button' })
   }
 
   onContentClickHandler = (e) => {
-    this.props.closeModal(e, { triggeredBy: 'overlay', ifIsLatest: false })
+    this.closeModal(e, { triggeredBy: 'overlay', ifIsLatest: false })
   }
 
   onKeyDownHandler = (e) => {
@@ -314,7 +323,7 @@ export default class ModalContent extends React.PureComponent {
 
         if (mostCurrent === this) {
           e.preventDefault()
-          this.props.closeModal(e, {
+          this.closeModal(e, {
             triggeredBy: 'keyboard'
           })
         }
@@ -322,6 +331,15 @@ export default class ModalContent extends React.PureComponent {
         break
       }
     }
+  }
+
+  closeModal(event, { triggeredBy, ...params }) {
+    this.setState({ triggeredBy, triggeredByEvent: event }, () => {
+      this.props.closeModal(event, {
+        triggeredBy,
+        ...params
+      })
+    })
   }
 
   render() {
