@@ -128,7 +128,10 @@ describe('Modal component', () => {
     ).toBe(true)
   })
   it('has working open event and close event if "Esc" key gets pressed', () => {
-    const on_close = jest.fn()
+    let testTriggeredBy = null
+    const on_close = jest.fn(
+      ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
+    )
     const on_open = jest.fn()
     const Comp = mount(
       <Component {...props} on_close={on_close} on_open={on_open} />
@@ -138,6 +141,7 @@ describe('Modal component', () => {
     expect(on_open).toHaveBeenCalledWith({
       id: 'modal_id'
     })
+    expect(testTriggeredBy).toBe(null)
 
     Comp.find('div.dnb-modal__content__inner').simulate('keyDown', {
       key: 'Esc',
@@ -145,9 +149,13 @@ describe('Modal component', () => {
     })
 
     expect(on_close).toHaveBeenCalledTimes(1)
-    expect(on_close).toHaveBeenCalledWith({
-      id: 'modal_id'
-    })
+    expect(testTriggeredBy).toBe('keyboard')
+    // This freaks Jest out, because, now we should get an event in return – this one is too big!
+    // expect(on_close).toHaveBeenCalledWith({
+    //   id: 'modal_id',
+    //   event: null,
+    //   triggeredBy: 'unmount'
+    // })
 
     // Also test the window event listener
     Comp.find('button').simulate('click')
@@ -290,8 +298,11 @@ describe('Modal component', () => {
   })
   it('will prevent closing the modal on prevent_close', () => {
     let preventClose = true
+    let testTriggeredBy = null
+    const on_close = jest.fn(
+      ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
+    )
     const on_open = jest.fn()
-    const on_close = jest.fn()
     const on_close_prevent = jest.fn(({ triggeredBy, close }) => {
       if (preventClose) {
         return
@@ -333,6 +344,7 @@ describe('Modal component', () => {
     expect(on_close_prevent).toHaveBeenCalledTimes(2)
     expect(on_close_prevent.mock.calls[1][0].close).toBeType('function')
     expect(on_close_prevent.mock.calls[1][0].triggeredBy).toBe('overlay')
+    expect(testTriggeredBy).toBe(null)
 
     // trigger the close button
     Comp.find('button.dnb-modal__close-button').simulate('click')
@@ -359,19 +371,45 @@ describe('Modal component', () => {
     // trigger the close button
     Comp.find('button.dnb-modal__close-button').simulate('click')
 
+    expect(testTriggeredBy).toBe('button')
+    expect(Comp.exists('div.dnb-modal__content')).toBe(false)
+  })
+  it('will close the modal on overlay click', () => {
+    let testTriggeredBy = null
+    const on_close = jest.fn(
+      ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
+    )
+    const on_open = jest.fn()
+    const Comp = mount(
+      <Component {...props} on_open={on_open} on_close={on_close} />
+    )
+    Comp.find('button').simulate('click')
+    expect(on_open).toHaveBeenCalledTimes(1)
+    expect(testTriggeredBy).toBe(null)
+
+    // trigger the close on the overlay
+    Comp.find('div.dnb-modal__content').simulate('click')
+
+    expect(on_close).toHaveBeenCalledTimes(1)
+    expect(testTriggeredBy).toBe('overlay')
     expect(Comp.exists('div.dnb-modal__content')).toBe(false)
   })
   it('has working open event and close event on changing the "open_state"', () => {
-    const on_close = jest.fn()
+    let testTriggeredBy = null
+    const on_close = jest.fn(
+      ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
+    )
     const on_open = jest.fn()
     const Comp = mount(
       <Component {...props} on_close={on_close} on_open={on_open} />
     )
     Comp.setProps({ open_state: 'opened' })
     expect(on_open).toHaveBeenCalledTimes(1)
+    expect(testTriggeredBy).toBe(null)
 
     Comp.setProps({ open_state: 'closed' })
     expect(on_close).toHaveBeenCalledTimes(1)
+    expect(testTriggeredBy).toBe('unmount')
   })
   it('should handle the portal correctly', () => {
     const modalContent = 'Modal Content'
