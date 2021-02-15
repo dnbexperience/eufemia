@@ -109,6 +109,23 @@ With placement on the left side.
 	}
 </ComponentBox>
 
+### Custom trigger component
+
+<ComponentBox>
+	{
+	/* @jsx */ `
+<Modal
+  title="Modal Title"
+  trigger={(props) => <Button {...props}>Custom trigger Button</Button>}
+>
+  <Section spacing style_type="divider">
+    <P>This Modal was opened by a custom trigger component.</P>
+  </Section>
+</Modal>
+	`
+	}
+</ComponentBox>
+
 ### Open Modal by state only
 
 While the trigger button is not used anymore by using `trigger_hidden`.
@@ -124,7 +141,7 @@ While the trigger button is not used anymore by using `trigger_hidden`.
       title="Modal Title"
       trigger_hidden
       open_state="opened"
-      //labelled_by="custom-triggerer"
+      labelled_by="custom-triggerer"
     >
       <Section spacing style_type="divider">
         <P>This Modal was opened by a custom trigger button.</P>

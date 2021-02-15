@@ -41,6 +41,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "root_id": "root_id",
         "spacing": "spacing",
         "title": "title",
+        "trigger": "trigger",
         "trigger_attributes": Object {},
         "trigger_class": "trigger_class",
         "trigger_disabled": "trigger_disabled",
@@ -100,6 +101,7 @@ exports[`Modal component have to match snapshot 1`] = `
   spacing={true}
   style_type="button"
   title="modal_title"
+  trigger={null}
   trigger_attributes={null}
   trigger_class={null}
   trigger_disabled={null}
@@ -410,6 +412,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "root_id": "root_id",
             "spacing": "spacing",
             "title": "title",
+            "trigger": "trigger",
             "trigger_attributes": Object {},
             "trigger_class": "trigger_class",
             "trigger_disabled": "trigger_disabled",
@@ -510,6 +513,7 @@ exports[`Modal component have to match snapshot 1`] = `
               "root_id": "root_id",
               "spacing": "spacing",
               "title": "title",
+              "trigger": "trigger",
               "trigger_attributes": Object {},
               "trigger_class": "trigger_class",
               "trigger_disabled": "trigger_disabled",

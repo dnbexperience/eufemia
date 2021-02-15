@@ -32,6 +32,7 @@ v8 contains a couple of _braking changes_. As a migration process, you can simpl
 1. **Potential Breaking:** If you have used a CSS var (custom property) (e.g. `var(--input-text-color)`) to change a components **color** – then you would have to use the CSS color vars directly on the element (`var(--color-sea-green)`).
 1. The `figure` HTML got included in the CSS reset with a `margin: 0`.
 1. Add TypeScript type declarations for component PropTypes.
+1. Add pure `trigger` prop to [Modal & Drawer](/uilib/components/modal).
 
 ## Install
 
