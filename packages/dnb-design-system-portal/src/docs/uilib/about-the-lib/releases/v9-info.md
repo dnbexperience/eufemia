@@ -14,6 +14,12 @@ v9 contains a couple of _braking changes_. As a migration process, you can simpl
 
 ## Changes
 
+### Updates to the language files
+
+Strings where changed/removed and added to the [language files](/uilib/usage/customisation/localization) `nb-NO.js` and `en-GB.js`:
+
+- Number (added)
+
 ## Install
 
 To upgrade to v9 with NPM, use:

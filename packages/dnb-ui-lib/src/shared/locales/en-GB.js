@@ -58,6 +58,9 @@ export default {
     Modal: {
       close_title: 'Close'
     },
+    Number: {
+      clipboard_copy: 'Copied'
+    },
     HelpButton: {
       title: 'Help text',
       aria_role: 'Help button'

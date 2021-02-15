@@ -13,7 +13,7 @@ import {
   warn
 } from 'dnb-ui-lib/src/shared/component-helper'
 import { runIOSSelectionFix } from 'dnb-ui-lib/src/components/Number'
-import { copyWithEffect } from 'dnb-ui-lib/src/components/number/NumberUtils'
+import { useCopyWithNotice } from 'dnb-ui-lib/src/components/number/NumberUtils'
 
 // we may use this one, but for now, we just keep the build in mdx support
 // import ReactMarkdown from 'react-markdown'
@@ -36,6 +36,8 @@ const Copy = ({ children, className, ...rest }) => {
     }
   }, [])
 
+  const { copy } = useCopyWithNotice()
+
   const onClickHandler = () => {
     if (!hasSelectedText()) {
       try {
@@ -48,7 +50,7 @@ const Copy = ({ children, className, ...rest }) => {
           selection.removeAllRanges()
           selection.addRange(range)
 
-          copyWithEffect(str) // use copyWithEffect only to use the nice effect / animation
+          copy(str) // use copyWithNotice only to use the nice effect / animation
         }
       } catch (e) {
         warn(e)
