@@ -12,10 +12,8 @@ import {
   convertJsxToString,
   warn
 } from 'dnb-ui-lib/src/shared/component-helper'
-import {
-  copyWithEffect,
-  runIOSSelectionFix
-} from 'dnb-ui-lib/src/components/Number'
+import { runIOSSelectionFix } from 'dnb-ui-lib/src/components/Number'
+import { copyWithEffect } from 'dnb-ui-lib/src/components/number/NumberUtils'
 
 // we may use this one, but for now, we just keep the build in mdx support
 // import ReactMarkdown from 'react-markdown'
