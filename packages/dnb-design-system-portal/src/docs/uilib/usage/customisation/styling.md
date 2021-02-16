@@ -154,11 +154,11 @@ import 'dnb-ui-lib/style/elements'
 </div>
 ```
 
-## A list of all CSS properties
+## A list of all CSS properties (variables)
 
 Beside the portal documentation with related tables and additional information, you may have a look at the [CSS file](https://unpkg.com/browse/dnb-ui-lib@latest/style/dnb-ui-properties.css), containing the custom properties (CSS variables), as well as a[ JavaScript file](https://unpkg.com/browse/dnb-ui-lib@latest/style/properties.js), which is auto generated from the CSS data.
 
-### Access CSS properties in JavaScript
+### Access CSS properties (variables) in JavaScript
 
 ```js
 import properties from 'dnb-ui-lib/style/properties.js'

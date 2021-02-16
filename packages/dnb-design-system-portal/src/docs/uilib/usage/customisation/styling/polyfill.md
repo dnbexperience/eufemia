@@ -56,7 +56,7 @@ cssVars()
 
 But on large applications, the polyfill lacks in stability, therefore we made and recommend using the approach by using the Stylis Plugin method. Se examples below.
 
-### Properties
+### CSS Properties (variables)
 
 You can also import all the main properties as a JavaScript Object:
 
