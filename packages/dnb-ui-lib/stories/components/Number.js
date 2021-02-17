@@ -8,19 +8,19 @@ import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 import { P } from '../../src/elements'
 import Provider from '../../src/shared/Provider'
-import Number from '../../src/components/Number'
+import NumberFormat from '../../src/components/NumberFormat'
 // import Dropdown from '../../src/components/Dropdown'
 import ToggleButton from '../../src/components/ToggleButton'
 
-// import { format } from '../../src/components/Number'
+// import { format } from '../../src/components/NumberFormat'
 import Context from '../../src/shared/Context'
 
 export default {
-  title: 'Eufemia/Components/Number'
+  title: 'Eufemia/Components/NumberFormat'
 }
 
 const CustomStyle = styled.div`
-  .dnb-number {
+  .dnb-number-format {
     ${'' /* display: block; */}
     ${'' /* color: hotpink; */}
   }
@@ -70,7 +70,7 @@ const Prefix = styled.b`
 
 // new Intl.NumberFormat('nb-NO', { minimumFractionDigits: 4, maximumFractionDigits: 4, style: 'currency', currency: 'NOK' }).format(-12345)
 
-export const NumberSandbox = () => {
+export const NumberFormatSandbox = () => {
   return (
     <CustomStyle>
       <Provider
@@ -84,7 +84,7 @@ export const NumberSandbox = () => {
               locale="nb-NO"
               // locale="en-GB"
             >
-              <Number
+              <NumberFormat
                 prefix={() => <i>S</i>}
                 suffix={<b>E</b>}
                 value={'-12 345,99'}
@@ -104,7 +104,7 @@ export const NumberSandbox = () => {
                 // }}
               />
               <br />
-              <Number
+              <NumberFormat
                 prefix={<Prefix className="custom">S</Prefix>}
                 suffix="E"
                 // value={'-12 623,988'}
@@ -119,8 +119,8 @@ export const NumberSandbox = () => {
           <Box>
             <Provider locale="nb-NO">
               <P>
-                <Number>12345.987654321</Number> text{' '}
-                <Number>-12345678.9834523</Number> text{' '}
+                <NumberFormat>12345.987654321</NumberFormat> text{' '}
+                <NumberFormat>-12345678.9834523</NumberFormat> text{' '}
               </P>
             </Provider>
           </Box>
@@ -130,51 +130,52 @@ export const NumberSandbox = () => {
             >
               <ChangeLocale />
               <br />
-              <Number value="-1234" decimals="2" />
+              <NumberFormat value="-1234" decimals="2" />
               <br />
-              <Number value="-1234.05" decimals="2" />
+              <NumberFormat value="-1234.05" decimals="2" />
               <br />
               <P>
                 text{' '}
-                <Number currency clean>
+                <NumberFormat currency clean>
                   12 345
-                </Number>{' '}
-                text <Number currency="USD" value="12345" /> text{' '}
-                <Number currency clean>
+                </NumberFormat>{' '}
+                text <NumberFormat currency="USD" value="12345" /> text{' '}
+                <NumberFormat currency clean>
                   12 345 678
-                </Number>{' '}
-                text <Number currency>12345.0</Number> text{' '}
-                <Number currency="EUR">-12345,68</Number> text{' '}
+                </NumberFormat>{' '}
+                text <NumberFormat currency>12345.0</NumberFormat> text{' '}
+                <NumberFormat currency="EUR">-12345,68</NumberFormat> text{' '}
               </P>
             </Provider>
           </Box>
           <Box>
             <P>
-              text <Number value="12345" /> text{' '}
-              <Number value={-12345678.9} />{' '}
+              text <NumberFormat value="12345" /> text{' '}
+              <NumberFormat value={-12345678.9} />{' '}
             </P>
           </Box>
           <Box>
             <P>
-              random phone number <Number value="99999999" phone /> random
-              phone number <Number value="4799999999" phone /> random phone
-              number <Number value="++4799999999" phone /> random phone
-              number <Number value="004780022222" phone link="sms" />{' '}
-              random phone number <Number value="+47116000" phone /> random
-              text <Number value="+4702000" phone />
+              random phone number <NumberFormat value="99999999" phone />{' '}
+              random phone number <NumberFormat value="4799999999" phone />{' '}
+              random phone number{' '}
+              <NumberFormat value="++4799999999" phone /> random phone
+              number <NumberFormat value="004780022222" phone link="sms" />{' '}
+              random phone number <NumberFormat value="+47116000" phone />{' '}
+              random text <NumberFormat value="+4702000" phone />
             </P>
           </Box>
           <Box>
             <P>
-              bank account number <Number value="20001234567" ban /> random
-              account number
+              bank account number <NumberFormat value="20001234567" ban />{' '}
+              random account number
             </P>
           </Box>
           <Box>
             <P>
               national identification number{' '}
-              <Number value="18089212345" nin /> random identification
-              number
+              <NumberFormat value="18089212345" nin /> random
+              identification number
             </P>
           </Box>
           <Box>
@@ -202,7 +203,7 @@ export const NumberSandbox = () => {
             </span> */}
             <p className="dnb-sr-only--shadow">end</p>
             <button className="dnb-button dnb-button--primary">
-              <Number value={-12345678.9} />
+              <NumberFormat value={-12345678.9} />
             </button>
           </Box>
         </Wrapper>

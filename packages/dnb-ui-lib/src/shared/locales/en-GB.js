@@ -58,7 +58,7 @@ export default {
     Modal: {
       close_title: 'Close'
     },
-    Number: {
+    NumberFormat: {
       clipboard_copy: 'Copied'
     },
     HelpButton: {

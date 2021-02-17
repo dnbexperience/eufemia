@@ -2,7 +2,7 @@ import React from 'react'
 import Context from '../../shared/Context'
 
 /**
- * Web Number Helpers
+ * Web NumberFormat Helpers
  *
  */
 
@@ -604,7 +604,7 @@ export function createSelectionFX(string) {
     if (!(top > 0) && !(left > 0)) {
       // get a more precise position by inserting this empty node
       const posElem = document.createElement('span')
-      posElem.setAttribute('class', 'dnb-number__fx__selection')
+      posElem.setAttribute('class', 'dnb-number-format__fx__selection')
       insertElementBeforeSelection(posElem)
 
       // get position
@@ -616,7 +616,7 @@ export function createSelectionFX(string) {
     // create that portal element
     elem = document.createElement('span')
     elem.textContent = String(string)
-    elem.setAttribute('class', 'dnb-number__fx dnb-core-style')
+    elem.setAttribute('class', 'dnb-number-format__fx dnb-core-style')
     elem.style.top = `${top}px`
     elem.style.left = `${left + getSelectedText().length / 2}px`
   } catch (e) {
@@ -653,7 +653,7 @@ export function createSelectionFX(string) {
 export function useCopyWithNotice() {
   const {
     translation: {
-      Number: { clipboard_copy }
+      NumberFormat: { clipboard_copy }
     }
   } = React.useContext(Context)
 

@@ -8,7 +8,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
 const Style = styled.div`
-  span.dnb-number {
+  span.dnb-number-format {
     display: block;
   }
   [data-visual-test='number-locales'] .dnb-p:last-of-type {
@@ -22,10 +22,10 @@ export const NumberDefault = () => (
       {
         /* @jsx */ `
 <P>
-  <Number value="12345" />
-  <Number>-12345678.9</Number>
-  <Number prefix={<b>prefix</b>} suffix="suffix">-12345678.9</Number>
-  <Number options={{ maximumFractionDigits: 1 }}>-1234.54321</Number>
+  <NumberFormat value="12345" />
+  <NumberFormat>-12345678.9</NumberFormat>
+  <NumberFormat prefix={<b>prefix</b>} suffix="suffix">-12345678.9</NumberFormat>
+  <NumberFormat options={{ maximumFractionDigits: 1 }}>-1234.54321</NumberFormat>
 </P>
           `
       }
@@ -39,10 +39,10 @@ export const NumberCurrency = () => (
       {
         /* @jsx */ `
 <P>
-  <Number currency>12345</Number>
-  <Number currency currency_position="before" value={-12345678.9} />
-  <Number currency value={-12345678.95} decimals={0} />
-  <Number currency value={-12345678.9} currency_display="code" />
+  <NumberFormat currency>12345</NumberFormat>
+  <NumberFormat currency currency_position="before" value={-12345678.9} />
+  <NumberFormat currency value={-12345678.95} decimals={0} />
+  <NumberFormat currency value={-12345678.9} currency_display="code" />
 </P>
           `
       }
@@ -56,12 +56,12 @@ export const NumberPhone = () => (
       {
         /* @jsx */ `
 <P>
-  <Number value="99999999" phone />
-  <Number value="4799999999" phone />
-  <Number value="++4799999999" phone />
-  <Number value="+4780022222" phone link="sms" />
-  <Number value="+47116000" phone selectall="false" />
-  <Number value="+4702000" phone />
+  <NumberFormat value="99999999" phone />
+  <NumberFormat value="4799999999" phone />
+  <NumberFormat value="++4799999999" phone />
+  <NumberFormat value="+4780022222" phone link="sms" />
+  <NumberFormat value="+47116000" phone selectall="false" />
+  <NumberFormat value="+4702000" phone />
 </P>
           `
       }
@@ -75,7 +75,7 @@ export const NumberBankAccount = () => (
       {
         /* @jsx */ `
 <P>
-  <Number value="20001234567" ban />
+  <NumberFormat value="20001234567" ban />
 </P>
           `
       }
@@ -89,7 +89,7 @@ export const NumberNationalIdentification = () => (
       {
         /* @jsx */ `
 <P>
-  <Number value="18089212345" nin />
+  <NumberFormat value="18089212345" nin />
 </P>
           `
       }
@@ -103,7 +103,7 @@ export const NumberOrganization = () => (
       {
         /* @jsx */ `
 <P>
-  <Number value="123456789" org suffix="MVA" />
+  <NumberFormat value="123456789" org suffix="MVA" />
 </P>
           `
       }
@@ -118,20 +118,20 @@ export const NumberLocales = () => (
         /* @jsx */ `
 <H3>Numbers</H3>
 <P>
-  <Number locale="nb-NO" value="-12345678.9" />
-  <Number locale="en-GB" value="-12345678.9" />
-  <Number locale="de-DE" value="-12345678.9" />
-  <Number locale="de-CH" value="-12345678.9" />
-  <Number locale="fr-CH" value="-12345678.9" />
+  <NumberFormat locale="nb-NO" value="-12345678.9" />
+  <NumberFormat locale="en-GB" value="-12345678.9" />
+  <NumberFormat locale="de-DE" value="-12345678.9" />
+  <NumberFormat locale="de-CH" value="-12345678.9" />
+  <NumberFormat locale="fr-CH" value="-12345678.9" />
 </P>
 
 <H3>Currencies</H3>
 <P>
-  <Number locale="nb-NO" value="-12345.6" currency />
-  <Number locale="en-GB" value="-12345.6" currency />
-  <Number locale="de-DE" value="-12345.6" currency />
-  <Number locale="de-CH" value="-12345.6" currency />
-  <Number locale="fr-CH" value="-12345.6" currency />
+  <NumberFormat locale="nb-NO" value="-12345.6" currency />
+  <NumberFormat locale="en-GB" value="-12345.6" currency />
+  <NumberFormat locale="de-DE" value="-12345.6" currency />
+  <NumberFormat locale="de-CH" value="-12345.6" currency />
+  <NumberFormat locale="fr-CH" value="-12345.6" currency />
 </P>
           `
       }

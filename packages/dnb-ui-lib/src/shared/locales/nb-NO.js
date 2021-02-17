@@ -58,7 +58,7 @@ export default {
     Modal: {
       close_title: 'Lukk'
     },
-    Number: {
+    NumberFormat: {
       clipboard_copy: 'Kopiert'
     },
     HelpButton: {

@@ -13,14 +13,14 @@ import {
 } from '../../../core/jest/jestSetup'
 import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
-import Number from '../Number'
+import NumberFormat from '../NumberFormat'
 import { format, cleanNumber, copyWithEffect } from '../NumberUtils'
 
 const Component = (props) => {
-  return <Number id="unique" {...props} />
+  return <NumberFormat id="unique" {...props} />
 }
 
-const element = Number.defaultProps.element
+const element = NumberFormat.defaultProps.element
 const locale = LOCALE
 const value = 12345678.9876
 const snapshotProps = {
@@ -61,11 +61,11 @@ describe('Node', () => {
   })
 })
 
-describe('Number component', () => {
-  const displaySlector = element + '.dnb-number span'
-  const ariaSlector = element + '.dnb-number span[id]'
+describe('NumberFormat component', () => {
+  const displaySlector = element + '.dnb-number-format span'
+  const ariaSlector = element + '.dnb-number-format span[id]'
 
-  it('have to match default number snapshot', () => {
+  it('have to match default number-format snapshot', () => {
     const Comp = mount(<Component {...snapshotProps} />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
@@ -106,20 +106,20 @@ describe('Number component', () => {
     selection.removeAllRanges()
 
     expect(
-      Comp.find('span').first().hasClass('dnb-number--selected')
+      Comp.find('span').first().hasClass('dnb-number-format--selected')
     ).toBe(false)
 
-    Comp.find('.dnb-number__visible').simulate('click')
+    Comp.find('.dnb-number-format__visible').simulate('click')
 
     expect(
-      Comp.find('span').first().hasClass('dnb-number--selected')
+      Comp.find('span').first().hasClass('dnb-number-format--selected')
     ).toBe(true)
 
     const { cleanedValue: noVal } = format(-value, {
       currency: true,
       returnAria: true
     })
-    expect(Comp.find('.dnb-number__selection').text()).toBe(noVal)
+    expect(Comp.find('.dnb-number-format__selection').text()).toBe(noVal)
     expect(window.getSelection().toString()).toBe('1234.56') // Hack! Having there the "cleanedNumber" would be optimal.
     expect(window.getSelection().rangeCount).toBe(1)
 
@@ -129,7 +129,7 @@ describe('Number component', () => {
       currency: true,
       returnAria: true
     })
-    expect(Comp.find('.dnb-number__selection').text()).toBe(enVal)
+    expect(Comp.find('.dnb-number-format__selection').text()).toBe(enVal)
   })
   it('have to match currency with currency_position="after"', () => {
     const Comp = mount(
@@ -373,7 +373,7 @@ describe('Currency format with dirty number', () => {
   })
 })
 
-describe('Number cleanNumber', () => {
+describe('NumberFormat cleanNumber', () => {
   it('should not clean up', () => {
     expect(cleanNumber(-12345.67)).toBe(-12345.67)
     expect(cleanNumber('prefix -123.00 suffix')).toBe('-123.00')
@@ -435,9 +435,11 @@ describe('copyWithEffect should', () => {
   })
 })
 
-describe('Number scss', () => {
+describe('NumberFormat scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-number.scss'))
+    const scss = loadScss(
+      require.resolve('../style/dnb-number-format.scss')
+    )
     expect(scss).toMatchSnapshot()
   })
 })

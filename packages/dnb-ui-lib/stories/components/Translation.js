@@ -15,7 +15,7 @@ import useTranslation, {
   getTranslation,
   Translation
 } from '../../src/shared/useTranslation'
-// import { format } from '../../src/components/Number'
+// import { format } from '../../src/components/NumberFormat'
 import { P } from '../../src/elements'
 
 // import nbNO from 'dnb-ui-lib/src/shared/locales/nb-NO'

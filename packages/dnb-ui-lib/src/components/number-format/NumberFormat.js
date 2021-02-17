@@ -1,5 +1,5 @@
 /**
- * Web Number Component
+ * Web NumberFormat Component
  *
  */
 
@@ -23,8 +23,8 @@ import {
 } from '../space/SpacingHelper'
 import { format, createSelectionFX } from './NumberUtils'
 
-export default class Number extends React.PureComponent {
-  static tagName = 'dnb-number'
+export default class NumberFormat extends React.PureComponent {
+  static tagName = 'dnb-number-format'
   static contextType = Context
 
   static propTypes = {
@@ -99,7 +99,11 @@ export default class Number extends React.PureComponent {
   }
 
   static enableWebComponent() {
-    registerElement(Number.tagName, Number, Number.defaultProps)
+    registerElement(
+      NumberFormat.tagName,
+      NumberFormat,
+      NumberFormat.defaultProps
+    )
   }
 
   constructor(props) {
@@ -240,7 +244,7 @@ export default class Number extends React.PureComponent {
         true,
         { locale: null, currency: null },
         this.context,
-        this.context.getTranslation(this.props).Number
+        this.context.getTranslation(this.props).NumberFormat
       )
 
       if (useContext) {
@@ -267,13 +271,13 @@ export default class Number extends React.PureComponent {
     const attributes = {
       ref: this._ref,
       className: classnames(
-        'dnb-number',
+        'dnb-number-format',
         className,
         _className,
         (isTrue(currency) || typeof currency === 'string') &&
-          'dnb-number--currency',
-        isTrue(selectall) && 'dnb-number--selectall',
-        this.state.selected && 'dnb-number--selected',
+          'dnb-number-format--currency',
+        isTrue(selectall) && 'dnb-number-format--selectall',
+        this.state.selected && 'dnb-number-format--selected',
         link && 'dnb-anchor',
         createSpacingClasses(this.props)
       ),
@@ -298,23 +302,23 @@ export default class Number extends React.PureComponent {
     if (prefix) {
       display = (
         <>
-          {this.runFix(prefix, 'dnb-number__prefix')} {display}
+          {this.runFix(prefix, 'dnb-number-format__prefix')} {display}
         </>
       )
       aria = String(
         `${convertJsxToString(
-          this.runFix(prefix, 'dnb-number__prefix')
+          this.runFix(prefix, 'dnb-number-format__prefix')
         )} ${aria}`
       )
     }
     if (suffix) {
       display = (
         <>
-          {display} {this.runFix(suffix, 'dnb-number__suffix')}
+          {display} {this.runFix(suffix, 'dnb-number-format__suffix')}
         </>
       )
       aria = `${aria} ${convertJsxToString(
-        this.runFix(suffix, 'dnb-number__suffix')
+        this.runFix(suffix, 'dnb-number-format__suffix')
       )}`
     }
 
@@ -338,7 +342,7 @@ export default class Number extends React.PureComponent {
     return (
       <Element lang={lang} {...attributes}>
         <span
-          className="dnb-number__visible"
+          className="dnb-number-format__visible"
           aria-describedby={this._id}
           aria-hidden
           {...displayParams}
@@ -348,14 +352,14 @@ export default class Number extends React.PureComponent {
 
         <span
           id={this._id}
-          className="dnb-number__sr-only dnb-sr-only--inline"
+          className="dnb-number-format__sr-only dnb-sr-only--inline"
         >
           {aria}
         </span>
 
         {isTrue(copy_selection) && (
           <span
-            className="dnb-number__selection dnb-no-focus"
+            className="dnb-number-format__selection dnb-no-focus"
             ref={this._selectionRef}
             tabIndex={-1}
             onBlur={this.onBlurHandler}

@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Number component have to match default number snapshot 1`] = `
+exports[`NumberFormat component have to match default number-format snapshot 1`] = `
 <Component
   element="span"
   locale="nb-NO"
   value={12345678.9876}
 >
-  <Number
+  <NumberFormat
     ban={null}
     class={null}
     className={null}
@@ -31,28 +31,28 @@ exports[`Number component have to match default number snapshot 1`] = `
     value={12345678.9876}
   >
     <span
-      className="dnb-number dnb-number--selectall"
+      className="dnb-number-format dnb-number-format--selectall"
       lang="nb-NO"
       role="text"
     >
       <span
         aria-describedby="unique"
         aria-hidden={true}
-        className="dnb-number__visible"
+        className="dnb-number-format__visible"
         onClick={[Function]}
         onContextMenu={[Function]}
       >
         12 345 678,9876
       </span>
       <span
-        className="dnb-number__sr-only dnb-sr-only--inline"
+        className="dnb-number-format__sr-only dnb-sr-only--inline"
         id="unique"
       >
         12 345 678,9876
       </span>
       <span
         aria-hidden={true}
-        className="dnb-number__selection dnb-no-focus"
+        className="dnb-number-format__selection dnb-no-focus"
         onBlur={[Function]}
         onCopy={[Function]}
         tabIndex={-1}
@@ -60,13 +60,13 @@ exports[`Number component have to match default number snapshot 1`] = `
         12345678,9876
       </span>
     </span>
-  </Number>
+  </NumberFormat>
 </Component>
 `;
 
-exports[`Number scss have to match snapshot 1`] = `
+exports[`NumberFormat scss have to match snapshot 1`] = `
 "/*
-* DNB Number
+* DNB NumberFormat
 *
 */
 /**
@@ -92,23 +92,23 @@ exports[`Number scss have to match snapshot 1`] = `
   word-break: normal; }
 
 /*
- * Number Component
+ * NumberFormat Component
  *
  */
 /*
  * Anchor mixins
  *
  */
-.dnb-number {
+.dnb-number-format {
   position: relative;
   speak-as: numbers;
   color: inherit;
   white-space: nowrap; }
-  .dnb-number__prefix, .dnb-number__suffix {
+  .dnb-number-format__prefix, .dnb-number-format__suffix {
     white-space: normal; }
-  .dnb-number.dnb-anchor {
+  .dnb-number-format.dnb-anchor {
     cursor: pointer; }
-  .dnb-number__fx {
+  .dnb-number-format__fx {
     pointer-events: none;
     position: fixed;
     z-index: 3300;
@@ -117,32 +117,32 @@ exports[`Number scss have to match snapshot 1`] = `
     color: var(--color-black);
     font-size: var(--font-size-basis);
     animation: number-fx-scale-out 2s cubic-bezier(0.04, 0.65, 0.55, 0.95) 1 forwards; }
-    .dnb-number__fx__selection {
+    .dnb-number-format__fx__selection {
       display: inline-block;
       width: 0;
       height: 0;
       font-size: 0;
       line-height: 0; }
-  .dnb-number--selectall {
+  .dnb-number-format--selectall {
     cursor: text; }
-  .dnb-number__visible {
+  .dnb-number-format__visible {
     position: relative;
     z-index: 2; }
-  .dnb-number--selected .dnb-number__visible {
+  .dnb-number-format--selected .dnb-number-format__visible {
     color: var(--color-black);
     background-color: var(--color-mint-green); }
-  .dnb-number__selection {
+  .dnb-number-format__selection {
     position: absolute;
     z-index: 1;
     top: 0;
     left: 0;
     opacity: 0;
     user-select: none; }
-  .dnb-number--selected .dnb-number__selection {
+  .dnb-number-format--selected .dnb-number-format__selection {
     z-index: 3;
     user-select: all; }
-  .dnb-number.dnb-skeleton,
-  .dnb-skeleton .dnb-number {
+  .dnb-number-format.dnb-skeleton,
+  .dnb-skeleton .dnb-number-format {
     -webkit-text-fill-color: var(--skeleton-color); }
 
 @keyframes number-fx-scale-out {
