@@ -34,7 +34,7 @@ describe('Modal screenshot', () => {
       selector: 'body', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="modal-trigger-default"] .dnb-modal button',
+        '[data-visual-test="modal-trigger-default"] button:first-of-type',
       secreenshotSelector: '.dnb-modal__content__inner'
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -51,7 +51,7 @@ describe('Modal screenshot', () => {
       selector: 'body', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="modal-trigger-default"] .dnb-modal button',
+        '[data-visual-test="modal-trigger-default"] button:first-of-type',
       secreenshotSelector: '.dnb-modal__content'
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -68,7 +68,7 @@ describe('Drawer screenshot', () => {
       selector: 'body', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="modal-drawer"] .dnb-modal button',
+        '[data-visual-test="modal-drawer"] button:first-of-type',
       secreenshotSelector: '.dnb-modal__content'
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -85,7 +85,7 @@ describe('Additional Modal screenshot', () => {
       selector: 'body', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="modal-no-spacing"] .dnb-modal button',
+        '[data-visual-test="modal-no-spacing"] button:first-of-type',
       secreenshotSelector: '.dnb-modal__content'
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -106,7 +106,7 @@ describe('Additional Modal screenshot', () => {
       selector: 'body', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="modal-fullscreen"] .dnb-modal button',
+        '[data-visual-test="modal-fullscreen"] button:first-of-type',
       secreenshotSelector: '.dnb-modal__content'
     })
     expect(screenshot).toMatchImageSnapshot()

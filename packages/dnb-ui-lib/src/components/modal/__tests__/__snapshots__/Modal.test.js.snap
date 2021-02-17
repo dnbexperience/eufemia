@@ -1197,7 +1197,7 @@ exports[`Modal scss have to match snapshot 1`] = `
 button.dnb-button::-moz-focus-inner {
   border: none; }
 
-.dnb-modal {
+.dnb-modal__content {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
   font-size: var(--font-size-small);
@@ -1226,15 +1226,15 @@ button.dnb-button::-moz-focus-inner {
   */
   margin: 0;
   padding: 0; }
-  .dnb-modal *,
-  .dnb-modal ::before,
-  .dnb-modal ::after {
+  .dnb-modal__content *,
+  .dnb-modal__content ::before,
+  .dnb-modal__content ::after {
     background-repeat: no-repeat;
     /* 1 */
     box-sizing: border-box;
     /* 2 */ }
-  .dnb-modal ::before,
-  .dnb-modal ::after {
+  .dnb-modal__content ::before,
+  .dnb-modal__content ::after {
     text-decoration: inherit;
     /* 1 */
     vertical-align: inherit;

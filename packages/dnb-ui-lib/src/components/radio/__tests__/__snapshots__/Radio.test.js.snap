@@ -957,7 +957,7 @@ legend.dnb-form-label {
     display: inline-flex; }
   .dnb-radio__suffix {
     order: 3; }
-    .dnb-radio__suffix .dnb-modal {
+    .dnb-radio__suffix .dnb-modal__trigger {
       margin-top: -0.25rem;
       margin-bottom: -0.25rem; }
   .dnb-radio-group__suffix {

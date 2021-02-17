@@ -8,7 +8,7 @@
 // import dependencies
 @import '../../button/style/dnb-button.scss';
 
-.dnb-modal {
+.dnb-modal__content {
   @include componentReset();
 }
 
