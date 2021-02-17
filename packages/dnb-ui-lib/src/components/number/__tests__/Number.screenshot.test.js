@@ -11,7 +11,7 @@ import {
 
 describe('Number screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/number/demos',
+    url: '/uilib/components/number-format/demos',
     screenshotConfig: {
       // use 11% on CI because of the font rendering differences
       pixelThresholdRelative: isCI ? 0.11 : 0
@@ -62,7 +62,9 @@ describe('Number screenshot', () => {
 })
 
 describe('Number with skeleton screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/number/demos?skeleton' })
+  setupPageScreenshot({
+    url: '/uilib/components/number-format/demos?skeleton'
+  })
 
   it('have to match default numbers', async () => {
     const screenshot = await testPageScreenshot({

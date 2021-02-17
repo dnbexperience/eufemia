@@ -1,5 +1,7 @@
 ---
 showTabs: true
+redirect_from:
+  - /uilib/components/number/info
 ---
 
 import { Number } from 'dnb-ui-lib/src'
@@ -53,10 +55,10 @@ To enhance the **Copy & Paste** experience of copying numbers into other applica
 
 ## Formatting only
 
-You can use the formatting without using the Component. Have a look at the [available properties](/uilib/components/number/properties).
+You can use the formatting without using the Component. Have a look at the [available properties](/uilib/components/number-format/properties).
 
 ```js
-import { format } from 'dnb-ui-lib/components/number/NumberUtils'
+import { format } from 'dnb-ui-lib/components/number-format/NumberUtils'
 
 const value = 12345678.9
 
@@ -73,10 +75,10 @@ const { number, aria } = format(value, {
 
 ## Using number helpers, like cleanNumber
 
-You can use the clean helpers without using the Component. Have a look at the [available properties](/uilib/components/number/properties). Also, you may check out the related tests **Number cleanNumber** in the source code to find more examples.
+You can use the clean helpers without using the Component. Have a look at the [available properties](/uilib/components/number-format/properties). Also, you may check out the related tests **Number cleanNumber** in the source code to find more examples.
 
 ```js
-import { cleanNumber } from 'dnb-ui-lib/components/number/NumberUtils'
+import { cleanNumber } from 'dnb-ui-lib/components/number-format/NumberUtils'
 
 const string = cleanNumber('prefix -12 345,678 suffix') // returns -12345.678
 const string = cleanNumber('prefix -12.345,678 suffix') // returns -12345.678
@@ -92,7 +94,7 @@ If you run the component or `format` function in [Node.js](https://nodejs.org) y
 
 ## Provider
 
-You can send down the `locale` as an application wide property (Context). More info about the [provider and locale usage](/uilib/components/number/provider).
+You can send down the `locale` as an application wide property (Context). More info about the [provider and locale usage](/uilib/components/number-format/provider).
 
 ```jsx
 import Provider from 'dnb-ui-lib/shared/Provider'

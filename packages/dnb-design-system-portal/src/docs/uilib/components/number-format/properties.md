@@ -1,5 +1,7 @@
 ---
 showTabs: true
+redirect_from:
+  - /uilib/components/number/properties
 ---
 
 ## Properties
