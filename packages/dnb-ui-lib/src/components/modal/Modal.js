@@ -565,7 +565,7 @@ export default class Modal extends React.PureComponent {
       const TriggerButton = trigger ? trigger : HelpButtonInstance
 
       return (
-        <div className="dnb-modal">
+        <>
           {TriggerButton && !isTrue(trigger_hidden) && (
             <TriggerButton
               id={this._id}
@@ -597,7 +597,7 @@ export default class Modal extends React.PureComponent {
               {...modalProps}
             />
           )}
-        </div>
+        </>
       )
     }
 
