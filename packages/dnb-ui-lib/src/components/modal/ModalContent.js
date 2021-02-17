@@ -334,6 +334,7 @@ export default class ModalContent extends React.PureComponent {
   }
 
   closeModal(event, { triggeredBy, ...params }) {
+    event?.persist?.()
     this.setState({ triggeredBy, triggeredByEvent: event }, () => {
       this.props.closeModal(event, {
         triggeredBy,

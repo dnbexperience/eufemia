@@ -113,15 +113,72 @@ exports[`Modal component have to match snapshot 1`] = `
   trigger_title={null}
   trigger_variant="secondary"
 >
-  <div
-    className="dnb-modal"
+  <HelpButtonInstance
+    class={null}
+    className="dnb-modal__trigger"
+    hidden={false}
+    icon={null}
+    icon_position="left"
+    id="modal_id"
+    innerRef={
+      Object {
+        "current": <button
+          aria-label="modal_title"
+          aria-roledescription="Hjelp-knapp"
+          class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+          id="modal_id"
+          title="modal_title"
+          type="button"
+        >
+          <span
+            class="dnb-button__alignment"
+          >
+            ‌
+          </span>
+          <span
+            aria-hidden="true"
+            aria-label="question icon"
+            class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+            role="presentation"
+          >
+            <svg
+              fill="none"
+              height="16"
+              viewBox="0 0 16 16"
+              width="16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M6.14209 4.87551C6.14232 3.67087 7.22313 2.67293 8.41439 2.7553C9.61616 2.83839 10.5374 3.98528 10.3733 5.16806C10.2669 5.93479 9.70614 6.622 8.97633 6.88003C8.01504 7.2199 7.663 8.0029 7.55047 8.70632C7.49611 9.04614 7.49129 9.39066 7.49667 9.69131C7.49941 9.84464 7.50394 9.97113 7.5081 10.0873C7.51321 10.2303 7.51777 10.3576 7.51777 10.5002C7.51777 10.9144 7.85356 11.2502 8.26777 11.2502C8.68199 11.2502 9.01777 10.9144 9.01777 10.5002C9.01777 10.3504 9.01151 10.1615 9.00563 9.98422L9.00563 9.98418C9.00177 9.86783 8.99807 9.75649 8.99643 9.66448C8.99154 9.39108 8.99836 9.15128 9.03164 8.94327C9.09438 8.55103 9.22163 8.38429 9.47633 8.29424C10.7347 7.84936 11.6756 6.69619 11.8591 5.37421C12.1418 3.33617 10.5922 1.40229 8.51785 1.25887C6.4652 1.11695 4.64249 2.79596 4.64209 4.87522C4.64201 5.28944 4.97773 5.62529 5.39195 5.62537C5.80616 5.62545 6.14201 5.28972 6.14209 4.87551ZM8.25 14.5C8.80228 14.5 9.25 14.0523 9.25 13.5C9.25 12.9477 8.80228 12.5 8.25 12.5C7.69772 12.5 7.25 12.9477 7.25 13.5C7.25 14.0523 7.69772 14.5 8.25 14.5Z"
+                fill="black"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </span>
+        </button>,
+      }
+    }
+    onClick={[Function]}
+    title="modal_title"
+    variant="secondary"
   >
-    <HelpButtonInstance
+    <Button
+      aria-label="modal_title"
+      aria-roledescription="Hjelp-knapp"
+      bounding={false}
       class={null}
-      className="dnb-modal__trigger"
+      className="dnb-help-button dnb-modal__trigger"
+      custom_element={null}
+      custom_method={null}
+      disabled={null}
+      element={null}
+      global_status_id={null}
       hidden={false}
-      icon={null}
+      href={null}
+      icon="question"
       icon_position="left"
+      icon_size={null}
       id="modal_id"
       innerRef={
         Object {
@@ -162,217 +219,258 @@ exports[`Modal component have to match snapshot 1`] = `
           </button>,
         }
       }
+      inner_ref={null}
       onClick={[Function]}
+      on_click={null}
+      size={null}
+      skeleton={null}
+      status={null}
+      status_animation={null}
+      status_state="error"
+      text={null}
       title="modal_title"
+      tooltip={null}
+      type="button"
       variant="secondary"
+      wrap={false}
     >
-      <Button
+      <button
         aria-label="modal_title"
         aria-roledescription="Hjelp-knapp"
-        bounding={false}
-        class={null}
-        className="dnb-help-button dnb-modal__trigger"
-        custom_element={null}
-        custom_method={null}
-        disabled={null}
-        element={null}
-        global_status_id={null}
+        className="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+        disabled={false}
         hidden={false}
-        href={null}
-        icon="question"
-        icon_position="left"
-        icon_size={null}
         id="modal_id"
-        innerRef={
-          Object {
-            "current": <button
-              aria-label="modal_title"
-              aria-roledescription="Hjelp-knapp"
-              class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
-              id="modal_id"
-              title="modal_title"
-              type="button"
-            >
-              <span
-                class="dnb-button__alignment"
-              >
-                ‌
-              </span>
-              <span
-                aria-hidden="true"
-                aria-label="question icon"
-                class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                role="presentation"
-              >
-                <svg
-                  fill="none"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  width="16"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    clip-rule="evenodd"
-                    d="M6.14209 4.87551C6.14232 3.67087 7.22313 2.67293 8.41439 2.7553C9.61616 2.83839 10.5374 3.98528 10.3733 5.16806C10.2669 5.93479 9.70614 6.622 8.97633 6.88003C8.01504 7.2199 7.663 8.0029 7.55047 8.70632C7.49611 9.04614 7.49129 9.39066 7.49667 9.69131C7.49941 9.84464 7.50394 9.97113 7.5081 10.0873C7.51321 10.2303 7.51777 10.3576 7.51777 10.5002C7.51777 10.9144 7.85356 11.2502 8.26777 11.2502C8.68199 11.2502 9.01777 10.9144 9.01777 10.5002C9.01777 10.3504 9.01151 10.1615 9.00563 9.98422L9.00563 9.98418C9.00177 9.86783 8.99807 9.75649 8.99643 9.66448C8.99154 9.39108 8.99836 9.15128 9.03164 8.94327C9.09438 8.55103 9.22163 8.38429 9.47633 8.29424C10.7347 7.84936 11.6756 6.69619 11.8591 5.37421C12.1418 3.33617 10.5922 1.40229 8.51785 1.25887C6.4652 1.11695 4.64249 2.79596 4.64209 4.87522C4.64201 5.28944 4.97773 5.62529 5.39195 5.62537C5.80616 5.62545 6.14201 5.28972 6.14209 4.87551ZM8.25 14.5C8.80228 14.5 9.25 14.0523 9.25 13.5C9.25 12.9477 8.80228 12.5 8.25 12.5C7.69772 12.5 7.25 12.9477 7.25 13.5C7.25 14.0523 7.69772 14.5 8.25 14.5Z"
-                    fill="black"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </span>
-            </button>,
-          }
-        }
-        inner_ref={null}
         onClick={[Function]}
-        on_click={null}
-        size={null}
-        skeleton={null}
-        status={null}
-        status_animation={null}
-        status_state="error"
-        text={null}
         title="modal_title"
-        tooltip={null}
         type="button"
-        variant="secondary"
-        wrap={false}
       >
-        <button
+        <Content
           aria-label="modal_title"
           aria-roledescription="Hjelp-knapp"
-          className="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
-          disabled={false}
+          bounding={false}
+          class={null}
+          className="dnb-help-button dnb-modal__trigger"
+          content={null}
+          custom_element={null}
+          custom_method={null}
+          disabled={null}
+          element={null}
+          global_status_id={null}
           hidden={false}
+          href={null}
+          icon="question"
+          icon_position="left"
+          icon_size={null}
           id="modal_id"
-          onClick={[Function]}
-          title="modal_title"
-          type="button"
-        >
-          <Content
-            aria-label="modal_title"
-            aria-roledescription="Hjelp-knapp"
-            bounding={false}
-            class={null}
-            className="dnb-help-button dnb-modal__trigger"
-            content={null}
-            custom_element={null}
-            custom_method={null}
-            disabled={null}
-            element={null}
-            global_status_id={null}
-            hidden={false}
-            href={null}
-            icon="question"
-            icon_position="left"
-            icon_size={null}
-            id="modal_id"
-            innerRef={
-              Object {
-                "current": <button
-                  aria-label="modal_title"
-                  aria-roledescription="Hjelp-knapp"
-                  class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
-                  id="modal_id"
-                  title="modal_title"
-                  type="button"
-                >
-                  <span
-                    class="dnb-button__alignment"
-                  >
-                    ‌
-                  </span>
-                  <span
-                    aria-hidden="true"
-                    aria-label="question icon"
-                    class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                    role="presentation"
-                  >
-                    <svg
-                      fill="none"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      width="16"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        clip-rule="evenodd"
-                        d="M6.14209 4.87551C6.14232 3.67087 7.22313 2.67293 8.41439 2.7553C9.61616 2.83839 10.5374 3.98528 10.3733 5.16806C10.2669 5.93479 9.70614 6.622 8.97633 6.88003C8.01504 7.2199 7.663 8.0029 7.55047 8.70632C7.49611 9.04614 7.49129 9.39066 7.49667 9.69131C7.49941 9.84464 7.50394 9.97113 7.5081 10.0873C7.51321 10.2303 7.51777 10.3576 7.51777 10.5002C7.51777 10.9144 7.85356 11.2502 8.26777 11.2502C8.68199 11.2502 9.01777 10.9144 9.01777 10.5002C9.01777 10.3504 9.01151 10.1615 9.00563 9.98422L9.00563 9.98418C9.00177 9.86783 8.99807 9.75649 8.99643 9.66448C8.99154 9.39108 8.99836 9.15128 9.03164 8.94327C9.09438 8.55103 9.22163 8.38429 9.47633 8.29424C10.7347 7.84936 11.6756 6.69619 11.8591 5.37421C12.1418 3.33617 10.5922 1.40229 8.51785 1.25887C6.4652 1.11695 4.64249 2.79596 4.64209 4.87522C4.64201 5.28944 4.97773 5.62529 5.39195 5.62537C5.80616 5.62545 6.14201 5.28972 6.14209 4.87551ZM8.25 14.5C8.80228 14.5 9.25 14.0523 9.25 13.5C9.25 12.9477 8.80228 12.5 8.25 12.5C7.69772 12.5 7.25 12.9477 7.25 13.5C7.25 14.0523 7.69772 14.5 8.25 14.5Z"
-                        fill="black"
-                        fill-rule="evenodd"
-                      />
-                    </svg>
-                  </span>
-                </button>,
-              }
-            }
-            inner_ref={null}
-            isIconOnly={true}
-            onClick={[Function]}
-            on_click={null}
-            size={null}
-            skeleton={false}
-            status={null}
-            status_animation={null}
-            status_state="error"
-            text={null}
-            title="modal_title"
-            tooltip={null}
-            type="button"
-            variant="secondary"
-            wrap={false}
-          >
-            <span
-              className="dnb-button__alignment"
-              key="button-text-empty"
-            >
-              ‌
-            </span>
-            <IconPrimary
-              alt={null}
-              aria-hidden={true}
-              attributes={null}
-              border={null}
-              className="dnb-button__icon"
-              color={null}
-              height={null}
-              icon="question"
-              inherit_color={true}
-              key="button-icon"
-              modifier={null}
-              size={null}
-              skeleton={false}
-              title={null}
-              width={null}
-            >
-              <span
-                aria-hidden={true}
-                aria-label="question icon"
-                className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                role="presentation"
+          innerRef={
+            Object {
+              "current": <button
+                aria-label="modal_title"
+                aria-roledescription="Hjelp-knapp"
+                class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+                id="modal_id"
+                title="modal_title"
+                type="button"
               >
-                <question>
+                <span
+                  class="dnb-button__alignment"
+                >
+                  ‌
+                </span>
+                <span
+                  aria-hidden="true"
+                  aria-label="question icon"
+                  class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                  role="presentation"
+                >
                   <svg
                     fill="none"
-                    height={16}
+                    height="16"
                     viewBox="0 0 16 16"
-                    width={16}
+                    width="16"
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      clipRule="evenodd"
+                      clip-rule="evenodd"
                       d="M6.14209 4.87551C6.14232 3.67087 7.22313 2.67293 8.41439 2.7553C9.61616 2.83839 10.5374 3.98528 10.3733 5.16806C10.2669 5.93479 9.70614 6.622 8.97633 6.88003C8.01504 7.2199 7.663 8.0029 7.55047 8.70632C7.49611 9.04614 7.49129 9.39066 7.49667 9.69131C7.49941 9.84464 7.50394 9.97113 7.5081 10.0873C7.51321 10.2303 7.51777 10.3576 7.51777 10.5002C7.51777 10.9144 7.85356 11.2502 8.26777 11.2502C8.68199 11.2502 9.01777 10.9144 9.01777 10.5002C9.01777 10.3504 9.01151 10.1615 9.00563 9.98422L9.00563 9.98418C9.00177 9.86783 8.99807 9.75649 8.99643 9.66448C8.99154 9.39108 8.99836 9.15128 9.03164 8.94327C9.09438 8.55103 9.22163 8.38429 9.47633 8.29424C10.7347 7.84936 11.6756 6.69619 11.8591 5.37421C12.1418 3.33617 10.5922 1.40229 8.51785 1.25887C6.4652 1.11695 4.64249 2.79596 4.64209 4.87522C4.64201 5.28944 4.97773 5.62529 5.39195 5.62537C5.80616 5.62545 6.14201 5.28972 6.14209 4.87551ZM8.25 14.5C8.80228 14.5 9.25 14.0523 9.25 13.5C9.25 12.9477 8.80228 12.5 8.25 12.5C7.69772 12.5 7.25 12.9477 7.25 13.5C7.25 14.0523 7.69772 14.5 8.25 14.5Z"
                       fill="black"
-                      fillRule="evenodd"
+                      fill-rule="evenodd"
                     />
                   </svg>
-                </question>
-              </span>
-            </IconPrimary>
-          </Content>
-        </button>
-      </Button>
-    </HelpButtonInstance>
-    <ModalRoot
+                </span>
+              </button>,
+            }
+          }
+          inner_ref={null}
+          isIconOnly={true}
+          onClick={[Function]}
+          on_click={null}
+          size={null}
+          skeleton={false}
+          status={null}
+          status_animation={null}
+          status_state="error"
+          text={null}
+          title="modal_title"
+          tooltip={null}
+          type="button"
+          variant="secondary"
+          wrap={false}
+        >
+          <span
+            className="dnb-button__alignment"
+            key="button-text-empty"
+          >
+            ‌
+          </span>
+          <IconPrimary
+            alt={null}
+            aria-hidden={true}
+            attributes={null}
+            border={null}
+            className="dnb-button__icon"
+            color={null}
+            height={null}
+            icon="question"
+            inherit_color={true}
+            key="button-icon"
+            modifier={null}
+            size={null}
+            skeleton={false}
+            title={null}
+            width={null}
+          >
+            <span
+              aria-hidden={true}
+              aria-label="question icon"
+              className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+              role="presentation"
+            >
+              <question>
+                <svg
+                  fill="none"
+                  height={16}
+                  viewBox="0 0 16 16"
+                  width={16}
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clipRule="evenodd"
+                    d="M6.14209 4.87551C6.14232 3.67087 7.22313 2.67293 8.41439 2.7553C9.61616 2.83839 10.5374 3.98528 10.3733 5.16806C10.2669 5.93479 9.70614 6.622 8.97633 6.88003C8.01504 7.2199 7.663 8.0029 7.55047 8.70632C7.49611 9.04614 7.49129 9.39066 7.49667 9.69131C7.49941 9.84464 7.50394 9.97113 7.5081 10.0873C7.51321 10.2303 7.51777 10.3576 7.51777 10.5002C7.51777 10.9144 7.85356 11.2502 8.26777 11.2502C8.68199 11.2502 9.01777 10.9144 9.01777 10.5002C9.01777 10.3504 9.01151 10.1615 9.00563 9.98422L9.00563 9.98418C9.00177 9.86783 8.99807 9.75649 8.99643 9.66448C8.99154 9.39108 8.99836 9.15128 9.03164 8.94327C9.09438 8.55103 9.22163 8.38429 9.47633 8.29424C10.7347 7.84936 11.6756 6.69619 11.8591 5.37421C12.1418 3.33617 10.5922 1.40229 8.51785 1.25887C6.4652 1.11695 4.64249 2.79596 4.64209 4.87522C4.64201 5.28944 4.97773 5.62529 5.39195 5.62537C5.80616 5.62545 6.14201 5.28972 6.14209 4.87551ZM8.25 14.5C8.80228 14.5 9.25 14.0523 9.25 13.5C9.25 12.9477 8.80228 12.5 8.25 12.5C7.69772 12.5 7.25 12.9477 7.25 13.5C7.25 14.0523 7.69772 14.5 8.25 14.5Z"
+                    fill="black"
+                    fillRule="evenodd"
+                  />
+                </svg>
+              </question>
+            </span>
+          </IconPrimary>
+        </Content>
+      </button>
+    </Button>
+  </HelpButtonInstance>
+  <ModalRoot
+    0={
+      Object {
+        "displayName": "Modal",
+        "props": Object {
+          "align_content": "'left'",
+          "animation_duration": "animation_duration",
+          "children": "children",
+          "class": "class",
+          "className": "className",
+          "close_modal": [Function],
+          "close_title": "close_title",
+          "container_placement": "'left'",
+          "content_class": "content_class",
+          "content_id": "content_id",
+          "direct_dom_return": "direct_dom_return",
+          "disabled": "disabled",
+          "focus_selector": "focus_selector",
+          "fullscreen": "'auto'",
+          "hide_close_button": "hide_close_button",
+          "id": "id",
+          "labelled_by": "labelled_by",
+          "max_width": "max_width",
+          "min_width": "min_width",
+          "modal_content": "modal_content",
+          "mode": "'modal'",
+          "no_animation": "no_animation",
+          "no_animation_on_mobile": "no_animation_on_mobile",
+          "on_close": [Function],
+          "on_close_prevent": [Function],
+          "on_open": [Function],
+          "open_delay": "open_delay",
+          "open_modal": [Function],
+          "open_state": "'opened'",
+          "overlay_class": "overlay_class",
+          "prevent_close": "prevent_close",
+          "prevent_core_style": "prevent_core_style",
+          "root_id": "root_id",
+          "spacing": "spacing",
+          "title": "title",
+          "trigger": "trigger",
+          "trigger_attributes": Object {},
+          "trigger_class": "trigger_class",
+          "trigger_disabled": "trigger_disabled",
+          "trigger_hidden": "trigger_hidden",
+          "trigger_icon": "trigger_icon",
+          "trigger_icon_position": "'left'",
+          "trigger_size": "trigger_size",
+          "trigger_text": "trigger_text",
+          "trigger_title": "trigger_title",
+          "trigger_variant": "custom type not supported, please set the correct value for trigger_variant prop",
+        },
+      }
+    }
+    1={
+      Object {
+        "displayName": "ModalRoot",
+        "props": Object {
+          "children": "children",
+          "direct_dom_return": "direct_dom_return",
+          "id": "id",
+          "root_id": "root_id",
+        },
+      }
+    }
+    align_content={null}
+    animation_duration={300}
+    class={null}
+    className={null}
+    closeModal={[Function]}
+    close_modal={null}
+    close_title="close_title"
+    container_placement={null}
+    content_class={null}
+    content_id="dnb-modal-modal_id"
+    direct_dom_return={true}
+    focus_selector={null}
+    fullscreen="auto"
+    hide={false}
+    hide_close_button={false}
+    id="modal_id"
+    labelled_by={null}
+    max_width={null}
+    min_width={null}
+    modal_content="unique_modal_content"
+    mode="modal"
+    no_animation={true}
+    no_animation_on_mobile={false}
+    on_close={null}
+    on_close_prevent={null}
+    on_open={null}
+    open_modal={null}
+    overlay_class={null}
+    prevent_close={false}
+    prevent_core_style={false}
+    root_id="root"
+    spacing={true}
+    style_type="button"
+    title="modal_title"
+    toggleOpenClose={[Function]}
+  >
+    <ModalContent
       0={
         Object {
           "displayName": "Modal",
@@ -447,7 +545,6 @@ exports[`Modal component have to match snapshot 1`] = `
       container_placement={null}
       content_class={null}
       content_id="dnb-modal-modal_id"
-      direct_dom_return={true}
       focus_selector={null}
       fullscreen="auto"
       hide={false}
@@ -473,298 +570,197 @@ exports[`Modal component have to match snapshot 1`] = `
       title="modal_title"
       toggleOpenClose={[Function]}
     >
-      <ModalContent
-        0={
-          Object {
-            "displayName": "Modal",
-            "props": Object {
-              "align_content": "'left'",
-              "animation_duration": "animation_duration",
-              "children": "children",
-              "class": "class",
-              "className": "className",
-              "close_modal": [Function],
-              "close_title": "close_title",
-              "container_placement": "'left'",
-              "content_class": "content_class",
-              "content_id": "content_id",
-              "direct_dom_return": "direct_dom_return",
-              "disabled": "disabled",
-              "focus_selector": "focus_selector",
-              "fullscreen": "'auto'",
-              "hide_close_button": "hide_close_button",
-              "id": "id",
-              "labelled_by": "labelled_by",
-              "max_width": "max_width",
-              "min_width": "min_width",
-              "modal_content": "modal_content",
-              "mode": "'modal'",
-              "no_animation": "no_animation",
-              "no_animation_on_mobile": "no_animation_on_mobile",
-              "on_close": [Function],
-              "on_close_prevent": [Function],
-              "on_open": [Function],
-              "open_delay": "open_delay",
-              "open_modal": [Function],
-              "open_state": "'opened'",
-              "overlay_class": "overlay_class",
-              "prevent_close": "prevent_close",
-              "prevent_core_style": "prevent_core_style",
-              "root_id": "root_id",
-              "spacing": "spacing",
-              "title": "title",
-              "trigger": "trigger",
-              "trigger_attributes": Object {},
-              "trigger_class": "trigger_class",
-              "trigger_disabled": "trigger_disabled",
-              "trigger_hidden": "trigger_hidden",
-              "trigger_icon": "trigger_icon",
-              "trigger_icon_position": "'left'",
-              "trigger_size": "trigger_size",
-              "trigger_text": "trigger_text",
-              "trigger_title": "trigger_title",
-              "trigger_variant": "custom type not supported, please set the correct value for trigger_variant prop",
-            },
-          }
-        }
-        1={
-          Object {
-            "displayName": "ModalRoot",
-            "props": Object {
-              "children": "children",
-              "direct_dom_return": "direct_dom_return",
-              "id": "id",
-              "root_id": "root_id",
-            },
-          }
-        }
-        align_content={null}
-        animation_duration={300}
-        class={null}
-        className={null}
-        closeModal={[Function]}
-        close_modal={null}
-        close_title="close_title"
-        container_placement={null}
-        content_class={null}
-        content_id="dnb-modal-modal_id"
-        focus_selector={null}
-        fullscreen="auto"
-        hide={false}
-        hide_close_button={false}
-        id="modal_id"
-        labelled_by={null}
-        max_width={null}
-        min_width={null}
-        modal_content="unique_modal_content"
-        mode="modal"
-        no_animation={true}
-        no_animation_on_mobile={false}
-        on_close={null}
-        on_close_prevent={null}
-        on_open={null}
-        open_modal={null}
-        overlay_class={null}
-        prevent_close={false}
-        prevent_core_style={false}
-        root_id="root"
-        spacing={true}
-        style_type="button"
-        title="modal_title"
-        toggleOpenClose={[Function]}
+      <div
+        aria-describedby="dnb-modal-modal_id-content"
+        aria-labelledby="dnb-modal-modal_id-title"
+        aria-modal="true"
+        className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-modal__content--modal dnb-modal__content--spacing dnb-modal__content--no-animation"
+        id="dnb-modal-modal_id"
+        onClick={[Function]}
+        role="main"
       >
-        <div
-          aria-describedby="dnb-modal-modal_id-content"
-          aria-labelledby="dnb-modal-modal_id-title"
-          aria-modal="true"
-          className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-modal__content--modal dnb-modal__content--spacing dnb-modal__content--no-animation"
-          id="dnb-modal-modal_id"
+        <ForwardRef(ScrollViewRef)
+          className="dnb-modal__content__inner dnb-core-style"
+          id="modal_id"
           onClick={[Function]}
-          role="main"
+          onKeyDown={[Function]}
+          onTouchStart={[Function]}
         >
-          <ForwardRef(ScrollViewRef)
+          <ScrollView
+            class={null}
             className="dnb-modal__content__inner dnb-core-style"
             id="modal_id"
+            innerRef={null}
             onClick={[Function]}
             onKeyDown={[Function]}
             onTouchStart={[Function]}
           >
-            <ScrollView
-              class={null}
-              className="dnb-modal__content__inner dnb-core-style"
+            <div
+              className="dnb-scroll-view dnb-modal__content__inner dnb-core-style"
               id="modal_id"
-              innerRef={null}
               onClick={[Function]}
               onKeyDown={[Function]}
               onTouchStart={[Function]}
             >
               <div
-                className="dnb-scroll-view dnb-modal__content__inner dnb-core-style"
-                id="modal_id"
-                onClick={[Function]}
-                onKeyDown={[Function]}
-                onTouchStart={[Function]}
+                className="dnb-modal__content__spacing dnb-no-focus"
+                tabIndex={-1}
               >
-                <div
-                  className="dnb-modal__content__spacing dnb-no-focus"
-                  tabIndex={-1}
+                <h1
+                  className="dnb-modal__title dnb-h--large"
+                  id="dnb-modal-modal_id-title"
                 >
-                  <h1
-                    className="dnb-modal__title dnb-h--large"
-                    id="dnb-modal-modal_id-title"
-                  >
-                    modal_title
-                  </h1>
-                  <CloseButton
-                    className={null}
-                    close_title="close_title"
+                  modal_title
+                </h1>
+                <CloseButton
+                  className={null}
+                  close_title="close_title"
+                  on_click={[Function]}
+                  style_type={null}
+                >
+                  <Button
+                    bounding={false}
+                    class={null}
+                    className="dnb-modal__close-button"
+                    custom_element={null}
+                    custom_method={null}
+                    disabled={null}
+                    element={null}
+                    global_status_id={null}
+                    href={null}
+                    icon="close"
+                    icon_position="right"
+                    icon_size="basis"
+                    id={null}
+                    innerRef={null}
+                    inner_ref={null}
+                    onClick={null}
                     on_click={[Function]}
-                    style_type={null}
+                    size="large"
+                    skeleton={null}
+                    status={null}
+                    status_animation={null}
+                    status_state="error"
+                    text="close_title"
+                    title={null}
+                    tooltip={null}
+                    type="button"
+                    variant="secondary"
+                    wrap={false}
                   >
-                    <Button
-                      bounding={false}
-                      class={null}
-                      className="dnb-modal__close-button"
-                      custom_element={null}
-                      custom_method={null}
-                      disabled={null}
-                      element={null}
-                      global_status_id={null}
-                      href={null}
-                      icon="close"
-                      icon_position="right"
-                      icon_size="basis"
-                      id={null}
-                      innerRef={null}
-                      inner_ref={null}
-                      onClick={null}
-                      on_click={[Function]}
-                      size="large"
-                      skeleton={null}
-                      status={null}
-                      status_animation={null}
-                      status_state="error"
-                      text="close_title"
-                      title={null}
-                      tooltip={null}
+                    <button
+                      className="dnb-button dnb-button--secondary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-basis dnb-button--size-large"
+                      disabled={false}
+                      onClick={[Function]}
                       type="button"
-                      variant="secondary"
-                      wrap={false}
                     >
-                      <button
-                        className="dnb-button dnb-button--secondary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-basis dnb-button--size-large"
-                        disabled={false}
-                        onClick={[Function]}
+                      <Content
+                        bounding={false}
+                        class={null}
+                        className="dnb-modal__close-button"
+                        content="close_title"
+                        custom_element={null}
+                        custom_method={null}
+                        disabled={null}
+                        element={null}
+                        global_status_id={null}
+                        href={null}
+                        icon="close"
+                        icon_position="right"
+                        icon_size="basis"
+                        id={null}
+                        innerRef={null}
+                        inner_ref={null}
+                        isIconOnly={false}
+                        onClick={null}
+                        on_click={[Function]}
+                        size="large"
+                        skeleton={false}
+                        status={null}
+                        status_animation={null}
+                        status_state="error"
+                        text="close_title"
+                        title={null}
+                        tooltip={null}
                         type="button"
+                        variant="secondary"
+                        wrap={false}
                       >
-                        <Content
-                          bounding={false}
-                          class={null}
-                          className="dnb-modal__close-button"
-                          content="close_title"
-                          custom_element={null}
-                          custom_method={null}
-                          disabled={null}
-                          element={null}
-                          global_status_id={null}
-                          href={null}
+                        <span
+                          className="dnb-button__alignment"
+                          key="button-text-empty"
+                        >
+                          ‌
+                        </span>
+                        <span
+                          className="dnb-button__text dnb-skeleton--show-font"
+                          key="button-text"
+                        >
+                          close_title
+                        </span>
+                        <IconPrimary
+                          alt={null}
+                          aria-hidden={true}
+                          attributes={null}
+                          border={null}
+                          className="dnb-button__icon"
+                          color={null}
+                          height={null}
                           icon="close"
-                          icon_position="right"
-                          icon_size="basis"
-                          id={null}
-                          innerRef={null}
-                          inner_ref={null}
-                          isIconOnly={false}
-                          onClick={null}
-                          on_click={[Function]}
-                          size="large"
+                          inherit_color={true}
+                          key="button-icon"
+                          modifier={null}
+                          size="basis"
                           skeleton={false}
-                          status={null}
-                          status_animation={null}
-                          status_state="error"
-                          text="close_title"
                           title={null}
-                          tooltip={null}
-                          type="button"
-                          variant="secondary"
-                          wrap={false}
+                          width={null}
                         >
                           <span
-                            className="dnb-button__alignment"
-                            key="button-text-empty"
-                          >
-                            ‌
-                          </span>
-                          <span
-                            className="dnb-button__text dnb-skeleton--show-font"
-                            key="button-text"
-                          >
-                            close_title
-                          </span>
-                          <IconPrimary
-                            alt={null}
                             aria-hidden={true}
-                            attributes={null}
-                            border={null}
-                            className="dnb-button__icon"
-                            color={null}
-                            height={null}
-                            icon="close"
-                            inherit_color={true}
-                            key="button-icon"
-                            modifier={null}
-                            size="basis"
-                            skeleton={false}
-                            title={null}
-                            width={null}
+                            aria-label="close icon"
+                            className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                            role="presentation"
                           >
-                            <span
-                              aria-hidden={true}
-                              aria-label="close icon"
-                              className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                              role="presentation"
-                            >
-                              <close>
-                                <svg
-                                  fill="none"
-                                  height={16}
-                                  viewBox="0 0 16 16"
-                                  width={16}
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M3 13L13 3M13 13L3 3"
-                                    stroke="black"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={1.5}
-                                  />
-                                </svg>
-                              </close>
-                            </span>
-                          </IconPrimary>
-                        </Content>
-                      </button>
-                    </Button>
-                  </CloseButton>
-                  <div
-                    className="dnb-modal__wrapper"
-                    id="dnb-modal-modal_id-content"
-                  >
-                    unique_modal_content
-                  </div>
+                            <close>
+                              <svg
+                                fill="none"
+                                height={16}
+                                viewBox="0 0 16 16"
+                                width={16}
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M3 13L13 3M13 13L3 3"
+                                  stroke="black"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={1.5}
+                                />
+                              </svg>
+                            </close>
+                          </span>
+                        </IconPrimary>
+                      </Content>
+                    </button>
+                  </Button>
+                </CloseButton>
+                <div
+                  className="dnb-modal__wrapper"
+                  id="dnb-modal-modal_id-content"
+                >
+                  unique_modal_content
                 </div>
               </div>
-            </ScrollView>
-          </ForwardRef(ScrollViewRef)>
-        </div>
-        <span
-          aria-hidden="true"
-          className="dnb-modal__overlay dnb-modal__overlay--modal dnb-modal__overlay--no-animation"
-        />
-      </ModalContent>
-    </ModalRoot>
-  </div>
+            </div>
+          </ScrollView>
+        </ForwardRef(ScrollViewRef)>
+      </div>
+      <span
+        aria-hidden="true"
+        className="dnb-modal__overlay dnb-modal__overlay--modal dnb-modal__overlay--no-animation"
+      />
+    </ModalContent>
+  </ModalRoot>
 </Modal>
 `;
 
@@ -1201,7 +1197,7 @@ exports[`Modal scss have to match snapshot 1`] = `
 button.dnb-button::-moz-focus-inner {
   border: none; }
 
-.dnb-modal {
+.dnb-modal__content {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-default);
   font-size: var(--font-size-small);
@@ -1230,15 +1226,15 @@ button.dnb-button::-moz-focus-inner {
   */
   margin: 0;
   padding: 0; }
-  .dnb-modal *,
-  .dnb-modal ::before,
-  .dnb-modal ::after {
+  .dnb-modal__content *,
+  .dnb-modal__content ::before,
+  .dnb-modal__content ::after {
     background-repeat: no-repeat;
     /* 1 */
     box-sizing: border-box;
     /* 2 */ }
-  .dnb-modal ::before,
-  .dnb-modal ::after {
+  .dnb-modal__content ::before,
+  .dnb-modal__content ::after {
     text-decoration: inherit;
     /* 1 */
     vertical-align: inherit;
@@ -1343,7 +1339,6 @@ button.dnb-button::-moz-focus-inner {
   left: 0; }
 
 .dnb-modal {
-  display: inline-flex;
   /* stylelint-disable-next-line */ }
   .dnb-modal__content {
     position: fixed;
