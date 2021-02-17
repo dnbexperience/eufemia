@@ -42,6 +42,10 @@ export default class AccordionGroup extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
+    remember_state: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
     on_change: PropTypes.func,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
@@ -59,6 +63,7 @@ export default class AccordionGroup extends React.PureComponent {
     prevent_rerender: null,
     single_container: null,
     allow_close_all: null,
+    remember_state: null,
     on_change: null,
     disabled: null,
     id: null,
