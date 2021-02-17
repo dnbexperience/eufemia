@@ -18,7 +18,7 @@ const Style = styled.div`
 
 export const NumberDefault = () => (
   <Style>
-    <ComponentBox data-visual-test="number-default">
+    <ComponentBox data-visual-test="number-format-default">
       {
         /* @jsx */ `
 <P>
@@ -35,7 +35,7 @@ export const NumberDefault = () => (
 
 export const NumberCurrency = () => (
   <Style>
-    <ComponentBox data-visual-test="number-currency">
+    <ComponentBox data-visual-test="number-format-currency">
       {
         /* @jsx */ `
 <P>
@@ -52,7 +52,7 @@ export const NumberCurrency = () => (
 
 export const NumberPhone = () => (
   <Style>
-    <ComponentBox data-visual-test="number-phone">
+    <ComponentBox data-visual-test="number-format-phone">
       {
         /* @jsx */ `
 <P>
@@ -71,7 +71,7 @@ export const NumberPhone = () => (
 
 export const NumberBankAccount = () => (
   <Style>
-    <ComponentBox data-visual-test="number-ban">
+    <ComponentBox data-visual-test="number-format-ban">
       {
         /* @jsx */ `
 <P>
@@ -85,7 +85,7 @@ export const NumberBankAccount = () => (
 
 export const NumberNationalIdentification = () => (
   <Style>
-    <ComponentBox data-visual-test="number-nin">
+    <ComponentBox data-visual-test="number-format-nin">
       {
         /* @jsx */ `
 <P>
@@ -99,7 +99,7 @@ export const NumberNationalIdentification = () => (
 
 export const NumberOrganization = () => (
   <Style>
-    <ComponentBox data-visual-test="number-org">
+    <ComponentBox data-visual-test="number-format-org">
       {
         /* @jsx */ `
 <P>
@@ -113,7 +113,7 @@ export const NumberOrganization = () => (
 
 export const NumberLocales = () => (
   <Style>
-    <ComponentBox data-visual-test="number-locales">
+    <ComponentBox data-visual-test="number-format-locales">
       {
         /* @jsx */ `
 <H3>Numbers</H3>
