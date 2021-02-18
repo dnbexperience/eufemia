@@ -3,7 +3,7 @@ import fs from 'fs-extra'
 import opentype from 'opentype.js'
 import Fontmin from 'fontmin'
 import { asyncForEach } from './'
-import { makeUniqueId } from '../../../src/shared/component-helper'
+import { makeUniqueId } from '../../src/shared/component-helper'
 import ora from 'ora'
 
 const log = ora()
@@ -19,7 +19,10 @@ asyncForEach(
     { fontName: 'DNB', styleName: 'Regular' },
     { fontName: 'DNB', styleName: 'Medium' },
     { fontName: 'DNB', styleName: 'Bold' },
-    { fontName: 'DNBMono', styleName: 'Regular' }
+    { fontName: 'DNBMono', styleName: 'Light' },
+    { fontName: 'DNBMono', styleName: 'Regular' },
+    { fontName: 'DNBMono', styleName: 'Medium' },
+    { fontName: 'DNBMono', styleName: 'Bold' }
   ],
   async ({ fontName, styleName }) => {
     const soruceFile = `${fontName}-${styleName}.ttf`
