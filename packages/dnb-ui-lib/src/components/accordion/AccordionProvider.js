@@ -14,10 +14,11 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import {
-  spacingPropTypes,
-  createSpacingClasses
-} from '../space/SpacingHelper'
+  accordionPropTypes,
+  accordionDefaultProps
+} from './AccordionPropTypes'
 
 import Context from '../../shared/Context'
 import AccordionGroupContext from './AccordionProviderContext'
@@ -27,47 +28,16 @@ export default class AccordionGroup extends React.PureComponent {
   static contextType = Context
 
   static propTypes = {
-    expanded: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    ...accordionPropTypes,
+
     expanded_id: PropTypes.string,
-    prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    prevent_rerender: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool
-    ]),
-    single_container: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool
-    ]),
-    allow_close_all: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool
-    ]),
-    remember_state: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool
-    ]),
-    on_change: PropTypes.func,
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    ...spacingPropTypes,
-
-    id: PropTypes.string,
-    group: PropTypes.string,
     onInit: PropTypes.func
   }
 
   static defaultProps = {
-    expanded: null,
+    ...accordionDefaultProps,
+
     expanded_id: null,
-    prerender: null,
-    prevent_rerender: null,
-    single_container: null,
-    allow_close_all: null,
-    remember_state: null,
-    on_change: null,
-    disabled: null,
-    id: null,
-    group: null,
     onInit: null
   }
 
