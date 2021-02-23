@@ -70,6 +70,15 @@ describe('"registerElement" should', () => {
     )
   })
 
+  it('have to match snapshot', () => {
+    const Comp = mount(
+      <div
+        dangerouslySetInnerHTML={{ __html: customElement[0].outerHTML }}
+      />
+    )
+    expect(toJson(Comp)).toMatchSnapshot()
+  })
+
   it('renders a mathod called render_', () => {
     const render_mock = jest.fn()
     const eventHandler = jest.fn()
@@ -228,9 +237,5 @@ describe('"registerElement" should', () => {
     // expect the event to be called once
     expect(eventCallback.mock.calls.length).toBe(1)
     expect(eventCallback.mock.calls[0][0].detail).toBe(detail)
-  })
-
-  it('have to match snapshot', () => {
-    expect(toJson(customElement)).toMatchSnapshot()
   })
 })
