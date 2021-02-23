@@ -1,9 +1,9 @@
 ## Heading
 
 | Properties                            | Description                                                           |
-| ------------------------------------- | --------------------------------------------------------------------- | -------------------------- | ---------- |
-| `spacing` or `children`               | _(optional)_ text `spacing` or `children`.                            | _(optional)_ text `spacing | children`. |
-| `secondary`                           | _(optional)_ text `secondary`.                                        | _(optional)_ text `spacing | children`. |
+| ------------------------------------- | --------------------------------------------------------------------- |
+| `spacing` or `children`               | _(optional)_ text `spacing` or `children`.                            |
+| `secondary`                           | _(optional)_ text `secondary`.                                        |
 | [Space](/__mocks__/SpaceComponent.md) | _(optional)_ spacing properties like `top` or `bottom` are supported. |
 
 | Properties | Description        |

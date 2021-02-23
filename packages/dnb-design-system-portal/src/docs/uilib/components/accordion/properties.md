@@ -4,7 +4,7 @@ showTabs: true
 
 ## Properties
 
-| Accordion Properties                        | Description                                                           |
+| Accordion and AccordionProvider Properties  | Description                                                           |
 | ------------------------------------------- | --------------------------------------------------------------------- |
 | `id`                                        | _(optional)_ docs.                                                    |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported. |

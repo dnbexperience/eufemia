@@ -115,9 +115,9 @@ async function extractorFactory({
 
         // In case the first column header contains the component name, we use that one
         if (
-          tableIndex === 0 ||
+          (tableIndex === 0 && !/\s/.test(header)) ||
           (componentName &&
-            / /.test(header) &&
+            /\s/.test(header) &&
             new RegExp(`(\\s|^)${componentName}(\\s|$)`, 'g').test(header))
         ) {
           rows.forEach((row) => {
