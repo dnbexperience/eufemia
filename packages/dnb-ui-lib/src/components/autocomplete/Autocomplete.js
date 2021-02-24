@@ -400,6 +400,18 @@ class AutocompleteInstance extends React.PureComponent {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.value !== this.props.value) {
+      const inputValue = AutocompleteInstance.getCurrentDataTitle(
+        this.context.drawerList.selected_item,
+        this.context.drawerList.original_data
+      )
+      this.setState({
+        inputValue
+      })
+    }
+  }
+
   componentWillUnmount() {
     this.setHidden()
     clearTimeout(this._hideTimeout)

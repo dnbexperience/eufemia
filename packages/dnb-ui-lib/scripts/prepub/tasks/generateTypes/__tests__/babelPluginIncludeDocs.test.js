@@ -14,13 +14,18 @@ import { babelPluginCorrectTypes } from '../babelPluginCorrectTypes'
 describe('babelPluginIncludeDocs', () => {
   const docsDir = nodePath.resolve(__dirname, '__mocks__')
   const file = nodePath.resolve(docsDir, 'PrimaryComponent.js')
-  let docs = {}
 
   async function runIncludeDocsTestSuite({
     sourceDir,
     strictMode = false,
     onComplete = null
   }) {
+    const { docs } = await fetchPropertiesFromDocs({
+      file,
+      docsDir,
+      findFiles: ['PrimaryComponent.md']
+    })
+
     const { code } = await transformFileAsync(file, {
       plugins: [
         ['@babel/plugin-proposal-class-properties', { loose: true }],
@@ -46,7 +51,7 @@ describe('babelPluginIncludeDocs', () => {
   }
 
   it('has to match docs snapshot', async () => {
-    docs = await fetchPropertiesFromDocs({
+    const { docs } = await fetchPropertiesFromDocs({
       file,
       docsDir,
       findFiles: ['PrimaryComponent.md']

@@ -393,6 +393,31 @@ describe('Autocomplete component', () => {
     expect(on_focus).toHaveBeenCalledTimes(2)
   })
 
+  it('updates its input value if value prop changes', () => {
+    let value = 0
+
+    const Comp = mount(
+      <Component
+        no_animation
+        value={value}
+        data={mockData}
+        {...mockProps}
+      />
+    )
+
+    Comp.find('input').simulate('focus')
+
+    expect(Comp.find('.dnb-input__input').instance().value).toBe(
+      mockData[value]
+    )
+
+    value = 1
+    Comp.setProps({ value })
+    expect(Comp.find('.dnb-input__input').instance().value).toBe(
+      mockData[value]
+    )
+  })
+
   it('behaves by default to take the selection in account', async () => {
     const value = 'c'
     let newValue = null

@@ -18,9 +18,15 @@ describe('HelpButton screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match help button with information icon', async () => {
+  it('have to match help button sizes', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="help-button-sizes"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match help button suffix', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="help-button-suffix"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

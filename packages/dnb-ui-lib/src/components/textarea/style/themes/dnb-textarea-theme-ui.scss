@@ -35,7 +35,7 @@
       color: var(--color-sea-green);
       background-color: var(--color-white);
       &:not(.status--error) /* for the HTML element */ {
-        box-shadow: var(--textarea-border-inner),
+        box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-white),
           0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
             var(--color-emerald-green);
 
@@ -73,7 +73,7 @@
   // only fot the HTML element textarea
   &.status--error /* for the HTML element */,
   .dnb-textarea__status--error/* for the HTML element */ {
-    box-shadow: var(--textarea-border-inner),
+    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-white),
       0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
         var(--color-fire-red);
 
@@ -103,6 +103,8 @@
     -ms-overflow-style: -ms-autohiding-scrollbar;
     box-shadow: 0 0 0 1px var(--color-sea-green);
   }
+
+  @include scrollY(auto);
 }
 
 .dnb-textarea {
@@ -125,7 +127,7 @@
   &__status--error:not(#{&}--focus) &__textarea {
     &,
     &:not(#{&}--disabled):hover {
-      box-shadow: var(--textarea-border-inner),
+      box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-white),
         0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
           var(--color-fire-red);
 

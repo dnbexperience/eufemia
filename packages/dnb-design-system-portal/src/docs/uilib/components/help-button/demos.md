@@ -18,7 +18,21 @@ import ComponentBox from 'Tags/ComponentBox'
 	}
 </ComponentBox>
 
-### Help button using information icon
+### Help button inside a suffix
+
+<ComponentBox data-visual-test="help-button-suffix">
+	{
+	/* @jsx */ `
+<Input
+	size={10}
+	placeholder="Input ..."
+	suffix={<HelpButton title="Custom title">Text</HelpButton>}
+/>
+	`
+	}
+</ComponentBox>
+
+### Help button in different sizes
 
 <ComponentBox data-visual-test="help-button-sizes">
 	{

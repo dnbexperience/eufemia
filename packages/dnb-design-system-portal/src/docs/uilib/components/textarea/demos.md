@@ -7,6 +7,7 @@ TextareaExampleRowsCols,
 TextareaExamplePlaceholder,
 TextareaExampleVertical,
 TextareaExampleStretched,
+TextareaExampleAutoresize,
 TextareaExampleMaxLength,
 TextareaExampleFormStatus,
 TextareaExampleError,
@@ -31,6 +32,10 @@ TextareaExampleSuffix
 ### Stretched horizontal placed label
 
 <TextareaExampleStretched />
+
+### Autoresize with max rows
+
+<TextareaExampleAutoresize />
 
 ### Max length usage
 

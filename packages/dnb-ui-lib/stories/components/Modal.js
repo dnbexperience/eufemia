@@ -208,6 +208,9 @@ export const ModalSandbox = () => (
     <Box>
       <ModalTriggerExample />
     </Box>
+    <Box>
+      <CloseWithAnimation />
+    </Box>
   </Wrapper>
 )
 
@@ -440,10 +443,10 @@ const ModalCloseExample = () => {
         trigger_text="Open Modal and auto close"
         title="Modal Title"
         open_state={open_state}
-        // open_modal={(open) => {
-        //   const timeout = setTimeout(open, 3e3)
-        //   return () => clearTimeout(timeout)
-        // }}
+        open_modal={(open) => {
+          const timeout = setTimeout(open, 3e3)
+          return () => clearTimeout(timeout)
+        }}
         // hide_close_button
         close_modal={(close) => {
           let timeout
@@ -694,5 +697,22 @@ function SimScrollView() {
         />
       </ScrollView>
     </div>
+  )
+}
+
+function CloseWithAnimation() {
+  const [modalOpen, setModalOpen] = React.useState(false)
+  return (
+    <Modal
+      trigger_text="CloseWithAnimation"
+      open_state={modalOpen}
+      on_open={() => setModalOpen(true)}
+      on_close={() => setModalOpen(false)}
+    >
+      <Button
+        text="Close from inside modal"
+        on_click={() => setModalOpen(false)}
+      />
+    </Modal>
   )
 }

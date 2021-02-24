@@ -60,15 +60,9 @@ PrimaryComponent.propTypes = {
    * Text \`margin-left\`.
   */
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-
-  /**
-   * Text \`secondary\`.
-  */
-  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary_spacing: PropTypes.shape({
-    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
-  }),
+  ...secondaryPropTypes,
+  secondary_foo: secondaryPropTypes.secondary,
+  secondary_spacing: PropTypes.shape(secondaryPropTypes),
 
   /**
    * Text \`spacing\` or \`children\`.
@@ -123,15 +117,9 @@ Element.propTypes = {
    * Text \`margin-left\`.
   */
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-
-  /**
-   * Text \`secondary\`.
-  */
-  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary_spacing: PropTypes.shape({
-    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
-  }),
+  ...secondaryPropTypes,
+  secondary_foo: secondaryPropTypes.secondary,
+  secondary_spacing: PropTypes.shape(secondaryPropTypes),
 
   /**
    * Text \`spacing\` or \`children\`.
@@ -208,15 +196,9 @@ PrimaryComponent.propTypes = {
    * Text \`margin-left\`.
   */
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-
-  /**
-   * Text \`secondary\`.
-  */
-  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary_spacing: PropTypes.shape({
-    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
-  }),
+  ...secondaryPropTypes,
+  secondary_foo: secondaryPropTypes.secondary,
+  secondary_spacing: PropTypes.shape(secondaryPropTypes),
 
   /**
    * Text \`spacing\` or \`children\`.
@@ -271,15 +253,9 @@ Element.propTypes = {
    * Text \`margin-left\`.
   */
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-
-  /**
-   * Text \`secondary\`.
-  */
-  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary_spacing: PropTypes.shape({
-    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
-  }),
+  ...secondaryPropTypes,
+  secondary_foo: secondaryPropTypes.secondary,
+  secondary_spacing: PropTypes.shape(secondaryPropTypes),
 
   /**
    * Text \`spacing\` or \`children\`.
@@ -356,15 +332,9 @@ PrimaryComponent.propTypes = {
    * Text \`margin-left\`.
   */
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-
-  /**
-   * Text \`secondary\`.
-  */
-  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary_spacing: PropTypes.shape({
-    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
-  }),
+  ...secondaryPropTypes,
+  secondary_foo: secondaryPropTypes.secondary,
+  secondary_spacing: PropTypes.shape(secondaryPropTypes),
 
   /**
    * Text \`spacing\` or \`children\`.
@@ -419,15 +389,9 @@ Element.propTypes = {
    * Text \`margin-left\`.
   */
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-
-  /**
-   * Text \`secondary\`.
-  */
-  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  secondary_spacing: PropTypes.shape({
-    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
-  }),
+  ...secondaryPropTypes,
+  secondary_foo: secondaryPropTypes.secondary,
+  secondary_spacing: PropTypes.shape(secondaryPropTypes),
 
   /**
    * Text \`spacing\` or \`children\`.
@@ -453,7 +417,6 @@ Array [
   "right",
   "bottom",
   "left",
-  "secondary",
   "secondary_foo",
   "secondary_spacing",
   "children",
@@ -464,7 +427,6 @@ Array [
   "right",
   "bottom",
   "left",
-  "secondary",
   "secondary_foo",
   "secondary_spacing",
   "children",

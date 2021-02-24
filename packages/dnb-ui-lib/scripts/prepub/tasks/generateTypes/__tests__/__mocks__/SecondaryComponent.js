@@ -5,7 +5,7 @@
 
 import PropTypes from 'prop-types'
 
-export const propTypes = {
+export const secondaryPropTypes = {
   secondary: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -21,11 +21,13 @@ const Element = () => {
   return null
 }
 Element.propTypes = {
-  ...propTypes,
-  children: PropTypes.node
+  ...secondaryPropTypes,
+  children: PropTypes.node,
+  secondProperty: PropTypes.string
 }
 Element.defaultProps = {
-  children: null
+  children: null,
+  secondProperty: null
 }
 
 export default Element

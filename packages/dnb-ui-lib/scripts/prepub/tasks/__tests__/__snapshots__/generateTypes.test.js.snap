@@ -89,12 +89,26 @@ export default class PrimaryComponent extends React.Component<
 
 exports[`generateTypes has to match SecondaryComponent snapshot 1`] = `
 "import * as React from 'react';
+export type ElementSecondary = string | number | boolean;
 
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by \\"generateTypes.js\\" and \\"fetchPropertiesFromDocs.js\\".
  */
 export interface ElementProps extends React.HTMLProps<HTMLElement> {
+  /**
+   * Text \`secondary\`.
+   */
+  secondary?: ElementSecondary;
+
+  /**
+   * Text \`children\`.
+   */
   children?: React.ReactNode;
+
+  /**
+   * SecondProperty.
+   */
+  secondProperty?: string;
 }
 declare const Element: React.FC<ElementProps>;
 export default Element;

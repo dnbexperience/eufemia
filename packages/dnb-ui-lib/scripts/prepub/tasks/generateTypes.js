@@ -76,7 +76,7 @@ export const createTypes = async (
         // file.includes('/Element.js') ||
         // file.includes('/Blockquote.js') ||
         // file.includes('/Button.js')
-        file.includes('/Skeleton')
+        file.includes('/Accordion')
       if (isDev && (!isOfInterest || (await existsInGit(destFile)))) {
         return // stop here
       }
@@ -105,7 +105,7 @@ export const createTypes = async (
         /^[A-Z]/.test(basename) &&
         (await fileContains(file, 'propTypes'))
       ) {
-        const docs = await fetchPropertiesFromDocs({
+        const { docs, unsureSituation } = await fetchPropertiesFromDocs({
           file,
           ...opts
         })
@@ -135,7 +135,9 @@ export const createTypes = async (
                 babelPluginIncludeDocs,
                 {
                   docs,
-                  onComplete: warnAboutMissingPropTypes
+                  onComplete: !unsureSituation
+                    ? warnAboutMissingPropTypes
+                    : null
                 }
               ]
             ],
@@ -189,7 +191,9 @@ export const createTypes = async (
                   {
                     docs,
                     insertLeadingComment: true,
-                    onComplete: warnAboutMissingPropTypes
+                    onComplete: !unsureSituation
+                      ? warnAboutMissingPropTypes
+                      : null
                   }
                 ]
               ],

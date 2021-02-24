@@ -77,6 +77,29 @@ export const TextareaExampleStretched = () => (
   </Wrapper>
 )
 
+export const TextareaExampleAutoresize = () => (
+  <Wrapper>
+    <ComponentBox>
+      {
+        /* @jsx */ `
+<Textarea
+  label="Autogrow:"
+  rows={1}
+  autoresize={true}
+  autoresize_max_rows={4}
+  placeholder="Placeholder"
+  on_key_down={({ rows, event }) => {
+    if (rows >= 4 && event.key === 'Enter') {
+      event.preventDefault()
+    }
+  }}
+/>
+          `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const TextareaExampleMaxLength = () => (
   <Wrapper>
     <ComponentBox>

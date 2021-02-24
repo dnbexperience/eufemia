@@ -33,7 +33,8 @@ describe('generateTypes', () => {
     const file = nodePath.resolve(docsDir, 'SecondaryComponent.js')
     const [{ destFile, definitionContent }] = await createTypes([file], {
       isTest: true,
-      docsDir
+      docsDir,
+      findFiles: ['SecondaryComponent.md']
     })
 
     expect(destFile).toContain('__mocks__/SecondaryComponent.d.ts')
