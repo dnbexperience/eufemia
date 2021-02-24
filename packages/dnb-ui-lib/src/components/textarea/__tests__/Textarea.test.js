@@ -58,7 +58,7 @@ describe('Textarea component', () => {
     expect(
       Comp.find('.dnb-textarea').hasClass('dnb-textarea--has-content')
     ).toBe(true)
-
+    expect(Comp.find('textarea').instance().value).toBe(value)
     expect(Comp.state().value).toBe(value)
   })
 
@@ -74,6 +74,47 @@ describe('Textarea component', () => {
 
     Comp.setProps({ value: emptyValue })
     expect(Comp.state().value).toBe(emptyValue)
+  })
+
+  it('events gets emmited correctly: "on_change" and "on_key_down"', () => {
+    const initValue = 'init value'
+    const newValue = 'new value'
+    const emptyValue = null // gets emmited also on values as null
+
+    const on_change = jest.fn()
+    const on_key_down = jest.fn() // additional native event test
+
+    const Comp = mount(
+      <Component
+        {...props}
+        value={initValue}
+        on_change={on_change}
+        on_key_down={on_key_down} // additional native event test
+      />
+    )
+
+    expect(Comp.state().value).toBe(initValue)
+
+    Comp.find('textarea').simulate('change', {
+      target: { value: newValue }
+    })
+    expect(on_change.mock.calls.length).toBe(1)
+    expect(Comp.find('textarea').instance().value).toBe(newValue)
+
+    Comp.find('textarea').simulate('change', {
+      target: { value: emptyValue }
+    })
+    expect(on_change.mock.calls.length).toBe(2)
+    expect(on_change.mock.calls[0][0].rows).toBe(1)
+    expect(Comp.state().value).toBe(emptyValue)
+
+    // additional native event test
+    Comp.find('textarea').simulate('keydown', {
+      key: 'Space',
+      keyCode: 84
+    }) // space
+    expect(on_key_down.mock.calls.length).toBe(1)
+    expect(on_key_down.mock.calls[0][0].rows).toBe(1)
   })
 
   it('has correct state after setting "value" prop using placeholder (set by getDerivedStateFromProps)', () => {
@@ -133,6 +174,36 @@ describe('Textarea component', () => {
     expect(Comp.find('textarea').instance().hasAttribute('disabled')).toBe(
       true
     )
+  })
+
+  it('will correctly auto resize if prop autoresize is used', () => {
+    const Comp = mount(
+      <Component rows={1} autoresize={true} autoresize_max_rows={4} />
+    )
+
+    const elem = Comp.find('textarea').instance()
+
+    jest.spyOn(window, 'getComputedStyle').mockImplementation(() => ({
+      lineHeight: 1.5 * 16
+    }))
+
+    jest
+      .spyOn(elem, 'scrollHeight', 'get')
+      .mockImplementation(() => 1.5 * 16)
+    Comp.find('textarea').simulate('change')
+    expect(elem.style.height).toBe('24px')
+
+    jest
+      .spyOn(elem, 'scrollHeight', 'get')
+      .mockImplementation(() => 1.5 * 32)
+    Comp.find('textarea').simulate('change')
+    expect(elem.style.height).toBe('48px')
+
+    jest
+      .spyOn(elem, 'scrollHeight', 'get')
+      .mockImplementation(() => 1.5 * 2000)
+    Comp.find('textarea').simulate('change')
+    expect(elem.style.height).toBe('96px')
   })
 
   it('should validate with ARIA rules as a textarea with a label', async () => {

@@ -17,6 +17,7 @@ import {
   processChildren,
   getStatusState,
   combineDescribedBy,
+  warn,
   dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -69,6 +70,11 @@ export default class Textarea extends React.PureComponent {
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    autoresize: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    autoresize_max_rows: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
     class: PropTypes.string,
     textarea_class: PropTypes.string,
     textarea_attributes: PropTypes.oneOfType([
@@ -91,9 +97,11 @@ export default class Textarea extends React.PureComponent {
 
     custom_element: PropTypes.object,
     custom_method: PropTypes.func,
+
     on_change: PropTypes.func,
     on_focus: PropTypes.func,
     on_blur: PropTypes.func,
+    on_key_down: PropTypes.func,
     on_state_update: PropTypes.func
   }
 
@@ -114,6 +122,8 @@ export default class Textarea extends React.PureComponent {
     stretch: null,
     disabled: null,
     skeleton: null,
+    autoresize: null,
+    autoresize_max_rows: null,
     textarea_class: null,
     class: null,
     textarea_attributes: null,
@@ -132,6 +142,7 @@ export default class Textarea extends React.PureComponent {
     on_change: null,
     on_focus: null,
     on_blur: null,
+    on_key_down: null,
     on_state_update: null
   }
 
@@ -197,8 +208,13 @@ export default class Textarea extends React.PureComponent {
     }
     this.state._value = props.value
   }
+  // componentDidMount() {
+  //   if (isTrue(this.props.autoresize)) {
+  //     this.setAutosize()
+  //   }
+  // }
   onFocusHandler = (event) => {
-    const { value } = event.target
+    const { value } = this._ref.current
     this.setState({
       value,
       _listenForPropChanges: false,
@@ -217,8 +233,86 @@ export default class Textarea extends React.PureComponent {
   }
   onChangeHandler = (event) => {
     const { value } = event.target
-    this.setState({ value, _listenForPropChanges: false })
-    dispatchCustomElementEvent(this, 'on_change', { value, event })
+    const rows = this.getRows(value)
+    // console.log('rows', rows, this.getLineHeight())
+    const ret = dispatchCustomElementEvent(this, 'on_change', {
+      value,
+      rows,
+      event
+    })
+    if (ret !== false) {
+      this.setState({ value, _listenForPropChanges: false })
+      if (isTrue(this.props.autoresize)) {
+        this.setAutosize(rows)
+      }
+    }
+  }
+  onKeyDownHandler = (event) => {
+    const rows = this.getRows()
+    const { value } = event.target
+    dispatchCustomElementEvent(this, 'on_key_down', {
+      value,
+      rows,
+      event
+    })
+  }
+  setAutosize(rows = this.getRows()) {
+    const elem = this._ref.current
+    try {
+      // In case we want animation
+      // if (
+      //   typeof window !== 'undefined' &&
+      //   window.requestAnimationFrame
+      // ) {
+      //   window.cancelAnimationFrame(this.reqId1)
+      //   window.cancelAnimationFrame(this.reqId2)
+      // }
+
+      if (typeof this._heightOffset === 'undefined') {
+        this._heightOffset = elem.offsetHeight - elem.clientHeight
+      }
+
+      elem.style.height = 'auto'
+      let newHeight = elem.scrollHeight + this._heightOffset
+
+      const maxRows = parseFloat(this.props.autoresize_max_rows)
+      if (maxRows > 0) {
+        const maxHeight = maxRows * this.getLineHeight()
+
+        if (rows > maxRows || newHeight > maxHeight) {
+          newHeight = maxHeight
+        }
+      }
+
+      elem.style.height = newHeight + 'px'
+
+      // In case we want animation
+      // if (
+      //   typeof window !== 'undefined' &&
+      //   window.requestAnimationFrame
+      // ) {
+      //   // make the animation
+      //   this.reqId1 = window.requestAnimationFrame(() => {
+      //     elem.style.height = oldHeight + 'px'
+      //     this.reqId2 = window.requestAnimationFrame(() => {
+      //       elem.style.height = newHeight + 'px'
+      //     })
+      //   })
+      // } else {
+      //   elem.style.height = newHeight + 'px'
+      // }
+    } catch (e) {
+      warn(e)
+    }
+  }
+  getRows() {
+    return (
+      Math.floor(this._ref.current.scrollHeight / this.getLineHeight()) ||
+      1
+    )
+  }
+  getLineHeight() {
+    return parseFloat(getComputedStyle(this._ref.current).lineHeight) || 0
   }
   render() {
     // use only the props from context, who are available here anyway
@@ -251,6 +345,8 @@ export default class Textarea extends React.PureComponent {
       class: _className,
       className,
 
+      autoresize,
+      autoresize_max_rows, //eslint-disable-line
       id: _id, //eslint-disable-line
       children, //eslint-disable-line
       value: _value, //eslint-disable-line
@@ -286,7 +382,9 @@ export default class Textarea extends React.PureComponent {
       ...textareaAttributes,
       onChange: this.onChangeHandler,
       onFocus: this.onFocusHandler,
-      onBlur: this.onBlurHandler
+      onBlur: this.onBlurHandler,
+      // onPaste: this.onChangeHandler,
+      onKeyDown: this.onKeyDownHandler
     }
 
     // we may considder using: aria-details
@@ -308,6 +406,7 @@ export default class Textarea extends React.PureComponent {
         hasValue && 'dnb-textarea--has-content',
         align && `dnb-textarea__align--${align}`,
         status && `dnb-textarea__status--${status_state}`,
+        autoresize && 'dnb-textarea__autoresize',
         label_direction && `dnb-textarea--${label_direction}`,
         isTrue(stretch) && `dnb-textarea--stretch`,
         'dnb-form-component',

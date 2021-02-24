@@ -8,8 +8,7 @@
 :root {
   // --textarea-vertical-correction: 0.25rem; // for chromium browsers
   --textarea-padding-width: 0.5rem;
-  --textarea-border-inner: 0 0 0 var(--textarea-padding-width)
-    var(--color-white);
+  // --textarea-easing: #{$defaultEasing};
 }
 
 @mixin textareaStyleCommon() {
@@ -38,7 +37,7 @@
   border: none;
   border-radius: 1px;
 
-  box-shadow: var(--textarea-border-inner),
+  box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-white),
     0 0 0 calc(var(--textarea-padding-width) + 0.0625rem)
       var(--color-sea-green);
 
@@ -101,6 +100,14 @@
   &__align--right &__textarea,
   &__align--right &__placeholder {
     text-align: right;
+  }
+
+  &__autoresize &__textarea {
+    resize: none;
+
+    // In case we want animation
+    // will-change: height;
+    // transition: height 400ms var(--textarea-easing);
   }
 
   // hide placeholder on focus
