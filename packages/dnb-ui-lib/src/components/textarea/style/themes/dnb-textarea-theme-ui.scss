@@ -103,6 +103,8 @@
     -ms-overflow-style: -ms-autohiding-scrollbar;
     box-shadow: 0 0 0 1px var(--color-sea-green);
   }
+
+  @include scrollY(auto);
 }
 
 .dnb-textarea {

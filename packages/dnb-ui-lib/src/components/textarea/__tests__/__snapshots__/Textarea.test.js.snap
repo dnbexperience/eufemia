@@ -128,7 +128,12 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
   --textarea-rows: 2; }
 
 .dnb-textarea__textarea {
-  border-radius: 0.5rem; }
+  border-radius: 0.5rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: auto; }
   .dnb-textarea__textarea,
   .dnb-textarea--virgin .dnb-textarea__textarea,
   .dnb-textarea--initial .dnb-textarea__textarea {
@@ -183,6 +188,8 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
     .dnb-textarea__textarea {
       -ms-overflow-style: -ms-autohiding-scrollbar;
       box-shadow: 0 0 0 1px var(--color-sea-green); } }
+  html:not([data-visual-test]) .dnb-textarea__textarea {
+    scroll-behavior: smooth; }
 
 .dnb-textarea__placeholder {
   color: var(--color-sea-green);
@@ -204,7 +211,12 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
   display: none; }
 
 textarea.dnb-textarea {
-  border-radius: 0.5rem; }
+  border-radius: 0.5rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: auto; }
   textarea.dnb-textarea,
   .dnb-textarea--virgin textarea.dnb-textarea,
   .dnb-textarea--initial textarea.dnb-textarea {
@@ -259,6 +271,8 @@ textarea.dnb-textarea {
     textarea.dnb-textarea {
       -ms-overflow-style: -ms-autohiding-scrollbar;
       box-shadow: 0 0 0 1px var(--color-sea-green); } }
+  html:not([data-visual-test]) textarea.dnb-textarea {
+    scroll-behavior: smooth; }
 "
 `;
 
@@ -535,7 +549,12 @@ legend.dnb-form-label {
   --textarea-rows: 2; }
 
 .dnb-textarea__textarea {
-  border-radius: 0.5rem; }
+  border-radius: 0.5rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: auto; }
   .dnb-textarea__textarea,
   .dnb-textarea--virgin .dnb-textarea__textarea,
   .dnb-textarea--initial .dnb-textarea__textarea {
@@ -590,6 +609,8 @@ legend.dnb-form-label {
     .dnb-textarea__textarea {
       -ms-overflow-style: -ms-autohiding-scrollbar;
       box-shadow: 0 0 0 1px var(--color-sea-green); } }
+  html:not([data-visual-test]) .dnb-textarea__textarea {
+    scroll-behavior: smooth; }
 
 .dnb-textarea__placeholder {
   color: var(--color-sea-green);
@@ -611,7 +632,12 @@ legend.dnb-form-label {
   display: none; }
 
 textarea.dnb-textarea {
-  border-radius: 0.5rem; }
+  border-radius: 0.5rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: auto; }
   textarea.dnb-textarea,
   .dnb-textarea--virgin textarea.dnb-textarea,
   .dnb-textarea--initial textarea.dnb-textarea {
@@ -666,6 +692,8 @@ textarea.dnb-textarea {
     textarea.dnb-textarea {
       -ms-overflow-style: -ms-autohiding-scrollbar;
       box-shadow: 0 0 0 1px var(--color-sea-green); } }
+  html:not([data-visual-test]) textarea.dnb-textarea {
+    scroll-behavior: smooth; }
 
 :root {
   --textarea-padding-width: 0.5rem;
@@ -700,8 +728,7 @@ textarea.dnb-textarea {
     margin: 0;
     padding: 0 var(--textarea-padding-width);
     font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis);
-    scrollbar-width: thin; }
+    line-height: var(--line-height-basis); }
     @media screen and (-ms-high-contrast: none) {
       .dnb-textarea__placeholder {
         padding: var(--textarea-padding-width); } }
@@ -715,8 +742,7 @@ textarea.dnb-textarea {
     margin: 0;
     padding: 0 var(--textarea-padding-width);
     font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis);
-    scrollbar-width: thin; }
+    line-height: var(--line-height-basis); }
     @media screen and (-ms-high-contrast: none) {
       .dnb-textarea__textarea {
         padding: var(--textarea-padding-width); } }
@@ -790,8 +816,12 @@ textarea.dnb-textarea {
   padding: 0 var(--textarea-padding-width);
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
+  border-radius: 0.5rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   scrollbar-width: thin;
-  border-radius: 0.5rem; }
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: auto; }
   @media screen and (-ms-high-contrast: none) {
     textarea.dnb-textarea {
       padding: var(--textarea-padding-width); } }
@@ -852,5 +882,7 @@ textarea.dnb-textarea {
     textarea.dnb-textarea {
       -ms-overflow-style: -ms-autohiding-scrollbar;
       box-shadow: 0 0 0 1px var(--color-sea-green); } }
+  html:not([data-visual-test]) textarea.dnb-textarea {
+    scroll-behavior: smooth; }
 "
 `;
