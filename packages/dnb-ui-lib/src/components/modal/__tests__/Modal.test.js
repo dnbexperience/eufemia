@@ -531,6 +531,49 @@ describe('Modal component', () => {
     // "this.isClosing" is still true at that point. Hard to find the reason. A delay does not help at all.
     // expect(Comp.exists('div.dnb-modal__content')).toBe(true)
   })
+  it('should open and close by using external state only', () => {
+    const on_open = jest.fn()
+    const on_close = jest.fn()
+
+    const ModalTriggerMock = () => {
+      const [modalOpen, setModalOpen] = React.useState(false)
+
+      return (
+        <React.StrictMode>
+          <Component
+            no_animation={true}
+            open_state={modalOpen}
+            on_open={() => {
+              setModalOpen(true)
+              on_open()
+            }}
+            on_close={() => {
+              setModalOpen(false)
+              on_close()
+            }}
+          >
+            <Button
+              className="close-button"
+              text="Close from inside modal"
+              on_click={() => setModalOpen(false)}
+            />
+          </Component>
+        </React.StrictMode>
+      )
+    }
+
+    const Comp = mount(<ModalTriggerMock />)
+
+    Comp.find('button').simulate('click')
+    expect(on_open).toHaveBeenCalledTimes(1)
+    expect(on_close).toHaveBeenCalledTimes(0)
+    expect(Comp.exists('div.dnb-modal__content__inner')).toBe(true)
+
+    Comp.find('button.close-button').simulate('click')
+    expect(on_open).toHaveBeenCalledTimes(1)
+    expect(on_close).toHaveBeenCalledTimes(1)
+    expect(Comp.exists('div.dnb-modal__content__inner')).toBe(false)
+  })
   it('has to have the correct aria-describedby', () => {
     expect(
       Comp.find('[aria-describedby]').props()['aria-describedby']

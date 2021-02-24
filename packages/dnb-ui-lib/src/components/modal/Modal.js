@@ -228,17 +228,21 @@ export default class Modal extends React.PureComponent {
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
       if (props.open_state !== state._open_state) {
-        if (typeof props.open_state === 'boolean') {
-          state.modalActive = props.open_state
-        } else {
-          switch (props.open_state) {
-            case 'opened':
+        switch (props.open_state) {
+          case 'opened':
+          case true:
+            state.hide = false
+            if (isTrue(props.no_animation)) {
               state.modalActive = true
-              break
-            case 'closed':
+            }
+            break
+          case 'closed':
+          case false:
+            state.hide = true
+            if (isTrue(props.no_animation)) {
               state.modalActive = false
-              break
-          }
+            }
+            break
         }
       }
     }
@@ -251,7 +255,6 @@ export default class Modal extends React.PureComponent {
   state = {
     hide: false,
     modalActive: false,
-    currentActiveState: false,
     _listenForPropChanges: true
   }
 
@@ -265,16 +268,7 @@ export default class Modal extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { open_modal } = this.props
-
-    if (typeof open_modal === 'function') {
-      const fn = open_modal(() => {
-        this.toggleOpenClose(true)
-      }, this)
-      if (fn) {
-        this._onUnmount.push(fn)
-      }
-    }
+    this.openBasedOnStateUpdate()
   }
 
   componentWillUnmount() {
@@ -290,47 +284,48 @@ export default class Modal extends React.PureComponent {
     clearTimeout(this._tryToOpenTimeout)
   }
 
-  componentDidUpdate(props) {
-    const { modalActive, currentActiveState } = this.state
+  componentDidUpdate() {
+    this.openBasedOnStateUpdate()
+  }
 
-    if (modalActive !== currentActiveState) {
-      // store the active element to set back the focus later on
-      if (!this.activeElement && typeof document !== 'undefined') {
-        this.activeElement = document.activeElement
-      }
+  openBasedOnStateUpdate() {
+    const { hide, modalActive } = this.state
 
-      if (isTrue(this.props.no_animation)) {
-        this.handleSideEffects()
-      } else {
-        clearTimeout(this._sideEffectsTimeout)
-        this._sideEffectsTimeout = setTimeout(
-          () => this.handleSideEffects(),
-          1
-        )
-        // delay the dispatch to make sure we are after the render cycles
-        // this way have the content instead by the time we call this event
-      }
-    } else {
-      if (
-        !this.isClosing &&
-        !modalActive &&
-        (props.open_state === 'opened' || props.open_state === true)
-      ) {
-        this.toggleOpenClose(true)
-      }
+    if (!this.activeElement && typeof document !== 'undefined') {
+      this.activeElement = document.activeElement
+    }
+
+    if (
+      !this.isInTransition &&
+      !hide &&
+      !modalActive &&
+      (this.props.open_state === 'opened' ||
+        this.props.open_state === true)
+    ) {
+      this.toggleOpenClose(null, true)
+    } else if (
+      !this.isInTransition &&
+      hide &&
+      modalActive &&
+      (this.props.open_state === 'closed' ||
+        this.props.open_state === false)
+    ) {
+      this.toggleOpenClose(null, false)
     }
   }
 
-  toggleOpenClose = (showModal = null, event = null) => {
+  toggleOpenClose = (event = null, showModal = null) => {
     if (event && event.preventDefault) {
       event.preventDefault()
     }
 
     const toggleNow = () => {
       const modalActive =
-        showModal !== null ? showModal : !this.state.modalActive
+        typeof showModal === 'boolean'
+          ? showModal
+          : !this.state.modalActive
 
-      this.isClosing = true
+      this.isInTransition = true
 
       const doItNow = () => {
         this.setState(
@@ -340,10 +335,8 @@ export default class Modal extends React.PureComponent {
             _listenForPropChanges: false
           },
           () => {
-            clearTimeout(this._closeTimeout)
-            this._closeTimeout = setTimeout(() => {
-              this.isClosing = false
-            }, 1) // delay because the hidden trigger, and close/open routine in "componentDidUpdate"
+            this.isInTransition = false
+            this.handleSideEffects()
           }
         )
       }
@@ -364,82 +357,77 @@ export default class Modal extends React.PureComponent {
       }
     }
 
-    const delay = parseFloat(this.props.open_delay)
-    if (delay > 0 && !isTrue(this.props.no_animation)) {
-      clearTimeout(this._openTimeout)
-      this._openTimeout = setTimeout(toggleNow, delay) // custom delay
+    const waitBeforeOpen = () => {
+      const delay = parseFloat(this.props.open_delay)
+      if (delay > 0 && !isTrue(this.props.no_animation)) {
+        clearTimeout(this._openTimeout)
+        this._openTimeout = setTimeout(toggleNow, delay) // custom delay
+      } else {
+        toggleNow()
+      }
+    }
+
+    const { open_modal } = this.props
+    if (typeof open_modal === 'function') {
+      const fn = open_modal(waitBeforeOpen, this)
+      if (fn) {
+        this._onUnmount.push(fn)
+      }
     } else {
-      toggleNow()
+      waitBeforeOpen()
     }
   }
 
   handleSideEffects = () => {
-    if (!isTrue(this.props.direct_dom_return)) {
-      Modal.insertModalRoot(this.props.root_id)
-    }
-
     const modalActive = this.state.modalActive
-    const currentActiveState = modalActive
 
-    const runSideEffect = () => {
-      // prevent scrolling on the background
-      if (typeof document !== 'undefined') {
-        try {
-          document.body.setAttribute(
-            'data-dnb-modal-active',
-            modalActive ? 'true' : 'false'
-          )
-        } catch (e) {
-          warn(
-            'Modal: Error on set "data-dnb-modal-active" by using element.setAttribute()',
-            e
-          )
-        }
-      }
-
-      if (modalActive) {
-        if (typeof this.props.close_modal === 'function') {
-          const fn = this.props.close_modal(() => {
-            this.toggleOpenClose(false)
-          }, this)
-          if (fn) {
-            this._onUnmount.push(fn)
-          }
-        }
-      }
-
-      if (modalActive === false) {
-        if (this._triggerRef && this._triggerRef.current) {
-          this._triggerRef.current.focus({ preventScroll: true })
-        }
-
-        // because the open_state was set to opened, we force
-        if (
-          (this.props.open_state === 'opened' ||
-            this.props.open_state === true) &&
-          this.activeElement
-        ) {
-          try {
-            this.activeElement.focus({ preventScroll: true })
-            this.activeElement = null
-          } catch (e) {
-            //
-          }
-        }
+    // prevent scrolling on the background
+    if (typeof document !== 'undefined') {
+      try {
+        document.body.setAttribute(
+          'data-dnb-modal-active',
+          modalActive ? 'true' : 'false'
+        )
+      } catch (e) {
+        warn(
+          'Modal: Error on set "data-dnb-modal-active" by using element.setAttribute()',
+          e
+        )
       }
     }
 
-    this.setState(
-      {
-        currentActiveState,
-        _listenForPropChanges: false
-      },
-      () => runSideEffect()
-    )
+    if (modalActive) {
+      if (typeof this.props.close_modal === 'function') {
+        const fn = this.props.close_modal(() => {
+          this.toggleOpenClose(null, false)
+        }, this)
+        if (fn) {
+          this._onUnmount.push(fn)
+        }
+      }
+    } else if (modalActive === false) {
+      if (this._triggerRef && this._triggerRef.current) {
+        this._triggerRef.current.focus({ preventScroll: true })
+      }
+
+      // because the open_state was set to opened, we force
+      if (
+        (this.props.open_state === 'opened' ||
+          this.props.open_state === true) &&
+        this.activeElement
+      ) {
+        try {
+          this.activeElement.focus({ preventScroll: true })
+          this.activeElement = null
+        } catch (e) {
+          //
+        }
+      }
+    }
   }
 
   open = (e) => {
-    this.toggleOpenClose(true, e)
+    this.toggleOpenClose(e, true)
   }
 
   close = (event, { ifIsLatest, triggeredBy } = { ifIsLatest: true }) => {
@@ -452,7 +440,7 @@ export default class Modal extends React.PureComponent {
         event,
         triggeredBy,
         close: (e) => {
-          this.toggleOpenClose(false, e)
+          this.toggleOpenClose(e, false)
         }
       })
     } else {
@@ -467,7 +455,7 @@ export default class Modal extends React.PureComponent {
         }
       }
 
-      this.toggleOpenClose(false, event)
+      this.toggleOpenClose(event, false)
     }
   }
 
@@ -508,7 +496,7 @@ export default class Modal extends React.PureComponent {
       ...rest
     } = props
 
-    const { modalActive } = this.state
+    const { hide, modalActive } = this.state
     const modal_content = Modal.getContent(this.props)
 
     const render = (suffixProps) => {
@@ -592,7 +580,7 @@ export default class Modal extends React.PureComponent {
               modal_content={modal_content}
               spacing={spacing}
               closeModal={this.close}
-              hide={this.state.hide}
+              hide={hide}
               toggleOpenClose={this.toggleOpenClose}
               {...modalProps}
             />
