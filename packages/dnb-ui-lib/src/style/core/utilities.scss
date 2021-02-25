@@ -192,19 +192,27 @@ $focusRingColor: var(--color-emerald-green);
 }
 
 @mixin stretch() {
+  // Used by all
   &--stretch {
     display: flex;
     align-self: stretch;
     width: 100%;
   }
+
   &--stretch & {
     &__inner {
       flex-grow: 1;
     }
+
+    // Used by Dropdown
+    &__row,
+    // Used by Input and Textarea
     &__shell {
       width: 100%;
     }
   }
+
+  // Used by Input and Textarea
   &--vertical#{&}--stretch &__inner {
     width: 100%;
   }

@@ -197,6 +197,8 @@
     }
   }
 
+  @include stretch();
+
   @include IS_IE {
     flex: none;
     vertical-align: baseline;
