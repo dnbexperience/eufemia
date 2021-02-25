@@ -789,7 +789,7 @@ textarea.dnb-textarea {
     width: 100%; }
   .dnb-textarea--stretch .dnb-textarea__inner {
     flex-grow: 1; }
-  .dnb-textarea--stretch .dnb-textarea__shell {
+  .dnb-textarea--stretch .dnb-textarea__row, .dnb-textarea--stretch .dnb-textarea__shell {
     width: 100%; }
   .dnb-textarea--vertical.dnb-textarea--stretch .dnb-textarea__inner {
     width: 100%; }

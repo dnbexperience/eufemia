@@ -73,6 +73,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   status="status"
   status_animation="status_animation"
   status_state="error"
+  stretch="stretch"
   submit_button_icon="submit_button_icon"
   submit_button_title="submit_button_title"
   submit_element="submit_element"
@@ -162,6 +163,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     status="status"
     status_animation="status_animation"
     status_state="error"
+    stretch="stretch"
     submit_button_icon="submit_button_icon"
     submit_button_title="submit_button_title"
     submit_element="submit_element"
@@ -245,6 +247,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       status="status"
       status_animation="status_animation"
       status_state="error"
+      stretch="stretch"
       submit_button_icon="submit_button_icon"
       submit_button_title="submit_button_title"
       submit_element="submit_element"
@@ -815,7 +818,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         className="dnb-drawer-list__list dnb-autocomplete__list dnb-drawer-list__list--no-animation"
                         id="autocomplete-id-listbox"
                       >
-                        <DrawerList.Options
+                        <ForwardRef
                           aria-activedescendant="option-autocomplete-id-2"
                           aria-expanded={true}
                           aria-labelledby="autocomplete-id-label"
@@ -980,7 +983,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                               className="dnb-drawer-list__triangle"
                             />
                           </ul>
-                        </DrawerList.Options>
+                        </ForwardRef>
                         <OnMounted
                           assignObservers={[Function]}
                         />
@@ -1064,6 +1067,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "status": "status",
                   "status_animation": "status_animation",
                   "status_state": "error",
+                  "stretch": "stretch",
                   "submit_button_icon": "submit_button_icon",
                   "submit_button_title": "submit_button_title",
                   "submit_element": "submit_element",
@@ -1882,7 +1886,7 @@ legend.dnb-form-label {
     width: 100%; }
   .dnb-input--stretch .dnb-input__inner {
     flex-grow: 1; }
-  .dnb-input--stretch .dnb-input__shell {
+  .dnb-input--stretch .dnb-input__row, .dnb-input--stretch .dnb-input__shell {
     width: 100%; }
   .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
     width: 100%; }
@@ -2265,6 +2269,16 @@ legend.dnb-form-label {
         margin-bottom: 0.5rem; }
       .dnb-responsive-component .dnb-autocomplete__helper {
         display: none; } }
+  .dnb-autocomplete--stretch {
+    display: flex;
+    align-self: stretch;
+    width: 100%; }
+  .dnb-autocomplete--stretch .dnb-autocomplete__inner {
+    flex-grow: 1; }
+  .dnb-autocomplete--stretch .dnb-autocomplete__row, .dnb-autocomplete--stretch .dnb-autocomplete__shell {
+    width: 100%; }
+  .dnb-autocomplete--vertical.dnb-autocomplete--stretch .dnb-autocomplete__inner {
+    width: 100%; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-autocomplete {
       flex: none;
