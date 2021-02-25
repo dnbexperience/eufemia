@@ -27,6 +27,7 @@ export const TextareaSandbox = () => (
       <Textarea
         label="Autogrow:"
         rows={1}
+        stretch
         autoresize={true}
         autoresize_max_rows={4}
         placeholder="Placeholder"

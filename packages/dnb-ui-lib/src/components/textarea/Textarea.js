@@ -208,6 +208,17 @@ export default class Textarea extends React.PureComponent {
     }
     this.state._value = props.value
   }
+  componentDidMount() {
+    if (isTrue(this.props.autoresize) && typeof window !== 'undefined') {
+      this.setAutosize()
+      window.addEventListener('resize', this.setAutosize)
+    }
+  }
+  componentWillUnmount() {
+    if (isTrue(this.props.autoresize) && typeof window !== 'undefined') {
+      window.removeEventListener('resize', this.setAutosize)
+    }
+  }
   onFocusHandler = (event) => {
     const { value } = this._ref.current
     this.setState({
@@ -251,8 +262,12 @@ export default class Textarea extends React.PureComponent {
       event
     })
   }
-  setAutosize(rows = this.getRows()) {
+  setAutosize = (rows = null) => {
     const elem = this._ref.current
+    if (!elem) {
+      return // stop here if no element was gotten
+    }
+    rows = typeof rows === 'number' ? rows : this.getRows()
     try {
       if (typeof this._heightOffset === 'undefined') {
         this._heightOffset = elem.offsetHeight - elem.clientHeight
