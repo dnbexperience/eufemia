@@ -111,6 +111,7 @@ import log_out_medium from './log_out_medium.js'
 import mastercard_card_medium from './mastercard_card_medium.js'
 import mastercard_medium from './mastercard_medium.js'
 import microphone_medium from './microphone_medium.js'
+import minimize_medium from './minimize_medium.js'
 import more_vertical_medium from './more_vertical_medium.js'
 import motorcycle_medium from './motorcycle_medium.js'
 import move_medium from './move_medium.js'
@@ -285,6 +286,7 @@ export {
   mastercard_card_medium,
   mastercard_medium,
   microphone_medium,
+  minimize_medium,
   more_vertical_medium,
   motorcycle_medium,
   move_medium,
