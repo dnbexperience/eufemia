@@ -208,11 +208,6 @@ export default class Textarea extends React.PureComponent {
     }
     this.state._value = props.value
   }
-  // componentDidMount() {
-  //   if (isTrue(this.props.autoresize)) {
-  //     this.setAutosize()
-  //   }
-  // }
   onFocusHandler = (event) => {
     const { value } = this._ref.current
     this.setState({
@@ -259,15 +254,6 @@ export default class Textarea extends React.PureComponent {
   setAutosize(rows = this.getRows()) {
     const elem = this._ref.current
     try {
-      // In case we want animation
-      // if (
-      //   typeof window !== 'undefined' &&
-      //   window.requestAnimationFrame
-      // ) {
-      //   window.cancelAnimationFrame(this.reqId1)
-      //   window.cancelAnimationFrame(this.reqId2)
-      // }
-
       if (typeof this._heightOffset === 'undefined') {
         this._heightOffset = elem.offsetHeight - elem.clientHeight
       }
@@ -285,22 +271,6 @@ export default class Textarea extends React.PureComponent {
       }
 
       elem.style.height = newHeight + 'px'
-
-      // In case we want animation
-      // if (
-      //   typeof window !== 'undefined' &&
-      //   window.requestAnimationFrame
-      // ) {
-      //   // make the animation
-      //   this.reqId1 = window.requestAnimationFrame(() => {
-      //     elem.style.height = oldHeight + 'px'
-      //     this.reqId2 = window.requestAnimationFrame(() => {
-      //       elem.style.height = newHeight + 'px'
-      //     })
-      //   })
-      // } else {
-      //   elem.style.height = newHeight + 'px'
-      // }
     } catch (e) {
       warn(e)
     }
