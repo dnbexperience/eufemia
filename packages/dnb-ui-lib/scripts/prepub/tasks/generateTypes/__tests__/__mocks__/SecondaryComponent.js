@@ -13,7 +13,7 @@ export const secondaryPropTypes = {
   ])
 }
 
-export const defaultProps = {
+export const secondaryDefaultProps = {
   secondary: null
 }
 
