@@ -287,21 +287,7 @@
     align-items: flex-start;
   }
 
-  // make the input full width
-  &--stretch {
-    display: flex;
-  }
-  &--stretch & {
-    &__inner {
-      flex-grow: 1;
-    }
-    &__shell {
-      width: 100%;
-    }
-  }
-  &--vertical#{&}--stretch &__inner {
-    width: 100%;
-  }
+  @include stretch();
 
   // Icon
   &__icon {

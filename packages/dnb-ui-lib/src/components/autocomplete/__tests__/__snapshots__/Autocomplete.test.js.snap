@@ -815,7 +815,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         className="dnb-drawer-list__list dnb-autocomplete__list dnb-drawer-list__list--no-animation"
                         id="autocomplete-id-listbox"
                       >
-                        <ForwardRef
+                        <DrawerList.Options
                           aria-activedescendant="option-autocomplete-id-2"
                           aria-expanded={true}
                           aria-labelledby="autocomplete-id-label"
@@ -980,7 +980,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                               className="dnb-drawer-list__triangle"
                             />
                           </ul>
-                        </ForwardRef>
+                        </DrawerList.Options>
                         <OnMounted
                           assignObservers={[Function]}
                         />
@@ -1877,7 +1877,9 @@ legend.dnb-form-label {
     flex-direction: column;
     align-items: flex-start; }
   .dnb-input--stretch {
-    display: flex; }
+    display: flex;
+    align-self: stretch;
+    width: 100%; }
   .dnb-input--stretch .dnb-input__inner {
     flex-grow: 1; }
   .dnb-input--stretch .dnb-input__shell {

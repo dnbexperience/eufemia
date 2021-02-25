@@ -191,6 +191,25 @@ $focusRingColor: var(--color-emerald-green);
   -ms-overflow-style: auto;
 }
 
+@mixin stretch() {
+  &--stretch {
+    display: flex;
+    align-self: stretch;
+    width: 100%;
+  }
+  &--stretch & {
+    &__inner {
+      flex-grow: 1;
+    }
+    &__shell {
+      width: 100%;
+    }
+  }
+  &--vertical#{&}--stretch &__inner {
+    width: 100%;
+  }
+}
+
 @mixin hideScrollbar() {
   /* Hide scrollbar for Chrome, Safari */
   /* stylelint-disable-next-line */

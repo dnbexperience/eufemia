@@ -127,16 +127,9 @@
     }
   }
   @include formLabelWrap();
+  @include stretch();
 
-  // make the input full width
-  &--stretch {
-    display: flex;
-  }
   &--stretch & {
-    &__inner {
-      flex: 1;
-    }
-    &__shell,
     &__textarea {
       width: 100%;
     }
