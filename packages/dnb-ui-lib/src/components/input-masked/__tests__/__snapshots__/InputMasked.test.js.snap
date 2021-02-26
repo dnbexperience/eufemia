@@ -929,14 +929,14 @@ legend.dnb-form-label {
     flex-direction: column;
     align-items: flex-start; }
   .dnb-input--stretch {
-    display: flex;
-    align-self: stretch;
-    width: 100%; }
+    display: flex; }
   .dnb-input--stretch .dnb-input__inner {
     flex-grow: 1; }
-  .dnb-input--stretch .dnb-input__row, .dnb-input--stretch .dnb-input__shell {
+  .dnb-input--stretch .dnb-input__shell {
     width: 100%; }
   .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
+    width: 100%; }
+  .dnb-form-row--horizontal .dnb-input--stretch {
     width: 100%; }
   .dnb-input__icon {
     order: 0;

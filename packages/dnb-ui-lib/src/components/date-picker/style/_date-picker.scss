@@ -408,6 +408,20 @@
   }
   @include formLabelWrap();
 
+  // make full width
+  &--stretch {
+    display: flex;
+  }
+  &--stretch & {
+    &__inner,
+    &__shell {
+      width: 100%;
+    }
+  }
+  .dnb-form-row--horizontal &--stretch {
+    width: 100%;
+  }
+
   &[class*='__status'] {
     align-items: flex-start;
     > .dnb-form-label {

@@ -90,6 +90,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   status="status"
   status_animation={null}
   status_state="error"
+  stretch={null}
   submit_button_text="Ok"
   suffix={null}
   sync={true}
@@ -193,6 +194,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
     status="status"
     status_animation={null}
     status_state="error"
+    stretch={null}
     submit_button_text="Ok"
     suffix={null}
     sync={true}
@@ -364,6 +366,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
               skeleton={false}
               status="error"
               status_state="error"
+              stretch={false}
               submitAttributes={
                 Object {
                   "aria-expanded": false,
@@ -448,7 +451,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   status="error"
                   status_animation={null}
                   status_state="error"
-                  stretch={null}
+                  stretch={false}
                   submit_button_icon="loupe"
                   submit_button_status={null}
                   submit_button_title={null}
@@ -2237,14 +2240,14 @@ legend.dnb-form-label {
     flex-direction: column;
     align-items: flex-start; }
   .dnb-input--stretch {
-    display: flex;
-    align-self: stretch;
-    width: 100%; }
+    display: flex; }
   .dnb-input--stretch .dnb-input__inner {
     flex-grow: 1; }
-  .dnb-input--stretch .dnb-input__row, .dnb-input--stretch .dnb-input__shell {
+  .dnb-input--stretch .dnb-input__shell {
     width: 100%; }
   .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
+    width: 100%; }
+  .dnb-form-row--horizontal .dnb-input--stretch {
     width: 100%; }
   .dnb-input__icon {
     order: 0;
@@ -3167,6 +3170,12 @@ legend.dnb-form-label {
       .dnb-date-picker > .dnb-form-label {
         margin-bottom: 0.5rem;
         margin-top: 0.5rem; } }
+  .dnb-date-picker--stretch {
+    display: flex; }
+  .dnb-date-picker--stretch .dnb-date-picker__inner, .dnb-date-picker--stretch .dnb-date-picker__shell {
+    width: 100%; }
+  .dnb-form-row--horizontal .dnb-date-picker--stretch {
+    width: 100%; }
   .dnb-date-picker[class*='__status'] {
     align-items: flex-start; }
     .dnb-date-picker[class*='__status'] > .dnb-form-label {

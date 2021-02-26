@@ -784,16 +784,14 @@ textarea.dnb-textarea {
         margin-bottom: 0.5rem;
         margin-top: 0.5rem; } }
   .dnb-textarea--stretch {
-    display: flex;
-    align-self: stretch;
-    width: 100%; }
+    display: flex; }
   .dnb-textarea--stretch .dnb-textarea__inner {
     flex-grow: 1; }
-  .dnb-textarea--stretch .dnb-textarea__row, .dnb-textarea--stretch .dnb-textarea__shell {
+  .dnb-textarea--stretch .dnb-textarea__shell, .dnb-textarea--stretch .dnb-textarea__textarea {
     width: 100%; }
   .dnb-textarea--vertical.dnb-textarea--stretch .dnb-textarea__inner {
     width: 100%; }
-  .dnb-textarea--stretch .dnb-textarea__textarea {
+  .dnb-form-row--horizontal .dnb-textarea--stretch {
     width: 100%; }
   @media screen and (max-width: 40em) {
     .dnb-responsive-component .dnb-textarea {

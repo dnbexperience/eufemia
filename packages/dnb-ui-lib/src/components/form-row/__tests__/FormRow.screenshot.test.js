@@ -112,5 +112,11 @@ describe('FormRow screenshot', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+    it('have to match all stretch components', async () => {
+      const screenshot = await testPageScreenshot({
+        selector: '[data-visual-test="form-row-all-stretch-components"]'
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   }
 })

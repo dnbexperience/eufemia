@@ -127,12 +127,25 @@
     }
   }
   @include formLabelWrap();
-  @include stretch();
 
+  // make full width
+  &--stretch {
+    display: flex;
+  }
   &--stretch & {
+    &__inner {
+      flex-grow: 1;
+    }
+    &__shell,
     &__textarea {
       width: 100%;
     }
+  }
+  &--vertical#{&}--stretch &__inner {
+    width: 100%;
+  }
+  .dnb-form-row--horizontal &--stretch {
+    width: 100%;
   }
 
   .dnb-responsive-component & {
