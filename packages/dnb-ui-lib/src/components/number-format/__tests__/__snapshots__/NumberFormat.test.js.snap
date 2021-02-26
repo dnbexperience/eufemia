@@ -92,6 +92,130 @@ exports[`NumberFormat scss have to match snapshot 1`] = `
   word-break: normal; }
 
 /*
+* DNB Tooltip
+*
+*/
+.dnb-tooltip {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-tooltip *,
+  .dnb-tooltip ::before,
+  .dnb-tooltip ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-tooltip ::before,
+  .dnb-tooltip ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Tooltip component
+*
+*/
+.dnb-tooltip {
+  position: absolute;
+  z-index: 3100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease-out; }
+  .dnb-tooltip--animate_position {
+    transition: all 300ms ease-in-out, opacity 200ms ease-out; }
+  .dnb-tooltip--active {
+    visibility: visible;
+    /*
+      because of the first \\"show\\" we also use animation
+      also, use forwards becuase of the usage of visibility
+    */
+    animation: show-tooltip 200ms ease-out forwards; }
+  .dnb-tooltip--hide {
+    visibility: visible;
+    animation: hide-tooltip 200ms ease-in-out forwards; }
+  .dnb-tooltip__content {
+    min-width: 2rem;
+    min-height: 1.5rem;
+    padding: 0; }
+  .dnb-tooltip__arrow {
+    position: absolute;
+    pointer-events: none;
+    margin: 0;
+    width: 1rem;
+    height: 0.5rem;
+    overflow: hidden; }
+    .dnb-tooltip__arrow::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 1rem;
+      height: 1rem;
+      transform: translateY(70%) rotate(45deg); }
+    .dnb-tooltip__arrow__position--bottom {
+      top: -0.5rem; }
+    .dnb-tooltip__arrow__position--top {
+      bottom: -0.5rem;
+      transform: rotate(180deg); }
+    .dnb-tooltip__arrow__position--left {
+      right: -0.75rem;
+      margin-right: 2px;
+      transform: rotate(90deg); }
+    .dnb-tooltip__arrow__position--right {
+      left: -0.75rem;
+      margin-left: 2px;
+      transform: rotate(270deg); }
+    .dnb-tooltip__arrow__arrow--left {
+      align-self: flex-start; }
+    .dnb-tooltip__arrow__arrow--right {
+      align-self: flex-end; }
+
+@keyframes show-tooltip {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+@keyframes hide-tooltip {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0;
+    visibility: hidden; } }
+
+/*
  * NumberFormat Component
  *
  */
@@ -108,21 +232,6 @@ exports[`NumberFormat scss have to match snapshot 1`] = `
     white-space: normal; }
   .dnb-number-format.dnb-anchor {
     cursor: pointer; }
-  .dnb-number-format__fx {
-    pointer-events: none;
-    position: fixed;
-    z-index: 3300;
-    border-radius: 0.25rem;
-    background-color: var(--color-mint-green);
-    color: var(--color-black);
-    font-size: var(--font-size-basis);
-    animation: number-fx-scale-out 2s cubic-bezier(0.04, 0.65, 0.55, 0.95) 1 forwards; }
-    .dnb-number-format__fx__selection {
-      display: inline-block;
-      width: 0;
-      height: 0;
-      font-size: 0;
-      line-height: 0; }
   .dnb-number-format--selectall {
     cursor: text; }
   .dnb-number-format__visible {
@@ -144,14 +253,5 @@ exports[`NumberFormat scss have to match snapshot 1`] = `
   .dnb-number-format.dnb-skeleton,
   .dnb-skeleton .dnb-number-format {
     -webkit-text-fill-color: var(--skeleton-color); }
-
-@keyframes number-fx-scale-out {
-  0% {
-    opacity: 1; }
-  90% {
-    opacity: 0; }
-  100% {
-    opacity: 0;
-    transform: scale(5); } }
 "
 `;

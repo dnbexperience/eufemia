@@ -21,7 +21,7 @@ import {
   spacingPropTypes,
   createSpacingClasses
 } from '../space/SpacingHelper'
-import { format, createSelectionFX } from './NumberUtils'
+import { format, showSelectionNotice } from './NumberUtils'
 
 export default class NumberFormat extends React.PureComponent {
   static tagName = 'dnb-number-format'
@@ -127,7 +127,11 @@ export default class NumberFormat extends React.PureComponent {
   }
 
   shortcutHandler = () => {
-    const fx = createSelectionFX(this.cleanedValue)
+    const fx = showSelectionNotice({
+      value: this.cleanedValue,
+      label: this.context.getTranslation(this.props)?.NumberFormat
+        ?.clipboard_copy
+    })
     fx.run()
   }
 

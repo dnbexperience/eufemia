@@ -5,8 +5,7 @@
 
 @import '../../../style/components/imports.scss';
 
-// .dnb-number-format {
-//   @include componentReset();
-// }
+// import dependencies
+@import '../../tooltip/style/dnb-tooltip.scss';
 
 @import './_number-format.scss';

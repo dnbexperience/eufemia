@@ -7,9 +7,9 @@ import Context from '../../shared/Context'
  */
 
 import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from '../../shared/defaults'
-import { warn, isTrue } from '../../shared/component-helper'
+import { warn, isTrue, slugify } from '../../shared/component-helper'
 import {
-  getSelectedText,
+  getSelectedElement,
   copyToClipboard,
   insertElementBeforeSelection,
   IS_MAC,
@@ -562,13 +562,13 @@ export function runIOSSelectionFix() {
   }
 }
 
-export async function copyWithEffect(string, label) {
+export async function copyWithEffect(value, label) {
   let success = null
 
-  if (string) {
+  if (value) {
     try {
-      const fx = createSelectionFX(label || string)
-      success = await copyToClipboard(string)
+      const fx = showSelectionNotice({ value, label })
+      success = await copyToClipboard(value)
       if (success === true) {
         fx.run()
       }
@@ -581,7 +581,12 @@ export async function copyWithEffect(string, label) {
   return success
 }
 
-export function createSelectionFX(string) {
+export function showSelectionNotice({ value, label, timeout = 3e3 }) {
+  const id = 'id-' + slugify(value)
+  if (typeof document !== 'undefined' && document.getElementById(id)) {
+    return { run: () => {} }
+  }
+
   let height = 32
   let left = 0
   let top = 0
@@ -604,7 +609,7 @@ export function createSelectionFX(string) {
     if (!(top > 0) && !(left > 0)) {
       // get a more precise position by inserting this empty node
       const posElem = document.createElement('span')
-      posElem.setAttribute('class', 'dnb-number-format__fx__selection')
+      posElem.setAttribute('class', 'dnb-number-format__selection')
       insertElementBeforeSelection(posElem)
 
       // get position
@@ -615,10 +620,21 @@ export function createSelectionFX(string) {
 
     // create that portal element
     elem = document.createElement('span')
-    elem.textContent = String(string)
-    elem.setAttribute('class', 'dnb-number-format__fx dnb-core-style')
-    elem.style.top = `${top}px`
-    elem.style.left = `${left + getSelectedText().length / 2}px`
+    elem.setAttribute('id', id)
+    elem.setAttribute('class', 'dnb-tooltip dnb-core-style')
+    elem.setAttribute('role', 'tooltip')
+
+    const arrow = document.createElement('span')
+    arrow.setAttribute(
+      'class',
+      'dnb-tooltip__arrow dnb-tooltip__arrow__position--bottom'
+    )
+    const content = document.createElement('span')
+    content.setAttribute('class', 'dnb-tooltip__content')
+    elem.appendChild(arrow)
+    elem.appendChild(content)
+
+    content.textContent = String(label)
   } catch (e) {
     warn(e)
   }
@@ -631,18 +647,26 @@ export function createSelectionFX(string) {
         //
       }
     }
+    hide() {
+      try {
+        elem.classList.add('dnb-tooltip--hide')
+      } catch (e) {
+        //
+      }
+    }
     run() {
       try {
         document.body.appendChild(elem)
+        const selElem = getSelectedElement()
 
-        const { animationDuration } = window.getComputedStyle(elem)
-        let timeout = parseFloat(animationDuration)
-        if (!animationDuration.includes('ms')) {
-          timeout *= 1000
-        }
+        elem.style.top = `${top + elem.offsetHeight}px`
+        elem.style.left = `${
+          left + (selElem?.offsetWidth || 0) / 2 - elem.offsetWidth / 2
+        }px`
+        elem.classList.add('dnb-tooltip--active')
 
-        // remove that element again
-        setTimeout(this.remove, timeout) // use the time defined in number-fx-scale-out
+        setTimeout(this.hide, timeout)
+        setTimeout(this.remove, timeout + 600)
       } catch (e) {
         warn(e)
       }

@@ -79,6 +79,15 @@ export const NumberFormatSandbox = () => {
       >
         <Wrapper>
           <Box>
+            <div
+              role="tooltip"
+              className="dnb-tooltip dnb-tooltip--active dnb-core-style"
+            >
+              <span className="dnb-tooltip__arrow dnb-tooltip__arrow__arrow--center dnb-tooltip__arrow__position--bottom" />
+              <div className="dnb-tooltip__content">Copied!</div>
+            </div>
+          </Box>
+          <Box>
             <Provider
               // locale="de-DE"
               locale="nb-NO"
