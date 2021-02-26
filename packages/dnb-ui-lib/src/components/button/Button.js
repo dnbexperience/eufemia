@@ -34,7 +34,7 @@ export const buttonVariantPropType = {
   variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'signal'])
 }
 export const buttonPropTypes = {
-  text: PropTypes.string,
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   type: PropTypes.string,
   title: PropTypes.string,
   variant: buttonVariantPropType.variant,
@@ -336,7 +336,11 @@ export default class Button extends React.PureComponent {
 class Content extends React.PureComponent {
   static propTypes = {
     title: PropTypes.string,
-    text: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    text: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+      PropTypes.array
+    ]),
     content: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     icon: PropTypes.oneOfType([
       PropTypes.string,

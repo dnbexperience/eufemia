@@ -570,6 +570,25 @@ describe('Dropdown component', () => {
     ).toBe(true)
   })
 
+  it('will change the selected value when StrictMode is enabled', () => {
+    const Comp = mount(
+      <React.StrictMode>
+        <Component no_animation data={mockData} value={props.value} />
+      </React.StrictMode>
+    )
+
+    // first open
+    open(Comp)
+
+    // then simulate changes
+    keydown(Comp, 40) // down
+    keydown(Comp, 13) // enter
+
+    expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
+      mockData[props.value + 1].selected_value
+    )
+  })
+
   it('has correct selected value', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
