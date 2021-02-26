@@ -263,7 +263,8 @@ export const prepareDerivedState = (props, state) => {
     if (
       typeof props.value !== 'undefined' &&
       props.value !== 'initval' &&
-      state.selected_item !== props.value
+      state.selected_item !== props.value &&
+      (state._value !== props.value || isTrue(props.prevent_selection))
     ) {
       state.selected_item = getCurrentIndex(props.value, state.data)
 
@@ -294,6 +295,7 @@ export const prepareDerivedState = (props, state) => {
       )
     }
   }
+  state._value = props.value
   state._listenForPropChanges = true
 
   return state
