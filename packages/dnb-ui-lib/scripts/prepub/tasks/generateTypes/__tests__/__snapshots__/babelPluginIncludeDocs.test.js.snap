@@ -7,7 +7,7 @@ exports[`babelPluginIncludeDocs has to match code snapshot 1`] = `
  */
 import React from 'react';
 import { PropTypes } from \\"react\\";
-import SecondaryComponent, { defaultProps as secondaryDefaultProps, propTypes as secondaryPropTypes } from './SecondaryComponent';
+import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
 export const primaryPropTypes = {
   top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -60,9 +60,15 @@ PrimaryComponent.propTypes = {
    * Text \`margin-left\`.
   */
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  ...secondaryPropTypes,
-  secondary_foo: secondaryPropTypes.secondary,
-  secondary_spacing: PropTypes.shape(secondaryPropTypes),
+
+  /**
+   * Text \`secondary\`.
+  */
+  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_spacing: PropTypes.shape({
+    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+  }),
 
   /**
    * Text \`spacing\` or \`children\`.
@@ -117,9 +123,15 @@ Element.propTypes = {
    * Text \`margin-left\`.
   */
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  ...secondaryPropTypes,
-  secondary_foo: secondaryPropTypes.secondary,
-  secondary_spacing: PropTypes.shape(secondaryPropTypes),
+
+  /**
+   * Text \`secondary\`.
+  */
+  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_spacing: PropTypes.shape({
+    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+  }),
 
   /**
    * Text \`spacing\` or \`children\`.
@@ -143,7 +155,7 @@ exports[`babelPluginIncludeDocs has to match code snapshot in strict mode 1`] = 
  */
 import React from 'react';
 import { PropTypes } from \\"react\\";
-import SecondaryComponent, { defaultProps as secondaryDefaultProps, propTypes as secondaryPropTypes } from './SecondaryComponent';
+import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
 export const primaryPropTypes = {
   top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -196,9 +208,15 @@ PrimaryComponent.propTypes = {
    * Text \`margin-left\`.
   */
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  ...secondaryPropTypes,
-  secondary_foo: secondaryPropTypes.secondary,
-  secondary_spacing: PropTypes.shape(secondaryPropTypes),
+
+  /**
+   * Text \`secondary\`.
+  */
+  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_spacing: PropTypes.shape({
+    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+  }),
 
   /**
    * Text \`spacing\` or \`children\`.
@@ -253,9 +271,15 @@ Element.propTypes = {
    * Text \`margin-left\`.
   */
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  ...secondaryPropTypes,
-  secondary_foo: secondaryPropTypes.secondary,
-  secondary_spacing: PropTypes.shape(secondaryPropTypes),
+
+  /**
+   * Text \`secondary\`.
+  */
+  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_spacing: PropTypes.shape({
+    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+  }),
 
   /**
    * Text \`spacing\` or \`children\`.
@@ -279,7 +303,7 @@ exports[`babelPluginIncludeDocs has to match collectProps snapshot given by onCo
  */
 import React from 'react';
 import { PropTypes } from \\"react\\";
-import SecondaryComponent, { defaultProps as secondaryDefaultProps, propTypes as secondaryPropTypes } from './SecondaryComponent';
+import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
 export const primaryPropTypes = {
   top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -332,9 +356,15 @@ PrimaryComponent.propTypes = {
    * Text \`margin-left\`.
   */
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  ...secondaryPropTypes,
-  secondary_foo: secondaryPropTypes.secondary,
-  secondary_spacing: PropTypes.shape(secondaryPropTypes),
+
+  /**
+   * Text \`secondary\`.
+  */
+  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_spacing: PropTypes.shape({
+    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+  }),
 
   /**
    * Text \`spacing\` or \`children\`.
@@ -389,9 +419,15 @@ Element.propTypes = {
    * Text \`margin-left\`.
   */
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  ...secondaryPropTypes,
-  secondary_foo: secondaryPropTypes.secondary,
-  secondary_spacing: PropTypes.shape(secondaryPropTypes),
+
+  /**
+   * Text \`secondary\`.
+  */
+  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_spacing: PropTypes.shape({
+    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+  }),
 
   /**
    * Text \`spacing\` or \`children\`.
@@ -417,6 +453,7 @@ Array [
   "right",
   "bottom",
   "left",
+  "secondary",
   "secondary_foo",
   "secondary_spacing",
   "children",
@@ -427,6 +464,7 @@ Array [
   "right",
   "bottom",
   "left",
+  "secondary",
   "secondary_foo",
   "secondary_spacing",
   "children",

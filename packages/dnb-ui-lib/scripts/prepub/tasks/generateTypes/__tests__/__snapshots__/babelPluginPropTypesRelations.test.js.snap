@@ -7,7 +7,7 @@ exports[`babelPluginPropTypesRelations has to match snapshot 1`] = `
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import SecondaryComponent, { defaultProps as secondaryDefaultProps, propTypes as secondaryPropTypes } from './SecondaryComponent';
+import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
 export const primaryPropTypes = {
   top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -40,9 +40,11 @@ PrimaryComponent.propTypes = {
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  ...secondaryPropTypes,
-  secondary_foo: secondaryPropTypes.secondary,
-  secondary_spacing: PropTypes.shape(secondaryPropTypes),
+  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_spacing: PropTypes.shape({
+    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+  }),
   children: PropTypes.node
 };
 PrimaryComponent.defaultProps = {
@@ -73,9 +75,11 @@ Element.propTypes = {
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
-  ...secondaryPropTypes,
-  secondary_foo: secondaryPropTypes.secondary,
-  secondary_spacing: PropTypes.shape(secondaryPropTypes),
+  secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  secondary_spacing: PropTypes.shape({
+    secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+  }),
   children: PropTypes.node
 };
 Element.defaultProps = {
