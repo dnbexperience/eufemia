@@ -9,9 +9,10 @@ import Context from '../../shared/Context'
 import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from '../../shared/defaults'
 import { warn, isTrue, slugify } from '../../shared/component-helper'
 import {
+  getOffsetTop,
+  getOffsetLeft,
   getSelectedElement,
   copyToClipboard,
-  insertElementBeforeSelection,
   IS_MAC,
   IS_WIN,
   IS_IE11
@@ -562,7 +563,11 @@ export function runIOSSelectionFix() {
   }
 }
 
-export async function copyWithEffect(value, label) {
+export async function copyWithEffect(
+  value,
+  label,
+  positionElement = null
+) {
   let success = null
 
   if (value) {
@@ -570,7 +575,7 @@ export async function copyWithEffect(value, label) {
       const fx = showSelectionNotice({ value, label })
       success = await copyToClipboard(value)
       if (success === true) {
-        fx.run()
+        fx.run(positionElement)
       }
     } catch (e) {
       warn(e)
@@ -587,37 +592,9 @@ export function showSelectionNotice({ value, label, timeout = 3e3 }) {
     return { run: () => {} }
   }
 
-  let height = 32
-  let left = 0
-  let top = 0
   let elem // portalElem
 
-  // do that because getClientRects from selection is an experimental browser API
   try {
-    // getClientRects
-    const cR = window.getSelection().getRangeAt(0).getClientRects()
-
-    height = cR[0]?.height
-    left = cR[0]?.left
-    top = cR[0]?.top
-  } catch (e) {
-    //
-  }
-
-  try {
-    // create backup to get the position from
-    if (!(top > 0) && !(left > 0)) {
-      // get a more precise position by inserting this empty node
-      const posElem = document.createElement('span')
-      posElem.setAttribute('class', 'dnb-number-format__selection')
-      insertElementBeforeSelection(posElem)
-
-      // get position
-      ;({ top, left } = posElem.getBoundingClientRect())
-      top -= height / 1.333
-      posElem.parentElement.removeChild(posElem)
-    }
-
     // create that portal element
     elem = document.createElement('span')
     elem.setAttribute('id', id)
@@ -654,14 +631,18 @@ export function showSelectionNotice({ value, label, timeout = 3e3 }) {
         //
       }
     }
-    run() {
+    run(positionElement = getSelectedElement()) {
       try {
         document.body.appendChild(elem)
-        const selElem = getSelectedElement()
+
+        const top = getOffsetTop(positionElement)
+        const left = getOffsetLeft(positionElement)
 
         elem.style.top = `${top + elem.offsetHeight}px`
         elem.style.left = `${
-          left + (selElem?.offsetWidth || 0) / 2 - elem.offsetWidth / 2
+          left +
+          (positionElement?.offsetWidth || 0) / 2 -
+          elem.offsetWidth / 2
         }px`
         elem.classList.add('dnb-tooltip--active')
 
@@ -681,8 +662,8 @@ export function useCopyWithNotice() {
     }
   } = React.useContext(Context)
 
-  const copy = (string) => {
-    copyWithEffect(string, clipboard_copy)
+  const copy = (value, positionElement) => {
+    copyWithEffect(value, clipboard_copy, positionElement)
   }
 
   return { copy }

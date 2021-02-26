@@ -50,7 +50,7 @@ const Copy = ({ children, className, ...rest }) => {
           selection.removeAllRanges()
           selection.addRange(range)
 
-          copy(str) // use copyWithNotice only to use the nice effect / animation
+          copy(str, ref.current) // use copyWithNotice only to use the nice effect / animation
         }
       } catch (e) {
         warn(e)

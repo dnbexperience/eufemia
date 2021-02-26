@@ -127,12 +127,11 @@ export default class NumberFormat extends React.PureComponent {
   }
 
   shortcutHandler = () => {
-    const fx = showSelectionNotice({
+    showSelectionNotice({
       value: this.cleanedValue,
       label: this.context.getTranslation(this.props)?.NumberFormat
         ?.clipboard_copy
-    })
-    fx.run()
+    }).run(this._ref.current)
   }
 
   onBlurHandler = () => {
