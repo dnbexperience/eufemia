@@ -444,14 +444,13 @@ export default class Modal extends React.PureComponent {
         }
       })
     } else {
-      if (ifIsLatest && typeof window !== 'undefined') {
-        try {
+      if (ifIsLatest) {
+        const list = getListOfModalRoots()
+        if (list.length > 1) {
           const last = getListOfModalRoots(-1)
           if (last !== this) {
             return // stop here
           }
-        } catch (e) {
-          warn(e)
         }
       }
 
@@ -497,7 +496,11 @@ export default class Modal extends React.PureComponent {
     } = props
 
     const { hide, modalActive } = this.state
-    const modal_content = Modal.getContent(this.props)
+    const modal_content = Modal.getContent(
+      typeof this.props.children === 'function'
+        ? Object.freeze({ ...this.props, close: this.close })
+        : this.props
+    )
 
     const render = (suffixProps) => {
       const modalProps = {}

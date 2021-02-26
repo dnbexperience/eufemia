@@ -185,6 +185,7 @@ export default class Autocomplete extends React.PureComponent {
     keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     drawer_class: PropTypes.string,
 
@@ -266,6 +267,7 @@ export default class Autocomplete extends React.PureComponent {
     keep_open: false,
     opened: null,
     disabled: null,
+    stretch: null,
     skeleton: null,
     drawer_class: null,
 
@@ -1449,6 +1451,7 @@ class AutocompleteInstance extends React.PureComponent {
       className,
       class: _className,
       disabled,
+      stretch,
       skeleton,
       triangle_position,
       icon_position,
@@ -1504,6 +1507,7 @@ class AutocompleteInstance extends React.PureComponent {
         align_autocomplete && `dnb-autocomplete--${align_autocomplete}`,
         visibleIndicator && 'dnb-autocomplete--show-indicator',
         size && `dnb-autocomplete--${size}`,
+        isTrue(stretch) && `dnb-autocomplete--stretch`,
         status && `dnb-autocomplete__status--${status_state}`,
         showStatus && 'dnb-autocomplete__form-status',
         'dnb-form-component',

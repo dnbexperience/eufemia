@@ -98,7 +98,7 @@ import { bell_medium as Bell, question } from 'dnb-ui-lib/src/icons'
 
 ### Tertiary button
 
-<ComponentBox>
+<ComponentBox data-visual-test="button-tertiary-all">
 	{
 	/* @jsx */ `
 <Button
@@ -110,9 +110,17 @@ import { bell_medium as Bell, question } from 'dnb-ui-lib/src/icons'
 />
 <Button
   variant="tertiary"
+  text={<span>Text inside additional span</span>}
+  icon_position="left"
+  icon="chevron_left"
+  left
+/>
+<Button
+  variant="tertiary"
   text="With medium icon"
   icon="chevron_right"
   icon_size="medium"
+  left
 />
 	`
 	}

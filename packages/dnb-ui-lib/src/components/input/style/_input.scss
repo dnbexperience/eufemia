@@ -287,7 +287,7 @@
     align-items: flex-start;
   }
 
-  // make the input full width
+  // make full width
   &--stretch {
     display: flex;
   }
@@ -300,6 +300,9 @@
     }
   }
   &--vertical#{&}--stretch &__inner {
+    width: 100%;
+  }
+  .dnb-form-row--horizontal &--stretch {
     width: 100%;
   }
 

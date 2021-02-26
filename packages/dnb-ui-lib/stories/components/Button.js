@@ -151,6 +151,12 @@ export const ButtonSandbox = () => (
         icon_position="left"
         icon="chevron_left"
       />
+      <Button
+        text={<span>Button text in span</span>}
+        variant="tertiary"
+        icon_position="left"
+        icon="chevron_left"
+      />
       <Button text="Button text" variant="tertiary" icon="chevron_right" />
       <Button
         text="Button text"

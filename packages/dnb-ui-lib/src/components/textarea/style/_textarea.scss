@@ -6,9 +6,7 @@
 @import './themes/dnb-textarea-theme-ui.scss';
 
 :root {
-  // --textarea-vertical-correction: 0.25rem; // for chromium browsers
   --textarea-padding-width: 0.5rem;
-  // --textarea-easing: #{$defaultEasing};
 }
 
 @mixin textareaStyleCommon() {
@@ -17,12 +15,6 @@
 
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
-
-  // Before v4.15 we had
-  // padding-top: calc(
-  //   var(--textarea-padding-width) - var(--textarea-vertical-correction)
-  // );
-  // padding-bottom: var(--textarea-vertical-correction);
 
   @include IS_IE {
     padding: var(--textarea-padding-width);
@@ -104,10 +96,6 @@
 
   &__autoresize &__textarea {
     resize: none;
-
-    // In case we want animation
-    // will-change: height;
-    // transition: height 400ms var(--textarea-easing);
   }
 
   // hide placeholder on focus
@@ -140,18 +128,24 @@
   }
   @include formLabelWrap();
 
-  // make the input full width
+  // make full width
   &--stretch {
     display: flex;
   }
   &--stretch & {
     &__inner {
-      flex: 1;
+      flex-grow: 1;
     }
     &__shell,
     &__textarea {
       width: 100%;
     }
+  }
+  &--vertical#{&}--stretch &__inner {
+    width: 100%;
+  }
+  .dnb-form-row--horizontal &--stretch {
+    width: 100%;
   }
 
   .dnb-responsive-component & {

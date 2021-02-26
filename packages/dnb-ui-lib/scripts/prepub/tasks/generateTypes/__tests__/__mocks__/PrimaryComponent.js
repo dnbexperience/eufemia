@@ -6,8 +6,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import SecondaryComponent, {
-  defaultProps as secondaryDefaultProps,
-  propTypes as secondaryPropTypes
+  secondaryDefaultProps,
+  secondaryPropTypes
 } from './SecondaryComponent'
 
 export const primaryPropTypes = {

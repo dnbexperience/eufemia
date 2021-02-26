@@ -7,9 +7,9 @@ HTML elements are by default good at accessibility. Eufemia components and its b
 
 ## WCAG 2.1 and Universal design (UU)
 
-[From year 2021](https://uu.difi.no/krav-og-regelverk/webdirektivet-og-wcag-21), all new and existing web solutions has to follow [WCAG 2.1](https://www.w3.org/TR/WCAG21/).
+[From year 2021](https://www.uutilsynet.no/webdirektivet-wad/wcag-21-standarden/140), all new and existing web solutions has to follow [WCAG 2.1](https://www.w3.org/TR/WCAG21/).
 
-On _difi.no_ you find an easy to read [WCAG guide (Norwegian)](https://uu.difi.no/krav-og-regelverk/wcag-20-standarden).
+On _uutilsynet.no_ you find an easy to read [WCAG guide (Norwegian)](https://www.uutilsynet.no/wcag-standarden/wcag-20-standarden/86).
 
 ## Main focus
 

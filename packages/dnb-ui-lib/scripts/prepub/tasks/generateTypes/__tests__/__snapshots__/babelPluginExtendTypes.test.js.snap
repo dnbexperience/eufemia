@@ -2,7 +2,7 @@
 
 exports[`babelPluginExtendTypes has to match snapshot 1`] = `
 "import * as React from 'react';
-import SecondaryComponent, { defaultProps as secondaryDefaultProps, propTypes as secondaryPropTypes } from './SecondaryComponent';
+import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
 export interface PrimaryComponentSpacing {
   top?: string | number | boolean;
   right?: string | number | boolean;

@@ -208,11 +208,17 @@ export default class Textarea extends React.PureComponent {
     }
     this.state._value = props.value
   }
-  // componentDidMount() {
-  //   if (isTrue(this.props.autoresize)) {
-  //     this.setAutosize()
-  //   }
-  // }
+  componentDidMount() {
+    if (isTrue(this.props.autoresize) && typeof window !== 'undefined') {
+      this.setAutosize()
+      window.addEventListener('resize', this.setAutosize)
+    }
+  }
+  componentWillUnmount() {
+    if (isTrue(this.props.autoresize) && typeof window !== 'undefined') {
+      window.removeEventListener('resize', this.setAutosize)
+    }
+  }
   onFocusHandler = (event) => {
     const { value } = this._ref.current
     this.setState({
@@ -256,18 +262,13 @@ export default class Textarea extends React.PureComponent {
       event
     })
   }
-  setAutosize(rows = this.getRows()) {
+  setAutosize = (rows = null) => {
     const elem = this._ref.current
+    if (!elem) {
+      return // stop here if no element was gotten
+    }
+    rows = typeof rows === 'number' ? rows : this.getRows()
     try {
-      // In case we want animation
-      // if (
-      //   typeof window !== 'undefined' &&
-      //   window.requestAnimationFrame
-      // ) {
-      //   window.cancelAnimationFrame(this.reqId1)
-      //   window.cancelAnimationFrame(this.reqId2)
-      // }
-
       if (typeof this._heightOffset === 'undefined') {
         this._heightOffset = elem.offsetHeight - elem.clientHeight
       }
@@ -285,22 +286,6 @@ export default class Textarea extends React.PureComponent {
       }
 
       elem.style.height = newHeight + 'px'
-
-      // In case we want animation
-      // if (
-      //   typeof window !== 'undefined' &&
-      //   window.requestAnimationFrame
-      // ) {
-      //   // make the animation
-      //   this.reqId1 = window.requestAnimationFrame(() => {
-      //     elem.style.height = oldHeight + 'px'
-      //     this.reqId2 = window.requestAnimationFrame(() => {
-      //       elem.style.height = newHeight + 'px'
-      //     })
-      //   })
-      // } else {
-      //   elem.style.height = newHeight + 'px'
-      // }
     } catch (e) {
       warn(e)
     }

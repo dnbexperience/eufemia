@@ -1525,6 +1525,8 @@ legend.dnb-form-label {
     width: 100%; }
   .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
     width: 100%; }
+  .dnb-form-row--horizontal .dnb-input--stretch {
+    width: 100%; }
   .dnb-input__icon {
     order: 0;
     position: absolute;

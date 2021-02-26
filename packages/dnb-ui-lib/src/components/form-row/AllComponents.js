@@ -24,7 +24,6 @@ import {
   Input
 } from '../'
 
-
 const AllComponents = ({ horizontal, vertical, showText, hideLabel }) => {
   const params = {
     left: horizontal ? 'small' : null,
@@ -72,7 +71,6 @@ const AllComponents = ({ horizontal, vertical, showText, hideLabel }) => {
       <Button icon="add" {...params} />
       <Input label={labels.input} {...params} />
       <Input label={labels.input} {...params} />
-      <Input label={labels.input} stretch {...params} />
       <Dropdown
         label={labels.dropdown}
         data={['Item A', 'Item B', 'Item C']}
@@ -108,7 +106,6 @@ const AllComponents = ({ horizontal, vertical, showText, hideLabel }) => {
       <Switch label={labels.switch} {...params} />
       <Textarea label={labels.textarea} rows="5" {...params} />
       <Textarea label={labels.textarea} rows="5" {...params} />
-      <Textarea label={labels.textarea} stretch rows="3" {...params} />
       <Slider label={labels.slider} value={50} {...params} />
     </>
   )

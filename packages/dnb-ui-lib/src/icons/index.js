@@ -263,6 +263,8 @@ import mastercard_card_medium from './mastercard_card_medium.js'
 import mastercard_medium from './mastercard_medium.js'
 import microphone from './microphone.js'
 import microphone_medium from './microphone_medium.js'
+import minimize from './minimize.js'
+import minimize_medium from './minimize_medium.js'
 import more from './more.js'
 import more_medium from './more_medium.js'
 import more_vertical from './more_vertical.js'
@@ -659,6 +661,8 @@ export {
   mastercard_medium,
   microphone,
   microphone_medium,
+  minimize,
+  minimize_medium,
   more,
   more_medium,
   more_vertical,

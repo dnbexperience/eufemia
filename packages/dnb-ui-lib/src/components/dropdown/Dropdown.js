@@ -132,6 +132,7 @@ export default class Dropdown extends React.PureComponent {
     keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     class: PropTypes.string,
 
@@ -193,6 +194,7 @@ export default class Dropdown extends React.PureComponent {
     keep_open: false,
     opened: false,
     disabled: null,
+    stretch: null,
     skeleton: null,
     class: null,
 
@@ -448,6 +450,7 @@ class DropdownInstance extends React.PureComponent {
       className,
       class: _className,
       disabled,
+      stretch,
       skeleton,
 
       title: _title,
@@ -502,6 +505,7 @@ class DropdownInstance extends React.PureComponent {
         (isTrue(independent_width) || isTrue(action_menu)) &&
           'dnb-dropdown--independent-width',
         size && `dnb-dropdown--${size}`,
+        isTrue(stretch) && `dnb-dropdown--stretch`,
         `dnb-dropdown--${align_dropdown || 'right'}`,
         status && `dnb-dropdown__status--${status_state}`,
         showStatus && 'dnb-dropdown__form-status',

@@ -140,9 +140,8 @@ export default class DrawerListProvider extends React.PureComponent {
     this._refTriangle = React.createRef()
   }
 
-  // NB: Not sure if this is needed anymore!
   componentDidMount() {
-    if (this.state.opened) {
+    if (isTrue(this.props.opened)) {
       this.setVisible()
     }
   }
@@ -811,12 +810,16 @@ export default class DrawerListProvider extends React.PureComponent {
         warn(e)
       }
       if (!isSameDrawer || key === 'tab') {
-        return
+        return // stop here
       }
     }
 
     if (isTrue(this.state.ignore_events) && key !== 'tab') {
-      return
+      return // stop here
+    }
+
+    if (!this.state.isOpen) {
+      return // stop here
     }
 
     let active_item = parseFloat(this.state.active_item)
@@ -896,7 +899,7 @@ export default class DrawerListProvider extends React.PureComponent {
 
       case 'tab':
         {
-          if (this.state.opened && active_item > -1) {
+          if (active_item > -1) {
             const anchorElem = this.getAnchorElem()
             if (anchorElem) {
               e.preventDefault() // so we can set focus to an anchor inside
@@ -1030,6 +1033,22 @@ export default class DrawerListProvider extends React.PureComponent {
       this.assignObservers
     )
 
+    const delayHandler = () => {
+      this.setState({
+        isOpen: true,
+        _listenForPropChanges: false
+      })
+    }
+
+    if (isTrue(this.props.no_animation)) {
+      delayHandler()
+    } else {
+      this._hideTimeout = setTimeout(
+        delayHandler,
+        DrawerListProvider.blurDelay
+      ) // wait until animation is over
+    }
+
     const { selected_item, active_item } = this.state
     dispatchCustomElementEvent(this.state, 'on_show', {
       data: getEventData(
@@ -1070,6 +1089,7 @@ export default class DrawerListProvider extends React.PureComponent {
       const delayHandler = () => {
         this.setState({
           hidden: true,
+          isOpen: false,
           _listenForPropChanges: false
         })
         if (typeof onStateComplete === 'function') {

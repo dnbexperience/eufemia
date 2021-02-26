@@ -216,9 +216,14 @@ export default class Button extends React.PureComponent {
     let usedVariant = variant
     let usedSize = size
     let iconSize = icon_size
-    let content = Button.getContent(this.props) || text
+    const content = Button.getContent(this.props)
 
-    if (variant === 'tertiary' && content && !icon && icon !== false) {
+    if (
+      variant === 'tertiary' &&
+      (content || text) &&
+      !icon &&
+      icon !== false
+    ) {
       warn(
         `A Tertiary Button requires an icon. Please declare an icon to: ${content}`
       )
@@ -373,11 +378,7 @@ class Content extends React.PureComponent {
       )
     }
 
-    if (
-      typeof content === 'string'
-      // ||
-      // (Array.isArray(content) && typeof content[0] === 'string')
-    ) {
+    if (typeof content === 'string') {
       text = content
     } else if (content) {
       ret.push(content)

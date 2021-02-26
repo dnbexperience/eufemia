@@ -93,6 +93,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   status="status"
   status_animation="status_animation"
   status_state="error"
+  stretch="stretch"
   suffix="suffix"
   title="title"
   triangle_position={null}
@@ -200,6 +201,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     status="status"
     status_animation="status_animation"
     status_state="error"
+    stretch="stretch"
     suffix="suffix"
     tagName="dnb-dropdown"
     title="title"
@@ -301,6 +303,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       status="status"
       status_animation="status_animation"
       status_state="error"
+      stretch="stretch"
       suffix="suffix"
       title="title"
       triangle_position={null}
@@ -1209,6 +1212,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "status": "status",
                   "status_animation": "status_animation",
                   "status_state": "error",
+                  "stretch": "stretch",
                   "suffix": "suffix",
                   "title": "title",
                   "triangle_position": null,
@@ -2002,6 +2006,16 @@ legend.dnb-form-label {
       .dnb-dropdown > .dnb-form-label {
         margin-bottom: 0.5rem;
         margin-top: 0.5rem; } }
+  .dnb-dropdown--stretch {
+    display: flex; }
+  .dnb-dropdown--stretch .dnb-dropdown__inner {
+    flex-grow: 1; }
+  .dnb-dropdown--stretch .dnb-dropdown__row, .dnb-dropdown--stretch .dnb-dropdown__shell {
+    width: 100%; }
+  .dnb-dropdown--vertical.dnb-dropdown--stretch .dnb-dropdown__inner {
+    width: 100%; }
+  .dnb-form-row--horizontal .dnb-dropdown--stretch {
+    width: 100%; }
   label + .dnb-dropdown[class*='__form-status'] {
     vertical-align: top; }
     label + .dnb-dropdown[class*='__form-status'] .dnb-dropdown__shell {

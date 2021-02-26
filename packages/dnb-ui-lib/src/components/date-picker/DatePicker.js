@@ -146,6 +146,7 @@ export default class DatePicker extends React.PureComponent {
     addon_element: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     shortcuts: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     status: PropTypes.oneOfType([
       PropTypes.string,
@@ -226,6 +227,7 @@ export default class DatePicker extends React.PureComponent {
     addon_element: null,
     shortcuts: null,
     disabled: null,
+    stretch: null,
     skeleton: null,
     status: null,
     status_state: 'error',
@@ -497,6 +499,7 @@ export default class DatePicker extends React.PureComponent {
       addon_element,
       shortcuts,
       disabled,
+      stretch,
       skeleton,
       status,
       status_state,
@@ -572,6 +575,7 @@ export default class DatePicker extends React.PureComponent {
           isTrue(show_reset_button)) &&
           'dnb-date-picker--show-footer',
         align_picker && `dnb-date-picker--${align_picker}`,
+        isTrue(stretch) && `dnb-date-picker--stretch`,
         'dnb-form-component',
         createSpacingClasses(props),
         _className,
@@ -636,6 +640,7 @@ export default class DatePicker extends React.PureComponent {
                   id={id}
                   title={title}
                   disabled={isTrue(disabled)}
+                  stretch={isTrue(stretch)}
                   skeleton={isTrue(skeleton)}
                   maskOrder={mask_order}
                   maskPlaceholder={mask_placeholder}

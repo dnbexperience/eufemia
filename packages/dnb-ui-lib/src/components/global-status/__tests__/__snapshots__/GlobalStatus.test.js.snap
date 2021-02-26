@@ -915,7 +915,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                       bounding={false}
                       class={null}
                       className="dnb-global-status__close-button"
-                      content="close_text"
+                      content={null}
                       custom_element={null}
                       custom_method={null}
                       disabled={null}
@@ -1230,7 +1230,7 @@ Array [
                         bounding={false}
                         class={null}
                         className="dnb-global-status__close-button"
-                        content="Lukk"
+                        content={null}
                         custom_element={null}
                         custom_method={null}
                         disabled={null}

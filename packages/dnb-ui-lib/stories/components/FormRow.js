@@ -9,6 +9,7 @@ import styled from '@emotion/styled'
 
 import { H2, H3 } from '../../src/elements'
 import AllComponents from '../../src/components/form-row/AllComponents'
+import AllStretchComponents from '../../src/components/form-row/AllStretchComponents'
 
 import Provider from '../../src/shared/Provider'
 import {
@@ -16,7 +17,6 @@ import {
   Radio,
   Input,
   FormLabel,
-  // Dropdown,
   FormRow
 } from '../../src/components'
 
@@ -179,3 +179,7 @@ export const FormRowSandbox = () => (
     </Wrapper>
   </Center>
 )
+
+export const FormRowStretch = () => {
+  return <AllStretchComponents />
+}

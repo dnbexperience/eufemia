@@ -112,6 +112,7 @@ import log_out from './log_out.js'
 import mastercard from './mastercard.js'
 import mastercard_card from './mastercard_card.js'
 import microphone from './microphone.js'
+import minimize from './minimize.js'
 import more_vertical from './more_vertical.js'
 import motorcycle from './motorcycle.js'
 import move from './move.js'
@@ -286,6 +287,7 @@ export {
   mastercard,
   mastercard_card,
   microphone,
+  minimize,
   more_vertical,
   motorcycle,
   move,

@@ -142,6 +142,12 @@ describe('Button tertiary screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match all tertiary buttons', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="button-tertiary-all"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('Button signal screenshot', () => {

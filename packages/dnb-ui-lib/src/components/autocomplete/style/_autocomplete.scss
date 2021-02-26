@@ -155,6 +155,26 @@
   }
   @include formLabelWrap();
 
+  // make full width
+  &--stretch {
+    display: flex;
+  }
+  &--stretch & {
+    &__inner {
+      flex-grow: 1;
+    }
+    &__row,
+    &__shell {
+      width: 100%;
+    }
+  }
+  &--vertical#{&}--stretch &__inner {
+    width: 100%;
+  }
+  .dnb-form-row--horizontal &--stretch {
+    width: 100%;
+  }
+
   label + &[class*='__form-status'] {
     vertical-align: top;
     .dnb-autocomplete__shell {

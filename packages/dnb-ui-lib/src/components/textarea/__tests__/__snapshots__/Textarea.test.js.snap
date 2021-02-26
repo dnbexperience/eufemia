@@ -786,8 +786,12 @@ textarea.dnb-textarea {
   .dnb-textarea--stretch {
     display: flex; }
   .dnb-textarea--stretch .dnb-textarea__inner {
-    flex: 1; }
+    flex-grow: 1; }
   .dnb-textarea--stretch .dnb-textarea__shell, .dnb-textarea--stretch .dnb-textarea__textarea {
+    width: 100%; }
+  .dnb-textarea--vertical.dnb-textarea--stretch .dnb-textarea__inner {
+    width: 100%; }
+  .dnb-form-row--horizontal .dnb-textarea--stretch {
     width: 100%; }
   @media screen and (max-width: 40em) {
     .dnb-responsive-component .dnb-textarea {

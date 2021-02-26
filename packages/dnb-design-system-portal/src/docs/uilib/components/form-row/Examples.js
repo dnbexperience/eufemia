@@ -8,6 +8,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 import { Global, css } from '@emotion/react'
 import styled from '@emotion/styled'
 import AllComponents from 'dnb-ui-lib/src/components/form-row/AllComponents'
+import AllStretchComponents from 'dnb-ui-lib/src/components/form-row/AllStretchComponents'
 
 const TestStyles = styled.div`
   /* make sure our input gets an explicit width, because of mac/linux rendering differences */
@@ -410,6 +411,17 @@ export default class FormRowVisualTests extends React.PureComponent {
 <FormRow label="Vertical label direction, no labels:" label_direction="vertical">
   <AllComponents horizontal hideLabel />
 </FormRow>
+      `
+          }
+        </ComponentBox>
+        <ComponentBox
+          title="All form components which has the stretch property"
+          scope={{ AllStretchComponents }}
+          data-visual-test="form-row-all-stretch-components"
+        >
+          {
+            /* @jsx */ `
+<AllStretchComponents />
       `
           }
         </ComponentBox>
