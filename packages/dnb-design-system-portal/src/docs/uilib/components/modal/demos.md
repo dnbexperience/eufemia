@@ -153,6 +153,22 @@ While the trigger button is not used anymore by using `trigger_hidden`.
 	}
 </ComponentBox>
 
+### Close Modal by callback method
+
+<ComponentBox>
+	{
+	/* @jsx */ `
+<Modal mode="drawer" hide_close_button title="Title">
+  {({ close }) => (
+    <>
+      <Button text="Close by callback" on_click={close} />
+    </>
+  )}
+</Modal>
+	`
+	}
+</ComponentBox>
+
 ### Close Modal by handlers
 
 With a `max_width` of `40rem`.

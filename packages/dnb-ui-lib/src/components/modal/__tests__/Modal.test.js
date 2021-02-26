@@ -162,6 +162,27 @@ describe('Modal component', () => {
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
     expect(on_close).toHaveBeenCalledTimes(2)
   })
+  it('will close modal by using callback method', () => {
+    const on_close = jest.fn()
+    const on_open = jest.fn()
+    const Comp = mount(
+      <Component
+        no_animation={true}
+        on_open={on_open}
+        on_close={on_close}
+        hide_close_button
+      >
+        {({ close }) => (
+          <Button id="close-me" text="close" on_click={close} />
+        )}
+      </Component>
+    )
+    Comp.find('button').simulate('click')
+    expect(on_open).toHaveBeenCalledTimes(1)
+
+    Comp.find('button#close-me').simulate('click')
+    expect(on_close).toHaveBeenCalledTimes(1)
+  })
   it('has support for nested modals', () => {
     const on_open = {
       first: jest.fn(),

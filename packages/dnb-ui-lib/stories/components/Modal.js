@@ -211,6 +211,9 @@ export const ModalSandbox = () => (
     <Box>
       <CloseWithAnimation />
     </Box>
+    <Box>
+      <CloseByCallback />
+    </Box>
   </Wrapper>
 )
 
@@ -705,6 +708,7 @@ function CloseWithAnimation() {
   return (
     <Modal
       trigger_text="CloseWithAnimation"
+      hide_close_button
       open_state={modalOpen}
       on_open={() => setModalOpen(true)}
       on_close={() => setModalOpen(false)}
@@ -713,6 +717,14 @@ function CloseWithAnimation() {
         text="Close from inside modal"
         on_click={() => setModalOpen(false)}
       />
+    </Modal>
+  )
+}
+
+function CloseByCallback() {
+  return (
+    <Modal mode="drawer" trigger_text="CloseByCallback" hide_close_button>
+      {({ close }) => <Button text="Close by callback" on_click={close} />}
     </Modal>
   )
 }
