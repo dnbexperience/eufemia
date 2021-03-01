@@ -1,11 +1,11 @@
 /*
- * Number Component
+ * NumberFormat Component
  *
  */
 
 @import '../../../style/elements/_anchor-mixins.scss';
 
-.dnb-number {
+.dnb-number-format {
   position: relative;
   speak-as: numbers;
   color: inherit;
@@ -18,28 +18,6 @@
 
   &.dnb-anchor {
     cursor: pointer;
-  }
-
-  &__fx {
-    pointer-events: none;
-    position: fixed;
-    z-index: 3300; // above modal
-
-    border-radius: 2px;
-    background-color: var(--color-mint-green);
-    color: var(--color-black);
-
-    animation: number-fx-scale-out 750ms
-      cubic-bezier(0.04, 0.65, 0.55, 0.95) 1 forwards;
-
-    // we do have this only to get the top and left position
-    &__selection {
-      display: inline-block;
-      width: 0;
-      height: 0;
-      font-size: 0;
-      line-height: 0;
-    }
   }
 
   &--selectall {
@@ -74,19 +52,5 @@
   &.dnb-skeleton,
   .dnb-skeleton & {
     -webkit-text-fill-color: var(--skeleton-color);
-  }
-}
-
-@keyframes number-fx-scale-out {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  90% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-    transform: scale(5);
   }
 }

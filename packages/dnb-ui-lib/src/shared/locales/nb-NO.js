@@ -58,6 +58,9 @@ export default {
     Modal: {
       close_title: 'Lukk'
     },
+    NumberFormat: {
+      clipboard_copy: 'Kopiert'
+    },
     HelpButton: {
       title: 'Hjelpetekst',
       aria_role: 'Hjelp-knapp'
