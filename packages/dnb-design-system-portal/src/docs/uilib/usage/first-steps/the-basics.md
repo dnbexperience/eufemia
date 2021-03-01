@@ -96,7 +96,7 @@ And finally bind an [event listener](/uilib/usage/customisation/event-handling):
 <Button text="Button" on_click={myClickHandler} />
 ```
 
-## Importing components, elements and patterns
+## Importing components, elements and extensions
 
 By default, you can import `components` and `elements` from the root:
 
@@ -123,12 +123,12 @@ import Button from '@dnb/eufemia/components/Button'
 import Button from '@dnb/eufemia/components/button/Button'
 ```
 
-### Importing patterns
+### Importing extensions
 
-Patterns you would have to import explicitly from `/patterns`
+Extensions you would have to import explicitly from `/extensions`
 
 ```js
-import { ... } from '@dnb/eufemia/patterns'
+import { ... } from '@dnb/eufemia/extensions'
 ```
 
 ### Importing icons

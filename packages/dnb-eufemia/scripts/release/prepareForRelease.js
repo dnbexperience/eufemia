@@ -70,7 +70,7 @@ export async function writeLibVersion({
     './index.js',
     './components/index.js',
     './elements/index.js',
-    './patterns/index.js'
+    './extensions/index.js'
   ]
 } = {}) {
   if (!version) {

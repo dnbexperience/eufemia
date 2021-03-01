@@ -79,10 +79,10 @@ export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
         }
       ),
       makeRollupConfig(
-        './src/umd/dnb-ui-patterns.js',
-        'build/umd/dnb-ui-patterns.min.js',
+        './src/umd/dnb-ui-extensions.js',
+        'build/umd/dnb-ui-extensions.min.js',
         {
-          name: 'dnbPatterns',
+          name: 'dnbExtensions',
           format: 'umd',
           excludes
         }
@@ -126,8 +126,8 @@ export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
         }
       ),
       makeRollupConfig(
-        './src/esm/dnb-ui-patterns.js',
-        'build/esm/dnb-ui-patterns.min.mjs',
+        './src/esm/dnb-ui-extensions.js',
+        'build/esm/dnb-ui-extensions.min.mjs',
         {
           format: 'esm',
           excludes

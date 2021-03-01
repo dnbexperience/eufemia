@@ -17,7 +17,7 @@ Many developers think of a design system as a pattern library, however it is imp
 ## Consistency
 
 One of the main goals for Eufemia is to give the user consistency during the user journey.
-Consistency will be experienced in many ways, like receptive patterns, state interactions, navigation logics, color usage and accessibility.
+Consistency will be experienced in many ways, like receptive extensions, state interactions, navigation logics, color usage and accessibility.
 
 ## Single source of truth
 

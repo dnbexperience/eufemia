@@ -26,7 +26,7 @@ function loadDevStyles() {
 
   // Load dev styles (to use hot reloading, we do have to import the styles in here)
   // import styles
-  require('@dnb/eufemia/src/style/patterns') // import only patterns
+  require('@dnb/eufemia/src/style/extensions') // import only extensions
   require('@dnb/eufemia/src/style') // import both all components and the default ui theme
 
   // Other imports for testing purposes
@@ -42,10 +42,10 @@ function loadProdStyles() {
   try {
     if (process.env.NODE_ENV === 'production') {
       require('@dnb/eufemia/build/style/dnb-ui-core.css')
-      require('@dnb/eufemia/build/style/dnb-ui-patterns.css')
+      require('@dnb/eufemia/build/style/dnb-ui-extensions.css')
       require('@dnb/eufemia/build/style/dnb-ui-components.css')
       require('@dnb/eufemia/build/style/themes/theme-ui/dnb-theme-ui.css')
-      // require('@dnb/eufemia/build/style/patterns') // import only patterns
+      // require('@dnb/eufemia/build/style/extensions') // import only extensions
       // require('@dnb/eufemia/build/style') // import both all components and the default ui theme
     }
   } catch (e) {

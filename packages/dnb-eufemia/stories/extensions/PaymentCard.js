@@ -9,14 +9,16 @@ import styled from '@emotion/styled'
 
 import { H3 } from '../../src/elements'
 
-import PaymentCard, { getCardData } from '../../src/patterns/payment-card'
-// import '../../src/style/patterns'
+import PaymentCard, {
+  getCardData
+} from '../../src/extensions/payment-card'
+// import '../../src/style/extensions'
 
-import '../../src/patterns/payment-card/style'
-import '../../src/patterns/payment-card/style/themes/ui'
+import '../../src/extensions/payment-card/style'
+import '../../src/extensions/payment-card/style/themes/ui'
 // import PaymentCard, {
 //   getCardData
-// } from '../../src/patterns/PaymentCard'
+// } from '../../src/extensions/PaymentCard'
 
 export default {
   title: 'Eufemia/Extensions/PaymentCard'

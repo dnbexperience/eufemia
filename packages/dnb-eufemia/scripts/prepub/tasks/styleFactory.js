@@ -73,25 +73,25 @@ const runStyleFactory = async () => {
     }
   })
 
-  // patterns
+  // extensions
   await runFactory({
     scssOutputFile: path.resolve(
       __dirname,
-      '../../../src/style/dnb-ui-patterns.scss'
+      '../../../src/style/dnb-ui-extensions.scss'
     ),
     customContent: `
 @import './core/utilities.scss';
 `,
-    scssTemplateToFill: `@import '../patterns/{name}/style/_{name}.scss';`,
+    scssTemplateToFill: `@import '../extensions/{name}/style/_{name}.scss';`,
     processToNamesList: [
-      path.resolve(__dirname, '../../../src/patterns/*')
+      path.resolve(__dirname, '../../../src/extensions/*')
     ].concat(processToNamesIgnoreList),
     processOnlyList: [
-      path.resolve(__dirname, '../../../src/patterns/**/style/*.scss')
+      path.resolve(__dirname, '../../../src/extensions/**/style/*.scss')
     ]
   }).then(() => {
     if (require.main === module) {
-      log.info('> Created the style file with all the patterns')
+      log.info('> Created the style file with all the extensions')
     }
   })
 }

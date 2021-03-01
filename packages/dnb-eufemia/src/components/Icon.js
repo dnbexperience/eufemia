@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index icon to autogenerate all the components and patterns
+ * Library Index icon to autogenerate all the components and extensions
  * Used by "prepareIcons"
  */
 

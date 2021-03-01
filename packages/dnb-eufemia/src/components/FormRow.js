@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index form-row to autogenerate all the components and patterns
+ * Library Index form-row to autogenerate all the components and extensions
  * Used by "prepareFormRows"
  */
 

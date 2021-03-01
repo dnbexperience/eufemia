@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index form-status to autogenerate all the components and patterns
+ * Library Index form-status to autogenerate all the components and extensions
  * Used by "prepareFormStatuss"
  */
 

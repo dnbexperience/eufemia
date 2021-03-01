@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index line-title to autogenerate all the components and patterns
+ * Library Index line-title to autogenerate all the components and extensions
  * Used by "prepareLineTitles"
  */
 

@@ -64,7 +64,7 @@
     "publish:ci": "yarn publish:prepare && cd ./build && dotenv semantic-release",
     "publish:dry": "yarn publish:ci --no-ci --dry-run",
     "publish:prepare": "babel-node ./scripts/release/prepareForRelease.js",
-    "reset": "rm -rf ./node_modules ./components ./elements ./es ./icons ./patterns ./shared ./style ./umd",
+    "reset": "rm -rf ./node_modules ./components ./elements ./es ./icons ./extensions ./shared ./style ./umd",
     "skeleton:font": "nodemon --exec 'babel-node ./scripts/tools/createSkeletonFont.js'",
     "start": "start-storybook -s / -p 8002 --ci --no-release-notes --no-version-updates",
     "test": "yarn jest",

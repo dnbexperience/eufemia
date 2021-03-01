@@ -9,7 +9,7 @@
  * Used by "prepareTemplates"
  */
 
-// import all the available components and patterns
+// import all the available components and extensions
 import Accordion from './components/accordion/Accordion'
 import Autocomplete from './components/autocomplete/Autocomplete'
 import Button from './components/button/Button'

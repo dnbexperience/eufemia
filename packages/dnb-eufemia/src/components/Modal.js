@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index modal to autogenerate all the components and patterns
+ * Library Index modal to autogenerate all the components and extensions
  * Used by "prepareModals"
  */
 

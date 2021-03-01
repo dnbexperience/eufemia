@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index global-error to autogenerate all the components and patterns
+ * Library Index global-error to autogenerate all the components and extensions
  * Used by "prepareGlobalErrors"
  */
 

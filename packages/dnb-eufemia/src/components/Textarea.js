@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index textarea to autogenerate all the components and patterns
+ * Library Index textarea to autogenerate all the components and extensions
  * Used by "prepareTextareas"
  */
 
