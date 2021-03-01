@@ -11,7 +11,7 @@ These folders/files will be a part of the NPM [package](https://unpkg.com/@dnb/e
 - /assets
 - /components
 - /elements
-- /patterns
+- /extensions
 - /fragments
 - /icons
 - /style

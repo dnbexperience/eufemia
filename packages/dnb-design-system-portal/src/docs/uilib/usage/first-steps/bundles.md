@@ -25,7 +25,7 @@ Requires React and ReactDOM to be loaded. Supports `ES5`.
 
 - **@dnb/eufemia.min.js** - includes all [components](/uilib/components) and [elements](/uilib/elements) and individual [Web Component](/uilib/usage/first-steps/web-components) support.
 - **dnb-ui-components.min.js** - includes all [components](/uilib/components).
-- **dnb-ui-patterns.min.js** - includes all [patterns](/uilib/patterns).
+- **dnb-ui-extensions.min.js** - includes all [extensions](/uilib/extensions).
 - **dnb-ui-web-components.min.js** - includes all [components](/uilib/components) and enables all [custom elements](/uilib/usage/first-steps/web-components) by default.
 - **dnb-ui-icons.min.js** - includes all [primary icons](/icons/primary) in default and medium size.
 - **dnb-ui-basis.min.js** - includes just the core methods like: `isTouchDevice`, `defineNavigator`.
@@ -61,7 +61,7 @@ Requires React and ReactDOM to be loaded as a module resolution ([importmap](htt
 
 - **@dnb/eufemia.min.mjs** - includes all [components](/uilib/components) and [elements](/uilib/elements) and individual [Web Component](/uilib/usage/first-steps/web-components) support.
 - **dnb-ui-components.min.mjs** - includes all [components](/uilib/components).
-- **dnb-ui-patterns.min.mjs** - includes all [patterns](/uilib/patterns).
+- **dnb-ui-extensions.min.mjs** - includes all [extensions](/uilib/extensions).
 - **dnb-ui-web-components.min.mjs** - includes all [components](/uilib/components) and enables all [custom elements](/uilib/usage/first-steps/web-components) by default.
 - **dnb-ui-icons.min.mjs** - includes all [primary icons](/icons/primary) in default and medium size.
 - **dnb-ui-basis.min.mjs** - includes just the core methods like: `isTouchDevice`, `defineNavigator`.

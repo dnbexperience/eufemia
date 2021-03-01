@@ -1,7 +1,7 @@
 ---
 showTabs: true
 redirect_from:
-  - /uilib/components/status-message/patterns
+  - /uilib/components/status-message/extensions
 ---
 
 ## Properties

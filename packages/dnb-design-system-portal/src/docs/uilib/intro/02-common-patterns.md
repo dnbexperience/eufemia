@@ -7,7 +7,7 @@ search: 'Intro - Common Design Patterns'
 
 # Common Design Patterns
 
-Both UX designers and frontend web developers will have a huge benefit of **"talking"** within the same design patterns like:
+Both UX designers and frontend web developers will have a huge benefit of **"talking"** within the same design extensions like:
 
 - Grid usage (8px / 0.5rem)
 - Fonts & Typography

@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index input to autogenerate all the components and patterns
+ * Library Index input to autogenerate all the components and extensions
  * Used by "prepareInputs"
  */
 

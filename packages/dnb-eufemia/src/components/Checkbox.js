@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index checkbox to autogenerate all the components and patterns
+ * Library Index checkbox to autogenerate all the components and extensions
  * Used by "prepareCheckboxs"
  */
 

@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index section to autogenerate all the components and patterns
+ * Library Index section to autogenerate all the components and extensions
  * Used by "prepareSections"
  */
 

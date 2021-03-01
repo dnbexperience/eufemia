@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index toggle-button to autogenerate all the components and patterns
+ * Library Index toggle-button to autogenerate all the components and extensions
  * Used by "prepareToggleButtons"
  */
 

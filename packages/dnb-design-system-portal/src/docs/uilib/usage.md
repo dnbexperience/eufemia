@@ -16,7 +16,7 @@ The UI Library HTML Elements and UI Components are isolated, ready-to-use elemen
 
 - **HTML Elements** are styled HTML tags
 - **UI Components** are styled and custom build HTML elements
-- **UI Patterns** are a way to demonstrate how a set of components and elements could work together
+- **UI Extensions** are styled and functional, but related additions to Eufemia
 
 You can use any of the HTML Elements and UI Components as demonstrated in the documentation with a variety of customization properties.
 

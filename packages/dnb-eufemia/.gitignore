@@ -9,6 +9,7 @@
 # production
 *.min.mjs
 /build
+/build/CHANGELOG.md
 /dist
 /es
 /esm
@@ -18,7 +19,7 @@
 /components
 /fragments
 /elements
-/patterns
+/extensions
 /shared
 /umd
 /style

@@ -40,11 +40,11 @@ You will find two sets of principles in the DNB Design System and one set of val
 1. Design for all - follow accessibility and usability guidelines for everything you make.
 1. Start with users - gain insight, discover their needs, understand them.
 1. Understand context - when, how, where, with which device etc.
-1. Maintain consistency both visually and through re-application of design patterns.
+1. Maintain consistency both visually and through re-application of design extensions.
 1. Just enough interface. When in doubt, remove.
 1. Design and code with performance highly prioritized.
 1. Consistent experience across all platforms - small touch screens to large desktop displays.
-1. Reuse, reduce and recycle. Harness the efficiency of reusing patterns and components.
+1. Reuse, reduce and recycle. Harness the efficiency of reusing extensions and components.
 
 ### DNB Brand values
 

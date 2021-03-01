@@ -3,7 +3,7 @@
  * Used by "prepareTemplates"
  */
 
-// import all the available components and patterns
+// import all the available components and extensions
 import Template from './{type}/template/Template'
 
 // define / export all the available components

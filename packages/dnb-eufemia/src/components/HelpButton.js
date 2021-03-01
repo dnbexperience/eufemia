@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index help-button to autogenerate all the components and patterns
+ * Library Index help-button to autogenerate all the components and extensions
  * Used by "prepareHelpButtons"
  */
 

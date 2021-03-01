@@ -125,7 +125,7 @@ export const createTypeModifyers = (types) => {
           num = num / 16
         }
 
-        // check if the type exists in our patterns
+        // check if the type exists in our extensions
         const foundType = findType(num)
 
         // get the type

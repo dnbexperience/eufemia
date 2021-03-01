@@ -23,6 +23,6 @@ describe('Library', () => {
   it('have to have valid Web Components enabled in registeredElements', () => {
     enableWebComponents()
     expect(registeredElements).toContain('dnb-button')
-    expect(registeredElements).not.toContain('dnb-main-nav')
+    expect(registeredElements).not.toContain('dnb-payment-card')
   })
 })

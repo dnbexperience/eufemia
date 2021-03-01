@@ -93,43 +93,43 @@ if (
     prepareDestFileCallback: (file) => file.toLowerCase()
   })
 
-  // make patterns demos
+  // make extensions demos
   runFactory({
     // removeFiles: true,
     templateNameToRename: 'Template',
     tempalteFilePath: path.resolve(
       packpath.self(),
-      './src/uilib/patterns/demos/Template.js'
+      './src/uilib/extensions/demos/Template.js'
     ),
     processToNamesList: path.resolve(
       path.dirname(require.resolve('@dnb/eufemia')),
-      'src/patterns/'
+      'src/extensions/'
     ),
     processToNamesIgnoreList: ignoreUiLibList,
     processToNamesListByUsingFolders: true,
     processDestFilePath: path.resolve(
       packpath.self(),
-      './src/uilib/patterns/demos'
+      './src/uilib/extensions/demos'
     ),
     prepareDestFileCallback: (file) =>
       camelCase(file, { pascalCase: true })
   }).then((files) => {
-    // processAllPartsFile('patterns', files, {
+    // processAllPartsFile('extensions', files, {
     //   autoAdvice: `
     //       /** ${autoAdvice} */
     //     `
     // })
-    extractJSX('patterns', files)
+    extractJSX('extensions', files)
   })
 
-  // make patterns pages
+  // make extensions pages
   runFactory({
     removeFiles: keepFiles,
     templateNameToRename: 'Template',
     tempalteFilePath: path.resolve(
       packpath.self(),
-      // './src/docs/uilib/patterns/template.md' // we can not have a template inside here, else it will be a valid page
-      './src/uilib/patterns/page-template.md'
+      // './src/docs/uilib/extensions/template.md' // we can not have a template inside here, else it will be a valid page
+      './src/uilib/extensions/page-template.md'
     ),
     processDestFileExt: '.md',
     processDestFileContent: (content, i) => `${content.replace(
@@ -140,12 +140,12 @@ if (
     processToNamesIgnoreList: ignoreUiLibList,
     processToNamesList: path.resolve(
       path.dirname(require.resolve('@dnb/eufemia')),
-      'src/patterns/'
+      'src/extensions/'
     ),
     processToNamesListByUsingFolders: true,
     processDestFilePath: path.resolve(
       packpath.self(),
-      './src/docs/uilib/patterns'
+      './src/docs/uilib/extensions'
     ),
     prepareDestFileCallback: (file) => file.toLowerCase()
   })
