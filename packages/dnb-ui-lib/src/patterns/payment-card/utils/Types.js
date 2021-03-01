@@ -47,6 +47,7 @@ const PB = daggy.taggedSum('PB', {
 const ProductType = daggy.taggedSum('ProductType', {
   BankAxept: [],
   Saga: [],
+  Pluss: [],
   PrivateBanking: [],
   None: []
 })

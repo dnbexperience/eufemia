@@ -14,6 +14,12 @@
     var(--color-sea-green) 6.31%,
     var(--color-sea-green) 82.66%
   );
+  --dnb-payment-bg-pluss: linear-gradient(
+      187.2deg,
+      #14555a 6.31%,
+      rgba(0, 52, 62, 0.4) 82.66%
+    ),
+    #14555a;
   --dnb-payment-bg-white: linear-gradient(
     184.55deg,
     var(--color-black-background) 4.63%,
@@ -71,6 +77,11 @@
 
     &--design-default {
       background: var(--dnb-payment-bg-default);
+      color: var(--color-white);
+    }
+
+    &--design-pluss {
+      background: var(--dnb-payment-bg-pluss);
       color: var(--color-white);
     }
 

@@ -1,5 +1,6 @@
 import {
   defaultDesign,
+  pluss,
   white,
   myFirst,
   youth,
@@ -91,9 +92,9 @@ const cardData = [
   {
     productCode: 'VL1',
     productName: 'Sølv Visa',
-    displayName: 'Sølvkort',
-    cardDesign: silver,
-    productType: ProductType.None,
+    displayName: 'Pluss Visa',
+    cardDesign: pluss,
+    productType: ProductType.Pluss,
     cardType: CardType.Visa
   },
   {
@@ -107,9 +108,9 @@ const cardData = [
   {
     productCode: 'VL3',
     productName: 'Sølv Visa',
-    displayName: 'Sølvkort',
-    cardDesign: silver,
-    productType: ProductType.None,
+    displayName: 'Pluss Visa',
+    cardDesign: pluss,
+    productType: ProductType.Pluss,
     cardType: CardType.Visa
   },
   {
@@ -127,6 +128,14 @@ const cardData = [
     cardDesign: white,
     productType: ProductType.None,
     cardType: CardType.Visa
+  },
+  {
+    productCode: 'VO1',
+    productName: 'DNB Visa Online',
+    displayName: 'DNB Visa Online',
+    cardDesign: defaultDesign,
+    cardType: CardType.Visa,
+    productType: ProductType.None
   },
   {
     productCode: 'VP2',
@@ -229,9 +238,9 @@ const cardData = [
   {
     productCode: '043',
     productName: 'Sølv MasterCard',
-    displayName: 'Leve',
-    cardDesign: silver,
-    productType: ProductType.None,
+    displayName: 'Pluss Mastercard',
+    cardDesign: pluss,
+    productType: ProductType.Pluss,
     cardType: CardType.Mastercard
   },
   {

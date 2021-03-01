@@ -8,6 +8,7 @@ import Blocked from './Padlock'
 import MastercardDefault from './MastercardDefault'
 import MastercardMetalic from './MastercardMetalic'
 import MastercardMetalicBlack from './MastercardMetalicBlack'
+import Pluss from './Pluss'
 import PB from './PB'
 import PBPlatinum from './PBPlatinum'
 import SagaGold from './SagaGold'
@@ -48,6 +49,7 @@ const ProductLogo = ({ productType, cardDesign }) => {
         VisaPlatinum: () => <SagaVisaPlatinum className={id} />,
         None: () => null
       }),
+    Pluss: () => <Pluss className={id} fill="#A5E1D2" />,
     PrivateBanking: () =>
       cardDesign.privateBanking.cata({
         Default: () => <PB className={id} />,
