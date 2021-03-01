@@ -12,9 +12,9 @@ import PropTypes from 'prop-types'
 import ItemWrapper from '../../../shared/parts/uilib/ItemWrapper'
 import DemoComponent, {
   Example as CodeComponent
-} from 'dnb-ui-lib/src/patterns/view-title/Example'
-import Description from 'dnb-ui-lib/src/patterns/view-title/description.md'
-import Details from 'dnb-ui-lib/src/patterns/view-title/details.md'
+} from '@dnb/eufemia/src/patterns/view-title/Example'
+import Description from '@dnb/eufemia/src/patterns/view-title/description.md'
+import Details from '@dnb/eufemia/src/patterns/view-title/details.md'
 import ExampleCode from 'raw-loader!../examples/ViewTitle.txt'
 
 export default class ViewTitleDemo extends React.PureComponent {

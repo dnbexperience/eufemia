@@ -3,7 +3,7 @@ showTabs: true
 ---
 
 import ComponentBox from 'Tags/ComponentBox'
-import { bell_medium as Bell, question } from 'dnb-ui-lib/src/icons'
+import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 
 ## Demos
 
@@ -160,7 +160,7 @@ import { bell_medium as Bell, question } from 'dnb-ui-lib/src/icons'
 
 ### Signal button
 
-Medium is equivalent to 24, but responsive. To import custom icons, use: `import { bell_medium as Bell } from 'dnb-ui-lib/icons'`
+Medium is equivalent to 24, but responsive. To import custom icons, use: `import { bell_medium as Bell } from '@dnb/eufemia/icons'`
 
 <!-- prettier-ignore -->
 <ComponentBox scope={{ Bell }}>
@@ -178,7 +178,7 @@ Medium is equivalent to 24, but responsive. To import custom icons, use: `import
 
 ### Large Signal button
 
-Large Signal button with medium sized icon. To import custom icons, use: `import { bell_medium as Bell } from 'dnb-ui-lib/icons'`
+Large Signal button with medium sized icon. To import custom icons, use: `import { bell_medium as Bell } from '@dnb/eufemia/icons'`
 
 <!-- prettier-ignore -->
 <ComponentBox scope={{ Bell }}>

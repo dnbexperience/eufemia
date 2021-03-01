@@ -5,7 +5,7 @@ order: 3
 ---
 
 import Img from 'Tags/Img'
-import { Icon } from 'dnb-ui-lib/src'
+import { Icon } from '@dnb/eufemia/src'
 import CSSDiagram from 'Pages/uilib/usage/customisation/assets/css_structure_diagram.js'
 
 # CSS Styles
@@ -38,11 +38,11 @@ There are several packages you can use and combine.
   - There is also a [JavaScript file containing](/uilib/usage/customisation/styling#a-list-of-all-css-properties) the same properties.
 - **dnb-ui-fonts** - includes only the `@font-face` and properties.
 
-All the CSS packages are ready to use, **minified CSS files**. You will find the main style here: `dnb-ui-lib/style/dnb-ui-core.min.css`
+All the CSS packages are ready to use, **minified CSS files**. You will find the main style here: `@dnb/eufemia/style/dnb-ui-core.min.css`
 
 ### Individual styles
 
-Additionally, it is also possible to import a style and theme for every single component separately. You find the styles here, like: `dnb-ui-lib/components/[button]/style/dnb-button.min.css` - read more about [how to import a single-component style](/uilib/usage/customisation/styling/consume-styles#single-component-only)
+Additionally, it is also possible to import a style and theme for every single component separately. You find the styles here, like: `@dnb/eufemia/components/[button]/style/dnb-button.min.css` - read more about [how to import a single-component style](/uilib/usage/customisation/styling/consume-styles#single-component-only)
 
 ## CSS Structure Diagram
 
@@ -62,12 +62,12 @@ You may have a look at some [code examples of dealing with legacy code](/uilib/u
 
 ```js
 // NB: needs a wrapper class: ".dnb-core-style"
-import 'dnb-ui-lib/style/basis'
-import 'dnb-ui-lib/style/components'
-import 'dnb-ui-lib/style/themes/ui'
+import '@dnb/eufemia/style/basis'
+import '@dnb/eufemia/style/components'
+import '@dnb/eufemia/style/themes/ui'
 
 // instead of all together
-/* import 'dnb-ui-lib/style' */
+/* import '@dnb/eufemia/style' */
 ```
 
 ### Core Style
@@ -92,7 +92,7 @@ Once You use the `.dnb-core-style` wrapper class, You may in some circumstances,
 For **Styled Components** You do it this way:
 
 ```jsx
-import { P } from 'dnb-ui-lib/elements'
+import { P } from '@dnb/eufemia/elements'
 const MyElement = styled(P)`
   .dnb-core-style & {
     margin-top: 3rem;
@@ -138,10 +138,10 @@ To deal with HTML Elements, without declaring them individual with the right css
 
 ```js
 /* directly the CSS file */
-import 'dnb-ui-lib/style/dnb-ui-tags.min.css'
+import '@dnb/eufemia/style/dnb-ui-tags.min.css'
 
 /* ... or by the shorthand */
-import 'dnb-ui-lib/style/elements'
+import '@dnb/eufemia/style/elements'
 ```
 
 ```html
@@ -156,12 +156,12 @@ import 'dnb-ui-lib/style/elements'
 
 ## A list of all CSS properties (variables)
 
-Beside the portal documentation with related tables and additional information, you may have a look at the [CSS file](https://unpkg.com/browse/dnb-ui-lib@latest/style/dnb-ui-properties.css), containing the custom properties (CSS variables), as well as a[ JavaScript file](https://unpkg.com/browse/dnb-ui-lib@latest/style/properties.js), which is auto generated from the CSS data.
+Beside the portal documentation with related tables and additional information, you may have a look at the [CSS file](https://unpkg.com/browse/@dnb/eufemia@latest/style/dnb-ui-properties.css), containing the custom properties (CSS variables), as well as a[ JavaScript file](https://unpkg.com/browse/@dnb/eufemia@latest/style/properties.js), which is auto generated from the CSS data.
 
 ### Access CSS properties (variables) in JavaScript
 
 ```js
-import properties from 'dnb-ui-lib/style/properties.js'
+import properties from '@dnb/eufemia/style/properties.js'
 
 const seaGreenColor = properties['--color-sea-green']
 const basisFontSize = properties['--font-size-basis']

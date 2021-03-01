@@ -8,7 +8,7 @@ redirect_from:
 
 # ESM and transpiling
 
-To support every modern front end environment, the `dnb-ui-lib` supports different transpiled module formats:
+To support every modern front end environment, the `@dnb/eufemia` supports different transpiled module formats:
 
 - `ESM` with ES5 (**default**)
 - `ES` with ES6
@@ -17,16 +17,16 @@ To support every modern front end environment, the `dnb-ui-lib` supports differe
 
 ## Default module format
 
-The `dnb-ui-lib` uses **ESM** as the default module format. This allows us to more easily and by default [tree shaking](/uilib/usage/first-steps/es6#tree-shaking) support:
+The `@dnb/eufemia` uses **ESM** as the default module format. This allows us to more easily and by default [tree shaking](/uilib/usage/first-steps/es6#tree-shaking) support:
 
 ```js
 // Imports only the code needed for the button
-import { Button } from 'dnb-ui-lib'
-import { Button } from 'dnb-ui-lib/esm'
+import { Button } from '@dnb/eufemia'
+import { Button } from '@dnb/eufemia/esm'
 
 // Imports only the code needed for the icon
-import { question } from 'dnb-ui-lib/icons'
-import { question } from 'dnb-ui-lib/esm/icons'
+import { question } from '@dnb/eufemia/icons'
+import { question } from '@dnb/eufemia/esm/icons'
 ```
 
 ## CommonJS (CJS)
@@ -35,22 +35,22 @@ import { question } from 'dnb-ui-lib/esm/icons'
 
 ### SSR
 
-In case you are using the `dnb-ui-lib` in a classic Node.js environment, like typical in SSR, you can import or require everything from the `/cjs` subfolder:
+In case you are using the `@dnb/eufemia` in a classic Node.js environment, like typical in SSR, you can import or require everything from the `/cjs` subfolder:
 
 ```js
 // Components
-import { Button } from 'dnb-ui-lib/cjs'
-const { Button } = require('dnb-ui-lib/cjs/components')
-const Button = require('dnb-ui-lib/cjs/components/Button')
+import { Button } from '@dnb/eufemia/cjs'
+const { Button } = require('@dnb/eufemia/cjs/components')
+const Button = require('@dnb/eufemia/cjs/components/Button')
 
 // Icons
-import { question } from 'dnb-ui-lib/cjs/icons'
-const { question } = require('dnb-ui-lib/cjs/icons')
-const question = require('dnb-ui-lib/cjs/icons/question')
+import { question } from '@dnb/eufemia/cjs/icons'
+const { question } = require('@dnb/eufemia/cjs/icons')
+const question = require('@dnb/eufemia/cjs/icons/question')
 
 // Styles
-import 'dnb-ui-lib/cjs/style'
-require('dnb-ui-lib/cjs/style')
+import '@dnb/eufemia/cjs/style'
+require('@dnb/eufemia/cjs/style')
 ```
 
 ### Next.js and Node.js version 12 and above
@@ -58,8 +58,8 @@ require('dnb-ui-lib/cjs/style')
 **NB:** If you use Next.js with Node.js version 12 and above, we may have to define explicitly that we want to use CommonJS:
 
 ```js
-import { Button } from 'dnb-ui-lib/cjs'
-const { Button } = require('dnb-ui-lib/cjs/components')
+import { Button } from '@dnb/eufemia/cjs'
+const { Button } = require('@dnb/eufemia/cjs/components')
 ```
 
 Alternatively, you can make use of [next-transpile-modules](https://www.npmjs.com/package/next-transpile-modules).
@@ -78,10 +78,10 @@ You can easily use [ESM](https://nodejs.org/api/esm.html) in Node.js environment
 
 #### Jest and ESM (Node testing environments)
 
-Older Jest versions uses still CommonJS as the default module format. If you use the default `dnb-ui-lib` imports, then you get a mismatch between ES module and CommonJS formats. To ensure that Jest transforms your code in to CSJ, you can use the following Jest configuration `--moduleNameMapper`
+Older Jest versions uses still CommonJS as the default module format. If you use the default `@dnb/eufemia` imports, then you get a mismatch between ES module and CommonJS formats. To ensure that Jest transforms your code in to CSJ, you can use the following Jest configuration `--moduleNameMapper`
 
 ```bash
-jest --moduleNameMapper '{"dnb-ui-lib(.*)":"dnb-ui-lib/cjs$1"}'
+jest --moduleNameMapper '{"@dnb/eufemia(.*)":"@dnb/eufemia/cjs$1"}'
 ```
 
 or in a `jest.config.js` or `jest.preset.js` file:
@@ -89,7 +89,7 @@ or in a `jest.config.js` or `jest.preset.js` file:
 ```js
   module.exports = {
     ...
-    moduleNameMapper: { 'dnb-ui-lib(.*)': 'dnb-ui-lib/cjs$1' }
+    moduleNameMapper: { '@dnb/eufemia(.*)': '@dnb/eufemia/cjs$1' }
   }
 ```
 
@@ -99,11 +99,11 @@ In some cases you may want to import an ES6 version.
 
 ```js
 // ES6 version of all Components
-import { Button } from 'dnb-ui-lib/es'
-import { Button } from 'dnb-ui-lib/es/components'
+import { Button } from '@dnb/eufemia/es'
+import { Button } from '@dnb/eufemia/es/components'
 
 // ES6 version of a single component
-import Button from 'dnb-ui-lib/es/components/Button'
+import Button from '@dnb/eufemia/es/components/Button'
 ```
 
 Make sure your environment has a production build with:
@@ -121,18 +121,18 @@ To optimize the bundle size, we have several options. It also depends on what is
 If you only need / import a few components, you may consider to import them directly, without named imports (**ES5**):
 
 ```js
-import MyMaskedInput from 'dnb-ui-lib/components/InputMasked'
-import MyMaskedInput from 'dnb-ui-lib/cjs/components/InputMasked'
+import MyMaskedInput from '@dnb/eufemia/components/InputMasked'
+import MyMaskedInput from '@dnb/eufemia/cjs/components/InputMasked'
 
 // or
-import Input from 'dnb-ui-lib/components/input-masked/InputMasked'
-import Input from 'dnb-ui-lib/cjs/components/input-masked/InputMasked'
+import Input from '@dnb/eufemia/components/input-masked/InputMasked'
+import Input from '@dnb/eufemia/cjs/components/input-masked/InputMasked'
 ```
 
 ... or as **ES6** imports:
 
 ```js
-import { InputMasked } from 'dnb-ui-lib/es/components'
+import { InputMasked } from '@dnb/eufemia/es/components'
 ```
 
 <!-- You also have to make sure your application gets [minified and mangled](https://webpack.js.org/guides/tree-shaking/#minify-the-output). -->

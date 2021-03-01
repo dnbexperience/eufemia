@@ -3,7 +3,7 @@ title: 'Logos'
 icon: 'logos'
 ---
 
-import { Logo } from 'dnb-ui-lib/src'
+import { Logo } from '@dnb/eufemia/src'
 
 # Logos
 

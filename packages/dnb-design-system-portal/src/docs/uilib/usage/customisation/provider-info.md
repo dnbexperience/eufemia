@@ -7,7 +7,7 @@ draft: true
 You can use the Provider to send down component props. And because providers can be nested, it's a really powerful tool to handle generally properties used often by a component.
 
 ```jsx
-import Provider from 'dnb-ui-lib/shared/Provider'
+import Provider from '@dnb/eufemia/shared/Provider'
 
 render(
   <MyApp>
@@ -38,8 +38,8 @@ render(
 You can either set the locale as a properly e.g. `<Provider locale="en-GB" ...` and handle the change from the app root, or change it inside the app, respective Context:
 
 ```jsx
-import Provider from 'dnb-ui-lib/shared/Provider'
-import Context from 'dnb-ui-lib/shared/Context'
+import Provider from '@dnb/eufemia/shared/Provider'
+import Context from '@dnb/eufemia/shared/Context'
 
 const ChangeLocale = () => {
   const { setLocale, update, locale } = React.useContext(Context)
@@ -80,8 +80,8 @@ Yes, it's possible to have nested providers.
 You have then to decide what you need to update.
 
 ```jsx
-import Provider from 'dnb-ui-lib/shared/Provider'
-import Context from 'dnb-ui-lib/shared/Context'
+import Provider from '@dnb/eufemia/shared/Provider'
+import Context from '@dnb/eufemia/shared/Context'
 
 const ChangeLocale = () => {
   const { setCurrentLocale, updateCurrent, locale } = React.useContext(
@@ -124,7 +124,7 @@ If there is a module format deviation, components do not share anymore the same 
 
 ```js
 // NB: Example of deviant module formats
-import Provider from 'dnb-ui-lib/shared/Provider' // like /esm
-import { Button } from 'dnb-ui-lib/es'
-import { NumberFormat } from 'dnb-ui-lib/cjs/components'
+import Provider from '@dnb/eufemia/shared/Provider' // like /esm
+import { Button } from '@dnb/eufemia/es'
+import { NumberFormat } from '@dnb/eufemia/cjs/components'
 ```

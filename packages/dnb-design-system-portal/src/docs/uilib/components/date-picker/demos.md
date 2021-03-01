@@ -25,7 +25,7 @@ import ChangeLocale from 'Src/core/ChangeLocale'
 English (US) is not included in Eufemia by default. You can include it like:
 
 ```jsx
-import enUS from 'dnb-ui-lib/shared/locales/en-US'
+import enUS from '@dnb/eufemia/shared/locales/en-US'
 <EufemiaProvider locales={enUS} ...>
 	App
 </EufemiaProvider>

@@ -6,7 +6,7 @@
 import React from 'react'
 import { css, Global } from '@emotion/react'
 import styled from '@emotion/styled'
-import { Switch } from 'dnb-ui-lib/src'
+import { Switch } from '@dnb/eufemia/src'
 import { gridStyle } from '../parts/PortalStyle'
 
 const globalStyle = css`

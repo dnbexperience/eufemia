@@ -4,7 +4,7 @@ order: 1
 ---
 
 import ComponentBox from 'Tags/ComponentBox'
-import { hamburger as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
+import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons/secondary_icons'
 
 # Component Properties
 
@@ -73,7 +73,7 @@ render(
 
 > What if a property has to change at runtime?
 
-Changing a property (`props`) at runtime is a common thing in React. But also `dnb-ui-lib` web components support `prop` changes.
+Changing a property (`props`) at runtime is a common thing in React. But also `@dnb/eufemia` web components support `prop` changes.
 Keep in mind that not all components are tested to the last detail.
 So, if you come over some special use cases, please contribute back and make a pull request.
 

@@ -12,9 +12,9 @@ import PropTypes from 'prop-types'
 import ItemWrapper from '../../../shared/parts/uilib/ItemWrapper'
 import DemoComponent, {
   Example as CodeComponent
-} from 'dnb-ui-lib/src/patterns/form/Example'
-import Description from 'dnb-ui-lib/src/patterns/form/description.md'
-import Details from 'dnb-ui-lib/src/patterns/form/details.md'
+} from '@dnb/eufemia/src/patterns/form/Example'
+import Description from '@dnb/eufemia/src/patterns/form/description.md'
+import Details from '@dnb/eufemia/src/patterns/form/details.md'
 import ExampleCode from 'raw-loader!../examples/Form.txt'
 
 export default class FormDemo extends React.PureComponent {

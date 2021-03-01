@@ -24,14 +24,14 @@ You can use any of the HTML Elements and UI Components as demonstrated in the do
 
 ## Installation
 
-To install and save the `dnb-ui-lib` in your **package.json** dependencies, run:
+To install and save the `@dnb/eufemia` in your **package.json** dependencies, run:
 
 _NB!_ [React](https://www.npmjs.com/package/react) and [React-dom](https://www.npmjs.com/package/react-dom) are needed as well.
 
 ```bash
 # at time of writing, React version 16 was used
 # so consider to run react@16 and react-dom@16
-$ npm i dnb-ui-lib react react-dom
+$ npm i @dnb/eufemia react react-dom
 ```
 
 Read more in the [First Steps](/uilib/usage/first-steps/) section.

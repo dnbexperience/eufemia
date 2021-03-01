@@ -7,8 +7,8 @@ import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import { Global, css } from '@emotion/react'
 import styled from '@emotion/styled'
-import AllComponents from 'dnb-ui-lib/src/components/form-row/AllComponents'
-import AllStretchComponents from 'dnb-ui-lib/src/components/form-row/AllStretchComponents'
+import AllComponents from '@dnb/eufemia/src/components/form-row/AllComponents'
+import AllStretchComponents from '@dnb/eufemia/src/components/form-row/AllStretchComponents'
 
 const TestStyles = styled.div`
   /* make sure our input gets an explicit width, because of mac/linux rendering differences */
