@@ -38,7 +38,7 @@ The DNB default Font Family is `DNB`. This font, together with it's weights is l
 You can use the [Spacing properties](/uilib/components/space/properties) inside every Eufemia React Element, but keep in mind, [margin collapsing](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing) can some times a little tricky to get right.
 
 ```jsx
-import { H1, H2, ... } from 'dnb-ui-lib/elements'
+import { H1, H2, ... } from '@dnb/eufemia/elements'
 
 <H1 bottom="x-large">Heading with bottom margin: x-large</H1>
 <H2 top="x-large">Heading with top margin: x-large</H2>

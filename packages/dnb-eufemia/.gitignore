@@ -1,0 +1,54 @@
+# dependencies
+/node_modules
+
+# testing
+/coverage
+/jest-screenshot-report
+/reports/jest-screenshot-report
+
+# production
+*.min.mjs
+/build
+/dist
+/es
+/esm
+/cjs
+/lib
+/package
+/components
+/fragments
+/elements
+/patterns
+/shared
+/umd
+/style
+/icons
+/dnb-ui-resources
+**/test-files/dist
+/docs
+/vue.js
+/index.*
+/lib.js
+/web-components.*
+/web-components
+@dnb/eufemia*.tgz
+
+# misc
+package-lock.json
+completions.json
+*snapshot.json
+*.emotion.css
+.DS_Store
+.history
+.cache
+bundle.css
+*not_in_use*
+
+# enviroment
+.env
+.env.*
+
+# pkm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

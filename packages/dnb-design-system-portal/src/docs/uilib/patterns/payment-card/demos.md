@@ -3,7 +3,7 @@ showTabs: true
 ---
 
 import ComponentBox from 'Tags/ComponentBox'
-import PaymentCard, { getCardData, Designs, ProductType, CardType } from 'dnb-ui-lib/src/patterns/payment-card'
+import PaymentCard, { getCardData, Designs, ProductType, CardType } from '@dnb/eufemia/src/patterns/payment-card'
 import ChangeLocale from 'Src/core/ChangeLocale'
 
 ## Demos
@@ -33,7 +33,7 @@ import PaymentCard, {
   Designs,
   ProductType,
   CardType
-} from 'dnb-ui-lib/patterns/PaymentCard'
+} from '@dnb/eufemia/patterns/PaymentCard'
 ```
 
 <ComponentBox scope={{PaymentCard,Designs,ProductType,CardType}} useRender>

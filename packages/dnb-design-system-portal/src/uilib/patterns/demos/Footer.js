@@ -12,9 +12,9 @@ import PropTypes from 'prop-types'
 import ItemWrapper from '../../../shared/parts/uilib/ItemWrapper'
 import DemoComponent, {
   Example as CodeComponent
-} from 'dnb-ui-lib/src/patterns/footer/Example'
-import Description from 'dnb-ui-lib/src/patterns/footer/description.md'
-import Details from 'dnb-ui-lib/src/patterns/footer/details.md'
+} from '@dnb/eufemia/src/patterns/footer/Example'
+import Description from '@dnb/eufemia/src/patterns/footer/description.md'
+import Details from '@dnb/eufemia/src/patterns/footer/details.md'
 import ExampleCode from 'raw-loader!../examples/Footer.txt'
 
 export default class FooterDemo extends React.PureComponent {

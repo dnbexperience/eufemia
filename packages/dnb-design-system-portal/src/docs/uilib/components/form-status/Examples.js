@@ -9,7 +9,7 @@ import {
   InfoIcon,
   WarnIcon,
   ErrorIcon
-} from 'dnb-ui-lib/src/components/form-status/FormStatus'
+} from '@dnb/eufemia/src/components/form-status/FormStatus'
 
 export const FormStatusDefault = () => (
   <ComponentBox data-visual-test="form-status">

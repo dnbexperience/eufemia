@@ -17,14 +17,14 @@ showTabs: true
 
 ## Card Data
 
-| Properties    | Type         | Description                                                                                                                                                                                                   |
-| ------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `productCode` | `string`     | _(mandatory)_ product code for the given card.                                                                                                                                                                |
-| `productName` | `string`     | _(mandatory)_ product name. Can be blank.                                                                                                                                                                     |
-| `displayName` | `string`     | _(mandatory)_ the visible product name. Can be empty.                                                                                                                                                         |
-| `cardDesign`  | `object`     | _(mandatory)_ object that describes the style properties of the card. can be imported from `dnb-ui-lib/patterns/payment-card/utils/CardDesigns` (see available designs below) or a custom one can be created. |
-| `cardType`    | `Union Type` | _(mandatory)_ import CardType from `dnb-ui-lib/patterns/payment-card/utils/Types` to use. Can be CardType.Visa, CardType.Mastercard or CardType.None                                                          |
-| `productType` | `Union Type` | _(mandatory)_ import ProductType from `dnb-ui-lib/patterns/payment-card/utils/Types` to use. Can be ProductType.BankAxept, ProductType.Saga, ProductType.PrivateBanking or ProductType.None                   |
+| Properties    | Type         | Description                                                                                                                                                                                                     |
+| ------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `productCode` | `string`     | _(mandatory)_ product code for the given card.                                                                                                                                                                  |
+| `productName` | `string`     | _(mandatory)_ product name. Can be blank.                                                                                                                                                                       |
+| `displayName` | `string`     | _(mandatory)_ the visible product name. Can be empty.                                                                                                                                                           |
+| `cardDesign`  | `object`     | _(mandatory)_ object that describes the style properties of the card. can be imported from `@dnb/eufemia/patterns/payment-card/utils/CardDesigns` (see available designs below) or a custom one can be created. |
+| `cardType`    | `Union Type` | _(mandatory)_ import CardType from `@dnb/eufemia/patterns/payment-card/utils/Types` to use. Can be CardType.Visa, CardType.Mastercard or CardType.None                                                          |
+| `productType` | `Union Type` | _(mandatory)_ import ProductType from `@dnb/eufemia/patterns/payment-card/utils/Types` to use. Can be ProductType.BankAxept, ProductType.Saga, ProductType.PrivateBanking or ProductType.None                   |
 
 ## Card Design
 

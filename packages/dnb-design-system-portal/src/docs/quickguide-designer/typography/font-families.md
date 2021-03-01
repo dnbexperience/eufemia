@@ -1,4 +1,4 @@
-import { H2 } from 'dnb-ui-lib/src/elements'
+import { H2 } from '@dnb/eufemia/src/elements'
 
 ## Font Families
 

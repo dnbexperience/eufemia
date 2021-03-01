@@ -3,7 +3,7 @@ title: 'License'
 ---
 
 import license from "raw-loader!Root/LICENSE";
-import { Logo } from 'dnb-ui-lib/src'
+import { Logo } from '@dnb/eufemia/src'
 
 <!-- prettier-ignore-start -->
 

@@ -13,7 +13,7 @@ import WhatIsEufemia from 'Docs/uilib/intro/assets/what-is-a-design-system.svg'
 > What is a Design System good for?
 
 - Consistent User Experience (**UX**) for all DNB products
-- [**Single source of truth**](https://www.npmjs.com/package/dnb-ui-lib)
+- [**Single source of truth**](https://www.npmjs.com/package/@dnb/eufemia)
 - [Contribution](!/uilib/development) and [collaboration](https://github.com/dnbexperience/eufemia)
 - Independent "visual" layer with semantic versioning
 - Notification of [new releases](!/uilib/usage#the-eufemia-repository)

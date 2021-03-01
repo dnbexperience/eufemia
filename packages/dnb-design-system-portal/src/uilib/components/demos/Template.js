@@ -12,9 +12,9 @@ import PropTypes from 'prop-types'
 import ItemWrapper from '../../../shared/parts/uilib/ItemWrapper'
 import DemoComponent, {
   Example as CodeComponent
-} from 'dnb-ui-lib/src/components/template/Example'
-import Description from 'dnb-ui-lib/src/components/template/description.md'
-import Details from 'dnb-ui-lib/src/components/template/details.md'
+} from '@dnb/eufemia/src/components/template/Example'
+import Description from '@dnb/eufemia/src/components/template/description.md'
+import Details from '@dnb/eufemia/src/components/template/details.md'
 import ExampleCode from 'raw-loader!../examples/Template.txt'
 
 export default class TemplateDemo extends React.PureComponent {

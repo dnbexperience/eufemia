@@ -38,7 +38,7 @@ A more complex focus management is build in already to the [Modal Component](/ui
 
 ## Helper tool
 
-The `dnb-ui-lib` has a build-in helper, to manage basic focus handling.
+The `@dnb/eufemia` has a build-in helper, to manage basic focus handling.
 This helper also handles both the `tabindex="-1"` and the `class="dnb-no-focus"` situation. So what does it do?
 
 1. You define on beforehand what should get focus with a css selector (_class or id_). This (**setPageFocusElement**) can be set on the very first application start.
@@ -50,7 +50,7 @@ This helper also handles both the `tabindex="-1"` and the `class="dnb-no-focus"`
 import {
   setPageFocusElement,
   applyPageFocus
-} from 'dnb-ui-lib/shared/helpers'
+} from '@dnb/eufemia/shared/helpers'
 
 // 1. Somewhere in Your app, set either an element, or a CSS Selector
 setPageFocusElement('.css-selector', 'MyCustomName')
@@ -63,7 +63,7 @@ applyPageFocus('MyCustomName', (element) => {
 
 ### Skip Link
 
-The `dnb-ui-lib` also has a small setup for a [skip link](https://www.w3.org/TR/WCAG20-TECHS/G1.html)
+The `@dnb/eufemia` also has a small setup for a [skip link](https://www.w3.org/TR/WCAG20-TECHS/G1.html)
 
 Our solution is CSS only and should work for all kinds of application setups. Demo example below:
 

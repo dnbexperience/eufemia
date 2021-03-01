@@ -4,7 +4,7 @@
 
 import React from 'react'
 import CodeBlock from './CodeBlock'
-import { Checkbox, Input } from 'dnb-ui-lib/src/components'
+import { Checkbox, Input } from '@dnb/eufemia/src/components'
 import {
   Ul,
   Ol,
@@ -14,8 +14,8 @@ import {
   Hr,
   Blockquote,
   Code
-} from 'dnb-ui-lib/src/elements'
-import Element from 'dnb-ui-lib/src/elements/Element'
+} from '@dnb/eufemia/src/elements'
+import Element from '@dnb/eufemia/src/elements/Element'
 import Table from './Table'
 // import Img from './Img'
 // import Tag from './Tag' // use it like so: <Tag is="p" {...props} />

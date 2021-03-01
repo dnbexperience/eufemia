@@ -6,7 +6,7 @@ order: 6
 
 import CodeBlock from 'Tags/CodeBlock'
 import ComponentBox from 'Tags/ComponentBox'
-import { Link } from 'dnb-ui-lib/src/elements'
+import { Link } from '@dnb/eufemia/src/elements'
 import NotSupportedElements from 'Pages/uilib/elements/not-supported'
 import UnstyledElements from 'Pages/uilib/elements/unstyled'
 import Anchor from 'Pages/uilib/elements/anchor'
@@ -19,7 +19,7 @@ import Code from 'Pages/uilib/elements/code'
 
 # HTML Elements
 
-The `dnb-ui-lib` contains styling for the most commonly used [HTML Elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) defined by the UX team at DNB. You may also have a look at [Typography](/uilib/typography) for headings and paragraph usage.
+The `@dnb/eufemia` contains styling for the most commonly used [HTML Elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) defined by the UX team at DNB. You may also have a look at [Typography](/uilib/typography) for headings and paragraph usage.
 
 ## Overview
 
@@ -53,7 +53,7 @@ In order to apply a style, you have to define a CSS class, like:
 For those using JSX with React, you can simply use the wrapper Components. They also inherit to the [Skeleton](/uilib/components/skeleton) provider.
 
 ```jsx
-import { H1, H2, P, Anchor, Link } from 'dnb-ui-lib/elements'
+import { H1, H2, P, Anchor, Link } from '@dnb/eufemia/elements'
 
 render(
   <article>

@@ -7,20 +7,20 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 // preload our default fonts
-import fontRegular from 'dnb-ui-lib/assets/fonts/DNB-Regular.woff2'
-import fontMedium from 'dnb-ui-lib/assets/fonts/DNB-Medium.woff2'
-// import fontBold from 'dnb-ui-lib/assets/fonts/DNB-Bold.woff2'// we do not use bold for now
-import fontMonoRegular from 'dnb-ui-lib/assets/fonts/DNBMono-Regular.woff2'
+import fontRegular from '@dnb/eufemia/assets/fonts/DNB-Regular.woff2'
+import fontMedium from '@dnb/eufemia/assets/fonts/DNB-Medium.woff2'
+// import fontBold from '@dnb/eufemia/assets/fonts/DNB-Bold.woff2'// we do not use bold for now
+import fontMonoRegular from '@dnb/eufemia/assets/fonts/DNBMono-Regular.woff2'
 
 // load icons
 import { withPrefix } from 'gatsby' // use it like this: withPrefix('/safari-pinned-tab.svg')
-// import appleTouchIcon from 'dnb-ui-lib/assets/browser/apple-touch-icon.png'
-// import favicon32 from 'dnb-ui-lib/assets/browser/favicon-32x32.png'
-// import favicon16 from 'dnb-ui-lib/assets/browser/favicon-16x16.png'
-// import safariPinnedTab from 'dnb-ui-lib/assets/browser/safari-pinned-tab.svg'
+// import appleTouchIcon from '@dnb/eufemia/assets/browser/apple-touch-icon.png'
+// import favicon32 from '@dnb/eufemia/assets/browser/favicon-32x32.png'
+// import favicon16 from '@dnb/eufemia/assets/browser/favicon-16x16.png'
+// import safariPinnedTab from '@dnb/eufemia/assets/browser/safari-pinned-tab.svg'
 
 // load properties
-import properties from 'dnb-ui-lib/src/style/properties.js'
+import properties from '@dnb/eufemia/src/style/properties.js'
 const mainColor = properties['--color-sea-green']
 
 export default class HTML extends React.PureComponent {

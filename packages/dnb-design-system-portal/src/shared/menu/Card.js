@@ -8,11 +8,11 @@ import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import { Button } from 'dnb-ui-lib/src'
-import { IS_IE11 } from 'dnb-ui-lib/src/shared/helpers'
+import { Button } from '@dnb/eufemia/src'
+import { IS_IE11 } from '@dnb/eufemia/src/shared/helpers'
 import { MainMenuContext } from './MainMenuContext'
 import classnames from 'classnames'
-import { P } from 'dnb-ui-lib/src/elements'
+import { P } from '@dnb/eufemia/src/elements'
 
 const CardWrapper = styled.div`
   width: calc(33.333333% - 1rem);

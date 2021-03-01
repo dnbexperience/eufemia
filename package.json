@@ -12,16 +12,16 @@
   "workspaces": [
     "packages/*"
   ],
-  "main": "./packages/dnb-ui-lib/index.js",
+  "main": "./packages/eufemia/index.js",
   "scripts": {
-    "precommit": "if git-branch-is release; then yarn -v; else yarn workspace dnb-ui-lib precommit && yarn workspace dnb-design-system-portal precommit; fi",
-    "postinstall": "yarn workspace dnb-ui-lib lint:lockfile",
+    "precommit": "if git-branch-is release; then yarn -v; else yarn workspace @dnb/eufemia precommit && yarn workspace dnb-design-system-portal precommit; fi",
+    "postinstall": "yarn workspace @dnb/eufemia lint:lockfile",
     "start": "yarn workspace dnb-design-system-portal start",
-    "publish:dry": "yarn workspace dnb-ui-lib publish:dry",
-    "reset": "rm -rf ./node_modules && yarn workspace dnb-ui-lib reset && yarn workspace dnb-design-system-portal reset && yarn install",
-    "build": "yarn workspace dnb-ui-lib build && yarn workspace dnb-design-system-portal build",
-    "test": "yarn workspace dnb-ui-lib test",
-    "test:update": "yarn workspace dnb-ui-lib test:update"
+    "publish:dry": "yarn workspace @dnb/eufemia publish:dry",
+    "reset": "rm -rf ./node_modules && yarn workspace @dnb/eufemia reset && yarn workspace dnb-design-system-portal reset && yarn install",
+    "build": "yarn workspace @dnb/eufemia build && yarn workspace dnb-design-system-portal build",
+    "test": "yarn workspace @dnb/eufemia test",
+    "test:update": "yarn workspace @dnb/eufemia test:update"
   },
   "devDependencies": {
     "git-branch-is": "^3.0.0",

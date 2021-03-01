@@ -21,7 +21,7 @@ Patterns have not gotten too much attention during development of Eufemia. Never
 The styles for patterns are not a part of the default styles, so you have to import them explicitly.
 
 ```js
-import 'dnb-ui-lib/style/patterns'
+import '@dnb/eufemia/style/patterns'
 ```
 
 ## [ActionNav](/uilib/patterns/action-nav)

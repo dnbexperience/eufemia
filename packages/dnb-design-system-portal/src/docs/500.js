@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { GlobalError } from 'dnb-ui-lib/src/components'
+import { GlobalError } from '@dnb/eufemia/src/components'
 
 export default class Error500 extends React.PureComponent {
   render() {
