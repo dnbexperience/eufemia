@@ -12,6 +12,17 @@ const defaultDesign = {
   privateBanking: PB.None
 }
 
+const pluss = {
+  name: 'Pluss',
+  cardStyle: 'card--design-pluss',
+  bankLogo: DNB.Colored(properties['--color-mint-green']),
+  visa: Visa.Colored(properties['--color-white']),
+  mastercard: Mastercard.DefaultWhite,
+  bankAxept: BankAxept.None,
+  saga: Saga.None,
+  privateBanking: PB.None
+}
+
 const white = {
   name: 'White',
   cardStyle: 'card--design-white',
@@ -151,6 +162,7 @@ export default Designs
 
 export {
   defaultDesign,
+  pluss,
   white,
   myFirst,
   youth,
