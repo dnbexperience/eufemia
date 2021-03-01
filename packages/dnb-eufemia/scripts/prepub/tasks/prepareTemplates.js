@@ -1,5 +1,5 @@
 /**
- * Insert all the components/elements/patterns into the main lib index file
+ * Insert all the components/elements/extensions into the main lib index file
  * By using a template
  *
  */
@@ -175,8 +175,8 @@ const prepareTemplates = async () => {
     return res
   })
 
-  // process patterns
-  const patternsTemplateConfig = {
+  // process extensions
+  const extensionsTemplateConfig = {
     templateObjectToFill: '{ Template }',
     templateListToExtend: `import Template from './template/Template'`,
     templateListToExtendBy: 'Template',
@@ -184,30 +184,33 @@ const prepareTemplates = async () => {
       __dirname,
       '../../../src/core/templates/components-index-template.js'
     ),
-    destFile: path.resolve(__dirname, '../../../src/patterns/index.js'),
-    processToNamesList: path.resolve(__dirname, '../../../src/patterns/'),
+    destFile: path.resolve(__dirname, '../../../src/extensions/index.js'),
+    processToNamesList: path.resolve(
+      __dirname,
+      '../../../src/extensions/'
+    ),
     processToNamesIgnoreList: ['web-components', 'style'],
     processToNamesListByUsingFolders: true
   }
-  // we dont export patterns anymore!
-  await runFactory(patternsTemplateConfig).then((res) => {
+  // we dont export extensions anymore!
+  await runFactory(extensionsTemplateConfig).then((res) => {
     if (require.main === module) {
-      log.info('> Created the index template with all the patterns')
+      log.info('> Created the index template with all the extensions')
     }
     return res
   })
   await runFactory({
-    ...patternsTemplateConfig,
+    ...extensionsTemplateConfig,
     ...{
       srcFile: path.resolve(
         __dirname,
-        '../../../src/core/templates/patterns-lib-template.js'
+        '../../../src/core/templates/extensions-lib-template.js'
       ),
-      destFile: path.resolve(__dirname, '../../../src/patterns/lib.js')
+      destFile: path.resolve(__dirname, '../../../src/extensions/lib.js')
     }
   }).then((res) => {
     if (require.main === module) {
-      log.info('> Created the lib template with all the patterns')
+      log.info('> Created the lib template with all the extensions')
     }
     return res
   })

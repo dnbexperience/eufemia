@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index slider to autogenerate all the components and patterns
+ * Library Index slider to autogenerate all the components and extensions
  * Used by "prepareSliders"
  */
 

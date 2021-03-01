@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index radio to autogenerate all the components and patterns
+ * Library Index radio to autogenerate all the components and extensions
  * Used by "prepareRadios"
  */
 

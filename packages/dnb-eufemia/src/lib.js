@@ -5,10 +5,10 @@
 
 // import all the aviable libs
 import { enableWebComponents as enableComponents } from './components/lib'
-import { enableWebComponents as enablePatterns } from './patterns/lib'
+import { enableWebComponents as enableExtensions } from './extensions/lib'
 
 export * from './components/lib'
-export * from './patterns/lib'
+export * from './extensions/lib'
 
 let webComponentsAreEnabled = false
 export const enableWebComponents = () => {
@@ -17,5 +17,5 @@ export const enableWebComponents = () => {
 
   // register libs to work with custom element
   enableComponents()
-  enablePatterns()
+  enableExtensions()
 }

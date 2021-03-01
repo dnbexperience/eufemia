@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index heading to autogenerate all the components and patterns
+ * Library Index heading to autogenerate all the components and extensions
  * Used by "prepareHeadings"
  */
 

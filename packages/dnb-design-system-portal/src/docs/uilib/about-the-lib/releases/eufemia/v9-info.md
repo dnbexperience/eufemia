@@ -16,6 +16,26 @@ v9 of @dnb/eufemia contains _braking changes_. As a migration process, you can s
 1. In case you use `format` or `cleanNumber` from either `/components/Number` or `/components/number/Number`, replace the import path to be `/components/number-format/NumberUtils`.
 1. You can also use Regex: Find `Number([^F)]|$)` and replace with `NumberFormat$1`
 
+### Patterns vs Extensions
+
+Most of the Eufemia "patterns" got removed in favor of calling this part as **extensions**.
+
+1. Find `dnb-ui-lib/extensions` or `@dnb/eufemia/extensions` and replace with `@dnb/eufemia/extensions`
+
+The following extensions are removed:
+
+- ActionNav
+- DescriptionList
+- Footer
+- Form
+- Grid
+- MainMenu
+- SummaryTable
+- FieldsetDescription
+- FormSummaryPage
+- RangeSlider
+- ViewTitle
+
 ## Changes
 
 ### Updates to the language files

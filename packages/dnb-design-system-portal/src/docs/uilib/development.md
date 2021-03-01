@@ -24,7 +24,7 @@ For more development details you may have a look at the confluence pages about [
 Many defaults are given by the linting and prettier configurations. But to keep the code base consistent and clean, we have set a certain set of rules:
 
 - Use [Volta](https://volta.sh/) for [Node.js](https://nodejs.org/) and [yarn](https://yarnpkg.com/) version handling.
-- Use only [Function and Class Components](https://reactjs.org/docs/components-and-props.html#function-and-class-components) for components, elements, fragments and patterns - no [Hooks](https://reactjs.org/docs/hooks-overview.html).
+- Use only [Function and Class Components](https://reactjs.org/docs/components-and-props.html#function-and-class-components) for components, elements, fragments and extensions - no [Hooks](https://reactjs.org/docs/hooks-overview.html).
 - Use strictly the [naming conventions](/uilib/development/naming).
 - Use correct [message decoration](/uilib/development/commit) to insure correct versioning.
 - Use best practices for [CSS style structures](/uilib/usage/best-practices/for-styling#structure).

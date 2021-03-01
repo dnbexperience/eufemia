@@ -31,7 +31,7 @@ const runThemeFactory = async () => {
     processToNamesList: [
       path.resolve(
         __dirname,
-        '../../../src/{components,fragments,patterns}/**/style/themes/**/dnb-*.scss'
+        '../../../src/{components,fragments,extensions}/**/style/themes/**/dnb-*.scss'
       ),
       ...processToNamesIgnoreList
     ],
@@ -46,7 +46,7 @@ const runThemeFactory = async () => {
   }).then(() => {
     if (require.main === module) {
       log.succeed(
-        '> PrePublish: "themeFactory" Created the themes files with all the components, fragments and patterns'
+        '> PrePublish: "themeFactory" Created the themes files with all the components, fragments and extensions'
       )
     }
   })

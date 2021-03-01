@@ -115,7 +115,7 @@ Sliders provide a visual indication of adjustable content. A value can be adjust
 
 ## [Space](/uilib/components/space)
 
-The Space component provides `margins` within the [provided spacing patterns](/uilib/usage/layout/spacing#spacing-helpers).
+The Space component provides `margins` within the [provided spacing extensions](/uilib/usage/layout/spacing#spacing-helpers).
 
 ## [Switch](/uilib/components/switch)
 
