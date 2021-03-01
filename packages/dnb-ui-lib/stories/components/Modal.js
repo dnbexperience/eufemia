@@ -20,7 +20,7 @@ import {
   FormRow,
   ProgressIndicator,
   // Space,
-  Number
+  NumberFormat
 } from '../../src/components'
 import { ScrollView } from '../../src/fragments'
 import { H2, P, Hr } from '../../src/elements'
@@ -359,41 +359,41 @@ let dropdownData = [
   },
   {
     content: [
-      <Number key={15349648901} ban>
+      <NumberFormat key={15349648901} ban>
         44445678902
-      </Number>,
+      </NumberFormat>,
       'Sparekonto - Ole Nordmann A'
     ]
   },
   {
     content: [
-      <Number key={15349648901} ban>
+      <NumberFormat key={15349648901} ban>
         12345623902
-      </Number>,
+      </NumberFormat>,
       'Sparekonto - Ole Nordmann B'
     ]
   },
   {
     content: [
-      <Number key={15349648901} ban>
+      <NumberFormat key={15349648901} ban>
         55555672302
-      </Number>,
+      </NumberFormat>,
       'Sparekonto - Ole Nordmann C'
     ]
   },
   {
     content: [
-      <Number key={15349648901} ban>
+      <NumberFormat key={15349648901} ban>
         77775672302
-      </Number>,
+      </NumberFormat>,
       'Sparekonto - Ole Nordmann D'
     ]
   },
   {
     content: [
-      <Number key={15349648901} ban>
+      <NumberFormat key={15349648901} ban>
         99995672302
-      </Number>,
+      </NumberFormat>,
       'Sparekonto - Ole Nordmann E'
     ]
   },
@@ -401,18 +401,18 @@ let dropdownData = [
     selected_value:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
-      <Number key={15349648901} ban>
+      <NumberFormat key={15349648901} ban>
         11345678962
-      </Number>,
+      </NumberFormat>,
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
     ]
   },
   {
     selected_value: <>Custom selected {'🔥'}</>,
     content: [
-      <Number key={15349648901} ban>
+      <NumberFormat key={15349648901} ban>
         15349648901
-      </Number>,
+      </NumberFormat>,
       <>Custom content {'🔥'}</>
     ]
   }

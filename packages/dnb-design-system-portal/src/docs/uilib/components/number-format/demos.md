@@ -1,5 +1,7 @@
 ---
 showTabs: true
+redirect_from:
+  - /uilib/components/number/demos
 ---
 
 import {
@@ -10,7 +12,7 @@ NumberBankAccount,
 NumberNationalIdentification,
 NumberOrganization,
 NumberLocales,
-} from 'Pages/uilib/components/number/Examples'
+} from 'Pages/uilib/components/number-format/Examples'
 import ChangeLocale from 'Src/core/ChangeLocale'
 
 ## Demos

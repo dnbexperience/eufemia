@@ -15,6 +15,7 @@ Here you find an overview of all major releases (versions) and changes, includin
 
 You may also have a look at the [<Icon icon={GithubLogo} size="default" /> **GitHub Releases**](https://github.com/dnbexperience/eufemia/releases) for versioning of the [dnb-ui-lib](/uilib/).
 
+- [**v9**](/uilib/about-the-lib/releases/v9-info) _February, 16. 2021_
 - [**v8**](/uilib/about-the-lib/releases/v8-info) _December, 15. 2020_
 - [**v7.2**](/uilib/about-the-lib/releases/v7.2-info) _November, 8. 2020_
 - [**v7.0**](/uilib/about-the-lib/releases/v7-info) _June, 4. 2020_

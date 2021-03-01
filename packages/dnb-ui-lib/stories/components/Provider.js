@@ -11,7 +11,7 @@ import Provider from '../../src/shared/Provider'
 import {
   ToggleButton,
   DatePicker,
-  Number,
+  NumberFormat,
   Dropdown,
   Section
 } from '../../src'
@@ -29,7 +29,7 @@ export const ProviderSandbox = () => {
             <ChangeLocale />
           </Section>
           <Section spacing top>
-            <Number>12345678</Number>
+            <NumberFormat>12345678</NumberFormat>
             <DatePicker
               left
               opened

@@ -15,7 +15,7 @@ import {
   FormLabel,
   FormSet,
   FormRow,
-  Number,
+  NumberFormat,
   Modal
   // Checkbox
 } from '../../src/components'
@@ -524,7 +524,7 @@ const DropdownStory = () => {
             <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
               <span className="dnb-drawer-list__option__inner">
                 <span className="dnb-drawer-list__option__item">
-                  <Number ban>12345678902</Number>
+                  <NumberFormat ban>12345678902</NumberFormat>
                 </span>
                 <span className="dnb-drawer-list__option__item">
                   Sparekonto - Ole Nordmann
@@ -534,7 +534,7 @@ const DropdownStory = () => {
             <li className="dnb-drawer-list__option">
               <span className="dnb-drawer-list__option__inner">
                 <span className="dnb-drawer-list__option__item">
-                  <Number ban>11345678962</Number>
+                  <NumberFormat ban>11345678962</NumberFormat>
                 </span>
                 <span className="dnb-drawer-list__option__item">
                   Feriekonto - Kari Nordmann med et kjempelangt
@@ -545,7 +545,7 @@ const DropdownStory = () => {
             <li className="dnb-drawer-list__option last-of-type">
               <span className="dnb-drawer-list__option__inner">
                 <span className="dnb-drawer-list__option__item">
-                  <Number ban>15349648901</Number>
+                  <NumberFormat ban>15349648901</NumberFormat>
                 </span>
                 <span className="dnb-drawer-list__option__item">
                   Oppussing - Ole Nordmann
@@ -578,9 +578,9 @@ let dropdownData = [
   },
   {
     content: [
-      <Number key={12345678902} ban>
+      <NumberFormat key={12345678902} ban>
         12345678902
-      </Number>,
+      </NumberFormat>,
       'Sparekonto - Ole Nordmann'
     ]
   },
@@ -588,9 +588,9 @@ let dropdownData = [
     selected_value:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
-      <Number key={11345678962} ban>
+      <NumberFormat key={11345678962} ban>
         11345678962
-      </Number>,
+      </NumberFormat>,
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
     ]
   },
@@ -599,9 +599,9 @@ let dropdownData = [
       <React.Fragment key="cs-1">Custom selected {'🔥'}</React.Fragment>
     ),
     content: [
-      <Number key={15349648901} ban>
+      <NumberFormat key={15349648901} ban>
         15349648901
-      </Number>,
+      </NumberFormat>,
       <React.Fragment key="cs-2">Custom content {'🔥'}</React.Fragment>
     ]
   }
@@ -613,27 +613,27 @@ const dropdownDataScrollable = [
   },
   {
     content: [
-      <Number key={12345678902} ban>
+      <NumberFormat key={12345678902} ban>
         12345678902
-      </Number>,
+      </NumberFormat>,
       'B'
     ]
   },
   {
     selected_value: 'CC',
     content: [
-      <Number key={11345678962} ban>
+      <NumberFormat key={11345678962} ban>
         11345678962
-      </Number>,
+      </NumberFormat>,
       'C'
     ]
   },
   {
     selected_value: 'DD',
     content: [
-      <Number key={15349648901} ban>
+      <NumberFormat key={15349648901} ban>
         15349648901
-      </Number>,
+      </NumberFormat>,
       'D'
     ]
   },
