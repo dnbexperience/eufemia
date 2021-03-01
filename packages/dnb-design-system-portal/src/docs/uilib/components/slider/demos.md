@@ -3,7 +3,7 @@ showTabs: true
 ---
 
 import ComponentBox from 'Tags/ComponentBox'
-import 'dnb-ui-lib/src/components/slider/style/dnb-range.scss'
+import '@dnb/eufemia/src/components/slider/style/dnb-range.scss'
 
 ## Demos
 
@@ -111,7 +111,7 @@ render(<Component />)
 
 ### Native Range Slider
 
-In order to get the styles, import also: `dnb-ui-lib/components/slider/style/dnb-range.min.css`
+In order to get the styles, import also: `@dnb/eufemia/components/slider/style/dnb-range.min.css`
 
 <ComponentBox>
 	{/* @jsx */ `

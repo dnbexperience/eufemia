@@ -16,8 +16,8 @@ import {
   IconPrimary as Icon,
   Switch,
   FormLabel
-} from 'dnb-ui-lib/src/components/lib'
-import { H2, P, Hr } from 'dnb-ui-lib/src/elements'
+} from '@dnb/eufemia/src/components/lib'
+import { H2, P, Hr } from '@dnb/eufemia/src/elements'
 
 // Content
 import text from 'raw-loader!./lipsum.txt'

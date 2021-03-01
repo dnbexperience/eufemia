@@ -4,12 +4,12 @@ order: 5
 ---
 
 import ComponentBox from 'Tags/ComponentBox'
-import { Button, IconPrimary } from 'dnb-ui-lib/src'
-import { hamburger as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
+import { Button, IconPrimary } from '@dnb/eufemia/src'
+import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons/secondary_icons'
 
 # React JS for the web
 
-The most basic way to use the `dnb-ui-lib` is like this:
+The most basic way to use the `@dnb/eufemia` is like this:
 
 ## Basic Buttons
 
@@ -24,15 +24,15 @@ The most basic way to use the `dnb-ui-lib` is like this:
 To make the [Button](/uilib/components/button) component work, we have to import it as well:
 
 ```js
-import { Button } from 'dnb-ui-lib'
+import { Button } from '@dnb/eufemia'
 ```
 
 And here an example with several imports:
 
 ```js
-import { Button, Icon } from 'dnb-ui-lib/components'
-import { H1, P, Link } from 'dnb-ui-lib/elements'
-import { hamburger as hamburgerIcon } from 'dnb-ui-lib/icons/secondary_icons'
+import { Button, Icon } from '@dnb/eufemia/components'
+import { H1, P, Link } from '@dnb/eufemia/elements'
+import { hamburger as hamburgerIcon } from '@dnb/eufemia/icons/secondary_icons'
 ```
 
 ### Events
@@ -53,4 +53,4 @@ Have a look at [the demos](/uilib/getting-started/demos) as well as a [Webpack e
 
 ## TypeScript
 
-The `dnb-ui-lib` does support TypeScript definitions for properties, including the documentation.
+The `@dnb/eufemia` does support TypeScript definitions for properties, including the documentation.

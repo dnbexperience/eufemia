@@ -18,4 +18,4 @@ Please provide an example for how this feature would be used.
 
 ## Pitch
 
-Why does this feature belong in the "dnb-ui-lib"?
+Why does this feature belong in the "@dnb/eufemia"?

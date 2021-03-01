@@ -52,7 +52,7 @@ const numberMask = {
 But in case you have to create the mask by yourself, you can do so:
 
 ```jsx
-import createNumberMask from 'dnb-ui-lib/components/input-masked/addons/createNumberMask'
+import createNumberMask from '@dnb/eufemia/components/input-masked/addons/createNumberMask'
 
 // 1. Create the 'numberMask' with your desired configurations
 const numberMask = createNumberMask({
@@ -66,7 +66,7 @@ const numberMask = createNumberMask({
 
 ## Custom mask usage
 
-By now, you don't need to install `react-text-mask` as it comes with the `dnb-ui-lib`. For other masks than the **createNumberMask** you have to create or install custom masks. Read more on [how to use the addons](https://github.com/text-mask/text-mask/blob/master/addons/README.md).
+By now, you don't need to install `react-text-mask` as it comes with the `@dnb/eufemia`. For other masks than the **createNumberMask** you have to create or install custom masks. Read more on [how to use the addons](https://github.com/text-mask/text-mask/blob/master/addons/README.md).
 
 1. Install the needed dependencies:
 
@@ -79,8 +79,8 @@ npm i text-mask-addons
 ```jsx
 import emailMask from 'text-mask-addons/dist/emailMask'
 
-// or import it from the dnb-ui-lib
-import emailMask from 'dnb-ui-lib/components/input-masked/addons/emailMask'
+// or import it from the @dnb/eufemia
+import emailMask from '@dnb/eufemia/components/input-masked/addons/emailMask'
 
 render(
   <InputMasked

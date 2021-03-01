@@ -15,7 +15,7 @@ steps:
   - name: dependencies audit
     image: tujoworker/docker-node-puppeteer
     commands:
-      - yarn workspace dnb-ui-lib audit:ci
+      - yarn workspace @dnb/eufemia audit:ci
     when:
       branch:
         exclude:
@@ -26,8 +26,8 @@ steps:
   - name: run integration tests
     image: tujoworker/docker-node-puppeteer
     commands:
-      - yarn workspace dnb-ui-lib lint:ci && yarn workspace dnb-design-system-portal lint:ci
-      - yarn workspace dnb-ui-lib test:ci && yarn workspace dnb-design-system-portal test:ci
+      - yarn workspace @dnb/eufemia lint:ci && yarn workspace dnb-design-system-portal lint:ci
+      - yarn workspace @dnb/eufemia test:ci && yarn workspace dnb-design-system-portal test:ci
 
   - name: run Figma converters
     image: tujoworker/docker-node-puppeteer
@@ -41,7 +41,7 @@ steps:
       FIGMA_TOKEN:
         from_secret: FIGMA_TOKEN
     commands:
-      - yarn workspace dnb-ui-lib prebuild:ci:figma
+      - yarn workspace @dnb/eufemia prebuild:ci:figma
     when:
       branch:
         include:
@@ -57,7 +57,7 @@ steps:
       GH_TOKEN:
         from_secret: GH_TOKEN
     commands:
-      - yarn workspace dnb-ui-lib prebuild:ci
+      - yarn workspace @dnb/eufemia prebuild:ci
     when:
       branch:
         include:
@@ -115,7 +115,7 @@ steps:
       GH_TOKEN:
         from_secret: GH_TOKEN
     commands:
-      - yarn workspace dnb-ui-lib postbuild:ci:figma
+      - yarn workspace @dnb/eufemia postbuild:ci:figma
     when:
       branch:
         include:
@@ -131,7 +131,7 @@ steps:
       GH_TOKEN:
         from_secret: GH_TOKEN
     commands:
-      - yarn workspace dnb-ui-lib test:screenshots:ci
+      - yarn workspace @dnb/eufemia test:screenshots:ci
     when:
       branch:
         include:
@@ -156,7 +156,7 @@ steps:
       GH_TOKEN:
         from_secret: GH_TOKEN
     commands:
-      - yarn workspace dnb-ui-lib postbuild:ci
+      - yarn workspace @dnb/eufemia postbuild:ci
     when:
       branch:
         include:
@@ -196,7 +196,7 @@ steps:
       NPM_TOKEN:
         from_secret: NPM_TOKEN
     commands:
-      - yarn workspace dnb-ui-lib publish:ci
+      - yarn workspace @dnb/eufemia publish:ci
     when:
       event:
         - push

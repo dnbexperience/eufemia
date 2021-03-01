@@ -6,7 +6,7 @@
 import React from 'react'
 
 import PropTypes from 'prop-types'
-import { enableWebComponents } from 'dnb-ui-lib/src/lib'
+import { enableWebComponents } from '@dnb/eufemia/src/lib'
 import portalStyle from './PortalStyle'
 
 // import { CodeRenderer } from './Code'
