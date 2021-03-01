@@ -30,7 +30,7 @@ Eufemia as a Design System consist of many sub-systems, like:
 - Grid system
 - Naming system
 
-All of these sub-systems dictates on how components, patterns and styles are build. And documentation, principles and guides of best practices will again tell how to build solutions with good UX.
+All of these sub-systems dictates on how components, extensions and styles are build. And documentation, principles and guides of best practices will again tell how to build solutions with good UX.
 
 <!-- <WhatIsEufemia /> -->
 <Img src={WhatIsEufemia} caption="Illustration showing all the sub-systems, like color-system or typography-system. All these subsystems are the basis where components, principles and best practices are build upon." className="blank x-10" />

@@ -64,7 +64,7 @@ function createMdxNode({
 
   // have this check in place only to skip not needed parts
   if (
-    /uilib\/(components|patterns|elements|helpers|typography)/.test(
+    /uilib\/(components|extensions|elements|helpers|typography)/.test(
       motherDir
     )
   ) {

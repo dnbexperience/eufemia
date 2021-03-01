@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index autocomplete to autogenerate all the components and patterns
+ * Library Index autocomplete to autogenerate all the components and extensions
  * Used by "prepareAutocompletes"
  */
 

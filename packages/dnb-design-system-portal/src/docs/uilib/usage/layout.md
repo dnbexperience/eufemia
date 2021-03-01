@@ -68,6 +68,6 @@ If You are working together with an DNB UX Designer, You can decide freely what 
 
 ## Grid Pattern
 
-There is, however a simple [Grid Pattern with CSS helpers](/uilib/patterns/grid) in Eufemia which you can use.
+There is, however a simple [Grid Pattern with CSS helpers](/uilib/extensions/grid) in Eufemia which you can use.
 
 Although, it will probably be removed in a future major release.

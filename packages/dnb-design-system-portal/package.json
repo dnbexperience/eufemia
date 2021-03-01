@@ -41,7 +41,7 @@
     "test:ci": "jest --ci",
     "test:staged": "jest --bail --findRelatedTests ",
     "test:update": "jest --updateSnapshot",
-    "prettier:components": "prettier --loglevel warn --write './src/uilib/{components,patterns}/**/*.{js,md}' './src/docs/uilib/{components,elements,patterns}/*.{js,md}'",
+    "prettier:components": "prettier --loglevel warn --write './src/uilib/{components,extensions}/**/*.{js,md}' './src/docs/uilib/{components,elements,extensions}/*.{js,md}'",
     "prettier:diff": "prettier --list-different '{scripts,stories,src}/**/*.{js,md}'",
     "prettier:js": "prettier --loglevel warn --write '{scripts,stories,src}/**/*.js'",
     "prettier:js:staged": "prettier --loglevel warn",

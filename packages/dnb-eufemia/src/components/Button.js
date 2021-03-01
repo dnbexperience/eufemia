@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index button to autogenerate all the components and patterns
+ * Library Index button to autogenerate all the components and extensions
  * Used by "prepareButtons"
  */
 

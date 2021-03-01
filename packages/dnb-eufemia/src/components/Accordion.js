@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index accordion to autogenerate all the components and patterns
+ * Library Index accordion to autogenerate all the components and extensions
  * Used by "prepareAccordions"
  */
 

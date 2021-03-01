@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index form-set to autogenerate all the components and patterns
+ * Library Index form-set to autogenerate all the components and extensions
  * Used by "prepareFormSets"
  */
 

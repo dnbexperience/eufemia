@@ -16,9 +16,9 @@ order: 1
 1. And check the result / reports, located in: `cd @dnb/eufemia/jest-screenshot-report/`
 1. [Commit your change](/uilib/development/commit) and create a Pull Request to the `develop` branch.
 
-## Get started on making new Components and Patterns
+## Get started on making new Components, Elements and Extensions
 
-In the repo `@dnb/eufemia` you will find the directory `/src/components`, `/src/elements` or `/src/patterns`. There you can place a new directory with all the necessary sub folders. As a reference, take a look how the other _components_ and _patterns_ are set up.
+In the repo `@dnb/eufemia` you will find the directory `/src/components`, `/src/elements` or `/src/extensions`. There you can place a new directory with all the necessary sub folders. As a reference, take a look how the other _components_, _elements_ and _extensions_ are set up.
 
 Next, we need to **pre-publish** the library locally, so we can check the building process and test our changes locally by using `yarn build` again.
 

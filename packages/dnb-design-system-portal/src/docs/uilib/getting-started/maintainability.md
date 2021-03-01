@@ -40,7 +40,7 @@ In order to both serve ready to use components and make them as flexible as poss
 - Render prop pattern
 - Hooks pattern
 
-It will vary when and where these patterns are used. And some patterns, like the property pattern, is used by almost every component.
+It will vary when and where these extensions are used. And some extensions, like the property pattern, is used by almost every component.
 
 Overall, the reuse of existing adapters and APIs and using components for what they are designed for to be used, will allow Eufemia to be able to further develop and be maintainable.
 

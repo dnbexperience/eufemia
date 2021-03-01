@@ -1,6 +1,6 @@
 ---
 title: 'Helpers'
-description: 'A couple of helper functions used inside of components and patterns.'
+description: 'A couple of helper functions used inside of components and extensions.'
 icon: 'helper_classes'
 order: 4
 showTabs: true

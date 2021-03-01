@@ -1,5 +1,5 @@
 /**
- * Imports the default themes for all components and patterns
+ * Imports the default themes for all components and extensions
  *
  */
 

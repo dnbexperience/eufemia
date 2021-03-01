@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index number-format to autogenerate all the components and patterns
+ * Library Index number-format to autogenerate all the components and extensions
  * Used by "prepareNumberFormats"
  */
 

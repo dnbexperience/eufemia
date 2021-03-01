@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index notification to autogenerate all the components and patterns
+ * Library Index notification to autogenerate all the components and extensions
  * Used by "prepareNotifications"
  */
 

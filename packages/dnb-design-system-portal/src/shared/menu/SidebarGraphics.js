@@ -9,7 +9,7 @@ import usage from './graphics/usage'
 import typography from './graphics/typography'
 import helper_classes from './graphics/helper_classes'
 import components from './graphics/components'
-import patterns from './graphics/patterns'
+import extensions from './graphics/extensions'
 import development from './graphics/development'
 import performance from './graphics/performance'
 import info from './graphics/info'
@@ -37,7 +37,7 @@ export default {
   typography,
   helper_classes,
   components,
-  patterns,
+  extensions,
   development,
   performance,
   info,
