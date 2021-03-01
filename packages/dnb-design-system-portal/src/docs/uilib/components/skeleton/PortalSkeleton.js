@@ -1,6 +1,6 @@
 import React from 'react'
-import { Context } from 'dnb-ui-lib/src/shared'
-import { ToggleButton, Skeleton } from 'dnb-ui-lib/src/components'
+import { Context } from '@dnb/eufemia/src/shared'
+import { ToggleButton, Skeleton } from '@dnb/eufemia/src/components'
 
 export default function PortalSkeleton() {
   const { update, skeleton } = React.useContext(Context)

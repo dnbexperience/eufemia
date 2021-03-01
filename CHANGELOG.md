@@ -150,7 +150,7 @@ New [Colors](/uilib/usage/customisation/colors):
   - dropdown text error state color: `fire-red`
 - **Table** header icon change: from `chevron` to `arrow`
 
-Get more details about the `dnb-ui-lib` [v6 release](/uilib/about-the-lib/releases/v6-info)
+Get more details about the `@dnb/eufemia` [v6 release](/uilib/about-the-lib/releases/v6-info)
 
 ## November, 30. 2019
 
@@ -169,7 +169,7 @@ New [Icons](/icons):
 - secondary `view_on`
 - secondary `view_off`
 
-Get more details about the `dnb-ui-lib` [v5.8 release](/uilib/about-the-lib/releases/v5.8-info)
+Get more details about the `@dnb/eufemia` [v5.8 release](/uilib/about-the-lib/releases/v5.8-info)
 
 ## November, 16. 2019
 
@@ -183,7 +183,7 @@ Get more details about the `dnb-ui-lib` [v5.8 release](/uilib/about-the-lib/rele
 
 ## October, 30. 2019
 
-- New component in the `dnb-ui-lib`: [Number](/uilib/components/number)
+- New component in the `@dnb/eufemia`: [Number](/uilib/components/number)
 - New [colors](/uilib/usage/customisation/colors):
   1. `fire-red`, which replaces `cherry-red` (_default error color_)
   1. `fire-red-8`, which replaces `cherry-red-8`
@@ -192,7 +192,7 @@ Get more details about the `dnb-ui-lib` [v5.8 release](/uilib/about-the-lib/rele
   1. secondary `save_alt_01` is now => primary `save`
   1. primary `error` got removed
 
-Get more details about the `dnb-ui-lib` [v5 release](/uilib/about-the-lib/releases/v5-info)
+Get more details about the `@dnb/eufemia` [v5 release](/uilib/about-the-lib/releases/v5-info)
 
 ## October, 14. 2019
 
@@ -208,26 +208,26 @@ Get more details about the `dnb-ui-lib` [v5 release](/uilib/about-the-lib/releas
 
 ## August, 24. 2019
 
-- Read more about the `dnb-ui-lib` [v4.10 release](/uilib/releases/v4.10-info)
-- New component in the `dnb-ui-lib`: [GlobalStatus](/uilib/components/global-status)
+- Read more about the `@dnb/eufemia` [v4.10 release](/uilib/releases/v4.10-info)
+- New component in the `@dnb/eufemia`: [GlobalStatus](/uilib/components/global-status)
 - Updated [FormStatus](/uilib/components/form-status) with new text color and new icon
 - Added link to example usage of a [Table](/uilib/elements/tables#working-demo) styles using `react-table`
 - Added info about [Custom project Icons](/uilib/components/icon#custom-project-icons)
 
 ## July, 21. 2019
 
-- Major Release of `dnb-ui-lib`: Read more about the [v4 release](/uilib/releases/v4-info)
-- New component in the `dnb-ui-lib`: [Space](/uilib/components/space) for easy spacing capabilities
-- New component in the `dnb-ui-lib`: [Slider](/uilib/components/slider) with add/subtract buttons
+- Major Release of `@dnb/eufemia`: Read more about the [v4 release](/uilib/releases/v4-info)
+- New component in the `@dnb/eufemia`: [Space](/uilib/components/space) for easy spacing capabilities
+- New component in the `@dnb/eufemia`: [Slider](/uilib/components/slider) with add/subtract buttons
 
 ## June, 26. 2019
 
-- The `dnb-ui-lib` got new helpers for [Spacing](/uilib/usage/layout/spacing#spacing-helpers) and [Layout](/uilib/usage/layout)
+- The `@dnb/eufemia` got new helpers for [Spacing](/uilib/usage/layout/spacing#spacing-helpers) and [Layout](/uilib/usage/layout)
 - Added first [Demo App](/uilib/getting-started/demos)
 
 ## June, 19. 2019
 
-- New components in the `dnb-ui-lib`: [ToggleButton](/uilib/components/toggle-button) as well as two layout components [FormSet](/uilib/components/form-set) and [FormRow](/uilib/components/form-row)
+- New components in the `@dnb/eufemia`: [ToggleButton](/uilib/components/toggle-button) as well as two layout components [FormSet](/uilib/components/form-set) and [FormRow](/uilib/components/form-row)
 
 ## June, 5. 2019
 
@@ -235,19 +235,19 @@ Get more details about the `dnb-ui-lib` [v5 release](/uilib/about-the-lib/releas
 
 ## June, 3. 2019
 
-- New component in the `dnb-ui-lib`: [Textarea](/uilib/components/textarea). Got also a wider corner radius by `16px (1rem)`
+- New component in the `@dnb/eufemia`: [Textarea](/uilib/components/textarea). Got also a wider corner radius by `16px (1rem)`
 
 ## May, 27. 2019
 
-- New components in the `dnb-ui-lib`: [Checkbox](/uilib/components/checkbox) and [Radio](/uilib/components/radio) button
+- New components in the `@dnb/eufemia`: [Checkbox](/uilib/components/checkbox) and [Radio](/uilib/components/radio) button
 
 ## May, 19. 2019
 
-- New component in the `dnb-ui-lib`: Circular [ProgressIndicator](/uilib/components/progress-indicator) bar (spinner with animation)
+- New component in the `@dnb/eufemia`: Circular [ProgressIndicator](/uilib/components/progress-indicator) bar (spinner with animation)
 
 ## May, 8. 2019
 
-- New component in the `dnb-ui-lib`: [DatePicker](/uilib/components/date-picker) with range/period support
+- New component in the `@dnb/eufemia`: [DatePicker](/uilib/components/date-picker) with range/period support
 
 ## April, 26. 2019
 

@@ -7,9 +7,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from '@emotion/react'
 import { parsePath, navigate } from 'gatsby'
-import { Button, Tabs } from 'dnb-ui-lib/src/components'
-import { fullscreen as fullscreenIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
-import { CloseButton } from 'dnb-ui-lib/src/components/modal'
+import { Button, Tabs } from '@dnb/eufemia/src/components'
+import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons/secondary_icons'
+import { CloseButton } from '@dnb/eufemia/src/components/modal'
 import AutoLinkHeader from './AutoLinkHeader'
 
 export default function Tabbar({

@@ -19,7 +19,7 @@ import {
   toPascalCase,
   toCamcelCase,
   ...
-} from 'dnb-ui-lib/shared/component-helper'
+} from '@dnb/eufemia/shared/component-helper'
 ```
 
 | Function                  | Description                                                                                                                   | Parameters                                                                       | Return            |
@@ -40,7 +40,7 @@ import {
 import {
   isIE11,
   ...
-} from 'dnb-ui-lib/shared/helpers'
+} from '@dnb/eufemia/shared/helpers'
 ```
 
 | Function                 | Description                                                                                                                     | Parameters                                                                                              | Return     |
@@ -71,7 +71,7 @@ import {
 #### InteractionInvalidation example
 
 ```js
-import { InteractionInvalidation } from 'dnb-ui-lib/shared/component-helper'
+import { InteractionInvalidation } from '@dnb/eufemia/shared/component-helper'
 
 const instance = new InteractionInvalidation()
 
@@ -91,7 +91,7 @@ instance.revert()
 #### `scrollToLocationHashId` example
 
 ```js
-import { scrollToLocationHashId } from 'dnb-ui-lib/shared/helpers'
+import { scrollToLocationHashId } from '@dnb/eufemia/shared/helpers'
 
 // in case there is a #hash in the url
 const elem = scrollToLocationHashId({

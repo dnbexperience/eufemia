@@ -20,10 +20,10 @@ import ToggleGrid from '../menu/ToggleGrid'
 import {
   setPageFocusElement,
   scrollToLocationHashId
-} from 'dnb-ui-lib/src/shared/helpers'
-import { Context } from 'dnb-ui-lib/src/shared'
-import { Logo, GlobalStatus } from 'dnb-ui-lib/src/components'
-import { createSkeletonClass } from 'dnb-ui-lib/src/components/skeleton/SkeletonHelper'
+} from '@dnb/eufemia/src/shared/helpers'
+import { Context } from '@dnb/eufemia/src/shared'
+import { Logo, GlobalStatus } from '@dnb/eufemia/src/components'
+import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 
 export function scrollToAnimation() {
   // if url hash is defined, scroll to the id

@@ -8,12 +8,12 @@ import PropTypes from 'prop-types'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
-import { Section, Space, Button } from 'dnb-ui-lib/src/components'
-import { Table, H1, P, Ul } from 'dnb-ui-lib/src/elements'
-import { StickyHelper } from 'dnb-ui-lib/src/elements/Table'
-import { hasSelectedText } from 'dnb-ui-lib/src/shared/helpers'
+import { Section, Space, Button } from '@dnb/eufemia/src/components'
+import { Table, H1, P, Ul } from '@dnb/eufemia/src/elements'
+import { StickyHelper } from '@dnb/eufemia/src/elements/Table'
+import { hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 
-import { createPagination } from 'dnb-ui-lib/src/components/Pagination'
+import { createPagination } from '@dnb/eufemia/src/components/Pagination'
 
 const HeightLimit = styled.div`
   height: ${(props) => props.height || '20rem'};

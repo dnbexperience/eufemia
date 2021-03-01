@@ -6,7 +6,7 @@ order: 4
 
 # NPM Library
 
-These folders/files will be a part of the NPM [package](https://unpkg.com/dnb-ui-lib@latest/):
+These folders/files will be a part of the NPM [package](https://unpkg.com/@dnb/eufemia@latest/):
 
 - /assets
 - /components

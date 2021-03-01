@@ -1,6 +1,6 @@
 import React from 'react'
-import data from 'dnb-ui-lib/src/patterns/payment-card/utils/cardProducts.js'
-import { Table } from 'dnb-ui-lib/src/elements'
+import data from '@dnb/eufemia/src/patterns/payment-card/utils/cardProducts.js'
+import { Table } from '@dnb/eufemia/src/elements'
 
 export default function CardProductsTable() {
   return (

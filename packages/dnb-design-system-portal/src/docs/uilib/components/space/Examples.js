@@ -6,9 +6,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-// import { Space } from 'dnb-ui-lib/src/components'
+// import { Space } from '@dnb/eufemia/src/components'
 import styled from '@emotion/styled'
-import { Space } from 'dnb-ui-lib/src/components'
+import { Space } from '@dnb/eufemia/src/components'
 
 export const SpaceExamplesMethod1 = () => (
   <TestStyles>

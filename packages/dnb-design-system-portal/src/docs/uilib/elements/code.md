@@ -8,11 +8,11 @@ title: 'Code'
 
 [Prism](https://prismjs.com) is a popular Syntax Highlighting tool. DNB has its own **theme** You can use:
 
-- `dnb-ui-lib/style/themes/theme-ui/prism/dnb-prism-theme.js`
+- `@dnb/eufemia/style/themes/theme-ui/prism/dnb-prism-theme.js`
 
 ### Code and Pre Tag usage
 
-Styling for both the `<code>` and the `<pre>` tags are build in the `dnb-ui-lib`.
+Styling for both the `<code>` and the `<pre>` tags are build in the `@dnb/eufemia`.
 So simply use them in Your Syntax:
 
 ```html
