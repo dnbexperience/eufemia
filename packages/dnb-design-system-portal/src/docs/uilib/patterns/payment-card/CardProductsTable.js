@@ -63,6 +63,7 @@ const getProductVariant = (type, design) =>
   type.cata({
     BankAxept: () => prettiePrint(design.bankAxept.toString()),
     Saga: () => prettiePrint(design.saga.toString()),
+    Pluss: () => '-',
     PrivateBanking: () => prettiePrint(design.privateBanking.toString()),
     None: () => '-'
   })
