@@ -34,7 +34,7 @@ import LineTitle from './line-title/LineTitle'
 import Logo from './logo/Logo'
 import Modal from './modal/Modal'
 import Notification from './notification/Notification'
-import Number from './number/Number'
+import NumberFormat from './number-format/NumberFormat'
 import Pagination from './pagination/Pagination'
 import ProgressIndicator from './progress-indicator/ProgressIndicator'
 import Radio from './radio/Radio'
@@ -73,7 +73,7 @@ export {
   Logo,
   Modal,
   Notification,
-  Number,
+  NumberFormat,
   Pagination,
   ProgressIndicator,
   Radio,
@@ -113,7 +113,7 @@ export const getComponents = () => {
     Logo,
     Modal,
     Notification,
-    Number,
+    NumberFormat,
     Pagination,
     ProgressIndicator,
     Radio,

@@ -55,19 +55,19 @@ export const DrawerListExampleOnlyToVisulaize = () => (
     </li>
     <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
       <span className="dnb-drawer-list__option__inner">
-        <span className="dnb-drawer-list__option__item"><Number ban>12345678902</Number></span>
+        <span className="dnb-drawer-list__option__item"><NumberFormat ban>12345678902</NumberFormat></span>
         <span className="dnb-drawer-list__option__item">Sparekonto - Ole Nordmann</span>
       </span>
     </li>
     <li className="dnb-drawer-list__option">
       <span className="dnb-drawer-list__option__inner">
-        <span className="dnb-drawer-list__option__item"><Number ban>11345678962</Number></span>
+        <span className="dnb-drawer-list__option__item"><NumberFormat ban>11345678962</NumberFormat></span>
         <span className="dnb-drawer-list__option__item">Feriekonto - Kari Nordmann med et kjempelangt etternavnsen</span>
       </span>
     </li>
     <li className="dnb-drawer-list__option last-of-type">
       <span className="dnb-drawer-list__option__inner">
-        <span className="dnb-drawer-list__option__item"><Number ban>15349648901</Number></span>
+        <span className="dnb-drawer-list__option__item"><NumberFormat ban>15349648901</NumberFormat></span>
         <span className="dnb-drawer-list__option__item">Oppussing - Ole Nordmann</span>
       </span>
     </li>
