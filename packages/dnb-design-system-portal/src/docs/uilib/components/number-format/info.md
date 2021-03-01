@@ -1,8 +1,10 @@
 ---
 showTabs: true
+redirect_from:
+  - /uilib/components/number/info
 ---
 
-import { Number } from 'dnb-ui-lib/src'
+import { NumberFormat } from 'dnb-ui-lib/src'
 
 ## Description
 
@@ -15,12 +17,12 @@ Good reasons for why we have this is to:
 
 ### Supported formats
 
-- Numbers in general e.g. <pre className="dnb-code"><Number value="12345678.90" /></pre>
-- Currency e.g. <pre className="dnb-code"><Number currency value="12345678.90" /></pre>
-- Phone numbers e.g. <pre className="dnb-code"><Number phone value="004799999999" /></pre>
-- Bank account number e.g. <pre className="dnb-code"><Number ban value="20001234567" /></pre>
-- National identification number e.g. <pre className="dnb-code"><Number nin value="18089212345" /></pre>
-- Organization number e.g. <pre className="dnb-code"><Number org value="123456789" /></pre>
+- Numbers in general e.g. <pre className="dnb-code"><NumberFormat value="12345678.90" /></pre>
+- Currency e.g. <pre className="dnb-code"><NumberFormat currency value="12345678.90" /></pre>
+- Phone numbers e.g. <pre className="dnb-code"><NumberFormat phone value="004799999999" /></pre>
+- Bank account number e.g. <pre className="dnb-code"><NumberFormat ban value="20001234567" /></pre>
+- National identification number e.g. <pre className="dnb-code"><NumberFormat nin value="18089212345" /></pre>
+- Organization number e.g. <pre className="dnb-code"><NumberFormat org value="123456789" /></pre>
 
 ### Defaults
 
@@ -39,13 +41,13 @@ Eufemia is basing their number formats on both the [Norwegian authority](https:/
 
 ## Details
 
-> Screen readers requires numbers to be formatted properly in order to be read as numbers. The **Number** component will help to achieve this requirement.
+> Screen readers requires numbers to be formatted properly in order to be read as numbers. The **NumberFormat** component will help to achieve this requirement.
 
 So, numbers are formatted differently for screen readers than the visual number. And numbers also gets assigned a `lang` attribute, so the screen reader knows what language (locale) should be used on the particular number, even if the text around not corresponds to the same language.
 
 ## Accessibility
 
-To enhance the **Copy & Paste** experience of copying numbers into other applications, the Number component automatically changes the number formatting to be without thousand separator and to have a dot, instead of a coma for the decimal separator.
+To enhance the **Copy & Paste** experience of copying numbers into other applications, the NumberFormat component automatically changes the number formatting to be without thousand separator and to have a dot, instead of a coma for the decimal separator.
 
 **NVDA** has also [issues](https://github.com/nvaccess/nvda/issues/8874) on reconciling the `lang` attribute, this makes it hard to have a solid and good working solution for reading numbers. VoiceOver on desktop makes a perfect job there.
 
@@ -53,10 +55,10 @@ To enhance the **Copy & Paste** experience of copying numbers into other applica
 
 ## Formatting only
 
-You can use the formatting without using the Component. Have a look at the [available properties](/uilib/components/number/properties).
+You can use the formatting without using the Component. Have a look at the [available properties](/uilib/components/number-format/properties).
 
 ```js
-import { format } from 'dnb-ui-lib/components/Number'
+import { format } from 'dnb-ui-lib/components/number-format/NumberUtils'
 
 const value = 12345678.9
 
@@ -73,10 +75,10 @@ const { number, aria } = format(value, {
 
 ## Using number helpers, like cleanNumber
 
-You can use the clean helpers without using the Component. Have a look at the [available properties](/uilib/components/number/properties). Also, you may check out the related tests **Number cleanNumber** in the source code to find more examples.
+You can use the clean helpers without using the Component. Have a look at the [available properties](/uilib/components/number-format/properties). Also, you may check out the related tests **NumberFormat > cleanNumber** in the source code to find more examples.
 
 ```js
-import { cleanNumber } from 'dnb-ui-lib/components/Number'
+import { cleanNumber } from 'dnb-ui-lib/components/number-format/NumberUtils'
 
 const string = cleanNumber('prefix -12 345,678 suffix') // returns -12345.678
 const string = cleanNumber('prefix -12.345,678 suffix') // returns -12345.678
@@ -92,7 +94,7 @@ If you run the component or `format` function in [Node.js](https://nodejs.org) y
 
 ## Provider
 
-You can send down the `locale` as an application wide property (Context). More info about the [provider and locale usage](/uilib/components/number/provider).
+You can send down the `locale` as an application wide property (Context). More info about the [provider and locale usage](/uilib/components/number-format/provider).
 
 ```jsx
 import Provider from 'dnb-ui-lib/shared/Provider'
@@ -100,7 +102,7 @@ import Provider from 'dnb-ui-lib/shared/Provider'
 render(
   <Provider locale="en-GB" currency_display="code">
     <MyApp>
-      text <Number>123</Number> table etc.
+      text <NumberFormat>123</NumberFormat> table etc.
     </MyApp>
   </Provider>
 )

@@ -3,7 +3,8 @@ import React from 'react';
 
 // import { Button } from '../../src/components'
 import Button from '../../src/components/button/Button';
-import Number from '../../src/components/number/Number';
+import NumberFormat from '../../src/components/number-format/NumberFormat';
+// import { format } from '../../src/components/number-format/NumberUtils';
 import Tabs from '../../src/components/tabs/Tabs';
 import Modal from '../../src/components/modal/Modal';
 // import GlobalError from '../../src/components/global-error/GlobalError';
@@ -43,9 +44,9 @@ export const TypesSandbox = () => {
         >
           Button
         </Button>
-        <Number currency right>
+        <NumberFormat currency right>
           12345
-        </Number>
+        </NumberFormat>
       </Provider>
       <Input size="default">test</Input>
 

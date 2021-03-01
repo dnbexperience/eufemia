@@ -9,9 +9,9 @@ import {
   isCI
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Number screenshot', () => {
+describe('NumberFormat screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/number/demos',
+    url: '/uilib/components/number-format/demos',
     screenshotConfig: {
       // use 11% on CI because of the font rendering differences
       pixelThresholdRelative: isCI ? 0.11 : 0
@@ -19,66 +19,68 @@ describe('Number screenshot', () => {
   })
   it('have to match default numbers', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="number-default"]'
+      selector: '[data-visual-test="number-format-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match numbers in different locales', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="number-locales"]'
+      selector: '[data-visual-test="number-format-locales"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match currency', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="number-currency"]'
+      selector: '[data-visual-test="number-format-currency"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match phone', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="number-phone"]'
+      selector: '[data-visual-test="number-format-phone"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match ban', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="number-ban"]'
+      selector: '[data-visual-test="number-format-ban"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match nin', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="number-nin"]'
+      selector: '[data-visual-test="number-format-nin"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match org', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="number-org"]'
+      selector: '[data-visual-test="number-format-org"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 })
 
-describe('Number with skeleton screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/number/demos?skeleton' })
+describe('NumberFormat with skeleton screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/number-format/demos?skeleton'
+  })
 
   it('have to match default numbers', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="number-default"]'
+      selector: '[data-visual-test="number-format-default"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match currency', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="number-currency"]'
+      selector: '[data-visual-test="number-format-currency"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match phone', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="number-phone"]'
+      selector: '[data-visual-test="number-format-phone"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

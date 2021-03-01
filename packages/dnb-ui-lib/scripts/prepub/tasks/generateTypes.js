@@ -76,7 +76,7 @@ export const createTypes = async (
         // file.includes('/Element.js') ||
         // file.includes('/Blockquote.js') ||
         // file.includes('/Button.js')
-        file.includes('/Accordion')
+        file.includes('/Number')
       if (isDev && (!isOfInterest || (await existsInGit(destFile)))) {
         return // stop here
       }
