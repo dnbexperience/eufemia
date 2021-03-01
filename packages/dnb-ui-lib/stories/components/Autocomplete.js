@@ -7,7 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-import { Autocomplete, Number, Button } from '../../src/components'
+import { Autocomplete, NumberFormat, Button } from '../../src/components'
 import { Anchor } from '../../src/elements'
 import { SubmitButton } from '../../src/components/input/Input'
 
@@ -355,18 +355,18 @@ const testData = [
   {
     selected_value: 99999999,
     content: [
-      <Number phone key={99999999}>
+      <NumberFormat phone key={99999999}>
         99999999
-      </Number>,
+      </NumberFormat>,
       'C'
     ]
   },
   {
     selected_value: 99999999,
     content: [
-      <Number phone key={99999999}>
+      <NumberFormat phone key={99999999}>
         99999999
-      </Number>,
+      </NumberFormat>,
       'D'
     ]
   },
@@ -397,9 +397,9 @@ const autocompleteData = [
   },
   {
     content: [
-      <Number key={99999999} phone>
+      <NumberFormat key={99999999} phone>
         99999999
-      </Number>,
+      </NumberFormat>,
       'Sparekonto - Ole Nordmann'
     ]
   },
@@ -407,18 +407,18 @@ const autocompleteData = [
     selected_value:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
-      <Number key={99999999} phone>
+      <NumberFormat key={99999999} phone>
         99999999
-      </Number>,
+      </NumberFormat>,
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
     ]
   },
   {
     selected_value: <>Custom selected {'🔥'}</>,
     content: [
-      <Number key={99999999} phone>
+      <NumberFormat key={99999999} phone>
         99999999
-      </Number>,
+      </NumberFormat>,
       <>Custom content {'🔥'}</>
     ]
   }
@@ -430,27 +430,27 @@ const autocompleteDataScrollable = [
   },
   {
     content: [
-      <Number key={99999999} phone>
-        99999999
-      </Number>,
+      <NumberFormat key={99999999} phone>
+        99999999zwzz
+      </NumberFormat>,
       'BB'
     ]
   },
   {
     selected_value: 'CCC',
     content: [
-      <Number key={99999999} phone>
+      <NumberFormat key={99999999} phone>
         99999999
-      </Number>,
+      </NumberFormat>,
       'CC'
     ]
   },
   {
     selected_value: 'DDD',
     content: [
-      <Number key={99999999} phone>
+      <NumberFormat key={99999999} phone>
         99999999
-      </Number>,
+      </NumberFormat>,
       'DD'
     ]
   },

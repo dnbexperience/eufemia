@@ -67,7 +67,7 @@ render(
   <Provider>
     <MyApp>
       <ChangeLocale />
-      text <Number>123</Number> table etc.
+      text <NumberFormat>123</NumberFormat> table etc.
     </MyApp>
   </Provider>
 )
@@ -109,10 +109,10 @@ render(
   <Provider locale="en-GB">
     <MyApp>
       <Provider locale="nb-NO">
-        Norsk <Number>1234</Number>
+        Norsk <NumberFormat>1234</NumberFormat>
         <ChangeLocale />
       </Provider>
-      English <Number>1234</Number>
+      English <NumberFormat>1234</NumberFormat>
     </MyApp>
   </Provider>
 )
@@ -126,5 +126,5 @@ If there is a module format deviation, components do not share anymore the same 
 // NB: Example of deviant module formats
 import Provider from 'dnb-ui-lib/shared/Provider' // like /esm
 import { Button } from 'dnb-ui-lib/es'
-import { Number } from 'dnb-ui-lib/cjs/components'
+import { NumberFormat } from 'dnb-ui-lib/cjs/components'
 ```

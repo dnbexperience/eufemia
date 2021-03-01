@@ -28,7 +28,7 @@ Eufemia includes a range of tools to help you make better accessible application
 
 ## Components
 
-- [Number](!/uilib/components/number) makes numbers accessible for screen readers.
+- [NumberFormat](!/uilib/components/number-format) makes numbers accessible for screen readers.
 - [Heading](!/uilib/components/heading) handles heading leveling automatically.
 - [GlobalStatus](!/uilib/components/global-status) includes grouping of form status messages and live announcements for screen readers.
 - [FormRow](!/uilib/components/form-row) includes `<fieldset>` and `<legend>`.

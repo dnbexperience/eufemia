@@ -1,385 +1,24 @@
+import React from 'react'
+import Context from '../../shared/Context'
+
 /**
- * Web Number Component
+ * Web NumberFormat Helpers
  *
  */
 
-import React from 'react'
-import PropTypes from 'prop-types'
-import classnames from 'classnames'
-import Context from '../../shared/Context'
 import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from '../../shared/defaults'
+import { warn, isTrue, slugify } from '../../shared/component-helper'
 import {
-  warn,
-  isTrue,
-  makeUniqueId,
-  validateDOMAttributes,
-  registerElement,
-  convertJsxToString,
-  extend
-} from '../../shared/component-helper'
-import {
-  getSelectedText,
+  getOffsetTop,
+  getOffsetLeft,
+  getSelectedElement,
   copyToClipboard,
-  insertElementBeforeSelection,
-  hasSelectedText,
-  IS_IOS,
   IS_MAC,
   IS_WIN,
   IS_IE11
 } from '../../shared/helpers'
-import {
-  spacingPropTypes,
-  createSpacingClasses
-} from '../space/SpacingHelper'
 
 const NUMBER_CHARS = '-0-9,.'
-
-export default class Number extends React.PureComponent {
-  static tagName = 'dnb-number'
-  static contextType = Context
-
-  static propTypes = {
-    id: PropTypes.string,
-    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    locale: PropTypes.string,
-    prefix: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    suffix: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-
-    // currency
-    currency: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    currency_display: PropTypes.string,
-    currency_position: PropTypes.oneOf(['auto', 'before', 'after']),
-
-    // bank account number
-    ban: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    // national identification number
-    nin: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    // phone number
-    phone: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    // organization number
-    org: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    // can be tel or sms
-    link: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-    decimals: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    copy_selection: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool
-    ]),
-    omit_rounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    clean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    element: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    ...spacingPropTypes,
-
-    class: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-  }
-  static defaultProps = {
-    id: null,
-    value: null,
-    locale: null,
-    prefix: null,
-    suffix: null,
-    currency: null,
-    currency_display: null, // code, name, symbol
-    currency_position: null, // null, before, after
-    ban: null,
-    nin: null,
-    phone: null,
-    org: null,
-    link: null,
-    options: null,
-    decimals: null,
-    selectall: true,
-    copy_selection: true,
-    omit_rounding: null,
-    clean: null,
-    element: 'span', // span or abbr
-    class: null,
-
-    className: null,
-    children: null
-  }
-
-  static enableWebComponent() {
-    registerElement(Number.tagName, Number, Number.defaultProps)
-  }
-
-  constructor(props) {
-    super(props)
-    this._ref = React.createRef()
-    this._selectionRef = React.createRef()
-
-    this._id = props.id || makeUniqueId()
-    this.state = { selected: false }
-  }
-
-  componentDidMount() {
-    clearTimeout(this._selectAllTimeout)
-
-    // NB: This hack may be removed in future iOS versions
-    // in order that iOS v13 can select something on the first try, we run this add range trick
-    if (IS_IOS && !hasiOSFix) {
-      hasiOSFix = true
-      runIOSSelectionFix()
-    }
-  }
-
-  shortcutHandler = () => {
-    const fx = createSelectionFX(this.cleanedValue)
-    fx.run()
-  }
-
-  onBlurHandler = () => {
-    this.setState({ selected: false })
-  }
-
-  onContextMenuHandler = () => {
-    if (!hasSelectedText()) {
-      clearTimeout(this._selectAllTimeout)
-      this._selectAllTimeout = setTimeout(() => {
-        this.setFocus()
-      }, 1)
-    }
-  }
-
-  onClickHandler = () => {
-    if (!hasSelectedText()) {
-      this.setFocus()
-    }
-  }
-
-  setFocus() {
-    this.setState({ selected: true }, () => {
-      if (this._selectionRef.current) {
-        this._selectionRef.current.focus()
-      }
-      this.selectAll()
-    })
-  }
-
-  selectAll() {
-    try {
-      const elem = this._selectionRef.current || this._ref.current
-      if (elem) {
-        const selection = window.getSelection()
-        const range = document.createRange()
-        range.selectNodeContents(elem)
-        selection.removeAllRanges()
-        selection.addRange(range)
-      }
-    } catch (e) {
-      warn(e)
-    }
-  }
-
-  runFix(comp, className) {
-    if (typeof comp === 'function') {
-      comp = comp()
-    }
-    if (React.isValidElement(comp)) {
-      return React.cloneElement(comp, {
-        className: classnames(comp.props.className, className)
-      })
-    }
-    return <span className={className}>{comp}</span>
-  }
-
-  render() {
-    // consume the global context
-    const {
-      id, // eslint-disable-line
-      value: _value,
-      prefix,
-      suffix,
-      children,
-      currency,
-      currency_display,
-      currency_position,
-      ban,
-      nin,
-      phone,
-      org,
-      link: _link,
-      options,
-      locale,
-      decimals,
-      omit_rounding,
-      clean,
-      selectall,
-      copy_selection,
-      element,
-      class: _className,
-      className,
-      ...rest
-    } = this.props
-
-    let link = _link
-    let value = _value
-
-    if (children !== null) {
-      value = children
-    }
-
-    const formatOptions = {
-      locale,
-      currency,
-      currency_display,
-      currency_position,
-      ban,
-      nin,
-      phone,
-      org,
-      decimals,
-      omit_rounding: isTrue(omit_rounding),
-      options,
-      clean: isTrue(clean),
-      returnAria: true
-    }
-
-    // use only the props from context, who are available here anyway
-    if (this.context) {
-      const useContext = extend(
-        true,
-        { locale: null, currency: null },
-        this.context,
-        this.context.getTranslation(this.props).Number
-      )
-
-      if (useContext) {
-        if (useContext.locale && !locale) {
-          formatOptions.locale = useContext.locale
-        }
-
-        // only replace if the prop is "true" and not actually a currency
-        if (useContext.currency && isTrue(currency)) {
-          formatOptions.options = formatOptions.options
-            ? { ...formatOptions.options }
-            : {}
-          formatOptions.options.currency = useContext.currency
-        }
-      }
-    }
-
-    let { cleanedValue, number: display, aria, locale: lang } = format(
-      value,
-      formatOptions
-    )
-    this.cleanedValue = cleanedValue
-
-    const attributes = {
-      ref: this._ref,
-      className: classnames(
-        'dnb-number',
-        className,
-        _className,
-        (isTrue(currency) || typeof currency === 'string') &&
-          'dnb-number--currency',
-        isTrue(selectall) && 'dnb-number--selectall',
-        this.state.selected && 'dnb-number--selected',
-        link && 'dnb-anchor',
-        createSpacingClasses(this.props)
-      ),
-      ...rest
-    }
-
-    /**
-     * Works in VoiceOver and NVDA
-     * Makes the span with it's roles etc. appear as text.
-     * Special useful if a number is in side e.g. a paragraph alongside with numbers
-     */
-    attributes['role'] = 'text'
-
-    const displayParams = {}
-    if (isTrue(selectall) || isTrue(copy_selection)) {
-      displayParams.onClick = this.onClickHandler
-      displayParams.onContextMenu = this.onContextMenuHandler
-    }
-
-    validateDOMAttributes(this.props, attributes)
-
-    if (prefix) {
-      display = (
-        <>
-          {this.runFix(prefix, 'dnb-number__prefix')} {display}
-        </>
-      )
-      aria = String(
-        `${convertJsxToString(
-          this.runFix(prefix, 'dnb-number__prefix')
-        )} ${aria}`
-      )
-    }
-    if (suffix) {
-      display = (
-        <>
-          {display} {this.runFix(suffix, 'dnb-number__suffix')}
-        </>
-      )
-      aria = `${aria} ${convertJsxToString(
-        this.runFix(suffix, 'dnb-number__suffix')
-      )}`
-    }
-
-    if (link) {
-      if (isTrue(link)) {
-        link = 'tel'
-      }
-      return (
-        <a href={`${link}:${display}`} {...attributes}>
-          {display}
-        </a>
-      )
-    }
-
-    const Element = element
-
-    /**
-     * This approach is most NVDA friendly, and we used it now also for mac,
-     * because if the consistency and SSR JAM Stack build
-     */
-    return (
-      <Element lang={lang} {...attributes}>
-        <span
-          className="dnb-number__visible"
-          aria-describedby={this._id}
-          aria-hidden
-          {...displayParams}
-        >
-          {display}
-        </span>
-
-        <span
-          id={this._id}
-          className="dnb-number__sr-only dnb-sr-only--inline"
-        >
-          {aria}
-        </span>
-
-        {isTrue(copy_selection) && (
-          <span
-            className="dnb-number__selection dnb-no-focus"
-            ref={this._selectionRef}
-            tabIndex={-1}
-            onBlur={this.onBlurHandler}
-            onCopy={this.shortcutHandler}
-            aria-hidden
-          >
-            {cleanedValue}
-          </span>
-        )}
-      </Element>
-    )
-  }
-}
 
 export const format = (
   value,
@@ -913,7 +552,6 @@ export function cleanNumber(num) {
   return num.replace(new RegExp(`([^${NUMBER_CHARS}])`, 'g'), '')
 }
 
-let hasiOSFix = false
 export function runIOSSelectionFix() {
   try {
     const selection = window.getSelection()
@@ -925,15 +563,19 @@ export function runIOSSelectionFix() {
   }
 }
 
-export async function copyWithEffect(string) {
+export async function copyWithEffect(
+  value,
+  label,
+  positionElement = null
+) {
   let success = null
 
-  if (string) {
+  if (value) {
     try {
-      const fx = createSelectionFX(string)
-      success = await copyToClipboard(string)
+      const fx = showSelectionNotice({ value, label })
+      success = await copyToClipboard(value)
       if (success === true) {
-        fx.run()
+        fx.run(positionElement)
       }
     } catch (e) {
       warn(e)
@@ -944,44 +586,32 @@ export async function copyWithEffect(string) {
   return success
 }
 
-export function createSelectionFX(string) {
-  let height = 32
-  let left = 0
-  let top = 0
-  let elem // portalElem
-
-  // do that because getClientRects from selection is an experimental browser API
-  try {
-    // getClientRects
-    const cR = window.getSelection().getRangeAt(0).getClientRects()
-
-    height = cR[0]?.height
-    left = cR[0]?.left
-    top = cR[0]?.top
-  } catch (e) {
-    //
+export function showSelectionNotice({ value, label, timeout = 3e3 }) {
+  const id = 'id-' + slugify(value)
+  if (typeof document !== 'undefined' && document.getElementById(id)) {
+    return { run: () => {} }
   }
 
+  let elem // portalElem
+
   try {
-    // create backup to get the position from
-    if (!(top > 0) && !(left > 0)) {
-      // get a more precise position by inserting this empty node
-      const posElem = document.createElement('span')
-      posElem.setAttribute('class', 'dnb-number__fx__selection')
-      insertElementBeforeSelection(posElem)
-
-      // get position
-      ;({ top, left } = posElem.getBoundingClientRect())
-      top -= height / 1.333
-      posElem.parentElement.removeChild(posElem)
-    }
-
     // create that portal element
     elem = document.createElement('span')
-    elem.textContent = String(string)
-    elem.setAttribute('class', 'dnb-number__fx dnb-core-style')
-    elem.style.top = `${top}px`
-    elem.style.left = `${left + getSelectedText().length / 2}px`
+    elem.setAttribute('id', id)
+    elem.setAttribute('class', 'dnb-tooltip dnb-core-style')
+    elem.setAttribute('role', 'tooltip')
+
+    const arrow = document.createElement('span')
+    arrow.setAttribute(
+      'class',
+      'dnb-tooltip__arrow dnb-tooltip__arrow__position--bottom'
+    )
+    const content = document.createElement('span')
+    content.setAttribute('class', 'dnb-tooltip__content')
+    elem.appendChild(arrow)
+    elem.appendChild(content)
+
+    content.textContent = String(label)
   } catch (e) {
     warn(e)
   }
@@ -994,15 +624,47 @@ export function createSelectionFX(string) {
         //
       }
     }
-    run() {
+    hide() {
+      try {
+        elem.classList.add('dnb-tooltip--hide')
+      } catch (e) {
+        //
+      }
+    }
+    run(positionElement = getSelectedElement()) {
       try {
         document.body.appendChild(elem)
 
-        // remove that element again
-        setTimeout(this.remove, 800)
+        const top = getOffsetTop(positionElement)
+        const left = getOffsetLeft(positionElement)
+
+        elem.style.top = `${top + elem.offsetHeight}px`
+        elem.style.left = `${
+          left +
+          (positionElement?.offsetWidth || 0) / 2 -
+          elem.offsetWidth / 2
+        }px`
+        elem.classList.add('dnb-tooltip--active')
+
+        setTimeout(this.hide, timeout)
+        setTimeout(this.remove, timeout + 600)
       } catch (e) {
         warn(e)
       }
     }
   })()
+}
+
+export function useCopyWithNotice() {
+  const {
+    translation: {
+      NumberFormat: { clipboard_copy }
+    }
+  } = React.useContext(Context)
+
+  const copy = (value, positionElement) => {
+    copyWithEffect(value, clipboard_copy, positionElement)
+  }
+
+  return { copy }
 }

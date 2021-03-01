@@ -14,7 +14,7 @@ import {
   Dropdown,
   Input,
   DatePicker,
-  Number
+  NumberFormat
 } from '../../src/components'
 
 export default {
@@ -241,18 +241,18 @@ const data = [
   },
   {
     content: [
-      <Number key={12345678902} ban>
+      <NumberFormat key={12345678902} ban>
         12345678902
-      </Number>,
+      </NumberFormat>,
       'B'
     ]
   },
   {
     selected_value: 'CC',
     content: [
-      <Number key={11345678962} ban>
+      <NumberFormat key={11345678962} ban>
         11345678962
-      </Number>,
+      </NumberFormat>,
       'C'
     ]
   },
