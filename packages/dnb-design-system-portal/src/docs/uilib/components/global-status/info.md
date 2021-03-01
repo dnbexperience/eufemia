@@ -64,7 +64,7 @@ Beside the automated connection between the error states of form components ([Fo
 ### JavaScript (interceptor situation)
 
 ```js
-import { GlobalStatus } from 'dnb-ui-lib/components'
+import { GlobalStatus } from '@dnb/eufemia/components'
 
 // 1. Update / extend the the status like so:
 const statusOne = GlobalStatus.create({
@@ -86,7 +86,7 @@ statusOne.remove()
 ### JSX
 
 ```jsx
-import { GlobalStatus } from 'dnb-ui-lib/components'
+import { GlobalStatus } from '@dnb/eufemia/components'
 
 // 1. Place it under the header bar
 <GlobalStatus text="Optional default text" />
@@ -106,7 +106,7 @@ import { GlobalStatus } from 'dnb-ui-lib/components'
 If You need an additional `GlobalStatus`, define a custom ID (custom-status):
 
 ```jsx
-import { GlobalStatus } from 'dnb-ui-lib/components'
+import { GlobalStatus } from '@dnb/eufemia/components'
 
 // 1. Place it somewhere in Your application
 <GlobalStatus id="custom-status" />

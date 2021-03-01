@@ -31,4 +31,4 @@ order: 2
 
 ### Developers
 
-- **Tobias Høegh** (_tobias.hoegh@dnb.no_) (GitHub, `dnb-ui-lib`)
+- **Tobias Høegh** (_tobias.hoegh@dnb.no_) (GitHub, `@dnb/eufemia`)

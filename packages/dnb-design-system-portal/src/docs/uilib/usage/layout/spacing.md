@@ -39,7 +39,7 @@ margin-top: calc(var(--spacing-large) + var(--spacing-small));
 ### The Space component and Space Components (Emotion)
 
 ```js
-import { Space } from 'dnb-ui-lib/components'
+import { Space } from '@dnb/eufemia/components'
 
 // A div with a margin-top of 2.5rem
 <Space top="large x-small">
@@ -63,7 +63,7 @@ The idea is, You send in `createStyleObject({ top: 'large' })` and will get `{ m
 ### Styled Components (Emotion)
 
 ```js
-import { SpacingHelper } from 'dnb-ui-lib/shared'
+import { SpacingHelper } from '@dnb/eufemia/shared'
 
 // With Styled Components
 const Spacing = styled.div(SpacingHelper)

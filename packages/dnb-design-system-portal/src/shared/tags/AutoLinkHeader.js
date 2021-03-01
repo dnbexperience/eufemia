@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from '@emotion/react'
 import AnchorLink from 'react-anchor-link-smooth-scroll'
-import { Heading } from 'dnb-ui-lib/src'
+import { Heading } from '@dnb/eufemia/src'
 import { makeSlug } from '../../uilib/utils/slug'
-// import { convertJsxToString } from 'dnb-ui-lib/src/shared/component-helper'
+// import { convertJsxToString } from '@dnb/eufemia/src/shared/component-helper'
 import { Location } from '@reach/router'
 
 const anchorLinkStyle = css`

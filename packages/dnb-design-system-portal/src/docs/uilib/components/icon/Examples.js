@@ -8,9 +8,9 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 import {
   bell_medium as BellMedium,
   bell as Bell
-} from 'dnb-ui-lib/src/icons'
-import * as PrimaryIconsMedium from 'dnb-ui-lib/src/icons/primary_icons_medium'
-import * as SecondaryIconsMedium from 'dnb-ui-lib/src/icons/secondary_icons_medium'
+} from '@dnb/eufemia/src/icons'
+import * as PrimaryIconsMedium from '@dnb/eufemia/src/icons/primary_icons_medium'
+import * as SecondaryIconsMedium from '@dnb/eufemia/src/icons/secondary_icons_medium'
 import { getListOfIcons } from '../../../../shared/parts/icons/ListAllIcons'
 
 export const IconDefault = () => (

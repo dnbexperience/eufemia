@@ -18,7 +18,7 @@ Icons are categories on two [main groups](!/icons) and comes in two sizes each:
 ## [Secondary Icons](!/icons/secondary)
 
 ```jsx
-import { hamburger } from `dnb-ui-lib/icons`
+import { hamburger } from `@dnb/eufemia/icons`
 <Button icon={hamburger} text="Button" />
 ```
 

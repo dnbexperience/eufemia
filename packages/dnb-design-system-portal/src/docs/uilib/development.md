@@ -5,7 +5,7 @@ order: 10
 ---
 
 import GithubLogo from 'Pages/uilib/development/assets/github-logo.js'
-import { Icon } from 'dnb-ui-lib/src'
+import { Icon } from '@dnb/eufemia/src'
 
 # Development
 

@@ -19,7 +19,7 @@ import styled from '@emotion/styled'
 import Layout from '../layout/Layout'
 
 // Get Eufemia in
-import { P } from 'dnb-ui-lib/src/elements'
+import { P } from '@dnb/eufemia/src/elements'
 import {
   Heading,
   FormSet,
@@ -34,12 +34,12 @@ import {
   Switch,
   Space,
   GlobalStatus
-} from 'dnb-ui-lib/src/components'
+} from '@dnb/eufemia/src/components'
 import {
   save as SaveIcon,
   trash as TrashIcon,
   attachment as AttachmentIcon
-} from 'dnb-ui-lib/src/icons'
+} from '@dnb/eufemia/src/icons'
 
 /** -- 1. Markup -- */
 

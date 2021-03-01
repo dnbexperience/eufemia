@@ -75,7 +75,7 @@ The password component have to ensure that there is still room for password mana
 In order to get the show/hide button, you may have to import the component like so:
 
 ```js
-import InputPassword from 'dnb-ui-lib/components/input/InputPassword'
+import InputPassword from '@dnb/eufemia/components/input/InputPassword'
 ```
 
 <InputExamplePassword />

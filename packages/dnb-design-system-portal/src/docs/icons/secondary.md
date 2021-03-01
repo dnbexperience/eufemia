@@ -18,7 +18,7 @@ The Secondary Icons can be extended infinitely.
 ## React example usage
 
 ```jsx
-import { hamburger_medium as HamburgerIcon, bubble } from 'dnb-ui-lib/icons'
+import { hamburger_medium as HamburgerIcon, bubble } from '@dnb/eufemia/icons'
 
 <HamburgerIcon />/* <-- is not recommended, but possible */
 <Icon icon={HamburgerIcon} />

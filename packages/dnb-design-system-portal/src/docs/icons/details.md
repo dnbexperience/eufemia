@@ -19,7 +19,7 @@ At DNB we are currently using Streamline icons as our source for off-the-shelf v
 
 The icons are in SVG format and are optimized for performance and to have the smallest footprint possible in the package build process.
 
-The sources are located in the [assets folder](https://unpkg.com/dnb-ui-lib@latest/assets/icons/).
+The sources are located in the [assets folder](https://unpkg.com/@dnb/eufemia@latest/assets/icons/).
 
 They also exists as [React Components](/uilib/components/icon) to be easily integrated, without need of an additional SVG file loader.
 

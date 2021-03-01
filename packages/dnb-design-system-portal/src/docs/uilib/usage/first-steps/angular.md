@@ -14,14 +14,14 @@ Eufemia may have an example code soon of using this [React adapter solution, use
 
 ## Angular v1
 
-Take a look at the [Example App on GitHub](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-angular-1) using the `dnb-ui-lib` React Components.
-This is an Example App to demo the usage of `dnb-ui-lib` in Angular _version 1.7.9_. To power the React usage, You could use [react2angular on NPM](https://www.npmjs.com/package/react2angular).
+Take a look at the [Example App on GitHub](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-angular-1) using the `@dnb/eufemia` React Components.
+This is an Example App to demo the usage of `@dnb/eufemia` in Angular _version 1.7.9_. To power the React usage, You could use [react2angular on NPM](https://www.npmjs.com/package/react2angular).
 
 The syntax looks a like:
 
 ```js
-import { Button } from 'dnb-ui-lib'
-import { bell_medium as Bell } from 'dnb-ui-lib/icons'
+import { Button } from '@dnb/eufemia'
+import { bell_medium as Bell } from '@dnb/eufemia/icons'
 
 ngEufemiaButton.directive('eufemiaButtonDirective', () => {
   return {

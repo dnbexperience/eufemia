@@ -17,7 +17,7 @@ This part of the Design System is dedicated to **application development**.
 
 ## License
 
-The `dnb-ui-lib` is for internal DNB development only. Also, make sure you act according to the [license](/license).
+The `@dnb/eufemia` is for internal DNB development only. Also, make sure you act according to the [license](/license).
 
 ---
 
@@ -64,7 +64,7 @@ The Library is hosted on [NPM](npmjs.com), so versioning and openness is secure.
 
 ## Production ready
 
-All code examples are shown as ES6 ([ECMAScript 2015](https://en.wikipedia.org/wiki/ECMAScript)). But the production `dnb-ui-lib` is actually compiled down to ES5 (5th Edition). So your product is using production ready code.
+All code examples are shown as ES6 ([ECMAScript 2015](https://en.wikipedia.org/wiki/ECMAScript)). But the production `@dnb/eufemia` is actually compiled down to ES5 (5th Edition). So your product is using production ready code.
 
 ## Components & Patterns
 

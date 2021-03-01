@@ -1,0 +1,10 @@
+{
+  "name": "@dnb/eufemia-cjs",
+  "type": "commonjs",
+  "main": "index.js",
+  "sideEffects": [
+    "*.scss",
+    "umd/*",
+    "style/**/*"
+  ]
+}

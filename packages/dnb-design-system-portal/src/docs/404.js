@@ -5,7 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { GlobalError } from 'dnb-ui-lib/src/components'
+import { GlobalError } from '@dnb/eufemia/src/components'
 import Layout from '../shared/parts/Layout'
 
 export default class PageNotFound extends React.PureComponent {

@@ -12,8 +12,10 @@ How to use it:
 2. And import and include it in your application:
 
 ```jsx
-import 'dnb-ui-lib/patterns/payment-card/style'
-import PaymentCard, { getCardData } from 'dnb-ui-lib/patterns/payment-card'
+import '@dnb/eufemia/patterns/payment-card/style'
+import PaymentCard, {
+  getCardData
+} from '@dnb/eufemia/patterns/payment-card'
 
 render(<PaymentCard product_code="..." />)
 ```

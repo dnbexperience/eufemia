@@ -6,7 +6,7 @@
 import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
-import Input from 'dnb-ui-lib/src/components/input/Input'
+import Input from '@dnb/eufemia/src/components/input/Input'
 import styled from '@emotion/styled'
 import { Location, Router, navigate } from '@reach/router'
 import { BrowserRouter, Route, withRouter } from 'react-router-dom'

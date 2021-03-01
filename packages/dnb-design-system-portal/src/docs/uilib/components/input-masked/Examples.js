@@ -9,7 +9,7 @@ import styled from '@emotion/styled'
 
 // https://github.com/text-mask/text-mask
 // How to use masks: https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme
-// import createNumberMask from 'dnb-ui-lib/src/components/input-masked/addons/createNumberMask'
+// import createNumberMask from '@dnb/eufemia/src/components/input-masked/addons/createNumberMask'
 
 export const InputMaskedExampleCurrencyMask = () => (
   <Wrapper>

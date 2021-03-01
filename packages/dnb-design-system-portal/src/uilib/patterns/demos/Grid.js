@@ -12,9 +12,9 @@ import PropTypes from 'prop-types'
 import ItemWrapper from '../../../shared/parts/uilib/ItemWrapper'
 import DemoComponent, {
   Example as CodeComponent
-} from 'dnb-ui-lib/src/patterns/grid/Example'
-import Description from 'dnb-ui-lib/src/patterns/grid/description.md'
-import Details from 'dnb-ui-lib/src/patterns/grid/details.md'
+} from '@dnb/eufemia/src/patterns/grid/Example'
+import Description from '@dnb/eufemia/src/patterns/grid/description.md'
+import Details from '@dnb/eufemia/src/patterns/grid/details.md'
 import ExampleCode from 'raw-loader!../examples/Grid.txt'
 
 export default class GridDemo extends React.PureComponent {
