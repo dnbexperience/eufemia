@@ -20,7 +20,8 @@ v9 of @dnb/eufemia contains _braking changes_. As a migration process, you can s
 
 Most of the Eufemia "patterns" got removed in favor of calling this part as **extensions**.
 
-1. Find `dnb-ui-lib/extensions` or `@dnb/eufemia/extensions` and replace with `@dnb/eufemia/extensions`
+1. Find `dnb-ui-lib/patterns` or `@dnb/eufemia/patterns` and replace with `@dnb/eufemia/extensions`
+1. Find `dnb-ui-patterns` and replace with `dnb-ui-extensions`
 
 The following extensions are removed:
 
@@ -52,4 +53,4 @@ To upgrade to @dnb/eufemia v9 with NPM, use:
 $ npm i @dnb/eufemia@9
 ```
 
-_March, 10. 2021_
+_March, 3. 2021_
