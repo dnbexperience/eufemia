@@ -20,6 +20,10 @@
       display: flex;
       flex: 0 1 auto;
 
+      // Fix the active/focus border spacing
+      padding: 0 0.5rem;
+      margin: 0 -0.5rem;
+
       &:focus {
         @include fakeFocus();
       }
