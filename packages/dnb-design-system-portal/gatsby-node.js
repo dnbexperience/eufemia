@@ -216,6 +216,7 @@ async function createRedirects({ graphql, actions }) {
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
     resolve: {
+      fallback: { path: require.resolve('path-browserify') }, // was added during webpack 4 to 5 migration
       modules: [path.resolve(__dirname, 'src'), 'node_modules'],
       alias: {
         Root: path.resolve(__dirname),

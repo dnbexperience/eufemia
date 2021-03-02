@@ -711,6 +711,7 @@ export default class Tabs extends React.PureComponent {
 
       if (
         !document.getElementById(`${this._id}-content`) &&
+        typeof process !== 'undefined' &&
         process.env.NODE_ENV !== 'test'
       ) {
         warn(

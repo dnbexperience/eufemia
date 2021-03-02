@@ -41,6 +41,10 @@ describe('Icon screenshot', () => {
   })
   it('have to match icons with border', async () => {
     const screenshot = await testPageScreenshot({
+      screenshotConfig: {
+        // use 2% on CI because of the font rendering differences
+        pixelThresholdRelative: isCI ? 0.02 : 0
+      },
       style: {
         // Flex makes the pixel height 100% correct
         display: 'flex',
