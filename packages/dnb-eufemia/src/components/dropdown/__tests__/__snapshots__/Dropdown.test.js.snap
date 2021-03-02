@@ -717,7 +717,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                         className="dnb-drawer-list__list dnb-dropdown__list dnb-drawer-list__list--no-animation"
                         id="dropdown-id-listbox"
                       >
-                        <ForwardRef
+                        <DrawerList.Options
                           aria-activedescendant="option-dropdown-id-2"
                           aria-expanded={true}
                           aria-labelledby="dropdown-id-label"
@@ -1108,7 +1108,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               className="dnb-drawer-list__triangle"
                             />
                           </ul>
-                        </ForwardRef>
+                        </DrawerList.Options>
                         <OnMounted
                           assignObservers={[Function]}
                         />

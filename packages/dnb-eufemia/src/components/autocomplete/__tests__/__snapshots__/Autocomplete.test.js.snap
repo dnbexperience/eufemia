@@ -818,7 +818,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         className="dnb-drawer-list__list dnb-autocomplete__list dnb-drawer-list__list--no-animation"
                         id="autocomplete-id-listbox"
                       >
-                        <ForwardRef
+                        <DrawerList.Options
                           aria-activedescendant="option-autocomplete-id-2"
                           aria-expanded={true}
                           aria-labelledby="autocomplete-id-label"
@@ -983,7 +983,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                               className="dnb-drawer-list__triangle"
                             />
                           </ul>
-                        </ForwardRef>
+                        </DrawerList.Options>
                         <OnMounted
                           assignObservers={[Function]}
                         />
