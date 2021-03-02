@@ -18,8 +18,8 @@ exports[`IconPrimary component have to match snapshot 1`] = `
 >
   <span
     aria-hidden={true}
-    aria-label="question icon"
     className="dnb-icon dnb-icon--default dnb-icon--inherit-color"
+    data-test-id="question icon"
     role="presentation"
   >
     <question>

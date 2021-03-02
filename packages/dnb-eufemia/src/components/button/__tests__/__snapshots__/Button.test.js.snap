@@ -35,8 +35,8 @@ exports[`Button component have to match default button snapshot 1`] = `
         </span>
         <span
           aria-hidden="true"
-          aria-label="question icon"
           class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+          data-test-id="question icon"
           role="presentation"
         >
           <svg
@@ -77,8 +77,8 @@ exports[`Button component have to match default button snapshot 1`] = `
         </span>
         <span
           aria-hidden="true"
-          aria-label="question icon"
           class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+          data-test-id="question icon"
           role="presentation"
         >
           <svg
@@ -156,8 +156,8 @@ exports[`Button component have to match default button snapshot 1`] = `
             </span>
             <span
               aria-hidden="true"
-              aria-label="question icon"
               class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+              data-test-id="question icon"
               role="presentation"
             >
               <svg
@@ -198,8 +198,8 @@ exports[`Button component have to match default button snapshot 1`] = `
             </span>
             <span
               aria-hidden="true"
-              aria-label="question icon"
               class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+              data-test-id="question icon"
               role="presentation"
             >
               <svg
@@ -266,8 +266,8 @@ exports[`Button component have to match default button snapshot 1`] = `
       >
         <span
           aria-hidden={true}
-          aria-label="question icon"
           className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+          data-test-id="question icon"
           role="presentation"
         >
           <question>
@@ -329,8 +329,8 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         </span>
         <span
           aria-hidden="true"
-          aria-label="question icon"
           class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+          data-test-id="question icon"
           role="presentation"
         >
           <svg
@@ -372,8 +372,8 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         </span>
         <span
           aria-hidden="true"
-          aria-label="question icon"
           class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+          data-test-id="question icon"
           role="presentation"
         >
           <svg
@@ -453,8 +453,8 @@ exports[`Button component have to match href="..." snapshot 1`] = `
             </span>
             <span
               aria-hidden="true"
-              aria-label="question icon"
               class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+              data-test-id="question icon"
               role="presentation"
             >
               <svg
@@ -496,8 +496,8 @@ exports[`Button component have to match href="..." snapshot 1`] = `
             </span>
             <span
               aria-hidden="true"
-              aria-label="question icon"
               class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+              data-test-id="question icon"
               role="presentation"
             >
               <svg
@@ -564,8 +564,8 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       >
         <span
           aria-hidden={true}
-          aria-label="question icon"
           className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+          data-test-id="question icon"
           role="presentation"
         >
           <question>
