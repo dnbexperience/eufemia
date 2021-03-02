@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index space to autogenerate all the components and patterns
+ * Library Index space to autogenerate all the components and extensions
  * Used by "prepareSpaces"
  */
 
