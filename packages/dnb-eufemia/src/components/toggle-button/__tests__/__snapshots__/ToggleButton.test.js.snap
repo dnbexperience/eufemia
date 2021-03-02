@@ -398,6 +398,14 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
   <div
     className="dnb-toggle-button-group dnb-toggle-button-group--row dnb-form-component"
   >
+    <AlignmentHelper
+      className={null}
+    >
+      <span
+        aria-hidden={true}
+        className="dnb-alignment-helper"
+      />
+    </AlignmentHelper>
     <FormRow
       centered={null}
       class={null}
@@ -2316,7 +2324,9 @@ button.dnb-button::-moz-focus-inner {
         align-items: flex-start; }
       .dnb-toggle-button-group .dnb-form-row::before {
         font-size: var(--font-size-basis); }
-    .dnb-toggle-button-group--no-label .dnb-form-row {
+    .dnb-toggle-button-group--no-label > .dnb-alignment-helper {
+      line-height: var(--button-height); }
+    .dnb-toggle-button-group--row.dnb-toggle-button-group:not(.dnb-form-row--vertical-label) > .dnb-alignment-helper {
       line-height: var(--button-height); }
   @media screen and (min-width: 40em) {
     .dnb-form-label + .dnb-toggle-button {

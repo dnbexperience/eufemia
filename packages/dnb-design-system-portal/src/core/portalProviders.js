@@ -20,7 +20,7 @@ import cssVars from 'css-vars-ponyfill'
 cssVars()
 
 const emotionCache = createEmotionCache({
-  key: 'portal',
+  key: 'css',
   stylisPlugins: [stylisPlugin]
 })
 

@@ -52,7 +52,12 @@ export class Counter {
   }
 
   report(...str) {
-    if (!(process && process.env.NODE_ENV === 'production')) {
+    if (
+      !(
+        typeof process !== 'undefined' &&
+        process.env.NODE_ENV === 'production'
+      )
+    ) {
       this.reports.push(str)
     }
   }

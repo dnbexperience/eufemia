@@ -40,6 +40,10 @@ describe('HelperClasses screenshot', () => {
   })
   it('have to match hide-on-mobile', async () => {
     const screenshot = await testPageScreenshot({
+      screenshotConfig: {
+        // use 12% on CI because of the font rendering differences
+        pixelThresholdRelative: isCI ? 0.12 : 0
+      },
       addWrapper: false,
       selector: '[data-visual-test="helper-hide-on-mobile"]'
     })

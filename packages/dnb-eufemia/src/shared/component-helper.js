@@ -720,8 +720,8 @@ export const isInsideScrollView = (
 export const warn = (...e) => {
   if (
     typeof process !== 'undefined' &&
-    typeof console !== 'undefined' &&
     process.env.NODE_ENV !== 'production' &&
+    typeof console !== 'undefined' &&
     typeof console.log === 'function'
   ) {
     console.log('Eufemia:', ...e)

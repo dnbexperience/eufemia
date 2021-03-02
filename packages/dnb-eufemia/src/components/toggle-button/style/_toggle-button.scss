@@ -184,13 +184,18 @@
       margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom));
 
       &::before {
-        // move the gorup 2px up if label exists
+        // move the group 2px up if label exists
         font-size: var(--font-size-basis);
       }
     }
 
     // vertical alignment - if no label is given
-    &--no-label .dnb-form-row {
+    &--no-label > .dnb-alignment-helper {
+      line-height: var(--button-height);
+    }
+
+    // correct for horizontal form-row direction
+    &--row#{&}:not(.dnb-form-row--vertical-label) > .dnb-alignment-helper {
       line-height: var(--button-height);
     }
   }

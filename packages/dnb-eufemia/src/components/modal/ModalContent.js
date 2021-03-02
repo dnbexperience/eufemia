@@ -404,7 +404,7 @@ export default class ModalContent extends React.PureComponent {
       className: classnames(
         'dnb-modal__content',
         mode && `dnb-modal__content--${mode}`,
-        isTrue(hide) && 'dnb-modal__content--hide',
+        hide && 'dnb-modal__content--hide',
         isTrue(spacing) && 'dnb-modal__content--spacing',
         align_content && `dnb-modal__content__align--${align_content}`,
         container_placement || mode === 'drawer'

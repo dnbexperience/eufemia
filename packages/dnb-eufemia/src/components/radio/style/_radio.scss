@@ -220,11 +220,11 @@
     .dnb-form-row {
       align-items: flex-start;
 
-      // because of our bottom margins we have on the componens
+      // because of our bottom margins we have on the components
       margin-bottom: calc(1px - 1px - var(--radio-margin-bottom));
 
       &::before {
-        // move the gorup 2px up if label exists
+        // move the group 2px up if label exists
         font-size: var(--font-size-basis);
       }
     }

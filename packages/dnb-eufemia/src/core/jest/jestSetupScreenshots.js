@@ -43,10 +43,23 @@ const config = {
     hasTouch: false,
     isLandscape: false,
     deviceScaleFactor: 1
+  },
+  screenshotConfig: {
+    detectAntialiasing: true,
+    // local we check for 0% accuracy
+    // due to the differences of font rendering between the os (linux/mac/win)
+    // we have to have a hight threshold of 8%
+    pixelThresholdRelative: isCI ? 0.08 : 0
   }
 }
 module.exports.config = config
 module.exports.isCI = isCI
+
+let currentScreenshotSetup = null
+const setScreenshotSetup = (config) => {
+  currentScreenshotSetup = config
+  setupJestScreenshot(config)
+}
 
 module.exports.testPageScreenshot = async ({
   url = null,
@@ -65,13 +78,18 @@ module.exports.testPageScreenshot = async ({
   styleSelector = null,
   simulateSelector = null,
   wrapperStyle = null,
-  measureElement = null
+  measureElement = null,
+  screenshotConfig = null
 } = {}) => {
   if (!page) {
     const pages = await global.__BROWSER__.pages()
     if (pages[0]) {
       page = pages[0]
     }
+  }
+
+  if (screenshotConfig) {
+    setScreenshotSetup(screenshotConfig)
   }
 
   await makePageReady({
@@ -136,13 +154,17 @@ module.exports.testPageScreenshot = async ({
   }
 
   if (config.headless !== true) {
-    await page.waitFor(config.timeout)
+    await page.waitForTimeout(config.timeout)
   }
 
   // before we had: just to make sure we don't resolve, before the delayed click happened
   // so the next integration on the same url will have a reset state
   if (waitBeforeFinish > 0) {
-    await page.waitFor(waitBeforeFinish)
+    await page.waitForTimeout(waitBeforeFinish)
+  }
+
+  if (screenshotConfig) {
+    setScreenshotSetup(currentScreenshotSetup)
   }
 
   return screenshot
@@ -155,21 +177,23 @@ const setupPageScreenshot = ({
   screenshotConfig = null,
   timeout = null
 } = {}) => {
-  if (screenshotConfig) {
-    setupJestScreenshot(screenshotConfig)
-  }
+  beforeAll(async () => {
+    if (screenshotConfig) {
+      setScreenshotSetup(screenshotConfig)
+    }
 
-  beforeAll(
-    async () =>
-      (global.__PAGE__ = await setupBeforeAll({
-        url,
-        fullscreen,
-        pageViewport
-      })),
-    timeout
-  )
+    global.__PAGE__ = await setupBeforeAll({
+      url,
+      fullscreen,
+      pageViewport
+    })
+  }, timeout)
 
-  afterAll(async () => await global.__PAGE__.close())
+  afterAll(async () => {
+    setScreenshotSetup(config.screenshotConfig)
+
+    await global.__PAGE__.close()
+  })
 }
 module.exports.setupPageScreenshot = setupPageScreenshot
 
@@ -229,7 +253,7 @@ const setupBeforeAll = async ({
   // await page.reload({
   //   waitUntil: 'domcontentloaded' // the whole document (HTML) has been loaded.
   // })
-  //   await page.waitFor(1e3)
+  //   await page.waitForTimeout(1e3)
   // }
 
   return page
@@ -343,7 +367,7 @@ async function handleSimulation({
   waitBeforeSimulate
 }) {
   if (parseFloat(waitBeforeSimulate) > 0) {
-    await page.waitFor(waitBeforeSimulate)
+    await page.waitForTimeout(waitBeforeSimulate)
   }
 
   let elementToSimulate = null
@@ -374,6 +398,15 @@ async function handleSimulation({
         break
       }
 
+      case 'clickfocus': {
+        await elementToSimulate.click()
+        screenshotElement.press('Shift')
+        await screenshotElement.press('Tab')
+        await screenshotElement.press('Tab')
+        await elementToSimulate.focus()
+        break
+      }
+
       case 'active': {
         // make a delayed click, no await. Else we get only a release state
         waitBeforeFinish = 500 // have mouse pressed until screen shot is taken
@@ -400,7 +433,7 @@ async function handleSimulation({
     })
   }
   if (parseFloat(waitAfterSimulate) > 0) {
-    await page.waitFor(waitAfterSimulate)
+    await page.waitForTimeout(waitAfterSimulate)
   }
 
   return { elementToSimulate, waitBeforeFinish }

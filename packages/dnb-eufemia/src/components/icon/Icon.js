@@ -353,7 +353,10 @@ export const prepareIcon = (props, context) => {
     wrapperParams['aria-hidden'] = true
   }
   if (wrapperParams['aria-hidden']) {
-    if (process.env.NODE_ENV === 'test') {
+    if (
+      typeof process !== 'undefined' &&
+      process.env.NODE_ENV === 'test'
+    ) {
       wrapperParams['data-test-id'] = wrapperParams['aria-label']
     }
     delete wrapperParams['aria-label']

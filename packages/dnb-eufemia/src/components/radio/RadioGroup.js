@@ -19,7 +19,7 @@ import {
   spacingPropTypes,
   createSpacingClasses
 } from '../space/SpacingHelper'
-
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import FormRow from '../form-row/FormRow'
 import FormStatus from '../form-status/FormStatus'
 import Context from '../../shared/Context'
@@ -256,6 +256,7 @@ export default class RadioGroup extends React.PureComponent {
     return (
       <RadioGroupContext.Provider value={context}>
         <div className={classes}>
+          <AlignmentHelper />
           <FormRow {...formRowParams}>
             <span
               id={id}

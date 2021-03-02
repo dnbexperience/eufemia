@@ -20,7 +20,7 @@ import {
   spacingPropTypes,
   createSpacingClasses
 } from '../space/SpacingHelper'
-
+import AlignmentHelper from '../../shared/AlignmentHelper'
 import FormRow from '../form-row/FormRow'
 import FormStatus from '../form-status/FormStatus'
 import Context from '../../shared/Context'
@@ -245,6 +245,12 @@ export default class ToggleButtonGroup extends React.PureComponent {
       status && `dnb-toggle-button-group__status--${status_state}`,
       !label && 'dnb-toggle-button-group--no-label',
       `dnb-toggle-button-group--${layout_direction}`,
+      // (isTrue(vertical) || label_direction === 'vertical') &&
+      //   `dnb-toggle-button-group--vertical`,
+      (isTrue(vertical) || label_direction) &&
+        `dnb-form-row--${
+          isTrue(vertical) ? 'vertical' : label_direction
+        }-label`, // <-- has label
       'dnb-form-component',
       createSpacingClasses(props),
       className,
@@ -312,6 +318,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
     return (
       <ToggleButtonGroupContext.Provider value={context}>
         <div className={classes}>
+          <AlignmentHelper />
           <FormRow {...formRowParams}>
             <span
               id={id}

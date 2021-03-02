@@ -2,6 +2,7 @@
 
 - [Migration](#migration)
 - [Changes](#changes)
+- [Feature](#features)
 
 ## Migration
 
@@ -44,6 +45,11 @@ The following extensions are removed:
 Strings where changed/removed and added to the [language files](/uilib/usage/customisation/localization) `nb-NO.js` and `en-GB.js`:
 
 - NumberFormat (added)
+
+## Features
+
+- Enhance Webpack v5 compatibility
+- Enhance React v17 compatibility
 
 ## Install
 
