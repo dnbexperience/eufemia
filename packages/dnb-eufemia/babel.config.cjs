@@ -39,12 +39,6 @@ if (process.env.BABEL_ENV === 'es') {
 const productionPlugins = [
   '@babel/plugin-transform-react-constant-elements',
   [
-    'babel-plugin-react-remove-properties',
-    {
-      properties: ['data-visual-test', 'data-visual-test-wrapper']
-    }
-  ],
-  [
     'babel-plugin-transform-react-remove-prop-types',
     {
       mode: 'unsafe-wrap'

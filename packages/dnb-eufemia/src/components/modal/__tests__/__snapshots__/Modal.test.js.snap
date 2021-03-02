@@ -137,8 +137,8 @@ exports[`Modal component have to match snapshot 1`] = `
           </span>
           <span
             aria-hidden="true"
-            aria-label="question icon"
             class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+            data-test-id="question icon"
             role="presentation"
           >
             <svg
@@ -197,8 +197,8 @@ exports[`Modal component have to match snapshot 1`] = `
             </span>
             <span
               aria-hidden="true"
-              aria-label="question icon"
               class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+              data-test-id="question icon"
               role="presentation"
             >
               <svg
@@ -280,8 +280,8 @@ exports[`Modal component have to match snapshot 1`] = `
                 </span>
                 <span
                   aria-hidden="true"
-                  aria-label="question icon"
                   class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                  data-test-id="question icon"
                   role="presentation"
                 >
                   <svg
@@ -343,8 +343,8 @@ exports[`Modal component have to match snapshot 1`] = `
           >
             <span
               aria-hidden={true}
-              aria-label="question icon"
               className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+              data-test-id="question icon"
               role="presentation"
             >
               <question>
@@ -717,8 +717,8 @@ exports[`Modal component have to match snapshot 1`] = `
                         >
                           <span
                             aria-hidden={true}
-                            aria-label="close icon"
                             className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                            data-test-id="close icon"
                             role="presentation"
                           >
                             <close>

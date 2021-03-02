@@ -31,7 +31,7 @@ describe('HelpButton component', () => {
   it('should have correct default icon', () => {
     const Comp = mount(<Component {...props} />)
     expect(
-      Comp.find('.dnb-icon').instance().getAttribute('aria-label')
+      Comp.find('.dnb-icon').instance().getAttribute('data-test-id')
     ).toBe('question icon')
   })
 

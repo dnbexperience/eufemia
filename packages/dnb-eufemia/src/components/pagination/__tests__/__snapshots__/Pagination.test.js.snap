@@ -633,8 +633,8 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   >
                     <span
                       aria-hidden={true}
-                      aria-label="chevron left icon"
                       className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                      data-test-id="chevron left icon"
                       role="presentation"
                     >
                       <chevron_left>
@@ -757,8 +757,8 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   >
                     <span
                       aria-hidden={true}
-                      aria-label="chevron right icon"
                       className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                      data-test-id="chevron right icon"
                       role="presentation"
                     >
                       <chevron_right>

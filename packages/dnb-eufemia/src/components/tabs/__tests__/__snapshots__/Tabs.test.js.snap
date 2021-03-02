@@ -199,8 +199,8 @@ exports[`Tabs component have to match snapshot 1`] = `
                   >
                     <span
                       aria-hidden={true}
-                      aria-label="chevron left icon"
                       className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
+                      data-test-id="chevron left icon"
                       role="presentation"
                     >
                       <chevron_left_medium>
@@ -438,8 +438,8 @@ exports[`Tabs component have to match snapshot 1`] = `
                   >
                     <span
                       aria-hidden={true}
-                      aria-label="chevron right icon"
                       className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
+                      data-test-id="chevron right icon"
                       role="presentation"
                     >
                       <chevron_right_medium>
