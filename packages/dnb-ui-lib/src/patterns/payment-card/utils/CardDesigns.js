@@ -18,7 +18,7 @@ const pluss = {
   bankLogo: DNB.Colored(properties['--color-mint-green']),
   visa: Visa.Colored(properties['--color-white']),
   mastercard: Mastercard.DefaultWhite,
-  bankAxept: BankAxept.None,
+  bankAxept: BankAxept.White,
   saga: Saga.None,
   privateBanking: PB.None
 }
@@ -150,6 +150,7 @@ const Designs = {
   myFirst,
   youth,
   silver,
+  pluss,
   gold,
   saga,
   sagaPlatinum,
