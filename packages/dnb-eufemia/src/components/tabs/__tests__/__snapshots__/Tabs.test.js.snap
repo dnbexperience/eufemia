@@ -684,6 +684,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
   .dnb-tabs__tabs__tablist {
     display: flex;
     flex: 0 1 auto;
+    padding: 0 0.5rem;
+    margin: 0 -0.5rem;
     overflow-x: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
