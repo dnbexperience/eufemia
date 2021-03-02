@@ -127,12 +127,11 @@ if (queries) {
 
 module.exports = {
   flags: {
-    FAST_REFRESH: true,
     PARALLEL_SOURCING: true,
     FAST_DEV: true,
     // DEV_SSR: true,
     // LAZY_IMAGES: true,
-    // QUERY_ON_DEMAND: true,
+    QUERY_ON_DEMAND: true,
     PRESERVE_WEBPACK_CACHE: true
   },
   pathPrefix,
