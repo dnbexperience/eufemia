@@ -20,14 +20,14 @@ import {
   QuickguideDesignerSvg,
   DesignSystemSvg
 } from './MainMenuGraphics'
-import { Logo, Button } from 'dnb-ui-lib/src'
+import { Logo, Button } from '@dnb/eufemia/src'
 // import { buildVersion } from '../../../package.json'
 import { version as buildVersion } from '../../../version.json'
 import { MainMenuContext } from './MainMenuContext'
 import {
   setPageFocusElement,
   applyPageFocus
-} from 'dnb-ui-lib/src/shared/helpers'
+} from '@dnb/eufemia/src/shared/helpers'
 import { SearchBarInput } from './SearchBar'
 
 class MainWrapper extends React.PureComponent {

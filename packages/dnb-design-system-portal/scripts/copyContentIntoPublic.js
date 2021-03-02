@@ -4,15 +4,23 @@
  */
 
 const fs = require('fs-extra')
+const path = require('path')
 
 const copyContentIntoPublic = async () => {
   try {
     const filter = (file) => {
       return !/\/\./.test(file)
     }
-    await fs.copy('../dnb-ui-lib/assets', './public/static/', {
-      filter
-    })
+    await fs.copy(
+      path.resolve(
+        path.dirname(require.resolve('@dnb/eufemia')),
+        'assets'
+      ),
+      './public/static/',
+      {
+        filter
+      }
+    )
     // use only the gatsby "/static" folder for now
     // await fs.copy('./src/public', './public/', { filter })
   } catch (e) {

@@ -7,14 +7,14 @@ import ComponentBox from 'Tags/ComponentBox'
 
 # Event Handling
 
-The `dnb-ui-lib` offers a couple of different ways to handling events:
+The `@dnb/eufemia` offers a couple of different ways to handling events:
 
 1. the declarative way to set and handle events (the way we SET the event is declarative)
 1. the imperative way to set and handle events
 
 Have a look at the following basic examples:
 
-The `dnb-ui-lib` uses _snake case_ (**snake_case**) to define the event name property (e.g. `on_click` or `on_change`). Read more about the [naming conventions](uilib/development/naming).
+The `@dnb/eufemia` uses _snake case_ (**snake_case**) to define the event name property (e.g. `on_click` or `on_change`). Read more about the [naming conventions](uilib/development/naming).
 
 ## React
 
@@ -36,7 +36,7 @@ This example requires also support for class properties.
 #### Declarative
 
 ```jsx
-import { Button } from 'dnb-ui-lib'
+import { Button } from '@dnb/eufemia'
 
 export default class MyComponent extends React.Component {
   myHandler = (event) => {}
@@ -76,7 +76,7 @@ Or else you could also use the imperative **ref** method.
 <dnb-button @click="handleClick">Declarative</dnb-button>
 
 // JS
-import dnb from 'dnb-ui-lib/components/vue'
+import dnb from '@dnb/eufemia/components/vue'
 const components = dnb.getComponents(Vue)
 ...
 methods: {
@@ -93,7 +93,7 @@ components
 <dnb-button ref="my_button">Imperative</dnb-button>
 
 // JS
-import dnb from 'dnb-ui-lib/components/vue'
+import dnb from '@dnb/eufemia/components/vue'
 const components = dnb.getComponents(Vue)
 ...
 methods: {

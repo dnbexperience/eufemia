@@ -3,8 +3,8 @@
  *
  */
 
-import { applyPageFocus } from 'dnb-ui-lib/src/shared/helpers'
-import { resetLevels } from 'dnb-ui-lib/src/components/Heading'
+import { applyPageFocus } from '@dnb/eufemia/src/shared/helpers'
+import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import { rootElement } from './src/core/portalProviders'
 import smoothscroll from 'smoothscroll-polyfill'
 
@@ -19,34 +19,34 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 function loadDevStyles() {
-  require('dnb-ui-lib/src/core/jest/jestSetupScreenshots.css') // import visual test styles
+  require('@dnb/eufemia/src/core/jest/jestSetupScreenshots.css') // import visual test styles
 
   // Only for testing legacy CSS code
-  // require('dnb-ui-lib/stories/legacy')
+  // require('@dnb/eufemia/stories/legacy')
 
   // Load dev styles (to use hot reloading, we do have to import the styles in here)
   // import styles
-  require('dnb-ui-lib/src/style/patterns') // import only patterns
-  require('dnb-ui-lib/src/style') // import both all components and the default ui theme
+  require('@dnb/eufemia/src/style/extensions') // import only extensions
+  require('@dnb/eufemia/src/style') // import both all components and the default ui theme
 
   // Other imports for testing purposes
-  // require('dnb-ui-lib/src/style/core') // import the core styles
-  // require('dnb-ui-lib/src/style/basis') // in case we want to test ".dnb-core-style"
-  // require('dnb-ui-lib/src/style/components') // import only components
-  // require('dnb-ui-lib/src/style/themes/ui') // import the default theme
-  // // require('dnb-ui-lib/src/style/themes/open-banking') // import the "open-banking" theme
-  // require('dnb-ui-lib/src/style/elements') // import also styling for HTML elements/tags
+  // require('@dnb/eufemia/src/style/core') // import the core styles
+  // require('@dnb/eufemia/src/style/basis') // in case we want to test ".dnb-core-style"
+  // require('@dnb/eufemia/src/style/components') // import only components
+  // require('@dnb/eufemia/src/style/themes/ui') // import the default theme
+  // // require('@dnb/eufemia/src/style/themes/open-banking') // import the "open-banking" theme
+  // require('@dnb/eufemia/src/style/elements') // import also styling for HTML elements/tags
 }
 
 function loadProdStyles() {
   try {
     if (process.env.NODE_ENV === 'production') {
-      require('dnb-ui-lib/build/style/dnb-ui-core.css')
-      require('dnb-ui-lib/build/style/dnb-ui-patterns.css')
-      require('dnb-ui-lib/build/style/dnb-ui-components.css')
-      require('dnb-ui-lib/build/style/themes/theme-ui/dnb-theme-ui.css')
-      // require('dnb-ui-lib/build/style/patterns') // import only patterns
-      // require('dnb-ui-lib/build/style') // import both all components and the default ui theme
+      require('@dnb/eufemia/build/style/dnb-ui-core.css')
+      require('@dnb/eufemia/build/style/dnb-ui-extensions.css')
+      require('@dnb/eufemia/build/style/dnb-ui-components.css')
+      require('@dnb/eufemia/build/style/themes/theme-ui/dnb-theme-ui.css')
+      // require('@dnb/eufemia/build/style/extensions') // import only extensions
+      // require('@dnb/eufemia/build/style') // import both all components and the default ui theme
     }
   } catch (e) {
     console.warn('[Using loadDevStyles]', e)

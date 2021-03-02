@@ -4,7 +4,7 @@ search: 'Intro - CSS Packages'
 ---
 
 import { Next } from 'Tags/Intro'
-import { Link } from 'dnb-ui-lib/src/elements'
+import { Link } from '@dnb/eufemia/src/elements'
 
 <Intro>
 

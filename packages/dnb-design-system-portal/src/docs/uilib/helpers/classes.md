@@ -6,7 +6,7 @@ import CSSHelperClassesExamples from 'Pages/uilib/helpers/css-examples'
 
 ## CSS helper classes
 
-Reusing classes in the markup instead of using SCSS extends or _mixins_ will prevent duplication in the `dnb-ui-lib`. So also your application will have good benefits from reusing these helper classes.
+Reusing classes in the markup instead of using SCSS extends or _mixins_ will prevent duplication in the `@dnb/eufemia`. So also your application will have good benefits from reusing these helper classes.
 
 | Selector                   | Description                                                                                                                                                                                                                                            |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --- | ----------------- | -------------------------------------------------------------------------------------------------------------------------- |
@@ -46,7 +46,7 @@ Most helper classes are SCSS _mixins_ which are then applied to the class when i
 You can import Eufemia _mixins_ directly into your SCSS styles:
 
 ```scss
-@import './node_modules/dnb-ui-lib/style/core/utilities.scss';
+@import './node_modules/@dnb/eufemia/style/core/utilities.scss';
 
 @include hover {
   @include fakeFocus();

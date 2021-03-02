@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { Img as Image } from 'dnb-ui-lib/src/elements'
+import { Img as Image } from '@dnb/eufemia/src/elements'
 
 const Img = ({
   className,

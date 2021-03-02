@@ -10,18 +10,18 @@ import Link from '../parts/Link'
 import { StaticQuery, graphql } from 'gatsby'
 import { css, Global } from '@emotion/react'
 import styled from '@emotion/styled'
-import { resetLevels } from 'dnb-ui-lib/src/components/Heading'
-import Context from 'dnb-ui-lib/src/shared/Context'
+import { resetLevels } from '@dnb/eufemia/src/components/Heading'
+import Context from '@dnb/eufemia/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
 // import { MainMenuToggleButton } from './ToggleMainMenu'
-import { createSkeletonClass } from 'dnb-ui-lib/src/components/skeleton/SkeletonHelper'
-import { Icon } from 'dnb-ui-lib/src/components'
+import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
+import { Icon } from '@dnb/eufemia/src/components'
 import graphics from './SidebarGraphics'
 import keycode from 'keycode'
 import {
   setPageFocusElement,
   applyPageFocus
-} from 'dnb-ui-lib/src/shared/helpers'
+} from '@dnb/eufemia/src/shared/helpers'
 
 const StyledListItem = styled.li`
   list-style: none;

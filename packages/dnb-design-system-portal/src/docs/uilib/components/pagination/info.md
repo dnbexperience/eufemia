@@ -48,7 +48,7 @@ You can either only use the pagination component with the buttons (bar) and have
 Returning a component directly inside a function child.
 
 ```jsx
-import { Pagination } from 'dnb-ui-lib/components'
+import { Pagination } from '@dnb/eufemia/components'
 
 render(
   <Pagination page_count={2}>
@@ -64,7 +64,7 @@ render(
 Returning a function as a child and using `setContent`.
 
 ```jsx
-import { Pagination } from 'dnb-ui-lib/components'
+import { Pagination } from '@dnb/eufemia/components'
 
 render(
   <Pagination page_count={2}>
@@ -80,7 +80,7 @@ render(
 Using the `on_change` event together with `setContent`.
 
 ```jsx
-import { Pagination } from 'dnb-ui-lib/components'
+import { Pagination } from '@dnb/eufemia/components'
 
 render(
   <Pagination
@@ -97,7 +97,7 @@ render(
 Create the instance before using it.
 
 ```jsx
-import { createPagination } from 'dnb-ui-lib/components/Pagination'
+import { createPagination } from '@dnb/eufemia/components/Pagination'
 
 // create our Component instance
 const { Pagination, setContent, resetContent } = createPagination()
@@ -126,7 +126,7 @@ Create the instance before using it.
 **NB:** Keep in mind, you may create the instance first during runtime, either in a class `constructor` or by using `useState`:
 
 ```jsx
-import { createPagination } from 'dnb-ui-lib/components/Pagination'
+import { createPagination } from '@dnb/eufemia/components/Pagination'
 
 // create our Component instance
 const {
@@ -147,7 +147,7 @@ render(<Pagination mode="infinity" />)
 Using the `on_change` event together with `setContent`.
 
 ```jsx
-import { Pagination } from 'dnb-ui-lib/components'
+import { Pagination } from '@dnb/eufemia/components'
 
 render(
   <Pagination
@@ -164,7 +164,7 @@ render(
 Using a `set_content_handler` handler.
 
 ```jsx
-import InfinityScroller from 'dnb-ui-lib/components/pagination/InfinityScroller'
+import InfinityScroller from '@dnb/eufemia/components/pagination/InfinityScroller'
 
 const [localPage, setLocalPage] = React.useState(1)
 const setContent = React.createRef()
@@ -185,14 +185,14 @@ render(
 
 #### Infinity scroller method #4
 
-Using a `InfinityMarker` only. See [code example on GitHub](https://github.com/dnbexperience/eufemia/blob/develop/packages/dnb-ui-lib/stories/components/PaginationTableMarker.js).
+Using a `InfinityMarker` only. See [code example on GitHub](https://github.com/dnbexperience/eufemia/blob/develop/packages/eufemia/stories/components/PaginationTableMarker.js).
 
 This method will basically add a load button on top, if `startup_page` or `current_page` is higher than `1` at the first render.
 
 Also, it adds an indicator at the bottom until next render, and as long as `page_count` has not reached the internal page count. But instead of setting `page_count` (total pages), you can pragmatically call `endInfinity()` instead.
 
 ```jsx
-import { createPagination } from 'dnb-ui-lib/components/Pagination'
+import { createPagination } from '@dnb/eufemia/components/Pagination'
 
 // create our Component instance
 const { InfinityMarker, endInfinity, resetInfinity } = React.useState(

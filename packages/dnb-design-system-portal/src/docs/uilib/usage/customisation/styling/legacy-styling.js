@@ -1,5 +1,5 @@
 /**
- * To showcase legacy styling with the dnb-ui-lib
+ * To showcase legacy styling with the @dnb/eufemia
  *
  */
 
@@ -7,9 +7,9 @@ import React from 'react'
 import styled from '@emotion/styled'
 import Img from 'Tags/Img'
 import { css } from '@emotion/react'
-import { Button, Icon } from 'dnb-ui-lib/src/components'
-import { H2, H4, P, Hr, Code } from 'dnb-ui-lib/src/elements'
-import { bell } from 'dnb-ui-lib/src/icons'
+import { Button, Icon } from '@dnb/eufemia/src/components'
+import { H2, H4, P, Hr, Code } from '@dnb/eufemia/src/elements'
+import { bell } from '@dnb/eufemia/src/icons'
 import LegacyCodeStylingExample from './assets/legacy-code-styling-example.png'
 import PortalStyle, { gridStyle } from 'Src/shared/parts/PortalStyle'
 

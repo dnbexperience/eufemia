@@ -7,7 +7,7 @@ import ComponentBox from 'Tags/ComponentBox'
 
 # Bundles
 
-The `dnb-ui-lib` also supports ready to use `UMD` and `ESM` bundles.
+The `@dnb/eufemia` also supports ready to use `UMD` and `ESM` bundles.
 
 > **NB:** As these bundles will keep on getting larger once new components arrive, I strongly recommend to only use UMD and ESM bundles as an easy drop-in for simple web pages.
 >
@@ -23,9 +23,9 @@ All the code examples are only quick demos, showing how to load the bundles. Kee
 
 Requires React and ReactDOM to be loaded. Supports `ES5`.
 
-- **dnb-ui-lib.min.js** - includes all [components](/uilib/components) and [elements](/uilib/elements) and individual [Web Component](/uilib/usage/first-steps/web-components) support.
+- **@dnb/eufemia.min.js** - includes all [components](/uilib/components) and [elements](/uilib/elements) and individual [Web Component](/uilib/usage/first-steps/web-components) support.
 - **dnb-ui-components.min.js** - includes all [components](/uilib/components).
-- **dnb-ui-patterns.min.js** - includes all [patterns](/uilib/patterns).
+- **dnb-ui-extensions.min.js** - includes all [extensions](/uilib/extensions).
 - **dnb-ui-web-components.min.js** - includes all [components](/uilib/components) and enables all [custom elements](/uilib/usage/first-steps/web-components) by default.
 - **dnb-ui-icons.min.js** - includes all [primary icons](/icons/primary) in default and medium size.
 - **dnb-ui-basis.min.js** - includes just the core methods like: `isTouchDevice`, `defineNavigator`.
@@ -38,8 +38,8 @@ Requires React and ReactDOM to be loaded. Supports `ES5`.
 
   <script src="https://unpkg.com/react/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/dnb-ui-lib/umd/dnb-ui-icons.min.js"></script>
-  <script src="https://unpkg.com/dnb-ui-lib/umd/dnb-ui-lib.min.js"></script>
+  <script src="https://unpkg.com/@dnb/eufemia/umd/dnb-ui-icons.min.js"></script>
+  <script src="https://unpkg.com/@dnb/eufemia/umd/dnb-ui-lib.min.js"></script>
 
   <script type="application/javascript">
     const MyButton = React.createElement(window.dnbLib.Button, {
@@ -59,9 +59,9 @@ Requires React and ReactDOM to be loaded. Supports `ES5`.
 
 Requires React and ReactDOM to be loaded as a module resolution ([importmap](https://github.com/WICG/import-maps)). Supports `ES6` (**NB:** That is the aim, right now it is also compiled down to ES5).
 
-- **dnb-ui-lib.min.mjs** - includes all [components](/uilib/components) and [elements](/uilib/elements) and individual [Web Component](/uilib/usage/first-steps/web-components) support.
+- **@dnb/eufemia.min.mjs** - includes all [components](/uilib/components) and [elements](/uilib/elements) and individual [Web Component](/uilib/usage/first-steps/web-components) support.
 - **dnb-ui-components.min.mjs** - includes all [components](/uilib/components).
-- **dnb-ui-patterns.min.mjs** - includes all [patterns](/uilib/patterns).
+- **dnb-ui-extensions.min.mjs** - includes all [extensions](/uilib/extensions).
 - **dnb-ui-web-components.min.mjs** - includes all [components](/uilib/components) and enables all [custom elements](/uilib/usage/first-steps/web-components) by default.
 - **dnb-ui-icons.min.mjs** - includes all [primary icons](/icons/primary) in default and medium size.
 - **dnb-ui-basis.min.mjs** - includes just the core methods like: `isTouchDevice`, `defineNavigator`.
@@ -84,8 +84,8 @@ Because `importmap` is still not supported by the majority of browsers, we use a
       "imports": {
         "react": "...",
         "react-dom": "...",
-        "../icons/primary_icons.js": "https://unpkg.com/dnb-ui-lib/esm/dnb-ui-icons.min.mjs",
-        "../icons/primary_icons_medium.js": "https://unpkg.com/dnb-ui-lib/esm/dnb-ui-icons.min.mjs"
+        "../icons/primary_icons.js": "https://unpkg.com/@dnb/eufemia/esm/dnb-ui-icons.min.mjs",
+        "../icons/primary_icons_medium.js": "https://unpkg.com/@dnb/eufemia/esm/dnb-ui-icons.min.mjs"
       }
     }
   </script>
@@ -93,7 +93,7 @@ Because `importmap` is still not supported by the majority of browsers, we use a
   <script type="module-shim">
     import React from 'react'
     import ReactDOM from 'react-dom'
-    import { Button } from 'https://unpkg.com/dnb-ui-lib/esm/dnb-ui-lib.min.mjs'
+    import { Button } from 'https://unpkg.com/@dnb/eufemia/esm/dnb-ui-lib.min.mjs'
 
     const MyButton = React.createElement(
       Button,

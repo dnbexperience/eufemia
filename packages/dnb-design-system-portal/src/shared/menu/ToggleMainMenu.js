@@ -5,8 +5,8 @@
 
 import React from 'react'
 import { MainMenuContext } from './MainMenuContext'
-import { Button } from 'dnb-ui-lib/src'
-import { IS_IE11 } from 'dnb-ui-lib/src/shared/helpers'
+import { Button } from '@dnb/eufemia/src'
+import { IS_IE11 } from '@dnb/eufemia/src/shared/helpers'
 
 export const MainMenuToggleButton = () => {
   if (IS_IE11) {

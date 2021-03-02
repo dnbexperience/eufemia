@@ -72,12 +72,12 @@ const scrollableData = [
     content: 'B'
   },
   {
-    selected_value: <Number ban>11345678962</Number>,
-    content: [<Number ban>11345678962</Number>, 'C']
+    selected_value: <NumberFormat ban>11345678962</NumberFormat>,
+    content: [<NumberFormat ban>11345678962</NumberFormat>, 'C']
   },
   {
-    selected_value: <Number ban>15349648901</Number>,
-    content: [<Number ban>15349648901</Number>, 'D']
+    selected_value: <NumberFormat ban>15349648901</NumberFormat>,
+    content: [<NumberFormat ban>15349648901</NumberFormat>, 'D']
   },
   {
     content: 'E'
@@ -130,8 +130,8 @@ const data = [
     content: ['Item 2 Value', 'Item 2 Content']
   },
   {
-    selected_value: <Number ban>11345678962</Number>,
-    content: [<Number ban>11345678962</Number>, 'Bank account number']
+    selected_value: <NumberFormat ban>11345678962</NumberFormat>,
+    content: [<NumberFormat ban>11345678962</NumberFormat>, 'Bank account number']
   },
   {
     selected_key: 'key_2',
@@ -488,19 +488,19 @@ export const DropdownListOpened = () => (
     </li>
     <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
       <span className="dnb-drawer-list__option__inner">
-        <span className="dnb-drawer-list__option__item"><Number key="n-1" ban>12345678902</Number></span>
+        <span className="dnb-drawer-list__option__item"><NumberFormat key="n-1" ban>12345678902</NumberFormat></span>
         <span className="dnb-drawer-list__option__item">Sparekonto - Ole Nordmann</span>
       </span>
     </li>
     <li className="dnb-drawer-list__option">
       <span className="dnb-drawer-list__option__inner">
-        <span className="dnb-drawer-list__option__item"><Number key="n-2" ban>11345678962</Number></span>
+        <span className="dnb-drawer-list__option__item"><NumberFormat key="n-2" ban>11345678962</NumberFormat></span>
         <span className="dnb-drawer-list__option__item">Feriekonto - Kari Nordmann med et kjempelangt etternavnsen</span>
       </span>
     </li>
     <li className="dnb-drawer-list__option last-of-type">
       <span className="dnb-drawer-list__option__inner">
-        <span className="dnb-drawer-list__option__item"><Number key="n-3" ban>15349648901</Number></span>
+        <span className="dnb-drawer-list__option__item"><NumberFormat key="n-3" ban>15349648901</NumberFormat></span>
         <span className="dnb-drawer-list__option__item">Oppussing - Ole Nordmann</span>
       </span>
     </li>

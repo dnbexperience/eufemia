@@ -43,7 +43,7 @@ There is also [Heading](/uilib/components/heading), a component to create automa
 ### Heading styles in React
 
 ```jsx
-import { H1, H2, ... } from 'dnb-ui-lib/elements'
+import { H1, H2, ... } from '@dnb/eufemia/elements'
 
 <H1>Heading style xx-large</H1>
 <H1 size="small">Heading style small</H1>

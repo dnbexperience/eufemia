@@ -89,7 +89,7 @@ export default async function runFactory({
     const fileName = file.replace(/(\.js|\.md)$/, '')
     let individualTemplate = template
 
-    // if the description of a component/pattern has front-matters
+    // if the description of a component/extensions has front-matters
     // then include this also in the page
     const descriptionPath = path.resolve(source, './description.md')
     if (fs.existsSync(descriptionPath)) {

@@ -1,0 +1,2053 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dropdown markup have to match snapshot 1`] = `
+<Dropdown
+  action_menu={null}
+  align_dropdown={null}
+  class="class"
+  className="className"
+  custom_element={Object {}}
+  custom_method={[Function]}
+  data={
+    Array [
+      Object {
+        "content": Array [
+          "1234 56 78901",
+          "Brukskonto - Kari Nordmann",
+        ],
+        "selected_value": "Brukskonto - Kari Nordmann",
+      },
+      Object {
+        "content": Array [
+          "1234 56 78902",
+          "Sparekonto - Ole Nordmann",
+        ],
+        "selected_value": "Sparekonto - Ole Nordmann",
+      },
+      Object {
+        "content": Array [
+          "1134 56 78962",
+          "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+        ],
+        "selected_key": 1,
+        "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+      },
+      Object {
+        "content": Array [
+          "1534 96 48901",
+          "Oppussing - Ole Nordmann",
+        ],
+        "selected_key": "0x",
+        "selected_value": "Oppussing - Ole Nordmann",
+      },
+      Object {
+        "content": <React.Fragment>
+          Custom content 
+          123
+        </React.Fragment>,
+      },
+      <React.Fragment>
+        Custom content 
+        123
+      </React.Fragment>,
+      Array [
+        <React.Fragment>
+          Custom content 
+          123
+        </React.Fragment>,
+      ],
+      "0y",
+    ]
+  }
+  default_value="default_value"
+  direction="bottom"
+  disabled="disabled"
+  focusable="focusable"
+  global_status_id="global_status_id"
+  icon="icon"
+  icon_position={null}
+  icon_size="icon_size"
+  id="dropdown-id"
+  independent_width="independent_width"
+  keep_open="keep_open"
+  label="label"
+  label_direction="horizontal"
+  label_sr_only="label_sr_only"
+  max_height={1}
+  more_menu={null}
+  no_animation={true}
+  no_scroll_animation="no_scroll_animation"
+  on_change={[Function]}
+  on_hide={[Function]}
+  on_select={[Function]}
+  on_show={[Function]}
+  on_state_update={[Function]}
+  open_on_focus="open_on_focus"
+  opened={true}
+  prevent_close="prevent_close"
+  prevent_selection={null}
+  scrollable="scrollable"
+  size={null}
+  skeleton="skeleton"
+  skip_portal={true}
+  status="status"
+  status_animation="status_animation"
+  status_state="error"
+  stretch="stretch"
+  suffix="suffix"
+  title="title"
+  triangle_position={null}
+  trigger_component={null}
+  value={2}
+>
+  <DrawerListProvider
+    action_menu={null}
+    align_dropdown={null}
+    class="class"
+    className="className"
+    custom_element={Object {}}
+    custom_method={[Function]}
+    data={
+      Array [
+        Object {
+          "content": Array [
+            "1234 56 78901",
+            "Brukskonto - Kari Nordmann",
+          ],
+          "selected_value": "Brukskonto - Kari Nordmann",
+        },
+        Object {
+          "content": Array [
+            "1234 56 78902",
+            "Sparekonto - Ole Nordmann",
+          ],
+          "selected_value": "Sparekonto - Ole Nordmann",
+        },
+        Object {
+          "content": Array [
+            "1134 56 78962",
+            "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+          ],
+          "selected_key": 1,
+          "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+        },
+        Object {
+          "content": Array [
+            "1534 96 48901",
+            "Oppussing - Ole Nordmann",
+          ],
+          "selected_key": "0x",
+          "selected_value": "Oppussing - Ole Nordmann",
+        },
+        Object {
+          "content": <React.Fragment>
+            Custom content 
+            123
+          </React.Fragment>,
+        },
+        <React.Fragment>
+          Custom content 
+          123
+        </React.Fragment>,
+        Array [
+          <React.Fragment>
+            Custom content 
+            123
+          </React.Fragment>,
+        ],
+        "0y",
+      ]
+    }
+    default_value="default_value"
+    direction="bottom"
+    disabled="disabled"
+    enable_body_lock={null}
+    enable_closest_observer={null}
+    focusable="focusable"
+    global_status_id="global_status_id"
+    icon="icon"
+    icon_position={null}
+    icon_size="icon_size"
+    id="dropdown-id"
+    ignore_events={false}
+    independent_width="independent_width"
+    keep_open="keep_open"
+    label="label"
+    label_direction="horizontal"
+    label_sr_only="label_sr_only"
+    max_height={1}
+    min_height={10}
+    more_menu={null}
+    no_animation={true}
+    no_scroll_animation="no_scroll_animation"
+    observer_element={null}
+    on_change={[Function]}
+    on_hide={[Function]}
+    on_resize={null}
+    on_select={[Function]}
+    on_show={[Function]}
+    on_state_update={[Function]}
+    open_on_focus="open_on_focus"
+    opened={null}
+    page_offset={null}
+    prevent_close="prevent_close"
+    prevent_focus={false}
+    prevent_selection={false}
+    scrollable="scrollable"
+    size={null}
+    skeleton="skeleton"
+    skip_keysearch={false}
+    skip_portal={true}
+    status="status"
+    status_animation="status_animation"
+    status_state="error"
+    stretch="stretch"
+    suffix="suffix"
+    tagName="dnb-dropdown"
+    title="title"
+    triangle_position={null}
+    trigger_component={null}
+    use_drawer_on_mobile={null}
+    value={2}
+    wrapper_element={null}
+  >
+    <DropdownInstance
+      action_menu={null}
+      align_dropdown={null}
+      class="class"
+      className="className"
+      custom_element={Object {}}
+      custom_method={[Function]}
+      data={
+        Array [
+          Object {
+            "content": Array [
+              "1234 56 78901",
+              "Brukskonto - Kari Nordmann",
+            ],
+            "selected_value": "Brukskonto - Kari Nordmann",
+          },
+          Object {
+            "content": Array [
+              "1234 56 78902",
+              "Sparekonto - Ole Nordmann",
+            ],
+            "selected_value": "Sparekonto - Ole Nordmann",
+          },
+          Object {
+            "content": Array [
+              "1134 56 78962",
+              "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+            ],
+            "selected_key": 1,
+            "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+          },
+          Object {
+            "content": Array [
+              "1534 96 48901",
+              "Oppussing - Ole Nordmann",
+            ],
+            "selected_key": "0x",
+            "selected_value": "Oppussing - Ole Nordmann",
+          },
+          Object {
+            "content": <React.Fragment>
+              Custom content 
+              123
+            </React.Fragment>,
+          },
+          <React.Fragment>
+            Custom content 
+            123
+          </React.Fragment>,
+          Array [
+            <React.Fragment>
+              Custom content 
+              123
+            </React.Fragment>,
+          ],
+          "0y",
+        ]
+      }
+      default_value="default_value"
+      direction="bottom"
+      disabled="disabled"
+      focusable="focusable"
+      global_status_id="global_status_id"
+      icon="icon"
+      icon_position={null}
+      icon_size="icon_size"
+      id="dropdown-id"
+      independent_width="independent_width"
+      keep_open="keep_open"
+      label="label"
+      label_direction="horizontal"
+      label_sr_only="label_sr_only"
+      max_height={1}
+      more_menu={null}
+      no_animation={true}
+      no_scroll_animation="no_scroll_animation"
+      on_change={[Function]}
+      on_hide={[Function]}
+      on_select={[Function]}
+      on_show={[Function]}
+      on_state_update={[Function]}
+      open_on_focus="open_on_focus"
+      opened={true}
+      prevent_close="prevent_close"
+      prevent_selection={null}
+      scrollable="scrollable"
+      size={null}
+      skeleton="skeleton"
+      skip_portal={true}
+      status="status"
+      status_animation="status_animation"
+      status_state="error"
+      stretch="stretch"
+      suffix="suffix"
+      title="title"
+      triangle_position={null}
+      trigger_component={null}
+      value={2}
+    >
+      <span
+        className="dnb-dropdown dnb-dropdown--bottom dnb-dropdown--icon-position-right dnb-dropdown--right dnb-form-component class className dnb-dropdown--opened dnb-dropdown--horizontal dnb-dropdown__status--error dnb-dropdown__form-status"
+      >
+        <FormLabel
+          class={null}
+          className={null}
+          disabled="disabled"
+          element="label"
+          for_id="dropdown-id"
+          id="dropdown-id-label"
+          label_direction="horizontal"
+          onMouseDown={[Function]}
+          skeleton="skeleton"
+          sr_only="label_sr_only"
+          text="label"
+          title={null}
+          vertical={null}
+        >
+          <label
+            aria-disabled={true}
+            className="dnb-form-label"
+            disabled={true}
+            htmlFor="dropdown-id"
+            id="dropdown-id-label"
+            onMouseDown={[Function]}
+          >
+            label
+          </label>
+        </FormLabel>
+        <span
+          className="dnb-dropdown__inner"
+        >
+          <AlignmentHelper
+            className={null}
+          >
+            <span
+              aria-hidden={true}
+              className="dnb-alignment-helper"
+            />
+          </AlignmentHelper>
+          <FormStatus
+            animation="status_animation"
+            class={null}
+            className={null}
+            global_status_id="global_status_id"
+            hidden={false}
+            icon="error"
+            icon_size="medium"
+            id="dropdown-id-form-status"
+            label="label"
+            size="default"
+            skeleton="skeleton"
+            state="error"
+            status="error"
+            text="status"
+            text_id="dropdown-id-status"
+            title={null}
+            variant={null}
+            width_element={null}
+            width_selector={null}
+          >
+            <span
+              className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status__animation--status_animation dnb-form-status--has-content"
+              hidden={false}
+              id="dropdown-id-form-status"
+              label="label"
+            >
+              <span
+                className="dnb-form-status__shell"
+              >
+                <Icon
+                  alt={null}
+                  attributes={null}
+                  border={null}
+                  className={null}
+                  color={null}
+                  height={null}
+                  icon={
+                    <ErrorIcon
+                      title={null}
+                    />
+                  }
+                  inherit_color={false}
+                  modifier={null}
+                  size="medium"
+                  skeleton={null}
+                  title={null}
+                  width={null}
+                >
+                  <span
+                    aria-hidden={true}
+                    className="dnb-icon dnb-icon--medium"
+                    role="presentation"
+                  >
+                    <Component>
+                      <ErrorIcon
+                        title={null}
+                      >
+                        <svg
+                          fill="none"
+                          height="24"
+                          role="presentation"
+                          title={null}
+                          viewBox="0 0 24 24"
+                          width="24"
+                        >
+                          <path
+                            d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
+                            fill="#DC2A2A"
+                          />
+                          <path
+                            d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
+                            fill="#fff"
+                          />
+                          <path
+                            d="M12 13.818v-5"
+                            stroke="#fff"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                          />
+                        </svg>
+                      </ErrorIcon>
+                    </Component>
+                  </span>
+                </Icon>
+                <span
+                  className="dnb-form-status__text"
+                  id="dropdown-id-status"
+                >
+                  status
+                </span>
+              </span>
+            </span>
+          </FormStatus>
+          <span
+            className="dnb-dropdown__row"
+          >
+            <span
+              className="dnb-dropdown__shell"
+            >
+              <Button
+                aria-controls="dropdown-id-drawer-list"
+                aria-describedby="dropdown-id-status dropdown-id-suffix"
+                aria-expanded={true}
+                aria-haspopup="listbox"
+                aria-labelledby="dropdown-id-label dropdown-id"
+                bounding={false}
+                class={null}
+                className="dnb-dropdown__trigger dnb-button--active"
+                custom_element={null}
+                custom_method={null}
+                disabled="disabled"
+                element={null}
+                global_status_id={null}
+                href={null}
+                icon={false}
+                icon_position="right"
+                icon_size={null}
+                id="dropdown-id"
+                innerRef={null}
+                inner_ref={null}
+                onBlur={[Function]}
+                onClick={null}
+                onFocus={[Function]}
+                onKeyDown={[Function]}
+                onMouseDown={[Function]}
+                on_click={null}
+                size={null}
+                skeleton={null}
+                status={null}
+                status_animation={null}
+                status_state="error"
+                text={null}
+                title={null}
+                tooltip={null}
+                type="button"
+                variant="secondary"
+                wrap={false}
+              >
+                <button
+                  aria-controls="dropdown-id-drawer-list"
+                  aria-describedby="dropdown-id-status dropdown-id-suffix"
+                  aria-expanded={true}
+                  aria-haspopup="listbox"
+                  aria-labelledby="dropdown-id-label dropdown-id"
+                  className="dnb-button dnb-button--secondary dnb-button--has-text dnb-dropdown__trigger dnb-button--active"
+                  disabled={false}
+                  id="dropdown-id"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onMouseDown={[Function]}
+                  type="button"
+                >
+                  <Content
+                    aria-controls="dropdown-id-drawer-list"
+                    aria-describedby="dropdown-id-status dropdown-id-suffix"
+                    aria-expanded={true}
+                    aria-haspopup="listbox"
+                    aria-labelledby="dropdown-id-label dropdown-id"
+                    bounding={false}
+                    class={null}
+                    className="dnb-dropdown__trigger dnb-button--active"
+                    content={
+                      Array [
+                        <span
+                          className="dnb-dropdown__text dnb-button__text"
+                        >
+                          <span
+                            className="dnb-dropdown__text__inner"
+                          >
+                            Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+                          </span>
+                        </span>,
+                        <span
+                          aria-hidden={true}
+                          className="dnb-dropdown__icon"
+                        >
+                          <IconPrimary
+                            alt={null}
+                            attributes={null}
+                            border={null}
+                            className={null}
+                            color={null}
+                            height={null}
+                            icon="icon"
+                            inherit_color={true}
+                            modifier={null}
+                            size="icon_size"
+                            skeleton={null}
+                            title={null}
+                            width={null}
+                          />
+                        </span>,
+                      ]
+                    }
+                    custom_element={null}
+                    custom_method={null}
+                    disabled="disabled"
+                    element={null}
+                    global_status_id={null}
+                    href={null}
+                    icon={false}
+                    icon_position="right"
+                    icon_size={null}
+                    id="dropdown-id"
+                    innerRef={null}
+                    inner_ref={null}
+                    isIconOnly={false}
+                    onBlur={[Function]}
+                    onClick={null}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseDown={[Function]}
+                    on_click={null}
+                    size={null}
+                    skeleton={false}
+                    status={null}
+                    status_animation={null}
+                    status_state="error"
+                    text={null}
+                    title={null}
+                    tooltip={null}
+                    type="button"
+                    variant="secondary"
+                    wrap={false}
+                  >
+                    <span
+                      className="dnb-dropdown__text dnb-button__text"
+                    >
+                      <span
+                        className="dnb-dropdown__text__inner"
+                      >
+                        Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+                      </span>
+                    </span>
+                    <span
+                      aria-hidden={true}
+                      className="dnb-dropdown__icon"
+                    >
+                      <IconPrimary
+                        alt={null}
+                        attributes={null}
+                        border={null}
+                        className={null}
+                        color={null}
+                        height={null}
+                        icon="icon"
+                        inherit_color={true}
+                        modifier={null}
+                        size="icon_size"
+                        skeleton={null}
+                        title={null}
+                        width={null}
+                      />
+                    </span>
+                  </Content>
+                </button>
+              </Button>
+              <DrawerList
+                action_menu={null}
+                align_drawer="right"
+                cache_hash={null}
+                class={null}
+                className={null}
+                custom_element={null}
+                custom_method={null}
+                data={null}
+                default_value="default_value"
+                direction="bottom"
+                disabled="disabled"
+                fixed_position={false}
+                focusable="focusable"
+                id="dropdown-id"
+                ignore_events={null}
+                independent_width={null}
+                inner_class="dnb-dropdown__list"
+                is_popup={null}
+                keep_open="keep_open"
+                max_height={1}
+                no_animation={true}
+                no_scroll_animation="no_scroll_animation"
+                on_change={[Function]}
+                on_hide={[Function]}
+                on_pre_change={null}
+                on_resize={null}
+                on_select={[Function]}
+                on_show={null}
+                on_state_update={null}
+                opened={null}
+                options_render={null}
+                prepared_data={null}
+                prevent_close="prevent_close"
+                prevent_focus={false}
+                prevent_selection={false}
+                raw_data={null}
+                role="listbox"
+                scrollable="scrollable"
+                size={null}
+                skip_keysearch={false}
+                skip_portal={true}
+                triangle_position="right"
+                use_drawer_on_mobile={null}
+                value={2}
+                wrapper_element={null}
+              >
+                <DrawerListInstance
+                  action_menu={null}
+                  align_drawer="right"
+                  cache_hash={null}
+                  class={null}
+                  className={null}
+                  custom_element={null}
+                  custom_method={null}
+                  data={null}
+                  default_value="default_value"
+                  direction="bottom"
+                  disabled="disabled"
+                  fixed_position={false}
+                  focusable="focusable"
+                  id="dropdown-id"
+                  ignore_events={null}
+                  independent_width={null}
+                  inner_class="dnb-dropdown__list"
+                  is_popup={null}
+                  keep_open="keep_open"
+                  max_height={1}
+                  no_animation={true}
+                  no_scroll_animation="no_scroll_animation"
+                  on_change={[Function]}
+                  on_hide={[Function]}
+                  on_pre_change={null}
+                  on_resize={null}
+                  on_select={[Function]}
+                  on_show={null}
+                  on_state_update={null}
+                  opened={null}
+                  options_render={null}
+                  prepared_data={null}
+                  prevent_close="prevent_close"
+                  prevent_focus={false}
+                  prevent_selection={false}
+                  raw_data={null}
+                  role="listbox"
+                  scrollable="scrollable"
+                  size={null}
+                  skip_keysearch={false}
+                  skip_portal={true}
+                  triangle_position="right"
+                  use_drawer_on_mobile={null}
+                  value={2}
+                  wrapper_element={null}
+                >
+                  <span
+                    className="dnb-drawer-list__root"
+                  >
+                    <span
+                      className="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--opened dnb-drawer-list--triangle-position-right dnb-drawer-list--right"
+                      disabled="disabled"
+                      id="dropdown-id-drawer-list"
+                    >
+                      <span
+                        className="dnb-drawer-list__list dnb-dropdown__list dnb-drawer-list__list--no-animation"
+                        id="dropdown-id-listbox"
+                      >
+                        <DrawerList.Options
+                          aria-activedescendant="option-dropdown-id-2"
+                          aria-expanded={true}
+                          aria-labelledby="dropdown-id-label"
+                          cache_hash="22undefinedundefinedbottom1"
+                          class={null}
+                          className={null}
+                          id="dropdown-id-ul"
+                          role="listbox"
+                          style={
+                            Object {
+                              "maxHeight": "1rem",
+                            }
+                          }
+                          tabIndex="-1"
+                          triangleRef={
+                            Object {
+                              "current": null,
+                            }
+                          }
+                        >
+                          <ul
+                            aria-activedescendant="option-dropdown-id-2"
+                            aria-expanded={true}
+                            aria-labelledby="dropdown-id-label"
+                            className="dnb-drawer-list__options"
+                            id="dropdown-id-ul"
+                            role="listbox"
+                            style={
+                              Object {
+                                "maxHeight": "1rem",
+                              }
+                            }
+                            tabIndex="-1"
+                          >
+                            <Items>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className="first-of-type"
+                                data-item={0}
+                                hash="option-dropdown-id-0-0"
+                                id="option-dropdown-id-0"
+                                key="option-dropdown-id-0-0"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                on_click={null}
+                                role="option"
+                                selected={false}
+                                value={null}
+                              >
+                                <li
+                                  aria-selected={false}
+                                  className="first-of-type dnb-drawer-list__option"
+                                  data-item={0}
+                                  id="option-dropdown-id-0"
+                                  key="lioption-dropdown-id-0-0"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
+                                >
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-0-0"
+                                    >
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-0-00"
+                                      >
+                                        1234 56 78901
+                                      </span>
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-0-01"
+                                      >
+                                        Brukskonto - Kari Nordmann
+                                      </span>
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className=""
+                                data-item={1}
+                                hash="option-dropdown-id-1-1"
+                                id="option-dropdown-id-1"
+                                key="option-dropdown-id-1-1"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                on_click={null}
+                                role="option"
+                                selected={false}
+                                value={null}
+                              >
+                                <li
+                                  aria-selected={false}
+                                  className="dnb-drawer-list__option"
+                                  data-item={1}
+                                  id="option-dropdown-id-1"
+                                  key="lioption-dropdown-id-1-1"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
+                                >
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-1-1"
+                                    >
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-1-10"
+                                      >
+                                        1234 56 78902
+                                      </span>
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-1-11"
+                                      >
+                                        Sparekonto - Ole Nordmann
+                                      </span>
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={true}
+                                class={null}
+                                className=""
+                                data-item={2}
+                                hash="option-dropdown-id-2-2"
+                                id="option-dropdown-id-2"
+                                key="option-dropdown-id-2-2"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                on_click={null}
+                                role="option"
+                                selected={true}
+                                value={null}
+                              >
+                                <li
+                                  aria-current={true}
+                                  aria-selected={true}
+                                  className="dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
+                                  data-item={2}
+                                  id="option-dropdown-id-2"
+                                  key="lioption-dropdown-id-2-2"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="0"
+                                >
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-2-2"
+                                    >
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-2-20"
+                                      >
+                                        1134 56 78962
+                                      </span>
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-2-21"
+                                      >
+                                        Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+                                      </span>
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className=""
+                                data-item={3}
+                                hash="option-dropdown-id-3-3"
+                                id="option-dropdown-id-3"
+                                key="option-dropdown-id-3-3"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                on_click={null}
+                                role="option"
+                                selected={false}
+                                value={null}
+                              >
+                                <li
+                                  aria-selected={false}
+                                  className="dnb-drawer-list__option"
+                                  data-item={3}
+                                  id="option-dropdown-id-3"
+                                  key="lioption-dropdown-id-3-3"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
+                                >
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-3-3"
+                                    >
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-3-30"
+                                      >
+                                        1534 96 48901
+                                      </span>
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-3-31"
+                                      >
+                                        Oppussing - Ole Nordmann
+                                      </span>
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className=""
+                                data-item={4}
+                                hash="option-dropdown-id-4-4"
+                                id="option-dropdown-id-4"
+                                key="option-dropdown-id-4-4"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                on_click={null}
+                                role="option"
+                                selected={false}
+                                value={null}
+                              >
+                                <li
+                                  aria-selected={false}
+                                  className="dnb-drawer-list__option"
+                                  data-item={4}
+                                  id="option-dropdown-id-4"
+                                  key="lioption-dropdown-id-4-4"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
+                                >
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-4-4"
+                                    >
+                                      Custom content 
+                                      123
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className=""
+                                data-item={5}
+                                hash="option-dropdown-id-5-5"
+                                id="option-dropdown-id-5"
+                                key="option-dropdown-id-5-5"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                on_click={null}
+                                role="option"
+                                selected={false}
+                                value={null}
+                              >
+                                <li
+                                  aria-selected={false}
+                                  className="dnb-drawer-list__option"
+                                  data-item={5}
+                                  id="option-dropdown-id-5"
+                                  key="lioption-dropdown-id-5-5"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
+                                >
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-5-5"
+                                    >
+                                      Custom content 
+                                      123
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className=""
+                                data-item={6}
+                                hash="option-dropdown-id-6-6"
+                                id="option-dropdown-id-6"
+                                key="option-dropdown-id-6-6"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                on_click={null}
+                                role="option"
+                                selected={false}
+                                value={null}
+                              >
+                                <li
+                                  aria-selected={false}
+                                  className="dnb-drawer-list__option"
+                                  data-item={6}
+                                  id="option-dropdown-id-6"
+                                  key="lioption-dropdown-id-6-6"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
+                                >
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-6-6"
+                                    >
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                        key="option-dropdown-id-6-60"
+                                      >
+                                        Custom content 
+                                        123
+                                      </span>
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                              <DrawerList.Item
+                                active={false}
+                                class={null}
+                                className="last-of-type"
+                                data-item={7}
+                                hash="option-dropdown-id-7-7"
+                                id="option-dropdown-id-7"
+                                key="option-dropdown-id-7-7"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                on_click={null}
+                                role="option"
+                                selected={false}
+                                value={null}
+                              >
+                                <li
+                                  aria-selected={false}
+                                  className="last-of-type dnb-drawer-list__option"
+                                  data-item={7}
+                                  id="option-dropdown-id-7"
+                                  key="lioption-dropdown-id-7-7"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="option"
+                                  tabIndex="-1"
+                                >
+                                  <span
+                                    className="dnb-drawer-list__option__inner"
+                                  >
+                                    <ItemContent
+                                      hash="option-dropdown-id-7-7"
+                                    >
+                                      0y
+                                    </ItemContent>
+                                  </span>
+                                </li>
+                              </DrawerList.Item>
+                            </Items>
+                            <li
+                              aria-hidden={true}
+                              className="dnb-drawer-list__triangle"
+                            />
+                          </ul>
+                        </DrawerList.Options>
+                        <OnMounted
+                          assignObservers={[Function]}
+                        />
+                      </span>
+                    </span>
+                  </span>
+                </DrawerListInstance>
+              </DrawerList>
+            </span>
+            <Suffix
+              className="dnb-dropdown__suffix"
+              context={
+                Object {
+                  "action_menu": null,
+                  "align_dropdown": null,
+                  "children": "children",
+                  "class": "class",
+                  "className": "className",
+                  "custom_element": Object {},
+                  "custom_method": [Function],
+                  "data": Array [
+                    Object {
+                      "content": Array [
+                        "1234 56 78901",
+                        "Brukskonto - Kari Nordmann",
+                      ],
+                      "selected_value": "Brukskonto - Kari Nordmann",
+                    },
+                    Object {
+                      "content": Array [
+                        "1234 56 78902",
+                        "Sparekonto - Ole Nordmann",
+                      ],
+                      "selected_value": "Sparekonto - Ole Nordmann",
+                    },
+                    Object {
+                      "content": Array [
+                        "1134 56 78962",
+                        "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+                      ],
+                      "selected_key": 1,
+                      "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+                    },
+                    Object {
+                      "content": Array [
+                        "1534 96 48901",
+                        "Oppussing - Ole Nordmann",
+                      ],
+                      "selected_key": "0x",
+                      "selected_value": "Oppussing - Ole Nordmann",
+                    },
+                    Object {
+                      "content": <React.Fragment>
+                        Custom content 
+                        123
+                      </React.Fragment>,
+                    },
+                    <React.Fragment>
+                      Custom content 
+                      123
+                    </React.Fragment>,
+                    Array [
+                      <React.Fragment>
+                        Custom content 
+                        123
+                      </React.Fragment>,
+                    ],
+                    "0y",
+                  ],
+                  "default_value": "default_value",
+                  "direction": "bottom",
+                  "disabled": "disabled",
+                  "focusable": "focusable",
+                  "global_status_id": "global_status_id",
+                  "icon": "icon",
+                  "icon_position": null,
+                  "icon_size": "icon_size",
+                  "id": "dropdown-id",
+                  "independent_width": "independent_width",
+                  "keep_open": "keep_open",
+                  "label": "label",
+                  "label_direction": "horizontal",
+                  "label_sr_only": "label_sr_only",
+                  "max_height": 1,
+                  "more_menu": null,
+                  "no_animation": true,
+                  "no_scroll_animation": "no_scroll_animation",
+                  "on_change": [Function],
+                  "on_hide": [Function],
+                  "on_select": [Function],
+                  "on_show": [Function],
+                  "on_state_update": [Function],
+                  "open_on_focus": "open_on_focus",
+                  "opened": true,
+                  "prevent_close": "prevent_close",
+                  "prevent_selection": null,
+                  "scrollable": "scrollable",
+                  "size": null,
+                  "skeleton": "skeleton",
+                  "skip_portal": true,
+                  "status": "status",
+                  "status_animation": "status_animation",
+                  "status_state": "error",
+                  "stretch": "stretch",
+                  "suffix": "suffix",
+                  "title": "title",
+                  "triangle_position": null,
+                  "trigger_component": null,
+                  "value": 2,
+                }
+              }
+              id="dropdown-id-suffix"
+            >
+              <span
+                className="dnb-suffix dnb-dropdown__suffix"
+                id="dropdown-id-suffix"
+              >
+                suffix
+              </span>
+            </Suffix>
+          </span>
+        </span>
+      </span>
+    </DropdownInstance>
+  </DrawerListProvider>
+</Dropdown>
+`;
+
+exports[`Dropdown scss have to match default theme snapshot 1`] = `
+"/*
+* Dropdown theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+.dnb-dropdown {
+  color: var(--color-emerald-green); }
+  .dnb-dropdown__trigger {
+    color: var(--color-emerald-green); }
+    html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover[disabled] {
+      cursor: not-allowed; }
+    html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover:not([disabled]) {
+      color: var(--color-emerald-green); }
+  .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
+    --border-color: var(--color-fire-red);
+    box-shadow: 0 0 0 0.125rem var(--border-color) !important;
+    border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
+        box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
+    html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
+      cursor: not-allowed; }
+    html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
+      --border-color: var(--color-fire-red);
+      box-shadow: 0 0 0 0.125rem var(--border-color) !important;
+      border-color: transparent; }
+      @media screen and (-ms-high-contrast: none) {
+        html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
+          box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
+      html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
+        color: var(--color-fire-red); }
+  .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger,
+  .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__icon {
+    color: var(--color-fire-red); }
+  .dnb-dropdown > .dnb-form-status {
+    transform: translateY(-0.4375rem); }
+"
+`;
+
+exports[`Dropdown scss have to match snapshot 1`] = `
+"/*
+* DNB Dropdown
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
+/*
+* DNB icon
+*
+*/
+/*
+* Icon component
+*
+*/
+.dnb-icon {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: inherit;
+  width: 1em;
+  height: 1em; }
+  .dnb-icon img,
+  .dnb-icon svg {
+    width: inherit;
+    height: inherit;
+    shape-rendering: geometricPrecision;
+    vertical-align: top; }
+  .dnb-icon svg[width='100%'] {
+    width: inherit; }
+  .dnb-icon svg[height='100%'] {
+    height: inherit; }
+  .dnb-icon--inherit-color svg:not([fill]),
+  .dnb-icon--inherit-color svg [fill] {
+    fill: currentColor; }
+  .dnb-icon--inherit-color svg [stroke] {
+    stroke: currentColor; }
+  .dnb-icon--small {
+    font-size: 0.75rem; }
+  .dnb-icon--default {
+    font-size: 1rem; }
+  .dnb-icon--medium {
+    font-size: 1.5rem; }
+  .dnb-icon--large {
+    font-size: 2rem; }
+  .dnb-icon--x-large {
+    font-size: 2.5rem; }
+  .dnb-icon--xx-large {
+    font-size: 3rem; }
+  .dnb-icon--custom-size {
+    width: auto;
+    height: auto; }
+  .dnb-icon--auto {
+    font-size: 1em; }
+  .dnb-icon--auto > .dnb-icon--wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; }
+  h1 .dnb-icon,
+  h2 .dnb-icon,
+  h3 .dnb-icon,
+  h4 .dnb-icon,
+  h5 .dnb-icon,
+  h6 .dnb-icon {
+    vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-icon {
+      flex: none; } }
+
+/*
+* DNB Button
+*
+*/
+/*
+* DNB FormStatus
+*
+*/
+.dnb-form-status {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-status *,
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormStatus component
+ *
+ */
+:root {
+  --form-status-radius: 0.25rem; }
+
+.dnb-form-status {
+  display: flex; }
+  .dnb-form-status__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-width: inherit;
+    border-radius: var(--form-status-radius); }
+  .dnb-form-status__text {
+    padding: 0.625rem 1rem;
+    cursor: text;
+    color: inherit;
+    line-height: var(--line-height-small);
+    font-size: var(--font-size-small);
+    white-space: normal; }
+    .dnb-form-status__text .dnb-anchor {
+      font-size: inherit; }
+  .dnb-icon + .dnb-form-status__text {
+    padding-left: 0.5rem; }
+  .dnb-form-status__shell > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
+  .dnb-form-status__size--large .dnb-form-status__text {
+    padding-top: 1.125rem;
+    padding-bottom: 1.125rem; }
+  .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+    margin-top: 0.6666666em;
+    margin-bottom: 0.6666666em; }
+  .dnb-form-status[hidden] {
+    display: none; }
+  .dnb-form-status__animation--fade-in {
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards; }
+
+@keyframes form-status-fade-in {
+  from {
+    max-height: 0; }
+  to {
+    max-height: calc(var(--input-height) * 8); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
+
+.dnb-button {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-button *,
+  .dnb-button ::before,
+  .dnb-button ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-button ::before,
+  .dnb-button ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Button component
+*
+*/
+:root {
+  --button-font-size: var(--font-size-basis);
+  --button-font-size-small: var(--font-size-small);
+  --button-width: 2.5rem;
+  --button-height: 2.5rem;
+  --button-width--small: 1.5rem;
+  --button-height--small: 1.5rem;
+  --button-width--medium: 2rem;
+  --button-height--medium: 2rem;
+  --button-width--large: 3rem;
+  --button-height--large: 3rem;
+  --button-icon-size: 1rem;
+  --button-border-width: 0.0625rem;
+  --button-border-width--hover: 0.1875rem;
+  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-radius--small: calc(var(--button-height--small) / 2);
+  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
+  --button-border-radius--large: calc(var(--button-height--large) / 2); }
+
+.dnb-button {
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-width);
+  height: auto;
+  padding: 0;
+  border: var(--button-border-width) solid transparent;
+  border-radius: var(--button-border-radius);
+  text-decoration: none;
+  font-size: var(--font-size-small);
+  /* stylelint-disable-next-line */ }
+  .dnb-button--wrap {
+    overflow-wrap: break-word;
+    white-space: normal; }
+  .dnb-button,
+  .dnb-core-style .dnb-button {
+    line-height: var(--button-height); }
+  .dnb-button__text {
+    margin: 0.5rem 0;
+    font-size: var(--button-font-size);
+    line-height: var(--line-height-basis);
+    color: inherit;
+    transform: translateY(-0.03125rem); }
+    .dnb-button__text [data-os='linux'] {
+      transform: translateY(-0.035rem); }
+  .dnb-button__alignment {
+    display: inline-block;
+    width: 0; }
+  .dnb-button__bounding {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    transform: scale(1.1, 1.4);
+    background-color: transparent;
+    border-radius: var(--button-border-radius); }
+  .dnb-button--has-text {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem; }
+  .dnb-button--size-small {
+    width: var(--button-width--small);
+    font-size: var(--button-font-size-small);
+    border-radius: var(--button-border-radius--small); }
+    .dnb-button--size-small,
+    .dnb-core-style .dnb-button--size-small {
+      line-height: var(--button-height--small); }
+  .dnb-button--size-small .dnb-button__text {
+    margin: 0; }
+  .dnb-button--has-text.dnb-button--size-small {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
+    padding-right: 0.5rem; }
+  .dnb-button--size-medium {
+    width: var(--button-width--medium);
+    border-radius: var(--button-border-radius--medium); }
+    .dnb-button--size-medium,
+    .dnb-core-style .dnb-button--size-medium {
+      line-height: var(--button-height--medium); }
+  .dnb-button--size-medium .dnb-button__text {
+    margin: 0; }
+  .dnb-button--has-text.dnb-button--size-medium {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
+    padding-right: 0.5rem; }
+  .dnb-button--size-large {
+    width: var(--button-width--large);
+    border-radius: var(--button-border-radius--large); }
+    .dnb-button--size-large,
+    .dnb-core-style .dnb-button--size-large {
+      line-height: var(--button-height--large); }
+  .dnb-button--has-text.dnb-button--size-large {
+    padding-left: 2rem;
+    padding-right: 2rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
+    padding-left: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
+    padding-right: 1rem; }
+  .dnb-button--has-text {
+    width: auto; }
+  .dnb-button--has-text .dnb-button__icon {
+    margin: 0 calc(var(--button-icon-size) / 2); }
+  .dnb-button--has-text.dnb-button--icon-position-left {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right {
+    padding-right: 0.5rem; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
+    order: 2; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
+    order: 1; }
+  .dnb-button:not(.dnb-button--has-text) .dnb-button__icon {
+    width: inherit; }
+  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  [href] > .dnb-button__icon.dnb-icon {
+    line-height: var(--button-font-size); }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
+    order: 2; }
+  .dnb-button--reset {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    appearance: none;
+    box-shadow: none;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    line-height: inherit; }
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
+      cursor: not-allowed; }
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
+      box-shadow: none;
+      border: none; }
+    .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+        --border-color: var(--color-emerald-green);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
+        border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
+      box-shadow: none;
+      color: inherit;
+      border: none; }
+  .dnb-button[type='button'], .dnb-button[type='reset'], .dnb-button[type='submit'] {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none; }
+  .dnb-button[disabled] {
+    cursor: not-allowed; }
+  .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
+    align-self: flex-start; }
+  .dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
+    white-space: nowrap; }
+  .dnb-button + .dnb-form-status {
+    margin-top: 0.5rem; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-button {
+      flex: none; }
+      .dnb-button__icon, .dnb-button__text {
+        transform: translateY(-0.0625rem); } }
+
+/* Firefox includes a hidden border which messes up button dimensions */
+button.dnb-button::-moz-focus-inner {
+  border: none; }
+
+/*
+* DNB FormLabel
+*
+*/
+.dnb-form-label {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-label *,
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormLabel component
+ *
+ */
+.dnb-form-label {
+  display: inline-block;
+  width: auto;
+  padding: 0;
+  margin-right: 1rem;
+  text-align: left;
+  vertical-align: baseline;
+  white-space: pre-wrap;
+  word-break: normal;
+  font-size: var(--font-size-basis);
+  color: inherit; }
+  .dnb-form-label--vertical {
+    display: block;
+    margin-right: 0;
+    margin-bottom: 0.5rem; }
+  .dnb-form-label--sr-only {
+    width: 1px;
+    margin: 0;
+    padding: 0;
+    margin-left: -1px;
+    overflow: hidden;
+    white-space: nowrap; }
+  .dnb-form-label[for]:not([disabled]) {
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer; }
+  .dnb-form-label[disabled] {
+    cursor: not-allowed; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-label {
+      max-width: 60vw; } }
+
+legend.dnb-form-label {
+  display: inline-block; }
+
+.dnb-dropdown {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-dropdown *,
+  .dnb-dropdown ::before,
+  .dnb-dropdown ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-dropdown ::before,
+  .dnb-dropdown ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Dropdown component
+*
+*/
+:root {
+  --dropdown-width: 16rem;
+  --dropdown-height: 2rem;
+  --dropdown-height--small: 1.5rem;
+  --dropdown-height--medium: 2.5rem;
+  --dropdown-height--large: 3rem;
+  --dropdown-padding-horizontal: 1rem;
+  --dropdown-focus-border-width: 0.125rem;
+  --dropdown-text-padding: 0.5rem; }
+
+.dnb-dropdown {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--font-size-small);
+  line-height: var(--dropdown-height); }
+  .dnb-dropdown__inner {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    color: inherit; }
+  .dnb-dropdown__shell {
+    position: relative;
+    width: var(--dropdown-width);
+    height: var(--dropdown-height);
+    margin: 0;
+    padding: 0;
+    color: inherit; }
+  .dnb-dropdown__row {
+    display: inline-flex; }
+  .dnb-dropdown--large .dnb-drawer-list__triangle {
+    margin-left: calc(var(--dropdown-padding-horizontal) - 0.25rem); }
+  .dnb-dropdown--icon-position-left.dnb-dropdown--large .dnb-drawer-list__triangle {
+    margin-left: calc(var(--dropdown-padding-horizontal) + 0.25rem); }
+  .dnb-dropdown__icon {
+    position: relative;
+    order: 2;
+    display: inline-flex;
+    justify-content: center;
+    pointer-events: none; }
+  .dnb-dropdown__trigger {
+    position: relative;
+    z-index: 1;
+    user-select: none;
+    -webkit-user-select: none;
+    width: 100%; }
+    .dnb-dropdown__trigger.dnb-button {
+      padding: 0 1rem; }
+  .dnb-dropdown__text {
+    order: 1;
+    position: relative;
+    z-index: 4;
+    display: inline-flex;
+    width: 100%;
+    overflow: hidden;
+    color: inherit;
+    text-align: left;
+    text-overflow: ellipsis;
+    line-height: inherit;
+    font-size: var(--font-size-basis); }
+    .dnb-dropdown__text__inner {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: inherit; }
+  .dnb-dropdown--icon-position-left .dnb-dropdown__text {
+    order: 2;
+    padding-right: 0;
+    padding-left: var(--dropdown-text-padding); }
+  .dnb-dropdown--icon-position-left .dnb-dropdown__icon {
+    order: 1; }
+  .dnb-dropdown--independent-width .dnb-dropdown__shell {
+    width: auto; }
+  @media screen and (max-width: 40em) {
+    .dnb-dropdown--action-menu .dnb-dropdown__trigger.dnb-button {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem; } }
+  @media screen and (min-width: 40em) {
+    .dnb-dropdown--action-menu .dnb-dropdown__shell .dnb-dropdown__text {
+      padding: 0 0.5rem; } }
+  @media screen and (max-width: 40em) {
+    .dnb-dropdown--action-menu .dnb-dropdown__shell .dnb-dropdown__text {
+      width: 0;
+      padding: 0; } }
+  .dnb-dropdown--icon-position-left .dnb-button--tertiary
+~ .dnb-drawer-list__root--portal {
+    left: -0.5rem; }
+  .dnb-dropdown--icon-position-right .dnb-button--tertiary
+~ .dnb-drawer-list__root--portal {
+    left: 0.5rem; }
+  .dnb-dropdown .dnb-button--tertiary.dnb-button--active {
+    box-shadow: none; }
+  .dnb-dropdown .dnb-button--tertiary .dnb-button__text {
+    margin: 0 0.5rem; }
+    .dnb-dropdown .dnb-button--tertiary .dnb-button__text::after {
+      bottom: 0; }
+  .dnb-dropdown--icon-position-left .dnb-button--tertiary .dnb-dropdown__text,
+  .dnb-dropdown--icon-position-right .dnb-button--tertiary .dnb-dropdown__text {
+    padding: 0; }
+  .dnb-dropdown .dnb-button--tertiary:focus::before {
+    left: 0 !important;
+    right: 0 !important; }
+  .dnb-dropdown--default.dnb-dropdown--is-popup .dnb-dropdown__shell,
+  .dnb-dropdown--is-popup .dnb-dropdown__trigger {
+    padding: 0;
+    width: var(--dropdown-height);
+    height: var(--dropdown-height); }
+  .dnb-dropdown--is-popup .dnb-dropdown__icon {
+    width: 100%; }
+  .dnb-dropdown--is-popup.dnb-dropdown--scroll .dnb-dropdown__options {
+    min-height: 1rem; }
+  .dnb-dropdown--is-popup .dnb-drawer-list__root {
+    width: var(--dropdown-width); }
+  .dnb-dropdown--small.dnb-dropdown--is-popup .dnb-dropdown__shell,
+  .dnb-dropdown--small.dnb-dropdown--is-popup .dnb-dropdown__trigger {
+    width: var(--dropdown-height--small); }
+  .dnb-dropdown--medium.dnb-dropdown--is-popup .dnb-dropdown__shell,
+  .dnb-dropdown--medium.dnb-dropdown--is-popup .dnb-dropdown__trigger {
+    width: var(--dropdown-height--medium); }
+  .dnb-dropdown--large.dnb-dropdown--is-popup .dnb-dropdown__shell,
+  .dnb-dropdown--large.dnb-dropdown--is-popup .dnb-dropdown__trigger {
+    width: var(--dropdown-height--large); }
+  .dnb-dropdown--small .dnb-dropdown__shell,
+  .dnb-dropdown--small .dnb-dropdown__trigger {
+    height: var(--dropdown-height--small); }
+  .dnb-dropdown--small,
+  .dnb-dropdown--small .dnb-dropdown__trigger.dnb-button {
+    line-height: var(--dropdown-height--small); }
+  .dnb-dropdown--medium .dnb-dropdown__shell,
+  .dnb-dropdown--medium .dnb-dropdown__trigger {
+    height: var(--dropdown-height--medium);
+    border-radius: var(--dropdown-height--medium); }
+  .dnb-dropdown--medium,
+  .dnb-dropdown--medium .dnb-dropdown__trigger.dnb-button {
+    line-height: var(--dropdown-height--medium); }
+  .dnb-dropdown--large .dnb-dropdown__shell,
+  .dnb-dropdown--large .dnb-dropdown__trigger {
+    height: var(--dropdown-height--large);
+    border-radius: var(--dropdown-height--large); }
+  .dnb-dropdown--large,
+  .dnb-dropdown--large .dnb-dropdown__trigger.dnb-button {
+    line-height: var(--dropdown-height--large); }
+  .dnb-dropdown--large .dnb-dropdown__trigger.dnb-button .dnb-dropdown__text {
+    line-height: var(--line-height-basis); }
+  .dnb-dropdown--is-popup .dnb-dropdown__trigger.dnb-button {
+    padding: 0; }
+  .dnb-dropdown > .dnb-form-label {
+    margin-right: 1rem;
+    line-height: var(--line-height-basis); }
+  @media screen and (max-width: 40em) {
+    .dnb-dropdown {
+      flex-wrap: wrap; }
+      .dnb-dropdown > .dnb-form-label {
+        margin-bottom: 0.5rem;
+        margin-top: 0.5rem; } }
+  .dnb-dropdown--stretch {
+    display: flex; }
+  .dnb-dropdown--stretch .dnb-dropdown__inner {
+    flex-grow: 1; }
+  .dnb-dropdown--stretch .dnb-dropdown__row, .dnb-dropdown--stretch .dnb-dropdown__shell {
+    width: 100%; }
+  .dnb-dropdown--vertical.dnb-dropdown--stretch .dnb-dropdown__inner {
+    width: 100%; }
+  .dnb-form-row--horizontal .dnb-dropdown--stretch {
+    width: 100%; }
+  label + .dnb-dropdown[class*='__form-status'] {
+    vertical-align: top; }
+    label + .dnb-dropdown[class*='__form-status'] .dnb-dropdown__shell {
+      top: -0.375rem; }
+  .dnb-dropdown__inner > .dnb-form-status {
+    order: 2;
+    margin-top: 0.5rem; }
+  .dnb-dropdown--vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; }
+  .dnb-dropdown[class*='__status'] {
+    align-items: flex-start; }
+    .dnb-dropdown[class*='__status'] > .dnb-form-label {
+      margin-top: 0.25rem; }
+  @media screen and (max-width: 40em) {
+    .dnb-responsive-component .dnb-dropdown {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 0.5rem; }
+      .dnb-responsive-component .dnb-dropdown > .dnb-form-label {
+        margin-bottom: 0.5rem; }
+      .dnb-responsive-component .dnb-dropdown__helper {
+        display: none; } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-dropdown {
+      flex: none;
+      vertical-align: baseline; }
+      .dnb-dropdown__shell {
+        top: 0; }
+      .dnb-dropdown__options {
+        display: block; } }
+"
+`;
