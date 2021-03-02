@@ -900,7 +900,7 @@ describe('Autocomplete component', () => {
       Comp.find('button.dnb-input__submit-button__button')
         .find('.dnb-icon')
         .instance()
-        .getAttribute('aria-label')
+        .getAttribute('data-test-id')
     ).toContain('chevron down')
   })
 
@@ -936,7 +936,7 @@ describe('Autocomplete component', () => {
       Comp.find('button.dnb-input__submit-button__button')
         .find('.dnb-icon')
         .instance()
-        .getAttribute('aria-label')
+        .getAttribute('data-test-id')
     ).toContain('bell')
   })
 })

@@ -342,12 +342,21 @@ export const prepareIcon = (props, context) => {
   const wrapperParams = validateDOMAttributes(props, {
     role: alt ? 'img' : 'presentation',
     alt, // in case the image don't shows up (because we define the role to be img)
-    'aria-label': label ? label.replace(/_/g, ' ') + ' icon' : null, // for screen readers only
+    'aria-label':
+      label && !label.includes('default')
+        ? label.replace(/_/g, ' ') + ' icon'
+        : null, // for screen readers only
     title, // to show on hover, if defined
     ...attributes
   })
   if (!alt && typeof wrapperParams['aria-hidden'] === 'undefined') {
     wrapperParams['aria-hidden'] = true
+  }
+  if (wrapperParams['aria-hidden']) {
+    if (process.env.NODE_ENV === 'test') {
+      wrapperParams['data-test-id'] = wrapperParams['aria-label']
+    }
+    delete wrapperParams['aria-label']
   }
 
   wrapperParams.className = classnames(
