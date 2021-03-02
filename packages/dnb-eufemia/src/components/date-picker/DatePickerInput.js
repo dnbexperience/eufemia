@@ -536,7 +536,7 @@ export default class DatePickerInput extends React.PureComponent {
                   mask={[/[0-3]/, /[0-9]/]}
                   ref={this[`_${mode}DayRef`]}
                   onChange={this[`set_${mode}Day`]}
-                  value={this.context[`__${mode}Day`]}
+                  value={this.context[`__${mode}Day`] || ''}
                   aria-labelledby={`${this.props.id}-${mode}-day-label`}
                 />
                 <label
@@ -566,7 +566,7 @@ export default class DatePickerInput extends React.PureComponent {
                   mask={[/[0-1]/, /[0-9]/]}
                   ref={this[`_${mode}MonthRef`]}
                   onChange={this[`set_${mode}Month`]}
-                  value={this.context[`__${mode}Month`]}
+                  value={this.context[`__${mode}Month`] || ''}
                   aria-labelledby={`${this.props.id}-${mode}-month-label`}
                 />
                 <label
@@ -596,7 +596,7 @@ export default class DatePickerInput extends React.PureComponent {
                   mask={[/[1-2]/, /[0-9]/, /[0-9]/, /[0-9]/]}
                   ref={this[`_${mode}YearRef`]}
                   onChange={this[`set_${mode}Year`]}
-                  value={this.context[`__${mode}Year`]}
+                  value={this.context[`__${mode}Year`] || ''}
                   aria-labelledby={`${this.props.id}-${mode}-year-label`}
                 />
                 <label

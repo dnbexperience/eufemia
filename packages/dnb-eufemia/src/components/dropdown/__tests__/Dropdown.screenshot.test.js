@@ -80,6 +80,9 @@ describe('Dropdown screenshot', () => {
   })
   it('have to match the dropdown items', async () => {
     const screenshot = await testPageScreenshot({
+      style: {
+        width: '14rem'
+      },
       selector:
         '[data-visual-test="dropdown-list"] .dnb-drawer-list__list',
       simulateSelector:

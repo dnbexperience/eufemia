@@ -7,8 +7,12 @@ import { applyPageFocus } from '@dnb/eufemia/src/shared/helpers'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import { rootElement } from './src/core/portalProviders'
 import smoothscroll from 'smoothscroll-polyfill'
+import process from 'process/browser'
 
 smoothscroll.polyfill()
+
+// was added during webpack 4 to 5 migration
+global.process = process
 
 export const wrapRootElement = rootElement
 

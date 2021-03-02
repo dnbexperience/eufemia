@@ -11,7 +11,8 @@ import { ErrorHandler } from './error-helper'
 // This way we can controll the execution of the polyfill with customElementPolyfill()
 import customElementPolyfill from './custom-element-polyfill'
 
-const isTest = process.env.NODE_ENV === 'test'
+const isTest =
+  typeof process !== 'undefined' && process.env.NODE_ENV === 'test'
 let hasPolyfill = isTest
 
 export const registeredElements =

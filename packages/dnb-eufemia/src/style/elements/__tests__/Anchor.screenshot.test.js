@@ -88,6 +88,10 @@ describe('Anchor screenshot', () => {
   })
   it('have to match the anchor-contrast "focus" state', async () => {
     const screenshot = await testPageScreenshot({
+      screenshotConfig: {
+        // use 7% on CI because of the font rendering differences
+        pixelThresholdRelative: isCI ? 0.07 : 0
+      },
       selector: '[data-visual-test="anchor-contrast"]',
       simulate: 'focus' // should be tested first
     })

@@ -1,7 +1,6 @@
 {
   "reject": [
     "react",
-    "react-dom",
-    "puppeteer"
+    "react-dom"
   ]
 }
