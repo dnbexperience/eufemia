@@ -225,7 +225,7 @@
     "sass-variable-parser": "^1.2.2",
     "scss-to-json": "^2.0.0",
     "semantic-release": "17.4.0",
-    "simple-commit-message": "^4.1.1",
+    "simple-commit-message": "^4.1.2",
     "simple-git": "^2.35.2",
     "stream-buffers": "^3.0.2",
     "style-loader": "^2.0.0",

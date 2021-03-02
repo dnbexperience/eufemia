@@ -24076,7 +24076,7 @@ signale@^1.2.1:
     figures "^2.0.0"
     pkg-conf "^2.1.0"
 
-simple-commit-message@^4.1.1:
+simple-commit-message@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/simple-commit-message/-/simple-commit-message-4.1.2.tgz#1189dea2636bdf76770d3c721436a527c67080dd"
   integrity sha512-R64R/VBbBwgJ0AhXEgSmdNh5KP75cEhNG9sKFAhm9YcMdKxbYBIPPw2Z6yhf1O366eigNj9h4uJjc9U/LRDHhA==
