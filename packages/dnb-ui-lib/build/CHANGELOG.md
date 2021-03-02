@@ -3,10 +3,9 @@
 All notable changes to dnb-ui-lib will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [8.3.4](https://github.com/dnbexperience/eufemia/compare/v8.3.3...v8.3.4) (2021-02-26)
+# [8.4.0](https://github.com/dnbexperience/eufemia/compare/v8.3.4...v8.4.0) (2021-03-02)
 
 
-### Bug Fixes
+### Features
 
-* fix #button text prop type to support React Node ([83df175](https://github.com/dnbexperience/eufemia/commit/83df1754396293d1ab91a3dafe88d11ca2a29a97))
-* fix bette #dropdown used in StrictMode support when value is given ([83739d6](https://github.com/dnbexperience/eufemia/commit/83739d6466a4ce57a7ea171d91faaf9d635ddcce))
+* New name and design for silver card. Added missing product ([f8fe48e](https://github.com/dnbexperience/eufemia/commit/f8fe48ee9a03fd412ede65a4b35b3dc74e32bac9))
