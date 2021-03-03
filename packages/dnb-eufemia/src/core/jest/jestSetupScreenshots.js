@@ -55,6 +55,12 @@ const config = {
 module.exports.config = config
 module.exports.isCI = isCI
 
+let currentScreenshotSetup = null
+const setScreenshotSetup = (config) => {
+  currentScreenshotSetup = config
+  setupJestScreenshot(config)
+}
+
 module.exports.testPageScreenshot = async ({
   url = null,
   fullscreen = false,
@@ -83,9 +89,7 @@ module.exports.testPageScreenshot = async ({
   }
 
   if (screenshotConfig) {
-    setupJestScreenshot(screenshotConfig)
-  } else {
-    setupJestScreenshot(config.screenshotConfig)
+    setScreenshotSetup(screenshotConfig)
   }
 
   await makePageReady({
@@ -159,6 +163,10 @@ module.exports.testPageScreenshot = async ({
     await page.waitForTimeout(waitBeforeFinish)
   }
 
+  if (screenshotConfig) {
+    setScreenshotSetup(currentScreenshotSetup)
+  }
+
   return screenshot
 }
 
@@ -169,23 +177,23 @@ const setupPageScreenshot = ({
   screenshotConfig = null,
   timeout = null
 } = {}) => {
-  if (screenshotConfig) {
-    setupJestScreenshot(screenshotConfig)
-  } else {
-    setupJestScreenshot(config.screenshotConfig)
-  }
+  beforeAll(async () => {
+    if (screenshotConfig) {
+      setScreenshotSetup(screenshotConfig)
+    }
 
-  beforeAll(
-    async () =>
-      (global.__PAGE__ = await setupBeforeAll({
-        url,
-        fullscreen,
-        pageViewport
-      })),
-    timeout
-  )
+    global.__PAGE__ = await setupBeforeAll({
+      url,
+      fullscreen,
+      pageViewport
+    })
+  }, timeout)
 
-  afterAll(async () => await global.__PAGE__.close())
+  afterAll(async () => {
+    setScreenshotSetup(config.screenshotConfig)
+
+    await global.__PAGE__.close()
+  })
 }
 module.exports.setupPageScreenshot = setupPageScreenshot
 
