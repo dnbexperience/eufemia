@@ -11,6 +11,8 @@ exports[`Tabs component have to match snapshot 1`] = `
         "class": "class",
         "className": "className",
         "content": Object {},
+        "content_spacing": "content_spacing",
+        "content_style": "content_style",
         "data": "data",
         "id": "id",
         "label": "label",
@@ -21,10 +23,10 @@ exports[`Tabs component have to match snapshot 1`] = `
         "prevent_rerender": "prevent_rerender",
         "render": [Function],
         "scroll": "scroll",
-        "section_spacing": "section_spacing",
-        "section_style": "section_style",
         "selected_key": "selected_key",
         "skeleton": "skeleton",
+        "tabs_spacing": "tabs_spacing",
+        "tabs_style": "tabs_style",
         "use_hash": "use_hash",
       },
     }
@@ -49,6 +51,8 @@ exports[`Tabs component have to match snapshot 1`] = `
   class={null}
   className={null}
   content={null}
+  content_spacing={true}
+  content_style={null}
   data={
     Array [
       Object {
@@ -74,10 +78,10 @@ exports[`Tabs component have to match snapshot 1`] = `
   prevent_rerender={false}
   render={null}
   scroll={null}
-  section_spacing={null}
-  section_style={null}
   selected_key="second"
   skeleton={null}
+  tabs_spacing={null}
+  tabs_style={null}
   use_hash={false}
 >
   <TabsWrapper>
@@ -471,12 +475,14 @@ exports[`Tabs component have to match snapshot 1`] = `
         showEmptyMessage={true}
       >
         <ContentWrapper
+          content_spacing={true}
+          content_style={null}
           id="id"
           selected_key="second"
         >
           <div
             aria-labelledby="id-tab-second"
-            className="dnb-tabs__content dnb-no-focus"
+            className="dnb-tabs__content dnb-no-focus dnb-tabs__content--spacing"
             id="id-content"
             role="tabpanel"
             tabIndex="0"
@@ -812,7 +818,7 @@ html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
     width: 100%;
     height: 1px; }
 
-.dnb-tabs__content {
-  margin-top: 2rem; }
+.dnb-tabs__content--spacing {
+  padding-top: 2rem; }
 "
 `;

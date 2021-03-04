@@ -107,15 +107,15 @@ export const TabsExampleScrollable = () => (
 
 export const TabsExampleLeftAligned = () => (
   <Wrapper>
-    <ComponentBox>
+    <ComponentBox data-visual-test="tabs-seciton-styles">
       {
         /* @jsx */ `
-<Tabs section_style="mint-green">
+<Tabs tabs_style="mint-green" content_style="black-3">
   <Tabs.Content title="First">
-    <H2>First</H2>
+    <H2 top={0} bottom>First</H2>
   </Tabs.Content>
   <Tabs.Content title="Second">
-    <H2>Second</H2>
+    <H2 top={0} bottom>Second</H2>
   </Tabs.Content>
 </Tabs>
   `
@@ -203,7 +203,7 @@ const TabsNav = withRouter(({ history, location }) => (
     data={tabsData}
     selected_key={(/path=(.*)/g.exec(location.search)||[null,''])[1]}
     on_change={({ key }) => history.push('?path=' + key)}
-    section_style="mint-green"
+    tabs_style="mint-green"
   >
     {/* 1. Use either key method */}
     {tabsContent}
@@ -249,7 +249,7 @@ render(
         ]}
         selected_key={pathname}
         on_change={({ key }) => navigate(key)}
-        section_style="mint-green"
+        tabs_style="mint-green"
       >
         <React.Suspense fallback={<em>Loading ...</em>}>
           <Router>

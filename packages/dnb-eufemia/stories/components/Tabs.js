@@ -48,6 +48,16 @@ export const TabsSandbox = () => {
         <TabsInGrid />
       </Box>
       <Box>
+        <Tabs tabs_style="mint-green" content_style="black-3">
+          <Tabs.Content title="First">
+            <H2>First</H2>
+          </Tabs.Content>
+          <Tabs.Content title="Second">
+            <H2>Second</H2>
+          </Tabs.Content>
+        </Tabs>
+      </Box>
+      <Box>
         <Input
           label="Change state"
           value={value}
@@ -56,7 +66,12 @@ export const TabsSandbox = () => {
 
         <pre>I am changing!: {value}</pre>
 
-        <Tabs bottom prerender>
+        <Tabs
+          bottom
+          prerender
+          content_style="black-3"
+          content_spacing={false}
+        >
           <Tabs.Content title="Tab 1">
             <>
               Change me 1: {value}{' '}
@@ -131,7 +146,7 @@ export const TabsSandbox = () => {
         />
       </Box>
       <Box>
-        <Tabs section_style="mint-green">
+        <Tabs tabs_style="mint-green">
           <Tabs.Content title="First">
             <H2>First</H2>
           </Tabs.Content>
@@ -200,7 +215,7 @@ const tabsData = [
 
 const TabsAndRerender = () => (
   <Tabs
-    section_style="mint-green"
+    tabs_style="mint-green"
     prevent_rerender
     content={manyTabsContent}
     data={manyTabs}
@@ -260,7 +275,7 @@ const TabsInGrid = () => (
   <TabGridStyle>
     <TabGridWrapperStyle>
       <Tabs
-        // section_style="mint-green"
+        // tabs_style="mint-green"
         prevent_rerender
         content={manyTabsContent}
         data={manyTabs}
