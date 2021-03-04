@@ -32,6 +32,17 @@ describe('Tabs screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match custom section styles', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        width: '40rem',
+        height: '10rem',
+        padding: '0 2rem 4rem 2rem'
+      },
+      selector: '[data-visual-test="tabs-seciton-styles"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match ignored scrollable tabs', async () => {
     const screenshot = await testPageScreenshot({
       style: {

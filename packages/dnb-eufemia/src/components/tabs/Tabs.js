@@ -66,17 +66,19 @@ export default class Tabs extends React.PureComponent {
       PropTypes.node,
       PropTypes.func
     ]),
+    content_style: PropTypes.string,
+    content_spacing: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
     label: PropTypes.string,
     selected_key: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
     ]),
     align: PropTypes.oneOf(['left', 'center', 'right']),
-    section_style: PropTypes.string,
-    section_spacing: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool
-    ]),
+    tabs_style: PropTypes.string,
+    tabs_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     use_hash: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_rerender: PropTypes.oneOfType([
@@ -106,11 +108,13 @@ export default class Tabs extends React.PureComponent {
   static defaultProps = {
     data: null,
     content: null,
+    content_style: null,
+    content_spacing: true,
     label: null,
     selected_key: null,
     align: 'left',
-    section_style: null,
-    section_spacing: null,
+    tabs_style: null,
+    tabs_spacing: null,
     use_hash: false,
     prerender: false,
     prevent_rerender: false,
@@ -909,7 +913,7 @@ export default class Tabs extends React.PureComponent {
   }
 
   TabsListHandler = ({ children, className }) => {
-    const { align, section_style, section_spacing } = this.props
+    const { align, tabs_style, tabs_spacing } = this.props
     const { hasScrollbar, atEdge } = this.state
 
     return (
@@ -917,12 +921,10 @@ export default class Tabs extends React.PureComponent {
         className={classnames(
           'dnb-tabs__tabs',
           align ? `dnb-tabs__tabs--${align}` : null,
-          section_style
-            ? `dnb-section dnb-section--${section_style}`
-            : null,
-          section_spacing
+          tabs_style ? `dnb-section dnb-section--${tabs_style}` : null,
+          tabs_spacing
             ? `dnb-section--spacing-${
-                isTrue(section_spacing) ? 'default' : section_spacing
+                isTrue(tabs_spacing) ? 'default' : tabs_spacing
               }`
             : null,
           hasScrollbar && 'dnb-tabs--has-scrollbar',
@@ -957,7 +959,12 @@ export default class Tabs extends React.PureComponent {
 
     const content = this.renderContent()
     return (
-      <ContentWrapper id={this._id} selected_key={selected_key}>
+      <ContentWrapper
+        id={this._id}
+        selected_key={selected_key}
+        content_style={this.props.content_style}
+        content_spacing={this.props.content_spacing}
+      >
         {content ||
           (showEmptyMessage && <span>Tab content not found</span>)}
       </ContentWrapper>

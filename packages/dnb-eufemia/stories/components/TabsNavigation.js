@@ -25,7 +25,7 @@ export const TabsNavigation = () => (
           ]}
           selected_key={pathname}
           on_change={({ key }) => navigate(key)}
-          section_style="mint-green"
+          tabs_style="mint-green"
         >
           <React.Suspense fallback={<em>Loading ...</em>}>
             <Router>

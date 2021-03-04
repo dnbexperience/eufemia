@@ -8,16 +8,28 @@
 
 v9 of @dnb/eufemia contains _braking changes_. As a migration process, you can simply search and replace:
 
-1. Uninstall `dnb-ui-lib` and install `@dnb/eufemia`
-1. Rename with Regex `("|')dnb-ui-lib` and replace with `$1@dnb/eufemia`
+## General
+
+1. Uninstall `dnb-ui-lib` and install `@dnb/eufemia`.
+1. Rename with Regex `("|')dnb-ui-lib` and replace with `$1@dnb/eufemia`.
 1. Find `formRow` inside a (e.g. <Provider formRow= ...) and replace it with `FormRow` (PascalCase).
+
+## Number to NumberFormat
+
 1. Find the `Number` component and rename it with `NumberFormat`.
 1. Find the `dnb-number` and replace it with `dnb-number-format`.
 1. In case you import it from `components/number/Number`, it has to be `components/number-format/NumberFormat`.
 1. In case you use `format` or `cleanNumber` from either `/components/Number` or `/components/number/Number`, replace the import path to be `/components/number-format/NumberUtils`.
-1. You can also use Regex: Find `Number([^F)]|$)` and replace with `NumberFormat$1`
+1. You can also use Regex: Find `Number([^F)]|$)` and replace with `NumberFormat$1`.
 
-### Patterns vs Extensions
+### Tabs props
+
+Tabs has changed two property names.
+
+1. Find `section_style` in `<Tabs section_style="..." />` and replace with `tabs_style`.
+1. Find `section_spacing` in `<Tabs section_spacing="..." />` and replace with `tabs_spacing`.
+
+### Patterns to Extensions
 
 Most of the Eufemia "patterns" got removed in favor of calling this part as **extensions**.
 
@@ -48,6 +60,7 @@ Strings where changed/removed and added to the [language files](/uilib/usage/cus
 
 ## Features
 
+- New useful props added to `<Tabs content_style="..." />` to define a section style.
 - Enhance Webpack v5 compatibility
 - Enhance React v17 compatibility
 
