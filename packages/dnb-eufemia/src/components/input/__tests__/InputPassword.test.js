@@ -45,9 +45,7 @@ describe('InputPassword component', () => {
 
   it('has correct state after "focus" trigger', () => {
     Comp.find('input').simulate('focus')
-    expect(Comp.find('.dnb-input__shell').prop('data-input-state')).toBe(
-      'focus'
-    )
+    expect(Comp.find('.dnb-input').prop('data-input-state')).toBe('focus')
   })
 
   it('has correct aria-label', () => {

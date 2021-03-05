@@ -12,6 +12,7 @@
   --dropdown-padding-horizontal: 1rem;
   --dropdown-focus-border-width: 0.125rem;
   --dropdown-text-padding: 0.5rem;
+  --dropdown-border-radius: 0.25rem;
 }
 
 .dnb-dropdown {
@@ -89,7 +90,12 @@
 
     &.dnb-button {
       padding: 0 1rem;
+      border-radius: var(--dropdown-border-radius);
     }
+  }
+  &--is-popup &__trigger.dnb-button {
+    padding: 0;
+    border-radius: 50%;
   }
 
   &__text {
@@ -109,6 +115,7 @@
     font-size: var(--font-size-basis);
 
     &__inner {
+      display: inherit; // fixes number-format, if used inside the button
       overflow: hidden;
       white-space: nowrap;
       text-overflow: inherit;
@@ -224,7 +231,6 @@
   &--medium &__shell,
   &--medium &__trigger {
     height: var(--dropdown-height--medium);
-    border-radius: var(--dropdown-height--medium);
   }
   &--medium,
   &--medium &__trigger.dnb-button {
@@ -235,7 +241,6 @@
   &--large &__shell,
   &--large &__trigger {
     height: var(--dropdown-height--large);
-    border-radius: var(--dropdown-height--large);
   }
   &--large,
   &--large &__trigger.dnb-button {
@@ -243,10 +248,6 @@
   }
   &--large &__trigger.dnb-button &__text {
     line-height: var(--line-height-basis);
-  }
-
-  &--is-popup &__trigger.dnb-button {
-    padding: 0;
   }
 
   > .dnb-form-label {

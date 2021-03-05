@@ -50,7 +50,13 @@ The following extensions are removed:
 - RangeSlider
 - ViewTitle
 
+### Textarea
+
+- Removed support of style only for [Textarea](/uilib/components/textarea). You have to use the component now.
+
 ## Changes
+
+- The visual appearance of a couple of components has been changed (e.g. border-radius).
 
 ### Updates to the language files
 
@@ -61,6 +67,7 @@ Strings where changed/removed and added to the [language files](/uilib/usage/cus
 ## Features
 
 - New useful props added to `<Tabs content_style="..." />` to define a section style.
+- Added `stretch` support for [Autocomplete](/uilib/components/autocomplete), [Dropdown](/uilib/components/dropdown) and [DatePicker](/uilib/components/date-picker).
 - Enhance Webpack v5 compatibility
 - Enhance React v17 compatibility
 

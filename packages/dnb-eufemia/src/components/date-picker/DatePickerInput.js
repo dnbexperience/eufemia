@@ -15,6 +15,7 @@ import parseISO from 'date-fns/parseISO'
 
 import classnames from 'classnames'
 import MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
+import Button from '../button/Button'
 import Input, { SubmitButton } from '../input/Input'
 import keycode from 'keycode'
 import {
@@ -663,6 +664,13 @@ export default class DatePickerInput extends React.PureComponent {
     validateDOMAttributes(this.props, attributes)
     validateDOMAttributes(null, submitAttributes)
 
+    const UsedButton = showInput ? SubmitButton : Button
+    if (!showInput) {
+      // Use Button inner ref
+      submitAttributes.innerRef = submitAttributes.ref
+      submitAttributes.ref = null
+    }
+
     return (
       <fieldset className="dnb-date-picker__fieldset" lang={locale?.code}>
         {this.context.props.label && (
@@ -685,17 +693,21 @@ export default class DatePickerInput extends React.PureComponent {
           status={!opened ? status : null}
           status_state={status_state}
           submit_element={
-            <SubmitButton
+            <UsedButton
               id={id}
               disabled={disabled}
               skeleton={skeleton}
-              className={opened ? 'dnb-button--active' : null}
+              className={classnames(
+                'dnb-button--input-button',
+                opened ? 'dnb-button--active' : null
+              )}
               aria-label={this.formatDate()}
               title={title}
               type="button"
               icon="calendar"
               variant="secondary"
               on_submit={onSubmit}
+              on_click={onSubmit}
               {...submitAttributes}
             />
           }

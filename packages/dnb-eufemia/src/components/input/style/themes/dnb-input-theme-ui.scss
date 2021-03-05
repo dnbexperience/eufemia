@@ -6,7 +6,7 @@
 @import '../../../../style/themes/imports.scss';
 
 .dnb-input {
-  color: var(--color-sea-green);
+  color: var(--color-black);
 
   &__inner {
     color: inherit;
@@ -23,82 +23,119 @@
       inset,
       true
     );
-
-    &[data-input-state='dirty'] {
-      // Background color of input when it has content
-      color: var(--color-emerald-green);
-      background-color: var(--color-white);
-    }
-
-    &[data-input-state='disabled'] {
-      &,
-      .dnb-icon {
-        color: var(--color-sea-green-30);
-      }
-      -webkit-text-fill-color: currentColor;
-      @include fakeBorder(
-        var(--color-sea-green-30),
-        var(--input-border-width),
-        inset,
-        true
-      );
-      background-color: var(--color-mint-green-12);
-    }
-
-    &:not([data-input-state='disabled']):hover,
-    &[data-input-state='focus'] {
-      color: var(--color-sea-green);
-      background-color: var(--color-white);
-      @include fakeBorder(var(--color-emerald-green), 0.125rem);
-    }
-  }
-
-  &:not([data-input-state='disabled'])#{&}__submit-button svg {
-    color: var(--color-sea-green);
   }
 
   // Icon
   &__icon {
-    color: var(--color-emerald-green);
+    color: var(--color-sea-green);
+  }
+
+  &[data-input-state='disabled'] &__shell {
+    &,
+    .dnb-icon {
+      color: var(--color-black-55);
+    }
+    -webkit-text-fill-color: currentColor;
+    @include fakeBorder(
+      var(--color-black-55),
+      var(--input-border-width),
+      inset,
+      true
+    );
+    background-color: var(--color-black-3);
+  }
+
+  &[data-input-state='focus'] &__shell,
+  &:not([data-input-state='disabled']) &__shell:hover,
+  &:not([data-input-state='disabled']):hover &__shell {
+    @include fakeBorder(var(--color-sea-green), 0.125rem);
+  }
+
+  // Add custom styles for submit-button
+  &__submit-button {
+    html:not([data-whatintent='touch'])
+      &__button:not(&__button--has-text):not([disabled]) {
+      background-color: transparent;
+    }
+  }
+  .dnb-button--active#{&}__submit-button,/* Used by date-picker */
+  &[data-input-state='focus'] &__submit-button,
+  &:not([data-input-state='disabled']):hover &__submit-button {
+    html:not([data-whatintent='touch'])
+      &__button:not(&__button--has-text):not([disabled]) {
+      color: var(--color-white);
+      background-color: var(--color-sea-green);
+      box-shadow: none;
+    }
+  }
+  &[data-input-state='focus'] &__submit-button,
+  &:not([data-input-state='disabled']):hover &__submit-button {
+    /* stylelint-disable-next-line */
+    &__button {
+      border-radius: 0;
+    }
   }
 
   // with status_state = "error"
-  &__status--error &__shell:not([data-input-state='focus']) {
-    @include fakeBorder(var(--color-fire-red), 0.125rem);
+  &__status--error#{&}:not([data-input-state='focus']) &__shell {
+    color: var(--color-fire-red);
   }
-  &__status--error
-    &__shell:not([data-input-state='focus'])
-    ~ &__submit-element {
-    .dnb-button--secondary .dnb-button__icon {
+  &__status--error#{&}:not([data-input-state='focus']) &__submit-element {
+    .dnb-button {
       color: var(--color-fire-red);
     }
+  }
+  &__status--error#{&}:not([data-input-state='focus']):not(:hover)
+    &__shell {
+    @include fakeBorder(var(--color-fire-red));
+  }
+  &__status--error#{&}:not([data-input-state='focus']):not(:hover)
+    &__submit-element {
     .dnb-button {
-      @include fakeBorder(var(--color-fire-red), 0.125rem);
+      @include fakeBorder(var(--color-fire-red));
     }
   }
-  &__status--error,
-  &__status--error &__shell[data-input-state='dirty'] {
+  &__status--error#{&}[data-input-state='focus'] &__shell,
+  &__status--error#{&}:not([data-input-state='disabled']) &__shell:hover,
+  &__status--error#{&}:not([data-input-state='disabled']):hover &__shell {
+    @include fakeBorder(var(--color-fire-red), 0.125rem);
+  }
+  /* stylelint-disable */
+  &__status--error &__submit-button {
+    html:not([data-whatintent='touch'])
+      &__button:not(&__button--has-text):not([disabled]):focus,
+    html:not([data-whatintent='touch'])
+      &__button:not(&__button--has-text):not([disabled]):hover {
+      background-color: var(--color-fire-red);
+    }
+  }
+  /* stylelint-enable */
+  &__status--error#{&}[data-input-state='focus'] &__submit-button,
+  &__status--error#{&}:not([data-input-state='disabled']):hover
+    &__submit-button {
+    html:not([data-whatintent='touch'])
+      &__button:not(&__button--has-text):not([disabled]) {
+      background-color: var(--color-fire-red);
+    }
+  }
+  &__status--error &__icon {
     color: var(--color-fire-red);
   }
 
   &__input::selection {
     background-color: var(--color-mint-green);
-    color: var(--color-sea-green);
+    color: var(--color-black);
     text-shadow: none;
   }
 
-  &__shell[data-input-state='focus'] .dnb-input__placeholder {
+  &__placeholder {
+    color: var(--color-black-55);
+  }
+  &[data-input-state='focus'] &__placeholder {
     display: none;
   }
-  &--keep-placeholder
-    &__shell[data-input-state='focus']
-    .dnb-input__placeholder {
+  &--keep-placeholder &[data-input-state='focus'] &__placeholder {
     display: block;
-    opacity: 0.6;
+    color: var(--color-black-20);
   }
-
-  // TODO: This has to be considdered with Jens
-  // &__description {
-  //   color: var(--color-sea-green);
-  // }
 }

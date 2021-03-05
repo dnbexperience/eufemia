@@ -381,7 +381,9 @@ export default class Input extends React.PureComponent {
         createSpacingClasses(props),
         _className,
         className
-      )
+      ),
+      'data-input-state': inputState,
+      'data-has-content': hasValue ? 'true' : 'false'
     }
 
     const innerParams = {
@@ -438,9 +440,7 @@ export default class Input extends React.PureComponent {
       className: classnames(
         'dnb-input__shell',
         createSkeletonClass('shape', skeleton, this.context)
-      ),
-      'data-input-state': inputState,
-      'data-has-content': hasValue ? 'true' : 'false'
+      )
     }
 
     skeletonDOMAttributes(inputParams, skeleton, this.context)
@@ -660,6 +660,7 @@ class InputSubmitButton extends React.PureComponent {
         <Button
           className={classnames(
             'dnb-input__submit-button__button',
+            'dnb-button--input-button',
             className
           )}
           variant={variant}

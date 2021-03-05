@@ -12,6 +12,7 @@
   --autocomplete-padding-horizontal: 1rem;
   --autocomplete-focus-border-width: 0.125rem;
   --autocomplete-text-padding: 0.5rem;
+  --autocomplete-border-radius: 0.25rem;
 }
 
 .dnb-autocomplete {
@@ -110,7 +111,7 @@
 
   &__shell,
   &__input {
-    border-radius: var(--autocomplete-height);
+    border-radius: var(--autocomplete-border-radius);
   }
 
   &__text {

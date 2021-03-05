@@ -10,30 +10,12 @@
 }
 
 @mixin textareaStyleCommon() {
+  border: none;
   margin: 0;
   padding: 0 var(--textarea-padding-width);
 
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
-
-  @include IS_IE {
-    padding: var(--textarea-padding-width);
-  }
-
-  // Edge fix
-  @include IS_EDGE {
-    padding: var(--textarea-padding-width);
-  }
-}
-@mixin textareaStyle() {
-  border: none;
-  border-radius: 1px;
-
-  box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-white),
-    0 0 0 calc(var(--textarea-padding-width) + 0.0625rem)
-      var(--color-sea-green);
-
-  @include textareaStyleCommon();
 }
 
 .dnb-textarea {
@@ -57,12 +39,30 @@
     font-size: var(--font-size-basis);
   }
 
+  &__state {
+    position: absolute;
+    z-index: -1;
+    top: -0.5rem;
+    left: -0.5rem;
+    bottom: -0.5rem;
+    right: -0.5rem;
+
+    background-color: var(--color-white);
+    box-shadow: 0 0 0 0.0625rem var(--color-sea-green);
+
+    border-radius: 0.25rem;
+  }
+
   &__row {
     display: inline-flex;
   }
 
   &__suffix {
     padding-left: 1.5rem;
+  }
+
+  &__textarea {
+    @include textareaStyleCommon();
   }
 
   &__placeholder {
@@ -80,12 +80,8 @@
     @include textareaStyleCommon();
   }
 
-  &__textarea {
-    @include textareaStyle();
-  }
-
-  &__placeholder,
-  &__textarea {
+  &__textarea,
+  &__placeholder {
     text-align: left;
   }
 
@@ -189,12 +185,4 @@
       flex: none;
     }
   }
-}
-
-textarea.dnb-textarea {
-  display: inline-block;
-  margin: var(--textarea-padding-width);
-
-  @include textareaStyle();
-  @include textareaTheme();
 }
