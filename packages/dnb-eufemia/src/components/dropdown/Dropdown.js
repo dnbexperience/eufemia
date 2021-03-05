@@ -77,6 +77,7 @@ export default class Dropdown extends React.PureComponent {
     direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
     max_height: PropTypes.number,
     skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    portal_class: PropTypes.string,
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_scroll_animation: PropTypes.oneOfType([
       PropTypes.string,
@@ -177,6 +178,7 @@ export default class Dropdown extends React.PureComponent {
     max_height: null,
     direction: 'auto',
     skip_portal: null,
+    portal_class: null,
     no_animation: false,
     no_scroll_animation: false,
     prevent_selection: false,
@@ -282,7 +284,7 @@ class DropdownInstance extends React.PureComponent {
 
   setVisible = () => {
     this.context.drawerList
-      .setWrapperElement(this._refShell.current)
+      .setWrapperElement(this._ref.current)
       .setVisible()
   }
 
@@ -302,21 +304,13 @@ class DropdownInstance extends React.PureComponent {
     }
   }
 
-  toggleVisible = () => {
-    if (
-      !this.context.drawerList.hidden &&
-      this.context.drawerList.opened
-    ) {
-      this.setHidden()
-    } else {
-      this.setVisible()
+  onClickHandler = () => {
+    if (isTrue(this.props.disabled)) {
+      return // stop here
     }
-  }
-
-  onMouseDownHandler = () => {
     if (
       !this.context.drawerList.hidden &&
-      this.context.drawerList.opened
+      this.context.drawerList.isOpen
     ) {
       this.setHidden()
     } else {
@@ -440,6 +434,7 @@ class DropdownInstance extends React.PureComponent {
       no_scroll_animation,
       triangle_position,
       skip_portal,
+      portal_class,
       trigger_component: CustomTrigger,
       more_menu,
       action_menu,
@@ -529,7 +524,7 @@ class DropdownInstance extends React.PureComponent {
       ...attributes,
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler,
-      onMouseDown: this.onMouseDownHandler,
+      onClick: this.onClickHandler,
       onKeyDown: this.onTriggerKeyDownHandler
     }
 
@@ -573,7 +568,7 @@ class DropdownInstance extends React.PureComponent {
             sr_only={label_sr_only}
             disabled={disabled}
             skeleton={skeleton}
-            onMouseDown={this.toggleVisible}
+            onClick={this.onClickHandler}
           />
         )}
 
@@ -636,7 +631,8 @@ class DropdownInstance extends React.PureComponent {
               <DrawerList
                 id={id}
                 role={handleAsMenu ? 'menu' : 'listbox'}
-                inner_class="dnb-dropdown__list"
+                portal_class={portal_class}
+                list_class="dnb-dropdown__list"
                 value={selected_item}
                 default_value={default_value}
                 scrollable={scrollable}
@@ -655,7 +651,7 @@ class DropdownInstance extends React.PureComponent {
                   isTrue(independent_width) || isPopupMenu || action_menu
                 }
                 is_popup={isPopupMenu || action_menu}
-                align_drawer={align_dropdown || 'right'}
+                align_drawer={align_dropdown || 'left'}
                 fixed_position={fixed_position}
                 use_drawer_on_mobile={use_drawer_on_mobile || action_menu}
                 enable_body_lock={enable_body_lock}

@@ -13,12 +13,14 @@ import {
   roundToNearest,
   isInsideScrollView,
   detectOutsideClick,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
+  getPreviousSibling
 } from '../../shared/component-helper'
 import {
   getOffsetTop,
   getOffsetLeft,
-  hasSelectedText
+  hasSelectedText,
+  getSelectedElement
 } from '../../shared/helpers'
 import {
   getData,
@@ -165,16 +167,8 @@ export default class DrawerListProvider extends React.PureComponent {
     clearTimeout(this._selectTimeout)
     clearTimeout(this._scrollTimeout)
     clearTimeout(this._ddTimeout)
-    clearTimeout(this._doTimeout)
 
-    // NB: do not use setHidden here
-    this.setState({
-      opened: false,
-      _listenForPropChanges: false
-    })
-    this.removeDirectionObserver()
-    this.removeScrollObserver()
-    this.removeOutsideClickObserver()
+    this.removeObservers()
   }
 
   refreshScrollObserver() {
@@ -436,28 +430,24 @@ export default class DrawerListProvider extends React.PureComponent {
       window.addEventListener('resize', this.setDirection)
     }
 
-    // wait until render is complete and we have a valid this._refUl.current
-    clearTimeout(this._doTimeout)
-    this._doTimeout = setTimeout(() => {
-      if (
-        useBodyLock ||
-        (useDrawer && // Like @media screen and (max-width: 40em) { ...
-          (window.innerWidth / 16 <= 40 || window.innerHeight / 16 <= 40))
-      ) {
-        this.enableBodyLock()
+    if (
+      useBodyLock ||
+      (useDrawer && // Like @media screen and (max-width: 40em) { ...
+        (window.innerWidth / 16 <= 40 || window.innerHeight / 16 <= 40))
+    ) {
+      this.enableBodyLock()
+    }
+
+    this.correctHiddenView()
+    this.refreshScrollObserver()
+
+    const { selected_item, active_item } = this.state
+    this.scrollToAndSetActiveItem(
+      parseFloat(active_item) > -1 ? active_item : selected_item,
+      {
+        scrollTo: false
       }
-
-      this.correctHiddenView()
-      this.refreshScrollObserver()
-
-      const { selected_item, active_item } = this.state
-      this.scrollToAndSetActiveItem(
-        parseFloat(active_item) > -1 ? active_item : selected_item,
-        {
-          scrollTo: false
-        }
-      )
-    }, 1)
+    )
 
     renderDirection()
   }
@@ -701,11 +691,14 @@ export default class DrawerListProvider extends React.PureComponent {
       wrapper_element = document.querySelector(wrapper_element)
     }
 
-    if (wrapper_element) {
-      this.setState({
-        wrapper_element,
-        _listenForPropChanges: false
-      })
+    if (wrapper_element !== this.state.wrapper_element) {
+      this.setState(
+        {
+          wrapper_element,
+          _listenForPropChanges: false
+        },
+        this.setOutsideClickObserver
+      )
     }
 
     return this
@@ -990,7 +983,8 @@ export default class DrawerListProvider extends React.PureComponent {
         this._refRoot.current,
         this._refUl.current
       ],
-      this.setHidden // hide if document.activeElement is not inside our elements
+      this.setHidden,
+      { includedKeys: ['tab'] }
     )
 
     if (typeof document !== 'undefined') {
@@ -1009,55 +1003,73 @@ export default class DrawerListProvider extends React.PureComponent {
     }
   }
 
-  assignObservers = () => {
+  addObservers = () => {
     this.setDirectionObserver()
     this.setScrollObserver()
     this.setOutsideClickObserver()
+  }
+  removeObservers = () => {
+    this.removeDirectionObserver()
+    this.removeScrollObserver()
+    this.removeOutsideClickObserver()
   }
 
   setVisible = () => {
     clearTimeout(this._hideTimeout)
 
     if (this.state.opened && this.state.hidden === false) {
-      return
+      return // stop
     }
 
     this.searchCache = null
 
-    this.setState(
-      {
+    const handleSingleComponentCheck = () => {
+      this.setState({
         hidden: false,
         opened: true,
         _listenForPropChanges: false
-      },
-      this.assignObservers
-    )
+      })
 
-    const delayHandler = () => {
-      this.setState({
-        isOpen: true,
-        _listenForPropChanges: false
+      const animationDelayHandler = () => {
+        this.setState({
+          isOpen: true,
+          _listenForPropChanges: false
+        })
+      }
+
+      if (isTrue(this.props.no_animation)) {
+        animationDelayHandler()
+      } else {
+        DrawerListProvider.isOpen = true
+        clearTimeout(this._hideTimeout)
+        this._hideTimeout = setTimeout(
+          animationDelayHandler,
+          DrawerListProvider.blurDelay
+        ) // wait until animation is over
+      }
+
+      const { selected_item, active_item } = this.state
+      dispatchCustomElementEvent(this.state, 'on_show', {
+        data: getEventData(
+          parseFloat(selected_item) > -1 ? selected_item : active_item,
+          this.state.data
+        ),
+        attributes: this.attributes,
+        ulElement: this._refUl.current
       })
     }
 
-    if (isTrue(this.props.no_animation)) {
-      delayHandler()
-    } else {
+    // If a user clicks on a second drawer list
+    // we ensure we first close it, before we open it
+    if (DrawerListProvider.isOpen) {
+      clearTimeout(this._hideTimeout)
       this._hideTimeout = setTimeout(
-        delayHandler,
+        handleSingleComponentCheck,
         DrawerListProvider.blurDelay
-      ) // wait until animation is over
+      )
+    } else {
+      handleSingleComponentCheck()
     }
-
-    const { selected_item, active_item } = this.state
-    dispatchCustomElementEvent(this.state, 'on_show', {
-      data: getEventData(
-        parseFloat(selected_item) > -1 ? selected_item : active_item,
-        this.state.data
-      ),
-      attributes: this.attributes,
-      ulElement: this._refUl.current
-    })
   }
 
   setHidden = (args = {}, onStateComplete = null) => {
@@ -1081,6 +1093,8 @@ export default class DrawerListProvider extends React.PureComponent {
     })
 
     if (res !== false) {
+      this.removeObservers()
+
       this.setState({
         opened: false,
         _listenForPropChanges: false
@@ -1095,21 +1109,18 @@ export default class DrawerListProvider extends React.PureComponent {
         if (typeof onStateComplete === 'function') {
           onStateComplete()
         }
+        DrawerListProvider.isOpen = false
       }
 
       if (isTrue(this.props.no_animation)) {
         delayHandler()
       } else {
+        clearTimeout(this._hideTimeout)
         this._hideTimeout = setTimeout(
           delayHandler,
           DrawerListProvider.blurDelay
         ) // wait until animation is over
       }
-
-      this.waitUntilUlIsReady = false
-      this.removeDirectionObserver()
-      this.removeScrollObserver()
-      this.removeOutsideClickObserver()
     }
   }
 
@@ -1189,8 +1200,16 @@ export default class DrawerListProvider extends React.PureComponent {
       attr
     )
 
-    if (res === false || hasSelectedText()) {
+    if (res === false) {
       return // stop here
+    }
+
+    if (hasSelectedText()) {
+      const elem = getSelectedElement()
+      const isInput = getPreviousSibling('dnb-input', elem)
+      if (!isInput) {
+        return // stop here
+      }
     }
 
     const { keep_open, no_animation, prevent_selection } = this.props
@@ -1254,7 +1273,8 @@ export default class DrawerListProvider extends React.PureComponent {
             setData: this.setDataHandler,
             setState: this.setStateHandler,
             setWrapperElement: this.setWrapperElement,
-            assignObservers: this.assignObservers,
+            addObservers: this.addObservers,
+            removeObservers: this.removeObservers,
             setVisible: this.setVisible,
             setHidden: this.setHidden,
             selectItem: this.selectItem,

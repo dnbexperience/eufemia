@@ -82,6 +82,8 @@ export default class DrawerList extends React.PureComponent {
     ]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    portal_class: PropTypes.string,
+    list_class: PropTypes.string,
     prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     independent_width: PropTypes.oneOfType([
       PropTypes.string,
@@ -174,6 +176,8 @@ export default class DrawerList extends React.PureComponent {
     wrapper_element: null,
     default_value: null,
     value: 'initval',
+    portal_class: null,
+    list_class: null,
     skip_portal: null,
     prevent_close: false,
     keep_open: false,
@@ -270,6 +274,11 @@ class DrawerListInstance extends React.PureComponent {
   }
 
   selectItemHandler = (event) => {
+    // In case we want to stop if the users makes a number selection.
+    // Should optional
+    // if (getPreviousSibling('dnb-number-format', event.target)) {
+    //   return // stop
+    // }
     const selected_item = parseFloat(
       event.currentTarget.getAttribute('data-item')
     )
@@ -305,7 +314,8 @@ class DrawerListInstance extends React.PureComponent {
       prevent_selection,
       action_menu,
       is_popup,
-      inner_class,
+      portal_class,
+      list_class,
       ignore_events,
       options_render,
       className,
@@ -340,11 +350,12 @@ class DrawerListInstance extends React.PureComponent {
       active_item,
       closestToTop,
       closestToBottom,
-      assignObservers,
+      usePortal,
+      addObservers,
+      removeObservers,
       _refShell,
       _refTriangle,
       _refUl,
-      usePortal,
       _refRoot
     } = this.context.drawerList
 
@@ -384,7 +395,7 @@ class DrawerListInstance extends React.PureComponent {
       className: classnames(
         'dnb-drawer-list__list',
         isTrue(no_animation) && 'dnb-drawer-list__list--no-animation',
-        inner_class
+        list_class
       )
     }
 
@@ -493,7 +504,10 @@ class DrawerListInstance extends React.PureComponent {
                   <Items />
                 )}
               </DrawerList.Options>
-              <OnMounted assignObservers={assignObservers} />
+              <OnMounted
+                addObservers={addObservers}
+                removeObservers={removeObservers}
+              />
             </>
           ) : (
             children && (
@@ -522,13 +536,13 @@ class DrawerListInstance extends React.PureComponent {
       >
         {usePortal ? (
           <DrawerListPortal
-            id={this._id}
             rootRef={_refRoot}
             opened={hidden === false}
             include_owner_width={align_drawer === 'right'}
             independent_width={isTrue(independent_width)}
             fixed_position={isTrue(fixed_position)}
             use_drawer_on_mobile={isTrue(use_drawer_on_mobile)}
+            className={portal_class}
           >
             {mainList}
           </DrawerListPortal>
@@ -714,10 +728,14 @@ DrawerList.HorizontalItem.defaultProps = {
 
 class OnMounted extends React.PureComponent {
   static propTypes = {
-    assignObservers: PropTypes.func.isRequired
+    addObservers: PropTypes.func.isRequired,
+    removeObservers: PropTypes.func.isRequired
   }
   componentDidMount() {
-    this.props.assignObservers()
+    this.props.addObservers()
+  }
+  componentWillUnmount() {
+    this.props.removeObservers()
   }
   render() {
     return null

@@ -56,27 +56,25 @@
   display: block; // has to be block element so we can se the content
   position: relative;
 
+  width: inherit;
+  min-width: inherit;
+
   // reset font for correct sizing
   font-size: var(--font-size-small);
 
   // do noting about this
   // &__portal {
   // }
-
-  width: inherit;
-  min-width: inherit;
-
+  
   &__portal__style {
     position: absolute;
-    top: -100vh;
-    left: -100vw;
+
+    // higher than modal --modal-z-index:
+    z-index: 3010;
 
     &--fixed {
       position: fixed;
     }
-
-    // higher than modal --modal-z-index:
-    z-index: 3010;
   }
 
   &__root {
