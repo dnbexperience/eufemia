@@ -22,7 +22,7 @@ import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/Skelet
 
 const Header = styled.header`
   position: fixed;
-  z-index: 200;
+  z-index: 2500;
   top: 0;
   left: 0;
   width: 100%;
@@ -34,7 +34,6 @@ const Header = styled.header`
   background-color: var(--color-white);
   border-bottom: 1px solid var(--color-black-border);
 
-  ${'' /* overflow: hidden; */}
   white-space: nowrap;
 
   #toggle-sidebar-menu {
@@ -81,6 +80,10 @@ const HeaderInner = styled.div`
 
   @media screen and (max-width: 40em) {
     padding: 0.5rem 5vw;
+  }
+
+  body[data-dnb-modal-active='true'] & {
+    margin-right: var(--scrollbar-width);
   }
 
   align-items: center;

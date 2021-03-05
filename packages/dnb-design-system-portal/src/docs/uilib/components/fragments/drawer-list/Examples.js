@@ -127,6 +127,7 @@ const CustomComponent = () => (
 )
 const CustomComponentInner = styled.span\`
   display: block;
+  width: 100%;
   margin: -1rem -2rem -1rem -1rem;
   padding: 1rem 2rem 1rem 1rem;
 \`
