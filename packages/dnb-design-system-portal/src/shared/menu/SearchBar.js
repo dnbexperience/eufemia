@@ -106,7 +106,7 @@ export const SearchBarInput = () => {
 
               .dnb-drawer-list__option__item:first-of-type {
                 color: var(--color-sea-green);
-                font-weight: var(--font-weight-default);
+                font-weight: var(--font-weight-basis);
                 font-size: var(--font-size-medium);
                 padding-bottom: 0.5rem;
               }

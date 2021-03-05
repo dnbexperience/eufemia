@@ -69,8 +69,6 @@
   &--font .dnb-p {
     pointer-events: none;
 
-    --font-family-book: 'DNBSkeleton' !important; // Deprecated
-    --font-family-demi: 'DNBSkeleton' !important; // Deprecated
     --font-family-default: 'DNBSkeleton' !important;
 
     font-family: var(--font-family-default) !important;

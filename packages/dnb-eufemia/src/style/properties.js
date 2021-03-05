@@ -3,6 +3,7 @@
 export default {
   '--font-family-default': "'DNB', sans-serif",
   '--font-family-monospace': "'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono',",
+  '--font-weight-default': 'normal',
   '--font-weight-basis': 'normal',
   '--font-weight-regular': 'normal',
   '--font-weight-medium': '500',

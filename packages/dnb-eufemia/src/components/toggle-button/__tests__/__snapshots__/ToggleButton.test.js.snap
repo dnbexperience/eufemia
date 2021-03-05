@@ -1313,7 +1313,7 @@ exports[`ToggleButton scss have to match snapshot 1`] = `
 */
 .dnb-form-label {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
@@ -1470,7 +1470,7 @@ legend.dnb-form-label {
 */
 .dnb-form-status {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
@@ -1566,7 +1566,7 @@ legend.dnb-form-label {
 
 .dnb-button {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
@@ -1805,7 +1805,7 @@ button.dnb-button::-moz-focus-inner {
 */
 .dnb-checkbox {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
@@ -1980,7 +1980,7 @@ button.dnb-button::-moz-focus-inner {
 */
 .dnb-radio {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
@@ -2188,7 +2188,7 @@ button.dnb-button::-moz-focus-inner {
 
 .dnb-toggle-button {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);

@@ -71,11 +71,13 @@
   }
   &__status--error:not(#{&}--focus)
     &__textarea:not([disabled]):not(#{&}--disabled)
-    ~ &__state,
+    ~ &__state {
+    @include fakeBorder(var(--color-fire-red));
+  }
   &__status--error:not(#{&}--focus)
     &__textarea:not([disabled]):not(#{&}--disabled):hover
     ~ &__state {
-    box-shadow: 0 0 0 0.125rem var(--color-fire-red);
+    @include fakeBorder(var(--color-fire-red), 0.125rem);
   }
 
   // hide placeholder on focus

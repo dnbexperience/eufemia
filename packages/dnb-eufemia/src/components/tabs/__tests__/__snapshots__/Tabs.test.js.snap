@@ -635,7 +635,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
 
 .dnb-tabs {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
@@ -695,9 +695,9 @@ exports[`Tabs scss have to match snapshot 1`] = `
     overflow-x: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
-    scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: auto;
+    scrollbar-color: var(--color-emerald-green) var(--color-white);
     /* Hide scrollbar for Chrome, Safari */
     /* stylelint-disable-next-line */
     -ms-overflow-style: none;
@@ -713,8 +713,18 @@ exports[`Tabs scss have to match snapshot 1`] = `
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
             box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+    html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
+      scroll-behavior: smooth; }
     html[data-visual-test] .dnb-tabs__tabs__tablist {
       scroll-behavior: auto !important; }
+    @supports not (scrollbar-color: auto) {
+      .dnb-tabs__tabs__tablist::-webkit-scrollbar {
+        width: 0.5rem;
+        background-color: var(--color-white); }
+      .dnb-tabs__tabs__tablist::-webkit-scrollbar-thumb {
+        cursor: pointer;
+        background-color: var(--color-emerald-green);
+        border-radius: 0.5rem; } }
     .dnb-tabs__tabs__tablist::-webkit-scrollbar {
       display: none; }
   .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {

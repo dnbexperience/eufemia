@@ -5,16 +5,10 @@
 
 @import '../../../../style/themes/imports.scss';
 
-@mixin dropdownBorderColor($color) {
-  @include fakeBorder($color, 0.125rem, null, true, !important);
-}
-
 .dnb-dropdown {
-  color: var(--color-emerald-green);
-
   // button
-  &__trigger {
-    color: var(--color-emerald-green);
+  &__trigger:not(#{&}__status--error) {
+    color: var(--color-sea-green);
     @include hover() {
       color: var(--color-emerald-green);
     }
@@ -29,12 +23,17 @@
 
   // error status
   &__status--error:not(#{&}--opened) &__trigger {
-    @include dropdownBorderColor(var(--color-fire-red));
+    @include fakeBorder(var(--color-fire-red));
     @include hover() {
-      @include dropdownBorderColor(var(--color-fire-red));
+      color: var(--color-fire-red);
+      @include fakeBorder(var(--color-fire-red), 0.125rem);
       & .dnb-dropdown__icon .dnb-icon {
         color: var(--color-fire-red);
       }
+    }
+    @include active() {
+      color: var(--color-fire-red);
+      background-color: var(--color-fire-red-8);
     }
   }
   &__status--error:not(#{&}--opened) &__trigger,
@@ -42,7 +41,7 @@
     color: var(--color-fire-red);
   }
 
-  // ajust the form-status to the inner border for 2px
+  // adjust the form-status to the inner border for 2px
   > .dnb-form-status {
     transform: translateY(-0.4375rem);
   }

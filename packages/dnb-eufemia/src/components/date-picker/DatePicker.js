@@ -408,12 +408,13 @@ export default class DatePicker extends React.PureComponent {
         opened: false,
         _listenForPropChanges: false
       },
-      () =>
+      () => {
         dispatchCustomElementEvent(
           this,
           'on_hide',
           this.getReturnObject(args)
         )
+      }
     )
 
     this._hideTimeout = setTimeout(

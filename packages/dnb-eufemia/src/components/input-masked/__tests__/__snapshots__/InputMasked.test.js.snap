@@ -286,7 +286,7 @@ exports[`InputMasked scss have to match snapshot 1`] = `
 */
 .dnb-form-status {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
@@ -382,7 +382,7 @@ exports[`InputMasked scss have to match snapshot 1`] = `
 
 .dnb-button {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
@@ -621,7 +621,7 @@ button.dnb-button::-moz-focus-inner {
 */
 .dnb-form-label {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
@@ -703,7 +703,7 @@ legend.dnb-form-label {
 
 .dnb-input {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
@@ -994,7 +994,7 @@ legend.dnb-form-label {
 
 .dnb-input-masked {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);

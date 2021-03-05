@@ -159,36 +159,52 @@ $focusRingColor: var(--color-emerald-green);
   }
 }
 
-@mixin scrollY($mode: scroll) {
-  overflow-y: $mode;
+@mixin scrollbarAppearance() {
   overscroll-behavior: contain;
   scrollbar-width: thin;
-  html:not([data-visual-test]) & {
-    scroll-behavior: smooth;
-  }
 
   // older iOS safari
   -webkit-overflow-scrolling: touch;
 
   // show scrollbar on IE
   -ms-overflow-style: auto;
+
+  scrollbar-color: var(--color-emerald-green) var(--color-white);
+
+  // Safari/Chrome
+  @supports not (scrollbar-color: auto) {
+    &::-webkit-scrollbar {
+      width: 0.5rem;
+      background-color: var(--color-white);
+    }
+    &::-webkit-scrollbar-thumb {
+      cursor: pointer;
+      background-color: var(--color-emerald-green);
+      border-radius: 0.5rem;
+    }
+  }
+}
+
+@mixin scrollY($mode: scroll) {
+  overflow-y: $mode;
+  html:not([data-visual-test]) & {
+    scroll-behavior: smooth;
+  }
+  html[data-visual-test] & {
+    scroll-behavior: auto !important;
+  }
+  @include scrollbarAppearance();
 }
 
 @mixin scrollX($mode: scroll) {
   overflow-x: $mode;
-  overscroll-behavior: contain;
-  scrollbar-width: thin;
-  scroll-behavior: smooth;
-
+  html:not([data-visual-test]) & {
+    scroll-behavior: smooth;
+  }
   html[data-visual-test] & {
     scroll-behavior: auto !important;
   }
-
-  // older iOS safari
-  -webkit-overflow-scrolling: touch;
-
-  // show scrollbar on IE
-  -ms-overflow-style: auto;
+  @include scrollbarAppearance();
 }
 
 @mixin hideScrollbar() {

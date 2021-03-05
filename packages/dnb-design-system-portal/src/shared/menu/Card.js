@@ -108,7 +108,7 @@ const linkStyle = css`
   color: rgba(0, 0, 0, 0.75);
   text-decoration: none;
   text-align: center;
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
 
   background-color: var(--color-white);
   transition: background-color 0.5s ease;

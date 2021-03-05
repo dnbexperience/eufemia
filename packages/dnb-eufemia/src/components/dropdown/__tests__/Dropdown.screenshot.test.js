@@ -123,22 +123,36 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+})
+
+describe('Dropdown screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/dropdown/demos'
+  })
   it('have to match the dropdown as more_menu opened on left side', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="dropdown-more_menu"]',
       simulateSelector:
         '[data-visual-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__trigger',
-      waitAfterSimulate: 100,
+      waitAfterSimulateSelector:
+        '.dnb-drawer-list__options .first-of-type.dnb-drawer-list__option',
       simulate: 'click'
     })
     expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Dropdown screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/dropdown/demos'
   })
   it('have to match the dropdown as more_menu opened on right side', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="dropdown-more_menu"]',
       simulateSelector:
         '[data-visual-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(2) .dnb-dropdown__trigger',
-      waitAfterSimulate: 100,
+      waitAfterSimulateSelector:
+        '.dnb-drawer-list__options .first-of-type.dnb-drawer-list__option',
       simulate: 'click'
     })
     expect(screenshot).toMatchImageSnapshot()

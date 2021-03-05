@@ -189,7 +189,7 @@ const StyledListItem = styled.li`
 
     font-size: 0.4375rem; /* safari handles rem value incorrectly */
     line-height: 1.3125rem; /* same as height + 1px */
-    font-weight: var(--font-weight-default);
+    font-weight: var(--font-weight-basis);
     text-align: center;
     text-transform: uppercase;
     color: var(--color-black);
@@ -567,7 +567,7 @@ export default class SidebarLayout extends React.PureComponent {
                   id="portal-sidebar-menu"
                   aria-labelledby="toggle-sidebar-menu"
                   className={classnames(
-                    // 'dnb-core-style',
+                    'dnb-scrollbar-appearance',
                     isOpen && 'show-mobile-menu',
                     isClosing && 'hide-mobile-menu'
                   )}

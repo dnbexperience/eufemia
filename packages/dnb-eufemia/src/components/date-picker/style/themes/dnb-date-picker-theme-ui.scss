@@ -23,7 +23,7 @@
     &__input[value*='7'],
     &__input[value*='8'],
     &__input[value*='9'] {
-      &__input:not([data-input-state='disabled']) {
+      &:not([data-input-state='disabled']) {
         color: var(--color-black);
         & ~ .dnb-date-picker--separator {
           color: var(--color-black);
@@ -144,8 +144,8 @@
     }
   }
 
-  &--opened .dnb-input .dnb-input__shell,
-  &
+  &--opened .dnb-input,
+  &:not(#{&}__status--error)
     .dnb-form-label:hover
     ~ &__inner
     .dnb-input:not([data-input-state='disabled']) {
@@ -163,7 +163,6 @@
     @include defaultDropShadow();
   }
 
-  /* stylelint-disable */
   &__status--error
     &:not(#{&}--opened)
     .dnb-input:not([data-input-state='focus'])
@@ -175,5 +174,12 @@
     ~ &--separator {
     color: var(--color-fire-red);
   }
-  /* stylelint-enable */
+  &__status--error:not(#{&}--opened)
+    .dnb-form-label:hover
+    ~ &__inner
+    .dnb-input:not([data-input-state='disabled']) {
+    .dnb-input__shell {
+      @include fakeBorder(var(--color-fire-red), 0.125rem);
+    }
+  }
 }

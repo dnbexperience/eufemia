@@ -362,7 +362,7 @@ exports[`Accordion scss have to match snapshot 1`] = `
 
 .dnb-accordion {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
@@ -472,7 +472,7 @@ exports[`Accordion scss have to match snapshot 1`] = `
     .dnb-accordion__header__description {
       font-size: var(--font-size-small);
       line-height: var(--line-height-small);
-      font-weight: var(--font-weight-default); }
+      font-weight: var(--font-weight-basis); }
     .dnb-accordion__header__title + .dnb-accordion__header__description {
       margin-top: 0.25rem; }
     .dnb-accordion__header__description + .dnb-accordion__header__title {
