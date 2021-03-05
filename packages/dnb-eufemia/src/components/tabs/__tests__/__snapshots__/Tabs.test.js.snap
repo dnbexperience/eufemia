@@ -697,7 +697,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
     scrollbar-width: thin;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: auto;
-    scrollbar-color: var(--color-emerald-green) var(--color-white);
+    scrollbar-color: var(--color-emerald-green) transparent;
     /* Hide scrollbar for Chrome, Safari */
     /* stylelint-disable-next-line */
     -ms-overflow-style: none;
@@ -720,7 +720,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
     @supports not (scrollbar-color: auto) {
       .dnb-tabs__tabs__tablist::-webkit-scrollbar {
         width: 0.5rem;
-        background-color: var(--color-white); }
+        background-color: transparent; }
       .dnb-tabs__tabs__tablist::-webkit-scrollbar-thumb {
         cursor: pointer;
         background-color: var(--color-emerald-green);
