@@ -10,6 +10,7 @@
 }
 
 @mixin textareaStyleCommon() {
+  cursor: auto;
   border: none;
   margin: 0;
   padding: 0 var(--textarea-padding-width);

@@ -169,13 +169,13 @@ $focusRingColor: var(--color-emerald-green);
   // show scrollbar on IE
   -ms-overflow-style: auto;
 
-  scrollbar-color: var(--color-emerald-green) var(--color-white);
+  scrollbar-color: var(--color-emerald-green) transparent;
 
   // Safari/Chrome
   @supports not (scrollbar-color: auto) {
     &::-webkit-scrollbar {
       width: 0.5rem;
-      background-color: var(--color-white);
+      background-color: transparent;
     }
     &::-webkit-scrollbar-thumb {
       cursor: pointer;

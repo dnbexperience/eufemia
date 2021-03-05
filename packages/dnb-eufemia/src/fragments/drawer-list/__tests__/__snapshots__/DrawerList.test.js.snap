@@ -623,7 +623,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     scrollbar-width: thin;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: auto;
-    scrollbar-color: var(--color-emerald-green) var(--color-white); }
+    scrollbar-color: var(--color-emerald-green) transparent; }
     html:not([data-visual-test]) .dnb-drawer-list--scroll .dnb-drawer-list__options {
       scroll-behavior: smooth; }
     html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options {
@@ -631,7 +631,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     @supports not (scrollbar-color: auto) {
       .dnb-drawer-list--scroll .dnb-drawer-list__options::-webkit-scrollbar {
         width: 0.5rem;
-        background-color: var(--color-white); }
+        background-color: transparent; }
       .dnb-drawer-list--scroll .dnb-drawer-list__options::-webkit-scrollbar-thumb {
         cursor: pointer;
         background-color: var(--color-emerald-green);
