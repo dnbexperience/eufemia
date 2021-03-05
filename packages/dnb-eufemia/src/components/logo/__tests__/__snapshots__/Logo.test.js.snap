@@ -70,7 +70,7 @@ exports[`Logo scss have to match snapshot 1`] = `
 
 .dnb-logo {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);

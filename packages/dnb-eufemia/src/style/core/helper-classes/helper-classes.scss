@@ -28,6 +28,9 @@
     !important
   );
 }
+.dnb-scrollbar-appearance {
+  @include scrollbarAppearance();
+}
 @import './skip-link.scss';
 
 .dnb-hide-on-mobile {

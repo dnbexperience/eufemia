@@ -168,7 +168,7 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
 */
 .dnb-form-status {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
@@ -264,7 +264,7 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
 
 .dnb-button {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
@@ -503,7 +503,7 @@ button.dnb-button::-moz-focus-inner {
 */
 .dnb-section {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
@@ -583,7 +583,7 @@ button.dnb-button::-moz-focus-inner {
 
 .dnb-global-status {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);

@@ -227,7 +227,7 @@ exports[`Skeleton scss have to match snapshot 1`] = `
 
 .dnb-skeleton {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
@@ -322,8 +322,6 @@ exports[`Skeleton scss have to match snapshot 1`] = `
 .dnb-skeleton--font .dnb-skeleton--show-font,
 .dnb-skeleton--font .dnb-p {
   pointer-events: none;
-  --font-family-book: 'DNBSkeleton' !important;
-  --font-family-demi: 'DNBSkeleton' !important;
   --font-family-default: 'DNBSkeleton' !important;
   font-family: var(--font-family-default) !important;
   font-style: unset !important; }

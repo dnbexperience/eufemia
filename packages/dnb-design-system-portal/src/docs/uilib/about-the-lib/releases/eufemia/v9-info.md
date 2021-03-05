@@ -59,7 +59,6 @@ Removed already depreciated CSS properties (vars):
 - `--color-black-30`
 - `--color-sea-green-alt`
 - `--color-signal-yellow`
-- `--font-weight-default`
 - `--font-weight-book`
 - `--font-weight-demi`
 - `--font-family-book`

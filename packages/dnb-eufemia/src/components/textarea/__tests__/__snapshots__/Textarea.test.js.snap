@@ -143,13 +143,24 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
   overscroll-behavior: contain;
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: auto; }
+  -ms-overflow-style: auto;
+  scrollbar-color: var(--color-emerald-green) var(--color-white); }
   .dnb-textarea__textarea ::selection {
     background-color: var(--color-mint-green);
     color: var(--color-black);
     text-shadow: none; }
   html:not([data-visual-test]) .dnb-textarea__textarea {
     scroll-behavior: smooth; }
+  html[data-visual-test] .dnb-textarea__textarea {
+    scroll-behavior: auto !important; }
+  @supports not (scrollbar-color: auto) {
+    .dnb-textarea__textarea::-webkit-scrollbar {
+      width: 0.5rem;
+      background-color: var(--color-white); }
+    .dnb-textarea__textarea::-webkit-scrollbar-thumb {
+      cursor: pointer;
+      background-color: var(--color-emerald-green);
+      border-radius: 0.5rem; } }
 
 .dnb-textarea__placeholder {
   color: var(--color-black-55);
@@ -178,9 +189,21 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
 .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover {
   color: var(--color-fire-red); }
 
-.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) ~ .dnb-textarea__state,
+.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) ~ .dnb-textarea__state {
+  --border-color: var(--color-fire-red);
+  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  border-color: transparent; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) ~ .dnb-textarea__state {
+      box-shadow: 0 0 0 0.0625rem var(--color-fire-red); } }
+
 .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
-  box-shadow: 0 0 0 0.125rem var(--color-fire-red); }
+  --border-color: var(--color-fire-red);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
+      box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
 
 .dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
 .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
@@ -221,7 +244,7 @@ exports[`Textarea scss have to match snapshot 1`] = `
 */
 .dnb-form-label {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
@@ -307,7 +330,7 @@ legend.dnb-form-label {
 */
 .dnb-form-status {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
@@ -403,7 +426,7 @@ legend.dnb-form-label {
 
 .dnb-textarea {
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
   font-style: normal;
   line-height: var(--line-height-basis);
@@ -466,13 +489,24 @@ legend.dnb-form-label {
   overscroll-behavior: contain;
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: auto; }
+  -ms-overflow-style: auto;
+  scrollbar-color: var(--color-emerald-green) var(--color-white); }
   .dnb-textarea__textarea ::selection {
     background-color: var(--color-mint-green);
     color: var(--color-black);
     text-shadow: none; }
   html:not([data-visual-test]) .dnb-textarea__textarea {
     scroll-behavior: smooth; }
+  html[data-visual-test] .dnb-textarea__textarea {
+    scroll-behavior: auto !important; }
+  @supports not (scrollbar-color: auto) {
+    .dnb-textarea__textarea::-webkit-scrollbar {
+      width: 0.5rem;
+      background-color: var(--color-white); }
+    .dnb-textarea__textarea::-webkit-scrollbar-thumb {
+      cursor: pointer;
+      background-color: var(--color-emerald-green);
+      border-radius: 0.5rem; } }
 
 .dnb-textarea__placeholder {
   color: var(--color-black-55);
@@ -501,9 +535,21 @@ legend.dnb-form-label {
 .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover {
   color: var(--color-fire-red); }
 
-.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) ~ .dnb-textarea__state,
+.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) ~ .dnb-textarea__state {
+  --border-color: var(--color-fire-red);
+  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  border-color: transparent; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) ~ .dnb-textarea__state {
+      box-shadow: 0 0 0 0.0625rem var(--color-fire-red); } }
+
 .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
-  box-shadow: 0 0 0 0.125rem var(--color-fire-red); }
+  --border-color: var(--color-fire-red);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
+      box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
 
 .dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
 .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
