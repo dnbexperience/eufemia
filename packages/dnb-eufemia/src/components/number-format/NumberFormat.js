@@ -57,6 +57,10 @@ export default class NumberFormat extends React.PureComponent {
     options: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     decimals: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    always_selectall: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
     copy_selection: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
@@ -88,6 +92,7 @@ export default class NumberFormat extends React.PureComponent {
     options: null,
     decimals: null,
     selectall: true,
+    always_selectall: false,
     copy_selection: true,
     omit_rounding: null,
     clean: null,
@@ -148,7 +153,7 @@ export default class NumberFormat extends React.PureComponent {
   }
 
   onClickHandler = () => {
-    if (!hasSelectedText()) {
+    if (!hasSelectedText() || isTrue(this.props.always_selectall)) {
       this.setFocus()
     }
   }
