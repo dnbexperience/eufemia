@@ -1254,37 +1254,46 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-dropdown {
-  color: var(--color-emerald-green); }
-  .dnb-dropdown__trigger {
+.dnb-dropdown__trigger:not(.dnb-dropdown__status--error) {
+  color: var(--color-sea-green); }
+  html:not([data-whatintent='touch']) .dnb-dropdown__trigger:not(.dnb-dropdown__status--error):hover[disabled] {
+    cursor: not-allowed; }
+  html:not([data-whatintent='touch']) .dnb-dropdown__trigger:not(.dnb-dropdown__status--error):hover:not([disabled]) {
     color: var(--color-emerald-green); }
-    html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover:not([disabled]) {
-      color: var(--color-emerald-green); }
-  .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
+
+.dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
+  --border-color: var(--color-fire-red);
+  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  border-color: transparent; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
+      box-shadow: 0 0 0 0.0625rem var(--color-fire-red); } }
+  html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
+    cursor: not-allowed; }
+  html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
+    color: var(--color-fire-red);
     --border-color: var(--color-fire-red);
-    box-shadow: 0 0 0 0.125rem var(--border-color) !important;
+    box-shadow: 0 0 0 0.125rem var(--border-color);
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
-      .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
-        box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
-    html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
-      --border-color: var(--color-fire-red);
-      box-shadow: 0 0 0 0.125rem var(--border-color) !important;
-      border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
-          box-shadow: 0 0 0 1px var(--color-fire-red) !important; } }
-      html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
-        color: var(--color-fire-red); }
-  .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger,
-  .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__icon {
-    color: var(--color-fire-red); }
-  .dnb-dropdown > .dnb-form-status {
-    transform: translateY(-0.4375rem); }
+      html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
+        box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
+    html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
+      color: var(--color-fire-red); }
+  .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:active[disabled],
+  html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:active[disabled] {
+    cursor: not-allowed; }
+  .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:active:not([disabled]),
+  html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:active:not([disabled]) {
+    color: var(--color-fire-red);
+    background-color: var(--color-fire-red-8); }
+
+.dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger,
+.dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__icon {
+  color: var(--color-fire-red); }
+
+.dnb-dropdown > .dnb-form-status {
+  transform: translateY(-0.4375rem); }
 "
 `;
 
