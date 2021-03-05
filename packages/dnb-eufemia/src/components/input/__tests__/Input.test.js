@@ -51,22 +51,16 @@ describe('Input component', () => {
     Comp.find('input').simulate('focus')
     // Comp.find('input').prop('onFocus')() // call onFocus handler
 
-    expect(Comp.find('.dnb-input__shell').prop('data-input-state')).toBe(
-      'focus'
-    )
+    expect(Comp.find('.dnb-input').prop('data-input-state')).toBe('focus')
   })
 
   it('has correct state after "change" trigger', () => {
-    expect(Comp.find('.dnb-input__shell').prop('data-has-content')).toBe(
-      'false'
-    )
+    expect(Comp.find('.dnb-input').prop('data-has-content')).toBe('false')
 
     const newValue = 'new value'
     Comp.find('input').simulate('change', { target: { value: newValue } })
 
-    expect(Comp.find('.dnb-input__shell').prop('data-has-content')).toBe(
-      'true'
-    )
+    expect(Comp.find('.dnb-input').prop('data-has-content')).toBe('true')
 
     expect(Comp.state().value).toBe(newValue)
   })

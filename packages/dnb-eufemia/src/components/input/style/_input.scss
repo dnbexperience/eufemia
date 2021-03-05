@@ -17,10 +17,7 @@
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
   --input-border-width: 0.0625rem;
-  --input-border-radius: calc(var(--input-height) / 2);
-  --input-border-radius--small: calc(var(--input-height--small) / 2);
-  --input-border-radius--medium: calc(var(--input-height--medium) / 2);
-  --input-border-radius--large: calc(var(--input-height--large) / 2);
+  --input-border-radius: 0.25rem;
 }
 
 .dnb-input {
@@ -174,7 +171,9 @@
     align-self: center; /* IE needs this to stay centered */
 
     &__button {
-      border-radius: 50%;
+      // For now we don't support a button on the left side
+      border-radius: 0 var(--input-border-radius)
+        var(--input-border-radius) 0;
     }
   }
 
@@ -183,7 +182,6 @@
     .dnb-input__shell,
     .dnb-input__input {
       height: var(--input-height--small);
-      border-radius: var(--input-border-radius--small);
     }
     .dnb-input__placeholder,
     .dnb-input__input {
@@ -210,7 +208,6 @@
     .dnb-input__shell,
     .dnb-input__input {
       height: var(--input-height--medium);
-      border-radius: var(--input-border-radius--medium);
     }
     .dnb-input__placeholder,
     .dnb-input__input {
@@ -237,7 +234,6 @@
     .dnb-input__shell,
     .dnb-input__input {
       height: var(--input-height--large);
-      border-radius: var(--input-border-radius--large);
     }
     .dnb-input__placeholder,
     .dnb-input__input {

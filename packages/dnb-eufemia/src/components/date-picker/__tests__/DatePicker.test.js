@@ -200,7 +200,7 @@ describe('DatePicker component', () => {
       />
     )
 
-    Comp.find('button.dnb-input__submit-button__button').simulate('click')
+    Comp.find('button.dnb-button').simulate('click')
     Comp.find('span.dnb-toggle-button')
       .at(0)
       .find('button.dnb-button')
@@ -336,7 +336,7 @@ describe('DatePicker component', () => {
     expect(on_cancel).toHaveBeenCalled()
     expect(on_cancel.mock.calls[0][0].date).toBe(date)
 
-    Comp.find('button.dnb-input__submit-button__button').simulate('click')
+    Comp.find('span.dnb-input__submit-element').find('button.dnb-button').simulate('click')
     submitElem.simulate('click')
 
     expect(

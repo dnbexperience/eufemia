@@ -282,4 +282,19 @@
       background-color: var(--color-accent-yellow-30);
     }
   }
+
+  html:not([data-whatintent='touch'])
+    &--input-button:not(&--has-text):not([disabled]):focus,
+  html:not([data-whatintent='touch'])
+    &--input-button:not(&--has-text):not([disabled]):hover {
+    color: var(--color-white);
+    background-color: var(--color-sea-green);
+    box-shadow: none;
+  }
+  html:not([data-whatintent='touch'])
+    &--input-button:not(&--has-text)[disabled] {
+    color: var(--color-black-55);
+    background-color: var(--color-black-3);
+    @include fakeBorder(var(--color-black-55), 0.0625rem, inset);
+  }
 }

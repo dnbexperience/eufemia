@@ -9,111 +9,21 @@
   --textarea-rows: 2;
 }
 
-@mixin textareaTheme() {
-  border-radius: 0.5rem; // will be actually 1rem/16px
-
-  &,
-  .dnb-textarea--virgin &,
-  .dnb-textarea--initial & {
-    color: var(--color-sea-green);
-    background-color: var(--color-white);
-  }
-
-  // content changed
-  .dnb-textarea--dirty & {
-    // Background color of textarea when it has content
-    color: var(--color-emerald-green);
-    background-color: var(--color-white);
-  }
-
-  // hover and focus
-  .dnb-textarea--focus &,
-  &:focus /* for the HTML element */,
-  &:hover {
-    outline: none;
-    &:not([disabled]):not(#{&}--disabled) {
-      color: var(--color-sea-green);
-      background-color: var(--color-white);
-      &:not(.status--error) /* for the HTML element */ {
-        box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-white),
-          0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
-            var(--color-emerald-green);
-
-        @include IS_IE {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-        }
-
-        // Edge fix
-        @include IS_EDGE {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-        }
-      }
-    }
-  }
-
-  // disabled
-  &[disabled] /* for the HTML element */,
-  .dnb-textarea--disabled & {
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
-
-    color: var(--color-sea-green-30);
-    background-color: var(--color-mint-green-12);
-
-    box-shadow: 0 0 0 var(--textarea-padding-width)
-        var(--color-mint-green-12),
-      0 0 0 calc(var(--textarea-padding-width) + 0.0625rem)
-        var(--color-sea-green-30);
-
-    &::-webkit-scrollbar {
-      width: 0;
-    }
-  }
-
-  // only fot the HTML element textarea
-  &.status--error /* for the HTML element */,
-  .dnb-textarea__status--error/* for the HTML element */ {
-    box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-white),
-      0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
-        var(--color-fire-red);
-
-    @include IS_IE {
-      box-shadow: 0 0 0 1px var(--color-fire-red);
-    }
-
-    // Edge fix
-    @include IS_EDGE {
-      box-shadow: 0 0 0 1px var(--color-fire-red);
-    }
-  }
-
-  ::selection {
-    background-color: var(--color-mint-green);
-    color: var(--color-sea-green);
-    text-shadow: none;
-  }
-
-  @include IS_IE {
-    -ms-overflow-style: -ms-autohiding-scrollbar;
-    box-shadow: 0 0 0 1px var(--color-sea-green);
-  }
-
-  // Edge fix
-  @include IS_EDGE {
-    -ms-overflow-style: -ms-autohiding-scrollbar;
-    box-shadow: 0 0 0 1px var(--color-sea-green);
-  }
-
-  @include scrollY(auto);
-}
-
 .dnb-textarea {
   &__textarea {
-    @include textareaTheme();
+    color: var(--color-black);
+
+    ::selection {
+      background-color: var(--color-mint-green);
+      color: var(--color-black);
+      text-shadow: none;
+    }
+
+    @include scrollY(auto);
   }
 
   &__placeholder {
-    color: var(--color-sea-green);
+    color: var(--color-black-55);
 
     // Required for line-clamp
     display: -webkit-box;
@@ -123,23 +33,49 @@
     -webkit-line-clamp: var(--textarea-rows, 2);
   }
 
-  // with status_state = "error"
-  &__status--error:not(#{&}--focus) &__textarea {
-    &,
-    &:not(#{&}--disabled):hover {
-      box-shadow: 0 0 0 var(--textarea-padding-width) var(--color-white),
-        0 0 0 calc(var(--textarea-padding-width) + 0.125rem)
-          var(--color-fire-red);
+  &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__state,
+  &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__state {
+    box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+  }
 
-      @include IS_IE {
-        box-shadow: 0 0 0 0.125rem var(--color-fire-red);
-      }
+  // We may enable this in future – right now it's unclear
+  // &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__placeholder,
+  // &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__placeholder {
+  //   color: var(--color-black);
+  // }
 
-      // Edge fix
-      @include IS_EDGE {
-        box-shadow: 0 0 0 0.125rem var(--color-fire-red);
-      }
+  // disabled
+  &--disabled &__textarea,
+  &__textarea[disabled] {
+    user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
+    &::-webkit-scrollbar {
+      width: 0;
     }
+
+    color: var(--color-black-55);
+    background-color: var(--color-black-3);
+  }
+  &--disabled &__state,
+  &__textarea[disabled] ~ &__state {
+    box-shadow: 0 0 0 0.0625rem var(--color-black-55);
+    background-color: var(--color-black-3);
+  }
+
+  // with status_state = "error"
+  &__status--error:not(#{&}--focus)
+    &__textarea:not([disabled]):not(#{&}--disabled),
+  &__status--error:not(#{&}--focus)
+    &__textarea:not([disabled]):not(#{&}--disabled):hover {
+    color: var(--color-fire-red);
+  }
+  &__status--error:not(#{&}--focus)
+    &__textarea:not([disabled]):not(#{&}--disabled)
+    ~ &__state,
+  &__status--error:not(#{&}--focus)
+    &__textarea:not([disabled]):not(#{&}--disabled):hover
+    ~ &__state {
+    box-shadow: 0 0 0 0.125rem var(--color-fire-red);
   }
 
   // hide placeholder on focus
@@ -147,8 +83,4 @@
   &--focus &__textarea:not([disabled]):not([readonly]) ~ &__placeholder {
     display: none;
   }
-}
-
-textarea.dnb-textarea {
-  @include textareaTheme();
 }

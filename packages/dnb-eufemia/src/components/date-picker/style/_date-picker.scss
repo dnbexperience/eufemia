@@ -431,6 +431,12 @@
     }
   }
 
+  &:not(.dnb-date-picker--show-input)
+    .dnb-input__submit-button
+    .dnb-button {
+    border-radius: 50%;
+  }
+
   .dnb-responsive-component & {
     @media screen and (max-width: 40em) {
       display: flex;

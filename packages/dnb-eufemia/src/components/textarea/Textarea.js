@@ -487,6 +487,8 @@ export default class Textarea extends React.PureComponent {
                   {placeholder}
                 </span>
               )}
+
+              <span className="dnb-textarea__state" />
             </span>
 
             {suffix && (

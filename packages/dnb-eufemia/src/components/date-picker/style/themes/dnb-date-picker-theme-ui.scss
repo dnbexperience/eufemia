@@ -6,6 +6,12 @@
 @import '../../../../style/themes/imports.scss';
 
 .dnb-date-picker {
+  &:not(#{&}__status--error) &__input {
+    color: var(--color-black-55);
+    & ~ .dnb-date-picker--separator {
+      color: var(--color-black-55);
+    }
+  }
   &:not(#{&}__status--error) & {
     &__input[value*='0'],
     &__input[value*='1'],
@@ -17,9 +23,11 @@
     &__input[value*='7'],
     &__input[value*='8'],
     &__input[value*='9'] {
-      &,
-      & ~ .dnb-date-picker--separator {
-        color: var(--color-emerald-green);
+      &__input:not([data-input-state='disabled']) {
+        color: var(--color-black);
+        & ~ .dnb-date-picker--separator {
+          color: var(--color-black);
+        }
       }
     }
   }
@@ -136,24 +144,33 @@
     }
   }
 
+  &--opened .dnb-input .dnb-input__shell,
+  &
+    .dnb-form-label:hover
+    ~ &__inner
+    .dnb-input:not([data-input-state='disabled']) {
+    .dnb-input__shell {
+      @include fakeBorder(var(--color-sea-green), 0.125rem);
+    }
+    .dnb-input__submit-button__button {
+      border-radius: 0;
+    }
+  }
+
   &__triangle::before {
     border: none;
     background-color: var(--color-white);
     @include defaultDropShadow();
   }
 
-  .dnb-input__submit-button__button {
-    color: var(--color-emerald-green);
-  }
-
   /* stylelint-disable */
   &__status--error
     &:not(#{&}--opened)
-    .dnb-input__shell:not([data-input-state='focus'])
+    .dnb-input:not([data-input-state='focus'])
     &__input,
   &__status--error
     &:not(#{&}--opened)
-    .dnb-input__shell:not([data-input-state='focus'])
+    .dnb-input:not([data-input-state='focus'])
     &__input
     ~ &--separator {
     color: var(--color-fire-red);

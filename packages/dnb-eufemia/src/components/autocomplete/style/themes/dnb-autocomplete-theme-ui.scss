@@ -6,26 +6,20 @@
 @import '../../../../style/themes/imports.scss';
 
 .dnb-autocomplete {
-  color: var(--color-emerald-green);
-
-  // input
-  &__input.dnb-input {
-    color: var(--color-emerald-green);
-    // :hover {
-    //   color: var(--color-emerald-green);
-    // }
-  }
-  &--opened &__input.dnb-input .dnb-input__shell {
-    box-shadow: none;
-  }
-  &--opened .dnb-input__submit-button__button {
-    @include fakeBorder(
-      var(--color-emerald-green),
-      0.125rem,
-      // could be 0.0625rem,
-      null,
-      true
-    );
+  &--opened .dnb-input .dnb-input__shell,
+  &
+    .dnb-form-label:hover
+    ~ &__inner
+    .dnb-input:not([data-input-state='disabled']) {
+    .dnb-input__shell {
+      @include fakeBorder(var(--color-sea-green), 0.125rem);
+    }
+    .dnb-input__submit-button__button {
+      border-radius: 0;
+      color: var(--color-white);
+      background-color: var(--color-sea-green);
+      box-shadow: none;
+    }
   }
 }
 

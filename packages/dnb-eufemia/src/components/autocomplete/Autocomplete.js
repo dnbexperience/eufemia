@@ -187,6 +187,7 @@ export default class Autocomplete extends React.PureComponent {
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    portal_class: PropTypes.string,
     drawer_class: PropTypes.string,
 
     ...spacingPropTypes,
@@ -269,6 +270,7 @@ export default class Autocomplete extends React.PureComponent {
     disabled: null,
     stretch: null,
     skeleton: null,
+    portal_class: null,
     drawer_class: null,
 
     class: null,
@@ -434,11 +436,14 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   toggleVisible = ({ hasFilter = false } = {}) => {
+    if (isTrue(this.props.disabled)) {
+      return // stop here
+    }
     if (
       !hasFilter &&
       !isTrue(this.props.prevent_close) &&
       !this.context.drawerList.hidden &&
-      this.context.drawerList.opened
+      this.context.drawerList.isOpen
     ) {
       this.setHidden()
     } else {
@@ -1446,6 +1451,7 @@ class AutocompleteInstance extends React.PureComponent {
       default_value,
       submit_button_title,
       submit_button_icon,
+      portal_class,
       drawer_class,
       input_ref, // eslint-disable-line
       className,
@@ -1524,10 +1530,7 @@ class AutocompleteInstance extends React.PureComponent {
     }
 
     const inputParams = {
-      className: classnames(
-        'dnb-autocomplete__input',
-        opened && 'dnb-button--active'
-      ),
+      className: classnames('dnb-autocomplete__input'),
       id,
       value: inputValue,
       autoCapitalize: 'none',
@@ -1599,7 +1602,8 @@ class AutocompleteInstance extends React.PureComponent {
         onKeyDown: this.onTriggerKeyDownHandler,
         onSubmit: this.onSubmit,
         'aria-haspopup': 'listbox',
-        'aria-expanded': isExpanded
+        'aria-expanded': isExpanded,
+        className: classnames(opened && 'dnb-button--active')
       }
 
       if (submit_element && React.isValidElement(submit_element)) {
@@ -1638,7 +1642,7 @@ class AutocompleteInstance extends React.PureComponent {
             sr_only={label_sr_only}
             disabled={disabled}
             skeleton={skeleton}
-            onMouseDown={this.toggleVisible}
+            onClick={this.toggleVisible}
           />
         )}
 
@@ -1695,7 +1699,8 @@ class AutocompleteInstance extends React.PureComponent {
                   'dnb-autocomplete__root',
                   drawer_class
                 )}
-                inner_class="dnb-autocomplete__list"
+                portal_class={portal_class}
+                list_class="dnb-autocomplete__list"
                 value={selected_item}
                 default_value={default_value}
                 scrollable={scrollable}
