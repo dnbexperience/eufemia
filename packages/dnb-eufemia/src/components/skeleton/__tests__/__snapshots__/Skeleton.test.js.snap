@@ -126,6 +126,8 @@ exports[`Skeleton component have to match snapshot 1`] = `
           >
             <span
               className="dnb-input dnb-input--text dnb-form-component"
+              data-has-content="true"
+              data-input-state="virgin"
             >
               <FormLabel
                 class={null}
@@ -166,8 +168,6 @@ exports[`Skeleton component have to match snapshot 1`] = `
                 >
                   <span
                     className="dnb-input__shell"
-                    data-has-content="true"
-                    data-input-state="virgin"
                   >
                     <input
                       autoComplete="off"

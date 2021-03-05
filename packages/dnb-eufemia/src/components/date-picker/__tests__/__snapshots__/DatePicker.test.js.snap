@@ -374,7 +374,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                     "current": <button
                       aria-expanded="false"
                       aria-label="åpne datovelger"
-                      class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                      class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
                       id="date-picker-id"
                       type="button"
                     >
@@ -460,10 +460,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                     <ForwardRef
                       aria-expanded={false}
                       aria-label="åpne datovelger"
-                      className={null}
+                      className="dnb-button--input-button"
                       disabled={false}
                       icon="calendar"
                       id="date-picker-id"
+                      on_click={[Function]}
                       on_submit={[Function]}
                       skeleton={false}
                       title={null}
@@ -477,6 +478,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
                 >
                   <span
                     className="dnb-input dnb-input--text dnb-form-component dnb-input--has-submit-element dnb-input__status--error"
+                    data-has-content="false"
+                    data-input-state="virgin"
                   >
                     <span
                       className="dnb-input__inner"
@@ -494,8 +497,6 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       >
                         <span
                           className="dnb-input__shell"
-                          data-has-content="false"
-                          data-input-state="virgin"
                         >
                           <span
                             className="dnb-date-picker__input__wrapper"
@@ -1097,10 +1098,11 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           <ForwardRef
                             aria-expanded={false}
                             aria-label="åpne datovelger"
-                            className={null}
+                            className="dnb-button--input-button"
                             disabled={false}
                             icon="calendar"
                             id="date-picker-id"
+                            on_click={[Function]}
                             on_submit={[Function]}
                             skeleton={false}
                             title={null}
@@ -1110,7 +1112,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             <InputSubmitButton
                               aria-expanded={false}
                               aria-label="åpne datovelger"
-                              className={null}
+                              className="dnb-button--input-button"
                               disabled={false}
                               icon="calendar"
                               icon_size={null}
@@ -1120,7 +1122,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   "current": <button
                                     aria-expanded="false"
                                     aria-label="åpne datovelger"
-                                    class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                                    class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
                                     id="date-picker-id"
                                     type="button"
                                   >
@@ -1151,6 +1153,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   </button>,
                                 }
                               }
+                              on_click={[Function]}
                               on_submit={[Function]}
                               on_submit_blur={null}
                               on_submit_focus={null}
@@ -1171,7 +1174,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   aria-label="åpne datovelger"
                                   bounding={false}
                                   class={null}
-                                  className="dnb-input__submit-button__button"
+                                  className="dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button"
                                   custom_element={null}
                                   custom_method={null}
                                   disabled={false}
@@ -1187,7 +1190,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                       "current": <button
                                         aria-expanded="false"
                                         aria-label="åpne datovelger"
-                                        class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                                        class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
                                         id="date-picker-id"
                                         type="button"
                                       >
@@ -1238,7 +1241,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   <button
                                     aria-expanded={false}
                                     aria-label="åpne datovelger"
-                                    className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                                    className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
                                     disabled={false}
                                     id="date-picker-id"
                                     onBlur={[Function]}
@@ -1251,7 +1254,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                       aria-label="åpne datovelger"
                                       bounding={false}
                                       class={null}
-                                      className="dnb-input__submit-button__button"
+                                      className="dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button"
                                       content={null}
                                       custom_element={null}
                                       custom_method={null}
@@ -1268,7 +1271,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                           "current": <button
                                             aria-expanded="false"
                                             aria-label="åpne datovelger"
-                                            class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                                            class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
                                             id="date-picker-id"
                                             type="button"
                                           >
@@ -1411,18 +1414,14 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
 .dnb-date-picker {
   /* stylelint-disable */
   /* stylelint-enable */ }
-  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='0'],
-  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='0'] ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='1'],
-  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='1'] ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='2'],
-  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='2'] ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='3'],
-  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='3'] ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='4'],
-  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='4'] ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='5'],
-  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='5'] ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='6'],
-  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='6'] ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='7'],
-  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='7'] ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='8'],
-  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='8'] ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='9'],
-  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='9'] ~ .dnb-date-picker--separator {
-    color: var(--color-emerald-green); }
+  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input {
+    color: var(--color-black-55); }
+    .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input ~ .dnb-date-picker--separator {
+      color: var(--color-black-55); }
+  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='0']__input:not([data-input-state='disabled']), .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='1']__input:not([data-input-state='disabled']), .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='2']__input:not([data-input-state='disabled']), .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='3']__input:not([data-input-state='disabled']), .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='4']__input:not([data-input-state='disabled']), .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='5']__input:not([data-input-state='disabled']), .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='6']__input:not([data-input-state='disabled']), .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='7']__input:not([data-input-state='disabled']), .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='8']__input:not([data-input-state='disabled']), .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='9']__input:not([data-input-state='disabled']) {
+    color: var(--color-black); }
+    .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='0']__input:not([data-input-state='disabled']) ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='1']__input:not([data-input-state='disabled']) ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='2']__input:not([data-input-state='disabled']) ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='3']__input:not([data-input-state='disabled']) ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='4']__input:not([data-input-state='disabled']) ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='5']__input:not([data-input-state='disabled']) ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='6']__input:not([data-input-state='disabled']) ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='7']__input:not([data-input-state='disabled']) ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='8']__input:not([data-input-state='disabled']) ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='9']__input:not([data-input-state='disabled']) ~ .dnb-date-picker--separator {
+      color: var(--color-black); }
   .dnb-date-picker__container {
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
     border-radius: 0.25rem;
@@ -1475,15 +1474,28 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
     box-shadow: none; }
   html:not([data-whatintent='touch']) .dnb-date-picker__day--inactive .dnb-button[disabled] {
     cursor: default; }
+  .dnb-date-picker--opened .dnb-input .dnb-input__shell .dnb-input__shell,
+  .dnb-date-picker .dnb-form-label:hover
+~ .dnb-date-picker__inner .dnb-input:not([data-input-state='disabled']) .dnb-input__shell {
+    --border-color: var(--color-sea-green);
+    box-shadow: 0 0 0 0.125rem var(--border-color);
+    border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-date-picker--opened .dnb-input .dnb-input__shell .dnb-input__shell,
+      .dnb-date-picker .dnb-form-label:hover
+~ .dnb-date-picker__inner .dnb-input:not([data-input-state='disabled']) .dnb-input__shell {
+        box-shadow: 0 0 0 0.125rem var(--color-sea-green); } }
+  .dnb-date-picker--opened .dnb-input .dnb-input__shell .dnb-input__submit-button__button,
+  .dnb-date-picker .dnb-form-label:hover
+~ .dnb-date-picker__inner .dnb-input:not([data-input-state='disabled']) .dnb-input__submit-button__button {
+    border-radius: 0; }
   .dnb-date-picker__triangle::before {
     border: none;
     background-color: var(--color-white);
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
-  .dnb-date-picker .dnb-input__submit-button__button {
-    color: var(--color-emerald-green); }
-  .dnb-date-picker__status--error .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-input__shell:not([data-input-state='focus'])
+  .dnb-date-picker__status--error .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-input:not([data-input-state='focus'])
 .dnb-date-picker__input,
-  .dnb-date-picker__status--error .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-input__shell:not([data-input-state='focus'])
+  .dnb-date-picker__status--error .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-input:not([data-input-state='focus'])
 .dnb-date-picker__input ~ .dnb-date-picker--separator {
     color: var(--color-fire-red); }
 "
@@ -2073,10 +2085,7 @@ legend.dnb-form-label {
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
   --input-border-width: 0.0625rem;
-  --input-border-radius: calc(var(--input-height) / 2);
-  --input-border-radius--small: calc(var(--input-height--small) / 2);
-  --input-border-radius--medium: calc(var(--input-height--medium) / 2);
-  --input-border-radius--large: calc(var(--input-height--large) / 2); }
+  --input-border-radius: 0.25rem; }
 
 .dnb-input {
   display: inline-flex;
@@ -2166,13 +2175,12 @@ legend.dnb-form-label {
     align-self: center;
     /* IE needs this to stay centered */ }
     .dnb-input__submit-button__button {
-      border-radius: 50%; }
+      border-radius: 0 var(--input-border-radius) var(--input-border-radius) 0; }
   .dnb-input--small {
     line-height: var(--input-height--small); }
     .dnb-input--small .dnb-input__shell,
     .dnb-input--small .dnb-input__input {
-      height: var(--input-height--small);
-      border-radius: var(--input-border-radius--small); }
+      height: var(--input-height--small); }
     .dnb-input--small .dnb-input__placeholder,
     .dnb-input--small .dnb-input__input {
       padding-left: var(--input-padding--small);
@@ -2191,8 +2199,7 @@ legend.dnb-form-label {
     line-height: var(--input-height--medium); }
     .dnb-input--medium .dnb-input__shell,
     .dnb-input--medium .dnb-input__input {
-      height: var(--input-height--medium);
-      border-radius: var(--input-border-radius--medium); }
+      height: var(--input-height--medium); }
     .dnb-input--medium .dnb-input__placeholder,
     .dnb-input--medium .dnb-input__input {
       padding-left: var(--input-padding--medium);
@@ -2211,8 +2218,7 @@ legend.dnb-form-label {
     line-height: var(--input-height--large); }
     .dnb-input--large .dnb-input__shell,
     .dnb-input--large .dnb-input__input {
-      height: var(--input-height--large);
-      border-radius: var(--input-border-radius--large); }
+      height: var(--input-height--large); }
     .dnb-input--large .dnb-input__placeholder,
     .dnb-input--large .dnb-input__input {
       padding-left: var(--input-padding--large);
@@ -3184,6 +3190,9 @@ legend.dnb-form-label {
     align-items: flex-start; }
     .dnb-date-picker[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
+  .dnb-date-picker:not(.dnb-date-picker--show-input) .dnb-input__submit-button
+.dnb-button {
+    border-radius: 50%; }
   @media screen and (max-width: 40em) {
     .dnb-responsive-component .dnb-date-picker {
       display: flex;

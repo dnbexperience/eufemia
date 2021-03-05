@@ -1,3 +1,7 @@
+## March, 3. 2021
+
+- Applied new Eufemia appearance and styles on a couple of components.
+
 ## February, 2. 2021
 
 - A good amount of new icons where added. See [code commit](https://github.com/dnbexperience/eufemia/pull/755) for more details.

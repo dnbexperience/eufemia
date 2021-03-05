@@ -124,6 +124,8 @@ exports[`Input component have to match type="search" snapshot 1`] = `
 >
   <span
     className="dnb-input dnb-input--search dnb-form-component dnb-input--has-submit-element"
+    data-has-content="true"
+    data-input-state="virgin"
   >
     <span
       className="dnb-input__inner"
@@ -141,8 +143,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       >
         <span
           className="dnb-input__shell"
-          data-has-content="true"
-          data-input-state="virgin"
         >
           <input
             aria-describedby="input-submit-button"
@@ -368,7 +368,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   aria-label="Send knapp"
                   bounding={false}
                   class={null}
-                  className="dnb-input__submit-button__button"
+                  className="dnb-input__submit-button__button dnb-button--input-button"
                   custom_element={null}
                   custom_method={null}
                   disabled={false}
@@ -400,7 +400,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                 >
                   <button
                     aria-label="Send knapp"
-                    className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-default dnb-button--size-medium"
+                    className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-default dnb-button--size-medium"
                     disabled={false}
                     id="input-submit-button"
                     onBlur={[Function]}
@@ -413,7 +413,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       aria-label="Send knapp"
                       bounding={false}
                       class={null}
-                      className="dnb-input__submit-button__button"
+                      className="dnb-input__submit-button__button dnb-button--input-button"
                       content={null}
                       custom_element={null}
                       custom_method={null}
@@ -627,6 +627,8 @@ exports[`Input component have to match type="text" snapshot 1`] = `
 >
   <span
     className="dnb-input dnb-input--text dnb-form-component"
+    data-has-content="true"
+    data-input-state="virgin"
   >
     <span
       className="dnb-input__inner"
@@ -644,8 +646,6 @@ exports[`Input component have to match type="text" snapshot 1`] = `
       >
         <span
           className="dnb-input__shell"
-          data-has-content="true"
-          data-input-state="virgin"
         >
           <input
             autoComplete="off"
@@ -681,7 +681,9 @@ exports[`Input scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 .dnb-input {
-  color: var(--color-sea-green); }
+  color: var(--color-black);
+  /* stylelint-disable */
+  /* stylelint-enable */ }
   .dnb-input__inner {
     color: inherit; }
   .dnb-input__shell {
@@ -703,71 +705,107 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     @media screen and (-ms-high-contrast: none) {
       .dnb-input__shell {
         box-shadow: inset 0 0 0 1px var(--color-sea-green); } }
-    .dnb-input__shell[data-input-state='dirty'] {
-      color: var(--color-emerald-green);
-      background-color: var(--color-white); }
-    .dnb-input__shell[data-input-state='disabled'] {
-      -webkit-text-fill-color: currentColor;
-      --border-color: var(--color-sea-green-30);
-      box-shadow: inset 0 0 0 var(--input-border-width) var(--border-color);
-      /* iOS fix - because \\"inset\\" works not fine with border-radius */
-      /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
-      border-color: transparent;
-      background-color: var(--color-mint-green-12); }
-      .dnb-input__shell[data-input-state='disabled'],
-      .dnb-input__shell[data-input-state='disabled'] .dnb-icon {
-        color: var(--color-sea-green-30); }
-      @supports (-webkit-touch-callout: none) {
-        .dnb-input__shell[data-input-state='disabled'] {
-          box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } }
-      @media not all and (min-resolution: 0.001dpcm) {
-        @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-          .dnb-input__shell[data-input-state='disabled'] {
-            box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } } }
-      @media screen and (-ms-high-contrast: none) {
-        .dnb-input__shell[data-input-state='disabled'] {
-          box-shadow: inset 0 0 0 1px var(--color-sea-green-30); } }
-    .dnb-input__shell:not([data-input-state='disabled']):hover, .dnb-input__shell[data-input-state='focus'] {
-      color: var(--color-sea-green);
-      background-color: var(--color-white);
-      --border-color: var(--color-emerald-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
-      border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        .dnb-input__shell:not([data-input-state='disabled']):hover, .dnb-input__shell[data-input-state='focus'] {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
-  .dnb-input:not([data-input-state='disabled']).dnb-input__submit-button svg {
-    color: var(--color-sea-green); }
   .dnb-input__icon {
-    color: var(--color-emerald-green); }
-  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) {
-    --border-color: var(--color-fire-red);
+    color: var(--color-sea-green); }
+  .dnb-input[data-input-state='disabled'] .dnb-input__shell {
+    -webkit-text-fill-color: currentColor;
+    --border-color: var(--color-black-55);
+    box-shadow: inset 0 0 0 var(--input-border-width) var(--border-color);
+    /* iOS fix - because \\"inset\\" works not fine with border-radius */
+    /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+    border-color: transparent;
+    background-color: var(--color-black-3); }
+    .dnb-input[data-input-state='disabled'] .dnb-input__shell,
+    .dnb-input[data-input-state='disabled'] .dnb-input__shell .dnb-icon {
+      color: var(--color-black-55); }
+    @supports (-webkit-touch-callout: none) {
+      .dnb-input[data-input-state='disabled'] .dnb-input__shell {
+        box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } }
+    @media not all and (min-resolution: 0.001dpcm) {
+      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
+        .dnb-input[data-input-state='disabled'] .dnb-input__shell {
+          box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } } }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-input[data-input-state='disabled'] .dnb-input__shell {
+        box-shadow: inset 0 0 0 1px var(--color-black-55); } }
+  .dnb-input[data-input-state='focus'] .dnb-input__shell,
+  .dnb-input:not([data-input-state='disabled']) .dnb-input__shell:hover,
+  .dnb-input:not([data-input-state='disabled']):hover .dnb-input__shell {
+    --border-color: var(--color-sea-green);
     box-shadow: 0 0 0 0.125rem var(--border-color);
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
-      .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) {
-        box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
-  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button--secondary .dnb-button__icon {
+      .dnb-input[data-input-state='focus'] .dnb-input__shell,
+      .dnb-input:not([data-input-state='disabled']) .dnb-input__shell:hover,
+      .dnb-input:not([data-input-state='disabled']):hover .dnb-input__shell {
+        box-shadow: 0 0 0 0.125rem var(--color-sea-green); } }
+  html:not([data-whatintent='touch'])
+.dnb-input__submit-button__button:not(.dnb-input__submit-button__button--has-text):not([disabled]) {
+    background-color: transparent; }
+  html:not([data-whatintent='touch'])
+.dnb-input .dnb-button--active.dnb-input__submit-button__button:not([disabled]), html:not([data-whatintent='touch'])
+  .dnb-input[data-input-state='focus'] .dnb-input__submit-button__button:not([disabled]), html:not([data-whatintent='touch'])
+  .dnb-input:not([data-input-state='disabled']):hover .dnb-input__submit-button__button:not([disabled]) {
+    color: var(--color-white);
+    background-color: var(--color-sea-green);
+    box-shadow: none; }
+  .dnb-input[data-input-state='focus'] .dnb-input__submit-button,
+  .dnb-input:not([data-input-state='disabled']):hover .dnb-input__submit-button {
+    /* stylelint-disable-next-line */ }
+    .dnb-input[data-input-state='focus'] .dnb-input__submit-button__button,
+    .dnb-input:not([data-input-state='disabled']):hover .dnb-input__submit-button__button {
+      border-radius: 0; }
+  .dnb-input__status--error.dnb-input:not([data-input-state='focus']) .dnb-input__shell {
     color: var(--color-fire-red); }
-  .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button {
+  .dnb-input__status--error.dnb-input:not([data-input-state='focus']) .dnb-input__submit-element .dnb-button {
+    color: var(--color-fire-red); }
+  .dnb-input__status--error.dnb-input:not([data-input-state='focus']):not(:hover) .dnb-input__shell {
+    --border-color: var(--color-fire-red);
+    box-shadow: 0 0 0 0.0625rem var(--border-color);
+    border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-input__status--error.dnb-input:not([data-input-state='focus']):not(:hover) .dnb-input__shell {
+        box-shadow: 0 0 0 0.0625rem var(--color-fire-red); } }
+  .dnb-input__status--error.dnb-input:not([data-input-state='focus']):not(:hover) .dnb-input__submit-element .dnb-button {
+    --border-color: var(--color-fire-red);
+    box-shadow: 0 0 0 0.0625rem var(--border-color);
+    border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-input__status--error.dnb-input:not([data-input-state='focus']):not(:hover) .dnb-input__submit-element .dnb-button {
+        box-shadow: 0 0 0 0.0625rem var(--color-fire-red); } }
+  .dnb-input__status--error.dnb-input[data-input-state='focus'] .dnb-input__shell,
+  .dnb-input__status--error.dnb-input:not([data-input-state='disabled']) .dnb-input__shell:hover,
+  .dnb-input__status--error.dnb-input:not([data-input-state='disabled']):hover .dnb-input__shell {
     --border-color: var(--color-fire-red);
     box-shadow: 0 0 0 0.125rem var(--border-color);
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
-      .dnb-input__status--error .dnb-input__shell:not([data-input-state='focus']) ~ .dnb-input__submit-element .dnb-button {
+      .dnb-input__status--error.dnb-input[data-input-state='focus'] .dnb-input__shell,
+      .dnb-input__status--error.dnb-input:not([data-input-state='disabled']) .dnb-input__shell:hover,
+      .dnb-input__status--error.dnb-input:not([data-input-state='disabled']):hover .dnb-input__shell {
         box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
-  .dnb-input__status--error,
-  .dnb-input__status--error .dnb-input__shell[data-input-state='dirty'] {
+  html:not([data-whatintent='touch'])
+.dnb-input__status--error .dnb-input__submit-button__button:not([disabled]):focus,
+  html:not([data-whatintent='touch'])
+.dnb-input__status--error .dnb-input__submit-button__button:not([disabled]):hover {
+    background-color: var(--color-fire-red); }
+  html:not([data-whatintent='touch'])
+.dnb-input__status--error.dnb-input[data-input-state='focus'] .dnb-input__submit-button__button:not([disabled]), html:not([data-whatintent='touch'])
+  .dnb-input__status--error.dnb-input:not([data-input-state='disabled']):hover .dnb-input__submit-button__button:not([disabled]) {
+    background-color: var(--color-fire-red); }
+  .dnb-input__status--error .dnb-input__icon {
     color: var(--color-fire-red); }
   .dnb-input__input::selection {
     background-color: var(--color-mint-green);
-    color: var(--color-sea-green);
+    color: var(--color-black);
     text-shadow: none; }
-  .dnb-input__shell[data-input-state='focus'] .dnb-input__placeholder {
+  .dnb-input__placeholder {
+    color: var(--color-black-55); }
+  .dnb-input[data-input-state='focus'] .dnb-input__placeholder {
     display: none; }
-  .dnb-input--keep-placeholder .dnb-input__shell[data-input-state='focus'] .dnb-input__placeholder {
+  .dnb-input--keep-placeholder .dnb-input[data-input-state='focus'] .dnb-input__placeholder {
     display: block;
-    opacity: 0.6; }
+    color: var(--color-black-20); }
 "
 `;
 
@@ -1351,10 +1389,7 @@ legend.dnb-form-label {
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
   --input-border-width: 0.0625rem;
-  --input-border-radius: calc(var(--input-height) / 2);
-  --input-border-radius--small: calc(var(--input-height--small) / 2);
-  --input-border-radius--medium: calc(var(--input-height--medium) / 2);
-  --input-border-radius--large: calc(var(--input-height--large) / 2); }
+  --input-border-radius: 0.25rem; }
 
 .dnb-input {
   display: inline-flex;
@@ -1444,13 +1479,12 @@ legend.dnb-form-label {
     align-self: center;
     /* IE needs this to stay centered */ }
     .dnb-input__submit-button__button {
-      border-radius: 50%; }
+      border-radius: 0 var(--input-border-radius) var(--input-border-radius) 0; }
   .dnb-input--small {
     line-height: var(--input-height--small); }
     .dnb-input--small .dnb-input__shell,
     .dnb-input--small .dnb-input__input {
-      height: var(--input-height--small);
-      border-radius: var(--input-border-radius--small); }
+      height: var(--input-height--small); }
     .dnb-input--small .dnb-input__placeholder,
     .dnb-input--small .dnb-input__input {
       padding-left: var(--input-padding--small);
@@ -1469,8 +1503,7 @@ legend.dnb-form-label {
     line-height: var(--input-height--medium); }
     .dnb-input--medium .dnb-input__shell,
     .dnb-input--medium .dnb-input__input {
-      height: var(--input-height--medium);
-      border-radius: var(--input-border-radius--medium); }
+      height: var(--input-height--medium); }
     .dnb-input--medium .dnb-input__placeholder,
     .dnb-input--medium .dnb-input__input {
       padding-left: var(--input-padding--medium);
@@ -1489,8 +1522,7 @@ legend.dnb-form-label {
     line-height: var(--input-height--large); }
     .dnb-input--large .dnb-input__shell,
     .dnb-input--large .dnb-input__input {
-      height: var(--input-height--large);
-      border-radius: var(--input-border-radius--large); }
+      height: var(--input-height--large); }
     .dnb-input--large .dnb-input__placeholder,
     .dnb-input--large .dnb-input__input {
       padding-left: var(--input-padding--large);

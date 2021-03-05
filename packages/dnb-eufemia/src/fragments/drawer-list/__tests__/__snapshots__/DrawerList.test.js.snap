@@ -66,6 +66,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   independent_width="independent_width"
   is_popup="is_popup"
   keep_open="keep_open"
+  list_class="list_class"
   max_height={1}
   no_animation={true}
   no_scroll_animation="no_scroll_animation"
@@ -78,6 +79,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   on_state_update={[Function]}
   opened={true}
   options_render={Object {}}
+  portal_class="portal_class"
   prepared_data={Array []}
   prevent_close="prevent_close"
   prevent_focus="prevent_focus"
@@ -160,6 +162,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     independent_width="independent_width"
     is_popup="is_popup"
     keep_open="keep_open"
+    list_class="list_class"
     max_height={1}
     min_height={10}
     no_animation={true}
@@ -175,6 +178,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     opened={true}
     options_render={Object {}}
     page_offset={null}
+    portal_class="portal_class"
     prepared_data={Array []}
     prevent_close="prevent_close"
     prevent_focus="prevent_focus"
@@ -255,6 +259,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
       independent_width="independent_width"
       is_popup="is_popup"
       keep_open="keep_open"
+      list_class="list_class"
       max_height={1}
       no_animation={true}
       no_scroll_animation="no_scroll_animation"
@@ -267,6 +272,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
       on_state_update={[Function]}
       opened={true}
       options_render={Object {}}
+      portal_class="portal_class"
       prepared_data={Array []}
       prevent_close="prevent_close"
       prevent_focus="prevent_focus"
@@ -290,7 +296,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
           id="drawer-list-id-drawer-list"
         >
           <span
-            className="dnb-drawer-list__list dnb-drawer-list__list--no-animation"
+            className="dnb-drawer-list__list list_class dnb-drawer-list__list--no-animation"
             id="drawer-list-id-listbox"
           >
             <span
@@ -563,14 +569,12 @@ exports[`DrawerList scss have to match snapshot 1`] = `
 .dnb-drawer-list {
   display: block;
   position: relative;
-  font-size: var(--font-size-small);
   width: inherit;
   min-width: inherit;
+  font-size: var(--font-size-small);
   /* stylelint-disable-next-line  */ }
   .dnb-drawer-list__portal__style {
     position: absolute;
-    top: -100vh;
-    left: -100vw;
     z-index: 3010; }
     .dnb-drawer-list__portal__style--fixed {
       position: fixed; }
