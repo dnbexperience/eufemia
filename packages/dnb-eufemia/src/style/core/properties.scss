@@ -10,20 +10,11 @@
     'Ubuntu Monospace', 'Noto Mono', 'Oxygen Mono', 'Liberation Mono',
     monospace;
 
-  // Deprecated
-  --font-family-book: 'DNB', sans-serif; // Deprecated
-  --font-family-demi: 'DNB', sans-serif; // Deprecated
-
   // Typography Weights
   --font-weight-basis: normal;
   --font-weight-regular: normal;
   --font-weight-medium: 500;
   --font-weight-bold: 600;
-
-  // Deprecated
-  --font-weight-default: normal; // Deprecated
-  --font-weight-book: normal; // Deprecated
-  --font-weight-demi: 500; // Deprecated
 
   // Typography Sizes
   --font-size-x-small: 0.875rem; // 14px
@@ -50,8 +41,6 @@
   --color-mint-green-25: #e9f8f4;
   --color-mint-green-12: #f4fbf9;
   --color-sea-green-30: #b3dada;
-  --color-sea-green-alt-30: #b3dada; // Deprecated
-  --color-signal-yellow-30: #ffffd7; // Deprecated
   --color-accent-yellow-30: #feebc1;
   --color-signal-orange: #ff5400;
   --color-fire-red: #dc2a2a;
@@ -60,7 +49,6 @@
   --color-black: #000;
   --color-black-80: #333;
   --color-black-55: #737373;
-  --color-black-30: #b3b3b3; // Deprecated
   --color-black-20: #ccc;
   --color-black-8: #ebebeb;
   --color-black-3: #f8f8f8;
@@ -72,12 +60,10 @@
 
   // Profile colors
   --color-sea-green: #007272;
-  --color-sea-green-alt: #007272; // Deprecated
   --color-mint-green: #a5e1d2;
   --color-summer-green: #28b482;
   --color-emerald-green: #14555a;
   --color-ocean-green: #00343e;
-  --color-signal-yellow: #ffff7a; // Deprecated
   --color-accent-yellow: #fdbb31;
   --color-indigo: #23195a;
   --color-violet: #6e2382;

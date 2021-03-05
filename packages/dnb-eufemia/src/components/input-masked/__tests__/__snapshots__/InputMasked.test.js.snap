@@ -112,6 +112,8 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   >
     <span
       className="dnb-input dnb-input--text dnb-form-component dnb-input-masked"
+      data-has-content="true"
+      data-input-state="virgin"
     >
       <span
         className="dnb-input__inner"
@@ -129,8 +131,6 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
         >
           <span
             className="dnb-input__shell"
-            data-has-content="true"
-            data-input-state="virgin"
           >
             <t
               autoComplete="off"
@@ -762,10 +762,7 @@ legend.dnb-form-label {
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
   --input-border-width: 0.0625rem;
-  --input-border-radius: calc(var(--input-height) / 2);
-  --input-border-radius--small: calc(var(--input-height--small) / 2);
-  --input-border-radius--medium: calc(var(--input-height--medium) / 2);
-  --input-border-radius--large: calc(var(--input-height--large) / 2); }
+  --input-border-radius: 0.25rem; }
 
 .dnb-input {
   display: inline-flex;
@@ -855,13 +852,12 @@ legend.dnb-form-label {
     align-self: center;
     /* IE needs this to stay centered */ }
     .dnb-input__submit-button__button {
-      border-radius: 50%; }
+      border-radius: 0 var(--input-border-radius) var(--input-border-radius) 0; }
   .dnb-input--small {
     line-height: var(--input-height--small); }
     .dnb-input--small .dnb-input__shell,
     .dnb-input--small .dnb-input__input {
-      height: var(--input-height--small);
-      border-radius: var(--input-border-radius--small); }
+      height: var(--input-height--small); }
     .dnb-input--small .dnb-input__placeholder,
     .dnb-input--small .dnb-input__input {
       padding-left: var(--input-padding--small);
@@ -880,8 +876,7 @@ legend.dnb-form-label {
     line-height: var(--input-height--medium); }
     .dnb-input--medium .dnb-input__shell,
     .dnb-input--medium .dnb-input__input {
-      height: var(--input-height--medium);
-      border-radius: var(--input-border-radius--medium); }
+      height: var(--input-height--medium); }
     .dnb-input--medium .dnb-input__placeholder,
     .dnb-input--medium .dnb-input__input {
       padding-left: var(--input-padding--medium);
@@ -900,8 +895,7 @@ legend.dnb-form-label {
     line-height: var(--input-height--large); }
     .dnb-input--large .dnb-input__shell,
     .dnb-input--large .dnb-input__input {
-      height: var(--input-height--large);
-      border-radius: var(--input-border-radius--large); }
+      height: var(--input-height--large); }
     .dnb-input--large .dnb-input__placeholder,
     .dnb-input--large .dnb-input__input {
       padding-left: var(--input-padding--large);

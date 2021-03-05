@@ -50,6 +50,21 @@ The following extensions are removed:
 - RangeSlider
 - ViewTitle
 
+### Properties
+
+Removed already depreciated CSS properties (vars):
+
+- `--color-sea-green-alt-30`
+- `--color-signal-yellow-30`
+- `--color-black-30`
+- `--color-sea-green-alt`
+- `--color-signal-yellow`
+- `--font-weight-default`
+- `--font-weight-book`
+- `--font-weight-demi`
+- `--font-family-book`
+- `--font-family-demi`
+
 ### Textarea
 
 - Removed support of style only for [Textarea](/uilib/components/textarea). You have to use the component now.
@@ -70,6 +85,18 @@ Strings where changed/removed and added to the [language files](/uilib/usage/cus
 - Added `stretch` support for [Autocomplete](/uilib/components/autocomplete), [Dropdown](/uilib/components/dropdown) and [DatePicker](/uilib/components/date-picker).
 - Enhance Webpack v5 compatibility
 - Enhance React v17 compatibility
+- The Eufemia Provider can send along global component properties:
+
+  ```jsx
+  <Provider
+    value={{
+      Button: { size: 'large' }
+    }}
+  >
+    ...
+    <Button>Large button</Button>
+  </Provider>
+  ```
 
 ## Install
 
