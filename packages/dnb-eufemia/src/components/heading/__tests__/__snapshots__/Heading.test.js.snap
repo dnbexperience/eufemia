@@ -471,7 +471,7 @@ exports[`Heading component have to match snapshot 1`] = `
  *
  */
 .dnb-heading__debug {
-  color: var(--color-black-30);
+  color: var(--color-black-20);
   font-weight: var(--font-weight-basis); }
   .dnb-heading__debug .dnb-code {
     color: var(--color-black);

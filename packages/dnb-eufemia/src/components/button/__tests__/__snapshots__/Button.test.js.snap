@@ -1089,12 +1089,12 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         html:not([data-whatintent='touch']) .dnb-button--signal:active:not([disabled]) {
           box-shadow: 0 0 0 0.0625rem transparent; } }
     .dnb-button--signal[disabled] {
-      color: var(--color-black-30);
+      color: var(--color-black-20);
       background-color: var(--color-accent-yellow-30); }
   html:not([data-whatintent='touch'])
-.dnb-button--input-button:not(.dnb-button--has-text):not([disabled]):focus,
-  html:not([data-whatintent='touch'])
-.dnb-button--input-button:not(.dnb-button--has-text):not([disabled]):hover {
+.dnb-button--input-button:not(.dnb-button--has-text):not([disabled]):focus, html:not([data-whatintent='touch'])
+.dnb-button--input-button:not(.dnb-button--has-text):not([disabled]):hover, html:not([data-whatintent='touch'])
+.dnb-button--input-button:not(.dnb-button--has-text):not([disabled]):active {
     color: var(--color-white);
     background-color: var(--color-sea-green);
     box-shadow: none; }
