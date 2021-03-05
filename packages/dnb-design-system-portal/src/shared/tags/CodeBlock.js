@@ -346,7 +346,7 @@ class LiveCode extends React.PureComponent {
                   variant="secondary"
                   text="Syntax"
                   title="Toggle Syntax"
-                  icon={`chevron-${!showSyntax ? 'down' : 'up'}`}
+                  icon={`arrow-${!showSyntax ? 'down' : 'up'}`}
                   size="medium"
                 />
               )}
@@ -357,7 +357,7 @@ class LiveCode extends React.PureComponent {
                   variant="secondary"
                   text="Code"
                   title="Toggle Code Snippet"
-                  icon={`chevron-${hideCode ? 'down' : 'up'}`}
+                  icon={`arrow-${hideCode ? 'down' : 'up'}`}
                   size="medium"
                 />
               )}
@@ -368,7 +368,7 @@ class LiveCode extends React.PureComponent {
                   variant="secondary"
                   text="Preview"
                   title="Toggle Preview"
-                  icon={`chevron-${!hidePreview ? 'down' : 'up'}`}
+                  icon={`arrow-${!hidePreview ? 'down' : 'up'}`}
                   size="medium"
                 />
               )}

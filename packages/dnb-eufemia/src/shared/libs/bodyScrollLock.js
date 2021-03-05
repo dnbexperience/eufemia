@@ -59,6 +59,7 @@ const setOverflowHiddenPc = () => {
 
     $html.style.height = 'auto'
     $html.style.overflow = 'hidden'
+    $html.style.setProperty('--scrollbar-width', `${scrollBarWidth}px`)
     $body.style.overflow = 'hidden'
     $body.style.height = 'auto'
     $body.style.boxSizing = 'border-box'
@@ -75,6 +76,7 @@ const setOverflowHiddenPc = () => {
             $body.style[x] = bodyStyle[x] || ''
           }
         )
+        $html.style.removeProperty('--scrollbar-width')
       } catch (e) {
         //
       }

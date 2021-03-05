@@ -77,7 +77,7 @@ const onTypeHandler = ({
 
       console.log('debounced value:', value)
 
-      // simualte server delay
+      // simulate server delay
       const timeout = setTimeout(() => {
 
         // update the drawerList
@@ -94,7 +94,6 @@ const onTypeHandler = ({
 }
 render(<Autocomplete
   mode="async"
-  prevent_selection="true"
   on_type={onTypeHandler}
   no_scroll_animation="true"
   placeholder="Search ..."
