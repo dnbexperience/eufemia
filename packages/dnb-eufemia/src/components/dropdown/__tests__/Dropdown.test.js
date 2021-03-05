@@ -502,7 +502,7 @@ describe('Dropdown component', () => {
       ulElement: null
     })
 
-    await wait(50) // ensure that we have this._refUl.current – the check is in "assignObservers"
+    await wait(50) // ensure that we have this._refUl.current – the check is in "addObservers"
 
     expect(on_show_focus).toBeCalledTimes(1)
     expect(on_show_focus.mock.calls[0][0].element).toBe(
@@ -694,6 +694,6 @@ const keydown = (Comp, keyCode) => {
   })
 }
 const open = (Comp) => {
-  Comp.find('button.dnb-dropdown__trigger').simulate('mousedown')
+  Comp.find('button.dnb-dropdown__trigger').simulate('click')
 }
 const wait = (t) => new Promise((r) => setTimeout(r, t))
