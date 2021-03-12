@@ -3,16 +3,13 @@
  *
  */
 
-:root {
-  --dnb-logo-ratio: 1.453690625;
-  --dnb-logo-ratio: attr(data-ratio);
-}
-
 .dnb-logo {
   display: inline-block;
   vertical-align: baseline;
   font-size: inherit;
-  line-height: var(--line-height-xx-small--em); // for vertical alignment, we have to have no line-height
+  line-height: var(
+    --line-height-xx-small--em
+  ); // for vertical alignment, we have to have no line-height
 
   color: var(--color-sea-green);
   svg {
@@ -20,9 +17,6 @@
     shape-rendering: geometricPrecision;
   }
 
-  // experimental, but we have a fallback in place
-
-  width: calc(1em * var(--dnb-logo-ratio, 1.453690625));
   height: 1em;
 
   &--has-size {
