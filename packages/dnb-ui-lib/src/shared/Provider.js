@@ -15,18 +15,16 @@ export default class Provider extends React.PureComponent {
   static contextType = Context
   static propTypes = {
     /** Send in an object that gets spread as properties to the Provider */
-    value: PropTypes.object,
+    value: PropTypes.object, // eslint-disable-line
     /** Define the locale used for every Eufemia components inside this Provider. Defaults to nb-NO */
-    locale: PropTypes.string,
+    locale: PropTypes.string, // eslint-disable-line
     /** Enable skeleton of every Eufemia component inside this Provider */
-    skeleton: PropTypes.bool,
+    skeleton: PropTypes.bool, // eslint-disable-line
     children: PropTypes.node.isRequired
   }
-  static defaultProps = {
-    value: null,
-    locale: null,
-    skeleton: null
-  }
+
+  // NB! Do not provide any default props, because they would overwrite inherited values in nested provider
+  static defaultProps = {}
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {

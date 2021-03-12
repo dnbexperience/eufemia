@@ -181,6 +181,26 @@ describe('Provider', () => {
     expect(Comp.find('p').at(1).text()).toBe(title_nb)
   })
 
+  it('locale should be inherited in nested providers', () => {
+    const locale = 'nb-NO'
+    let receivedLocale = 'nb-NO'
+
+    const Consumer = () => {
+      receivedLocale = React.useContext(Context).locale
+      return null
+    }
+    const Comp = mount(
+      <MagicProvider locale="nb-NO">
+        <MagicProvider>
+          <Consumer />
+        </MagicProvider>
+      </MagicProvider>
+    )
+
+    expect(receivedLocale).toBe(locale)
+    expect(Comp.find('p').at(0).text()).toBe(title_nb)
+  })
+
   it('should support nested providers and update the root context', () => {
     const Comp = mount(
       <MagicProvider locale="en-GB">
@@ -204,7 +224,6 @@ describe('Provider', () => {
     ).toBe('true')
 
     // First, let's change the inner
-
     Comp.find('.nb-NO button').at(1).simulate('click')
 
     expect(Comp.find('p').at(0).text()).toBe(title_gb)
@@ -257,11 +276,7 @@ describe('Provider', () => {
     ).toBe('true')
 
     // Now, let's change the outer
-
     Comp.find('.en-GB button').at(0).simulate('click')
-    // Comp.setProps({
-    //   locale: 'en-GB'
-    // })
 
     expect(Comp.find('p').at(0).text()).toBe(title_gb)
     expect(
