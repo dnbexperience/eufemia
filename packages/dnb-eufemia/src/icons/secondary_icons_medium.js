@@ -8,6 +8,7 @@ import account_out_medium from './account_out_medium.js'
 import add_circled_medium from './add_circled_medium.js'
 import ainvoice_medium from './ainvoice_medium.js'
 import ambulance_medium from './ambulance_medium.js'
+import animal_print_medium from './animal_print_medium.js'
 import apple_watch_medium from './apple_watch_medium.js'
 import attachment_medium from './attachment_medium.js'
 import baby_medium from './baby_medium.js'
@@ -23,6 +24,7 @@ import broken_chain_medium from './broken_chain_medium.js'
 import brush_medium from './brush_medium.js'
 import bsu_medium from './bsu_medium.js'
 import bubble_medium from './bubble_medium.js'
+import building_construction_medium from './building_construction_medium.js'
 import camera_medium from './camera_medium.js'
 import camper_trailer_medium from './camper_trailer_medium.js'
 import car_1_medium from './car_1_medium.js'
@@ -150,6 +152,7 @@ import send_medium from './send_medium.js'
 import share_android_medium from './share_android_medium.js'
 import share_ios_medium from './share_ios_medium.js'
 import shopping_cart_medium from './shopping_cart_medium.js'
+import snowmobile_medium from './snowmobile_medium.js'
 import split_medium from './split_medium.js'
 import star_medium from './star_medium.js'
 import stocks_medium from './stocks_medium.js'
@@ -158,6 +161,9 @@ import stopwatch_medium from './stopwatch_medium.js'
 import subtract_circled_medium from './subtract_circled_medium.js'
 import support_medium from './support_medium.js'
 import swap_medium from './swap_medium.js'
+import thumbs_down_medium from './thumbs_down_medium.js'
+import thumbs_up_medium from './thumbs_up_medium.js'
+import tractor_medium from './tractor_medium.js'
 import trailer_medium from './trailer_medium.js'
 import train_medium from './train_medium.js'
 import transfer_medium from './transfer_medium.js'
@@ -167,6 +173,7 @@ import undo_medium from './undo_medium.js'
 import upload_medium from './upload_medium.js'
 import video_medium from './video_medium.js'
 import view_medium from './view_medium.js'
+import vintage_car_medium from './vintage_car_medium.js'
 import wallet_medium from './wallet_medium.js'
 import wearables_medium from './wearables_medium.js'
 import web_medium from './web_medium.js'
@@ -183,6 +190,7 @@ export {
   add_circled_medium,
   ainvoice_medium,
   ambulance_medium,
+  animal_print_medium,
   apple_watch_medium,
   attachment_medium,
   baby_medium,
@@ -198,6 +206,7 @@ export {
   brush_medium,
   bsu_medium,
   bubble_medium,
+  building_construction_medium,
   camera_medium,
   camper_trailer_medium,
   car_1_medium,
@@ -325,6 +334,7 @@ export {
   share_android_medium,
   share_ios_medium,
   shopping_cart_medium,
+  snowmobile_medium,
   split_medium,
   star_medium,
   stocks_medium,
@@ -333,6 +343,9 @@ export {
   subtract_circled_medium,
   support_medium,
   swap_medium,
+  thumbs_down_medium,
+  thumbs_up_medium,
+  tractor_medium,
   trailer_medium,
   train_medium,
   transfer_medium,
@@ -342,6 +355,7 @@ export {
   upload_medium,
   video_medium,
   view_medium,
+  vintage_car_medium,
   wallet_medium,
   wearables_medium,
   web_medium,

@@ -19,6 +19,8 @@ import ainvoice from './ainvoice.js'
 import ainvoice_medium from './ainvoice_medium.js'
 import ambulance from './ambulance.js'
 import ambulance_medium from './ambulance_medium.js'
+import animal_print from './animal_print.js'
+import animal_print_medium from './animal_print_medium.js'
 import apple_watch from './apple_watch.js'
 import apple_watch_medium from './apple_watch_medium.js'
 import arrow_down from './arrow_down.js'
@@ -59,6 +61,8 @@ import bsu from './bsu.js'
 import bsu_medium from './bsu_medium.js'
 import bubble from './bubble.js'
 import bubble_medium from './bubble_medium.js'
+import building_construction from './building_construction.js'
+import building_construction_medium from './building_construction_medium.js'
 import calendar from './calendar.js'
 import calendar_medium from './calendar_medium.js'
 import camera from './camera.js'
@@ -348,6 +352,8 @@ import share_ios from './share_ios.js'
 import share_ios_medium from './share_ios_medium.js'
 import shopping_cart from './shopping_cart.js'
 import shopping_cart_medium from './shopping_cart_medium.js'
+import snowmobile from './snowmobile.js'
+import snowmobile_medium from './snowmobile_medium.js'
 import split from './split.js'
 import split_medium from './split_medium.js'
 import star from './star.js'
@@ -366,6 +372,12 @@ import support from './support.js'
 import support_medium from './support_medium.js'
 import swap from './swap.js'
 import swap_medium from './swap_medium.js'
+import thumbs_down from './thumbs_down.js'
+import thumbs_down_medium from './thumbs_down_medium.js'
+import thumbs_up from './thumbs_up.js'
+import thumbs_up_medium from './thumbs_up_medium.js'
+import tractor from './tractor.js'
+import tractor_medium from './tractor_medium.js'
 import trailer from './trailer.js'
 import trailer_medium from './trailer_medium.js'
 import train from './train.js'
@@ -384,6 +396,8 @@ import video from './video.js'
 import video_medium from './video_medium.js'
 import view from './view.js'
 import view_medium from './view_medium.js'
+import vintage_car from './vintage_car.js'
+import vintage_car_medium from './vintage_car_medium.js'
 import wallet from './wallet.js'
 import wallet_medium from './wallet_medium.js'
 import wearables from './wearables.js'
@@ -417,6 +431,8 @@ export {
   ainvoice_medium,
   ambulance,
   ambulance_medium,
+  animal_print,
+  animal_print_medium,
   apple_watch,
   apple_watch_medium,
   arrow_down,
@@ -457,6 +473,8 @@ export {
   bsu_medium,
   bubble,
   bubble_medium,
+  building_construction,
+  building_construction_medium,
   calendar,
   calendar_medium,
   camera,
@@ -746,6 +764,8 @@ export {
   share_ios_medium,
   shopping_cart,
   shopping_cart_medium,
+  snowmobile,
+  snowmobile_medium,
   split,
   split_medium,
   star,
@@ -764,6 +784,12 @@ export {
   support_medium,
   swap,
   swap_medium,
+  thumbs_down,
+  thumbs_down_medium,
+  thumbs_up,
+  thumbs_up_medium,
+  tractor,
+  tractor_medium,
   trailer,
   trailer_medium,
   train,
@@ -782,6 +808,8 @@ export {
   video_medium,
   view,
   view_medium,
+  vintage_car,
+  vintage_car_medium,
   wallet,
   wallet_medium,
   wearables,
