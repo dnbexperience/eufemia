@@ -119,9 +119,11 @@
     padding-right: 0;
     padding-left: var(--dropdown-text-padding);
   }
-
   &--icon-position-left &__icon {
     order: 1;
+  }
+  &--icon-position-right &__text {
+    padding-right: var(--dropdown-text-padding);
   }
 
   &--independent-width &__shell {
@@ -256,6 +258,7 @@
   // make full width
   &--stretch {
     display: flex;
+    flex-grow: 1;
   }
   &--stretch & {
     &__inner {

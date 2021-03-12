@@ -158,6 +158,7 @@
   // make full width
   &--stretch {
     display: flex;
+    flex-grow: 1;
   }
   &--stretch & {
     &__inner {
