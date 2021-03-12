@@ -1881,7 +1881,8 @@ legend.dnb-form-label {
     flex-direction: column;
     align-items: flex-start; }
   .dnb-input--stretch {
-    display: flex; }
+    display: flex;
+    flex-grow: 1; }
   .dnb-input--stretch .dnb-input__inner {
     flex-grow: 1; }
   .dnb-input--stretch .dnb-input__shell {
@@ -2245,7 +2246,8 @@ legend.dnb-form-label {
         margin-bottom: 0.5rem;
         margin-top: 0.5rem; } }
   .dnb-autocomplete--stretch {
-    display: flex; }
+    display: flex;
+    flex-grow: 1; }
   .dnb-autocomplete--stretch .dnb-autocomplete__inner {
     flex-grow: 1; }
   .dnb-autocomplete--stretch .dnb-autocomplete__row, .dnb-autocomplete--stretch .dnb-autocomplete__shell {

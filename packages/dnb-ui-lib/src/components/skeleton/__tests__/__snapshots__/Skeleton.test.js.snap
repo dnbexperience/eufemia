@@ -38,11 +38,7 @@ exports[`Skeleton component have to match snapshot 1`] = `
         className="dnb-space dnb-skeleton__root"
         lang="nb-NO"
       >
-        <Provider
-          locale={null}
-          skeleton={null}
-          value={null}
-        >
+        <Provider>
           <P
             bold={null}
             className={null}
