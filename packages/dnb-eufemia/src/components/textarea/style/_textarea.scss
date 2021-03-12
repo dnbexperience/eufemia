@@ -162,16 +162,12 @@
 
   &.dnb-skeleton &__inner {
     margin: 0;
-
-    &::before,
-    &::after {
-      border-radius: 1rem;
-    }
+    border-radius: 0.25rem;
   }
   &.dnb-skeleton &__inner &__shell {
-    margin-bottom: calc(var(--textarea-padding-width) * 2);
-    margin-right: calc(var(--textarea-padding-width) * 2);
+    margin: var(--textarea-padding-width);
   }
+  &.dnb-skeleton &__state,
   &.dnb-skeleton &__textarea {
     visibility: hidden;
   }

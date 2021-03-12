@@ -628,14 +628,6 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       scroll-behavior: smooth; }
     html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options {
       scroll-behavior: auto !important; }
-    @supports not (scrollbar-color: auto) {
-      .dnb-drawer-list--scroll .dnb-drawer-list__options::-webkit-scrollbar {
-        width: 0.5rem;
-        background-color: transparent; }
-      .dnb-drawer-list--scroll .dnb-drawer-list__options::-webkit-scrollbar-thumb {
-        cursor: pointer;
-        background-color: var(--color-emerald-green);
-        border-radius: 0.5rem; } }
   .dnb-drawer-list--opened .dnb-drawer-list__options {
     scroll-behavior: smooth; }
   .dnb-drawer-list--no-scroll-animation .dnb-drawer-list__options {

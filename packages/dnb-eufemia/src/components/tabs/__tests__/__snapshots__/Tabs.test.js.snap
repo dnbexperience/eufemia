@@ -717,14 +717,6 @@ exports[`Tabs scss have to match snapshot 1`] = `
       scroll-behavior: smooth; }
     html[data-visual-test] .dnb-tabs__tabs__tablist {
       scroll-behavior: auto !important; }
-    @supports not (scrollbar-color: auto) {
-      .dnb-tabs__tabs__tablist::-webkit-scrollbar {
-        width: 0.5rem;
-        background-color: transparent; }
-      .dnb-tabs__tabs__tablist::-webkit-scrollbar-thumb {
-        cursor: pointer;
-        background-color: var(--color-emerald-green);
-        border-radius: 0.5rem; } }
     .dnb-tabs__tabs__tablist::-webkit-scrollbar {
       display: none; }
   .dnb-tabs__tabs--left .dnb-tabs__tabs__tablist {
