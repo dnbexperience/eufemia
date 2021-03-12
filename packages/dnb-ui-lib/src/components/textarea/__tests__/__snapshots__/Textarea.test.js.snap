@@ -784,7 +784,8 @@ textarea.dnb-textarea {
         margin-bottom: 0.5rem;
         margin-top: 0.5rem; } }
   .dnb-textarea--stretch {
-    display: flex; }
+    display: flex;
+    flex-grow: 1; }
   .dnb-textarea--stretch .dnb-textarea__inner {
     flex-grow: 1; }
   .dnb-textarea--stretch .dnb-textarea__shell, .dnb-textarea--stretch .dnb-textarea__textarea {

@@ -1922,6 +1922,8 @@ legend.dnb-form-label {
     padding-left: var(--dropdown-text-padding); }
   .dnb-dropdown--icon-position-left .dnb-dropdown__icon {
     order: 1; }
+  .dnb-dropdown--icon-position-right .dnb-dropdown__text {
+    padding-right: var(--dropdown-text-padding); }
   .dnb-dropdown--independent-width .dnb-dropdown__shell {
     width: auto; }
   @media screen and (max-width: 40em) {
@@ -2007,7 +2009,8 @@ legend.dnb-form-label {
         margin-bottom: 0.5rem;
         margin-top: 0.5rem; } }
   .dnb-dropdown--stretch {
-    display: flex; }
+    display: flex;
+    flex-grow: 1; }
   .dnb-dropdown--stretch .dnb-dropdown__inner {
     flex-grow: 1; }
   .dnb-dropdown--stretch .dnb-dropdown__row, .dnb-dropdown--stretch .dnb-dropdown__shell {

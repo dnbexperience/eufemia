@@ -929,7 +929,8 @@ legend.dnb-form-label {
     flex-direction: column;
     align-items: flex-start; }
   .dnb-input--stretch {
-    display: flex; }
+    display: flex;
+    flex-grow: 1; }
   .dnb-input--stretch .dnb-input__inner {
     flex-grow: 1; }
   .dnb-input--stretch .dnb-input__shell {

@@ -2240,7 +2240,8 @@ legend.dnb-form-label {
     flex-direction: column;
     align-items: flex-start; }
   .dnb-input--stretch {
-    display: flex; }
+    display: flex;
+    flex-grow: 1; }
   .dnb-input--stretch .dnb-input__inner {
     flex-grow: 1; }
   .dnb-input--stretch .dnb-input__shell {
@@ -3171,7 +3172,8 @@ legend.dnb-form-label {
         margin-bottom: 0.5rem;
         margin-top: 0.5rem; } }
   .dnb-date-picker--stretch {
-    display: flex; }
+    display: flex;
+    flex-grow: 1; }
   .dnb-date-picker--stretch .dnb-date-picker__inner, .dnb-date-picker--stretch .dnb-date-picker__shell {
     width: 100%; }
   .dnb-form-row--horizontal .dnb-date-picker--stretch {
