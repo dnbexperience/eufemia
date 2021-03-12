@@ -115,17 +115,12 @@ exports[`Logo scss have to match snapshot 1`] = `
  * Logo Component
  *
  */
-:root {
-  --dnb-logo-ratio: 1.453690625;
-  --dnb-logo-ratio: attr(data-ratio); }
-
 .dnb-logo {
   display: inline-block;
   vertical-align: baseline;
   font-size: inherit;
   line-height: var(--line-height-xx-small--em);
   color: var(--color-sea-green);
-  width: calc(1em * var(--dnb-logo-ratio, 1.453690625));
   height: 1em; }
   .dnb-logo svg {
     fill: currentColor;
