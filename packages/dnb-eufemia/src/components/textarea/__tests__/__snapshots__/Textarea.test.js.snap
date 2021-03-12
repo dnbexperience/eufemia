@@ -153,14 +153,6 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
     scroll-behavior: smooth; }
   html[data-visual-test] .dnb-textarea__textarea {
     scroll-behavior: auto !important; }
-  @supports not (scrollbar-color: auto) {
-    .dnb-textarea__textarea::-webkit-scrollbar {
-      width: 0.5rem;
-      background-color: transparent; }
-    .dnb-textarea__textarea::-webkit-scrollbar-thumb {
-      cursor: pointer;
-      background-color: var(--color-emerald-green);
-      border-radius: 0.5rem; } }
 
 .dnb-textarea__placeholder {
   color: var(--color-black-55);
@@ -499,14 +491,6 @@ legend.dnb-form-label {
     scroll-behavior: smooth; }
   html[data-visual-test] .dnb-textarea__textarea {
     scroll-behavior: auto !important; }
-  @supports not (scrollbar-color: auto) {
-    .dnb-textarea__textarea::-webkit-scrollbar {
-      width: 0.5rem;
-      background-color: transparent; }
-    .dnb-textarea__textarea::-webkit-scrollbar-thumb {
-      cursor: pointer;
-      background-color: var(--color-emerald-green);
-      border-radius: 0.5rem; } }
 
 .dnb-textarea__placeholder {
   color: var(--color-black-55);
@@ -655,12 +639,11 @@ legend.dnb-form-label {
       .dnb-responsive-component .dnb-textarea > .dnb-form-label {
         margin-bottom: 0.5rem; } }
   .dnb-textarea.dnb-skeleton .dnb-textarea__inner {
-    margin: 0; }
-    .dnb-textarea.dnb-skeleton .dnb-textarea__inner::before, .dnb-textarea.dnb-skeleton .dnb-textarea__inner::after {
-      border-radius: 1rem; }
+    margin: 0;
+    border-radius: 0.25rem; }
   .dnb-textarea.dnb-skeleton .dnb-textarea__inner .dnb-textarea__shell {
-    margin-bottom: calc(var(--textarea-padding-width) * 2);
-    margin-right: calc(var(--textarea-padding-width) * 2); }
+    margin: var(--textarea-padding-width); }
+  .dnb-textarea.dnb-skeleton .dnb-textarea__state,
   .dnb-textarea.dnb-skeleton .dnb-textarea__textarea {
     visibility: hidden; }
   @media screen and (-ms-high-contrast: none) {

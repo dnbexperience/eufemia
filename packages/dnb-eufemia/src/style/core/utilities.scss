@@ -171,18 +171,21 @@ $focusRingColor: var(--color-emerald-green);
 
   scrollbar-color: var(--color-emerald-green) transparent;
 
+  // This is too buggy and the UX is bad
+  // We have to rather wait until "scrollbar-color" is supported on webkit
+  // The scrollbar gets hidden in certain scenarios (e.g. portal-sidebar-menu)
   // Safari/Chrome
-  @supports not (scrollbar-color: auto) {
-    &::-webkit-scrollbar {
-      width: 0.5rem;
-      background-color: transparent;
-    }
-    &::-webkit-scrollbar-thumb {
-      cursor: pointer;
-      background-color: var(--color-emerald-green);
-      border-radius: 0.5rem;
-    }
-  }
+  // @supports not (scrollbar-color: auto) {
+  //   &::-webkit-scrollbar {
+  //     width: 0.5rem;
+  //     background-color: transparent;
+  //   }
+  //   &::-webkit-scrollbar-thumb {
+  //     cursor: pointer;
+  //     background-color: var(--color-emerald-green);
+  //     border-radius: 0.5rem;
+  //   }
+  // }
 }
 
 @mixin scrollY($mode: scroll) {
