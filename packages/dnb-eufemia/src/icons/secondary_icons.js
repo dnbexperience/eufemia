@@ -9,6 +9,7 @@ import account_percent from './account_percent.js'
 import add_circled from './add_circled.js'
 import ainvoice from './ainvoice.js'
 import ambulance from './ambulance.js'
+import animal_print from './animal_print.js'
 import apple_watch from './apple_watch.js'
 import attachment from './attachment.js'
 import baby from './baby.js'
@@ -24,6 +25,7 @@ import broken_chain from './broken_chain.js'
 import brush from './brush.js'
 import bsu from './bsu.js'
 import bubble from './bubble.js'
+import building_construction from './building_construction.js'
 import camera from './camera.js'
 import camper_trailer from './camper_trailer.js'
 import car_1 from './car_1.js'
@@ -150,6 +152,7 @@ import send from './send.js'
 import share_android from './share_android.js'
 import share_ios from './share_ios.js'
 import shopping_cart from './shopping_cart.js'
+import snowmobile from './snowmobile.js'
 import split from './split.js'
 import star from './star.js'
 import stocks from './stocks.js'
@@ -158,6 +161,9 @@ import stopwatch from './stopwatch.js'
 import subtract_circled from './subtract_circled.js'
 import support from './support.js'
 import swap from './swap.js'
+import thumbs_down from './thumbs_down.js'
+import thumbs_up from './thumbs_up.js'
+import tractor from './tractor.js'
 import trailer from './trailer.js'
 import train from './train.js'
 import transfer from './transfer.js'
@@ -167,6 +173,7 @@ import undo from './undo.js'
 import upload from './upload.js'
 import video from './video.js'
 import view from './view.js'
+import vintage_car from './vintage_car.js'
 import wallet from './wallet.js'
 import wearables from './wearables.js'
 import web from './web.js'
@@ -184,6 +191,7 @@ export {
   add_circled,
   ainvoice,
   ambulance,
+  animal_print,
   apple_watch,
   attachment,
   baby,
@@ -199,6 +207,7 @@ export {
   brush,
   bsu,
   bubble,
+  building_construction,
   camera,
   camper_trailer,
   car_1,
@@ -325,6 +334,7 @@ export {
   share_android,
   share_ios,
   shopping_cart,
+  snowmobile,
   split,
   star,
   stocks,
@@ -333,6 +343,9 @@ export {
   subtract_circled,
   support,
   swap,
+  thumbs_down,
+  thumbs_up,
+  tractor,
   trailer,
   train,
   transfer,
@@ -342,6 +355,7 @@ export {
   upload,
   video,
   view,
+  vintage_car,
   wallet,
   wearables,
   web,

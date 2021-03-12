@@ -84,6 +84,15 @@
     "name": "products/ambulance_16",
     "variant": "secondary"
   },
+  "animal_print": {
+    "tags": [
+      "insurance",
+      "paw"
+    ],
+    "created": 1615477688104,
+    "name": "products/animal_print_16",
+    "variant": "secondary"
+  },
   "apple_watch": {
     "tags": [
       "smartwatch"
@@ -255,6 +264,16 @@
     ],
     "created": 1611955561992,
     "name": "essentials/bubble_16",
+    "variant": "secondary"
+  },
+  "building_construction": {
+    "tags": [
+      "insurance",
+      "home",
+      "house"
+    ],
+    "created": 1615477688383,
+    "name": "products/building_construction_16",
     "variant": "secondary"
   },
   "calendar": {
@@ -1423,6 +1442,14 @@
     "name": "objects/shopping_cart_16",
     "variant": "secondary"
   },
+  "snowmobile": {
+    "tags": [
+      "insurance"
+    ],
+    "created": 1615477689201,
+    "name": "products/snowmobile_16",
+    "variant": "secondary"
+  },
   "split": {
     "tags": [
       "divide"
@@ -1502,6 +1529,31 @@
     "name": "actions/swap_16",
     "variant": "secondary"
   },
+  "thumbs_down": {
+    "tags": [
+      "dislike"
+    ],
+    "created": 1615477698710,
+    "name": "actions/thumbs_down_16",
+    "variant": "secondary"
+  },
+  "thumbs_up": {
+    "tags": [
+      "like"
+    ],
+    "created": 1615477698980,
+    "name": "actions/thumbs_up_16",
+    "variant": "secondary"
+  },
+  "tractor": {
+    "tags": [
+      "insurance",
+      "farming"
+    ],
+    "created": 1615477688657,
+    "name": "products/tractor_16",
+    "variant": "secondary"
+  },
   "trailer": {
     "tags": [
       "flatbead",
@@ -1575,6 +1627,15 @@
     ],
     "created": 1611955669962,
     "name": "actions/view_16",
+    "variant": "secondary"
+  },
+  "vintage_car": {
+    "tags": [
+      "insurance",
+      "old"
+    ],
+    "created": 1615477688929,
+    "name": "products/vintage_car_16",
     "variant": "secondary"
   },
   "wallet": {
