@@ -123,8 +123,9 @@
         }
       }
 
-      // because of the "align-items: flex-end;"
       .dnb-button__icon {
+        align-self: flex-end;
+        margin-top: auto;
         margin-bottom: 0.25rem;
       }
 

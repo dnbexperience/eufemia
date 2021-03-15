@@ -164,6 +164,15 @@
       }
     }
 
+    .dnb-button__icon {
+      align-self: flex-start;
+      margin-top: 0.75rem;
+      
+      &.dnb-icon--medium {
+        margin-top: 0.5rem;
+      }
+    }
+
     &.dnb-button--has-icon {
       &.dnb-button--has-text {
         &.dnb-button--icon-position-left {

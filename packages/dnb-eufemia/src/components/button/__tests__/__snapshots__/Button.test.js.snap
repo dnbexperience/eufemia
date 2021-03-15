@@ -950,6 +950,11 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       html:not([data-whatintent='touch']) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after, html:not([data-whatintent='touch'])
       html:not([data-whatintent='touch']) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after {
         visibility: hidden; }
+    .dnb-button--tertiary .dnb-button__icon {
+      align-self: flex-start;
+      margin-top: 0.75rem; }
+      .dnb-button--tertiary .dnb-button__icon.dnb-icon--medium {
+        margin-top: 0.5rem; }
     .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left {
       padding-left: 0;
       padding-right: 0.5rem; }

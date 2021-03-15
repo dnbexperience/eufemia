@@ -699,6 +699,8 @@ html[data-visual-test] .dnb-global-status__shell {
   right: 1rem;
   left: auto;
   margin-top: 1rem; }
+  .dnb-global-status__close-button .dnb-button__icon.dnb-icon--medium, .dnb-global-status__close-button.dnb-button--tertiary .dnb-button__icon.dnb-icon--medium {
+    margin-top: 0.25rem; }
 
 .dnb-modal__content__inner .dnb-global-status__close-button {
   right: 0; }
