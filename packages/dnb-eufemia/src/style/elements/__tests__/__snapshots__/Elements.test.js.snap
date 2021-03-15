@@ -853,6 +853,8 @@ a.dnb-button {
       .dnb-table > thead > tr > th.dnb-table--sortable .dnb-button .dnb-button__icon,
       .dnb-table .dnb-table__th.dnb-table--sortable .dnb-anchor .dnb-button__icon,
       .dnb-table .dnb-table__th.dnb-table--sortable .dnb-button .dnb-button__icon {
+        align-self: flex-end;
+        margin-top: auto;
         margin-bottom: 0.25rem; }
       .dnb-table > thead > tr > th.dnb-table--sortable .dnb-anchor:not(:focus) .dnb-button__text::after,
       .dnb-table > thead > tr > th.dnb-table--sortable .dnb-button:not(:focus) .dnb-button__text::after,

@@ -97,6 +97,13 @@
     left: auto;
 
     margin-top: 1rem;
+
+
+    .dnb-button__icon {
+      &.dnb-icon--medium {
+        margin-top: 0.25rem;
+      }
+    }
   }
   .dnb-modal__content__inner &__close-button {
     right: 0;

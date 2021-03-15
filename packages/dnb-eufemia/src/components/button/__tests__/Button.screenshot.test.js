@@ -148,6 +148,16 @@ describe('Button tertiary screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match tertiary button with text wrap', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        width: '20rem',
+        height: '6rem'
+      },
+      selector: '[data-visual-test="button-tertiary-wrap"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('Button signal screenshot', () => {
