@@ -26,7 +26,7 @@ function loadDevStyles() {
   require('@dnb/eufemia/src/core/jest/jestSetupScreenshots.css') // import visual test styles
 
   // Only for testing legacy CSS code
-  // require('@dnb/eufemia/stories/legacy')
+  // require('dnb-eufemia-sandbox/stories/legacy')
 
   // Load dev styles (to use hot reloading, we do have to import the styles in here)
   // import styles
