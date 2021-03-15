@@ -428,10 +428,13 @@ export default class SidebarLayout extends React.PureComponent {
               }
 
               --delay: 0; /* polyfill fallback */
+
+              /* stylelint-disable */
               --aside-width: 30vw; /* IE fix */
               --aside-width: calc(25vw + 5rem);
+              /* stylelint-enable */
 
-              /* 2.5rem - but we dont want it to be responsive */
+              /* 2.5rem - but we don't want it to be responsive */
               --level-icon-adjust: -40px;
               --level: 2vw;
 

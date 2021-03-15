@@ -698,7 +698,7 @@ export default class DatePickerInput extends React.PureComponent {
               disabled={disabled}
               skeleton={skeleton}
               className={classnames(
-                'dnb-button--input-button',
+                showInput && 'dnb-button--input-button',
                 opened ? 'dnb-button--active' : null
               )}
               aria-label={this.formatDate()}
