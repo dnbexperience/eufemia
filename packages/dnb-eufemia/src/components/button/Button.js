@@ -38,7 +38,6 @@ export const buttonPropTypes = {
   type: PropTypes.string,
   title: PropTypes.string,
   variant: buttonVariantPropType.variant,
-  // ...buttonVariantPropType,
   size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   icon: PropTypes.oneOfType([
     PropTypes.string,
@@ -248,6 +247,9 @@ export default class Button extends React.PureComponent {
       if (!usedSize) {
         usedSize = 'default'
       }
+    }
+    if (!iconSize && variant === 'tertiary' && usedSize === 'large') {
+      iconSize = 'medium'
     }
 
     const classes = classnames(

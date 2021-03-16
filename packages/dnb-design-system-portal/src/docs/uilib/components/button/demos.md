@@ -117,9 +117,9 @@ import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 />
 <Button
   variant="tertiary"
-  text="With medium icon"
+  size="large"
+  text="Large tertiary button"
   icon="chevron_right"
-  icon_size="medium"
   left
 />
 	`

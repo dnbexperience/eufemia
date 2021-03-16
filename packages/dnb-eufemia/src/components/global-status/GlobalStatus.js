@@ -38,7 +38,7 @@ import Icon from '../icon/Icon'
  * we have to have them inlined here in this component. Down bleow.
  */
 // import { InfoIcon, ErrorIcon } from '../form-status/FormStatus'
-import Button from '../button/Button'
+import { CloseButton } from '../modal/ModalContent'
 import Section from '../section/Section'
 import { IS_IE11 } from '../../shared/helpers'
 
@@ -770,6 +770,7 @@ export default class GlobalStatus extends React.PureComponent {
             {titleToRender}
             {!isTrue(hide_close_button) && (
               <CloseButton
+                className="dnb-global-status__close-button"
                 on_click={this.closeHandler}
                 text={close_text}
                 title={close_text}
@@ -807,30 +808,6 @@ export default class GlobalStatus extends React.PureComponent {
       </div>
     )
   }
-}
-
-const CloseButton = ({ on_click, text, className = null }) => (
-  <Button
-    type="button"
-    variant="tertiary"
-    size="medium"
-    className={classnames('dnb-global-status__close-button', className)}
-    icon="close"
-    icon_size="medium"
-    icon_position="left"
-    aria-label={text}
-    text={text}
-    on_click={on_click}
-  />
-)
-CloseButton.propTypes = {
-  on_click: PropTypes.func.isRequired,
-  className: PropTypes.string,
-  text: PropTypes.string
-}
-CloseButton.defaultProps = {
-  className: null,
-  text: GlobalStatus.defaultProps.close_text
 }
 
 // Extend our component with controllers

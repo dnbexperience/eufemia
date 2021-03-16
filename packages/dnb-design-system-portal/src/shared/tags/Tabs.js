@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 
 import { css } from '@emotion/react'
 import { navigate, parsePath } from 'gatsby'
-import { CloseButton } from '@dnb/eufemia/src/components/modal'
 import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons/secondary_icons'
 import { Button, Tabs } from '@dnb/eufemia/src'
 
@@ -102,10 +101,12 @@ class CustomTabs extends React.PureComponent {
               <TabsList>
                 <Tabs />
                 {this.state.wasFullscreen ? (
-                  <CloseButton
-                    style_type="cross"
-                    title="Quit Fullscreen"
+                  <Button
                     on_click={this.quitFullscreen}
+                    variant="secondary"
+                    title="Quit Fullscreen"
+                    icon="close"
+                    className="fullscreen"
                   />
                 ) : (
                   <Button

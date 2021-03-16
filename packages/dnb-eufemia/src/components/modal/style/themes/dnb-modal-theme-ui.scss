@@ -12,16 +12,17 @@
     }
   }
 
-  &__close-button--cross {
-    cursor: pointer;
-    color: var(--color-sea-green);
+  // deprecated - removed in v9
+  // &__close-button--cross {
+  //   cursor: pointer;
+  //   color: var(--color-sea-green);
 
-    @include fakeFocus();
+  //   @include fakeFocus();
 
-    html[data-whatinput='keyboard'] &,
-    &.dnb-button--secondary {
-      box-shadow: none;
-      background-color: transparent;
-    }
-  }
+  //   html[data-whatinput='keyboard'] &,
+  //   &.dnb-button--secondary {
+  //     box-shadow: none;
+  //     background-color: transparent;
+  //   }
+  // }
 }

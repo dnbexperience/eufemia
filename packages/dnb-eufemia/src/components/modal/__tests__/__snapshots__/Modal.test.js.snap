@@ -615,8 +615,9 @@ exports[`Modal component have to match snapshot 1`] = `
                 <CloseButton
                   className={null}
                   close_title="close_title"
+                  icon_position="left"
                   on_click={[Function]}
-                  style_type={null}
+                  size="large"
                 >
                   <Button
                     bounding={false}
@@ -629,8 +630,8 @@ exports[`Modal component have to match snapshot 1`] = `
                     global_status_id={null}
                     href={null}
                     icon="close"
-                    icon_position="right"
-                    icon_size="basis"
+                    icon_position="left"
+                    icon_size={null}
                     id={null}
                     innerRef={null}
                     inner_ref={null}
@@ -645,11 +646,11 @@ exports[`Modal component have to match snapshot 1`] = `
                     title={null}
                     tooltip={null}
                     type="button"
-                    variant="secondary"
+                    variant="tertiary"
                     wrap={false}
                   >
                     <button
-                      className="dnb-button dnb-button--secondary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-basis dnb-button--size-large"
+                      className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-large"
                       disabled={false}
                       onClick={[Function]}
                       type="button"
@@ -666,8 +667,8 @@ exports[`Modal component have to match snapshot 1`] = `
                         global_status_id={null}
                         href={null}
                         icon="close"
-                        icon_position="right"
-                        icon_size="basis"
+                        icon_position="left"
+                        icon_size="medium"
                         id={null}
                         innerRef={null}
                         inner_ref={null}
@@ -683,7 +684,7 @@ exports[`Modal component have to match snapshot 1`] = `
                         title={null}
                         tooltip={null}
                         type="button"
-                        variant="secondary"
+                        variant="tertiary"
                         wrap={false}
                       >
                         <span
@@ -710,34 +711,34 @@ exports[`Modal component have to match snapshot 1`] = `
                           inherit_color={true}
                           key="button-icon"
                           modifier={null}
-                          size="basis"
+                          size="medium"
                           skeleton={false}
                           title={null}
                           width={null}
                         >
                           <span
                             aria-hidden={true}
-                            className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                            className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
                             data-test-id="close icon"
                             role="presentation"
                           >
-                            <close>
+                            <close_medium>
                               <svg
                                 fill="none"
-                                height={16}
-                                viewBox="0 0 16 16"
-                                width={16}
+                                height={24}
+                                viewBox="0 0 24 24"
+                                width={24}
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <path
-                                  d="M3 13L13 3M13 13L3 3"
+                                  d="M5 19L19 5M19 19L5 5"
                                   stroke="black"
                                   strokeLinecap="round"
                                   strokeLinejoin="round"
                                   strokeWidth={1.5}
                                 />
                               </svg>
-                            </close>
+                            </close_medium>
                           </span>
                         </IconPrimary>
                       </Content>
@@ -1505,18 +1506,14 @@ button.dnb-button::-moz-focus-inner {
     .dnb-modal__content--drawer .dnb-modal__wrapper__inner.dnb-section::after {
       min-height: calc( 100vh - var(--modal-drawer-content-top) - calc(var(--modal-spacing) * 2)); }
   .dnb-modal__close-button {
-    position: absolute;
     top: calc(var(--modal-spacing) * 0.75);
     right: var(--modal-spacing);
     z-index: 1; }
+    .dnb-modal__close-button, .dnb-modal__close-button.dnb-button--tertiary {
+      position: absolute; }
     @media screen and (max-width: 40em) {
       .dnb-modal__close-button {
         right: calc(var(--modal-spacing) / 2); } }
-    .dnb-modal__close-button--cross {
-      top: var(--modal-spacing); }
-      @media screen and (max-width: 40em) {
-        .dnb-modal__close-button--cross {
-          top: calc(var(--modal-spacing) / 2); } }
   .dnb-modal__content--drawer .dnb-modal__close-button {
     top: calc(var(--modal-spacing) * 1.75);
     right: calc(var(--modal-spacing) * 1.75); }
