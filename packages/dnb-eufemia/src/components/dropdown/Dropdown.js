@@ -354,7 +354,9 @@ class DropdownInstance extends React.PureComponent {
         try {
           const element = this._refButton.current._ref.current
           if (element && typeof element.focus === 'function') {
-            element.focus({ preventScroll: true })
+            if (args.preventHideFocus !== true) {
+              element.focus({ preventScroll: true })
+            }
             dispatchCustomElementEvent(this, 'on_hide_focus', { element })
           }
         } catch (e) {

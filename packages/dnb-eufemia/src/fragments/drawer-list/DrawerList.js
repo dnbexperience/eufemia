@@ -525,7 +525,6 @@ class DrawerListInstance extends React.PureComponent {
       </span>
     )
 
-    // Gets set as "skip_portal"
     return (
       <span
         className={classnames(
@@ -536,6 +535,7 @@ class DrawerListInstance extends React.PureComponent {
       >
         {usePortal ? (
           <DrawerListPortal
+            id={this._id}
             rootRef={_refRoot}
             opened={hidden === false}
             include_owner_width={align_drawer === 'right'}

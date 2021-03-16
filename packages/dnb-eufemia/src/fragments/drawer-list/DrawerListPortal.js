@@ -11,6 +11,7 @@ import { warn, isInsideScrollView } from '../../shared/component-helper'
 
 class DrawerListPortal extends React.PureComponent {
   static propTypes = {
+    id: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     opened: PropTypes.bool.isRequired,
     innerRef: PropTypes.shape({
@@ -23,7 +24,6 @@ class DrawerListPortal extends React.PureComponent {
     independent_width: PropTypes.bool,
     fixed_position: PropTypes.bool,
     use_drawer_on_mobile: PropTypes.bool,
-    inactive: PropTypes.bool,
     className: PropTypes.string
   }
 
@@ -34,7 +34,6 @@ class DrawerListPortal extends React.PureComponent {
     independent_width: false,
     fixed_position: false,
     use_drawer_on_mobile: false,
-    inactive: false,
     className: null
   }
 
@@ -45,7 +44,7 @@ class DrawerListPortal extends React.PureComponent {
 
   init = () => {
     this.portalElem = this.useRootElement()
-    if (this._isMounted && !this.props.inactive) {
+    if (this._isMounted) {
       this.renderPortal()
     }
   }
@@ -79,12 +78,36 @@ class DrawerListPortal extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props !== prevProps) {
+    if (
+      this._isMounted &&
+      this.portalElem &&
+      (this.props.opened || prevProps.opened)
+    ) {
       this.renderPortal()
     }
   }
 
   useRootElement() {
+    if (typeof document !== 'undefined') {
+      try {
+        let elem = document.getElementById(`${this.props.id}-portal`)
+        if (elem) {
+          return elem
+        }
+
+        elem = document.createElement('div')
+        elem.setAttribute('id', `${this.props.id}-portal`)
+        elem.classList.add('dnb-drawer-list__portal')
+        this.createMainElement().appendChild(elem)
+
+        return elem
+      } catch (e) {
+        warn(e)
+      }
+    }
+  }
+
+  createMainElement() {
     if (typeof document !== 'undefined') {
       try {
         let elem = document.getElementById('dnb-drawer-list__portal')
@@ -96,12 +119,11 @@ class DrawerListPortal extends React.PureComponent {
         elem.setAttribute('role', 'presentation')
         elem.setAttribute('id', 'dnb-drawer-list__portal')
         elem.classList.add('dnb-core-style')
-        elem.classList.add('dnb-drawer-list__portal')
         document.body.appendChild(elem)
 
         return elem
       } catch (e) {
-        warn('Could not create DrawerListPortal!', e)
+        warn(e)
       }
     }
   }
@@ -181,29 +203,19 @@ class DrawerListPortal extends React.PureComponent {
 
       return style
     } catch (e) {
-      warn('Could not create makeStyle in DrawerListPortal!', e)
+      warn(e)
     }
   }
 
   addPositionObserver() {
-    if (typeof window === 'undefined' || this.setPosition) {
+    if (this.setPosition || typeof window === 'undefined') {
       return // stop here
-    }
-
-    const renderPosition = () => {
-      this.renderPortal()
     }
 
     // debounce
     this.setPosition = () => {
-      // to ensure a smooth scrolling, we COULD avoid a debounce here
-      // but this has a negative effect on performance
-      // if (this.customElem) {
-      //   renderPosition()
-      // }
-
       clearTimeout(this._ddt)
-      this._ddt = setTimeout(renderPosition, 30)
+      this._ddt = setTimeout(this.renderPortal, 30)
     }
     window.addEventListener('resize', this.setPosition)
 
@@ -221,11 +233,11 @@ class DrawerListPortal extends React.PureComponent {
       }
       window.removeEventListener('resize', this.setPosition)
     }
+    this.setPosition = null
   }
 
-  renderPortal() {
+  renderPortal = () => {
     const {
-      inactive,
       opened,
       fixed_position,
       use_drawer_on_mobile,
@@ -233,7 +245,7 @@ class DrawerListPortal extends React.PureComponent {
       children
     } = this.props
 
-    if (!this.portalElem || inactive) {
+    if (!this.portalElem) {
       return // stop here
     }
 
@@ -245,6 +257,7 @@ class DrawerListPortal extends React.PureComponent {
 
     ReactDOM.render(
       <span
+        // id={this.props.id && `${this.props.id}-portal`}
         className={classnames(
           'dnb-drawer-list__portal__style',
           fixed_position && 'dnb-drawer-list__portal__style--fixed',
@@ -262,11 +275,10 @@ class DrawerListPortal extends React.PureComponent {
   }
 
   render() {
-    const { inactive, children } = this.props
-    return inactive ? children : null
+    return null
   }
 }
 
-export default React.forwardRef(function DrawerListPortalRef(props, ref) {
+export default React.forwardRef((props, ref) => {
   return <DrawerListPortal innerRef={ref} {...props} />
 })
