@@ -15,7 +15,8 @@ import {
   copyToClipboard,
   IS_MAC,
   IS_WIN,
-  IS_IE11
+  IS_IE11,
+  IS_SAFARI
 } from '../../shared/helpers'
 
 const NUMBER_CHARS = '-0-9,.'
@@ -292,6 +293,11 @@ export const formatNumber = (
   formatter = null
 ) => {
   try {
+    // Safari does not support `narrowSymbol` for now, so `symbol` will be used then.
+    if (IS_SAFARI && options.currencyDisplay === 'narrowSymbol') {
+      options.currencyDisplay = 'symbol'
+    }
+
     if (
       typeof Intl !== 'undefined' &&
       typeof Intl.NumberFormat === 'function'
@@ -592,7 +598,7 @@ export function showSelectionNotice({ value, label, timeout = 3e3 }) {
     return { run: () => {} }
   }
 
-  let elem // portalElem
+  let elem, content
 
   try {
     // create that portal element
@@ -604,14 +610,13 @@ export function showSelectionNotice({ value, label, timeout = 3e3 }) {
     const arrow = document.createElement('span')
     arrow.setAttribute(
       'class',
-      'dnb-tooltip__arrow dnb-tooltip__arrow__position--bottom'
+      'dnb-tooltip__arrow dnb-tooltip__arrow__position--top'
     )
-    const content = document.createElement('span')
+    content = document.createElement('span')
     content.setAttribute('class', 'dnb-tooltip__content')
+    content.setAttribute('aria-live', 'assertive')
     elem.appendChild(arrow)
     elem.appendChild(content)
-
-    content.textContent = String(label)
   } catch (e) {
     warn(e)
   }
@@ -620,6 +625,8 @@ export function showSelectionNotice({ value, label, timeout = 3e3 }) {
     remove() {
       try {
         document.body.removeChild(elem)
+        elem = null
+        content = null
       } catch (e) {
         //
       }
@@ -631,19 +638,34 @@ export function showSelectionNotice({ value, label, timeout = 3e3 }) {
         //
       }
     }
-    run(positionElement = getSelectedElement()) {
+    run(pE = getSelectedElement()) {
       try {
         document.body.appendChild(elem)
 
-        const top = getOffsetTop(positionElement)
-        const left = getOffsetLeft(positionElement)
+        const top = getOffsetTop(pE)
+        const left = getOffsetLeft(pE)
 
-        elem.style.top = `${top + elem.offsetHeight}px`
-        elem.style.left = `${
-          left +
-          (positionElement?.offsetWidth || 0) / 2 -
-          elem.offsetWidth / 2
-        }px`
+        content.innerHTML =
+          String(label) +
+          (pE instanceof HTMLElement
+            ? `<span class="dnb-sr-only">: ${
+                (
+                  (pE &&
+                    pE.querySelector('.dnb-number-format__selection')) ||
+                  pE
+                ).innerHTML
+              }</span>`
+            : '')
+
+        const width =
+          (
+            (pE && pE.querySelector('.dnb-number-format__visible')) ||
+            pE ||
+            {}
+          ).offsetWidth || 0
+
+        elem.style.top = `${top - elem.offsetHeight}px`
+        elem.style.left = `${left + width / 2 - elem.offsetWidth / 2}px`
         elem.classList.add('dnb-tooltip--active')
 
         setTimeout(this.hide, timeout)
