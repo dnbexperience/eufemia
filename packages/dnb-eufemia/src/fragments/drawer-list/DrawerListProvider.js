@@ -162,7 +162,6 @@ export default class DrawerListProvider extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    clearInterval(this._outsideClickTimeout)
     clearTimeout(this._hideTimeout)
     clearTimeout(this._selectTimeout)
     clearTimeout(this._scrollTimeout)
@@ -983,7 +982,7 @@ export default class DrawerListProvider extends React.PureComponent {
         this._refRoot.current,
         this._refUl.current
       ],
-      this.setHidden,
+      () => this.setHidden({ preventHideFocus: true }),
       { includedKeys: ['tab'] }
     )
 
