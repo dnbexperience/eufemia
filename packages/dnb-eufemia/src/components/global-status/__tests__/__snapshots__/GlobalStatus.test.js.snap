@@ -663,22 +663,29 @@ html[data-visual-test] .dnb-global-status__shell {
 
 .dnb-global-status__title {
   position: relative;
-  cursor: text; }
+  cursor: text;
+  min-height: 3.5rem; }
   .dnb-global-status__title.dnb-p {
-    font-size: var(--font-size-medium);
-    line-height: var(--line-height-medium);
-    padding: 1rem 6rem 1rem 3rem;
-    padding-top: calc(1rem - 0.125rem);
-    padding-bottom: calc(1rem - 0.375rem); }
+    display: flex;
+    align-items: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 3rem;
+    padding-right: 5rem;
+    font-size: var(--font-size-medium); }
   .dnb-spacing .dnb-global-status__title.dnb-p,
   .dnb-spacing .dnb-global-status__title.dnb-p:not([class*='dnb-space']) {
     margin: 0; }
 
 .dnb-global-status__message {
   cursor: text;
-  z-index: 1; }
+  z-index: 1;
+  margin-top: -1px; }
   .dnb-global-status__message__content {
-    padding: 2rem 0 2.5rem; }
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 0 2.5rem;
+    margin-bottom: 1px; }
     .dnb-global-status__message__content .dnb-p,
     .dnb-spacing .dnb-global-status__message__content .dnb-p,
     .dnb-spacing .dnb-global-status__message__content .dnb-p:not([class*='dnb-space']) {
@@ -695,19 +702,16 @@ html[data-visual-test] .dnb-global-status__shell {
 .dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
   position: absolute;
   z-index: 1;
-  top: -0.125rem;
+  top: -0.25rem;
   right: 1rem;
   left: auto;
-  margin-top: 1rem; }
-  .dnb-global-status__close-button .dnb-button__icon.dnb-icon--medium, .dnb-global-status__close-button.dnb-button--tertiary .dnb-button__icon.dnb-icon--medium {
-    margin-top: 0.25rem; }
+  margin-top: 0.75rem; }
 
 .dnb-modal__content__inner .dnb-global-status__close-button {
   right: 0; }
 
 .dnb-global-status__content {
-  width: 100%;
-  transform: translate3d(0, -1px, 0); }
+  width: 100%; }
   .dnb-global-status__content .dnb-ul,
   .dnb-spacing .dnb-global-status__content .dnb-ul,
   .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*='dnb-space']) {
@@ -869,16 +873,18 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
               </span>
               title
               <CloseButton
-                className={null}
+                className="dnb-global-status__close-button"
+                close_title={null}
+                icon_position="left"
                 on_click={[Function]}
+                size="large"
                 text="close_text"
                 title="close_text"
               >
                 <Button
-                  aria-label="close_text"
                   bounding={false}
                   class={null}
-                  className="dnb-global-status__close-button"
+                  className="dnb-modal__close-button dnb-global-status__close-button"
                   custom_element={null}
                   custom_method={null}
                   disabled={null}
@@ -887,36 +893,35 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                   href={null}
                   icon="close"
                   icon_position="left"
-                  icon_size="medium"
+                  icon_size={null}
                   id={null}
                   innerRef={null}
                   inner_ref={null}
                   onClick={null}
                   on_click={[Function]}
-                  size="medium"
+                  size="large"
                   skeleton={null}
                   status={null}
                   status_animation={null}
                   status_state="error"
                   text="close_text"
-                  title={null}
+                  title="close_text"
                   tooltip={null}
                   type="button"
                   variant="tertiary"
                   wrap={false}
                 >
                   <button
-                    aria-label="close_text"
-                    className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
+                    className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-large"
                     disabled={false}
                     onClick={[Function]}
+                    title="close_text"
                     type="button"
                   >
                     <Content
-                      aria-label="close_text"
                       bounding={false}
                       class={null}
-                      className="dnb-global-status__close-button"
+                      className="dnb-modal__close-button dnb-global-status__close-button"
                       content={null}
                       custom_element={null}
                       custom_method={null}
@@ -933,13 +938,13 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                       isIconOnly={false}
                       onClick={null}
                       on_click={[Function]}
-                      size="medium"
+                      size="large"
                       skeleton={false}
                       status={null}
                       status_animation={null}
                       status_state="error"
                       text="close_text"
-                      title={null}
+                      title="close_text"
                       tooltip={null}
                       type="button"
                       variant="tertiary"
@@ -1184,16 +1189,18 @@ Array [
                 </span>
                 En feil har skjedd
                 <CloseButton
-                  className={null}
+                  className="dnb-global-status__close-button"
+                  close_title={null}
+                  icon_position="left"
                   on_click={[Function]}
+                  size="large"
                   text="Lukk"
                   title="Lukk"
                 >
                   <Button
-                    aria-label="Lukk"
                     bounding={false}
                     class={null}
-                    className="dnb-global-status__close-button"
+                    className="dnb-modal__close-button dnb-global-status__close-button"
                     custom_element={null}
                     custom_method={null}
                     disabled={null}
@@ -1202,36 +1209,35 @@ Array [
                     href={null}
                     icon="close"
                     icon_position="left"
-                    icon_size="medium"
+                    icon_size={null}
                     id={null}
                     innerRef={null}
                     inner_ref={null}
                     onClick={null}
                     on_click={[Function]}
-                    size="medium"
+                    size="large"
                     skeleton={null}
                     status={null}
                     status_animation={null}
                     status_state="error"
                     text="Lukk"
-                    title={null}
+                    title="Lukk"
                     tooltip={null}
                     type="button"
                     variant="tertiary"
                     wrap={false}
                   >
                     <button
-                      aria-label="Lukk"
-                      className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
+                      className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-large"
                       disabled={false}
                       onClick={[Function]}
+                      title="Lukk"
                       type="button"
                     >
                       <Content
-                        aria-label="Lukk"
                         bounding={false}
                         class={null}
-                        className="dnb-global-status__close-button"
+                        className="dnb-modal__close-button dnb-global-status__close-button"
                         content={null}
                         custom_element={null}
                         custom_method={null}
@@ -1248,13 +1254,13 @@ Array [
                         isIconOnly={false}
                         onClick={null}
                         on_click={[Function]}
-                        size="medium"
+                        size="large"
                         skeleton={false}
                         status={null}
                         status_animation={null}
                         status_state="error"
                         text="Lukk"
-                        title={null}
+                        title="Lukk"
                         tooltip={null}
                         type="button"
                         variant="tertiary"

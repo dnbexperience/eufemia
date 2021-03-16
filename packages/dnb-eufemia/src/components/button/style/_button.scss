@@ -178,9 +178,6 @@
   &--has-text &__icon {
     margin: 0 calc(var(--button-icon-size) / 2);
   }
-  // &--has-text#{&}--size-large &__icon {
-  //   margin: 0 var(--button-icon-size);
-  // }
   &--has-text#{&}--icon-position-left {
     padding-left: 0.5rem;
   }

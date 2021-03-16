@@ -7,8 +7,6 @@ import { Heading, Button, Tabs } from '@dnb/eufemia/src'
 import Code, { CodeRenderer } from './Code'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
-
-import { CloseButton } from '@dnb/eufemia/src/components/modal'
 import Link from 'gatsby-link'
 import PropTypes from 'prop-types'
 import { css } from '@emotion/react'
@@ -244,10 +242,12 @@ class ItemWrapper extends React.PureComponent {
                   <TabsList>
                     <Tabs />
                     {this.state.wasFullscreen ? (
-                      <CloseButton
-                        style_type="cross"
-                        title="Quit Fullscreen"
+                      <Button
                         on_click={this.quitFullscreen}
+                        variant="secondary"
+                        title="Quit Fullscreen"
+                        icon="close"
+                        className="fullscreen"
                       />
                     ) : (
                       <Button

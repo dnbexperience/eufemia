@@ -492,14 +492,16 @@ export default class ModalContent extends React.PureComponent {
 export class CloseButton extends React.PureComponent {
   static contextType = Context
   static propTypes = {
-    style_type: PropTypes.oneOf(['button', 'cross']),
     on_click: PropTypes.func.isRequired,
     close_title: PropTypes.string,
+    size: PropTypes.string,
+    icon_position: PropTypes.string,
     className: PropTypes.string
   }
   static defaultProps = {
-    style_type: null,
     close_title: null,
+    size: 'large',
+    icon_position: 'left',
     className: null
   }
 
@@ -507,7 +509,6 @@ export class CloseButton extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const {
       on_click,
-      style_type,
       close_title,
       className = null,
       ...rest
@@ -519,23 +520,12 @@ export class CloseButton extends React.PureComponent {
       this.context.ModalContent
     )
 
-    if (style_type === 'cross') {
-      rest.icon_size = 'medium'
-    } else {
-      rest.size = 'large'
-      rest.icon_size = 'basis'
-      rest.text = close_title
-    }
-
     return (
       <Button
         type="button"
-        variant="secondary"
-        className={classnames(
-          'dnb-modal__close-button',
-          style_type && `dnb-modal__close-button--${style_type}`,
-          className
-        )}
+        text={close_title}
+        variant="tertiary"
+        className={classnames('dnb-modal__close-button', className)}
         icon="close"
         on_click={on_click}
         {...rest}

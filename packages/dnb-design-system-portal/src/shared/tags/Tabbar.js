@@ -9,7 +9,6 @@ import { css } from '@emotion/react'
 import { parsePath, navigate } from 'gatsby'
 import { Button, Tabs } from '@dnb/eufemia/src/components'
 import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons/secondary_icons'
-import { CloseButton } from '@dnb/eufemia/src/components/modal'
 import AutoLinkHeader from './AutoLinkHeader'
 
 export default function Tabbar({
@@ -111,10 +110,12 @@ export default function Tabbar({
               <TabsList>
                 <Tabs />
                 {wasFullscreen ? (
-                  <CloseButton
-                    title="Quit Fullscreen"
+                  <Button
                     on_click={quitFullscreen}
-                    style_type="cross"
+                    variant="secondary"
+                    title="Quit Fullscreen"
+                    icon="close"
+                    className="fullscreen"
                   />
                 ) : (
                   <Button
