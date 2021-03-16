@@ -573,6 +573,7 @@ legend.dnb-form-label {
     border: none;
     margin: 0;
     padding: 0 var(--textarea-padding-width);
+    outline: none;
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis); }
   .dnb-textarea__placeholder {
@@ -588,6 +589,7 @@ legend.dnb-form-label {
     border: none;
     margin: 0;
     padding: 0 var(--textarea-padding-width);
+    outline: none;
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis); }
   .dnb-textarea__textarea, .dnb-textarea__placeholder {

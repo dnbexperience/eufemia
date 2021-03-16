@@ -239,8 +239,13 @@ export default class Textarea extends React.PureComponent {
   }
   onChangeHandler = (event) => {
     const { value } = event.target
+
+    if (isTrue(this.props.autoresize)) {
+      this.prepareAutosize()
+    }
+
     const rows = this.getRows(value)
-    // console.log('rows', rows, this.getLineHeight())
+
     const ret = dispatchCustomElementEvent(this, 'on_change', {
       value,
       rows,
@@ -262,23 +267,45 @@ export default class Textarea extends React.PureComponent {
       event
     })
   }
+  prepareAutosize = () => {
+    const elem = this._ref.current
+    if (!elem) {
+      return // stop here if no element was gotten
+    }
+    try {
+      elem.style.height = 'auto'
+    } catch (e) {
+      warn(e)
+    }
+  }
   setAutosize = (rows = null) => {
     const elem = this._ref.current
     if (!elem) {
       return // stop here if no element was gotten
     }
-    rows = typeof rows === 'number' ? rows : this.getRows()
     try {
       if (typeof this._heightOffset === 'undefined') {
         this._heightOffset = elem.offsetHeight - elem.clientHeight
       }
 
       elem.style.height = 'auto'
+
+      // get rows after we set height to auto, this way we get 100% correct rows
+      const lineHeight = this.getLineHeight()
       let newHeight = elem.scrollHeight + this._heightOffset
+      if (!rows) {
+        rows = this.getRows()
+      }
+
+      if (rows === 1) {
+        if (newHeight > lineHeight) {
+          newHeight = lineHeight
+        }
+      }
 
       const maxRows = parseFloat(this.props.autoresize_max_rows)
       if (maxRows > 0) {
-        const maxHeight = maxRows * this.getLineHeight()
+        const maxHeight = maxRows * lineHeight
 
         if (rows > maxRows || newHeight > maxHeight) {
           newHeight = maxHeight
