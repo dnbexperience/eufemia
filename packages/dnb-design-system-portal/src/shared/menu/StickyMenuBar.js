@@ -22,7 +22,7 @@ import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/Skelet
 
 const Header = styled.header`
   position: fixed;
-  z-index: 2500;
+  z-index: 4000;
   top: 0;
   left: 0;
   width: 100%;
