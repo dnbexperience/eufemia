@@ -25,6 +25,12 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match disabled state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="dropdown-disabled"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match the dropdown with icon on left side', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="dropdown-left-icon"]'

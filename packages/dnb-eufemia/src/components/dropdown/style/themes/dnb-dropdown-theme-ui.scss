@@ -7,11 +7,16 @@
 
 .dnb-dropdown {
   // button
-  &__trigger:not(#{&}__status--error) {
+  &__trigger {
     color: var(--color-sea-green);
     @include hover() {
       color: var(--color-emerald-green);
     }
+  }
+  &__trigger[disabled] {
+    color: var(--color-black-55);
+    background-color: var(--color-black-3);
+    @include fakeBorder(var(--color-black-55));
   }
 
   // NB: We may use this medium font in future
