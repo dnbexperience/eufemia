@@ -68,80 +68,6 @@ class Example extends React.PureComponent {
         <ComponentBox
           reactLive
           hideCode
-          caption="I'm not visible on small screens `.dnb-hide-on-mobile`"
-          data-visual-test="helper-hide-on-mobile"
-        >
-          {
-            /* @html */ `
-<div className="dnb-hide-on-mobile">
-  Try minimizing your browser window. I'm not visible on small screens.
-</div>
-          `
-          }
-        </ComponentBox>
-        <ComponentBox
-          reactLive
-          hideCode
-          caption="I'm ONLY visible on small screens"
-          data-visual-test="helper-mobile-exclusive"
-        >
-          {
-            /* @html */ `
-<div className="dnb-mobile-exclusive">
-  I'm ONLY visible on small screens.
-</div>
-          `
-          }
-        </ComponentBox>
-        <ComponentBox
-          reactLive
-          hideCode
-          caption="I'm inside a `.dnb-width-limit` wrapper"
-          data-visual-test="helper-width-limit"
-        >
-          {
-            /* @html */ `
-<div className="dnb-width-limit">
-  I'm inside a .dnb-width-limit wrapper.
-</div>
-          `
-          }
-        </ComponentBox>
-        <ComponentBox
-          reactLive
-          hideCode
-          caption="I'm inside a `.dnb-belt`"
-          data-visual-test="helper-belt"
-        >
-          {
-            /* @html */ `
-<div className="dnb-belt">I'm inside a .dnb-belt</div>
-          `
-          }
-        </ComponentBox>
-        <ComponentBox
-          reactLive
-          hideCode
-          caption="I'm a nudge"
-          data-visual-test="helper-nudge"
-        >
-          {
-            /* @html */ `
-<div className="dnb-nudge dnb-nudge--vertical" data-nudges="4">
-I'm a vertical nudge. I have four nudges, which means I am 4rem units tall.
-</div>
-<div
-  className="dnb-nudge dnb-nudge--horizontal"
-  data-nudges="10"
->
-  I'm a horizontal nudge. I have ten nudges, which means I am 10rem units wide.
-</div>
-          `
-          }
-        </ComponentBox>
-        <ComponentBox
-          reactLive
-          hideCode
           caption="I am only visible to screen readers `.dnb-sr-only`"
           data-visual-test="helper-sr-only"
         >
@@ -180,20 +106,6 @@ I'm a vertical nudge. I have four nudges, which means I am 4rem units tall.
 // have a limit because this page is used for screenshot tests
 const Wrapper = styled.div`
   max-width: 40rem;
-
-  /*
-  *
-  * Helper Classes - some of them need
-  * visualising to see their effect
-  */
-
-  .dnb-nudge--vertical {
-    background-color: var(--color-mint-green-50);
-  }
-
-  .dnb-nudge--horizontal {
-    background-color: var(--color-mint-green-50);
-  }
 `
 
 export default function StyledExample() {

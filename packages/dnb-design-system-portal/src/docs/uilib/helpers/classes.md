@@ -20,20 +20,12 @@ Reusing classes in the markup instead of using SCSS extends or _mixins_ will pre
 | `dnb-drop-shadow`          | Adds the default drop shadow used in the components.                                                                                                                                                                                                   |
 | `dnb-responsive-component` | Makes some component form components, like [Input](/uilib/components/input) react to mobile sized screens. But as this can have some negative effects to have this enabled by default, you can enable this optionally using this helper class.         |
 | `dnb-unstyled-list`        | Removes default styling for lists. Applies to the `ul` or `ol` elements                                                                                                                                                                                |
-| `dnb-hide-on-mobile`       | Hides element on screens that are below the `medium` size. This value of `medium` can be found in `css/core/utilities.scss`                                                                                                                            |
-| `dnb-mobile-exclusive`     | The opposite of `dnb-hide-on-mobile`, which means it will only be visible on screens up to the size of `medium                                                                                                                                         |     | `dnb-width-limit` | Our main wrapping class for containers. It has a max-width and a left and right padding which varies based on screen sizes |
-| `dnb-belt`                 | A wrapping class which adds a background color and padding to top and bottom                                                                                                                                                                           |
-| `dnb-nudge`                | A visual nudging tool. It has a modifying class which tells the element if it should expand horizontally or vertically. **NB! Use with caution!**                                                                                                      |
 | `dnb-selection`            | Applies the DNB selection colors to the selected content. More notes below.                                                                                                                                                                            |
 
 ## Selection color
 
 Eufemia uses custom `::selection` colors to enhance the contrast and to play well agains the many green colors.
 Every HTML class that starts with the prefix `dnb-` will be effected. In some circumstances you can simply make use of the class `.dnb-selection`.
-
-### More about `dnb-nudge`
-
-It also has a data attribute which takes the amount of nudges. One nudge = `1rem`, two nudges = `3rem`. It takes up to `10 nudges`. See example for usage.
 
 ### HTML class naming
 
@@ -47,11 +39,44 @@ Most helper classes are SCSS _mixins_ which are then applied to the class when i
 You can import Eufemia _mixins_ directly into your SCSS styles:
 
 ```scss
-@import './node_modules/@dnb/eufemia/style/core/utilities.scss';
+@import '@dnb/eufemia/style/core/utilities.scss';
 
-@include hover {
-  @include fakeFocus();
-}
+/** State handling */
+@include hover {}
+@include focus {}
+@include active {}
+
+/** Media Queries and Breakpoints */
+@include allBelow(large) {}
+@include allAbove(small) {}
+
+/** Screen Reader Only */
+@include srOnly() {} // .dnb-sr-only
+@include srOnlyInline() {} // .dnb-sr-only--inline
+
+/** Browser Checks */
+@include IS_IE {}
+@include IS_EDGE {}
+@include IS_FF {}
+@include IS_CHROME {}
+@include IS_SAFARI_MOBILE {}
+@include IS_SAFARI_DESKTOP {}
+
+
+/** Eufemia DropShadow */
+@include defaultDropShadow();
+
+/** Eufemia Border helpers */
+@include fakeFocus(/* $whatinput: 'keyboard', $color: var(--color-emerald-green), $inset: inset */);
+@include fakeBorder(/* $color: var(--color-emerald-green), $width: 0.0625rem, $inset: inset */);
+@include extendFakeFocus(/* $first-color: null, $second-color: null, width: 0.0625rem */);
+
+/** Scroll behavior */
+@include scrollY(/* $mode: scroll */);
+@include scrollX(/* $mode: scroll */);
+@include hideScrollbar();
+@include scrollbarAppearance();
+
 ```
 
 ## Examples

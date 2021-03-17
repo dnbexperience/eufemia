@@ -2,13 +2,6 @@
  * Utilities
  */
 
-// Mobile-first media query helper
-@mixin media($bp) {
-  @media screen and (min-width: #{$bp}) {
-    @content;
-  }
-}
-
 $defaultEasing: cubic-bezier(0.42, 0, 0, 1);
 @mixin defaultDropShadow() {
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
@@ -272,11 +265,12 @@ $breakpoints: (
   'small': 40em,
   'medium': 50em,
   'large': 60em,
-  'x-large': 70em
+  'x-large': 72em,
+  'xx-large': 80em
 );
 
-//Example usage:
-//@include allAbove(phone){ styles go here.. }
+// Example usage:
+// @include allAbove(medium){ styles go here.. }
 @mixin allAbove($size) {
   @media screen and (min-width: map-get($breakpoints, $size)) {
     @content;
@@ -285,14 +279,6 @@ $breakpoints: (
 @mixin allBelow($size) {
   @media screen and (max-width: map-get($breakpoints, $size)) {
     @content;
-  }
-}
-@mixin nudger($direction, $nudge) {
-  @if $direction == 'horizontal' {
-    width: #{$nudge}rem;
-  }
-  @if $direction == 'vertical' {
-    height: #{$nudge}rem;
   }
 }
 
