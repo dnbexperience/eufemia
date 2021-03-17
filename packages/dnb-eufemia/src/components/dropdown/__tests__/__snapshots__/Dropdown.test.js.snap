@@ -1254,12 +1254,22 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-dropdown__trigger:not(.dnb-dropdown__status--error) {
+.dnb-dropdown__trigger {
   color: var(--color-sea-green); }
-  html:not([data-whatintent='touch']) .dnb-dropdown__trigger:not(.dnb-dropdown__status--error):hover[disabled] {
+  html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover[disabled] {
     cursor: not-allowed; }
-  html:not([data-whatintent='touch']) .dnb-dropdown__trigger:not(.dnb-dropdown__status--error):hover:not([disabled]) {
+  html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover:not([disabled]) {
     color: var(--color-emerald-green); }
+
+.dnb-dropdown__trigger[disabled] {
+  color: var(--color-black-55);
+  background-color: var(--color-black-3);
+  --border-color: var(--color-black-55);
+  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  border-color: transparent; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-dropdown__trigger[disabled] {
+      box-shadow: 0 0 0 0.0625rem var(--color-black-55); } }
 
 .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
   --border-color: var(--color-fire-red);

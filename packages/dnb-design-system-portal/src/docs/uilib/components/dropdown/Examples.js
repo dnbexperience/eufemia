@@ -300,7 +300,7 @@ export const DropdownMoreMenu = () => (
 
 export const DropdownDisabled = () => (
   <Wrapper>
-    <ComponentBox scope={{ data }}>
+    <ComponentBox scope={{ data }} data-visual-test="dropdown-disabled">
       {
         /* @jsx */ `
 <Dropdown disabled data={['Disabled Dropdown']} label="Label:" />
