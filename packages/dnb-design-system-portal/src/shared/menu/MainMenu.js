@@ -71,7 +71,7 @@ const MainWrapperStyled = styled.nav`
 
   &.is-overlay {
     position: absolute;
-    z-index: 201; /* one more than sticky Bar = styled.div */
+    z-index: 4001; /* one more than sticky Bar = styled.div */
     top: 0;
     left: 0;
     @media (min-height: 55em) {
