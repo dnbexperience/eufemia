@@ -534,15 +534,25 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
   border-radius: 0; }
 
 .dnb-tabs__content:focus {
-  outline: none;
-  border-radius: 0.5rem; }
-  html[data-whatinput='keyboard'] .dnb-tabs__content:focus {
-    --border-color: var(--color-emerald-green);
-    box-shadow: 0 0 0 0.125rem var(--border-color);
-    border-color: transparent; }
-    @media screen and (-ms-high-contrast: none) {
-      html[data-whatinput='keyboard'] .dnb-tabs__content:focus {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  position: relative; }
+  .dnb-tabs__content:focus::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 0.125rem;
+    bottom: -0.5rem;
+    left: -0.5rem;
+    right: -0.5rem;
+    max-width: 100vw;
+    border-radius: 0.5rem;
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-tabs__content:focus::after {
+      --border-color: var(--color-emerald-green);
+      box-shadow: 0 0 0 0.125rem var(--border-color);
+      border-color: transparent; }
+      @media screen and (-ms-high-contrast: none) {
+        html[data-whatinput='keyboard'] .dnb-tabs__content:focus::after {
+          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
 
 .dnb-tabs__button__title {
   font-weight: var(--font-weight-regular);
