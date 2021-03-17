@@ -2,6 +2,7 @@
 title: 'Web Components'
 description: 'Web Components are'
 order: 9
+draft: true
 ---
 
 import ComponentBox from 'Tags/ComponentBox'

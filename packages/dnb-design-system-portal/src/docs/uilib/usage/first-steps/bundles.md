@@ -23,7 +23,7 @@ All the code examples are only quick demos, showing how to load the bundles. Kee
 
 Requires React and ReactDOM to be loaded. Supports `ES5`.
 
-- **@dnb/eufemia.min.js** - includes all [components](/uilib/components) and [elements](/uilib/elements) and individual [Web Component](/uilib/usage/first-steps/web-components) support.
+- **dnb-ui-lib.min.js** - includes all [components](/uilib/components) and [elements](/uilib/elements) and individual [Web Component](/uilib/usage/first-steps/web-components) support.
 - **dnb-ui-components.min.js** - includes all [components](/uilib/components).
 - **dnb-ui-extensions.min.js** - includes all [extensions](/uilib/extensions).
 - **dnb-ui-web-components.min.js** - includes all [components](/uilib/components) and enables all [custom elements](/uilib/usage/first-steps/web-components) by default.
@@ -59,7 +59,7 @@ Requires React and ReactDOM to be loaded. Supports `ES5`.
 
 Requires React and ReactDOM to be loaded as a module resolution ([importmap](https://github.com/WICG/import-maps)). Supports `ES6` (**NB:** That is the aim, right now it is also compiled down to ES5).
 
-- **@dnb/eufemia.min.mjs** - includes all [components](/uilib/components) and [elements](/uilib/elements) and individual [Web Component](/uilib/usage/first-steps/web-components) support.
+- **dnb-ui-lib.min.mjs** - includes all [components](/uilib/components) and [elements](/uilib/elements) and individual [Web Component](/uilib/usage/first-steps/web-components) support.
 - **dnb-ui-components.min.mjs** - includes all [components](/uilib/components).
 - **dnb-ui-extensions.min.mjs** - includes all [extensions](/uilib/extensions).
 - **dnb-ui-web-components.min.mjs** - includes all [components](/uilib/components) and enables all [custom elements](/uilib/usage/first-steps/web-components) by default.

@@ -96,7 +96,7 @@ And finally bind an [event listener](/uilib/usage/customisation/event-handling):
 <Button text="Button" on_click={myClickHandler} />
 ```
 
-## Importing components, elements and extensions
+## Importing components and elements
 
 By default, you can import `components` and `elements` from the root:
 

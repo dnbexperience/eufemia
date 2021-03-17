@@ -1,8 +1,3 @@
----
-title: 'Vue'
-order: 6
----
-
 # Vue JS
 
 ## How to

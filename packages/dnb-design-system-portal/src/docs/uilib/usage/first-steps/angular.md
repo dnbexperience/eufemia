@@ -1,8 +1,3 @@
----
-title: 'Angular'
-order: 7
----
-
 import Img from 'Tags/Img'
 import AngularAppScreenshot from 'Pages/uilib/usage/first-steps/assets/example-angular-1-screenshot.png'
 
