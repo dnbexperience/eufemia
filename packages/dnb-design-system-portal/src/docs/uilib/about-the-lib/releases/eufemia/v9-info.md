@@ -29,6 +29,14 @@ Tabs has changed two property names.
 1. Find `section_style` in `<Tabs section_style="..." />` and replace with `tabs_style`.
 1. Find `section_spacing` in `<Tabs section_spacing="..." />` and replace with `tabs_spacing`.
 
+### Helper classes
+
+1. Removed `dnb-nudge`
+1. Removed `dnb-belt`
+1. Removed `dnb-hide-on-mobile`
+1. Removed `dnb-mobile-exclusive`
+1. Removed `dnb-width-limit`
+
 ### Patterns to Extensions
 
 Most of the Eufemia "patterns" got removed in favor of calling this part as **extensions**.

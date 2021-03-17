@@ -48,6 +48,21 @@ Use `em` for media query sizing for best overall browser support. Read [more abo
 }
 ```
 
+Or you may re-use the SASS mixins from Eufemia:
+
+```scss
+@import '@dnb/eufemia/style/core/utilities.scss';
+
+@include allBelow(large) {
+  /* Your CSS */
+}
+
+@include allAbove(small) {
+  /* Your CSS */
+}
+```
+
+
 ## Sizing
 
 UX designers are using a 12 column system during their design processes. But we as developers have to make our layouts responsive to give users the best experience and meet WCAG requirements.
