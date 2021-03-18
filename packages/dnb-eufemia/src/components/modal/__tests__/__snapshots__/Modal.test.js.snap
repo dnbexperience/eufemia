@@ -11,6 +11,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "children": "children",
         "class": "class",
         "className": "className",
+        "close_button_attributes": Object {},
         "close_modal": [Function],
         "close_title": "close_title",
         "container_placement": "'left'",
@@ -70,6 +71,7 @@ exports[`Modal component have to match snapshot 1`] = `
   animation_duration={300}
   class={null}
   className={null}
+  close_button_attributes={null}
   close_modal={null}
   close_title="close_title"
   container_placement={null}
@@ -379,6 +381,7 @@ exports[`Modal component have to match snapshot 1`] = `
           "children": "children",
           "class": "class",
           "className": "className",
+          "close_button_attributes": Object {},
           "close_modal": [Function],
           "close_title": "close_title",
           "container_placement": "'left'",
@@ -439,6 +442,7 @@ exports[`Modal component have to match snapshot 1`] = `
     class={null}
     className={null}
     closeModal={[Function]}
+    close_button_attributes={null}
     close_modal={null}
     close_title="close_title"
     container_placement={null}
@@ -480,6 +484,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "children": "children",
             "class": "class",
             "className": "className",
+            "close_button_attributes": Object {},
             "close_modal": [Function],
             "close_title": "close_title",
             "container_placement": "'left'",
@@ -540,6 +545,7 @@ exports[`Modal component have to match snapshot 1`] = `
       class={null}
       className={null}
       closeModal={[Function]}
+      close_button_attributes={null}
       close_modal={null}
       close_title="close_title"
       container_placement={null}

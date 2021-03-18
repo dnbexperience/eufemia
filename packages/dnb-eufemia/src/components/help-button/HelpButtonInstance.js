@@ -70,9 +70,7 @@ export default class HelpButtonInstance extends React.PureComponent {
         _className
       ),
       size,
-      'aria-label': props.title
-        ? convertJsxToString(props.title)
-        : this.context.getTranslation(this.props).HelpButton.title,
+      'aria-label': props.title ? convertJsxToString(props.title) : null,
       icon,
       ...attributes,
       ...rest
@@ -82,6 +80,12 @@ export default class HelpButtonInstance extends React.PureComponent {
       params['aria-roledescription'] = this.context.getTranslation(
         this.props
       ).HelpButton.aria_role
+
+      if (!props.title) {
+        params['aria-label'] = this.context.getTranslation(
+          this.props
+        ).HelpButton.title
+      }
     }
 
     if (

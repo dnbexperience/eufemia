@@ -43,6 +43,7 @@ export default class ModalContent extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
+    close_button_attributes: PropTypes.object,
     spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_core_style: PropTypes.oneOfType([
@@ -87,6 +88,7 @@ export default class ModalContent extends React.PureComponent {
     title: null,
     close_title: null,
     hide_close_button: null,
+    close_button_attributes: null,
     spacing: null,
     prevent_close: null,
     prevent_core_style: null,
@@ -352,6 +354,7 @@ export default class ModalContent extends React.PureComponent {
       modal_content,
       close_title,
       hide_close_button,
+      close_button_attributes,
       spacing,
       prevent_close, // eslint-disable-line
       open_delay, // eslint-disable-line
@@ -475,6 +478,7 @@ export default class ModalContent extends React.PureComponent {
                 <CloseButton
                   on_click={this.onCloseClickHandler}
                   close_title={close_title}
+                  {...close_button_attributes}
                 />
               )}
               <div id={id + '-content'} className="dnb-modal__wrapper">

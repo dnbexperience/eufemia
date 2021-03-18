@@ -51,6 +51,7 @@ export default class Modal extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
+    close_button_attributes: PropTypes.object,
     prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_core_style: PropTypes.oneOfType([
       PropTypes.string,
@@ -147,6 +148,7 @@ export default class Modal extends React.PureComponent {
     content_id: null,
     close_title: 'Lukk', // Close Modal Window
     hide_close_button: false,
+    close_button_attributes: null,
     prevent_close: false,
     prevent_core_style: false,
     animation_duration: 300, // Not documented!
@@ -543,13 +545,7 @@ export default class Modal extends React.PureComponent {
         modalProps.title = this.context.translation.HelpButton.title
       }
 
-      if (isHelpButton) {
-        triggerAttributes.title =
-          props['aria-label'] ||
-          triggerAttributes.title ||
-          props.title ||
-          modalProps.title
-      } else {
+      if (!isHelpButton) {
         triggerAttributes['aria-roledescription'] = null
       }
 
@@ -561,6 +557,9 @@ export default class Modal extends React.PureComponent {
             <TriggerButton
               id={this._id}
               onClick={this.toggleOpenClose}
+              title={
+                props['aria-label'] || props.title || modalProps.title
+              }
               {...triggerAttributes}
               innerRef={this._triggerRef}
               className={classnames(
