@@ -51,6 +51,21 @@ describe('Icon component', () => {
     )
   })
 
+  it('should return null if icon was given as null', () => {
+    expect(mount(<Component icon={null} />)).toMatchInlineSnapshot(
+      'ReactWrapper {}'
+    )
+    expect(mount(<Component icon={undefined} />)).toMatchInlineSnapshot(
+      'ReactWrapper {}'
+    )
+    expect(mount(<Component icon={false} />)).toMatchInlineSnapshot(
+      'ReactWrapper {}'
+    )
+    expect(mount(<Component icon={''} />)).toMatchInlineSnapshot(
+      'ReactWrapper {}'
+    )
+  })
+
   it('should have valid iconPropTypes', () => {
     expect(typeof iconPropTypes.icon).toBe('function')
   })
