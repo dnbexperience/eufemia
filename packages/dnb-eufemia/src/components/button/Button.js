@@ -99,7 +99,7 @@ export default class Button extends React.PureComponent {
   }
 
   static defaultProps = {
-    type: 'button',
+    type: 'button', // set the type because of the anchor/href situation – can be made more smart in future
     text: null,
     variant: null,
     size: null,
