@@ -13,7 +13,6 @@ import styled from '@emotion/styled'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import Context from '@dnb/eufemia/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
-// import { MainMenuToggleButton } from './ToggleMainMenu'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 import { Icon } from '@dnb/eufemia/src/components'
 import graphics from './SidebarGraphics'
@@ -22,6 +21,13 @@ import {
   setPageFocusElement,
   applyPageFocus
 } from '@dnb/eufemia/src/shared/helpers'
+import PortalToolsMenu from './PortalToolsMenu'
+
+const PortalToolsMenuMedia = styled(PortalToolsMenu)`
+  @media screen and (min-width: 50em) {
+    display: none;
+  }
+`
 
 const StyledListItem = styled.li`
   list-style: none;
@@ -576,6 +582,13 @@ export default class SidebarLayout extends React.PureComponent {
                   )}
                   ref={this._scrollRef}
                 >
+                  <PortalToolsMenuMedia
+                    trigger_text="Portal Tools"
+                    trigger_icon="chevron_right"
+                    trigger_icon_position="right"
+                    left="large"
+                    top="large"
+                  />
                   <ul className="dev-grid">{nav}</ul>
                   {isOpen && (
                     <Global

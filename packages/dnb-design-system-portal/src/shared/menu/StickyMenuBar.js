@@ -15,7 +15,7 @@ import PortalLogo from './graphics/logo'
 import { Icon, Button } from '@dnb/eufemia/src'
 import { MainMenuToggleButton } from './ToggleMainMenu'
 import { SidebarMenuContext } from './SidebarMenuContext'
-import ToggleGrid from './ToggleGrid'
+import PortalToolsMenu from './PortalToolsMenu'
 import { SearchBarInput } from './SearchBar'
 import { Context } from '@dnb/eufemia/src/shared'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
@@ -117,6 +117,12 @@ const hideSiebarToggleButtonStyle = css`
   }
 `
 
+const PortalToolsMenuMedia = styled(PortalToolsMenu)`
+  @media screen and (max-width: 50em) {
+    display: none;
+  }
+`
+
 export default class StickyMenuBar extends React.PureComponent {
   state = {
     mobileMenuVisible: false
@@ -184,6 +190,7 @@ export default class StickyMenuBar extends React.PureComponent {
                         on_click={toggleMenu}
                         id="toggle-sidebar-menu"
                         size="default"
+                        icon_size="default"
                         aria-haspopup="true"
                         aria-controls="portal-sidebar-menu"
                         aria-expanded={isOpen}
@@ -194,7 +201,7 @@ export default class StickyMenuBar extends React.PureComponent {
                             : 'Show section content menu'
                         }
                       />
-                      <ToggleGrid />
+                      <PortalToolsMenuMedia />
                     </Tools>
                   </HeaderInner>
                 </Header>

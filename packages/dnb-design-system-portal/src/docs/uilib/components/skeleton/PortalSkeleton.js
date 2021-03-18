@@ -1,23 +1,22 @@
 import React from 'react'
 import { Context } from '@dnb/eufemia/src/shared'
-import { ToggleButton, Skeleton } from '@dnb/eufemia/src/components'
+import { Switch } from '@dnb/eufemia/src/components'
 
-export default function PortalSkeleton() {
+export default function PortalSkeleton({ enabled, ...props }) {
   const { update, skeleton } = React.useContext(Context)
 
   return (
-    <Skeleton.Exclude>
-      <ToggleButton
-        top
-        checked={skeleton}
-        on_change={({ checked }) => {
-          setSkeletonEnabled(checked)
-          update({ skeleton: checked })
-        }}
-      >
-        Toggle Portal Skeletons
-      </ToggleButton>
-    </Skeleton.Exclude>
+    <Switch
+      top
+      label="Toggle Portal Skeletons"
+      checked={skeleton || enabled}
+      on_change={({ checked }) => {
+        setSkeletonEnabled(checked)
+        update({ skeleton: checked })
+      }}
+      {...props}
+      skeleton={false}
+    />
   )
 }
 

@@ -215,7 +215,6 @@ export const DropdownActionMenu = () => (
 <Dropdown
   title="ActionMenu"
   action_menu={true}
-  icon_position="left"
   align_dropdown="left"
   data={[
     <>
