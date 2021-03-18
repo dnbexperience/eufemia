@@ -14,7 +14,7 @@ export const skeletonDOMAttributes = (
   skeleton,
   context = null
 ) => {
-  if (isTrue(skeleton) || context?.skeleton) {
+  if (isTrue(skeleton) || (skeleton !== false && context?.skeleton)) {
     params.disabled = true
     params['aria-disabled'] = true
     params['aria-label'] = context?.translation?.Skeleton?.aria_bussy
@@ -29,7 +29,7 @@ export const createSkeletonClass = (method, skeleton, context = null) => {
   //   method = skeleton
   // }
 
-  if (isTrue(skeleton) || context?.skeleton) {
+  if (isTrue(skeleton) || (skeleton !== false && context?.skeleton)) {
     return classnames('dnb-skeleton', method && `dnb-skeleton--${method}`)
   }
 
