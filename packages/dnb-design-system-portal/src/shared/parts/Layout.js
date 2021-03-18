@@ -258,10 +258,6 @@ const FooterWrapper = styled.footer`
   small {
     padding: 0 2rem;
   }
-
-  .toggle-grid {
-    margin-left: 1rem;
-  }
 `
 const Footer = () => {
   const { skeleton } = React.useContext(Context)

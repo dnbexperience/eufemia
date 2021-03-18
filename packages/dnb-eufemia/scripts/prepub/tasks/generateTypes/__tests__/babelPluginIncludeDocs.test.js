@@ -10,6 +10,11 @@ import { babelPluginPropTypesRelations } from '../babelPluginPropTypesRelations'
 import { fetchPropertiesFromDocs } from '../fetchPropertiesFromDocs'
 import { babelPluginIncludeDocs } from '../babelPluginIncludeDocs'
 import { babelPluginCorrectTypes } from '../babelPluginCorrectTypes'
+import isCI from 'is-ci'
+
+if (isCI) {
+  jest.setTimeout(30e3)
+}
 
 describe('babelPluginIncludeDocs', () => {
   const docsDir = nodePath.resolve(__dirname, '__mocks__')
