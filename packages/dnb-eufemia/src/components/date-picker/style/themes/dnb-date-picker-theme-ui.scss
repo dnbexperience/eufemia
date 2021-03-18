@@ -152,8 +152,13 @@
     .dnb-input__shell {
       @include fakeBorder(var(--color-sea-green), 0.125rem);
     }
-    .dnb-input__submit-button__button {
-      border-radius: 0;
+    .dnb-input__submit-button__button.dnb-button--secondary {
+      color: var(--color-white);
+      background-color: var(--color-sea-green);
+
+      &::after {
+        background-color: inherit;
+      }
     }
   }
 
@@ -163,17 +168,6 @@
     @include defaultDropShadow();
   }
 
-  &__status--error
-    &:not(#{&}--opened)
-    .dnb-input:not([data-input-state='focus'])
-    &__input,
-  &__status--error
-    &:not(#{&}--opened)
-    .dnb-input:not([data-input-state='focus'])
-    &__input
-    ~ &--separator {
-    color: var(--color-fire-red);
-  }
   &__status--error:not(#{&}--opened)
     .dnb-form-label:hover
     ~ &__inner

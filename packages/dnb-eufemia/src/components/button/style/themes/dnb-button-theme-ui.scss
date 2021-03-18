@@ -304,30 +304,49 @@
   }
 
   // input-button
+  // Because we can not anymore have a square, we have to trick that part
+  &--input-button#{&}--secondary:not(&--has-text),
+  &--input-button#{&}--secondary:not(&--has-text):not([disabled]) {
+    background-color: transparent;
+    box-shadow: none;
+    &::after {
+      content: '';
+      position: absolute;
+
+      top: 0;
+      bottom: 0;
+      left: 0;
+
+      width: 0.0625rem;
+      background-color: currentColor;
+    }
+  }
   html:not([data-whatintent='touch'])
-    &--input-button:not(&--has-text):not([disabled]) {
+    &--input-button#{&}--secondary:not(&--has-text):not([disabled]) {
     &:focus,
-    &:hover,
-    &:active {
+    &:hover {
       color: var(--color-white);
-      background-color: var(--color-sea-green);
+      &,
+      &::after {
+        background-color: var(--color-sea-green);
+      }
+      box-shadow: none;
+    }
+    &:not(:active):hover {
+      border-radius: 0;
+    }
+    &:active {
+      color: var(--color-sea-green);
+      &,
+      &::after {
+        background-color: var(--color-mint-green-50);
+      }
       box-shadow: none;
     }
   }
-  // Does not work well with DatePicker
-  // @at-root html:not([data-whatintent='touch'])
-  //     [class*='__status--error']
-  //     &--input-button:not(&--has-text):not([disabled]) {
-  //   &:focus,
-  //   &:hover,
-  //   &:active {
-  //     background-color: var(--color-fire-red);
-  //   }
-  // }
   html:not([data-whatintent='touch'])
-    &--input-button:not(&--has-text)[disabled] {
+    &--input-button#{&}--secondary:not(&--has-text)[disabled] {
     color: var(--color-black-55);
     background-color: var(--color-black-3);
-    @include fakeBorder(var(--color-black-55), 0.0625rem, inset);
   }
 }
