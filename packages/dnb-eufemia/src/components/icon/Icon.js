@@ -133,6 +133,10 @@ export default class Icon extends React.PureComponent {
       this.context
     )
 
+    if (!icon) {
+      return null
+    }
+
     const IconContainer = prerenderIcon({ icon, size, alt })
 
     // make sure we return an empty span if we dont could get the icon
@@ -376,7 +380,7 @@ export const prepareIcon = (props, context) => {
 
   let iconToRender = Icon.getIcon(props)
 
-  if (typeof iconToRender.defaultProps !== 'undefined') {
+  if (iconToRender && typeof iconToRender.defaultProps !== 'undefined') {
     iconToRender = React.createElement(
       iconToRender,
       validateDOMAttributes(
