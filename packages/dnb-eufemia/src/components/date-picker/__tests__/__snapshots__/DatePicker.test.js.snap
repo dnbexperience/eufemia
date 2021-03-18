@@ -374,7 +374,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                     "current": <button
                       aria-expanded="false"
                       aria-label="åpne datovelger"
-                      class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                      class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium dnb-button__status--error"
                       id="date-picker-id"
                       type="button"
                     >
@@ -467,6 +467,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       on_click={[Function]}
                       on_submit={[Function]}
                       skeleton={false}
+                      status="error"
+                      status_state="error"
                       title={null}
                       type="button"
                       variant="secondary"
@@ -1105,6 +1107,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             on_click={[Function]}
                             on_submit={[Function]}
                             skeleton={false}
+                            status="error"
+                            status_state="error"
                             title={null}
                             type="button"
                             variant="secondary"
@@ -1122,7 +1126,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   "current": <button
                                     aria-expanded="false"
                                     aria-label="åpne datovelger"
-                                    class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                                    class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium dnb-button__status--error"
                                     id="date-picker-id"
                                     type="button"
                                   >
@@ -1158,7 +1162,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               on_submit_blur={null}
                               on_submit_focus={null}
                               skeleton={false}
-                              status={null}
+                              status="error"
                               status_state="error"
                               title={null}
                               type="button"
@@ -1190,7 +1194,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                       "current": <button
                                         aria-expanded="false"
                                         aria-label="åpne datovelger"
-                                        class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                                        class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium dnb-button__status--error"
                                         id="date-picker-id"
                                         type="button"
                                       >
@@ -1228,7 +1232,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   on_click={null}
                                   size={null}
                                   skeleton={null}
-                                  status={null}
+                                  status="error"
                                   status_animation={null}
                                   status_state="error"
                                   text={null}
@@ -1241,7 +1245,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   <button
                                     aria-expanded={false}
                                     aria-label="åpne datovelger"
-                                    className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                                    className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium dnb-button__status--error"
                                     disabled={false}
                                     id="date-picker-id"
                                     onBlur={[Function]}
@@ -1271,7 +1275,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                           "current": <button
                                             aria-expanded="false"
                                             aria-label="åpne datovelger"
-                                            class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
+                                            class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium dnb-button__status--error"
                                             id="date-picker-id"
                                             type="button"
                                           >
@@ -1310,7 +1314,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                       on_click={null}
                                       size={null}
                                       skeleton={false}
-                                      status={null}
+                                      status="error"
                                       status_animation={null}
                                       status_state="error"
                                       text={null}
@@ -1503,21 +1507,20 @@ html:not([data-whatintent='touch']) .dnb-date-picker__day--inactive .dnb-button[
 ~ .dnb-date-picker__inner .dnb-input:not([data-input-state='disabled']) .dnb-input__shell {
       box-shadow: 0 0 0 0.125rem var(--color-sea-green); } }
 
-.dnb-date-picker--opened .dnb-input .dnb-input__submit-button__button,
+.dnb-date-picker--opened .dnb-input .dnb-input__submit-button__button.dnb-button--secondary,
 .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover
-~ .dnb-date-picker__inner .dnb-input:not([data-input-state='disabled']) .dnb-input__submit-button__button {
-  border-radius: 0; }
+~ .dnb-date-picker__inner .dnb-input:not([data-input-state='disabled']) .dnb-input__submit-button__button.dnb-button--secondary {
+  color: var(--color-white);
+  background-color: var(--color-sea-green); }
+  .dnb-date-picker--opened .dnb-input .dnb-input__submit-button__button.dnb-button--secondary::after,
+  .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover
+~ .dnb-date-picker__inner .dnb-input:not([data-input-state='disabled']) .dnb-input__submit-button__button.dnb-button--secondary::after {
+    background-color: inherit; }
 
 .dnb-date-picker__triangle::before {
   border: none;
   background-color: var(--color-white);
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
-
-.dnb-date-picker__status--error .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-input:not([data-input-state='focus'])
-.dnb-date-picker__input,
-.dnb-date-picker__status--error .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-input:not([data-input-state='focus'])
-.dnb-date-picker__input ~ .dnb-date-picker--separator {
-  color: var(--color-fire-red); }
 
 .dnb-date-picker__status--error:not(.dnb-date-picker--opened) .dnb-form-label:hover
 ~ .dnb-date-picker__inner .dnb-input:not([data-input-state='disabled']) .dnb-input__shell {

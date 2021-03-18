@@ -322,10 +322,9 @@ export default class DatePicker extends React.PureComponent {
   }
 
   setOutsideClickHandler = () => {
-    this.outsideClick = detectOutsideClick(
-      this._innerRef.current,
-      this.hidePicker
-    )
+    this.outsideClick = detectOutsideClick(this._innerRef.current, (e) => {
+      this.hidePicker({ focusOnHide: e?.event?.key })
+    })
   }
 
   removeOutsideClickHandler() {
@@ -425,10 +424,14 @@ export default class DatePicker extends React.PureComponent {
             _listenForPropChanges: false
           },
           () => {
-            try {
-              this._submitButtonRef.current.focus({ preventScroll: true })
-            } catch (e) {
-              warn(e)
+            if (args?.focusOnHide) {
+              try {
+                this._submitButtonRef.current.focus({
+                  preventScroll: true
+                })
+              } catch (e) {
+                warn(e)
+              }
             }
           }
         )

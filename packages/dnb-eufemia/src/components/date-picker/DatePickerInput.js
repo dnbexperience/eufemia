@@ -703,6 +703,8 @@ export default class DatePickerInput extends React.PureComponent {
               )}
               aria-label={this.formatDate()}
               title={title}
+              status={status}
+              status_state={status_state}
               type="button"
               icon="calendar"
               variant="secondary"

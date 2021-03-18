@@ -681,9 +681,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 .dnb-input {
-  color: var(--color-black);
-  /* stylelint-disable */
-  /* stylelint-enable */ }
+  color: var(--color-black); }
   .dnb-input__inner {
     color: inherit; }
   .dnb-input__shell {
@@ -739,25 +737,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
       .dnb-input:not([data-input-state='disabled']) .dnb-input__shell:hover,
       .dnb-input:not([data-input-state='disabled']):hover .dnb-input__shell {
         box-shadow: 0 0 0 0.125rem var(--color-sea-green); } }
-  html:not([data-whatintent='touch'])
-.dnb-input__submit-button__button:not(.dnb-input__submit-button__button--has-text):not([disabled]) {
-    background-color: transparent; }
-  html:not([data-whatintent='touch'])
-.dnb-input .dnb-button--active.dnb-input__submit-button__button:not([disabled]), html:not([data-whatintent='touch'])
-  .dnb-input[data-input-state='focus'] .dnb-input__submit-button__button:not([disabled]), html:not([data-whatintent='touch'])
-  .dnb-input:not([data-input-state='disabled']):hover .dnb-input__submit-button__button:not([disabled]) {
-    color: var(--color-white);
-    background-color: var(--color-sea-green);
-    box-shadow: none; }
-  .dnb-input[data-input-state='focus'] .dnb-input__submit-button,
-  .dnb-input:not([data-input-state='disabled']):hover .dnb-input__submit-button {
-    /* stylelint-disable-next-line */ }
-    .dnb-input[data-input-state='focus'] .dnb-input__submit-button__button,
-    .dnb-input:not([data-input-state='disabled']):hover .dnb-input__submit-button__button {
-      border-radius: 0; }
   .dnb-input__status--error.dnb-input:not([data-input-state='focus']) .dnb-input__shell {
-    color: var(--color-fire-red); }
-  .dnb-input__status--error.dnb-input:not([data-input-state='focus']) .dnb-input__submit-element .dnb-button {
     color: var(--color-fire-red); }
   .dnb-input__status--error.dnb-input:not([data-input-state='focus']):not(:hover) .dnb-input__shell {
     --border-color: var(--color-fire-red);
@@ -765,13 +745,6 @@ exports[`Input scss have to match default theme snapshot 1`] = `
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-input__status--error.dnb-input:not([data-input-state='focus']):not(:hover) .dnb-input__shell {
-        box-shadow: 0 0 0 0.0625rem var(--color-fire-red); } }
-  .dnb-input__status--error.dnb-input:not([data-input-state='focus']):not(:hover) .dnb-input__submit-element .dnb-button {
-    --border-color: var(--color-fire-red);
-    box-shadow: 0 0 0 0.0625rem var(--border-color);
-    border-color: transparent; }
-    @media screen and (-ms-high-contrast: none) {
-      .dnb-input__status--error.dnb-input:not([data-input-state='focus']):not(:hover) .dnb-input__submit-element .dnb-button {
         box-shadow: 0 0 0 0.0625rem var(--color-fire-red); } }
   .dnb-input__status--error.dnb-input[data-input-state='focus'] .dnb-input__shell,
   .dnb-input__status--error.dnb-input:not([data-input-state='disabled']) .dnb-input__shell:hover,
@@ -785,14 +758,18 @@ exports[`Input scss have to match default theme snapshot 1`] = `
       .dnb-input__status--error.dnb-input:not([data-input-state='disabled']):hover .dnb-input__shell {
         box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
   html:not([data-whatintent='touch'])
-.dnb-input__status--error .dnb-input__submit-button__button:not([disabled]):focus,
+.dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not([disabled]):hover, html:not([data-whatintent='touch'])
+.dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not([disabled]):hover::after,
   html:not([data-whatintent='touch'])
-.dnb-input__status--error .dnb-input__submit-button__button:not([disabled]):hover {
+.dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not([disabled]):focus,
+  html:not([data-whatintent='touch'])
+.dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not([disabled]):focus::after {
     background-color: var(--color-fire-red); }
   html:not([data-whatintent='touch'])
-.dnb-input__status--error.dnb-input[data-input-state='focus'] .dnb-input__submit-button__button:not([disabled]), html:not([data-whatintent='touch'])
-  .dnb-input__status--error.dnb-input:not([data-input-state='disabled']):hover .dnb-input__submit-button__button:not([disabled]) {
-    background-color: var(--color-fire-red); }
+.dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not([disabled]):hover:active,
+  html:not([data-whatintent='touch'])
+.dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not([disabled]):focus:active {
+    color: var(--color-white); }
   .dnb-input__status--error .dnb-input__icon {
     color: var(--color-fire-red); }
   .dnb-input__input::selection {

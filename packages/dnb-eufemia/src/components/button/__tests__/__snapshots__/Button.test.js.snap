@@ -1102,35 +1102,43 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     .dnb-button--signal[disabled] {
       color: var(--color-black-20);
       background-color: var(--color-accent-yellow-30); }
-  html:not([data-whatintent='touch'])
-.dnb-button--input-button:not(.dnb-button--has-text):not([disabled]):focus, html:not([data-whatintent='touch'])
-.dnb-button--input-button:not(.dnb-button--has-text):not([disabled]):hover, html:not([data-whatintent='touch'])
-.dnb-button--input-button:not(.dnb-button--has-text):not([disabled]):active {
-    color: var(--color-white);
-    background-color: var(--color-sea-green);
+  .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text), .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]) {
+    background-color: transparent;
     box-shadow: none; }
+    .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text)::after, .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled])::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 0.0625rem;
+      background-color: currentColor; }
   html:not([data-whatintent='touch'])
-.dnb-button--input-button:not(.dnb-button--has-text)[disabled] {
+.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):focus, html:not([data-whatintent='touch'])
+.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):hover {
+    color: var(--color-white);
+    box-shadow: none; }
+    html:not([data-whatintent='touch'])
+.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):focus, html:not([data-whatintent='touch'])
+.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):focus::after, html:not([data-whatintent='touch'])
+.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):hover, html:not([data-whatintent='touch'])
+.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):hover::after {
+      background-color: var(--color-sea-green); }
+  html:not([data-whatintent='touch'])
+.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):not(:active):hover {
+    border-radius: 0; }
+  html:not([data-whatintent='touch'])
+.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):active {
+    color: var(--color-sea-green);
+    box-shadow: none; }
+    html:not([data-whatintent='touch'])
+.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):active, html:not([data-whatintent='touch'])
+.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):active::after {
+      background-color: var(--color-mint-green-50); }
+  html:not([data-whatintent='touch'])
+.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text)[disabled] {
     color: var(--color-black-55);
-    background-color: var(--color-black-3);
-    --border-color: var(--color-black-55);
-    box-shadow: inset 0 0 0 0.0625rem var(--border-color);
-    /* iOS fix - because \\"inset\\" works not fine with border-radius */
-    /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
-    border-color: transparent; }
-    @supports (-webkit-touch-callout: none) {
-      html:not([data-whatintent='touch'])
-.dnb-button--input-button:not(.dnb-button--has-text)[disabled] {
-        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-    @media not all and (min-resolution: 0.001dpcm) {
-      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-        html:not([data-whatintent='touch'])
-.dnb-button--input-button:not(.dnb-button--has-text)[disabled] {
-          box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
-    @media screen and (-ms-high-contrast: none) {
-      html:not([data-whatintent='touch'])
-.dnb-button--input-button:not(.dnb-button--has-text)[disabled] {
-        box-shadow: inset 0 0 0 0.0625rem var(--color-black-55); } }
+    background-color: var(--color-black-3); }
 "
 `;
 
