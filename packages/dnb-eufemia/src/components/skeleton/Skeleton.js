@@ -192,7 +192,7 @@ export default class Skeleton extends React.PureComponent {
 }
 
 function Exclude(props) {
-  return <Provider skeleton={false} {...props} />
+  return <Provider {...props} skeleton={false} />
 }
 
 Skeleton.Exclude = Exclude
