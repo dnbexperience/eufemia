@@ -62,7 +62,7 @@
     "lint:styles:staged": "stylelint './{src,scripts}/**/*.{js,scss}'",
     "make-properties": "babel-node ./scripts/prepub/makeProperties",
     "publish:ci": "yarn publish:prepare && cd ./build && dotenv semantic-release",
-    "publish:dry": "yarn publish:ci --no-ci --dry-run",
+    "publish:dry": "dotenv semantic-release --no-ci --dry-run",
     "publish:prepare": "babel-node ./scripts/release/prepareForRelease.js",
     "reset": "rm -rf ./node_modules ./components ./elements ./es ./icons ./extensions ./shared ./style ./umd",
     "skeleton:font": "nodemon --exec 'babel-node ./scripts/tools/createSkeletonFont.js'",
