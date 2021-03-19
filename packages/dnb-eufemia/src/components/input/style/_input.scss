@@ -292,9 +292,13 @@
     &__inner {
       flex-grow: 1;
     }
+    &__inner,
     &__shell {
       width: 100%;
     }
+  }
+  &--stretch .dnb-form-label + &__inner {
+    width: auto;
   }
   &--vertical#{&}--stretch &__inner {
     width: 100%;

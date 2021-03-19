@@ -927,8 +927,10 @@ legend.dnb-form-label {
     flex-grow: 1; }
   .dnb-input--stretch .dnb-input__inner {
     flex-grow: 1; }
-  .dnb-input--stretch .dnb-input__shell {
+  .dnb-input--stretch .dnb-input__inner, .dnb-input--stretch .dnb-input__shell {
     width: 100%; }
+  .dnb-input--stretch .dnb-form-label + .dnb-input__inner {
+    width: auto; }
   .dnb-input--vertical.dnb-input--stretch .dnb-input__inner {
     width: 100%; }
   .dnb-form-row--horizontal .dnb-input--stretch {

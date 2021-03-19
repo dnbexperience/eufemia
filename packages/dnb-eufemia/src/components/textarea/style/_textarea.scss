@@ -137,9 +137,13 @@
       flex-grow: 1;
     }
     &__shell,
+    &__inner,
     &__textarea {
       width: 100%;
     }
+  }
+  &--stretch .dnb-form-label + &__inner {
+    width: auto;
   }
   &--vertical#{&}--stretch &__inner {
     width: 100%;

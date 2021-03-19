@@ -12,7 +12,7 @@ const Wrapper = styled.div`
     margin-right: 1rem;
   }
   [data-visual-test] {
-    > :not(.dnb-dropdown--is-popup):not(.dnb-dropdown--independent-width)
+    > :not(.dnb-dropdown--is-popup):not(.dnb-dropdown--independent-width):not(.dnb-dropdown--stretch)
       .dnb-dropdown__shell {
       width: var(--dropdown-width);
     }
