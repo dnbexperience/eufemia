@@ -3,7 +3,7 @@
  *
  */
 
-import { commitToBranch } from '../../dnb-ui-lib/scripts/prepub/commitToBranch'
+import { commitToBranch } from '@dnb/eufemia/scripts/prepub/commitToBranch'
 
 if (require.main === module) {
   commitToBranch({

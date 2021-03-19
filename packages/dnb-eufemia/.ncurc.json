@@ -1,0 +1,8 @@
+{
+  "reject": [
+    "sass-loader",
+    "eslint",
+    "react",
+    "react-dom"
+  ]
+}

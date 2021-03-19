@@ -85,9 +85,9 @@ A ready to use DNB logo in SVG format.
 
 Modal dialogs appear on top of the main content changing the mode of the system into a special mode requiring user interaction. The main content is disabled until the user interacts with the modal dialog.
 
-## [Number](/uilib/components/number)
+## [NumberFormat](/uilib/components/number-format)
 
-The number component is a ready to use DNB number formatter. Use it where over you have to display a number, a currency value, phone number etc.
+The NumberFormat component is a ready to use DNB number formatter. Use it where over you have to display a number, a currency value, phone number etc.
 
 ## [Pagination](/uilib/components/pagination)
 
@@ -115,7 +115,7 @@ Sliders provide a visual indication of adjustable content. A value can be adjust
 
 ## [Space](/uilib/components/space)
 
-The Space component provides `margins` within the [provided spacing patterns](/uilib/usage/layout/spacing#spacing-helpers).
+The Space component provides `margins` within the [provided spacing extensions](/uilib/usage/layout/spacing#spacing-helpers).
 
 ## [Switch](/uilib/components/switch)
 

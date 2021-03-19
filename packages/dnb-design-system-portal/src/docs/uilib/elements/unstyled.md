@@ -5,7 +5,7 @@ import ComponentBox from 'Tags/ComponentBox'
 In order to use the inherited [Skeleton](/uilib/components/skeleton), there are a number of un-styled HTML elements, that do inherit and react to the Skeleton Provider.
 
 ```jsx
-import { Span, Div } from 'dnb-ui-lib/elements'
+import { Span, Div } from '@dnb/eufemia/elements'
 ```
 
 - `Span`

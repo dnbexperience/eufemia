@@ -13,7 +13,7 @@ import WhatIsEufemia from 'Docs/uilib/intro/assets/what-is-a-design-system.svg'
 > What is a Design System good for?
 
 - Consistent User Experience (**UX**) for all DNB products
-- [**Single source of truth**](https://www.npmjs.com/package/dnb-ui-lib)
+- [**Single source of truth**](https://www.npmjs.com/package/@dnb/eufemia)
 - [Contribution](!/uilib/development) and [collaboration](https://github.com/dnbexperience/eufemia)
 - Independent "visual" layer with semantic versioning
 - Notification of [new releases](!/uilib/usage#the-eufemia-repository)
@@ -30,7 +30,7 @@ Eufemia as a Design System consist of many sub-systems, like:
 - Grid system
 - Naming system
 
-All of these sub-systems dictates on how components, patterns and styles are build. And documentation, principles and guides of best practices will again tell how to build solutions with good UX.
+All of these sub-systems dictates on how components, extensions and styles are build. And documentation, principles and guides of best practices will again tell how to build solutions with good UX.
 
 <!-- <WhatIsEufemia /> -->
 <Img src={WhatIsEufemia} caption="Illustration showing all the sub-systems, like color-system or typography-system. All these subsystems are the basis where components, principles and best practices are build upon." className="blank x-10" />

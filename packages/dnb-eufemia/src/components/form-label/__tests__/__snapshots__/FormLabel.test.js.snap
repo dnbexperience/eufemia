@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormLabel component have to match snapshot 1`] = `
+<FormLabel
+  class="class"
+  className="className"
+  direction="horizontal"
+  disabled="disabled"
+  element="label"
+  for_id="for_id"
+  id="id"
+  label_direction="horizontal"
+  skeleton="skeleton"
+  sr_only="sr_only"
+  text="text"
+  title="title"
+  vertical="vertical"
+>
+  <label
+    aria-disabled={true}
+    className="dnb-form-label className class"
+    direction="horizontal"
+    disabled={true}
+    htmlFor="for_id"
+    id="id"
+    title="title"
+  >
+    text
+  </label>
+</FormLabel>
+`;
+
+exports[`FormLabel scss have to match default theme snapshot 1`] = `
+"/*
+ * FormLabel theme
+ *
+ */
+.dnb-form-label {
+  color: var(--color-black-80); }
+  .dnb-form-label[for]:not([disabled]):hover {
+    color: var(--color-sea-green); }
+"
+`;
+
+exports[`FormLabel scss have to match snapshot 1`] = `
+"/*
+* DNB FormLabel
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
+.dnb-form-label {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-label *,
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormLabel component
+ *
+ */
+.dnb-form-label {
+  display: inline-block;
+  width: auto;
+  padding: 0;
+  margin-right: 1rem;
+  text-align: left;
+  vertical-align: baseline;
+  white-space: pre-wrap;
+  word-break: normal;
+  font-size: var(--font-size-basis);
+  color: inherit; }
+  .dnb-form-label--vertical {
+    display: block;
+    margin-right: 0;
+    margin-bottom: 0.5rem; }
+  .dnb-form-label--sr-only {
+    width: 1px;
+    margin: 0;
+    padding: 0;
+    margin-left: -1px;
+    overflow: hidden;
+    white-space: nowrap; }
+  .dnb-form-label[for]:not([disabled]) {
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer; }
+  .dnb-form-label[disabled] {
+    cursor: not-allowed; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-label {
+      max-width: 60vw; } }
+
+legend.dnb-form-label {
+  display: inline-block; }
+"
+`;

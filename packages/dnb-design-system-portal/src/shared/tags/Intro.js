@@ -10,8 +10,8 @@ import styled from '@emotion/styled'
 import {
   Link
   // Hr
-} from 'dnb-ui-lib/src/elements'
-import { Button, Space } from 'dnb-ui-lib/src/components'
+} from '@dnb/eufemia/src/elements'
+import { Button, Space } from '@dnb/eufemia/src/components'
 
 const ref = React.createRef()
 const Intro = ({ children }) => {

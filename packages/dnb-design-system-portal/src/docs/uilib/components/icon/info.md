@@ -18,7 +18,7 @@ You will get several advantages on using it, like:
 
 ### Primary Icon
 
-There is also the [IconPrimary](/uilib/components/icon-primary) component, which comes with all the [Primary Icons](/icons/primary) included in the `dnb-ui-lib`. you don't have to import the primary icons.
+There is also the [IconPrimary](/uilib/components/icon-primary) component, which comes with all the [Primary Icons](/icons/primary) included in the `@dnb/eufemia`. you don't have to import the primary icons.
 
 ### Importing Icons
 
@@ -26,13 +26,13 @@ In case your environment doesn't support tree-shaking, import the icons explicit
 
 ```jsx
 // Named ES import
-import { bell } from 'dnb-ui-lib/icons'
+import { bell } from '@dnb/eufemia/icons'
 
 // or named import with modifier
-import { bell as Bell } from 'dnb-ui-lib/icons'
+import { bell as Bell } from '@dnb/eufemia/icons'
 
 // Default and explicit ES import
-import Bell from 'dnb-ui-lib/icons/bell'
+import Bell from '@dnb/eufemia/icons/bell'
 ```
 
 ### Custom project Icons

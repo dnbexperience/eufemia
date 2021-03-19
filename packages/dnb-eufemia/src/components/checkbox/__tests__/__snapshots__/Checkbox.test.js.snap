@@ -1,0 +1,660 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Checkbox component have to match snapshot 1`] = `
+<Checkbox
+  0={
+    Object {
+      "displayName": "Checkbox",
+      "props": Object {
+        "attributes": "attributes",
+        "checked": "checked",
+        "children": "children",
+        "class": "class",
+        "className": "className",
+        "custom_element": Object {},
+        "custom_method": [Function],
+        "default_state": "default_state",
+        "disabled": "disabled",
+        "global_status_id": "global_status_id",
+        "id": "id",
+        "label": "label",
+        "label_position": "'left'",
+        "on_change": [Function],
+        "on_state_update": [Function],
+        "readOnly": "readOnly",
+        "size": "'default'",
+        "skeleton": "skeleton",
+        "status": "status",
+        "status_animation": "status_animation",
+        "status_state": "status_state",
+        "suffix": "suffix",
+        "title": "title",
+        "value": "value",
+      },
+    }
+  }
+  1={
+    Object {
+      "displayName": "CheckIcon",
+      "props": Object {
+        "size": "size",
+      },
+    }
+  }
+  attributes={null}
+  checked={null}
+  class={null}
+  className={null}
+  custom_element={null}
+  custom_method={null}
+  default_state={null}
+  disabled={null}
+  global_status_id={null}
+  id="checkbox"
+  label="checkbox"
+  label_position="left"
+  on_change={null}
+  on_state_update={null}
+  readOnly={false}
+  size={null}
+  skeleton={null}
+  status={null}
+  status_animation={null}
+  status_state="error"
+  suffix={null}
+  title={null}
+  value={null}
+>
+  <span
+    className="dnb-checkbox dnb-form-component dnb-checkbox--label-position-left"
+  >
+    <span
+      className="dnb-checkbox__order"
+    >
+      <FormLabel
+        class={null}
+        className={null}
+        disabled={null}
+        element="label"
+        for_id="checkbox"
+        id="checkbox-label"
+        label_direction={null}
+        skeleton={null}
+        sr_only={null}
+        text="checkbox"
+        title={null}
+        vertical={null}
+      >
+        <label
+          className="dnb-form-label"
+          disabled={false}
+          htmlFor="checkbox"
+          id="checkbox-label"
+        >
+          checkbox
+        </label>
+      </FormLabel>
+      <span
+        className="dnb-checkbox__inner"
+      >
+        <AlignmentHelper
+          className={null}
+        >
+          <span
+            aria-hidden={true}
+            className="dnb-alignment-helper"
+          />
+        </AlignmentHelper>
+        <span
+          className="dnb-checkbox__shell"
+        >
+          <input
+            aria-checked={false}
+            checked={false}
+            className="dnb-checkbox__input"
+            disabled={false}
+            id="checkbox"
+            name="checkbox"
+            onChange={[Function]}
+            onKeyDown={[Function]}
+            title={null}
+            type="checkbox"
+            value=""
+          />
+          <span
+            aria-hidden={true}
+            className="dnb-checkbox__button"
+          >
+            <span
+              className="dnb-checkbox__focus"
+            />
+          </span>
+          <CheckIcon
+            size={null}
+          >
+            <svg
+              aria-hidden={true}
+              className="dnb-checkbox__gfx"
+              fill="none"
+              height={16}
+              viewBox="0 0 16 16"
+              width={16}
+            >
+              <path
+                d="M1 10L5 14L15 2"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+              />
+            </svg>
+          </CheckIcon>
+        </span>
+      </span>
+    </span>
+  </span>
+</Checkbox>
+`;
+
+exports[`Checkbox scss have to match default theme snapshot 1`] = `
+"/*
+* Checkbox theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+.dnb-checkbox {
+  /*
+    * When checkbox is OFF
+    * aka when the checkbox is not :checked
+    */
+  /*
+    * When checkbox is ON
+    * aka when the checkbox is :checked
+    */
+  /*
+    * When checkboxed OFF
+    * aka when the checkbox is not :checked
+    */
+  /*
+    * When checkboxed ON
+    * aka when the checkbox is :checked
+    */
+  /*
+    * On disabled
+    *
+    */
+  /*
+    * On focus
+    *
+    */
+  /*
+    * On hover
+    *
+    */
+  /* stylelint-disable-next-line */
+  /* stylelint-disable-next-line */
+  /*
+    * On active
+    *
+    */
+  /* stylelint-disable */
+  /* stylelint-enable */
+  /*
+    * On error state
+    *
+    */ }
+  .dnb-checkbox__gfx {
+    transition: opacity 200ms ease-out, transform 200ms ease-out; }
+  .dnb-checkbox__input:not(:checked) ~ .dnb-checkbox__gfx {
+    opacity: 0;
+    transform: scale(0.8);
+    color: var(--color-sea-green); }
+  .dnb-checkbox__input:checked ~ .dnb-checkbox__gfx {
+    opacity: 1;
+    transform: scale(1);
+    color: var(--color-white); }
+  .dnb-checkbox__input:not(:checked) ~ .dnb-checkbox__button {
+    background-color: var(--color-white);
+    border-color: var(--color-sea-green); }
+  .dnb-checkbox__input:checked ~ .dnb-checkbox__button {
+    background-color: var(--color-sea-green); }
+  .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
+    border-color: var(--color-mint-green-50); }
+  .dnb-checkbox__input[disabled]:checked ~ .dnb-checkbox__button {
+    border-color: transparent;
+    background-color: var(--color-sea-green-30); }
+  html[data-whatinput='keyboard'] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button {
+    border: none;
+    background-color: var(--color-mint-green-50); }
+  html[data-whatinput='keyboard'] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__gfx {
+    color: var(--color-sea-green); }
+  .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button .dnb-checkbox__focus,
+  .dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__button .dnb-checkbox__focus {
+    display: block; }
+  .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__button {
+    background-color: var(--color-mint-green-50); }
+  .dnb-checkbox__input:not([disabled]):not(:focus):checked:hover ~ .dnb-checkbox__button {
+    border-color: transparent; }
+  .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__gfx {
+    color: var(--color-sea-green); }
+  .dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__button {
+    background-color: var(--color-mint-green-50);
+    border-color: transparent; }
+  .dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__gfx {
+    color: var(--color-white); }
+  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active) ~ .dnb-checkbox__button {
+    border: none; }
+  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
+    display: block;
+    --border-color: var(--color-fire-red);
+    box-shadow: 0 0 0 0.125rem var(--border-color);
+    border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
+        box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
+  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__button {
+    border-color: var(--color-fire-red);
+    background-color: var(--color-fire-red-8); }
+  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-checkbox__button {
+    border-color: var(--color-fire-red-8); }
+  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-checkbox__button {
+    background-color: var(--color-fire-red); }
+  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__gfx {
+    color: var(--color-fire-red); }
+  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-checkbox__gfx {
+    color: var(--color-fire-red-8); }
+"
+`;
+
+exports[`Checkbox scss have to match snapshot 1`] = `
+"/*
+* DNB Checkbox
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
+/*
+* DNB FormLabel
+*
+*/
+.dnb-form-label {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-label *,
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-label ::before,
+  .dnb-form-label ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormLabel component
+ *
+ */
+.dnb-form-label {
+  display: inline-block;
+  width: auto;
+  padding: 0;
+  margin-right: 1rem;
+  text-align: left;
+  vertical-align: baseline;
+  white-space: pre-wrap;
+  word-break: normal;
+  font-size: var(--font-size-basis);
+  color: inherit; }
+  .dnb-form-label--vertical {
+    display: block;
+    margin-right: 0;
+    margin-bottom: 0.5rem; }
+  .dnb-form-label--sr-only {
+    width: 1px;
+    margin: 0;
+    padding: 0;
+    margin-left: -1px;
+    overflow: hidden;
+    white-space: nowrap; }
+  .dnb-form-label[for]:not([disabled]) {
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer; }
+  .dnb-form-label[disabled] {
+    cursor: not-allowed; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-label {
+      max-width: 60vw; } }
+
+legend.dnb-form-label {
+  display: inline-block; }
+
+/*
+* DNB FormStatus
+*
+*/
+.dnb-form-status {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-status *,
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormStatus component
+ *
+ */
+:root {
+  --form-status-radius: 0.25rem; }
+
+.dnb-form-status {
+  display: flex; }
+  .dnb-form-status__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-width: inherit;
+    border-radius: var(--form-status-radius); }
+  .dnb-form-status__text {
+    padding: 0.625rem 1rem;
+    cursor: text;
+    color: inherit;
+    line-height: var(--line-height-small);
+    font-size: var(--font-size-small);
+    white-space: normal; }
+    .dnb-form-status__text .dnb-anchor {
+      font-size: inherit; }
+  .dnb-icon + .dnb-form-status__text {
+    padding-left: 0.5rem; }
+  .dnb-form-status__shell > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
+  .dnb-form-status__size--large .dnb-form-status__text {
+    padding-top: 1.125rem;
+    padding-bottom: 1.125rem; }
+  .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+    margin-top: 0.6666666em;
+    margin-bottom: 0.6666666em; }
+  .dnb-form-status[hidden] {
+    display: none; }
+  .dnb-form-status__animation--fade-in {
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards; }
+
+@keyframes form-status-fade-in {
+  from {
+    max-height: 0; }
+  to {
+    max-height: calc(var(--input-height) * 8); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
+
+.dnb-checkbox {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-checkbox *,
+  .dnb-checkbox ::before,
+  .dnb-checkbox ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-checkbox ::before,
+  .dnb-checkbox ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Checkbox component
+*
+*/
+:root {
+  --checkbox-width--medium: 1.5rem;
+  --checkbox-height--medium: 1.5rem;
+  --checkbox-width--large: 2rem;
+  --checkbox-height--large: 2rem;
+  --checkbox-border-width: 0.125rem; }
+
+.dnb-checkbox {
+  display: inline-flex;
+  flex-direction: column;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis); }
+  .dnb-checkbox__inner {
+    display: inline-flex;
+    flex-direction: column;
+    align-self: center; }
+  .dnb-checkbox__shell {
+    user-select: none;
+    -webkit-user-select: none;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--checkbox-width--medium);
+    height: var(--checkbox-height--medium); }
+  .dnb-checkbox--large .dnb-checkbox__shell {
+    width: var(--checkbox-width--large);
+    height: var(--checkbox-height--large); }
+  .dnb-checkbox__button {
+    display: inline-block;
+    border: var(--checkbox-border-width) solid transparent; }
+  .dnb-checkbox__focus {
+    display: none;
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-checkbox__focus {
+      --border-color: var(--color-emerald-green);
+      box-shadow: 0 0 0 0.125rem var(--border-color);
+      border-color: transparent; }
+      @media screen and (-ms-high-contrast: none) {
+        html[data-whatinput='keyboard'] .dnb-checkbox__focus {
+          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  .dnb-checkbox__focus, .dnb-checkbox__button {
+    position: relative;
+    z-index: 4;
+    width: calc(var(--checkbox-width--medium) - 0.25rem);
+    height: calc(var(--checkbox-height--medium) - 0.25rem);
+    border-radius: 0.25rem; }
+    .dnb-checkbox--large .dnb-checkbox__focus, .dnb-checkbox--large .dnb-checkbox__button {
+      width: var(--checkbox-width--large);
+      height: var(--checkbox-height--large);
+      border-radius: 0.25rem; }
+  .dnb-checkbox__gfx {
+    position: absolute;
+    z-index: 5;
+    top: auto;
+    left: auto;
+    width: calc(var(--checkbox-width--medium) - 0.5rem);
+    height: calc(var(--checkbox-height--medium) - 0.5rem);
+    shape-rendering: geometricPrecision; }
+  .dnb-checkbox--large {
+    line-height: var(--checkbox-height--large); }
+  .dnb-checkbox--large .dnb-checkbox__gfx {
+    width: calc(var(--checkbox-width--large) - 0.5rem);
+    height: calc(var(--checkbox-height--large) - 0.5rem); }
+  .dnb-checkbox__input {
+    opacity: 0;
+    position: absolute;
+    top: auto;
+    left: auto;
+    z-index: 6;
+    width: var(--checkbox-width--medium);
+    height: var(--checkbox-height--medium);
+    margin: 0;
+    padding: 0;
+    border: 0; }
+  .dnb-checkbox--large .dnb-checkbox__input {
+    width: var(--checkbox-width--large);
+    height: var(--checkbox-height--large); }
+  .dnb-checkbox__input:not([disabled]) {
+    cursor: pointer; }
+  .dnb-checkbox .dnb-form-label {
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-left: 0; }
+  .dnb-checkbox__order {
+    display: inline-flex;
+    align-items: baseline; }
+  .dnb-checkbox__suffix {
+    order: 4; }
+  .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
+    order: 2; }
+  .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {
+    order: 1;
+    padding-right: 0.5rem; }
+  .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-status {
+    order: 3;
+    margin-top: 0.5rem; }
+  .dnb-checkbox--label-position-right .dnb-checkbox__order .dnb-checkbox__inner {
+    order: 1; }
+  .dnb-checkbox--label-position-right .dnb-checkbox__order .dnb-form-label {
+    order: 2;
+    padding-left: 0.5rem; }
+  .dnb-checkbox--label-position-right .dnb-checkbox__order + .dnb-form-status {
+    order: 3;
+    vertical-align: top;
+    margin-top: 0.5rem; }
+  .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
+    border-color: var(--skeleton-color); }
+    .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button::before {
+      border-radius: 0; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-checkbox {
+      vertical-align: text-bottom; }
+      .dnb-checkbox__order {
+        align-items: flex-start; }
+      .dnb-checkbox__gfx, .dnb-checkbox__input {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto; }
+      .dnb-checkbox__shell {
+        transform: translateY(0); } }
+"
+`;

@@ -1,0 +1,866 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DrawerList markup have to match snapshot 1`] = `
+<DrawerList
+  action_menu="action_menu"
+  align_drawer={null}
+  cache_hash="cache_hash"
+  class="class"
+  className="className"
+  custom_element={Object {}}
+  custom_method={[Function]}
+  data={
+    Array [
+      Object {
+        "content": Array [
+          "1234 56 78901",
+          "Brukskonto - Kari Nordmann",
+        ],
+        "selected_value": "Brukskonto - Kari Nordmann",
+      },
+      Object {
+        "content": Array [
+          "1234 56 78902",
+          "Sparekonto - Ole Nordmann",
+        ],
+        "selected_value": "Sparekonto - Ole Nordmann",
+      },
+      Object {
+        "content": Array [
+          "1134 56 78962",
+          "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+        ],
+        "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+      },
+      Object {
+        "content": Array [
+          "1534 96 48901",
+          "Oppussing - Ole Nordmann",
+        ],
+        "selected_value": "Oppussing - Ole Nordmann",
+      },
+      Object {
+        "content": <React.Fragment>
+          Custom content 
+          123
+        </React.Fragment>,
+      },
+      <React.Fragment>
+        Custom content 
+        123
+      </React.Fragment>,
+      Array [
+        <React.Fragment>
+          Custom content 
+          123
+        </React.Fragment>,
+      ],
+    ]
+  }
+  default_value="default_value"
+  direction="bottom"
+  fixed_position="fixed_position"
+  focusable="focusable"
+  id="drawer-list-id"
+  ignore_events="ignore_events"
+  independent_width="independent_width"
+  is_popup="is_popup"
+  keep_open="keep_open"
+  list_class="list_class"
+  max_height={1}
+  no_animation={true}
+  no_scroll_animation="no_scroll_animation"
+  on_change={[Function]}
+  on_hide={[Function]}
+  on_pre_change={[Function]}
+  on_resize={[Function]}
+  on_select={[Function]}
+  on_show={[Function]}
+  on_state_update={[Function]}
+  opened={true}
+  options_render={Object {}}
+  portal_class="portal_class"
+  prepared_data={Array []}
+  prevent_close="prevent_close"
+  prevent_focus="prevent_focus"
+  prevent_selection={null}
+  raw_data={Array []}
+  role="role"
+  scrollable="scrollable"
+  size="default"
+  skip_keysearch="skip_keysearch"
+  skip_portal={true}
+  triangle_position="triangle_position"
+  use_drawer_on_mobile="use_drawer_on_mobile"
+  value={2}
+  wrapper_element={Object {}}
+>
+  <DrawerListProvider
+    action_menu="action_menu"
+    align_drawer={null}
+    cache_hash="cache_hash"
+    class="class"
+    className="className"
+    custom_element={Object {}}
+    custom_method={[Function]}
+    data={
+      Array [
+        Object {
+          "content": Array [
+            "1234 56 78901",
+            "Brukskonto - Kari Nordmann",
+          ],
+          "selected_value": "Brukskonto - Kari Nordmann",
+        },
+        Object {
+          "content": Array [
+            "1234 56 78902",
+            "Sparekonto - Ole Nordmann",
+          ],
+          "selected_value": "Sparekonto - Ole Nordmann",
+        },
+        Object {
+          "content": Array [
+            "1134 56 78962",
+            "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+          ],
+          "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+        },
+        Object {
+          "content": Array [
+            "1534 96 48901",
+            "Oppussing - Ole Nordmann",
+          ],
+          "selected_value": "Oppussing - Ole Nordmann",
+        },
+        Object {
+          "content": <React.Fragment>
+            Custom content 
+            123
+          </React.Fragment>,
+        },
+        <React.Fragment>
+          Custom content 
+          123
+        </React.Fragment>,
+        Array [
+          <React.Fragment>
+            Custom content 
+            123
+          </React.Fragment>,
+        ],
+      ]
+    }
+    default_value="default_value"
+    direction="bottom"
+    enable_body_lock={null}
+    enable_closest_observer={null}
+    fixed_position="fixed_position"
+    focusable="focusable"
+    id="drawer-list-id"
+    ignore_events="ignore_events"
+    independent_width="independent_width"
+    is_popup="is_popup"
+    keep_open="keep_open"
+    list_class="list_class"
+    max_height={1}
+    min_height={10}
+    no_animation={true}
+    no_scroll_animation="no_scroll_animation"
+    observer_element={null}
+    on_change={[Function]}
+    on_hide={[Function]}
+    on_pre_change={[Function]}
+    on_resize={[Function]}
+    on_select={[Function]}
+    on_show={[Function]}
+    on_state_update={[Function]}
+    opened={true}
+    options_render={Object {}}
+    page_offset={null}
+    portal_class="portal_class"
+    prepared_data={Array []}
+    prevent_close="prevent_close"
+    prevent_focus="prevent_focus"
+    prevent_selection={null}
+    raw_data={Array []}
+    role="role"
+    scrollable="scrollable"
+    size="default"
+    skip_keysearch="skip_keysearch"
+    skip_portal={true}
+    triangle_position="triangle_position"
+    use_drawer_on_mobile="use_drawer_on_mobile"
+    value={2}
+    wrapper_element={Object {}}
+  >
+    <DrawerListInstance
+      action_menu="action_menu"
+      align_drawer={null}
+      cache_hash="cache_hash"
+      class="class"
+      className="className"
+      custom_element={Object {}}
+      custom_method={[Function]}
+      data={
+        Array [
+          Object {
+            "content": Array [
+              "1234 56 78901",
+              "Brukskonto - Kari Nordmann",
+            ],
+            "selected_value": "Brukskonto - Kari Nordmann",
+          },
+          Object {
+            "content": Array [
+              "1234 56 78902",
+              "Sparekonto - Ole Nordmann",
+            ],
+            "selected_value": "Sparekonto - Ole Nordmann",
+          },
+          Object {
+            "content": Array [
+              "1134 56 78962",
+              "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+            ],
+            "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
+          },
+          Object {
+            "content": Array [
+              "1534 96 48901",
+              "Oppussing - Ole Nordmann",
+            ],
+            "selected_value": "Oppussing - Ole Nordmann",
+          },
+          Object {
+            "content": <React.Fragment>
+              Custom content 
+              123
+            </React.Fragment>,
+          },
+          <React.Fragment>
+            Custom content 
+            123
+          </React.Fragment>,
+          Array [
+            <React.Fragment>
+              Custom content 
+              123
+            </React.Fragment>,
+          ],
+        ]
+      }
+      default_value="default_value"
+      direction="bottom"
+      fixed_position="fixed_position"
+      focusable="focusable"
+      id="drawer-list-id"
+      ignore_events="ignore_events"
+      independent_width="independent_width"
+      is_popup="is_popup"
+      keep_open="keep_open"
+      list_class="list_class"
+      max_height={1}
+      no_animation={true}
+      no_scroll_animation="no_scroll_animation"
+      on_change={[Function]}
+      on_hide={[Function]}
+      on_pre_change={[Function]}
+      on_resize={[Function]}
+      on_select={[Function]}
+      on_show={[Function]}
+      on_state_update={[Function]}
+      opened={true}
+      options_render={Object {}}
+      portal_class="portal_class"
+      prepared_data={Array []}
+      prevent_close="prevent_close"
+      prevent_focus="prevent_focus"
+      prevent_selection={null}
+      raw_data={Array []}
+      role="role"
+      scrollable="scrollable"
+      size="default"
+      skip_keysearch="skip_keysearch"
+      skip_portal={true}
+      triangle_position="triangle_position"
+      use_drawer_on_mobile="use_drawer_on_mobile"
+      value={2}
+      wrapper_element={Object {}}
+    >
+      <span
+        className="dnb-drawer-list__root"
+      >
+        <span
+          className="dnb-drawer-list dnb-drawer-list--bottom class className dnb-drawer-list--opened dnb-drawer-list--triangle-position-triangle_position dnb-drawer-list--default"
+          id="drawer-list-id-drawer-list"
+        >
+          <span
+            className="dnb-drawer-list__list list_class dnb-drawer-list__list--no-animation"
+            id="drawer-list-id-listbox"
+          >
+            <span
+              className="dnb-drawer-list__content"
+            >
+              children
+              <span
+                className="dnb-drawer-list__triangle"
+              />
+            </span>
+          </span>
+        </span>
+      </span>
+    </DrawerListInstance>
+  </DrawerListProvider>
+</DrawerList>
+`;
+
+exports[`DrawerList scss have to match default theme snapshot 1`] = `
+"/*
+* ScrollView theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+:root {
+  --drawer-list-options-border-radius: 0.25rem;
+  --drawer-list-option-border-width: 0.0625rem; }
+
+.dnb-drawer-list {
+  color: var(--color-emerald-green); }
+  .dnb-drawer-list__list {
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
+    background-color: var(--color-white);
+    border-radius: calc( var(--drawer-list-options-border-radius) + 0.15rem); }
+  @media screen and (max-width: 40em) {
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__list {
+      border-radius: 0; } }
+  .dnb-drawer-list__options {
+    border: none;
+    background-color: var(--color-white);
+    border-radius: calc( var(--drawer-list-options-border-radius) + 0.15rem); }
+    .dnb-drawer-list__options:focus {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-drawer-list__options:focus {
+        --border-color: var(--color-emerald-green);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
+        border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-drawer-list__options:focus {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  @media screen and (max-width: 40em) {
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__options {
+      border-radius: 0; } }
+  .dnb-drawer-list__option {
+    position: relative;
+    color: var(--color-black-80);
+    background-color: var(--color-white); }
+    .dnb-drawer-list__option.ignore-events {
+      pointer-events: none; }
+    .dnb-drawer-list__option::before {
+      pointer-events: none;
+      content: '';
+      position: absolute;
+      z-index: 2;
+      top: auto;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: var(--drawer-list-option-border-width);
+      background-color: var(--color-mint-green-25); }
+    .dnb-drawer-list__option__item:nth-of-type(1) {
+      font-weight: var(--font-weight-medium); }
+    .dnb-drawer-list__option__inner {
+      padding-right: 2rem;
+      background-color: var(--color-white); }
+    html:not([data-whatintent='touch']) .dnb-drawer-list__option:hover[disabled] {
+      cursor: not-allowed; }
+    html:not([data-whatintent='touch']) .dnb-drawer-list__option:hover:not([disabled]) {
+      background-color: var(--color-mint-green-12); }
+      html:not([data-whatintent='touch']) .dnb-drawer-list__option:hover:not([disabled]) .dnb-drawer-list__option__inner {
+        color: var(--color-sea-green);
+        background-color: var(--color-mint-green-12); }
+    .dnb-drawer-list__option:active[disabled],
+    html:not([data-whatintent='touch']) .dnb-drawer-list__option:active[disabled] {
+      cursor: not-allowed; }
+    .dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner,
+    html:not([data-whatintent='touch']) .dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner {
+      color: var(--color-black); }
+    .dnb-drawer-list__option--focus::before {
+      z-index: 3;
+      top: var(--drawer-list-focus-border-width);
+      left: var(--drawer-list-focus-border-width);
+      right: var(--drawer-list-focus-border-width);
+      bottom: var(--drawer-list-focus-border-width);
+      height: auto;
+      background-color: transparent;
+      --border-color: var(--color-emerald-green);
+      box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--border-color);
+      border-color: transparent; }
+      @media screen and (-ms-high-contrast: none) {
+        .dnb-drawer-list__option--focus::before {
+          box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--color-emerald-green); } }
+    .dnb-drawer-list__option--selected {
+      color: var(--color-white);
+      background-color: var(--color-emerald-green); }
+      .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner {
+        color: inherit;
+        background-color: inherit; }
+      html:not([data-whatintent='touch']) .dnb-drawer-list__option--selected:hover[disabled] {
+        cursor: not-allowed; }
+      html:not([data-whatintent='touch']) .dnb-drawer-list__option--selected:hover:not([disabled]) {
+        color: var(--color-white);
+        background-color: var(--color-emerald-green); }
+        html:not([data-whatintent='touch']) .dnb-drawer-list__option--selected:hover:not([disabled]) .dnb-drawer-list__option__inner {
+          color: inherit;
+          background-color: inherit; }
+      .dnb-drawer-list__option--selected::after {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        top: calc(50% - 0.5rem);
+        right: 1rem;
+        width: 1rem;
+        height: 1rem;
+        background-size: cover;
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+ICA8cGF0aCAgICBmaWxsPSIjRTlGOEY0IiAgICBkPSJNMyA4LjhhLjc1Ljc1IDAgMSAwLTEuMjIuODZMMyA4Ljc5em0xLjg0IDMuOWwuNjMtLjQxdi0uMDFoLS4wMWwtLjYyLjQyem0xLjcxLjA1bC0uNTktLjQ2di4wMWwuNTkuNDV6bTguNDMtOS40NWEuNzUuNzUgMCAwIDAtMS4xOC0uOTNsMS4xOC45M3pNMS43OCA5LjY2bDIuNDUgMy40OCAxLjIzLS44N0wzIDguOGwtMS4yMy44N3ptMi40NCAzLjQ2Yy4zMi40OC44Ni43OCAxLjQ0LjhsLjA1LTEuNWEuMy4zIDAgMCAxLS4yNC0uMTNsLTEuMjUuODN6bTEuNDQuOGExLjggMS44IDAgMCAwIDEuNDktLjcxbC0xLjItLjlhLjMuMyAwIDAgMS0uMjQuMWwtLjA1IDEuNXptMS40OC0uN2w3Ljg0LTkuOTItMS4xOC0uOTMtNy44NCA5LjkyIDEuMTguOTN6Ii8+PC9zdmc+); }
+      .dnb-drawer-list__option--selected::before {
+        content: none; }
+    .dnb-drawer-list__option--ignore .dnb-drawer-list__option__inner {
+      color: var(--color-black-80);
+      background-color: var(--color-white); }
+    .dnb-drawer-list__option--focus:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option__inner {
+      color: var(--color-sea-green);
+      background-color: var(--color-mint-green-12); }
+    .dnb-drawer-list__option--focus.first-of-type .dnb-drawer-list__option__inner, .dnb-drawer-list__option--focus.first-of-type::before {
+      border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
+    .dnb-drawer-list__option.last-of-type,
+    .dnb-drawer-list__option--focus.last-of-type .dnb-drawer-list__option__inner, .dnb-drawer-list__option--focus.last-of-type::before {
+      border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
+    .dnb-drawer-list__option.last-of-type:not(.dnb-drawer-list__option--focus)::before {
+      content: none; }
+  .dnb-drawer-list--scroll .dnb-drawer-list__option:not(.dnb-drawer-list__option--focus)::before {
+    left: 0.5rem;
+    right: 0.5rem; }
+  .dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-top::before {
+    border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
+  .dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-bottom::before {
+    border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
+  .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-bottom::before {
+    border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
+  .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-top::before {
+    border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
+  @media screen and (max-width: 40em) {
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__option__inner {
+      border-radius: 0; } }
+  .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__icon {
+    color: var(--color-fire-red); }
+  .dnb-drawer-list__triangle::before {
+    border: none;
+    background-color: var(--color-white);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
+  .dnb-drawer-list--top .dnb-drawer-list__option.last-of-type:hover ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--bottom .dnb-drawer-list__option.first-of-type:hover ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top:hover ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom:hover ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--focus ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--focus ~ .dnb-drawer-list__triangle::before {
+    background-color: var(--color-mint-green-12); }
+  .dnb-drawer-list--bottom .dnb-drawer-list__option.first-of-type.dnb-drawer-list__option--selected ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--top .dnb-drawer-list__option.last-of-type.dnb-drawer-list__option--selected ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top.dnb-drawer-list__option--selected ~ .dnb-drawer-list__triangle::before,
+  .dnb-drawer-list--top .dnb-drawer-list__option.closest-to-bottom.dnb-drawer-list__option--selected ~ .dnb-drawer-list__triangle::before {
+    background-color: var(--color-emerald-green); }
+  .dnb-drawer-list > .dnb-form-status {
+    transform: translateY(-0.4375rem); }
+"
+`;
+
+exports[`DrawerList scss have to match snapshot 1`] = `
+"/*
+* DNB DrawerList
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
+.dnb-drawer-list {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-drawer-list *,
+  .dnb-drawer-list ::before,
+  .dnb-drawer-list ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-drawer-list ::before,
+  .dnb-drawer-list ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* DrawerList component
+*
+*/
+:root {
+  --drawer-list-width: 16rem;
+  --drawer-list-height: 2rem;
+  --drawer-list-padding-horizontal: 1rem;
+  --drawer-list-focus-border-width: 0.125rem;
+  --drawer-list-text-padding: 0.5rem;
+  --drawer-list-height--small: 1.5rem;
+  --drawer-list-height--medium: 2.5rem;
+  --drawer-list-height--large: 3rem; }
+
+.dnb-drawer-list {
+  display: block;
+  position: relative;
+  width: inherit;
+  min-width: inherit;
+  font-size: var(--font-size-small);
+  /* stylelint-disable-next-line  */ }
+  .dnb-drawer-list__portal__style {
+    position: absolute;
+    z-index: 3010; }
+    .dnb-drawer-list__portal__style--fixed {
+      position: fixed; }
+  .dnb-drawer-list__root {
+    width: inherit;
+    min-width: inherit; }
+    .dnb-drawer-list__root--portal {
+      position: absolute;
+      top: 0;
+      left: 0; }
+  .dnb-drawer-list__content {
+    width: 100%;
+    padding: 0; }
+  .dnb-drawer-list__list {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    bottom: auto;
+    left: 0;
+    right: 0;
+    width: inherit;
+    min-width: inherit;
+    margin: 0;
+    padding: 0;
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+    background-color: transparent;
+    transform: translateY(0);
+    transition: transform 200ms, opacity 160ms ease-out; }
+  .dnb-drawer-list__options {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    max-height: 90vh;
+    padding: 0;
+    list-style: none;
+    background-color: transparent; }
+    .dnb-spacing .dnb-drawer-list__options li.dnb-drawer-list__option {
+      margin: 0; }
+  .dnb-drawer-list--scroll .dnb-drawer-list__options {
+    min-height: 2rem;
+    max-height: 70vh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: auto;
+    scrollbar-color: var(--color-emerald-green) transparent; }
+    html:not([data-visual-test]) .dnb-drawer-list--scroll .dnb-drawer-list__options {
+      scroll-behavior: smooth; }
+    html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options {
+      scroll-behavior: auto !important; }
+  .dnb-drawer-list--opened .dnb-drawer-list__options {
+    scroll-behavior: smooth; }
+  .dnb-drawer-list--no-scroll-animation .dnb-drawer-list__options {
+    scroll-behavior: auto; }
+  .dnb-drawer-list__option {
+    position: relative;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    outline: none;
+    background-color: var(--color-white); }
+    .dnb-drawer-list__option__inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      outline: none;
+      margin: 0;
+      padding: 1rem;
+      color: inherit;
+      background-color: var(--color-white); }
+      .dnb-drawer-list__option__inner > * {
+        align-self: self-start; }
+    .dnb-drawer-list__option__item {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis; }
+    .dnb-drawer-list__option--ignore {
+      cursor: default;
+      pointer-events: none; }
+  .dnb-drawer-list__triangle {
+    position: absolute;
+    top: calc( var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2);
+    left: auto;
+    right: 0;
+    pointer-events: none;
+    margin: 0 var(--drawer-list-padding-horizontal);
+    width: calc(var(--drawer-list-height) / 2);
+    height: calc(var(--drawer-list-height) / 2);
+    overflow: hidden; }
+    .dnb-drawer-list__triangle::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: calc(var(--drawer-list-height) / 2);
+      height: calc(var(--drawer-list-height) / 2);
+      transform: translateY(60%) rotate(45deg);
+      border: 1px solid var(--color-black-border);
+      background-color: var(--color-white); }
+  .dnb-drawer-list--triangle-position-left .dnb-drawer-list__triangle {
+    left: 0;
+    right: auto; }
+  .dnb-drawer-list--top .dnb-drawer-list__triangle {
+    top: auto;
+    bottom: calc( var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2 - 2px);
+    transform: rotate(180deg); }
+    .dnb-drawer-list--top .dnb-drawer-list__triangle::before {
+      transform: translateY(65%) rotate(45deg); }
+  .dnb-drawer-list--is-popup.dnb-drawer-list--right {
+    position: absolute;
+    left: auto;
+    right: 0; }
+  .dnb-drawer-list--is-popup.dnb-drawer-list--left .dnb-drawer-list__list {
+    left: -0.5rem; }
+  .dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.5rem; }
+  .dnb-drawer-list--opened .dnb-drawer-list__list {
+    z-index: 100;
+    display: flex;
+    flex-direction: column; }
+    .dnb-drawer-list--opened .dnb-drawer-list__list {
+      animation: drawer-list-slide-top-down 200ms ease-out 1 forwards; }
+    html[data-visual-test] .dnb-drawer-list--opened .dnb-drawer-list__list, .dnb-drawer-list--opened .dnb-drawer-list__list--no-animation {
+      animation: drawer-list-slide-top-down 1ms ease-out 1 forwards; }
+  @media screen and (max-width: 40em), screen and (max-height: 40em) {
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list--opened .dnb-drawer-list__list {
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      animation: drawer-list-scale-in 200ms ease-out 1 forwards; } }
+  .dnb-drawer-list--hidden .dnb-drawer-list__list {
+    display: none; }
+  .dnb-drawer-list--bottom .dnb-drawer-list__list {
+    top: 0;
+    bottom: auto; }
+  .dnb-drawer-list--top .dnb-drawer-list__list {
+    top: auto;
+    bottom: var(--drawer-list-height); }
+  .dnb-drawer-list__portal .dnb-drawer-list--bottom .dnb-drawer-list__list {
+    top: var(--drawer-list-height);
+    bottom: auto; }
+  .dnb-drawer-list__portal .dnb-drawer-list--small .dnb-drawer-list__list {
+    top: var(--drawer-list-height--small); }
+  .dnb-drawer-list--small.dnb-drawer-list--top .dnb-drawer-list__list {
+    bottom: var(--drawer-list-height--small); }
+  .dnb-drawer-list--small.dnb-drawer-list--is-popup.dnb-drawer-list--left .dnb-drawer-list__list {
+    left: -0.75rem; }
+  .dnb-drawer-list--small.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.75rem; }
+  .dnb-drawer-list__portal .dnb-drawer-list--medium .dnb-drawer-list__list {
+    top: var(--drawer-list-height--medium); }
+  .dnb-drawer-list--medium.dnb-drawer-list--top .dnb-drawer-list__list {
+    bottom: var(--drawer-list-height--medium); }
+  .dnb-drawer-list--medium.dnb-drawer-list--is-popup.dnb-drawer-list--left .dnb-drawer-list__list {
+    left: -0.25rem; }
+  .dnb-drawer-list--medium.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.25rem; }
+  .dnb-drawer-list__portal .dnb-drawer-list--large .dnb-drawer-list__list {
+    top: var(--drawer-list-height--large); }
+  .dnb-drawer-list--large.dnb-drawer-list--top .dnb-drawer-list__list {
+    bottom: var(--drawer-list-height--large); }
+  .dnb-drawer-list--large .dnb-drawer-list__triangle {
+    margin: 0 1.25rem; }
+  .dnb-drawer-list--large.dnb-drawer-list--is-popup.dnb-drawer-list--left .dnb-drawer-list__list {
+    left: -0.25rem; }
+  .dnb-drawer-list--large.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
+    right: -0.25rem; }
+  .dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
+    left: auto; }
+  .dnb-drawer-list__root > .dnb-drawer-list--right {
+    position: absolute;
+    right: 0;
+    left: auto; }
+  .dnb-drawer-list__portal .dnb-drawer-list--right {
+    right: 100%; }
+  .dnb-drawer-list__portal .dnb-drawer-list--top .dnb-drawer-list__list {
+    top: auto;
+    bottom: 0; }
+  @media screen and (max-width: 40em), screen and (max-height: 40em) {
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view, .dnb-drawer-list__portal__style--mobile-view {
+      top: 0 !important;
+      right: 0 !important;
+      left: auto !important; }
+    .dnb-drawer-list__portal__style--mobile-view {
+      position: fixed; }
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__list,
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__options {
+      height: 100vh;
+      top: 0 !important;
+      max-height: 100vh !important;
+      border-radius: 0; } }
+  .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list {
+    animation: drawer-list-slide-top-up 150ms ease-out 1 forwards; }
+  html[data-visual-test] .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list, .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list--no-animation {
+    animation: drawer-list-slide-top-up 1ms ease-out 1 forwards; }
+  @media screen and (max-width: 40em), screen and (max-height: 40em) {
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list {
+      animation: drawer-list-scale-out 150ms ease-out 1 forwards; } }
+  .dnb-drawer-list--action-menu .dnb-drawer-list__option__inner {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center; }
+  @media screen and (min-width: 40em) {
+    .dnb-drawer-list--action-menu.dnb-drawer-list--is-popup.dnb-drawer-list--left .dnb-drawer-list__list {
+      left: 0; }
+    .dnb-drawer-list--action-menu.dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
+      right: 0; } }
+  @media screen and (max-width: 40em), screen and (max-height: 40em) {
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list--action-menu .dnb-drawer-list__list {
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      animation: drawer-list-slide-bottom-up 200ms ease-out 1 forwards; }
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list--action-menu.dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list {
+      animation: drawer-list-slide-bottom-down 200ms ease-out 1 forwards; }
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list--action-menu .dnb-drawer-list__list,
+    .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list--action-menu .dnb-drawer-list__options {
+      position: fixed;
+      top: auto !important;
+      right: 0 !important;
+      left: 0 !important;
+      bottom: 0 !important;
+      height: auto !important;
+      width: 100vw !important;
+      box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.16); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-drawer-list {
+      flex: none;
+      vertical-align: baseline; }
+      .dnb-drawer-list__shell {
+        top: 0; }
+      .dnb-drawer-list__options {
+        display: block; } }
+
+@keyframes drawer-list-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateX(calc(1px - var(--drawer-list-width))); }
+  to {
+    opacity: 1;
+    transform: scale(1) translateX(0); } }
+
+@keyframes drawer-list-scale-out {
+  from {
+    opacity: 1;
+    transform: scale(1) translateX(0); }
+  to {
+    opacity: 0;
+    transform: scale(0.8) translateX(calc(1px - var(--drawer-list-width))); } }
+
+@keyframes drawer-list-slide-top-down {
+  from {
+    opacity: 0;
+    transform: translateY(calc(1px - var(--drawer-list-height))); }
+  to {
+    opacity: 1;
+    transform: translateY(0); } }
+
+@keyframes drawer-list-slide-top-up {
+  from {
+    opacity: 1;
+    transform: translateY(0); }
+  to {
+    opacity: 0;
+    transform: translateY(calc(1px - var(--drawer-list-height))); } }
+
+@keyframes drawer-list-slide-bottom-down {
+  from {
+    opacity: 1;
+    transform: translateY(0); }
+  to {
+    opacity: 0;
+    transform: translateY(calc(1px + var(--drawer-list-height))); } }
+
+@keyframes drawer-list-slide-bottom-up {
+  from {
+    opacity: 0;
+    transform: translateY(calc(1px + var(--drawer-list-height))); }
+  to {
+    opacity: 1;
+    transform: translateY(0); } }
+"
+`;

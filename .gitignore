@@ -10,6 +10,7 @@ completions.json
 .DS_Store
 .history
 *not_in_use*
+/packages/dnb-ui-lib
 
 # pkm
 npm-debug.log*

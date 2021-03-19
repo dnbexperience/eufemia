@@ -13,17 +13,17 @@ import MainMenu from '../menu/MainMenu'
 import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import { markdownStyle } from './Markdown'
-import { buildVersion } from '../../../package.json'
+import packageJson from '../../../package.json'
 import { MainMenuProvider } from '../menu/MainMenuContext'
 import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
 import ToggleGrid from '../menu/ToggleGrid'
 import {
   setPageFocusElement,
   scrollToLocationHashId
-} from 'dnb-ui-lib/src/shared/helpers'
-import { Context } from 'dnb-ui-lib/src/shared'
-import { Logo, GlobalStatus } from 'dnb-ui-lib/src/components'
-import { createSkeletonClass } from 'dnb-ui-lib/src/components/skeleton/SkeletonHelper'
+} from '@dnb/eufemia/src/shared/helpers'
+import { Context } from '@dnb/eufemia/src/shared'
+import { Logo, GlobalStatus } from '@dnb/eufemia/src/components'
+import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 
 export function scrollToAnimation() {
   // if url hash is defined, scroll to the id
@@ -258,10 +258,6 @@ const FooterWrapper = styled.footer`
   small {
     padding: 0 2rem;
   }
-
-  .toggle-grid {
-    margin-left: 1rem;
-  }
 `
 const Footer = () => {
   const { skeleton } = React.useContext(Context)
@@ -269,7 +265,7 @@ const Footer = () => {
     <FooterWrapper>
       <Logo height="40" color="white" />
       <small className={createSkeletonClass('font', skeleton)}>
-        Last Portal update: {buildVersion}
+        Last Portal update: {packageJson.buildVersion}
         <Link
           to="/license"
           className="dnb-anchor dnb-anchor--contrast dnb-anchor--no-underline"

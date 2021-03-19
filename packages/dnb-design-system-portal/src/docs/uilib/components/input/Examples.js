@@ -6,7 +6,7 @@ Wrapper
 
 import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
-import InputPassword from 'dnb-ui-lib/src/components/input/InputPassword'
+import InputPassword from '@dnb/eufemia/src/components/input/InputPassword'
 import styled from '@emotion/styled'
 
 const Wrapper = styled.div`

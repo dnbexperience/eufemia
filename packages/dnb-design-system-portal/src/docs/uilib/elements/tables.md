@@ -9,7 +9,7 @@ import { css, Global } from '@emotion/react'
 
 ## Tables
 
-The following table has a default style. But in future, there will be several patterns and styles to choose from.
+The following table has a default style. But in future, there will be several extensions and styles to choose from.
 
 You may consider using `table-layout: fixed;`. You can use the modifier class in doing so: `.dnb-table--fixed`
 

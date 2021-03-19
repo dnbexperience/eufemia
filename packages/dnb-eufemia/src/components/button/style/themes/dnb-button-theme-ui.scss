@@ -1,0 +1,352 @@
+/*
+* Button theme
+*
+*/
+
+@import '../../../../style/themes/imports.scss';
+@import './_button-mixins.scss';
+
+.dnb-button {
+  border: none;
+  box-shadow: none;
+
+  text-align: left;
+
+  // no animation yet
+  // transition: background-color 100ms ease-out, box-shadow 100ms ease-out;
+
+  &--primary {
+    color: var(--color-white);
+    background-color: var(--color-sea-green);
+
+    @include buttonHover(var(--color-sea-green), var(--color-white));
+    @include buttonFocus(var(--color-sea-green), var(--color-white));
+    @include buttonActive(
+      var(--color-sea-green),
+      var(--color-mint-green-50)
+    );
+
+    &[disabled] {
+      color: var(--color-white);
+      background-color: var(--color-sea-green-30);
+    }
+  }
+  &:not([disabled])#{&}--primary#{&}__status {
+    &--error {
+      color: var(--color-white);
+      background-color: var(--color-fire-red);
+
+      // @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
+      // .dnb-button__icon {
+      //   color: inherit;
+      // }
+    }
+  }
+
+  &--secondary {
+    color: var(--color-sea-green);
+    background-color: var(--color-white);
+
+    @include fakeBorder(var(--color-sea-green), 0.0625rem, inset, true);
+
+    @include buttonHover(var(--color-sea-green), var(--color-white));
+    @include buttonFocus(var(--color-sea-green), var(--color-white));
+    @include buttonActive(
+      var(--color-sea-green),
+      var(--color-mint-green-50)
+    );
+
+    &:not(.dnb-button--has-text) {
+      @include buttonHover(var(--color-emerald-green), var(--color-white));
+      @include buttonFocus(var(--color-emerald-green), var(--color-white));
+      @include buttonActive(
+        var(--color-emerald-green),
+        var(--color-mint-green-50)
+      );
+    }
+
+    &[disabled],
+    &[disabled]:focus // only because of href/anchor button
+    {
+      color: var(--color-sea-green-30);
+      background-color: var(--color-white);
+
+      // only because of href/anchor button
+      @include fakeBorder(
+        var(--color-sea-green-30),
+        0.0625rem,
+        inset,
+        true
+      );
+    }
+  }
+  &:not([disabled])#{&}--secondary#{&}__status {
+    &--error {
+      color: var(--color-fire-red);
+
+      @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
+      .dnb-button__icon {
+        color: inherit;
+      }
+    }
+  }
+
+  // simulate active state
+  &--active {
+    @include fakeBorder(var(--color-emerald-green), 0.125rem /*2px*/);
+  }
+
+  &--tertiary {
+    position: relative; // because  of the focus ring
+
+    color: var(--color-sea-green);
+    background-color: transparent;
+
+    // create underline (::after)
+    .dnb-button__text {
+      position: relative; // because of the underline
+
+      @include drawUnderlineBorder() {
+        bottom: -0.0625rem;
+        color: transparent;
+        opacity: 0;
+        transition: opacity 200ms ease-out, color 200ms ease-out;
+        [data-visual-test-wrapper] & {
+          transition: none;
+        }
+      }
+    }
+
+    &.dnb-button--has-text {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    // change underline if has icon
+    &.dnb-button--has-icon .dnb-button__text::after {
+      left: -0.5rem;
+      right: -0.5rem;
+    }
+
+    @include focus() {
+      @include removeFakeFocus();
+      @include buttonFocusRing();
+
+      // underline
+      .dnb-button__text::after {
+        visibility: hidden;
+      }
+    }
+
+    @include hover() {
+      // underline
+      .dnb-button__text::after {
+        visibility: visible;
+        opacity: 1;
+        color: var(--color-emerald-green);
+      }
+    }
+
+    @include active() {
+      @include removeFakeFocus();
+
+      // underline
+      .dnb-button__text::after {
+        html[data-whatintent='touch'] & {
+          transition: none;
+          visibility: visible;
+          opacity: 1;
+          color: var(--color-emerald-green);
+        }
+        html:not([data-whatintent='touch']) & {
+          visibility: hidden;
+        }
+      }
+    }
+
+    .dnb-button__icon {
+      align-self: flex-start;
+      margin-top: 0.75rem;
+    }
+
+    // Ensure tertiary button has medium size when size is large
+    &.dnb-button--size-large .dnb-button__icon,
+    &:not(.dnb-button--size-large) .dnb-button__icon.dnb-icon--medium {
+      margin-top: 0.5rem;
+    }
+    &.dnb-button--size-large {
+      &,
+      .dnb-core-style & {
+        line-height: var(--button-height--medium);
+      }
+    }
+    &.dnb-button--size-large.dnb-button--has-icon:not(.dnb-button--has-text) {
+      width: var(--button-width--medium);
+    }
+
+    &.dnb-button--has-icon {
+      &.dnb-button--has-text {
+        &.dnb-button--icon-position-left {
+          padding-left: 0;
+          padding-right: 0.5rem;
+
+          .dnb-button__text {
+            padding-left: 1rem;
+
+            &::after {
+              right: 0;
+            }
+          }
+          .dnb-button__icon {
+            margin-right: -0.5rem;
+          }
+          &.dnb-button--icon-size-medium,
+          &.dnb-button--icon-size-large {
+            .dnb-button__text {
+              padding-left: 0;
+              margin-left: 1rem;
+
+              &::after {
+                left: 0;
+              }
+            }
+          }
+        }
+        &.dnb-button--icon-position-right {
+          padding-right: 0;
+          padding-left: 0.5rem;
+
+          /* stylelint-disable */
+          .dnb-button__text {
+            padding-right: 1rem;
+
+            &::after {
+              left: 0;
+            }
+          }
+          .dnb-button__icon {
+            margin-left: -0.5rem;
+          }
+          /* stylelint-enable */
+          &.dnb-button--icon-size-medium,
+          &.dnb-button--icon-size-large {
+            .dnb-button__text {
+              padding-right: 0;
+              margin-right: 1rem;
+
+              &::after {
+                right: 0;
+              }
+            }
+          }
+        }
+      }
+
+      &:not(.dnb-button--has-text) {
+        @include focus() {
+          // make the ring round
+          &::before {
+            left: 0;
+            right: 0;
+          }
+        }
+
+        @include hover() {
+          @include fakeBorder(var(--color-sea-green), 0.0625rem);
+        }
+
+        @include active() {
+          @include fakeBorder(var(--color-sea-green-30), 0.0625rem);
+        }
+      }
+    }
+
+    // stylelint-disable-next-line
+    html[data-whatinput='keyboard']
+    // webkit fix
+      &:hover:focus
+      .dnb-button__text::after {
+      visibility: hidden;
+    }
+
+    &[disabled] {
+      color: var(--color-sea-green-30);
+    }
+  }
+
+  &--signal {
+    color: var(--color-ocean-green);
+    background-color: var(--color-accent-yellow);
+
+    @include buttonHover(
+      var(--color-ocean-green),
+      var(--color-accent-yellow),
+      'touch'
+    );
+    @include buttonFocus(
+      var(--color-ocean-green),
+      var(--color-accent-yellow)
+    );
+    @include buttonActive(
+      var(--color-ocean-green),
+      var(--color-accent-yellow)
+    );
+
+    // touch helper
+    // html[data-whatintent='touch']  &:active {
+    //   @include fakeBorder(var(--color-emerald-green), 0.125rem /*2px*/);
+    // }
+
+    &[disabled] {
+      color: var(--color-black-20);
+      background-color: var(--color-accent-yellow-30);
+    }
+  }
+
+  // input-button
+  // Because we can not anymore have a square, we have to trick that part
+  &--input-button#{&}--secondary:not(&--has-text),
+  &--input-button#{&}--secondary:not(&--has-text):not([disabled]) {
+    background-color: transparent;
+    box-shadow: none;
+    &::after {
+      content: '';
+      position: absolute;
+
+      top: 0;
+      bottom: 0;
+      left: 0;
+
+      width: 0.0625rem;
+      background-color: currentColor;
+    }
+  }
+  html:not([data-whatintent='touch'])
+    &--input-button#{&}--secondary:not(&--has-text):not([disabled]) {
+    &:focus,
+    &:hover {
+      color: var(--color-white);
+      &,
+      &::after {
+        background-color: var(--color-sea-green);
+      }
+      box-shadow: none;
+    }
+    &:not(:active):hover {
+      border-radius: 0;
+    }
+    &:active {
+      color: var(--color-sea-green);
+      &,
+      &::after {
+        background-color: var(--color-mint-green-50);
+      }
+      box-shadow: none;
+    }
+  }
+  html:not([data-whatintent='touch'])
+    &--input-button#{&}--secondary:not(&--has-text)[disabled] {
+    color: var(--color-black-55);
+    background-color: var(--color-black-3);
+  }
+}

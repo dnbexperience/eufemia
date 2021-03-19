@@ -42,7 +42,7 @@ The ActionMenu will change its characteristics in mobile view. It will hide the 
 
 ### MoreMenu
 
-No lasting selection will be made
+No lasting selection will be made.
 
 <DropdownMoreMenu />
 

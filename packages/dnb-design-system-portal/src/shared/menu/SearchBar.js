@@ -4,12 +4,11 @@
  */
 
 import React from 'react'
-// import ReactDOMServer from 'react-dom/server'
 import styled from '@emotion/styled'
 import { ClassNames } from '@emotion/react'
 import algoliasearch from 'algoliasearch/lite'
-import { Autocomplete } from 'dnb-ui-lib/src/components'
-import { Anchor } from 'dnb-ui-lib/src/elements'
+import { Autocomplete } from '@dnb/eufemia/src/components'
+import { Anchor } from '@dnb/eufemia/src/elements'
 import { navigate } from 'gatsby'
 import { scrollToAnimation } from '../parts/Layout'
 
@@ -45,9 +44,6 @@ export const SearchBarInput = () => {
               makeHitsHumanFriendly({ hits, setHidden, emptyData })
             )
             hideIndicator()
-
-            /* NB: Other option to add the logo */
-            // showLogo()
           })
           .catch((err) => {
             setStatus(err.message || err)
@@ -84,9 +80,11 @@ export const SearchBarInput = () => {
           fixed_position
           size="medium"
           align_autocomplete="right"
-          // triangle_position="left"
           placeholder="Search ..."
           status={status}
+          portal_class={css`
+            z-index: 6000;
+          `}
           drawer_class={css`
             .dnb-drawer-list__option__inner {
               .dnb-drawer-list__option__item {
@@ -108,31 +106,11 @@ export const SearchBarInput = () => {
 
               .dnb-drawer-list__option__item:first-of-type {
                 color: var(--color-sea-green);
-                font-weight: var(--font-weight-default);
+                font-weight: var(--font-weight-basis);
                 font-size: var(--font-size-medium);
                 padding-bottom: 0.5rem;
               }
             }
-
-            /* .dnb-drawer-list__list {
-              @media screen and (max-width: 40em) {
-                left: 10vw;
-              }
-              @media screen and (max-width: 30em) {
-                left: 15vw;
-              }
-            } */
-
-            /* .dnb-drawer-list__triangle {
-              left: 10vw;
-              transform: translateX(0.25rem);
-              @media screen and (max-width: 60em) {
-                left: 30vw;
-              }
-              @media screen and (max-width: 40em) {
-                left: 20vw;
-              }
-            } */
 
             .search-logo {
               min-width: 4rem;
@@ -173,33 +151,7 @@ const StyledAutocomplete = styled(Autocomplete)`
       }
     }
   }
-
-  /* &.dnb-autocomplete .dnb-drawer-list__root {
-    width: 50vw;
-    @media screen and (max-width: 60em) {
-      width: 70vw;
-    }
-    @media screen and (max-width: 40em) {
-      width: 90vw;
-    }
-  } */
 `
-
-/* NB: Other option to add the logo */
-// const showLogo = () => {
-//   try {
-//     const elem = document.querySelector('.portal-search')
-//     const listElem = elem.querySelector('.dnb-drawer-list__options')
-//     const logoAsString = ReactDOMServer.renderToString(<SearchLogo />)
-//     const base64 = window.btoa(logoAsString)
-//     listElem.setAttribute(
-//       'style',
-//       `--search-logo: url(data:image/svg+xml;base64,${base64})`
-//     )
-//   } catch (e) {
-//     console.warn(e)
-//   }
-// }
 
 const SearchLogo = (props) => (
   <svg
@@ -227,11 +179,7 @@ const SearchLogo = (props) => (
   </svg>
 )
 
-const makeHitsHumanFriendly = ({
-  hits,
-  setHidden
-  // , emptyData
-}) => {
+const makeHitsHumanFriendly = ({ hits, setHidden }) => {
   const data = []
 
   hits.forEach((hit) => {

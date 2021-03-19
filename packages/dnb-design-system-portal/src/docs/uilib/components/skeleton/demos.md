@@ -3,11 +3,11 @@ showTabs: true
 ---
 
 import PortalSkeleton from 'Pages/uilib/components/skeleton/PortalSkeleton'
-import AllComponents from 'dnb-ui-lib/src/components/form-row/AllComponents'
+import AllComponents from '@dnb/eufemia/src/components/form-row/AllComponents'
 import ComponentBox from 'Tags/ComponentBox'
-import Provider from 'dnb-ui-lib/src/shared/Provider'
-import Context from 'dnb-ui-lib/src/shared/Context'
-import { Article } from 'dnb-ui-lib/src/components/skeleton/figures'
+import Provider from '@dnb/eufemia/src/shared/Provider'
+import Context from '@dnb/eufemia/src/shared/Context'
+import { Article } from '@dnb/eufemia/src/components/skeleton/figures'
 
 ## Demos
 
@@ -75,7 +75,7 @@ You can also use `FormRow={{ skeleton: true }}`.
 You may import a given figure, or create your own.
 
 ```jsx
-import { Article } from 'dnb-ui-lib/components/skeleton/figures'
+import { Article } from '@dnb/eufemia/components/skeleton/figures'
 ```
 
 <ComponentBox scope={{Article}} data-visual-test="skeleton-figure-article">

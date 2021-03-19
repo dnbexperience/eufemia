@@ -38,7 +38,7 @@ This helps coworkers quickly find and understand the sentence and meaning of the
 
   /* -- 3. Fonts & Typography -- */
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-default);
+  font-weight: var(--font-weight-basis);
   font-size: var(--font-size-large);
   color: var(--color-sea-green);
 

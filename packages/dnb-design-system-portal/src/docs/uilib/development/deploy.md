@@ -7,11 +7,11 @@ order: 3
 
 # Deploy
 
-Publishing new versions to the NPM Package (`dnb-ui-lib`) is handled by a Deploy Server.
+Publishing new versions to the NPM Package (`@dnb/eufemia`) is handled by a Deploy Server.
 
 ## CI Structure
 
-Actually, both the Portal (`dnb-design-system-portal`) and the NPM Package (`dnb-ui-lib`) are deployed and build by a Continuous Integration (CI) Server.
+Actually, both the Portal (`dnb-design-system-portal`) and the NPM Package (`@dnb/eufemia`) are deployed and build by a Continuous Integration (CI) Server.
 
 Once You push Your branch `ftr/your-feature` (or what ever) to remote **origin**, all tests will be run against Your latest pushes.
 

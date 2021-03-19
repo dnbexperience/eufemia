@@ -1,0 +1,937 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlobalError scss have to match default theme snapshot 1`] = `
+"/*
+ * GlobalError theme
+ *
+ */
+"
+`;
+
+exports[`GlobalError scss have to match snapshot 1`] = `
+"/*
+* DNB GlobalError
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
+/*
+* DNB Button
+*
+*/
+/*
+* DNB icon
+*
+*/
+/*
+* Icon component
+*
+*/
+.dnb-icon {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: inherit;
+  width: 1em;
+  height: 1em; }
+  .dnb-icon img,
+  .dnb-icon svg {
+    width: inherit;
+    height: inherit;
+    shape-rendering: geometricPrecision;
+    vertical-align: top; }
+  .dnb-icon svg[width='100%'] {
+    width: inherit; }
+  .dnb-icon svg[height='100%'] {
+    height: inherit; }
+  .dnb-icon--inherit-color svg:not([fill]),
+  .dnb-icon--inherit-color svg [fill] {
+    fill: currentColor; }
+  .dnb-icon--inherit-color svg [stroke] {
+    stroke: currentColor; }
+  .dnb-icon--small {
+    font-size: 0.75rem; }
+  .dnb-icon--default {
+    font-size: 1rem; }
+  .dnb-icon--medium {
+    font-size: 1.5rem; }
+  .dnb-icon--large {
+    font-size: 2rem; }
+  .dnb-icon--x-large {
+    font-size: 2.5rem; }
+  .dnb-icon--xx-large {
+    font-size: 3rem; }
+  .dnb-icon--custom-size {
+    width: auto;
+    height: auto; }
+  .dnb-icon--auto {
+    font-size: 1em; }
+  .dnb-icon--auto > .dnb-icon--wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; }
+  h1 .dnb-icon,
+  h2 .dnb-icon,
+  h3 .dnb-icon,
+  h4 .dnb-icon,
+  h5 .dnb-icon,
+  h6 .dnb-icon {
+    vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-icon {
+      flex: none; } }
+
+/*
+* DNB FormStatus
+*
+*/
+.dnb-form-status {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-status *,
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormStatus component
+ *
+ */
+:root {
+  --form-status-radius: 0.25rem; }
+
+.dnb-form-status {
+  display: flex; }
+  .dnb-form-status__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-width: inherit;
+    border-radius: var(--form-status-radius); }
+  .dnb-form-status__text {
+    padding: 0.625rem 1rem;
+    cursor: text;
+    color: inherit;
+    line-height: var(--line-height-small);
+    font-size: var(--font-size-small);
+    white-space: normal; }
+    .dnb-form-status__text .dnb-anchor {
+      font-size: inherit; }
+  .dnb-icon + .dnb-form-status__text {
+    padding-left: 0.5rem; }
+  .dnb-form-status__shell > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
+  .dnb-form-status__size--large .dnb-form-status__text {
+    padding-top: 1.125rem;
+    padding-bottom: 1.125rem; }
+  .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+    margin-top: 0.6666666em;
+    margin-bottom: 0.6666666em; }
+  .dnb-form-status[hidden] {
+    display: none; }
+  .dnb-form-status__animation--fade-in {
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards; }
+
+@keyframes form-status-fade-in {
+  from {
+    max-height: 0; }
+  to {
+    max-height: calc(var(--input-height) * 8); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
+
+.dnb-button {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-button *,
+  .dnb-button ::before,
+  .dnb-button ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-button ::before,
+  .dnb-button ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Button component
+*
+*/
+:root {
+  --button-font-size: var(--font-size-basis);
+  --button-font-size-small: var(--font-size-small);
+  --button-width: 2.5rem;
+  --button-height: 2.5rem;
+  --button-width--small: 1.5rem;
+  --button-height--small: 1.5rem;
+  --button-width--medium: 2rem;
+  --button-height--medium: 2rem;
+  --button-width--large: 3rem;
+  --button-height--large: 3rem;
+  --button-icon-size: 1rem;
+  --button-border-width: 0.0625rem;
+  --button-border-width--hover: 0.1875rem;
+  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-radius--small: calc(var(--button-height--small) / 2);
+  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
+  --button-border-radius--large: calc(var(--button-height--large) / 2); }
+
+.dnb-button {
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-width);
+  height: auto;
+  padding: 0;
+  border: var(--button-border-width) solid transparent;
+  border-radius: var(--button-border-radius);
+  text-decoration: none;
+  font-size: var(--font-size-small);
+  /* stylelint-disable-next-line */ }
+  .dnb-button--wrap {
+    overflow-wrap: break-word;
+    white-space: normal; }
+  .dnb-button,
+  .dnb-core-style .dnb-button {
+    line-height: var(--button-height); }
+  .dnb-button__text {
+    margin: 0.5rem 0;
+    font-size: var(--button-font-size);
+    line-height: var(--line-height-basis);
+    color: inherit;
+    transform: translateY(-0.03125rem); }
+    .dnb-button__text [data-os='linux'] {
+      transform: translateY(-0.035rem); }
+  .dnb-button__alignment {
+    display: inline-block;
+    width: 0; }
+  .dnb-button__bounding {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    transform: scale(1.1, 1.4);
+    background-color: transparent;
+    border-radius: var(--button-border-radius); }
+  .dnb-button--has-text {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem; }
+  .dnb-button--size-small {
+    width: var(--button-width--small);
+    font-size: var(--button-font-size-small);
+    border-radius: var(--button-border-radius--small); }
+    .dnb-button--size-small,
+    .dnb-core-style .dnb-button--size-small {
+      line-height: var(--button-height--small); }
+  .dnb-button--size-small .dnb-button__text {
+    margin: 0; }
+  .dnb-button--has-text.dnb-button--size-small {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
+    padding-right: 0.5rem; }
+  .dnb-button--size-medium {
+    width: var(--button-width--medium);
+    border-radius: var(--button-border-radius--medium); }
+    .dnb-button--size-medium,
+    .dnb-core-style .dnb-button--size-medium {
+      line-height: var(--button-height--medium); }
+  .dnb-button--size-medium .dnb-button__text {
+    margin: 0; }
+  .dnb-button--has-text.dnb-button--size-medium {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
+    padding-right: 0.5rem; }
+  .dnb-button--size-large {
+    width: var(--button-width--large);
+    border-radius: var(--button-border-radius--large); }
+    .dnb-button--size-large,
+    .dnb-core-style .dnb-button--size-large {
+      line-height: var(--button-height--large); }
+  .dnb-button--has-text.dnb-button--size-large {
+    padding-left: 2rem;
+    padding-right: 2rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
+    padding-left: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
+    padding-right: 1rem; }
+  .dnb-button--has-text {
+    width: auto; }
+  .dnb-button--has-text .dnb-button__icon {
+    margin: 0 calc(var(--button-icon-size) / 2); }
+  .dnb-button--has-text.dnb-button--icon-position-left {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right {
+    padding-right: 0.5rem; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
+    order: 2; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
+    order: 1; }
+  .dnb-button:not(.dnb-button--has-text) .dnb-button__icon {
+    width: inherit; }
+  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  [href] > .dnb-button__icon.dnb-icon {
+    line-height: var(--button-font-size); }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
+    order: 2; }
+  .dnb-button--reset {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    appearance: none;
+    box-shadow: none;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    line-height: inherit; }
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
+      cursor: not-allowed; }
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
+      box-shadow: none;
+      border: none; }
+    .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+        --border-color: var(--color-emerald-green);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
+        border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
+      box-shadow: none;
+      color: inherit;
+      border: none; }
+  .dnb-button[type='button'], .dnb-button[type='reset'], .dnb-button[type='submit'] {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none; }
+  .dnb-button[disabled] {
+    cursor: not-allowed; }
+  .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
+    align-self: flex-start; }
+  .dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
+    white-space: nowrap; }
+  .dnb-button + .dnb-form-status {
+    margin-top: 0.5rem; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-button {
+      flex: none; }
+      .dnb-button__icon, .dnb-button__text {
+        transform: translateY(-0.0625rem); } }
+
+/* Firefox includes a hidden border which messes up button dimensions */
+button.dnb-button::-moz-focus-inner {
+  border: none; }
+
+.dnb-global-error {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-global-error *,
+  .dnb-global-error ::before,
+  .dnb-global-error ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-global-error ::before,
+  .dnb-global-error ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * GlobalError component
+ *
+ */
+.dnb-global-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%; }
+  .dnb-global-error__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* for large screesn */
+    width: 100%;
+    max-width: var(--layout-large);
+    padding: var(--spacing-large);
+    text-align: center; }
+    @media screen and (max-width: 40em) {
+      .dnb-global-error__inner {
+        padding: 0 var(--spacing-x-small); } }
+    .dnb-global-error__inner__content {
+      max-width: 37rem; }
+  .dnb-global-error__back.dnb-button--tertiary {
+    position: absolute;
+    z-index: 1;
+    top: var(--spacing-large);
+    left: var(--spacing-large); }
+    @media screen and (max-width: 90em) {
+      .dnb-global-error__back.dnb-button--tertiary {
+        left: var(--spacing-x-small); } }
+  .dnb-global-error__gfx {
+    margin-top: 9rem;
+    shape-rendering: geometricPrecision; }
+    @media screen and (max-width: 90em) {
+      .dnb-global-error__gfx {
+        margin-top: 8vw;
+        margin-top: calc(4vw + 4vh); } }
+    @media screen and (max-width: 40em) {
+      .dnb-global-error__gfx {
+        margin-top: 0;
+        transform: scale(0.8); } }
+    @supports (color: var(--data-width)) {
+      .dnb-global-error__gfx {
+        width: calc(var(--data-width, 100%) / 16 * 1em);
+        height: calc(var(--data-height, 100%) / 16 * 1em); } }
+  @media screen and (max-width: 40em) {
+    .dnb-global-error .dnb-h--xx-large.dnb-space__top--xx-large.dnb-space__top--x-small {
+      margin-top: 0;
+      font-size: var(--font-size-x-large); } }
+"
+`;
+
+exports[`GlobalError snapshot have to match component snapshot 1`] = `
+<GlobalError
+  alt="alt"
+  back="back"
+  class="class"
+  className="className"
+  href="href"
+  status="404"
+  status_content={null}
+  text="text [link](/back) text"
+  title="title"
+>
+  <div
+    alt="alt"
+    className="dnb-global-error dnb-global-error--404 className class"
+  >
+    <div
+      className="dnb-global-error__inner"
+    >
+      <Button
+        bounding={false}
+        class={null}
+        className="dnb-global-error__back"
+        custom_element={null}
+        custom_method={null}
+        disabled={null}
+        element={null}
+        global_status_id={null}
+        href="href"
+        icon="chevron_left"
+        icon_position="left"
+        icon_size={null}
+        id={null}
+        innerRef={null}
+        inner_ref={null}
+        onClick={null}
+        on_click={[Function]}
+        size={null}
+        skeleton={null}
+        status={null}
+        status_animation={null}
+        status_state="error"
+        text="back"
+        title={null}
+        tooltip={null}
+        type="button"
+        variant="tertiary"
+        wrap={false}
+      >
+        <a
+          className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
+          disabled={false}
+          href="href"
+          onClick={[Function]}
+          type="button"
+        >
+          <Content
+            bounding={false}
+            class={null}
+            className="dnb-global-error__back"
+            content={null}
+            custom_element={null}
+            custom_method={null}
+            disabled={null}
+            element={null}
+            global_status_id={null}
+            href="href"
+            icon="chevron_left"
+            icon_position="left"
+            icon_size={null}
+            id={null}
+            innerRef={null}
+            inner_ref={null}
+            isIconOnly={false}
+            onClick={null}
+            on_click={[Function]}
+            size={null}
+            skeleton={false}
+            status={null}
+            status_animation={null}
+            status_state="error"
+            text="back"
+            title={null}
+            tooltip={null}
+            type="button"
+            variant="tertiary"
+            wrap={false}
+          >
+            <span
+              className="dnb-button__alignment"
+              key="button-text-empty"
+            >
+              ‌
+            </span>
+            <span
+              className="dnb-button__text dnb-skeleton--show-font"
+              key="button-text"
+            >
+              back
+            </span>
+            <IconPrimary
+              alt={null}
+              aria-hidden={true}
+              attributes={null}
+              border={null}
+              className="dnb-button__icon"
+              color={null}
+              height={null}
+              icon="chevron_left"
+              inherit_color={true}
+              key="button-icon"
+              modifier={null}
+              size={null}
+              skeleton={false}
+              title={null}
+              width={null}
+            >
+              <span
+                aria-hidden={true}
+                className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                data-test-id="chevron left icon"
+                role="presentation"
+              >
+                <chevron_left>
+                  <svg
+                    fill="none"
+                    height={16}
+                    viewBox="0 0 16 16"
+                    width={16}
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 3L5 8L10 13"
+                      stroke="black"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                    />
+                  </svg>
+                </chevron_left>
+              </span>
+            </IconPrimary>
+          </Content>
+        </a>
+      </Button>
+      <Svg
+        className="dnb-global-error__gfx"
+        role="presentation"
+        status="404"
+        title="alt"
+      >
+        <Svg404
+          className="dnb-global-error__gfx"
+          height={360}
+          role="presentation"
+          title="alt"
+          width={339}
+        >
+          <svg
+            className="dnb-global-error__gfx"
+            fill="none"
+            height={360}
+            role="presentation"
+            style={
+              Object {
+                "--data-height": 360,
+                "--data-width": 339,
+              }
+            }
+            viewBox="0 0 339 360"
+            width={339}
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>
+              alt
+            </title>
+            <path
+              d="M104 96s6 16 5 21c0 6 13 4 22-8 9-11-26-14-26-14l-1 1z"
+              fill="#00313B"
+            />
+            <path
+              d="M235 282l-15-1-10-63-6-26-5 88-26-24s-3-69-2-90l3-26 10-2 23-27 5 9 3 5 4 5 1-1c7 8 15 18 14 42 0 15-6 60-6 60l7 51z"
+              fill="#35AD80"
+            />
+            <path
+              d="M257 87l-12-2V74l13 2-1 11zM111 247c-18-3-38-6-57-2-18 4-37 15-47 33-10 19-9 45 5 60 7 7 17 10 27 11 29 4 58-6 87-7 48 0 95 28 142 14 16-5 30-12 45-22 9-6 19-15 24-26 6-15-2-33-14-42s-27-11-41-12c-15-1-30-1-43-7"
+              fill="#A5E1D2"
+            />
+            <path
+              d="M65 288v-1c0-3-2-6-6-6-1-2-3-3-5-3-3 0-5 2-6 4l-2-1c-3 0-6 3-6 6 0 4 3 6 6 6h1c1 2 3 2 5 2s4 0 6-2h9l1-2-3-3z"
+              fill="#fff"
+            />
+            <path
+              d="M181 193L59 180l53-31h1l109 11"
+              fill="#00313B"
+            />
+            <path
+              d="M220 279l-41 35 2-122 42-32-2 117-1 2z"
+              fill="#12555A"
+            />
+            <path
+              d="M239 189l-17-29-41 32 20 29c1 1 2 2 3 1l35-29v-4z"
+              fill="#007272"
+            />
+            <path
+              d="M179 314L64 299v-1l-5-118 122 12-2 122z"
+              fill="#00313B"
+            />
+            <path
+              d="M181 192l-14 35-3 2-121-15c-2 0-2-2-1-3l17-31 122 12z"
+              fill="#12555A"
+            />
+            <path
+              d="M275 246l-76-11 29-18 2-1 63 8"
+              fill="#007272"
+            />
+            <path
+              d="M292 290l-18 28 1-72 18-22-1 65v1z"
+              fill="#12555A"
+            />
+            <path
+              d="M274 318l-74-11s-20 16-18 17l74 10 18-16z"
+              fill="#007272"
+            />
+            <path
+              d="M274 318l-74-11-1-72 76 11-1 72z"
+              fill="#00313B"
+            />
+            <path
+              d="M275 245l-12 25-2 1-73-11c-1 0-2-1-1-2l12-23h1l75 10zM136 104c4-23 28-32 30-32 11-3 9 8 13 8 9 2 21 10 29 26l8 16 5 8-14 11c-5 4-12 7-20 8l-15-1v-2c1-4 1-7-2-11l-1-2-2 1c-8 4-16-1-20-7l-4-8s-9-4-7-15z"
+              fill="#007272"
+            />
+            <path
+              d="M166 72l39-8h8l35 9 1 2-1 9-1 1-24-1c-2 0-13-2-14-1l-25 8M129 126v36l-5 24 14 2 9-29h1l7-41-14-18-6 2c-6 6-6 16-6 24z"
+              fill="#007272"
+            />
+            <path
+              d="M267 84c-5 5-12 5-15 0-3-4 0-14 6-13 5 1 10-5 13-2 3 4 1 11-4 15zM163 94c3 6 3 12-3 16-4 4-11 4-15-3-4-5-5-15 0-18 6-3 11-5 18 5z"
+              fill="#A5E1D2"
+            />
+            <path
+              d="M129 71c4 1 5 4 8 6l10 3c5 2 6 8 5 13s-4 9-6 10l-6-2c-2 12-16 11-26 5-13-7-15-13-11-25 3-7 13-13 26-10z"
+              fill="#A5E1D2"
+            />
+            <path
+              d="M138 72c-3-6-9-11-19-11-19-1-29 19-23 32 0 0 0 5 4 7 3 2 7 0 10-2 2-3 4-5 7-6l4-3c5-5 8-13 10-10 7 9 12 17 16 4 1-4-7-8-9-11z"
+              fill="#00313B"
+            />
+            <path
+              d="M128 74s7 15 7 20c0 6 12 5 18-7 2-4-21-22-21-22l-4 9z"
+              fill="#00313B"
+            />
+            <path
+              d="M133 89c-3 2-7 0-10-3-2-4-2-8 0-10 3-1 7 0 9 4 2 3 3 8 1 9z"
+              fill="#A5E1D2"
+            />
+            <path
+              d="M312 2c-3-3-7-2-10 0l-1-1c-4-1-7 2-7 5-3 2-4 6-2 9s6 4 9 1l2 1 4-2c2-1 3-4 3-6l2-3V2zM31 133c2-3 7-2 10-1h1c3-2 6 1 7 4 3 1 5 5 3 8s-6 4-9 2h-2c-2 1-3 0-4-1-2-1-4-3-3-6l-3-2v-4zM212 351l-1-1c1-1 0-3-1-4-2-2-5-3-8-3a7 7 0 0 0-5 5h-1c-2-1-4 0-5 1h-2c-3 0-4 1-4 4 0 2 1 4 3 4h1l5 1c1 2 7 3 8 0 0 0 4 2 8 1 3-2 4-5 2-8z"
+              fill="#fff"
+            />
+            <path
+              d="M227 283l1-1 1-3c2-3 6-3 8-2 2 0 2 1 3 2l1 3 1-1 5 2h2c2 0 4 2 3 4 0 2-2 4-4 4h-5c-1 1-3 2-5 1-3-2-6-1-10-2-3 0-3-5-1-7z"
+              fill="#12555A"
+            />
+            <path
+              d="M146 304c-2-2-5-4-9-4-3 1-5 2-6 4l-3-1c-3 1-6 4-5 8 0 3 3 5 7 5h2l6 2 5-2 4 1a6 6 0 0 0-1-13z"
+              fill="#fff"
+            />
+            <path
+              d="M197 90l-13 1 10-3a232 232 0 0 0 3 2z"
+              fill="#12555A"
+            />
+            <path
+              d="M326 264c-2 0-5 2-6 4-2 0-4 2-4 4 0 3 2 4 5 4h5c4 0 7-2 7-6 0-3-3-6-7-6z"
+              fill="#fff"
+            />
+            <path
+              d="M200 306l22-17-20 18h-2v-1zM250 299l4-2-4-2c-2 0-3 1-3 2s1 2 3 2z"
+              fill="#12555A"
+            />
+            <path
+              d="M105 43l-5-11c-1-2-4-1-3 1l7 11c0 1 2 0 1-1zM125 39l1-13c0-2-3-3-3-1v14h2zM147 33l-6 11c-1 1 0 2 1 1l8-10c1-2-1-3-3-2z"
+              fill="#007272"
+            />
+            <path
+              d="M112 101l4 9c0 2 5-2 5-2l-9-7z"
+              fill="#A5E1D2"
+            />
+          </svg>
+        </Svg404>
+      </Svg>
+      <div
+        className="dnb-global-error__inner__content"
+      >
+        <H1
+          bottom="large"
+          level={null}
+          size="xx-large"
+          top="4"
+        >
+          <H
+            bottom="large"
+            className={null}
+            is="h1"
+            level={null}
+            size="xx-large"
+            style_type={null}
+            top="4"
+          >
+            <ForwardRef
+              _ref={null}
+              bottom="large"
+              class={null}
+              className={null}
+              css={null}
+              internalClass="dnb-h--xx-large"
+              is="h1"
+              skeleton={null}
+              skeleton_method="font"
+              top="4"
+            >
+              <Elem
+                _ref={null}
+                bottom="large"
+                class={null}
+                className={null}
+                css={null}
+                internalClass="dnb-h--xx-large"
+                is="h1"
+                skeleton={null}
+                skeleton_method="font"
+                top="4"
+              >
+                <h1
+                  className="dnb-space__top--xx-large dnb-space__top--x-small dnb-space__bottom--large dnb-h--xx-large"
+                >
+                  title
+                </h1>
+              </Elem>
+            </ForwardRef>
+          </H>
+        </H1>
+        <P
+          bold={null}
+          bottom="large"
+          className={null}
+          element="p"
+          medium={null}
+          modifier={null}
+          size={null}
+          small={null}
+          style_type={null}
+        >
+          <ForwardRef
+            _ref={null}
+            bottom="large"
+            class={null}
+            className="dnb-p"
+            css={null}
+            internalClass={null}
+            is="p"
+            skeleton={null}
+            skeleton_method="font"
+          >
+            <Elem
+              _ref={null}
+              bottom="large"
+              class={null}
+              className="dnb-p"
+              css={null}
+              internalClass={null}
+              is="p"
+              skeleton={null}
+              skeleton_method="font"
+            >
+              <p
+                className="dnb-p dnb-space__bottom--large"
+              >
+                text 
+                <a
+                  className="dnb-anchor"
+                  href="href"
+                  onClick={[Function]}
+                >
+                  link
+                </a>
+                 text
+              </p>
+            </Elem>
+          </ForwardRef>
+        </P>
+      </div>
+    </div>
+  </div>
+</GlobalError>
+`;

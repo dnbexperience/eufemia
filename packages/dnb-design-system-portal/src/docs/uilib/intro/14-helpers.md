@@ -14,7 +14,7 @@ A commonly used visual style is the DNB section divider. To make it easy to achi
 ## React:
 
 ```jsx
-import { Section } from 'dnb-ui-lib'
+import { Section } from '@dnb/eufemia'
 
 render(
   <Section style_type="mint-green" spacing>

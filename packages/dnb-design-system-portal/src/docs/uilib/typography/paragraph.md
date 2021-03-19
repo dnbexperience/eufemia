@@ -16,7 +16,7 @@ Paragraph comes in several variants. You can use these classes:
 ### Paragraphs in React
 
 ```jsx
-import { Lead, P, Link, ... } from 'dnb-ui-lib/elements'
+import { Lead, P, Link, ... } from '@dnb/eufemia/elements'
 
 <Lead>Lead style medium</Lead>
 <P>Paragraph style basis</P>

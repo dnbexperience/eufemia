@@ -19,8 +19,8 @@ You can easily change one, some or all of them by using a React provider – the
 Here are the default strings located:
 
 ```js
-import enGB from 'dnb-ui-lib/shared/locales/en-GB'
-import nbNO from 'dnb-ui-lib/shared/locales/nb-NO'
+import enGB from '@dnb/eufemia/shared/locales/en-GB'
+import nbNO from '@dnb/eufemia/shared/locales/nb-NO'
 ```
 
 ## How set the locale
@@ -28,7 +28,7 @@ import nbNO from 'dnb-ui-lib/shared/locales/nb-NO'
 In React based apps, use the shared Eufemia provider:
 
 ```jsx
-import Provider from 'dnb-ui-lib/shared/Provider'
+import Provider from '@dnb/eufemia/shared/Provider'
 
 const myLocale = 'en-GB'
 
@@ -42,7 +42,7 @@ render(
 For component based locale, you can also make use of the `lang` attribute – if really needed:
 
 ```jsx
-import Provider from 'dnb-ui-lib/shared/Provider'
+import Provider from '@dnb/eufemia/shared/Provider'
 
 render(
   <Provider locale="en-GB">
@@ -58,7 +58,7 @@ render(
 You can easily enhance or change translated strings progressively:
 
 ```jsx
-import Provider from 'dnb-ui-lib/shared/Provider'
+import Provider from '@dnb/eufemia/shared/Provider'
 
 render(
   <Provider
@@ -79,8 +79,8 @@ render(
 You can even change the locale during runtime. Find more info in the [Provider docs](/uilib/usage/customisation/provider).
 
 ```jsx
-import Provider from 'dnb-ui-lib/shared/Provider'
-import Context from 'dnb-ui-lib/shared/Context'
+import Provider from '@dnb/eufemia/shared/Provider'
+import Context from '@dnb/eufemia/shared/Context'
 
 const ChangeLocale = () => {
   const { setLocale, locale } = React.useContext(Context)
@@ -121,7 +121,7 @@ Like, having the Eufemia components strings inside a JSON object/file `en.json`:
 and use it like this:
 
 ```jsx
-import EufemiaProvider from 'dnb-ui-lib/shared/Provider'
+import EufemiaProvider from '@dnb/eufemia/shared/Provider'
 import nb from './nb.json' // Has to be an JavaScript object
 
 render(
@@ -154,10 +154,10 @@ Now, lets say you have your translation files as JSON object/files `en.json`:
 and use it like this:
 
 ```jsx
-import EufemiaProvider from 'dnb-ui-lib/shared/Provider'
+import EufemiaProvider from '@dnb/eufemia/shared/Provider'
 import useTranslation, {
   Translation
-} from 'dnb-ui-lib/shared/useTranslation'
+} from '@dnb/eufemia/shared/useTranslation'
 import nb from './nb.json'
 import en from './en.json'
 
@@ -188,7 +188,7 @@ render(
 It is possible to use the Eufemia shared Provider for your own project / App localization.
 
 ```js
-import Provider from 'dnb-ui-lib/shared/Provider'
+import Provider from '@dnb/eufemia/shared/Provider'
 
 const customTranslation = {
   // extend the translation
@@ -212,7 +212,7 @@ render(
 ... and consume the strings in your components, like **MyComponent**:
 
 ```jsx
-import Context from 'dnb-ui-lib/shared/Context'
+import Context from '@dnb/eufemia/shared/Context'
 
 export default function MyComponent() {
   const { translation } = React.useContext(Context)
@@ -243,7 +243,7 @@ export default {
 And add the file, like so:
 
 ```jsx
-import Provider from 'dnb-ui-lib/shared/Provider'
+import Provider from '@dnb/eufemia/shared/Provider'
 import customTranslation from './locales/sv-SE'
 
 render(
@@ -256,8 +256,8 @@ render(
 or add/update the locales during runtime:
 
 ```jsx
-import Provider from 'dnb-ui-lib/shared/Provider'
-import Context from 'dnb-ui-lib/shared/Context'
+import Provider from '@dnb/eufemia/shared/Provider'
+import Context from '@dnb/eufemia/shared/Context'
 
 import customTranslation from './locales/sv-SE'
 

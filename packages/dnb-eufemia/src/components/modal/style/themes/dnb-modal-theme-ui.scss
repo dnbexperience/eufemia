@@ -1,0 +1,28 @@
+/*
+* Modal theme
+*
+*/
+
+@import '../../../../style/themes/imports.scss';
+
+.dnb-modal {
+  &__content {
+    &__inner {
+      background: var(--color-white);
+    }
+  }
+
+  // deprecated - removed in v9
+  // &__close-button--cross {
+  //   cursor: pointer;
+  //   color: var(--color-sea-green);
+
+  //   @include fakeFocus();
+
+  //   html[data-whatinput='keyboard'] &,
+  //   &.dnb-button--secondary {
+  //     box-shadow: none;
+  //     background-color: transparent;
+  //   }
+  // }
+}

@@ -1,0 +1,293 @@
+/*
+* Button component
+*
+*/
+
+:root {
+  --button-font-size: var(--font-size-basis);
+  --button-font-size-small: var(--font-size-small);
+  --button-width: 2.5rem;
+  --button-height: 2.5rem;
+  --button-width--small: 1.5rem;
+  --button-height--small: 1.5rem;
+  --button-width--medium: 2rem;
+  --button-height--medium: 2rem;
+  --button-width--large: 3rem;
+  --button-height--large: 3rem;
+  --button-icon-size: 1rem;
+  --button-border-width: 0.0625rem;
+  --button-border-width--hover: 0.1875rem;
+  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-radius--small: calc(var(--button-height--small) / 2);
+  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
+  --button-border-radius--large: calc(var(--button-height--large) / 2);
+}
+
+.dnb-button {
+  position: relative;
+
+  user-select: none;
+  -webkit-user-select: none; // Safari / Touch fix
+
+  cursor: pointer;
+  white-space: nowrap;
+
+  &--wrap {
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  // we use flex, even if they dont has effect in safari and webkit
+  display: inline-flex;
+  align-items: center; //centering icons
+  justify-content: center; //centering icons
+
+  width: var(--button-width);
+  height: auto;
+  padding: 0;
+
+  border: var(--button-border-width) solid transparent;
+  border-radius: var(--button-border-radius);
+
+  text-decoration: none;
+
+  font-size: var(--font-size-small); // has to be 16px
+
+  // Safari needs a correct CSS specificity
+  &,
+  .dnb-core-style & {
+    line-height: var(--button-height);
+  }
+
+  &__text {
+    margin: 0.5rem 0;
+    font-size: var(--button-font-size);
+    line-height: var(--line-height-basis);
+    color: inherit;
+
+    // vertical alignment
+    transform: translateY(-0.03125rem); // 0.5px
+
+    [data-os='linux'] {
+      transform: translateY(-0.035rem); // 0.5px
+    }
+  }
+
+  &__alignment {
+    display: inline-block;
+    width: 0;
+  }
+
+  &__bounding {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    transform: scale(1.1, 1.4);
+
+    background-color: transparent;
+    border-radius: var(--button-border-radius);
+  }
+
+  &--has-text {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  // size small
+  &--size-small {
+    width: var(--button-width--small);
+    font-size: var(--button-font-size-small);
+    border-radius: var(--button-border-radius--small);
+
+    // Safari needs a correct CSS specificity
+    &,
+    .dnb-core-style & {
+      line-height: var(--button-height--small);
+    }
+  }
+  &--size-small &__text {
+    margin: 0;
+  }
+  &--has-text#{&}--size-small {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  &--has-text#{&}--icon-position-left#{&}--size-small {
+    padding-left: 0.5rem;
+  }
+  &--has-text#{&}--icon-position-right#{&}--size-small {
+    padding-right: 0.5rem;
+  }
+
+  // size medium
+  &--size-medium {
+    width: var(--button-width--medium);
+    border-radius: var(--button-border-radius--medium);
+
+    // Safari needs a correct CSS specificity
+    &,
+    .dnb-core-style & {
+      line-height: var(--button-height--medium);
+    }
+  }
+  &--size-medium &__text {
+    margin: 0;
+  }
+  &--has-text#{&}--size-medium {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  &--has-text#{&}--icon-position-left#{&}--size-medium {
+    padding-left: 0.5rem;
+  }
+  &--has-text#{&}--icon-position-right#{&}--size-medium {
+    padding-right: 0.5rem;
+  }
+
+  // size large
+  &--size-large {
+    width: var(--button-width--large);
+    border-radius: var(--button-border-radius--large);
+
+    // Safari needs a correct CSS specificity
+    &,
+    .dnb-core-style & {
+      line-height: var(--button-height--large);
+    }
+  }
+  &--has-text#{&}--size-large {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  &--has-text#{&}--icon-position-left#{&}--size-large {
+    padding-left: 1rem;
+  }
+  &--has-text#{&}--icon-position-right#{&}--size-large {
+    padding-right: 1rem;
+  }
+
+  // size default
+
+  /* stylelint-disable-next-line */
+  &--has-text {
+    width: auto;
+  }
+  &--has-text &__icon {
+    margin: 0 calc(var(--button-icon-size) / 2);
+  }
+  &--has-text#{&}--icon-position-left {
+    padding-left: 0.5rem;
+  }
+  &--has-text#{&}--icon-position-right {
+    padding-right: 0.5rem;
+  }
+
+  // Default -- icon set to right side
+  &--has-text#{&}--has-icon {
+    .dnb-button__icon {
+      order: 2;
+    }
+    .dnb-button__text {
+      order: 1;
+    }
+  }
+
+  &:not(.dnb-button--has-text) &__icon {
+    width: inherit;
+  }
+  &__icon.dnb-icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size);
+  }
+  [href] > &__icon.dnb-icon {
+    // has same as &__text
+    // only on a.dnb-button it have to be the same, else the icon will push down the button 1px
+    line-height: var(--button-font-size);
+  }
+
+  // Button with icon and text - icon on LEFT side
+  &--has-text#{&}--has-icon#{&}--icon-position-left {
+    .dnb-button__icon {
+      order: 1;
+    }
+    .dnb-button__text {
+      order: 2;
+    }
+  }
+
+  &--reset {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    appearance: none;
+    box-shadow: none;
+
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    line-height: inherit;
+
+    @include hover() {
+      box-shadow: none;
+      border: none;
+    }
+
+    &:not([disabled]):focus,
+    &:not([disabled]):active {
+      @include fakeFocus();
+    }
+
+    html[data-whatinput='mouse'] &:not([disabled]):focus,
+    html[data-whatinput='mouse'] &:not([disabled]):active {
+      box-shadow: none;
+      color: inherit;
+      border: none;
+    }
+  }
+
+  // because we have "appearance: button" in some css resets (not our)
+  &[type='button'],
+  &[type='reset'],
+  &[type='submit'] {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
+  }
+
+  .dnb-form-row--vertical .dnb-form-row__content > & {
+    align-self: flex-start;
+  }
+  .dnb-form-row--horizontal .dnb-form-row__content &__text {
+    white-space: nowrap;
+  }
+
+  & + .dnb-form-status {
+    margin-top: 0.5rem;
+  }
+
+  @include IS_IE {
+    flex: none;
+    &__icon,
+    &__text {
+      transform: translateY(-0.0625rem);
+    }
+  }
+}
+
+/* Firefox includes a hidden border which messes up button dimensions */
+button.dnb-button::-moz-focus-inner {
+  border: none;
+}

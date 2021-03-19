@@ -12,12 +12,12 @@ import ReactMarkdown from 'react-markdown'
 import Tag from './Tag'
 import renderers from './index'
 import Code from '../parts/uilib/Code'
-import { Button } from 'dnb-ui-lib/src/components'
-import { P } from 'dnb-ui-lib/src/elements'
-import { makeUniqueId } from 'dnb-ui-lib/src/shared/component-helper'
-import { Context } from 'dnb-ui-lib/src/shared'
+import { Button } from '@dnb/eufemia/src/components'
+import { P } from '@dnb/eufemia/src/elements'
+import { makeUniqueId } from '@dnb/eufemia/src/shared/component-helper'
+import { Context } from '@dnb/eufemia/src/shared'
 import AutoLinkHeader from './AutoLinkHeader'
-import { createSkeletonClass } from 'dnb-ui-lib/src/components/skeleton/SkeletonHelper'
+import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 
 import {
   generateElement,
@@ -28,7 +28,7 @@ import {
 } from 'react-live'
 
 // this theme is replaced my a css one
-import prismTheme from 'dnb-ui-lib/src/style/themes/theme-ui/prism/dnb-prism-theme'
+import prismTheme from '@dnb/eufemia/src/style/themes/theme-ui/prism/dnb-prism-theme'
 
 const Wrapper = styled.div`
   margin-bottom: 2rem;
@@ -346,7 +346,7 @@ class LiveCode extends React.PureComponent {
                   variant="secondary"
                   text="Syntax"
                   title="Toggle Syntax"
-                  icon={`chevron-${!showSyntax ? 'down' : 'up'}`}
+                  icon={`arrow-${!showSyntax ? 'down' : 'up'}`}
                   size="medium"
                 />
               )}
@@ -357,7 +357,7 @@ class LiveCode extends React.PureComponent {
                   variant="secondary"
                   text="Code"
                   title="Toggle Code Snippet"
-                  icon={`chevron-${hideCode ? 'down' : 'up'}`}
+                  icon={`arrow-${hideCode ? 'down' : 'up'}`}
                   size="medium"
                 />
               )}
@@ -368,7 +368,7 @@ class LiveCode extends React.PureComponent {
                   variant="secondary"
                   text="Preview"
                   title="Toggle Preview"
-                  icon={`chevron-${!hidePreview ? 'down' : 'up'}`}
+                  icon={`arrow-${!hidePreview ? 'down' : 'up'}`}
                   size="medium"
                 />
               )}

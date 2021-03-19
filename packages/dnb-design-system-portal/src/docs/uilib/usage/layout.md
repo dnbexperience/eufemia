@@ -48,6 +48,21 @@ Use `em` for media query sizing for best overall browser support. Read [more abo
 }
 ```
 
+Or you may re-use the SASS mixins from Eufemia:
+
+```scss
+@import '@dnb/eufemia/style/core/utilities.scss';
+
+@include allBelow(large) {
+  /* Your CSS */
+}
+
+@include allAbove(small) {
+  /* Your CSS */
+}
+```
+
+
 ## Sizing
 
 UX designers are using a 12 column system during their design processes. But we as developers have to make our layouts responsive to give users the best experience and meet WCAG requirements.
@@ -68,6 +83,6 @@ If You are working together with an DNB UX Designer, You can decide freely what 
 
 ## Grid Pattern
 
-There is, however a simple [Grid Pattern with CSS helpers](/uilib/patterns/grid) in Eufemia which you can use.
+There is, however a simple [Grid Pattern with CSS helpers](/uilib/extensions/grid) in Eufemia which you can use.
 
 Although, it will probably be removed in a future major release.

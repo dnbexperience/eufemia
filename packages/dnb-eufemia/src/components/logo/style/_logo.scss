@@ -1,0 +1,34 @@
+/*
+ * Logo Component
+ *
+ */
+
+.dnb-logo {
+  display: inline-block;
+  vertical-align: baseline;
+  font-size: inherit;
+  line-height: var(
+    --line-height-xx-small--em
+  ); // for vertical alignment, we have to have no line-height
+
+  color: var(--color-sea-green);
+  svg {
+    fill: currentColor;
+    shape-rendering: geometricPrecision;
+  }
+
+  height: 1em;
+
+  &--has-size {
+    width: auto;
+    height: auto;
+  }
+  &--inherit-size {
+    height: inherit;
+  }
+
+  svg:not([width]):not([height]) {
+    width: inherit;
+    height: inherit;
+  }
+}

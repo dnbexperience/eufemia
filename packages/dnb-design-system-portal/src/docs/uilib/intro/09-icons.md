@@ -18,7 +18,7 @@ Icons are categories on two [main groups](!/icons) and comes in two sizes each:
 ## [Secondary Icons](!/icons/secondary)
 
 ```jsx
-import { hamburger } from `dnb-ui-lib/icons`
+import { hamburger } from `@dnb/eufemia/icons`
 <Button icon={hamburger} text="Button" />
 ```
 
@@ -28,6 +28,6 @@ It is recommended to use the [Icon Component](!/uilib/components/icon) to displa
 
 ---
 
-<IntroFooter href="/uilib/intro/10-layout" text="Next - Components, Elements and Patterns" />
+<IntroFooter href="/uilib/intro/10-layout" text="Next - Components, Elements and Extensions" />
 
 </Intro>

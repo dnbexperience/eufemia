@@ -6,9 +6,9 @@
 import fs from 'fs-extra'
 import path from 'path'
 import { isCI } from 'ci-info'
-import packageJson, { buildVersion } from '../package.json'
+import packageJson from '../package.json'
 
-export const currentVersion = buildVersion
+export const currentVersion = packageJson.buildVersion
 
 // run only if the script was executed from command line
 if (

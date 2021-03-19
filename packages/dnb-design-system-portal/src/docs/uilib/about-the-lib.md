@@ -11,13 +11,13 @@ import WatchingReleases from 'Pages/uilib/info/about-watching-releases.md'
 
 **Why does this UI Library exist?**
 
-Simply to unify and to maintain consistency of the most commonly used HTML Elements, custom components and patterns at DNB and to provide a platform for collaborative constant improvement. It's a part of the whole Design System.
+Simply to unify and to maintain consistency of the most commonly used HTML Elements, custom components and extensions at DNB and to provide a platform for collaborative constant improvement. It's a part of the whole Design System.
 
 This part of the Design System is dedicated to **application development**.
 
 ## License
 
-The `dnb-ui-lib` is for internal DNB development only. Also, make sure you act according to the [license](/license).
+The `@dnb/eufemia` is for internal DNB development only. Also, make sure you act according to the [license](/license).
 
 ---
 
@@ -56,26 +56,22 @@ Collaboration between design and development is easy through use of NPM and Gith
 The HTML Elements are built based on [React](https://reactjs.org/).
 The reason for this is that React offers a robust library of tools to build deep, well tested and reusable elements.
 
-## What about other front end frameworks?
-
-To make the HTML Elements work in other environments like [Vue](/uilib/usage/first-steps/vue) or [Angular](/uilib/usage/first-steps/angular), You can use the built-in web components support.
-
 The Library is hosted on [NPM](npmjs.com), so versioning and openness is secure.
 
 ## Production ready
 
-All code examples are shown as ES6 ([ECMAScript 2015](https://en.wikipedia.org/wiki/ECMAScript)). But the production `dnb-ui-lib` is actually compiled down to ES5 (5th Edition). So your product is using production ready code.
+All code examples are shown as ES6 ([ECMAScript 2015](https://en.wikipedia.org/wiki/ECMAScript)). But the production `@dnb/eufemia` is actually compiled down to ES5 (5th Edition). So your product is using production ready code.
 
-## Components & Patterns
+## Components, Elements and Extensions
 
 The HTML Elements UI Library comes with two different parts. The first and most common is the [Components Library](/uilib/components/).
 These are standard, out-of-the box, ready to use components.
 
-However, there are many cases whereby the standard component needs to be customised or adjusted to suit the needs of the user. This results in a new component. We call these _patterns_. Patterns are helpful guides as to how a component _might_ be or behave. A typical example is a footer on a web page. Eufemia will not describe how every type of footer should be designed. Instead, it describes the function of a footer _in general_ with some aesthetic and content guidelines.
+However, there are many cases whereby the standard component needs to be customized or adjusted to suit the needs of the user. This results in a new component. We call these _extensions_.
 
-Patterns can be used as a start point for both developer and designer.
+Eufemia extensions are reusable parts that not fits naturally in to a component or element, but rather has the nature of being a extended solution of Eufemia.
 
-Check out the [available Patterns Library](/uilib/patterns/).
+Check out the [available Extensions Library](/uilib/extensions/).
 
 ## Where do I go next?
 

@@ -4,7 +4,7 @@ description: 'The purpose of having Eufemia Demos is that You as a developer can
 order: 5
 ---
 
-import { Button } from 'dnb-ui-lib/src'
+import { Button } from '@dnb/eufemia/src'
 import GithubLogo from 'Pages/uilib/development/assets/github-logo.js'
 
 # Demo Apps

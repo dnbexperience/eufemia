@@ -9,10 +9,10 @@ import PropTypes from 'prop-types'
 import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 
-import { Provider as EufemiaProvider } from 'dnb-ui-lib/src/shared'
-import enUS from 'dnb-ui-lib/src/shared/locales/en-US'
-import stylisPlugin from 'dnb-ui-lib/src/style/stylis'
-import { isTrue } from 'dnb-ui-lib/src/shared/component-helper'
+import { Provider as EufemiaProvider } from '@dnb/eufemia/src/shared'
+import enUS from '@dnb/eufemia/src/shared/locales/en-US'
+import stylisPlugin from '@dnb/eufemia/src/style/stylis'
+import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
 
 import cssVars from 'css-vars-ponyfill'
 
@@ -20,7 +20,7 @@ import cssVars from 'css-vars-ponyfill'
 cssVars()
 
 const emotionCache = createEmotionCache({
-  key: 'portal',
+  key: 'css',
   stylisPlugins: [stylisPlugin]
 })
 

@@ -1,0 +1,390 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Skeleton component have to match snapshot 1`] = `
+<Skeleton
+  aria_bussy={null}
+  aria_ready={null}
+  class={null}
+  className={null}
+  element={null}
+  figure={null}
+  no_animation={null}
+  show={null}
+  skeleton={null}
+  style_type={null}
+>
+  <Space
+    bottom={null}
+    class={null}
+    className="dnb-skeleton__root"
+    element="div"
+    id={null}
+    inline={null}
+    lang="nb-NO"
+    left={null}
+    no_collapse={null}
+    right={null}
+    skeleton={null}
+    space={null}
+    top={null}
+  >
+    <Element
+      className="dnb-space dnb-skeleton__root"
+      element="div"
+      lang="nb-NO"
+      no_collapse={null}
+    >
+      <div
+        className="dnb-space dnb-skeleton__root"
+        lang="nb-NO"
+      >
+        <Provider>
+          <P
+            bold={null}
+            className={null}
+            element="p"
+            medium={null}
+            modifier={null}
+            size={null}
+            small={null}
+            style_type={null}
+          >
+            <ForwardRef
+              _ref={null}
+              class={null}
+              className="dnb-p"
+              css={null}
+              internalClass={null}
+              is="p"
+              skeleton={null}
+              skeleton_method="font"
+            >
+              <Elem
+                _ref={null}
+                class={null}
+                className="dnb-p"
+                css={null}
+                internalClass={null}
+                is="p"
+                skeleton={null}
+                skeleton_method="font"
+              >
+                <p
+                  className="dnb-p"
+                >
+                  paragraph
+                </p>
+              </Elem>
+            </ForwardRef>
+          </P>
+          <Input
+            align={null}
+            autocomplete="off"
+            class={null}
+            className={null}
+            custom_element={null}
+            custom_method={null}
+            disabled={null}
+            global_status_id={null}
+            icon={null}
+            icon_position="left"
+            icon_size={null}
+            id="input"
+            inner_ref={null}
+            input_attributes={null}
+            input_class={null}
+            input_element={null}
+            input_state={null}
+            keep_placeholder={null}
+            label="label"
+            label_direction={null}
+            label_sr_only={null}
+            on_blur={null}
+            on_change={null}
+            on_focus={null}
+            on_state_update={null}
+            on_submit={null}
+            on_submit_blur={null}
+            on_submit_focus={null}
+            placeholder={null}
+            readOnly={false}
+            selectall={null}
+            size={null}
+            skeleton={null}
+            status={null}
+            status_animation={null}
+            status_state="error"
+            stretch={null}
+            submit_button_icon="loupe"
+            submit_button_status={null}
+            submit_button_title={null}
+            submit_button_variant="secondary"
+            submit_element={null}
+            suffix={null}
+            type="text"
+            value="initval"
+          >
+            <span
+              className="dnb-input dnb-input--text dnb-form-component"
+              data-has-content="true"
+              data-input-state="virgin"
+            >
+              <FormLabel
+                class={null}
+                className={null}
+                disabled={null}
+                element="label"
+                for_id="input"
+                id="input-label"
+                label_direction={null}
+                skeleton={null}
+                sr_only={null}
+                text="label"
+                title={null}
+                vertical={null}
+              >
+                <label
+                  className="dnb-form-label"
+                  disabled={false}
+                  htmlFor="input"
+                  id="input-label"
+                >
+                  label
+                </label>
+              </FormLabel>
+              <span
+                className="dnb-input__inner"
+              >
+                <AlignmentHelper
+                  className={null}
+                >
+                  <span
+                    aria-hidden={true}
+                    className="dnb-alignment-helper"
+                  />
+                </AlignmentHelper>
+                <span
+                  className="dnb-input__row"
+                >
+                  <span
+                    className="dnb-input__shell"
+                  >
+                    <input
+                      autoComplete="off"
+                      className="dnb-input__input"
+                      disabled={false}
+                      id="input"
+                      name="input"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      onKeyDown={[Function]}
+                      type="text"
+                      value="value"
+                    />
+                  </span>
+                </span>
+              </span>
+            </span>
+          </Input>
+        </Provider>
+        <span
+          aria-live="assertive"
+          className="dnb-sr-only"
+        />
+      </div>
+    </Element>
+  </Space>
+</Skeleton>
+`;
+
+exports[`Skeleton scss have to match snapshot 1`] = `
+"/*
+* DNB Skeleton
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
+.dnb-skeleton {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-skeleton *,
+  .dnb-skeleton ::before,
+  .dnb-skeleton ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-skeleton ::before,
+  .dnb-skeleton ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * Skeleton component
+ *
+ * Skeleton
+ *
+ */
+.dnb-skeleton--block {
+  display: block; }
+
+.dnb-skeleton--overflow {
+  overflow: hidden; }
+
+.dnb-skeleton--grey {
+  filter: grayscale(100%); }
+
+.dnb-skeleton--shape {
+  pointer-events: none;
+  position: relative;
+  overflow-x: hidden;
+  color: transparent;
+  background: transparent;
+  box-shadow: none !important; }
+
+.dnb-skeleton--shape.dnb-skeleton::before, .dnb-skeleton--shape.dnb-skeleton::after {
+  content: '' !important;
+  position: absolute !important;
+  z-index: 100 !important;
+  left: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: inherit;
+  background: none !important;
+  box-shadow: none !important; }
+
+.dnb-skeleton--code pre,
+.dnb-skeleton--code pre *,
+.dnb-skeleton--code code,
+.dnb-skeleton--code code *, .dnb-skeleton--font pre,
+.dnb-skeleton--font pre *,
+.dnb-skeleton--font code,
+.dnb-skeleton--font code * {
+  --font-family-monospace: 'DNBMonoSkeleton' !important;
+  font-family: var(--font-family-monospace) !important;
+  font-style: unset !important; }
+
+.dnb-skeleton--font-only, .dnb-skeleton--font,
+.dnb-skeleton--font .dnb-skeleton--show-font,
+.dnb-skeleton--font .dnb-p {
+  pointer-events: none;
+  --font-family-default: 'DNBSkeleton' !important;
+  font-family: var(--font-family-default) !important;
+  font-style: unset !important; }
+
+.dnb-skeleton--font,
+.dnb-skeleton--font .dnb-skeleton--show-font,
+.dnb-skeleton--font .dnb-p {
+  background-position-y: 50% !important;
+  background-repeat: no-repeat !important;
+  background-size: 30rem 100% !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important; }
+  html[data-visual-test] .dnb-skeleton--font, html[data-visual-test]
+  .dnb-skeleton--font .dnb-skeleton--show-font, html[data-visual-test]
+  .dnb-skeleton--font .dnb-p {
+    animation: none !important; }
+
+.dnb-skeleton__figure {
+  position: relative;
+  border-radius: 0.25rem; }
+  .dnb-skeleton__figure--circle {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%; }
+  .dnb-skeleton__figure--product {
+    display: flex;
+    align-items: center; }
+  .dnb-skeleton__figure--product .dnb-skeleton__figure--circle + div {
+    width: 50%;
+    margin-left: 1rem; }
+
+.dnb-skeleton--no-animation .dnb-skeleton,
+.dnb-skeleton--no-animation .dnb-skeleton::after,
+.dnb-skeleton--no-animation * .dnb-skeleton::after {
+  animation: none !important; }
+
+@font-face {
+  font-family: DNBSkeleton;
+  src: url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Regular.woff2\\") format(\\"woff2\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Regular.woff\\") format(\\"woff\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Regular.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: DNBSkeleton;
+  src: url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Medium.woff\\") format(\\"woff\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Medium.ttf\\") format(\\"truetype\\");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: DNBSkeleton;
+  src: url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Bold.woff2\\") format(\\"woff2\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Bold.woff\\") format(\\"woff\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Bold.ttf\\") format(\\"truetype\\");
+  font-weight: 600;
+  font-style: normal;
+  font-display: fallback; }
+
+@font-face {
+  font-family: DNBMonoSkeleton;
+  src: url(\\"../../assets/fonts/skeleton/DNBMono-Skeleton-Regular.woff2\\") format(\\"woff2\\"), url(\\"../../assets/fonts/skeleton/DNBMono-Skeleton-Regular.woff\\") format(\\"woff\\"), url(\\"../../assets/fonts/skeleton/DNBMono-Skeleton-Regular.ttf\\") format(\\"truetype\\");
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback; }
+"
+`;

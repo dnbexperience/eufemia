@@ -1,0 +1,390 @@
+/*
+ * Modal component
+ *
+ */
+
+@import './modal-mixins';
+
+:root {
+  --modal-z-index: 3000;
+  --modal-animation-duration: 300ms;
+  --modal-spacing: 2rem; // should reflect --spacing-large
+  --modal-spacing-minus: -2rem; // should reflect --spacing-large
+
+  // we do this because SCSS fails by using min(100vw, 50rem) = "Incompatible units: 'rem' and 'vw'"
+  --modal-min-width: 320px; // use px, so larger font-size don't enlarge the min, has to be under 20rem, because of spacing and later mobile fullscreen
+  --modal-avg-width: 60vw; // content defines the size
+  --modal-max-width: 60rem; // because of our default width --layout-large
+  --modal-content-top: 7rem;
+
+  // Drawer mode
+  --modal-drawer-width: 40vw;
+  --modal-drawer-min-width: 25rem;
+  --modal-drawer-max-width: 40rem;
+  --modal-drawer-content-top: 10rem;
+
+  // Overlay
+  --modal-overlay-transparent: rgba(0, 0, 0, 0);
+  --modal-overlay-bg: rgba(0, 0, 0, 0.32);
+}
+
+[data-dnb-modal-active='true'] {
+  user-select: none;
+  -webkit-user-select: none; // Safari / Touch fix
+}
+
+#dnb-modal-root {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.dnb-modal {
+  &__content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: calc(var(--modal-z-index) + 1);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+
+    &--auto-fullscreen {
+      @include allBelow(small) {
+        height: auto;
+      }
+    }
+
+    max-width: 100vw;
+
+    user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
+
+    &__inner {
+      position: relative;
+
+      width: var(--modal-avg-width);
+      min-width: var(--modal-min-width);
+      max-width: var(--modal-max-width);
+      max-height: 100vh;
+
+      @include defaultDropShadow();
+      border-radius: 0.5rem;
+
+      user-select: text;
+      -webkit-user-select: text; // Safari / Touch fix
+      border: none;
+
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
+    &--auto-fullscreen &__inner {
+      @include allBelow(small) {
+        @include modalFullscreen();
+      }
+    }
+
+    &__spacing {
+      position: relative;
+      display: block;
+
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+    }
+    &--spacing &__spacing {
+      padding: var(--modal-content-top) var(--modal-spacing) 0;
+
+      @include allBelow(small) {
+        padding: var(--modal-content-top) calc(var(--modal-spacing) * 0.75)
+          0;
+      }
+    }
+    &--spacing#{&}--drawer &__spacing {
+      padding: var(--modal-drawer-content-top)
+        calc(var(--modal-spacing) * 1.75) 0;
+    }
+
+    &__align--center &__spacing {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    &__align--right &__spacing {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    &__align--centered &__spacing {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    // Drawer mode
+    &--drawer {
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+    &--drawer &__inner {
+      @include modalFullscreen(); // 'drawer'
+
+      width: var(--modal-drawer-width);
+      min-width: var(--modal-drawer-min-width);
+      max-width: var(--modal-drawer-max-width);
+
+      @media screen and (max-width: 40em) {
+        width: 100vw;
+        min-width: auto;
+        max-width: auto;
+      }
+    }
+    &--fullscreen &__content {
+      height: auto;
+    }
+    &--auto-fullscreen &__content {
+      @include allBelow(small) {
+        height: auto;
+      }
+    }
+
+    &--drawer#{&}--top &__inner,
+    &--drawer#{&}--bottom &__inner {
+      max-width: 100%; // Edge/IE overflow fix
+      width: 100vw;
+      height: 40vh;
+
+      @media screen and (max-height: 40em) {
+        height: 100vw;
+        min-height: auto;
+        max-height: auto;
+      }
+    }
+    &--drawer#{&}--right {
+      justify-content: flex-end;
+    }
+    &--drawer#{&}--bottom {
+      align-items: flex-end;
+    }
+
+    &--fullscreen {
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+
+    &--fullscreen &__inner {
+      @include modalFullscreen();
+    }
+
+    // Drawer animation
+    html:not([data-visual-test]) &--drawer#{&}--left &__inner {
+      transform: translate3d(-20rem, 0, 0);
+    }
+    html:not([data-visual-test]) &--drawer#{&}--right &__inner {
+      transform: translate3d(20rem, 0, 0);
+    }
+    html:not([data-visual-test]) &--drawer#{&}--top &__inner {
+      transform: translate3d(0, -20rem, 0);
+    }
+    html:not([data-visual-test]) &--drawer#{&}--bottom &__inner {
+      transform: translate3d(0, 20rem, 0);
+    }
+    html:not([data-visual-test]) &--drawer &__inner {
+      opacity: 0.1;
+      animation: show-drawer var(--modal-animation-duration) ease-out
+        forwards;
+    }
+    html:not([data-visual-test]) &--drawer#{&}--hide#{&}--left &__inner {
+      animation: hide-drawer-left var(--modal-animation-duration)
+        ease-in-out forwards;
+    }
+    html:not([data-visual-test]) &--drawer#{&}--hide#{&}--right &__inner {
+      animation: hide-drawer-right var(--modal-animation-duration)
+        ease-in-out forwards;
+    }
+    html:not([data-visual-test]) &--drawer#{&}--hide#{&}--top &__inner {
+      animation: hide-drawer-top var(--modal-animation-duration)
+        ease-in-out forwards;
+    }
+    html:not([data-visual-test]) &--drawer#{&}--hide#{&}--bottom &__inner {
+      animation: hide-drawer-bottom var(--modal-animation-duration)
+        ease-in-out forwards;
+    }
+
+    // Modal mode
+    html:not([data-visual-test]) &--modal &__inner {
+      animation: show-modal var(--modal-animation-duration) ease-out
+        forwards;
+    }
+    html:not([data-visual-test]) &--modal#{&}--hide &__inner {
+      animation: hide-modal 220ms ease-in-out forwards;
+    }
+
+    /* stylelint-disable-next-line */
+    &--no-animation &__inner {
+      animation-duration: 0ms !important;
+    }
+    @media screen and (max-width: 40em) {
+      &--no-animation-on-mobile &__inner {
+        animation-duration: 0ms !important;
+      }
+    }
+  }
+
+  &__title {
+    &.dnb-h--large,
+    .dnb-core-style &.dnb-h--large:not([class*='dnb-space']) {
+      margin: 0;
+      padding: 0;
+    }
+  }
+  &__wrapper {
+    position: relative;
+    z-index: 1;
+  }
+  &__content--spacing &__wrapper {
+    padding-bottom: calc(var(--modal-spacing) * 1.75);
+
+    @include allBelow(small) {
+      padding-bottom: calc(var(--modal-spacing) * 1.25);
+    }
+  }
+  &__content--drawer &__wrapper {
+    padding-bottom: calc(var(--modal-spacing) * 2);
+  }
+  &__title ~ &__wrapper {
+    padding-top: calc(var(--modal-spacing) / 2);
+  }
+  &__content--drawer &__title ~ &__wrapper {
+    padding-top: calc(var(--modal-spacing) * 0.75);
+  }
+
+  &__wrapper__inner {
+    padding-bottom: calc(var(--modal-spacing) * 2);
+    margin-bottom: calc(var(--modal-spacing-minus) * 1.75);
+
+    @include allBelow(small) {
+      &.dnb-section::after {
+        min-height: calc(
+          100vh - var(--modal-content-top) -
+            calc(var(--modal-spacing) * 1.5)
+        );
+      }
+    }
+  }
+  &__content--drawer &__wrapper__inner {
+    margin-bottom: calc(var(--modal-spacing-minus) * 2);
+
+    &.dnb-section::after {
+      min-height: calc(
+        100vh - var(--modal-drawer-content-top) -
+          calc(var(--modal-spacing) * 2)
+      );
+    }
+  }
+
+  &__close-button {
+    &,
+    &.dnb-button--tertiary {
+      position: absolute;
+    }
+
+    top: calc(var(--modal-spacing) * 0.75);
+    right: var(--modal-spacing);
+    
+    // set a hight z-index because when font-size is 200%+
+    // then it is possible that something else will come in front
+    z-index: 1; // below #dropdown and #date-picker
+    
+    @include allBelow(small) {
+      right: calc(var(--modal-spacing) / 2);
+    }
+    
+    // deprecated - removed in v9
+    // &--cross {
+    //   top: var(--modal-spacing);
+
+    //   @include allBelow(small) {
+    //     top: calc(var(--modal-spacing) / 2);
+    //   }
+    // }
+  }
+  &__content--drawer &__close-button {
+    top: calc(var(--modal-spacing) * 1.75);
+    right: calc(var(--modal-spacing) * 1.75);
+  }
+
+  &__overlay {
+    position: fixed;
+    z-index: var(--modal-z-index);
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    will-change: background-color;
+    background-color: var(--modal-overlay-transparent);
+    box-shadow: 0 100vh 0 0 var(--modal-overlay-bg);
+
+    // Modal & Drawer mode
+    &--modal {
+      animation: show-modal-overlay var(--modal-animation-duration)
+        ease-out forwards 0ms;
+    }
+    &--drawer {
+      animation: show-modal-overlay var(--modal-animation-duration)
+        ease-out forwards 100ms;
+    }
+    &--hide {
+      animation: hide-modal-overlay var(--modal-animation-duration)
+        ease-in-out forwards;
+    }
+  }
+
+  &-root__inner &__overlay {
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+  }
+  // &-root__inner:nth-of-type(n + 2) &__overlay {
+  //   animation-duration: 0ms !important;
+  // }
+  &-root__inner:last-of-type &__overlay {
+    opacity: 1;
+  }
+  html[data-visual-test] &-root__inner &__overlay {
+    transition: none;
+  }
+
+  /* stylelint-disable-next-line */
+  html[data-visual-test] &__overlay,
+  &__overlay--no-animation {
+    animation-delay: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+  @media screen and (max-width: 40em) {
+    &--no-animation-on-mobile {
+      animation-delay: 0ms !important;
+      animation-duration: 0ms !important;
+    }
+  }
+
+  &-root__inner {
+    position: relative;
+    z-index: calc(var(--modal-z-index) + 1);
+  }
+  &-root__inner ~ &-root__inner {
+    z-index: calc(var(--modal-z-index) + 2);
+  }
+  &-root__inner ~ &-root__inner ~ &-root__inner {
+    z-index: calc(var(--modal-z-index) + 3);
+  }
+  &-root__inner ~ &-root__inner ~ &-root__inner ~ &-root__inner {
+    z-index: calc(var(--modal-z-index) + 4);
+  }
+}
