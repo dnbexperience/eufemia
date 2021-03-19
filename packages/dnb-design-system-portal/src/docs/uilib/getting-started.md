@@ -6,7 +6,7 @@ order: 2
 ---
 
 import WelcomeAdvice from 'Pages/welcome-advice.md'
-import { Button } from 'dnb-ui-lib/src'
+import { Button } from '@dnb/eufemia/src'
 
 # Getting Started
 

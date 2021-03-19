@@ -1,0 +1,1626 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pagination bar component have to match snapshot 1`] = `
+<Pagination
+  0={
+    Object {
+      "displayName": "Pagination",
+      "props": Object {
+        "align": "align",
+        "button_title": "button_title",
+        "children": "children",
+        "class": "class",
+        "className": "className",
+        "current_page": "current_page",
+        "end_infinity_handler": "end_infinity_handler",
+        "fallback_element": Object {},
+        "hide_progress_indicator": "hide_progress_indicator",
+        "indicator_element": "indicator_element",
+        "is_loading_text": "is_loading_text",
+        "items": "items",
+        "load_button_text": "load_button_text",
+        "marker_element": Object {},
+        "min_wait_time": "min_wait_time",
+        "mode": "'pagination'",
+        "more_pages": "more_pages",
+        "next_title": "next_title",
+        "on_change": [Function],
+        "on_end": [Function],
+        "on_load": [Function],
+        "on_startup": [Function],
+        "page_count": "page_count",
+        "page_element": Object {},
+        "parallel_load_count": "parallel_load_count",
+        "place_maker_before_content": "place_maker_before_content",
+        "prev_title": "prev_title",
+        "reset_content_handler": "reset_content_handler",
+        "reset_pagination_handler": "reset_pagination_handler",
+        "set_content_handler": "set_content_handler",
+        "startup_count": "startup_count",
+        "startup_page": "startup_page",
+        "use_load_button": "use_load_button",
+      },
+    }
+  }
+  1={
+    Object {
+      "displayName": "PaginationInstance",
+      "props": Object {
+        "align": "align",
+        "button_title": "button_title",
+        "children": "children",
+        "class": "class",
+        "className": "className",
+        "current_page": "current_page",
+        "end_infinity_handler": "end_infinity_handler",
+        "fallback_element": Object {},
+        "hide_progress_indicator": "hide_progress_indicator",
+        "indicator_element": "indicator_element",
+        "is_loading_text": "is_loading_text",
+        "items": "items",
+        "load_button_text": "load_button_text",
+        "marker_element": Object {},
+        "min_wait_time": "min_wait_time",
+        "mode": "'pagination'",
+        "more_pages": "more_pages",
+        "next_title": "next_title",
+        "on_change": [Function],
+        "on_end": [Function],
+        "on_load": [Function],
+        "on_startup": [Function],
+        "page_count": "page_count",
+        "page_element": Object {},
+        "parallel_load_count": "parallel_load_count",
+        "place_maker_before_content": "place_maker_before_content",
+        "prev_title": "prev_title",
+        "reset_content_handler": "reset_content_handler",
+        "reset_pagination_handler": "reset_pagination_handler",
+        "set_content_handler": "set_content_handler",
+        "startup_count": "startup_count",
+        "startup_page": "startup_page",
+        "use_load_button": "use_load_button",
+      },
+    }
+  }
+  2={
+    Object {
+      "displayName": "InfinityMarker",
+      "props": Object {
+        "align": "align",
+        "button_title": "button_title",
+        "children": "children",
+        "class": "class",
+        "className": "className",
+        "current_page": "current_page",
+        "end_infinity_handler": "end_infinity_handler",
+        "fallback_element": Object {},
+        "hide_progress_indicator": "hide_progress_indicator",
+        "indicator_element": "indicator_element",
+        "is_loading_text": "is_loading_text",
+        "items": "items",
+        "load_button_text": "load_button_text",
+        "marker_element": Object {},
+        "min_wait_time": "min_wait_time",
+        "mode": "'pagination'",
+        "more_pages": "more_pages",
+        "next_title": "next_title",
+        "on_change": [Function],
+        "on_end": [Function],
+        "on_load": [Function],
+        "on_startup": [Function],
+        "page_count": "page_count",
+        "page_element": Object {},
+        "parallel_load_count": "parallel_load_count",
+        "place_maker_before_content": "place_maker_before_content",
+        "prev_title": "prev_title",
+        "reset_content_handler": "reset_content_handler",
+        "reset_pagination_handler": "reset_pagination_handler",
+        "set_content_handler": "set_content_handler",
+        "startup_count": "startup_count",
+        "startup_page": "startup_page",
+        "use_load_button": "use_load_button",
+      },
+    }
+  }
+  align="left"
+  button_title={null}
+  class={null}
+  className={null}
+  current_page={null}
+  hide_progress_indicator={false}
+  is_loading_text={null}
+  items={null}
+  load_button_text={null}
+  min_wait_time={400}
+  mode="pagination"
+  more_pages={null}
+  next_title={null}
+  on_change={null}
+  on_end={null}
+  on_load={null}
+  on_startup={null}
+  page_count={null}
+  parallel_load_count={1}
+  place_maker_before_content={false}
+  prev_title={null}
+  reset_content_handler={null}
+  set_content_handler={null}
+  startup_count={1}
+  startup_page={null}
+  use_load_button={false}
+>
+  <PaginationProvider
+    0={
+      Object {
+        "displayName": "Pagination",
+        "props": Object {
+          "align": "align",
+          "button_title": "button_title",
+          "children": "children",
+          "class": "class",
+          "className": "className",
+          "current_page": "current_page",
+          "end_infinity_handler": "end_infinity_handler",
+          "fallback_element": Object {},
+          "hide_progress_indicator": "hide_progress_indicator",
+          "indicator_element": "indicator_element",
+          "is_loading_text": "is_loading_text",
+          "items": "items",
+          "load_button_text": "load_button_text",
+          "marker_element": Object {},
+          "min_wait_time": "min_wait_time",
+          "mode": "'pagination'",
+          "more_pages": "more_pages",
+          "next_title": "next_title",
+          "on_change": [Function],
+          "on_end": [Function],
+          "on_load": [Function],
+          "on_startup": [Function],
+          "page_count": "page_count",
+          "page_element": Object {},
+          "parallel_load_count": "parallel_load_count",
+          "place_maker_before_content": "place_maker_before_content",
+          "prev_title": "prev_title",
+          "reset_content_handler": "reset_content_handler",
+          "reset_pagination_handler": "reset_pagination_handler",
+          "set_content_handler": "set_content_handler",
+          "startup_count": "startup_count",
+          "startup_page": "startup_page",
+          "use_load_button": "use_load_button",
+        },
+      }
+    }
+    1={
+      Object {
+        "displayName": "PaginationInstance",
+        "props": Object {
+          "align": "align",
+          "button_title": "button_title",
+          "children": "children",
+          "class": "class",
+          "className": "className",
+          "current_page": "current_page",
+          "end_infinity_handler": "end_infinity_handler",
+          "fallback_element": Object {},
+          "hide_progress_indicator": "hide_progress_indicator",
+          "indicator_element": "indicator_element",
+          "is_loading_text": "is_loading_text",
+          "items": "items",
+          "load_button_text": "load_button_text",
+          "marker_element": Object {},
+          "min_wait_time": "min_wait_time",
+          "mode": "'pagination'",
+          "more_pages": "more_pages",
+          "next_title": "next_title",
+          "on_change": [Function],
+          "on_end": [Function],
+          "on_load": [Function],
+          "on_startup": [Function],
+          "page_count": "page_count",
+          "page_element": Object {},
+          "parallel_load_count": "parallel_load_count",
+          "place_maker_before_content": "place_maker_before_content",
+          "prev_title": "prev_title",
+          "reset_content_handler": "reset_content_handler",
+          "reset_pagination_handler": "reset_pagination_handler",
+          "set_content_handler": "set_content_handler",
+          "startup_count": "startup_count",
+          "startup_page": "startup_page",
+          "use_load_button": "use_load_button",
+        },
+      }
+    }
+    2={
+      Object {
+        "displayName": "InfinityMarker",
+        "props": Object {
+          "align": "align",
+          "button_title": "button_title",
+          "children": "children",
+          "class": "class",
+          "className": "className",
+          "current_page": "current_page",
+          "end_infinity_handler": "end_infinity_handler",
+          "fallback_element": Object {},
+          "hide_progress_indicator": "hide_progress_indicator",
+          "indicator_element": "indicator_element",
+          "is_loading_text": "is_loading_text",
+          "items": "items",
+          "load_button_text": "load_button_text",
+          "marker_element": Object {},
+          "min_wait_time": "min_wait_time",
+          "mode": "'pagination'",
+          "more_pages": "more_pages",
+          "next_title": "next_title",
+          "on_change": [Function],
+          "on_end": [Function],
+          "on_load": [Function],
+          "on_startup": [Function],
+          "page_count": "page_count",
+          "page_element": Object {},
+          "parallel_load_count": "parallel_load_count",
+          "place_maker_before_content": "place_maker_before_content",
+          "prev_title": "prev_title",
+          "reset_content_handler": "reset_content_handler",
+          "reset_pagination_handler": "reset_pagination_handler",
+          "set_content_handler": "set_content_handler",
+          "startup_count": "startup_count",
+          "startup_page": "startup_page",
+          "use_load_button": "use_load_button",
+        },
+      }
+    }
+    align="left"
+    button_title={null}
+    class={null}
+    className={null}
+    current_page={null}
+    end_infinity_handler={null}
+    hide_progress_indicator={false}
+    is_loading_text={null}
+    items={null}
+    load_button_text={null}
+    min_wait_time={400}
+    mode="pagination"
+    more_pages={null}
+    next_title={null}
+    on_change={null}
+    on_end={null}
+    on_load={null}
+    on_startup={null}
+    page_count={null}
+    parallel_load_count={1}
+    place_maker_before_content={false}
+    prev_title={null}
+    rerender={null}
+    reset_content_handler={null}
+    reset_pagination_handler={null}
+    set_content_handler={null}
+    startup_count={1}
+    startup_page={null}
+    store={null}
+    tagName="dnb-pagination"
+    useMarkerOnly={null}
+    use_load_button={false}
+  >
+    <PaginationInstance
+      0={
+        Object {
+          "displayName": "Pagination",
+          "props": Object {
+            "align": "align",
+            "button_title": "button_title",
+            "children": "children",
+            "class": "class",
+            "className": "className",
+            "current_page": "current_page",
+            "end_infinity_handler": "end_infinity_handler",
+            "fallback_element": Object {},
+            "hide_progress_indicator": "hide_progress_indicator",
+            "indicator_element": "indicator_element",
+            "is_loading_text": "is_loading_text",
+            "items": "items",
+            "load_button_text": "load_button_text",
+            "marker_element": Object {},
+            "min_wait_time": "min_wait_time",
+            "mode": "'pagination'",
+            "more_pages": "more_pages",
+            "next_title": "next_title",
+            "on_change": [Function],
+            "on_end": [Function],
+            "on_load": [Function],
+            "on_startup": [Function],
+            "page_count": "page_count",
+            "page_element": Object {},
+            "parallel_load_count": "parallel_load_count",
+            "place_maker_before_content": "place_maker_before_content",
+            "prev_title": "prev_title",
+            "reset_content_handler": "reset_content_handler",
+            "reset_pagination_handler": "reset_pagination_handler",
+            "set_content_handler": "set_content_handler",
+            "startup_count": "startup_count",
+            "startup_page": "startup_page",
+            "use_load_button": "use_load_button",
+          },
+        }
+      }
+      1={
+        Object {
+          "displayName": "PaginationInstance",
+          "props": Object {
+            "align": "align",
+            "button_title": "button_title",
+            "children": "children",
+            "class": "class",
+            "className": "className",
+            "current_page": "current_page",
+            "end_infinity_handler": "end_infinity_handler",
+            "fallback_element": Object {},
+            "hide_progress_indicator": "hide_progress_indicator",
+            "indicator_element": "indicator_element",
+            "is_loading_text": "is_loading_text",
+            "items": "items",
+            "load_button_text": "load_button_text",
+            "marker_element": Object {},
+            "min_wait_time": "min_wait_time",
+            "mode": "'pagination'",
+            "more_pages": "more_pages",
+            "next_title": "next_title",
+            "on_change": [Function],
+            "on_end": [Function],
+            "on_load": [Function],
+            "on_startup": [Function],
+            "page_count": "page_count",
+            "page_element": Object {},
+            "parallel_load_count": "parallel_load_count",
+            "place_maker_before_content": "place_maker_before_content",
+            "prev_title": "prev_title",
+            "reset_content_handler": "reset_content_handler",
+            "reset_pagination_handler": "reset_pagination_handler",
+            "set_content_handler": "set_content_handler",
+            "startup_count": "startup_count",
+            "startup_page": "startup_page",
+            "use_load_button": "use_load_button",
+          },
+        }
+      }
+      2={
+        Object {
+          "displayName": "InfinityMarker",
+          "props": Object {
+            "align": "align",
+            "button_title": "button_title",
+            "children": "children",
+            "class": "class",
+            "className": "className",
+            "current_page": "current_page",
+            "end_infinity_handler": "end_infinity_handler",
+            "fallback_element": Object {},
+            "hide_progress_indicator": "hide_progress_indicator",
+            "indicator_element": "indicator_element",
+            "is_loading_text": "is_loading_text",
+            "items": "items",
+            "load_button_text": "load_button_text",
+            "marker_element": Object {},
+            "min_wait_time": "min_wait_time",
+            "mode": "'pagination'",
+            "more_pages": "more_pages",
+            "next_title": "next_title",
+            "on_change": [Function],
+            "on_end": [Function],
+            "on_load": [Function],
+            "on_startup": [Function],
+            "page_count": "page_count",
+            "page_element": Object {},
+            "parallel_load_count": "parallel_load_count",
+            "place_maker_before_content": "place_maker_before_content",
+            "prev_title": "prev_title",
+            "reset_content_handler": "reset_content_handler",
+            "reset_pagination_handler": "reset_pagination_handler",
+            "set_content_handler": "set_content_handler",
+            "startup_count": "startup_count",
+            "startup_page": "startup_page",
+            "use_load_button": "use_load_button",
+          },
+        }
+      }
+      align="left"
+      button_title={null}
+      class={null}
+      className={null}
+      current_page={null}
+      hide_progress_indicator={false}
+      is_loading_text={null}
+      items={null}
+      load_button_text={null}
+      min_wait_time={400}
+      mode="pagination"
+      more_pages={null}
+      next_title={null}
+      on_change={null}
+      on_end={null}
+      on_load={null}
+      on_startup={null}
+      page_count={null}
+      parallel_load_count={1}
+      place_maker_before_content={false}
+      prev_title={null}
+      reset_content_handler={null}
+      set_content_handler={null}
+      startup_count={1}
+      startup_page={null}
+      use_load_button={false}
+    >
+      <div
+        className="dnb-pagination dnb-pagination--left"
+      >
+        <PaginationBar
+          button_title={null}
+          contentRef={
+            Object {
+              "current": <div
+                class="dnb-pagination__content dnb-no-focus"
+                tabindex="-1"
+              >
+                <div
+                  class="dnb-pagination__page"
+                >
+                  <div
+                    class="dnb-pagination__indicator"
+                  >
+                    <div
+                      class="dnb-pagination__indicator__inner"
+                    >
+                      <div
+                        aria-busy="true"
+                        class="dnb-progress-indicator dnb-progress-indicator--visible dnb-progress-indicator--horizontal"
+                        role="alert"
+                      >
+                        <div
+                          aria-hidden="true"
+                          class="dnb-progress-indicator__circular dnb-progress-indicator__circular--default"
+                        >
+                          <svg
+                            class="dnb-progress-indicator__circular__line light paused"
+                            shape-rendering="geometricPrecision"
+                            viewBox="0 0 32 32"
+                          >
+                            <circle
+                              class="dnb-progress-indicator__circular__circle"
+                              cx="16"
+                              cy="16"
+                              fill="none"
+                              r="14"
+                              stroke-width="4"
+                            />
+                          </svg>
+                          <svg
+                            class="dnb-progress-indicator__circular__line dark dark"
+                            shape-rendering="geometricPrecision"
+                            viewBox="0 0 32 32"
+                          >
+                            <circle
+                              class="dnb-progress-indicator__circular__circle"
+                              cx="16"
+                              cy="16"
+                              fill="none"
+                              r="14"
+                              stroke-width="4"
+                            />
+                          </svg>
+                          <svg
+                            class="dnb-progress-indicator__circular__line light"
+                            shape-rendering="geometricPrecision"
+                            viewBox="0 0 32 32"
+                          >
+                            <circle
+                              class="dnb-progress-indicator__circular__circle"
+                              cx="16"
+                              cy="16"
+                              fill="none"
+                              r="14"
+                              stroke-width="4"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      Laster nytt innhold
+                    </div>
+                  </div>
+                </div>
+              </div>,
+            }
+          }
+          more_pages={null}
+          next_title={null}
+          prev_title={null}
+        >
+          <div
+            className="dnb-pagination__bar"
+          >
+            <Button
+              bounding={false}
+              class={null}
+              className="dnb-pagination__button"
+              custom_element={null}
+              custom_method={null}
+              disabled={true}
+              element={null}
+              global_status_id={null}
+              href={null}
+              icon="chevron_left"
+              icon_position="right"
+              icon_size={null}
+              id={null}
+              innerRef={null}
+              inner_ref={null}
+              key="left-arrow"
+              onClick={null}
+              on_click={[Function]}
+              size="small"
+              skeleton={null}
+              status={null}
+              status_animation={null}
+              status_state="error"
+              text={null}
+              title={null}
+              tooltip={null}
+              type="button"
+              variant={null}
+              wrap={false}
+            >
+              <button
+                aria-disabled={true}
+                className="dnb-button dnb-button--secondary dnb-pagination__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
+                disabled={true}
+                onClick={[Function]}
+                type="button"
+              >
+                <Content
+                  bounding={false}
+                  class={null}
+                  className="dnb-pagination__button"
+                  content={null}
+                  custom_element={null}
+                  custom_method={null}
+                  disabled={true}
+                  element={null}
+                  global_status_id={null}
+                  href={null}
+                  icon="chevron_left"
+                  icon_position="right"
+                  icon_size={null}
+                  id={null}
+                  innerRef={null}
+                  inner_ref={null}
+                  isIconOnly={true}
+                  onClick={null}
+                  on_click={[Function]}
+                  size="small"
+                  skeleton={false}
+                  status={null}
+                  status_animation={null}
+                  status_state="error"
+                  text={null}
+                  title={null}
+                  tooltip={null}
+                  type="button"
+                  variant={null}
+                  wrap={false}
+                >
+                  <span
+                    className="dnb-button__alignment"
+                    key="button-text-empty"
+                  >
+                    ‌
+                  </span>
+                  <IconPrimary
+                    alt={null}
+                    aria-hidden={null}
+                    attributes={null}
+                    border={null}
+                    className="dnb-button__icon"
+                    color={null}
+                    height={null}
+                    icon="chevron_left"
+                    inherit_color={true}
+                    key="button-icon"
+                    modifier={null}
+                    size={null}
+                    skeleton={false}
+                    title={null}
+                    width={null}
+                  >
+                    <span
+                      aria-hidden={true}
+                      className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                      data-test-id="chevron left icon"
+                      role="presentation"
+                    >
+                      <chevron_left>
+                        <svg
+                          fill="none"
+                          height={16}
+                          viewBox="0 0 16 16"
+                          width={16}
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M10 3L5 8L10 13"
+                            stroke="black"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                          />
+                        </svg>
+                      </chevron_left>
+                    </span>
+                  </IconPrimary>
+                </Content>
+              </button>
+            </Button>
+            <div
+              className="dnb-pagination__bar__inner"
+            />
+            <Button
+              bounding={false}
+              class={null}
+              className="dnb-pagination__button"
+              custom_element={null}
+              custom_method={null}
+              disabled={false}
+              element={null}
+              global_status_id={null}
+              href={null}
+              icon="chevron_right"
+              icon_position="right"
+              icon_size={null}
+              id={null}
+              innerRef={null}
+              inner_ref={null}
+              key="right-arrow"
+              onClick={null}
+              on_click={[Function]}
+              size="small"
+              skeleton={null}
+              status={null}
+              status_animation={null}
+              status_state="error"
+              text={null}
+              title="Neste side"
+              tooltip={null}
+              type="button"
+              variant={null}
+              wrap={false}
+            >
+              <button
+                className="dnb-button dnb-button--secondary dnb-pagination__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
+                disabled={false}
+                onClick={[Function]}
+                title="Neste side"
+                type="button"
+              >
+                <Content
+                  bounding={false}
+                  class={null}
+                  className="dnb-pagination__button"
+                  content={null}
+                  custom_element={null}
+                  custom_method={null}
+                  disabled={false}
+                  element={null}
+                  global_status_id={null}
+                  href={null}
+                  icon="chevron_right"
+                  icon_position="right"
+                  icon_size={null}
+                  id={null}
+                  innerRef={null}
+                  inner_ref={null}
+                  isIconOnly={true}
+                  onClick={null}
+                  on_click={[Function]}
+                  size="small"
+                  skeleton={false}
+                  status={null}
+                  status_animation={null}
+                  status_state="error"
+                  text={null}
+                  title="Neste side"
+                  tooltip={null}
+                  type="button"
+                  variant={null}
+                  wrap={false}
+                >
+                  <span
+                    className="dnb-button__alignment"
+                    key="button-text-empty"
+                  >
+                    ‌
+                  </span>
+                  <IconPrimary
+                    alt={null}
+                    aria-hidden={true}
+                    attributes={null}
+                    border={null}
+                    className="dnb-button__icon"
+                    color={null}
+                    height={null}
+                    icon="chevron_right"
+                    inherit_color={true}
+                    key="button-icon"
+                    modifier={null}
+                    size={null}
+                    skeleton={false}
+                    title={null}
+                    width={null}
+                  >
+                    <span
+                      aria-hidden={true}
+                      className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                      data-test-id="chevron right icon"
+                      role="presentation"
+                    >
+                      <chevron_right>
+                        <svg
+                          fill="none"
+                          height={16}
+                          viewBox="0 0 16 16"
+                          width={16}
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M6 13L11 8L6 3"
+                            stroke="black"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                          />
+                        </svg>
+                      </chevron_right>
+                    </span>
+                  </IconPrimary>
+                </Content>
+              </button>
+            </Button>
+          </div>
+        </PaginationBar>
+        <ForwardRef>
+          <div
+            className="dnb-pagination__content dnb-no-focus"
+            tabIndex="-1"
+          >
+            <PaginationIndicator
+              indicator_element="div"
+            >
+              <ForwardRef>
+                <div
+                  className="dnb-pagination__page"
+                >
+                  <div
+                    className="dnb-pagination__indicator"
+                  >
+                    <div
+                      className="dnb-pagination__indicator__inner"
+                    >
+                      <ProgressIndicator
+                        class={null}
+                        className={null}
+                        indicator_label={null}
+                        label={null}
+                        label_direction="horizontal"
+                        no_animation={false}
+                        on_complete={null}
+                        progress={null}
+                        section_spacing={null}
+                        section_style={null}
+                        show_label={false}
+                        size="default"
+                        type="circular"
+                        visible={true}
+                      >
+                        <div
+                          aria-busy={true}
+                          className="dnb-progress-indicator dnb-progress-indicator--visible dnb-progress-indicator--horizontal"
+                          role="alert"
+                        >
+                          <ProgressIndicatorCircular
+                            callOnCompleteHandler={[Function]}
+                            complete={false}
+                            maxOffset={88}
+                            onComplete={null}
+                            progress={null}
+                            size="default"
+                            visible={true}
+                          >
+                            <div
+                              aria-hidden={true}
+                              className="dnb-progress-indicator__circular dnb-progress-indicator__circular--default"
+                            >
+                              <ForwardRef
+                                className="dnb-progress-indicator__circular__line light paused"
+                              >
+                                <svg
+                                  className="dnb-progress-indicator__circular__line light paused"
+                                  shapeRendering="geometricPrecision"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <circle
+                                    className="dnb-progress-indicator__circular__circle"
+                                    cx="16"
+                                    cy="16"
+                                    fill="none"
+                                    r="14"
+                                    strokeWidth="4"
+                                  />
+                                </svg>
+                              </ForwardRef>
+                              <ForwardRef
+                                className="dnb-progress-indicator__circular__line dark dark"
+                                style={Object {}}
+                              >
+                                <svg
+                                  className="dnb-progress-indicator__circular__line dark dark"
+                                  shapeRendering="geometricPrecision"
+                                  style={Object {}}
+                                  viewBox="0 0 32 32"
+                                >
+                                  <circle
+                                    className="dnb-progress-indicator__circular__circle"
+                                    cx="16"
+                                    cy="16"
+                                    fill="none"
+                                    r="14"
+                                    strokeWidth="4"
+                                  />
+                                </svg>
+                              </ForwardRef>
+                              <ForwardRef
+                                className="dnb-progress-indicator__circular__line light"
+                              >
+                                <svg
+                                  className="dnb-progress-indicator__circular__line light"
+                                  shapeRendering="geometricPrecision"
+                                  viewBox="0 0 32 32"
+                                >
+                                  <circle
+                                    className="dnb-progress-indicator__circular__circle"
+                                    cx="16"
+                                    cy="16"
+                                    fill="none"
+                                    r="14"
+                                    strokeWidth="4"
+                                  />
+                                </svg>
+                              </ForwardRef>
+                            </div>
+                          </ProgressIndicatorCircular>
+                        </div>
+                      </ProgressIndicator>
+                      Laster nytt innhold
+                    </div>
+                  </div>
+                </div>
+              </ForwardRef>
+            </PaginationIndicator>
+          </div>
+        </ForwardRef>
+      </div>
+    </PaginationInstance>
+  </PaginationProvider>
+</Pagination>
+`;
+
+exports[`Pagination scss have to match default theme snapshot 1`] = `
+"/*
+* Pagination theme
+*
+*/
+/**
+ * This file is only used to make themes independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+.dnb-pagination__page, .dnb-pagination__loadbar {
+  min-height: 6rem; }
+
+.dnb-pagination__bar {
+  margin-top: 1rem;
+  margin-bottom: 1rem; }
+
+.dnb-pagination__indicator {
+  min-height: inherit; }
+  .dnb-pagination__indicator__inner {
+    animation: show-page 300ms ease-out forwards; }
+
+.dnb-core-style .dnb-pagination__button.dnb-button--primary, .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):hover, .dnb-pagination__button.dnb-button--primary, .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):hover {
+  background-color: var(--color-emerald-green);
+  color: var(--color-mint-green); }
+
+.dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
+  color: var(--color-emerald-green);
+  background-color: var(--color-mint-green);
+  outline: none; }
+  html[data-whatinput='keyboard'] .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
+    --border-color: var(--color-emerald-green);
+    box-shadow: 0 0 0 0.125rem var(--border-color);
+    border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      html[data-whatinput='keyboard'] .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
+        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+
+.dnb-pagination__dots > div {
+  background-color: var(--color-emerald-green); }
+
+@media screen and (max-width: 40em) {
+  .dnb-pagination--many-pages .dnb-pagination__bar__inner .dnb-pagination__button:not([aria-current]):nth-of-type(2),
+  .dnb-pagination--many-pages .dnb-pagination__bar__inner .dnb-pagination__button:not([aria-current]):nth-last-of-type(2) {
+    width: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    box-shadow: none; } }
+
+@keyframes show-page {
+  from {
+    transform: translate3d(0, -8px, 0);
+    opacity: 0.1; }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1; } }
+"
+`;
+
+exports[`Pagination scss have to match snapshot 1`] = `
+"/*
+* DNB Pagination
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
+/*
+* DNB Button
+*
+*/
+/*
+* DNB icon
+*
+*/
+/*
+* Icon component
+*
+*/
+.dnb-icon {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: inherit;
+  width: 1em;
+  height: 1em; }
+  .dnb-icon img,
+  .dnb-icon svg {
+    width: inherit;
+    height: inherit;
+    shape-rendering: geometricPrecision;
+    vertical-align: top; }
+  .dnb-icon svg[width='100%'] {
+    width: inherit; }
+  .dnb-icon svg[height='100%'] {
+    height: inherit; }
+  .dnb-icon--inherit-color svg:not([fill]),
+  .dnb-icon--inherit-color svg [fill] {
+    fill: currentColor; }
+  .dnb-icon--inherit-color svg [stroke] {
+    stroke: currentColor; }
+  .dnb-icon--small {
+    font-size: 0.75rem; }
+  .dnb-icon--default {
+    font-size: 1rem; }
+  .dnb-icon--medium {
+    font-size: 1.5rem; }
+  .dnb-icon--large {
+    font-size: 2rem; }
+  .dnb-icon--x-large {
+    font-size: 2.5rem; }
+  .dnb-icon--xx-large {
+    font-size: 3rem; }
+  .dnb-icon--custom-size {
+    width: auto;
+    height: auto; }
+  .dnb-icon--auto {
+    font-size: 1em; }
+  .dnb-icon--auto > .dnb-icon--wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; }
+  h1 .dnb-icon,
+  h2 .dnb-icon,
+  h3 .dnb-icon,
+  h4 .dnb-icon,
+  h5 .dnb-icon,
+  h6 .dnb-icon {
+    vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-icon {
+      flex: none; } }
+
+/*
+* DNB FormStatus
+*
+*/
+.dnb-form-status {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-status *,
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormStatus component
+ *
+ */
+:root {
+  --form-status-radius: 0.25rem; }
+
+.dnb-form-status {
+  display: flex; }
+  .dnb-form-status__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-width: inherit;
+    border-radius: var(--form-status-radius); }
+  .dnb-form-status__text {
+    padding: 0.625rem 1rem;
+    cursor: text;
+    color: inherit;
+    line-height: var(--line-height-small);
+    font-size: var(--font-size-small);
+    white-space: normal; }
+    .dnb-form-status__text .dnb-anchor {
+      font-size: inherit; }
+  .dnb-icon + .dnb-form-status__text {
+    padding-left: 0.5rem; }
+  .dnb-form-status__shell > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
+  .dnb-form-status__size--large .dnb-form-status__text {
+    padding-top: 1.125rem;
+    padding-bottom: 1.125rem; }
+  .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+    margin-top: 0.6666666em;
+    margin-bottom: 0.6666666em; }
+  .dnb-form-status[hidden] {
+    display: none; }
+  .dnb-form-status__animation--fade-in {
+    overflow: hidden;
+    max-height: 0;
+    animation: form-status-fade-in 2s ease-out 400ms forwards; }
+
+@keyframes form-status-fade-in {
+  from {
+    max-height: 0; }
+  to {
+    max-height: calc(var(--input-height) * 8); } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
+
+.dnb-button {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-button *,
+  .dnb-button ::before,
+  .dnb-button ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-button ::before,
+  .dnb-button ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Button component
+*
+*/
+:root {
+  --button-font-size: var(--font-size-basis);
+  --button-font-size-small: var(--font-size-small);
+  --button-width: 2.5rem;
+  --button-height: 2.5rem;
+  --button-width--small: 1.5rem;
+  --button-height--small: 1.5rem;
+  --button-width--medium: 2rem;
+  --button-height--medium: 2rem;
+  --button-width--large: 3rem;
+  --button-height--large: 3rem;
+  --button-icon-size: 1rem;
+  --button-border-width: 0.0625rem;
+  --button-border-width--hover: 0.1875rem;
+  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-radius--small: calc(var(--button-height--small) / 2);
+  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
+  --button-border-radius--large: calc(var(--button-height--large) / 2); }
+
+.dnb-button {
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-width);
+  height: auto;
+  padding: 0;
+  border: var(--button-border-width) solid transparent;
+  border-radius: var(--button-border-radius);
+  text-decoration: none;
+  font-size: var(--font-size-small);
+  /* stylelint-disable-next-line */ }
+  .dnb-button--wrap {
+    overflow-wrap: break-word;
+    white-space: normal; }
+  .dnb-button,
+  .dnb-core-style .dnb-button {
+    line-height: var(--button-height); }
+  .dnb-button__text {
+    margin: 0.5rem 0;
+    font-size: var(--button-font-size);
+    line-height: var(--line-height-basis);
+    color: inherit;
+    transform: translateY(-0.03125rem); }
+    .dnb-button__text [data-os='linux'] {
+      transform: translateY(-0.035rem); }
+  .dnb-button__alignment {
+    display: inline-block;
+    width: 0; }
+  .dnb-button__bounding {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    transform: scale(1.1, 1.4);
+    background-color: transparent;
+    border-radius: var(--button-border-radius); }
+  .dnb-button--has-text {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem; }
+  .dnb-button--size-small {
+    width: var(--button-width--small);
+    font-size: var(--button-font-size-small);
+    border-radius: var(--button-border-radius--small); }
+    .dnb-button--size-small,
+    .dnb-core-style .dnb-button--size-small {
+      line-height: var(--button-height--small); }
+  .dnb-button--size-small .dnb-button__text {
+    margin: 0; }
+  .dnb-button--has-text.dnb-button--size-small {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
+    padding-right: 0.5rem; }
+  .dnb-button--size-medium {
+    width: var(--button-width--medium);
+    border-radius: var(--button-border-radius--medium); }
+    .dnb-button--size-medium,
+    .dnb-core-style .dnb-button--size-medium {
+      line-height: var(--button-height--medium); }
+  .dnb-button--size-medium .dnb-button__text {
+    margin: 0; }
+  .dnb-button--has-text.dnb-button--size-medium {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
+    padding-right: 0.5rem; }
+  .dnb-button--size-large {
+    width: var(--button-width--large);
+    border-radius: var(--button-border-radius--large); }
+    .dnb-button--size-large,
+    .dnb-core-style .dnb-button--size-large {
+      line-height: var(--button-height--large); }
+  .dnb-button--has-text.dnb-button--size-large {
+    padding-left: 2rem;
+    padding-right: 2rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
+    padding-left: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
+    padding-right: 1rem; }
+  .dnb-button--has-text {
+    width: auto; }
+  .dnb-button--has-text .dnb-button__icon {
+    margin: 0 calc(var(--button-icon-size) / 2); }
+  .dnb-button--has-text.dnb-button--icon-position-left {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right {
+    padding-right: 0.5rem; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
+    order: 2; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
+    order: 1; }
+  .dnb-button:not(.dnb-button--has-text) .dnb-button__icon {
+    width: inherit; }
+  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  [href] > .dnb-button__icon.dnb-icon {
+    line-height: var(--button-font-size); }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
+    order: 2; }
+  .dnb-button--reset {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    appearance: none;
+    box-shadow: none;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    line-height: inherit; }
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
+      cursor: not-allowed; }
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
+      box-shadow: none;
+      border: none; }
+    .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+        --border-color: var(--color-emerald-green);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
+        border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
+      box-shadow: none;
+      color: inherit;
+      border: none; }
+  .dnb-button[type='button'], .dnb-button[type='reset'], .dnb-button[type='submit'] {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none; }
+  .dnb-button[disabled] {
+    cursor: not-allowed; }
+  .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
+    align-self: flex-start; }
+  .dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
+    white-space: nowrap; }
+  .dnb-button + .dnb-form-status {
+    margin-top: 0.5rem; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-button {
+      flex: none; }
+      .dnb-button__icon, .dnb-button__text {
+        transform: translateY(-0.0625rem); } }
+
+/* Firefox includes a hidden border which messes up button dimensions */
+button.dnb-button::-moz-focus-inner {
+  border: none; }
+
+/*
+ * ProgressIndicator component
+ *
+ */
+:root {
+  --progress-indicator-timing: cubic-bezier(0.5, 0, 0.5, 0.99);
+  --progress-indicator-circular-circle: 88;
+  --progress-indicator-circular-circle-offset--min: 88;
+  --progress-indicator-circular-circle-offset--max: 1; }
+
+.dnb-progress-indicator {
+  position: relative;
+  display: inline-flex; }
+  .dnb-progress-indicator--vertical {
+    flex-direction: column;
+    align-items: center; }
+  .dnb-progress-indicator--horizontal {
+    justify-content: center; }
+  .dnb-progress-indicator__label {
+    display: inline-flex; }
+    .dnb-progress-indicator__label .dnb-p {
+      align-self: center; }
+  .dnb-spacing .dnb-progress-indicator .dnb-p,
+  .dnb-spacing .dnb-progress-indicator .dnb-p:not([class*='dnb-space']) {
+    margin: 0; }
+  .dnb-progress-indicator--horizontal .dnb-progress-indicator__label {
+    margin: 0 1rem; }
+  .dnb-progress-indicator--vertical .dnb-progress-indicator__label {
+    margin-top: 0.5rem; }
+  .dnb-progress-indicator__circular {
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    transform: rotate(-90deg); }
+    .dnb-progress-indicator__circular svg {
+      position: absolute;
+      width: 100%;
+      height: 100%; }
+    .dnb-progress-indicator__circular__line {
+      animation-duration: 2s;
+      animation-delay: 200ms;
+      animation-timing-function: var(--progress-indicator-timing);
+      animation-iteration-count: infinite; }
+    .dnb-progress-indicator__circular__line.background {
+      stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); }
+    .dnb-progress-indicator__circular__line.light {
+      animation-name: progress-indicator-circular-line-light;
+      stroke-dasharray: var(--progress-indicator-circular-circle), var(--progress-indicator-circular-circle);
+      stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); }
+    .dnb-progress-indicator__circular__line.dark {
+      animation-name: progress-indicator-circular-line-dark;
+      stroke-dasharray: var(--progress-indicator-circular-circle), var(--progress-indicator-circular-circle);
+      stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min); }
+    .dnb-progress-indicator__circular__line.paused {
+      animation-play-state: paused; }
+    .dnb-progress-indicator__circular--has-progress-indicator .dnb-progress-indicator__circular__line.dark {
+      transition: stroke-dashoffset 600ms var(--progress-indicator-timing); }
+    .dnb-progress-indicator__circular__circle {
+      stroke-linecap: round; }
+    .dnb-progress-indicator__circular__line.light .dnb-progress-indicator__circular__circle {
+      stroke: grey; }
+    .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
+      stroke: var(--color-black); }
+  html[data-visual-test] .dnb-progress-indicator__circular__line {
+    animation-duration: 0ms;
+    animation-iteration-count: 0; }
+  .dnb-progress-indicator:not(.dnb-progress-indicator--no-animation), .dnb-progress-indicator--visible:not(.dnb-progress-indicator--no-animation) {
+    opacity: 0;
+    animation: progress-indicator-fade-in 200ms ease-out 1 forwards; }
+  .dnb-progress-indicator--complete:not(.dnb-progress-indicator--no-animation):not(.dnb-progress-indicator--visible) {
+    animation: progress-indicator-fade-out 600ms ease-out 1 forwards; }
+
+@keyframes progress-indicator-fade-in {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes progress-indicator-fade-out {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@keyframes progress-indicator-circular-line-light {
+  0% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min); }
+  50% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min); }
+  100% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); } }
+
+@keyframes progress-indicator-circular-line-dark {
+  0% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min); }
+  50% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); }
+  100% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); } }
+
+.dnb-pagination {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-pagination *,
+  .dnb-pagination ::before,
+  .dnb-pagination ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-pagination ::before,
+  .dnb-pagination ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * Pagination component
+ *
+ */
+.dnb-pagination {
+  display: flex;
+  flex-direction: column-reverse; }
+  .dnb-pagination__bar, .dnb-pagination__loadbar, .dnb-pagination__bar__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center; }
+  .dnb-pagination--left .dnb-pagination__bar {
+    justify-content: flex-start; }
+  .dnb-pagination--center .dnb-pagination__bar {
+    justify-content: center; }
+    @media screen and (max-width: 40em) {
+      .dnb-pagination--center .dnb-pagination__bar {
+        justify-content: flex-start; } }
+  .dnb-pagination--right .dnb-pagination__bar {
+    justify-content: flex-end; }
+  .dnb-pagination__loadbar {
+    cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+  .dnb-pagination__indicator {
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; }
+    .dnb-pagination__indicator__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; }
+  .dnb-pagination__dots {
+    display: flex;
+    align-self: flex-end;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    height: 1rem;
+    width: 1.25rem;
+    border: none;
+    box-shadow: none; }
+    .dnb-pagination__dots > div {
+      height: 3px;
+      width: 3px;
+      margin: 0 0.1rem;
+      border-radius: 1.5px; }
+  .dnb-pagination__marker {
+    pointer-events: none;
+    position: relative;
+    height: 1px;
+    width: 1px;
+    margin: -1px 0 0 -1px;
+    overflow: hidden; }
+    .dnb-pagination__marker td, .dnb-pagination__marker__inner {
+      padding: 0 !important;
+      width: 1px;
+      height: 1px;
+      opacity: 0; }
+  .dnb-pagination__button:first-child, .dnb-pagination__bar__inner {
+    margin-right: 1rem; }
+  .dnb-pagination__bar__inner .dnb-pagination__button {
+    margin-right: 0.5rem; }
+  .dnb-core-style .dnb-pagination__button, .dnb-pagination__button, .dnb-pagination__dots {
+    margin-right: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem; }
+    .dnb-core-style .dnb-pagination__button:last-child, .dnb-pagination__button:last-child, .dnb-pagination__dots:last-child {
+      margin-right: 0; }
+"
+`;

@@ -12,9 +12,9 @@ import PropTypes from 'prop-types'
 import ItemWrapper from '../../../shared/parts/uilib/ItemWrapper'
 import DemoComponent, {
   Example as CodeComponent
-} from 'dnb-ui-lib/src/components/line-title/Example'
-import Description from 'dnb-ui-lib/src/components/line-title/description.md'
-import Details from 'dnb-ui-lib/src/components/line-title/details.md'
+} from '@dnb/eufemia/src/components/line-title/Example'
+import Description from '@dnb/eufemia/src/components/line-title/description.md'
+import Details from '@dnb/eufemia/src/components/line-title/details.md'
 import ExampleCode from 'raw-loader!../examples/LineTitle.txt'
 
 export default class LineTitleDemo extends React.PureComponent {

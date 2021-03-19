@@ -24,6 +24,8 @@ TabsExampleReactRouterNavigation,
 
 ### Tabs using React Components only
 
+Also, this is an example of how to define a different content background color, by providing `content_style`.
+
 <TabsExampleLeftAligned />
 
 ### Right aligned tabs

@@ -1,0 +1,88 @@
+/*
+* Textarea theme
+*
+*/
+
+@import '../../../../style/themes/imports.scss';
+
+:root {
+  --textarea-rows: 2;
+}
+
+.dnb-textarea {
+  &__textarea {
+    color: var(--color-black);
+
+    ::selection {
+      background-color: var(--color-mint-green);
+      color: var(--color-black);
+      text-shadow: none;
+    }
+
+    @include scrollY(auto);
+  }
+
+  &__placeholder {
+    color: var(--color-black-55);
+
+    // Required for line-clamp
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+
+    // Limit the text block to two lines
+    -webkit-line-clamp: var(--textarea-rows, 2);
+  }
+
+  &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__state,
+  &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__state {
+    box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+  }
+
+  // We may enable this in future – right now it's unclear
+  // &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__placeholder,
+  // &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__placeholder {
+  //   color: var(--color-black);
+  // }
+
+  // disabled
+  &--disabled &__textarea,
+  &__textarea[disabled] {
+    user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+
+    color: var(--color-black-55);
+    background-color: var(--color-black-3);
+  }
+  &--disabled &__state,
+  &__textarea[disabled] ~ &__state {
+    box-shadow: 0 0 0 0.0625rem var(--color-black-55);
+    background-color: var(--color-black-3);
+  }
+
+  // with status_state = "error"
+  &__status--error:not(#{&}--focus)
+    &__textarea:not([disabled]):not(#{&}--disabled),
+  &__status--error:not(#{&}--focus)
+    &__textarea:not([disabled]):not(#{&}--disabled):hover {
+    color: var(--color-fire-red);
+  }
+  &__status--error:not(#{&}--focus)
+    &__textarea:not([disabled]):not(#{&}--disabled)
+    ~ &__state {
+    @include fakeBorder(var(--color-fire-red));
+  }
+  &__status--error:not(#{&}--focus)
+    &__textarea:not([disabled]):not(#{&}--disabled):hover
+    ~ &__state {
+    @include fakeBorder(var(--color-fire-red), 0.125rem);
+  }
+
+  // hide placeholder on focus
+  &--has-content &__textarea ~ &__placeholder,
+  &--focus &__textarea:not([disabled]):not([readonly]) ~ &__placeholder {
+    display: none;
+  }
+}

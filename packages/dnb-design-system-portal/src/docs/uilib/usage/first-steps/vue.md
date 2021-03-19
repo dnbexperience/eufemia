@@ -1,8 +1,3 @@
----
-title: 'Vue'
-order: 6
----
-
 # Vue JS
 
 ## How to
@@ -13,7 +8,7 @@ With Vue, you could use the included [Web Components](/uilib/usage/first-steps/w
 import Vue from 'vue'
 
 // get Vuera upp and runnning
-import dnb, { Button } from 'dnb-ui-lib/components/vue'
+import dnb, { Button } from '@dnb/eufemia/components/vue'
 
 export default {
   name: 'app',
@@ -36,13 +31,13 @@ And the syntax would look like:
 
 ## Setup
 
-Besides `vue` and `vuera`, you may also install, `dnb-ui-lib`, `react` and `react-dom`.
+Besides `vue` and `vuera`, you may also install, `@dnb/eufemia`, `react` and `react-dom`.
 
 **NB:** Make sure You add `vuera` to Your Package dependencies. Even if You not use it directly in Your Application.
 
 ```json
 "dependencies": {
-  "dnb-ui-lib": "*",
+  "@dnb/eufemia": "*",
   "react": "^16",
   "react-dom": "^16",
   "vue": "^2",

@@ -3,18 +3,16 @@
  *
  */
 
-import { Heading, Button, Tabs } from 'dnb-ui-lib/src'
+import { Heading, Button, Tabs } from '@dnb/eufemia/src'
 import Code, { CodeRenderer } from './Code'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
-
-import { CloseButton } from 'dnb-ui-lib/src/components/modal'
 import Link from 'gatsby-link'
 import PropTypes from 'prop-types'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { navigate, parsePath } from 'gatsby'
-import { fullscreen as fullscreenIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
+import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons/secondary_icons'
 
 const pathPrefix = __PATH_PREFIX__ // eslint-disable-line
 
@@ -244,10 +242,12 @@ class ItemWrapper extends React.PureComponent {
                   <TabsList>
                     <Tabs />
                     {this.state.wasFullscreen ? (
-                      <CloseButton
-                        style_type="cross"
-                        title="Quit Fullscreen"
+                      <Button
                         on_click={this.quitFullscreen}
+                        variant="secondary"
+                        title="Quit Fullscreen"
+                        icon="close"
+                        className="fullscreen"
                       />
                     ) : (
                       <Button

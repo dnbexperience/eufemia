@@ -1,0 +1,179 @@
+/*
+* DatePicker theme
+*
+*/
+
+@import '../../../../style/themes/imports.scss';
+
+.dnb-date-picker {
+  &:not(#{&}__status--error) &__input {
+    color: var(--color-black-55);
+    & ~ .dnb-date-picker--separator {
+      color: var(--color-black-55);
+    }
+  }
+  &:not(#{&}__status--error) & {
+    &__input[value*='0'],
+    &__input[value*='1'],
+    &__input[value*='2'],
+    &__input[value*='3'],
+    &__input[value*='4'],
+    &__input[value*='5'],
+    &__input[value*='6'],
+    &__input[value*='7'],
+    &__input[value*='8'],
+    &__input[value*='9'] {
+      &:not([data-input-state='disabled']) {
+        color: var(--color-black);
+        & ~ .dnb-date-picker--separator {
+          color: var(--color-black);
+        }
+      }
+    }
+  }
+
+  &__container {
+    @include defaultDropShadow();
+    border-radius: 0.25rem;
+    background-color: var(--color-white);
+  }
+
+  &__addon,
+  &__calendar {
+    // border
+    &::after {
+      background-color: var(--color-black-8);
+    }
+  }
+
+  &__header {
+    // border
+    &::after {
+      background-color: var(--color-black-8);
+    }
+
+    &__nav .dnb-button {
+      box-shadow: none;
+    }
+    &__title {
+      text-transform: capitalize;
+      text-align: center;
+
+      font-size: var(--font-size-basis);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-black-80);
+    }
+  }
+
+  &__labels {
+    &__day {
+      text-transform: capitalize;
+      font-weight: var(--font-weight-medium);
+      color: var(--color-black-80);
+    }
+  }
+
+  &__day,
+  &__labels__day {
+    text-align: center;
+  }
+
+  &__day {
+    &--today .dnb-button {
+      font-weight: var(--font-weight-medium);
+    }
+
+    &--preview .dnb-button,
+    &--inactive .dnb-button,
+    &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
+      .dnb-button:not(:hover) {
+      background-color: transparent;
+    }
+
+    &--preview:not(#{&}--inactive):not(#{&}--start-date):not(#{&}--end-date),
+    &--within-selection:not(#{&}--inactive):not(#{&}--start-date):not(#{&}--end-date) {
+      background-color: var(--color-mint-green-50);
+    }
+
+    &--start-date:not(#{&}--inactive),
+    &--end-date:not(#{&}--inactive) {
+      &::after {
+        background-color: var(--color-mint-green-50);
+      }
+      .dnb-button {
+        color: var(--color-mint-green-25);
+        background-color: var(--color-emerald-green);
+      }
+    }
+    &--start-date:not(#{&}--inactive):not(#{&}--preview),
+    &--end-date:not(#{&}--inactive):not(#{&}--preview) {
+      .dnb-button {
+        &:hover {
+          box-shadow: none;
+        }
+      }
+    }
+
+    html:not([data-whatintent='touch'])
+      &--start-date#{&}--within-selection
+      .dnb-button:hover:not([disabled]),
+    html:not([data-whatintent='touch'])
+      &--end-date#{&}--within-selection
+      .dnb-button:hover:not([disabled]) {
+      color: var(--color-mint-green-25);
+      background-color: var(--color-emerald-green);
+    }
+
+    &--disabled .dnb-button {
+      text-decoration: line-through;
+    }
+
+    &--inactive .dnb-button {
+      color: var(--color-black-55);
+    }
+
+    &--inactive .dnb-button,
+    &--disabled .dnb-button {
+      &[disabled] {
+        box-shadow: none;
+      }
+    }
+
+    html:not([data-whatintent='touch']) &--inactive .dnb-button[disabled] {
+      cursor: default;
+    }
+  }
+
+  &--opened .dnb-input,
+  &:not(#{&}__status--error)
+    .dnb-form-label:hover
+    ~ &__inner
+    .dnb-input:not([data-input-state='disabled']) {
+    .dnb-input__shell {
+      @include fakeBorder(var(--color-sea-green), 0.125rem);
+    }
+    .dnb-input__submit-button__button.dnb-button--secondary {
+      color: var(--color-white);
+      background-color: var(--color-sea-green);
+
+      &::after {
+        background-color: inherit;
+      }
+    }
+  }
+
+  &__triangle::before {
+    border: none;
+    background-color: var(--color-white);
+    @include defaultDropShadow();
+  }
+
+  &__status--error:not(#{&}--opened)
+    .dnb-form-label:hover
+    ~ &__inner
+    .dnb-input:not([data-input-state='disabled']) {
+    .dnb-input__shell {
+      @include fakeBorder(var(--color-fire-red), 0.125rem);
+    }
+  }
+}

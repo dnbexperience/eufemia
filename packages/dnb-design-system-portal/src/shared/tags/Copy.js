@@ -7,15 +7,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import styled from '@emotion/styled'
-import { IS_IOS, hasSelectedText } from 'dnb-ui-lib/src/shared/helpers'
+import { IS_IOS, hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 import {
   convertJsxToString,
   warn
-} from 'dnb-ui-lib/src/shared/component-helper'
-import {
-  copyWithEffect,
-  runIOSSelectionFix
-} from 'dnb-ui-lib/src/components/Number'
+} from '@dnb/eufemia/src/shared/component-helper'
+import { runIOSSelectionFix } from '@dnb/eufemia/src/components/NumberFormat'
+import { useCopyWithNotice } from '@dnb/eufemia/src/components/number-format/NumberUtils'
 
 // we may use this one, but for now, we just keep the build in mdx support
 // import ReactMarkdown from 'react-markdown'
@@ -38,6 +36,8 @@ const Copy = ({ children, className, ...rest }) => {
     }
   }, [])
 
+  const { copy } = useCopyWithNotice()
+
   const onClickHandler = () => {
     if (!hasSelectedText()) {
       try {
@@ -50,7 +50,7 @@ const Copy = ({ children, className, ...rest }) => {
           selection.removeAllRanges()
           selection.addRange(range)
 
-          copyWithEffect(str) // use copyWithEffect only to use the nice effect / animation
+          copy(str, ref.current) // use copyWithNotice only to use the nice effect / animation
         }
       } catch (e) {
         warn(e)

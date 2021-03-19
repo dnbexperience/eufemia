@@ -22,7 +22,7 @@ With Eufemia, DNB can continually increase the product quality for both visual u
 - Collaboration
 - Original files
 - Versioning / system thinking
-- Patterns
+- Extensions
 - Overall documentation
 
 ### Standards

@@ -1,0 +1,234 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HelpButton component have to match snapshot 1`] = `
+<HelpButton
+  icon={null}
+  icon_position="left"
+  id="help-button"
+  modal_content={null}
+  modal_props={null}
+  variant="secondary"
+>
+  <HelpButtonInstance
+    class={null}
+    className={null}
+    icon="question"
+    icon_position="left"
+    id="help-button"
+    variant="secondary"
+  >
+    <Button
+      aria-label="Hjelpetekst"
+      aria-roledescription="Hjelp-knapp"
+      bounding={false}
+      class={null}
+      className="dnb-help-button"
+      custom_element={null}
+      custom_method={null}
+      disabled={null}
+      element={null}
+      global_status_id={null}
+      href={null}
+      icon="question"
+      icon_position="left"
+      icon_size={null}
+      id="help-button"
+      innerRef={null}
+      inner_ref={null}
+      onClick={null}
+      on_click={null}
+      size={null}
+      skeleton={null}
+      status={null}
+      status_animation={null}
+      status_state="error"
+      text={null}
+      title={null}
+      tooltip={null}
+      type="button"
+      variant="secondary"
+      wrap={false}
+    >
+      <button
+        aria-label="Hjelpetekst"
+        aria-roledescription="Hjelp-knapp"
+        className="dnb-button dnb-button--secondary dnb-help-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+        disabled={false}
+        id="help-button"
+        onClick={[Function]}
+        type="button"
+      >
+        <Content
+          aria-label="Hjelpetekst"
+          aria-roledescription="Hjelp-knapp"
+          bounding={false}
+          class={null}
+          className="dnb-help-button"
+          content={null}
+          custom_element={null}
+          custom_method={null}
+          disabled={null}
+          element={null}
+          global_status_id={null}
+          href={null}
+          icon="question"
+          icon_position="left"
+          icon_size={null}
+          id="help-button"
+          innerRef={null}
+          inner_ref={null}
+          isIconOnly={true}
+          onClick={null}
+          on_click={null}
+          size={null}
+          skeleton={false}
+          status={null}
+          status_animation={null}
+          status_state="error"
+          text={null}
+          title={null}
+          tooltip={null}
+          type="button"
+          variant="secondary"
+          wrap={false}
+        >
+          <span
+            className="dnb-button__alignment"
+            key="button-text-empty"
+          >
+            ‌
+          </span>
+          <IconPrimary
+            alt={null}
+            aria-hidden={null}
+            attributes={null}
+            border={null}
+            className="dnb-button__icon"
+            color={null}
+            height={null}
+            icon="question"
+            inherit_color={true}
+            key="button-icon"
+            modifier={null}
+            size={null}
+            skeleton={false}
+            title={null}
+            width={null}
+          >
+            <span
+              aria-hidden={true}
+              className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+              data-test-id="question icon"
+              role="presentation"
+            >
+              <question>
+                <svg
+                  fill="none"
+                  height={16}
+                  viewBox="0 0 16 16"
+                  width={16}
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clipRule="evenodd"
+                    d="M6.14209 4.87551C6.14232 3.67087 7.22313 2.67293 8.41439 2.7553C9.61616 2.83839 10.5374 3.98528 10.3733 5.16806C10.2669 5.93479 9.70614 6.622 8.97633 6.88003C8.01504 7.2199 7.663 8.0029 7.55047 8.70632C7.49611 9.04614 7.49129 9.39066 7.49667 9.69131C7.49941 9.84464 7.50394 9.97113 7.5081 10.0873C7.51321 10.2303 7.51777 10.3576 7.51777 10.5002C7.51777 10.9144 7.85356 11.2502 8.26777 11.2502C8.68199 11.2502 9.01777 10.9144 9.01777 10.5002C9.01777 10.3504 9.01151 10.1615 9.00563 9.98422L9.00563 9.98418C9.00177 9.86783 8.99807 9.75649 8.99643 9.66448C8.99154 9.39108 8.99836 9.15128 9.03164 8.94327C9.09438 8.55103 9.22163 8.38429 9.47633 8.29424C10.7347 7.84936 11.6756 6.69619 11.8591 5.37421C12.1418 3.33617 10.5922 1.40229 8.51785 1.25887C6.4652 1.11695 4.64249 2.79596 4.64209 4.87522C4.64201 5.28944 4.97773 5.62529 5.39195 5.62537C5.80616 5.62545 6.14201 5.28972 6.14209 4.87551ZM8.25 14.5C8.80228 14.5 9.25 14.0523 9.25 13.5C9.25 12.9477 8.80228 12.5 8.25 12.5C7.69772 12.5 7.25 12.9477 7.25 13.5C7.25 14.0523 7.69772 14.5 8.25 14.5Z"
+                    fill="black"
+                    fillRule="evenodd"
+                  />
+                </svg>
+              </question>
+            </span>
+          </IconPrimary>
+        </Content>
+      </button>
+    </Button>
+  </HelpButtonInstance>
+</HelpButton>
+`;
+
+exports[`HelpButton scss have to match default theme snapshot 1`] = `
+"/*
+ * Np theme is provided
+ *
+ */
+"
+`;
+
+exports[`HelpButton scss have to match snapshot 1`] = `
+"/*
+* DNB HelpButton
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+.dnb-suffix {
+  padding-left: 0.5rem;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; }
+
+.dnb-help-button {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-help-button *,
+  .dnb-help-button ::before,
+  .dnb-help-button ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-help-button ::before,
+  .dnb-help-button ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * HelpButton component
+ *
+ * TODO: Set spacing in the theme file, as theme comes later in the stack
+ *
+ */
+"
+`;

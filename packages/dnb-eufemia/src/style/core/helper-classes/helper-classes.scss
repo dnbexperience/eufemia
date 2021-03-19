@@ -1,0 +1,51 @@
+/*
+ * Helper Classes
+ *
+ */
+
+// Focus management
+.dnb-no-focus {
+  outline: none;
+}
+.dnb-tab-focus {
+  outline: none;
+  &:focus {
+    @include fakeFocus('keyboard');
+  }
+}
+.dnb-mouse-focus {
+  outline: none;
+  &:focus {
+    @include fakeFocus('mouse');
+  }
+}
+.dnb-focus-ring {
+  @include fakeBorder(
+    $focusRingColor,
+    $focusRingWidth,
+    null,
+    null,
+    !important
+  );
+}
+.dnb-scrollbar-appearance {
+  @include scrollbarAppearance();
+}
+@import './skip-link.scss';
+
+.dnb-alignment-helper {
+  @include alignmentHelperClass();
+  @include alignmentHelper();
+}
+.dnb-drop-shadow {
+  @include defaultDropShadow();
+}
+.dnb-sr-only {
+  @include srOnly();
+}
+.dnb-sr-only--inline {
+  @include srOnlyInline();
+}
+.dnb-not-sr-only {
+  @include notSrOnly();
+}

@@ -3,7 +3,7 @@ showTabs: true
 ---
 
 import ComponentBox from 'Tags/ComponentBox'
-import { bell_medium as Bell, question } from 'dnb-ui-lib/src/icons'
+import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 
 ## Demos
 
@@ -117,10 +117,26 @@ import { bell_medium as Bell, question } from 'dnb-ui-lib/src/icons'
 />
 <Button
   variant="tertiary"
-  text="With medium icon"
+  size="large"
+  text="Large tertiary button"
   icon="chevron_right"
-  icon_size="medium"
   left
+/>
+	`
+	}
+</ComponentBox>
+
+Tertiary button with long text and text `wrap` enabled.
+
+<ComponentBox data-visual-test="button-tertiary-wrap">
+	{
+	/* @jsx */ `
+<Button
+  wrap
+  variant="tertiary"
+  text="A long text where wrap is enabled magnis rutrum netus neque ridiculus euismod sit dictum laoreet libero"
+  icon="chevron_left"
+  icon_position="left"
 />
 	`
 	}
@@ -160,7 +176,7 @@ import { bell_medium as Bell, question } from 'dnb-ui-lib/src/icons'
 
 ### Signal button
 
-Medium is equivalent to 24, but responsive. To import custom icons, use: `import { bell_medium as Bell } from 'dnb-ui-lib/icons'`
+Medium is equivalent to 24, but responsive. To import custom icons, use: `import { bell_medium as Bell } from '@dnb/eufemia/icons'`
 
 <!-- prettier-ignore -->
 <ComponentBox scope={{ Bell }}>
@@ -178,7 +194,7 @@ Medium is equivalent to 24, but responsive. To import custom icons, use: `import
 
 ### Large Signal button
 
-Large Signal button with medium sized icon. To import custom icons, use: `import { bell_medium as Bell } from 'dnb-ui-lib/icons'`
+Large Signal button with medium sized icon. To import custom icons, use: `import { bell_medium as Bell } from '@dnb/eufemia/icons'`
 
 <!-- prettier-ignore -->
 <ComponentBox scope={{ Bell }}>

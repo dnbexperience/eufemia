@@ -5,8 +5,7 @@
 
 import React from 'react'
 import { css, Global } from '@emotion/react'
-import styled from '@emotion/styled'
-import { Switch } from 'dnb-ui-lib/src'
+import { Switch } from '@dnb/eufemia/src'
 import { gridStyle } from '../parts/PortalStyle'
 
 const globalStyle = css`
@@ -30,12 +29,6 @@ const globalStyle = css`
       }
     }
     /* stylelint-enable */
-  }
-`
-
-const ToggleWrapper = styled.span`
-  @media screen and (max-width: 50em) {
-    display: none;
   }
 `
 
@@ -79,16 +72,15 @@ export default class ToggleGrid extends React.PureComponent {
   render() {
     const { showGrid } = this.state
     return (
-      <ToggleWrapper className="toggle-grid" {...this.props}>
+      <span {...this.props}>
         {showGrid && <Global styles={globalStyle} />}
         <Switch
           id="switch-grid"
           label="Grid"
-          label_position="left"
           checked={showGrid}
           on_change={({ checked }) => this.toggleGrid(checked)}
         />
-      </ToggleWrapper>
+      </span>
     )
   }
 }

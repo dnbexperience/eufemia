@@ -9,7 +9,7 @@ import ComponentBox from 'Tags/ComponentBox'
 
 # The Basics
 
-The `dnb-ui-lib` is hosted on the global NPM registry. It includes all the necessary parts to build an independent layer on top of a frontend framework of your choice.
+The `@dnb/eufemia` is hosted on the global NPM registry. It includes all the necessary parts to build an independent layer on top of a frontend framework of your choice.
 
 It is recommended to have an application setup with a compiling/build process in place.
 
@@ -28,7 +28,7 @@ We can also bind event listeners to work together with your application.
 
 One of the most important reasons why Eufemia exists, is to make it more easy to get a pixel perfect result on developing WEB Applications.
 
-Therefore, You come a long way on using the `dnb-ui-lib` correctly:
+Therefore, You come a long way on using the `@dnb/eufemia` correctly:
 
 - Make You use [import the style packages correctly](/uilib/usage/customisation/styling) (with or without CSS reset depending on Your legacy code situation)
 - Always (mostly) use `rem` to the nearest "8px" value, like **1px = 0.0625rem** (1/16)
@@ -69,7 +69,7 @@ With [Node.js](https://nodejs.org/) as our JavaScript runtime in place, we may u
 
 ```jsx
 // Define the imports
-import { Button } from 'dnb-ui-lib'
+import { Button } from '@dnb/eufemia'
 
 // And consume the Component in Your markup render method
 render(<Button text="Primary Button" />)
@@ -79,15 +79,15 @@ You also may [import the styles](/uilib/usage/customisation/styling/consume-styl
 
 ```js
 // e.g. in the App root
-import 'dnb-ui-lib/style'
+import '@dnb/eufemia/style'
 ```
 
 You can also import a single style of one component at a time:
 
 ```js
 // Imports only the Button CSS and Main DNB Theme
-import 'dnb-ui-lib/components/button/style'
-import 'dnb-ui-lib/components/button/style/themes/ui'
+import '@dnb/eufemia/components/button/style'
+import '@dnb/eufemia/components/button/style/themes/ui'
 ```
 
 And finally bind an [event listener](/uilib/usage/customisation/event-handling):
@@ -96,39 +96,39 @@ And finally bind an [event listener](/uilib/usage/customisation/event-handling):
 <Button text="Button" on_click={myClickHandler} />
 ```
 
-## Importing components, elements and patterns
+## Importing components and elements
 
 By default, you can import `components` and `elements` from the root:
 
 ```js
-import { Button } from 'dnb-ui-lib'
+import { Button } from '@dnb/eufemia'
 ```
 
-As the `dnb-ui-lib` uses [ESM](/uilib/usage/first-steps/module-formats#default-module-format) as its default module format, we get a good tree shaking with most of the bundler tools commonly used.
+As the `@dnb/eufemia` uses [ESM](/uilib/usage/first-steps/module-formats#default-module-format) as its default module format, we get a good tree shaking with most of the bundler tools commonly used.
 
 But you can be more specific if you want to:
 
 ```js
-import { Button } from 'dnb-ui-lib/components'
-import { Anchor } from 'dnb-ui-lib/elements'
+import { Button } from '@dnb/eufemia/components'
+import { Anchor } from '@dnb/eufemia/elements'
 ```
 
 And even go further:
 
 ```js
-import Button from 'dnb-ui-lib/components/Button'
+import Button from '@dnb/eufemia/components/Button'
 
 // or
 
-import Button from 'dnb-ui-lib/components/button/Button'
+import Button from '@dnb/eufemia/components/button/Button'
 ```
 
-### Importing patterns
+### Importing extensions
 
-Patterns you would have to import explicitly from `/patterns`
+Extensions you would have to import explicitly from `/extensions`
 
 ```js
-import { ... } from 'dnb-ui-lib/patterns'
+import { ... } from '@dnb/eufemia/extensions'
 ```
 
 ### Importing icons
@@ -136,17 +136,17 @@ import { ... } from 'dnb-ui-lib/patterns'
 The same applies to icons, you would have to import them explicitly from `/icons`
 
 ```js
-import { bell_medium as Bell } from 'dnb-ui-lib/icons'
+import { bell_medium as Bell } from '@dnb/eufemia/icons'
 
 // or
 
-import Bell from 'dnb-ui-lib/icons/bell'
-import BellMedium from 'dnb-ui-lib/icons/bell_medium'
+import Bell from '@dnb/eufemia/icons/bell'
+import BellMedium from '@dnb/eufemia/icons/bell_medium'
 ```
 
 ## UMD
 
-In case you don't have a compiling/build process, You can use the UMD packed version of the `dnb-ui-lib`. Take a look into this repo and the [UMD example usage](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-html/static). But this will not optimize your code for the best user experience.
+In case you don't have a compiling/build process, You can use the UMD packed version of the `@dnb/eufemia`. Take a look into this repo and the [UMD example usage](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-html/static). But this will not optimize your code for the best user experience.
 
 ```html
 <html>
@@ -154,21 +154,21 @@ In case you don't have a compiling/build process, You can use the UMD packed ver
     ...
     <link
       rel="stylesheet"
-      href="https://unpkg.com/dnb-ui-lib@latest/style/dnb-ui-core.min.css"
+      href="https://unpkg.com/@dnb/eufemia@latest/style/dnb-ui-core.min.css"
     />
     <link
       rel="stylesheet"
-      href="https://unpkg.com/dnb-ui-lib@latest/style/dnb-ui-components.min.css"
+      href="https://unpkg.com/@dnb/eufemia@latest/style/dnb-ui-components.min.css"
     />
     <link
       rel="stylesheet"
-      href="https://unpkg.com/dnb-ui-lib@latest/style/themes/dnb-theme-ui.min.css"
+      href="https://unpkg.com/@dnb/eufemia@latest/style/themes/dnb-theme-ui.min.css"
     />
   </head>
   <body>
     ...
-    <script src="https://unpkg.com/dnb-ui-lib@latest/umd/dnb-ui-icons.min.js"></script>
-    <script src="https://unpkg.com/dnb-ui-lib@latest/umd/dnb-ui-lib.min.js"></script>
+    <script src="https://unpkg.com/@dnb/eufemia@latest/umd/dnb-ui-icons.min.js"></script>
+    <script src="https://unpkg.com/@dnb/eufemia@latest/umd/dnb-ui-lib.min.js"></script>
   </body>
 </html>
 ```

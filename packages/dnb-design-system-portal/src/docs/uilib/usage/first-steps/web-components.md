@@ -2,13 +2,14 @@
 title: 'Web Components'
 description: 'Web Components are'
 order: 9
+draft: true
 ---
 
 import ComponentBox from 'Tags/ComponentBox'
 
 # Web Components
 
-So called [Custom Elements](https://www.w3.org/TR/custom-elements/) running as a [Web Component](https://github.com/w3c/webcomponents/) can be used to run the `dnb-ui-lib` components in all other frameworks like Dojo.
+So called [Custom Elements](https://www.w3.org/TR/custom-elements/) running as a [Web Component](https://github.com/w3c/webcomponents/) can be used to run the `@dnb/eufemia` components in all other frameworks like Dojo.
 
 **Limitations:** Both nested Web Components and the usage of React Context is not supported. But can be implemented if needed.
 
@@ -58,23 +59,23 @@ There are several different ways to enable Web Components:
 
 ```jsx
 // Method #1 (will import all components)
-import { enableWebComponents } from 'dnb-ui-lib/components/lib'
+import { enableWebComponents } from '@dnb/eufemia/components/lib'
 enableWebComponents()
 
 // Method #2 (will import all components)
-import 'dnb-ui-lib/components/web-components'
+import '@dnb/eufemia/components/web-components'
 
 // Method #3 (will import all components)
-import 'dnb-ui-lib/web-components'
+import '@dnb/eufemia/web-components'
 
 // Method #4
 // Will import only the code for the Button
 // NB: web-component without "s"
-import 'dnb-ui-lib/components/button/web-component'
+import '@dnb/eufemia/components/button/web-component'
 
 // Method #5
 // Will only enable the Button Web Component
-import { Button } from 'dnb-ui-lib/components/Button'
+import { Button } from '@dnb/eufemia/components/Button'
 Button.enableWebComponent()
 ```
 
@@ -91,15 +92,15 @@ Browser based composition.
   <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
 
   <!-- Method #1 -->
-  <script src="https://unpkg.com/dnb-ui-lib/umd/dnb-ui-icons.min.js"></script>
-  <script src="https://unpkg.com/dnb-ui-lib/umd/dnb-ui-web-components.min.js"></script>
+  <script src="https://unpkg.com/@dnb/eufemia/umd/dnb-ui-icons.min.js"></script>
+  <script src="https://unpkg.com/@dnb/eufemia/umd/dnb-ui-web-components.min.js"></script>
   <script type="application/javascript">
     console.log(window.dnbWebComponents)
   </script>
 
   <!-- Method #2 -->
-  <script src="https://unpkg.com/dnb-ui-lib/umd/dnb-ui-icons.min.js"></script>
-  <script src="https://unpkg.com/dnb-ui-lib/umd/dnb-ui-lib.min.js"></script>
+  <script src="https://unpkg.com/@dnb/eufemia/umd/dnb-ui-icons.min.js"></script>
+  <script src="https://unpkg.com/@dnb/eufemia/umd/dnb-ui-lib.min.js"></script>
   <script type="application/javascript">
     window.dnbLib.enableWebComponents()
   </script>
@@ -125,21 +126,21 @@ To support [importmap](https://github.com/WICG/import-maps), we can load a polyf
       "imports": {
         "react": "...",
         "react-dom": "...",
-        "../icons/primary_icons.js": "https://unpkg.com/dnb-ui-lib/esm/dnb-ui-icons.min.mjs",
-        "../icons/primary_icons_medium.js": "https://unpkg.com/dnb-ui-lib/esm/dnb-ui-icons.min.mjs"
+        "../icons/primary_icons.js": "https://unpkg.com/@dnb/eufemia/esm/dnb-ui-icons.min.mjs",
+        "../icons/primary_icons_medium.js": "https://unpkg.com/@dnb/eufemia/esm/dnb-ui-icons.min.mjs"
       }
     }
   </script>
 
   <script
     type="module-shim"
-    src="https://unpkg.com/dnb-ui-lib/esm/dnb-ui-lib.min.mjs"
+    src="https://unpkg.com/@dnb/eufemia/esm/dnb-ui-lib.min.mjs"
   >
     // Enable every custom element by default
-    import 'https://unpkg.com/dnb-ui-lib/esm/dnb-ui-web-components.min.mjs'
+    import 'https://unpkg.com/@dnb/eufemia/esm/dnb-ui-web-components.min.mjs'
 
     // or enable them this way
-    import { Button, enableWebComponents } 'https://unpkg.com/dnb-ui-lib/esm/dnb-ui-lib.min.mjs'
+    import { Button, enableWebComponents } 'https://unpkg.com/@dnb/eufemia/esm/dnb-ui-lib.min.mjs'
 
     // then, either all
     enableWebComponents()

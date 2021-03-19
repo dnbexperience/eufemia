@@ -10,18 +10,24 @@ import Link from '../parts/Link'
 import { StaticQuery, graphql } from 'gatsby'
 import { css, Global } from '@emotion/react'
 import styled from '@emotion/styled'
-import { resetLevels } from 'dnb-ui-lib/src/components/Heading'
-import Context from 'dnb-ui-lib/src/shared/Context'
+import { resetLevels } from '@dnb/eufemia/src/components/Heading'
+import Context from '@dnb/eufemia/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
-// import { MainMenuToggleButton } from './ToggleMainMenu'
-import { createSkeletonClass } from 'dnb-ui-lib/src/components/skeleton/SkeletonHelper'
-import { Icon } from 'dnb-ui-lib/src/components'
+import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
+import { Icon } from '@dnb/eufemia/src/components'
 import graphics from './SidebarGraphics'
 import keycode from 'keycode'
 import {
   setPageFocusElement,
   applyPageFocus
-} from 'dnb-ui-lib/src/shared/helpers'
+} from '@dnb/eufemia/src/shared/helpers'
+import PortalToolsMenu from './PortalToolsMenu'
+
+const PortalToolsMenuMedia = styled(PortalToolsMenu)`
+  @media screen and (min-width: 50em) {
+    display: none;
+  }
+`
 
 const StyledListItem = styled.li`
   list-style: none;
@@ -189,7 +195,7 @@ const StyledListItem = styled.li`
 
     font-size: 0.4375rem; /* safari handles rem value incorrectly */
     line-height: 1.3125rem; /* same as height + 1px */
-    font-weight: var(--font-weight-default);
+    font-weight: var(--font-weight-basis);
     text-align: center;
     text-transform: uppercase;
     color: var(--color-black);
@@ -428,10 +434,13 @@ export default class SidebarLayout extends React.PureComponent {
               }
 
               --delay: 0; /* polyfill fallback */
+
+              /* stylelint-disable */
               --aside-width: 30vw; /* IE fix */
               --aside-width: calc(25vw + 5rem);
+              /* stylelint-enable */
 
-              /* 2.5rem - but we dont want it to be responsive */
+              /* 2.5rem - but we don't want it to be responsive */
               --level-icon-adjust: -40px;
               --level: 2vw;
 
@@ -567,12 +576,19 @@ export default class SidebarLayout extends React.PureComponent {
                   id="portal-sidebar-menu"
                   aria-labelledby="toggle-sidebar-menu"
                   className={classnames(
-                    // 'dnb-core-style',
+                    'dnb-scrollbar-appearance',
                     isOpen && 'show-mobile-menu',
                     isClosing && 'hide-mobile-menu'
                   )}
                   ref={this._scrollRef}
                 >
+                  <PortalToolsMenuMedia
+                    trigger_text="Portal Tools"
+                    trigger_icon="chevron_right"
+                    trigger_icon_position="right"
+                    left="large"
+                    top="large"
+                  />
                   <ul className="dev-grid">{nav}</ul>
                   {isOpen && (
                     <Global

@@ -1,0 +1,101 @@
+/*
+* Input theme
+*
+*/
+
+@import '../../../../style/themes/imports.scss';
+
+.dnb-input {
+  color: var(--color-black);
+
+  &__inner {
+    color: inherit;
+  }
+
+  &__shell {
+    color: inherit;
+    background-color: var(--color-white);
+    border: none;
+
+    @include fakeBorder(
+      var(--color-sea-green),
+      var(--input-border-width),
+      inset,
+      true
+    );
+  }
+
+  // Icon
+  &__icon {
+    color: var(--color-sea-green);
+  }
+
+  &[data-input-state='disabled'] &__shell {
+    &,
+    .dnb-icon {
+      color: var(--color-black-55);
+    }
+    -webkit-text-fill-color: currentColor;
+    @include fakeBorder(
+      var(--color-black-55),
+      var(--input-border-width),
+      inset,
+      true
+    );
+    background-color: var(--color-black-3);
+  }
+
+  &[data-input-state='focus'] &__shell,
+  &:not([data-input-state='disabled']) &__shell:hover,
+  &:not([data-input-state='disabled']):hover &__shell {
+    @include fakeBorder(var(--color-sea-green), 0.125rem);
+  }
+
+  // with status_state = "error"
+  &__status--error#{&}:not([data-input-state='focus']) &__shell {
+    color: var(--color-fire-red);
+  }
+  &__status--error#{&}:not([data-input-state='focus']):not(:hover)
+    &__shell {
+    @include fakeBorder(var(--color-fire-red));
+  }
+  &__status--error#{&}[data-input-state='focus'] &__shell,
+  &__status--error#{&}:not([data-input-state='disabled']) &__shell:hover,
+  &__status--error#{&}:not([data-input-state='disabled']):hover &__shell {
+    @include fakeBorder(var(--color-fire-red), 0.125rem);
+  }
+  &__status--error &__submit-button {
+    html:not([data-whatintent='touch'])
+      &__button.dnb-button--secondary:not(&__button--has-text):not([disabled]):hover,
+    html:not([data-whatintent='touch'])
+      &__button.dnb-button--secondary:not(&__button--has-text):not([disabled]):focus {
+      &,
+      &::after {
+        background-color: var(--color-fire-red);
+      }
+      &:active {
+        color: var(--color-white);
+      }
+    }
+  }
+  &__status--error &__icon {
+    color: var(--color-fire-red);
+  }
+
+  &__input::selection {
+    background-color: var(--color-mint-green);
+    color: var(--color-black);
+    text-shadow: none;
+  }
+
+  &__placeholder {
+    color: var(--color-black-55);
+  }
+  &[data-input-state='focus'] &__placeholder {
+    display: none;
+  }
+  &--keep-placeholder &[data-input-state='focus'] &__placeholder {
+    display: block;
+    color: var(--color-black-20);
+  }
+}

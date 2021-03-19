@@ -4,7 +4,7 @@ order: 2
 ---
 
 import GithubLogo from 'Pages/uilib/development/assets/github-logo.js'
-import { Icon } from 'dnb-ui-lib/src'
+import { Icon } from '@dnb/eufemia/src'
 
 # First Steps
 
@@ -14,7 +14,7 @@ To give you an overall picture of the Design System, you may read [Getting Start
 
 ## Installation
 
-Check out the `dnb-ui-lib` **[Installation documentation](/uilib/usage/#installation)**.
+Check out the `@dnb/eufemia` **[Installation documentation](/uilib/usage/#installation)**.
 
 ## Demo Apps
 

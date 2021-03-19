@@ -1,0 +1,187 @@
+/*
+* Textarea component
+*
+*/
+
+@import './themes/dnb-textarea-theme-ui.scss';
+
+:root {
+  --textarea-padding-width: 0.5rem;
+}
+
+@mixin textareaStyleCommon() {
+  cursor: auto;
+  border: none;
+  margin: 0;
+  padding: 0 var(--textarea-padding-width);
+
+  outline: none;
+
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+}
+
+.dnb-textarea {
+  display: inline-flex;
+
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
+
+  &__inner {
+    display: inline-flex;
+    flex-direction: column;
+
+    margin: var(--textarea-padding-width);
+  }
+
+  &__shell {
+    display: inline-flex;
+    position: relative;
+
+    // because of inheritance, we set the font-size and line-height here as well
+    font-size: var(--font-size-basis);
+  }
+
+  &__state {
+    position: absolute;
+    z-index: -1;
+    top: -0.5rem;
+    left: -0.5rem;
+    bottom: -0.5rem;
+    right: -0.5rem;
+
+    background-color: var(--color-white);
+    box-shadow: 0 0 0 0.0625rem var(--color-sea-green);
+
+    border-radius: 0.25rem;
+  }
+
+  &__row {
+    display: inline-flex;
+  }
+
+  &__suffix {
+    padding-left: 1.5rem;
+  }
+
+  &__textarea {
+    @include textareaStyleCommon();
+  }
+
+  &__placeholder {
+    pointer-events: none;
+
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+
+    overflow: hidden;
+    width: 100%; // to get overflow working properly
+    height: 100%; // to get overflow working properly
+
+    @include textareaStyleCommon();
+  }
+
+  &__textarea,
+  &__placeholder {
+    text-align: left;
+  }
+
+  &__align--right &__textarea,
+  &__align--right &__placeholder {
+    text-align: right;
+  }
+
+  &__autoresize &__textarea {
+    resize: none;
+  }
+
+  // hide placeholder on focus
+  &--has-content &__textarea ~ &__placeholder,
+  &--focus &__textarea:not([disabled]):not([readonly]) ~ &__placeholder {
+    opacity: 0.5;
+  }
+
+  &__inner > .dnb-form-status {
+    order: 2;
+    margin: 1rem 0 0 calc(1px - 1px - var(--textarea-padding-width));
+  }
+
+  &:not(#{&}--vertical) .dnb-form-label {
+    margin-top: 0.5rem;
+  }
+
+  &--vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &[class*='__status'] {
+    align-items: flex-start;
+    > .dnb-form-label {
+      // vertical align the current font
+      margin-top: 0.25rem;
+    }
+  }
+  @include formLabelWrap();
+
+  // make full width
+  &--stretch {
+    display: flex;
+    flex-grow: 1;
+  }
+  &--stretch & {
+    &__inner {
+      flex-grow: 1;
+    }
+    &__shell,
+    &__textarea {
+      width: 100%;
+    }
+  }
+  &--vertical#{&}--stretch &__inner {
+    width: 100%;
+  }
+  .dnb-form-row--horizontal &--stretch {
+    width: 100%;
+  }
+
+  .dnb-responsive-component & {
+    @media screen and (max-width: 40em) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      margin-bottom: 0.5rem;
+
+      > .dnb-form-label {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+
+  &.dnb-skeleton &__inner {
+    margin: 0;
+    border-radius: 0.25rem;
+  }
+  &.dnb-skeleton &__inner &__shell {
+    margin: var(--textarea-padding-width);
+  }
+  &.dnb-skeleton &__state,
+  &.dnb-skeleton &__textarea {
+    visibility: hidden;
+  }
+
+  @include IS_IE {
+    &__inner {
+      margin: 0;
+    }
+    .dnb-form-row--horizontal &,
+    &--vertical &__inner,
+    &:not(#{&}--stretch) {
+      flex: none;
+    }
+  }
+}

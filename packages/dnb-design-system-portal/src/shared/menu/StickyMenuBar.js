@@ -9,20 +9,23 @@ import classnames from 'classnames'
 import { StaticQuery, graphql } from 'gatsby'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
-import { hamburger as hamburgerIcon } from 'dnb-ui-lib/src/icons/secondary_icons'
-import { close as closeIcon } from 'dnb-ui-lib/src/icons/primary_icons'
+import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons/secondary_icons'
+import { close as closeIcon } from '@dnb/eufemia/src/icons/primary_icons'
 import PortalLogo from './graphics/logo'
-import { Icon, Button } from 'dnb-ui-lib/src'
+import { Icon, Button } from '@dnb/eufemia/src'
 import { MainMenuToggleButton } from './ToggleMainMenu'
 import { SidebarMenuContext } from './SidebarMenuContext'
-import ToggleGrid from './ToggleGrid'
+import PortalToolsMenu from './PortalToolsMenu'
 import { SearchBarInput } from './SearchBar'
-import { Context } from 'dnb-ui-lib/src/shared'
-import { createSkeletonClass } from 'dnb-ui-lib/src/components/skeleton/SkeletonHelper'
+import { Context } from '@dnb/eufemia/src/shared'
+import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 
 const Header = styled.header`
   position: fixed;
-  z-index: 200;
+  z-index: 4000;
+  [data-dnb-modal-active='true'] & {
+    z-index: 3000;
+  }
   top: 0;
   left: 0;
   width: 100%;
@@ -34,7 +37,6 @@ const Header = styled.header`
   background-color: var(--color-white);
   border-bottom: 1px solid var(--color-black-border);
 
-  ${'' /* overflow: hidden; */}
   white-space: nowrap;
 
   #toggle-sidebar-menu {
@@ -83,6 +85,10 @@ const HeaderInner = styled.div`
     padding: 0.5rem 5vw;
   }
 
+  body[data-dnb-modal-active='true'] & {
+    margin-right: var(--scrollbar-width);
+  }
+
   align-items: center;
 `
 const Slogan = styled.span`
@@ -107,6 +113,12 @@ const CenterWrapper = styled.span`
 
 const hideSiebarToggleButtonStyle = css`
   #toggle-sidebar-menu {
+    display: none;
+  }
+`
+
+const PortalToolsMenuMedia = styled(PortalToolsMenu)`
+  @media screen and (max-width: 50em) {
     display: none;
   }
 `
@@ -178,6 +190,7 @@ export default class StickyMenuBar extends React.PureComponent {
                         on_click={toggleMenu}
                         id="toggle-sidebar-menu"
                         size="default"
+                        icon_size="default"
                         aria-haspopup="true"
                         aria-controls="portal-sidebar-menu"
                         aria-expanded={isOpen}
@@ -188,7 +201,7 @@ export default class StickyMenuBar extends React.PureComponent {
                             : 'Show section content menu'
                         }
                       />
-                      <ToggleGrid />
+                      <PortalToolsMenuMedia />
                     </Tools>
                   </HeaderInner>
                 </Header>

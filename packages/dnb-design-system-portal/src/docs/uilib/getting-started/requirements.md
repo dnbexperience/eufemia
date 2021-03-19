@@ -10,7 +10,7 @@ Beside the peer dependencies, there are no specific technical requirements only 
 
 ## Usage
 
-Eufemia (`dnb-ui-lib`) can be used with an UMD, ES5, ES6 or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend framework and setups. But we strongly recommend to use Eufemia with a **React stack**, as this makes including the Eufemia tools and components most productive. All the components internal states are handled with React to only keep the most necessary in the DOM (HTML elements and event bindings).
+Eufemia (`@dnb/eufemia`) can be used with an UMD, ES5, ES6 or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend framework and setups. But we strongly recommend to use Eufemia with a **React stack**, as this makes including the Eufemia tools and components most productive. All the components internal states are handled with React to only keep the most necessary in the DOM (HTML elements and event bindings).
 
 ## The hard part of a living design system
 

@@ -3,7 +3,7 @@ title: 'Anchor (Text Link)'
 ---
 
 import ComponentBox from 'Tags/ComponentBox'
-import { IconPrimary } from 'dnb-ui-lib/src'
+import { IconPrimary } from '@dnb/eufemia/src'
 
 ## Anchor (Text Link)
 
@@ -47,7 +47,7 @@ You would normally just decorate your anchor class withe this CSS class: `.dnb-a
 
 <ComponentBox useRender>
 {`
-// import { Link, Anchor } from 'dnb-ui-lib/elements'
+// import { Link, Anchor } from '@dnb/eufemia/elements'
 render(
   <p className="dnb-p">
     <Anchor href="/uilib/elements/anchor" right>My Link</Anchor>

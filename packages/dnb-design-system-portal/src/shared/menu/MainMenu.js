@@ -20,14 +20,13 @@ import {
   QuickguideDesignerSvg,
   DesignSystemSvg
 } from './MainMenuGraphics'
-import { Logo, Button } from 'dnb-ui-lib/src'
-// import { buildVersion } from '../../../package.json'
-import { version as buildVersion } from '../../../version.json'
+import { Logo, Button } from '@dnb/eufemia/src'
+import version from '../../../version.json'
 import { MainMenuContext } from './MainMenuContext'
 import {
   setPageFocusElement,
   applyPageFocus
-} from 'dnb-ui-lib/src/shared/helpers'
+} from '@dnb/eufemia/src/shared/helpers'
 import { SearchBarInput } from './SearchBar'
 
 class MainWrapper extends React.PureComponent {
@@ -72,7 +71,7 @@ const MainWrapperStyled = styled.nav`
 
   &.is-overlay {
     position: absolute;
-    z-index: 201; /* one more than sticky Bar = styled.div */
+    z-index: 4001; /* one more than sticky Bar = styled.div */
     top: 0;
     left: 0;
     @media (min-height: 55em) {
@@ -339,7 +338,7 @@ export default class MainMenu extends React.PureComponent {
                         <>
                           {items['design-system'].description}
                           <LastUpdated title="Last Change log update">
-                            Updated: {buildVersion}
+                            Updated: {version.buildVersion}
                           </LastUpdated>
                         </>
                       }

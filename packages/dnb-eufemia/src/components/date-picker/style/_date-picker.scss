@@ -1,0 +1,526 @@
+/*
+* DatePicker component
+*
+*/
+
+:root {
+  --date-picker-input-height: 2rem;
+  --date-picker-day-width: 2rem;
+  --date-picker-day-horizontal-spacing: 4px;
+}
+
+@mixin openDatePicker($state: 'animation') {
+  z-index: 100; // make sure we are over e.g. switch
+
+  &:not(#{&}--no-animation) {
+    animation: date-picker-slide-down 200ms ease-out 1 forwards;
+  }
+  html[data-visual-test] &,
+  &--no-animation {
+    animation: date-picker-slide-down 1ms ease-out 1 forwards;
+  }
+}
+@mixin closeDatePicker($state: 'animation') {
+  &:not(#{&}--no-animation) {
+    animation: date-picker-slide-up 150ms ease-out 1 forwards;
+  }
+  html[data-visual-test] &,
+  &--no-animation {
+    animation: date-picker-slide-up 1ms ease-out 1 forwards;
+  }
+}
+
+@mixin datePickerClosed() {
+  display: none;
+}
+
+.dnb-date-picker {
+  display: inline-flex;
+  align-items: center;
+
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
+
+  &__inner {
+    display: inline-flex;
+    flex-direction: column;
+
+    // if no label is provided, then make sure we have some text to align the button
+    line-height: var(--date-picker-input-height);
+  }
+
+  &__row {
+    display: inline-flex;
+  }
+
+  &__shell {
+    position: relative;
+    top: 0;
+
+    display: inline-flex;
+    flex-direction: column;
+  }
+  &__input__wrapper {
+    display: inline-flex;
+    white-space: nowrap;
+    height: inherit;
+  }
+
+  &__container {
+    position: absolute;
+    display: block;
+    z-index: 3;
+    left: -1rem;
+    top: var(--date-picker-input-height);
+  }
+  &--show-input &__container {
+    left: 0;
+  }
+
+  // alignment
+  &--right &__container {
+    left: auto;
+    right: -1rem;
+  }
+  &--show-input#{&}--right &__container {
+    left: auto;
+    right: 0;
+  }
+
+  &--opened &__container {
+    @include openDatePicker();
+  }
+  &--hidden &__container {
+    @include datePickerClosed();
+  }
+  &:not(#{&}--opened) &__container {
+    @include closeDatePicker();
+  }
+
+  // stylelint-disable-next-line
+  &__input,
+  .dnb-input__input#{&}__input,
+  .dnb-core-style &__input {
+    display: inline-block;
+    width: auto;
+
+    margin: 0;
+    padding: 0 0.125rem;
+
+    // reset vertical alignment
+    transform: translateY(0);
+
+    outline: none;
+
+    font-family: var(--font-family-monospace);
+    text-align: center;
+    border: none;
+    background: transparent;
+
+    overflow: visible;
+    white-space: nowrap;
+
+    // Chrome fix
+    @include IS_CHROME {
+      margin: 0 -4px;
+    }
+
+    // Edge fix
+    @include IS_EDGE {
+      margin: 0 -5px;
+    }
+
+    // Safari Mobile fix
+    @include IS_SAFARI_MOBILE {
+      &:not(*:root) {
+        margin: 0;
+      }
+    }
+
+    // Safari Desktop fix
+    @include IS_SAFARI_DESKTOP {
+      &:not(*:root) {
+        margin: 0 -4px;
+      }
+      &:first-of-type:not(*:root) {
+        margin-left: 0.8rem;
+      }
+      // stylelint-disable-next-line
+      &:last-of-type:not(*:root) {
+        margin-right: 2.2rem;
+      }
+    }
+  }
+  .dnb-input__input#{&}__input:first-of-type,
+  &__input:first-of-type {
+    margin-left: 0.8rem;
+  }
+  .dnb-input__input#{&}__input:last-of-type,
+  &__input:last-of-type {
+    margin-right: 2.2rem;
+  }
+  .dnb-input__shell {
+    display: none;
+  }
+  &--show-input .dnb-input__shell {
+    display: flex;
+  }
+  &:not(#{&}--show-input) .dnb-input__status--error .dnb-input__shell {
+    box-shadow: none;
+  }
+  .dnb-input__submit-button button:focus ~ &__input__wrapper {
+    display: block;
+  }
+  &:not(#{&}--show-input) .dnb-input__submit-element,
+  .dnb-input__submit-element > & .dnb-input__submit-element {
+    margin-left: 0;
+  }
+
+  // &--separator {
+  //   margin: 0 -0.2rem;
+  // }
+
+  &__views {
+    display: flex;
+    user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
+
+    // Wrap aleady on 50em, because 40em is too narrow in range mode
+    @media screen and (max-width: 50em) {
+      flex-direction: column;
+    }
+  }
+
+  &__calendar {
+    position: relative;
+    padding: 1rem;
+
+    // border
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      width: calc(100% - 2rem);
+      height: 1px;
+    }
+  }
+
+  &:not(#{&}--show-footer) &__calendar::after {
+    content: none;
+  }
+
+  &__header {
+    height: 2.5rem;
+    line-height: var(--line-height-basis);
+  }
+
+  &__addon,
+  &__header {
+    position: relative;
+
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+
+    // border
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+    }
+  }
+
+  &__addon {
+    display: block;
+    padding: 1rem;
+    &::after {
+      left: 1rem;
+      width: calc(100% - 2rem);
+    }
+  }
+
+  &__footer {
+    position: relative;
+
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+  }
+
+  &__labels {
+    &__day {
+      padding-top: 1.5rem;
+      padding-bottom: 0.5rem;
+    }
+  }
+
+  &__labels,
+  &__days {
+    min-width: 18rem;
+    max-width: 18rem;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  table {
+    position: relative;
+    z-index: 1; // to make sure we show the focus ring over the header line on top
+
+    margin: 0;
+
+    &.dnb-no-focus:focus {
+      @include fakeFocus();
+    }
+  }
+
+  &__day,
+  &__labels__day {
+    display: flex;
+    flex-basis: percentage(1 / 7);
+    justify-content: center;
+  }
+
+  &__day {
+    position: relative;
+
+    width: var(--date-picker-day-width); // medium size
+    height: var(--date-picker-day-width); // medium size
+    margin: var(--date-picker-day-horizontal-spacing) 0;
+
+    .dnb-button {
+      position: absolute;
+      top: 0;
+      width: var(--date-picker-day-width); // medium size
+      height: var(--date-picker-day-width); // medium size
+      white-space: nowrap;
+
+      box-shadow: none;
+      &__bounding {
+        border-radius: 0;
+        transform: scale(1.28);
+      }
+
+      // reset vertical alignment
+      &__text {
+        transform: translateY(0);
+      }
+    }
+
+    &--selectable:hover {
+      z-index: 2;
+    }
+
+    &--start-date .dnb-button,
+    &--end-date .dnb-button {
+      z-index: 1;
+    }
+
+    &--start-date,
+    &--end-date {
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        width: calc(var(--date-picker-day-width) / 2);
+        height: 100%;
+      }
+    }
+    &--start-date::after {
+      left: auto;
+      right: 0;
+    }
+    &--end-date::after {
+      left: 0;
+      right: auto;
+    }
+    &--start-date#{&}--end-date::after {
+      content: none;
+    }
+  }
+
+  &__triangle {
+    pointer-events: none;
+
+    position: absolute;
+    top: calc(1px + 1px - var(--date-picker-input-height) / 2);
+    left: 0;
+    right: auto;
+    margin: 0 1.5rem;
+
+    width: calc(var(--date-picker-input-height) / 2);
+    height: calc(var(--date-picker-input-height) / 2);
+
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: calc(var(--date-picker-input-height) / 2);
+      height: calc(var(--date-picker-input-height) / 2);
+      transform: translateY(60%) rotate(45deg);
+
+      border: 1px solid var(--color-black-border);
+      background-color: var(--color-white);
+    }
+  }
+  &--right &__triangle {
+    left: auto;
+    right: 0;
+  }
+
+  .rtl {
+    direction: rtl;
+
+    .dnb-date-picker__prev::before {
+      transform: scaleX(-1);
+    }
+
+    .dnb-date-picker__next::before {
+      transform: scaleX(-1);
+    }
+  }
+
+  &__inner > .dnb-form-status {
+    order: 2;
+    margin-top: 0.5rem;
+  }
+
+  &--vertical {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  > .dnb-form-label {
+    line-height: var(--line-height-basis);
+  }
+  @include formLabelWrap();
+
+  // make full width
+  &--stretch {
+    display: flex;
+    flex-grow: 1;
+  }
+  &--stretch & {
+    &__inner,
+    &__shell {
+      width: 100%;
+    }
+  }
+  .dnb-form-row--horizontal &--stretch {
+    width: 100%;
+  }
+
+  &[class*='__status'] {
+    align-items: flex-start;
+    > .dnb-form-label {
+      // vertical align the current font
+      margin-top: 0.25rem;
+    }
+  }
+
+  &:not(.dnb-date-picker--show-input)
+    .dnb-input__submit-button
+    .dnb-button {
+    border-radius: 50%;
+  }
+
+  .dnb-responsive-component & {
+    @media screen and (max-width: 40em) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      margin-bottom: 0.5rem;
+
+      > .dnb-form-label {
+        margin-bottom: 0.5rem;
+      }
+      &__helper {
+        display: none;
+      }
+    }
+  }
+
+  .dnb-input__submit-button .dnb-button.dnb-skeleton {
+    visibility: hidden;
+  }
+
+  &__fieldset,
+  .dnb-core-style &__fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  @include IS_IE {
+    flex: none;
+
+    &__day,
+    &__labels__day {
+      flex-basis: percentage(1 / 7) - 0.8;
+    }
+
+    &__day {
+      .dnb-button {
+        &,
+        .dnb-core-style &,
+        &__bounding {
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          margin: auto;
+        }
+        &__text {
+          transform: translateX(-50%) !important;
+        }
+      }
+    }
+
+    &__header {
+      &__nav:nth-of-type(2) {
+        order: 2;
+      }
+
+      &__title {
+        width: 100%;
+      }
+
+      // border
+      &::after {
+        left: 0;
+      }
+    }
+  }
+}
+
+@keyframes date-picker-slide-down {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes date-picker-slide-up {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

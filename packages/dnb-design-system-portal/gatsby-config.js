@@ -52,7 +52,8 @@ const plugins = [
     resolve: 'gatsby-source-filesystem',
     options: {
       path: `${__dirname}/src/docs`, //for .md (mdx) files
-      name: 'docs'
+      name: 'docs',
+      ignore: ['**/*_not_in_use*']
     }
   },
   {
@@ -89,7 +90,7 @@ const plugins = [
   {
     resolve: 'gatsby-plugin-postcss',
     options: {
-      postCssPlugins: require('dnb-ui-lib/scripts/prepub/config/postcssConfig')(
+      postCssPlugins: require('@dnb/eufemia/scripts/prepub/config/postcssConfig')(
         {
           IE11: false
         }
@@ -126,12 +127,10 @@ if (queries) {
 
 module.exports = {
   flags: {
-    FAST_REFRESH: true,
-    // FAST_DEV: true,
-    // DEV_SSR: true,
-    // LAZY_IMAGES: true,
-    // QUERY_ON_DEMAND: true,
-    PRESERVE_WEBPACK_CACHE: true
+    PARALLEL_SOURCING: true,
+    PRESERVE_WEBPACK_CACHE: true,
+    FAST_DEV: false,
+    DEV_SSR: false
   },
   pathPrefix,
   siteMetadata,
