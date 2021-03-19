@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Anchor element have to match default Anchor element snapshot 1`] = `
+<ForwardRef
+  className="className"
+  element="a"
+  href="href"
+  target="target"
+>
+  <ForwardRef
+    _ref={null}
+    class="dnb-anchor"
+    className="className"
+    css={null}
+    element="a"
+    href="href"
+    internalClass={null}
+    is="a"
+    skeleton={null}
+    skeleton_method="font"
+    target="target"
+  >
+    <Elem
+      _ref={null}
+      class="dnb-anchor"
+      className="className"
+      css={null}
+      element="a"
+      href="href"
+      internalClass={null}
+      is="a"
+      skeleton={null}
+      skeleton_method="font"
+      target="target"
+    >
+      <a
+        className="className dnb-anchor dnb-a"
+        element="a"
+        href="href"
+        target="target"
+      >
+        text
+      </a>
+    </Elem>
+  </ForwardRef>
+</ForwardRef>
+`;
