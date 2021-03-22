@@ -12,20 +12,20 @@ exports[`P element have to match default P element snapshot 1`] = `
   style_type="style_type"
 >
   <ForwardRef
-    _ref={null}
     class={null}
     className="dnb-p  dnb-p--modifier dnb-p--style_type dnb-p--medium className dnb-p__size--x-small"
     css={null}
+    inner_ref={null}
     internalClass={null}
     is="p"
     skeleton={null}
     skeleton_method="font"
   >
     <Elem
-      _ref={null}
       class={null}
       className="dnb-p  dnb-p--modifier dnb-p--style_type dnb-p--medium className dnb-p__size--x-small"
       css={null}
+      inner_ref={null}
       internalClass={null}
       is="p"
       skeleton={null}

@@ -21,32 +21,34 @@ export class AnchorLink extends React.PureComponent {
   }
 
   onClickHandler = (e) => {
-    e.preventDefault()
-
-    let offset = () => 0
-    if (this.props.offset !== null) {
-      if (
-        this.props.offset &&
-        this.props.offset.constructor &&
-        this.props.offset.apply
-      ) {
-        offset = this.props.offset
-      } else {
-        offset = () => parseInt(this.props.offset)
-      }
-    }
-
-    const id = e.currentTarget.getAttribute('href').slice(1)
-    const anchorElem = document.getElementById(id)
-    const offsetTop =
-      anchorElem.getBoundingClientRect().top + window.pageYOffset
-
-    window.scroll({
-      top: offsetTop - offset(),
-      behavior: 'smooth'
-    })
-
     if (this.props.onClick) {
+      e.preventDefault()
+
+      let offset = () => 0
+      if (this.props.offset !== null) {
+        if (
+          this.props.offset &&
+          this.props.offset.constructor &&
+          this.props.offset.apply
+        ) {
+          offset = this.props.offset
+        } else {
+          offset = () => parseInt(this.props.offset)
+        }
+      }
+
+      const id = e.currentTarget.getAttribute('href').slice(1)
+      const anchorElem = document.getElementById(id)
+      const offsetTop =
+        (anchorElem &&
+          anchorElem.getBoundingClientRect().top + window.pageYOffset) ||
+        0
+
+      window.scroll({
+        top: offsetTop - offset(),
+        behavior: 'smooth'
+      })
+
       this.props.onClick(e)
     }
   }
@@ -69,7 +71,13 @@ export class AnchorLink extends React.PureComponent {
 const Anchor = ({ children, href, ...rest }) => {
   if (/^#/.test(href)) {
     return (
-      <AnchorLink element={Link} offset="100" href={href} {...rest}>
+      <AnchorLink
+        lang="en-GB"
+        element={Link}
+        offset="100"
+        href={href}
+        {...rest}
+      >
         {children}
       </AnchorLink>
     )
@@ -82,7 +90,7 @@ const Anchor = ({ children, href, ...rest }) => {
     }
   }
   return (
-    <AnchorLink element={Link} href={href} {...rest}>
+    <AnchorLink lang="en-GB" element={Link} href={href} {...rest}>
       {children}
     </AnchorLink>
   )

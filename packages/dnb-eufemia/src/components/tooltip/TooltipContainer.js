@@ -17,6 +17,7 @@ export default class TooltipContainer extends React.PureComponent {
       PropTypes.object,
       PropTypes.node
     ]),
+    clientX: PropTypes.number,
     active: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     position: PropTypes.string,
     arrow: PropTypes.string,
@@ -37,6 +38,7 @@ export default class TooltipContainer extends React.PureComponent {
   static defaultProps = {
     internal_id: null,
     targetElement: null,
+    clientX: null,
     active: false,
     position: 'center',
     arrow: null,
@@ -74,6 +76,8 @@ export default class TooltipContainer extends React.PureComponent {
     if (isTrue(this.props.active)) {
       this.updateSize()
     }
+
+    this.addPositionObserver()
   }
 
   componentDidUpdate(prevProps) {
@@ -82,16 +86,48 @@ export default class TooltipContainer extends React.PureComponent {
     }
   }
 
+  componentWillUnmount() {
+    this.removePositionObserver()
+  }
+
+  addPositionObserver() {
+    if (this.resizeObserver || typeof document === 'undefined') {
+      return // stop here
+    }
+
+    try {
+      this.resizeObserver = new ResizeObserver((entries) => {
+        // debounce
+        clearTimeout(this._ddt)
+        this._ddt = setTimeout(() => {
+          // force re-render
+          this.setState({
+            w: entries[0].contentRect.width,
+            h: entries[0].contentRect.height
+          })
+        }, 30)
+      })
+
+      this.resizeObserver.observe(document.body)
+    } catch (e) {
+      //
+    }
+  }
+
+  removePositionObserver() {
+    clearTimeout(this._ddt)
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect()
+      this.resizeObserver = null
+    }
+  }
+
   getGlobalStyle() {
     if (!this.props.targetElement) {
       return { display: 'none' }
     }
 
-    const style = {
-      ...this.makeStyle(this.props.position, this.props.arrow)
-    }
-
-    return style
+    return this.makeStyle(this.props.position, this.props.arrow)
   }
 
   makeStyle(position, arrow) {
@@ -99,16 +135,10 @@ export default class TooltipContainer extends React.PureComponent {
       return {}
     }
     let alignOffset = 0
+
     const target = this.props.targetElement
+    const rect = target.getBoundingClientRect()
     const align = this.props.align
-    const tooltipPosition = target.getBoundingClientRect()
-    const scrollY =
-      window.scrollY !== undefined ? window.scrollY : window.pageYOffset
-    const scrollX =
-      window.scrollX !== undefined ? window.scrollX : window.pageXOffset
-    const top = scrollY + tooltipPosition.top
-    const left = scrollX + tooltipPosition.left
-    const style = {}
 
     const targetSize = {
       width: target.offsetWidth,
@@ -116,10 +146,23 @@ export default class TooltipContainer extends React.PureComponent {
     }
 
     // fix for svg
-    if (!target.offsetHeight && target.getBoundingClientRect) {
-      targetSize.width = target.getBoundingClientRect().width
-      targetSize.height = target.getBoundingClientRect().height
+    if (!target.offsetHeight) {
+      targetSize.width = rect.width
+      targetSize.height = rect.height
     }
+
+    const scrollY =
+      window.scrollY !== undefined ? window.scrollY : window.pageYOffset
+    const scrollX =
+      window.scrollX !== undefined ? window.scrollX : window.pageXOffset
+    const top = scrollY + rect.top
+
+    // Use Mouse position when target is too wide
+    const left =
+      parseFloat(targetSize.width) > 400 && this.props.clientX
+        ? this.props.clientX - rect.left
+        : scrollX + rect.left
+    const style = {}
 
     if (align === 'left') {
       alignOffset = -targetSize.width / 2
@@ -237,7 +280,7 @@ export default class TooltipContainer extends React.PureComponent {
     const isActive = isTrue(active) || hover
 
     return (
-      <div
+      <span
         role="tooltip"
         aria-hidden // make sure SR does not find it in the DOM, because we use "aria-describedby" for that
         style={style}
@@ -262,10 +305,10 @@ export default class TooltipContainer extends React.PureComponent {
           />
         )}
 
-        <div id={internal_id} className="dnb-tooltip__content">
+        <span id={internal_id} className="dnb-tooltip__content">
           {children}
-        </div>
-      </div>
+        </span>
+      </span>
     )
   }
 }

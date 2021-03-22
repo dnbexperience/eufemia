@@ -1,18 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Tooltip component with component have to match default tooltip snapshot 1`] = `
+exports[`Tooltip component with target_ref have to match default tooltip snapshot 1`] = `
 <Component>
   <Tooltip
+    active={null}
     align={null}
     animate_position={false}
     arrow="center"
     class={null}
     className={null}
-    component={
-      <button>
-        Button
-      </button>
-    }
     group="main"
     hide_delay={500}
     id="tooltip"
@@ -20,6 +16,12 @@ exports[`Tooltip component with component have to match default tooltip snapshot
     on_click={null}
     position="top"
     show_delay={300}
+    target_ref={
+      <button>
+        Button
+      </button>
+    }
+    tooltip={null}
   >
     <TooltipWithEvents
       align={null}
@@ -28,17 +30,12 @@ exports[`Tooltip component with component have to match default tooltip snapshot
       attributes={
         Object {
           "children": "Text",
-          "className": "dnb-tooltip dnb-core-style",
+          "className": "dnb-tooltip",
           "id": "tooltip",
         }
       }
       class={null}
       className={null}
-      component={
-        <button>
-          Button
-        </button>
-      }
       group="tooltip"
       hide_delay={500}
       id="tooltip"
@@ -52,9 +49,15 @@ exports[`Tooltip component with component have to match default tooltip snapshot
           Button
         </button>
       }
+      target_ref={
+        <button>
+          Button
+        </button>
+      }
+      tooltip={null}
     >
       <span
-        className={null}
+        className="dnb-tooltip__wrapper"
         key="target-wrapper"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
@@ -73,16 +76,11 @@ exports[`Tooltip component with component have to match default tooltip snapshot
         attributes={
           Object {
             "children": "Text",
-            "className": "dnb-tooltip dnb-core-style",
+            "className": "dnb-tooltip",
             "id": "tooltip",
           }
         }
         class={null}
-        component={
-          <button>
-            Button
-          </button>
-        }
         group="tooltip"
         hide_delay={500}
         id="tooltip"
@@ -94,7 +92,7 @@ exports[`Tooltip component with component have to match default tooltip snapshot
         show_delay={300}
         target={
           <span
-            aria-describedby="tooltip"
+            class="dnb-tooltip__wrapper"
           >
             <button
               aria-describedby="tooltip"
@@ -103,6 +101,12 @@ exports[`Tooltip component with component have to match default tooltip snapshot
             </button>
           </span>
         }
+        target_ref={
+          <button>
+            Button
+          </button>
+        }
+        tooltip={null}
       />
     </TooltipWithEvents>
   </Tooltip>

@@ -1214,6 +1214,9 @@ export function combineDescribedBy(...params) {
 }
 function combineAriaBy(type, params) {
   params = params.map((cur) => {
+    if (cur && params.includes(cur[type])) {
+      return null
+    }
     if (cur && typeof cur[type] !== 'undefined') {
       cur = cur[type]
     }

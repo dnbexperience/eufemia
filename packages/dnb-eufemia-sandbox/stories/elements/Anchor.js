@@ -5,35 +5,24 @@
 
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
-import styled from '@emotion/styled'
 import { Anchor, H1, P } from '@dnb/eufemia/src/elements'
 import { IconPrimary } from '@dnb/eufemia/src'
-
-const CustomStyles = styled.div`
-  a {
-    ${'' /** :has is not supported in browsers yet */}
-    &:has(> .dnb-icon) {
-      border-bottom: none;
-      color: red;
-    }
-  }
-
-  blockquote {
-    max-width: 40rem;
-  }
-`
 
 export default {
   title: 'Eufemia/Elements/Anchor'
 }
 
-export const AnchorSandbox = () => (
-  <Wrapper>
-    <CustomStyles>
+export const AnchorSandbox = () => {
+  const ref = React.useRef()
+  React.useEffect(() => {
+    console.log('ref', ref.current)
+  }, [])
+  return (
+    <Wrapper>
       <Box>
         <P>
           Quam vitae nisi at accumsan per vehicula montes nam hendrerit{' '}
-          <Anchor href="http://dnb.no" target="_blank">
+          <Anchor ref={ref} href="http://dnb.no" target="_blank">
             Blank taget - tempor ut quam nascetur hendrerit
           </Anchor>{' '}
           porttitor feugiat fusce fringilla justo dui torquent potenti
@@ -124,6 +113,6 @@ export const AnchorSandbox = () => (
           fusce bibendum netus dapibus natoque varius eros litora
         </a>
       </Box>
-    </CustomStyles>
-  </Wrapper>
-)
+    </Wrapper>
+  )
+}

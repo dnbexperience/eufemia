@@ -22,6 +22,9 @@ export default {
       cancel_button_text: 'Cancel',
       reset_button_text: 'Reset'
     },
+    Anchor: {
+      target_blank_title: 'Opens a new Window'
+    },
     GlobalStatus: {
       default_title: 'An error has occurred',
       close_text: 'Close',

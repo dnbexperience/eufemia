@@ -28,6 +28,7 @@ import {
 } from '../skeleton/SkeletonHelper'
 import IconPrimary from '../icon-primary/IconPrimary'
 import FormStatus from '../form-status/FormStatus'
+import Anchor from '../../elements/Anchor'
 import Tooltip from '../tooltip/Tooltip'
 
 export const buttonVariantPropType = {
@@ -36,7 +37,7 @@ export const buttonVariantPropType = {
 export const buttonPropTypes = {
   text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   type: PropTypes.string,
-  title: PropTypes.string,
+  title: PropTypes.node,
   variant: buttonVariantPropType.variant,
   size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   icon: PropTypes.oneOfType([
@@ -252,8 +253,14 @@ export default class Button extends React.PureComponent {
       iconSize = 'medium'
     }
 
+    const Element = element ? element : href ? Anchor : 'button'
+    if (Element === Anchor) {
+      attributes.omitClass = true
+    }
+
     const classes = classnames(
       'dnb-button',
+
       `dnb-button--${usedVariant || 'primary'}`,
       usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
       icon && `dnb-button--icon-position-${iconPosition}`,
@@ -292,8 +299,6 @@ export default class Button extends React.PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    const Element = element ? element : href ? 'a' : 'button'
-
     return (
       <>
         <Element ref={this._ref} {...params}>
@@ -324,10 +329,8 @@ export default class Button extends React.PureComponent {
         {tooltip && this._ref && (
           <Tooltip
             id={this._id + '-tooltip'}
-            component={this._ref}
-            {...(React.isValidElement(tooltip) && tooltip.props
-              ? tooltip.props
-              : { children: tooltip })}
+            target_ref={this._ref}
+            tooltip={tooltip}
           />
         )}
       </>
@@ -337,7 +340,7 @@ export default class Button extends React.PureComponent {
 
 class Content extends React.PureComponent {
   static propTypes = {
-    title: PropTypes.string,
+    title: PropTypes.node,
     text: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,

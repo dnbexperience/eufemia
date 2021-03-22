@@ -59,6 +59,7 @@ export default class Tooltip extends React.PureComponent {
       PropTypes.func,
       PropTypes.node
     ]),
+    tooltip: PropTypes.node,
 
     // Events
     onClick: PropTypes.func,
@@ -68,7 +69,7 @@ export default class Tooltip extends React.PureComponent {
   static defaultProps = {
     id: null,
     group: 'main',
-    active: undefined,
+    active: null,
     position: 'top',
     arrow: 'center',
     align: null,
@@ -79,6 +80,7 @@ export default class Tooltip extends React.PureComponent {
     class: null,
     className: null,
     children: null,
+    tooltip: null,
 
     // Events
     onClick: null,
@@ -93,26 +95,39 @@ export default class Tooltip extends React.PureComponent {
     return processChildren(props)
   }
 
+  getPropsFromTooltipProp() {
+    return this.props.tooltip
+      ? React.isValidElement(this.props.tooltip) &&
+        this.props.tooltip.props
+        ? this.props.tooltip.props
+        : { children: this.props.tooltip }
+      : null
+  }
+
   constructor(props) {
     super(props)
     this._id = props.id || makeUniqueId() // cause we need an id anyway
   }
 
   render() {
+    const inherited = this.getPropsFromTooltipProp()
+
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
       Tooltip.defaultProps,
+      inherited,
       this.context.getTranslation(this.props).Tooltip,
       this.context.FormRow,
       this.context.Tooltip
     )
 
     const {
-      component,
+      target_ref,
       target,
       class: class_name,
       className,
+      tooltip, // eslint-disable-line
       group, // eslint-disable-line
       animate_position, // eslint-disable-line
       show_delay, // eslint-disable-line
@@ -124,11 +139,10 @@ export default class Tooltip extends React.PureComponent {
       ...params
     } = props
 
-    const content = Tooltip.getContent(this.props)
+    const content = Tooltip.getContent(props)
 
     const classes = classnames(
       'dnb-tooltip',
-      'dnb-core-style',
       createSpacingClasses(props),
       class_name,
       className
@@ -144,18 +158,19 @@ export default class Tooltip extends React.PureComponent {
 
     const newProps = {
       ...this.props,
+      ...inherited,
       internal_id: this._id,
       group: this.props.id || group
     }
-    if (typeof newProps.active === 'undefined') {
+    if (newProps.active === null) {
       delete newProps.active
     }
 
     return (
       <>
-        {component ? (
+        {target_ref ? (
           <TooltipWithEvents
-            target={component}
+            target={target_ref}
             attributes={attributes}
             {...newProps}
           >

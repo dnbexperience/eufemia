@@ -114,6 +114,45 @@ $anchorBorderRadius: 0.25em;
     @include fakeFocus(null, var(--color-white));
   }
 }
+@mixin anchorIconStyle() {
+  position: relative;
+
+  // use this method, so it can get replaced by inline JS
+  background-size: 0;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTEgMGEuNzUuNzUgMCAwMDAgMS41VjB6bTQgLjc1aC43NUEuNzUuNzUgMCAwMDE1IDB2Ljc1em0tLjc1IDRhLjc1Ljc1IDAgMDAxLjUgMGgtMS41em0xLjUgNGEuNzUuNzUgMCAwMC0xLjUgMGgxLjV6bS0uNzUgNi41VjE2Yy40MSAwIC43NS0uMzQuNzUtLjc1SDE1em0tMTQgMEguMjVjMCAuNDEuMzQuNzUuNzUuNzV2LS43NXpNMSAuNzVWMGEuNzUuNzUgMCAwMC0uNzUuNzVIMXptNS43NS43NWEuNzUuNzUgMCAwMDAtMS41djEuNXptMi43MiAzLjcyYS43NS43NSAwIDAwMS4wNiAxLjA2TDkuNDcgNS4yMnpNMTQuMjUuNzV2NGgxLjV2LTRoLTEuNXptMCA4djYuNWgxLjV2LTYuNWgtMS41ek0xNSAxNC41SDFWMTZoMTR2LTEuNXptLTEzLjI1Ljc1Vi43NUguMjV2MTQuNWgxLjV6TTEgMS41aDUuNzVWMEgxdjEuNXptMTAgMGg0VjBoLTR2MS41em0tLjQ3IDQuNzhsNS01TDE0LjQ3LjIybC01IDUgMS4wNiAxLjA2eiIgZmlsbD0iIzAwNzI3MiIgLz48L3N2Zz4=);
+
+  // NOT IE/Edge compatible
+  // background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 0a.75.75 0 000 1.5V0zm4 .75h.75A.75.75 0 0015 0v.75zm-.75 4a.75.75 0 001.5 0h-1.5zm1.5 4a.75.75 0 00-1.5 0h1.5zm-.75 6.5V16c.41 0 .75-.34.75-.75H15zm-14 0H.25c0 .41.34.75.75.75v-.75zM1 .75V0a.75.75 0 00-.75.75H1zm5.75.75a.75.75 0 000-1.5v1.5zm2.72 3.72a.75.75 0 001.06 1.06L9.47 5.22zM14.25.75v4h1.5v-4h-1.5zm0 8v6.5h1.5v-6.5h-1.5zM15 14.5H1V16h14v-1.5zm-13.25.75V.75H.25v14.5h1.5zM1 1.5h5.75V0H1v1.5zm10 0h4V0h-4v1.5zm-.47 4.78l5-5L14.47.22l-5 5 1.06 1.06z' fill='%23007272' /%3E%3C/svg%3E");
+
+  // gfx icon
+  &::after {
+    content: '';
+    position: relative;
+
+    display: inline-block;
+
+    // because we have a default font-size of 18px we use 0.889em
+    width: 0.889em;
+    height: 0.889em;
+
+    margin-left: 0.3em;
+    margin-right: 0.125em;
+
+    color: inherit;
+    background-size: cover;
+
+    background-image: inherit;
+
+    transition: transform 0.3s ease-out, filter 1s ease-out;
+    transform-origin: bottom;
+  }
+  &:active {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cGF0aAogICAgZD0iTTExIDBhLjc1Ljc1IDAgMDAwIDEuNVYwem00IC43NWguNzVBLjc1Ljc1IDAgMDAxNSAwdi43NXptLS43NSA0YS43NS43NSAwIDAwMS41IDBoLTEuNXptMS41IDRhLjc1Ljc1IDAgMDAtMS41IDBoMS41em0tLjc1IDYuNVYxNmMuNDEgMCAuNzUtLjM0Ljc1LS43NUgxNXptLTE0IDBILjI1YzAgLjQxLjM0Ljc1Ljc1Ljc1di0uNzV6TTEgLjc1VjBhLjc1Ljc1IDAgMDAtLjc1Ljc1SDF6bTUuNzUuNzVhLjc1Ljc1IDAgMDAwLTEuNXYxLjV6bTIuNzIgMy43MmEuNzUuNzUgMCAwMDEuMDYgMS4wNkw5LjQ3IDUuMjJ6TTE0LjI1Ljc1djRoMS41di00aC0xLjV6bTAgOHY2LjVoMS41di02LjVoLTEuNXpNMTUgMTQuNUgxVjE2aDE0di0xLjV6bS0xMy4yNS43NVYuNzVILjI1djE0LjVoMS41ek0xIDEuNWg1Ljc1VjBIMXYxLjV6bTEwIDBoNFYwaC00djEuNXptLS40NyA0Ljc4bDUtNUwxNC40Ny4yMmwtNSA1IDEuMDYgMS4wNnoiCiAgICBmaWxsPSIjYTVlMWQyIgogIC8+Cjwvc3ZnPg==);
+
+    // NOT IE/Edge compatible
+    // background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 0a.75.75 0 000 1.5V0zm4 .75h.75A.75.75 0 0015 0v.75zm-.75 4a.75.75 0 001.5 0h-1.5zm1.5 4a.75.75 0 00-1.5 0h1.5zm-.75 6.5V16c.41 0 .75-.34.75-.75H15zm-14 0H.25c0 .41.34.75.75.75v-.75zM1 .75V0a.75.75 0 00-.75.75H1zm5.75.75a.75.75 0 000-1.5v1.5zm2.72 3.72a.75.75 0 001.06 1.06L9.47 5.22zM14.25.75v4h1.5v-4h-1.5zm0 8v6.5h1.5v-6.5h-1.5zM15 14.5H1V16h14v-1.5zm-13.25.75V.75H.25v14.5h1.5zM1 1.5h5.75V0H1v1.5zm10 0h4V0h-4v1.5zm-.47 4.78l5-5L14.47.22l-5 5 1.06 1.06z' fill='%23a5e1d2' /%3E%3C/svg%3E");
+  }
+}
 @mixin anchorStyle() {
   @include anchorDefaultStyle();
 
@@ -130,43 +169,9 @@ $anchorBorderRadius: 0.25em;
   }
 
   &[target='_blank'][href^='http']:not(:empty):not(.dnb-anchor--no-icon) {
-    position: relative;
-
-    // use this method, so it can get replaced by inline JS
-    background-size: 0;
-    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTEgMGEuNzUuNzUgMCAwMDAgMS41VjB6bTQgLjc1aC43NUEuNzUuNzUgMCAwMDE1IDB2Ljc1em0tLjc1IDRhLjc1Ljc1IDAgMDAxLjUgMGgtMS41em0xLjUgNGEuNzUuNzUgMCAwMC0xLjUgMGgxLjV6bS0uNzUgNi41VjE2Yy40MSAwIC43NS0uMzQuNzUtLjc1SDE1em0tMTQgMEguMjVjMCAuNDEuMzQuNzUuNzUuNzV2LS43NXpNMSAuNzVWMGEuNzUuNzUgMCAwMC0uNzUuNzVIMXptNS43NS43NWEuNzUuNzUgMCAwMDAtMS41djEuNXptMi43MiAzLjcyYS43NS43NSAwIDAwMS4wNiAxLjA2TDkuNDcgNS4yMnpNMTQuMjUuNzV2NGgxLjV2LTRoLTEuNXptMCA4djYuNWgxLjV2LTYuNWgtMS41ek0xNSAxNC41SDFWMTZoMTR2LTEuNXptLTEzLjI1Ljc1Vi43NUguMjV2MTQuNWgxLjV6TTEgMS41aDUuNzVWMEgxdjEuNXptMTAgMGg0VjBoLTR2MS41em0tLjQ3IDQuNzhsNS01TDE0LjQ3LjIybC01IDUgMS4wNiAxLjA2eiIgZmlsbD0iIzAwNzI3MiIgLz48L3N2Zz4=);
-
-    // NOT IE/Edge compatible
-    // background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 0a.75.75 0 000 1.5V0zm4 .75h.75A.75.75 0 0015 0v.75zm-.75 4a.75.75 0 001.5 0h-1.5zm1.5 4a.75.75 0 00-1.5 0h1.5zm-.75 6.5V16c.41 0 .75-.34.75-.75H15zm-14 0H.25c0 .41.34.75.75.75v-.75zM1 .75V0a.75.75 0 00-.75.75H1zm5.75.75a.75.75 0 000-1.5v1.5zm2.72 3.72a.75.75 0 001.06 1.06L9.47 5.22zM14.25.75v4h1.5v-4h-1.5zm0 8v6.5h1.5v-6.5h-1.5zM15 14.5H1V16h14v-1.5zm-13.25.75V.75H.25v14.5h1.5zM1 1.5h5.75V0H1v1.5zm10 0h4V0h-4v1.5zm-.47 4.78l5-5L14.47.22l-5 5 1.06 1.06z' fill='%23007272' /%3E%3C/svg%3E");
-
-    // gfx icon
+    @include anchorIconStyle();
     &::after {
-      content: '';
-      position: relative;
       top: 0.125em;
-
-      display: inline-block;
-
-      // because we have a default font-size of 18px we use 0.889em
-      width: 0.889em;
-      height: 0.889em;
-
-      margin-left: 0.3em;
-      margin-right: 0.125em;
-
-      color: inherit;
-      background-size: cover;
-
-      background-image: inherit;
-
-      transition: transform 0.3s ease-out, filter 1s ease-out;
-      transform-origin: bottom;
-    }
-    &:active {
-      background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cGF0aAogICAgZD0iTTExIDBhLjc1Ljc1IDAgMDAwIDEuNVYwem00IC43NWguNzVBLjc1Ljc1IDAgMDAxNSAwdi43NXptLS43NSA0YS43NS43NSAwIDAwMS41IDBoLTEuNXptMS41IDRhLjc1Ljc1IDAgMDAtMS41IDBoMS41em0tLjc1IDYuNVYxNmMuNDEgMCAuNzUtLjM0Ljc1LS43NUgxNXptLTE0IDBILjI1YzAgLjQxLjM0Ljc1Ljc1Ljc1di0uNzV6TTEgLjc1VjBhLjc1Ljc1IDAgMDAtLjc1Ljc1SDF6bTUuNzUuNzVhLjc1Ljc1IDAgMDAwLTEuNXYxLjV6bTIuNzIgMy43MmEuNzUuNzUgMCAwMDEuMDYgMS4wNkw5LjQ3IDUuMjJ6TTE0LjI1Ljc1djRoMS41di00aC0xLjV6bTAgOHY2LjVoMS41di02LjVoLTEuNXpNMTUgMTQuNUgxVjE2aDE0di0xLjV6bS0xMy4yNS43NVYuNzVILjI1djE0LjVoMS41ek0xIDEuNWg1Ljc1VjBIMXYxLjV6bTEwIDBoNFYwaC00djEuNXptLS40NyA0Ljc4bDUtNUwxNC40Ny4yMmwtNSA1IDEuMDYgMS4wNnoiCiAgICBmaWxsPSIjYTVlMWQyIgogIC8+Cjwvc3ZnPg==);
-
-      // NOT IE/Edge compatible
-      // background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 0a.75.75 0 000 1.5V0zm4 .75h.75A.75.75 0 0015 0v.75zm-.75 4a.75.75 0 001.5 0h-1.5zm1.5 4a.75.75 0 00-1.5 0h1.5zm-.75 6.5V16c.41 0 .75-.34.75-.75H15zm-14 0H.25c0 .41.34.75.75.75v-.75zM1 .75V0a.75.75 0 00-.75.75H1zm5.75.75a.75.75 0 000-1.5v1.5zm2.72 3.72a.75.75 0 001.06 1.06L9.47 5.22zM14.25.75v4h1.5v-4h-1.5zm0 8v6.5h1.5v-6.5h-1.5zM15 14.5H1V16h14v-1.5zm-13.25.75V.75H.25v14.5h1.5zM1 1.5h5.75V0H1v1.5zm10 0h4V0h-4v1.5zm-.47 4.78l5-5L14.47.22l-5 5 1.06 1.06z' fill='%23a5e1d2' /%3E%3C/svg%3E");
     }
   }
 
