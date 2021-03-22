@@ -217,11 +217,17 @@ class DrawerListPortal extends React.PureComponent {
       clearTimeout(this._ddt)
       this._ddt = setTimeout(this.renderPortal, 30)
     }
-    window.addEventListener('resize', this.setPosition)
 
     this.customElem = isInsideScrollView(this.props.rootRef.current, true)
     if (this.customElem) {
       this.customElem.addEventListener('scroll', this.setPosition)
+    }
+
+    try {
+      this.resizeObserver = new ResizeObserver(this.setPosition)
+      this.resizeObserver.observe(document.body)
+    } catch (e) {
+      window.addEventListener('resize', this.setPosition)
     }
   }
 
@@ -229,7 +235,11 @@ class DrawerListPortal extends React.PureComponent {
     clearTimeout(this._ddt)
     if (typeof window !== 'undefined' && this.setPosition) {
       if (this.customElem) {
-        this.customElem.addEventListener('scroll', this.setPosition)
+        this.customElem.removeEventListener('scroll', this.setPosition)
+      }
+      if (this.resizeObserver) {
+        this.resizeObserver.disconnect()
+        this.resizeObserver = null
       }
       window.removeEventListener('resize', this.setPosition)
     }
