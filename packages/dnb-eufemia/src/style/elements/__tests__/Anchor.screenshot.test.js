@@ -14,7 +14,7 @@ describe('Anchor screenshot', () => {
     url: '/uilib/elements/anchor',
     screenshotConfig: {
       // use 6% on CI because of the font rendering differences
-      pixelThresholdRelative: isCI ? 0.06 : 0
+      pixelThresholdRelative: isCI ? 0.07 : 0
     }
   })
   // the first one is on 5.54%

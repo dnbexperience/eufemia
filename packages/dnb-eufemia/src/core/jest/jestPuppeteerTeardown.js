@@ -25,8 +25,8 @@ module.exports = async function () {
   if (liveServer.shutdown) {
     liveServer.shutdown()
   }
-  // close the browser instance
-  await global.__BROWSER_GLOBAL__.close()
+
+  await global.__ENDPOINT__.close()
 
   // commit a tar of the reports if we are on a CI
   if (isCI) {
