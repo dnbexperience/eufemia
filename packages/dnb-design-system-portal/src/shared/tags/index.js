@@ -15,8 +15,8 @@ import {
   Blockquote,
   Code
 } from '@dnb/eufemia/src/elements'
-import Element from '@dnb/eufemia/src/elements/Element'
 import Table from './Table'
+// import Element from '@dnb/eufemia/src/elements/Element'
 // import Img from './Img'
 // import Tag from './Tag' // use it like so: <Tag is="p" {...props} />
 import Tabbar from './Tabbar'
@@ -49,7 +49,7 @@ export default {
     }
   },
   table: Table,
-  pre: (props) => <Element is="div" {...props} />,
+  // pre: (props) => <Element is="div" {...props} />,// Not needed. Makes skeletons not that good looking
   code: (...props) => CodeBlock(...props),
   inlineCode: ({ ...props }) => {
     if (props.inline) {

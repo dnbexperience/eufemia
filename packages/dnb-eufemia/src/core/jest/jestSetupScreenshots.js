@@ -20,7 +20,7 @@ const config = {
   testScreenshotOnHost: 'localhost',
   testScreenshotOnPort: 8000,
   headless: true,
-  timeout: 5e3,
+  timeout: 10e3,
   blockFontRequest: false,
   allowedFonts: [], // e.g. 'LiberationMono'
   pixelGrid: 8,

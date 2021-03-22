@@ -1318,8 +1318,7 @@ thead > tr > th.dnb-table--active .dnb-button:hover:focus .dnb-button__text::aft
   margin-top: 0;
   margin-bottom: 1.5rem; }
 
-.dnb-skeleton > .dnb-code,
-.dnb-skeleton > .dnb-pre {
+.dnb-skeleton > .dnb-code {
   background-color: transparent; }
 
 /*
