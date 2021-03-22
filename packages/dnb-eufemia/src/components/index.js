@@ -28,7 +28,6 @@ import Icon from './icon/Icon'
 import IconPrimary from './icon-primary/IconPrimary'
 import Input from './input/Input'
 import InputMasked from './input-masked/InputMasked'
-import LineTitle from './line-title/LineTitle'
 import Logo from './logo/Logo'
 import Modal from './modal/Modal'
 import Notification from './notification/Notification'
@@ -67,7 +66,6 @@ export {
   IconPrimary,
   Input,
   InputMasked,
-  LineTitle,
   Logo,
   Modal,
   Notification,

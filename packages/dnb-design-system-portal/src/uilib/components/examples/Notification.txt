@@ -1,8 +1,0 @@
-<Notification
-  notification_amount={0}
-  title_text="Du har ingen notifications"
-/>
-<Notification
-  notification_amount={2}
-  title_text="Du har {amount} notifications"
-/>

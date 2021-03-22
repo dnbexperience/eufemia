@@ -44,7 +44,7 @@ Most of the Eufemia "patterns" got removed in favor of calling this part as **ex
 1. Find `dnb-ui-lib/patterns` or `@dnb/eufemia/patterns` and replace with `@dnb/eufemia/extensions`
 1. Find `dnb-ui-patterns` and replace with `dnb-ui-extensions`
 
-The following extensions are removed:
+The following patterns/extensions/components are removed:
 
 - ActionNav
 - DescriptionList
@@ -57,6 +57,8 @@ The following extensions are removed:
 - FormSummaryPage
 - RangeSlider
 - ViewTitle
+- LineTitle
+- Notification
 
 ### Properties
 
