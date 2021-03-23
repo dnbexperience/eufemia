@@ -18,48 +18,20 @@ import Tooltip from '../components/tooltip/Tooltip'
 class Anchor extends React.PureComponent {
   static contextType = Context
   static tagName = 'dnb-anchor'
-  static propTypes = {
-    ...spacingPropTypes,
-
-    href: PropTypes.string,
-    omitClass: PropTypes.bool,
-    target_blank_title: PropTypes.string,
-    target: PropTypes.string,
-    className: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-      PropTypes.array
-    ]),
-    tooltip: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node
-    ]),
-    children: PropTypes.node
-  }
-  static defaultProps = {
-    href: null,
-    omitClass: null,
-    target_blank_title: null,
-    target: null,
-    className: null,
-    tooltip: null,
-    children: null
-  }
 
   state = {}
 
   constructor(props) {
     super(props)
 
-    this._id = props.id || 'id' + makeUniqueId()
-    this._ref = props.inner_ref || React.createRef()
+    this._id = props.id || 'id' + makeUniqueId() // eslint-disable-line react/prop-types
+    this._ref = props.inner_ref || React.createRef() // eslint-disable-line react/prop-types
   }
 
   render() {
     const props = extendPropsWithContext(
       this.props,
-      Anchor.defaultProps,
+      AnchorInstance.defaultProps,
       { skeleton: this.context && this.context.skeleton },
       this.context.getTranslation(this.props).Anchor,
       this.context.Anchor
@@ -111,5 +83,34 @@ class Anchor extends React.PureComponent {
 const AnchorInstance = React.forwardRef((props, ref) => {
   return <Anchor inner_ref={ref} {...props} />
 })
+
+AnchorInstance.propTypes = {
+  ...spacingPropTypes,
+
+  href: PropTypes.string,
+  omitClass: PropTypes.bool,
+  target_blank_title: PropTypes.string,
+  target: PropTypes.string,
+  className: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.array
+  ]),
+  tooltip: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node
+  ]),
+  children: PropTypes.node
+}
+AnchorInstance.defaultProps = {
+  href: null,
+  omitClass: null,
+  target_blank_title: null,
+  target: null,
+  className: null,
+  tooltip: null,
+  children: null
+}
 
 export default AnchorInstance

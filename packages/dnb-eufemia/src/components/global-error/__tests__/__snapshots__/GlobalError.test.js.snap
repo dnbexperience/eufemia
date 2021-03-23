@@ -594,6 +594,9 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           href="href"
           omitClass={true}
           onClick={[Function]}
+          target={null}
+          target_blank_title={null}
+          tooltip={null}
           type="button"
         >
           <Anchor

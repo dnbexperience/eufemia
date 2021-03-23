@@ -415,7 +415,10 @@ exports[`Button component have to match href="..." snapshot 1`] = `
     id="button"
     omitClass={true}
     onClick={[Function]}
+    target={null}
+    target_blank_title={null}
     title="This is a button title"
+    tooltip={null}
     type="type"
   >
     <Anchor

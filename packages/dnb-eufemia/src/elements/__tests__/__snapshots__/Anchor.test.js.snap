@@ -2,30 +2,38 @@
 
 exports[`Anchor element have to match default Anchor element snapshot 1`] = `
 <ForwardRef
+  className="className"
   element="a"
+  href="href"
   inner_ref={null}
+  omitClass={true}
+  target="target"
+  target_blank_title="target_blank_title"
+  tooltip="tooltip"
 >
   <Anchor
-    className={null}
+    className="className"
     element="a"
-    href={null}
+    href="href"
     inner_ref={null}
-    omitClass={null}
-    target={null}
-    target_blank_title={null}
-    tooltip={null}
+    omitClass={true}
+    target="target"
+    target_blank_title="target_blank_title"
+    tooltip="tooltip"
   >
     <ForwardRef
       class={null}
-      className="dnb-anchor"
+      className="className"
       css={null}
       element="a"
-      href={null}
+      href="href"
       inner_ref={
         Object {
           "current": <a
-            class="dnb-anchor dnb-a"
+            class="className dnb-a"
             element="a"
+            href="href"
+            target="target"
           >
             text
           </a>,
@@ -35,20 +43,22 @@ exports[`Anchor element have to match default Anchor element snapshot 1`] = `
       is="a"
       skeleton={null}
       skeleton_method="font"
-      target={null}
-      target_blank_title="Åpner et nytt vindu"
+      target="target"
+      target_blank_title="target_blank_title"
     >
       <Elem
         class={null}
-        className="dnb-anchor"
+        className="className"
         css={null}
         element="a"
-        href={null}
+        href="href"
         inner_ref={
           Object {
             "current": <a
-              class="dnb-anchor dnb-a"
+              class="className dnb-a"
               element="a"
+              href="href"
+              target="target"
             >
               text
             </a>,
@@ -58,12 +68,14 @@ exports[`Anchor element have to match default Anchor element snapshot 1`] = `
         is="a"
         skeleton={null}
         skeleton_method="font"
-        target={null}
-        target_blank_title="Åpner et nytt vindu"
+        target="target"
+        target_blank_title="target_blank_title"
       >
         <a
-          className="dnb-anchor dnb-a"
+          className="className dnb-a"
           element="a"
+          href="href"
+          target="target"
         >
           text
         </a>
