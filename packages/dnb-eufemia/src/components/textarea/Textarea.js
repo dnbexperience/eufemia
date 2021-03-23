@@ -201,7 +201,7 @@ export default class Textarea extends React.PureComponent {
     this._ref = props.inner_ref || React.createRef()
     this._id = props.id || makeUniqueId() // cause we need an id anyway
 
-    // make sure we dont trigger getDerivedStateFromProps on startup
+    // make sure we don't trigger getDerivedStateFromProps on startup
     this.state._listenForPropChanges = true
     if (props.textarea_state) {
       this.state.textareaState = props.textarea_state
@@ -211,11 +211,20 @@ export default class Textarea extends React.PureComponent {
   componentDidMount() {
     if (isTrue(this.props.autoresize) && typeof window !== 'undefined') {
       this.setAutosize()
-      window.addEventListener('resize', this.setAutosize)
+      try {
+        this.resizeObserver = new ResizeObserver(this.setAutosize)
+        this.resizeObserver.observe(document.body)
+      } catch (e) {
+        window.addEventListener('resize', this.setAutosize)
+      }
     }
   }
   componentWillUnmount() {
-    if (isTrue(this.props.autoresize) && typeof window !== 'undefined') {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect()
+      this.resizeObserver = null
+    }
+    if (typeof window !== 'undefined') {
       window.removeEventListener('resize', this.setAutosize)
     }
   }
