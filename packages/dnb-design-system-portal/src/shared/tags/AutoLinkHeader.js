@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from '@emotion/react'
-import AnchorLink from 'react-anchor-link-smooth-scroll'
+import { AnchorLink } from './Anchor'
 import { Heading } from '@dnb/eufemia/src'
 import { makeSlug } from '../../uilib/utils/slug'
 // import { convertJsxToString } from '@dnb/eufemia/src/shared/component-helper'

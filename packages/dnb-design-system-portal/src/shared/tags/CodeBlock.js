@@ -43,6 +43,8 @@ const CodeBlock = ({
   reactLive: isReactLive,
   ...props
 }) => {
+  const context = React.useContext(Context)
+
   if (!language) {
     language =
       (String(props && props.className).match(/language-(.*)$|\s/) ||
@@ -51,7 +53,7 @@ const CodeBlock = ({
 
   if (((props && props.scope) || isReactLive) && language === 'jsx') {
     return (
-      <Wrapper>
+      <Wrapper className={createSkeletonClass('code', context.skeleton)}>
         <LiveCode code={exampleCode} {...props} />
       </Wrapper>
     )
@@ -64,7 +66,9 @@ const CodeBlock = ({
         theme={prismTheme}
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <Wrapper>
+          <Wrapper
+            className={createSkeletonClass('code', context.skeleton)}
+          >
             <Tag is="pre" className={className} css={style}>
               {cleanTokens(tokens).map((line, i) => (
                 /* eslint-disable react/jsx-key */

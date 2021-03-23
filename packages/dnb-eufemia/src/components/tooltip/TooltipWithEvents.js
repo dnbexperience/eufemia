@@ -5,6 +5,8 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
+import { combineDescribedBy, warn } from '../../shared/component-helper'
 import TooltipPortal from './TooltipPortal'
 
 export default class TooltipWithEvents extends React.PureComponent {
@@ -37,15 +39,55 @@ export default class TooltipWithEvents extends React.PureComponent {
     isActive: false
   }
 
-  componentWillUnmount() {
-    clearTimeout(this._onEnterTimeout)
-    clearTimeout(this._targetTimeout)
+  componentDidMount() {
+    const { target } = this.props
+
+    if (Object.prototype.hasOwnProperty.call(target, 'current')) {
+      this.setState(
+        {
+          domElement: target.current
+        },
+        this.addEvents
+      )
+    }
   }
 
-  onMouseEnter = () => {
+  componentWillUnmount() {
+    clearTimeout(this._onEnterTimeout)
+
+    const { domElement } = this.state
+    if (domElement) {
+      domElement.removeEventListener('focus', this.onMouseEnter)
+      domElement.removeEventListener('blur', this.onMouseLeave)
+      domElement.removeEventListener('mouseenter', this.onMouseEnter)
+      domElement.removeEventListener('mouseleave', this.onMouseLeave)
+    }
+  }
+
+  addEvents = () => {
+    const { domElement } = this.state
+    try {
+      domElement.addEventListener('focus', this.onMouseEnter)
+      domElement.addEventListener('blur', this.onMouseLeave)
+      domElement.addEventListener('mouseenter', this.onMouseEnter)
+      domElement.addEventListener('mouseleave', this.onMouseLeave)
+
+      // const existing = {
+      //   'aria-describedby': domElement.getAttribute('aria-describedby')
+      // }
+      // domElement.setAttribute(
+      //   'aria-describedby',
+      //   combineDescribedBy(existing, this.props.internal_id)
+      // )
+    } catch (e) {
+      warn(e)
+    }
+  }
+
+  onMouseEnter = (e) => {
     clearTimeout(this._onEnterTimeout)
     this._onEnterTimeout = setTimeout(() => {
-      this.setState({ isActive: true })
+      this.setState({ isActive: true, clientX: e.clientX })
     }, this.props.show_delay || 1) // have min 1 to make sure we are after onMouseLeave
   }
 
@@ -63,48 +105,23 @@ export default class TooltipWithEvents extends React.PureComponent {
       ...props
     } = this.props
 
-    if (!this.state.target && typeof target.current !== 'undefined') {
-      this._targetTimeout = setTimeout(() => {
-        if (!target.current) return
-        try {
-          const elem = target.current
-          elem.addEventListener('mouseenter', this.onMouseEnter)
-          elem.addEventListener('mouseleave', this.onMouseLeave)
+    const domElement = this.state.domElement
 
-          const describedby = [this.props.internal_id]
-          const db = elem.getAttribute('aria-describedby')
-          if (db) {
-            describedby.unshift(db)
-          }
-          elem.setAttribute('aria-describedby', describedby.join(' '))
-        } catch (e) {
-          console.warn('Tooltip: Could not add event listeners', e)
-        }
-        this.setState({
-          target: target.current
-        })
-      }, 1)
-      return null
-    }
-
-    let componentWrapper
+    let componentWrapper = null
     if (React.isValidElement(target)) {
-      const describedby = [this.props.internal_id]
-
-      if (target.props && target.props['aria-describedby']) {
-        describedby.unshift(target.props['aria-describedby'])
-      }
-
       componentWrapper = (
         <span
           key="target-wrapper"
-          ref={(target) => this.setState({ target })}
-          className={className}
+          className={classnames('dnb-tooltip__wrapper', className)}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
+          ref={(domElement) => this.setState({ domElement })}
         >
           {React.cloneElement(target, {
-            'aria-describedby': describedby.join(' ')
+            'aria-describedby': combineDescribedBy(
+              target.props,
+              this.props.internal_id
+            )
           })}
         </span>
       )
@@ -113,12 +130,12 @@ export default class TooltipWithEvents extends React.PureComponent {
     return (
       <>
         {componentWrapper}
-
-        {this.state.target && (
+        {domElement && (
           <TooltipPortal
             key="tooltip"
             active={this.state.isActive}
-            target={this.state.target}
+            target={domElement}
+            clientX={this.state.clientX}
             {...props}
           >
             {children}

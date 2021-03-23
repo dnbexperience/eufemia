@@ -6,6 +6,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
+import { combineDescribedBy, warn } from '../../shared/component-helper'
 import TooltipContainer from './TooltipContainer'
 
 let tooltipPortal
@@ -70,36 +71,33 @@ export default class TooltipPortal extends React.PureComponent {
           node: document.createElement('div'),
           timeout: null
         }
-        tooltipPortal[this.props.group].node.className = 'TooltipPortal'
-        document.body.insertBefore(
-          tooltipPortal[this.props.group].node,
-          document.body.firstChild
-        )
+        const elem = tooltipPortal[this.props.group].node
+        elem.classList.add('TooltipPortal')
+        elem.classList.add('dnb-core-style')
+        document.body.appendChild(elem)
       } catch (e) {
-        console.warn('Could not create TooltipPortal!', e)
+        warn(e)
       }
     }
   }
 
   handleAria(elem) {
-    if (elem && this.props.internal_id) {
-      try {
-        const describedby = makeArrayUnique(
-          String(elem.getAttribute('aria-describedby') || '').split(' ')
+    try {
+      if (!elem.classList.contains('dnb-tooltip__wrapper')) {
+        const existing = {
+          'aria-describedby': elem.getAttribute('aria-describedby')
+        }
+        elem.setAttribute(
+          'aria-describedby',
+          combineDescribedBy(existing, this.props.internal_id)
         )
-        describedby.push(this.props.internal_id)
-        elem.setAttribute('aria-describedby', describedby.join(' '))
-      } catch (e) {
-        //
       }
+    } catch (e) {
+      //
     }
   }
 
   renderPortal(props = {}) {
-    if (typeof document === 'undefined') {
-      return // stop here
-    }
-
     if (!tooltipPortal[this.props.group]) {
       this.createPortal()
     }
@@ -107,36 +105,35 @@ export default class TooltipPortal extends React.PureComponent {
     const { group, target } = this.props
 
     const targetElement =
-      typeof target === 'string' ? document.querySelector(target) : target
+      typeof target === 'string'
+        ? typeof document !== 'undefined' && document.querySelector(target)
+        : target
 
-    if (tooltipPortal[group].timeout) {
-      clearTimeout(tooltipPortal[group].timeout)
+    if (targetElement) {
+      if (tooltipPortal[group].timeout) {
+        clearTimeout(tooltipPortal[group].timeout)
+      }
+
+      if (!this.props.active && props.active) {
+        tooltipPortal[group].timeout = setTimeout(() => {
+          this.renderPortal({ active: false })
+        }, parseFloat(this.props.hide_delay))
+      }
+
+      ReactDOM.render(
+        <TooltipContainer
+          targetElement={targetElement}
+          {...this.props}
+          {...props}
+        />,
+        tooltipPortal[this.props.group].node
+      )
+
+      this.handleAria(targetElement)
     }
-
-    if (!this.props.active && props.active) {
-      tooltipPortal[group].timeout = setTimeout(() => {
-        this.renderPortal({ active: false })
-      }, parseFloat(this.props.hide_delay))
-    }
-
-    ReactDOM.render(
-      <TooltipContainer
-        targetElement={targetElement}
-        {...this.props}
-        {...props}
-      />,
-      tooltipPortal[this.props.group].node
-    )
-
-    this.handleAria(targetElement)
   }
 
   render() {
     return null
   }
 }
-
-const makeArrayUnique = (array) =>
-  array
-    .filter(Boolean)
-    .filter((value, index, self) => self.indexOf(value) === index)

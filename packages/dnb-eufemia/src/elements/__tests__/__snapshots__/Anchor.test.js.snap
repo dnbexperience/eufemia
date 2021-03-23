@@ -5,43 +5,82 @@ exports[`Anchor element have to match default Anchor element snapshot 1`] = `
   className="className"
   element="a"
   href="href"
+  inner_ref={null}
+  omitClass={true}
   target="target"
+  target_blank_title="target_blank_title"
+  tooltip="tooltip"
 >
-  <ForwardRef
-    _ref={null}
-    class="dnb-anchor"
+  <Anchor
     className="className"
-    css={null}
     element="a"
     href="href"
-    internalClass={null}
-    is="a"
-    skeleton={null}
-    skeleton_method="font"
+    inner_ref={null}
+    omitClass={true}
     target="target"
+    target_blank_title="target_blank_title"
+    tooltip="tooltip"
   >
-    <Elem
-      _ref={null}
-      class="dnb-anchor"
+    <ForwardRef
+      class={null}
       className="className"
       css={null}
       element="a"
       href="href"
+      inner_ref={
+        Object {
+          "current": <a
+            class="className dnb-a"
+            element="a"
+            href="href"
+            target="target"
+          >
+            text
+          </a>,
+        }
+      }
       internalClass={null}
       is="a"
       skeleton={null}
       skeleton_method="font"
       target="target"
+      target_blank_title="target_blank_title"
     >
-      <a
-        className="className dnb-anchor dnb-a"
+      <Elem
+        class={null}
+        className="className"
+        css={null}
         element="a"
         href="href"
+        inner_ref={
+          Object {
+            "current": <a
+              class="className dnb-a"
+              element="a"
+              href="href"
+              target="target"
+            >
+              text
+            </a>,
+          }
+        }
+        internalClass={null}
+        is="a"
+        skeleton={null}
+        skeleton_method="font"
         target="target"
+        target_blank_title="target_blank_title"
       >
-        text
-      </a>
-    </Elem>
-  </ForwardRef>
+        <a
+          className="className dnb-a"
+          element="a"
+          href="href"
+          target="target"
+        >
+          text
+        </a>
+      </Elem>
+    </ForwardRef>
+  </Anchor>
 </ForwardRef>
 `;

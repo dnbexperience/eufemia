@@ -3,6 +3,7 @@ showTabs: true
 ---
 
 import {
+TabsExampleContentOutside,
 TabsExampleContentObject,
 TabsExampleScrollable,
 TabsExampleLeftAligned,
@@ -13,6 +14,16 @@ TabsExampleReactRouterNavigation,
 } from 'Pages/uilib/components/tabs/Examples'
 
 ## Demos
+
+### Tabs where content is provided from outside
+
+As this may be a more common use case, we still have to ensure our tabs content is linked together with the tabs – because of accessibility.
+
+You have to provide an `id` to both of the components.
+
+**NB:** You don't need to use a function inside `Tabs.Content` – it can contain what ever you need to, as long as it is a React Node.
+
+<TabsExampleContentOutside />
 
 ### Tabs using 'data' property and content object
 
@@ -34,6 +45,8 @@ Also, this is an example of how to define a different content background color, 
 
 ### Tabs optimized for mobile
 
+<TabsExampleScrollable />
+
 **Notes about mobile view:** The Tabs component does automatically calculate the remaining spacing once the screen gets under `40em` in width.
 But depending on your setup, you may have to align your Tabs all the way to the edge of the browser window. E.g. with a negative margin:
 
@@ -47,8 +60,6 @@ But depending on your setup, you may have to align your Tabs all the way to the 
   }
 }
 ```
-
-<TabsExampleScrollable />
 
 ### Router navigation with Reach Router
 
@@ -66,7 +77,7 @@ This demo uses `react-router-dom`. More [examples on CodeSandbox](https://codesa
 
 ```jsx
 const exampleContent = {
-  first: () => <h2 className="dnb-h--large">First</h2>,
+  first: () => <H2>First</H2>,
   second: () => <Input label="Label:">Focus me with next Tab key</Input>,
   third: () => (
     <>

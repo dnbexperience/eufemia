@@ -1,3 +1,7 @@
+## March, 23. 2021
+
+- Make Anchor / Link better accessible by providing a title when target is set to blank.
+
 ## March, 3. 2021
 
 - Applied new Eufemia appearance and styles on a couple of components.

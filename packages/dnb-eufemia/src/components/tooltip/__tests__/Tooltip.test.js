@@ -17,18 +17,25 @@ import Tooltip from '../Tooltip'
 //   optional: true
 // })
 
+global.ResizeObserver = class {
+  constructor() {}
+  disconnect() {}
+  observe() {}
+  unobserve() {}
+}
+
 const defaultProps = {
-  component: null,
+  target_ref: null,
   id: 'tooltip'
 }
 
-describe('Tooltip component with component', () => {
+describe('Tooltip component with target_ref', () => {
   const Component = (props = {}) => (
     <Tooltip
       // {...snapshotProps}
       {...defaultProps}
       {...props}
-      component={<button>Button</button>}
+      target_ref={<button>Button</button>}
     >
       Text
     </Tooltip>
@@ -39,11 +46,6 @@ describe('Tooltip component with component', () => {
   })
 
   it('should validate with ARIA rules as a tooltip', async () => {
-    const Comp = mount(<Component />)
-    expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
-
-  it('should validate with ARIA rules as a anchor', async () => {
     const Comp = mount(<Component />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
@@ -71,11 +73,6 @@ describe('Tooltip component with target', () => {
   // })
 
   it('should validate with ARIA rules as a tooltip', async () => {
-    const Comp = mount(<Component />)
-    expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
-
-  it('should validate with ARIA rules as a anchor', async () => {
     const Comp = mount(<Component />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })

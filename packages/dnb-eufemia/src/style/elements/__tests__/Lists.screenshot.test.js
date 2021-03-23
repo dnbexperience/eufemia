@@ -28,6 +28,7 @@ describe('List screenshot', () => {
   })
   it('have to match outside ol list', async () => {
     const screenshot = await testPageScreenshot({
+      style: { width: '20rem', height: '20rem' },
       selector: '[data-visual-test="lists-ol-style-position"]'
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -69,6 +70,7 @@ describe('Lists with skeleton screenshot', () => {
   })
   it('have to match outside ol list', async () => {
     const screenshot = await testPageScreenshot({
+      style: { width: '20rem', height: '20rem' },
       selector: '[data-visual-test="lists-ol-style-position"]'
     })
     expect(screenshot).toMatchImageSnapshot()

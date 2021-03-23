@@ -626,8 +626,10 @@ legend.dnb-form-label {
     flex-grow: 1; }
   .dnb-textarea--stretch .dnb-textarea__inner {
     flex-grow: 1; }
-  .dnb-textarea--stretch .dnb-textarea__shell, .dnb-textarea--stretch .dnb-textarea__textarea {
+  .dnb-textarea--stretch .dnb-textarea__shell, .dnb-textarea--stretch .dnb-textarea__inner, .dnb-textarea--stretch .dnb-textarea__textarea {
     width: 100%; }
+  .dnb-textarea--stretch .dnb-form-label + .dnb-textarea__inner {
+    width: auto; }
   .dnb-textarea--vertical.dnb-textarea--stretch .dnb-textarea__inner {
     width: 100%; }
   .dnb-form-row--horizontal .dnb-textarea--stretch {

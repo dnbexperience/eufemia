@@ -8,7 +8,7 @@ import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 import { Global, css } from '@emotion/react'
 
-import { Input, Tabs, Icon } from '@dnb/eufemia/src/components'
+import { Input, Tabs, Icon, Button } from '@dnb/eufemia/src/components'
 import { bell as Bell } from '@dnb/eufemia/src/icons'
 
 import { H2 } from '@dnb/eufemia/src/elements'
@@ -44,6 +44,9 @@ export const TabsSandbox = () => {
           } */
         `}
       />
+      <Box>
+        <TabsContentUsage />
+      </Box>
       <Box>
         <TabsInGrid />
       </Box>
@@ -283,15 +286,50 @@ const TabsInGrid = () => (
     </TabGridWrapperStyle>
   </TabGridStyle>
 )
-// const ContentOne = () => {
-//   console.log('Content one')
-//   return (
-//     <>
-//       <Input label="Content one" placeholder="Edit me" />
-//     </>
-//   )
-// }
-// const ContentTwo = () => {
-//   console.log('Content two')
-//   return <>Content two</>
-// }
+const TabsContentUsage = () => {
+  const [value, setValue] = React.useState('two')
+  return (
+    <>
+      <Tabs
+        id="unique-tabs-id"
+        data={[
+          {
+            title: 'One',
+            key: 'one'
+          },
+          {
+            title: 'Two',
+            key: 'two'
+          }
+        ]}
+        selected_key={value}
+        on_change={({ key }) => {
+          setValue(key)
+        }}
+      />
+
+      <Tabs.Content id="unique-tabs-id">
+        {({ key }) => {
+          return <pre>{JSON.stringify({ key }, null, 2)}</pre>
+        }}
+      </Tabs.Content>
+
+      <Button
+        size="small"
+        variant="secondary"
+        text="one"
+        on_click={() => {
+          setValue('one')
+        }}
+      />
+      <Button
+        size="small"
+        variant="secondary"
+        text="two"
+        on_click={() => {
+          setValue('two')
+        }}
+      />
+    </>
+  )
+}

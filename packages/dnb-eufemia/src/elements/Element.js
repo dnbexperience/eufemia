@@ -16,7 +16,6 @@ import {
   createSpacingClasses
 } from '../components/space/SpacingHelper'
 import {
-  // AutoSize,
   createSkeletonClass,
   skeletonDOMAttributes
 } from '../components/skeleton/SkeletonHelper'
@@ -38,7 +37,7 @@ class Elem extends React.PureComponent {
     class: PropTypes.string,
     internalClass: PropTypes.string,
     css: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    _ref: PropTypes.object,
+    inner_ref: PropTypes.object,
     children: PropTypes.node
   }
   static defaultProps = {
@@ -48,12 +47,8 @@ class Elem extends React.PureComponent {
     class: null,
     internalClass: null,
     css: null,
-    _ref: null,
+    inner_ref: null,
     children: null
-  }
-
-  constructor(props) {
-    super(props)
   }
 
   render() {
@@ -71,7 +66,7 @@ class Elem extends React.PureComponent {
       internalClass,
       css,
       is: Tag,
-      _ref,
+      inner_ref,
       skeleton,
       skeleton_method,
       ...rest
@@ -92,17 +87,12 @@ class Elem extends React.PureComponent {
 
     skeletonDOMAttributes(rest, skeleton, this.context)
 
-    // Use the font-swap feature dnb-skeleton--font
-    // if (isTrue(skeleton)) {
-    //   return <AutoSize __element={Tag} ref={_ref} {...rest} />
-    // }
-
-    return <Tag ref={_ref} {...rest} />
+    return <Tag ref={inner_ref} {...rest} />
   }
 }
 
 const Element = React.forwardRef((props, ref) => {
-  return <Elem _ref={ref} {...props} />
+  return <Elem inner_ref={ref} {...props} />
 })
 Element.propTypes = Elem.propTypes
 Element.defaultProps = Elem.defaultProps

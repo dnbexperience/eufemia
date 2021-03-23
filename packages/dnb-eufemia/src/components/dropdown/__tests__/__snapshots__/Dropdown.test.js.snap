@@ -2038,8 +2038,10 @@ legend.dnb-form-label {
     flex-grow: 1; }
   .dnb-dropdown--stretch .dnb-dropdown__inner {
     flex-grow: 1; }
-  .dnb-dropdown--stretch .dnb-dropdown__row, .dnb-dropdown--stretch .dnb-dropdown__shell {
+  .dnb-dropdown--stretch .dnb-dropdown__row, .dnb-dropdown--stretch .dnb-dropdown__inner, .dnb-dropdown--stretch .dnb-dropdown__shell {
     width: 100%; }
+  .dnb-dropdown--stretch .dnb-form-label + .dnb-dropdown__inner {
+    width: auto; }
   .dnb-dropdown--vertical.dnb-dropdown--stretch .dnb-dropdown__inner {
     width: 100%; }
   .dnb-form-row--horizontal .dnb-dropdown--stretch {

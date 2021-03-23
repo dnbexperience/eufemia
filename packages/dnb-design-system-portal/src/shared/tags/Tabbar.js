@@ -41,6 +41,7 @@ export default function Tabbar({
       )
     )
   }
+
   const quitFullscreen = () => {
     setFullscreen(false)
     navigate(
@@ -53,6 +54,7 @@ export default function Tabbar({
       )
     )
   }
+
   const preparedTabs = React.useMemo(() => {
     return (
       (tabs || defaultTabs)
@@ -72,6 +74,18 @@ export default function Tabbar({
             )
           }
 
+          return { ...rest, key }
+        })
+    )
+  }, [wasFullscreen])
+
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (
+        !path.search.includes('data-visual-test') &&
+        !location.hostname.includes('localhost')
+      ) {
+        preparedTabs.forEach(({ key }) => {
           // preload pages the tab page
           if (
             typeof window !== 'undefined' &&
@@ -82,11 +96,11 @@ export default function Tabbar({
               window.___loader.enqueue(preloadPath)
             }
           }
-
-          return { ...rest, key }
         })
-    )
-  }, [wasFullscreen])
+      }
+    }, 2e3)
+    return () => clearTimeout(timeout)
+  }, [preparedTabs, path, location])
 
   const selectedKey = [
     path.pathname.replace(/(\/)$/, ''),

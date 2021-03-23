@@ -15,6 +15,7 @@ import Component from '../Anchor'
 const props = fakeProps(require.resolve('../Anchor'), {
   optional: true
 })
+props.inner_ref = null
 props.element = 'a'
 
 describe('Anchor element', () => {
@@ -38,23 +39,25 @@ describe('Anchor element', () => {
     )
     expect(Comp.find('.dnb-anchor--no-icon').exists()).toBe(true)
   })
-  it.skip('has title when target is blank', () => {
+  it('has aria-describedby when target is blank', async () => {
     const Comp = mount(
-      <Component href="/url" target="_blank">
+      <Component href="/url" target="_blank" lang="en-GB">
         text
       </Component>
     )
-    expect(Comp.find('[title]').exists()).toBe(true)
-  })
-  it.skip('has title about external url and target is blank', () => {
-    const Comp = mount(
-      <Component href="/url" target="_blank" title="External site">
-        text
-      </Component>
+
+    const id = Comp.find('a').instance().getAttribute('aria-describedby')
+    expect(document.body.querySelector('#' + id).textContent).toBe(
+      'Opens a new Window'
     )
-    expect(
-      Comp.find('[title]').get(1).instance().getAttribute('title')
-    ).toBe('External site')
+
+    const title = 'External site'
+    Comp.setProps({
+      title
+    })
+
+    expect(Comp.find('a').instance().getAttribute('title')).toBe(title)
+    expect(document.body.querySelector('#' + id)).toBe(null)
   })
   it('should validate with ARIA rules as a Anchor element', async () => {
     const Comp = mount(<Component {...props} />)

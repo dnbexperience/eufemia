@@ -16,10 +16,6 @@ You will get several advantages on using it, like:
 - Coloring
 - Accessibility
 
-### Primary Icon
-
-There is also the [IconPrimary](/uilib/components/icon-primary) component, which comes with all the [Primary Icons](/icons/primary) included in the `@dnb/eufemia`. you don't have to import the primary icons.
-
 ### Importing Icons
 
 In case your environment doesn't support tree-shaking, import the icons explicit.
@@ -34,6 +30,19 @@ import { bell as Bell } from '@dnb/eufemia/icons'
 // Default and explicit ES import
 import Bell from '@dnb/eufemia/icons/bell'
 ```
+
+### Icon Sizes
+
+_Exists in the [Icon Library](/icons)_
+
+- **default** `1rem` (16px)
+- **medium** `1.5rem` (24px)
+
+_Additional Sizes_
+
+- **small** `0.75rem` (12px)
+- **large** `2rem` (32px)
+- **custom-size** will not be responsive. Width and Height is set as `pixels`
 
 ### Custom project Icons
 
@@ -74,3 +83,7 @@ import { ReactComponent as CustomIcon } from './custom_icon.svg'
 
 render(<Icon size="medium">{CustomIcon}</Icon>)
 ```
+
+### Primary Icon
+
+There is also the [IconPrimary](/uilib/components/icon-primary) component, which comes with all the [Primary Icons](/icons/primary) included in the `@dnb/eufemia`. you don't have to import the primary icons.

@@ -153,7 +153,6 @@ Tertiary button with long text and text `wrap` enabled.
   icon_position="right"
   icon="chevron_right"
   on_click={({ event }) => {
-    // history.push('/')
     event.preventDefault()
   }}
 />
@@ -161,8 +160,7 @@ Tertiary button with long text and text `wrap` enabled.
   variant="secondary"
   text="Secondary with href"
   href="?no-cache=1"
-  icon_position="left"
-  icon="chevron_left"
+  target="_blank"
 />
 <Button
   href="?no-cache=1"

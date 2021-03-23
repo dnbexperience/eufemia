@@ -7,6 +7,7 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Section from '../section/Section'
+import TabsController from './TabsController'
 
 export default class ContentWrapper extends React.PureComponent {
   static propTypes = {
@@ -20,13 +21,46 @@ export default class ContentWrapper extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
-    children: PropTypes.node.isRequired
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
   }
   static defaultProps = {
     selected_key: null,
     content_style: null,
-    content_spacing: true
+    content_spacing: true,
+    children: null
   }
+
+  state = {}
+
+  constructor(props) {
+    super(props)
+
+    if (props.id) {
+      this._controller = TabsController.use(props.id)
+      this.state.key = this._controller.get().key
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.id) {
+      this._controller.listen(({ key }) => {
+        // this._timeout = setTimeout(() => {
+        if (this._controller && key !== this.state.key) {
+          this.setState({ key })
+        }
+        // }, 1)
+      })
+    }
+  }
+
+  componentWillUnmount() {
+    // clearTimeout(this._timeout)
+    if (this._controller) {
+      this._controller.remove()
+      this._controller = null
+    }
+  }
+
   render() {
     const {
       id,
@@ -49,10 +83,15 @@ export default class ContentWrapper extends React.PureComponent {
 
     validateDOMAttributes(this.props, params)
 
-    const Content = content_style ? Section : 'div'
+    const Element = content_style ? Section : 'div'
+
+    let content = children
+    if (typeof children === 'function') {
+      content = children({ key: this.state.key })
+    }
 
     return (
-      <Content
+      <Element
         role="tabpanel"
         tabIndex="0"
         id={`${id}-content`}
@@ -66,8 +105,8 @@ export default class ContentWrapper extends React.PureComponent {
         )}
         {...params}
       >
-        {children}
-      </Content>
+        {content}
+      </Element>
     )
   }
 }

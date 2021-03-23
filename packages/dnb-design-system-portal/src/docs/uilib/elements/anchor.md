@@ -7,53 +7,57 @@ import { IconPrimary } from '@dnb/eufemia/src'
 
 ## Anchor (Text Link)
 
-The Anchor, also knows as `Link` is used to navigate from one linked content to the next.
+The Anchor, also knows as `Link` is used to navigate from one page to the next HTML page.
 
-You would normally just decorate your anchor class withe this CSS class: `.dnb-anchor`.
+```jsx
+import { Link, Anchor } from '@dnb/eufemia/elements'
+render(<Anchor href="/">Accessible text</Anchor>)
+```
 
-<ComponentBox hideCode>
+**NB:** If you only use a vanilla HTML anchor element including `target="_blank"` then you have to ensure you add a `title` attribute that includes `Opens a new Window` or as a part of the text:
+
+```html
+<a
+  title="Opens a new Window"
+  target="_blank"
+  href="https://"
+  class="dnb-anchor"
+>
+  text (opens in new window)
+</a>
+```
+
+### Anchor states
+
+<ComponentBox>
 {`
 <ul className="dnb-ul dnb-unstyled-list">
   <li>
-    <a href="/" data-visual-test="anchor-default" className="dnb-anchor">
+    <Anchor href="/" data-visual-test="anchor-default">
       Default Style
-    </a>
+    </Anchor>
   </li>
-  <li>
-    <a target="_blank" href="https://eufemia.dnb.no/uilib/elements/anchor" data-visual-test="anchor-blank" className="dnb-anchor">
+  <li data-visual-test="anchor-blank">
+    <Anchor target="_blank" href="https://eufemia.dnb.no/uilib/elements/anchor">
       Blank target with https
-    </a>
+    </Anchor>
   </li>
   <li>
-    <a href="/" data-visual-test="anchor-hover" className="dnb-anchor dnb-anchor--hover">
+    <Anchor href="/" data-visual-test="anchor-hover" className="dnb-anchor--hover">
       Hover Style
-    </a>
+    </Anchor>
   </li>
   <li>
-    <a href="/" data-visual-test="anchor-active" className="dnb-anchor dnb-anchor--active">
+    <Anchor href="/" data-visual-test="anchor-active" className="dnb-anchor--active">
       Active Style
-    </a>
+    </Anchor>
   </li>
   <li>
-    <a href="/" data-visual-test="anchor-focus" className="dnb-anchor dnb-anchor--focus">
+    <Anchor href="/" data-visual-test="anchor-focus" className="dnb-anchor--focus">
       Focus Style
-    </a>
+    </Anchor>
   </li>
 </ul>
-`}
-</ComponentBox>
-
-### React JSX
-
-<ComponentBox useRender>
-{`
-// import { Link, Anchor } from '@dnb/eufemia/elements'
-render(
-  <p className="dnb-p">
-    <Anchor href="/uilib/elements/anchor" right>My Link</Anchor>
-    <Link href="/uilib/elements/anchor">My Link</Link>
-  </p>
-)
 `}
 </ComponentBox>
 
@@ -65,39 +69,39 @@ To force a specific state of style, use the following classes to do so:
 {`
 <ul className="dnb-ul dnb-unstyled-list">
   <li style={{display: 'inline-block', padding: '0.5rem', margin: '-0.5rem', backgroundColor: 'var(--color-ocean-green)'}}>
-    <a href="/" data-visual-test="anchor-contrast" className="dnb-anchor dnb-anchor--contrast">
+    <Anchor href="/" data-visual-test="anchor-contrast" className="dnb-anchor--contrast">
       Contrast Style
-    </a>
+    </Anchor>
   </li>
   <li>
-    <a href="/" className="dnb-anchor dnb-anchor--no-underline">
+    <Anchor href="/" className="dnb-anchor--no-underline">
       No underline
-    </a>
+    </Anchor>
   </li>
   <li>
-    <a target="_blank" href="https://eufemia.dnb.no/uilib/elements/anchor" className="dnb-anchor dnb-anchor--no-icon">
+    <Anchor target="_blank" href="https://eufemia.dnb.no/uilib/elements/anchor" className="dnb-anchor--no-icon">
       Blank target without launch icon
-    </a>
+    </Anchor>
   </li>
   <li>
-    <a href="/" className="dnb-anchor dnb-anchor--no-hover">
+    <Anchor href="/" className="dnb-anchor--no-hover">
       No hover
-    </a>
+    </Anchor>
   </li>
   <li>
-    <a href="/" className="dnb-anchor dnb-anchor--no-radius">
+    <Anchor href="/" className="dnb-anchor--no-radius">
       No border-radius
-    </a>
+    </Anchor>
   </li>
   <li>
-    <a href="/" className="dnb-anchor dnb-anchor--no-animation">
+    <Anchor href="/" className="dnb-anchor--no-animation">
       No animation
-    </a>
+    </Anchor>
   </li>
   <li>
-    <a href="/" className="dnb-anchor dnb-anchor--no-style">
+    <Anchor href="/" className="dnb-anchor--no-style">
       Reset anchor style
-    </a>
+    </Anchor>
   </li>
   <li>
     <button className="dnb-anchor">
@@ -119,12 +123,12 @@ To force a specific state of style, use the following classes to do so:
 
 <ComponentBox hideCode>
 {`
-<a href="/" className="dnb-anchor" data-visual-test="anchor-icon">
+<Anchor href="/" data-visual-test="anchor-icon">
   Anchor with Icon <IconPrimary icon="chevron_right" />
-</a>
+</Anchor>
 <br/><br/>
 <p className="dnb-p" data-visual-test="anchor-paragraph">
-  text <a href="/" className="dnb-anchor">Inside a Paragraph <IconPrimary icon="bell" /></a> text
+  text <Anchor href="/">Inside a Paragraph <IconPrimary icon="bell" /></Anchor> text
 </p>
 `}
 </ComponentBox>
@@ -134,14 +138,14 @@ To force a specific state of style, use the following classes to do so:
 <ComponentBox hideCode>
 {`
 <h2 className="dnb-h--large">
-  <a href="/" className="dnb-anchor" data-visual-test="anchor-heading">
+  <Anchor href="/" data-visual-test="anchor-heading">
     Inside Headings <IconPrimary icon="bell" />
-  </a> H2
+  </Anchor> H2
 </h2>
 <h2 className="dnb-h--large">
-  <a target="_blank" href="https://eufemia.dnb.no/uilib/elements/anchor" className="dnb-anchor" data-visual-test="anchor-heading-blank">
+  <Anchor target="_blank" href="https://eufemia.dnb.no/uilib/elements/anchor" data-visual-test="anchor-heading-blank">
     Blank target in headings
-  </a> H2
+  </Anchor> H2
 </h2>
 `}
 </ComponentBox>

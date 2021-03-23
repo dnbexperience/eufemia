@@ -22,6 +22,9 @@ export default {
       cancel_button_text: 'Avbryt',
       reset_button_text: 'Tilbakestill'
     },
+    Anchor: {
+      target_blank_title: 'Åpner et nytt vindu'
+    },
     GlobalStatus: {
       default_title: 'En feil har skjedd',
       close_text: 'Lukk',

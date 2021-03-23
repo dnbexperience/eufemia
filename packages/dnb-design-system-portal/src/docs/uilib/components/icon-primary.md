@@ -4,6 +4,7 @@ description: 'The IconPrimary component loads by default all the primary icons u
 status: null
 order: 5
 showTabs: true
+draft: true
 hideTabs:
   - title: Events
 ---

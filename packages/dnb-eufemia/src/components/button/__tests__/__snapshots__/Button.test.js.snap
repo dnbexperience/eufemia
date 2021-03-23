@@ -311,7 +311,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   innerRef={
     Object {
       "current": <a
-        class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
+        class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
         href="https://url"
         id="button"
         title="This is a button title"
@@ -354,7 +354,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   inner_ref={
     Object {
       "current": <a
-        class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
+        class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
         href="https://url"
         id="button"
         title="This is a button title"
@@ -408,77 +408,28 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   variant="primary"
   wrap="wrap"
 >
-  <a
+  <ForwardRef
     className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
     disabled={false}
     href="https://url"
     id="button"
+    omitClass={true}
     onClick={[Function]}
+    target={null}
+    target_blank_title={null}
     title="This is a button title"
+    tooltip={null}
     type="type"
   >
-    <Content
-      bounding="bounding"
-      class="class"
-      className="className"
-      content="children"
-      custom_element={Object {}}
-      custom_method={[Function]}
-      disabled="disabled"
-      element={null}
-      global_status_id="global_status_id"
+    <Anchor
+      className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
+      disabled={false}
       href="https://url"
-      icon="question"
-      icon_position="right"
-      icon_size="icon_size"
       id="button"
-      innerRef={
-        Object {
-          "current": <a
-            class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
-            href="https://url"
-            id="button"
-            title="This is a button title"
-            type="type"
-          >
-            <span
-              class="dnb-button__alignment"
-            >
-              ‌
-            </span>
-            <span
-              class="dnb-button__text dnb-skeleton--show-font"
-            >
-              children
-            </span>
-            <span
-              aria-hidden="true"
-              class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-              data-test-id="question icon"
-              role="presentation"
-            >
-              <svg
-                fill="none"
-                height="16"
-                viewBox="0 0 16 16"
-                width="16"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  clip-rule="evenodd"
-                  d="M6.14209 4.87551C6.14232 3.67087 7.22313 2.67293 8.41439 2.7553C9.61616 2.83839 10.5374 3.98528 10.3733 5.16806C10.2669 5.93479 9.70614 6.622 8.97633 6.88003C8.01504 7.2199 7.663 8.0029 7.55047 8.70632C7.49611 9.04614 7.49129 9.39066 7.49667 9.69131C7.49941 9.84464 7.50394 9.97113 7.5081 10.0873C7.51321 10.2303 7.51777 10.3576 7.51777 10.5002C7.51777 10.9144 7.85356 11.2502 8.26777 11.2502C8.68199 11.2502 9.01777 10.9144 9.01777 10.5002C9.01777 10.3504 9.01151 10.1615 9.00563 9.98422L9.00563 9.98418C9.00177 9.86783 8.99807 9.75649 8.99643 9.66448C8.99154 9.39108 8.99836 9.15128 9.03164 8.94327C9.09438 8.55103 9.22163 8.38429 9.47633 8.29424C10.7347 7.84936 11.6756 6.69619 11.8591 5.37421C12.1418 3.33617 10.5922 1.40229 8.51785 1.25887C6.4652 1.11695 4.64249 2.79596 4.64209 4.87522C4.64201 5.28944 4.97773 5.62529 5.39195 5.62537C5.80616 5.62545 6.14201 5.28972 6.14209 4.87551ZM8.25 14.5C8.80228 14.5 9.25 14.0523 9.25 13.5C9.25 12.9477 8.80228 12.5 8.25 12.5C7.69772 12.5 7.25 12.9477 7.25 13.5C7.25 14.0523 7.69772 14.5 8.25 14.5Z"
-                  fill="black"
-                  fill-rule="evenodd"
-                />
-              </svg>
-            </span>
-          </a>,
-        }
-      }
       inner_ref={
         Object {
           "current": <a
-            class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
+            class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
             href="https://url"
             id="button"
             title="This is a button title"
@@ -518,76 +469,318 @@ exports[`Button component have to match href="..." snapshot 1`] = `
           </a>,
         }
       }
-      isIconOnly={false}
+      omitClass={true}
       onClick={[Function]}
-      on_click="on_click"
-      size={null}
-      skeleton={false}
-      status={null}
-      status_animation="status_animation"
-      status_state="status_state"
-      text="text"
+      target={null}
+      target_blank_title={null}
       title="This is a button title"
       tooltip={null}
       type="type"
-      variant="primary"
-      wrap="wrap"
     >
-      <span
-        className="dnb-button__alignment"
-        key="button-text-empty"
-      >
-        ‌
-      </span>
-      <span
-        className="dnb-button__text dnb-skeleton--show-font"
-        key="button-text"
-      >
-        children
-      </span>
-      <IconPrimary
-        alt={null}
-        aria-hidden={true}
-        attributes={null}
-        border={null}
-        className="dnb-button__icon"
-        color={null}
-        height={null}
-        icon="question"
-        inherit_color={true}
-        key="button-icon"
-        modifier={null}
-        size="icon_size"
-        skeleton={false}
-        title={null}
-        width={null}
-      >
-        <span
-          aria-hidden={true}
-          className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-          data-test-id="question icon"
-          role="presentation"
-        >
-          <question>
-            <svg
-              fill="none"
-              height={16}
-              viewBox="0 0 16 16"
-              width={16}
-              xmlns="http://www.w3.org/2000/svg"
+      <ForwardRef
+        class={null}
+        className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
+        css={null}
+        disabled={false}
+        href="https://url"
+        id="button"
+        inner_ref={
+          Object {
+            "current": <a
+              class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
+              href="https://url"
+              id="button"
+              title="This is a button title"
+              type="type"
             >
-              <path
-                clipRule="evenodd"
-                d="M6.14209 4.87551C6.14232 3.67087 7.22313 2.67293 8.41439 2.7553C9.61616 2.83839 10.5374 3.98528 10.3733 5.16806C10.2669 5.93479 9.70614 6.622 8.97633 6.88003C8.01504 7.2199 7.663 8.0029 7.55047 8.70632C7.49611 9.04614 7.49129 9.39066 7.49667 9.69131C7.49941 9.84464 7.50394 9.97113 7.5081 10.0873C7.51321 10.2303 7.51777 10.3576 7.51777 10.5002C7.51777 10.9144 7.85356 11.2502 8.26777 11.2502C8.68199 11.2502 9.01777 10.9144 9.01777 10.5002C9.01777 10.3504 9.01151 10.1615 9.00563 9.98422L9.00563 9.98418C9.00177 9.86783 8.99807 9.75649 8.99643 9.66448C8.99154 9.39108 8.99836 9.15128 9.03164 8.94327C9.09438 8.55103 9.22163 8.38429 9.47633 8.29424C10.7347 7.84936 11.6756 6.69619 11.8591 5.37421C12.1418 3.33617 10.5922 1.40229 8.51785 1.25887C6.4652 1.11695 4.64249 2.79596 4.64209 4.87522C4.64201 5.28944 4.97773 5.62529 5.39195 5.62537C5.80616 5.62545 6.14201 5.28972 6.14209 4.87551ZM8.25 14.5C8.80228 14.5 9.25 14.0523 9.25 13.5C9.25 12.9477 8.80228 12.5 8.25 12.5C7.69772 12.5 7.25 12.9477 7.25 13.5C7.25 14.0523 7.69772 14.5 8.25 14.5Z"
-                fill="black"
-                fillRule="evenodd"
-              />
-            </svg>
-          </question>
-        </span>
-      </IconPrimary>
-    </Content>
-  </a>
+              <span
+                class="dnb-button__alignment"
+              >
+                ‌
+              </span>
+              <span
+                class="dnb-button__text dnb-skeleton--show-font"
+              >
+                children
+              </span>
+              <span
+                aria-hidden="true"
+                class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                data-test-id="question icon"
+                role="presentation"
+              >
+                <svg
+                  fill="none"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M6.14209 4.87551C6.14232 3.67087 7.22313 2.67293 8.41439 2.7553C9.61616 2.83839 10.5374 3.98528 10.3733 5.16806C10.2669 5.93479 9.70614 6.622 8.97633 6.88003C8.01504 7.2199 7.663 8.0029 7.55047 8.70632C7.49611 9.04614 7.49129 9.39066 7.49667 9.69131C7.49941 9.84464 7.50394 9.97113 7.5081 10.0873C7.51321 10.2303 7.51777 10.3576 7.51777 10.5002C7.51777 10.9144 7.85356 11.2502 8.26777 11.2502C8.68199 11.2502 9.01777 10.9144 9.01777 10.5002C9.01777 10.3504 9.01151 10.1615 9.00563 9.98422L9.00563 9.98418C9.00177 9.86783 8.99807 9.75649 8.99643 9.66448C8.99154 9.39108 8.99836 9.15128 9.03164 8.94327C9.09438 8.55103 9.22163 8.38429 9.47633 8.29424C10.7347 7.84936 11.6756 6.69619 11.8591 5.37421C12.1418 3.33617 10.5922 1.40229 8.51785 1.25887C6.4652 1.11695 4.64249 2.79596 4.64209 4.87522C4.64201 5.28944 4.97773 5.62529 5.39195 5.62537C5.80616 5.62545 6.14201 5.28972 6.14209 4.87551ZM8.25 14.5C8.80228 14.5 9.25 14.0523 9.25 13.5C9.25 12.9477 8.80228 12.5 8.25 12.5C7.69772 12.5 7.25 12.9477 7.25 13.5C7.25 14.0523 7.69772 14.5 8.25 14.5Z"
+                    fill="black"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </span>
+            </a>,
+          }
+        }
+        internalClass={null}
+        is="a"
+        onClick={[Function]}
+        skeleton={null}
+        skeleton_method="font"
+        target={null}
+        target_blank_title="Åpner et nytt vindu"
+        title="This is a button title"
+        type="type"
+      >
+        <Elem
+          class={null}
+          className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
+          css={null}
+          disabled={false}
+          href="https://url"
+          id="button"
+          inner_ref={
+            Object {
+              "current": <a
+                class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
+                href="https://url"
+                id="button"
+                title="This is a button title"
+                type="type"
+              >
+                <span
+                  class="dnb-button__alignment"
+                >
+                  ‌
+                </span>
+                <span
+                  class="dnb-button__text dnb-skeleton--show-font"
+                >
+                  children
+                </span>
+                <span
+                  aria-hidden="true"
+                  class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                  data-test-id="question icon"
+                  role="presentation"
+                >
+                  <svg
+                    fill="none"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M6.14209 4.87551C6.14232 3.67087 7.22313 2.67293 8.41439 2.7553C9.61616 2.83839 10.5374 3.98528 10.3733 5.16806C10.2669 5.93479 9.70614 6.622 8.97633 6.88003C8.01504 7.2199 7.663 8.0029 7.55047 8.70632C7.49611 9.04614 7.49129 9.39066 7.49667 9.69131C7.49941 9.84464 7.50394 9.97113 7.5081 10.0873C7.51321 10.2303 7.51777 10.3576 7.51777 10.5002C7.51777 10.9144 7.85356 11.2502 8.26777 11.2502C8.68199 11.2502 9.01777 10.9144 9.01777 10.5002C9.01777 10.3504 9.01151 10.1615 9.00563 9.98422L9.00563 9.98418C9.00177 9.86783 8.99807 9.75649 8.99643 9.66448C8.99154 9.39108 8.99836 9.15128 9.03164 8.94327C9.09438 8.55103 9.22163 8.38429 9.47633 8.29424C10.7347 7.84936 11.6756 6.69619 11.8591 5.37421C12.1418 3.33617 10.5922 1.40229 8.51785 1.25887C6.4652 1.11695 4.64249 2.79596 4.64209 4.87522C4.64201 5.28944 4.97773 5.62529 5.39195 5.62537C5.80616 5.62545 6.14201 5.28972 6.14209 4.87551ZM8.25 14.5C8.80228 14.5 9.25 14.0523 9.25 13.5C9.25 12.9477 8.80228 12.5 8.25 12.5C7.69772 12.5 7.25 12.9477 7.25 13.5C7.25 14.0523 7.69772 14.5 8.25 14.5Z"
+                      fill="black"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </span>
+              </a>,
+            }
+          }
+          internalClass={null}
+          is="a"
+          onClick={[Function]}
+          skeleton={null}
+          skeleton_method="font"
+          target={null}
+          target_blank_title="Åpner et nytt vindu"
+          title="This is a button title"
+          type="type"
+        >
+          <a
+            className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
+            disabled={false}
+            href="https://url"
+            id="button"
+            onClick={[Function]}
+            title="This is a button title"
+            type="type"
+          >
+            <Content
+              bounding="bounding"
+              class="class"
+              className="className"
+              content="children"
+              custom_element={Object {}}
+              custom_method={[Function]}
+              disabled="disabled"
+              element={null}
+              global_status_id="global_status_id"
+              href="https://url"
+              icon="question"
+              icon_position="right"
+              icon_size="icon_size"
+              id="button"
+              innerRef={
+                Object {
+                  "current": <a
+                    class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
+                    href="https://url"
+                    id="button"
+                    title="This is a button title"
+                    type="type"
+                  >
+                    <span
+                      class="dnb-button__alignment"
+                    >
+                      ‌
+                    </span>
+                    <span
+                      class="dnb-button__text dnb-skeleton--show-font"
+                    >
+                      children
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                      data-test-id="question icon"
+                      role="presentation"
+                    >
+                      <svg
+                        fill="none"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          clip-rule="evenodd"
+                          d="M6.14209 4.87551C6.14232 3.67087 7.22313 2.67293 8.41439 2.7553C9.61616 2.83839 10.5374 3.98528 10.3733 5.16806C10.2669 5.93479 9.70614 6.622 8.97633 6.88003C8.01504 7.2199 7.663 8.0029 7.55047 8.70632C7.49611 9.04614 7.49129 9.39066 7.49667 9.69131C7.49941 9.84464 7.50394 9.97113 7.5081 10.0873C7.51321 10.2303 7.51777 10.3576 7.51777 10.5002C7.51777 10.9144 7.85356 11.2502 8.26777 11.2502C8.68199 11.2502 9.01777 10.9144 9.01777 10.5002C9.01777 10.3504 9.01151 10.1615 9.00563 9.98422L9.00563 9.98418C9.00177 9.86783 8.99807 9.75649 8.99643 9.66448C8.99154 9.39108 8.99836 9.15128 9.03164 8.94327C9.09438 8.55103 9.22163 8.38429 9.47633 8.29424C10.7347 7.84936 11.6756 6.69619 11.8591 5.37421C12.1418 3.33617 10.5922 1.40229 8.51785 1.25887C6.4652 1.11695 4.64249 2.79596 4.64209 4.87522C4.64201 5.28944 4.97773 5.62529 5.39195 5.62537C5.80616 5.62545 6.14201 5.28972 6.14209 4.87551ZM8.25 14.5C8.80228 14.5 9.25 14.0523 9.25 13.5C9.25 12.9477 8.80228 12.5 8.25 12.5C7.69772 12.5 7.25 12.9477 7.25 13.5C7.25 14.0523 7.69772 14.5 8.25 14.5Z"
+                          fill="black"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                    </span>
+                  </a>,
+                }
+              }
+              inner_ref={
+                Object {
+                  "current": <a
+                    class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
+                    href="https://url"
+                    id="button"
+                    title="This is a button title"
+                    type="type"
+                  >
+                    <span
+                      class="dnb-button__alignment"
+                    >
+                      ‌
+                    </span>
+                    <span
+                      class="dnb-button__text dnb-skeleton--show-font"
+                    >
+                      children
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                      data-test-id="question icon"
+                      role="presentation"
+                    >
+                      <svg
+                        fill="none"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          clip-rule="evenodd"
+                          d="M6.14209 4.87551C6.14232 3.67087 7.22313 2.67293 8.41439 2.7553C9.61616 2.83839 10.5374 3.98528 10.3733 5.16806C10.2669 5.93479 9.70614 6.622 8.97633 6.88003C8.01504 7.2199 7.663 8.0029 7.55047 8.70632C7.49611 9.04614 7.49129 9.39066 7.49667 9.69131C7.49941 9.84464 7.50394 9.97113 7.5081 10.0873C7.51321 10.2303 7.51777 10.3576 7.51777 10.5002C7.51777 10.9144 7.85356 11.2502 8.26777 11.2502C8.68199 11.2502 9.01777 10.9144 9.01777 10.5002C9.01777 10.3504 9.01151 10.1615 9.00563 9.98422L9.00563 9.98418C9.00177 9.86783 8.99807 9.75649 8.99643 9.66448C8.99154 9.39108 8.99836 9.15128 9.03164 8.94327C9.09438 8.55103 9.22163 8.38429 9.47633 8.29424C10.7347 7.84936 11.6756 6.69619 11.8591 5.37421C12.1418 3.33617 10.5922 1.40229 8.51785 1.25887C6.4652 1.11695 4.64249 2.79596 4.64209 4.87522C4.64201 5.28944 4.97773 5.62529 5.39195 5.62537C5.80616 5.62545 6.14201 5.28972 6.14209 4.87551ZM8.25 14.5C8.80228 14.5 9.25 14.0523 9.25 13.5C9.25 12.9477 8.80228 12.5 8.25 12.5C7.69772 12.5 7.25 12.9477 7.25 13.5C7.25 14.0523 7.69772 14.5 8.25 14.5Z"
+                          fill="black"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                    </span>
+                  </a>,
+                }
+              }
+              isIconOnly={false}
+              onClick={[Function]}
+              on_click="on_click"
+              size={null}
+              skeleton={false}
+              status={null}
+              status_animation="status_animation"
+              status_state="status_state"
+              text="text"
+              title="This is a button title"
+              tooltip={null}
+              type="type"
+              variant="primary"
+              wrap="wrap"
+            >
+              <span
+                className="dnb-button__alignment"
+                key="button-text-empty"
+              >
+                ‌
+              </span>
+              <span
+                className="dnb-button__text dnb-skeleton--show-font"
+                key="button-text"
+              >
+                children
+              </span>
+              <IconPrimary
+                alt={null}
+                aria-hidden={true}
+                attributes={null}
+                border={null}
+                className="dnb-button__icon"
+                color={null}
+                height={null}
+                icon="question"
+                inherit_color={true}
+                key="button-icon"
+                modifier={null}
+                size="icon_size"
+                skeleton={false}
+                title={null}
+                width={null}
+              >
+                <span
+                  aria-hidden={true}
+                  className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                  data-test-id="question icon"
+                  role="presentation"
+                >
+                  <question>
+                    <svg
+                      fill="none"
+                      height={16}
+                      viewBox="0 0 16 16"
+                      width={16}
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clipRule="evenodd"
+                        d="M6.14209 4.87551C6.14232 3.67087 7.22313 2.67293 8.41439 2.7553C9.61616 2.83839 10.5374 3.98528 10.3733 5.16806C10.2669 5.93479 9.70614 6.622 8.97633 6.88003C8.01504 7.2199 7.663 8.0029 7.55047 8.70632C7.49611 9.04614 7.49129 9.39066 7.49667 9.69131C7.49941 9.84464 7.50394 9.97113 7.5081 10.0873C7.51321 10.2303 7.51777 10.3576 7.51777 10.5002C7.51777 10.9144 7.85356 11.2502 8.26777 11.2502C8.68199 11.2502 9.01777 10.9144 9.01777 10.5002C9.01777 10.3504 9.01151 10.1615 9.00563 9.98422L9.00563 9.98418C9.00177 9.86783 8.99807 9.75649 8.99643 9.66448C8.99154 9.39108 8.99836 9.15128 9.03164 8.94327C9.09438 8.55103 9.22163 8.38429 9.47633 8.29424C10.7347 7.84936 11.6756 6.69619 11.8591 5.37421C12.1418 3.33617 10.5922 1.40229 8.51785 1.25887C6.4652 1.11695 4.64249 2.79596 4.64209 4.87522C4.64201 5.28944 4.97773 5.62529 5.39195 5.62537C5.80616 5.62545 6.14201 5.28972 6.14209 4.87551ZM8.25 14.5C8.80228 14.5 9.25 14.0523 9.25 13.5C9.25 12.9477 8.80228 12.5 8.25 12.5C7.69772 12.5 7.25 12.9477 7.25 13.5C7.25 14.0523 7.69772 14.5 8.25 14.5Z"
+                        fill="black"
+                        fillRule="evenodd"
+                      />
+                    </svg>
+                  </question>
+                </span>
+              </IconPrimary>
+            </Content>
+          </a>
+        </Elem>
+      </ForwardRef>
+    </Anchor>
+  </ForwardRef>
 </Button>
 `;
 

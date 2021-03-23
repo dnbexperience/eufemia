@@ -63,6 +63,10 @@ a.dnb-button {
   // reset the anchor style
   @include resetAnimationStyle();
 }
+.dnb-anchor--icon {
+  @include anchorIconStyle();
+  font-size: var(--font-size-basis);
+}
 
 @mixin anchorTag() {
   a {

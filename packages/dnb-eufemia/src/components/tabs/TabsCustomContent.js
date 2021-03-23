@@ -1,15 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-
 import {
   spacingPropTypes,
   createSpacingClasses
 } from '../space/SpacingHelper'
-
-// import {
-//   validateDOMAttributes,
-// } from '../../shared/component-helper'
+import ContentWrapper from './TabsContentWrapper'
 
 // This component is only a dummy component to collect data
 /*
@@ -33,7 +29,7 @@ export default class CustomContent extends React.PureComponent {
 
     ...spacingPropTypes,
 
-    children: PropTypes.node.isRequired,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     className: PropTypes.string,
     class: PropTypes.string
   }
@@ -43,12 +39,12 @@ export default class CustomContent extends React.PureComponent {
     hash: null,
     selected: null,
     disabled: null,
+    children: null,
     className: null,
     class: null
   }
   render() {
     const {
-      children,
       displayName, // eslint-disable-line
       title, // eslint-disable-line
       hash, // eslint-disable-line
@@ -58,6 +54,11 @@ export default class CustomContent extends React.PureComponent {
       class: _className,
       ...rest
     } = this.props
+
+    if (this.props.id) {
+      return <ContentWrapper {...rest} />
+    }
+
     return (
       <div
         className={classnames(
@@ -67,7 +68,7 @@ export default class CustomContent extends React.PureComponent {
           _className
         )}
       >
-        {children}
+        {this.props.children}
       </div>
     )
   }

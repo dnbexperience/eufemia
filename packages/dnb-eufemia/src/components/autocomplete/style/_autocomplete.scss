@@ -166,9 +166,13 @@
       flex-grow: 1;
     }
     &__row,
+    &__inner,
     &__shell {
       width: 100%;
     }
+  }
+  &--stretch .dnb-form-label + &__inner {
+    width: auto;
   }
   &--vertical#{&}--stretch &__inner {
     width: 100%;

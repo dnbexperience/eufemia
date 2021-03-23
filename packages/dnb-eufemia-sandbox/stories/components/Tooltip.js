@@ -38,15 +38,15 @@ export const TooltipSandbox = () => {
           group="animate_position"
           // hide_delay={1e3}
           animate_position
-          component={<Button right>Top</Button>}
+          target_ref={<Button right>Top</Button>}
         >
           Tooltip 1
         </Tooltip>
         <Tooltip
           group="animate_position"
-          // position="bottom"
+          position="bottom"
           animate_position
-          component={<Button>Bottom</Button>}
+          target_ref={<Button>Bottom</Button>}
         >
           Tooltip 2
         </Tooltip>
@@ -59,7 +59,7 @@ export const TooltipSandbox = () => {
           position="top"
           // target="#button1"
           // active
-          component={<Button right>Bottom 1</Button>}
+          target_ref={<Button right>Bottom 1</Button>}
         >
           Tooltip 1
         </StyledTooltip>
@@ -68,7 +68,7 @@ export const TooltipSandbox = () => {
           position="bottom"
           // target="#button2"
           // active
-          component={<Button>Bottom 2</Button>}
+          target_ref={<Button>Bottom 2</Button>}
         >
           Tooltip 2
         </StyledTooltip>

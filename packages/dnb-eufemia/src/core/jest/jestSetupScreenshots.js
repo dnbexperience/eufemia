@@ -20,7 +20,7 @@ const config = {
   testScreenshotOnHost: 'localhost',
   testScreenshotOnPort: 8000,
   headless: true,
-  timeout: 5e3,
+  timeout: 10e3,
   blockFontRequest: false,
   allowedFonts: [], // e.g. 'LiberationMono'
   pixelGrid: 8,
@@ -120,26 +120,21 @@ module.exports.testPageScreenshot = async ({
 
   const {
     elementToSimulate,
-    waitBeforeFinish: overwriteWaitBeforeFinish
+    activeSimulationDelay
   } = await handleSimulation({
     page,
     element,
     simulate,
     simulateSelector,
     screenshotElement,
-    waitBeforeFinish,
     waitAfterSimulateSelector,
     waitAfterSimulate,
     waitBeforeSimulate
   })
-  if (overwriteWaitBeforeFinish) {
-    waitBeforeFinish = overwriteWaitBeforeFinish
-  }
 
   await handleMeasureOfElement({
     page,
     measureElement,
-    secreenshotSelector,
     selector
   })
 
@@ -149,16 +144,17 @@ module.exports.testPageScreenshot = async ({
     secreenshotSelector
   })
 
-  if (elementToSimulate) {
-    await elementToSimulate.dispose()
-  }
-
   if (config.headless !== true) {
     await page.waitForTimeout(config.timeout)
   }
 
   // before we had: just to make sure we don't resolve, before the delayed click happened
   // so the next integration on the same url will have a reset state
+  if (activeSimulationDelay > 0) {
+    await elementToSimulate.click()
+    await page.waitForTimeout(activeSimulationDelay)
+  }
+
   if (waitBeforeFinish > 0) {
     await page.waitForTimeout(waitBeforeFinish)
   }
@@ -191,8 +187,6 @@ const setupPageScreenshot = ({
 
   afterAll(async () => {
     setScreenshotSetup(config.screenshotConfig)
-
-    await global.__PAGE__.close()
   })
 }
 module.exports.setupPageScreenshot = setupPageScreenshot
@@ -202,11 +196,7 @@ const setupBeforeAll = async ({
   fullscreen = false,
   pageViewport = null
 }) => {
-  const page = await global.__BROWSER__.newPage()
-
-  // in case we want to use private window
-  // const context = await global.__BROWSER__.createIncognitoBrowserContext()
-  // const page = await context.newPage()
+  const page = global.__PAGE__ || (await global.__BROWSER__.newPage())
 
   if (pageViewport || (pageViewport !== false && config.pageViewport)) {
     if (pageViewport && config.pageViewport) {
@@ -242,19 +232,8 @@ const setupBeforeAll = async ({
   }
 
   if (url) {
-    await page.goto(createUrl(url, fullscreen), {
-      waitUntil: 'load' // the whole document and its resources (e.g. images, iframes, scripts) have been loaded.
-    })
+    await page.goto(createUrl(url, fullscreen))
   }
-
-  // just to make sure we get the latest version
-  // Try the new Gatsby setup without this hack
-  // if (isCI) {
-  // await page.reload({
-  //   waitUntil: 'domcontentloaded' // the whole document (HTML) has been loaded.
-  // })
-  //   await page.waitForTimeout(1e3)
-  // }
 
   return page
 }
@@ -268,9 +247,7 @@ async function makePageReady({
   styleSelector
 }) {
   if (url) {
-    await page.goto(createUrl(url, fullscreen), {
-      waitUntil: 'load' // // the whole document and its resources (e.g. images, iframes, scripts) have been loaded.
-    })
+    await page.goto(createUrl(url, fullscreen))
   }
 
   global.IS_TEST = true
@@ -299,18 +276,8 @@ async function makePageReady({
   }
 }
 
-async function handleMeasureOfElement({
-  page,
-  measureElement,
-  secreenshotSelector,
-  selector
-}) {
-  // with this, we get a warning (console)
-  // if an element is not in the pixel grid
-  if (!measureElement) {
-    measureElement = secreenshotSelector || selector
-  }
-  if (!isCI && measureElement) {
+async function handleMeasureOfElement({ page, measureElement, selector }) {
+  if (measureElement) {
     const pixelGrid = config.pixelGrid
     if (selector !== measureElement) {
       await page.waitForSelector(measureElement)
@@ -361,7 +328,6 @@ async function handleSimulation({
   simulate,
   simulateSelector,
   screenshotElement,
-  waitBeforeFinish,
   waitAfterSimulateSelector,
   waitAfterSimulate,
   waitBeforeSimulate
@@ -371,6 +337,7 @@ async function handleSimulation({
   }
 
   let elementToSimulate = null
+  let activeSimulationDelay = null
 
   if (simulate) {
     if (simulateSelector) {
@@ -409,9 +376,9 @@ async function handleSimulation({
 
       case 'active': {
         // make a delayed click, no await. Else we get only a release state
-        waitBeforeFinish = 500 // have mouse pressed until screen shot is taken
+        activeSimulationDelay = 600 // have mouse pressed until screen shot is taken
         elementToSimulate.click({
-          delay: waitBeforeFinish // move the mouse
+          delay: activeSimulationDelay - 10 // move the mouse
         })
         break
       }
@@ -436,7 +403,7 @@ async function handleSimulation({
     await page.waitForTimeout(waitAfterSimulate)
   }
 
-  return { elementToSimulate, waitBeforeFinish }
+  return { elementToSimulate, activeSimulationDelay }
 }
 
 async function handleWrapper({
