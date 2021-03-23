@@ -11,19 +11,35 @@ import styled from '@emotion/styled'
 import { Location, Router, navigate } from '@reach/router'
 import { BrowserRouter, Route, withRouter } from 'react-router-dom'
 
-// export class Example extends React.PureComponent {
-//   static AdditionalCallback = {
-//     info: ({ CodeRenderer }) => (
-//       <React.Fragment>
-//         <h3>Data Structure</h3>
-//         <CodeRenderer language="json">{dataBlob}</CodeRenderer>
-//       </React.Fragment>
-//     )
-//   }
-//   render() {
-//     return null
-//   }
-// }
+export const TabsExampleContentOutside = () => (
+  <Wrapper>
+    <ComponentBox>
+      {
+        /* @jsx */ `
+<Tabs
+  id="unique-linked-id"
+  data={[
+    {
+      title: 'One',
+      key: 'one'
+    },
+    {
+      title: 'Two',
+      key: 'two'
+    }
+  ]}
+/>
+
+<Tabs.Content id="unique-linked-id">
+  {({ key }) => {
+    return <H2>{ key }</H2>
+  }}
+</Tabs.Content>
+  `
+      }
+    </ComponentBox>
+  </Wrapper>
+)
 
 export const TabsExampleContentObject = () => (
   <Wrapper>

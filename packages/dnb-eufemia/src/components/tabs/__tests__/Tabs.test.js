@@ -327,6 +327,46 @@ describe('A single Tab component', () => {
       ).text()
     ).toBe('second title')
   })
+
+  it('has to work with "Tabs.Content" from outside', () => {
+    let testKey = null
+    const LinkedContent = (props = {}) => {
+      return (
+        <>
+          <Component id="linked" data={tablistData} {...props} />
+          <Component.Content id="linked">
+            {({ key }) => {
+              testKey = key
+
+              return key
+            }}
+          </Component.Content>
+        </>
+      )
+    }
+    const Comp = mount(<LinkedContent />)
+
+    expect(
+      Comp.find('button.selected').instance().getAttribute('data-tab-key')
+    ).toBe('first')
+    expect(testKey).toBe('first')
+
+    Comp.setProps({
+      selected_key: 'second'
+    })
+    expect(
+      Comp.find('button.selected').instance().getAttribute('data-tab-key')
+    ).toBe('second')
+    expect(testKey).toBe('second')
+
+    Comp.find('.dnb-tabs__button').at(2).simulate('click')
+    expect(
+      Comp.find('button.selected').instance().getAttribute('data-tab-key')
+    ).toBe('third')
+    expect(testKey).toBe('third')
+
+    expect(toJson(Comp)).toMatchSnapshot()
+  })
 })
 
 describe('Tabs scss', () => {

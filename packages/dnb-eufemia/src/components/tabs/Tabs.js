@@ -32,6 +32,7 @@ import Button from '../button/Button'
 import whatInput from 'what-input'
 import CustomContent from './TabsCustomContent'
 import ContentWrapper from './TabsContentWrapper'
+import TabsController from './TabsController'
 
 export default class Tabs extends React.PureComponent {
   static tagName = 'dnb-tabs'
@@ -205,7 +206,7 @@ export default class Tabs extends React.PureComponent {
       res = props.children.reduce((acc, content, i) => {
         if (
           content.props &&
-          content.props.displayName === 'CustomContent' // we use this sollution, as Component.displayName
+          content.props.displayName === 'CustomContent' // we use this solution, as Component.displayName
         ) {
           // tabs data from main prop
           const dataProps =
@@ -300,6 +301,11 @@ export default class Tabs extends React.PureComponent {
 
     this._tabsRef = React.createRef()
     this._tablistRef = React.createRef()
+
+    if (props.id) {
+      this._controller = TabsController.use(props.id)
+      this._controller.set({ key: selected_key })
+    }
   }
 
   componentDidMount() {
@@ -314,6 +320,10 @@ export default class Tabs extends React.PureComponent {
   componentWillUnmount() {
     this._isMounted = false
     this.resetWhatInput()
+    if (this._controller) {
+      this._controller.remove()
+      this._controller = null
+    }
     clearTimeout(this._scrollToTabTimeout)
     if (typeof window !== 'undefined') {
       window.removeEventListener('resize', this.onResizeHandler)
@@ -333,8 +343,15 @@ export default class Tabs extends React.PureComponent {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(props) {
     this.onResizeHandler()
+
+    if (
+      this._controller &&
+      this.props.selected_key !== props.selected_key
+    ) {
+      this._controller.update({ key: this.state.selected_key })
+    }
   }
 
   getLastPosition() {
@@ -766,6 +783,10 @@ export default class Tabs extends React.PureComponent {
         warn('Tabs Error:', e)
       }
     }
+
+    if (this._controller) {
+      this._controller.update({ key: selected_key })
+    }
   }
 
   getEventArgs(args) {
@@ -954,10 +975,17 @@ export default class Tabs extends React.PureComponent {
     )
   }
 
-  TabContentHandler = ({ showEmptyMessage = false } = {}) => {
+  TabContentHandler = () => {
     const { selected_key } = this.state
 
     const content = this.renderContent()
+
+    if (!this._controller && !content) {
+      warn(`No content was given to the Tabs component!
+Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outside of the Tabs component</Tabs.Content>
+`)
+    }
+
     return (
       <ContentWrapper
         id={this._id}
@@ -965,8 +993,7 @@ export default class Tabs extends React.PureComponent {
         content_style={this.props.content_style}
         content_spacing={this.props.content_spacing}
       >
-        {content ||
-          (showEmptyMessage && <span>Tab content not found</span>)}
+        {content}
       </ContentWrapper>
     )
   }
@@ -1090,7 +1117,7 @@ export default class Tabs extends React.PureComponent {
         <TabsList>
           <TabItems />
         </TabsList>
-        <Content showEmptyMessage />
+        <Content />
       </Wrapper>
     )
   }
