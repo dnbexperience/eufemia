@@ -10,6 +10,7 @@ import styled from '@emotion/styled'
 import {
   Autocomplete,
   NumberFormat,
+  IconPrimary,
   Button
 } from '@dnb/eufemia/src/components'
 import { Anchor } from '@dnb/eufemia/src/elements'
@@ -481,8 +482,22 @@ const autocompleteDataScrollable = [
 ]
 
 const topMovies = [
-  { content: 'The Shawshank Redemption', year: 1994 },
-  { content: 'The Godfather the godfather The Godfather', year: 1972 },
+  {
+    content: (
+      <>
+        <IconPrimary icon="bell" />
+        <span className="custom-selector">The Shawshank Redemption</span>
+        <NumberFormat
+          currency
+          value={1234}
+          style={{ color: 'var(--color-black-55)' }}
+        />
+        <NumberFormat currency value={1234} className="dnb-typo-bold" />
+      </>
+    ),
+    year: 1994
+  },
+  { content: 'The Godfather', year: 1972 },
   { content: 'The Godfather: Part II', year: 1974 },
   { content: 'The Dark Knight', year: 2008 },
   { content: '12 Angry Men', year: 1957 },
