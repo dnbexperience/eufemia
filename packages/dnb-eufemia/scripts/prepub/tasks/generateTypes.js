@@ -42,7 +42,7 @@ export default async function generateTypes({
 
   try {
     const files = await globby(paths)
-    await createTypes(files, { includeSpecialDirs: true })
+    await createTypes(files)
 
     log.succeed(`> PrePublish: Converting "types" is done`)
   } catch (e) {
@@ -76,7 +76,7 @@ export const createTypes = async (
         // file.includes('/Element.js') ||
         // file.includes('/Blockquote.js') ||
         // file.includes('/Button.js')
-        file.includes('/Number')
+        file.includes('/ProgressIndicator')
       if (isDev && (!isOfInterest || (await existsInGit(destFile)))) {
         return // stop here
       }
