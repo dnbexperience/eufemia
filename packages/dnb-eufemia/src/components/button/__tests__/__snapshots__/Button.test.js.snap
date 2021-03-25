@@ -21,6 +21,7 @@ exports[`Button component have to match default button snapshot 1`] = `
         class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
         id="button"
         title="This is a button title"
+        to="to"
         type="type"
       >
         <span
@@ -63,6 +64,7 @@ exports[`Button component have to match default button snapshot 1`] = `
         class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
         id="button"
         title="This is a button title"
+        to="to"
         type="type"
       >
         <span
@@ -108,6 +110,7 @@ exports[`Button component have to match default button snapshot 1`] = `
   status_state="status_state"
   text="text"
   title="This is a button title"
+  to="to"
   tooltip={null}
   type="type"
   variant="primary"
@@ -119,6 +122,7 @@ exports[`Button component have to match default button snapshot 1`] = `
     id="button"
     onClick={[Function]}
     title="This is a button title"
+    to="to"
     type="type"
   >
     <Content
@@ -142,6 +146,7 @@ exports[`Button component have to match default button snapshot 1`] = `
             class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
             id="button"
             title="This is a button title"
+            to="to"
             type="type"
           >
             <span
@@ -184,6 +189,7 @@ exports[`Button component have to match default button snapshot 1`] = `
             class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
             id="button"
             title="This is a button title"
+            to="to"
             type="type"
           >
             <span
@@ -230,6 +236,7 @@ exports[`Button component have to match default button snapshot 1`] = `
       status_state="status_state"
       text="text"
       title="This is a button title"
+      to="to"
       tooltip={null}
       type="type"
       variant="primary"
@@ -315,6 +322,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         href="https://url"
         id="button"
         title="This is a button title"
+        to="to"
         type="type"
       >
         <span
@@ -358,6 +366,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         href="https://url"
         id="button"
         title="This is a button title"
+        to="to"
         type="type"
       >
         <span
@@ -403,6 +412,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   status_state="status_state"
   text="text"
   title="This is a button title"
+  to="to"
   tooltip={null}
   type="type"
   variant="primary"
@@ -419,6 +429,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
     target={null}
     target_blank_title={null}
     title="This is a button title"
+    to="to"
     tooltip={null}
     type="type"
   >
@@ -435,6 +446,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
             href="https://url"
             id="button"
             title="This is a button title"
+            to="to"
             type="type"
           >
             <span
@@ -476,6 +488,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       target={null}
       target_blank_title={null}
       title="This is a button title"
+      to="to"
       tooltip={null}
       type="type"
     >
@@ -493,6 +506,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
               href="https://url"
               id="button"
               title="This is a button title"
+              to="to"
               type="type"
             >
               <span
@@ -537,6 +551,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         target={null}
         target_blank_title="Åpner et nytt vindu"
         title="This is a button title"
+        to="to"
         type="type"
       >
         <Elem
@@ -553,6 +568,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                 href="https://url"
                 id="button"
                 title="This is a button title"
+                to="to"
                 type="type"
               >
                 <span
@@ -597,6 +613,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
           target={null}
           target_blank_title="Åpner et nytt vindu"
           title="This is a button title"
+          to="to"
           type="type"
         >
           <a
@@ -606,6 +623,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
             id="button"
             onClick={[Function]}
             title="This is a button title"
+            to="to"
             type="type"
           >
             <Content
@@ -630,6 +648,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                     href="https://url"
                     id="button"
                     title="This is a button title"
+                    to="to"
                     type="type"
                   >
                     <span
@@ -673,6 +692,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                     href="https://url"
                     id="button"
                     title="This is a button title"
+                    to="to"
                     type="type"
                   >
                     <span
@@ -719,6 +739,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
               status_state="status_state"
               text="text"
               title="This is a button title"
+              to="to"
               tooltip={null}
               type="type"
               variant="primary"
