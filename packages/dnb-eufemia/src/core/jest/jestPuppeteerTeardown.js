@@ -18,15 +18,12 @@ import {
 const { DIR } = require('./jestSetupScreenshots').config
 
 module.exports = async function () {
-  if (isCI) {
-    console.log(chalk.yellow('Teardown Puppeteer.'))
-  }
+  await global.__ENDPOINT__.close()
+  global.__ENDPOINT__ = null
 
   if (liveServer.shutdown) {
     liveServer.shutdown()
   }
-
-  await global.__ENDPOINT__.close()
 
   // commit a tar of the reports if we are on a CI
   if (isCI) {

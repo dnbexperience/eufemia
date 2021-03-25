@@ -118,10 +118,7 @@ module.exports.testPageScreenshot = async ({
     )
   }
 
-  const {
-    elementToSimulate,
-    activeSimulationDelay
-  } = await handleSimulation({
+  const { activeSimulationDelay } = await handleSimulation({
     page,
     element,
     simulate,
@@ -138,6 +135,10 @@ module.exports.testPageScreenshot = async ({
     selector
   })
 
+  if (simulate !== 'hover' && simulate !== 'active') {
+    await page.mouse.move(0, 0)
+  }
+
   const screenshot = await takeScreenshot({
     page,
     screenshotElement,
@@ -151,7 +152,6 @@ module.exports.testPageScreenshot = async ({
   // before we had: just to make sure we don't resolve, before the delayed click happened
   // so the next integration on the same url will have a reset state
   if (activeSimulationDelay > 0) {
-    await elementToSimulate.click()
     await page.waitForTimeout(activeSimulationDelay)
   }
 
@@ -178,11 +178,42 @@ const setupPageScreenshot = ({
       setScreenshotSetup(screenshotConfig)
     }
 
-    global.__PAGE__ = await setupBeforeAll({
-      url,
-      fullscreen,
-      pageViewport
-    })
+    if (pageViewport || (pageViewport !== false && config.pageViewport)) {
+      if (pageViewport && config.pageViewport) {
+        pageViewport = { ...config.pageViewport, ...pageViewport }
+      } else {
+        pageViewport = config.pageViewport
+      }
+      await global.__PAGE__.setViewport(pageViewport)
+    }
+
+    if (config.blockFontRequest) {
+      await global.__PAGE__.setRequestInterception(true) // is needed in order to use on "request"
+      global.__PAGE__.on('request', (req) => {
+        const url = req.url()
+
+        if (
+          config.allowedFonts &&
+          config.allowedFonts.some((f) => url.includes(f))
+        ) {
+          return req.continue()
+        }
+
+        const type = req.resourceType()
+        switch (type) {
+          case 'font':
+            req.abort()
+            break
+
+          default:
+            req.continue()
+        }
+      })
+    }
+
+    if (url) {
+      await global.__PAGE__.goto(createUrl(url, fullscreen))
+    }
   }, timeout)
 
   afterAll(async () => {
@@ -190,53 +221,6 @@ const setupPageScreenshot = ({
   })
 }
 module.exports.setupPageScreenshot = setupPageScreenshot
-
-const setupBeforeAll = async ({
-  url,
-  fullscreen = false,
-  pageViewport = null
-}) => {
-  const page = global.__PAGE__ || (await global.__BROWSER__.newPage())
-
-  if (pageViewport || (pageViewport !== false && config.pageViewport)) {
-    if (pageViewport && config.pageViewport) {
-      pageViewport = { ...config.pageViewport, ...pageViewport }
-    } else {
-      pageViewport = config.pageViewport
-    }
-    await page.setViewport(pageViewport)
-  }
-
-  if (config.blockFontRequest) {
-    await page.setRequestInterception(true) // is needed in order to use on "request"
-    page.on('request', (req) => {
-      const url = req.url()
-
-      if (
-        config.allowedFonts &&
-        config.allowedFonts.some((f) => url.includes(f))
-      ) {
-        return req.continue()
-      }
-
-      const type = req.resourceType()
-      switch (type) {
-        case 'font':
-          req.abort()
-          break
-
-        default:
-          req.continue()
-      }
-    })
-  }
-
-  if (url) {
-    await page.goto(createUrl(url, fullscreen))
-  }
-
-  return page
-}
 
 async function makePageReady({
   page,
@@ -262,7 +246,6 @@ async function makePageReady({
     path: path.resolve(__dirname, './jestSetupScreenshots.css')
   })
   await page.waitForSelector(selector)
-  await page.mouse.move(0, 0)
 
   if (style) {
     await page.$eval(
@@ -350,17 +333,10 @@ async function handleSimulation({
     switch (simulate) {
       case 'hover': {
         await elementToSimulate.hover()
-        await elementToSimulate.dispose()
         break
       }
 
       case 'click': {
-        await elementToSimulate.click()
-        break
-      }
-
-      case 'focusclick': {
-        await elementToSimulate.focus()
         await elementToSimulate.click()
         break
       }
@@ -376,7 +352,7 @@ async function handleSimulation({
 
       case 'active': {
         // make a delayed click, no await. Else we get only a release state
-        activeSimulationDelay = 600 // have mouse pressed until screen shot is taken
+        activeSimulationDelay = 500 // have mouse pressed until screen shot is taken
         elementToSimulate.click({
           delay: activeSimulationDelay - 10 // move the mouse
         })

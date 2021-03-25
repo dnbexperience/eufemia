@@ -3,10 +3,8 @@
  *
  */
 
-const chalk = require('chalk')
 const NodeEnvironment = require('jest-environment-node')
-const fs = require('fs')
-const isCI = require('is-ci')
+const fs = require('fs-extra')
 const path = require('path')
 const puppeteer = require('puppeteer')
 const { DIR } = require('./jestSetupScreenshots').config
@@ -17,13 +15,10 @@ class PuppeteerEnvironment extends NodeEnvironment {
   }
 
   async setup() {
-    if (isCI) {
-      console.log(chalk.yellow('Setup Test Environment.'))
-    }
     await super.setup()
 
     // get the wsEndpoint
-    const wsEndpoint = fs.readFileSync(
+    const wsEndpoint = await fs.readFile(
       path.join(DIR, 'wsEndpoint'),
       'utf8'
     )
@@ -35,12 +30,14 @@ class PuppeteerEnvironment extends NodeEnvironment {
     this.global.__BROWSER__ = await puppeteer.connect({
       browserWSEndpoint: wsEndpoint
     })
+
+    this.global.__PAGE__ = await this.global.__BROWSER__.newPage()
   }
 
   async teardown() {
-    if (isCI) {
-      console.log(chalk.yellow('Teardown Test Environment.'))
-    }
+    await this.global.__PAGE__.close()
+    this.global.__PAGE__ = null
+
     await super.teardown()
   }
 

@@ -46,7 +46,6 @@ describe('Autocomplete screenshot', () => {
       simulate: 'click',
       waitAfterSimulateSelector:
         '.dnb-drawer-list__options .first-of-type.dnb-drawer-list__option',
-      // secreenshotSelector: '.dnb-drawer-list__list',
       style: {
         height: '40rem'
       }

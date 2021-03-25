@@ -116,7 +116,7 @@ describe('Dropdown screenshot', () => {
         '[data-visual-test="dropdown-closed"] .dnb-dropdown__inner',
       simulateSelector:
         '[data-visual-test="dropdown-closed"] .dnb-dropdown__trigger',
-      simulate: 'focusclick' // use focusclick because of the delayed positioning of the drawer
+      simulate: 'click'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -125,7 +125,7 @@ describe('Dropdown screenshot', () => {
       selector: '[data-visual-test="dropdown-action_menu-custom"]',
       simulateSelector:
         '[data-visual-test="dropdown-action_menu-custom"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__trigger',
-      simulate: 'focusclick' // use focusclick because of the delayed positioning of the drawer
+      simulate: 'click'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

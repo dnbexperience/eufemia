@@ -66,6 +66,15 @@ describe('ToggleButton checked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match toggle-button in active focus state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="toggle-button-checked"]',
+      simulateSelector:
+        '[data-visual-test="toggle-button-checked"] .dnb-toggle-button__button',
+      simulate: 'clickfocus'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match toggle-button group', async () => {
     const screenshot = await testPageScreenshot({
       selector:
