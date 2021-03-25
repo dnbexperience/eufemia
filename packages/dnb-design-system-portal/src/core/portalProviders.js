@@ -4,12 +4,11 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 
-import { Provider as EufemiaProvider } from '@dnb/eufemia/src/shared'
+import { Provider, Context } from '@dnb/eufemia/src/shared'
 import enUS from '@dnb/eufemia/src/shared/locales/en-US'
 import stylisPlugin from '@dnb/eufemia/src/style/stylis'
 import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
@@ -24,22 +23,40 @@ const emotionCache = createEmotionCache({
   stylisPlugins: [stylisPlugin]
 })
 
-// Optional, use a Provider
+export const pageElement = ({ element }) => {
+  return element
+}
+
 export const rootElement = ({ element }) => {
   return (
     <CacheProvider value={emotionCache}>
-      <EufemiaProvider
+      <Provider
         skeleton={getSkeletonEnabled()} // To simulate a whole page skeleton
         locale={getLang()}
-        locales={enUS}
+        locales={enUS} // extend the available locales
       >
-        {element}
-      </EufemiaProvider>
+        <SkeletonEnabled>{element}</SkeletonEnabled>
+      </Provider>
     </CacheProvider>
   )
 }
-rootElement.propTypes = {
-  element: PropTypes.node.isRequired
+
+// This ensures we actually will get skeletons enabled when defined in the url
+function SkeletonEnabled({ children }) {
+  const { skeleton, update } = React.useContext(Context)
+
+  React.useEffect(() => {
+    if (
+      typeof window !== 'undefined' &&
+      window.location.search.includes('skeleton')
+    ) {
+      if (!skeleton) {
+        update({ skeleton: true })
+      }
+    }
+  }, [skeleton, update])
+
+  return children
 }
 
 export function getLang(locale = 'nb-NO') {
@@ -53,6 +70,7 @@ export function getLang(locale = 'nb-NO') {
   }
   return locale
 }
+
 export function setLang(locale) {
   try {
     window.localStorage.setItem('locale', locale)
@@ -60,16 +78,8 @@ export function setLang(locale) {
     //
   }
 }
+
 export function getSkeletonEnabled() {
-  if (
-    typeof window !== 'undefined' &&
-    window.location.search.includes('skeleton')
-  ) {
-    return true
-  }
-  if (global.IS_TEST) {
-    return false
-  }
   try {
     return isTrue(window.localStorage.getItem('skeleton-enabled'))
   } catch (e) {

@@ -20,6 +20,7 @@ const config = {
   testScreenshotOnHost: 'localhost',
   testScreenshotOnPort: 8000,
   headless: true,
+  delayDuringNonheadless: 0,
   timeout: 10e3,
   blockFontRequest: false,
   allowedFonts: [], // e.g. 'LiberationMono'
@@ -63,6 +64,7 @@ const setScreenshotSetup = (config) => {
 
 module.exports.testPageScreenshot = async ({
   url = null,
+  reload = null,
   fullscreen = false,
   page = global.__PAGE__,
   selector,
@@ -86,6 +88,11 @@ module.exports.testPageScreenshot = async ({
     if (pages[0]) {
       page = pages[0]
     }
+  }
+  if (reload) {
+    await page.reload({
+      waitUntil: 'load'
+    })
   }
 
   if (screenshotConfig) {
@@ -145,13 +152,15 @@ module.exports.testPageScreenshot = async ({
     secreenshotSelector
   })
 
-  if (config.headless !== true) {
-    await page.waitForTimeout(config.timeout)
+  if (config.delayDuringNonheadless > 0) {
+    await page.waitForTimeout(config.delayDuringNonheadless)
   }
 
   // before we had: just to make sure we don't resolve, before the delayed click happened
   // so the next integration on the same url will have a reset state
   if (activeSimulationDelay > 0) {
+    // await page.mouse.up()
+    // await elementToSimulate.dispose()
     await page.waitForTimeout(activeSimulationDelay)
   }
 
@@ -212,7 +221,9 @@ const setupPageScreenshot = ({
     }
 
     if (url) {
-      await global.__PAGE__.goto(createUrl(url, fullscreen))
+      await global.__PAGE__.goto(createUrl(url, fullscreen), {
+        waitUntil: 'load'
+      })
     }
   }, timeout)
 
@@ -231,7 +242,9 @@ async function makePageReady({
   styleSelector
 }) {
   if (url) {
-    await page.goto(createUrl(url, fullscreen))
+    await page.goto(createUrl(url, fullscreen), {
+      waitUntil: 'load'
+    })
   }
 
   global.IS_TEST = true
@@ -351,10 +364,11 @@ async function handleSimulation({
       }
 
       case 'active': {
-        // make a delayed click, no await. Else we get only a release state
-        activeSimulationDelay = 500 // have mouse pressed until screen shot is taken
+        // make a delayed click – have mouse down until screen shot is taken
+        activeSimulationDelay = isCI ? 1000 : 400
+        // no await – else we get only a release state
         elementToSimulate.click({
-          delay: activeSimulationDelay - 10 // move the mouse
+          delay: activeSimulationDelay
         })
         break
       }
@@ -465,7 +479,7 @@ module.exports.loadImage = async (imagePath) =>
   await fs.readFile(path.resolve(imagePath))
 
 // make sure "${url}/" has actually a slash on the end
-const createUrl = (url, fullscreen = false) => {
+const createUrl = (url, fullscreen = true) => {
   const path = `http://${config.testScreenshotOnHost}:${
     config.testScreenshotOnPort
   }/${url}${url.includes('?') ? '&' : '?'}data-visual-test${

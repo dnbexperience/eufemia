@@ -1,9 +1,9 @@
 /**
- * Gatsby Config
+ * Gatsby Config for SSR
  *
  */
 
-// NB: We do not need to wrap the root element during SSR
-// Using it actually makes things worse, as it removes some semantic/ or styles
-// import { rootElement } from './src/core/portalProviders'
-// export const wrapRootElement = rootElement
+import { rootElement, pageElement } from './src/core/portalProviders'
+
+export const wrapRootElement = rootElement
+export const wrapPageElement = pageElement

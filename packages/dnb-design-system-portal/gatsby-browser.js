@@ -1,11 +1,11 @@
 /**
- * Gatsby Config
+ * Gatsby Config for the Browser
  *
  */
 
 import { applyPageFocus } from '@dnb/eufemia/src/shared/helpers'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
-import { rootElement } from './src/core/portalProviders'
+import { rootElement, pageElement } from './src/core/portalProviders'
 import smoothscroll from 'smoothscroll-polyfill'
 import process from 'process/browser'
 
@@ -15,6 +15,7 @@ smoothscroll.polyfill()
 global.process = process
 
 export const wrapRootElement = rootElement
+export const wrapPageElement = pageElement
 
 if (process.env.NODE_ENV === 'development') {
   loadDevStyles()
@@ -73,6 +74,7 @@ export const shouldUpdateScroll = () => true
 
 export const onRouteUpdate = ({ prevLocation }) => {
   resetLevels(1)
+
   try {
     // in order to use our own focus management by using applyPageFocus
     // we have to disable the focus management from Reach Router
@@ -80,7 +82,7 @@ export const onRouteUpdate = ({ prevLocation }) => {
     // More info: The div is necessary to manage focus https://github.com/reach/router/issues/63#issuecomment-395988602
     if (!window.IS_TEST) {
       document
-        .querySelector('#gatsby-focus-wrapper')
+        .getElementById('gatsby-focus-wrapper')
         .removeAttribute('tabindex')
     }
   } catch (e) {
