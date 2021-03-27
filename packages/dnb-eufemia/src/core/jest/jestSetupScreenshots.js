@@ -365,7 +365,7 @@ async function handleSimulation({
 
       case 'active': {
         // make a delayed click – have mouse down until screen shot is taken
-        activeSimulationDelay = isCI ? 1000 : 400
+        activeSimulationDelay = isCI ? 1200 : 400
         // no await – else we get only a release state
         elementToSimulate.click({
           delay: activeSimulationDelay
