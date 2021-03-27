@@ -423,6 +423,16 @@ const CustomWidthThree = styled(Dropdown)\`
     width: 20rem;
   }
 \`
+const CustomWidthFour = styled(Dropdown)\`
+  width: 60%;
+  min-width: 224px; /** 14rem (please use pixels on min-width!) */
+  max-width: 25rem;
+
+  /** In case we have a label */
+  .dnb-form-label + .dnb-dropdown__inner {
+    width: 100%;
+  }
+\`
 render(<FormRow direction="vertical">
   <CustomWidthOne
     label="Label:"
@@ -442,6 +452,12 @@ render(<FormRow direction="vertical">
     label="Label:"
     size="large"
     align_dropdown="right"
+    bottom
+    data={data}
+  />
+  <CustomWidthFour
+    title="Min and max width"
+    stretch={true}
     bottom
     data={data}
   />
