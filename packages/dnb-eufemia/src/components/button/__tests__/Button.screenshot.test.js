@@ -5,7 +5,8 @@
 
 import {
   testPageScreenshot,
-  setupPageScreenshot
+  setupPageScreenshot,
+  isCI
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Button primary screenshot', () => {
@@ -67,13 +68,15 @@ describe('Button secondary screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match "dnb-button--secondary" with active state', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="button-secondary"]',
-      simulate: 'active'
+  if (!isCI) {
+    it('have to match "dnb-button--secondary" with active state', async () => {
+      const screenshot = await testPageScreenshot({
+        selector: '[data-visual-test="button-secondary"]',
+        simulate: 'active'
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
+  }
 })
 
 describe('Button icon screenshot', () => {
@@ -98,13 +101,15 @@ describe('Button icon screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match icon button with active state', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="button-icon"]',
-      simulate: 'active'
+  if (!isCI) {
+    it('have to match icon button with active state', async () => {
+      const screenshot = await testPageScreenshot({
+        selector: '[data-visual-test="button-icon"]',
+        simulate: 'active'
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
+  }
 })
 
 describe('Button tertiary screenshot', () => {
