@@ -93,7 +93,7 @@ export default class ContentWrapper extends React.PureComponent {
     return (
       <Element
         role="tabpanel"
-        tabIndex="0"
+        tabIndex="-1"
         id={`${id}-content`}
         spacing={content_style ? false : undefined}
         style_type={content_style ? content_style : undefined}
