@@ -784,7 +784,10 @@ const percentToValue = (percent, min, max) =>
 const roundToStep = (number, step) => Math.round(number / step) * step
 
 const getOffset = (node) => {
-  const { pageYOffset, pageXOffset } = global
+  const { pageYOffset, pageXOffset } =
+    typeof window !== 'undefined'
+      ? window
+      : { pageYOffset: 0, pageXOffset: 0 }
   const { left, top } = node.getBoundingClientRect()
 
   return {
