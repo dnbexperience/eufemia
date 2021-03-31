@@ -63,6 +63,10 @@ Modal dialogs appear on top of the main content changing the _mode_ of the syste
 1.  Do not use for unessential information that is not related to the users current workflow.
 1.  Use for requesting the user to enter information critical to the current process.
 
+#### Nested modals
+
+While it is possible to nest a Modal within another Modal, You as a developer has to ensure the Browsers back-button (alongside with the URL path), does take care of the nested Modal situation. Because a user should still be able to use the back button as expected and return to the last visited "page".
+
 ### Design Patterns
 
 <Img src={ModalExample} caption="Modal with header, text and close button (spacing suggestions in blue and pink)" alt="Image showing Modal with header" />
