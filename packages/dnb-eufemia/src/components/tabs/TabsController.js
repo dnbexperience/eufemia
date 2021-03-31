@@ -45,15 +45,14 @@ class TabsController {
   }
 }
 
-const inst =
-  typeof window !== 'undefined'
-    ? window
-    : typeof global !== 'undefined'
-    ? global
-    : TabsController
+const inst = typeof window !== 'undefined' ? window : TabsController
 
 export default {
   use: (id) => {
-    return (inst[id] || (inst[id] = new TabsController(id))).init()
+    inst.__tabsController = inst.__tabsController || {}
+    return (
+      inst.__tabsController[id] ||
+      (inst.__tabsController[id] = new TabsController(id))
+    ).init()
   }
 }

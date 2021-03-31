@@ -29,6 +29,7 @@ import {
 import IconPrimary from '../icon-primary/IconPrimary'
 import FormStatus from '../form-status/FormStatus'
 import Anchor from '../../elements/Anchor'
+import { launch, launch_medium } from '../../icons'
 import Tooltip from '../tooltip/Tooltip'
 
 export const buttonVariantPropType = {
@@ -256,11 +257,13 @@ export default class Button extends React.PureComponent {
     const Element = element ? element : href ? Anchor : 'button'
     if (Element === Anchor) {
       attributes.omitClass = true
+      if (href && !icon) {
+        icon = icon_size === 'medium' ? launch_medium : launch
+      }
     }
 
     const classes = classnames(
       'dnb-button',
-
       `dnb-button--${usedVariant || 'primary'}`,
       usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
       icon && `dnb-button--icon-position-${iconPosition}`,

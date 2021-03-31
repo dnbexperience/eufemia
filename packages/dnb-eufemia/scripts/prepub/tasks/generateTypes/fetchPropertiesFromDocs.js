@@ -19,40 +19,58 @@ const ROOT_DIR = path.resolve(
   'src/docs/uilib'
 )
 
-function extractPathParts({
-  file,
-  findFiles = [],
-  includeSpecialDirs = true
-}) {
-  findFiles.forEach((part) => {
-    file = file.replace(part, '').replace(/\/$/, '')
-  })
-
+/**
+ * Splits a component file path in different groups,
+ * we use these groups later on
+ *
+ * groupDir: Can be components or elements
+ * componentDir: button or anchor or step-indicator
+ * componentName: Button or Anchor or StepIndicator
+ */
+function extractPathParts({ file }) {
   const basename = path.basename(file)
   const componentName = toPascalCase(
     toSnakeCase(basename.replace(path.extname(file), ''))
   )
-  const filename = toKebabCase(componentName)
-  const firstPartOfFilename = filename.split('-')[0]
-
+  const tmpComponentName = toKebabCase(componentName)
+  const firstPartOfFilename = tmpComponentName.split('-')[0]
   const parts = file
     .split('/')
     .map((name) =>
       toKebabCase(path.basename(name).replace(path.extname(file), ''))
     )
-  const index = parts.findIndex((name) => name === firstPartOfFilename)
-  const groupDir = includeSpecialDirs ? parts[index - 1] || '' : ''
-  const componentDir = includeSpecialDirs ? firstPartOfFilename : ''
-  const unsureSituation = filename.includes('-')
+  const componentDir =
+    parts.find((path) =>
+      new RegExp(
+        `(${firstPartOfFilename}-|^${firstPartOfFilename}$)`
+      ).test(path)
+    ) || ''
+  const index = parts.findIndex((part) => part === componentDir)
+  const groupDir = parts[index - 1] || ''
 
-  return { componentName, groupDir, componentDir, unsureSituation }
+  /**
+   * What is the unsure situation good for?
+   * we only use it for the warning method: warnAboutMissingPropTypes
+   *
+   * In other words, do not warn when,
+   *
+   * he component dir is different from the component name
+   */
+  const unsureSituation =
+    componentDir.split('-').length !== tmpComponentName.split('-').length
+
+  return {
+    groupDir,
+    componentDir,
+    componentName,
+    unsureSituation
+  }
 }
 
 export async function fetchPropertiesFromDocs({
   file, // Component file
   docsDir = ROOT_DIR, // The dir, where the docs are placed
-  findFiles = ['properties.md', 'events.md'], // type of .md files to look for
-  includeSpecialDirs = false // special path setup
+  findFiles = ['properties.md', 'events.md'] // type of .md files to look for
 } = {}) {
   if (process.env.NODE_ENV !== 'test') {
     log.start('> PrePublish: generating docs for types')
@@ -60,26 +78,32 @@ export async function fetchPropertiesFromDocs({
 
   try {
     const {
-      componentName,
       groupDir,
       componentDir,
+      componentName,
       unsureSituation
     } = extractPathParts({
-      file,
-      findFiles,
-      includeSpecialDirs
+      file
     })
 
     const markdownFiles = findFiles.map((filename) => {
-      return {
-        file: path.resolve(docsDir, groupDir, componentDir, filename)
+      let file = path.resolve(docsDir, groupDir, componentDir, filename)
+
+      // try without componentDir
+      if (!fs.existsSync(file)) {
+        file = path.resolve(docsDir, groupDir, filename)
       }
+      // and try without groupDir as well
+      if (!fs.existsSync(file)) {
+        file = path.resolve(docsDir, filename)
+      }
+
+      return { file }
     })
 
     return await extractorFactory({
       markdownFiles,
       docsDir,
-      findFiles,
       componentName,
       unsureSituation
     })
@@ -92,7 +116,6 @@ export async function fetchPropertiesFromDocs({
 async function extractorFactory({
   markdownFiles,
   docsDir = ROOT_DIR,
-  findFiles,
   componentName,
   unsureSituation = false
 }) {
@@ -156,8 +179,7 @@ async function extractorFactory({
                 .replace(path.extname(href), '')
               const file = path.resolve(dir, filename + '.md')
               const { componentName } = extractPathParts({
-                file,
-                findFiles
+                file
               })
 
               if (fs.existsSync(file)) {
@@ -168,8 +190,7 @@ async function extractorFactory({
                     }
                   ],
                   docsDir,
-                  componentName,
-                  findFiles
+                  componentName
                 })
 
                 if (
@@ -235,7 +256,11 @@ async function extractorFactory({
     .filter(Boolean)
     .reduce((acc, cur) => Object.assign(acc, cur), collections)
 
-  return { docs, componentName, unsureSituation }
+  return {
+    docs,
+    componentName,
+    unsureSituation
+  }
 }
 
 function htmlDecode(input) {

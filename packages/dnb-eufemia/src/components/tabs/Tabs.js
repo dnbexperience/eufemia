@@ -639,6 +639,19 @@ export default class Tabs extends React.PureComponent {
     ) // Delay so Chrome/Safari makes the transition / animation smooth
   }
 
+  onKeyDownHandler = (event) => {
+    switch (keycode(event)) {
+      case 'enter':
+        try {
+          const elem = document.getElementById(`${this._id}-content`)
+          elem.focus()
+        } catch (e) {
+          warn(e)
+        }
+        break
+    }
+  }
+
   onClickHandler = (event) => {
     let selected_key
     try {
@@ -1042,6 +1055,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
                 isSelected && 'selected'
               )}
               onClick={this.onClickHandler}
+              onKeyUp={this.onKeyDownHandler}
               data-tab-key={key}
               {...itemParams}
             >

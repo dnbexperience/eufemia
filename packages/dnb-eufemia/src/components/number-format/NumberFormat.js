@@ -226,7 +226,7 @@ export default class NumberFormat extends React.PureComponent {
     let link = _link
     let value = _value
 
-    if (children !== null) {
+    if (value === null && children !== null) {
       value = children
     }
 

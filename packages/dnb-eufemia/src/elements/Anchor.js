@@ -53,7 +53,7 @@ class Anchor extends React.PureComponent {
     // we make sure we hide the icon
     attributes.className = classnames(
       omitClass !== true && 'dnb-anchor',
-      omitClass && showTooltip && 'dnb-anchor--icon',
+      // omitClass && showTooltip && 'dnb-anchor--icon',
       className,
       props.target === '_blank' &&
         typeof children !== 'string' &&

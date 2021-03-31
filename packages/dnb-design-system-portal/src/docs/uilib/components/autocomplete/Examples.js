@@ -5,6 +5,7 @@
 
 import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
+import { Autocomplete, IconPrimary } from '@dnb/eufemia/src/components'
 import styled from '@emotion/styled'
 
 const Wrapper = styled.div`
@@ -27,6 +28,7 @@ export const AutocompleteDefaultExample = () => (
 <Autocomplete
   data={topMovies}
   label="Label:"
+  icon={false}
 />
           `
       }
@@ -313,7 +315,15 @@ export const AutocompleteOpened = () => {
 }
 
 const topMovies = [
-  { content: 'The Shawshank Redemption', year: 1994 },
+  {
+    content: (
+      <Autocomplete.HorizontalItem>
+        <IconPrimary size="medium" icon="bell" right="x-small" />
+        The Shawshank Redemption
+      </Autocomplete.HorizontalItem>
+    ),
+    year: 1994
+  },
   { content: 'The Godfather', year: 1972 },
   { content: 'The Godfather: Part II', year: 1974 },
   { content: 'The Dark Knight', year: 2008 },

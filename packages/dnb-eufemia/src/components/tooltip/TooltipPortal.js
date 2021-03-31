@@ -40,13 +40,11 @@ export default class TooltipPortal extends React.PureComponent {
 
   componentDidUpdate(props) {
     if (
-      !tooltipPortal[this.props.group] ||
-      (this.props.active && props.active)
+      tooltipPortal[this.props.group] &&
+      this.props.active !== props.active
     ) {
-      return
+      this.renderPortal({ active: true })
     }
-
-    this.renderPortal({ active: true })
   }
 
   componentWillUnmount() {
@@ -120,16 +118,17 @@ export default class TooltipPortal extends React.PureComponent {
         }, parseFloat(this.props.hide_delay))
       }
 
-      ReactDOM.render(
+      this.handleAria(targetElement)
+
+      const component = (
         <TooltipContainer
           targetElement={targetElement}
           {...this.props}
           {...props}
-        />,
-        tooltipPortal[this.props.group].node
+        />
       )
 
-      this.handleAria(targetElement)
+      ReactDOM.render(component, tooltipPortal[this.props.group].node)
     }
   }
 

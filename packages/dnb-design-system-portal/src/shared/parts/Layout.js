@@ -107,30 +107,28 @@ class Layout extends React.PureComponent {
 
         <MainMenuProvider>
           <SidebarMenuProvider>
-            <ToggleSkeleton>
-              {!fs && <StickyMenuBar />}
-              {!fs && <MainMenu enableOverlay />}
+            {!fs && <StickyMenuBar />}
+            {!fs && <MainMenu enableOverlay />}
 
-              <Wrapper className="content-wrapper">
-                {!fs && !hideSidebar && (
-                  <Sidebar location={location} showAll={false} />
-                )}
+            <Wrapper className="content-wrapper">
+              {!fs && !hideSidebar && (
+                <Sidebar location={location} showAll={false} />
+              )}
 
-                <Content key="content" fullscreen={fs}>
-                  <MainContent key="main" ref={this._mainRef}>
-                    <GlobalStatus id="main-status" />
+              <Content key="content" fullscreen={fs}>
+                <MainContent key="main" ref={this._mainRef}>
+                  <GlobalStatus id="main-status" />
 
-                    <div key="grid" className="dev-grid">
-                      {children}
-                    </div>
-                  </MainContent>
+                  <div key="grid" className="dev-grid">
+                    {children}
+                  </div>
+                </MainContent>
 
-                  <Footer />
-                </Content>
+                <Footer />
+              </Content>
 
-                {fs && <ToggleGrid hidden />}
-              </Wrapper>
-            </ToggleSkeleton>
+              {fs && <ToggleGrid hidden />}
+            </Wrapper>
           </SidebarMenuProvider>
         </MainMenuProvider>
       </>
@@ -276,51 +274,4 @@ const Footer = () => {
       <span />
     </FooterWrapper>
   )
-}
-
-let skeletonCount = 0
-let skeletonTimeout = null
-function ToggleSkeleton(props) {
-  const { update, skeleton } = React.useContext(Context)
-
-  const params = {
-    onMouseDown: (e) => {
-      const x = e.clientX
-      const y = e.clientY
-      if (x < 20 && y < 20) {
-        e.preventDefault()
-        e.stopPropagation()
-        skeletonCount++
-        clearTimeout(skeletonTimeout)
-        skeletonTimeout = setTimeout(() => {
-          skeletonCount = 0
-        }, 1e3)
-        if (skeletonCount >= 3) {
-          skeletonCount = 0
-          update({ skeleton: !skeleton })
-          setSkeletonEnabled(!skeleton)
-        }
-      }
-    }
-  }
-
-  return (
-    <div
-      key="skeleton"
-      className="skeleton-enabler"
-      {...params}
-      {...props}
-    />
-  )
-}
-
-export function setSkeletonEnabled(skeleton) {
-  try {
-    window.localStorage.setItem(
-      'skeleton-enabled',
-      skeleton ? true : false
-    )
-  } catch (e) {
-    //
-  }
 }

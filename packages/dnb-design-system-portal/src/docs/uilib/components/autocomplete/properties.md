@@ -65,19 +65,29 @@ const data = [
     // (optional) is show insted of "content", once selected
     selected_value: 'Item 1 Value',
 
-    // Item content as a string or array
+    // Item content as a string, array or React Element
     content: 'Item 1 Content'
   },
 
   // more items ...
   {
     selected_key: 'key_1',
-    content: ['Item 2 Value', 'Item 2 Content']
+    content: (
+      <>
+        <IconPrimary icon="bell" />
+        <span className="dnb-typo-bold">Searchable content</span>
+      </>
+    )
   },
   {
     selected_key: 'key_2',
     selected_value: 'Item 3 Value',
-    content: ['Item 3 Content A', 'Item 3 Content B']
+    content: (
+      <Autocomplete.HorizontalItem>
+        <IconPrimary icon="bell" />
+        <span className="dnb-typo-bold">Searchable content</span>
+      </Autocomplete.HorizontalItem>
+    )
   },
   {
     selected_key: 'key_3',

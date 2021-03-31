@@ -1145,30 +1145,31 @@ class AutocompleteInstance extends React.PureComponent {
           return this._rC[cacheHash]
         }
 
-        let Component = null
+        const isComponent =
+          typeof children !== 'string' && React.isValidElement(children)
 
-        // it can be an object, React element or an array
-        if (typeof children !== 'string') {
-          if (!Array.isArray(children)) {
-            children = [children]
-          }
-
-          // keep the original for later
-          Component = children
-
-          // make string out of it
-          children = children.map((child) => convertJsxToString(child))
+        if (!Array.isArray(children)) {
+          children = [children] // for a while we had split this into separate words children.split(' ') but this is not needed anymore
         }
 
-        if (typeof children === 'string') {
-          children = [children] // for a while we had split this into seperate words children.split(' ') but this is not needed anymore
-        }
+        // make string out of it
+        children = children.map((component) => ({
+          component,
+          segment: convertJsxToString(component)
+        }))
 
-        children = children
-          .map((segment, sIndex) => {
+        children = children.map(
+          (
+            { component, segment },
+            idx
+            // , arr
+          ) => {
+            // console.log('segment', idx, segment)
             if (skipHighlight || this.state.skipHighlight) {
               return segment
             }
+
+            const origSegment = segment
 
             listOfFoundWords.forEach(({ word, wordIndex }) => {
               if (wordIndex > this.inWordIndex) {
@@ -1184,6 +1185,8 @@ class AutocompleteInstance extends React.PureComponent {
               }
             })
 
+            let result = segment
+
             if (segment.includes(S)) {
               // to make sure we don't have several in a row
               const __html = segment
@@ -1193,35 +1196,46 @@ class AutocompleteInstance extends React.PureComponent {
                 .replace(new RegExp(S, 'g'), tagS)
                 .replace(new RegExp(E, 'g'), tagE)
 
-              return (
+              result = (
                 <span
-                  key={cacheHash + sIndex}
+                  key={cacheHash + idx}
                   dangerouslySetInnerHTML={{
                     __html
                   }}
                 />
               )
+            } else {
+              result = segment
             }
 
-            return segment
-          })
-          .map((c, i, a) => (i < a.length - 1 ? [c, ' '] : c)) // add back the skiped spaces
+            // If we get a component, replace the one we use as the string comparison
+            // This way we can still have an icon before or after
+            if (isComponent  ) {
+              if(Array.isArray(component.props.children)){
 
-        if (Component) {
-          children = Array.isArray(Component)
-            ? Component.map((Comp, i) =>
-                React.cloneElement(
-                  Comp,
-                  { key: 'clone' + cacheHash + i },
-                  children[i]
+                result = component.props.children.map((Comp) =>
+                  Comp === origSegment ||
+                  (Comp.props && Comp.props.children === origSegment)
+                    ? result
+                    : Comp
                 )
-              )
-            : React.cloneElement(
-                Component,
+              }
+
+              result = React.cloneElement(
+                component,
                 { key: 'clone' + cacheHash },
-                children
+                result
               )
-        }
+            }
+
+            // add back the skipped spaces
+            // if(idx < arr.length - 1){
+            //   result =  [result, ' ']
+            // }
+
+            return result
+          }
+        )
 
         return (this._rC[cacheHash] = children)
       }

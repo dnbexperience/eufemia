@@ -168,6 +168,9 @@
       align-self: flex-start;
       margin-top: 0.75rem;
     }
+    &.dnb-button--size-small .dnb-button__icon {
+      margin-top: 0.25rem;
+    }
 
     // Ensure tertiary button has medium size when size is large
     &.dnb-button--size-large .dnb-button__icon,

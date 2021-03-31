@@ -53,7 +53,7 @@ describe('Accordion group screenshot', () => {
       selector: '[data-visual-test="accordion-group"]',
       simulateSelector:
         '[data-visual-test="accordion-group"] .dnb-accordion:first-of-type .dnb-accordion__header',
-      simulate: 'focusclick'
+      simulate: 'click'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

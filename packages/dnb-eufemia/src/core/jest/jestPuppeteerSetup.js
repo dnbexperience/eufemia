@@ -8,7 +8,7 @@ const chalk = require('chalk')
 const puppeteer = require('puppeteer')
 const mkdirp = require('mkdirp')
 const path = require('path')
-const fs = require('fs')
+const fs = require('fs-extra')
 const isCI = require('is-ci')
 const liveServer = require('live-server')
 const detectPort = require('detect-port')
@@ -68,11 +68,11 @@ module.exports = async function () {
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   })
 
+  // use the file system to expose the wsEndpoint for TestEnvironments
+  mkdirp.sync(DIR)
+  await fs.writeFile(path.join(DIR, 'wsEndpoint'), browser.wsEndpoint())
+
   // store the browser instance so we can teardown it later
   // this global is only available in the teardown but not in TestEnvironments
   global.__ENDPOINT__ = browser
-
-  // use the file system to expose the wsEndpoint for TestEnvironments
-  mkdirp.sync(DIR)
-  fs.writeFileSync(path.join(DIR, 'wsEndpoint'), browser.wsEndpoint())
 }

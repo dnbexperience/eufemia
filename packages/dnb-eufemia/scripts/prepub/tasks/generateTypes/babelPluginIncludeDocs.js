@@ -47,21 +47,6 @@ export function babelPluginIncludeDocs(
         })
       },
 
-      // Do we need this? No, because we are after babel, and do not get a class anymore!
-      // ClassProperty(path) {
-      //   if (path.node.key && path.node.key.name === 'propTypes') {
-      //     path.traverse({
-      //       ObjectProperty(path) {
-      //         if (path.node.key.name === 'propTypes') {
-      //           if (path.node.key) {
-      //             inserDocs(path, path.node.key.name, docs)
-      //             collectProps.push(path.node.key.name)
-      //           }
-      //         }
-      //       }
-      //     })
-      //   }
-
       ObjectProperty(path) {
         if (
           path.parentPath.parentPath.isAssignmentExpression() &&

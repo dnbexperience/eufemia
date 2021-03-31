@@ -223,8 +223,8 @@ export const createSpacingClasses = (props, Element = null) => {
       if (!props[i] && isValidSpaceProp(i)) {
         props[i] = props.space[i]
       }
-      delete props.space
     }
+    delete props.space
   }
 
   return Object.entries(props).reduce((acc, [direction, cur]) => {

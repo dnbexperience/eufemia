@@ -106,17 +106,22 @@ describe('Dropdown screenshot', () => {
         '[data-visual-test="dropdown-item-directions"] .dnb-dropdown__inner',
       simulateSelector:
         '[data-visual-test="dropdown-item-directions"] .dnb-dropdown__trigger',
+      waitAfterSimulateSelector:
+        '.dnb-drawer-list__options .first-of-type.dnb-drawer-list__option',
       simulate: 'click'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the dropdown with click', async () => {
     const screenshot = await testPageScreenshot({
+      reload: true,
       selector:
         '[data-visual-test="dropdown-closed"] .dnb-dropdown__inner',
       simulateSelector:
         '[data-visual-test="dropdown-closed"] .dnb-dropdown__trigger',
-      simulate: 'focusclick' // use focusclick because of the delayed positioning of the drawer
+      waitAfterSimulateSelector:
+        '.dnb-drawer-list__options .first-of-type.dnb-drawer-list__option',
+      simulate: 'click'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -125,7 +130,9 @@ describe('Dropdown screenshot', () => {
       selector: '[data-visual-test="dropdown-action_menu-custom"]',
       simulateSelector:
         '[data-visual-test="dropdown-action_menu-custom"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__trigger',
-      simulate: 'focusclick' // use focusclick because of the delayed positioning of the drawer
+      waitAfterSimulateSelector:
+        '.dnb-drawer-list__options .first-of-type.dnb-drawer-list__option',
+      simulate: 'click'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

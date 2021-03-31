@@ -6,6 +6,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { isTrue } from '../../shared/component-helper'
+import { getOffsetLeft } from '../../shared/helpers'
 import classnames from 'classnames'
 
 export default class TooltipContainer extends React.PureComponent {
@@ -158,10 +159,16 @@ export default class TooltipContainer extends React.PureComponent {
     const top = scrollY + rect.top
 
     // Use Mouse position when target is too wide
+    const useMouseWhen = targetSize.width > 400
+    const mousePos =
+      this.props.clientX -
+      getOffsetLeft(target) +
+      rect.left / 2 +
+      (this._rootRef.current ? this._rootRef.current.offsetWidth : 0)
+    const widthBased = scrollX + rect.left
     const left =
-      parseFloat(targetSize.width) > 400 && this.props.clientX
-        ? this.props.clientX - rect.left
-        : scrollX + rect.left
+      useMouseWhen && mousePos < targetSize.width ? mousePos : widthBased
+
     const style = {}
 
     if (align === 'left') {

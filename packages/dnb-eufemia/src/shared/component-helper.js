@@ -318,7 +318,7 @@ export const dispatchCustomElementEvent = (
   let ret = undefined
 
   const eventObject = {
-    ...(eventObjectOrig.event || {}),
+    ...((eventObjectOrig && eventObjectOrig.event) || {}),
     ...eventObjectOrig
   }
 

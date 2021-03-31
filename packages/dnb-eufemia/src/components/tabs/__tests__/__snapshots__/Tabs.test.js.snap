@@ -206,6 +206,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                     data-tab-key="first"
                     id="linked-tab-first"
                     onClick={[Function]}
+                    onKeyUp={[Function]}
                     role="tab"
                     tabIndex="-1"
                     type="button"
@@ -236,6 +237,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                     data-tab-key="second"
                     id="linked-tab-second"
                     onClick={[Function]}
+                    onKeyUp={[Function]}
                     role="tab"
                     tabIndex="-1"
                     type="button"
@@ -267,6 +269,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                     data-tab-key="third"
                     id="linked-tab-third"
                     onClick={[Function]}
+                    onKeyUp={[Function]}
                     role="tab"
                     tabIndex="-1"
                     type="button"
@@ -460,7 +463,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
         className="dnb-tabs__content dnb-no-focus dnb-tabs__content--spacing"
         id="linked-content"
         role="tabpanel"
-        tabIndex="0"
+        tabIndex="-1"
       >
         third
       </div>
@@ -717,6 +720,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                   data-tab-key="first"
                   id="id-tab-first"
                   onClick={[Function]}
+                  onKeyUp={[Function]}
                   role="tab"
                   tabIndex="-1"
                   type="button"
@@ -748,6 +752,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                   data-tab-key="second"
                   id="id-tab-second"
                   onClick={[Function]}
+                  onKeyUp={[Function]}
                   role="tab"
                   tabIndex="-1"
                   type="button"
@@ -778,6 +783,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                   data-tab-key="third"
                   id="id-tab-third"
                   onClick={[Function]}
+                  onKeyUp={[Function]}
                   role="tab"
                   tabIndex="-1"
                   type="button"
@@ -952,7 +958,7 @@ exports[`Tabs component have to match snapshot 1`] = `
             className="dnb-tabs__content dnb-no-focus dnb-tabs__content--spacing"
             id="id-content"
             role="tabpanel"
-            tabIndex="0"
+            tabIndex="-1"
           >
             <second>
               <h2>
