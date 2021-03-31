@@ -25,13 +25,11 @@ exports[`Anchor element have to match default Anchor element snapshot 1`] = `
       class={null}
       className="className"
       css={null}
-      element="a"
       href="href"
       inner_ref={
         Object {
           "current": <a
             class="className dnb-a"
-            element="a"
             href="href"
             target="target"
           >
@@ -50,13 +48,11 @@ exports[`Anchor element have to match default Anchor element snapshot 1`] = `
         class={null}
         className="className"
         css={null}
-        element="a"
         href="href"
         inner_ref={
           Object {
             "current": <a
               class="className dnb-a"
-              element="a"
               href="href"
               target="target"
             >
@@ -73,7 +69,6 @@ exports[`Anchor element have to match default Anchor element snapshot 1`] = `
       >
         <a
           className="className dnb-a"
-          element="a"
           href="href"
           target="target"
         >
