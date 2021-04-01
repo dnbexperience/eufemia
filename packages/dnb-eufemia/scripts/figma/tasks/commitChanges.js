@@ -1,5 +1,5 @@
 /**
- * Commit changed and new icons to the develop repo
+ * Commit changed and new icons to the main branch
  *
  */
 
@@ -7,7 +7,7 @@ import { commitToBranch } from '../../prepub/commitToBranch'
 
 if (require.main === module) {
   commitToBranch({
-    requiredBranch: ['develop', 'eufemia-icons'],
+    requiredBranch: ['main', 'eufemia-icons'],
     what: 'icons/assets',
     filePathsIncludelist: [
       '/src/icons/',

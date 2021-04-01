@@ -244,15 +244,12 @@
   "release": {
     "analyzeCommits": "simple-commit-message",
     "branches": [
-      "+([1-9])?(.{+([1-9]),x}).x",
+      "+([0-9])?(.{+([0-9]),x}).x",
       "release",
+      "release-*",
       "next",
       {
         "name": "beta",
-        "prerelease": true
-      },
-      {
-        "name": "develop",
         "prerelease": true
       },
       {

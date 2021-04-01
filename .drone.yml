@@ -20,7 +20,7 @@ steps:
       branch:
         exclude:
           - fix/*
-          - ftr/*
+          - feat/*
           - eufemia-icons
 
   - name: run integration tests
@@ -62,13 +62,14 @@ steps:
       branch:
         include:
           - release
+          - release-*
           - portal
           - beta
           - alpha
           - next
-          - develop
+          - main
           - eufemia-icons
-          - ftr/*
+          - feat/*
           - fix/*
           - rc/*
 
@@ -95,13 +96,14 @@ steps:
       branch:
         include:
           - release
+          - release-*
           - portal
           - beta
           - alpha
           - next
-          - develop
+          - main
           - eufemia-icons
-          - ftr/*
+          - feat/*
           - fix/*
           - rc/*
 
@@ -136,13 +138,14 @@ steps:
       branch:
         include:
           - release
+          - release-*
           - portal
           - beta
           - alpha
           - next
-          - develop
+          - main
           - eufemia-icons
-          - ftr/*
+          - feat/*
           - fix/*
           - rc/*
 
@@ -161,6 +164,7 @@ steps:
       branch:
         include:
           - release
+          - release-*
           - beta
           - alpha
           - next
@@ -182,6 +186,7 @@ steps:
       branch:
         include:
           - release
+          - release-*
           - portal
 
   - name: publish release
@@ -203,6 +208,7 @@ steps:
       branch:
         include:
           - release
+          - release-*
           - beta
           - alpha
           - next
@@ -216,7 +222,7 @@ steps:
   #       - push
   #     branch:
   #       include:
-  #         - ftr/*
+  #         - feat/*
   #         # - portal
   #         # - release
 
