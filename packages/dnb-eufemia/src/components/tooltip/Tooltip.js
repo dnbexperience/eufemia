@@ -127,6 +127,7 @@ export default class Tooltip extends React.PureComponent {
       target,
       class: class_name,
       className,
+      id, // eslint-disable-line
       tooltip, // eslint-disable-line
       group, // eslint-disable-line
       animate_position, // eslint-disable-line

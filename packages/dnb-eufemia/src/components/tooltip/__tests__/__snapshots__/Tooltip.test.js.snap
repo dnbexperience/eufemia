@@ -31,7 +31,6 @@ exports[`Tooltip component with target_ref have to match default tooltip snapsho
         Object {
           "children": "Text",
           "className": "dnb-tooltip",
-          "id": "tooltip",
         }
       }
       class={null}
@@ -77,7 +76,6 @@ exports[`Tooltip component with target_ref have to match default tooltip snapsho
           Object {
             "children": "Text",
             "className": "dnb-tooltip",
-            "id": "tooltip",
           }
         }
         class={null}
