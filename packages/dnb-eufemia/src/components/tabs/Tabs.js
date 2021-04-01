@@ -652,18 +652,19 @@ export default class Tabs extends React.PureComponent {
     }
   }
 
-  onClickHandler = (event) => {
-    let selected_key
-    try {
-      selected_key = (function (elem) {
-        return (
-          getPreviousSibling('dnb-tabs__button', elem) || { dataset: {} }
-        )
-      })(event.target).dataset.tabKey
-    } catch (e) {
-      warn('Tabs Error:', e)
+  onMouseEnterHandler = (event) => {
+    const selected_key = this.getCurrentKey(event)
+    if (selected_key) {
+      dispatchCustomElementEvent(
+        this,
+        'on_mouse_enter',
+        this.getEventArgs({ event, selected_key })
+      )
     }
+  }
 
+  onClickHandler = (event) => {
+    const selected_key = this.getCurrentKey(event)
     if (selected_key) {
       const ret = dispatchCustomElementEvent(
         this,
@@ -676,6 +677,21 @@ export default class Tabs extends React.PureComponent {
         this.scrollToTab('selected')
       }
     }
+  }
+
+  getCurrentKey = (event) => {
+    let selected_key
+    try {
+      selected_key = (function (elem) {
+        return (
+          getPreviousSibling('dnb-tabs__button', elem) || { dataset: {} }
+        )
+      })(event.target).dataset.tabKey
+    } catch (e) {
+      warn('Tabs Error:', e)
+    }
+
+    return selected_key
   }
 
   getCurrentTitle = () => {
@@ -1054,6 +1070,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
                 isFocus && 'focus',
                 isSelected && 'selected'
               )}
+              onMouseEnter={this.onMouseEnterHandler}
               onClick={this.onClickHandler}
               onKeyUp={this.onKeyDownHandler}
               data-tab-key={key}
