@@ -112,6 +112,21 @@ describe('Button icon screenshot', () => {
   }
 })
 
+describe('Button target blank', () => {
+  it('have to match with toolip', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        'padding-top': '2rem'
+      },
+      selector: '[data-visual-test="button-anchor"]',
+      simulateSelector:
+        '[data-visual-test="button-anchor"] a[target="_blank"]',
+      simulate: 'hover'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
 describe('Button tertiary screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/button/demos' })
   it('have to match "dnb-button--tertiary" without icon', async () => {

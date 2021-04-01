@@ -27,6 +27,7 @@ export default class TooltipContainer extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
+    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     useHover: PropTypes.bool,
     attributes: PropTypes.object,
     children: PropTypes.oneOfType([
@@ -45,6 +46,7 @@ export default class TooltipContainer extends React.PureComponent {
     arrow: null,
     align: null,
     animate_position: null,
+    no_animation: null,
     useHover: true,
     attributes: null,
     children: null
@@ -279,6 +281,7 @@ export default class TooltipContainer extends React.PureComponent {
       arrow,
       position,
       animate_position,
+      no_animation,
       children
     } = this.props
     const { hover, hide } = this.state
@@ -298,6 +301,7 @@ export default class TooltipContainer extends React.PureComponent {
         className={classnames(
           attributes.className,
           isTrue(animate_position) && 'dnb-tooltip--animate_position',
+          isTrue(no_animation) && 'dnb-tooltip--no-animation',
           isActive && 'dnb-tooltip--active',
           !isActive && hide && 'dnb-tooltip--hide'
         )}
