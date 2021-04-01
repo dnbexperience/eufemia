@@ -33,7 +33,7 @@
     }
   }
 
-  color: var(--theme-color-black-80, inherit);
+  color: var(--theme-color-black-80, currentColor);
 
   .dnb-anchor {
     font-size: inherit;
@@ -112,7 +112,7 @@
 
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
-  color: var(--theme-color-black-80, inherit);
+  color: var(--theme-color-black-80, currentColor);
 
   & > dt {
     padding: 0;

@@ -139,6 +139,7 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
 
 .dnb-textarea__textarea {
   color: var(--color-black);
+  background-color: var(--color-white);
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
@@ -477,6 +478,7 @@ legend.dnb-form-label {
 
 .dnb-textarea__textarea {
   color: var(--color-black);
+  background-color: var(--color-white);
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;

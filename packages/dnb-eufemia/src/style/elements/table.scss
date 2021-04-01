@@ -237,7 +237,7 @@
     padding-top: calc(var(--spacing-small) * 1.25);
     padding-bottom: calc(var(--spacing-small) * 1.188); /* 19/16 */
 
-    color: var(--theme-color-black-80, inherit);
+    color: var(--theme-color-black-80, currentColor);
   }
   & > tbody > tr:not(#{&}--ignore),
   & &__tr:not(#{&}--ignore),

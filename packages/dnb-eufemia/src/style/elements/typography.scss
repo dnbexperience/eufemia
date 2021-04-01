@@ -11,7 +11,7 @@
 
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-medium);
-  color: var(--theme-color-black-80, inherit);
+  color: var(--theme-color-black-80, currentColor);
 
   // make icons inside heading responsive to the heading size
   .dnb-icon--default {
@@ -98,7 +98,7 @@
 @mixin paragraphStyle() {
   font-size: var(--font-size-basis);
   // color: var(--color-black-80);
-  color: var(--theme-color-black-80, inherit);
+  color: var(--theme-color-black-80, currentColor);
 
   // if we not reset margin, the browser is using: margin-block-end: 1rem;
   &:not([class*='space__top']) {

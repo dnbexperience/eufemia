@@ -200,7 +200,7 @@ a.dnb-button {
 
 .dnb-p {
   font-size: var(--font-size-basis);
-  color: var(--theme-color-black-80, inherit);
+  color: var(--theme-color-black-80, currentColor);
   padding: 0; }
   .dnb-p:not([class*='space__top']) {
     margin-top: 0; }
@@ -316,7 +316,7 @@ a.dnb-button {
   padding: 0;
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-medium);
-  color: var(--theme-color-black-80, inherit); }
+  color: var(--theme-color-black-80, currentColor); }
   .dnb-lead:not([class*='dnb-space']),
   .dnb-h--xx-large:not([class*='dnb-space']),
   .dnb-h--x-large:not([class*='dnb-space']),
@@ -491,7 +491,7 @@ a.dnb-button {
     padding-bottom: 3rem; }
   .dnb-blockquote.dnb-blockquote--no-background {
     background-color: transparent;
-    color: var(--theme-color-black-80, inherit); }
+    color: var(--theme-color-black-80, currentColor); }
     .dnb-blockquote.dnb-blockquote--no-background::before {
       filter: grayscale(1) brightness(24%); }
   .dnb-blockquote .dnb-cite,
@@ -574,7 +574,7 @@ a.dnb-button {
   padding: 0;
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
-  color: var(--theme-color-black-80, inherit); }
+  color: var(--theme-color-black-80, currentColor); }
   .dnb-ul:not([class*='dnb-space']) {
     margin: 0; }
   .dnb-ul:not([class*='dnb-space__left']) {
@@ -611,8 +611,8 @@ a.dnb-button {
   padding: 0;
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
-  color: var(--theme-color-black-80, inherit);
-  color: var(--theme-color-black-80, inherit); }
+  color: var(--theme-color-black-80, currentColor);
+  color: var(--theme-color-black-80, currentColor); }
   .dnb-ol:not([class*='dnb-space']) {
     margin: 0; }
   .dnb-ol:not([class*='dnb-space__left']) {
@@ -691,7 +691,7 @@ a.dnb-button {
   padding: 0;
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
-  color: var(--theme-color-black-80, inherit); }
+  color: var(--theme-color-black-80, currentColor); }
   .dnb-dl:not([class*='dnb-space']) {
     margin: 0; }
   .dnb-dl > dt {
@@ -1142,7 +1142,7 @@ thead > tr > th.dnb-table--active .dnb-button:hover:focus .dnb-button__text::aft
     padding-top: calc(var(--spacing-small) * 1.25);
     padding-bottom: calc(var(--spacing-small) * 1.188);
     /* 19/16 */
-    color: var(--theme-color-black-80, inherit); }
+    color: var(--theme-color-black-80, currentColor); }
   .dnb-table > tbody > tr:not(.dnb-table--ignore),
   .dnb-table .dnb-table__tr:not(.dnb-table--ignore),
   .dnb-table .dnb-table--odd:not(.dnb-table--ignore) {
