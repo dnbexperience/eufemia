@@ -85,7 +85,7 @@ export const fetchFigmaAll = async ({
   ...args
 } = {}) => {
   try {
-    // make sure we are on the develop branch
+    // make sure we are on the main branch
     const branchName = await getBranchName({
       requiredBranch: 'eufemia-icons'
     }) // as RegExp

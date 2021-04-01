@@ -49,12 +49,14 @@ module.exports = async function () {
         skipCI: true,
         isFeature: false,
         requiredBranch: [
-          'develop',
+          'main',
           'release',
+          'release-*',
           'beta',
           'alpha',
           'rc/*',
-          'ftr/*'
+          'fix/*',
+          'feat/*'
         ],
         what: 'reports',
         filePathsIncludelist: [file]
