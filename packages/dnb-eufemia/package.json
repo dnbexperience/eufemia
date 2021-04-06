@@ -97,8 +97,8 @@
   "typings": "./index.d.ts",
   "dependencies": {
     "@babel/runtime": "^7.13.10",
-    "classnames": "^2.2.6",
-    "core-js": "^3.9.1",
+    "classnames": "^2.3.0",
+    "core-js": "^3.10.0",
     "date-fns": "^2.19.0",
     "keycode": "^2.2.0",
     "react-text-mask": "^5.4.3",
@@ -196,7 +196,7 @@
     "opentype.js": "^1.3.3",
     "ora": "^5.4.0",
     "packpath": "^0.1.0",
-    "postcss": "^8.2.8",
+    "postcss": "^8.2.9",
     "postcss-calc": "^8.0.0",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.2.1",
@@ -244,15 +244,12 @@
   "release": {
     "analyzeCommits": "simple-commit-message",
     "branches": [
-      "+([1-9])?(.{+([1-9]),x}).x",
+      "+([0-9])?(.{+([0-9]),x}).x",
       "release",
+      "release-*",
       "next",
       {
         "name": "beta",
-        "prerelease": true
-      },
-      {
-        "name": "develop",
         "prerelease": true
       },
       {

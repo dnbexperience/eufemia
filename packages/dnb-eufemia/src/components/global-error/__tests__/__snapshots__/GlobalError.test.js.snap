@@ -591,6 +591,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
         <ForwardRef
           className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
           disabled={false}
+          element={null}
           href="href"
           omitClass={true}
           onClick={[Function]}
@@ -602,6 +603,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           <Anchor
             className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
             disabled={false}
+            element={null}
             href="href"
             inner_ref={
               Object {

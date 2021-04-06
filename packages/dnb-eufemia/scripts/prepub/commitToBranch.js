@@ -1,5 +1,5 @@
 /**
- * Commit changed and new files to the develop repo
+ * Commit changed and new files to the main branch
  *
  */
 
@@ -80,7 +80,7 @@ const getBranchName = async ({ repo = null, requiredBranch = null }) => {
 }
 
 const commitToBranch = async ({
-  requiredBranch = 'develop',
+  requiredBranch = 'main',
   newBranch = null,
   what = 'files',
   filePathsIncludelist = [],

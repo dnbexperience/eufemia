@@ -12,6 +12,7 @@
 .dnb-textarea {
   &__textarea {
     color: var(--color-black);
+    background-color: var(--color-white);
 
     ::selection {
       background-color: var(--color-mint-green);

@@ -302,7 +302,7 @@ export const ElementsAndSkeleton = () => {
           top
           width="200"
           height="200"
-          src="https://raw.githubusercontent.com/dnbexperience/eufemia/develop/logo.png"
+          src="https://raw.githubusercontent.com/dnbexperience/eufemia/main/logo.png"
           alt="logo"
         />
         <Hr top bottom />

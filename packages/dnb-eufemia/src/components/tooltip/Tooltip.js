@@ -47,6 +47,7 @@ export default class Tooltip extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool
     ]),
+    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     show_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     hide_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
@@ -74,6 +75,7 @@ export default class Tooltip extends React.PureComponent {
     arrow: 'center',
     align: null,
     animate_position: false,
+    no_animation: false,
     show_delay: 300,
     hide_delay: 500,
 
@@ -127,9 +129,11 @@ export default class Tooltip extends React.PureComponent {
       target,
       class: class_name,
       className,
+      id, // eslint-disable-line
       tooltip, // eslint-disable-line
       group, // eslint-disable-line
       animate_position, // eslint-disable-line
+      no_animation, // eslint-disable-line
       show_delay, // eslint-disable-line
       hide_delay, // eslint-disable-line
       active, // eslint-disable-line

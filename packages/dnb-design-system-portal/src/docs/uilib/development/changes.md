@@ -14,7 +14,7 @@ order: 1
 1. Start the portal: `cd dnb-design-system-portal && yarn start`
 1. Runt the visual test against it: `cd @dnb/eufemia && yarn test`
 1. And check the result / reports, located in: `cd @dnb/eufemia/jest-screenshot-report/`
-1. [Commit your change](/uilib/development/commit) and create a Pull Request to the `develop` branch.
+1. [Commit your change](/uilib/development/commit) and create a Pull Request to the `main` branch.
 
 ## Get started on making new Components, Elements and Extensions
 
@@ -26,11 +26,11 @@ To use the local build, you can either run the portal, or use `yarn link` to lin
 
 As well as that, you can also use Storybook. Inside `@dnb/eufemia`, run `yarn story` to start the server.
 
-It is recommended that you make a new branch to isolate your work before it gets merged into the `origin/develop` branch.
+It is recommended that you make a new branch to isolate your work before it gets merged into the `origin/main` branch.
 
 ```bash
 # Make a Feature branch
-$ git checkout -b ftr/my-feature
+$ git checkout -b feat/my-feature
 
 # - or a Work In Progress branch
 $ git checkout -b wip/working-on-it

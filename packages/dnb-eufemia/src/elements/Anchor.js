@@ -38,6 +38,7 @@ class Anchor extends React.PureComponent {
     )
 
     const {
+      element,
       className,
       children,
       tooltip,
@@ -62,7 +63,7 @@ class Anchor extends React.PureComponent {
 
     return (
       <>
-        <E is="a" {...attributes} inner_ref={this._ref}>
+        <E is={element || 'a'} {...attributes} inner_ref={this._ref}>
           {children}
         </E>
         {showTooltip && (
@@ -87,6 +88,7 @@ const AnchorInstance = React.forwardRef((props, ref) => {
 AnchorInstance.propTypes = {
   ...spacingPropTypes,
 
+  element: PropTypes.node,
   href: PropTypes.string,
   omitClass: PropTypes.bool,
   target_blank_title: PropTypes.string,
@@ -104,6 +106,7 @@ AnchorInstance.propTypes = {
   children: PropTypes.node
 }
 AnchorInstance.defaultProps = {
+  element: null,
   href: null,
   omitClass: null,
   target_blank_title: null,

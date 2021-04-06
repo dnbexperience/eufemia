@@ -77,30 +77,7 @@ export default function Tabbar({
           return { ...rest, key }
         })
     )
-  }, [wasFullscreen])
-
-  React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (
-        !path.search.includes('data-visual-test') &&
-        !location.hostname.includes('localhost')
-      ) {
-        preparedTabs.forEach(({ key }) => {
-          // preload pages the tab page
-          if (
-            typeof window !== 'undefined' &&
-            typeof window.___loader !== 'undefined'
-          ) {
-            const preloadPath = parsePath(key).pathname
-            if (preloadPath !== path.pathname) {
-              window.___loader.enqueue(preloadPath)
-            }
-          }
-        })
-      }
-    }, 2e3)
-    return () => clearTimeout(timeout)
-  }, [preparedTabs, path, location])
+  }, [wasFullscreen]) // eslint-disable-line
 
   const selectedKey = [
     path.pathname.replace(/(\/)$/, ''),
@@ -118,6 +95,18 @@ export default function Tabbar({
         data={preparedTabs}
         selected_key={selectedKey}
         on_change={({ key }) => navigate(key)}
+        on_mouse_enter={({ key }) => {
+          // preload pages the tab page
+          if (
+            typeof window !== 'undefined' &&
+            typeof window.___loader !== 'undefined'
+          ) {
+            const preloadPath = parsePath(key).pathname
+            if (preloadPath !== path.pathname) {
+              window.___loader.enqueue(preloadPath)
+            }
+          }
+        }}
         render={({ Wrapper, Content, TabsList, Tabs }) => {
           return (
             <Wrapper css={tabsWrapperStyle}>

@@ -163,9 +163,15 @@ exports[`NumberFormat scss have to match snapshot 1`] = `
       also, use forwards becuase of the usage of visibility
     */
     animation: show-tooltip 200ms ease-out forwards; }
+  html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {
+    animation: show-tooltip 1ms ease-out forwards; }
   .dnb-tooltip--hide {
     visibility: visible;
     animation: hide-tooltip 200ms ease-in-out forwards; }
+  .dnb-tooltip--hide.dnb-tooltip--no-animation {
+    animation: hide-tooltip 1ms ease-out forwards; }
+  html[data-visual-test] .dnb-tooltip--hide {
+    animation: hide-tooltip 1ms ease-out 1s forwards; }
   .dnb-tooltip__content {
     min-width: 2rem;
     min-height: 1.5rem;
