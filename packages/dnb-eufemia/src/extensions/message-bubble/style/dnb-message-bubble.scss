@@ -1,0 +1,12 @@
+/*
+* DNB MessageBubble
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+.dnb-message-bubble {
+  @include componentReset();
+}
+
+@import './_message-bubble.scss';

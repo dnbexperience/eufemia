@@ -1,0 +1,44 @@
+/*
+ * MessageBubble component
+ *
+ */
+
+:root {
+  --dnb-message-bubble-bg-default: var(--color-black-8);
+}
+
+.dnb-message-bubble {
+  &__wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  &__bubble {
+    display: block;
+    padding: 1rem;
+    background-color: var(--dnb-message-bubble-bg-default);
+
+    &--right {
+      border-radius: 0.5rem 0.5rem 0 0.5rem;
+    }
+
+    &--left {
+      border-radius: 0.5rem 0.5rem 0.5rem 0;
+    }
+
+    &--stretch {
+      flex-grow: 1;
+      text-align: center;
+    }
+  }
+
+  &__icon {
+    &--right {
+      margin-left: 1rem;
+      order: 2;
+    }
+    &--left {
+      margin-right: 1rem;
+    }
+  }
+}
