@@ -1,9 +1,12 @@
 {
   "extends": [
+    "stylelint-config-recommended",
     "stylelint-config-standard",
     "stylelint-config-prettier"
   ],
-  "plugins": ["stylelint-scss"],
+  "plugins": [
+    "stylelint-scss"
+  ],
   "rules": {
     "declaration-empty-line-before": null,
     "at-rule-no-unknown": null

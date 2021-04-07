@@ -21,6 +21,7 @@ steps:
         exclude:
           - fix/*
           - feat/*
+          - chore/*
           - eufemia-icons
 
   - name: run integration tests
@@ -69,8 +70,9 @@ steps:
           - next
           - main
           - eufemia-icons
-          - feat/*
           - fix/*
+          - feat/*
+          - chore/*
           - rc/*
 
   - name: make build of portal
@@ -103,8 +105,9 @@ steps:
           - next
           - main
           - eufemia-icons
-          - feat/*
           - fix/*
+          - feat/*
+          - chore/*
           - rc/*
 
   - name: run Figma post build
@@ -145,8 +148,9 @@ steps:
           - next
           - main
           - eufemia-icons
-          - feat/*
           - fix/*
+          - feat/*
+          - chore/*
           - rc/*
 
   - name: postbuild
@@ -212,19 +216,6 @@ steps:
           - beta
           - alpha
           - next
-
-  # - name: test release
-  #   image: cypress/browsers:node10.16.0-chrome77
-  #   commands:
-  #     - yarn workspace dnb-design-system-portal cypress:run-ci
-  #   when:
-  #     event:
-  #       - push
-  #     branch:
-  #       include:
-  #         - feat/*
-  #         # - portal
-  #         # - release
 
   - name: slack
     image: plugins/slack

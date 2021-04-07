@@ -1,4 +1,3 @@
-Wrapper
 /**
  * UI lib Component Example
  *

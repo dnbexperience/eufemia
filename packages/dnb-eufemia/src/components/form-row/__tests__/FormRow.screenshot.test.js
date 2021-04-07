@@ -9,6 +9,10 @@ import {
   setupPageScreenshot
 } from '../../../core/jest/jestSetupScreenshots'
 
+if (isCI) {
+  jest.setTimeout(20e3)
+}
+
 describe('FormRow screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/form-row/demos'

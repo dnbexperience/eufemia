@@ -241,7 +241,7 @@ exports[`PaymentCard have to match snapshot 1`] = `
                       skeleton={null}
                       skeleton_method="font"
                     >
-                      <Elem
+                      <ElementInstance
                         class={null}
                         className="dnb-p  dnb-p__size--x-small dnb-p--bold dnb-payment-card__card__holder"
                         css={null}
@@ -256,7 +256,7 @@ exports[`PaymentCard have to match snapshot 1`] = `
                         >
                           Kortnummer
                         </p>
-                      </Elem>
+                      </ElementInstance>
                     </ForwardRef>
                   </P>
                   <P
@@ -279,7 +279,7 @@ exports[`PaymentCard have to match snapshot 1`] = `
                       skeleton={null}
                       skeleton_method="font"
                     >
-                      <Elem
+                      <ElementInstance
                         class={null}
                         className="dnb-p dnb-payment-card__card__numbers"
                         css={null}
@@ -294,7 +294,7 @@ exports[`PaymentCard have to match snapshot 1`] = `
                         >
                            **** **** **** 1337 
                         </p>
-                      </Elem>
+                      </ElementInstance>
                     </ForwardRef>
                   </P>
                 </span>
@@ -391,12 +391,6 @@ exports[`PaymentCard scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
-.dnb-suffix {
-  padding-left: 0.5rem;
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
-  word-break: normal; }
-
 .dnb-payment-card {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-basis);

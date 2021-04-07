@@ -11,7 +11,7 @@ The Anchor, also knows as `Link` is used to navigate from one page to the next H
 
 ```jsx
 import { Link, Anchor } from '@dnb/eufemia/elements'
-render(<Anchor href="/">Accessible text</Anchor>)
+render(<Anchor href="/uilib/elements/anchor">Accessible text</Anchor>)
 ```
 
 **NB:** If you only use a vanilla HTML anchor element including `target="_blank"` then you have to ensure you add a `title` attribute that includes `Opens a new Window` or as a part of the text:
@@ -33,7 +33,7 @@ render(<Anchor href="/">Accessible text</Anchor>)
 {`
 <ul className="dnb-ul dnb-unstyled-list">
   <li>
-    <Anchor href="/" data-visual-test="anchor-default">
+    <Anchor href="/uilib/elements/anchor" data-visual-test="anchor-default">
       Default Style
     </Anchor>
   </li>
@@ -43,17 +43,17 @@ render(<Anchor href="/">Accessible text</Anchor>)
     </Anchor>
   </li>
   <li>
-    <Anchor href="/" data-visual-test="anchor-hover" className="dnb-anchor--hover">
+    <Anchor href="/uilib/elements/anchor" data-visual-test="anchor-hover" className="dnb-anchor--hover">
       Hover Style
     </Anchor>
   </li>
   <li>
-    <Anchor href="/" data-visual-test="anchor-active" className="dnb-anchor--active">
+    <Anchor href="/uilib/elements/anchor" data-visual-test="anchor-active" className="dnb-anchor--active">
       Active Style
     </Anchor>
   </li>
   <li>
-    <Anchor href="/" data-visual-test="anchor-focus" className="dnb-anchor--focus">
+    <Anchor href="/uilib/elements/anchor" data-visual-test="anchor-focus" className="dnb-anchor--focus">
       Focus Style
     </Anchor>
   </li>
@@ -69,12 +69,12 @@ To force a specific state of style, use the following classes to do so:
 {`
 <ul className="dnb-ul dnb-unstyled-list">
   <li style={{display: 'inline-block', padding: '0.5rem', margin: '-0.5rem', backgroundColor: 'var(--color-ocean-green)'}}>
-    <Anchor href="/" data-visual-test="anchor-contrast" className="dnb-anchor--contrast">
+    <Anchor href="/uilib/elements/anchor" data-visual-test="anchor-contrast" className="dnb-anchor--contrast">
       Contrast Style
     </Anchor>
   </li>
   <li>
-    <Anchor href="/" className="dnb-anchor--no-underline">
+    <Anchor href="/uilib/elements/anchor" className="dnb-anchor--no-underline">
       No underline
     </Anchor>
   </li>
@@ -84,22 +84,22 @@ To force a specific state of style, use the following classes to do so:
     </Anchor>
   </li>
   <li>
-    <Anchor href="/" className="dnb-anchor--no-hover">
+    <Anchor href="/uilib/elements/anchor" className="dnb-anchor--no-hover">
       No hover
     </Anchor>
   </li>
   <li>
-    <Anchor href="/" className="dnb-anchor--no-radius">
+    <Anchor href="/uilib/elements/anchor" className="dnb-anchor--no-radius">
       No border-radius
     </Anchor>
   </li>
   <li>
-    <Anchor href="/" className="dnb-anchor--no-animation">
+    <Anchor href="/uilib/elements/anchor" className="dnb-anchor--no-animation">
       No animation
     </Anchor>
   </li>
   <li>
-    <Anchor href="/" className="dnb-anchor--no-style">
+    <Anchor href="/uilib/elements/anchor" className="dnb-anchor--no-style">
       Reset anchor style
     </Anchor>
   </li>
@@ -114,21 +114,21 @@ To force a specific state of style, use the following classes to do so:
 
 ### Anchor modifiers
 
-- `.dnb-anchor--no-animation` <a href="/" class="dnb-anchor dnb-anchor--no-animation">No Animation</a>
-- `.dnb-anchor--no-style` <a href="/" class="dnb-anchor dnb-anchor--no-style">No Style</a>
-- `.dnb-anchor--no-hover` <a href="/" class="dnb-anchor dnb-anchor--no-hover">No Hover</a>
-- `.dnb-anchor--no-underline` <a href="/" class="dnb-anchor dnb-anchor--no-underline">No Underline</a>
+- `.dnb-anchor--no-animation` <a href="/uilib/elements/anchor" class="dnb-anchor dnb-anchor--no-animation">No Animation</a>
+- `.dnb-anchor--no-style` <a href="/uilib/elements/anchor" class="dnb-anchor dnb-anchor--no-style">No Style</a>
+- `.dnb-anchor--no-hover` <a href="/uilib/elements/anchor" class="dnb-anchor dnb-anchor--no-hover">No Hover</a>
+- `.dnb-anchor--no-underline` <a href="/uilib/elements/anchor" class="dnb-anchor dnb-anchor--no-underline">No Underline</a>
 
 ### Anchor with icons
 
 <ComponentBox hideCode>
 {`
-<Anchor href="/" data-visual-test="anchor-icon">
+<Anchor href="/uilib/elements/anchor" data-visual-test="anchor-icon">
   Anchor with Icon <IconPrimary icon="chevron_right" />
 </Anchor>
 <br/><br/>
 <p className="dnb-p" data-visual-test="anchor-paragraph">
-  text <Anchor href="/">Inside a Paragraph <IconPrimary icon="bell" /></Anchor> text
+  text <Anchor href="/uilib/elements/anchor">Inside a Paragraph <IconPrimary icon="bell" /></Anchor> text
 </p>
 `}
 </ComponentBox>
@@ -138,7 +138,7 @@ To force a specific state of style, use the following classes to do so:
 <ComponentBox hideCode>
 {`
 <h2 className="dnb-h--large">
-  <Anchor href="/" data-visual-test="anchor-heading">
+  <Anchor href="/uilib/elements/anchor" data-visual-test="anchor-heading">
     Inside Headings <IconPrimary icon="bell" />
   </Anchor> H2
 </h2>

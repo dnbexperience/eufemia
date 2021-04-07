@@ -94,7 +94,7 @@ export default class HTML extends React.PureComponent {
             id="___gatsby"
             dangerouslySetInnerHTML={{ __html: body }}
           />
-          <div id="dnb-modal-root" className="dnb-core-style" />
+          <div id="dnb-modal-root" />
           {postBodyComponents}
         </body>
       </html>

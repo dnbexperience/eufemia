@@ -16,16 +16,14 @@ The plan is to extend the documentation here later on on how to select and use a
 
 ### Chrome Extension: Eufemia Theme Manager
 
-<!-- Use the [Chrome Browser Extension](https://chrome.google.com/webstore/detail/eufemia-theme-manager/pijolaebmeacaekbhoefjmhogckdcclb) to: -->
-
-Use the Chrome Browser Extension to:
+Use the [Chrome Browser Extension](https://chrome.google.com/webstore/detail/eufemia-theme-manager/pijolaebmeacaekbhoefjmhogckdcclb) to:
 
 - test themes on web applications
 - create new possible themes
 - look how the outcome would be if a theme would be used
 - and create areas where a different or a modified theme would make more sense
 
-You can download the [Chrome Browser Extension (ZIP)](https://github.com/dnbexperience/eufemia-theme-manager/raw/main/eufemia-theme-manager-extension/web-ext-artifacts/eufemia_theme_manager-latest.zip), and install it manually in your browser. To do so, go to `chrome://extensions` and drag & drop the downloaded ZIP file in the opened extensions tab.
+You can also download the [Chrome Browser Extension (ZIP)](https://github.com/dnbexperience/eufemia-theme-manager/raw/main/eufemia-theme-manager-extension/web-ext-artifacts/eufemia_theme_manager-latest.zip), and install it manually in your browser. To do so, go to `chrome://extensions` and drag & drop the downloaded ZIP file in the opened extensions tab.
 
 Contributions are welcome. Heres the [source code](https://github.com/dnbexperience/eufemia-theme-manager).
 
@@ -126,8 +124,8 @@ import '@dnb/eufemia/src/style/themes/dnb-theme-[MY THEME].scss'
 ```json
   "dependencies": {
     "@dnb/eufemia": "*",
-    "react": "^16",
-    "react-dom": "^16",
+    "react": "^17",
+    "react-dom": "^17",
     ...
   }
 ```

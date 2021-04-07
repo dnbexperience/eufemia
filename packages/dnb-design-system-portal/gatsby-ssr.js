@@ -5,5 +5,5 @@
 
 import { rootElement, pageElement } from './src/core/portalProviders'
 
-export const wrapRootElement = rootElement
-export const wrapPageElement = pageElement
+export const wrapRootElement = rootElement('ssr')
+export const wrapPageElement = pageElement('ssr')

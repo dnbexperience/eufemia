@@ -59,7 +59,7 @@ exports[`Skeleton component have to match snapshot 1`] = `
               skeleton={null}
               skeleton_method="font"
             >
-              <Elem
+              <ElementInstance
                 class={null}
                 className="dnb-p"
                 css={null}
@@ -74,7 +74,7 @@ exports[`Skeleton component have to match snapshot 1`] = `
                 >
                   paragraph
                 </p>
-              </Elem>
+              </ElementInstance>
             </ForwardRef>
           </P>
           <Input
@@ -219,12 +219,6 @@ exports[`Skeleton scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
-.dnb-suffix {
-  padding-left: 0.5rem;
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
-  word-break: normal; }
-
 .dnb-skeleton {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-basis);

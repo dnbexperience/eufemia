@@ -29,12 +29,6 @@ exports[`GlobalError scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
-.dnb-suffix {
-  padding-left: 0.5rem;
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
-  word-break: normal; }
-
 /*
 * DNB Button
 *
@@ -597,10 +591,11 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           onClick={[Function]}
           target={null}
           target_blank_title={null}
+          to={null}
           tooltip={null}
           type="button"
         >
-          <Anchor
+          <AnchorInstance
             className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
             disabled={false}
             element={null}
@@ -651,6 +646,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             onClick={[Function]}
             target={null}
             target_blank_title={null}
+            to={null}
             tooltip={null}
             type="button"
           >
@@ -709,9 +705,10 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
               skeleton_method="font"
               target={null}
               target_blank_title="Åpner et nytt vindu"
+              to={null}
               type="button"
             >
-              <Elem
+              <ElementInstance
                 class={null}
                 className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
                 css={null}
@@ -766,6 +763,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                 skeleton_method="font"
                 target={null}
                 target_blank_title="Åpner et nytt vindu"
+                to={null}
                 type="button"
               >
                 <a
@@ -863,9 +861,9 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                     </IconPrimary>
                   </Content>
                 </a>
-              </Elem>
+              </ElementInstance>
             </ForwardRef>
-          </Anchor>
+          </AnchorInstance>
         </ForwardRef>
       </Button>
       <Svg
@@ -1044,7 +1042,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
               skeleton_method="font"
               top="4"
             >
-              <Elem
+              <ElementInstance
                 bottom="large"
                 class={null}
                 className={null}
@@ -1061,7 +1059,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                 >
                   title
                 </h1>
-              </Elem>
+              </ElementInstance>
             </ForwardRef>
           </H>
         </H1>
@@ -1087,7 +1085,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             skeleton={null}
             skeleton_method="font"
           >
-            <Elem
+            <ElementInstance
               bottom="large"
               class={null}
               className="dnb-p"
@@ -1111,7 +1109,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                 </a>
                  text
               </p>
-            </Elem>
+            </ElementInstance>
           </ForwardRef>
         </P>
       </div>

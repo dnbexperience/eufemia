@@ -3,3 +3,4 @@
 /src/components/slider/Slider.js
 /scripts
 /stories
+*.cjs
