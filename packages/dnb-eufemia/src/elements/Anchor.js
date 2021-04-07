@@ -15,9 +15,52 @@ import {
 } from '../shared/component-helper'
 import Tooltip from '../components/tooltip/Tooltip'
 
-class Anchor extends React.PureComponent {
+const Anchor = React.forwardRef((props, ref) => {
+  return <AnchorInstance inner_ref={ref} {...props} />
+})
+
+Anchor.propTypes = {
+  ...spacingPropTypes,
+
+  element: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.node
+  ]),
+  href: PropTypes.string,
+  to: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.func
+  ]),
+  omitClass: PropTypes.bool,
+  target_blank_title: PropTypes.string,
+  target: PropTypes.string,
+  className: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.array
+  ]),
+  tooltip: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+  children: PropTypes.node
+}
+Anchor.defaultProps = {
+  element: null,
+  href: null,
+  to: null,
+  omitClass: null,
+  target_blank_title: null,
+  target: null,
+  className: null,
+  tooltip: null,
+  children: null
+}
+
+class AnchorInstance extends React.PureComponent {
   static contextType = Context
   static tagName = 'dnb-anchor'
+  static propTypes = Anchor.propTypes
+  static defaultProps = Anchor.defaultProps
 
   state = {}
 
@@ -31,7 +74,7 @@ class Anchor extends React.PureComponent {
   render() {
     const props = extendPropsWithContext(
       this.props,
-      AnchorInstance.defaultProps,
+      Anchor.defaultProps,
       { skeleton: this.context && this.context.skeleton },
       this.context.getTranslation(this.props).Anchor,
       this.context.Anchor
@@ -43,6 +86,7 @@ class Anchor extends React.PureComponent {
       children,
       tooltip,
       omitClass,
+      inner_ref, // eslint-disable-line
       ...attributes
     } = props
 
@@ -81,39 +125,4 @@ class Anchor extends React.PureComponent {
   }
 }
 
-const AnchorInstance = React.forwardRef((props, ref) => {
-  return <Anchor inner_ref={ref} {...props} />
-})
-
-AnchorInstance.propTypes = {
-  ...spacingPropTypes,
-
-  element: PropTypes.node,
-  href: PropTypes.string,
-  omitClass: PropTypes.bool,
-  target_blank_title: PropTypes.string,
-  target: PropTypes.string,
-  className: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.array
-  ]),
-  tooltip: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node
-  ]),
-  children: PropTypes.node
-}
-AnchorInstance.defaultProps = {
-  element: null,
-  href: null,
-  omitClass: null,
-  target_blank_title: null,
-  target: null,
-  className: null,
-  tooltip: null,
-  children: null
-}
-
-export default AnchorInstance
+export default Anchor

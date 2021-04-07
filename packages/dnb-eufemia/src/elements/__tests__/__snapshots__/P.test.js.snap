@@ -21,7 +21,7 @@ exports[`P element have to match default P element snapshot 1`] = `
     skeleton={null}
     skeleton_method="font"
   >
-    <Elem
+    <ElementInstance
       class={null}
       className="dnb-p  dnb-p--modifier dnb-p--style_type dnb-p--medium className dnb-p__size--x-small"
       css={null}
@@ -36,7 +36,7 @@ exports[`P element have to match default P element snapshot 1`] = `
       >
         children
       </p>
-    </Elem>
+    </ElementInstance>
   </ForwardRef>
 </P>
 `;

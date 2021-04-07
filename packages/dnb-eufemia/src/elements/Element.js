@@ -20,42 +20,53 @@ import {
   skeletonDOMAttributes
 } from '../components/skeleton/SkeletonHelper'
 
-class Elem extends React.PureComponent {
+const Element = React.forwardRef((props, ref) => {
+  return <ElementInstance inner_ref={ref} {...props} />
+})
+Element.propTypes = {
+  is: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.node
+  ]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton_method: PropTypes.string,
+
+  ...spacingPropTypes,
+
+  className: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.array
+  ]),
+  class: PropTypes.string,
+  internalClass: PropTypes.string,
+  css: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  inner_ref: PropTypes.object,
+  children: PropTypes.node
+}
+Element.defaultProps = {
+  is: null,
+  skeleton: null,
+  skeleton_method: 'font',
+  className: null,
+  class: null,
+  internalClass: null,
+  css: null,
+  inner_ref: null,
+  children: null
+}
+
+class ElementInstance extends React.PureComponent {
   static contextType = Context
-  static propTypes = {
-    is: PropTypes.string.isRequired,
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton_method: PropTypes.string,
-
-    ...spacingPropTypes,
-
-    className: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-      PropTypes.array
-    ]),
-    class: PropTypes.string,
-    internalClass: PropTypes.string,
-    css: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    inner_ref: PropTypes.object,
-    children: PropTypes.node
-  }
-  static defaultProps = {
-    skeleton: null,
-    skeleton_method: 'font',
-    className: null,
-    class: null,
-    internalClass: null,
-    css: null,
-    inner_ref: null,
-    children: null
-  }
+  static propTypes = Element.propTypes
+  static defaultProps = Element.defaultProps
 
   render() {
     const props =
       this.props.skeleton !== false &&
       typeof this.context?.skeleton !== 'undefined'
-        ? extendPropsWithContext(this.props, Elem.defaultProps, {
+        ? extendPropsWithContext(this.props, Element.defaultProps, {
             skeleton: this.context?.skeleton
           })
         : this.props
@@ -72,7 +83,8 @@ class Elem extends React.PureComponent {
       ...rest
     } = props
 
-    const tagClass = internalClass || `dnb-${Tag}`
+    const tagClass =
+      internalClass || (typeof Tag === 'string' ? `dnb-${Tag}` : '')
     rest.className = classnames(
       !new RegExp(`${tagClass}(\\s|$)`).test(String(className)) &&
         tagClass,
@@ -80,21 +92,22 @@ class Elem extends React.PureComponent {
       _className,
       css,
       createSkeletonClass(skeleton_method, skeleton, this.context),
-      createSpacingClasses(rest, Tag)
+      createSpacingClasses(
+        rest,
+        typeof Tag === 'string' ? `dnb-${Tag}` : null
+      )
     )
 
     validateDOMAttributes(null, rest)
 
     skeletonDOMAttributes(rest, skeleton, this.context)
 
-    return <Tag ref={inner_ref} {...rest} />
+    if (typeof Tag !== 'function' && inner_ref) {
+      rest.ref = inner_ref
+    }
+
+    return <Tag {...rest} />
   }
 }
-
-const Element = React.forwardRef((props, ref) => {
-  return <Elem inner_ref={ref} {...props} />
-})
-Element.propTypes = Elem.propTypes
-Element.defaultProps = Elem.defaultProps
 
 export default Element
