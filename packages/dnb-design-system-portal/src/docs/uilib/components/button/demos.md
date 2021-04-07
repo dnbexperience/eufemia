@@ -149,7 +149,7 @@ Tertiary button with long text and text `wrap` enabled.
 	/* @jsx */ `
 <Button
   text="Primary with href"
-  href="/"
+  href="/uilib/components/button/demos"
   icon_position="right"
   icon="chevron_right"
   on_click={({ event }) => {
@@ -159,11 +159,11 @@ Tertiary button with long text and text `wrap` enabled.
 <Button
   variant="secondary"
   text="Secondary with href"
-  href="?no-cache=1"
+  href="/uilib/components/button/demos"
   target="_blank"
 />
 <Button
-  href="?no-cache=1"
+  href="/uilib/components/button/demos"
   title="This is a link"
   icon="chevron_right"
   size="default"
