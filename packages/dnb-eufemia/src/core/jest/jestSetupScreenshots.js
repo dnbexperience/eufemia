@@ -251,8 +251,12 @@ async function makePageReady({
 
   global.IS_TEST = true
   await page.evaluate(() => {
-    window.IS_TEST = true
-    document.documentElement.setAttribute('data-visual-test', true)
+    try {
+      window.IS_TEST = true
+      document.documentElement.setAttribute('data-visual-test', true)
+    } catch (e) {
+      //
+    }
   })
 
   // Keep in mind, we also import this file in dev/prod portal (gatsby-browser),
