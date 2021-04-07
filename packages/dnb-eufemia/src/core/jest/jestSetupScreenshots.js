@@ -125,7 +125,10 @@ module.exports.testPageScreenshot = async ({
     )
   }
 
-  const { activeSimulationDelay } = await handleSimulation({
+  const {
+    elementToSimulate,
+    activeSimulationDelay
+  } = await handleSimulation({
     page,
     element,
     simulate,
@@ -159,9 +162,8 @@ module.exports.testPageScreenshot = async ({
   // before we had: just to make sure we don't resolve, before the delayed click happened
   // so the next integration on the same url will have a reset state
   if (activeSimulationDelay > 0) {
-    // await page.mouse.up()
-    // await elementToSimulate.dispose()
     await page.waitForTimeout(activeSimulationDelay)
+    await elementToSimulate.click()
   }
 
   if (waitBeforeFinish > 0) {
@@ -333,7 +335,7 @@ async function handleSimulation({
   }
 
   let elementToSimulate = null
-  let activeSimulationDelay = null
+  let activeSimulationDelay = 0
 
   if (simulate) {
     if (simulateSelector) {
@@ -365,7 +367,7 @@ async function handleSimulation({
 
       case 'active': {
         // make a delayed click – have mouse down until screen shot is taken
-        activeSimulationDelay = isCI ? 1200 : 400
+        activeSimulationDelay = isCI ? 500 : 400
         // no await – else we get only a release state
         elementToSimulate.click({
           delay: activeSimulationDelay
