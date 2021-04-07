@@ -6,8 +6,6 @@
 import { css } from '@emotion/react'
 import { gridStyle } from 'dnb-eufemia-sandbox/stories/GridStyle'
 
-// import './themes/dnb-theme-ui-dark.scss'
-
 export { gridStyle }
 
 export default css`
@@ -20,7 +18,7 @@ export default css`
   }
 
   /*
-    Make sure we cut the tab and seciton parts on the left side
+    Make sure we cut the tab and section parts on the left side
     so it's not visible "over" the sidebar.
    */
   .dnb-app-content {
@@ -76,6 +74,46 @@ export default css`
     clear: both;
     content: '';
   }
+
+  .image-box {
+    margin: 1rem 0 3rem 0;
+    padding: 2rem 2rem 0.9375rem 2rem;
+
+    text-align: center;
+
+    ${gridStyle({ rgb: '40, 180, 130', a: 0.4 })};
+    background-color: rgba(255, 255, 255, 0.6);
+
+    figcaption {
+      padding-top: 0.938rem; /* 15/16  because of the border */
+
+      font-style: italic;
+
+      border-top: solid 1px #c4c4c4;
+    }
+
+    img:not([width]) {
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+
+    /* SVG illustration helper for increasing font-size */
+    &.x-10 img {
+      width: calc(50% + 10rem);
+    }
+
+    &.mint-green-12 {
+      background-color: var(--color-mint-green-12);
+    }
+    &.blank {
+      background-color: transparent;
+    }
+    &.blank::after {
+      background-image: none;
+      border-color: transparent;
+    }
+  }
+
   .gatsby-resp-image-wrapper {
     margin-left: 0 !important; /* align the img to the left */
     a {
@@ -85,6 +123,7 @@ export default css`
         content: none;
       }
 
+      /* stylelint-disable-next-line */
       img {
         width: 100%;
       }
@@ -133,46 +172,6 @@ export default css`
     margin-bottom: 0.25em;
   }
 
-  .image-box {
-    margin: 1rem 0 3rem 0;
-    padding: 2rem 2rem 0.9375rem 2rem;
-
-    text-align: center;
-
-    ${gridStyle({ rgb: '40, 180, 130', a: 0.4 })};
-    background-color: rgba(255, 255, 255, 0.6);
-
-    figcaption {
-      padding-top: 0.938rem; /* 15/16  because of the border */
-
-      font-style: italic;
-
-      border-top: solid 1px #c4c4c4;
-    }
-
-    img:not([width]) {
-      width: 100%;
-    }
-    img:not(width) {
-      margin-bottom: 2rem;
-    }
-    /* SVG illustration helper for increasing font-size */
-    &.x-10 img {
-      width: calc(50% + 10rem);
-    }
-
-    &.mint-green-12 {
-      background-color: var(--color-mint-green-12);
-    }
-    &.blank {
-      background-color: transparent;
-    }
-    &.blank::after {
-      background-image: none;
-      border-color: transparent;
-    }
-  }
-
   .typography-box {
     margin-bottom: 4rem;
     padding: 2rem 2rem 1.9375rem 2rem;
@@ -189,6 +188,7 @@ export default css`
 
       line-height: var(--line-height-basis);
       list-style: none;
+
       /*
       border-top: 1px solid rgba(219, 0, 255, 0.25);
       border-bottom: 1px solid rgba(219, 0, 255, 0.25);
@@ -217,6 +217,7 @@ export default css`
       align-items: center;
     }
   }
+
   .example-caption {
     margin-top: 2rem;
     padding-top: 0.9375rem;
