@@ -327,16 +327,13 @@ export default class MainMenu extends React.PureComponent {
                         <SearchBarInput />
                       </ContentWrapper>
                     ))}
-                  <CardsWrapper
-                    // id="portal-main-menu"
-                    aria-labelledby="toggle-main-menu"
-                  >
+                  <CardsWrapper aria-labelledby="toggle-main-menu">
                     <Card
-                      url={items['design-system'].url}
-                      title={items['design-system'].title}
+                      url={items['design-system']?.url}
+                      title={items['design-system']?.title}
                       about={
                         <>
-                          {items['design-system'].description}
+                          {items['design-system']?.description}
                           <LastUpdated title="Last Change log update">
                             Updated: {version.buildVersion}
                           </LastUpdated>
@@ -345,33 +342,33 @@ export default class MainMenu extends React.PureComponent {
                       icon={DesignSystemSvg}
                     />
                     <Card
-                      url={items['uilib'].url}
-                      title={items['uilib'].title}
-                      about={items['uilib'].description}
+                      url={items['uilib']?.url}
+                      title={items['uilib']?.title}
+                      about={items['uilib']?.description}
                       icon={UilibSvg}
                     />
                     <Card
-                      url={items['quickguide-designer'].url}
-                      title={items['quickguide-designer'].title}
-                      about={items['quickguide-designer'].description}
+                      url={items['quickguide-designer']?.url}
+                      title={items['quickguide-designer']?.title}
+                      about={items['quickguide-designer']?.description}
                       icon={QuickguideDesignerSvg}
                     />
                     <Card
-                      url={items['icons'].url}
-                      title={items['icons'].title}
-                      about={items['icons'].description}
+                      url={items['icons']?.url}
+                      title={items['icons']?.title}
+                      about={items['icons']?.description}
                       icon={IconsSvg}
                     />
                     <Card
-                      url={items['brand'].url}
-                      title={items['brand'].title}
-                      about={items['brand'].description}
+                      url={items['brand']?.url}
+                      title={items['brand']?.title}
+                      about={items['brand']?.description}
                       icon={BrandSvg}
                     />
                     <Card
-                      url={items['principles'].url}
-                      title={items['principles'].title}
-                      about={items['principles'].description}
+                      url={items['principles']?.url}
+                      title={items['principles']?.title}
+                      about={items['principles']?.description}
                       icon={PrinciplesSvg}
                     />
                   </CardsWrapper>

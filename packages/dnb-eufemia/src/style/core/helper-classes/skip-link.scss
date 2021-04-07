@@ -85,17 +85,17 @@
 // How to use the "skip-link"
 // 1. Have this on the top of Your App: <a class="dnb-skip-link dnb-button" href="#dnb-app-content">Skip to content</a>
 // 2. Place this id="dnb-app-content" on Your main content container
-a.dnb-skip-link {
+.dnb-skip-link {
   position: absolute;
   z-index: 0;
   top: -100vh;
   opacity: 0.3;
   transition: opacity 0.3s ease-out;
 }
-a.dnb-skip-link-demo,
-a.dnb-skip-link:focus {
+.dnb-skip-link--active,
+.dnb-skip-link:focus {
   @include skipLink();
 }
-html[data-whatintent='touch'] a.dnb-skip-link {
+html[data-whatintent='touch'] .dnb-skip-link {
   display: none;
 }

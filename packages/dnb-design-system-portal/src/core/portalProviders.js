@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /**
  * Global Portal providers
  *
@@ -18,18 +19,24 @@ import cssVars from 'css-vars-ponyfill'
 // run the polyfill because of the dynamic menu changes
 cssVars()
 
-const emotionCache = createEmotionCache({
-  key: 'css',
-  stylisPlugins: [stylisPlugin]
-})
+// This ensures we processes also the css prop during build
+// More into in the docs: https://emotion.sh/docs/ssr#gatsby
+const createCacheInstance = () =>
+  createEmotionCache({
+    key: 'css',
+    stylisPlugins: [stylisPlugin]
+  })
+const emotionCache = createCacheInstance()
 
-export const pageElement = ({ element }) => {
+export const pageElement = () => ({ element }) => {
   return element
 }
 
-export const rootElement = ({ element }) => {
+export const rootElement = (type) => ({ element }) => {
   return (
-    <CacheProvider value={emotionCache}>
+    <CacheProvider
+      value={type === 'ssr' ? createCacheInstance() : emotionCache}
+    >
       <Provider
         skeleton={getSkeletonEnabled()} // To simulate a whole page skeleton
         locale={getLang()}

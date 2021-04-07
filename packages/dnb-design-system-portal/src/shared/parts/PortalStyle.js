@@ -11,16 +11,12 @@ import { gridStyle } from 'dnb-eufemia-sandbox/stories/GridStyle'
 export { gridStyle }
 
 export default css`
-  ${
-    '' /* .dnb-form-component {
-    @media screen and (max-width: 40em) {
-      flex-wrap: wrap;
-      & > .dnb-form-label {
-        margin-bottom: 0.5rem;
-        margin-top: 0.5rem;
-      }
-    }
-  } */
+  #gatsby-noscript {
+    position: absolute;
+    z-index: 5000;
+    top: 0;
+    color: black;
+    background-color: white;
   }
 
   /*

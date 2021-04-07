@@ -12,5 +12,5 @@
   "ignore": [
     ".*node_modules/(?!rewrite-pattern|regexpu-core|buble|react-live).*"
   ],
-  "plugins": ["@emotion", "@babel/plugin-proposal-class-properties"]
+  "plugins": ["@babel/plugin-proposal-class-properties"]
 }

@@ -72,8 +72,8 @@ export default class MdxTemplate extends React.PureComponent {
             <Tabbar
               key="tabbar"
               location={location}
-              {...(child.frontmatter || {})}
-              usePath={'/' + (child.fields && child.fields.slug)}
+              {...(child?.frontmatter || {})}
+              usePath={'/' + (child?.fields?.slug || '')}
             />
           )}
 
