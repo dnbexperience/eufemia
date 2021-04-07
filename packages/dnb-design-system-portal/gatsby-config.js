@@ -103,6 +103,7 @@ const plugins = [
     resolve: 'gatsby-plugin-offline',
     options: {
       workboxConfig: {
+        globPatterns: ['*.html'],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024
       }
     }
