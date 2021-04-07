@@ -78,7 +78,16 @@ export const buttonPropTypes = {
     PropTypes.func,
     PropTypes.node
   ]),
-  element: PropTypes.node,
+  element: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.node
+  ]),
+  to: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.func
+  ]),
 
   ...spacingPropTypes,
 
