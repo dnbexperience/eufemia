@@ -416,9 +416,11 @@ export default class Tabs extends React.PureComponent {
       try {
         if (Math.ceil(window.innerWidth / 16) <= 40 || this.isAtEdge()) {
           if (!this._tabsRef.current.style.marginLeft) {
-            const style = window.getComputedStyle(this._tabsRef.current)
+            const tabsStyle = window.getComputedStyle(
+              this._tabsRef.current
+            )
 
-            if (!(Math.abs(parseFloat(style.marginLeft)) > 0)) {
+            if (!(Math.abs(parseFloat(tabsStyle.marginLeft)) > 0)) {
               const diff =
                 window.innerWidth - this._tabsRef.current.offsetWidth
               let val = (Math.round(diff / 16) / 2) * 16
@@ -427,8 +429,15 @@ export default class Tabs extends React.PureComponent {
               if (val < 32) {
                 val = 32
               }
-              this._tablistRef.current.style.paddingLeft = `${val}px`
-              this._tablistRef.current.style.paddingRight = `${val}px`
+              const tablistStyle = window.getComputedStyle(
+                this._tablistRef.current
+              )
+              this._tablistRef.current.style.paddingLeft = `${
+                (parseFloat(tablistStyle.paddingLeft) || 0) + val
+              }px`
+              this._tablistRef.current.style.paddingRight = `${
+                (parseFloat(tablistStyle.paddingRight) || 0) + val
+              }px`
             }
           }
         } else {
