@@ -162,8 +162,8 @@ module.exports.testPageScreenshot = async ({
   // before we had: just to make sure we don't resolve, before the delayed click happened
   // so the next integration on the same url will have a reset state
   if (activeSimulationDelay > 0) {
-    await page.waitForTimeout(activeSimulationDelay)
     await elementToSimulate.click()
+    await page.waitForTimeout(activeSimulationDelay)
   }
 
   if (waitBeforeFinish > 0) {
