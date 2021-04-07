@@ -49,3 +49,10 @@
 .dnb-not-sr-only {
   @include notSrOnly();
 }
+.dnb-suffix {
+  padding-left: 0.5rem;
+
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  word-break: normal; // because of "kr" usage together with "stretch" on a input/textarea
+}
