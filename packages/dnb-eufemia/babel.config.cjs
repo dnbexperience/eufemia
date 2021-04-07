@@ -1,40 +1,40 @@
+/* stylelint-disable */
 /**
  * Main Babel config
  *
  */
 
-let presets = [],
-  legacy = []
+const presets =
+  process.env.BABEL_ENV === 'es'
+    ? ['@babel/preset-react']
+    : [
+        [
+          // Using .browserslistrc for the targets
+          '@babel/preset-env',
+          {
+            modules: ['esm', 'umd'].includes(process.env.BABEL_ENV)
+              ? false
+              : 'cjs'
+          }
+        ],
+        '@babel/preset-react'
+      ]
 
-// General presets, using .browserslistrc
-if (process.env.BABEL_ENV === 'es') {
-  presets = ['@babel/preset-react']
-} else {
-  presets = [
-    [
-      '@babel/preset-env',
-      {
-        modules: ['esm', 'umd'].includes(process.env.BABEL_ENV)
-          ? false
-          : 'cjs'
-      }
-    ],
-    '@babel/preset-react'
-  ]
-
-  // also for IE testing with Storybook}
-  legacy = [
-    [
-      presets[0][0], // get preset id
-      {
-        ...presets[0][1], // get preset options
-        useBuiltIns: 'usage',
-        corejs: 3
-      }
-    ],
-    presets[1]
-  ]
-}
+// also for IE testing with Storybook}
+const legacy =
+  process.env.BABEL_ENV === 'es'
+    ? []
+    : [
+        [
+          presets[0][0], // get preset id
+          {
+            ...presets[0][1], // get preset options
+            useBuiltIns: 'usage',
+            corejs: 3
+          }
+        ],
+        presets[1]
+      ]
 
 const productionPlugins = [
   '@babel/plugin-transform-react-constant-elements',

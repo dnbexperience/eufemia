@@ -5,9 +5,12 @@
     "browser": true,
     "node": true
   },
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
-    "ecmaVersion": 2018,
+    "babelOptions": {
+      "configFile": "@dnb/eufemia/babel.config.cjs"
+    },
+    "ecmaVersion": 2020,
     "ecmaFeatures": {
       "modules": true,
       "jsx": true
