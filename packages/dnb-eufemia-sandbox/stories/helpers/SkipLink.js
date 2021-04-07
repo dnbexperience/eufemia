@@ -20,7 +20,7 @@ export const SkipLink = () => (
     <Box>
       <SkipLinkReset>
         <a
-          className="dnb-skip-link-demo"
+          className="dnb-skip-link--active"
           href="#dnb-app-content"
           onClick={(e) => e.preventDefault()}
         >

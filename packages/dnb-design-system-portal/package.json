@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "build": "yarn build-portal:version && yarn build-portal",
-    "build-portal": "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --log-pages",
+    "build-portal": "gatsby build --log-pages",
     "build-portal-ci": "yarn build-portal:version && yarn make-ui-lib-pages && yarn build-portal --prefix-paths && yarn commit-new-pages",
     "build-portal:version": "babel-node ./scripts/version.js --new-version",
     "build:dev": "yarn make-ui-lib-pages:dev",
@@ -65,7 +65,6 @@
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/preset-env": "^7.13.12",
     "@babel/preset-react": "^7.13.13",
-    "@emotion/babel-plugin": "^11.2.0",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.1.5",
     "@mdx-js/mdx": "^1.6.22",

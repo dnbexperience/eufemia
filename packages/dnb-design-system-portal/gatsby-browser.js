@@ -14,8 +14,8 @@ smoothscroll.polyfill()
 // was added during webpack 4 to 5 migration
 global.process = process
 
-export const wrapRootElement = rootElement
-export const wrapPageElement = pageElement
+export const wrapRootElement = rootElement('browser')
+export const wrapPageElement = pageElement('browser')
 
 if (process.env.NODE_ENV === 'development') {
   loadDevStyles()

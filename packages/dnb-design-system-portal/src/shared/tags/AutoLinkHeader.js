@@ -103,32 +103,9 @@ const AutoLinkHeader = ({
           }
         }
 
-  // let size = 'auto'
-  // switch (String(level)) {
-  //   case '1':
-  //     size = 'xx-large'
-  //     break
-  //   case '2':
-  //     size = 'x-large'
-  //     break
-  //   case '3':
-  //     size = 'large'
-  //     break
-  //   case '4':
-  //     size = 'medium'
-  //     break
-  //   case '5':
-  //     size = 'basis'
-  //     break
-  //   case '6':
-  //     size = 'small'
-  //     break
-  // }
-
   return (
     <Heading
       level={level}
-      // size={size}
       element={element}
       className={className}
       css={anchorLinkStyle}
