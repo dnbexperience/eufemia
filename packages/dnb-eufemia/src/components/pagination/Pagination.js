@@ -153,7 +153,11 @@ export default class Pagination extends React.PureComponent {
 
   render() {
     return (
-      <PaginationProvider tagName={Pagination.tagName} {...this.props}>
+      <PaginationProvider
+        tagName={Pagination.tagName}
+        internalContent={this.props.children}
+        {...this.props}
+      >
         <PaginationInstance {...this.props} />
       </PaginationProvider>
     )
