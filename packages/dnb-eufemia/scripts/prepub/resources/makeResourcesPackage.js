@@ -29,7 +29,7 @@ export default async function makeResourcesPackage() {
 }
 
 const copyStylePackages = (
-  src = './style/**/*.css',
+  src = './build/style/**/*.css',
   { returnResult = false } = {}
 ) =>
   new Promise((resolve, reject) => {
@@ -96,7 +96,9 @@ const copyBrowser = (
     }
   })
 
-const copyUMD = (src = ['./umd/*', '../../node_modules/react/umd/*']) =>
+const copyUMD = (
+  src = ['./build/umd/*', '../../node_modules/react/umd/*']
+) =>
   new Promise((resolve, reject) => {
     log.start('> PrePublish: copy UMD resources')
     try {
@@ -137,7 +139,7 @@ License: Apache 2.0 with Commons Clause
 const createTar = async () => {
   log.start('> PrePublish: create tar file in resources')
 
-  const distPath = path.resolve(__dirname, '../../../dist')
+  const distPath = path.resolve(__dirname, '../../../build/dist')
   if (!fs.existsSync(distPath)) {
     await fs.mkdir(distPath)
   }
@@ -145,7 +147,7 @@ const createTar = async () => {
   await create(
     {
       gzip: true,
-      file: path.resolve(__dirname, '../../../dist/dnb-ui-resources.tgz')
+      file: path.resolve(distPath, 'dnb-ui-resources.tgz')
     },
     ['./dnb-ui-resources']
   )

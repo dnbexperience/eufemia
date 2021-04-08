@@ -10,8 +10,11 @@ __tests__
 
 # production
 /build
+/assets/elements
+/assets/fonts/*.eot
+/assets/fonts/*.otf
+/assets/fonts/*.zip
 /package
-/dist
 /scripts
 /src
 /stories
