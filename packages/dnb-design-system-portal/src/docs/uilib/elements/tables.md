@@ -148,7 +148,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
 
 <ComponentBox hideCode data-visual-test="table-sticky">
 {`
-<Table sticky="true" sticky_offset="4rem" className="dnb-table--fixed">
+<Table sticky={true} sticky_offset="4rem" className="dnb-table--fixed">
   <caption className="dnb-sr-only">A Table Caption</caption>
   <thead>
     <tr>

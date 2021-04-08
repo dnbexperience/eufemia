@@ -5,11 +5,8 @@
 
 import nodePath from 'path'
 import { createTypes } from '../generateTypes'
-import isCI from 'is-ci'
 
-if (isCI) {
-  jest.setTimeout(30e3)
-}
+jest.setTimeout(30e3)
 
 describe('generateTypes', () => {
   it('has to match PrimaryComponent snapshot', async () => {

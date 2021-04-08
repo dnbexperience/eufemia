@@ -42,7 +42,6 @@ Element.propTypes = {
   class: PropTypes.string,
   internalClass: PropTypes.string,
   css: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  inner_ref: PropTypes.object,
   children: PropTypes.node
 }
 Element.defaultProps = {
@@ -53,8 +52,9 @@ Element.defaultProps = {
   class: null,
   internalClass: null,
   css: null,
-  inner_ref: null,
   children: null
+
+  // NB: Do not set "inner_ref: null"
 }
 
 class ElementInstance extends React.PureComponent {
@@ -65,9 +65,10 @@ class ElementInstance extends React.PureComponent {
   render() {
     const props =
       this.props.skeleton !== false &&
-      typeof this.context?.skeleton !== 'undefined'
+      this.context &&
+      typeof this.context.skeleton !== 'undefined'
         ? extendPropsWithContext(this.props, Element.defaultProps, {
-            skeleton: this.context?.skeleton
+            skeleton: this.context && this.context.skeleton
           })
         : this.props
 
