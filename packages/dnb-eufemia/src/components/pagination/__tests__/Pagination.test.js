@@ -26,9 +26,8 @@ const props = {
 }
 
 describe('Pagination bar component', () => {
-  const Comp = mount(<Component {...props} />)
-
   it('has correct state at startup', () => {
+    const Comp = mount(<Component {...props} />)
     const innerElem = Comp.find('.dnb-pagination__bar__inner')
 
     expect(innerElem.find('button.dnb-pagination__button').length).toBe(7)
@@ -36,12 +35,21 @@ describe('Pagination bar component', () => {
     expect(innerElem.find('button.dnb-button--primary').length).toBe(1)
   })
 
-  it('reacts to prop changes', () => {
-    // const Comp = mount(<Component {...props} />)
+  it('reacts to prop changes with valid button attributes', () => {
+    const Comp = mount(
+      <Component {...props}>
+        <div id="page-content">content</div>
+      </Component>
+    )
+
+    expect(Comp.exists('div#page-content')).toBe(true)
 
     Comp.setProps({
       current_page: 1
     })
+
+    Comp.update()
+    expect(Comp.exists('div#page-content')).toBe(true)
 
     const buttonElements = Comp.find('.dnb-pagination__bar__inner').find(
       'button.dnb-pagination__button'
@@ -67,6 +75,50 @@ describe('Pagination bar component', () => {
         .instance()
         .getAttribute('data-test-id')
     ).toBe('chevron left icon')
+  })
+
+  it('reacts to prop changes and calls the render prop fn', () => {
+    // Set our test reference
+    let currentPage = 15
+
+    const Comp = mount(
+      <Component {...props}>
+        {({ pageNo }) => {
+          // Update our test reference
+          currentPage = pageNo
+
+          return <div id="page-no">{pageNo}</div>
+        }}
+      </Component>
+    )
+
+    expect(Comp.find('div#page-no').text()).toBe('15')
+
+    const buttonElements = Comp.find('.dnb-pagination__bar__inner').find(
+      'button.dnb-pagination__button'
+    )
+
+    buttonElements.at(2).simulate('click')
+    expect(currentPage).toBe(14)
+    expect(Comp.find('div#page-no').text()).toBe('14')
+
+    Comp.setProps({
+      current_page: 5
+    })
+    expect(currentPage).toBe(5)
+    Comp.update()
+    expect(Comp.find('div#page-no').text()).toBe('5')
+
+    buttonElements.at(3).simulate('click')
+    expect(currentPage).toBe(15)
+    expect(Comp.find('div#page-no').text()).toBe('15')
+
+    Comp.setProps({
+      current_page: 3
+    })
+    expect(currentPage).toBe(3)
+    Comp.update()
+    expect(Comp.find('div#page-no').text()).toBe('3')
   })
 
   it('accepts element in the function return', () => {

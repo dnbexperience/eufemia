@@ -4,6 +4,7 @@ showTabs: true
 
 import {
 PaginationExampleDefault,
+PaginationExampleWithCallback,
 PaginationExampleCentered,
 PaginationExampleInfinityLoadButton,
 PaginationExampleInfinityIndicator,
@@ -16,6 +17,10 @@ PaginationExampleInfinityTable,
 ### Default pagination
 
 <PaginationExampleDefault />
+
+If you need to access methods provided by the render prop arguments.
+
+<PaginationExampleWithCallback />
 
 ### Centered Pagination with random delay
 

@@ -40,65 +40,18 @@ export default class PaginationBar extends React.PureComponent {
   }
 
   componentDidMount() {
-    const pgn = this.context.pagination
-    const currentPage = pgn.startupPage || pgn.currentPage
-    pgn.setState(
-      {
-        currentPage
-      },
-      () => this.preparePageContent(currentPage)
-    )
-  }
+    const context = this.context.pagination
+    const currentPage = context.startupPage || context.currentPage
+    const items = context.prefillItems(currentPage, {
+      skipObserver: true
+    })
 
-  componentDidUpdate({ children }) {
-    if (this.props.children !== children) {
-      this.updatePageContent()
-    }
-  }
-
-  hasChildrenCallabck() {
-    return typeof this.props.children === 'function'
-  }
-
-  preparePageContent(pageNo) {
-    let potentialElement = this.props.children
-    const items = this.context.pagination.prefillItems(
-      this.context.pagination.currentPage,
-      {
-        skipObserver: true
-      }
-    )
-    this.context.pagination.setState({
+    context.setState({
+      currentPage,
       items
     })
 
-    if (this.hasChildrenCallabck()) {
-      potentialElement = this.props.children({
-        pageNo,
-        page: pageNo,
-        ...this.context.pagination
-      })
-    }
-
-    if (potentialElement && React.isValidElement(potentialElement)) {
-      this.context.pagination.setContent([pageNo, potentialElement])
-    }
-  }
-
-  updatePageContent(pageNo = this.context.pagination.currentPage) {
-    let potentialElement = this.props.children
-
-    if (this.hasChildrenCallabck()) {
-      potentialElement = this.props.children({
-        pageNo,
-        page: pageNo,
-        ...this.context.pagination
-      })
-    }
-
-    if (potentialElement && React.isValidElement(potentialElement)) {
-      this.context.pagination.setContent([pageNo, potentialElement])
-    }
+    context.updatePageContent(currentPage)
   }
 
   // because of accessibility
@@ -141,7 +94,7 @@ export default class PaginationBar extends React.PureComponent {
     this.context.pagination.setState({
       currentPage
     })
-    this.preparePageContent(currentPage)
+    this.context.pagination.updatePageContent(currentPage)
 
     dispatchCustomElementEvent(this.context.pagination, 'on_change', {
       page: currentPage,
