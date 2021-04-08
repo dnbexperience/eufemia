@@ -168,7 +168,7 @@ $anchorBorderRadius: 0.25em;
     @include anchorActiveStyle();
   }
 
-  &[target='_blank'][href^='http']:not(:empty):not(.dnb-anchor--no-icon) {
+  &[target='_blank']:not(:empty):not(.dnb-anchor--no-icon) {
     @include anchorIconStyle();
     &::after {
       top: 0.125em;

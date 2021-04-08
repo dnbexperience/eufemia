@@ -24,6 +24,7 @@ props.size = null
 props.status = null
 props.element = null
 props.tooltip = null
+props.to = null
 props.icon_position = 'right'
 
 beforeAll(() => {
@@ -80,9 +81,24 @@ describe('Button component', () => {
     expect(Comp.find('.dnb-button__bounding').exists()).toBe(true)
   })
 
-  it('has a button tag', () => {
-    const Comp = mount(<Component {...props} href="https://url" />)
+  it('has a anchor tag', () => {
+    const Comp = mount(
+      <Component {...props} href="https://url" icon={null} />
+    )
     expect(Comp.find('a').exists()).toBe(true)
+    expect(Comp.find('svg').exists()).toBe(false)
+  })
+
+  it('has a anchor tag and includes a launch icon', () => {
+    const Comp = mount(
+      <Component
+        {...props}
+        href="https://url"
+        target="_blank"
+        icon={null}
+      />
+    )
+    expect(Comp.find('svg').exists()).toBe(true)
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
