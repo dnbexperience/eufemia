@@ -65,6 +65,11 @@ export const buttonPropTypes = {
   id: PropTypes.string,
   class: PropTypes.string,
   href: PropTypes.string,
+  to: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.func
+  ]),
   wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -82,11 +87,6 @@ export const buttonPropTypes = {
     PropTypes.func,
     PropTypes.object,
     PropTypes.node
-  ]),
-  to: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.func
   ]),
 
   ...spacingPropTypes,
@@ -119,6 +119,7 @@ export default class Button extends React.PureComponent {
     icon_position: 'right',
     icon_size: null,
     href: null,
+    to: null,
     id: null,
     class: null,
     wrap: false,
@@ -210,7 +211,6 @@ export default class Button extends React.PureComponent {
       icon: _icon, // eslint-disable-line
       icon_position: _icon_position, // eslint-disable-line
       icon_size,
-      href,
       wrap,
       bounding, // eslint-disable-line
       skeleton,
@@ -263,10 +263,19 @@ export default class Button extends React.PureComponent {
       iconSize = 'medium'
     }
 
-    const Element = element ? element : href ? Anchor : 'button'
+    const Element = element
+      ? element
+      : props.href || props.to
+      ? Anchor
+      : 'button'
     if (Element === Anchor) {
       attributes.omitClass = true
-      if (href && !icon) {
+      if (
+        (props.href || props.to) &&
+        props.target &&
+        props.target.includes('_blank') &&
+        !icon
+      ) {
         icon = icon_size === 'medium' ? launch_medium : launch
       }
     }
@@ -289,7 +298,7 @@ export default class Button extends React.PureComponent {
       createSpacingClasses(props),
       class_name,
       className,
-      href ? '' : null // dnb-anchor--no-underline dnb-anchor--no-hover
+      props.href || props.to ? '' : null // dnb-anchor--no-underline dnb-anchor--no-hover
     )
 
     const params = {
@@ -300,10 +309,6 @@ export default class Button extends React.PureComponent {
       disabled: isTrue(disabled),
       ...attributes,
       onClick: this.onClickHandler
-    }
-
-    if (href) {
-      params.href = href
     }
 
     skeletonDOMAttributes(params, skeleton, this.context)
