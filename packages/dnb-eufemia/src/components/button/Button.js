@@ -270,7 +270,12 @@ export default class Button extends React.PureComponent {
       : 'button'
     if (Element === Anchor) {
       attributes.omitClass = true
-      if ((props.href || props.to) && !icon) {
+      if (
+        (props.href || props.to) &&
+        props.target &&
+        props.target.includes('_blank') &&
+        !icon
+      ) {
         icon = icon_size === 'medium' ? launch_medium : launch
       }
     }
