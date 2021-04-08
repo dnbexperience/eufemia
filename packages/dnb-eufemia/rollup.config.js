@@ -222,7 +222,7 @@ function makeRollupConfig(
       name,
       globals,
       format,
-      sourcemap: true
+      sourcemap: false
     },
     external,
     plugins: [

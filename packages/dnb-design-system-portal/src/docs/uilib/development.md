@@ -36,6 +36,10 @@ Create a Fork, make your changes and create a _Pull Request_) - or commit your c
 
 As soon as the _Pull Request_ gets merged into `origin/release`, a CI/CD server will check all commits and figure out the new NPM **Version Number** and publish a new version based on the message decorations.
 
+## How to create a local package
+
+Run `yarn build:pack` inside `/dnb-eufemia` and you get this file: `/build/dnb-eufemia-v0.0.0-development`.
+
 ## Other development topics
 
 - [Changes](/uilib/development/changes)

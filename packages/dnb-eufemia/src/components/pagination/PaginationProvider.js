@@ -21,14 +21,16 @@ export default class PaginationProvider extends React.PureComponent {
   static contextType = Context
 
   static propTypes = {
+    // eslint-disable-next-line
     startup_page: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
-    ]), // eslint-disable-line
+    ]),
+    // eslint-disable-next-line
     current_page: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
-    ]), // eslint-disable-line
+    ]),
     page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
     set_content_handler: PropTypes.func,
     reset_content_handler: PropTypes.func,
@@ -39,6 +41,13 @@ export default class PaginationProvider extends React.PureComponent {
       current: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
     }),
     useMarkerOnly: PropTypes.bool,
+    internalContent: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node,
+      PropTypes.object,
+      PropTypes.array
+    ]),
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
@@ -58,6 +67,7 @@ export default class PaginationProvider extends React.PureComponent {
     rerender: null,
     store: null,
     useMarkerOnly: null,
+    internalContent: null,
     children: null
   }
 
@@ -171,6 +181,12 @@ export default class PaginationProvider extends React.PureComponent {
     }
 
     this._isMounted = true
+
+    if (this.hasChildrenCallabck()) {
+      this.updatePageContent(
+        this.state.startupPage || this.state.currentPage
+      )
+    }
   }
 
   componentWillUnmount() {
@@ -179,6 +195,18 @@ export default class PaginationProvider extends React.PureComponent {
     clearTimeout(this.resetInfinityTimeout)
     clearTimeout(this.callOnPageUpdateTimeout)
     this._isMounted = false
+  }
+
+  componentDidUpdate({ current_page: current, internalContent: content }) {
+    const { internalContent, current_page } = this.props
+    if (current_page !== current) {
+      const currentPage = parseFloat(current_page)
+      this.setState({ currentPage })
+      this.updatePageContent(currentPage)
+    }
+    if (internalContent !== content) {
+      this.updatePageContent(this.state.currentPage)
+    }
   }
 
   setContent = (newContent, content = null, position = null) => {
@@ -319,6 +347,10 @@ export default class PaginationProvider extends React.PureComponent {
     this.setState({ ...state, _listenForPropChanges: false }, cb)
   }
 
+  hasChildrenCallabck() {
+    return typeof this.props.internalContent === 'function'
+  }
+
   callOnPageUpdate = () => {
     if (Array.isArray(this._updateStack)) {
       this._updateStack.forEach((cb) => {
@@ -327,6 +359,24 @@ export default class PaginationProvider extends React.PureComponent {
         }
       })
       this._updateStack = []
+    }
+  }
+
+  updatePageContent = (pageNo) => {
+    if (pageNo !== null) {
+      let potentialElement = this.props.internalContent
+
+      if (this.hasChildrenCallabck()) {
+        potentialElement = this.props.internalContent({
+          ...this, // send along setContent etc
+          pageNo,
+          page: pageNo
+        })
+      }
+
+      if (potentialElement && React.isValidElement(potentialElement)) {
+        this.setContent([pageNo, potentialElement])
+      }
     }
   }
 
@@ -348,6 +398,7 @@ export default class PaginationProvider extends React.PureComponent {
         value={{
           ...this.context,
           pagination: {
+            updatePageContent: this.updatePageContent,
             setContent: this.setContent,
             resetContent: this.resetContent,
             resetInfinity: this.resetInfinity,

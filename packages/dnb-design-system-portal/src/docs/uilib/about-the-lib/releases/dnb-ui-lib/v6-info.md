@@ -138,7 +138,7 @@ With v6 the `dnb-ui-lib` has it's own localization to be used both for component
 
 A new package, only containing resources needed by the DNB DCE team. This package is provided as a `tar` file.
 
-- `https://unpkg.com/browse/dnb-ui-lib/dist/dnb-ui-resources.tgz`
+- `https://unpkg.com/browse/dnb-ui-lib@6/dist/dnb-ui-resources.tgz`
 
 ## Install
 

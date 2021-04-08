@@ -37,15 +37,30 @@ const LargePage = styled.div`
 `
 
 export const PaginationExampleDefault = () => (
-  <ComponentBox
-    data-visual-test="pagination-default"
-    scope={{ HeightLimit, LargePage }}
-  >
+  <ComponentBox data-visual-test="pagination-default">
     {
       /* @jsx */ `
 <Pagination
   page_count={30}
-  startup_page={15}
+  current_page={15}
+  on_change={({ page }) => {
+    console.log('on_change:', page)
+  }}
+>
+  <P>Current Page Content</P>
+</Pagination>
+          `
+    }
+  </ComponentBox>
+)
+
+export const PaginationExampleWithCallback = () => (
+  <ComponentBox hideCode>
+    {
+      /* @jsx */ `
+<Pagination
+  page_count={5}
+  startup_page={3}
   on_change={({ page }) => {
     console.log('on_change:', page)
   }}
@@ -58,7 +73,7 @@ export const PaginationExampleDefault = () => (
 )
 
 export const PaginationExampleCentered = () => (
-  <ComponentBox scope={{ HeightLimit, LargePage }}>
+  <ComponentBox scope={{ LargePage }}>
     {
       /* @jsx */ `
 <Pagination

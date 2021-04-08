@@ -277,6 +277,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
     current_page={null}
     end_infinity_handler={null}
     hide_progress_indicator={false}
+    internalContent={null}
     is_loading_text={null}
     items={null}
     load_button_text={null}
