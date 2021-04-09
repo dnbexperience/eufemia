@@ -31,16 +31,17 @@ export default class MessageBubble extends React.PureComponent {
     id: PropTypes.string,
 
     color: PropTypes.string,
+    primary: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     bubble_direction: PropTypes.oneOf(['left', 'right']),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
-    icon: PropTypes.oneOfType([
+    avatar: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
       PropTypes.func
     ]),
-    icon_position: PropTypes.oneOf(['left', 'right']),
-    icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    avatar_position: PropTypes.oneOf(['left', 'right']),
+    avatar_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
@@ -59,12 +60,13 @@ export default class MessageBubble extends React.PureComponent {
     id: null,
 
     color: null,
+    primary: null,
     bubble_direction: 'left',
     stretch: null,
 
-    icon: null,
-    icon_position: 'left',
-    icon_size: null,
+    avatar: null,
+    avatar_position: 'left',
+    avatar_size: null,
 
     skeleton: false,
     class: null,
@@ -91,11 +93,12 @@ export default class MessageBubble extends React.PureComponent {
     const {
       id,
       color,
+      primary,
       bubble_direction,
       stretch,
-      icon,
-      icon_size,
-      icon_position,
+      avatar,
+      avatar_size,
+      avatar_position,
       skeleton,
       className,
       class: _className,
@@ -122,13 +125,18 @@ export default class MessageBubble extends React.PureComponent {
 
     return (
       <div id={id} {...params}>
-        {icon && (
+        {avatar && (
           <div
             className={
-              icon_position && `dnb-message-bubble__icon--${icon_position}`
+              avatar_position &&
+              `dnb-message-bubble__avatar--${avatar_position}`
             }
           >
-            <Icon icon={icon} size={icon_size} />
+            {React.isValidElement(avatar) ? (
+              avatar
+            ) : (
+              <Icon icon={avatar} size={avatar_size} />
+            )}
           </div>
         )}
         <div
@@ -136,10 +144,15 @@ export default class MessageBubble extends React.PureComponent {
           className={classnames(
             'dnb-message-bubble__bubble',
             `dnb-message-bubble__bubble--${bubble_direction}`,
-            isTrue(stretch) && `dnb-message-bubble__bubble--stretch`
+            isTrue(stretch) && `dnb-message-bubble__bubble--stretch`,
+            isTrue(primary) && 'dnb-message-bubble__bubble--primary'
           )}
         >
-          {children}
+          {typeof children === 'string' ? (
+            <p className="dnb-p">{children}</p>
+          ) : (
+            children
+          )}
         </div>
       </div>
     )

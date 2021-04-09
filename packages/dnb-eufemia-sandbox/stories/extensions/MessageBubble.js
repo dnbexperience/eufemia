@@ -7,7 +7,8 @@ import React from 'react'
 import { Box, Wrapper } from '../helpers'
 
 import MessageBubble from '@dnb/eufemia/src/extensions/message-bubble'
-import P from '@dnb/eufemia/src/elements/P'
+import { P } from '@dnb/eufemia/src/elements'
+import { Button } from '@dnb/eufemia/src/components'
 
 import '@dnb/eufemia/src/extensions/message-bubble/style'
 import {
@@ -22,48 +23,64 @@ export default {
 export const MessageBubbles = () => (
   <Wrapper>
     <Box>
-      <MessageBubble>
-        <P>Lorem ipsum dolor sit amet</P>
+      <MessageBubble>Lorem ipsum dolor sit amet</MessageBubble>
+    </Box>
+    <Box>
+      <MessageBubble avatar={chatbot_medium}>
+        Lorem ipsum dolor sit amet
       </MessageBubble>
     </Box>
     <Box>
-      <MessageBubble icon={chatbot_medium}>
-        <P>Lorem ipsum dolor sit amet</P>
+      <MessageBubble avatar={customer_service_medium}>
+        Lorem ipsum dolor sit amet
+      </MessageBubble>
+    </Box>
+    <Box style={{ width: '20rem' }}>
+      <MessageBubble
+        avatar={
+          <Button
+            tooltip="Hello, it's me!"
+            icon={customer_service_medium}
+          />
+        }
+      >
+        <P>
+          Lorem ipsum dolor sit amet Enim ut eros lectus magnis morbi fusce
+          dictumst cubilia cras a arcu ac dapibus sagittis leo molestie
+          cursus gravida urna
+        </P>
       </MessageBubble>
     </Box>
     <Box>
-      <MessageBubble icon={customer_service_medium}>
-        <P>Lorem ipsum dolor sit amet</P>
-      </MessageBubble>
-    </Box>
-    <Box>
-      <MessageBubble color="#D2F0E9">
-        <P>Lorem ipsum dolor sit amet</P>
-      </MessageBubble>
+      <MessageBubble primary>Lorem ipsum dolor sit amet</MessageBubble>
     </Box>
     <Box>
       <MessageBubble
-        color="#D2F0E9"
-        icon={chatbot_medium}
-        icon_position="right"
+        color="var(--color-accent-yellow)"
+        avatar={chatbot_medium}
+        avatar_position="right"
         bubble_direction="right"
       >
-        <P>Lorem ipsum dolor sit amet</P>
+        Lorem ipsum dolor sit amet
       </MessageBubble>
     </Box>
     <Box>
       <MessageBubble bubble_direction="right">
-        <P>Lorem ipsum dolor sit amet</P>
+        Lorem ipsum dolor sit amet
       </MessageBubble>
     </Box>
     <Box>
-      <MessageBubble stretch>
-        <P>Lorem ipsum dolor sit amet</P>
+      <MessageBubble
+        stretch
+        avatar={chatbot_medium}
+        avatar_position="right"
+      >
+        Lorem ipsum dolor sit amet
       </MessageBubble>
     </Box>
     <Box>
-      <MessageBubble stretch icon={chatbot_medium}>
-        <P>Lorem ipsum dolor sit amet</P>
+      <MessageBubble stretch avatar={chatbot_medium}>
+        Lorem ipsum dolor sit amet
       </MessageBubble>
     </Box>
   </Wrapper>
