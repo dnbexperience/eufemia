@@ -24,7 +24,7 @@ export const GlobalStatusError = () => (
   no_animation="true"
   id="demo-1"
 />
-  `}
+ `}
   </ComponentBox>
 )
 
@@ -41,7 +41,7 @@ export const GlobalStatusInfo = () => (
   no_animation="true"
   id="demo-4"
 />
-  `}
+ `}
   </ComponentBox>
 )
 
@@ -66,7 +66,7 @@ const InputWithError = () => {
 render(
   <InputWithError />
 )
-  `}
+ `}
   </ComponentBox>
 )
 
@@ -125,7 +125,7 @@ export const GlobalStatusAddRemoveItems = () => (
     </>
   )
 }
-  `}
+ `}
   </ComponentBox>
 )
 
@@ -142,7 +142,7 @@ export const GlobalStatusScrolling = () => (
     })
   }}
 />
-    `}
+`}
   </ComponentBox>
 )
 
@@ -291,6 +291,6 @@ const UpdateDemoTools = () => {
 }
 
 render(<UpdateDemo />)
-    `}
+`}
   </ComponentBox>
 )

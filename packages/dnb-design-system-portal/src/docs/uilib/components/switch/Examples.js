@@ -17,7 +17,7 @@ export const SwitchExampleDefault = () => (
   label="Switch"
   on_change={onChange}
 />
-        `}
+`}
   </ComponentBox>
 )
 
@@ -30,7 +30,7 @@ export const SwitchExampleChecked = () => (
   checked
   on_change={({ checked }) => console.log(checked)}
 />
-        `}
+`}
   </ComponentBox>
 )
 
@@ -42,7 +42,7 @@ export const SwitchExampleErrorMessage = () => (
   checked
   status="Error message"
 />
-        `}
+`}
   </ComponentBox>
 )
 
@@ -54,7 +54,7 @@ export const SwitchExampleSuffix = () => (
   checked
   suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
 />
-        `}
+`}
   </ComponentBox>
 )
 
@@ -64,7 +64,7 @@ export const SwitchExampleSizes = () => (
 <Switch size="medium" label="Medium" right="large" checked />
 <Switch size="large" label="Large" right="large" checked />
 <Switch size="large" label="Large" />
-        `}
+`}
   </ComponentBox>
 )
 

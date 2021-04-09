@@ -59,7 +59,7 @@ export const DatePickerRange = () =>
     }
   ]}
 />
-        `}
+`}
     </ComponentBox>
   )
 
@@ -80,7 +80,7 @@ export const DatePickerWithInput = () =>
     console.log('on_cancel', date)
   }}
 />
-        `}
+`}
     </ComponentBox>
   )
 
@@ -99,7 +99,7 @@ export const DatePickerTrigger = () => (
     console.log('on_show', date)
   }}
 />
-      `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -124,7 +124,7 @@ export const DatePickerHiddenNav = () =>
     console.log('on_hide', date)
   }}
 />
-        `}
+`}
     </ComponentBox>
   )
 
@@ -138,7 +138,7 @@ export const DatePickerMonthOnly = () =>
   date_format="MM/dd/yyyy"
   only_month={true}
 />
-        `}
+`}
     </ComponentBox>
   )
 
@@ -153,7 +153,7 @@ export const DatePickerDisabled = () =>
   status="Please select a valid date"
   status_state="info"
 />
-        `}
+`}
     </ComponentBox>
   )
 
@@ -167,7 +167,7 @@ export const DatePickerSuffix = () =>
   show_input
   suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
 />
-        `}
+`}
     </ComponentBox>
   )
 
@@ -181,7 +181,7 @@ export const DatePickerLinked = () => (
   link
   show_input
 />
-      `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -196,7 +196,7 @@ export const DatePickerNoInputStatus = () => (
   hide_navigation={true}
   status="Please select a valid date"
 />
-  `}
+ `}
     </ComponentBox>
   </Wrapper>
 )
@@ -212,7 +212,7 @@ export const DatePickerErrorMessage = () => (
   show_submit_button={true}
   status="Please select a valid date"
 />
-      `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -226,7 +226,7 @@ export const DatePickerErrorStatus = () => (
   hide_navigation={true}
   status="error"
 />
-        `}
+`}
   </ComponentBox>
 )
 
@@ -242,7 +242,7 @@ export const DatePickerCalendar = () => (
   start_date="2019-05-05"
   end_date="2019-06-05"
 />
-  `}
+ `}
     </ComponentBox>
   </Wrapper>
 )

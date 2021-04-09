@@ -34,7 +34,7 @@ export const InputMaskedExampleCurrencyMask = () => (
     }}
   />
 </FormRow>
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -56,7 +56,7 @@ export const InputMaskedExampleCustomMask = () => (
     console.log('e', e)
   }}
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -77,7 +77,7 @@ export const InputMaskedExampleNumberMask = () => (
     console.log('e', parseInt(e.cleaned_value || 0, 10))
   }}
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -98,7 +98,7 @@ export const InputMaskedExamplePrefix = () => (
     console.log('e', e)
   }}
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -133,7 +133,7 @@ export const InputMaskedExamplePhone = () => (
     console.log('e', e)
   }}
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )

@@ -101,7 +101,7 @@ render(
     label="Label:"
   />
 )
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -154,7 +154,7 @@ render(
     }}
   />
 )
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -172,7 +172,7 @@ export const DropdownDirections = () => (
   ]}
   skip_portal
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -194,7 +194,7 @@ export const DropdownIconLeft = () => (
     console.log('on_show')
   }}
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -218,7 +218,7 @@ export const DropdownActionMenu = () => (
     </>
   ]}
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -234,7 +234,7 @@ export const DropdownTertiary = () => (
   align_dropdown="left"
   data={data}
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -278,7 +278,7 @@ export const DropdownMoreMenu = () => (
     console.log('on_select', active_item)
   }}
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -288,7 +288,7 @@ export const DropdownDisabled = () => (
     <ComponentBox scope={{ data }} data-visual-test="dropdown-disabled">
       {() => /* jsx */ `
 <Dropdown disabled data={['Disabled Dropdown']} label="Label:" />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -339,7 +339,7 @@ render(
     suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
   />
 )
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -368,7 +368,7 @@ export const DropdownSizes = () => (
     data={() => (data)}
   />
 </FormRow>
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -441,7 +441,7 @@ render(<FormRow direction="vertical">
     data={data}
   />
 </FormRow>)
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -459,7 +459,7 @@ export const DropdownStatusVertical = () => (
   label_direction="vertical"
   status="Message to the user"
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -498,7 +498,7 @@ export const DropdownListOpened = () => (
     <li className="dnb-drawer-list__triangle" />
   </ul>
 </span>
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )

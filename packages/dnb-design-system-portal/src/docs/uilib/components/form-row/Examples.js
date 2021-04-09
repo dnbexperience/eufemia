@@ -45,7 +45,7 @@ export const FormRowVerticalAlignedLabels = () => (
   <Input label="Label A:" value="Input A" right="small" />
   <Input label="Label B:" value="Input B" />
 </FormRow>
-        `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -57,7 +57,7 @@ export const FormRowLegendIndentUsage = () => (
 <FormRow indent="default" label="A long horizontal legend (FormLabel) with a lot of informative text and a default indent:">
   <Checkbox id="alone-1" label="Checkbox" />
 </FormRow>
-        `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -74,7 +74,7 @@ export const FormRowSectionStyle = () => (
 >
   <Checkbox label="Checkbox" />
 </FormRow>
-        `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -107,7 +107,7 @@ render(
     <Input label="Vertical input C" top="medium" />
   </FormRow>
 )
-        `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -129,7 +129,7 @@ render(
     <Checkbox label="Checkbox" />
   </CustomRow>
 )
-        `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -141,7 +141,7 @@ export const FormRowDefault = () => (
 <FormRow>
   <Input label="Default horizontal FormRow:" placeholder="Input ..." />
 </FormRow>
-        `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -154,7 +154,7 @@ export const FormRowVertical = () => (
   <Input label="Vertical direction:" placeholder="Input A ..." />
   <Input label="Vertical direction:" placeholder="Input B ..." top="small" />
 </FormRow>
-        `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -181,7 +181,7 @@ render(
   <Button text="Button" />
 </CustomRow>
 )
-        `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -199,7 +199,7 @@ export const FormRowNoWrap = () => (
   <Input label="Input label A:" right="small"  />
   <Input label="Input label B:"  />
 </FormRow>
-        `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -219,7 +219,7 @@ export const FormRowWrap = () => (
   <Input label="Input B:" top="small" right="small" />
   <Input label="Input C:" top="small" right="small" />
 </FormRow>
-        `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -237,7 +237,7 @@ export const FormRowLegendUsage = () => (
     <Checkbox label="Checkbox" />
   </FormRow>
 </FormSet>
-        `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -250,7 +250,7 @@ export const FormRowInheritContext = () => (
   <Input label="Vertical input A:" placeholder="Input A ..." />
   <Input label="Vertical input B:" placeholder="Input B ..." top="medium" />
 </FormRow>
-        `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -292,7 +292,7 @@ render(
   </PhoneRow>
 </FormRow>
 )
-    `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -328,7 +328,7 @@ export default class FormRowVisualTests extends React.PureComponent {
 >
   <AllComponents horizontal />
 </FormRow>
-    `}
+`}
         </ComponentBox>
         <ComponentBox
           title="Vertical direction"
@@ -341,7 +341,7 @@ export default class FormRowVisualTests extends React.PureComponent {
     <AllComponents />
   </FormRow>
 </WidthLimit>
-    `}
+`}
         </ComponentBox>
         <ComponentBox
           title="Vertical everything"
@@ -354,7 +354,7 @@ export default class FormRowVisualTests extends React.PureComponent {
    <AllComponents />
   </FormRow>
 </WidthLimit>
-    `}
+`}
         </ComponentBox>
         <ComponentBox
           title="Vertical label direction"
@@ -365,7 +365,7 @@ export default class FormRowVisualTests extends React.PureComponent {
 <FormRow label="Vertical label direction:" label_direction="vertical">
   <AllComponents horizontal />
 </FormRow>
-    `}
+`}
         </ComponentBox>
         <ComponentBox
           title="Vertical label direction, no labels"
@@ -376,7 +376,7 @@ export default class FormRowVisualTests extends React.PureComponent {
 <FormRow label="Vertical label direction, no labels:" label_direction="vertical">
   <AllComponents horizontal hideLabel />
 </FormRow>
-    `}
+`}
         </ComponentBox>
         <ComponentBox
           title="All form components which has the stretch property"
@@ -385,7 +385,7 @@ export default class FormRowVisualTests extends React.PureComponent {
         >
           {() => /* jsx */ `
 <AllStretchComponents />
-    `}
+`}
         </ComponentBox>
         <ComponentBox
           title="Horizontal centered"
@@ -396,7 +396,7 @@ export default class FormRowVisualTests extends React.PureComponent {
   <div className="box1" />
   <div className="box2" />
 </FormRow>
-      `}
+`}
         </ComponentBox>
       </TestStyles>
     )

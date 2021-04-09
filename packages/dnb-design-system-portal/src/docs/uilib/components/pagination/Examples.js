@@ -48,7 +48,7 @@ export const PaginationExampleDefault = () => (
 >
   <P>Current Page Content</P>
 </Pagination>
-        `}
+`}
   </ComponentBox>
 )
 
@@ -64,7 +64,7 @@ export const PaginationExampleWithCallback = () => (
 >
   {({ pageNo }) => <P>Page {pageNo}</P>}
 </Pagination>
-        `}
+`}
   </ComponentBox>
 )
 
@@ -84,7 +84,7 @@ export const PaginationExampleCentered = () => (
     return () => clearTimeout(timeout)
   }}
 </Pagination>
-        `}
+`}
   </ComponentBox>
 )
 
@@ -111,7 +111,7 @@ export const PaginationExampleInfinityLoadButton = () => (
     }}
   />
 </HeightLimit>
-        `}
+`}
   </ComponentBox>
 )
 
@@ -144,7 +144,7 @@ export const PaginationExampleInfinityIndicator = () => (
     }}
   />
 </HeightLimit>
-        `}
+`}
   </ComponentBox>
 )
 
@@ -182,7 +182,7 @@ export const PaginationExampleInfinityUnknown = () => (
     }}
   />
 </HeightLimit>
-        `}
+`}
   </ComponentBox>
 )
 
@@ -192,7 +192,7 @@ export const PaginationExampleInfinityTable = () => (
 <HeightLimit height="60rem">
   <PaginationTableExample />
 </HeightLimit>
-        `}
+`}
   </ComponentBox>
 )
 

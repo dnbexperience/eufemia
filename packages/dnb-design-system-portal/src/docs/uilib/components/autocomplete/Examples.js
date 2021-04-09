@@ -29,7 +29,7 @@ export const AutocompleteDefaultExample = () => (
   label="Label:"
   icon={false}
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -49,7 +49,7 @@ export const AutocompleteWithCustomTitle = () => (
     console.log('on_change', data)
   }}
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -95,7 +95,7 @@ render(<Autocomplete
   no_scroll_animation="true"
   placeholder="Search ..."
 />)
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -121,7 +121,7 @@ render(<Autocomplete
   }}
   on_focus={onFocusHandler}
 />)
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -142,7 +142,7 @@ export const AutocompleteToggleExample = () => (
 >
   {() => (topMovies)}
 </Autocomplete>
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -164,7 +164,7 @@ export const AutocompletePredefinedInput = () => (
 >
   {() => (topMovies)}
 </Autocomplete>
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -196,7 +196,7 @@ export const AutocompleteDifferentSizes = () => (
     data={() => (topMovies)}
   />
 </FormRow>
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -254,7 +254,7 @@ render(<FormRow direction="vertical">
     data={topMovies}
   />
 </FormRow>)
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -290,7 +290,7 @@ export const AutocompleteOpened = () => {
   data={topMovies}
   className="focus-trigger"
 />
-      `}
+`}
       </ComponentBox>
     </Wrapper>
   )
