@@ -10,7 +10,7 @@ import ComponentBox from 'Tags/ComponentBox'
 
 <ComponentBox data-visual-test="help-button-default">
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <HelpButton>
 	Text
 </HelpButton>
@@ -22,7 +22,7 @@ import ComponentBox from 'Tags/ComponentBox'
 
 <ComponentBox data-visual-test="help-button-suffix">
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Input
 	size={10}
 	placeholder="Input ..."
@@ -36,7 +36,7 @@ import ComponentBox from 'Tags/ComponentBox'
 
 <ComponentBox data-visual-test="help-button-sizes">
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <HelpButton title="Custom title">Text</HelpButton>
 <HelpButton
 	size="small"

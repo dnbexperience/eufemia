@@ -62,8 +62,7 @@ const data = [
 export const DropdownFind = () => (
   <Wrapper>
     <ComponentBox useRender>
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 const scrollableData = [
   {
     content: 'A'
@@ -102,8 +101,7 @@ render(
     label="Label:"
   />
 )
-          `
-      }
+        `}
     </ComponentBox>
   </Wrapper>
 )
@@ -111,8 +109,7 @@ render(
 export const DropdownNoValue = () => (
   <Wrapper>
     <ComponentBox data-visual-test="dropdown-closed" useRender>
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 const data = [
   // Every data item can, beside "content" - contain what ever
   {
@@ -157,8 +154,7 @@ render(
     }}
   />
 )
-          `
-      }
+        `}
     </ComponentBox>
   </Wrapper>
 )
@@ -166,8 +162,7 @@ render(
 export const DropdownDirections = () => (
   <Wrapper>
     <ComponentBox data-visual-test="dropdown-item-directions">
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <Dropdown
   label="Label:"
   data={[
@@ -177,8 +172,7 @@ export const DropdownDirections = () => (
   ]}
   skip_portal
 />
-          `
-      }
+        `}
     </ComponentBox>
   </Wrapper>
 )
@@ -186,8 +180,7 @@ export const DropdownDirections = () => (
 export const DropdownIconLeft = () => (
   <Wrapper>
     <ComponentBox scope={{ data }} data-visual-test="dropdown-left-icon">
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <Dropdown
   label="Label:"
   icon_position="left"
@@ -201,8 +194,7 @@ export const DropdownIconLeft = () => (
     console.log('on_show')
   }}
 />
-          `
-      }
+        `}
     </ComponentBox>
   </Wrapper>
 )
@@ -210,8 +202,7 @@ export const DropdownIconLeft = () => (
 export const DropdownActionMenu = () => (
   <Wrapper>
     <ComponentBox scope={{ data }} data-visual-test="dropdown-action_menu">
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <Dropdown
   title="ActionMenu"
   action_menu={true}
@@ -227,8 +218,7 @@ export const DropdownActionMenu = () => (
     </>
   ]}
 />
-          `
-      }
+        `}
     </ComponentBox>
   </Wrapper>
 )
@@ -236,8 +226,7 @@ export const DropdownActionMenu = () => (
 export const DropdownTertiary = () => (
   <Wrapper>
     <ComponentBox scope={{ data }} data-visual-test="dropdown-tertiary">
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <Dropdown
   variant="tertiary"
   independent_width={true}
@@ -245,8 +234,7 @@ export const DropdownTertiary = () => (
   align_dropdown="left"
   data={data}
 />
-          `
-      }
+        `}
     </ComponentBox>
   </Wrapper>
 )
@@ -254,8 +242,7 @@ export const DropdownTertiary = () => (
 export const DropdownMoreMenu = () => (
   <Wrapper>
     <ComponentBox data-visual-test="dropdown-more_menu">
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <Dropdown
   more_menu="true"
   size="small"
@@ -291,8 +278,7 @@ export const DropdownMoreMenu = () => (
     console.log('on_select', active_item)
   }}
 />
-          `
-      }
+        `}
     </ComponentBox>
   </Wrapper>
 )
@@ -300,11 +286,9 @@ export const DropdownMoreMenu = () => (
 export const DropdownDisabled = () => (
   <Wrapper>
     <ComponentBox scope={{ data }} data-visual-test="dropdown-disabled">
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <Dropdown disabled data={['Disabled Dropdown']} label="Label:" />
-          `
-      }
+        `}
     </ComponentBox>
   </Wrapper>
 )
@@ -316,8 +300,7 @@ export const DropdownCustomEvent = () => (
       useRender
       data-visual-test="dropdown-action_menu-custom"
     >
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 const CustomComponent = () => (
   <CustomComponentInner
     onTouchStart={preventDefault}
@@ -356,8 +339,7 @@ render(
     suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
   />
 )
-          `
-      }
+        `}
     </ComponentBox>
   </Wrapper>
 )
@@ -365,8 +347,7 @@ render(
 export const DropdownSizes = () => (
   <Wrapper>
     <ComponentBox data-visual-test="dropdown-sizes" scope={{ data }}>
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <FormRow direction="vertical">
   <Dropdown
     label="Label:"
@@ -387,8 +368,7 @@ export const DropdownSizes = () => (
     data={() => (data)}
   />
 </FormRow>
-          `
-      }
+        `}
     </ComponentBox>
   </Wrapper>
 )
@@ -400,8 +380,7 @@ export const DropdownCustomWidth = () => (
       scope={{ data }}
       useRender
     >
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 const CustomWidthOne = styled(Dropdown)\`
   .dnb-dropdown__shell {
     width: 10rem;
@@ -462,8 +441,7 @@ render(<FormRow direction="vertical">
     data={data}
   />
 </FormRow>)
-          `
-      }
+        `}
     </ComponentBox>
   </Wrapper>
 )
@@ -474,16 +452,14 @@ export const DropdownStatusVertical = () => (
       data-visual-test="dropdown-status-error"
       scope={{ data }}
     >
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <Dropdown
   data={data}
   label="Label:"
   label_direction="vertical"
   status="Message to the user"
 />
-          `
-      }
+        `}
     </ComponentBox>
   </Wrapper>
 )
@@ -495,8 +471,7 @@ export const DropdownListOpened = () => (
       scope={{ data }}
       hideCode
     >
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <span className="dnb-drawer-list__list">
   <ul className="dnb-drawer-list__options">
     <li className="dnb-drawer-list__option first-of-type">
@@ -523,8 +498,7 @@ export const DropdownListOpened = () => (
     <li className="dnb-drawer-list__triangle" />
   </ul>
 </span>
-          `
-      }
+        `}
     </ComponentBox>
   </Wrapper>
 )

@@ -15,7 +15,7 @@ import ChangeLocale from 'Src/core/ChangeLocale'
 Basic card using productCode.
 
 <ComponentBox scope={{PaymentCard}} data-visual-test="payment-card-basic">
-	{/* @jsx */ `
+	{() => /* jsx */ `
 <PaymentCard
   product_code="NK1"
   card_number="************1337"
@@ -37,7 +37,7 @@ import PaymentCard, {
 ```
 
 <ComponentBox scope={{PaymentCard,Designs,ProductType,CardType}} useRender>
-  {/* @jsx */ `
+  {() => /* jsx */ `
 const customData = {
   productCode: 'UNDEFINED',
   productName: 'DNB Custom Card',
@@ -61,7 +61,7 @@ render(
 Basic card using product code and status.
 
 <ComponentBox scope={{PaymentCard}} data-visual-test="payment-card-status">
-	{/* @jsx */ `
+	{() => /* jsx */ `
 <PaymentCard
   product_code="VG2"
   card_status="blocked"
@@ -75,7 +75,7 @@ Basic card using product code and status.
 **NB:** The compact variant have to be aligned to a not yet defined SSOT style.
 
 <ComponentBox scope={{PaymentCard}} data-visual-test="payment-card-compact">
-	{/* @jsx */ `
+	{() => /* jsx */ `
 <PaymentCard
   variant="compact"
   product_code="VG1"
@@ -89,7 +89,7 @@ Basic card using product code and status.
 A few selected cards to showcase all the different PaymentCard designs.
 
 <ComponentBox scope={{PaymentCard,getCardData}} data-visual-test="all-cards" useRender>
-	{/* @jsx */ `
+	{() => /* jsx */ `
 const demoCards = [
   'VE1',
   'VL2',

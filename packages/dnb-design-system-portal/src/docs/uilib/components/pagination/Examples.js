@@ -38,8 +38,7 @@ const LargePage = styled.div`
 
 export const PaginationExampleDefault = () => (
   <ComponentBox data-visual-test="pagination-default">
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 <Pagination
   page_count={30}
   current_page={15}
@@ -49,15 +48,13 @@ export const PaginationExampleDefault = () => (
 >
   <P>Current Page Content</P>
 </Pagination>
-          `
-    }
+        `}
   </ComponentBox>
 )
 
 export const PaginationExampleWithCallback = () => (
   <ComponentBox hideCode>
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 <Pagination
   page_count={5}
   startup_page={3}
@@ -67,15 +64,13 @@ export const PaginationExampleWithCallback = () => (
 >
   {({ pageNo }) => <P>Page {pageNo}</P>}
 </Pagination>
-          `
-    }
+        `}
   </ComponentBox>
 )
 
 export const PaginationExampleCentered = () => (
   <ComponentBox scope={{ LargePage }}>
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 <Pagination
   align="center"
   page_count={30}
@@ -89,15 +84,13 @@ export const PaginationExampleCentered = () => (
     return () => clearTimeout(timeout)
   }}
 </Pagination>
-          `
-    }
+        `}
   </ComponentBox>
 )
 
 export const PaginationExampleInfinityLoadButton = () => (
   <ComponentBox scope={{ HeightLimit, LargePage }}>
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 <HeightLimit>
   <Pagination
     mode="infinity"
@@ -118,15 +111,13 @@ export const PaginationExampleInfinityLoadButton = () => (
     }}
   />
 </HeightLimit>
-          `
-    }
+        `}
   </ComponentBox>
 )
 
 export const PaginationExampleInfinityIndicator = () => (
   <ComponentBox scope={{ HeightLimit, LargePage }}>
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 <HeightLimit>
   <Pagination
     mode="infinity"
@@ -153,15 +144,13 @@ export const PaginationExampleInfinityIndicator = () => (
     }}
   />
 </HeightLimit>
-          `
-    }
+        `}
   </ComponentBox>
 )
 
 export const PaginationExampleInfinityUnknown = () => (
   <ComponentBox scope={{ HeightLimit, LargePage }}>
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 <HeightLimit>
   <Pagination
     mode="infinity"
@@ -193,20 +182,17 @@ export const PaginationExampleInfinityUnknown = () => (
     }}
   />
 </HeightLimit>
-          `
-    }
+        `}
   </ComponentBox>
 )
 
 export const PaginationExampleInfinityTable = () => (
   <ComponentBox scope={{ HeightLimit, PaginationTableExample }}>
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 <HeightLimit height="60rem">
   <PaginationTableExample />
 </HeightLimit>
-          `
-    }
+        `}
   </ComponentBox>
 )
 
