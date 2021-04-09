@@ -192,20 +192,34 @@ export const ToggleButtonSuffix = () => (
       /* @jsx */ `
 <ToggleButton.Group
   label="With suffixes:"
-  suffix="And a group suffix"
+  suffix={<HelpButton title="Group suffix">Group suffix</HelpButton>}
 >
   <ToggleButton text="First" value="first" />
   <ToggleButton
     text="Second"
     value="second"
     status="Error message"
-    suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
+    suffix={<HelpButton title="Button suffix">Button suffix</HelpButton>}
   />
   <ToggleButton
     text="Third"
     value="third"
     checked
   />
+</ToggleButton.Group>
+  `
+    }
+  </ComponentBox>
+)
+
+export const ToggleButtonIconOnly = () => (
+  <ComponentBox>
+    {
+      /* @jsx */ `
+<ToggleButton.Group label="Icons only:">
+  <ToggleButton icon="bell" value="first" checked />
+  <ToggleButton icon="loupe" value="second" />
+  <ToggleButton icon="calendar" value="third" />
 </ToggleButton.Group>
   `
     }
