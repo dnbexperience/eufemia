@@ -59,7 +59,7 @@ const prismTheme = {
     {
       types: ['builtin', 'char', 'constant'], //, 'function'
       style: {
-        color: 'var(--color-violet-medium)'
+        color: 'var(--color-lavender)'
       }
     },
     {
@@ -71,7 +71,7 @@ const prismTheme = {
     {
       types: ['punctuation'],
       style: {
-        color: 'var(--color-violet-medium)'
+        color: 'var(--color-lavender)'
       }
     },
     {
@@ -84,7 +84,7 @@ const prismTheme = {
     {
       types: ['class-name'],
       style: {
-        color: 'var(--color-sea-green)'
+        color: 'var(--color-sky-blue)'
       }
     },
     {
@@ -96,13 +96,13 @@ const prismTheme = {
     {
       types: ['tag'],
       style: {
-        color: 'var(--color-sea-green)'
+        color: 'var(--color-sky-blue)'
       }
     },
     {
       types: ['boolean'],
       style: {
-        color: 'var(--color-sky-blue)'
+        color: 'var(--color-success-green)'
       }
     },
     {

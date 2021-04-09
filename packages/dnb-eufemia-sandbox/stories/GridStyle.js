@@ -20,7 +20,7 @@ export const gridStyle = ({
   const color = (c) =>
     rgb ? `rgba(${rgb}, ${a - c})` : `hsla(${hsl}, ${a - c})`
 
-  const vars = /* @css */ `
+  const vars = /* css */ `
     --grid-gutter: 0.5rem;
     --grid-gutter-bold: 2rem;
     --grid-color: ${color(0.5)};

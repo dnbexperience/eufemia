@@ -3,7 +3,7 @@
  * NB: Not in active use for now
  */
 
-const prismStyle = /* @css */ `
+const prismStyle = /* css */ `
   --color-violet-medium: #a06eaf;
   --color-indigo-medium: #6e6491;
 
