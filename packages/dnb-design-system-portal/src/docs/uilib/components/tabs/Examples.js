@@ -173,7 +173,7 @@ export class TabsExampleRightAligned extends React.PureComponent {
 >
   { exampleContent /* See Example Content below */ }
 </Tabs>
-    `}
+`}
         </ComponentBox>
       </Wrapper>
     )

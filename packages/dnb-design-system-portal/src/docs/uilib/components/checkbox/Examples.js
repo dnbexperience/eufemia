@@ -13,7 +13,7 @@ export const CheckboxUnchecked = () => (
   label="Checkbox"
   on_change={(e) => console.log(e)}
 />
-        `}
+`}
   </ComponentBox>
 )
 
@@ -26,7 +26,7 @@ export const CheckboxChecked = () => (
   checked
   on_change={({ checked }) => console.log(checked)}
 />
-        `}
+`}
   </ComponentBox>
 )
 
@@ -38,7 +38,7 @@ export const CheckboxWithError = () => (
   checked
   status="Error message"
 />
-        `}
+`}
   </ComponentBox>
 )
 
@@ -50,7 +50,7 @@ export const CheckboxSuffix = () => (
   checked
   suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
 />
-        `}
+`}
   </ComponentBox>
 )
 
@@ -59,7 +59,7 @@ export const CheckboxDifferentSizes = () => (
     {() => /* jsx */ `
 <Checkbox size="medium" label="Medium" right="large" checked />
 <Checkbox size="large" label="Large" checked />
-        `}
+`}
   </ComponentBox>
 )
 

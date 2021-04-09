@@ -83,11 +83,11 @@ describe('Pagination bar component', () => {
 
     const Comp = mount(
       <Component {...props}>
-        {({ pageNo }) => {
+        {({ pageNumber }) => {
           // Update our test reference
-          currentPage = pageNo
+          currentPage = pageNumber
 
-          return <div id="page-no">{pageNo}</div>
+          return <div id="page-no">{pageNumber}</div>
         }}
       </Component>
     )
@@ -124,7 +124,7 @@ describe('Pagination bar component', () => {
   it('accepts element in the function return', () => {
     const Comp = mount(
       <Component page_count={3} startup_page={2}>
-        {({ pageNo }) => <div>{pageNo}</div>}
+        {({ pageNumber }) => <div>{pageNumber}</div>}
       </Component>
     )
     expect(Comp.find('.dnb-pagination__content').text()).toBe('2')
@@ -133,8 +133,8 @@ describe('Pagination bar component', () => {
   it('sets content with setContent', () => {
     const Comp = mount(
       <Component page_count={3} startup_page={2}>
-        {({ pageNo, setContent }) => {
-          setContent(pageNo, <div>{pageNo}</div>)
+        {({ pageNumber, setContent }) => {
+          setContent(pageNumber, <div>{pageNumber}</div>)
         }}
       </Component>
     )
@@ -163,10 +163,10 @@ describe('Pagination bar component', () => {
             {count}
           </button>
           <Component page_count={3} startup_page={2}>
-            {({ pageNo, setContent }) => {
+            {({ pageNumber, setContent }) => {
               setContent(
-                pageNo,
-                <code>{JSON.stringify({ pageNo, count })}</code>
+                pageNumber,
+                <code>{JSON.stringify({ pageNumber, count })}</code>
               )
             }}
           </Component>
@@ -177,13 +177,13 @@ describe('Pagination bar component', () => {
 
     expect(Comp.find('#button').text()).toBe('1')
     expect(Comp.find('.dnb-pagination__content').text()).toBe(
-      '{"pageNo":2,"count":1}'
+      '{"pageNumber":2,"count":1}'
     )
 
     Comp.find('#button').simulate('click')
     expect(Comp.find('#button').text()).toBe('2')
     expect(Comp.find('.dnb-pagination__content').text()).toBe(
-      '{"pageNo":2,"count":2}'
+      '{"pageNumber":2,"count":2}'
     )
 
     const nextButton = Comp.find('div.dnb-pagination__bar')
@@ -193,12 +193,12 @@ describe('Pagination bar component', () => {
 
     nextButton.simulate('click')
     expect(Comp.find('.dnb-pagination__content').text()).toBe(
-      '{"pageNo":3,"count":2}'
+      '{"pageNumber":3,"count":2}'
     )
 
     Comp.find('#button').simulate('click')
     expect(Comp.find('.dnb-pagination__content').text()).toBe(
-      '{"pageNo":3,"count":3}'
+      '{"pageNumber":3,"count":3}'
     )
   })
 

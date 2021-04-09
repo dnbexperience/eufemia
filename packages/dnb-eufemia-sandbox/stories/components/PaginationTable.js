@@ -64,7 +64,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
   const onToggleExpanded = (
     { ssn: _ssn },
-    { pageNo, element = null, onExpanded = null } = {}
+    { pageNumber, element = null, onExpanded = null } = {}
   ) => {
     const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
     if (index > -1) {
@@ -78,7 +78,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
       // define what page should update
       // used to update the page inside the Paginatio Component
-      setLocalPage(pageNo)
+      setLocalPage(pageNumber)
 
       // force rerender of this component
       forceRerender(new Date().getTime())
@@ -249,7 +249,7 @@ const InfinityPagination = ({
         ) {
           let element = e.currentTarget
           onToggleExpanded(item, {
-            pageNo: currentPage,
+            pageNumber: currentPage,
             // element,
             onExpanded: () => {
               try {

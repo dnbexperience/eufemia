@@ -26,7 +26,7 @@ Events has a number of useful methods to change / manipulate the content.
 ```
 
 - `page` the current page number
-- `setContent` use it to add update a page including content: `setContent(pageNo, ReactComponent)`
+- `setContent` use it to add update a page including content: `setContent(pageNumber, ReactComponent)`
 
 ### Infinity mode
 
@@ -40,8 +40,8 @@ Events has a number of useful methods to change / manipulate the content.
 ```
 
 - `page` the current page number
-- `setContent` use it to add update a page including content: `setContent(pageNo, ReactComponent, position = 'after')`
-- `endInfinity` use it to tell the infinity pagination to end the infinity scrolling interaction. Use this handler to end the infinity scrolling procedure, in case the page_count is unknown: `endInfinity(pageNo)`
+- `setContent` use it to add update a page including content: `setContent(pageNumber, ReactComponent, position = 'after')`
+- `endInfinity` use it to tell the infinity pagination to end the infinity scrolling interaction. Use this handler to end the infinity scrolling procedure, in case the page_count is unknown: `endInfinity(pageNumber)`
 - `resetContent` use it to invalidate all internal pages: `resetContent()`
-- `resetInfinity` use it to reset the internal pagination states: `resetInfinity(pageNo = startup_page)`
+- `resetInfinity` use it to reset the internal pagination states: `resetInfinity(pageNumber = startup_page)`
 - `items` internal stored pages

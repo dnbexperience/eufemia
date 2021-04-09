@@ -44,10 +44,10 @@ export class PaginationIndicator extends React.PureComponent {
 }
 
 export class ContentObject {
-  constructor({ pageNo, ...props }) {
+  constructor({ pageNumber, ...props }) {
     this.content = null
 
-    this.pageNo = pageNo
+    this.pageNumber = pageNumber
     this.hasContent = false
 
     for (let k in props) {

@@ -22,7 +22,7 @@ export const SpaceExamplesMethod1 = () => (
     <Input label="Input:" />
   </Space>
 </RedBox>
-        `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -37,7 +37,7 @@ export const SpaceExamplesMethod2 = () => (
 <FormRow top="medium">
   <Input label="Input B:" />
 </FormRow>
-        `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -50,7 +50,7 @@ export const SpaceExamplesMethod3 = () => (
   <Input label="Input A:" right="small" />
   <Input label="Input B:" />
 </FormRow>
-        `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -71,7 +71,7 @@ export const SpaceExampleMarginCollapse = () => (
     </Space>
   </RedBox>
 </Vertical>
-        `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -88,7 +88,7 @@ export const SpaceExampleMargins = () => (
     And this are my CSS classes: <code className="dnb-code">dnb-space dnb-space__top--large dnb-space__top--x-small dnb-space__right--large dnb-space__right--x-small dnb-space__bottom--large dnb-space__bottom--x-small dnb-space__left--large dnb-space__left--x-small</code>
   </details>
 </Space>
-        `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -123,7 +123,7 @@ render(
     <TestCase />
   </div>
 )
-      `}
+`}
     </ComponentBox>
   </TestStyles>
 )
@@ -162,7 +162,7 @@ render(
     <TestCase />
   </div>
 )
-      `}
+`}
       </ComponentBox>
     </TestStyles>
   )

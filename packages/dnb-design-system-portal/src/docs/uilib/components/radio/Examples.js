@@ -176,7 +176,7 @@ export function RadioVisualTests() {
 <Radio
   label="Single Radio"
 />
-      `}
+`}
       </ComponentBox>
       <ComponentBox
         title="Checked Radio (Single Radio buttons should not be used)"
@@ -188,7 +188,7 @@ export function RadioVisualTests() {
   checked
   on_change={({ checked }) => console.log(checked)}
 />
-      `}
+`}
       </ComponentBox>
     </>
   )

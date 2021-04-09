@@ -20,7 +20,7 @@ export const TextareaExampleRowsCols = () => (
   on_focus={() => { console.log('on_focus') }}
   on_blur={() => { console.log('on_blur') }}
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -33,7 +33,7 @@ export const TextareaExamplePlaceholder = () => (
   label="Placeholder:"
   placeholder="Placeholder text"
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -49,7 +49,7 @@ export const TextareaExampleVertical = () => (
   cols="33"
   value="Textarea value with more than 3 lines\\nNewline\\nNewline\\nNewline\\nNewline"
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -64,7 +64,7 @@ export const TextareaExampleStretched = () => (
   rows="3"
   value="Nec litora inceptos vestibulum id interdum donec gravida."
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -85,7 +85,7 @@ export const TextareaExampleAutoresize = () => (
     }
   }}
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -102,7 +102,7 @@ export const TextareaExampleMaxLength = () => (
   required
   value="Nec litora inceptos vestibulum id interdum donec gravida."
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -117,7 +117,7 @@ export const TextareaExampleFormStatus = () => (
   value="Nec litora inceptos vestibulum id interdum donec gravida."
   status="Message to the user"
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -145,7 +145,7 @@ export const TextareaExampleDisabled = () => (
   disabled
   value="Nec litora inceptos vestibulum id interdum donec gravida."
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -159,7 +159,7 @@ export const TextareaExampleSuffix = () => (
   value="Nec litora inceptos vestibulum id interdum donec gravida."
   suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )

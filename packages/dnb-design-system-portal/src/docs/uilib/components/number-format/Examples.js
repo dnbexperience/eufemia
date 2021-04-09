@@ -26,7 +26,7 @@ export const NumberDefault = () => (
   <NumberFormat prefix={<b>prefix</b>} suffix="suffix">-12345678.9</NumberFormat>
   <NumberFormat options={{ maximumFractionDigits: 1 }}>-1234.54321</NumberFormat>
 </P>
-        `}
+`}
     </ComponentBox>
   </Style>
 )
@@ -41,7 +41,7 @@ export const NumberCurrency = () => (
   <NumberFormat currency value={-12345678.95} decimals={0} />
   <NumberFormat currency value={-12345678.9} currency_display="code" />
 </P>
-        `}
+`}
     </ComponentBox>
   </Style>
 )
@@ -58,7 +58,7 @@ export const NumberPhone = () => (
   <NumberFormat value="+47116000" phone selectall="false" />
   <NumberFormat value="+4702000" phone />
 </P>
-        `}
+`}
     </ComponentBox>
   </Style>
 )
@@ -70,7 +70,7 @@ export const NumberBankAccount = () => (
 <P>
   <NumberFormat value="20001234567" ban />
 </P>
-        `}
+`}
     </ComponentBox>
   </Style>
 )
@@ -82,7 +82,7 @@ export const NumberNationalIdentification = () => (
 <P>
   <NumberFormat value="18089212345" nin />
 </P>
-        `}
+`}
     </ComponentBox>
   </Style>
 )
@@ -94,7 +94,7 @@ export const NumberOrganization = () => (
 <P>
   <NumberFormat value="123456789" org suffix="MVA" />
 </P>
-        `}
+`}
     </ComponentBox>
   </Style>
 )
@@ -120,7 +120,7 @@ export const NumberLocales = () => (
   <NumberFormat locale="de-CH" value="-12345.6" currency />
   <NumberFormat locale="fr-CH" value="-12345.6" currency />
 </P>
-        `}
+`}
     </ComponentBox>
   </Style>
 )

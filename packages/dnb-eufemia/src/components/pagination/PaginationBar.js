@@ -28,7 +28,7 @@ export default class PaginationBar extends React.PureComponent {
     next_title: PropTypes.string, // eslint-disable-line
     more_pages: PropTypes.string, // eslint-disable-line
     contentRef: PropTypes.object,
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]) // eslint-disable-line
   }
   static defaultProps = {
     button_title: null,
@@ -97,8 +97,9 @@ export default class PaginationBar extends React.PureComponent {
     this.context.pagination.updatePageContent(currentPage)
 
     dispatchCustomElementEvent(this.context.pagination, 'on_change', {
-      page: currentPage,
-      pageNo: currentPage,
+      page: currentPage, // deprecated
+      pageNo: currentPage, // deprecated
+      pageNumber: currentPage,
       ...this.context.pagination,
       event
     })
@@ -111,8 +112,8 @@ export default class PaginationBar extends React.PureComponent {
     this.setPage(this.context.pagination.currentPage + 1)
   }
 
-  clickHandler = ({ pageNo, event }) => {
-    this.setPage(pageNo, event)
+  clickHandler = ({ pageNumber, event }) => {
+    this.setPage(pageNumber, event)
   }
 
   render() {
@@ -150,16 +151,20 @@ export default class PaginationBar extends React.PureComponent {
         />
 
         <div className="dnb-pagination__bar__inner">
-          {pages[0].map((pageNo) => (
+          {pages[0].map((pageNumber) => (
             <Button
-              key={pageNo}
+              key={pageNumber}
               className="dnb-pagination__button"
               size="medium"
-              text={String(pageNo)}
-              aria-label={button_title.replace('%s', pageNo)}
-              variant={pageNo === currentPage ? 'primary' : 'secondary'}
-              aria-current={pageNo === currentPage ? 'page' : null}
-              on_click={(event) => this.clickHandler({ pageNo, event })}
+              text={String(pageNumber)}
+              aria-label={button_title.replace('%s', pageNumber)}
+              variant={
+                pageNumber === currentPage ? 'primary' : 'secondary'
+              }
+              aria-current={pageNumber === currentPage ? 'page' : null}
+              on_click={(event) =>
+                this.clickHandler({ pageNumber, event })
+              }
             />
           ))}
 
@@ -178,19 +183,19 @@ export default class PaginationBar extends React.PureComponent {
                 <div key="dot-2" />
                 <div key="dot-3" />
               </div>
-              {list.map((pageNo) => (
+              {list.map((pageNumber) => (
                 <Button
-                  key={pageNo}
+                  key={pageNumber}
                   className="dnb-pagination__button"
                   size="medium"
-                  text={String(pageNo)}
-                  aria-label={button_title.replace('%s', pageNo)}
+                  text={String(pageNumber)}
+                  aria-label={button_title.replace('%s', pageNumber)}
                   variant={
-                    pageNo === currentPage ? 'primary' : 'secondary'
+                    pageNumber === currentPage ? 'primary' : 'secondary'
                   }
-                  aria-current={pageNo === currentPage ? 'page' : null}
+                  aria-current={pageNumber === currentPage ? 'page' : null}
                   on_click={(event) =>
-                    this.clickHandler({ pageNo, event })
+                    this.clickHandler({ pageNumber, event })
                   }
                 />
               ))}

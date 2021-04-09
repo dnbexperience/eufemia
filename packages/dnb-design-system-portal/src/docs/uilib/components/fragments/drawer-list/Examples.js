@@ -36,7 +36,7 @@ const DrawerListWithState = props => {
   )
 }
 render(<DrawerListWithState />)
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -71,7 +71,7 @@ export const DrawerListExampleOnlyToVisulaize = () => (
     <li className="dnb-drawer-list__triangle" />
   </ul>
 </span>
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -94,7 +94,7 @@ export const DrawerListExampleDefault = () => (
     console.log('on_show')
   }}
 />
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -152,7 +152,7 @@ render(
     suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
   />
 )
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -198,7 +198,7 @@ const DrawerListWithState = props => {
   )
 }
 render(<DrawerListWithState />)
-        `}
+`}
     </ComponentBox>
   </Wrapper>
 )
