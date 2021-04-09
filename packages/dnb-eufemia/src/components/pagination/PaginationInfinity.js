@@ -69,7 +69,7 @@ export default class InfinityScroller extends React.PureComponent {
 
     const exists =
       this.context.pagination.items.findIndex((obj) => {
-        return obj.pageNo === newPageNo
+        return obj.pageNumber === newPageNo
       }) > -1
 
     if (exists) {
@@ -107,16 +107,17 @@ export default class InfinityScroller extends React.PureComponent {
   }
 
   callEventHandler(
-    pageNo,
+    pageNumber,
     { isStartup = false, callOnEnd = false, onDispatch = null } = {}
   ) {
     this.waitForReachedTime(
-      ({ pageNo, isStartup }) => {
+      ({ pageNumber, isStartup }) => {
         const context = this.context.pagination
         const createEvent = (eventName) => {
           const ret = dispatchCustomElementEvent(context, eventName, {
-            page: pageNo,
-            pageNo,
+            page: pageNumber, // deprecated
+            pageNo: pageNumber, // deprecated
+            pageNumber,
             ...context
           })
 
@@ -142,7 +143,7 @@ export default class InfinityScroller extends React.PureComponent {
           createEvent('on_load')
         }
       },
-      { pageNo, isStartup }
+      { pageNumber, isStartup }
     )
   }
 
@@ -165,12 +166,12 @@ export default class InfinityScroller extends React.PureComponent {
 
     const Marker = () => (
       <InteractionMarker
-        pageNo={upperPage}
+        pageNumber={upperPage}
         markerElement={marker_element || fallback_element}
-        onVisible={(pageNo) => {
+        onVisible={(pageNumber) => {
           // load several pages at once
           for (let i = 0, newPageNo; i < parallelLoadCount; ++i) {
-            newPageNo = pageNo + 1 + i
+            newPageNo = pageNumber + 1 + i
             // wait on updating our own state, so we can show the indicator (pressed_element) untill we get new children back
             this.context.pagination.onPageUpdate(() => {
               this.context.pagination.setState({
@@ -261,7 +262,14 @@ export default class InfinityScroller extends React.PureComponent {
 
     return items.map(
       (
-        { pageNo, hasContent, content, ref, skipObserver, ScrollElement },
+        {
+          pageNumber,
+          hasContent,
+          content,
+          ref,
+          skipObserver,
+          ScrollElement
+        },
         idx
       ) => {
         const isLastItem = idx === items.length - 1
@@ -274,14 +282,15 @@ export default class InfinityScroller extends React.PureComponent {
           !this.useLoadButton &&
           !skipObserver &&
           !hasEndedInfinity &&
-          (typeof pageCount === 'undefined' || pageNo <= pageCount) && (
+          (typeof pageCount === 'undefined' ||
+            pageNumber <= pageCount) && (
             <InteractionMarker
-              pageNo={pageNo}
+              pageNumber={pageNumber}
               markerElement={marker_element || fallback_element}
-              onVisible={(pageNo) => {
+              onVisible={(pageNumber) => {
                 // load several pages at once
                 for (let i = 0, newPageNo; i < parallelLoadCount; ++i) {
-                  newPageNo = pageNo + 1 + i
+                  newPageNo = pageNumber + 1 + i
                   this.getNewContent(newPageNo, {
                     position: 'after',
                     skipObserver: i + 1 < parallelLoadCount
@@ -292,16 +301,16 @@ export default class InfinityScroller extends React.PureComponent {
           )
 
         return (
-          <Elem key={pageNo} ref={ref}>
+          <Elem key={pageNumber} ref={ref}>
             {hasContent &&
               startupPage > 1 &&
-              pageNo > 1 &&
-              pageNo <= startupPage && (
+              pageNumber > 1 &&
+              pageNumber <= startupPage && (
                 <InfinityLoadButton
                   element={fallback_element}
                   icon="arrow_up"
                   on_click={(event) =>
-                    this.getNewContent(pageNo - 1, {
+                    this.getNewContent(pageNumber - 1, {
                       position: 'before',
                       skipObserver: true,
                       event
@@ -325,12 +334,13 @@ export default class InfinityScroller extends React.PureComponent {
             {hasContent &&
               this.useLoadButton &&
               isLastItem &&
-              (typeof pageCount === 'undefined' || pageNo < pageCount) && (
+              (typeof pageCount === 'undefined' ||
+                pageNumber < pageCount) && (
                 <InfinityLoadButton
                   element={fallback_element}
                   icon="arrow_down"
                   on_click={(event) =>
-                    this.getNewContent(pageNo + 1, {
+                    this.getNewContent(pageNumber + 1, {
                       position: 'after',
                       skipObserver: true,
                       ScrollElement: (props) =>
@@ -354,7 +364,7 @@ export default class InfinityScroller extends React.PureComponent {
 
 class InteractionMarker extends React.PureComponent {
   static propTypes = {
-    pageNo: PropTypes.number.isRequired,
+    pageNumber: PropTypes.number.isRequired,
     onVisible: PropTypes.func.isRequired,
     markerElement: PropTypes.oneOfType([
       PropTypes.object,
@@ -418,7 +428,7 @@ class InteractionMarker extends React.PureComponent {
       if (this._isMounted) {
         this.setState({ isConnected: true })
       }
-      this.props.onVisible(this.props.pageNo)
+      this.props.onVisible(this.props.pageNumber)
     }, 1) // because of rerender loop
   }
 
@@ -442,7 +452,7 @@ class InteractionMarker extends React.PureComponent {
           className="dnb-pagination__marker__inner"
           ref={this._ref}
         >
-          {/* {this.props.pageNo} */}
+          {/* {this.props.pageNumber} */}
         </ElementChild>
       </Element>
     )

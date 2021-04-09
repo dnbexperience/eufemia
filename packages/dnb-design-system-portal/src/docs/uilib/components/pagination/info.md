@@ -23,7 +23,7 @@ To make it easier for screen-readers to navigate, the _navigation bar_ markup is
 **Infinity scroller:** Once content inside a page changes, we have to tell the component explicit on what "page" number that happened, including the new content.
 
 ```jsx
-setContent(pageNo, ReactComponent)
+setContent(pageNumber, ReactComponent)
 ```
 
 ### Legacy browser support (Internet Explorer 11)
