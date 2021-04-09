@@ -37,13 +37,15 @@ describe('Button primary screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match "dnb-button--primary" with active state', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="button-primary"]',
-      simulate: 'active'
+  if (isCI) {
+    it('have to match "dnb-button--primary" with active state', async () => {
+      const screenshot = await testPageScreenshot({
+        selector: '[data-visual-test="button-primary"]',
+        simulate: 'active'
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
+  }
 })
 
 describe('Button secondary screenshot', () => {
@@ -157,13 +159,15 @@ describe('Button tertiary screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match "dnb-button--tertiary" with active state', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="button-tertiary"]',
-      simulate: 'active'
+  if (isCI) {
+    it('have to match "dnb-button--tertiary" with active state', async () => {
+      const screenshot = await testPageScreenshot({
+        selector: '[data-visual-test="button-tertiary"]',
+        simulate: 'active'
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
+  }
   it('have to match all tertiary buttons', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-tertiary-all"]'
@@ -204,11 +208,13 @@ describe('Button signal screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match "dnb-button--signal" with active state', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="button-signal"]',
-      simulate: 'active'
+  if (isCI) {
+    it('have to match "dnb-button--signal" with active state', async () => {
+      const screenshot = await testPageScreenshot({
+        selector: '[data-visual-test="button-signal"]',
+        simulate: 'active'
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
+  }
 })
