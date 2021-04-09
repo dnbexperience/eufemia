@@ -11,7 +11,8 @@ ToggleButtonVertical,
 ToggleButtonStatus,
 ToggleButtonStatusMessages,
 ToggleButtonDisabledGroup,
-ToggleButtonSuffix
+ToggleButtonSuffix,
+ToggleButtonIconOnly
 } from 'Pages/uilib/components/toggle-button/Examples'
 
 ## Demos
@@ -51,3 +52,7 @@ ToggleButtonSuffix
 ### ToggleButtons with suffix
 
 <ToggleButtonSuffix />
+
+### ToggleButtons with icons only
+
+<ToggleButtonIconOnly />

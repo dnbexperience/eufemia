@@ -2808,37 +2808,37 @@ legend.dnb-form-label {
     padding-right: 0.5rem;
     display: inline-flex;
     align-items: center; }
-  .dnb-toggle-button__button {
+  .dnb-toggle-button__button.dnb-button--has-text {
     padding-left: 1.5rem;
     padding-right: 1.5rem; }
-    .dnb-toggle-button__button .dnb-checkbox {
-      margin-left: -0.5rem; }
-      .dnb-toggle-button__button .dnb-checkbox__input {
-        pointer-events: none; }
-      .dnb-toggle-button__button .dnb-checkbox__button {
-        display: unset; }
-      .dnb-toggle-button__button .dnb-checkbox__focus, .dnb-toggle-button__button .dnb-checkbox__button {
-        width: calc(var(--checkbox-width--medium) - 0.5rem);
-        height: calc(var(--checkbox-height--medium) - 0.5rem);
-        border-width: 0.0625rem; }
-      .dnb-toggle-button__button .dnb-checkbox__dot {
-        width: calc(var(--checkbox-width--medium) - 1rem);
-        height: calc(var(--checkbox-height--medium) - 1rem); }
-      .dnb-toggle-button__button .dnb-checkbox__gfx {
-        width: calc(var(--checkbox-width--medium) - 0.75rem);
-        height: calc(var(--checkbox-height--medium) - 0.75rem); }
-    .dnb-toggle-button__button .dnb-radio {
-      margin-left: -0.5rem; }
-      .dnb-toggle-button__button .dnb-radio__input {
-        pointer-events: none; }
-      .dnb-toggle-button__button .dnb-radio__focus, .dnb-toggle-button__button .dnb-radio__button {
-        width: calc(var(--radio-width--medium) - 0.5rem);
-        height: calc(var(--radio-height--medium) - 0.5rem);
-        border-width: 0.0625rem; }
-      .dnb-toggle-button__button .dnb-radio__dot {
-        width: calc(var(--radio-width--medium) - 1rem);
-        height: calc(var(--radio-height--medium) - 1rem); }
-  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active) {
+  .dnb-toggle-button__button .dnb-checkbox {
+    margin-left: -0.5rem; }
+    .dnb-toggle-button__button .dnb-checkbox__input {
+      pointer-events: none; }
+    .dnb-toggle-button__button .dnb-checkbox__button {
+      display: unset; }
+    .dnb-toggle-button__button .dnb-checkbox__focus, .dnb-toggle-button__button .dnb-checkbox__button {
+      width: calc(var(--checkbox-width--medium) - 0.5rem);
+      height: calc(var(--checkbox-height--medium) - 0.5rem);
+      border-width: 0.0625rem; }
+    .dnb-toggle-button__button .dnb-checkbox__dot {
+      width: calc(var(--checkbox-width--medium) - 1rem);
+      height: calc(var(--checkbox-height--medium) - 1rem); }
+    .dnb-toggle-button__button .dnb-checkbox__gfx {
+      width: calc(var(--checkbox-width--medium) - 0.75rem);
+      height: calc(var(--checkbox-height--medium) - 0.75rem); }
+  .dnb-toggle-button__button .dnb-radio {
+    margin-left: -0.5rem; }
+    .dnb-toggle-button__button .dnb-radio__input {
+      pointer-events: none; }
+    .dnb-toggle-button__button .dnb-radio__focus, .dnb-toggle-button__button .dnb-radio__button {
+      width: calc(var(--radio-width--medium) - 0.5rem);
+      height: calc(var(--radio-height--medium) - 0.5rem);
+      border-width: 0.0625rem; }
+    .dnb-toggle-button__button .dnb-radio__dot {
+      width: calc(var(--radio-width--medium) - 1rem);
+      height: calc(var(--radio-height--medium) - 1rem); }
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active).dnb-button--secondary, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active).dnb-button--secondary:hover {
     background-color: var(--color-emerald-green);
     color: var(--color-mint-green); }
   :not(.dnb-toggle-button-group) > .dnb-form-label + .dnb-toggle-button {
