@@ -12,13 +12,14 @@
 import { registerElement } from '../shared/component-helper'
 
 // import all the available components
+import MessageBubble from './message-bubble/MessageBubble'
 import PaymentCard from './payment-card/PaymentCard'
 
 // define / export all the available components
-export { PaymentCard }
+export { MessageBubble, PaymentCard }
 
 export const getExtensions = () => {
-  return { PaymentCard }
+  return { MessageBubble, PaymentCard }
 }
 
 let webComponentsAreEnabled = false

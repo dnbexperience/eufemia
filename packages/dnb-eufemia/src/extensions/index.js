@@ -10,7 +10,8 @@
  */
 
 // import all the aviable components
+import MessageBubble from './message-bubble/MessageBubble'
 import PaymentCard from './payment-card/PaymentCard'
 
 // define / export all the aviable components
-export { PaymentCard }
+export { MessageBubble, PaymentCard }
