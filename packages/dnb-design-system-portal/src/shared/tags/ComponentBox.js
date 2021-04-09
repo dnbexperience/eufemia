@@ -27,18 +27,14 @@ const ComponentBox = ({ children, hideOnTest, scope = {}, ...rest }) => {
         ...scope
       }}
       {...rest}
-      // addToSearchIndex={({ title, hash, location }) => {
-      //   if (hash !== 'demos') {
-      //     console.log('>', title, hash, location.pathname)
-      //   }
-      // }}
     >
-      {children}
+      {typeof children === 'function' ? children() : children}
     </CodeBlock>
   )
 }
 ComponentBox.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.oneOfType([PropTypes.func, PropTypes.node])
+    .isRequired,
   hideOnTest: PropTypes.bool,
   scope: PropTypes.object
 }
@@ -48,16 +44,3 @@ ComponentBox.defaultProps = {
 }
 
 export default ComponentBox
-
-// Not used as of now
-// export const TestWrapper = ({ children, ...props }) => {
-//   document.documentElement.setAttribute('data-visual-test', true)
-//   return (
-//     <div data-visual-test-wrapper {...props}>
-//       {children}
-//     </div>
-//   )
-// }
-// TestWrapper.propTypes = {
-//   children: PropTypes.node.isRequired
-// }

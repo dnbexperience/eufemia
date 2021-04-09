@@ -10,7 +10,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
  <ComponentBox data-visual-test="logo-auto-size">
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <span style={{fontSize: '12rem'}}>
   <Logo size="auto" />
 </span>
@@ -22,7 +22,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 <ComponentBox data-visual-test="logo-inherit-size">
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <span style={{height: '12rem'}}>
   <Logo size="inherit" />
 </span>
@@ -34,7 +34,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 <ComponentBox data-visual-test="logo-default">
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Logo height="192" />
 `
 	}

@@ -160,7 +160,7 @@ render(<>
 	data-visual-test="step-indicator-default"
 >
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <StepIndicator
   data={[
     {
@@ -183,7 +183,7 @@ render(<>
 
 <ComponentBox>
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <StepIndicator
   active_item="1"
   data={[

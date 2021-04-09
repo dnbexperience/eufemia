@@ -11,7 +11,7 @@ import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 
 <ComponentBox>
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Button
   text="Primary button with text only"
   on_click={() => {
@@ -27,7 +27,7 @@ import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 
 <ComponentBox>
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Button
   variant="secondary"
   onClick={() => {
@@ -45,7 +45,7 @@ import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 
 <ComponentBox>
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Button
   text="Disabled primary button"
   disabled
@@ -58,7 +58,7 @@ import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 
 <ComponentBox>
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Button
   text="Disabled secondary button"
   variant="secondary"
@@ -72,7 +72,7 @@ import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 
 <ComponentBox>
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Button
   text="Primary button with icon"
   icon="chevron_right"
@@ -85,7 +85,7 @@ import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 
 <ComponentBox>
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Button
   icon_position="left"
   icon="chevron_left"
@@ -100,7 +100,7 @@ import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 
 <ComponentBox data-visual-test="button-tertiary-all">
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Button
   variant="tertiary"
   text="Tertiary button with icon on left"
@@ -130,7 +130,7 @@ Tertiary button with long text and text `wrap` enabled.
 
 <ComponentBox data-visual-test="button-tertiary-wrap">
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Button
   wrap
   variant="tertiary"
@@ -146,7 +146,7 @@ Tertiary button with long text and text `wrap` enabled.
 
 <ComponentBox data-visual-test="button-anchor">
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Button
   text="Primary with href"
   href="/uilib/components/button/demos"
@@ -179,7 +179,7 @@ Medium is equivalent to 24, but responsive. To import custom icons, use: `import
 <!-- prettier-ignore -->
 <ComponentBox scope={{ Bell }}>
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Button
   variant="signal"
   text="Signal Button"
@@ -197,7 +197,7 @@ Large Signal button with medium sized icon. To import custom icons, use: `import
 <!-- prettier-ignore -->
 <ComponentBox scope={{ Bell }}>
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Button
   variant="signal"
   text="Large Signal Button"
@@ -214,7 +214,7 @@ Large Signal button with medium sized icon. To import custom icons, use: `import
 <!-- prettier-ignore -->
 <ComponentBox scope={{ question }}>
 	{
-    /* @jsx */ `
+    () => /* jsx */ `
 <Button
   title="Disabled Icon only Button"
   icon="calendar"
@@ -256,9 +256,9 @@ export const TertiaryWithNoIcon = () => {
       title="Tertiary button with no icon"
       data-visual-test="button-tertiary-no-icon"
     >
-    {/* @jsx */ `
+    {() => /* jsx */ `
 <Button text="Tertiary button with no icon" variant="tertiary" />
-    `}
+  `}
     </ComponentBox>
   )
 }

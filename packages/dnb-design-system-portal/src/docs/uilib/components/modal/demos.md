@@ -10,7 +10,7 @@ import ComponentBox from 'Tags/ComponentBox'
 
 <ComponentBox data-visual-test="modal-trigger-default">
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Modal title="Modal Title">
   <Modal.Inner spacing style_type="mint-green">
     <P>This is the modal text. Triggered by the help button.</P>
@@ -26,7 +26,7 @@ Most of the components do have a `suffix` property you can make use of.
 
 <ComponentBox data-visual-test="modal-help-button">
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Input
   label="Input"
   placeholder="Placeholder ..."
@@ -48,7 +48,7 @@ With placement on the left side.
 
 <ComponentBox data-visual-test="modal-drawer">
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Modal
   mode="drawer"
   title="Drawer Title"
@@ -67,7 +67,7 @@ With placement on the left side.
 
 <ComponentBox data-visual-test="modal-fullscreen">
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Modal
   title={<span className="dnb-sr-only">"Hidden" Modal title</span>}
   fullscreen="true"
@@ -84,7 +84,7 @@ With placement on the left side.
 
 <ComponentBox>
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Modal
   title="1s close delay"
   trigger_text="Click me"
@@ -113,7 +113,7 @@ With placement on the left side.
 
 <ComponentBox>
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Modal
   title="Modal Title"
   trigger={(props) => <Button {...props}>Custom trigger Button</Button>}
@@ -132,7 +132,7 @@ While the trigger button is not used anymore by using `trigger_hidden`.
 
 <ComponentBox>
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Button
   id="custom-triggerer"
   text="Custom trigger Button"
@@ -157,7 +157,7 @@ While the trigger button is not used anymore by using `trigger_hidden`.
 
 <ComponentBox>
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Modal mode="drawer" hide_close_button title="Title">
   {({ close }) => (
     <>
@@ -175,7 +175,7 @@ With a `max_width` of `40rem`.
 
 <ComponentBox>
 	{
-	/* @jsx */ `
+	() => /* jsx */ `
 <Modal
   title="Auto close"
   trigger_text="Click me"
@@ -199,7 +199,7 @@ With a `max_width` of `40rem`.
 Also, `fullscreen` and `spacing` is disabled and the `align_content` is centered.
 
 <ComponentBox data-visual-test="modal-no-spacing">
-	{/* @jsx */ `
+	{() => /* jsx */ `
 <Modal
   spacing={false}
   fullscreen={false}

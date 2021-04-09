@@ -13,60 +13,51 @@ import {
 
 export const FormStatusDefault = () => (
   <ComponentBox data-visual-test="form-status">
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 <FormStatus
   text="Failure text"
 />
-  `
-    }
+`}
   </ComponentBox>
 )
 
 export const FormStatusWithInfo = () => (
   <ComponentBox data-visual-test="form-status-info">
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 <FormStatus
   title="Hover title"
   text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
   state="info"
 />
-  `
-    }
+`}
   </ComponentBox>
 )
 
 export const FormStatusWithWarn = () => (
   <ComponentBox data-visual-test="form-status-warn">
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 <FormStatus state="warn" variant="outlined">
   Warningmessage. Take notice!
 </FormStatus>
-  `
-    }
+`}
   </ComponentBox>
 )
 
 export const FormSetDefaultInput = () => (
   <ComponentBox>
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 <Input
   label="Input with status:"
   status="You have to fill in this field"
   value="Input value"
 />
-  `
-    }
+`}
   </ComponentBox>
 )
 
 export const FormStatusCustom = () => (
   <ComponentBox data-visual-test="form-status-custom" useRender>
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 const CustomStatus = () => (
   <>My info <Link href="/">with a link</Link> and more text</>
 )
@@ -78,15 +69,13 @@ render(
     value="Input value"
   />
 )
-  `
-    }
+`}
   </ComponentBox>
 )
 
 export const FormStatusLarge = () => (
   <ComponentBox useRender>
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 const myHTML = \`
   My HTML
   <a class="dnb-anchor" href="/" target="_blank">with a link</a>
@@ -98,8 +87,7 @@ render(
     <CustomStatus />
   </FormStatus>
 )
-  `
-    }
+`}
   </ComponentBox>
 )
 
