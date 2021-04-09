@@ -21,7 +21,6 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass
 } from '../../components/skeleton/SkeletonHelper'
-import P from '../../elements/P'
 import { Icon } from '../../components'
 
 export default class MessageBubble extends React.PureComponent {
@@ -140,7 +139,7 @@ export default class MessageBubble extends React.PureComponent {
             isTrue(stretch) && `dnb-message-bubble__bubble--stretch`
           )}
         >
-          <P>{children}</P>
+          {children}
         </div>
       </div>
     )

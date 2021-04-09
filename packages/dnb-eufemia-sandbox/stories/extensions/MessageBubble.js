@@ -7,6 +7,7 @@ import React from 'react'
 import { Box, Wrapper } from '../helpers'
 
 import MessageBubble from '@dnb/eufemia/src/extensions/message-bubble'
+import P from '@dnb/eufemia/src/elements/P'
 
 import '@dnb/eufemia/src/extensions/message-bubble/style'
 import {
@@ -21,21 +22,23 @@ export default {
 export const MessageBubbles = () => (
   <Wrapper>
     <Box>
-      <MessageBubble>Lorem ipsum dolor sit amet</MessageBubble>
+      <MessageBubble>
+        <P>Lorem ipsum dolor sit amet</P>
+      </MessageBubble>
     </Box>
     <Box>
       <MessageBubble icon={chatbot_medium}>
-        Lorem ipsum dolor sit amet
+        <P>Lorem ipsum dolor sit amet</P>
       </MessageBubble>
     </Box>
     <Box>
       <MessageBubble icon={customer_service_medium}>
-        Lorem ipsum dolor sit amet
+        <P>Lorem ipsum dolor sit amet</P>
       </MessageBubble>
     </Box>
     <Box>
       <MessageBubble color="#D2F0E9">
-        Lorem ipsum dolor sit amet
+        <P>Lorem ipsum dolor sit amet</P>
       </MessageBubble>
     </Box>
     <Box>
@@ -45,20 +48,22 @@ export const MessageBubbles = () => (
         icon_position="right"
         bubble_direction="right"
       >
-        Lorem ipsum dolor sit amet
+        <P>Lorem ipsum dolor sit amet</P>
       </MessageBubble>
     </Box>
     <Box>
       <MessageBubble bubble_direction="right">
-        Lorem ipsum dolor sit amet
+        <P>Lorem ipsum dolor sit amet</P>
       </MessageBubble>
     </Box>
     <Box>
-      <MessageBubble stretch>Lorem ipsum dolor sit amet</MessageBubble>
+      <MessageBubble stretch>
+        <P>Lorem ipsum dolor sit amet</P>
+      </MessageBubble>
     </Box>
     <Box>
       <MessageBubble stretch icon={chatbot_medium}>
-        Lorem ipsum dolor sit amet
+        <P>Lorem ipsum dolor sit amet</P>
       </MessageBubble>
     </Box>
   </Wrapper>
