@@ -3,4 +3,4 @@
  *
  */
 
-import './message-bubble.scss'
+import './dnb-message-bubble.scss'
