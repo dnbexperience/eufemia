@@ -17,10 +17,8 @@ import {
   spacingPropTypes,
   createSpacingClasses
 } from '../../components/space/SpacingHelper'
-import {
-  skeletonDOMAttributes,
-  createSkeletonClass
-} from '../../components/skeleton/SkeletonHelper'
+import { skeletonDOMAttributes } from '../../components/skeleton/SkeletonHelper'
+import P from '../../elements/P'
 import { Icon } from '../../components'
 
 export default class MessageBubble extends React.PureComponent {
@@ -29,6 +27,7 @@ export default class MessageBubble extends React.PureComponent {
 
   static propTypes = {
     id: PropTypes.string,
+    author: PropTypes.string,
 
     color: PropTypes.string,
     primary: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -58,6 +57,7 @@ export default class MessageBubble extends React.PureComponent {
 
   static defaultProps = {
     id: null,
+    author: null,
 
     color: null,
     primary: null,
@@ -92,6 +92,7 @@ export default class MessageBubble extends React.PureComponent {
 
     const {
       id,
+      author,
       color,
       primary,
       bubble_direction,
@@ -110,12 +111,15 @@ export default class MessageBubble extends React.PureComponent {
       className: classnames(
         'dnb-message-bubble',
         'dnb-message-bubble__wrapper',
-        createSkeletonClass(null, skeleton, this.context),
         createSpacingClasses(props),
         className,
         _className
       ),
       ...attributes
+    }
+
+    if (author) {
+      params['aria-label'] = author
     }
 
     skeletonDOMAttributes(params, skeleton, this.context)
@@ -124,7 +128,7 @@ export default class MessageBubble extends React.PureComponent {
     validateDOMAttributes(this.props, params)
 
     return (
-      <div id={id} {...params}>
+      <section id={id} {...params}>
         {avatar && (
           <div
             className={
@@ -133,9 +137,9 @@ export default class MessageBubble extends React.PureComponent {
             }
           >
             {React.isValidElement(avatar) ? (
-              avatar
+              React.cloneElement(avatar, { skeleton })
             ) : (
-              <Icon icon={avatar} size={avatar_size} />
+              <Icon icon={avatar} size={avatar_size} skeleton={skeleton} />
             )}
           </div>
         )}
@@ -149,12 +153,12 @@ export default class MessageBubble extends React.PureComponent {
           )}
         >
           {typeof children === 'string' ? (
-            <p className="dnb-p">{children}</p>
+            <P skeleton={skeleton}>{children}</P>
           ) : (
-            children
+            React.cloneElement(children, { skeleton })
           )}
         </div>
-      </div>
+      </section>
     )
   }
 }

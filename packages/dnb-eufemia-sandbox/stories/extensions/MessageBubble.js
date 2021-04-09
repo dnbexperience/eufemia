@@ -23,23 +23,33 @@ export default {
 export const MessageBubbles = () => (
   <Wrapper>
     <Box>
-      <MessageBubble>Lorem ipsum dolor sit amet</MessageBubble>
-    </Box>
-    <Box>
-      <MessageBubble avatar={chatbot_medium}>
+      <MessageBubble author="I'm the author">
         Lorem ipsum dolor sit amet
       </MessageBubble>
     </Box>
     <Box>
-      <MessageBubble avatar={customer_service_medium}>
+      <MessageBubble
+        author="I'm the author"
+        avatar={chatbot_medium}
+        // skeleton
+      >
+        Lorem ipsum dolor sit amet
+      </MessageBubble>
+    </Box>
+    <Box>
+      <MessageBubble
+        author="I'm the author"
+        avatar={customer_service_medium}
+      >
         Lorem ipsum dolor sit amet
       </MessageBubble>
     </Box>
     <Box style={{ width: '20rem' }}>
       <MessageBubble
+        // skeleton
         avatar={
           <Button
-            tooltip="Hello, it's me!"
+            tooltip="I'm the author"
             icon={customer_service_medium}
           />
         }
@@ -52,11 +62,17 @@ export const MessageBubbles = () => (
       </MessageBubble>
     </Box>
     <Box>
-      <MessageBubble primary>Lorem ipsum dolor sit amet</MessageBubble>
+      <MessageBubble
+        author="I'm the author"
+        color="var(--color-accent-yellow)"
+      >
+        Lorem ipsum dolor sit amet
+      </MessageBubble>
     </Box>
     <Box>
       <MessageBubble
-        color="var(--color-accent-yellow)"
+        author="I'm the author"
+        primary
         avatar={chatbot_medium}
         avatar_position="right"
         bubble_direction="right"
@@ -65,12 +81,13 @@ export const MessageBubbles = () => (
       </MessageBubble>
     </Box>
     <Box>
-      <MessageBubble bubble_direction="right">
+      <MessageBubble author="I'm the author" bubble_direction="right">
         Lorem ipsum dolor sit amet
       </MessageBubble>
     </Box>
     <Box>
       <MessageBubble
+        author="I'm the author"
         stretch
         avatar={chatbot_medium}
         avatar_position="right"
@@ -79,7 +96,11 @@ export const MessageBubbles = () => (
       </MessageBubble>
     </Box>
     <Box>
-      <MessageBubble stretch avatar={chatbot_medium}>
+      <MessageBubble
+        author="I'm the author"
+        stretch
+        avatar={chatbot_medium}
+      >
         Lorem ipsum dolor sit amet
       </MessageBubble>
     </Box>

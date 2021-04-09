@@ -5,6 +5,7 @@
 
 .dnb-message-bubble {
   &__bubble {
+    --skeleton-color: var(--color-black-3);
     background-color: var(--color-black-8);
   }
   &__bubble--primary {
