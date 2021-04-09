@@ -76,7 +76,10 @@ export default class PaginationProvider extends React.PureComponent {
       if (props.page_count !== null) {
         state.pageCount = parseFloat(props.page_count) || 1
       }
-      if (props.current_page !== null) {
+      if (
+        props.current_page !== null &&
+        typeof state.currentPage === 'undefined'
+      ) {
         state.currentPage = parseFloat(props.current_page) || 1
       }
       if (typeof state.startupPage === 'undefined') {
@@ -182,11 +185,9 @@ export default class PaginationProvider extends React.PureComponent {
 
     this._isMounted = true
 
-    if (this.hasChildrenCallabck()) {
-      this.updatePageContent(
-        this.state.startupPage || this.state.currentPage
-      )
-    }
+    this.updatePageContent(
+      this.state.startupPage || this.state.currentPage
+    )
   }
 
   componentWillUnmount() {
@@ -199,13 +200,12 @@ export default class PaginationProvider extends React.PureComponent {
 
   componentDidUpdate({ current_page: current, internalContent: content }) {
     const { internalContent, current_page } = this.props
+    const currentPage = parseFloat(current_page)
     if (current_page !== current) {
-      const currentPage = parseFloat(current_page)
       this.setState({ currentPage })
       this.updatePageContent(currentPage)
-    }
-    if (internalContent !== content) {
-      this.updatePageContent(this.state.currentPage)
+    } else if (internalContent !== content) {
+      this.updatePageContent()
     }
   }
 
@@ -347,10 +347,6 @@ export default class PaginationProvider extends React.PureComponent {
     this.setState({ ...state, _listenForPropChanges: false }, cb)
   }
 
-  hasChildrenCallabck() {
-    return typeof this.props.internalContent === 'function'
-  }
-
   callOnPageUpdate = () => {
     if (Array.isArray(this._updateStack)) {
       this._updateStack.forEach((cb) => {
@@ -362,21 +358,19 @@ export default class PaginationProvider extends React.PureComponent {
     }
   }
 
-  updatePageContent = (pageNo) => {
-    if (pageNo !== null) {
-      let potentialElement = this.props.internalContent
+  updatePageContent = (pageNo = this.state.currentPage) => {
+    let potentialElement = this.props.internalContent
 
-      if (this.hasChildrenCallabck()) {
-        potentialElement = this.props.internalContent({
-          ...this, // send along setContent etc
-          pageNo,
-          page: pageNo
-        })
-      }
+    if (typeof this.props.internalContent === 'function') {
+      potentialElement = this.props.internalContent({
+        ...this, // send along setContent etc
+        pageNo,
+        page: pageNo
+      })
+    }
 
-      if (potentialElement && React.isValidElement(potentialElement)) {
-        this.setContent([pageNo, potentialElement])
-      }
+    if (potentialElement && React.isValidElement(potentialElement)) {
+      this.setContent([pageNo, potentialElement])
     }
   }
 

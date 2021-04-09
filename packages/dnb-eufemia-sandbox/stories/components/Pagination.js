@@ -217,25 +217,42 @@ const InfinityPagination = ({ children, ...props }) => {
 }
 
 function PaginationRender() {
-  const [currentPage, setCurrentPage] = React.useState(1)
-  const [count, setCount] = React.useState(0)
+  const pageCount = 8
+  const startupPage = 2
+  const [currentPage, setCurrentPage] = React.useState(startupPage)
   return (
-    <div className="App">
+    <div>
+      <Button
+        on_click={() => setCurrentPage(1)}
+        text="Reset"
+        bottom
+        size="small"
+        right
+      />
+      <Button
+        on_click={() => setCurrentPage((prevCount) => prevCount - 1)}
+        text="Decrease"
+        size="small"
+        variant="secondary"
+        right
+      />
+      <Button
+        on_click={() => setCurrentPage((prevCount) => prevCount + 1)}
+        text="Increase"
+        size="small"
+        variant="secondary"
+        right
+      />
       <Pagination
-        id="unique"
-        page_count={30}
+        page_count={pageCount}
+        startup_page={startupPage}
         current_page={currentPage}
         on_change={({ page }) => {
           setCurrentPage(page)
         }}
       >
         <div className="pagination-content">
-          <code>{JSON.stringify({ currentPage, count })}</code>
-          <Button
-            on_click={() => setCount((prevCount) => prevCount + 1)}
-            text="Increase count"
-            left
-          />
+          <code>{JSON.stringify({ currentPage })}</code>
         </div>
       </Pagination>
     </div>

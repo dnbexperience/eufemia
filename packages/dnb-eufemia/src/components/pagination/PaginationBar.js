@@ -28,7 +28,7 @@ export default class PaginationBar extends React.PureComponent {
     next_title: PropTypes.string, // eslint-disable-line
     more_pages: PropTypes.string, // eslint-disable-line
     contentRef: PropTypes.object,
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]) // eslint-disable-line
   }
   static defaultProps = {
     button_title: null,
