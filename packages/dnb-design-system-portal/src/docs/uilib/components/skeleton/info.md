@@ -118,3 +118,32 @@ You can take advantage of an async component by using the React Suspense with a 
 </Suspense>
 ...
 ```
+
+### Create custom skeleton
+
+In order to create the same skeletons as the build-ins, you can make use of a couple of helper tools.
+
+```jsx
+import EufemiaContext from '@dnb/eufemia/shared/Context'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '@dnb/eufemia/components/skeleton/SkeletonHelper'
+
+function Component({ className, skeleton = false, ...params } = {}) {
+  const context = React.useContext(EufemiaContext)
+
+  // Handle accessibility features
+  skeletonDOMAttributes(params, skeleton, context)
+
+  // Handle CSS classes – use either "shape" or "font"
+  params.className = createSkeletonClass(
+    'shape',
+    skeleton,
+    context,
+    className
+  )
+
+  return <my-component {...params} />
+}
+```
