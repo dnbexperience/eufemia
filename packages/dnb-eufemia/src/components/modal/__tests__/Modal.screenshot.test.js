@@ -1,6 +1,6 @@
 /**
  * Screenshot Test
- * This file will not run on "test:staged" because we dont require any related files
+ * This file will not run on "test:staged" because we don't require any related files
  */
 
 import {
@@ -35,7 +35,7 @@ describe('Modal screenshot', () => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="modal-trigger-default"] button:first-of-type',
-      secreenshotSelector: '.dnb-modal__content__inner'
+      screenshotSelector: '.dnb-modal__content__inner'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -52,7 +52,7 @@ describe('Modal screenshot', () => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="modal-trigger-default"] button:first-of-type',
-      secreenshotSelector: '.dnb-modal__content'
+      screenshotSelector: '.dnb-modal__content'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -69,7 +69,7 @@ describe('Drawer screenshot', () => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="modal-drawer"] button:first-of-type',
-      secreenshotSelector: '.dnb-modal__content'
+      screenshotSelector: '.dnb-modal__content'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -86,7 +86,7 @@ describe('Additional Modal screenshot', () => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="modal-no-spacing"] button:first-of-type',
-      secreenshotSelector: '.dnb-modal__content'
+      screenshotSelector: '.dnb-modal__content'
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -107,7 +107,7 @@ describe('Additional Modal screenshot', () => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="modal-fullscreen"] button:first-of-type',
-      secreenshotSelector: '.dnb-modal__content'
+      screenshotSelector: '.dnb-modal__content'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

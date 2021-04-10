@@ -1,6 +1,6 @@
 /**
  * Screenshot Test
- * This file will not run on "test:staged" because we dont require any related files
+ * This file will not run on "test:staged" because we don't require any related files
  */
 
 import {
@@ -117,7 +117,7 @@ describe('Anchor target blank screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
   if (!isCI) {
-    it('have to match the target blank with toolip', async () => {
+    it('have to match the target blank with tooltip', async () => {
       const screenshot = await testPageScreenshot({
         style: {
           'padding-top': '2rem'

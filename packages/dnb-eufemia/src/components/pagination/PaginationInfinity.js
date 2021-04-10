@@ -172,7 +172,7 @@ export default class InfinityScroller extends React.PureComponent {
           // load several pages at once
           for (let i = 0, newPageNo; i < parallelLoadCount; ++i) {
             newPageNo = pageNumber + 1 + i
-            // wait on updating our own state, so we can show the indicator (pressed_element) untill we get new children back
+            // wait on updating our own state, so we can show the indicator (pressed_element) until we get new children back
             this.context.pagination.onPageUpdate(() => {
               this.context.pagination.setState({
                 upperPage: newPageNo,
@@ -196,7 +196,7 @@ export default class InfinityScroller extends React.PureComponent {
         }
         on_click={() => {
           const newPageNo = lowerPage - 1
-          // wait on updating our own state, so we can show the indicator (pressed_element) untill we get new children back
+          // wait on updating our own state, so we can show the indicator (pressed_element) until we get new children back
           this.context.pagination.onPageUpdate(() => {
             this.context.pagination.setState({
               lowerPage: newPageNo
@@ -525,7 +525,7 @@ class ScrollToElement extends React.PureComponent {
     page_element: null
   }
   componentDidMount() {
-    // we use "findDOMNode" here, because we have situations, where we dont knwo about what the input element is,
+    // we use "findDOMNode" here, because we have situations, where we don't knwo about what the input element is,
     // we also don't want to wrap them because of markup collitions
     // therefor we use "findDOMNode" here
     // so we can scroll to that page

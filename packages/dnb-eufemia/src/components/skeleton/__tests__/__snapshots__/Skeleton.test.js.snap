@@ -2,7 +2,7 @@
 
 exports[`Skeleton component have to match snapshot 1`] = `
 <Skeleton
-  aria_bussy={null}
+  aria_busy={null}
   aria_ready={null}
   class={null}
   className={null}

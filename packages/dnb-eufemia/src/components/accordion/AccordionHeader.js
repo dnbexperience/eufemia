@@ -214,7 +214,7 @@ export default class AccordionHeader extends React.PureComponent {
     })
   }
 
-  onMouseOutHander = () => {
+  onMouseOutHandler = () => {
     this.setState({
       hover: false,
       hadClick: false
@@ -377,7 +377,7 @@ export default class AccordionHeader extends React.PureComponent {
       headerParams.onClick = this.onClickHandler
       headerParams.onKeyDown = this.onKeyDownHandler
       headerParams.onMouseOver = this.onMouseOverHandler
-      headerParams.onMouseOut = this.onMouseOutHander
+      headerParams.onMouseOut = this.onMouseOutHandler
     }
 
     skeletonDOMAttributes(headerParams, skeleton, this.context)

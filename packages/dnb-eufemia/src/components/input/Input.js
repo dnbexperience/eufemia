@@ -684,7 +684,7 @@ const SubmitButton = React.forwardRef((props, ref) => (
 
 export { SubmitButton }
 
-// We momorize by type, in case we send in a ProgressIndicator (Autocomplete)
+// We memoize by type, in case we send in a ProgressIndicator (Autocomplete)
 const InputIcon = React.memo(
   (props) => <IconPrimary {...props} />,
   ({ icon: prev }, { icon: next }) => {

@@ -69,7 +69,7 @@ export const getCalendar = (
     return calendarCache[month]
   }
 
-  // Get day of the week of the first day of month, eg => 3
+  // Get day of the week of the first day of month, e.g. => 3
   // Add 7 days 7 to make sure it's not negative when subtracting weekStartsOn and wraps around
   const firstDay = (7 + getDay(startOfMonth(month)) - weekStartsOn) % 7
   const lastMonth = getMonth(
@@ -97,7 +97,7 @@ export const getCalendar = (
 }
 const calendarCache = {}
 
-// calculates offset from Sunday, eg Monday is +1
+// calculates offset from Sunday, e.g. Monday is +1
 export const dayOffset = (dayName) => {
   const week = [
     'sunday',

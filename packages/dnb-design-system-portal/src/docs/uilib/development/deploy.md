@@ -30,7 +30,7 @@ The steps, from code changes to production builds are:
 
 1. Make Your changes and write tests and test the codebase
 1. Update eventually snapshots (`yarn test:update`)
-1. Commit Your changes with the correct **[message decoration](/uilib/mainment/commit)**
+1. Commit Your changes with the correct **[message decoration](/uilib/development/commit)**
 1. Push or make a Pull Request to the `origin/main` branch
 1. Wait until the CI Server has validated the commits
 1. Make a [Pull Request](https://github.com/dnbexperience/eufemia/compare/release...main?expand=1)

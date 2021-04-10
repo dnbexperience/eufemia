@@ -1,5 +1,5 @@
 /**
- * Make React component aviable as a Web Component
+ * Make React component available as a Web Component
  *
  */
 
@@ -7,8 +7,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { ErrorHandler } from './error-helper'
 
-// import "custom-element-polyfill" - insted of import 'document-register-element' // https://github.com/WebReflection/document-register-element
-// This way we can controll the execution of the polyfill with customElementPolyfill()
+// import "custom-element-polyfill" - instead of import 'document-register-element' // https://github.com/WebReflection/document-register-element
+// This way we can control the execution of the polyfill with customElementPolyfill()
 import customElementPolyfill from './custom-element-polyfill'
 
 const isTest =
@@ -37,7 +37,7 @@ export const registerElement = (
     return null
   }
 
-  //always run the customElementPolyfill unlress we are in the build process
+  //always run the customElementPolyfill unless we are in the build process
   if (!hasPolyfill) {
     hasPolyfill = true
     customElementPolyfill(window)
@@ -54,7 +54,7 @@ export const registerElement = (
     constructor(props) {
       super(props)
       this._elementRef = React.createRef()
-      this._customMethodes = {}
+      this._customMethods = {}
       this._customEvents = []
       this._isConnected = false
       this._props = {}
@@ -79,7 +79,7 @@ export const registerElement = (
       if (this._children) delete this._children
       if (this._isConnected) delete this._isConnected
       if (this._elementRef) delete this._elementRef
-      if (this._customMethodes) delete this._customMethodes
+      if (this._customMethods) delete this._customMethods
       if (this._customEvents) delete this._customEvents
 
       this._props = null
@@ -140,7 +140,7 @@ export const registerElement = (
               //   }
               //   if (Array.isArray(args[0])) {
               //     const elems = []
-              //     // we have to overwrite the first arg like this - and cant use map/reduce here
+              //     // we have to overwrite the first arg like this - and can’t use map/reduce here
               //     args[0].forEach((elem) => {
               //       if (React.isValidElement(elem)) {
               //         const rootEl = document.createElement('div') // createDocumentFragment
@@ -276,7 +276,7 @@ export const registerElement = (
       }
       if (!props.custom_method) {
         props.custom_method = (methodName, methodFunc) => {
-          this[methodName] = this._customMethodes[methodName] = methodFunc
+          this[methodName] = this._customMethods[methodName] = methodFunc
         }
       }
 

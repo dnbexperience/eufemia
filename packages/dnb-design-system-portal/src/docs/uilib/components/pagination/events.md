@@ -9,7 +9,7 @@ showTabs: true
 | `on_change`  | _(optional)_ will be called for every page change, regardless if the mode is `mode="infinity"` or not. Returns an object with number of useful properties and methods. Se below for more details.                                                                                        |
 | `on_startup` | _(optional)_ Only on **infinity** mode. Will be called once the component is ready for interaction. Returns an object with number of useful properties and methods. Se below for more details. **NB:** Will be called again as soon as we reset the content by calling `resetContent()`. |
 | `on_load`    | _(optional)_ Only on **infinity** mode. Will be called on every page interaction, also on the very first interaction. Returns an object with number of useful properties and methods. Se below for more details.                                                                         |
-| `on_end`     | _(optional)_ Only on **infinity** mode. Will be called once `page_count` is reached or `endInfinity` was colled.                                                                                                                                                                         |
+| `on_end`     | _(optional)_ Only on **infinity** mode. Will be called once `page_count` is reached or `endInfinity` was called.                                                                                                                                                                         |
 
 ## Returned object
 

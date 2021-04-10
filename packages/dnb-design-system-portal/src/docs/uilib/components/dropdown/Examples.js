@@ -305,7 +305,7 @@ const CustomComponent = () => (
   <CustomComponentInner
     onTouchStart={preventDefault}
     onClick={e => {
-      console.log('Do someting different')
+      console.log('Do something different')
       preventDefault(e)
     }}
   >

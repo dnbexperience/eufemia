@@ -3,7 +3,7 @@
  * Do not change the content!
  *
  * "Component" Demo setup
- * Ready for imporing in page
+ * Ready for importing in page
  *
  */
 

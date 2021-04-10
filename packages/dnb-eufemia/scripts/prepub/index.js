@@ -11,7 +11,7 @@ import del from 'del'
 
 /**
  * The Templates (prepareTemplates) generation is special in the sense
- * That it has to be run locally to generate the files statily
+ * That it has to be run locally to generate the files statically
  * so we can commit them as as core part.
  * The rest is only generated during the package build
  */
@@ -83,7 +83,7 @@ export const runPrepublishTasks = async ({
 export const cleanupLib = async ({ preventDelete = false } = {}) => {
   // only delete things if there is a --clean flag or we force to
   if (process.argv.indexOf('--clean') !== -1 || !preventDelete) {
-    log.info('> PrePublish: deliting existing style')
+    log.info('> PrePublish: deleting existing style')
     await del(
       [
         './es/**',

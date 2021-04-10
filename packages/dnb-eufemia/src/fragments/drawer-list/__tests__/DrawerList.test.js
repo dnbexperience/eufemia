@@ -363,7 +363,7 @@ describe('DrawerList component', () => {
     ).toBe(true)
   })
 
-  it('has correct class modifyer "--opened"', () => {
+  it('has correct class modifier "--opened"', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
     const elem = Comp.find('span.dnb-drawer-list')
 

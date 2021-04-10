@@ -257,7 +257,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       }
 
       // define what page should update
-      // used to update the page inside the Paginatio Component
+      // used to update the page inside the Pagination Component
       setLocalPage(pageNumber)
 
       // force rerender of this component
@@ -367,7 +367,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               // once we set current page, we force a rerender, and sync of data
               setLocalPage(page)
 
-              // since currentPage already is the same - used for reoder
+              // since currentPage already is the same - used for reorder
               clearTimeout(serverDelayTimeout)
               forceRerender(new Date().getTime())
             }, Math.ceil(Math.random() * 1e3)) // simulate random delay

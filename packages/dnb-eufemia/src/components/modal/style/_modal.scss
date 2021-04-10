@@ -296,15 +296,15 @@
 
     top: calc(var(--modal-spacing) * 0.75);
     right: var(--modal-spacing);
-    
-    // set a hight z-index because when font-size is 200%+
+
+    // set a high z-index because when font-size is 200%+
     // then it is possible that something else will come in front
     z-index: 1; // below #dropdown and #date-picker
-    
+
     @include allBelow(small) {
       right: calc(var(--modal-spacing) / 2);
     }
-    
+
     // deprecated - removed in v9
     // &--cross {
     //   top: var(--modal-spacing);

@@ -23,7 +23,7 @@ export const correctHeadingLevel = ({
   bypassChecks = false,
   debug = null
 }) => {
-  // Do that only to make shure we run the correction only if props has changed
+  // Do that only to make sure we run the correction only if props has changed
   if (ref && refs.current) {
     const foundRef = refs.current.find((cur) => cur.ref === ref)
     if (foundRef) {
@@ -122,7 +122,7 @@ export const correctHeadingLevel = ({
     counter.disableBypassChecks()
   }
 
-  // Do that only to make shure we run the correction only if props has changed
+  // Do that only to make sure we run the correction only if props has changed
   if (ref) {
     refs.current = refs.current || []
     refs.current.push({ ref, counter })
@@ -134,15 +134,13 @@ export const correctHeadingLevel = ({
 function report(debug, source, ...reports) {
   if (source) {
     const props = source.props || {}
-    const ideintifiers = [
-      props.id,
-      props['class'],
-      props.className
-    ].filter(Boolean)
+    const identifiers = [props.id, props['class'], props.className].filter(
+      Boolean
+    )
 
     reports.push(
       '\nNB: This warning was triggered by:',
-      ideintifiers.length > 0 ? ideintifiers.join(', ') : '',
+      identifiers.length > 0 ? identifiers.join(', ') : '',
       convertJsxToString(source)
     )
   }

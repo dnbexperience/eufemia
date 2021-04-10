@@ -3,7 +3,7 @@
  *
  */
 
-// import all the aviable libs
+// import all the available libs
 import { enableWebComponents } from './lib'
 
 export * from './lib'

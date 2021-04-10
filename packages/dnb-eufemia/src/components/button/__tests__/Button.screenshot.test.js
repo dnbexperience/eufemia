@@ -1,6 +1,6 @@
 /**
  * Screenshot Test
- * This file will not run on "test:staged" because we dont require any related files
+ * This file will not run on "test:staged" because we don't require any related files
  */
 
 import {
@@ -116,7 +116,7 @@ describe('Button icon screenshot', () => {
 
 if (!isCI) {
   describe('Button target blank', () => {
-    it('have to match with toolip', async () => {
+    it('have to match with tooltip', async () => {
       const screenshot = await testPageScreenshot({
         style: {
           'padding-top': '2rem'

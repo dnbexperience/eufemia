@@ -94,9 +94,9 @@ render(<ChangeValue />)
 	{() => /* jsx */ `
 () => {
   const random = (min, max) => (Math.floor( Math.random () * (max - min + 1)) + min)
-  const [visible, setVisibe] = React.useState(true)
+  const [visible, setVisible] = React.useState(true)
   React.useEffect(() => {
-    const timer = setInterval(() => setVisibe(!visible), random(2400, 4200))
+    const timer = setInterval(() => setVisible(!visible), random(2400, 4200))
     return () => clearTimeout(timer)
   })
   return (

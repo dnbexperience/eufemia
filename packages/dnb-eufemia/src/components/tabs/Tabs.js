@@ -1174,8 +1174,8 @@ export const Dummy = ({ children }) => {
       aria-hidden
       hidden
       className="dnb-dummy"
-      // role="textbox" // methodes to try to make NVDA not read blank
-      // aria-readonly // methodes to try to make NVDA not read blank
+      // role="textbox" // methods to try to make NVDA not read blank
+      // aria-readonly // methods to try to make NVDA not read blank
     >
       {children}
     </span>

@@ -784,7 +784,7 @@ describe('Autocomplete component', () => {
     )
   })
 
-  it('and updateData has to replace all data properly in asyc mode', () => {
+  it('and updateData has to replace all data properly in async mode', () => {
     const on_type = jest.fn()
     const replaceData = ['aaa']
 
@@ -823,7 +823,7 @@ describe('Autocomplete component', () => {
     expect(callOne.dataList).not.toBe(callTwo.dataList)
 
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'someting' }
+      target: { value: 'something' }
     })
 
     const callThree = on_type.mock.calls[2][0]
@@ -863,7 +863,7 @@ describe('Autocomplete component', () => {
     expect(Comp.find('.dnb-input__placeholder').text()).toBe(title)
   })
 
-  it('has a corret value content if we send in a React component', () => {
+  it('has a correct value content if we send in a React component', () => {
     const value = 1
     const Comp = mount(
       <Component

@@ -1,6 +1,6 @@
 /**
  * Screenshot Test
- * This file will not run on "test:staged" because we dont require any related files
+ * This file will not run on "test:staged" because we don't require any related files
  */
 
 import {
@@ -39,7 +39,7 @@ describe('Tabs screenshot', () => {
         height: '10rem',
         padding: '0 2rem 4rem 2rem'
       },
-      selector: '[data-visual-test="tabs-seciton-styles"]'
+      selector: '[data-visual-test="tabs-section-styles"]'
     })
     expect(screenshot).toMatchImageSnapshot()
   })

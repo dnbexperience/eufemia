@@ -385,7 +385,7 @@ export default class PaginationProvider extends React.PureComponent {
 
     if (this.props.useMarkerOnly) {
       clearTimeout(this.callOnPageUpdateTimeout)
-      this.callOnPageUpdateTimeout = setTimeout(this.callOnPageUpdate, 1) // because of rerender pssibility
+      this.callOnPageUpdateTimeout = setTimeout(this.callOnPageUpdate, 1) // because of rerender possibility
     }
 
     return (

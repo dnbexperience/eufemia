@@ -497,7 +497,7 @@ export default class DrawerListProvider extends React.PureComponent {
       value = String(value).toLowerCase()
 
       // delete the cache
-      // if ther eare several of the same type
+      // if there are several of the same type
       if (this.changedOrderFor !== value) {
         this.searchCache = null
         this.changedOrderFor = null

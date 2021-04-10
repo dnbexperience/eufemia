@@ -15,7 +15,7 @@ describe('The properties file factory', () => {
   it('has to create a valid js object with properties', () => {
     expect(global.content).toContain(
       "'--font-size-large': '1.625rem'"
-      // "\\'--font-size-large\\': \\'1.625rem\\'" // NB: if uglifyed
+      // "\\'--font-size-large\\': \\'1.625rem\\'" // NB: if uglified
     )
   })
 })

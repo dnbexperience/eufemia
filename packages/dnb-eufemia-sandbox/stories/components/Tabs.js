@@ -207,7 +207,7 @@ const tabsData = [
     title: (
       <>
         <Icon right="x-small" icon={Bell} />
-        Three long name asd
+        Three long name
       </>
     ),
     selected: true,

@@ -84,7 +84,7 @@ export const FormRowCombineVerticalAndHorizontal = () => (
     <ComponentBox data-visual-test="form-row-combined" useRender>
       {() => /* jsx */ `
 // 1. In the nested FormRow we reset the layout to not be vertical
-// 2. So we can use a different diretion ("label_direction")
+// 2. So we can use a different direction ("label_direction")
 render(
   <FormRow
     label={

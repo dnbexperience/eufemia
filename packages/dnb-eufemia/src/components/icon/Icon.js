@@ -139,7 +139,7 @@ export default class Icon extends React.PureComponent {
 
     const IconContainer = prerenderIcon({ icon, size, alt })
 
-    // make sure we return an empty span if we dont could get the icon
+    // make sure we return an empty span if we don't could get the icon
     if (!IconContainer) return <></>
 
     return (
@@ -167,7 +167,7 @@ export const calcSize = (props) => {
   let sizeAsInt = -1
   let sizeAsString = null
 
-  // if there is no size, check if we can find the actuall size in the name
+  // if there is no size, check if we can find the actual size in the name
   if (!size || size === DefaultIconSize) {
     // get the icon name - we use is for several things
     const name = getIconNameFromComponent(icon)

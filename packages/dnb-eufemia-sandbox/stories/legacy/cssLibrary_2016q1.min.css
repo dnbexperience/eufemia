@@ -3697,7 +3697,7 @@ ul.officeList .category_bank current h5 {
  padding-top:10px;
  color:#333
 }
-.currencyConverter .convertionResult p {
+.currencyConverter .conversionResult p {
  _width:400px
 }
 .currencyConverter fieldset>legend,
@@ -3729,7 +3729,7 @@ ul.officeList .category_bank current h5 {
  height:60px;
  padding-left:10px
 }
-.currencyConverter .convertionResult {
+.currencyConverter .conversionResult {
  width:435px;
  float:left;
  height:60px;
@@ -3769,19 +3769,19 @@ em.resultCurrency {
 .currencyConverter .leftSide .labelBig {
  width:180px
 }
-.resultPanel .convertionResult .transactionResult {
+.resultPanel .conversionResult .transactionResult {
  float:left;
  width:205px;
  display:inline;
  margin-left:20px
 }
-.resultPanel .convertionResult .notesResult {
+.resultPanel .conversionResult .notesResult {
  margin-left:0;
  float:left;
  width:209px;
  display:inline
 }
-.convertionResult p {
+.conversionResult p {
  color:#666;
  float:left;
  padding-top:10px;
@@ -3790,7 +3790,7 @@ em.resultCurrency {
  clear:left;
  font-size:.8em
 }
-.convertionResult .headline {
+.conversionResult .headline {
  font-size:1.1em;
  font-weight:bold;
  margin-top:3px

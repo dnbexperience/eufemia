@@ -89,7 +89,7 @@ In the example below, a viewer informed of the spatial system could easily assum
 
 1.  Be consistent - use the spatial system for both layout and typography
 2.  Keep it simple - avoid adding more block sizes or 'in-between' sizes
-3.  Abstract the spacing - set spacing rules at an abstract level to allow for scaleability and future changes across whole systems
+3.  Abstract the spacing - set spacing rules at an abstract level to allow for scalability and future changes across whole systems
 
 ## Where the spacing system is applied:
 

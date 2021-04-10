@@ -8,7 +8,7 @@ The Heading component is a helper to create automated semantic headings within a
 
 > Basically, only assistive technologies do have need for semantic headings. But they need them correct.
 
-How does it work? The heading leveling is handled synchronously. But you can easily isolate one level, or a part by using a context provider: `<Heading.Level ...`. This alows you to later, asynchronous, add new headings inside. You can nest several contexts inside each.
+How does it work? The heading leveling is handled synchronously. But you can easily isolate one level, or a part by using a context provider: `<Heading.Level ...`. This allows you to later, asynchronous, add new headings inside. You can nest several contexts inside each.
 
 The first code example is without using context provider. To handle levels in batches or asynchron, use a `Heading.Level` context provider.
 
@@ -92,7 +92,7 @@ render(
 )
 ```
 
-_TODO:_ Integrationn with the [global Provider](/uilib/usage/customisation/provider).
+_TODO:_ Integration with the [global Provider](/uilib/usage/customisation/provider).
 
 ### Skip auto correction and warnings
 
@@ -115,7 +115,7 @@ export const onRouteUpdate = () => {
 setNextLevel(3)
 ```
 
-**Limitations:** `resetLevels` and `setNextLevel` does not change contexts with an entry level highter than one (1).
+**Limitations:** `resetLevels` and `setNextLevel` does not change contexts with an entry level higher than one (1).
 In order to change also contexts, you can set `overwriteContext` to true:
 
 ```js

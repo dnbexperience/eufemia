@@ -115,7 +115,7 @@ export const TabsExampleScrollable = () => (
 
 export const TabsExampleLeftAligned = () => (
   <Wrapper>
-    <ComponentBox data-visual-test="tabs-seciton-styles">
+    <ComponentBox data-visual-test="tabs-section-styles">
       {() => /* jsx */ `
 <Tabs tabs_style="mint-green" content_style="black-3">
   <Tabs.Content title="First">

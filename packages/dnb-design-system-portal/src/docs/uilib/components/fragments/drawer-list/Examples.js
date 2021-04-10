@@ -41,7 +41,7 @@ render(<DrawerListWithState />)
   </Wrapper>
 )
 
-export const DrawerListExampleOnlyToVisulaize = () => (
+export const DrawerListExampleOnlyToVisualize = () => (
   <Wrapper>
     <ComponentBox data-visual-test="drawer-list" scope={{ data }} hideCode>
       {() => /* jsx */ `
@@ -111,7 +111,7 @@ const CustomComponent = () => (
   <CustomComponentInner
     onTouchStart={preventDefault}
     onClick={e => {
-      console.log('Do someting different')
+      console.log('Do something different')
       preventDefault(e)
     }}
   >
@@ -224,7 +224,7 @@ const data = [
     // (optional) can be what ever
     selected_key: 'key_0',
 
-    // (optional) is show insted of "content", once selected
+    // (optional) is show instead of "content", once selected
     selected_value: 'Item 1 Value',
 
     // Item content as a string or array

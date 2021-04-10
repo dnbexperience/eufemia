@@ -26,7 +26,7 @@ Sometimes You may need a compensation of only a few pixels. Heres how to calcula
 
 ## Media Queries and Breakpoints
 
-Use `em` for media query sizing for best overall browser support. Read [more abouts units](/uilib/usage/best-practices/for-styling#units)
+Use `em` for media query sizing for best overall browser support. Read [more about units](/uilib/usage/best-practices/for-styling#units)
 
 ### Media Queries Examples
 
@@ -61,7 +61,6 @@ Or you may re-use the SASS mixins from Eufemia:
   /* Your CSS */
 }
 ```
-
 
 ## Sizing
 

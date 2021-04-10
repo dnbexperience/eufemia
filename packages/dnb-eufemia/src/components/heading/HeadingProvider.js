@@ -87,7 +87,7 @@ export default class HeadingProvider extends React.PureComponent {
           bypassChecks:
             isTrue(props.skip_correction) ||
             isTrue(state.context.heading?.skip_correction),
-          source: props.text || props.children, // only for debuging
+          source: props.text || props.children, // only for debugging
           debug: props.debug || state.context.heading?.debug
         })
         state.level = state.prevLevel = newLevel
@@ -139,7 +139,7 @@ export default class HeadingProvider extends React.PureComponent {
 
     globalSyncCounter.current = state.counter
 
-    // Set the current level here, and keep it, so a heading, comming later in, will inherit it
+    // Set the current level here, and keep it, so a heading, coming later in, will inherit it
     // This will require a new Counter "group" - not the global.
     // We basically start again counting from this one.
     state.level = state.counter.level

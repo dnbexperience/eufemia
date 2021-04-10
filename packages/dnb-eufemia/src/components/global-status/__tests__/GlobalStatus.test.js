@@ -70,7 +70,7 @@ describe('GlobalStatus component', () => {
     )
   })
 
-  it('should have correact attributes like "aria-live"', async () => {
+  it('should have correct attributes like "aria-live"', async () => {
     const Comp = mount(<Component autoscroll={false} delay={0} />)
     expect(Comp.exists('[aria-live]')).toBe(true)
 

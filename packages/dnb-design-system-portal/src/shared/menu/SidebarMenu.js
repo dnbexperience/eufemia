@@ -246,7 +246,7 @@ const Navigation = styled.nav`
   overscroll-behavior: contain;
   -ms-overflow-style: none;
 
-  /* make the sidemenu accsible for screenreaders on mobile devices  */
+  /* make the sidemenu accessible for screen readers on mobile devices  */
   @media screen and (max-width: 50em) {
     position: relative;
     height: auto;
@@ -265,7 +265,7 @@ const Navigation = styled.nav`
   }
 
   /*
-    God for a mobile menu insted
+    God for a mobile menu instead
     make sure that Content main "styled.main" gets the same max-width
   */
   @media screen and (max-width: 50em) {
@@ -311,7 +311,7 @@ const Navigation = styled.nav`
   }
 `
 
-const showAlwaysMenuItems = [] // like "uilib" som someting like that
+const showAlwaysMenuItems = [] // like "uilib" something like that
 
 export default class SidebarLayout extends React.PureComponent {
   static propTypes = {
@@ -337,7 +337,7 @@ export default class SidebarLayout extends React.PureComponent {
         this.scrollToLastPosition()
 
         this._scrollRef.current.onscroll = (e) => {
-          if (this.bussyOnSettingNewPos) return
+          if (this.busySettingNewPos) return
           clearTimeout(delayBuff)
           delayBuff = setTimeout(() => {
             try {
@@ -369,7 +369,7 @@ export default class SidebarLayout extends React.PureComponent {
 
   scrollToLastPosition() {
     if (this._scrollRef.current) {
-      this.bussyOnSettingNewPos = true
+      this.busySettingNewPos = true
       const lastPos = this.getLastPosition()
       if (lastPos > 0) {
         this._scrollRef.current.scrollTop = lastPos
@@ -377,7 +377,7 @@ export default class SidebarLayout extends React.PureComponent {
         this.scrollToActiveItem()
       }
       setTimeout(() => {
-        this.bussyOnSettingNewPos = false
+        this.busySettingNewPos = false
       }, 10)
     }
   }
@@ -664,7 +664,7 @@ class ListItem extends React.PureComponent {
         new: 'New',
         beta: 'Beta',
         wip: 'Work in Progress',
-        cs: 'Comming soon',
+        cs: 'Coming soon',
         dep: 'Deprecated',
         imp: 'Needs improvement'
       }[status]
@@ -841,7 +841,7 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
     })
 
   list
-    // reorder regarding to potensial manua defined order
+    // reorder regarding potential manually defined order
     .sort(({ _order: oA }, { _order: oB }) =>
       oA < oB ? -1 : oA > oB ? 1 : 0
     )

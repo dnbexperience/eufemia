@@ -117,7 +117,7 @@ const transformToJsx = (content, file) => {
     )
   } catch (e) {
     log.fail(
-      `> PrePublish: convertSvgToJsx convertion of "${basename}" failed`
+      `> PrePublish: convertSvgToJsx conversion of "${basename}" failed`
     )
     throw e
   }
@@ -126,7 +126,7 @@ const transformToJsx = (content, file) => {
 const makeIconsEntryFiles = async ({
   srcPath,
   destPath,
-  delteOldFiles = false
+  deleteOldFiles = false
 }) => {
   // get all the svg icons we find
   const icons = (await globby(srcPath))
@@ -186,7 +186,7 @@ const makeIconsEntryFiles = async ({
       `> PrePublish: Files where not found in the icons-svg.lock file: ${listNotFoundInLockFile}`
     )
 
-    if (delteOldFiles) {
+    if (deleteOldFiles) {
       await asyncForEach(
         notFoundInLockFile,
         async ({ basename, filename }) => {
@@ -241,7 +241,7 @@ const makeIconsEntryFiles = async ({
   }
 
   // the index.js file will contain "all icons"
-  // even the ones which dont exists in the lock file
+  // even the ones which don't exists in the lock file
   // this is in contrast to the "groups", they will only contain the icons, deticated to the current figma document
   const _imports = icons
     .map(({ name, filename }) => `import ${name} from './${filename}.js'`)

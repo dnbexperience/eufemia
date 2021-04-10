@@ -623,7 +623,7 @@ describe('Dropdown component', () => {
     ).toBe(title)
   })
 
-  it('has a corret value content if we send in a React component', () => {
+  it('has a correct value content if we send in a React component', () => {
     const aStringOf = 'Custom content 123'
     const Comp1 = mount(
       <Component data={mockData} value={4} {...mockProps} />

@@ -71,7 +71,7 @@ While it is possible to nest a Modal within another Modal, You as a developer ha
 
 <Img src={ModalExample} caption="Modal with header, text and close button (spacing suggestions in blue and pink)" alt="Image showing Modal with header" />
 
-<Img src={ModalExampleButtons} caption="Modal with header, text, buttons and close button" alt="Image showing Modal with header and clsoe button" />
+<Img src={ModalExampleButtons} caption="Modal with header, text, buttons and close button" alt="Image showing Modal with header and close button" />
 
 ## Root Element
 

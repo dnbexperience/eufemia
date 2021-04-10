@@ -494,7 +494,7 @@ export default class DatePickerInput extends React.PureComponent {
       const placeholderChar = this.getPlaceholderChar(value)
       const { input_element, separatorRexExp, isRange } = this.props
       const { day, month, year } = this.context.translation.DatePicker
-      const isRangeLabe = isRange
+      const isRangeLabel = isRange
         ? `${this.context.translation.DatePicker[mode]} `
         : ''
 
@@ -545,7 +545,7 @@ export default class DatePickerInput extends React.PureComponent {
                   hidden
                   id={`${this.props.id}-${mode}-day-label`}
                 >
-                  {isRangeLabe + day}
+                  {isRangeLabel + day}
                 </label>
               </React.Fragment>
             )
@@ -575,7 +575,7 @@ export default class DatePickerInput extends React.PureComponent {
                   hidden
                   id={`${this.props.id}-${mode}-month-label`}
                 >
-                  {isRangeLabe + month}
+                  {isRangeLabel + month}
                 </label>
               </React.Fragment>
             )
@@ -605,7 +605,7 @@ export default class DatePickerInput extends React.PureComponent {
                   hidden
                   id={`${this.props.id}-${mode}-year-label`}
                 >
-                  {isRangeLabe + year}
+                  {isRangeLabel + year}
                 </label>
               </React.Fragment>
             )

@@ -59,7 +59,7 @@ Now the [Switch](/uilib/components/switch) component has `right` as the default 
 
 ## Layout and Spacing
 
-Spacing is an important part of Eufemia, thats why there are now tree new helper components to make it really easy and fast to build forms and layouts with proper spacing.
+Spacing is an important part of Eufemia, that's why there are now tree new helper components to make it really easy and fast to build forms and layouts with proper spacing.
 
 - [FormSet](/uilib/components/form-set) provides by default the `<form>` tag and sends some `FormRow` properties along down.
 - [FormRow](/uilib/components/form-row) provides by default the `<fieldset>` tag and `<legend>` tag. `FormRow` is meant to help You achieve easily common DNB layout patterns and setups. Also, `FormRow` is supporting the `Spacing` component.
