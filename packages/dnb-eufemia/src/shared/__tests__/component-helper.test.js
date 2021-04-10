@@ -91,7 +91,7 @@ describe('"detectOutsideClick" should', () => {
       wrapperWithScrollbar.dispatchEvent(event) // ignore
       inside.dispatchEvent(event) // ignore
 
-      // but since "inside" is pritected, it should not call the callback
+      // but since "inside" is protected, it should not call the callback
       expect(mockedEvent).toHaveBeenCalledTimes(calledTimes)
 
       // remove the detection
@@ -100,7 +100,7 @@ describe('"detectOutsideClick" should', () => {
       // call again outside
       outside.dispatchEvent(event)
 
-      // but we dont expet more event calls
+      // but we don't expet more event calls
       expect(mockedEvent).toHaveBeenCalledTimes(calledTimes)
     }
 
@@ -143,7 +143,7 @@ describe('"validateDOMAttributes" should', () => {
     expect(res2).toHaveProperty('disabled')
   })
 
-  it('pass thru rest attrinutes', () => {
+  it('pass thru rest attributes', () => {
     const props = {}
     const params = { 'aria-hidden': true }
     const res = validateDOMAttributes(props, params)
@@ -170,11 +170,11 @@ describe('"validateDOMAttributes" should', () => {
     }
     const params = {
       onChange: () => {},
-      someting: () => {}
+      something: () => {}
     }
     const res = validateDOMAttributes(props, params)
     expect(res).toHaveProperty('onChange')
-    expect(res).not.toHaveProperty('someting')
+    expect(res).not.toHaveProperty('something')
   })
 })
 
@@ -227,7 +227,7 @@ describe('"processChildren" should', () => {
 })
 
 describe('"extend" should', () => {
-  it('keep the object refferance', () => {
+  it('keep the object reference', () => {
     const object1 = { key: null }
     const object2 = { key: 'value' }
     expect(extend(true, object1, object2)).toBe(object1)
@@ -270,7 +270,7 @@ describe('"extendPropsWithContext" should', () => {
       extendPropsWithContext(
         { key: { x: 'y' }, foo: null }, // given props
         { key: { x: 'y' }, foo: null }, // default props
-        { key: 'I cant replace You', foo: 'bar' }
+        { key: 'I can’t replace You', foo: 'bar' }
       )
     ).toMatchObject({
       key: { x: 'y' },
@@ -293,7 +293,7 @@ describe('"isTrue" should', () => {
     expect(isTrue(0)).toBe(false)
     expect(isTrue(null)).toBe(false)
     expect(isTrue(undefined)).toBe(false)
-    expect(isTrue('someting')).toBe(false)
+    expect(isTrue('something')).toBe(false)
   })
 })
 
@@ -415,7 +415,7 @@ describe('"toKebabCase" should', () => {
 
 // Removed as we now run function props from Web Components (custom-element)
 // describe('"pickRenderProps" should', () => {
-//   it('only pass function props which dont exists in renderProps', () => {
+//   it('only pass function props which don't exists in renderProps', () => {
 //     const renderProp = jest.fn()
 //     const customRenderer = jest.fn()
 //     const children = jest.fn()
@@ -489,10 +489,10 @@ describe('"makeUniqueId" should', () => {
 })
 
 describe('"slugify" should', () => {
-  it('have a correctly slugifyed string', () => {
+  it('have a correctly slugified string', () => {
     expect(slugify('What ever !#.- 0123')).toEqual('what-ever-0123')
   })
-  it('also if we send in only a number a correctly slugifyed string', () => {
+  it('also if we send in only a number a correctly slugified string', () => {
     expect(slugify(123)).toEqual('123')
   })
   it('or other types', () => {

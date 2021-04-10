@@ -421,7 +421,7 @@ export default class DatePickerCalendar extends React.PureComponent {
       }
     }
 
-    // // Save for later check agains disabled days during key navigation
+    // // Save for later check against disabled days during key navigation
     this._days[format(month, 'yyyy-MM')] = days
 
     return days

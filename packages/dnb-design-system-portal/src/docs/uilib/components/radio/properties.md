@@ -30,7 +30,7 @@ showTabs: true
 | `label`            | _(optional)_ use either the `label` property or provide custom one.                                                                                                  |
 | `label_direction`  | _(optional)_ to define the `label` layout direction on how the next element should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`. |
 | `label_sr_only`    | _(optional)_ use `true` to make the label only readable by screen readers.                                                                                           |
-| `vertical`         | _(optional)_ will force both `direction` and `label_diretion` to be **vertical** if set to `true`.                                                                   |
+| `vertical`         | _(optional)_ will force both `direction` and `label_direction` to be **vertical** if set to `true`.                                                                  |
 
 ### Radio group Context
 

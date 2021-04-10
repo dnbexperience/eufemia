@@ -75,7 +75,7 @@ describe('Slider component', () => {
     expect(on_init).toBeCalledWith(initObject)
 
     const changeObject = {
-      // We may use new MouseEvent('mousedown', in turue
+      // We may use new MouseEvent('mousedown', in future
       event: {
         height: 10,
         pageX: 80,
@@ -117,7 +117,7 @@ describe('Slider component', () => {
     expect(on_init).toBeCalledWith(initObject)
 
     const changeObject = {
-      // We may use new MouseEvent('mousedown', in turue
+      // We may use new MouseEvent('mousedown', in future
       event: {
         height: 10,
         pageX: 80,

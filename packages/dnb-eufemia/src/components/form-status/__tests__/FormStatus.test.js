@@ -37,7 +37,7 @@ describe('FormStatus component', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
-  it('should set correact max-width', () => {
+  it('should set correct max-width', () => {
     const Comp = mount(
       <Input
         id="custom-id"
@@ -64,7 +64,7 @@ describe('FormStatus component', () => {
     ).toContain('max-width: 12rem;')
   })
 
-  it('should set correact id', () => {
+  it('should set correct id', () => {
     const Comp = mount(<Input id="custom-id" status="status text" />)
 
     expect(
@@ -75,7 +75,7 @@ describe('FormStatus component', () => {
     ).toBe('custom-id-status')
   })
 
-  it('should have correact attributes once the "hidden" prop changes', async () => {
+  it('should have correct attributes once the "hidden" prop changes', async () => {
     const Comp = mount(<Component {...props} hidden />)
     expect(Comp.exists('[aria-hidden]')).toBe(true)
     // Deprecated: use the GlobalStatus and aria-live

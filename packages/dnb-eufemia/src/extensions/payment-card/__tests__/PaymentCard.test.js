@@ -52,7 +52,7 @@ describe('PaymentCard', () => {
     ).toContain('DNB')
   })
 
-  it('has a correct formattet card number', () => {
+  it('has a correct formatted card number', () => {
     expect(Comp.find('p.dnb-payment-card__card__numbers').text()).toBe(
       formatCardNumber(defaultProps.card_number)
     )
@@ -64,7 +64,7 @@ describe('PaymentCard', () => {
     )
   })
 
-  it('has correact expired status', () => {
+  it('has correct expired status', () => {
     Comp.setProps({
       card_status: 'expired'
     })
@@ -78,7 +78,7 @@ describe('PaymentCard', () => {
     ).toBe(nb.text_expired)
   })
 
-  it('has correact blocked status', () => {
+  it('has correct blocked status', () => {
     Comp.setProps({
       card_status: 'blocked'
     })
@@ -110,7 +110,7 @@ describe('PaymentCard', () => {
     )
   })
 
-  it('reacts raw_data with correact rendering', () => {
+  it('reacts raw_data with correct rendering', () => {
     const customData = {
       productCode: 'UNDEFINED',
       productName: 'DNB Custom Card',

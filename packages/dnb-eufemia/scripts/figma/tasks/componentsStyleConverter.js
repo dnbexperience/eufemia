@@ -24,7 +24,7 @@ export const ConvertAndSaveComponentsStyle = async ({
     figmaDoc = await getFigmaDoc({ figmaFile })
   }
 
-  // juce out, if no changes
+  // out, if no changes
   if (!figmaDoc) return []
 
   const componentsObj = await ComponentsStyleConverter(

@@ -79,7 +79,7 @@ describe('"registerElement" should', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
-  it('renders a mathod called render_', () => {
+  it('renders a method called render_', () => {
     const render_mock = jest.fn()
     const eventHandler = jest.fn()
 
@@ -116,10 +116,10 @@ describe('"registerElement" should', () => {
     const ref = customElementRendered[0].getRef()
     expect(React.isValidElement(ref)).toBe(true)
 
-    const mouted = mount(ref)
-    expect(mouted.find('button').text()).toBe('button text')
+    const mounted = mount(ref)
+    expect(mounted.find('button').text()).toBe('button text')
 
-    mouted.find('button').simulate('click')
+    mounted.find('button').simulate('click')
 
     expect(eventHandler).toBeCalledTimes(1)
   })
@@ -201,20 +201,20 @@ describe('"registerElement" should', () => {
     const ref = customElement[0].getRef()
     expect(React.isValidElement(ref)).toBe(true)
 
-    const mouted = mount(ref)
-    expect(mouted.find('div').text()).toBe('new-value')
+    const mounted = mount(ref)
+    expect(mounted.find('div').text()).toBe('new-value')
 
     customElement[0].setProps('value', 456)
 
-    // mouted.setProps({
+    // mounted.setProps({
     //   value: '456'
     // })
-    // mouted.setState({
+    // mounted.setState({
     //   content: '456'
     // })
 
-    // mouted.instance().update()
-    // expect(mouted.find('div').text()).toBe(456) // we get here new-value
+    // mounted.instance().update()
+    // expect(mounted.find('div').text()).toBe(456) // we get here new-value
   })
 
   it('handle "native event" (CustomEvent) as expected', () => {

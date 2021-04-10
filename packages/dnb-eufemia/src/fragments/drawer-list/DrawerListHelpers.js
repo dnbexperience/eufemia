@@ -228,7 +228,7 @@ export const prepareStartupState = (props) => {
     active_item: selected_item,
     on_hide: props.on_hide,
     on_show: props.on_show,
-    on_chnage: props.on_chnage,
+    on_change: props.on_change,
     on_select: props.on_select,
     _listenForPropChanges: false
   }

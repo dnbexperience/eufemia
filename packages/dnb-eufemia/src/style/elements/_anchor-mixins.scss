@@ -39,7 +39,7 @@ $anchorBorderRadius: 0.25em;
   }
 }
 
-// reset methodes
+// reset methods
 @mixin resetUnderlineStyle() {
   box-shadow: none;
 
@@ -57,7 +57,7 @@ $anchorBorderRadius: 0.25em;
 @mixin resetanchorHoverStyle() {
   &:hover {
     color: inherit;
-    // in case we dont want to change the color to the body color
+    // in case we don't want to change the color to the body color
     background-color: transparent;
   }
 }
@@ -183,7 +183,7 @@ $anchorBorderRadius: 0.25em;
   // other stuff, not related to the Anchor directly
   .dnb-icon {
     display: inline-block;
-    // -1px to center the icons agains large chars
+    // -1px to center the icons against large chars
     transform: translateY(-0.0625em);
   }
 }

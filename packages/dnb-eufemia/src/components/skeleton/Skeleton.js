@@ -54,7 +54,7 @@ export default class Skeleton extends React.PureComponent {
     style_type: null,
     no_animation: null,
     figure: null,
-    aria_bussy: null,
+    aria_busy: null,
     aria_ready: null,
     element: null,
     class: null,
@@ -68,7 +68,7 @@ export default class Skeleton extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    clearTimeout(this._ariaLiveUpdateTiemout)
+    clearTimeout(this._ariaLiveUpdateTimeout)
   }
 
   componentDidUpdate(prevProps) {
@@ -92,14 +92,14 @@ export default class Skeleton extends React.PureComponent {
 
   setAriaLiveUpdate() {
     // this is only to make a better screen reader ux
-    clearTimeout(this._ariaLiveUpdateTiemout)
-    this._ariaLiveUpdateTiemout = setTimeout(() => {
-      const { aria_bussy, aria_ready } = this.getProps()
+    clearTimeout(this._ariaLiveUpdateTimeout)
+    this._ariaLiveUpdateTimeout = setTimeout(() => {
+      const { aria_busy, aria_ready } = this.getProps()
 
       let newString = null
 
       if (isTrue(this.props.show)) {
-        newString = aria_bussy
+        newString = aria_busy
       } else {
         newString = aria_ready
       }
@@ -108,7 +108,7 @@ export default class Skeleton extends React.PureComponent {
         this.setState({
           ariaLiveUpdate: newString
         })
-        this._ariaLiveUpdateTiemout = setTimeout(() => {
+        this._ariaLiveUpdateTimeout = setTimeout(() => {
           this.setState({
             ariaLiveUpdate: null
           })
@@ -127,7 +127,7 @@ export default class Skeleton extends React.PureComponent {
       no_animation,
       figure,
       skeleton,
-      aria_bussy,
+      aria_busy,
       aria_ready, // eslint-disable-line
       className,
       class: _className,
@@ -155,7 +155,7 @@ export default class Skeleton extends React.PureComponent {
       ),
       // role: 'status',// is not needed as for now
       'aria-busy': showSkeleton,
-      'aria-label': showSkeleton ? aria_bussy : undefined,
+      'aria-label': showSkeleton ? aria_busy : undefined,
       lang: this.context.locale || LOCALE,
       ...attributes
     }

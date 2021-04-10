@@ -82,7 +82,7 @@ export default {
       load_button_text: 'Vis mer innhold'
     },
     Skeleton: {
-      aria_bussy: 'Behandler data ...',
+      aria_busy: 'Behandler data ...',
       aria_ready: 'Klar til å samhandle'
     },
     StepIndicator: {

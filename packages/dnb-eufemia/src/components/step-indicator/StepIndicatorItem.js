@@ -28,7 +28,7 @@ export default class StepItem extends React.PureComponent {
     on_render: PropTypes.func,
     on_click: PropTypes.func,
     on_change: PropTypes.func,
-    setActimeItem: PropTypes.func,
+    setActiveItem: PropTypes.func,
     hasReached: PropTypes.array,
     countSteps: PropTypes.number,
     is_active: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -43,7 +43,7 @@ export default class StepItem extends React.PureComponent {
     on_render: null,
     on_click: null,
     on_change: null,
-    setActimeItem: null,
+    setActiveItem: null,
     hasReached: [],
     countSteps: null,
     hide_numbers: false,
@@ -62,14 +62,14 @@ export default class StepItem extends React.PureComponent {
   }
 
   onClickHandler = ({ event, item, currentItem }) => {
-    const { use_navigation, on_click, setActimeItem } = this.props
+    const { use_navigation, on_click, setActiveItem } = this.props
     const params = {
       event,
       item,
       currentItem
     }
-    if (isTrue(use_navigation) && typeof setActimeItem === 'function') {
-      setActimeItem(currentItem)
+    if (isTrue(use_navigation) && typeof setActiveItem === 'function') {
+      setActiveItem(currentItem)
     }
 
     const res = dispatchCustomElementEvent(this, 'on_click', params)
@@ -104,7 +104,7 @@ export default class StepItem extends React.PureComponent {
       on_render,
       on_click, // eslint-disable-line
       on_change, // eslint-disable-line
-      setActimeItem, // eslint-disable-line
+      setActiveItem, // eslint-disable-line
       hasReached,
       ...rest
     } = this.props

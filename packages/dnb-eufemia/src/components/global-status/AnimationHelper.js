@@ -12,7 +12,7 @@ export default class Animation {
   stack = []
   events = []
 
-  // Main methodes
+  // Main methods
   add(animation) {
     if (!animation.type) {
       warn('You should define an animation type.')

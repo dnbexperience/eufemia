@@ -11,7 +11,7 @@ exports.onCreateNode = ({ node, ...props }) => {
   }
 }
 
-// find the root child wich has a frontmatter.title
+// find the root child which has a frontmatter.title
 // so the Tabbar can use the mother title
 global.nodesCache = global.nodesCache || {}
 function createMdxNode({
@@ -77,12 +77,12 @@ function createMdxNode({
     for (let i = 0, l = parts.length; i < l; ++i) {
       motherMdx = global.nodesCache['/' + parts.join('/')]
 
-      // ohh we got motherMdx, thats fine
+      // ohh we got motherMdx, that's fine
       if (
         motherMdx &&
         motherMdx.frontmatter &&
         motherMdx.frontmatter.title &&
-        motherMdx.frontmatter.title.length > 0 // we dont need to crawler nodes which has a title
+        motherMdx.frontmatter.title.length > 0 // we don't need to crawler nodes which has a title
       ) {
         break
       }

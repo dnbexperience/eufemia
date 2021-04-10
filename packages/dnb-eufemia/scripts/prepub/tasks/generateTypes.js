@@ -88,7 +88,7 @@ export const createTypes = async (
               Object.keys(doc).forEach((key) => {
                 if (collectProps.findIndex((k) => k === key) === -1) {
                   log.fail(
-                    `The property "${key}" is not deinfed in PropTypes!\nComponent: ${componentName}\nFile: ${file}\n\n`
+                    `The property "${key}" is not defined in PropTypes!\nComponent: ${componentName}\nFile: ${file}\n\n`
                   )
                 }
               })
@@ -157,7 +157,7 @@ export const createTypes = async (
                    * If strictMode is enabled,
                    * it will transform "string + bool" or "string + number" in to string or bool only
                    *
-                   * NB: But there are way too many edge cases, so we have to deisable it as of now
+                   * NB: But there are way too many edge cases, so we have to disable it as of now
                    */
                   strictMode: false
                 }
@@ -169,7 +169,7 @@ export const createTypes = async (
           /**
            * Note: Before we have send in "filename" as the first argument of generateFromSource
            * Like so: const filename = basename.replace(path.extname(file), '')
-           * But this creates the 'declare module' which created trouobles
+           * But this creates the 'declare module' which created troubles
            */
           const generatedCode = generateFromSource(null, code)
 

@@ -28,9 +28,9 @@ export const ProgressIndicatorSandbox = () => (
 )
 
 const ProgressIndicatorCircular = () => {
-  const [visible, setVisibe] = React.useState(true)
+  const [visible, setVisible] = React.useState(true)
   React.useEffect(() => {
-    const timer = setInterval(() => setVisibe(!visible), 3400)
+    const timer = setInterval(() => setVisible(!visible), 3400)
     return () => clearInterval(timer)
   })
   return (

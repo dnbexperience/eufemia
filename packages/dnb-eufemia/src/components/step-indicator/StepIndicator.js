@@ -159,7 +159,7 @@ export default class StepIndicator extends React.PureComponent {
     }
   }
 
-  setActimeItem = (activeItem) => {
+  setActiveItem = (activeItem) => {
     this.setState({
       activeItem,
       _listenForPropChanges: false
@@ -241,7 +241,7 @@ export default class StepIndicator extends React.PureComponent {
                 <StepItem
                   key={i}
                   {...params}
-                  setActimeItem={this.setActimeItem}
+                  setActiveItem={this.setActiveItem}
                   hasReached={this.state.hasReached}
                 />
               )

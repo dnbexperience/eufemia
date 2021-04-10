@@ -192,7 +192,7 @@ const prepareTemplates = async () => {
     processToNamesIgnoreList: ['web-components', 'style'],
     processToNamesListByUsingFolders: true
   }
-  // we dont export extensions anymore!
+  // we don't export extensions anymore!
   await runFactory(extensionsTemplateConfig).then((res) => {
     if (require.main === module) {
       log.info('> Created the index template with all the extensions')

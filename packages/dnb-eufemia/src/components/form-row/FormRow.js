@@ -227,9 +227,9 @@ export default class FormRow extends React.PureComponent {
     validateDOMAttributes(this.props, params)
 
     // NB: Update: Using hashSum on props i too CPU expensive
-    // Sollution is to only check one dimention by using "false"
+    // Solution is to only check one dimension by using "false"
     // We could also check: if(this._cachedContext !== this.context)
-    // but not with props. So it's not a sollution
+    // but not with props. So it's not a solution
 
     // NB: check if context has changed, if yes, then update the cache
     // 1. Modal inside a FormRow will open on rerender without: this._cachedContext !== this.context

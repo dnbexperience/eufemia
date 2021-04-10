@@ -65,7 +65,7 @@ render(
     locale="nb-NO"
     locales={{
       'nb-NO': {
-        Modal: { close_title: 'Someting' }
+        Modal: { close_title: 'Something' }
       }
     }}
   >

@@ -99,7 +99,7 @@ export default class Logo extends React.PureComponent {
     }
 
     const svgParams = {
-      viewBox: '0 0 93.0362 64' // theese size are set to me assiosated with the svg path point values
+      viewBox: '0 0 93.0362 64' // these size are set to me associated with the svg path point values
     }
 
     if (parseFloat(width) > -1) svgParams['width'] = width

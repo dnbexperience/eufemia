@@ -152,7 +152,7 @@ describe('selection related methods', () => {
 })
 
 describe('"debounce" should', () => {
-  it('delay exection', (done) => {
+  it('delay execution', (done) => {
     let outside = 'one'
 
     debounce(({ inside }) => {
@@ -166,7 +166,7 @@ describe('"debounce" should', () => {
       done()
     }, 2)
   })
-  it('delay exection immediate', (done) => {
+  it('delay execution immediate', (done) => {
     let outside = 'one'
 
     debounce(

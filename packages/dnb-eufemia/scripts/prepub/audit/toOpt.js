@@ -1,6 +1,6 @@
 /**
  * Because of an Yarn bug, where devDependencies do not get checked by audit,
- * we rename devDependencies to optionalDependencies and visaversa
+ * we rename devDependencies to optionalDependencies and vice versa
  *
  */
 

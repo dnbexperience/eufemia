@@ -9,7 +9,7 @@
  * Used by "prepareTemplates"
  */
 
-// import all the aviable components
+// import all the available components
 import Accordion from './accordion/Accordion'
 import Autocomplete from './autocomplete/Autocomplete'
 import Button from './button/Button'
@@ -46,7 +46,7 @@ import Textarea from './textarea/Textarea'
 import ToggleButton from './toggle-button/ToggleButton'
 import Tooltip from './tooltip/Tooltip'
 
-// define / export all the aviable components
+// define / export all the available components
 export {
   Accordion,
   Autocomplete,

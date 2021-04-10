@@ -493,7 +493,7 @@ button.dnb-button::-moz-focus-inner {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* for large screesn */
+    /* for large screens */
     width: 100%;
     max-width: var(--layout-large);
     padding: var(--spacing-large);

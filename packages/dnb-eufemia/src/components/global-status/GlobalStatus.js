@@ -35,7 +35,7 @@ import GlobalStatusProvider from './GlobalStatusProvider'
 import Icon from '../icon/Icon'
 /**
  * Because of the new icons, which do not fit into the current GlobalStatus UI,
- * we have to have them inlined here in this component. Down bleow.
+ * we have to have them inlined here in this component. Down below.
  */
 // import { InfoIcon, ErrorIcon } from '../form-status/FormStatus'
 import { CloseButton } from '../modal/ModalContent'
@@ -583,7 +583,7 @@ export default class GlobalStatus extends React.PureComponent {
           }
         })
 
-        // block: 'center' is not suported on IE - now we se the element above
+        // block: 'center' is not supported on IE - now we se the element above
         if (IS_IE11) {
           window.scrollTop = element.offsetTop
         } else if (typeof element.scrollIntoView === 'function') {

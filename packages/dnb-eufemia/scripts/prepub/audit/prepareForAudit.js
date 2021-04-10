@@ -1,6 +1,6 @@
 /**
  * Because of an Yarn bug, where devDependencies do not get checked by audit,
- * we rename devDependencies to optionalDependencies and visaversa
+ * we rename devDependencies to optionalDependencies and vice versa
  *
  * Issues: https://github.com/yarnpkg/yarn/issues/6632
  * PR: https://github.com/yarnpkg/yarn/pull/6724

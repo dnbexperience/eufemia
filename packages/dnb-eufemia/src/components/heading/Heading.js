@@ -140,7 +140,7 @@ export default class Heading extends React.PureComponent {
           bypassChecks:
             isTrue(props.skip_correction) ||
             isTrue(state.context.heading?.skip_correction),
-          source: props.text || props.children, // only for debuging
+          source: props.text || props.children, // only for debugging
           debug: props.debug || state.context.heading?.debug
         })
         state.level = state.prevLevel = newLevel
@@ -167,14 +167,14 @@ export default class Heading extends React.PureComponent {
       state.counter.setContextCounter(context.heading.counter)
       state.counter.isHeading = true
     } else {
-      // else we use the global counter, or craete a new one
+      // else we use the global counter, or create a new one
       state.counter = initCounter(props)
       state.counter.setContextCounter(globalHeadingCounter.current)
       state.counter.isHeading = true
     }
 
     state.counter = correctHeadingLevel({
-      ref: props, // Do that only to make shure we run the correction only if props has changed
+      ref: props, // Do that only to make sure we run the correction only if props has changed
       counter: state.counter,
       level: parseFloat(props.level),
       inherit: isTrue(props.inherit),
@@ -184,7 +184,7 @@ export default class Heading extends React.PureComponent {
       bypassChecks:
         isTrue(props.skip_correction) ||
         isTrue(state.context.heading?.skip_correction),
-      source: props.text || props.children, // only for debuging
+      source: props.text || props.children, // only for debugging
       debug: props.debug || state.context.heading?.debug
     })
 

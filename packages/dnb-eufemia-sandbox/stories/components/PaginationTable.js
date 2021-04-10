@@ -77,7 +77,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       }
 
       // define what page should update
-      // used to update the page inside the Paginatio Component
+      // used to update the page inside the Pagination Component
       setLocalPage(pageNumber)
 
       // force rerender of this component

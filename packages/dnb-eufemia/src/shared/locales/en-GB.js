@@ -69,7 +69,7 @@ export default {
       aria_role: 'Help button'
     },
     Skeleton: {
-      aria_bussy: 'In progress ...',
+      aria_busy: 'In progress ...',
       aria_ready: 'Ready to interact'
     },
     Input: {

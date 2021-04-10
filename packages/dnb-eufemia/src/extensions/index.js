@@ -9,8 +9,8 @@
  * Used by "prepareTemplates"
  */
 
-// import all the aviable components
+// import all the available components
 import PaymentCard from './payment-card/PaymentCard'
 
-// define / export all the aviable components
+// define / export all the available components
 export { PaymentCard }

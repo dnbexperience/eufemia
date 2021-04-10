@@ -86,7 +86,7 @@ export const InputExampleWithIcon = () => (
 <Input
   label="Input with icon:"
   label_sr_only
-  placeholder="Input with a placeholder asd dsd  asd asd"
+  placeholder="Input with a placeholder"
   icon_position="right"
   icon="check"
   align="right"
@@ -240,7 +240,7 @@ export const InputExamplePassword = () => (
       {() => /* jsx */ `
 <InputPassword
   label="Label:"
-  placeholder="A palceholder text"
+  placeholder="A placeholder text"
   on_change={({ value }) => {
     console.log('on_change:', value)
   }}

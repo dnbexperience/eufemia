@@ -3,7 +3,7 @@
  * This demo is mainly to demonstrate the visual part,
  * but includes also some event handling to showcase error messages.
  *
- * It is devided in three parts:
+ * It is divided in three parts:
  *
  * 1. Markup
  * 2. Styles
@@ -55,7 +55,7 @@ const FormDemo = () => (
 )
 export default FormDemo
 
-// A dum header
+// A dummy header
 const Header = () => (
   <>
     <Head>
@@ -119,12 +119,12 @@ const MainForm = () => {
           >
             <ToggleButton text="Unknown transaction" value="first" />
             <ToggleButton
-              text="I did not recieve money from the ATM"
+              text="I did not receive money from the ATM"
               value="second"
             />
-            <ToggleButton text="Goods not recieved" value="third" />
-            <ToggleButton text="Wrong goods recieved" value="fourth" />
-            <ToggleButton text="Fake goods recieved" value="fift" />
+            <ToggleButton text="Goods not received" value="third" />
+            <ToggleButton text="Wrong goods received" value="fourth" />
+            <ToggleButton text="Fake goods received" value="fifth" />
             <ToggleButton text="Double charged" value="sixth" />
             <ToggleButton text="Wrong amount charged" value="seventh" />
             <ToggleButton text="I am after charged" value="eighth" />
@@ -190,10 +190,10 @@ const MainForm = () => {
                 rows="6"
                 cols="40"
                 label="Do you have additional relevant information about the case?"
-                value={currentValues.textareValue}
-                on_change={({ value: textareValue }) =>
+                value={currentValues.textareaValue}
+                on_change={({ value: textareaValue }) =>
                   setValues({
-                    textareValue
+                    textareaValue
                   })
                 }
               />
@@ -213,7 +213,7 @@ const MainForm = () => {
           <Attachment>
             <Attachment.FileRow>
               <Icon icon={AttachmentIcon} aria-hidden />
-              {' filname_01.jpg'}
+              {' filename_01.jpg'}
             </Attachment.FileRow>
             <Button
               text="Delete"
@@ -287,7 +287,7 @@ const WidthLimit = styled.div`
   }
 `
 
-// set the header hight
+// set the header height
 const HeaderSection = styled(Section)`
   display: flex;
   flex-direction: column;
@@ -357,7 +357,7 @@ const defaultValues = {
   yesNoQuestionValue: 'yes',
   firstInputValue: 2000,
   secondInputValue: 200,
-  textareValue:
+  textareaValue:
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis.',
   switchIsChecked: false
 }

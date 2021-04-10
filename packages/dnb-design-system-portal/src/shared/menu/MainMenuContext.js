@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 let lastScrollPosition = 0
 
 export const MainMenuContext = React.createContext({
-  // just to have som default values (to avoid destructuring error later)
+  // just to have some default values (to avoid destructuring error later)
   toggleMenu: null,
   openMenu: null,
   closeMenu: null,

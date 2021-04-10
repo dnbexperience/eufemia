@@ -3,7 +3,7 @@
  *
  */
 
-// import all the aviable libs
+// import all the available libs
 import { enableWebComponents as enableComponents } from './components/lib'
 import { enableWebComponents as enableExtensions } from './extensions/lib'
 

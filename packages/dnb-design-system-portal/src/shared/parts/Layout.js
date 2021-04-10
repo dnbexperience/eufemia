@@ -173,7 +173,7 @@ Content.defaultProps = {
 
 const ContentWrapper = styled.div`
   position: relative;
-  z-index: 2; /* heigher than styled.aside */
+  z-index: 2; /* higher than styled.aside */
 
   width: 100%;
 
@@ -181,7 +181,7 @@ const ContentWrapper = styled.div`
   margin-left: var(--aside-width);
   padding: 0;
 
-  /* we use padding here, insted of margin,
+  /* we use padding here, instead of margin,
   because applyPageFocus is else scrolling the page unwanted
   height of StickyMenuBar - 1px border */
   padding-top: 4rem;

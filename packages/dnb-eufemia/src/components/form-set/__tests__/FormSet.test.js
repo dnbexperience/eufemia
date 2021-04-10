@@ -42,7 +42,7 @@ describe('FormSet component', () => {
     ).toBe(true)
   })
 
-  it('should have working provider have correct indent classs on form-row', () => {
+  it('should have working provider have correct indent classes on form-row', () => {
     const Comp = mount(
       <Component {...props} indent="large">
         <FormRow />

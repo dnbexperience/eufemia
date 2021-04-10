@@ -151,11 +151,11 @@ export const validateDOMAttributes = (props, params) => {
       ) {
         delete params[i]
 
-        // filter out invalid attrinutes
+        // filter out invalid attributes
       } else if (
-        // we dont want NULL values
+        // we don't want NULL values
         params[i] === null ||
-        // we dont want
+        // we don't want
         /[^a-z-]/i.test(i)
         // (typeof params[i] !== 'string' && /[^a-z-]/i.test(i))
       ) {
@@ -209,7 +209,7 @@ export const processChildren = (props) => {
       ? props.children(props)
       : props.children
 
-  // if we get several react children which representates only a text
+  // if we get several react children which represents only a text
   if (Array.isArray(res)) {
     const onlyTexts = res.reduce((pV, cV) => {
       if (typeof cV === 'string' || typeof cV === 'number') {
@@ -238,7 +238,7 @@ export const extend = (...objects) => {
     objects.shift()
 
     if (keepRef) {
-      // by extracting the first, we keep the same main object refferance
+      // by extracting the first, we keep the same main object reference
       first = objects.shift()
     }
   }
@@ -374,7 +374,7 @@ export const dispatchCustomElementEvent = (
       }
     }
 
-    // call Syntetic React event camelCase naming events
+    // call Synthetic React event camelCase naming events
     eventName = toCamelCase(eventName)
     if (typeof props[eventName] === 'function') {
       const r = props[eventName].apply(src, [eventObject])
@@ -546,7 +546,7 @@ export class DetectOutsideClickClass {
     onSuccess = null
   ) => {
     try {
-      // scrollbars are on HTML, therefore we ignroe the click
+      // scrollbars are on HTML, therefore we ignore the click
       if (
         typeof currentElement.tagName === 'undefined' ||
         /html/i.test(currentElement.tagName) // we may also ignore |body
