@@ -21,6 +21,7 @@ steps:
         exclude:
           - fix/*
           - feat/*
+          - feature/*
           - chore/*
           - eufemia-icons
 
@@ -72,6 +73,7 @@ steps:
           - eufemia-icons
           - fix/*
           - feat/*
+          - feature/*
           - chore/*
           - rc/*
 
@@ -107,6 +109,7 @@ steps:
           - eufemia-icons
           - fix/*
           - feat/*
+          - feature/*
           - chore/*
           - rc/*
 
@@ -150,6 +153,7 @@ steps:
           - eufemia-icons
           - fix/*
           - feat/*
+          - feature/*
           - chore/*
           - rc/*
 

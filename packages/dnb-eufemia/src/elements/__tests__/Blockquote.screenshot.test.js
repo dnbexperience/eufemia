@@ -6,7 +6,7 @@
 import {
   testPageScreenshot,
   setupPageScreenshot
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../core/jest/jestSetupScreenshots'
 
 describe('Blockquote screenshot', () => {
   setupPageScreenshot({ url: '/uilib/elements/blockquote' })
