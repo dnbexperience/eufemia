@@ -10,6 +10,7 @@ import {
   isTrue,
   makeUniqueId,
   extend,
+  extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
   processChildren,
@@ -27,6 +28,8 @@ export default class FormSet extends React.PureComponent {
   static propTypes = {
     element: PropTypes.string,
     no_form: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_submit: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
@@ -43,6 +46,8 @@ export default class FormSet extends React.PureComponent {
   static defaultProps = {
     element: 'form',
     no_form: false,
+    disabled: null,
+    skeleton: null,
     prevent_submit: false,
 
     on_submit: null,
@@ -73,17 +78,25 @@ export default class FormSet extends React.PureComponent {
   }
 
   render() {
+    // use only the props from context, who are available here anyway
+    const props = extendPropsWithContext(
+      this.props,
+      FormSet.defaultProps,
+      this.context.FormSet
+    )
+
     const {
       element,
       no_form,
       prevent_submit, // eslint-disable-line
       disabled, // eslint-disable-line
+      skeleton, // eslint-disable-line
       id, // eslint-disable-line
       className,
       class: _className,
 
       ...rest
-    } = this.props
+    } = props
 
     const formRowProps = Object.entries(rest).reduce((acc, [k, v]) => {
       if (
@@ -128,10 +141,11 @@ export default class FormSet extends React.PureComponent {
 
       const FormRow = {
         ...formRowProps,
+        skeleton,
         disabled
-        // isInsideFormSet: true // Not used yet
+        // isInsideFormSet: true // We may considder to use this later to check if we are inside FormSet
       }
-      this._contextWeUse = extend(this.context, {
+      this._cachedContext = extend(this.context, {
         FormRow
       })
     }
@@ -139,7 +153,7 @@ export default class FormSet extends React.PureComponent {
     const Element = isTrue(no_form) ? 'div' : element
 
     return (
-      <Context.Provider value={this._contextWeUse}>
+      <Context.Provider value={this._cachedContext}>
         <Element {...params}>{content}</Element>
       </Context.Provider>
     )
