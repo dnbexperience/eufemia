@@ -6,7 +6,7 @@
 import {
   testPageScreenshot,
   setupPageScreenshot
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../core/jest/jestSetupScreenshots'
 
 const styleSelector = '[data-visual-test="table-classes"] .dnb-table'
 
