@@ -63,14 +63,16 @@ class ElementInstance extends React.PureComponent {
   static defaultProps = Element.defaultProps
 
   render() {
-    const props =
-      this.props.skeleton !== false &&
-      this.context &&
-      typeof this.context.skeleton !== 'undefined'
-        ? extendPropsWithContext(this.props, Element.defaultProps, {
-            skeleton: this.context && this.context.skeleton
-          })
-        : this.props
+    const props = this.context
+      ? extendPropsWithContext(
+          this.props,
+          Element.defaultProps,
+          {
+            skeleton: this.context.skeleton
+          },
+          this.context.FormRow
+        )
+      : this.props
 
     const {
       className,
