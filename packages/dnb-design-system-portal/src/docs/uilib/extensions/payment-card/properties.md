@@ -13,6 +13,7 @@ showTabs: true
 | `digits`                                    | _(optional)_ will use 8 digits if none are specified.                                                                                               |
 | `card_number`                               | _(optional)_ masked card number.                                                                                                                    |
 | `locale`                                    | _(optional)_ use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.                                                                              |
+| `skeleton`                                  | _(optional)_ if set to `true`, an overlaying skeleton with animation will be shown.                                                                 |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                               |
 
 ## Card Data

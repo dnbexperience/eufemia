@@ -16,4 +16,5 @@ redirect_from:
 | `icon_size`                                 | _(optional)_ the icon size of the icon shows. Defaults to `medium`.                                                                         |
 | `variant`                                   | _(optional)_ as of now, there is the `flat` and the `outlined` variant. Defaults to `flat`.                                                 |
 | `global_status_id`                          | _(optional)_ the `status_id` used for the target [GlobalStatus](/uilib/components/global-status).                                           |
+| `skeleton`                                  | _(optional)_ if set to `true`, an overlaying skeleton with animation will be shown.                                                         |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                       |
