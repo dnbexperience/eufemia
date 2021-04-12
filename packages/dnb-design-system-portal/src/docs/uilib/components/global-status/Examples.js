@@ -278,6 +278,7 @@ const UpdateDemoTools = () => {
       <Button
         text="Reset"
         variant="tertiary"
+        icon="reset"
         disabled={!(errorA || errorB)}
         on_click={() => {
           setErrorA(null)
