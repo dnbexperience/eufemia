@@ -72,7 +72,7 @@ Maybe the most common ways would be:
 
 The included themes are built using SASS. Simply because we can reuse the _@mixin_'s and variables from SASS.
 
-We have the **Main Theming File**, which is located here: `@dnb/eufemia/src/style/themes/dnb-theme-[THEME].scss`
+We have the **Main Theming File**, which is located here: `dnb-eufemia/src/style/themes/dnb-theme-[THEME].scss`
 
 From here, we "can" reuse some default theming mechanism, just to have a fallback:
 
@@ -82,7 +82,7 @@ From here, we "can" reuse some default theming mechanism, just to have a fallbac
 
 All the additional sub theming files (for every component) are automatically added to the **Main Theming File** by running `$ yarn build`. More on that further down.
 
-If we need a custom theming file for one or more components, we can do so by creating `@dnb/eufemia/src/components/[COMPONENT]/style/dnb-button-theme-[THEME].scss`.
+If we need a custom theming file for one or more components, we can do so by creating `dnb-eufemia/src/components/[COMPONENT]/style/dnb-button-theme-[THEME].scss`.
 
 ### Local Theming setup
 
@@ -112,11 +112,11 @@ $ yarn link "@dnb/eufemia"
 **5.** That's it. Now you can use (import/require) the NPM module in your application like:
 
 ```js
-import { Button } from '@dnb/eufemia/components'
-import '@dnb/eufemia/style/components'
+import { Button } from 'dnb-eufemia/components'
+import 'dnb-eufemia/style/components'
 
 // See the "src" in the path?
-import '@dnb/eufemia/src/style/themes/dnb-theme-[MY THEME].scss'
+import 'dnb-eufemia/src/style/themes/dnb-theme-[MY THEME].scss'
 ```
 
 **6.** Don't forget to add `"@dnb/eufemia": "*"` with the respective version (alongside React) to your dependencies:
