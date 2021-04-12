@@ -1,7 +1,7 @@
 # DNB Design System
 
 This is a mono repo and uses **yarn workspaces** to manage the sub packages/workspaces.
-Some of the included packages/workspaces are `dnb-design-guide` and `@dnb/eufemia`. Read more about the purposes of them in the respective packages `readme.md` files.
+Some of the included packages/workspaces are `dnb-design-system-portal` and `dnb-eufemia`. Read more about the purposes of them in the respective packages `README.md` files.
 
 ## DNB Eufemia Portal
 
