@@ -106,7 +106,7 @@ describe('Provider', () => {
     ).toBe('Help button')
   })
 
-  it('locales should react on locale change', () => {
+  it('locales should react on prop change', () => {
     const Comp = mount(<MagicProvider />)
 
     expect(Comp.find('p').text()).toBe(title_nb)

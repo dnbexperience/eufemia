@@ -137,7 +137,7 @@ export default class FormRow extends React.PureComponent {
     super(props)
     this._id = props.id || makeUniqueId() // cause we need an id anyway
 
-    // Not used yet
+    // We may considder to use this later to check if we are inside FormSet
     // this.isInsideFormSet =
     //   context.FormRow && context.FormRow.isInsideFormSet
   }
@@ -261,7 +261,7 @@ export default class FormRow extends React.PureComponent {
         disabled,
         skeleton
       }
-      this._contextWeUse = extend(this.context, {
+      this._cachedContext = extend(this.context, {
         FormRow
       })
     }
@@ -269,7 +269,7 @@ export default class FormRow extends React.PureComponent {
     const useFieldset = !isTrue(no_fieldset) && hasLabel
 
     return (
-      <Context.Provider value={this._contextWeUse}>
+      <Context.Provider value={this._cachedContext}>
         <Fieldset useFieldset={useFieldset}>
           <div {...params}>
             <AlignmentHelper />

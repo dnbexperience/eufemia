@@ -5,10 +5,12 @@ exports[`FormSet component have to match snapshot 1`] = `
   custom_element={Object {}}
   custom_method={[Function]}
   direction="horizontal"
+  disabled="disabled"
   element="form"
   no_form="no_form"
   on_submit={[Function]}
   prevent_submit="prevent_submit"
+  skeleton="skeleton"
 >
   <form
     className="dnb-form-set"
