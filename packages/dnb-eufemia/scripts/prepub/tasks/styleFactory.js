@@ -113,9 +113,9 @@ const runFactory = async ({
     })
     processToNamesList.sort()
     if (processOnlyList) {
-      const processdList = await globby(processOnlyList)
+      const processedList = await globby(processOnlyList)
       processToNamesList = processToNamesList.filter((source) =>
-        processdList.some((file) => file.indexOf(source) !== -1)
+        processedList.some((file) => file.indexOf(source) !== -1)
       )
     }
   } catch (e) {

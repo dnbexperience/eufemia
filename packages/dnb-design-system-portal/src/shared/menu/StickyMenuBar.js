@@ -78,7 +78,7 @@ const HeaderInner = styled.div`
 
   width: 100%;
 
-  /* make sure we are on 64px insted of 65px */
+  /* make sure we are on 64px instead of 65px */
   padding: 0.5rem 2rem;
 
   @media screen and (max-width: 40em) {
@@ -111,7 +111,7 @@ const CenterWrapper = styled.span`
   }
 `
 
-const hideSiebarToggleButtonStyle = css`
+const hideSidebarToggleButtonStyle = css`
   #toggle-sidebar-menu {
     display: none;
   }
@@ -128,23 +128,23 @@ export default class StickyMenuBar extends React.PureComponent {
     mobileMenuVisible: false
   }
   static propTypes = {
-    hideSiebarToggleButton: PropTypes.bool,
+    hideSidebarToggleButton: PropTypes.bool,
     preventBarVisibility: PropTypes.bool
   }
   static defaultProps = {
-    hideSiebarToggleButton: false,
+    hideSidebarToggleButton: false,
     preventBarVisibility: false
   }
   static contextType = Context
   render() {
-    const { hideSiebarToggleButton, preventBarVisibility } = this.props
+    const { hideSidebarToggleButton, preventBarVisibility } = this.props
     if (preventBarVisibility) {
       return <></>
     }
     return (
       <SidebarMenuContext.Consumer>
         {({ toggleMenu, isOpen }) =>
-          !hideSiebarToggleButton &&
+          !hideSidebarToggleButton &&
           !(
             typeof window !== 'undefined' &&
             /fullscreen/.test(window.location.search)
@@ -166,7 +166,7 @@ export default class StickyMenuBar extends React.PureComponent {
               }) => (
                 <Header
                   css={[
-                    hideSiebarToggleButton && hideSiebarToggleButtonStyle
+                    hideSidebarToggleButton && hideSidebarToggleButtonStyle
                   ]}
                   className={classnames('sticky-menu', 'dev-grid')}
                 >

@@ -14,8 +14,7 @@ import styled from '@emotion/styled'
 export const InputMaskedExampleCurrencyMask = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-currency_mask">
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <FormRow vertical>
   <InputMasked
     label="Right aligned:"
@@ -35,8 +34,7 @@ export const InputMaskedExampleCurrencyMask = () => (
     }}
   />
 </FormRow>
-          `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -44,8 +42,7 @@ export const InputMaskedExampleCurrencyMask = () => (
 export const InputMaskedExampleCustomMask = () => (
   <Wrapper>
     <ComponentBox>
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <InputMasked
   label="Masked amount:"
   show_mask
@@ -59,8 +56,7 @@ export const InputMaskedExampleCustomMask = () => (
     console.log('e', e)
   }}
 />
-          `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -68,8 +64,7 @@ export const InputMaskedExampleCustomMask = () => (
 export const InputMaskedExampleNumberMask = () => (
   <Wrapper>
     <ComponentBox title="" data-visual-test="input-masked-number_mask">
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <InputMasked
   label="Masked input:"
   value="1000000"
@@ -82,8 +77,7 @@ export const InputMaskedExampleNumberMask = () => (
     console.log('e', parseInt(e.cleaned_value || 0, 10))
   }}
 />
-          `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -91,8 +85,7 @@ export const InputMaskedExampleNumberMask = () => (
 export const InputMaskedExamplePrefix = () => (
   <Wrapper>
     <ComponentBox>
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <InputMasked
   label="Masked input:"
   number_mask={{
@@ -105,8 +98,7 @@ export const InputMaskedExamplePrefix = () => (
     console.log('e', e)
   }}
 />
-          `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -114,8 +106,7 @@ export const InputMaskedExamplePrefix = () => (
 export const InputMaskedExamplePhone = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-phone">
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <InputMasked
   label="Masked input:"
   mask={[
@@ -142,8 +133,7 @@ export const InputMaskedExamplePhone = () => (
     console.log('e', e)
   }}
 />
-          `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )

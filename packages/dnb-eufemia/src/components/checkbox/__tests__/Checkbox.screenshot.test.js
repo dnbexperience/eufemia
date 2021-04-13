@@ -1,6 +1,6 @@
 /**
  * Screenshot Test
- * This file will not run on "test:staged" because we dont require any related files
+ * This file will not run on "test:staged" because we don't require any related files
  */
 
 import {
@@ -37,7 +37,7 @@ describe('Checkbox unchecked screenshot', () => {
 })
 
 // NB: Because of focus simulation and screenshotElement.press('Tab')
-// we have to run the two focus simulations in a seperate run each
+// we have to run the two focus simulations in a separate run each
 describe('Checkbox checked screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/checkbox/demos' })
   it('have to match checkbox in checked state', async () => {

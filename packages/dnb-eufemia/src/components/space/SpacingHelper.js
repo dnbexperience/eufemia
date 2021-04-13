@@ -109,7 +109,7 @@ export const sumTypes = (types) =>
     }, 0)
 
 // Returns an array with modifiers e.g. ["--large" + "--x-small"]
-export const createTypeModifyers = (types) => {
+export const createTypeModifiers = (types) => {
   if (typeof types === 'number') {
     types = String(types)
   }
@@ -232,13 +232,13 @@ export const createSpacingClasses = (props, Element = null) => {
       if (String(cur) === '0' || String(cur) === 'false') {
         acc.push(`dnb-space__${direction}--zero`)
       } else if (cur) {
-        const typeModifyers = createTypeModifyers(cur)
+        const typeModifiers = createTypeModifiers(cur)
 
         // get the total sum
-        const sum = sumTypes(typeModifyers)
+        const sum = sumTypes(typeModifiers)
         if (sum > 10) {
           warn(
-            `Spacing of more than 10rem is not supported! You used ${sum} / (${typeModifyers.join(
+            `Spacing of more than 10rem is not supported! You used ${sum} / (${typeModifiers.join(
               ','
             )})`
           )

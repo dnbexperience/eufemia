@@ -49,7 +49,7 @@ const config = {
     detectAntialiasing: true,
     // local we check for 0% accuracy
     // due to the differences of font rendering between the os (linux/mac/win)
-    // we have to have a hight threshold of 8%
+    // we have to have a high threshold of 8%
     pixelThresholdRelative: isCI ? 0.08 : 0
   }
 }
@@ -76,7 +76,7 @@ module.exports.testPageScreenshot = async ({
   waitBeforeSimulate = null,
   waitAfterSimulate = null,
   waitAfterSimulateSelector = null,
-  secreenshotSelector = null,
+  screenshotSelector = null,
   styleSelector = null,
   simulateSelector = null,
   wrapperStyle = null,
@@ -152,7 +152,7 @@ module.exports.testPageScreenshot = async ({
   const screenshot = await takeScreenshot({
     page,
     screenshotElement,
-    secreenshotSelector
+    screenshotSelector
   })
 
   if (config.delayDuringNonheadless > 0) {
@@ -295,11 +295,11 @@ async function handleMeasureOfElement({ page, measureElement, selector }) {
     )
     const heightInPixelsFloat = parseFloat(heightInPixels)
     const isInEightSeries = (num) => num % pixelGrid
-    const howManyPixeToNextEight = (num) => {
+    const howManyPixelsToNextEight = (num) => {
       const v = isInEightSeries(num)
       return v === 0 ? v : pixelGrid - v
     }
-    const off = howManyPixeToNextEight(heightInPixelsFloat)
+    const off = howManyPixelsToNextEight(heightInPixelsFloat)
     if (off > 0) {
       const inRem = Math.round(heightInPixelsFloat / (pixelGrid * 2))
       log.warn(
@@ -314,11 +314,11 @@ async function handleMeasureOfElement({ page, measureElement, selector }) {
 async function takeScreenshot({
   page,
   screenshotElement,
-  secreenshotSelector
+  screenshotSelector
 }) {
-  if (secreenshotSelector) {
-    await page.waitForSelector(secreenshotSelector, { visible: true })
-    screenshotElement = await page.$(secreenshotSelector)
+  if (screenshotSelector) {
+    await page.waitForSelector(screenshotSelector, { visible: true })
+    screenshotElement = await page.$(screenshotSelector)
   }
 
   return await screenshotElement.screenshot()

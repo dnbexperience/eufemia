@@ -9,7 +9,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 ### Default form-label
 
 <ComponentBox data-visual-test="form-label-default">
-	{/* @jsx */ `
+	{() => /* jsx */ `
 <FormLabel for_id="alone-1">
   Default horizontal FormLabel:
 </FormLabel>
@@ -20,7 +20,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 ### Vertical form-label
 
 <ComponentBox data-visual-test="form-label-vertical">
-	{/* @jsx */ `
+	{() => /* jsx */ `
 <FormLabel for_id="alone-2" label_direction="vertical">
   Vertical FormLabel:
 </FormLabel>
@@ -31,7 +31,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 ### Vertical form-label without a `for_id`
 
 <ComponentBox>
-	{/* @jsx */ `
+	{() => /* jsx */ `
 <FormLabel vertical={true}>
   Without for_id (select me):
 </FormLabel>
@@ -42,7 +42,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 ### Linked label (pattern)
 
 <ComponentBox>
-	{/* @jsx */ `
+	{() => /* jsx */ `
 <form className="dnb-form">
   <div className="dnb-form__item">
     <div className="dnb-form__cell">

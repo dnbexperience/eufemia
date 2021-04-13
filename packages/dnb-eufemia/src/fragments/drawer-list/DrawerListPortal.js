@@ -196,7 +196,7 @@ class DrawerListPortal extends React.PureComponent {
       // NB:  before we recalculated the values to REM, but iOS rounds this and we get a wrong total value out of that!
       const style = {
         width,
-        '--drawer-list-width': `${width / 16}rem`, // used by the "drawer-list-scale-in" aniation
+        '--drawer-list-width': `${width / 16}rem`, // used by the "drawer-list-scale-in" animation
         top,
         left
       }

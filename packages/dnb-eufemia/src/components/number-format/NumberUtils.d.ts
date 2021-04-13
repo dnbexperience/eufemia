@@ -7,7 +7,7 @@ export interface formatReturnValue {
   /** Cleans a number from unnecessary parts */
   cleanedValue: string;
 
-  /** The formattet display number */
+  /** The formatted display number */
   number: string;
 
   /** A screen reader optimized number */

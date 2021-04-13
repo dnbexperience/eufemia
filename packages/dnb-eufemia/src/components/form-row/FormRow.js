@@ -137,7 +137,7 @@ export default class FormRow extends React.PureComponent {
     super(props)
     this._id = props.id || makeUniqueId() // cause we need an id anyway
 
-    // Not used yet
+    // We may considder to use this later to check if we are inside FormSet
     // this.isInsideFormSet =
     //   context.FormRow && context.FormRow.isInsideFormSet
   }
@@ -227,9 +227,9 @@ export default class FormRow extends React.PureComponent {
     validateDOMAttributes(this.props, params)
 
     // NB: Update: Using hashSum on props i too CPU expensive
-    // Sollution is to only check one dimention by using "false"
+    // Solution is to only check one dimension by using "false"
     // We could also check: if(this._cachedContext !== this.context)
-    // but not with props. So it's not a sollution
+    // but not with props. So it's not a solution
 
     // NB: check if context has changed, if yes, then update the cache
     // 1. Modal inside a FormRow will open on rerender without: this._cachedContext !== this.context
@@ -261,7 +261,7 @@ export default class FormRow extends React.PureComponent {
         disabled,
         skeleton
       }
-      this._contextWeUse = extend(this.context, {
+      this._cachedContext = extend(this.context, {
         FormRow
       })
     }
@@ -269,7 +269,7 @@ export default class FormRow extends React.PureComponent {
     const useFieldset = !isTrue(no_fieldset) && hasLabel
 
     return (
-      <Context.Provider value={this._contextWeUse}>
+      <Context.Provider value={this._cachedContext}>
         <Fieldset useFieldset={useFieldset}>
           <div {...params}>
             <AlignmentHelper />

@@ -23,15 +23,13 @@ const Wrapper = styled.div`
 export const AutocompleteDefaultExample = () => (
   <Wrapper>
     <ComponentBox scope={{ topMovies }}>
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <Autocomplete
   data={topMovies}
   label="Label:"
   icon={false}
 />
-          `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -42,8 +40,7 @@ export const AutocompleteWithCustomTitle = () => (
       data-visual-test="autocomplete-closed"
       scope={{ topMovies }}
     >
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <Autocomplete
   data={topMovies}
   label="Label:"
@@ -52,8 +49,7 @@ export const AutocompleteWithCustomTitle = () => (
     console.log('on_change', data)
   }}
 />
-          `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -61,8 +57,7 @@ export const AutocompleteWithCustomTitle = () => (
 export const AutocompleteDynamicallyUpdatedData = () => (
   <Wrapper>
     <ComponentBox scope={{ topMovies }} useRender>
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 const onTypeHandler = ({
   value,
   showIndicator,
@@ -100,8 +95,7 @@ render(<Autocomplete
   no_scroll_animation="true"
   placeholder="Search ..."
 />)
-          `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -109,8 +103,7 @@ render(<Autocomplete
 export const AutocompleteFirstFocusUpdate = () => (
   <Wrapper>
     <ComponentBox scope={{ topMovies }} useRender>
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 const onFocusHandler = ({ updateData, dataList, showIndicatorItem }) => {
   if(!dataList.length){
     showIndicatorItem()
@@ -128,8 +121,7 @@ render(<Autocomplete
   }}
   on_focus={onFocusHandler}
 />)
-          `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -140,8 +132,7 @@ export const AutocompleteToggleExample = () => (
       data-visual-test="autocomplete-drawer-button"
       scope={{ topMovies }}
     >
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <Autocomplete
   label="Label:"
   show_submit_button="true"
@@ -151,8 +142,7 @@ export const AutocompleteToggleExample = () => (
 >
   {() => (topMovies)}
 </Autocomplete>
-          `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -163,8 +153,7 @@ export const AutocompletePredefinedInput = () => (
       data-visual-test="autocomplete-drawer-search"
       scope={{ topMovies }}
     >
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <Autocomplete
   label="Label:"
   input_value="the pa ther"
@@ -175,8 +164,7 @@ export const AutocompletePredefinedInput = () => (
 >
   {() => (topMovies)}
 </Autocomplete>
-          `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -187,8 +175,7 @@ export const AutocompleteDifferentSizes = () => (
       data-visual-test="autocomplete-sizes"
       scope={{ topMovies }}
     >
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <FormRow direction="vertical">
   <Autocomplete
     label="Label:"
@@ -209,8 +196,7 @@ export const AutocompleteDifferentSizes = () => (
     data={() => (topMovies)}
   />
 </FormRow>
-          `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -222,8 +208,7 @@ export const AutocompleteCustomWidth = () => (
       scope={{ topMovies }}
       useRender
     >
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 const CustomWidthOne = styled(Autocomplete)\`
   .dnb-autocomplete__shell {
     width: 10rem;
@@ -269,8 +254,7 @@ render(<FormRow direction="vertical">
     data={topMovies}
   />
 </FormRow>)
-          `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -286,8 +270,7 @@ export const AutocompleteOpened = () => {
         scope={{ topMovies }}
         hideCode
       >
-        {
-          /* @jsx */ `
+        {() => /* jsx */ `
 <Autocomplete
   label="Label:"
   input_value="lord"
@@ -307,8 +290,7 @@ export const AutocompleteOpened = () => {
   data={topMovies}
   className="focus-trigger"
 />
-        `
-        }
+`}
       </ComponentBox>
     </Wrapper>
   )

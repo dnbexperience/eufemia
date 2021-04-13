@@ -13,6 +13,7 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../FormSet'
 import FormRow from '../../form-row/FormRow'
+import Input from '../../input/Input'
 
 const props = fakeProps(require.resolve('../FormSet'), {
   optional: true
@@ -42,7 +43,43 @@ describe('FormSet component', () => {
     ).toBe(true)
   })
 
-  it('should have working provider have correct indent classs on form-row', () => {
+  it('should disable nested components', () => {
+    const Comp = mount(
+      <Component {...props} disabled>
+        <FormRow>
+          <Input />
+        </FormRow>
+      </Component>
+    )
+
+    expect(Comp.find('.dnb-input').find('input').prop('disabled')).toBe(
+      true
+    )
+
+    Comp.setProps({ disabled: false })
+    expect(Comp.find('.dnb-input').find('input').prop('disabled')).toBe(
+      false
+    )
+
+    Comp.setProps({ disabled: true })
+    expect(Comp.find('.dnb-input').find('input').prop('disabled')).toBe(
+      true
+    )
+
+    const CompBypassDisabled = mount(
+      <Component {...props} disabled>
+        <FormRow disabled={false}>
+          <Input />
+        </FormRow>
+      </Component>
+    )
+
+    expect(
+      CompBypassDisabled.find('.dnb-input').find('input').prop('disabled')
+    ).toBe(false)
+  })
+
+  it('should have working provider have correct indent classes on form-row', () => {
     const Comp = mount(
       <Component {...props} indent="large">
         <FormRow />

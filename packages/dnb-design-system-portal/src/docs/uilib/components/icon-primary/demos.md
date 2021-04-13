@@ -9,7 +9,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 ### Default and Medium sized icons (responsive)
 
 <ComponentBox>
-	{/* @jsx */ `
+	{() => /* jsx */ `
 <IconPrimary icon="question" title="Give icons a title" />
 <IconPrimary
   icon="question_medium"
@@ -22,7 +22,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 ### Default Icon with custom, but fixed size (64)
 
 <ComponentBox>
-	{/* @jsx */ `
+	{() => /* jsx */ `
 <IconPrimary
   icon="question"
   size="64"

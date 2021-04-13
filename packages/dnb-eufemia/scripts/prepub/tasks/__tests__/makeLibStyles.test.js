@@ -20,10 +20,10 @@ if (isCI) {
     it('has to contain a button selector', () => {
       expect(global.css).toMatch(new RegExp('.dnb-button\\s?{'))
     })
-    it('has to contain a icon selector as it is a dependdency', () => {
+    it('has to contain a icon selector as it is a dependency', () => {
       expect(global.css).toMatch(new RegExp('.dnb-icon\\s?{'))
     })
-    it('has to contain a polyfil for font-family', () => {
+    it('has to contain a polyfill for font-family', () => {
       // because else we have font-family:var(--font-family-default)
       expect(global.css).toMatch(
         new RegExp('font-family:\\s?.*,\\s?sans-serif;')

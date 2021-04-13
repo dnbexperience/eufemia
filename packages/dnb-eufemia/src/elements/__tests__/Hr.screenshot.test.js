@@ -1,12 +1,12 @@
 /**
  * Screenshot Test
- * This file will not run on "test:staged" because we dont require any related files
+ * This file will not run on "test:staged" because we don't require any related files
  */
 
 import {
   testPageScreenshot,
   setupPageScreenshot
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../core/jest/jestSetupScreenshots'
 
 describe('List screenshot', () => {
   setupPageScreenshot({

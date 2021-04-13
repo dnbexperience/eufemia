@@ -38,8 +38,7 @@ const LargePage = styled.div`
 
 export const PaginationExampleDefault = () => (
   <ComponentBox data-visual-test="pagination-default">
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 <Pagination
   page_count={30}
   current_page={15}
@@ -49,15 +48,13 @@ export const PaginationExampleDefault = () => (
 >
   <P>Current Page Content</P>
 </Pagination>
-          `
-    }
+`}
   </ComponentBox>
 )
 
 export const PaginationExampleWithCallback = () => (
   <ComponentBox hideCode>
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 <Pagination
   page_count={5}
   startup_page={3}
@@ -65,17 +62,15 @@ export const PaginationExampleWithCallback = () => (
     console.log('on_change:', page)
   }}
 >
-  {({ pageNo }) => <P>Page {pageNo}</P>}
+  {({ pageNumber }) => <P>Page {pageNumber}</P>}
 </Pagination>
-          `
-    }
+`}
   </ComponentBox>
 )
 
 export const PaginationExampleCentered = () => (
   <ComponentBox scope={{ LargePage }}>
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 <Pagination
   align="center"
   page_count={30}
@@ -89,15 +84,13 @@ export const PaginationExampleCentered = () => (
     return () => clearTimeout(timeout)
   }}
 </Pagination>
-          `
-    }
+`}
   </ComponentBox>
 )
 
 export const PaginationExampleInfinityLoadButton = () => (
   <ComponentBox scope={{ HeightLimit, LargePage }}>
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 <HeightLimit>
   <Pagination
     mode="infinity"
@@ -118,15 +111,13 @@ export const PaginationExampleInfinityLoadButton = () => (
     }}
   />
 </HeightLimit>
-          `
-    }
+`}
   </ComponentBox>
 )
 
 export const PaginationExampleInfinityIndicator = () => (
   <ComponentBox scope={{ HeightLimit, LargePage }}>
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 <HeightLimit>
   <Pagination
     mode="infinity"
@@ -153,15 +144,13 @@ export const PaginationExampleInfinityIndicator = () => (
     }}
   />
 </HeightLimit>
-          `
-    }
+`}
   </ComponentBox>
 )
 
 export const PaginationExampleInfinityUnknown = () => (
   <ComponentBox scope={{ HeightLimit, LargePage }}>
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 <HeightLimit>
   <Pagination
     mode="infinity"
@@ -193,20 +182,17 @@ export const PaginationExampleInfinityUnknown = () => (
     }}
   />
 </HeightLimit>
-          `
-    }
+`}
   </ComponentBox>
 )
 
 export const PaginationExampleInfinityTable = () => (
   <ComponentBox scope={{ HeightLimit, PaginationTableExample }}>
-    {
-      /* @jsx */ `
+    {() => /* jsx */ `
 <HeightLimit height="60rem">
   <PaginationTableExample />
 </HeightLimit>
-          `
-    }
+`}
   </ComponentBox>
 )
 
@@ -258,7 +244,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
   const onToggleExpanded = (
     { ssn: _ssn },
-    { pageNo, element = null, onExpanded = null } = {}
+    { pageNumber, element = null, onExpanded = null } = {}
   ) => {
     const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
     if (index > -1) {
@@ -271,8 +257,8 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       }
 
       // define what page should update
-      // used to update the page inside the Paginatio Component
-      setLocalPage(pageNo)
+      // used to update the page inside the Pagination Component
+      setLocalPage(pageNumber)
 
       // force rerender of this component
       forceRerender(new Date().getTime())
@@ -381,7 +367,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
               // once we set current page, we force a rerender, and sync of data
               setLocalPage(page)
 
-              // since currentPage already is the same - used for reoder
+              // since currentPage already is the same - used for reorder
               clearTimeout(serverDelayTimeout)
               forceRerender(new Date().getTime())
             }, Math.ceil(Math.random() * 1e3)) // simulate random delay
@@ -443,7 +429,7 @@ const InfinityPagination = ({
         ) {
           let element = e.currentTarget
           onToggleExpanded(item, {
-            pageNo: currentPage,
+            pageNumber: currentPage,
             // element,
             onExpanded: () => {
               try {

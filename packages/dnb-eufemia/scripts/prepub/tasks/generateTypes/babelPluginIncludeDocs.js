@@ -39,7 +39,7 @@ export function babelPluginIncludeDocs(
               if (path.node.name) {
                 path.parent.trailingComments = null
                 path.parent.leadingComments = null
-                inserDocs(path, path.node.name, docs)
+                insertDocs(path, path.node.name, docs)
                 collectProps.push(path.node.name)
               }
             }
@@ -54,7 +54,7 @@ export function babelPluginIncludeDocs(
             'propTypes' &&
           path.node.key
         ) {
-          inserDocs(path, path.node.key.name, docs)
+          insertDocs(path, path.node.key.name, docs)
           collectProps.push(path.node.key.name)
         }
       }
@@ -62,7 +62,7 @@ export function babelPluginIncludeDocs(
   }
 }
 
-function inserDocs(path, name, docs) {
+function insertDocs(path, name, docs) {
   if (typeof docs[name] !== 'undefined') {
     const comment = docs[name]
     path.insertBefore(path.addComment('leading', `*\n * ${comment}\n`))

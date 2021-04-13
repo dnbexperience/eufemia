@@ -9,7 +9,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 ### Default Circular ProgressIndicator
 
 <ComponentBox>
-	{/* @jsx */ `
+	{() => /* jsx */ `
 <ProgressIndicator />
 	`}
 </ComponentBox>
@@ -17,7 +17,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 ### Circular ProgressIndicator with a label
 
 <ComponentBox>
-	{/* @jsx */ `
+	{() => /* jsx */ `
 <ProgressIndicator
   // label="Custom label ..."
   show_label="true"
@@ -29,7 +29,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 ### Shows a large Circular ProgressIndicator with a static 50% in progress
 
 <ComponentBox data-visual-test="progress-indicator-circular--primary">
-	{/* @jsx */ `
+	{() => /* jsx */ `
 <ProgressIndicator
   type="circular"
   progress="50"
@@ -42,7 +42,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 ### ProgressIndicator with random value
 
 <ComponentBox useRender>
-	{/* @jsx */ `
+	{() => /* jsx */ `
 const ChangeValue = () => {
 	const [value, setValue] = React.useState(50)
 	return (
@@ -70,7 +70,7 @@ render(<ChangeValue />)
 ### ProgressIndicator with random progress value to show the transition
 
 <ComponentBox noFragments={false}>
-	{/* @jsx */ `
+	{() => /* jsx */ `
 () => {
   const random = (min, max) => (Math.floor( Math.random () * (max - min + 1)) + min)
   const [progress, setProgressIndicator] = React.useState(random(1, 100))
@@ -91,12 +91,12 @@ render(<ChangeValue />)
 ### ProgressIndicator with random `on_complete` callback
 
 <ComponentBox noFragments={false}>
-	{/* @jsx */ `
+	{() => /* jsx */ `
 () => {
   const random = (min, max) => (Math.floor( Math.random () * (max - min + 1)) + min)
-  const [visible, setVisibe] = React.useState(true)
+  const [visible, setVisible] = React.useState(true)
   React.useEffect(() => {
-    const timer = setInterval(() => setVisibe(!visible), random(2400, 4200))
+    const timer = setInterval(() => setVisible(!visible), random(2400, 4200))
     return () => clearTimeout(timer)
   })
   return (
@@ -115,7 +115,7 @@ render(<ChangeValue />)
 ### ProgressIndicator inside a Modal
 
 <ComponentBox>
-	{/* @jsx */ `
+	{() => /* jsx */ `
 <Modal
   spacing={false}
   max_width="12rem"

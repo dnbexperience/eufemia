@@ -17,7 +17,7 @@ All components have various function helpers, you also can use in projects. This
 import {
   makeUniqueId,
   toPascalCase,
-  toCamcelCase,
+  toCamelCase,
   ...
 } from '@dnb/eufemia/shared/component-helper'
 ```
@@ -28,7 +28,7 @@ import {
 | `isTrue`                  | Checks if a value is Truthy or Falsy.                                                                                         | `[String or Boolean or Number]`                                                  | `Boolean`         |
 | `isTouchDevice`           | Checks if the target device has touch support.                                                                                |                                                                                  | `Boolean`         |
 | `toPascalCase`            | Transforms a string containing from **nake_case** to a [PascalCase](!/uilib/development/naming).                              | `[String]`                                                                       | `String`          |
-| `toCamcelCase`            | Transforms a string containing from **nake_case** to a [pascalCase](!/uilib/development/naming).                              | `[String]`                                                                       | `String`          |
+| `toCamelCase`             | Transforms a string containing from **nake_case** to a [pascalCase](!/uilib/development/naming).                              | `[String]`                                                                       | `String`          |
 | `detectOutsideClick`      | Detects an click outside of the defined target HTML `element` and will then emit the `callback`.                              | `[element, callback({ event })]`                                                 | `Void`            |
 | `filterProps`             | Filters out unwanted entries from either an object or array.                                                                  | `[props={object or array}, remove={object or array}, allowed={object or array}]` | `object or array` |
 | `makeUniqueId`            | Creates a truly unique hash.                                                                                                  | `[prefix='', length=8]`                                                          | `String`          |

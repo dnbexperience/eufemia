@@ -18,7 +18,7 @@ const data = [
     // (optional) can be what ever
     selected_key: 'key_0',
 
-    // (optional) is show insted of "content", once selected
+    // (optional) is show instead of "content", once selected
     selected_value: 'Item 1 Value',
 
     // Item content as a string or array

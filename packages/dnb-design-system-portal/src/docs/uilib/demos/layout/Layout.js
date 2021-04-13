@@ -18,12 +18,12 @@ const Wrapper = styled.div`
   justify-content: center;
 `
 const WrapperInner = styled.div`
-  /* for large screesn */
+  /* for large screens */
   width: 100%; /* 84vw ~ 60rem */
   max-width: 60rem;
   padding: 0 1rem;
 
-  /* for small screesn */
+  /* for small screens */
   @media screen and (max-width: 40em) {
     padding: 0 0.5rem;
   }

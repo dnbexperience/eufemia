@@ -4,7 +4,7 @@ showTabs: true
 
 import {
 DrawerListExampleInteractive,
-DrawerListExampleOnlyToVisulaize,
+DrawerListExampleOnlyToVisualize,
 DrawerListExampleDefault,
 DrawerListExampleSingleItem,
 DrawerListExampleMarkup
@@ -18,7 +18,7 @@ DrawerListExampleMarkup
 
 ### DrawerList list - only to visualize
 
-<DrawerListExampleOnlyToVisulaize />
+<DrawerListExampleOnlyToVisualize />
 
 ### Default DrawerList
 

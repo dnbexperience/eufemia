@@ -4,7 +4,7 @@ title: 'Code'
 
 ## Code
 
-### Code Highlighting with Prism
+### Code and Syntax highlighting
 
 [Prism](https://prismjs.com) is a popular Syntax Highlighting tool. DNB has its own **theme** You can use:
 

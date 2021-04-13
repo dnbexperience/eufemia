@@ -1,5 +1,5 @@
 ---
-title: 'Icons Library mainment'
+title: 'Icons Library'
 draft: true
 order: 6
 ---

@@ -51,10 +51,10 @@ In React You can make use of the helper components, the function as a kind of a 
 The goal is to update the content (properties/events) of the target GlobalStatus.
 
 ```jsx
-// Place the status where ever You have to
+// Place the status where ever you have to.
 <GlobalStatus id="custom-id" />
 
-// Manipu the status later on. Every property is optional.
+// Manipulate the status later on. Every property is optional.
 <GlobalStatus.Add id="custom-id" status_id="status-1" item="Item #1" text="New Text" />
 <GlobalStatus.Add id="custom-id" status_id="status-2" item="Item #2" title="New Titel" />
 <GlobalStatus.Add id="custom-id" status_id="status-3" item="Item #3" />

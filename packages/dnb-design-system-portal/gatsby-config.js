@@ -75,7 +75,7 @@ const plugins = [
           }
         }
       ]
-      // Imports in here are globally aviable in *.md files
+      // Imports in here are globally available in *.md files
       // globalScope: `
       //   import Img from 'Tags/Img'
       //   export default { Img }

@@ -379,7 +379,7 @@ class AutocompleteInstance extends React.PureComponent {
     this.state = this.state || {}
     this.state._listenForPropChanges = true
     this.state.mode = props.mode
-    this.state.init_data = props.data // only to compare agains new data
+    this.state.init_data = props.data // only to compare against new data
     this.state.updateData = this.updateData // only so we can call setData
 
     if (context.drawerList && context.drawerList.current_title) {
@@ -420,7 +420,7 @@ class AutocompleteInstance extends React.PureComponent {
     this.setHidden()
     clearTimeout(this._hideTimeout)
     clearTimeout(this._selectTimeout)
-    clearTimeout(this._ariaLiveUpdateTiemout)
+    clearTimeout(this._ariaLiveUpdateTimeout)
     clearTimeout(this._focusTimeout)
     clearTimeout(this._toggleVisibleTimeout)
   }
@@ -1210,9 +1210,8 @@ class AutocompleteInstance extends React.PureComponent {
 
             // If we get a component, replace the one we use as the string comparison
             // This way we can still have an icon before or after
-            if (isComponent  ) {
-              if(Array.isArray(component.props.children)){
-
+            if (isComponent) {
+              if (Array.isArray(component.props.children)) {
                 result = component.props.children.map((Comp) =>
                   Comp === origSegment ||
                   (Comp.props && Comp.props.children === origSegment)
@@ -1395,8 +1394,8 @@ class AutocompleteInstance extends React.PureComponent {
     const { aria_live_options, no_options } = this._props
 
     // this is only to make a better screen reader ux
-    clearTimeout(this._ariaLiveUpdateTiemout)
-    this._ariaLiveUpdateTiemout = setTimeout(() => {
+    clearTimeout(this._ariaLiveUpdateTimeout)
+    this._ariaLiveUpdateTimeout = setTimeout(() => {
       if (opened) {
         let newString = null
 
@@ -1413,7 +1412,7 @@ class AutocompleteInstance extends React.PureComponent {
             ariaLiveUpdate: newString,
             _listenForPropChanges: false
           })
-          this._ariaLiveUpdateTiemout = setTimeout(() => {
+          this._ariaLiveUpdateTimeout = setTimeout(() => {
             this.setState({
               ariaLiveUpdate: null,
               _listenForPropChanges: false

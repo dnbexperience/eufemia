@@ -74,7 +74,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   let items = Object.values(localStack.current)
   items = reorderDirection(items, orderDirection)
 
-  const onToggleExpanded = ({ ssn: _ssn }, pageNo, element = null) => {
+  const onToggleExpanded = ({ ssn: _ssn }, pageNumber, element = null) => {
     const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
     if (index > -1) {
       const item = tableItems[index]

@@ -14,8 +14,7 @@ import { BrowserRouter, Route, withRouter } from 'react-router-dom'
 export const TabsExampleContentOutside = () => (
   <Wrapper>
     <ComponentBox>
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <Tabs
   id="unique-linked-id"
   data={[
@@ -35,8 +34,7 @@ export const TabsExampleContentOutside = () => (
     return <H2>{ key }</H2>
   }}
 </Tabs.Content>
-  `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -49,8 +47,7 @@ export const TabsExampleContentObject = () => (
       useRender
       hideSyntaxButton
     >
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 const data = [
   { title: 'First', key: 'first' },
   { title: 'Second', key: 'second' },
@@ -62,8 +59,7 @@ render(
     { exampleContent /* See Example Content below */ }
   </Tabs>
 )
-  `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -74,8 +70,7 @@ export const TabsExampleUsingData = () => (
       data-visual-test="tabs-clickhandler"
       scope={{ exampleContent }}
     >
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <Tabs
   data={{
     first: {
@@ -98,8 +93,7 @@ export const TabsExampleUsingData = () => (
     console.log('on_change', selected_key)
   }}
 />
-  `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -110,22 +104,19 @@ export const TabsExampleScrollable = () => (
       data-visual-test="tabs-tablist-scrollable"
       scope={{ manyTabs, manyTabsContent }}
     >
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <Tabs data={manyTabs}>
   { manyTabsContent }
 </Tabs>
-  `
-      }
+`}
     </ComponentBox>
   </MaxWidth>
 )
 
 export const TabsExampleLeftAligned = () => (
   <Wrapper>
-    <ComponentBox data-visual-test="tabs-seciton-styles">
-      {
-        /* @jsx */ `
+    <ComponentBox data-visual-test="tabs-section-styles">
+      {() => /* jsx */ `
 <Tabs tabs_style="mint-green" content_style="black-3">
   <Tabs.Content title="First">
     <H2 top={0} bottom>First</H2>
@@ -134,8 +125,7 @@ export const TabsExampleLeftAligned = () => (
     <H2 top={0} bottom>Second</H2>
   </Tabs.Content>
 </Tabs>
-  `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -160,8 +150,7 @@ export class TabsExampleRightAligned extends React.PureComponent {
           data-visual-test="tabs-tablist-right-aligned"
           scope={{ exampleContent, activeTabKey, openTab, data }}
         >
-          {
-            /* @jsx */ `
+          {() => /* jsx */ `
 <Tabs
   selected_key={activeTabKey}
   align="right"
@@ -184,8 +173,7 @@ export class TabsExampleRightAligned extends React.PureComponent {
 >
   { exampleContent /* See Example Content below */ }
 </Tabs>
-      `
-          }
+`}
         </ComponentBox>
       </Wrapper>
     )
@@ -201,8 +189,7 @@ export const TabsExampleReactRouterNavigation = () =>
         useRender
         hideSyntaxButton
       >
-        {
-          /* @jsx */ `
+        {() => /* jsx */ `
 // import { Router, Route, withRouter } from 'react-router-dom'
 const tabsData = [
   { title: 'Home', key: 'home' },
@@ -233,8 +220,7 @@ const TabsNav = withRouter(({ history, location }) => (
   </Tabs>
 ))
 render(<BrowserRouter><TabsNav /></BrowserRouter>)
-  `
-        }
+`}
       </ComponentBox>
     </Wrapper>
   )
@@ -247,8 +233,7 @@ export const TabsExampleReachRouterNavigation = () =>
         useRender
         hideSyntaxButton
       >
-        {
-          /* @jsx */ `
+        {() => /* jsx */ `
 // import { Location, Router, navigate } from '@reach/router'
 const Home = () => <H2>Home</H2>
 const About = () => <H2>About</H2>
@@ -279,8 +264,7 @@ render(
     }}
   </Location>
 )
-`
-        }
+`}
       </ComponentBox>
     </Wrapper>
   )

@@ -99,9 +99,9 @@ export default class PerformanceTest extends React.Component {
           </FormRow>
 
           <FormRow>
-            <FormLabel for_id="swith_mode" text="Web Components" />{' '}
+            <FormLabel for_id="switch_mode" text="Web Components" />{' '}
             <Switch
-              id="swith_mode"
+              id="switch_mode"
               on_change={this.switchMode}
               checked={this.state.webComponentsEnabled}
             />
@@ -263,7 +263,7 @@ const InputWrap = React.forwardRef(
 class InputTest extends React.Component {
   state = {
     value: '0',
-    placeholder: 'Write someting',
+    placeholder: 'Write something',
     disabled: false
   }
   static propTypes = {
@@ -323,7 +323,7 @@ class InputTest extends React.Component {
       }
     }
     this.setState({
-      placeholder: 'Write someting New',
+      placeholder: 'Write something New',
       value: String(Math.random() * 1000000),
       disabled: Math.random() > 0.5
     })

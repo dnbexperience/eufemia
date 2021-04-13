@@ -14,7 +14,7 @@
   }
 
   // because "--mint-green-12" is the default
-  // and we dont set a spesific state --> const style = state === 'info' ? null : 'fire-red'
+  // and we don't set a spesific state --> const style = state === 'info' ? null : 'fire-red'
   &--info#{&}.dnb-section--mint-green-12::after {
     color: var(--color-sea-green);
   }

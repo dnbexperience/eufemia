@@ -17,23 +17,32 @@ export const skeletonDOMAttributes = (
   if (isTrue(skeleton) || (skeleton !== false && context?.skeleton)) {
     params.disabled = true
     params['aria-disabled'] = true
-    params['aria-label'] = context?.translation?.Skeleton?.aria_bussy
+    params['aria-label'] = context?.translation?.Skeleton?.aria_busy
   }
 
   return params
 }
 
-export const createSkeletonClass = (method, skeleton, context = null) => {
+export const createSkeletonClass = (
+  method,
+  skeleton,
+  context = null,
+  className = null
+) => {
   // We could extend this like so:
   // if (method === 'auto' && typeof skeleton === 'string') {
   //   method = skeleton
   // }
 
   if (isTrue(skeleton) || (skeleton !== false && context?.skeleton)) {
-    return classnames('dnb-skeleton', method && `dnb-skeleton--${method}`)
+    return classnames(
+      className,
+      'dnb-skeleton',
+      method && `dnb-skeleton--${method}`
+    )
   }
 
-  return null
+  return className
 }
 
 export class AutoSize extends React.PureComponent {

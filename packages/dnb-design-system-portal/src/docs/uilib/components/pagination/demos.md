@@ -24,7 +24,7 @@ If you need to access methods provided by the render prop arguments.
 
 ### Centered Pagination with random delay
 
-Note that we keep the hight of the previous page. All pages can for sure have their own height.
+Note that we keep the height of the previous page. All pages can for sure have their own height.
 
 <PaginationExampleCentered />
 

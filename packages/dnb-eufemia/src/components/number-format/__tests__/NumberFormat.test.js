@@ -62,8 +62,8 @@ describe('Node', () => {
 })
 
 describe('NumberFormat component', () => {
-  const displaySlector = element + '.dnb-number-format span'
-  const ariaSlector = element + '.dnb-number-format span[id]'
+  const displaySelector = element + '.dnb-number-format span'
+  const ariaSelector = element + '.dnb-number-format span[id]'
 
   it('have to match default number-format snapshot', () => {
     const Comp = mount(<Component {...snapshotProps} />)
@@ -71,18 +71,18 @@ describe('NumberFormat component', () => {
   })
   it('have to match default number', () => {
     const Comp = mount(<Component value={value} />)
-    expect(Comp.find(displaySlector).first().text()).toBe(
+    expect(Comp.find(displaySelector).first().text()).toBe(
       '12 345 678,9876'
     )
   })
   it('have to match currency', () => {
     const Comp = mount(<Component value={-value} currency />)
 
-    expect(Comp.find(displaySlector).first().text()).toBe(
+    expect(Comp.find(displaySelector).first().text()).toBe(
       '-12 345 678,99 kr'
     )
 
-    expect(Comp.find(ariaSlector).first().text()).toBe(
+    expect(Comp.find(ariaSelector).first().text()).toBe(
       '-12 345 678,99 norske kroner'
     )
 
@@ -93,11 +93,11 @@ describe('NumberFormat component', () => {
       value: 12345
     })
 
-    expect(Comp.find(displaySlector).first().text()).toBe('12 345 kr')
+    expect(Comp.find(displaySelector).first().text()).toBe('12 345 kr')
   })
   it('have to match currency with large decimals', () => {
     const Comp = mount(<Component value="5000.0099" currency />)
-    expect(Comp.find(displaySlector).first().text()).toBe('5 000,01 kr')
+    expect(Comp.find(displaySelector).first().text()).toBe('5 000,01 kr')
   })
   it('has valid selected number', () => {
     const Comp = mount(<Component value={-value} currency />)
@@ -136,34 +136,34 @@ describe('NumberFormat component', () => {
       <Component value={-value} currency currency_position="after" />
     )
 
-    expect(Comp.find(displaySlector).first().text()).toBe(
+    expect(Comp.find(displaySelector).first().text()).toBe(
       '-12 345 678,99 kr'
     )
 
-    expect(Comp.find(ariaSlector).first().text()).toBe(
+    expect(Comp.find(ariaSelector).first().text()).toBe(
       '-12 345 678,99 norske kroner'
     )
 
     Comp.setProps({
       currency_display: 'code'
     })
-    expect(Comp.find(displaySlector).first().text()).toBe(
+    expect(Comp.find(displaySelector).first().text()).toBe(
       '-12 345 678,99 NOK'
     )
 
     Comp.setProps({
       currency_position: 'before'
     })
-    expect(Comp.find(displaySlector).first().text()).toBe(
+    expect(Comp.find(displaySelector).first().text()).toBe(
       'NOK -12 345 678,99'
     )
   })
   it('have to match currency under 100.000', () => {
     const Comp = mount(<Component value={-12345.95} currency />)
 
-    expect(Comp.find(displaySlector).first().text()).toBe('-12 345,95 kr')
+    expect(Comp.find(displaySelector).first().text()).toBe('-12 345,95 kr')
 
-    expect(Comp.find(ariaSlector).first().text()).toBe(
+    expect(Comp.find(ariaSelector).first().text()).toBe(
       '-12345,95 norske kroner'
     )
   })
@@ -172,33 +172,33 @@ describe('NumberFormat component', () => {
       <Component value={-12345.99} currency decimals={0} />
     )
 
-    expect(Comp.find(displaySlector).first().text()).toBe('-12 346 kr')
+    expect(Comp.find(displaySelector).first().text()).toBe('-12 346 kr')
 
-    expect(Comp.find(ariaSlector).first().text()).toBe(
+    expect(Comp.find(ariaSelector).first().text()).toBe(
       '-12346 norske kroner'
     )
   })
   it('have to match phone number', () => {
     const Comp = mount(<Component phone>+47 99999999</Component>)
-    expect(Comp.find(displaySlector).first().text()).toBe(
+    expect(Comp.find(displaySelector).first().text()).toBe(
       '0047 99 99 99 99'
     )
   })
   it('have to match bank account number', () => {
     const Comp = mount(<Component ban>20001234567</Component>)
-    expect(Comp.find(displaySlector).first().text()).toBe('2000 12 34567')
+    expect(Comp.find(displaySelector).first().text()).toBe('2000 12 34567')
 
     // also check the formatting with one digit less
     Comp.setProps({
       children: null,
       value: 2000123456
     })
-    expect(Comp.find(displaySlector).first().text()).toBe('2000 12 3456')
+    expect(Comp.find(displaySelector).first().text()).toBe('2000 12 3456')
   })
   it('have to match national identification number', () => {
     const Comp = mount(<Component nin>18089212345</Component>)
-    expect(Comp.find(displaySlector).first().text()).toBe('180892 12345')
-    expect(Comp.find(ariaSlector).first().text()).toBe(
+    expect(Comp.find(displaySelector).first().text()).toBe('180892 12345')
+    expect(Comp.find(ariaSelector).first().text()).toBe(
       '18 08 92 1 2 3 4 5'
     )
   })
@@ -208,10 +208,10 @@ describe('NumberFormat component', () => {
         123456789
       </Component>
     )
-    expect(Comp.find(displaySlector).first().text()).toBe(
+    expect(Comp.find(displaySelector).first().text()).toBe(
       '123 456 789 MVA'
     )
-    expect(Comp.find(ariaSlector).first().text()).toBe(
+    expect(Comp.find(ariaSelector).first().text()).toBe(
       '1 2 3 4 5 6 7 8 9 MVA'
     )
   })
@@ -221,10 +221,10 @@ describe('NumberFormat component', () => {
         123456789.5
       </Component>
     )
-    expect(Comp.find(displaySlector).first().text()).toBe(
+    expect(Comp.find(displaySelector).first().text()).toBe(
       'prefix 123 456 789,5 suffix'
     )
-    expect(Comp.find(ariaSlector).first().text()).toBe(
+    expect(Comp.find(ariaSelector).first().text()).toBe(
       'prefix 123 456 789,5 suffix'
     )
   })

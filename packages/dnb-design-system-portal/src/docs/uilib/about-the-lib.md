@@ -29,7 +29,7 @@ The `@dnb/eufemia` is for internal DNB development only. Also, make sure you act
 
 Designers and developers tend to think differently regarding the structure, layout and sizing of web interface elements. It is common for designers to design grids, fixed font sizes, widths etc.
 
-Developers tend to think more in terms of re-usability, modularity, flexibility and scaleability of their elements.
+Developers tend to think more in terms of re-usability, modularity, flexibility and scalability of their elements.
 This library aims to bridge and merge these two ways of thinking by applying naming conventions, spatial rules and single sources of truth for the most common resources. Design resources are designed based on how they behave in the browser. This means that coded designs will more likely resemble the handovers from designers.
 
 ## The library ...

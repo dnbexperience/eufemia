@@ -46,6 +46,6 @@ The content can be either a function or a React Node. A function may be more use
 <Pagination
   ...
 >
-  {({ pageNo, setContent, resetContent, ...otherInternalMethodes }) => <code>Page {pageNo}</code>}
+  {({ pageNumber, setContent, resetContent, ...otherInternalMethods }) => <code>Page {pageNumber}</code>}
 </Pagination>
 ```

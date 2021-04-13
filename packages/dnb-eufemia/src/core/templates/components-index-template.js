@@ -3,8 +3,8 @@
  * Used by "prepareTemplates"
  */
 
-// import all the aviable components
+// import all the available components
 import Template from './template/Template'
 
-// define / export all the aviable components
+// define / export all the available components
 export { Template }

@@ -34,7 +34,7 @@ export default class Provider extends React.PureComponent {
       } = props
 
       // 1. Set default context to be overwritten by the provider props
-      let newContext = state
+      // let newContext = state
 
       // No, it's not sure that props have been updated, so we check that here
       if (state._startupProps !== updatedProps) {
@@ -51,17 +51,19 @@ export default class Provider extends React.PureComponent {
 
         // and if so, update these props
         if (hasChanges) {
-          newContext = Object.assign(state, updatedProps)
+          state = Object.assign(state, updatedProps)
           state._startupProps = updatedProps
         }
       }
 
       // 2. The reset will extend the Provider Context
-      if (newContext.FormRow) {
-        newContext.FormRow = prepareFormRowContext(newContext.FormRow)
+      if (state.FormRow) {
+        state.FormRow = {
+          ...state.FormRow,
+          ...updatedProps.FormRow
+        }
+        state.FormRow = prepareFormRowContext(state.FormRow)
       }
-
-      state = newContext
     }
 
     state._listenForPropChanges = true
@@ -69,12 +71,28 @@ export default class Provider extends React.PureComponent {
     return prepareContext(state)
   }
 
+  static mergeContext(props, context) {
+    const { value, ...rest } = props
+
+    // Make sure we create a copy, because we add some custom methods to it
+    const merge = { ...value, ...rest }
+
+    // Merge our new values with an existing context
+    let mergedContext = { ...context, ...merge }
+
+    // Because we don't want to deep merge, we merge FormRow additionally
+    if (context.FormRow && merge.FormRow) {
+      mergedContext.FormRow = { ...context.FormRow, ...merge.FormRow }
+    }
+
+    return mergedContext
+  }
+
   constructor(props, context) {
     super(props)
 
     const {
       children, // eslint-disable-line
-      value,
       ...startupProps
     } = props
 
@@ -88,7 +106,7 @@ export default class Provider extends React.PureComponent {
     }
 
     // NB: Make sure we create a copy, because we add some custom methods to it
-    const newContext = { ...value, ...context, ...startupProps }
+    const newContext = Provider.mergeContext(startupProps, context)
     const isRoot = !(newContext && newContext.__providerId)
     newContext.__providerId = makeUniqueId()
 
@@ -140,19 +158,38 @@ export default class Provider extends React.PureComponent {
     this.setState({ __newContext })
   }
 
+  // render() {
+  //   this.context.updateTranslation(
+  //     this.state.locale,
+  //     this.state.translation
+  //   )
+
+  //   return (
+  //     <Context.Provider value={this.state}>
+  //       {this.props.children}
+  //     </Context.Provider>
+  //   )
+  // }
+
   render() {
-    const { children } = this.props
+    let value = this.state
 
     // this way we update the translation object
-    const context = !this.state.isRoot
-      ? {
-          ...this.context,
-          ...this.state // Use this state here, because our child provider can still update the context          ...this.context
-        }
-      : this.state
+    if (!this.state.isRoot) {
+      value = {
+        ...this.context,
+        ...this.state // Use this state here, because our child provider can still update the context          ...this.context
+      }
 
-    this.context.updateTranslation(context.locale, context.translation)
+      value = Provider.mergeContext(this.state, this.context)
+    }
 
-    return <Context.Provider value={context}>{children}</Context.Provider>
+    this.context.updateTranslation(value.locale, value.translation)
+
+    return (
+      <Context.Provider value={value}>
+        {this.props.children}
+      </Context.Provider>
+    )
   }
 }

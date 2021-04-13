@@ -639,7 +639,7 @@ describe('Modal component', () => {
 
 describe('Modal trigger', () => {
   const roledescription = 'Hjelp-knapp'
-  it('will act by defualt as a HelpButton', () => {
+  it('will act by default as a HelpButton', () => {
     const Comp = mount(<Component {...props} />)
     expect(
       Comp.find('button.dnb-modal__trigger')

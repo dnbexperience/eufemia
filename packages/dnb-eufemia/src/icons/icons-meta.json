@@ -842,7 +842,7 @@
   },
   "hand_money": {
     "tags": [
-      "recieve"
+      "receive"
     ],
     "created": 1611955557276,
     "name": "essentials/hand_money_16",

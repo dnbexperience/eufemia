@@ -11,7 +11,7 @@ import {
   translateSpace,
   splitTypes,
   sumTypes,
-  createTypeModifyers,
+  createTypeModifiers,
   findType,
   findNearestTypes,
   isValidSpaceProp,
@@ -45,7 +45,7 @@ describe('translateSpace', () => {
 })
 
 describe('splitTypes', () => {
-  it('should split types correcttly', () => {
+  it('should split types correctly', () => {
     expect(splitTypes('large medium')).toEqual(['large', 'medium'])
     expect(splitTypes(['large', 'medium'])).toEqual(['large', 'medium'])
     expect(splitTypes(2)).toEqual([2])
@@ -60,17 +60,17 @@ describe('sumTypes', () => {
   })
 })
 
-describe('createTypeModifyers', () => {
-  it('should return an array with modifyers', () => {
-    expect(createTypeModifyers('0.5 1 2')).toEqual([
+describe('createTypeModifiers', () => {
+  it('should return an array with modifiers', () => {
+    expect(createTypeModifiers('0.5 1 2')).toEqual([
       'x-small',
       'small',
       'large'
     ])
-    expect(createTypeModifyers('2 0.5')).toEqual(['large', 'x-small'])
-    expect(createTypeModifyers(1)).toEqual(['small'])
-    expect(createTypeModifyers(true)).toEqual(['small'])
-    expect(createTypeModifyers(null)).toEqual([])
+    expect(createTypeModifiers('2 0.5')).toEqual(['large', 'x-small'])
+    expect(createTypeModifiers(1)).toEqual(['small'])
+    expect(createTypeModifiers(true)).toEqual(['small'])
+    expect(createTypeModifiers(null)).toEqual([])
   })
 })
 

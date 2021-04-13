@@ -141,7 +141,7 @@ export const format = (
     })
     aria = enhanceSR(cleanedNumber, aria, locale) // also calls cleanupMinus
 
-    // IE has a bug, where negative numbers has a parentese around the number
+    // IE has a bug, where negative numbers has a parenthesis around the number
     if (IS_IE11) {
       display = display.replace(/^\((.*)\)$/, '-$1')
       aria = aria.replace(/^\((.*)\)$/, '-$1')
@@ -470,7 +470,7 @@ export const formatNIN = (number, locale = null) => {
         .filter((s) => s)
         .join(' ')
 
-      // correct nim for screen readers
+      // correct nin for screen readers
       aria = display
         .split(
           /([0-9]{2})([0-9]{2})([0-9]{2}) ([0-9]{1})([0-9]{1})([0-9]{1})([0-9]{1})([0-9]{1})/
@@ -512,7 +512,7 @@ export function cleanNumber(num) {
   // -12.345,678
   else if (
     /(\.)([0-9]{3})/.test(num) &&
-    !/([,'][0-9]{3})(\.)([0-9]{3})/.test(num) // just an additioanl check, for support with more
+    !/([,'][0-9]{3})(\.)([0-9]{3})/.test(num) // just an additional check, for support with more
   ) {
     usesThousand = '\\.'
     usesDecimal = ",|·|'" // also support Spain and CH

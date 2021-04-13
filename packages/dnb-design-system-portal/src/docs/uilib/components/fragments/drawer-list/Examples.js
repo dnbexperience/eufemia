@@ -10,8 +10,7 @@ import styled from '@emotion/styled'
 export const DrawerListExampleInteractive = () => (
   <Wrapper>
     <ComponentBox useRender scope={{ data }}>
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 const DrawerListWithState = props => {
   const [opened, setOpened] = React.useState(false)
   const Relative = styled.span\`
@@ -37,17 +36,15 @@ const DrawerListWithState = props => {
   )
 }
 render(<DrawerListWithState />)
-          `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
 
-export const DrawerListExampleOnlyToVisulaize = () => (
+export const DrawerListExampleOnlyToVisualize = () => (
   <Wrapper>
     <ComponentBox data-visual-test="drawer-list" scope={{ data }} hideCode>
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <span className="dnb-drawer-list__list">
   <ul className="dnb-drawer-list__options">
     <li className="dnb-drawer-list__option first-of-type">
@@ -74,8 +71,7 @@ export const DrawerListExampleOnlyToVisulaize = () => (
     <li className="dnb-drawer-list__triangle" />
   </ul>
 </span>
-          `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -83,8 +79,7 @@ export const DrawerListExampleOnlyToVisulaize = () => (
 export const DrawerListExampleDefault = () => (
   <Wrapper>
     <ComponentBox scope={{ data }} data-visual-test="drawer-list-default">
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 <DrawerList
   skip_portal
   opened
@@ -99,8 +94,7 @@ export const DrawerListExampleDefault = () => (
     console.log('on_show')
   }}
 />
-          `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -112,13 +106,12 @@ export const DrawerListExampleSingleItem = () => (
       useRender
       data-visual-test="drawer-list-events"
     >
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 const CustomComponent = () => (
   <CustomComponentInner
     onTouchStart={preventDefault}
     onClick={e => {
-      console.log('Do someting different')
+      console.log('Do something different')
       preventDefault(e)
     }}
   >
@@ -159,8 +152,7 @@ render(
     suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
   />
 )
-          `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -168,8 +160,7 @@ render(
 export const DrawerListExampleMarkup = () => (
   <Wrapper>
     <ComponentBox data-visual-test="drawer-items" useRender>
-      {
-        /* @jsx */ `
+      {() => /* jsx */ `
 const list = [
   { value: 'A' },
   { value: 'B' },
@@ -207,8 +198,7 @@ const DrawerListWithState = props => {
   )
 }
 render(<DrawerListWithState />)
-          `
-      }
+`}
     </ComponentBox>
   </Wrapper>
 )
@@ -234,7 +224,7 @@ const data = [
     // (optional) can be what ever
     selected_key: 'key_0',
 
-    // (optional) is show insted of "content", once selected
+    // (optional) is show instead of "content", once selected
     selected_value: 'Item 1 Value',
 
     // Item content as a string or array

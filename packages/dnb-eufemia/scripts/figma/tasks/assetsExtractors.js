@@ -68,7 +68,7 @@ export function IconsConfig(overwrite = {}) {
     process.env.FIGMA_ICONS_PAGE_SELECTOR || /^Icons$/ // before we have used: ^[0-9]+[_\- ]Icons$
   const frameNameSelector =
     process.env.FIGMA_ICONS_FRAME_SELECTOR || /[A-z]+ - [0-9]{1,2}/
-  const sizeSeperator =
+  const sizeSeparator =
     process.env.FIGMA_ICONS_FRAME_SIZE_SEPERATOR || /(.*)_[0-9]{1,2}/
   const iconSelector = process.env.FIGMA_ICONS_SELECTOR || null
   const iconNameCleaner =
@@ -86,7 +86,7 @@ export function IconsConfig(overwrite = {}) {
   return {
     canvasNameSelector,
     frameNameSelector,
-    sizeSeperator,
+    sizeSeparator,
     ignoreAddingSizeList,
     iconsLockFile,
     iconPrimaryList,
@@ -428,7 +428,7 @@ const frameIconsFactory = async ({
   destDir,
   forceRedownload = null,
   format = 'svg',
-  sizeSeperator,
+  sizeSeparator,
   iconsLockFile,
   iconSelector,
   iconPrimaryList,
@@ -444,7 +444,7 @@ const frameIconsFactory = async ({
     // because the frame name contains a number first
     .replace(/^[0-9]+[_\- ]/g, '')
   const size = formatIconName(originalFrameName).replace(
-    sizeSeperator,
+    sizeSeparator,
     '$1'
   )
 
@@ -965,11 +965,11 @@ const optimizeSVG = async (file) => {
       //   removeAttrs: {
       //     attrs: [
       //       // once this pullrequest goes throug https://github.com/svg/svgo/pull/977
-      //       // we can use this methode
+      //       // we can use this method
       //       // '*:(fill)|((?!^none$).)*'
       //       // remove all fills - if the instance has a defined background color, then things are not showing good. Then then have to allow this setting to be there
       //       'fill'
-      //       // 'stroke' // for now, we dont remove stroke
+      //       // 'stroke' // for now, we don't remove stroke
       //       // 'svg:fill'
       //       // 'svg:xmlns',
       //       // 'svg:width',

@@ -94,7 +94,7 @@ export const runFactory = (
           )
       }
 
-      // so tests can test the minifyed code
+      // so tests can test the minified code
       if (returnResult) {
         stream.pipe(
           cssnano({

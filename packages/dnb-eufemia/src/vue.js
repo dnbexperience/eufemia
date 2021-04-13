@@ -5,7 +5,7 @@
 
 import { VuePlugin } from 'vuera'
 
-// import all the aviable libs
+// import all the available libs
 import * as componentsIndex from './components/lib'
 import * as elementsIndex from './elements/lib'
 

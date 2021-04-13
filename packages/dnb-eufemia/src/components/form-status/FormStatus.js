@@ -494,7 +494,7 @@ export function setMaxWidthToElement({
     })
 
     if (width > 40) {
-      const minWidth = 12 * 16 // use 12rem, because thats the default width in chrome for an input
+      const minWidth = 12 * 16 // use 12rem, because that's the default width in chrome for an input
       if (width < minWidth) {
         width = minWidth
       }

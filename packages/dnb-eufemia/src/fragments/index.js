@@ -9,9 +9,9 @@
  * Used by "prepareTemplates"
  */
 
-// import all the aviable components
+// import all the available components
 import DrawerList from './drawer-list/DrawerList'
 import ScrollView from './scroll-view/ScrollView'
 
-// define / export all the aviable components
+// define / export all the available components
 export { DrawerList, ScrollView }

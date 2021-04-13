@@ -63,31 +63,33 @@ export const PaginationSandbox = () => (
       <Pagination
         page_count={30}
         startup_page={15}
-        on_change={(pageNo) => {
-          console.log('on_change:', pageNo)
+        on_change={(pageNumber) => {
+          console.log('on_change:', pageNumber)
         }}
       >
-        {({ pageNo }) => <P>Page {pageNo}</P>}
+        {({ pageNumber }) => <P>Page {pageNumber}</P>}
       </Pagination>
     </Box>
 
     <Box>
       <PaginationWithState
         align="center"
-        on_change={(pageNo) => {
-          console.log('on_change:', pageNo)
+        on_change={(pageNumber) => {
+          console.log('on_change:', pageNumber)
         }}
       >
-        {(pageNo) => <LargePage color="HotPink">{pageNo}</LargePage>}
+        {(pageNumber) => (
+          <LargePage color="HotPink">{pageNumber}</LargePage>
+        )}
       </PaginationWithState>
     </Box>
 
     <Box>
       <HeightLimit>
         <InfinityPagination use_load_button startup_page={5}>
-          {(pageNo, ref) => (
+          {(pageNumber, ref) => (
             <LargePage ref={ref} color="LightCoral">
-              {pageNo}
+              {pageNumber}
             </LargePage>
           )}
         </InfinityPagination>
@@ -104,9 +106,9 @@ export const PaginationSandbox = () => (
           page_count={10}
           min_wait_time={0}
         >
-          {(pageNo, ref) => (
+          {(pageNumber, ref) => (
             <LargePage ref={ref} color="Indigo">
-              {pageNo}
+              {pageNumber}
             </LargePage>
           )}
         </InfinityPagination>
@@ -217,25 +219,42 @@ const InfinityPagination = ({ children, ...props }) => {
 }
 
 function PaginationRender() {
-  const [currentPage, setCurrentPage] = React.useState(1)
-  const [count, setCount] = React.useState(0)
+  const pageCount = 8
+  const startupPage = 2
+  const [currentPage, setCurrentPage] = React.useState(startupPage)
   return (
-    <div className="App">
+    <div>
+      <Button
+        on_click={() => setCurrentPage(1)}
+        text="Reset"
+        bottom
+        size="small"
+        right
+      />
+      <Button
+        on_click={() => setCurrentPage((prevCount) => prevCount - 1)}
+        text="Decrease"
+        size="small"
+        variant="secondary"
+        right
+      />
+      <Button
+        on_click={() => setCurrentPage((prevCount) => prevCount + 1)}
+        text="Increase"
+        size="small"
+        variant="secondary"
+        right
+      />
       <Pagination
-        id="unique"
-        page_count={30}
+        page_count={pageCount}
+        startup_page={startupPage}
         current_page={currentPage}
         on_change={({ page }) => {
           setCurrentPage(page)
         }}
       >
         <div className="pagination-content">
-          <code>{JSON.stringify({ currentPage, count })}</code>
-          <Button
-            on_click={() => setCount((prevCount) => prevCount + 1)}
-            text="Increase count"
-            left
-          />
+          <code>{JSON.stringify({ currentPage })}</code>
         </div>
       </Pagination>
     </div>

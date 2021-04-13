@@ -16,7 +16,7 @@ order: 3
 | 40px  | `large`   | **2.5rem**   | `--line-height-large`   | H1 small  |
 | 56px  | `x-large` | **3.5rem**   | `--line-height-x-large` | H1        |
 
-<!-- - Used for `<h5>` and `<h6>`, who are not a part of the design sytem. -->
+<!-- - Used for `<h5>` and `<h6>`, who are not a part of the design system. -->
 
 ## Additional `line-height` **em** table
 

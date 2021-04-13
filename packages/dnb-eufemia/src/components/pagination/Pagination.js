@@ -224,8 +224,9 @@ class PaginationInstance extends React.PureComponent {
 
       validateDOMAttributes(props, mainParams)
 
-      const content = items.find(({ pageNo }) => pageNo === currentPage)
-        ?.content
+      const content = items.find(
+        ({ pageNumber }) => pageNumber === currentPage
+      )?.content
 
       return (
         <>
@@ -319,9 +320,9 @@ export const createPagination = (initProps = {}) => {
   const _resetInfinity = React.createRef(null)
   const _endInfinity = React.createRef(null)
 
-  const setContent = (pageNo, content) => {
-    if (pageNo > 0) {
-      store.current = { ...store.current, ...{ pageNo, content } }
+  const setContent = (pageNumber, content) => {
+    if (pageNumber > 0) {
+      store.current = { ...store.current, ...{ pageNumber, content } }
       rerender.current && rerender.current(store)
     }
   }

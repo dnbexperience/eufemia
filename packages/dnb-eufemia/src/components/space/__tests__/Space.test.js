@@ -68,7 +68,7 @@ describe('Space component', () => {
     ])
   })
 
-  it('should have collapse CSS classe', () => {
+  it('should have collapse CSS class', () => {
     const Comp = mount(<Component top="large" no_collapse={true} />)
     expect(Comp.find('.dnb-space--no-collapse').exists()).toBe(true)
   })

@@ -41,8 +41,10 @@
   }
 
   &__button {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    &.dnb-button--has-text {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
 
     // checkbox
     .dnb-checkbox {
@@ -67,8 +69,6 @@
         height: calc(var(--checkbox-height--medium) - 1rem);
       }
       &__gfx {
-        // width: calc(var(--checkbox-width--medium) - 0.25rem);// old svg size
-        // height: calc(var(--checkbox-height--medium) - 0.25rem);// old svg size
         width: calc(var(--checkbox-width--medium) - 0.75rem);
         height: calc(var(--checkbox-height--medium) - 0.75rem);
       }
@@ -95,29 +95,13 @@
     }
   }
 
-  // NB: Do we have usage for that anymore?
-  // [class*='__variant'] & {
-  // }
-  // &__button.dnb-button--has-icon.dnb-button--icon-position-right {
-  //   padding-right: 0.5rem;
-  // }
-  // &__button.dnb-button--has-icon.dnb-button--icon-position-left {
-  //   padding-left: 0.5rem;
-  //   .dnb-button__icon {
-  //     margin-left: 0.25rem;
-  //     margin-right: 0.25rem;
-  //   }
-  // }
-  // &__button.dnb-button--has-icon.dnb-button--icon-position-left
-  //   > &__component {
-  //   padding-left: 0.5rem;
-  //   padding-right: 0;
-  // }
-
   // default "active" style
   &--checked &__button:not([disabled]):not(:active) {
-    background-color: var(--color-emerald-green);
-    color: var(--color-mint-green);
+    &.dnb-button--secondary,
+    &.dnb-button--secondary:hover {
+      background-color: var(--color-emerald-green);
+      color: var(--color-mint-green);
+    }
   }
 
   // in case we don't define a wrapping group

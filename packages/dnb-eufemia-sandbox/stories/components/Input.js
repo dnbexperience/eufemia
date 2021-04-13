@@ -296,7 +296,7 @@ export const InputSandbox = () => {
         <Box>
           <InputPassword
             label="Label:"
-            placeholder="A palceholder text"
+            placeholder="A placeholder text"
             on_change={({ value }) => {
               console.log('on_change:', value)
             }}
