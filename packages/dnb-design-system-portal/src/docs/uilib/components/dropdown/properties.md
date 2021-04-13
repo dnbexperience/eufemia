@@ -28,8 +28,9 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
 | `global_status_id`                          | _(optional)_ the `status_id` used for the target [GlobalStatus](/uilib/components/global-status).                                                                       |
 | `label`                                     | _(optional)_ prepends the Form Label component. If no ID is provided, a random ID is created.                                                                           |
 | `label_direction`                           | _(optional)_ use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`                                                            |
-| `suffix`                                    | _(optional)_ text describing the content of the Dropdown more than the label. You can also send in a React component, so it gets wrapped inside the Dropdown component. |
 | `label_sr_only`                             | _(optional)_ use `true` to make the label only readable by screen readers.                                                                                              |
+| `suffix`                                    | _(optional)_ text describing the content of the Dropdown more than the label. You can also send in a React component, so it gets wrapped inside the Dropdown component. |
+| `skeleton`                                  | _(optional)_ if set to `true`, an overlaying skeleton with animation will be shown.                                                                                     |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                   |
 
 ## DrawerList Properties

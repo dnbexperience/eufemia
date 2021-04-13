@@ -12,6 +12,7 @@ draft: true
 | `to`                                            | _(optional)_ use this prop only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url. |
 | `target`                                        | _(optional)_ defines the opening method. Use `_blank` to open a new browser window/tab.                                                              |
 | `target_blank_title`                            | _(optional)_ the title shown as a tooltip when target is set to `_blank`.                                                                            |
+| `skeleton`                                      | _(optional)_ if set to `true`, an overlaying skeleton with animation will be shown.                                                                  |
 | [Tooltip](/uilib/components/tooltip/properties) | _(optional)_ define tooltip content or props.                                                                                                        |
 | [Space](/uilib/components/space/properties)     | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                |
 

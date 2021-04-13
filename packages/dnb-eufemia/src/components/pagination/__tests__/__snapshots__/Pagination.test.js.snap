@@ -12,6 +12,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "class": "class",
         "className": "className",
         "current_page": "current_page",
+        "disabled": "disabled",
         "end_infinity_handler": "end_infinity_handler",
         "fallback_element": Object {},
         "hide_progress_indicator": "hide_progress_indicator",
@@ -36,6 +37,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "reset_content_handler": "reset_content_handler",
         "reset_pagination_handler": "reset_pagination_handler",
         "set_content_handler": "set_content_handler",
+        "skeleton": "skeleton",
         "startup_count": "startup_count",
         "startup_page": "startup_page",
         "use_load_button": "use_load_button",
@@ -52,6 +54,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "class": "class",
         "className": "className",
         "current_page": "current_page",
+        "disabled": "disabled",
         "end_infinity_handler": "end_infinity_handler",
         "fallback_element": Object {},
         "hide_progress_indicator": "hide_progress_indicator",
@@ -76,6 +79,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "reset_content_handler": "reset_content_handler",
         "reset_pagination_handler": "reset_pagination_handler",
         "set_content_handler": "set_content_handler",
+        "skeleton": "skeleton",
         "startup_count": "startup_count",
         "startup_page": "startup_page",
         "use_load_button": "use_load_button",
@@ -92,6 +96,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "class": "class",
         "className": "className",
         "current_page": "current_page",
+        "disabled": "disabled",
         "end_infinity_handler": "end_infinity_handler",
         "fallback_element": Object {},
         "hide_progress_indicator": "hide_progress_indicator",
@@ -116,6 +121,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "reset_content_handler": "reset_content_handler",
         "reset_pagination_handler": "reset_pagination_handler",
         "set_content_handler": "set_content_handler",
+        "skeleton": "skeleton",
         "startup_count": "startup_count",
         "startup_page": "startup_page",
         "use_load_button": "use_load_button",
@@ -127,6 +133,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
   class={null}
   className={null}
   current_page={null}
+  disabled={null}
   hide_progress_indicator={false}
   is_loading_text={null}
   items={null}
@@ -145,6 +152,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
   prev_title={null}
   reset_content_handler={null}
   set_content_handler={null}
+  skeleton={null}
   startup_count={1}
   startup_page={null}
   use_load_button={false}
@@ -160,6 +168,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "class": "class",
           "className": "className",
           "current_page": "current_page",
+          "disabled": "disabled",
           "end_infinity_handler": "end_infinity_handler",
           "fallback_element": Object {},
           "hide_progress_indicator": "hide_progress_indicator",
@@ -184,6 +193,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "reset_content_handler": "reset_content_handler",
           "reset_pagination_handler": "reset_pagination_handler",
           "set_content_handler": "set_content_handler",
+          "skeleton": "skeleton",
           "startup_count": "startup_count",
           "startup_page": "startup_page",
           "use_load_button": "use_load_button",
@@ -200,6 +210,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "class": "class",
           "className": "className",
           "current_page": "current_page",
+          "disabled": "disabled",
           "end_infinity_handler": "end_infinity_handler",
           "fallback_element": Object {},
           "hide_progress_indicator": "hide_progress_indicator",
@@ -224,6 +235,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "reset_content_handler": "reset_content_handler",
           "reset_pagination_handler": "reset_pagination_handler",
           "set_content_handler": "set_content_handler",
+          "skeleton": "skeleton",
           "startup_count": "startup_count",
           "startup_page": "startup_page",
           "use_load_button": "use_load_button",
@@ -240,6 +252,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "class": "class",
           "className": "className",
           "current_page": "current_page",
+          "disabled": "disabled",
           "end_infinity_handler": "end_infinity_handler",
           "fallback_element": Object {},
           "hide_progress_indicator": "hide_progress_indicator",
@@ -264,6 +277,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "reset_content_handler": "reset_content_handler",
           "reset_pagination_handler": "reset_pagination_handler",
           "set_content_handler": "set_content_handler",
+          "skeleton": "skeleton",
           "startup_count": "startup_count",
           "startup_page": "startup_page",
           "use_load_button": "use_load_button",
@@ -275,6 +289,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
     class={null}
     className={null}
     current_page={null}
+    disabled={null}
     end_infinity_handler={null}
     hide_progress_indicator={false}
     internalContent={null}
@@ -297,6 +312,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
     reset_content_handler={null}
     reset_pagination_handler={null}
     set_content_handler={null}
+    skeleton={null}
     startup_count={1}
     startup_page={null}
     store={null}
@@ -315,6 +331,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "class": "class",
             "className": "className",
             "current_page": "current_page",
+            "disabled": "disabled",
             "end_infinity_handler": "end_infinity_handler",
             "fallback_element": Object {},
             "hide_progress_indicator": "hide_progress_indicator",
@@ -339,6 +356,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "reset_content_handler": "reset_content_handler",
             "reset_pagination_handler": "reset_pagination_handler",
             "set_content_handler": "set_content_handler",
+            "skeleton": "skeleton",
             "startup_count": "startup_count",
             "startup_page": "startup_page",
             "use_load_button": "use_load_button",
@@ -355,6 +373,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "class": "class",
             "className": "className",
             "current_page": "current_page",
+            "disabled": "disabled",
             "end_infinity_handler": "end_infinity_handler",
             "fallback_element": Object {},
             "hide_progress_indicator": "hide_progress_indicator",
@@ -379,6 +398,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "reset_content_handler": "reset_content_handler",
             "reset_pagination_handler": "reset_pagination_handler",
             "set_content_handler": "set_content_handler",
+            "skeleton": "skeleton",
             "startup_count": "startup_count",
             "startup_page": "startup_page",
             "use_load_button": "use_load_button",
@@ -395,6 +415,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "class": "class",
             "className": "className",
             "current_page": "current_page",
+            "disabled": "disabled",
             "end_infinity_handler": "end_infinity_handler",
             "fallback_element": Object {},
             "hide_progress_indicator": "hide_progress_indicator",
@@ -419,6 +440,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "reset_content_handler": "reset_content_handler",
             "reset_pagination_handler": "reset_pagination_handler",
             "set_content_handler": "set_content_handler",
+            "skeleton": "skeleton",
             "startup_count": "startup_count",
             "startup_page": "startup_page",
             "use_load_button": "use_load_button",
@@ -430,6 +452,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
       class={null}
       className={null}
       current_page={null}
+      disabled={null}
       hide_progress_indicator={false}
       is_loading_text={null}
       items={null}
@@ -448,6 +471,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
       prev_title={null}
       reset_content_handler={null}
       set_content_handler={null}
+      skeleton={null}
       startup_count={1}
       startup_page={null}
       use_load_button={false}
