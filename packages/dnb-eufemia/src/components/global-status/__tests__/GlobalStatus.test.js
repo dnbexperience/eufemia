@@ -374,6 +374,63 @@ describe('GlobalStatus component', () => {
     expect(on_hide.mock.calls.length).toBe(1)
   })
 
+  it('has to take account to the show prop', () => {
+    const Comp = mount(
+      <Component
+        show={false}
+        no_animation={true}
+        autoscroll={false}
+        delay={0}
+        id="custom-status-show"
+      />
+    )
+
+    Comp.update()
+
+    expect(Comp.exists('div.dnb-global-status__content')).toBe(false)
+    expect(Comp.exists('div.dnb-global-status__message__content')).toBe(
+      false
+    )
+    expect(Comp.state().isActive).toBe(false)
+
+    Comp.setProps({ show: true })
+    Comp.update()
+
+    expect(Comp.state().isActive).toBe(true)
+    expect(Comp.exists('div.dnb-global-status__content')).toBe(true)
+    expect(Comp.exists('div.dnb-global-status__message__content')).toBe(
+      false
+    )
+
+    mount(
+      <Component.Add
+        id="custom-status-show"
+        status_id="status-show-1"
+        text="text only"
+      />
+    )
+    Comp.update()
+
+    expect(Comp.exists('div.dnb-global-status__message__content')).toBe(
+      true
+    )
+
+    Comp.setProps({ show: 'auto' })
+
+    mount(
+      <Component.Remove
+        id="custom-status-show"
+        status_id="status-show-1"
+      />
+    )
+    Comp.update()
+
+    expect(Comp.exists('div.dnb-global-status__content')).toBe(false)
+    expect(Comp.exists('div.dnb-global-status__message__content')).toBe(
+      false
+    )
+  })
+
   it('should validate with ARIA rules', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
