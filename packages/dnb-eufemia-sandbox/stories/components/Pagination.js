@@ -8,7 +8,7 @@ import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
 import { P } from '@dnb/eufemia/src/elements'
-import { Button } from '@dnb/eufemia/src/components'
+import { Button, Section } from '@dnb/eufemia/src/components'
 import Pagination, {
   createPagination
 } from '@dnb/eufemia/src/components/pagination/Pagination'
@@ -222,8 +222,14 @@ function PaginationRender() {
   const pageCount = 8
   const startupPage = 2
   const [currentPage, setCurrentPage] = React.useState(startupPage)
+  const [delayedCount, setDelayedCount] = React.useState(currentPage)
+
+  React.useEffect(() => {
+    setDelayedCount(currentPage)
+  }, [currentPage])
+
   return (
-    <div>
+    <Section>
       <Button
         on_click={() => setCurrentPage(1)}
         text="Reset"
@@ -248,15 +254,15 @@ function PaginationRender() {
       <Pagination
         page_count={pageCount}
         startup_page={startupPage}
-        current_page={currentPage}
+        current_page={delayedCount}
         on_change={({ page }) => {
           setCurrentPage(page)
         }}
       >
         <div className="pagination-content">
-          <code>{JSON.stringify({ currentPage })}</code>
+          <code>{JSON.stringify({ currentPage, delayedCount })}</code>
         </div>
       </Pagination>
-    </div>
+    </Section>
   )
 }
