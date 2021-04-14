@@ -148,13 +148,15 @@ exports[`NumberFormat scss have to match snapshot 1`] = `
   opacity: 0;
   visibility: hidden;
   transition: opacity 200ms ease-out; }
+  .dnb-tooltip--large {
+    padding: 0.25rem 1rem; }
   .dnb-tooltip--animate_position {
     transition: all 300ms ease-in-out, opacity 200ms ease-out; }
   .dnb-tooltip--active {
     visibility: visible;
     /*
       because of the first \\"show\\" we also use animation
-      also, use forwards becuase of the usage of visibility
+      also, use forwards because of the usage of visibility
     */
     animation: show-tooltip 200ms ease-out forwards; }
   html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {

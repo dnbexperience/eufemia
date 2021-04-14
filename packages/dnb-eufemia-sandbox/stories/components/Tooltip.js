@@ -7,11 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
-import {
-  // Dropdown,
-  Button,
-  Tooltip
-} from '@dnb/eufemia/src/components'
+import { NumberFormat, Button, Tooltip } from '@dnb/eufemia/src/components'
 
 const StyledTooltip = styled(Tooltip)`
   margin-bottom: 4rem;
@@ -29,7 +25,7 @@ export const TooltipSandbox = () => {
 
         <hr />
 
-        <Tooltip id="unique" active target=".target-1">
+        <Tooltip id="unique" active target_selector=".target-1">
           Tooltip
         </Tooltip>
       </Box>
@@ -38,7 +34,7 @@ export const TooltipSandbox = () => {
           group="animate_position"
           // hide_delay={1e3}
           animate_position
-          target_ref={<Button right>Top</Button>}
+          target_element={<Button right>Top</Button>}
         >
           Tooltip 1
         </Tooltip>
@@ -46,7 +42,7 @@ export const TooltipSandbox = () => {
           group="animate_position"
           position="bottom"
           animate_position
-          target_ref={<Button>Bottom</Button>}
+          target_element={<Button>Bottom</Button>}
         >
           Tooltip 2
         </Tooltip>
@@ -59,7 +55,7 @@ export const TooltipSandbox = () => {
           position="top"
           // target="#button1"
           // active
-          target_ref={<Button right>Bottom 1</Button>}
+          target_element={<Button right>Bottom 1</Button>}
         >
           Tooltip 1
         </StyledTooltip>
@@ -68,13 +64,16 @@ export const TooltipSandbox = () => {
           position="bottom"
           // target="#button2"
           // active
-          target_ref={<Button>Bottom 2</Button>}
+          target_element={<Button>Bottom 2</Button>}
         >
           Tooltip 2
         </StyledTooltip>
       </Box>
       <Box>
         <Button
+          on_click={(e) => {
+            console.log(e)
+          }}
           // aria-describedby="customId"
           tooltip={
             // 'Tooltip for this Button 1a'
@@ -84,6 +83,9 @@ export const TooltipSandbox = () => {
           Button with Tooltip 1
         </Button>
         <Button
+          on_click={(e) => {
+            console.log(e)
+          }}
           tooltip={
             // 'Tooltip for this Button 2a'
             <Tooltip position="bottom">Tooltip for this Button 2b</Tooltip>
@@ -91,6 +93,11 @@ export const TooltipSandbox = () => {
         >
           Button with Tooltip 2
         </Button>
+      </Box>
+      <Box>
+        <Tooltip target_element={<NumberFormat>1234</NumberFormat>}>
+          Tooltip
+        </Tooltip>
       </Box>
     </Wrapper>
   )

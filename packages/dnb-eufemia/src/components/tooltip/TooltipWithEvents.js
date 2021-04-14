@@ -39,59 +39,116 @@ export default class TooltipWithEvents extends React.PureComponent {
     isActive: false
   }
 
-  componentDidMount() {
-    const { target } = this.props
+  constructor(props) {
+    super(props)
 
-    if (Object.prototype.hasOwnProperty.call(target, 'current')) {
-      this.setState(
-        {
-          domElement: target.current
-        },
-        this.addEvents
-      )
-    }
+    this._ref = Object.prototype.hasOwnProperty.call(
+      props.target,
+      'current'
+    )
+      ? props.target
+      : React.createRef()
+  }
+
+  componentDidMount() {
+    this.setState(
+      {
+        _isMounted: true
+      },
+      () => (this.addEvents(), this.addFocusHelper())
+    )
   }
 
   componentWillUnmount() {
     clearTimeout(this._onEnterTimeout)
 
-    const { domElement } = this.state
+    const domElement = this._ref.current
     if (domElement) {
-      domElement.removeEventListener('focus', this.onMouseEnter)
-      domElement.removeEventListener('blur', this.onMouseLeave)
-      domElement.removeEventListener('mouseenter', this.onMouseEnter)
-      domElement.removeEventListener('mouseleave', this.onMouseLeave)
+      try {
+        domElement.removeEventListener('focus', this.onMouseEnter)
+        domElement.removeEventListener('blur', this.onMouseLeave)
+        domElement.removeEventListener('mouseenter', this.onMouseEnter)
+        domElement.removeEventListener('mouseleave', this.onMouseLeave)
+        domElement.removeEventListener('touchstart', this.onMouseEnter)
+        domElement.removeEventListener('touchend', this.onMouseLeave)
+      } catch (e) {
+        warn(e)
+      }
     }
   }
 
   addEvents = () => {
-    const { domElement } = this.state
+    const domElement = this._ref.current
     try {
       domElement.addEventListener('focus', this.onMouseEnter)
       domElement.addEventListener('blur', this.onMouseLeave)
       domElement.addEventListener('mouseenter', this.onMouseEnter)
       domElement.addEventListener('mouseleave', this.onMouseLeave)
-
-      // const existing = {
-      //   'aria-describedby': domElement.getAttribute('aria-describedby')
-      // }
-      // domElement.setAttribute(
-      //   'aria-describedby',
-      //   combineDescribedBy(existing, this.props.internal_id)
-      // )
+      domElement.addEventListener('touchstart', this.onMouseEnter)
+      domElement.addEventListener('touchend', this.onMouseLeave)
     } catch (e) {
       warn(e)
     }
   }
 
-  onMouseEnter = (e) => {
-    clearTimeout(this._onEnterTimeout)
-    this._onEnterTimeout = setTimeout(() => {
-      this.setState({ isActive: true, clientX: e.clientX })
-    }, this.props.show_delay || 1) // have min 1 to make sure we are after onMouseLeave
+  addFocusHelper = () => {
+    const domElement = this._ref.current
+    try {
+      // Make the element focus able by keyboard, if it is not a semantic element
+      const targetElement = document.querySelector(
+        `*[aria-describedby*="${this.props.internal_id}"]`
+      )
+      if (targetElement) {
+        const role = targetElement.getAttribute('role')
+        if (
+          /div|span/i.test(targetElement.tagName) &&
+          (!role || role === 'text')
+        ) {
+          domElement.setAttribute('tabindex', '0')
+        }
+      }
+    } catch (e) {
+      warn(e)
+    }
   }
 
-  onMouseLeave = () => {
+  isTouch = (e) => {
+    return /touch/i.test(e.type)
+  }
+
+  onMouseEnter = (e) => {
+    try {
+      const isTouch = this.isTouch(e)
+      if (isTouch) {
+        const elem = e.currentTarget
+        elem.style.userSelect = 'none'
+      }
+    } catch (e) {
+      warn(e)
+    }
+
+    clearTimeout(this._onEnterTimeout)
+    this._onEnterTimeout = setTimeout(
+      () => {
+        this.setState({ isActive: true, clientX: e.clientX })
+      },
+      typeof window !== 'undefined' && !window.IS_TEST
+        ? parseFloat(this.props.show_delay) || 1
+        : 1
+    ) // have min 1 to make sure we are after onMouseLeave
+  }
+
+  onMouseLeave = (e) => {
+    try {
+      const isTouch = this.isTouch(e)
+      if (isTouch) {
+        const elem = e.currentTarget
+        elem.style.userSelect = ''
+      }
+    } catch (e) {
+      warn(e)
+    }
+
     clearTimeout(this._onEnterTimeout)
     this.setState({ isActive: false })
   }
@@ -105,17 +162,21 @@ export default class TooltipWithEvents extends React.PureComponent {
       ...props
     } = this.props
 
-    const domElement = this.state.domElement
-
     let componentWrapper = null
     if (React.isValidElement(target)) {
       componentWrapper = (
         <span
           key="target-wrapper"
-          className={classnames('dnb-tooltip__wrapper', className)}
-          onMouseEnter={this.onMouseEnter}
-          onMouseLeave={this.onMouseLeave}
-          ref={(domElement) => this.setState({ domElement })}
+          className={classnames(
+            'dnb-tooltip__wrapper',
+            'dnb-tab-focus',
+            className
+          )}
+          // onMouseEnter={this.onMouseEnter}
+          // onMouseLeave={this.onMouseLeave}
+          // onFocus={this.onMouseEnter}
+          // onBlur={this.onMouseLeave}
+          ref={this._ref}
         >
           {React.cloneElement(target, {
             'aria-describedby': combineDescribedBy(
@@ -130,11 +191,11 @@ export default class TooltipWithEvents extends React.PureComponent {
     return (
       <>
         {componentWrapper}
-        {domElement && (
+        {this.state._isMounted && (
           <TooltipPortal
             key="tooltip"
             active={this.state.isActive}
-            target={domElement}
+            target={this._ref.current}
             clientX={this.state.clientX}
             {...props}
           >
