@@ -19,6 +19,7 @@ import {
   createSpacingClasses
 } from '../space/SpacingHelper'
 import ProgressIndicatorCircular from './ProgressIndicatorCircular'
+import ProgressIndicatorLinear from './ProgressIndicatorLinear'
 
 export default class ProgressIndicator extends React.PureComponent {
   static tagName = 'dnb-progress-indicator'
@@ -26,7 +27,7 @@ export default class ProgressIndicator extends React.PureComponent {
 
   static propTypes = {
     visible: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    type: PropTypes.oneOf(['circular']),
+    type: PropTypes.oneOf(['circular', 'linear']),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     size: PropTypes.oneOf(['default', 'small', 'medium', 'large', 'huge']),
     progress: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -159,6 +160,7 @@ export default class ProgressIndicator extends React.PureComponent {
           'dnb-progress-indicator',
           visible && 'dnb-progress-indicator--visible',
           complete && 'dnb-progress-indicator--complete',
+          type === 'linear' && 'dnb-progress-indicator--full-width',
           label_direction && `dnb-progress-indicator--${label_direction}`,
           isTrue(no_animation) && 'dnb-progress-indicator--no-animation',
           createSpacingClasses(props),
@@ -169,6 +171,16 @@ export default class ProgressIndicator extends React.PureComponent {
       >
         {type === 'circular' && (
           <ProgressIndicatorCircular
+            size={size}
+            progress={progress}
+            visible={visible}
+            complete={complete}
+            onComplete={on_complete}
+            callOnCompleteHandler={this.callOnCompleteHandler}
+          />
+        )}
+        {type === 'linear' && (
+          <ProgressIndicatorLinear
             size={size}
             progress={progress}
             visible={visible}
