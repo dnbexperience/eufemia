@@ -31,7 +31,7 @@ export default {
   '--color-accent-yellow-30': '#feebc1',
   '--color-signal-orange': '#ff5400',
   '--color-fire-red': '#dc2a2a',
-  '--color-success-green': '#008000',
+  '--color-success-green': '#007B5E',
   '--color-fire-red-8': '#fdeeee',
   '--color-black': '#000',
   '--color-black-80': '#333',

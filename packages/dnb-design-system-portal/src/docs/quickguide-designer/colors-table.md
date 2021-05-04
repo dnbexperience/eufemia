@@ -195,10 +195,10 @@ import Table from 'Tags/Table'
       <td>--color-fire-red-8</td>
     </tr>
     <tr>
-      <td color="#008000"></td>
+      <td color="#007B5E"></td>
       <td>UX</td>
       <td>Success green</td>
-      <td>#008000</td>
+      <td>#007B5E</td>
       <td>0 128 0</td>
       <td>Success green</td>
       <td>--color-success-green</td>
