@@ -774,6 +774,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
   <div
     aria-live="assertive"
     className="dnb-global-status__wrapper dnb-no-focus className class"
+    id="main"
     key="global-status"
     onKeyDown={[Function]}
     tabIndex="-1"
@@ -1092,6 +1093,7 @@ Array [
     <div
       aria-live="assertive"
       className="dnb-global-status__wrapper dnb-no-focus"
+      id="linked"
       key="global-status"
       onKeyDown={[Function]}
       tabIndex="-1"
