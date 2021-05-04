@@ -838,11 +838,11 @@ legend.dnb-form-label {
   .dnb-input__suffix {
     color: inherit; }
   .dnb-input__submit-element {
+    z-index: 3;
     margin-left: calc(1px - 1px - var(--input-height));
     line-height: var(--line-height-basis); }
   .dnb-input__submit-button {
     position: relative;
-    z-index: 2;
     align-self: center;
     /* IE needs this to stay centered */ }
     .dnb-input__submit-button__button {

@@ -8,7 +8,9 @@ import PropTypes from 'prop-types'
 import { spacingPropTypes } from '../components/space/SpacingHelper'
 import E from './Element'
 
-const Code = (p) => <E is="code" {...p} />
+const Code = React.forwardRef((props, ref) => (
+  <E is="code" inner_ref={ref} {...props} />
+))
 Code.tagName = 'dnb-code'
 Code.propTypes = {
   ...spacingPropTypes,

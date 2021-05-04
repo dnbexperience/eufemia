@@ -114,7 +114,7 @@ class AnchorInstance extends React.PureComponent {
           <Tooltip
             show_delay={100}
             id={this._id + '-tooltip'}
-            target_ref={this._ref}
+            target_element={this._ref}
             tooltip={tooltip}
           >
             {props.title || props.target_blank_title}
