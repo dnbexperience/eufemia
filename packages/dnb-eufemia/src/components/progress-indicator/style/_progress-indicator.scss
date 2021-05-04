@@ -13,10 +13,9 @@
 .dnb-progress-indicator {
   position: relative;
   display: inline-flex;
-
+  align-items: center;
   &--vertical {
     flex-direction: column;
-    align-items: center;
   }
   &--horizontal {
     justify-content: center;
@@ -105,9 +104,49 @@
       stroke: var(--color-black);
     }
   }
+
+  // linear variant
+  &__linear {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+
+    // default/basis size
+    height: 0.5rem;
+    border-radius: 0.25rem;
+
+    &__bar {
+      width: 100%;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      top: 0;
+      transform-origin: left;
+    }
+
+    &__bar-transition {
+      transition: transform 0.2s linear;
+    }
+
+    &__bar1-animation {
+      width: auto;
+      animation: progress-indicator-linear-bar-1 2.1s
+        cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+    }
+    &__bar2-animation {
+      width: auto;
+      animation: progress-indicator-linear-bar-2 2.1s
+        cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
+    }
+  }
+
   html[data-visual-test] &__circular__line {
     animation-duration: 0ms;
     animation-iteration-count: 0;
+  }
+
+  html[data-visual-test] &__bar-transition {
+    transition: none;
   }
 
   &:not(#{&}--no-animation),
@@ -117,6 +156,11 @@
   }
   &--complete:not(#{&}--no-animation):not(#{&}--visible) {
     animation: progress-indicator-fade-out 600ms ease-out 1 forwards;
+  }
+
+  &--full-width {
+    width: 100%;
+    min-width: 1rem;
   }
 
   @keyframes progress-indicator-fade-in {
@@ -170,5 +214,35 @@
     stroke-dashoffset: var(
       --progress-indicator-circular-circle-offset--max
     );
+  }
+}
+
+@keyframes progress-indicator-linear-bar-1 {
+  0% {
+    left: -35%;
+    right: 100%;
+  }
+  60% {
+    left: 100%;
+    right: -90%;
+  }
+  100% {
+    left: 100%;
+    right: -90%;
+  }
+}
+
+@keyframes progress-indicator-linear-bar-2 {
+  0% {
+    left: -200%;
+    right: 100%;
+  }
+  60% {
+    left: 107%;
+    right: -8%;
+  }
+  100% {
+    left: 107%;
+    right: -8%;
   }
 }

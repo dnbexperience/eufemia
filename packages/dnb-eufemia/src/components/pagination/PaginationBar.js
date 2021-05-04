@@ -126,7 +126,12 @@ export default class PaginationBar extends React.PureComponent {
     const { button_title, prev_title, next_title, more_pages } = props
 
     // our states
-    const { pageCount, currentPage } = this.context.pagination
+    const {
+      pageCount,
+      currentPage,
+      disabled,
+      skeleton
+    } = this.context.pagination
 
     const prevIsDisabled = currentPage === 1
     const nextIsDisabled = currentPage === pageCount || pageCount === 0
@@ -143,7 +148,8 @@ export default class PaginationBar extends React.PureComponent {
         <Button
           key="left-arrow"
           className="dnb-pagination__button"
-          disabled={prevIsDisabled}
+          disabled={disabled || prevIsDisabled}
+          skeleton={skeleton}
           size="small"
           icon="chevron_left"
           on_click={this.setPrevPage}
@@ -161,6 +167,8 @@ export default class PaginationBar extends React.PureComponent {
               variant={
                 pageNumber === currentPage ? 'primary' : 'secondary'
               }
+              disabled={disabled}
+              skeleton={skeleton}
               aria-current={pageNumber === currentPage ? 'page' : null}
               on_click={(event) =>
                 this.clickHandler({ pageNumber, event })
@@ -193,6 +201,8 @@ export default class PaginationBar extends React.PureComponent {
                   variant={
                     pageNumber === currentPage ? 'primary' : 'secondary'
                   }
+                  disabled={disabled}
+                  skeleton={skeleton}
                   aria-current={pageNumber === currentPage ? 'page' : null}
                   on_click={(event) =>
                     this.clickHandler({ pageNumber, event })
@@ -206,7 +216,8 @@ export default class PaginationBar extends React.PureComponent {
         <Button
           key="right-arrow"
           className="dnb-pagination__button"
-          disabled={nextIsDisabled}
+          disabled={disabled || nextIsDisabled}
+          skeleton={skeleton}
           size="small"
           icon="chevron_right"
           on_click={this.setNextPage}

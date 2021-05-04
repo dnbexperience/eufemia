@@ -1155,9 +1155,9 @@ exports[`Input scss have to match snapshot 1`] = `
     height: var(--button-icon-size); }
   [href] > .dnb-button__icon.dnb-icon {
     line-height: var(--button-font-size); }
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__icon {
     order: 1; }
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
   .dnb-button--reset {
     margin: 0;
@@ -1444,11 +1444,11 @@ legend.dnb-form-label {
   .dnb-input__suffix {
     color: inherit; }
   .dnb-input__submit-element {
+    z-index: 3;
     margin-left: calc(1px - 1px - var(--input-height));
     line-height: var(--line-height-basis); }
   .dnb-input__submit-button {
     position: relative;
-    z-index: 2;
     align-self: center;
     /* IE needs this to stay centered */ }
     .dnb-input__submit-button__button {
