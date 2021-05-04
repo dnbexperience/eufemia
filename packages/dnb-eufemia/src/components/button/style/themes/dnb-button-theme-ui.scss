@@ -176,6 +176,41 @@
       margin-top: 0.5rem;
     }
 
+    &.dnb-button--icon-position-top {
+      flex-direction: column;
+      border-radius: 0.5rem;
+      vertical-align: middle;
+
+      &.dnb-button--has-text {
+        padding: 0;
+      }
+
+      .dnb-button__icon {
+        margin-top: 0.5rem;
+        align-self: center;
+      }
+
+      .dnb-button__text {
+        &::after {
+          left: 0;
+        }
+
+        margin-top: 0;
+        margin-bottom: 0.25rem;
+        font-size: var(--font-size-x-small);
+      }
+      &.dnb-button--size-large {
+        .dnb-button__text {
+          font-size: var(--font-size-small);
+        }
+      }
+
+      .dnb-button__alignment {
+        order: 3;
+        height: 0;
+      }
+    }
+
     // Ensure tertiary button has medium size when size is large
     &.dnb-button--has-text.dnb-button--size-large .dnb-button__icon,
     &:not(.dnb-button--size-large) .dnb-button__icon.dnb-icon--medium {

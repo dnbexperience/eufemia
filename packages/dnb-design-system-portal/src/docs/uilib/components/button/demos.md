@@ -2,269 +2,81 @@
 showTabs: true
 ---
 
-import ComponentBox from 'Tags/ComponentBox'
-import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
+import {
+ButtonPrimary,
+ButtonSecondary,
+ButtonDisabledPrimary,
+ButtonDisabledSecondary,
+ButtonPrimaryWithIcon,
+ButtonPrimaryWithIconLeft,
+ButtonTertiary,
+ButtonTertiaryTop,
+ButtonTertiaryWrap,
+ButtonAnchor,
+ButtonSignal,
+ButtonSignalLarge,
+ButtonIcon,
+TertiaryWithNoIcon,
+} from 'Pages/uilib/components/button/Examples'
 
 ## Demos
 
 ### Primary button
 
-<ComponentBox>
-	{
-	() => /* jsx */ `
-<Button
-  text="Primary button with text only"
-  on_click={() => {
-    console.log('on_click')
-  }}
-  data-visual-test="button-primary"
-/>
-		`
-	}
-</ComponentBox>
+<ButtonPrimary />
 
 ### Secondary button
 
-<ComponentBox>
-	{
-	() => /* jsx */ `
-<Button
-  variant="secondary"
-  onClick={() => {
-    console.log('onClick')
-  }}
-  data-visual-test="button-secondary"
->
-  Secondary button with text only
-</Button>
-	`
-	}
-</ComponentBox>
+<ButtonSecondary />
 
 ### Disabled primary button
 
-<ComponentBox>
-	{
-	() => /* jsx */ `
-<Button
-  text="Disabled primary button"
-  disabled
-/>
-	`
-	}
-</ComponentBox>
+<ButtonDisabledPrimary />
 
 ### Disabled secondary button
 
-<ComponentBox>
-	{
-	() => /* jsx */ `
-<Button
-  text="Disabled secondary button"
-  variant="secondary"
-  disabled
-/>
-	`
-	}
-</ComponentBox>
+<ButtonDisabledSecondary />
 
 ### Primary button with icon
 
-<ComponentBox>
-	{
-	() => /* jsx */ `
-<Button
-  text="Primary button with icon"
-  icon="chevron_right"
-/>
-	`
-	}
-</ComponentBox>
+<ButtonPrimaryWithIcon />
 
 ### Primary button with icon on left
 
-<ComponentBox>
-	{
-	() => /* jsx */ `
-<Button
-  icon_position="left"
-  icon="chevron_left"
->
-  Primary button with icon on left
-</Button>
-	`
-	}
-</ComponentBox>
+<ButtonPrimaryWithIconLeft />
 
 ### Tertiary button
 
 The tertiary button variant does support newlines while the icon is placed top aligned. You can enable multiline support with the `wrap` property.
 
-<ComponentBox data-visual-test="button-tertiary-all">
-	{
-	() => /* jsx */ `
-<Button
-  variant="tertiary"
-  text="Tertiary button with icon on left"
-  icon_position="left"
-  icon="chevron_left"
-  data-visual-test="button-tertiary"
-/>
-<Button
-  variant="tertiary"
-  text={<span>Text inside additional span</span>}
-  icon_position="left"
-  icon="chevron_left"
-  left
-/>
-<Button
-  variant="tertiary"
-  size="large"
-  text="Large tertiary button"
-  icon="chevron_right"
-  left
-/>
-	`
-	}
-</ComponentBox>
+<ButtonTertiary />
+
+Tertiary button with **top** placed icon.
+
+<ButtonTertiaryTop />
 
 Tertiary button with long text and text `wrap` enabled.
 
-<ComponentBox data-visual-test="button-tertiary-wrap">
-	{
-	() => /* jsx */ `
-<Button
-  wrap
-  variant="tertiary"
-  text="A long text where wrap is enabled magnis rutrum netus neque ridiculus euismod sit dictum laoreet libero"
-  icon="chevron_left"
-  icon_position="left"
-/>
-	`
-	}
-</ComponentBox>
+<ButtonTertiaryWrap />
 
 ### Anchor button
 
-<ComponentBox data-visual-test="button-anchor">
-	{
-	() => /* jsx */ `
-<Button
-  text="Primary with href"
-  href="/uilib/components/button/demos"
-  icon_position="right"
-  icon="chevron_right"
-  on_click={({ event }) => {
-    event.preventDefault()
-  }}
-/>
-<Button
-  variant="secondary"
-  text="Secondary with href"
-  href="/uilib/components/button/demos"
-  target="_blank"
-/>
-<Button
-  href="/uilib/components/button/demos"
-  title="This is a link"
-  icon="chevron_right"
-  size="default"
-/>
-	`
-	}
-</ComponentBox>
+<ButtonAnchor />
 
 ### Signal button
 
 Medium is equivalent to 24, but responsive. To import custom icons, use: `import { bell_medium as Bell } from '@dnb/eufemia/icons'`
 
-<!-- prettier-ignore -->
-<ComponentBox scope={{ Bell }}>
-	{
-	() => /* jsx */ `
-<Button
-  variant="signal"
-  text="Signal Button"
-  icon={Bell}
-  data-visual-test="button-signal"
-/>
-	`
-	}
-</ComponentBox>
+<ButtonSignal />
 
 ### Large Signal button
 
 Large Signal button with medium sized icon. To import custom icons, use: `import { bell_medium as Bell } from '@dnb/eufemia/icons'`
 
-<!-- prettier-ignore -->
-<ComponentBox scope={{ Bell }}>
-	{
-	() => /* jsx */ `
-<Button
-  variant="signal"
-  text="Large Signal Button"
-  icon={<Bell />}
-  size="large"
-  icon_size="medium"
-/>
-	`
-	}
-</ComponentBox>
+<ButtonSignalLarge />
 
 ### Icon button
 
-<!-- prettier-ignore -->
-<ComponentBox scope={{ question }}>
-	{
-    () => /* jsx */ `
-<Button
-  title="Disabled Icon only Button"
-  icon="calendar"
-  disabled
-/>
-<Button title="Button with Icon only" icon="calendar" data-visual-test="button-icon" />
-<Button
-  title="Small sized button with default Icon"
-  icon="add"
-  icon_size="default"
-  size="small"
-/>
-<Button
-  title="Default sized Button with medium Icon"
-  icon="calendar"
-  size="default"
-/>
-<Button
-  title="Button with custom, Secondary Icon only"
-  icon={question}
-/>
-<Button
-  title="Button with status"
-  icon={question}
-  status="error"
-/>
-	`
-	}
-</ComponentBox>
-
-<!-- prettier-ignore-start -->
-
-export const TertiaryWithNoIcon = () => {
-  if(!(typeof window !== 'undefined' && window.IS_TEST)){
-    return <></>
-  }
-  return (
-    <ComponentBox
-      title="Tertiary button with no icon"
-      data-visual-test="button-tertiary-no-icon"
-    >
-    {() => /* jsx */ `
-<Button text="Tertiary button with no icon" variant="tertiary" />
-  `}
-    </ComponentBox>
-  )
-}
+<ButtonIcon />
 
 <TertiaryWithNoIcon />
-
-<!-- prettier-ignore-end -->
