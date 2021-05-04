@@ -1156,9 +1156,12 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     .dnb-button--tertiary .dnb-button__icon {
       align-self: flex-start;
       margin-top: 0.75rem; }
+    .dnb-button--tertiary.dnb-button--size-large .dnb-button__icon,
     .dnb-button--tertiary.dnb-button--size-small .dnb-button__icon {
       margin-top: 0.25rem; }
-    .dnb-button--tertiary.dnb-button--size-large .dnb-button__icon,
+    .dnb-button--tertiary.dnb-button--size-medium .dnb-button__icon {
+      margin-top: 0.5rem; }
+    .dnb-button--tertiary.dnb-button--has-text.dnb-button--size-large .dnb-button__icon,
     .dnb-button--tertiary:not(.dnb-button--size-large) .dnb-button__icon.dnb-icon--medium {
       margin-top: 0.5rem; }
     .dnb-button--tertiary.dnb-button--size-large,

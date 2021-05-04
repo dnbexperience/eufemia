@@ -98,6 +98,8 @@ import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 
 ### Tertiary button
 
+The tertiary button variant does support newlines while the icon is placed top aligned. You can enable multiline support with the `wrap` property.
+
 <ComponentBox data-visual-test="button-tertiary-all">
 	{
 	() => /* jsx */ `
