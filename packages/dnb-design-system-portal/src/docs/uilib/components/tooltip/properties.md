@@ -6,6 +6,7 @@ showTabs: true
 
 | Properties                                  | Description                                                                                                                                                     |
 | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `children`                                  | _(optional)_ Provide a string or a React Element to be shown as the tooltip content.                                                                            |
 | `active`                                    | _(optional)_ set to `true` the tooltip will show up.                                                                                                            |
 | `position`                                  | _(optional)_ defines the offset position in corporation to the target element the arrow appears. Can be `top`, `right`, `left` and `bottom`. Defaults to `top`. |
 | `position`                                  | _(optional)_ defines the offset position in corporation to the target element the arrow appears. Can be `top`, `right`, `left` and `bottom`. Defaults to `top`. |

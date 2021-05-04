@@ -20,6 +20,9 @@ import {
 } from '../space/SpacingHelper'
 import TooltipWithEvents from './TooltipWithEvents'
 import TooltipPortal from './TooltipPortal'
+import { injectTooltipSemantic } from './TooltipHelpers'
+
+export { injectTooltipSemantic }
 
 export default class Tooltip extends React.PureComponent {
   static tagName = 'dnb-tooltip'

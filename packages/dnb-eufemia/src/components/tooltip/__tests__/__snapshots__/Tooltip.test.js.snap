@@ -74,6 +74,7 @@ exports[`Tooltip component with target_element have to match default tooltip sna
           }
         }
         class={null}
+        className={null}
         group="tooltip"
         hide_delay={500}
         id="tooltip"

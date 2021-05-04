@@ -6,6 +6,7 @@ import {
 TooltipExampleDefault,
 TooltipExampleAnimation,
 TooltipExampleNumberFormat,
+TooltipExampleNumberFormatWrapped,
 TooltipExampleLinked,
 TooltipExampleActive
 } from 'Pages/uilib/components/tooltip/Examples'
@@ -20,9 +21,13 @@ TooltipExampleActive
 
 <TooltipExampleActive />
 
-### Tooltip wrapped around the number format component
+### NumberFormat with a tooltip
 
 <TooltipExampleNumberFormat />
+
+... or wrapped around the [NumberFormat](/uilib/components/number-format) component:
+
+<TooltipExampleNumberFormatWrapped />
 
 ### Tooltip with position animation
 

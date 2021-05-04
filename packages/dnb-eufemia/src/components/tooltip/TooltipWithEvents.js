@@ -5,17 +5,16 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
 import {
   combineDescribedBy,
   getInnerRef,
   warn
 } from '../../shared/component-helper'
 import TooltipPortal from './TooltipPortal'
+import { injectTooltipSemantic } from './TooltipHelpers'
 
 export default class TooltipWithEvents extends React.PureComponent {
   static propTypes = {
-    className: PropTypes.string,
     internal_id: PropTypes.string,
     show_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     target: PropTypes.oneOfType([
@@ -32,7 +31,6 @@ export default class TooltipWithEvents extends React.PureComponent {
   }
 
   static defaultProps = {
-    className: '',
     internal_id: null,
     show_delay: 1,
     target: null,
@@ -168,23 +166,17 @@ export default class TooltipWithEvents extends React.PureComponent {
   render() {
     const {
       children,
-      className,
       target,
       // internal_id,// NB: Do not remove internal_id from props!
       ...props
     } = this.props
 
     let componentWrapper = null
+
+    // we could also check against  && target.props && !target.props.tooltip
     if (React.isValidElement(target)) {
       const params = this.state.isNotSemanticElement
-        ? {
-            tabIndex: '0',
-            className: classnames(
-              'dnb-tooltip__wrapper',
-              'dnb-tab-focus',
-              className
-            )
-          }
+        ? injectTooltipSemantic({ className: props.className })
         : {}
 
       componentWrapper = React.cloneElement(target, {

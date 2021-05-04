@@ -58,6 +58,14 @@ export const TooltipExampleAnimation = () => (
 export const TooltipExampleNumberFormat = () => (
   <ComponentBox>
     {`
+<NumberFormat tooltip="Tooltip">1234</NumberFormat>
+`}
+  </ComponentBox>
+)
+
+export const TooltipExampleNumberFormatWrapped = () => (
+  <ComponentBox>
+    {`
 <Tooltip
   target_element={<NumberFormat>1234</NumberFormat>}
 >
