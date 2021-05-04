@@ -8,6 +8,7 @@ import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
 import { NumberFormat, Button, Tooltip } from '@dnb/eufemia/src/components'
+import { Span } from '@dnb/eufemia/src/elements'
 
 const StyledTooltip = styled(Tooltip)`
   margin-bottom: 4rem;
@@ -20,6 +21,29 @@ export default {
 export const TooltipSandbox = () => {
   return (
     <Wrapper>
+      <Box>
+        <Tooltip
+          animate_position
+          group="animate_position"
+          hide_delay={1e3}
+          target_element={
+            <Span role="text" right>
+              Top
+            </Span>
+          }
+        >
+          Tooltip 1
+        </Tooltip>
+        <Tooltip
+          animate_position
+          group="animate_position"
+          position="bottom"
+          size="large"
+          target_element={<Span role="text">Bottom</Span>}
+        >
+          Tooltip 2
+        </Tooltip>
+      </Box>
       <Box>
         <button className="target-1">Show the Tooltip</button>
 

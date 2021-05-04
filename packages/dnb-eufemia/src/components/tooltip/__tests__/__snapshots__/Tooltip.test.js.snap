@@ -57,16 +57,11 @@ exports[`Tooltip component with target_element have to match default tooltip sna
       target_selector={null}
       tooltip={null}
     >
-      <span
-        className="dnb-tooltip__wrapper dnb-tab-focus"
-        key="target-wrapper"
+      <button
+        aria-describedby="tooltip"
       >
-        <button
-          aria-describedby="tooltip"
-        >
-          Button
-        </button>
-      </span>
+        Button
+      </button>
       <TooltipPortal
         active={false}
         align={null}
@@ -89,15 +84,11 @@ exports[`Tooltip component with target_element have to match default tooltip sna
         show_delay={300}
         size="basis"
         target={
-          <span
-            class="dnb-tooltip__wrapper dnb-tab-focus"
+          <button
+            aria-describedby="tooltip"
           >
-            <button
-              aria-describedby="tooltip"
-            >
-              Button
-            </button>
-          </span>
+            Button
+          </button>
         }
         target_element={
           <button>

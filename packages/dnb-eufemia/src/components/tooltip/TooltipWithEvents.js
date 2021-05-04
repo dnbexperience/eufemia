@@ -6,7 +6,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { combineDescribedBy, warn } from '../../shared/component-helper'
+import {
+  combineDescribedBy,
+  getInnerRef,
+  warn
+} from '../../shared/component-helper'
 import TooltipPortal from './TooltipPortal'
 
 export default class TooltipWithEvents extends React.PureComponent {
@@ -36,7 +40,8 @@ export default class TooltipWithEvents extends React.PureComponent {
   }
 
   state = {
-    isActive: false
+    isActive: false,
+    isNotSemanticElement: false
   }
 
   constructor(props) {
@@ -55,14 +60,17 @@ export default class TooltipWithEvents extends React.PureComponent {
       {
         _isMounted: true
       },
-      () => (this.addEvents(), this.addFocusHelper())
+      () => {
+        this.addEvents()
+        this.handleSemanticElement()
+      }
     )
   }
 
   componentWillUnmount() {
     clearTimeout(this._onEnterTimeout)
 
-    const domElement = this._ref.current
+    const domElement = getInnerRef(this._ref).current
     if (domElement) {
       try {
         domElement.removeEventListener('focus', this.onMouseEnter)
@@ -77,8 +85,33 @@ export default class TooltipWithEvents extends React.PureComponent {
     }
   }
 
+  /**
+   * Make the element focus able by keyboard, if it is not a semantic element
+   * This will enable keyboard access to the tooltip by adding focus posibility
+   */
+  handleSemanticElement = () => {
+    try {
+      const targetElement = document.querySelector(
+        `*[aria-describedby*="${this.props.internal_id}"]`
+      )
+      if (targetElement) {
+        const role = targetElement.getAttribute('role')
+        if (
+          /div|p|span/i.test(targetElement.tagName) &&
+          (!role || role === 'text')
+        ) {
+          this.setState({
+            isNotSemanticElement: true
+          })
+        }
+      }
+    } catch (e) {
+      warn(e)
+    }
+  }
+
   addEvents = () => {
-    const domElement = this._ref.current
+    const domElement = getInnerRef(this._ref).current
     try {
       domElement.addEventListener('focus', this.onMouseEnter)
       domElement.addEventListener('blur', this.onMouseLeave)
@@ -86,27 +119,6 @@ export default class TooltipWithEvents extends React.PureComponent {
       domElement.addEventListener('mouseleave', this.onMouseLeave)
       domElement.addEventListener('touchstart', this.onMouseEnter)
       domElement.addEventListener('touchend', this.onMouseLeave)
-    } catch (e) {
-      warn(e)
-    }
-  }
-
-  addFocusHelper = () => {
-    const domElement = this._ref.current
-    try {
-      // Make the element focus able by keyboard, if it is not a semantic element
-      const targetElement = document.querySelector(
-        `*[aria-describedby*="${this.props.internal_id}"]`
-      )
-      if (targetElement) {
-        const role = targetElement.getAttribute('role')
-        if (
-          /div|span/i.test(targetElement.tagName) &&
-          (!role || role === 'text')
-        ) {
-          domElement.setAttribute('tabindex', '0')
-        }
-      }
     } catch (e) {
       warn(e)
     }
@@ -164,28 +176,25 @@ export default class TooltipWithEvents extends React.PureComponent {
 
     let componentWrapper = null
     if (React.isValidElement(target)) {
-      componentWrapper = (
-        <span
-          key="target-wrapper"
-          className={classnames(
-            'dnb-tooltip__wrapper',
-            'dnb-tab-focus',
-            className
-          )}
-          // onMouseEnter={this.onMouseEnter}
-          // onMouseLeave={this.onMouseLeave}
-          // onFocus={this.onMouseEnter}
-          // onBlur={this.onMouseLeave}
-          ref={this._ref}
-        >
-          {React.cloneElement(target, {
-            'aria-describedby': combineDescribedBy(
-              target.props,
-              this.props.internal_id
+      const params = this.state.isNotSemanticElement
+        ? {
+            tabIndex: '0',
+            className: classnames(
+              'dnb-tooltip__wrapper',
+              'dnb-tab-focus',
+              className
             )
-          })}
-        </span>
-      )
+          }
+        : {}
+
+      componentWrapper = React.cloneElement(target, {
+        ref: this._ref,
+        ...params,
+        'aria-describedby': combineDescribedBy(
+          target.props,
+          this.props.internal_id
+        )
+      })
     }
 
     return (
@@ -195,7 +204,7 @@ export default class TooltipWithEvents extends React.PureComponent {
           <TooltipPortal
             key="tooltip"
             active={this.state.isActive}
-            target={this._ref.current}
+            target={getInnerRef(this._ref).current}
             clientX={this.state.clientX}
             {...props}
           >

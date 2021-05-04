@@ -1206,6 +1206,24 @@ export function getStatusState(status) {
   )
 }
 
+export function getInnerRef(ref) {
+  let ret = ref
+
+  if (
+    ref &&
+    ref.current &&
+    !React.isValidElement(ref.current) &&
+    ref.current._ref
+  ) {
+    const tmp = getInnerRef(ref.current._ref)
+    if (tmp && Object.prototype.hasOwnProperty.call(tmp, 'current')) {
+      ret = tmp
+    }
+  }
+
+  return ret
+}
+
 export function combineLabelledBy(...params) {
   return combineAriaBy('aria-labelledby', params)
 }

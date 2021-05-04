@@ -17,6 +17,7 @@
     "precommit": "if git-branch-is release; then yarn -v; else yarn workspace @dnb/eufemia precommit && yarn workspace dnb-design-system-portal precommit; fi",
     "postinstall": "yarn workspace @dnb/eufemia lint:lockfile",
     "start": "yarn workspace dnb-design-system-portal start",
+    "dev": "yarn workspace dnb-eufemia-sandbox start",
     "publish:dry": "yarn workspace @dnb/eufemia publish:dry",
     "reset": "rm -rf ./node_modules && yarn workspace @dnb/eufemia reset && yarn workspace dnb-design-system-portal reset && yarn install",
     "build": "yarn workspace @dnb/eufemia build && yarn workspace dnb-design-system-portal build",
