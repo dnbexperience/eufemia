@@ -1,0 +1,2 @@
+(self.webpackChunkdnb_design_system_portal=self.webpackChunkdnb_design_system_portal||[]).push([[743],{73674:function(e,t,n){"use strict";n.r(t),n.d(t,{default:function(){return u}});var r=n(2784),s=n(9390),a=n(18804);class u extends r.PureComponent{render(){return(0,a.tZ)(s.Z,{status:"500",title:"Sorry, we got a technical issue!",text:"The service is not working properly at the moment, but try again later"})}}}}]);
+//# sourceMappingURL=component---src-docs-500-js-c81ac9bf6b83cbd949a0.js.map
