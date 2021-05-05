@@ -25,17 +25,17 @@ global.ResizeObserver = class {
 }
 
 const defaultProps = {
-  target_ref: null,
+  target_element: null,
   id: 'tooltip'
 }
 
-describe('Tooltip component with target_ref', () => {
+describe('Tooltip component with target_element', () => {
   const Component = (props = {}) => (
     <Tooltip
       // {...snapshotProps}
       {...defaultProps}
       {...props}
-      target_ref={<button>Button</button>}
+      target_element={<button>Button</button>}
     >
       Text
     </Tooltip>

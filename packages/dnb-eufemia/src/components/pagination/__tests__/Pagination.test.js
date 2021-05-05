@@ -106,7 +106,6 @@ describe('Pagination bar component', () => {
       current_page: 5
     })
     expect(currentPage).toBe(5)
-    Comp.update()
     expect(Comp.find('div#page-no').text()).toBe('5')
 
     buttonElements.at(3).simulate('click')
@@ -117,7 +116,6 @@ describe('Pagination bar component', () => {
       current_page: 3
     })
     expect(currentPage).toBe(3)
-    Comp.update()
     expect(Comp.find('div#page-no').text()).toBe('3')
   })
 

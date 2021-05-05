@@ -65,6 +65,50 @@ describe('Circular ProgressIndicator component', () => {
   })
 })
 
+describe('Linear ProgressIndicator component', () => {
+  const mainLineSelector = '.dnb-progress-indicator__linear__bar'
+  const Comp = mount(<Component {...props} type="linear" progress={50} />)
+
+  it('have to match snapshot', () => {
+    expect(toJson(Comp)).toMatchSnapshot()
+  })
+
+  it('has to have a transform of translateX(-50%) on 50%', () => {
+    expect(
+      Comp.find(mainLineSelector).instance().getAttribute('style')
+    ).toBe('transform: translateX(-50%);')
+  })
+
+  it('has to have a aria-label with a 50% value', () => {
+    expect(
+      Comp.find('.dnb-progress-indicator__linear')
+        .instance()
+        .getAttribute('aria-label')
+    ).toBe('50%')
+  })
+
+  it('has to react to a progress value of 80%', () => {
+    Comp.setProps({
+      progress: 80
+    })
+    expect(
+      Comp.find('.dnb-progress-indicator__linear')
+        .instance()
+        .getAttribute('aria-label')
+    ).toBe('80%')
+    expect(
+      Comp.find(mainLineSelector).instance().getAttribute('style')
+    ).toBe('transform: translateX(-20%);')
+    Comp.setProps({
+      progress: 50
+    })
+  })
+
+  it('should validate with ARIA rules', async () => {
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+})
+
 describe('ProgressIndicator scss', () => {
   it('have to match snapshot', () => {
     const scss = loadScss(

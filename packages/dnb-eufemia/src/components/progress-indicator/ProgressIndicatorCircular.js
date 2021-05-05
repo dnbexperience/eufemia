@@ -123,7 +123,7 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
         completeCalled = false
       }
 
-      // sice we have 1sec as duration, and we want always a max of 1000ms
+      // since we have 1sec as duration, and we want always a max of 1000ms
       prog = Math.round(max - (max / 1e3) * (ms % 1e3))
 
       // calc if we want to animate

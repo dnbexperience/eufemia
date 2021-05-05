@@ -1,21 +1,14 @@
 ---
 title: 'Tooltip'
-status: 'wip'
+status: 'new'
 order: 19
-# showTabs: true
+showTabs: true
+hideTabs:
+  - title: Events
 ---
 
-import ComponentBox from 'Tags/ComponentBox'
+import ToggleButtonInfo from 'Pages/uilib/components/tooltip/info'
+import ToggleButtonDemos from 'Pages/uilib/components/tooltip/demos'
 
-# Tooltip
-
-**Under development**
-
-## Button with Tooltip
-
-<ComponentBox>
-{`
-<Button tooltip="Tooltip" text="Hover" />
-<Button left tooltip={<Tooltip active>Tooltip</Tooltip>} text="Active" />
-`}
-</ComponentBox>
+<ToggleButtonInfo />
+<ToggleButtonDemos />

@@ -25,7 +25,7 @@ For details, have a look at the submenu for all the customizations topics:
 
 To make a good looking browser icon, you need more than just one `favicon.ico` file. To get the default DNB brand look, you can use the following setup.
 
-You find the [optimized files on <Icon icon={GithubLogo} size="default" /> GitHub](https://github.com/dnbexperience/eufemia/tree/main/packages/eufemia/assets/browser).
+You find the [optimized files on <Icon icon={GithubLogo} size="default" /> GitHub](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/assets/browser).
 
 The `favicon.ico` file you don't need to specify, as long as it is placed in the server root.
 The other tags you place inside the head tag. But make sure to customize it, depending on your setup.

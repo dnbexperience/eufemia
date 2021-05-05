@@ -81,6 +81,7 @@ Removed already depreciated CSS properties (vars):
 ## Changes
 
 - The visual appearance of a couple of components has been changed (e.g. border-radius).
+- The color `success-green` has changed it's HEX value
 
 ### Updates to the language files
 
@@ -94,6 +95,9 @@ Strings where changed/removed and added to the [language files](/uilib/usage/cus
 - Added `stretch` support for [Autocomplete](/uilib/components/autocomplete), [Dropdown](/uilib/components/dropdown) and [DatePicker](/uilib/components/date-picker).
 - Enhance Webpack v5 compatibility
 - Enhance React v17 compatibility
+- Linear [ProgressIndicator](/uilib/components/progress-indicator)
+- Release of [Tooltip](/uilib/components/tooltip) inclusive integration into Button, Anchor and NumberFormat
+- Tertiary [Button](/uilib/components/button#tertiary-button) with top placed icon
 - The Eufemia Provider can send along global component properties:
 
   ```jsx
@@ -103,7 +107,7 @@ Strings where changed/removed and added to the [language files](/uilib/usage/cus
     }}
   >
     ...
-    <Button>Large button</Button>
+    <Button text="Large button" />
   </Provider>
   ```
 
@@ -113,6 +117,8 @@ To upgrade to @dnb/eufemia v9 with NPM, use:
 
 ```bash
 $ npm i @dnb/eufemia@9
+# or
+$ yarn add @dnb/eufemia@9
 ```
 
 _March, 3. 2021_

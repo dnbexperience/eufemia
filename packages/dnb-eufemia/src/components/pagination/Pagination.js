@@ -36,6 +36,8 @@ const paginationPropTypes = {
     PropTypes.bool
   ]),
   min_wait_time: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   mode: PropTypes.oneOf(['pagination', 'infinity']),
   use_load_button: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   items: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
@@ -131,6 +133,8 @@ const paginationDefaultProps = {
   parallel_load_count: 1,
   place_maker_before_content: false,
   min_wait_time: 400,
+  disabled: null,
+  skeleton: null,
 
   class: null,
   className: null,
@@ -190,6 +194,8 @@ class PaginationInstance extends React.PureComponent {
       className,
       class: _className,
 
+      disabled: _disabled, // eslint-disable-line
+      skeleton: _skeleton, // eslint-disable-line
       tagName: _tagName, // eslint-disable-line
       page_count: _page_count, // eslint-disable-line
       current_page: _current_page, // eslint-disable-line

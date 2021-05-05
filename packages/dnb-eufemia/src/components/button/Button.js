@@ -46,7 +46,7 @@ export const buttonPropTypes = {
     PropTypes.node,
     PropTypes.func
   ]),
-  icon_position: PropTypes.oneOf(['left', 'right']),
+  icon_position: PropTypes.oneOf(['left', 'right', 'top']),
   icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   tooltip: PropTypes.oneOfType([
     PropTypes.string,
@@ -209,7 +209,7 @@ export default class Button extends React.PureComponent {
       disabled,
       text: _text, // eslint-disable-line
       icon: _icon, // eslint-disable-line
-      icon_position: _icon_position, // eslint-disable-line
+      icon_position,
       icon_size,
       wrap,
       bounding, // eslint-disable-line
@@ -222,7 +222,7 @@ export default class Button extends React.PureComponent {
 
     const showStatus = getStatusState(status)
 
-    let { text, icon, icon_position: iconPosition } = props
+    let { text, icon } = props
     let usedVariant = variant
     let usedSize = size
     let iconSize = icon_size
@@ -284,7 +284,7 @@ export default class Button extends React.PureComponent {
       'dnb-button',
       `dnb-button--${usedVariant || 'primary'}`,
       usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
-      icon && `dnb-button--icon-position-${iconPosition}`,
+      icon && `dnb-button--icon-position-${icon_position}`,
       icon && iconSize && `dnb-button--icon-size-${iconSize}`,
       (text || content) && 'dnb-button--has-text',
       icon && 'dnb-button--has-icon',
@@ -346,7 +346,7 @@ export default class Button extends React.PureComponent {
         {tooltip && this._ref && (
           <Tooltip
             id={this._id + '-tooltip'}
-            target_ref={this._ref}
+            target_element={this._ref}
             tooltip={tooltip}
           />
         )}

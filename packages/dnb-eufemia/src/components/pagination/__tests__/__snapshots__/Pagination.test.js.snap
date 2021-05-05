@@ -12,6 +12,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "class": "class",
         "className": "className",
         "current_page": "current_page",
+        "disabled": "disabled",
         "end_infinity_handler": "end_infinity_handler",
         "fallback_element": Object {},
         "hide_progress_indicator": "hide_progress_indicator",
@@ -36,6 +37,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "reset_content_handler": "reset_content_handler",
         "reset_pagination_handler": "reset_pagination_handler",
         "set_content_handler": "set_content_handler",
+        "skeleton": "skeleton",
         "startup_count": "startup_count",
         "startup_page": "startup_page",
         "use_load_button": "use_load_button",
@@ -52,6 +54,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "class": "class",
         "className": "className",
         "current_page": "current_page",
+        "disabled": "disabled",
         "end_infinity_handler": "end_infinity_handler",
         "fallback_element": Object {},
         "hide_progress_indicator": "hide_progress_indicator",
@@ -76,6 +79,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "reset_content_handler": "reset_content_handler",
         "reset_pagination_handler": "reset_pagination_handler",
         "set_content_handler": "set_content_handler",
+        "skeleton": "skeleton",
         "startup_count": "startup_count",
         "startup_page": "startup_page",
         "use_load_button": "use_load_button",
@@ -92,6 +96,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "class": "class",
         "className": "className",
         "current_page": "current_page",
+        "disabled": "disabled",
         "end_infinity_handler": "end_infinity_handler",
         "fallback_element": Object {},
         "hide_progress_indicator": "hide_progress_indicator",
@@ -116,6 +121,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "reset_content_handler": "reset_content_handler",
         "reset_pagination_handler": "reset_pagination_handler",
         "set_content_handler": "set_content_handler",
+        "skeleton": "skeleton",
         "startup_count": "startup_count",
         "startup_page": "startup_page",
         "use_load_button": "use_load_button",
@@ -127,6 +133,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
   class={null}
   className={null}
   current_page={null}
+  disabled={null}
   hide_progress_indicator={false}
   is_loading_text={null}
   items={null}
@@ -145,6 +152,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
   prev_title={null}
   reset_content_handler={null}
   set_content_handler={null}
+  skeleton={null}
   startup_count={1}
   startup_page={null}
   use_load_button={false}
@@ -160,6 +168,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "class": "class",
           "className": "className",
           "current_page": "current_page",
+          "disabled": "disabled",
           "end_infinity_handler": "end_infinity_handler",
           "fallback_element": Object {},
           "hide_progress_indicator": "hide_progress_indicator",
@@ -184,6 +193,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "reset_content_handler": "reset_content_handler",
           "reset_pagination_handler": "reset_pagination_handler",
           "set_content_handler": "set_content_handler",
+          "skeleton": "skeleton",
           "startup_count": "startup_count",
           "startup_page": "startup_page",
           "use_load_button": "use_load_button",
@@ -200,6 +210,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "class": "class",
           "className": "className",
           "current_page": "current_page",
+          "disabled": "disabled",
           "end_infinity_handler": "end_infinity_handler",
           "fallback_element": Object {},
           "hide_progress_indicator": "hide_progress_indicator",
@@ -224,6 +235,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "reset_content_handler": "reset_content_handler",
           "reset_pagination_handler": "reset_pagination_handler",
           "set_content_handler": "set_content_handler",
+          "skeleton": "skeleton",
           "startup_count": "startup_count",
           "startup_page": "startup_page",
           "use_load_button": "use_load_button",
@@ -240,6 +252,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "class": "class",
           "className": "className",
           "current_page": "current_page",
+          "disabled": "disabled",
           "end_infinity_handler": "end_infinity_handler",
           "fallback_element": Object {},
           "hide_progress_indicator": "hide_progress_indicator",
@@ -264,6 +277,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "reset_content_handler": "reset_content_handler",
           "reset_pagination_handler": "reset_pagination_handler",
           "set_content_handler": "set_content_handler",
+          "skeleton": "skeleton",
           "startup_count": "startup_count",
           "startup_page": "startup_page",
           "use_load_button": "use_load_button",
@@ -275,6 +289,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
     class={null}
     className={null}
     current_page={null}
+    disabled={null}
     end_infinity_handler={null}
     hide_progress_indicator={false}
     internalContent={null}
@@ -297,6 +312,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
     reset_content_handler={null}
     reset_pagination_handler={null}
     set_content_handler={null}
+    skeleton={null}
     startup_count={1}
     startup_page={null}
     store={null}
@@ -315,6 +331,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "class": "class",
             "className": "className",
             "current_page": "current_page",
+            "disabled": "disabled",
             "end_infinity_handler": "end_infinity_handler",
             "fallback_element": Object {},
             "hide_progress_indicator": "hide_progress_indicator",
@@ -339,6 +356,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "reset_content_handler": "reset_content_handler",
             "reset_pagination_handler": "reset_pagination_handler",
             "set_content_handler": "set_content_handler",
+            "skeleton": "skeleton",
             "startup_count": "startup_count",
             "startup_page": "startup_page",
             "use_load_button": "use_load_button",
@@ -355,6 +373,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "class": "class",
             "className": "className",
             "current_page": "current_page",
+            "disabled": "disabled",
             "end_infinity_handler": "end_infinity_handler",
             "fallback_element": Object {},
             "hide_progress_indicator": "hide_progress_indicator",
@@ -379,6 +398,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "reset_content_handler": "reset_content_handler",
             "reset_pagination_handler": "reset_pagination_handler",
             "set_content_handler": "set_content_handler",
+            "skeleton": "skeleton",
             "startup_count": "startup_count",
             "startup_page": "startup_page",
             "use_load_button": "use_load_button",
@@ -395,6 +415,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "class": "class",
             "className": "className",
             "current_page": "current_page",
+            "disabled": "disabled",
             "end_infinity_handler": "end_infinity_handler",
             "fallback_element": Object {},
             "hide_progress_indicator": "hide_progress_indicator",
@@ -419,6 +440,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "reset_content_handler": "reset_content_handler",
             "reset_pagination_handler": "reset_pagination_handler",
             "set_content_handler": "set_content_handler",
+            "skeleton": "skeleton",
             "startup_count": "startup_count",
             "startup_page": "startup_page",
             "use_load_button": "use_load_button",
@@ -430,6 +452,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
       class={null}
       className={null}
       current_page={null}
+      disabled={null}
       hide_progress_indicator={false}
       is_loading_text={null}
       items={null}
@@ -448,6 +471,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
       prev_title={null}
       reset_content_handler={null}
       set_content_handler={null}
+      skeleton={null}
       startup_count={1}
       startup_page={null}
       use_load_button={false}
@@ -1346,9 +1370,9 @@ exports[`Pagination scss have to match snapshot 1`] = `
     height: var(--button-icon-size); }
   [href] > .dnb-button__icon.dnb-icon {
     line-height: var(--button-font-size); }
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__icon {
     order: 1; }
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
   .dnb-button--reset {
     margin: 0;
@@ -1418,10 +1442,10 @@ button.dnb-button::-moz-focus-inner {
 
 .dnb-progress-indicator {
   position: relative;
-  display: inline-flex; }
+  display: inline-flex;
+  align-items: center; }
   .dnb-progress-indicator--vertical {
-    flex-direction: column;
-    align-items: center; }
+    flex-direction: column; }
   .dnb-progress-indicator--horizontal {
     justify-content: center; }
   .dnb-progress-indicator__label {
@@ -1469,14 +1493,40 @@ button.dnb-button::-moz-focus-inner {
       stroke: grey; }
     .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
       stroke: var(--color-black); }
+  .dnb-progress-indicator__linear {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 0.5rem;
+    border-radius: 0.25rem; }
+    .dnb-progress-indicator__linear__bar {
+      width: 100%;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      top: 0;
+      transform-origin: left; }
+    .dnb-progress-indicator__linear__bar-transition {
+      transition: transform 0.2s linear; }
+    .dnb-progress-indicator__linear__bar1-animation {
+      width: auto;
+      animation: progress-indicator-linear-bar-1 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite; }
+    .dnb-progress-indicator__linear__bar2-animation {
+      width: auto;
+      animation: progress-indicator-linear-bar-2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite; }
   html[data-visual-test] .dnb-progress-indicator__circular__line {
     animation-duration: 0ms;
     animation-iteration-count: 0; }
+  html[data-visual-test] .dnb-progress-indicator__bar-transition {
+    transition: none; }
   .dnb-progress-indicator:not(.dnb-progress-indicator--no-animation), .dnb-progress-indicator--visible:not(.dnb-progress-indicator--no-animation) {
     opacity: 0;
     animation: progress-indicator-fade-in 200ms ease-out 1 forwards; }
   .dnb-progress-indicator--complete:not(.dnb-progress-indicator--no-animation):not(.dnb-progress-indicator--visible) {
     animation: progress-indicator-fade-out 600ms ease-out 1 forwards; }
+  .dnb-progress-indicator--full-width {
+    width: 100%;
+    min-width: 1rem; }
 
 @keyframes progress-indicator-fade-in {
   0% {
@@ -1505,6 +1555,28 @@ button.dnb-button::-moz-focus-inner {
     stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); }
   100% {
     stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); } }
+
+@keyframes progress-indicator-linear-bar-1 {
+  0% {
+    left: -35%;
+    right: 100%; }
+  60% {
+    left: 100%;
+    right: -90%; }
+  100% {
+    left: 100%;
+    right: -90%; } }
+
+@keyframes progress-indicator-linear-bar-2 {
+  0% {
+    left: -200%;
+    right: 100%; }
+  60% {
+    left: 107%;
+    right: -8%; }
+  100% {
+    left: 107%;
+    right: -8%; } }
 
 .dnb-pagination {
   font-family: var(--font-family-default);

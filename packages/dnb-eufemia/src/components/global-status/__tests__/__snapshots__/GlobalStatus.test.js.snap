@@ -431,9 +431,9 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
     height: var(--button-icon-size); }
   [href] > .dnb-button__icon.dnb-icon {
     line-height: var(--button-font-size); }
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon {
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__icon {
     order: 1; }
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text {
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
   .dnb-button--reset {
     margin: 0;
@@ -774,6 +774,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
   <div
     aria-live="assertive"
     className="dnb-global-status__wrapper dnb-no-focus className class"
+    id="main"
     key="global-status"
     onKeyDown={[Function]}
     tabIndex="-1"
@@ -1092,6 +1093,7 @@ Array [
     <div
       aria-live="assertive"
       className="dnb-global-status__wrapper dnb-no-focus"
+      id="linked"
       key="global-status"
       onKeyDown={[Function]}
       tabIndex="-1"
