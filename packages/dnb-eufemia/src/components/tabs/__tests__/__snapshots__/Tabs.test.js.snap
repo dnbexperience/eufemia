@@ -32,6 +32,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
     on_change={null}
     on_click={null}
     on_focus={null}
+    on_mouse_enter={null}
     prerender={false}
     prevent_rerender={false}
     render={null}
@@ -498,6 +499,7 @@ exports[`Tabs component have to match snapshot 1`] = `
         "on_change": [Function],
         "on_click": [Function],
         "on_focus": [Function],
+        "on_mouse_enter": [Function],
         "prerender": "prerender",
         "prevent_rerender": "prevent_rerender",
         "render": [Function],
@@ -553,6 +555,7 @@ exports[`Tabs component have to match snapshot 1`] = `
   on_change={null}
   on_click={null}
   on_focus={null}
+  on_mouse_enter={null}
   prerender={false}
   prevent_rerender={false}
   render={null}

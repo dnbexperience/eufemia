@@ -102,6 +102,7 @@ export default class Tabs extends React.PureComponent {
 
     render: PropTypes.func,
     on_change: PropTypes.func,
+    on_mouse_enter: PropTypes.func,
     on_click: PropTypes.func,
     on_focus: PropTypes.func
   }
@@ -128,6 +129,7 @@ export default class Tabs extends React.PureComponent {
     children: null,
     render: null,
     on_change: null,
+    on_mouse_enter: null,
     on_click: null,
     on_focus: null
   }

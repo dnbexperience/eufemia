@@ -108,7 +108,6 @@
     "react-dom": ">=16.12"
   },
   "devDependencies": {
-    "dnb-design-system-portal": "*",
     "@babel/cli": "^7.13.14",
     "@babel/core": "^7.13.15",
     "@babel/eslint-parser": "^7.13.14",
@@ -154,6 +153,7 @@
     "current-git-branch": "^1.1.0",
     "del": "^6.0.0",
     "detect-port": "^1.3.0",
+    "dnb-design-system-portal": "*",
     "dotenv": "^8.2.0",
     "dotenv-cli": "^4.0.0",
     "enzyme": "^3.11.0",

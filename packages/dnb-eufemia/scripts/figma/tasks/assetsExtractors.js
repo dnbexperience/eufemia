@@ -714,13 +714,16 @@ const prerenderIconName = (name, size = null) => {
 
   if (reservedJavaScriptWords.includes(iconName)) {
     iconName = `${iconName}_1`
-    console.warn(
+    log.fail(
       `\nReserved name found for icon "${iconName}" – it got renamed to "${iconName}_1".\n\n\n`
     )
   }
-
+  
   if (size && !ignoreAddingSizeList.includes(size)) {
     iconName = `${iconName}_${size}`
+    log.fail(
+      `\nSize for icon "${iconName}" was not found – added "${iconName}_${size}".\n\n\n`
+    )
   }
 
   return iconName

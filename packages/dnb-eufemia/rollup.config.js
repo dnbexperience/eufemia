@@ -206,7 +206,7 @@ function makeRollupConfig(
 
   const babelOptions = {
     exclude: /node_modules/,
-    runtimeHelpers: true, // using @babel/plugin-transform-runtime
+    babelHelpers: 'runtime', // using @babel/plugin-transform-runtime
     configFile: './babel.config.cjs'
   }
   const commonjsOptions = {
@@ -230,7 +230,10 @@ function makeRollupConfig(
       babel(babelOptions),
       commonjs(commonjsOptions),
       nodeGlobals(),
-      replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
+      replace({
+        preventAssignment: true,
+        'process.env.NODE_ENV': JSON.stringify('production')
+      }),
       isCI ? sizeSnapshot({ snapshotPath: 'size-snapshot.json' }) : null,
       terser()
     ]
