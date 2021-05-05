@@ -209,8 +209,7 @@
   }
 
   // Button with icon and text - icon on LEFT side
-  &--has-text#{&}--has-icon#{&}--icon-position-left,
-  &--has-text#{&}--has-icon#{&}--icon-position-top {
+  &--has-text#{&}--has-icon#{&}--icon-position-left {
     .dnb-button__icon {
       order: 1;
     }

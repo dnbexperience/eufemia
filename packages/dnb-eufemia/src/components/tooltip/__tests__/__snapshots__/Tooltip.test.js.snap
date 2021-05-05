@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Tooltip component with target_element have to match default tooltip snapshot 1`] = `
+exports[`Tooltip component with target_ref have to match default tooltip snapshot 1`] = `
 <Component>
   <Tooltip
     active={null}
@@ -13,15 +13,15 @@ exports[`Tooltip component with target_element have to match default tooltip sna
     hide_delay={500}
     id="tooltip"
     no_animation={false}
+    onClick={null}
+    on_click={null}
     position="top"
     show_delay={300}
-    size="basis"
-    target_element={
+    target_ref={
       <button>
         Button
       </button>
     }
-    target_selector={null}
     tooltip={null}
   >
     <TooltipWithEvents
@@ -41,27 +41,34 @@ exports[`Tooltip component with target_element have to match default tooltip sna
       id="tooltip"
       internal_id="tooltip"
       no_animation={false}
+      onClick={null}
+      on_click={null}
       position="top"
       show_delay={300}
-      size="basis"
       target={
         <button>
           Button
         </button>
       }
-      target_element={
+      target_ref={
         <button>
           Button
         </button>
       }
-      target_selector={null}
       tooltip={null}
     >
-      <button
-        aria-describedby="tooltip"
+      <span
+        className="dnb-tooltip__wrapper"
+        key="target-wrapper"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
-        Button
-      </button>
+        <button
+          aria-describedby="tooltip"
+        >
+          Button
+        </button>
+      </span>
       <TooltipPortal
         active={false}
         align={null}
@@ -74,29 +81,32 @@ exports[`Tooltip component with target_element have to match default tooltip sna
           }
         }
         class={null}
-        className={null}
         group="tooltip"
         hide_delay={500}
         id="tooltip"
         internal_id="tooltip"
         key="tooltip"
         no_animation={false}
+        onClick={null}
+        on_click={null}
         position="top"
         show_delay={300}
-        size="basis"
         target={
-          <button
-            aria-describedby="tooltip"
+          <span
+            class="dnb-tooltip__wrapper"
           >
-            Button
-          </button>
+            <button
+              aria-describedby="tooltip"
+            >
+              Button
+            </button>
+          </span>
         }
-        target_element={
+        target_ref={
           <button>
             Button
           </button>
         }
-        target_selector={null}
         tooltip={null}
       />
     </TooltipWithEvents>
@@ -120,11 +130,11 @@ exports[`Tooltip scss have to match default theme snapshot 1`] = `
 .dnb-tooltip {
   border-radius: 1rem;
   color: var(--color-white);
-  background-color: var(--color-black-80);
+  background-color: var(--color-emerald-green);
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
   .dnb-tooltip__arrow::before {
     border: 1px solid rgba(0, 0, 0, 0.1);
-    background-color: var(--color-black-80); }
+    background-color: var(--color-emerald-green); }
 "
 `;
 
@@ -207,15 +217,13 @@ exports[`Tooltip scss have to match snapshot 1`] = `
   opacity: 0;
   visibility: hidden;
   transition: opacity 200ms ease-out; }
-  .dnb-tooltip--large {
-    padding: 0.25rem 1rem; }
   .dnb-tooltip--animate_position {
     transition: all 300ms ease-in-out, opacity 200ms ease-out; }
   .dnb-tooltip--active {
     visibility: visible;
     /*
       because of the first \\"show\\" we also use animation
-      also, use forwards because of the usage of visibility
+      also, use forwards becuase of the usage of visibility
     */
     animation: show-tooltip 200ms ease-out forwards; }
   html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {

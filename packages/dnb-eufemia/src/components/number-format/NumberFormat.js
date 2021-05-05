@@ -21,7 +21,6 @@ import {
   spacingPropTypes,
   createSpacingClasses
 } from '../space/SpacingHelper'
-import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
 import { format, showSelectionNotice } from './NumberUtils'
 
 export default class NumberFormat extends React.PureComponent {
@@ -69,11 +68,6 @@ export default class NumberFormat extends React.PureComponent {
     omit_rounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     clean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     element: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    tooltip: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node
-    ]),
 
     ...spacingPropTypes,
 
@@ -103,7 +97,6 @@ export default class NumberFormat extends React.PureComponent {
     omit_rounding: null,
     clean: null,
     element: 'span', // span or abbr
-    tooltip: null,
     class: null,
 
     className: null,
@@ -217,7 +210,6 @@ export default class NumberFormat extends React.PureComponent {
       phone,
       org,
       link: _link,
-      tooltip,
       options,
       locale,
       decimals,
@@ -228,9 +220,8 @@ export default class NumberFormat extends React.PureComponent {
       element,
       class: _className,
       className,
-      ...props
+      ...rest
     } = this.props
-    let rest = props
 
     let link = _link
     let value = _value
@@ -284,10 +275,6 @@ export default class NumberFormat extends React.PureComponent {
       formatOptions
     )
     this.cleanedValue = cleanedValue
-
-    if (tooltip) {
-      rest = injectTooltipSemantic(rest)
-    }
 
     const attributes = {
       ref: this._ref,
@@ -389,14 +376,6 @@ export default class NumberFormat extends React.PureComponent {
           >
             {cleanedValue}
           </span>
-        )}
-
-        {tooltip && (
-          <Tooltip
-            id={this._id + '-tooltip'}
-            target_element={this._ref}
-            tooltip={tooltip}
-          />
         )}
       </Element>
     )

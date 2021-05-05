@@ -13,6 +13,7 @@ import {
   registerElement,
   validateDOMAttributes,
   processChildren
+  // dispatchCustomElementEvent
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
@@ -20,10 +21,10 @@ import {
 } from '../space/SpacingHelper'
 import TooltipWithEvents from './TooltipWithEvents'
 import TooltipPortal from './TooltipPortal'
-import { injectTooltipSemantic } from './TooltipHelpers'
 
-export { injectTooltipSemantic }
-
+/**
+ * The tooltip component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a tooltip should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
+ */
 export default class Tooltip extends React.PureComponent {
   static tagName = 'dnb-tooltip'
   static contextType = Context
@@ -31,7 +32,6 @@ export default class Tooltip extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string,
     group: PropTypes.string,
-    size: PropTypes.oneOf(['basis', 'large']),
     active: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     position: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
     arrow: PropTypes.oneOf([
@@ -50,11 +50,6 @@ export default class Tooltip extends React.PureComponent {
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     show_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     hide_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    target_selector: PropTypes.string,
-    target_element: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node
-    ]),
 
     ...spacingPropTypes,
 
@@ -65,13 +60,16 @@ export default class Tooltip extends React.PureComponent {
       PropTypes.func,
       PropTypes.node
     ]),
-    tooltip: PropTypes.node
+    tooltip: PropTypes.node,
+
+    // Events
+    onClick: PropTypes.func,
+    on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
   }
 
   static defaultProps = {
     id: null,
     group: 'main',
-    size: 'basis',
     active: null,
     position: 'top',
     arrow: 'center',
@@ -80,13 +78,15 @@ export default class Tooltip extends React.PureComponent {
     no_animation: false,
     show_delay: 300,
     hide_delay: 500,
-    target_selector: null,
-    target_element: null,
 
     class: null,
     className: null,
     children: null,
-    tooltip: null
+    tooltip: null,
+
+    // Events
+    onClick: null,
+    on_click: null
   }
 
   static enableWebComponent() {
@@ -125,14 +125,13 @@ export default class Tooltip extends React.PureComponent {
     )
 
     const {
-      target_element,
-      target_selector,
+      target_ref,
+      target,
       class: class_name,
       className,
       id, // eslint-disable-line
       tooltip, // eslint-disable-line
-      group,
-      size,
+      group, // eslint-disable-line
       animate_position, // eslint-disable-line
       no_animation, // eslint-disable-line
       show_delay, // eslint-disable-line
@@ -148,7 +147,6 @@ export default class Tooltip extends React.PureComponent {
 
     const classes = classnames(
       'dnb-tooltip',
-      size === 'large' && 'dnb-tooltip--large',
       createSpacingClasses(props),
       class_name,
       className
@@ -172,24 +170,20 @@ export default class Tooltip extends React.PureComponent {
       delete newProps.active
     }
 
-    // React.isValidElement(target) ||
-    // (typeof target === 'object' &&
-    //   Object.prototype.hasOwnProperty.call(target, 'current'))
-
     return (
       <>
-        {target_element ? (
+        {target_ref ? (
           <TooltipWithEvents
-            target={target_element}
+            target={target_ref}
             attributes={attributes}
             {...newProps}
           >
             {content}
           </TooltipWithEvents>
         ) : (
-          target_selector && (
+          target && (
             <TooltipPortal
-              target={target_selector}
+              target={target}
               attributes={attributes}
               {...newProps}
             >

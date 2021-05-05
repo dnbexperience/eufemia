@@ -159,14 +159,13 @@
   }
 
   &__submit-element {
-    z-index: 3; // over placeholder
-
     margin-left: calc(1px - 1px - var(--input-height));
     line-height: var(--line-height-basis);
   }
 
   &__submit-button {
     position: relative;
+    z-index: 2; // over placeholder
 
     // place the button vertically
     align-self: center; /* IE needs this to stay centered */

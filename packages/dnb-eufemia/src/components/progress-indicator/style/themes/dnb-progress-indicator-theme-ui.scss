@@ -44,29 +44,4 @@
       stroke: var(--color-emerald-green);
     }
   }
-
-  // linear variant
-  &__linear {
-    background-color: var(--color-black-8);
-    &--small {
-      height: 0.25rem;
-      border-radius: 0.125rem;
-    }
-    &--medium {
-      height: 1rem;
-      border-radius: 0.5rem;
-    }
-    &--large {
-      height: 1.5rem;
-      border-radius: 0.75rem;
-    }
-    &--huge {
-      height: 2rem;
-      border-radius: 1rem;
-    }
-
-    &__bar {
-      background-color: var(--color-sea-green);
-    }
-  }
 }

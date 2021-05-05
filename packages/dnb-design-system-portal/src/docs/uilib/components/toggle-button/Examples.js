@@ -196,12 +196,14 @@ export const ToggleButtonSuffix = () => (
 
 export const ToggleButtonIconOnly = () => (
   <ComponentBox>
-    {() => /* jsx */ `
+    {
+      /* @jsx */ `
 <ToggleButton.Group label="Icons only:">
   <ToggleButton icon="bell" value="first" checked />
   <ToggleButton icon="loupe" value="second" />
   <ToggleButton icon="calendar" value="third" />
 </ToggleButton.Group>
-`}
+  `
+    }
   </ComponentBox>
 )

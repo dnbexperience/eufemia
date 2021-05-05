@@ -631,7 +631,7 @@ export default class GlobalStatus extends React.PureComponent {
       status_anchor_text,
       skeleton,
 
-      id,
+      id, // eslint-disable-line
       item, // eslint-disable-line
       items, // eslint-disable-line
       autoclose, // eslint-disable-line
@@ -647,7 +647,6 @@ export default class GlobalStatus extends React.PureComponent {
     } = props
 
     const wrapperParams = {
-      id,
       key: 'global-status',
       className: classnames(
         'dnb-global-status__wrapper',
@@ -661,6 +660,13 @@ export default class GlobalStatus extends React.PureComponent {
       onKeyDown: this.onKeyDownHandler,
       tabIndex: '-1'
     }
+
+    // if (!isActive) {
+    //   // because of screen readers will else read the content on page load, if:
+    //   // 1. if "show" is true from beginning, then we never come here
+    //   // to make sure we double check that situation
+    //   return <div {...wrapperParams} />
+    // }
 
     const state = this.correctStatus(rawState)
     const iconToRender = GlobalStatus.getIcon({

@@ -14,10 +14,6 @@
 
   padding: 0 1rem;
 
-  &--large {
-    padding: 0.25rem 1rem;
-  }
-
   opacity: 0;
   visibility: hidden;
 
@@ -31,7 +27,7 @@
 
     /*
       because of the first "show" we also use animation
-      also, use forwards because of the usage of visibility
+      also, use forwards becuase of the usage of visibility
     */
     animation: show-tooltip 200ms ease-out forwards;
   }

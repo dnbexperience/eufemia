@@ -56,7 +56,7 @@ Collaboration between design and development is easy through use of NPM and Gith
 The HTML Elements are built based on [React](https://reactjs.org/).
 The reason for this is that React offers a robust library of tools to build deep, well tested and reusable elements.
 
-The Library is hosted on [NPM](https://www.npmjs.com/package/@dnb/eufemia), so versioning and openness is secure.
+The Library is hosted on [NPM](npmjs.com), so versioning and openness is secure.
 
 ## Production ready
 

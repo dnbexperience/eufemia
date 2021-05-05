@@ -1,7 +1,3 @@
-## April, 5. 2021
-
-- `success-green` changes its color from `#008000` to `#007B5E`.
-
 ## March, 23. 2021
 
 - Make Anchor / Link better accessible by providing a title when target is set to blank.

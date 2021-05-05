@@ -18,7 +18,6 @@ showTabs: true
 | `status_state`                              | _(optional)_ defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.                                                            |
 | `global_status_id`                          | _(optional)_ the `status_id` used for the target [GlobalStatus](/uilib/components/global-status).                                                                               |
 | `suffix`                                    | _(optional)_ text describing the content of the ToggleButton more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButton component. |
-| `skeleton`                                  | _(optional)_ if set to `true`, an overlaying skeleton with animation will be shown.                                                                                             |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                           |
 
 ## ToggleButton (group) properties
@@ -38,7 +37,6 @@ showTabs: true
 | `label_sr_only`                             | _(optional)_ use `true` to make the label only readable by screen readers.                                                                                                                      |
 | `vertical`                                  | _(optional)_ will force both `direction` and `label_direction` to be **vertical** if set to `true`.                                                                                             |
 | `suffix`                                    | _(optional)_ text describing the content of the ToggleButtonGroup more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButtonGroup component.       |
-| `skeleton`                                  | _(optional)_ if set to `true`, an overlaying skeleton with animation will be shown.                                                                                                             |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                           |
 
 ### ToggleButton group Context
