@@ -2089,7 +2089,8 @@ legend.dnb-form-label {
       left: 0;
       bottom: 0;
       top: 0;
-      transform-origin: left; }
+      transform-origin: left;
+      border-radius: inherit; }
     .dnb-progress-indicator__linear__bar-transition {
       transition: transform 0.2s linear; }
     .dnb-progress-indicator__linear__bar1-animation {
