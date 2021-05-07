@@ -16,7 +16,6 @@ import addDays from 'date-fns/addDays'
 import isSameDay from 'date-fns/isSameDay'
 import isSameMonth from 'date-fns/isSameMonth'
 import startOfDay from 'date-fns/startOfDay'
-import endOfDay from 'date-fns/endOfDay'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import differenceInMonths from 'date-fns/differenceInMonths'
 import lastDayOfMonth from 'date-fns/lastDayOfMonth'
@@ -769,7 +768,7 @@ const onSelectRange = ({
     // set only date
     onSelect({
       startDate: startOfDay(day.date),
-      endDate: endOfDay(day.date),
+      endDate: startOfDay(day.date),
       event
     })
 
@@ -798,7 +797,7 @@ const onSelectRange = ({
     }
     onSelect({
       startDate: startOfDay(range.startDate),
-      endDate: endOfDay(range.endDate),
+      endDate: startOfDay(range.endDate),
       event
     })
   }
