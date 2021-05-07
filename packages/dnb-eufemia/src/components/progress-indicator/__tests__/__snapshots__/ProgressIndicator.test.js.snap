@@ -373,7 +373,8 @@ exports[`ProgressIndicator scss have to match snapshot 1`] = `
       left: 0;
       bottom: 0;
       top: 0;
-      transform-origin: left; }
+      transform-origin: left;
+      border-radius: inherit; }
     .dnb-progress-indicator__linear__bar-transition {
       transition: transform 0.2s linear; }
     .dnb-progress-indicator__linear__bar1-animation {
