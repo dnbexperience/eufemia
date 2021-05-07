@@ -211,14 +211,14 @@ render(<ChangeValue />)
 `}
 </ComponentBox>
 
-### Shows a small Linear ProgressIndicator with a static 50% in progress
+### Shows a large Linear ProgressIndicator with a static 50% in progress
 
 <ComponentBox data-visual-test="progress-indicator-linear--primary">
 	{() => /* jsx */ `
   <ProgressIndicator 
     type="linear" 
     progress="50"
-    size="small"
+    size="large"
     no_animation
   />
 `}
@@ -266,7 +266,6 @@ render(<ChangeValue />)
   return (
     <ProgressIndicator
       type="linear"
-      size="large"
       progress={progress}
     />
   )
