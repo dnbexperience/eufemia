@@ -27,7 +27,7 @@ With Eufemia, DNB can continually increase the product quality for both visual u
 
 ### Standards
 
-Eufemia follows the industry and regulatory standards [UU Tilsynet](https://www.uutilsynet.no/) alongside with [WCAG 2.1](www.w3.org/TR/WCAG21/).
+Eufemia follows the industry and regulatory standards [UU Tilsynet](https://www.uutilsynet.no/) alongside with [WCAG 2.1](https://www.w3.org/TR/WCAG21/).
 
 You can read more about what we at DNB UX expect and define as the minimal [accessibility requirements](/uilib/usage/accessibility) for our web applications.
 
