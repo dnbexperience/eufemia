@@ -110,6 +110,7 @@
     position: relative;
     overflow: hidden;
     width: 100%;
+    will-change: transform;
 
     // default/basis size
     height: 0.5rem;
