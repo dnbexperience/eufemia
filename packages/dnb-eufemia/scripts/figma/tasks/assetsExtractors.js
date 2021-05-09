@@ -53,15 +53,15 @@ export function IconsConfig(overwrite = {}) {
   ]
 
   const iconRenameList = process.env.FIGMA_ICONS_RENAME_LIST || [
-    { from: 'checkmark', to: 'check' },
-    { from: 'repeat', to: 'refresh' },
-    { from: 'document', to: 'file' },
-    { from: 'more_horizontal', to: 'more' }
+    { from: 'checkmark', to: 'check' }, // deprecated, can be removed in next minor versjon
+    { from: 'repeat', to: 'refresh' }, // deprecated, can be removed in next minor versjon
+    { from: 'document', to: 'file' }, // deprecated, can be removed in next minor versjon
+    { from: 'more_horizontal', to: 'more' } // deprecated, can be removed in next minor versjon
   ]
 
   const iconCloneList = process.env.FIGMA_ICONS_CLONE_LIST || [
     // As of now, we only clone these icons
-    { from: 'document', to: 'file' } // deprecated
+    { from: 'document', to: 'file' } // deprecated, can be removed in next minor versjon
   ]
 
   const canvasNameSelector =
@@ -718,7 +718,7 @@ const prerenderIconName = (name, size = null) => {
       `\nReserved name found for icon "${iconName}" – it got renamed to "${iconName}_1".\n\n\n`
     )
   }
-  
+
   if (size && !ignoreAddingSizeList.includes(size)) {
     iconName = `${iconName}_${size}`
     log.fail(
@@ -1166,5 +1166,6 @@ const reservedJavaScriptWords = [
   'select',
   'self',
   'unescape',
+  'document',
   'window'
 ]

@@ -22,6 +22,9 @@ describe('ProgressIndicator screenshot', () => {
 
   it('have to match the static primary linear with 50 percentage', async () => {
     const screenshot = await testPageScreenshot({
+      style: {
+        width: '20rem'
+      },
       selector:
         '[data-visual-test="progress-indicator-linear--primary"] .dnb-progress-indicator'
     })

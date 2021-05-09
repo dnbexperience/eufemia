@@ -110,6 +110,7 @@
     position: relative;
     overflow: hidden;
     width: 100%;
+    will-change: transform;
 
     // default/basis size
     height: 0.5rem;
@@ -122,6 +123,7 @@
       bottom: 0;
       top: 0;
       transform-origin: left;
+      border-radius: inherit;
     }
 
     &__bar-transition {

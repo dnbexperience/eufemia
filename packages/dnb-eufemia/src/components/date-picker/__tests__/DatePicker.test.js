@@ -336,7 +336,9 @@ describe('DatePicker component', () => {
     expect(on_cancel).toHaveBeenCalled()
     expect(on_cancel.mock.calls[0][0].date).toBe(date)
 
-    Comp.find('span.dnb-input__submit-element').find('button.dnb-button').simulate('click')
+    Comp.find('span.dnb-input__submit-element')
+      .find('button.dnb-button')
+      .simulate('click')
     submitElem.simulate('click')
 
     expect(
@@ -491,9 +493,6 @@ describe('DatePicker component', () => {
     startElem.simulate('change', {
       target: { value: '01' }
     })
-    // endElem.simulate('change', {
-    //   target: { value: '05' }
-    // })
 
     expect(on_change.mock.calls[3][0].is_valid_start_date).toBe(undefined)
     expect(on_change.mock.calls[3][0].is_valid_end_date).toBe(undefined)
@@ -618,6 +617,47 @@ describe('DatePicker component', () => {
       monthElem: endMonthElem,
       yearElem: endYearElem
     })
+  })
+
+  it.only('resets date correctly between interactions', () => {
+    let outerState
+    const on_change = jest.fn(({ date }) => (outerState = date))
+    const Comp = mount(
+      <Component on_change={on_change} show_input date="2019-02-01" />
+    )
+
+    function changeState() {
+      const elem = Comp.find('input.dnb-input__input').at(0)
+      expect(elem.instance().value).toBe('01')
+
+      // 1. change the date with event
+      elem.simulate('change', {
+        target: { value: '16' }
+      })
+      // Siulate prop update, like a state update would do
+      Comp.setProps({
+        date: outerState
+      })
+
+      expect(
+        Comp.find('input.dnb-input__input').at(0).instance().value
+      ).toBe('16')
+
+      // 2. change the date by prop
+      Comp.setProps({
+        date: '2019-02-01'
+      })
+
+      expect(
+        Comp.find('input.dnb-input__input').at(0).instance().value
+      ).toBe('01')
+    }
+
+    changeState()
+    expect(on_change).toBeCalledTimes(1)
+
+    changeState()
+    expect(on_change).toBeCalledTimes(2)
   })
 
   it('will reset on setting value to null', () => {

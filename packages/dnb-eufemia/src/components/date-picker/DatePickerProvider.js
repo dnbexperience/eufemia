@@ -151,6 +151,15 @@ export default class DatePickerProvider extends React.PureComponent {
       }
     }
 
+    if (
+      state.lastEventCallCache &&
+      (String(state.lastEventCallCache.startDate) !==
+        String(state.startDate) ||
+        String(state.lastEventCallCache.endDate) !== String(state.endDate))
+    ) {
+      state.lastEventCallCache = {}
+    }
+
     if (isValid(state.startDate)) {
       state.__startDay = pad(format(state.startDate, 'dd'), 2)
       state.__startMonth = pad(format(state.startDate, 'MM'), 2)
@@ -246,26 +255,31 @@ export default class DatePickerProvider extends React.PureComponent {
   }
 
   callOnChangeHandler = (args) => {
-    const eventData = this.getReturnObject(args)
-
-    if (this.eventData) {
-      if (isTrue(this.props.range)) {
-        if (
-          this.eventData.start_date === eventData.start_date &&
-          this.eventData.end_date === eventData.end_date
-        ) {
-          return
-        }
-      } else {
-        if (this.eventData.date === eventData.date) {
-          return
-        }
-      }
+    /**
+     * Prevent on_change to be fired twite if date not has actually changed
+     * We clear the cache inside getDerivedStateFromProps
+     */
+    if (
+      this.state.lastEventCallCache &&
+      String(this.state.lastEventCallCache.startDate) ===
+        String(this.state.startDate) &&
+      String(this.state.lastEventCallCache.endDate) ===
+        String(this.state.endDate)
+    ) {
+      return // stop here
     }
 
-    this.eventData = eventData
+    dispatchCustomElementEvent(
+      this,
+      'on_change',
+      this.getReturnObject(args)
+    )
 
-    dispatchCustomElementEvent(this, 'on_change', eventData)
+    const lastEventCallCache = {
+      startDate: this.state.startDate,
+      endDate: this.state.endDate
+    }
+    this.setState({ lastEventCallCache })
   }
 
   getReturnObject = ({ event = null, ...rest } = {}) => {
