@@ -1497,6 +1497,7 @@ button.dnb-button::-moz-focus-inner {
     position: relative;
     overflow: hidden;
     width: 100%;
+    will-change: transform;
     height: 0.5rem;
     border-radius: 0.25rem; }
     .dnb-progress-indicator__linear__bar {

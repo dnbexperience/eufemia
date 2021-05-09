@@ -365,6 +365,7 @@ exports[`ProgressIndicator scss have to match snapshot 1`] = `
     position: relative;
     overflow: hidden;
     width: 100%;
+    will-change: transform;
     height: 0.5rem;
     border-radius: 0.25rem; }
     .dnb-progress-indicator__linear__bar {
