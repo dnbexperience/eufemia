@@ -8,7 +8,8 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
 const Style = styled.div`
-  span.dnb-number-format {
+  *:not([data-visual-test='number-format-spacing'])
+    > span.dnb-number-format {
     display: block;
   }
   [data-visual-test='number-locales'] .dnb-p:last-of-type {
@@ -120,6 +121,17 @@ export const NumberLocales = () => (
   <NumberFormat locale="de-CH" value="-12345.6" currency />
   <NumberFormat locale="fr-CH" value="-12345.6" currency />
 </P>
+`}
+    </ComponentBox>
+  </Style>
+)
+
+export const NumberSpacing = () => (
+  <Style>
+    <ComponentBox data-visual-test="number-format-spacing">
+      {() => /* jsx */ `
+text <NumberFormat value="1234" currency left right />
+text <NumberFormat value="5678" currency left right /> text 
 `}
     </ComponentBox>
   </Style>

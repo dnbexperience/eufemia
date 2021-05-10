@@ -28,6 +28,7 @@ exports[`NumberFormat component have to match default number-format snapshot 1`]
     phone={null}
     prefix={null}
     selectall={true}
+    skeleton={null}
     suffix={null}
     tooltip={null}
     value={12345678.9876}
@@ -228,6 +229,7 @@ exports[`NumberFormat scss have to match snapshot 1`] = `
  *
  */
 .dnb-number-format {
+  display: inline-block;
   position: relative;
   speak-as: numbers;
   color: inherit;
