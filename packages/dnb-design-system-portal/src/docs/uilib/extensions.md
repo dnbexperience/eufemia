@@ -20,6 +20,6 @@ The styles for extensions are not a part of the default styles, so you have to i
 import '@dnb/eufemia/style/extensions'
 ```
 
-## [Payment-Card](/uilib/extensions/payment-card)
+## [PaymentCard](/uilib/extensions/payment-card)
 
 The PaymentCard component is a dynamic defined visual component imitate a physical payment card.
