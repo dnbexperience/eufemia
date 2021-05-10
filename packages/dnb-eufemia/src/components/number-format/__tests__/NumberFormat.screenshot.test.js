@@ -59,6 +59,12 @@ describe('NumberFormat screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match spacing system usage', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="number-format-spacing"]'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('NumberFormat with skeleton screenshot', () => {

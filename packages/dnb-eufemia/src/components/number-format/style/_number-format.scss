@@ -6,6 +6,7 @@
 @import '../../../style/elements/_anchor-mixins.scss';
 
 .dnb-number-format {
+  display: inline-block;
   position: relative;
   speak-as: numbers;
   color: inherit;
