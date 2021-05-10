@@ -463,6 +463,39 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 bounding={false}
                 class={null}
                 className="dnb-dropdown__trigger dnb-button--active"
+                custom_content={
+                  <React.Fragment>
+                    <span
+                      className="dnb-dropdown__text dnb-button__text"
+                    >
+                      <span
+                        className="dnb-dropdown__text__inner"
+                      >
+                        Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+                      </span>
+                    </span>
+                    <span
+                      aria-hidden={true}
+                      className="dnb-dropdown__icon"
+                    >
+                      <IconPrimary
+                        alt={null}
+                        attributes={null}
+                        border={null}
+                        className={null}
+                        color={null}
+                        height={null}
+                        icon="icon"
+                        inherit_color={true}
+                        modifier={null}
+                        size="icon_size"
+                        skeleton={null}
+                        title={null}
+                        width={null}
+                      />
+                    </span>
+                  </React.Fragment>
+                }
                 custom_element={null}
                 custom_method={null}
                 disabled="disabled"
@@ -517,8 +550,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     bounding={false}
                     class={null}
                     className="dnb-dropdown__trigger dnb-button--active"
-                    content={
-                      Array [
+                    content={null}
+                    custom_content={
+                      <React.Fragment>
                         <span
                           className="dnb-dropdown__text dnb-button__text"
                         >
@@ -527,7 +561,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                           >
                             Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
                           </span>
-                        </span>,
+                        </span>
                         <span
                           aria-hidden={true}
                           className="dnb-dropdown__icon"
@@ -547,8 +581,8 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                             title={null}
                             width={null}
                           />
-                        </span>,
-                      ]
+                        </span>
+                      </React.Fragment>
                     }
                     custom_element={null}
                     custom_method={null}

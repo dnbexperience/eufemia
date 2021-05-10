@@ -78,6 +78,39 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           bounding={false}
           class={null}
           className="dnb-toggle-button__button"
+          custom_content={
+            <span
+              className="dnb-toggle-button__component"
+            >
+              <Checkbox
+                aria-hidden={true}
+                attributes={null}
+                checked={false}
+                class={null}
+                className={null}
+                custom_element={null}
+                custom_method={null}
+                default_state={null}
+                disabled="disabled"
+                global_status_id={null}
+                id="toggle-button-checkbox"
+                label={null}
+                label_position={null}
+                on_change={null}
+                on_state_update={null}
+                readOnly={false}
+                size={null}
+                skeleton={null}
+                status={null}
+                status_animation={null}
+                status_state="error"
+                suffix={null}
+                tabIndex="-1"
+                title={null}
+                value={null}
+              />
+            </span>
+          }
           custom_element={null}
           custom_method={null}
           disabled="disabled"
@@ -125,7 +158,8 @@ exports[`ToggleButton component have to match snapshot 1`] = `
               bounding={false}
               class={null}
               className="dnb-toggle-button__button"
-              content={
+              content="text"
+              custom_content={
                 <span
                   className="dnb-toggle-button__component"
                 >
@@ -538,6 +572,39 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                             bounding={false}
                             class={null}
                             className="dnb-toggle-button__button"
+                            custom_content={
+                              <span
+                                className="dnb-toggle-button__component"
+                              >
+                                <Radio
+                                  aria-hidden={true}
+                                  attributes={null}
+                                  checked={true}
+                                  class={null}
+                                  className={null}
+                                  custom_element={null}
+                                  custom_method={null}
+                                  disabled={null}
+                                  global_status_id={null}
+                                  group={null}
+                                  id="toggle-button-1-radio"
+                                  label={null}
+                                  label_position={null}
+                                  label_sr_only={null}
+                                  on_change={null}
+                                  on_state_update={null}
+                                  readOnly={false}
+                                  size={null}
+                                  skeleton={null}
+                                  status={null}
+                                  status_animation={null}
+                                  status_state="error"
+                                  suffix={null}
+                                  tabIndex="-1"
+                                  value=""
+                                />
+                              </span>
+                            }
                             custom_element={null}
                             custom_method={null}
                             disabled={null}
@@ -582,7 +649,8 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                 bounding={false}
                                 class={null}
                                 className="dnb-toggle-button__button"
-                                content={
+                                content="ToggleButton 1"
+                                custom_content={
                                   <span
                                     className="dnb-toggle-button__component"
                                   >
@@ -804,6 +872,39 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                             bounding={false}
                             class={null}
                             className="dnb-toggle-button__button"
+                            custom_content={
+                              <span
+                                className="dnb-toggle-button__component"
+                              >
+                                <Radio
+                                  aria-hidden={true}
+                                  attributes={null}
+                                  checked={true}
+                                  class={null}
+                                  className={null}
+                                  custom_element={null}
+                                  custom_method={null}
+                                  disabled={null}
+                                  global_status_id={null}
+                                  group={null}
+                                  id="toggle-button-2-radio"
+                                  label={null}
+                                  label_position={null}
+                                  label_sr_only={null}
+                                  on_change={null}
+                                  on_state_update={null}
+                                  readOnly={false}
+                                  size={null}
+                                  skeleton={null}
+                                  status={null}
+                                  status_animation={null}
+                                  status_state="error"
+                                  suffix={null}
+                                  tabIndex="-1"
+                                  value=""
+                                />
+                              </span>
+                            }
                             custom_element={null}
                             custom_method={null}
                             disabled={null}
@@ -848,7 +949,8 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                 bounding={false}
                                 class={null}
                                 className="dnb-toggle-button__button"
-                                content={
+                                content="ToggleButton 2"
+                                custom_content={
                                   <span
                                     className="dnb-toggle-button__component"
                                   >

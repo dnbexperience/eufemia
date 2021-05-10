@@ -369,6 +369,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   bounding={false}
                   class={null}
                   className="dnb-input__submit-button__button dnb-button--input-button"
+                  custom_content={null}
                   custom_element={null}
                   custom_method={null}
                   disabled={false}
@@ -416,6 +417,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       class={null}
                       className="dnb-input__submit-button__button dnb-button--input-button"
                       content={null}
+                      custom_content={null}
                       custom_element={null}
                       custom_method={null}
                       disabled={false}
