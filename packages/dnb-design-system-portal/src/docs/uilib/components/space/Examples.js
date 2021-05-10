@@ -102,17 +102,17 @@ export const SpaceVisualTestPatterns = () => (
       useRender
     >
       {() => /* jsx */ `
-const listOfBoxes = []
-for (let i = 0, c = 0, l = 20; i <= l; i++) {
-  listOfBoxes.push(String(c))
-  c += 0.5
-}
 const TestCase = (props) => {
   return <CustomStyle {...props}>{listOfBoxes.map((v) => (
     <Space key={v} top={v}>
       <MagicBox />
     </Space>
   ))}</CustomStyle>
+}
+const listOfBoxes = []
+for (let i = 0, c = 0, l = 20; i <= l; i++) {
+  listOfBoxes.push(String(c))
+  c += 0.5
 }
 render(
   <div className="spacing-patterns">
@@ -147,11 +147,17 @@ for (let i = 0, c = 0, l = 10; i <= l; i++) {
   c += 1
 }
 const TestCase = (props) => {
-  return <CustomStyle {...props}>{listOfBoxes.map((v) => (
-    <Button key={v} left="x-small" top={v} size="small">
-      <MagicBox />
-    </Button>
-  ))}</CustomStyle>
+  return <CustomStyle {...props}>
+    {listOfBoxes.map((v) => (
+      <Button
+        key={v}
+        left="x-small"
+        top={v}
+        size="small"
+        custom_content={<MagicBox />}
+      />
+    ))}
+  </CustomStyle>
 }
 render(
   <div className="spacing-elements">
