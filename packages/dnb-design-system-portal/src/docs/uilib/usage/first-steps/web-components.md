@@ -32,7 +32,7 @@ There are two ways of updating properties:
 
 ### Using `setProps`
 
-With that approach, you would not change the actual attributes, only the underlaying React properties. But this gives you the possibility to also pass `function` properties.
+With that approach, you would not change the actual attributes, only the underlying React properties. But this gives you the possibility to also pass `function` properties.
 
 ```html
 <dnb-button text="Button"></dnb-button>

@@ -75,7 +75,7 @@ import { Button } from '@dnb/eufemia'
 render(<Button text="Primary Button" />)
 ```
 
-You also may [import the styles](/uilib/usage/customisation/styling/consume-styles) on a higher lever in Your application:
+You also may [import the styles](/uilib/usage/customisation/styling/consume-styles) on a higher level in Your application:
 
 ```js
 // e.g. in the App root

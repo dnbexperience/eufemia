@@ -8,7 +8,7 @@ The Tooltip component is primarily meant to enhance the UX for various and addit
 
 ### Tooltip accessibility problems
 
-Because a Tooltip is often bound to an hover action, there are cases where you as a developer, together with an UX designer, need to find alternative ways of supporting access to that informasion.
+Because a Tooltip is often bound to an hover action, there are cases where you as a developer, together with an UX designer, need to find alternative ways of supporting access to that information.
 
 The Tooltip component is integrated e.g. in the Button component. This way, we can handle the tooltip information to be accessible for screen readers.
 

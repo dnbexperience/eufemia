@@ -18,7 +18,7 @@ import ExtentsSvg from 'Pages/quickguide-designer/assets/extents.svg'
 import SpaceWithinSvg from 'Pages/quickguide-designer/assets/space-within.svg'
 import TypeOnGridSvg from 'Pages/quickguide-designer/assets/type-on-grid.svg'
 import SpaceBlocksSvg from 'Pages/quickguide-designer/assets/space-blocks.svg'
-import DiscrepenciesSvg from 'Pages/quickguide-designer/assets/discrepencies.svg'
+import DiscrepanciesSvg from 'Pages/quickguide-designer/assets/discrepancies.svg'
 import StandardSpacingBlocks from 'Pages/quickguide-designer/assets/standard-spacing-blocks.svg'
 
 # Spatial system
@@ -26,7 +26,7 @@ import StandardSpacingBlocks from 'Pages/quickguide-designer/assets/standard-spa
 ## About
 
 The Eufemia Design System uses a simple 8 pixel spatial system for both layout and typography.
-The reason for this is because many device and digital metrics are divisible by 8. For example, many popular browsers set their default body font-size to 16px and many screen sizes are also divisibly by 8.
+The reason for this is because many device and digital metrics are divisible by 8. For example, many popular browsers set their default body font-size to 16px and many screen sizes are also divisible by 8.
 The 8 pixel base grid unit has been adopted by many well known design systems such as Google's Material Design.
 
 Ultimately the best reason for adopting 8 as a base number is because we can apply it perfectly to both type and layout.
@@ -190,7 +190,7 @@ Rules dictate which slugs are placed adjacent to which blocks.
 A spatial system and grid system are two different things. A grid is a component which _uses_ space.
 The Eufemia Spatial System is a very simple set of ’space-blocks’ than _create_ space - akin to the leading slugs in a typesetters frame.
 
-<Img src={SpaceBlocksSvg} caption="Space blocks seperating objects" alt="Space blocks" />
+<Img src={SpaceBlocksSvg} caption="Space blocks separating objects" alt="Space blocks" />
 
 A _grid system_ is typically a more elaborate set of containers which divide the UI into sections with margins and gutters between them. Eufemia's spatial system is a simple guide for space and type set around the 8px base unit.
 
@@ -224,7 +224,7 @@ When designing with type, there may sometimes be small discrepancies between the
 
 In order to see how type is rendered in the browser and view the space it uses, toggle the grid view in the top right of this document.
 
-<Img src={DiscrepenciesSvg} caption="Slight discrepencies between design tool and browser rendering" alt="Discrepancies between design tool and browser" />
+<Img src={DiscrepanciesSvg} caption="Slight discrepancies between design tool and browser rendering" alt="Discrepancies between design tool and browser" />
 
 In the image above the heading with the blue background is how Figma shows the space the the heading uses. The heading with the yellow background is how the browser (Chrome) renders and shows the space taken up. Note the space above the first letter 'T'. In Figma this is 2 pixels whereas in Chrome it is 6 pixels.
 
@@ -234,7 +234,7 @@ The Eufemia Figma library contains a set of standard spacing components which ca
 
 <Img src={StandardSpacingBlocks} caption="Standard Eufemia spacing blocks" alt="Standard Eufemia spacing blocks" />
 
-Layout design is not limited to these selected sizing blocks. If you need more space than the blocks provide simply add it in multiples of **8 pixels**, but don't strecth the components as another designer or developer may simply glance at the space component and read it's label assuming it is exacly as large it was when created.
+Layout design is not limited to these selected sizing blocks. If you need more space than the blocks provide simply add it in multiples of **8 pixels**, but don't stretch the components as another designer or developer may simply glance at the space component and read it's label assuming it is exactly as large it was when created.
 
 ### Examples
 
