@@ -4,7 +4,7 @@ title: 'WCAG Accessibility'
 icon: 'accessibility'
 ---
 
-# Accessibility, Inclusivness and WCAG
+# Accessibility, Inclusiveness and WCAG
 
 Accessibility affects all users, not just those with stereotypical disabilities. The extra work that may be required to ensure good accessibility in DNB applications and services will be worth it.
 
@@ -23,7 +23,7 @@ The four main tenets of the WCAG 2.1 are:
 
 Perceivable content must be readable.
 
-Make sure there is enough contrast between background and text colours.
+Make sure there is enough contrast between background and text colors.
 
 Larger text is generally more readable. Make sure text can easily be resized.
 
@@ -101,7 +101,7 @@ Building an accessible interface starts at the UX stage of design. Ideally a des
 - make sure the content is perceivable - ensure good contrast between background and foreground
 - plan how you would like a keyboard navigator to access interface laments/areas. What will the order of tabbing be?
 - should you provide a ’skip to content’ feature to allow users to get to the main content quickly
-- plan how the interface will respond to different screen sizes. The layout may have to change - how will this affect accessability?
+- plan how the interface will respond to different screen sizes. The layout may have to change - how will this affect accessibility?
 - zoom the interface - some users zoom their browser to increase the size. How will elements behave in these scenarios? Will they overlap. What happens to wide horizontal components such as navigation or tab sets?
 - fluid design as opposed to using fixed breakpoints, allows the content to reflow in the same order as screen readers render content to users who are blind or visually impaired.
 

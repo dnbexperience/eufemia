@@ -43,7 +43,7 @@ Gatsby as a framework makes the perfect fit to utilize a good skeleton user expe
 
 ### How to use
 
-You can use the Skeleton component as a provider for all underlaying components, like inputs and buttons. This way, you can simply toggle on and off the skeletons. And all the spacing and sizing will be given form the components itself.
+You can use the Skeleton component as a provider for all underlying components, like inputs and buttons. This way, you can simply toggle on and off the skeletons. And all the spacing and sizing will be given form the components itself.
 
 But you can also use the Skeleton component to show a fake article or other figures.
 
@@ -51,7 +51,7 @@ But you can also use the Skeleton component to show a fake article or other figu
 
 Every Eufemia component should support a skeleton natively. But for simplification, you can use the Skeleton component as a provider, so enable the skeletons for a group of components.
 
-If you use the skeleton as a provider, the [Space](/uilib/components/space) component is used as a wrapper. This wrapper also serves the underlaying components to define the style type or animation. If only the defaults are used, then you can skip it by setting the element to false `element={false}`.
+If you use the skeleton as a provider, the [Space](/uilib/components/space) component is used as a wrapper. This wrapper also serves the underlying components to define the style type or animation. If only the defaults are used, then you can skip it by setting the element to false `element={false}`.
 
 But the Skeleton component also supports a set of ready to use figures. Use it like `figure="article"`.
 
@@ -70,7 +70,7 @@ But the Skeleton component also supports a set of ready to use figures. Use it l
 
 ### Global Provider
 
-You can also use the global [Eufemia Provider](/uilib/usage/customisation/provider) to enable the underlaying skeletons. You can even have multiple providers wrapped.
+You can also use the global [Eufemia Provider](/uilib/usage/customisation/provider) to enable the underlying skeletons. You can even have multiple providers wrapped.
 
 ```jsx
 <Provider locale="nb-NO">

@@ -4,7 +4,7 @@ showTabs: true
 
 ## Description
 
-The PaymentCard component is a dynamic defined visual component imitate a physical payment card. It exists as an independent extension to Eufmeia.
+The PaymentCard component is a dynamic defined visual component imitate a physical payment card. It exists as an independent extension to Eufemia.
 
 How to use it:
 

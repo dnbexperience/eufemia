@@ -7,7 +7,7 @@ With Vue, you could use the included [Web Components](/uilib/usage/first-steps/w
 ```js
 import Vue from 'vue'
 
-// get Vuera upp and runnning
+// get Vuera up and running
 import dnb, { Button } from '@dnb/eufemia/components/vue'
 
 export default {
@@ -33,7 +33,7 @@ And the syntax would look like:
 
 Besides `vue` and `vuera`, you may also install, `@dnb/eufemia`, `react` and `react-dom`.
 
-**NB:** Make sure You add `vuera` to Your Package dependencies. Even if You not use it directly in Your Application.
+**NB:** Make sure You add `vuera` to Your Package dependencies. Even if you not use it directly in Your Application.
 
 ```json
 "dependencies": {

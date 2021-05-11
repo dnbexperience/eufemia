@@ -32,7 +32,7 @@ Use `size="auto"` to force the icon to inherit the size of its parent element.
 
 ## SVG Icons
 
-_Scalable Vector Graphics_ can be set up to be scaleable and actually respond to the `font-size`.
+_Scalable Vector Graphics_ can be set up to be scalable and actually respond to the `font-size`.
 
 <ComponentBox scope={{Beach}} useRender>
 {`
