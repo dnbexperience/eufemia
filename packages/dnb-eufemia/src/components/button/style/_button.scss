@@ -214,14 +214,10 @@
     .dnb-button__icon {
       order: 1;
     }
-    .dnb-button__custom-content,
+    & > *,
     .dnb-button__text {
       order: 2;
     }
-  }
-
-  &__custom-content {
-    display: flex;
   }
 
   &--reset {
