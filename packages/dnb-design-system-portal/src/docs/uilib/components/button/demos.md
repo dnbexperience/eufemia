@@ -13,6 +13,7 @@ ButtonTertiary,
 ButtonTertiaryTop,
 ButtonTertiaryWrap,
 ButtonAnchor,
+ButtonCustomContent,
 ButtonSignal,
 ButtonSignalLarge,
 ButtonIcon,
@@ -80,3 +81,9 @@ Large Signal button with medium sized icon. To import custom icons, use: `import
 <ButtonIcon />
 
 <TertiaryWithNoIcon />
+
+### Custom button content
+
+This is, as all of the demos, only an example how to achieve various needs, and not that you should do it.
+
+<ButtonCustomContent />

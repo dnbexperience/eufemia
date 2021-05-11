@@ -133,6 +133,19 @@ export const ButtonTertiaryTop = () => (
   </ComponentBox>
 )
 
+export const ButtonCustomContent = () => (
+  <ComponentBox data-visual-test="button-custom-content">
+    {() => /* jsx */ `
+<Button
+  icon="close"
+  icon_position="right"
+  text="Button with custom content"
+  custom_content={<IconPrimary icon="check" right="small" />}
+/>
+`}
+  </ComponentBox>
+)
+
 export const ButtonTertiaryWrap = () => (
   <ComponentBox data-visual-test="button-tertiary-wrap">
     {() => /* jsx */ `

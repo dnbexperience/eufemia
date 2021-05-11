@@ -600,34 +600,37 @@ class DropdownInstance extends React.PureComponent {
                   icon={false} // only to suppress the warning about the icon when tertiary variant is used
                   size={size === 'default' ? 'medium' : size}
                   ref={this._refButton}
-                  {...triggerParams}
-                >
-                  {!isPopupMenu && (
-                    <span className="dnb-dropdown__text dnb-button__text">
-                      <span className="dnb-dropdown__text__inner">
-                        {title}
+                  custom_content={
+                    <>
+                      {!isPopupMenu && (
+                        <span className="dnb-dropdown__text dnb-button__text">
+                          <span className="dnb-dropdown__text__inner">
+                            {title}
+                          </span>
+                        </span>
+                      )}
+                      <span
+                        aria-hidden
+                        className={classnames(
+                          'dnb-dropdown__icon',
+                          parseFloat(selected_item) === 0 &&
+                            'dnb-dropdown__icon--first'
+                        )}
+                      >
+                        {icon !== false && (
+                          <Icon
+                            icon={icon || 'chevron_down'}
+                            size={
+                              icon_size ||
+                              (size === 'large' ? 'medium' : 'default')
+                            }
+                          />
+                        )}
                       </span>
-                    </span>
-                  )}
-                  <span
-                    aria-hidden
-                    className={classnames(
-                      'dnb-dropdown__icon',
-                      parseFloat(selected_item) === 0 &&
-                        'dnb-dropdown__icon--first'
-                    )}
-                  >
-                    {icon !== false && (
-                      <Icon
-                        icon={icon || 'chevron_down'}
-                        size={
-                          icon_size ||
-                          (size === 'large' ? 'medium' : 'default')
-                        }
-                      />
-                    )}
-                  </span>
-                </Button>
+                    </>
+                  }
+                  {...triggerParams}
+                />
               )}
 
               <DrawerList

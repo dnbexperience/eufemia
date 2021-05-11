@@ -456,18 +456,19 @@ export default class ToggleButton extends React.PureComponent {
                   <Button
                     variant="secondary"
                     className="dnb-toggle-button__button"
+                    custom_content={
+                      leftComponent && (
+                        <span className="dnb-toggle-button__component">
+                          {leftComponent}
+                        </span>
+                      )
+                    }
                     {...buttonParams}
                     ref={this._refButton}
                     onClick={this.onClickHandler}
                     onKeyDown={this.onKeyDownHandler}
                     onKeyUp={this.onKeyUpHandler}
-                  >
-                    {leftComponent && (
-                      <span className="dnb-toggle-button__component">
-                        {leftComponent}
-                      </span>
-                    )}
-                  </Button>
+                  />
 
                   {suffix && (
                     <Suffix
