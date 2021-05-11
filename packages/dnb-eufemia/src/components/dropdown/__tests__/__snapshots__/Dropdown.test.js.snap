@@ -616,38 +616,33 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     wrap={false}
                   >
                     <span
-                      className="dnb-button__custom-content"
-                      key="button-custom-content"
+                      className="dnb-dropdown__text dnb-button__text"
                     >
                       <span
-                        className="dnb-dropdown__text dnb-button__text"
+                        className="dnb-dropdown__text__inner"
                       >
-                        <span
-                          className="dnb-dropdown__text__inner"
-                        >
-                          Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
-                        </span>
+                        Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
                       </span>
-                      <span
-                        aria-hidden={true}
-                        className="dnb-dropdown__icon"
-                      >
-                        <IconPrimary
-                          alt={null}
-                          attributes={null}
-                          border={null}
-                          className={null}
-                          color={null}
-                          height={null}
-                          icon="icon"
-                          inherit_color={true}
-                          modifier={null}
-                          size="icon_size"
-                          skeleton={null}
-                          title={null}
-                          width={null}
-                        />
-                      </span>
+                    </span>
+                    <span
+                      aria-hidden={true}
+                      className="dnb-dropdown__icon"
+                    >
+                      <IconPrimary
+                        alt={null}
+                        attributes={null}
+                        border={null}
+                        className={null}
+                        color={null}
+                        height={null}
+                        icon="icon"
+                        inherit_color={true}
+                        modifier={null}
+                        size="icon_size"
+                        skeleton={null}
+                        title={null}
+                        width={null}
+                      />
                     </span>
                   </Content>
                 </button>
@@ -1717,12 +1712,10 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     line-height: var(--button-font-size); }
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__icon {
     order: 1; }
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__custom-content,
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__custom-content,
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left > *,
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
-  .dnb-button__custom-content {
-    display: flex; }
   .dnb-button--reset {
     margin: 0;
     padding: 0;
