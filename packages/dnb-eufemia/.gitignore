@@ -24,6 +24,7 @@
 /umd
 /style
 /icons
+/assets/icons/*.pdf
 /dnb-ui-resources
 **/test-files/dist
 /docs

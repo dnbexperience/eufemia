@@ -721,9 +721,6 @@ const prerenderIconName = (name, size = null) => {
 
   if (size && !ignoreAddingSizeList.includes(size)) {
     iconName = `${iconName}_${size}`
-    log.fail(
-      `\nSize for icon "${iconName}" was not found – added "${iconName}_${size}".\n\n\n`
-    )
   }
 
   return iconName
@@ -770,7 +767,7 @@ const makeMetaFile = async ({
           acc[iconName] = {
             ...existing,
             tags: tags.reduce((acc, cur) => {
-              if (!acc.includes(cur)) {
+              if (!acc.includes(cur) && cur !== iconName) {
                 acc.push(cur)
               }
               return acc

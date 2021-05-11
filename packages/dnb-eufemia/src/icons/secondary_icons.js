@@ -55,17 +55,6 @@ import diamond from './diamond.js'
 import digipass from './digipass.js'
 import digipost from './digipost.js'
 import dismiss_keyboard from './dismiss_keyboard.js'
-import document_add from './document_add.js'
-import document_contract from './document_contract.js'
-import document_csv from './document_csv.js'
-import document_loupe from './document_loupe.js'
-import document_pdf from './document_pdf.js'
-import document_rejected from './document_rejected.js'
-import document_signing from './document_signing.js'
-import document_txt from './document_txt.js'
-import document_warning from './document_warning.js'
-import document_word from './document_word.js'
-import document_xls from './document_xls.js'
 import dog from './dog.js'
 import edit from './edit.js'
 import einvoice from './einvoice.js'
@@ -74,6 +63,18 @@ import equities_and_mutual_funds from './equities_and_mutual_funds.js'
 import exclamation_circled from './exclamation_circled.js'
 import exclamation_triangle from './exclamation_triangle.js'
 import file from './file.js'
+import file_add from './file_add.js'
+import file_contract from './file_contract.js'
+import file_csv from './file_csv.js'
+import file_loupe from './file_loupe.js'
+import file_pdf from './file_pdf.js'
+import file_ppt from './file_ppt.js'
+import file_rejected from './file_rejected.js'
+import file_signing from './file_signing.js'
+import file_txt from './file_txt.js'
+import file_warning from './file_warning.js'
+import file_word from './file_word.js'
+import file_xls from './file_xls.js'
 import filter from './filter.js'
 import first_aid from './first_aid.js'
 import flying_money from './flying_money.js'
@@ -237,17 +238,6 @@ export {
   digipass,
   digipost,
   dismiss_keyboard,
-  document_add,
-  document_contract,
-  document_csv,
-  document_loupe,
-  document_pdf,
-  document_rejected,
-  document_signing,
-  document_txt,
-  document_warning,
-  document_word,
-  document_xls,
   dog,
   edit,
   einvoice,
@@ -256,6 +246,18 @@ export {
   exclamation_circled,
   exclamation_triangle,
   file,
+  file_add,
+  file_contract,
+  file_csv,
+  file_loupe,
+  file_pdf,
+  file_ppt,
+  file_rejected,
+  file_signing,
+  file_txt,
+  file_warning,
+  file_word,
+  file_xls,
   filter,
   first_aid,
   flying_money,

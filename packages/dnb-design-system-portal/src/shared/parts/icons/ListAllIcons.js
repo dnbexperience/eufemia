@@ -83,6 +83,15 @@ export default class ListAllIcons extends React.PureComponent {
       const SvgMedium = (variant === 'primary'
         ? PrimaryIconsMedium
         : SecondaryIconsMedium)[`${iconName}_medium`]
+
+      // remove duplications
+      tags = tags.filter((item, index) => {
+        if (item === iconName) {
+          return false
+        }
+        return tags.indexOf(item) === index
+      })
+
       return (
         <ListItem key={iconName}>
           <ListItemInner>
