@@ -12,6 +12,7 @@ NumberBankAccount,
 NumberNationalIdentification,
 NumberOrganization,
 NumberLocales,
+NumberSpacing,
 } from 'Pages/uilib/components/number-format/Examples'
 import ChangeLocale from 'Src/core/ChangeLocale'
 
@@ -48,3 +49,9 @@ By using `selectall={false}` you disable the auto select all feature.
 ### Numbers and currencies in different locales
 
 <NumberLocales />
+
+### NumberFormat and spacing
+
+The NumberFormat uses `display: inline-block;` in order to make the [spacing system](/uilib/components/space) to work.
+
+<NumberSpacing />

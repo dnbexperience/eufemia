@@ -600,6 +600,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 bounding={false}
                                 class={null}
                                 className="dnb-input__submit-button__button dnb-button--input-button dnb-button--active"
+                                custom_content={null}
                                 custom_element={null}
                                 custom_method={null}
                                 disabled="disabled"
@@ -653,6 +654,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     class={null}
                                     className="dnb-input__submit-button__button dnb-button--input-button dnb-button--active"
                                     content={null}
+                                    custom_content={null}
                                     custom_element={null}
                                     custom_method={null}
                                     disabled="disabled"
@@ -1530,7 +1532,9 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
     line-height: var(--button-font-size); }
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__icon {
     order: 1; }
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left > *,
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
   .dnb-button--reset {
     margin: 0;

@@ -54,17 +54,6 @@ import diamond_medium from './diamond_medium.js'
 import digipass_medium from './digipass_medium.js'
 import digipost_medium from './digipost_medium.js'
 import dismiss_keyboard_medium from './dismiss_keyboard_medium.js'
-import document_add_medium from './document_add_medium.js'
-import document_contract_medium from './document_contract_medium.js'
-import document_csv_medium from './document_csv_medium.js'
-import document_loupe_medium from './document_loupe_medium.js'
-import document_pdf_medium from './document_pdf_medium.js'
-import document_rejected_medium from './document_rejected_medium.js'
-import document_signing_medium from './document_signing_medium.js'
-import document_txt_medium from './document_txt_medium.js'
-import document_warning_medium from './document_warning_medium.js'
-import document_word_medium from './document_word_medium.js'
-import document_xls_medium from './document_xls_medium.js'
 import dog_medium from './dog_medium.js'
 import edit_medium from './edit_medium.js'
 import einvoice_medium from './einvoice_medium.js'
@@ -72,7 +61,19 @@ import email_medium from './email_medium.js'
 import equities_and_mutual_funds_medium from './equities_and_mutual_funds_medium.js'
 import exclamation_circled_medium from './exclamation_circled_medium.js'
 import exclamation_triangle_medium from './exclamation_triangle_medium.js'
+import file_add_medium from './file_add_medium.js'
+import file_contract_medium from './file_contract_medium.js'
+import file_csv_medium from './file_csv_medium.js'
+import file_loupe_medium from './file_loupe_medium.js'
 import file_medium from './file_medium.js'
+import file_pdf_medium from './file_pdf_medium.js'
+import file_ppt_medium from './file_ppt_medium.js'
+import file_rejected_medium from './file_rejected_medium.js'
+import file_signing_medium from './file_signing_medium.js'
+import file_txt_medium from './file_txt_medium.js'
+import file_warning_medium from './file_warning_medium.js'
+import file_word_medium from './file_word_medium.js'
+import file_xls_medium from './file_xls_medium.js'
 import filter_medium from './filter_medium.js'
 import first_aid_medium from './first_aid_medium.js'
 import flying_money_medium from './flying_money_medium.js'
@@ -236,17 +237,6 @@ export {
   digipass_medium,
   digipost_medium,
   dismiss_keyboard_medium,
-  document_add_medium,
-  document_contract_medium,
-  document_csv_medium,
-  document_loupe_medium,
-  document_pdf_medium,
-  document_rejected_medium,
-  document_signing_medium,
-  document_txt_medium,
-  document_warning_medium,
-  document_word_medium,
-  document_xls_medium,
   dog_medium,
   edit_medium,
   einvoice_medium,
@@ -254,7 +244,19 @@ export {
   equities_and_mutual_funds_medium,
   exclamation_circled_medium,
   exclamation_triangle_medium,
+  file_add_medium,
+  file_contract_medium,
+  file_csv_medium,
+  file_loupe_medium,
   file_medium,
+  file_pdf_medium,
+  file_ppt_medium,
+  file_rejected_medium,
+  file_signing_medium,
+  file_txt_medium,
+  file_warning_medium,
+  file_word_medium,
+  file_xls_medium,
   filter_medium,
   first_aid_medium,
   flying_money_medium,

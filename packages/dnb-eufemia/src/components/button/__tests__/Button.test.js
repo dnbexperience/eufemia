@@ -25,6 +25,8 @@ props.status = null
 props.element = null
 props.tooltip = null
 props.to = null
+props.custom_content = null
+props.text = null
 props.icon_position = 'right'
 
 beforeAll(() => {

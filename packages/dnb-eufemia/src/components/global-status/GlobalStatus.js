@@ -68,7 +68,7 @@ export default class GlobalStatus extends React.PureComponent {
     ]),
     icon_size: PropTypes.string,
     state: PropTypes.oneOf(['error', 'info']),
-    show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    show: PropTypes.oneOf(['auto', true, false, 'true', 'false']),
     autoscroll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     autoclose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -116,7 +116,7 @@ export default class GlobalStatus extends React.PureComponent {
     icon: 'error',
     icon_size: 'large',
     state: 'error',
-    show: null,
+    show: 'auto',
     autoscroll: true,
     autoclose: true,
     no_animation: false,
@@ -299,7 +299,7 @@ export default class GlobalStatus extends React.PureComponent {
       })
 
       const isActive = isTrue(globalStatus.show)
-      if (isActive) {
+      if (isActive && !this.isPassive()) {
         this.setState({ isActive, _listenForPropChanges: false })
       }
 
@@ -329,11 +329,9 @@ export default class GlobalStatus extends React.PureComponent {
   componentDidMount() {
     this.anim.setElem(this._shellRef.current)
 
-    if (isTrue(this.props.show)) {
-      const isActive = isTrue(this.props.show)
-      if (isActive) {
-        this.setVisible()
-      }
+    const isActive = isTrue(this.props.show)
+    if (isActive) {
+      this.setVisible()
     }
   }
 
@@ -387,7 +385,15 @@ export default class GlobalStatus extends React.PureComponent {
     return state
   }
 
+  isPassive = () => {
+    return this.props.show !== 'auto' && isTrue(this.props.show) === false
+  }
+
   setVisible = ({ delay = parseFloat(this.props.delay) } = {}) => {
+    if (this.isPassive()) {
+      return // stop here
+    }
+
     const { isActive, initialOpened } = this.state
 
     if (isActive === true && initialOpened) {
@@ -406,6 +412,7 @@ export default class GlobalStatus extends React.PureComponent {
           this.adjustHeight = null
         }
       )
+
       return // stop here
     }
 

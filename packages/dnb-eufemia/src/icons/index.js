@@ -178,9 +178,31 @@ import exclamation_medium from './exclamation_medium.js'
 import exclamation_triangle from './exclamation_triangle.js'
 import exclamation_triangle_medium from './exclamation_triangle_medium.js'
 import file from './file.js'
+import file_add from './file_add.js'
+import file_add_medium from './file_add_medium.js'
+import file_contract from './file_contract.js'
+import file_contract_medium from './file_contract_medium.js'
+import file_csv from './file_csv.js'
+import file_csv_medium from './file_csv_medium.js'
+import file_loupe from './file_loupe.js'
+import file_loupe_medium from './file_loupe_medium.js'
 import file_medium from './file_medium.js'
 import file_pdf from './file_pdf.js'
 import file_pdf_medium from './file_pdf_medium.js'
+import file_ppt from './file_ppt.js'
+import file_ppt_medium from './file_ppt_medium.js'
+import file_rejected from './file_rejected.js'
+import file_rejected_medium from './file_rejected_medium.js'
+import file_signing from './file_signing.js'
+import file_signing_medium from './file_signing_medium.js'
+import file_txt from './file_txt.js'
+import file_txt_medium from './file_txt_medium.js'
+import file_warning from './file_warning.js'
+import file_warning_medium from './file_warning_medium.js'
+import file_word from './file_word.js'
+import file_word_medium from './file_word_medium.js'
+import file_xls from './file_xls.js'
+import file_xls_medium from './file_xls_medium.js'
 import filter from './filter.js'
 import filter_medium from './filter_medium.js'
 import first_aid from './first_aid.js'
@@ -590,9 +612,31 @@ export {
   exclamation_triangle,
   exclamation_triangle_medium,
   file,
+  file_add,
+  file_add_medium,
+  file_contract,
+  file_contract_medium,
+  file_csv,
+  file_csv_medium,
+  file_loupe,
+  file_loupe_medium,
   file_medium,
   file_pdf,
   file_pdf_medium,
+  file_ppt,
+  file_ppt_medium,
+  file_rejected,
+  file_rejected_medium,
+  file_signing,
+  file_signing_medium,
+  file_txt,
+  file_txt_medium,
+  file_warning,
+  file_warning_medium,
+  file_word,
+  file_word_medium,
+  file_xls,
+  file_xls_medium,
   filter,
   filter_medium,
   first_aid,

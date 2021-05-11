@@ -56,7 +56,7 @@ Colors have a naming convention across all platforms and formats. Please refer t
 
 We don't have a naming convention for design files in Figma. However, it is encouraged to name your design file frames and interface designs with clear logical names in english.
 
-However, in order to maintain consistency, in Figma we name Pages and Frames (canvases) with the first letter capitalised.
+However, in order to maintain consistency, in Figma we name Pages and Frames (canvases) with the first letter capitalized.
 
 Example of a Figma Page name:
 

@@ -21,6 +21,10 @@ import {
   spacingPropTypes,
   createSpacingClasses
 } from '../space/SpacingHelper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass
+} from '../skeleton/SkeletonHelper'
 import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
 import { format, showSelectionNotice } from './NumberUtils'
 
@@ -74,6 +78,7 @@ export default class NumberFormat extends React.PureComponent {
       PropTypes.func,
       PropTypes.node
     ]),
+    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
     ...spacingPropTypes,
 
@@ -104,6 +109,7 @@ export default class NumberFormat extends React.PureComponent {
     clean: null,
     element: 'span', // span or abbr
     tooltip: null,
+    skeleton: null,
     class: null,
 
     className: null,
@@ -218,6 +224,7 @@ export default class NumberFormat extends React.PureComponent {
       org,
       link: _link,
       tooltip,
+      skeleton,
       options,
       locale,
       decimals,
@@ -319,6 +326,7 @@ export default class NumberFormat extends React.PureComponent {
     }
 
     validateDOMAttributes(this.props, attributes)
+    skeletonDOMAttributes(attributes, skeleton, this.context)
 
     if (prefix) {
       display = (
@@ -363,7 +371,10 @@ export default class NumberFormat extends React.PureComponent {
     return (
       <Element lang={lang} {...attributes}>
         <span
-          className="dnb-number-format__visible"
+          className={classnames(
+            'dnb-number-format__visible',
+            createSkeletonClass('font', skeleton, this.context)
+          )}
           aria-describedby={this._id}
           aria-hidden
           {...displayParams}

@@ -70,6 +70,7 @@ export const buttonPropTypes = {
     PropTypes.object,
     PropTypes.func
   ]),
+  custom_content: PropTypes.node,
   wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -122,6 +123,7 @@ export default class Button extends React.PureComponent {
     to: null,
     id: null,
     class: null,
+    custom_content: null,
     wrap: false,
     bounding: false,
     skeleton: null,
@@ -200,6 +202,7 @@ export default class Button extends React.PureComponent {
       variant,
       size,
       title,
+      custom_content,
       tooltip,
       status,
       status_state,
@@ -230,7 +233,7 @@ export default class Button extends React.PureComponent {
 
     if (
       variant === 'tertiary' &&
-      (content || text) &&
+      (text || content) &&
       !icon &&
       icon !== false
     ) {
@@ -286,7 +289,7 @@ export default class Button extends React.PureComponent {
       usedSize && usedSize !== 'default' && `dnb-button--size-${usedSize}`,
       icon && `dnb-button--icon-position-${icon_position}`,
       icon && iconSize && `dnb-button--icon-size-${iconSize}`,
-      (text || content) && 'dnb-button--has-text',
+      (text || content || custom_content) && 'dnb-button--has-text',
       icon && 'dnb-button--has-icon',
       wrap && 'dnb-button--wrap',
       status && `dnb-button__status--${status_state}`,
@@ -322,9 +325,9 @@ export default class Button extends React.PureComponent {
           <Content
             {...this.props}
             icon={icon}
-            text={text}
             icon_size={iconSize}
-            content={content}
+            content={text || content}
+            custom_content={custom_content}
             isIconOnly={isIconOnly}
             skeleton={isTrue(skeleton)}
           />
@@ -358,12 +361,12 @@ export default class Button extends React.PureComponent {
 class Content extends React.PureComponent {
   static propTypes = {
     title: PropTypes.node,
-    text: PropTypes.oneOfType([
+    custom_content: PropTypes.node,
+    content: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.node,
-      PropTypes.array
+      PropTypes.array,
+      PropTypes.node
     ]),
-    content: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
@@ -375,7 +378,7 @@ class Content extends React.PureComponent {
     isIconOnly: PropTypes.bool
   }
   static defaultProps = {
-    text: null,
+    custom_content: null,
     title: null,
     content: null,
     icon: null,
@@ -385,10 +388,10 @@ class Content extends React.PureComponent {
     isIconOnly: null
   }
   render() {
-    let { text } = this.props
     const {
       title,
       content,
+      custom_content,
       icon,
       icon_size,
       bounding,
@@ -404,13 +407,15 @@ class Content extends React.PureComponent {
       )
     }
 
-    if (typeof content === 'string') {
-      text = content
-    } else if (content) {
-      ret.push(content)
+    if (custom_content) {
+      ret.push(
+        <React.Fragment key="button-custom-content">
+          {custom_content}
+        </React.Fragment>
+      )
     }
 
-    if (text) {
+    if (content) {
       ret.push(
         <span key="button-text-empty" className="dnb-button__alignment">
           &zwnj;
@@ -419,7 +424,7 @@ class Content extends React.PureComponent {
           key="button-text"
           className="dnb-button__text dnb-skeleton--show-font"
         >
-          {text}
+          {content}
         </span>
       )
     } else if (icon) {
