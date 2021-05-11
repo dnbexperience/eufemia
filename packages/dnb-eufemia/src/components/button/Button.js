@@ -409,9 +409,12 @@ class Content extends React.PureComponent {
 
     if (custom_content) {
       ret.push(
-        <React.Fragment key="button-custom-content">
+        <span
+          key="button-custom-content"
+          className="dnb-button__custom-content"
+        >
           {custom_content}
-        </React.Fragment>
+        </span>
       )
     }
 
