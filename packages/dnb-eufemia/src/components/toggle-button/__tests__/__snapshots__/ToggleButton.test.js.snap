@@ -223,103 +223,108 @@ exports[`ToggleButton component have to match snapshot 1`] = `
               wrap={false}
             >
               <span
-                className="dnb-toggle-button__component"
+                className="dnb-button__custom-content"
+                key="button-custom-content"
               >
-                <Checkbox
-                  aria-hidden={true}
-                  attributes={null}
-                  checked={false}
-                  class={null}
-                  className={null}
-                  custom_element={null}
-                  custom_method={null}
-                  default_state={null}
-                  disabled="disabled"
-                  global_status_id={null}
-                  id="toggle-button-checkbox"
-                  label={null}
-                  label_position={null}
-                  on_change={null}
-                  on_state_update={null}
-                  readOnly={false}
-                  size={null}
-                  skeleton={null}
-                  status={null}
-                  status_animation={null}
-                  status_state="error"
-                  suffix={null}
-                  tabIndex="-1"
-                  title={null}
-                  value={null}
+                <span
+                  className="dnb-toggle-button__component"
                 >
-                  <span
-                    className="dnb-checkbox dnb-form-component"
+                  <Checkbox
+                    aria-hidden={true}
+                    attributes={null}
+                    checked={false}
+                    class={null}
+                    className={null}
+                    custom_element={null}
+                    custom_method={null}
+                    default_state={null}
+                    disabled="disabled"
+                    global_status_id={null}
+                    id="toggle-button-checkbox"
+                    label={null}
+                    label_position={null}
+                    on_change={null}
+                    on_state_update={null}
+                    readOnly={false}
+                    size={null}
+                    skeleton={null}
+                    status={null}
+                    status_animation={null}
+                    status_state="error"
+                    suffix={null}
+                    tabIndex="-1"
+                    title={null}
+                    value={null}
                   >
                     <span
-                      className="dnb-checkbox__order"
+                      className="dnb-checkbox dnb-form-component"
                     >
                       <span
-                        className="dnb-checkbox__inner"
+                        className="dnb-checkbox__order"
                       >
-                        <AlignmentHelper
-                          className={null}
-                        >
-                          <span
-                            aria-hidden={true}
-                            className="dnb-alignment-helper"
-                          />
-                        </AlignmentHelper>
                         <span
-                          className="dnb-checkbox__shell"
+                          className="dnb-checkbox__inner"
                         >
-                          <input
-                            aria-checked={false}
-                            aria-hidden={true}
-                            checked={false}
-                            className="dnb-checkbox__input"
-                            disabled="disabled"
-                            id="toggle-button-checkbox"
-                            name="toggle-button-checkbox"
-                            onChange={[Function]}
-                            onKeyDown={[Function]}
-                            tabIndex="-1"
-                            title={null}
-                            type="checkbox"
-                            value=""
-                          />
-                          <span
-                            aria-hidden={true}
-                            className="dnb-checkbox__button"
+                          <AlignmentHelper
+                            className={null}
                           >
                             <span
-                              className="dnb-checkbox__focus"
-                            />
-                          </span>
-                          <CheckIcon
-                            size={null}
-                          >
-                            <svg
                               aria-hidden={true}
-                              className="dnb-checkbox__gfx"
-                              fill="none"
-                              height={16}
-                              viewBox="0 0 16 16"
-                              width={16}
+                              className="dnb-alignment-helper"
+                            />
+                          </AlignmentHelper>
+                          <span
+                            className="dnb-checkbox__shell"
+                          >
+                            <input
+                              aria-checked={false}
+                              aria-hidden={true}
+                              checked={false}
+                              className="dnb-checkbox__input"
+                              disabled="disabled"
+                              id="toggle-button-checkbox"
+                              name="toggle-button-checkbox"
+                              onChange={[Function]}
+                              onKeyDown={[Function]}
+                              tabIndex="-1"
+                              title={null}
+                              type="checkbox"
+                              value=""
+                            />
+                            <span
+                              aria-hidden={true}
+                              className="dnb-checkbox__button"
                             >
-                              <path
-                                d="M1 10L5 14L15 2"
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="1.5"
+                              <span
+                                className="dnb-checkbox__focus"
                               />
-                            </svg>
-                          </CheckIcon>
+                            </span>
+                            <CheckIcon
+                              size={null}
+                            >
+                              <svg
+                                aria-hidden={true}
+                                className="dnb-checkbox__gfx"
+                                fill="none"
+                                height={16}
+                                viewBox="0 0 16 16"
+                                width={16}
+                              >
+                                <path
+                                  d="M1 10L5 14L15 2"
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="1.5"
+                                />
+                              </svg>
+                            </CheckIcon>
+                          </span>
                         </span>
                       </span>
                     </span>
-                  </span>
-                </Checkbox>
+                  </Checkbox>
+                </span>
               </span>
               <span
                 className="dnb-button__alignment"
@@ -714,92 +719,97 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                 wrap={false}
                               >
                                 <span
-                                  className="dnb-toggle-button__component"
+                                  className="dnb-button__custom-content"
+                                  key="button-custom-content"
                                 >
-                                  <Radio
-                                    aria-hidden={true}
-                                    attributes={null}
-                                    checked={true}
-                                    class={null}
-                                    className={null}
-                                    custom_element={null}
-                                    custom_method={null}
-                                    disabled={null}
-                                    global_status_id={null}
-                                    group={null}
-                                    id="toggle-button-1-radio"
-                                    label={null}
-                                    label_position={null}
-                                    label_sr_only={null}
-                                    on_change={null}
-                                    on_state_update={null}
-                                    readOnly={false}
-                                    size={null}
-                                    skeleton={null}
-                                    status={null}
-                                    status_animation={null}
-                                    status_state="error"
-                                    suffix={null}
-                                    tabIndex="-1"
-                                    value=""
+                                  <span
+                                    className="dnb-toggle-button__component"
                                   >
-                                    <span
-                                      className="dnb-radio"
+                                    <Radio
+                                      aria-hidden={true}
+                                      attributes={null}
+                                      checked={true}
+                                      class={null}
+                                      className={null}
+                                      custom_element={null}
+                                      custom_method={null}
+                                      disabled={null}
+                                      global_status_id={null}
+                                      group={null}
+                                      id="toggle-button-1-radio"
+                                      label={null}
+                                      label_position={null}
+                                      label_sr_only={null}
+                                      on_change={null}
+                                      on_state_update={null}
+                                      readOnly={false}
+                                      size={null}
+                                      skeleton={null}
+                                      status={null}
+                                      status_animation={null}
+                                      status_state="error"
+                                      suffix={null}
+                                      tabIndex="-1"
+                                      value=""
                                     >
                                       <span
-                                        className="dnb-radio__order"
+                                        className="dnb-radio"
                                       >
                                         <span
-                                          className="dnb-radio__inner"
+                                          className="dnb-radio__order"
                                         >
-                                          <AlignmentHelper
-                                            className={null}
-                                          >
-                                            <span
-                                              aria-hidden={true}
-                                              className="dnb-alignment-helper"
-                                            />
-                                          </AlignmentHelper>
                                           <span
-                                            className="dnb-radio__row"
+                                            className="dnb-radio__inner"
                                           >
-                                            <span
-                                              className="dnb-radio__shell"
+                                            <AlignmentHelper
+                                              className={null}
                                             >
-                                              <input
-                                                aria-checked={true}
-                                                aria-hidden={true}
-                                                checked={true}
-                                                className="dnb-radio__input"
-                                                disabled={false}
-                                                id="toggle-button-1-radio"
-                                                name={null}
-                                                onChange={[Function]}
-                                                onClick={[Function]}
-                                                onKeyDown={[Function]}
-                                                role="radio"
-                                                tabIndex="-1"
-                                                type="checkbox"
-                                                value=""
-                                              />
                                               <span
                                                 aria-hidden={true}
-                                                className="dnb-radio__button"
+                                                className="dnb-alignment-helper"
                                               />
+                                            </AlignmentHelper>
+                                            <span
+                                              className="dnb-radio__row"
+                                            >
                                               <span
-                                                aria-hidden={true}
-                                                className="dnb-radio__focus"
-                                              />
-                                              <span
-                                                aria-hidden={true}
-                                                className="dnb-radio__dot"
-                                              />
+                                                className="dnb-radio__shell"
+                                              >
+                                                <input
+                                                  aria-checked={true}
+                                                  aria-hidden={true}
+                                                  checked={true}
+                                                  className="dnb-radio__input"
+                                                  disabled={false}
+                                                  id="toggle-button-1-radio"
+                                                  name={null}
+                                                  onChange={[Function]}
+                                                  onClick={[Function]}
+                                                  onKeyDown={[Function]}
+                                                  role="radio"
+                                                  tabIndex="-1"
+                                                  type="checkbox"
+                                                  value=""
+                                                />
+                                                <span
+                                                  aria-hidden={true}
+                                                  className="dnb-radio__button"
+                                                />
+                                                <span
+                                                  aria-hidden={true}
+                                                  className="dnb-radio__focus"
+                                                />
+                                                <span
+                                                  aria-hidden={true}
+                                                  className="dnb-radio__dot"
+                                                />
+                                              </span>
                                             </span>
                                           </span>
                                         </span>
                                       </span>
-                                    </span>
-                                  </Radio>
+                                    </Radio>
+                                  </span>
                                 </span>
                                 <span
                                   className="dnb-button__alignment"
@@ -1014,92 +1024,97 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                 wrap={false}
                               >
                                 <span
-                                  className="dnb-toggle-button__component"
+                                  className="dnb-button__custom-content"
+                                  key="button-custom-content"
                                 >
-                                  <Radio
-                                    aria-hidden={true}
-                                    attributes={null}
-                                    checked={true}
-                                    class={null}
-                                    className={null}
-                                    custom_element={null}
-                                    custom_method={null}
-                                    disabled={null}
-                                    global_status_id={null}
-                                    group={null}
-                                    id="toggle-button-2-radio"
-                                    label={null}
-                                    label_position={null}
-                                    label_sr_only={null}
-                                    on_change={null}
-                                    on_state_update={null}
-                                    readOnly={false}
-                                    size={null}
-                                    skeleton={null}
-                                    status={null}
-                                    status_animation={null}
-                                    status_state="error"
-                                    suffix={null}
-                                    tabIndex="-1"
-                                    value=""
+                                  <span
+                                    className="dnb-toggle-button__component"
                                   >
-                                    <span
-                                      className="dnb-radio"
+                                    <Radio
+                                      aria-hidden={true}
+                                      attributes={null}
+                                      checked={true}
+                                      class={null}
+                                      className={null}
+                                      custom_element={null}
+                                      custom_method={null}
+                                      disabled={null}
+                                      global_status_id={null}
+                                      group={null}
+                                      id="toggle-button-2-radio"
+                                      label={null}
+                                      label_position={null}
+                                      label_sr_only={null}
+                                      on_change={null}
+                                      on_state_update={null}
+                                      readOnly={false}
+                                      size={null}
+                                      skeleton={null}
+                                      status={null}
+                                      status_animation={null}
+                                      status_state="error"
+                                      suffix={null}
+                                      tabIndex="-1"
+                                      value=""
                                     >
                                       <span
-                                        className="dnb-radio__order"
+                                        className="dnb-radio"
                                       >
                                         <span
-                                          className="dnb-radio__inner"
+                                          className="dnb-radio__order"
                                         >
-                                          <AlignmentHelper
-                                            className={null}
-                                          >
-                                            <span
-                                              aria-hidden={true}
-                                              className="dnb-alignment-helper"
-                                            />
-                                          </AlignmentHelper>
                                           <span
-                                            className="dnb-radio__row"
+                                            className="dnb-radio__inner"
                                           >
-                                            <span
-                                              className="dnb-radio__shell"
+                                            <AlignmentHelper
+                                              className={null}
                                             >
-                                              <input
-                                                aria-checked={true}
-                                                aria-hidden={true}
-                                                checked={true}
-                                                className="dnb-radio__input"
-                                                disabled={false}
-                                                id="toggle-button-2-radio"
-                                                name={null}
-                                                onChange={[Function]}
-                                                onClick={[Function]}
-                                                onKeyDown={[Function]}
-                                                role="radio"
-                                                tabIndex="-1"
-                                                type="checkbox"
-                                                value=""
-                                              />
                                               <span
                                                 aria-hidden={true}
-                                                className="dnb-radio__button"
+                                                className="dnb-alignment-helper"
                                               />
+                                            </AlignmentHelper>
+                                            <span
+                                              className="dnb-radio__row"
+                                            >
                                               <span
-                                                aria-hidden={true}
-                                                className="dnb-radio__focus"
-                                              />
-                                              <span
-                                                aria-hidden={true}
-                                                className="dnb-radio__dot"
-                                              />
+                                                className="dnb-radio__shell"
+                                              >
+                                                <input
+                                                  aria-checked={true}
+                                                  aria-hidden={true}
+                                                  checked={true}
+                                                  className="dnb-radio__input"
+                                                  disabled={false}
+                                                  id="toggle-button-2-radio"
+                                                  name={null}
+                                                  onChange={[Function]}
+                                                  onClick={[Function]}
+                                                  onKeyDown={[Function]}
+                                                  role="radio"
+                                                  tabIndex="-1"
+                                                  type="checkbox"
+                                                  value=""
+                                                />
+                                                <span
+                                                  aria-hidden={true}
+                                                  className="dnb-radio__button"
+                                                />
+                                                <span
+                                                  aria-hidden={true}
+                                                  className="dnb-radio__focus"
+                                                />
+                                                <span
+                                                  aria-hidden={true}
+                                                  className="dnb-radio__dot"
+                                                />
+                                              </span>
                                             </span>
                                           </span>
                                         </span>
                                       </span>
-                                    </span>
-                                  </Radio>
+                                    </Radio>
+                                  </span>
                                 </span>
                                 <span
                                   className="dnb-button__alignment"
@@ -1843,8 +1858,12 @@ legend.dnb-form-label {
     line-height: var(--button-font-size); }
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__icon {
     order: 1; }
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__custom-content,
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__custom-content,
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
+  .dnb-button__custom-content {
+    display: flex; }
   .dnb-button--reset {
     margin: 0;
     padding: 0;
