@@ -24,7 +24,7 @@ export const GlobalStatusError = () => (
   no_animation="true"
   id="demo-1"
 />
- `}
+`}
   </ComponentBox>
 )
 
@@ -41,7 +41,7 @@ export const GlobalStatusInfo = () => (
   no_animation="true"
   id="demo-4"
 />
- `}
+`}
   </ComponentBox>
 )
 
@@ -66,12 +66,12 @@ const InputWithError = () => {
 render(
   <InputWithError />
 )
- `}
+`}
   </ComponentBox>
 )
 
 export const GlobalStatusAddRemoveItems = () => (
-  <ComponentBox noFragments={false}>
+  <ComponentBox noFragments={false} hideCode>
     {() => /* jsx */ `
 () => {
   const [count, toggleUpdateStatus] = React.useState(0)
@@ -125,12 +125,12 @@ export const GlobalStatusAddRemoveItems = () => (
     </>
   )
 }
- `}
+`}
   </ComponentBox>
 )
 
 export const GlobalStatusScrolling = () => (
-  <ComponentBox>
+  <ComponentBox hideCode>
     {() => /* jsx */ `
 <Button
   text="Scroll to main GlobalStatus"
@@ -147,7 +147,7 @@ export const GlobalStatusScrolling = () => (
 )
 
 export const GlobalStatusUpdate = () => (
-  <ComponentBox useRender>
+  <ComponentBox useRender hideCode>
     {() => /* jsx */ `
 const Context = React.createContext()
 
@@ -221,8 +221,8 @@ const UpdateDemoTools = () => {
     setVisibility
   } = React.useContext(Context)
 
+// Only to demonstrate the usage of an interceptor situation
   const inst = React.useRef()
-
   React.useEffect(() => {
     if (!inst.current) {
       inst.current = GlobalStatus.create({
@@ -232,36 +232,31 @@ const UpdateDemoTools = () => {
         status_id: 'custom-item',
         show: false
       })
+
+      inst.current.update({
+        on_show: () => {
+          console.log('on_show')
+          if (!isVisible) {
+            setVisibility(true)
+          }
+        },
+        on_hide: () => {
+          console.log('on_hide')
+          setVisibility(false)
+        },
+        on_close: () => {
+          console.log('on_close')
+          setVisibility(false)
+        }
+      })
     }
 
     inst.current.update({
       show: isVisible
     })
+
   }, [isVisible])
   React.useEffect(() => () => inst.current.remove(), [])
-
-  React.useEffect(
-    () =>
-      inst.current.update({
-        on_show: () => {
-          console.log('on_show')
-          if (!isVisible) {
-            showAsVisible(true)
-          }
-        },
-        on_hide: () => {
-          console.log('on_hide')
-          showAsVisible(false)
-        },
-        on_close: () => {
-          console.log('on_close')
-          showAsVisible(false)
-        }
-      }),
-    []
-  )
-
-  const [showAs, showAsVisible] = React.useState(isVisible)
 
   return (
     <Section top spacing style_type="divider">
@@ -269,10 +264,9 @@ const UpdateDemoTools = () => {
         text="Toggle"
         variant="checkbox"
         right
-        checked={showAs}
+        checked={isVisible}
         on_change={({ checked }) => {
-          setVisibility((s) => !s)
-          showAsVisible(checked)
+          setVisibility(checked)
         }}
       />
       <Button
@@ -283,8 +277,6 @@ const UpdateDemoTools = () => {
         on_click={() => {
           setErrorA(null)
           setErrorB(null)
-          showAsVisible(false)
-          setVisibility(false)
         }}
       />
     </Section>

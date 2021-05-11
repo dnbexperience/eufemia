@@ -441,7 +441,7 @@ const UpdateDemo = () => {
   const [errorA, setErrorA] = React.useState()
   const [errorB, setErrorB] = React.useState()
 
-  const [isVisible, setVisibility] = React.useState(false)
+  const [isVisible, setVisibility] = React.useState('auto')
 
   return (
     <Context.Provider
@@ -461,9 +461,13 @@ const UpdateDemo = () => {
 }
 
 const UpdateDemoStatus = () => {
-  const { errorA, errorB, setErrorA, setErrorB } = React.useContext(
-    Context
-  )
+  const {
+    errorA,
+    errorB,
+    setErrorA,
+    setErrorB,
+    setVisibility
+  } = React.useContext(Context)
 
   return (
     <>
@@ -510,8 +514,8 @@ const UpdateDemoTools = () => {
     setVisibility
   } = React.useContext(Context)
 
+  // Only to demonstrate the usage of an interceptor situation
   const inst = React.useRef()
-
   React.useEffect(() => {
     if (!inst.current) {
       inst.current = GlobalStatus.create({
@@ -519,7 +523,24 @@ const UpdateDemoTools = () => {
         title: 'New Title',
         text: 'New Text',
         status_id: 'custom-item',
-        show: false
+        show: 'auto'
+      })
+
+      inst.current.update({
+        on_show: () => {
+          console.log('on_show')
+          if (!isVisible) {
+            setVisibility(true)
+          }
+        },
+        on_hide: () => {
+          console.log('on_hide')
+          setVisibility('auto')
+        },
+        on_close: () => {
+          console.log('on_close')
+          setVisibility('auto')
+        }
       })
     }
 
@@ -529,50 +550,25 @@ const UpdateDemoTools = () => {
   }, [isVisible])
   React.useEffect(() => () => inst.current.remove(), [])
 
-  React.useEffect(
-    () =>
-      inst.current.update({
-        on_show: () => {
-          console.log('on_show')
-          if (!isVisible) {
-            showAsVisible(true)
-          }
-        },
-        on_hide: () => {
-          console.log('on_hide')
-          showAsVisible(false)
-        },
-        on_close: () => {
-          console.log('on_close')
-          showAsVisible(false)
-        }
-      }),
-    []
-  )
-
-  const [showAs, showAsVisible] = React.useState(isVisible)
-
   return (
     <Section top spacing style_type="divider">
       <ToggleButton
         text="Toggle"
         variant="checkbox"
         right
-        checked={showAs}
+        checked={isVisible}
         on_change={({ checked }) => {
-          setVisibility((s) => !s)
-          showAsVisible(checked)
+          setVisibility(checked ? true : 'auto')
         }}
       />
       <Button
         text="Reset"
         variant="tertiary"
+        icon="reset"
         disabled={!(errorA || errorB)}
         on_click={() => {
           setErrorA(null)
           setErrorB(null)
-          showAsVisible(false)
-          setVisibility(false)
         }}
       />
     </Section>
