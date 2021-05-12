@@ -43,18 +43,18 @@ exports[`GlobalError scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
-  vertical-align: middle;
+  width: 1em;
+  height: 1em;
+  color: inherit;
   font-size: 1rem;
   line-height: 1rem;
-  color: inherit;
-  width: 1em;
-  height: 1em; }
+  vertical-align: middle; }
   .dnb-icon img,
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    shape-rendering: geometricPrecision;
-    vertical-align: top; }
+    vertical-align: top;
+    shape-rendering: geometricPrecision; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -105,24 +105,24 @@ exports[`GlobalError scss have to match snapshot 1`] = `
 *
 */
 .dnb-form-status {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -136,10 +136,10 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   .dnb-form-status *,
   .dnb-form-status ::before,
   .dnb-form-status ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-form-status ::before,
   .dnb-form-status ::after {
     text-decoration: inherit;
@@ -158,25 +158,25 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   display: flex; }
   .dnb-form-status__shell {
     display: flex;
-    justify-content: flex-start;
     align-items: flex-start;
+    justify-content: flex-start;
     min-width: inherit;
     border-radius: var(--form-status-radius); }
   .dnb-form-status__text {
     padding: 0.625rem 1rem;
-    cursor: text;
     color: inherit;
-    line-height: var(--line-height-small);
     font-size: var(--font-size-small);
-    white-space: normal; }
+    line-height: var(--line-height-small);
+    white-space: normal;
+    cursor: text; }
     .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
   .dnb-icon + .dnb-form-status__text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
   .dnb-form-status__size--large .dnb-form-status__text {
     padding-top: 1.125rem;
@@ -187,8 +187,8 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status__animation--fade-in {
-    overflow: hidden;
     max-height: 0;
+    overflow: hidden;
     animation: form-status-fade-in 2s ease-out 400ms forwards; }
 
 @keyframes form-status-fade-in {
@@ -201,24 +201,24 @@ exports[`GlobalError scss have to match snapshot 1`] = `
       border-width: 1px; } }
 
 .dnb-button {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -232,10 +232,10 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   .dnb-button *,
   .dnb-button ::before,
   .dnb-button ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-button ::before,
   .dnb-button ::after {
     text-decoration: inherit;
@@ -268,32 +268,32 @@ exports[`GlobalError scss have to match snapshot 1`] = `
 
 .dnb-button {
   position: relative;
-  user-select: none;
-  -webkit-user-select: none;
-  cursor: pointer;
-  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: var(--button-width);
   height: auto;
   padding: 0;
+  font-size: var(--font-size-small);
+  white-space: nowrap;
+  text-decoration: none;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none;
-  font-size: var(--font-size-small);
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
   /* stylelint-disable-next-line */ }
   .dnb-button--wrap {
-    overflow-wrap: break-word;
-    white-space: normal; }
+    white-space: normal;
+    overflow-wrap: break-word; }
   .dnb-button,
   .dnb-core-style .dnb-button {
     line-height: var(--button-height); }
   .dnb-button__text {
     margin: 0.5rem 0;
+    color: inherit;
     font-size: var(--button-font-size);
     line-height: var(--line-height-basis);
-    color: inherit;
     transform: translateY(-0.03125rem); }
     .dnb-button__text [data-os='linux'] {
       transform: translateY(-0.035rem); }
@@ -303,15 +303,15 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   .dnb-button__bounding {
     position: absolute;
     top: 0;
-    bottom: 0;
     right: 0;
+    bottom: 0;
     left: 0;
-    transform: scale(1.1, 1.4);
     background-color: transparent;
-    border-radius: var(--button-border-radius); }
+    border-radius: var(--button-border-radius);
+    transform: scale(1.1, 1.4); }
   .dnb-button--has-text {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem; }
+    padding-right: 1.5rem;
+    padding-left: 1.5rem; }
   .dnb-button--size-small {
     width: var(--button-width--small);
     font-size: var(--button-font-size-small);
@@ -322,8 +322,8 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   .dnb-button--size-small .dnb-button__text {
     margin: 0; }
   .dnb-button--has-text.dnb-button--size-small {
-    padding-left: 1rem;
-    padding-right: 1rem; }
+    padding-right: 1rem;
+    padding-left: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
     padding-left: 0.5rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
@@ -337,8 +337,8 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   .dnb-button--size-medium .dnb-button__text {
     margin: 0; }
   .dnb-button--has-text.dnb-button--size-medium {
-    padding-left: 1rem;
-    padding-right: 1rem; }
+    padding-right: 1rem;
+    padding-left: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
     padding-left: 0.5rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
@@ -350,8 +350,8 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     .dnb-core-style .dnb-button--size-large {
       line-height: var(--button-height--large); }
   .dnb-button--has-text.dnb-button--size-large {
-    padding-left: 2rem;
-    padding-right: 2rem; }
+    padding-right: 2rem;
+    padding-left: 2rem; }
   .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
     padding-left: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
@@ -382,25 +382,25 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
   .dnb-button--reset {
-    margin: 0;
-    padding: 0;
     width: auto;
     height: auto;
+    margin: 0;
+    padding: 0;
     overflow: visible;
-    border: none;
-    border-radius: 0;
-    background-color: transparent;
-    appearance: none;
-    box-shadow: none;
     color: inherit;
     font: inherit;
+    line-height: inherit;
     text-align: inherit;
-    line-height: inherit; }
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    appearance: none; }
     html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
-      box-shadow: none;
-      border: none; }
+      border: none;
+      box-shadow: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
@@ -412,13 +412,13 @@ exports[`GlobalError scss have to match snapshot 1`] = `
             box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
-      box-shadow: none;
       color: inherit;
-      border: none; }
+      border: none;
+      box-shadow: none; }
   .dnb-button[type='button'], .dnb-button[type='reset'], .dnb-button[type='submit'] {
-    appearance: none;
     -moz-appearance: none;
-    -webkit-appearance: none; }
+    -webkit-appearance: none;
+    appearance: none; }
   .dnb-button[disabled] {
     cursor: not-allowed; }
   .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
@@ -438,24 +438,24 @@ button.dnb-button::-moz-focus-inner {
   border: none; }
 
 .dnb-global-error {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -469,10 +469,10 @@ button.dnb-button::-moz-focus-inner {
   .dnb-global-error *,
   .dnb-global-error ::before,
   .dnb-global-error ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-global-error ::before,
   .dnb-global-error ::after {
     text-decoration: inherit;
@@ -507,9 +507,9 @@ button.dnb-button::-moz-focus-inner {
       max-width: 37rem; }
   .dnb-global-error__back.dnb-button--tertiary {
     position: absolute;
-    z-index: 1;
     top: var(--spacing-large);
-    left: var(--spacing-large); }
+    left: var(--spacing-large);
+    z-index: 1; }
     @media screen and (max-width: 90em) {
       .dnb-global-error__back.dnb-button--tertiary {
         left: var(--spacing-x-small); } }

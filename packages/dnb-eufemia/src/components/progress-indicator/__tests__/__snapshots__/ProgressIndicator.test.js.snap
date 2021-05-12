@@ -256,24 +256,24 @@ exports[`ProgressIndicator scss have to match snapshot 1`] = `
  *
  */
 .dnb-progress-indicator {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -287,10 +287,10 @@ exports[`ProgressIndicator scss have to match snapshot 1`] = `
   .dnb-progress-indicator *,
   .dnb-progress-indicator ::before,
   .dnb-progress-indicator ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-progress-indicator ::before,
   .dnb-progress-indicator ::after {
     text-decoration: inherit;
@@ -338,8 +338,8 @@ exports[`ProgressIndicator scss have to match snapshot 1`] = `
       height: 100%; }
     .dnb-progress-indicator__circular__line {
       animation-duration: 2s;
-      animation-delay: 200ms;
       animation-timing-function: var(--progress-indicator-timing);
+      animation-delay: 200ms;
       animation-iteration-count: infinite; }
     .dnb-progress-indicator__circular__line.background {
       stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); }
@@ -363,19 +363,19 @@ exports[`ProgressIndicator scss have to match snapshot 1`] = `
       stroke: var(--color-black); }
   .dnb-progress-indicator__linear {
     position: relative;
-    overflow: hidden;
     width: 100%;
-    will-change: transform;
     height: 0.5rem;
-    border-radius: 0.25rem; }
+    overflow: hidden;
+    border-radius: 0.25rem;
+    will-change: transform; }
     .dnb-progress-indicator__linear__bar {
-      width: 100%;
       position: absolute;
-      left: 0;
-      bottom: 0;
       top: 0;
-      transform-origin: left;
-      border-radius: inherit; }
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      border-radius: inherit;
+      transform-origin: left; }
     .dnb-progress-indicator__linear__bar-transition {
       transition: transform 0.2s linear; }
     .dnb-progress-indicator__linear__bar1-animation {
@@ -428,24 +428,24 @@ exports[`ProgressIndicator scss have to match snapshot 1`] = `
 
 @keyframes progress-indicator-linear-bar-1 {
   0% {
-    left: -35%;
-    right: 100%; }
+    right: 100%;
+    left: -35%; }
   60% {
-    left: 100%;
-    right: -90%; }
+    right: -90%;
+    left: 100%; }
   100% {
-    left: 100%;
-    right: -90%; } }
+    right: -90%;
+    left: 100%; } }
 
 @keyframes progress-indicator-linear-bar-2 {
   0% {
-    left: -200%;
-    right: 100%; }
+    right: 100%;
+    left: -200%; }
   60% {
-    left: 107%;
-    right: -8%; }
+    right: -8%;
+    left: 107%; }
   100% {
-    left: 107%;
-    right: -8%; } }
+    right: -8%;
+    left: 107%; } }
 "
 `;

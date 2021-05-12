@@ -710,13 +710,13 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   .dnb-input__icon {
     color: var(--color-sea-green); }
   .dnb-input[data-input-state='disabled'] .dnb-input__shell {
+    background-color: var(--color-black-3);
     -webkit-text-fill-color: currentColor;
     --border-color: var(--color-black-55);
     box-shadow: inset 0 0 0 var(--input-border-width) var(--border-color);
     /* iOS fix - because \\"inset\\" works not fine with border-radius */
     /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
-    border-color: transparent;
-    background-color: var(--color-black-3); }
+    border-color: transparent; }
     .dnb-input[data-input-state='disabled'] .dnb-input__shell,
     .dnb-input[data-input-state='disabled'] .dnb-input__shell .dnb-icon {
       color: var(--color-black-55); }
@@ -777,9 +777,9 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   .dnb-input__status--error .dnb-input__icon {
     color: var(--color-fire-red); }
   .dnb-input__input::selection {
-    background-color: var(--color-mint-green);
     color: var(--color-black);
-    text-shadow: none; }
+    text-shadow: none;
+    background-color: var(--color-mint-green); }
   .dnb-input__placeholder {
     color: var(--color-black-55); }
   .dnb-input[data-input-state='focus'] .dnb-input__placeholder {
@@ -825,18 +825,18 @@ exports[`Input scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
-  vertical-align: middle;
+  width: 1em;
+  height: 1em;
+  color: inherit;
   font-size: 1rem;
   line-height: 1rem;
-  color: inherit;
-  width: 1em;
-  height: 1em; }
+  vertical-align: middle; }
   .dnb-icon img,
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    shape-rendering: geometricPrecision;
-    vertical-align: top; }
+    vertical-align: top;
+    shape-rendering: geometricPrecision; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -887,24 +887,24 @@ exports[`Input scss have to match snapshot 1`] = `
 *
 */
 .dnb-form-status {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -918,10 +918,10 @@ exports[`Input scss have to match snapshot 1`] = `
   .dnb-form-status *,
   .dnb-form-status ::before,
   .dnb-form-status ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-form-status ::before,
   .dnb-form-status ::after {
     text-decoration: inherit;
@@ -940,25 +940,25 @@ exports[`Input scss have to match snapshot 1`] = `
   display: flex; }
   .dnb-form-status__shell {
     display: flex;
-    justify-content: flex-start;
     align-items: flex-start;
+    justify-content: flex-start;
     min-width: inherit;
     border-radius: var(--form-status-radius); }
   .dnb-form-status__text {
     padding: 0.625rem 1rem;
-    cursor: text;
     color: inherit;
-    line-height: var(--line-height-small);
     font-size: var(--font-size-small);
-    white-space: normal; }
+    line-height: var(--line-height-small);
+    white-space: normal;
+    cursor: text; }
     .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
   .dnb-icon + .dnb-form-status__text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
   .dnb-form-status__size--large .dnb-form-status__text {
     padding-top: 1.125rem;
@@ -969,8 +969,8 @@ exports[`Input scss have to match snapshot 1`] = `
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status__animation--fade-in {
-    overflow: hidden;
     max-height: 0;
+    overflow: hidden;
     animation: form-status-fade-in 2s ease-out 400ms forwards; }
 
 @keyframes form-status-fade-in {
@@ -983,24 +983,24 @@ exports[`Input scss have to match snapshot 1`] = `
       border-width: 1px; } }
 
 .dnb-button {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1014,10 +1014,10 @@ exports[`Input scss have to match snapshot 1`] = `
   .dnb-button *,
   .dnb-button ::before,
   .dnb-button ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-button ::before,
   .dnb-button ::after {
     text-decoration: inherit;
@@ -1050,32 +1050,32 @@ exports[`Input scss have to match snapshot 1`] = `
 
 .dnb-button {
   position: relative;
-  user-select: none;
-  -webkit-user-select: none;
-  cursor: pointer;
-  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: var(--button-width);
   height: auto;
   padding: 0;
+  font-size: var(--font-size-small);
+  white-space: nowrap;
+  text-decoration: none;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none;
-  font-size: var(--font-size-small);
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
   /* stylelint-disable-next-line */ }
   .dnb-button--wrap {
-    overflow-wrap: break-word;
-    white-space: normal; }
+    white-space: normal;
+    overflow-wrap: break-word; }
   .dnb-button,
   .dnb-core-style .dnb-button {
     line-height: var(--button-height); }
   .dnb-button__text {
     margin: 0.5rem 0;
+    color: inherit;
     font-size: var(--button-font-size);
     line-height: var(--line-height-basis);
-    color: inherit;
     transform: translateY(-0.03125rem); }
     .dnb-button__text [data-os='linux'] {
       transform: translateY(-0.035rem); }
@@ -1085,15 +1085,15 @@ exports[`Input scss have to match snapshot 1`] = `
   .dnb-button__bounding {
     position: absolute;
     top: 0;
-    bottom: 0;
     right: 0;
+    bottom: 0;
     left: 0;
-    transform: scale(1.1, 1.4);
     background-color: transparent;
-    border-radius: var(--button-border-radius); }
+    border-radius: var(--button-border-radius);
+    transform: scale(1.1, 1.4); }
   .dnb-button--has-text {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem; }
+    padding-right: 1.5rem;
+    padding-left: 1.5rem; }
   .dnb-button--size-small {
     width: var(--button-width--small);
     font-size: var(--button-font-size-small);
@@ -1104,8 +1104,8 @@ exports[`Input scss have to match snapshot 1`] = `
   .dnb-button--size-small .dnb-button__text {
     margin: 0; }
   .dnb-button--has-text.dnb-button--size-small {
-    padding-left: 1rem;
-    padding-right: 1rem; }
+    padding-right: 1rem;
+    padding-left: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
     padding-left: 0.5rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
@@ -1119,8 +1119,8 @@ exports[`Input scss have to match snapshot 1`] = `
   .dnb-button--size-medium .dnb-button__text {
     margin: 0; }
   .dnb-button--has-text.dnb-button--size-medium {
-    padding-left: 1rem;
-    padding-right: 1rem; }
+    padding-right: 1rem;
+    padding-left: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
     padding-left: 0.5rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
@@ -1132,8 +1132,8 @@ exports[`Input scss have to match snapshot 1`] = `
     .dnb-core-style .dnb-button--size-large {
       line-height: var(--button-height--large); }
   .dnb-button--has-text.dnb-button--size-large {
-    padding-left: 2rem;
-    padding-right: 2rem; }
+    padding-right: 2rem;
+    padding-left: 2rem; }
   .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
     padding-left: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
@@ -1164,25 +1164,25 @@ exports[`Input scss have to match snapshot 1`] = `
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
   .dnb-button--reset {
-    margin: 0;
-    padding: 0;
     width: auto;
     height: auto;
+    margin: 0;
+    padding: 0;
     overflow: visible;
-    border: none;
-    border-radius: 0;
-    background-color: transparent;
-    appearance: none;
-    box-shadow: none;
     color: inherit;
     font: inherit;
+    line-height: inherit;
     text-align: inherit;
-    line-height: inherit; }
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    appearance: none; }
     html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
-      box-shadow: none;
-      border: none; }
+      border: none;
+      box-shadow: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
@@ -1194,13 +1194,13 @@ exports[`Input scss have to match snapshot 1`] = `
             box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
-      box-shadow: none;
       color: inherit;
-      border: none; }
+      border: none;
+      box-shadow: none; }
   .dnb-button[type='button'], .dnb-button[type='reset'], .dnb-button[type='submit'] {
-    appearance: none;
     -moz-appearance: none;
-    -webkit-appearance: none; }
+    -webkit-appearance: none;
+    appearance: none; }
   .dnb-button[disabled] {
     cursor: not-allowed; }
   .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
@@ -1224,24 +1224,24 @@ button.dnb-button::-moz-focus-inner {
 *
 */
 .dnb-form-label {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1255,10 +1255,10 @@ button.dnb-button::-moz-focus-inner {
   .dnb-form-label *,
   .dnb-form-label ::before,
   .dnb-form-label ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-form-label ::before,
   .dnb-form-label ::after {
     text-decoration: inherit;
@@ -1273,14 +1273,14 @@ button.dnb-button::-moz-focus-inner {
 .dnb-form-label {
   display: inline-block;
   width: auto;
-  padding: 0;
   margin-right: 1rem;
+  padding: 0;
+  color: inherit;
+  font-size: var(--font-size-basis);
+  white-space: pre-wrap;
   text-align: left;
   vertical-align: baseline;
-  white-space: pre-wrap;
-  word-break: normal;
-  font-size: var(--font-size-basis);
-  color: inherit; }
+  word-break: normal; }
   .dnb-form-label--vertical {
     display: block;
     margin-right: 0;
@@ -1288,14 +1288,14 @@ button.dnb-button::-moz-focus-inner {
   .dnb-form-label--sr-only {
     width: 1px;
     margin: 0;
-    padding: 0;
     margin-left: -1px;
+    padding: 0;
     overflow: hidden;
     white-space: nowrap; }
   .dnb-form-label[for]:not([disabled]) {
-    user-select: none;
+    cursor: pointer;
     -webkit-user-select: none;
-    cursor: pointer; }
+    user-select: none; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
   @media screen and (-ms-high-contrast: none) {
@@ -1306,24 +1306,24 @@ legend.dnb-form-label {
   display: inline-block; }
 
 .dnb-input {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1337,10 +1337,10 @@ legend.dnb-form-label {
   .dnb-input *,
   .dnb-input ::before,
   .dnb-input ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-input ::before,
   .dnb-input ::after {
     text-decoration: inherit;
@@ -1384,38 +1384,38 @@ legend.dnb-form-label {
     align-items: center;
     border: var(--input-border-width) solid var(--color-sea-green); }
   .dnb-input__input {
-    border: none;
-    outline: none;
-    word-break: normal;
     position: relative;
-    z-index: 2; }
+    z-index: 2;
+    word-break: normal;
+    border: none;
+    outline: none; }
   .dnb-input input.dnb-input__input {
     font-size: var(--input-font-size);
     line-height: var(--font-size-basis); }
   .dnb-input__input[disabled] {
-    user-select: none;
+    opacity: 1;
     -webkit-user-select: none;
-    opacity: 1; }
+    user-select: none; }
   .dnb-input__shell, .dnb-input__input {
     height: var(--input-height);
     border-radius: var(--input-border-radius); }
   .dnb-input__placeholder, .dnb-input__input {
     width: 100%;
-    padding-left: var(--input-padding);
     padding-right: var(--input-padding);
-    text-align: inherit;
+    padding-left: var(--input-padding);
     color: inherit;
-    background-color: transparent;
-    font-size: var(--input-font-size); }
+    font-size: var(--input-font-size);
+    text-align: inherit;
+    background-color: transparent; }
   .dnb-input__placeholder {
-    pointer-events: none;
     position: absolute;
-    z-index: 1;
     top: 0;
     left: 0;
+    z-index: 1;
     overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis; }
+    text-overflow: ellipsis;
+    pointer-events: none; }
   .dnb-input input.dnb-input__input[type='file'] {
     line-height: calc(var(--input-height) - 2px); }
   .dnb-input__input::-webkit-search-cancel-button {
@@ -1423,9 +1423,9 @@ legend.dnb-form-label {
   .dnb-input__input::-ms-clear {
     display: none; }
   .dnb-input ::-webkit-file-upload-button {
-    cursor: pointer;
+    color: var(--color-sea-green);
     outline: none;
-    color: var(--color-sea-green); }
+    cursor: pointer; }
     .dnb-input ::-webkit-file-upload-button:active, .dnb-input ::-webkit-file-upload-button:hover {
       color: var(--color-emerald-green); }
   .dnb-input--has-submit-element .dnb-input__placeholder,
@@ -1464,8 +1464,8 @@ legend.dnb-form-label {
       height: var(--input-height--small); }
     .dnb-input--small .dnb-input__placeholder,
     .dnb-input--small .dnb-input__input {
-      padding-left: var(--input-padding--small);
       padding-right: var(--input-padding--small);
+      padding-left: var(--input-padding--small);
       font-size: var(--input-font-size--small); }
     .dnb-input--small .dnb-input__submit-element {
       margin-left: calc(1px - 1px - var(--input-height--small)); }
@@ -1483,8 +1483,8 @@ legend.dnb-form-label {
       height: var(--input-height--medium); }
     .dnb-input--medium .dnb-input__placeholder,
     .dnb-input--medium .dnb-input__input {
-      padding-left: var(--input-padding--medium);
       padding-right: var(--input-padding--medium);
+      padding-left: var(--input-padding--medium);
       font-size: var(--input-font-size--medium); }
     .dnb-input--medium .dnb-input__submit-element {
       margin-left: calc(1px - 1px - var(--input-height--medium)); }
@@ -1502,8 +1502,8 @@ legend.dnb-form-label {
       height: var(--input-height--large); }
     .dnb-input--large .dnb-input__placeholder,
     .dnb-input--large .dnb-input__input {
-      padding-left: var(--input-padding--large);
       padding-right: var(--input-padding--large);
+      padding-left: var(--input-padding--large);
       font-size: var(--input-font-size--large); }
     .dnb-input--large .dnb-input__submit-element {
       margin-left: calc(1px - 1px - var(--input-height--large)); }
@@ -1540,17 +1540,17 @@ legend.dnb-form-label {
   .dnb-form-row--horizontal .dnb-input--stretch {
     width: 100%; }
   .dnb-input__icon {
-    order: 0;
     position: absolute;
-    left: 1rem;
-    right: auto;
     top: 0;
+    right: auto;
     bottom: 0;
+    left: 1rem;
+    order: 0;
     margin: auto; }
   .dnb-input--icon-position-right .dnb-input__icon {
-    order: 1;
+    right: 1rem;
     left: auto;
-    right: 1rem; }
+    order: 1; }
   .dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
   .dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
     padding-left: 2.5rem; }
@@ -1572,8 +1572,8 @@ legend.dnb-form-label {
     .dnb-input {
       flex-wrap: wrap; }
       .dnb-input > .dnb-form-label {
-        margin-bottom: 0.5rem;
-        margin-top: 0.5rem; } }
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem; } }
   .dnb-input[class*='__status'] {
     align-items: flex-start; }
     .dnb-input[class*='__status'] > .dnb-form-label {

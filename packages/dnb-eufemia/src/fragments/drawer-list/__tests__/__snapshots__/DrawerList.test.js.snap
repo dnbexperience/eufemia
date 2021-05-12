@@ -342,8 +342,8 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__list {
       border-radius: 0; } }
   .dnb-drawer-list__options {
-    border: none;
     background-color: var(--color-white);
+    border: none;
     border-radius: calc( var(--drawer-list-options-border-radius) + 0.15rem); }
     .dnb-drawer-list__options:focus {
       outline: none; }
@@ -364,16 +364,16 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
     .dnb-drawer-list__option.ignore-events {
       pointer-events: none; }
     .dnb-drawer-list__option::before {
-      pointer-events: none;
       content: '';
       position: absolute;
-      z-index: 2;
       top: auto;
-      left: 0;
       right: 0;
       bottom: 0;
+      left: 0;
+      z-index: 2;
       height: var(--drawer-list-option-border-width);
-      background-color: var(--color-mint-green-25); }
+      background-color: var(--color-mint-green-25);
+      pointer-events: none; }
     .dnb-drawer-list__option__item:nth-of-type(1) {
       font-weight: var(--font-weight-medium); }
     .dnb-drawer-list__option__inner {
@@ -393,11 +393,11 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
     html:not([data-whatintent='touch']) .dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner {
       color: var(--color-black); }
     .dnb-drawer-list__option--focus::before {
-      z-index: 3;
       top: var(--drawer-list-focus-border-width);
-      left: var(--drawer-list-focus-border-width);
       right: var(--drawer-list-focus-border-width);
       bottom: var(--drawer-list-focus-border-width);
+      left: var(--drawer-list-focus-border-width);
+      z-index: 3;
       height: auto;
       background-color: transparent;
       --border-color: var(--color-emerald-green);
@@ -423,13 +423,13 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
       .dnb-drawer-list__option--selected::after {
         content: '';
         position: absolute;
-        z-index: 1;
         top: calc(50% - 0.5rem);
         right: 1rem;
+        z-index: 1;
         width: 1rem;
         height: 1rem;
-        background-size: cover;
-        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+ICA8cGF0aCAgICBmaWxsPSIjRTlGOEY0IiAgICBkPSJNMyA4LjhhLjc1Ljc1IDAgMSAwLTEuMjIuODZMMyA4Ljc5em0xLjg0IDMuOWwuNjMtLjQxdi0uMDFoLS4wMWwtLjYyLjQyem0xLjcxLjA1bC0uNTktLjQ2di4wMWwuNTkuNDV6bTguNDMtOS40NWEuNzUuNzUgMCAwIDAtMS4xOC0uOTNsMS4xOC45M3pNMS43OCA5LjY2bDIuNDUgMy40OCAxLjIzLS44N0wzIDguOGwtMS4yMy44N3ptMi40NCAzLjQ2Yy4zMi40OC44Ni43OCAxLjQ0LjhsLjA1LTEuNWEuMy4zIDAgMCAxLS4yNC0uMTNsLTEuMjUuODN6bTEuNDQuOGExLjggMS44IDAgMCAwIDEuNDktLjcxbC0xLjItLjlhLjMuMyAwIDAgMS0uMjQuMWwtLjA1IDEuNXptMS40OC0uN2w3Ljg0LTkuOTItMS4xOC0uOTMtNy44NCA5LjkyIDEuMTguOTN6Ii8+PC9zdmc+); }
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+ICA8cGF0aCAgICBmaWxsPSIjRTlGOEY0IiAgICBkPSJNMyA4LjhhLjc1Ljc1IDAgMSAwLTEuMjIuODZMMyA4Ljc5em0xLjg0IDMuOWwuNjMtLjQxdi0uMDFoLS4wMWwtLjYyLjQyem0xLjcxLjA1bC0uNTktLjQ2di4wMWwuNTkuNDV6bTguNDMtOS40NWEuNzUuNzUgMCAwIDAtMS4xOC0uOTNsMS4xOC45M3pNMS43OCA5LjY2bDIuNDUgMy40OCAxLjIzLS44N0wzIDguOGwtMS4yMy44N3ptMi40NCAzLjQ2Yy4zMi40OC44Ni43OCAxLjQ0LjhsLjA1LTEuNWEuMy4zIDAgMCAxLS4yNC0uMTNsLTEuMjUuODN6bTEuNDQuOGExLjggMS44IDAgMCAwIDEuNDktLjcxbC0xLjItLjlhLjMuMyAwIDAgMS0uMjQuMWwtLjA1IDEuNXptMS40OC0uN2w3Ljg0LTkuOTItMS4xOC0uOTMtNy44NCA5LjkyIDEuMTguOTN6Ii8+PC9zdmc+);
+        background-size: cover; }
       .dnb-drawer-list__option--selected::before {
         content: none; }
     .dnb-drawer-list__option--ignore .dnb-drawer-list__option__inner {
@@ -446,8 +446,8 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
     .dnb-drawer-list__option.last-of-type:not(.dnb-drawer-list__option--focus)::before {
       content: none; }
   .dnb-drawer-list--scroll .dnb-drawer-list__option:not(.dnb-drawer-list__option--focus)::before {
-    left: 0.5rem;
-    right: 0.5rem; }
+    right: 0.5rem;
+    left: 0.5rem; }
   .dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-top::before {
     border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
   .dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-bottom::before {
@@ -462,8 +462,8 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
   .dnb-drawer-list__status--error:not(.dnb-drawer-list--opened) .dnb-drawer-list__icon {
     color: var(--color-fire-red); }
   .dnb-drawer-list__triangle::before {
-    border: none;
     background-color: var(--color-white);
+    border: none;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
   .dnb-drawer-list--top .dnb-drawer-list__option.last-of-type:hover ~ .dnb-drawer-list__triangle::before,
   .dnb-drawer-list--bottom .dnb-drawer-list__option.first-of-type:hover ~ .dnb-drawer-list__triangle::before,
@@ -504,24 +504,24 @@ exports[`DrawerList scss have to match snapshot 1`] = `
  *
  */
 .dnb-drawer-list {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -535,10 +535,10 @@ exports[`DrawerList scss have to match snapshot 1`] = `
   .dnb-drawer-list *,
   .dnb-drawer-list ::before,
   .dnb-drawer-list ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-drawer-list ::before,
   .dnb-drawer-list ::after {
     text-decoration: inherit;
@@ -561,8 +561,8 @@ exports[`DrawerList scss have to match snapshot 1`] = `
   --drawer-list-height--large: 3rem; }
 
 .dnb-drawer-list {
-  display: block;
   position: relative;
+  display: block;
   width: inherit;
   min-width: inherit;
   font-size: var(--font-size-small);
@@ -584,11 +584,11 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     padding: 0; }
   .dnb-drawer-list__list {
     position: absolute;
-    z-index: 3;
     top: 0;
+    right: 0;
     bottom: auto;
     left: 0;
-    right: 0;
+    z-index: 3;
     width: inherit;
     min-width: inherit;
     margin: 0;
@@ -602,8 +602,8 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin: 0;
     max-height: 90vh;
+    margin: 0;
     padding: 0;
     list-style: none;
     background-color: transparent; }
@@ -628,23 +628,23 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     scroll-behavior: auto; }
   .dnb-drawer-list__option {
     position: relative;
-    cursor: pointer;
     margin: 0;
     padding: 0;
     color: inherit;
+    background-color: var(--color-white);
     outline: none;
-    background-color: var(--color-white); }
+    cursor: pointer; }
     .dnb-drawer-list__option__inner {
       position: relative;
       z-index: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      outline: none;
       margin: 0;
       padding: 1rem;
       color: inherit;
-      background-color: var(--color-white); }
+      background-color: var(--color-white);
+      outline: none; }
       .dnb-drawer-list__option__inner > * {
         align-self: self-start; }
     .dnb-drawer-list__option__item {
@@ -657,13 +657,13 @@ exports[`DrawerList scss have to match snapshot 1`] = `
   .dnb-drawer-list__triangle {
     position: absolute;
     top: calc( var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2);
-    left: auto;
     right: 0;
-    pointer-events: none;
-    margin: 0 var(--drawer-list-padding-horizontal);
+    left: auto;
     width: calc(var(--drawer-list-height) / 2);
     height: calc(var(--drawer-list-height) / 2);
-    overflow: hidden; }
+    margin: 0 var(--drawer-list-padding-horizontal);
+    overflow: hidden;
+    pointer-events: none; }
     .dnb-drawer-list__triangle::before {
       content: '';
       position: absolute;
@@ -671,12 +671,12 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       left: 0;
       width: calc(var(--drawer-list-height) / 2);
       height: calc(var(--drawer-list-height) / 2);
-      transform: translateY(60%) rotate(45deg);
+      background-color: var(--color-white);
       border: 1px solid var(--color-black-border);
-      background-color: var(--color-white); }
+      transform: translateY(60%) rotate(45deg); }
   .dnb-drawer-list--triangle-position-left .dnb-drawer-list__triangle {
-    left: 0;
-    right: auto; }
+    right: auto;
+    left: 0; }
   .dnb-drawer-list--top .dnb-drawer-list__triangle {
     top: auto;
     bottom: calc( var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2 - 2px);
@@ -685,8 +685,8 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       transform: translateY(65%) rotate(45deg); }
   .dnb-drawer-list--is-popup.dnb-drawer-list--right {
     position: absolute;
-    left: auto;
-    right: 0; }
+    right: 0;
+    left: auto; }
   .dnb-drawer-list--is-popup.dnb-drawer-list--left .dnb-drawer-list__list {
     left: -0.5rem; }
   .dnb-drawer-list--is-popup.dnb-drawer-list--right .dnb-drawer-list__list {
@@ -762,8 +762,8 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       position: fixed; }
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__list,
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__options {
-      height: 100vh;
       top: 0 !important;
+      height: 100vh;
       max-height: 100vh !important;
       border-radius: 0; } }
   .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list {
@@ -775,8 +775,8 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       animation: drawer-list-scale-out 150ms ease-out 1 forwards; } }
   .dnb-drawer-list--action-menu .dnb-drawer-list__option__inner {
     flex-direction: row;
-    justify-content: flex-start;
-    align-items: center; }
+    align-items: center;
+    justify-content: flex-start; }
   @media screen and (min-width: 40em) {
     .dnb-drawer-list--action-menu.dnb-drawer-list--is-popup.dnb-drawer-list--left .dnb-drawer-list__list {
       left: 0; }
@@ -795,10 +795,10 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       position: fixed;
       top: auto !important;
       right: 0 !important;
-      left: 0 !important;
       bottom: 0 !important;
-      height: auto !important;
+      left: 0 !important;
       width: 100vw !important;
+      height: auto !important;
       box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.16); } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-drawer-list {
@@ -811,50 +811,50 @@ exports[`DrawerList scss have to match snapshot 1`] = `
 
 @keyframes drawer-list-scale-in {
   from {
-    opacity: 0;
-    transform: scale(0.8) translateX(calc(1px - var(--drawer-list-width))); }
+    transform: scale(0.8) translateX(calc(1px - var(--drawer-list-width)));
+    opacity: 0; }
   to {
-    opacity: 1;
-    transform: scale(1) translateX(0); } }
+    transform: scale(1) translateX(0);
+    opacity: 1; } }
 
 @keyframes drawer-list-scale-out {
   from {
-    opacity: 1;
-    transform: scale(1) translateX(0); }
+    transform: scale(1) translateX(0);
+    opacity: 1; }
   to {
-    opacity: 0;
-    transform: scale(0.8) translateX(calc(1px - var(--drawer-list-width))); } }
+    transform: scale(0.8) translateX(calc(1px - var(--drawer-list-width)));
+    opacity: 0; } }
 
 @keyframes drawer-list-slide-top-down {
   from {
-    opacity: 0;
-    transform: translateY(calc(1px - var(--drawer-list-height))); }
+    transform: translateY(calc(1px - var(--drawer-list-height)));
+    opacity: 0; }
   to {
-    opacity: 1;
-    transform: translateY(0); } }
+    transform: translateY(0);
+    opacity: 1; } }
 
 @keyframes drawer-list-slide-top-up {
   from {
-    opacity: 1;
-    transform: translateY(0); }
+    transform: translateY(0);
+    opacity: 1; }
   to {
-    opacity: 0;
-    transform: translateY(calc(1px - var(--drawer-list-height))); } }
+    transform: translateY(calc(1px - var(--drawer-list-height)));
+    opacity: 0; } }
 
 @keyframes drawer-list-slide-bottom-down {
   from {
-    opacity: 1;
-    transform: translateY(0); }
+    transform: translateY(0);
+    opacity: 1; }
   to {
-    opacity: 0;
-    transform: translateY(calc(1px + var(--drawer-list-height))); } }
+    transform: translateY(calc(1px + var(--drawer-list-height)));
+    opacity: 0; } }
 
 @keyframes drawer-list-slide-bottom-up {
   from {
-    opacity: 0;
-    transform: translateY(calc(1px + var(--drawer-list-height))); }
+    transform: translateY(calc(1px + var(--drawer-list-height)));
+    opacity: 0; }
   to {
-    opacity: 1;
-    transform: translateY(0); } }
+    transform: translateY(0);
+    opacity: 1; } }
 "
 `;

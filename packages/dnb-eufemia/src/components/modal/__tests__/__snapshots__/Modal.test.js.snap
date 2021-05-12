@@ -814,18 +814,18 @@ exports[`Modal scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
-  vertical-align: middle;
+  width: 1em;
+  height: 1em;
+  color: inherit;
   font-size: 1rem;
   line-height: 1rem;
-  color: inherit;
-  width: 1em;
-  height: 1em; }
+  vertical-align: middle; }
   .dnb-icon img,
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    shape-rendering: geometricPrecision;
-    vertical-align: top; }
+    vertical-align: top;
+    shape-rendering: geometricPrecision; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -876,24 +876,24 @@ exports[`Modal scss have to match snapshot 1`] = `
 *
 */
 .dnb-form-status {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -907,10 +907,10 @@ exports[`Modal scss have to match snapshot 1`] = `
   .dnb-form-status *,
   .dnb-form-status ::before,
   .dnb-form-status ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-form-status ::before,
   .dnb-form-status ::after {
     text-decoration: inherit;
@@ -929,25 +929,25 @@ exports[`Modal scss have to match snapshot 1`] = `
   display: flex; }
   .dnb-form-status__shell {
     display: flex;
-    justify-content: flex-start;
     align-items: flex-start;
+    justify-content: flex-start;
     min-width: inherit;
     border-radius: var(--form-status-radius); }
   .dnb-form-status__text {
     padding: 0.625rem 1rem;
-    cursor: text;
     color: inherit;
-    line-height: var(--line-height-small);
     font-size: var(--font-size-small);
-    white-space: normal; }
+    line-height: var(--line-height-small);
+    white-space: normal;
+    cursor: text; }
     .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
   .dnb-icon + .dnb-form-status__text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
   .dnb-form-status__size--large .dnb-form-status__text {
     padding-top: 1.125rem;
@@ -958,8 +958,8 @@ exports[`Modal scss have to match snapshot 1`] = `
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status__animation--fade-in {
-    overflow: hidden;
     max-height: 0;
+    overflow: hidden;
     animation: form-status-fade-in 2s ease-out 400ms forwards; }
 
 @keyframes form-status-fade-in {
@@ -972,24 +972,24 @@ exports[`Modal scss have to match snapshot 1`] = `
       border-width: 1px; } }
 
 .dnb-button {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1003,10 +1003,10 @@ exports[`Modal scss have to match snapshot 1`] = `
   .dnb-button *,
   .dnb-button ::before,
   .dnb-button ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-button ::before,
   .dnb-button ::after {
     text-decoration: inherit;
@@ -1039,32 +1039,32 @@ exports[`Modal scss have to match snapshot 1`] = `
 
 .dnb-button {
   position: relative;
-  user-select: none;
-  -webkit-user-select: none;
-  cursor: pointer;
-  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: var(--button-width);
   height: auto;
   padding: 0;
+  font-size: var(--font-size-small);
+  white-space: nowrap;
+  text-decoration: none;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none;
-  font-size: var(--font-size-small);
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
   /* stylelint-disable-next-line */ }
   .dnb-button--wrap {
-    overflow-wrap: break-word;
-    white-space: normal; }
+    white-space: normal;
+    overflow-wrap: break-word; }
   .dnb-button,
   .dnb-core-style .dnb-button {
     line-height: var(--button-height); }
   .dnb-button__text {
     margin: 0.5rem 0;
+    color: inherit;
     font-size: var(--button-font-size);
     line-height: var(--line-height-basis);
-    color: inherit;
     transform: translateY(-0.03125rem); }
     .dnb-button__text [data-os='linux'] {
       transform: translateY(-0.035rem); }
@@ -1074,15 +1074,15 @@ exports[`Modal scss have to match snapshot 1`] = `
   .dnb-button__bounding {
     position: absolute;
     top: 0;
-    bottom: 0;
     right: 0;
+    bottom: 0;
     left: 0;
-    transform: scale(1.1, 1.4);
     background-color: transparent;
-    border-radius: var(--button-border-radius); }
+    border-radius: var(--button-border-radius);
+    transform: scale(1.1, 1.4); }
   .dnb-button--has-text {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem; }
+    padding-right: 1.5rem;
+    padding-left: 1.5rem; }
   .dnb-button--size-small {
     width: var(--button-width--small);
     font-size: var(--button-font-size-small);
@@ -1093,8 +1093,8 @@ exports[`Modal scss have to match snapshot 1`] = `
   .dnb-button--size-small .dnb-button__text {
     margin: 0; }
   .dnb-button--has-text.dnb-button--size-small {
-    padding-left: 1rem;
-    padding-right: 1rem; }
+    padding-right: 1rem;
+    padding-left: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
     padding-left: 0.5rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
@@ -1108,8 +1108,8 @@ exports[`Modal scss have to match snapshot 1`] = `
   .dnb-button--size-medium .dnb-button__text {
     margin: 0; }
   .dnb-button--has-text.dnb-button--size-medium {
-    padding-left: 1rem;
-    padding-right: 1rem; }
+    padding-right: 1rem;
+    padding-left: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
     padding-left: 0.5rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
@@ -1121,8 +1121,8 @@ exports[`Modal scss have to match snapshot 1`] = `
     .dnb-core-style .dnb-button--size-large {
       line-height: var(--button-height--large); }
   .dnb-button--has-text.dnb-button--size-large {
-    padding-left: 2rem;
-    padding-right: 2rem; }
+    padding-right: 2rem;
+    padding-left: 2rem; }
   .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
     padding-left: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
@@ -1153,25 +1153,25 @@ exports[`Modal scss have to match snapshot 1`] = `
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
   .dnb-button--reset {
-    margin: 0;
-    padding: 0;
     width: auto;
     height: auto;
+    margin: 0;
+    padding: 0;
     overflow: visible;
-    border: none;
-    border-radius: 0;
-    background-color: transparent;
-    appearance: none;
-    box-shadow: none;
     color: inherit;
     font: inherit;
+    line-height: inherit;
     text-align: inherit;
-    line-height: inherit; }
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    appearance: none; }
     html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
-      box-shadow: none;
-      border: none; }
+      border: none;
+      box-shadow: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
@@ -1183,13 +1183,13 @@ exports[`Modal scss have to match snapshot 1`] = `
             box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
-      box-shadow: none;
       color: inherit;
-      border: none; }
+      border: none;
+      box-shadow: none; }
   .dnb-button[type='button'], .dnb-button[type='reset'], .dnb-button[type='submit'] {
-    appearance: none;
     -moz-appearance: none;
-    -webkit-appearance: none; }
+    -webkit-appearance: none;
+    appearance: none; }
   .dnb-button[disabled] {
     cursor: not-allowed; }
   .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
@@ -1209,24 +1209,24 @@ button.dnb-button::-moz-focus-inner {
   border: none; }
 
 .dnb-modal__content {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1240,10 +1240,10 @@ button.dnb-button::-moz-focus-inner {
   .dnb-modal__content *,
   .dnb-modal__content ::before,
   .dnb-modal__content ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-modal__content ::before,
   .dnb-modal__content ::after {
     text-decoration: inherit;
@@ -1261,8 +1261,8 @@ button.dnb-button::-moz-focus-inner {
  */
 @keyframes show-modal {
   from {
-    opacity: 0.1;
-    transform: translate3d(0, -1rem, 0); }
+    transform: translate3d(0, -1rem, 0);
+    opacity: 0.1; }
   to {
     transform: translate3d(0, 0, 0);
     opacity: 1; } }
@@ -1341,8 +1341,8 @@ button.dnb-button::-moz-focus-inner {
   --modal-overlay-bg: rgba(0, 0, 0, 0.32); }
 
 [data-dnb-modal-active='true'] {
-  user-select: none;
-  -webkit-user-select: none; }
+  -webkit-user-select: none;
+  user-select: none; }
 
 #dnb-modal-root {
   position: absolute;
@@ -1360,10 +1360,10 @@ button.dnb-button::-moz-focus-inner {
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
     max-width: 100vw;
-    user-select: none;
+    height: 100%;
     -webkit-user-select: none;
+    user-select: none;
     /* stylelint-disable-next-line */ }
     @media screen and (max-width: 40em) {
       .dnb-modal__content--auto-fullscreen {
@@ -1374,17 +1374,17 @@ button.dnb-button::-moz-focus-inner {
       min-width: var(--modal-min-width);
       max-width: var(--modal-max-width);
       max-height: 100vh;
-      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
-      border-radius: 0.5rem;
-      user-select: text;
-      -webkit-user-select: text;
       border: none;
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+      border-radius: 0.5rem;
+      -webkit-user-select: text;
+      user-select: text;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
     @media screen and (max-width: 40em) {
       .dnb-modal__content--auto-fullscreen .dnb-modal__content__inner {
         width: 100%;
-        height: 100vh;
         max-width: 100%;
+        height: 100vh;
         border-radius: 0;
         box-shadow: none; } }
     .dnb-modal__content__spacing {
@@ -1418,8 +1418,8 @@ button.dnb-button::-moz-focus-inner {
       justify-content: flex-start; }
     .dnb-modal__content--drawer .dnb-modal__content__inner {
       width: 100%;
-      height: 100vh;
       max-width: 100%;
+      height: 100vh;
       border-radius: 0;
       box-shadow: none;
       width: var(--modal-drawer-width);
@@ -1437,8 +1437,8 @@ button.dnb-button::-moz-focus-inner {
         height: auto; } }
     .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner,
     .dnb-modal__content--drawer.dnb-modal__content--bottom .dnb-modal__content__inner {
-      max-width: 100%;
       width: 100vw;
+      max-width: 100%;
       height: 40vh; }
       @media screen and (max-height: 40em) {
         .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner,
@@ -1455,8 +1455,8 @@ button.dnb-button::-moz-focus-inner {
       justify-content: flex-start; }
     .dnb-modal__content--fullscreen .dnb-modal__content__inner {
       width: 100%;
-      height: 100vh;
       max-width: 100%;
+      height: 100vh;
       border-radius: 0;
       box-shadow: none; }
     html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--left .dnb-modal__content__inner {
@@ -1506,8 +1506,8 @@ button.dnb-button::-moz-focus-inner {
   .dnb-modal__content--drawer .dnb-modal__title ~ .dnb-modal__wrapper {
     padding-top: calc(var(--modal-spacing) * 0.75); }
   .dnb-modal__wrapper__inner {
-    padding-bottom: calc(var(--modal-spacing) * 2);
-    margin-bottom: calc(var(--modal-spacing-minus) * 1.75); }
+    margin-bottom: calc(var(--modal-spacing-minus) * 1.75);
+    padding-bottom: calc(var(--modal-spacing) * 2); }
     @media screen and (max-width: 40em) {
       .dnb-modal__wrapper__inner.dnb-section::after {
         min-height: calc( 100vh - var(--modal-content-top) - calc(var(--modal-spacing) * 1.5)); } }
@@ -1529,14 +1529,14 @@ button.dnb-button::-moz-focus-inner {
     right: calc(var(--modal-spacing) * 1.75); }
   .dnb-modal__overlay {
     position: fixed;
-    z-index: var(--modal-z-index);
-    left: 0;
     top: 0;
+    left: 0;
+    z-index: var(--modal-z-index);
     width: 100%;
     height: 100%;
-    will-change: background-color;
     background-color: var(--modal-overlay-transparent);
-    box-shadow: 0 100vh 0 0 var(--modal-overlay-bg); }
+    box-shadow: 0 100vh 0 0 var(--modal-overlay-bg);
+    will-change: background-color; }
     .dnb-modal__overlay--modal {
       animation: show-modal-overlay var(--modal-animation-duration) ease-out forwards 0ms; }
     .dnb-modal__overlay--drawer {
@@ -1551,12 +1551,12 @@ button.dnb-button::-moz-focus-inner {
   html[data-visual-test] .dnb-modal-root__inner .dnb-modal__overlay {
     transition: none; }
   html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
-    animation-delay: 0ms !important;
-    animation-duration: 0ms !important; }
+    animation-duration: 0ms !important;
+    animation-delay: 0ms !important; }
   @media screen and (max-width: 40em) {
     .dnb-modal--no-animation-on-mobile {
-      animation-delay: 0ms !important;
-      animation-duration: 0ms !important; } }
+      animation-duration: 0ms !important;
+      animation-delay: 0ms !important; } }
   .dnb-modal-root__inner {
     position: relative;
     z-index: calc(var(--modal-z-index) + 1); }

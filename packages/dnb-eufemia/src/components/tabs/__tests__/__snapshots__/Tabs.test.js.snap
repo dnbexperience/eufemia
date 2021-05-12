@@ -1036,11 +1036,11 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
   .dnb-tabs__content:focus::after {
     content: '';
     position: absolute;
-    z-index: -1;
     top: 0.125rem;
+    right: -0.5rem;
     bottom: -0.5rem;
     left: -0.5rem;
-    right: -0.5rem;
+    z-index: -1;
     max-width: 100vw;
     border-radius: 0.5rem;
     outline: none; }
@@ -1053,10 +1053,10 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
           box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
 
 .dnb-tabs__button__title {
+  color: var(--color-sea-green);
   font-weight: var(--font-weight-regular);
   font-size: var(--font-size-basis);
-  text-align: center;
-  color: var(--color-sea-green); }
+  text-align: center; }
 
 html:not([data-whatintent='touch']) .dnb-tabs__button:hover[disabled] {
   cursor: not-allowed; }
@@ -1065,17 +1065,17 @@ html:not([data-whatintent='touch']) .dnb-tabs__button:hover:not([disabled]) {
   background-color: var(--color-mint-green-50); }
   html:not([data-whatintent='touch']) .dnb-tabs__button:hover:not([disabled])::after {
     height: 3px;
-    border-radius: 1.5px;
-    background-color: var(--color-sea-green); }
+    background-color: var(--color-sea-green);
+    border-radius: 1.5px; }
 
 .dnb-tabs__button:focus::before {
   content: '';
   position: absolute;
-  z-index: 1;
   top: 0;
-  left: -0.5rem;
-  bottom: 0;
   right: -0.5rem;
+  bottom: 0;
+  left: -0.5rem;
+  z-index: 1;
   height: inherit;
   border-radius: inherit;
   outline: none; }
@@ -1089,8 +1089,8 @@ html:not([data-whatintent='touch']) .dnb-tabs__button:hover:not([disabled]) {
 
 .dnb-tabs__button:focus::before {
   top: 2px;
-  bottom: 2px;
   right: 0;
+  bottom: 2px;
   left: 0;
   border-radius: 0.25rem; }
 
@@ -1099,8 +1099,8 @@ html:not([data-whatintent='touch']) .dnb-tabs__button:hover:not([disabled]) {
 
 .dnb-tabs__button:not([disabled]):active::after, .dnb-tabs__button:not([disabled]).selected::after {
   height: 3px;
-  border-radius: 1.5px;
-  background-color: var(--color-sea-green); }
+  background-color: var(--color-sea-green);
+  border-radius: 1.5px; }
 
 .dnb-tabs__button:not([disabled]):active .dnb-tabs__button__title,
 .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title {
@@ -1136,24 +1136,24 @@ exports[`Tabs scss have to match snapshot 1`] = `
  *
  */
 .dnb-tabs {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1167,10 +1167,10 @@ exports[`Tabs scss have to match snapshot 1`] = `
   .dnb-tabs *,
   .dnb-tabs ::before,
   .dnb-tabs ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-tabs ::before,
   .dnb-tabs ::after {
     text-decoration: inherit;
@@ -1192,8 +1192,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
   .dnb-tabs__tabs__tablist {
     display: flex;
     flex: 0 1 auto;
-    padding: 0 0.5rem;
     margin: 0 -0.5rem;
+    padding: 0 0.5rem;
     overflow-x: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
@@ -1231,9 +1231,9 @@ exports[`Tabs scss have to match snapshot 1`] = `
   .dnb-tabs__tabs::before {
     content: '';
     position: absolute;
-    z-index: -1;
-    left: -100vw;
     bottom: 0;
+    left: -100vw;
+    z-index: -1;
     width: 100vw;
     height: 1px; }
 
@@ -1257,8 +1257,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
     display: flex;
     opacity: 1; }
   .dnb-tabs__scroll-nav-button--hide {
-    pointer-events: none;
-    opacity: 0 !important; }
+    opacity: 0 !important;
+    pointer-events: none; }
 
 .dnb-tabs--at-edge .dnb-tabs__scroll-nav-button:first-of-type {
   left: 0; }
@@ -1287,19 +1287,19 @@ html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
 .dnb-core-style .dnb-tabs .dnb-tabs__button {
   position: relative;
   z-index: 1;
-  user-select: none;
-  -webkit-user-select: none;
   margin: 0;
   padding: 0.25rem 0.125rem;
   /* 1/16*4 */
-  background-color: transparent;
-  border-bottom: 1px solid transparent;
-  cursor: pointer;
-  outline: none;
-  border: none;
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
-  white-space: nowrap; }
+  white-space: nowrap;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid transparent;
+  outline: none;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none; }
   .dnb-tabs__button__title .dnb-icon,
   .dnb-core-style .dnb-tabs .dnb-tabs__button__title .dnb-icon {
     font-size: var(--font-size-small);
@@ -1309,16 +1309,16 @@ html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
     display: flex;
     flex-direction: column;
     height: 0;
-    visibility: hidden;
-    overflow: hidden; }
+    overflow: hidden;
+    visibility: hidden; }
   .dnb-tabs__button::after,
   .dnb-core-style .dnb-tabs .dnb-tabs__button::after {
     content: '';
     position: absolute;
-    z-index: -1;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
+    z-index: -1;
     width: 100%;
     height: 1px; }
 

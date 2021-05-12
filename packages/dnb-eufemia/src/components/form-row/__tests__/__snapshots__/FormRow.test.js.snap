@@ -120,24 +120,24 @@ exports[`FormRow scss have to match snapshot 1`] = `
 *
 */
 .dnb-form-label {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -151,10 +151,10 @@ exports[`FormRow scss have to match snapshot 1`] = `
   .dnb-form-label *,
   .dnb-form-label ::before,
   .dnb-form-label ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-form-label ::before,
   .dnb-form-label ::after {
     text-decoration: inherit;
@@ -169,14 +169,14 @@ exports[`FormRow scss have to match snapshot 1`] = `
 .dnb-form-label {
   display: inline-block;
   width: auto;
-  padding: 0;
   margin-right: 1rem;
+  padding: 0;
+  color: inherit;
+  font-size: var(--font-size-basis);
+  white-space: pre-wrap;
   text-align: left;
   vertical-align: baseline;
-  white-space: pre-wrap;
-  word-break: normal;
-  font-size: var(--font-size-basis);
-  color: inherit; }
+  word-break: normal; }
   .dnb-form-label--vertical {
     display: block;
     margin-right: 0;
@@ -184,14 +184,14 @@ exports[`FormRow scss have to match snapshot 1`] = `
   .dnb-form-label--sr-only {
     width: 1px;
     margin: 0;
-    padding: 0;
     margin-left: -1px;
+    padding: 0;
     overflow: hidden;
     white-space: nowrap; }
   .dnb-form-label[for]:not([disabled]) {
-    user-select: none;
+    cursor: pointer;
     -webkit-user-select: none;
-    cursor: pointer; }
+    user-select: none; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
   @media screen and (-ms-high-contrast: none) {
@@ -202,24 +202,24 @@ legend.dnb-form-label {
   display: inline-block; }
 
 .dnb-form-row {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -233,10 +233,10 @@ legend.dnb-form-label {
   .dnb-form-row *,
   .dnb-form-row ::before,
   .dnb-form-row ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-form-row ::before,
   .dnb-form-row ::after {
     text-decoration: inherit;
@@ -271,12 +271,12 @@ legend.dnb-form-label {
   @supports (display: grid) {
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] {
       display: grid;
-      grid-template-columns: [column1-start] var(--form-row-column1-start) [column1-end column2-start] var(--form-row-column2-start) [column2-end];
-      grid-template-rows: [row1-start] var(--form-row-row1-start) [row1-end row2-start] var(--form-row-row2-start) [row2-end]; } }
+      grid-template-rows: [row1-start] var(--form-row-row1-start) [row1-end row2-start] var(--form-row-row2-start) [row2-end];
+      grid-template-columns: [column1-start] var(--form-row-column1-start) [column1-end column2-start] var(--form-row-column2-start) [column2-end]; } }
   @supports (display: grid) {
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content {
-      grid-column: column2-start / column2-end;
-      grid-row: row2-start / row2-end; } }
+      grid-row: row2-start / row2-end;
+      grid-column: column2-start / column2-end; } }
   @media screen and (min-width: 40em) {
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--default {
       margin-top: -1.5rem; }
@@ -304,8 +304,8 @@ legend.dnb-form-label {
     margin-right: 1rem; }
     @supports (display: grid) {
       .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-label {
-        grid-column: column1-start / column1-end;
-        grid-row: row1-start / row1-end; } }
+        grid-row: row1-start / row1-end;
+        grid-column: column1-start / column1-end; } }
     @media screen and (min-width: 40em) {
       .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-label {
         text-align: right; } }
@@ -346,10 +346,10 @@ legend.dnb-form-label {
     margin: 0; }
   .dnb-form-row__fieldset,
   .dnb-core-style .dnb-form-row__fieldset {
+    width: 100%;
     margin: 0;
     padding: 0;
-    border: none;
-    width: 100%; }
+    border: none; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-form-row {
       align-items: flex-start; }

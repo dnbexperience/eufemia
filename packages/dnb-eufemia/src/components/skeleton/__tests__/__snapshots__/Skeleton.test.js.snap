@@ -219,24 +219,24 @@ exports[`Skeleton scss have to match snapshot 1`] = `
  *
  */
 .dnb-skeleton {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -250,10 +250,10 @@ exports[`Skeleton scss have to match snapshot 1`] = `
   .dnb-skeleton *,
   .dnb-skeleton ::before,
   .dnb-skeleton ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-skeleton ::before,
   .dnb-skeleton ::after {
     text-decoration: inherit;
@@ -277,27 +277,27 @@ exports[`Skeleton scss have to match snapshot 1`] = `
   filter: grayscale(100%); }
 
 .dnb-skeleton--shape {
-  pointer-events: none;
   position: relative;
   overflow-x: hidden;
   color: transparent;
   background: transparent;
-  box-shadow: none !important; }
+  box-shadow: none !important;
+  pointer-events: none; }
 
 .dnb-skeleton--shape.dnb-skeleton::before, .dnb-skeleton--shape.dnb-skeleton::after {
   content: '' !important;
   position: absolute !important;
-  z-index: 100 !important;
-  left: 0 !important;
   top: 0 !important;
-  bottom: 0 !important;
   right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  z-index: 100 !important;
   width: 100% !important;
   height: auto !important;
   margin: 0 !important;
   padding: 0 !important;
-  border-radius: inherit;
   background: none !important;
+  border-radius: inherit;
   box-shadow: none !important; }
 
 .dnb-skeleton--code pre,
@@ -314,20 +314,20 @@ exports[`Skeleton scss have to match snapshot 1`] = `
 .dnb-skeleton--font-only, .dnb-skeleton--font,
 .dnb-skeleton--font .dnb-skeleton--show-font,
 .dnb-skeleton--font .dnb-p {
-  pointer-events: none;
-  --font-family-default: 'DNBSkeleton' !important;
   font-family: var(--font-family-default) !important;
-  font-style: unset !important; }
+  font-style: unset !important;
+  pointer-events: none;
+  --font-family-default: 'DNBSkeleton' !important; }
 
 .dnb-skeleton--font,
 .dnb-skeleton--font .dnb-skeleton--show-font,
 .dnb-skeleton--font .dnb-p {
-  background-position-y: 50% !important;
   background-repeat: no-repeat !important;
+  background-position-y: 50% !important;
   background-size: 30rem 100% !important;
-  -webkit-text-fill-color: transparent !important;
+  -webkit-background-clip: text !important;
   background-clip: text !important;
-  -webkit-background-clip: text !important; }
+  -webkit-text-fill-color: transparent !important; }
   html[data-visual-test] .dnb-skeleton--font, html[data-visual-test]
   .dnb-skeleton--font .dnb-skeleton--show-font, html[data-visual-test]
   .dnb-skeleton--font .dnb-p {
@@ -353,31 +353,31 @@ exports[`Skeleton scss have to match snapshot 1`] = `
   animation: none !important; }
 
 @font-face {
+  font-weight: normal;
   font-family: DNBSkeleton;
+  font-style: normal;
   src: url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Regular.woff2\\") format(\\"woff2\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Regular.woff\\") format(\\"woff\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Regular.ttf\\") format(\\"truetype\\");
-  font-weight: normal;
-  font-style: normal;
   font-display: fallback; }
 
 @font-face {
-  font-family: DNBSkeleton;
-  src: url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Medium.woff\\") format(\\"woff\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Medium.ttf\\") format(\\"truetype\\");
   font-weight: 500;
-  font-style: normal;
-  font-display: fallback; }
-
-@font-face {
   font-family: DNBSkeleton;
-  src: url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Bold.woff2\\") format(\\"woff2\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Bold.woff\\") format(\\"woff\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Bold.ttf\\") format(\\"truetype\\");
-  font-weight: 600;
   font-style: normal;
+  src: url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Medium.woff2\\") format(\\"woff2\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Medium.woff\\") format(\\"woff\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Medium.ttf\\") format(\\"truetype\\");
   font-display: fallback; }
 
 @font-face {
-  font-family: DNBMonoSkeleton;
-  src: url(\\"../../assets/fonts/skeleton/DNBMono-Skeleton-Regular.woff2\\") format(\\"woff2\\"), url(\\"../../assets/fonts/skeleton/DNBMono-Skeleton-Regular.woff\\") format(\\"woff\\"), url(\\"../../assets/fonts/skeleton/DNBMono-Skeleton-Regular.ttf\\") format(\\"truetype\\");
-  font-weight: normal;
+  font-weight: 600;
+  font-family: DNBSkeleton;
   font-style: normal;
+  src: url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Bold.woff2\\") format(\\"woff2\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Bold.woff\\") format(\\"woff\\"), url(\\"../../assets/fonts/skeleton/DNB-Skeleton-Bold.ttf\\") format(\\"truetype\\");
+  font-display: fallback; }
+
+@font-face {
+  font-weight: normal;
+  font-family: DNBMonoSkeleton;
+  font-style: normal;
+  src: url(\\"../../assets/fonts/skeleton/DNBMono-Skeleton-Regular.woff2\\") format(\\"woff2\\"), url(\\"../../assets/fonts/skeleton/DNBMono-Skeleton-Regular.woff\\") format(\\"woff\\"), url(\\"../../assets/fonts/skeleton/DNBMono-Skeleton-Regular.ttf\\") format(\\"truetype\\");
   font-display: fallback; }
 "
 `;

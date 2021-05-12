@@ -970,8 +970,8 @@ exports[`Pagination scss have to match default theme snapshot 1`] = `
     animation: show-page 300ms ease-out forwards; }
 
 .dnb-core-style .dnb-pagination__button.dnb-button--primary, .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):hover, .dnb-pagination__button.dnb-button--primary, .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):hover {
-  background-color: var(--color-emerald-green);
-  color: var(--color-mint-green); }
+  color: var(--color-mint-green);
+  background-color: var(--color-emerald-green); }
 
 .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
   color: var(--color-emerald-green);
@@ -992,9 +992,9 @@ exports[`Pagination scss have to match default theme snapshot 1`] = `
   .dnb-pagination--many-pages .dnb-pagination__bar__inner .dnb-pagination__button:not([aria-current]):nth-of-type(2),
   .dnb-pagination--many-pages .dnb-pagination__bar__inner .dnb-pagination__button:not([aria-current]):nth-last-of-type(2) {
     width: 0;
-    overflow: hidden;
     margin: 0;
     padding: 0;
+    overflow: hidden;
     box-shadow: none; } }
 
 @keyframes show-page {
@@ -1042,18 +1042,18 @@ exports[`Pagination scss have to match snapshot 1`] = `
 */
 .dnb-icon {
   display: inline-block;
-  vertical-align: middle;
+  width: 1em;
+  height: 1em;
+  color: inherit;
   font-size: 1rem;
   line-height: 1rem;
-  color: inherit;
-  width: 1em;
-  height: 1em; }
+  vertical-align: middle; }
   .dnb-icon img,
   .dnb-icon svg {
     width: inherit;
     height: inherit;
-    shape-rendering: geometricPrecision;
-    vertical-align: top; }
+    vertical-align: top;
+    shape-rendering: geometricPrecision; }
   .dnb-icon svg[width='100%'] {
     width: inherit; }
   .dnb-icon svg[height='100%'] {
@@ -1104,24 +1104,24 @@ exports[`Pagination scss have to match snapshot 1`] = `
 *
 */
 .dnb-form-status {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1135,10 +1135,10 @@ exports[`Pagination scss have to match snapshot 1`] = `
   .dnb-form-status *,
   .dnb-form-status ::before,
   .dnb-form-status ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-form-status ::before,
   .dnb-form-status ::after {
     text-decoration: inherit;
@@ -1157,25 +1157,25 @@ exports[`Pagination scss have to match snapshot 1`] = `
   display: flex; }
   .dnb-form-status__shell {
     display: flex;
-    justify-content: flex-start;
     align-items: flex-start;
+    justify-content: flex-start;
     min-width: inherit;
     border-radius: var(--form-status-radius); }
   .dnb-form-status__text {
     padding: 0.625rem 1rem;
-    cursor: text;
     color: inherit;
-    line-height: var(--line-height-small);
     font-size: var(--font-size-small);
-    white-space: normal; }
+    line-height: var(--line-height-small);
+    white-space: normal;
+    cursor: text; }
     .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
   .dnb-icon + .dnb-form-status__text {
     padding-left: 0.5rem; }
   .dnb-form-status__shell > .dnb-icon {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
   .dnb-form-status__size--large .dnb-form-status__text {
     padding-top: 1.125rem;
@@ -1186,8 +1186,8 @@ exports[`Pagination scss have to match snapshot 1`] = `
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status__animation--fade-in {
-    overflow: hidden;
     max-height: 0;
+    overflow: hidden;
     animation: form-status-fade-in 2s ease-out 400ms forwards; }
 
 @keyframes form-status-fade-in {
@@ -1200,24 +1200,24 @@ exports[`Pagination scss have to match snapshot 1`] = `
       border-width: 1px; } }
 
 .dnb-button {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1231,10 +1231,10 @@ exports[`Pagination scss have to match snapshot 1`] = `
   .dnb-button *,
   .dnb-button ::before,
   .dnb-button ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-button ::before,
   .dnb-button ::after {
     text-decoration: inherit;
@@ -1267,32 +1267,32 @@ exports[`Pagination scss have to match snapshot 1`] = `
 
 .dnb-button {
   position: relative;
-  user-select: none;
-  -webkit-user-select: none;
-  cursor: pointer;
-  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: var(--button-width);
   height: auto;
   padding: 0;
+  font-size: var(--font-size-small);
+  white-space: nowrap;
+  text-decoration: none;
   border: var(--button-border-width) solid transparent;
   border-radius: var(--button-border-radius);
-  text-decoration: none;
-  font-size: var(--font-size-small);
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
   /* stylelint-disable-next-line */ }
   .dnb-button--wrap {
-    overflow-wrap: break-word;
-    white-space: normal; }
+    white-space: normal;
+    overflow-wrap: break-word; }
   .dnb-button,
   .dnb-core-style .dnb-button {
     line-height: var(--button-height); }
   .dnb-button__text {
     margin: 0.5rem 0;
+    color: inherit;
     font-size: var(--button-font-size);
     line-height: var(--line-height-basis);
-    color: inherit;
     transform: translateY(-0.03125rem); }
     .dnb-button__text [data-os='linux'] {
       transform: translateY(-0.035rem); }
@@ -1302,15 +1302,15 @@ exports[`Pagination scss have to match snapshot 1`] = `
   .dnb-button__bounding {
     position: absolute;
     top: 0;
-    bottom: 0;
     right: 0;
+    bottom: 0;
     left: 0;
-    transform: scale(1.1, 1.4);
     background-color: transparent;
-    border-radius: var(--button-border-radius); }
+    border-radius: var(--button-border-radius);
+    transform: scale(1.1, 1.4); }
   .dnb-button--has-text {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem; }
+    padding-right: 1.5rem;
+    padding-left: 1.5rem; }
   .dnb-button--size-small {
     width: var(--button-width--small);
     font-size: var(--button-font-size-small);
@@ -1321,8 +1321,8 @@ exports[`Pagination scss have to match snapshot 1`] = `
   .dnb-button--size-small .dnb-button__text {
     margin: 0; }
   .dnb-button--has-text.dnb-button--size-small {
-    padding-left: 1rem;
-    padding-right: 1rem; }
+    padding-right: 1rem;
+    padding-left: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
     padding-left: 0.5rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
@@ -1336,8 +1336,8 @@ exports[`Pagination scss have to match snapshot 1`] = `
   .dnb-button--size-medium .dnb-button__text {
     margin: 0; }
   .dnb-button--has-text.dnb-button--size-medium {
-    padding-left: 1rem;
-    padding-right: 1rem; }
+    padding-right: 1rem;
+    padding-left: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
     padding-left: 0.5rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
@@ -1349,8 +1349,8 @@ exports[`Pagination scss have to match snapshot 1`] = `
     .dnb-core-style .dnb-button--size-large {
       line-height: var(--button-height--large); }
   .dnb-button--has-text.dnb-button--size-large {
-    padding-left: 2rem;
-    padding-right: 2rem; }
+    padding-right: 2rem;
+    padding-left: 2rem; }
   .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
     padding-left: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
@@ -1381,25 +1381,25 @@ exports[`Pagination scss have to match snapshot 1`] = `
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
   .dnb-button--reset {
-    margin: 0;
-    padding: 0;
     width: auto;
     height: auto;
+    margin: 0;
+    padding: 0;
     overflow: visible;
-    border: none;
-    border-radius: 0;
-    background-color: transparent;
-    appearance: none;
-    box-shadow: none;
     color: inherit;
     font: inherit;
+    line-height: inherit;
     text-align: inherit;
-    line-height: inherit; }
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    appearance: none; }
     html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
       cursor: not-allowed; }
     html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
-      box-shadow: none;
-      border: none; }
+      border: none;
+      box-shadow: none; }
     .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
       outline: none; }
       html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
@@ -1411,13 +1411,13 @@ exports[`Pagination scss have to match snapshot 1`] = `
             box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
-      box-shadow: none;
       color: inherit;
-      border: none; }
+      border: none;
+      box-shadow: none; }
   .dnb-button[type='button'], .dnb-button[type='reset'], .dnb-button[type='submit'] {
-    appearance: none;
     -moz-appearance: none;
-    -webkit-appearance: none; }
+    -webkit-appearance: none;
+    appearance: none; }
   .dnb-button[disabled] {
     cursor: not-allowed; }
   .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
@@ -1476,8 +1476,8 @@ button.dnb-button::-moz-focus-inner {
       height: 100%; }
     .dnb-progress-indicator__circular__line {
       animation-duration: 2s;
-      animation-delay: 200ms;
       animation-timing-function: var(--progress-indicator-timing);
+      animation-delay: 200ms;
       animation-iteration-count: infinite; }
     .dnb-progress-indicator__circular__line.background {
       stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max); }
@@ -1501,19 +1501,19 @@ button.dnb-button::-moz-focus-inner {
       stroke: var(--color-black); }
   .dnb-progress-indicator__linear {
     position: relative;
-    overflow: hidden;
     width: 100%;
-    will-change: transform;
     height: 0.5rem;
-    border-radius: 0.25rem; }
+    overflow: hidden;
+    border-radius: 0.25rem;
+    will-change: transform; }
     .dnb-progress-indicator__linear__bar {
-      width: 100%;
       position: absolute;
-      left: 0;
-      bottom: 0;
       top: 0;
-      transform-origin: left;
-      border-radius: inherit; }
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      border-radius: inherit;
+      transform-origin: left; }
     .dnb-progress-indicator__linear__bar-transition {
       transition: transform 0.2s linear; }
     .dnb-progress-indicator__linear__bar1-animation {
@@ -1566,45 +1566,45 @@ button.dnb-button::-moz-focus-inner {
 
 @keyframes progress-indicator-linear-bar-1 {
   0% {
-    left: -35%;
-    right: 100%; }
+    right: 100%;
+    left: -35%; }
   60% {
-    left: 100%;
-    right: -90%; }
+    right: -90%;
+    left: 100%; }
   100% {
-    left: 100%;
-    right: -90%; } }
+    right: -90%;
+    left: 100%; } }
 
 @keyframes progress-indicator-linear-bar-2 {
   0% {
-    left: -200%;
-    right: 100%; }
+    right: 100%;
+    left: -200%; }
   60% {
-    left: 107%;
-    right: -8%; }
+    right: -8%;
+    left: 107%; }
   100% {
-    left: 107%;
-    right: -8%; } }
+    right: -8%;
+    left: 107%; } }
 
 .dnb-pagination {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small);
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
   * between base and code package
   */
   -moz-tab-size: 4;
   tab-size: 4;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
   /**
   * 1. Remove repeating backgrounds in all browsers (opinionated).
   * 2. Add border box sizing in all browsers (opinionated).
@@ -1618,10 +1618,10 @@ button.dnb-button::-moz-focus-inner {
   .dnb-pagination *,
   .dnb-pagination ::before,
   .dnb-pagination ::after {
-    background-repeat: no-repeat;
-    /* 1 */
     box-sizing: border-box;
-    /* 2 */ }
+    /* 2 */
+    background-repeat: no-repeat;
+    /* 1 */ }
   .dnb-pagination ::before,
   .dnb-pagination ::after {
     text-decoration: inherit;
@@ -1650,15 +1650,15 @@ button.dnb-button::-moz-focus-inner {
   .dnb-pagination--right .dnb-pagination__bar {
     justify-content: flex-end; }
   .dnb-pagination__loadbar {
-    cursor: default;
     display: flex;
     align-items: center;
-    justify-content: center; }
+    justify-content: center;
+    cursor: default; }
   .dnb-pagination__indicator {
-    cursor: default;
     display: flex;
     flex-direction: column;
-    justify-content: center; }
+    justify-content: center;
+    cursor: default; }
     .dnb-pagination__indicator__inner {
       display: flex;
       flex-direction: column;
@@ -1666,38 +1666,38 @@ button.dnb-button::-moz-focus-inner {
       justify-content: center; }
   .dnb-pagination__dots {
     display: flex;
-    align-self: flex-end;
-    align-items: center;
-    justify-content: center;
     flex-wrap: nowrap;
-    height: 1rem;
+    align-items: center;
+    align-self: flex-end;
+    justify-content: center;
     width: 1.25rem;
+    height: 1rem;
     border: none;
     box-shadow: none; }
     .dnb-pagination__dots > div {
-      height: 3px;
       width: 3px;
+      height: 3px;
       margin: 0 0.1rem;
       border-radius: 1.5px; }
   .dnb-pagination__marker {
-    pointer-events: none;
     position: relative;
-    height: 1px;
     width: 1px;
+    height: 1px;
     margin: -1px 0 0 -1px;
-    overflow: hidden; }
+    overflow: hidden;
+    pointer-events: none; }
     .dnb-pagination__marker td, .dnb-pagination__marker__inner {
-      padding: 0 !important;
       width: 1px;
       height: 1px;
+      padding: 0 !important;
       opacity: 0; }
   .dnb-pagination__button:first-child, .dnb-pagination__bar__inner {
     margin-right: 1rem; }
   .dnb-pagination__bar__inner .dnb-pagination__button {
     margin-right: 0.5rem; }
   .dnb-core-style .dnb-pagination__button, .dnb-pagination__button, .dnb-pagination__dots {
-    margin-right: 0.5rem;
     margin-top: 0.5rem;
+    margin-right: 0.5rem;
     margin-bottom: 0.5rem; }
     .dnb-core-style .dnb-pagination__button:last-child, .dnb-pagination__button:last-child, .dnb-pagination__dots:last-child {
       margin-right: 0; }
