@@ -159,7 +159,9 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
 
     const params = { ...rest }
     if (hasProgressIndicator) {
+      params.role = 'alert'
       params['title'] = `${progress}%`
+      params['aria-busy'] = true
       params['aria-label'] = `${progress}%`
     } else {
       params['aria-hidden'] = true

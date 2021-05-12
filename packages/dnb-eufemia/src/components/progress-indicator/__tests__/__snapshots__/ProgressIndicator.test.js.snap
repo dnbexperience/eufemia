@@ -52,8 +52,10 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
       visible={true}
     >
       <div
+        aria-busy={true}
         aria-label="50%"
         className="dnb-progress-indicator__circular dnb-progress-indicator__circular--default dnb-progress-indicator__circular--has-progress-indicator"
+        role="alert"
         title="50%"
       >
         <ForwardRef
@@ -159,8 +161,10 @@ exports[`Linear ProgressIndicator component have to match snapshot 1`] = `
       visible={true}
     >
       <div
+        aria-busy={true}
         aria-label="50%"
         className="dnb-progress-indicator__linear dnb-progress-indicator__linear--default"
+        role="alert"
         title="50%"
       >
         <div
