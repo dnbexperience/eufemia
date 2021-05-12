@@ -25,6 +25,7 @@
     {
       "files": "*.scss",
       "options": {
+        "plugins": ["../../node_modules/prettier-plugin-rational-order"],
         "singleQuote": true
       }
     },

@@ -14,43 +14,56 @@ Otherwise you will find yourself making a fix of a fix, and so on. Also, refacto
 
 ## Styling structure
 
-To write more structured and uniform CSS code, stick with the following approach:
+To write more structured and uniform CSS code, your team may considder to use a rational CSS properties order:
 
-1. start the most influential and important properties first then work progressively toward aesthetics and motion effects.
-1. leave one empty line between these groups
+The idea is:
+
+1. have the most influential and important properties first then work progressively toward aesthetics and motion effects.
+1. leave one empty line between these logical "groups" to enhance readability.
 
 This helps coworkers quickly find and understand the sentence and meaning of the CSS code.
 
 ### Example structure of CSS
 
 ```css
-.my-selector {
-  /* -- 1. Layout -- */
-  position: relative;
-  z-index: 1;
+.declaration-order {
+  /* Positioning */
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
   display: block;
+  float: right;
 
-  /* -- 2. Sizes & Spaces -- */
-  width: 0.5rem;
-  height: 0.5rem;
-  /* will be the same as our local font-size of 1.5rem */
+  /* Box Model */
+  width: 16rem;
+  height: 16rem;
+  margin: 2rem;
   padding: 1rem;
+  color: #111;
 
-  /* -- 3. Fonts & Typography -- */
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-basis);
-  font-size: var(--font-size-large);
-  color: var(--color-sea-green);
+  /* Typography */
+  font: normal 1rem Helvetica, sans-serif;
+  line-height: 1.5rem;
+  text-align: left;
 
-  /* -- 4. Styling -- */
-  /* use Pixel for borders. They don't need to be dynamic */
-  border: 1px solid var(--color-mint-green);
+  /* Visual */
+  background-color: #eee;
+  border: 1px solid #888;
+  border-radius: 0.25rem;
   opacity: 1;
 
-  /* -- 5. Animations -- */
-  transition: opacity 0.2s linear;
+  /* Animation */
+  transition: all 1s;
+
+  /* Misc */
+  user-select: none;
 }
 ```
+
+You can install [prettier-plugin-rational-order](https://github.com/tujoworker/prettier-plugin-rational-order) to automatically format your CSS.
 
 ## CSS Units
 
