@@ -26,7 +26,7 @@ const Beautifier = (source, language, opts = {}) =>
               'button',
               'input',
               'svg',
-              'path'
+              'path',
               // 'body',
               // 'blockquote',
               // 'br'
@@ -46,7 +46,7 @@ const Beautifier = (source, language, opts = {}) =>
               // 'title',
               // 'td',
               // 'tr'
-            ]
+            ],
           },
           (res) => resolve(res) //.replace(/>(\n\s+)<\//g, ' />$1</')
         )

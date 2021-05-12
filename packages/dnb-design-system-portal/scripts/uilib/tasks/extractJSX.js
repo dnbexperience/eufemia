@@ -70,7 +70,7 @@ export default extractJSX
 
 const extractJSXFromRender = ({
   content,
-  nameOfClass = '[^]*Example[^]*'
+  nameOfClass = '[^]*Example[^]*',
 }) => {
   try {
     // extract jsx - there has to be a Fragment
@@ -87,7 +87,7 @@ const extractJSXFromRender = ({
     try {
       jsxCode = prettier.format(jsxCode, {
         filepath: 'file.jsx',
-        printWidth: 75
+        printWidth: 75,
         // tabWidth: 2,
         // singleQuote: true,
         // bracketSpacing: true,

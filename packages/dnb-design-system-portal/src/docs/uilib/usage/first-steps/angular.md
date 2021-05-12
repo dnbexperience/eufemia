@@ -31,7 +31,7 @@ ngEufemiaButton.directive('eufemiaButtonDirective', () => {
     icon="icon"
     on-click="onClick"
   ></eufemia-button>
-`
+`,
   }
 })
 ```

@@ -20,7 +20,7 @@ const Link = ({ to, ...props }) => {
   )
 }
 Link.propTypes = {
-  to: PropTypes.string.isRequired
+  to: PropTypes.string.isRequired,
 }
 
 export default Link

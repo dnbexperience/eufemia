@@ -85,6 +85,6 @@ const exampleContent = {
       <p>Paragraph 2</p>
     </>
   ),
-  fourth: 'Fourth as a string only'
+  fourth: 'Fourth as a string only',
 }
 ```

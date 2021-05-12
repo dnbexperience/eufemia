@@ -21,11 +21,11 @@ const Tag = ({ children, className, is: Component, ...rest }) => {
 Tag.propTypes = {
   is: PropTypes.string.isRequired,
   children: PropTypes.node,
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 Tag.defaultProps = {
   children: null,
-  className: null
+  className: null,
 }
 
 export default Tag

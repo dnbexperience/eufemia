@@ -103,7 +103,7 @@ Strings where changed/removed and added to the [language files](/uilib/usage/cus
   ```jsx
   <Provider
     value={{
-      Button: { size: 'large' }
+      Button: { size: 'large' },
     }}
   >
     ...

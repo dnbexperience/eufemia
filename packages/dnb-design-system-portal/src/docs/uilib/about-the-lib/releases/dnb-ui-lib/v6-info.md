@@ -99,7 +99,7 @@ import {
   arrow_top,
   arrow_right,
   arrow_bottom,
-  arrow_left
+  arrow_left,
 } from 'dnb-ui-lib/icons/primary'
 
 // new secondary icons
@@ -111,7 +111,7 @@ import {
   refresh,
   add_file,
   view_on,
-  view_off
+  view_off,
 } from 'dnb-ui-lib/icons/secondary'
 ```
 

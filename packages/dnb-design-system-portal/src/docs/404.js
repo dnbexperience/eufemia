@@ -10,7 +10,7 @@ import Layout from '../shared/parts/Layout'
 
 export default class PageNotFound extends React.PureComponent {
   static propTypes = {
-    location: PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
   }
   render() {
     const { pathname } = this.props.location

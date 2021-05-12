@@ -56,7 +56,7 @@ const getTypeVariant = (type, design) =>
   type.cata({
     Visa: () => prettiePrint(design.visa.toString()),
     Mastercard: () => prettiePrint(design.mastercard.toString()),
-    None: () => '-'
+    None: () => '-',
   })
 
 const getProductVariant = (type, design) =>
@@ -65,11 +65,11 @@ const getProductVariant = (type, design) =>
     Saga: () => prettiePrint(design.saga.toString()),
     Pluss: () => '-',
     PrivateBanking: () => prettiePrint(design.privateBanking.toString()),
-    None: () => '-'
+    None: () => '-',
   })
 
 const getProductLogo = (bankLogo) =>
   bankLogo.cata({
     Colored: (color) => color,
-    Metalic: () => 'Metalic'
+    Metalic: () => 'Metalic',
   })

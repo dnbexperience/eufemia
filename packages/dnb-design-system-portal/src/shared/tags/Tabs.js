@@ -21,7 +21,7 @@ const getLocation = () => {
   return {
     ...parsePath(pathname.replace(new RegExp(pathPrefix || '', 'g'), '')),
     search,
-    hash
+    hash,
   }
 }
 
@@ -46,18 +46,18 @@ const tabsWrapperStyle = css`
 class CustomTabs extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    tabs: PropTypes.array
+    tabs: PropTypes.array,
   }
   static defaultProps = {
     tabs: [
       { title: 'Demos', key: 'tab-demos' },
       { title: 'Properties', key: 'tab-properties' },
-      { title: 'Events', key: 'tab-events' }
-    ]
+      { title: 'Events', key: 'tab-events' },
+    ],
   }
   state = {
     activeTabKey: 'tab-demos',
-    wasFullscreen: null
+    wasFullscreen: null,
   }
   constructor(props) {
     super(props)
@@ -68,7 +68,7 @@ class CustomTabs extends React.PureComponent {
   }
   openTab = ({ key }) => {
     this.setState({
-      activeTabKey: key
+      activeTabKey: key,
     })
   }
   isActive(tabKey) {

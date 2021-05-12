@@ -40,7 +40,7 @@ With that approach, you would not change the actual attributes, only the underly
   const myElem = document.querySelector('.my-component')
   myElem.setProps('text', 'updated text')
   myElem.setProps({
-    on_change: function (event) {}
+    on_change: function (event) {},
   })
 </script>
 ```

@@ -304,7 +304,7 @@ const topMovies = [
         The Shawshank Redemption
       </Autocomplete.HorizontalItem>
     ),
-    year: 1994
+    year: 1994,
   },
   { content: 'The Godfather', year: 1972 },
   { content: 'The Godfather: Part II', year: 1974 },
@@ -317,11 +317,11 @@ const topMovies = [
   { content: 'Fight Club', year: 1999 },
   {
     content: 'The Lord of the Rings: The Fellowship of the Ring',
-    year: 2001
+    year: 2001,
   },
   {
     content: 'Star Wars: Episode V - The Empire Strikes Back',
-    year: 1980
+    year: 1980,
   },
   { content: 'Forrest Gump', year: 1994 },
   { content: 'Inception', year: 2010 },
@@ -366,7 +366,7 @@ const topMovies = [
   {
     content:
       'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb',
-    year: 1964
+    year: 1964,
   },
   { content: 'The Great Dictator', year: 1940 },
   { content: 'Cinema Paradiso', year: 1988 },
@@ -414,5 +414,5 @@ const topMovies = [
   { content: 'Inglourious Basterds', year: 2009 },
   { content: 'Snatch', year: 2000 },
   { content: '3 Idiots', year: 2009 },
-  { content: 'Monty Python and the Holy Grail', year: 1975 }
+  { content: 'Monty Python and the Holy Grail', year: 1975 },
 ]

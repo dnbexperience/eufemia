@@ -228,20 +228,20 @@ const data = [
     selected_value: 'Item 1 Value',
 
     // Item content as a string or array
-    content: 'Item 1 Content'
+    content: 'Item 1 Content',
   },
   {
     selected_key: 'key_1',
-    content: ['Item 2 Value', 'Item 2 Content']
+    content: ['Item 2 Value', 'Item 2 Content'],
   },
   {
     selected_key: 'key_2',
     selected_value: 'Item 3 Value',
-    content: ['Item 3 Content A', 'Item 3 Content B']
+    content: ['Item 3 Content A', 'Item 3 Content B'],
   },
   {
     selected_key: 'key_3',
     selected_value: 'Item 4 Value',
-    content: ['Item 4 Content A', <>Custom Component</>]
-  }
+    content: ['Item 4 Content A', <>Custom Component</>],
+  },
 ]

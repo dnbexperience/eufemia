@@ -33,12 +33,12 @@ import {
   Button,
   Switch,
   Space,
-  GlobalStatus
+  GlobalStatus,
 } from '@dnb/eufemia/src/components'
 import {
   save as SaveIcon,
   trash as TrashIcon,
-  attachment as AttachmentIcon
+  attachment as AttachmentIcon,
 } from '@dnb/eufemia/src/icons'
 
 /** -- 1. Markup -- */
@@ -72,11 +72,11 @@ const Header = () => (
         use_navigation="true"
         data={[
           {
-            title: 'Information about the complaint'
+            title: 'Information about the complaint',
           },
           {
-            title: 'Summary'
-          }
+            title: 'Summary',
+          },
         ]}
         on_change={(e) => {
           console.log('StepIndicator.on_change', e)
@@ -95,7 +95,7 @@ const MainForm = () => {
     currentErrors,
     resetErrors,
     submitHandler,
-    cancelHandler
+    cancelHandler,
   } = React.useContext(FormContext)
 
   return (
@@ -113,7 +113,7 @@ const MainForm = () => {
             value={currentValues.toggleButtonOptionsValue}
             on_change={({ value: toggleButtonOptionsValue }) =>
               setValues({
-                toggleButtonOptionsValue
+                toggleButtonOptionsValue,
               })
             }
           >
@@ -144,7 +144,7 @@ const MainForm = () => {
                 value={currentValues.yesNoQuestionValue}
                 on_change={({ value: yesNoQuestionValue }) =>
                   setValues({
-                    yesNoQuestionValue
+                    yesNoQuestionValue,
                   })
                 }
               >
@@ -162,7 +162,7 @@ const MainForm = () => {
                 value={currentValues.firstInputValue}
                 on_change={({ value: firstInputValue }) =>
                   setValues({
-                    firstInputValue
+                    firstInputValue,
                   })
                 }
               />
@@ -177,7 +177,7 @@ const MainForm = () => {
                 value={currentValues.secondInputValue}
                 on_change={({ value: secondInputValue }) =>
                   setValues({
-                    secondInputValue
+                    secondInputValue,
                   })
                 }
               />
@@ -193,7 +193,7 @@ const MainForm = () => {
                 value={currentValues.textareaValue}
                 on_change={({ value: textareaValue }) =>
                   setValues({
-                    textareaValue
+                    textareaValue,
                   })
                 }
               />
@@ -241,7 +241,7 @@ const MainForm = () => {
           checked={currentValues.switchIsChecked}
           on_change={({ checked: switchIsChecked }) =>
             setValues({
-              switchIsChecked
+              switchIsChecked,
             })
           }
           on_change_end={({ checked }) => checked && resetErrors()}
@@ -359,10 +359,10 @@ const defaultValues = {
   secondInputValue: 200,
   textareaValue:
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis.',
-  switchIsChecked: false
+  switchIsChecked: false,
 }
 const defaultErrors = {
-  switchErrorMessage: 'Sorry, this has to be checked.'
+  switchErrorMessage: 'Sorry, this has to be checked.',
 }
 
 // Form Logic and Event handling
@@ -413,7 +413,7 @@ const FormLogic = (props) => {
     handleErrors,
     cancelHandler,
     setValues,
-    resetErrors
+    resetErrors,
   }
 
   return <FormContext.Provider value={formContext} {...props} />

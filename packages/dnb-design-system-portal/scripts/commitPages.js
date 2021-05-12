@@ -11,6 +11,6 @@ if (require.main === module) {
     what: 'pages',
     filePathsIncludelist: ['version.json', '/src/docs/', '/src/uilib/'],
     skipCI: (files) => files.every((f) => ['version.json'].includes(f)), // in case we only update the "version.lock"
-    isFeature: false
+    isFeature: false,
   })
 }

@@ -16,6 +16,6 @@ expect.addSnapshotSerializer(
   createSerializer({
     classNameReplacer(className, index) {
       return `jest-class-name-${index}`
-    }
+    },
   })
 )

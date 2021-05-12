@@ -18,10 +18,10 @@ const ExampleBox = ({ children, caption, ...rest }) => {
 }
 ExampleBox.propTypes = {
   children: PropTypes.node.isRequired,
-  caption: PropTypes.string
+  caption: PropTypes.string,
 }
 ExampleBox.defaultProps = {
-  caption: null
+  caption: null,
 }
 
 export default ExampleBox

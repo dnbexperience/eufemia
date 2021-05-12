@@ -31,7 +31,7 @@ export default class HTML extends React.PureComponent {
       headComponents,
       preBodyComponents,
       postBodyComponents,
-      body
+      body,
     } = this.props
     return (
       <html lang="en" {...htmlAttributes}>
@@ -108,9 +108,9 @@ HTML.propTypes = {
   bodyAttributes: PropTypes.object,
   preBodyComponents: PropTypes.array.isRequired,
   body: PropTypes.string.isRequired,
-  postBodyComponents: PropTypes.array.isRequired
+  postBodyComponents: PropTypes.array.isRequired,
 }
 HTML.defaultProps = {
   htmlAttributes: null,
-  bodyAttributes: null
+  bodyAttributes: null,
 }

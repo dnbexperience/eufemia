@@ -28,7 +28,7 @@ But if the key is a number (integer), we have to deliver the content directly in
 ```js
 const tabsDataWithContent = [
   { title: 'First', key: 1, content: <H2>First</H2> },
-  { title: 'Second', key: 2, content: () => <H2>Second</H2> }
+  { title: 'Second', key: 2, content: () => <H2>Second</H2> },
 ]
 ```
 
@@ -39,7 +39,7 @@ const tabsData = [
   { title: 'First', key: 'first' },
   { title: 'Second', key: 'second' },
   { title: 'Third', key: 'third', disabled: true },
-  { title: 'Fourth', key: 'fourth' }
+  { title: 'Fourth', key: 'fourth' },
 ]
 ```
 

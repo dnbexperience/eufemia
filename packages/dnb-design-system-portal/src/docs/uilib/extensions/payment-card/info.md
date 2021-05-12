@@ -14,7 +14,7 @@ How to use it:
 ```jsx
 import '@dnb/eufemia/extensions/payment-card/style'
 import PaymentCard, {
-  getCardData
+  getCardData,
 } from '@dnb/eufemia/extensions/payment-card'
 
 render(<PaymentCard product_code="..." />)

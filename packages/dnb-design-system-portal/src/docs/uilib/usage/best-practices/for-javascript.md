@@ -78,7 +78,7 @@ const FormLogic = (props) => {
 
   // Our context we use for state handling etc.
   const formContext = {
-    clickHandler
+    clickHandler,
   }
 
   return <FormContext.Provider value={formContext} {...props} />

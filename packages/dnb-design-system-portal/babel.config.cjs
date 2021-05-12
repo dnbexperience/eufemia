@@ -13,7 +13,7 @@ module.exports = {
           (isCI &&
             !/(release|portal|beta|alpha|next)/.test(getCurrentBranchName))
             ? {
-                chrome: '90' // Like puppeteer v8
+                chrome: '90', // Like puppeteer v8
               }
             : {
                 // Should reflect: https://eufemia.dnb.no/uilib/usage#supported-browsers-and-platforms
@@ -22,15 +22,15 @@ module.exports = {
                   'edge >= 14',
                   'firefox >= 52',
                   'chrome >= 49',
-                  'safari >= 10'
-                ]
-              }
-      }
+                  'safari >= 10',
+                ],
+              },
+      },
     ],
-    '@babel/preset-react'
+    '@babel/preset-react',
   ],
   ignore: [
-    '.*node_modules/(?!rewrite-pattern|regexpu-core|buble|react-live).*'
+    '.*node_modules/(?!rewrite-pattern|regexpu-core|buble|react-live).*',
   ],
-  plugins: ['@babel/plugin-proposal-class-properties']
+  plugins: ['@babel/plugin-proposal-class-properties'],
 }

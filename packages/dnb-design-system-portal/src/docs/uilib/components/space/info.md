@@ -40,7 +40,7 @@ With React, you can also use an object with the different directions:
     top: 'large x-small',
     right: '2.5',
     bottom: '2.5rem',
-    left: '40px'
+    left: '40px',
   }}
 />
 ```

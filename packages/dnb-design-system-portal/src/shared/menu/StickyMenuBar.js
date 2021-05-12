@@ -125,15 +125,15 @@ const PortalToolsMenuMedia = styled(PortalToolsMenu)`
 
 export default class StickyMenuBar extends React.PureComponent {
   state = {
-    mobileMenuVisible: false
+    mobileMenuVisible: false,
   }
   static propTypes = {
     hideSidebarToggleButton: PropTypes.bool,
-    preventBarVisibility: PropTypes.bool
+    preventBarVisibility: PropTypes.bool,
   }
   static defaultProps = {
     hideSidebarToggleButton: false,
-    preventBarVisibility: false
+    preventBarVisibility: false,
   }
   static contextType = Context
   render() {
@@ -161,12 +161,13 @@ export default class StickyMenuBar extends React.PureComponent {
               `}
               render={({
                 site: {
-                  siteMetadata: { name: slogan }
-                }
+                  siteMetadata: { name: slogan },
+                },
               }) => (
                 <Header
                   css={[
-                    hideSidebarToggleButton && hideSidebarToggleButtonStyle
+                    hideSidebarToggleButton &&
+                      hideSidebarToggleButtonStyle,
                   ]}
                   className={classnames('sticky-menu', 'dev-grid')}
                 >
