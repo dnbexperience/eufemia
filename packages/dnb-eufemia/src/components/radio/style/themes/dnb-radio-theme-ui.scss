@@ -29,8 +29,8 @@
     border-color: var(--color-sea-green);
   }
   &__input:checked ~ &__dot {
-    opacity: 1;
     transform: scale(1);
+    opacity: 1;
   }
 
   /*
@@ -38,8 +38,8 @@
   * aka when the radio is not :checked
   */
   &__input:not(:checked) ~ &__dot {
-    opacity: 0;
     transform: scale(0.8);
+    opacity: 0;
   }
 
   /*

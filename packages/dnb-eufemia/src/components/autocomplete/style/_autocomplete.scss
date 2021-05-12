@@ -27,10 +27,10 @@
     flex-direction: column;
     align-items: flex-start;
 
+    width: auto;
+
     margin: 0;
     padding: 0;
-
-    width: auto;
 
     color: inherit;
   }
@@ -73,14 +73,14 @@
   &__show-all {
     .dnb-drawer-list__option__inner {
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+
+      color: var(--color-sea-green);
 
       .dnb-icon {
         align-self: center;
       }
-
-      color: var(--color-sea-green);
     }
   }
 
@@ -115,22 +115,22 @@
   }
 
   &__text {
-    order: 1;
     position: relative;
     z-index: 4;
+    order: 1;
 
     width: 100%;
     height: inherit;
-    line-height: inherit;
 
     padding: 0 var(--autocomplete-text-padding) 0 0;
 
     overflow: hidden;
 
     color: inherit;
+    font-size: var(--font-size-basis);
+    line-height: inherit;
     text-align: left;
     text-overflow: ellipsis;
-    font-size: var(--font-size-basis);
 
     &__inner {
       display: inline-block;
@@ -141,12 +141,12 @@
       padding: 0;
 
       overflow: hidden;
-      white-space: nowrap;
 
       color: inherit;
+      white-space: nowrap;
+      text-align: inherit;
       text-decoration: none;
       text-overflow: inherit;
-      text-align: inherit;
     }
   }
 

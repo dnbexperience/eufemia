@@ -10,15 +10,15 @@
 }
 
 @mixin textareaStyleCommon() {
-  cursor: auto;
-  border: none;
   margin: 0;
   padding: 0 var(--textarea-padding-width);
 
-  outline: none;
-
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
+  border: none;
+
+  outline: none;
+  cursor: auto;
 }
 
 .dnb-textarea {
@@ -35,8 +35,8 @@
   }
 
   &__shell {
-    display: inline-flex;
     position: relative;
+    display: inline-flex;
 
     // because of inheritance, we set the font-size and line-height here as well
     font-size: var(--font-size-basis);
@@ -44,16 +44,16 @@
 
   &__state {
     position: absolute;
-    z-index: -1;
     top: -0.5rem;
-    left: -0.5rem;
-    bottom: -0.5rem;
     right: -0.5rem;
+    bottom: -0.5rem;
+    left: -0.5rem;
+    z-index: -1;
 
     background-color: var(--color-white);
-    box-shadow: 0 0 0 0.0625rem var(--color-sea-green);
 
     border-radius: 0.25rem;
+    box-shadow: 0 0 0 0.0625rem var(--color-sea-green);
   }
 
   &__row {
@@ -69,16 +69,15 @@
   }
 
   &__placeholder {
-    pointer-events: none;
-
     position: absolute;
-    z-index: 1;
     top: 0;
     left: 0;
-
-    overflow: hidden;
+    z-index: 1;
     width: 100%; // to get overflow working properly
     height: 100%; // to get overflow working properly
+
+    overflow: hidden;
+    pointer-events: none;
 
     @include textareaStyleCommon();
   }

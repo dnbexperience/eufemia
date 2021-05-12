@@ -15,9 +15,9 @@
       @include fakeBorder(var(--color-sea-green), 0.125rem);
     }
     .dnb-input__submit-button__button {
-      border-radius: 0;
       color: var(--color-white);
       background-color: var(--color-sea-green);
+      border-radius: 0;
       box-shadow: none;
     }
   }

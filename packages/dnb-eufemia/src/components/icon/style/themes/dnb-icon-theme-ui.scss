@@ -11,20 +11,20 @@
     &::after {
       content: '';
       position: absolute;
-      left: -25%;
-      right: -25%;
       top: -25%;
+      right: -25%;
       bottom: -25%;
+      left: -25%;
 
       // Not needed, but maybe IE needs it?
       // width: 150%;
       // height: 150%;
 
       margin: auto; // for IE centering
-
-      border-radius: 50%;
       border: 0.0875rem solid; // use 1.4px instead of 1.5 so webkit is rounding down
       border-color: currentColor;
+
+      border-radius: 50%;
     }
   }
 }

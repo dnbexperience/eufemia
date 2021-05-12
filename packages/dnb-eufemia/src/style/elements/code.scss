@@ -8,41 +8,41 @@
   margin: -0.25em 0;
   padding: 0.25em 0.25em; /* 2px 4px */
 
-  font-size: inherit;
-  text-decoration: inherit;
-  line-height: var(--line-height-xx-small--em); // 1.5rem - 0.25em - 0.25em
-
   color: inherit;
+
+  font-size: inherit;
+  line-height: var(--line-height-xx-small--em); // 1.5rem - 0.25em - 0.25em
+  text-decoration: inherit;
   background-color: var(--color-mint-green-25);
 
   border-radius: 0.1875em;
 }
 @mixin preStyle() {
   display: block;
+  padding: 1rem;
+  color: var(--color-mint-green-12);
+
+  font-size: inherit;
+  font-family: var(--font-family-monospace);
+
+  // make a base reset
+  white-space: pre;
+  text-align: left;
+  text-shadow: none;
+  vertical-align: baseline;
+  word-wrap: normal;
+  word-break: normal;
+  word-spacing: normal;
+  tab-size: 2;
+  hyphens: none;
+  background-color: #222;
+
+  border-radius: 0.5rem;
+  outline: none;
 
   &:not([class*='dnb-space']) {
     margin: 0;
   }
-  padding: 1rem;
-
-  border-radius: 0.5rem;
-  color: var(--color-mint-green-12);
-  background-color: #222;
-
-  // make a base reset
-  white-space: pre;
-  vertical-align: baseline;
-  outline: none;
-  text-shadow: none;
-  hyphens: none;
-  word-wrap: normal;
-  word-break: normal;
-  text-align: left;
-  word-spacing: normal;
-  tab-size: 2;
-
-  font-size: inherit;
-  font-family: var(--font-family-monospace);
 
   pre {
     padding: 1rem;

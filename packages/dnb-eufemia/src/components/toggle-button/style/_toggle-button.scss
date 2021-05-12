@@ -23,9 +23,9 @@
   &__shell {
     position: relative;
     left: 0;
+    -webkit-user-select: none;
 
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
+    user-select: none; // Safari / Touch fix
   }
 
   &--vertical {
@@ -34,16 +34,15 @@
   }
 
   &__component {
-    padding-right: 0.5rem;
-
     display: inline-flex;
     align-items: center;
+    padding-right: 0.5rem;
   }
 
   &__button {
     &.dnb-button--has-text {
-      padding-left: 1.5rem;
       padding-right: 1.5rem;
+      padding-left: 1.5rem;
     }
 
     // checkbox
@@ -99,8 +98,8 @@
   &--checked &__button:not([disabled]):not(:active) {
     &.dnb-button--secondary,
     &.dnb-button--secondary:hover {
-      background-color: var(--color-emerald-green);
       color: var(--color-mint-green);
+      background-color: var(--color-emerald-green);
     }
   }
 
@@ -161,11 +160,11 @@
       // to make sure we vertical align centered to the text
       align-items: baseline;
 
+      margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom));
+
       &--vertical-label {
         align-items: flex-start;
       }
-
-      margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom));
 
       &::before {
         // move the group 2px up if label exists

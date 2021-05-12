@@ -15,9 +15,9 @@
     * aka when the checkbox is not :checked
     */
   &__input:not(:checked) ~ &__gfx {
-    opacity: 0;
-    transform: scale(0.8);
     color: var(--color-sea-green);
+    transform: scale(0.8);
+    opacity: 0;
   }
 
   /*
@@ -25,9 +25,9 @@
     * aka when the checkbox is :checked
     */
   &__input:checked ~ &__gfx {
-    opacity: 1;
-    transform: scale(1);
     color: var(--color-white);
+    transform: scale(1);
+    opacity: 1;
   }
 
   /*
@@ -55,8 +55,8 @@
     border-color: var(--color-mint-green-50);
   }
   &__input[disabled]:checked ~ &__button {
-    border-color: transparent;
     background-color: var(--color-sea-green-30);
+    border-color: transparent;
   }
 
   /*
@@ -65,8 +65,8 @@
     */
   &__input:not([disabled]):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
-      border: none;
       background-color: var(--color-mint-green-50);
+      border: none;
     }
   }
   &__input:not([disabled]):focus ~ &__gfx {
@@ -128,8 +128,8 @@
     @include fakeBorder(var(--color-fire-red), $focusRingWidth);
   }
   &__status--error &__input:not([disabled]):not(:focus):hover ~ &__button {
-    border-color: var(--color-fire-red);
     background-color: var(--color-fire-red-8);
+    border-color: var(--color-fire-red);
   }
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):not(:hover)

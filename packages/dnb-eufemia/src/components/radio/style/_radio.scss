@@ -29,15 +29,15 @@
   &__shell {
     position: relative;
 
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
-
     display: flex;
     align-items: center;
     justify-content: center;
 
     width: var(--radio-width--medium);
     height: var(--radio-height--medium);
+    -webkit-user-select: none;
+
+    user-select: none; // Safari / Touch fix
   }
 
   &__focus,
@@ -76,8 +76,6 @@
   }
 
   &__input {
-    opacity: 0;
-
     position: absolute;
     top: auto;
     left: auto;
@@ -90,6 +88,7 @@
     padding: 0;
 
     border: 0;
+    opacity: 0;
   }
   &--large &__input {
     width: var(--radio-width--large);
@@ -139,8 +138,8 @@
 
   .dnb-form-label {
     margin-right: 0;
-    margin-left: 0;
     margin-bottom: 0;
+    margin-left: 0;
   }
 
   &--label-position-left &__order {

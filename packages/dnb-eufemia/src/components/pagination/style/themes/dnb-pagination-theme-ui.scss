@@ -29,8 +29,8 @@
     &__button.dnb-button--primary {
     &,
     &:not([disabled]):not(:active):hover {
-      background-color: var(--color-emerald-green);
       color: var(--color-mint-green);
+      background-color: var(--color-emerald-green);
     }
 
     &:not([disabled]):not(:active):not(:hover):focus {
@@ -60,9 +60,9 @@
       &__bar__inner
       &__button:not([aria-current]):nth-last-of-type(2) {
       width: 0;
-      overflow: hidden;
       margin: 0;
       padding: 0;
+      overflow: hidden;
       box-shadow: none; // because on iOS we force an outer "fakeBorder" on secondary button
     }
   }

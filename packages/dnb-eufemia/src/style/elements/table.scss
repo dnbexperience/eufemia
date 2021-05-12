@@ -10,23 +10,23 @@
     content: '';
     position: absolute;
     top: -0.5rem;
+    right: 0.5rem;
     bottom: -0.5rem;
     left: -1rem;
-    right: 0.5rem;
   }
 }
 
 @mixin tableStyle() {
   display: table;
-  table-layout: auto;
   width: 100%;
-
-  overflow: auto;
   margin-top: 0;
   margin-bottom: var(--spacing-small);
 
-  border-spacing: 0;
+  overflow: auto;
+  table-layout: auto;
   border-collapse: collapse;
+
+  border-spacing: 0;
 
   &--fixed {
     table-layout: fixed;
@@ -34,9 +34,9 @@
 
   &__sticky-helper > td {
     display: block;
-    overflow: hidden;
-    padding: 0 !important;
     height: 0;
+    padding: 0 !important;
+    overflow: hidden;
   }
 
   & > tr > th,
@@ -45,14 +45,13 @@
   & > tbody > tr > td,
   & &__th,
   & &__td {
-    // to make sure we have the ability to have a border where ever we want
-    border-bottom: 1px solid transparent;
-
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
-    border-spacing: 0;
 
     word-break: keep-all;
+    // to make sure we have the ability to have a border where ever we want
+    border-bottom: 1px solid transparent;
+    border-spacing: 0;
   }
 
   /* stylelint-disable-next-line */
@@ -61,11 +60,14 @@
   & &__th {
     padding: var(--spacing-x-large) var(--spacing-small)
       var(--spacing-x-small);
-
-    font-weight: var(--font-weight-medium);
     color: var(--color-emerald-green);
 
+    font-weight: var(--font-weight-medium);
+
     vertical-align: bottom;
+
+    background-color: var(--color-mint-green-50);
+    border-bottom: 1px solid var(--color-mint-green);
 
     &:not([align]):not(.dnb-table--left):not(.dnb-table--right):not(.dnb-table--center) {
       text-align: inherit;
@@ -75,9 +77,6 @@
       // to get the perfect height of pixles, to this:
       padding-bottom: calc(var(--spacing-x-small) - 0.5px);
     }
-
-    background-color: var(--color-mint-green-50);
-    border-bottom: 1px solid var(--color-mint-green);
   }
 
   // sortable
@@ -99,19 +98,19 @@
       z-index: 1;
       align-items: flex-end;
 
-      // reset anchor
-      box-shadow: none;
-
-      line-height: var(--line-height-basis);
-
       margin: 0;
       padding: 0;
       padding-right: 0.5rem;
 
       color: inherit;
       font-weight: var(--font-weight-medium);
-      text-align: inherit;
       font-size: inherit;
+
+      line-height: var(--line-height-basis);
+      text-align: inherit;
+
+      // reset anchor
+      box-shadow: none;
 
       .dnb-button__text {
         margin: 0;
@@ -131,8 +130,8 @@
 
       // underline
       &:not(:focus) .dnb-button__text::after {
-        opacity: 1;
         color: var(--color-emerald-green);
+        opacity: 1;
       }
 
       @include hover() {
@@ -266,9 +265,8 @@
   }
 
   & > caption {
-    font-size: var(--font-size-small);
-
     margin-top: var(--spacing-x-small);
+    font-size: var(--font-size-small);
     caption-side: bottom;
   }
 
@@ -284,12 +282,12 @@
     &::after {
       content: '';
       position: absolute;
-      opacity: 0;
-      left: -2px;
       right: -2px;
       bottom: 0;
+      left: -2px;
       height: 6px;
       box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.5);
+      opacity: 0;
 
       // old shadow
       // @mixin bottomDropShadow() {

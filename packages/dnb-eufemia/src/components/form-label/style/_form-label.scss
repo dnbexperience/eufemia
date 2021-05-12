@@ -7,17 +7,17 @@
   display: inline-block;
 
   width: auto;
-  padding: 0;
   margin-right: 1rem;
+  padding: 0;
+  color: inherit;
+
+  font-size: var(--font-size-basis);
+
+  white-space: pre-wrap;
 
   text-align: left;
   vertical-align: baseline;
-
-  white-space: pre-wrap;
   word-break: normal;
-
-  font-size: var(--font-size-basis);
-  color: inherit;
 
   &--vertical {
     display: block;
@@ -28,8 +28,8 @@
     // could posssibly be 0, but has to be tested if sr still reads the text then
     width: 1px;
     margin: 0;
-    padding: 0;
     margin-left: -1px; // because of 1px width
+    padding: 0;
     overflow: hidden;
     white-space: nowrap; // so we don't get a large height because of wrapping in norrow space
   }
@@ -39,9 +39,9 @@
   // }
 
   &[for]:not([disabled]) {
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
     cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none; // Safari / Touch fix
   }
   &[disabled] {
     cursor: not-allowed;

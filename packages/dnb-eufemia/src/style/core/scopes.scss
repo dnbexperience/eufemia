@@ -6,18 +6,13 @@
 @import './reset.scss';
 
 @mixin coreDefault() {
-  font-family: var(--font-family-default);
+  color: var(--color-black-80, #333);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small); // has to be 16px
+  font-family: var(--font-family-default);
   font-style: normal;
   line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-
-  // The new DNB font needs font smoothing to be thinner on webkit and FF
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  word-break: break-word;
 
   /**
   * Ensure consistency and use the same as HTML reset -> html {...}
@@ -25,9 +20,14 @@
   */
   -moz-tab-size: 4;
   tab-size: 4;
+
+  // The new DNB font needs font smoothing to be thinner on webkit and FF
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  word-break: break-word;
 
   @content;
 }
@@ -37,9 +37,9 @@
   @include coreDefault();
 
   @media print {
+    color: black;
     // Use hard coded colors, because of theming and color swaps
     background-color: white;
-    color: black;
   }
 
   @content;
@@ -47,8 +47,8 @@
 
 @mixin htmlDefault() {
   html {
-    scroll-behavior: smooth;
     font-size: 100%;
+    scroll-behavior: smooth;
 
     // IS_SAFARI_MOBILE
     @supports (-webkit-touch-callout: none) {

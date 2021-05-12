@@ -53,8 +53,8 @@
 }
 
 .dnb-drawer-list {
-  display: block; // has to be block element so we can se the content
   position: relative;
+  display: block; // has to be block element so we can se the content
 
   width: inherit;
   min-width: inherit;
@@ -96,11 +96,11 @@
 
   &__list {
     position: absolute;
-    z-index: 3;
     top: 0;
+    right: 0;
     bottom: auto;
     left: 0;
-    right: 0;
+    z-index: 3;
 
     width: inherit;
     min-width: inherit;
@@ -126,8 +126,8 @@
     flex-direction: column;
 
     width: 100%;
-    margin: 0;
     max-height: 90vh;
+    margin: 0;
     padding: 0;
 
     list-style: none;
@@ -151,15 +151,15 @@
   &__option {
     position: relative;
 
-    cursor: pointer;
-
     margin: 0;
     padding: 0;
     color: inherit;
 
+    background-color: var(--color-white);
+
     outline: none;
 
-    background-color: var(--color-white);
+    cursor: pointer;
 
     &__inner {
       position: relative;
@@ -169,13 +169,13 @@
       flex-direction: column;
       justify-content: center;
 
-      outline: none;
-
       margin: 0;
       padding: 1rem;
 
       color: inherit;
       background-color: var(--color-white);
+
+      outline: none;
 
       // So e.g. an anchor gets aligned to left
       > * {
@@ -203,17 +203,17 @@
     top: calc(
       var(--drawer-list-focus-border-width) - var(--drawer-list-height) / 2
     );
-    left: auto;
     right: 0;
-
-    pointer-events: none;
-
-    margin: 0 var(--drawer-list-padding-horizontal);
+    left: auto;
 
     width: calc(var(--drawer-list-height) / 2);
     height: calc(var(--drawer-list-height) / 2);
 
+    margin: 0 var(--drawer-list-padding-horizontal);
+
     overflow: hidden;
+
+    pointer-events: none;
 
     &::before {
       content: '';
@@ -223,15 +223,15 @@
 
       width: calc(var(--drawer-list-height) / 2);
       height: calc(var(--drawer-list-height) / 2);
-      transform: translateY(60%) rotate(45deg);
+      background-color: var(--color-white);
 
       border: 1px solid var(--color-black-border);
-      background-color: var(--color-white);
+      transform: translateY(60%) rotate(45deg);
     }
   }
   &--triangle-position-left &__triangle {
-    left: 0;
     right: auto;
+    left: 0;
   }
   &--top &__triangle {
     top: auto;
@@ -247,8 +247,8 @@
 
   &--is-popup#{&}--right {
     position: absolute;
-    left: auto;
     right: 0;
+    left: auto;
   }
 
   // size--default button left aligned
@@ -365,8 +365,8 @@
 
     &__portal &--mobile-view &__list,
     &__portal &--mobile-view &__options {
-      height: 100vh;
       top: 0 !important;
+      height: 100vh;
       max-height: 100vh !important;
       border-radius: 0;
     }
@@ -385,8 +385,8 @@
   &--action-menu &__option {
     &__inner {
       flex-direction: row;
-      justify-content: flex-start;
       align-items: center;
+      justify-content: flex-start;
     }
   }
   @media screen and (min-width: 40em) {
@@ -411,10 +411,10 @@
       position: fixed;
       top: auto !important;
       right: 0 !important;
-      left: 0 !important;
       bottom: 0 !important;
-      height: auto !important;
+      left: 0 !important;
       width: 100vw !important;
+      height: auto !important;
 
       box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.16);
     }
@@ -436,65 +436,65 @@
 
 @keyframes drawer-list-scale-in {
   from {
-    opacity: 0;
     transform: scale(0.8) translateX(calc(1px - var(--drawer-list-width)));
+    opacity: 0;
   }
   to {
-    opacity: 1;
     transform: scale(1) translateX(0);
+    opacity: 1;
   }
 }
 @keyframes drawer-list-scale-out {
   from {
-    opacity: 1;
     transform: scale(1) translateX(0);
+    opacity: 1;
   }
   to {
-    opacity: 0;
     transform: scale(0.8) translateX(calc(1px - var(--drawer-list-width)));
+    opacity: 0;
   }
 }
 
 @keyframes drawer-list-slide-top-down {
   from {
-    opacity: 0;
     transform: translateY(calc(1px - var(--drawer-list-height)));
+    opacity: 0;
   }
   to {
-    opacity: 1;
     transform: translateY(0);
+    opacity: 1;
   }
 }
 
 @keyframes drawer-list-slide-top-up {
   from {
-    opacity: 1;
     transform: translateY(0);
+    opacity: 1;
   }
   to {
-    opacity: 0;
     transform: translateY(calc(1px - var(--drawer-list-height)));
+    opacity: 0;
   }
 }
 
 @keyframes drawer-list-slide-bottom-down {
   from {
-    opacity: 1;
     transform: translateY(0);
+    opacity: 1;
   }
   to {
-    opacity: 0;
     transform: translateY(calc(1px + var(--drawer-list-height)));
+    opacity: 0;
   }
 }
 
 @keyframes drawer-list-slide-bottom-up {
   from {
-    opacity: 0;
     transform: translateY(calc(1px + var(--drawer-list-height)));
+    opacity: 0;
   }
   to {
-    opacity: 1;
     transform: translateY(0);
+    opacity: 1;
   }
 }

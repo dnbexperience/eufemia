@@ -4,23 +4,22 @@
  */
 
 @mixin blockquoteStyle() {
+  // gfx icon
+  position: relative;
   display: inline-block;
   width: auto;
+  padding: 1.5rem;
+
+  color: var(--color-mint-green);
+
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  background-color: var(--color-ocean-green);
+  border-radius: 1rem;
 
   &:not([class*='dnb-space']) {
     margin: 0;
   }
-  padding: 1.5rem;
-
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-small);
-
-  color: var(--color-mint-green);
-  background-color: var(--color-ocean-green);
-  border-radius: 1rem;
-
-  // gfx icon
-  position: relative;
   &::before {
     content: '';
     position: absolute;
@@ -29,29 +28,29 @@
     width: 3em;
     height: 3em;
 
-    background-size: cover;
-
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgZmlsbD0ibm9uZSI+ICA8cGF0aCBmaWxsPSIjQTVFMUQyIiBzdHJva2U9IiNBNUUxRDIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIxLjUiIGQ9Ik0zNy41IDI3LjVhOSA5IDAgMSAwIDAtMTggOSA5IDAgMCAwIDAgMTh6Ii8+ICA8cGF0aCBzdHJva2U9IiNBNUUxRDIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIxLjUiIGQ9Ik00Ni41IDE4LjVhMjEgMjEgMCAwIDEtMjEgMjEiLz4gIDxwYXRoIGZpbGw9IiNBNUUxRDIiIHN0cm9rZT0iI0E1RTFEMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSIgZD0iTTEzLjUgMjcuNWE5IDkgMCAxIDAgMC0xOCA5IDkgMCAwIDAgMCAxOHoiLz4gIDxwYXRoIHN0cm9rZT0iI0E1RTFEMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSIgZD0iTTIyLjUgMTguNWEyMSAyMSAwIDAgMS0yMSAyMSIvPjwvc3ZnPg==);
+
+    background-size: cover;
   }
 
   // default
   // stylelint-disable-next-line
   &,
   &.dnb-blockquote--left {
-    padding-left: 6rem;
     padding-top: 2rem;
     padding-bottom: 3rem;
+    padding-left: 6rem;
   }
 
   &.dnb-blockquote--top {
-    padding-left: 1.5rem;
     padding-top: 6rem;
     padding-bottom: 3rem;
+    padding-left: 1.5rem;
   }
 
   &.dnb-blockquote--no-background {
-    background-color: transparent;
     color: var(--theme-color-black-80, currentColor);
+    background-color: transparent;
     &::before {
       // simulate the color #333333 - this makes it 100% the same
       filter: grayscale(1) brightness(24%);
@@ -68,8 +67,8 @@
     margin-top: 1rem;
 
     font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-basis);
     font-style: italic; // to have / or avoid italic on cite
+    line-height: var(--line-height-basis);
 
     &::before {
       content: '—';

@@ -51,23 +51,23 @@
     */
   &__input:not(:checked) ~ &__background::after {
     right: 0;
-    transform: translateX(calc(var(--switch-width--medium) - 2.8rem));
 
     width: 0.5rem;
     height: 0.5rem;
+    border: 0.0625rem solid var(--color-sea-green);
 
     border-radius: 50%;
-    border: 0.0625rem solid var(--color-sea-green);
+    transform: translateX(calc(var(--switch-width--medium) - 2.8rem));
   }
 
   &__input:checked ~ &__background::after {
     left: 0;
-    transform: translateX(calc(var(--switch-width--medium) - 1.87rem));
 
     width: 0.0625rem;
     height: 0.5rem;
-    border-radius: 0.0625rem;
     background-color: var(--color-sea-green);
+    border-radius: 0.0625rem;
+    transform: translateX(calc(var(--switch-width--medium) - 1.87rem));
   }
 
   &--large &__input:not(:checked) ~ &__background::after {
@@ -140,8 +140,8 @@
     */
   /* stylelint-disable-next-line */
   &__input:not([disabled]):not(:focus):not(:active):hover ~ &__button {
-    border-color: var(--color-sea-green);
     background-color: var(--color-mint-green-50);
+    border-color: var(--color-sea-green);
   }
 
   /*
@@ -160,9 +160,9 @@
     */
   /* stylelint-disable-next-line */
   &__status--error &__input:not([disabled]):not(:focus):hover ~ &__button {
+    background-color: var(--color-fire-red-8);
     // change button color
     border-color: var(--color-fire-red);
-    background-color: var(--color-fire-red-8);
   }
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):not(:hover)

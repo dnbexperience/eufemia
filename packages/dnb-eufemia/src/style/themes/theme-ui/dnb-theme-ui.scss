@@ -14,9 +14,9 @@
 .dnb-selection ::selection,
 [class^='dnb-']::selection,
 [class^='dnb-'] ::selection {
-  background-color: var(--color-mint-green);
   color: var(--color-black);
   text-shadow: none;
+  background-color: var(--color-mint-green);
 }
 
 /**

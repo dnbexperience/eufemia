@@ -66,12 +66,12 @@
   &::before {
     content: '';
     position: absolute;
-    z-index: 1; // to be visible in other absolute contexts
 
     top: 0;
-    left: -0.5rem;
-    bottom: 0;
     right: -0.5rem;
+    bottom: 0;
+    left: -0.5rem;
+    z-index: 1; // to be visible in other absolute contexts
 
     height: inherit;
     border-radius: inherit;
@@ -85,18 +85,18 @@
   &::after {
     content: '';
     position: absolute;
-    z-index: 1;
-
-    left: 0;
     right: 0;
     bottom: 0;
 
+    left: 0;
+    z-index: 1;
+
     width: auto;
     height: 0.095rem; // 1.5 - because of webkit, we round to .095
-    border-radius: calc(0.095rem / 2);
 
     color: var(--color-sea-green); // border color
     background-color: currentColor;
+    border-radius: calc(0.095rem / 2);
 
     // using box-shadow works well to get 1.5px
     // but not for the transition to opacity

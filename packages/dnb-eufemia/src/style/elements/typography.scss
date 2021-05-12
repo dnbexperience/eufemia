@@ -5,13 +5,13 @@
 
 @mixin headingDefaults() {
   padding: 0;
+  color: var(--theme-color-black-80, currentColor);
+  font-weight: var(--font-weight-medium);
+
+  font-family: var(--font-family-default);
   &:not([class*='dnb-space']) {
     margin: 0;
   }
-
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-medium);
-  color: var(--theme-color-black-80, currentColor);
 
   // make icons inside heading responsive to the heading size
   .dnb-icon--default {
@@ -96,9 +96,10 @@
   // font-weight: var(--font-weight-regular);
 }
 @mixin paragraphStyle() {
-  font-size: var(--font-size-basis);
+  padding: 0;
   // color: var(--color-black-80);
   color: var(--theme-color-black-80, currentColor);
+  font-size: var(--font-size-basis);
 
   // if we not reset margin, the browser is using: margin-block-end: 1rem;
   &:not([class*='space__top']) {
@@ -107,7 +108,6 @@
   &:not([class*='space__bottom']) {
     margin-bottom: 0;
   }
-  padding: 0;
 
   &--lead {
     @include headingStyle_medium();
@@ -161,8 +161,8 @@
 
   & > cite {
     font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-basis);
     font-style: italic;
+    line-height: var(--line-height-basis);
   }
 }
 @mixin headingSpacing_xx-large() {

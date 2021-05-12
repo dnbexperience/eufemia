@@ -29,8 +29,8 @@
 }
 
 [data-dnb-modal-active='true'] {
-  user-select: none;
-  -webkit-user-select: none; // Safari / Touch fix
+  -webkit-user-select: none;
+  user-select: none; // Safari / Touch fix
 }
 
 #dnb-modal-root {
@@ -51,18 +51,18 @@
     justify-content: center;
 
     width: 100%;
+
+    max-width: 100vw;
     height: 100%;
+    -webkit-user-select: none;
+
+    user-select: none; // Safari / Touch fix
 
     &--auto-fullscreen {
       @include allBelow(small) {
         height: auto;
       }
     }
-
-    max-width: 100vw;
-
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
 
     &__inner {
       position: relative;
@@ -71,15 +71,15 @@
       min-width: var(--modal-min-width);
       max-width: var(--modal-max-width);
       max-height: 100vh;
-
-      @include defaultDropShadow();
-      border-radius: 0.5rem;
-
-      user-select: text;
-      -webkit-user-select: text; // Safari / Touch fix
       border: none;
+      border-radius: 0.5rem;
+      -webkit-user-select: text;
+
+      user-select: text; // Safari / Touch fix
 
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+      @include defaultDropShadow();
     }
 
     &--auto-fullscreen &__inner {
@@ -155,8 +155,8 @@
 
     &--drawer#{&}--top &__inner,
     &--drawer#{&}--bottom &__inner {
-      max-width: 100%; // Edge/IE overflow fix
       width: 100vw;
+      max-width: 100%; // Edge/IE overflow fix
       height: 40vh;
 
       @media screen and (max-height: 40em) {
@@ -265,8 +265,8 @@
   }
 
   &__wrapper__inner {
-    padding-bottom: calc(var(--modal-spacing) * 2);
     margin-bottom: calc(var(--modal-spacing-minus) * 1.75);
+    padding-bottom: calc(var(--modal-spacing) * 2);
 
     @include allBelow(small) {
       &.dnb-section::after {
@@ -321,16 +321,16 @@
 
   &__overlay {
     position: fixed;
-    z-index: var(--modal-z-index);
-    left: 0;
     top: 0;
+    left: 0;
+    z-index: var(--modal-z-index);
 
     width: 100%;
     height: 100%;
-
-    will-change: background-color;
     background-color: var(--modal-overlay-transparent);
     box-shadow: 0 100vh 0 0 var(--modal-overlay-bg);
+
+    will-change: background-color;
 
     // Modal & Drawer mode
     &--modal {
@@ -364,13 +364,13 @@
   /* stylelint-disable-next-line */
   html[data-visual-test] &__overlay,
   &__overlay--no-animation {
-    animation-delay: 0ms !important;
     animation-duration: 0ms !important;
+    animation-delay: 0ms !important;
   }
   @media screen and (max-width: 40em) {
     &--no-animation-on-mobile {
-      animation-delay: 0ms !important;
       animation-duration: 0ms !important;
+      animation-delay: 0ms !important;
     }
   }
 

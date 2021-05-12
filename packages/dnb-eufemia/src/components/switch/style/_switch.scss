@@ -28,12 +28,12 @@
   }
 
   &__shell {
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
     position: relative;
 
     display: flex;
     align-items: center;
+    -webkit-user-select: none;
+    user-select: none; // Safari / Touch fix
   }
   &--large {
     line-height: var(--switch-height--large);
@@ -62,10 +62,10 @@
     width: var(--switch-height--medium);
     height: var(--switch-height--medium);
 
+    border: var(--switch-border-width--medium) solid transparent;
+
     transform: translateX(0);
     transition: transform 160ms ease-out 125ms;
-
-    border: var(--switch-border-width--medium) solid transparent;
 
     .dnb-switch--large & {
       width: var(--switch-height--large);
@@ -76,15 +76,15 @@
   }
 
   &__focus {
-    display: none;
     position: absolute;
     z-index: 2;
+    display: none;
 
     width: 100%;
     height: 100%;
+    transform: rotate(0deg);
 
     transition: transform 150ms ease-out;
-    transform: rotate(0deg);
 
     //15% is the top value
     //85% is the bottom value
@@ -156,11 +156,9 @@
   }
 
   &__input {
-    opacity: 0;
-
     position: absolute;
-    left: 0;
     right: 0;
+    left: 0;
     z-index: 5;
 
     display: block;
@@ -169,15 +167,16 @@
     width: var(--switch-width--medium);
     height: var(--switch-height--medium);
 
-    .dnb-switch--large & {
-      width: var(--switch-width--large);
-      height: var(--switch-height--large);
-    }
-
     margin: 0;
     padding: 0;
 
     border: 0;
+    opacity: 0;
+
+    .dnb-switch--large & {
+      width: var(--switch-width--large);
+      height: var(--switch-height--large);
+    }
   }
 
   &__input:not([disabled]) {
@@ -186,10 +185,10 @@
 
   // label
   .dnb-form-label {
-    padding-right: 0.5rem;
     margin-right: 0;
-    margin-left: 0;
     margin-bottom: 0;
+    margin-left: 0;
+    padding-right: 0.5rem;
   }
 
   &__order {
@@ -208,8 +207,8 @@
       order: 2;
     }
     .dnb-form-label {
-      order: 1;
       align-self: flex-start;
+      order: 1;
     }
     .dnb-form-status {
       order: 3;

@@ -19,10 +19,10 @@
     &__tablist {
       display: flex;
       flex: 0 1 auto;
+      margin: 0 -0.5rem;
 
       // Fix the active/focus border spacing
       padding: 0 0.5rem;
-      margin: 0 -0.5rem;
 
       &:focus {
         @include fakeFocus();
@@ -47,9 +47,9 @@
     &::before {
       content: '';
       position: absolute;
-      z-index: -1;
-      left: -100vw;
       bottom: 0;
+      left: -100vw;
+      z-index: -1;
       width: 100vw;
       height: 1px;
     }
@@ -64,13 +64,13 @@
     position: absolute;
     z-index: 2;
 
-    &.dnb-button--primary {
-      background-color: var(--color-emerald-green);
-    }
-
     display: none;
     opacity: 0;
     transition: opacity 600ms ease-out;
+
+    &.dnb-button--primary {
+      background-color: var(--color-emerald-green);
+    }
 
     &:first-of-type {
       left: -2.5rem;
@@ -85,8 +85,8 @@
     }
 
     &--hide {
-      pointer-events: none;
       opacity: 0 !important;
+      pointer-events: none;
     }
   }
 
@@ -135,23 +135,23 @@
     position: relative;
     z-index: 1;
 
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
-
     margin: 0;
     padding: 0.25rem 0.125rem; /* 1/16*4 */
-
-    background-color: transparent;
-    border-bottom: 1px solid transparent;
-
-    cursor: pointer;
-    outline: none;
-    border: none;
 
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
 
     white-space: nowrap;
+
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid transparent;
+    outline: none;
+
+    cursor: pointer;
+    -webkit-user-select: none;
+
+    user-select: none; // Safari / Touch fix
 
     // should be same as .lead small
     &__title {
@@ -168,10 +168,10 @@
     &::after {
       content: '';
       position: absolute;
-      z-index: -1;
-      left: 0;
       right: 0;
       bottom: 0;
+      left: 0;
+      z-index: -1;
       width: 100%;
       height: 1px;
     }

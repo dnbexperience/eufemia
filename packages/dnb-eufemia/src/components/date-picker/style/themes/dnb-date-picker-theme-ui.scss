@@ -34,8 +34,8 @@
 
   &__container {
     @include defaultDropShadow();
-    border-radius: 0.25rem;
     background-color: var(--color-white);
+    border-radius: 0.25rem;
   }
 
   &__addon,
@@ -56,20 +56,20 @@
       box-shadow: none;
     }
     &__title {
-      text-transform: capitalize;
-      text-align: center;
+      color: var(--color-black-80);
+      font-weight: var(--font-weight-medium);
 
       font-size: var(--font-size-basis);
-      font-weight: var(--font-weight-medium);
-      color: var(--color-black-80);
+      text-align: center;
+      text-transform: capitalize;
     }
   }
 
   &__labels {
     &__day {
-      text-transform: capitalize;
-      font-weight: var(--font-weight-medium);
       color: var(--color-black-80);
+      font-weight: var(--font-weight-medium);
+      text-transform: capitalize;
     }
   }
 
@@ -163,8 +163,8 @@
   }
 
   &__triangle::before {
-    border: none;
     background-color: var(--color-white);
+    border: none;
     @include defaultDropShadow();
   }
 

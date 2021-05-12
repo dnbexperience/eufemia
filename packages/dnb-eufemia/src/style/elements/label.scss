@@ -4,9 +4,9 @@
  */
 
 @mixin labelStyle() {
-  cursor: pointer;
   color: var(--color-black-80);
   overflow-wrap: break-word;
+  cursor: pointer;
 
   &[disabled] {
     cursor: not-allowed;

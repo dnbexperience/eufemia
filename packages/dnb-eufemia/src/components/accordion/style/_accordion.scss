@@ -23,8 +23,11 @@
     display: flex;
     align-items: center;
 
-    cursor: pointer;
+    border: var(--accordion-border-width) solid transparent;
+    border-radius: var(--accordion-border-radius);
     outline: none;
+
+    cursor: pointer;
 
     &:focus {
       user-select: none;
@@ -40,9 +43,6 @@
       pointer-events: none;
     }
 
-    border: var(--accordion-border-width) solid transparent;
-    border-radius: var(--accordion-border-radius);
-
     // background-color: var(--color-white);
 
     &__wrapper {
@@ -56,8 +56,8 @@
       margin: 1rem 0 1rem 2rem;
     }
     &__icon + &__wrapper {
-      margin-left: 0;
       margin-right: 2rem;
+      margin-left: 0;
     }
 
     &__container {
@@ -88,8 +88,8 @@
     }
     &__icon--right &__wrapper {
       order: 2;
-      margin-left: 1rem;
       margin-right: 1rem;
+      margin-left: 1rem;
     }
     &__icon--right &__wrapper + &__container {
       margin-right: 0;
@@ -104,9 +104,9 @@
     }
 
     &__description {
+      font-weight: var(--font-weight-basis);
       font-size: var(--font-size-small);
       line-height: var(--line-height-small);
-      font-weight: var(--font-weight-basis);
     }
     &__title + &__description {
       margin-top: 0.25rem;
@@ -131,16 +131,16 @@
 
   &__content {
     display: flex;
-    opacity: 1;
     visibility: visible;
-
-    will-change: height;
+    opacity: 1;
     transition: height 400ms var(--accordion-easing),
       opacity 600ms var(--accordion-easing);
 
+    will-change: height;
+
     &--hidden {
-      visibility: hidden;
       height: 0;
+      visibility: hidden;
       opacity: 0;
     }
 
@@ -211,9 +211,9 @@
 
           .dnb-accordion__content {
             position: absolute;
-            z-index: 10;
             top: 0;
             right: 0;
+            z-index: 10;
             // Do not set bottom here, it messes up the offsetHeight in JS
 
             width: 60%; // 40% / 60%

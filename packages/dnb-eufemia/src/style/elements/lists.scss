@@ -45,12 +45,12 @@
   }
 
   padding: 0;
-  &:not([class*='dnb-space__left']) {
-    padding-left: 2rem;
-  }
 
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
+  &:not([class*='dnb-space__left']) {
+    padding-left: 2rem;
+  }
 
   @include listDefaults();
 
@@ -109,10 +109,10 @@
     margin: 0;
   }
   padding: 0;
+  color: var(--theme-color-black-80, currentColor);
 
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
-  color: var(--theme-color-black-80, currentColor);
 
   & > dt {
     padding: 0;
@@ -125,8 +125,8 @@
     margin-top: 1.5rem;
   }
   & > dd {
-    padding: 0;
     margin: 0.5rem 0 1rem;
+    padding: 0;
 
     // In case we really want / need to have a indented definition content
     // margin-left: 2rem;

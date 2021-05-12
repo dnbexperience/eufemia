@@ -45,12 +45,11 @@
   }
 
   &__input {
-    border: none;
-    outline: none;
-    word-break: normal;
-
     position: relative;
     z-index: 2; // to make sure we are over the placeholder
+    word-break: normal;
+    border: none;
+    outline: none;
   }
 
   input#{&}__input {
@@ -62,9 +61,9 @@
   }
 
   &__input[disabled] {
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
     opacity: 1; // iOS fix
+    -webkit-user-select: none;
+    user-select: none; // Safari / Touch fix
   }
 
   &__shell,
@@ -76,32 +75,31 @@
   &__placeholder,
   &__input {
     width: 100%; // to get overflow working properly
-    padding-left: var(--input-padding);
     padding-right: var(
       --input-padding
     ); // we may expand things because of the ellipsis
-
-    text-align: inherit;
+    padding-left: var(--input-padding);
 
     color: inherit;
-    background-color: transparent;
 
     // because we inherit the size on the input (reset.css)
     font-size: var(--input-font-size);
+
+    text-align: inherit;
+    background-color: transparent;
   }
 
   &__placeholder {
-    pointer-events: none;
-
     position: absolute;
-    z-index: 1;
     top: 0;
     left: 0;
+    z-index: 1;
     overflow: hidden;
 
     // NB: We may considder moving this part to include &__input
     white-space: nowrap;
     text-overflow: ellipsis;
+    pointer-events: none;
   }
 
   // centering type="file" - here we can actually keep it as pixels
@@ -119,9 +117,9 @@
 
   // change file type apperance on type="file"
   ::-webkit-file-upload-button {
-    cursor: pointer;
-    outline: none;
     color: var(--color-sea-green);
+    outline: none;
+    cursor: pointer;
     &:active,
     &:hover {
       color: var(--color-emerald-green);
@@ -186,8 +184,8 @@
     }
     .dnb-input__placeholder,
     .dnb-input__input {
-      padding-left: var(--input-padding--small);
       padding-right: var(--input-padding--small);
+      padding-left: var(--input-padding--small);
       font-size: var(--input-font-size--small);
     }
     .dnb-input__submit-element {
@@ -212,8 +210,8 @@
     }
     .dnb-input__placeholder,
     .dnb-input__input {
-      padding-left: var(--input-padding--medium);
       padding-right: var(--input-padding--medium);
+      padding-left: var(--input-padding--medium);
       font-size: var(--input-font-size--medium);
     }
     .dnb-input__submit-element {
@@ -238,8 +236,8 @@
     }
     .dnb-input__placeholder,
     .dnb-input__input {
-      padding-left: var(--input-padding--large);
       padding-right: var(--input-padding--large);
+      padding-left: var(--input-padding--large);
       font-size: var(--input-font-size--large);
     }
     .dnb-input__submit-element {
@@ -310,20 +308,20 @@
 
   // Icon
   &__icon {
-    order: 0;
     position: absolute;
-    left: 1rem;
-    right: auto;
 
     // IE fix
     top: 0;
+    right: auto;
     bottom: 0;
+    left: 1rem;
+    order: 0;
     margin: auto;
   }
   &--icon-position-right &__icon {
-    order: 1;
-    left: auto;
     right: 1rem;
+    left: auto;
+    order: 1;
   }
   &--icon-position-left#{&}--has-icon &__input,
   &--icon-position-left#{&}--has-icon &__placeholder {

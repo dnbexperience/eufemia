@@ -30,10 +30,10 @@
     ) !important;
     background-repeat: repeat !important;
     background-size: 100% !important; // to take presence
-
-    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
     animation: skeletonLinearAnimation 1.5s linear infinite
       var(--skeleton-delay);
+
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
   }
 
   // Font
@@ -50,18 +50,18 @@
   &--font,
   &--font &--show-font,
   &--font .dnb-p {
+    background-color: var(--skeleton-color) !important;
     background-image: repeating-linear-gradient(
       -45deg,
       var(--skeleton-color--contrast) 1px 2px,
       transparent 0 6px
     ) !important;
 
-    --border-color: var(--skeleton-color);
-    background-color: var(--skeleton-color) !important;
-
     background-position-x: 30rem;
     animation: skeletonFontAnimation 2s linear infinite
       var(--skeleton-delay);
+
+    --border-color: var(--skeleton-color);
   }
 }
 

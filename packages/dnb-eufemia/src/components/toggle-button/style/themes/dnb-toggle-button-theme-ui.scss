@@ -26,8 +26,8 @@
   &--checked &__button:focus,
   &--checked &__button:hover {
     &:not([disabled]):not(:active) {
-      background-color: var(--color-emerald-green);
       color: var(--color-mint-green);
+      background-color: var(--color-emerald-green);
     }
 
     .dnb-icon {
@@ -147,8 +147,8 @@
   /* stylelint-disable */
   &__status--error &__button:not([disabled]) {
     &:not(:hover):not(:focus):not(:active) {
-      background-color: var(--color-white);
       color: var(--color-fire-red);
+      background-color: var(--color-white);
       @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
     }
 

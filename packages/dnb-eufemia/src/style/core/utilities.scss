@@ -147,8 +147,8 @@ $focusRingColor: var(--color-emerald-green);
     flex-direction: column;
 
     height: 0;
-    visibility: hidden;
     overflow: hidden;
+    visibility: hidden;
   }
 }
 
@@ -302,22 +302,21 @@ $breakpoints: (
 
 // Screen reader only helper
 @mixin srOnly() {
-  user-select: none;
-  -webkit-touch-callout: none; // iOS
-  pointer-events: none;
-
   position: absolute;
+  width: 1px; // splits up in multiline, unless we have nowrap
 
-  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px 0 0 -1px;
+  padding: 0;
   overflow: hidden;
   white-space: nowrap; // NB: so NVDA not splits up text in multi line
 
-  height: 1px;
-  width: 1px; // splits up in multiline, unless we have nowrap
-  margin: -1px 0 0 -1px;
-  padding: 0;
-
   border: 0;
+
+  clip: rect(1px, 1px, 1px, 1px);
+  user-select: none;
+  pointer-events: none;
+  -webkit-touch-callout: none; // iOS
 }
 
 @mixin srOnlyInline() {
@@ -328,11 +327,11 @@ $breakpoints: (
   position: static;
   display: inline-block;
 
-  visibility: visible; // should not be hidden!
-  opacity: 0;
-
   font-size: 0;
   line-height: 0;
+
+  visibility: visible; // should not be hidden!
+  opacity: 0;
 }
 
 // This "negates" the srOnly() helper; useful if
@@ -342,15 +341,15 @@ $breakpoints: (
 // conditions.
 @mixin notSrOnly() {
   position: initial;
-  height: auto;
   width: auto;
+  height: auto;
 
   overflow: auto;
-  opacity: 1;
 
   font-size: medium;
   line-height: normal;
   white-space: normal;
+  opacity: 1;
 }
 
 @function str-replace($string, $search, $replace: '') {
@@ -372,8 +371,8 @@ $breakpoints: (
   @media screen and (max-width: 40em) {
     flex-wrap: wrap;
     & > .dnb-form-label {
-      margin-bottom: 0.5rem;
       margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
     }
   }
 }

@@ -23,11 +23,11 @@
     max-width: var(--layout-large);
 
     padding: var(--spacing-large);
+
+    text-align: center;
     @media screen and (max-width: 40em) {
       padding: 0 var(--spacing-x-small);
     }
-
-    text-align: center;
 
     &__content {
       max-width: 37rem; // apr. 600px as per design
@@ -36,9 +36,9 @@
 
   &__back.dnb-button--tertiary {
     position: absolute;
-    z-index: 1; // make sure to be above the image on small screens
     top: var(--spacing-large);
     left: var(--spacing-large);
+    z-index: 1; // make sure to be above the image on small screens
     @media screen and (max-width: 90em) {
       left: var(--spacing-x-small);
     }
@@ -46,6 +46,8 @@
 
   &__gfx {
     margin-top: 9rem; // IE fallback
+
+    shape-rendering: geometricPrecision;
     @media screen and (max-width: 90em) {
       margin-top: 8vw;
       margin-top: calc(4vw + 4vh);
@@ -59,8 +61,6 @@
       width: calc(var(--data-width, 100%) / 16 * 1em);
       height: calc(var(--data-height, 100%) / 16 * 1em);
     }
-
-    shape-rendering: geometricPrecision;
   }
   .dnb-h--xx-large.dnb-space__top--xx-large.dnb-space__top--x-small {
     @media screen and (max-width: 40em) {

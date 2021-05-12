@@ -6,17 +6,16 @@
 @import '../../../../style/themes/imports.scss';
 
 .dnb-tooltip {
-  border-radius: 1rem;
-
   color: var(--color-white);
   background-color: var(--color-black-80);
+  border-radius: 1rem;
 
   @include defaultDropShadow();
 
   &__arrow {
     &::before {
-      border: 1px solid rgba(0, 0, 0, 0.1);
       background-color: var(--color-black-80);
+      border: 1px solid rgba(0, 0, 0, 0.1);
     }
   }
 }

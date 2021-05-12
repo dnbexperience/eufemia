@@ -11,14 +11,13 @@
 }
 
 .dnb-slider {
-  user-select: none;
-  -webkit-user-select: none; // Safari / Touch fix
-
   // use flex to make sure we have the whole space available
   display: flex;
 
   font-size: var(--font-size-small);
   line-height: var(--slider-thumb-size);
+  -webkit-user-select: none;
+  user-select: none; // Safari / Touch fix
 
   &--stretch {
     width: 100%;
@@ -27,17 +26,17 @@
   &--vertical {
     display: flex;
     width: auto;
-    height: 100%;
 
     min-width: inherit;
+    height: 100%;
     min-height: inherit;
   }
 
   &__wrapper {
     display: inline-flex;
-    flex-direction: column;
 
     flex: 1;
+    flex-direction: column;
     width: 100%;
   }
   &--vertical &__wrapper {
@@ -58,66 +57,65 @@
     align-self: center;
   }
   &--vertical &__suffix {
-    padding-left: 0;
     padding-top: 0.5rem;
+    padding-left: 0;
   }
 
   &__track {
-    // make sure we do not alow page scroll on touch devices
-    touch-action: none;
-
     position: relative;
     flex: 1;
-
-    // make room again for the negative line manipulation
-    margin: 0 calc(var(--slider-space) * 1.5);
 
     // only to make sure we have a visible track
     min-width: 2rem;
 
+    // make room again for the negative line manipulation
+    margin: 0 calc(var(--slider-space) * 1.5);
+
     cursor: pointer;
+    // make sure we do not alow page scroll on touch devices
+    touch-action: none;
 
     &::before,
     &::after {
       content: '';
       position: absolute;
-      z-index: 2;
-      left: 0;
       top: 50%;
+      left: 0;
+      z-index: 2;
 
       width: var(--slider-thumb-size);
       height: var(--slider-track-height);
-
-      transform: translate3d(0, -50%, 0);
+      background-color: inherit;
 
       border-radius: calc(var(--slider-track-height) / 2);
-      background-color: inherit;
+
+      transform: translate3d(0, -50%, 0);
     }
 
     &::before {
-      background-color: red;
-      left: calc(1px - 1px - var(--slider-space));
       right: auto;
+      left: calc(1px - 1px - var(--slider-space));
+      background-color: red;
     }
     &::after {
-      background-color: blue;
-      left: auto;
       right: calc(1px - 1px - var(--slider-space));
+      left: auto;
+      background-color: blue;
     }
   }
   &--vertical &__track {
-    margin: calc(var(--slider-space) * 1.5) 0;
+    min-width: auto;
 
     // only to make sure we have a visible track
     min-height: 2rem;
-    min-width: auto;
+    margin: calc(var(--slider-space) * 1.5) 0;
 
     &::before,
     &::after {
       left: 50%;
-      transform: translate3d(-50%, 0, 0);
       width: var(--slider-track-height);
       height: var(--slider-thumb-size);
+      transform: translate3d(-50%, 0, 0);
     }
     &::before {
       top: calc(1px - 1px - var(--slider-space));
@@ -134,9 +132,9 @@
 
     // set a width so it's easier to click on the track
     width: var(--slider-thumb-size);
-    height: inherit;
 
     min-width: inherit;
+    height: inherit;
     min-height: inherit;
   }
   &--reverse &__track {
@@ -148,21 +146,21 @@
 
   &__line {
     position: absolute;
-
-    left: 0;
     top: 50%;
 
+    left: 0;
+
     height: var(--slider-track-height);
-    transform: translate3d(0, -50%, 0);
 
     background-color: grey;
+    transform: translate3d(0, -50%, 0);
   }
   &--vertical &__line {
-    width: var(--slider-track-height);
-    height: auto;
+    top: 0;
 
     left: 50%;
-    top: 0;
+    width: var(--slider-track-height);
+    height: auto;
 
     transform: translate3d(-50%, 0, 0);
   }
@@ -171,8 +169,8 @@
     z-index: 2;
   }
   &__line__after {
-    z-index: 1;
     right: 0;
+    z-index: 1;
     background-color: #ddd;
   }
   &--vertical &__line__before {
@@ -185,20 +183,20 @@
   &__button-helper,
   &__thumb {
     position: absolute;
-    left: 0;
     top: 0;
+    left: 0;
     z-index: 3;
 
     display: block;
-    transform: translate3d(-50%, 0, 0);
 
     // Because of the DropShadow
     border-radius: 50%;
+    transform: translate3d(-50%, 0, 0);
 
     &,
     .dnb-button {
-      height: var(--slider-thumb-size);
       width: var(--slider-thumb-size);
+      height: var(--slider-thumb-size);
     }
   }
   &--vertical &__thumb {
@@ -206,8 +204,8 @@
   }
 
   &__button.dnb-button--size-small {
-    height: var(--slider-button-size);
     width: var(--slider-button-size);
+    height: var(--slider-button-size);
 
     line-height: var(--slider-button-size);
     transform: translateY(0.25rem);
@@ -229,11 +227,11 @@
 
   // make sure the helper is not click able
   &__button-helper {
-    pointer-events: none;
     z-index: 2;
-    opacity: 0;
 
     transform: translate3d(0.0625rem, 0, 0);
+    opacity: 0;
+    pointer-events: none;
   }
   &__button-helper:not(:disabled):focus ~ .dnb-button {
     @include fakeFocus();
@@ -254,10 +252,10 @@
   &__label--vertical#{&}--vertical {
     align-items: center;
     .dnb-form-label {
-      text-align: center;
       width: 100%;
       margin-right: 0;
       margin-bottom: 0.5rem;
+      text-align: center;
     }
   }
 

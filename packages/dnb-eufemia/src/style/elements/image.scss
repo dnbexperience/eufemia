@@ -15,20 +15,20 @@
 
   &[alt]::after {
     content: attr(alt);
-
-    display: flex;
     position: absolute;
-    z-index: 3;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    z-index: 3;
+
+    display: flex;
 
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-black-8);
 
     border-radius: inherit;
-    background-color: var(--color-black-8);
   }
 }
 @mixin imageTag() {
@@ -40,13 +40,13 @@
 .dnb-img {
   display: inline-flex;
   flex-direction: column;
-  &:not([class*='dnb-space']) {
-    margin: 0;
-  }
+  align-items: center; // works on FF – hides the alt text
   padding: 0;
 
   text-align: center; // works on Chrome – hides the alt text
-  align-items: center; // works on FF – hides the alt text
+  &:not([class*='dnb-space']) {
+    margin: 0;
+  }
 
   img,
   figcaption {

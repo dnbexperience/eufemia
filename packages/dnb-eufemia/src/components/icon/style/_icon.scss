@@ -6,25 +6,25 @@
 .dnb-icon {
   display: inline-block;
 
+  width: 1em;
+  height: 1em;
+  color: inherit;
+
+  font-size: 1rem; // to make sure we have always the same starting point
+  line-height: 1rem; // for vertical alignment, we have to have no line-height
+
   // sine we use vertical-align: top on the SVG
   // we have to move center the alignment here again
   // else basic text aferwars will get aligned on top
   vertical-align: middle;
-
-  font-size: 1rem; // to make sure we have always the same starting point
-  line-height: 1rem; // for vertical alignment, we have to have no line-height
-  color: inherit;
-
-  width: 1em;
-  height: 1em;
 
   // responsive
   img,
   svg {
     width: inherit;
     height: inherit;
-    shape-rendering: geometricPrecision;
     vertical-align: top;
+    shape-rendering: geometricPrecision;
   }
 
   // auto size

@@ -60,8 +60,8 @@
 
     &__line {
       animation-duration: 2s;
-      animation-delay: 200ms;
       animation-timing-function: var(--progress-indicator-timing);
+      animation-delay: 200ms;
       animation-iteration-count: infinite;
     }
 
@@ -108,22 +108,22 @@
   // linear variant
   &__linear {
     position: relative;
-    overflow: hidden;
     width: 100%;
-    will-change: transform;
 
     // default/basis size
     height: 0.5rem;
+    overflow: hidden;
     border-radius: 0.25rem;
+    will-change: transform;
 
     &__bar {
-      width: 100%;
       position: absolute;
-      left: 0;
-      bottom: 0;
       top: 0;
-      transform-origin: left;
+      bottom: 0;
+      left: 0;
+      width: 100%;
       border-radius: inherit;
+      transform-origin: left;
     }
 
     &__bar-transition {
@@ -221,30 +221,30 @@
 
 @keyframes progress-indicator-linear-bar-1 {
   0% {
-    left: -35%;
     right: 100%;
+    left: -35%;
   }
   60% {
-    left: 100%;
     right: -90%;
+    left: 100%;
   }
   100% {
-    left: 100%;
     right: -90%;
+    left: 100%;
   }
 }
 
 @keyframes progress-indicator-linear-bar-2 {
   0% {
-    left: -200%;
     right: 100%;
+    left: -200%;
   }
   60% {
-    left: 107%;
     right: -8%;
+    left: 107%;
   }
   100% {
-    left: 107%;
     right: -8%;
+    left: 107%;
   }
 }

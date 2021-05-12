@@ -12,8 +12,8 @@
 
   &__shell {
     display: flex;
-    justify-content: flex-start;
     align-items: flex-start;
+    justify-content: flex-start;
 
     min-width: inherit;
 
@@ -22,17 +22,17 @@
 
   &__text {
     padding: 0.625rem 1rem;
+    color: inherit;
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+
+    white-space: normal;
 
     cursor: text;
-    color: inherit;
-    line-height: var(--line-height-small);
-    font-size: var(--font-size-small);
 
     .dnb-anchor {
       font-size: inherit;
     }
-
-    white-space: normal;
   }
 
   .dnb-icon + &__text {
@@ -41,8 +41,8 @@
 
   &__shell > .dnb-icon {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
     margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
   }
@@ -81,8 +81,8 @@
         max-height: calc(var(--input-height) * 8);
       }
     }
-    overflow: hidden;
     max-height: 0;
+    overflow: hidden;
     animation: form-status-fade-in 2s ease-out 400ms forwards;
   }
 

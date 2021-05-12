@@ -15,17 +15,17 @@
 
   &__shell {
     width: 100%;
-    opacity: 1;
     transform: translate3d(0, 0, 0);
-
-    will-change: height;
+    opacity: 1;
     transition: height 800ms var(--global-status-easing),
       opacity 600ms var(--global-status-easing),
       transform 600ms var(--global-status-easing);
+
+    will-change: height;
   }
   &--hidden &__shell {
-    visibility: hidden;
     height: 0;
+    visibility: hidden;
     opacity: 0;
   }
   &--no-animation &__shell,
@@ -33,9 +33,9 @@
     transition-duration: 1ms !important;
   }
   &--is-animating:not(.dnb-global-status--visible) &__shell {
+    transform: translate3d(0, -20px, 0);
     // Is needed in order to have a smooth animation, hiding the content nicely.
     opacity: 0;
-    transform: translate3d(0, -20px, 0);
   }
 
   &,
@@ -48,18 +48,18 @@
 
   &__title {
     position: relative; // because of the close button
-    cursor: text;
 
     min-height: 3.5rem; // Could be var(--spacing-xx-large)
+    cursor: text;
 
     &.dnb-p {
       display: flex;
       align-items: center;
 
       padding-top: 1rem;
+      padding-right: 5rem;
       padding-bottom: 1rem;
       padding-left: 3rem;
-      padding-right: 5rem;
 
       font-size: var(--font-size-medium);
     }
@@ -71,20 +71,20 @@
   }
 
   &__message {
-    cursor: text;
     z-index: 1;
 
     // to get the red line on the bottom
     margin-top: -1px;
+    cursor: text;
 
     &__content {
       display: flex;
       flex-direction: column;
 
-      padding: 2rem 0 2.5rem;
-
       // to get the red line on the bottom
       margin-bottom: 1px;
+
+      padding: 2rem 0 2.5rem;
 
       & .dnb-p,
       .dnb-spacing & .dnb-p,
@@ -105,10 +105,10 @@
   &__close-button,
   &__close-button.dnb-button--tertiary {
     position: absolute;
-    z-index: 1;
     top: -0.25rem;
     right: 1rem; // also because of the focus-ring
     left: auto;
+    z-index: 1;
 
     margin-top: 0.75rem;
   }

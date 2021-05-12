@@ -15,19 +15,18 @@
     background-color: var(--color-white);
 
     ::selection {
-      background-color: var(--color-mint-green);
       color: var(--color-black);
       text-shadow: none;
+      background-color: var(--color-mint-green);
     }
 
     @include scrollY(auto);
   }
 
   &__placeholder {
-    color: var(--color-black-55);
-
     // Required for line-clamp
     display: -webkit-box;
+    color: var(--color-black-55);
     -webkit-box-orient: vertical;
 
     // Limit the text block to two lines
@@ -48,19 +47,18 @@
   // disabled
   &--disabled &__textarea,
   &__textarea[disabled] {
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
+    color: var(--color-black-55);
+    background-color: var(--color-black-3);
+    -webkit-user-select: none;
+    user-select: none; // Safari / Touch fix
     &::-webkit-scrollbar {
       width: 0;
     }
-
-    color: var(--color-black-55);
-    background-color: var(--color-black-3);
   }
   &--disabled &__state,
   &__textarea[disabled] ~ &__state {
-    box-shadow: 0 0 0 0.0625rem var(--color-black-55);
     background-color: var(--color-black-3);
+    box-shadow: 0 0 0 0.0625rem var(--color-black-55);
   }
 
   // with status_state = "error"

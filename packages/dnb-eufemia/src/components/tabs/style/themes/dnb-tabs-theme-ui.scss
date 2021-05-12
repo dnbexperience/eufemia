@@ -41,12 +41,12 @@
     &::after {
       content: '';
       position: absolute;
-      z-index: -1;
 
       top: 0.125rem;
+      right: -0.5rem;
       bottom: -0.5rem;
       left: -0.5rem;
-      right: -0.5rem;
+      z-index: -1;
 
       max-width: 100vw;
 
@@ -58,11 +58,10 @@
   &__button {
     // should be same as .lead small
     &__title {
+      color: var(--color-sea-green);
       font-weight: var(--font-weight-regular);
       font-size: var(--font-size-basis);
       text-align: center;
-
-      color: var(--color-sea-green);
     }
 
     // hover
@@ -70,8 +69,8 @@
       background-color: var(--color-mint-green-50);
       &::after {
         height: 3px;
-        border-radius: 1.5px;
         background-color: var(--color-sea-green);
+        border-radius: 1.5px;
       }
     }
 
@@ -79,8 +78,8 @@
       @include buttonFocusRing();
       &::before {
         top: 2px;
-        bottom: 2px;
         right: 0;
+        bottom: 2px;
         left: 0;
         border-radius: 0.25rem;
       }
@@ -96,8 +95,8 @@
     &:not([disabled]).selected {
       &::after {
         height: 3px;
-        border-radius: 1.5px;
         background-color: var(--color-sea-green);
+        border-radius: 1.5px;
       }
     }
     &:not([disabled]):active &__title,

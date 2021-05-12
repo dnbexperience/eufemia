@@ -27,10 +27,10 @@
     flex-direction: column;
     align-items: flex-start;
 
+    width: auto;
+
     margin: 0;
     padding: 0;
-
-    width: auto;
 
     color: inherit;
   }
@@ -70,10 +70,10 @@
 
   &__icon {
     position: relative;
-    order: 2;
 
     display: inline-flex;
     justify-content: center;
+    order: 2;
 
     pointer-events: none;
   }
@@ -83,10 +83,10 @@
     position: relative;
     z-index: 1;
 
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
-
     width: 100%;
+    -webkit-user-select: none;
+
+    user-select: none; // Safari / Touch fix
 
     &.dnb-button {
       padding: 0 1rem;
@@ -99,20 +99,20 @@
   }
 
   &__text {
-    order: 1;
     position: relative;
     z-index: 4;
 
     display: inline-flex;
+    order: 1;
     width: 100%;
 
     overflow: hidden;
 
     color: inherit;
+    font-size: var(--font-size-basis);
+    line-height: inherit;
     text-align: left;
     text-overflow: ellipsis;
-    line-height: inherit;
-    font-size: var(--font-size-basis);
 
     &__inner {
       display: inherit; // fixes number-format, if used inside the button
@@ -138,8 +138,8 @@
   }
   @media screen and (max-width: 40em) {
     &--action-menu &__trigger.dnb-button {
-      padding-left: 0.5rem;
       padding-right: 0.5rem;
+      padding-left: 0.5rem;
 
       border-radius: 50%;
     }
@@ -180,16 +180,16 @@
     padding: 0;
   }
   .dnb-button--tertiary:focus::before {
-    left: 0 !important;
     right: 0 !important;
+    left: 0 !important;
   }
 
   // Button only menu
   &--default#{&}--is-popup &__shell,
   &--is-popup &__trigger {
-    padding: 0;
     width: var(--dropdown-height);
     height: var(--dropdown-height);
+    padding: 0;
   }
   &--is-popup &__icon {
     width: 100%;

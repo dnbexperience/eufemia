@@ -26,17 +26,6 @@
 .dnb-button {
   position: relative;
 
-  user-select: none;
-  -webkit-user-select: none; // Safari / Touch fix
-
-  cursor: pointer;
-  white-space: nowrap;
-
-  &--wrap {
-    overflow-wrap: break-word;
-    white-space: normal;
-  }
-
   // we use flex, even if they don't has effect in safari and webkit
   display: inline-flex;
   align-items: center; //centering icons
@@ -46,12 +35,23 @@
   height: auto;
   padding: 0;
 
-  border: var(--button-border-width) solid transparent;
-  border-radius: var(--button-border-radius);
+  font-size: var(--font-size-small); // has to be 16px
+  white-space: nowrap;
 
   text-decoration: none;
 
-  font-size: var(--font-size-small); // has to be 16px
+  border: var(--button-border-width) solid transparent;
+  border-radius: var(--button-border-radius);
+
+  cursor: pointer;
+  -webkit-user-select: none;
+
+  user-select: none; // Safari / Touch fix
+
+  &--wrap {
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
 
   // Safari needs a correct CSS specificity
   &,
@@ -61,9 +61,9 @@
 
   &__text {
     margin: 0.5rem 0;
+    color: inherit;
     font-size: var(--button-font-size);
     line-height: var(--line-height-basis);
-    color: inherit;
 
     // vertical alignment
     transform: translateY(-0.03125rem); // 0.5px
@@ -81,19 +81,19 @@
   &__bounding {
     position: absolute;
     top: 0;
-    bottom: 0;
     right: 0;
+    bottom: 0;
     left: 0;
-
-    transform: scale(1.1, 1.4);
 
     background-color: transparent;
     border-radius: var(--button-border-radius);
+
+    transform: scale(1.1, 1.4);
   }
 
   &--has-text {
-    padding-left: 1.5rem;
     padding-right: 1.5rem;
+    padding-left: 1.5rem;
   }
 
   // size small
@@ -112,8 +112,8 @@
     margin: 0;
   }
   &--has-text#{&}--size-small {
-    padding-left: 1rem;
     padding-right: 1rem;
+    padding-left: 1rem;
   }
   &--has-text#{&}--icon-position-left#{&}--size-small {
     padding-left: 0.5rem;
@@ -137,8 +137,8 @@
     margin: 0;
   }
   &--has-text#{&}--size-medium {
-    padding-left: 1rem;
     padding-right: 1rem;
+    padding-left: 1rem;
   }
   &--has-text#{&}--icon-position-left#{&}--size-medium {
     padding-left: 0.5rem;
@@ -159,8 +159,8 @@
     }
   }
   &--has-text#{&}--size-large {
-    padding-left: 2rem;
     padding-right: 2rem;
+    padding-left: 2rem;
   }
   &--has-text#{&}--icon-position-left#{&}--size-large {
     padding-left: 1rem;
@@ -221,26 +221,26 @@
   }
 
   &--reset {
-    margin: 0;
-    padding: 0;
     width: auto;
     height: auto;
+    margin: 0;
+    padding: 0;
     overflow: visible;
-
-    border: none;
-    border-radius: 0;
-    background-color: transparent;
-    appearance: none;
-    box-shadow: none;
 
     color: inherit;
     font: inherit;
-    text-align: inherit;
     line-height: inherit;
+    text-align: inherit;
+    background-color: transparent;
+
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    appearance: none;
 
     @include hover() {
-      box-shadow: none;
       border: none;
+      box-shadow: none;
     }
 
     &:not([disabled]):focus,
@@ -250,9 +250,9 @@
 
     html[data-whatinput='mouse'] &:not([disabled]):focus,
     html[data-whatinput='mouse'] &:not([disabled]):active {
-      box-shadow: none;
       color: inherit;
       border: none;
+      box-shadow: none;
     }
   }
 
@@ -260,9 +260,9 @@
   &[type='button'],
   &[type='reset'],
   &[type='submit'] {
-    appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
+    appearance: none;
   }
 
   &[disabled] {

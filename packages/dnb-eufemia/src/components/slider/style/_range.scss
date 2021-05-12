@@ -8,11 +8,7 @@
 }
 
 @mixin track() {
-  appearance: none;
-
   box-sizing: border-box;
-
-  cursor: pointer;
 
   width: 100%;
   height: var(--range-track-height);
@@ -21,29 +17,30 @@
 
   border-radius: calc(var(--range-track-height) / 2);
   box-shadow: none;
+
+  cursor: pointer;
+  appearance: none;
 }
 
 @mixin thumb() {
-  appearance: none;
-
   box-sizing: border-box;
-
-  cursor: pointer;
-
-  height: var(--range-thumb-dimension);
   width: var(--range-thumb-dimension);
 
-  border-radius: var(--range-thumb-dimension);
+  height: var(--range-thumb-dimension);
   background: var(--color-white);
   border: 0.0625rem solid var(--color-sea-green);
+
+  border-radius: var(--range-thumb-dimension);
+
+  cursor: pointer;
+  appearance: none;
 }
 
 input[type='range'] {
-  appearance: none;
+  width: 100%; // this may be reset in case we have to support vertical slider
 
   background: transparent;
-
-  width: 100%; // this may be reset in case we have to support vertical slider
+  appearance: none;
 
   &::-webkit-slider-runnable-track {
     @include track;

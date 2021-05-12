@@ -6,15 +6,14 @@
 @import './_anchor-mixins.scss';
 
 button.dnb-anchor {
-  cursor: pointer;
-
   // to get the buton to 32px
   line-height: calc(var(--line-height-basis) + 0.125rem); //26px
+  background: none;
 
   border: none;
-  background: none;
-  appearance: none; // because we have "appearance: button" in reset.scss
-  -moz-appearance: none; // and use prefix to make sure webkit does  a good job
+  cursor: pointer;
+  -moz-appearance: none;
+  appearance: none; // because we have "appearance: button" in reset.scss // and use prefix to make sure webkit does  a good job
   -webkit-appearance: none; // and use prefix to make sure webkit does  a good job
 }
 .dnb-anchor {
