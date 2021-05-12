@@ -8,12 +8,12 @@ import {
   mount,
   fakeProps,
   toJson,
-  axeComponent
+  axeComponent,
 } from '../../core/jest/jestSetup'
 import Component from '../Element'
 
 const props = fakeProps(require.resolve('../Element'), {
-  optional: true
+  optional: true,
 })
 props.is = 'p'
 

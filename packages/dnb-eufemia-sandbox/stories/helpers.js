@@ -44,12 +44,12 @@ Wrapper.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
   skipCoreStyle: PropTypes.bool,
-  showOverflow: PropTypes.bool
+  showOverflow: PropTypes.bool,
 }
 Wrapper.defaultProps = {
   className: null,
   skipCoreStyle: null,
-  showOverflow: null
+  showOverflow: null,
 }
 
 export const Box = styled(Space)`

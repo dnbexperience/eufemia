@@ -67,7 +67,7 @@ const data = [
     selected_value: 'Item 1 Value',
 
     // Item content as a string, array or React Element
-    content: 'Item 1 Content'
+    content: 'Item 1 Content',
   },
 
   // more items ...
@@ -78,7 +78,7 @@ const data = [
         <IconPrimary icon="bell" />
         <span className="dnb-typo-bold">Searchable content</span>
       </>
-    )
+    ),
   },
   {
     selected_key: 'key_2',
@@ -88,18 +88,18 @@ const data = [
         <IconPrimary icon="bell" />
         <span className="dnb-typo-bold">Searchable content</span>
       </Autocomplete.HorizontalItem>
-    )
+    ),
   },
   {
     selected_key: 'key_3',
     selected_value: 'Item 4 Value',
-    content: ['Item 4 Content A', <>Custom Component</>]
-  }
+    content: ['Item 4 Content A', <>Custom Component</>],
+  },
 ]
 
 // as object
 const data = {
   a: 'A',
-  b: 'B'
+  b: 'B',
 }
 ```

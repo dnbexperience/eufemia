@@ -5,7 +5,7 @@
 
 import {
   testPageScreenshot,
-  setupPageScreenshot
+  setupPageScreenshot,
 } from '../../core/jest/jestSetupScreenshots'
 
 const styleSelector = '[data-visual-test="table-classes"] .dnb-table'
@@ -18,10 +18,10 @@ describe('Table screenshot', () => {
     const screenshot = await testPageScreenshot({
       style: {
         // 'table-layout': 'fixed',
-        width: '20rem'
+        width: '20rem',
       },
       styleSelector,
-      selector
+      selector,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -36,12 +36,12 @@ describe('Table screenshot', () => {
     const screenshot = await testPageScreenshot({
       style: {
         // display:'block',
-        'background-color': 'white'
+        'background-color': 'white',
       },
       styleSelector,
       selector,
       simulateSelector: `${selector} button.dnb-button`,
-      simulate: 'hover'
+      simulate: 'hover',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -49,9 +49,9 @@ describe('Table screenshot', () => {
   it('have to match the default choice of table styles', async () => {
     const screenshot = await testPageScreenshot({
       style: {
-        width: '40rem'
+        width: '40rem',
       },
-      selector: '[data-visual-test="table-default"] .dnb-table'
+      selector: '[data-visual-test="table-default"] .dnb-table',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -66,12 +66,12 @@ describe('Table screenshot', () => {
     const screenshot = await testPageScreenshot({
       style: {
         // display:'block',
-        'background-color': 'white'
+        'background-color': 'white',
       },
       styleSelector,
       selector,
       simulateSelector: `${selector} button.dnb-button`,
-      simulate: 'focus' // should be tested first
+      simulate: 'focus', // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -86,12 +86,12 @@ describe('Table screenshot', () => {
     const screenshot = await testPageScreenshot({
       style: {
         // display:'block',
-        'background-color': 'white'
+        'background-color': 'white',
       },
       styleSelector,
       selector,
       simulateSelector: `${selector} button.dnb-button`,
-      simulate: 'active'
+      simulate: 'active',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -105,12 +105,12 @@ describe('Table screenshot', () => {
       '[data-visual-test="table-classes"] th.dnb-table--sortable.dnb-table--active'
     const screenshot = await testPageScreenshot({
       style: {
-        'background-color': 'white'
+        'background-color': 'white',
       },
       styleSelector,
       selector,
       simulateSelector: `${selector} button.dnb-button`,
-      simulate: 'active'
+      simulate: 'active',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -122,9 +122,9 @@ describe('Table with skeleton screenshot', () => {
   it('have to match default table', async () => {
     const screenshot = await testPageScreenshot({
       style: {
-        width: '40rem'
+        width: '40rem',
       },
-      selector: '[data-visual-test="table-default"]'
+      selector: '[data-visual-test="table-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

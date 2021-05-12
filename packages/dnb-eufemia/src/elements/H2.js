@@ -20,14 +20,14 @@ H2.propTypes = {
     'medium',
     'basis',
     'small',
-    'x-small'
+    'x-small',
   ]),
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 H2.defaultProps = {
   level: null,
   size: 'large',
-  children: null
+  children: null,
 }
 
 export default H2

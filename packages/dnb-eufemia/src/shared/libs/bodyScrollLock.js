@@ -20,7 +20,7 @@ const detectiOSVersion = () => {
     version = [
       parseInt(match[1], 10),
       parseInt(match[2], 10),
-      parseInt(match[3] || 0, 10)
+      parseInt(match[3] || 0, 10),
     ]
     return parseFloat(version.join('.'))
   }
@@ -150,7 +150,7 @@ const handleScroll = (event, targetElement) => {
         scrollWidth,
         scrollHeight,
         clientWidth,
-        clientHeight
+        clientHeight,
       } = targetElement
       const clientX = event.targetTouches[0].clientX - initialClientX
       const clientY = event.targetTouches[0].clientY - initialClientY

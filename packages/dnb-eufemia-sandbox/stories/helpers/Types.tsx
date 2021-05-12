@@ -14,7 +14,7 @@ import { Provider } from '@dnb/eufemia/src/shared'
 import { bell } from '@dnb/eufemia/src/icons'
 
 export default {
-  title: 'Eufemia/Helpers/Types'
+  title: 'Eufemia/Helpers/Types',
 }
 
 export const TypesSandbox = () => {
@@ -29,7 +29,7 @@ export const TypesSandbox = () => {
         // }}
         // Button={{ size: 'large' }}
         value={{
-          Button: { size: 'large' }
+          Button: { size: 'large' },
         }}
         // locale="en-US"
         // locale="nb-NO"

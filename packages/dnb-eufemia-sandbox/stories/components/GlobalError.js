@@ -11,7 +11,7 @@ import { GlobalError } from '@dnb/eufemia/src/components'
 import { H2, P, Link } from '@dnb/eufemia/src/elements'
 
 export default {
-  title: 'Eufemia/Components/GlobalError'
+  title: 'Eufemia/Components/GlobalError',
 }
 
 const CustomStatus = () => (

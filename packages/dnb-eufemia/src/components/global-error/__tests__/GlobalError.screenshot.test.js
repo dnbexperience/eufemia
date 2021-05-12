@@ -5,25 +5,25 @@
 
 import {
   testPageScreenshot,
-  setupPageScreenshot
+  setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('GlobalError screenshot', () => {
   const style = { width: '25em' }
   setupPageScreenshot({
-    url: '/uilib/components/global-error/demos'
+    url: '/uilib/components/global-error/demos',
   })
   it('have to match the 404 status', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-visual-test="global-error-404"]'
+      selector: '[data-visual-test="global-error-404"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the 500 status', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-visual-test="global-error-500"]'
+      selector: '[data-visual-test="global-error-500"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

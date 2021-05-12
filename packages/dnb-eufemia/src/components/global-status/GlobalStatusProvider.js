@@ -191,7 +191,7 @@ class GlobalStatusProviderItem {
 
     if (!opts?.preventRerender) {
       this.forceRerender(globalStatus, props, {
-        buffer_delay: props?.buffer_delay > -1 ? props.buffer_delay : 0
+        buffer_delay: props?.buffer_delay > -1 ? props.buffer_delay : 0,
       })
     }
 
@@ -233,7 +233,7 @@ class GlobalStatusProviderItem {
     if (!opts?.preventRerender) {
       this.forceRerender(globalStatus, null, {
         buffer_delay:
-          newProps?.buffer_delay > -1 ? newProps.buffer_delay : 0
+          newProps?.buffer_delay > -1 ? newProps.buffer_delay : 0,
       })
     }
   }
@@ -259,7 +259,7 @@ class GlobalStatusProviderItem {
 
       if (!opts?.preventRerender) {
         this.forceRerender(globalStatus, null, {
-          buffer_delay: opts?.buffer_delay > -1 ? opts.buffer_delay : 10
+          buffer_delay: opts?.buffer_delay > -1 ? opts.buffer_delay : 10,
         })
       }
     }

@@ -8,7 +8,7 @@ import {
   mount,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Heading, { resetLevels, setNextLevel } from '../Heading'
 
@@ -247,7 +247,7 @@ describe('Heading component', () => {
     expect(Comp3.find('.dnb-heading').at(0).text()).toBe('[h3] h3')
 
     Comp2.setState({
-      level: 4
+      level: 4,
     })
     expect(Comp2.find('.dnb-heading').at(0).text()).toBe('[h4] h2')
 
@@ -351,7 +351,7 @@ describe('Heading component', () => {
     expect(elem.at(++i).text()).toBe('[h2] h2')
 
     Comp.setState({
-      showHeading3: true
+      showHeading3: true,
     })
 
     i = -1
@@ -367,7 +367,7 @@ describe('Heading component', () => {
     expect(elem.at(++i).text()).toBe('[h2] h2')
 
     Comp.setState({
-      showHeading4: true
+      showHeading4: true,
     })
 
     i = -1
@@ -386,7 +386,7 @@ describe('Heading component', () => {
     expect(elem.at(++i).text()).toBe('[h2] h2')
 
     Comp.setState({
-      showHeading4: false
+      showHeading4: false,
     })
 
     // also test to reset the context, as this should be truthy
@@ -394,7 +394,7 @@ describe('Heading component', () => {
     setNextLevel(1)
 
     Comp.setState({
-      showHeading4: true
+      showHeading4: true,
     })
 
     i = -1

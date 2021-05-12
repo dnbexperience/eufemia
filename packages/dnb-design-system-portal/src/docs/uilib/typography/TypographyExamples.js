@@ -28,10 +28,10 @@ const FontUsageExample = ({ typo_class, font_family }) => (
 )
 FontUsageExample.propTypes = {
   typo_class: PropTypes.string,
-  font_family: PropTypes.string.isRequired
+  font_family: PropTypes.string.isRequired,
 }
 FontUsageExample.defaultProps = {
-  typo_class: null
+  typo_class: null,
 }
 
 export default function StyledExample() {

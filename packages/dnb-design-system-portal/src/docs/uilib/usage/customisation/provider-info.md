@@ -25,7 +25,7 @@ render(
 ```jsx
 <Provider
   value={{
-    Button: { size: 'large' }
+    Button: { size: 'large' },
   }}
 >
   ...
@@ -84,9 +84,8 @@ import Provider from '@dnb/eufemia/shared/Provider'
 import Context from '@dnb/eufemia/shared/Context'
 
 const ChangeLocale = () => {
-  const { setCurrentLocale, updateCurrent, locale } = React.useContext(
-    Context
-  )
+  const { setCurrentLocale, updateCurrent, locale } =
+    React.useContext(Context)
 
   React.useEffect(() => {
     // Change the locale

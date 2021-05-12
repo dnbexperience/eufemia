@@ -16,7 +16,7 @@ import {
   IS_MAC,
   IS_WIN,
   IS_IE11,
-  IS_SAFARI
+  IS_SAFARI,
 } from '../../shared/helpers'
 
 const NUMBER_CHARS = '-0-9,.'
@@ -36,7 +36,7 @@ export const format = (
     decimals = null,
     omit_rounding = null,
     options = null,
-    returnAria = false
+    returnAria = false,
   } = {}
 ) => {
   let display = value
@@ -137,7 +137,7 @@ export const format = (
       minimumFractionDigits: 0,
       maximumFractionDigits: 2,
       ...opts,
-      currencyDisplay: 'name'
+      currencyDisplay: 'name',
     })
     aria = enhanceSR(cleanedNumber, aria, locale) // also calls cleanupMinus
 
@@ -162,7 +162,7 @@ export const format = (
     aria = formatNumber(value, locale, {
       ...opts,
       minimumFractionDigits: 1,
-      maximumFractionDigits: 20
+      maximumFractionDigits: 20,
     })
     aria = enhanceSR(value, aria, locale) // also calls cleanupMinus
   }
@@ -322,7 +322,7 @@ export const formatNumber = (
       `Number could not be formatted: ${JSON.stringify([
         number,
         locale,
-        options
+        options,
       ])}`,
       e
     )
@@ -680,8 +680,8 @@ export function showSelectionNotice({ value, label, timeout = 3e3 }) {
 export function useCopyWithNotice() {
   const {
     translation: {
-      NumberFormat: { clipboard_copy }
-    }
+      NumberFormat: { clipboard_copy },
+    },
   } = React.useContext(Context)
 
   const copy = (value, positionElement) => {

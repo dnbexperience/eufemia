@@ -29,14 +29,14 @@ Ul.propTypes = {
   inside: PropTypes.bool,
   outside: PropTypes.bool,
   nested: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 Ul.defaultProps = {
   className: null,
   inside: null,
   outside: null,
   nested: null,
-  children: null
+  children: null,
 }
 
 export default Ul

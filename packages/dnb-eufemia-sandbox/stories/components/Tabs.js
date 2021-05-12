@@ -15,7 +15,7 @@ import { H2 } from '@dnb/eufemia/src/elements'
 import { TabsNavigation } from './TabsNavigation'
 
 export default {
-  title: 'Eufemia/Components/Tabs'
+  title: 'Eufemia/Components/Tabs',
 }
 
 export const TabsSandbox = () => {
@@ -132,7 +132,7 @@ export const TabsSandbox = () => {
                 sollicitudin ipsum
               </p>
             ),
-            fourth: () => <H2>Fourth</H2>
+            fourth: () => <H2>Fourth</H2>,
           }}
         </Tabs>
       </Box>
@@ -144,7 +144,7 @@ export const TabsSandbox = () => {
           selected_key="second"
           data={{
             first: { title: 'First', content: () => <H2>First</H2> },
-            second: { title: 'Second', content: () => <H2>Second</H2> }
+            second: { title: 'Second', content: () => <H2>Second</H2> },
           }}
         />
       </Box>
@@ -184,7 +184,7 @@ export const TabsSandbox = () => {
 
 const tablistDataWithContent = [
   { title: 'First', key: 1, content: <H2>First</H2> },
-  { title: 'Second', key: 2, content: () => <H2>Second</H2> }
+  { title: 'Second', key: 2, content: () => <H2>Second</H2> },
 ]
 
 const exampleTabsContent = {
@@ -196,7 +196,7 @@ const exampleTabsContent = {
       ipsum
     </p>
   ),
-  fourth: () => <H2>Fourth</H2>
+  fourth: () => <H2>Fourth</H2>,
 }
 const tabsData = [
   { title: 'First', key: 'first' },
@@ -212,8 +212,8 @@ const tabsData = [
     ),
     selected: true,
     key: 'three',
-    content: 'Content three'
-  }
+    content: 'Content three',
+  },
 ]
 
 const TabsAndRerender = () => (
@@ -264,7 +264,7 @@ const manyTabs = [
   // { title: 'Third', key: 'third', disabled: true },
   // { title: 'Fourth', key: 'fourth', selected: true },
   { title: 'Fifth', key: 'fifth' },
-  { title: 'Sixth', key: 'sixth' }
+  { title: 'Sixth', key: 'sixth' },
   // { title: 'Seventh', key: 'seventh' },
   // { title: 'Eighth', key: 'eighth' },
   // { title: 'Ninth', key: 'ninth' },
@@ -295,12 +295,12 @@ const TabsContentUsage = () => {
         data={[
           {
             title: 'One',
-            key: 'one'
+            key: 'one',
           },
           {
             title: 'Two',
-            key: 'two'
-          }
+            key: 'two',
+          },
         ]}
         selected_key={value}
         on_change={({ key }) => {

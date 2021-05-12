@@ -44,7 +44,7 @@ export default ${JSON.stringify(variables, null, 2)}`,
           filepath: 'file.js',
           semi: true,
           trailingComma: 'none',
-          singleQuote: true
+          singleQuote: true,
         }
       )
     ).trim() + ' // prettier-ignore\n' // so manual changes not removes the semi
@@ -60,10 +60,10 @@ export const runFactory = ({ returnResult = false } = {}) =>
           [
             './src/style/**/properties.scss',
             '!**/__tests__/**',
-            '!**/*_not_in_use*/**/*'
+            '!**/*_not_in_use*/**/*',
           ],
           {
-            cwd: ROOT_DIR
+            cwd: ROOT_DIR,
           }
         )
         .pipe(transform('utf8', transformModulesContent))
@@ -71,7 +71,7 @@ export const runFactory = ({ returnResult = false } = {}) =>
           rename({
             dirname: './',
             prefix: '',
-            extname: '.js'
+            extname: '.js',
           })
         ) // rename
         .pipe(
@@ -79,7 +79,7 @@ export const runFactory = ({ returnResult = false } = {}) =>
             ? transform('utf8', (result) => resolve(result))
             : gulp.dest('./src/style', {
                 overwrite: true,
-                cwd: ROOT_DIR
+                cwd: ROOT_DIR,
               })
         )
         .on('end', resolve)

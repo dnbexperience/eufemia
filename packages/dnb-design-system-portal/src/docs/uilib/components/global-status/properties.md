@@ -33,7 +33,7 @@ const items = ['Item #1', 'Item #2']
 // advanced
 const items = [
   { text: 'Item #1', status_id: 'id-1' },
-  { text: 'Item #2', status_id: 'id-2', status_anchor_url: 'https://' }
+  { text: 'Item #2', status_id: 'id-2', status_anchor_url: 'https://' },
 ]
 ```
 

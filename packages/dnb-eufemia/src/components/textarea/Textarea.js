@@ -18,16 +18,16 @@ import {
   getStatusState,
   combineDescribedBy,
   warn,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
-  createSkeletonClass
+  createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 
 import Context from '../../shared/Context'
@@ -46,7 +46,7 @@ export default class Textarea extends React.PureComponent {
     label: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
     label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -54,7 +54,7 @@ export default class Textarea extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     textarea_state: PropTypes.string,
     status_state: PropTypes.string,
@@ -63,7 +63,7 @@ export default class Textarea extends React.PureComponent {
     suffix: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     placeholder: PropTypes.string,
     align: PropTypes.oneOf(['left', 'right']),
@@ -73,13 +73,13 @@ export default class Textarea extends React.PureComponent {
     autoresize: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     autoresize_max_rows: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.number
+      PropTypes.number,
     ]),
     class: PropTypes.string,
     textarea_class: PropTypes.string,
     textarea_attributes: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.object
+      PropTypes.object,
     ]),
     readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -91,7 +91,7 @@ export default class Textarea extends React.PureComponent {
     className: PropTypes.string,
     textarea_element: PropTypes.oneOfType([
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
@@ -102,7 +102,7 @@ export default class Textarea extends React.PureComponent {
     on_focus: PropTypes.func,
     on_blur: PropTypes.func,
     on_key_down: PropTypes.func,
-    on_state_update: PropTypes.func
+    on_state_update: PropTypes.func,
   }
 
   static defaultProps = {
@@ -143,7 +143,7 @@ export default class Textarea extends React.PureComponent {
     on_focus: null,
     on_blur: null,
     on_key_down: null,
-    on_state_update: null
+    on_state_update: null,
   }
 
   static enableWebComponent() {
@@ -192,7 +192,7 @@ export default class Textarea extends React.PureComponent {
   state = {
     textareaState: 'virgin',
     value: null,
-    _value: null
+    _value: null,
   }
 
   constructor(props) {
@@ -233,7 +233,7 @@ export default class Textarea extends React.PureComponent {
     this.setState({
       value,
       _listenForPropChanges: false,
-      textareaState: 'focus'
+      textareaState: 'focus',
     })
     dispatchCustomElementEvent(this, 'on_focus', { value, event })
   }
@@ -242,7 +242,7 @@ export default class Textarea extends React.PureComponent {
     this.setState({
       value,
       _listenForPropChanges: false,
-      textareaState: Textarea.hasValue(value) ? 'dirty' : 'initial'
+      textareaState: Textarea.hasValue(value) ? 'dirty' : 'initial',
     })
     dispatchCustomElementEvent(this, 'on_blur', { value, event })
   }
@@ -258,7 +258,7 @@ export default class Textarea extends React.PureComponent {
     const ret = dispatchCustomElementEvent(this, 'on_change', {
       value,
       rows,
-      event
+      event,
     })
     if (ret !== false) {
       this.setState({ value, _listenForPropChanges: false })
@@ -273,7 +273,7 @@ export default class Textarea extends React.PureComponent {
     dispatchCustomElementEvent(this, 'on_key_down', {
       value,
       rows,
-      event
+      event,
     })
   }
   prepareAutosize = () => {
@@ -405,7 +405,7 @@ export default class Textarea extends React.PureComponent {
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler,
       // onPaste: this.onChangeHandler,
-      onKeyDown: this.onKeyDownHandler
+      onKeyDown: this.onKeyDownHandler,
     }
 
     // we may considder using: aria-details
@@ -435,18 +435,18 @@ export default class Textarea extends React.PureComponent {
         createSpacingClasses(props),
         _className,
         className
-      )
+      ),
     }
 
     const innerParams = {
       className: classnames(
         'dnb-textarea__inner',
         createSkeletonClass('shape', skeleton, this.context)
-      )
+      ),
     }
 
     const shellParams = {
-      className: classnames('dnb-textarea__shell')
+      className: classnames('dnb-textarea__shell'),
     }
 
     if (isTrue(disabled) || isTrue(skeleton)) {
@@ -457,7 +457,7 @@ export default class Textarea extends React.PureComponent {
     const placeholderStyle =
       parseFloat(this.props.rows) > 0
         ? {
-            '--textarea-rows': parseFloat(this.props.rows)
+            '--textarea-rows': parseFloat(this.props.rows),
             // '--textarea-cols': parseFloat(this.props.cols)
           }
         : null

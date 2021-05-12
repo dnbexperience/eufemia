@@ -12,13 +12,13 @@ import {
   ToggleButton,
   Input,
   FormRow,
-  FormLabel
+  FormLabel,
 } from '@dnb/eufemia/src/components'
 
 import '@dnb/eufemia/src/components/slider/style/dnb-range.scss'
 
 export default {
-  title: 'Eufemia/Components/Slider'
+  title: 'Eufemia/Components/Slider',
 }
 
 const VerticalWrapper = styled.div`

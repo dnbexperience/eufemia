@@ -18,15 +18,15 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
   getPreviousSibling,
-  filterProps
+  filterProps,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import {
   createSkeletonClass,
-  skeletonDOMAttributes
+  skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
 import Button from '../button/Button'
 import whatInput from 'what-input'
@@ -46,36 +46,36 @@ export default class Tabs extends React.PureComponent {
           title: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.node,
-            PropTypes.func
+            PropTypes.func,
           ]).isRequired,
           key: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
             .isRequired,
           selected: PropTypes.bool,
-          disabled: PropTypes.bool
+          disabled: PropTypes.bool,
         })
       ),
       PropTypes.objectOf(
         PropTypes.shape({
           title: PropTypes.string.isRequired,
           selected: PropTypes.bool,
-          disabled: PropTypes.bool
+          disabled: PropTypes.bool,
         })
-      )
+      ),
     ]),
     content: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]),
     content_style: PropTypes.string,
     content_spacing: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     label: PropTypes.string,
     selected_key: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.number
+      PropTypes.number,
     ]),
     align: PropTypes.oneOf(['left', 'center', 'right']),
     tabs_style: PropTypes.string,
@@ -84,7 +84,7 @@ export default class Tabs extends React.PureComponent {
     prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_rerender: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     scroll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -97,14 +97,14 @@ export default class Tabs extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]),
 
     render: PropTypes.func,
     on_change: PropTypes.func,
     on_mouse_enter: PropTypes.func,
     on_click: PropTypes.func,
-    on_focus: PropTypes.func
+    on_focus: PropTypes.func,
   }
 
   static defaultProps = {
@@ -131,7 +131,7 @@ export default class Tabs extends React.PureComponent {
     on_change: null,
     on_mouse_enter: null,
     on_click: null,
-    on_focus: null
+    on_focus: null,
   }
 
   static Content = CustomContent
@@ -224,14 +224,14 @@ export default class Tabs extends React.PureComponent {
           const { title, key: _key, hash, ...rest } = {
             ...dataProps,
             ...componentProps,
-            ...{ children: null } // remove children, if there is some
+            ...{ children: null }, // remove children, if there is some
           }
 
           acc.push({
             title,
             key: (!_key && hash ? hash : _key) || slugify(title),
             content, // can be a Node or a Function
-            ...rest
+            ...rest,
           })
         }
         return acc
@@ -254,7 +254,7 @@ export default class Tabs extends React.PureComponent {
           if (obj) {
             acc.push({
               key,
-              ...obj
+              ...obj,
             })
           }
           return acc
@@ -298,7 +298,7 @@ export default class Tabs extends React.PureComponent {
       hasScrollbar: lastPosition > -1,
       _selected_key: selected_key,
       _data: props.data || props.children,
-      _listenForPropChanges: true
+      _listenForPropChanges: true,
     }
 
     this._tabsRef = React.createRef()
@@ -410,7 +410,7 @@ export default class Tabs extends React.PureComponent {
     const hasScrollbar = (this._hasScrollbar = this.hasScrollbar())
     if (hasScrollbar !== this.state.hasScrollbar) {
       this.setState({
-        hasScrollbar
+        hasScrollbar,
       })
     }
 
@@ -454,7 +454,7 @@ export default class Tabs extends React.PureComponent {
     }
 
     this.setState({
-      atEdge: this.isAtEdge()
+      atEdge: this.isAtEdge(),
     })
 
     // ensure that we scroll to the active item
@@ -568,7 +568,7 @@ export default class Tabs extends React.PureComponent {
     ) {
       this._tablistRef.current.scrollIntoView({
         block: 'start',
-        behavior: 'smooth'
+        behavior: 'smooth',
       })
     }
   }
@@ -634,12 +634,12 @@ export default class Tabs extends React.PureComponent {
 
             this._tablistRef.current.scrollTo({
               left,
-              behavior: window.IS_TEST ? 'auto' : 'smooth'
+              behavior: window.IS_TEST ? 'auto' : 'smooth',
             })
 
             this.setState({
               isFirst,
-              isLast
+              isLast,
             })
           }
         } catch (e) {
@@ -741,7 +741,7 @@ export default class Tabs extends React.PureComponent {
     this.setState(
       {
         focus_key,
-        _listenForPropChanges: false
+        _listenForPropChanges: false,
       },
       this.setFocusOnTab
     )
@@ -800,7 +800,7 @@ export default class Tabs extends React.PureComponent {
         {
           selected_key,
           focus_key: selected_key,
-          _listenForPropChanges: false
+          _listenForPropChanges: false,
         },
         this.handleVerticalScroll
       )
@@ -838,7 +838,7 @@ export default class Tabs extends React.PureComponent {
           : selected_key,
       selected_key,
       focus_key,
-      ...args
+      ...args,
     }
   }
 
@@ -859,7 +859,7 @@ export default class Tabs extends React.PureComponent {
         (acc, [idx, cur]) => {
           acc[cur.key] = {
             ...cur,
-            content: this.getContent(cur.key)
+            content: this.getContent(cur.key),
           }
           return acc
         },
@@ -868,7 +868,7 @@ export default class Tabs extends React.PureComponent {
     } else if (isTrue(prevent_rerender)) {
       this._cache = {
         ...(this._cache || {}),
-        [selected_key]: { content: this.getContent(selected_key) }
+        [selected_key]: { content: this.getContent(selected_key) },
       }
     }
 
@@ -960,7 +960,7 @@ export default class Tabs extends React.PureComponent {
         createSpacingClasses(this.props),
         className,
         _className
-      )
+      ),
     }
 
     // also used for code markup simulation
@@ -1150,7 +1150,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
         Wrapper,
         Content,
         TabsList,
-        Tabs: TabItems
+        Tabs: TabItems,
       })
     }
 
@@ -1184,7 +1184,7 @@ export const Dummy = ({ children }) => {
   )
 }
 Dummy.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 }
 
 const ScrollNavButton = (props) => {
@@ -1205,5 +1205,5 @@ const ScrollNavButton = (props) => {
   )
 }
 ScrollNavButton.propTypes = {
-  className: PropTypes.node.isRequired
+  className: PropTypes.node.isRequired,
 }

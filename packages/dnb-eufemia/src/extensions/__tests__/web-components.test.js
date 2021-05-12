@@ -7,7 +7,7 @@ import '../../core/jest/jestSetup'
 import {
   enableWebComponents,
   getExtensions,
-  PaymentCard
+  PaymentCard,
 } from '../web-components'
 import { registeredElements } from '../../shared/custom-element'
 

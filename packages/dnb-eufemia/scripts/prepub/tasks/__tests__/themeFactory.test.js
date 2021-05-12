@@ -13,9 +13,9 @@ beforeAll(async () => {
         path.resolve(
           __dirname,
           '../../../../src/style/themes/theme-ui/dnb-theme-ui.scss'
-        )
+        ),
       ],
-      returnResult: true
+      returnResult: true,
     })
   )[0]
 })

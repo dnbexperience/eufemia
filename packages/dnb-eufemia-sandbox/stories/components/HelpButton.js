@@ -11,11 +11,11 @@ import {
   Modal,
   Button,
   Section,
-  Input
+  Input,
 } from '@dnb/eufemia/src/components'
 
 export default {
-  title: 'Eufemia/Components/HelpButton'
+  title: 'Eufemia/Components/HelpButton',
 }
 
 export const HelpButtonSandbox = () => (

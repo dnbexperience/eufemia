@@ -16,12 +16,12 @@ import {
   FormSet,
   FormRow,
   NumberFormat,
-  Modal
+  Modal,
   // Checkbox
 } from '@dnb/eufemia/src/components'
 
 export default {
-  title: 'Eufemia/Components/Dropdown'
+  title: 'Eufemia/Components/Dropdown',
 }
 
 const CustomStyle = styled.div`
@@ -100,7 +100,7 @@ const DropdownStory = () => {
               <>
                 <IconPrimary icon="download" right />
                 Download
-              </>
+              </>,
             ]}
             on_hide={(e) => {
               console.log('on_hide', e)
@@ -122,7 +122,7 @@ const DropdownStory = () => {
               <>
                 <IconPrimary icon="download" right />
                 Download
-              </>
+              </>,
             ]}
           />
         </RightAligned>
@@ -395,7 +395,7 @@ const DropdownStory = () => {
               const id = Math.random()
               dropdownData.unshift({
                 selected_value: `I'm New ${id}`,
-                content: `New content ${id}`
+                content: `New content ${id}`,
               })
               // setData(dropdownData)
               setData([...dropdownData])
@@ -574,15 +574,15 @@ let dropdownData = [
         {/* <Checkbox checked aria-hidden />  */}
         Brukskonto - Kari Nordmann
       </>
-    )
+    ),
   },
   {
     content: [
       <NumberFormat key={12345678902} ban>
         12345678902
       </NumberFormat>,
-      'Sparekonto - Ole Nordmann'
-    ]
+      'Sparekonto - Ole Nordmann',
+    ],
   },
   {
     selected_value:
@@ -591,8 +591,8 @@ let dropdownData = [
       <NumberFormat key={11345678962} ban>
         11345678962
       </NumberFormat>,
-      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
-    ]
+      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
+    ],
   },
   {
     selected_value: (
@@ -602,22 +602,22 @@ let dropdownData = [
       <NumberFormat key={15349648901} ban>
         15349648901
       </NumberFormat>,
-      <React.Fragment key="cs-2">Custom content {'🔥'}</React.Fragment>
-    ]
-  }
+      <React.Fragment key="cs-2">Custom content {'🔥'}</React.Fragment>,
+    ],
+  },
 ]
 const dropdownDataScrollable = [
   {
     selected_value: 'AA',
-    content: 'A'
+    content: 'A',
   },
   {
     content: [
       <NumberFormat key={12345678902} ban>
         12345678902
       </NumberFormat>,
-      'B'
-    ]
+      'B',
+    ],
   },
   {
     selected_value: 'CC',
@@ -625,8 +625,8 @@ const dropdownDataScrollable = [
       <NumberFormat key={11345678962} ban>
         11345678962
       </NumberFormat>,
-      'C'
-    ]
+      'C',
+    ],
   },
   {
     selected_value: 'DD',
@@ -634,29 +634,29 @@ const dropdownDataScrollable = [
       <NumberFormat key={15349648901} ban>
         15349648901
       </NumberFormat>,
-      'D'
-    ]
+      'D',
+    ],
   },
   {
-    content: <>E</>
+    content: <>E</>,
   },
   <>Custom content {'🔥'}</>,
   [<React.Fragment key="key2">Custom content X {'🔥'}</React.Fragment>],
   {
-    content: 'EE'
+    content: 'EE',
   },
   {
-    content: 'EEE'
+    content: 'EEE',
   },
   {
-    content: ['F', 'F', 'F', 'F', 'F']
+    content: ['F', 'F', 'F', 'F', 'F'],
   },
   {
-    content: 'G'
+    content: 'G',
   },
   {
-    content: 'H'
-  }
+    content: 'H',
+  },
 ]
 
 const Flag = () => <>COUNTRY FLAG</> // These <> are Fragments, like React.Fragment
@@ -684,7 +684,7 @@ function CurrencySelector({ currencies, onChange, value, ...props }) {
           <>
             {currency} <Flag currency={currency} />
           </>
-        )
+        ),
       }))}
     />
   )
@@ -692,10 +692,10 @@ function CurrencySelector({ currencies, onChange, value, ...props }) {
 CurrencySelector.propTypes = {
   value: PropTypes.string,
   currencies: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 }
 CurrencySelector.defaultProps = {
-  value: null
+  value: null,
 }
 
 function DropdownStates() {
@@ -760,7 +760,7 @@ function CurrencyDropdown() {
   // The string reps of the currencies are pulled from an API that provides valid currency pairs for specific FX instruments
   const [ccyPair, setCcyPair] = React.useState({
     base: 'EUR',
-    terms: 'SEK'
+    terms: 'SEK',
   })
 
   React.useEffect(() => {
@@ -803,14 +803,14 @@ const baseCurrencies = ['EUR', 'USD']
 const termsCurrencies = ['SEK', 'NOK']
 
 const strings = {
-  currencyBlankLabel: '-- Choose Currency --'
+  currencyBlankLabel: '-- Choose Currency --',
 }
 
 const initialData = [
   { selected_value: '1', content: '1' },
   { selected_value: '2', content: '2' },
   { selected_value: '3', content: '3' },
-  { selected_value: '4', content: '4' }
+  { selected_value: '4', content: '4' },
 ]
 
 function UpdateDataExample() {

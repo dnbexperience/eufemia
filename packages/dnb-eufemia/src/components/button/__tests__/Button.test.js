@@ -9,12 +9,12 @@ import {
   fakeProps,
   toJson,
   axeComponent,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Button'
 
 const props = fakeProps(require.resolve('../Button'), {
-  optional: true
+  optional: true,
 })
 props.id = 'button'
 props.variant = 'primary'
@@ -106,7 +106,7 @@ describe('Button component', () => {
   it('has a disabled attribute, once we set disabled to true', () => {
     const Comp = mount(<Component />)
     Comp.setProps({
-      disabled: true
+      disabled: true,
     })
     expect(Comp.find('button').instance().hasAttribute('disabled')).toBe(
       true

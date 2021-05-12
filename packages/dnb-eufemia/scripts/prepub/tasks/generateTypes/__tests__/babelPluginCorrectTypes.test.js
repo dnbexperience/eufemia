@@ -28,11 +28,11 @@ describe('babelPluginCorrectTypes', () => {
              * If strictMode is enabled,
              * it will transform "string + bool" or "string + number" in to string or bool only
              */
-            strictMode: true
-          }
-        ]
+            strictMode: true,
+          },
+        ],
       ],
-      ...babelPluginConfigDefaults
+      ...babelPluginConfigDefaults,
     })
 
     expect(code).toMatchSnapshot()

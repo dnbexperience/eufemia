@@ -16,12 +16,12 @@ import {
   detectOutsideClick,
   getStatusState,
   combineDescribedBy,
-  validateDOMAttributes
+  validateDOMAttributes,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 
@@ -49,39 +49,39 @@ export default class DatePicker extends React.PureComponent {
     title: PropTypes.string,
     date: PropTypes.oneOfType([
       PropTypes.instanceOf(Date),
-      PropTypes.string
+      PropTypes.string,
     ]), // e.g. 2019-04-03T00:00:00Z
     start_date: PropTypes.oneOfType([
       PropTypes.instanceOf(Date),
-      PropTypes.string
+      PropTypes.string,
     ]), // e.g. 2019-04-03T00:00:00Z
     end_date: PropTypes.oneOfType([
       PropTypes.instanceOf(Date),
-      PropTypes.string
+      PropTypes.string,
     ]), // e.g. 2019-04-03T00:00:00Z
     month: PropTypes.oneOfType([
       PropTypes.instanceOf(Date),
-      PropTypes.string
+      PropTypes.string,
     ]),
     start_month: PropTypes.oneOfType([
       PropTypes.instanceOf(Date),
-      PropTypes.string
+      PropTypes.string,
     ]),
     end_month: PropTypes.oneOfType([
       PropTypes.instanceOf(Date),
-      PropTypes.string
+      PropTypes.string,
     ]),
     min_date: PropTypes.oneOfType([
       PropTypes.instanceOf(Date),
-      PropTypes.string
+      PropTypes.string,
     ]),
     max_date: PropTypes.oneOfType([
       PropTypes.instanceOf(Date),
-      PropTypes.string
+      PropTypes.string,
     ]),
     correct_invalid_date: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     mask_order: PropTypes.string,
     mask_placeholder: PropTypes.string,
@@ -89,38 +89,38 @@ export default class DatePicker extends React.PureComponent {
     return_format: PropTypes.string,
     hide_navigation: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     hide_navigation_buttons: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     hide_days: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     only_month: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     hide_last_week: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     disable_autofocus: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     enable_keyboard_nav: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     show_input: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     show_submit_button: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     show_cancel_button: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     show_reset_button: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     submit_button_text: PropTypes.string,
     cancel_button_text: PropTypes.string,
@@ -134,14 +134,14 @@ export default class DatePicker extends React.PureComponent {
     label: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
     label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     input_element: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     addon_element: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     shortcuts: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
@@ -152,7 +152,7 @@ export default class DatePicker extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     status_state: PropTypes.string,
     status_animation: PropTypes.string,
@@ -160,7 +160,7 @@ export default class DatePicker extends React.PureComponent {
     suffix: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -181,7 +181,7 @@ export default class DatePicker extends React.PureComponent {
     on_hide: PropTypes.func,
     on_submit: PropTypes.func,
     on_cancel: PropTypes.func,
-    on_reset: PropTypes.func
+    on_reset: PropTypes.func,
   }
 
   static defaultProps = {
@@ -252,7 +252,7 @@ export default class DatePicker extends React.PureComponent {
     on_hide: null,
     on_submit: null,
     on_cancel: null,
-    on_reset: null
+    on_reset: null,
   }
 
   static blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
@@ -276,7 +276,7 @@ export default class DatePicker extends React.PureComponent {
       opened,
       hidden: !opened,
       direction: props.direction,
-      _listenForPropChanges: true
+      _listenForPropChanges: true,
     }
 
     if (props.end_date && !isTrue(props.range)) {
@@ -387,7 +387,7 @@ export default class DatePicker extends React.PureComponent {
     this.setState({
       opened: true,
       hidden: false,
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
     dispatchCustomElementEvent(this, 'on_show', this.getReturnObject(args))
 
@@ -405,7 +405,7 @@ export default class DatePicker extends React.PureComponent {
     this.setState(
       {
         opened: false,
-        _listenForPropChanges: false
+        _listenForPropChanges: false,
       },
       () => {
         dispatchCustomElementEvent(
@@ -421,13 +421,13 @@ export default class DatePicker extends React.PureComponent {
         this.setState(
           {
             hidden: true,
-            _listenForPropChanges: false
+            _listenForPropChanges: false,
           },
           () => {
             if (args?.focusOnHide) {
               try {
                 this._submitButtonRef.current.focus({
-                  preventScroll: true
+                  preventScroll: true,
                 })
               } catch (e) {
                 warn(e)
@@ -561,7 +561,7 @@ export default class DatePicker extends React.PureComponent {
 
     const submitParams = {
       ['aria-expanded']: opened,
-      ref: this._submitButtonRef
+      ref: this._submitButtonRef,
     }
     const selectedDateTitle = this.formatSelectedDateTitle()
 
@@ -584,7 +584,7 @@ export default class DatePicker extends React.PureComponent {
         createSpacingClasses(props),
         _className,
         className
-      )
+      ),
     }
 
     if (locale?.code) {
@@ -603,7 +603,7 @@ export default class DatePicker extends React.PureComponent {
         attributes={attributes}
         setReturnObject={(fn) => (this.getReturnObject = fn)}
         enhanceWithMethods={{
-          hidePicker: this.hidePicker
+          hidePicker: this.hidePicker,
         }}
       >
         <span {...mainParams}>

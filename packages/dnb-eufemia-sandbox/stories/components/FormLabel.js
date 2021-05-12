@@ -10,7 +10,7 @@ import { Wrapper, Box } from '../helpers'
 import { Checkbox, FormLabel } from '@dnb/eufemia/src/components'
 
 export default {
-  title: 'Eufemia/Components/FormLabel'
+  title: 'Eufemia/Components/FormLabel',
 }
 
 export const FormLabelSandbox = () => (

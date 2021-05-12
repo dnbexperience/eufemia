@@ -30,10 +30,10 @@ describe.skip('ComponentsStyleConverter', () => {
       figmaFile: process.env.FIGMA_ICONS_FILE,
       forceRefetch: false,
       preventUpdate: true,
-      localFile
+      localFile,
     })
     const result = await ComponentsStyleConverter(figmaDoc, {
-      mainLayerSelector: { name: selector }
+      mainLayerSelector: { name: selector },
     })
 
     expect(result).toBeType('object')
@@ -48,11 +48,11 @@ describe.skip('ComponentsStyleConverter', () => {
       expect(result[name].scssStyle).toBeType('string')
       expect(result[name].scssVars).toEqual({
         asymmetricMatch: (actual) =>
-          typeof actual === 'string' || actual === null
+          typeof actual === 'string' || actual === null,
       })
       expect(result[name].replaceScssVars).toEqual({
         asymmetricMatch: (actual) =>
-          typeof actual === 'string' || actual === null
+          typeof actual === 'string' || actual === null,
       })
     }
   })

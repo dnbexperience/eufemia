@@ -19,10 +19,10 @@ const Blockquote = React.forwardRef((props, ref) => (
 Blockquote.tagName = 'dnb-blockquote'
 Blockquote.propTypes = {
   ...spacingPropTypes,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 Blockquote.defaultProps = {
-  children: null
+  children: null,
 }
 
 export default Blockquote

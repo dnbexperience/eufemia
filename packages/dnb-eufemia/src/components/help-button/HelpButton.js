@@ -20,11 +20,11 @@ export default class HelpButton extends React.PureComponent {
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]),
     icon_position: PropTypes.oneOf(['left', 'right']),
     modal_content: PropTypes.node,
-    modal_props: PropTypes.object
+    modal_props: PropTypes.object,
   }
 
   static defaultProps = {
@@ -32,7 +32,7 @@ export default class HelpButton extends React.PureComponent {
     icon: null,
     icon_position: 'left',
     modal_content: null,
-    modal_props: null
+    modal_props: null,
   }
 
   static enableWebComponent() {

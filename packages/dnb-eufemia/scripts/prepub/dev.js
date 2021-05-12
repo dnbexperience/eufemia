@@ -16,7 +16,7 @@ import {
   // convertSvgToJsx,
   // makeLibStyles
   // makeMainStyle
-  generateTypes
+  generateTypes,
   // makePropertiesFile
   // prepareTemplates
   // makeLibModules

@@ -10,7 +10,7 @@ import { Wrapper, Box } from '../helpers'
 import { ProgressIndicator } from '@dnb/eufemia/src/components'
 
 export default {
-  title: 'Eufemia/Components/ProgressIndicator'
+  title: 'Eufemia/Components/ProgressIndicator',
 }
 
 export const ProgressIndicatorSandbox = () => (

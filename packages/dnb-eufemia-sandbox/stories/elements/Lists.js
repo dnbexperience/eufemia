@@ -20,7 +20,7 @@ const WidthLimit = styled.div`
 `
 
 export default {
-  title: 'Eufemia/Elements/Lists'
+  title: 'Eufemia/Elements/Lists',
 }
 
 export const ListSandbox = () => (

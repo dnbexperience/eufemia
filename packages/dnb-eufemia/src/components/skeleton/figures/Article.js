@@ -15,13 +15,13 @@ export default class SkeletonArticle extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
-    ])
+      PropTypes.node,
+    ]),
   }
 
   static defaultProps = {
     rows: 3,
-    children: null
+    children: null,
   }
 
   constructor(props) {
@@ -65,7 +65,7 @@ export default class SkeletonArticle extends React.PureComponent {
             'dnb-space__bottom--large'
           )}
           style={{
-            width: '50%'
+            width: '50%',
           }}
         >
           &zwnj;
@@ -81,7 +81,7 @@ export default class SkeletonArticle extends React.PureComponent {
               'dnb-space__top--x-small'
             )}
             style={{
-              width: `${p}%`
+              width: `${p}%`,
             }}
           >
             &zwnj;

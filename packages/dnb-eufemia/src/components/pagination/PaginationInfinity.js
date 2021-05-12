@@ -9,21 +9,21 @@ import ReactDOM from 'react-dom'
 import {
   warn,
   isTrue,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import Button from '../button/Button'
 import {
   preparePageElement,
   isTrElement,
-  PaginationIndicator
+  PaginationIndicator,
 } from './PaginationHelpers'
 import PaginationContext from './PaginationContext'
 
 export default class InfinityScroller extends React.PureComponent {
   static contextType = PaginationContext
   static propTypes = {
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   }
   static defaultProps = { children: null }
 
@@ -52,7 +52,7 @@ export default class InfinityScroller extends React.PureComponent {
         newPageNo,
         {
           position: 'after',
-          skipObserver: newPageNo < startupCount
+          skipObserver: newPageNo < startupCount,
         },
         { isStartup: i === 0 }
       )
@@ -118,7 +118,7 @@ export default class InfinityScroller extends React.PureComponent {
             page: pageNumber, // deprecated
             pageNo: pageNumber, // deprecated
             pageNumber,
-            ...context
+            ...context,
           })
 
           if (typeof onDispatch === 'function') {
@@ -161,7 +161,7 @@ export default class InfinityScroller extends React.PureComponent {
       // our props
       fallback_element,
       marker_element,
-      indicator_element
+      indicator_element,
     } = this.context.pagination
 
     const Marker = () => (
@@ -176,7 +176,7 @@ export default class InfinityScroller extends React.PureComponent {
             this.context.pagination.onPageUpdate(() => {
               this.context.pagination.setState({
                 upperPage: newPageNo,
-                skipObserver: i + 1 < parallelLoadCount
+                skipObserver: i + 1 < parallelLoadCount,
               })
             })
             this.callEventHandler(newPageNo)
@@ -199,7 +199,7 @@ export default class InfinityScroller extends React.PureComponent {
           // wait on updating our own state, so we can show the indicator (pressed_element) until we get new children back
           this.context.pagination.onPageUpdate(() => {
             this.context.pagination.setState({
-              lowerPage: newPageNo
+              lowerPage: newPageNo,
             })
           })
           this.callEventHandler(newPageNo)
@@ -243,7 +243,7 @@ export default class InfinityScroller extends React.PureComponent {
       page_element,
       fallback_element,
       marker_element,
-      indicator_element
+      indicator_element,
     } = this.context.pagination
 
     if (this.context.pagination.useMarkerOnly) {
@@ -268,7 +268,7 @@ export default class InfinityScroller extends React.PureComponent {
           content,
           ref,
           skipObserver,
-          ScrollElement
+          ScrollElement,
         },
         idx
       ) => {
@@ -293,7 +293,7 @@ export default class InfinityScroller extends React.PureComponent {
                   newPageNo = pageNumber + 1 + i
                   this.getNewContent(newPageNo, {
                     position: 'after',
-                    skipObserver: i + 1 < parallelLoadCount
+                    skipObserver: i + 1 < parallelLoadCount,
                   })
                 }
               }}
@@ -313,7 +313,7 @@ export default class InfinityScroller extends React.PureComponent {
                     this.getNewContent(pageNumber - 1, {
                       position: 'before',
                       skipObserver: true,
-                      event
+                      event,
                     })
                   }
                 />
@@ -350,7 +350,7 @@ export default class InfinityScroller extends React.PureComponent {
                             {...props}
                           />
                         ),
-                      event
+                      event,
                     })
                   }
                 />
@@ -370,11 +370,11 @@ class InteractionMarker extends React.PureComponent {
       PropTypes.object,
       PropTypes.node,
       PropTypes.func,
-      PropTypes.string
-    ])
+      PropTypes.string,
+    ]),
   }
   static defaultProps = {
-    markerElement: null
+    markerElement: null,
   }
   state = { isConnected: false }
 
@@ -466,20 +466,20 @@ export class InfinityLoadButton extends React.PureComponent {
       PropTypes.object,
       PropTypes.node,
       PropTypes.func,
-      PropTypes.string
+      PropTypes.string,
     ]),
     pressed_element: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]),
     icon: PropTypes.string.isRequired,
-    on_click: PropTypes.func.isRequired
+    on_click: PropTypes.func.isRequired,
   }
   static defaultProps = {
     element: 'div',
     pressed_element: null,
-    icon: 'arrow_down'
+    icon: 'arrow_down',
   }
   state = { isPressed: false }
   onClickHandler = (e) => {
@@ -518,11 +518,11 @@ class ScrollToElement extends React.PureComponent {
       PropTypes.object,
       PropTypes.node,
       PropTypes.func,
-      PropTypes.string
-    ])
+      PropTypes.string,
+    ]),
   }
   static defaultProps = {
-    page_element: null
+    page_element: null,
   }
   componentDidMount() {
     // we use "findDOMNode" here, because we have situations, where we don't knwo about what the input element is,
@@ -537,7 +537,7 @@ class ScrollToElement extends React.PureComponent {
     if (element && typeof element.scrollIntoView === 'function') {
       element.scrollIntoView({
         block: 'nearest',
-        behavior: 'smooth'
+        behavior: 'smooth',
       })
     }
   }

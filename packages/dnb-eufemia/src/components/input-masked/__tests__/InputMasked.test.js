@@ -8,18 +8,18 @@ import {
   mount,
   fakeProps,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../InputMasked'
 
 const props = {
   ...fakeProps(require.resolve('../InputMasked'), {
-    optional: true
+    optional: true,
   }),
   mask: [/[a-z]/],
   show_mask: true,
   disabled: false,
-  pipe: null
+  pipe: null,
 }
 props.id = 'input-masked'
 
@@ -36,7 +36,7 @@ describe('InputMasked component', () => {
         value="1000000"
         number_mask={{
           prefix: 'NOK ',
-          suffix: ',- kr.'
+          suffix: ',- kr.',
         }}
       />
     )

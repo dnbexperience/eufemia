@@ -4,44 +4,44 @@ const daggy = createDaggy()
 
 const DNB = daggy.taggedSum('DNB', {
   Colored: ['color'],
-  Metalic: []
+  Metalic: [],
 })
 
 const Visa = daggy.taggedSum('Visa', {
   Colored: ['color'],
-  Metalic: []
+  Metalic: [],
 })
 
 const Mastercard = daggy.taggedSum('Mastercard', {
   Default: [],
   DefaultWhite: [],
   Metalic: [],
-  BlackMetalic: []
+  BlackMetalic: [],
 })
 
 const CardType = daggy.taggedSum('CardType', {
   Visa: [],
   Mastercard: [],
-  None: []
+  None: [],
 })
 
 const BankAxept = daggy.taggedSum('BankAxept', {
   White: [],
-  Black: []
+  Black: [],
 })
 
 const Saga = daggy.taggedSum('Saga', {
   Gold: [],
   Platinum: [],
   VisaPlatinum: [],
-  None: []
+  None: [],
 })
 
 // PrivateBanking
 const PB = daggy.taggedSum('PB', {
   Default: [],
   Platinum: [],
-  None: []
+  None: [],
 })
 
 const ProductType = daggy.taggedSum('ProductType', {
@@ -49,7 +49,7 @@ const ProductType = daggy.taggedSum('ProductType', {
   Saga: [],
   Pluss: [],
   PrivateBanking: [],
-  None: []
+  None: [],
 })
 
 // const Status = daggy.taggedSum('Status', {
@@ -66,7 +66,7 @@ export {
   ProductType,
   CardType,
   BankAxept,
-  Visa
+  Visa,
   // Status
 }
 
@@ -78,7 +78,7 @@ const Types = {
   ProductType,
   CardType,
   BankAxept,
-  Visa
+  Visa,
   // Status
 }
 
@@ -105,7 +105,7 @@ function createDaggy() {
       prototype: proto,
       is: isType(typeName),
       '@@type': typeName,
-      '@@tags': tags
+      '@@tags': tags,
     })
     tags.forEach(function (tag) {
       const fields = constructors[tag]
@@ -207,7 +207,7 @@ function createDaggy() {
         enumerable: false,
         writable: false,
         configurable: false,
-        value: null
+        value: null,
       })
     desc.value = val
     Object.defineProperty(obj, prop, desc)

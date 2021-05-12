@@ -14,10 +14,10 @@ const Dt = React.forwardRef((props, ref) => (
 Dt.tagName = 'dnb-dt'
 Dt.propTypes = {
   ...spacingPropTypes,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 Dt.defaultProps = {
-  children: null
+  children: null,
 }
 
 export default Dt

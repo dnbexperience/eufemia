@@ -22,7 +22,7 @@ import {
   ToggleButton,
   Accordion,
   Skeleton,
-  IconPrimary
+  IconPrimary,
 } from '@dnb/eufemia/src/components'
 import {
   H1,
@@ -34,7 +34,7 @@ import {
   Dl,
   Dt,
   Dd,
-  Anchor
+  Anchor,
 } from '@dnb/eufemia/src/elements'
 import Provider from '@dnb/eufemia/src/shared/Provider'
 
@@ -46,7 +46,7 @@ import '@dnb/eufemia/src/components/skeleton/style/themes/brand'
 import { Article as SkeletonArticle } from '@dnb/eufemia/src/components/skeleton/figures'
 
 export default {
-  title: 'Eufemia/Components/Skeleton'
+  title: 'Eufemia/Components/Skeleton',
 }
 
 const CustomStyle = styled.div`

@@ -14,13 +14,13 @@ import {
   Button,
   // Input,
   IconPrimary,
-  Heading
+  Heading,
 } from '@dnb/eufemia/src/components'
 
 import { P } from '@dnb/eufemia/src/elements'
 
 export default {
-  title: 'Eufemia/Components/Accordion'
+  title: 'Eufemia/Components/Accordion',
 }
 
 const TestStyles = styled.div`
@@ -231,7 +231,7 @@ function AccordionWithContainer() {
               <div
                 style={{
                   height: '50rem',
-                  background: 'var(--color-sea-green-30)'
+                  background: 'var(--color-sea-green-30)',
                 }}
               >
                 <P top bottom="xx-large">
@@ -275,7 +275,7 @@ function AccordionWithContainer() {
               <div
                 style={{
                   height: '60rem',
-                  background: 'var(--color-sand-yellow)'
+                  background: 'var(--color-sand-yellow)',
                 }}
               >
                 <P top bottom="xx-large">
@@ -308,7 +308,7 @@ function AccordionWithContainer() {
               <div
                 style={{
                   height: '40rem',
-                  background: 'var(--color-sand-yellow)'
+                  background: 'var(--color-sand-yellow)',
                 }}
               >
                 <P top bottom="xx-large">

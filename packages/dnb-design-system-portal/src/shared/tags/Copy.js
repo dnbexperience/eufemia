@@ -10,7 +10,7 @@ import styled from '@emotion/styled'
 import { IS_IOS, hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 import {
   convertJsxToString,
-  warn
+  warn,
 } from '@dnb/eufemia/src/shared/component-helper'
 import { runIOSSelectionFix } from '@dnb/eufemia/src/components/NumberFormat'
 import { useCopyWithNotice } from '@dnb/eufemia/src/components/number-format/NumberUtils'
@@ -59,7 +59,7 @@ const Copy = ({ children, className, ...rest }) => {
   }
 
   const params = {
-    onClick: onClickHandler
+    onClick: onClickHandler,
   }
 
   return (
@@ -75,10 +75,10 @@ const Copy = ({ children, className, ...rest }) => {
 }
 Copy.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 }
 Copy.defaultProps = {
-  className: null
+  className: null,
 }
 
 export default Copy

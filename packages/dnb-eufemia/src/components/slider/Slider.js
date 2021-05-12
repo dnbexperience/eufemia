@@ -17,17 +17,17 @@ import {
   getStatusState,
   combineLabelledBy,
   combineDescribedBy,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import { format } from '../number-format/NumberUtils'
 import {
   createSkeletonClass,
-  skeletonDOMAttributes
+  skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
 
 import Context from '../../shared/Context'
@@ -48,7 +48,7 @@ export default class Slider extends React.PureComponent {
     label: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
     label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -56,7 +56,7 @@ export default class Slider extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     status_state: PropTypes.string,
     status_animation: PropTypes.string,
@@ -64,7 +64,7 @@ export default class Slider extends React.PureComponent {
     suffix: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     thump_title: PropTypes.string,
     add_title: PropTypes.string,
@@ -78,13 +78,13 @@ export default class Slider extends React.PureComponent {
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     number_format: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.object
+      PropTypes.object,
     ]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     hide_buttons: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     use_scrollwheel: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
@@ -98,7 +98,7 @@ export default class Slider extends React.PureComponent {
     on_change: PropTypes.func,
     on_drag_start: PropTypes.func,
     on_drag_end: PropTypes.func,
-    on_state_update: PropTypes.func
+    on_state_update: PropTypes.func,
   }
 
   static defaultProps = {
@@ -135,7 +135,7 @@ export default class Slider extends React.PureComponent {
     on_change: null,
     on_drag_start: null,
     on_drag_end: null,
-    on_state_update: null
+    on_state_update: null,
   }
 
   state = { currentState: 'initial', value: null }
@@ -161,7 +161,7 @@ export default class Slider extends React.PureComponent {
 
         if (typeof props.on_state_update === 'function') {
           const obj = {
-            value
+            value,
           }
           if (props.number_format) {
             obj.number = formatNumber(value, props.number_format)
@@ -206,7 +206,7 @@ export default class Slider extends React.PureComponent {
       _listenForPropChanges: true,
       value,
       _value: value,
-      __value: value
+      __value: value,
     }
   }
 
@@ -269,7 +269,7 @@ export default class Slider extends React.PureComponent {
   onFocusHandler = () => {
     this.setState({
       _listenForPropChanges: false,
-      currentState: 'focused'
+      currentState: 'focused',
     })
   }
 
@@ -322,12 +322,12 @@ export default class Slider extends React.PureComponent {
 
     this.setState({
       _listenForPropChanges: false,
-      currentState: 'activated'
+      currentState: 'activated',
     })
 
     if (typeof this.props.on_drag_start === 'function') {
       dispatchCustomElementEvent(this, 'on_drag_start', {
-        event
+        event,
       })
     }
   }
@@ -358,7 +358,7 @@ export default class Slider extends React.PureComponent {
 
     if (typeof this.props.on_drag_end === 'function') {
       dispatchCustomElementEvent(this, 'on_drag_end', {
-        event
+        event,
       })
     }
   }
@@ -368,7 +368,7 @@ export default class Slider extends React.PureComponent {
     this.setState(
       {
         value,
-        _listenForPropChanges: false
+        _listenForPropChanges: false,
       },
       () => {}
     )
@@ -427,7 +427,7 @@ export default class Slider extends React.PureComponent {
           value,
           rawValue,
           raw_value: rawValue,
-          event
+          event,
         }
         if (this.props.number_format) {
           obj.number = formatNumber(value, this.props.number_format)
@@ -452,7 +452,7 @@ export default class Slider extends React.PureComponent {
           () =>
             this.setState({
               currentState: 'normal',
-              _listenForPropChanges: false
+              _listenForPropChanges: false,
             }),
           100
         )
@@ -485,7 +485,7 @@ export default class Slider extends React.PureComponent {
     if (typeof this.props.on_init === 'function') {
       const { value } = this.state
       const obj = {
-        value
+        value,
       }
       if (this.props.number_format) {
         obj.number = formatNumber(value, this.props.number_format)
@@ -567,7 +567,7 @@ export default class Slider extends React.PureComponent {
       vertical,
       value,
       currentState,
-      disabled
+      disabled,
     } = this.state
 
     const showStatus = getStatusState(status)
@@ -590,22 +590,22 @@ export default class Slider extends React.PureComponent {
         createSpacingClasses(props),
         className,
         _className
-      )
+      ),
     }
 
     const percent = clamp(((value - min) * 100) / (max - min))
     const { aria: humanNumber } = formatNumber(value, {
       returnAria: true,
-      ...this.props.number_format
+      ...this.props.number_format,
     })
     const hasHumanNumber = value !== humanNumber
 
     const inlineStyleBefore = {
-      [`${vertical ? 'height' : 'width'}`]: `${percent}%`
+      [`${vertical ? 'height' : 'width'}`]: `${percent}%`,
     }
 
     const inlineThumbStyles = {
-      [`${vertical ? 'top' : 'left'}`]: `${percent}%`
+      [`${vertical ? 'top' : 'left'}`]: `${percent}%`,
     }
 
     skeletonDOMAttributes(mainParams, skeleton, this.context)
@@ -620,14 +620,14 @@ export default class Slider extends React.PureComponent {
       onTouchStart: this.onClickHandler,
       onTouchStartCapture: this.onMouseDownHandler,
       onMouseDown: this.onClickHandler,
-      onMouseDownCapture: this.onMouseDownHandler
+      onMouseDownCapture: this.onMouseDownHandler,
     }
 
     const thumbParams = {
       title,
       ...attributes,
       onBlur: this.onBlurHandler,
-      onFocus: this.onFocusHandler
+      onFocus: this.onFocusHandler,
     }
 
     if (label || hasHumanNumber) {
@@ -792,7 +792,7 @@ const getOffset = (node) => {
 
   return {
     top: top + pageYOffset,
-    left: left + pageXOffset
+    left: left + pageXOffset,
   }
 }
 
@@ -800,13 +800,13 @@ const getMousePosition = (event) => {
   if (event.changedTouches && event.changedTouches[0]) {
     return {
       x: event.changedTouches[0].pageX,
-      y: event.changedTouches[0].pageY
+      y: event.changedTouches[0].pageY,
     }
   }
 
   return {
     x: event.pageX,
-    y: event.pageY
+    y: event.pageY,
   }
 }
 
@@ -830,7 +830,7 @@ const createMockDiv = ({ width, height }) => {
   const div = document.createElement('div')
   Object.assign(div.style, {
     width: `${width}px`,
-    height: `${height}px`
+    height: `${height}px`,
   })
   div.getBoundingClientRect = () => ({
     width,
@@ -838,7 +838,7 @@ const createMockDiv = ({ width, height }) => {
     top: 0,
     left: 0,
     right: width,
-    bottom: height
+    bottom: height,
   })
   return div
 }

@@ -20,11 +20,11 @@ export class Translation extends React.PureComponent {
   static contextType = Context
   static propTypes = {
     id: PropTypes.string,
-    children: PropTypes.string
+    children: PropTypes.string,
   }
   static defaultProps = {
     id: null,
-    children: null
+    children: null,
   }
 
   render() {

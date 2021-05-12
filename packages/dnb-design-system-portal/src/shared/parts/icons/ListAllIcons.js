@@ -52,11 +52,11 @@ export default class ListAllIcons extends React.PureComponent {
   state = { iconsToRender: [] }
   static propTypes = {
     groupBy: PropTypes.string,
-    variant: PropTypes.string
+    variant: PropTypes.string,
   }
   static defaultProps = {
     groupBy: null,
-    variant: null
+    variant: null,
   }
   constructor(props) {
     super(props)
@@ -80,9 +80,9 @@ export default class ListAllIcons extends React.PureComponent {
   }
   renderListItem(icons) {
     return icons.map(({ iconName, Svg, variant, tags }) => {
-      const SvgMedium = (variant === 'primary'
-        ? PrimaryIconsMedium
-        : SecondaryIconsMedium)[`${iconName}_medium`]
+      const SvgMedium = (
+        variant === 'primary' ? PrimaryIconsMedium : SecondaryIconsMedium
+      )[`${iconName}_medium`]
 
       // remove duplications
       tags = tags.filter((item, index) => {

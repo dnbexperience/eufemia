@@ -24,7 +24,7 @@ const getLocation = () => {
   return {
     ...parsePath(pathname.replace(new RegExp(pathPrefix || '', 'g'), '')),
     search,
-    hash
+    hash,
   }
 }
 
@@ -60,13 +60,13 @@ class ItemWrapper extends React.PureComponent {
     callback: PropTypes.shape({
       demo: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
       info: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-      code: PropTypes.oneOfType([PropTypes.func, PropTypes.node])
+      code: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
     }),
     hideTabs: PropTypes.bool,
     defaultTab: PropTypes.string,
     title: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    tabs: PropTypes.array
+    tabs: PropTypes.array,
   }
   static defaultProps = {
     ExampleCode: null,
@@ -76,11 +76,11 @@ class ItemWrapper extends React.PureComponent {
     tabs: [
       { title: 'Demo', key: 'demo' },
       { title: 'Details', key: 'info' },
-      { title: 'Markup', key: 'code' }
-    ]
+      { title: 'Markup', key: 'code' },
+    ],
   }
   state = {
-    wasFullscreen: null
+    wasFullscreen: null,
   }
   constructor(props) {
     super(props)
@@ -97,7 +97,7 @@ class ItemWrapper extends React.PureComponent {
       ({ key }) => key === activeTabKey
     )
     this.setState({
-      activeTabKey: isValid ? activeTabKey : this.props.defaultTab
+      activeTabKey: isValid ? activeTabKey : this.props.defaultTab,
     })
   }
   isActive(tabKey) {
@@ -107,7 +107,7 @@ class ItemWrapper extends React.PureComponent {
     const location = getLocation()
     if (location)
       this.setState({
-        wasFullscreen: /fullscreen/.test(location.search)
+        wasFullscreen: /fullscreen/.test(location.search),
       })
   }
   // componentWillUnmount() {
@@ -137,7 +137,7 @@ class ItemWrapper extends React.PureComponent {
       Details,
       DemoComponent,
       CodeComponent,
-      callback: Additional
+      callback: Additional,
     } = this.props
 
     // Prerender the Details component

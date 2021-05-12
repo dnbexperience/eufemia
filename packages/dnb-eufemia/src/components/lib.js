@@ -84,7 +84,7 @@ export {
   Tabs,
   Textarea,
   ToggleButton,
-  Tooltip
+  Tooltip,
 }
 
 export const getComponents = () => {
@@ -123,7 +123,7 @@ export const getComponents = () => {
     Tabs,
     Textarea,
     ToggleButton,
-    Tooltip
+    Tooltip,
   }
 }
 

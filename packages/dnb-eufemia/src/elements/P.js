@@ -74,11 +74,11 @@ P.propTypes = {
     'medium',
     'large',
     'x-large',
-    'xx-large'
+    'xx-large',
   ]),
   style_type: PropTypes.string, // deprecated
   modifier: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 P.defaultProps = {
   element: 'p',
@@ -89,6 +89,6 @@ P.defaultProps = {
   size: null,
   style_type: null, // deprecated
   modifier: null,
-  children: null
+  children: null,
 }
 export default P

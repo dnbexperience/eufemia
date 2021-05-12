@@ -13,7 +13,7 @@ export default function createNumberMask({
   requireDecimal = false,
   allowNegative = true,
   allowLeadingZeroes = false,
-  integerLimit = null
+  integerLimit = null,
 } = {}) {
   const minus = '-'
   const minusRegExp = /-/

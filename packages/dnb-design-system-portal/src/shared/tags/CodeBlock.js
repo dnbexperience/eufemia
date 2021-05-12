@@ -24,7 +24,7 @@ import {
   LiveProvider,
   LiveEditor,
   LiveError,
-  LivePreview
+  LivePreview,
 } from 'react-live'
 
 // this theme is replaced my a css one
@@ -105,7 +105,7 @@ class LiveCode extends React.PureComponent {
     hidePreview: PropTypes.bool,
     showSyntax: PropTypes.bool,
     hideSyntaxButton: PropTypes.bool,
-    language: PropTypes.string
+    language: PropTypes.string,
   }
 
   static defaultProps = {
@@ -121,7 +121,7 @@ class LiveCode extends React.PureComponent {
     hidePreview: false,
     showSyntax: false,
     hideSyntaxButton: null,
-    language: 'jsx'
+    language: 'jsx',
   }
 
   constructor(props) {
@@ -133,7 +133,7 @@ class LiveCode extends React.PureComponent {
       hidePreview,
       showSyntax,
       useRender,
-      hideSyntaxButton
+      hideSyntaxButton,
     } = props
 
     this.state = {
@@ -143,7 +143,7 @@ class LiveCode extends React.PureComponent {
       hidePreview,
       showSyntax,
       hideSyntaxButton:
-        hideSyntaxButton === null ? useRender : hideSyntaxButton
+        hideSyntaxButton === null ? useRender : hideSyntaxButton,
     }
 
     this._refEditor = React.createRef()
@@ -201,7 +201,7 @@ class LiveCode extends React.PureComponent {
       hideCode,
       hidePreview,
       showSyntax,
-      hideSyntaxButton
+      hideSyntaxButton,
     } = this.state
 
     const codeToUse =
@@ -246,7 +246,7 @@ class LiveCode extends React.PureComponent {
                     escapeHtml={false}
                     renderers={{
                       ...renderers,
-                      paragraph: ({ children }) => children
+                      paragraph: ({ children }) => children,
                     }}
                   />
                 </AutoLinkHeader>
@@ -257,7 +257,7 @@ class LiveCode extends React.PureComponent {
                   escapeHtml={false}
                   renderers={{
                     ...renderers,
-                    paragraph: ({ children }) => <P>{children}</P>
+                    paragraph: ({ children }) => <P>{children}</P>,
                   }}
                 />
               )}
@@ -295,7 +295,7 @@ class LiveCode extends React.PureComponent {
                 ignoreTabKey
                 padding={0}
                 style={{
-                  font: 'inherit'
+                  font: 'inherit',
                 }}
                 onChange={(code) => {
                   this.setState({ code })
@@ -386,7 +386,7 @@ class LiveCode extends React.PureComponent {
                     !useRender && noFragments
                       ? `<>${codeToUse}</>`
                       : codeToUse,
-                  scope
+                  scope,
                 })}
               />
             </Syntax>
@@ -485,7 +485,8 @@ const cleanTokens = (tokens) => {
 
 Prism.languages.insertBefore('jsx', 'template-string', {
   'styled-template-string': {
-    pattern: /(styled(\.\w+|\([^)]*\))(\.\w+(\([^)]*\))*)*|css|injectGlobal|keyframes|css={)`(?:\$\{[^}]+\}|\\\\|\\?[^\\])*?`/,
+    pattern:
+      /(styled(\.\w+|\([^)]*\))(\.\w+(\([^)]*\))*)*|css|injectGlobal|keyframes|css={)`(?:\$\{[^}]+\}|\\\\|\\?[^\\])*?`/,
     lookbehind: true,
     greedy: true,
     inside: {
@@ -494,16 +495,16 @@ Prism.languages.insertBefore('jsx', 'template-string', {
         inside: {
           'interpolation-punctuation': {
             pattern: /^\$\{|\}$/,
-            alias: 'punctuation'
+            alias: 'punctuation',
           },
-          rest: Prism.languages.jsx
-        }
+          rest: Prism.languages.jsx,
+        },
       },
       string: {
         pattern: /[^$;]+/,
         inside: Prism.languages.css,
-        alias: 'language-css'
-      }
-    }
-  }
+        alias: 'language-css',
+      },
+    },
+  },
 })

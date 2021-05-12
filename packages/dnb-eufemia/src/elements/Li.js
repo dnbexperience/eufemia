@@ -31,10 +31,10 @@ const Li = ({ className, ...p } = {}) => {
 Li.tagName = 'dnb-li'
 Li.propTypes = {
   ...spacingPropTypes,
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 Li.defaultProps = {
-  className: null
+  className: null,
 }
 
 export default Li

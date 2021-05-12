@@ -7,30 +7,30 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import SecondaryComponent, {
   secondaryDefaultProps,
-  secondaryPropTypes
+  secondaryPropTypes,
 } from './SecondaryComponent'
 
 export const primaryPropTypes = {
   top: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-    PropTypes.bool
+    PropTypes.bool,
   ]),
   right: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-    PropTypes.bool
+    PropTypes.bool,
   ]),
   bottom: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-    PropTypes.bool
+    PropTypes.bool,
   ]),
   left: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-    PropTypes.bool
-  ])
+    PropTypes.bool,
+  ]),
 }
 
 export const primaryDefaultProps = {
@@ -38,7 +38,7 @@ export const primaryDefaultProps = {
   top: null,
   right: null,
   bottom: null,
-  left: null
+  left: null,
 }
 
 export default class PrimaryComponent extends React.PureComponent {
@@ -53,7 +53,7 @@ export default class PrimaryComponent extends React.PureComponent {
     secondary_foo: secondaryPropTypes.secondary,
     secondary_spacing: PropTypes.shape(secondaryPropTypes),
 
-    children: PropTypes.node
+    children: PropTypes.node,
   }
 
   static defaultProps = {
@@ -65,7 +65,7 @@ export default class PrimaryComponent extends React.PureComponent {
     ...primaryDefaultProps,
     ...secondaryDefaultProps,
 
-    children: null
+    children: null,
   }
 
   static Secondary = SecondaryComponent
@@ -78,7 +78,7 @@ export default class PrimaryComponent extends React.PureComponent {
       this.props.top,
       this.props.secondary_foo,
       this.props.secondary_spacing,
-      this.props.children
+      this.props.children,
     ]
   }
 }
@@ -97,7 +97,7 @@ Element.propTypes = {
   secondary_foo: secondaryPropTypes.secondary,
   secondary_spacing: PropTypes.shape(secondaryPropTypes),
 
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 Element.defaultProps = {
   boolean: null,
@@ -107,5 +107,5 @@ Element.defaultProps = {
   top: null,
   ...primaryDefaultProps,
 
-  children: null
+  children: null,
 }

@@ -12,10 +12,10 @@ const Dl = (p) => <E is="dl" {...p} skeleton={false} />
 Dl.tagName = 'dnb-dl'
 Dl.propTypes = {
   ...spacingPropTypes,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 Dl.defaultProps = {
-  children: null
+  children: null,
 }
 
 export default Dl

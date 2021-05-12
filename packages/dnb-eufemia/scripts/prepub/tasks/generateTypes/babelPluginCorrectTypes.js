@@ -16,7 +16,7 @@ export function babelPluginCorrectTypes(babel) {
               StringLiteral.source.value = 'react'
               root.replaceWith(StringLiteral)
             }
-          }
+          },
         })
       },
 
@@ -39,7 +39,7 @@ export function babelPluginCorrectTypes(babel) {
                 if (path.node.property.name !== 'string') {
                   nodeToUse = path.node
                 }
-              }
+              },
             })
 
             if (
@@ -53,7 +53,7 @@ export function babelPluginCorrectTypes(babel) {
             }
           }
         }
-      }
-    }
+      },
+    },
   }
 }

@@ -10,7 +10,7 @@ import { Wrapper, Box } from '../helpers'
 import { Switch, FormLabel, HelpButton } from '@dnb/eufemia/src/components'
 
 export default {
-  title: 'Eufemia/Components/Switch'
+  title: 'Eufemia/Components/Switch',
 }
 
 export const SwitcheSandbox = () => (

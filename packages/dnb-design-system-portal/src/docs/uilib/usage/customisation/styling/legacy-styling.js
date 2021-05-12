@@ -23,7 +23,7 @@ const LegacyCodeStyling = () => (
           z-index: 1;
           ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })};
         }
-      `
+      `,
     ]}
   >
     <LegacyCodeExample>

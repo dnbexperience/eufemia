@@ -45,7 +45,7 @@ export const runFactory = (src, { returnResult = false } = {}) =>
 
       let stream = gulp
         .src(files, {
-          cwd: ROOT_DIR
+          cwd: ROOT_DIR,
         })
         .pipe(sassStream)
         .pipe(
@@ -59,7 +59,7 @@ export const runFactory = (src, { returnResult = false } = {}) =>
         .pipe(
           // cssnano has to run after cloneSink! So we get both a non min and a min version
           cssnano({
-            reduceIdents: false
+            reduceIdents: false,
           })
         )
         .pipe(rename({ suffix: '.min' }))
@@ -69,13 +69,13 @@ export const runFactory = (src, { returnResult = false } = {}) =>
         stream = stream
           .pipe(
             gulp.dest(`./build/cjs/${dest}/`, {
-              cwd: ROOT_DIR
+              cwd: ROOT_DIR,
             })
           )
           .pipe(gulp.dest(`./build/es/${dest}/`, { cwd: ROOT_DIR }))
           .pipe(
             gulp.dest(`./build/esm/${dest}/`, {
-              cwd: ROOT_DIR
+              cwd: ROOT_DIR,
             })
           )
       }
@@ -84,7 +84,7 @@ export const runFactory = (src, { returnResult = false } = {}) =>
       if (returnResult) {
         stream.pipe(
           cssnano({
-            reduceIdents: false
+            reduceIdents: false,
           })
         )
       }
@@ -100,7 +100,7 @@ export const runFactory = (src, { returnResult = false } = {}) =>
           returnResult
             ? transform('utf8', (result) => resolve(result))
             : gulp.dest(`./build/${dest}/`, {
-                cwd: ROOT_DIR
+                cwd: ROOT_DIR,
               })
         )
         .on('end', resolve)

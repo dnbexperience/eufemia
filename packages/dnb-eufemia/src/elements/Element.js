@@ -9,15 +9,15 @@ import classnames from 'classnames'
 import Context from '../shared/Context'
 import {
   validateDOMAttributes,
-  extendPropsWithContext
+  extendPropsWithContext,
 } from '../shared/component-helper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../components/space/SpacingHelper'
 import {
   createSkeletonClass,
-  skeletonDOMAttributes
+  skeletonDOMAttributes,
 } from '../components/skeleton/SkeletonHelper'
 
 const Element = React.forwardRef((props, ref) => {
@@ -27,7 +27,7 @@ Element.propTypes = {
   is: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.object,
-    PropTypes.node
+    PropTypes.node,
   ]),
   skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skeleton_method: PropTypes.string,
@@ -37,12 +37,12 @@ Element.propTypes = {
   className: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
-    PropTypes.array
+    PropTypes.array,
   ]),
   class: PropTypes.string,
   internalClass: PropTypes.string,
   css: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 Element.defaultProps = {
   is: null,
@@ -52,7 +52,7 @@ Element.defaultProps = {
   class: null,
   internalClass: null,
   css: null,
-  children: null
+  children: null,
 
   // NB: Do not set "inner_ref: null"
 }
@@ -68,7 +68,7 @@ class ElementInstance extends React.PureComponent {
           this.props,
           Element.defaultProps,
           {
-            skeleton: this.context.skeleton
+            skeleton: this.context.skeleton,
           },
           this.context.FormRow
         )

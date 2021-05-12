@@ -24,29 +24,33 @@ cssVars()
 const createCacheInstance = () =>
   createEmotionCache({
     key: 'css',
-    stylisPlugins: [stylisPlugin]
+    stylisPlugins: [stylisPlugin],
   })
 const emotionCache = createCacheInstance()
 
-export const pageElement = () => ({ element }) => {
-  return element
-}
+export const pageElement =
+  () =>
+  ({ element }) => {
+    return element
+  }
 
-export const rootElement = (type) => ({ element }) => {
-  return (
-    <CacheProvider
-      value={type === 'ssr' ? createCacheInstance() : emotionCache}
-    >
-      <Provider
-        skeleton={getSkeletonEnabled()} // To simulate a whole page skeleton
-        locale={getLang()}
-        locales={enUS} // extend the available locales
+export const rootElement =
+  (type) =>
+  ({ element }) => {
+    return (
+      <CacheProvider
+        value={type === 'ssr' ? createCacheInstance() : emotionCache}
       >
-        <SkeletonEnabled>{element}</SkeletonEnabled>
-      </Provider>
-    </CacheProvider>
-  )
-}
+        <Provider
+          skeleton={getSkeletonEnabled()} // To simulate a whole page skeleton
+          locale={getLang()}
+          locales={enUS} // extend the available locales
+        >
+          <SkeletonEnabled>{element}</SkeletonEnabled>
+        </Provider>
+      </CacheProvider>
+    )
+  }
 
 // This ensures we actually will get skeletons enabled when defined in the url
 function SkeletonEnabled({ children }) {

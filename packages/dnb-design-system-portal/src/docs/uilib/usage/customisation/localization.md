@@ -65,8 +65,8 @@ render(
     locale="nb-NO"
     locales={{
       'nb-NO': {
-        Modal: { close_title: 'Something' }
-      }
+        Modal: { close_title: 'Something' },
+      },
     }}
   >
     <MyApp>Eufemia components</MyApp>
@@ -128,7 +128,7 @@ render(
   <EufemiaProvider
     locale="nb-NO"
     locales={{
-      'nb-NO': nb
+      'nb-NO': nb,
     }}
   >
     <MyApp>Eufemia components</MyApp>
@@ -156,14 +156,14 @@ and use it like this:
 ```jsx
 import EufemiaProvider from '@dnb/eufemia/shared/Provider'
 import useTranslation, {
-  Translation
+  Translation,
 } from '@dnb/eufemia/shared/useTranslation'
 import nb from './nb.json'
 import en from './en.json'
 
 const Component = () => {
   const str = useTranslation('my.string', {
-    foo: 'bar'
+    foo: 'bar',
   })
 
   return str
@@ -174,7 +174,7 @@ render(
     locale="nb-NO"
     locales={{
       'nb-NO': nb,
-      'en-GB': en
+      'en-GB': en,
     }}
   >
     <Component />
@@ -228,15 +228,15 @@ Create a new file (`sv-SE.js`) containing all the strings:
 export default {
   'sv-SE': {
     DatePicker: {
-      submit_button_text: 'OK'
+      submit_button_text: 'OK',
     },
     Modal: {
-      close_title: 'Stänga'
+      close_title: 'Stänga',
     },
     Logo: {
-      alt: 'DNB Logo'
-    }
-  }
+      alt: 'DNB Logo',
+    },
+  },
 }
 ```
 

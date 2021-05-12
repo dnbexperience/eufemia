@@ -21,13 +21,13 @@ import {
   Radio,
   ToggleButton,
   Switch,
-  Input
+  Input,
 } from '../'
 
 const AllComponents = ({ horizontal, vertical, showText, hideLabel }) => {
   const params = {
     left: horizontal ? 'small' : null,
-    top: !horizontal || vertical ? 'small' : null
+    top: !horizontal || vertical ? 'small' : null,
   }
   let labels = {
     datePicker: 'DatePicker:',
@@ -41,7 +41,7 @@ const AllComponents = ({ horizontal, vertical, showText, hideLabel }) => {
     switch: 'Switch',
     input: 'Input:',
     textarea: 'Textarea:',
-    slider: 'Slider:'
+    slider: 'Slider:',
   }
   if (hideLabel) {
     labels = Object.entries(labels).reduce((acc, [k]) => {
@@ -114,13 +114,13 @@ AllComponents.propTypes = {
   horizontal: PropTypes.bool,
   vertical: PropTypes.bool,
   showText: PropTypes.bool,
-  hideLabel: PropTypes.bool
+  hideLabel: PropTypes.bool,
 }
 AllComponents.defaultProps = {
   horizontal: null,
   vertical: null,
   showText: null,
-  hideLabel: null
+  hideLabel: null,
 }
 
 export default AllComponents

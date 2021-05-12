@@ -70,7 +70,7 @@ export {
   Td,
   Th,
   Tr,
-  Ul
+  Ul,
 }
 
 export const getElements = () => {
@@ -103,6 +103,6 @@ export const getElements = () => {
     Td,
     Th,
     Tr,
-    Ul
+    Ul,
   }
 }

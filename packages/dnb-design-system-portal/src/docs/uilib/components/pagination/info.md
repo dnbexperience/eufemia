@@ -129,12 +129,8 @@ Create the instance before using it.
 import { createPagination } from '@dnb/eufemia/components/Pagination'
 
 // create our Component instance
-const {
-  Pagination,
-  setContent,
-  endInfinity,
-  resetContent
-} = React.useState(createPagination)
+const { Pagination, setContent, endInfinity, resetContent } =
+  React.useState(createPagination)
 
 // Later we can do call this (make sure the page is set by listening to the events)
 setContent(page, ReactComponent)
@@ -195,9 +191,8 @@ Also, it adds an indicator at the bottom until next render, and as long as `page
 import { createPagination } from '@dnb/eufemia/components/Pagination'
 
 // create our Component instance
-const { InfinityMarker, endInfinity, resetInfinity } = React.useState(
-  createPagination
-)
+const { InfinityMarker, endInfinity, resetInfinity } =
+  React.useState(createPagination)
 
 render(<InfinityMarker>ReactComponent</InfinityMarker>)
 ```

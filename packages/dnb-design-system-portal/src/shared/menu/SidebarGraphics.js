@@ -56,5 +56,5 @@ export default {
   logos,
   secondary,
   primary,
-  elements
+  elements,
 }

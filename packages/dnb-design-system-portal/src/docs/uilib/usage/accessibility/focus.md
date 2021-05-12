@@ -49,7 +49,7 @@ This helper also handles both the `tabindex="-1"` and the `class="dnb-no-focus"`
 ```js
 import {
   setPageFocusElement,
-  applyPageFocus
+  applyPageFocus,
 } from '@dnb/eufemia/shared/helpers'
 
 // 1. Somewhere in Your app, set either an element, or a CSS Selector

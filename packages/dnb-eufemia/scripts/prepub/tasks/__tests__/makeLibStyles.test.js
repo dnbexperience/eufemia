@@ -11,7 +11,7 @@ if (isCI) {
     global.css = await runFactory(
       './src/components/button/style/dnb-button.scss',
       {
-        returnResult: true
+        returnResult: true,
       }
     )
   })

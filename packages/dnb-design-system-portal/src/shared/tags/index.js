@@ -13,7 +13,7 @@ import {
   P,
   Hr,
   Blockquote,
-  Code
+  Code,
 } from '@dnb/eufemia/src/elements'
 import Table from './Table'
 // import Element from '@dnb/eufemia/src/elements/Element'
@@ -68,5 +68,5 @@ export default {
   p: (props) => <P {...props} />,
   paragraph: (props) => <P {...props} />,
   blockquote: (props) => <Blockquote {...props} />,
-  hr: (props) => <Hr light {...props} />
+  hr: (props) => <Hr light {...props} />,
 }

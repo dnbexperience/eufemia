@@ -206,10 +206,10 @@ const RedBox = ({ children }) => {
   )
 }
 RedBox.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 RedBox.defaultProps = {
-  children: null
+  children: null,
 }
 
 const Block = styled.div`
@@ -319,11 +319,11 @@ MagicBox.propTypes = {
   label: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
-    PropTypes.node
-  ])
+    PropTypes.node,
+  ]),
 }
 MagicBox.defaultProps = {
-  label: null
+  label: null,
 }
 
 const VisualSpace = ({ label, children, ...rest }) => {
@@ -396,13 +396,13 @@ VisualSpace.propTypes = {
   label: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
-    PropTypes.node
+    PropTypes.node,
   ]),
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 VisualSpace.defaultProps = {
   label: null,
-  children: null
+  children: null,
 }
 
 export { MagicBox, VisualSpace }

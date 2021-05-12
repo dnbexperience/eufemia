@@ -8,12 +8,12 @@ import {
   mount,
   fakeProps,
   toJson,
-  axeComponent
+  axeComponent,
 } from '../../../core/jest/jestSetup'
 import Component from '../IconPrimary'
 
 const props = fakeProps(require.resolve('../IconPrimary'), {
-  optional: true
+  optional: true,
 })
 props.icon = 'question'
 

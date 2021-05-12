@@ -12,11 +12,11 @@ import portalStyle from './PortalStyle'
 export class Html extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node,
-    value: PropTypes.string
+    value: PropTypes.string,
   }
   static defaultProps = {
     children: null,
-    value: null
+    value: null,
   }
   componentDidMount() {
     if (
@@ -27,7 +27,7 @@ export class Html extends React.PureComponent {
     }
   }
   state = {
-    visible: true
+    visible: true,
   }
   render() {
     return (
@@ -35,7 +35,7 @@ export class Html extends React.PureComponent {
         {this.state.visible && this.props.value && (
           <div
             dangerouslySetInnerHTML={{
-              __html: this.props.value
+              __html: this.props.value,
             }}
           />
         )}

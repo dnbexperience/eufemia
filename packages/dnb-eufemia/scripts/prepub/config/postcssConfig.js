@@ -19,12 +19,12 @@ module.exports = ({ IE11 = false, ...options } = {}) => {
       ),
       importFrom: [
         // Use this method, instead ...
-        extractCSSProperties('./src/style/index.scss')
+        extractCSSProperties('./src/style/index.scss'),
 
         // ... of this. Because we need that config during build time of the lib
         // require.resolve('@dnb/eufemia/build/style/dnb-ui-properties.css')
       ],
-      ...options
+      ...options,
     }),
 
     // but for IE11, we also calculate all left over calc, and remove the originals
@@ -38,9 +38,9 @@ module.exports = ({ IE11 = false, ...options } = {}) => {
             border-radius: var(--button-border-radius);
            */
           preserve: true,
-          warnWhenCannotResolve: false
+          warnWhenCannotResolve: false,
         })
-      : null
+      : null,
 
     // In case we want to have all the plugins by their self
     // IE11
@@ -63,7 +63,7 @@ function extractCSSProperties(file, opts = {}) {
     file = path.resolve(__dirname, '../../../', file)
     const sassResult = sass.renderSync({
       file,
-      ...opts
+      ...opts,
     })
     const dir = path.resolve(__dirname, '.cache')
     if (!fs.existsSync(dir)) {

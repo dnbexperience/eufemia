@@ -5,7 +5,7 @@
 
 import {
   testPageScreenshot,
-  setupPageScreenshot
+  setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Pagination screenshot', () => {
@@ -13,7 +13,7 @@ describe('Pagination screenshot', () => {
 
   it('have to match the default pagination bar', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="pagination-default"]'
+      selector: '[data-visual-test="pagination-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -22,7 +22,7 @@ describe('Pagination screenshot', () => {
       selector: '[data-visual-test="pagination-default"]',
       simulateSelector:
         '[data-visual-test="pagination-default"] div.dnb-pagination__bar__inner button.dnb-pagination__button:first-of-type',
-      simulate: 'click'
+      simulate: 'click',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -31,7 +31,7 @@ describe('Pagination screenshot', () => {
       selector: '[data-visual-test="pagination-default"]',
       simulateSelector:
         '[data-visual-test="pagination-default"] div.dnb-pagination__bar__inner button.dnb-pagination__button:last-of-type',
-      simulate: 'click'
+      simulate: 'click',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

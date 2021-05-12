@@ -12,24 +12,24 @@ if (isCI) {
 
   beforeAll(async () => {
     global.core = await runFactory('./src/style/dnb-ui-core.scss', {
-      returnResult: true
+      returnResult: true,
     })
     global.components = await runFactory(
       './src/style/dnb-ui-components.scss',
       {
-        returnResult: true
+        returnResult: true,
       }
     )
     global.elements = await runFactory(
       './src/style/dnb-ui-elements.scss',
       {
-        returnResult: true
+        returnResult: true,
       }
     )
     global.theme = await runFactory(
       './src/style/themes/theme-ui/dnb-theme-ui.scss',
       {
-        returnResult: true
+        returnResult: true,
       }
     )
   })

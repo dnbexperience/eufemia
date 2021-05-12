@@ -30,6 +30,6 @@ async function copyFinaleBuild() {
   await fs.copy('./build/esm/', './build/', {
     filter,
     overwrite: false,
-    errorOnExist: false
+    errorOnExist: false,
   })
 }

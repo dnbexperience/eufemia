@@ -21,7 +21,7 @@ const runStyleFactory = async () => {
     '!**/web-components/',
     '!**/style/',
     '!**/helper-classes/',
-    '!**/*_not_in_use/'
+    '!**/*_not_in_use/',
   ]
 
   // components
@@ -36,11 +36,11 @@ const runStyleFactory = async () => {
 `,
     scssTemplateToFill: `@import '../components/{name}/style/_{name}.scss';`,
     processToNamesList: [
-      path.resolve(__dirname, '../../../src/components/*')
+      path.resolve(__dirname, '../../../src/components/*'),
     ].concat(processToNamesIgnoreList),
     processOnlyList: [
-      path.resolve(__dirname, '../../../src/components/**/style/*.scss')
-    ]
+      path.resolve(__dirname, '../../../src/components/**/style/*.scss'),
+    ],
   }).then(() => {
     if (require.main === module) {
       log.succeed(
@@ -60,11 +60,11 @@ const runStyleFactory = async () => {
 `,
     scssTemplateToFill: `@import '../fragments/{name}/style/_{name}.scss';`,
     processToNamesList: [
-      path.resolve(__dirname, '../../../src/fragments/*')
+      path.resolve(__dirname, '../../../src/fragments/*'),
     ].concat(processToNamesIgnoreList),
     processOnlyList: [
-      path.resolve(__dirname, '../../../src/fragments/**/style/*.scss')
-    ]
+      path.resolve(__dirname, '../../../src/fragments/**/style/*.scss'),
+    ],
   }).then(() => {
     if (require.main === module) {
       log.succeed(
@@ -84,11 +84,11 @@ const runStyleFactory = async () => {
 `,
     scssTemplateToFill: `@import '../extensions/{name}/style/_{name}.scss';`,
     processToNamesList: [
-      path.resolve(__dirname, '../../../src/extensions/*')
+      path.resolve(__dirname, '../../../src/extensions/*'),
     ].concat(processToNamesIgnoreList),
     processOnlyList: [
-      path.resolve(__dirname, '../../../src/extensions/**/style/*.scss')
-    ]
+      path.resolve(__dirname, '../../../src/extensions/**/style/*.scss'),
+    ],
   }).then(() => {
     if (require.main === module) {
       log.info('> Created the style file with all the extensions')
@@ -105,11 +105,11 @@ const runFactory = async ({
   processToNamesList,
   processOnlyList = null,
   customContent = '',
-  onlyDirectories = true
+  onlyDirectories = true,
 }) => {
   try {
     processToNamesList = await globby(processToNamesList, {
-      onlyDirectories
+      onlyDirectories,
     })
     processToNamesList.sort()
     if (processOnlyList) {
@@ -124,7 +124,7 @@ const runFactory = async ({
 
   processToNamesList = processToNamesList.map((source) => ({
     source,
-    name: basename(source)
+    name: basename(source),
   }))
 
   const content = processToNamesList
@@ -140,7 +140,7 @@ const runFactory = async ({
       scssOutputFile,
       prettier.format(`${autoAdvice}${customContent}${content}\n`, {
         ...prettierrc,
-        filepath: scssOutputFile
+        filepath: scssOutputFile,
       })
     )
   } catch (e) {

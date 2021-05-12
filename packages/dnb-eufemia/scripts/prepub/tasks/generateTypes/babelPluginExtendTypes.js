@@ -16,14 +16,14 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
       hasClassProperty({
         file,
         componentName,
-        property: 'defaultProps'
+        property: 'defaultProps',
       })
     ) {
       inertClassProperty({
         t,
         path,
         property: 'defaultProps',
-        type: 'object'
+        type: 'object',
       })
     }
   }
@@ -49,18 +49,18 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
                   if (
                     path.parentPath.isTSInterfaceDeclaration() &&
                     path.isIdentifier({
-                      name
+                      name,
                     })
                   ) {
                     path.node.name = `${name} extends React.HTMLProps<HTMLElement>`
                     path.stop()
                   }
-                }
+                },
               })
-            }
+            },
           })
         }
-      }
+      },
     })
   }
 
@@ -89,7 +89,7 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
                 path.stop()
                 handleMainInterfaceProps(path)
               }
-            }
+            },
           })
         }
       },
@@ -105,13 +105,13 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
               // sourceFile,
               keyName,
               valueName,
-              importStatement
+              importStatement,
             }) => {
               root.traverse({
                 ImportDeclaration(path) {
                   path.insertAfter(babel.template.ast(importStatement))
                   path.stop()
-                }
+                },
               })
 
               root.traverse({
@@ -121,18 +121,18 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
                       t,
                       path,
                       property: keyName,
-                      value: valueName
+                      value: valueName,
                     })
 
                     path.stop()
                   }
-                }
+                },
               })
             }
           )
         }
-      }
-    }
+      },
+    },
   }
 }
 
@@ -168,10 +168,10 @@ function hasClassProperty({ file, componentName, property }) {
             ) {
               exists = true
             }
-          }
+          },
         })
       }
-    }
+    },
   })
 
   return exists
@@ -214,19 +214,19 @@ function getListOfClassProperties({ file }) {
                         keyName,
                         valueName,
                         sourceFile,
-                        importStatement: path.parentPath.parentPath.toString()
+                        importStatement: path.parentPath.parentPath.toString(),
                       })
 
                       path.stop()
                     }
-                  }
+                  },
                 })
               })
             }
-          }
+          },
         })
       }
-    }
+    },
   })
 
   return results

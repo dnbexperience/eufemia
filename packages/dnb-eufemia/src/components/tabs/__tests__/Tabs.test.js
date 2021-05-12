@@ -9,14 +9,14 @@ import {
   fakeProps,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Tabs'
 import Input from '../../Input'
 
 const props = fakeProps(require.resolve('../Tabs'), {
   all: true,
-  optional: true
+  optional: true,
 })
 delete props.render
 props.id = 'id'
@@ -25,17 +25,17 @@ const startup_selected_key = 'second'
 const tablistData = [
   { title: 'First', key: 'first' },
   { title: 'Second', key: 'second' },
-  { title: 'Third', key: 'third' }
+  { title: 'Third', key: 'third' },
 ]
 const tablistDataWithContent = [
   { title: 'First', key: 1, content: <h2>First</h2> }, // without function
   { title: 'Second', key: 2, content: () => <h2>Second</h2> }, // with function
-  { title: 'Third', key: 3, content: () => <h2>Third</h2> } // with function
+  { title: 'Third', key: 3, content: () => <h2>Third</h2> }, // with function
 ]
 const contentWrapperData = {
   first: <h2>First</h2>, // without function
   second: () => <h2>Second</h2>, // with function
-  third: <h2>Third</h2> // without function
+  third: <h2>Third</h2>, // without function
 }
 
 describe('Tabs component', () => {
@@ -113,12 +113,12 @@ describe('Tabs component', () => {
     )
 
     Comp.find('.dnb-tabs__tabs__tablist').simulate('keyDown', {
-      keyCode: 39
+      keyCode: 39,
     }) // right
     expect(on_focus).toBeCalledTimes(1)
 
     Comp.find('.dnb-tabs__tabs__tablist').simulate('keyDown', {
-      keyCode: 39
+      keyCode: 39,
     }) // right
     expect(on_focus).toBeCalledTimes(2)
   })
@@ -182,7 +182,7 @@ describe('A single Tab component', () => {
     Comp.find('button[data-tab-key="second"]').simulate('click')
     Comp.find('div[role="tablist"]').simulate('keyDown', {
       key: 'ArrowRight',
-      keyCode: 39
+      keyCode: 39,
     })
     Comp.find('button[data-tab-key="third"]').simulate('click')
     expect(Comp.find('div[role="tabpanel"]').children().html()).toBe(
@@ -217,9 +217,9 @@ describe('A single Tab component', () => {
             key: 'one',
             content: () => (
               <Input label="Content one" placeholder="Edit me" />
-            )
+            ),
           },
-          { title: 'Two', key: 'two', content: 'Content two' }
+          { title: 'Two', key: 'two', content: 'Content two' },
         ]}
       />
     )
@@ -229,7 +229,7 @@ describe('A single Tab component', () => {
     // also check a real live rerender scenario
     const value = 'value'
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value }
+      target: { value },
     })
 
     // then click on tab two
@@ -272,9 +272,9 @@ describe('A single Tab component', () => {
           {
             title: 'One',
             key: 1,
-            content: 'Content one'
+            content: 'Content one',
           },
-          { title: 'Two', key: 2, content: 'Content two' }
+          { title: 'Two', key: 2, content: 'Content two' },
         ]}
       />
     )
@@ -352,7 +352,7 @@ describe('A single Tab component', () => {
     expect(testKey).toBe('first')
 
     Comp.setProps({
-      selected_key: 'second'
+      selected_key: 'second',
     })
     expect(
       Comp.find('button.selected').instance().getAttribute('data-tab-key')

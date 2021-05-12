@@ -8,7 +8,7 @@ import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
 export default {
-  title: 'Eufemia/Helpers/SkipLink'
+  title: 'Eufemia/Helpers/SkipLink',
 }
 
 const SkipLinkReset = styled.div`

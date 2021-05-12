@@ -39,7 +39,7 @@ export {
   makeLibStyles,
   makeMainStyle,
   makePropertiesFile,
-  generateTypes
+  generateTypes,
 
   // NB: Deprecated and replaced by Babel only build
   // makeLibModules,
@@ -50,7 +50,7 @@ export {
 
 export const runPrepublishTasks = async ({
   preventDelete,
-  doRefetch
+  doRefetch,
 } = {}) => {
   process.env.NODE_ENV = 'production'
   log.start('Starting the prepublish process...', doRefetch)
@@ -105,10 +105,10 @@ export const cleanupLib = async ({ preventDelete = false } = {}) => {
         '!./style',
         '!./shared',
         '!./icons',
-        '!./umd'
+        '!./umd',
       ],
       {
-        force: true
+        force: true,
       }
     )
   }

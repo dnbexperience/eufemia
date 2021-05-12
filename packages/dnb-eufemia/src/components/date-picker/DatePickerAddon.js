@@ -14,23 +14,23 @@ export default class DatePickerAddon extends React.PureComponent {
 
   static propTypes = {
     shortcuts: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
-    renderElement: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+    renderElement: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   }
 
   static defaultProps = {
     shortcuts: null,
-    renderElement: null
+    renderElement: null,
   }
 
   state = {
     currentShortcut: null,
-    _listenForPropChanges: true
+    _listenForPropChanges: true,
   }
 
   setDate({ value, event }) {
     this.setState({
       currentShortcut: value,
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
 
     const start_date = value.date || value.start_date
@@ -51,7 +51,7 @@ export default class DatePickerAddon extends React.PureComponent {
     this.callOnChange({
       startDate,
       endDate: endDate || startDate,
-      event
+      event,
     })
 
     if (value.close_on_select) {
@@ -64,7 +64,7 @@ export default class DatePickerAddon extends React.PureComponent {
     return {
       date: startDate,
       start_date: startDate,
-      end_date: endDate
+      end_date: endDate,
     }
   }
 

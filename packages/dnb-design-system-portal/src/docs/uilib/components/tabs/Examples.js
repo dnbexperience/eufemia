@@ -134,7 +134,7 @@ export class TabsExampleRightAligned extends React.PureComponent {
   state = { activeTabKey: 'second' }
   openTab = ({ key }) => {
     this.setState({
-      activeTabKey: key
+      activeTabKey: key,
     })
   }
   isActive(tabKey) {
@@ -278,14 +278,14 @@ const exampleContent = {
       <p>Paragraph 2</p>
     </>
   ),
-  fourth: 'Fourth as a string only'
+  fourth: 'Fourth as a string only',
 }
 
 const data = [
   { title: 'First', key: 'first' },
   { title: 'Second', key: 'second' },
   { title: 'Third', key: 'third', disabled: true },
-  { title: 'Fourth', key: 'fourth' }
+  { title: 'Fourth', key: 'fourth' },
 ]
 const manyTabs = [
   { title: 'First', key: 'first' },
@@ -297,7 +297,7 @@ const manyTabs = [
   { title: 'Seventh', key: 'seventh' },
   { title: 'Eighth', key: 'eighth' },
   { title: 'Ninth', key: 'ninth' },
-  { title: 'Tenth', key: 'tenth' }
+  { title: 'Tenth', key: 'tenth' },
 ]
 const manyTabsContent = manyTabs.reduce((acc, { title, key }) => {
   acc[key] = title

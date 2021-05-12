@@ -7,7 +7,7 @@ import React from 'react'
 import {
   isTrue,
   dispatchCustomElementEvent,
-  convertJsxToString
+  convertJsxToString,
 } from '../../shared/component-helper'
 
 export const parseContentTitle = (
@@ -15,7 +15,7 @@ export const parseContentTitle = (
   {
     separator = '\n',
     removeNumericOnlyValues = false,
-    preferSelectedValue = false
+    preferSelectedValue = false,
   } = {}
 ) => {
   let ret = ''
@@ -105,7 +105,7 @@ export const normalizeData = (props) => {
         selected_key: i,
         value: i,
         content: data[i],
-        type: 'object'
+        type: 'object',
       })
     }
     data = list
@@ -230,7 +230,7 @@ export const prepareStartupState = (props) => {
     on_show: props.on_show,
     on_change: props.on_change,
     on_select: props.on_select,
-    _listenForPropChanges: false
+    _listenForPropChanges: false,
   }
 }
 
@@ -272,7 +272,7 @@ export const prepareDerivedState = (props, state) => {
         dispatchCustomElementEvent({ props }, 'on_state_update', {
           selected_item: state.selected_item,
           value: getSelectedItemValue(state.selected_item, state),
-          data: getEventData(state.selected_item, state.data)
+          data: getEventData(state.selected_item, state.data),
         })
       }
     }
@@ -305,7 +305,7 @@ export const getCurrentDataTitle = (selected_item, data) => {
   const currentData = getCurrentData(selected_item, data)
   return parseContentTitle(currentData, {
     separator: ' ',
-    preferSelectedValue: true
+    preferSelectedValue: true,
   })
 }
 

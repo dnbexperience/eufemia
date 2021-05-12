@@ -12,15 +12,15 @@ import {
   registerElement,
   validateDOMAttributes,
   processChildren,
-  extendPropsWithContext
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
-  createSkeletonClass
+  createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 
 import StepItem from './StepIndicatorItem'
@@ -39,18 +39,18 @@ export default class StepIndicator extends React.PureComponent {
           url: PropTypes.string,
           is_active: PropTypes.oneOfType([
             PropTypes.string,
-            PropTypes.bool
+            PropTypes.bool,
           ]),
           is_current: PropTypes.oneOfType([
             PropTypes.string,
-            PropTypes.bool
+            PropTypes.bool,
           ]),
           url_future: PropTypes.string,
           url_passed: PropTypes.string,
           on_click: PropTypes.func,
-          on_render: PropTypes.func
+          on_render: PropTypes.func,
         })
-      )
+      ),
     ]).isRequired,
     step_title: PropTypes.string,
     active_item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -58,7 +58,7 @@ export default class StepIndicator extends React.PureComponent {
     hide_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     use_navigation: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     on_item_render: PropTypes.func,
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -69,7 +69,7 @@ export default class StepIndicator extends React.PureComponent {
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
-    on_change: PropTypes.func
+    on_change: PropTypes.func,
   }
 
   static defaultProps = {
@@ -86,7 +86,7 @@ export default class StepIndicator extends React.PureComponent {
     className: null,
     children: null,
 
-    on_change: null
+    on_change: null,
   }
 
   static enableWebComponent() {
@@ -148,7 +148,7 @@ export default class StepIndicator extends React.PureComponent {
 
     this.state = {
       hasReached: [],
-      _listenForPropChanges: true
+      _listenForPropChanges: true,
     }
 
     const sn = 'show_numbers'
@@ -162,7 +162,7 @@ export default class StepIndicator extends React.PureComponent {
   setActiveItem = (activeItem) => {
     this.setState({
       activeItem,
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
   }
 
@@ -205,7 +205,7 @@ export default class StepIndicator extends React.PureComponent {
         className,
         _className
       ),
-      ...attributes
+      ...attributes,
     }
 
     skeletonDOMAttributes(params, skeleton, this.context)
@@ -235,7 +235,7 @@ export default class StepIndicator extends React.PureComponent {
                 on_item_render,
                 step_title,
                 on_change,
-                ...props
+                ...props,
               }
               return (
                 <StepItem

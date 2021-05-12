@@ -9,14 +9,14 @@ import {
   fakeProps,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component, { setMaxWidthToElement } from '../FormStatus'
 import Input from '../../Input'
 
 const props = fakeProps(require.resolve('../FormStatus'), {
   optional: true,
-  all: true
+  all: true,
 })
 props.id = 'form-status'
 props.text = 'text'
@@ -52,7 +52,7 @@ describe('FormStatus component', () => {
 
     setMaxWidthToElement({
       element: formStatusElement,
-      widthElement: inputElement
+      widthElement: inputElement,
     })
 
     // now, setMaxWidthToElement should have set an inline style with an "max-width as rem"
@@ -81,7 +81,7 @@ describe('FormStatus component', () => {
     // Deprecated: use the GlobalStatus and aria-live
     // expect(Comp.exists('[aria-live="assertive"]')).toBe(false)
     Comp.setProps({
-      hidden: false
+      hidden: false,
     })
     // Deprecated: use the GlobalStatus and aria-live
     // expect(Comp.exists('[aria-live="assertive"]')).toBe(true)

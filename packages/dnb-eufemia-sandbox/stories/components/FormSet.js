@@ -14,13 +14,13 @@ import {
   Button,
   Input,
   FormSet,
-  FormRow
+  FormRow,
 } from '@dnb/eufemia/src/components'
 
 import { H2, P } from '@dnb/eufemia/src/elements'
 
 export default {
-  title: 'Eufemia/Components/FormSet'
+  title: 'Eufemia/Components/FormSet',
 }
 
 const Center = styled.div`

@@ -22,8 +22,8 @@ const run = () => {
         repo: `https://${process.env.GH_TOKEN}@github.com/dnbexperience/eufemia.git`,
         user: {
           name: process.env.GH_NAME,
-          email: process.env.GH_EMAIL
-        }
+          email: process.env.GH_EMAIL,
+        },
       }
     : {}
 
@@ -37,7 +37,7 @@ const run = () => {
         CIName || 'localhost'
       } ${currentVersion} [CI SKIP]`,
       branch: 'gh-pages',
-      ...config
+      ...config,
     },
     (error) => {
       if (error) {

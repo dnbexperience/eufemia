@@ -12,11 +12,11 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
-  processChildren
+  processChildren,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import TooltipWithEvents from './TooltipWithEvents'
 import TooltipPortal from './TooltipPortal'
@@ -40,12 +40,12 @@ export default class Tooltip extends React.PureComponent {
       'top',
       'right',
       'bottom',
-      'left'
+      'left',
     ]),
     align: PropTypes.oneOf([null, 'center', 'right', 'left']),
     animate_position: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     show_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -53,7 +53,7 @@ export default class Tooltip extends React.PureComponent {
     target_selector: PropTypes.string,
     target_element: PropTypes.oneOfType([
       PropTypes.object,
-      PropTypes.node
+      PropTypes.node,
     ]),
 
     ...spacingPropTypes,
@@ -63,9 +63,9 @@ export default class Tooltip extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
-    tooltip: PropTypes.node
+    tooltip: PropTypes.node,
   }
 
   static defaultProps = {
@@ -86,7 +86,7 @@ export default class Tooltip extends React.PureComponent {
     class: null,
     className: null,
     children: null,
-    tooltip: null
+    tooltip: null,
   }
 
   static enableWebComponent() {
@@ -156,7 +156,7 @@ export default class Tooltip extends React.PureComponent {
 
     const attributes = {
       className: classes,
-      ...params
+      ...params,
     }
 
     // also used for code markup simulation
@@ -166,7 +166,7 @@ export default class Tooltip extends React.PureComponent {
       ...this.props,
       ...inherited,
       internal_id: this._id,
-      group: this.props.id || group
+      group: this.props.id || group,
     }
     if (newProps.active === null) {
       delete newProps.active

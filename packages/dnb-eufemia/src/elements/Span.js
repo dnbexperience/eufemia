@@ -14,10 +14,10 @@ const Span = React.forwardRef((props, ref) => (
 Span.tagName = 'dnb-span'
 Span.propTypes = {
   ...spacingPropTypes,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 Span.defaultProps = {
-  children: null
+  children: null,
 }
 
 export default Span

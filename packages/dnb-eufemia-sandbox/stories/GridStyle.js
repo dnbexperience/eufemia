@@ -10,7 +10,7 @@ export const gridStyle = ({
   rgb = null,
   hsl = '204, 80%, 72%',
   a = 0.8,
-  returnOnlyVars = false
+  returnOnlyVars = false,
 } = {}) => {
   // sorry IE user, here is nothing funn to get
   if (IS_IE11) {

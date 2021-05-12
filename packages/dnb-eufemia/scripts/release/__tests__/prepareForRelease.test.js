@@ -14,7 +14,7 @@ describe('cleanupPackage', () => {
     const packageString = await fs.readFile(filepath, 'utf-8')
     const cleanedPackage = await cleanupPackage({
       packageString,
-      filepath
+      filepath,
     })
     const parsedJson = JSON.parse(cleanedPackage)
 
@@ -34,7 +34,7 @@ describe('writeLibVersion', () => {
     const mockFile = './__mocks__/version.mock'
     await writeLibVersion({
       destPath: __dirname,
-      files: [mockFile]
+      files: [mockFile],
     })
     const filepath = path.resolve(__dirname, mockFile)
     const content = await fs.readFile(filepath, 'utf-8')

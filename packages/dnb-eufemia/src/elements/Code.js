@@ -14,10 +14,10 @@ const Code = React.forwardRef((props, ref) => (
 Code.tagName = 'dnb-code'
 Code.propTypes = {
   ...spacingPropTypes,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 Code.defaultProps = {
-  children: null
+  children: null,
 }
 
 export default Code

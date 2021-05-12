@@ -11,7 +11,7 @@ import Provider from '@dnb/eufemia/src/shared/Provider'
 import { Textarea, FormRow } from '@dnb/eufemia/src/components'
 
 export default {
-  title: 'Eufemia/Components/Textarea'
+  title: 'Eufemia/Components/Textarea',
 }
 
 export const TextareaSandbox = () => (

@@ -12,7 +12,7 @@ import DefaultIcon, {
   iconPropTypes,
   DefaultIconSize,
   prerenderIcon,
-  prepareIcon
+  prepareIcon,
 } from '../icon/Icon'
 
 // NB: The path reflects the rollup.config.js -> external: '../../icons/primary_icons'
@@ -31,7 +31,7 @@ export default class IconPrimary extends React.PureComponent {
     /**
      * Use spread, so generateTypes.js makes a valid copy to create the types
      */
-    ...iconPropTypes
+    ...iconPropTypes,
   }
   static defaultProps = { ...DefaultIcon.defaultProps }
 
@@ -63,7 +63,7 @@ export default class IconPrimary extends React.PureComponent {
       icon,
       size,
       alt,
-      listOfIcons: icons
+      listOfIcons: icons,
     })
 
     if (!IconContainer) return <></>

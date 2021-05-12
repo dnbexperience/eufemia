@@ -8,7 +8,7 @@ import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
 export default {
-  title: 'Eufemia/Elements/Typography'
+  title: 'Eufemia/Elements/Typography',
 }
 
 const CustomStyle = styled.div`

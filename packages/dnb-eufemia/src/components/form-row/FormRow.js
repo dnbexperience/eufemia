@@ -12,7 +12,7 @@ import {
   isTrue,
   makeUniqueId,
   registerElement,
-  validateDOMAttributes
+  validateDOMAttributes,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import Context from '../../shared/Context'
@@ -20,7 +20,7 @@ import hashSum from '../../shared/libs/HashSum'
 import FormLabel from '../form-label/FormLabel'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 
 export const formRowPropTypes = {
@@ -28,7 +28,7 @@ export const formRowPropTypes = {
   label: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
-    PropTypes.node
+    PropTypes.node,
   ]),
   label_direction: PropTypes.oneOf(['vertical', 'horizontal']),
   label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -58,11 +58,11 @@ export const formRowPropTypes = {
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
-    PropTypes.node
+    PropTypes.node,
   ]),
 
   custom_element: PropTypes.object,
-  custom_method: PropTypes.func
+  custom_method: PropTypes.func,
 }
 
 export const formRowDefaultProps = {
@@ -93,7 +93,7 @@ export const formRowDefaultProps = {
   children: null,
 
   custom_element: null,
-  custom_method: null
+  custom_method: null,
 }
 
 export default class FormRow extends React.PureComponent {
@@ -101,11 +101,11 @@ export default class FormRow extends React.PureComponent {
   static contextType = Context
 
   static propTypes = {
-    ...formRowPropTypes
+    ...formRowPropTypes,
   }
 
   static defaultProps = {
-    ...formRowDefaultProps
+    ...formRowDefaultProps,
   }
 
   static enableWebComponent() {
@@ -220,7 +220,7 @@ export default class FormRow extends React.PureComponent {
         className,
         _className
       ),
-      ...attributes
+      ...attributes,
     }
 
     // also used for code markup simulation
@@ -259,10 +259,10 @@ export default class FormRow extends React.PureComponent {
         label_direction: isTrue(vertical) ? 'vertical' : label_direction,
         responsive,
         disabled,
-        skeleton
+        skeleton,
       }
       this._cachedContext = extend(this.context, {
-        FormRow
+        FormRow,
       })
     }
 
@@ -345,12 +345,12 @@ const Fieldset = ({ useFieldset, className, children, ...props }) => {
 Fieldset.propTypes = {
   children: PropTypes.node,
   useFieldset: PropTypes.bool,
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 Fieldset.defaultProps = {
   children: null,
   useFieldset: false,
-  className: null
+  className: null,
 }
 
 export const prepareFormRowContext = (props) => {

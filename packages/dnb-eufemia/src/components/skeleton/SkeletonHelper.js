@@ -50,13 +50,13 @@ export class AutoSize extends React.PureComponent {
     __element: PropTypes.node,
     children: PropTypes.node,
     className: PropTypes.string,
-    style: PropTypes.object
+    style: PropTypes.object,
   }
   static defaultProps = {
     __element: null,
     children: null,
     className: null,
-    style: null
+    style: null,
   }
 
   render() {
@@ -87,9 +87,9 @@ export class AutoSize extends React.PureComponent {
               ...(style || {}),
               [IS_IE11
                 ? 'maxWidth'
-                : '--skeleton-chars']: `${countChars}ch`
+                : '--skeleton-chars']: `${countChars}ch`,
             },
-            ...props
+            ...props,
           },
           children
         )

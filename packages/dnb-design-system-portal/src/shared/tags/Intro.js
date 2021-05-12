@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import { navigate } from 'gatsby'
 import styled from '@emotion/styled'
 import {
-  Link
+  Link,
   // Hr
 } from '@dnb/eufemia/src/elements'
 import { Button, Space } from '@dnb/eufemia/src/components'
@@ -49,7 +49,7 @@ const Intro = ({ children }) => {
   )
 }
 Intro.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 }
 Intro.defaultProps = {}
 
@@ -67,7 +67,7 @@ export const IntroFooter = ({ href, text }) => (
 )
 IntroFooter.propTypes = {
   href: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired
+  text: PropTypes.string.isRequired,
 }
 IntroFooter.defaultProps = {}
 
@@ -83,13 +83,17 @@ const Wrapper = styled.div`
     margin: 0.5rem 1rem 0 0;
   }
 
-  ${'' /* a[href*='/intro/'] {
+  ${
+    '' /* a[href*='/intro/'] {
     display: block;
     color: red;
-  } */}
-  ${'' /* .dnb-hr:last-of-type {
+  } */
+  }
+  ${
+    '' /* .dnb-hr:last-of-type {
     color: red;
-  } */}
+  } */
+  }
 `
 const Inner = styled.div`
   ${'' /* transform: scale(1.2); */}

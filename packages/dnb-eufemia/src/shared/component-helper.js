@@ -294,7 +294,7 @@ export const extendPropsWithContext = (
         acc[key] = value
       }
       return acc
-    }, {})
+    }, {}),
   }
 }
 
@@ -319,7 +319,7 @@ export const dispatchCustomElementEvent = (
 
   const eventObject = {
     ...((eventObjectOrig && eventObjectOrig.event) || {}),
-    ...eventObjectOrig
+    ...eventObjectOrig,
   }
 
   // distribute dataset like "data-*" to both currentTarget and target
@@ -488,7 +488,7 @@ export class DetectOutsideClickClass {
         this.checkOutsideClick(
           {
             currentElement: event.target,
-            ignoreElements
+            ignoreElements,
           },
           () => typeof onSuccess === 'function' && onSuccess({ event })
         )

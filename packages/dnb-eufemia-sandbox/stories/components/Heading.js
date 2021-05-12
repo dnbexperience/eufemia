@@ -11,11 +11,11 @@ import { ToggleButton, Button } from '@dnb/eufemia/src/components'
 import Provider from '@dnb/eufemia/src/shared/Provider'
 import Heading, {
   setNextLevel,
-  resetLevels
+  resetLevels,
 } from '@dnb/eufemia/src/components/Heading'
 
 export default {
-  title: 'Eufemia/Components/Heading'
+  title: 'Eufemia/Components/Heading',
 }
 
 const CustomStyle = styled.div`

@@ -19,7 +19,7 @@ import graphics from './SidebarGraphics'
 import keycode from 'keycode'
 import {
   setPageFocusElement,
-  applyPageFocus
+  applyPageFocus,
 } from '@dnb/eufemia/src/shared/helpers'
 import PortalToolsMenu from './PortalToolsMenu'
 
@@ -316,10 +316,10 @@ const showAlwaysMenuItems = [] // like "uilib" something like that
 export default class SidebarLayout extends React.PureComponent {
   static propTypes = {
     location: PropTypes.object.isRequired,
-    showAll: PropTypes.bool
+    showAll: PropTypes.bool,
   }
   static defaultProps = {
-    showAll: false
+    showAll: false,
   }
   static contextType = SidebarMenuContext
 
@@ -395,7 +395,7 @@ export default class SidebarLayout extends React.PureComponent {
         if (window.scrollTo) {
           window.scrollTo({
             top,
-            behavior: 'smooth'
+            behavior: 'smooth',
           })
         } else {
           window.scrollTop = top
@@ -490,7 +490,7 @@ export default class SidebarLayout extends React.PureComponent {
               location,
               allMdx,
               showAll,
-              pathPrefix
+              pathPrefix,
             })
               .filter(({ title, menuTitle }) => title || menuTitle)
 
@@ -531,7 +531,7 @@ export default class SidebarLayout extends React.PureComponent {
                     path,
                     level,
                     active,
-                    inside
+                    inside,
                   },
                   nr
                 ) => {
@@ -544,7 +544,7 @@ export default class SidebarLayout extends React.PureComponent {
                     inside,
                     to: path,
                     onOffsetTop: (offsetTop) =>
-                      (this.offsetTop = offsetTop)
+                      (this.offsetTop = offsetTop),
                   }
 
                   return (
@@ -622,7 +622,7 @@ class ListItem extends React.PureComponent {
     status: PropTypes.string,
     icon: PropTypes.string,
     active: PropTypes.bool,
-    inside: PropTypes.bool
+    inside: PropTypes.bool,
   }
   static defaultProps = {
     className: null,
@@ -632,7 +632,7 @@ class ListItem extends React.PureComponent {
     nr: null,
     status: null,
     icon: null,
-    onOffsetTop: null
+    onOffsetTop: null,
   }
 
   constructor(props) {
@@ -655,7 +655,7 @@ class ListItem extends React.PureComponent {
       nr,
       status,
       icon,
-      children
+      children,
     } = this.props
 
     const statusTitle =
@@ -666,7 +666,7 @@ class ListItem extends React.PureComponent {
         wip: 'Work in Progress',
         cs: 'Coming soon',
         dep: 'Deprecated',
-        imp: 'Needs improvement'
+        imp: 'Needs improvement',
       }[status]
 
     const params = {}
@@ -687,7 +687,7 @@ class ListItem extends React.PureComponent {
         style={{
           '--delay': `${
             nr !== null && nr < 20 ? nr * 12 : 0 // random(1, 160)
-          }ms`
+          }ms`,
         }}
       >
         <Link
@@ -746,8 +746,8 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
     .map(
       ({
         node: {
-          fields: { slug }
-        }
+          fields: { slug },
+        },
       }) => slug
     )
     .filter((slug) => slug !== '/')
@@ -774,7 +774,7 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
           ) {
             return {
               ...acc,
-              [`/${prefix}`]: [...acc[`/${prefix}`], cur]
+              [`/${prefix}`]: [...acc[`/${prefix}`], cur],
             }
           } else {
             return { ...acc, items: [...acc.items, cur] }
@@ -796,13 +796,13 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
       const {
         node: {
           fields: { slug },
-          frontmatter: { title, order, ...rest }
-        }
+          frontmatter: { title, order, ...rest },
+        },
       } = allMdx.edges.find(
         ({
           node: {
-            fields: { slug }
-          }
+            fields: { slug },
+          },
         }) => slug === slugPath
       )
 
@@ -818,7 +818,7 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
       const sub = parts.slice(0, parts.length - 1).join('/')
 
       subCache[sub] = subCache[sub] || {
-        count: 1
+        count: 1,
       }
       levelCache[item.level] = levelCache[item.level] || {}
       const count = subCache[sub].count++

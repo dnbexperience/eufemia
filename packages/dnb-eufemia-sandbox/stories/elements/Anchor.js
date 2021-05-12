@@ -9,7 +9,7 @@ import { Anchor, H1, P } from '@dnb/eufemia/src/elements'
 import { IconPrimary } from '@dnb/eufemia/src'
 
 export default {
-  title: 'Eufemia/Elements/Anchor'
+  title: 'Eufemia/Elements/Anchor',
 }
 
 export const AnchorSandbox = () => {

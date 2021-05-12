@@ -20,12 +20,12 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const Figma = Client({
-  personalAccessToken: process.env.FIGMA_TOKEN
+  personalAccessToken: process.env.FIGMA_TOKEN,
 })
 
 export const fetchTextColor = (node) => {
   const vector = findNode(node, {
-    name: 'text'
+    name: 'text',
     // type: 'TEXT'
   })
   if (!vector) return null
@@ -33,7 +33,7 @@ export const fetchTextColor = (node) => {
 }
 export const fetchFillColor = (node) => {
   const vector = findNode(node, {
-    name: 'bg'
+    name: 'bg',
     // type: 'VECTOR'
   })
   if (!vector) return null
@@ -41,14 +41,14 @@ export const fetchFillColor = (node) => {
 }
 export const fetchStrokes = (node) => {
   const vector = findNode(node, {
-    name: 'bg'
+    name: 'bg',
     // type: 'VECTOR'
   })
   if (!vector) return null
   const { strokes, strokeWeight } = vector
   return {
     color: fetchColors(strokes)[0],
-    weight: strokeWeight
+    weight: strokeWeight,
   }
 }
 export const fetchColors = (fills) => {
@@ -72,7 +72,7 @@ export const fetchSize = (node) => {
 }
 export const fetchText = (node) =>
   findNode(node, {
-    type: 'TEXT'
+    type: 'TEXT',
   })
 
 export const findAll = (
@@ -136,7 +136,7 @@ export const findAllNodes = (doc, find, ignore = null) =>
 export const getLiveVersionOfFigmaDoc = async ({ figmaFile }) => {
   try {
     const {
-      data: { versions }
+      data: { versions },
     } = await Figma.client.get(`files/${figmaFile}/versions`)
     // const versions = await Figma.versions() // not implemented yet
 
@@ -157,14 +157,14 @@ const saveLiveVersionOfFigmaDoc = async ({ figmaFile, version }) => {
       ? JSON.parse((await fs.readFile(lockFile, 'utf-8')) || '{}')
       : {}
     const newLockFileContent = {
-      [md5(figmaFile)]: version
+      [md5(figmaFile)]: version,
     }
 
     await fs.writeFile(
       lockFile,
       JSON.stringify({
         ...existingLockFileContent,
-        ...newLockFileContent
+        ...newLockFileContent,
       })
     )
   } catch (e) {
@@ -189,7 +189,7 @@ export const getFigmaDoc = async ({
   figmaFile,
   localFile = null,
   forceRefetch = null,
-  preventUpdate = null
+  preventUpdate = null,
 } = {}) => {
   if (
     !(typeof figmaFile === 'string' && figmaFile.length > 0) &&
@@ -222,7 +222,7 @@ export const getFigmaDoc = async ({
     log.start('> Figma: Trying to get the newest online version')
 
     const liveVersion = await getLiveVersionOfFigmaDoc({
-      figmaFile
+      figmaFile,
     })
 
     if (liveVersion) {
@@ -243,7 +243,7 @@ export const getFigmaDoc = async ({
         )
         await saveLiveVersionOfFigmaDoc({
           figmaFile,
-          version: liveVersion
+          version: liveVersion,
         })
         forceRefetch = true
       }
@@ -291,7 +291,7 @@ export const getFigmaDoc = async ({
 export const getFigmaUrlByImageIds = async ({
   figmaFile,
   ids,
-  params = {}
+  params = {},
 }) => {
   try {
     if (ids.length === 0) {
@@ -299,11 +299,11 @@ export const getFigmaUrlByImageIds = async ({
     }
 
     const {
-      data: { images }
+      data: { images },
     } = await Figma.fileImages(figmaFile, {
       ids,
       format: 'svg',
-      ...params
+      ...params,
     })
 
     return images

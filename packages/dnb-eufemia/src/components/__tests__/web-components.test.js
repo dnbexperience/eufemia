@@ -7,7 +7,7 @@ import '../../core/jest/jestSetup'
 import {
   enableWebComponents,
   getComponents,
-  Button
+  Button,
 } from '../web-components'
 import { registeredElements } from '../../shared/custom-element'
 

@@ -13,7 +13,7 @@ import {
   registerElement,
   extendPropsWithContext,
   validateDOMAttributes,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
@@ -25,7 +25,7 @@ import AccordionProviderContext from './AccordionProviderContext'
 import Context from '../../shared/Context'
 import {
   accordionPropTypes,
-  accordionDefaultProps
+  accordionDefaultProps,
 } from './AccordionPropTypes'
 
 class AccordionStore {
@@ -56,11 +56,11 @@ export default class Accordion extends React.PureComponent {
   static Content = AccordionContent
 
   static propTypes = {
-    ...accordionPropTypes
+    ...accordionPropTypes,
   }
 
   static defaultProps = {
-    ...accordionDefaultProps
+    ...accordionDefaultProps,
   }
 
   static enableWebComponent() {
@@ -95,7 +95,7 @@ export default class Accordion extends React.PureComponent {
           : isTrue(context?.expanded),
       group: props.group || context?.group,
       no_animation: isTrue(props.no_animation || context?.no_animation),
-      _listenForPropChanges: false // make sure to not run DerivedState
+      _listenForPropChanges: false, // make sure to not run DerivedState
     }
 
     if (
@@ -165,7 +165,7 @@ export default class Accordion extends React.PureComponent {
     if (isTrue(this.context.flush_remembered_state)) {
       this.store.flush()
       this.setState({
-        expanded: isTrue(this.props.expanded)
+        expanded: isTrue(this.props.expanded),
       })
     }
 
@@ -174,7 +174,7 @@ export default class Accordion extends React.PureComponent {
       this.context.expanded_id === props.id
     ) {
       this.setState({
-        expanded: true
+        expanded: true,
       })
     }
   }
@@ -182,7 +182,7 @@ export default class Accordion extends React.PureComponent {
   setExpandedState(expanded) {
     this.setState({
       expanded,
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
   }
 
@@ -197,7 +197,7 @@ export default class Accordion extends React.PureComponent {
 
     this.setState({
       expanded,
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
 
     // check if a event exists, because, then it's a user click
@@ -229,7 +229,7 @@ export default class Accordion extends React.PureComponent {
 
     dispatchCustomElementEvent(this, 'on_change', {
       expanded,
-      event
+      event,
     })
   }
 
@@ -328,7 +328,7 @@ export default class Accordion extends React.PureComponent {
                   createSpacingClasses(props),
                   className,
                   _className
-                )
+                ),
               }
 
               if (this.state.open) {
@@ -358,7 +358,7 @@ export default class Accordion extends React.PureComponent {
                 remember_state: isTrue(remember_state),
                 disabled: isTrue(disabled),
                 skeleton: isTrue(skeleton),
-                callOnChange: this.callOnChangeHandler
+                callOnChange: this.callOnChangeHandler,
               }
 
               if (isTrue(disabled)) {
@@ -391,13 +391,16 @@ class Group extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string,
     group: PropTypes.string,
-    remember_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
+    remember_state: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
   }
 
   static defaultProps = {
     id: null,
     group: null,
-    remember_state: null
+    remember_state: null,
   }
 
   state = {}
@@ -439,7 +442,7 @@ class Group extends React.PureComponent {
           // 2. set the fallback id
           this.setState(
             {
-              expanded_id
+              expanded_id,
             },
             () => {
               // 3. save the fallback id
@@ -447,7 +450,7 @@ class Group extends React.PureComponent {
 
               // 4. and reset the fallback id
               this.setState({
-                expanded_id: null
+                expanded_id: null,
               })
             }
           )

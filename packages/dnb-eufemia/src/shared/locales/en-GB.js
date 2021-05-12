@@ -20,35 +20,35 @@ export default {
       return_format: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
       submit_button_text: 'OK',
       cancel_button_text: 'Cancel',
-      reset_button_text: 'Reset'
+      reset_button_text: 'Reset',
     },
     Anchor: {
-      target_blank_title: 'Opens a new Window'
+      target_blank_title: 'Opens a new Window',
     },
     GlobalStatus: {
       default_title: 'An error has occurred',
       close_text: 'Close',
-      status_anchor_text: 'Go to %s'
+      status_anchor_text: 'Go to %s',
     },
     GlobalError: {
       404: {
         title: "Oops! We can't find the page you're looking for …",
         text:
           'Did we messed with the links? Try again, or [go back where you came from](/back).',
-        alt: 'Lady searching in empty box'
+        alt: 'Lady searching in empty box',
       },
       500: {
         title: 'Ohh, a technical error happened!',
         text:
           'The service is not working properly at the moment, but try again later.',
-        alt: 'Man looking for clues'
-      }
+        alt: 'Man looking for clues',
+      },
     },
     ProgressIndicator: {
-      indicator_label: 'Please wait ...'
+      indicator_label: 'Please wait ...',
     },
     Dropdown: {
-      title: 'Option Menu'
+      title: 'Option Menu',
     },
     Autocomplete: {
       title: 'Type and select',
@@ -56,26 +56,26 @@ export default {
       no_options: 'No option',
       show_all: 'Show everything',
       aria_live_options: '%s options',
-      indicator_label: 'Getting data ...'
+      indicator_label: 'Getting data ...',
     },
     Modal: {
-      close_title: 'Close'
+      close_title: 'Close',
     },
     NumberFormat: {
-      clipboard_copy: 'Copied'
+      clipboard_copy: 'Copied',
     },
     HelpButton: {
       title: 'Help text',
-      aria_role: 'Help button'
+      aria_role: 'Help button',
     },
     Skeleton: {
       aria_busy: 'In progress ...',
-      aria_ready: 'Ready to interact'
+      aria_ready: 'Ready to interact',
     },
     Input: {
       submit_button_title: 'Submit button',
       show_password: 'Show password',
-      hide_password: 'Hide password'
+      hide_password: 'Hide password',
     },
     Pagination: {
       button_title: 'Page %s',
@@ -83,22 +83,22 @@ export default {
       prev_title: 'Previous page',
       more_pages: '%s more pages',
       is_loading_text: 'Loading new content',
-      load_button_text: 'Show more content'
+      load_button_text: 'Show more content',
     },
     StepIndicator: {
-      step_title: 'Step %step of %count'
+      step_title: 'Step %step of %count',
     },
     Slider: {
       add_title: 'Increase (%s)',
-      subtract_title: 'Decrease (%s)'
+      subtract_title: 'Decrease (%s)',
     },
     PaymentCard: {
       text_card_number: 'Card number',
       text_expired: 'Expired',
-      text_blocked: 'Blocked'
+      text_blocked: 'Blocked',
     },
     Logo: {
-      alt: 'DNB Logo'
-    }
-  }
+      alt: 'DNB Logo',
+    },
+  },
 }

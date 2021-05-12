@@ -15,16 +15,16 @@ import {
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
-  createSkeletonClass
+  createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 
 import FormLabel from '../form-label/FormLabel'
@@ -45,7 +45,7 @@ export default class Radio extends React.PureComponent {
     label: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     label_position: PropTypes.oneOf(['left', 'right']),
@@ -58,7 +58,7 @@ export default class Radio extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     status_state: PropTypes.string,
     status_animation: PropTypes.string,
@@ -66,7 +66,7 @@ export default class Radio extends React.PureComponent {
     suffix: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     value: PropTypes.string,
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -82,7 +82,7 @@ export default class Radio extends React.PureComponent {
     custom_element: PropTypes.object,
     custom_method: PropTypes.func,
     on_change: PropTypes.func,
-    on_state_update: PropTypes.func
+    on_state_update: PropTypes.func,
   }
 
   static defaultProps = {
@@ -112,7 +112,7 @@ export default class Radio extends React.PureComponent {
     custom_method: null,
 
     on_change: null,
-    on_state_update: null
+    on_state_update: null,
   }
 
   static Group = RadioGroup
@@ -133,7 +133,7 @@ export default class Radio extends React.PureComponent {
 
     if (state.checked !== state.__checked) {
       dispatchCustomElementEvent({ props }, 'on_state_update', {
-        checked: state.checked
+        checked: state.checked,
       })
     }
 
@@ -148,7 +148,7 @@ export default class Radio extends React.PureComponent {
     this._refInput = React.createRef()
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this.state = {
-      _listenForPropChanges: true
+      _listenForPropChanges: true,
     }
   }
 
@@ -239,14 +239,14 @@ export default class Radio extends React.PureComponent {
     const { group } = this.props
     if (this.context.onChange) {
       this.context.onChange({
-        value
+        value,
       })
     }
     dispatchCustomElementEvent(this, 'on_change', {
       group,
       checked,
       value,
-      event
+      event,
     })
 
     // help firefox and safari to have an correct state after a click
@@ -326,13 +326,13 @@ export default class Radio extends React.PureComponent {
               createSpacingClasses(props),
               className,
               _className
-            )
+            ),
           }
 
           const inputParams = {
             role: hasContext || group ? 'radio' : null,
             type: hasContext || group ? 'radio' : 'checkbox', // overwriting the type
-            ...rest
+            ...rest,
           }
 
           if (showStatus || suffix) {

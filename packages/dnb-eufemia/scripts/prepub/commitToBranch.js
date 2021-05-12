@@ -25,8 +25,8 @@ const config = {
   remote: `https://${process.env.GH_TOKEN}@github.com/dnbexperience/eufemia.git`,
   user: {
     name: process.env.GH_NAME,
-    email: process.env.GH_EMAIL
-  }
+    email: process.env.GH_EMAIL,
+  },
 }
 
 const getCurrentBranchName = async () => {
@@ -85,7 +85,7 @@ const commitToBranch = async ({
   what = 'files',
   filePathsIncludelist = [],
   skipCI = false,
-  isFeature = false
+  isFeature = false,
 } = {}) => {
   try {
     const repo = await getRepo()
@@ -103,7 +103,7 @@ const commitToBranch = async ({
 
     const filesToCommit = [
       ...status.modified,
-      ...status.not_added
+      ...status.not_added,
     ].filter((f) =>
       new RegExp(
         Array.isArray(filePathsIncludelist)
@@ -153,7 +153,7 @@ const commitToBranch = async ({
       }
 
       await repo.commit(commitMessage, null, {
-        '--no-verify': null
+        '--no-verify': null,
       })
       await repo.push('origin', branchName)
 

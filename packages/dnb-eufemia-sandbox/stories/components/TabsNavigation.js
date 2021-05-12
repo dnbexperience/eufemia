@@ -9,7 +9,7 @@ import { Location, Router, navigate } from '@reach/router'
 import { Tabs } from '@dnb/eufemia/src/components'
 
 export default {
-  title: 'Eufemia/Components/TabsNav'
+  title: 'Eufemia/Components/TabsNav',
 }
 
 export const TabsNavigation = () => (
@@ -21,7 +21,7 @@ export const TabsNavigation = () => (
             { title: 'Home', key: '/' },
             { title: 'Form #1', key: '/form-demo-01' },
             { title: 'Form #2', key: '/form-demo-02' },
-            { title: 'Dynamic', key: '/dynamic' }
+            { title: 'Dynamic', key: '/dynamic' },
           ]}
           selected_key={pathname}
           on_change={({ key }) => navigate(key)}

@@ -8,7 +8,7 @@ import {
   mount,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Skeleton'
 import Input from '../../input/Input'
@@ -22,7 +22,7 @@ const props = {
         value
       </Input>
     </>
-  )
+  ),
 }
 
 describe('Skeleton component', () => {

@@ -10,7 +10,7 @@ import { Wrapper, Box } from '../helpers'
 import { StepIndicator } from '@dnb/eufemia/src/components'
 
 export default {
-  title: 'Eufemia/Components/StepIndicator'
+  title: 'Eufemia/Components/StepIndicator',
 }
 
 export const StepIndicatorSandbox = () => (
@@ -35,7 +35,7 @@ export const StepIndicatorSandbox = () => (
           {
             title: 'First',
             on_click: ({ currentItem }) =>
-              console.log('on_click', currentItem)
+              console.log('on_click', currentItem),
             // on_render: ({ StepItem }) => (
             //   <StepItem
             //     onClick={e => {
@@ -48,7 +48,7 @@ export const StepIndicatorSandbox = () => (
             title:
               'Second Sapien vivamus convallis fermentum euismod quam platea tellus nullam mollis',
             on_click: ({ currentItem }) =>
-              console.log('on_click', currentItem)
+              console.log('on_click', currentItem),
             // is_active: true
             // is_current: true
           },
@@ -56,8 +56,8 @@ export const StepIndicatorSandbox = () => (
             title:
               'Third Sapien vivamus convallis fermentum euismod quam platea tellus nullam mollis',
             on_click: ({ currentItem }) =>
-              console.log('on_click', currentItem)
-          }
+              console.log('on_click', currentItem),
+          },
         ]}
       />
     </Box>
@@ -69,18 +69,18 @@ export const StepIndicatorSandbox = () => (
           {
             title: 'First',
             url_passed: '?path=/story/components--stepindicator&passed',
-            url: '?path=/story/components--stepindicator'
+            url: '?path=/story/components--stepindicator',
           },
           {
             title: 'Second',
             // url_passed: '?path=/story/components--stepindicator&passed',
-            url: '?path=/story/components--stepindicator&current'
+            url: '?path=/story/components--stepindicator&current',
           },
           {
             title: 'Third',
-            url: '?path=/story/components--stepindicator'
+            url: '?path=/story/components--stepindicator',
             // url_future: '?path=/story/components--stepindicator&future'
-          }
+          },
         ]}
       />
     </Box>
@@ -89,15 +89,15 @@ export const StepIndicatorSandbox = () => (
         // active_item={1}
         data={[
           {
-            title: 'First'
+            title: 'First',
           },
           {
             title: 'Second',
-            is_current: true
+            is_current: true,
           },
           {
-            title: 'Third'
-          }
+            title: 'Third',
+          },
         ]}
       />
     </Box>

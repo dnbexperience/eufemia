@@ -164,10 +164,10 @@ export default class Card extends React.PureComponent {
     title: PropTypes.string.isRequired,
     about: PropTypes.oneOfType([PropTypes.node, PropTypes.string])
       .isRequired,
-    icon: PropTypes.func.isRequired
+    icon: PropTypes.func.isRequired,
   }
   static defaultProps = {
-    customStyle: null
+    customStyle: null,
   }
   isSelected() {
     if (typeof window !== 'undefined') {
@@ -209,7 +209,9 @@ export default class Card extends React.PureComponent {
               isClosing && 'hide-cards'
             )}
             style={{
-              '--delay': `${isClosing ? random(1, 400) : random(1, 200)}ms`
+              '--delay': `${
+                isClosing ? random(1, 400) : random(1, 200)
+              }ms`,
             }}
           >
             <Anchor

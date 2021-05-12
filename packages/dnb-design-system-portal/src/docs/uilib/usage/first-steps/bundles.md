@@ -47,7 +47,7 @@ Requires React and ReactDOM to be loaded. Supports `ES5`.
       icon: 'chevron_right',
       on_click: (params) => {
         console.log('on_click', params)
-      }
+      },
     })
 
     ReactDOM.render(MyButton, document.getElementById('app'))

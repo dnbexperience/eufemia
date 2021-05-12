@@ -6,7 +6,7 @@
 import {
   testPageScreenshot,
   setupPageScreenshot,
-  isCI
+  isCI,
 } from './../core/jest/jestSetupScreenshots'
 
 // not used for now
@@ -16,12 +16,12 @@ describe.skip('Portal screenshot', () => {
   }
   setupPageScreenshot({
     url: '/uilib/typography',
-    fullscreen: false
+    fullscreen: false,
   })
   it('have to match the typography page', async () => {
     const screenshot = await testPageScreenshot({
       padding: false,
-      selector: 'body'
+      selector: 'body',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

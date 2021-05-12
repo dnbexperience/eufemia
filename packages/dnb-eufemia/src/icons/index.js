@@ -865,5 +865,5 @@ export {
   widget_android,
   widget_android_medium,
   widget_ios,
-  widget_ios_medium
+  widget_ios_medium,
 }

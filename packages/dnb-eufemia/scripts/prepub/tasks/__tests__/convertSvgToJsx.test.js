@@ -13,7 +13,7 @@ beforeAll(async () => {
   await convertSvgToJsx({
     preventDelete: true,
     srcPath: path.resolve(__dirname, './test-files/bell.svg'),
-    destPath: path.resolve(__dirname, './test-files/dist')
+    destPath: path.resolve(__dirname, './test-files/dist'),
   })
 })
 

@@ -16,12 +16,12 @@ import {
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 
 import Suffix from '../../shared/helpers/Suffix'
@@ -34,7 +34,7 @@ import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
   parseContentTitle,
-  getCurrentData
+  getCurrentData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
 export default class Dropdown extends React.PureComponent {
@@ -46,7 +46,7 @@ export default class Dropdown extends React.PureComponent {
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]),
     icon_size: PropTypes.string,
     icon_position: PropTypes.oneOf(['left', 'right']),
@@ -54,7 +54,7 @@ export default class Dropdown extends React.PureComponent {
     label: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
     label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -62,7 +62,7 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     status_state: PropTypes.string,
     status_animation: PropTypes.string,
@@ -70,7 +70,7 @@ export default class Dropdown extends React.PureComponent {
     suffix: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -81,30 +81,30 @@ export default class Dropdown extends React.PureComponent {
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_scroll_animation: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     prevent_selection: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     more_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     action_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     independent_width: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
     align_dropdown: PropTypes.oneOf(['left', 'right']),
     trigger_component: PropTypes.oneOfType([
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     data: PropTypes.oneOfType([
       PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.func,
         PropTypes.node,
-        PropTypes.object
+        PropTypes.object,
       ]),
       PropTypes.arrayOf(
         PropTypes.oneOfType([
@@ -112,20 +112,20 @@ export default class Dropdown extends React.PureComponent {
           PropTypes.shape({
             selected_value: PropTypes.oneOfType([
               PropTypes.string,
-              PropTypes.node
+              PropTypes.node,
             ]),
             content: PropTypes.oneOfType([
               PropTypes.string,
               PropTypes.node,
-              PropTypes.arrayOf(PropTypes.string)
-            ])
-          })
+              PropTypes.arrayOf(PropTypes.string),
+            ]),
+          }),
         ])
-      )
+      ),
     ]),
     default_value: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.number
+      PropTypes.number,
     ]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -145,7 +145,7 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
       PropTypes.object,
-      PropTypes.array
+      PropTypes.array,
     ]),
 
     custom_element: PropTypes.object,
@@ -155,7 +155,7 @@ export default class Dropdown extends React.PureComponent {
     on_hide: PropTypes.func,
     on_change: PropTypes.func,
     on_select: PropTypes.func,
-    on_state_update: PropTypes.func
+    on_state_update: PropTypes.func,
   }
 
   static defaultProps = {
@@ -211,7 +211,7 @@ export default class Dropdown extends React.PureComponent {
 
     on_change: null,
     on_select: null,
-    on_state_update: null
+    on_state_update: null,
   }
 
   static enableWebComponent() {
@@ -224,7 +224,7 @@ export default class Dropdown extends React.PureComponent {
       action_menu,
       prevent_selection,
       children,
-      data
+      data,
     } = this.props
 
     return (
@@ -345,7 +345,7 @@ class DropdownInstance extends React.PureComponent {
     const attributes = this.attributes || {}
     const res = dispatchCustomElementEvent(this, 'on_hide', {
       ...args,
-      attributes
+      attributes,
     })
 
     if (res !== false) {
@@ -374,7 +374,7 @@ class DropdownInstance extends React.PureComponent {
       dispatchCustomElementEvent(this, 'on_select', {
         ...args,
         // selected_item: args.value, // deprecated
-        attributes
+        attributes,
       })
     }
   }
@@ -383,7 +383,7 @@ class DropdownInstance extends React.PureComponent {
     const attributes = this.attributes || {}
     dispatchCustomElementEvent(this, 'on_change', {
       ...args,
-      attributes
+      attributes,
     })
   }
 
@@ -510,7 +510,7 @@ class DropdownInstance extends React.PureComponent {
         createSpacingClasses(props),
         _className,
         className
-      )
+      ),
     }
 
     const triggerParams = {
@@ -527,7 +527,7 @@ class DropdownInstance extends React.PureComponent {
       onFocus: this.onFocusHandler,
       onBlur: this.onBlurHandler,
       onClick: this.onClickHandler,
-      onKeyDown: this.onTriggerKeyDownHandler
+      onKeyDown: this.onTriggerKeyDownHandler,
     }
 
     if (opened) {
@@ -546,7 +546,7 @@ class DropdownInstance extends React.PureComponent {
       triggerParams['aria-labelledby'] = [
         triggerParams['aria-labelledby'],
         id + '-label',
-        id // used to read the current value
+        id, // used to read the current value
       ]
         .filter(Boolean)
         .join(' ')

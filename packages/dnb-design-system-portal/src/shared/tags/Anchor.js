@@ -11,13 +11,13 @@ export class AnchorLink extends React.PureComponent {
   static propTypes = {
     element: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
     onClick: PropTypes.func,
-    offset: PropTypes.string
+    offset: PropTypes.string,
   }
 
   static defaultProps = {
     element: 'a',
     onClick: null,
-    offset: null
+    offset: null,
   }
 
   onClickHandler = (e) => {
@@ -46,7 +46,7 @@ export class AnchorLink extends React.PureComponent {
 
       window.scroll({
         top: offsetTop - offset(),
-        behavior: 'smooth'
+        behavior: 'smooth',
       })
 
       this.props.onClick(e)
@@ -97,10 +97,10 @@ const Anchor = ({ children, href, ...rest }) => {
 }
 Anchor.propTypes = {
   href: PropTypes.string.isRequired,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 Anchor.defaultProps = {
-  children: null
+  children: null,
 }
 
 export default Anchor

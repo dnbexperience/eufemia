@@ -12,12 +12,12 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import {
   accordionPropTypes,
-  accordionDefaultProps
+  accordionDefaultProps,
 } from './AccordionPropTypes'
 
 import Context from '../../shared/Context'
@@ -31,14 +31,14 @@ export default class AccordionGroup extends React.PureComponent {
     ...accordionPropTypes,
 
     expanded_id: PropTypes.string,
-    onInit: PropTypes.func
+    onInit: PropTypes.func,
   }
 
   static defaultProps = {
     ...accordionDefaultProps,
 
     expanded_id: null,
-    onInit: null
+    onInit: null,
   }
 
   static enableWebComponent() {
@@ -53,7 +53,7 @@ export default class AccordionGroup extends React.PureComponent {
     super(props)
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this.state = {
-      _listenForPropChanges: true
+      _listenForPropChanges: true,
     }
   }
 
@@ -61,7 +61,7 @@ export default class AccordionGroup extends React.PureComponent {
     dispatchCustomElementEvent(this, 'on_change', {
       id: event.id,
       expanded: event.expanded,
-      event
+      event,
     })
   }
 
@@ -107,7 +107,7 @@ export default class AccordionGroup extends React.PureComponent {
     )
 
     const params = {
-      ...rest
+      ...rest,
     }
 
     // also used for code markup simulation
@@ -120,7 +120,7 @@ export default class AccordionGroup extends React.PureComponent {
     const context = {
       ...props,
       id,
-      onChange: this.onChangeHandler
+      onChange: this.onChangeHandler,
     }
 
     return (

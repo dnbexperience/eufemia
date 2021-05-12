@@ -8,12 +8,12 @@ import {
   mount,
   fakeProps,
   toJson,
-  axeComponent
+  axeComponent,
 } from '../../core/jest/jestSetup'
 import Component from '../P'
 
 const props = fakeProps(require.resolve('../P'), {
-  optional: true
+  optional: true,
 })
 props.size = 'x-small'
 props.element = 'p'

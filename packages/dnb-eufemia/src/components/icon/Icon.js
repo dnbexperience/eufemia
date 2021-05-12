@@ -12,11 +12,11 @@ import {
   registerElement,
   validateDOMAttributes,
   processChildren,
-  extendPropsWithContext
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
@@ -25,13 +25,13 @@ export const DefaultIconSize = 16
 export const DefaultIconSizes = {
   // small: 8, // currently not in use
   default: 16,
-  medium: 24
+  medium: 24,
   // large: 32 // currently not in use
 }
 // instead of using Object.entries(DefaultIconSizes)
 export const ListDefaultIconSizes = [
   ['default', 16],
-  ['medium', 24]
+  ['medium', 24],
 ]
 export const ValidIconSizes = [
   'small', // 12px 0.75rem
@@ -39,20 +39,20 @@ export const ValidIconSizes = [
   'medium', // 24px 1.5rem
   'large', // 32px 2rem
   'x-large', // 40px 2.5rem
-  'xx-large' // 48px 3rem
+  'xx-large', // 48px 3rem
 ]
 
 export const iconPropTypes = {
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
-    PropTypes.func
+    PropTypes.func,
   ]),
   modifier: PropTypes.string,
   size: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string,
-    PropTypes.oneOf(['default', 'medium', 'large'])
+    PropTypes.oneOf(['default', 'medium', 'large']),
   ]),
 
   ...spacingPropTypes,
@@ -68,7 +68,7 @@ export const iconPropTypes = {
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 
   className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 }
 
 /**
@@ -82,7 +82,7 @@ export default class Icon extends React.PureComponent {
     /**
      * Use spread, so generateTypes.js makes a valid copy to create the types
      */
-    ...iconPropTypes
+    ...iconPropTypes,
   }
 
   static defaultProps = {
@@ -100,7 +100,7 @@ export default class Icon extends React.PureComponent {
     attributes: null,
 
     className: null,
-    children: null
+    children: null,
   }
 
   static enableWebComponent(
@@ -258,13 +258,13 @@ export const calcSize = (props) => {
   // define all the svg parameters
   const {
     sizeAsString: isCustomSize,
-    params: iconParams
+    params: iconParams,
   } = prepareIconParams({
     sizeAsString,
     sizeAsInt,
     size,
     width,
-    height
+    height,
   })
   if (isCustomSize) {
     sizeAsString = isCustomSize
@@ -283,7 +283,7 @@ export const calcSize = (props) => {
   return {
     iconParams,
     sizeAsInt,
-    sizeAsString
+    sizeAsString,
   }
 }
 
@@ -332,7 +332,7 @@ export const prepareIcon = (props, context) => {
     icon,
     size,
     width,
-    height
+    height,
   })
 
   if (color) {
@@ -351,7 +351,7 @@ export const prepareIcon = (props, context) => {
         ? label.replace(/_/g, ' ') + ' icon'
         : null, // for screen readers only
     title, // to show on hover, if defined
-    ...attributes
+    ...attributes,
   })
   if (!alt && typeof wrapperParams['aria-hidden'] === 'undefined') {
     wrapperParams['aria-hidden'] = true
@@ -390,7 +390,7 @@ export const prepareIcon = (props, context) => {
           icon,
           size,
           width,
-          height
+          height,
         }
       )
     )
@@ -401,7 +401,7 @@ export const prepareIcon = (props, context) => {
     icon: iconToRender,
     alt,
     iconParams,
-    wrapperParams
+    wrapperParams,
   }
 }
 
@@ -409,7 +409,7 @@ export const prerenderIcon = ({
   icon,
   size = null,
   listOfIcons = null,
-  alt = null
+  alt = null,
 } = {}) => {
   if (typeof icon === 'string' && /^data:image\//.test(icon)) {
     return () => <img src={icon} alt={alt || 'no-alt'} />

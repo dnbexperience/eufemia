@@ -18,7 +18,7 @@ function createMdxNode({
   node,
   getNodesByType,
   getNode, //getNodeAndSavePathDependency could be an option
-  actions
+  actions,
 }) {
   const { createNodeField } = actions
 
@@ -28,7 +28,7 @@ function createMdxNode({
   createNodeField({
     name: 'slug',
     node,
-    value: slug
+    value: slug,
   })
 
   // to make sure we get nodes which has not been there during the run
@@ -54,7 +54,7 @@ function createMdxNode({
     createNodeField({
       node: categoryMdx,
       name: 'tag',
-      value: 'category'
+      value: 'category',
     })
     createParentChildLink({ parent: node, child: categoryMdx })
   }
@@ -102,7 +102,7 @@ function createMdxNode({
       createNodeField({
         node: motherMdx,
         name: 'tag',
-        value: 'mother'
+        value: 'mother',
       })
       createParentChildLink({ parent: node, child: motherMdx })
     }
@@ -152,8 +152,8 @@ async function createPages({ graphql, actions }) {
         context: {
           id: node.id,
           prev,
-          next
-        }
+          next,
+        },
       })
     }
   })
@@ -192,7 +192,7 @@ async function createRedirects({ graphql, actions }) {
     if (node && node.fields && node.fields.slug) {
       acc.push({
         fromItems: node.frontmatter.redirect_from,
-        toPath: node.fields.slug
+        toPath: node.fields.slug,
       })
     }
     return acc
@@ -205,7 +205,7 @@ async function createRedirects({ graphql, actions }) {
         fromPath,
         toPath: `/${toPath}`,
         isPermanent: true,
-        redirectInBrowser: true
+        redirectInBrowser: true,
       }
       createRedirect(config)
       createRedirect({ ...config, fromPath: `${fromPath}/` })
@@ -224,8 +224,8 @@ exports.onCreateWebpackConfig = ({ actions }) => {
         Pages: path.resolve(__dirname, 'src/docs'),
         Docs: path.resolve(__dirname, 'src/docs'),
         Tags: path.resolve(__dirname, 'src/shared/tags'),
-        Parts: path.resolve(__dirname, 'src/shared/parts')
-      }
-    }
+        Parts: path.resolve(__dirname, 'src/shared/parts'),
+      },
+    },
   })
 }

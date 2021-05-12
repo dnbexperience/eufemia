@@ -13,7 +13,7 @@ const isCI = require('is-ci')
 const liveServer = require('live-server')
 import {
   commitToBranch,
-  getCurrentBranchName
+  getCurrentBranchName,
 } from '../../../scripts/prepub/commitToBranch'
 const { DIR } = require('./jestSetupScreenshots').config
 
@@ -41,7 +41,7 @@ module.exports = async function () {
       await create(
         {
           gzip: true,
-          file: filePath
+          file: filePath,
         },
         ['./jest-screenshot-report']
       )
@@ -56,10 +56,10 @@ module.exports = async function () {
           'alpha',
           'rc/*',
           'fix/*',
-          'feat/*'
+          'feat/*',
         ],
         what: 'reports',
-        filePathsIncludelist: [file]
+        filePathsIncludelist: [file],
       })
     } else {
       console.log(

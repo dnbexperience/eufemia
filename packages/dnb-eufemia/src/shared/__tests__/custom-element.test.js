@@ -44,7 +44,7 @@ class CustomElementComponent extends React.Component {
 
 describe('"registerElement" should', () => {
   registerElement('custom-element', CustomElementComponent, [
-    'observed-attribute'
+    'observed-attribute',
   ])
   const customElement = document.getElementsByTagName('custom-element')
 
@@ -153,7 +153,7 @@ describe('"registerElement" should', () => {
 
     customElementTypes[0].setProps({
       my_boolean: 'true',
-      my_number: '1.2'
+      my_number: '1.2',
     })
 
     expect(renderedWith).toBeCalledTimes(2)
@@ -192,7 +192,7 @@ describe('"registerElement" should', () => {
     expect(customElement[0]._props.value).toBe(456)
 
     customElement[0].setProps({
-      value: 789
+      value: 789,
     })
     expect(customElement[0]._props.value).toBe(789)
   })
@@ -223,7 +223,7 @@ describe('"registerElement" should', () => {
     const customEvent = new CustomEvent('on_change', {
       bubbles: true,
       cancelable: true,
-      detail
+      detail,
     })
     customElement[0].addEventListener('on_change', eventCallback)
 

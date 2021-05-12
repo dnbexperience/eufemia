@@ -8,7 +8,7 @@ import path from 'path'
 import { log } from '../../lib'
 import {
   getComponentsDocs,
-  extractFigmaStylesFromComponents
+  extractFigmaStylesFromComponents,
 } from './extractStylesFromFigmaDoc'
 import { findNode, saveToFile, getFigmaDoc } from '../helpers/docHelpers'
 
@@ -17,7 +17,7 @@ const frameName = process.env.FIGMA_STYLES_FRAME || 'Components' // before we us
 export const ConvertAndSaveComponentsStyle = async ({
   figmaFile,
   figmaDoc = null,
-  convertOptions = {}
+  convertOptions = {},
 }) => {
   if (figmaDoc === null) {
     log.info('> Figma: Fetching the figma doc.')
@@ -129,7 +129,7 @@ export const ComponentsStyleConverter = async (
       ...(result[name] || {}),
       scssStyle,
       scssVars,
-      replaceScssVars
+      replaceScssVars,
     }
   }
 

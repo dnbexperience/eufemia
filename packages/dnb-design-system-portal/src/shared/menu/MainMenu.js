@@ -18,14 +18,14 @@ import {
   IconsSvg,
   PrinciplesSvg,
   QuickguideDesignerSvg,
-  DesignSystemSvg
+  DesignSystemSvg,
 } from './MainMenuGraphics'
 import { Logo, Button } from '@dnb/eufemia/src'
 import version from '../../../version.json'
 import { MainMenuContext } from './MainMenuContext'
 import {
   setPageFocusElement,
-  applyPageFocus
+  applyPageFocus,
 } from '@dnb/eufemia/src/shared/helpers'
 import { SearchBarInput } from './SearchBar'
 
@@ -33,7 +33,7 @@ class MainWrapper extends React.PureComponent {
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     className: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
   }
   componentDidUpdate(prevProps) {
     if (this.props.isOpen && !prevProps.isOpen) {
@@ -202,10 +202,10 @@ const toggleContent = css`
 
 export default class MainMenu extends React.PureComponent {
   static propTypes = {
-    enableOverlay: PropTypes.bool
+    enableOverlay: PropTypes.bool,
   }
   static defaultProps = {
-    enableOverlay: false
+    enableOverlay: false,
   }
   static contextType = MainMenuContext
   constructor(props) {
@@ -275,7 +275,7 @@ export default class MainMenu extends React.PureComponent {
               acc[fields.slug] = {
                 url: `/${fields.slug}/`,
                 ...fields,
-                ...frontmatter
+                ...frontmatter,
               }
               return acc
             },

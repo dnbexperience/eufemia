@@ -19,7 +19,7 @@ describe('generateTypes', () => {
     const [{ destFile, definitionContent }] = await createTypes([file], {
       isTest: true,
       docsDir,
-      findFiles: ['PrimaryComponent.md']
+      findFiles: ['PrimaryComponent.md'],
     })
 
     expect(destFile).toContain('__mocks__/PrimaryComponent.d.ts')
@@ -36,7 +36,7 @@ describe('generateTypes', () => {
     const [{ destFile, definitionContent }] = await createTypes([file], {
       isTest: true,
       docsDir,
-      findFiles: ['SecondaryComponent.md']
+      findFiles: ['SecondaryComponent.md'],
     })
 
     expect(destFile).toContain('__mocks__/SecondaryComponent.d.ts')

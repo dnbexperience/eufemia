@@ -11,7 +11,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ItemWrapper from '../../../shared/parts/uilib/ItemWrapper'
 import DemoComponent, {
-  Example as CodeComponent
+  Example as CodeComponent,
 } from '@dnb/eufemia/src/extensions/template/Example'
 import Description from '@dnb/eufemia/src/extensions/template/description.md'
 import Details from '@dnb/eufemia/src/extensions/template/details.md'
@@ -25,7 +25,7 @@ export default class TemplateDemo extends React.PureComponent {
     Details: PropTypes.func,
     DemoComponent: PropTypes.func,
     CodeComponent: PropTypes.func,
-    hideTabs: PropTypes.bool
+    hideTabs: PropTypes.bool,
   }
   static defaultProps = {
     title: 'Template',
@@ -36,7 +36,7 @@ export default class TemplateDemo extends React.PureComponent {
     DemoComponent,
     CodeComponent,
     callback: CodeComponent.AdditionalCallback || null,
-    hideTabs: false
+    hideTabs: false,
   }
   render() {
     return <ItemWrapper {...TemplateDemo.defaultProps} {...this.props} />

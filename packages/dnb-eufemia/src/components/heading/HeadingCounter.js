@@ -8,7 +8,7 @@
 // } from '../../shared/component-helper'
 import {
   globalSyncCounter,
-  globalHeadingCounter
+  globalHeadingCounter,
   // globalNextLevel,
   // globalResetNextTime
 } from './HeadingHelpers'
@@ -17,7 +17,7 @@ export const initCounter = (props = null) => {
   if (!globalHeadingCounter.current) {
     globalHeadingCounter.current = new Counter({
       group: 'global',
-      isGlobal: true
+      isGlobal: true,
     })
   }
 
@@ -200,7 +200,7 @@ export class Counter {
         report,
         action,
         level,
-        current: globalSyncCounter.current.level
+        current: globalSyncCounter.current.level,
       })
     }
 
@@ -221,7 +221,7 @@ export class Counter {
       action,
       level,
       current: this.level,
-      report
+      report,
     })
 
     if (level > 6) {
