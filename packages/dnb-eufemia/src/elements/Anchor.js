@@ -11,7 +11,7 @@ import E from './Element'
 import Context from '../shared/Context'
 import {
   makeUniqueId,
-  extendPropsWithContext
+  extendPropsWithContext,
 } from '../shared/component-helper'
 import Tooltip from '../components/tooltip/Tooltip'
 
@@ -25,13 +25,13 @@ Anchor.propTypes = {
   element: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.object,
-    PropTypes.node
+    PropTypes.node,
   ]),
   href: PropTypes.string,
   to: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
-    PropTypes.func
+    PropTypes.func,
   ]),
   omitClass: PropTypes.bool,
   target_blank_title: PropTypes.string,
@@ -39,10 +39,10 @@ Anchor.propTypes = {
   className: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
-    PropTypes.array
+    PropTypes.array,
   ]),
   tooltip: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 Anchor.defaultProps = {
   element: null,
@@ -53,7 +53,7 @@ Anchor.defaultProps = {
   target: null,
   className: null,
   tooltip: null,
-  children: null
+  children: null,
 }
 
 class AnchorInstance extends React.PureComponent {

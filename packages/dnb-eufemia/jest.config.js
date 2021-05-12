@@ -7,16 +7,16 @@ const config = {
     '<rootDir>/assets/',
     '<rootDir>/stories/',
     '<rootDir>/jest-screenshot-report/',
-    'screenshot'
+    'screenshot',
   ],
   transformIgnorePatterns: ['node_modules'],
   transform: {
     '^.+\\.(js|jsx)$': 'babel-jest',
-    '^.+\\.(md|txt|css|scss)$': 'jest-raw-loader'
+    '^.+\\.(md|txt|css|scss)$': 'jest-raw-loader',
   },
   moduleNameMapper: {
     '^.+\\.(jpg|jpeg|png)$': '<rootDir>/src/core/jest/fileMock.js',
-    '^.+\\.(svg)$': '<rootDir>/src/core/jest/jsxMock.js'
-  }
+    '^.+\\.(svg)$': '<rootDir>/src/core/jest/jsxMock.js',
+  },
 }
 module.exports = config

@@ -5,7 +5,7 @@
 
 import {
   testPageScreenshot,
-  setupPageScreenshot
+  setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('GlobalStatus screenshot', () => {
@@ -14,7 +14,7 @@ describe('GlobalStatus screenshot', () => {
   it('have to match the default state with custom content', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-visual-test="global-status"] .dnb-global-status'
+      selector: '[data-visual-test="global-status"] .dnb-global-status',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -24,7 +24,7 @@ describe('GlobalStatus screenshot', () => {
       selector: '[data-visual-test="global-status"] .dnb-global-status',
       simulateSelector:
         '[data-visual-test="global-status"] .dnb-global-status__close-button',
-      simulate: 'focus'
+      simulate: 'focus',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -34,7 +34,7 @@ describe('GlobalStatus screenshot', () => {
       selector: '[data-visual-test="global-status"] .dnb-global-status',
       simulateSelector:
         '[data-visual-test="global-status"] .dnb-global-status__close-button',
-      simulate: 'hover'
+      simulate: 'hover',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -42,7 +42,7 @@ describe('GlobalStatus screenshot', () => {
     const screenshot = await testPageScreenshot({
       style,
       selector:
-        '[data-visual-test="global-status-info"] .dnb-global-status'
+        '[data-visual-test="global-status-info"] .dnb-global-status',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

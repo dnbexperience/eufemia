@@ -10,7 +10,7 @@ import { Button } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
 
 export default {
-  title: 'Eufemia/Components/Section'
+  title: 'Eufemia/Components/Section',
 }
 
 export const SectionSandbox = () => (

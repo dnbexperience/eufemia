@@ -9,12 +9,12 @@ import {
   fakeProps,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../ToggleButton'
 
 const props = fakeProps(require.resolve('../ToggleButton'), {
-  optional: true
+  optional: true,
 })
 props.id = 'toggle-button'
 props.status = null
@@ -70,7 +70,7 @@ describe('ToggleButton component', () => {
     expect(Comp.find('.dnb-checkbox__button').exists()).toBe(true)
 
     Comp.setProps({
-      variant: 'radio'
+      variant: 'radio',
     })
 
     expect(Comp.find('.dnb-radio__button').exists()).toBe(true)
@@ -196,7 +196,7 @@ describe('ToggleButton component', () => {
   it('has a disabled attribute, once we set disabled to true', () => {
     const Comp = mount(<Component />)
     Comp.setProps({
-      disabled: true
+      disabled: true,
     })
     expect(Comp.find('button').instance().hasAttribute('disabled')).toBe(
       true
@@ -286,14 +286,14 @@ describe('ToggleButton group component', () => {
     expect(myEvent.mock.calls[0][0].event).toBeType('object')
     expect(myEvent.mock.calls[0][0].event.target.dataset).toMatchObject({
       attr: 'value',
-      prop: 'value-1'
+      prop: 'value-1',
     })
 
     Comp.find('button#toggle-button-2').simulate('click')
     expect(my_event.mock.calls[1][0].value).toBe('second')
     expect(my_event.mock.calls[1][0].event.target.dataset).toMatchObject({
       attr: 'value',
-      prop: 'value-2'
+      prop: 'value-2',
     })
   })
 

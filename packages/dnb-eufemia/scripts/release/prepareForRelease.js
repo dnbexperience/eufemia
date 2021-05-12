@@ -20,7 +20,7 @@ export default async function prepareForRelease() {
   const packageString = await fs.readFile(filepath, 'utf-8')
   const formattedPackageJson = await cleanupPackage({
     packageString,
-    filepath
+    filepath,
   })
   await fs.writeFile(dest, formattedPackageJson)
 
@@ -58,7 +58,7 @@ export async function cleanupPackage({ packageString, filepath }) {
 
   return prettier.format(JSON.stringify(packageJson), {
     ...prettierrc,
-    filepath
+    filepath,
   })
 }
 
@@ -70,8 +70,8 @@ export async function writeLibVersion({
     './index.js',
     './components/index.js',
     './elements/index.js',
-    './extensions/index.js'
-  ]
+    './extensions/index.js',
+  ],
 } = {}) {
   if (!version) {
     const filepath = path.resolve(packpath.self(), './package.json')

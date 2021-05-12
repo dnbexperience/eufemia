@@ -9,7 +9,7 @@ import {
   fakeProps,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../GlobalStatus'
 import Switch from '../../switch/Switch'
@@ -21,7 +21,7 @@ const text = 'text'
 const children = null
 const items = [
   { id: 'id-1', text: 'item #1' },
-  { id: 'id-2', text: 'item #2' }
+  { id: 'id-2', text: 'item #2' },
 ]
 const show = true
 const no_animation = true
@@ -30,7 +30,7 @@ const icon = 'error'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../GlobalStatus'), {
-    optional: true
+    optional: true,
   }),
 
   id,
@@ -41,7 +41,7 @@ const snapshotProps = {
   no_animation,
   items,
   text,
-  icon
+  icon,
 }
 
 const props = {
@@ -49,7 +49,7 @@ const props = {
   no_animation,
   autoscroll,
   items,
-  text
+  text,
 }
 
 describe('GlobalStatus component', () => {
@@ -75,16 +75,16 @@ describe('GlobalStatus component', () => {
     expect(Comp.exists('[aria-live]')).toBe(true)
 
     Comp.setProps({
-      show: true
+      show: true,
     })
     Comp.setState({
-      isActive: true
+      isActive: true,
     })
 
     expect(Comp.exists('[aria-live="assertive"]')).toBe(true)
 
     Comp.setProps({
-      show: false
+      show: false,
     })
 
     expect(

@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   registerElement,
-  validateDOMAttributes
+  validateDOMAttributes,
   // processChildren
 } from '../../shared/component-helper'
 // import './style/dnb-notification.scss' // no good solution to import the style here
@@ -20,7 +20,7 @@ export default class Notification extends React.PureComponent {
   static propTypes = {
     notification_amount: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.number
+      PropTypes.number,
     ]),
     title_text: PropTypes.string,
     class: PropTypes.string,
@@ -28,8 +28,8 @@ export default class Notification extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
-    ])
+      PropTypes.func,
+    ]),
   }
 
   static defaultProps = {
@@ -37,7 +37,7 @@ export default class Notification extends React.PureComponent {
     title_text: null,
     class: null,
     className: null,
-    children: null
+    children: null,
   }
 
   static enableWebComponent() {
@@ -57,7 +57,7 @@ export default class Notification extends React.PureComponent {
       notification_amount,
       title_text,
       className,
-      class: _className
+      class: _className,
     } = this.props
 
     // const content = Notification.getContent(this.props)
@@ -70,11 +70,11 @@ export default class Notification extends React.PureComponent {
         notification_amount > 0
           ? 'dnb-notification--has-notification'
           : null
-      )
+      ),
     }
 
     const buttonParams = {
-      title: title_text.replace(/{amount}/, notification_amount)
+      title: title_text.replace(/{amount}/, notification_amount),
     }
 
     // also used for code markup simulation

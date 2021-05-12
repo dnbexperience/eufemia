@@ -29,7 +29,7 @@ import {
   toRange,
   getWeek,
   dayOffset,
-  getCalendar
+  getCalendar,
 } from './DatePickerCalc'
 import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
@@ -62,7 +62,7 @@ export default class DatePickerCalendar extends React.PureComponent {
 
     isRange: PropTypes.bool,
     resetDate: PropTypes.bool,
-    onKeyDown: PropTypes.func
+    onKeyDown: PropTypes.func,
   }
 
   static defaultProps = {
@@ -96,7 +96,7 @@ export default class DatePickerCalendar extends React.PureComponent {
 
     // Limit selection with minDate and maxDate
     // maxDate: null, // addDays(new Date(), 45)
-    onKeyDown: null
+    onKeyDown: null,
   }
 
   constructor(props) {
@@ -169,7 +169,7 @@ export default class DatePickerCalendar extends React.PureComponent {
           this.callOnSelect({
             event,
             nr,
-            hidePicker: true
+            hidePicker: true,
           })
           break
       }
@@ -239,7 +239,7 @@ export default class DatePickerCalendar extends React.PureComponent {
         this.callOnSelect({
           event,
           nr,
-          hidePicker: false
+          hidePicker: false,
         })
 
         // and set the focus back again
@@ -325,7 +325,7 @@ export default class DatePickerCalendar extends React.PureComponent {
         'dnb-date-picker__day--selectable': day.isSelectable,
         'dnb-date-picker__day--inactive': day.isInactive,
         'dnb-date-picker__day--disabled': day.isDisabled,
-        'dnb-date-picker__day--today': day.isToday
+        'dnb-date-picker__day--today': day.isToday,
       },
       day.className
     )
@@ -336,7 +336,7 @@ export default class DatePickerCalendar extends React.PureComponent {
       month,
       firstDayOfWeek,
       onlyMonth,
-      hideNextMonthWeek
+      hideNextMonthWeek,
     } = this.props
 
     const {
@@ -344,7 +344,7 @@ export default class DatePickerCalendar extends React.PureComponent {
       endDate,
       hoverDate,
       maxDate,
-      minDate
+      minDate,
     } = this.context
 
     return [
@@ -357,7 +357,7 @@ export default class DatePickerCalendar extends React.PureComponent {
       endDate,
       hoverDate,
       maxDate,
-      minDate
+      minDate,
     ].join('|')
   }
 
@@ -392,7 +392,7 @@ export default class DatePickerCalendar extends React.PureComponent {
       endDate,
       hoverDate,
       maxDate,
-      minDate
+      minDate,
     } = this.context
 
     let days = getCalendar(
@@ -400,7 +400,7 @@ export default class DatePickerCalendar extends React.PureComponent {
       dayOffset(firstDayOfWeek),
       {
         onlyMonth,
-        hideNextMonthWeek
+        hideNextMonthWeek,
       }
     ).map((date) =>
       makeDayObject(date, {
@@ -409,7 +409,7 @@ export default class DatePickerCalendar extends React.PureComponent {
         hoverDate,
         minDate,
         maxDate,
-        month
+        month,
       })
     )
 
@@ -444,7 +444,7 @@ export default class DatePickerCalendar extends React.PureComponent {
       resetDate,
       onHover,
       prevBtn,
-      nextBtn
+      nextBtn,
     } = this.props
 
     const {
@@ -454,8 +454,8 @@ export default class DatePickerCalendar extends React.PureComponent {
       maxDate,
       minDate,
       translation: {
-        DatePicker: { selected_month }
-      }
+        DatePicker: { selected_month },
+      },
     } = this.context
 
     const weekDays = this.getMemorizedDays(month)
@@ -484,14 +484,14 @@ export default class DatePickerCalendar extends React.PureComponent {
               title={selected_month.replace(
                 /%s/,
                 format(month, titleFormat, {
-                  locale
+                  locale,
                 })
               )}
               tabIndex="-1"
               ref={this._labelRef}
             >
               {format(month, titleFormat, {
-                locale
+                locale,
               })}
             </label>
             <div className="dnb-date-picker__header__nav">
@@ -526,15 +526,15 @@ export default class DatePickerCalendar extends React.PureComponent {
                     className={classnames(
                       'dnb-date-picker__labels__day',
                       `dnb-date-picker__labels__day--${format(day, 'i', {
-                        locale
+                        locale,
                       })}`
                     )}
                     aria-label={format(day, 'EEEE', {
-                      locale
+                      locale,
                     })}
                   >
                     {format(day, dayOfWeekFormat, {
-                      locale
+                      locale,
                     })}
                   </th>
                 ))}
@@ -551,7 +551,7 @@ export default class DatePickerCalendar extends React.PureComponent {
                 >
                   {week.map((day, i) => {
                     const title = format(day.date, 'PPPP', {
-                      locale
+                      locale,
                     })
                     const handleAsDisabled =
                       day.isLastMonth ||
@@ -613,9 +613,9 @@ export default class DatePickerCalendar extends React.PureComponent {
                                         this.callOnSelect({
                                           event,
                                           nr,
-                                          hidePicker: !isRange
+                                          hidePicker: !isRange,
                                         })
-                                      )
+                                      ),
                                   })
                           }
                           onMouseOver={
@@ -652,7 +652,7 @@ const PrevButton = ({
   context,
   prevBtn,
   onPrev,
-  onKeyDown
+  onKeyDown,
 }) => {
   if (!prevBtn) {
     return <></>
@@ -662,13 +662,13 @@ const PrevButton = ({
 
   const {
     translation: {
-      DatePicker: { prev_month }
-    }
+      DatePicker: { prev_month },
+    },
   } = context
   const title = prev_month.replace(
     /%s/,
     format(subMonths(month, 1), 'MMMM yyyy', {
-      locale
+      locale,
     })
   )
 
@@ -691,11 +691,11 @@ PrevButton.propTypes = {
   context: PropTypes.object.isRequired,
   prevBtn: PropTypes.bool.isRequired,
   onPrev: PropTypes.func.isRequired,
-  onKeyDown: PropTypes.func
+  onKeyDown: PropTypes.func,
 }
 PrevButton.defaultProps = {
   minDate: null,
-  onKeyDown: null
+  onKeyDown: null,
 }
 
 const NextButton = ({
@@ -706,7 +706,7 @@ const NextButton = ({
   context,
   nextBtn,
   onNext,
-  onKeyDown
+  onKeyDown,
 }) => {
   if (!nextBtn) {
     return <></>
@@ -716,13 +716,13 @@ const NextButton = ({
 
   const {
     translation: {
-      DatePicker: { next_month }
-    }
+      DatePicker: { next_month },
+    },
   } = context
   const title = next_month.replace(
     /%s/,
     format(addMonths(month, 1), 'MMMM yyyy', {
-      locale
+      locale,
     })
   )
 
@@ -747,11 +747,11 @@ NextButton.propTypes = {
   context: PropTypes.object.isRequired,
   nextBtn: PropTypes.bool.isRequired,
   onNext: PropTypes.func.isRequired,
-  onKeyDown: PropTypes.func
+  onKeyDown: PropTypes.func,
 }
 NextButton.defaultProps = {
   maxDate: null,
-  onKeyDown: null
+  onKeyDown: null,
 }
 
 const onSelectRange = ({
@@ -761,7 +761,7 @@ const onSelectRange = ({
   endDate,
   onSelect,
   resetDate,
-  event
+  event,
 }) => {
   event.persist()
   if (!isRange) {
@@ -769,7 +769,7 @@ const onSelectRange = ({
     onSelect({
       startDate: startOfDay(day.date),
       endDate: startOfDay(day.date),
-      event
+      event,
     })
 
     // for setting date new on every selection, do this here
@@ -779,7 +779,7 @@ const onSelectRange = ({
     onSelect({
       startDate: startOfDay(day.date),
       endDate: undefined,
-      event
+      event,
     })
   } else {
     const hasEndDate = endDate
@@ -798,7 +798,7 @@ const onSelectRange = ({
     onSelect({
       startDate: startOfDay(range.startDate),
       endDate: startOfDay(range.endDate),
-      event
+      event,
     })
   }
 }

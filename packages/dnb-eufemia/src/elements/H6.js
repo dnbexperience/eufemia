@@ -20,14 +20,14 @@ H6.propTypes = {
     'medium',
     'basis',
     'small',
-    'x-small'
+    'x-small',
   ]),
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 H6.defaultProps = {
   level: null,
   size: 'x-small',
-  children: null
+  children: null,
 }
 
 export default H6

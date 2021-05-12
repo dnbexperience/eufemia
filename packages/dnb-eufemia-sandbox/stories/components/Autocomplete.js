@@ -11,13 +11,13 @@ import {
   Autocomplete,
   NumberFormat,
   IconPrimary,
-  Button
+  Button,
 } from '@dnb/eufemia/src/components'
 import { Anchor } from '@dnb/eufemia/src/elements'
 import { SubmitButton } from '@dnb/eufemia/src/components/input/Input'
 
 export default {
-  title: 'Eufemia/Components/Autocomplete'
+  title: 'Eufemia/Components/Autocomplete',
 }
 
 const CustomStyle = styled.div`
@@ -45,7 +45,7 @@ const AutocompleteWithState = () => {
         showIndicator,
         hideIndicator,
         updateData,
-        debounce
+        debounce,
       }) => {
         showIndicator()
         console.log('value 1', value)
@@ -158,12 +158,12 @@ export const AutocompleteSandbox = () => {
                   </a>,
                   <a key="c" href="/" className="dnb-anchor">
                     Pro Com 3
-                  </a>
-                ]
-              ]
+                  </a>,
+                ],
+              ],
             },
             'More',
-            'Comp X'
+            'Comp X',
             // {
             //   content: [
             //     'Other Content',
@@ -183,7 +183,7 @@ export const AutocompleteSandbox = () => {
             console.log('on_change', e)
           }}
           options_render={({
-            Items
+            Items,
             // , Item
           }) => (
             <>
@@ -205,7 +205,7 @@ export const AutocompleteSandbox = () => {
           data={{
             a: 'A1 A2 C',
             b: 'BB cC zethTHx',
-            c: 'CCC'
+            c: 'CCC',
           }}
           // icon_position="left"
           // on_select={(e) => {
@@ -230,7 +230,7 @@ export const AutocompleteSandbox = () => {
             showIndicator,
             hideIndicator,
             updateData,
-            debounce
+            debounce,
           }) => {
             console.log('dataList', dataList)
             showIndicator()
@@ -261,7 +261,7 @@ export const AutocompleteSandbox = () => {
             dataList,
             updateData,
             showIndicatorItem,
-            setMode
+            setMode,
           }) => {
             if (!(dataList.length > 0)) {
               showIndicatorItem()
@@ -307,7 +307,7 @@ export const AutocompleteSandbox = () => {
         <Autocomplete
           data={{
             a: 'AA',
-            b: 'BB'
+            b: 'BB',
           }}
           // icon_position="left"
           on_select={(e) => {
@@ -327,7 +327,7 @@ export const AutocompleteSandbox = () => {
         >
           {{
             a: 'AA',
-            b: '🔥'
+            b: '🔥',
           }}
         </Autocomplete>
       </Box>
@@ -351,20 +351,11 @@ const testData = [
   {
     content: [
       'Dropdown',
-      'The Dropdown component is a custom-made data selection component.'
-    ]
+      'The Dropdown component is a custom-made data selection component.',
+    ],
   },
   {
-    content: 'B'
-  },
-  {
-    selected_value: 99999999,
-    content: [
-      <NumberFormat phone key={99999999}>
-        99999999
-      </NumberFormat>,
-      'C'
-    ]
+    content: 'B',
   },
   {
     selected_value: 99999999,
@@ -372,22 +363,31 @@ const testData = [
       <NumberFormat phone key={99999999}>
         99999999
       </NumberFormat>,
-      'D'
-    ]
+      'C',
+    ],
   },
   {
-    content: 'E'
+    selected_value: 99999999,
+    content: [
+      <NumberFormat phone key={99999999}>
+        99999999
+      </NumberFormat>,
+      'D',
+    ],
+  },
+  {
+    content: 'E',
   },
   {
     selected_value: 'Find me by keypress',
-    content: ['F', 'F', 'F', 'F']
+    content: ['F', 'F', 'F', 'F'],
   },
   {
-    content: 'G'
+    content: 'G',
   },
   {
-    content: 'H'
-  }
+    content: 'H',
+  },
 ]
 
 const autocompleteData = [
@@ -398,15 +398,15 @@ const autocompleteData = [
         {/* <Checkbox checked aria-hidden />  */}
         Brukskonto - Kari Nordmann
       </>
-    )
+    ),
   },
   {
     content: [
       <NumberFormat key={99999999} phone>
         99999999
       </NumberFormat>,
-      'Sparekonto - Ole Nordmann'
-    ]
+      'Sparekonto - Ole Nordmann',
+    ],
   },
   {
     selected_value:
@@ -415,8 +415,8 @@ const autocompleteData = [
       <NumberFormat key={99999999} phone>
         99999999
       </NumberFormat>,
-      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
-    ]
+      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
+    ],
   },
   {
     selected_value: <>Custom selected {'🔥'}</>,
@@ -424,22 +424,22 @@ const autocompleteData = [
       <NumberFormat key={99999999} phone>
         99999999
       </NumberFormat>,
-      <>Custom content {'🔥'}</>
-    ]
-  }
+      <>Custom content {'🔥'}</>,
+    ],
+  },
 ]
 const autocompleteDataScrollable = [
   {
     selected_value: 'AAA',
-    content: 'AA'
+    content: 'AA',
   },
   {
     content: [
       <NumberFormat key={99999999} phone>
         99999999zwzz
       </NumberFormat>,
-      'BB'
-    ]
+      'BB',
+    ],
   },
   {
     selected_value: 'CCC',
@@ -447,8 +447,8 @@ const autocompleteDataScrollable = [
       <NumberFormat key={99999999} phone>
         99999999
       </NumberFormat>,
-      'CC'
-    ]
+      'CC',
+    ],
   },
   {
     selected_value: 'DDD',
@@ -456,29 +456,29 @@ const autocompleteDataScrollable = [
       <NumberFormat key={99999999} phone>
         99999999
       </NumberFormat>,
-      'DD'
-    ]
+      'DD',
+    ],
   },
   {
-    content: <>E</>
+    content: <>E</>,
   },
   <>Custom content {'🔥'}</>,
   [<React.Fragment key="key1">Custom content X {'🔥'}</React.Fragment>],
   {
-    content: 'EE'
+    content: 'EE',
   },
   {
-    content: 'EEE'
+    content: 'EEE',
   },
   {
-    content: ['F1', 'F2', 'F3', 'F4', 'F5']
+    content: ['F1', 'F2', 'F3', 'F4', 'F5'],
   },
   {
-    content: 'GG'
+    content: 'GG',
   },
   {
-    content: 'HH'
-  }
+    content: 'HH',
+  },
 ]
 
 const topMovies = [
@@ -495,7 +495,7 @@ const topMovies = [
         <NumberFormat currency value={1234} className="dnb-typo-bold" />
       </>
     ),
-    year: 1994
+    year: 1994,
   },
   { content: 'The Godfather', year: 1972 },
   { content: 'The Godfather: Part II', year: 1974 },
@@ -508,11 +508,11 @@ const topMovies = [
   { content: 'Fight Club', year: 1999 },
   {
     content: 'The Lord of the Rings: The Fellowship of the Ring',
-    year: 2001
+    year: 2001,
   },
   {
     content: 'Star Wars: Episode V - The Empire Strikes Back',
-    year: 1980
+    year: 1980,
   },
   { content: 'Forrest Gump', year: 1994 },
   { content: 'Inception', year: 2010 },
@@ -557,7 +557,7 @@ const topMovies = [
   {
     content:
       'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb',
-    year: 1964
+    year: 1964,
   },
   { content: 'The Great Dictator', year: 1940 },
   { content: 'Cinema Paradiso', year: 1988 },
@@ -605,14 +605,14 @@ const topMovies = [
   { content: 'Inglourious Basterds', year: 2009 },
   { content: 'Snatch', year: 2000 },
   { content: '3 Idiots', year: 2009 },
-  { content: 'Monty Python and the Holy Grail', year: 1975 }
+  { content: 'Monty Python and the Holy Grail', year: 1975 },
 ]
 
 const initialData = [
   { selected_value: '1', content: '1' },
   { selected_value: '2', content: '2' },
   { selected_value: '3', content: '3' },
-  { selected_value: '4', content: '4' }
+  { selected_value: '4', content: '4' },
 ]
 
 function UpdateDataExample() {
@@ -655,7 +655,7 @@ function UpdateDataExample() {
         data={choiceData}
         on_change={({
           data,
-          setInputValue
+          setInputValue,
           // , updateData
         }) => {
           // update our choices

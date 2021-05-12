@@ -21,7 +21,7 @@ export {
   render,
   toJson,
   axe,
-  toHaveNoViolations
+  toHaveNoViolations,
 }
 
 global.IS_TEST = true
@@ -38,7 +38,7 @@ export const loadScss = (file, options = {}) => {
       file,
       includePaths: [path.resolve(__dirname, '../../style/core/')],
       importer: [onceImporter()],
-      ...options
+      ...options,
     })
     return String(sassResult.css)
   } catch (e) {
@@ -56,14 +56,16 @@ export const mockGetSelection = () => {
         memory = v
         return Promise.resolve(v)
       }),
-      readText: jest.fn().mockImplementation(() => Promise.resolve(memory))
-    }
+      readText: jest
+        .fn()
+        .mockImplementation(() => Promise.resolve(memory)),
+    },
   })
 
   const mockRange = new (class Range {
     constructor() {
       this.startContainer = {
-        parentNode: document.createElement('div')
+        parentNode: document.createElement('div'),
       }
     }
     getElement() {
@@ -107,7 +109,7 @@ export const mockGetSelection = () => {
     configurable: true,
     value: () => {
       return new RangeObj()
-    }
+    },
   })
 }
 

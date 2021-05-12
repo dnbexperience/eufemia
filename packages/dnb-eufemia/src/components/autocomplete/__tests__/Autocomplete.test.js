@@ -9,14 +9,14 @@ import {
   fakeProps,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Autocomplete'
 import { SubmitButton } from '../../../components/input/Input'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Autocomplete'), {
-    optional: true
+    optional: true,
   }),
   id: 'autocomplete-id',
   mode: 'sync',
@@ -36,13 +36,13 @@ const snapshotProps = {
   show_submit_button: true,
   no_animation: true,
   input_ref: null,
-  skip_portal: true
+  skip_portal: true,
 }
 
 // use no_animation so we don't need to wait
 const mockProps = {
   no_animation: true,
-  skip_portal: true
+  skip_portal: true,
 }
 const props = {
   id: 'autocomplete-id',
@@ -50,7 +50,7 @@ const props = {
   value: 1,
   show_submit_button: true,
   no_animation: true,
-  skip_portal: true
+  skip_portal: true,
 }
 
 const mockData = ['AA c', 'BB cc zethx', { content: ['CC', 'cc'] }]
@@ -85,7 +85,7 @@ describe('Autocomplete component', () => {
     toggle(Comp)
 
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'aa' }
+      target: { value: 'aa' },
     })
     expect(
       Comp.find(
@@ -100,7 +100,7 @@ describe('Autocomplete component', () => {
 
     // check "cc"
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'cc' }
+      target: { value: 'cc' },
     })
     expect(
       Comp.find(
@@ -110,7 +110,7 @@ describe('Autocomplete component', () => {
 
     // check "bb cc"
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'bb cc' }
+      target: { value: 'bb cc' },
     })
     expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
       mockData[1]
@@ -123,7 +123,7 @@ describe('Autocomplete component', () => {
 
     // check "aa cc"
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'aa cc' }
+      target: { value: 'aa cc' },
     })
     expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
       mockData[0]
@@ -131,7 +131,7 @@ describe('Autocomplete component', () => {
 
     // check inside words
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'bb cc th x' }
+      target: { value: 'bb cc th x' },
     })
     expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
       mockData[1]
@@ -142,7 +142,7 @@ describe('Autocomplete component', () => {
 
     // check "invalid"
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'invalid' }
+      target: { value: 'invalid' },
     })
     expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
       'Ingen alternativer'
@@ -163,7 +163,7 @@ describe('Autocomplete component', () => {
 
     // check "cc"
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'cc' }
+      target: { value: 'cc' },
     })
     expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
       mockData[1]
@@ -207,7 +207,7 @@ describe('Autocomplete component', () => {
 
     // check "cc b"
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'cc bb' }
+      target: { value: 'cc bb' },
     })
     expect(
       Comp.find(
@@ -248,7 +248,7 @@ describe('Autocomplete component', () => {
     toggle(Comp)
 
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'aa' }
+      target: { value: 'aa' },
     })
     expect(
       Comp.find(
@@ -349,7 +349,7 @@ describe('Autocomplete component', () => {
     expect(on_show).toHaveBeenCalledWith({
       attributes: params,
       data: null,
-      ulElement: null
+      ulElement: null,
     })
 
     keydown(Comp, 27) // esc
@@ -527,7 +527,7 @@ describe('Autocomplete component', () => {
     expect(Comp.find('input').instance().value).toBe(mockData[0])
     Comp.find('AutocompleteInstance').setState({
       skipFocusDuringChange: false,
-      hasFocus: false
+      hasFocus: false,
     })
     Comp.find('input').simulate('focus')
     expect(
@@ -590,7 +590,7 @@ describe('Autocomplete component', () => {
 
     // Now, lets try with "keep_value"
     Comp.setProps({
-      keep_value: true
+      keep_value: true,
     })
 
     Comp.find('input').simulate('change', { target: { value } })
@@ -627,7 +627,7 @@ describe('Autocomplete component', () => {
     // Now lets try with "keep_value_and_selection"
     Comp.setProps({
       keep_value: false,
-      keep_value_and_selection: true
+      keep_value_and_selection: true,
     })
 
     Comp.find('input').simulate('change', { target: { value } })
@@ -668,7 +668,7 @@ describe('Autocomplete component', () => {
     expect(Comp.find('input').instance().value).toBe(newValue)
     Comp.find('AutocompleteInstance').setState({
       skipFocusDuringChange: false,
-      hasFocus: false
+      hasFocus: false,
     })
     Comp.find('input').simulate('focus')
     expect(
@@ -745,7 +745,7 @@ describe('Autocomplete component', () => {
       .html()
 
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'aa' }
+      target: { value: 'aa' },
     })
 
     expect(
@@ -764,18 +764,18 @@ describe('Autocomplete component', () => {
     keydown(Comp, 40) // down
 
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'aa' }
+      target: { value: 'aa' },
     })
 
     expect(Comp.find('li.dnb-drawer-list__option').length).toBe(2)
 
     // update data
     Comp.setProps({
-      data: replaceData
+      data: replaceData,
     })
 
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'a' }
+      target: { value: 'a' },
     })
 
     expect(Comp.find('li.dnb-drawer-list__option').length).toBe(1)
@@ -801,7 +801,7 @@ describe('Autocomplete component', () => {
     keydown(Comp, 40) // down
 
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'aa' }
+      target: { value: 'aa' },
     })
 
     let callOne = on_type.mock.calls[0][0]
@@ -813,7 +813,7 @@ describe('Autocomplete component', () => {
     callOne.updateData(replaceData)
 
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'a' }
+      target: { value: 'a' },
     })
 
     const callTwo = on_type.mock.calls[1][0]
@@ -823,7 +823,7 @@ describe('Autocomplete component', () => {
     expect(callOne.dataList).not.toBe(callTwo.dataList)
 
     Comp.find('.dnb-input__input').simulate('change', {
-      target: { value: 'something' }
+      target: { value: 'something' },
     })
 
     const callThree = on_type.mock.calls[2][0]
@@ -889,7 +889,7 @@ describe('Autocomplete component', () => {
       />
     )
     Comp.setProps({
-      disabled: true
+      disabled: true,
     })
     expect(
       Comp.find('button.dnb-input__submit-button__button')
@@ -915,7 +915,7 @@ describe('Autocomplete component', () => {
       />
     )
     Comp.setProps({
-      disabled: true
+      disabled: true,
     })
     expect(
       Comp.find('button.dnb-input__submit-button__button')
@@ -955,8 +955,8 @@ describe('Autocomplete markup', () => {
     expect(
       await axeComponent(CheckComponent, {
         rules: {
-          'aria-valid-attr-value': { enabled: false }
-        }
+          'aria-valid-attr-value': { enabled: false },
+        },
       })
     ).toHaveNoViolations()
   })
@@ -981,7 +981,7 @@ const keydown = (Comp, keyCode) => {
   document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
 
   Comp.find('.dnb-input__input').simulate('keydown', {
-    keyCode
+    keyCode,
   })
 }
 const toggle = (Comp) => {

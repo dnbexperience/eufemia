@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   validateDOMAttributes,
-  isTrue
+  isTrue,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Section from '../section/Section'
@@ -14,20 +14,20 @@ export default class ContentWrapper extends React.PureComponent {
     id: PropTypes.string.isRequired,
     selected_key: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.number
+      PropTypes.number,
     ]),
     content_style: PropTypes.string,
     content_spacing: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   }
   static defaultProps = {
     selected_key: null,
     content_style: null,
     content_spacing: true,
-    children: null
+    children: null,
   }
 
   state = {}

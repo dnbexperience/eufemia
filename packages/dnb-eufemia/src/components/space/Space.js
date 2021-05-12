@@ -11,18 +11,18 @@ import {
   extendPropsWithContext,
   registerElement,
   processChildren,
-  validateDOMAttributes
+  validateDOMAttributes,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import {
   createSpacingClasses,
   isInline,
   spacingPropTypes,
-  spacingDefaultProps
+  spacingDefaultProps,
 } from './SpacingHelper'
 import {
   skeletonDOMAttributes,
-  createSkeletonClass
+  createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 
 export { spacingPropTypes }
@@ -45,8 +45,8 @@ export default class Space extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
-    ])
+      PropTypes.node,
+    ]),
   }
 
   static defaultProps = {
@@ -61,7 +61,7 @@ export default class Space extends React.PureComponent {
     class: null,
 
     className: null,
-    children: null
+    children: null,
   }
 
   static enableWebComponent() {
@@ -113,7 +113,7 @@ export default class Space extends React.PureComponent {
         className,
         _className
       ),
-      ...attributes
+      ...attributes,
     }
 
     skeletonDOMAttributes(params, skeleton) // do not send along this.context
@@ -149,10 +149,10 @@ const Element = ({ element: E, no_collapse, children, ...props }) => {
 Element.propTypes = {
   children: PropTypes.node,
   element: PropTypes.string,
-  no_collapse: PropTypes.bool
+  no_collapse: PropTypes.bool,
 }
 Element.defaultProps = {
   children: null,
   element: 'div',
-  no_collapse: true
+  no_collapse: true,
 }

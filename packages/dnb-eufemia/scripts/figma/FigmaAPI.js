@@ -6,7 +6,7 @@
 import { ConvertAndSaveComponentsStyle } from './tasks/componentsStyleConverter'
 import {
   extractIconsAsSVG,
-  extractIconsAsPDF
+  extractIconsAsPDF,
 } from './tasks/assetsExtractors'
 import { getFigmaDoc } from './helpers/docHelpers'
 import { getBranchName } from './../prepub/commitToBranch'
@@ -29,7 +29,7 @@ export const fetchFigmaStyles = async ({
     const styles = await ConvertAndSaveComponentsStyle(
       { figmaFile, ...args },
       {
-        doReplaceVars: true
+        doReplaceVars: true,
       }
     )
     log.succeed(
@@ -52,7 +52,7 @@ export const fetchFigmaIcons = async ({
 
   // Get the same figmaFile for the icons fetch
   const figmaDoc = await getFigmaDoc({
-    figmaFile
+    figmaFile,
   })
 
   try {
@@ -60,7 +60,7 @@ export const fetchFigmaIcons = async ({
     const icons = await extractIconsAsSVG({
       figmaFile,
       figmaDoc,
-      ...args
+      ...args,
     })
     log.succeed(`> Figma: Icons conversion done (${icons?.length} icons)`)
   } catch (e) {
@@ -72,7 +72,7 @@ export const fetchFigmaIcons = async ({
     const pdfs = await extractIconsAsPDF({
       figmaFile,
       figmaDoc,
-      ...args
+      ...args,
     })
     log.succeed(`> Figma: PDFs conversion done (${pdfs?.length} pdfs)`)
   } catch (e) {
@@ -87,7 +87,7 @@ export const fetchFigmaAll = async ({
   try {
     // make sure we are on the main branch
     const branchName = await getBranchName({
-      requiredBranch: 'eufemia-icons'
+      requiredBranch: 'eufemia-icons',
     }) // as RegExp
 
     if (ignoreBranchCheck !== true && !branchName) {

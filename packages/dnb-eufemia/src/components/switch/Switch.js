@@ -15,16 +15,16 @@ import {
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
-  createSkeletonClass
+  createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 
 import Context from '../../shared/Context'
@@ -43,7 +43,7 @@ export default class Switch extends React.PureComponent {
     label: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     label_position: PropTypes.oneOf(['left', 'right']),
     title: PropTypes.string,
@@ -56,7 +56,7 @@ export default class Switch extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     status_state: PropTypes.string,
     status_animation: PropTypes.string,
@@ -64,7 +64,7 @@ export default class Switch extends React.PureComponent {
     suffix: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     value: PropTypes.string,
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -81,7 +81,7 @@ export default class Switch extends React.PureComponent {
     custom_method: PropTypes.func,
     on_change: PropTypes.func,
     on_change_end: PropTypes.func,
-    on_state_update: PropTypes.func
+    on_state_update: PropTypes.func,
   }
 
   static defaultProps = {
@@ -112,7 +112,7 @@ export default class Switch extends React.PureComponent {
 
     on_change: null,
     on_change_end: null,
-    on_state_update: null
+    on_state_update: null,
   }
 
   static enableWebComponent() {
@@ -138,7 +138,7 @@ export default class Switch extends React.PureComponent {
 
     if (state.checked !== state.__checked) {
       dispatchCustomElementEvent({ props }, 'on_state_update', {
-        checked: state.checked
+        checked: state.checked,
       })
     }
 
@@ -153,7 +153,7 @@ export default class Switch extends React.PureComponent {
     this._refInput = React.createRef()
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this.state = {
-      _listenForPropChanges: true
+      _listenForPropChanges: true,
     }
     this.helperParams = { onMouseDown: (e) => e.preventDefault() }
   }
@@ -187,7 +187,7 @@ export default class Switch extends React.PureComponent {
         () =>
           dispatchCustomElementEvent(this, 'on_change_end', {
             checked,
-            event
+            event,
           }),
         500
       )
@@ -256,13 +256,13 @@ export default class Switch extends React.PureComponent {
         createSpacingClasses(props),
         className,
         _className
-      )
+      ),
     }
 
     const inputParams = {
       disabled: isTrue(disabled),
       checked,
-      ...rest
+      ...rest,
     }
 
     skeletonDOMAttributes(inputParams, skeleton, this.context)

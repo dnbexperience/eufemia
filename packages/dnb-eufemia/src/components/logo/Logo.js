@@ -10,11 +10,11 @@ import Context from '../../shared/Context'
 import {
   validateDOMAttributes,
   registerElement,
-  extendPropsWithContext
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 
 export default class Logo extends React.PureComponent {
@@ -32,7 +32,7 @@ export default class Logo extends React.PureComponent {
 
     ...spacingPropTypes,
 
-    className: PropTypes.string
+    className: PropTypes.string,
   }
 
   static defaultProps = {
@@ -44,7 +44,7 @@ export default class Logo extends React.PureComponent {
     color: null,
     class: null,
 
-    className: null
+    className: null,
   }
 
   static enableWebComponent() {
@@ -95,11 +95,11 @@ export default class Logo extends React.PureComponent {
       alt,
       ['data-ratio']: ratio,
       ['aria-hidden']: true,
-      ...rest
+      ...rest,
     }
 
     const svgParams = {
-      viewBox: '0 0 93.0362 64' // these size are set to me associated with the svg path point values
+      viewBox: '0 0 93.0362 64', // these size are set to me associated with the svg path point values
     }
 
     if (parseFloat(width) > -1) svgParams['width'] = width

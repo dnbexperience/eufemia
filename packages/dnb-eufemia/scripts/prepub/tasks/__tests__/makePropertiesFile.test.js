@@ -7,7 +7,7 @@ import { runFactory } from '../makePropertiesFile'
 
 beforeAll(async () => {
   global.content = await runFactory({
-    returnResult: true
+    returnResult: true,
   })
 })
 

@@ -69,7 +69,7 @@ function renameDependencies(direction = 'auto') {
     const newPackageJson = JSON.stringify(packageJson, null, 2)
     const formattedPackageJson = prettier.format(newPackageJson, {
       ...prettierrc,
-      filepath
+      filepath,
     })
 
     await fs.writeFile(filepath, formattedPackageJson)

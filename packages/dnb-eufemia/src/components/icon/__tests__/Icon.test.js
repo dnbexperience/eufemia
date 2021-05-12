@@ -9,13 +9,13 @@ import {
   fakeProps,
   toJson,
   axeComponent,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component, { iconPropTypes } from '../Icon'
 import { question } from './test-files'
 
 const props = fakeProps(require.resolve('../Icon'), {
-  optional: true
+  optional: true,
 })
 props.icon = question
 props.alt = 'question mark'

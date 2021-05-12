@@ -54,5 +54,5 @@ export default {
       inst.__tabsController[id] ||
       (inst.__tabsController[id] = new TabsController(id))
     ).init()
-  }
+  },
 }

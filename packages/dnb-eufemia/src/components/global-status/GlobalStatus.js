@@ -18,18 +18,18 @@ import {
   dispatchCustomElementEvent,
   convertJsxToString,
   processChildren,
-  extendPropsWithContext
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 import {
   skeletonDOMAttributes,
-  createSkeletonClass
+  createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import GlobalStatusController, {
-  GlobalStatusInterceptor
+  GlobalStatusInterceptor,
 } from './GlobalStatusController'
 import GlobalStatusProvider from './GlobalStatusProvider'
 import Icon from '../icon/Icon'
@@ -54,17 +54,17 @@ export default class GlobalStatus extends React.PureComponent {
     text: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     items: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.array
+      PropTypes.array,
     ]),
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     icon_size: PropTypes.string,
     state: PropTypes.oneOf(['error', 'info']),
@@ -76,15 +76,15 @@ export default class GlobalStatus extends React.PureComponent {
     close_text: PropTypes.string,
     hide_close_button: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     omit_set_focus: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     omit_set_focus_on_update: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     status_anchor_text: PropTypes.string,
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -96,14 +96,14 @@ export default class GlobalStatus extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
 
     on_adjust: PropTypes.func,
     on_open: PropTypes.func,
     on_show: PropTypes.func,
     on_close: PropTypes.func,
-    on_hide: PropTypes.func
+    on_hide: PropTypes.func,
   }
 
   static defaultProps = {
@@ -136,7 +136,7 @@ export default class GlobalStatus extends React.PureComponent {
     on_open: null,
     on_show: null,
     on_close: null,
-    on_hide: null
+    on_hide: null,
   }
 
   static enableWebComponent() {
@@ -177,7 +177,7 @@ export default class GlobalStatus extends React.PureComponent {
       if (state._items !== props.items) {
         state.globalStatus = GlobalStatusProvider.combineMessages([
           state.globalStatus,
-          props
+          props,
         ])
       }
     }
@@ -193,7 +193,7 @@ export default class GlobalStatus extends React.PureComponent {
     isActive: false,
     isAnimating: false,
     keepContentVisible: false,
-    _listenForPropChanges: false
+    _listenForPropChanges: false,
   }
 
   constructor(props) {
@@ -204,13 +204,13 @@ export default class GlobalStatus extends React.PureComponent {
     this._shellRef = React.createRef()
 
     this.anim = new AnimateHeight({
-      animate: !isTrue(props.no_animation)
+      animate: !isTrue(props.no_animation),
     })
 
     this.anim.onStart((state) => {
       this.setState({
         isAnimating: true,
-        _listenForPropChanges: false
+        _listenForPropChanges: false,
       })
       if (state === 'opening') {
         this.scrollToStatus()
@@ -220,13 +220,13 @@ export default class GlobalStatus extends React.PureComponent {
     this.anim.onEnd((state) => {
       this.setState({
         isAnimating: false,
-        _listenForPropChanges: false
+        _listenForPropChanges: false,
       })
 
       if (this.state.isActive) {
         this.setState({
           keepContentVisible: true,
-          _listenForPropChanges: false
+          _listenForPropChanges: false,
         })
 
         dispatchCustomElementEvent(
@@ -259,7 +259,7 @@ export default class GlobalStatus extends React.PureComponent {
       } else {
         this.setState({
           keepContentVisible: false,
-          _listenForPropChanges: false
+          _listenForPropChanges: false,
         })
         dispatchCustomElementEvent(
           this._globalStatus,
@@ -295,7 +295,7 @@ export default class GlobalStatus extends React.PureComponent {
       // force re-render
       this.setState({
         globalStatus,
-        _listenForPropChanges: false
+        _listenForPropChanges: false,
       })
 
       const isActive = isTrue(globalStatus.show)
@@ -359,7 +359,7 @@ export default class GlobalStatus extends React.PureComponent {
         this.state.globalStatus
       )
       this.setState({
-        globalStatus
+        globalStatus,
       })
     }
     if (prevProps.show !== this.props.show) {
@@ -405,7 +405,7 @@ export default class GlobalStatus extends React.PureComponent {
       this.setState(
         {
           keepContentVisible: true,
-          _listenForPropChanges: false
+          _listenForPropChanges: false,
         },
         () => {
           this.anim.adjustTo(this.adjustHeight)
@@ -421,7 +421,7 @@ export default class GlobalStatus extends React.PureComponent {
         {
           isActive: true,
           initialOpened: true,
-          _listenForPropChanges: false
+          _listenForPropChanges: false,
         },
         () => {
           this.anim.open()
@@ -451,7 +451,7 @@ export default class GlobalStatus extends React.PureComponent {
         {
           isActive: false,
           initialOpened: false,
-          _listenForPropChanges: false
+          _listenForPropChanges: false,
         },
         () => {
           this.anim.close()
@@ -493,7 +493,7 @@ export default class GlobalStatus extends React.PureComponent {
   closeHandler = () => {
     this.provider.add({
       status_id: 'internal-close',
-      show: false
+      show: false,
     })
 
     if (this.initialActiveElement) {
@@ -529,14 +529,14 @@ export default class GlobalStatus extends React.PureComponent {
       ) {
         element.scrollIntoView({
           block: 'center',
-          behavior: 'smooth'
+          behavior: 'smooth',
         })
       } else {
         const top = element.offsetTop
         if (window.scrollTo) {
           window.scrollTo({
             top,
-            behavior: 'smooth'
+            behavior: 'smooth',
           })
         } else {
           window.scrollTop = top
@@ -597,7 +597,7 @@ export default class GlobalStatus extends React.PureComponent {
           // then go there
           element.scrollIntoView({
             block: 'center', // center of page
-            behavior: 'smooth'
+            behavior: 'smooth',
           })
         }
       } catch (e) {
@@ -618,7 +618,7 @@ export default class GlobalStatus extends React.PureComponent {
     const props = extendPropsWithContext(
       GlobalStatusProvider.combineMessages([
         this.context.globalStatus,
-        this.state.globalStatus
+        this.state.globalStatus,
       ]),
       GlobalStatus.defaultProps,
       fallbackProps
@@ -666,14 +666,14 @@ export default class GlobalStatus extends React.PureComponent {
       ),
       'aria-live': isActive ? 'assertive' : 'off',
       onKeyDown: this.onKeyDownHandler,
-      tabIndex: '-1'
+      tabIndex: '-1',
     }
 
     const state = this.correctStatus(rawState)
     const iconToRender = GlobalStatus.getIcon({
       state,
       icon: icon || fallbackProps.icon,
-      icon_size: icon_size || fallbackProps.icon_size
+      icon_size: icon_size || fallbackProps.icon_size,
     })
     const titleToRender =
       title || fallbackProps.title || fallbackProps.default_title
@@ -706,7 +706,7 @@ export default class GlobalStatus extends React.PureComponent {
         isAnimating && 'dnb-global-status--is-animating',
         noAnimation && 'dnb-global-status--no-animation'
       ),
-      ...attributes
+      ...attributes,
     }
 
     skeletonDOMAttributes(params, skeleton, this.context)
@@ -875,10 +875,10 @@ const ErrorIcon = (props) => (
   </svg>
 )
 ErrorIcon.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
 }
 ErrorIcon.defaultProps = {
-  title: 'error'
+  title: 'error',
 }
 
 const InfoIcon = (props) => (
@@ -901,8 +901,8 @@ const InfoIcon = (props) => (
   </svg>
 )
 InfoIcon.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
 }
 InfoIcon.defaultProps = {
-  title: 'info'
+  title: 'info',
 }

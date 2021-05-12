@@ -14,7 +14,7 @@ import {
   FormRow,
   Skeleton,
   IconPrimary,
-  ToggleButton
+  ToggleButton,
 } from '@dnb/eufemia/src/components'
 import {
   H1,
@@ -24,12 +24,12 @@ import {
   Link,
   Span,
   Div,
-  Img
+  Img,
 } from '@dnb/eufemia/src/elements'
 // import Link from '@dnb/eufemia/src/elements/Link'
 
 export default {
-  title: 'Eufemia/Elements/Other'
+  title: 'Eufemia/Elements/Other',
 }
 
 const CustomStyles = styled.div`

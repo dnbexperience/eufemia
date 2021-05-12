@@ -17,16 +17,16 @@ import {
   getStatusState,
   convertStatusToStateOnly,
   combineDescribedBy,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
-  createSkeletonClass
+  createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import Button, { buttonVariantPropType } from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
@@ -40,14 +40,14 @@ export const inputPropTypes = {
   type: PropTypes.string,
   size: PropTypes.oneOfType([
     PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-    PropTypes.number
+    PropTypes.number,
   ]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string,
   label: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
-    PropTypes.node
+    PropTypes.node,
   ]),
   label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
   label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -55,7 +55,7 @@ export const inputPropTypes = {
     PropTypes.string,
     PropTypes.bool,
     PropTypes.func,
-    PropTypes.node
+    PropTypes.node,
   ]),
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
@@ -66,12 +66,12 @@ export const inputPropTypes = {
   placeholder: PropTypes.string,
   keep_placeholder: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.bool
+    PropTypes.bool,
   ]),
   suffix: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
-    PropTypes.node
+    PropTypes.node,
   ]),
   align: PropTypes.oneOf(['left', 'center', 'right']),
   selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -82,13 +82,13 @@ export const inputPropTypes = {
   input_class: PropTypes.string,
   input_attributes: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.object
+    PropTypes.object,
   ]),
   input_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
-    PropTypes.func
+    PropTypes.func,
   ]),
   icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon_position: PropTypes.oneOf(['left', 'right']),
@@ -101,7 +101,7 @@ export const inputPropTypes = {
   submit_button_icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
-    PropTypes.func
+    PropTypes.func,
   ]),
   submit_button_status: PropTypes.string,
 
@@ -118,7 +118,7 @@ export const inputPropTypes = {
   on_blur: PropTypes.func,
   on_submit_focus: PropTypes.func,
   on_submit_blur: PropTypes.func,
-  on_state_update: PropTypes.func
+  on_state_update: PropTypes.func,
 }
 
 export default class Input extends React.PureComponent {
@@ -126,7 +126,7 @@ export default class Input extends React.PureComponent {
   static contextType = Context
 
   static propTypes = {
-    ...inputPropTypes
+    ...inputPropTypes,
   }
 
   static defaultProps = {
@@ -180,7 +180,7 @@ export default class Input extends React.PureComponent {
     on_blur: null,
     on_submit_focus: null,
     on_submit_blur: null,
-    on_state_update: null
+    on_state_update: null,
   }
 
   static enableWebComponent() {
@@ -252,7 +252,7 @@ export default class Input extends React.PureComponent {
     this.setState({
       // value,// why should we update the value on blur?
       inputState: 'focus',
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
 
     dispatchCustomElementEvent(this, 'on_focus', { value, event })
@@ -276,7 +276,7 @@ export default class Input extends React.PureComponent {
         Input.hasValue(value) && value !== this.state._value
           ? 'dirty'
           : 'initial',
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
     dispatchCustomElementEvent(this, 'on_blur', { value, event })
   }
@@ -383,11 +383,11 @@ export default class Input extends React.PureComponent {
         className
       ),
       'data-input-state': inputState,
-      'data-has-content': hasValue ? 'true' : 'false'
+      'data-has-content': hasValue ? 'true' : 'false',
     }
 
     const innerParams = {
-      className: 'dnb-input__inner'
+      className: 'dnb-input__inner',
     }
 
     // pass along all props we wish to have as params
@@ -413,7 +413,7 @@ export default class Input extends React.PureComponent {
       onChange: this.onChangeHandler,
       onKeyDown: this.onKeyDownHandler,
       onFocus: this.onFocusHandler,
-      onBlur: this.onBlurHandler
+      onBlur: this.onBlurHandler,
     }
 
     if (sizeIsNumber) {
@@ -440,7 +440,7 @@ export default class Input extends React.PureComponent {
       className: classnames(
         'dnb-input__shell',
         createSkeletonClass('shape', skeleton, this.context)
-      )
+      ),
     }
 
     skeletonDOMAttributes(inputParams, skeleton, this.context)
@@ -569,21 +569,21 @@ class InputSubmitButton extends React.PureComponent {
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]),
     icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     status: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     status_state: PropTypes.string,
     className: PropTypes.string,
 
     on_submit: PropTypes.func,
     on_submit_focus: PropTypes.func,
-    on_submit_blur: PropTypes.func
+    on_submit_blur: PropTypes.func,
   }
 
   static defaultProps = {
@@ -601,7 +601,7 @@ class InputSubmitButton extends React.PureComponent {
 
     on_submit: null,
     on_submit_focus: null,
-    on_submit_blur: null
+    on_submit_blur: null,
   }
 
   state = { focusState: 'virgin' }
@@ -609,14 +609,14 @@ class InputSubmitButton extends React.PureComponent {
   onFocusHandler = (event) => {
     const value = this.props.value
     this.setState({
-      focusState: 'focus'
+      focusState: 'focus',
     })
     dispatchCustomElementEvent(this, 'on_submit_focus', { value, event })
   }
   onBlurHandler = (event) => {
     const value = this.props.value
     this.setState({
-      focusState: 'dirty'
+      focusState: 'dirty',
     })
     dispatchCustomElementEvent(this, 'on_submit_blur', { value, event })
   }
@@ -644,7 +644,7 @@ class InputSubmitButton extends React.PureComponent {
       type: 'submit',
       'aria-label': title,
       disabled,
-      ...rest
+      ...rest,
     }
 
     skeletonDOMAttributes(params, skeleton, this.context)
@@ -698,6 +698,6 @@ InputIcon.propTypes = {
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
-    PropTypes.func
-  ]).isRequired
+    PropTypes.func,
+  ]).isRequired,
 }

@@ -12,11 +12,11 @@ import {
   Checkbox,
   Button,
   FormLabel,
-  FormRow
+  FormRow,
 } from '@dnb/eufemia/src/components'
 
 export default {
-  title: 'Eufemia/Components/Checkbox'
+  title: 'Eufemia/Components/Checkbox',
 }
 
 const CustomRow = styled(FormRow)`

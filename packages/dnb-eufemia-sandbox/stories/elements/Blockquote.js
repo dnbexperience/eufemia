@@ -22,7 +22,7 @@ const CustomStyles = styled.div`
 `
 
 export default {
-  title: 'Eufemia/Elements/Blockquote'
+  title: 'Eufemia/Elements/Blockquote',
 }
 
 export const BlockquoteSandbox = () => (

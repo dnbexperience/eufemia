@@ -9,14 +9,14 @@ import {
   fakeProps,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component, {
   // getCardData,
   Designs,
   ProductType,
   CardType,
-  formatCardNumber
+  formatCardNumber,
 } from '../PaymentCard'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
@@ -24,7 +24,7 @@ import enGB from '../../../shared/locales/en-GB'
 const nb = nbNO['nb-NO'].PaymentCard
 const en = enGB['en-GB'].PaymentCard
 const defaultProps = fakeProps(require.resolve('../PaymentCard'), {
-  optional: true
+  optional: true,
 })
 defaultProps.product_code = 'NK1'
 defaultProps.card_number = '************1337'
@@ -66,7 +66,7 @@ describe('PaymentCard', () => {
 
   it('has correct expired status', () => {
     Comp.setProps({
-      card_status: 'expired'
+      card_status: 'expired',
     })
     expect(Comp.exists('div.dnb-payment-card__blocking__overlay')).toBe(
       true
@@ -80,7 +80,7 @@ describe('PaymentCard', () => {
 
   it('has correct blocked status', () => {
     Comp.setProps({
-      card_status: 'blocked'
+      card_status: 'blocked',
     })
     expect(Comp.exists('div.dnb-payment-card__blocking__overlay')).toBe(
       true
@@ -97,13 +97,13 @@ describe('PaymentCard', () => {
       nb.text_card_number
     )
     Comp.setProps({
-      locale: 'en-GB'
+      locale: 'en-GB',
     })
     expect(Comp.find('p.dnb-payment-card__card__holder').text()).toBe(
       en.text_card_number
     )
     Comp.setProps({
-      locale: 'nb-NO'
+      locale: 'nb-NO',
     })
     expect(Comp.find('p.dnb-payment-card__card__holder').text()).toBe(
       nb.text_card_number
@@ -117,7 +117,7 @@ describe('PaymentCard', () => {
       displayName: 'Custom card', // Only showed in compact variant
       cardDesign: Designs.gold,
       cardType: CardType.Visa,
-      productType: ProductType.BankAxept
+      productType: ProductType.BankAxept,
     }
 
     const Comp = mount(

@@ -21,7 +21,7 @@ import keycode from 'keycode'
 import {
   warn,
   validateDOMAttributes,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { convertStringToDate } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
@@ -42,13 +42,13 @@ export default class DatePickerInput extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     status_state: PropTypes.string,
     input_element: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     locale: PropTypes.object,
     disabled: PropTypes.bool,
@@ -57,7 +57,7 @@ export default class DatePickerInput extends React.PureComponent {
     showInput: PropTypes.bool,
     onChange: PropTypes.func,
     onSubmit: PropTypes.func,
-    onFocus: PropTypes.func
+    onFocus: PropTypes.func,
   }
 
   static defaultProps = {
@@ -79,12 +79,12 @@ export default class DatePickerInput extends React.PureComponent {
     showInput: null,
     onChange: null,
     onSubmit: null,
-    onFocus: null
+    onFocus: null,
   }
 
   state = {
     _listenForPropChanges: true,
-    focusState: 'virgin'
+    focusState: 'virgin',
   }
 
   constructor(props) {
@@ -140,7 +140,7 @@ export default class DatePickerInput extends React.PureComponent {
           let date
           for (let i = 0, l = possibleFormats.length; i < l; ++i) {
             date = convertStringToDate(success, {
-              date_format: possibleFormats[i]
+              date_format: possibleFormats[i],
             })
             if (date) {
               break
@@ -149,7 +149,7 @@ export default class DatePickerInput extends React.PureComponent {
           const mode = this.focusMode === 'start' ? 'startDate' : 'endDate'
           if (date && !this.state[mode]) {
             this.context.setState({
-              [mode]: date
+              [mode]: date,
             })
           }
         } catch (e) {
@@ -196,7 +196,7 @@ export default class DatePickerInput extends React.PureComponent {
         acc[`${mode}Date`] = [
           this[`_${mode}Year`] || this.context[`__${mode}Year`] || 'yyyy',
           this[`_${mode}Month`] || this.context[`__${mode}Month`] || 'mm',
-          this[`_${mode}Day`] || this.context[`__${mode}Day`] || 'dd'
+          this[`_${mode}Day`] || this.context[`__${mode}Day`] || 'dd',
         ].join('-')
         return acc
       }, {})
@@ -218,7 +218,7 @@ export default class DatePickerInput extends React.PureComponent {
     let returnObject = this.context.getReturnObject({
       startDate,
       endDate,
-      event
+      event,
     })
 
     // Now, lets correct
@@ -232,13 +232,13 @@ export default class DatePickerInput extends React.PureComponent {
       const typedDates = this.props.isRange
         ? {
             start_date: startDate,
-            end_date: endDate
+            end_date: endDate,
           }
         : { date: startDate }
 
       returnObject = {
         ...returnObject,
-        ...typedDates
+        ...typedDates,
       }
     }
 
@@ -279,7 +279,7 @@ export default class DatePickerInput extends React.PureComponent {
 
     this.callOnChange({
       [isInRange === 'start' ? 'startDate' : 'endDate']: date,
-      event
+      event,
     })
 
     await wait(1) // to get the correct position afterwards
@@ -301,7 +301,7 @@ export default class DatePickerInput extends React.PureComponent {
 
     this.setState({
       focusState: 'focus',
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
   }
 
@@ -309,7 +309,7 @@ export default class DatePickerInput extends React.PureComponent {
     this.focusMode = null
     this.setState({
       focusState: 'blur',
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
   }
 
@@ -448,7 +448,7 @@ export default class DatePickerInput extends React.PureComponent {
     if (isValidDate) {
       this.callOnChange({
         [`${mode}Date`]: date,
-        event
+        event,
       })
     } else {
       this.context.setDate({ [`${mode}Date`]: null })
@@ -456,12 +456,12 @@ export default class DatePickerInput extends React.PureComponent {
 
       this.callOnChangeAsInvalid({
         [`${mode}Date`]: null,
-        event
+        event,
       })
     }
 
     this.callOnType({
-      event
+      event,
     })
   }
 
@@ -510,7 +510,7 @@ export default class DatePickerInput extends React.PureComponent {
               this.onFocusHandler(e)
             },
             onBlur: this.onBlurHandler,
-            placeholderChar
+            placeholderChar,
           }
         }
 

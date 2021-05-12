@@ -16,5 +16,5 @@ export const makeStylePrettier = (style) =>
     semi: false,
     jsxBracketSameLine: false,
     parser: 'babel',
-    trailingComma: 'none'
+    trailingComma: 'none',
   })

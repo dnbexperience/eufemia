@@ -9,12 +9,12 @@ import {
   fakeProps,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Slider'
 
 const props = fakeProps(require.resolve('../Slider'), {
-  optional: true
+  optional: true,
 })
 props.status = null
 props.min = 0
@@ -70,7 +70,7 @@ describe('Slider component', () => {
 
     const initObject = {
       value: 70,
-      number: '70 kr'
+      number: '70 kr',
     }
     expect(on_init).toBeCalledWith(initObject)
 
@@ -79,7 +79,7 @@ describe('Slider component', () => {
       event: {
         height: 10,
         pageX: 80,
-        width: 100
+        width: 100,
       },
       height: 10,
       pageX: 80,
@@ -87,7 +87,7 @@ describe('Slider component', () => {
       raw_value: 80,
       value: 80,
       number: '80 kr',
-      width: 100
+      width: 100,
     }
     expect(on_change).toBeCalledWith(changeObject)
   })
@@ -112,7 +112,7 @@ describe('Slider component', () => {
 
     const initObject = {
       value: 70,
-      number: '70,0 kr'
+      number: '70,0 kr',
     }
     expect(on_init).toBeCalledWith(initObject)
 
@@ -121,7 +121,7 @@ describe('Slider component', () => {
       event: {
         height: 10,
         pageX: 80,
-        width: 100
+        width: 100,
       },
       height: 10,
       pageX: 80,
@@ -129,7 +129,7 @@ describe('Slider component', () => {
       raw_value: 80,
       value: 80,
       number: '80,0 kr',
-      width: 100
+      width: 100,
     }
     expect(on_change).toBeCalledWith(changeObject)
 
@@ -153,7 +153,7 @@ describe('Slider scss', () => {
 
 const simulateMouseMove = (props) => {
   const mouseMove = new CustomEvent('mousemove', {
-    detail: props
+    detail: props,
   })
   document.body.dispatchEvent(mouseMove)
 }

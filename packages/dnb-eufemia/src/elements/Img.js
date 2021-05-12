@@ -9,7 +9,7 @@ import E from './Element'
 import {
   spacingPropTypes,
   createSpacingClasses,
-  removeSpaceProps
+  removeSpaceProps,
 } from '../components/space/SpacingHelper'
 import classnames from 'classnames'
 
@@ -57,13 +57,13 @@ Img.propTypes = {
   className: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
-    PropTypes.array
+    PropTypes.array,
   ]),
   class: PropTypes.string,
   img_class: PropTypes.string,
   element: PropTypes.node,
   caption: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 Img.defaultProps = {
   skeleton: null,
@@ -73,7 +73,7 @@ Img.defaultProps = {
   element: 'figure',
   css: null,
   caption: null,
-  children: null
+  children: null,
 }
 
 export default Img

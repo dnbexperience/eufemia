@@ -24,10 +24,10 @@ export default class H extends React.PureComponent {
       'medium',
       'basis',
       'small',
-      'x-small'
+      'x-small',
     ]),
     style_type: PropTypes.string, // deprecated
-    children: PropTypes.node
+    children: PropTypes.node,
   }
   static defaultProps = {
     className: null,
@@ -35,7 +35,7 @@ export default class H extends React.PureComponent {
     is: 'h1',
     size: 'xx-large',
     style_type: null, // deprecated
-    children: null
+    children: null,
   }
 
   constructor(props) {

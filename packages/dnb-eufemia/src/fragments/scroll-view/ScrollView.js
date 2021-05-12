@@ -10,12 +10,12 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
-  processChildren
+  processChildren,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../../components/space/SpacingHelper'
 
 class ScrollView extends React.PureComponent {
@@ -28,11 +28,11 @@ class ScrollView extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     innerRef: PropTypes.object,
 
-    class: PropTypes.string
+    class: PropTypes.string,
   }
 
   static defaultProps = {
@@ -40,7 +40,7 @@ class ScrollView extends React.PureComponent {
     children: null,
     innerRef: null,
 
-    class: null
+    class: null,
   }
 
   static enableWebComponent() {
@@ -86,7 +86,7 @@ class ScrollView extends React.PureComponent {
         _className,
         className
       ),
-      ...attributes
+      ...attributes,
     }
 
     validateDOMAttributes(this.props, mainParams)

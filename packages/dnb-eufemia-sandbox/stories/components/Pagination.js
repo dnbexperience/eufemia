@@ -10,12 +10,12 @@ import styled from '@emotion/styled'
 import { P } from '@dnb/eufemia/src/elements'
 import { Button, Section } from '@dnb/eufemia/src/components'
 import Pagination, {
-  createPagination
+  createPagination,
 } from '@dnb/eufemia/src/components/pagination/Pagination'
 import { InfinityPaginationTable } from './PaginationTable'
 
 export default {
-  title: 'Eufemia/Components/Pagination'
+  title: 'Eufemia/Components/Pagination',
 }
 
 const LargePage = styled.div`
@@ -160,7 +160,7 @@ const PaginationWithState = ({ children, ...props }) => {
 
   // create our Pagination instance
   const [
-    { Pagination: PaginationInstance, setContent, resetContent }
+    { Pagination: PaginationInstance, setContent, resetContent },
   ] = React.useState(createPagination)
   setContent(currentPage, children(currentPage))
 

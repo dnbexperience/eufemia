@@ -9,17 +9,17 @@ import {
   fakeProps,
   toJson,
   axeComponent,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Input'
 
 const props = {
   ...fakeProps(require.resolve('../Input'), {
     all: true,
-    optional: true
+    optional: true,
   }),
   input_element: null,
-  disabled: false
+  disabled: false,
 }
 props.id = 'input'
 props.autocomplete = 'off'
@@ -95,13 +95,13 @@ describe('Input component', () => {
     expect(Comp.state().value).toBe(initValue)
 
     Comp.find('input').simulate('change', {
-      target: { value: newValue }
+      target: { value: newValue },
     })
     expect(on_change.mock.calls.length).toBe(1)
     expect(Comp.find('input').instance().value).toBe(newValue)
 
     Comp.find('input').simulate('change', {
-      target: { value: emptyValue }
+      target: { value: emptyValue },
     })
     expect(on_change.mock.calls.length).toBe(2)
     expect(Comp.state().value).toBe(emptyValue)
@@ -117,7 +117,7 @@ describe('Input component', () => {
     const emptyValue = null
 
     Comp.setProps({
-      value: initValue
+      value: initValue,
     })
     expect(Comp.state().value).toBe(initValue)
 
@@ -136,7 +136,7 @@ describe('Input component', () => {
     const zeroValue = 0
 
     Comp.setProps({
-      value: newValue
+      value: newValue,
     })
     expect(Comp.state().value).toBe(newValue)
 
@@ -179,7 +179,7 @@ describe('Input component', () => {
   it('has to to have a prop value like value', () => {
     const value = 'new value'
     Comp.setProps({
-      value
+      value,
     })
     expect(Comp.find('input').props().value).toBe(value)
   })
@@ -199,7 +199,7 @@ describe('Input component', () => {
   it('has a disabled attribute, once we set disabled to true', () => {
     const Comp = mount(<Component />)
     Comp.setProps({
-      disabled: true
+      disabled: true,
     })
     expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
       true

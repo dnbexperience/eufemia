@@ -32,7 +32,7 @@ export default async function makeMainStyle() {
     // in order to keep the foder structure, we have to add these asteix
     themeFile = themeFile.replace('/style/themes/', '/style/**/themes/')
     await runFactory(themeFile, {
-      importOnce: false
+      importOnce: false,
     })
   })
 
@@ -58,14 +58,14 @@ export const runFactory = (
     log.start('> PrePublish: transforming main style')
     try {
       const sassStream = sass({
-        importer: importOnce ? [onceImporter()] : []
+        importer: importOnce ? [onceImporter()] : [],
       }).on('error', sass.logError)
 
       const cloneSink = clone.sink()
 
       let stream = gulp
         .src(src, {
-          cwd: ROOT_DIR
+          cwd: ROOT_DIR,
         })
         .pipe(sassStream)
         .pipe(postcss(postcssConfig({ IE11: true })))
@@ -73,7 +73,7 @@ export const runFactory = (
         .pipe(
           // cssnano has to run after cloneSink! So we get both a non min and a min version
           cssnano({
-            reduceIdents: false
+            reduceIdents: false,
           })
         )
         .pipe(rename({ suffix: '.min' }))
@@ -83,13 +83,13 @@ export const runFactory = (
         stream = stream
           .pipe(
             gulp.dest('./build/cjs/style', {
-              cwd: ROOT_DIR
+              cwd: ROOT_DIR,
             })
           )
           .pipe(gulp.dest('./build/es/style', { cwd: ROOT_DIR }))
           .pipe(
             gulp.dest('./build/esm/style', {
-              cwd: ROOT_DIR
+              cwd: ROOT_DIR,
             })
           )
       }
@@ -98,7 +98,7 @@ export const runFactory = (
       if (returnResult) {
         stream.pipe(
           cssnano({
-            reduceIdents: false
+            reduceIdents: false,
           })
         )
       }
@@ -111,7 +111,7 @@ export const runFactory = (
           returnResult
             ? transform('utf8', (result) => resolve(result))
             : gulp.dest('./build/style', {
-                cwd: ROOT_DIR
+                cwd: ROOT_DIR,
               })
         )
         .on('end', resolve)

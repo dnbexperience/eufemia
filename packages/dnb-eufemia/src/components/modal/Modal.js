@@ -16,17 +16,17 @@ import {
   extendPropsWithContext,
   registerElement,
   processChildren,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import { buttonVariantPropType } from '../button/Button'
 import HelpButtonInstance from '../help-button/HelpButtonInstance'
 import ModalContent, {
   CloseButton,
-  getListOfModalRoots
+  getListOfModalRoots,
 } from './ModalContent'
 import ModalInner from './ModalInner'
 
@@ -49,22 +49,22 @@ export default class Modal extends React.PureComponent {
     close_title: PropTypes.string,
     hide_close_button: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     close_button_attributes: PropTypes.object,
     prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_core_style: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     animation_duration: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.number
+      PropTypes.number,
     ]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_animation_on_mobile: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     fullscreen: PropTypes.oneOf(['auto', true, false, 'true', 'false']),
     min_width: PropTypes.string,
@@ -73,21 +73,21 @@ export default class Modal extends React.PureComponent {
       'left',
       'center',
       'centered',
-      'right'
+      'right',
     ]),
     container_placement: PropTypes.oneOf([
       'left',
       'right',
       'top',
-      'bottom'
+      'bottom',
     ]),
     open_state: PropTypes.oneOfType([
       PropTypes.oneOf(['opened', 'closed']),
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     direct_dom_return: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
 
     ...spacingPropTypes,
@@ -107,11 +107,11 @@ export default class Modal extends React.PureComponent {
     trigger_attributes: PropTypes.object,
     trigger_hidden: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     trigger_disabled: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     trigger_variant: buttonVariantPropType.variant,
     trigger_text: PropTypes.string,
@@ -120,7 +120,7 @@ export default class Modal extends React.PureComponent {
     trigger_icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]),
     trigger_icon_position: PropTypes.oneOf(['left', 'right']),
     trigger_class: PropTypes.string,
@@ -131,8 +131,8 @@ export default class Modal extends React.PureComponent {
     modal_content: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
-    ])
+      PropTypes.func,
+    ]),
   }
 
   static defaultProps = {
@@ -188,7 +188,7 @@ export default class Modal extends React.PureComponent {
     overlay_class: null,
     content_class: null,
 
-    modal_content: null
+    modal_content: null,
   }
 
   static enableWebComponent() {
@@ -257,7 +257,7 @@ export default class Modal extends React.PureComponent {
   state = {
     hide: false,
     modalActive: false,
-    _listenForPropChanges: true
+    _listenForPropChanges: true,
   }
 
   constructor(props) {
@@ -334,7 +334,7 @@ export default class Modal extends React.PureComponent {
           {
             hide: false,
             modalActive,
-            _listenForPropChanges: false
+            _listenForPropChanges: false,
           },
           () => {
             this.isInTransition = false
@@ -346,7 +346,7 @@ export default class Modal extends React.PureComponent {
       if (modalActive === false && !isTrue(this.props.no_animation)) {
         this.setState({
           hide: true,
-          _listenForPropChanges: false
+          _listenForPropChanges: false,
         })
 
         clearTimeout(this._closeTimeout)
@@ -443,7 +443,7 @@ export default class Modal extends React.PureComponent {
         triggeredBy,
         close: (e) => {
           this.toggleOpenClose(e, false)
-        }
+        },
       })
     } else {
       if (ifIsLatest) {
@@ -601,23 +601,23 @@ class ModalRoot extends React.PureComponent {
     root_id: PropTypes.string,
     direct_dom_return: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
-    ])
+      PropTypes.func,
+    ]),
   }
   static defaultProps = {
     id: null,
     root_id: null,
     direct_dom_return: false,
-    children: null
+    children: null,
   }
 
   state = {
-    isMounted: false
+    isMounted: false,
   }
 
   componentDidMount() {

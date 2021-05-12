@@ -8,7 +8,7 @@ import {
   mount,
   fakeProps,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../HelpButton'
 

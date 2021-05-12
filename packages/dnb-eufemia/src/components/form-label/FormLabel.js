@@ -11,15 +11,15 @@ import {
   isTrue,
   registerElement,
   validateDOMAttributes,
-  processChildren
+  processChildren,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import {
   createSkeletonClass,
-  skeletonDOMAttributes
+  skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
 
@@ -34,7 +34,7 @@ export default class FormLabel extends React.PureComponent {
     text: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     id: PropTypes.string,
     class: PropTypes.string,
@@ -50,8 +50,8 @@ export default class FormLabel extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
-    ])
+      PropTypes.node,
+    ]),
   }
 
   static defaultProps = {
@@ -68,7 +68,7 @@ export default class FormLabel extends React.PureComponent {
     sr_only: null,
 
     className: null,
-    children: null
+    children: null,
   }
 
   static enableWebComponent() {
@@ -87,7 +87,7 @@ export default class FormLabel extends React.PureComponent {
       FormLabel.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.FormRow,
-      this.context.FormLabel,
+      this.context.FormLabel
     )
 
     const {
@@ -124,7 +124,7 @@ export default class FormLabel extends React.PureComponent {
       id,
       title,
       disabled: isTrue(disabled),
-      ...attributes
+      ...attributes,
     }
 
     if (disabled) {

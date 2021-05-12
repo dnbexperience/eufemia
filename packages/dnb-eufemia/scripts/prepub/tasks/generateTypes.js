@@ -16,7 +16,7 @@ import { transformFileAsync, transformAsync } from '@babel/core'
 import { fetchPropertiesFromDocs } from './generateTypes/fetchPropertiesFromDocs'
 import {
   babelPluginConfigDefaults,
-  babelPluginDefaultPlugins
+  babelPluginDefaultPlugins,
 } from './generateTypes/babelPluginConfigDefaults'
 import { babelPluginCorrectTypes } from './generateTypes/babelPluginCorrectTypes'
 import { babelPluginExtendTypes } from './generateTypes/babelPluginExtendTypes'
@@ -33,8 +33,8 @@ export default async function generateTypes({
     '!./src/umd/',
     '!./src/style/',
     '!./src/**/web-component.js',
-    '!./src/**/web-components.js'
-  ]
+    '!./src/**/web-components.js',
+  ],
 } = {}) {
   if (process.env.NODE_ENV !== 'test') {
     log.start('> PrePublish: generating types')
@@ -107,7 +107,7 @@ export const createTypes = async (
       ) {
         const { docs, unsureSituation } = await fetchPropertiesFromDocs({
           file,
-          ...opts
+          ...opts,
         })
 
         let definitionContent
@@ -137,11 +137,11 @@ export const createTypes = async (
                   docs,
                   onComplete: !unsureSituation
                     ? warnAboutMissingPropTypes
-                    : null
-                }
-              ]
+                    : null,
+                },
+              ],
             ],
-            ...babelPluginConfigDefaults
+            ...babelPluginConfigDefaults,
           })
 
           definitionContent = code
@@ -159,11 +159,11 @@ export const createTypes = async (
                    *
                    * NB: But there are way too many edge cases, so we have to disable it as of now
                    */
-                  strictMode: false
-                }
-              ]
+                  strictMode: false,
+                },
+              ],
             ],
-            ...babelPluginConfigDefaults
+            ...babelPluginConfigDefaults,
           })
 
           /**
@@ -183,8 +183,8 @@ export const createTypes = async (
                 [
                   babelPluginExtendTypes,
                   {
-                    file
-                  }
+                    file,
+                  },
                 ],
                 [
                   babelPluginIncludeDocs,
@@ -193,11 +193,11 @@ export const createTypes = async (
                     insertLeadingComment: true,
                     onComplete: !unsureSituation
                       ? warnAboutMissingPropTypes
-                      : null
-                  }
-                ]
+                      : null,
+                  },
+                ],
               ],
-              ...babelPluginConfigDefaults
+              ...babelPluginConfigDefaults,
             }
           )
 
@@ -206,7 +206,7 @@ export const createTypes = async (
 
         definitionContent = prettier.format(definitionContent, {
           ...prettierrc,
-          filepath: destFile
+          filepath: destFile,
         })
 
         if (isTest) {

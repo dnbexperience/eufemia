@@ -9,7 +9,7 @@ import {
   axeComponent,
   toJson,
   attachToBody, // in order to use document.activeElement properly
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../DatePicker'
 
@@ -25,7 +25,7 @@ import {
   getWeek,
   getMonth,
   getCalendar,
-  makeDayObject
+  makeDayObject,
 } from '../DatePickerCalc'
 
 describe('DatePicker component', () => {
@@ -40,7 +40,7 @@ describe('DatePicker component', () => {
     end_date: '2019-02-15T00:00:00.000Z',
     status: 'status',
     status_state: 'error',
-    separatorRexExp: null
+    separatorRexExp: null,
   }
 
   const Comp = mount(<Component {...defaultProps} />)
@@ -58,7 +58,7 @@ describe('DatePicker component', () => {
   it('has a disabled attribute, once we set disabled to true', () => {
     const Comp = mount(<Component show_input />)
     Comp.setProps({
-      disabled: true
+      disabled: true,
     })
     expect(
       Comp.find('input').first().instance().hasAttribute('disabled')
@@ -125,7 +125,7 @@ describe('DatePicker component', () => {
     ).toBe(false)
 
     Comp.setProps({
-      range: false
+      range: false,
     })
 
     expect(on_change).toHaveBeenCalledTimes(2)
@@ -195,7 +195,7 @@ describe('DatePicker component', () => {
         on_change={on_change}
         shortcuts={[
           { title: 'Set date', date: '2020-05-23' },
-          { title: 'Set date', close_on_select: true, date: '2020-04-23' }
+          { title: 'Set date', close_on_select: true, date: '2020-04-23' },
         ]}
       />
     )
@@ -240,13 +240,13 @@ describe('DatePicker component', () => {
     Comp.setProps({
       on_change: ({ start_date }) => {
         changedStartDate = start_date
-      }
+      },
     })
 
     // change the date
     const value = '02'
     elem.simulate('change', {
-      target: { value }
+      target: { value },
     })
 
     // then check the new input value
@@ -257,16 +257,16 @@ describe('DatePicker component', () => {
 
     // test prop change to make sure getDerivedStateFromProps works
     Comp.setProps({
-      start_date: '2019-01-03'
+      start_date: '2019-01-03',
     })
     expect(elem.instance().value).toBe('03')
 
     // reset the value
     elem.simulate('change', {
-      target: { value: '01' }
+      target: { value: '01' },
     })
     Comp.setProps({
-      start_date: defaultProps.start_date
+      start_date: defaultProps.start_date,
     })
   })
 
@@ -364,13 +364,13 @@ describe('DatePicker component', () => {
     const year = '2020'
 
     dayElem.simulate('change', {
-      target: { value: day }
+      target: { value: day },
     })
     monthElem.simulate('change', {
-      target: { value: month }
+      target: { value: month },
     })
     yearElem.simulate('change', {
-      target: { value: year }
+      target: { value: year },
     })
 
     // then check the new input value
@@ -398,7 +398,7 @@ describe('DatePicker component', () => {
 
     // change the date to something invalid
     elem.simulate('change', {
-      target: { value: '01' }
+      target: { value: '01' },
     })
 
     expect(on_change).toHaveBeenCalledTimes(1)
@@ -406,7 +406,7 @@ describe('DatePicker component', () => {
 
     // change the date to a valid date
     elem.simulate('change', {
-      target: { value: '03' }
+      target: { value: '03' },
     })
 
     expect(on_change).toHaveBeenCalledTimes(2)
@@ -434,7 +434,7 @@ describe('DatePicker component', () => {
 
     // // change to invalid date
     startElem.simulate('change', {
-      target: { value: '01' }
+      target: { value: '01' },
     })
 
     expect(on_change).toHaveBeenCalledTimes(1)
@@ -443,7 +443,7 @@ describe('DatePicker component', () => {
 
     // change the date to a valid date
     startElem.simulate('change', {
-      target: { value: '03' }
+      target: { value: '03' },
     })
 
     expect(on_change).toHaveBeenCalledTimes(2)
@@ -452,7 +452,7 @@ describe('DatePicker component', () => {
 
     // change the date to a valid date
     endElem.simulate('change', {
-      target: { value: '05' }
+      target: { value: '05' },
     })
 
     expect(on_change.mock.calls[2][0].start_date).toBe('2019-01-03')
@@ -484,14 +484,14 @@ describe('DatePicker component', () => {
     expect(on_change.mock.calls[2][0].is_valid).toBe(undefined)
 
     Comp.setProps({
-      range: false
+      range: false,
     })
 
     Comp.update()
 
     // change the date to a valid date
     startElem.simulate('change', {
-      target: { value: '01' }
+      target: { value: '01' },
     })
 
     expect(on_change.mock.calls[3][0].is_valid_start_date).toBe(undefined)
@@ -499,7 +499,7 @@ describe('DatePicker component', () => {
     expect(on_change.mock.calls[3][0].is_valid).toBe(false)
 
     startElem.simulate('change', {
-      target: { value: '03' }
+      target: { value: '03' },
     })
 
     expect(on_change.mock.calls[4][0].date).toBe('2019-01-03')
@@ -545,7 +545,7 @@ describe('DatePicker component', () => {
       dayElem,
       monthElem,
       yearElem,
-      type
+      type,
     }) => {
       // by default we have the start day
       expect(dayElem.instance().value).toBe('dd')
@@ -553,7 +553,7 @@ describe('DatePicker component', () => {
 
       // change the day
       dayElem.simulate('change', {
-        target: { value: '03' }
+        target: { value: '03' },
       })
       expect(dayElem.instance().value).toBe('03')
       expect(on_type).toHaveBeenCalledTimes(typeIndex + 1)
@@ -565,7 +565,7 @@ describe('DatePicker component', () => {
 
       // change the month
       monthElem.simulate('change', {
-        target: { value: '01' }
+        target: { value: '01' },
       })
       expect(monthElem.instance().value).toBe('01')
       expect(on_type).toHaveBeenCalledTimes(typeIndex + 1)
@@ -579,7 +579,7 @@ describe('DatePicker component', () => {
 
       // change the year halfway
       yearElem.simulate('change', {
-        target: { value: '202' }
+        target: { value: '202' },
       })
       expect(yearElem.instance().value).toBe('202å')
       expect(on_type).toHaveBeenCalledTimes(typeIndex + 2)
@@ -593,7 +593,7 @@ describe('DatePicker component', () => {
 
       // change the year
       yearElem.simulate('change', {
-        target: { value: '2020' }
+        target: { value: '2020' },
       })
       expect(yearElem.instance().value).toBe('2020')
       expect(on_type).toHaveBeenCalledTimes(typeIndex + 3)
@@ -606,7 +606,7 @@ describe('DatePicker component', () => {
       changeIndex: 0,
       dayElem: startDayElem,
       monthElem: startMonthElem,
-      yearElem: startYearElem
+      yearElem: startYearElem,
     })
 
     testInteraction({
@@ -615,7 +615,7 @@ describe('DatePicker component', () => {
       changeIndex: 2,
       dayElem: endDayElem,
       monthElem: endMonthElem,
-      yearElem: endYearElem
+      yearElem: endYearElem,
     })
   })
 
@@ -632,11 +632,11 @@ describe('DatePicker component', () => {
 
       // 1. change the date with event
       elem.simulate('change', {
-        target: { value: '16' }
+        target: { value: '16' },
       })
       // Siulate prop update, like a state update would do
       Comp.setProps({
-        date: outerState
+        date: outerState,
       })
 
       expect(
@@ -645,7 +645,7 @@ describe('DatePicker component', () => {
 
       // 2. change the date by prop
       Comp.setProps({
-        date: '2019-02-01'
+        date: '2019-02-01',
       })
 
       expect(
@@ -671,7 +671,7 @@ describe('DatePicker component', () => {
     )
 
     Comp.setProps({
-      start_date: null
+      start_date: null,
     })
     expect(
       Comp.find('input.dnb-input__input').at(0).instance().value
@@ -681,7 +681,7 @@ describe('DatePicker component', () => {
     ).toBe('15')
 
     Comp.setProps({
-      end_date: null
+      end_date: null,
     })
     expect(
       Comp.find('input.dnb-input__input').at(5).instance().value
@@ -707,19 +707,19 @@ describe('DatePicker component', () => {
     Comp.setProps({
       on_change: ({ end_date }) => {
         changedStartDate = end_date
-      }
+      },
     })
 
     // also, check the null situation
     Comp.setProps({
-      start_date: null
+      start_date: null,
     })
     expect(Comp.find('input').first().instance().value).toBe('dd')
 
     // change the date
     const value = '16'
     elem.simulate('change', {
-      target: { value }
+      target: { value },
     })
 
     // then check the new input value
@@ -730,16 +730,16 @@ describe('DatePicker component', () => {
 
     // test prop change to make sure getDerivedStateFromProps works
     Comp.setProps({
-      end_date: '2019-02-17'
+      end_date: '2019-02-17',
     })
     expect(elem.instance().value).toBe('17')
 
     // reset the value
     elem.simulate('change', {
-      target: { value: '15' }
+      target: { value: '15' },
     })
     Comp.setProps({
-      start_date: defaultProps.start_date
+      start_date: defaultProps.start_date,
     })
   })
 
@@ -766,7 +766,7 @@ describe('DatePicker component', () => {
 
     const elem = Comp.find('input.dnb-date-picker__input--day').at(1)
     elem.simulate('change', {
-      target: { value: '15' }
+      target: { value: '15' },
     })
 
     expect(
@@ -907,7 +907,7 @@ describe('DatePicker calc', () => {
     'tuesday',
     'wednesday',
     'thursday',
-    'friday'
+    'friday',
   ]
 
   describe('toRange', () => {
@@ -974,7 +974,7 @@ describe('DatePicker calc', () => {
       hoverDate,
       minDate,
       maxDate,
-      month
+      month,
     })
 
     it('has given properties', () => {
@@ -989,7 +989,7 @@ describe('DatePicker calc', () => {
         isPreview: false,
         isDisabled: false,
         isSelectable: true,
-        isInactive: false
+        isInactive: false,
       })
     })
   })

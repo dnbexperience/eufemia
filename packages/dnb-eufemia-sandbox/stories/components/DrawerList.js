@@ -13,7 +13,7 @@ import { DrawerList } from '@dnb/eufemia/src/fragments'
 // import { P } from '@dnb/eufemia/src/elements'
 
 export default {
-  title: 'Eufemia/Fragments/DrawerList'
+  title: 'Eufemia/Fragments/DrawerList',
 }
 
 const Drawer = styled(DrawerList)`
@@ -52,7 +52,7 @@ const MagicOpen = (props) => {
     { value: 'I' },
     { value: 'J' },
     { value: 'K' },
-    { value: 'L' }
+    { value: 'L' },
   ]
 
   return (

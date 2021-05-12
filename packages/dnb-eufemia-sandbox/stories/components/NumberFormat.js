@@ -16,7 +16,7 @@ import ToggleButton from '@dnb/eufemia/src/components/ToggleButton'
 import Context from '@dnb/eufemia/src/shared/Context'
 
 export default {
-  title: 'Eufemia/Components/NumberFormat'
+  title: 'Eufemia/Components/NumberFormat',
 }
 
 const CustomStyle = styled.div`
@@ -34,7 +34,7 @@ const ChangeLocale = () => {
   const {
     setLocale,
     // setCurrentLocale,// to update only the current context
-    locale
+    locale,
   } = React.useContext(Context)
 
   return (

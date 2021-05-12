@@ -8,7 +8,7 @@ import {
   mount,
   fakeProps,
   toJson,
-  axeComponent
+  axeComponent,
 } from '../../../core/jest/jestSetup'
 import Component from '../InputPassword'
 
@@ -21,10 +21,10 @@ const en = enGB['en-GB'].Input
 const snapshotProps = {
   ...fakeProps(require.resolve('../InputPassword'), {
     all: true,
-    optional: true
+    optional: true,
   }),
   input_element: null,
-  disabled: false
+  disabled: false,
 }
 snapshotProps.id = 'input'
 snapshotProps.autocomplete = 'off'
@@ -54,7 +54,7 @@ describe('InputPassword component', () => {
     expect(Comp.find('button').prop('aria-label')).toBe(nb.show_password)
 
     Comp.setProps({
-      lang: 'en-GB'
+      lang: 'en-GB',
     })
 
     expect(Comp.find('button').instance().getAttribute('aria-label')).toBe(

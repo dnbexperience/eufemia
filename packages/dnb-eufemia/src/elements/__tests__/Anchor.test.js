@@ -8,12 +8,12 @@ import {
   mount,
   fakeProps,
   toJson,
-  axeComponent
+  axeComponent,
 } from '../../core/jest/jestSetup'
 import Component from '../Anchor'
 
 const props = fakeProps(require.resolve('../Anchor'), {
-  optional: true
+  optional: true,
 })
 props.inner_ref = null
 props.element = 'a'
@@ -53,7 +53,7 @@ describe('Anchor element', () => {
 
     const title = 'External site'
     Comp.setProps({
-      title
+      title,
     })
 
     expect(Comp.find('a').instance().getAttribute('title')).toBe(title)

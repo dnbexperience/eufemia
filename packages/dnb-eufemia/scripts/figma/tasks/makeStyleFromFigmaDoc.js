@@ -9,7 +9,7 @@ export const makeScssVarsFromFigmaDoc = ({
   existingSassVars,
   newStylesFromDoc,
   prependKey,
-  prependSubKey
+  prependSubKey,
 }) => {
   const res = {}
   const existingKeys = Object.keys(existingSassVars)
@@ -33,7 +33,7 @@ export const makeScssFromFigmaDoc = (
     existingSassVars = null,
     prependKey = null,
     subkeyToFind = null,
-    doReturnExpression = false
+    doReturnExpression = false,
   } = {}
 ) => {
   if (!value) return null
@@ -100,7 +100,7 @@ export const makeScssFromFigmaDoc = (
       existingSassVars,
       keyToFind: expression,
       prependKey,
-      subkeyToFind
+      subkeyToFind,
     })
     if (valueExists && valueExists === res) {
       return null
@@ -115,7 +115,7 @@ const findexistingSassVars = ({
   existingSassVars,
   prependKey,
   keyToFind,
-  subkeyToFind
+  subkeyToFind,
 }) => {
   const entries = Object.entries(existingSassVars)
   const index = entries.find(

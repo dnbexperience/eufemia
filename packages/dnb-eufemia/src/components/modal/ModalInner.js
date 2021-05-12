@@ -18,8 +18,8 @@ export default function Inner({ className, ...props }) {
   )
 }
 Inner.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 Inner.defaultProps = {
-  className: null
+  className: null,
 }

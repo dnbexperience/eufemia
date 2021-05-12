@@ -5,7 +5,7 @@
 
 import {
   testPageScreenshot,
-  setupPageScreenshot
+  setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('FormSet screenshot', () => {
@@ -16,18 +16,18 @@ describe('FormSet screenshot', () => {
   it('have to match default form-set', async () => {
     const screenshot = await testPageScreenshot({
       style: {
-        width: '40rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
+        width: '40rem', // make sure our input gets an explicit width, because of mac/linux rendering differences
       },
-      selector: '[data-visual-test="form-set-default"]'
+      selector: '[data-visual-test="form-set-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match vertical form-set', async () => {
     const screenshot = await testPageScreenshot({
       style: {
-        width: '30rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
+        width: '30rem', // make sure our input gets an explicit width, because of mac/linux rendering differences
       },
-      selector: '[data-visual-test="form-set-vertical"]'
+      selector: '[data-visual-test="form-set-vertical"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

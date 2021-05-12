@@ -14,11 +14,11 @@ import {
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import FormRow from '../form-row/FormRow'
@@ -35,7 +35,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
     label: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
     label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -52,7 +52,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     status_state: PropTypes.string,
     status_animation: PropTypes.string,
@@ -60,7 +60,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
     suffix: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     layout_direction: PropTypes.oneOf(['column', 'row']),
@@ -68,7 +68,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
       PropTypes.string,
       PropTypes.number,
       PropTypes.object,
-      PropTypes.array
+      PropTypes.array,
     ]),
     values: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -80,12 +80,12 @@ export default class ToggleButtonGroup extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
 
     custom_element: PropTypes.object,
     custom_method: PropTypes.func,
-    on_change: PropTypes.func
+    on_change: PropTypes.func,
   }
 
   static defaultProps = {
@@ -118,7 +118,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
 
     custom_element: null,
     custom_method: null,
-    on_change: null
+    on_change: null,
   }
 
   static enableWebComponent() {
@@ -163,7 +163,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
     this._name = props.name || makeUniqueId() // cause we need an id anyway
     this.state = {
       // do not set the value here, else get true in this check } else if (context.values && Array.isArray(context.values)) {
-      _listenForPropChanges: true
+      _listenForPropChanges: true,
     }
   }
 
@@ -182,13 +182,13 @@ export default class ToggleButtonGroup extends React.PureComponent {
     this.setState({
       value,
       values,
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
 
     dispatchCustomElementEvent(this, 'on_change', {
       value,
       values,
-      event
+      event,
     })
   }
 
@@ -258,7 +258,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
     )
 
     const params = {
-      ...rest
+      ...rest,
     }
 
     if (showStatus || suffix) {
@@ -293,10 +293,10 @@ export default class ToggleButtonGroup extends React.PureComponent {
         this._tmp = { ...this._tmp, ...context }
         this.setState({
           ...context,
-          _listenForPropChanges: false
+          _listenForPropChanges: false,
         })
       },
-      onChange: this.onChangeHandler
+      onChange: this.onChangeHandler,
     }
 
     const formRowParams = {
@@ -310,7 +310,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
       disabled,
       skeleton,
       no_fieldset,
-      skipContentWrapperIfNested: true
+      skipContentWrapperIfNested: true,
       // status,
       // status_state
     }

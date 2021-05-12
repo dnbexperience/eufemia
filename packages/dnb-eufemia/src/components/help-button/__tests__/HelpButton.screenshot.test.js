@@ -5,28 +5,28 @@
 
 import {
   testPageScreenshot,
-  setupPageScreenshot
+  setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('HelpButton screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/help-button/demos'
+    url: '/uilib/components/help-button/demos',
   })
   it('have to match default help button', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="help-button-default"]'
+      selector: '[data-visual-test="help-button-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match help button sizes', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="help-button-sizes"]'
+      selector: '[data-visual-test="help-button-sizes"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match help button suffix', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="help-button-suffix"]'
+      selector: '[data-visual-test="help-button-suffix"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

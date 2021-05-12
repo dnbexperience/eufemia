@@ -6,7 +6,7 @@
 import {
   testPageScreenshot,
   setupPageScreenshot,
-  isCI
+  isCI,
 } from '../../../core/jest/jestSetupScreenshots'
 
 // NB: Remember that the fonts are swapped out with arial during the tests
@@ -22,18 +22,18 @@ describe('Heading screenshot', () => {
         },
       */
       // use 10% on CI because of the font rendering differences
-      pixelThresholdRelative: isCI ? 0.1 : 0
-    }
+      pixelThresholdRelative: isCI ? 0.1 : 0,
+    },
   })
   it('have to match the default heading examples', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="heading-default"]'
+      selector: '[data-visual-test="heading-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the additional heading examples', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="heading-additional"]'
+      selector: '[data-visual-test="heading-additional"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -44,24 +44,24 @@ describe('Paragraph screenshot', () => {
     url: '/uilib/typography/paragraph',
     screenshotConfig: {
       // use 10% on CI because of the font rendering differences
-      pixelThresholdRelative: isCI ? 0.1 : 0
-    }
+      pixelThresholdRelative: isCI ? 0.1 : 0,
+    },
   })
   it('have to match the paragraph example', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="paragraph-default"]'
+      selector: '[data-visual-test="paragraph-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the paragraph with small text', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="paragraph-small"]'
+      selector: '[data-visual-test="paragraph-small"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the paragraph with modifiers', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="paragraph-modifiers"]'
+      selector: '[data-visual-test="paragraph-modifiers"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

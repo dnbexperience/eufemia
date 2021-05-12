@@ -21,7 +21,7 @@ export const correctHeadingLevel = ({
   decrease = false,
   source = null,
   bypassChecks = false,
-  debug = null
+  debug = null,
 }) => {
   // Do that only to make sure we run the correction only if props has changed
   if (ref && refs.current) {
@@ -83,7 +83,7 @@ export const correctHeadingLevel = ({
   if (globalResetNextTime.current) {
     const {
       level: resetLevel,
-      overwriteContext
+      overwriteContext,
     } = globalResetNextTime.current
     globalResetNextTime.current = null
     if (
@@ -166,7 +166,7 @@ export const globalNextLevel = React.createRef(null)
 export function setNextLevel(level, { overwriteContext = false } = {}) {
   globalNextLevel.current = {
     level,
-    overwriteContext
+    overwriteContext,
   }
 }
 
@@ -193,7 +193,7 @@ export function debugCounter(counter) {
       level: counter.level,
       entry: counter.entry,
       contextLevel: counter.contextCounter.level,
-      contextLEntry: counter.contextCounter.entry
+      contextLEntry: counter.contextCounter.entry,
     },
     null,
     2

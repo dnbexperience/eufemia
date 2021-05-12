@@ -16,7 +16,7 @@ export default class TooltipContainer extends React.PureComponent {
       PropTypes.string,
       PropTypes.func,
       PropTypes.object,
-      PropTypes.node
+      PropTypes.node,
     ]),
     clientX: PropTypes.number,
     active: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -25,7 +25,7 @@ export default class TooltipContainer extends React.PureComponent {
     align: PropTypes.string,
     animate_position: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     useHover: PropTypes.bool,
@@ -33,8 +33,8 @@ export default class TooltipContainer extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
-    ])
+      PropTypes.node,
+    ]),
   }
 
   static defaultProps = {
@@ -49,7 +49,7 @@ export default class TooltipContainer extends React.PureComponent {
     no_animation: null,
     useHover: true,
     attributes: null,
-    children: null
+    children: null,
   }
 
   _rootRef = React.createRef()
@@ -58,7 +58,7 @@ export default class TooltipContainer extends React.PureComponent {
     hide: null,
     hover: null,
     width: 0,
-    height: 0
+    height: 0,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -106,7 +106,7 @@ export default class TooltipContainer extends React.PureComponent {
           // force re-render
           this.setState({
             w: entries[0].contentRect.width,
-            h: entries[0].contentRect.height
+            h: entries[0].contentRect.height,
           })
         }, 30)
       })
@@ -145,7 +145,7 @@ export default class TooltipContainer extends React.PureComponent {
 
     const targetSize = {
       width: target.offsetWidth,
-      height: target.offsetHeight
+      height: target.offsetHeight,
     }
 
     // fix for svg
@@ -197,7 +197,7 @@ export default class TooltipContainer extends React.PureComponent {
         style.left =
           left - this.state.width / 2 + targetSize.width / 2 + alignOffset
         style.top = top + targetSize.height + this.offset
-      }
+      },
     }
 
     const stylesFromArrow = {
@@ -219,7 +219,7 @@ export default class TooltipContainer extends React.PureComponent {
       bottom: () => {
         style.top =
           top + targetSize.height / 2 - this.state.height + this.offset
-      }
+      },
     }
 
     if (stylesFromPosition[position]) {
@@ -258,7 +258,7 @@ export default class TooltipContainer extends React.PureComponent {
       this.setState({
         width,
         height,
-        _listenForPropChanges: false
+        _listenForPropChanges: false,
       })
     }
   }
@@ -282,7 +282,7 @@ export default class TooltipContainer extends React.PureComponent {
       position,
       animate_position,
       no_animation,
-      children
+      children,
     } = this.props
     const { hover, hide } = this.state
 

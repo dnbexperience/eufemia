@@ -13,17 +13,17 @@ import {
   makeUniqueId,
   validateDOMAttributes,
   processChildren,
-  extendPropsWithContext
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import Icon from '../icon/Icon'
 import GlobalStatusProvider from '../global-status/GlobalStatusProvider'
 import {
   skeletonDOMAttributes,
-  createSkeletonClass
+  createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 
 export default class FormStatus extends React.PureComponent {
@@ -37,19 +37,19 @@ export default class FormStatus extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     label: PropTypes.node,
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     icon_size: PropTypes.string,
     state: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.string,
-      PropTypes.oneOf(['error', 'warn', 'info'])
+      PropTypes.oneOf(['error', 'warn', 'info']),
     ]),
     variant: PropTypes.oneOf(['flat', 'outlined']),
     size: PropTypes.oneOf(['default', 'large']),
@@ -57,7 +57,7 @@ export default class FormStatus extends React.PureComponent {
     status: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.string,
-      PropTypes.oneOf(['error', 'warn', 'info'])
+      PropTypes.oneOf(['error', 'warn', 'info']),
     ]),
     global_status_id: PropTypes.string,
     hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -74,8 +74,8 @@ export default class FormStatus extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
-    ])
+      PropTypes.node,
+    ]),
   }
 
   static defaultProps = {
@@ -99,7 +99,7 @@ export default class FormStatus extends React.PureComponent {
     skeleton: null,
 
     className: null,
-    children: null
+    children: null,
   }
 
   static enableWebComponent() {
@@ -182,8 +182,8 @@ export default class FormStatus extends React.PureComponent {
               status_id: this.state.id,
               text,
               status_anchor_label: label,
-              status_anchor_url: true
-            }
+              status_anchor_url: true,
+            },
           })
         }
       )
@@ -238,11 +238,11 @@ export default class FormStatus extends React.PureComponent {
             status_id: this.state.id,
             text,
             status_anchor_label: label,
-            status_anchor_url: true
-          }
+            status_anchor_url: true,
+          },
         },
         {
-          preventRestack: true // because of the internal "close"
+          preventRestack: true, // because of the internal "close"
         }
       )
     }
@@ -269,7 +269,7 @@ export default class FormStatus extends React.PureComponent {
       setMaxWidthToElement({
         element: this._ref.current,
         widthElement: width_element && width_element.current,
-        widthSelector: width_selector
+        widthSelector: width_selector,
       })
     }
   }
@@ -311,7 +311,7 @@ export default class FormStatus extends React.PureComponent {
     const iconToRender = FormStatus.getIcon({
       state,
       icon,
-      icon_size
+      icon_size,
     })
     const contentToRender = FormStatus.getContent(this.props)
 
@@ -339,14 +339,14 @@ export default class FormStatus extends React.PureComponent {
       ),
       title,
 
-      ...attributes
+      ...attributes,
     }
     const textParams = {
       className: classnames(
         'dnb-form-status__text',
         createSkeletonClass('font', skeleton, this.context)
       ),
-      id: text_id
+      id: text_id,
     }
 
     if (hidden) {
@@ -399,10 +399,10 @@ export const ErrorIcon = (props) => (
   </svg>
 )
 ErrorIcon.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
 }
 ErrorIcon.defaultProps = {
-  title: 'error'
+  title: 'error',
 }
 
 export const WarnIcon = (props) => (
@@ -434,10 +434,10 @@ export const WarnIcon = (props) => (
   </svg>
 )
 WarnIcon.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
 }
 WarnIcon.defaultProps = {
-  title: 'error'
+  title: 'error',
 }
 
 export const InfoIcon = (props) => (
@@ -468,17 +468,17 @@ export const InfoIcon = (props) => (
   </svg>
 )
 InfoIcon.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
 }
 InfoIcon.defaultProps = {
-  title: 'info'
+  title: 'info',
 }
 
 export function setMaxWidthToElement({
   element,
   id = null,
   widthElement = null,
-  widthSelector = null
+  widthSelector = null,
 }) {
   if (!(element && typeof window !== 'undefined')) {
     return // stop here
@@ -490,7 +490,7 @@ export function setMaxWidthToElement({
 
     let width = sumElementWidth({
       widthElement,
-      widthSelector: widthSelector || id.replace('-form-status', '') || id
+      widthSelector: widthSelector || id.replace('-form-status', '') || id,
     })
 
     if (width > 40) {

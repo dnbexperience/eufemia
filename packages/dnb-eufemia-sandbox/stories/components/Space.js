@@ -13,7 +13,7 @@ import {
   Space,
   // Checkbox,
   // Radio,
-  Input
+  Input,
   // FormLabel,
   // FormRow
 } from '@dnb/eufemia/src/components'
@@ -22,7 +22,7 @@ import Provider from '@dnb/eufemia/src/shared/Provider'
 // import { spacingPropTypes, createSpacingClasses } from '@dnb/eufemia/src/components/space/SpacingHelper'
 
 export default {
-  title: 'Eufemia/Components/Space'
+  title: 'Eufemia/Components/Space',
 }
 
 export const SpaceSandbox = () => (
@@ -62,7 +62,7 @@ export const SpaceSandbox = () => (
     <Box>
       <Provider
         space={{
-          no_collapse: true
+          no_collapse: true,
         }}
       >
         <Collapsing bottom="small">
@@ -181,11 +181,11 @@ MagicBox.propTypes = {
   label: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
-    PropTypes.node
-  ])
+    PropTypes.node,
+  ]),
 }
 MagicBox.defaultProps = {
-  label: null
+  label: null,
 }
 
 const VisualSpace = ({ label, children, ...rest }) => {
@@ -222,13 +222,13 @@ VisualSpace.propTypes = {
   label: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
-    PropTypes.node
+    PropTypes.node,
   ]),
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 VisualSpace.defaultProps = {
   label: null,
-  children: null
+  children: null,
 }
 
 const Collapsing = styled(Space)`

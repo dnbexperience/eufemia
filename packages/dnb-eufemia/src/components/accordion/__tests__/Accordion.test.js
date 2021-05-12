@@ -8,7 +8,7 @@ import {
   mount,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Accordion'
 
@@ -77,7 +77,7 @@ describe('Accordion component', () => {
   it('has a disabled attribute, once we set disabled to true', () => {
     const Comp = mount(<Component />)
     Comp.setProps({
-      disabled: true
+      disabled: true,
     })
     expect(
       Comp.find('.dnb-accordion__header')

@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import {
   combineDescribedBy,
   getInnerRef,
-  warn
+  warn,
 } from '../../shared/component-helper'
 import TooltipPortal from './TooltipPortal'
 import { injectTooltipSemantic } from './TooltipHelpers'
@@ -21,25 +21,25 @@ export default class TooltipWithEvents extends React.PureComponent {
       PropTypes.string,
       PropTypes.object,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
-    ])
+      PropTypes.node,
+    ]),
   }
 
   static defaultProps = {
     internal_id: null,
     show_delay: 1,
     target: null,
-    children: null
+    children: null,
   }
 
   state = {
     isActive: false,
-    isNotSemanticElement: false
+    isNotSemanticElement: false,
   }
 
   constructor(props) {
@@ -56,7 +56,7 @@ export default class TooltipWithEvents extends React.PureComponent {
   componentDidMount() {
     this.setState(
       {
-        _isMounted: true
+        _isMounted: true,
       },
       () => {
         this.addEvents()
@@ -99,7 +99,7 @@ export default class TooltipWithEvents extends React.PureComponent {
           (!role || role === 'text')
         ) {
           this.setState({
-            isNotSemanticElement: true
+            isNotSemanticElement: true,
           })
         }
       }
@@ -185,7 +185,7 @@ export default class TooltipWithEvents extends React.PureComponent {
         'aria-describedby': combineDescribedBy(
           target.props,
           this.props.internal_id
-        )
+        ),
       })
     }
 

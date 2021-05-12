@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   isTrue,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { IS_MAC } from '../../shared/helpers'
 // import { Dummy } from '../tabs/Tabs'
@@ -22,7 +22,7 @@ export default class StepItem extends React.PureComponent {
     hide_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     use_navigation: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     on_item_render: PropTypes.func,
     on_render: PropTypes.func,
@@ -35,7 +35,7 @@ export default class StepItem extends React.PureComponent {
     is_current: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     url: PropTypes.string,
     url_future: PropTypes.string,
-    url_passed: PropTypes.string
+    url_passed: PropTypes.string,
   }
   static defaultProps = {
     step_title: '%step',
@@ -53,7 +53,7 @@ export default class StepItem extends React.PureComponent {
     url: null,
     url_future: null,
     url_passed: null,
-    activeItem: null
+    activeItem: null,
   }
 
   constructor(props) {
@@ -66,7 +66,7 @@ export default class StepItem extends React.PureComponent {
     const params = {
       event,
       item,
-      currentItem
+      currentItem,
     }
     if (isTrue(use_navigation) && typeof setActiveItem === 'function') {
       setActiveItem(currentItem)
@@ -175,7 +175,7 @@ export default class StepItem extends React.PureComponent {
       StepItem: StepItemWrapper,
       itemComponent,
       params: rest,
-      props: this.props
+      props: this.props,
     }
 
     if (typeof on_render === 'function') {

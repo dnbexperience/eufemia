@@ -29,12 +29,12 @@ Hr.propTypes = {
   className: PropTypes.string,
   light: PropTypes.bool,
   medium: PropTypes.bool,
-  fullscreen: PropTypes.bool
+  fullscreen: PropTypes.bool,
 }
 Hr.defaultProps = {
   className: null,
   light: null,
   medium: null,
-  fullscreen: null
+  fullscreen: null,
 }
 export default Hr

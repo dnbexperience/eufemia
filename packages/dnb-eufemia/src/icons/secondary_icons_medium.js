@@ -363,5 +363,5 @@ export {
   web_medium,
   wheelchair_medium,
   widget_android_medium,
-  widget_ios_medium
+  widget_ios_medium,
 }

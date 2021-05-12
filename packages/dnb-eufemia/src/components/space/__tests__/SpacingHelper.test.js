@@ -16,7 +16,7 @@ import {
   findNearestTypes,
   isValidSpaceProp,
   createStyleObject,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../SpacingHelper'
 
 describe('spacePatterns', () => {
@@ -65,7 +65,7 @@ describe('createTypeModifiers', () => {
     expect(createTypeModifiers('0.5 1 2')).toEqual([
       'x-small',
       'small',
-      'large'
+      'large',
     ])
     expect(createTypeModifiers('2 0.5')).toEqual(['large', 'x-small'])
     expect(createTypeModifiers(1)).toEqual(['small'])
@@ -93,15 +93,15 @@ describe('createSpacingClasses', () => {
   it('should return correct spacing classes', () => {
     expect(createSpacingClasses({ right: 'large x-small' })).toEqual([
       'dnb-space__right--large',
-      'dnb-space__right--x-small'
+      'dnb-space__right--x-small',
     ])
   })
   it('should return a class with zero classes', () => {
     expect(createSpacingClasses({ right: false })).toEqual([
-      'dnb-space__right--zero'
+      'dnb-space__right--zero',
     ])
     expect(createSpacingClasses({ right: 0 })).toEqual([
-      'dnb-space__right--zero'
+      'dnb-space__right--zero',
     ])
     expect(createSpacingClasses({ right: null })).toEqual([])
   })
@@ -111,19 +111,19 @@ describe('createSpacingClasses', () => {
       'dnb-space__left--zero',
       'dnb-space__bottom--zero',
       'dnb-space__right--zero',
-      'dnb-space__top--zero'
+      'dnb-space__top--zero',
     ])
     expect(createSpacingClasses({ space: true })).toEqual([
       'dnb-space__left--small',
       'dnb-space__bottom--small',
       'dnb-space__right--small',
-      'dnb-space__top--small'
+      'dnb-space__top--small',
     ])
     expect(createSpacingClasses({ space: '1rem' })).toEqual([
       'dnb-space__left--small',
       'dnb-space__bottom--small',
       'dnb-space__right--small',
-      'dnb-space__top--small'
+      'dnb-space__top--small',
     ])
     expect(createSpacingClasses({ space: null })).toEqual([])
   })
@@ -132,7 +132,7 @@ describe('createSpacingClasses', () => {
 describe('createStyleObject', () => {
   it('should create a valid style object', () => {
     expect(createStyleObject({ top: 'medium large' })).toEqual({
-      marginTop: '3.5rem'
+      marginTop: '3.5rem',
     })
   })
 })

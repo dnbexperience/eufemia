@@ -14,10 +14,10 @@ const Lead = React.forwardRef((props, ref) => (
 Lead.tagName = 'dnb-lead'
 Lead.propTypes = {
   ...spacingPropTypes,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 Lead.defaultProps = {
-  children: null
+  children: null,
 }
 
 export default Lead

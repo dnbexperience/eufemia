@@ -10,7 +10,7 @@ import keycode from 'keycode'
 import {
   disableBodyScroll,
   enableBodyScroll,
-  clearAllBodyScrollLocks
+  clearAllBodyScrollLocks,
 } from '../../shared/libs/bodyScrollLock'
 import {
   warn,
@@ -21,7 +21,7 @@ import {
   combineLabelledBy,
   combineDescribedBy,
   validateDOMAttributes,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import Button from '../button/Button'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
@@ -41,23 +41,23 @@ export default class ModalContent extends React.PureComponent {
     close_title: PropTypes.string,
     hide_close_button: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     close_button_attributes: PropTypes.object,
     spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_core_style: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     animation_duration: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.number
+      PropTypes.number,
     ]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_animation_on_mobile: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     min_width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     max_width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -73,8 +73,8 @@ export default class ModalContent extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
-    ])
+      PropTypes.func,
+    ]),
   }
 
   static defaultProps = {
@@ -106,7 +106,7 @@ export default class ModalContent extends React.PureComponent {
 
     closeModal: null,
     className: null,
-    children: null
+    children: null,
   }
 
   state = { triggeredBy: null, triggeredByEvent: null }
@@ -118,7 +118,7 @@ export default class ModalContent extends React.PureComponent {
     this._ii = new InteractionInvalidation()
     this._ii.setBypassSelector([
       '.dnb-modal__content',
-      `#dnb-modal-${props.root_id || 'root'}`
+      `#dnb-modal-${props.root_id || 'root'}`,
     ])
   }
 
@@ -149,7 +149,7 @@ export default class ModalContent extends React.PureComponent {
 
     const id = this.props.id
     dispatchCustomElementEvent(this, 'on_open', {
-      id
+      id,
     })
 
     if (typeof document !== 'undefined') {
@@ -188,7 +188,7 @@ export default class ModalContent extends React.PureComponent {
     dispatchCustomElementEvent(this, 'on_close', {
       id,
       event: triggeredByEvent,
-      triggeredBy: triggeredBy || 'unmount'
+      triggeredBy: triggeredBy || 'unmount',
     })
 
     if (typeof document !== 'undefined') {
@@ -326,7 +326,7 @@ export default class ModalContent extends React.PureComponent {
         if (mostCurrent === this) {
           e.preventDefault()
           this.closeModal(e, {
-            triggeredBy: 'keyboard'
+            triggeredBy: 'keyboard',
           })
         }
 
@@ -340,7 +340,7 @@ export default class ModalContent extends React.PureComponent {
     this.setState({ triggeredBy, triggeredByEvent: event }, () => {
       this.props.closeModal(event, {
         triggeredBy,
-        ...params
+        ...params,
       })
     })
   }
@@ -421,7 +421,7 @@ export default class ModalContent extends React.PureComponent {
           'dnb-modal__content--no-animation-on-mobile',
         content_class
       ),
-      onClick: this.onContentClickHandler
+      onClick: this.onContentClickHandler,
     }
 
     const innerParams = {
@@ -435,12 +435,12 @@ export default class ModalContent extends React.PureComponent {
       onClick: this.preventClick,
       onTouchStart: this.preventClick,
       onKeyDown: this.onKeyDownHandler,
-      ...rest
+      ...rest,
     }
 
     const spacingParams = {
       tabIndex: -1,
-      className: classnames('dnb-modal__content__spacing', 'dnb-no-focus')
+      className: classnames('dnb-modal__content__spacing', 'dnb-no-focus'),
     }
 
     const overlayParams = {
@@ -452,7 +452,7 @@ export default class ModalContent extends React.PureComponent {
         isTrue(no_animation_on_mobile) &&
           'dnb-modal__overlay--no-animation-on-mobile',
         overlay_class
-      )
+      ),
     }
 
     // also used for code markup simulation
@@ -500,13 +500,13 @@ export class CloseButton extends React.PureComponent {
     close_title: PropTypes.string,
     size: PropTypes.string,
     icon_position: PropTypes.string,
-    className: PropTypes.string
+    className: PropTypes.string,
   }
   static defaultProps = {
     close_title: null,
     size: 'large',
     icon_position: 'left',
-    className: null
+    className: null,
   }
 
   render() {

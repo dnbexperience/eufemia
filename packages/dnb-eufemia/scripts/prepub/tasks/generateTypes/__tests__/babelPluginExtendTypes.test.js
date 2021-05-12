@@ -25,11 +25,11 @@ describe('babelPluginExtendTypes', () => {
         [
           babelPluginExtendTypes,
           {
-            file
-          }
-        ]
+            file,
+          },
+        ],
       ],
-      ...babelPluginConfigDefaults
+      ...babelPluginConfigDefaults,
     })
 
     expect(code).toMatchSnapshot()

@@ -9,12 +9,12 @@ import classnames from 'classnames'
 import {
   isTrue,
   validateDOMAttributes,
-  registerElement
+  registerElement,
 } from '../../shared/component-helper'
 import '../../shared/helpers'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import HeadingContext from './HeadingContext'
 import Context from '../../shared/Context'
@@ -29,7 +29,7 @@ import {
   globalHeadingCounter,
   windupHeadings,
   teardownHeadings,
-  debugCounter
+  debugCounter,
 } from './HeadingHelpers'
 import { initCounter } from './HeadingCounter'
 
@@ -40,7 +40,7 @@ export const levelResolution = {
   3: 'medium',
   4: 'basis',
   5: 'small',
-  6: 'x-small'
+  6: 'x-small',
 }
 
 export default class Heading extends React.PureComponent {
@@ -59,7 +59,7 @@ export default class Heading extends React.PureComponent {
       'medium',
       'basis',
       'small',
-      'x-small'
+      'x-small',
     ]),
 
     level: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -76,7 +76,7 @@ export default class Heading extends React.PureComponent {
     reset: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
 
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -86,7 +86,7 @@ export default class Heading extends React.PureComponent {
 
     class: PropTypes.string,
     className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   }
 
   static defaultProps = {
@@ -113,7 +113,7 @@ export default class Heading extends React.PureComponent {
     class: null,
 
     className: null,
-    children: null
+    children: null,
   }
 
   static enableWebComponent() {
@@ -141,7 +141,7 @@ export default class Heading extends React.PureComponent {
             isTrue(props.skip_correction) ||
             isTrue(state.context.heading?.skip_correction),
           source: props.text || props.children, // only for debugging
-          debug: props.debug || state.context.heading?.debug
+          debug: props.debug || state.context.heading?.debug,
         })
         state.level = state.prevLevel = newLevel
       }
@@ -158,7 +158,7 @@ export default class Heading extends React.PureComponent {
 
     const state = {
       context,
-      _listenForPropChanges: true
+      _listenForPropChanges: true,
     }
 
     // If a heading runs inside a context, use that counter
@@ -185,7 +185,7 @@ export default class Heading extends React.PureComponent {
         isTrue(props.skip_correction) ||
         isTrue(state.context.heading?.skip_correction),
       source: props.text || props.children, // only for debugging
-      debug: props.debug || state.context.heading?.debug
+      debug: props.debug || state.context.heading?.debug,
     })
 
     globalSyncCounter.current = state.counter
@@ -238,7 +238,7 @@ export default class Heading extends React.PureComponent {
 
     const attributes = {
       // key: this._id,
-      ...rest
+      ...rest,
     }
 
     if (element === 'auto' || element === null) {

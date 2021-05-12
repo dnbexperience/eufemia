@@ -9,13 +9,13 @@ import {
   fakeProps,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../ProgressIndicator'
 
 const props = fakeProps(require.resolve('../ProgressIndicator'), {
   all: true,
-  optional: true
+  optional: true,
 })
 
 describe('Circular ProgressIndicator component', () => {
@@ -45,7 +45,7 @@ describe('Circular ProgressIndicator component', () => {
 
   it('has to react to a progress value of 80%', () => {
     Comp.setProps({
-      progress: 80
+      progress: 80,
     })
     expect(
       Comp.find('.dnb-progress-indicator__circular')
@@ -56,7 +56,7 @@ describe('Circular ProgressIndicator component', () => {
       Comp.find(mainLineSelector).instance().getAttribute('style')
     ).toBe('stroke-dashoffset: 17.599999999999994;')
     Comp.setProps({
-      progress: 50
+      progress: 50,
     })
   })
 
@@ -89,7 +89,7 @@ describe('Linear ProgressIndicator component', () => {
 
   it('has to react to a progress value of 80%', () => {
     Comp.setProps({
-      progress: 80
+      progress: 80,
     })
     expect(
       Comp.find('.dnb-progress-indicator__linear')
@@ -100,7 +100,7 @@ describe('Linear ProgressIndicator component', () => {
       Comp.find(mainLineSelector).instance().getAttribute('style')
     ).toBe('transform: translateX(-20%);')
     Comp.setProps({
-      progress: 50
+      progress: 50,
     })
   })
 

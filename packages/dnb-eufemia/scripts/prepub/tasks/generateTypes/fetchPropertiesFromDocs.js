@@ -11,7 +11,7 @@ import { Extractor } from 'markdown-tables-to-json'
 import {
   toKebabCase,
   toPascalCase,
-  toSnakeCase
+  toSnakeCase,
 } from '../../../../src/shared/component-helper'
 
 const ROOT_DIR = path.resolve(
@@ -63,14 +63,14 @@ function extractPathParts({ file }) {
     groupDir,
     componentDir,
     componentName,
-    unsureSituation
+    unsureSituation,
   }
 }
 
 export async function fetchPropertiesFromDocs({
   file, // Component file
   docsDir = ROOT_DIR, // The dir, where the docs are placed
-  findFiles = ['properties.md', 'events.md'] // type of .md files to look for
+  findFiles = ['properties.md', 'events.md'], // type of .md files to look for
 } = {}) {
   if (process.env.NODE_ENV !== 'test') {
     log.start('> PrePublish: generating docs for types')
@@ -81,9 +81,9 @@ export async function fetchPropertiesFromDocs({
       groupDir,
       componentDir,
       componentName,
-      unsureSituation
+      unsureSituation,
     } = extractPathParts({
-      file
+      file,
     })
 
     const markdownFiles = findFiles.map((filename) => {
@@ -105,7 +105,7 @@ export async function fetchPropertiesFromDocs({
       markdownFiles,
       docsDir,
       componentName,
-      unsureSituation
+      unsureSituation,
     })
   } catch (e) {
     log.fail('Failed to load docs')
@@ -117,7 +117,7 @@ async function extractorFactory({
   markdownFiles,
   docsDir = ROOT_DIR,
   componentName,
-  unsureSituation = false
+  unsureSituation = false,
 }) {
   const collections = await asyncForEach(
     markdownFiles,
@@ -147,7 +147,7 @@ async function extractorFactory({
             relationalTable.push({
               header,
               propName: row[0],
-              description: row[1]
+              description: row[1],
             })
           })
         }
@@ -179,18 +179,18 @@ async function extractorFactory({
                 .replace(path.extname(href), '')
               const file = path.resolve(dir, filename + '.md')
               const { componentName } = extractPathParts({
-                file
+                file,
               })
 
               if (fs.existsSync(file)) {
                 const { docs: subCollections } = await extractorFactory({
                   markdownFiles: [
                     {
-                      file
-                    }
+                      file,
+                    },
                   ],
                   docsDir,
-                  componentName
+                  componentName,
                 })
 
                 if (
@@ -259,7 +259,7 @@ async function extractorFactory({
   return {
     docs,
     componentName,
-    unsureSituation
+    unsureSituation,
   }
 }
 

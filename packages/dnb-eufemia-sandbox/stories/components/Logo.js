@@ -9,7 +9,7 @@ import { Wrapper, Box } from '../helpers'
 import { Logo } from '@dnb/eufemia/src/components'
 
 export default {
-  title: 'Eufemia/Components/Logo'
+  title: 'Eufemia/Components/Logo',
 }
 
 export const LogoSandbox = () => {

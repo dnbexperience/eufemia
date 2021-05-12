@@ -16,12 +16,12 @@ import {
   Modal,
   Switch,
   Button,
-  Space
+  Space,
 } from '@dnb/eufemia/src/components'
 import { Link } from '@dnb/eufemia/src/elements'
 
 export default {
-  title: 'Eufemia/Components/FormStatus'
+  title: 'Eufemia/Components/FormStatus',
 }
 
 const CustomStatus = () => (

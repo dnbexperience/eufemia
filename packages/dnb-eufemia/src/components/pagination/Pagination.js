@@ -11,11 +11,11 @@ import PaginationProvider from './PaginationProvider'
 import {
   registerElement,
   validateDOMAttributes,
-  extendPropsWithContext
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 
 import { PaginationIndicator } from './PaginationHelpers'
@@ -29,11 +29,11 @@ const paginationPropTypes = {
   startup_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   parallel_load_count: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.number
+    PropTypes.number,
   ]),
   place_maker_before_content: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.bool
+    PropTypes.bool,
   ]),
   min_wait_time: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -43,46 +43,46 @@ const paginationPropTypes = {
   items: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   hide_progress_indicator: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.bool
+    PropTypes.bool,
   ]),
   set_content_handler: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.func
+    PropTypes.func,
   ]),
   reset_content_handler: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.func
+    PropTypes.func,
   ]),
   reset_pagination_handler: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.func
+    PropTypes.func,
   ]),
   end_infinity_handler: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.func
+    PropTypes.func,
   ]),
   page_element: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.node,
     PropTypes.func,
-    PropTypes.string
+    PropTypes.string,
   ]),
   fallback_element: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.node,
     PropTypes.func,
-    PropTypes.string
+    PropTypes.string,
   ]),
   marker_element: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.node,
     PropTypes.func,
-    PropTypes.string
+    PropTypes.string,
   ]),
   indicator_element: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.func,
-    PropTypes.string
+    PropTypes.string,
   ]),
   align: PropTypes.string,
   button_title: PropTypes.string,
@@ -99,13 +99,13 @@ const paginationPropTypes = {
   children: PropTypes.oneOfType([
     // PropTypes.array,
     PropTypes.node,
-    PropTypes.func
+    PropTypes.func,
   ]),
 
   on_change: PropTypes.func,
   on_startup: PropTypes.func,
   on_load: PropTypes.func,
-  on_end: PropTypes.func
+  on_end: PropTypes.func,
 }
 
 const paginationDefaultProps = {
@@ -143,7 +143,7 @@ const paginationDefaultProps = {
   on_change: null,
   on_startup: null,
   on_load: null,
-  on_end: null
+  on_end: null,
 }
 
 export default class Pagination extends React.PureComponent {
@@ -212,7 +212,7 @@ class PaginationInstance extends React.PureComponent {
       currentPage,
       items,
       fallback_element,
-      indicator_element
+      indicator_element,
     } = this.context.pagination
 
     // Pagination mode
@@ -225,7 +225,7 @@ class PaginationInstance extends React.PureComponent {
           className,
           _className
         ),
-        ...attributes
+        ...attributes,
       }
 
       validateDOMAttributes(props, mainParams)
@@ -308,7 +308,7 @@ const PaginationContent = React.forwardRef(
 )
 PaginationContent.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-    .isRequired
+    .isRequired,
 }
 
 // NB: This is not ready yet
@@ -349,7 +349,7 @@ export const createPagination = (initProps = {}) => {
     set_content_handler: (fn) => (_setContent.current = fn),
     reset_content_handler: (fn) => (_resetContent.current = fn),
     reset_pagination_handler: (fn) => (_resetInfinity.current = fn),
-    end_infinity_handler: (fn) => (_endInfinity.current = fn)
+    end_infinity_handler: (fn) => (_endInfinity.current = fn),
   })
 
   const Pagination = (props) => (
@@ -372,6 +372,6 @@ export const createPagination = (initProps = {}) => {
     setContent,
     resetContent,
     resetInfinity,
-    endInfinity
+    endInfinity,
   }
 }

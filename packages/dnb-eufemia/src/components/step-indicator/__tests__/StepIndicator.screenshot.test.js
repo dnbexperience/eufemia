@@ -5,7 +5,7 @@
 
 import {
   testPageScreenshot,
-  setupPageScreenshot
+  setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('StepIndicator screenshot', () => {
@@ -13,14 +13,14 @@ describe('StepIndicator screenshot', () => {
   it('have to match urls mode', async () => {
     const screenshot = await testPageScreenshot({
       selector:
-        '[data-visual-test="step-indicator-urls"] .dnb-step-indicator'
+        '[data-visual-test="step-indicator-urls"] .dnb-step-indicator',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match button mode', async () => {
     const screenshot = await testPageScreenshot({
       selector:
-        '[data-visual-test="step-indicator-buttons"] .dnb-step-indicator'
+        '[data-visual-test="step-indicator-buttons"] .dnb-step-indicator',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -28,7 +28,7 @@ describe('StepIndicator screenshot', () => {
     const screenshot = await testPageScreenshot({
       style: { width: '30rem' },
       selector:
-        '[data-visual-test="step-indicator-default"] .dnb-step-indicator'
+        '[data-visual-test="step-indicator-default"] .dnb-step-indicator',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

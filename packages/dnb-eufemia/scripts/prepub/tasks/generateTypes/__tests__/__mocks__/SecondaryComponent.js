@@ -9,12 +9,12 @@ export const secondaryPropTypes = {
   secondary: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-    PropTypes.bool
-  ])
+    PropTypes.bool,
+  ]),
 }
 
 export const secondaryDefaultProps = {
-  secondary: null
+  secondary: null,
 }
 
 const Element = () => {
@@ -23,11 +23,11 @@ const Element = () => {
 Element.propTypes = {
   ...secondaryPropTypes,
   children: PropTypes.node,
-  secondProperty: PropTypes.string
+  secondProperty: PropTypes.string,
 }
 Element.defaultProps = {
   children: null,
-  secondProperty: null
+  secondProperty: null,
 }
 
 export default Element

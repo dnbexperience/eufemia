@@ -15,20 +15,20 @@ export const accordionPropTypes = {
   prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   prevent_rerender: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.bool
+    PropTypes.bool,
   ]),
   prevent_rerender_conditional: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.bool
+    PropTypes.bool,
   ]),
   remember_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   flush_remembered_state: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.bool
+    PropTypes.bool,
   ]),
   single_container: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.bool
+    PropTypes.bool,
   ]),
   variant: PropTypes.oneOf(['default', 'outlined', 'filled']),
   left_component: PropTypes.node,
@@ -54,7 +54,7 @@ export const accordionPropTypes = {
   custom_element: PropTypes.object,
   custom_method: PropTypes.func,
   on_change: PropTypes.func,
-  on_state_update: PropTypes.func
+  on_state_update: PropTypes.func,
 }
 
 export const accordionDefaultProps = {
@@ -92,5 +92,5 @@ export const accordionDefaultProps = {
   custom_method: null,
 
   on_change: null,
-  on_state_update: null
+  on_state_update: null,
 }

@@ -16,11 +16,11 @@ export class PaginationIndicator extends React.PureComponent {
       PropTypes.object,
       PropTypes.node,
       PropTypes.func,
-      PropTypes.string
-    ])
+      PropTypes.string,
+    ]),
   }
   static defaultProps = {
-    indicator_element: 'div'
+    indicator_element: 'div',
   }
   render() {
     const { indicator_element } = this.props
@@ -105,7 +105,7 @@ export function preparePageElement(
       const params = {
         ...props,
         className: classnames(includeClassName, className),
-        ref
+        ref,
       }
       return isTr ? (
         <td>

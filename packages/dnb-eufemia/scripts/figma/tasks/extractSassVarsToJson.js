@@ -14,7 +14,7 @@ export const extractSassVars = async ({
   file,
   imports = ['./style/components/imports'],
   replaceCallback = null,
-  parserOpts = {}
+  parserOpts = {},
 }) => {
   const filePath = path.resolve(__dirname, '../../../', file)
   let scssContent = await fs.readFile(filePath)
@@ -32,12 +32,12 @@ export const extractSassVars = async ({
       camelCase: false,
       cwd: path.resolve(__dirname, '../../../src'),
       indented: false,
-      ...parserOpts
+      ...parserOpts,
     }
   )
   // we only reset the cwd, as this looks like bug in sass-variable-parser
   parseSass('', {
-    cwd: ROOT_DIR
+    cwd: ROOT_DIR,
   })
 
   return Promise.resolve(vars)

@@ -45,5 +45,5 @@ export {
   question,
   reset,
   save,
-  subtract
+  subtract,
 }

@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import {
   isTrue,
   validateDOMAttributes,
-  extendPropsWithContext
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 import IconPrimary from '../../components/icon-primary/IconPrimary'
 import classnames from 'classnames'
@@ -16,11 +16,11 @@ import keycode from 'keycode'
 import AccordionContext from './AccordionContext'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
-  createSkeletonClass
+  createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 
 function AccordionHeaderTitle({ children, ...rest }) {
@@ -37,10 +37,10 @@ function AccordionHeaderTitle({ children, ...rest }) {
 }
 AccordionHeaderTitle.propTypes = {
   ...spacingPropTypes,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 AccordionHeaderTitle.defaultProps = {
-  children: null
+  children: null,
 }
 
 function AccordionHeaderDescription({ children, ...rest }) {
@@ -57,10 +57,10 @@ function AccordionHeaderDescription({ children, ...rest }) {
 }
 AccordionHeaderDescription.propTypes = {
   ...spacingPropTypes,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 AccordionHeaderDescription.defaultProps = {
-  children: null
+  children: null,
 }
 
 function AccordionHeaderContainer({ children, ...rest }) {
@@ -77,10 +77,10 @@ function AccordionHeaderContainer({ children, ...rest }) {
 }
 AccordionHeaderContainer.propTypes = {
   ...spacingPropTypes,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 AccordionHeaderContainer.defaultProps = {
-  children: null
+  children: null,
 }
 
 function AccordionHeaderIcon({ icon, ...rest }) {
@@ -94,13 +94,13 @@ AccordionHeaderIcon.propTypes = {
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
-    PropTypes.func
+    PropTypes.func,
   ]),
-  size: PropTypes.string
+  size: PropTypes.string,
 }
 AccordionHeaderIcon.defaultProps = {
   icon: null,
-  size: 'medium'
+  size: 'medium',
 }
 
 export default class AccordionHeader extends React.PureComponent {
@@ -110,37 +110,37 @@ export default class AccordionHeader extends React.PureComponent {
     title: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]),
     description: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]),
     left_component: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]),
     element: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]),
     heading: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]),
     heading_level: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.number
+      PropTypes.number,
     ]),
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]),
     icon_position: PropTypes.oneOf(['left', 'right']),
     icon_size: PropTypes.string,
@@ -153,8 +153,8 @@ export default class AccordionHeader extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
-    ])
+      PropTypes.func,
+    ]),
   }
 
   static defaultProps = {
@@ -172,7 +172,7 @@ export default class AccordionHeader extends React.PureComponent {
     skeleton: null,
 
     className: null,
-    children: null
+    children: null,
   }
 
   static Container = AccordionHeaderContainer
@@ -203,21 +203,21 @@ export default class AccordionHeader extends React.PureComponent {
       this.context.callOnChange({ id, group, expanded, event })
 
       this.setState({
-        hadClick: true
+        hadClick: true,
       })
     }
   }
 
   onMouseOverHandler = () => {
     this.setState({
-      hover: true
+      hover: true,
     })
   }
 
   onMouseOutHandler = () => {
     this.setState({
       hover: false,
-      hadClick: false
+      hadClick: false,
     })
   }
 
@@ -247,7 +247,7 @@ export default class AccordionHeader extends React.PureComponent {
       icon,
       icon_size,
       disabled,
-      skeleton
+      skeleton,
     } = props
 
     const {
@@ -282,7 +282,7 @@ export default class AccordionHeader extends React.PureComponent {
       </AccordionHeaderTitle>,
       <AccordionHeaderDescription key="description">
         {description}
-      </AccordionHeaderDescription>
+      </AccordionHeaderDescription>,
     ]
 
     if (Array.isArray(children)) {
@@ -366,7 +366,7 @@ export default class AccordionHeader extends React.PureComponent {
         className
       ),
       disabled,
-      ...rest
+      ...rest,
     }
 
     if (disabled || isTrue(skeleton)) {

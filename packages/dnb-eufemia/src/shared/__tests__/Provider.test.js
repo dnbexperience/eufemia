@@ -16,10 +16,10 @@ describe('Provider', () => {
   const title_gb = 'Text'
 
   const nbNO = {
-    'HelpButton.title': title_nb
+    'HelpButton.title': title_nb,
   }
   const enGB = {
-    'HelpButton.title': title_gb
+    'HelpButton.title': title_gb,
   }
 
   const LocalProvider = (props) => {
@@ -27,7 +27,7 @@ describe('Provider', () => {
       <Provider
         locales={{
           'nb-NO': Object.freeze(nbNO),
-          'en-GB': Object.freeze(enGB)
+          'en-GB': Object.freeze(enGB),
         }}
         {...props}
       />
@@ -93,7 +93,7 @@ describe('Provider', () => {
     ).toBe('Hjelp-knapp')
 
     Comp.setProps({
-      locale: 'en-GB'
+      locale: 'en-GB',
     })
 
     expect(
@@ -112,7 +112,7 @@ describe('Provider', () => {
     expect(Comp.find('p').text()).toBe(title_nb)
 
     Comp.setProps({
-      locale: 'en-GB'
+      locale: 'en-GB',
     })
 
     expect(Comp.find('p').text()).toBe(title_gb)

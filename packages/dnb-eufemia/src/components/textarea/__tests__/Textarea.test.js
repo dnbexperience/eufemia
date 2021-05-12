@@ -9,20 +9,20 @@ import {
   fakeProps,
   toJson,
   axeComponent,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Textarea'
 
 const props = {
   ...fakeProps(require.resolve('../Textarea'), {
     all: true,
-    optional: true
+    optional: true,
   }),
   id: 'textarea',
   label: null,
   status: null, // to make sure we don't get aria-details
   textarea_element: null,
-  disabled: false
+  disabled: false,
 }
 
 describe('Textarea component', () => {
@@ -68,7 +68,7 @@ describe('Textarea component', () => {
     const emptyValue = null
 
     Comp.setProps({
-      value: initValue
+      value: initValue,
     })
     expect(Comp.state().value).toBe(initValue)
 
@@ -96,13 +96,13 @@ describe('Textarea component', () => {
     expect(Comp.state().value).toBe(initValue)
 
     Comp.find('textarea').simulate('change', {
-      target: { value: newValue }
+      target: { value: newValue },
     })
     expect(on_change.mock.calls.length).toBe(1)
     expect(Comp.find('textarea').instance().value).toBe(newValue)
 
     Comp.find('textarea').simulate('change', {
-      target: { value: emptyValue }
+      target: { value: emptyValue },
     })
     expect(on_change.mock.calls.length).toBe(2)
     expect(on_change.mock.calls[0][0].rows).toBe(1)
@@ -111,7 +111,7 @@ describe('Textarea component', () => {
     // additional native event test
     Comp.find('textarea').simulate('keydown', {
       key: 'Space',
-      keyCode: 84
+      keyCode: 84,
     }) // space
     expect(on_key_down.mock.calls.length).toBe(1)
     expect(on_key_down.mock.calls[0][0].rows).toBe(1)
@@ -125,7 +125,7 @@ describe('Textarea component', () => {
     const zeroValue = '0'
 
     Comp.setProps({
-      value: newValue
+      value: newValue,
     })
     expect(Comp.state().value).toBe(newValue)
 
@@ -149,7 +149,7 @@ describe('Textarea component', () => {
   it('has to to have a prop value like value', () => {
     const value = 'new value'
     Comp.setProps({
-      value
+      value,
     })
     expect(Comp.find('textarea').props().value).toBe(value)
   })
@@ -169,7 +169,7 @@ describe('Textarea component', () => {
   it('has a disabled attribute, once we set disabled to true', () => {
     const Comp = mount(<Component />)
     Comp.setProps({
-      disabled: true
+      disabled: true,
     })
     expect(Comp.find('textarea').instance().hasAttribute('disabled')).toBe(
       true
@@ -184,7 +184,7 @@ describe('Textarea component', () => {
     const elem = Comp.find('textarea').instance()
 
     jest.spyOn(window, 'getComputedStyle').mockImplementation(() => ({
-      lineHeight: 1.5 * 16
+      lineHeight: 1.5 * 16,
     }))
 
     jest

@@ -5,17 +5,17 @@
 
 import {
   testPageScreenshot,
-  setupPageScreenshot
+  setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('ProgressIndicator screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/progress-indicator/demos'
+    url: '/uilib/components/progress-indicator/demos',
   })
   it('have to match the static primary circular with 50 percentage', async () => {
     const screenshot = await testPageScreenshot({
       selector:
-        '[data-visual-test="progress-indicator-circular--primary"] .dnb-progress-indicator'
+        '[data-visual-test="progress-indicator-circular--primary"] .dnb-progress-indicator',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -23,10 +23,10 @@ describe('ProgressIndicator screenshot', () => {
   it('have to match the static primary linear with 50 percentage', async () => {
     const screenshot = await testPageScreenshot({
       style: {
-        width: '20rem'
+        width: '20rem',
       },
       selector:
-        '[data-visual-test="progress-indicator-linear--primary"] .dnb-progress-indicator'
+        '[data-visual-test="progress-indicator-linear--primary"] .dnb-progress-indicator',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

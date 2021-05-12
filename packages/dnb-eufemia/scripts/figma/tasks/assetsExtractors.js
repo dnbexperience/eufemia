@@ -18,7 +18,7 @@ import {
   findNode,
   findAllNodes,
   saveToFile,
-  md5
+  md5,
 } from '../helpers/docHelpers'
 import properties from '../../../src/style/properties'
 import { create, extract } from 'tar'
@@ -49,19 +49,19 @@ export function IconsConfig(overwrite = {}) {
     'save',
     'loupe', // was "search" before
     'question',
-    'calendar'
+    'calendar',
   ]
 
   const iconRenameList = process.env.FIGMA_ICONS_RENAME_LIST || [
     { from: 'checkmark', to: 'check' }, // deprecated, can be removed in next minor versjon
     { from: 'repeat', to: 'refresh' }, // deprecated, can be removed in next minor versjon
     { from: 'document', to: 'file' }, // deprecated, can be removed in next minor versjon
-    { from: 'more_horizontal', to: 'more' } // deprecated, can be removed in next minor versjon
+    { from: 'more_horizontal', to: 'more' }, // deprecated, can be removed in next minor versjon
   ]
 
   const iconCloneList = process.env.FIGMA_ICONS_CLONE_LIST || [
     // As of now, we only clone these icons
-    { from: 'document', to: 'file' } // deprecated, can be removed in next minor versjon
+    { from: 'document', to: 'file' }, // deprecated, can be removed in next minor versjon
   ]
 
   const canvasNameSelector =
@@ -97,7 +97,7 @@ export function IconsConfig(overwrite = {}) {
     imageUrlExpireAfterDays,
     destDir,
     getCategoryFromIconName,
-    ...overwrite
+    ...overwrite,
   }
 }
 
@@ -111,7 +111,7 @@ export const extractIconsAsSVG = async ({
     if (figmaDoc === null) {
       figmaDoc = await getFigmaDoc({
         figmaFile,
-        preventUpdate: forceReconvert
+        preventUpdate: forceReconvert,
       })
     }
 
@@ -122,7 +122,7 @@ export const extractIconsAsSVG = async ({
       iconsLockFile,
       ignoreAddingSizeList,
       iconRenameList,
-      destDir
+      destDir,
     } = IconsConfig()
 
     log.start(
@@ -131,12 +131,12 @@ export const extractIconsAsSVG = async ({
 
     const {
       listOfProcessedFiles,
-      listWithNewFiles
+      listWithNewFiles,
     } = await collectIconsFromFigmaDoc({
       figmaFile,
       figmaDoc,
       format: 'svg',
-      ...rest
+      ...rest,
     })
 
     log.info(
@@ -149,7 +149,7 @@ export const extractIconsAsSVG = async ({
       data: listOfProcessedFiles.reduce((acc, { iconFile, ...cur }) => {
         acc[iconFile] = cur
         return acc
-      }, {})
+      }, {}),
     })
     log.info(`> Figma: ${iconsLockFile} file got generated`)
 
@@ -157,7 +157,7 @@ export const extractIconsAsSVG = async ({
       await optimizeSVGIcons({ destDir, listWithNewFiles })
       await createXMLTarBundles({
         destDir,
-        listOfProcessedFiles
+        listOfProcessedFiles,
       })
     }
 
@@ -165,7 +165,7 @@ export const extractIconsAsSVG = async ({
       listOfProcessedFiles,
       ignoreAddingSizeList,
       figmaDoc,
-      iconRenameList
+      iconRenameList,
     })
 
     return listOfProcessedFiles
@@ -179,7 +179,7 @@ async function collectIconsFromFigmaDoc({ figmaDoc, figmaFile, ...rest }) {
 
   const canvasDoc = getIconCanvasDoc({ figmaDoc })
   const framesInTheCanvas = findAllNodes(canvasDoc, {
-    type: 'FRAME'
+    type: 'FRAME',
   })
 
   const controllStorageLists = []
@@ -199,7 +199,7 @@ async function collectIconsFromFigmaDoc({ figmaDoc, figmaFile, ...rest }) {
         figmaFile,
         destDir,
         ...IconsConfig(),
-        ...rest
+        ...rest,
       })
 
       controllStorageLists.push(files)
@@ -213,7 +213,7 @@ async function collectIconsFromFigmaDoc({ figmaDoc, figmaFile, ...rest }) {
 
   return {
     listWithNewFiles,
-    listOfProcessedFiles
+    listOfProcessedFiles,
   }
 }
 
@@ -260,7 +260,7 @@ export const extractIconsAsPDF = async ({
     if (figmaDoc === null) {
       figmaDoc = await getFigmaDoc({
         figmaFile,
-        preventUpdate: forceReconvert
+        preventUpdate: forceReconvert,
       })
     }
 
@@ -280,7 +280,7 @@ export const extractIconsAsPDF = async ({
       tarFileSize = (await fs.stat(tarFile)).size
       await extract({
         cwd: destDir,
-        file: tarFile
+        file: tarFile,
       })
     }
 
@@ -291,13 +291,13 @@ export const extractIconsAsPDF = async ({
 
     const {
       listOfProcessedFiles,
-      listWithNewFiles
+      listWithNewFiles,
     } = await collectIconsFromFigmaDoc({
       figmaFile,
       figmaDoc,
       format: 'pdf',
       ...IconsConfig({ iconsLockFile }),
-      ...rest
+      ...rest,
     })
 
     log.info(
@@ -310,7 +310,7 @@ export const extractIconsAsPDF = async ({
       data: listOfProcessedFiles.reduce((acc, { iconFile, ...cur }) => {
         acc[iconFile] = cur
         return acc
-      }, {})
+      }, {}),
     })
 
     log.info(`> Figma: ${iconsLockFile} file got generated`)
@@ -328,7 +328,7 @@ export const extractIconsAsPDF = async ({
           {
             gzip: true,
             cwd: destDir,
-            file: tmp
+            file: tmp,
           },
           fileList
         )
@@ -348,7 +348,7 @@ export const extractIconsAsPDF = async ({
           {
             gzip: true,
             cwd: destDir,
-            file: tarFile
+            file: tarFile,
           },
           fileList
         )
@@ -382,7 +382,7 @@ export const extractIconsAsPDF = async ({
           {
             gzip: true,
             cwd: destDir,
-            file: tarFile
+            file: tarFile,
           },
           fileList
         )
@@ -434,7 +434,7 @@ const frameIconsFactory = async ({
   iconPrimaryList,
   iconCloneList,
   imageUrlExpireAfterDays,
-  ignoreAddingSizeList
+  ignoreAddingSizeList,
 }) => {
   const newFiles = []
   const existingFiles = []
@@ -480,7 +480,7 @@ const frameIconsFactory = async ({
 
   // check if lock file exists
   const oldLockFileContent = await readIconsLockFile({
-    file: iconsLockFile
+    file: iconsLockFile,
   })
 
   // this may be controversial, but it's kind of a short way to use the lock file
@@ -497,7 +497,7 @@ const frameIconsFactory = async ({
       id,
       url,
       file,
-      updated
+      updated,
     }))
 
   // remove the IDs if they are in the lock file so we font need to refetch the urls
@@ -528,11 +528,11 @@ const frameIconsFactory = async ({
     await getFigmaUrlByImageIds({
       figmaFile,
       ids: iconIdsToFetchFrom,
-      params: { format }
+      params: { format },
     })
   ).map(([id, url]) => ({
     id,
-    url
+    url,
   }))
 
   const rawListOfIconsToProcess = listOfCachedIconUrls
@@ -541,7 +541,7 @@ const frameIconsFactory = async ({
     .map(({ id, url }) => {
       return {
         ...frameDocChildren.find(({ id: i }) => i === id),
-        url
+        url,
       }
     })
     // by making sure it is in the current Figma frame document
@@ -554,7 +554,7 @@ const frameIconsFactory = async ({
     if (found && found.name) {
       acc.push({
         ...found,
-        name: found.name.replace(new RegExp(cur.from), cur.to)
+        name: found.name.replace(new RegExp(cur.from), cur.to),
       })
     }
 
@@ -593,7 +593,7 @@ const frameIconsFactory = async ({
           slug: md5(figmaFile + frameId),
           size,
           variant,
-          bundleName
+          bundleName,
         }
 
         let existsAndIsValid =
@@ -630,10 +630,10 @@ const frameIconsFactory = async ({
             {
               file,
               url,
-              id // id is not used for now
+              id, // id is not used for now
             },
             {
-              errorExceptionType: ERROR_HARMLESS
+              errorExceptionType: ERROR_HARMLESS,
             }
           )
 
@@ -689,7 +689,7 @@ const prerenderIconName = (name, size = null) => {
     iconSelector,
     iconNameCleaner,
     iconRenameList,
-    ignoreAddingSizeList
+    ignoreAddingSizeList,
   } = IconsConfig()
 
   let iconName = name
@@ -735,7 +735,7 @@ const makeMetaFile = async ({
   listOfProcessedFiles,
   ignoreAddingSizeList,
   figmaDoc,
-  iconRenameList
+  iconRenameList,
 }) => {
   // save the metaFile content
   await saveIconsMetaFile(
@@ -771,7 +771,7 @@ const makeMetaFile = async ({
                 acc.push(cur)
               }
               return acc
-            }, existing.tags)
+            }, existing.tags),
           }
         } else {
           acc[iconName] = { tags, created, name, variant }
@@ -789,7 +789,7 @@ const createXMLTarBundles = async ({
   destDir,
   listOfProcessedFiles,
   outputName = 'eufemia-icons-xml.tgz',
-  outputNameCategorized = 'eufemia-icons-xml-categorized.tgz'
+  outputNameCategorized = 'eufemia-icons-xml-categorized.tgz',
 }) => {
   log.info(`> Figma: started to create ${outputName}`)
 
@@ -799,7 +799,7 @@ const createXMLTarBundles = async ({
     tarFileSize = (await fs.stat(tarFile)).size
     await extract({
       cwd: destDir,
-      file: tarFile
+      file: tarFile,
     })
   }
 
@@ -841,7 +841,7 @@ const createXMLTarBundles = async ({
       {
         gzip: true,
         cwd: destDir,
-        file: tmp
+        file: tmp,
       },
       fileList
     )
@@ -861,7 +861,7 @@ const createXMLTarBundles = async ({
       {
         gzip: true,
         cwd: destDir,
-        file: tarFile
+        file: tarFile,
       },
       fileList
     )
@@ -895,7 +895,7 @@ const createXMLTarBundles = async ({
       {
         gzip: true,
         cwd: destDir,
-        file: tarFile
+        file: tarFile,
       },
       fileList
     )
@@ -982,16 +982,16 @@ const optimizeSVG = async (file) => {
       // },
       {
         removeElementsByAttr: {
-          id
-        }
+          id,
+        },
       },
       // { convertPathData: false }, // if we prefer to not transform any data paths, we have to disable this
       { cleanupIDs: true },
       { removeViewBox: false },
-      { removeDimensions: false }
+      { removeDimensions: false },
     ]
     const svgo = new SVGOptim({
-      plugins
+      plugins,
     })
 
     // content = insertInlineStylesToSVG(content)
@@ -1026,7 +1026,7 @@ const getIconCanvasDoc = ({ figmaDoc }) => {
   const { canvasNameSelector } = IconsConfig()
   return findNode(figmaDoc.document, {
     name: canvasNameSelector,
-    type: 'CANVAS'
+    type: 'CANVAS',
   })
 }
 
@@ -1058,7 +1058,7 @@ const iconsMetaFile = path.resolve(
 export const saveIconsMetaFile = async (data) => {
   const content = prettier.format(JSON.stringify(data), {
     ...prettierrc,
-    filepath: iconsMetaFile
+    filepath: iconsMetaFile,
   })
 
   return await saveToFile(iconsMetaFile, content)
@@ -1164,5 +1164,5 @@ const reservedJavaScriptWords = [
   'self',
   'unescape',
   'document',
-  'window'
+  'window',
 ]

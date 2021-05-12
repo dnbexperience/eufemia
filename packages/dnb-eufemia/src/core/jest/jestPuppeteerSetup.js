@@ -19,7 +19,7 @@ const {
   headless,
   defaultViewport,
   testScreenshotOnHost,
-  testScreenshotOnPort
+  testScreenshotOnPort,
 } = require('./jestSetupScreenshots').config
 
 const startStaticServer = async () => {
@@ -38,12 +38,12 @@ const startStaticServer = async () => {
           open: false,
           watch: [],
           quiet: isCI,
-          wait: 10e3
+          wait: 10e3,
         })
         await waitOn({
           resources: [
-            `http://${testScreenshotOnHost}:${testScreenshotOnPort}`
-          ]
+            `http://${testScreenshotOnHost}:${testScreenshotOnPort}`,
+          ],
         })
       } else {
         throw new Error(
@@ -65,7 +65,7 @@ module.exports = async function () {
     headless,
     devtools: !headless,
     // to get rid of the "libX11-xcb.so" missing problem, we set these flags
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
   })
 
   // use the file system to expose the wsEndpoint for TestEnvironments

@@ -82,5 +82,5 @@ export {
   Tabs,
   Textarea,
   ToggleButton,
-  Tooltip
+  Tooltip,
 }

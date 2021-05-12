@@ -37,14 +37,14 @@ const copyStylePackages = (
     try {
       gulp
         .src(src, {
-          cwd: ROOT_DIR
+          cwd: ROOT_DIR,
         })
         .pipe(transform('utf8', transformPaths('/assets/', '/resources/')))
         .pipe(
           returnResult
             ? transform('utf8', (result) => resolve(result))
             : gulp.dest('./dnb-ui-resources/style', {
-                cwd: ROOT_DIR
+                cwd: ROOT_DIR,
               })
         )
         .on('end', resolve)
@@ -60,11 +60,11 @@ const copyFonts = (src = ['./assets/fonts/*', '!./assets/fonts/*.zip']) =>
     try {
       gulp
         .src(src, {
-          cwd: ROOT_DIR
+          cwd: ROOT_DIR,
         })
         .pipe(
           gulp.dest('./dnb-ui-resources/resources/fonts', {
-            cwd: ROOT_DIR
+            cwd: ROOT_DIR,
           })
         )
         .on('end', resolve)
@@ -82,11 +82,11 @@ const copyBrowser = (
     try {
       gulp
         .src(src, {
-          cwd: ROOT_DIR
+          cwd: ROOT_DIR,
         })
         .pipe(
           gulp.dest('./dnb-ui-resources/resources/browser', {
-            cwd: ROOT_DIR
+            cwd: ROOT_DIR,
           })
         )
         .on('end', resolve)
@@ -104,11 +104,11 @@ const copyUMD = (
     try {
       gulp
         .src(src, {
-          cwd: ROOT_DIR
+          cwd: ROOT_DIR,
         })
         .pipe(
           gulp.dest('./dnb-ui-resources/umd', {
-            cwd: ROOT_DIR
+            cwd: ROOT_DIR,
           })
         )
         .on('end', resolve)
@@ -147,7 +147,7 @@ const createTar = async () => {
   await create(
     {
       gzip: true,
-      file: path.resolve(distPath, 'dnb-ui-resources.tgz')
+      file: path.resolve(distPath, 'dnb-ui-resources.tgz'),
     },
     ['./dnb-ui-resources']
   )

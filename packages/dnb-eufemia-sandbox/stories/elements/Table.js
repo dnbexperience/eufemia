@@ -14,11 +14,11 @@ import {
   Dropdown,
   Input,
   DatePicker,
-  NumberFormat
+  NumberFormat,
 } from '@dnb/eufemia/src/components'
 
 export default {
-  title: 'Eufemia/Elements/Table'
+  title: 'Eufemia/Elements/Table',
 }
 
 const CustomWrapper = styled(Wrapper)`
@@ -237,15 +237,15 @@ export const TableSandbox = () => (
 const data = [
   {
     selected_value: 'AA',
-    content: 'A'
+    content: 'A',
   },
   {
     content: [
       <NumberFormat key={12345678902} ban>
         12345678902
       </NumberFormat>,
-      'B'
-    ]
+      'B',
+    ],
   },
   {
     selected_value: 'CC',
@@ -253,27 +253,27 @@ const data = [
       <NumberFormat key={11345678962} ban>
         11345678962
       </NumberFormat>,
-      'C'
-    ]
+      'C',
+    ],
   },
   {
-    content: <React.Fragment>E</React.Fragment>
+    content: <React.Fragment>E</React.Fragment>,
   },
   <>Custom content {'🔥'}</>,
   [<React.Fragment key="key2">Custom content X {'🔥'}</React.Fragment>],
   {
-    content: 'EE'
+    content: 'EE',
   },
   {
-    content: 'EEE'
+    content: 'EEE',
   },
   {
-    content: ['F', 'F', 'F', 'F', 'F']
+    content: ['F', 'F', 'F', 'F', 'F'],
   },
   {
-    content: 'G'
+    content: 'G',
   },
   {
-    content: 'H'
-  }
+    content: 'H',
+  },
 ]

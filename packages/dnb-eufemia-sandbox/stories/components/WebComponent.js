@@ -23,7 +23,7 @@ class Scope {
 window.Scope = new Scope()
 
 export default {
-  title: 'Eufemia/Components/WebComponent'
+  title: 'Eufemia/Components/WebComponent',
 }
 
 export const WebComponent = () => (

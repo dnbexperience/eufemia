@@ -9,12 +9,12 @@ import {
   fakeProps,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../StepIndicator'
 
 const props = fakeProps(require.resolve('../StepIndicator'), {
-  optional: true
+  optional: true,
 })
 delete props.render
 props.on_item_render = null
@@ -24,17 +24,17 @@ describe('StepIndicator component with urls', () => {
   const stepIndicatorListData = [
     {
       title: 'Aa',
-      url: '?a'
+      url: '?a',
     },
     {
       title: 'Bb',
-      url: '?b'
+      url: '?b',
     },
     {
       title: 'Cc',
       url: '?c',
-      url_future: ''
-    }
+      url_future: '',
+    },
   ]
   const Comp = mount(
     <Component
@@ -79,14 +79,14 @@ describe('StepIndicator component with urls', () => {
 describe('StepIndicator component with buttons', () => {
   const stepIndicatorListData = [
     {
-      title: 'Aa'
+      title: 'Aa',
     },
     {
-      title: 'Bb'
+      title: 'Bb',
     },
     {
-      title: 'Cc'
-    }
+      title: 'Cc',
+    },
   ]
   const Comp = mount(
     <Component

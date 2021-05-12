@@ -20,13 +20,13 @@ import {
   FormRow,
   ProgressIndicator,
   // Space,
-  NumberFormat
+  NumberFormat,
 } from '@dnb/eufemia/src/components'
 import { ScrollView } from '@dnb/eufemia/src/fragments'
 import { H2, P, Hr } from '@dnb/eufemia/src/elements'
 
 export default {
-  title: 'Eufemia/Components/Modal'
+  title: 'Eufemia/Components/Modal',
 }
 
 export const ModalSandbox = () => (
@@ -141,13 +141,13 @@ export const ModalSandbox = () => (
         trigger_text="Modal in modal"
         // open_state="opened"
         style={{
-          minHeight: '25rem'
+          minHeight: '25rem',
         }}
       >
         <Modal
           title="Title 2 a"
           style={{
-            minHeight: '15rem'
+            minHeight: '15rem',
           }}
         >
           New content 2 a <Modal title="Title 3 a">New content 3 a</Modal>
@@ -155,7 +155,7 @@ export const ModalSandbox = () => (
         <Modal
           title="Title 2 b"
           style={{
-            minHeight: '15rem'
+            minHeight: '15rem',
           }}
         >
           New content 2 b <Modal title="Title 3 b">New content 3 b</Modal>
@@ -309,7 +309,7 @@ export const DrawerSandbox = () => (
 class ModalRerenderExample extends React.PureComponent {
   state = {
     title: 'Modal Title',
-    trigger_text: 'Open Modal'
+    trigger_text: 'Open Modal',
   }
 
   componentDidMount() {
@@ -355,47 +355,47 @@ class ModalRerenderExample extends React.PureComponent {
 let dropdownData = [
   {
     selected_value: 'Brukskonto - Kari Nordmann',
-    content: <>Brukskonto - Kari Nordmann</>
+    content: <>Brukskonto - Kari Nordmann</>,
   },
   {
     content: [
       <NumberFormat key={15349648901} ban>
         44445678902
       </NumberFormat>,
-      'Sparekonto - Ole Nordmann A'
-    ]
+      'Sparekonto - Ole Nordmann A',
+    ],
   },
   {
     content: [
       <NumberFormat key={15349648901} ban>
         12345623902
       </NumberFormat>,
-      'Sparekonto - Ole Nordmann B'
-    ]
+      'Sparekonto - Ole Nordmann B',
+    ],
   },
   {
     content: [
       <NumberFormat key={15349648901} ban>
         55555672302
       </NumberFormat>,
-      'Sparekonto - Ole Nordmann C'
-    ]
+      'Sparekonto - Ole Nordmann C',
+    ],
   },
   {
     content: [
       <NumberFormat key={15349648901} ban>
         77775672302
       </NumberFormat>,
-      'Sparekonto - Ole Nordmann D'
-    ]
+      'Sparekonto - Ole Nordmann D',
+    ],
   },
   {
     content: [
       <NumberFormat key={15349648901} ban>
         99995672302
       </NumberFormat>,
-      'Sparekonto - Ole Nordmann E'
-    ]
+      'Sparekonto - Ole Nordmann E',
+    ],
   },
   {
     selected_value:
@@ -404,8 +404,8 @@ let dropdownData = [
       <NumberFormat key={15349648901} ban>
         11345678962
       </NumberFormat>,
-      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
-    ]
+      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
+    ],
   },
   {
     selected_value: <>Custom selected {'🔥'}</>,
@@ -413,9 +413,9 @@ let dropdownData = [
       <NumberFormat key={15349648901} ban>
         15349648901
       </NumberFormat>,
-      <>Custom content {'🔥'}</>
-    ]
-  }
+      <>Custom content {'🔥'}</>,
+    ],
+  },
 ]
 
 const ModalCloseExample = () => {
@@ -680,7 +680,7 @@ function SimScrollView() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'yellow'
+        background: 'yellow',
       }}
     >
       <ScrollView
@@ -688,14 +688,14 @@ function SimScrollView() {
           width: '50%',
           height: '50%',
           // overflowY: 'auto',
-          maxHeight: '12rem'
+          maxHeight: '12rem',
         }}
       >
         <div
           style={{
             height: '62rem',
             width: '40rem',
-            background: 'linear-gradient(#e66465, #9198e5)'
+            background: 'linear-gradient(#e66465, #9198e5)',
           }}
         />
       </ScrollView>

@@ -6,7 +6,7 @@
 import {
   testPageScreenshot,
   setupPageScreenshot,
-  isCI
+  isCI,
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Icon screenshot', () => {
@@ -14,17 +14,17 @@ describe('Icon screenshot', () => {
     url: '/uilib/components/icon/demos',
     screenshotConfig: {
       // use 10% on CI because of the font rendering differences
-      pixelThresholdRelative: isCI ? 0.1 : 0
-    }
+      pixelThresholdRelative: isCI ? 0.1 : 0,
+    },
   })
   it('have to match default icons setup', async () => {
     const screenshot = await testPageScreenshot({
       style: {
         // Flex makes the pixel height 100% correct
         display: 'flex',
-        'align-items': 'center'
+        'align-items': 'center',
       },
-      selector: '[data-visual-test="icon-default"]'
+      selector: '[data-visual-test="icon-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -33,9 +33,9 @@ describe('Icon screenshot', () => {
       style: {
         // Flex makes the pixel height 100% correct
         display: 'flex',
-        'align-items': 'center'
+        'align-items': 'center',
       },
-      selector: '[data-visual-test="icon-inherit-sized"]'
+      selector: '[data-visual-test="icon-inherit-sized"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -43,14 +43,14 @@ describe('Icon screenshot', () => {
     const screenshot = await testPageScreenshot({
       screenshotConfig: {
         // use 2% on CI because of the font rendering differences
-        pixelThresholdRelative: isCI ? 0.02 : 0
+        pixelThresholdRelative: isCI ? 0.02 : 0,
       },
       style: {
         // Flex makes the pixel height 100% correct
         display: 'flex',
-        'align-items': 'center'
+        'align-items': 'center',
       },
-      selector: '[data-visual-test="icon-border"]'
+      selector: '[data-visual-test="icon-border"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -59,9 +59,9 @@ describe('Icon screenshot', () => {
       style: {
         // Flex makes the pixel height 100% correct
         display: 'flex',
-        'align-items': 'center'
+        'align-items': 'center',
       },
-      selector: '[data-visual-test="icon-medium"]'
+      selector: '[data-visual-test="icon-medium"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -72,17 +72,17 @@ describe('Icon screenshot', () => {
     url: '/uilib/components/icon/demos',
     screenshotConfig: {
       // use 10% on CI because of the font rendering differences
-      pixelThresholdRelative: isCI ? 0.01 : 0
-    }
+      pixelThresholdRelative: isCI ? 0.01 : 0,
+    },
   })
   it('have to match all primary icons', async () => {
     const screenshot = await testPageScreenshot({
       style: {
         display: 'inline-flex',
         'flex-wrap': 'wrap',
-        width: '30rem'
+        width: '30rem',
       },
-      selector: '[data-visual-test="icon-all-primary"]'
+      selector: '[data-visual-test="icon-all-primary"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -91,9 +91,9 @@ describe('Icon screenshot', () => {
       style: {
         display: 'inline-flex',
         'flex-wrap': 'wrap',
-        width: '30rem'
+        width: '30rem',
       },
-      selector: '[data-visual-test="icon-all-secondary"]'
+      selector: '[data-visual-test="icon-all-secondary"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

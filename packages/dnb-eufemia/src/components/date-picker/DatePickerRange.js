@@ -25,11 +25,11 @@ export default class DatePickerRange extends React.PureComponent {
     hideNav: PropTypes.bool,
     views: PropTypes.oneOfType([
       PropTypes.number,
-      PropTypes.arrayOf(PropTypes.object)
+      PropTypes.arrayOf(PropTypes.object),
     ]),
 
     onChange: PropTypes.func,
-    onNav: PropTypes.func
+    onNav: PropTypes.func,
   }
 
   static defaultProps = {
@@ -46,7 +46,7 @@ export default class DatePickerRange extends React.PureComponent {
 
     // events
     onChange: null, // fires when user makes a selection or navigates
-    onNav: null // [{'id': 0, 'month': Date}, {'id': 1, 'month': Date}]
+    onNav: null, // [{'id': 0, 'month': Date}, {'id': 1, 'month': Date}]
   }
 
   onSelectHandler = (args) => {
@@ -55,7 +55,7 @@ export default class DatePickerRange extends React.PureComponent {
     this.props.onChange &&
       this.props.onChange({
         hidePicker: !this.props.isRange,
-        ...args
+        ...args,
       })
   }
 
@@ -73,7 +73,7 @@ export default class DatePickerRange extends React.PureComponent {
         const month = addMonths(c.month, 1)
         this.setNavState({
           nr,
-          [`${nr === 0 ? 'start' : 'end'}Month`]: month
+          [`${nr === 0 ? 'start' : 'end'}Month`]: month,
         })
         return { ...c, month }
       }
@@ -81,7 +81,7 @@ export default class DatePickerRange extends React.PureComponent {
         const month = addMonths(c.month, 1)
         this.setNavState({
           nr,
-          [`${nr !== 0 ? 'start' : 'end'}Month`]: month
+          [`${nr !== 0 ? 'start' : 'end'}Month`]: month,
         })
         return { ...c, month }
       }
@@ -96,7 +96,7 @@ export default class DatePickerRange extends React.PureComponent {
         const month = subMonths(c.month, 1)
         this.setNavState({
           nr,
-          [`${nr === 0 ? 'start' : 'end'}Month`]: month
+          [`${nr === 0 ? 'start' : 'end'}Month`]: month,
         })
         return { ...c, month }
       }
@@ -104,7 +104,7 @@ export default class DatePickerRange extends React.PureComponent {
         const month = subMonths(c.month, 1)
         this.setNavState({
           nr,
-          [`${nr !== 0 ? 'start' : 'end'}Month`]: month
+          [`${nr !== 0 ? 'start' : 'end'}Month`]: month,
         })
         return { ...c, month }
       }
@@ -150,7 +150,7 @@ export const getViews = (state, isRange) => {
   ).map((view, nr) => ({
     ...view,
     month: getMonthView(state, nr),
-    nr
+    nr,
   }))
 }
 

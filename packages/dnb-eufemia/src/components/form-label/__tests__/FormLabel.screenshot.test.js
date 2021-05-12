@@ -5,7 +5,7 @@
 
 import {
   testPageScreenshot,
-  setupPageScreenshot
+  setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('FormLabel screenshot', () => {
@@ -16,20 +16,20 @@ describe('FormLabel screenshot', () => {
   // }
   it('have to match default form-label', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="form-label-default"]'
+      selector: '[data-visual-test="form-label-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match default form-label with hover', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="form-label-default"]',
-      simulate: 'hover'
+      simulate: 'hover',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match vertical form-label', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="form-label-vertical"]'
+      selector: '[data-visual-test="form-label-vertical"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

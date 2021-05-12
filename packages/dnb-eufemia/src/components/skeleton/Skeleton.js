@@ -9,13 +9,13 @@ import classnames from 'classnames'
 import {
   extendPropsWithContext,
   validateDOMAttributes,
-  isTrue
+  isTrue,
 } from '../../shared/component-helper'
 import { LOCALE } from '../../shared/defaults'
 import Space from '../space/Space'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
@@ -28,12 +28,12 @@ export default class Skeleton extends React.PureComponent {
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     style_type: PropTypes.oneOfType([
       PropTypes.oneOf(['lines']),
-      PropTypes.string
+      PropTypes.string,
     ]),
     figure: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     element: PropTypes.node,
 
@@ -44,8 +44,8 @@ export default class Skeleton extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
-    ])
+      PropTypes.node,
+    ]),
   }
 
   static defaultProps = {
@@ -59,7 +59,7 @@ export default class Skeleton extends React.PureComponent {
     element: null,
     class: null,
     className: null,
-    children: null
+    children: null,
   }
 
   constructor(props) {
@@ -84,7 +84,7 @@ export default class Skeleton extends React.PureComponent {
       {
         skeleton: context.Skeleton || context.skeleton,
         style_type: context.skeleton_style_type,
-        no_animation: context.skeleton_no_animation
+        no_animation: context.skeleton_no_animation,
       },
       context.getTranslation(props).Skeleton
     )
@@ -106,11 +106,11 @@ export default class Skeleton extends React.PureComponent {
 
       if (newString) {
         this.setState({
-          ariaLiveUpdate: newString
+          ariaLiveUpdate: newString,
         })
         this._ariaLiveUpdateTimeout = setTimeout(() => {
           this.setState({
-            ariaLiveUpdate: null
+            ariaLiveUpdate: null,
           })
         }, 1e3)
       }
@@ -157,7 +157,7 @@ export default class Skeleton extends React.PureComponent {
       'aria-busy': showSkeleton,
       'aria-label': showSkeleton ? aria_busy : undefined,
       lang: this.context.locale || LOCALE,
-      ...attributes
+      ...attributes,
     }
 
     validateDOMAttributes(props, params)

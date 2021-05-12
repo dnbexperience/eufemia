@@ -6,5 +6,5 @@
   "useTabs": false,
   "semi": false,
   "jsxBracketSameLine": false,
-  "trailingComma": "none"
+  "trailingComma": "es5"
 }

@@ -5,7 +5,7 @@
 
 import {
   testPageScreenshot,
-  setupPageScreenshot
+  setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Skeleton screenshot', () => {
@@ -13,14 +13,14 @@ describe('Skeleton screenshot', () => {
   it('have to match skeleton article figure', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '20rem', height: '20rem' },
-      selector: '[data-visual-test="skeleton-figure-article"]'
+      selector: '[data-visual-test="skeleton-figure-article"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match excluded components', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '20rem', height: '20rem' },
-      selector: '[data-visual-test="skeleton-exclude"]'
+      selector: '[data-visual-test="skeleton-exclude"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -30,21 +30,21 @@ describe('Skeleton screenshot', () => {
       selector: '[data-visual-test="skeleton-exclude"]',
       simulateSelector:
         '[data-visual-test="skeleton-exclude"] .dnb-button',
-      simulate: 'click'
+      simulate: 'click',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match all components - vertical', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '60rem' },
-      selector: '[data-visual-test="skeleton-all-vertical"]'
+      selector: '[data-visual-test="skeleton-all-vertical"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match all components - horizontal', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '60rem' },
-      selector: '[data-visual-test="skeleton-all-horizontal"]'
+      selector: '[data-visual-test="skeleton-all-horizontal"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

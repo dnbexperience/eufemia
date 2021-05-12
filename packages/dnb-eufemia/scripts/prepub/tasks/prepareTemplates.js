@@ -33,7 +33,7 @@ const prepareTemplates = async () => {
       '../../../src/components/'
     ),
     processToNamesIgnoreList: ['web-components', 'fragments', 'style'],
-    processToNamesListByUsingFolders: true
+    processToNamesListByUsingFolders: true,
   }
   const components = await runFactory(componentsTemplateConfig).then(
     (res) => {
@@ -52,8 +52,8 @@ const prepareTemplates = async () => {
         __dirname,
         '../../../src/core/templates/components-lib-template.js'
       ),
-      destFile: path.resolve(__dirname, '../../../src/components/lib.js')
-    }
+      destFile: path.resolve(__dirname, '../../../src/components/lib.js'),
+    },
   }).then((res) => {
     if (require.main === module) {
       log.succeed(
@@ -70,8 +70,8 @@ const prepareTemplates = async () => {
         '../../../src/core/templates/component-export-template.js'
       ),
       destFile: false,
-      destPath: path.resolve(__dirname, '../../../src/components')
-    }
+      destPath: path.resolve(__dirname, '../../../src/components'),
+    },
   }).then((res) => {
     if (require.main === module) {
       log.succeed(
@@ -93,7 +93,7 @@ const prepareTemplates = async () => {
     destFile: path.resolve(__dirname, '../../../src/fragments/index.js'),
     processToNamesList: path.resolve(__dirname, '../../../src/fragments/'),
     processToNamesIgnoreList: ['web-components', 'style'],
-    processToNamesListByUsingFolders: true
+    processToNamesListByUsingFolders: true,
   }
   await runFactory(fragmentsTemplateConfig).then((res) => {
     if (require.main === module) {
@@ -110,8 +110,8 @@ const prepareTemplates = async () => {
         __dirname,
         '../../../src/core/templates/fragments-lib-template.js'
       ),
-      destFile: path.resolve(__dirname, '../../../src/fragments/lib.js')
-    }
+      destFile: path.resolve(__dirname, '../../../src/fragments/lib.js'),
+    },
   }).then((res) => {
     if (require.main === module) {
       log.succeed(
@@ -128,8 +128,8 @@ const prepareTemplates = async () => {
         '../../../src/core/templates/component-export-template.js'
       ),
       destFile: false,
-      destPath: path.resolve(__dirname, '../../../src/fragments')
-    }
+      destPath: path.resolve(__dirname, '../../../src/fragments'),
+    },
   }).then((res) => {
     if (require.main === module) {
       log.succeed(
@@ -151,7 +151,7 @@ const prepareTemplates = async () => {
     destFile: path.resolve(__dirname, '../../../src/elements/index.js'),
     processToNamesList: path.resolve(__dirname, '../../../src/elements/'),
     processToNamesIgnoreList: ['index', 'lib', 'Element'],
-    processToNamesListByUsingFolders: false
+    processToNamesListByUsingFolders: false,
   }
   const elements = await runFactory(elementsTemplateConfig).then((res) => {
     if (require.main === module) {
@@ -166,8 +166,8 @@ const prepareTemplates = async () => {
         __dirname,
         '../../../src/core/templates/elements-lib-template.js'
       ),
-      destFile: path.resolve(__dirname, '../../../src/elements/lib.js')
-    }
+      destFile: path.resolve(__dirname, '../../../src/elements/lib.js'),
+    },
   }).then((res) => {
     if (require.main === module) {
       log.info('> Created the index template with all the elements')
@@ -190,7 +190,7 @@ const prepareTemplates = async () => {
       '../../../src/extensions/'
     ),
     processToNamesIgnoreList: ['web-components', 'style'],
-    processToNamesListByUsingFolders: true
+    processToNamesListByUsingFolders: true,
   }
   // we don't export extensions anymore!
   await runFactory(extensionsTemplateConfig).then((res) => {
@@ -206,8 +206,8 @@ const prepareTemplates = async () => {
         __dirname,
         '../../../src/core/templates/extensions-lib-template.js'
       ),
-      destFile: path.resolve(__dirname, '../../../src/extensions/lib.js')
-    }
+      destFile: path.resolve(__dirname, '../../../src/extensions/lib.js'),
+    },
   }).then((res) => {
     if (require.main === module) {
       log.info('> Created the lib template with all the extensions')
@@ -231,7 +231,7 @@ const prepareTemplates = async () => {
       if (/\/elements\//.test(result)) {
         return result.replace(/\/[^/]+\/?$/g, "'")
       }
-    }
+    },
   }).then((res) => {
     if (require.main === module) {
       log.info('> Created the main index with all the libs')
@@ -253,7 +253,7 @@ const runFactory = async ({
   processToNamesList,
   processToNamesIgnoreList = [],
   processToNamesListByUsingFolders = false,
-  transformNamesList = null
+  transformNamesList = null,
 }) => {
   if (typeof processToNamesList === 'string') {
     const __orig__processToNamesList = processToNamesList
@@ -261,7 +261,7 @@ const runFactory = async ({
       .filter((file) => !/\.(cjs|ts)$/.test(file))
       .map((file) => ({
         source: joinPath(__orig__processToNamesList, file),
-        file
+        file,
       }))
     if (processToNamesListByUsingFolders) {
       processToNamesList = processToNamesList.filter(({ source }) =>
@@ -313,7 +313,7 @@ const runFactory = async ({
           destFile,
           prettier.format(`${autoAdvice}${content}`, {
             ...prettierrc,
-            parser: 'babel'
+            parser: 'babel',
           })
         )
       } catch (e) {
@@ -359,7 +359,7 @@ const runFactory = async ({
               const transformedResult = transformNamesList({
                 file,
                 source,
-                result: res
+                result: res,
               })
               if (transformedResult) {
                 res = transformedResult
@@ -375,7 +375,7 @@ const runFactory = async ({
         destFile,
         prettier.format(`${autoAdvice}${content}`, {
           ...prettierrc,
-          parser: 'babel'
+          parser: 'babel',
         })
       )
     } catch (e) {

@@ -18,13 +18,13 @@ export default class DatePickerFooter extends React.PureComponent {
 
     onSubmit: PropTypes.func,
     onCancel: PropTypes.func,
-    onReset: PropTypes.func
+    onReset: PropTypes.func,
   }
 
   static defaultProps = {
     onSubmit: null,
     onCancel: null,
-    onReset: null
+    onReset: null,
   }
 
   onSubmitHandler = (args) => {
@@ -39,12 +39,12 @@ export default class DatePickerFooter extends React.PureComponent {
 
     const startDate = this.context._startDate
       ? convertStringToDate(this.context._startDate, {
-          date_format
+          date_format,
         })
       : null
     const endDate = this.context._endDate
       ? convertStringToDate(this.context._endDate, {
-          date_format
+          date_format,
         })
       : startDate
 
@@ -55,7 +55,7 @@ export default class DatePickerFooter extends React.PureComponent {
     this.context.setDate(
       {
         startDate,
-        endDate
+        endDate,
       },
       () => {
         const { onCancel } = this.props
@@ -75,7 +75,7 @@ export default class DatePickerFooter extends React.PureComponent {
       {
         date: undefined,
         startDate: undefined,
-        endDate: undefined
+        endDate: undefined,
       },
       () => {
         const { onReset } = this.props
@@ -92,7 +92,7 @@ export default class DatePickerFooter extends React.PureComponent {
     const {
       show_reset_button,
       show_cancel_button,
-      show_submit_button
+      show_submit_button,
     } = this.context.props
 
     if (
@@ -106,7 +106,7 @@ export default class DatePickerFooter extends React.PureComponent {
     const {
       submit_button_text,
       cancel_button_text,
-      reset_button_text
+      reset_button_text,
     } = this.context.translation.DatePicker
 
     return (

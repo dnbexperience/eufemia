@@ -19,7 +19,7 @@ import {
   isSafari,
   isWin,
   isMac,
-  isLinux
+  isLinux,
 } from '../helpers'
 
 import { mockGetSelection } from '../../core/jest/jestSetup'

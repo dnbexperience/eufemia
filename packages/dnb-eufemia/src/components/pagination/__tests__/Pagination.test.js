@@ -9,20 +9,20 @@ import {
   fakeProps,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Pagination'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Pagination'), {
     all: true,
-    optional: true
-  })
+    optional: true,
+  }),
 }
 
 const props = {
   page_count: 30,
-  current_page: 15
+  current_page: 15,
 }
 
 describe('Pagination bar component', () => {
@@ -45,7 +45,7 @@ describe('Pagination bar component', () => {
     expect(Comp.exists('div#page-content')).toBe(true)
 
     Comp.setProps({
-      current_page: 1
+      current_page: 1,
     })
 
     Comp.update()
@@ -103,7 +103,7 @@ describe('Pagination bar component', () => {
     expect(Comp.find('div#page-no').text()).toBe('14')
 
     Comp.setProps({
-      current_page: 5
+      current_page: 5,
     })
     expect(currentPage).toBe(5)
     expect(Comp.find('div#page-no').text()).toBe('5')
@@ -113,7 +113,7 @@ describe('Pagination bar component', () => {
     expect(Comp.find('div#page-no').text()).toBe('15')
 
     Comp.setProps({
-      current_page: 3
+      current_page: 3,
     })
     expect(currentPage).toBe(3)
     expect(Comp.find('div#page-no').text()).toBe('3')

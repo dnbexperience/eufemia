@@ -8,12 +8,12 @@ import {
   mount,
   fakeProps,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Logo'
 
 const props = fakeProps(require.resolve('../Logo'), {
-  optional: true
+  optional: true,
 })
 props.height = 80
 

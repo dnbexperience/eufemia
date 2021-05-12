@@ -16,17 +16,17 @@ import {
   Section,
   Button,
   FormRow,
-  FormSet
+  FormSet,
 } from '@dnb/eufemia/src/components'
 import {
   H2,
   // P,
-  Link
+  Link,
 } from '@dnb/eufemia/src/elements'
 // import { GlobalStatusProvider } from '@dnb/eufemia/src/components/global-status/GlobalStatusContext'
 
 export default {
-  title: 'Eufemia/Components/GlobalStatus'
+  title: 'Eufemia/Components/GlobalStatus',
 }
 
 const CustomStatus = () => (
@@ -93,7 +93,7 @@ export const GlobalStatuseSandbox = () => (
             // id: 'custom-status',
             text:
               'This is aDui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',
-            scrollto_element
+            scrollto_element,
           })
         }}
         top="small"
@@ -183,7 +183,7 @@ const ModalExample = () => (
           id: 'modal',
           status_id: 'custom-id-1',
           text: 'Second Text',
-          item: 'Second Item'
+          item: 'Second Item',
         })
         setTimeout(() => {
           status.remove()
@@ -365,7 +365,7 @@ const NestedSections = () => (
           { id: 1, text: 'Error message', status_anchor_url: '#link' },
           { id: 2, text: 'Error message', status_anchor_url: '#link' },
           { id: 3, text: 'Error message', status_anchor_url: '#link' },
-          { id: 4, text: 'Error message', status_anchor_url: '#link' }
+          { id: 4, text: 'Error message', status_anchor_url: '#link' },
         ]}
       >
         Default Text
@@ -451,7 +451,7 @@ const UpdateDemo = () => {
         setErrorA,
         setErrorB,
         isVisible,
-        setVisibility
+        setVisibility,
       }}
     >
       <UpdateDemoStatus />
@@ -466,7 +466,7 @@ const UpdateDemoStatus = () => {
     errorB,
     setErrorA,
     setErrorB,
-    setVisibility
+    setVisibility,
   } = React.useContext(Context)
 
   return (
@@ -511,7 +511,7 @@ const UpdateDemoTools = () => {
     setErrorA,
     setErrorB,
     isVisible,
-    setVisibility
+    setVisibility,
   } = React.useContext(Context)
 
   // Only to demonstrate the usage of an interceptor situation
@@ -523,7 +523,7 @@ const UpdateDemoTools = () => {
         title: 'New Title',
         text: 'New Text',
         status_id: 'custom-item',
-        show: 'auto'
+        show: 'auto',
       })
 
       inst.current.update({
@@ -540,12 +540,12 @@ const UpdateDemoTools = () => {
         on_close: () => {
           console.log('on_close')
           setVisibility('auto')
-        }
+        },
       })
     }
 
     inst.current.update({
-      show: isVisible
+      show: isVisible,
     })
   }, [isVisible])
   React.useEffect(() => () => inst.current.remove(), [])

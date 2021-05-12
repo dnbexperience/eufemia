@@ -43,15 +43,15 @@ const config = {
     isMobile: false,
     hasTouch: false,
     isLandscape: false,
-    deviceScaleFactor: 1
+    deviceScaleFactor: 1,
   },
   screenshotConfig: {
     detectAntialiasing: true,
     // local we check for 0% accuracy
     // due to the differences of font rendering between the os (linux/mac/win)
     // we have to have a high threshold of 8%
-    pixelThresholdRelative: isCI ? 0.08 : 0
-  }
+    pixelThresholdRelative: isCI ? 0.08 : 0,
+  },
 }
 module.exports.config = config
 module.exports.isCI = isCI
@@ -81,7 +81,7 @@ module.exports.testPageScreenshot = async ({
   simulateSelector = null,
   wrapperStyle = null,
   measureElement = null,
-  screenshotConfig = null
+  screenshotConfig = null,
 } = {}) => {
   if (!page) {
     const pages = await global.__BROWSER__.pages()
@@ -91,7 +91,7 @@ module.exports.testPageScreenshot = async ({
   }
   if (reload) {
     await page.reload({
-      waitUntil: 'load'
+      waitUntil: 'load',
     })
   }
 
@@ -105,7 +105,7 @@ module.exports.testPageScreenshot = async ({
     fullscreen,
     selector,
     style,
-    styleSelector
+    styleSelector,
   })
 
   const element = await page.$(selector)
@@ -114,7 +114,7 @@ module.exports.testPageScreenshot = async ({
     selector,
     wrapperStyle,
     addWrapper,
-    element
+    element,
   })
 
   if (text) {
@@ -127,7 +127,7 @@ module.exports.testPageScreenshot = async ({
 
   const {
     elementToSimulate,
-    activeSimulationDelay
+    activeSimulationDelay,
   } = await handleSimulation({
     page,
     element,
@@ -136,13 +136,13 @@ module.exports.testPageScreenshot = async ({
     screenshotElement,
     waitAfterSimulateSelector,
     waitAfterSimulate,
-    waitBeforeSimulate
+    waitBeforeSimulate,
   })
 
   await handleMeasureOfElement({
     page,
     measureElement,
-    selector
+    selector,
   })
 
   if (simulate !== 'hover' && simulate !== 'active') {
@@ -152,7 +152,7 @@ module.exports.testPageScreenshot = async ({
   const screenshot = await takeScreenshot({
     page,
     screenshotElement,
-    screenshotSelector
+    screenshotSelector,
   })
 
   if (config.delayDuringNonheadless > 0) {
@@ -182,7 +182,7 @@ const setupPageScreenshot = ({
   fullscreen = false,
   pageViewport = null,
   screenshotConfig = null,
-  timeout = null
+  timeout = null,
 } = {}) => {
   beforeAll(async () => {
     if (screenshotConfig) {
@@ -224,7 +224,7 @@ const setupPageScreenshot = ({
 
     if (url) {
       await global.__PAGE__.goto(createUrl(url, fullscreen), {
-        waitUntil: 'load'
+        waitUntil: 'load',
       })
     }
   }, timeout)
@@ -241,11 +241,11 @@ async function makePageReady({
   fullscreen,
   selector,
   style,
-  styleSelector
+  styleSelector,
 }) {
   if (url) {
     await page.goto(createUrl(url, fullscreen), {
-      waitUntil: 'load'
+      waitUntil: 'load',
     })
   }
 
@@ -262,7 +262,7 @@ async function makePageReady({
   // Keep in mind, we also import this file in dev/prod portal (gatsby-browser),
   // just because it makes local dev easier
   await page.addStyleTag({
-    path: path.resolve(__dirname, './jestSetupScreenshots.css')
+    path: path.resolve(__dirname, './jestSetupScreenshots.css'),
   })
   await page.waitForSelector(selector)
 
@@ -290,7 +290,7 @@ async function handleMeasureOfElement({ page, measureElement, selector }) {
         return window.getComputedStyle(node).getPropertyValue('height')
       },
       {
-        measureElement
+        measureElement,
       }
     )
     const heightInPixelsFloat = parseFloat(heightInPixels)
@@ -314,7 +314,7 @@ async function handleMeasureOfElement({ page, measureElement, selector }) {
 async function takeScreenshot({
   page,
   screenshotElement,
-  screenshotSelector
+  screenshotSelector,
 }) {
   if (screenshotSelector) {
     await page.waitForSelector(screenshotSelector, { visible: true })
@@ -332,7 +332,7 @@ async function handleSimulation({
   screenshotElement,
   waitAfterSimulateSelector,
   waitAfterSimulate,
-  waitBeforeSimulate
+  waitBeforeSimulate,
 }) {
   if (parseFloat(waitBeforeSimulate) > 0) {
     await page.waitForTimeout(waitBeforeSimulate)
@@ -374,7 +374,7 @@ async function handleSimulation({
         activeSimulationDelay = isCI ? 500 : 400
         // no await – else we get only a release state
         elementToSimulate.click({
-          delay: activeSimulationDelay
+          delay: activeSimulationDelay,
         })
         break
       }
@@ -392,7 +392,7 @@ async function handleSimulation({
   // wait before taking screenshot
   if (waitAfterSimulateSelector) {
     await page.waitForSelector(waitAfterSimulateSelector, {
-      visible: true
+      visible: true,
     })
   }
   if (parseFloat(waitAfterSimulate) > 0) {
@@ -407,7 +407,7 @@ async function handleWrapper({
   selector,
   wrapperStyle,
   addWrapper,
-  element
+  element,
 }) {
   // now we wrap the element and apply a padding to it
   // the reason is because on some styles we have a shadow around,
@@ -437,7 +437,7 @@ async function handleWrapper({
         return backgroundColor
       },
       {
-        selector
+        selector,
       }
     )
 
@@ -448,7 +448,7 @@ async function handleWrapper({
     const style = makeStyles({
       background,
       height: `${height + 32}px`, // because we use "inline-block" - we have to make the height absolute
-      ...(wrapperStyle ? wrapperStyle : {})
+      ...(wrapperStyle ? wrapperStyle : {}),
     })
 
     // wrap the element/selector and give the wrapper also a style
@@ -469,7 +469,7 @@ async function handleWrapper({
       },
       {
         id: wrapperId,
-        style
+        style,
       }
     )
 

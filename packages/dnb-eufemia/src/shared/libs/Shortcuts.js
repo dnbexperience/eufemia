@@ -31,13 +31,13 @@ export class createShortcut {
             cmd: false,
             ctrl: false,
             shift: false,
-            alt: false
+            alt: false,
           }
           const metaPressed = {
             cmd: event.metaKey,
             ctrl: event.ctrlKey,
             shift: event.shiftKey,
-            alt: event.altKey
+            alt: event.altKey,
           }
 
           let matches = 0
@@ -101,7 +101,7 @@ export class createShortcut {
         timeout,
         element,
         keyDown,
-        keyUp
+        keyUp,
       }
 
       this.shortcutExists[shortcut] = true
