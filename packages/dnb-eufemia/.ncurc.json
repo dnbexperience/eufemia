@@ -1,7 +1,3 @@
 {
-  "reject": [
-    "eslint",
-    "react",
-    "react-dom"
-  ]
+  "reject": ["eslint", "react", "react-dom"]
 }
