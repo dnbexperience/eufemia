@@ -522,7 +522,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 title={null}
                 to={null}
                 tooltip={null}
-                type="button"
+                type={null}
                 variant="secondary"
                 wrap={false}
               >
@@ -539,7 +539,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   onClick={[Function]}
                   onFocus={[Function]}
                   onKeyDown={[Function]}
-                  type="button"
                 >
                   <Content
                     aria-controls="dropdown-id-drawer-list"
@@ -611,7 +610,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     title={null}
                     to={null}
                     tooltip={null}
-                    type="button"
+                    type={null}
                     variant="secondary"
                     wrap={false}
                   >
