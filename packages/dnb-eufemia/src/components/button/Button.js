@@ -111,7 +111,7 @@ export default class Button extends React.PureComponent {
   }
 
   static defaultProps = {
-    type: 'button', // set the type because of the anchor/href situation – can be made more smart in future
+    type: null, // set the type because of the anchor/href situation – can be made more smart in future
     text: null,
     variant: null,
     size: null,
@@ -198,7 +198,6 @@ export default class Button extends React.PureComponent {
     const {
       class: class_name,
       className,
-      type,
       variant,
       size,
       title,
@@ -306,12 +305,15 @@ export default class Button extends React.PureComponent {
 
     const params = {
       className: classes,
-      type,
       title,
       id: this._id,
       disabled: isTrue(disabled),
       ...attributes,
       onClick: this.onClickHandler,
+    }
+
+    if (Element === Anchor && !params.type) {
+      params.type = 'button'
     }
 
     skeletonDOMAttributes(params, skeleton, this.context)

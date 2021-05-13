@@ -47,7 +47,7 @@ exports[`HelpButton component have to match snapshot 1`] = `
       title={null}
       to={null}
       tooltip={null}
-      type="button"
+      type={null}
       variant="secondary"
       wrap={false}
     >
@@ -58,7 +58,6 @@ exports[`HelpButton component have to match snapshot 1`] = `
         disabled={false}
         id="help-button"
         onClick={[Function]}
-        type="button"
       >
         <Content
           aria-label="Hjelpetekst"
@@ -92,7 +91,7 @@ exports[`HelpButton component have to match snapshot 1`] = `
           title={null}
           to={null}
           tooltip={null}
-          type="button"
+          type={null}
           variant="secondary"
           wrap={false}
         >

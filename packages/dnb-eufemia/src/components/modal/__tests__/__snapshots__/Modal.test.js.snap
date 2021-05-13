@@ -130,7 +130,6 @@ exports[`Modal component have to match snapshot 1`] = `
           class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
           id="modal_id"
           title="modal_title"
-          type="button"
         >
           <span
             class="dnb-button__alignment"
@@ -191,7 +190,6 @@ exports[`Modal component have to match snapshot 1`] = `
             class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
             id="modal_id"
             title="modal_title"
-            type="button"
           >
             <span
               class="dnb-button__alignment"
@@ -234,7 +232,7 @@ exports[`Modal component have to match snapshot 1`] = `
       title="modal_title"
       to={null}
       tooltip={null}
-      type="button"
+      type={null}
       variant="secondary"
       wrap={false}
     >
@@ -247,7 +245,6 @@ exports[`Modal component have to match snapshot 1`] = `
         id="modal_id"
         onClick={[Function]}
         title="modal_title"
-        type="button"
       >
         <Content
           aria-label="modal_title"
@@ -276,7 +273,6 @@ exports[`Modal component have to match snapshot 1`] = `
                 class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
                 id="modal_id"
                 title="modal_title"
-                type="button"
               >
                 <span
                   class="dnb-button__alignment"
@@ -320,7 +316,7 @@ exports[`Modal component have to match snapshot 1`] = `
           title="modal_title"
           to={null}
           tooltip={null}
-          type="button"
+          type={null}
           variant="secondary"
           wrap={false}
         >
