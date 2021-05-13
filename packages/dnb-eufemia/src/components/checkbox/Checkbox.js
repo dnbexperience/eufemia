@@ -47,6 +47,7 @@ export default class Checkbox extends React.PureComponent {
     ]),
     label_position: PropTypes.oneOf(['left', 'right']),
     title: PropTypes.string,
+    element: PropTypes.node,
     default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // Deprecated
     checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -87,6 +88,7 @@ export default class Checkbox extends React.PureComponent {
     label: null,
     label_position: null,
     title: null,
+    element: 'input',
     default_state: null, // Deprecated
     checked: null,
     disabled: null,
@@ -200,6 +202,7 @@ export default class Checkbox extends React.PureComponent {
       label_position,
       label_sr_only,
       title,
+      element,
       disabled,
       readOnly,
       skeleton,
@@ -275,6 +278,8 @@ export default class Checkbox extends React.PureComponent {
       />
     )
 
+    const Element = element || 'input'
+
     return (
       <span {...mainParams}>
         <span className="dnb-checkbox__order">
@@ -294,7 +299,7 @@ export default class Checkbox extends React.PureComponent {
             {label_position === 'left' && statusComp}
 
             <span className="dnb-checkbox__shell">
-              <input
+              <Element
                 id={id}
                 name={id}
                 type="checkbox"

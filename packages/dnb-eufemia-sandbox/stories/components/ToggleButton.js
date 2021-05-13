@@ -195,6 +195,7 @@ export const ToggleButtonSandbox = () => (
         <span
           className="dnb-toggle-button-group"
           aria-labelledby="MyToggleButtonGroup"
+          role="group"
         >
           <ToggleButton
             value="first"

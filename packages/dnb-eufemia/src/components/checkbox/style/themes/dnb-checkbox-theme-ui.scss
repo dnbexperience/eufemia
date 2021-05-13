@@ -12,9 +12,9 @@
 
   /*
     * When checkbox is OFF
-    * aka when the checkbox is not :checked
+    * aka when the checkbox is not [aria-checked="true"]
     */
-  &__input:not(:checked) ~ &__gfx {
+  &__input:not([aria-checked='true']) ~ &__gfx {
     opacity: 0;
     transform: scale(0.8);
     color: var(--color-sea-green);
@@ -22,9 +22,9 @@
 
   /*
     * When checkbox is ON
-    * aka when the checkbox is :checked
+    * aka when the checkbox is [aria-checked="true"]
     */
-  &__input:checked ~ &__gfx {
+  &__input[aria-checked='true'] ~ &__gfx {
     opacity: 1;
     transform: scale(1);
     color: var(--color-white);
@@ -32,18 +32,18 @@
 
   /*
     * When checkboxed OFF
-    * aka when the checkbox is not :checked
+    * aka when the checkbox is not [aria-checked="true"]
     */
-  &__input:not(:checked) ~ &__button {
+  &__input:not([aria-checked='true']) ~ &__button {
     background-color: var(--color-white);
     border-color: var(--color-sea-green);
   }
 
   /*
     * When checkboxed ON
-    * aka when the checkbox is :checked
+    * aka when the checkbox is [aria-checked="true"]
     */
-  &__input:checked ~ &__button {
+  &__input[aria-checked='true'] ~ &__button {
     background-color: var(--color-sea-green);
   }
 
@@ -54,7 +54,7 @@
   &__input[disabled] ~ &__button {
     border-color: var(--color-mint-green-50);
   }
-  &__input[disabled]:checked ~ &__button {
+  &__input[disabled][aria-checked='true'] ~ &__button {
     border-color: transparent;
     background-color: var(--color-sea-green-30);
   }
@@ -87,7 +87,8 @@
   &__input:not([disabled]):not(:focus):hover ~ &__button {
     background-color: var(--color-mint-green-50);
   }
-  &__input:not([disabled]):not(:focus):checked:hover ~ &__button {
+  &__input:not([disabled]):not(:focus)[aria-checked='true']:hover
+    ~ &__button {
     border-color: transparent;
   }
   /* stylelint-disable-next-line */
@@ -137,7 +138,7 @@
     border-color: var(--color-fire-red-8);
   }
   &__status--error
-    &__input:not([disabled]):not(:focus):not(:active):not(:hover):checked
+    &__input:not([disabled]):not(:focus):not(:active):not(:hover)[aria-checked='true']
     ~ &__button {
     background-color: var(--color-fire-red);
   }

@@ -52,6 +52,7 @@ export default class Radio extends React.PureComponent {
     checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     id: PropTypes.string,
+    element: PropTypes.node,
     group: PropTypes.string,
     size: PropTypes.oneOf(['default', 'medium', 'large']),
     status: PropTypes.oneOfType([
@@ -93,6 +94,7 @@ export default class Radio extends React.PureComponent {
     disabled: false,
     id: null,
     size: null,
+    element: 'input',
     group: null,
     status: null,
     status_state: 'error',
@@ -275,6 +277,7 @@ export default class Radio extends React.PureComponent {
             status_animation,
             global_status_id,
             suffix,
+            element,
             label,
             label_sr_only,
             label_position,
@@ -329,10 +332,14 @@ export default class Radio extends React.PureComponent {
             ),
           }
 
-          const inputParams = {
+          let inputParams = {
             role: hasContext || group ? 'radio' : null,
             type: hasContext || group ? 'radio' : 'checkbox', // overwriting the type
-            ...rest,
+          }
+
+          if (!group) {
+            inputParams.type = 'checkbox'
+            inputParams.role = 'radio' // breaks axe test
           }
 
           if (showStatus || suffix) {
@@ -346,10 +353,7 @@ export default class Radio extends React.PureComponent {
             inputParams['aria-readonly'] = inputParams.readOnly = true
           }
 
-          if (!group) {
-            inputParams.type = 'checkbox'
-            inputParams.role = 'radio' // breaks axe test
-          }
+          inputParams = Object.assign(inputParams, rest)
 
           skeletonDOMAttributes(inputParams, skeleton, this.context)
 
@@ -366,6 +370,8 @@ export default class Radio extends React.PureComponent {
               sr_only={label_sr_only}
             />
           )
+
+          const Element = element || 'input'
 
           return (
             <span {...mainParams}>
@@ -391,7 +397,7 @@ export default class Radio extends React.PureComponent {
 
                   <span className="dnb-radio__row">
                     <span className="dnb-radio__shell">
-                      <input
+                      <Element
                         type="radio"
                         value={value}
                         id={id}

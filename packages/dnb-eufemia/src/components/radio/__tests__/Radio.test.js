@@ -17,6 +17,7 @@ const props = fakeProps(require.resolve('../Radio'), {
   optional: true,
 })
 props.id = 'radio'
+props.element = 'input'
 props.group = null
 props.status = null
 props.size = null
