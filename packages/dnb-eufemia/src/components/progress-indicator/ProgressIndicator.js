@@ -142,12 +142,6 @@ export default class ProgressIndicator extends React.PureComponent {
     const { progress, visible, complete } = this.state
 
     const params = { ...attributes }
-    const hasProgressIndicator = parseFloat(progress) > -1
-
-    if (visible && !hasProgressIndicator) {
-      params.role = 'alert'
-      params['aria-busy'] = true
-    }
 
     const indicatorLabel =
       label || children || (isTrue(show_label) && indicator_label)
