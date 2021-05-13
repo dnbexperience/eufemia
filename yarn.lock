@@ -20175,10 +20175,10 @@ prettier-package-json@^2.5.0:
     sort-object-keys "^1.1.3"
     sort-order "^1.0.1"
 
-prettier-plugin-rational-order@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/prettier-plugin-rational-order/-/prettier-plugin-rational-order-1.0.2.tgz#8fee8d6fbb30d67b815f7e6285be33a5cab7d71c"
-  integrity sha512-UmqRwklvMxU6gioK2hp20vTka4PvGU+LlLp2urTV9n6XY0WfmXGBwF6MOCxs0eQxiAy9aBfz0LhJIH/0m5/rYA==
+prettier-plugin-rational-order@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-rational-order/-/prettier-plugin-rational-order-1.0.3.tgz#b7155d62a538a6d7cfd9819f405bf4c6788a05ce"
+  integrity sha512-JAUWeIdJ/DHkRKNJ0We4Ad/HslpaVGcEvjuFvHEU6o8lmPL5narSNq564KuIWUU4GTPztslaI7I/YAoX7R2AGw==
   dependencies:
     postcss-scss "^3.0.5"
     postcss-sorting "^6.0.0"
