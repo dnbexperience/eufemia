@@ -207,7 +207,7 @@ function makeRollupConfig(
   const babelOptions = {
     exclude: /node_modules/,
     babelHelpers: 'runtime', // using @babel/plugin-transform-runtime
-    configFile: './babel.config.cjs',
+    configFile: './babel.config.js',
   }
   const commonjsOptions = {
     ignoreGlobal: true,
