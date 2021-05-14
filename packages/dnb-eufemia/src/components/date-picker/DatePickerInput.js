@@ -14,7 +14,7 @@ import isValid from 'date-fns/isValid'
 import parseISO from 'date-fns/parseISO'
 
 import classnames from 'classnames'
-import MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
+import _MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
 import Button from '../button/Button'
 import Input, { SubmitButton } from '../input/Input'
 import keycode from 'keycode'
@@ -25,6 +25,9 @@ import {
 } from '../../shared/component-helper'
 import { convertStringToDate } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
+
+// Looks like we get two defaults back – this may change in a future update
+const MaskedInput = _MaskedInput.default || _MaskedInput
 
 export default class DatePickerInput extends React.PureComponent {
   static contextType = DatePickerContext
@@ -369,8 +372,8 @@ export default class DatePickerInput extends React.PureComponent {
         case 'left':
         case 'backspace':
           try {
-            const prevSibling = this.refList[index - 1].current
-              .inputElement
+            const prevSibling =
+              this.refList[index - 1].current.inputElement
             if (prevSibling) {
               const endPos = prevSibling.value.length
               prevSibling.focus()
@@ -515,8 +518,10 @@ export default class DatePickerInput extends React.PureComponent {
         }
 
         // this makes it possible to use a vanilla <input /> like: input_element="input"
-        const Input =
-          typeof input_element === 'string' ? input_element : InputElement
+        const DateField =
+          input_element && React.isValidElement(input_element)
+            ? input_element
+            : InputElement
 
         switch (state) {
           case 'd':
@@ -524,7 +529,7 @@ export default class DatePickerInput extends React.PureComponent {
 
             return (
               <React.Fragment key={'dd' + i}>
-                <Input
+                <DateField
                   {...params}
                   id={`${this.props.id}-${mode}-day`}
                   key={'di' + i}
@@ -554,7 +559,7 @@ export default class DatePickerInput extends React.PureComponent {
 
             return (
               <React.Fragment key={'mm' + i}>
-                <Input
+                <DateField
                   {...params}
                   id={`${this.props.id}-${mode}-month`}
                   key={'mi' + i}
@@ -584,7 +589,7 @@ export default class DatePickerInput extends React.PureComponent {
 
             return (
               <React.Fragment key={'yy' + i}>
-                <Input
+                <DateField
                   {...params}
                   id={`${this.props.id}-${mode}-year`}
                   key={'yi' + i}
