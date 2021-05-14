@@ -372,16 +372,17 @@ export default class ToggleButton extends React.PureComponent {
             icon,
             icon_size,
             icon_position,
-            ['aria-pressed']: String(checked || false),
+            'aria-pressed': String(checked || false),
             ...rest,
           }
 
           const componentParams = {
             checked,
             disabled,
-            ['aria-hidden']: true,
-            hidden: true,
-            tabIndex: '-1',
+            element: 'span',
+            role: undefined,
+            name: undefined,
+            title: undefined,
           }
 
           if (status) {

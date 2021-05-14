@@ -18,6 +18,7 @@ const props = fakeProps(require.resolve('../Checkbox'), {
   optional: true,
 })
 props.id = 'checkbox'
+props.element = 'input'
 props.status = null
 props.readOnly = false
 props.label = 'checkbox'

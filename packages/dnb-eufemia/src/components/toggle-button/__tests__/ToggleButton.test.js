@@ -34,39 +34,27 @@ describe('ToggleButton component', () => {
 
   it('has correct state after "click" trigger', () => {
     // default checked value has to be false
-    expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
-      false
-    )
+    expect(Comp.find('[type="checkbox"]').instance().checked).toBe(false)
 
     Comp.find('button').simulate('click') // we could send inn the event data structure like this: , { target: { checked: true } }
-    expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
-      true
-    )
+    expect(Comp.find('[type="checkbox"]').instance().checked).toBe(true)
 
     Comp.find('button').simulate('click')
-    expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
-      false
-    )
+    expect(Comp.find('[type="checkbox"]').instance().checked).toBe(false)
 
     // also check if getDerivedStateFromProps sets the state as expected
     Comp.setProps({ checked: true })
-    expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
-      true
-    )
+    expect(Comp.find('[type="checkbox"]').instance().checked).toBe(true)
   })
 
   it('has correct variant', () => {
     const Comp = mount(<Component variant="checkbox" checked={false} />)
 
     // default checked value has to be false
-    expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
-      false
-    )
+    expect(Comp.find('[type="checkbox"]').instance().checked).toBe(false)
 
     Comp.find('button').simulate('click') // we could send inn the event data structure like this: , { target: { checked: true } }
-    expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
-      true
-    )
+    expect(Comp.find('[type="checkbox"]').instance().checked).toBe(true)
     expect(Comp.find('.dnb-checkbox__button').exists()).toBe(true)
 
     Comp.setProps({
@@ -74,14 +62,10 @@ describe('ToggleButton component', () => {
     })
 
     expect(Comp.find('.dnb-radio__button').exists()).toBe(true)
-    expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
-      true
-    )
+    expect(Comp.find('[type="checkbox"]').instance().checked).toBe(true)
 
     Comp.find('button').simulate('click') // we could send inn the event data structure like this: , { target: { checked: true } }
-    expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
-      false
-    )
+    expect(Comp.find('[type="checkbox"]').instance().checked).toBe(false)
   })
 
   it('has "on_change" event which will trigger on a button click', () => {
@@ -132,9 +116,7 @@ describe('ToggleButton component', () => {
     const TestStates = (Comp) => {
       // re-render + default state is true
       Comp.find('button#rerender').simulate('click')
-      expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
-        true
-      )
+      expect(Comp.find('[type="checkbox"]').instance().checked).toBe(true)
       expect(
         Comp.find('button.dnb-toggle-button__button')
           .instance()
@@ -143,9 +125,7 @@ describe('ToggleButton component', () => {
 
       // change it to false
       Comp.find('button.dnb-toggle-button__button').simulate('click')
-      expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
-        false
-      )
+      expect(Comp.find('[type="checkbox"]').instance().checked).toBe(false)
       expect(
         Comp.find('button.dnb-toggle-button__button')
           .instance()
@@ -159,28 +139,20 @@ describe('ToggleButton component', () => {
           .instance()
           .getAttribute('aria-pressed')
       ).toBe('true')
-      expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
-        true
-      )
+      expect(Comp.find('[type="checkbox"]').instance().checked).toBe(true)
 
       // reset it with undefined to false
       Comp.find('button#reset-undefined').simulate('click')
-      expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
-        false
-      )
+      expect(Comp.find('[type="checkbox"]').instance().checked).toBe(false)
 
       // set it to true + reset it with null to false
       Comp.find('button#set-state').simulate('click')
       Comp.find('button#reset-null').simulate('click')
-      expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
-        false
-      )
+      expect(Comp.find('[type="checkbox"]').instance().checked).toBe(false)
 
       // re-render + still false
       Comp.find('button#rerender').simulate('click')
-      expect(Comp.find('input[type="checkbox"]').instance().checked).toBe(
-        false
-      )
+      expect(Comp.find('[type="checkbox"]').instance().checked).toBe(false)
     }
 
     TestStates(mount(<ControlledVsUncontrolled />))
@@ -362,13 +334,13 @@ describe('ToggleButton group component', () => {
       const sel = `button#${id}`
 
       expect(
-        Comp.find(sel).find('input[type="checkbox"]').instance().checked
+        Comp.find(sel).find('[type="checkbox"]').instance().checked
       ).toBe(false)
 
       Comp.find(sel).simulate('click')
 
       expect(
-        Comp.find(sel).find('input[type="checkbox"]').instance().checked
+        Comp.find(sel).find('[type="checkbox"]').instance().checked
       ).toBe(true)
       expect(Comp.find(sel).instance().getAttribute('aria-pressed')).toBe(
         'true'
@@ -383,12 +355,12 @@ describe('ToggleButton group component', () => {
         false
       )
       expect(
-        Comp.find(sel).find('input[type="checkbox"]').instance().checked
+        Comp.find(sel).find('[type="checkbox"]').instance().checked
       ).toBe(false)
 
       Comp.find(sel).simulate('click')
       expect(
-        Comp.find(sel).find('input[type="checkbox"]').instance().checked
+        Comp.find(sel).find('[type="checkbox"]').instance().checked
       ).toBe(true)
     }
 

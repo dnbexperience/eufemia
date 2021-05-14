@@ -13,31 +13,31 @@
 
   /*
     * When is OFF
-    * aka when the radio is not :checked
+    * aka when the radio is not [aria-checked='true']
     */
-  &__input:not(:checked) ~ &__button {
+  &__input:not([aria-checked='true']) ~ &__button {
     background-color: var(--color-white);
     border-color: var(--color-sea-green);
   }
 
   /*
     * When is ON
-    * aka when the radio is :checked
+    * aka when the radio is [aria-checked='true']
     */
-  &__input:checked ~ &__button {
+  &__input[aria-checked='true'] ~ &__button {
     background-color: var(--color-white);
     border-color: var(--color-sea-green);
   }
-  &__input:checked ~ &__dot {
+  &__input[aria-checked='true'] ~ &__dot {
     opacity: 1;
     transform: scale(1);
   }
 
   /*
   * When radio is OFF
-  * aka when the radio is not :checked
+  * aka when the radio is not [aria-checked='true']
   */
-  &__input:not(:checked) ~ &__dot {
+  &__input:not([aria-checked='true']) ~ &__dot {
     opacity: 0;
     transform: scale(0.8);
   }
@@ -49,10 +49,10 @@
   &__input[disabled] ~ &__button {
     border-color: var(--color-mint-green-50);
   }
-  &__input[disabled]:checked ~ &__button {
+  &__input[disabled][aria-checked='true'] ~ &__button {
     border-color: var(--color-sea-green-30);
   }
-  &__input[disabled]:checked ~ &__dot {
+  &__input[disabled][aria-checked='true'] ~ &__dot {
     background-color: var(--color-sea-green-30);
   }
 
@@ -60,10 +60,12 @@
     * On hover
     *
     */
-  &__input:not([disabled]):not(:focus):not(:checked):hover ~ &__button {
+  &__input:not([disabled]):not(:focus):not([aria-checked='true']):hover
+    ~ &__button {
     background-color: var(--color-mint-green-50);
   }
-  &__input:not([disabled]):not(:focus):checked:hover ~ &__dot {
+  &__input:not([disabled]):not(:focus)[aria-checked='true']:hover
+    ~ &__dot {
     background-color: var(--color-mint-green-50);
   }
 
@@ -72,14 +74,14 @@
     *
     */
   /* stylelint-disable */
-  &__input:not([disabled]):not(:checked):active ~ &__button {
+  &__input:not([disabled]):not([aria-checked='true']):active ~ &__button {
     background-color: var(--color-mint-green-50);
     border-color: transparent;
   }
-  &__input:not([disabled]):checked:active ~ &__button {
+  &__input:not([disabled])[aria-checked='true']:active ~ &__button {
     border-color: var(--color-mint-green-50);
   }
-  &__input:not([disabled]):checked:active ~ &__dot {
+  &__input:not([disabled])[aria-checked='true']:active ~ &__dot {
     background-color: var(--color-mint-green-50);
   }
   /* stylelint-enable */
@@ -89,7 +91,7 @@
     *
     */
   /* stylelint-disable */
-  &__input:not([disabled]):not(:checked):focus ~ &__button {
+  &__input:not([disabled]):not([aria-checked='true']):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
       background-color: var(--color-mint-green-50);
     }
@@ -103,8 +105,8 @@
   &__input:not([disabled]):active ~ &__focus {
     display: block;
   }
-  &__input:not([disabled]):not(:checked):focus ~ &__button,
-  &__input:not([disabled]):not(:checked):active ~ &__button {
+  &__input:not([disabled]):not([aria-checked='true']):focus ~ &__button,
+  &__input:not([disabled]):not([aria-checked='true']):active ~ &__button {
     background-color: var(--color-mint-green-50);
   }
   /* stylelint-enable */
@@ -129,17 +131,17 @@
     @include fakeBorder(var(--color-fire-red), $focusRingWidth);
   }
   &__status--error
-    &__input:not([disabled]):not(:focus):not(:checked):hover
+    &__input:not([disabled]):not(:focus):not([aria-checked='true']):hover
     ~ &__button {
     background-color: var(--color-fire-red-8);
   }
   &__status--error
-    &__input:not([disabled]):not(:focus):not(:active):not(:hover):checked
+    &__input:not([disabled]):not(:focus):not(:active):not(:hover)[aria-checked='true']
     ~ &__dot {
     background-color: var(--color-fire-red);
   }
   &__status--error
-    &__input:not([disabled]):not(:focus):not(:active):checked:hover
+    &__input:not([disabled]):not(:focus):not(:active)[aria-checked='true']:hover
     ~ &__dot {
     background-color: var(--color-fire-red-8);
   }

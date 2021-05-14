@@ -234,8 +234,7 @@ describe('NumberFormat component', () => {
       await axeComponent(Comp, {
         rules: {
           // because of the role="text", we disable this rule for now
-          // 'aria-text': { enabled: false },
-          'aria-roles': { enabled: false },
+          'aria-text': { enabled: false },
         },
       })
     ).toHaveNoViolations()
