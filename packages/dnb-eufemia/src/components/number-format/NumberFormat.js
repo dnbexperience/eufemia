@@ -14,16 +14,16 @@ import {
   validateDOMAttributes,
   registerElement,
   convertJsxToString,
-  extend
+  extend,
 } from '../../shared/component-helper'
 import { hasSelectedText, IS_IOS } from '../../shared/helpers'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
-  createSkeletonClass
+  createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
 import { format, showSelectionNotice } from './NumberUtils'
@@ -64,11 +64,11 @@ export default class NumberFormat extends React.PureComponent {
     selectall: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     always_selectall: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     copy_selection: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     omit_rounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     clean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -76,7 +76,7 @@ export default class NumberFormat extends React.PureComponent {
     tooltip: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
@@ -84,7 +84,7 @@ export default class NumberFormat extends React.PureComponent {
 
     class: PropTypes.string,
     className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   }
   static defaultProps = {
     id: null,
@@ -113,7 +113,7 @@ export default class NumberFormat extends React.PureComponent {
     class: null,
 
     className: null,
-    children: null
+    children: null,
   }
 
   static enableWebComponent() {
@@ -148,7 +148,7 @@ export default class NumberFormat extends React.PureComponent {
     showSelectionNotice({
       value: this.cleanedValue,
       label: this.context.getTranslation(this.props)?.NumberFormat
-        ?.clipboard_copy
+        ?.clipboard_copy,
     }).run(this._ref.current)
   }
 
@@ -201,7 +201,7 @@ export default class NumberFormat extends React.PureComponent {
     }
     if (React.isValidElement(comp)) {
       return React.cloneElement(comp, {
-        className: classnames(comp.props.className, className)
+        className: classnames(comp.props.className, className),
       })
     }
     return <span className={className}>{comp}</span>
@@ -259,7 +259,7 @@ export default class NumberFormat extends React.PureComponent {
       omit_rounding: isTrue(omit_rounding),
       options,
       clean: isTrue(clean),
-      returnAria: true
+      returnAria: true,
     }
 
     // use only the props from context, who are available here anyway
@@ -309,7 +309,7 @@ export default class NumberFormat extends React.PureComponent {
         link && 'dnb-anchor',
         createSpacingClasses(this.props)
       ),
-      ...rest
+      ...rest,
     }
 
     /**

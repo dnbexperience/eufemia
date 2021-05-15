@@ -19,7 +19,7 @@ import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
 import ToggleGrid from '../menu/ToggleGrid'
 import {
   setPageFocusElement,
-  scrollToLocationHashId
+  scrollToLocationHashId,
 } from '@dnb/eufemia/src/shared/helpers'
 import { Context } from '@dnb/eufemia/src/shared'
 import { Logo, GlobalStatus } from '@dnb/eufemia/src/components'
@@ -37,7 +37,7 @@ export function scrollToAnimation() {
       } catch (e) {
         //
       }
-    }
+    },
   })
 }
 
@@ -46,12 +46,12 @@ class Layout extends React.PureComponent {
     fullscreen: PropTypes.bool,
     hideSidebar: PropTypes.bool,
     children: PropTypes.node.isRequired,
-    location: PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
     fullscreen: false,
-    hideSidebar: false
+    hideSidebar: false,
   }
 
   constructor(props) {
@@ -165,10 +165,10 @@ const Content = ({ className, fullscreen, children }) => (
 Content.propTypes = {
   fullscreen: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 Content.defaultProps = {
-  className: null
+  className: null,
 }
 
 const ContentWrapper = styled.div`

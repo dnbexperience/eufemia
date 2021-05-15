@@ -29,11 +29,11 @@ const Suffix = ({ className, children, context, ...props }) => {
 }
 Suffix.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 Suffix.defaultProps = {
   className: null,
-  children: null
+  children: null,
 }
 
 export default Suffix

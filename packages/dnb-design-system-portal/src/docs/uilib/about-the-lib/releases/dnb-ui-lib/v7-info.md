@@ -71,7 +71,7 @@ We hope with that change we embrace [better accessibility](/uilib/usage/accessib
 <Dropdown
   data={{
     a: 'AA',
-    b: 'BB'
+    b: 'BB',
   }}
 />
 ```

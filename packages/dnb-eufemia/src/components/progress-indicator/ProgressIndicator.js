@@ -12,11 +12,11 @@ import {
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
-  extendPropsWithContext
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 import ProgressIndicatorLinear from './ProgressIndicatorLinear'
@@ -44,7 +44,7 @@ export default class ProgressIndicator extends React.PureComponent {
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
-    on_complete: PropTypes.func
+    on_complete: PropTypes.func,
   }
 
   static defaultProps = {
@@ -64,7 +64,7 @@ export default class ProgressIndicator extends React.PureComponent {
     className: null,
     children: null,
 
-    on_complete: null
+    on_complete: null,
   }
 
   static enableWebComponent() {
@@ -90,7 +90,7 @@ export default class ProgressIndicator extends React.PureComponent {
   }
 
   state = {
-    _listenForPropChanges: true
+    _listenForPropChanges: true,
   }
 
   componentWillUnmount() {
@@ -101,7 +101,7 @@ export default class ProgressIndicator extends React.PureComponent {
   callOnCompleteHandler = () => {
     this.completeTimeout = setTimeout(() => {
       this.setState({
-        complete: true
+        complete: true,
       })
       if (typeof this.props.on_complete === 'function') {
         this.fadeOutTimeout = setTimeout(() => {
@@ -142,12 +142,6 @@ export default class ProgressIndicator extends React.PureComponent {
     const { progress, visible, complete } = this.state
 
     const params = { ...attributes }
-    const hasProgressIndicator = parseFloat(progress) > -1
-
-    if (visible && !hasProgressIndicator) {
-      params.role = 'alert'
-      params['aria-busy'] = true
-    }
 
     const indicatorLabel =
       label || children || (isTrue(show_label) && indicator_label)

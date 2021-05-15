@@ -19,10 +19,10 @@ const Td = (p = {}) => (
 Td.tagName = 'dnb-table__td'
 Td.propTypes = {
   ...spacingPropTypes,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 Td.defaultProps = {
-  children: null
+  children: null,
 }
 
 export default Td

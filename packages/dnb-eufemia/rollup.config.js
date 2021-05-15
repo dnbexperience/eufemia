@@ -18,13 +18,13 @@ const excludes = [
   {
     name: 'dnbIcons',
     global: [path.resolve('./src/icons/primary_icons.js')],
-    external: '../../icons/primary_icons.js'
+    external: '../../icons/primary_icons.js',
   },
   {
     name: 'dnbIcons',
     global: [path.resolve('./src/icons/primary_icons_medium.js')],
-    external: '../../icons/primary_icons_medium.js'
-  }
+    external: '../../icons/primary_icons_medium.js',
+  },
 ]
 
 const currentBranch = branchName()
@@ -37,9 +37,9 @@ export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
         {
           name: 'dnbLib',
           format: 'umd',
-          excludes
+          excludes,
         }
-      )
+      ),
     ]
   : [
       makeRollupConfig(
@@ -48,7 +48,7 @@ export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
         {
           name: 'dnbLib',
           format: 'umd',
-          excludes
+          excludes,
         }
       ),
       makeRollupConfig(
@@ -57,7 +57,7 @@ export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
         {
           name: 'dnbWebComponents',
           format: 'umd',
-          excludes
+          excludes,
         }
       ),
       makeRollupConfig(
@@ -66,7 +66,7 @@ export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
         {
           name: 'dnbComponents',
           format: 'umd',
-          excludes
+          excludes,
         }
       ),
       makeRollupConfig(
@@ -75,7 +75,7 @@ export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
         {
           name: 'dnbElements',
           format: 'umd',
-          excludes
+          excludes,
         }
       ),
       makeRollupConfig(
@@ -84,7 +84,7 @@ export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
         {
           name: 'dnbExtensions',
           format: 'umd',
-          excludes
+          excludes,
         }
       ),
       makeRollupConfig(
@@ -92,7 +92,7 @@ export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
         'build/umd/dnb-ui-basis.min.js',
         {
           name: 'dnbBasis',
-          format: 'umd'
+          format: 'umd',
         }
       ),
       makeRollupConfig(
@@ -114,7 +114,7 @@ export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
         'build/esm/dnb-ui-lib.min.mjs',
         {
           format: 'esm',
-          excludes
+          excludes,
         }
       ),
       makeRollupConfig(
@@ -122,7 +122,7 @@ export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
         'build/esm/dnb-ui-components.min.mjs',
         {
           format: 'esm',
-          excludes
+          excludes,
         }
       ),
       makeRollupConfig(
@@ -130,7 +130,7 @@ export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
         'build/esm/dnb-ui-extensions.min.mjs',
         {
           format: 'esm',
-          excludes
+          excludes,
         }
       ),
       makeRollupConfig(
@@ -138,7 +138,7 @@ export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
         'build/esm/dnb-ui-elements.min.mjs',
         {
           format: 'esm',
-          excludes
+          excludes,
         }
       ),
       makeRollupConfig(
@@ -146,21 +146,21 @@ export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
         'build/esm/dnb-ui-web-components.min.mjs',
         {
           format: 'esm',
-          excludes
+          excludes,
         }
       ),
       makeRollupConfig(
         './src/esm/dnb-ui-basis.js',
         'build/esm/dnb-ui-basis.min.mjs',
         {
-          format: 'esm'
+          format: 'esm',
         }
       ),
       makeRollupConfig(
         './src/esm/dnb-ui-icons.js',
         'build/esm/dnb-ui-icons.min.mjs',
         { format: 'esm' }
-      )
+      ),
 
       // Skip creating this huge package – as there is currently no need
       // makeRollupConfig(
@@ -191,7 +191,7 @@ function makeRollupConfig(
 
   const globals = {
     react: 'React',
-    'react-dom': 'ReactDOM'
+    'react-dom': 'ReactDOM',
   }
   const external = Object.keys(globals)
 
@@ -207,11 +207,11 @@ function makeRollupConfig(
   const babelOptions = {
     exclude: /node_modules/,
     babelHelpers: 'runtime', // using @babel/plugin-transform-runtime
-    configFile: './babel.config.cjs'
+    configFile: './babel.config.js',
   }
   const commonjsOptions = {
     ignoreGlobal: true,
-    include: /node_modules/
+    include: /node_modules/,
   }
 
   return {
@@ -222,7 +222,7 @@ function makeRollupConfig(
       name,
       globals,
       format,
-      sourcemap: false
+      sourcemap: false,
     },
     external,
     plugins: [
@@ -232,11 +232,11 @@ function makeRollupConfig(
       nodeGlobals(),
       replace({
         preventAssignment: true,
-        'process.env.NODE_ENV': JSON.stringify('production')
+        'process.env.NODE_ENV': JSON.stringify('production'),
       }),
       isCI ? sizeSnapshot({ snapshotPath: 'size-snapshot.json' }) : null,
-      terser()
-    ]
+      terser(),
+    ],
   }
 }
 

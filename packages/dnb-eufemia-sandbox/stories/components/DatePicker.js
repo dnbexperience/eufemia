@@ -22,12 +22,12 @@ import {
   FormRow,
   Dropdown,
   Input,
-  Section
+  Section,
 } from '@dnb/eufemia/src/components'
 // import { H2 } from '@dnb/eufemia/src/elements'
 
 export default {
-  title: 'Eufemia/Components/DatePicker'
+  title: 'Eufemia/Components/DatePicker',
 }
 
 const Scrollbar = styled.div`
@@ -46,7 +46,7 @@ const ChangeLocale = () => {
   const {
     setLocale,
     // setCurrentLocale,// to update only the current context
-    locale
+    locale,
   } = React.useContext(Context)
 
   // React.useEffect(() => {
@@ -136,8 +136,8 @@ export const DatePickerSandbox = () => (
           { title: 'Set date', date: '2019-11-15' },
           {
             title: 'Relative +3 days',
-            date: ({ date }) => date && addDays(date, 3)
-          }
+            date: ({ date }) => date && addDays(date, 3),
+          },
         ]}
         right
       />
@@ -149,13 +149,13 @@ export const DatePickerSandbox = () => (
           {
             title: 'Set date period',
             start_date: '1981-01-15',
-            end_date: '1981-02-15'
+            end_date: '1981-02-15',
           },
           {
             title: 'This month',
             start_date: startOfMonth(new Date()),
-            end_date: lastDayOfMonth(new Date())
-          }
+            end_date: lastDayOfMonth(new Date()),
+          },
         ]}
         // addon_element={ToggleButtons}
         // addon_element={<>Bla</>}
@@ -244,13 +244,13 @@ export const DatePickerSandbox = () => (
             {
               title: 'Set date period',
               start_date: '1981-01-15',
-              end_date: '1981-02-15'
+              end_date: '1981-02-15',
             },
             {
               title: 'This month',
               start_date: startOfMonth(new Date()),
-              end_date: lastDayOfMonth(new Date())
-            }
+              end_date: lastDayOfMonth(new Date()),
+            },
           ]}
         />
       </FormRow>

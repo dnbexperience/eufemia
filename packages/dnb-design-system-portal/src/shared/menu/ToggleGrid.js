@@ -34,7 +34,7 @@ const globalStyle = css`
 
 export default class ToggleGrid extends React.PureComponent {
   state = {
-    showGrid: null
+    showGrid: null,
   }
 
   constructor(props) {

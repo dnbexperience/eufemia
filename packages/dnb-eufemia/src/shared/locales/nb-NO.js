@@ -20,35 +20,35 @@ export default {
       return_format: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
       submit_button_text: 'Ok',
       cancel_button_text: 'Avbryt',
-      reset_button_text: 'Tilbakestill'
+      reset_button_text: 'Tilbakestill',
     },
     Anchor: {
-      target_blank_title: 'Åpner et nytt vindu'
+      target_blank_title: 'Åpner et nytt vindu',
     },
     GlobalStatus: {
       default_title: 'En feil har skjedd',
       close_text: 'Lukk',
-      status_anchor_text: 'Gå til %s'
+      status_anchor_text: 'Gå til %s',
     },
     GlobalError: {
       404: {
         title: 'Oisann! Vi finner ikke siden du leter etter …',
         text:
           'Sikker på at du har skrevet riktig adresse? Eller har vi rotet med lenkene? Prøv på nytt, eller [gå tilbake der du kom fra](/back).',
-        alt: 'Dame søker i tom eske'
+        alt: 'Dame søker i tom eske',
       },
       500: {
         title: 'Oops, her ble det en teknisk feil!',
         text:
           'Tjenesten fungerer ikke slik den skal for øyeblikket, men prøv igjen senere.',
-        alt: 'Mann leter etter spor'
-      }
+        alt: 'Mann leter etter spor',
+      },
     },
     ProgressIndicator: {
-      indicator_label: 'Vennligst vent ...'
+      indicator_label: 'Vennligst vent ...',
     },
     Dropdown: {
-      title: 'Valgmeny'
+      title: 'Valgmeny',
     },
     Autocomplete: {
       title: 'Skriv og velg',
@@ -56,22 +56,22 @@ export default {
       no_options: 'Ingen alternativer',
       show_all: 'Vis alt',
       aria_live_options: '%s alternativer',
-      indicator_label: 'Henter data ...'
+      indicator_label: 'Henter data ...',
     },
     Modal: {
-      close_title: 'Lukk'
+      close_title: 'Lukk',
     },
     NumberFormat: {
-      clipboard_copy: 'Kopiert'
+      clipboard_copy: 'Kopiert',
     },
     HelpButton: {
       title: 'Hjelpetekst',
-      aria_role: 'Hjelp-knapp'
+      aria_role: 'Hjelp-knapp',
     },
     Input: {
       submit_button_title: 'Send knapp',
       show_password: 'Vis passord',
-      hide_password: 'Skjul passord'
+      hide_password: 'Skjul passord',
     },
     Pagination: {
       button_title: 'Side %s',
@@ -79,26 +79,26 @@ export default {
       prev_title: 'Forrige side',
       more_pages: '%s flere sider',
       is_loading_text: 'Laster nytt innhold',
-      load_button_text: 'Vis mer innhold'
+      load_button_text: 'Vis mer innhold',
     },
     Skeleton: {
       aria_busy: 'Behandler data ...',
-      aria_ready: 'Klar til å samhandle'
+      aria_ready: 'Klar til å samhandle',
     },
     StepIndicator: {
-      step_title: 'Steg %step av %count'
+      step_title: 'Steg %step av %count',
     },
     Slider: {
       add_title: 'Øk (%s)',
-      subtract_title: 'Reduser (%s)'
+      subtract_title: 'Reduser (%s)',
     },
     PaymentCard: {
       text_card_number: 'Kortnummer',
       text_expired: 'Utgått',
-      text_blocked: 'Sperret'
+      text_blocked: 'Sperret',
     },
     Logo: {
-      alt: 'DNB Logo'
-    }
-  }
+      alt: 'DNB Logo',
+    },
+  },
 }

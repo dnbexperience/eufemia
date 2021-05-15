@@ -20,14 +20,14 @@ H3.propTypes = {
     'medium',
     'basis',
     'small',
-    'x-small'
+    'x-small',
   ]),
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 H3.defaultProps = {
   level: null,
   size: 'medium',
-  children: null
+  children: null,
 }
 
 export default H3

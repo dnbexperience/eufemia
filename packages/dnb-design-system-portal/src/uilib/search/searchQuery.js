@@ -49,8 +49,8 @@ const flatten = (arr) =>
       ({
         node: {
           fields: { slug },
-          frontmatter: { skipSearch }
-        }
+          frontmatter: { skipSearch },
+        },
       }) => !slug.includes('not_in_use') && skipSearch !== true
     )
     .map(
@@ -58,7 +58,7 @@ const flatten = (arr) =>
         if (headings && Array.isArray(headings)) {
           headings = headings.map((item) => ({
             ...item,
-            slug: makeSlug(item.value)
+            slug: makeSlug(item.value),
           }))
 
           // because we need also pages form Tabs, we use here the h2 to make the title
@@ -71,13 +71,13 @@ const flatten = (arr) =>
               frontmatter = {
                 ...frontmatter,
                 title: frontmatter.search,
-                search: null
+                search: null,
               }
             } else if (first && first.depth === 1) {
               headings.shift()
               frontmatter = {
                 ...frontmatter,
-                title: first.value
+                title: first.value,
               }
             } else if (Array.isArray(children)) {
               const category = children
@@ -85,7 +85,7 @@ const flatten = (arr) =>
                 .find(({ fields: { slug } }) => fields.slug.includes(slug))
 
               const {
-                frontmatter: { title, search }
+                frontmatter: { title, search },
               } = category
 
               let newTitle = title || search
@@ -97,7 +97,7 @@ const flatten = (arr) =>
 
               frontmatter = {
                 ...frontmatter,
-                title: newTitle
+                title: newTitle,
               }
             }
           }
@@ -108,7 +108,7 @@ const flatten = (arr) =>
           ...fields,
           ...frontmatter,
           ...rest,
-          headings
+          headings,
         }
 
         if (!hasTitle(result) && !hasDescription(result)) {
@@ -121,7 +121,7 @@ const flatten = (arr) =>
           result.category = {
             ...fields,
             ...frontmatter,
-            ...rest
+            ...rest,
           }
         }
 
@@ -147,8 +147,8 @@ const queries =
               ? 'dev_eufemia_docs'
               : /^(beta)$/.test(currentBranch)
               ? 'beta_eufemia_docs'
-              : 'prod_eufemia_docs'
-        }
+              : 'prod_eufemia_docs',
+        },
       ]
     : null
 

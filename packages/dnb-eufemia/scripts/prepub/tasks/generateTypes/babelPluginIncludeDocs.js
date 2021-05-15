@@ -15,7 +15,7 @@ export function babelPluginIncludeDocs(
           if (typeof onComplete === 'function') {
             onComplete(collectProps, docs)
           }
-        }
+        },
       },
       ModuleDeclaration(path) {
         path.traverse({
@@ -43,7 +43,7 @@ export function babelPluginIncludeDocs(
                 collectProps.push(path.node.name)
               }
             }
-          }
+          },
         })
       },
 
@@ -57,8 +57,8 @@ export function babelPluginIncludeDocs(
           insertDocs(path, path.node.key.name, docs)
           collectProps.push(path.node.key.name)
         }
-      }
-    }
+      },
+    },
   }
 }
 

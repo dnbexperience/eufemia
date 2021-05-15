@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import ContentWrapper from './TabsContentWrapper'
 
@@ -21,7 +21,7 @@ export default class CustomContent extends React.PureComponent {
     title: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]), // eslint-disable-line
     hash: PropTypes.string, // eslint-disable-line
     selected: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // eslint-disable-line
@@ -31,7 +31,7 @@ export default class CustomContent extends React.PureComponent {
 
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     className: PropTypes.string,
-    class: PropTypes.string
+    class: PropTypes.string,
   }
   static defaultProps = {
     displayName: 'CustomContent',
@@ -41,7 +41,7 @@ export default class CustomContent extends React.PureComponent {
     disabled: null,
     children: null,
     className: null,
-    class: null
+    class: null,
   }
   render() {
     const {

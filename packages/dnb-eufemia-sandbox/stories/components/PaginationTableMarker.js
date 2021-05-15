@@ -15,7 +15,7 @@ import { hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 import { createPagination } from '@dnb/eufemia/src/components/Pagination'
 
 export default {
-  title: 'Eufemia/Components/Pagination-TableMarker'
+  title: 'Eufemia/Components/Pagination-TableMarker',
 }
 
 export const PaginationTableMarker = () => (
@@ -82,7 +82,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       // update only the current item
       tableItems[index] = {
         ...item,
-        expanded: !item.expanded
+        expanded: !item.expanded,
       }
       localStack.current[item.ssn] = tableItems[index]
 
@@ -200,7 +200,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   )
 }
 InfinityPaginationTable.propTypes = {
-  tableItems: PropTypes.array.isRequired
+  tableItems: PropTypes.array.isRequired,
 }
 
 const InfinityPagination = ({
@@ -220,7 +220,7 @@ const InfinityPagination = ({
         if (!hasSelectedText(e.currentTarget)) {
           onToggleExpanded(item, currentPage, e.currentTarget)
         }
-      }
+      },
     }
     const ref = React.createRef(null)
     mountedItems.push({ ...item, element: ref })
@@ -309,7 +309,7 @@ const TableData = styled.td`
 const setHeight = ({
   element,
   expanded = false,
-  animation = true
+  animation = true,
 } = {}) => {
   if (
     element &&

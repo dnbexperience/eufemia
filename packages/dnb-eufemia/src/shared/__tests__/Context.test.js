@@ -70,7 +70,7 @@ describe('Context', () => {
     ).toBe('Hjelp-knapp')
 
     Comp.setProps({
-      lang: 'en-GB'
+      lang: 'en-GB',
     })
 
     expect(
@@ -89,7 +89,7 @@ describe('Context', () => {
     expect(Comp.find('p').text()).toBe(title_nb)
 
     Comp.setProps({
-      lang: 'en-GB'
+      lang: 'en-GB',
     })
 
     expect(Comp.find('p').text()).toBe(title_gb)
@@ -106,7 +106,7 @@ describe('Context', () => {
     ).toBe(title_nb)
 
     Comp.setProps({
-      lang: 'en-GB'
+      lang: 'en-GB',
     })
 
     expect(

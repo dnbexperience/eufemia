@@ -9,14 +9,15 @@ import {
   fakeProps,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Radio'
 
 const props = fakeProps(require.resolve('../Radio'), {
-  optional: true
+  optional: true,
 })
 props.id = 'radio'
+props.element = 'input'
 props.group = null
 props.status = null
 props.size = null
@@ -134,7 +135,7 @@ describe('Radio component', () => {
   it('has a disabled attribute, once we set disabled to true', () => {
     const Comp = mount(<Component />)
     Comp.setProps({
-      disabled: true
+      disabled: true,
     })
     expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
       true
@@ -147,8 +148,8 @@ describe('Radio component', () => {
         rules: {
           // NVDA fix
           // because of the role="radio", we have to allow this
-          'aria-allowed-role': { enabled: false }
-        }
+          'aria-allowed-role': { enabled: false },
+        },
       })
     ).toHaveNoViolations()
   })
@@ -192,8 +193,8 @@ describe('Radio group component', () => {
         rules: {
           // NVDA fix
           // because of the role="radio", we have to allow this
-          'aria-allowed-role': { enabled: false }
-        }
+          'aria-allowed-role': { enabled: false },
+        },
       })
     ).toHaveNoViolations()
   })

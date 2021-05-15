@@ -13,11 +13,11 @@ import {
   extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../../components/space/SpacingHelper'
 
 import DrawerListContext from './DrawerListContext'
@@ -33,7 +33,7 @@ const propsToFilterOut = {
   on_select: null,
   on_state_update: null,
   options_render: null,
-  wrapper_element: null
+  wrapper_element: null,
 }
 
 export default class DrawerList extends React.PureComponent {
@@ -53,15 +53,15 @@ export default class DrawerList extends React.PureComponent {
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_scroll_animation: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     use_drawer_on_mobile: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     prevent_selection: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     action_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     is_popup: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -69,16 +69,16 @@ export default class DrawerList extends React.PureComponent {
     options_render: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     wrapper_element: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     default_value: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.number
+      PropTypes.number,
     ]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -87,17 +87,17 @@ export default class DrawerList extends React.PureComponent {
     prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     independent_width: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     fixed_position: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skip_keysearch: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     class: PropTypes.string,
@@ -106,7 +106,7 @@ export default class DrawerList extends React.PureComponent {
         PropTypes.string,
         PropTypes.func,
         PropTypes.node,
-        PropTypes.object
+        PropTypes.object,
       ]),
       PropTypes.arrayOf(
         PropTypes.oneOfType([
@@ -114,22 +114,22 @@ export default class DrawerList extends React.PureComponent {
           PropTypes.shape({
             selected_value: PropTypes.oneOfType([
               PropTypes.string,
-              PropTypes.node
+              PropTypes.node,
             ]),
             content: PropTypes.oneOfType([
               PropTypes.string,
               PropTypes.node,
-              PropTypes.arrayOf(PropTypes.string)
-            ])
-          })
+              PropTypes.arrayOf(PropTypes.string),
+            ]),
+          }),
         ])
-      )
+      ),
     ]),
     prepared_data: PropTypes.array,
     raw_data: PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.object,
-      PropTypes.func
+      PropTypes.func,
     ]),
     ignore_events: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
@@ -141,7 +141,7 @@ export default class DrawerList extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
       PropTypes.object,
-      PropTypes.array
+      PropTypes.array,
     ]),
 
     custom_element: PropTypes.object,
@@ -153,7 +153,7 @@ export default class DrawerList extends React.PureComponent {
     on_pre_change: PropTypes.func,
     on_resize: PropTypes.func,
     on_select: PropTypes.func,
-    on_state_update: PropTypes.func
+    on_state_update: PropTypes.func,
   }
 
   static defaultProps = {
@@ -205,7 +205,7 @@ export default class DrawerList extends React.PureComponent {
     on_resize: null,
     on_select: null,
     on_state_update: null,
-    options_render: null
+    options_render: null,
   }
 
   static enableWebComponent() {
@@ -256,7 +256,7 @@ class DrawerListInstance extends React.PureComponent {
     )
 
     context.drawerList.setState({
-      triangle_position: props.triangle_position
+      triangle_position: props.triangle_position,
     })
   }
 
@@ -285,7 +285,7 @@ class DrawerListInstance extends React.PureComponent {
     if (selected_item > -1) {
       this.context.drawerList.selectItem(selected_item, {
         fireSelectEvent: true,
-        event
+        event,
       })
     }
   }
@@ -356,7 +356,7 @@ class DrawerListInstance extends React.PureComponent {
       _refShell,
       _refTriangle,
       _refUl,
-      _refRoot
+      _refRoot,
     } = this.context.drawerList
 
     const mainParams = {
@@ -382,7 +382,7 @@ class DrawerListInstance extends React.PureComponent {
         _className,
         className
       ),
-      ...attributes
+      ...attributes,
     }
 
     const listParams = {
@@ -396,7 +396,7 @@ class DrawerListInstance extends React.PureComponent {
         'dnb-drawer-list__list',
         isTrue(no_animation) && 'dnb-drawer-list__list--no-animation',
         list_class
-      )
+      ),
     }
 
     const ulParams = {
@@ -406,9 +406,9 @@ class DrawerListInstance extends React.PureComponent {
       'aria-labelledby': `${id}-label`,
       tabIndex: '-1',
       style: {
-        maxHeight: max_height > 0 ? `${max_height}rem` : null
+        maxHeight: max_height > 0 ? `${max_height}rem` : null,
       },
-      ref: _refUl
+      ref: _refUl,
     }
 
     if (!hidden && parseFloat(active_item) > -1) {
@@ -459,7 +459,7 @@ class DrawerListInstance extends React.PureComponent {
           active: _id == active_item,
           selected: !dataItem.ignore_events && _id == selected_item,
           onClick: this.selectItemHandler,
-          onKeyDown: this.preventTab
+          onKeyDown: this.preventTab,
         }
 
         if (ignoreEvents) {
@@ -596,13 +596,13 @@ DrawerList.Options.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   className: PropTypes.string,
   class: PropTypes.string,
-  triangleRef: PropTypes.object
+  triangleRef: PropTypes.object,
 }
 DrawerList.Options.defaultProps = {
   children: null,
   className: null,
   class: null,
-  triangleRef: null
+  triangleRef: null,
 }
 
 // DrawerList Item
@@ -630,7 +630,7 @@ DrawerList.Item = React.forwardRef((props, ref) => {
     ),
     role,
     tabIndex: selected ? '0' : '-1',
-    'aria-selected': active
+    'aria-selected': active,
   }
   if (selected) {
     params['aria-current'] = true // has best support on NVDA
@@ -640,13 +640,13 @@ DrawerList.Item = React.forwardRef((props, ref) => {
     params.onClick = () =>
       dispatchCustomElementEvent(
         {
-          props: { ...props, displayName: DrawerList.Item.displayName }
+          props: { ...props, displayName: DrawerList.Item.displayName },
         },
         'on_click',
         {
           selected,
           value,
-          ...rest
+          ...rest,
         }
       )
   }
@@ -666,14 +666,14 @@ DrawerList.Item.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.func,
-    PropTypes.object
+    PropTypes.object,
   ]).isRequired,
   className: PropTypes.string,
   class: PropTypes.string,
   on_click: PropTypes.func,
   selected: PropTypes.bool,
   active: PropTypes.bool,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 DrawerList.Item.defaultProps = {
   role: 'option',
@@ -683,7 +683,7 @@ DrawerList.Item.defaultProps = {
   on_click: null,
   selected: null,
   active: null,
-  value: null
+  value: null,
 }
 
 const ItemContent = ({ hash, children }) => {
@@ -706,30 +706,30 @@ ItemContent.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.func,
-    PropTypes.object
-  ]).isRequired
+    PropTypes.object,
+  ]).isRequired,
 }
 
 DrawerList.HorizontalItem = ({ className, ...props }) => (
   <span
     className={classnames([
       'dnb-drawer-list__option__inner__item',
-      className
+      className,
     ])}
     {...props}
   />
 )
 DrawerList.HorizontalItem.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 DrawerList.HorizontalItem.defaultProps = {
-  className: null
+  className: null,
 }
 
 class OnMounted extends React.PureComponent {
   static propTypes = {
     addObservers: PropTypes.func.isRequired,
-    removeObservers: PropTypes.func.isRequired
+    removeObservers: PropTypes.func.isRequired,
   }
   componentDidMount() {
     this.props.addObservers()

@@ -16,11 +16,11 @@ import {
   Input,
   // FormLabel,
   Dropdown,
-  FormRow
+  FormRow,
 } from '@dnb/eufemia/src/components'
 
 export default {
-  title: 'Eufemia/Components/Experiments'
+  title: 'Eufemia/Components/Experiments',
 }
 
 const Center = styled.div`
@@ -69,7 +69,7 @@ export const ExperimentsSandbox = () => (
         <Provider
           FormRow={{
             vertical: true,
-            label: 'Vertical input B'
+            label: 'Vertical input B',
           }}
         >
           <Input />

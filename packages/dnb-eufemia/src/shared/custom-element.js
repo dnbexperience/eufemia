@@ -119,7 +119,7 @@ export const registerElement = (
             }
             return null
           })
-          .filter(Boolean)
+          .filter(Boolean),
       ]
 
       if (events.length > 0) {
@@ -333,8 +333,8 @@ const toVdom = (elem, name = null) => {
 
 const PROP_TRANSLATIONS = {
   class: 'className',
-  for: 'htmlFor'
+  for: 'htmlFor',
 }
 const EVENT_TRANSLATIONS = {
-  onclick: 'onClick'
+  onclick: 'onClick',
 }

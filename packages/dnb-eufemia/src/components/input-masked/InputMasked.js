@@ -9,11 +9,14 @@ import Input, { inputPropTypes } from '../input/Input'
 import {
   isTrue,
   registerElement,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
+import _MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
 import createNumberMask from './addons/createNumberMask'
 import classnames from 'classnames'
+
+// Looks like we get two defaults back – this may change in a future update
+const MaskedInput = _MaskedInput.default || _MaskedInput
 
 export default class InputMasked extends React.PureComponent {
   static tagName = 'dnb-input-masked'
@@ -22,24 +25,24 @@ export default class InputMasked extends React.PureComponent {
     mask: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.array,
-      PropTypes.func
+      PropTypes.func,
     ]),
     number_mask: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
-      PropTypes.object
+      PropTypes.object,
     ]),
     currency_mask: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
-      PropTypes.object
+      PropTypes.object,
     ]),
     show_mask: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     show_guide: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     pipe: PropTypes.func,
     keep_char_positions: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     placeholder_char: PropTypes.string,
 
@@ -50,7 +53,7 @@ export default class InputMasked extends React.PureComponent {
     on_submit_focus: PropTypes.func,
     on_submit_blur: PropTypes.func,
 
-    ...inputPropTypes
+    ...inputPropTypes,
   }
 
   static defaultProps = {
@@ -70,7 +73,7 @@ export default class InputMasked extends React.PureComponent {
     on_focus: null,
     on_blur: null,
     on_submit_focus: null,
-    on_submit_blur: null
+    on_submit_blur: null,
   }
 
   static enableWebComponent() {
@@ -121,7 +124,7 @@ export default class InputMasked extends React.PureComponent {
 
       const maskParams = {
         allowDecimal: true,
-        ...currency_mask
+        ...currency_mask,
       }
       const fix =
         typeof currency_mask === 'string'
@@ -149,7 +152,7 @@ export default class InputMasked extends React.PureComponent {
           return dispatchCustomElementEvent(this, name, {
             event,
             value,
-            cleaned_value
+            cleaned_value,
           })
         }
         props.onMouseUp = (event) => {
@@ -179,7 +182,7 @@ export default class InputMasked extends React.PureComponent {
           showMask: isTrue(show_mask),
           guide: isTrue(show_guide),
           keepCharPositions: isTrue(keep_char_positions),
-          placeholderChar
+          placeholderChar,
         }
         return (
           <MaskedInput

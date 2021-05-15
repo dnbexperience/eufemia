@@ -8,12 +8,12 @@ import {
   mount,
   fakeProps,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Space'
 
 const snapshotProps = fakeProps(require.resolve('../Space'), {
-  optional: true
+  optional: true,
 })
 snapshotProps.id = 'space'
 snapshotProps.element = 'div'
@@ -41,7 +41,7 @@ describe('Space component', () => {
       'dnb-space__top--large',
       'dnb-space__right--large',
       'dnb-space__bottom--large',
-      'dnb-space__left--large'
+      'dnb-space__left--large',
     ])
   })
 
@@ -53,7 +53,7 @@ describe('Space component', () => {
           top: 'x-large',
           right: 'large',
           bottom: 'small small',
-          left: 'x-small x-small small'
+          left: 'x-small x-small small',
         }}
       />
     )
@@ -64,7 +64,7 @@ describe('Space component', () => {
       'dnb-space__top--x-large',
       'dnb-space__right--large',
       'dnb-space__bottom--large',
-      'dnb-space__left--large'
+      'dnb-space__left--large',
     ])
   })
 

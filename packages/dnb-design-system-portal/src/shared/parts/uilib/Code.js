@@ -20,14 +20,14 @@ export default class Code extends React.PureComponent {
     language: PropTypes.string,
     raw: PropTypes.string,
     source: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-      .isRequired
+      .isRequired,
   }
   static defaultProps = {
     language: 'html',
-    raw: ''
+    raw: '',
   }
   state = {
-    codeString: ''
+    codeString: '',
   }
   constructor(props) {
     super(props)
@@ -42,7 +42,7 @@ export default class Code extends React.PureComponent {
   setCode() {
     if (this.code)
       this.setState({
-        codeString: this.props.raw + this.code
+        codeString: this.props.raw + this.code,
       })
     this.code = null
   }
@@ -89,11 +89,11 @@ export class CodeRenderer extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
-    ]).isRequired
+      PropTypes.func,
+    ]).isRequired,
   }
   static defaultProps = {
-    language: 'jsx'
+    language: 'jsx',
   }
   render() {
     return <CodeBlock {...this.props} />

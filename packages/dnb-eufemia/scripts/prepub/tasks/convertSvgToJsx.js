@@ -19,7 +19,7 @@ import { md5 } from '../../figma/helpers/docHelpers'
 import {
   IconsConfig,
   readIconsLockFile,
-  saveIconsLockFile
+  saveIconsLockFile,
 } from '../../figma/tasks/assetsExtractors'
 import packpath from 'packpath'
 
@@ -28,14 +28,14 @@ const ROOT_DIR = packpath.self()
 export default async function convertSvgToJsx({
   srcPath = ['./assets/icons/*.svg'],
   destPath = './src/icons',
-  preventDelete = false
+  preventDelete = false,
 } = {}) {
   log.start('> PrePublish: converting svg to jsx')
 
   try {
     if (!preventDelete) {
       await del([`${destPath}/**/*.js`, `!${destPath}`], {
-        force: true
+        force: true,
       })
     }
 
@@ -44,7 +44,7 @@ export default async function convertSvgToJsx({
 
     const icons = await makeIconsEntryFiles({
       srcPath,
-      destPath
+      destPath,
     })
 
     log.succeed(
@@ -64,7 +64,7 @@ const transformSvgToReact = ({ srcPath, destPath }) =>
         .pipe(transform('utf8', transformToJsx))
         .pipe(
           rename({
-            extname: '.js'
+            extname: '.js',
           })
         )
         .pipe(gulp.dest(destPath, { cwd: ROOT_DIR }))
@@ -93,7 +93,7 @@ const transformToJsx = (content, file) => {
         content,
         {
           ids: true, //do not remove IDs from the syntax
-          prettier: false // we use our own prettier version here
+          prettier: false, // we use our own prettier version here
         },
         { componentName }
       )
@@ -104,7 +104,7 @@ const transformToJsx = (content, file) => {
               prettier
                 .format(res, {
                   ...prettierrc,
-                  parser: 'babel'
+                  parser: 'babel',
                 })
                 // This is a fix, so the Rollup ESM export does export React.createElement, and not only createElement with a named import
                 .replace(
@@ -126,7 +126,7 @@ const transformToJsx = (content, file) => {
 const makeIconsEntryFiles = async ({
   srcPath,
   destPath,
-  deleteOldFiles = false
+  deleteOldFiles = false,
 }) => {
   // get all the svg icons we find
   const icons = (await globby(srcPath))
@@ -137,7 +137,7 @@ const makeIconsEntryFiles = async ({
       return {
         name,
         filename,
-        basename
+        basename,
       }
     })
     .sort(({ name: a }, { name: b }) => (a > b ? 1 : -1))
@@ -160,7 +160,7 @@ const makeIconsEntryFiles = async ({
         acc[bundleName].push({
           filename,
           basename,
-          name: iconCase(filename)
+          name: iconCase(filename),
         })
       }
 
@@ -235,7 +235,7 @@ const makeIconsEntryFiles = async ({
       const { iconsLockFile } = IconsConfig()
       await saveIconsLockFile({
         file: iconsLockFile,
-        data: lockFileContent
+        data: lockFileContent,
       })
     }
   }
@@ -257,7 +257,7 @@ const makeIconsEntryFiles = async ({
   `,
     {
       ...prettierrc,
-      parser: 'babel'
+      parser: 'babel',
     }
   )
 
@@ -294,7 +294,7 @@ const makeIconsEntryFiles = async ({
           `,
           {
             ...prettierrc,
-            parser: 'babel'
+            parser: 'babel',
           }
         )
 

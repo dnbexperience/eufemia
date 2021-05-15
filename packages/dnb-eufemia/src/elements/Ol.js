@@ -28,12 +28,12 @@ Ol.propTypes = {
   className: PropTypes.string,
   inside: PropTypes.bool,
   outside: PropTypes.bool,
-  nested: PropTypes.bool
+  nested: PropTypes.bool,
 }
 Ol.defaultProps = {
   className: null,
   inside: null,
   outside: null,
-  nested: null
+  nested: null,
 }
 export default Ol

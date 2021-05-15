@@ -44,19 +44,19 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
             traverse(ast, {
               Program(path) {
                 targetRoot = path
-              }
+              },
             })
 
             const { foundPath } = findDeclarationRelation({
               targetRoot,
-              targetPath: { node: path.node.argument }
+              targetPath: { node: path.node.argument },
             })
 
             if (foundPath) {
               foundPath.traverse({
                 ObjectProperty(path) {
                   addToMultireplaceList(path)
-                }
+                },
               })
             }
           },
@@ -68,7 +68,7 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
            */
           ObjectProperty(path) {
             addToMultireplaceList(path)
-          }
+          },
         })
       } else {
         /**
@@ -91,21 +91,21 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
           path.parentPath.traverse({
             SpreadElement(path) {
               const { foundPath } = findDeclarationRelation({
-                targetPath: { node: path.node.argument }
+                targetPath: { node: path.node.argument },
               })
 
               if (foundPath) {
                 foundPath.parentPath.traverse({
                   ObjectProperty(path) {
                     addToMultireplaceList(path)
-                  }
+                  },
                 })
               }
             },
             ObjectProperty(path) {
               if (path.node?.value?.type === 'Identifier') {
                 const { foundPath } = findDeclarationRelation({
-                  targetPath: { node: path.node.value }
+                  targetPath: { node: path.node.value },
                 })
 
                 if (foundPath?.parent.type === 'VariableDeclarator') {
@@ -116,7 +116,7 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
               } else {
                 addToMultireplaceList(path)
               }
-            }
+            },
           })
         }
       }
@@ -131,7 +131,7 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
           ) {
             targetPath.parentPath.replaceWith(cloneNode(path.node.value))
           }
-        }
+        },
       })
     } else if (path?.parent?.init && targetPath?.replaceWith) {
       targetPath?.replaceWith(cloneNode(path.parent.init))
@@ -173,7 +173,7 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
                   selectedObjectExpression = path
                   path.stop()
                 }
-              }
+              },
             })
 
             if (selectedObjectExpression) {
@@ -188,7 +188,7 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
             foundPath = path
           }
         }
-      }
+      },
     })
 
     return { foundPath, ast }
@@ -219,23 +219,23 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
                     const targetPath = path
 
                     const { foundPath, ast } = findDeclarationRelation({
-                      targetPath
+                      targetPath,
                     })
 
                     if (foundPath) {
                       handleDeclarationRelation({
                         ast,
                         path: foundPath,
-                        targetPath
+                        targetPath,
                       })
                     }
                   }
-                }
+                },
               })
-            }
+            },
           })
         }
-      }
-    }
+      },
+    },
   }
 }

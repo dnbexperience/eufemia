@@ -28,7 +28,7 @@ async function createNewVersion() {
   }
   try {
     const date = new Date().toLocaleString('nb-NO', {
-      timeZone: 'Europe/Oslo'
+      timeZone: 'Europe/Oslo',
     })
     packageJson.buildVersion = date
 

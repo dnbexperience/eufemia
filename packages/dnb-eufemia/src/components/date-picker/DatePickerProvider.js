@@ -14,12 +14,12 @@ import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import Context from '../../shared/Context'
 import {
   isTrue,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import {
   convertStringToDate,
   correctV1Format,
-  isDisabled
+  isDisabled,
 } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
 import { getViews } from './DatePickerRange'
@@ -30,11 +30,11 @@ export default class DatePickerProvider extends React.PureComponent {
   static propTypes = {
     min_date: PropTypes.oneOfType([
       PropTypes.instanceOf(Date),
-      PropTypes.string
+      PropTypes.string,
     ]),
     max_date: PropTypes.oneOfType([
       PropTypes.instanceOf(Date),
-      PropTypes.string
+      PropTypes.string,
     ]),
     return_format: PropTypes.string,
 
@@ -44,7 +44,7 @@ export default class DatePickerProvider extends React.PureComponent {
     enhanceWithMethods: PropTypes.object,
 
     attributes: PropTypes.object,
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
   }
 
   static defaultProps = {
@@ -52,7 +52,7 @@ export default class DatePickerProvider extends React.PureComponent {
     max_date: null,
     return_format: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
     attributes: null,
-    enhanceWithMethods: null
+    enhanceWithMethods: null,
   }
 
   state = { _listenForPropChanges: true, changeMonthViews: false }
@@ -83,7 +83,7 @@ export default class DatePickerProvider extends React.PureComponent {
       ) {
         state.startDate =
           convertStringToDate(startDate, {
-            date_format
+            date_format,
           }) || undefined
 
         if (!isTrue(props.range)) {
@@ -97,7 +97,7 @@ export default class DatePickerProvider extends React.PureComponent {
       ) {
         state.endDate =
           convertStringToDate(props.end_date, {
-            date_format
+            date_format,
           }) || undefined
       }
 
@@ -107,7 +107,7 @@ export default class DatePickerProvider extends React.PureComponent {
         props.start_month !== state._startMonth
       ) {
         state.startMonth = convertStringToDate(props.start_month, {
-          date_format
+          date_format,
         })
       }
       if (
@@ -115,7 +115,7 @@ export default class DatePickerProvider extends React.PureComponent {
         props.end_month !== state._endMonth
       ) {
         state.endMonth = convertStringToDate(props.end_month, {
-          date_format
+          date_format,
         })
       }
 
@@ -125,7 +125,7 @@ export default class DatePickerProvider extends React.PureComponent {
         props.min_date !== state._minDate
       ) {
         state.minDate = convertStringToDate(props.min_date, {
-          date_format
+          date_format,
         })
       }
       if (
@@ -133,7 +133,7 @@ export default class DatePickerProvider extends React.PureComponent {
         props.max_date !== state._maxDate
       ) {
         state.maxDate = convertStringToDate(props.max_date, {
-          date_format
+          date_format,
         })
       }
 
@@ -250,7 +250,7 @@ export default class DatePickerProvider extends React.PureComponent {
     const endDateIsValid = Boolean(state.endDate && isValid(state.endDate))
 
     this.setState({
-      hasHadValidDate: startDateIsValid || endDateIsValid
+      hasHadValidDate: startDateIsValid || endDateIsValid,
     })
   }
 
@@ -277,7 +277,7 @@ export default class DatePickerProvider extends React.PureComponent {
 
     const lastEventCallCache = {
       startDate: this.state.startDate,
-      endDate: this.state.endDate
+      endDate: this.state.endDate,
     }
     this.setState({ lastEventCallCache })
   }
@@ -304,14 +304,14 @@ export default class DatePickerProvider extends React.PureComponent {
           : null,
         end_date: endDateIsValid ? format(endDate, returnFormat) : null,
         is_valid_start_date: startDateIsValid,
-        is_valid_end_date: endDateIsValid
+        is_valid_end_date: endDateIsValid,
       }
     } else {
       ret = {
         event,
         attributes,
         date: startDateIsValid ? format(startDate, returnFormat) : null,
-        is_valid: startDateIsValid
+        is_valid: startDateIsValid,
       }
     }
 
@@ -356,7 +356,7 @@ export default class DatePickerProvider extends React.PureComponent {
           callOnChangeHandler: this.callOnChangeHandler,
           props: this.props,
           ...this.props.enhanceWithMethods,
-          ...this.state
+          ...this.state,
         }}
       >
         {children}

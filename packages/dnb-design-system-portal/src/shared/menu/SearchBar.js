@@ -33,7 +33,7 @@ export const SearchBarInput = () => {
     showIndicator,
     hideIndicator,
     updateData,
-    debounce
+    debounce,
   }) => {
     debounce(
       ({ value }) => {
@@ -217,7 +217,7 @@ const makeHitsHumanFriendly = ({ hits, setHidden }) => {
 
     data.push({
       hit,
-      content
+      content,
     })
   })
 

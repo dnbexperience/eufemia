@@ -69,7 +69,7 @@ const number = format(value)
 const { number, aria } = format(value, {
   locale: 'nb-NO', // also inherited from the Provider
   currency: true,
-  returnAria: true
+  returnAria: true,
 })
 ```
 

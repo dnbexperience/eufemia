@@ -18,7 +18,7 @@ const copyContentIntoPublic = async () => {
       ),
       './public/static/',
       {
-        filter
+        filter,
       }
     )
     // use only the gatsby "/static" folder for now

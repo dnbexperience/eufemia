@@ -9,15 +9,16 @@ import {
   fakeProps,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Checkbox'
 
 const props = fakeProps(require.resolve('../Checkbox'), {
   all: true,
-  optional: true
+  optional: true,
 })
 props.id = 'checkbox'
+props.element = 'input'
 props.status = null
 props.readOnly = false
 props.label = 'checkbox'
@@ -148,7 +149,7 @@ describe('Checkbox component', () => {
   it('has a disabled attribute, once we set disabled to true', () => {
     const Comp = mount(<Component />)
     Comp.setProps({
-      disabled: true
+      disabled: true,
     })
     expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
       true

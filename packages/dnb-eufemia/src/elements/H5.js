@@ -20,14 +20,14 @@ H5.propTypes = {
     'medium',
     'basis',
     'small',
-    'x-small'
+    'x-small',
   ]),
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 H5.defaultProps = {
   level: null,
   size: 'small',
-  children: null
+  children: null,
 }
 
 export default H5

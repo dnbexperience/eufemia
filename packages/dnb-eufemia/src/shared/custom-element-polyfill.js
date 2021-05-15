@@ -87,7 +87,7 @@ function installCustomElements(window, polyfill) {
       HTMLAllCollection: ['all'],
       HTMLCollection: ['forms'],
       HTMLFormControlsCollection: ['elements'],
-      HTMLOptionsCollection: ['options']
+      HTMLOptionsCollection: ['options'],
     },
     elements: {
       Element: ['element'],
@@ -148,7 +148,7 @@ function installCustomElements(window, polyfill) {
         'sup',
         'u',
         'var',
-        'wbr'
+        'wbr',
       ],
       HTMLEmbedElement: ['embed'],
       HTMLFieldSetElement: ['fieldset'],
@@ -207,7 +207,7 @@ function installCustomElements(window, polyfill) {
       HTMLTrackElement: ['track'],
       HTMLUListElement: ['ul'],
       HTMLUnknownElement: ['unknown', 'vhgroupv', 'vkeygen'],
-      HTMLVideoElement: ['video']
+      HTMLVideoElement: ['video'],
     },
     nodes: {
       Attr: ['node'],
@@ -224,8 +224,8 @@ function installCustomElements(window, polyfill) {
       ProcessingInstruction: ['node'],
       ShadowRoot: ['#shadow-root'],
       Text: ['#text'],
-      XMLDocument: ['xml']
-    }
+      XMLDocument: ['xml'],
+    },
   })
 
   // passed at runtime, configurable via nodejs module
@@ -266,7 +266,7 @@ function installCustomElements(window, polyfill) {
       'FONT-FACE-URI',
       'FONT-FACE-FORMAT',
       'FONT-FACE-NAME',
-      'MISSING-GLYPH'
+      'MISSING-GLYPH',
     ],
     // registered types and their prototypes
     types = [],
@@ -321,7 +321,7 @@ function installCustomElements(window, polyfill) {
             i = indexOf.call(K, k)
             if (i < 0) V[K.push(k) - 1] = v
             else V[i] = v
-          }
+          },
         }
       },
     Promise =
@@ -337,7 +337,7 @@ function installCustomElements(window, polyfill) {
               notify.push(cb)
               if (done) setTimeout(resolve, 1)
               return p
-            }
+            },
           }
         function resolve(value) {
           done = true
@@ -434,7 +434,7 @@ function installCustomElements(window, polyfill) {
     attributesObserver = MutationObserver && {
       attributes: true,
       characterData: true,
-      attributeOldValue: true
+      attributeOldValue: true,
     },
     // useful to detect only if there's no MutationObserver
     DOMAttrModified =
@@ -489,7 +489,7 @@ function installCustomElements(window, polyfill) {
             set: function (value) {
               while (this.lastChild) this.removeChild(this.lastChild)
               set.call(this, value)
-            }
+            },
           })
       }
       observer.disconnect()
@@ -576,8 +576,8 @@ function installCustomElements(window, polyfill) {
             this[EXPANDO_UID] = {
               className: {
                 name: 'class',
-                value: this.className
-              }
+                value: this.className,
+              },
             }
             this.setAttribute = patchedSetAttribute
             this.removeAttribute = patchedRemoveAttribute
@@ -659,7 +659,7 @@ function installCustomElements(window, polyfill) {
             currentTarget: currentTarget,
             attrName: attrName,
             prevValue: prevValue,
-            newValue: newValue
+            newValue: newValue,
           }
           e[action] = attrChange
           onDOMAttrModified(e)
@@ -743,7 +743,7 @@ function installCustomElements(window, polyfill) {
           observe = function (node) {
             observer.observe(node, {
               childList: true,
-              subtree: true
+              subtree: true,
             })
             return node
           }
@@ -1040,7 +1040,7 @@ function installCustomElements(window, polyfill) {
             var NAME = name.toUpperCase()
             constructors[NAME] = {
               constructor: Class,
-              create: [NAME]
+              create: [NAME],
             }
             nodeNames.set(Class, NAME)
             customElements.define(name, Class)
@@ -1056,10 +1056,10 @@ function installCustomElements(window, polyfill) {
       ? function (name) {
           return Promise.race([
             customElements.whenDefined(name),
-            whenDefined(name)
+            whenDefined(name),
           ])
         }
-      : whenDefined
+      : whenDefined,
   }
 
   function CERDefine(name, Class, options) {
@@ -1082,29 +1082,29 @@ function installCustomElements(window, polyfill) {
             notifyAttributes(this)
           }
         }
-      }
+      },
     })
     safeProperty(proto, ATTRIBUTE_CHANGED_CALLBACK, {
       value: function (name) {
         if (-1 < indexOf.call(attributes, name))
           CProto[ATTRIBUTE_CHANGED_CALLBACK].apply(this, arguments)
-      }
+      },
     })
     if (CProto[CONNECTED_CALLBACK]) {
       safeProperty(proto, ATTACHED_CALLBACK, {
-        value: CProto[CONNECTED_CALLBACK]
+        value: CProto[CONNECTED_CALLBACK],
       })
     }
     if (CProto[DISCONNECTED_CALLBACK]) {
       safeProperty(proto, DETACHED_CALLBACK, {
-        value: CProto[DISCONNECTED_CALLBACK]
+        value: CProto[DISCONNECTED_CALLBACK],
       })
     }
     if (is) definition[EXTENDS] = is
     name = name.toUpperCase()
     constructors[name] = {
       constructor: Class,
-      create: is ? [is, secondArgument(name)] : [name]
+      create: is ? [is, secondArgument(name)] : [name],
     }
     nodeNames.set(Class, name)
     document[REGISTER_ELEMENT](name.toLowerCase(), definition)
@@ -1154,11 +1154,11 @@ function installCustomElements(window, polyfill) {
     if (customElements) delete window.customElements
     defineProperty(window, 'customElements', {
       configurable: true,
-      value: new CustomElementRegistry()
+      value: new CustomElementRegistry(),
     })
     defineProperty(window, 'CustomElementRegistry', {
       configurable: true,
-      value: CustomElementRegistry
+      value: CustomElementRegistry,
     })
     for (
       var patchClass = function (name) {

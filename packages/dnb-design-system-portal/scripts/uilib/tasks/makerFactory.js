@@ -28,7 +28,7 @@ export default async function runFactory({
   processToNamesIgnoreList = [],
   processToNamesListByUsingFolders = false,
   prepareDestFileCallback = null,
-  removeFiles = false
+  removeFiles = false,
 }) {
   // remove all files, but keep they we need
   if (removeFiles) {
@@ -37,7 +37,7 @@ export default async function runFactory({
       `!${processDestFilePath}`,
       `!${processDestFilePath}/index.js`,
       `!${processDestFilePath}/README.txt`,
-      `!${tempalteFilePath}`
+      `!${tempalteFilePath}`,
     ]
     // .concat(keepFiles.map(f => ('!**/' + f).replace('//', '/')))
     if (Array.isArray(removeFiles)) {
@@ -59,7 +59,7 @@ export default async function runFactory({
       })
       .map((file) => ({
         source: joinPath(__orig__processToNamesList, file),
-        file
+        file,
       }))
     if (processToNamesListByUsingFolders) {
       processToNamesList = processToNamesList.filter(({ source }) =>
@@ -76,7 +76,7 @@ export default async function runFactory({
         processDestFilePath,
         `${file}${processDestFileExt}`
       ),
-      file
+      file,
     }))
   }
 
@@ -126,7 +126,7 @@ export default async function runFactory({
       source,
       file,
       fileName,
-      content
+      content,
     }
   })
 
@@ -142,7 +142,7 @@ export default async function runFactory({
             preprocessContent({ source, file, content }),
             {
               ...prettierrc,
-              filepath
+              filepath,
             }
           )
         await fs.writeFile(

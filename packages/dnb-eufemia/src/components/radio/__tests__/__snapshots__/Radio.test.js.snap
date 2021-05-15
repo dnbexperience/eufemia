@@ -10,6 +10,7 @@ exports[`Radio component have to match snapshot 1`] = `
   custom_method={[Function]}
   direction="horizontal"
   disabled="disabled"
+  element="input"
   global_status_id="global_status_id"
   group={null}
   id="radio"
@@ -116,6 +117,7 @@ exports[`Radio component have to match snapshot 1`] = `
                 "custom_method": [Function],
                 "direction": "horizontal",
                 "disabled": "disabled",
+                "element": "input",
                 "global_status_id": "global_status_id",
                 "group": null,
                 "id": "radio",
@@ -300,6 +302,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                   custom_element={null}
                   custom_method={null}
                   disabled={false}
+                  element="input"
                   global_status_id={null}
                   group={null}
                   id="radio-1"
@@ -403,6 +406,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                   custom_element={null}
                   custom_method={null}
                   disabled={false}
+                  element="input"
                   global_status_id={null}
                   group={null}
                   id="radio-2"
@@ -524,15 +528,15 @@ exports[`Radio scss have to match default theme snapshot 1`] = `
 .dnb-radio {
   /*
     * When is OFF
-    * aka when the radio is not :checked
+    * aka when the radio is not [aria-checked='true']
     */
   /*
     * When is ON
-    * aka when the radio is :checked
+    * aka when the radio is [aria-checked='true']
     */
   /*
   * When radio is OFF
-  * aka when the radio is not :checked
+  * aka when the radio is not [aria-checked='true']
   */
   /*
     * On disabled
@@ -563,44 +567,44 @@ exports[`Radio scss have to match default theme snapshot 1`] = `
   .dnb-radio__dot {
     background-color: var(--color-sea-green);
     transition: opacity 200ms ease-out, transform 200ms ease-out; }
-  .dnb-radio__input:not(:checked) ~ .dnb-radio__button {
+  .dnb-radio__input:not([aria-checked='true']) ~ .dnb-radio__button {
     background-color: var(--color-white);
     border-color: var(--color-sea-green); }
-  .dnb-radio__input:checked ~ .dnb-radio__button {
+  .dnb-radio__input[aria-checked='true'] ~ .dnb-radio__button {
     background-color: var(--color-white);
     border-color: var(--color-sea-green); }
-  .dnb-radio__input:checked ~ .dnb-radio__dot {
+  .dnb-radio__input[aria-checked='true'] ~ .dnb-radio__dot {
     opacity: 1;
     transform: scale(1); }
-  .dnb-radio__input:not(:checked) ~ .dnb-radio__dot {
+  .dnb-radio__input:not([aria-checked='true']) ~ .dnb-radio__dot {
     opacity: 0;
     transform: scale(0.8); }
   .dnb-radio__input[disabled] ~ .dnb-radio__button {
     border-color: var(--color-mint-green-50); }
-  .dnb-radio__input[disabled]:checked ~ .dnb-radio__button {
+  .dnb-radio__input[disabled][aria-checked='true'] ~ .dnb-radio__button {
     border-color: var(--color-sea-green-30); }
-  .dnb-radio__input[disabled]:checked ~ .dnb-radio__dot {
+  .dnb-radio__input[disabled][aria-checked='true'] ~ .dnb-radio__dot {
     background-color: var(--color-sea-green-30); }
-  .dnb-radio__input:not([disabled]):not(:focus):not(:checked):hover ~ .dnb-radio__button {
+  .dnb-radio__input:not([disabled]):not(:focus):not([aria-checked='true']):hover ~ .dnb-radio__button {
     background-color: var(--color-mint-green-50); }
-  .dnb-radio__input:not([disabled]):not(:focus):checked:hover ~ .dnb-radio__dot {
+  .dnb-radio__input:not([disabled]):not(:focus)[aria-checked='true']:hover ~ .dnb-radio__dot {
     background-color: var(--color-mint-green-50); }
-  .dnb-radio__input:not([disabled]):not(:checked):active ~ .dnb-radio__button {
+  .dnb-radio__input:not([disabled]):not([aria-checked='true']):active ~ .dnb-radio__button {
     background-color: var(--color-mint-green-50);
     border-color: transparent; }
-  .dnb-radio__input:not([disabled]):checked:active ~ .dnb-radio__button {
+  .dnb-radio__input:not([disabled])[aria-checked='true']:active ~ .dnb-radio__button {
     border-color: var(--color-mint-green-50); }
-  .dnb-radio__input:not([disabled]):checked:active ~ .dnb-radio__dot {
+  .dnb-radio__input:not([disabled])[aria-checked='true']:active ~ .dnb-radio__dot {
     background-color: var(--color-mint-green-50); }
-  html[data-whatinput='keyboard'] .dnb-radio__input:not([disabled]):not(:checked):focus ~ .dnb-radio__button {
+  html[data-whatinput='keyboard'] .dnb-radio__input:not([disabled]):not([aria-checked='true']):focus ~ .dnb-radio__button {
     background-color: var(--color-mint-green-50); }
   html[data-whatinput='keyboard'] .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__button {
     border: none; }
   .dnb-radio__input:not([disabled]):focus ~ .dnb-radio__focus,
   .dnb-radio__input:not([disabled]):active ~ .dnb-radio__focus {
     display: block; }
-  .dnb-radio__input:not([disabled]):not(:checked):focus ~ .dnb-radio__button,
-  .dnb-radio__input:not([disabled]):not(:checked):active ~ .dnb-radio__button {
+  .dnb-radio__input:not([disabled]):not([aria-checked='true']):focus ~ .dnb-radio__button,
+  .dnb-radio__input:not([disabled]):not([aria-checked='true']):active ~ .dnb-radio__button {
     background-color: var(--color-mint-green-50); }
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__button {
     border: none; }
@@ -612,11 +616,11 @@ exports[`Radio scss have to match default theme snapshot 1`] = `
     @media screen and (-ms-high-contrast: none) {
       .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__focus {
         box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
-  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:checked):hover ~ .dnb-radio__button {
+  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not([aria-checked='true']):hover ~ .dnb-radio__button {
     background-color: var(--color-fire-red-8); }
-  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-radio__dot {
+  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover)[aria-checked='true'] ~ .dnb-radio__dot {
     background-color: var(--color-fire-red); }
-  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):checked:hover ~ .dnb-radio__dot {
+  .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active)[aria-checked='true']:hover ~ .dnb-radio__dot {
     background-color: var(--color-fire-red-8); }
   .dnb-radio > .dnb-form-status {
     transform: translateY(0.25rem);

@@ -33,5 +33,5 @@ export const enableWebFragments = () => {
 }
 
 export default {
-  enableWebFragments
+  enableWebFragments,
 }

@@ -21,12 +21,12 @@ describe('babelPluginIncludeDocs', () => {
   async function runIncludeDocsTestSuite({
     sourceDir,
     strictMode = false,
-    onComplete = null
+    onComplete = null,
   }) {
     const { docs } = await fetchPropertiesFromDocs({
       file,
       docsDir,
-      findFiles: ['PrimaryComponent.md']
+      findFiles: ['PrimaryComponent.md'],
     })
 
     const { code } = await transformFileAsync(file, {
@@ -36,19 +36,19 @@ describe('babelPluginIncludeDocs', () => {
         [
           babelPluginCorrectTypes,
           {
-            strictMode
-          }
+            strictMode,
+          },
         ],
         [
           babelPluginIncludeDocs,
           {
             docs,
             insertLeadingComment: true,
-            onComplete
-          }
-        ]
+            onComplete,
+          },
+        ],
       ],
-      ...babelPluginConfigDefaults
+      ...babelPluginConfigDefaults,
     })
     return code
   }
@@ -57,7 +57,7 @@ describe('babelPluginIncludeDocs', () => {
     const { docs } = await fetchPropertiesFromDocs({
       file,
       docsDir,
-      findFiles: ['PrimaryComponent.md']
+      findFiles: ['PrimaryComponent.md'],
     })
     expect(docs).toMatchSnapshot()
   })
@@ -78,7 +78,7 @@ describe('babelPluginIncludeDocs', () => {
        * If strictMode is enabled,
        * it will transform "string + bool" or "string + number" in to string or bool only
        */
-      strictMode: true
+      strictMode: true,
     })
 
     expect(code).toMatchSnapshot()
@@ -93,7 +93,7 @@ describe('babelPluginIncludeDocs', () => {
     const sourceDir = nodePath.dirname(file)
     const code = await runIncludeDocsTestSuite({
       sourceDir,
-      onComplete
+      onComplete,
     })
 
     expect(code).toMatchSnapshot()

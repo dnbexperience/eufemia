@@ -14,7 +14,7 @@ import {
   extendPropsWithContext,
   convertStatusToStateOnly,
   combineDescribedBy,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import IconView from '../../icons/view'
 import IconViewOff from '../../icons/hide'
@@ -28,14 +28,14 @@ export default class InputPassword extends React.PureComponent {
     hide_password: PropTypes.string,
     on_show_password: PropTypes.func,
     on_hide_password: PropTypes.func,
-    ...Input.propTypes
+    ...Input.propTypes,
   }
   static defaultProps = {
     show_password: null,
     hide_password: null,
     on_show_password: null,
     on_hide_password: null,
-    ...Input.defaultProps
+    ...Input.defaultProps,
   }
 
   state = { hidden: true }
@@ -51,7 +51,7 @@ export default class InputPassword extends React.PureComponent {
     const hidden = this.state.hidden
     this.setState(
       {
-        hidden: !hidden
+        hidden: !hidden,
       },
       () => {
         if (this._ref.current) {

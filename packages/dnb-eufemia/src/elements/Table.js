@@ -26,16 +26,16 @@ export default class Table extends React.PureComponent {
     sticky: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     sticky_offset: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.number
+      PropTypes.number,
     ]),
 
-    children: PropTypes.node
+    children: PropTypes.node,
   }
 
   static defaultProps = {
     sticky: false,
     sticky_offset: null,
-    children: null
+    children: null,
   }
 
   static enableWebComponent() {
@@ -165,7 +165,7 @@ export default class Table extends React.PureComponent {
         }
       },
       {
-        rootMargin: `-${marginTop}px 0px 0px 0px`
+        rootMargin: `-${marginTop}px 0px 0px 0px`,
       }
     )
   }

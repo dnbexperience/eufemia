@@ -5,14 +5,14 @@
 
 import {
   testPageScreenshot,
-  setupPageScreenshot
+  setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Radio unchecked screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/radio/demos' })
   it('have to match radio in unchecked state', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="radio-default"] .dnb-radio'
+      selector: '[data-visual-test="radio-default"] .dnb-radio',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -21,7 +21,7 @@ describe('Radio unchecked screenshot', () => {
       selector: '[data-visual-test="radio-default"] .dnb-radio',
       simulateSelector:
         '[data-visual-test="radio-default"] .dnb-radio__input',
-      simulate: 'focus' // should be tested first
+      simulate: 'focus', // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -30,7 +30,7 @@ describe('Radio unchecked screenshot', () => {
       selector: '[data-visual-test="radio-default"] .dnb-radio',
       simulateSelector:
         '[data-visual-test="radio-default"] .dnb-radio__input',
-      simulate: 'hover'
+      simulate: 'hover',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -42,7 +42,7 @@ describe('Radio checked screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/radio/demos' })
   it('have to match radio in checked state', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="radio-checked"] .dnb-radio'
+      selector: '[data-visual-test="radio-checked"] .dnb-radio',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -51,7 +51,7 @@ describe('Radio checked screenshot', () => {
       selector: '[data-visual-test="radio-checked"] .dnb-radio',
       simulateSelector:
         '[data-visual-test="radio-checked"] .dnb-radio__input',
-      simulate: 'focus' // should be tested first
+      simulate: 'focus', // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -60,45 +60,45 @@ describe('Radio checked screenshot', () => {
       selector: '[data-visual-test="radio-checked"] .dnb-radio',
       simulateSelector:
         '[data-visual-test="radio-checked"] .dnb-radio__input',
-      simulate: 'hover'
+      simulate: 'hover',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match disabled group', async () => {
     const screenshot = await testPageScreenshot({
       selector:
-        '[data-visual-test="radio-group-disabled"] .dnb-radio-group'
+        '[data-visual-test="radio-group-disabled"] .dnb-radio-group',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match radio group', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="radio-group"] .dnb-radio-group'
+      selector: '[data-visual-test="radio-group"] .dnb-radio-group',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match radio group in vertical layout', async () => {
     const screenshot = await testPageScreenshot({
       selector:
-        '[data-visual-test="radio-group-vertical"] .dnb-radio-group'
+        '[data-visual-test="radio-group-vertical"] .dnb-radio-group',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match radio group with form-status', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="radio-group-status"] .dnb-radio-group'
+      selector: '[data-visual-test="radio-group-status"] .dnb-radio-group',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match radio group plain', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="radio-group-plain"]'
+      selector: '[data-visual-test="radio-group-plain"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match radio button in different sizes', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="radio-sizes"]'
+      selector: '[data-visual-test="radio-sizes"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

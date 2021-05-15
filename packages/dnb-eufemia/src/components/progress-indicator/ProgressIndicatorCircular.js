@@ -17,7 +17,7 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
     progress: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     maxOffset: PropTypes.number,
     onComplete: PropTypes.func,
-    callOnCompleteHandler: PropTypes.func
+    callOnCompleteHandler: PropTypes.func,
   }
   static defaultProps = {
     size: null,
@@ -26,7 +26,7 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
     progress: null,
     maxOffset: 88,
     onComplete: null,
-    callOnCompleteHandler: null
+    callOnCompleteHandler: null,
   }
   static getDerivedStateFromProps(props, state) {
     state.progress = parseFloat(props.progress)
@@ -159,7 +159,9 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
 
     const params = { ...rest }
     if (hasProgressIndicator) {
+      params.role = 'alert'
       params['title'] = `${progress}%`
+      params['aria-busy'] = true
       params['aria-label'] = `${progress}%`
     } else {
       params['aria-hidden'] = true
@@ -233,7 +235,7 @@ const Circle = React.forwardRef(({ className, ...rest }, ref) => {
   )
 })
 Circle.propTypes = {
-  className: PropTypes.string.isRequired
+  className: PropTypes.string.isRequired,
 }
 // Circle.defaultProps = {
 // }

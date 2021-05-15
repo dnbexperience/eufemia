@@ -4,7 +4,7 @@ export const babelPluginConfigDefaults = {
   comments: true,
   compact: false,
   ignore: ['node_modules/**'],
-  presets: ['@babel/preset-react']
+  presets: ['@babel/preset-react'],
 }
 
 export const babylonConfigDefaults = {
@@ -12,10 +12,15 @@ export const babylonConfigDefaults = {
   allowReturnOutsideFunction: true,
   allowImportExportEverywhere: true,
   allowSuperOutsideMethod: true,
-  plugins: ['jsx', 'asyncFunctions', 'objectRestSpread', 'classProperties']
+  plugins: [
+    'jsx',
+    'asyncFunctions',
+    'objectRestSpread',
+    'classProperties',
+  ],
 }
 
 export const babelPluginDefaultPlugins = [
   ['@babel/plugin-proposal-class-properties', { loose: true }],
-  '@babel/plugin-proposal-optional-chaining'
+  '@babel/plugin-proposal-optional-chaining',
 ]

@@ -14,7 +14,7 @@ import {
   registerElement,
   validateDOMAttributes,
   processChildren,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
@@ -32,7 +32,7 @@ export default class FormSet extends React.PureComponent {
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_submit: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
 
     ...formRowPropTypes,
@@ -40,7 +40,7 @@ export default class FormSet extends React.PureComponent {
     on_submit: PropTypes.func,
 
     custom_element: PropTypes.object,
-    custom_method: PropTypes.func
+    custom_method: PropTypes.func,
   }
 
   static defaultProps = {
@@ -53,7 +53,7 @@ export default class FormSet extends React.PureComponent {
     on_submit: null,
 
     custom_element: null,
-    custom_method: null
+    custom_method: null,
   }
 
   static enableWebComponent() {
@@ -123,7 +123,7 @@ export default class FormSet extends React.PureComponent {
         className,
         _className
       ),
-      ...attributes
+      ...attributes,
     }
 
     if (!isTrue(no_form)) {
@@ -142,11 +142,11 @@ export default class FormSet extends React.PureComponent {
       const FormRow = {
         ...formRowProps,
         skeleton,
-        disabled
+        disabled,
         // isInsideFormSet: true // We may considder to use this later to check if we are inside FormSet
       }
       this._cachedContext = extend(this.context, {
-        FormRow
+        FormRow,
       })
     }
 

@@ -45,5 +45,5 @@ export {
   question_medium,
   reset_medium,
   save_medium,
-  subtract_medium
+  subtract_medium,
 }

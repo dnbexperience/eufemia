@@ -13,11 +13,11 @@ import {
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import FormRow from '../form-row/FormRow'
@@ -37,7 +37,7 @@ export default class RadioGroup extends React.PureComponent {
     label: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
     label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -53,7 +53,7 @@ export default class RadioGroup extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     status_state: PropTypes.string,
     status_animation: PropTypes.string,
@@ -61,7 +61,7 @@ export default class RadioGroup extends React.PureComponent {
     suffix: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     layout_direction: PropTypes.oneOf(['column', 'row']),
     vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -75,12 +75,12 @@ export default class RadioGroup extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
 
     custom_element: PropTypes.object,
     custom_method: PropTypes.func,
-    on_change: PropTypes.func
+    on_change: PropTypes.func,
   }
 
   static defaultProps = {
@@ -112,7 +112,7 @@ export default class RadioGroup extends React.PureComponent {
     custom_element: null,
     custom_method: null,
 
-    on_change: null
+    on_change: null,
   }
 
   static enableWebComponent() {
@@ -145,7 +145,7 @@ export default class RadioGroup extends React.PureComponent {
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this._name = props.name || this._id
     this.state = {
-      _listenForPropChanges: true
+      _listenForPropChanges: true,
     }
   }
 
@@ -153,7 +153,7 @@ export default class RadioGroup extends React.PureComponent {
     this.setState({ value, _listenForPropChanges: false })
     dispatchCustomElementEvent(this, 'on_change', {
       value,
-      event
+      event,
     })
   }
 
@@ -213,7 +213,7 @@ export default class RadioGroup extends React.PureComponent {
     )
 
     const params = {
-      ...rest
+      ...rest,
     }
 
     if (showStatus || suffix) {
@@ -236,7 +236,7 @@ export default class RadioGroup extends React.PureComponent {
       size,
       disabled,
       label_position,
-      onChange: this.onChangeHandler
+      onChange: this.onChangeHandler,
     }
 
     const formRowParams = {
@@ -250,7 +250,7 @@ export default class RadioGroup extends React.PureComponent {
       disabled,
       skeleton,
       no_fieldset,
-      skipContentWrapperIfNested: true
+      skipContentWrapperIfNested: true,
     }
 
     return (

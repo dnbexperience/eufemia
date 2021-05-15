@@ -14,10 +14,10 @@ const presets =
           {
             modules: ['esm', 'umd'].includes(process.env.BABEL_ENV)
               ? false
-              : 'cjs'
-          }
+              : 'cjs',
+          },
         ],
-        '@babel/preset-react'
+        '@babel/preset-react',
       ]
 
 // also for IE testing with Storybook}
@@ -30,10 +30,10 @@ const legacy =
           {
             ...presets[0][1], // get preset options
             useBuiltIns: 'usage',
-            corejs: 3
-          }
+            corejs: 3,
+          },
         ],
-        presets[1]
+        presets[1],
       ]
 
 const productionPlugins = [
@@ -41,9 +41,9 @@ const productionPlugins = [
   [
     'babel-plugin-transform-react-remove-prop-types',
     {
-      mode: 'unsafe-wrap'
-    }
-  ]
+      mode: 'unsafe-wrap',
+    },
+  ],
 ]
 
 if (typeof process.env.BABEL_ENV !== 'undefined') {
@@ -53,10 +53,10 @@ if (typeof process.env.BABEL_ENV !== 'undefined') {
       rules: [
         {
           search: /\/(.*)\.scss/g,
-          replace: '/$1.min.css'
-        }
-      ]
-    }
+          replace: '/$1.min.css',
+        },
+      ],
+    },
   ])
 }
 
@@ -65,10 +65,10 @@ module.exports = {
   plugins: [
     'babel-plugin-optimize-clsx',
     '@babel/plugin-proposal-export-default-from',
-    ['@babel/plugin-proposal-object-rest-spread', { loose: true }],
-    ['@babel/plugin-proposal-class-properties', { loose: true }],
+    '@babel/plugin-proposal-object-rest-spread',
+    '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-optional-chaining',
-    '@babel/plugin-transform-object-assign' // for IE support
+    '@babel/plugin-transform-object-assign', // for IE support
   ],
   sourceMaps: true,
   comments: false,
@@ -77,35 +77,35 @@ module.exports = {
     cjs: {
       presets: legacy,
       plugins: productionPlugins.concat([
-        '@babel/plugin-transform-modules-commonjs'
-      ])
+        '@babel/plugin-transform-modules-commonjs',
+      ]),
     },
     esm: {
       presets: legacy,
       plugins: [
         ...productionPlugins,
-        ['@babel/plugin-transform-runtime', { useESModules: true }]
-      ]
+        ['@babel/plugin-transform-runtime', { useESModules: true }],
+      ],
     },
     es: {
       plugins: [
         ...productionPlugins,
-        ['@babel/plugin-transform-runtime', { useESModules: true }]
-      ]
+        ['@babel/plugin-transform-runtime', { useESModules: true }],
+      ],
     },
     umd: {
       presets: legacy,
       plugins: [
         ...productionPlugins,
-        ['@babel/plugin-transform-runtime', { useESModules: true }]
-      ]
+        ['@babel/plugin-transform-runtime', { useESModules: true }],
+      ],
     },
     production: {
       presets: legacy,
       plugins: [
         ...productionPlugins,
-        ['@babel/plugin-transform-runtime', { useESModules: true }]
-      ]
+        ['@babel/plugin-transform-runtime', { useESModules: true }],
+      ],
     },
     development: { presets: legacy },
     test: {
@@ -114,13 +114,13 @@ module.exports = {
           '@babel/preset-env',
           {
             targets: {
-              node: '14.10'
-            }
-          }
+              node: '14.10',
+            },
+          },
         ],
-        '@babel/preset-react'
+        '@babel/preset-react',
       ],
-      plugins: ['transform-dynamic-import']
-    }
-  }
+      plugins: ['transform-dynamic-import'],
+    },
+  },
 }

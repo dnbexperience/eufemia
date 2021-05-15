@@ -8,12 +8,12 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   dispatchCustomElementEvent,
-  extendPropsWithContext
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 
 import {
   calculatePagination,
-  getDotsAriaLabel
+  getDotsAriaLabel,
 } from './PaginationCalculation'
 import PaginationContext from './PaginationContext'
 
@@ -28,7 +28,7 @@ export default class PaginationBar extends React.PureComponent {
     next_title: PropTypes.string, // eslint-disable-line
     more_pages: PropTypes.string, // eslint-disable-line
     contentRef: PropTypes.object,
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]) // eslint-disable-line
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]), // eslint-disable-line
   }
   static defaultProps = {
     button_title: null,
@@ -36,19 +36,19 @@ export default class PaginationBar extends React.PureComponent {
     next_title: null,
     more_pages: null,
     contentRef: null,
-    children: null
+    children: null,
   }
 
   componentDidMount() {
     const context = this.context.pagination
     const currentPage = context.startupPage || context.currentPage
     const items = context.prefillItems(currentPage, {
-      skipObserver: true
+      skipObserver: true,
     })
 
     context.setState({
       currentPage,
-      items
+      items,
     })
 
     context.updatePageContent(currentPage)
@@ -92,7 +92,7 @@ export default class PaginationBar extends React.PureComponent {
     this.focusPage()
 
     this.context.pagination.setState({
-      currentPage
+      currentPage,
     })
     this.context.pagination.updatePageContent(currentPage)
 
@@ -101,7 +101,7 @@ export default class PaginationBar extends React.PureComponent {
       pageNo: currentPage, // deprecated
       pageNumber: currentPage,
       ...this.context.pagination,
-      event
+      event,
     })
   }
 
@@ -130,7 +130,7 @@ export default class PaginationBar extends React.PureComponent {
       pageCount,
       currentPage,
       disabled,
-      skeleton
+      skeleton,
     } = this.context.pagination
 
     const prevIsDisabled = currentPage === 1
@@ -184,7 +184,7 @@ export default class PaginationBar extends React.PureComponent {
                 aria-label={getDotsAriaLabel({
                   more_pages,
                   list,
-                  pages
+                  pages,
                 })}
               >
                 <div key="dot-1" />

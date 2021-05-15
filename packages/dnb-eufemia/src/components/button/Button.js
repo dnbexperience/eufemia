@@ -16,15 +16,15 @@ import {
   validateDOMAttributes,
   processChildren,
   getStatusState,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
-  createSkeletonClass
+  createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import IconPrimary from '../icon-primary/IconPrimary'
 import FormStatus from '../form-status/FormStatus'
@@ -33,7 +33,7 @@ import { launch, launch_medium } from '../../icons'
 import Tooltip from '../tooltip/Tooltip'
 
 export const buttonVariantPropType = {
-  variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'signal'])
+  variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'signal']),
 }
 export const buttonPropTypes = {
   text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
@@ -44,20 +44,20 @@ export const buttonPropTypes = {
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
-    PropTypes.func
+    PropTypes.func,
   ]),
   icon_position: PropTypes.oneOf(['left', 'right', 'top']),
   icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   tooltip: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
-    PropTypes.node
+    PropTypes.node,
   ]),
   status: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
     PropTypes.func,
-    PropTypes.node
+    PropTypes.node,
   ]),
   status_state: PropTypes.string,
   status_animation: PropTypes.string,
@@ -68,7 +68,7 @@ export const buttonPropTypes = {
   to: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
-    PropTypes.func
+    PropTypes.func,
   ]),
   custom_content: PropTypes.node,
   wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -82,12 +82,12 @@ export const buttonPropTypes = {
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.func,
-    PropTypes.node
+    PropTypes.node,
   ]),
   element: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.object,
-    PropTypes.node
+    PropTypes.node,
   ]),
 
   ...spacingPropTypes,
@@ -96,7 +96,7 @@ export const buttonPropTypes = {
   custom_method: PropTypes.func,
 
   onClick: PropTypes.func,
-  on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+  on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 }
 
 /**
@@ -107,11 +107,11 @@ export default class Button extends React.PureComponent {
   static contextType = Context
 
   static propTypes = {
-    ...buttonPropTypes
+    ...buttonPropTypes,
   }
 
   static defaultProps = {
-    type: 'button', // set the type because of the anchor/href situation – can be made more smart in future
+    type: null, // set the type because of the anchor/href situation – can be made more smart in future
     text: null,
     variant: null,
     size: null,
@@ -144,7 +144,7 @@ export default class Button extends React.PureComponent {
     custom_method: null,
 
     onClick: null,
-    on_click: null
+    on_click: null,
   }
 
   static enableWebComponent() {
@@ -176,11 +176,11 @@ export default class Button extends React.PureComponent {
 
   onClickHandler = (event) => {
     const afterContent = dispatchCustomElementEvent(this, 'on_click', {
-      event
+      event,
     })
     if (afterContent && React.isValidElement(afterContent)) {
       this.setState({
-        afterContent
+        afterContent,
       })
     }
   }
@@ -198,7 +198,6 @@ export default class Button extends React.PureComponent {
     const {
       class: class_name,
       className,
-      type,
       variant,
       size,
       title,
@@ -306,12 +305,15 @@ export default class Button extends React.PureComponent {
 
     const params = {
       className: classes,
-      type,
       title,
       id: this._id,
       disabled: isTrue(disabled),
       ...attributes,
-      onClick: this.onClickHandler
+      onClick: this.onClickHandler,
+    }
+
+    if (Element === Anchor && !params.type) {
+      params.type = 'button'
     }
 
     skeletonDOMAttributes(params, skeleton, this.context)
@@ -365,17 +367,17 @@ class Content extends React.PureComponent {
     content: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.array,
-      PropTypes.node
+      PropTypes.node,
     ]),
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]),
     icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.bool,
-    isIconOnly: PropTypes.bool
+    isIconOnly: PropTypes.bool,
   }
   static defaultProps = {
     custom_content: null,
@@ -385,7 +387,7 @@ class Content extends React.PureComponent {
     icon_size: 'default',
     bounding: false,
     skeleton: null,
-    isIconOnly: null
+    isIconOnly: null,
   }
   render() {
     const {
@@ -396,7 +398,7 @@ class Content extends React.PureComponent {
       icon_size,
       bounding,
       skeleton,
-      isIconOnly
+      isIconOnly,
     } = this.props
 
     const ret = []
@@ -443,7 +445,7 @@ class Content extends React.PureComponent {
         React.isValidElement(icon) && /Icon/i.test(String(icon.type)) ? (
           React.cloneElement(icon, {
             key: 'button-icon',
-            className: `dnb-button__icon ${icon.props.className || ''}`
+            className: `dnb-button__icon ${icon.props.className || ''}`,
           })
         ) : (
           <IconPrimary

@@ -14,12 +14,12 @@ import {
   Button,
   FormSet,
   FormRow,
-  FormLabel
+  FormLabel,
 } from '@dnb/eufemia/src/components'
 import InputPassword from '@dnb/eufemia/src/components/input/InputPassword'
 
 export default {
-  title: 'Eufemia/Components/Input'
+  title: 'Eufemia/Components/Input',
 }
 
 const CustomStyle = styled.div`
@@ -267,7 +267,7 @@ export const InputSandbox = () => {
               ' ',
               /\d/,
               /\d/,
-              /\d/
+              /\d/,
             ]}
             show_mask="true"
           />

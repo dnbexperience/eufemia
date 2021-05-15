@@ -9,13 +9,13 @@ import {
   fakeProps,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../FormRow'
 import Input from '../../input/Input'
 
 const props = fakeProps(require.resolve('../FormRow'), {
-  optional: true
+  optional: true,
 })
 props.id = 'form-row'
 props.direction = 'horizontal'

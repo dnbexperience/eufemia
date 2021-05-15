@@ -8,7 +8,7 @@ import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
 import {
-  Button
+  Button,
   // , IconPrimary
 } from '@dnb/eufemia/src/components'
 
@@ -17,7 +17,7 @@ const WrappedButton = styled(Button)`
 `
 
 export default {
-  title: 'Eufemia/Components/Button'
+  title: 'Eufemia/Components/Button',
 }
 
 export const ButtonSandbox = () => (
@@ -286,28 +286,28 @@ const Template = (props) => {
 export const Primary = Template.bind({})
 Primary.args = {
   text: 'Button',
-  variant: 'primary'
+  variant: 'primary',
 }
 
 export const Secondary = Template.bind({})
 Secondary.args = {
   text: 'Button',
-  variant: 'secondary'
+  variant: 'secondary',
 }
 
 export const Tertiary = Template.bind({})
 Tertiary.args = {
   text: 'Button',
-  variant: 'tertiary'
+  variant: 'tertiary',
 }
 
 export const Signal = Template.bind({})
 Signal.args = {
   text: 'Button',
-  variant: 'signal'
+  variant: 'signal',
 }
 
 export const IconButton = Template.bind({})
 IconButton.args = {
-  icon: 'bell'
+  icon: 'bell',
 }

@@ -13,7 +13,7 @@ import { Provider, Context } from '@dnb/eufemia/src/shared'
 // import t from '@dnb/eufemia/src/shared/useTranslation'
 import useTranslation, {
   getTranslation,
-  Translation
+  Translation,
 } from '@dnb/eufemia/src/shared/useTranslation'
 // import { format } from '@dnb/eufemia/src/components/NumberFormat'
 import { P } from '@dnb/eufemia/src/elements'
@@ -24,25 +24,25 @@ import enGB from './translation/en.json'
 
 const nbNOx = {
   'Modal.close_title': 'StengX',
-  'other.string': '{foo} ({bar} X {max})'
+  'other.string': '{foo} ({bar} X {max})',
 }
 
 export default {
-  title: 'Eufemia/Components/Translation'
+  title: 'Eufemia/Components/Translation',
 }
 
 const UseTrans = () => {
   const str = useTranslation('other.string', {
     foo: 'foo',
     bar: 'riskScore',
-    max: 'max'
+    max: 'max',
   })
   console.log('str', str)
 
   return useTranslation('other.string', {
     foo: 'foo',
     bar: 'riskScore',
-    max: 'max'
+    max: 'max',
   })
 }
 
@@ -50,7 +50,7 @@ const ChangeLocale = () => {
   const {
     setLocale,
     // setCurrentLocale,// to update only the current context
-    locale
+    locale,
   } = React.useContext(Context)
   console.log('locale', locale)
 
@@ -78,7 +78,7 @@ export const TranslationSandbox = () => (
         // locale="en-GB"
         locales={{
           'nb-NO': nbNOx,
-          'en-GB': enGB
+          'en-GB': enGB,
         }}
       >
         <ChangeLocale />
@@ -90,13 +90,13 @@ export const TranslationSandbox = () => (
           // locale="en-GB"
           locales={{
             'nb-NO': nbNO,
-            'en-GB': enGB
+            'en-GB': enGB,
           }}
         >
           {getTranslation('other.string', {
             foo: 'foo',
             bar: 'riskScore',
-            max: 'max'
+            max: 'max',
           })}
 
           <Translation

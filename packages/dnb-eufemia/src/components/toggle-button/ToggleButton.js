@@ -16,12 +16,12 @@ import {
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 
 import Radio from '../radio/Radio'
@@ -47,7 +47,7 @@ export default class ToggleButton extends React.PureComponent {
     label: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
     label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -63,7 +63,7 @@ export default class ToggleButton extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     status_state: PropTypes.string,
     status_animation: PropTypes.string,
@@ -71,18 +71,18 @@ export default class ToggleButton extends React.PureComponent {
     suffix: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     value: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
       PropTypes.object,
-      PropTypes.array
+      PropTypes.array,
     ]),
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]),
     icon_position: PropTypes.oneOf(['left', 'right']),
     icon_size: PropTypes.string,
@@ -98,7 +98,7 @@ export default class ToggleButton extends React.PureComponent {
     custom_element: PropTypes.object,
     custom_method: PropTypes.func,
     on_change: PropTypes.func,
-    on_state_update: PropTypes.func
+    on_state_update: PropTypes.func,
   }
 
   static defaultProps = {
@@ -134,7 +134,7 @@ export default class ToggleButton extends React.PureComponent {
     custom_method: null,
 
     on_change: null,
-    on_state_update: null
+    on_state_update: null,
   }
 
   static enableWebComponent() {
@@ -157,7 +157,7 @@ export default class ToggleButton extends React.PureComponent {
 
     if (state.checked !== state.__checked) {
       dispatchCustomElementEvent({ props }, 'on_state_update', {
-        checked: state.checked
+        checked: state.checked,
       })
     }
 
@@ -173,7 +173,7 @@ export default class ToggleButton extends React.PureComponent {
     this._refButton = React.createRef()
 
     this.state = {
-      _listenForPropChanges: true
+      _listenForPropChanges: true,
     }
 
     // set the startup checked values from context, if they exists
@@ -197,12 +197,12 @@ export default class ToggleButton extends React.PureComponent {
                   // we fill combine theese arrays
                   tmp && Array.isArray(tmp.values)
                     ? [...tmp.values, props.value]
-                    : [props.value]
+                    : [props.value],
               }
             })
           } else {
             context.setContext({
-              value: props.value
+              value: props.value,
             })
           }
         }
@@ -246,7 +246,7 @@ export default class ToggleButton extends React.PureComponent {
       // reset the status state, because the user has mad an action
       // status_state: null,
       checked,
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
     this.callOnChange({ checked, event })
 
@@ -266,13 +266,13 @@ export default class ToggleButton extends React.PureComponent {
     if (this.context.onChange) {
       this.context.onChange({
         value,
-        event
+        event,
       })
     }
     dispatchCustomElementEvent(this, 'on_change', {
       checked,
       value,
-      event
+      event,
     })
   }
 
@@ -357,7 +357,7 @@ export default class ToggleButton extends React.PureComponent {
               createSpacingClasses(props),
               className,
               _className
-            )
+            ),
           }
 
           // to remove spacing props
@@ -372,15 +372,17 @@ export default class ToggleButton extends React.PureComponent {
             icon,
             icon_size,
             icon_position,
-            ['aria-pressed']: String(checked),
-            ...rest
+            'aria-pressed': String(checked || false),
+            ...rest,
           }
 
           const componentParams = {
             checked,
             disabled,
-            ['aria-hidden']: true,
-            tabIndex: '-1'
+            element: 'span',
+            role: undefined,
+            name: undefined,
+            title: undefined,
           }
 
           if (status) {

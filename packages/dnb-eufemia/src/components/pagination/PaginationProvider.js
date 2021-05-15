@@ -8,10 +8,10 @@ import PropTypes from 'prop-types'
 import Context from '../../shared/Context'
 import {
   isTrue,
-  dispatchCustomElementEvent
+  dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import {
-  ContentObject
+  ContentObject,
   // , detectScrollDirection // NB: We do currently not use scroll direction handling
 } from './PaginationHelpers'
 
@@ -24,12 +24,12 @@ export default class PaginationProvider extends React.PureComponent {
     // eslint-disable-next-line
     startup_page: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.number
+      PropTypes.number,
     ]),
     // eslint-disable-next-line
     current_page: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.number
+      PropTypes.number,
     ]),
     page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // eslint-disable-line
     set_content_handler: PropTypes.func,
@@ -38,7 +38,7 @@ export default class PaginationProvider extends React.PureComponent {
     end_infinity_handler: PropTypes.func,
     rerender: PropTypes.shape({ current: PropTypes.func }),
     store: PropTypes.shape({
-      current: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
+      current: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
     }),
     useMarkerOnly: PropTypes.bool,
     internalContent: PropTypes.oneOfType([
@@ -46,15 +46,15 @@ export default class PaginationProvider extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
       PropTypes.object,
-      PropTypes.array
+      PropTypes.array,
     ]),
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
       PropTypes.node,
       PropTypes.object,
-      PropTypes.array
-    ])
+      PropTypes.array,
+    ]),
   }
   static defaultProps = {
     startup_page: null,
@@ -68,7 +68,7 @@ export default class PaginationProvider extends React.PureComponent {
     store: null,
     useMarkerOnly: null,
     internalContent: null,
-    children: null
+    children: null,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -138,7 +138,7 @@ export default class PaginationProvider extends React.PureComponent {
       items: [],
       // scrollDirection: 'down',// NB: We do currently not use scroll direction handling
       isLoading: false,
-      _listenForPropChanges: true
+      _listenForPropChanges: true,
     }
 
     if (props.rerender) {
@@ -161,7 +161,7 @@ export default class PaginationProvider extends React.PureComponent {
       set_content_handler,
       reset_content_handler,
       reset_pagination_handler,
-      end_infinity_handler
+      end_infinity_handler,
     } = this.props
 
     // update the callback handlers
@@ -233,7 +233,7 @@ export default class PaginationProvider extends React.PureComponent {
       if (!itemToPrepare) {
         items = this.prefillItems(pageNumber, {
           position,
-          skipObserver: true
+          skipObserver: true,
         })
         itemToPrepare = items.find(({ pageNumber: p }) => p === pageNumber)
       }
@@ -248,7 +248,7 @@ export default class PaginationProvider extends React.PureComponent {
         {
           items: [...(items || this.state.items)], // we make a copy, only to rerender
           currentPage: pageNumber, // update the currentPage
-          _listenForPropChanges: false
+          _listenForPropChanges: false,
         },
         this.callOnPageUpdate
       )
@@ -261,7 +261,7 @@ export default class PaginationProvider extends React.PureComponent {
     this.resetContentTimeout = setTimeout(() => {
       this.setState({
         items: [],
-        _listenForPropChanges: false
+        _listenForPropChanges: false,
       })
     }, 10) // we have to be two tick after "rerender"
   }
@@ -277,7 +277,7 @@ export default class PaginationProvider extends React.PureComponent {
       lowerPage,
       upperPage,
       currentPage,
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
 
     clearTimeout(this.resetInfinityTimeout)
@@ -291,7 +291,7 @@ export default class PaginationProvider extends React.PureComponent {
     this._hasEndedInfinity = false
     this.setState({
       hasEndedInfinity: false,
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
   }
 
@@ -300,7 +300,7 @@ export default class PaginationProvider extends React.PureComponent {
     this.setState(
       {
         hasEndedInfinity: true,
-        _listenForPropChanges: false
+        _listenForPropChanges: false,
       },
       () => {
         const pageNumber = this.state.currentPage + 1
@@ -308,7 +308,7 @@ export default class PaginationProvider extends React.PureComponent {
           page: pageNumber, // deprecated
           pageNo: pageNumber, // deprecated
           pageNumber,
-          ...this
+          ...this,
         })
       }
     )
@@ -318,7 +318,7 @@ export default class PaginationProvider extends React.PureComponent {
     this.setState(
       {
         items,
-        _listenForPropChanges: false
+        _listenForPropChanges: false,
       },
       cb
     )
@@ -333,7 +333,7 @@ export default class PaginationProvider extends React.PureComponent {
       pageNumber,
       position,
       skipObserver: false,
-      ...props
+      ...props,
     }
 
     switch (position) {
@@ -366,7 +366,7 @@ export default class PaginationProvider extends React.PureComponent {
       potentialElement = this.props.internalContent({
         ...this, // send along setContent etc
         pageNumber,
-        page: pageNumber
+        page: pageNumber,
       })
     }
 
@@ -405,8 +405,8 @@ export default class PaginationProvider extends React.PureComponent {
             onPageUpdate: this.onPageUpdate,
             _hasEndedInfinity: this._hasEndedInfinity,
             ...this.props,
-            ...this.state
-          }
+            ...this.state,
+          },
         }}
       >
         {children}

@@ -9,11 +9,11 @@ import {
   fetchFillColor,
   fetchStrokes,
   fetchSize,
-  fetchText
+  fetchText,
 } from '../helpers/docHelpers'
 import {
   makeScssFromFigmaDoc,
-  makeScssVarsFromFigmaDoc
+  makeScssVarsFromFigmaDoc,
 } from './makeStyleFromFigmaDoc'
 import { extractSassVars } from './extractSassVarsToJson'
 import { asyncForEach } from '../../tools'
@@ -23,7 +23,7 @@ export const getComponentsDocs = async (
   { componentSelector = '.dnb-' } = {}
 ) => {
   const componentsDocs = findAllNodes(componentsDoc, {
-    name: new RegExp(componentSelector)
+    name: new RegExp(componentSelector),
   }).filter(({ name }) => !/#skip/.test(name))
 
   return componentsDocs
@@ -38,10 +38,10 @@ export const extractFigmaStylesFromComponents = async (componentsDocs) => {
       const componentsDocs = findAllNodes(
         componentDoc,
         {
-          type: /GROUP|COMPONENT/
+          type: /GROUP|COMPONENT/,
         },
         {
-          visible: false
+          visible: false,
         }
       )
 
@@ -62,7 +62,7 @@ export const extractFigmaStylesFromComponents = async (componentsDocs) => {
         // prepare our styles
         const {
           scssStyle,
-          scssVars
+          scssVars,
         } = await composeFigmaStyleFromComponent(
           { componentName, styleName, ...componentDoc },
           { doForceScssOutput }
@@ -79,7 +79,7 @@ export const extractFigmaStylesFromComponents = async (componentsDocs) => {
         ].scssStyle = `${res[componentName].scssStyle}\n${scssStyle}`
         res[componentName].scssVars = {
           ...res[componentName].scssVars,
-          ...scssVars
+          ...scssVars,
         }
       })
     }
@@ -96,7 +96,7 @@ export const composeFigmaStyleFromComponent = async (
 
   const componentNameSub =
     (styleNameSub.match(/&--(.*)/) || // remove &--subclass
-    styleNameSub.match(/&\[(.*)\]/) || // remove &[disabled]
+      styleNameSub.match(/&\[(.*)\]/) || // remove &[disabled]
       [])[1] || null
   const existingSassVars = await extractSassVars({
     file: `./src/components/${componentName}/style/_${componentName}.scss`,
@@ -104,7 +104,7 @@ export const composeFigmaStyleFromComponent = async (
       String(scssContent).replace(
         /(@import '\.\/)/g,
         `@import './components/${componentName}/style/`
-      )
+      ),
   })
 
   // fetch styles from component doc
@@ -122,7 +122,7 @@ export const composeFigmaStyleFromComponent = async (
       {
         existingSassVars,
         prependKey: componentName,
-        subkeyToFind: componentNameSub
+        subkeyToFind: componentNameSub,
       }
     )
 
@@ -138,7 +138,7 @@ export const composeFigmaStyleFromComponent = async (
     ['background-color', makeStyle('background-color', backgroundColor)],
     ['border-radius', makeStyle('border-radius', size)],
     ['border-width', makeStyle('border-width', stroke)],
-    ['border-color', makeStyle('border-color', stroke)]
+    ['border-color', makeStyle('border-color', stroke)],
   ].filter(([key, value]) => key && value)
 
   let scssStyle = '',
@@ -159,7 +159,7 @@ export const composeFigmaStyleFromComponent = async (
       existingSassVars,
       newStylesFromDoc,
       prependKey: componentName,
-      prependSubKey: componentNameSub
+      prependSubKey: componentNameSub,
     })
   }
   return { scssVars, scssStyle }

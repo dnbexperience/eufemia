@@ -9,7 +9,7 @@ import {
   fakeProps,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../GlobalError'
 
@@ -21,7 +21,7 @@ const children = null
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../GlobalError'), {
-    optional: true
+    optional: true,
   }),
 
   status_content,
@@ -29,13 +29,13 @@ const snapshotProps = {
 
   status,
   text,
-  title
+  title,
 }
 
 const props = {
   status,
   text,
-  title
+  title,
 }
 
 describe('GlobalError component', () => {

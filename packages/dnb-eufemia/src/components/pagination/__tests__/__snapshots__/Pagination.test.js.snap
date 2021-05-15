@@ -497,9 +497,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                       class="dnb-pagination__indicator__inner"
                     >
                       <div
-                        aria-busy="true"
                         class="dnb-progress-indicator dnb-progress-indicator--visible dnb-progress-indicator--horizontal"
-                        role="alert"
                       >
                         <div
                           aria-hidden="true"
@@ -592,7 +590,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               title={null}
               to={null}
               tooltip={null}
-              type="button"
+              type={null}
               variant={null}
               wrap={false}
             >
@@ -601,7 +599,6 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                 className="dnb-button dnb-button--secondary dnb-pagination__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
                 disabled={true}
                 onClick={[Function]}
-                type="button"
               >
                 <Content
                   bounding={false}
@@ -633,7 +630,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   title={null}
                   to={null}
                   tooltip={null}
-                  type="button"
+                  type={null}
                   variant={null}
                   wrap={false}
                 >
@@ -720,7 +717,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               title="Neste side"
               to={null}
               tooltip={null}
-              type="button"
+              type={null}
               variant={null}
               wrap={false}
             >
@@ -729,7 +726,6 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                 disabled={false}
                 onClick={[Function]}
                 title="Neste side"
-                type="button"
               >
                 <Content
                   bounding={false}
@@ -761,7 +757,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   title="Neste side"
                   to={null}
                   tooltip={null}
-                  type="button"
+                  type={null}
                   variant={null}
                   wrap={false}
                 >
@@ -853,9 +849,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                         visible={true}
                       >
                         <div
-                          aria-busy={true}
                           className="dnb-progress-indicator dnb-progress-indicator--visible dnb-progress-indicator--horizontal"
-                          role="alert"
                         >
                           <ProgressIndicatorCircular
                             callOnCompleteHandler={[Function]}

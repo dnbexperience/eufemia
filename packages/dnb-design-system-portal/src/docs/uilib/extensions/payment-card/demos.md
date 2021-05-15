@@ -32,7 +32,7 @@ import PaymentCard, {
   getCardData,
   Designs,
   ProductType,
-  CardType
+  CardType,
 } from '@dnb/eufemia/extensions/PaymentCard'
 ```
 

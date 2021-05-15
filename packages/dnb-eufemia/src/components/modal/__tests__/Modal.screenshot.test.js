@@ -5,27 +5,27 @@
 
 import {
   testPageScreenshot,
-  setupPageScreenshot
+  setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
 const pageViewport = {
   width: 700,
-  height: 600
+  height: 600,
 }
 
 describe('Modal screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/modal/demos'
+    url: '/uilib/components/modal/demos',
   })
   it('have to match the default modal trigger button', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="modal-trigger-default"]'
+      selector: '[data-visual-test="modal-trigger-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the suffix help button usage', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="modal-help-button"]'
+      selector: '[data-visual-test="modal-help-button"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -35,7 +35,7 @@ describe('Modal screenshot', () => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="modal-trigger-default"] button:first-of-type',
-      screenshotSelector: '.dnb-modal__content__inner'
+      screenshotSelector: '.dnb-modal__content__inner',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -44,7 +44,7 @@ describe('Modal screenshot', () => {
 describe('Modal screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/modal/demos',
-    pageViewport
+    pageViewport,
   })
   it('have to match the default modal window', async () => {
     const screenshot = await testPageScreenshot({
@@ -52,7 +52,7 @@ describe('Modal screenshot', () => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="modal-trigger-default"] button:first-of-type',
-      screenshotSelector: '.dnb-modal__content'
+      screenshotSelector: '.dnb-modal__content',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -61,7 +61,7 @@ describe('Modal screenshot', () => {
 describe('Drawer screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/modal/demos',
-    pageViewport
+    pageViewport,
   })
   it('have to match the default drawer window', async () => {
     const screenshot = await testPageScreenshot({
@@ -69,7 +69,7 @@ describe('Drawer screenshot', () => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="modal-drawer"] button:first-of-type',
-      screenshotSelector: '.dnb-modal__content'
+      screenshotSelector: '.dnb-modal__content',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -78,7 +78,7 @@ describe('Drawer screenshot', () => {
 describe('Additional Modal screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/modal/demos',
-    pageViewport
+    pageViewport,
   })
   it('have to match modal without spacing', async () => {
     const screenshot = await testPageScreenshot({
@@ -86,7 +86,7 @@ describe('Additional Modal screenshot', () => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="modal-no-spacing"] button:first-of-type',
-      screenshotSelector: '.dnb-modal__content'
+      screenshotSelector: '.dnb-modal__content',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -95,11 +95,11 @@ describe('Additional Modal screenshot', () => {
 describe('Additional Modal screenshot', () => {
   const pageViewport = {
     width: 400,
-    height: 400
+    height: 400,
   }
   setupPageScreenshot({
     url: '/uilib/components/modal/demos',
-    pageViewport
+    pageViewport,
   })
   it('have to match a fullscreen modal', async () => {
     const screenshot = await testPageScreenshot({
@@ -107,7 +107,7 @@ describe('Additional Modal screenshot', () => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="modal-fullscreen"] button:first-of-type',
-      screenshotSelector: '.dnb-modal__content'
+      screenshotSelector: '.dnb-modal__content',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

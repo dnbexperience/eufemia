@@ -47,7 +47,7 @@ export const prepareContext = (props = {}) => {
     },
     locales,
     ...props,
-    translation // make sure we set this after props, since we update this one!
+    translation, // make sure we set this after props, since we update this one!
   }
 
   return context
@@ -67,7 +67,7 @@ const Context = React.createContext(
   prepareContext({
     locale: LOCALE,
     currency: CURRENCY,
-    currency_display: CURRENCY_DISPLAY
+    currency_display: CURRENCY_DISPLAY,
   })
 )
 

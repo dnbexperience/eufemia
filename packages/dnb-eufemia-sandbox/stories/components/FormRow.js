@@ -17,11 +17,11 @@ import {
   Radio,
   Input,
   FormLabel,
-  FormRow
+  FormRow,
 } from '@dnb/eufemia/src/components'
 
 export default {
-  title: 'Eufemia/Components/FormRow'
+  title: 'Eufemia/Components/FormRow',
 }
 
 const Center = styled.div`
@@ -51,7 +51,7 @@ export const FormRowSandbox = () => (
           FormRow={{
             // indent: true,
             // indent_offset: 'large',
-            direction: 'horizontal'
+            direction: 'horizontal',
             //  vertical: true
           }}
         >

@@ -15,6 +15,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
         "custom_method": [Function],
         "default_state": "default_state",
         "disabled": "disabled",
+        "element": "element",
         "global_status_id": "global_status_id",
         "id": "id",
         "label": "label",
@@ -49,6 +50,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
   custom_method={null}
   default_state={null}
   disabled={null}
+  element="input"
   global_status_id={null}
   id="checkbox"
   label="checkbox"
@@ -172,19 +174,19 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
 .dnb-checkbox {
   /*
     * When checkbox is OFF
-    * aka when the checkbox is not :checked
+    * aka when the checkbox is not [aria-checked=\\"true\\"]
     */
   /*
     * When checkbox is ON
-    * aka when the checkbox is :checked
+    * aka when the checkbox is [aria-checked=\\"true\\"]
     */
   /*
     * When checkboxed OFF
-    * aka when the checkbox is not :checked
+    * aka when the checkbox is not [aria-checked=\\"true\\"]
     */
   /*
     * When checkboxed ON
-    * aka when the checkbox is :checked
+    * aka when the checkbox is [aria-checked=\\"true\\"]
     */
   /*
     * On disabled
@@ -212,22 +214,22 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
     */ }
   .dnb-checkbox__gfx {
     transition: opacity 200ms ease-out, transform 200ms ease-out; }
-  .dnb-checkbox__input:not(:checked) ~ .dnb-checkbox__gfx {
+  .dnb-checkbox__input:not([aria-checked='true']) ~ .dnb-checkbox__gfx {
     opacity: 0;
     transform: scale(0.8);
     color: var(--color-sea-green); }
-  .dnb-checkbox__input:checked ~ .dnb-checkbox__gfx {
+  .dnb-checkbox__input[aria-checked='true'] ~ .dnb-checkbox__gfx {
     opacity: 1;
     transform: scale(1);
     color: var(--color-white); }
-  .dnb-checkbox__input:not(:checked) ~ .dnb-checkbox__button {
+  .dnb-checkbox__input:not([aria-checked='true']) ~ .dnb-checkbox__button {
     background-color: var(--color-white);
     border-color: var(--color-sea-green); }
-  .dnb-checkbox__input:checked ~ .dnb-checkbox__button {
+  .dnb-checkbox__input[aria-checked='true'] ~ .dnb-checkbox__button {
     background-color: var(--color-sea-green); }
   .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
     border-color: var(--color-mint-green-50); }
-  .dnb-checkbox__input[disabled]:checked ~ .dnb-checkbox__button {
+  .dnb-checkbox__input[disabled][aria-checked='true'] ~ .dnb-checkbox__button {
     border-color: transparent;
     background-color: var(--color-sea-green-30); }
   html[data-whatinput='keyboard'] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button {
@@ -240,7 +242,7 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
     display: block; }
   .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__button {
     background-color: var(--color-mint-green-50); }
-  .dnb-checkbox__input:not([disabled]):not(:focus):checked:hover ~ .dnb-checkbox__button {
+  .dnb-checkbox__input:not([disabled]):not(:focus)[aria-checked='true']:hover ~ .dnb-checkbox__button {
     border-color: transparent; }
   .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__gfx {
     color: var(--color-sea-green); }
@@ -264,7 +266,7 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
     background-color: var(--color-fire-red-8); }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-checkbox__button {
     border-color: var(--color-fire-red-8); }
-  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-checkbox__button {
+  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover)[aria-checked='true'] ~ .dnb-checkbox__button {
     background-color: var(--color-fire-red); }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__gfx {
     color: var(--color-fire-red); }

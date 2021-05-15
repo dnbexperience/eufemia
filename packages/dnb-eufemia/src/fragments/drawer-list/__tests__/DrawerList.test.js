@@ -9,18 +9,18 @@ import {
   fakeProps,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../DrawerList'
 
 beforeAll(() => {
   window.resizeTo = function resizeTo({
     width = window.innerWidth,
-    height = window.innerHeight
+    height = window.innerHeight,
   }) {
     Object.assign(this, {
       innerWidth: width,
-      innerHeight: height
+      innerHeight: height,
     }).dispatchEvent(new this.Event('resize'))
 
     // new setDirectionObserver implementation
@@ -34,7 +34,7 @@ beforeAll(() => {
 
   window.scrollTo = function resizeTo({ top = window.pageYOffset }) {
     Object.assign(this, {
-      pageYOffset: top
+      pageYOffset: top,
     }).dispatchEvent(new this.Event('scroll'))
 
     // new setDirectionObserver implementation
@@ -49,7 +49,7 @@ beforeAll(() => {
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../DrawerList'), {
-    optional: true
+    optional: true,
   }),
   id: 'drawer-list-id',
   direction: 'bottom',
@@ -59,47 +59,47 @@ const snapshotProps = {
   no_animation: true,
   prevent_selection: null,
   size: 'default',
-  align_drawer: null
+  align_drawer: null,
 }
 
 // use no_animation so we don't need to wait
 const mockProps = {
-  skip_portal: true
+  skip_portal: true,
 }
 const props = {
   id: 'drawer-list-id',
   value: 2,
   skip_portal: true,
   opened: true,
-  no_animation: true
+  no_animation: true,
 }
 
 const mockData = [
   {
     selected_value: 'Brukskonto - Kari Nordmann',
-    content: ['1234 56 78901', 'Brukskonto - Kari Nordmann']
+    content: ['1234 56 78901', 'Brukskonto - Kari Nordmann'],
   },
   {
     selected_value: 'Sparekonto - Ole Nordmann',
-    content: ['1234 56 78902', 'Sparekonto - Ole Nordmann']
+    content: ['1234 56 78902', 'Sparekonto - Ole Nordmann'],
   },
   {
     selected_value:
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
       '1134 56 78962',
-      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
-    ]
+      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
+    ],
   },
   {
     selected_value: 'Oppussing - Ole Nordmann',
-    content: ['1534 96 48901', 'Oppussing - Ole Nordmann']
+    content: ['1534 96 48901', 'Oppussing - Ole Nordmann'],
   },
   {
-    content: <>Custom content {'123'}</>
+    content: <>Custom content {'123'}</>,
   },
   <>Custom content {'123'}</>,
-  [<React.Fragment key="key1">Custom content {'123'}</React.Fragment>]
+  [<React.Fragment key="key1">Custom content {'123'}</React.Fragment>],
 ]
 
 describe('DrawerList component', () => {
@@ -112,12 +112,12 @@ describe('DrawerList component', () => {
   it('has correct state after changing prop to opened', () => {
     expect(Comp.exists('.dnb-drawer-list--opened')).toBe(true)
     Comp.setProps({
-      opened: false
+      opened: false,
     })
     Comp.update()
     expect(Comp.exists('.dnb-drawer-list--opened')).toBe(false)
     Comp.setProps({
-      opened: true
+      opened: true,
     })
     Comp.update()
     expect(Comp.exists('.dnb-drawer-list--opened')).toBe(true)
@@ -142,7 +142,7 @@ describe('DrawerList component', () => {
     // force rerender by prop change
     const title = 'show this attribute now'
     Comp.setProps({
-      title
+      title,
     })
     expect(
       Comp.find('.dnb-drawer-list').instance().getAttribute('title')
@@ -150,7 +150,7 @@ describe('DrawerList component', () => {
 
     // force rerender with null as value by prop change
     Comp.setProps({
-      value: props.value + 1
+      value: props.value + 1,
     })
 
     // the selected option got a new position
@@ -212,12 +212,12 @@ describe('DrawerList component', () => {
 
     // reset props
     Comp.setProps({
-      opened: null
+      opened: null,
     })
 
     // then open again
     Comp.setProps({
-      opened: true
+      opened: true,
     })
     keydown(Comp, 40) // down
 
@@ -253,12 +253,12 @@ describe('DrawerList component', () => {
 
     // reset props
     Comp.setProps({
-      opened: null
+      opened: null,
     })
 
     // then open again
     Comp.setProps({
-      opened: true
+      opened: true,
     })
 
     // then simulate changes
@@ -279,7 +279,7 @@ describe('DrawerList component', () => {
 
     direction = 'bottom'
     Comp.setProps({
-      direction
+      direction,
     })
     expect(Comp.exists(`.dnb-drawer-list--${direction}`)).toBe(true)
 
@@ -303,7 +303,7 @@ describe('DrawerList component', () => {
     ).toBe('max-height: 33.5rem;') // jsdom default is 768 innerHeight
 
     window.resizeTo({
-      height: 640 // change innerHeight
+      height: 640, // change innerHeight
     })
     await wait(100)
 
@@ -315,7 +315,7 @@ describe('DrawerList component', () => {
     ).toBe('max-height: 28rem;')
 
     window.scrollTo({
-      top: -640
+      top: -640,
     })
     await wait(100)
 

@@ -7,5 +7,5 @@ import { fetchFigmaIcons } from './index'
 fetchFigmaIcons({
   doRefetch: null,
   forceReconvert: true,
-  ignoreBranchCheck: true
+  ignoreBranchCheck: true,
 })

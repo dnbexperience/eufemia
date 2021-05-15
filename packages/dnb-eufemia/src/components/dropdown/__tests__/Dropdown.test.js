@@ -9,13 +9,13 @@ import {
   fakeProps,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Dropdown'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Dropdown'), {
-    optional: true
+    optional: true,
   }),
   id: 'dropdown-id',
   status: 'status',
@@ -33,28 +33,28 @@ const snapshotProps = {
   size: null,
   opened: true,
   skip_portal: true,
-  no_animation: true
+  no_animation: true,
 }
 
 // use no_animation so we don't need to wait
 const mockProps = {
-  skip_portal: true
+  skip_portal: true,
 }
 const props = {
   id: 'dropdown-id',
   value: 2,
   skip_portal: true,
-  no_animation: true
+  no_animation: true,
 }
 
 const mockData = [
   {
     selected_value: 'Brukskonto - Kari Nordmann',
-    content: ['1234 56 78901', 'Brukskonto - Kari Nordmann']
+    content: ['1234 56 78901', 'Brukskonto - Kari Nordmann'],
   },
   {
     selected_value: 'Sparekonto - Ole Nordmann',
-    content: ['1234 56 78902', 'Sparekonto - Ole Nordmann']
+    content: ['1234 56 78902', 'Sparekonto - Ole Nordmann'],
   },
   {
     selected_value:
@@ -62,20 +62,20 @@ const mockData = [
     selected_key: 1,
     content: [
       '1134 56 78962',
-      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen'
-    ]
+      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
+    ],
   },
   {
     selected_value: 'Oppussing - Ole Nordmann',
     selected_key: '0x',
-    content: ['1534 96 48901', 'Oppussing - Ole Nordmann']
+    content: ['1534 96 48901', 'Oppussing - Ole Nordmann'],
   },
   {
-    content: <>Custom content {'123'}</>
+    content: <>Custom content {'123'}</>,
   },
   <>Custom content {'123'}</>,
   [<React.Fragment key="key1">Custom content {'123'}</React.Fragment>],
-  '0y'
+  '0y',
 ]
 
 describe('Dropdown component', () => {
@@ -200,7 +200,7 @@ describe('Dropdown component', () => {
     expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(false)
 
     Comp.setProps({
-      prevent_selection: false
+      prevent_selection: false,
     })
 
     // open again
@@ -212,7 +212,7 @@ describe('Dropdown component', () => {
     expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(true)
 
     Comp.setProps({
-      action_menu: true
+      action_menu: true,
     })
 
     // open again
@@ -225,7 +225,7 @@ describe('Dropdown component', () => {
 
     Comp.setProps({
       action_menu: false,
-      prevent_selection: true
+      prevent_selection: true,
     })
 
     expect(
@@ -243,7 +243,7 @@ describe('Dropdown component', () => {
     expect(Comp.exists('.dnb-dropdown--is-popup')).toBe(false)
 
     Comp.setProps({
-      title: null
+      title: null,
     })
 
     expect(Comp.exists('.dnb-dropdown__text')).toBe(false)
@@ -350,7 +350,7 @@ describe('Dropdown component', () => {
       data: selectedItem,
       event: new KeyboardEvent('keydown', {}),
       selected_item: props.value + 1,
-      value: props.value + 1
+      value: props.value + 1,
     })
 
     // then simulate changes
@@ -386,11 +386,11 @@ describe('Dropdown component', () => {
         content: 'English',
         selected_key: 'en-GB',
         type: 'object',
-        value: 'en-GB'
+        value: 'en-GB',
       },
       event: new KeyboardEvent('keydown', {}),
       selected_item: 0,
-      value: 'en-GB'
+      value: 'en-GB',
     })
 
     open(Comp)
@@ -405,11 +405,11 @@ describe('Dropdown component', () => {
         content: 'Norsk',
         selected_key: 'nb-NO',
         type: 'object',
-        value: 'nb-NO'
+        value: 'nb-NO',
       },
       event: new KeyboardEvent('keydown', {}),
       selected_item: 1,
-      value: 'nb-NO'
+      value: 'nb-NO',
     })
   })
 
@@ -459,7 +459,7 @@ describe('Dropdown component', () => {
     expect(on_show).toHaveBeenCalledWith({
       attributes: params,
       data: null,
-      ulElement: null
+      ulElement: null,
     })
 
     // close
@@ -471,7 +471,7 @@ describe('Dropdown component', () => {
       isTrusted: false,
       attributes: params,
       data: null,
-      event: new KeyboardEvent('keydown', {})
+      event: new KeyboardEvent('keydown', {}),
     })
   })
 
@@ -499,7 +499,7 @@ describe('Dropdown component', () => {
     expect(on_show).toHaveBeenCalledWith({
       attributes: {},
       data: null,
-      ulElement: null
+      ulElement: null,
     })
 
     await wait(50) // ensure that we have this._refUl.current – the check is in "addObservers"
@@ -520,7 +520,7 @@ describe('Dropdown component', () => {
       attributes: {},
       isTrusted: false,
       event: new KeyboardEvent('keydown', {}),
-      data: null
+      data: null,
     })
     expect(on_hide_focus).toBeCalledTimes(1)
     expect(on_hide_focus.mock.calls[0][0].element).toBe(
@@ -648,7 +648,7 @@ describe('Dropdown component', () => {
   it('has a disabled attribute, once we set disabled to true', () => {
     const Comp = mount(<Component data={mockData} {...mockProps} />)
     Comp.setProps({
-      disabled: true
+      disabled: true,
     })
     expect(
       Comp.find('button.dnb-dropdown__trigger')
@@ -690,7 +690,7 @@ const keydown = (Comp, keyCode) => {
   document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
 
   Comp.find('button.dnb-dropdown__trigger').simulate('keydown', {
-    keyCode
+    keyCode,
   })
 }
 const open = (Comp) => {

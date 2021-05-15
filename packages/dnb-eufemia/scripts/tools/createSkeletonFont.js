@@ -22,7 +22,7 @@ asyncForEach(
     { fontName: 'DNBMono', styleName: 'Light' },
     { fontName: 'DNBMono', styleName: 'Regular' },
     { fontName: 'DNBMono', styleName: 'Medium' },
-    { fontName: 'DNBMono', styleName: 'Bold' }
+    { fontName: 'DNBMono', styleName: 'Bold' },
   ],
   async ({ fontName, styleName }) => {
     const soruceFile = `${fontName}-${styleName}.ttf`
@@ -42,7 +42,7 @@ asyncForEach(
     try {
       const newFont = createFont(font, {
         styleName,
-        familyName
+        familyName,
       })
 
       log.info(`Created new font: ${familyName}`)
@@ -106,7 +106,7 @@ function createFont(font, { styleName, familyName }) {
     unitsPerEm: font.unitsPerEm,
     ascender: font.ascender,
     descender: font.descender,
-    glyphs: changedGlyphs
+    glyphs: changedGlyphs,
   })
 
   return newFont

@@ -13,13 +13,13 @@ import {
   FormRow,
   FormLabel,
   Button,
-  HelpButton
+  HelpButton,
 } from '@dnb/eufemia/src/components'
 
 import { H2 } from '@dnb/eufemia/src/elements'
 
 export default {
-  title: 'Eufemia/Components/Radio'
+  title: 'Eufemia/Components/Radio',
 }
 
 export const RadioButtonSandbox = () => (

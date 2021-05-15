@@ -18,7 +18,7 @@ export default function Tabbar({
   usePath,
   tabs,
   defaultTabs,
-  children
+  children,
 }) {
   const path = parsePath(
     cleanPath([location.pathname, location.search, location.hash].join(''))
@@ -36,7 +36,7 @@ export default function Tabbar({
         [
           path.pathname,
           `?fullscreen&${path.search.replace('?', '')}`,
-          path.hash
+          path.hash,
         ].join('')
       )
     )
@@ -49,7 +49,7 @@ export default function Tabbar({
         [
           path.pathname,
           path.search.replace('fullscreen', ''),
-          path.hash
+          path.hash,
         ].join('')
       )
     )
@@ -82,7 +82,7 @@ export default function Tabbar({
   const selectedKey = [
     path.pathname.replace(/(\/)$/, ''),
     path.search,
-    path.hash
+    path.hash,
   ].join('')
 
   return (
@@ -147,7 +147,7 @@ Tabbar.propTypes = {
   title: PropTypes.string.isRequired,
   hideTabs: PropTypes.array,
   usePath: PropTypes.string.isRequired,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 Tabbar.defaultProps = {
   tabs: null,
@@ -155,10 +155,10 @@ Tabbar.defaultProps = {
     { title: 'Info', key: '/info' },
     { title: 'Demos', key: '/demos' },
     { title: 'Properties', key: '/properties' },
-    { title: 'Events', key: '/events' }
+    { title: 'Events', key: '/events' },
   ],
   hideTabs: null,
-  children: null
+  children: null,
 }
 Tabbar.ContentWrapper = (props) => (
   <Tabs.ContentWrapper id="tabbar" {...props} />

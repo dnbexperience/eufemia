@@ -16,7 +16,7 @@ import {
   correctHeadingLevel,
   windupHeadings,
   teardownHeadings,
-  debugCounter
+  debugCounter,
 } from './HeadingHelpers'
 import { initCounter } from './HeadingCounter'
 
@@ -41,10 +41,10 @@ export default class HeadingProvider extends React.PureComponent {
     reset: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     text: PropTypes.any,
-    children: PropTypes.any
+    children: PropTypes.any,
   }
 
   static defaultProps = {
@@ -64,7 +64,7 @@ export default class HeadingProvider extends React.PureComponent {
     counter: null,
     reset: null,
     text: null,
-    children: null
+    children: null,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -88,7 +88,7 @@ export default class HeadingProvider extends React.PureComponent {
             isTrue(props.skip_correction) ||
             isTrue(state.context.heading?.skip_correction),
           source: props.text || props.children, // only for debugging
-          debug: props.debug || state.context.heading?.debug
+          debug: props.debug || state.context.heading?.debug,
         })
         state.level = state.prevLevel = newLevel
       }
@@ -103,7 +103,7 @@ export default class HeadingProvider extends React.PureComponent {
 
     const state = {
       context,
-      _listenForPropChanges: true
+      _listenForPropChanges: true,
     }
 
     const existingContext = context.heading
@@ -134,7 +134,7 @@ export default class HeadingProvider extends React.PureComponent {
       decrease: isTrue(props.decrease) || isTrue(props.down),
       bypassChecks: isTrue(state.newProps.skip_correction),
       source: props.text || props.children,
-      debug: state.newProps.debug
+      debug: state.newProps.debug,
     })
 
     globalSyncCounter.current = state.counter
@@ -168,8 +168,8 @@ export default class HeadingProvider extends React.PureComponent {
           //   ...this.context,// in case we would send in the global context
           heading: {
             ...this.state.newProps,
-            ...this.state
-          }
+            ...this.state,
+          },
         }}
       >
         {(this.state.newProps.debug_counter && (

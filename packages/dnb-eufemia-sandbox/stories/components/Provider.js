@@ -13,11 +13,11 @@ import {
   DatePicker,
   NumberFormat,
   Dropdown,
-  Section
+  Section,
 } from '@dnb/eufemia/src'
 
 export default {
-  title: 'Eufemia/Components/Provider'
+  title: 'Eufemia/Components/Provider',
 }
 
 export const ProviderSandbox = () => {

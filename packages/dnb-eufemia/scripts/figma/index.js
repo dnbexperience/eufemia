@@ -6,6 +6,6 @@
 import {
   fetchFigmaAll,
   fetchFigmaStyles,
-  fetchFigmaIcons
+  fetchFigmaIcons,
 } from './FigmaAPI'
 export { fetchFigmaAll, fetchFigmaStyles, fetchFigmaIcons }

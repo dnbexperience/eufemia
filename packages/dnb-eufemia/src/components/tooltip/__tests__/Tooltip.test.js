@@ -9,7 +9,7 @@ import {
   // fakeProps,
   toJson,
   axeComponent,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Tooltip from '../Tooltip'
 
@@ -26,7 +26,7 @@ global.ResizeObserver = class {
 
 const defaultProps = {
   target_element: null,
-  id: 'tooltip'
+  id: 'tooltip',
 }
 
 describe('Tooltip component with target_element', () => {

@@ -12,11 +12,11 @@ import {
   registerElement,
   validateDOMAttributes,
   processChildren,
-  extendPropsWithContext
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 
 export default class Section extends React.PureComponent {
@@ -35,8 +35,8 @@ export default class Section extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
-    ])
+      PropTypes.node,
+    ]),
   }
 
   static defaultProps = {
@@ -46,7 +46,7 @@ export default class Section extends React.PureComponent {
     class: null,
 
     className: null,
-    children: null
+    children: null,
   }
 
   static enableWebComponent() {
@@ -96,7 +96,7 @@ export default class Section extends React.PureComponent {
         className,
         _className
       ),
-      ...attributes
+      ...attributes,
     }
 
     // also used for code markup simulation

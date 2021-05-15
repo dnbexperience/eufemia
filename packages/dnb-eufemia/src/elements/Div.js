@@ -14,10 +14,10 @@ const Div = React.forwardRef((props, ref) => (
 Div.tagName = 'dnb-div'
 Div.propTypes = {
   ...spacingPropTypes,
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 Div.defaultProps = {
-  children: null
+  children: null,
 }
 
 export default Div

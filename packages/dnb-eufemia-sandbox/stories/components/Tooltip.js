@@ -15,7 +15,7 @@ const StyledTooltip = styled(Tooltip)`
 `
 
 export default {
-  title: 'Eufemia/Components/Tooltip'
+  title: 'Eufemia/Components/Tooltip',
 }
 
 export const TooltipSandbox = () => {

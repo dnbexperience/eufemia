@@ -15,12 +15,12 @@ export const MainMenuContext = React.createContext({
   closeMenu: null,
   isOpen: null,
   isClosing: null,
-  isActive: false
+  isActive: false,
 })
 
 export class MainMenuProvider extends React.PureComponent {
   static propTypes = {
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
   }
   constructor(props) {
     super(props)
@@ -29,9 +29,9 @@ export class MainMenuProvider extends React.PureComponent {
       ...{
         isOpen: false,
         isClosing: false,
-        isActive: false
+        isActive: false,
       },
-      ...props
+      ...props,
     }
   }
 
@@ -46,7 +46,7 @@ export class MainMenuProvider extends React.PureComponent {
         this.setState({
           isOpen,
           isClosing: false,
-          isActive: isOpen
+          isActive: isOpen,
         })
 
         // scroll to top on opening the menu, and back again
@@ -57,7 +57,7 @@ export class MainMenuProvider extends React.PureComponent {
             if (window.scrollTo) {
               window.scrollTo({
                 top,
-                behavior: 'smooth'
+                behavior: 'smooth',
               })
             } else {
               window.scrollTop = top
@@ -78,7 +78,7 @@ export class MainMenuProvider extends React.PureComponent {
 
     this.setState({
       isClosing: state,
-      isActive: true
+      isActive: true,
     })
   }
 
@@ -103,7 +103,7 @@ export class MainMenuProvider extends React.PureComponent {
           toggleMenu: this.toggleMenu,
           openMenu: this.openMenu,
           closeMenu: this.closeMenu,
-          ...this.state
+          ...this.state,
         }}
       >
         {children}

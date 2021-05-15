@@ -15,16 +15,16 @@ class DrawerListPortal extends React.PureComponent {
     children: PropTypes.node.isRequired,
     opened: PropTypes.bool.isRequired,
     innerRef: PropTypes.shape({
-      current: PropTypes.oneOfType([PropTypes.node, PropTypes.object])
+      current: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
     }),
     rootRef: PropTypes.shape({
-      current: PropTypes.oneOfType([PropTypes.node, PropTypes.object])
+      current: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
     }).isRequired,
     include_owner_width: PropTypes.bool,
     independent_width: PropTypes.bool,
     fixed_position: PropTypes.bool,
     use_drawer_on_mobile: PropTypes.bool,
-    className: PropTypes.string
+    className: PropTypes.string,
   }
 
   static defaultProps = {
@@ -34,7 +34,7 @@ class DrawerListPortal extends React.PureComponent {
     independent_width: false,
     fixed_position: false,
     use_drawer_on_mobile: false,
-    className: null
+    className: null,
   }
 
   constructor(props) {
@@ -138,7 +138,7 @@ class DrawerListPortal extends React.PureComponent {
         rootRef,
         include_owner_width,
         independent_width,
-        fixed_position
+        fixed_position,
       } = this.props
 
       const rootElem = rootRef.current
@@ -198,7 +198,7 @@ class DrawerListPortal extends React.PureComponent {
         width,
         '--drawer-list-width': `${width / 16}rem`, // used by the "drawer-list-scale-in" animation
         top,
-        left
+        left,
       }
 
       return style
@@ -252,7 +252,7 @@ class DrawerListPortal extends React.PureComponent {
       fixed_position,
       use_drawer_on_mobile,
       className,
-      children
+      children,
     } = this.props
 
     if (!this.portalElem) {

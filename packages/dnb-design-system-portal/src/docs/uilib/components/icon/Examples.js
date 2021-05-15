@@ -7,7 +7,7 @@ import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import {
   bell_medium as BellMedium,
-  bell as Bell
+  bell as Bell,
 } from '@dnb/eufemia/src/icons'
 import * as PrimaryIconsMedium from '@dnb/eufemia/src/icons/primary_icons_medium'
 import * as SecondaryIconsMedium from '@dnb/eufemia/src/icons/secondary_icons_medium'

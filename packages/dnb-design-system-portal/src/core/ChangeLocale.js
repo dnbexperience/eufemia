@@ -26,7 +26,7 @@ export default function ChangeLocale({ showUS, ...props }) {
 
   const date = {
     'nb-NO': 'Norsk',
-    'en-GB': 'English (GB)'
+    'en-GB': 'English (GB)',
   }
   if (showUS) {
     date['en-US'] = 'English (US)'

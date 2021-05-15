@@ -49,7 +49,7 @@ export const makeDayObject = (
     isPreview,
     isDisabled,
     isSelectable: !isLastMonth && !isNextMonth && !isDisabled,
-    isInactive: isLastMonth || isNextMonth || isDisabled
+    isInactive: isLastMonth || isNextMonth || isDisabled,
   }
 }
 
@@ -92,7 +92,7 @@ export const getCalendar = (
   return (calendarCache[month] = [
     ...lastMonth,
     ...thisMonth,
-    ...nextMonth
+    ...nextMonth,
   ])
 }
 const calendarCache = {}
@@ -106,7 +106,7 @@ export const dayOffset = (dayName) => {
     'wednesday',
     'thursday',
     'friday',
-    'saturday'
+    'saturday',
   ]
   return dayName ? week.indexOf(dayName.toLowerCase()) : 0
 }
@@ -162,7 +162,7 @@ const isWithinSelectionCalc = (date, startDate, endDate) => {
         isValid(end) &&
         isWithinInterval(date, {
           start,
-          end
+          end,
         })
     : false
 }
@@ -200,7 +200,7 @@ const isPreviewCalc = (date, startDate, endDate, hoverDate) => {
     isValid(end) &&
     isWithinInterval(date, {
       start,
-      end
+      end,
     })
   )
 }

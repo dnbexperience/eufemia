@@ -12,19 +12,19 @@ export const SidebarMenuContext = React.createContext({
   openMenu: null,
   closeMenu: null,
   isOpen: null,
-  isClosing: null
+  isClosing: null,
 })
 
 export class SidebarMenuProvider extends React.PureComponent {
   static propTypes = {
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
   }
   constructor(props) {
     super(props)
 
     this.state = {
       isOpen: false,
-      isClosing: false
+      isClosing: false,
     }
   }
 
@@ -44,7 +44,7 @@ export class SidebarMenuProvider extends React.PureComponent {
         const isOpen = !this.state.isOpen
         this.setState({
           isOpen,
-          isClosing: false
+          isClosing: false,
         })
         setTimeout(() => {
           try {
@@ -53,7 +53,7 @@ export class SidebarMenuProvider extends React.PureComponent {
               if (window.scrollTo) {
                 window.scrollTo({
                   top,
-                  behavior: 'smooth'
+                  behavior: 'smooth',
                 })
               } else {
                 window.scrollTop = top
@@ -68,13 +68,13 @@ export class SidebarMenuProvider extends React.PureComponent {
     )
     if (this.state.isOpen) {
       this.setState({
-        isClosing: true
+        isClosing: true,
       })
     } else if (typeof window !== 'undefined') {
       try {
         if (window.scrollTo) {
           window.scrollTo({
-            top: 0
+            top: 0,
           })
         } else {
           window.scrollTop = 0
@@ -87,13 +87,13 @@ export class SidebarMenuProvider extends React.PureComponent {
 
   openMenu = () => {
     this.setState({
-      isOpen: true
+      isOpen: true,
     })
   }
 
   closeMenu = () => {
     this.setState({
-      isOpen: false
+      isOpen: false,
     })
   }
 
@@ -111,7 +111,7 @@ export class SidebarMenuProvider extends React.PureComponent {
           _scrollRef: this._scrollRef,
           openMenu: this.openMenu,
           closeMenu: this.closeMenu,
-          ...this.state
+          ...this.state,
         }}
       >
         {children}

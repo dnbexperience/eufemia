@@ -10,13 +10,13 @@ import {
   validateDOMAttributes,
   processChildren,
   getPreviousSibling,
-  AnimateHeight
+  AnimateHeight,
 } from '../../shared/component-helper'
 import classnames from 'classnames'
 import AccordionContext from './AccordionContext'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 
 export default class AccordionContent extends React.PureComponent {
@@ -26,13 +26,13 @@ export default class AccordionContent extends React.PureComponent {
     instance: PropTypes.object,
     ...spacingPropTypes,
     className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   }
 
   static defaultProps = {
     instance: null,
     className: null,
-    children: null
+    children: null,
   }
 
   static getContent(props) {
@@ -46,24 +46,24 @@ export default class AccordionContent extends React.PureComponent {
     this.state = {
       isInitial: !context.expanded,
       isAnimating: false,
-      keepContentInDom: null
+      keepContentInDom: null,
     }
 
     this.anim = new AnimateHeight()
 
     this.anim.onStart(() => {
       this.setState({
-        isAnimating: true
+        isAnimating: true,
       })
     })
 
     this.anim.onEnd(() => {
       this.setState({
-        isAnimating: false
+        isAnimating: false,
       })
 
       this.setState({
-        keepContentInDom: this.context.expanded
+        keepContentInDom: this.context.expanded,
       })
     })
 
@@ -97,7 +97,7 @@ export default class AccordionContent extends React.PureComponent {
         {
           _expanded: expanded,
           isInitial: false,
-          keepContentInDom: true
+          keepContentInDom: true,
         },
         () => {
           if (expanded) {
@@ -128,7 +128,7 @@ export default class AccordionContent extends React.PureComponent {
       expanded,
       prerender,
       prevent_rerender,
-      prevent_rerender_conditional
+      prevent_rerender_conditional,
     } = this.context
 
     let content = children
@@ -183,7 +183,7 @@ export default class AccordionContent extends React.PureComponent {
         isAnimating && 'dnb-accordion__content--is-animating',
         className
       ),
-      ...rest
+      ...rest,
     }
 
     const innerParams = {
@@ -195,7 +195,7 @@ export default class AccordionContent extends React.PureComponent {
         keepContentInDom === false &&
           'dnb-accordion__content__inner--remove-content',
         createSpacingClasses(rest)
-      )
+      ),
     }
 
     if (expanded) {

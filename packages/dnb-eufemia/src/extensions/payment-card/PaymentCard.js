@@ -12,15 +12,15 @@ import {
   isTrue,
   registerElement,
   validateDOMAttributes,
-  extendPropsWithContext
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../../components/space/SpacingHelper'
 import {
   skeletonDOMAttributes,
-  createSkeletonClass
+  createSkeletonClass,
 } from '../../components/skeleton/SkeletonHelper'
 import P from '../../elements/P'
 
@@ -37,13 +37,13 @@ const cardDataTypes = PropTypes.shape({
   displayName: PropTypes.string.isRequired,
   cardDesign: PropTypes.shape.isRequired,
   cardType: PropTypes.shape.isRequired,
-  productType: PropTypes.shape.isRequired
+  productType: PropTypes.shape.isRequired,
 })
 
 const translationDefaultPropsProps = {
   text_card_number: null,
   text_expired: null,
-  text_blocked: null
+  text_blocked: null,
 }
 
 export default class PaymentCard extends React.PureComponent {
@@ -69,8 +69,8 @@ export default class PaymentCard extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
-    ])
+      PropTypes.func,
+    ]),
   }
 
   static defaultProps = {
@@ -87,7 +87,7 @@ export default class PaymentCard extends React.PureComponent {
     className: null,
     children: null,
 
-    ...translationDefaultPropsProps
+    ...translationDefaultPropsProps,
   }
 
   static enableWebComponent() {
@@ -134,7 +134,7 @@ export default class PaymentCard extends React.PureComponent {
         className,
         _className
       ),
-      ...attributes
+      ...attributes,
     }
 
     skeletonDOMAttributes(params, skeleton, this.context)
@@ -198,16 +198,16 @@ const defaultCard = (productCode) => ({
   displayName: '',
   cardDesign: defaultDesign,
   cardType: CardType.None,
-  productType: ProductType.None
+  productType: ProductType.None,
 })
 
 StatusOverlay.propTypes = {
   cardStatus: PropTypes.string.isRequired,
   translations: PropTypes.object.isRequired,
-  skeleton: PropTypes.bool
+  skeleton: PropTypes.bool,
 }
 StatusOverlay.defaultProps = {
-  skeleton: false
+  skeleton: false,
 }
 
 function StatusOverlay({ cardStatus, translations, skeleton }) {
@@ -251,7 +251,7 @@ function StatusOverlay({ cardStatus, translations, skeleton }) {
 CardText.propTypes = {
   cardNumber: PropTypes.string.isRequired,
   translations: PropTypes.object.isRequired,
-  skeleton: PropTypes.bool.isRequired
+  skeleton: PropTypes.bool.isRequired,
 }
 
 function CardText({ cardNumber, translations, skeleton }) {
@@ -279,11 +279,11 @@ NormalCard.propTypes = {
   data: cardDataTypes.isRequired,
   cardStatus: PropTypes.string.isRequired,
   cardNumber: PropTypes.string.isRequired,
-  translations: PropTypes.object.isRequired
+  translations: PropTypes.object.isRequired,
 }
 NormalCard.defaultProps = {
   id: null,
-  skeleton: null
+  skeleton: null,
 }
 
 function NormalCard({
@@ -292,7 +292,7 @@ function NormalCard({
   cardNumber,
   id,
   skeleton,
-  translations
+  translations,
 }) {
   return (
     <div

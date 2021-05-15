@@ -10,11 +10,11 @@ import Context from '../../shared/Context'
 import {
   warn,
   registerElement,
-  processChildren
+  processChildren,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import Button from '../button/Button'
 import H1 from '../../elements/H1'
@@ -29,7 +29,7 @@ export default class GlobalError extends React.PureComponent {
 
     status_content: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.object
+      PropTypes.object,
     ]),
 
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
@@ -44,10 +44,10 @@ export default class GlobalError extends React.PureComponent {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
 
-    class: PropTypes.string
+    class: PropTypes.string,
   }
 
   static defaultProps = {
@@ -63,7 +63,7 @@ export default class GlobalError extends React.PureComponent {
     className: null,
     children: null,
 
-    class: null
+    class: null,
   }
 
   static enableWebComponent() {
@@ -134,7 +134,7 @@ export default class GlobalError extends React.PureComponent {
       status_content,
       title: useTitle,
       text: useText,
-      alt: useAlt
+      alt: useAlt,
     } = this.props
 
     if (useTitle) {
@@ -150,7 +150,7 @@ export default class GlobalError extends React.PureComponent {
 
     if (status_content === null) {
       const {
-        translation: { GlobalError: contextContent }
+        translation: { GlobalError: contextContent },
       } = this.context
       status_content = contextContent
     }
@@ -212,7 +212,7 @@ export default class GlobalError extends React.PureComponent {
         className,
         _className
       ),
-      ...attributes
+      ...attributes,
     }
 
     return (
@@ -263,14 +263,14 @@ const Svg = ({ status, ...props }) => {
 Svg.propTypes = {
   title: PropTypes.string.isRequired,
   status: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    .isRequired
+    .isRequired,
 }
 
 const Svg404 = ({ title, width, height, ...props }) => (
   <svg
     style={{
       '--data-width': width,
-      '--data-height': height
+      '--data-height': height,
     }}
     width={width}
     height={height}
@@ -370,18 +370,18 @@ const Svg404 = ({ title, width, height, ...props }) => (
 Svg404.propTypes = {
   title: PropTypes.string.isRequired,
   width: PropTypes.number,
-  height: PropTypes.number
+  height: PropTypes.number,
 }
 Svg404.defaultProps = {
   width: 339,
-  height: 360
+  height: 360,
 }
 
 const Svg500 = ({ title, width, height, ...props }) => (
   <svg
     style={{
       '--data-width': width,
-      '--data-height': height
+      '--data-height': height,
     }}
     width={width}
     height={height}
@@ -586,9 +586,9 @@ const Svg500 = ({ title, width, height, ...props }) => (
 Svg500.propTypes = {
   title: PropTypes.string.isRequired,
   width: PropTypes.number,
-  height: PropTypes.number
+  height: PropTypes.number,
 }
 Svg500.defaultProps = {
   width: 500,
-  height: 360
+  height: 360,
 }

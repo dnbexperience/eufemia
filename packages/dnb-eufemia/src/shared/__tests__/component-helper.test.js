@@ -27,7 +27,7 @@ import {
   slugify,
   roundToNearest,
   InteractionInvalidation,
-  matchAll
+  matchAll,
 } from '../component-helper'
 
 beforeAll(() => {
@@ -74,11 +74,11 @@ describe('"detectOutsideClick" should', () => {
     wrapperWithScrollbar.style = 'overflow: auto scroll;'
     Object.defineProperty(wrapperWithScrollbar, 'scrollWidth', {
       configurable: true,
-      value: 200
+      value: 200,
     })
     Object.defineProperty(wrapperWithScrollbar, 'offsetWidth', {
       configurable: true,
-      value: 100
+      value: 100,
     })
 
     const testEvent = ({ mockedEvent, event, calledTimes }) => {
@@ -108,7 +108,7 @@ describe('"detectOutsideClick" should', () => {
     testEvent({
       mockedEvent: jest.fn(),
       event: new CustomEvent('mousedown', { bubbles: true }),
-      calledTimes: 2
+      calledTimes: 2,
     })
   })
 })
@@ -166,11 +166,11 @@ describe('"validateDOMAttributes" should', () => {
 
   it('function props should not be returned as long as they don\'t are "onClick"', () => {
     const props = {
-      on_click: () => {}
+      on_click: () => {},
     }
     const params = {
       onChange: () => {},
-      something: () => {}
+      something: () => {},
     }
     const res = validateDOMAttributes(props, params)
     expect(res).toHaveProperty('onChange')
@@ -219,7 +219,7 @@ describe('"processChildren" should', () => {
       content: 'foo',
       render_func: (props) => {
         return props.content + ' new content'
-      }
+      },
     }
     const res = processChildren(props)
     expect(res.props).toMatchObject({ children: 'foo new content' })
@@ -236,22 +236,22 @@ describe('"extend" should', () => {
   })
   it('extend an object and have correct object shape', () => {
     expect(extend({ key: null }, { key: 'value' })).toMatchObject({
-      key: 'value'
+      key: 'value',
     })
     expect(extend({ key: 'value' }, { key: null })).toMatchObject({
-      key: 'value'
+      key: 'value',
     })
   })
   it('extend an object recursively and have correct object shape', () => {
     expect(
       extend({ key1: { key2: null } }, { key1: { key2: 'value' } })
     ).toMatchObject({
-      key1: { key2: 'value' }
+      key1: { key2: 'value' },
     })
     expect(
       extend({ key1: { key2: 'value' } }, { key1: { key2: null } })
     ).toMatchObject({
-      key1: { key2: 'value' }
+      key1: { key2: 'value' },
     })
     expect(
       extend(
@@ -259,7 +259,7 @@ describe('"extend" should', () => {
         { key1: { key2: null, foo: 'bar' } }
       )
     ).toMatchObject({
-      key1: { key2: 'value', foo: 'bar' }
+      key1: { key2: 'value', foo: 'bar' },
     })
   })
 })
@@ -274,7 +274,7 @@ describe('"extendPropsWithContext" should', () => {
       )
     ).toMatchObject({
       key: { x: 'y' },
-      foo: 'bar' // because the prop was null, we get bar
+      foo: 'bar', // because the prop was null, we get bar
     })
   })
 })
@@ -304,8 +304,8 @@ describe('"dispatchCustomElementEvent" should', () => {
     const instance = {
       props: {
         my_event,
-        myEvent
-      }
+        myEvent,
+      },
     }
 
     const eventObject = {}
@@ -326,8 +326,8 @@ describe('"dispatchCustomElementEvent" should', () => {
     const instance = {
       props: {
         my_event,
-        myEvent
-      }
+        myEvent,
+      },
     }
 
     const keyCode = 13
@@ -341,10 +341,10 @@ describe('"dispatchCustomElementEvent" should', () => {
 
     const eventResult = {
       data: {
-        foo: 'bar'
+        foo: 'bar',
       },
       event,
-      isTrusted: false
+      isTrusted: false,
     }
     expect(my_event).toBeCalledWith(eventResult)
     expect(myEvent).toBeCalledWith(eventResult)
@@ -355,9 +355,9 @@ describe('"dispatchCustomElementEvent" should', () => {
     const instance = {
       props: {
         custom_element: {
-          fireEvent
-        }
-      }
+          fireEvent,
+        },
+      },
     }
     const event = {}
     dispatchCustomElementEvent(instance, 'eventName', event)
@@ -369,14 +369,14 @@ describe('"dispatchCustomElementEvent" should', () => {
     const my_event = jest.fn()
     const instance = {
       props: {
-        my_event
-      }
+        my_event,
+      },
     }
     const renderedButton = mount(<button data-prop="value">Button</button>)
     const currentTarget = renderedButton.find('button').getDOMNode()
     const event = { currentTarget }
     const attributes = {
-      'data-attr': 'value'
+      'data-attr': 'value',
     }
     dispatchCustomElementEvent(instance, 'my_event', { event, attributes })
     expect(my_event.mock.calls.length).toBe(1)
@@ -384,7 +384,7 @@ describe('"dispatchCustomElementEvent" should', () => {
       my_event.mock.calls[0][0].event.currentTarget.dataset
     ).toMatchObject({
       attr: 'value',
-      prop: 'value'
+      prop: 'value',
     })
   })
 })
@@ -448,23 +448,23 @@ describe('"filterProps" should', () => {
     key1: 'value1',
     key2: 'value2',
     attr1: 'value1',
-    attr2: false
+    attr2: false,
   }
   const defaultProps = {
     key1: 'value1',
-    key2: false
+    key2: false,
   }
   it('remove all unwanted properties', () => {
     expect(filterProps(attributes, defaultProps)).toEqual({
       attr1: 'value1',
-      attr2: false
+      attr2: false,
     })
   })
   it('remove all unwanted properties except "allowed"', () => {
     expect(filterProps(attributes, defaultProps, ['key1'])).toEqual({
       key1: 'value1',
       attr1: 'value1',
-      attr2: false
+      attr2: false,
     })
   })
 })
@@ -662,7 +662,7 @@ describe('"matchAll" should', () => {
     expect(matchAll(content, /var\(([^)]*)\)/g)).toEqual(
       expect.arrayContaining([
         expect.arrayContaining(['var(--color-one)', '--color-one']),
-        expect.arrayContaining(['var(--color-two)', '--color-two'])
+        expect.arrayContaining(['var(--color-two)', '--color-two']),
       ])
     )
   })

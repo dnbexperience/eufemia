@@ -127,7 +127,7 @@ In order to create the same skeletons as the build-ins, you can make use of a co
 import EufemiaContext from '@dnb/eufemia/shared/Context'
 import {
   skeletonDOMAttributes,
-  createSkeletonClass
+  createSkeletonClass,
 } from '@dnb/eufemia/components/skeleton/SkeletonHelper'
 
 function Component({ className, skeleton = false, ...params } = {}) {

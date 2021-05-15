@@ -20,14 +20,14 @@ H1.propTypes = {
     'medium',
     'basis',
     'small',
-    'x-small'
+    'x-small',
   ]),
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 H1.defaultProps = {
   level: null,
   size: 'xx-large',
-  children: null
+  children: null,
 }
 
 export default H1

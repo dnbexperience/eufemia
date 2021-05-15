@@ -9,12 +9,12 @@ import {
   fakeProps,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Section'
 
 const props = fakeProps(require.resolve('../Section'), {
-  optional: true
+  optional: true,
 })
 props.style = null
 props.element = null

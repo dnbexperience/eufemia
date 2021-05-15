@@ -103,6 +103,6 @@ const elem = scrollToLocationHashId({
     } catch (e) {
       //
     }
-  }
+  },
 })
 ```

@@ -7,7 +7,7 @@ import React from 'react'
 import { mount } from '../../core/jest/jestSetup'
 import useTranslation, {
   getTranslation,
-  Translation
+  Translation,
 } from '../useTranslation'
 
 import Context from '../Context'
@@ -28,33 +28,33 @@ const expected_enGB_nested = 'foo (bar of nested max)'
 describe('Translation', () => {
   const nbNO = {
     'Modal.close_title': 'Steng',
-    'other.string': given_nbNO
+    'other.string': given_nbNO,
   }
   const enGB = {
     'Modal.close_title': 'Close',
-    'other.string': given_enGB
+    'other.string': given_enGB,
   }
   const nbNO_nested = {
-    'other.string': given_nbNO_nested
+    'other.string': given_nbNO_nested,
   }
   const enGB_nested = {
-    'other.string': given_enGB_nested
+    'other.string': given_enGB_nested,
   }
 
   const defaultLocales = {
     'nb-NO': nbNO,
-    'en-GB': enGB
+    'en-GB': enGB,
   }
   const nestedLocales = {
     'nb-NO': nbNO_nested,
-    'en-GB': enGB_nested
+    'en-GB': enGB_nested,
   }
 
   const RenderGetTranslation = () => {
     return useTranslation('other.string', {
       foo: 'foo',
       bar: 'bar',
-      max: 'max'
+      max: 'max',
     })
   }
 
@@ -90,7 +90,7 @@ describe('Translation', () => {
           {getTranslation('other.string', {
             foo: 'foo',
             bar: 'bar',
-            max: 'max'
+            max: 'max',
           })}
         </span>
       </Provider>
@@ -237,7 +237,7 @@ describe('Context.getTranslation', () => {
     expect(Comp.find('p.locale').text()).toBe('nb-NO')
 
     Comp.setProps({
-      lang: 'en-GB'
+      lang: 'en-GB',
     })
 
     expect(Comp.find('p.title').text()).toBe(
@@ -255,7 +255,7 @@ describe('Context.getTranslation', () => {
     expect(Comp.find('p.other-string').text()).toBe(given_nbNO)
 
     Comp.setProps({
-      lang: 'en-GB'
+      lang: 'en-GB',
     })
 
     expect(Comp.find('p.other-string').text()).toBe(given_enGB)

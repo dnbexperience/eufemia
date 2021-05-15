@@ -45,7 +45,7 @@ if (
       './src/uilib/components/demos'
     ),
     prepareDestFileCallback: (file) =>
-      camelCase(file, { pascalCase: true })
+      camelCase(file, { pascalCase: true }),
   }).then((files) => {
     // processAllPartsFile('components', files, {
     //   autoAdvice: `
@@ -90,7 +90,7 @@ if (
       }
       return content
     },
-    prepareDestFileCallback: (file) => file.toLowerCase()
+    prepareDestFileCallback: (file) => file.toLowerCase(),
   })
 
   // make extensions demos
@@ -112,7 +112,7 @@ if (
       './src/uilib/extensions/demos'
     ),
     prepareDestFileCallback: (file) =>
-      camelCase(file, { pascalCase: true })
+      camelCase(file, { pascalCase: true }),
   }).then((files) => {
     // processAllPartsFile('extensions', files, {
     //   autoAdvice: `
@@ -147,7 +147,7 @@ if (
       packpath.self(),
       './src/docs/uilib/extensions'
     ),
-    prepareDestFileCallback: (file) => file.toLowerCase()
+    prepareDestFileCallback: (file) => file.toLowerCase(),
   })
 }
 

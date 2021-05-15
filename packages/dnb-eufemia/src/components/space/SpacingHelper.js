@@ -15,45 +15,45 @@ export const spacingPropTypes = {
       top: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number,
-        PropTypes.bool
+        PropTypes.bool,
       ]),
       right: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number,
-        PropTypes.bool
+        PropTypes.bool,
       ]),
       bottom: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number,
-        PropTypes.bool
+        PropTypes.bool,
       ]),
       left: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number,
-        PropTypes.bool
-      ])
-    })
+        PropTypes.bool,
+      ]),
+    }),
   ]),
   top: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-    PropTypes.bool
+    PropTypes.bool,
   ]),
   right: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-    PropTypes.bool
+    PropTypes.bool,
   ]),
   bottom: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-    PropTypes.bool
+    PropTypes.bool,
   ]),
   left: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-    PropTypes.bool
-  ])
+    PropTypes.bool,
+  ]),
 }
 
 export const spacingDefaultProps = {
@@ -61,7 +61,7 @@ export const spacingDefaultProps = {
   top: null,
   right: null,
   bottom: null,
-  left: null
+  left: null,
 }
 
 // IMPORTANT: Keep the shorthand after the long type names
@@ -73,7 +73,7 @@ export const spacePatterns = {
   large: 2,
   'x-large': 3,
   'xx-large': 3.5,
-  'xx-large-x2': 7
+  'xx-large-x2': 7,
 }
 
 export const translateSpace = (type) => {
@@ -250,7 +250,7 @@ export const createSpacingClasses = (props, Element = null) => {
             ...acc,
             ...nearestTypes.map(
               (type) => `dnb-space__${direction}--${type}`
-            )
+            ),
           ]
         }
       }
@@ -285,7 +285,7 @@ export const createStyleObject = (props) => {
     maxWidth: props.maxWidth && `${props.maxWidth}rem`,
     maxHeight: props.maxHeight && `${props.maxHeight}rem`,
     width: props.width && `${props.width}rem`,
-    height: props.height && `${props.height}rem`
+    height: props.height && `${props.height}rem`,
   }).reduce((acc, [key, val]) => {
     if (typeof val !== 'undefined') {
       acc[key] = val

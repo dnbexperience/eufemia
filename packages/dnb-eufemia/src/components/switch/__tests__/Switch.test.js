@@ -9,12 +9,12 @@ import {
   fakeProps,
   axeComponent,
   toJson,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Switch'
 
 const props = fakeProps(require.resolve('../Switch'), {
-  optional: true
+  optional: true,
 })
 props.status = null
 props.size = 'default'
@@ -147,7 +147,7 @@ describe('Switch component', () => {
   it('has a disabled attribute, once we set disabled to true', () => {
     const Comp = mount(<Component />)
     Comp.setProps({
-      disabled: true
+      disabled: true,
     })
     expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
       true

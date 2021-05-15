@@ -8,12 +8,12 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   convertJsxToString,
-  extendPropsWithContext
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 import Button, { buttonVariantPropType } from '../button/Button'
 
@@ -26,12 +26,12 @@ export default class HelpButtonInstance extends React.PureComponent {
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]),
     icon_position: PropTypes.oneOf(['left', 'right']),
     ...spacingPropTypes,
     className: PropTypes.string,
-    class: PropTypes.string
+    class: PropTypes.string,
   }
 
   static defaultProps = {
@@ -40,7 +40,7 @@ export default class HelpButtonInstance extends React.PureComponent {
     icon: null,
     icon_position: 'left',
     className: null,
-    class: null
+    class: null,
   }
 
   render() {
@@ -73,7 +73,7 @@ export default class HelpButtonInstance extends React.PureComponent {
       'aria-label': props.title ? convertJsxToString(props.title) : null,
       icon,
       ...attributes,
-      ...rest
+      ...rest,
     }
 
     if (typeof params['aria-roledescription'] === 'undefined') {

@@ -13,7 +13,7 @@ import { Input, InputMasked } from '@dnb/eufemia/src/components'
 import emailMask from '@dnb/eufemia/src/components/input-masked/addons/emailMask'
 
 export default {
-  title: 'Eufemia/Components/InputMasked'
+  title: 'Eufemia/Components/InputMasked',
 }
 
 const CustomStyle = styled.div`

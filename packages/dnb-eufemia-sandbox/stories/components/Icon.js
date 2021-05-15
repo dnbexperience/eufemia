@@ -12,7 +12,7 @@ import { add as Svg } from '@dnb/eufemia/src/icons'
 import { P, H1, H4 } from '@dnb/eufemia/src/elements'
 
 export default {
-  title: 'Eufemia/Components/Icon'
+  title: 'Eufemia/Components/Icon',
 }
 
 export const IconSandbox = () => (

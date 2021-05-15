@@ -15,7 +15,7 @@ import {
   Autocomplete,
   Dropdown,
   Slider,
-  Input
+  Input,
 } from '../'
 
 export default function AllStretchComponents() {

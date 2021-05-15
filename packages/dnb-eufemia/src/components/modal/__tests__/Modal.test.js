@@ -9,7 +9,7 @@ import {
   fakeProps,
   toJson,
   axeComponent,
-  loadScss
+  loadScss,
 } from '../../../core/jest/jestSetup'
 
 import Input from '../../input/Input'
@@ -18,7 +18,7 @@ import Button from '../../button/Button'
 
 const props = fakeProps(require.resolve('../Modal'), {
   all: true,
-  optional: true
+  optional: true,
 })
 props.title = 'modal_title'
 props.id = 'modal_id'
@@ -41,7 +41,7 @@ beforeEach(() => {
 describe('Modal component', () => {
   const Comp = mount(<Component {...props} />)
   Comp.setState({
-    modalActive: true
+    modalActive: true,
   })
   it('have to match snapshot', () => {
     expect(toJson(Comp)).toMatchSnapshot()
@@ -91,11 +91,11 @@ describe('Modal component', () => {
   })
   it('has no trigger button once we set trigger_hidden to true', () => {
     Comp.setProps({
-      trigger_hidden: true
+      trigger_hidden: true,
     })
     expect(Comp.find('button.dnb-modal__trigger').exists()).toBe(false)
     Comp.setProps({
-      trigger_hidden: false
+      trigger_hidden: false,
     })
   })
   it('should act as a help button by default', () => {
@@ -119,7 +119,7 @@ describe('Modal component', () => {
   })
   it('has a disabled trigger button once we set trigger_disabled to true', () => {
     Comp.setProps({
-      trigger_disabled: true
+      trigger_disabled: true,
     })
     expect(
       Comp.find('button.dnb-modal__trigger')
@@ -139,13 +139,13 @@ describe('Modal component', () => {
     Comp.find('button').simulate('click')
     expect(on_open).toHaveBeenCalledTimes(1)
     expect(on_open).toHaveBeenCalledWith({
-      id: 'modal_id'
+      id: 'modal_id',
     })
     expect(testTriggeredBy).toBe(null)
 
     Comp.find('div.dnb-modal__content__inner').simulate('keyDown', {
       key: 'Esc',
-      keyCode: 27
+      keyCode: 27,
     })
 
     expect(on_close).toHaveBeenCalledTimes(1)
@@ -187,17 +187,17 @@ describe('Modal component', () => {
     const on_open = {
       first: jest.fn(),
       second: jest.fn(),
-      third: jest.fn()
+      third: jest.fn(),
     }
     const on_close = {
       first: jest.fn(),
       second: jest.fn(),
-      third: jest.fn()
+      third: jest.fn(),
     }
 
     const props = {
       direct_dom_return: false,
-      no_animation: true
+      no_animation: true,
     }
 
     const Comp = mount(
@@ -353,7 +353,7 @@ describe('Modal component', () => {
 
     Comp.find('div.dnb-modal__content__inner').simulate('keyDown', {
       key: 'Esc',
-      keyCode: 27
+      keyCode: 27,
     })
 
     expect(on_close).not.toHaveBeenCalled()
@@ -376,7 +376,7 @@ describe('Modal component', () => {
     // trigger the esc key
     Comp.find('div.dnb-modal__content__inner').simulate('keyDown', {
       key: 'Esc',
-      keyCode: 27
+      keyCode: 27,
     })
 
     expect(on_close_prevent).toHaveBeenCalledTimes(4)

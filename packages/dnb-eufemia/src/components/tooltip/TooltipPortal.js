@@ -24,14 +24,14 @@ export default class TooltipPortal extends React.PureComponent {
       .isRequired,
     active: PropTypes.bool,
     group: PropTypes.string,
-    hide_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    hide_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   }
 
   static defaultProps = {
     internal_id: null,
     active: false,
     group: 'main',
-    hide_delay: 500
+    hide_delay: 500,
   }
 
   componentDidMount() {
@@ -67,7 +67,7 @@ export default class TooltipPortal extends React.PureComponent {
       try {
         tooltipPortal[this.props.group] = {
           node: document.createElement('div'),
-          timeout: null
+          timeout: null,
         }
         const elem = tooltipPortal[this.props.group].node
         elem.classList.add('TooltipPortal')
@@ -83,7 +83,7 @@ export default class TooltipPortal extends React.PureComponent {
     try {
       if (!elem.classList.contains('dnb-tooltip__wrapper')) {
         const existing = {
-          'aria-describedby': elem.getAttribute('aria-describedby')
+          'aria-describedby': elem.getAttribute('aria-describedby'),
         }
         elem.setAttribute(
           'aria-describedby',

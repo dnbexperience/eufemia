@@ -18,19 +18,19 @@ import {
   dispatchCustomElementEvent,
   getStatusState,
   combineDescribedBy,
-  convertJsxToString
+  convertJsxToString,
 } from '../../shared/component-helper'
 import {
   IS_MAC,
   IS_WIN,
   IS_IE11,
   IS_EDGE,
-  debounce
+  debounce,
 } from '../../shared/helpers'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   spacingPropTypes,
-  createSpacingClasses
+  createSpacingClasses,
 } from '../space/SpacingHelper'
 
 import Suffix from '../../shared/helpers/Suffix'
@@ -44,7 +44,7 @@ import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
   parseContentTitle,
-  getCurrentData
+  getCurrentData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
 export default class Autocomplete extends React.PureComponent {
@@ -59,17 +59,17 @@ export default class Autocomplete extends React.PureComponent {
     show_all: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     aria_live_options: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.node
+      PropTypes.node,
     ]),
     indicator_label: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.node
+      PropTypes.node,
     ]),
     submit_button_title: PropTypes.string,
     submit_button_icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]),
     input_ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     icon_size: PropTypes.string,
@@ -78,25 +78,25 @@ export default class Autocomplete extends React.PureComponent {
     input_icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.func
+      PropTypes.func,
     ]),
     label: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
     label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     keep_value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     keep_value_and_selection: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     status: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     status_state: PropTypes.string,
     status_animation: PropTypes.string,
@@ -104,21 +104,21 @@ export default class Autocomplete extends React.PureComponent {
     suffix: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     disable_filter: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     disable_reorder: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disable_highlighting: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
     max_height: PropTypes.number,
@@ -126,23 +126,23 @@ export default class Autocomplete extends React.PureComponent {
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_scroll_animation: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     show_submit_button: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     submit_element: PropTypes.node,
     prevent_selection: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.bool
+      PropTypes.bool,
     ]),
     size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
     align_autocomplete: PropTypes.oneOf(['left', 'right']),
     options_render: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.func,
-      PropTypes.node
+      PropTypes.node,
     ]),
     input_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
     data: PropTypes.oneOfType([
@@ -150,7 +150,7 @@ export default class Autocomplete extends React.PureComponent {
         PropTypes.string,
         PropTypes.func,
         PropTypes.node,
-        PropTypes.object
+        PropTypes.object,
       ]),
       PropTypes.arrayOf(
         PropTypes.oneOfType([
@@ -158,24 +158,24 @@ export default class Autocomplete extends React.PureComponent {
           PropTypes.shape({
             selected_value: PropTypes.oneOfType([
               PropTypes.string,
-              PropTypes.node
+              PropTypes.node,
             ]),
             content: PropTypes.oneOfType([
               PropTypes.string,
               PropTypes.node,
-              PropTypes.arrayOf(PropTypes.string)
-            ])
-          })
+              PropTypes.arrayOf(PropTypes.string),
+            ]),
+          }),
         ])
-      )
+      ),
     ]),
     search_in_word_index: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.number
+      PropTypes.number,
     ]),
     default_value: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.number
+      PropTypes.number,
     ]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     input_value: PropTypes.string,
@@ -199,7 +199,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
       PropTypes.object,
-      PropTypes.array
+      PropTypes.array,
     ]),
 
     custom_element: PropTypes.object,
@@ -212,7 +212,7 @@ export default class Autocomplete extends React.PureComponent {
     on_hide: PropTypes.func,
     on_change: PropTypes.func,
     on_select: PropTypes.func,
-    on_state_update: PropTypes.func
+    on_state_update: PropTypes.func,
   }
 
   static defaultProps = {
@@ -288,7 +288,7 @@ export default class Autocomplete extends React.PureComponent {
     on_change: null,
     on_select: null,
     on_state_update: null,
-    input_component: null
+    input_component: null,
   }
 
   static enableWebComponent() {
@@ -323,7 +323,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   static parseDataItem(dataItem) {
     const toParse = parseContentTitle(dataItem, {
-      separator: ' '
+      separator: ' ',
     })
     if (typeof toParse !== 'string' && Array.isArray(toParse)) {
       return AutocompleteInstance.parseDataItem(toParse)
@@ -342,7 +342,7 @@ class AutocompleteInstance extends React.PureComponent {
     const currentData = getCurrentData(selected_item, data)
     return parseContentTitle(currentData, {
       separator: ' ',
-      preferSelectedValue: true
+      preferSelectedValue: true,
     })
   }
 
@@ -411,7 +411,7 @@ class AutocompleteInstance extends React.PureComponent {
         this.context.drawerList.original_data
       )
       this.setState({
-        inputValue
+        inputValue,
       })
     }
   }
@@ -456,14 +456,14 @@ class AutocompleteInstance extends React.PureComponent {
     if (skipFilter) {
       this.setState({
         showAllNextTime: false,
-        _listenForPropChanges: false
+        _listenForPropChanges: false,
       })
     }
 
     this.runFilterToHighlight({
       fillDataIfEmpty: true,
       skipFilter,
-      ...options
+      ...options,
     })
 
     this.setVisible()
@@ -471,13 +471,13 @@ class AutocompleteInstance extends React.PureComponent {
 
   scrollToActiveItem = (active_item) => {
     this.context.drawerList.scrollToItem(active_item, {
-      scrollTo: false
+      scrollTo: false,
     })
   }
 
   scrollToSelectedItem = (selected_item) => {
     this.context.drawerList.scrollToAndSetActiveItem(selected_item, {
-      scrollTo: false
+      scrollTo: false,
     })
   }
 
@@ -485,13 +485,13 @@ class AutocompleteInstance extends React.PureComponent {
     this.setState({
       typedInputValue: value,
       inputValue: value,
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
 
     dispatchCustomElementEvent(this, 'on_type', {
       value,
       event,
-      ...this.getEventObjects('on_type')
+      ...this.getEventObjects('on_type'),
     })
 
     value = String(value).trim()
@@ -515,7 +515,7 @@ class AutocompleteInstance extends React.PureComponent {
         this.context.drawerList.setData(this.wrapWithShowAll(data))
         this.context.drawerList.setState(
           {
-            cache_hash: value + count
+            cache_hash: value + count,
           }
           // () =>
           //   options &&
@@ -525,7 +525,7 @@ class AutocompleteInstance extends React.PureComponent {
 
         if (count === 1) {
           this.context.drawerList.setState({
-            active_item: data[0].__id
+            active_item: data[0].__id,
           })
         }
       }
@@ -559,7 +559,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     this.setState({
       skipHighlight: false,
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
 
     let data = this.runFilter(value, options) // do not skip the filter here
@@ -571,7 +571,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     this.context.drawerList.setData(this.wrapWithShowAll(data))
     this.context.drawerList.setState({
-      cache_hash: value + this.countData(data)
+      cache_hash: value + this.countData(data),
     })
 
     this.setAriaLiveUpdate()
@@ -600,7 +600,7 @@ class AutocompleteInstance extends React.PureComponent {
             <IconPrimary icon="arrow_down" />
             {show_all}
           </>
-        )
+        ),
       })
     }
 
@@ -610,7 +610,7 @@ class AutocompleteInstance extends React.PureComponent {
   setInputValue = (inputValue) => {
     this.setState({
       inputValue,
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
   }
 
@@ -620,7 +620,7 @@ class AutocompleteInstance extends React.PureComponent {
     this.setState({
       inputValue: '',
       typedInputValue: null,
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
 
     this.context.drawerList.setData(
@@ -631,7 +631,7 @@ class AutocompleteInstance extends React.PureComponent {
         this.totalReset()
       },
       {
-        overwriteOriginalData: true
+        overwriteOriginalData: true,
       }
     )
   }
@@ -644,11 +644,11 @@ class AutocompleteInstance extends React.PureComponent {
         class_name: 'dnb-autocomplete__no-options',
         content: this._props.no_options,
         ignore_events: true,
-        __id: 'no_options'
-      }
+        __id: 'no_options',
+      },
     ])
     this.context.drawerList.setState({
-      cache_hash: 'no_options'
+      cache_hash: 'no_options',
     })
     this.setVisible()
   }
@@ -661,11 +661,11 @@ class AutocompleteInstance extends React.PureComponent {
         class_name: 'dnb-autocomplete__indicator',
         content: <ProgressIndicator label={this._props.indicator_label} />,
         ignore_events: true,
-        __id: 'indicator'
-      }
+        __id: 'indicator',
+      },
     ])
     this.context.drawerList.setState({
-      cache_hash: 'indicator'
+      cache_hash: 'indicator',
     })
     this.setVisible()
   }
@@ -674,7 +674,7 @@ class AutocompleteInstance extends React.PureComponent {
     if (!this.state.visibleIndicator) {
       this.setState({
         visibleIndicator: true,
-        _listenForPropChanges: false
+        _listenForPropChanges: false,
       })
     }
   }
@@ -682,14 +682,14 @@ class AutocompleteInstance extends React.PureComponent {
   hideIndicator = () => {
     this.setState({
       visibleIndicator: false,
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
   }
 
   setMode = (mode) => {
     this.setState({
       mode,
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
   }
 
@@ -697,7 +697,7 @@ class AutocompleteInstance extends React.PureComponent {
     // invalidate the local cache now,
     // because we get else the same after we show the new result
     this.context.drawerList.setState({
-      cache_hash: 'updateData'
+      cache_hash: 'updateData',
     })
 
     this.context.drawerList.setData(
@@ -726,7 +726,7 @@ class AutocompleteInstance extends React.PureComponent {
         )
       },
       {
-        overwriteOriginalData: true
+        overwriteOriginalData: true,
       }
     )
 
@@ -773,12 +773,12 @@ class AutocompleteInstance extends React.PureComponent {
 
       dispatchCustomElementEvent(this, 'on_focus', {
         event,
-        ...this.getEventObjects('on_focus')
+        ...this.getEventObjects('on_focus'),
       })
 
       this.setState({
         hasFocus: true,
-        hasBlur: false
+        hasBlur: false,
       })
     }
   }
@@ -789,13 +789,13 @@ class AutocompleteInstance extends React.PureComponent {
       open_on_focus,
       keep_value,
       keep_value_and_selection,
-      prevent_selection
+      prevent_selection,
     } = this.props
 
     if (!isTrue(keep_value_and_selection)) {
       this.setState({
         typedInputValue: null,
-        _listenForPropChanges: false
+        _listenForPropChanges: false,
       })
     }
 
@@ -814,7 +814,7 @@ class AutocompleteInstance extends React.PureComponent {
         if (parseFloat(this.context.drawerList.selected_item) > -1) {
           this.setState({
             inputValue,
-            _listenForPropChanges: false
+            _listenForPropChanges: false,
           })
         } else if (
           !(input_value !== 'initval' && input_value.length > 0) &&
@@ -822,7 +822,7 @@ class AutocompleteInstance extends React.PureComponent {
         ) {
           this.setState({
             inputValue: '',
-            _listenForPropChanges: false
+            _listenForPropChanges: false,
           })
         }
       }, 1) // to make sure we actually are after the Input state handling -> "input placeholder reset"
@@ -831,12 +831,12 @@ class AutocompleteInstance extends React.PureComponent {
     if (!this.state.hasBlur) {
       dispatchCustomElementEvent(this, 'on_blur', {
         event,
-        ...this.getEventObjects('on_blur')
+        ...this.getEventObjects('on_blur'),
       })
 
       this.setState({
         hasBlur: true,
-        hasFocus: false
+        hasFocus: false,
       })
     }
   }
@@ -891,7 +891,7 @@ class AutocompleteInstance extends React.PureComponent {
       case 'esc':
         this.setState({
           showAllNextTime: true,
-          _listenForPropChanges: false
+          _listenForPropChanges: false,
         })
 
         break
@@ -940,7 +940,7 @@ class AutocompleteInstance extends React.PureComponent {
           this.dbf[key] ||
           (this.dbf[key] = debounce(func, wait, { context: this }))
         )(props)
-      }
+      },
     }
   }
 
@@ -985,7 +985,7 @@ class AutocompleteInstance extends React.PureComponent {
   setSearchIndex(
     {
       overwriteSearchIndex = false,
-      data = this.context.drawerList.original_data
+      data = this.context.drawerList.original_data,
     } = {},
     cb
   ) {
@@ -1000,7 +1000,7 @@ class AutocompleteInstance extends React.PureComponent {
     this.setState(
       {
         searchIndex,
-        _listenForPropChanges: false
+        _listenForPropChanges: false,
       },
       cb
     )
@@ -1012,7 +1012,7 @@ class AutocompleteInstance extends React.PureComponent {
     clearTimeout(this.showAllTimeout)
     this.context.drawerList.setState(
       {
-        ignore_events: true // we also have to reset this one
+        ignore_events: true, // we also have to reset this one
       },
       () => {
         // but we reset it right after the rerender
@@ -1020,7 +1020,7 @@ class AutocompleteInstance extends React.PureComponent {
           this.context &&
             this.context.drawerList &&
             this.context.drawerList.setState({
-              ignore_events: false // we also have to reset this one
+              ignore_events: false, // we also have to reset this one
             })
         }, 10) // make sure we reset once the rerender of DrawerList is done, because then we keep the active_item at it's position by using key="down"
       }
@@ -1031,7 +1031,7 @@ class AutocompleteInstance extends React.PureComponent {
     this.resetFilter()
 
     this.context.drawerList.setState({
-      cache_hash: 'all'
+      cache_hash: 'all',
     })
 
     this.runFilterToHighlight({ skipFilter: true, fillDataIfEmpty: true })
@@ -1040,7 +1040,7 @@ class AutocompleteInstance extends React.PureComponent {
   showAllItems = () => {
     this.resetFilter()
     this.context.drawerList.setState({
-      cache_hash: 'all'
+      cache_hash: 'all',
     })
     this.scrollToSelectedItem(this.context.drawerList.selected_item)
   }
@@ -1051,21 +1051,21 @@ class AutocompleteInstance extends React.PureComponent {
       !isTrue(this.props.keep_value_and_selection)
     ) {
       this.setState({
-        inputValue: null
+        inputValue: null,
       })
     }
     this.setState({
       typedInputValue: null,
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
     this.context.drawerList.setState({
-      selected_item: null
+      selected_item: null,
     })
   }
 
   resetSelections = () => {
     this.context.drawerList.setState({
-      active_item: null
+      active_item: null,
     })
   }
 
@@ -1080,7 +1080,7 @@ class AutocompleteInstance extends React.PureComponent {
       searchIndex = this.state.searchIndex,
       skipHighlight = false,
       skipFilter = false,
-      skipReorder = false
+      skipReorder = false,
     } = {}
   ) => {
     const words = value.split(/\s+/g).filter(Boolean)
@@ -1092,7 +1092,7 @@ class AutocompleteInstance extends React.PureComponent {
         .map((word, wordIndex) => ({
           word,
           wordIndex,
-          score: wordsCount - wordIndex
+          score: wordsCount - wordIndex,
         }))
         .filter(
           ({ word, wordIndex }) =>
@@ -1155,7 +1155,7 @@ class AutocompleteInstance extends React.PureComponent {
         // make string out of it
         children = children.map((component) => ({
           component,
-          segment: convertJsxToString(component)
+          segment: convertJsxToString(component),
         }))
 
         children = children.map(
@@ -1200,7 +1200,7 @@ class AutocompleteInstance extends React.PureComponent {
                 <span
                   key={cacheHash + idx}
                   dangerouslySetInnerHTML={{
-                    __html
+                    __html,
                   }}
                 />
               )
@@ -1251,7 +1251,7 @@ class AutocompleteInstance extends React.PureComponent {
 
       return {
         countFindings: listOfFoundWords.length + totalScore,
-        item
+        item,
       }
     })
 
@@ -1276,7 +1276,7 @@ class AutocompleteInstance extends React.PureComponent {
   onHideHandler = (args = {}) => {
     const res = dispatchCustomElementEvent(this, 'on_hide', {
       ...args,
-      ...this.getEventObjects('on_hide')
+      ...this.getEventObjects('on_hide'),
     })
 
     if (res !== false) {
@@ -1289,12 +1289,12 @@ class AutocompleteInstance extends React.PureComponent {
   setFocusOnInput() {
     this.setState(
       {
-        hasFocus: true
+        hasFocus: true,
       },
       () => {
         try {
           this._refInput.current._ref.current.focus({
-            preventScroll: true
+            preventScroll: true,
           })
         } catch (e) {
           // do nothing
@@ -1302,7 +1302,7 @@ class AutocompleteInstance extends React.PureComponent {
         clearTimeout(this._focusTimeout)
         this._focusTimeout = setTimeout(() => {
           this.setState({
-            hasFocus: false
+            hasFocus: false,
           })
         }, 1) // we have to wait in order to make sure the focus situation is cleared up
       }
@@ -1313,7 +1313,7 @@ class AutocompleteInstance extends React.PureComponent {
     if (parseFloat(args.active_item) > -1) {
       dispatchCustomElementEvent(this, 'on_select', {
         ...args,
-        ...this.getEventObjects('on_select')
+        ...this.getEventObjects('on_select'),
       })
     }
   }
@@ -1325,7 +1325,7 @@ class AutocompleteInstance extends React.PureComponent {
       if (parseFloat(selected_item) > -1) {
         const active_item = selected_item - 1
         this.context.drawerList.setState({
-          active_item
+          active_item,
         })
         this.scrollToActiveItem(active_item)
       }
@@ -1344,7 +1344,7 @@ class AutocompleteInstance extends React.PureComponent {
         this.setState({
           skipFocusDuringChange: true,
           skipHighlight: true,
-          _listenForPropChanges: false
+          _listenForPropChanges: false,
         })
 
         this.setHidden()
@@ -1353,7 +1353,7 @@ class AutocompleteInstance extends React.PureComponent {
         // So we first need a blur of the input basically
         try {
           this.context.drawerList._refUl.current.focus({
-            preventScroll: true
+            preventScroll: true,
           })
         } catch (e) {
           // do nothing
@@ -1367,7 +1367,7 @@ class AutocompleteInstance extends React.PureComponent {
               this.context.drawerList.data
             ),
             skipFocusDuringChange: false,
-            _listenForPropChanges: false
+            _listenForPropChanges: false,
           })
 
           this.setFocusOnInput()
@@ -1378,14 +1378,14 @@ class AutocompleteInstance extends React.PureComponent {
             selected_item,
             this.context.drawerList.data
           ),
-          _listenForPropChanges: false
+          _listenForPropChanges: false,
         })
       }
     }
 
     dispatchCustomElementEvent(this, 'on_change', {
       ...args,
-      ...this.getEventObjects('on_change')
+      ...this.getEventObjects('on_change'),
     })
   }
 
@@ -1410,12 +1410,12 @@ class AutocompleteInstance extends React.PureComponent {
         if (newString) {
           this.setState({
             ariaLiveUpdate: newString,
-            _listenForPropChanges: false
+            _listenForPropChanges: false,
           })
           this._ariaLiveUpdateTimeout = setTimeout(() => {
             this.setState({
               ariaLiveUpdate: null,
-              _listenForPropChanges: false
+              _listenForPropChanges: false,
             })
           }, 1e3)
         }
@@ -1504,7 +1504,7 @@ class AutocompleteInstance extends React.PureComponent {
       selected_item,
       active_item,
       direction,
-      opened
+      opened,
     } = this.context.drawerList
 
     const isExpanded = Boolean(opened) && this.hasValidData()
@@ -1533,13 +1533,13 @@ class AutocompleteInstance extends React.PureComponent {
         createSpacingClasses(props),
         _className,
         className
-      )
+      ),
     }
 
     const shellParams = {
       className: 'dnb-autocomplete__shell dnb-no-focus',
       ref: this._refShell,
-      onKeyDown: this.onShellKeyDownHandler
+      onKeyDown: this.onShellKeyDownHandler,
     }
 
     const inputParams = {
@@ -1569,7 +1569,7 @@ class AutocompleteInstance extends React.PureComponent {
       inner_ref: input_ref,
       disabled,
       skeleton,
-      ...attributes
+      ...attributes,
     }
 
     if (!(parseFloat(selected_item) > -1)) {
@@ -1616,7 +1616,7 @@ class AutocompleteInstance extends React.PureComponent {
         onSubmit: this.onSubmit,
         'aria-haspopup': 'listbox',
         'aria-expanded': isExpanded,
-        className: classnames(opened && 'dnb-button--active')
+        className: classnames(opened && 'dnb-button--active'),
       }
 
       if (submit_element && React.isValidElement(submit_element)) {

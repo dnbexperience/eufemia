@@ -87,7 +87,7 @@ import { withProperties } from '@dnb/eufemia/style/stylis'
 import { StyleSheetManager } from 'styled-components'
 
 const stylisPlugin = withProperties({
-  '--custom-property': 'CSS value'
+  '--custom-property': 'CSS value',
 })
 
 render(
@@ -106,7 +106,7 @@ import createEmotionCache from '@emotion/cache'
 
 const emotionCache = createEmotionCache({
   key: 'my-prefix-key',
-  stylisPlugins: [stylisPlugin]
+  stylisPlugins: [stylisPlugin],
 })
 
 render(

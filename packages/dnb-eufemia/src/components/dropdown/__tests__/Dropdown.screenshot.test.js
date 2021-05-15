@@ -5,62 +5,63 @@
 
 import {
   testPageScreenshot,
-  setupPageScreenshot
+  setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Dropdown screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/dropdown/demos',
-    timeout: 300e3
+    timeout: 300e3,
   })
   it('have to match the closed dropdown', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="dropdown-closed"] .dnb-dropdown__inner'
+      selector:
+        '[data-visual-test="dropdown-closed"] .dnb-dropdown__inner',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match different sizes', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="dropdown-sizes"]'
+      selector: '[data-visual-test="dropdown-sizes"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match disabled state', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="dropdown-disabled"]'
+      selector: '[data-visual-test="dropdown-disabled"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the dropdown with icon on left side', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="dropdown-left-icon"]'
+      selector: '[data-visual-test="dropdown-left-icon"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the dropdown with status: error', async () => {
     const screenshot = await testPageScreenshot({
       selector:
-        '[data-visual-test="dropdown-status-error"] .dnb-dropdown__inner'
+        '[data-visual-test="dropdown-status-error"] .dnb-dropdown__inner',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the dropdown as more_menu', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="dropdown-more_menu"]'
+      selector: '[data-visual-test="dropdown-more_menu"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the dropdown with tertiary button', async () => {
     const screenshot = await testPageScreenshot({
       selector:
-        '[data-visual-test="dropdown-tertiary"] .dnb-dropdown__inner'
+        '[data-visual-test="dropdown-tertiary"] .dnb-dropdown__inner',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the dropdown as action menu', async () => {
     const screenshot = await testPageScreenshot({
       selector:
-        '[data-visual-test="dropdown-action_menu"] .dnb-dropdown__inner'
+        '[data-visual-test="dropdown-action_menu"] .dnb-dropdown__inner',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -70,7 +71,7 @@ describe('Dropdown screenshot', () => {
         '[data-visual-test="dropdown-closed"] .dnb-dropdown__inner',
       simulateSelector:
         '[data-visual-test="dropdown-closed"] .dnb-dropdown__trigger',
-      simulate: 'focus' // should be tested first
+      simulate: 'focus', // should be tested first
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -80,27 +81,27 @@ describe('Dropdown screenshot', () => {
         '[data-visual-test="dropdown-closed"] .dnb-dropdown__inner',
       simulateSelector:
         '[data-visual-test="dropdown-closed"] .dnb-dropdown__trigger',
-      simulate: 'hover'
+      simulate: 'hover',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match the dropdown items', async () => {
     const screenshot = await testPageScreenshot({
       style: {
-        width: '14rem'
+        width: '14rem',
       },
       selector:
         '[data-visual-test="dropdown-list"] .dnb-drawer-list__list',
       simulateSelector:
         '[data-visual-test="dropdown-list"] .dnb-drawer-list__option:nth-of-type(1)',
-      simulate: 'hover'
+      simulate: 'hover',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   it('have to match different item direactions', async () => {
     const screenshot = await testPageScreenshot({
       style: {
-        height: '16rem'
+        height: '16rem',
       },
       selector:
         '[data-visual-test="dropdown-item-directions"] .dnb-dropdown__inner',
@@ -108,7 +109,7 @@ describe('Dropdown screenshot', () => {
         '[data-visual-test="dropdown-item-directions"] .dnb-dropdown__trigger',
       waitAfterSimulateSelector:
         '.dnb-drawer-list__options .first-of-type.dnb-drawer-list__option',
-      simulate: 'click'
+      simulate: 'click',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -121,7 +122,7 @@ describe('Dropdown screenshot', () => {
         '[data-visual-test="dropdown-closed"] .dnb-dropdown__trigger',
       waitAfterSimulateSelector:
         '.dnb-drawer-list__options .first-of-type.dnb-drawer-list__option',
-      simulate: 'click'
+      simulate: 'click',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -132,7 +133,7 @@ describe('Dropdown screenshot', () => {
         '[data-visual-test="dropdown-action_menu-custom"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__trigger',
       waitAfterSimulateSelector:
         '.dnb-drawer-list__options .first-of-type.dnb-drawer-list__option',
-      simulate: 'click'
+      simulate: 'click',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -140,7 +141,7 @@ describe('Dropdown screenshot', () => {
 
 describe('Dropdown screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/dropdown/demos'
+    url: '/uilib/components/dropdown/demos',
   })
   it('have to match the dropdown as more_menu opened on left side', async () => {
     const screenshot = await testPageScreenshot({
@@ -149,7 +150,7 @@ describe('Dropdown screenshot', () => {
         '[data-visual-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(1) .dnb-dropdown__trigger',
       waitAfterSimulateSelector:
         '.dnb-drawer-list__options .first-of-type.dnb-drawer-list__option',
-      simulate: 'click'
+      simulate: 'click',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -157,7 +158,7 @@ describe('Dropdown screenshot', () => {
 
 describe('Dropdown screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/dropdown/demos'
+    url: '/uilib/components/dropdown/demos',
   })
   it('have to match the dropdown as more_menu opened on right side', async () => {
     const screenshot = await testPageScreenshot({
@@ -166,7 +167,7 @@ describe('Dropdown screenshot', () => {
         '[data-visual-test="dropdown-more_menu"] .dnb-dropdown:nth-of-type(2) .dnb-dropdown__trigger',
       waitAfterSimulateSelector:
         '.dnb-drawer-list__options .first-of-type.dnb-drawer-list__option',
-      simulate: 'click'
+      simulate: 'click',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

@@ -8,7 +8,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 import {
   InfoIcon,
   WarnIcon,
-  ErrorIcon
+  ErrorIcon,
 } from '@dnb/eufemia/src/components/form-status/FormStatus'
 
 export const FormStatusDefault = () => (

@@ -130,7 +130,7 @@ const AutoLinkHeader = ({
             addToSearchIndex({
               location,
               title: React.isValidElement(children) ? title : children,
-              hash: id
+              hash: id,
             })
           }
           return children
@@ -146,7 +146,7 @@ AutoLinkHeader.propTypes = {
   useSlug: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
-  addToSearchIndex: PropTypes.func
+  addToSearchIndex: PropTypes.func,
 }
 AutoLinkHeader.defaultProps = {
   level: '1',
@@ -154,7 +154,7 @@ AutoLinkHeader.defaultProps = {
   element: null,
   useSlug: null,
   className: null,
-  addToSearchIndex: null
+  addToSearchIndex: null,
 }
 
 export default AutoLinkHeader

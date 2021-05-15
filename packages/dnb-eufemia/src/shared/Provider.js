@@ -20,7 +20,7 @@ export default class Provider extends React.PureComponent {
     locale: PropTypes.string, // eslint-disable-line
     /** Enable skeleton of every Eufemia component inside this Provider */
     skeleton: PropTypes.bool, // eslint-disable-line
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
   }
 
   // NB! Do not provide any default props, because they would overwrite inherited values in nested provider
@@ -60,7 +60,7 @@ export default class Provider extends React.PureComponent {
       if (state.FormRow) {
         state.FormRow = {
           ...state.FormRow,
-          ...updatedProps.FormRow
+          ...updatedProps.FormRow,
         }
         state.FormRow = prepareFormRowContext(state.FormRow)
       }
@@ -143,7 +143,7 @@ export default class Provider extends React.PureComponent {
 
   setNewContext(__newContext) {
     this.setState({
-      _listenForPropChanges: false
+      _listenForPropChanges: false,
     })
 
     /**
@@ -178,7 +178,7 @@ export default class Provider extends React.PureComponent {
     if (!this.state.isRoot) {
       value = {
         ...this.context,
-        ...this.state // Use this state here, because our child provider can still update the context          ...this.context
+        ...this.state, // Use this state here, because our child provider can still update the context          ...this.context
       }
 
       value = Provider.mergeContext(this.state, this.context)

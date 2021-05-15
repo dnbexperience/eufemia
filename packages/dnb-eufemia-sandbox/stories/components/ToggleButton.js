@@ -13,13 +13,13 @@ import {
   Space,
   // FormSet,
   FormRow,
-  FormLabel
+  FormLabel,
 } from '@dnb/eufemia/src/components'
 
 import { H2 } from '@dnb/eufemia/src/elements'
 
 export default {
-  title: 'Eufemia/Components/ToggleButton'
+  title: 'Eufemia/Components/ToggleButton',
 }
 
 function ToggleButtonGroup() {
@@ -195,6 +195,7 @@ export const ToggleButtonSandbox = () => (
         <span
           className="dnb-toggle-button-group"
           aria-labelledby="MyToggleButtonGroup"
+          role="group"
         >
           <ToggleButton
             value="first"

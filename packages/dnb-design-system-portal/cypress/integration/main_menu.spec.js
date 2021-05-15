@@ -10,9 +10,7 @@ describe('Main Menu', () => {
 
   it('click on main menu button should open the main menu', () => {
     cy.get('#toggle-main-menu').click()
-    cy.get('nav')
-      .find('a[href="/uilib/"]')
-      .click()
+    cy.get('nav').find('a[href="/uilib/"]').click()
     cy.url().should('eq', `${Cypress.config().baseUrl}/uilib/`)
 
     // to verify that we have the new content

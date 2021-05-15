@@ -9,7 +9,7 @@ import {
   axeComponent,
   toJson,
   loadScss,
-  mockGetSelection
+  mockGetSelection,
 } from '../../../core/jest/jestSetup'
 import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
@@ -26,7 +26,7 @@ const value = 12345678.9876
 const snapshotProps = {
   value,
   locale,
-  element
+  element,
 }
 
 // make it possible to change the navigator lang
@@ -52,7 +52,7 @@ describe('Node', () => {
 
     const intl = new Intl.NumberFormat(locale, {
       style: 'currency',
-      currency: 'NOK'
+      currency: 'NOK',
     })
     expect(intl.format(value)).toBe('kr 12 345 678,99') // Rounds
   })
@@ -90,7 +90,7 @@ describe('NumberFormat component', () => {
     Comp.setProps({
       children: null,
       decimals: 0,
-      value: 12345
+      value: 12345,
     })
 
     expect(Comp.find(displaySelector).first().text()).toBe('12 345 kr')
@@ -117,7 +117,7 @@ describe('NumberFormat component', () => {
 
     const { cleanedValue: noVal } = format(-value, {
       currency: true,
-      returnAria: true
+      returnAria: true,
     })
     expect(Comp.find('.dnb-number-format__selection').text()).toBe(noVal)
     expect(window.getSelection().toString()).toBe('1234.56') // Hack! Having there the "cleanedNumber" would be optimal.
@@ -127,7 +127,7 @@ describe('NumberFormat component', () => {
     const { cleanedValue: enVal } = format(-value, {
       locale: 'en-GB',
       currency: true,
-      returnAria: true
+      returnAria: true,
     })
     expect(Comp.find('.dnb-number-format__selection').text()).toBe(enVal)
   })
@@ -145,14 +145,14 @@ describe('NumberFormat component', () => {
     )
 
     Comp.setProps({
-      currency_display: 'code'
+      currency_display: 'code',
     })
     expect(Comp.find(displaySelector).first().text()).toBe(
       '-12 345 678,99 NOK'
     )
 
     Comp.setProps({
-      currency_position: 'before'
+      currency_position: 'before',
     })
     expect(Comp.find(displaySelector).first().text()).toBe(
       'NOK -12 345 678,99'
@@ -191,7 +191,7 @@ describe('NumberFormat component', () => {
     // also check the formatting with one digit less
     Comp.setProps({
       children: null,
-      value: 2000123456
+      value: 2000123456,
     })
     expect(Comp.find(displaySelector).first().text()).toBe('2000 12 3456')
   })
@@ -234,8 +234,8 @@ describe('NumberFormat component', () => {
       await axeComponent(Comp, {
         rules: {
           // because of the role="text", we disable this rule for now
-          'aria-roles': { enabled: false }
-        }
+          'aria-text': { enabled: false },
+        },
       })
     ).toHaveNoViolations()
   })
@@ -313,7 +313,7 @@ describe('Currency format with dirty number', () => {
     expect(
       format('prefix -1,234,567.891 suffix', {
         clean: true,
-        currency: true
+        currency: true,
       })
     ).toBe('-1 234 567,89 kr')
   })
@@ -325,7 +325,7 @@ describe('Currency format with dirty number', () => {
     expect(
       format('prefix -1 234 567,891 suffix', {
         clean: true,
-        currency: true
+        currency: true,
       })
     ).toBe('-1 234 567,89 kr')
   })
@@ -334,7 +334,7 @@ describe('Currency format with dirty number', () => {
     expect(
       format('prefix -1 234 567.891 suffix', {
         clean: true,
-        currency: true
+        currency: true,
       })
     ).toBe('-1 234 567,89 kr')
   })
@@ -343,7 +343,7 @@ describe('Currency format with dirty number', () => {
     expect(
       format("prefix -1'234'567.891 suffix", {
         clean: true,
-        currency: true
+        currency: true,
       })
     ).toBe('-1 234 567,89 kr')
   })
@@ -355,7 +355,7 @@ describe('Currency format with dirty number', () => {
     expect(
       format('prefix -1,234,567·891 suffix', {
         clean: true,
-        currency: true
+        currency: true,
       })
     ).toBe('-1 234 567,89 kr')
   })
@@ -367,7 +367,7 @@ describe('Currency format with dirty number', () => {
     expect(
       format("prefix -1.234.567'891 suffix", {
         clean: true,
-        currency: true
+        currency: true,
       })
     ).toBe('-1 234 567,89 kr')
   })

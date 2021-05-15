@@ -230,7 +230,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
   // create our Pagination instance
   const [
-    { Pagination, setContent, resetContent, resetInfinity, endInfinity }
+    { Pagination, setContent, resetContent, resetInfinity, endInfinity },
   ] = React.useState(createPagination)
   const [orderDirection, setOrderDirection] = React.useState('asc')
   const [currentPage, setLocalPage] = React.useState(null)
@@ -253,7 +253,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       // update only the current item
       tableItems[index] = {
         ...item,
-        expanded: !item.expanded
+        expanded: !item.expanded,
       }
 
       // define what page should update
@@ -391,7 +391,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   )
 }
 InfinityPaginationTable.propTypes = {
-  tableItems: PropTypes.array.isRequired
+  tableItems: PropTypes.array.isRequired,
 }
 
 const InfinityPagination = ({
@@ -440,10 +440,10 @@ const InfinityPagination = ({
               } catch (e) {
                 //
               }
-            }
+            },
           })
         }
-      }
+      },
     }
 
     // we do this only to have a working useEffect, so we can call onMounted
@@ -585,7 +585,7 @@ const TableData = styled.td`
 const setHeight = ({
   element,
   expanded = false,
-  animation = true
+  animation = true,
 } = {}) => {
   if (
     element &&

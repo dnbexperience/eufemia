@@ -81,12 +81,12 @@ const statusOne = GlobalStatus.create({
   id: 'other-global-status', // or main
   status_id: 'custom-id-1',
   text: 'New Text',
-  item: 'Item from status #1'
+  item: 'Item from status #1',
 })
 
 // 2. and removes "custom-id-1" again if needed
 statusOne.update({
-  text: 'Updated Text'
+  text: 'Updated Text',
 })
 
 // 3. and removes "custom-id-1" again if needed

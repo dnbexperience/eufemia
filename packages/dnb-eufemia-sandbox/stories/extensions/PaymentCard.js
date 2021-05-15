@@ -10,7 +10,7 @@ import styled from '@emotion/styled'
 import { H3 } from '@dnb/eufemia/src/elements'
 
 import PaymentCard, {
-  getCardData
+  getCardData,
 } from '@dnb/eufemia/src/extensions/payment-card'
 // import '@dnb/eufemia/src/style/extensions'
 
@@ -21,7 +21,7 @@ import '@dnb/eufemia/src/extensions/payment-card/style/themes/ui'
 // } from '@dnb/eufemia/src/extensions/PaymentCard'
 
 export default {
-  title: 'Eufemia/Extensions/PaymentCard'
+  title: 'Eufemia/Extensions/PaymentCard',
 }
 
 const CustomWrapper = styled(Wrapper)`
@@ -79,5 +79,5 @@ const demoCards = [
   'VP3',
   'P101',
   'BK1',
-  'VB2'
+  'VB2',
 ]

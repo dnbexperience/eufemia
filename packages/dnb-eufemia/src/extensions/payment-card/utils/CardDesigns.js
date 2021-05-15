@@ -9,7 +9,7 @@ const defaultDesign = {
   mastercard: Mastercard.DefaultWhite,
   bankAxept: BankAxept.White,
   saga: Saga.None,
-  privateBanking: PB.None
+  privateBanking: PB.None,
 }
 
 const pluss = {
@@ -20,7 +20,7 @@ const pluss = {
   mastercard: Mastercard.DefaultWhite,
   bankAxept: BankAxept.White,
   saga: Saga.None,
-  privateBanking: PB.None
+  privateBanking: PB.None,
 }
 
 const white = {
@@ -31,7 +31,7 @@ const white = {
   mastercard: Mastercard.Default,
   bankAxept: BankAxept.Black,
   saga: Saga.None,
-  privateBanking: PB.None
+  privateBanking: PB.None,
 }
 
 const myFirst = {
@@ -42,7 +42,7 @@ const myFirst = {
   mastercard: Mastercard.Default,
   bankAxept: BankAxept.Black,
   saga: Saga.None,
-  privateBanking: PB.None
+  privateBanking: PB.None,
 }
 
 const youth = {
@@ -53,7 +53,7 @@ const youth = {
   mastercard: Mastercard.Default,
   bankAxept: BankAxept.Black,
   saga: Saga.None,
-  privateBanking: PB.None
+  privateBanking: PB.None,
 }
 
 const silver = {
@@ -64,7 +64,7 @@ const silver = {
   mastercard: Mastercard.Default,
   bankAxept: BankAxept.Black,
   saga: Saga.None,
-  privateBanking: PB.None
+  privateBanking: PB.None,
 }
 
 const gold = {
@@ -75,7 +75,7 @@ const gold = {
   mastercard: Mastercard.DefaultWhite,
   bankAxept: BankAxept.White,
   saga: Saga.None,
-  privateBanking: PB.None
+  privateBanking: PB.None,
 }
 
 const saga = {
@@ -86,7 +86,7 @@ const saga = {
   mastercard: Mastercard.DefaultWhite,
   bankAxept: BankAxept.White,
   saga: Saga.Gold,
-  privateBanking: PB.None
+  privateBanking: PB.None,
 }
 
 const sagaPlatinum = {
@@ -97,7 +97,7 @@ const sagaPlatinum = {
   mastercard: Mastercard.DefaultWhite,
   bankAxept: BankAxept.White,
   saga: Saga.Platinum,
-  privateBanking: PB.None
+  privateBanking: PB.None,
 }
 
 const privateBanking = {
@@ -108,7 +108,7 @@ const privateBanking = {
   mastercard: Mastercard.Metalic,
   bankAxept: BankAxept.White,
   saga: Saga.None,
-  privateBanking: PB.Default
+  privateBanking: PB.Default,
 }
 
 const mcBlack = {
@@ -119,7 +119,7 @@ const mcBlack = {
   mastercard: Mastercard.BlackMetalic,
   bankAxept: BankAxept.White,
   saga: Saga.None,
-  privateBanking: PB.None
+  privateBanking: PB.None,
 }
 
 const businessNoVisa = {
@@ -130,7 +130,7 @@ const businessNoVisa = {
   mastercard: Mastercard.DefaultWhite,
   bankAxept: BankAxept.White,
   saga: Saga.None,
-  privateBanking: PB.None
+  privateBanking: PB.None,
 }
 
 const businessWithVisa = {
@@ -141,7 +141,7 @@ const businessWithVisa = {
   mastercard: Mastercard.DefaultWhite,
   bankAxept: BankAxept.White,
   saga: Saga.None,
-  privateBanking: PB.None
+  privateBanking: PB.None,
 }
 
 const Designs = {
@@ -157,7 +157,7 @@ const Designs = {
   privateBanking,
   mcBlack,
   businessNoVisa,
-  businessWithVisa
+  businessWithVisa,
 }
 export default Designs
 
@@ -174,5 +174,5 @@ export {
   privateBanking,
   mcBlack,
   businessNoVisa,
-  businessWithVisa
+  businessWithVisa,
 }

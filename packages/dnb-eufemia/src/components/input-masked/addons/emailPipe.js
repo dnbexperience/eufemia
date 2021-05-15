@@ -15,7 +15,7 @@ export default function emailPipe(conformedValue, config) {
     currentCaretPosition,
     rawValue,
     previousConformedValue,
-    placeholderChar
+    placeholderChar,
   } = config
 
   let value = conformedValue

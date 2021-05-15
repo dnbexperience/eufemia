@@ -140,7 +140,7 @@ export {
   Td,
   Th,
   Tr,
-  Ul
+  Ul,
 }
 
 export default {}

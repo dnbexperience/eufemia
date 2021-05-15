@@ -29,6 +29,9 @@ export interface PrimaryComponentProps {
   secondary_spacing?: PrimaryComponentSecondarySpacing;
   children?: React.ReactNode;
 }
-export default class PrimaryComponent extends React.Component<PrimaryComponentProps, any> {
+export default class PrimaryComponent extends React.Component<
+  PrimaryComponentProps,
+  any
+> {
   render(): JSX.Element;
 }

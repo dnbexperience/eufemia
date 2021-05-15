@@ -8,7 +8,7 @@ import {
   PLATFORM_MAC,
   PLATFORM_WIN,
   PLATFORM_LINUX,
-  PLATFORM_IOS
+  PLATFORM_IOS,
 } from './component-helper'
 
 export let IS_IE11 = false
@@ -93,7 +93,7 @@ export function applyPageFocus(key = 'default', callback = null) {
           'footer',
           'aside',
           'section',
-          'article'
+          'article',
         ].includes(String(element.nodeName).toLowerCase())
       ) {
         if (!element.hasAttribute('tabindex')) {
@@ -144,7 +144,7 @@ export function getOffsetLeft(elem) {
 export function scrollToLocationHashId({
   offset = 0,
   delay = null,
-  onCompletion = null
+  onCompletion = null,
 } = {}) {
   if (
     typeof document !== 'undefined' &&
@@ -178,7 +178,7 @@ export function scrollToLocationHashId({
               if (window.scrollTo) {
                 window.scrollTo({
                   top,
-                  behavior: 'smooth'
+                  behavior: 'smooth',
                 })
               } else {
                 window.scrollTop = top

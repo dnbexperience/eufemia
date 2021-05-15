@@ -24,7 +24,7 @@ const ComponentBox = ({ children, hideOnTest, scope = {}, ...rest }) => {
         styled,
         React,
         // TestWrapper,// Not used as of now
-        ...scope
+        ...scope,
       }}
       {...rest}
     >
@@ -36,11 +36,11 @@ ComponentBox.propTypes = {
   children: PropTypes.oneOfType([PropTypes.func, PropTypes.node])
     .isRequired,
   hideOnTest: PropTypes.bool,
-  scope: PropTypes.object
+  scope: PropTypes.object,
 }
 ComponentBox.defaultProps = {
   hideOnTest: false,
-  scope: {}
+  scope: {},
 }
 
 export default ComponentBox
