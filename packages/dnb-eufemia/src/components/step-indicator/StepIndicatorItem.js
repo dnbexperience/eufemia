@@ -7,53 +7,71 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
+  warn,
   isTrue,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { IS_MAC } from '../../shared/helpers'
 // import { Dummy } from '../tabs/Tabs'
 
-export default class StepItem extends React.PureComponent {
+export default class StepIndicatorItem extends React.PureComponent {
   static propTypes = {
     title: PropTypes.string.isRequired,
     step_title: PropTypes.string,
-    activeItem: PropTypes.number,
-    currentItem: PropTypes.number.isRequired,
     hide_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     use_navigation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
+    ]), // Deprecated
+    enable_navigation: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
     ]),
     on_item_render: PropTypes.func,
+
     on_render: PropTypes.func,
     on_click: PropTypes.func,
     on_change: PropTypes.func,
+
+    currentItem: PropTypes.number.isRequired,
+    activeItem: PropTypes.number,
     setActiveItem: PropTypes.func,
     hasReached: PropTypes.array,
     countSteps: PropTypes.number,
     is_active: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     is_current: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    url: PropTypes.string,
-    url_future: PropTypes.string,
-    url_passed: PropTypes.string,
+
+    // Deprecated
+    url: PropTypes.string, // Deprecated
+    // /* Deprecated */
+    url_future: PropTypes.string, // Deprecated
+    // /* Deprecated */
+    url_passed: PropTypes.string, // Deprecated
   }
   static defaultProps = {
     step_title: '%step',
     on_item_render: null,
+    hide_numbers: false,
+    use_navigation: null, // Deprecated
+    enable_navigation: null,
+
     on_render: null,
     on_click: null,
     on_change: null,
+
+    activeItem: null,
     setActiveItem: null,
     hasReached: [],
     countSteps: null,
-    hide_numbers: false,
-    use_navigation: false,
     is_active: null,
     is_current: null,
-    url: null,
-    url_future: null,
-    url_passed: null,
-    activeItem: null,
+
+    /* Deprecated */
+    url: null, // Deprecated
+    // /* Deprecated */
+    url_future: null, // Deprecated
+    // /* Deprecated */
+    url_passed: null, // Deprecated
   }
 
   constructor(props) {
@@ -62,13 +80,19 @@ export default class StepItem extends React.PureComponent {
   }
 
   onClickHandler = ({ event, item, currentItem }) => {
-    const { use_navigation, on_click, setActiveItem } = this.props
+    // Deprecated
+    const { use_navigation } = this.props
+    const { enable_navigation, on_click, setActiveItem } = this.props
     const params = {
       event,
       item,
       currentItem,
     }
-    if (isTrue(use_navigation) && typeof setActiveItem === 'function') {
+    if (
+      // Deprecated
+      (isTrue(use_navigation) || isTrue(enable_navigation)) &&
+      typeof setActiveItem === 'function'
+    ) {
       setActiveItem(currentItem)
     }
 
@@ -86,6 +110,11 @@ export default class StepItem extends React.PureComponent {
     }
   }
 
+  // Deprecated warning
+  canWarn = () =>
+    typeof process !== 'undefined' &&
+    process.env.NODE_ENV === 'development'
+
   render() {
     const {
       activeItem,
@@ -93,13 +122,14 @@ export default class StepItem extends React.PureComponent {
       countSteps,
       is_active,
       is_current,
-      url: _url,
-      url_future,
-      url_passed,
+      url: _url, // Deprecated
+      url_future, // Deprecated
+      url_passed, // Deprecated
       hide_numbers,
       title,
       step_title,
-      use_navigation,
+      use_navigation, // Deprecated
+      enable_navigation,
       on_item_render,
       on_render,
       on_click, // eslint-disable-line
@@ -110,9 +140,16 @@ export default class StepItem extends React.PureComponent {
     } = this.props
 
     let hasPassedAndIsCurrent = isTrue(is_active)
-    let url = _url
 
+    // Deprecated
+    let url = _url
     if (_url) {
+      // deprecated warning
+      if (this.canWarn()) {
+        warn(
+          'StepIndicator: "url", "url_future" and "url_passed" are deprecated. You will have to handle your URLs by yourself in the next major version.'
+        )
+      }
       if (currentItem > activeItem) {
         url = url_future
         hasPassedAndIsCurrent = true
@@ -185,7 +222,11 @@ export default class StepItem extends React.PureComponent {
     }
 
     let child = null
-    if (isTrue(use_navigation)) {
+    if (
+      // Deprecated
+      isTrue(use_navigation) ||
+      isTrue(enable_navigation)
+    ) {
       child = (
         <button
           type="button"
@@ -198,6 +239,7 @@ export default class StepItem extends React.PureComponent {
           {itemComponent}
         </button>
       )
+      // Deprecated
     } else if (url) {
       child = (
         <a
