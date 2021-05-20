@@ -58,6 +58,7 @@ exports[`HelpButton component have to match snapshot 1`] = `
         disabled={false}
         id="help-button"
         onClick={[Function]}
+        type="button"
       >
         <Content
           aria-label="Hjelpetekst"
