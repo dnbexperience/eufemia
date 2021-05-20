@@ -619,7 +619,7 @@ describe('DatePicker component', () => {
     })
   })
 
-  it.only('resets date correctly between interactions', () => {
+  it('resets date correctly between interactions', () => {
     let outerState
     const on_change = jest.fn(({ date }) => (outerState = date))
     const Comp = mount(
