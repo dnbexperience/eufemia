@@ -124,15 +124,19 @@ import owl from './owl.js'
 import padlock from './padlock.js'
 import paperclip from './paperclip.js'
 import paragraph from './paragraph.js'
+import pause from './pause.js'
 import pay_from from './pay_from.js'
 import pension from './pension.js'
 import people_1 from './people_1.js'
 import people_2 from './people_2.js'
 import person from './person.js'
+import person_shield from './person_shield.js'
 import phone from './phone.js'
 import photo from './photo.js'
+import pin from './pin.js'
 import pin_code from './pin_code.js'
 import plant from './plant.js'
+import play from './play.js'
 import printer from './printer.js'
 import profile from './profile.js'
 import progress from './progress.js'
@@ -152,6 +156,7 @@ import scooter from './scooter.js'
 import send from './send.js'
 import share_android from './share_android.js'
 import share_ios from './share_ios.js'
+import shield from './shield.js'
 import shopping_cart from './shopping_cart.js'
 import snowmobile from './snowmobile.js'
 import split from './split.js'
@@ -307,15 +312,19 @@ export {
   padlock,
   paperclip,
   paragraph,
+  pause,
   pay_from,
   pension,
   people_1,
   people_2,
   person,
+  person_shield,
   phone,
   photo,
+  pin,
   pin_code,
   plant,
+  play,
   printer,
   profile,
   progress,
@@ -335,6 +344,7 @@ export {
   send,
   share_android,
   share_ios,
+  shield,
   shopping_cart,
   snowmobile,
   split,

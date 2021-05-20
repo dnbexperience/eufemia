@@ -603,7 +603,9 @@
     "variant": "secondary"
   },
   "email": {
-    "tags": [],
+    "tags": [
+      "thumbtack"
+    ],
     "created": 1620737189270,
     "name": "objects/email_16",
     "variant": "secondary"
@@ -1196,6 +1198,12 @@
     "name": "essentials/paragraph_16",
     "variant": "secondary"
   },
+  "pause": {
+    "tags": [],
+    "created": 1621515073179,
+    "name": "actions/pause_16",
+    "variant": "secondary"
+  },
   "pay_from": {
     "tags": [
       "Payment"
@@ -1239,6 +1247,14 @@
     "name": "essentials/person_16",
     "variant": "secondary"
   },
+  "person_shield": {
+    "tags": [
+      "administrator"
+    ],
+    "created": 1621515072336,
+    "name": "essentials/person_shield_24",
+    "variant": "secondary"
+  },
   "phone": {
     "tags": [
       "mobilephone",
@@ -1258,6 +1274,14 @@
     "name": "objects/photo_16",
     "variant": "secondary"
   },
+  "pin": {
+    "tags": [
+      "thumbtack"
+    ],
+    "created": 1621515072902,
+    "name": "objects/pin_16",
+    "variant": "secondary"
+  },
   "pin_code": {
     "tags": [
       "login",
@@ -1273,6 +1297,12 @@
     ],
     "created": 1620737202487,
     "name": "objects/plant_16",
+    "variant": "secondary"
+  },
+  "play": {
+    "tags": [],
+    "created": 1621515073455,
+    "name": "actions/play_16",
     "variant": "secondary"
   },
   "printer": {
@@ -1463,6 +1493,14 @@
     "tags": [],
     "created": 1620737294639,
     "name": "actions/share_ios_16",
+    "variant": "secondary"
+  },
+  "shield": {
+    "tags": [
+      "security"
+    ],
+    "created": 1621515072613,
+    "name": "objects/shield_16",
     "variant": "secondary"
   },
   "shopping_cart": {

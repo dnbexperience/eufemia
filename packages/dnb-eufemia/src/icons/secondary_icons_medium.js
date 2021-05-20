@@ -123,15 +123,18 @@ import owl_medium from './owl_medium.js'
 import padlock_medium from './padlock_medium.js'
 import paperclip_medium from './paperclip_medium.js'
 import paragraph_medium from './paragraph_medium.js'
+import pause_medium from './pause_medium.js'
 import pay_from_medium from './pay_from_medium.js'
 import pension_medium from './pension_medium.js'
 import people_1_medium from './people_1_medium.js'
 import people_2_medium from './people_2_medium.js'
 import person_medium from './person_medium.js'
+import person_shield_medium from './person_shield_medium.js'
 import phone_medium from './phone_medium.js'
 import photo_medium from './photo_medium.js'
 import pin_code_medium from './pin_code_medium.js'
 import plant_medium from './plant_medium.js'
+import play_medium from './play_medium.js'
 import printer_medium from './printer_medium.js'
 import products_account_percent_medium from './products_account_percent_medium.js'
 import profile_medium from './profile_medium.js'
@@ -152,6 +155,7 @@ import scooter_medium from './scooter_medium.js'
 import send_medium from './send_medium.js'
 import share_android_medium from './share_android_medium.js'
 import share_ios_medium from './share_ios_medium.js'
+import shield_medium from './shield_medium.js'
 import shopping_cart_medium from './shopping_cart_medium.js'
 import snowmobile_medium from './snowmobile_medium.js'
 import split_medium from './split_medium.js'
@@ -306,15 +310,18 @@ export {
   padlock_medium,
   paperclip_medium,
   paragraph_medium,
+  pause_medium,
   pay_from_medium,
   pension_medium,
   people_1_medium,
   people_2_medium,
   person_medium,
+  person_shield_medium,
   phone_medium,
   photo_medium,
   pin_code_medium,
   plant_medium,
+  play_medium,
   printer_medium,
   products_account_percent_medium,
   profile_medium,
@@ -335,6 +342,7 @@ export {
   send_medium,
   share_android_medium,
   share_ios_medium,
+  shield_medium,
   shopping_cart_medium,
   snowmobile_medium,
   split_medium,
