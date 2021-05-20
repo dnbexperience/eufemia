@@ -149,6 +149,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
             onKeyDown={[Function]}
             onKeyUp={[Function]}
             title="title"
+            type="button"
           >
             <Content
               aria-describedby="toggle-button-suffix"
@@ -634,6 +635,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               onKeyUp={[Function]}
+                              type="button"
                             >
                               <Content
                                 aria-pressed="true"
@@ -926,6 +928,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               onKeyUp={[Function]}
+                              type="button"
                             >
                               <Content
                                 aria-pressed="true"

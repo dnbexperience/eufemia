@@ -599,6 +599,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                 className="dnb-button dnb-button--secondary dnb-pagination__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
                 disabled={true}
                 onClick={[Function]}
+                type="button"
               >
                 <Content
                   bounding={false}
@@ -726,6 +727,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                 disabled={false}
                 onClick={[Function]}
                 title="Neste side"
+                type="button"
               >
                 <Content
                   bounding={false}

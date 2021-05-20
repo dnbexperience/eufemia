@@ -130,6 +130,13 @@ describe('Button component', () => {
     expect(typeof ref.current).toBe('object')
   })
 
+  it('has type of button', () => {
+    const Comp = mount(<Component />)
+    expect(Comp.find('button').instance().getAttribute('type')).toBe(
+      'button'
+    )
+  })
+
   it('should validate with ARIA rules as a button', async () => {
     const Comp = mount(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()

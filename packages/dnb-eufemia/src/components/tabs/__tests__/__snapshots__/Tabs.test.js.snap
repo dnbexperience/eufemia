@@ -98,6 +98,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                   onClick={[Function]}
                   onMouseDown={[Function]}
                   tabIndex="-1"
+                  type="button"
                 >
                   <Content
                     aria-hidden={true}
@@ -346,6 +347,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                   onClick={[Function]}
                   onMouseDown={[Function]}
                   tabIndex="-1"
+                  type="button"
                 >
                   <Content
                     aria-hidden={true}
@@ -623,6 +625,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 onClick={[Function]}
                 onMouseDown={[Function]}
                 tabIndex="-1"
+                type="button"
               >
                 <Content
                   aria-hidden={true}
@@ -871,6 +874,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                 onClick={[Function]}
                 onMouseDown={[Function]}
                 tabIndex="-1"
+                type="button"
               >
                 <Content
                   aria-hidden={true}

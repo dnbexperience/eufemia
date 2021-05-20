@@ -116,6 +116,7 @@ exports[`Slider component have to match snapshot 1`] = `
             className="dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--subtract dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
             disabled={false}
             onClick={[Function]}
+            type="button"
           >
             <Content
               aria-label="subtract_title"
@@ -276,6 +277,7 @@ exports[`Slider component have to match snapshot 1`] = `
                 onMouseDown={[Function]}
                 tabIndex="-1"
                 title="thump_title"
+                type="button"
               >
                 <Content
                   aria-hidden={true}
@@ -376,6 +378,7 @@ exports[`Slider component have to match snapshot 1`] = `
             className="dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--add dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
             disabled={false}
             onClick={[Function]}
+            type="button"
           >
             <Content
               aria-label="add_title"

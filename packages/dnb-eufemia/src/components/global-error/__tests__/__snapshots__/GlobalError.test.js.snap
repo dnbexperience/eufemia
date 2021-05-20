@@ -597,7 +597,6 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           target_blank_title={null}
           to={null}
           tooltip={null}
-          type="button"
         >
           <AnchorInstance
             className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
@@ -609,7 +608,6 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                 "current": <a
                   class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-a"
                   href="href"
-                  type="button"
                 >
                   <span
                     class="dnb-button__alignment"
@@ -652,7 +650,6 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             target_blank_title={null}
             to={null}
             tooltip={null}
-            type="button"
           >
             <ForwardRef
               class={null}
@@ -665,7 +662,6 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                   "current": <a
                     class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-a"
                     href="href"
-                    type="button"
                   >
                     <span
                       class="dnb-button__alignment"
@@ -710,7 +706,6 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
               target={null}
               target_blank_title="Åpner et nytt vindu"
               to={null}
-              type="button"
             >
               <ElementInstance
                 class={null}
@@ -723,7 +718,6 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                     "current": <a
                       class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-a"
                       href="href"
-                      type="button"
                     >
                       <span
                         class="dnb-button__alignment"
@@ -768,14 +762,12 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                 target={null}
                 target_blank_title="Åpner et nytt vindu"
                 to={null}
-                type="button"
               >
                 <a
                   className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-a"
                   disabled={false}
                   href="href"
                   onClick={[Function]}
-                  type="button"
                 >
                   <Content
                     bounding={false}

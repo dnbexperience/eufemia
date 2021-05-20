@@ -19,6 +19,7 @@ const props = fakeProps(require.resolve('../StepIndicator'), {
 delete props.render
 props.on_item_render = null
 
+// Deprecated
 describe('StepIndicator component with urls', () => {
   const active_url = '?b'
   const stepIndicatorListData = [
@@ -90,8 +91,8 @@ describe('StepIndicator component with buttons', () => {
   ]
   const Comp = mount(
     <Component
-      use_navigation
-      active_item={1}
+      enable_navigation={true}
+      current_step={1}
       data={stepIndicatorListData}
     />
   )

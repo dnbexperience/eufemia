@@ -23,7 +23,7 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 
-import StepItem from './StepIndicatorItem'
+import StepIndicatorItem from './StepIndicatorItem'
 
 export default class StepIndicator extends React.PureComponent {
   static tagName = 'dnb-step-indicator'
@@ -45,18 +45,34 @@ export default class StepIndicator extends React.PureComponent {
             PropTypes.string,
             PropTypes.bool,
           ]),
-          url_future: PropTypes.string,
-          url_passed: PropTypes.string,
+
+          /* Deprecated */
+          url_future: PropTypes.string, // Deprecated
+          /* Deprecated */
+          url_passed: PropTypes.string, // Deprecated
+
           on_click: PropTypes.func,
           on_render: PropTypes.func,
         })
       ),
     ]).isRequired,
     step_title: PropTypes.string,
-    active_item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    active_url: PropTypes.string,
+    current_step: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
+
+    /* Deprecated */
+    active_item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // Deprecated
+    /* Deprecated */
+    active_url: PropTypes.string, // Deprecated
+
     hide_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     use_navigation: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]), // Deprecated
+    enable_navigation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
@@ -75,10 +91,12 @@ export default class StepIndicator extends React.PureComponent {
   static defaultProps = {
     data: [],
     step_title: '%step',
-    active_item: null,
-    active_url: null,
+    current_step: null,
+    active_item: null, // Deprecated
+    active_url: null, // Deprecated
     hide_numbers: false,
-    use_navigation: false,
+    use_navigation: null, // Deprecated
+    enable_navigation: null, // Deprecated
     on_item_render: null,
     skeleton: false,
     class: null,
@@ -115,14 +133,19 @@ export default class StepIndicator extends React.PureComponent {
         }
       }
 
-      if (state.activeItem !== props.active_item) {
+      if (state.activeItem !== props.current_step) {
+        state.activeItem = parseFloat(props.current_step)
+      } else if (state.activeItem !== props.active_item) {
+        /** Deprecated */
         state.activeItem = parseFloat(props.active_item)
       }
 
+      /** Deprecated */
       if (props.active_url && state.activeUrl !== props.active_url) {
         state.activeUrl = props.active_url
       }
 
+      /** Deprecated */
       if (
         (state.activeUrl || !(parseFloat(state.activeItem) > 0)) &&
         state.data.length > 0
@@ -143,12 +166,38 @@ export default class StepIndicator extends React.PureComponent {
     return state
   }
 
+  // Deprecated warning
+  canWarn = () =>
+    typeof process !== 'undefined' &&
+    process.env.NODE_ENV === 'development'
+
   constructor(props) {
     super(props)
 
     this.state = {
       hasReached: [],
       _listenForPropChanges: true,
+    }
+
+    if (this.canWarn()) {
+      // deprecated warning
+      if (props.active_item !== null) {
+        warn(
+          'StepIndicator: "active_item" is deprecated. Use "current_step" instead.'
+        )
+      }
+      // deprecated warning
+      if (props.use_navigation !== null) {
+        warn(
+          'StepIndicator: "use_navigation" is deprecated. Use "enable_navigation" instead.'
+        )
+      }
+      // deprecated warning
+      if (props.active_url !== null) {
+        warn(
+          'StepIndicator: The usage of "active_url" is deprecated. You will have to handle your URLs by yourself in the next major version.'
+        )
+      }
     }
 
     const sn = 'show_numbers'
@@ -181,7 +230,8 @@ export default class StepIndicator extends React.PureComponent {
       active_item, //eslint-disable-line
       active_url, //eslint-disable-line
       hide_numbers,
-      use_navigation,
+      use_navigation, // Deprecated
+      enable_navigation,
       on_item_render,
       step_title,
       on_change,
@@ -231,14 +281,15 @@ export default class StepIndicator extends React.PureComponent {
                 currentItem: i,
                 activeItem,
                 hide_numbers,
-                use_navigation,
+                use_navigation, // Deprecated
+                enable_navigation,
                 on_item_render,
                 step_title,
                 on_change,
                 ...props,
               }
               return (
-                <StepItem
+                <StepIndicatorItem
                   key={i}
                   {...params}
                   setActiveItem={this.setActiveItem}

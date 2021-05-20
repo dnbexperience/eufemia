@@ -17,8 +17,8 @@ export const StepIndicatorSandbox = () => (
   <Wrapper>
     <Box>
       <StepIndicator
-        use_navigation
-        active_item={0}
+        enable_navigation={true}
+        current_step={0}
         on_change={({ currentItem }) => {
           console.log('on_change', currentItem)
         }}
@@ -62,6 +62,7 @@ export const StepIndicatorSandbox = () => (
       />
     </Box>
     <Box>
+      <h1>Deprecated</h1>
       <StepIndicator
         hide_numbers
         active_url="?path=/story/components--stepindicator&current"
@@ -86,7 +87,7 @@ export const StepIndicatorSandbox = () => (
     </Box>
     <Box>
       <StepIndicator
-        // active_item={1}
+        // current_step={1}
         data={[
           {
             title: 'First',
@@ -102,7 +103,10 @@ export const StepIndicatorSandbox = () => (
       />
     </Box>
     <Box>
-      <StepIndicator active_item="2" data={['First', 'Second', 'Third']} />
+      <StepIndicator
+        current_step="2"
+        data={['First', 'Second', 'Third']}
+      />
     </Box>
   </Wrapper>
 )
