@@ -312,7 +312,7 @@ export default class Button extends React.PureComponent {
       onClick: this.onClickHandler,
     }
 
-    if (Element === Anchor && !params.type) {
+    if (Element !== Anchor && !params.type) {
       params.type = 'button'
     }
 
