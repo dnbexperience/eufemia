@@ -309,6 +309,8 @@ import paperclip from './paperclip.js'
 import paperclip_medium from './paperclip_medium.js'
 import paragraph from './paragraph.js'
 import paragraph_medium from './paragraph_medium.js'
+import pause from './pause.js'
+import pause_medium from './pause_medium.js'
 import pay_from from './pay_from.js'
 import pay_from_medium from './pay_from_medium.js'
 import pension from './pension.js'
@@ -319,14 +321,19 @@ import people_2 from './people_2.js'
 import people_2_medium from './people_2_medium.js'
 import person from './person.js'
 import person_medium from './person_medium.js'
+import person_shield from './person_shield.js'
+import person_shield_medium from './person_shield_medium.js'
 import phone from './phone.js'
 import phone_medium from './phone_medium.js'
 import photo from './photo.js'
 import photo_medium from './photo_medium.js'
+import pin from './pin.js'
 import pin_code from './pin_code.js'
 import pin_code_medium from './pin_code_medium.js'
 import plant from './plant.js'
 import plant_medium from './plant_medium.js'
+import play from './play.js'
+import play_medium from './play_medium.js'
 import printer from './printer.js'
 import printer_medium from './printer_medium.js'
 import products_account_percent_medium from './products_account_percent_medium.js'
@@ -372,6 +379,8 @@ import share_android from './share_android.js'
 import share_android_medium from './share_android_medium.js'
 import share_ios from './share_ios.js'
 import share_ios_medium from './share_ios_medium.js'
+import shield from './shield.js'
+import shield_medium from './shield_medium.js'
 import shopping_cart from './shopping_cart.js'
 import shopping_cart_medium from './shopping_cart_medium.js'
 import snowmobile from './snowmobile.js'
@@ -743,6 +752,8 @@ export {
   paperclip_medium,
   paragraph,
   paragraph_medium,
+  pause,
+  pause_medium,
   pay_from,
   pay_from_medium,
   pension,
@@ -753,14 +764,19 @@ export {
   people_2_medium,
   person,
   person_medium,
+  person_shield,
+  person_shield_medium,
   phone,
   phone_medium,
   photo,
   photo_medium,
+  pin,
   pin_code,
   pin_code_medium,
   plant,
   plant_medium,
+  play,
+  play_medium,
   printer,
   printer_medium,
   products_account_percent_medium,
@@ -806,6 +822,8 @@ export {
   share_android_medium,
   share_ios,
   share_ios_medium,
+  shield,
+  shield_medium,
   shopping_cart,
   shopping_cart_medium,
   snowmobile,
