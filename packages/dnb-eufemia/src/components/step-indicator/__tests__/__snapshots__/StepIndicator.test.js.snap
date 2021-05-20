@@ -2,10 +2,11 @@
 
 exports[`StepIndicator component with buttons have to match snapshot 1`] = `
 <StepIndicator
-  active_item={1}
+  active_item={null}
   active_url={null}
   class={null}
   className={null}
+  current_step={1}
   data={
     Array [
       Object {
@@ -19,12 +20,13 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
       },
     ]
   }
+  enable_navigation={true}
   hide_numbers={false}
   on_change={null}
   on_item_render={null}
   skeleton={false}
   step_title="%step"
-  use_navigation={true}
+  use_navigation={null}
 >
   <nav
     aria-label="progress"
@@ -33,10 +35,11 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
     <ol
       className="dnb-step-indicator__list"
     >
-      <StepItem
+      <StepIndicatorItem
         activeItem={1}
         countSteps={3}
         currentItem={0}
+        enable_navigation={true}
         hasReached={
           Array [
             1,
@@ -56,7 +59,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
         url={null}
         url_future={null}
         url_passed={null}
-        use_navigation={true}
+        use_navigation={null}
       >
         <li
           className="dnb-step-indicator__item dnb-step-indicator--visited"
@@ -81,11 +84,12 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
             </StepItemWrapper>
           </button>
         </li>
-      </StepItem>
-      <StepItem
+      </StepIndicatorItem>
+      <StepIndicatorItem
         activeItem={1}
         countSteps={3}
         currentItem={1}
+        enable_navigation={true}
         hasReached={
           Array [
             1,
@@ -105,7 +109,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
         url={null}
         url_future={null}
         url_passed={null}
-        use_navigation={true}
+        use_navigation={null}
       >
         <li
           aria-current="step"
@@ -131,11 +135,12 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
             </StepItemWrapper>
           </button>
         </li>
-      </StepItem>
-      <StepItem
+      </StepIndicatorItem>
+      <StepIndicatorItem
         activeItem={1}
         countSteps={3}
         currentItem={2}
+        enable_navigation={true}
         hasReached={
           Array [
             1,
@@ -155,7 +160,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
         url={null}
         url_future={null}
         url_passed={null}
-        use_navigation={true}
+        use_navigation={null}
       >
         <li
           className="dnb-step-indicator__item"
@@ -182,7 +187,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
             </StepItemWrapper>
           </button>
         </li>
-      </StepItem>
+      </StepIndicatorItem>
     </ol>
   </nav>
 </StepIndicator>
@@ -194,6 +199,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
   active_url="?b"
   class="class"
   className="className"
+  current_step="current_step"
   data={
     Array [
       Object {
@@ -211,6 +217,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
       },
     ]
   }
+  enable_navigation="enable_navigation"
   hide_numbers="hide_numbers"
   on_change={[Function]}
   on_item_render={null}
@@ -225,10 +232,11 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
     <ol
       className="dnb-step-indicator__list"
     >
-      <StepItem
+      <StepIndicatorItem
         activeItem={1}
         countSteps={3}
         currentItem={0}
+        enable_navigation="enable_navigation"
         hasReached={
           Array [
             1,
@@ -273,11 +281,12 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
             </StepItemWrapper>
           </a>
         </li>
-      </StepItem>
-      <StepItem
+      </StepIndicatorItem>
+      <StepIndicatorItem
         activeItem={1}
         countSteps={3}
         currentItem={1}
+        enable_navigation="enable_navigation"
         hasReached={
           Array [
             1,
@@ -323,11 +332,12 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
             </StepItemWrapper>
           </a>
         </li>
-      </StepItem>
-      <StepItem
+      </StepIndicatorItem>
+      <StepIndicatorItem
         activeItem={1}
         countSteps={3}
         currentItem={2}
+        enable_navigation="enable_navigation"
         hasReached={
           Array [
             1,
@@ -370,7 +380,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
             </StepItemWrapper>
           </span>
         </li>
-      </StepItem>
+      </StepIndicatorItem>
     </ol>
   </nav>
 </StepIndicator>

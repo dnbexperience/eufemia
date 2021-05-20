@@ -1259,6 +1259,8 @@ thead > tr > th.dnb-table--active .dnb-button:hover:focus .dnb-button__text::aft
   color: inherit;
   background-color: var(--color-mint-green-25);
   border-radius: 0.1875em; }
+  del .dnb-code {
+    text-decoration: line-through; }
 
 .dnb-pre {
   display: block;

@@ -8,13 +8,13 @@
 
 v9 of @dnb/eufemia contains _braking changes_. As a migration process, you can simply search and replace:
 
-## General
+### General
 
 1. Uninstall `dnb-ui-lib` and install `@dnb/eufemia`.
 1. Rename with Regex `("|')dnb-ui-lib` and replace with `$1@dnb/eufemia`.
 1. Find `formRow` inside a (e.g. <Provider formRow= ...) and replace it with `FormRow` (PascalCase).
 
-## Number to NumberFormat
+### Number to NumberFormat
 
 1. Find the `Number` component and rename it with `NumberFormat`.
 1. Find the `dnb-number` and replace it with `dnb-number-format`.
@@ -77,6 +77,10 @@ Removed already depreciated CSS properties (vars):
 ### Textarea
 
 - Removed support of style only for [Textarea](/uilib/components/textarea). You have to use the component now.
+
+### StepIndicator
+
+- Has now a deprecation warning when props like `use_navigation`, `active_item`, `active_url`, `url`, `url_future` and `url_passed` are used.
 
 ## Changes
 
