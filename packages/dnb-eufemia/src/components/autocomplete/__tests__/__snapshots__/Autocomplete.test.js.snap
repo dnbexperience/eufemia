@@ -309,6 +309,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             icon_size="medium"
             id="autocomplete-id-form-status"
             label="Autocomplete Label:"
+            role="alert"
             size="default"
             skeleton="skeleton"
             state="error"
@@ -325,6 +326,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
               hidden={false}
               id="autocomplete-id-form-status"
               label="Autocomplete Label:"
+              role="alert"
             >
               <span
                 className="dnb-form-status__shell"
