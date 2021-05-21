@@ -1,5 +1,6 @@
 ---
 title: 'Spacing'
+order: 1
 ---
 
 import SpacingTable from 'Pages/uilib/usage/layout/spacing-table.md'

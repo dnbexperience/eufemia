@@ -182,6 +182,7 @@
     "is-ci": "^3.0.0",
     "jest": "^26.6.3",
     "jest-axe": "^4.1.0",
+    "jest-matchmedia-mock": "^1.1.0",
     "jest-raw-loader": "^1.0.1",
     "jest-screenshot": "^0.3.2",
     "jest-tobetype": "^1.2.3",
