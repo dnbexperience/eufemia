@@ -1438,6 +1438,7 @@ Array [
                 Label
               </span>
             }
+            role="alert"
             size="default"
             skeleton={null}
             state="error"
@@ -1458,6 +1459,7 @@ Array [
                   Label
                 </span>
               }
+              role="alert"
             >
               <span
                 className="dnb-form-status__shell"
