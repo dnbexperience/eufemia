@@ -1,4 +1,6 @@
 {
   "packages": ["packages/dnb-eufemia/build"],
-  "sandboxes": ["new", "react-typescript-react-ts"]
+  "sandboxes": ["new", "react-typescript-react-ts"],
+  "buildCommand": "yarn workspace @dnb/eufemia prebuild:ci && yarn workspace @dnb/eufemia postbuild:ci",
+  "node": "14.17.0"
 }
