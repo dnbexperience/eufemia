@@ -21,6 +21,7 @@
     "publish:dry": "yarn workspace @dnb/eufemia publish:dry",
     "reset": "rm -rf ./node_modules && yarn workspace @dnb/eufemia reset && yarn workspace dnb-design-system-portal reset && yarn install",
     "build": "yarn workspace @dnb/eufemia build && yarn workspace dnb-design-system-portal build",
+    "build:ci": "yarn workspace @dnb/eufemia prebuild:ci && yarn workspace @dnb/eufemia postbuild:ci",
     "test": "yarn workspace @dnb/eufemia test",
     "test:update": "yarn workspace @dnb/eufemia test:update",
     "prepare": "husky install"

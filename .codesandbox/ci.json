@@ -4,6 +4,6 @@
     "@dnb/eufemia": "packages/dnb-eufemia/build"
   },
   "sandboxes": ["new", "react-typescript-react-ts"],
-  "buildCommand": "yarn workspace @dnb/eufemia prebuild:ci && yarn workspace @dnb/eufemia postbuild:ci",
+  "buildCommand": "build:ci",
   "node": "14"
 }
