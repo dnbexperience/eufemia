@@ -355,6 +355,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           </AlignmentHelper>
           <FormStatus
             animation="status_animation"
+            attributes={null}
             class={null}
             className={null}
             global_status_id="global_status_id"

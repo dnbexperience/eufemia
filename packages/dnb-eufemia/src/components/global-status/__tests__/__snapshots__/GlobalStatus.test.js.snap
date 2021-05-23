@@ -1426,6 +1426,7 @@ Array [
           </AlignmentHelper>
           <FormStatus
             animation={null}
+            attributes={null}
             class={null}
             className={null}
             global_status_id="linked"

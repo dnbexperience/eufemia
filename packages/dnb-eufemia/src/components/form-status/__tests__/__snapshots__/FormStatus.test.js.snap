@@ -7,6 +7,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
       "displayName": "FormStatus",
       "props": Object {
         "animation": "animation",
+        "attributes": "attributes",
         "children": "children",
         "class": "class",
         "className": "className",
@@ -55,6 +56,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
     }
   }
   animation={null}
+  attributes={null}
   class={null}
   className={null}
   global_status_id="main"
