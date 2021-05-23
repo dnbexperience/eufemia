@@ -1,0 +1,4 @@
+{
+  "packages": ["packages/dnb-eufemia/build"],
+  "sandboxes": ["new", "react-typescript-react-ts"]
+}
