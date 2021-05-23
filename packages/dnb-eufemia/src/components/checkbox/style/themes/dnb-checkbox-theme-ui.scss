@@ -10,59 +10,65 @@
     transition: opacity 200ms ease-out, transform 200ms ease-out;
   }
 
-  /*
-    * When checkbox is OFF
-    * aka when the checkbox is not [aria-checked="true"]
-    */
-  &__input:not([aria-checked='true']) ~ &__gfx {
-    opacity: 0;
-    transform: scale(0.8);
-    color: var(--color-sea-green);
-  }
-
-  /*
-    * When checkbox is ON
-    * aka when the checkbox is [aria-checked="true"]
-    */
-  &__input[aria-checked='true'] ~ &__gfx {
+  // When checkbox is ON
+  &__input:checked ~ &__gfx,
+  &__input[data-checked='true'] ~ &__gfx {
     opacity: 1;
     transform: scale(1);
     color: var(--color-white);
   }
+  &__input:checked ~ &__button,
+  &__input[data-checked='true'] ~ &__button {
+    background-color: var(--color-sea-green);
+  }
 
-  /*
-    * When checkboxed OFF
-    * aka when the checkbox is not [aria-checked="true"]
-    */
-  &__input:not([aria-checked='true']) ~ &__button {
+  // When checkbox is OFF
+  &__input:not(:checked):not([data-checked='true']) ~ &__gfx {
+    opacity: 0;
+    transform: scale(0.8);
+    color: var(--color-sea-green);
+  }
+  &__input:not(:checked):not([data-checked='true']) ~ &__button {
     background-color: var(--color-white);
     border-color: var(--color-sea-green);
   }
 
-  /*
-    * When checkboxed ON
-    * aka when the checkbox is [aria-checked="true"]
-    */
-  &__input[aria-checked='true'] ~ &__button {
-    background-color: var(--color-sea-green);
-  }
-
-  /*
-    * On disabled
-    *
-    */
-  &__input[disabled] ~ &__button {
-    border-color: var(--color-mint-green-50);
-  }
-  &__input[disabled][aria-checked='true'] ~ &__button {
+  // On disabled
+  &__input[disabled]:checked ~ &__button,
+  &__input[disabled][data-checked='true'] ~ &__button {
     border-color: transparent;
     background-color: var(--color-sea-green-30);
   }
+  &__input[disabled]:not(:checked):not([data-checked='true']) ~ &__button {
+    border-color: var(--color-mint-green-50);
+  }
 
-  /*
-    * On focus
-    *
-    */
+  // On active
+  &__input:not([disabled]):checked:active ~ &__button,
+  &__input:not([disabled])[data-checked='true']:active ~ &__button {
+    background-color: var(--color-mint-green-50);
+    border-color: transparent;
+  }
+  &__input:not([disabled]):checked:active ~ &__gfx,
+  &__input:not([disabled])[data-checked='true']:active ~ &__gfx {
+    color: var(--color-white);
+  }
+
+  // On hover
+  &__input:not([disabled]):not(:focus):hover ~ &__button {
+    background-color: var(--color-mint-green-50);
+  }
+  &__input:not([disabled]):not(:focus):checked:hover ~ &__button,
+  &__input:not([disabled]):not(:focus)[data-checked='true']:hover
+    ~ &__button {
+    border-color: transparent;
+  }
+  &__input:not([disabled]):not(:focus):hover ~ &__gfx {
+    color: var(--color-sea-green);
+  }
+
+  // On focus
+  /* stylelint-disable */
   &__input:not([disabled]):focus ~ &__button {
     html[data-whatinput='keyboard'] & {
       border: none;
@@ -78,44 +84,10 @@
   &__input:not([disabled]):active ~ &__button &__focus {
     display: block;
   }
-
-  /*
-    * On hover
-    *
-    */
-  /* stylelint-disable-next-line */
-  &__input:not([disabled]):not(:focus):hover ~ &__button {
-    background-color: var(--color-mint-green-50);
-  }
-  &__input:not([disabled]):not(:focus)[aria-checked='true']:hover
-    ~ &__button {
-    border-color: transparent;
-  }
-  /* stylelint-disable-next-line */
-  &__input:not([disabled]):not(:focus):hover ~ &__gfx {
-    color: var(--color-sea-green);
-  }
-
-  /*
-    * On active
-    *
-    */
-  /* stylelint-disable */
-  &__input:not([disabled]):active ~ &__button {
-    background-color: var(--color-mint-green-50);
-    border-color: transparent;
-  }
-  &__input:not([disabled]):active ~ &__gfx {
-    color: var(--color-white);
-  }
   /* stylelint-enable */
 
-  /*
-    * On error state
-    *
-    */
-  // change button color
-  // fake border outside
+  // On error state
+  /* stylelint-disable */
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__button {
@@ -132,13 +104,17 @@
     border-color: var(--color-fire-red);
     background-color: var(--color-fire-red-8);
   }
+  /* stylelint-enable */
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):not(:hover)
     ~ &__button {
     border-color: var(--color-fire-red-8);
   }
   &__status--error
-    &__input:not([disabled]):not(:focus):not(:active):not(:hover)[aria-checked='true']
+    &__input:not([disabled]):not(:focus):not(:active):not(:hover):checked
+    ~ &__button,
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):not(:hover)[data-checked='true']
     ~ &__button {
     background-color: var(--color-fire-red);
   }

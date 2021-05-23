@@ -291,7 +291,6 @@ export default class Radio extends React.PureComponent {
             value: _value, // eslint-disable-line
             checked: _checked, // eslint-disable-line
             disabled: _disabled, // eslint-disable-line
-            attributes, // eslint-disable-line
             children, // eslint-disable-line
             on_change, // eslint-disable-line
             on_state_update, // eslint-disable-line
@@ -404,7 +403,9 @@ export default class Radio extends React.PureComponent {
                         name={group}
                         className="dnb-radio__input"
                         checked={checked}
-                        aria-checked={checked}
+                        aria-checked={
+                          this.isPlainGroup() ? undefined : checked
+                        }
                         disabled={isTrue(disabled)}
                         ref={this._refInput}
                         {...inputParams}

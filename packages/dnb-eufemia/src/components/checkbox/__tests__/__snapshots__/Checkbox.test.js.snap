@@ -111,7 +111,6 @@ exports[`Checkbox component have to match snapshot 1`] = `
           className="dnb-checkbox__shell"
         >
           <input
-            aria-checked={false}
             checked={false}
             className="dnb-checkbox__input"
             disabled={false}
@@ -172,66 +171,47 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 .dnb-checkbox {
-  /*
-    * When checkbox is OFF
-    * aka when the checkbox is not [aria-checked=\\"true\\"]
-    */
-  /*
-    * When checkbox is ON
-    * aka when the checkbox is [aria-checked=\\"true\\"]
-    */
-  /*
-    * When checkboxed OFF
-    * aka when the checkbox is not [aria-checked=\\"true\\"]
-    */
-  /*
-    * When checkboxed ON
-    * aka when the checkbox is [aria-checked=\\"true\\"]
-    */
-  /*
-    * On disabled
-    *
-    */
-  /*
-    * On focus
-    *
-    */
-  /*
-    * On hover
-    *
-    */
-  /* stylelint-disable-next-line */
-  /* stylelint-disable-next-line */
-  /*
-    * On active
-    *
-    */
   /* stylelint-disable */
   /* stylelint-enable */
-  /*
-    * On error state
-    *
-    */ }
+  /* stylelint-disable */
+  /* stylelint-enable */ }
   .dnb-checkbox__gfx {
     transition: opacity 200ms ease-out, transform 200ms ease-out; }
-  .dnb-checkbox__input:not([aria-checked='true']) ~ .dnb-checkbox__gfx {
-    opacity: 0;
-    transform: scale(0.8);
-    color: var(--color-sea-green); }
-  .dnb-checkbox__input[aria-checked='true'] ~ .dnb-checkbox__gfx {
+  .dnb-checkbox__input:checked ~ .dnb-checkbox__gfx,
+  .dnb-checkbox__input[data-checked='true'] ~ .dnb-checkbox__gfx {
     opacity: 1;
     transform: scale(1);
     color: var(--color-white); }
-  .dnb-checkbox__input:not([aria-checked='true']) ~ .dnb-checkbox__button {
+  .dnb-checkbox__input:checked ~ .dnb-checkbox__button,
+  .dnb-checkbox__input[data-checked='true'] ~ .dnb-checkbox__button {
+    background-color: var(--color-sea-green); }
+  .dnb-checkbox__input:not(:checked):not([data-checked='true']) ~ .dnb-checkbox__gfx {
+    opacity: 0;
+    transform: scale(0.8);
+    color: var(--color-sea-green); }
+  .dnb-checkbox__input:not(:checked):not([data-checked='true']) ~ .dnb-checkbox__button {
     background-color: var(--color-white);
     border-color: var(--color-sea-green); }
-  .dnb-checkbox__input[aria-checked='true'] ~ .dnb-checkbox__button {
-    background-color: var(--color-sea-green); }
-  .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
-    border-color: var(--color-mint-green-50); }
-  .dnb-checkbox__input[disabled][aria-checked='true'] ~ .dnb-checkbox__button {
+  .dnb-checkbox__input[disabled]:checked ~ .dnb-checkbox__button,
+  .dnb-checkbox__input[disabled][data-checked='true'] ~ .dnb-checkbox__button {
     border-color: transparent;
     background-color: var(--color-sea-green-30); }
+  .dnb-checkbox__input[disabled]:not(:checked):not([data-checked='true']) ~ .dnb-checkbox__button {
+    border-color: var(--color-mint-green-50); }
+  .dnb-checkbox__input:not([disabled]):checked:active ~ .dnb-checkbox__button,
+  .dnb-checkbox__input:not([disabled])[data-checked='true']:active ~ .dnb-checkbox__button {
+    background-color: var(--color-mint-green-50);
+    border-color: transparent; }
+  .dnb-checkbox__input:not([disabled]):checked:active ~ .dnb-checkbox__gfx,
+  .dnb-checkbox__input:not([disabled])[data-checked='true']:active ~ .dnb-checkbox__gfx {
+    color: var(--color-white); }
+  .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__button {
+    background-color: var(--color-mint-green-50); }
+  .dnb-checkbox__input:not([disabled]):not(:focus):checked:hover ~ .dnb-checkbox__button,
+  .dnb-checkbox__input:not([disabled]):not(:focus)[data-checked='true']:hover ~ .dnb-checkbox__button {
+    border-color: transparent; }
+  .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__gfx {
+    color: var(--color-sea-green); }
   html[data-whatinput='keyboard'] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button {
     border: none;
     background-color: var(--color-mint-green-50); }
@@ -240,17 +220,6 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
   .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button .dnb-checkbox__focus,
   .dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__button .dnb-checkbox__focus {
     display: block; }
-  .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__button {
-    background-color: var(--color-mint-green-50); }
-  .dnb-checkbox__input:not([disabled]):not(:focus)[aria-checked='true']:hover ~ .dnb-checkbox__button {
-    border-color: transparent; }
-  .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__gfx {
-    color: var(--color-sea-green); }
-  .dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__button {
-    background-color: var(--color-mint-green-50);
-    border-color: transparent; }
-  .dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__gfx {
-    color: var(--color-white); }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active) ~ .dnb-checkbox__button {
     border: none; }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
@@ -266,7 +235,8 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
     background-color: var(--color-fire-red-8); }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-checkbox__button {
     border-color: var(--color-fire-red-8); }
-  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover)[aria-checked='true'] ~ .dnb-checkbox__button {
+  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-checkbox__button,
+  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover)[data-checked='true'] ~ .dnb-checkbox__button {
     background-color: var(--color-fire-red); }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__gfx {
     color: var(--color-fire-red); }

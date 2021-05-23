@@ -11,87 +11,71 @@
     transition: opacity 200ms ease-out, transform 200ms ease-out;
   }
 
-  /*
-    * When is OFF
-    * aka when the radio is not [aria-checked='true']
-    */
-  &__input:not([aria-checked='true']) ~ &__button {
+  // When radio is ON
+  &__input:checked ~ &__button,
+  &__input[data-checked='true'] ~ &__button {
     background-color: var(--color-white);
     border-color: var(--color-sea-green);
   }
-
-  /*
-    * When is ON
-    * aka when the radio is [aria-checked='true']
-    */
-  &__input[aria-checked='true'] ~ &__button {
-    background-color: var(--color-white);
-    border-color: var(--color-sea-green);
-  }
-  &__input[aria-checked='true'] ~ &__dot {
+  &__input:checked ~ &__dot,
+  &__input[data-checked='true'] ~ &__dot {
     opacity: 1;
     transform: scale(1);
   }
 
-  /*
-  * When radio is OFF
-  * aka when the radio is not [aria-checked='true']
-  */
-  &__input:not([aria-checked='true']) ~ &__dot {
+  // When radio is OFF
+  &__input:not(:checked):not([data-checked='true']) ~ &__dot {
     opacity: 0;
     transform: scale(0.8);
   }
-
-  /*
-    * On disabled
-    *
-    */
-  &__input[disabled] ~ &__button {
-    border-color: var(--color-mint-green-50);
+  &__input:not(:checked):not([data-checked='true']) ~ &__button {
+    background-color: var(--color-white);
+    border-color: var(--color-sea-green);
   }
-  &__input[disabled][aria-checked='true'] ~ &__button {
+
+  // On disabled
+  &__input[disabled]:checked ~ &__button,
+  &__input[disabled][data-checked='true'] ~ &__button {
     border-color: var(--color-sea-green-30);
   }
-  &__input[disabled][aria-checked='true'] ~ &__dot {
+  &__input[disabled]:not(:checked):not([data-checked='true']) ~ &__button {
+    border-color: var(--color-mint-green-50);
+  }
+  &__input[disabled]:checked ~ &__dot,
+  &__input[disabled][data-checked='true'] ~ &__dot {
     background-color: var(--color-sea-green-30);
   }
 
-  /*
-    * On hover
-    *
-    */
-  &__input:not([disabled]):not(:focus):not([aria-checked='true']):hover
+  // On active
+  &__input:not([disabled]):checked:active ~ &__button,
+  &__input:not([disabled])[data-checked='true']:active ~ &__button {
+    border-color: var(--color-mint-green-50);
+  }
+  &__input:not([disabled]):not(:checked):not([data-checked='true']):active
+    ~ &__button {
+    background-color: var(--color-mint-green-50);
+    border-color: transparent;
+  }
+  &__input:not([disabled]):checked:active ~ &__dot,
+  &__input:not([disabled])[data-checked='true']:active ~ &__dot {
+    background-color: var(--color-mint-green-50);
+  }
+
+  // On hover
+  &__input:not([disabled]):not(:focus):not(:checked):not([data-checked='true']):hover
     ~ &__button {
     background-color: var(--color-mint-green-50);
   }
-  &__input:not([disabled]):not(:focus)[aria-checked='true']:hover
+  &__input:not([disabled]):not(:focus):checked:hover ~ &__dot,
+  &__input:not([disabled]):not(:focus)[data-checked='true']:hover
     ~ &__dot {
     background-color: var(--color-mint-green-50);
   }
 
-  /*
-    * On active
-    *
-    */
+  // On focus
   /* stylelint-disable */
-  &__input:not([disabled]):not([aria-checked='true']):active ~ &__button {
-    background-color: var(--color-mint-green-50);
-    border-color: transparent;
-  }
-  &__input:not([disabled])[aria-checked='true']:active ~ &__button {
-    border-color: var(--color-mint-green-50);
-  }
-  &__input:not([disabled])[aria-checked='true']:active ~ &__dot {
-    background-color: var(--color-mint-green-50);
-  }
-  /* stylelint-enable */
-
-  /*
-    * On focus
-    *
-    */
-  /* stylelint-disable */
-  &__input:not([disabled]):not([aria-checked='true']):focus ~ &__button {
+  &__input:not([disabled]):not(:checked):not([data-checked='true']):focus
+    ~ &__button {
     html[data-whatinput='keyboard'] & {
       background-color: var(--color-mint-green-50);
     }
@@ -105,18 +89,15 @@
   &__input:not([disabled]):active ~ &__focus {
     display: block;
   }
-  &__input:not([disabled]):not([aria-checked='true']):focus ~ &__button,
-  &__input:not([disabled]):not([aria-checked='true']):active ~ &__button {
+  &__input:not([disabled]):not(:checked):not([data-checked='true']):focus
+    ~ &__button,
+  &__input:not([disabled]):not(:checked):not([data-checked='true']):active
+    ~ &__button {
     background-color: var(--color-mint-green-50);
   }
   /* stylelint-enable */
 
-  /*
-    * On error state
-    *
-    */
-  // change button color
-  // fake border outside
+  // On error state
   /* stylelint-disable */
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active)
@@ -131,22 +112,28 @@
     @include fakeBorder(var(--color-fire-red), $focusRingWidth);
   }
   &__status--error
-    &__input:not([disabled]):not(:focus):not([aria-checked='true']):hover
+    &__input:not([disabled]):not(:focus):not(:checked):not([data-checked='true']):hover
     ~ &__button {
     background-color: var(--color-fire-red-8);
   }
   &__status--error
-    &__input:not([disabled]):not(:focus):not(:active):not(:hover)[aria-checked='true']
+    &__input:not([disabled]):not(:focus):not(:active):not(:hover):checked
+    ~ &__dot,
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active):not(:hover)[data-checked='true']
     ~ &__dot {
     background-color: var(--color-fire-red);
   }
   &__status--error
-    &__input:not([disabled]):not(:focus):not(:active)[aria-checked='true']:hover
+    &__input:not([disabled]):not(:focus):not(:active):checked:hover
+    ~ &__dot,
+  &__status--error
+    &__input:not([disabled]):not(:focus):not(:active)[data-checked='true']:hover
     ~ &__dot {
     background-color: var(--color-fire-red-8);
   }
 
-  // ajust the form-status to the inner border for 3px
+  // adjust the form-status to the inner border for 3px
   > .dnb-form-status {
     transform: translateY(0.25rem); /* 4/16 */
   }
