@@ -26,7 +26,7 @@
     "prepare": "husky install"
   },
   "resolutions": {
-    "axe-core": "4.2.0"
+    "axe-core": "^4.2.1"
   },
   "devDependencies": {
     "git-branch-is": "^4.0.0",
