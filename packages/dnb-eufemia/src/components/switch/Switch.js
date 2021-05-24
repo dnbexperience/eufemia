@@ -230,7 +230,6 @@ export default class Switch extends React.PureComponent {
 
       id: _id, // eslint-disable-line
       checked: _checked, // eslint-disable-line
-      attributes, // eslint-disable-line
       children, // eslint-disable-line
       on_change, // eslint-disable-line
       on_state_update, // eslint-disable-line

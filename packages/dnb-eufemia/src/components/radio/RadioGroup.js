@@ -188,7 +188,6 @@ export default class RadioGroup extends React.PureComponent {
       id: _id, // eslint-disable-line
       name: _name, // eslint-disable-line
       value: _value, // eslint-disable-line
-      attributes, // eslint-disable-line
       children, // eslint-disable-line
       on_change, // eslint-disable-line
       custom_method, // eslint-disable-line

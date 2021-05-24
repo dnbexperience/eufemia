@@ -182,10 +182,8 @@ export default class Tabs extends React.PureComponent {
         props.selected_key &&
         state._selected_key !== props.selected_key
       ) {
-        state.selected_key = state._selected_key = Tabs.getSelectedKeyOrFallback(
-          props.selected_key,
-          state.data
-        )
+        state.selected_key = state._selected_key =
+          Tabs.getSelectedKeyOrFallback(props.selected_key, state.data)
       }
     }
     state._listenForPropChanges = true
@@ -221,7 +219,12 @@ export default class Tabs extends React.PureComponent {
             delete componentProps.title
           }
 
-          const { title, key: _key, hash, ...rest } = {
+          const {
+            title,
+            key: _key,
+            hash,
+            ...rest
+          } = {
             ...dataProps,
             ...componentProps,
             ...{ children: null }, // remove children, if there is some
@@ -503,6 +506,16 @@ export default class Tabs extends React.PureComponent {
     if (typeof window !== 'undefined') {
       window.addEventListener('resize', this.onResizeHandler)
     }
+
+    // Note: We could make use of "onMediaQueryChange"
+    // But the problem is, we want constantly resize updates, and not just "one"
+    // because we don't know the media query values beforehand
+    // this.mediaQueryListener = onMediaQueryChange(
+    //   {
+    //     min: 'small',
+    //   },
+    //   this.onResizeHandler
+    // )
   }
 
   onTablistKeyDownHandler = (e) => {

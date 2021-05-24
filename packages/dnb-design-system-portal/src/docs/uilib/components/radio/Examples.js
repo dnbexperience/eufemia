@@ -88,7 +88,6 @@ export const RadioExampleWithoutGroup = () => (
     right
   />
   <Radio
-    checked
     value="second"
     label="Second"
     group="MyRadioGroup"

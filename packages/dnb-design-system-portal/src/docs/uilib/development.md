@@ -50,3 +50,4 @@ Run `yarn build:pack` inside `/dnb-eufemia` and you get this file: `/build/dnb-e
 - [Naming](/uilib/development/naming)
 - [Icons](/uilib/development/icons)
 - [Types](/uilib/development/types)
+- [Issues](/uilib/development/issues)

@@ -243,8 +243,6 @@ export default class ToggleButton extends React.PureComponent {
     // else we change the checked sstate
     const checked = !this.state.checked
     this.setState({
-      // reset the status state, because the user has mad an action
-      // status_state: null,
       checked,
       _listenForPropChanges: false,
     })
@@ -316,7 +314,6 @@ export default class ToggleButton extends React.PureComponent {
             id: _id, // eslint-disable-line
             // group: _group, // eslint-disable-line
             checked: _checked, // eslint-disable-line
-            attributes, // eslint-disable-line
             children,
             on_change, // eslint-disable-line
             on_state_update, // eslint-disable-line
@@ -351,7 +348,6 @@ export default class ToggleButton extends React.PureComponent {
             className: classnames(
               'dnb-toggle-button',
               status && `dnb-toggle-button__status--${status_state}`,
-              // variant && `dnb-toggle-button__variant--${variant}`,
               checked && `dnb-toggle-button--checked`,
               label_direction && `dnb-toggle-button--${label_direction}`,
               createSpacingClasses(props),
@@ -380,9 +376,12 @@ export default class ToggleButton extends React.PureComponent {
             checked,
             disabled,
             element: 'span',
+            'data-checked': String(checked || false),
+            'aria-checked': undefined,
             role: undefined,
-            name: undefined,
-            title: undefined,
+            type: undefined,
+            name: null,
+            title: null,
           }
 
           if (status) {

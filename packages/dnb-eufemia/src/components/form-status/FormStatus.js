@@ -60,6 +60,7 @@ export default class FormStatus extends React.PureComponent {
       PropTypes.oneOf(['error', 'warn', 'info']),
     ]),
     global_status_id: PropTypes.string,
+    attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     text_id: PropTypes.string,
     width_selector: PropTypes.string,
@@ -67,6 +68,7 @@ export default class FormStatus extends React.PureComponent {
     class: PropTypes.string,
     animation: PropTypes.string,
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    role: PropTypes.string,
 
     ...spacingPropTypes,
 
@@ -90,6 +92,7 @@ export default class FormStatus extends React.PureComponent {
     state: 'error',
     status: null, // Deprecated
     global_status_id: null,
+    attributes: null,
     hidden: false,
     text_id: null,
     width_selector: null,
@@ -97,6 +100,7 @@ export default class FormStatus extends React.PureComponent {
     class: null,
     animation: null, // could be 'fade-in'
     skeleton: null,
+    role: 'alert',
 
     className: null,
     children: null,
@@ -303,8 +307,9 @@ export default class FormStatus extends React.PureComponent {
       icon_size, // eslint-disable-line
       skeleton, // eslint-disable-line
       children, // eslint-disable-line
+      role,
 
-      ...attributes
+      ...rest
     } = props
 
     const state = this.correctStatus(rawStatus || rawState)
@@ -339,8 +344,12 @@ export default class FormStatus extends React.PureComponent {
       ),
       title,
 
-      ...attributes,
+      ...rest,
     }
+    if (role) {
+      params.role = role
+    }
+
     const textParams = {
       className: classnames(
         'dnb-form-status__text',

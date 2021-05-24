@@ -58,6 +58,7 @@ render(<CustomStepIndicator
 	[
 		{
 			title: 'First',
+			is_current: true,
 			is_active: true
 		},
 		{
@@ -185,8 +186,7 @@ const StepIndicatorWithUrl = () => {
 		return () => unlisten()
 	}, [])
 	return (<StepIndicator
-		current_step="0"
-		active_url={activeUrl}
+		active_url={activeUrl || '?a'}
 		on_change={() => {
 			try {
 				e.event.preventDefault()

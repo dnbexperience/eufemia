@@ -226,7 +226,6 @@ export default class ToggleButtonGroup extends React.PureComponent {
       name: _name, // eslint-disable-line
       value: _value, // eslint-disable-line
       values: _values, // eslint-disable-line
-      attributes, // eslint-disable-line
       children, // eslint-disable-line
       on_change, // eslint-disable-line
       custom_method, // eslint-disable-line

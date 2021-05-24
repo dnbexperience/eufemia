@@ -38,7 +38,7 @@ render(<Anchor href="/uilib/elements/anchor">Accessible text</Anchor>)
     </Anchor>
   </li>
   <li data-visual-test="anchor-blank">
-    <Anchor target="_blank" href="https://eufemia.dnb.no/uilib/elements/anchor">
+    <Anchor target="_blank" href="/uilib/elements/anchor">
       Blank target with https
     </Anchor>
   </li>
@@ -79,7 +79,7 @@ To force a specific state of style, use the following classes to do so:
     </Anchor>
   </li>
   <li>
-    <Anchor target="_blank" href="https://eufemia.dnb.no/uilib/elements/anchor" className="dnb-anchor--no-icon">
+    <Anchor target="_blank" href="/uilib/elements/anchor" className="dnb-anchor--no-icon">
       Blank target without launch icon
     </Anchor>
   </li>
@@ -143,7 +143,7 @@ To force a specific state of style, use the following classes to do so:
   </Anchor> H2
 </h2>
 <h2 className="dnb-h--large">
-  <Anchor target="_blank" href="https://eufemia.dnb.no/uilib/elements/anchor" data-visual-test="anchor-heading-blank">
+  <Anchor target="_blank" href="/uilib/elements/anchor" data-visual-test="anchor-heading-blank">
     Blank target in headings
   </Anchor> H2
 </h2>

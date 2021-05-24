@@ -105,3 +105,24 @@ describe('FormStatus scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
+
+describe('FormStatus role', () => {
+  it('should have role alert', () => {
+    const Comp = mount(<Component text="status text" />)
+
+    expect(
+      Comp.find('.dnb-form-status').instance().getAttribute('role')
+    ).toBe('alert')
+  })
+
+  it('should be able to override role', () => {
+    const Comp = mount(<Component role='generic' text="status text" />)
+
+    expect(
+      Comp.find('.dnb-form-status').instance().getAttribute('role')
+    ).not.toBe('alert')
+    expect(
+      Comp.find('.dnb-form-status').instance().getAttribute('role')
+    ).toBe('generic')
+  })
+})

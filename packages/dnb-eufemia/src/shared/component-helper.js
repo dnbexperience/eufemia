@@ -92,12 +92,15 @@ export const validateDOMAttributes = (props, params) => {
   if (props && props.attributes) {
     let attr = props.attributes
     if (attr) {
-      if (attr[0] === '{') attr = JSON.parse(attr)
+      if (attr[0] === '{') {
+        attr = JSON.parse(attr)
+      }
       if (attr && typeof attr === 'object') {
         Object.entries(attr).forEach(([key, value]) => {
           Object.assign(params, { [key]: value })
         })
       }
+      delete params.attributes
     }
   }
 

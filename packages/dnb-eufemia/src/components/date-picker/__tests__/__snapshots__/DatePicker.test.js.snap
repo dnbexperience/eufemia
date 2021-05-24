@@ -218,6 +218,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
         </AlignmentHelper>
         <FormStatus
           animation={null}
+          attributes={null}
           class={null}
           className={null}
           global_status_id={null}
@@ -226,6 +227,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
           icon_size="medium"
           id="date-picker-id-form-status"
           label={null}
+          role="alert"
           size="default"
           skeleton={null}
           state="error"
@@ -241,6 +243,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
             className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content"
             hidden={false}
             id="date-picker-id-form-status"
+            role="alert"
           >
             <span
               className="dnb-form-status__shell"

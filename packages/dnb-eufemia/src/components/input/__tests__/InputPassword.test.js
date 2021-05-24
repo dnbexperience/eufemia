@@ -76,6 +76,12 @@ describe('InputPassword component', () => {
     ).toBe('input')
   })
 
+  it('has correct aria-controls id', () => {
+    expect(Comp.find('.dnb-input__input').prop('id')).toBe(
+      Comp.find('button.dnb-button--input-button').prop('aria-controls')
+    )
+  })
+
   it('has a submit button which gets focus', () => {
     const Comp = mount(<Component />)
 

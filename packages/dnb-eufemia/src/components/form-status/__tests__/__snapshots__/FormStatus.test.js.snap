@@ -7,6 +7,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
       "displayName": "FormStatus",
       "props": Object {
         "animation": "animation",
+        "attributes": "attributes",
         "children": "children",
         "class": "class",
         "className": "className",
@@ -16,6 +17,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
         "icon_size": "icon_size",
         "id": "id",
         "label": "label",
+        "role": "role",
         "size": "'default'",
         "skeleton": "skeleton",
         "state": true,
@@ -54,6 +56,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
     }
   }
   animation={null}
+  attributes={null}
   class={null}
   className={null}
   global_status_id="main"
@@ -62,6 +65,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
   icon_size="medium"
   id="form-status"
   label={null}
+  role="alert"
   size="default"
   skeleton={null}
   state="error"
@@ -77,6 +81,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
     className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content"
     hidden={false}
     id="form-status"
+    role="alert"
   >
     <span
       className="dnb-form-status__shell"

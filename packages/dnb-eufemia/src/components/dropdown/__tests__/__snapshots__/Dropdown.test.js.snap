@@ -355,6 +355,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           </AlignmentHelper>
           <FormStatus
             animation="status_animation"
+            attributes={null}
             class={null}
             className={null}
             global_status_id="global_status_id"
@@ -363,6 +364,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             icon_size="medium"
             id="dropdown-id-form-status"
             label="label"
+            role="alert"
             size="default"
             skeleton="skeleton"
             state="error"
@@ -379,6 +381,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               hidden={false}
               id="dropdown-id-form-status"
               label="label"
+              role="alert"
             >
               <span
                 className="dnb-form-status__shell"

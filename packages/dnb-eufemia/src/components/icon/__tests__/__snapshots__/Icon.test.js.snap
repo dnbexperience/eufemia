@@ -20,7 +20,6 @@ exports[`Icon component have to match snapshot 1`] = `
   <span
     alt="question mark"
     aria-label="SvgComponent icon"
-    attributes="attributes"
     className="dnb-icon dnb-icon--custom-size className dnb-icon--modifier"
     role="img"
     title="title"

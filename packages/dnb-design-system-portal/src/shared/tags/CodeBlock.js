@@ -10,7 +10,7 @@ import styled from '@emotion/styled'
 import Highlight, { Prism, defaultProps } from 'prism-react-renderer'
 import ReactMarkdown from 'react-markdown'
 import Tag from './Tag'
-import renderers from './index'
+import components from './index'
 import Code from '../parts/uilib/Code'
 import { Button } from '@dnb/eufemia/src/components'
 import { P } from '@dnb/eufemia/src/elements'
@@ -242,10 +242,10 @@ class LiveCode extends React.PureComponent {
                   addToSearchIndex={addToSearchIndex}
                 >
                   <ReactMarkdown
-                    source={title}
-                    escapeHtml={false}
-                    renderers={{
-                      ...renderers,
+                    // eslint-disable-next-line react/no-children-prop
+                    children={title}
+                    components={{
+                      ...components,
                       paragraph: ({ children }) => children,
                     }}
                   />
@@ -253,10 +253,10 @@ class LiveCode extends React.PureComponent {
               )}
               {description && (
                 <ReactMarkdown
-                  source={description}
-                  escapeHtml={false}
-                  renderers={{
-                    ...renderers,
+                  // eslint-disable-next-line react/no-children-prop
+                  children={description}
+                  components={{
+                    ...components,
                     paragraph: ({ children }) => <P>{children}</P>,
                   }}
                 />
@@ -269,9 +269,9 @@ class LiveCode extends React.PureComponent {
                 />
                 {!global.IS_TEST && caption && (
                   <ReactMarkdown
-                    source={caption}
-                    escapeHtml={false}
-                    renderers={renderers}
+                    // eslint-disable-next-line react/no-children-prop
+                    children={caption}
+                    components={components}
                     className="example-caption"
                   />
                 )}
@@ -381,7 +381,8 @@ class LiveCode extends React.PureComponent {
           {!global.IS_TEST && showSyntax && (
             <Syntax>
               <Code
-                source={generateElement({
+                // eslint-disable-next-line react/no-children-prop
+                children={generateElement({
                   code:
                     !useRender && noFragments
                       ? `<>${codeToUse}</>`

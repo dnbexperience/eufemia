@@ -125,19 +125,17 @@ module.exports.testPageScreenshot = async ({
     )
   }
 
-  const {
-    elementToSimulate,
-    activeSimulationDelay,
-  } = await handleSimulation({
-    page,
-    element,
-    simulate,
-    simulateSelector,
-    screenshotElement,
-    waitAfterSimulateSelector,
-    waitAfterSimulate,
-    waitBeforeSimulate,
-  })
+  const { elementToSimulate, activeSimulationDelay } =
+    await handleSimulation({
+      page,
+      element,
+      simulate,
+      simulateSelector,
+      screenshotElement,
+      waitAfterSimulateSelector,
+      waitAfterSimulate,
+      waitBeforeSimulate,
+    })
 
   await handleMeasureOfElement({
     page,
@@ -162,8 +160,10 @@ module.exports.testPageScreenshot = async ({
   // before we had: just to make sure we don't resolve, before the delayed click happened
   // so the next integration on the same url will have a reset state
   if (activeSimulationDelay > 0) {
-    await elementToSimulate.click()
     await page.waitForTimeout(activeSimulationDelay)
+    await elementToSimulate.click()
+  } else if (elementToSimulate) {
+    await elementToSimulate.dispose()
   }
 
   if (waitBeforeFinish > 0) {

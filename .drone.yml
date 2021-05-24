@@ -68,7 +68,6 @@ steps:
           - portal
           - beta
           - alpha
-          - next
           - main
           - eufemia-icons
           - fix/*
@@ -104,7 +103,6 @@ steps:
           - portal
           - beta
           - alpha
-          - next
           - main
           - eufemia-icons
           - fix/*
@@ -148,7 +146,6 @@ steps:
           - portal
           - beta
           - alpha
-          - next
           - main
           - eufemia-icons
           - fix/*
@@ -175,7 +172,6 @@ steps:
           - release-*
           - beta
           - alpha
-          - next
 
   - name: deploy portal
     image: tujoworker/docker-node-puppeteer
@@ -219,7 +215,6 @@ steps:
           - release-*
           - beta
           - alpha
-          - next
 
   - name: slack
     image: plugins/slack

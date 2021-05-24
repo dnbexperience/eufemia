@@ -21,23 +21,24 @@
     "publish:dry": "yarn workspace @dnb/eufemia publish:dry",
     "reset": "rm -rf ./node_modules && yarn workspace @dnb/eufemia reset && yarn workspace dnb-design-system-portal reset && yarn install",
     "build": "yarn workspace @dnb/eufemia build && yarn workspace dnb-design-system-portal build",
+    "build:ci": "yarn workspace @dnb/eufemia prebuild:ci && yarn workspace @dnb/eufemia postbuild:ci && yarn workspace @dnb/eufemia publish:prepare",
     "test": "yarn workspace @dnb/eufemia test",
     "test:update": "yarn workspace @dnb/eufemia test:update",
     "prepare": "husky install"
   },
   "resolutions": {
-    "axe-core": "4.2.0"
+    "axe-core": "^4.2.1"
   },
   "devDependencies": {
     "git-branch-is": "^4.0.0",
     "husky": "^6.0.0"
   },
   "engines": {
-    "node": ">=10.22.0",
-    "yarn": ">=1.17.0"
+    "node": ">=14.10.0",
+    "yarn": ">=1.22.5"
   },
   "volta": {
-    "node": "14.10.1",
+    "node": "14.17.0",
     "yarn": "1.22.10"
   }
 }
