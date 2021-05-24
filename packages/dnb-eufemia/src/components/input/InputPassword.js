@@ -80,7 +80,7 @@ export default class InputPassword extends React.PureComponent {
     )
 
     const id = this._id
-    const params = {}
+    const params = { id }
     params['aria-describedby'] = combineDescribedBy(
       this.props,
       id + '-submit-button'
@@ -88,7 +88,6 @@ export default class InputPassword extends React.PureComponent {
 
     return (
       <Input
-        id={id}
         {...this.props}
         {...params}
         className={classnames('dnb-input--password', this.props.className)}
