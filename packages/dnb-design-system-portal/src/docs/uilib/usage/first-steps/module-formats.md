@@ -10,8 +10,8 @@ redirect_from:
 
 To support every modern front end environment, the `@dnb/eufemia` supports different transpiled module formats:
 
-- `ESM` with ES5 (**default**)
-- `ES` with ES6
+- `ES` with ES6 (**default**)
+- `ESM` with ES5
 - `CJS` with ES5
 - `UMD` with ES5
 

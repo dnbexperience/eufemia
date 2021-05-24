@@ -19,7 +19,7 @@
     "audit:ci:npm": "audit-ci --config ./audit-ci.json --report-type summary",
     "audit:ci:yarn": "audit-ci --config ./audit-ci.json --package-manager=yarn --report-type summary",
     "audit:ci:yarn-outdated": "babel-node ./scripts/prepub/audit/toOpt && audit-ci --config ./audit-ci.json --package-manager=yarn --report-type full && babel-node ./scripts/prepub/audit/toDev",
-    "build": "yarn build:prebuild && yarn build:esm && yarn build:copy",
+    "build": "yarn build:prebuild && yarn build:es && yarn build:copy",
     "prebuild:ci": "yarn build",
     "postbuild:ci": "./scripts/release/postbuild.sh && yarn test:build",
     "build:cjs": "./scripts/release/babel-cjs.sh",
