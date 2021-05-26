@@ -3,7 +3,7 @@
   "publishDirectory": {
     "@dnb/eufemia": "packages/dnb-eufemia/build"
   },
-  "sandboxes": ["new", "react-typescript-react-ts"],
+  "sandboxes": ["eufemia-starter-0gcwo"],
   "buildCommand": "build:ci",
   "node": "14"
 }
