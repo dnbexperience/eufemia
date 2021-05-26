@@ -21,6 +21,26 @@ import {
 
 const NUMBER_CHARS = '-0-9,.'
 
+/**
+ * Format a number to a streamlined format based on the given locale
+ *
+ * @param {string|number} value any number
+ * @type {object} string or object { when: { min: 'small' } } that describes the media query
+ * @property {string} locale - media queries
+ * @property {boolean} clean - if true, clean the number for unwanted decimal separators
+ * @property {boolean} phone - if true, it formats to a phone number
+ * @property {boolean} org - if true, it formats to a Organization Number
+ * @property {boolean} ban - if true, it formats to a Bank Account Number
+ * @property {boolean} nin - if true, it formats to a National Identification Number
+ * @property {boolean} currency - if true, it formats to a currency
+ * @property {string} currency_display - use "code", "name", "symbol" or "narrowSymbol" – supports the API from number.toLocaleString
+ * @property {string} currency_position - can be "before" or "after"
+ * @property {number} decimals - defines how many decimals should be added
+ * @property {boolean} omit_rounding - if true, the decimal will NOT be rounded. Normally, by using `toFixed` or by using `maximumFractionDigits`, decimals get rounded.
+ * @property {object} options - accepts all number.toLocaleString API options
+ * @property {boolean} returnAria - if true, this function returns an object that includes an aria property with a special aria formatting
+ * @returns a formatted number as a string or as an object if "returnAria" is true
+ */
 export const format = (
   value,
   {
@@ -129,7 +149,7 @@ export const format = (
     }
 
     display = formatNumber(cleanedNumber, locale, opts)
-    display = cleanupMinus(display)
+    display = prepareMinus(display, locale)
     display = prepareCurrencyPosition(display, currency_position, locale)
 
     // aria options
@@ -139,14 +159,14 @@ export const format = (
       ...opts,
       currencyDisplay: 'name',
     })
-    aria = enhanceSR(cleanedNumber, aria, locale) // also calls cleanupMinus
+    aria = enhanceSR(cleanedNumber, aria, locale) // also calls prepareMinus
 
     // IE has a bug, where negative numbers has a parenthesis around the number
     if (IS_IE11) {
       display = display.replace(/^\((.*)\)$/, '-$1')
       aria = aria.replace(/^\((.*)\)$/, '-$1')
-      display = cleanupMinus(display)
-      aria = cleanupMinus(aria)
+      display = prepareMinus(display, locale)
+      aria = prepareMinus(aria, locale)
     }
 
     // get only the currency name
@@ -155,7 +175,7 @@ export const format = (
     // aria = cleanedNumber + name
   } else {
     display = formatNumber(value, locale, opts)
-    display = cleanupMinus(display)
+    display = prepareMinus(display, locale)
 
     // fix for NDVA to make sure we read the number, we add a minimum fraction digit (decimal)
     // NVDA fix
@@ -164,7 +184,7 @@ export const format = (
       minimumFractionDigits: 1,
       maximumFractionDigits: 20,
     })
-    aria = enhanceSR(value, aria, locale) // also calls cleanupMinus
+    aria = enhanceSR(value, aria, locale) // also calls prepareMinus
   }
 
   if (aria === null) {
@@ -199,7 +219,7 @@ const prepareCurrencyPosition = (
   locale = null
 ) => {
   /**
-   * Make exception – if locale is nb, and no position is defined, then use position "after"
+   * Make exception – if locale is Norwegian, and position is not defined, then use position "after"
    */
   if (!position && locale && /no$/i.test(locale)) {
     position = 'after'
@@ -246,7 +266,18 @@ const prepareCurrencyPosition = (
   return display
 }
 
-const cleanupMinus = (display) => {
+/**
+ * When e.g. a currency number is given with a minus,
+ * this function transforms the minus to be moved before the number
+ * instead of the symbol.
+ *
+ * form -NOK 1 234 to NOK -1 234
+ *
+ * @param {string} display currency number that includes either a minus or not
+ * @param {string} locale locale as a string
+ * @returns {string} number
+ */
+const prepareMinus = (display) => {
   // change the position of minus if it's first
   // check for two minus - −
   // check also for hyphen ‐
@@ -272,20 +303,37 @@ const cleanupMinus = (display) => {
   return display
 }
 
-const enhanceSR = (value, aria) => {
-  // Enhance VO support on mobile devices
-  // Numbers under 99.999 are read out correctly, but only if we remove the spaces
-  // Potential we could also check for locale: && /no|nb|nn/.test(locale)
-  // but leave it for now without this extra check
+/**
+ * Enhance VoiceOver support on mobile devices
+ * Numbers under 99.999 are read out correctly, but only if we remove the spaces
+ * Potential we could also check for locale: && /no|nb|nn/.test(locale)
+ * but leave it for now without this extra check
+ *
+ * @param {string|number} value any number
+ * @param {string} aria aria formatted number
+ * @param {string} locale locale as a string
+ * @returns aria number
+ */
+const enhanceSR = (value, aria, locale) => {
   if (IS_MAC && Math.abs(parseFloat(value)) <= 99999) {
     aria = String(aria).replace(/\s([0-9])/g, '$1')
   }
 
-  aria = cleanupMinus(aria)
+  aria = prepareMinus(aria, locale)
 
   return aria
 }
 
+/**
+ * The main number formatter function
+ * This function is used to call the browsers/Node.js "Intl.NumberFormat" or "Number.toLocaleString" APIs
+ *
+ * @param {string|number} number any number
+ * @param {string} locale locale as a string
+ * @param {string} options formatting options based on the toLocaleString API
+ * @param {string} formatter optional, a custom formatter can be given
+ * @returns formatted number
+ */
 export const formatNumber = (
   number,
   locale,
@@ -330,6 +378,13 @@ export const formatNumber = (
   return number
 }
 
+/**
+ * Use this function to format phone numbers
+ *
+ * @param {string|number} number a phone number
+ * @param {string} locale locale as a string
+ * @returns a formatted phone number
+ */
 export const formatPhone = (number, locale = null) => {
   let display = number
   let aria = null
@@ -397,6 +452,13 @@ export const formatPhone = (number, locale = null) => {
   return { number: display, aria }
 }
 
+/**
+ * Use this function to format Bank Account Numbers
+ *
+ * @param {string|number} number a Bank Account Number
+ * @param {string} locale locale as a string
+ * @returns a formatted Bank Account Number
+ */
 export const formatBAN = (number, locale = null) => {
   // cleanup
   number = String(number).replace(/[^0-9]/g, '')
@@ -426,6 +488,13 @@ export const formatBAN = (number, locale = null) => {
   return { number: display, aria }
 }
 
+/**
+ * Use this function to format Organization Numbers
+ *
+ * @param {string|number} number a Organization Number
+ * @param {string} locale locale as a string
+ * @returns a formatted Organization Number
+ */
 export const formatORG = (number, locale = null) => {
   // cleanup
   number = String(number).replace(/[^0-9]/g, '')
@@ -455,6 +524,13 @@ export const formatORG = (number, locale = null) => {
   return { number: display, aria }
 }
 
+/**
+ * Use this function to format National Identification Numbers
+ *
+ * @param {string|number} number a National Identification Number
+ * @param {string} locale locale as a string
+ * @returns a formatted National Identification Number
+ */
 export const formatNIN = (number, locale = null) => {
   // cleanup
   number = String(number).replace(/[^0-9]/g, '')
@@ -487,7 +563,13 @@ export const formatNIN = (number, locale = null) => {
   return { number: display, aria }
 }
 
-// Can be human number - https://en.wikipedia.org/wiki/Decimal_separator
+/**
+ * This function cleans numbers for separators
+ * https://en.wikipedia.org/wiki/Decimal_separator
+ *
+ * @param {string|number} num any number
+ * @returns a number that contains valid number separators
+ */
 export function cleanNumber(num) {
   if (typeof num === 'number') {
     return num
@@ -569,6 +651,18 @@ export function runIOSSelectionFix() {
   }
 }
 
+/**
+ * A function that tries to copy to the clipboard
+ * at the same time it shows the copy result in a tooltip
+ *
+ * NB: This function is not documented.
+ * It should not be used!
+ *
+ * @param {string} value any number
+ * @param {*} label
+ * @param {*} positionElement
+ * @returns
+ */
 export async function copyWithEffect(
   value,
   label,
@@ -592,6 +686,15 @@ export async function copyWithEffect(
   return success
 }
 
+/**
+ * This function add a tooltip looking
+ *
+ * @type {object} object with property
+ * @property {string} value any value
+ * @property {string} label any additional label that gets added as a suffix
+ * @property {number} timeout how long the tooltip should be visible (3 sec)
+ * @returns {object} { run, hide, remove } call the "run" function when the effect should be shown
+ */
 export function showSelectionNotice({ value, label, timeout = 3e3 }) {
   const id = 'id-' + slugify(value)
   if (typeof document !== 'undefined' && document.getElementById(id)) {
@@ -677,6 +780,12 @@ export function showSelectionNotice({ value, label, timeout = 3e3 }) {
   })()
 }
 
+/**
+ * React Hook
+ * It returns "copyWithEffect" but with a translated string
+ *
+ * @returns copyWithEffect function inside object { copy }
+ */
 export function useCopyWithNotice() {
   const {
     translation: {
