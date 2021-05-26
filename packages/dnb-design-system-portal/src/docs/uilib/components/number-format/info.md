@@ -39,6 +39,8 @@ The number component is style independent, so it has no visual styles. By defaul
 
 Eufemia is basing their number formats on both the [Norwegian authority](https://lovdata.no/forskrift/2004-02-16-426/§16) and [Språkradet](https://www.sprakradet.no/sprakhjelp/Skriveregler/Dato). Wikipedia has more info on world wide [decimal separator](https://en.wikipedia.org/wiki/Decimal_separator) usage.
 
+For international number formatting, we use the [EU Style Guide](https://ec.europa.eu/info/sites/default/files/styleguide_english_dgt_en.pdf).
+
 ## Details
 
 > Screen readers requires numbers to be formatted properly in order to be read as numbers. The **NumberFormat** component will help to achieve this requirement.
