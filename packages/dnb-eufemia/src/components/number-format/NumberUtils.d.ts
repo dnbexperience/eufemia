@@ -1,4 +1,10 @@
-export type formatTypes = 'phone' | 'org' | 'ban' | 'nin' | 'currency';
+export type formatTypes =
+  | 'phone'
+  | 'org'
+  | 'ban'
+  | 'nin'
+  | 'percent'
+  | 'currency';
 export type formatCurrencyPosition = 'before' | 'after';
 export interface formatReturnValue {
   /** The given number */
@@ -42,6 +48,8 @@ export interface formatOptionParams {
   ban?: boolean;
   /** nin type */
   nin?: boolean;
+  /** percent type */
+  percent?: boolean;
   /** currency type */
   currency?: boolean;
 

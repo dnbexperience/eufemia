@@ -25,7 +25,22 @@ export const NumberDefault = () => (
   <NumberFormat value="12345" />
   <NumberFormat>-12345678.9</NumberFormat>
   <NumberFormat prefix={<b>prefix</b>} suffix="suffix">-12345678.9</NumberFormat>
-  <NumberFormat options={{ maximumFractionDigits: 1 }}>-1234.54321</NumberFormat>
+  <NumberFormat decimals={1}>-1234.54321</NumberFormat>
+  <NumberFormat decimals={2}>-1234</NumberFormat>
+</P>
+`}
+    </ComponentBox>
+  </Style>
+)
+
+export const NumberPercent = () => (
+  <Style>
+    <ComponentBox data-visual-test="number-format-percent">
+      {() => /* jsx */ `
+<P>
+  <NumberFormat percent value="12.34" />
+  <NumberFormat percent>-12.34</NumberFormat>
+  <NumberFormat percent decimals={1}>-12.34</NumberFormat>
 </P>
 `}
     </ComponentBox>

@@ -23,8 +23,15 @@ describe('NumberFormat screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match percent numbers', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="number-format-percent"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match numbers in different locales', async () => {
     const screenshot = await testPageScreenshot({
+      style: { height: '30rem' },
       selector: '[data-visual-test="number-format-locales"]',
     })
     expect(screenshot).toMatchImageSnapshot()

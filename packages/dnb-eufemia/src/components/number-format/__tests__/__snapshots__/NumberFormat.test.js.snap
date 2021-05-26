@@ -25,6 +25,7 @@ exports[`NumberFormat component have to match default number-format snapshot 1`]
     omit_rounding={null}
     options={null}
     org={null}
+    percent={null}
     phone={null}
     prefix={null}
     selectall={true}

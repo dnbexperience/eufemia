@@ -19,7 +19,7 @@ import {
   IS_SAFARI,
 } from '../../shared/helpers'
 
-const NUMBER_CHARS = '-0-9,.'
+const NUMBER_CHARS = '\\-0-9,.'
 
 /**
  * Format a number to a streamlined format based on the given locale
@@ -32,6 +32,7 @@ const NUMBER_CHARS = '-0-9,.'
  * @property {boolean} org - if true, it formats to a Organization Number
  * @property {boolean} ban - if true, it formats to a Bank Account Number
  * @property {boolean} nin - if true, it formats to a National Identification Number
+ * @property {boolean} percent - if true, it formats with a percent
  * @property {boolean} currency - if true, it formats to a currency
  * @property {string} currency_display - use "code", "name", "symbol" or "narrowSymbol" – supports the API from number.toLocaleString
  * @property {string} currency_position - can be "before" or "after"
@@ -50,8 +51,9 @@ export const format = (
     org = null,
     ban = null,
     nin = null,
+    percent = null,
     currency = null,
-    currency_display = CURRENCY_DISPLAY,
+    currency_display = null,
     currency_position = null,
     decimals = null,
     omit_rounding = null,
@@ -126,11 +128,26 @@ export const format = (
 
     display = _number
     aria = _aria
+  } else if (isTrue(percent)) {
+    if (!opts.style) {
+      opts.style = 'percent'
+    }
+
+    display = formatNumber(value / 100, locale, opts)
   } else if (isCurrency) {
     type = 'currency'
     // cleanup, but only if it not got cleaned up already
     let cleanedNumber =
       deci >= 0 ? value : clean ? cleanNumber(value) : value
+
+    // If currencyDisplay is not defined and locale is "no", use narrowSymbol
+    if (
+      !opts.currencyDisplay &&
+      !currency_display &&
+      (!locale || /(no|nb|nn)$/i.test(locale))
+    ) {
+      opts.currencyDisplay = 'narrowSymbol'
+    }
 
     // set currency options
     opts.currency =
@@ -221,27 +238,26 @@ const prepareCurrencyPosition = (
   /**
    * Make exception – if locale is Norwegian, and position is not defined, then use position "after"
    */
-  if (!position && locale && /no$/i.test(locale)) {
+  if (!position && locale && /(no|nb|nn)$/i.test(locale)) {
     position = 'after'
   }
 
   if (position) {
     const sign = String(display)
-      .replace(new RegExp(`([${NUMBER_CHARS}])`, 'g'), '')
+      .replace(new RegExp("([0-9\\-,.’'· ]+)", 'g'), '')
       .trim()
 
     const signPos = String(display).indexOf(sign)
 
     let start = 0
-    let end = 0
+    let end = undefined
 
     // if "NOK -123"
-    if (signPos === 0) {
-      start = sign.length
+    if (signPos <= 1) {
+      start = sign.length + signPos
       end = display.length
-    }
-    // if "-123 NOK"
-    else {
+      // if "-123 NOK"
+    } else {
       end = signPos
     }
 
@@ -250,7 +266,9 @@ const prepareCurrencyPosition = (
       return display
     }
 
-    const num = String(display).substr(start, end).trim()
+    let num = String(display).substr(start, end).trim()
+
+    const hasLeadingMinus = display.startsWith('-')
 
     switch (position) {
       case 'before':
@@ -261,9 +279,13 @@ const prepareCurrencyPosition = (
         display = `${num} ${sign}`
         break
     }
+
+    if (hasLeadingMinus) {
+      display = `-${display}`
+    }
   }
 
-  return display
+  return display.trim()
 }
 
 /**
@@ -271,13 +293,23 @@ const prepareCurrencyPosition = (
  * this function transforms the minus to be moved before the number
  * instead of the symbol.
  *
+ * It only cleans if locale is Norwegian
+ *
  * form -NOK 1 234 to NOK -1 234
  *
  * @param {string} display currency number that includes either a minus or not
  * @param {string} locale locale as a string
  * @returns {string} number
  */
-const prepareMinus = (display) => {
+const prepareMinus = (display, locale) => {
+  /**
+   * Make exception – if locale is NOT Norwegian,
+   * we skip the cleanup
+   */
+  if (!(locale && /(no|nb|nn)$/i.test(locale))) {
+    return display
+  }
+
   // change the position of minus if it's first
   // check for two minus - −
   // check also for hyphen ‐
@@ -344,6 +376,24 @@ export const formatNumber = (
     // Safari does not support `narrowSymbol` for now, so `symbol` will be used then.
     if (IS_SAFARI && options.currencyDisplay === 'narrowSymbol') {
       options.currencyDisplay = 'symbol'
+    }
+
+    /**
+     * We change the thousand separator to be a non-breaking space
+     *
+     * Effected locales:
+     * - en-GB
+     * - en
+     */
+    if (locale && /(en|gb)$/i.test(locale)) {
+      formatter = ({ type, value }) => {
+        switch (type) {
+          case 'group':
+            return ' ' // non-breaking space
+          default:
+            return value
+        }
+      }
     }
 
     if (

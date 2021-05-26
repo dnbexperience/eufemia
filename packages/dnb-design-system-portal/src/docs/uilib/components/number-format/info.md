@@ -19,6 +19,7 @@ Good reasons for why we have this is to:
 
 - Numbers in general e.g. <pre className="dnb-code"><NumberFormat value="12345678.90" /></pre>
 - Currency e.g. <pre className="dnb-code"><NumberFormat currency value="12345678.90" /></pre>
+- Percentage e.g. <pre className="dnb-code"><NumberFormat percent value="12.34" /></pre>
 - Phone numbers e.g. <pre className="dnb-code"><NumberFormat phone value="004799999999" /></pre>
 - Bank account number e.g. <pre className="dnb-code"><NumberFormat ban value="20001234567" /></pre>
 - National identification number e.g. <pre className="dnb-code"><NumberFormat nin value="18089212345" /></pre>

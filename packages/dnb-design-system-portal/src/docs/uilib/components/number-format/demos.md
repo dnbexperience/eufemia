@@ -7,6 +7,7 @@ redirect_from:
 import {
 NumberDefault,
 NumberCurrency,
+NumberPercent,
 NumberPhone,
 NumberBankAccount,
 NumberNationalIdentification,
@@ -27,6 +28,10 @@ import ChangeLocale from 'Src/core/ChangeLocale'
 ### Currency
 
 <NumberCurrency />
+
+### Percentage
+
+<NumberPercent />
 
 ### Phone
 
