@@ -19,6 +19,7 @@ Good reasons for why we have this is to:
 
 - Numbers in general e.g. <pre className="dnb-code"><NumberFormat value="12345678.90" /></pre>
 - Currency e.g. <pre className="dnb-code"><NumberFormat currency value="12345678.90" /></pre>
+- Percentage e.g. <pre className="dnb-code"><NumberFormat percent value="12.34" /></pre>
 - Phone numbers e.g. <pre className="dnb-code"><NumberFormat phone value="004799999999" /></pre>
 - Bank account number e.g. <pre className="dnb-code"><NumberFormat ban value="20001234567" /></pre>
 - National identification number e.g. <pre className="dnb-code"><NumberFormat nin value="18089212345" /></pre>
@@ -38,6 +39,8 @@ The number component is style independent, so it has no visual styles. By defaul
 ### Sources
 
 Eufemia is basing their number formats on both the [Norwegian authority](https://lovdata.no/forskrift/2004-02-16-426/§16) and [Språkradet](https://www.sprakradet.no/sprakhjelp/Skriveregler/Dato). Wikipedia has more info on world wide [decimal separator](https://en.wikipedia.org/wiki/Decimal_separator) usage.
+
+For international number formatting, we use the [EU Style Guide](https://ec.europa.eu/info/sites/default/files/styleguide_english_dgt_en.pdf).
 
 ## Details
 
