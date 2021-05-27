@@ -60,7 +60,7 @@ The Library is hosted on [NPM](https://www.npmjs.com/package/@dnb/eufemia), so v
 
 ## Production ready
 
-All code examples are shown as ES6 ([ECMAScript 2015](https://en.wikipedia.org/wiki/ECMAScript)). But the production `@dnb/eufemia` is actually compiled down to ES5 (5th Edition). So your product is using production ready code.
+All code examples are shown as ES6 ([ECMAScript 2015](https://en.wikipedia.org/wiki/ECMAScript)). The production `@dnb/eufemia` is compiled down to ES5 (5th Edition) when UMD, ESM or CJS is used. If you need to support Internet Explorer 11, ensure the `browserlist` is set so. Or ensure you compile code down to ES5 and provide all necessary polyfills.
 
 ## Components, Elements and Extensions
 

@@ -6,8 +6,8 @@
  * cp does not have the option to ignore existing files.
  * We then overwrite /styles – but then the font/assets path is not correct anymore (-n does not work on mac)
  *
- * "build:copy": "rsync -r --ignore-existing --exclude=dnb-ui-*.min.* ./build/esm/* ./build",
- * "build:copy": "cp -r build/esm/* ./build",
+ * "build:copy": "rsync -r --ignore-existing --exclude=dnb-ui-*.min.* ./build/es/* ./build",
+ * "build:copy": "cp -r build/es/* ./build",
  *
  */
 
@@ -27,7 +27,7 @@ async function copyFinaleBuild() {
     }
     return true
   }
-  await fs.copy('./build/esm/', './build/', {
+  await fs.copy('./build/es/', './build/', {
     filter,
     overwrite: false,
     errorOnExist: false,
