@@ -55,7 +55,12 @@ export const NumberCurrency = () => (
   <NumberFormat currency>12345</NumberFormat>
   <NumberFormat currency currency_position="before" value={-12345678.9} />
   <NumberFormat currency value={-12345678.95} decimals={0} />
-  <NumberFormat currency value={-12345678.9} currency_display="code" />
+  <NumberFormat
+    currency
+    value={-12345678.9}
+    currency_display="code"
+    currency_breakpoint
+  />
 </P>
 `}
     </ComponentBox>

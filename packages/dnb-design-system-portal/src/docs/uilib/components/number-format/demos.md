@@ -27,6 +27,8 @@ import ChangeLocale from 'Src/core/ChangeLocale'
 
 ### Currency
 
+When a [`currency_breakpoint`](/uilib/components/number-format/properties) [Media Query Breakpoint](/uilib/usage/layout/media-queries#media-queries-properties-table) type is given, the `currency` sign gets hidden, if the users screen is smaller than the given type.
+
 <NumberCurrency />
 
 ### Percentage

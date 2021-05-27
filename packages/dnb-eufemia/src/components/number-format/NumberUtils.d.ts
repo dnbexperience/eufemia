@@ -57,6 +57,8 @@ export interface formatOptionParams {
   currency_display?: string;
   /** currency option */
   currency_position?: formatCurrencyPosition;
+  /** hides the currency sign */
+  omit_currency_sign?: boolean;
 
   /** Intl.NumberFormat options (NumberFormatOptions) */
   options?: object;

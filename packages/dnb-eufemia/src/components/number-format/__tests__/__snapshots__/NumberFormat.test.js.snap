@@ -14,6 +14,7 @@ exports[`NumberFormat component have to match default number-format snapshot 1`]
     clean={null}
     copy_selection={true}
     currency={null}
+    currency_breakpoint={null}
     currency_display={null}
     currency_position={null}
     decimals={null}

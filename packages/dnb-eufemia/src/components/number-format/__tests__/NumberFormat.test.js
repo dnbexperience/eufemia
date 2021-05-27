@@ -15,6 +15,7 @@ import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
 import NumberFormat from '../NumberFormat'
 import { format, cleanNumber, copyWithEffect } from '../NumberUtils'
+import { mockMediaQuery } from '../../../shared/__tests__/helpers/MediaQueryMocker'
 
 const Component = (props) => {
   return <NumberFormat id="unique" {...props} />
@@ -320,6 +321,63 @@ describe('NumberFormat component', () => {
   })
 })
 
+const matchMedia = mockMediaQuery()
+
+describe('Responsive NumberFormat component', () => {
+  const displaySelector = element + '.dnb-number-format span'
+  const ariaSelector = element + '.dnb-number-format span[id]'
+  it('have to act responsive when currency_breakpoint is enabled', () => {
+    const Comp = mount(
+      <Component currency_breakpoint currency>
+        123456789.5
+      </Component>
+    )
+
+    expect(Comp.find(displaySelector).first().text()).toBe(
+      '123 456 789,50 kr'
+    )
+    
+    matchMedia.useMediaQuery('(min-width: 0) and (max-width: 40em)')
+    
+    expect(Comp.find(displaySelector).first().text()).toBe(
+      '123 456 789,50'
+    )
+    expect(Comp.find(ariaSelector).first().text()).toBe(
+      '123 456 789,50 norske kroner'
+    )
+
+    Comp.setProps({ locale: 'en' })
+    
+    expect(Comp.find(displaySelector).first().text()).toBe(
+      '123 456 789.50'
+    )
+
+    matchMedia.useMediaQuery('(min-width: 0) and (max-width: 40em)')
+    Comp.setProps({ locale: 'en' })
+    
+    expect(Comp.find(displaySelector).first().text()).toBe(
+      '123 456 789.50'
+    )
+    expect(Comp.find(ariaSelector).first().text()).toBe(
+      '123 456 789.50 Norwegian kroner'
+    )
+  })
+  it('have to act to custom currency_breakpoint size', () => {
+    const Comp = mount(
+      <Component currency_breakpoint="large" currency>
+        123456789.5
+      </Component>
+    )
+    expect(Comp.find(displaySelector).first().text()).toBe(
+      '123 456 789,50 kr'
+    )
+    matchMedia.useMediaQuery('(min-width: 0) and (max-width: 60em)')
+    expect(Comp.find(displaySelector).first().text()).toBe(
+      '123 456 789,50'
+    )
+  })
+})
+
 describe('Decimals format', () => {
   const num = -12345.6789
   it('should handle in unusual cases', () => {
@@ -366,6 +424,52 @@ describe('Decimals format', () => {
     expect(
       format(num, { currency: true, decimals: 6, omit_rounding: true })
     ).toBe('-12 345,678900 kr')
+  })
+
+  it('should handle omit currency sign', () => {
+    expect(
+      format(num, {
+        currency: true,
+        omit_currency_sign: true,
+      })
+    ).toBe('-12 345,68')
+    expect(
+      format(num, {
+        currency: true,
+        currency_position: 'before',
+        omit_currency_sign: true,
+      })
+    ).toBe('-12 345,68')
+    expect(
+      format(num, {
+        currency: true,
+        currency_position: 'after',
+        omit_currency_sign: true,
+      })
+    ).toBe('-12 345,68')
+    expect(
+      format(num, {
+        currency: true,
+        currency_display: 'code',
+        omit_currency_sign: true,
+      })
+    ).toBe('-12 345,68')
+    expect(
+      format(num, {
+        locale: 'en',
+        currency: true,
+        omit_currency_sign: true,
+      })
+    ).toBe('-12 345.68')
+    expect(
+      format(num, {
+        locale: 'en-US',
+        currency: true,
+        currency_position: 'after',
+        currency_display: 'symbol',
+        omit_currency_sign: true,
+      })
+    ).toBe('-12,345.68')
   })
 })
 

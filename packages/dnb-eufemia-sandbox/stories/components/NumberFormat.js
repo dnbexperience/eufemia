@@ -79,6 +79,11 @@ export const NumberFormatSandbox = () => {
       >
         <Wrapper>
           <Box>
+            <NumberFormat currency_breakpoint="medium" currency>
+              123456789.5
+            </NumberFormat>
+          </Box>
+          <Box>
             <div
               role="tooltip"
               className="dnb-tooltip dnb-tooltip--active dnb-core-style"

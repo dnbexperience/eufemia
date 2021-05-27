@@ -17,6 +17,7 @@ import {
   extend,
 } from '../../shared/component-helper'
 import { hasSelectedText, IS_IOS } from '../../shared/helpers'
+import { onMediaQueryChange } from '../../shared/MediaQueryUtils'
 import {
   spacingPropTypes,
   createSpacingClasses,
@@ -43,6 +44,10 @@ export default class NumberFormat extends React.PureComponent {
     currency: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     currency_display: PropTypes.string,
     currency_position: PropTypes.oneOf(['auto', 'before', 'after']),
+    currency_breakpoint: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
 
     // bank account number
     ban: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -98,6 +103,7 @@ export default class NumberFormat extends React.PureComponent {
     currency: null,
     currency_display: null, // code, name, symbol
     currency_position: null, // null, before, after
+    currency_breakpoint: null,
     ban: null,
     nin: null,
     phone: null,
@@ -134,7 +140,7 @@ export default class NumberFormat extends React.PureComponent {
     this._selectionRef = React.createRef()
 
     this._id = props.id || makeUniqueId()
-    this.state = { selected: false }
+    this.state = { selected: false, omitCurrencySign: false }
   }
 
   componentDidMount() {
@@ -145,6 +151,29 @@ export default class NumberFormat extends React.PureComponent {
     if (IS_IOS && !hasiOSFix) {
       hasiOSFix = true
       runIOSSelectionFix()
+    }
+
+    if (this.props.currency_breakpoint) {
+      this._mediaQueryListener = onMediaQueryChange(
+        {
+          min: '0',
+          max: isTrue(this.props.currency_breakpoint)
+            ? 'small'
+            : this.props.currency_breakpoint,
+        },
+        (omitCurrencySign) => {
+          this.setState({
+            omitCurrencySign,
+          })
+        },
+        { runOnInit: true }
+      )
+    }
+  }
+
+  componentWillUnmount() {
+    if (this._mediaQueryListener) {
+      this._mediaQueryListener()
     }
   }
 
@@ -222,6 +251,7 @@ export default class NumberFormat extends React.PureComponent {
       currency,
       currency_display,
       currency_position,
+      currency_breakpoint, // eslint-disable-line
       ban,
       nin,
       phone,
@@ -256,6 +286,7 @@ export default class NumberFormat extends React.PureComponent {
       currency,
       currency_display,
       currency_position,
+      omit_currency_sign: this.state.omitCurrencySign,
       ban,
       nin,
       phone,
