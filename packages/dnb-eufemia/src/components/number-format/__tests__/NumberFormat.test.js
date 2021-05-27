@@ -75,7 +75,7 @@ describe('NumberFormat component', () => {
       '12 345 678,9876'
     )
   })
-  it('have to match currency', () => {
+  it('have to match currency for default locale', () => {
     const Comp = mount(<Component value={-value} currency />)
 
     expect(Comp.find(displaySelector).first().text()).toBe(
@@ -94,6 +94,26 @@ describe('NumberFormat component', () => {
     })
 
     expect(Comp.find(displaySelector).first().text()).toBe('12 345 kr')
+  })
+  it('have to match currency in en locale', () => {
+    const Comp = mount(<Component value={-value} currency locale="en" />)
+
+    expect(Comp.find(displaySelector).first().text()).toBe(
+      '-NOK 12 345 678.99'
+    )
+
+    expect(Comp.find(ariaSelector).first().text()).toBe(
+      '-12 345 678.99 Norwegian kroner'
+    )
+
+    // also check the formatting with one digit less
+    Comp.setProps({
+      children: null,
+      decimals: 0,
+      value: 12345,
+    })
+
+    expect(Comp.find(displaySelector).first().text()).toBe('NOK 12 345')
   })
   it('have to match currency with large decimals', () => {
     const Comp = mount(<Component value="5000.0099" currency />)
@@ -145,17 +165,76 @@ describe('NumberFormat component', () => {
     )
 
     Comp.setProps({
+      locale: 'en-GB',
+    })
+
+    expect(Comp.find(displaySelector).first().text()).toBe(
+      '-12 345 678.99 NOK'
+    )
+
+    expect(Comp.find(ariaSelector).first().text()).toBe(
+      '-12 345 678.99 Norwegian kroner'
+    )
+
+    Comp.setProps({
       currency_display: 'code',
     })
     expect(Comp.find(displaySelector).first().text()).toBe(
-      '-12 345 678,99 NOK'
+      '-12 345 678.99 NOK'
     )
+
+    Comp.setProps({
+      locale: 'no',
+    })
 
     Comp.setProps({
       currency_position: 'before',
     })
     expect(Comp.find(displaySelector).first().text()).toBe(
       'NOK -12 345 678,99'
+    )
+  })
+  it('have to match currency with currency_position="before"', () => {
+    const Comp = mount(
+      <Component value={-value} currency currency_position="before" />
+    )
+
+    expect(Comp.find(displaySelector).first().text()).toBe(
+      'kr -12 345 678,99'
+    )
+
+    expect(Comp.find(ariaSelector).first().text()).toBe(
+      '-12 345 678,99 norske kroner'
+    )
+
+    Comp.setProps({
+      locale: 'en-GB',
+    })
+
+    expect(Comp.find(displaySelector).first().text()).toBe(
+      '-NOK 12 345 678.99'
+    )
+
+    expect(Comp.find(ariaSelector).first().text()).toBe(
+      '-12 345 678.99 Norwegian kroner'
+    )
+
+    Comp.setProps({
+      currency_display: 'code',
+    })
+    expect(Comp.find(displaySelector).first().text()).toBe(
+      '-NOK 12 345 678.99'
+    )
+
+    Comp.setProps({
+      locale: 'no',
+    })
+
+    Comp.setProps({
+      currency_position: 'after',
+    })
+    expect(Comp.find(displaySelector).first().text()).toBe(
+      '-12 345 678,99 NOK'
     )
   })
   it('have to match currency under 100.000', () => {
@@ -370,6 +449,147 @@ describe('Currency format with dirty number', () => {
         currency: true,
       })
     ).toBe('-1 234 567,89 kr')
+  })
+
+  it('should support percentage', () => {
+    const number = -123456789.56
+    expect(format(String(number), { percent: true })).toBe(
+      '−123 456 789,56 %'
+    )
+    expect(format(0.2, { percent: true })).toBe('0,2 %')
+    expect(format(number, { percent: true, locale: 'no' })).toBe(
+      '−123 456 789,56 %'
+    )
+    expect(format(number, { percent: true, locale: 'en-GB' })).toBe(
+      '-123 456 789.56%'
+    )
+    expect(format(number, { percent: true, locale: 'en-US' })).toBe(
+      '-123,456,789.56%'
+    )
+    expect(
+      format(number, { percent: true, decimals: 1, locale: 'no' })
+    ).toBe('−123 456 789,6 %')
+    expect(
+      format(number, { percent: true, decimals: 1, locale: 'en-GB' })
+    ).toBe('-123 456 789.6%')
+    expect(
+      format(number, { percent: true, decimals: 1, locale: 'en-US' })
+    ).toBe('-123,456,789.6%')
+  })
+
+  it('should support currency_position', () => {
+    const number = -123456789.5
+    expect(
+      format(number, {
+        currency: true,
+        currency_position: 'after',
+        locale: 'no',
+      })
+    ).toBe('-123 456 789,50 kr')
+    expect(
+      format(number, {
+        currency: true,
+        currency_position: 'before',
+        locale: 'no',
+      })
+    ).toBe('kr -123 456 789,50')
+    expect(
+      format(number, {
+        currency: true,
+        currency_position: 'after',
+        locale: 'en-GB',
+      })
+    ).toBe('-123 456 789.50 NOK')
+    expect(
+      format(number, {
+        currency: true,
+        currency_position: 'after',
+        locale: 'en-US',
+      })
+    ).toBe('-123,456,789.50 NOK')
+    expect(
+      format(number, {
+        currency: true,
+        currency_position: 'before',
+        locale: 'en-GB',
+      })
+    ).toBe('-NOK 123 456 789.50')
+    expect(
+      format(number, {
+        currency: true,
+        currency_position: 'before',
+        locale: 'en-US',
+      })
+    ).toBe('-NOK 123,456,789.50')
+    expect(
+      format(-0, {
+        currency: true,
+        currency_position: 'after',
+        locale: 'en-GB',
+      })
+    ).toBe('0.00 NOK')
+    expect(
+      format(-0, {
+        currency: true,
+        currency_position: 'after',
+        locale: 'en-US',
+      })
+    ).toBe('0.00 NOK')
+    expect(
+      format('-0', {
+        currency: true,
+        currency_position: 'after',
+        locale: 'en-GB',
+      })
+    ).toBe('-0.00 NOK')
+    expect(
+      format('-0', {
+        currency: true,
+        currency_position: 'after',
+        locale: 'en-US',
+      })
+    ).toBe('-0.00 NOK')
+    expect(
+      format('-0', {
+        currency: true,
+        currency_position: 'before',
+        locale: 'en-GB',
+      })
+    ).toBe('-NOK 0.00')
+    expect(
+      format('-0', {
+        currency: true,
+        currency_position: 'before',
+        locale: 'en-US',
+      })
+    ).toBe('-NOK 0.00')
+    expect(
+      format('someting 1234 someting', {
+        clean: true,
+        currency: true,
+        currency_position: 'after',
+      })
+    ).toBe('1 234,00 kr')
+    expect(
+      format(number, {
+        currency: 'CHF',
+        locale: 'de-CH',
+      })
+    ).toBe('CHF-123’456’789.50')
+    expect(
+      format(number, {
+        currency: 'CHF',
+        currency_position: 'before',
+        locale: 'de-CH',
+      })
+    ).toBe('CHF -123’456’789.50')
+    expect(
+      format(number, {
+        currency: 'CHF',
+        currency_position: 'after',
+        locale: 'de-CH',
+      })
+    ).toBe('-123’456’789.50 CHF')
   })
 })
 

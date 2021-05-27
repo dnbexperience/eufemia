@@ -56,6 +56,9 @@ export default class NumberFormat extends React.PureComponent {
     // organization number
     org: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
+    // percentage
+    percent: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+
     // can be tel or sms
     link: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
@@ -99,6 +102,7 @@ export default class NumberFormat extends React.PureComponent {
     nin: null,
     phone: null,
     org: null,
+    percent: null,
     link: null,
     options: null,
     decimals: null,
@@ -222,6 +226,7 @@ export default class NumberFormat extends React.PureComponent {
       nin,
       phone,
       org,
+      percent,
       link: _link,
       tooltip,
       skeleton,
@@ -255,6 +260,7 @@ export default class NumberFormat extends React.PureComponent {
       nin,
       phone,
       org,
+      percent,
       decimals,
       omit_rounding: isTrue(omit_rounding),
       options,
@@ -286,10 +292,12 @@ export default class NumberFormat extends React.PureComponent {
       }
     }
 
-    let { cleanedValue, number: display, aria, locale: lang } = format(
-      value,
-      formatOptions
-    )
+    let {
+      cleanedValue,
+      number: display,
+      aria,
+      locale: lang,
+    } = format(value, formatOptions)
     this.cleanedValue = cleanedValue
 
     if (tooltip) {

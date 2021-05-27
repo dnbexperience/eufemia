@@ -11,7 +11,7 @@ module.exports = {
         targets:
           !isCI ||
           (isCI &&
-            !/(release|portal|beta|alpha|next)/.test(getCurrentBranchName))
+            !/(release|portal|beta|alpha)/.test(getCurrentBranchName()))
             ? {
                 chrome: '90', // Like puppeteer v8
               }
