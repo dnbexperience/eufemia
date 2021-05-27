@@ -7,34 +7,11 @@ import {
   convertToMediaQuery,
   buildQuery,
   onMediaQueryChange,
-  isMatchMediaSupported,
 } from '../MediaQueryUtils'
-import MatchMediaMock from 'jest-matchmedia-mock'
-
-jest.mock('../MediaQueryUtils', () => ({
-  ...jest.requireActual('../MediaQueryUtils'),
-  isMatchMediaSupported: jest.fn(),
-}))
+import { mockMediaQuery } from './helpers/MediaQueryMocker'
+const matchMedia = mockMediaQuery()
 
 describe('onMediaQueryChange', () => {
-  let matchMedia
-
-  beforeAll(() => {
-    matchMedia = new MatchMediaMock()
-  })
-
-  beforeEach(() => {
-    isMatchMediaSupported.mockReturnValue(true)
-  })
-
-  afterEach(() => {
-    matchMedia.clear()
-  })
-
-  afterAll(() => {
-    matchMedia.destroy()
-  })
-
   it('should emit callback when give media query matches', () => {
     const callback = jest.fn()
     onMediaQueryChange({ min: 'small' }, callback)
@@ -60,6 +37,30 @@ describe('onMediaQueryChange', () => {
 
     matchMedia.useMediaQuery('(min-width: 40em)')
     expect(callback).toHaveBeenCalledTimes(1)
+  })
+
+  it('should emit callbeck on init', () => {
+    const callback = jest.fn()
+    onMediaQueryChange({ min: 'large' }, callback, {
+      runOnInit: true,
+    })
+
+    expect(callback).toHaveBeenCalledTimes(1)
+    expect(callback).toHaveBeenCalledWith(
+      false,
+      expect.objectContaining({
+        matches: false,
+      })
+    )
+
+    matchMedia.useMediaQuery('(min-width: 60em)')
+    expect(callback).toHaveBeenCalledTimes(2)
+    expect(callback).toHaveBeenCalledWith(
+      true,
+      expect.objectContaining({
+        matches: true,
+      })
+    )
   })
 
   it('should emit callback on invalid query when "not" was given', () => {
