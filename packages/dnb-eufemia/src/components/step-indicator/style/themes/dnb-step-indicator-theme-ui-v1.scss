@@ -1,0 +1,65 @@
+/*
+* Deprecated v1
+*
+*/
+
+.dnb-step-indicator-v1 .dnb-step-indicator {
+  &__item-content {
+    // so we can se the bottom line on anchor hover
+    // transform: translateY(-1px);
+
+    &--static {
+      color: var(--color-emerald-green);
+    }
+
+    &--link {
+      color: var(--color-sea-green);
+    }
+  }
+
+  // &--visited .dnb-step-indicator__item-content {
+  //   &--link {
+  //     @include hover() {
+  //       border-color: var(--color-sea-green);
+  //     }
+  //   }
+  // }
+
+  // instead of a fixed margin-left
+  // &__list {
+  //   justify-content: space-between;
+  // }
+
+  &__item {
+    margin-left: 4.5rem;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    @include allBelow(medium) {
+      margin-left: 2rem;
+    }
+  }
+
+  &::after {
+    color: var(--color-mint-green);
+  }
+  &--active#{&}__item,
+  &--active .dnb-step-indicator__item-content {
+    //   cursor: default;
+    //   pointer-events: none;
+    &::after {
+      background-color: var(--color-sea-green);
+    }
+  }
+
+  span[hidden],/* to make sure we have the wider width on every item */
+  &--active .dnb-step-indicator__item-content {
+    font-weight: var(--font-weight-medium);
+
+    &:not(:hover) {
+      color: var(--color-emerald-green);
+    }
+  }
+}
