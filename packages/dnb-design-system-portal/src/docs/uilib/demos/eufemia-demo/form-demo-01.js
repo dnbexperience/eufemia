@@ -69,7 +69,7 @@ const Header = () => (
 
       <StepIndicator
         current_step={0}
-        enable_navigation={true}
+        mode="strict"
         data={[
           {
             title: 'Information about the complaint',

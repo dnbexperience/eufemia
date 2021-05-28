@@ -17,6 +17,7 @@ const props = fakeProps(require.resolve('../StepIndicator'), {
   optional: true,
 })
 delete props.render
+props.internalId = 'unique'
 props.on_item_render = null
 
 // Deprecated
@@ -49,14 +50,13 @@ describe('StepIndicator component with urls', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
-  it('have a "active_url" state have to be same as prop from startup', () => {
-    expect(Comp.state().activeUrl).toBe(active_url)
-  })
+  // it('have a "active_url" state have to be same as prop from startup', () => {
+  //   expect(Comp.state().activeUrl).toBe(active_url)
+  // })
 
   it('has a "aria-current" attribute on correct item', () => {
     expect(
       Comp.find('li.dnb-step-indicator--active')
-        // .find('a')
         .instance()
         .getAttribute('aria-current')
     ).toBe('step')
@@ -91,8 +91,9 @@ describe('StepIndicator component with buttons', () => {
   ]
   const Comp = mount(
     <Component
-      enable_navigation={true}
-      current_step={1}
+      internalId="unique-buttons"
+      use_navigation={true}
+      active_item={1}
       data={stepIndicatorListData}
     />
   )
@@ -107,16 +108,18 @@ describe('StepIndicator component with buttons', () => {
     ).toBe(true)
   })
 
-  it('has a "aria-disabled" attribute on correct item', () => {
-    expect(Comp.find('li').last().find('[aria-disabled]').exists()).toBe(
-      true
-    )
+  it('has a button tag on active items', () => {
+    expect(Comp.find('li').first().exists('button')).toBe(true)
+    expect(Comp.find('li').last().exists('button')).toBe(true)
+  })
+
+  it('has a "disabled" attribute on correct item', () => {
+    expect(Comp.find('li').last().find('[disabled]').exists()).toBe(true)
   })
 
   it('has a "aria-current" attribute on correct item', () => {
     expect(
       Comp.find('li.dnb-step-indicator--active')
-        // .find('button')
         .instance()
         .getAttribute('aria-current')
     ).toBe('step')
