@@ -5,106 +5,39 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
+  makeUniqueId,
   warn,
   registerElement,
-  validateDOMAttributes,
   processChildren,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
-import {
-  skeletonDOMAttributes,
-  createSkeletonClass,
-} from '../skeleton/SkeletonHelper'
+import EventEmitter from '../../shared/EventEmitter'
+import StepIndicatorSidebar from './StepIndicatorSidebar'
 
-import StepIndicatorItem from './StepIndicatorItem'
+import StepIndicatorModal from './StepIndicatorModal'
+import StepIndicatorList from './StepIndicatorList'
+import { StepIndicatorProvider } from './StepIndicatorContext'
+import {
+  stepIndicatorPropsTypes,
+  stepIndicatorDefaultProps,
+} from './StepIndicatorProps'
 
 export default class StepIndicator extends React.PureComponent {
   static tagName = 'dnb-step-indicator'
   static contextType = Context
 
+  static Sidebar = StepIndicatorSidebar
+
   static propTypes = {
-    data: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.arrayOf(PropTypes.string),
-      PropTypes.arrayOf(
-        PropTypes.shape({
-          title: PropTypes.string.isRequired,
-          url: PropTypes.string,
-          is_active: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool,
-          ]),
-          is_current: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.bool,
-          ]),
-
-          /* Deprecated */
-          url_future: PropTypes.string, // Deprecated
-          /* Deprecated */
-          url_passed: PropTypes.string, // Deprecated
-
-          on_click: PropTypes.func,
-          on_render: PropTypes.func,
-        })
-      ),
-    ]).isRequired,
-    step_title: PropTypes.string,
-    current_step: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
-
-    /* Deprecated */
-    active_item: PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // Deprecated
-    /* Deprecated */
-    active_url: PropTypes.string, // Deprecated
-
-    hide_numbers: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    use_navigation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]), // Deprecated
-    enable_navigation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    on_item_render: PropTypes.func,
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    ...spacingPropTypes,
-
-    class: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-
-    on_change: PropTypes.func,
+    sidebar_id: PropTypes.string,
+    ...stepIndicatorPropsTypes,
   }
 
   static defaultProps = {
-    data: [],
-    step_title: '%step',
-    current_step: null,
-    active_item: null, // Deprecated
-    active_url: null, // Deprecated
-    hide_numbers: false,
-    use_navigation: null, // Deprecated
-    enable_navigation: null, // Deprecated
-    on_item_render: null,
-    skeleton: false,
-    class: null,
-
-    className: null,
-    children: null,
-
-    on_change: null,
+    sidebar_id: null,
+    ...stepIndicatorDefaultProps,
   }
 
   static enableWebComponent() {
@@ -125,44 +58,42 @@ export default class StepIndicator extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (state._listenForPropChanges) {
-      if (props.data) {
-        if (state._data !== props.data) {
-          state._data = props.data
-          state.data = StepIndicator.getData(props)
-        }
-      }
+    state.data = StepIndicator.getData(props)
+    state.countSteps = state.data.length
 
-      if (state.activeItem !== props.current_step) {
-        state.activeItem = parseFloat(props.current_step)
-      } else if (state.activeItem !== props.active_item) {
-        /** Deprecated */
-        state.activeItem = parseFloat(props.active_item)
-      }
-
-      /** Deprecated */
-      if (props.active_url && state.activeUrl !== props.active_url) {
-        state.activeUrl = props.active_url
-      }
-
-      /** Deprecated */
-      if (
-        (state.activeUrl || !(parseFloat(state.activeItem) > 0)) &&
-        state.data.length > 0
-      ) {
-        state.activeItem = state.data.reduce(
-          (acc, { url }, i) =>
-            url && (url === state.activeItem || url === state.activeUrl)
-              ? i
-              : acc,
-          parseFloat(props.active_item)
-        )
-        if (!(state.activeItem > -1)) {
-          state.activeItem = null
-        }
-      }
+    if (
+      props.current_step !== null &&
+      props.current_step !== state._current_step
+    ) {
+      state.activeStep = parseFloat(props.current_step) || 0
     }
-    state._listenForPropChanges = true
+
+    /** Deprecated */
+    if (
+      props.active_item !== null &&
+      props.active_item !== state._active_item
+    ) {
+      state.activeStep = parseFloat(props.active_item) || 0
+    }
+
+    /** Deprecated */
+    if (props.active_url && state.data.length > 0) {
+      state.activeStep = state.data.reduce((acc, { url }, i) => {
+        return url &&
+          (url === state.current_step || url === props.active_url)
+          ? i
+          : acc
+      }, parseFloat(state.current_step) || 0)
+    }
+
+    if (!state.listOfReachedSteps.includes(state.activeStep)) {
+      state.listOfReachedSteps.push(state.activeStep)
+    }
+
+    state._current_step = props.current_step
+    state._active_item = props.active_item /** Deprecated */
+    state._active_url = props.active_url /** Deprecated */
+
     return state
   }
 
@@ -175,27 +106,28 @@ export default class StepIndicator extends React.PureComponent {
     super(props)
 
     this.state = {
-      hasReached: [],
-      _listenForPropChanges: true,
+      // deprecated
+      isV1: !props.mode,
+      sidebar_id: props.internalId || props.sidebar_id || makeUniqueId(),
     }
 
     if (this.canWarn()) {
       // deprecated warning
       if (props.active_item !== null) {
         warn(
-          'StepIndicator: "active_item" is deprecated. Use "current_step" instead.'
+          'StepIndicator: `active_item` is deprecated. Use `current_step` instead.'
         )
       }
       // deprecated warning
       if (props.use_navigation !== null) {
         warn(
-          'StepIndicator: "use_navigation" is deprecated. Use "enable_navigation" instead.'
+          'StepIndicator: `use_navigation` is deprecated. Use `mode="strict"` or `mode="loose"` instead.'
         )
       }
       // deprecated warning
       if (props.active_url !== null) {
         warn(
-          'StepIndicator: The usage of "active_url" is deprecated. You will have to handle your URLs by yourself in the next major version.'
+          'StepIndicator: The usage of `active_url` is deprecated. You will have to handle your URLs by yourself in the next major version.'
         )
       }
     }
@@ -203,103 +135,88 @@ export default class StepIndicator extends React.PureComponent {
     const sn = 'show_numbers'
     if (typeof props[sn] !== 'undefined') {
       warn(
-        'StepIndicator: "show_numbers" is deprecated. Use "hide_numbers" instead.'
+        'StepIndicator: `show_numbers` is deprecated. Use `hide_numbers` instead.'
       )
+    }
+
+    this._eventEmitter = EventEmitter.createInstance(this.state.sidebar_id)
+
+    if (!this.state.listOfReachedSteps) {
+      this.state.listOfReachedSteps = []
     }
   }
 
-  setActiveItem = (activeItem) => {
-    this.setState({
-      activeItem,
-      _listenForPropChanges: false,
-    })
+  setActiveStep = (activeStep) => {
+    this.setState({ activeStep })
+  }
+
+  componentWillUnmount() {
+    if (this._eventEmitter) {
+      this._eventEmitter.remove()
+      this._eventEmitter = null
+    }
+  }
+
+  getContextData(context = this.context) {
+    // use only the props from context, who are available here anyway
+    const data = extendPropsWithContext(
+      this.props,
+      StepIndicator.defaultProps,
+      { skeleton: context?.skeleton },
+      context.getTranslation(this.props).StepIndicator,
+      context.FormRow,
+      context.StepIndicator
+    )
+
+    data.stepsLabel = data.step_title
+      ?.replace('%step', this.state.activeStep + 1)
+      .replace('%count', this.state.countSteps)
+    data.stepsLabelExtended = data.step_title_extended
+      ?.replace('%step', this.state.activeStep + 1)
+      .replace('%count', this.state.countSteps)
+
+    return data
   }
 
   render() {
-    // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
-      this.props,
-      StepIndicator.defaultProps,
-      { skeleton: this.context?.skeleton },
-      this.context.getTranslation(this.props).StepIndicator,
-      this.context.FormRow,
-      this.context.StepIndicator
-    )
+    const contextData = this.getContextData(this.context)
 
-    const {
-      active_item, //eslint-disable-line
-      active_url, //eslint-disable-line
-      hide_numbers,
-      use_navigation, // Deprecated
-      enable_navigation,
-      on_item_render,
-      step_title,
-      on_change,
-      skeleton,
-      className,
-      class: _className,
-      data: _data, //eslint-disable-line
-      children, //eslint-disable-line
-      ...attributes
-    } = props
-
-    const data = StepIndicator.getData(this.props)
-    const { activeItem } = this.state
-
-    const params = {
-      'aria-label': 'progress',
-      className: classnames(
-        'dnb-step-indicator',
-        createSkeletonClass('font', skeleton, this.context),
-        createSpacingClasses(props),
-        className,
-        _className
-      ),
-      ...attributes,
+    // deprecated
+    if (this.state.isV1) {
+      return (
+        <StepIndicatorProvider
+          {...this.state}
+          {...contextData}
+          sidebar_id={this.state.sidebar_id}
+          setActiveStep={this.setActiveStep}
+          listAttributes={this.props}
+          isV1={this.state.isV1} // deprecated
+        >
+          <div className="dnb-step-indicator-v1">
+            <StepIndicatorList />
+          </div>
+        </StepIndicatorProvider>
+      )
     }
 
-    skeletonDOMAttributes(params, skeleton, this.context)
-
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, params)
-
-    if (!this.state.hasReached.includes(activeItem)) {
-      this.state.hasReached.push(activeItem)
+    if (!this.props.sidebar_id && this.props.mode) {
+      warn(
+        'StepIndicator needs an unique "sidebar_id" property, also on the <StepIndicator.Sidebar... />'
+      )
     }
 
-    const countSteps = data.length
     return (
-      <nav {...params}>
-        {countSteps > 0 && (
-          <ol className="dnb-step-indicator__list">
-            {data.map((props, i) => {
-              if (typeof props === 'string') {
-                props = { title: props }
-              }
-              const params = {
-                countSteps,
-                currentItem: i,
-                activeItem,
-                hide_numbers,
-                use_navigation, // Deprecated
-                enable_navigation,
-                on_item_render,
-                step_title,
-                on_change,
-                ...props,
-              }
-              return (
-                <StepIndicatorItem
-                  key={i}
-                  {...params}
-                  setActiveItem={this.setActiveItem}
-                  hasReached={this.state.hasReached}
-                />
-              )
-            })}
-          </ol>
-        )}
-      </nav>
+      <StepIndicatorProvider
+        {...this.state}
+        {...contextData}
+        sidebar_id={this.state.sidebar_id}
+        setActiveStep={this.setActiveStep}
+        isV1={this.state.isV1} // deprecated
+      >
+        <div className="dnb-step-indicator-v2">
+          <StepIndicatorModal />
+        </div>
+      </StepIndicatorProvider>
     )
   }
 }

@@ -86,7 +86,7 @@ export default {
     },
     StepIndicator: {
       overview_title: 'Stegoversikt',
-      overview_step_title: 'Du er på Steg %step av %count',
+      step_title_extended: 'Du er på steg %step av %count',
       step_title: 'Steg %step av %count',
     },
     Slider: {

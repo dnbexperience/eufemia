@@ -4,64 +4,90 @@
 */
 
 @import '../../../../style/themes/imports.scss';
+@import './dnb-step-indicator-theme-ui-v1.scss';
 
-.dnb-step-indicator {
-  &__item-content {
-    // so we can se the bottom line on anchor hover
-    // transform: translateY(-1px);
-
-    &--static {
-      color: var(--color-emerald-green);
-    }
-
-    &--link {
-      color: var(--color-sea-green);
-    }
-  }
-
-  // &--visited &__item-content {
-  //   &--link {
-  //     @include hover() {
-  //       border-color: var(--color-sea-green);
-  //     }
-  //   }
-  // }
-
-  // instead of a fixed margin-left
-  // &__list {
-  //   justify-content: space-between;
-  // }
-
+.dnb-step-indicator-v2 .dnb-step-indicator {
   &__item {
-    margin-left: 4.5rem;
-
-    &:first-child {
-      margin-left: 0;
+    &--current .dnb-button {
+      font-weight: var(--font-weight-medium);
+      @include fakeBorder(var(--color-sea-green), 0.125rem, inset, true);
     }
+    &--visited .dnb-button {
+      background-color: var(--color-pistachio);
+    }
+    &--inactive .dnb-button {
+      cursor: text;
+      pointer-events: initial;
+      user-select: initial;
 
-    @include allBelow(medium) {
-      margin-left: 2rem;
+      &.dnb-button--secondary,
+      &.dnb-button--secondary:hover,
+      &.dnb-button--secondary:focus,
+      &.dnb-button--secondary:active {
+        color: var(--color-black-80);
+        background-color: var(--color-white);
+        @include fakeBorder(var(--color-black-20), 0.0625rem, inset, true);
+      }
+    }
+    &--inactive.dnb-step-indicator__item--current {
+      .dnb-button {
+        &.dnb-button--secondary,
+        &.dnb-button--secondary:hover,
+        &.dnb-button--secondary:focus,
+        &.dnb-button--secondary:active {
+          @include fakeBorder(
+            var(--color-black-80),
+            0.125rem,
+            inset,
+            true
+          );
+        }
+      }
     }
   }
 
-  &::after {
-    color: var(--color-mint-green);
+  &__label,
+  &__label.dnb-p {
+    font-size: var(--font-size-small);
+    margin-bottom: 0.5rem;
   }
-  &--active#{&}__item,
-  &--active &__item-content {
-    //   cursor: default;
-    //   pointer-events: none;
-    &::after {
-      background-color: var(--color-sea-green);
+
+  // dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__button__status dnb-step-indicator__button__status--error dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap
+
+  &__button__status {
+    &.dnb-button--secondary {
+      background-color: var(--color-sand-yellow);
     }
-  }
+    &--error.dnb-button--secondary {
+      background-color: var(--color-fire-red-8);
+    }
+    &--info.dnb-button--secondary {
+      background-color: var(--color-pistachio);
+    }
+    .dnb-button__icon {
+      align-self: flex-start;
+      margin-top: 1rem;
+      margin-right: 0.75rem;
+    }
 
-  span[hidden],/* to make sure we have the wider width on every item */
-  &--active &__item-content {
-    font-weight: var(--font-weight-medium);
+    .dnb-step-indicator__item-content {
+      &__number,
+      &__status {
+        font-weight: var(--font-weight-basis);
+      }
 
-    &:not(:hover) {
-      color: var(--color-emerald-green);
+      &__text {
+        text-decoration: underline;
+        text-underline-offset: 0.25rem;
+        text-decoration-thickness: 1.6px;
+      }
+      &__status {
+        margin-top: 0.5rem;
+
+        font-size: var(--font-size-x-small);
+        line-height: var(--font-size-basis);
+        color: var(--color-black-80);
+      }
     }
   }
 }

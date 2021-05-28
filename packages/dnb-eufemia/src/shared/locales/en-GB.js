@@ -86,7 +86,7 @@ export default {
     },
     StepIndicator: {
       overview_title: 'Steps Overview',
-      overview_step_title: 'You are on Step %step of %count',
+      step_title_extended: 'You are on step %step of %count',
       step_title: 'Step %step of %count',
     },
     Slider: {
