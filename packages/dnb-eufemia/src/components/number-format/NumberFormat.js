@@ -14,6 +14,7 @@ import {
   validateDOMAttributes,
   registerElement,
   convertJsxToString,
+  extendPropsWithContext,
   extend,
 } from '../../shared/component-helper'
 import { hasSelectedText, IS_IOS } from '../../shared/helpers'
@@ -134,7 +135,7 @@ export default class NumberFormat extends React.PureComponent {
     this._selectionRef = React.createRef()
 
     this._id = props.id || makeUniqueId()
-    this.state = { selected: false }
+    this.state = { selected: false, omitCurrencySign: false }
   }
 
   componentDidMount() {
@@ -213,6 +214,13 @@ export default class NumberFormat extends React.PureComponent {
 
   render() {
     // consume the global context
+    const props = extendPropsWithContext(
+      this.props,
+      NumberFormat.defaultProps,
+      this.context.getTranslation(this.props).NumberFormat,
+      this.context.NumberFormat
+    )
+
     const {
       id, // eslint-disable-line
       value: _value,
@@ -240,9 +248,9 @@ export default class NumberFormat extends React.PureComponent {
       element,
       class: _className,
       className,
-      ...props
-    } = this.props
-    let rest = props
+      ..._rest
+    } = props
+    let rest = _rest
 
     let link = _link
     let value = _value
@@ -256,6 +264,7 @@ export default class NumberFormat extends React.PureComponent {
       currency,
       currency_display,
       currency_position,
+      omit_currency_sign: this.state.omitCurrencySign,
       ban,
       nin,
       phone,
@@ -269,26 +278,23 @@ export default class NumberFormat extends React.PureComponent {
     }
 
     // use only the props from context, who are available here anyway
-    if (this.context) {
-      const useContext = extend(
-        true,
-        { locale: null, currency: null },
-        this.context,
-        this.context.getTranslation(this.props).NumberFormat
-      )
+    const useContext = extend(
+      true,
+      { locale: null, currency: null },
+      this.context
+    )
 
-      if (useContext) {
-        if (useContext.locale && !locale) {
-          formatOptions.locale = useContext.locale
-        }
+    if (useContext) {
+      if (useContext.locale && !locale) {
+        formatOptions.locale = useContext.locale
+      }
 
-        // only replace if the prop is "true" and not actually a currency
-        if (useContext.currency && isTrue(currency)) {
-          formatOptions.options = formatOptions.options
-            ? { ...formatOptions.options }
-            : {}
-          formatOptions.options.currency = useContext.currency
-        }
+      // only replace if the prop is "true" and not actually a currency
+      if (useContext.currency && isTrue(currency)) {
+        formatOptions.options = formatOptions.options
+          ? { ...formatOptions.options }
+          : {}
+        formatOptions.options.currency = useContext.currency
       }
     }
 

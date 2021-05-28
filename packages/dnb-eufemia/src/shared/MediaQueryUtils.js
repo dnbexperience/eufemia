@@ -19,7 +19,11 @@ export const defaultBreakpoints = {
  * @param {function} callback function that gets emitted when the given media query
  * @returns function to remove listeners when called
  */
-export function onMediaQueryChange(property, callback) {
+export function onMediaQueryChange(
+  property,
+  callback,
+  { runOnInit = false } = {}
+) {
   let query = property
   let when = null
   let not = null
@@ -31,6 +35,12 @@ export function onMediaQueryChange(property, callback) {
   }
 
   const mediaQueryList = makeMediaQueryList({ query, when, not })
+
+  if (runOnInit) {
+    if (typeof callback === 'function') {
+      callback(mediaQueryList?.matches, mediaQueryList)
+    }
+  }
 
   return createMediaQueryListener(mediaQueryList, callback)
 }

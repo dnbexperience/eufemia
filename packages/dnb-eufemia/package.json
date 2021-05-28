@@ -34,7 +34,7 @@
     "build:prebuild": "babel-node ./scripts/prepub/runPrepub.js",
     "build:resources": "babel-node ./scripts/prepub/resources/makeResourcesPackage.js",
     "build:shared": "cross-env NODE_ENV=production BABEL_ENV=esm babel ./src/shared --extensions .js --config-file ./babel.config.js --out-dir ./build/esm/shared --ignore '**/__tests__/**/*'",
-    "build:types": "babel-node ./scripts/prepub/generateTypes.js",
+    "build:types": "babel-node ./scripts/prepub/generateTypes.js && TEST_POST_TYPES=1 yarn jest ./postTypeGeneration.test.js",
     "build:types:dev": "nodemon --exec 'babel-node ./scripts/prepub/generateTypes.js' --ext js --watch './src/**/*' --watch './scripts/**/*'",
     "build:umd": "cross-env NODE_ENV=production BABEL_ENV=umd rollup -c ./rollup.config.js",
     "cdn": "live-server --no-browser --cors --port=8081",

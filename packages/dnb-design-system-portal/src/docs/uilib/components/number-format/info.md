@@ -103,7 +103,7 @@ You can send down the `locale` as an application wide property (Context). More i
 import Provider from '@dnb/eufemia/shared/Provider'
 
 render(
-  <Provider locale="en-GB" currency_display="code">
+  <Provider locale="en-GB" NumberFormat={{ currency_display: 'code' }}>
     <MyApp>
       text <NumberFormat>123</NumberFormat> table etc.
     </MyApp>
