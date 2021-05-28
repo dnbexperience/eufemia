@@ -13,6 +13,7 @@ import {
 } from '../../../core/jest/jestSetup'
 import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
+import Provider from '../../../shared/Provider'
 import NumberFormat from '../NumberFormat'
 import { format, cleanNumber, copyWithEffect } from '../NumberUtils'
 
@@ -191,7 +192,7 @@ describe('NumberFormat component', () => {
       currency_position: 'before',
     })
     expect(Comp.find(displaySelector).first().text()).toBe(
-      'NOK -12 345 678,99'
+      'NOK -12 345 678,99'
     )
   })
   it('have to match currency with currency_position="before"', () => {
@@ -200,7 +201,7 @@ describe('NumberFormat component', () => {
     )
 
     expect(Comp.find(displaySelector).first().text()).toBe(
-      'kr -12 345 678,99'
+      'kr -12 345 678,99'
     )
 
     expect(Comp.find(ariaSelector).first().text()).toBe(
@@ -212,7 +213,7 @@ describe('NumberFormat component', () => {
     })
 
     expect(Comp.find(displaySelector).first().text()).toBe(
-      '-NOK 12 345 678.99'
+      '-NOK 12 345 678.99'
     )
 
     expect(Comp.find(ariaSelector).first().text()).toBe(
@@ -223,7 +224,7 @@ describe('NumberFormat component', () => {
       currency_display: 'code',
     })
     expect(Comp.find(displaySelector).first().text()).toBe(
-      '-NOK 12 345 678.99'
+      '-NOK 12 345 678.99'
     )
 
     Comp.setProps({
@@ -320,6 +321,24 @@ describe('NumberFormat component', () => {
   })
 })
 
+describe('NumberFormat component with provider', () => {
+  const displaySelector = element + '.dnb-number-format span'
+
+  it('have to match inherit properties', () => {
+    const Comp = mount(
+      <Provider
+        locale="en-GB"
+        NumberFormat={{ currency: true, currency_display: 'name' }}
+      >
+        <Component value={value} />
+      </Provider>
+    )
+    expect(Comp.find(displaySelector).first().text()).toBe(
+      '12 345 678.99 Norwegian kroner'
+    )
+  })
+})
+
 describe('Decimals format', () => {
   const num = -12345.6789
   it('should handle in unusual cases', () => {
@@ -366,6 +385,64 @@ describe('Decimals format', () => {
     expect(
       format(num, { currency: true, decimals: 6, omit_rounding: true })
     ).toBe('-12 345,678900 kr')
+  })
+
+  it('should handle omit currency sign', () => {
+    expect(
+      format(num, {
+        currency: true,
+        omit_currency_sign: true,
+      })
+    ).toBe('-12 345,68')
+    expect(
+      format(num, {
+        currency: true,
+        currency_position: 'before',
+        omit_currency_sign: true,
+      })
+    ).toBe('-12 345,68')
+    expect(
+      format(num, {
+        currency: true,
+        currency_position: 'after',
+        omit_currency_sign: true,
+      })
+    ).toBe('-12 345,68')
+    expect(
+      format(num, {
+        currency: true,
+        currency_display: 'code',
+        omit_currency_sign: true,
+      })
+    ).toBe('-12 345,68')
+    expect(
+      format(num, {
+        currency: true,
+        currency_display: false,
+      })
+    ).toBe('-12 345,68')
+    expect(
+      format(num, {
+        currency: true,
+        currency_display: '',
+      })
+    ).toBe('-12 345,68')
+    expect(
+      format(num, {
+        locale: 'en',
+        currency: true,
+        omit_currency_sign: true,
+      })
+    ).toBe('-12 345.68')
+    expect(
+      format(num, {
+        locale: 'en-US',
+        currency: true,
+        currency_position: 'after',
+        currency_display: 'symbol',
+        omit_currency_sign: true,
+      })
+    ).toBe('-12,345.68')
   })
 })
 
@@ -492,7 +569,7 @@ describe('Currency format with dirty number', () => {
         currency_position: 'before',
         locale: 'no',
       })
-    ).toBe('kr -123 456 789,50')
+    ).toBe('kr -123 456 789,50')
     expect(
       format(number, {
         currency: true,
@@ -513,14 +590,14 @@ describe('Currency format with dirty number', () => {
         currency_position: 'before',
         locale: 'en-GB',
       })
-    ).toBe('-NOK 123 456 789.50')
+    ).toBe('-NOK 123 456 789.50')
     expect(
       format(number, {
         currency: true,
         currency_position: 'before',
         locale: 'en-US',
       })
-    ).toBe('-NOK 123,456,789.50')
+    ).toBe('-NOK 123,456,789.50')
     expect(
       format(-0, {
         currency: true,
@@ -555,14 +632,14 @@ describe('Currency format with dirty number', () => {
         currency_position: 'before',
         locale: 'en-GB',
       })
-    ).toBe('-NOK 0.00')
+    ).toBe('-NOK 0.00')
     expect(
       format('-0', {
         currency: true,
         currency_position: 'before',
         locale: 'en-US',
       })
-    ).toBe('-NOK 0.00')
+    ).toBe('-NOK 0.00')
     expect(
       format('someting 1234 someting', {
         clean: true,
@@ -582,7 +659,7 @@ describe('Currency format with dirty number', () => {
         currency_position: 'before',
         locale: 'de-CH',
       })
-    ).toBe('CHF -123’456’789.50')
+    ).toBe('CHF-123’456’789.50')
     expect(
       format(number, {
         currency: 'CHF',
@@ -590,6 +667,20 @@ describe('Currency format with dirty number', () => {
         locale: 'de-CH',
       })
     ).toBe('-123’456’789.50 CHF')
+    expect(
+      format(number, {
+        currency: true,
+        currency_position: 'before',
+        currency_display: 'name',
+      })
+    ).toBe('norske kroner -123 456 789,50')
+    expect(
+      format(number, {
+        currency: true,
+        currency_position: 'after',
+        currency_display: 'name',
+      })
+    ).toBe('-123 456 789,50 norske kroner')
   })
 })
 

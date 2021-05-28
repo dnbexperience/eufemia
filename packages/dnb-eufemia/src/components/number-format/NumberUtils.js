@@ -34,8 +34,9 @@ const NUMBER_CHARS = '\\-0-9,.'
  * @property {boolean} nin - if true, it formats to a National Identification Number
  * @property {boolean} percent - if true, it formats with a percent
  * @property {boolean} currency - if true, it formats to a currency
- * @property {string} currency_display - use "code", "name", "symbol" or "narrowSymbol" – supports the API from number.toLocaleString
+ * @property {string} currency_display - use false or empty string to hide the sign or "code", "name", "symbol" or "narrowSymbol" – supports the API from number.toLocaleString
  * @property {string} currency_position - can be "before" or "after"
+ * @property {string} omit_currency_sign - hides currency sign if true is given
  * @property {number} decimals - defines how many decimals should be added
  * @property {boolean} omit_rounding - if true, the decimal will NOT be rounded. Normally, by using `toFixed` or by using `maximumFractionDigits`, decimals get rounded.
  * @property {object} options - accepts all number.toLocaleString API options
@@ -55,6 +56,7 @@ export const format = (
     currency = null,
     currency_display = null,
     currency_position = null,
+    omit_currency_sign = null,
     decimals = null,
     omit_rounding = null,
     options = null,
@@ -140,6 +142,10 @@ export const format = (
     let cleanedNumber =
       deci >= 0 ? value : clean ? cleanNumber(value) : value
 
+    if (currency_display === false || currency_display === '') {
+      omit_currency_sign = true
+    }
+
     // If currencyDisplay is not defined and locale is "no", use narrowSymbol
     if (
       !opts.currencyDisplay &&
@@ -165,9 +171,49 @@ export const format = (
       opts.minimumFractionDigits = 0 // to enforce Norwegian style
     }
 
-    display = formatNumber(cleanedNumber, locale, opts)
+    let formatter = undefined
+
+    if (isTrue(omit_currency_sign)) {
+      formatter = ({ type, value }) => {
+        switch (type) {
+          case 'literal':
+            return value === ' ' ? '' : value
+
+          case 'currency':
+            return ''
+
+          default:
+            return value
+        }
+      }
+    }
+
+    /**
+     * Make exception – if locale is Norwegian, and position is not defined, then use position "after"
+     */
+    if (!currency_position && locale && /(no|nb|nn)$/i.test(locale)) {
+      currency_position = 'after'
+    }
+
+    let currencySuffix = null
+    if (currency_position) {
+      formatter = currencyPositionFormatter(
+        formatter,
+        (currency) => (currencySuffix = currency.trim()),
+        currency_position
+      )
+    }
+
+    display = formatNumber(cleanedNumber, locale, opts, formatter)
     display = prepareMinus(display, locale)
-    display = prepareCurrencyPosition(display, currency_position, locale)
+
+    if (currency_position && currencySuffix) {
+      if (currency_position === 'after') {
+        display = `${display.trim()} ${currencySuffix}`
+      } else if (currency_position === 'before') {
+        display = `${currencySuffix} ${display.trim()}`
+      }
+    }
 
     // aria options
     aria = formatNumber(cleanedNumber, locale, {
@@ -230,62 +276,54 @@ export const format = (
     : display
 }
 
-const prepareCurrencyPosition = (
-  display,
-  position = null,
-  locale = null
+/**
+ * Changes the currency sign position
+ *
+ * For Norway, the position defaults to "after"
+ *
+ * @param {function} existingFormatter an existing number formatter or undefined
+ * @param {function} callback function that will emitted with the currency
+ * @param {string} position blank, before or after
+ * @returns {function} number formatter
+ */
+const currencyPositionFormatter = (
+  existingFormatter,
+  callback,
+  position = null
 ) => {
-  /**
-   * Make exception – if locale is Norwegian, and position is not defined, then use position "after"
-   */
-  if (!position && locale && /(no|nb|nn)$/i.test(locale)) {
-    position = 'after'
-  }
+  let count = 0
+  let countCurrency = -1
 
-  if (position) {
-    const sign = String(display)
-      .replace(new RegExp("([0-9\\-,.’'· ]+)", 'g'), '')
-      .trim()
-
-    const signPos = String(display).indexOf(sign)
-
-    let start = 0
-    let end = undefined
-
-    // if "NOK -123"
-    if (signPos <= 1) {
-      start = sign.length + signPos
-      end = display.length
-      // if "-123 NOK"
-    } else {
-      end = signPos
+  return ({ type, value }) => {
+    // Ensure we do not overwrite a given formatter, but run it as well
+    if (typeof existingFormatter === 'function') {
+      value = existingFormatter({ type, value })
     }
 
-    // backup / fallback
-    if (!(end > 0)) {
-      return display
-    }
+    count++
 
-    let num = String(display).substr(start, end).trim()
+    switch (type) {
+      case 'currency': {
+        if (position === 'after' || (position === 'before' && count > 2)) {
+          countCurrency = count
+          callback(value)
+          return ''
+        }
+        return value
+      }
 
-    const hasLeadingMinus = display.startsWith('-')
+      case 'literal': {
+        // Remove the literal after currency
+        if (count === countCurrency + 1) {
+          return ''
+        }
+        return value
+      }
 
-    switch (position) {
-      case 'before':
-        display = `${sign} ${num}`
-        break
-
-      case 'after':
-        display = `${num} ${sign}`
-        break
-    }
-
-    if (hasLeadingMinus) {
-      display = `-${display}`
+      default:
+        return value
     }
   }
-
-  return display.trim()
 }
 
 /**
@@ -386,7 +424,13 @@ export const formatNumber = (
      * - en
      */
     if (locale && /(en|gb)$/i.test(locale)) {
+      const existingFormatter = formatter
       formatter = ({ type, value }) => {
+        // Ensure we do not overwrite a given formatter, but run it as well
+        if (typeof existingFormatter === 'function') {
+          value = existingFormatter({ type, value })
+        }
+
         switch (type) {
           case 'group':
             return ' ' // non-breaking space

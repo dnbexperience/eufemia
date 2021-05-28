@@ -53,10 +53,12 @@ export interface formatOptionParams {
   /** currency type */
   currency?: boolean;
 
-  /** Intl.NumberFormat currency option */
+  /** Intl.NumberFormat currency option – you can use false or empty string to hide the sign/name */
   currency_display?: string;
   /** currency option */
   currency_position?: formatCurrencyPosition;
+  /** hides the currency sign */
+  omit_currency_sign?: boolean;
 
   /** Intl.NumberFormat options (NumberFormatOptions) */
   options?: object;
