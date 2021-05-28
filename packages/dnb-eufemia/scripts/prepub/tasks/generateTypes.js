@@ -54,7 +54,7 @@ export default async function generateTypes({
 function isIndexFile({ file, basename }) {
   return (
     /^index/.test(basename) ||
-    /src\/(components|fragments|extensions)\/[^.]*\.js/.test(file)
+    /src\/(components|fragments|extensions)\/[A-Z][^.]*\.js/.test(file)
   )
 }
 
