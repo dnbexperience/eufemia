@@ -22,6 +22,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
         "skeleton": "skeleton",
         "state": true,
         "status": true,
+        "stretch": "stretch",
         "text": "text",
         "text_id": "text_id",
         "title": "title",
@@ -70,6 +71,7 @@ exports[`FormStatus component have to match snapshot 1`] = `
   skeleton={null}
   state="error"
   status={null}
+  stretch={null}
   text="text"
   text_id={null}
   title={null}
@@ -330,6 +332,12 @@ exports[`FormStatus scss have to match snapshot 1`] = `
   .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
     margin-top: 0.6666666em;
     margin-bottom: 0.6666666em; }
+  .dnb-form-status--stretch {
+    flex-grow: 1; }
+  .dnb-form-status--stretch .dnb-form-status__shell {
+    width: 100%; }
+  .dnb-form-status--stretch .dnb-form-status__text {
+    max-width: 47rem; }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status__animation--fade-in {
