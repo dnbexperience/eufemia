@@ -1179,7 +1179,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 <Button
                                   aria-expanded={false}
                                   aria-label="åpne datovelger"
-                                  bounding={false}
+                                  bounding={null}
                                   class={null}
                                   className="dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button"
                                   custom_content={null}
@@ -1239,13 +1239,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   status="error"
                                   status_animation={null}
                                   status_state="error"
+                                  stretch={null}
                                   text={null}
                                   title={null}
                                   to={null}
                                   tooltip={null}
                                   type="button"
                                   variant="secondary"
-                                  wrap={false}
+                                  wrap={null}
                                 >
                                   <button
                                     aria-expanded={false}
@@ -1261,7 +1262,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                     <Content
                                       aria-expanded={false}
                                       aria-label="åpne datovelger"
-                                      bounding={false}
+                                      bounding={null}
                                       class={null}
                                       className="dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button"
                                       content={null}
@@ -1323,13 +1324,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                       status="error"
                                       status_animation={null}
                                       status_state="error"
+                                      stretch={null}
                                       text={null}
                                       title={null}
                                       to={null}
                                       tooltip={null}
                                       type="button"
                                       variant="secondary"
-                                      wrap={false}
+                                      wrap={null}
                                     >
                                       <span
                                         className="dnb-button__alignment"
@@ -1918,6 +1920,8 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
+  .dnb-button--stretch {
+    width: 100%; }
   .dnb-button--reset {
     margin: 0;
     padding: 0;

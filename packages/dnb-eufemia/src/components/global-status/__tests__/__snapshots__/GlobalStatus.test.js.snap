@@ -437,6 +437,8 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
+  .dnb-button--stretch {
+    width: 100%; }
   .dnb-button--reset {
     margin: 0;
     padding: 0;
@@ -879,7 +881,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                 title="close_text"
               >
                 <Button
-                  bounding={false}
+                  bounding={null}
                   class={null}
                   className="dnb-modal__close-button dnb-global-status__close-button"
                   custom_content={null}
@@ -902,13 +904,14 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                   status={null}
                   status_animation={null}
                   status_state="error"
+                  stretch={null}
                   text="close_text"
                   title="close_text"
                   to={null}
                   tooltip={null}
                   type="button"
                   variant="tertiary"
-                  wrap={false}
+                  wrap={null}
                 >
                   <button
                     className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-large"
@@ -918,7 +921,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                     type="button"
                   >
                     <Content
-                      bounding={false}
+                      bounding={null}
                       class={null}
                       className="dnb-modal__close-button dnb-global-status__close-button"
                       content="close_text"
@@ -943,13 +946,14 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                       status={null}
                       status_animation={null}
                       status_state="error"
+                      stretch={null}
                       text="close_text"
                       title="close_text"
                       to={null}
                       tooltip={null}
                       type="button"
                       variant="tertiary"
-                      wrap={false}
+                      wrap={null}
                     >
                       <span
                         className="dnb-button__alignment"
@@ -1200,7 +1204,7 @@ Array [
                   title="Lukk"
                 >
                   <Button
-                    bounding={false}
+                    bounding={null}
                     class={null}
                     className="dnb-modal__close-button dnb-global-status__close-button"
                     custom_content={null}
@@ -1223,13 +1227,14 @@ Array [
                     status={null}
                     status_animation={null}
                     status_state="error"
+                    stretch={null}
                     text="Lukk"
                     title="Lukk"
                     to={null}
                     tooltip={null}
                     type="button"
                     variant="tertiary"
-                    wrap={false}
+                    wrap={null}
                   >
                     <button
                       className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-large"
@@ -1239,7 +1244,7 @@ Array [
                       type="button"
                     >
                       <Content
-                        bounding={false}
+                        bounding={null}
                         class={null}
                         className="dnb-modal__close-button dnb-global-status__close-button"
                         content="Lukk"
@@ -1264,13 +1269,14 @@ Array [
                         status={null}
                         status_animation={null}
                         status_state="error"
+                        stretch={null}
                         text="Lukk"
                         title="Lukk"
                         to={null}
                         tooltip={null}
                         type="button"
                         variant="tertiary"
-                        wrap={false}
+                        wrap={null}
                       >
                         <span
                           className="dnb-button__alignment"

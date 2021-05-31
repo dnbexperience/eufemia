@@ -463,7 +463,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 aria-expanded={true}
                 aria-haspopup="listbox"
                 aria-labelledby="dropdown-id-label dropdown-id"
-                bounding={false}
+                bounding={null}
                 class={null}
                 className="dnb-dropdown__trigger dnb-button--active"
                 custom_content={
@@ -521,13 +521,14 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 status={null}
                 status_animation={null}
                 status_state="error"
+                stretch={null}
                 text={null}
                 title={null}
                 to={null}
                 tooltip={null}
                 type={null}
                 variant="secondary"
-                wrap={false}
+                wrap={null}
               >
                 <button
                   aria-controls="dropdown-id-drawer-list"
@@ -550,7 +551,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     aria-expanded={true}
                     aria-haspopup="listbox"
                     aria-labelledby="dropdown-id-label dropdown-id"
-                    bounding={false}
+                    bounding={null}
                     class={null}
                     className="dnb-dropdown__trigger dnb-button--active"
                     content={null}
@@ -610,13 +611,14 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     status={null}
                     status_animation={null}
                     status_state="error"
+                    stretch={null}
                     text={null}
                     title={null}
                     to={null}
                     tooltip={null}
                     type={null}
                     variant="secondary"
-                    wrap={false}
+                    wrap={null}
                   >
                     <span
                       className="dnb-dropdown__text dnb-button__text"
@@ -1719,6 +1721,8 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
+  .dnb-button--stretch {
+    width: 100%; }
   .dnb-button--reset {
     margin: 0;
     padding: 0;

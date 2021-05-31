@@ -37,6 +37,15 @@ describe('Button primary screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match a stretched button', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        'min-width': '20rem',
+      },
+      selector: '[data-visual-test="button-stretch"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 
   // "active" simulation is suddenly too unstable – no reason found
   if (!isCI) {

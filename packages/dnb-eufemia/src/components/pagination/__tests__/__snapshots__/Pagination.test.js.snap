@@ -562,7 +562,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             className="dnb-pagination__bar"
           >
             <Button
-              bounding={false}
+              bounding={null}
               class={null}
               className="dnb-pagination__button"
               custom_content={null}
@@ -586,13 +586,14 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               status={null}
               status_animation={null}
               status_state="error"
+              stretch={null}
               text={null}
               title={null}
               to={null}
               tooltip={null}
               type={null}
               variant={null}
-              wrap={false}
+              wrap={null}
             >
               <button
                 aria-disabled={true}
@@ -602,7 +603,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                 type="button"
               >
                 <Content
-                  bounding={false}
+                  bounding={null}
                   class={null}
                   className="dnb-pagination__button"
                   content={null}
@@ -627,13 +628,14 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   status={null}
                   status_animation={null}
                   status_state="error"
+                  stretch={null}
                   text={null}
                   title={null}
                   to={null}
                   tooltip={null}
                   type={null}
                   variant={null}
-                  wrap={false}
+                  wrap={null}
                 >
                   <span
                     className="dnb-button__alignment"
@@ -690,7 +692,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               className="dnb-pagination__bar__inner"
             />
             <Button
-              bounding={false}
+              bounding={null}
               class={null}
               className="dnb-pagination__button"
               custom_content={null}
@@ -714,13 +716,14 @@ exports[`Pagination bar component have to match snapshot 1`] = `
               status={null}
               status_animation={null}
               status_state="error"
+              stretch={null}
               text={null}
               title="Neste side"
               to={null}
               tooltip={null}
               type={null}
               variant={null}
-              wrap={false}
+              wrap={null}
             >
               <button
                 className="dnb-button dnb-button--secondary dnb-pagination__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
@@ -730,7 +733,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                 type="button"
               >
                 <Content
-                  bounding={false}
+                  bounding={null}
                   class={null}
                   className="dnb-pagination__button"
                   content={null}
@@ -755,13 +758,14 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                   status={null}
                   status_animation={null}
                   status_state="error"
+                  stretch={null}
                   text={null}
                   title="Neste side"
                   to={null}
                   tooltip={null}
                   type={null}
                   variant={null}
-                  wrap={false}
+                  wrap={null}
                 >
                   <span
                     className="dnb-button__alignment"
@@ -1376,6 +1380,8 @@ exports[`Pagination scss have to match snapshot 1`] = `
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
+  .dnb-button--stretch {
+    width: 100%; }
   .dnb-button--reset {
     margin: 0;
     padding: 0;
