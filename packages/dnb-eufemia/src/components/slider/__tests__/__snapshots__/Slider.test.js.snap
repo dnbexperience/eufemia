@@ -80,7 +80,7 @@ exports[`Slider component have to match snapshot 1`] = `
       >
         <Button
           aria-label="subtract_title"
-          bounding={false}
+          bounding={null}
           class={null}
           className="dnb-slider__button dnb-slider__button--subtract"
           custom_content={null}
@@ -103,13 +103,14 @@ exports[`Slider component have to match snapshot 1`] = `
           status={null}
           status_animation={null}
           status_state="error"
+          stretch={null}
           text={null}
           title={null}
           to={null}
           tooltip={null}
           type={null}
           variant="secondary"
-          wrap={false}
+          wrap={null}
         >
           <button
             aria-label="subtract_title"
@@ -120,7 +121,7 @@ exports[`Slider component have to match snapshot 1`] = `
           >
             <Content
               aria-label="subtract_title"
-              bounding={false}
+              bounding={null}
               class={null}
               className="dnb-slider__button dnb-slider__button--subtract"
               content={null}
@@ -145,13 +146,14 @@ exports[`Slider component have to match snapshot 1`] = `
               status={null}
               status_animation={null}
               status_state="error"
+              stretch={null}
               text={null}
               title={null}
               to={null}
               tooltip={null}
               type={null}
               variant="secondary"
-              wrap={false}
+              wrap={null}
             >
               <span
                 className="dnb-button__alignment"
@@ -232,7 +234,7 @@ exports[`Slider component have to match snapshot 1`] = `
             />
             <Button
               aria-hidden={true}
-              bounding={false}
+              bounding={null}
               class={null}
               className={null}
               custom_content={null}
@@ -258,6 +260,7 @@ exports[`Slider component have to match snapshot 1`] = `
               status={null}
               status_animation={null}
               status_state="error"
+              stretch={null}
               tabIndex="-1"
               text={null}
               title="thump_title"
@@ -265,7 +268,7 @@ exports[`Slider component have to match snapshot 1`] = `
               tooltip={null}
               type={null}
               variant="secondary"
-              wrap={false}
+              wrap={null}
             >
               <button
                 aria-hidden={true}
@@ -281,7 +284,7 @@ exports[`Slider component have to match snapshot 1`] = `
               >
                 <Content
                   aria-hidden={true}
-                  bounding={false}
+                  bounding={null}
                   class={null}
                   className={null}
                   content={null}
@@ -309,6 +312,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   status={null}
                   status_animation={null}
                   status_state="error"
+                  stretch={null}
                   tabIndex="-1"
                   text={null}
                   title="thump_title"
@@ -316,7 +320,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   tooltip={null}
                   type={null}
                   variant="secondary"
-                  wrap={false}
+                  wrap={null}
                 />
               </button>
             </Button>
@@ -342,7 +346,7 @@ exports[`Slider component have to match snapshot 1`] = `
         </span>
         <Button
           aria-label="add_title"
-          bounding={false}
+          bounding={null}
           class={null}
           className="dnb-slider__button dnb-slider__button--add"
           custom_content={null}
@@ -365,13 +369,14 @@ exports[`Slider component have to match snapshot 1`] = `
           status={null}
           status_animation={null}
           status_state="error"
+          stretch={null}
           text={null}
           title={null}
           to={null}
           tooltip={null}
           type={null}
           variant="secondary"
-          wrap={false}
+          wrap={null}
         >
           <button
             aria-label="add_title"
@@ -382,7 +387,7 @@ exports[`Slider component have to match snapshot 1`] = `
           >
             <Content
               aria-label="add_title"
-              bounding={false}
+              bounding={null}
               class={null}
               className="dnb-slider__button dnb-slider__button--add"
               content={null}
@@ -407,13 +412,14 @@ exports[`Slider component have to match snapshot 1`] = `
               status={null}
               status_animation={null}
               status_state="error"
+              stretch={null}
               text={null}
               title={null}
               to={null}
               tooltip={null}
               type={null}
               variant="secondary"
-              wrap={false}
+              wrap={null}
             >
               <span
                 className="dnb-button__alignment"
@@ -892,6 +898,8 @@ exports[`Slider scss have to match snapshot 1`] = `
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
+  .dnb-button--stretch {
+    width: 100%; }
   .dnb-button--reset {
     margin: 0;
     padding: 0;

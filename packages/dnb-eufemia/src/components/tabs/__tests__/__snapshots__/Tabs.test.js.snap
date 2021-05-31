@@ -82,6 +82,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                 status={null}
                 status_animation={null}
                 status_state="error"
+                stretch={null}
                 tabIndex="-1"
                 text={null}
                 title={null}
@@ -89,7 +90,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                 tooltip={null}
                 type={null}
                 variant="primary"
-                wrap={false}
+                wrap={null}
               >
                 <button
                   aria-hidden={true}
@@ -128,6 +129,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                     status={null}
                     status_animation={null}
                     status_state="error"
+                    stretch={null}
                     tabIndex="-1"
                     text={null}
                     title={null}
@@ -135,7 +137,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                     tooltip={null}
                     type={null}
                     variant="primary"
-                    wrap={false}
+                    wrap={null}
                   >
                     <span
                       className="dnb-button__bounding"
@@ -331,6 +333,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                 status={null}
                 status_animation={null}
                 status_state="error"
+                stretch={null}
                 tabIndex="-1"
                 text={null}
                 title={null}
@@ -338,7 +341,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                 tooltip={null}
                 type={null}
                 variant="primary"
-                wrap={false}
+                wrap={null}
               >
                 <button
                   aria-hidden={true}
@@ -377,6 +380,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                     status={null}
                     status_animation={null}
                     status_state="error"
+                    stretch={null}
                     tabIndex="-1"
                     text={null}
                     title={null}
@@ -384,7 +388,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                     tooltip={null}
                     type={null}
                     variant="primary"
-                    wrap={false}
+                    wrap={null}
                   >
                     <span
                       className="dnb-button__bounding"
@@ -609,6 +613,7 @@ exports[`Tabs component have to match snapshot 1`] = `
               status={null}
               status_animation={null}
               status_state="error"
+              stretch={null}
               tabIndex="-1"
               text={null}
               title={null}
@@ -616,7 +621,7 @@ exports[`Tabs component have to match snapshot 1`] = `
               tooltip={null}
               type={null}
               variant="primary"
-              wrap={false}
+              wrap={null}
             >
               <button
                 aria-hidden={true}
@@ -655,6 +660,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                   status={null}
                   status_animation={null}
                   status_state="error"
+                  stretch={null}
                   tabIndex="-1"
                   text={null}
                   title={null}
@@ -662,7 +668,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                   tooltip={null}
                   type={null}
                   variant="primary"
-                  wrap={false}
+                  wrap={null}
                 >
                   <span
                     className="dnb-button__bounding"
@@ -858,6 +864,7 @@ exports[`Tabs component have to match snapshot 1`] = `
               status={null}
               status_animation={null}
               status_state="error"
+              stretch={null}
               tabIndex="-1"
               text={null}
               title={null}
@@ -865,7 +872,7 @@ exports[`Tabs component have to match snapshot 1`] = `
               tooltip={null}
               type={null}
               variant="primary"
-              wrap={false}
+              wrap={null}
             >
               <button
                 aria-hidden={true}
@@ -904,6 +911,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                   status={null}
                   status_animation={null}
                   status_state="error"
+                  stretch={null}
                   tabIndex="-1"
                   text={null}
                   title={null}
@@ -911,7 +919,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                   tooltip={null}
                   type={null}
                   variant="primary"
-                  wrap={false}
+                  wrap={null}
                 >
                   <span
                     className="dnb-button__bounding"
