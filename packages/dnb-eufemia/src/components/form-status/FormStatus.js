@@ -100,7 +100,7 @@ export default class FormStatus extends React.PureComponent {
     class: null,
     animation: null, // could be 'fade-in'
     skeleton: null,
-    role: 'alert',
+    role: null,
 
     className: null,
     children: null,
@@ -124,17 +124,27 @@ export default class FormStatus extends React.PureComponent {
     return processChildren(props)
   }
 
+  static correctStatus(state) {
+    switch (state) {
+      case 'information':
+        state = 'info'
+        break
+      case 'warning':
+        state = 'warn'
+        break
+    }
+    return state
+  }
+
   static getIcon({ state, icon, icon_size }) {
     if (typeof icon === 'string') {
       let IconToLoad = icon
 
-      switch (state) {
+      switch (FormStatus.correctStatus(state)) {
         case 'info':
-        case 'information':
           IconToLoad = InfoIcon
           break
         case 'warn':
-        case 'warning':
           IconToLoad = WarnIcon
           break
         case 'error':
@@ -254,18 +264,6 @@ export default class FormStatus extends React.PureComponent {
     this.updateWidth()
   }
 
-  correctStatus(state) {
-    switch (state) {
-      case 'information':
-        state = 'info'
-        break
-      case 'warning':
-        state = 'warn'
-        break
-    }
-    return state
-  }
-
   updateWidth() {
     // set max-width to this form-status, using the "linked mother"
     if (this._ref.current) {
@@ -312,7 +310,7 @@ export default class FormStatus extends React.PureComponent {
       ...rest
     } = props
 
-    const state = this.correctStatus(rawStatus || rawState)
+    const state = FormStatus.correctStatus(rawStatus || rawState)
     const iconToRender = FormStatus.getIcon({
       state,
       icon,
@@ -343,11 +341,19 @@ export default class FormStatus extends React.PureComponent {
         _className
       ),
       title,
+      role,
 
       ...rest,
     }
-    if (role) {
-      params.role = role
+
+    if (!role) {
+      switch (state) {
+        case 'info':
+          params.role = 'status'
+          break
+        default:
+          params.role = 'alert'
+      }
     }
 
     const textParams = {

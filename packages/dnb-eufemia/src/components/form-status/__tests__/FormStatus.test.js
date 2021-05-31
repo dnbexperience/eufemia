@@ -115,14 +115,22 @@ describe('FormStatus role', () => {
     ).toBe('alert')
   })
 
+  it('should have role status when state is info', () => {
+    const Comp = mount(<Component text="status text" state="info" />)
+
+    expect(
+      Comp.find('.dnb-form-status').instance().getAttribute('role')
+    ).toBe('status')
+  })
+
   it('should be able to override role', () => {
-    const Comp = mount(<Component role='generic' text="status text" />)
+    const Comp = mount(<Component role="none" text="status text" />)
 
     expect(
       Comp.find('.dnb-form-status').instance().getAttribute('role')
     ).not.toBe('alert')
     expect(
       Comp.find('.dnb-form-status').instance().getAttribute('role')
-    ).toBe('generic')
+    ).toBe('none')
   })
 })

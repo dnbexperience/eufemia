@@ -1439,7 +1439,7 @@ Array [
                 Label
               </span>
             }
-            role="alert"
+            role={null}
             size="default"
             skeleton={null}
             state="error"
