@@ -7,6 +7,7 @@ redirect_from:
 import {
 FormStatusDefault,
 FormStatusWithInfo,
+FormStatusWithStretch,
 FormStatusWithWarn,
 FormSetDefaultInput,
 FormStatusCustom,
@@ -23,6 +24,12 @@ FormStatusWithIcons,
 ### FormStatus displaying info status
 
 <FormStatusWithInfo />
+
+### A stretched and independent FormStatus
+
+NB: The inner text gets a max width of 47rem to ensure we not exceed 70 characters limit per line.
+
+<FormStatusWithStretch />
 
 ### FormStatus displaying warn status
 
