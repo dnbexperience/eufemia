@@ -17,6 +17,7 @@ ButtonCustomContent,
 ButtonSignal,
 ButtonSignalLarge,
 ButtonIcon,
+ButtonStretch,
 TertiaryWithNoIcon,
 } from 'Pages/uilib/components/button/Examples'
 
@@ -80,10 +81,11 @@ Large Signal button with medium sized icon. To import custom icons, use: `import
 
 <ButtonIcon />
 
-<TertiaryWithNoIcon />
-
 ### Custom button content
 
 This is, as all of the demos, only an example how to achieve various needs, and not that you should do it.
 
 <ButtonCustomContent />
+
+<ButtonStretch />
+<TertiaryWithNoIcon />

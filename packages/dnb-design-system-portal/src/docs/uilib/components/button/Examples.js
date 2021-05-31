@@ -263,3 +263,21 @@ export const TertiaryWithNoIcon = () => {
     </ComponentBox>
   )
 }
+
+export const ButtonStretch = () => {
+  if (!(typeof window !== 'undefined' && window.IS_TEST)) {
+    return <></>
+  }
+  return (
+    <ComponentBox title="Button with stretch property" scope={{ Bell }}>
+      {() => /* jsx */ `
+<Button
+  text="A stretched button"
+  icon={<Bell />}
+  size="large"
+  data-visual-test="button-stretch"
+/>
+`}
+    </ComponentBox>
+  )
+}
