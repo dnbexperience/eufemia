@@ -317,7 +317,7 @@ export default class Button extends React.PureComponent {
     }
 
     if (Element !== Anchor && !params.type) {
-      params.type = 'button'
+      params.type = params.type === '' ? undefined : 'button'
     }
 
     skeletonDOMAttributes(params, skeleton, this.context)
