@@ -63,7 +63,7 @@ const setOverflowHiddenPc = () => {
     $body.style.overflow = 'hidden'
     $body.style.height = 'auto'
     $body.style.boxSizing = 'border-box'
-    $body.style.paddingRight = `${scrollBarWidth}px`
+    $body.style.marginRight = `${scrollBarWidth}px`
 
     return () => {
       try {
@@ -71,7 +71,7 @@ const setOverflowHiddenPc = () => {
         ;['height', 'overflow'].forEach((x) => {
           $html.style[x] = htmlStyle[x] || ''
         })
-        ;['overflow', 'height', 'boxSizing', 'paddingRight'].forEach(
+        ;['overflow', 'height', 'boxSizing', 'marginRight'].forEach(
           (x) => {
             $body.style[x] = bodyStyle[x] || ''
           }
@@ -114,8 +114,8 @@ const setOverflowHiddenMobile = () => {
           }
         )
 
-        const scrollBehavior = window.getComputedStyle($html)
-          .scrollBehavior
+        const scrollBehavior =
+          window.getComputedStyle($html).scrollBehavior
         $html.style.scrollBehavior = 'auto'
         $html.scrollTop = scrollTop
         $html.style.scrollBehavior = scrollBehavior
