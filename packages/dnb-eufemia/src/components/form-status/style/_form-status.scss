@@ -68,6 +68,17 @@
   //   margin: 0.6666666em 0.3333333em 0.6666666em 0.9999999em;
   // }
 
+  // Stretch support
+  &--stretch {
+    flex-grow: 1;
+  }
+  &--stretch &__shell {
+    width: 100%;
+  }
+  &--stretch &__text {
+    max-width: 47rem;
+  }
+
   &[hidden] {
     display: none;
   }

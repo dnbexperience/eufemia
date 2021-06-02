@@ -68,6 +68,7 @@ export default class FormStatus extends React.PureComponent {
     class: PropTypes.string,
     animation: PropTypes.string,
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     role: PropTypes.string,
 
     ...spacingPropTypes,
@@ -100,6 +101,7 @@ export default class FormStatus extends React.PureComponent {
     class: null,
     animation: null, // could be 'fade-in'
     skeleton: null,
+    stretch: null,
     role: null,
 
     className: null,
@@ -295,6 +297,7 @@ export default class FormStatus extends React.PureComponent {
       hidden,
       className,
       animation,
+      stretch,
       class: _className,
       text_id,
 
@@ -335,6 +338,7 @@ export default class FormStatus extends React.PureComponent {
         `dnb-form-status__size--${size}`,
         variant && `dnb-form-status__variant--${variant}`,
         animation ? `dnb-form-status__animation--${animation}` : null,
+        stretch && 'dnb-form-status--stretch',
         hasStringContent ? 'dnb-form-status--has-content' : null,
         createSpacingClasses(props),
         className,

@@ -27,6 +27,16 @@ describe('FormStatus screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match with stretch prop', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        'min-width': '60rem',
+      },
+      selector:
+        '[data-visual-test="form-status-stretch"] .dnb-form-status',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match the warn state', async () => {
     const screenshot = await testPageScreenshot({
       style,
