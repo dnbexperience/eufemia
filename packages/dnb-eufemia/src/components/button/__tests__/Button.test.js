@@ -113,6 +113,11 @@ describe('Button component', () => {
     )
   })
 
+  it('should be able to omit button type', () => {
+    const Comp = mount(<Component type="" />)
+    expect(Comp.find('button').instance().hasAttribute('type')).toBe(false)
+  })
+
   it('has "on_click" event which will trigger on a click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
