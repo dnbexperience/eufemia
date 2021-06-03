@@ -81,9 +81,8 @@ export default class ProgressIndicator extends React.PureComponent {
       if (state.visible) {
         state.complete = false
       }
-      if (parseFloat(props.progress) > -1) {
-        state.progress = props.progress
-      }
+      state.progress =
+        parseFloat(props.progress) > -1 ? props.progress : undefined
     }
     state._listenForPropChanges = true
     return state

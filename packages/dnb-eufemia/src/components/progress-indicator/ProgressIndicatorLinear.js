@@ -66,18 +66,19 @@ export default class ProgressIndicatorLinear extends React.PureComponent {
 
     const { progress } = this.state
 
-    const hasProgressIndicator = parseFloat(progress) > -1
+    const hasProgressValue = parseFloat(progress) > -1
 
     const transform = `translateX(${(progress || 0) - 100}%)`
 
     const params = { ...rest }
-    if (hasProgressIndicator) {
-      params.role = 'alert'
-      params['title'] = `${progress}%`
-      params['aria-busy'] = true
+
+    if (hasProgressValue) {
+      params.role = 'progressbar'
       params['aria-label'] = `${progress}%`
+      params['title'] = `${progress}%`
     } else {
-      params['aria-hidden'] = true
+      params.role = 'alert'
+      params['aria-busy'] = true
     }
 
     validateDOMAttributes(this.props, params)
@@ -93,14 +94,14 @@ export default class ProgressIndicatorLinear extends React.PureComponent {
         <div
           className={classnames(
             'dnb-progress-indicator__linear__bar',
-            hasProgressIndicator &&
+            hasProgressValue &&
               'dnb-progress-indicator__linear__bar-transition',
-            !hasProgressIndicator &&
+            !hasProgressValue &&
               'dnb-progress-indicator__linear__bar1-animation'
           )}
-          style={hasProgressIndicator ? { transform } : {}}
+          style={hasProgressValue ? { transform } : {}}
         />
-        {!hasProgressIndicator && (
+        {!hasProgressValue && (
           <div
             className={classnames(
               'dnb-progress-indicator__linear__bar',
