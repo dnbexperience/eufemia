@@ -168,7 +168,7 @@ exports[`Modal component have to match snapshot 1`] = `
     <Button
       aria-label="modal_title"
       aria-roledescription="Hjelp-knapp"
-      bounding={false}
+      bounding={null}
       class={null}
       className="dnb-help-button dnb-modal__trigger"
       custom_content={null}
@@ -230,13 +230,14 @@ exports[`Modal component have to match snapshot 1`] = `
       status={null}
       status_animation={null}
       status_state="error"
+      stretch={null}
       text={null}
       title="modal_title"
       to={null}
       tooltip={null}
       type={null}
       variant="secondary"
-      wrap={false}
+      wrap={null}
     >
       <button
         aria-label="modal_title"
@@ -252,7 +253,7 @@ exports[`Modal component have to match snapshot 1`] = `
         <Content
           aria-label="modal_title"
           aria-roledescription="Hjelp-knapp"
-          bounding={false}
+          bounding={null}
           class={null}
           className="dnb-help-button dnb-modal__trigger"
           content={null}
@@ -316,13 +317,14 @@ exports[`Modal component have to match snapshot 1`] = `
           status={null}
           status_animation={null}
           status_state="error"
+          stretch={null}
           text={null}
           title="modal_title"
           to={null}
           tooltip={null}
           type={null}
           variant="secondary"
-          wrap={false}
+          wrap={null}
         >
           <span
             className="dnb-button__alignment"
@@ -630,7 +632,7 @@ exports[`Modal component have to match snapshot 1`] = `
                   size="large"
                 >
                   <Button
-                    bounding={false}
+                    bounding={null}
                     class={null}
                     className="dnb-modal__close-button"
                     custom_content={null}
@@ -653,13 +655,14 @@ exports[`Modal component have to match snapshot 1`] = `
                     status={null}
                     status_animation={null}
                     status_state="error"
+                    stretch={null}
                     text="close_title"
                     title={null}
                     to={null}
                     tooltip={null}
                     type="button"
                     variant="tertiary"
-                    wrap={false}
+                    wrap={null}
                   >
                     <button
                       className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-large"
@@ -668,7 +671,7 @@ exports[`Modal component have to match snapshot 1`] = `
                       type="button"
                     >
                       <Content
-                        bounding={false}
+                        bounding={null}
                         class={null}
                         className="dnb-modal__close-button"
                         content="close_title"
@@ -693,13 +696,14 @@ exports[`Modal component have to match snapshot 1`] = `
                         status={null}
                         status_animation={null}
                         status_state="error"
+                        stretch={null}
                         text="close_title"
                         title={null}
                         to={null}
                         tooltip={null}
                         type="button"
                         variant="tertiary"
-                        wrap={false}
+                        wrap={null}
                       >
                         <span
                           className="dnb-button__alignment"
@@ -955,6 +959,12 @@ exports[`Modal scss have to match snapshot 1`] = `
   .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
     margin-top: 0.6666666em;
     margin-bottom: 0.6666666em; }
+  .dnb-form-status--stretch {
+    flex-grow: 1; }
+  .dnb-form-status--stretch .dnb-form-status__shell {
+    width: 100%; }
+  .dnb-form-status--stretch .dnb-form-status__text {
+    max-width: 47rem; }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status__animation--fade-in {
@@ -1152,6 +1162,8 @@ exports[`Modal scss have to match snapshot 1`] = `
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
+  .dnb-button--stretch {
+    width: 100%; }
   .dnb-button--reset {
     margin: 0;
     padding: 0;

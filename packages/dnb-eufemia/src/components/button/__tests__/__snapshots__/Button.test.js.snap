@@ -107,6 +107,7 @@ exports[`Button component have to match default button snapshot 1`] = `
   status={null}
   status_animation="status_animation"
   status_state="status_state"
+  stretch="stretch"
   text={null}
   title="This is a button title"
   to={null}
@@ -231,6 +232,7 @@ exports[`Button component have to match default button snapshot 1`] = `
       status={null}
       status_animation="status_animation"
       status_state="status_state"
+      stretch="stretch"
       text={null}
       title="This is a button title"
       to={null}
@@ -406,6 +408,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   status={null}
   status_animation="status_animation"
   status_state="status_state"
+  stretch="stretch"
   text={null}
   title="This is a button title"
   to={null}
@@ -728,6 +731,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
               status={null}
               status_animation="status_animation"
               status_state="status_state"
+              stretch="stretch"
               text={null}
               title="This is a button title"
               to={null}
@@ -1546,6 +1550,12 @@ exports[`Button scss have to match snapshot 1`] = `
   .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
     margin-top: 0.6666666em;
     margin-bottom: 0.6666666em; }
+  .dnb-form-status--stretch {
+    flex-grow: 1; }
+  .dnb-form-status--stretch .dnb-form-status__shell {
+    width: 100%; }
+  .dnb-form-status--stretch .dnb-form-status__text {
+    max-width: 47rem; }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status__animation--fade-in {
@@ -1743,6 +1753,8 @@ exports[`Button scss have to match snapshot 1`] = `
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
+  .dnb-button--stretch {
+    width: 100%; }
   .dnb-button--reset {
     margin: 0;
     padding: 0;

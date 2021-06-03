@@ -184,6 +184,12 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
     margin-top: 0.6666666em;
     margin-bottom: 0.6666666em; }
+  .dnb-form-status--stretch {
+    flex-grow: 1; }
+  .dnb-form-status--stretch .dnb-form-status__shell {
+    width: 100%; }
+  .dnb-form-status--stretch .dnb-form-status__text {
+    max-width: 47rem; }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status__animation--fade-in {
@@ -381,6 +387,8 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
+  .dnb-button--stretch {
+    width: 100%; }
   .dnb-button--reset {
     margin: 0;
     padding: 0;
@@ -555,7 +563,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
       className="dnb-global-error__inner"
     >
       <Button
-        bounding={false}
+        bounding={null}
         class={null}
         className="dnb-global-error__back"
         custom_content={null}
@@ -578,13 +586,14 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
         status={null}
         status_animation={null}
         status_state="error"
+        stretch={null}
         text="back"
         title={null}
         to={null}
         tooltip={null}
         type={null}
         variant="tertiary"
-        wrap={false}
+        wrap={null}
       >
         <ForwardRef
           className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
@@ -770,7 +779,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                   onClick={[Function]}
                 >
                   <Content
-                    bounding={false}
+                    bounding={null}
                     class={null}
                     className="dnb-global-error__back"
                     content="back"
@@ -795,13 +804,14 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                     status={null}
                     status_animation={null}
                     status_state="error"
+                    stretch={null}
                     text="back"
                     title={null}
                     to={null}
                     tooltip={null}
                     type={null}
                     variant="tertiary"
-                    wrap={false}
+                    wrap={null}
                   >
                     <span
                       className="dnb-button__alignment"

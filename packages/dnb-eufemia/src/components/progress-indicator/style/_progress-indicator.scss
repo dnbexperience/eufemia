@@ -90,7 +90,7 @@
       animation-play-state: paused;
     }
     // for static progress-indicator animation
-    &--has-progress-indicator &__line.dark {
+    &--has-progress-value &__line.dark {
       transition: stroke-dashoffset 600ms var(--progress-indicator-timing);
     }
 
@@ -142,22 +142,24 @@
     }
   }
 
+  &,
+  &--visible {
+    opacity: 0;
+    animation: progress-indicator-fade-in 200ms ease-out 1 forwards;
+  }
+  &--complete:not(#{&}--visible) {
+    animation: progress-indicator-fade-out 600ms ease-out 1 forwards;
+  }
+  &--no-animation {
+    animation-duration: 0ms;
+  }
+
   html[data-visual-test] &__circular__line {
     animation-duration: 0ms;
     animation-iteration-count: 0;
   }
-
   html[data-visual-test] &__bar-transition {
     transition: none;
-  }
-
-  &:not(#{&}--no-animation),
-  &--visible:not(#{&}--no-animation) {
-    opacity: 0;
-    animation: progress-indicator-fade-in 200ms ease-out 1 forwards;
-  }
-  &--complete:not(#{&}--no-animation):not(#{&}--visible) {
-    animation: progress-indicator-fade-out 600ms ease-out 1 forwards;
   }
 
   &--full-width {

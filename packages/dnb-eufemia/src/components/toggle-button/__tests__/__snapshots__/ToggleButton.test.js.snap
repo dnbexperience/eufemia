@@ -75,7 +75,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
         <Button
           aria-describedby="toggle-button-suffix"
           aria-pressed="false"
-          bounding={false}
+          bounding={null}
           class={null}
           className="dnb-toggle-button__button"
           custom_content={
@@ -133,13 +133,14 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           status={null}
           status_animation={null}
           status_state="error"
+          stretch={null}
           text="text"
           title="title"
           to={null}
           tooltip={null}
           type={null}
           variant="secondary"
-          wrap={false}
+          wrap={null}
         >
           <button
             aria-describedby="toggle-button-suffix"
@@ -156,7 +157,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
             <Content
               aria-describedby="toggle-button-suffix"
               aria-pressed="false"
-              bounding={false}
+              bounding={null}
               class={null}
               className="dnb-toggle-button__button"
               content="text"
@@ -216,13 +217,14 @@ exports[`ToggleButton component have to match snapshot 1`] = `
               status={null}
               status_animation={null}
               status_state="error"
+              stretch={null}
               text="text"
               title="title"
               to={null}
               tooltip={null}
               type={null}
               variant="secondary"
-              wrap={false}
+              wrap={null}
             >
               <span
                 className="dnb-toggle-button__component"
@@ -569,7 +571,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                           </AlignmentHelper>
                           <Button
                             aria-pressed="true"
-                            bounding={false}
+                            bounding={null}
                             class={null}
                             className="dnb-toggle-button__button"
                             custom_content={
@@ -628,13 +630,14 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                             status={null}
                             status_animation={null}
                             status_state="error"
+                            stretch={null}
                             text="ToggleButton 1"
                             title={null}
                             to={null}
                             tooltip={null}
                             type={null}
                             variant="secondary"
-                            wrap={false}
+                            wrap={null}
                           >
                             <button
                               aria-pressed="true"
@@ -648,7 +651,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                             >
                               <Content
                                 aria-pressed="true"
-                                bounding={false}
+                                bounding={null}
                                 class={null}
                                 className="dnb-toggle-button__button"
                                 content="ToggleButton 1"
@@ -709,13 +712,14 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                 status={null}
                                 status_animation={null}
                                 status_state="error"
+                                stretch={null}
                                 text="ToggleButton 1"
                                 title={null}
                                 to={null}
                                 tooltip={null}
                                 type={null}
                                 variant="secondary"
-                                wrap={false}
+                                wrap={null}
                               >
                                 <span
                                   className="dnb-toggle-button__component"
@@ -871,7 +875,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                           </AlignmentHelper>
                           <Button
                             aria-pressed="true"
-                            bounding={false}
+                            bounding={null}
                             class={null}
                             className="dnb-toggle-button__button"
                             custom_content={
@@ -930,13 +934,14 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                             status={null}
                             status_animation={null}
                             status_state="error"
+                            stretch={null}
                             text="ToggleButton 2"
                             title={null}
                             to={null}
                             tooltip={null}
                             type={null}
                             variant="secondary"
-                            wrap={false}
+                            wrap={null}
                           >
                             <button
                               aria-pressed="true"
@@ -950,7 +955,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                             >
                               <Content
                                 aria-pressed="true"
-                                bounding={false}
+                                bounding={null}
                                 class={null}
                                 className="dnb-toggle-button__button"
                                 content="ToggleButton 2"
@@ -1011,13 +1016,14 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                 status={null}
                                 status_animation={null}
                                 status_state="error"
+                                stretch={null}
                                 text="ToggleButton 2"
                                 title={null}
                                 to={null}
                                 tooltip={null}
                                 type={null}
                                 variant="secondary"
-                                wrap={false}
+                                wrap={null}
                               >
                                 <span
                                   className="dnb-toggle-button__component"
@@ -1654,6 +1660,12 @@ legend.dnb-form-label {
   .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
     margin-top: 0.6666666em;
     margin-bottom: 0.6666666em; }
+  .dnb-form-status--stretch {
+    flex-grow: 1; }
+  .dnb-form-status--stretch .dnb-form-status__shell {
+    width: 100%; }
+  .dnb-form-status--stretch .dnb-form-status__text {
+    max-width: 47rem; }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status__animation--fade-in {
@@ -1851,6 +1863,8 @@ legend.dnb-form-label {
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
+  .dnb-button--stretch {
+    width: 100%; }
   .dnb-button--reset {
     margin: 0;
     padding: 0;

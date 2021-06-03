@@ -310,11 +310,12 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             icon_size="medium"
             id="autocomplete-id-form-status"
             label="Autocomplete Label:"
-            role="alert"
+            role={null}
             size="default"
             skeleton="skeleton"
             state="error"
             status="error"
+            stretch={null}
             text="status"
             text_id="autocomplete-id-status"
             title={null}
@@ -600,7 +601,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 aria-expanded={true}
                                 aria-haspopup="listbox"
                                 aria-label="submit_button_title"
-                                bounding={false}
+                                bounding={null}
                                 class={null}
                                 className="dnb-input__submit-button__button dnb-button--input-button dnb-button--active"
                                 custom_content={null}
@@ -627,13 +628,14 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 status={null}
                                 status_animation={null}
                                 status_state="error"
+                                stretch={null}
                                 text={null}
                                 title={null}
                                 to={null}
                                 tooltip={null}
                                 type="submit"
                                 variant="secondary"
-                                wrap={false}
+                                wrap={null}
                               >
                                 <button
                                   aria-expanded={true}
@@ -653,7 +655,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     aria-expanded={true}
                                     aria-haspopup="listbox"
                                     aria-label="submit_button_title"
-                                    bounding={false}
+                                    bounding={null}
                                     class={null}
                                     className="dnb-input__submit-button__button dnb-button--input-button dnb-button--active"
                                     content={null}
@@ -682,13 +684,14 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     status={null}
                                     status_animation={null}
                                     status_state="error"
+                                    stretch={null}
                                     text={null}
                                     title={null}
                                     to={null}
                                     tooltip={null}
                                     type="submit"
                                     variant="secondary"
-                                    wrap={false}
+                                    wrap={null}
                                   >
                                     <span
                                       className="dnb-button__alignment"
@@ -1342,6 +1345,12 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
   .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
     margin-top: 0.6666666em;
     margin-bottom: 0.6666666em; }
+  .dnb-form-status--stretch {
+    flex-grow: 1; }
+  .dnb-form-status--stretch .dnb-form-status__shell {
+    width: 100%; }
+  .dnb-form-status--stretch .dnb-form-status__text {
+    max-width: 47rem; }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status__animation--fade-in {
@@ -1539,6 +1548,8 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
+  .dnb-button--stretch {
+    width: 100%; }
   .dnb-button--reset {
     margin: 0;
     padding: 0;
@@ -2076,7 +2087,7 @@ legend.dnb-form-label {
       stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min); }
     .dnb-progress-indicator__circular__line.paused {
       animation-play-state: paused; }
-    .dnb-progress-indicator__circular--has-progress-indicator .dnb-progress-indicator__circular__line.dark {
+    .dnb-progress-indicator__circular--has-progress-value .dnb-progress-indicator__circular__line.dark {
       transition: stroke-dashoffset 600ms var(--progress-indicator-timing); }
     .dnb-progress-indicator__circular__circle {
       stroke-linecap: round; }
@@ -2107,16 +2118,18 @@ legend.dnb-form-label {
     .dnb-progress-indicator__linear__bar2-animation {
       width: auto;
       animation: progress-indicator-linear-bar-2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite; }
+  .dnb-progress-indicator, .dnb-progress-indicator--visible {
+    opacity: 0;
+    animation: progress-indicator-fade-in 200ms ease-out 1 forwards; }
+  .dnb-progress-indicator--complete:not(.dnb-progress-indicator--visible) {
+    animation: progress-indicator-fade-out 600ms ease-out 1 forwards; }
+  .dnb-progress-indicator--no-animation {
+    animation-duration: 0ms; }
   html[data-visual-test] .dnb-progress-indicator__circular__line {
     animation-duration: 0ms;
     animation-iteration-count: 0; }
   html[data-visual-test] .dnb-progress-indicator__bar-transition {
     transition: none; }
-  .dnb-progress-indicator:not(.dnb-progress-indicator--no-animation), .dnb-progress-indicator--visible:not(.dnb-progress-indicator--no-animation) {
-    opacity: 0;
-    animation: progress-indicator-fade-in 200ms ease-out 1 forwards; }
-  .dnb-progress-indicator--complete:not(.dnb-progress-indicator--no-animation):not(.dnb-progress-indicator--visible) {
-    animation: progress-indicator-fade-out 600ms ease-out 1 forwards; }
   .dnb-progress-indicator--full-width {
     width: 100%;
     min-width: 1rem; }

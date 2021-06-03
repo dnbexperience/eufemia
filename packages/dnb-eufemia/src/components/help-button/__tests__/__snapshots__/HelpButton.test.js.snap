@@ -20,7 +20,7 @@ exports[`HelpButton component have to match snapshot 1`] = `
     <Button
       aria-label="Hjelpetekst"
       aria-roledescription="Hjelp-knapp"
-      bounding={false}
+      bounding={null}
       class={null}
       className="dnb-help-button"
       custom_content={null}
@@ -43,13 +43,14 @@ exports[`HelpButton component have to match snapshot 1`] = `
       status={null}
       status_animation={null}
       status_state="error"
+      stretch={null}
       text={null}
       title={null}
       to={null}
       tooltip={null}
       type={null}
       variant="secondary"
-      wrap={false}
+      wrap={null}
     >
       <button
         aria-label="Hjelpetekst"
@@ -63,7 +64,7 @@ exports[`HelpButton component have to match snapshot 1`] = `
         <Content
           aria-label="Hjelpetekst"
           aria-roledescription="Hjelp-knapp"
-          bounding={false}
+          bounding={null}
           class={null}
           className="dnb-help-button"
           content={null}
@@ -88,13 +89,14 @@ exports[`HelpButton component have to match snapshot 1`] = `
           status={null}
           status_animation={null}
           status_state="error"
+          stretch={null}
           text={null}
           title={null}
           to={null}
           tooltip={null}
           type={null}
           variant="secondary"
-          wrap={false}
+          wrap={null}
         >
           <span
             className="dnb-button__alignment"

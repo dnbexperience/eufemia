@@ -155,16 +155,17 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
     const { progress } = this.state
 
     const strokeDashoffset = maxOffset - (maxOffset / 100) * progress
-    const hasProgressIndicator = parseFloat(progress) > -1
+    const hasProgressValue = parseFloat(progress) > -1
 
     const params = { ...rest }
-    if (hasProgressIndicator) {
-      params.role = 'alert'
-      params['title'] = `${progress}%`
-      params['aria-busy'] = true
+
+    if (hasProgressValue) {
+      params.role = 'progressbar'
       params['aria-label'] = `${progress}%`
+      params['title'] = `${progress}%`
     } else {
-      params['aria-hidden'] = true
+      params.role = 'alert'
+      params['aria-busy'] = true
     }
 
     validateDOMAttributes(this.props, params)
@@ -174,8 +175,8 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
         className={classnames(
           'dnb-progress-indicator__circular',
           size && `dnb-progress-indicator__circular--${size}`,
-          hasProgressIndicator &&
-            'dnb-progress-indicator__circular--has-progress-indicator'
+          hasProgressValue &&
+            'dnb-progress-indicator__circular--has-progress-value'
         )}
         {...params}
       >
@@ -192,14 +193,12 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
             'dnb-progress-indicator__circular__line',
             'dark',
             'dark',
-            hasProgressIndicator || this.useAnimationFrame
-              ? 'paused'
-              : null
+            hasProgressValue || this.useAnimationFrame ? 'paused' : null
           )}
-          style={hasProgressIndicator ? { strokeDashoffset } : {}}
+          style={hasProgressValue ? { strokeDashoffset } : {}}
           ref={this._refDark}
         />
-        {!hasProgressIndicator && (
+        {!hasProgressValue && (
           <Circle
             className={classnames(
               'dnb-progress-indicator__circular__line',

@@ -227,11 +227,12 @@ exports[`DatePicker component have to match snapshot 1`] = `
           icon_size="medium"
           id="date-picker-id-form-status"
           label={null}
-          role="alert"
+          role={null}
           size="default"
           skeleton={null}
           state="error"
           status="error"
+          stretch={null}
           text="status"
           text_id="date-picker-id-status"
           title={null}
@@ -1179,7 +1180,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 <Button
                                   aria-expanded={false}
                                   aria-label="åpne datovelger"
-                                  bounding={false}
+                                  bounding={null}
                                   class={null}
                                   className="dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button"
                                   custom_content={null}
@@ -1239,13 +1240,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   status="error"
                                   status_animation={null}
                                   status_state="error"
+                                  stretch={null}
                                   text={null}
                                   title={null}
                                   to={null}
                                   tooltip={null}
                                   type="button"
                                   variant="secondary"
-                                  wrap={false}
+                                  wrap={null}
                                 >
                                   <button
                                     aria-expanded={false}
@@ -1261,7 +1263,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                     <Content
                                       aria-expanded={false}
                                       aria-label="åpne datovelger"
-                                      bounding={false}
+                                      bounding={null}
                                       class={null}
                                       className="dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button"
                                       content={null}
@@ -1323,13 +1325,14 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                       status="error"
                                       status_animation={null}
                                       status_state="error"
+                                      stretch={null}
                                       text={null}
                                       title={null}
                                       to={null}
                                       tooltip={null}
                                       type="button"
                                       variant="secondary"
-                                      wrap={false}
+                                      wrap={null}
                                     >
                                       <span
                                         className="dnb-button__alignment"
@@ -1721,6 +1724,12 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
     margin-top: 0.6666666em;
     margin-bottom: 0.6666666em; }
+  .dnb-form-status--stretch {
+    flex-grow: 1; }
+  .dnb-form-status--stretch .dnb-form-status__shell {
+    width: 100%; }
+  .dnb-form-status--stretch .dnb-form-status__text {
+    max-width: 47rem; }
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status__animation--fade-in {
@@ -1918,6 +1927,8 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
   .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
     order: 2; }
+  .dnb-button--stretch {
+    width: 100%; }
   .dnb-button--reset {
     margin: 0;
     padding: 0;
