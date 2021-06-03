@@ -52,10 +52,9 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
       visible={true}
     >
       <div
-        aria-busy={true}
         aria-label="50%"
-        className="dnb-progress-indicator__circular dnb-progress-indicator__circular--default dnb-progress-indicator__circular--has-progress-indicator"
-        role="alert"
+        className="dnb-progress-indicator__circular dnb-progress-indicator__circular--default dnb-progress-indicator__circular--has-progress-value"
+        role="progressbar"
         title="50%"
       >
         <ForwardRef
@@ -161,10 +160,9 @@ exports[`Linear ProgressIndicator component have to match snapshot 1`] = `
       visible={true}
     >
       <div
-        aria-busy={true}
         aria-label="50%"
         className="dnb-progress-indicator__linear dnb-progress-indicator__linear--default"
-        role="alert"
+        role="progressbar"
         title="50%"
       >
         <div
@@ -357,7 +355,7 @@ exports[`ProgressIndicator scss have to match snapshot 1`] = `
       stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min); }
     .dnb-progress-indicator__circular__line.paused {
       animation-play-state: paused; }
-    .dnb-progress-indicator__circular--has-progress-indicator .dnb-progress-indicator__circular__line.dark {
+    .dnb-progress-indicator__circular--has-progress-value .dnb-progress-indicator__circular__line.dark {
       transition: stroke-dashoffset 600ms var(--progress-indicator-timing); }
     .dnb-progress-indicator__circular__circle {
       stroke-linecap: round; }
@@ -388,16 +386,18 @@ exports[`ProgressIndicator scss have to match snapshot 1`] = `
     .dnb-progress-indicator__linear__bar2-animation {
       width: auto;
       animation: progress-indicator-linear-bar-2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite; }
+  .dnb-progress-indicator, .dnb-progress-indicator--visible {
+    opacity: 0;
+    animation: progress-indicator-fade-in 200ms ease-out 1 forwards; }
+  .dnb-progress-indicator--complete:not(.dnb-progress-indicator--visible) {
+    animation: progress-indicator-fade-out 600ms ease-out 1 forwards; }
+  .dnb-progress-indicator--no-animation {
+    animation-duration: 0ms; }
   html[data-visual-test] .dnb-progress-indicator__circular__line {
     animation-duration: 0ms;
     animation-iteration-count: 0; }
   html[data-visual-test] .dnb-progress-indicator__bar-transition {
     transition: none; }
-  .dnb-progress-indicator:not(.dnb-progress-indicator--no-animation), .dnb-progress-indicator--visible:not(.dnb-progress-indicator--no-animation) {
-    opacity: 0;
-    animation: progress-indicator-fade-in 200ms ease-out 1 forwards; }
-  .dnb-progress-indicator--complete:not(.dnb-progress-indicator--no-animation):not(.dnb-progress-indicator--visible) {
-    animation: progress-indicator-fade-out 600ms ease-out 1 forwards; }
   .dnb-progress-indicator--full-width {
     width: 100%;
     min-width: 1rem; }

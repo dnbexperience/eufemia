@@ -43,6 +43,26 @@ describe('Circular ProgressIndicator component', () => {
     ).toBe('50%')
   })
 
+  it('has role of alert or progressbar depending if progress has a vlaue', () => {
+    Comp.setProps({
+      progress: undefined,
+    })
+    expect(
+      Comp.find('.dnb-progress-indicator__circular')
+        .instance()
+        .getAttribute('role')
+    ).toBe('alert')
+
+    Comp.setProps({
+      progress: 80,
+    })
+    expect(
+      Comp.find('.dnb-progress-indicator__circular')
+        .instance()
+        .getAttribute('role')
+    ).toBe('progressbar')
+  })
+
   it('has to react to a progress value of 80%', () => {
     Comp.setProps({
       progress: 80,
@@ -85,6 +105,26 @@ describe('Linear ProgressIndicator component', () => {
         .instance()
         .getAttribute('aria-label')
     ).toBe('50%')
+  })
+
+  it('has role of alert or progressbar depending if progress has a vlaue', () => {
+    Comp.setProps({
+      progress: undefined,
+    })
+    expect(
+      Comp.find('.dnb-progress-indicator__linear')
+        .instance()
+        .getAttribute('role')
+    ).toBe('alert')
+
+    Comp.setProps({
+      progress: 80,
+    })
+    expect(
+      Comp.find('.dnb-progress-indicator__linear')
+        .instance()
+        .getAttribute('role')
+    ).toBe('progressbar')
   })
 
   it('has to react to a progress value of 80%', () => {
