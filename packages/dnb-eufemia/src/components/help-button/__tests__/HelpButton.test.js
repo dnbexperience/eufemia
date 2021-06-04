@@ -44,6 +44,24 @@ describe('HelpButton component', () => {
     ).toBe('Hjelp-knapp')
   })
 
+  it('should have correct aria label', () => {
+    const Comp = mount(<Component {...props} />)
+    expect(
+      Comp.find('.dnb-button').instance().getAttribute('aria-label')
+    ).toBe('Hjelpetekst')
+  })
+
+  it('should have not aria-label if text is given', () => {
+    const Comp = mount(<Component {...props} text="button text" />)
+    expect(
+      Comp.find('.dnb-button').instance().hasAttribute('aria-label')
+    ).toBe(false)
+    expect(Comp.find('.dnb-button').instance().getAttribute('title')).toBe(
+      'Hjelpetekst'
+    )
+    expect(Comp.find('.dnb-button').text().trim()).toBe('‌button text')
+  })
+
   it('should open a modal if children are given', () => {
     const modalContent = 'Modal Content'
     const Comp = mount(<Component {...props}>{modalContent}</Component>)
