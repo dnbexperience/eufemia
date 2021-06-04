@@ -19,4 +19,5 @@ showTabs: true
 | `show_label`                                | _(optional)_ if set to `true` a default label will be shown.                                                                                                                  |
 | `section_style`                             | _(optional)_ to enable the visual helper `.dnb-section` class. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to null. |
 | `section_spacing`                           | _(optional)_ to modify the `spacing`. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to null.                          |
+| `title`                                     | _(optional)_ used to set title and aria-label. Defaults to the value of progress property, formatted as a percent.                                                            |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                         |
