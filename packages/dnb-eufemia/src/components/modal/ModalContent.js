@@ -255,41 +255,44 @@ export default class ModalContent extends React.PureComponent {
   }
 
   setFocus() {
-    const { focus_selector, animation_duration } = this.props
+    const { focus_selector, no_animation, animation_duration } = this.props
     const elem = this._contentRef.current
 
     if (elem) {
       clearTimeout(this._focusTimeout)
-      this._focusTimeout = setTimeout(() => {
-        try {
-          let focusElement
+      this._focusTimeout = setTimeout(
+        () => {
+          try {
+            let focusElement
 
-          // 1. Try to use the "first-focus" method first
-          if (typeof focus_selector === 'string') {
-            focusElement = elem.querySelector(focus_selector)
-          } else if (focus_selector === false) {
-            return // stop here
-          }
+            // 1. Try to use the "first-focus" method first
+            if (typeof focus_selector === 'string') {
+              focusElement = elem.querySelector(focus_selector)
+            } else if (focus_selector === false) {
+              return // stop here
+            }
 
-          // 2. fall back to headings and the close button
-          if (!focusElement) {
-            focusElement = elem.querySelector(
-              'h1:first-of-type, h2:first-of-type, .dnb-modal__close-button:not([disabled])'
-            )
-          }
+            // 2. fall back to headings and the close button
+            if (!focusElement) {
+              focusElement = elem.querySelector(
+                'h1:first-of-type, h2:first-of-type, .dnb-modal__close-button:not([disabled])'
+              )
+            }
 
-          // 3. fall back to the main element
-          if (!focusElement) {
-            focusElement = elem
-          }
+            // 3. fall back to the main element
+            if (!focusElement) {
+              focusElement = elem
+            }
 
-          if (focusElement) {
-            focusElement.focus()
+            if (focusElement) {
+              focusElement.focus()
+            }
+          } catch (e) {
+            warn(e)
           }
-        } catch (e) {
-          warn(e)
-        }
-      }, parseFloat(animation_duration)) // with this delay, the user can press esc without an focus action first
+        },
+        isTrue(no_animation) ? 0 : parseFloat(animation_duration) || 0
+      ) // with this delay, the user can press esc without an focus action first
     }
   }
 
@@ -438,11 +441,6 @@ export default class ModalContent extends React.PureComponent {
       ...rest,
     }
 
-    const spacingParams = {
-      tabIndex: -1,
-      className: classnames('dnb-modal__content__spacing', 'dnb-no-focus'),
-    }
-
     const overlayParams = {
       className: classnames(
         'dnb-modal__overlay',
@@ -462,12 +460,18 @@ export default class ModalContent extends React.PureComponent {
       <>
         <div id={id} {...contentParams}>
           <ScrollView {...innerParams}>
-            <div {...spacingParams} ref={this._contentRef}>
+            <div
+              tabIndex="-1"
+              className="dnb-modal__content__spacing dnb-no-focus"
+              ref={this._contentRef}
+            >
               {title && (
                 <h1
                   id={id + '-title'}
+                  tabIndex="-1"
                   className={classnames(
                     'dnb-modal__title',
+                    'dnb-no-focus',
                     mode === 'drawer' ? 'dnb-h--x-large' : 'dnb-h--large'
                   )}
                 >
