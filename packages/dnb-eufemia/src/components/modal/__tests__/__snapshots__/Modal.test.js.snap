@@ -616,11 +616,12 @@ exports[`Modal component have to match snapshot 1`] = `
             >
               <div
                 className="dnb-modal__content__spacing dnb-no-focus"
-                tabIndex={-1}
+                tabIndex="-1"
               >
                 <h1
-                  className="dnb-modal__title dnb-h--large"
+                  className="dnb-modal__title dnb-no-focus dnb-h--large"
                   id="dnb-modal-modal_id-title"
+                  tabIndex="-1"
                 >
                   modal_title
                 </h1>

@@ -9,6 +9,7 @@ import {
   fakeProps,
   toJson,
   axeComponent,
+  attachToBody, // in order to use document.activeElement properly
   loadScss,
 } from '../../../core/jest/jestSetup'
 
@@ -182,6 +183,80 @@ describe('Modal component', () => {
 
     Comp.find('button#close-me').simulate('click')
     expect(on_close).toHaveBeenCalledTimes(1)
+  })
+  it('will set focus on first heading', async () => {
+    const Comp = mount(
+      <Component no_animation={true} title="modal title">
+        modal content
+      </Component>,
+      { attachTo: attachToBody() }
+    )
+    Comp.find('button').simulate('click')
+    await wait(2)
+
+    // and check the class of that element
+    expect(
+      document.activeElement.classList.contains('dnb-modal__title')
+    ).toBe(true)
+
+    Comp.find('button.dnb-modal__close-button').simulate('click')
+
+    // and check the class of that element
+    expect(
+      document.activeElement.classList.contains('dnb-modal__trigger')
+    ).toBe(true)
+  })
+  it('will set focus on clsoe button if no h1 is given', async () => {
+    const Comp = mount(
+      <Component
+        no_animation={true}
+        // hide_close_button
+      >
+        modal content
+      </Component>,
+      { attachTo: attachToBody() }
+    )
+    Comp.find('button').simulate('click')
+    await wait(2)
+
+    // and check the class of that element
+    expect(
+      document.activeElement.classList.contains('dnb-modal__close-button')
+    ).toBe(true)
+
+    Comp.find('button.dnb-modal__close-button').simulate('click')
+
+    // and check the class of that element
+    expect(
+      document.activeElement.classList.contains('dnb-modal__trigger')
+    ).toBe(true)
+  })
+  it('will set focus on content div if no h1 and close button is given', async () => {
+    const Comp = mount(
+      <Component no_animation={true} hide_close_button>
+        modal content
+      </Component>,
+      { attachTo: attachToBody() }
+    )
+    Comp.find('button').simulate('click')
+    await wait(2)
+
+    // and check the class of that element
+    expect(
+      document.activeElement.classList.contains(
+        'dnb-modal__content__spacing'
+      )
+    ).toBe(true)
+
+    Comp.find('div.dnb-modal__content__inner').simulate('keyDown', {
+      key: 'Esc',
+      keyCode: 27,
+    })
+
+    // and check the class of that element
+    expect(
+      document.activeElement.classList.contains('dnb-modal__trigger')
+    ).toBe(true)
   })
   it('has support for nested modals', () => {
     const on_open = {
@@ -722,3 +797,5 @@ describe('Modal scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
+
+const wait = (t) => new Promise((r) => setTimeout(r, t))
