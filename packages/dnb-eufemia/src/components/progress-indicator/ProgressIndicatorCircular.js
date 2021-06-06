@@ -18,6 +18,7 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
     maxOffset: PropTypes.number,
     onComplete: PropTypes.func,
     callOnCompleteHandler: PropTypes.func,
+    title: PropTypes.string,
   }
   static defaultProps = {
     size: null,
@@ -27,6 +28,7 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
     maxOffset: 88,
     onComplete: null,
     callOnCompleteHandler: null,
+    title: null,
   }
   static getDerivedStateFromProps(props, state) {
     state.progress = parseFloat(props.progress)
@@ -143,6 +145,7 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
     const {
       size,
       maxOffset,
+      title,
       progress: _progress, // eslint-disable-line
       visible, // eslint-disable-line
       complete, // eslint-disable-line
@@ -161,8 +164,8 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
 
     if (hasProgressValue) {
       params.role = 'progressbar'
-      params['aria-label'] = `${progress}%`
-      params['title'] = `${progress}%`
+      params['aria-label'] = title
+      params['title'] = title
     } else {
       params.role = 'alert'
       params['aria-busy'] = true

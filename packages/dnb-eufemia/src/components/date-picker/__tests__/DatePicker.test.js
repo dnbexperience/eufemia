@@ -842,12 +842,11 @@ describe('DatePicker component', () => {
     // wait for the logic to complete
     await wait(1)
 
-    // get the active focused element in the document
-    let focusedElement = document.activeElement
-
     // and check the class of that element
     expect(
-      focusedElement.classList.contains('dnb-date-picker__input--month')
+      document.activeElement.classList.contains(
+        'dnb-date-picker__input--month'
+      )
     ).toBe(true)
 
     // also test the key up to change the value on the month input
@@ -861,11 +860,8 @@ describe('DatePicker component', () => {
     // wait for the logic to complete
     await wait(1)
 
-    // get the active focused element in the document
-    focusedElement = document.activeElement
-
     // and check the class of that element
-    expect(focusedElement.classList).toContain(
+    expect(document.activeElement.classList).toContain(
       'dnb-date-picker__input--day'
     )
 

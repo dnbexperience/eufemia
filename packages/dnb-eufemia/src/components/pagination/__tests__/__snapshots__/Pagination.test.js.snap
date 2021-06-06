@@ -852,6 +852,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                         section_style={null}
                         show_label={false}
                         size="default"
+                        title={null}
                         type="circular"
                         visible={true}
                       >
@@ -865,6 +866,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
                             onComplete={null}
                             progress={null}
                             size="default"
+                            title={null}
                             visible={true}
                           >
                             <div

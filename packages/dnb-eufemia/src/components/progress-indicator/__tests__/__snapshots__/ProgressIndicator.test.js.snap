@@ -19,6 +19,7 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
         "section_style": "section_style",
         "show_label": "show_label",
         "size": "'default'",
+        "title": "title",
         "type": "'circular'",
         "visible": "visible",
       },
@@ -36,6 +37,7 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
   section_style={null}
   show_label={false}
   size="default"
+  title={null}
   type="circular"
   visible={true}
 >
@@ -49,13 +51,14 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
       onComplete={null}
       progress={50}
       size="default"
+      title="50,00 %"
       visible={true}
     >
       <div
-        aria-label="50%"
+        aria-label="50,00 %"
         className="dnb-progress-indicator__circular dnb-progress-indicator__circular--default dnb-progress-indicator__circular--has-progress-value"
         role="progressbar"
-        title="50%"
+        title="50,00 %"
       >
         <ForwardRef
           className="dnb-progress-indicator__circular__line light paused"
@@ -128,6 +131,7 @@ exports[`Linear ProgressIndicator component have to match snapshot 1`] = `
         "section_style": "section_style",
         "show_label": "show_label",
         "size": "'default'",
+        "title": "title",
         "type": "'circular'",
         "visible": "visible",
       },
@@ -145,6 +149,7 @@ exports[`Linear ProgressIndicator component have to match snapshot 1`] = `
   section_style={null}
   show_label={false}
   size="default"
+  title={null}
   type="linear"
   visible={true}
 >
@@ -157,13 +162,14 @@ exports[`Linear ProgressIndicator component have to match snapshot 1`] = `
       onComplete={null}
       progress={50}
       size="default"
+      title="50,00 %"
       visible={true}
     >
       <div
-        aria-label="50%"
+        aria-label="50,00 %"
         className="dnb-progress-indicator__linear dnb-progress-indicator__linear--default"
         role="progressbar"
-        title="50%"
+        title="50,00 %"
       >
         <div
           className="dnb-progress-indicator__linear__bar dnb-progress-indicator__linear__bar-transition"

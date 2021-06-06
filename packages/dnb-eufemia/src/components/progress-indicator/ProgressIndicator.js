@@ -20,6 +20,7 @@ import {
 } from '../space/SpacingHelper'
 import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 import ProgressIndicatorLinear from './ProgressIndicatorLinear'
+import { format } from '../number-format/NumberUtils'
 
 export default class ProgressIndicator extends React.PureComponent {
   static tagName = 'dnb-progress-indicator'
@@ -37,6 +38,7 @@ export default class ProgressIndicator extends React.PureComponent {
     indicator_label: PropTypes.string,
     section_style: PropTypes.string,
     section_spacing: PropTypes.string,
+    title: PropTypes.string,
 
     ...spacingPropTypes,
 
@@ -59,7 +61,7 @@ export default class ProgressIndicator extends React.PureComponent {
     indicator_label: null,
     section_style: null,
     section_spacing: null,
-
+    title: null,
     class: null,
     className: null,
     children: null,
@@ -132,6 +134,7 @@ export default class ProgressIndicator extends React.PureComponent {
       className,
       class: _className,
       children,
+      title,
       progress: _progress, //eslint-disable-line
       visible: _visible, //eslint-disable-line
       complete: _complete, //eslint-disable-line
@@ -144,6 +147,8 @@ export default class ProgressIndicator extends React.PureComponent {
 
     const indicatorLabel =
       label || children || (isTrue(show_label) && indicator_label)
+
+    const progressTitle = title || formatProgress(progress)
 
     validateDOMAttributes(this.props, params)
 
@@ -170,6 +175,7 @@ export default class ProgressIndicator extends React.PureComponent {
             complete={complete}
             onComplete={on_complete}
             callOnCompleteHandler={this.callOnCompleteHandler}
+            title={progressTitle}
           />
         )}
         {type === 'linear' && (
@@ -180,6 +186,7 @@ export default class ProgressIndicator extends React.PureComponent {
             complete={complete}
             onComplete={on_complete}
             callOnCompleteHandler={this.callOnCompleteHandler}
+            title={progressTitle}
           />
         )}
         {indicatorLabel && (
@@ -190,4 +197,14 @@ export default class ProgressIndicator extends React.PureComponent {
       </div>
     )
   }
+}
+
+function formatProgress(progress) {
+  if (parseFloat(progress) > -1) {
+    return format(progress, {
+      decimals: 2,
+      percent: true,
+    })
+  }
+  return null
 }

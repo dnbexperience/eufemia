@@ -62,6 +62,11 @@ export default class HelpButtonInstance extends React.PureComponent {
       ...rest
     } = props
 
+    let ariaLabel = convertJsxToString(props.title || props.children)
+    if (!ariaLabel) {
+      ariaLabel = this.context.getTranslation(this.props).HelpButton.title
+    }
+
     const params = {
       className: classnames(
         'dnb-help-button',
@@ -70,7 +75,6 @@ export default class HelpButtonInstance extends React.PureComponent {
         _className
       ),
       size,
-      'aria-label': props.title ? convertJsxToString(props.title) : null,
       icon,
       ...attributes,
       ...rest,
@@ -80,12 +84,12 @@ export default class HelpButtonInstance extends React.PureComponent {
       params['aria-roledescription'] = this.context.getTranslation(
         this.props
       ).HelpButton.aria_role
+    }
 
-      if (!props.title) {
-        params['aria-label'] = this.context.getTranslation(
-          this.props
-        ).HelpButton.title
-      }
+    if (params.text) {
+      params.title = ariaLabel
+    } else if (!params['aria-label']) {
+      params['aria-label'] = ariaLabel
     }
 
     if (
