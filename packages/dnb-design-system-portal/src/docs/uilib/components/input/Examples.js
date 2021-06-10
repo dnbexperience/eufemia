@@ -6,7 +6,6 @@
 import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import InputPassword from '@dnb/eufemia/src/components/input/InputPassword'
-import InputReset from '@dnb/eufemia/src/components/input/InputReset'
 import styled from '@emotion/styled'
 
 const Wrapper = styled.div`
@@ -41,7 +40,6 @@ export const InputExampleSearch = () => (
 <Input
   label="Search:"
   type="search"
-  submit_button_title="Search"
   placeholder="Search text placeholder"
   on_change={({ value }) => {
     console.log('on_change', value)
@@ -185,11 +183,11 @@ export const InputExampleNumbers = () => (
   placeholder="Placeholder text"
   status="Numbers are ligned by using Proportional Lining"
   status_state="info"
-  status_animation="fade-in"
   value="This is the value 1234567890"
   on_change={({ value }) => {
     console.log('on_change', value)
   }}
+  // status_animation="fade-in"
 />
 `}
     </ComponentBox>
@@ -257,14 +255,29 @@ export const InputExamplePassword = () => (
   </Wrapper>
 )
 
-export const InputExampleReset = () => (
+export const InputExampleClear = () => (
   <Wrapper>
-    <ComponentBox scope={{ InputReset }} data-visual-test="input-reset">
+    <ComponentBox data-visual-test="input-clear">
       {() => /* jsx */ `
-<InputReset
-  label="Label:"
-  placeholder="Placeholder text"
-/>
+<FormRow direction="vertical">
+  <Input
+    clear={true}
+    value="Value ..."
+  />
+  <Input
+    clear={true}
+    value="Value ..."
+    type="search"
+    top
+  />
+  <Input
+    clear={true}
+    value="Value ..."
+    icon="loupe"
+    type="search"
+    top
+  />
+</FormRow>
 `}
     </ComponentBox>
   </Wrapper>

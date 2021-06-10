@@ -10,7 +10,6 @@ import styled from '@emotion/styled'
 import {
   Input,
   InputMasked,
-  InputReset,
   HelpButton,
   Button,
   FormSet,
@@ -212,7 +211,7 @@ export const InputSandbox = () => {
             type="search"
             align="right"
             stretch
-            placeholder="Medium input with right aligned text"
+            placeholder="Medium input clear button with right aligned text"
           />
           <Input
             label="Search:"
@@ -221,7 +220,7 @@ export const InputSandbox = () => {
             align="right"
             stretch
             submit_button_title="Custom search button title"
-            placeholder="Large input with right aligned text"
+            placeholder="Large input clear button with right aligned text"
           />
         </Box>
         <Box>
@@ -236,14 +235,14 @@ export const InputSandbox = () => {
         </Box>
         <Box>
           <Input
-            label="Input with status:"
+            label="Input clear button with status:"
             status="Message to the user"
             value="Input value with status"
           />
         </Box>
         <Box>
           <Input
-            label="Input with description:"
+            label="Input clear button with description:"
             suffix="Description to the user"
             value="Input value with status"
           />
@@ -310,59 +309,68 @@ export const InputSandbox = () => {
             }}
           />
         </Box>
-        <Box>
-          <InputReset label="InputReset" />
+        {/* <Box>
+          <Input
+            clear
+           label="Input" />
         </Box>
         <Box>
-          <InputReset
-            label="Small InputReset"
+          <Input
+          clear
+            label="Small Input"
             size="small"
             icon_size="small"
             bottom="small"
           />
         </Box>
         <Box>
-          <InputReset
-            label="Medium InputReset"
+          <Input
+          clear
+            label="Medium Input"
             size="medium"
             icon_size="medium"
             bottom="small"
           />
         </Box>
         <Box>
-          <InputReset
-            label="Large InputReset"
+          <Input
+          clear
+            label="Large Input"
             size="large"
             icon_size="large"
           />
         </Box>
         <Box>
-          <InputReset
-            label="InputReset with submit button"
+          <Input
+          clear
+            label="Input clear button with submit button"
             type="search"
           />
         </Box>
         <Box>
-          <InputReset
-            label="Small InputReset with submit button"
+          <Input
+          clear
+            label="Small Input clear button with submit button"
             type="search"
             size="small"
           />
         </Box>
         <Box>
-          <InputReset
-            label="Medium InputReset with submit button"
+          <Input
+          clear
+            label="Medium Input clear button with submit button"
             type="search"
             size="medium"
           />
         </Box>
         <Box>
-          <InputReset
-            label="Large InputReset with submit button"
+          <Input
+          clear
+            label="Large Input clear button with submit button"
             type="search"
             size="large"
           />
-        </Box>
+        </Box> */}
       </Wrapper>
     </CustomStyle>
   )
@@ -422,5 +430,84 @@ const CustomInput = () => {
         }}
       />
     </>
+  )
+}
+
+export function InputClearButton() {
+  return (
+    <Wrapper>
+      <Box>
+        <Input icon="loupe" label="Input" />
+        <br />
+        <Input icon="loupe" clear label="Input" />
+      </Box>
+      <Box>
+        <Input
+          icon="loupe"
+          clear
+          label="Small Input"
+          size="small"
+          icon_size="small"
+          bottom="small"
+        />
+      </Box>
+      <Box>
+        <Input
+          icon="loupe"
+          clear
+          label="Medium Input"
+          size="medium"
+          icon_size="medium"
+          bottom="small"
+        />
+      </Box>
+      <Box>
+        <Input
+          icon="loupe"
+          clear
+          label="Large Input"
+          size="large"
+          icon_size="large"
+        />
+      </Box>
+      <Box>
+        <Input icon="loupe" label="Input A" />
+
+        <br />
+
+        <Input icon="loupe" label="Input B" type="search" />
+
+        <br />
+
+        <Input icon="loupe" clear label="Input C" type="search" />
+      </Box>
+      <Box>
+        <Input
+          icon="loupe"
+          clear
+          label="Small Input clear button with submit button"
+          type="search"
+          size="small"
+        />
+      </Box>
+      <Box>
+        <Input
+          icon="loupe"
+          clear
+          label="Medium Input clear button with submit button"
+          type="search"
+          size="medium"
+        />
+      </Box>
+      <Box>
+        <Input
+          icon="loupe"
+          clear
+          label="Large Input clear button with submit button"
+          type="search"
+          size="large"
+        />
+      </Box>
+    </Wrapper>
   )
 }

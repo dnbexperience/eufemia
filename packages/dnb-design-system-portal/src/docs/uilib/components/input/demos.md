@@ -16,7 +16,7 @@ InputExampleStretched,
 InputExampleNumbers,
 InputExamplePassword,
 InputExampleSubmit,
-InputExampleReset
+InputExampleClear
 } from 'Pages/uilib/components/input/Examples'
 
 ## Demos
@@ -69,6 +69,12 @@ Pressing the enter key will trigger a submit.
 
 <InputExampleSubmit />
 
+### Input with clear button
+
+Pushing the clear button or pressing the esc key will clear the input.
+
+<InputExampleClear />
+
 ### Input password type
 
 The password component have to ensure that there is still room for password managers to inject the input with their UX functionality.
@@ -80,11 +86,5 @@ import InputPassword from '@dnb/eufemia/components/input/InputPassword'
 ```
 
 <InputExamplePassword />
-
-### Input with reset button
-
-Pushing the clear button or pressing the esc key will clear the input.
-
-<InputExampleReset />
 
 <ScreenshotTests />

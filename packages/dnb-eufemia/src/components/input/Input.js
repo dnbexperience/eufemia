@@ -63,7 +63,9 @@ export const inputPropTypes = {
   global_status_id: PropTypes.string,
   autocomplete: PropTypes.string,
   submit_button_title: PropTypes.string,
+  clear_button_title: PropTypes.string,
   placeholder: PropTypes.string,
+  clear: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   keep_placeholder: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
@@ -144,6 +146,7 @@ export default class Input extends React.PureComponent {
     global_status_id: null,
     autocomplete: 'off',
     placeholder: null,
+    clear: null,
     keep_placeholder: null,
     suffix: null,
     align: null,
@@ -164,6 +167,7 @@ export default class Input extends React.PureComponent {
     // Submit button
     submit_element: null,
     submit_button_title: null,
+    clear_button_title: null,
     submit_button_variant: 'secondary',
     submit_button_icon: 'loupe',
     submit_button_status: null,
@@ -291,6 +295,15 @@ export default class Input extends React.PureComponent {
     if (event.key === 'Enter') {
       dispatchCustomElementEvent(this, 'on_submit', { value, event })
     }
+    if (isTrue(this.props.clear) && event.key === 'Escape') {
+      this.clearValue(event)
+    }
+  }
+  clearValue = (event) => {
+    const value = ''
+    this.setState({ value, _listenForPropChanges: false })
+    dispatchCustomElementEvent(this, 'on_change', { value, event })
+    this._ref.current.focus()
   }
   render() {
     // use only the props from context, who are available here anyway
@@ -316,11 +329,13 @@ export default class Input extends React.PureComponent {
       disabled,
       skeleton,
       placeholder,
+      clear,
       keep_placeholder,
       suffix,
       align,
       input_class,
       submit_button_title,
+      clear_button_title,
       submit_button_variant,
       submit_button_icon,
       submit_button_status,
@@ -369,6 +384,7 @@ export default class Input extends React.PureComponent {
         `dnb-input--${type}`, //type_modifier
         size && !sizeIsNumber && `dnb-input--${size}`,
         hasSubmitButton && 'dnb-input--has-submit-element',
+        isTrue(clear) && 'dnb-input--has-clear-button',
         align && `dnb-input__align--${align}`,
         status && `dnb-input__status--${status_state}`,
         icon && `dnb-input--icon-position-${icon_position}`,
@@ -507,6 +523,25 @@ export default class Input extends React.PureComponent {
                   aria-hidden
                 >
                   {placeholder}
+                </span>
+              )}
+
+              {isTrue(clear) && (
+                <span className="dnb-input--clear dnb-input__submit-element">
+                  <SubmitButton
+                    aria-hidden={!hasValue}
+                    id={id + '-clear-button'}
+                    type="button"
+                    variant="tertiary"
+                    aria-controls={id}
+                    aria-label={clear_button_title}
+                    tooltip={clear_button_title}
+                    icon="close"
+                    icon_size={size === 'small' ? 'small' : undefined}
+                    skeleton={skeleton}
+                    disabled={isTrue(disabled) || !hasValue}
+                    onClick={this.clearValue}
+                  />
                 </span>
               )}
             </span>

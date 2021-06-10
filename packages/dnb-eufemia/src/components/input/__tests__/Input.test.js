@@ -233,6 +233,26 @@ describe('Input component', () => {
     ).toBe('focus')
   })
 
+  it('should call on_submit event handler', () => {
+    const on_submit = jest.fn()
+    const Comp = mount(
+      <Component
+        id="input-id"
+        value="value"
+        type="search"
+        on_submit={on_submit}
+      />
+    )
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+      'value'
+    )
+
+    Comp.find('input').simulate('keydown', { key: 'Enter', keyCode: 13 }) // enter
+    expect(on_submit).toHaveBeenCalledTimes(1)
+    expect(on_submit.mock.calls[0][0].value).toBe('value')
+  })
+
   it('should validate with ARIA rules as a search input with a label', async () => {
     const LabelComp = mount(<label htmlFor="input">text</label>)
     const InputComp = mount(
@@ -253,6 +273,71 @@ describe('Input component', () => {
       <Component {...props} id="input" value="some value" />
     )
     expect(await axeComponent(LabelComp, InputComp)).toHaveNoViolations()
+  })
+})
+
+describe('Input with clear button', () => {
+  it('should ahve the button', () => {
+    const Comp = mount(<Component clear={true} />)
+    expect(Comp.exists('.dnb-input--clear')).toBe(true)
+  })
+
+  it('should clear the value on press', () => {
+    const Comp = mount(
+      <Component id="input-id" clear={true} value="value" />
+    )
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+      'value'
+    )
+
+    const clearButton = Comp.find('button#input-id-clear-button')
+    clearButton.simulate('click')
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe('')
+  })
+
+  it('should have a disabled clear button when no value is given', () => {
+    const Comp = mount(
+      <Component id="input-id" clear={true} value="value" />
+    )
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+      'value'
+    )
+
+    const clearButton = Comp.find('button#input-id-clear-button')
+    clearButton.simulate('click')
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe('')
+    expect(clearButton.instance().getAttribute('aria-hidden')).toBe('true')
+    expect(clearButton.instance().hasAttribute('disabled')).toBe(true)
+  })
+
+  it('should clear the value on escape key press', () => {
+    const Comp = mount(<Component clear={true} value="value" />)
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+      'value'
+    )
+
+    Comp.find('input').simulate('keydown', { key: 'Escape', keyCode: 27 }) // escape
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe('')
+  })
+
+  it('should set focus on input when clear button is pressed', () => {
+    const Comp = mount(
+      <Component id="input-id" clear={true} value="value" />
+    )
+
+    const clearButton = Comp.find('button#input-id-clear-button')
+    clearButton.simulate('click')
+
+    Comp.find('input').simulate('focus')
+    expect(
+      Comp.find('.dnb-input').instance().getAttribute('data-input-state')
+    ).toBe('focus')
   })
 })
 
