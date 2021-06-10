@@ -178,6 +178,53 @@
     }
   }
 
+  // InputReset styles
+  &--reset.dnb-input__submit-element {
+    .dnb-button {
+      width: var(--input-height--small);
+      height: var(--input-height--small);
+      border-radius: var(--button-border-radius);
+
+      .dnb-button__icon {
+        margin: auto;
+      }
+    }
+  }
+
+  &--small &--reset.dnb-input__submit-element {
+    .dnb-button {
+      width: var(--spacing-small);
+      height: var(--spacing-small);
+    }
+  }
+
+  &--medium &--reset,
+  &--large &--reset {
+    &.dnb-input__submit-element {
+      .dnb-button {
+        width: var(--input-height--small);
+        height: var(--input-height--small);
+      }
+    }
+  }
+
+  &--has-submit-element &--reset.dnb-input__submit-element {
+    margin-right: calc(var(--spacing-large) + var(--spacing-xx-small));
+  }
+
+  &--small#{&}--has-submit-element &--reset.dnb-input__submit-element {
+    margin-right: calc(var(--spacing-medium) + var(--spacing-xx-small));
+  }
+
+  &--medium#{&}--has-submit-element &--reset.dnb-input__submit-element {
+    margin-right: calc(var(--spacing-x-large));
+  }
+
+  &--large#{&}--has-submit-element &--reset.dnb-input__submit-element {
+    margin-right: calc(var(--spacing-xx-large));
+  }
+  // end - InputReset styles
+
   &--small {
     line-height: var(--input-height--small);
     .dnb-input__shell,

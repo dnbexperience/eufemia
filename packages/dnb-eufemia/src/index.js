@@ -28,6 +28,7 @@ import Icon from './components/icon/Icon'
 import IconPrimary from './components/icon-primary/IconPrimary'
 import Input from './components/input/Input'
 import InputMasked from './components/input-masked/InputMasked'
+import InputReset from './components/input/InputReset'
 import Logo from './components/logo/Logo'
 import Modal from './components/modal/Modal'
 import Notification from './components/notification/Notification'
@@ -95,6 +96,7 @@ export {
   IconPrimary,
   Input,
   InputMasked,
+  InputReset,
   Logo,
   Modal,
   Notification,

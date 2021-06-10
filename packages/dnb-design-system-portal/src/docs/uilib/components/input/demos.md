@@ -15,7 +15,8 @@ InputExampleSuffix,
 InputExampleStretched,
 InputExampleNumbers,
 InputExamplePassword,
-InputExampleSubmit
+InputExampleSubmit,
+InputExampleReset
 } from 'Pages/uilib/components/input/Examples'
 
 ## Demos
@@ -79,5 +80,11 @@ import InputPassword from '@dnb/eufemia/components/input/InputPassword'
 ```
 
 <InputExamplePassword />
+
+### Input with reset button
+
+Pushing the clear button or pressing the esc key will clear the input.
+
+<InputExampleReset />
 
 <ScreenshotTests />

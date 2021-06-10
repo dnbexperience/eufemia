@@ -10,6 +10,7 @@ import styled from '@emotion/styled'
 import {
   Input,
   InputMasked,
+  InputReset,
   HelpButton,
   Button,
   FormSet,
@@ -59,6 +60,7 @@ export const InputSandbox = () => {
                 icon="calendar"
                 align="right"
               /> */}
+
             <Input value="Plain" />
             <Input value="Search" type="search" />
             <Input value="Search" size="medium" type="search" />
@@ -306,6 +308,59 @@ export const InputSandbox = () => {
             on_hide_password={() => {
               console.log('on_hide_password')
             }}
+          />
+        </Box>
+        <Box>
+          <InputReset label="InputReset" />
+        </Box>
+        <Box>
+          <InputReset
+            label="Small InputReset"
+            size="small"
+            icon_size="small"
+            bottom="small"
+          />
+        </Box>
+        <Box>
+          <InputReset
+            label="Medium InputReset"
+            size="medium"
+            icon_size="medium"
+            bottom="small"
+          />
+        </Box>
+        <Box>
+          <InputReset
+            label="Large InputReset"
+            size="large"
+            icon_size="large"
+          />
+        </Box>
+        <Box>
+          <InputReset
+            label="InputReset with submit button"
+            type="search"
+          />
+        </Box>
+        <Box>
+          <InputReset
+            label="Small InputReset with submit button"
+            type="search"
+            size="small"
+          />
+        </Box>
+        <Box>
+          <InputReset
+            label="Medium InputReset with submit button"
+            type="search"
+            size="medium"
+          />
+        </Box>
+        <Box>
+          <InputReset
+            label="Large InputReset with submit button"
+            type="search"
+            size="large"
           />
         </Box>
       </Wrapper>

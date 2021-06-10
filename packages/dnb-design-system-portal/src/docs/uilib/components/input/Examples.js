@@ -6,6 +6,7 @@
 import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import InputPassword from '@dnb/eufemia/src/components/input/InputPassword'
+import InputReset from '@dnb/eufemia/src/components/input/InputReset'
 import styled from '@emotion/styled'
 
 const Wrapper = styled.div`
@@ -250,6 +251,19 @@ export const InputExamplePassword = () => (
   on_hide_password={() => {
     console.log('on_hide_password')
   }}
+/>
+`}
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputExampleReset = () => (
+  <Wrapper>
+    <ComponentBox scope={{ InputReset }} data-visual-test="input-reset">
+      {() => /* jsx */ `
+<InputReset
+  label="Label:"
+  placeholder="Placeholder text"
 />
 `}
     </ComponentBox>
