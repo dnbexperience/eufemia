@@ -39,6 +39,7 @@ export default class Space extends React.PureComponent {
 
     ...spacingPropTypes,
 
+    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     class: PropTypes.string,
     className: PropTypes.string,
@@ -57,6 +58,7 @@ export default class Space extends React.PureComponent {
 
     ...spacingDefaultProps,
 
+    stretch: null,
     skeleton: null,
     class: null,
 
@@ -93,6 +95,7 @@ export default class Space extends React.PureComponent {
       bottom,
       left,
       space,
+      stretch,
       skeleton,
       id: _id, // eslint-disable-line
       className,
@@ -107,6 +110,7 @@ export default class Space extends React.PureComponent {
     const params = {
       className: classnames(
         'dnb-space',
+        isTrue(stretch) && 'dnb-space--stretch',
         isTrue(inline) && 'dnb-space--inline',
         createSkeletonClass(null, skeleton), // do not send along this.context
         createSpacingClasses({ top, right, bottom, left, space }),

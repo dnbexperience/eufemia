@@ -13,6 +13,7 @@ exports[`Space component have to match snapshot 1`] = `
   right={null}
   skeleton="skeleton"
   space={null}
+  stretch="stretch"
   top={null}
 >
   <Element
@@ -380,6 +381,9 @@ exports[`Space scss have to match snapshot 1`] = `
   @media screen and (-ms-high-contrast: none) {
     .dnb-space--no-collapse {
       overflow: auto; } }
+
+.dnb-space--stretch {
+  width: 100%; }
 
 .dnb-space--inline {
   display: inline-block; }
