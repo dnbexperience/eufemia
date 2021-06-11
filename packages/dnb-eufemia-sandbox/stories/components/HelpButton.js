@@ -39,7 +39,7 @@ export const HelpButtonSandbox = () => (
     </Box>
 
     <Box>
-      <Modal>
+      <Modal title="Title">
         <Button variant="tertiary" text="Button" />
         <Section>
           <Button variant="tertiary" text="Button" />
@@ -51,7 +51,7 @@ export const HelpButtonSandbox = () => (
       <Input
         label="Input"
         placeholder="Placeholder ..."
-        suffix={<HelpButton>Help text</HelpButton>}
+        suffix={<Modal title="Title">Help text</Modal>}
       />
     </Box>
   </Wrapper>

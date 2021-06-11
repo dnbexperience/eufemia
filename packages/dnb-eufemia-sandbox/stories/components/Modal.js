@@ -40,6 +40,10 @@ export const ModalSandbox = () => (
     /> */}
 
     <Box>
+      <Modal title="Title">content</Modal>
+    </Box>
+
+    <Box>
       <ModalWithScrollableBox />
     </Box>
 

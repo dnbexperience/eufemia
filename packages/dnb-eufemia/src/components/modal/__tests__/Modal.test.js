@@ -107,16 +107,13 @@ describe('Modal component', () => {
         suffix={<Component title={props.title}>Help text</Component>}
       />
     )
+    const buttonElem = Comp.find('button.dnb-modal__trigger')
+    expect(buttonElem.instance().getAttribute('aria-label')).toBe(
+      props.title
+    )
     expect(
-      Comp.find('button.dnb-modal__trigger')
-        .instance()
-        .hasAttribute('aria-roledescription')
-    ).toBe(true)
-    expect(
-      Comp.find('button.dnb-modal__trigger')
-        .instance()
-        .getAttribute('aria-label')
-    ).toBe(props.title)
+      buttonElem.instance().getAttribute('aria-roledescription')
+    ).toBe('Hjelp-knapp')
   })
   it('has a disabled trigger button once we set trigger_disabled to true', () => {
     Comp.setProps({
@@ -687,7 +684,7 @@ describe('Modal component', () => {
   })
   it('has to have no icon', () => {
     const Comp1 = mount(<Component trigger_text="Open Modal" />)
-    expect(Comp1.find(`.dnb-icon`).exists()).toBe(false)
+    expect(Comp1.find('.dnb-icon').exists()).toBe(false)
     const Comp2 = mount(
       <Component
         trigger_text="Open Modal"
@@ -701,11 +698,11 @@ describe('Modal component', () => {
     const Comp1 = mount(
       <Component trigger_text="Open Modal" trigger_variant="tertiary" />
     )
-    expect(Comp1.find(`.dnb-icon`).exists()).toBe(true)
+    expect(Comp1.find('.dnb-icon').exists()).toBe(true)
     const Comp2 = mount(
       <Component trigger_text="Open Modal" trigger_icon="add" />
     )
-    expect(Comp2.find(`.dnb-icon`).exists()).toBe(true)
+    expect(Comp2.find('.dnb-icon').exists()).toBe(true)
   })
   it('should validate with ARIA rules as a dialog', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
@@ -715,7 +712,7 @@ describe('Modal component', () => {
 describe('Modal trigger', () => {
   const roledescription = 'Hjelp-knapp'
   it('will act by default as a HelpButton', () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = mount(<Component {...props} trigger_text="" />)
     expect(
       Comp.find('button.dnb-modal__trigger')
         .instance()
@@ -767,22 +764,16 @@ describe('Modal trigger', () => {
       Comp.find('button.dnb-modal__trigger').exists('.dnb-button__icon')
     ).toBe(true)
   })
-  it('will act as a HelpButton if trigger_text was given and trigger_variant is tertiary', () => {
-    const Comp = mount(
-      <Component
-        {...props}
-        trigger_text="text"
-        trigger_variant="tertiary"
-      />
-    )
+  it('will not act as a HelpButton if trigger_text was given', () => {
+    const Comp = mount(<Component {...props} trigger_text="text" />)
     expect(
       Comp.find('button.dnb-modal__trigger')
         .instance()
-        .getAttribute('aria-roledescription')
-    ).toBe(roledescription)
+        .hasAttribute('aria-roledescription')
+    ).toBe(false)
     expect(
       Comp.find('button.dnb-modal__trigger').exists('.dnb-button__icon')
-    ).toBe(true)
+    ).toBe(false)
     expect(
       Comp.find('button.dnb-modal__trigger')
         .text()

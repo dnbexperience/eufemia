@@ -56,9 +56,6 @@ describe('HelpButton component', () => {
     expect(
       Comp.find('.dnb-button').instance().hasAttribute('aria-label')
     ).toBe(false)
-    expect(Comp.find('.dnb-button').instance().getAttribute('title')).toBe(
-      'Hjelpetekst'
-    )
     expect(Comp.find('.dnb-button').text().trim()).toBe('‌button text')
   })
 

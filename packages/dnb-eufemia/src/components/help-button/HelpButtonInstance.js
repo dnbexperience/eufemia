@@ -58,14 +58,8 @@ export default class HelpButtonInstance extends React.PureComponent {
       on_click,
       className,
       class: _className,
-      attributes,
       ...rest
     } = props
-
-    let ariaLabel = convertJsxToString(props.title || props.children)
-    if (!ariaLabel) {
-      ariaLabel = this.context.getTranslation(this.props).HelpButton.title
-    }
 
     const params = {
       className: classnames(
@@ -76,31 +70,44 @@ export default class HelpButtonInstance extends React.PureComponent {
       ),
       size,
       icon,
-      ...attributes,
       ...rest,
     }
 
-    if (typeof params['aria-roledescription'] === 'undefined') {
-      params['aria-roledescription'] = this.context.getTranslation(
-        this.props
-      ).HelpButton.aria_role
-    }
+    const isPotensialHelpButton =
+      !params.text || params.variant === 'tertiary'
 
-    if (params.text) {
-      params.title = ariaLabel
-    } else if (!params['aria-label']) {
-      params['aria-label'] = ariaLabel
-    }
-
-    if (
-      (!params.text || params.variant === 'tertiary') &&
-      params.icon === null
-    ) {
+    if (isPotensialHelpButton && !params.icon && params.icon !== false) {
       params.icon = 'question'
+    }
+
+    const isHelpButton =
+      isPotensialHelpButton &&
+      ['question', 'information'].includes(String(params.icon))
+
+    if (isHelpButton) {
+      if (!params['aria-roledescription']) {
+        params['aria-roledescription'] = this.context.getTranslation(
+          this.props
+        ).HelpButton.aria_role
+      }
+
+      if (!params.text && !params['aria-label']) {
+        let ariaLabel = convertJsxToString(props.title || props.children)
+        if (!ariaLabel) {
+          ariaLabel = this.context.getTranslation(this.props).HelpButton
+            .title
+        }
+        params['aria-label'] = ariaLabel
+      }
     }
 
     if (icon === 'information' && !size) {
       params.icon_size = 'medium'
+    }
+
+    if (params.title) {
+      params.tooltip = params.title
+      params.title = null
     }
 
     return <Button on_click={on_click} {...params} />
