@@ -252,7 +252,7 @@
       font-size: var(--input-font-size--large);
     }
     .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--large) + 0.5rem);
+      margin-left: calc(1px - 1px - var(--input-height--large));
 
       .dnb-button--input-button {
         width: var(--input-height--large);
@@ -270,6 +270,10 @@
   &--large#{&}--has-clear-button &__placeholder,
   &--large#{&}--has-clear-button &__input {
     padding-right: calc(var(--input-padding--large) * 3);
+  }
+  &--large#{&}--has-clear-button:not(#{&}--has-submit-element)
+    .dnb-input__submit-element {
+    margin-left: calc(1px - 1px - var(--input-height--large) + 0.5rem);
   }
 
   &__align--center &__placeholder,

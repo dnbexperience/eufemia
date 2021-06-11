@@ -1901,7 +1901,7 @@ legend.dnb-form-label {
       padding-right: var(--input-padding--large);
       font-size: var(--input-font-size--large); }
     .dnb-input--large .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--large) + 0.5rem); }
+      margin-left: calc(1px - 1px - var(--input-height--large)); }
       .dnb-input--large .dnb-input__submit-element .dnb-button--input-button {
         width: var(--input-height--large);
         height: var(--input-height--large); }
@@ -1910,6 +1910,8 @@ legend.dnb-form-label {
   .dnb-input--large.dnb-input--has-clear-button .dnb-input__placeholder,
   .dnb-input--large.dnb-input--has-clear-button .dnb-input__input {
     padding-right: calc(var(--input-padding--large) * 3); }
+  .dnb-input--large.dnb-input--has-clear-button:not(.dnb-input--has-submit-element) .dnb-input__submit-element {
+    margin-left: calc(1px - 1px - var(--input-height--large) + 0.5rem); }
   .dnb-input__align--center .dnb-input__placeholder,
   .dnb-input__align--center .dnb-input__input {
     text-align: center; }
