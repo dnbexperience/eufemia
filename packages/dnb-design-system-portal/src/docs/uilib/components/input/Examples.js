@@ -40,7 +40,6 @@ export const InputExampleSearch = () => (
 <Input
   label="Search:"
   type="search"
-  submit_button_title="Search"
   placeholder="Search text placeholder"
   on_change={({ value }) => {
     console.log('on_change', value)
@@ -184,11 +183,11 @@ export const InputExampleNumbers = () => (
   placeholder="Placeholder text"
   status="Numbers are ligned by using Proportional Lining"
   status_state="info"
-  status_animation="fade-in"
   value="This is the value 1234567890"
   on_change={({ value }) => {
     console.log('on_change', value)
   }}
+  // status_animation="fade-in"
 />
 `}
     </ComponentBox>
@@ -251,6 +250,34 @@ export const InputExamplePassword = () => (
     console.log('on_hide_password')
   }}
 />
+`}
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputExampleClear = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="input-clear">
+      {() => /* jsx */ `
+<FormRow direction="vertical">
+  <Input
+    clear={true}
+    value="Value ..."
+  />
+  <Input
+    clear={true}
+    value="Value ..."
+    type="search"
+    top
+  />
+  <Input
+    clear={true}
+    value="Value ..."
+    icon="loupe"
+    type="search"
+    top
+  />
+</FormRow>
 `}
     </ComponentBox>
   </Wrapper>

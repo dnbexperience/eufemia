@@ -421,6 +421,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   autocomplete="off"
                   class={null}
                   className={null}
+                  clear={null}
+                  clear_button_title={null}
                   custom_element={null}
                   custom_method={null}
                   disabled={false}
@@ -2195,7 +2197,9 @@ legend.dnb-form-label {
     .dnb-input ::-webkit-file-upload-button:active, .dnb-input ::-webkit-file-upload-button:hover {
       color: var(--color-emerald-green); }
   .dnb-input--has-submit-element .dnb-input__placeholder,
-  .dnb-input--has-submit-element .dnb-input__input {
+  .dnb-input--has-submit-element .dnb-input__input,
+  .dnb-input--has-clear-button .dnb-input__placeholder,
+  .dnb-input--has-clear-button .dnb-input__input {
     padding-right: calc(var(--input-padding) * 2.5); }
   .dnb-input--password .dnb-input__placeholder,
   .dnb-input--password .dnb-input__input {
@@ -2235,13 +2239,15 @@ legend.dnb-form-label {
       font-size: var(--input-font-size--small); }
     .dnb-input--small .dnb-input__submit-element {
       margin-left: calc(1px - 1px - var(--input-height--small)); }
-      .dnb-input--small .dnb-input__submit-element .dnb-button {
+      .dnb-input--small .dnb-input__submit-element .dnb-button--input-button {
         width: var(--input-height--small);
         height: var(--input-height--small);
         line-height: var(--input-height--small); }
   .dnb-input--small.dnb-input--has-submit-element .dnb-input__placeholder,
-  .dnb-input--small.dnb-input--has-submit-element .dnb-input__input {
-    padding-right: calc(var(--input-padding--small) * 3); }
+  .dnb-input--small.dnb-input--has-submit-element .dnb-input__input,
+  .dnb-input--small.dnb-input--has-clear-button .dnb-input__placeholder,
+  .dnb-input--small.dnb-input--has-clear-button .dnb-input__input {
+    padding-right: calc(var(--input-padding--small) * 2); }
   .dnb-input--medium {
     line-height: var(--input-height--medium); }
     .dnb-input--medium .dnb-input__shell,
@@ -2254,12 +2260,14 @@ legend.dnb-form-label {
       font-size: var(--input-font-size--medium); }
     .dnb-input--medium .dnb-input__submit-element {
       margin-left: calc(1px - 1px - var(--input-height--medium)); }
-      .dnb-input--medium .dnb-input__submit-element .dnb-button {
+      .dnb-input--medium .dnb-input__submit-element .dnb-button--input-button {
         width: var(--input-height--medium);
         height: var(--input-height--medium);
         line-height: var(--input-height--medium); }
   .dnb-input--medium.dnb-input--has-submit-element .dnb-input__placeholder,
-  .dnb-input--medium.dnb-input--has-submit-element .dnb-input__input {
+  .dnb-input--medium.dnb-input--has-submit-element .dnb-input__input,
+  .dnb-input--medium.dnb-input--has-clear-button .dnb-input__placeholder,
+  .dnb-input--medium.dnb-input--has-clear-button .dnb-input__input {
     padding-right: calc(var(--input-padding--medium) * 3); }
   .dnb-input--large {
     line-height: var(--input-height--large); }
@@ -2272,19 +2280,47 @@ legend.dnb-form-label {
       padding-right: var(--input-padding--large);
       font-size: var(--input-font-size--large); }
     .dnb-input--large .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--large)); }
-      .dnb-input--large .dnb-input__submit-element .dnb-button {
+      margin-left: calc(1px - 1px - var(--input-height--large) + 0.5rem); }
+      .dnb-input--large .dnb-input__submit-element .dnb-button--input-button {
         width: var(--input-height--large);
         height: var(--input-height--large); }
   .dnb-input--large.dnb-input--has-submit-element .dnb-input__placeholder,
-  .dnb-input--large.dnb-input--has-submit-element .dnb-input__input {
-    padding-right: calc(var(--input-padding--large) * 3.5); }
+  .dnb-input--large.dnb-input--has-submit-element .dnb-input__input,
+  .dnb-input--large.dnb-input--has-clear-button .dnb-input__placeholder,
+  .dnb-input--large.dnb-input--has-clear-button .dnb-input__input {
+    padding-right: calc(var(--input-padding--large) * 3); }
   .dnb-input__align--center .dnb-input__placeholder,
   .dnb-input__align--center .dnb-input__input {
     text-align: center; }
   .dnb-input__align--right .dnb-input__placeholder,
   .dnb-input__align--right .dnb-input__input {
     text-align: right; }
+  .dnb-input--clear.dnb-input__submit-element {
+    opacity: 0;
+    transition: opacity 200ms ease-in-out; }
+    .dnb-input--clear.dnb-input__submit-element .dnb-button {
+      width: var(--input-height--small);
+      height: var(--input-height--small);
+      border-radius: var(--button-border-radius); }
+      .dnb-input--clear.dnb-input__submit-element .dnb-button .dnb-button__icon {
+        margin: auto; }
+  .dnb-input--small .dnb-input--clear.dnb-input__submit-element .dnb-button {
+    width: 1rem;
+    height: 1rem; }
+  .dnb-input--medium .dnb-input--clear.dnb-input__submit-element .dnb-button,
+  .dnb-input--large .dnb-input--clear.dnb-input__submit-element .dnb-button {
+    width: var(--input-height--small);
+    height: var(--input-height--small); }
+  .dnb-input[data-has-content='true'] .dnb-input--clear {
+    opacity: 1; }
+  .dnb-input--has-submit-element .dnb-input--clear.dnb-input__submit-element {
+    margin-right: 2.5rem; }
+  .dnb-input--small.dnb-input--has-submit-element .dnb-input--clear.dnb-input__submit-element {
+    margin-right: 2rem; }
+  .dnb-input--medium.dnb-input--has-submit-element .dnb-input--clear.dnb-input__submit-element {
+    margin-right: 3rem; }
+  .dnb-input--large.dnb-input--has-submit-element .dnb-input--clear.dnb-input__submit-element {
+    margin-right: 3.5rem; }
   .dnb-input__inner > .dnb-form-status {
     order: 2;
     margin-top: 0.5rem; }
@@ -2323,14 +2359,11 @@ legend.dnb-form-label {
   .dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
   .dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
     padding-right: 2.5rem; }
-  .dnb-input--medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
-  .dnb-input--medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
-    padding-left: 2.5rem; }
-  .dnb-input--large.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
-  .dnb-input--large.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
+  .dnb-input--icon-size-medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--icon-size-medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
     padding-left: 3rem; }
-  .dnb-input--large.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
-  .dnb-input--large.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
+  .dnb-input--icon-size-medium.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--icon-size-medium.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
     padding-right: 3rem; }
   .dnb-input > .dnb-form-label {
     line-height: var(--line-height-basis); }

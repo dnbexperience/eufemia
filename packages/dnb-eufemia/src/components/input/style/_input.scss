@@ -129,7 +129,9 @@
   }
 
   &--has-submit-element &__placeholder,
-  &--has-submit-element &__input {
+  &--has-submit-element &__input,
+  &--has-clear-button &__placeholder,
+  &--has-clear-button &__input {
     padding-right: calc(var(--input-padding) * 2.5);
   }
   // Because of password managers
@@ -192,7 +194,8 @@
     }
     .dnb-input__submit-element {
       margin-left: calc(1px - 1px - var(--input-height--small));
-      .dnb-button {
+
+      .dnb-button--input-button {
         width: var(--input-height--small);
         height: var(--input-height--small);
         line-height: var(--input-height--small);
@@ -200,8 +203,10 @@
     }
   }
   &--small#{&}--has-submit-element &__placeholder,
-  &--small#{&}--has-submit-element &__input {
-    padding-right: calc(var(--input-padding--small) * 3);
+  &--small#{&}--has-submit-element &__input,
+  &--small#{&}--has-clear-button &__placeholder,
+  &--small#{&}--has-clear-button &__input {
+    padding-right: calc(var(--input-padding--small) * 2);
   }
 
   &--medium {
@@ -210,6 +215,7 @@
     .dnb-input__input {
       height: var(--input-height--medium);
     }
+
     .dnb-input__placeholder,
     .dnb-input__input {
       padding-left: var(--input-padding--medium);
@@ -218,7 +224,8 @@
     }
     .dnb-input__submit-element {
       margin-left: calc(1px - 1px - var(--input-height--medium));
-      .dnb-button {
+
+      .dnb-button--input-button {
         width: var(--input-height--medium);
         height: var(--input-height--medium);
         line-height: var(--input-height--medium);
@@ -226,7 +233,9 @@
     }
   }
   &--medium#{&}--has-submit-element &__placeholder,
-  &--medium#{&}--has-submit-element &__input {
+  &--medium#{&}--has-submit-element &__input,
+  &--medium#{&}--has-clear-button &__placeholder,
+  &--medium#{&}--has-clear-button &__input {
     padding-right: calc(var(--input-padding--medium) * 3);
   }
 
@@ -243,8 +252,9 @@
       font-size: var(--input-font-size--large);
     }
     .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--large));
-      .dnb-button {
+      margin-left: calc(1px - 1px - var(--input-height--large) + 0.5rem);
+
+      .dnb-button--input-button {
         width: var(--input-height--large);
         height: var(--input-height--large);
 
@@ -256,8 +266,10 @@
     }
   }
   &--large#{&}--has-submit-element &__placeholder,
-  &--large#{&}--has-submit-element &__input {
-    padding-right: calc(var(--input-padding--large) * 3.5);
+  &--large#{&}--has-submit-element &__input,
+  &--large#{&}--has-clear-button &__placeholder,
+  &--large#{&}--has-clear-button &__input {
+    padding-right: calc(var(--input-padding--large) * 3);
   }
 
   &__align--center &__placeholder,
@@ -269,9 +281,50 @@
     text-align: right;
   }
 
-  // no special style for search
-  // &__input--search {
-  // }
+  // Input clear button styles
+  &--clear.dnb-input__submit-element {
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
+    .dnb-button {
+      width: var(--input-height--small);
+      height: var(--input-height--small);
+      border-radius: var(--button-border-radius);
+
+      .dnb-button__icon {
+        margin: auto;
+      }
+    }
+  }
+  &--small &--clear.dnb-input__submit-element {
+    .dnb-button {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+  &--medium &--clear,
+  &--large &--clear {
+    &.dnb-input__submit-element {
+      .dnb-button {
+        width: var(--input-height--small);
+        height: var(--input-height--small);
+      }
+    }
+  }
+  &[data-has-content='true'] &--clear {
+    opacity: 1;
+  }
+  &--has-submit-element &--clear.dnb-input__submit-element {
+    margin-right: 2.5rem;
+  }
+  &--small#{&}--has-submit-element &--clear.dnb-input__submit-element {
+    margin-right: 2rem;
+  }
+  &--medium#{&}--has-submit-element &--clear.dnb-input__submit-element {
+    margin-right: 3rem;
+  }
+  &--large#{&}--has-submit-element &--clear.dnb-input__submit-element {
+    margin-right: 3.5rem;
+  }
 
   &__inner > .dnb-form-status {
     order: 2;
@@ -333,16 +386,14 @@
   &--icon-position-right#{&}--has-icon &__placeholder {
     padding-right: 2.5rem;
   }
-  &--medium#{&}--icon-position-left#{&}--has-icon &__input,
-  &--medium#{&}--icon-position-left#{&}--has-icon &__placeholder {
-    padding-left: 2.5rem;
-  }
-  &--large#{&}--icon-position-left#{&}--has-icon &__input,
-  &--large#{&}--icon-position-left#{&}--has-icon &__placeholder {
+  &--icon-size-medium#{&}--icon-position-left#{&}--has-icon &__input,
+  &--icon-size-medium#{&}--icon-position-left#{&}--has-icon
+    &__placeholder {
     padding-left: 3rem;
   }
-  &--large#{&}--icon-position-right#{&}--has-icon &__input,
-  &--large#{&}--icon-position-right#{&}--has-icon &__placeholder {
+  &--icon-size-medium#{&}--icon-position-right#{&}--has-icon &__input,
+  &--icon-size-medium#{&}--icon-position-right#{&}--has-icon
+    &__placeholder {
     padding-right: 3rem;
   }
 

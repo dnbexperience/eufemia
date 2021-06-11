@@ -15,7 +15,8 @@ InputExampleSuffix,
 InputExampleStretched,
 InputExampleNumbers,
 InputExamplePassword,
-InputExampleSubmit
+InputExampleSubmit,
+InputExampleClear
 } from 'Pages/uilib/components/input/Examples'
 
 ## Demos
@@ -67,6 +68,12 @@ With left / right aligned text
 Pressing the enter key will trigger a submit.
 
 <InputExampleSubmit />
+
+### Input with clear button
+
+Pushing the clear button or pressing the esc key will clear the input.
+
+<InputExampleClear />
 
 ### Input password type
 
