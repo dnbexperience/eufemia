@@ -506,32 +506,31 @@ export default class Modal extends React.PureComponent {
 
     const render = (suffixProps) => {
       const modalProps = {}
-      const triggerAttributes = trigger_attributes
-        ? { ...trigger_attributes }
-        : {}
+      const triggerAttributes = { ...trigger_attributes }
 
       // Deprecated - this is only to handle the legacy Modal trigger button
       for (let prop in props) {
         if (prop.includes('trigger_') && props[prop] !== null) {
           const name = String(prop).replace('trigger_', '')
-          if (name !== 'props' && prop !== 'element') {
+          if (
+            name !== 'attributes' &&
+            name !== 'props' &&
+            prop !== 'element'
+          ) {
             triggerAttributes[name] = props[prop]
           }
         }
       }
 
-      const isHelpButton =
-        !isTrue(trigger_hidden) &&
+      const useHelpButton =
         (!!suffixProps ||
-          (!(trigger_text && trigger_variant !== 'tertiary') &&
-            (!(triggerAttributes.icon || trigger_icon) ||
-              ['question', 'information'].includes(
-                triggerAttributes.icon || trigger_icon
-              ))))
+          (!isTrue(trigger_hidden) &&
+            !trigger_text &&
+            !triggerAttributes.text)) &&
+        ['question', 'information'].includes(
+          String(triggerAttributes.icon || trigger_icon)
+        )
 
-      if (isTrue(disabled)) {
-        triggerAttributes.disabled = true
-      }
       if (triggerAttributes.id) {
         this._id = triggerAttributes.id
       }
@@ -541,12 +540,12 @@ export default class Modal extends React.PureComponent {
       }
       // in case the modal is used in suffix and no title is given
       // suffixProps.label is also available, so we could use that too
-      else if (!rest.title && isHelpButton && suffixProps) {
+      else if (!rest.title && useHelpButton && suffixProps) {
         modalProps.title = this.context.translation.HelpButton.title
       }
 
-      if (!isHelpButton) {
-        triggerAttributes['aria-roledescription'] = null
+      if (isTrue(disabled)) {
+        triggerAttributes.disabled = true
       }
 
       const TriggerButton = trigger ? trigger : HelpButtonInstance
@@ -556,10 +555,12 @@ export default class Modal extends React.PureComponent {
           {TriggerButton && !isTrue(trigger_hidden) && (
             <TriggerButton
               id={this._id}
-              onClick={this.toggleOpenClose}
               title={
-                props['aria-label'] || props.title || modalProps.title
+                !triggerAttributes.text
+                  ? props.title || modalProps.title
+                  : null
               }
+              onClick={this.toggleOpenClose}
               {...triggerAttributes}
               innerRef={this._triggerRef}
               className={classnames(
