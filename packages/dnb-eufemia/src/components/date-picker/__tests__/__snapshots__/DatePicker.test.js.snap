@@ -2280,7 +2280,7 @@ legend.dnb-form-label {
       padding-right: var(--input-padding--large);
       font-size: var(--input-font-size--large); }
     .dnb-input--large .dnb-input__submit-element {
-      margin-left: calc(1px - 1px - var(--input-height--large)); }
+      margin-left: calc(1px - 1px - var(--input-height--large) + 0.5rem); }
       .dnb-input--large .dnb-input__submit-element .dnb-button--input-button {
         width: var(--input-height--large);
         height: var(--input-height--large); }
@@ -2288,7 +2288,7 @@ legend.dnb-form-label {
   .dnb-input--large.dnb-input--has-submit-element .dnb-input__input,
   .dnb-input--large.dnb-input--has-clear-button .dnb-input__placeholder,
   .dnb-input--large.dnb-input--has-clear-button .dnb-input__input {
-    padding-right: calc(var(--input-padding--large) * 3.5); }
+    padding-right: calc(var(--input-padding--large) * 3); }
   .dnb-input__align--center .dnb-input__placeholder,
   .dnb-input__align--center .dnb-input__input {
     text-align: center; }
@@ -2359,18 +2359,12 @@ legend.dnb-form-label {
   .dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
   .dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
     padding-right: 2.5rem; }
-  .dnb-input--medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
-  .dnb-input--medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
+  .dnb-input--icon-size-medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--icon-size-medium.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
     padding-left: 3rem; }
-  .dnb-input--medium.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
-  .dnb-input--medium.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
+  .dnb-input--icon-size-medium.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
+  .dnb-input--icon-size-medium.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
     padding-right: 3rem; }
-  .dnb-input--large.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__input,
-  .dnb-input--large.dnb-input--icon-position-left.dnb-input--has-icon .dnb-input__placeholder {
-    padding-left: 3.5rem; }
-  .dnb-input--large.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
-  .dnb-input--large.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
-    padding-right: 3.5rem; }
   .dnb-input > .dnb-form-label {
     line-height: var(--line-height-basis); }
   @media screen and (max-width: 40em) {

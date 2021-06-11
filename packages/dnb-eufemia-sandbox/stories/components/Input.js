@@ -328,7 +328,6 @@ export const InputSandbox = () => {
           clear
             label="Medium Input"
             size="medium"
-            icon_size="medium"
             bottom="small"
           />
         </Box>
@@ -337,7 +336,6 @@ export const InputSandbox = () => {
           clear
             label="Large Input"
             size="large"
-            icon_size="large"
           />
         </Box>
         <Box>
@@ -457,18 +455,11 @@ export function InputClearButton() {
           clear
           label="Medium Input"
           size="medium"
-          icon_size="medium"
           bottom="small"
         />
       </Box>
       <Box>
-        <Input
-          icon="loupe"
-          clear
-          label="Large Input"
-          size="large"
-          icon_size="large"
-        />
+        <Input icon="loupe" clear label="Large Input" size="large" />
       </Box>
       <Box>
         <Input icon="loupe" label="Input A" />
