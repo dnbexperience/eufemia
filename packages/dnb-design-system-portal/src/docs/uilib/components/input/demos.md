@@ -59,7 +59,9 @@ With left / right aligned text
 
 <InputExampleStretched />
 
-### Numbers are ligned by using Proportional Lining
+### Numbers are using DNB Mono (monospace)
+
+Also, this example manipulates the value during typing.
 
 <InputExampleNumbers />
 
