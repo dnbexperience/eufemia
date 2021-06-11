@@ -15,7 +15,7 @@
       background-position: 50% !important;
       background-size: auto !important;
 
-      animation: skeletonFancyAnimation 2s linear infinite;
+      animation: skeletonFancyAnimation 5s linear infinite;
     }
   }
 
@@ -23,7 +23,7 @@
   &--brand#{&}--font {
     background-image: var(--brand-skeleton-background) !important;
     background-size: 10rem 100%;
-    animation: skeletonFontAnimationBrand 2s linear infinite;
+    animation: skeletonFontAnimationBrand 5s linear infinite;
 
     @keyframes skeletonFontAnimationBrand {
       0% {

@@ -4,7 +4,7 @@
  */
 
 :root {
-  --skeleton-delay: 2s;
+  --skeleton-delay: 5s;
   --skeleton-color: var(--color-black-8);
   --skeleton-color--contrast: var(--color-white);
 }
@@ -60,7 +60,7 @@
     background-color: var(--skeleton-color) !important;
 
     background-position-x: 30rem;
-    animation: skeletonFontAnimation 2s linear infinite
+    animation: skeletonFontAnimation 5s linear infinite
       var(--skeleton-delay);
   }
 }
