@@ -23,6 +23,7 @@ const Img = ({
   class: _class,
   ...p
 }) => {
+  const [hasError, setError] = React.useState(false)
   return (
     <E
       is={element}
@@ -38,9 +39,13 @@ const Img = ({
       <E
         is="img"
         alt={alt}
-        internalClass="dnb-img__img"
+        internalClass={classnames(
+          'dnb-img__img',
+          hasError && 'dnb-img__img--error'
+        )}
         className={img_class}
         skeleton={skeleton}
+        onError={() => setError(true)}
         {...removeSpaceProps(p)}
       />
       {caption && <figcaption>{caption}</figcaption>}
