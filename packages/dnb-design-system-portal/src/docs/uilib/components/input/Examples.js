@@ -178,16 +178,16 @@ export const InputExampleNumbers = () => (
     <ComponentBox>
       {() => /* jsx */ `
 <Input
-  label="My Status:"
+  label="Label:"
   autocomplete="on"
   placeholder="Placeholder text"
-  status="Numbers are ligned by using Proportional Lining"
+  status="Numbers are using DNB Mono (monospace)"
   status_state="info"
-  value="This is the value 1234567890"
+  value="1234567890"
   on_change={({ value }) => {
     console.log('on_change', value)
+    return String(value).toUpperCase()
   }}
-  // status_animation="fade-in"
 />
 `}
     </ComponentBox>

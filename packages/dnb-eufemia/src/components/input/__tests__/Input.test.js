@@ -12,6 +12,7 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Input'
+import { format } from '../../number-format/NumberUtils'
 
 const props = {
   ...fakeProps(require.resolve('../Input'), {
@@ -63,6 +64,9 @@ describe('Input component', () => {
     expect(Comp.find('.dnb-input').prop('data-has-content')).toBe('true')
 
     expect(Comp.state().value).toBe(newValue)
+    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+      newValue
+    )
   })
 
   it('gets valid ref element', () => {
@@ -75,10 +79,76 @@ describe('Input component', () => {
     ).toBe(true)
   })
 
+  it('value should be controllable from outside', () => {
+    const initialValue = '1234'
+    const Controlled = () => {
+      const [value, setValue] = React.useState(initialValue)
+      return (
+        <Component
+          value={format(value)}
+          on_change={({ value }) => {
+            setValue(value)
+          }}
+        />
+      )
+    }
+
+    const Comp = mount(<Controlled />)
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+      format(initialValue)
+    )
+
+    const newValue = '12345678'
+    Comp.find('input').simulate('change', {
+      target: { value: newValue },
+    })
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+      format(newValue)
+    )
+  })
+
+  it('value can be manipulated during on_change', () => {
+    const Comp = mount(
+      <Component
+        on_change={({ value }) => {
+          return String(value).toUpperCase()
+        }}
+      />
+    )
+
+    const newValue = 'new value'
+    Comp.find('input').simulate('change', {
+      target: { value: newValue },
+    })
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+      'NEW VALUE'
+    )
+  })
+
+  it('value will not change when returning false on_change', () => {
+    const Comp = mount(
+      <Component
+        on_change={() => {
+          return false
+        }}
+      />
+    )
+
+    const newValue = 'new value'
+    Comp.find('input').simulate('change', {
+      target: { value: newValue },
+    })
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe('')
+  })
+
   it('events gets emmited correctly: "on_change" and "onKeyDown"', () => {
     const initValue = 'init value'
     const newValue = 'new value'
-    const emptyValue = null // gets emmited also on values as null
+    const emptyValue = null // gets emitted also on values as null
 
     const on_change = jest.fn()
     const onKeyDown = jest.fn() // additional native event test

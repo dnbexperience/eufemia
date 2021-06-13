@@ -17,6 +17,7 @@ import {
   FormLabel,
 } from '@dnb/eufemia/src/components'
 import InputPassword from '@dnb/eufemia/src/components/input/InputPassword'
+import { format } from '@dnb/eufemia/src/components/number-format/NumberUtils'
 
 export default {
   title: 'Eufemia/Components/Input',
@@ -500,5 +501,35 @@ export function InputClearButton() {
         />
       </Box>
     </Wrapper>
+  )
+}
+
+export function ControlledInput() {
+  const [value, setValue] = React.useState('123')
+
+  const onChangeHandler = ({ value }) => {
+    value = value.replace(/[^0-9]/g, '')
+    setValue(value)
+    // return format(value)
+    // return false
+  }
+  const onKeyDownHandler = ({ event }) => {
+    event.preventDefault()
+  }
+
+  return (
+    <>
+      <Input
+        align="right"
+        top
+        left
+        right
+        onChange={onChangeHandler}
+        onKeyDown={onKeyDownHandler}
+        value={format(value)}
+        selectall
+      />
+      <input onChange={onChangeHandler} value={format(value)} />
+    </>
   )
 }

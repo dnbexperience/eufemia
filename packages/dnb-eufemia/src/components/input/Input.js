@@ -194,13 +194,12 @@ export default class Input extends React.PureComponent {
   static getDerivedStateFromProps(props, state) {
     const value = Input.getValue(props)
     if (
-      state._listenForPropChanges &&
       value !== 'initval' &&
-      value !== state.value
+      value !== state.value &&
+      value !== state._value
     ) {
       if (
         value !== state.value &&
-        value !== state._value &&
         typeof props.on_state_update === 'function'
       ) {
         dispatchCustomElementEvent({ props }, 'on_state_update', { value })
@@ -210,7 +209,7 @@ export default class Input extends React.PureComponent {
     if (props.input_state) {
       state.inputState = props.input_state
     }
-    state._listenForPropChanges = true
+    state._value = props.value
     return state
   }
 
@@ -244,9 +243,7 @@ export default class Input extends React.PureComponent {
         context.FormRow.useId()) ||
       makeUniqueId() // cause we need an id anyway
 
-    // make sure we don't trigger getDerivedStateFromProps on startup
-    this.state._listenForPropChanges = true
-    this.state._value = props.value
+    // make sure we trigger getDerivedStateFromProps on startup
   }
   componentWillUnmount() {
     clearTimeout(this._selectallTimeout)
@@ -256,7 +253,6 @@ export default class Input extends React.PureComponent {
     this.setState({
       // value,// why should we update the value on blur?
       inputState: 'focus',
-      _listenForPropChanges: false,
     })
 
     dispatchCustomElementEvent(this, 'on_focus', { value, event })
@@ -275,19 +271,27 @@ export default class Input extends React.PureComponent {
   onBlurHandler = (event) => {
     const { value } = event.target
     this.setState({
-      // value,// why should we update the value on blur?
       inputState:
         Input.hasValue(value) && value !== this.state._value
           ? 'dirty'
           : 'initial',
-      _listenForPropChanges: false,
     })
     dispatchCustomElementEvent(this, 'on_blur', { value, event })
   }
   onChangeHandler = (event) => {
     const { value } = event.target
-    this.setState({ value, _listenForPropChanges: false })
-    dispatchCustomElementEvent(this, 'on_change', { value, event })
+    const result = dispatchCustomElementEvent(this, 'on_change', {
+      value,
+      event,
+    })
+    if (result === false) {
+      return // stop here
+    }
+    if (typeof result === 'string') {
+      this.setState({ value: result })
+    } else {
+      this.setState({ value })
+    }
   }
   onKeyDownHandler = (event) => {
     const value = event.target.value
@@ -301,7 +305,7 @@ export default class Input extends React.PureComponent {
   }
   clearValue = (event) => {
     const value = ''
-    this.setState({ value, _listenForPropChanges: false })
+    this.setState({ value })
     dispatchCustomElementEvent(this, 'on_change', { value, event })
     this._ref.current.focus()
   }
