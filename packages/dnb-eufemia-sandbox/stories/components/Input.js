@@ -17,6 +17,7 @@ import {
   FormLabel,
 } from '@dnb/eufemia/src/components'
 import InputPassword from '@dnb/eufemia/src/components/input/InputPassword'
+import { format } from '@dnb/eufemia/src/components/number-format/NumberUtils'
 
 export default {
   title: 'Eufemia/Components/Input',
@@ -59,6 +60,7 @@ export const InputSandbox = () => {
                 icon="calendar"
                 align="right"
               /> */}
+
             <Input value="Plain" />
             <Input value="Search" type="search" />
             <Input value="Search" size="medium" type="search" />
@@ -210,7 +212,7 @@ export const InputSandbox = () => {
             type="search"
             align="right"
             stretch
-            placeholder="Medium input with right aligned text"
+            placeholder="Medium input clear button with right aligned text"
           />
           <Input
             label="Search:"
@@ -219,7 +221,7 @@ export const InputSandbox = () => {
             align="right"
             stretch
             submit_button_title="Custom search button title"
-            placeholder="Large input with right aligned text"
+            placeholder="Large input clear button with right aligned text"
           />
         </Box>
         <Box>
@@ -234,14 +236,14 @@ export const InputSandbox = () => {
         </Box>
         <Box>
           <Input
-            label="Input with status:"
+            label="Input clear button with status:"
             status="Message to the user"
             value="Input value with status"
           />
         </Box>
         <Box>
           <Input
-            label="Input with description:"
+            label="Input clear button with description:"
             suffix="Description to the user"
             value="Input value with status"
           />
@@ -308,6 +310,66 @@ export const InputSandbox = () => {
             }}
           />
         </Box>
+        {/* <Box>
+          <Input
+            clear
+           label="Input" />
+        </Box>
+        <Box>
+          <Input
+          clear
+            label="Small Input"
+            size="small"
+            icon_size="small"
+            bottom="small"
+          />
+        </Box>
+        <Box>
+          <Input
+          clear
+            label="Medium Input"
+            size="medium"
+            bottom="small"
+          />
+        </Box>
+        <Box>
+          <Input
+          clear
+            label="Large Input"
+            size="large"
+          />
+        </Box>
+        <Box>
+          <Input
+          clear
+            label="Input clear button with submit button"
+            type="search"
+          />
+        </Box>
+        <Box>
+          <Input
+          clear
+            label="Small Input clear button with submit button"
+            type="search"
+            size="small"
+          />
+        </Box>
+        <Box>
+          <Input
+          clear
+            label="Medium Input clear button with submit button"
+            type="search"
+            size="medium"
+          />
+        </Box>
+        <Box>
+          <Input
+          clear
+            label="Large Input clear button with submit button"
+            type="search"
+            size="large"
+          />
+        </Box> */}
       </Wrapper>
     </CustomStyle>
   )
@@ -366,6 +428,108 @@ const CustomInput = () => {
           setValue('123')
         }}
       />
+    </>
+  )
+}
+
+export function InputClearButton() {
+  return (
+    <Wrapper>
+      <Box>
+        <Input icon="loupe" label="Input" />
+        <br />
+        <Input icon="loupe" clear label="Input" />
+      </Box>
+      <Box>
+        <Input
+          icon="loupe"
+          clear
+          label="Small Input"
+          size="small"
+          icon_size="small"
+          bottom="small"
+        />
+      </Box>
+      <Box>
+        <Input
+          icon="loupe"
+          clear
+          label="Medium Input"
+          size="medium"
+          bottom="small"
+        />
+      </Box>
+      <Box>
+        <Input icon="loupe" clear label="Large Input" size="large" />
+      </Box>
+      <Box>
+        <Input icon="loupe" label="Input A" />
+
+        <br />
+
+        <Input icon="loupe" label="Input B" type="search" />
+
+        <br />
+
+        <Input icon="loupe" clear label="Input C" type="search" />
+      </Box>
+      <Box>
+        <Input
+          icon="loupe"
+          clear
+          label="Small Input clear button with submit button"
+          type="search"
+          size="small"
+        />
+      </Box>
+      <Box>
+        <Input
+          icon="loupe"
+          clear
+          label="Medium Input clear button with submit button"
+          type="search"
+          size="medium"
+        />
+      </Box>
+      <Box>
+        <Input
+          icon="loupe"
+          clear
+          label="Large Input clear button with submit button"
+          type="search"
+          size="large"
+        />
+      </Box>
+    </Wrapper>
+  )
+}
+
+export function ControlledInput() {
+  const [value, setValue] = React.useState('123')
+
+  const onChangeHandler = ({ value }) => {
+    value = value.replace(/[^0-9]/g, '')
+    setValue(value)
+    // return format(value)
+    // return false
+  }
+  const onKeyDownHandler = ({ event }) => {
+    event.preventDefault()
+  }
+
+  return (
+    <>
+      <Input
+        align="right"
+        top
+        left
+        right
+        onChange={onChangeHandler}
+        onKeyDown={onKeyDownHandler}
+        value={format(value)}
+        selectall
+      />
+      <input onChange={onChangeHandler} value={format(value)} />
     </>
   )
 }

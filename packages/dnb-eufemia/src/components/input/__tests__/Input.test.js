@@ -12,6 +12,7 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Input'
+import { format } from '../../number-format/NumberUtils'
 
 const props = {
   ...fakeProps(require.resolve('../Input'), {
@@ -63,6 +64,9 @@ describe('Input component', () => {
     expect(Comp.find('.dnb-input').prop('data-has-content')).toBe('true')
 
     expect(Comp.state().value).toBe(newValue)
+    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+      newValue
+    )
   })
 
   it('gets valid ref element', () => {
@@ -75,10 +79,76 @@ describe('Input component', () => {
     ).toBe(true)
   })
 
+  it('value should be controllable from outside', () => {
+    const initialValue = '1234'
+    const Controlled = () => {
+      const [value, setValue] = React.useState(initialValue)
+      return (
+        <Component
+          value={format(value)}
+          on_change={({ value }) => {
+            setValue(value)
+          }}
+        />
+      )
+    }
+
+    const Comp = mount(<Controlled />)
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+      format(initialValue)
+    )
+
+    const newValue = '12345678'
+    Comp.find('input').simulate('change', {
+      target: { value: newValue },
+    })
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+      format(newValue)
+    )
+  })
+
+  it('value can be manipulated during on_change', () => {
+    const Comp = mount(
+      <Component
+        on_change={({ value }) => {
+          return String(value).toUpperCase()
+        }}
+      />
+    )
+
+    const newValue = 'new value'
+    Comp.find('input').simulate('change', {
+      target: { value: newValue },
+    })
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+      'NEW VALUE'
+    )
+  })
+
+  it('value will not change when returning false on_change', () => {
+    const Comp = mount(
+      <Component
+        on_change={() => {
+          return false
+        }}
+      />
+    )
+
+    const newValue = 'new value'
+    Comp.find('input').simulate('change', {
+      target: { value: newValue },
+    })
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe('')
+  })
+
   it('events gets emmited correctly: "on_change" and "onKeyDown"', () => {
     const initValue = 'init value'
     const newValue = 'new value'
-    const emptyValue = null // gets emmited also on values as null
+    const emptyValue = null // gets emitted also on values as null
 
     const on_change = jest.fn()
     const onKeyDown = jest.fn() // additional native event test
@@ -233,6 +303,26 @@ describe('Input component', () => {
     ).toBe('focus')
   })
 
+  it('should call on_submit event handler', () => {
+    const on_submit = jest.fn()
+    const Comp = mount(
+      <Component
+        id="input-id"
+        value="value"
+        type="search"
+        on_submit={on_submit}
+      />
+    )
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+      'value'
+    )
+
+    Comp.find('input').simulate('keydown', { key: 'Enter', keyCode: 13 }) // enter
+    expect(on_submit).toHaveBeenCalledTimes(1)
+    expect(on_submit.mock.calls[0][0].value).toBe('value')
+  })
+
   it('should validate with ARIA rules as a search input with a label', async () => {
     const LabelComp = mount(<label htmlFor="input">text</label>)
     const InputComp = mount(
@@ -253,6 +343,71 @@ describe('Input component', () => {
       <Component {...props} id="input" value="some value" />
     )
     expect(await axeComponent(LabelComp, InputComp)).toHaveNoViolations()
+  })
+})
+
+describe('Input with clear button', () => {
+  it('should ahve the button', () => {
+    const Comp = mount(<Component clear={true} />)
+    expect(Comp.exists('.dnb-input--clear')).toBe(true)
+  })
+
+  it('should clear the value on press', () => {
+    const Comp = mount(
+      <Component id="input-id" clear={true} value="value" />
+    )
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+      'value'
+    )
+
+    const clearButton = Comp.find('button#input-id-clear-button')
+    clearButton.simulate('click')
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe('')
+  })
+
+  it('should have a disabled clear button when no value is given', () => {
+    const Comp = mount(
+      <Component id="input-id" clear={true} value="value" />
+    )
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+      'value'
+    )
+
+    const clearButton = Comp.find('button#input-id-clear-button')
+    clearButton.simulate('click')
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe('')
+    expect(clearButton.instance().getAttribute('aria-hidden')).toBe('true')
+    expect(clearButton.instance().hasAttribute('disabled')).toBe(true)
+  })
+
+  it('should clear the value on escape key press', () => {
+    const Comp = mount(<Component clear={true} value="value" />)
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+      'value'
+    )
+
+    Comp.find('input').simulate('keydown', { key: 'Escape', keyCode: 27 }) // escape
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe('')
+  })
+
+  it('should set focus on input when clear button is pressed', () => {
+    const Comp = mount(
+      <Component id="input-id" clear={true} value="value" />
+    )
+
+    const clearButton = Comp.find('button#input-id-clear-button')
+    clearButton.simulate('click')
+
+    Comp.find('input').simulate('focus')
+    expect(
+      Comp.find('.dnb-input').instance().getAttribute('data-input-state')
+    ).toBe('focus')
   })
 })
 

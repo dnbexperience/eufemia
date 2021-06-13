@@ -33,14 +33,12 @@ export default {
     GlobalError: {
       404: {
         title: "Oops! We can't find the page you're looking for …",
-        text:
-          'Did we messed with the links? Try again, or [go back where you came from](/back).',
+        text: 'Did we messed with the links? Try again, or [go back where you came from](/back).',
         alt: 'Lady searching in empty box',
       },
       500: {
         title: 'Ohh, a technical error happened!',
-        text:
-          'The service is not working properly at the moment, but try again later.',
+        text: 'The service is not working properly at the moment, but try again later.',
         alt: 'Man looking for clues',
       },
     },
@@ -74,6 +72,7 @@ export default {
     },
     Input: {
       submit_button_title: 'Submit button',
+      clear_button_title: 'Clear value',
       show_password: 'Show password',
       hide_password: 'Hide password',
     },

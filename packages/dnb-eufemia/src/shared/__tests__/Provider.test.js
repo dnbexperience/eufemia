@@ -84,7 +84,9 @@ describe('Provider', () => {
     )
 
     expect(
-      Comp.find('button.dnb-help-button').instance().getAttribute('title')
+      Comp.find('button.dnb-help-button')
+        .instance()
+        .getAttribute('aria-label')
     ).toBe(title_nb)
     expect(
       Comp.find('button.dnb-help-button')
@@ -97,7 +99,9 @@ describe('Provider', () => {
     })
 
     expect(
-      Comp.find('button.dnb-help-button').instance().getAttribute('title')
+      Comp.find('button.dnb-help-button')
+        .instance()
+        .getAttribute('aria-label')
     ).toBe(title_gb)
     expect(
       Comp.find('button.dnb-help-button')

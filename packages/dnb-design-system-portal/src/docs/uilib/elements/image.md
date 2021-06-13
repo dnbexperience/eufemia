@@ -41,20 +41,15 @@ render(<CustomImage />)
 
 <ComponentBox data-visual-test="image-no-source" useRender hideCode>
 {`
-const StyledImg = styled(Img)\`
-  border-radius: 1rem;
-\`
-const CustomImage = () => {
-	return (
-    <StyledImg
-      width="100"
-      height="100"
-      alt="Alt text"
-      src="https://invalid"
-    />
-	)
-}
-render(<CustomImage />)
+const MyImg = Img
+render(
+  <MyImg
+    width="100"
+    height="100"
+    alt="Alt text"
+    src="https://invalid"
+  />
+)
 `}
 </ComponentBox>
 

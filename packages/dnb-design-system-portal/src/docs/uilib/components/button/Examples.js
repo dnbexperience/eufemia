@@ -171,18 +171,21 @@ export const ButtonAnchor = () => (
   on_click={({ event }) => {
     event.preventDefault()
   }}
+  right
 />
 <Button
   variant="secondary"
   text="Secondary with href"
   href="/uilib/components/button/demos"
   target="_blank"
+  right
 />
 <Button
   href="/uilib/components/button/demos"
   title="This is a link"
   icon="chevron_right"
   size="default"
+  right
 />
 `}
   </ComponentBox>

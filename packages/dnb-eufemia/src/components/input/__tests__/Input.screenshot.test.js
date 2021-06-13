@@ -69,6 +69,12 @@ describe('Input screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match input with clear button', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="input-clear"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match password input', async () => {
     const screenshot = await testPageScreenshot({
       ...extend('input-password'),

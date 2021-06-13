@@ -1326,19 +1326,23 @@ thead > tr > th.dnb-table--active .dnb-button:hover:focus .dnb-button__text::aft
     border-radius: inherit; }
     .dnb-img img[alt]::after {
       content: attr(alt);
-      display: flex;
       position: absolute;
       z-index: 3;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      display: flex;
       align-items: center;
       justify-content: center;
       border-radius: inherit;
+      color: var(--color-black-80);
       background-color: var(--color-black-8); }
   .dnb-img figcaption {
     margin-top: 0.5rem; }
+  .dnb-img__img--error {
+    color: var(--color-black-80);
+    background-color: var(--color-black-8); }
 
 /*
  * Hr tag / line
