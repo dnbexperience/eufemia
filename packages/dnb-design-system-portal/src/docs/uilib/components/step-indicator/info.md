@@ -12,6 +12,16 @@ The current active step is set with the `current_step` property or within the da
 
 ## Sidebar
 
+The StepIndicator has two layouts. One for larger screens (above [medium](/uilib/usage/layout/media-queries#media-queries-properties-table)) and one for more narrow screens (below [medium](/uilib/usage/layout/media-queries#media-queries-properties-table)).
+
+Depending on the screen width, the component will hide the Sidebar responsively, and in return show a button to access all the steps inside a [Drawer](/uilib/components/modal#drawer-mode). You may have a [look at an demo](/uilib/components/step-indicator/#stepindicator-in-loose-mode).
+
+### Why a sidebar?
+
+In order to provide a user experience, where the amount of steps are almost unlimited, and at the same time, make these steps as accessible as possible, the solution was to provide the steps side-by-side the content, as long as there is enough available room for it to show properly.
+
+### How to use the sidebar?
+
 The step indicator has a optionally a Sidebar "sister" component you can place in your layout, if the steps should be shown side-by-side to the content. Use the property `sidebar_id` to bind these two together:
 
 ```jsx
@@ -54,6 +64,20 @@ const steps = [
 ```
 
 More details about modifying steps in the [properties panel](/uilib/components/step-indicator/properties#steps-parameters).
+
+## How wide should the sidebar be?
+
+The sidebar comes with these styles:
+
+```css
+.dnb-step-indicator__sidebar {
+  max-width: 20rem;
+  margin-right: var(--spacing-x-large);
+}
+.dnb-step-indicator__sidebar .dnb-step-indicator__item {
+  min-width: 320px;
+}
+```
 
 ## API changes after version 9.8
 

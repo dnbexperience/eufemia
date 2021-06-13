@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
-import styled from '@emotion/styled'
+// import styled from '@emotion/styled'
 import { createBrowserHistory } from 'history'
 import { StepIndicator, Button, Space } from '@dnb/eufemia/src/components'
 import { Code } from '@dnb/eufemia/src/elements'
@@ -47,20 +47,15 @@ const data = [
   },
 ]
 
-const Layout = styled.div`
-  display: flex;
-  max-width: 30rem;
-
-  .dnb-step-indicator__list {
-    min-width: 320px;
-  }
-`
 const InteractiveDemo = () => {
   const [step, setStep] = React.useState(1)
 
   return (
-    <Layout>
-      <StepIndicator.Sidebar sidebar_id="unique-id-loose" right="large" />
+    <div style={{ display: 'flex' }}>
+      <StepIndicator.Sidebar
+        sidebar_id="unique-id-loose"
+        // right="large"
+      />
 
       <Space stretch>
         <StepIndicator
@@ -71,6 +66,9 @@ const InteractiveDemo = () => {
             setStep(current_step)
           }}
           data={[
+            // 'a',
+            // 'b',
+            // 'c',
             'Cum odio si bolig bla et ta',
             'Auctor tortor vestibulum placerat bibendum sociis aliquam nunc sed venenatis massa eget duis',
             'Bibendum sociis',
@@ -92,7 +90,7 @@ const InteractiveDemo = () => {
           Next step
         </Button>
       </Space>
-    </Layout>
+    </div>
   )
 }
 

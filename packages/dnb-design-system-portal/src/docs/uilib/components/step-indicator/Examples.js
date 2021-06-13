@@ -66,23 +66,12 @@ export const StepIndicatorStrict = () => (
 export const StepIndicatorLoose = () => (
   <ComponentBox data-visual-test="step-indicator-loose" useRender>
     {() => /* jsx */ `
-const Layout = styled.div\`
-  display: flex;
-  max-width: 30rem;
-
-  .dnb-step-indicator__list {
-    min-width: 320px;
-  }
-\`
 const InteractiveDemo = () => {
   const [step, setStep] = React.useState(1)
 
   return (
-    <Layout>
-      <StepIndicator.Sidebar
-        sidebar_id="unique-id-loose"
-        right="large"
-      />
+    <div style={{ display: 'flex' }}>
+      <StepIndicator.Sidebar sidebar_id="unique-id-loose" />
 
       <Space stretch>
         <StepIndicator
@@ -114,7 +103,7 @@ const InteractiveDemo = () => {
           Next step
         </Button>
       </Space>
-    </Layout>
+    </div>
   )
 }
 render(<InteractiveDemo />)

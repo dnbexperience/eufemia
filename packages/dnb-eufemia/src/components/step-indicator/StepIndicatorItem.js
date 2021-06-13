@@ -10,8 +10,8 @@ import {
   isTrue,
   makeUniqueId,
   dispatchCustomElementEvent,
-  AnimateHeight,
 } from '../../shared/component-helper'
+import AnimateHeight from '../../shared/AnimateHeight'
 import Button from '../button/Button'
 import Icon from '../icon/Icon'
 import {
@@ -103,10 +103,6 @@ export default class StepIndicatorItem extends React.PureComponent {
     this._ref = React.createRef()
   }
 
-  getSnapshotBeforeUpdate() {
-    return this._heightAnim.getOpenHeight()
-  }
-
   componentDidMount() {
     this._heightAnim.setElem(this._ref.current)
     this._prevStep = this.context.activeStep
@@ -117,13 +113,18 @@ export default class StepIndicatorItem extends React.PureComponent {
     this._eventEmitter.remove()
   }
 
+  getSnapshotBeforeUpdate() {
+    const height = this._heightAnim.getHeight()
+    return height
+  }
+
   componentDidUpdate(a, b, height) {
     if (
       this._prevStep !== this.context.activeStep &&
       (this.props.currentItemNum === this._prevStep ||
         this.props.currentItemNum === this.context.activeStep)
     ) {
-      const toHeight = this._heightAnim.getOpenHeight()
+      const toHeight = this._heightAnim.getUnknownHeight()
       if (height !== toHeight) {
         this._heightAnim.adjustTo(height, toHeight)
       }

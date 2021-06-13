@@ -900,6 +900,12 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
     background-color: currentColor;
     box-shadow: 100vw 0 0 0 currentColor; }
 
+.dnb-step-indicator__sidebar {
+  max-width: 20rem;
+  margin-right: var(--spacing-x-large); }
+  .dnb-step-indicator__sidebar .dnb-step-indicator__item {
+    min-width: 320px; }
+
 .dnb-step-indicator-v2 .dnb-step-indicator__list {
   display: flex;
   flex-direction: column;

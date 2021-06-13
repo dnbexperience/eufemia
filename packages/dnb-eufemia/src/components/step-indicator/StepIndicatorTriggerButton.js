@@ -11,9 +11,9 @@ import fullscreen_medium from '../../icons/fullscreen_medium'
 import {
   validateDOMAttributes,
   combineDescribedBy,
-  AnimateHeight,
   isTrue,
 } from '../../shared/component-helper'
+import AnimateHeight from '../../shared/AnimateHeight'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import FormLabel from '../form-label/FormLabel'
 import StepIndicatorContext from './StepIndicatorContext'
@@ -44,7 +44,7 @@ export default class StepIndicatorTriggerButton extends React.PureComponent {
   }
 
   getSnapshotBeforeUpdate() {
-    return this._heightAnim.getOpenHeight()
+    return this._heightAnim.getUnknownHeight()
   }
 
   componentDidMount() {
@@ -56,7 +56,7 @@ export default class StepIndicatorTriggerButton extends React.PureComponent {
   }
 
   componentDidUpdate(a, b, height) {
-    const toHeight = this._heightAnim.getOpenHeight()
+    const toHeight = this._heightAnim.getUnknownHeight()
     if (
       this._prevStep !== this.context.activeStep &&
       height !== toHeight

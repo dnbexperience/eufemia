@@ -35,7 +35,7 @@ export default class StepIndicatorSidebar extends React.PureComponent {
     this._mediaQueryListener = onMediaQueryChange(
       {
         min: '0',
-        max: 'small',
+        max: 'medium',
       },
       (hideSidebar) => {
         this.setState({
@@ -76,6 +76,7 @@ export default class StepIndicatorSidebar extends React.PureComponent {
         <div
           className={classnames(
             'dnb-step-indicator-v2',
+            'dnb-step-indicator__sidebar',
             this.state.hasSidebar &&
               this.state.hideSidebar &&
               'dnb-sr-only'
