@@ -10,8 +10,8 @@ import {
   validateDOMAttributes,
   processChildren,
   getPreviousSibling,
-  AnimateHeight,
 } from '../../shared/component-helper'
+import AnimateHeight from '../../shared/AnimateHeight'
 import classnames from 'classnames'
 import AccordionContext from './AccordionContext'
 import {

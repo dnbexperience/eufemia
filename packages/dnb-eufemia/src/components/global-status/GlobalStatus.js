@@ -11,7 +11,6 @@ import Context from '../../shared/Context'
 import {
   warn,
   isTrue,
-  AnimateHeight,
   makeUniqueId,
   registerElement,
   validateDOMAttributes,
@@ -20,6 +19,7 @@ import {
   processChildren,
   extendPropsWithContext,
 } from '../../shared/component-helper'
+import AnimateHeight from '../../shared/AnimateHeight'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -272,9 +272,8 @@ export default class GlobalStatus extends React.PureComponent {
     this.provider = GlobalStatusProvider.create(props.id)
 
     // add the props as the first stack
-    this.state.globalStatus = this._globalStatus = this.provider.init(
-      props
-    )
+    this.state.globalStatus = this._globalStatus =
+      this.provider.init(props)
 
     // and make it visible from start, if needed
     if (isTrue(props.show)) {
@@ -408,8 +407,7 @@ export default class GlobalStatus extends React.PureComponent {
           _listenForPropChanges: false,
         },
         () => {
-          this.anim.adjustTo(this.adjustHeight)
-          this.adjustHeight = null
+            this.anim.adjustTo(this.adjustHeight, null, {})
         }
       )
 
