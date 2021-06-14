@@ -40,6 +40,15 @@ As soon as the _Pull Request_ gets merged into `origin/release`, a CI/CD server 
 
 Run `yarn build:pack` inside `/dnb-eufemia` and you get this file: `/build/dnb-eufemia-v0.0.0-development`.
 
+## How to enable lint-staged?
+
+Create a file called `.env.local` in the root of the repo (side-by-side to the .git folder), and put `LINT_STAGED=1` inside:
+
+```bash
+# File: .env.local
+LINT_STAGED=1
+```
+
 ## Other development topics
 
 - [Changes](/uilib/development/changes)
