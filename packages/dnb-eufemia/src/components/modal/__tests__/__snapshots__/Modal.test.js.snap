@@ -1671,7 +1671,10 @@ button.dnb-button::-moz-focus-inner {
         .dnb-modal__content--spacing .dnb-modal__content__spacing {
           padding: var(--modal-content-top) calc(var(--modal-spacing) * 0.75) 0; } }
     .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__content__spacing {
-      padding: var(--modal-drawer-content-top) calc(var(--modal-spacing) * 1.75) 0; }
+      padding: var(--modal-drawer-content-top) var(--modal-spacing) 0; }
+      @media screen and (max-width: 40em) {
+        .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__content__spacing {
+          padding: var(--modal-drawer-content-top) calc(var(--modal-spacing) / 2) 0; } }
     .dnb-modal__content__align--center .dnb-modal__content__spacing {
       display: flex;
       flex-direction: column;
@@ -1766,25 +1769,28 @@ button.dnb-button::-moz-focus-inner {
   .dnb-modal__wrapper {
     position: relative;
     z-index: 1; }
-  .dnb-modal__content--spacing .dnb-modal__wrapper {
-    padding-bottom: calc(var(--modal-spacing) * 1.75); }
-    @media screen and (max-width: 40em) {
-      .dnb-modal__content--spacing .dnb-modal__wrapper {
-        padding-bottom: calc(var(--modal-spacing) * 1.25); } }
   .dnb-modal__content--drawer .dnb-modal__wrapper {
     padding-bottom: calc(var(--modal-spacing) * 2); }
+  .dnb-modal__content--spacing .dnb-modal__wrapper {
+    padding-bottom: calc(var(--modal-spacing) * 2); }
+    @supports (-webkit-touch-callout: none) {
+      .dnb-modal__content--spacing .dnb-modal__wrapper {
+        padding-bottom: calc(var(--modal-spacing) * 4); } }
   .dnb-modal__title ~ .dnb-modal__wrapper {
     padding-top: calc(var(--modal-spacing) / 2); }
   .dnb-modal__content--drawer .dnb-modal__title ~ .dnb-modal__wrapper {
     padding-top: calc(var(--modal-spacing) * 0.75); }
   .dnb-modal__wrapper__inner {
     padding-bottom: calc(var(--modal-spacing) * 2);
-    margin-bottom: calc(var(--modal-spacing-minus) * 1.75); }
+    margin-bottom: calc(var(--modal-spacing-minus) * 2); }
     @media screen and (max-width: 40em) {
       .dnb-modal__wrapper__inner.dnb-section::after {
         min-height: calc( 100vh - var(--modal-content-top) - calc(var(--modal-spacing) * 1.5)); } }
   .dnb-modal__content--drawer .dnb-modal__wrapper__inner {
     margin-bottom: calc(var(--modal-spacing-minus) * 2); }
+    @supports (-webkit-touch-callout: none) {
+      .dnb-modal__content--drawer .dnb-modal__wrapper__inner {
+        padding-bottom: calc(var(--modal-spacing-minus) * 4); } }
     .dnb-modal__content--drawer .dnb-modal__wrapper__inner.dnb-section::after {
       min-height: calc( 100vh - var(--modal-drawer-content-top) - calc(var(--modal-spacing) * 2)); }
   .dnb-modal__close-button {
@@ -1798,7 +1804,10 @@ button.dnb-button::-moz-focus-inner {
         right: calc(var(--modal-spacing) / 2); } }
   .dnb-modal__content--drawer .dnb-modal__close-button {
     top: calc(var(--modal-spacing) * 1.75);
-    right: calc(var(--modal-spacing) * 1.75); }
+    right: calc(var(--modal-spacing) * 0.75); }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__content--drawer .dnb-modal__close-button {
+        right: calc(var(--modal-spacing) / 3.25); } }
   .dnb-modal__overlay {
     position: fixed;
     z-index: var(--modal-z-index);

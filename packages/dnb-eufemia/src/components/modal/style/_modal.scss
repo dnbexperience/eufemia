@@ -105,8 +105,11 @@
       }
     }
     &--spacing#{&}--drawer &__spacing {
-      padding: var(--modal-drawer-content-top)
-        calc(var(--modal-spacing) * 1.75) 0;
+      padding: var(--modal-drawer-content-top) var(--modal-spacing) 0;
+      @include allBelow(small) {
+        padding: var(--modal-drawer-content-top)
+          calc(var(--modal-spacing) / 2) 0;
+      }
     }
 
     &__align--center &__spacing {
@@ -138,7 +141,7 @@
       min-width: var(--modal-drawer-min-width);
       max-width: var(--modal-drawer-max-width);
 
-      @media screen and (max-width: 40em) {
+      @include allBelow(small) {
         width: 100vw;
         min-width: auto;
         max-width: auto;
@@ -229,7 +232,7 @@
     &--no-animation &__inner {
       animation-duration: 0ms !important;
     }
-    @media screen and (max-width: 40em) {
+    @include allBelow(small) {
       &--no-animation-on-mobile &__inner {
         animation-duration: 0ms !important;
       }
@@ -247,15 +250,15 @@
     position: relative;
     z-index: 1;
   }
-  &__content--spacing &__wrapper {
-    padding-bottom: calc(var(--modal-spacing) * 1.75);
-
-    @include allBelow(small) {
-      padding-bottom: calc(var(--modal-spacing) * 1.25);
-    }
-  }
   &__content--drawer &__wrapper {
     padding-bottom: calc(var(--modal-spacing) * 2);
+  }
+  &__content--spacing &__wrapper {
+    padding-bottom: calc(var(--modal-spacing) * 2);
+
+    @include IS_SAFARI_MOBILE {
+      padding-bottom: calc(var(--modal-spacing) * 4);
+    }
   }
   &__title ~ &__wrapper {
     padding-top: calc(var(--modal-spacing) / 2);
@@ -266,7 +269,7 @@
 
   &__wrapper__inner {
     padding-bottom: calc(var(--modal-spacing) * 2);
-    margin-bottom: calc(var(--modal-spacing-minus) * 1.75);
+    margin-bottom: calc(var(--modal-spacing-minus) * 2);
 
     @include allBelow(small) {
       &.dnb-section::after {
@@ -279,6 +282,10 @@
   }
   &__content--drawer &__wrapper__inner {
     margin-bottom: calc(var(--modal-spacing-minus) * 2);
+
+    @include IS_SAFARI_MOBILE {
+      padding-bottom: calc(var(--modal-spacing-minus) * 4);
+    }
 
     &.dnb-section::after {
       min-height: calc(
@@ -316,7 +323,11 @@
   }
   &__content--drawer &__close-button {
     top: calc(var(--modal-spacing) * 1.75);
-    right: calc(var(--modal-spacing) * 1.75);
+    right: calc(var(--modal-spacing) * 0.75);
+
+    @include allBelow(small) {
+      right: calc(var(--modal-spacing) / 3.25);
+    }
   }
 
   &__overlay {
@@ -367,7 +378,7 @@
     animation-delay: 0ms !important;
     animation-duration: 0ms !important;
   }
-  @media screen and (max-width: 40em) {
+  @include allBelow(small) {
     &--no-animation-on-mobile {
       animation-delay: 0ms !important;
       animation-duration: 0ms !important;

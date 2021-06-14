@@ -49,33 +49,32 @@ function getEventListenerOptions(options) {
     : false
 }
 
-const setOverflowHiddenPc = () => {
+const setOverflowHiddenDesktop = () => {
   try {
     const $html = document.documentElement
     const $body = document.body
     const htmlStyle = Object.assign({}, $html.style)
     const bodyStyle = Object.assign({}, $body.style)
-    const scrollBarWidth = window.innerWidth - $body.clientWidth
+    const scrollBarWidth =
+      window.innerWidth - ($body.clientWidth || window.innerWidth)
 
-    $html.style.height = 'auto'
+    $html.style.height = '100%'
     $html.style.overflow = 'hidden'
-    $html.style.setProperty('--scrollbar-width', `${scrollBarWidth}px`)
     $body.style.overflow = 'hidden'
     $body.style.height = 'auto'
     $body.style.boxSizing = 'border-box'
     $body.style.marginRight = `${scrollBarWidth}px`
+    $html.style.setProperty('--scrollbar-width', `${scrollBarWidth}px`)
 
     return () => {
       try {
         // eslint-disable-next-line
-        ;['height', 'overflow'].forEach((x) => {
+        ;['overflow', 'height'].forEach((x) => {
           $html.style[x] = htmlStyle[x] || ''
         })
-        ;['overflow', 'height', 'boxSizing', 'marginRight'].forEach(
-          (x) => {
-            $body.style[x] = bodyStyle[x] || ''
-          }
-        )
+        ;['overflow', 'height', 'boxSizing', 'margin'].forEach((x) => {
+          $body.style[x] = bodyStyle[x] || ''
+        })
         $html.style.removeProperty('--scrollbar-width')
       } catch (e) {
         //
@@ -97,18 +96,18 @@ const setOverflowHiddenMobile = () => {
     $html.style.height = '100%'
     $html.style.overflow = 'hidden'
     $body.style.top = `-${scrollTop}px`
+    $body.style.height = '100%'
     $body.style.width = '100%'
-    $body.style.height = 'auto'
     $body.style.position = 'fixed'
     $body.style.overflow = 'hidden'
 
     return () => {
       try {
         // eslint-disable-next-line
-        ;['height', 'overflow'].forEach((x) => {
+        ;['overflow', 'height'].forEach((x) => {
           $html.style[x] = htmlStyle[x] || ''
         })
-        ;['top', 'width', 'height', 'overflow', 'position'].forEach(
+        ;['overflow', 'height', 'width', 'position', 'top'].forEach(
           (x) => {
             $body.style[x] = bodyStyle[x] || ''
           }
@@ -249,7 +248,7 @@ export const disableBodyScroll = (targetElement) => {
     } else if (lockedNum <= 0) {
       unLockCallback = detectOS().android
         ? setOverflowHiddenMobile()
-        : setOverflowHiddenPc()
+        : setOverflowHiddenDesktop()
     }
 
     lockedNum += 1
