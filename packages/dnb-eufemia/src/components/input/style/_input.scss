@@ -297,6 +297,11 @@
       .dnb-button__icon {
         margin: auto;
       }
+
+      html:not([data-whatintent='touch'])
+        &:not(.dnb-button--has-text):hover[disabled] {
+        cursor: default;
+      }
     }
   }
   &--small &--clear.dnb-input__submit-element {
