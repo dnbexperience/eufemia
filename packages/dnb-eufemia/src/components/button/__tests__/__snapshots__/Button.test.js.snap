@@ -262,7 +262,7 @@ exports[`Button component have to match default button snapshot 1`] = `
         color={null}
         height={null}
         icon="question"
-        inherit_color={true}
+        inherit_color={null}
         key="button-icon"
         modifier={null}
         size="icon_size"
@@ -761,7 +761,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                 color={null}
                 height={null}
                 icon="question"
-                inherit_color={true}
+                inherit_color={null}
                 key="button-icon"
                 modifier={null}
                 size="icon_size"

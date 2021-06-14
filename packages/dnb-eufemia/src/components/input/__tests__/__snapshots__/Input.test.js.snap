@@ -474,7 +474,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                         color={null}
                         height={null}
                         icon="loupe"
-                        inherit_color={true}
+                        inherit_color={null}
                         key="button-icon"
                         modifier={null}
                         size="default"

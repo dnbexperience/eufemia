@@ -824,7 +824,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                       title={null}
                     />
                   }
-                  inherit_color={true}
+                  inherit_color={null}
                   modifier={null}
                   size="icon_size"
                   skeleton={null}
@@ -982,7 +982,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                         color={null}
                         height={null}
                         icon="close"
-                        inherit_color={true}
+                        inherit_color={null}
                         key="button-icon"
                         modifier={null}
                         size="medium"
@@ -1147,7 +1147,7 @@ Array [
                         title={null}
                       />
                     }
-                    inherit_color={true}
+                    inherit_color={null}
                     modifier={null}
                     size="large"
                     skeleton={null}
@@ -1305,7 +1305,7 @@ Array [
                           color={null}
                           height={null}
                           icon="close"
-                          inherit_color={true}
+                          inherit_color={null}
                           key="button-icon"
                           modifier={null}
                           size="medium"
