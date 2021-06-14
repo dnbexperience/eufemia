@@ -383,21 +383,6 @@ export default class Modal extends React.PureComponent {
   handleSideEffects = () => {
     const modalActive = this.state.modalActive
 
-    // prevent scrolling on the background
-    if (typeof document !== 'undefined') {
-      try {
-        document.body.setAttribute(
-          'data-dnb-modal-active',
-          modalActive ? 'true' : 'false'
-        )
-      } catch (e) {
-        warn(
-          'Modal: Error on set "data-dnb-modal-active" by using element.setAttribute()',
-          e
-        )
-      }
-    }
-
     if (modalActive) {
       if (typeof this.props.close_modal === 'function') {
         const fn = this.props.close_modal(() => {
@@ -407,6 +392,8 @@ export default class Modal extends React.PureComponent {
           this._onUnmount.push(fn)
         }
       }
+
+      this.setActiveState(true)
     } else if (modalActive === false) {
       if (this._triggerRef && this._triggerRef.current) {
         this._triggerRef.current.focus({ preventScroll: true })
@@ -424,6 +411,11 @@ export default class Modal extends React.PureComponent {
         } catch (e) {
           //
         }
+      }
+
+      const list = getListOfModalRoots()
+      if (list.length <= 1) {
+        this.setActiveState(false)
       }
     }
   }
@@ -457,6 +449,23 @@ export default class Modal extends React.PureComponent {
       }
 
       this.toggleOpenClose(event, false)
+    }
+  }
+
+  setActiveState(modalActive) {
+    // prevent scrolling on the background
+    if (typeof document !== 'undefined') {
+      try {
+        document.body.setAttribute(
+          'data-dnb-modal-active',
+          modalActive ? 'true' : 'false'
+        )
+      } catch (e) {
+        warn(
+          'Modal: Error on set "data-dnb-modal-active" by using element.setAttribute()',
+          e
+        )
+      }
     }
   }
 
