@@ -58,8 +58,10 @@ const setOverflowHiddenDesktop = () => {
     const scrollBarWidth =
       window.innerWidth - ($body.clientWidth || window.innerWidth)
 
-    $html.style.height = '100%'
     $html.style.overflow = 'hidden'
+    $html.style.height = '100%'
+    $html.style.setProperty('--scrollbar-width', `${scrollBarWidth}px`)
+
     $body.style.overflow = 'hidden'
     $body.style.height = 'auto'
     $body.style.boxSizing = 'border-box'
@@ -93,13 +95,15 @@ const setOverflowHiddenMobile = () => {
     const htmlStyle = Object.assign({}, $html.style)
     const bodyStyle = Object.assign({}, $body.style)
 
+    const width = window.getComputedStyle($body).width
+
     $html.style.height = '100%'
     $html.style.overflow = 'hidden'
-    $body.style.top = `-${scrollTop}px`
-    $body.style.height = '100%'
-    $body.style.width = '100%'
-    $body.style.position = 'fixed'
     $body.style.overflow = 'hidden'
+    $body.style.position = 'fixed'
+    $body.style.top = `-${scrollTop}px`
+    $body.style.width = width
+    $body.style.height = '100%'
 
     return () => {
       try {

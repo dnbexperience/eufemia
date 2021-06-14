@@ -560,6 +560,10 @@ describe('Modal component', () => {
 
     global.userAgent.mockReturnValue('iPhone OS 14')
     global.appVersion.mockReturnValue('OS 14_0_0')
+    jest.spyOn(window, 'getComputedStyle').mockImplementation(() => ({
+      width: '100px',
+      scrollBehavior: '',
+    }))
 
     // open modal
     elem.simulate('click')
@@ -568,15 +572,15 @@ describe('Modal component', () => {
     expect(document.body.style.overflow).toBe('hidden')
     expect(document.body.style.position).toBe('fixed')
     expect(document.body.style.height).toBe('100%')
-    expect(document.body.style.width).toBe('100%')
+    expect(document.body.style.width).toBe('100px')
     expect(document.documentElement.style.height).toBe('100%')
     expect(document.body.getAttribute('data-dnb-modal-active')).toBe(
       'true'
     )
-    
+
     // close modal
     elem.simulate('click')
-    
+
     expect(document.body.getAttribute('style')).toBe('')
     expect(document.documentElement.getAttribute('style')).toBe('')
     expect(document.body.getAttribute('data-dnb-modal-active')).toBe(
