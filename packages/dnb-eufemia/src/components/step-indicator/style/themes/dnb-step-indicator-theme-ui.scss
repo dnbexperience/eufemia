@@ -46,13 +46,18 @@
     }
   }
 
+  html[data-whatinput='keyboard']
+    &__item--current
+    .dnb-button:not([disabled]):not(:active):not(:hover):focus {
+    color: var(--color-emerald-green);
+    background-color: var(--color-mint-green);
+  }
+
   &__label,
   &__label.dnb-p {
     font-size: var(--font-size-small);
     margin-bottom: 0.5rem;
   }
-
-  // dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__button__status dnb-step-indicator__button__status--error dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap
 
   &__button__status {
     &.dnb-button--secondary {
@@ -76,11 +81,6 @@
         font-weight: var(--font-weight-basis);
       }
 
-      &__text {
-        text-decoration: underline;
-        text-underline-offset: 0.25rem;
-        text-decoration-thickness: 1.6px;
-      }
       &__status {
         margin-top: 0.5rem;
 
