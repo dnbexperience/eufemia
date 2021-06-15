@@ -62,7 +62,7 @@ export const MediaQuerySandbox = () => {
           </Button>
           <br />
 
-          <MediaQuery ssr when={query}>
+          <MediaQuery matchOnSSR when={query}>
             when <br />
           </MediaQuery>
           <MediaQuery not when={query}>

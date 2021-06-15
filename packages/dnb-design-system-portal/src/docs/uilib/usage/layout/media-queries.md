@@ -46,7 +46,7 @@ CamelCase properties will be converted to kebab-case.
 
 ### SSR
 
-During a SSR (Server Side Render) we do not have the clients `window.matchMedia`. In order to make the initial render to a positive match, you can set the `ssr={true}` property.
+During a SSR (Server Side Render) we do not have the clients `window.matchMedia`. In order to make the initial render to a positive match, you can set the `matchOnSSR={true}` property.
 
 ### Units
 
@@ -75,7 +75,7 @@ You have plenty of possibilities to mix and match:
   matches all, but beneath large screens
 </MediaQuery>
 
-<MediaQuery ssr when={{ min: 'small', max: 'medium' }}>
+<MediaQuery matchOnSSR when={{ min: 'small', max: 'medium' }}>
   matches small and medium screens and during SSR
 </MediaQuery>
 
@@ -118,7 +118,7 @@ import useMediaQuery from '@dnb/eufemia/shared/useMediaQuery'
 ```jsx
 function Component() {
   const match = useMediaQuery({
-    ssr: true,
+    matchOnSSR: true,
     when: { min: 'medium' },
   })
 
@@ -147,11 +147,11 @@ const Playground = () => {
     max: 'large',
   })
   const match1 = useMediaQuery({
-    ssr: true,
+    matchOnSSR: true,
     when: query,
   })
   const match2 = useMediaQuery({
-    ssr: true,
+    matchOnSSR: true,
     not: true,
     when: query,
   })
