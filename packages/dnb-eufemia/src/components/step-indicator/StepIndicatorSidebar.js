@@ -73,17 +73,16 @@ export default class StepIndicatorSidebar extends React.PureComponent {
         listAttributes={this.props}
         {...this.state}
       >
-        <div
-          className={classnames(
-            'dnb-step-indicator-v2',
-            'dnb-step-indicator__sidebar',
-            this.state.hasSidebar &&
-              this.state.hideSidebar &&
-              'dnb-sr-only'
-          )}
-        >
-          <StepIndicatorList />
-        </div>
+        {!(this.state.hasSidebar & this.state.hideSidebar) && (
+          <div
+            className={classnames(
+              'dnb-step-indicator-v2',
+              'dnb-step-indicator__sidebar'
+            )}
+          >
+            <StepIndicatorList />
+          </div>
+        )}
       </StepIndicatorProvider>
     )
   }

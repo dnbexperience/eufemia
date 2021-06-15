@@ -114,8 +114,7 @@ export default class StepIndicatorItem extends React.PureComponent {
   }
 
   getSnapshotBeforeUpdate() {
-    const height = this._heightAnim.getHeight()
-    return height
+    return this._heightAnim.getHeight()
   }
 
   componentDidUpdate(a, b, height) {

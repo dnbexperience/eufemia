@@ -25,8 +25,16 @@
     list-style: none;
   }
 
+  &__trigger {
+    // Is needed to make ensure the button stays on top during height animation
+    display: flex;
+    flex-direction: column;
+  }
+
   &__trigger__button,
   &__item .dnb-button {
+    overflow: hidden; // only needed when text is large and it overflows during animation (from small to large)
+
     .dnb-button__text {
       text-align: left;
     }
@@ -52,7 +60,7 @@
 
     .dnb-button__icon {
       opacity: 1;
-      transition: opacity 400ms ease-in-out;
+      transition: opacity 1400ms ease-in-out;
     }
     &:not(.dnb-step-indicator__item--visited)
       .dnb-button:not(.dnb-step-indicator__button__status)

@@ -913,8 +913,13 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
   margin: 0;
   list-style: none; }
 
+.dnb-step-indicator-v2 .dnb-step-indicator__trigger {
+  display: flex;
+  flex-direction: column; }
+
 .dnb-step-indicator-v2 .dnb-step-indicator__trigger__button,
 .dnb-step-indicator-v2 .dnb-step-indicator__item .dnb-button {
+  overflow: hidden;
   justify-content: space-between;
   border-radius: 0.25rem;
   will-change: height;
@@ -936,7 +941,7 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
   margin-bottom: 1rem; }
   .dnb-step-indicator-v2 .dnb-step-indicator__item .dnb-button__icon {
     opacity: 1;
-    transition: opacity 400ms ease-in-out; }
+    transition: opacity 1400ms ease-in-out; }
   .dnb-step-indicator-v2 .dnb-step-indicator__item:not(.dnb-step-indicator__item--visited) .dnb-button:not(.dnb-step-indicator__button__status)
 .dnb-button__icon {
     opacity: 0; }

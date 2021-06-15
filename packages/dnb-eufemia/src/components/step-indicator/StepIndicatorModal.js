@@ -16,6 +16,11 @@ export default class StepIndicatorModal extends React.PureComponent {
 
   state = { open_state: false }
 
+  constructor(props) {
+    super(props)
+    this._triggerRef = React.createRef()
+  }
+
   onChangeState = () => {
     this.setState({ open_state: false })
   }
@@ -26,12 +31,21 @@ export default class StepIndicatorModal extends React.PureComponent {
 
   closeHandler = () => {
     this.setState({ open_state: false })
+    if (this.context.hasSidebar) {
+      this._triggerRef.current?.focus()
+    }
   }
 
   render() {
+    if (this.context.hasSidebar && !this.context.hideSidebar) {
+      return null
+    }
     return (
       <>
-        <StepIndicatorTriggerButton on_click={this.openHandler} />
+        <StepIndicatorTriggerButton
+          on_click={this.openHandler}
+          inner_ref={this._triggerRef}
+        />
         <Modal
           id={this.context.sidebar_id}
           title={this.context.overview_title}

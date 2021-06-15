@@ -93,7 +93,7 @@ export default class Icon extends React.PureComponent {
     height: null,
     border: null,
     color: null,
-    inherit_color: null,
+    inherit_color: true,
     alt: null,
     title: null,
     skeleton: null,

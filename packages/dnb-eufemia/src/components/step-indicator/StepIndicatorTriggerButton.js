@@ -29,10 +29,12 @@ export default class StepIndicatorTriggerButton extends React.PureComponent {
   static propTypes = {
     sidebar_id: PropTypes.string,
     className: PropTypes.string,
+    inner_ref: PropTypes.object,
   }
   static defaultProps = {
     sidebar_id: null,
     className: null,
+    inner_ref: null,
   }
 
   constructor(props, context) {
@@ -40,15 +42,15 @@ export default class StepIndicatorTriggerButton extends React.PureComponent {
     this._heightAnim = new AnimateHeight({
       animate: !isTrue(context.no_animation),
     })
-    this._ref = React.createRef()
+    this._buttonRef = props.inner_ref || React.createRef()
   }
 
   getSnapshotBeforeUpdate() {
-    return this._heightAnim.getUnknownHeight()
+    return this._heightAnim.getHeight()
   }
 
   componentDidMount() {
-    this._heightAnim.setElem(this._ref.current)
+    this._heightAnim.setElem(this._buttonRef.current)
   }
 
   componentWillUnmount() {
@@ -56,11 +58,14 @@ export default class StepIndicatorTriggerButton extends React.PureComponent {
   }
 
   componentDidUpdate(a, b, height) {
-    const toHeight = this._heightAnim.getUnknownHeight()
-    if (
-      this._prevStep !== this.context.activeStep &&
-      height !== toHeight
-    ) {
+    if (this._prevStep !== this.context.activeStep) {
+      const toHeight = this._heightAnim.getUnknownHeight()
+
+      // make animation smooth
+      // because we set the height before requestAnimationFrame
+      // also, to ensure smoothness, the parent li wrapper (&__trigger) needs flex column
+      this._heightAnim.adjustFrom(height)
+
       this._heightAnim.adjustTo(height, toHeight)
     }
     this._prevStep = this.context.activeStep
@@ -75,9 +80,6 @@ export default class StepIndicatorTriggerButton extends React.PureComponent {
       sidebar_id: null,
       className: classnames(
         'dnb-step-indicator__trigger',
-        this.context.hasSidebar &&
-          !this.context.hideSidebar &&
-          'dnb-sr-only',
         createSkeletonClass('font', this.context.skeleton),
         createSpacingClasses(this.context)
       ),
@@ -132,7 +134,7 @@ export default class StepIndicatorTriggerButton extends React.PureComponent {
           icon={fullscreen_medium}
           icon_size="medium"
           icon_position="right"
-          inner_ref={this._ref}
+          inner_ref={this._buttonRef}
         >
           <StepItemWrapper
             number={this.context.activeStep + 1}
