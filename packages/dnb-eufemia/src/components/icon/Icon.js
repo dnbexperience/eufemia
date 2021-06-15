@@ -256,16 +256,14 @@ export const calcSize = (props) => {
   }
 
   // define all the svg parameters
-  const {
-    sizeAsString: isCustomSize,
-    params: iconParams,
-  } = prepareIconParams({
-    sizeAsString,
-    sizeAsInt,
-    size,
-    width,
-    height,
-  })
+  const { sizeAsString: isCustomSize, params: iconParams } =
+    prepareIconParams({
+      sizeAsString,
+      sizeAsInt,
+      size,
+      width,
+      height,
+    })
   if (isCustomSize) {
     sizeAsString = isCustomSize
   }
@@ -371,7 +369,7 @@ export const prepareIcon = (props, context) => {
     modifier && `dnb-icon--${modifier}`,
     isTrue(border) && 'dnb-icon--border',
     isTrue(inherit_color) && 'dnb-icon--inherit-color',
-    sizeAsString ? `dnb-icon--${sizeAsString}` : `dnb-icon--default`,
+    sizeAsString ? `dnb-icon--${sizeAsString}` : 'dnb-icon--default',
     createSkeletonClass(null, skeleton, context),
     createSpacingClasses(props),
     _className,
@@ -439,9 +437,9 @@ export const prerenderIcon = ({
     ) {
       icon = `${icon}_${size}`
     }
-    const mod = (listOfIcons.dnbIcons
-      ? listOfIcons.dnbIcons
-      : listOfIcons)[icon]
+    const mod = (
+      listOfIcons.dnbIcons ? listOfIcons.dnbIcons : listOfIcons
+    )[icon]
     return mod && mod.default ? mod.default : mod
   } catch (e) {
     new ErrorHandler(`Icon '${icon}' did not exist!`)

@@ -77,6 +77,25 @@ describe('Icon component', () => {
     )
   })
 
+  it('should inherit color and vice versa when inherit_color is false', () => {
+    const Comp = mount(<Component icon={question} />)
+    expect(
+      Comp.find('span.dnb-icon').hasClass('dnb-icon--inherit-color')
+    ).toBe(true)
+
+    Comp.setProps({ inherit_color: true })
+
+    expect(
+      Comp.find('span.dnb-icon').hasClass('dnb-icon--inherit-color')
+    ).toBe(true)
+
+    Comp.setProps({ inherit_color: false })
+
+    expect(
+      Comp.find('span.dnb-icon').hasClass('dnb-icon--inherit-color')
+    ).toBe(false)
+  })
+
   it('should not be hidden, given aria-hidden="false"', () => {
     const Comp = mount(<Component {...props} aria-hidden={false} />)
     expect(

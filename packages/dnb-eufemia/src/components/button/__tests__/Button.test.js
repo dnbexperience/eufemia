@@ -12,6 +12,7 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Button'
+import IconPrimary from '../../IconPrimary'
 
 const props = fakeProps(require.resolve('../Button'), {
   optional: true,
@@ -172,6 +173,22 @@ describe('Button component', () => {
       <Component text="Button" variant="tertiary" icon="question" />
     )
     expect(Comp.find('.dnb-button--tertiary').exists()).toBe(true)
+  })
+
+  it('will replace icon with icon component', () => {
+    const Comp = mount(
+      <Component
+        icon={<span className="dnb-icon custom-icon">icon</span>}
+      />
+    )
+    expect(Comp.find('.custom-icon').exists()).toBe(true)
+
+    Comp.setProps({
+      icon: <IconPrimary icon="bell" className="custom-icon-component" />,
+    })
+
+    expect(Comp.find('.custom-icon').exists()).toBe(false)
+    expect(Comp.find('.custom-icon-component').exists()).toBe(true)
   })
 
   it('will warn when tertiary is used without an icon', () => {
