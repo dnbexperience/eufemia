@@ -14,7 +14,7 @@ export { onMediaQueryChange }
 export default class MediaQuery extends React.PureComponent {
   static contextType = Context
   static propTypes = {
-    ssr: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    matchOnSSR: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     when: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.array,
@@ -26,7 +26,7 @@ export default class MediaQuery extends React.PureComponent {
   }
 
   static defaultProps = {
-    ssr: null,
+    matchOnSSR: null,
     when: null,
     not: null,
     query: null,
@@ -41,7 +41,7 @@ export default class MediaQuery extends React.PureComponent {
   constructor(props, context) {
     super(props)
 
-    if (!isMatchMediaSupported() && isTrue(props.ssr)) {
+    if (!isMatchMediaSupported() && isTrue(props.matchOnSSR)) {
       this.state.match = true
     }
 

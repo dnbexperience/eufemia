@@ -9,7 +9,7 @@ fi
 . "$(dirname "$0")/_/husky.sh"
 
 # Run precommit
-if [ "$OMIT_LINT_STAGED" != "1" ]; then
+if [ "$LINT_STAGED" = "1" ]; then
   if command -v yarn >/dev/null 2>&1; then
     yarn precommit
   fi

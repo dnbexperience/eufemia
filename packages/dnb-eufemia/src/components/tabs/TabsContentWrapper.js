@@ -7,7 +7,7 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Section from '../section/Section'
-import TabsController from './TabsController'
+import EventEmitter from '../../shared/EventEmitter'
 
 export default class ContentWrapper extends React.PureComponent {
   static propTypes = {
@@ -36,28 +36,25 @@ export default class ContentWrapper extends React.PureComponent {
     super(props)
 
     if (props.id) {
-      this._controller = TabsController.use(props.id)
-      this.state.key = this._controller.get().key
+      this._eventEmitter = EventEmitter.createInstance(props.id)
+      this.state.key = this._eventEmitter.get().key
     }
   }
 
   componentDidMount() {
     if (this.props.id) {
-      this._controller.listen(({ key }) => {
-        // this._timeout = setTimeout(() => {
-        if (this._controller && key !== this.state.key) {
+      this._eventEmitter.listen(({ key }) => {
+        if (this._eventEmitter && key !== this.state.key) {
           this.setState({ key })
         }
-        // }, 1)
       })
     }
   }
 
   componentWillUnmount() {
-    // clearTimeout(this._timeout)
-    if (this._controller) {
-      this._controller.remove()
-      this._controller = null
+    if (this._eventEmitter) {
+      this._eventEmitter.remove()
+      this._eventEmitter = null
     }
   }
 

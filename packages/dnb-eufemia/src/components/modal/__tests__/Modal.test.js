@@ -17,6 +17,9 @@ import Input from '../../input/Input'
 import Component from '../Modal'
 import Button from '../../button/Button'
 
+global.userAgent = jest.spyOn(navigator, 'userAgent', 'get')
+global.appVersion = jest.spyOn(navigator, 'appVersion', 'get')
+
 const props = fakeProps(require.resolve('../Modal'), {
   all: true,
   optional: true,
@@ -525,18 +528,19 @@ describe('Modal component', () => {
 
     expect(modalElem.textContent).toContain(modalContent)
   })
-  it('runs expected side effects', () => {
+  it('runs expected side effects on desktop', () => {
     const Comp = mount(<Component {...props} />)
     const elem = Comp.find('button')
 
     // open modal
     elem.simulate('click')
 
-    // const body = document.querySelector('[data-dnb-modal-active]')
     expect(document.body.nodeName).toBe('BODY')
     expect(document.body.style.overflow).toBe('hidden')
     expect(document.body.style.height).toBe('auto')
-    // expect(document.documentElement.style.height).toBe('auto')
+    expect(document.body.style.boxSizing).toBe('border-box')
+    expect(document.body.style.marginRight).toBe('0px')
+    expect(document.documentElement.style.height).toBe('100%')
     expect(document.body.getAttribute('data-dnb-modal-active')).toBe(
       'true'
     )
@@ -544,7 +548,44 @@ describe('Modal component', () => {
     // close modal
     elem.simulate('click')
 
-    expect(document.body.style.position).not.toBe('hidden')
+    expect(document.body.getAttribute('style')).toBe('')
+    expect(document.documentElement.getAttribute('style')).toBe('')
+    expect(document.body.getAttribute('data-dnb-modal-active')).toBe(
+      'false'
+    )
+  })
+  it('runs expected side effects on mobile', () => {
+    const Comp = mount(<Component {...props} />)
+    const elem = Comp.find('button')
+
+    global.userAgent.mockReturnValue('iPhone OS 14')
+    global.appVersion.mockReturnValue('OS 14_0_0')
+    jest.spyOn(window, 'getComputedStyle').mockImplementation(() => ({
+      width: '100px',
+      scrollBehavior: '',
+    }))
+
+    // open modal
+    elem.simulate('click')
+
+    expect(document.body.nodeName).toBe('BODY')
+    expect(document.body.style.overflow).toBe('hidden')
+    expect(document.body.style.position).toBe('fixed')
+    expect(document.body.style.height).toBe('100%')
+    expect(document.body.style.width).toBe('100px')
+    expect(document.documentElement.style.height).toBe('100%')
+    expect(document.body.getAttribute('data-dnb-modal-active')).toBe(
+      'true'
+    )
+
+    // close modal
+    elem.simulate('click')
+
+    expect(document.body.getAttribute('style')).toBe('')
+    expect(document.documentElement.getAttribute('style')).toBe('')
+    expect(document.body.getAttribute('data-dnb-modal-active')).toBe(
+      'false'
+    )
   })
   it('has correct opened state when "open_state" is used', () => {
     const Comp = mount(<Component {...props} />)

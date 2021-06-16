@@ -1560,6 +1560,9 @@ legend.dnb-form-label {
       border-radius: var(--button-border-radius); }
       .dnb-input--clear.dnb-input__submit-element .dnb-button .dnb-button__icon {
         margin: auto; }
+      html:not([data-whatintent='touch'])
+.dnb-input--clear.dnb-input__submit-element .dnb-button:not(.dnb-button--has-text):hover[disabled] {
+        cursor: default; }
   .dnb-input--small .dnb-input--clear.dnb-input__submit-element .dnb-button {
     width: 1rem;
     height: 1rem; }

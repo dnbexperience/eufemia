@@ -9,9 +9,9 @@ import {
 
 export default function useMediaQuery(props) {
   const context = React.useContext(Context)
-  const { query, when, not, ssr } = props
+  const { query, when, not, matchOnSSR } = props
   let [matches] = React.useState(() =>
-    !isMatchMediaSupported() && isTrue(ssr) ? true : false
+    !isMatchMediaSupported() && isTrue(matchOnSSR) ? true : false
   )
 
   const mediaQueryList = React.useRef(
