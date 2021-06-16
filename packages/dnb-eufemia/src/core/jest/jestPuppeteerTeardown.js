@@ -51,12 +51,13 @@ module.exports = async function () {
         requiredBranch: [
           'main',
           'release',
-          'release-*',
+          'release-.*',
+          '.*-icons', // eufemia-icons
           'beta',
           'alpha',
-          'rc/*',
-          'fix/*',
-          'feat/*',
+          'rc/.*',
+          'fix/.*',
+          'feat/.*',
         ],
         what: 'reports',
         filePathsIncludelist: [file],
