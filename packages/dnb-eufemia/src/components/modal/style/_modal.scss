@@ -94,6 +94,14 @@
       }
     }
 
+    &--modal#{&}:not(#{&}--fullscreen) &__inner {
+      // iOS on iPhone fix
+      // Because Safari includes the navigation bar on the height
+      @media (max-height: 40em) and (orientation: landscape) {
+        max-height: 80vh;
+      }
+    }
+
     &__spacing {
       position: relative;
       display: block;

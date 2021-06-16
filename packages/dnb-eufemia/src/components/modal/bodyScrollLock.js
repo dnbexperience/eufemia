@@ -1,7 +1,8 @@
-// Copy of https://github.com/tuateam/tua-body-scroll-lock
-// + A lot of additional enhancements
-
-import { isChildOfElement, checkIfHasScrollbar } from '../component-helper'
+import {
+  warn,
+  isChildOfElement,
+  checkIfHasScrollbar,
+} from '../../shared/component-helper'
 
 const isServer = () => typeof window === 'undefined'
 const detectOS = (ua) => {
@@ -27,10 +28,12 @@ const detectiOSVersion = () => {
   return false
 }
 
+const desktopLikeIOs = 14
+
 let lockedNum = 0
 let initialClientY = 0
 let initialClientX = 0
-let unLockCallback = null
+let callbackUnlock = null
 let documentListenerAdded = false
 
 const lockedElements = []
@@ -49,7 +52,7 @@ function getEventListenerOptions(options) {
     : false
 }
 
-const setOverflowHiddenDesktop = () => {
+const setOverflowHidden = () => {
   try {
     const $html = document.documentElement
     const $body = document.body
@@ -78,48 +81,34 @@ const setOverflowHiddenDesktop = () => {
         })
         $html.style.removeProperty('--scrollbar-width')
       } catch (e) {
-        //
+        warn(e)
       }
     }
   } catch (e) {
-    //
+    warn(e)
   }
 }
 
 const setOverflowHiddenMobile = () => {
   try {
+    const unbind = setOverflowHidden()
+
     const $html = document.documentElement
     const $body = document.body
     const scrollTop = $html.scrollTop || $body.scrollTop
-    const htmlStyle = Object.assign({}, $html.style)
     const bodyStyle = Object.assign({}, $body.style)
 
-    $html.style.height = '100%'
-    $html.style.overflow = 'hidden'
-
-    $body.style.overflow = 'hidden'
     $body.style.position = 'fixed'
     $body.style.top = `-${scrollTop}px`
     $body.style.left = '0'
     $body.style.right = '0'
-    $body.style.bottom = '0'
-    $body.style.height = '100%'
 
     return () => {
+      unbind()
+
       try {
         // eslint-disable-next-line
-        ;['overflow', 'height'].forEach((x) => {
-          $html.style[x] = htmlStyle[x] || ''
-        })
-        ;[
-          'overflow',
-          'height',
-          'position',
-          'top',
-          'right',
-          'bottom',
-          'left',
-        ].forEach((x) => {
+        ;['position', 'top', 'right', 'left'].forEach((x) => {
           $body.style[x] = bodyStyle[x] || ''
         })
 
@@ -129,11 +118,11 @@ const setOverflowHiddenMobile = () => {
         $html.scrollTop = scrollTop
         $html.style.scrollBehavior = scrollBehavior
       } catch (e) {
-        //
+        warn(e)
       }
     }
   } catch (e) {
-    //
+    warn(e)
   }
 }
 
@@ -192,14 +181,14 @@ const handleScroll = (event, targetElement) => {
 
     return true
   } catch (e) {
-    //
+    warn(e)
   }
 }
 
 const checkTargetElement = (targetElement) => {
   if (targetElement) return
   if (targetElement === null) return
-  console.warn(
+  warn(
     `If scrolling is also required in the floating layer, ` +
       `the target element must be provided.`
   )
@@ -216,9 +205,9 @@ export const disableBodyScroll = (targetElement) => {
     // iOS
     if (detectOS().ios) {
       // Works better on iOS v14, therefore, use this
-      if (detectiOSVersion() >= 14) {
+      if (detectiOSVersion() >= desktopLikeIOs) {
         if (lockedNum <= 0) {
-          unLockCallback = setOverflowHiddenMobile()
+          callbackUnlock = setOverflowHidden()
         }
       } else {
         // Depreciated – the rest here can be removed as soon as we do not need to support iOS < 14
@@ -256,14 +245,16 @@ export const disableBodyScroll = (targetElement) => {
 
       // Android or Desktop
     } else if (lockedNum <= 0) {
-      unLockCallback = detectOS().android
-        ? setOverflowHiddenMobile()
-        : setOverflowHiddenDesktop()
+      if (detectOS().android) {
+        callbackUnlock = setOverflowHiddenMobile()
+      } else {
+        callbackUnlock = setOverflowHidden()
+      }
     }
 
     lockedNum += 1
   } catch (e) {
-    //
+    warn(e)
   }
 }
 
@@ -281,12 +272,12 @@ export const enableBodyScroll = (targetElement) => {
       return // stop here
     }
 
-    if (typeof unLockCallback === 'function') {
-      unLockCallback()
+    if (typeof callbackUnlock === 'function') {
+      callbackUnlock()
     }
 
     // iOS
-    if (detectOS().ios && !(detectiOSVersion() >= 14)) {
+    if (detectOS().ios && detectiOSVersion() < desktopLikeIOs) {
       if (targetElement) {
         const elementArray = Array.isArray(targetElement)
           ? targetElement
@@ -311,7 +302,7 @@ export const enableBodyScroll = (targetElement) => {
       }
     }
   } catch (e) {
-    //
+    warn(e)
   }
 }
 
@@ -323,12 +314,12 @@ export const clearAllBodyScrollLocks = () => {
   try {
     lockedNum = 0
 
-    if (!detectOS().ios && typeof unLockCallback === 'function') {
-      unLockCallback()
+    if (typeof callbackUnlock === 'function') {
+      callbackUnlock()
     }
 
     // iOS
-    if (detectOS().ios && !(detectiOSVersion() >= 14)) {
+    if (detectOS().ios && detectiOSVersion() < desktopLikeIOs) {
       if (lockedElements && lockedElements.length) {
         // clear events
         let element = lockedElements.pop()
@@ -349,6 +340,6 @@ export const clearAllBodyScrollLocks = () => {
       documentListenerAdded = false
     }
   } catch (e) {
-    //
+    warn(e)
   }
 }

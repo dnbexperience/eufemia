@@ -39,16 +39,16 @@ beforeAll(() => {
 })
 
 beforeEach(() => {
+  document.body.removeAttribute('style')
+  document.documentElement.removeAttribute('style')
   window.__modalStack = []
 })
 
 describe('Modal component', () => {
-  const Comp = mount(<Component {...props} />)
-  Comp.setState({
-    modalActive: true,
-  })
   it('have to match snapshot', () => {
+    const Comp = mount(<Component {...props} open_state={true} />)
     expect(toJson(Comp)).toMatchSnapshot()
+    Comp.find('button.dnb-modal__close-button').simulate('click')
   })
   it('should have aria-hidden and tabindex on other elements', () => {
     const Comp = mount(
@@ -91,9 +91,11 @@ describe('Modal component', () => {
     )
   })
   it('has to have the correct title', () => {
+    const Comp = mount(<Component {...props} open_state={true} />)
     expect(Comp.find('h1').text()).toBe(props.title)
   })
   it('has no trigger button once we set trigger_hidden to true', () => {
+    const Comp = mount(<Component {...props} open_state={true} />)
     Comp.setProps({
       trigger_hidden: true,
     })
@@ -119,6 +121,7 @@ describe('Modal component', () => {
     ).toBe('Hjelp-knapp')
   })
   it('has a disabled trigger button once we set trigger_disabled to true', () => {
+    const Comp = mount(<Component {...props} open_state={true} />)
     Comp.setProps({
       trigger_disabled: true,
     })
@@ -527,15 +530,19 @@ describe('Modal component', () => {
     const modalElem = document.querySelector(id)
 
     expect(modalElem.textContent).toContain(modalContent)
+    
+    Comp.find('button.dnb-modal__close-button').simulate('click')
   })
   it('runs expected side effects on desktop', () => {
+
     const Comp = mount(<Component {...props} />)
     const elem = Comp.find('button')
+
+    expect(document.body.getAttribute('style')).toBeFalsy()
 
     // open modal
     elem.simulate('click')
 
-    expect(document.body.nodeName).toBe('BODY')
     expect(document.body.style.overflow).toBe('hidden')
     expect(document.body.style.height).toBe('auto')
     expect(document.body.style.boxSizing).toBe('border-box')
@@ -554,24 +561,80 @@ describe('Modal component', () => {
       'false'
     )
   })
-  it('runs expected side effects on mobile', () => {
+  it('runs expected side effects on iOS pre 14', () => {
     const Comp = mount(<Component {...props} />)
     const elem = Comp.find('button')
 
-    global.userAgent.mockReturnValue('iPhone OS 14')
-    global.appVersion.mockReturnValue('OS 14_0_0')
+    global.userAgent.mockReturnValue('iPhone OS 12')
+    global.appVersion.mockReturnValue('OS 12_0_0')
+
+    const addEventListener = jest.fn()
+    jest
+      .spyOn(document, 'addEventListener')
+      .mockImplementation(addEventListener)
+    const removeEventListener = jest.fn()
+    jest
+      .spyOn(document, 'removeEventListener')
+      .mockImplementation(removeEventListener)
 
     // open modal
     elem.simulate('click')
 
-    expect(document.body.nodeName).toBe('BODY')
+    expect(document.body.getAttribute('style')).toBeFalsy()
+
+    expect(addEventListener).toBeCalledTimes(2)
+    expect(addEventListener).toHaveBeenCalledWith(
+      'touchmove',
+      expect.any(Function),
+      { passive: false }
+    )
+    expect(addEventListener).toHaveBeenCalledWith(
+      'keydown',
+      expect.any(Function)
+    )
+
+    expect(document.body.getAttribute('data-dnb-modal-active')).toBe(
+      'true'
+    )
+
+    // close modal
+    elem.simulate('click')
+
+    expect(document.body.getAttribute('style')).toBeFalsy()
+    expect(document.documentElement.getAttribute('style')).toBeFalsy()
+
+    expect(document.body.getAttribute('data-dnb-modal-active')).toBe(
+      'false'
+    )
+
+    expect(removeEventListener).toBeCalledTimes(2)
+    expect(removeEventListener).toHaveBeenCalledWith(
+      'touchmove',
+      expect.any(Function),
+      { passive: false }
+    )
+    expect(removeEventListener).toHaveBeenCalledWith(
+      'keydown',
+      expect.any(Function)
+    )
+  })
+  it('runs expected side effects on android', () => {
+    const Comp = mount(<Component {...props} />)
+    const elem = Comp.find('button')
+
+    global.userAgent.mockReturnValue('Android; 7.')
+
+    expect(document.body.getAttribute('style')).toBeFalsy()
+
+    // open modal
+    elem.simulate('click')
+
     expect(document.body.style.overflow).toBe('hidden')
     expect(document.body.style.position).toBe('fixed')
     expect(document.body.style.top).toBe('-0px')
     expect(document.body.style.left).toBe('0px')
     expect(document.body.style.right).toBe('0px')
-    expect(document.body.style.bottom).toBe('0px')
-    expect(document.body.style.height).toBe('100%')
+    expect(document.body.style.height).toBe('auto')
     expect(document.documentElement.style.height).toBe('100%')
     expect(document.body.getAttribute('data-dnb-modal-active')).toBe(
       'true'
@@ -708,14 +771,20 @@ describe('Modal component', () => {
     expect(Comp.exists('div.dnb-modal__content__inner')).toBe(false)
   })
   it('has to have the correct aria-describedby', () => {
+    const Comp = mount(<Component {...props} open_state={true} />)
     expect(
       Comp.find('[aria-describedby]').props()['aria-describedby']
     ).toBe(`dnb-modal-${props.id}-content`)
   })
   it('has to have the correct role on aria-modal', () => {
+    const Comp = mount(<Component {...props} open_state={true} />)
     expect(Comp.find('[aria-modal]').props().role).toBe('main')
   })
   it('has to have a close button', () => {
+    const Comp = mount(<Component {...props} />)
+    Comp.setState({
+      modalActive: true,
+    })
     expect(
       Comp.find('button.dnb-modal__close-button')
         .instance()
@@ -745,6 +814,10 @@ describe('Modal component', () => {
     expect(Comp2.find('.dnb-icon').exists()).toBe(true)
   })
   it('should validate with ARIA rules as a dialog', async () => {
+    const Comp = mount(<Component {...props} />)
+    Comp.setState({
+      modalActive: true,
+    })
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
