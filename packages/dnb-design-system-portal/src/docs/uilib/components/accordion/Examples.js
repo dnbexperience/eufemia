@@ -8,11 +8,11 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 export const AccordionDefaultExample = () => (
   <ComponentBox data-visual-test="accordion-default">
-    {`
+    {() => /* jsx */ `
 <Accordion
+  expanded
 	remember_state
 	id="single-accordion"
-	variant="outlined"
 	title="Accordion title"
 >
 	Accordion content
@@ -22,7 +22,6 @@ export const AccordionDefaultExample = () => (
 	remember_state
 	icon="bell"
 	icon_position="right"
-	variant="outlined"
 >
 	<Accordion
 		id="single-provider-accordion"
@@ -35,16 +34,55 @@ export const AccordionDefaultExample = () => (
   </ComponentBox>
 )
 
+export const AccordionLargeContentExample = () => (
+  <ComponentBox data-visual-test="accordion-large" hideCode>
+    {() => /* jsx */ `
+<Accordion expanded bottom="large" title="Large content with long titleScelerisque eget cubilia tempus ipsum aenean dolor suscipit egestas potenti at eleifend platea interdum magnis amet molestie sem faucibus netus "
+>
+  <P>Hendrerit dictum elit facilisis aliquet eleifend potenti leo nec praesent sollicitudin elementum scelerisque ridiculus neque nisi risus et habitant torquent nam pellentesque dictumst porttitor accumsan a nibh fringilla facilisi lacus sagittis mauris libero tellus justo ultricies tempor viverra sodales vestibulum proin tempus lorem cubilia at velit sociis sit malesuada class consectetur turpis metus vulputate tortor cum nisl ornare ligula platea quam gravida sapien penatibus ad curae varius hac ultrices ipsum felis vehicula fermentum rutrum parturient congue sed vel magnis laoreet donec id consequat augue mi semper volutpat urna in condimentum luctus cursus fames dignissim magna suspendisse bibendum mus natoque diam</P>
+</Accordion>
+`}
+  </ComponentBox>
+)
+
+export const AccordionCustomisationExample = () => (
+  <ComponentBox data-visual-test="accordion-custom">
+    {() => /* jsx */ `
+<Accordion
+  group="unique-id"
+  left_component={<IconPrimary icon="bell" />}
+>
+  <Accordion.Header>Accordion title</Accordion.Header>
+  <Accordion.Content>
+    <P>
+      Sociis sapien sociosqu vel sollicitudin accumsan laoreet
+      gravida himenaeos nostra mollis volutpat bibendum convallis
+      cum condimentum dictumst blandit rutrum vehicula
+    </P>
+  </Accordion.Content>
+</Accordion>
+<Accordion top expanded={true} group="unique-id">
+  <Accordion.Header>Accordion title</Accordion.Header>
+  <Accordion.Content>
+    <P>
+      Nec sit mattis natoque interdum sagittis cubilia nibh nullam
+      etiam
+    </P>
+  </Accordion.Content>
+</Accordion>
+`}
+  </ComponentBox>
+)
+
 export const AccordionContainerExample = () => (
   <ComponentBox useRender hideCode data-visual-test="accordion-container">
-    {`
+    {() => /* jsx */ `
 function AccordionWithContainer() {
   const ref1 = React.useRef()
   const ref2 = React.useRef()
   const [changeHeight] = React.useState(() => ({ ref1, ref2 }))
   return (
     <Accordion.Group
-      variant="outlined"
       prevent_rerender
       single_container
       remember_state
@@ -152,26 +190,26 @@ render(<AccordionWithContainer />)
 
 export const AccordionGroupExample = () => (
   <ComponentBox data-visual-test="accordion-group">
-    {`
+    {() => /* jsx */ `
 <Accordion.Group expanded allow_close_all>
 	<Accordion expanded={false}>
-	<Accordion.Header>Accordion title</Accordion.Header>
-	<Accordion.Content top="x-large">
-		<P>
-		Sociis sapien sociosqu vel sollicitudin accumsan laoreet
-		gravida himenaeos nostra mollis volutpat bibendum convallis
-		cum condimentum dictumst blandit rutrum vehicula
-		</P>
-	</Accordion.Content>
+    <Accordion.Header>Accordion title</Accordion.Header>
+    <Accordion.Content top="x-large">
+      <P>
+        Sociis sapien sociosqu vel sollicitudin accumsan laoreet
+        gravida himenaeos nostra mollis volutpat bibendum convallis
+        cum condimentum dictumst blandit rutrum vehicula
+      </P>
+    </Accordion.Content>
 	</Accordion>
 	<Accordion top>
-	<Accordion.Header>Accordion title</Accordion.Header>
-	<Accordion.Content>
-		<P>
-		Nec sit mattis natoque interdum sagittis cubilia nibh
-		nullam etiam
-		</P>
-	</Accordion.Content>
+    <Accordion.Header>Accordion title</Accordion.Header>
+    <Accordion.Content>
+      <P>
+        Nec sit mattis natoque interdum sagittis cubilia nibh
+        nullam etiam
+      </P>
+    </Accordion.Content>
 	</Accordion>
 </Accordion.Group>
 `}
