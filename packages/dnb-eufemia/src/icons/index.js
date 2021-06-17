@@ -330,6 +330,7 @@ import photo_medium from './photo_medium.js'
 import pin from './pin.js'
 import pin_code from './pin_code.js'
 import pin_code_medium from './pin_code_medium.js'
+import pin_medium from './pin_medium.js'
 import plant from './plant.js'
 import plant_medium from './plant_medium.js'
 import play from './play.js'
@@ -773,6 +774,7 @@ export {
   pin,
   pin_code,
   pin_code_medium,
+  pin_medium,
   plant,
   plant_medium,
   play,

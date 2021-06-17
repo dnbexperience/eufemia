@@ -3,7 +3,7 @@
     "tags": [
       "Place over the line"
     ],
-    "created": 1620737158736,
+    "created": 1623927076216,
     "name": "essentials/above_the_line_16",
     "variant": "secondary"
   },
@@ -11,7 +11,7 @@
     "tags": [
       "moneybag"
     ],
-    "created": 1620737267739,
+    "created": 1623927219985,
     "name": "products/account_16",
     "variant": "secondary"
   },
@@ -19,7 +19,7 @@
     "tags": [
       "moneybag"
     ],
-    "created": 1620737266157,
+    "created": 1623927218474,
     "name": "products/account_card_16",
     "variant": "secondary"
   },
@@ -27,7 +27,7 @@
     "tags": [
       "moneybag"
     ],
-    "created": 1620737278126,
+    "created": 1623927232619,
     "name": "actions/account_in_16",
     "variant": "secondary"
   },
@@ -35,7 +35,7 @@
     "tags": [
       "moneybag"
     ],
-    "created": 1620737277350,
+    "created": 1623927231870,
     "name": "actions/account_out_16",
     "variant": "secondary"
   },
@@ -43,7 +43,7 @@
     "tags": [
       "moneybag"
     ],
-    "created": 1620737266985,
+    "created": 1623927219231,
     "name": "products/account_percent_16",
     "variant": "secondary"
   },
@@ -51,7 +51,7 @@
     "tags": [
       "plus"
     ],
-    "created": 1620737285130,
+    "created": 1623927239520,
     "name": "actions/add_16",
     "variant": "primary"
   },
@@ -59,7 +59,7 @@
     "tags": [
       "plus"
     ],
-    "created": 1620737285894,
+    "created": 1623927240280,
     "name": "actions/add_circled_16",
     "variant": "secondary"
   },
@@ -67,7 +67,7 @@
     "tags": [
       "avtalegiro"
     ],
-    "created": 1620737260661,
+    "created": 1623927212950,
     "name": "products/ainvoice_16",
     "variant": "secondary"
   },
@@ -80,7 +80,7 @@
       "illness",
       "insurance"
     ],
-    "created": 1620737246639,
+    "created": 1623927198879,
     "name": "products/ambulance_16",
     "variant": "secondary"
   },
@@ -89,7 +89,7 @@
       "insurance",
       "paw"
     ],
-    "created": 1620737237024,
+    "created": 1623927189418,
     "name": "products/animal_print_16",
     "variant": "secondary"
   },
@@ -97,7 +97,7 @@
     "tags": [
       "smartwatch"
     ],
-    "created": 1620737196281,
+    "created": 1623927142627,
     "name": "objects/apple_watch_16",
     "variant": "secondary"
   },
@@ -105,7 +105,7 @@
     "tags": [
       "downward"
     ],
-    "created": 1620737310044,
+    "created": 1623927264280,
     "name": "navigation/arrow_down_16",
     "variant": "primary"
   },
@@ -114,7 +114,7 @@
       "backward",
       "back"
     ],
-    "created": 1620737311592,
+    "created": 1623927265855,
     "name": "navigation/arrow_left_16",
     "variant": "primary"
   },
@@ -122,7 +122,7 @@
     "tags": [
       "forward"
     ],
-    "created": 1620737310840,
+    "created": 1623927265053,
     "name": "navigation/arrow_right_16",
     "variant": "primary"
   },
@@ -130,7 +130,7 @@
     "tags": [
       "upward"
     ],
-    "created": 1620737309255,
+    "created": 1623927263481,
     "name": "navigation/arrow_up_16",
     "variant": "primary"
   },
@@ -138,7 +138,7 @@
     "tags": [
       "attachment"
     ],
-    "created": 1620737164504,
+    "created": 1623927081644,
     "name": "essentials/attachment_16",
     "variant": "secondary"
   },
@@ -148,7 +148,7 @@
       "child",
       "insurance"
     ],
-    "created": 1620737248934,
+    "created": 1623927201283,
     "name": "products/baby_16",
     "variant": "secondary"
   },
@@ -159,7 +159,7 @@
       "injury",
       "insurance"
     ],
-    "created": 1620737247402,
+    "created": 1623927199672,
     "name": "products/bandage_16",
     "variant": "secondary"
   },
@@ -167,7 +167,7 @@
     "tags": [
       "pillars"
     ],
-    "created": 1620737230630,
+    "created": 1623927183204,
     "name": "objects/bank_16",
     "variant": "secondary"
   },
@@ -176,7 +176,7 @@
       "login",
       "authenticate"
     ],
-    "created": 1620737183738,
+    "created": 1623927101061,
     "name": "essentials/bankid_16",
     "variant": "secondary"
   },
@@ -185,7 +185,7 @@
       "login",
       "authenticate"
     ],
-    "created": 1620737182930,
+    "created": 1623927100301,
     "name": "essentials/bankid_mobile_16",
     "variant": "secondary"
   },
@@ -194,7 +194,7 @@
       "login",
       "authenticate"
     ],
-    "created": 1620737182184,
+    "created": 1623927099528,
     "name": "essentials/bankid_qr_16",
     "variant": "secondary"
   },
@@ -202,7 +202,7 @@
     "tags": [
       "notification"
     ],
-    "created": 1620737234633,
+    "created": 1623927187009,
     "name": "objects/bell_16",
     "variant": "primary"
   },
@@ -211,7 +211,7 @@
       "bike",
       "insurance"
     ],
-    "created": 1620737250426,
+    "created": 1623927202830,
     "name": "products/bicycle_16",
     "variant": "secondary"
   },
@@ -220,7 +220,7 @@
       "sailboat",
       "insurance"
     ],
-    "created": 1620737242840,
+    "created": 1623927194972,
     "name": "products/boat_16",
     "variant": "secondary"
   },
@@ -228,7 +228,7 @@
     "tags": [
       "Categorization: Leisure"
     ],
-    "created": 1620737204030,
+    "created": 1623927156394,
     "name": "objects/bowling_16",
     "variant": "secondary"
   },
@@ -236,7 +236,7 @@
     "tags": [
       "broken link"
     ],
-    "created": 1620737193218,
+    "created": 1623927137117,
     "name": "objects/broken_chain_16",
     "variant": "secondary"
   },
@@ -245,7 +245,7 @@
       "theme",
       "colour"
     ],
-    "created": 1620737219533,
+    "created": 1623927172284,
     "name": "objects/brush_16",
     "variant": "secondary"
   },
@@ -253,7 +253,7 @@
     "tags": [
       "house"
     ],
-    "created": 1620737255188,
+    "created": 1623927207516,
     "name": "products/bsu_16",
     "variant": "secondary"
   },
@@ -262,7 +262,7 @@
       "message",
       "speak"
     ],
-    "created": 1620737166041,
+    "created": 1623927084076,
     "name": "essentials/bubble_16",
     "variant": "secondary"
   },
@@ -272,7 +272,7 @@
       "home",
       "house"
     ],
-    "created": 1620737237752,
+    "created": 1623927190205,
     "name": "products/building_construction_16",
     "variant": "secondary"
   },
@@ -280,7 +280,7 @@
     "tags": [
       "date"
     ],
-    "created": 1620737226784,
+    "created": 1623927179261,
     "name": "objects/calendar_16",
     "variant": "primary"
   },
@@ -288,7 +288,7 @@
     "tags": [
       "scanner"
     ],
-    "created": 1620737218775,
+    "created": 1623927171394,
     "name": "objects/camera_16",
     "variant": "secondary"
   },
@@ -297,7 +297,7 @@
       "camping",
       "insurance"
     ],
-    "created": 1620737244391,
+    "created": 1623927196522,
     "name": "products/camper_trailer_16",
     "variant": "secondary"
   },
@@ -306,7 +306,7 @@
       "vehicle",
       "transport"
     ],
-    "created": 1620737221839,
+    "created": 1623927174629,
     "name": "objects/car_1_16",
     "variant": "secondary"
   },
@@ -315,7 +315,7 @@
       "vehicle",
       "transport"
     ],
-    "created": 1620737221076,
+    "created": 1623927173839,
     "name": "objects/car_2_16",
     "variant": "secondary"
   },
@@ -325,25 +325,25 @@
       "camping",
       "insurance"
     ],
-    "created": 1620737245168,
+    "created": 1623927197323,
     "name": "products/caravan_16",
     "variant": "secondary"
   },
   "card": {
     "tags": [],
-    "created": 1620737263084,
+    "created": 1623927215293,
     "name": "products/card_16",
     "variant": "secondary"
   },
   "card_in": {
     "tags": [],
-    "created": 1620737275041,
+    "created": 1623927229476,
     "name": "actions/card_in_16",
     "variant": "secondary"
   },
   "card_out": {
     "tags": [],
-    "created": 1620737274291,
+    "created": 1623927228663,
     "name": "actions/card_out_16",
     "variant": "secondary"
   },
@@ -351,7 +351,7 @@
     "tags": [
       "blocked"
     ],
-    "created": 1620737262301,
+    "created": 1623927214551,
     "name": "products/card_with_padlock_16",
     "variant": "secondary"
   },
@@ -361,7 +361,7 @@
       "insurance",
       "kitty"
     ],
-    "created": 1620737251923,
+    "created": 1623927204325,
     "name": "products/cat_16",
     "variant": "secondary"
   },
@@ -369,7 +369,7 @@
     "tags": [
       "link"
     ],
-    "created": 1620737193966,
+    "created": 1623927138004,
     "name": "objects/chain_16",
     "variant": "secondary"
   },
@@ -380,7 +380,7 @@
       "talk",
       "communicate"
     ],
-    "created": 1620737165280,
+    "created": 1623927083303,
     "name": "essentials/chat_16",
     "variant": "secondary"
   },
@@ -388,7 +388,7 @@
     "tags": [
       "aino"
     ],
-    "created": 1620737192343,
+    "created": 1623927130005,
     "name": "objects/chatbot_16",
     "variant": "secondary"
   },
@@ -400,7 +400,7 @@
       "success",
       "checkmark"
     ],
-    "created": 1620737156384,
+    "created": 1623927073898,
     "name": "essentials/check_16",
     "variant": "primary"
   },
@@ -408,19 +408,19 @@
     "tags": [
       "expand"
     ],
-    "created": 1620737306990,
+    "created": 1623927261178,
     "name": "navigation/chevron_down_16",
     "variant": "primary"
   },
   "chevron_left": {
     "tags": [],
-    "created": 1620737308498,
+    "created": 1623927262692,
     "name": "navigation/chevron_left_16",
     "variant": "primary"
   },
   "chevron_right": {
     "tags": [],
-    "created": 1620737307738,
+    "created": 1623927261937,
     "name": "navigation/chevron_right_16",
     "variant": "primary"
   },
@@ -428,7 +428,7 @@
     "tags": [
       "collapse"
     ],
-    "created": 1620737306234,
+    "created": 1623927260426,
     "name": "navigation/chevron_up_16",
     "variant": "primary"
   },
@@ -438,7 +438,7 @@
       "time",
       "expired"
     ],
-    "created": 1620737228340,
+    "created": 1623927180856,
     "name": "objects/clock_16",
     "variant": "secondary"
   },
@@ -448,7 +448,7 @@
       "exit",
       "dismiss"
     ],
-    "created": 1620737313161,
+    "created": 1623927267418,
     "name": "navigation/close_16",
     "variant": "primary"
   },
@@ -456,7 +456,7 @@
     "tags": [
       "settings"
     ],
-    "created": 1620737236253,
+    "created": 1623927188532,
     "name": "objects/cog_16",
     "variant": "secondary"
   },
@@ -464,7 +464,7 @@
     "tags": [
       "spending"
     ],
-    "created": 1620737224358,
+    "created": 1623927176912,
     "name": "objects/coins_1_16",
     "variant": "secondary"
   },
@@ -472,7 +472,7 @@
     "tags": [
       "Other savings"
     ],
-    "created": 1620737223561,
+    "created": 1623927176151,
     "name": "objects/coins_2_16",
     "variant": "secondary"
   },
@@ -480,7 +480,7 @@
     "tags": [
       "Categorization: Other savings"
     ],
-    "created": 1620737222703,
+    "created": 1623927175408,
     "name": "objects/coins_3_16",
     "variant": "secondary"
   },
@@ -489,7 +489,7 @@
       "create",
       "write"
     ],
-    "created": 1620737297697,
+    "created": 1623927251891,
     "name": "actions/compose_16",
     "variant": "secondary"
   },
@@ -498,7 +498,7 @@
       "tada",
       "party"
     ],
-    "created": 1620737199424,
+    "created": 1623927151615,
     "name": "objects/confetti_16",
     "variant": "secondary"
   },
@@ -506,13 +506,13 @@
     "tags": [
       "recipients"
     ],
-    "created": 1620737217923,
+    "created": 1623927170622,
     "name": "objects/contacts_16",
     "variant": "secondary"
   },
   "cookie": {
     "tags": [],
-    "created": 1620737185307,
+    "created": 1623927104080,
     "name": "objects/cookie_16",
     "variant": "secondary"
   },
@@ -520,7 +520,7 @@
     "tags": [
       "duplicate"
     ],
-    "created": 1620737282769,
+    "created": 1623927237199,
     "name": "actions/copy_16",
     "variant": "secondary"
   },
@@ -528,7 +528,7 @@
     "tags": [
       "currency"
     ],
-    "created": 1620737254436,
+    "created": 1623927206737,
     "name": "products/currency_16",
     "variant": "secondary"
   },
@@ -536,7 +536,7 @@
     "tags": [
       "headset"
     ],
-    "created": 1620737191572,
+    "created": 1623927129198,
     "name": "objects/customer_service_16",
     "variant": "secondary"
   },
@@ -546,7 +546,7 @@
       "valuables",
       "insurance"
     ],
-    "created": 1620737249688,
+    "created": 1623927202052,
     "name": "products/diamond_16",
     "variant": "secondary"
   },
@@ -555,19 +555,19 @@
       "login",
       "authenticate"
     ],
-    "created": 1620737180658,
+    "created": 1623927097997,
     "name": "essentials/digipass_16",
     "variant": "secondary"
   },
   "digipost": {
     "tags": [],
-    "created": 1620737259827,
+    "created": 1623927212171,
     "name": "products/digipost_16",
     "variant": "secondary"
   },
   "dismiss_keyboard": {
     "tags": [],
-    "created": 1620737278867,
+    "created": 1623927233388,
     "name": "actions/dismiss_keyboard_16",
     "variant": "secondary"
   },
@@ -576,13 +576,13 @@
       "animal",
       "insurance"
     ],
-    "created": 1620737252743,
+    "created": 1623927205106,
     "name": "products/dog_16",
     "variant": "secondary"
   },
   "download": {
     "tags": [],
-    "created": 1620737296159,
+    "created": 1623927250357,
     "name": "actions/download_16",
     "variant": "primary"
   },
@@ -590,7 +590,7 @@
     "tags": [
       "pencil"
     ],
-    "created": 1620737296934,
+    "created": 1623927251123,
     "name": "actions/edit_16",
     "variant": "secondary"
   },
@@ -598,13 +598,13 @@
     "tags": [
       "efaktura"
     ],
-    "created": 1620737261467,
+    "created": 1623927213724,
     "name": "products/einvoice_16",
     "variant": "secondary"
   },
   "email": {
     "tags": [],
-    "created": 1620737189270,
+    "created": 1623927115249,
     "name": "objects/email_16",
     "variant": "secondary"
   },
@@ -612,7 +612,7 @@
     "tags": [
       "graph"
     ],
-    "created": 1620737256054,
+    "created": 1623927208259,
     "name": "products/equities_and_mutual_funds_16",
     "variant": "secondary"
   },
@@ -622,7 +622,7 @@
       "!",
       "alert"
     ],
-    "created": 1620737168613,
+    "created": 1623927085607,
     "name": "essentials/exclamation_16",
     "variant": "primary"
   },
@@ -632,7 +632,7 @@
       "!",
       "alert"
     ],
-    "created": 1620737170248,
+    "created": 1623927087148,
     "name": "essentials/exclamation_circled_16",
     "variant": "secondary"
   },
@@ -642,7 +642,7 @@
       "!",
       "alert"
     ],
-    "created": 1620737169503,
+    "created": 1623927086382,
     "name": "essentials/exclamation_triangle_16",
     "variant": "secondary"
   },
@@ -651,7 +651,7 @@
       "document",
       "document"
     ],
-    "created": 1620737215581,
+    "created": 1623927168233,
     "name": "objects/file_16",
     "variant": "secondary"
   },
@@ -659,7 +659,7 @@
     "tags": [
       "document"
     ],
-    "created": 1620737214808,
+    "created": 1623927167487,
     "name": "objects/file_add_16",
     "variant": "secondary"
   },
@@ -667,7 +667,7 @@
     "tags": [
       "document"
     ],
-    "created": 1620737210881,
+    "created": 1623927163701,
     "name": "objects/file_contract_16",
     "variant": "secondary"
   },
@@ -678,7 +678,7 @@
       ".csv",
       "comma separated values"
     ],
-    "created": 1620737207009,
+    "created": 1623927159626,
     "name": "objects/file_csv_16",
     "variant": "secondary"
   },
@@ -686,7 +686,7 @@
     "tags": [
       "document"
     ],
-    "created": 1620737212455,
+    "created": 1623927165218,
     "name": "objects/file_loupe_16",
     "variant": "secondary"
   },
@@ -695,7 +695,7 @@
       "document",
       ".pdf"
     ],
-    "created": 1620737210103,
+    "created": 1623927162930,
     "name": "objects/file_pdf_16",
     "variant": "secondary"
   },
@@ -705,7 +705,7 @@
       "powerpoint",
       ".ppt"
     ],
-    "created": 1620737207751,
+    "created": 1623927160494,
     "name": "objects/file_ppt_16",
     "variant": "secondary"
   },
@@ -713,7 +713,7 @@
     "tags": [
       "document"
     ],
-    "created": 1620737213297,
+    "created": 1623927165973,
     "name": "objects/file_rejected_16",
     "variant": "secondary"
   },
@@ -723,7 +723,7 @@
       "apply",
       "signature"
     ],
-    "created": 1620737214047,
+    "created": 1623927166733,
     "name": "objects/file_signing_16",
     "variant": "secondary"
   },
@@ -733,7 +733,7 @@
       "text",
       ".txt"
     ],
-    "created": 1620737206285,
+    "created": 1623927158722,
     "name": "objects/file_txt_16",
     "variant": "secondary"
   },
@@ -741,7 +741,7 @@
     "tags": [
       "document"
     ],
-    "created": 1620737211678,
+    "created": 1623927164448,
     "name": "objects/file_warning_16",
     "variant": "secondary"
   },
@@ -750,7 +750,7 @@
       "document",
       ".doc"
     ],
-    "created": 1620737209275,
+    "created": 1623927162201,
     "name": "objects/file_word_16",
     "variant": "secondary"
   },
@@ -760,7 +760,7 @@
       "excel",
       ".xls"
     ],
-    "created": 1620737208508,
+    "created": 1623927161431,
     "name": "objects/file_xls_16",
     "variant": "secondary"
   },
@@ -768,7 +768,7 @@
     "tags": [
       "adjust"
     ],
-    "created": 1620737175804,
+    "created": 1623927092635,
     "name": "essentials/filter_16",
     "variant": "secondary"
   },
@@ -777,13 +777,13 @@
       "treatment",
       "insurance"
     ],
-    "created": 1620737245915,
+    "created": 1623927198097,
     "name": "products/first_aid_16",
     "variant": "secondary"
   },
   "flying_money": {
     "tags": [],
-    "created": 1620737200231,
+    "created": 1623927152423,
     "name": "objects/flying_money_16",
     "variant": "secondary"
   },
@@ -791,7 +791,7 @@
     "tags": [
       "file"
     ],
-    "created": 1620737187375,
+    "created": 1623927111119,
     "name": "objects/folder_16",
     "variant": "secondary"
   },
@@ -799,7 +799,7 @@
     "tags": [
       "full screen"
     ],
-    "created": 1620737281236,
+    "created": 1623927235662,
     "name": "actions/fullscreen_16",
     "variant": "secondary"
   },
@@ -807,7 +807,7 @@
     "tags": [
       "graph"
     ],
-    "created": 1620737257570,
+    "created": 1623927209788,
     "name": "products/funds_16",
     "variant": "secondary"
   },
@@ -815,7 +815,7 @@
     "tags": [
       "graph"
     ],
-    "created": 1620737273365,
+    "created": 1623927227749,
     "name": "actions/funds_in_16",
     "variant": "secondary"
   },
@@ -823,7 +823,7 @@
     "tags": [
       "graph"
     ],
-    "created": 1620737272618,
+    "created": 1623927226695,
     "name": "actions/funds_out_16",
     "variant": "secondary"
   },
@@ -832,13 +832,13 @@
       "earth",
       "world"
     ],
-    "created": 1620737179877,
+    "created": 1623927097256,
     "name": "essentials/globe_16",
     "variant": "secondary"
   },
   "grabber": {
     "tags": [],
-    "created": 1620737155640,
+    "created": 1623927073144,
     "name": "essentials/grabber_16",
     "variant": "secondary"
   },
@@ -847,7 +847,7 @@
       "downpayment",
       "loan"
     ],
-    "created": 1620737303169,
+    "created": 1623927257307,
     "name": "actions/graph_decrease_16",
     "variant": "secondary"
   },
@@ -855,7 +855,7 @@
     "tags": [
       "loan"
     ],
-    "created": 1620737302415,
+    "created": 1623927256546,
     "name": "actions/graph_increase_16",
     "variant": "secondary"
   },
@@ -865,7 +865,7 @@
       "drawer",
       "navigation drawer"
     ],
-    "created": 1620737315417,
+    "created": 1623927269734,
     "name": "navigation/hamburger_16",
     "variant": "secondary"
   },
@@ -873,7 +873,7 @@
     "tags": [
       "recieve"
     ],
-    "created": 1620737161292,
+    "created": 1623927078546,
     "name": "essentials/hand_money_16",
     "variant": "secondary"
   },
@@ -881,7 +881,7 @@
     "tags": [
       "clothes"
     ],
-    "created": 1620737201733,
+    "created": 1623927153980,
     "name": "objects/hanger_16",
     "variant": "secondary"
   },
@@ -890,7 +890,7 @@
       "health",
       "love"
     ],
-    "created": 1620737160426,
+    "created": 1623927077759,
     "name": "essentials/heart_16",
     "variant": "secondary"
   },
@@ -899,7 +899,7 @@
       "health",
       "wellbeing"
     ],
-    "created": 1620737203276,
+    "created": 1623927155538,
     "name": "objects/heart_rate_16",
     "variant": "secondary"
   },
@@ -907,7 +907,7 @@
     "tags": [
       "eye"
     ],
-    "created": 1620737298446,
+    "created": 1623927252623,
     "name": "actions/hide_16",
     "variant": "secondary"
   },
@@ -915,7 +915,7 @@
     "tags": [
       "house"
     ],
-    "created": 1620737233842,
+    "created": 1623927186247,
     "name": "objects/home_16",
     "variant": "secondary"
   },
@@ -924,7 +924,7 @@
       "animal",
       "insurance"
     ],
-    "created": 1620737251149,
+    "created": 1623927203570,
     "name": "products/horse_16",
     "variant": "secondary"
   },
@@ -934,7 +934,7 @@
       "time",
       "waiting"
     ],
-    "created": 1620737188360,
+    "created": 1623927114456,
     "name": "objects/hourglass_16",
     "variant": "secondary"
   },
@@ -942,7 +942,7 @@
     "tags": [
       "Property"
     ],
-    "created": 1620737233024,
+    "created": 1623927185485,
     "name": "objects/house_1_16",
     "variant": "secondary"
   },
@@ -951,7 +951,7 @@
       "Categorization: Utilities",
       "cabin"
     ],
-    "created": 1620737232181,
+    "created": 1623927184724,
     "name": "objects/house_2_16",
     "variant": "secondary"
   },
@@ -959,7 +959,7 @@
     "tags": [
       "Categorization: Rental income"
     ],
-    "created": 1620737231415,
+    "created": 1623927183940,
     "name": "objects/house_value_16",
     "variant": "secondary"
   },
@@ -967,7 +967,7 @@
     "tags": [
       "i"
     ],
-    "created": 1620737172692,
+    "created": 1623927089414,
     "name": "essentials/information_16",
     "variant": "primary"
   },
@@ -975,7 +975,7 @@
     "tags": [
       "i"
     ],
-    "created": 1620737174222,
+    "created": 1623927091001,
     "name": "essentials/information_bubble_16",
     "variant": "secondary"
   },
@@ -983,7 +983,7 @@
     "tags": [
       "i"
     ],
-    "created": 1620737173495,
+    "created": 1623927090217,
     "name": "essentials/information_circled_16",
     "variant": "secondary"
   },
@@ -992,13 +992,13 @@
       "umbrella",
       "forsikring"
     ],
-    "created": 1620737259078,
+    "created": 1623927211384,
     "name": "products/insurance_16",
     "variant": "secondary"
   },
   "kid_number": {
     "tags": [],
-    "created": 1620737163671,
+    "created": 1623927080871,
     "name": "essentials/kid_number_16",
     "variant": "secondary"
   },
@@ -1008,7 +1008,7 @@
       "link out",
       "external"
     ],
-    "created": 1620737312339,
+    "created": 1623927266633,
     "name": "navigation/launch_16",
     "variant": "secondary"
   },
@@ -1019,7 +1019,7 @@
       "idea",
       "light"
     ],
-    "created": 1620737205553,
+    "created": 1623927157913,
     "name": "objects/lightbulb_16",
     "variant": "secondary"
   },
@@ -1027,7 +1027,7 @@
     "tags": [
       "bulletpoints"
     ],
-    "created": 1620737157142,
+    "created": 1623927074650,
     "name": "essentials/list_16",
     "variant": "secondary"
   },
@@ -1035,7 +1035,7 @@
     "tags": [
       "graph"
     ],
-    "created": 1620737258303,
+    "created": 1623927210573,
     "name": "products/loan_16",
     "variant": "secondary"
   },
@@ -1044,7 +1044,7 @@
       "graph",
       "downpayment"
     ],
-    "created": 1620737271841,
+    "created": 1623927225757,
     "name": "actions/loan_in_16",
     "variant": "secondary"
   },
@@ -1052,7 +1052,7 @@
     "tags": [
       "graph"
     ],
-    "created": 1620737271088,
+    "created": 1623927224908,
     "name": "actions/loan_out_16",
     "variant": "secondary"
   },
@@ -1061,7 +1061,7 @@
       "place",
       "geo"
     ],
-    "created": 1620737167723,
+    "created": 1623927084864,
     "name": "essentials/location_16",
     "variant": "secondary"
   },
@@ -1069,7 +1069,7 @@
     "tags": [
       "door"
     ],
-    "created": 1620737293073,
+    "created": 1623927247221,
     "name": "actions/log_in_16",
     "variant": "secondary"
   },
@@ -1077,7 +1077,7 @@
     "tags": [
       "door"
     ],
-    "created": 1620737292313,
+    "created": 1623927246435,
     "name": "actions/log_out_16",
     "variant": "secondary"
   },
@@ -1086,7 +1086,7 @@
       "search",
       "find"
     ],
-    "created": 1620737235463,
+    "created": 1623927187767,
     "name": "objects/loupe_16",
     "variant": "primary"
   },
@@ -1094,7 +1094,7 @@
     "tags": [
       "Mastercard account"
     ],
-    "created": 1620737265410,
+    "created": 1623927217706,
     "name": "products/mastercard_16",
     "variant": "secondary"
   },
@@ -1102,7 +1102,7 @@
     "tags": [
       "Mastercard account with card"
     ],
-    "created": 1620737264657,
+    "created": 1623927216923,
     "name": "products/mastercard_card_16",
     "variant": "secondary"
   },
@@ -1110,13 +1110,13 @@
     "tags": [
       "record"
     ],
-    "created": 1620737194700,
+    "created": 1623927141063,
     "name": "objects/microphone_16",
     "variant": "secondary"
   },
   "minimize": {
     "tags": [],
-    "created": 1620737270336,
+    "created": 1623927224071,
     "name": "actions/minimize_16",
     "variant": "secondary"
   },
@@ -1127,7 +1127,7 @@
       "local menu",
       "more_horizontal"
     ],
-    "created": 1620737313891,
+    "created": 1623927268237,
     "name": "navigation/more_16",
     "variant": "primary"
   },
@@ -1136,7 +1136,7 @@
       "overflow",
       "local menu"
     ],
-    "created": 1620737314639,
+    "created": 1623927268989,
     "name": "navigation/more_vertical_16",
     "variant": "secondary"
   },
@@ -1147,13 +1147,13 @@
       "vehicle",
       "insurance"
     ],
-    "created": 1620737240873,
+    "created": 1623927193353,
     "name": "products/motorcycle_16",
     "variant": "secondary"
   },
   "move": {
     "tags": [],
-    "created": 1620737279717,
+    "created": 1623927234152,
     "name": "actions/move_16",
     "variant": "secondary"
   },
@@ -1161,7 +1161,7 @@
     "tags": [
       "corporate"
     ],
-    "created": 1620737229869,
+    "created": 1623927182455,
     "name": "objects/office_buildings_16",
     "variant": "secondary"
   },
@@ -1169,13 +1169,13 @@
     "tags": [
       "knowledge"
     ],
-    "created": 1620737198612,
+    "created": 1623927150782,
     "name": "objects/owl_16",
     "variant": "secondary"
   },
   "padlock": {
     "tags": [],
-    "created": 1620737217138,
+    "created": 1623927169734,
     "name": "objects/padlock_16",
     "variant": "secondary"
   },
@@ -1183,7 +1183,7 @@
     "tags": [
       "attachment"
     ],
-    "created": 1620737190032,
+    "created": 1623927121904,
     "name": "objects/paperclip_16",
     "variant": "secondary"
   },
@@ -1192,13 +1192,13 @@
       "law",
       "legal"
     ],
-    "created": 1620737157954,
+    "created": 1623927075425,
     "name": "essentials/paragraph_16",
     "variant": "secondary"
   },
   "pause": {
     "tags": [],
-    "created": 1621515073179,
+    "created": 1623927220794,
     "name": "actions/pause_16",
     "variant": "secondary"
   },
@@ -1206,7 +1206,7 @@
     "tags": [
       "Payment"
     ],
-    "created": 1620737305443,
+    "created": 1623927259658,
     "name": "actions/pay_from_16",
     "variant": "secondary"
   },
@@ -1215,7 +1215,7 @@
       "binoculars",
       "pensjon"
     ],
-    "created": 1620737253528,
+    "created": 1623927205975,
     "name": "products/pension_16",
     "variant": "secondary"
   },
@@ -1224,7 +1224,7 @@
       "persons",
       "friends"
     ],
-    "created": 1620737177515,
+    "created": 1623927094155,
     "name": "essentials/people_1_16",
     "variant": "secondary"
   },
@@ -1233,7 +1233,7 @@
       "firend",
       "persons"
     ],
-    "created": 1620737176732,
+    "created": 1623927093410,
     "name": "essentials/people_2_16",
     "variant": "secondary"
   },
@@ -1241,7 +1241,7 @@
     "tags": [
       "profile"
     ],
-    "created": 1620737178318,
+    "created": 1623927095671,
     "name": "essentials/person_16",
     "variant": "secondary"
   },
@@ -1249,7 +1249,7 @@
     "tags": [
       "administrator"
     ],
-    "created": 1621515072336,
+    "created": 1623927094903,
     "name": "essentials/person_shield_24",
     "variant": "secondary"
   },
@@ -1258,7 +1258,7 @@
       "mobilephone",
       "device"
     ],
-    "created": 1620737216391,
+    "created": 1623927168985,
     "name": "objects/phone_16",
     "variant": "secondary"
   },
@@ -1268,7 +1268,7 @@
       "image",
       "gallery"
     ],
-    "created": 1620737186417,
+    "created": 1623927110354,
     "name": "objects/photo_16",
     "variant": "secondary"
   },
@@ -1276,7 +1276,7 @@
     "tags": [
       "thumbtack"
     ],
-    "created": 1621515072902,
+    "created": 1623927102588,
     "name": "objects/pin_16",
     "variant": "secondary"
   },
@@ -1285,7 +1285,7 @@
       "login",
       "authenticate"
     ],
-    "created": 1620737181444,
+    "created": 1623927098757,
     "name": "essentials/pin_code_16",
     "variant": "secondary"
   },
@@ -1293,13 +1293,13 @@
     "tags": [
       "garden"
     ],
-    "created": 1620737202487,
+    "created": 1623927154771,
     "name": "objects/plant_16",
     "variant": "secondary"
   },
   "play": {
     "tags": [],
-    "created": 1621515073455,
+    "created": 1623927221543,
     "name": "actions/play_16",
     "variant": "secondary"
   },
@@ -1307,7 +1307,7 @@
     "tags": [
       "print"
     ],
-    "created": 1620737190807,
+    "created": 1623927122926,
     "name": "objects/printer_16",
     "variant": "secondary"
   },
@@ -1315,7 +1315,7 @@
     "tags": [
       "Loan value ratio"
     ],
-    "created": 1620737429913,
+    "created": 1623927453967,
     "name": "products/account_percent",
     "variant": "secondary"
   },
@@ -1326,7 +1326,7 @@
       "person",
       "profile"
     ],
-    "created": 1620737179132,
+    "created": 1623927096499,
     "name": "essentials/profile_16",
     "variant": "secondary"
   },
@@ -1336,7 +1336,7 @@
       "process",
       "%"
     ],
-    "created": 1620737175057,
+    "created": 1623927091764,
     "name": "essentials/progress_16",
     "variant": "secondary"
   },
@@ -1346,7 +1346,7 @@
       "questionmark",
       "help"
     ],
-    "created": 1620737171031,
+    "created": 1623927087903,
     "name": "essentials/question_16",
     "variant": "primary"
   },
@@ -1356,7 +1356,7 @@
       "questionmark",
       "help"
     ],
-    "created": 1620737171878,
+    "created": 1623927088646,
     "name": "essentials/question_circled_16",
     "variant": "secondary"
   },
@@ -1365,7 +1365,7 @@
       "calendar",
       "date"
     ],
-    "created": 1620737226014,
+    "created": 1623927178450,
     "name": "objects/recurring_16",
     "variant": "secondary"
   },
@@ -1373,7 +1373,7 @@
     "tags": [
       "Restart"
     ],
-    "created": 1620737288204,
+    "created": 1623927242531,
     "name": "actions/redo_16",
     "variant": "secondary"
   },
@@ -1381,7 +1381,7 @@
     "tags": [
       "referance"
     ],
-    "created": 1620737162833,
+    "created": 1623927080058,
     "name": "essentials/ref_number_16",
     "variant": "secondary"
   },
@@ -1390,13 +1390,13 @@
       "repeat",
       "repeat"
     ],
-    "created": 1620737290683,
+    "created": 1623927244845,
     "name": "actions/refresh_16",
     "variant": "secondary"
   },
   "reply": {
     "tags": [],
-    "created": 1620737286649,
+    "created": 1623927241015,
     "name": "actions/reply_16",
     "variant": "secondary"
   },
@@ -1404,7 +1404,7 @@
     "tags": [
       "refresh"
     ],
-    "created": 1620737289833,
+    "created": 1623927244063,
     "name": "actions/reset_16",
     "variant": "primary"
   },
@@ -1415,19 +1415,19 @@
       "knife",
       "eat"
     ],
-    "created": 1620737200983,
+    "created": 1623927153186,
     "name": "objects/restaurant_16",
     "variant": "secondary"
   },
   "return_1": {
     "tags": [],
-    "created": 1620737287426,
+    "created": 1623927241770,
     "name": "actions/return_1_16",
     "variant": "secondary"
   },
   "save": {
     "tags": [],
-    "created": 1620737282000,
+    "created": 1623927236422,
     "name": "actions/save_16",
     "variant": "primary"
   },
@@ -1435,7 +1435,7 @@
     "tags": [
       "piggybank"
     ],
-    "created": 1620737263892,
+    "created": 1623927216133,
     "name": "products/savings_account_16",
     "variant": "secondary"
   },
@@ -1443,7 +1443,7 @@
     "tags": [
       "piggybank"
     ],
-    "created": 1620737276588,
+    "created": 1623927231009,
     "name": "actions/savings_account_in_16",
     "variant": "secondary"
   },
@@ -1451,7 +1451,7 @@
     "tags": [
       "piggybank"
     ],
-    "created": 1620737275828,
+    "created": 1623927230236,
     "name": "actions/savings_account_out_16",
     "variant": "secondary"
   },
@@ -1459,7 +1459,7 @@
     "tags": [
       "cut"
     ],
-    "created": 1620737229081,
+    "created": 1623927181696,
     "name": "objects/scissors_16",
     "variant": "secondary"
   },
@@ -1469,7 +1469,7 @@
       "vehicle",
       "insurance"
     ],
-    "created": 1620737242031,
+    "created": 1623927194185,
     "name": "products/scooter_16",
     "variant": "secondary"
   },
@@ -1477,19 +1477,19 @@
     "tags": [
       "paper plane"
     ],
-    "created": 1620737300920,
+    "created": 1623927254915,
     "name": "actions/send_16",
     "variant": "secondary"
   },
   "share_android": {
     "tags": [],
-    "created": 1620737293859,
+    "created": 1623927248046,
     "name": "actions/share_android_16",
     "variant": "secondary"
   },
   "share_ios": {
     "tags": [],
-    "created": 1620737294639,
+    "created": 1623927248815,
     "name": "actions/share_ios_16",
     "variant": "secondary"
   },
@@ -1497,7 +1497,7 @@
     "tags": [
       "security"
     ],
-    "created": 1621515072613,
+    "created": 1623927101824,
     "name": "objects/shield_16",
     "variant": "secondary"
   },
@@ -1505,7 +1505,7 @@
     "tags": [
       "groceries"
     ],
-    "created": 1620737204777,
+    "created": 1623927157150,
     "name": "objects/shopping_cart_16",
     "variant": "secondary"
   },
@@ -1513,7 +1513,7 @@
     "tags": [
       "insurance"
     ],
-    "created": 1620737240085,
+    "created": 1623927192577,
     "name": "products/snowmobile_16",
     "variant": "secondary"
   },
@@ -1521,7 +1521,7 @@
     "tags": [
       "divide"
     ],
-    "created": 1620737280471,
+    "created": 1623927234902,
     "name": "actions/split_16",
     "variant": "secondary"
   },
@@ -1530,7 +1530,7 @@
       "favourite",
       "rating"
     ],
-    "created": 1620737159623,
+    "created": 1623927076992,
     "name": "essentials/star_16",
     "variant": "secondary"
   },
@@ -1538,7 +1538,7 @@
     "tags": [
       "graph"
     ],
-    "created": 1620737256794,
+    "created": 1623927209030,
     "name": "products/stocks_16",
     "variant": "secondary"
   },
@@ -1546,7 +1546,7 @@
     "tags": [
       "Stop"
     ],
-    "created": 1620737291465,
+    "created": 1623927245609,
     "name": "actions/stop_16",
     "variant": "secondary"
   },
@@ -1555,7 +1555,7 @@
       "timer",
       "countdown"
     ],
-    "created": 1620737227553,
+    "created": 1623927180054,
     "name": "objects/stopwatch_16",
     "variant": "secondary"
   },
@@ -1564,7 +1564,7 @@
       "minus",
       "remove"
     ],
-    "created": 1620737283560,
+    "created": 1623927238023,
     "name": "actions/subtract_16",
     "variant": "primary"
   },
@@ -1573,7 +1573,7 @@
       "minus",
       "remove"
     ],
-    "created": 1620737284325,
+    "created": 1623927238779,
     "name": "actions/subtract_circled_16",
     "variant": "secondary"
   },
@@ -1584,7 +1584,7 @@
       "holding",
       "care"
     ],
-    "created": 1620737162062,
+    "created": 1623927079314,
     "name": "essentials/support_16",
     "variant": "secondary"
   },
@@ -1592,7 +1592,7 @@
     "tags": [
       "exchange"
     ],
-    "created": 1620737300101,
+    "created": 1623927254166,
     "name": "actions/swap_16",
     "variant": "secondary"
   },
@@ -1600,7 +1600,7 @@
     "tags": [
       "dislike"
     ],
-    "created": 1620737268658,
+    "created": 1623927222366,
     "name": "actions/thumbs_down_16",
     "variant": "secondary"
   },
@@ -1608,7 +1608,7 @@
     "tags": [
       "like"
     ],
-    "created": 1620737269599,
+    "created": 1623927223276,
     "name": "actions/thumbs_up_16",
     "variant": "secondary"
   },
@@ -1617,7 +1617,7 @@
       "insurance",
       "farming"
     ],
-    "created": 1620737238498,
+    "created": 1623927190963,
     "name": "products/tractor_16",
     "variant": "secondary"
   },
@@ -1626,7 +1626,7 @@
       "flatbead",
       "insurance"
     ],
-    "created": 1620737243594,
+    "created": 1623927195751,
     "name": "products/trailer_16",
     "variant": "secondary"
   },
@@ -1635,7 +1635,7 @@
       "transport",
       "travel"
     ],
-    "created": 1620737220308,
+    "created": 1623927173043,
     "name": "objects/train_16",
     "variant": "secondary"
   },
@@ -1643,7 +1643,7 @@
     "tags": [
       "Transfer"
     ],
-    "created": 1620737303925,
+    "created": 1623927258068,
     "name": "actions/transfer_16",
     "variant": "secondary"
   },
@@ -1651,7 +1651,7 @@
     "tags": [
       "Transfer to"
     ],
-    "created": 1620737304665,
+    "created": 1623927258837,
     "name": "actions/transfer_to_16",
     "variant": "secondary"
   },
@@ -1659,7 +1659,7 @@
     "tags": [
       "delete"
     ],
-    "created": 1620737301659,
+    "created": 1623927255697,
     "name": "actions/trash_16",
     "variant": "secondary"
   },
@@ -1667,13 +1667,13 @@
     "tags": [
       "restart"
     ],
-    "created": 1620737288966,
+    "created": 1623927243294,
     "name": "actions/undo_16",
     "variant": "secondary"
   },
   "upload": {
     "tags": [],
-    "created": 1620737295409,
+    "created": 1623927249588,
     "name": "actions/upload_16",
     "variant": "secondary"
   },
@@ -1683,7 +1683,7 @@
       "movie",
       "play"
     ],
-    "created": 1620737184528,
+    "created": 1623927103332,
     "name": "objects/video_16",
     "variant": "secondary"
   },
@@ -1692,7 +1692,7 @@
       "show",
       "eye"
     ],
-    "created": 1620737299222,
+    "created": 1623927253380,
     "name": "actions/view_16",
     "variant": "secondary"
   },
@@ -1701,7 +1701,7 @@
       "insurance",
       "old"
     ],
-    "created": 1620737239239,
+    "created": 1623927191730,
     "name": "products/vintage_car_16",
     "variant": "secondary"
   },
@@ -1709,7 +1709,7 @@
     "tags": [
       "payments"
     ],
-    "created": 1620737225139,
+    "created": 1623927177654,
     "name": "objects/wallet_16",
     "variant": "secondary"
   },
@@ -1717,7 +1717,7 @@
     "tags": [
       "smartwatch"
     ],
-    "created": 1620737195565,
+    "created": 1623927141839,
     "name": "objects/wearables_16",
     "variant": "secondary"
   },
@@ -1726,7 +1726,7 @@
       "internet",
       "www"
     ],
-    "created": 1620737166868,
+    "created": 1623927082440,
     "name": "essentials/web_16",
     "variant": "secondary"
   },
@@ -1735,13 +1735,13 @@
       "disability",
       "insurance"
     ],
-    "created": 1620737248154,
+    "created": 1623927200518,
     "name": "products/wheelchair_16",
     "variant": "secondary"
   },
   "widget_android": {
     "tags": [],
-    "created": 1620737197079,
+    "created": 1623927148845,
     "name": "objects/widget_android_16",
     "variant": "secondary"
   },
@@ -1750,7 +1750,7 @@
       "puzzle",
       "piece"
     ],
-    "created": 1620737197837,
+    "created": 1623927149696,
     "name": "objects/widget_ios_16",
     "variant": "secondary"
   }
