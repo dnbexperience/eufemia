@@ -32,7 +32,7 @@ import Button from '../button/Button'
 import whatInput from 'what-input'
 import CustomContent from './TabsCustomContent'
 import ContentWrapper from './TabsContentWrapper'
-import TabsController from './TabsController'
+import EventEmitter from '../../shared/EventEmitter'
 
 export default class Tabs extends React.PureComponent {
   static tagName = 'dnb-tabs'
@@ -308,8 +308,8 @@ export default class Tabs extends React.PureComponent {
     this._tablistRef = React.createRef()
 
     if (props.id) {
-      this._controller = TabsController.use(props.id)
-      this._controller.set({ key: selected_key })
+      this._eventEmitter = EventEmitter.createInstance(props.id)
+      this._eventEmitter.set({ key: selected_key })
     }
   }
 
@@ -325,9 +325,9 @@ export default class Tabs extends React.PureComponent {
   componentWillUnmount() {
     this._isMounted = false
     this.resetWhatInput()
-    if (this._controller) {
-      this._controller.remove()
-      this._controller = null
+    if (this._eventEmitter) {
+      this._eventEmitter.remove()
+      this._eventEmitter = null
     }
     clearTimeout(this._scrollToTabTimeout)
     if (typeof window !== 'undefined') {
@@ -352,10 +352,10 @@ export default class Tabs extends React.PureComponent {
     this.onResizeHandler()
 
     if (
-      this._controller &&
+      this._eventEmitter &&
       this.props.selected_key !== props.selected_key
     ) {
-      this._controller.update({ key: this.state.selected_key })
+      this._eventEmitter.update({ key: this.state.selected_key })
     }
   }
 
@@ -837,8 +837,8 @@ export default class Tabs extends React.PureComponent {
       }
     }
 
-    if (this._controller) {
-      this._controller.update({ key: selected_key })
+    if (this._eventEmitter) {
+      this._eventEmitter.update({ key: selected_key })
     }
   }
 
@@ -1033,7 +1033,7 @@ export default class Tabs extends React.PureComponent {
 
     const content = this.renderContent()
 
-    if (!this._controller && !content) {
+    if (!this._eventEmitter && !content) {
       warn(`No content was given to the Tabs component!
 Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outside of the Tabs component</Tabs.Content>
 `)

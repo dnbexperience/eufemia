@@ -530,11 +530,10 @@ describe('Modal component', () => {
     const modalElem = document.querySelector(id)
 
     expect(modalElem.textContent).toContain(modalContent)
-    
+
     Comp.find('button.dnb-modal__close-button').simulate('click')
   })
   it('runs expected side effects on desktop', () => {
-
     const Comp = mount(<Component {...props} />)
     const elem = Comp.find('button')
 
