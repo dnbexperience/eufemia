@@ -11,7 +11,7 @@ import {
   disableBodyScroll,
   enableBodyScroll,
   clearAllBodyScrollLocks,
-} from '../../shared/libs/bodyScrollLock'
+} from './bodyScrollLock'
 import {
   warn,
   isTrue,
