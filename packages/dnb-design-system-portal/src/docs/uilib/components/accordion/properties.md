@@ -4,13 +4,36 @@ showTabs: true
 
 ## Properties
 
-| Accordion and AccordionProvider Properties  | Description                                                                         |
-| ------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `id`                                        | _(optional)_ docs.                                                                  |
-| `skeleton`                                  | _(optional)_ if set to `true`, an overlaying skeleton with animation will be shown. |
-| [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.               |
+These properties can send along with the `Accordion.Provider` or `Accordion.Group`. It will effect every nested `Accordion`.
 
-| AccordionProvider Properties                | Description                                                           |
-| ------------------------------------------- | --------------------------------------------------------------------- |
-| `expanded_id`                               | _(optional)_ expanded_id docs.                                        |
-| [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported. |
+| Accordion Properties                        | Description                                                                                                                                                                                                                                  |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                                        | _(optional)_ an unique `id` that will be used on the button element. If you use `remember_state`, an id is required.                                                                                                                         |
+| `title`                                     | _(optional)_ a title as a string or React element. It will be used as the button text.                                                                                                                                                       |
+| `expanded`                                  | _(optional)_ if set to `true` the accordion will be expanded as it's initial state.                                                                                                                                                          |
+| `expanded_ssr`                              | _(optional)_ if set to `true` the accordion will be expanded during SSR. Can be potentially useful for SEO,although it will disturb client hydration, where React expects the same state. But thats mainly an technical aspect to considder. |
+| `remember_state`                            | _(optional)_ if set to `true`, it will remember a changed state initiated by the user. It requires an unique `id`. It will store the sate in the local storage.                                                                              |
+| `flush_remembered_state`                    | _(optional)_ if set to `true`, the saved (remembered) will be removed and the initial component state will be used and set.                                                                                                                  |
+| `no_animation`                              | _(optional)_ if set to `true`, the open and close animation will be omitted.                                                                                                                                                                 |
+| `variant`                                   | _(optional)_ defines the used styling. As of now, only `outlined` is available. It defaults to `outlined`.                                                                                                                                   |
+| `icon`                                      | _(optional)_ will replace the `chevron` icon. The icon will still rotate (by CSS).                                                                                                                                                           |
+| `icon_position`                             | _(optional)_ will set the placement of the icon. Defaults to `left`.                                                                                                                                                                         |
+| `icon_size`                                 | _(optional)_ define a different icon size. Defaults to `medium` (1.5rem).                                                                                                                                                                    |
+| `left_component`                            | _(optional)_ will add a React element on the left side of the `title`, inside `AccordionHeaderContainer`.                                                                                                                                    |
+| `prerender`                                 | _(optional)_ if set to `true` the content will be present, even the accordion is not expanded. Can be useful for assistive technology or SEO.                                                                                                |
+| `prevent_rerender`                          | _(optional)_ if set to `true` the accordion component will not re-render it's content – can be useful for widgets you don't have control of storing the temporary state during interaction.                                                  |
+| `prevent_rerender_conditional`              | _(optional)_ use this prop together with `prevent_rerender` – and if it is to `true`, the accordion component will re-render if the children are a new React element and does not match anymore the previews one.                            |
+| `single_container`                          | _(optional)_ if set to `true`, a group of accordions will be wrapped to sidebar looking menu for medium and larger screens.                                                                                                                  |
+| `element`                                   | _(optional)_ gives you the option to replace the used `button` element. Provide a React element, including a string (HTML element). Defaults to a `div` with all the needed accessibility features included.                                 |
+| `heading`                                   | _(optional)_ if set to `true`, level 2 (h2) will be used. You can provide your own HTML heading (`h3`), or provide a `heading_level` property.                                                                                               |
+| `heading_level`                             | _(optional)_ if `heading` is set to `true`, you can provide a numeric value to define a different heading level. Defaults to `2`.                                                                                                            |
+| `disabled`                                  | _(optional)_ if set to `true`, the accordion button will be disabled (dimmed).                                                                                                                                                               |
+| `skeleton`                                  | _(optional)_ if set to `true`, an overlaying skeleton with animation will be shown.                                                                                                                                                          |
+| [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                                                                        |
+
+| Accordion.Provider and Accordion.Group Properties | Description                                                                 |
+| ------------------------------------------------- | --------------------------------------------------------------------------- |
+| `group`                                           | _(optional)_ define an unique id, it will be used                           |
+| `allow_close_all`                                 | _(optional)_ if set to `true`, the group of accordions will                 |
+| `expanded_id`                                     | _(optional)_ define an `id` of an nested accordion which will get expanded. |
+| [Space](/uilib/components/space/properties)       | _(optional)_ spacing properties like `top` or `bottom` are supported.       |

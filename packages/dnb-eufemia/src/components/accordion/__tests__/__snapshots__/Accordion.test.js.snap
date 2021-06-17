@@ -20,7 +20,6 @@ exports[`Accordion component have to match snapshot 1`] = `
   icon_position={null}
   icon_size="medium"
   id="accordion"
-  label={null}
   left_component={null}
   no_animation={true}
   on_change={null}
