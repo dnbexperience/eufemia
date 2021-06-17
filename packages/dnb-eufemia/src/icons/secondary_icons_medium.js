@@ -133,6 +133,7 @@ import person_shield_medium from './person_shield_medium.js'
 import phone_medium from './phone_medium.js'
 import photo_medium from './photo_medium.js'
 import pin_code_medium from './pin_code_medium.js'
+import pin_medium from './pin_medium.js'
 import plant_medium from './plant_medium.js'
 import play_medium from './play_medium.js'
 import printer_medium from './printer_medium.js'
@@ -320,6 +321,7 @@ export {
   phone_medium,
   photo_medium,
   pin_code_medium,
+  pin_medium,
   plant_medium,
   play_medium,
   printer_medium,

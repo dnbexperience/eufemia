@@ -7,8 +7,7 @@ import PropTypes from 'prop-types'
 import { spacingPropTypes } from '../space/SpacingHelper'
 
 export const accordionPropTypes = {
-  label: PropTypes.node,
-  title: PropTypes.string,
+  title: PropTypes.node,
   expanded: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   expanded_ssr: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -58,7 +57,6 @@ export const accordionPropTypes = {
 }
 
 export const accordionDefaultProps = {
-  label: null,
   title: null,
   expanded: null,
   no_animation: null,

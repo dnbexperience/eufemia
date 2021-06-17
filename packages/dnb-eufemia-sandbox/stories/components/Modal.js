@@ -40,7 +40,19 @@ export const ModalSandbox = () => (
     /> */}
 
     <Box>
-      <Modal title="Title">content</Modal>
+      <Modal title="Title">
+        Posuere hac velit suscipit tempor a fames penatibus curae eget
+        placerat iaculis augue tincidunt ligula etiam diam tempus pretium
+        fusce primis himenaeos sem quisque facilisi mollis non congue
+        rhoncus elit erat ornare litora netus orci mauris morbi mi
+        dignissim quam platea id massa conubia amet eros sagittis at nisl
+        varius cubilia faucibus euismod molestie torquent lacus tortor
+        dictum lectus habitasse ante ultricies eleifend sed vehicula aenean
+        fringilla commodo cum nostra in urna nam aptent vel pharetra
+        convallis ad neque duis pulvinar vitae phasellus sociosqu ac dui
+        egestas ultrices turpis hendrerit senectus sollicitudin consectetur
+        odio interdum cras blandit nec est arcu
+      </Modal>
     </Box>
 
     <Box>

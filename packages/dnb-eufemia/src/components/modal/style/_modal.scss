@@ -15,7 +15,7 @@
   --modal-min-width: 320px; // use px, so larger font-size don't enlarge the min, has to be under 20rem, because of spacing and later mobile fullscreen
   --modal-avg-width: 60vw; // content defines the size
   --modal-max-width: 60rem; // because of our default width --layout-large
-  --modal-content-top: 7rem;
+  --modal-content-top: 5rem;
 
   // Drawer mode
   --modal-drawer-width: 40vw;
@@ -61,6 +61,12 @@
 
     max-width: 100vw;
 
+    &--modal {
+      @media screen and (min-height: 40em) {
+        padding-bottom: 10vh;
+      }
+    }
+
     user-select: none;
     -webkit-user-select: none; // Safari / Touch fix
 
@@ -88,6 +94,14 @@
       }
     }
 
+    &--modal#{&}:not(#{&}--fullscreen) &__inner {
+      // iOS on iPhone fix
+      // Because Safari includes the navigation bar on the height
+      @media (max-height: 40em) and (orientation: landscape) {
+        max-height: 80vh;
+      }
+    }
+
     &__spacing {
       position: relative;
       display: block;
@@ -99,14 +113,33 @@
     &--spacing &__spacing {
       padding: var(--modal-content-top) var(--modal-spacing) 0;
 
+      @include allAbove(x-large) {
+        padding: calc(var(--modal-content-top) + 2rem)
+          calc(var(--modal-spacing) * 1.75) 0; // 3.5rem (56px)
+      }
+      @include allBelow(medium) {
+        padding: var(--modal-content-top)
+          calc(var(--modal-spacing) / 1.333333) 0; // 2rem (32px)
+      }
       @include allBelow(small) {
-        padding: var(--modal-content-top) calc(var(--modal-spacing) * 0.75)
-          0;
+        padding: var(--modal-content-top) calc(var(--modal-spacing) / 2) 0; // 1rem (16px)
       }
     }
     &--spacing#{&}--drawer &__spacing {
-      padding: var(--modal-drawer-content-top)
-        calc(var(--modal-spacing) * 1.75) 0;
+      padding: var(--modal-drawer-content-top) var(--modal-spacing) 0; // should be 56px – but then the whole width should be larger
+
+      @include allAbove(x-large) {
+        padding: var(--modal-drawer-content-top)
+          calc(var(--modal-spacing) * 1.75) 0; // 3.5rem (56px)
+      }
+      @include allBelow(medium) {
+        padding: var(--modal-drawer-content-top)
+          calc(var(--modal-spacing) / 1.333333) 0; // 2rem (32px)
+      }
+      @include allBelow(small) {
+        padding: var(--modal-drawer-content-top)
+          calc(var(--modal-spacing) / 2) 0; // 1rem (16px)
+      }
     }
 
     &__align--center &__spacing {
@@ -138,7 +171,7 @@
       min-width: var(--modal-drawer-min-width);
       max-width: var(--modal-drawer-max-width);
 
-      @media screen and (max-width: 40em) {
+      @include allBelow(small) {
         width: 100vw;
         min-width: auto;
         max-width: auto;
@@ -229,7 +262,7 @@
     &--no-animation &__inner {
       animation-duration: 0ms !important;
     }
-    @media screen and (max-width: 40em) {
+    @include allBelow(small) {
       &--no-animation-on-mobile &__inner {
         animation-duration: 0ms !important;
       }
@@ -247,26 +280,26 @@
     position: relative;
     z-index: 1;
   }
-  &__content--spacing &__wrapper {
-    padding-bottom: calc(var(--modal-spacing) * 1.75);
-
-    @include allBelow(small) {
-      padding-bottom: calc(var(--modal-spacing) * 1.25);
-    }
-  }
   &__content--drawer &__wrapper {
     padding-bottom: calc(var(--modal-spacing) * 2);
+  }
+  &__content--spacing &__wrapper {
+    padding-bottom: calc(var(--modal-spacing) * 2);
+
+    @include IS_SAFARI_MOBILE {
+      padding-bottom: calc(var(--modal-spacing) * 4);
+    }
   }
   &__title ~ &__wrapper {
     padding-top: calc(var(--modal-spacing) / 2);
   }
   &__content--drawer &__title ~ &__wrapper {
-    padding-top: calc(var(--modal-spacing) * 0.75);
+    padding-top: calc(var(--modal-spacing) / 1.333333);
   }
 
   &__wrapper__inner {
     padding-bottom: calc(var(--modal-spacing) * 2);
-    margin-bottom: calc(var(--modal-spacing-minus) * 1.75);
+    margin-bottom: calc(var(--modal-spacing-minus) * 2);
 
     @include allBelow(small) {
       &.dnb-section::after {
@@ -279,6 +312,10 @@
   }
   &__content--drawer &__wrapper__inner {
     margin-bottom: calc(var(--modal-spacing-minus) * 2);
+
+    @include IS_SAFARI_MOBILE {
+      padding-bottom: calc(var(--modal-spacing-minus) * 4);
+    }
 
     &.dnb-section::after {
       min-height: calc(
@@ -294,7 +331,7 @@
       position: absolute;
     }
 
-    top: calc(var(--modal-spacing) * 0.75);
+    top: calc(var(--modal-spacing) / 1.333333);
     right: var(--modal-spacing);
 
     // set a high z-index because when font-size is 200%+
@@ -304,19 +341,18 @@
     @include allBelow(small) {
       right: calc(var(--modal-spacing) / 2);
     }
-
-    // deprecated - removed in v9
-    // &--cross {
-    //   top: var(--modal-spacing);
-
-    //   @include allBelow(small) {
-    //     top: calc(var(--modal-spacing) / 2);
-    //   }
-    // }
   }
   &__content--drawer &__close-button {
-    top: calc(var(--modal-spacing) * 1.75);
-    right: calc(var(--modal-spacing) * 1.75);
+    top: var(--modal-spacing);
+    right: calc(var(--modal-spacing) / 1.333333);
+
+    @include allBelow(small) {
+      right: calc(var(--modal-spacing) / 4);
+    }
+    @include allAbove(x-large) {
+      top: calc(var(--modal-spacing) * 1.75);
+      right: var(--modal-spacing);
+    }
   }
 
   &__overlay {
@@ -367,7 +403,7 @@
     animation-delay: 0ms !important;
     animation-duration: 0ms !important;
   }
-  @media screen and (max-width: 40em) {
+  @include allBelow(small) {
     &--no-animation-on-mobile {
       animation-delay: 0ms !important;
       animation-duration: 0ms !important;

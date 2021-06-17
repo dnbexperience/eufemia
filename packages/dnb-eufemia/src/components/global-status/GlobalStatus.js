@@ -326,7 +326,7 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.anim.setElem(this._shellRef.current)
+    this.anim.setElement(this._shellRef.current)
 
     const isActive = isTrue(this.props.show)
     if (isActive) {
@@ -407,7 +407,7 @@ export default class GlobalStatus extends React.PureComponent {
           _listenForPropChanges: false,
         },
         () => {
-            this.anim.adjustTo(this.adjustHeight, null, {})
+          this.anim.adjustTo(this.adjustHeight, null, {})
         }
       )
 

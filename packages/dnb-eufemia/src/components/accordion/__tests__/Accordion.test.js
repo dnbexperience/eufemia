@@ -127,7 +127,7 @@ describe('Accordion store API', () => {
 
 describe('Accordion group component', () => {
   const Comp = mount(
-    <Component.Group label="Label" expanded id="group">
+    <Component.Group expanded id="group">
       <Component id="accordion-1" title="Accordion 1">
         Accordion 1
       </Component>
@@ -219,7 +219,6 @@ describe('Accordion container component', () => {
     <>
       <Increment />
       <Component.Group
-        label="Label"
         id="container"
         single_container
         prevent_rerender

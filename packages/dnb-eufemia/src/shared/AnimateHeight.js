@@ -52,7 +52,7 @@ export default class AnimateHeight {
   }
 
   // Public methods
-  setElem(elem, container = null) {
+  setElement(elem, container = null) {
     this.elem =
       elem ||
       (typeof document !== 'undefined' && document.createElement('div'))

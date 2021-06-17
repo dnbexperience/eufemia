@@ -85,6 +85,8 @@ export default {
       load_button_text: 'Show more content',
     },
     StepIndicator: {
+      overview_title: 'Steps Overview',
+      step_title_extended: 'You are on step %step of %count',
       step_title: 'Step %step of %count',
     },
     Slider: {
