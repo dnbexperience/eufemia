@@ -92,7 +92,7 @@ const plugins = [
     options: {
       postCssPlugins:
         require('@dnb/eufemia/scripts/prepub/config/postcssConfig')({
-          IE11: false,
+          IE11: true,
         }),
     },
   },
