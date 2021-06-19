@@ -104,9 +104,10 @@ export default class HelpButtonInstance extends React.PureComponent {
     if (icon === 'information' && !size) {
       params.icon_size = 'medium'
     }
-
-    if (params.title) {
+    if (params.title && !params.tooltip && params.tooltip !== false) {
       params.tooltip = params.title
+    }
+    if (params.tooltip) {
       params.title = null
     }
 

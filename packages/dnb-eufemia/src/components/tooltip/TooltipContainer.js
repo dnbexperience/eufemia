@@ -27,8 +27,13 @@ export default class TooltipContainer extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
+    fixed_position: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     useHover: PropTypes.bool,
+    style: PropTypes.object,
     attributes: PropTypes.object,
     children: PropTypes.oneOfType([
       PropTypes.string,
@@ -46,8 +51,10 @@ export default class TooltipContainer extends React.PureComponent {
     arrow: null,
     align: null,
     animate_position: null,
+    fixed_position: null,
     no_animation: null,
     useHover: true,
+    style: null,
     attributes: null,
     children: null,
   }
@@ -63,11 +70,11 @@ export default class TooltipContainer extends React.PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      if (state.wasActive && !props.active && !state.hover) {
+      if (state.leaveInDOM && !props.active && !state.hover) {
         state.hide = true
       }
       if (props.active || state.hover) {
-        state.wasActive = true
+        state.leaveInDOM = true
         state.hide = false
       }
     }
@@ -139,97 +146,112 @@ export default class TooltipContainer extends React.PureComponent {
     }
     let alignOffset = 0
 
-    const target = this.props.targetElement
-    const rect = target.getBoundingClientRect()
-    const align = this.props.align
+    try {
+      const {
+        targetElement: target,
+        align,
+        fixed_position,
+        clientX,
+      } = this.props
 
-    const targetSize = {
-      width: target.offsetWidth,
-      height: target.offsetHeight,
+      const rect = target.getBoundingClientRect()
+
+      const targetSize = {
+        width: target.offsetWidth,
+        height: target.offsetHeight,
+      }
+
+      // fix for svg
+      if (!target.offsetHeight) {
+        targetSize.width = rect.width
+        targetSize.height = rect.height
+      }
+
+      const scrollY =
+        window.scrollY !== undefined ? window.scrollY : window.pageYOffset
+      const scrollX =
+        window.scrollX !== undefined ? window.scrollX : window.pageXOffset
+      const top = (isTrue(fixed_position) ? 0 : scrollY) + rect.top
+
+      // Use Mouse position when target is too wide
+      const useMouseWhen = targetSize.width > 400
+      const mousePos =
+        clientX -
+        getOffsetLeft(target) +
+        rect.left / 2 +
+        (this._rootRef.current ? this._rootRef.current.offsetWidth : 0)
+      const widthBased = scrollX + rect.left
+      const left =
+        useMouseWhen && mousePos < targetSize.width ? mousePos : widthBased
+
+      const style = { ...this.props.style }
+
+      if (align === 'left') {
+        alignOffset = -targetSize.width / 2
+      } else if (align === 'right') {
+        alignOffset = targetSize.width / 2
+      }
+
+      const stylesFromPosition = {
+        left: () => {
+          style.top = top + targetSize.height / 2 - this.state.height / 2
+          style.left = left - this.state.width - this.offset
+        },
+        right: () => {
+          style.top = top + targetSize.height / 2 - this.state.height / 2
+          style.left = left + targetSize.width + this.offset
+        },
+        top: () => {
+          style.left =
+            left -
+            this.state.width / 2 +
+            targetSize.width / 2 +
+            alignOffset
+          style.top = top - this.state.height - this.offset
+        },
+        bottom: () => {
+          style.left =
+            left -
+            this.state.width / 2 +
+            targetSize.width / 2 +
+            alignOffset
+          style.top = top + targetSize.height + this.offset
+        },
+      }
+
+      const stylesFromArrow = {
+        left: () => {
+          style.left =
+            left + targetSize.width / 2 - this.offset + alignOffset
+        },
+        right: () => {
+          style.left =
+            left -
+            this.state.width +
+            targetSize.width / 2 +
+            this.offset +
+            alignOffset
+        },
+        top: () => {
+          style.top = top + targetSize.height / 2 - this.offset
+        },
+        bottom: () => {
+          style.top =
+            top + targetSize.height / 2 - this.state.height + this.offset
+        },
+      }
+
+      if (stylesFromPosition[position]) {
+        stylesFromPosition[position]()
+      }
+      if (stylesFromArrow[arrow]) {
+        stylesFromArrow[arrow]()
+      }
+
+      return style
+    } catch (e) {
+      return {}
     }
-
-    // fix for svg
-    if (!target.offsetHeight) {
-      targetSize.width = rect.width
-      targetSize.height = rect.height
-    }
-
-    const scrollY =
-      window.scrollY !== undefined ? window.scrollY : window.pageYOffset
-    const scrollX =
-      window.scrollX !== undefined ? window.scrollX : window.pageXOffset
-    const top = scrollY + rect.top
-
-    // Use Mouse position when target is too wide
-    const useMouseWhen = targetSize.width > 400
-    const mousePos =
-      this.props.clientX -
-      getOffsetLeft(target) +
-      rect.left / 2 +
-      (this._rootRef.current ? this._rootRef.current.offsetWidth : 0)
-    const widthBased = scrollX + rect.left
-    const left =
-      useMouseWhen && mousePos < targetSize.width ? mousePos : widthBased
-
-    const style = {}
-
-    if (align === 'left') {
-      alignOffset = -targetSize.width / 2
-    } else if (align === 'right') {
-      alignOffset = targetSize.width / 2
-    }
-
-    const stylesFromPosition = {
-      left: () => {
-        style.top = top + targetSize.height / 2 - this.state.height / 2
-        style.left = left - this.state.width - this.offset
-      },
-      right: () => {
-        style.top = top + targetSize.height / 2 - this.state.height / 2
-        style.left = left + targetSize.width + this.offset
-      },
-      top: () => {
-        style.left =
-          left - this.state.width / 2 + targetSize.width / 2 + alignOffset
-        style.top = top - this.state.height - this.offset
-      },
-      bottom: () => {
-        style.left =
-          left - this.state.width / 2 + targetSize.width / 2 + alignOffset
-        style.top = top + targetSize.height + this.offset
-      },
-    }
-
-    const stylesFromArrow = {
-      left: () => {
-        style.left =
-          left + targetSize.width / 2 - this.offset + alignOffset
-      },
-      right: () => {
-        style.left =
-          left -
-          this.state.width +
-          targetSize.width / 2 +
-          this.offset +
-          alignOffset
-      },
-      top: () => {
-        style.top = top + targetSize.height / 2 - this.offset
-      },
-      bottom: () => {
-        style.top =
-          top + targetSize.height / 2 - this.state.height + this.offset
-      },
-    }
-
-    if (stylesFromPosition[position]) {
-      stylesFromPosition[position]()
-    }
-    if (stylesFromArrow[arrow]) {
-      stylesFromArrow[arrow]()
-    }
-
-    return style
   }
 
   checkWindowPosition(style) {
@@ -251,15 +273,24 @@ export default class TooltipContainer extends React.PureComponent {
   }
 
   updateSize() {
-    const width = this._rootRef.current.offsetWidth
-    const height = this._rootRef.current.offsetHeight
+    try {
+      // to ensure we do not wrap the content before getting the height
+      if (!this.state.height) {
+        this._rootRef.current.style.left = ''
+      }
 
-    if (width !== this.state.width || height !== this.state.height) {
-      this.setState({
-        width,
-        height,
-        _listenForPropChanges: false,
-      })
+      const width = this._rootRef.current.offsetWidth
+      const height = this._rootRef.current.offsetHeight
+
+      if (width !== this.state.width || height !== this.state.height) {
+        this.setState({
+          width,
+          height,
+          _listenForPropChanges: false,
+        })
+      }
+    } catch (e) {
+      //
     }
   }
 
@@ -281,13 +312,17 @@ export default class TooltipContainer extends React.PureComponent {
       arrow,
       position,
       animate_position,
+      fixed_position,
       no_animation,
       children,
     } = this.props
     const { hover, hide } = this.state
 
-    const style = this.checkWindowPosition(this.getGlobalStyle())
     const isActive = isTrue(active) || hover
+
+    const style = isActive
+      ? this.checkWindowPosition(this.getGlobalStyle())
+      : null
 
     return (
       <span
@@ -302,6 +337,7 @@ export default class TooltipContainer extends React.PureComponent {
           attributes.className,
           isTrue(animate_position) && 'dnb-tooltip--animate_position',
           isTrue(no_animation) && 'dnb-tooltip--no-animation',
+          isTrue(fixed_position) && 'dnb-tooltip--fixed',
           isActive && 'dnb-tooltip--active',
           !isActive && hide && 'dnb-tooltip--hide'
         )}
