@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "build": "yarn build-portal:version && yarn build-portal",
-    "build-portal": "gatsby build --log-pages",
+    "build-portal": "gatsby build",
     "build-portal-ci": "yarn build-portal:version && yarn make-ui-lib-pages && yarn build-portal --prefix-paths && yarn commit-new-pages",
     "build-portal:version": "babel-node ./scripts/version.js --new-version",
     "build:dev": "yarn make-ui-lib-pages:dev",
@@ -101,7 +101,6 @@
     "gatsby-plugin-meta-redirect": "^1.1.1",
     "gatsby-plugin-offline": "^4.7.1",
     "gatsby-plugin-page-creator": "^3.7.1",
-    "gatsby-plugin-postcss": "^4.7.1",
     "gatsby-plugin-react-helmet": "^4.7.1",
     "gatsby-plugin-sass": "^4.7.1",
     "gatsby-plugin-sharp": "^3.7.1",

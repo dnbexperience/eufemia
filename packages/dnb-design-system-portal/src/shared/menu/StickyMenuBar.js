@@ -6,7 +6,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { StaticQuery, graphql } from 'gatsby'
+import { useStaticQuery, graphql } from 'gatsby'
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons/secondary_icons'
@@ -19,6 +19,7 @@ import PortalToolsMenu from './PortalToolsMenu'
 import { SearchBarInput } from './SearchBar'
 import { Context } from '@dnb/eufemia/src/shared'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
+import { MediaQuery } from '@dnb/eufemia/src/shared'
 
 const Header = styled.header`
   position: fixed;
@@ -64,6 +65,26 @@ const Header = styled.header`
       }
     }
   }
+
+  .portal-header-wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    width: 100%;
+
+    /* make sure we are on 64px instead of 65px */
+    padding: 0.5rem 2rem;
+
+    @media screen and (max-width: 40em) {
+      padding: 0.5rem 5vw;
+    }
+
+    body[data-dnb-modal-active='true'] & {
+      margin-right: var(--scrollbar-width);
+    }
+
+    align-items: center;
+  }
 `
 
 const Tools = styled.span`
@@ -72,25 +93,6 @@ const Tools = styled.span`
   align-items: center;
 `
 
-const HeaderInner = styled.div`
-  display: flex;
-  justify-content: space-between;
-
-  width: 100%;
-
-  /* make sure we are on 64px instead of 65px */
-  padding: 0.5rem 2rem;
-
-  @media screen and (max-width: 40em) {
-    padding: 0.5rem 5vw;
-  }
-
-  body[data-dnb-modal-active='true'] & {
-    margin-right: var(--scrollbar-width);
-  }
-
-  align-items: center;
-`
 const Slogan = styled.span`
   @media screen and (max-width: 40em) {
     display: none;
@@ -117,100 +119,86 @@ const hideSidebarToggleButtonStyle = css`
   }
 `
 
-const PortalToolsMenuMedia = styled(PortalToolsMenu)`
-  @media screen and (max-width: 50em) {
-    display: none;
-  }
-`
-
-export default class StickyMenuBar extends React.PureComponent {
-  state = {
-    mobileMenuVisible: false,
-  }
-  static propTypes = {
-    hideSidebarToggleButton: PropTypes.bool,
-    preventBarVisibility: PropTypes.bool,
-  }
-  static defaultProps = {
-    hideSidebarToggleButton: false,
-    preventBarVisibility: false,
-  }
-  static contextType = Context
-  render() {
-    const { hideSidebarToggleButton, preventBarVisibility } = this.props
-    if (preventBarVisibility) {
-      return <></>
-    }
-    return (
-      <SidebarMenuContext.Consumer>
-        {({ toggleMenu, isOpen }) =>
-          !hideSidebarToggleButton &&
-          !(
-            typeof window !== 'undefined' &&
-            /fullscreen/.test(window.location.search)
-          ) && (
-            <StaticQuery
-              query={graphql`
-                query {
-                  site {
-                    siteMetadata {
-                      name
-                    }
-                  }
-                }
-              `}
-              render={({
-                site: {
-                  siteMetadata: { name: slogan },
-                },
-              }) => (
-                <Header
-                  css={[
-                    hideSidebarToggleButton &&
-                      hideSidebarToggleButtonStyle,
-                  ]}
-                  className={classnames('sticky-menu', 'dev-grid')}
-                >
-                  <HeaderInner>
-                    <MainMenuToggleButton />
-                    <CenterWrapper aria-hidden className="dnb-selection">
-                      <Icon icon={PortalLogo} size={48} right="x-small" />
-                      <Slogan
-                        className={createSkeletonClass(
-                          'font',
-                          this.context.skeleton
-                        )}
-                      >
-                        {slogan}
-                      </Slogan>
-                    </CenterWrapper>
-                    <Tools>
-                      <SearchBarInput />
-                      <Button
-                        icon={isOpen ? closeIcon : hamburgerIcon}
-                        on_click={toggleMenu}
-                        id="toggle-sidebar-menu"
-                        size="default"
-                        icon_size="default"
-                        aria-haspopup="true"
-                        aria-controls="portal-sidebar-menu"
-                        aria-expanded={isOpen}
-                        aria-label="Section Content Menu"
-                        title={
-                          isOpen
-                            ? 'Hide section content menu'
-                            : 'Show section content menu'
-                        }
-                      />
-                      <PortalToolsMenuMedia />
-                    </Tools>
-                  </HeaderInner>
-                </Header>
-              )}
-            />
-          )
+export default function StickyMenuBar({
+  hideSidebarToggleButton,
+  preventBarVisibility,
+} = {}) {
+  const context = React.useContext(Context)
+  const { toggleMenu, isOpen } = React.useContext(SidebarMenuContext)
+  const {
+    site: {
+      siteMetadata: { name: slogan },
+    },
+  } = useStaticQuery(graphql`
+    query {
+      site {
+        siteMetadata {
+          name
         }
-      </SidebarMenuContext.Consumer>
-    )
+      }
+    }
+  `)
+
+  if (
+    preventBarVisibility ||
+    hideSidebarToggleButton ||
+    (typeof window !== 'undefined' &&
+      /fullscreen/.test(window.location.search))
+  ) {
+    return null
   }
+
+  return (
+    <Header
+      css={[hideSidebarToggleButton && hideSidebarToggleButtonStyle]}
+      className={classnames('sticky-menu', 'dev-grid')}
+    >
+      <div className="portal-header-wrapper ">
+        <MainMenuToggleButton />
+        <CenterWrapper aria-hidden className="dnb-selection">
+          <Icon
+            icon={PortalLogo}
+            size={48}
+            right="x-small"
+            color="var(--color-black-80, #333)"
+          />
+          <Slogan
+            className={createSkeletonClass('font', context.skeleton)}
+          >
+            {slogan}
+          </Slogan>
+        </CenterWrapper>
+        <Tools>
+          <SearchBarInput />
+          <Button
+            icon={isOpen ? closeIcon : hamburgerIcon}
+            on_click={toggleMenu}
+            id="toggle-sidebar-menu"
+            size="default"
+            icon_size="default"
+            aria-haspopup="true"
+            aria-controls="portal-sidebar-menu"
+            aria-expanded={isOpen}
+            aria-label="Section Content Menu"
+            title={
+              isOpen
+                ? 'Hide section content menu'
+                : 'Show section content menu'
+            }
+          />
+          <MediaQuery when={{ min: 'medium' }}>
+            <PortalToolsMenu />
+          </MediaQuery>
+        </Tools>
+      </div>
+    </Header>
+  )
+}
+StickyMenuBar.propTypes = {
+  hideSidebarToggleButton: PropTypes.bool,
+  preventBarVisibility: PropTypes.bool,
+}
+StickyMenuBar.defaultProps = {
+  hideSidebarToggleButton: false,
+  preventBarVisibility: false,
 }
