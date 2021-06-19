@@ -66,7 +66,6 @@ export const format = (
   let display = value
   let aria = null
   let type = 'number'
-  const isCurrency = isTrue(currency) || typeof currency === 'string'
 
   // because we are using context comparison
   if (!locale) {
@@ -79,28 +78,20 @@ export const format = (
     }
   }
 
+  if (isTrue(clean)) {
+    value = cleanNumber(value)
+  }
+
   const opts =
     (typeof options === 'string' && options[0] === '{'
       ? JSON.parse(options)
       : options) || {}
 
-  let deci = parseFloat(decimals)
-  if (isCurrency && isNaN(deci)) {
-    deci = 2
-  }
-  if (deci >= 0) {
-    const isNumber = typeof value === 'number'
-    opts.minimumFractionDigits = deci
-    opts.maximumFractionDigits = deci
-    value = String(clean ? cleanNumber(value) : value)
-    const pos = value.indexOf('.')
-    if (pos > 0 && omit_rounding === true) {
-      value = String(value).substr(0, pos + 1 + deci)
-    }
-    if (isNumber) {
-      value = parseFloat(value)
-    }
+  if (parseFloat(decimals) >= 0) {
+    value = formatDecimals(value, decimals, omit_rounding, opts)
   } else {
+    // if no decimals are set, opts.maximumFractionDigits is set
+    // why do we this? because the ".toLotoLocaleString" will else use 3 as the default
     opts.maximumFractionDigits = 20
   }
 
@@ -108,39 +99,55 @@ export const format = (
     type = 'phone'
     const { number: _number, aria: _aria } = formatPhone(value, locale)
 
-    value = cleanNumber(value) // clean, because of +47 and ++47
+    if (clean === null) {
+      value = cleanNumber(value) // clean, because of +47 and ++47
+    }
     display = _number
     aria = _aria
   } else if (isTrue(ban)) {
-    type = 'ban'
+    type = 'ban' // Bank Account Number
     const { number: _number, aria: _aria } = formatBAN(value, locale)
 
     display = _number
     aria = _aria
   } else if (isTrue(nin)) {
-    type = 'nin'
+    type = 'nin' // National Identification Number
     const { number: _number, aria: _aria } = formatNIN(value, locale)
 
     display = _number
     aria = _aria
   } else if (isTrue(org)) {
-    type = 'org'
-    // organization number
+    type = 'org' // organization number
+
     const { number: _number, aria: _aria } = formatORG(value, locale)
 
     display = _number
     aria = _aria
   } else if (isTrue(percent)) {
+    if (decimals === null) {
+      decimals = countDecimals(value)
+      value = formatDecimals(value, decimals, omit_rounding, opts)
+    }
+
     if (!opts.style) {
       opts.style = 'percent'
     }
 
     display = formatNumber(value / 100, locale, opts)
-  } else if (isCurrency) {
+  } else if (isTrue(currency) || typeof currency === 'string') {
     type = 'currency'
+
+    opts.currency =
+      opts.currency || (isTrue(currency) ? CURRENCY : currency)
+
+    if (decimals === null) {
+      decimals = 2
+      value = formatDecimals(value, decimals, omit_rounding, opts)
+    }
+
     // cleanup, but only if it not got cleaned up already
     let cleanedNumber =
-      deci >= 0 ? value : clean ? cleanNumber(value) : value
+      decimals >= 0 ? value : clean ? cleanNumber(value) : value
 
     if (currency_display === false || currency_display === '') {
       omit_currency_sign = true
@@ -156,8 +163,7 @@ export const format = (
     }
 
     // set currency options
-    opts.currency =
-      opts.currency || (isTrue(currency) ? CURRENCY : currency)
+
     opts.style = 'currency'
     opts.currencyDisplay =
       opts.currencyDisplay || currency_display || CURRENCY_DISPLAY // code, name, symbol
@@ -274,6 +280,50 @@ export const format = (
   return returnAria
     ? { value, cleanedValue, number: display, aria, locale, type }
     : display
+}
+
+/**
+ * Fill format decimals
+ *
+ * @param {number|string} value
+ * @param {number} decimals how many decimals
+ * @param {boolean} omit_rounding if decimals should be rounded or cut off
+ * @param {boolean} clean whether the value should be cleaned or not
+ * @param {object} opts immutable object
+ * @returns a decimal prepared number
+ */
+export const formatDecimals = (
+  value,
+  decimals,
+  omit_rounding = false,
+  opts = {}
+) => {
+  decimals = parseFloat(decimals)
+
+  if (decimals >= 0) {
+    opts.minimumFractionDigits = decimals
+    opts.maximumFractionDigits = decimals
+
+    const pos = String(value).indexOf('.')
+    if (pos > 0 && omit_rounding === true) {
+      value = String(value).substr(0, pos + 1 + decimals)
+    }
+  }
+
+  return value
+}
+
+/**
+ * Find the amount of decimals
+ *
+ * @param {number|string} value any number
+ * @returns amount of decimals
+ */
+const countDecimals = (value) => {
+  if (Math.floor(value.valueOf()) === value.valueOf()) {
+    return 0
+  }
+  return String(value).split('.')[1].length || 0
 }
 
 /**
@@ -415,6 +465,9 @@ export const formatNumber = (
     if (IS_SAFARI && options.currencyDisplay === 'narrowSymbol') {
       options.currencyDisplay = 'symbol'
     }
+
+    // remove unsupported decimals
+    delete options.decimals
 
     /**
      * We change the thousand separator to be a non-breaking space
