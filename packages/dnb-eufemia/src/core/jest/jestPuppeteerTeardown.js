@@ -48,17 +48,7 @@ module.exports = async function () {
       await commitToBranch({
         skipCI: true,
         isFeature: false,
-        requiredBranch: [
-          'main',
-          'release',
-          'release-.*',
-          '.*-icons', // eufemia-icons
-          'beta',
-          'alpha',
-          'rc/.*',
-          'fix/.*',
-          'feat/.*',
-        ],
+        requiredBranch: ['.*'],
         what: 'reports',
         filePathsIncludelist: [file],
       })

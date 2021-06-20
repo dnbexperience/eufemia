@@ -169,6 +169,8 @@ exports[`NumberFormat scss have to match snapshot 1`] = `
     animation: hide-tooltip 200ms ease-in-out forwards; }
   .dnb-tooltip--hide.dnb-tooltip--no-animation {
     animation: hide-tooltip 1ms ease-out forwards; }
+  .dnb-tooltip--fixed {
+    position: fixed; }
   html[data-visual-test] .dnb-tooltip--hide {
     animation: hide-tooltip 1ms ease-out 1s forwards; }
   .dnb-tooltip__content {
@@ -197,11 +199,11 @@ exports[`NumberFormat scss have to match snapshot 1`] = `
       transform: rotate(180deg); }
     .dnb-tooltip__arrow__position--left {
       right: -0.75rem;
-      margin-right: 2px;
+      margin-right: 3px;
       transform: rotate(90deg); }
     .dnb-tooltip__arrow__position--right {
       left: -0.75rem;
-      margin-left: 2px;
+      margin-left: 3px;
       transform: rotate(270deg); }
     .dnb-tooltip__arrow__arrow--left {
       align-self: flex-start; }

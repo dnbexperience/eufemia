@@ -199,7 +199,7 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
   .dnb-checkbox__input[disabled]:not(:checked):not([data-checked='true']) ~ .dnb-checkbox__button {
     border-color: var(--color-mint-green-50); }
   .dnb-checkbox__input:not([disabled]):checked:active ~ .dnb-checkbox__button,
-  .dnb-checkbox__input:not([disabled])[data-checked='true']:active ~ .dnb-checkbox__button {
+  .dnb-checkbox__input:not([disabled]):not([data-checked='true']):active ~ .dnb-checkbox__button {
     background-color: var(--color-mint-green-50);
     border-color: transparent; }
   .dnb-checkbox__input:not([disabled]):checked:active ~ .dnb-checkbox__gfx,
@@ -220,27 +220,28 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
   .dnb-checkbox__input:not([disabled]):focus ~ .dnb-checkbox__button .dnb-checkbox__focus,
   .dnb-checkbox__input:not([disabled]):active ~ .dnb-checkbox__button .dnb-checkbox__focus {
     display: block; }
-  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active) ~ .dnb-checkbox__button {
+  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active) ~ .dnb-checkbox__button {
     border: none; }
-  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
+  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
     display: block;
     --border-color: var(--color-fire-red);
     box-shadow: 0 0 0 0.125rem var(--border-color);
     border-color: transparent; }
     @media screen and (-ms-high-contrast: none) {
-      .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
+      .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
         box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
-  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__button {
-    border-color: var(--color-fire-red);
+  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):hover ~ .dnb-checkbox__button {
     background-color: var(--color-fire-red-8); }
-  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-checkbox__button {
+    .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):hover ~ .dnb-checkbox__button[data-checked='true'] {
+      border-color: var(--color-fire-red); }
+  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):not(:hover) ~ .dnb-checkbox__button {
     border-color: var(--color-fire-red-8); }
-  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-checkbox__button,
-  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover)[data-checked='true'] ~ .dnb-checkbox__button {
+  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):not(:hover):checked ~ .dnb-checkbox__button,
+  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):not(:hover)[data-checked='true'] ~ .dnb-checkbox__button {
     background-color: var(--color-fire-red); }
-  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):hover ~ .dnb-checkbox__gfx {
+  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):hover ~ .dnb-checkbox__gfx {
     color: var(--color-fire-red); }
-  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-checkbox__gfx {
+  .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active):not(:hover) ~ .dnb-checkbox__gfx {
     color: var(--color-fire-red-8); }
 "
 `;

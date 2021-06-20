@@ -381,6 +381,7 @@ exports[`Modal component have to match snapshot 1`] = `
         arrow="center"
         class={null}
         className={null}
+        fixed_position={false}
         group="main"
         hide_delay={500}
         id="modal_id-tooltip"
@@ -442,6 +443,7 @@ exports[`Modal component have to match snapshot 1`] = `
           }
           class={null}
           className={null}
+          fixed_position={false}
           group="modal_id-tooltip"
           hide_delay={500}
           id="modal_id-tooltip"
@@ -544,6 +546,7 @@ exports[`Modal component have to match snapshot 1`] = `
             }
             class={null}
             className={null}
+            fixed_position={false}
             group="modal_id-tooltip"
             hide_delay={500}
             id="modal_id-tooltip"

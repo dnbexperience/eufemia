@@ -86,7 +86,7 @@ describe('Additional Modal screenshot', () => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="modal-no-spacing"] button:first-of-type',
-      screenshotSelector: '.dnb-modal__content',
+      screenshotSelector: '.dnb-modal__content .dnb-modal__content__inner',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

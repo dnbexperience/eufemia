@@ -46,6 +46,9 @@
   &--hide#{&}--no-animation {
     animation: hide-tooltip 1ms ease-out forwards;
   }
+  &--fixed {
+    position: fixed;
+  }
   html[data-visual-test] &--hide {
     // use a delay before hiding, because of visual tests
     animation: hide-tooltip 1ms ease-out 1s forwards;
@@ -90,12 +93,12 @@
     }
     &__position--left {
       right: -0.75rem;
-      margin-right: 2px; // border correction
+      margin-right: 3px; // border correction
       transform: rotate(90deg);
     }
     &__position--right {
       left: -0.75rem;
-      margin-left: 2px; // border correction
+      margin-left: 3px; // border correction
       transform: rotate(270deg);
     }
 

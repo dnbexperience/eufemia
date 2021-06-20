@@ -39,7 +39,7 @@ describe('Anchor element', () => {
     )
     expect(Comp.find('.dnb-anchor--no-icon').exists()).toBe(true)
   })
-  it('has aria-describedby when target is blank', async () => {
+  it('has aria-describedby when target is blank', () => {
     const Comp = mount(
       <Component href="/url" target="_blank" lang="en-GB">
         text
