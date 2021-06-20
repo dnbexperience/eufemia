@@ -125,6 +125,13 @@ export default class AnimateHeight {
     this.onEndStack.push(fn)
   }
   start(fromHeight, toHeight, { animate = true } = {}) {
+    try {
+      if (window.location.href.includes('data-visual-test')) {
+        animate = false
+      }
+    } catch (e) {
+      //
+    }
     if (animate === false || this.opts?.animate === false) {
       this.elem.style.height = `${toHeight}px`
       this._callOnStart()

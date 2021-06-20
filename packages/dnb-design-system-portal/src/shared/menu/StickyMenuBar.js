@@ -143,7 +143,7 @@ export default function StickyMenuBar({
     preventBarVisibility ||
     hideSidebarToggleButton ||
     (typeof window !== 'undefined' &&
-      /fullscreen/.test(window.location.search))
+      /fullscreen|data-visual-test/.test(window.location.search))
   ) {
     return null
   }
