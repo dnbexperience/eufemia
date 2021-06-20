@@ -7,7 +7,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import prettier from 'prettier'
 import SVGOptim from 'svgo'
-import svg2vectordrawable from 'svg2vectordrawable/lib/svg-file-to-vectordrawable-file'
+import svg2vectordrawable from 'svg2vectordrawable/src/svg-file-to-vectordrawable-file'
 import { asyncForEach } from '../../tools'
 import { ERROR_HARMLESS } from '../../lib/error'
 import { log, ErrorHandler } from '../../lib'
@@ -129,15 +129,13 @@ export const extractIconsAsSVG = async ({
       '> Figma: started to fetch SVGs icons by using frameIconsFactory'
     )
 
-    const {
-      listOfProcessedFiles,
-      listWithNewFiles,
-    } = await collectIconsFromFigmaDoc({
-      figmaFile,
-      figmaDoc,
-      format: 'svg',
-      ...rest,
-    })
+    const { listOfProcessedFiles, listWithNewFiles } =
+      await collectIconsFromFigmaDoc({
+        figmaFile,
+        figmaDoc,
+        format: 'svg',
+        ...rest,
+      })
 
     log.info(
       `> Figma: finished fetching SVGs icons by using frameIconsFactory. Processed ${listOfProcessedFiles.length} files along with ${listWithNewFiles.length} new files.`
@@ -289,16 +287,14 @@ export const extractIconsAsPDF = async ({
       '../../../src/icons/icons-pdf.lock'
     )
 
-    const {
-      listOfProcessedFiles,
-      listWithNewFiles,
-    } = await collectIconsFromFigmaDoc({
-      figmaFile,
-      figmaDoc,
-      format: 'pdf',
-      ...IconsConfig({ iconsLockFile }),
-      ...rest,
-    })
+    const { listOfProcessedFiles, listWithNewFiles } =
+      await collectIconsFromFigmaDoc({
+        figmaFile,
+        figmaDoc,
+        format: 'pdf',
+        ...IconsConfig({ iconsLockFile }),
+        ...rest,
+      })
 
     log.info(
       `> Figma: finished fetching PDFs by using frameIconsFactory. Processed ${listOfProcessedFiles.length} files along with ${listWithNewFiles.length} new files.`

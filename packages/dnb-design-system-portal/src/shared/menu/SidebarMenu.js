@@ -15,6 +15,7 @@ import Context from '@dnb/eufemia/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 import { Icon } from '@dnb/eufemia/src/components'
+import { MediaQuery } from '@dnb/eufemia/src/shared'
 import graphics from './SidebarGraphics'
 import keycode from 'keycode'
 import {
@@ -22,12 +23,6 @@ import {
   applyPageFocus,
 } from '@dnb/eufemia/src/shared/helpers'
 import PortalToolsMenu from './PortalToolsMenu'
-
-const PortalToolsMenuMedia = styled(PortalToolsMenu)`
-  @media screen and (min-width: 50em) {
-    display: none;
-  }
-`
 
 const StyledListItem = styled.li`
   list-style: none;
@@ -571,36 +566,37 @@ export default class SidebarLayout extends React.PureComponent {
             }
 
             return (
-              <>
-                <Navigation
-                  id="portal-sidebar-menu"
-                  aria-labelledby="toggle-sidebar-menu"
-                  className={classnames(
-                    'dnb-scrollbar-appearance',
-                    isOpen && 'show-mobile-menu',
-                    isClosing && 'hide-mobile-menu'
-                  )}
-                  ref={this._scrollRef}
-                >
-                  <PortalToolsMenuMedia
+              <Navigation
+                id="portal-sidebar-menu"
+                aria-labelledby="toggle-sidebar-menu"
+                className={classnames(
+                  'dnb-scrollbar-appearance',
+                  isOpen && 'show-mobile-menu',
+                  isClosing && 'hide-mobile-menu'
+                )}
+                ref={this._scrollRef}
+              >
+                <MediaQuery when={{ min: 0, max: 'medium' }}>
+                  <PortalToolsMenu
                     trigger_text="Portal Tools"
                     trigger_icon="chevron_right"
                     trigger_icon_position="right"
+                    tooltipPosition="bottom"
                     left="large"
                     top="large"
                   />
-                  <ul className="dev-grid">{nav}</ul>
-                  {isOpen && (
-                    <Global
-                      styles={css`
-                        .dnb-app-content {
-                          display: none !important;
-                        }
-                      `}
-                    />
-                  )}
-                </Navigation>
-              </>
+                </MediaQuery>
+                <ul className="dev-grid">{nav}</ul>
+                {isOpen && (
+                  <Global
+                    styles={css`
+                      .dnb-app-content {
+                        display: none !important;
+                      }
+                    `}
+                  />
+                )}
+              </Navigation>
             )
           }}
         />

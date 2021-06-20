@@ -18,11 +18,9 @@ module.exports = ({ IE11 = false, ...options } = {}) => {
         (i) => i
       ),
       importFrom: [
-        // Use this method, instead ...
-        extractCSSProperties('./src/style/index.scss'),
-
-        // ... of this. Because we need that config during build time of the lib
-        // require.resolve('@dnb/eufemia/build/style/dnb-ui-properties.css')
+        extractCSSProperties(
+          require.resolve('@dnb/eufemia/src/style/index.scss')
+        ),
       ],
       ...options,
     }),
@@ -60,17 +58,13 @@ module.exports = ({ IE11 = false, ...options } = {}) => {
 
 function extractCSSProperties(file, opts = {}) {
   try {
-    file = path.resolve(__dirname, '../../../', file)
     const sassResult = sass.renderSync({
       file,
       ...opts,
     })
-    const dir = path.resolve(__dirname, '.cache')
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir)
-    }
+    const tmpDir = String(require('os').tmpdir)
     const tmpFile = path.resolve(
-      dir,
+      tmpDir,
       path.basename(file.replace('.scss', '.css'))
     )
     fs.writeFileSync(tmpFile, String(sassResult.css))

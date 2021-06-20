@@ -28,14 +28,13 @@ const WrapperInner = styled.div`
     padding: 0 0.5rem;
   }
 `
-const Main = styled.main``
 
 const LayoutWrapper = ({ children }) => {
   return (
     <Wrapper className="dnb-core-style">
       <WrapperInner>
         {/* <header className="app-header">header</header> */}
-        <Main role="main">{children}</Main>
+        <main role="main">{children}</main>
         {/* <footer className="app-footer">Happy Eufemia {'🖋'}</footer> */}
       </WrapperInner>
     </Wrapper>
