@@ -41,6 +41,7 @@ beforeAll(() => {
 beforeEach(() => {
   document.body.removeAttribute('style')
   document.documentElement.removeAttribute('style')
+  document.getElementById('dnb-modal-root')?.remove()
   window.__modalStack = []
 })
 
@@ -107,8 +108,6 @@ describe('Modal component', () => {
   it('should act as a help button by default', () => {
     const Comp = mount(
       <Input
-        label="Input"
-        placeholder="Placeholder ..."
         suffix={<Component title={props.title}>Help text</Component>}
       />
     )
@@ -119,6 +118,21 @@ describe('Modal component', () => {
     expect(
       buttonElem.instance().getAttribute('aria-roledescription')
     ).toBe('Hjelp-knapp')
+    Comp.find('button').simulate('click')
+    expect(document.querySelector('.dnb-modal__title').textContent).toBe(
+      props.title
+    )
+  })
+  it('should use default modal title when used as a help button', () => {
+    const Comp = mount(<Input suffix={<Component>Help text</Component>} />)
+    const buttonElem = Comp.find('button.dnb-modal__trigger')
+    expect(buttonElem.instance().getAttribute('aria-label')).toBe(
+      'Hjelpetekst'
+    )
+    Comp.find('button').simulate('click')
+    expect(document.querySelector('.dnb-modal__title').textContent).toBe(
+      'Hjelpetekst'
+    )
   })
   it('has a disabled trigger button once we set trigger_disabled to true', () => {
     const Comp = mount(<Component {...props} open_state={true} />)
