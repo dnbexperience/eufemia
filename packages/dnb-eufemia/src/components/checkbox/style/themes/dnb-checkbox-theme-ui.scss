@@ -104,7 +104,6 @@
     }
     background-color: var(--color-fire-red-8);
   }
-  /* stylelint-enable */
   &__status--error
     &__input:not([disabled]):not(:active):not(:hover)
     ~ &__button {
@@ -127,4 +126,5 @@
     ~ &__gfx {
     color: var(--color-fire-red-8);
   }
+  /* stylelint-enable */
 }

@@ -531,15 +531,6 @@ export default class Modal extends React.PureComponent {
         }
       }
 
-      const useHelpButton =
-        (!!suffixProps ||
-          (!isTrue(trigger_hidden) &&
-            !trigger_text &&
-            !triggerAttributes.text)) &&
-        ['question', 'information'].includes(
-          String(triggerAttributes.icon || trigger_icon)
-        )
-
       if (triggerAttributes.id) {
         this._id = triggerAttributes.id
       }
@@ -549,7 +540,7 @@ export default class Modal extends React.PureComponent {
       }
       // in case the modal is used in suffix and no title is given
       // suffixProps.label is also available, so we could use that too
-      else if (!rest.title && useHelpButton && suffixProps) {
+      else if (!rest.title && suffixProps) {
         modalProps.title = this.context.translation.HelpButton.title
       }
 

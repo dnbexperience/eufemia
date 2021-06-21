@@ -13,22 +13,6 @@ const detectOS = (ua) => {
   const ios = iphone || ipad
   return { ios, android }
 }
-const detectiOSVersion = () => {
-  const match = navigator.appVersion.match(/OS (\d+)_(\d+)_?(\d+)?/)
-  let version
-
-  if (match !== undefined && match !== null) {
-    version = [
-      parseInt(match[1], 10),
-      parseInt(match[2], 10),
-      parseInt(match[3] || 0, 10),
-    ]
-    return parseFloat(version.join('.'))
-  }
-  return false
-}
-
-const desktopLikeIOs = 14
 
 let lockedNum = 0
 let initialClientY = 0
@@ -54,32 +38,35 @@ function getEventListenerOptions(options) {
 
 const setOverflowHidden = () => {
   try {
-    const $html = document.documentElement
-    const $body = document.body
-    const htmlStyle = Object.assign({}, $html.style)
-    const bodyStyle = Object.assign({}, $body.style)
+    const htmlElement = document.documentElement
+    const bodyElement = document.body
+    const htmlStyle = Object.assign({}, htmlElement.style)
+    const bodyStyle = Object.assign({}, bodyElement.style)
     const scrollBarWidth =
-      window.innerWidth - ($body.clientWidth || window.innerWidth)
+      window.innerWidth - (bodyElement.clientWidth || window.innerWidth)
 
-    $html.style.overflow = 'hidden'
-    $html.style.height = '100%'
-    $html.style.setProperty('--scrollbar-width', `${scrollBarWidth}px`)
+    htmlElement.style.overflow = 'hidden'
+    htmlElement.style.height = '100%'
+    htmlElement.style.setProperty(
+      '--scrollbar-width',
+      `${scrollBarWidth}px`
+    )
 
-    $body.style.overflow = 'hidden'
-    $body.style.height = 'auto'
-    $body.style.boxSizing = 'border-box'
-    $body.style.marginRight = `${scrollBarWidth}px`
+    bodyElement.style.overflow = 'hidden'
+    bodyElement.style.height = 'auto'
+    bodyElement.style.boxSizing = 'border-box'
+    bodyElement.style.marginRight = `${scrollBarWidth}px`
 
     return () => {
       try {
         // eslint-disable-next-line
         ;['overflow', 'height'].forEach((x) => {
-          $html.style[x] = htmlStyle[x] || ''
+          htmlElement.style[x] = htmlStyle[x] || ''
         })
         ;['overflow', 'height', 'boxSizing', 'margin'].forEach((x) => {
-          $body.style[x] = bodyStyle[x] || ''
+          bodyElement.style[x] = bodyStyle[x] || ''
         })
-        $html.style.removeProperty('--scrollbar-width')
+        htmlElement.style.removeProperty('--scrollbar-width')
       } catch (e) {
         warn(e)
       }
@@ -89,19 +76,76 @@ const setOverflowHidden = () => {
   }
 }
 
-const setOverflowHiddenMobile = () => {
+const setOverflowHiddenIOS = (targetElement) => {
+  if (targetElement) {
+    const elementArray = Array.isArray(targetElement)
+      ? targetElement
+      : [targetElement]
+    elementArray.forEach((element) => {
+      if (element && lockedElements.indexOf(element) === -1) {
+        element.ontouchstart = (event) => {
+          initialClientY = event.targetTouches[0].clientY
+          initialClientX = event.targetTouches[0].clientX
+        }
+        element.ontouchmove = (event) => {
+          if (event.targetTouches.length !== 1) {
+            return // stop here
+          }
+          handleScroll(event, element)
+        }
+        lockedElements.push(element)
+      }
+    })
+  }
+
+  if (!documentListenerAdded) {
+    document.addEventListener(
+      'touchmove',
+      preventDefault,
+      eventListenerOptions
+    )
+    documentListenerAdded = true
+  }
+
+  return () => {
+    if (targetElement) {
+      const elementArray = Array.isArray(targetElement)
+        ? targetElement
+        : [targetElement]
+      elementArray.forEach((element) => {
+        const index = lockedElements.indexOf(element)
+        if (index !== -1) {
+          element.ontouchmove = null
+          element.ontouchstart = null
+          lockedElements.splice(index, 1)
+        }
+      })
+    }
+
+    if (documentListenerAdded) {
+      document.removeEventListener(
+        'touchmove',
+        preventDefault,
+        eventListenerOptions
+      )
+      documentListenerAdded = false
+    }
+  }
+}
+
+const setOverflowHiddenAndroid = () => {
   try {
     const unbind = setOverflowHidden()
 
-    const $html = document.documentElement
-    const $body = document.body
-    const scrollTop = $html.scrollTop || $body.scrollTop
-    const bodyStyle = Object.assign({}, $body.style)
+    const htmlElement = document.documentElement
+    const bodyElement = document.body
+    const scrollTop = htmlElement.scrollTop || bodyElement.scrollTop
+    const bodyStyle = Object.assign({}, bodyElement.style)
 
-    $body.style.position = 'fixed'
-    $body.style.top = `-${scrollTop}px`
-    $body.style.left = '0'
-    $body.style.right = '0'
+    bodyElement.style.position = 'fixed'
+    bodyElement.style.top = `-${scrollTop}px`
+    bodyElement.style.left = '0'
+    bodyElement.style.right = '0'
 
     return () => {
       unbind()
@@ -109,14 +153,14 @@ const setOverflowHiddenMobile = () => {
       try {
         // eslint-disable-next-line
         ;['position', 'top', 'right', 'left'].forEach((x) => {
-          $body.style[x] = bodyStyle[x] || ''
+          bodyElement.style[x] = bodyStyle[x] || ''
         })
 
         const scrollBehavior =
-          window.getComputedStyle($html).scrollBehavior
-        $html.style.scrollBehavior = 'auto'
-        $html.scrollTop = scrollTop
-        $html.style.scrollBehavior = scrollBehavior
+          window.getComputedStyle(htmlElement).scrollBehavior
+        htmlElement.style.scrollBehavior = 'auto'
+        htmlElement.scrollTop = scrollTop
+        htmlElement.style.scrollBehavior = scrollBehavior
       } catch (e) {
         warn(e)
       }
@@ -204,49 +248,12 @@ export const disableBodyScroll = (targetElement) => {
   try {
     // iOS
     if (detectOS().ios) {
-      // Works better on iOS v14, therefore, use this
-      if (detectiOSVersion() >= desktopLikeIOs) {
-        if (lockedNum <= 0) {
-          callbackUnlock = setOverflowHidden()
-        }
-      } else {
-        // Depreciated – the rest here can be removed as soon as we do not need to support iOS < 14
-
-        if (targetElement) {
-          const elementArray = Array.isArray(targetElement)
-            ? targetElement
-            : [targetElement]
-          elementArray.forEach((element) => {
-            if (element && lockedElements.indexOf(element) === -1) {
-              element.ontouchstart = (event) => {
-                initialClientY = event.targetTouches[0].clientY
-                initialClientX = event.targetTouches[0].clientX
-              }
-              element.ontouchmove = (event) => {
-                if (event.targetTouches.length !== 1) {
-                  return // stop here
-                }
-                handleScroll(event, element)
-              }
-              lockedElements.push(element)
-            }
-          })
-        }
-
-        if (!documentListenerAdded) {
-          document.addEventListener(
-            'touchmove',
-            preventDefault,
-            eventListenerOptions
-          )
-          documentListenerAdded = true
-        }
-      }
+      callbackUnlock = setOverflowHiddenIOS(targetElement)
 
       // Android or Desktop
     } else if (lockedNum <= 0) {
       if (detectOS().android) {
-        callbackUnlock = setOverflowHiddenMobile()
+        callbackUnlock = setOverflowHiddenAndroid()
       } else {
         callbackUnlock = setOverflowHidden()
       }
@@ -275,32 +282,6 @@ export const enableBodyScroll = (targetElement) => {
     if (typeof callbackUnlock === 'function') {
       callbackUnlock()
     }
-
-    // iOS
-    if (detectOS().ios && detectiOSVersion() < desktopLikeIOs) {
-      if (targetElement) {
-        const elementArray = Array.isArray(targetElement)
-          ? targetElement
-          : [targetElement]
-        elementArray.forEach((element) => {
-          const index = lockedElements.indexOf(element)
-          if (index !== -1) {
-            element.ontouchmove = null
-            element.ontouchstart = null
-            lockedElements.splice(index, 1)
-          }
-        })
-      }
-
-      if (documentListenerAdded) {
-        document.removeEventListener(
-          'touchmove',
-          preventDefault,
-          eventListenerOptions
-        )
-        documentListenerAdded = false
-      }
-    }
   } catch (e) {
     warn(e)
   }
@@ -319,7 +300,7 @@ export const clearAllBodyScrollLocks = () => {
     }
 
     // iOS
-    if (detectOS().ios && detectiOSVersion() < desktopLikeIOs) {
+    if (detectOS().ios) {
       if (lockedElements && lockedElements.length) {
         // clear events
         let element = lockedElements.pop()
@@ -329,15 +310,6 @@ export const clearAllBodyScrollLocks = () => {
           element = lockedElements.pop()
         }
       }
-    }
-
-    if (documentListenerAdded) {
-      document.removeEventListener(
-        'touchmove',
-        preventDefault,
-        eventListenerOptions
-      )
-      documentListenerAdded = false
     }
   } catch (e) {
     warn(e)
