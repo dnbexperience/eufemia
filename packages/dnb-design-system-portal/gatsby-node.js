@@ -4,6 +4,18 @@
  */
 
 const path = require('path')
+const {
+  createNewVersion,
+  createNewChangelogVersion,
+} = require('./scripts/version.js')
+
+exports.onPreInit = async () => {
+  console.log('onPreBuild', process.env.NODE_ENV)
+  if (process.env.NODE_ENV === 'production') {
+    await createNewVersion()
+    await createNewChangelogVersion()
+  }
+}
 
 exports.onCreateNode = ({ node, ...props }) => {
   if (node.internal.type === 'Mdx') {

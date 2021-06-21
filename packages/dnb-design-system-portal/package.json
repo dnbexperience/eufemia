@@ -7,7 +7,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "yarn build-portal:version && yarn build-portal",
+    "build": "gatsby build",
     "build-portal": "gatsby build",
     "build-portal-ci": "yarn build-portal:version && yarn make-ui-lib-pages && yarn build-portal --prefix-paths && yarn commit-new-pages",
     "build-portal:version": "babel-node ./scripts/version.js --new-version",

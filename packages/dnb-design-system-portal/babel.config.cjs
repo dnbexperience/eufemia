@@ -5,6 +5,7 @@ const runModernBuild =
   !isCI ||
   (isCI &&
     !process.env.GATSBY_CLOUD &&
+    !process.env.NETLIFY &&
     !/(release|portal|beta|alpha)/.test(getCurrentBranchName()))
 
 module.exports = {
