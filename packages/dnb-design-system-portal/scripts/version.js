@@ -3,12 +3,12 @@
  *
  */
 
-import fs from 'fs-extra'
-import path from 'path'
-import { isCI } from 'ci-info'
-import packageJson from '../package.json'
+const fs = require('fs-extra')
+const path = require('path')
+const { isCI } = require('ci-info')
+const packageJson = require('../package.json')
 
-export const currentVersion = packageJson.buildVersion
+exports.currentVersion = packageJson.buildVersion
 
 // run only if the script was executed from command line
 if (
@@ -69,3 +69,6 @@ async function createNewChangelogVersion() {
     console.log(`Failed to create new static version file! \n${e.message}`)
   }
 }
+
+exports.createNewVersion = createNewVersion
+exports.createNewChangelogVersion = createNewChangelogVersion
