@@ -560,15 +560,8 @@ export default class Slider extends React.PureComponent {
       ...attributes
     } = props
 
-    const {
-      min,
-      max,
-      reverse,
-      vertical,
-      value,
-      currentState,
-      disabled,
-    } = this.state
+    const { min, max, reverse, vertical, value, currentState, disabled } =
+      this.state
 
     const showStatus = getStatusState(status)
     const showButtons = !isTrue(hide_buttons)
@@ -649,9 +642,10 @@ export default class Slider extends React.PureComponent {
     const addParams = {}
 
     if (typeof thumbParams['aria-hidden'] !== 'undefined') {
-      helperParams['aria-hidden'] = addParams[
-        'aria-hidden'
-      ] = subtractParams['aria-hidden'] = thumbParams['aria-hidden']
+      helperParams['aria-hidden'] =
+        addParams['aria-hidden'] =
+        subtractParams['aria-hidden'] =
+          thumbParams['aria-hidden']
     }
 
     // also used for code markup simulation
@@ -702,18 +696,17 @@ export default class Slider extends React.PureComponent {
         <span className="dnb-slider__wrapper">
           <AlignmentHelper />
 
-          {showStatus && (
-            <FormStatus
-              id={id + '-form-status'}
-              global_status_id={global_status_id}
-              label={label}
-              text_id={id + '-status'} // used for "aria-describedby"
-              text={status}
-              status={status_state}
-              animation={status_animation}
-              skeleton={skeleton}
-            />
-          )}
+          <FormStatus
+            show={showStatus}
+            id={id + '-form-status'}
+            global_status_id={global_status_id}
+            label={label}
+            text_id={id + '-status'} // used for "aria-describedby"
+            text={status}
+            status={status_state}
+            animation={status_animation}
+            skeleton={skeleton}
+          />
 
           <span className="dnb-slider__inner">
             {showButtons && (reverse ? addButton : subtractButton)}

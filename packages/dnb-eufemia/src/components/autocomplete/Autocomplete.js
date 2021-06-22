@@ -1655,18 +1655,17 @@ class AutocompleteInstance extends React.PureComponent {
         <span className="dnb-autocomplete__inner" ref={this._ref}>
           <AlignmentHelper />
 
-          {showStatus && (
-            <FormStatus
-              id={id + '-form-status'}
-              global_status_id={global_status_id}
-              label={label}
-              text_id={id + '-status'} // used for "aria-describedby"
-              text={status}
-              status={status_state}
-              animation={status_animation}
-              skeleton={skeleton}
-            />
-          )}
+          <FormStatus
+            show={showStatus}
+            id={id + '-form-status'}
+            global_status_id={global_status_id}
+            label={label}
+            text_id={id + '-status'} // used for "aria-describedby"
+            text={status}
+            status={status_state}
+            animation={status_animation}
+            skeleton={skeleton}
+          />
 
           <span className="dnb-autocomplete__row">
             <span {...shellParams}>

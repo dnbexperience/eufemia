@@ -338,19 +338,20 @@ export default class Button extends React.PureComponent {
             skeleton={isTrue(skeleton)}
           />
         </Element>
+
         {this.state.afterContent}
-        {showStatus && (
-          <FormStatus
-            id={this._id + '-form-status'}
-            global_status_id={global_status_id}
-            label={text}
-            text={status}
-            status={status_state}
-            text_id={this._id + '-status'} // used for "aria-describedby"
-            animation={status_animation}
-            skeleton={skeleton}
-          />
-        )}
+
+        <FormStatus
+          show={showStatus}
+          id={this._id + '-form-status'}
+          global_status_id={global_status_id}
+          label={text}
+          text={status}
+          status={status_state}
+          text_id={this._id + '-status'} // used for "aria-describedby"
+          animation={status_animation}
+          skeleton={skeleton}
+        />
 
         {tooltip && this._ref && (
           <Tooltip

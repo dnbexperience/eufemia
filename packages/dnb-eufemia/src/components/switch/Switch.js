@@ -299,19 +299,18 @@ export default class Switch extends React.PureComponent {
           <span className="dnb-switch__inner">
             <AlignmentHelper />
 
-            {showStatus && (
-              <FormStatus
-                id={id + '-form-status'}
-                global_status_id={global_status_id}
-                label={label}
-                text_id={id + '-status'} // used for "aria-describedby"
-                width_selector={id + ', ' + id + '-label'}
-                text={status}
-                status={status_state}
-                animation={status_animation}
-                skeleton={skeleton}
-              />
-            )}
+            <FormStatus
+              show={showStatus}
+              id={id + '-form-status'}
+              global_status_id={global_status_id}
+              label={label}
+              text_id={id + '-status'} // used for "aria-describedby"
+              width_selector={id + ', ' + id + '-label'}
+              text={status}
+              status={status_state}
+              animation={status_animation}
+              skeleton={skeleton}
+            />
 
             <span className="dnb-switch__shell">
               {(label_position === 'right' || !label_position) &&

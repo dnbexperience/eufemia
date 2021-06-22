@@ -9,7 +9,8 @@ FormStatusDefault,
 FormStatusWithInfo,
 FormStatusWithStretch,
 FormStatusWithWarn,
-FormSetDefaultInput,
+FormStatusInput,
+FormStatusAnimation,
 FormStatusCustom,
 FormStatusLarge,
 FormStatusWithIcons,
@@ -35,15 +36,19 @@ NB: The inner text gets a max width of 47rem to ensure we not exceed 70 characte
 
 <FormStatusWithWarn />
 
-### A form status, used by the Input Component
+### A FormStatus, used by the Input Component
 
-<FormSetDefaultInput />
+<FormStatusInput />
 
-### A form status, with a custom styled content
+### FormStatus Animation details
+
+<FormStatusAnimation />
+
+### A FormStatus, with a custom styled content
 
 <FormStatusCustom />
 
-### A form status with plain text/HTML
+### A FormStatus with plain text/HTML
 
 <FormStatusLarge />
 

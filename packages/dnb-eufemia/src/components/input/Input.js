@@ -491,18 +491,18 @@ export default class Input extends React.PureComponent {
 
         <span {...innerParams}>
           <AlignmentHelper />
-          {showStatus && (
-            <FormStatus
-              id={id + '-form-status'}
-              global_status_id={global_status_id}
-              label={label}
-              text={status}
-              status={status_state}
-              text_id={id + '-status'} // used for "aria-describedby"
-              animation={status_animation}
-              skeleton={skeleton}
-            />
-          )}
+
+          <FormStatus
+            show={showStatus}
+            id={id + '-form-status'}
+            global_status_id={global_status_id}
+            label={label}
+            text={status}
+            status={status_state}
+            text_id={id + '-status'} // used for "aria-describedby"
+            animation={status_animation}
+            skeleton={skeleton}
+          />
 
           <span className="dnb-input__row">
             <span {...shellParams}>
