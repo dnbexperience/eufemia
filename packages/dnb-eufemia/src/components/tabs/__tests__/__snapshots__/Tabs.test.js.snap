@@ -80,7 +80,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                 size="medium"
                 skeleton={null}
                 status={null}
-                status_animation={null}
+                status_no_animation={null}
                 status_state="error"
                 stretch={null}
                 tabIndex="-1"
@@ -127,7 +127,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                     size="medium"
                     skeleton={false}
                     status={null}
-                    status_animation={null}
+                    status_no_animation={null}
                     status_state="error"
                     stretch={null}
                     tabIndex="-1"
@@ -193,6 +193,30 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                     </IconPrimary>
                   </Content>
                 </button>
+                <FormStatus
+                  attributes={null}
+                  class={null}
+                  className={null}
+                  global_status_id={null}
+                  icon="error"
+                  icon_size="medium"
+                  id="null-form-status"
+                  label={null}
+                  no_animation={null}
+                  role={null}
+                  show={null}
+                  size="default"
+                  skeleton={null}
+                  state="error"
+                  status="error"
+                  stretch={null}
+                  text={null}
+                  text_id="null-status"
+                  title={null}
+                  variant={null}
+                  width_element={null}
+                  width_selector={null}
+                />
               </Button>
             </ScrollNavButton>
             <Tabs>
@@ -331,7 +355,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                 size="medium"
                 skeleton={null}
                 status={null}
-                status_animation={null}
+                status_no_animation={null}
                 status_state="error"
                 stretch={null}
                 tabIndex="-1"
@@ -378,7 +402,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                     size="medium"
                     skeleton={false}
                     status={null}
-                    status_animation={null}
+                    status_no_animation={null}
                     status_state="error"
                     stretch={null}
                     tabIndex="-1"
@@ -444,6 +468,30 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                     </IconPrimary>
                   </Content>
                 </button>
+                <FormStatus
+                  attributes={null}
+                  class={null}
+                  className={null}
+                  global_status_id={null}
+                  icon="error"
+                  icon_size="medium"
+                  id="null-form-status"
+                  label={null}
+                  no_animation={null}
+                  role={null}
+                  show={null}
+                  size="default"
+                  skeleton={null}
+                  state="error"
+                  status="error"
+                  stretch={null}
+                  text={null}
+                  text_id="null-status"
+                  title={null}
+                  variant={null}
+                  width_element={null}
+                  width_selector={null}
+                />
               </Button>
             </ScrollNavButton>
           </div>
@@ -611,7 +659,7 @@ exports[`Tabs component have to match snapshot 1`] = `
               size="medium"
               skeleton={null}
               status={null}
-              status_animation={null}
+              status_no_animation={null}
               status_state="error"
               stretch={null}
               tabIndex="-1"
@@ -658,7 +706,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                   size="medium"
                   skeleton={false}
                   status={null}
-                  status_animation={null}
+                  status_no_animation={null}
                   status_state="error"
                   stretch={null}
                   tabIndex="-1"
@@ -724,6 +772,30 @@ exports[`Tabs component have to match snapshot 1`] = `
                   </IconPrimary>
                 </Content>
               </button>
+              <FormStatus
+                attributes={null}
+                class={null}
+                className={null}
+                global_status_id={null}
+                icon="error"
+                icon_size="medium"
+                id="null-form-status"
+                label={null}
+                no_animation={null}
+                role={null}
+                show={null}
+                size="default"
+                skeleton={null}
+                state="error"
+                status="error"
+                stretch={null}
+                text={null}
+                text_id="null-status"
+                title={null}
+                variant={null}
+                width_element={null}
+                width_selector={null}
+              />
             </Button>
           </ScrollNavButton>
           <Tabs>
@@ -862,7 +934,7 @@ exports[`Tabs component have to match snapshot 1`] = `
               size="medium"
               skeleton={null}
               status={null}
-              status_animation={null}
+              status_no_animation={null}
               status_state="error"
               stretch={null}
               tabIndex="-1"
@@ -909,7 +981,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                   size="medium"
                   skeleton={false}
                   status={null}
-                  status_animation={null}
+                  status_no_animation={null}
                   status_state="error"
                   stretch={null}
                   tabIndex="-1"
@@ -975,6 +1047,30 @@ exports[`Tabs component have to match snapshot 1`] = `
                   </IconPrimary>
                 </Content>
               </button>
+              <FormStatus
+                attributes={null}
+                class={null}
+                className={null}
+                global_status_id={null}
+                icon="error"
+                icon_size="medium"
+                id="null-form-status"
+                label={null}
+                no_animation={null}
+                role={null}
+                show={null}
+                size="default"
+                skeleton={null}
+                state="error"
+                status="error"
+                stretch={null}
+                text={null}
+                text_id="null-status"
+                title={null}
+                variant={null}
+                width_element={null}
+                width_selector={null}
+              />
             </Button>
           </ScrollNavButton>
         </div>
