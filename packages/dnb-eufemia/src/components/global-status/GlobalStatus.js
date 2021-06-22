@@ -173,17 +173,14 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (state._listenForPropChanges) {
-      if (state._items !== props.items) {
-        state.globalStatus = GlobalStatusProvider.combineMessages([
-          state.globalStatus,
-          props,
-        ])
-      }
+    if (state._items !== props.items) {
+      state.globalStatus = GlobalStatusProvider.combineMessages([
+        state.globalStatus,
+        props,
+      ])
     }
 
     state._items = props.items
-    state._listenForPropChanges = true
 
     return state
   }
@@ -193,7 +190,6 @@ export default class GlobalStatus extends React.PureComponent {
     isActive: false,
     isAnimating: false,
     keepContentVisible: false,
-    _listenForPropChanges: false,
   }
 
   constructor(props) {
@@ -210,7 +206,6 @@ export default class GlobalStatus extends React.PureComponent {
     this.anim.onStart((state) => {
       this.setState({
         isAnimating: true,
-        _listenForPropChanges: false,
       })
       if (state === 'opening') {
         this.scrollToStatus()
@@ -220,13 +215,11 @@ export default class GlobalStatus extends React.PureComponent {
     this.anim.onEnd((state) => {
       this.setState({
         isAnimating: false,
-        _listenForPropChanges: false,
       })
 
       if (this.state.isActive) {
         this.setState({
           keepContentVisible: true,
-          _listenForPropChanges: false,
         })
 
         dispatchCustomElementEvent(
@@ -259,7 +252,6 @@ export default class GlobalStatus extends React.PureComponent {
       } else {
         this.setState({
           keepContentVisible: false,
-          _listenForPropChanges: false,
         })
         dispatchCustomElementEvent(
           this._globalStatus,
@@ -289,17 +281,18 @@ export default class GlobalStatus extends React.PureComponent {
         this._globalStatus = globalStatus
       }
 
-      this.adjustHeight = this.anim.adjustFrom()
-
       // force re-render
       this.setState({
         globalStatus,
-        _listenForPropChanges: false,
       })
 
       const isActive = isTrue(globalStatus.show)
-      if (isActive && !this.isPassive()) {
-        this.setState({ isActive, _listenForPropChanges: false })
+      if (isActive) {
+        this.adjustHeight = this.anim.adjustFrom()
+
+        if (!this.isPassive()) {
+          this.setState({ isActive })
+        }
       }
 
       // make sure to show the new status, inc. scroll
@@ -404,7 +397,6 @@ export default class GlobalStatus extends React.PureComponent {
       this.setState(
         {
           keepContentVisible: true,
-          _listenForPropChanges: false,
         },
         () => {
           this.anim.adjustTo(this.adjustHeight, null, {})
@@ -419,7 +411,6 @@ export default class GlobalStatus extends React.PureComponent {
         {
           isActive: true,
           initialOpened: true,
-          _listenForPropChanges: false,
         },
         () => {
           this.anim.open()
@@ -449,7 +440,6 @@ export default class GlobalStatus extends React.PureComponent {
         {
           isActive: false,
           initialOpened: false,
-          _listenForPropChanges: false,
         },
         () => {
           this.anim.close()
@@ -604,6 +594,57 @@ export default class GlobalStatus extends React.PureComponent {
     }
   }
 
+  itemsRenderHandler =
+    ({ status_anchor_text, lang }) =>
+    (item, i) => {
+      const text = item?.text
+        ? item.text
+        : typeof item === 'string'
+        ? item
+        : null
+
+      if (!text) {
+        return null // skip this item if no content is given
+      }
+
+      const id =
+        item.id || item.status_id
+          ? `${item.status_id}-${i}`
+          : makeUniqueId()
+      const label = React.isValidElement(item.status_anchor_label)
+        ? convertJsxToString(item.status_anchor_label)
+        : item.status_anchor_label || ''
+      const anchorText = String(
+        item.status_anchor_text || status_anchor_text
+      )
+        .replace('%s', label)
+        .replace(/[: ]$/g, '')
+      const useAutolink = item.status_id && isTrue(item.status_anchor_url)
+
+      return (
+        <li key={i}>
+          <p id={id} className="dnb-p">
+            {text}
+          </p>
+
+          {item && (useAutolink || item.status_anchor_url) && (
+            <a
+              className="dnb-anchor"
+              aria-describedby={id}
+              lang={lang}
+              href={
+                useAutolink ? `#${item.status_id}` : item.status_anchor_url
+              }
+              onClick={(e) => this.gotoItem(e, item)}
+              onKeyDown={(e) => this.gotoItem(e, item)}
+            >
+              {anchorText}
+            </a>
+          )}
+        </li>
+      )
+    }
+
   render() {
     const { isActive, isAnimating, keepContentVisible } = this.state
 
@@ -714,48 +755,9 @@ export default class GlobalStatus extends React.PureComponent {
 
     const renderedItems = itemsToRender.length > 0 && (
       <ul className="dnb-ul">
-        {itemsToRender.map((item, i) => {
-          const id =
-            item.id || item.status_id
-              ? `${item.status_id}-${i}`
-              : makeUniqueId()
-          const text = (item && item.text) || item
-          const label = React.isValidElement(item.status_anchor_label)
-            ? convertJsxToString(item.status_anchor_label)
-            : item.status_anchor_label || ''
-          const anchorText = String(
-            item.status_anchor_text || status_anchor_text
-          )
-            .replace('%s', label)
-            .replace(/[: ]$/g, '')
-          const useAutolink =
-            item.status_id && isTrue(item.status_anchor_url)
-
-          return (
-            <li key={i}>
-              <p id={id} className="dnb-p">
-                {text}
-              </p>
-
-              {item && (useAutolink || item.status_anchor_url) && (
-                <a
-                  className="dnb-anchor"
-                  aria-describedby={id}
-                  lang={lang}
-                  href={
-                    useAutolink
-                      ? `#${item.status_id}`
-                      : item.status_anchor_url
-                  }
-                  onClick={(e) => this.gotoItem(e, item)}
-                  onKeyDown={(e) => this.gotoItem(e, item)}
-                >
-                  {anchorText}
-                </a>
-              )}
-            </li>
-          )
-        })}
+        {itemsToRender.map(
+          this.itemsRenderHandler({ status_anchor_text, lang })
+        )}
       </ul>
     )
 

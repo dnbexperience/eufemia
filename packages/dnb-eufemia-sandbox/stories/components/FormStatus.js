@@ -48,7 +48,6 @@ const SmallWidth = styled(Input)`
 // )
 
 export const FormStatuseSandbox = () => {
-  const [showError, setShowError] = useState(false)
   return (
     <Wrapper>
       <Box>
@@ -137,6 +136,15 @@ export const FormStatuseSandbox = () => {
           </FormRow>
         </FormSet>
       </Box>
+    </Wrapper>
+  )
+}
+
+export function FormStatusAnimation() {
+  const [showError, setShowError] = useState(false)
+
+  return (
+    <Wrapper>
       <Box>
         <FormSet
           label_direction="vertical"
