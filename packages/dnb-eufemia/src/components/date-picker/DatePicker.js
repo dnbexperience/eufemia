@@ -625,19 +625,20 @@ export default class DatePicker extends React.PureComponent {
             {...pickerParams}
           >
             <AlignmentHelper />
-            {showStatus && (
-              <FormStatus
-                id={id + '-form-status'}
-                global_status_id={global_status_id}
-                label={label}
-                text_id={id + '-status'} // used for "aria-describedby"
-                width_selector={id + '-input'}
-                text={status}
-                status={status_state}
-                animation={status_animation}
-                skeleton={skeleton}
-              />
-            )}
+
+            <FormStatus
+              show={showStatus}
+              id={id + '-form-status'}
+              global_status_id={global_status_id}
+              label={label}
+              text_id={id + '-status'} // used for "aria-describedby"
+              width_selector={id + '-input'}
+              text={status}
+              status={status_state}
+              animation={status_animation}
+              skeleton={skeleton}
+            />
+
             <span className="dnb-date-picker__row">
               <span className="dnb-date-picker__shell">
                 <DatePickerInput

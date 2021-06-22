@@ -320,6 +320,12 @@ export default class FormStatus extends React.PureComponent {
   }
 
   render() {
+    const isReadyToGetVisible = this.isReadyToGetVisible()
+
+    if (!isReadyToGetVisible && !this.state.keepContentInDom) {
+      return null
+    }
+
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
@@ -360,14 +366,19 @@ export default class FormStatus extends React.PureComponent {
       icon,
       icon_size,
     })
-    const isReadyToGetVisible = this.isReadyToGetVisible()
-    const contentToRender = FormStatus.getContent(this.props)
+
+    const contentToRender =
+      this.state.keepContentInDom && this._cachedContent
+        ? this._cachedContent
+        : FormStatus.getContent(this.props)
+
+    // Add a cache, we use this during the "hide" period when animating
+    if (!this.state.isAnimating) {
+      this._cachedContent = contentToRender
+    }
+
     const hasStringContent =
       typeof contentToRender === 'string' && contentToRender.length > 0
-
-    if (!isReadyToGetVisible && !this.state.keepContentInDom) {
-      return null
-    }
 
     const params = {
       className: classnames(
@@ -375,8 +386,13 @@ export default class FormStatus extends React.PureComponent {
         `dnb-form-status--${state}`,
         `dnb-form-status__size--${size}`,
         variant && `dnb-form-status__variant--${variant}`,
-        !isReadyToGetVisible && 'dnb-form-status--hidden',
         this.state.isAnimating && 'dnb-form-status--is-animating',
+        !isReadyToGetVisible &&
+          !this.state.keepContentInDom &&
+          'dnb-form-status--hidden',
+        !isReadyToGetVisible &&
+          this.state.keepContentInDom &&
+          'dnb-form-status--disappear',
         isTrue(no_animation) && 'dnb-form-status--no-animation',
         stretch && 'dnb-form-status--stretch',
         hasStringContent ? 'dnb-form-status--has-content' : null,

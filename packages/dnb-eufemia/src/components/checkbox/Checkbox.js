@@ -263,8 +263,9 @@ export default class Checkbox extends React.PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
 
-    const statusComp = showStatus && (
+    const statusComp = (
       <FormStatus
+        show={showStatus}
         id={id + '-form-status'}
         global_status_id={global_status_id}
         label={label}
