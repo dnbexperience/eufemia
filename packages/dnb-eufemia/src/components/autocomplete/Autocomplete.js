@@ -99,7 +99,10 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.node,
     ]),
     status_state: PropTypes.string,
-    status_animation: PropTypes.string,
+    status_no_animation: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
     global_status_id: PropTypes.string,
     suffix: PropTypes.oneOfType([
       PropTypes.string,
@@ -238,7 +241,7 @@ export default class Autocomplete extends React.PureComponent {
     keep_value_and_selection: null,
     status: null,
     status_state: 'error',
-    status_animation: null,
+    status_no_animation: null,
     global_status_id: null,
     suffix: null,
     disable_filter: false,
@@ -1444,7 +1447,7 @@ class AutocompleteInstance extends React.PureComponent {
       fixed_position,
       status,
       status_state,
-      status_animation,
+      status_no_animation,
       global_status_id,
       suffix,
       scrollable,
@@ -1663,7 +1666,7 @@ class AutocompleteInstance extends React.PureComponent {
             text_id={id + '-status'} // used for "aria-describedby"
             text={status}
             status={status_state}
-            animation={status_animation}
+            no_animation={status_no_animation}
             skeleton={skeleton}
           />
 

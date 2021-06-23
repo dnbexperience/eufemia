@@ -62,7 +62,10 @@ export default class Radio extends React.PureComponent {
       PropTypes.node,
     ]),
     status_state: PropTypes.string,
-    status_animation: PropTypes.string,
+    status_no_animation: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
     global_status_id: PropTypes.string,
     suffix: PropTypes.oneOfType([
       PropTypes.string,
@@ -98,7 +101,7 @@ export default class Radio extends React.PureComponent {
     group: null,
     status: null,
     status_state: 'error',
-    status_animation: null,
+    status_no_animation: null,
     global_status_id: null,
     suffix: null,
     value: '',
@@ -274,7 +277,7 @@ export default class Radio extends React.PureComponent {
           const {
             status,
             status_state,
-            status_animation,
+            status_no_animation,
             global_status_id,
             suffix,
             element,
@@ -389,7 +392,7 @@ export default class Radio extends React.PureComponent {
                     width_selector={id + ', ' + id + '-label'}
                     text={status}
                     status={status_state}
-                    animation={status_animation}
+                    no_animation={status_no_animation}
                     skeleton={skeleton}
                   />
 
