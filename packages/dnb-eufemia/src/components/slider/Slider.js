@@ -59,7 +59,10 @@ export default class Slider extends React.PureComponent {
       PropTypes.node,
     ]),
     status_state: PropTypes.string,
-    status_animation: PropTypes.string,
+    status_no_animation: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
     global_status_id: PropTypes.string,
     suffix: PropTypes.oneOfType([
       PropTypes.string,
@@ -108,7 +111,7 @@ export default class Slider extends React.PureComponent {
     label_sr_only: null,
     status: null,
     status_state: 'error',
-    status_animation: null,
+    status_no_animation: null,
     global_status_id: null,
     suffix: null,
     thump_title: null,
@@ -534,7 +537,7 @@ export default class Slider extends React.PureComponent {
       label_sr_only,
       status,
       status_state,
-      status_animation,
+      status_no_animation,
       global_status_id,
       stretch,
       suffix,
@@ -704,7 +707,7 @@ export default class Slider extends React.PureComponent {
             text_id={id + '-status'} // used for "aria-describedby"
             text={status}
             status={status_state}
-            animation={status_animation}
+            no_animation={status_no_animation}
             skeleton={skeleton}
           />
 

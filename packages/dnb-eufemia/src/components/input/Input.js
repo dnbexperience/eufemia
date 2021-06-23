@@ -58,7 +58,10 @@ export const inputPropTypes = {
     PropTypes.node,
   ]),
   status_state: PropTypes.string,
-  status_animation: PropTypes.string,
+  status_no_animation: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]),
   input_state: PropTypes.string,
   global_status_id: PropTypes.string,
   autocomplete: PropTypes.string,
@@ -141,7 +144,7 @@ export default class Input extends React.PureComponent {
     label_sr_only: null,
     status: null,
     status_state: 'error',
-    status_animation: null,
+    status_no_animation: null,
     input_state: null,
     global_status_id: null,
     autocomplete: 'off',
@@ -328,7 +331,7 @@ export default class Input extends React.PureComponent {
       label_sr_only,
       status,
       status_state,
-      status_animation,
+      status_no_animation,
       global_status_id,
       disabled,
       skeleton,
@@ -500,7 +503,7 @@ export default class Input extends React.PureComponent {
             text={status}
             status={status_state}
             text_id={id + '-status'} // used for "aria-describedby"
-            animation={status_animation}
+            no_animation={status_no_animation}
             skeleton={skeleton}
           />
 

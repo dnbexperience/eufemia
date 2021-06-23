@@ -155,7 +155,10 @@ export default class DatePicker extends React.PureComponent {
       PropTypes.node,
     ]),
     status_state: PropTypes.string,
-    status_animation: PropTypes.string,
+    status_no_animation: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
     global_status_id: PropTypes.string,
     suffix: PropTypes.oneOfType([
       PropTypes.string,
@@ -231,7 +234,7 @@ export default class DatePicker extends React.PureComponent {
     skeleton: null,
     status: null,
     status_state: 'error',
-    status_animation: null,
+    status_no_animation: null,
     global_status_id: null,
     suffix: null,
     opened: false,
@@ -507,7 +510,7 @@ export default class DatePicker extends React.PureComponent {
       skeleton,
       status,
       status_state,
-      status_animation,
+      status_no_animation,
       global_status_id,
       suffix,
       mask_order,
@@ -635,7 +638,7 @@ export default class DatePicker extends React.PureComponent {
               width_selector={id + '-input'}
               text={status}
               status={status_state}
-              animation={status_animation}
+              no_animation={status_no_animation}
               skeleton={skeleton}
             />
 

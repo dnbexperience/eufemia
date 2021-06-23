@@ -56,7 +56,10 @@ export default class RadioGroup extends React.PureComponent {
       PropTypes.node,
     ]),
     status_state: PropTypes.string,
-    status_animation: PropTypes.string,
+    status_no_animation: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
     global_status_id: PropTypes.string,
     suffix: PropTypes.oneOfType([
       PropTypes.string,
@@ -97,7 +100,7 @@ export default class RadioGroup extends React.PureComponent {
     size: null,
     status: null,
     status_state: 'error',
-    status_animation: null,
+    status_no_animation: null,
     global_status_id: null,
     suffix: null,
     vertical: null,
@@ -169,7 +172,7 @@ export default class RadioGroup extends React.PureComponent {
     const {
       status,
       status_state,
-      status_animation,
+      status_no_animation,
       global_status_id,
       suffix,
       label,
@@ -284,7 +287,7 @@ export default class RadioGroup extends React.PureComponent {
                 status={status_state}
                 text_id={id + '-status'} // used for "aria-describedby"
                 width_selector={id + ', ' + id + '-label'}
-                animation={status_animation}
+                no_animation={status_no_animation}
                 skeleton={skeleton}
               />
             </span>
