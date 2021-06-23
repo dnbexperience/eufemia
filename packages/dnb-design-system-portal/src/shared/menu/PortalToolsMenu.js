@@ -1,17 +1,31 @@
 import React from 'react'
-import { Modal, Space } from '@dnb/eufemia/src/components'
+import { Modal, Space, Tooltip } from '@dnb/eufemia/src/components'
 import { H2 } from '@dnb/eufemia/src/elements'
 import ToggleGrid from './ToggleGrid'
 import { Context } from '@dnb/eufemia/src/shared'
 import PortalSkeleton from '../../docs/uilib/components/skeleton/PortalSkeleton'
 import ChangeLocale from '../../core/ChangeLocale'
 
-export default function PortalToolsMenu({ className, ...props }) {
+export default function PortalToolsMenu({
+  className,
+  tooltipPosition = 'left',
+  ...props
+}) {
   const { skeleton } = React.useContext(Context)
   return (
     <Modal
       mode="drawer"
       title="Portal Tools"
+      trigger_tooltip={
+        // Use 4001 to be over header of 4000
+        <Tooltip
+          position={tooltipPosition}
+          style={{ zIndex: 4001 }}
+          fixed_position
+        >
+          Open the portal tools
+        </Tooltip>
+      }
       trigger_size="default"
       trigger_icon="more"
       trigger_class={className}

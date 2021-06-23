@@ -85,17 +85,18 @@ const plugins = [
       // }
     },
   },
-  'gatsby-plugin-sass',
-  'gatsby-plugin-emotion',
   {
-    resolve: 'gatsby-plugin-postcss',
+    resolve: 'gatsby-plugin-sass',
     options: {
       postCssPlugins:
-        require('@dnb/eufemia/scripts/prepub/config/postcssConfig')({
-          IE11: false,
-        }),
+        process.env.NODE_ENV === 'production'
+          ? require('@dnb/eufemia/scripts/prepub/config/postcssConfig')({
+              IE11: true,
+            })
+          : [],
     },
   },
+  'gatsby-plugin-emotion',
   // this (optional) plugin enables Progressive Web App + Offline functionality
   // To learn more, visit: https://gatsby.app/offline
   {
@@ -107,7 +108,7 @@ const plugins = [
       },
     },
   },
-]
+].filter(Boolean)
 
 // used for algolia search
 const queries = require('./src/uilib/search/searchQuery')

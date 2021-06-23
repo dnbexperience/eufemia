@@ -27,9 +27,9 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import IconPrimary from '../icon-primary/IconPrimary'
+import { launch, launch_medium } from '../../icons'
 import FormStatus from '../form-status/FormStatus'
 import Anchor from '../../elements/Anchor'
-import { launch, launch_medium } from '../../icons'
 import Tooltip from '../tooltip/Tooltip'
 
 export const buttonVariantPropType = {
@@ -446,10 +446,13 @@ class Content extends React.PureComponent {
 
     if (icon) {
       ret.push(
-        React.isValidElement(icon) && /Icon/i.test(String(icon.type)) ? (
+        icon.props?.icon || icon.props?.className?.includes('dnb-icon') ? (
           React.cloneElement(icon, {
-            key: 'button-icon',
-            className: `dnb-button__icon ${icon.props.className || ''}`,
+            key: 'button-icon-clone',
+            className: classnames(
+              icon.props?.className,
+              'dnb-button__icon'
+            ),
           })
         ) : (
           <IconPrimary

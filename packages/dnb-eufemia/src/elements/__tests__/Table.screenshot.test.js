@@ -13,29 +13,11 @@ const styleSelector = '[data-visual-test="table-classes"] .dnb-table'
 describe('Table screenshot', () => {
   setupPageScreenshot({ url: '/uilib/elements/tables' })
 
-  it('have to match header with wrapped text', async () => {
-    const selector = '[data-visual-test="table-header"] .dnb-table'
-    const screenshot = await testPageScreenshot({
-      style: {
-        // 'table-layout': 'fixed',
-        width: '20rem',
-      },
-      styleSelector,
-      selector,
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
-
-describe('Table screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/elements/tables' })
-
   it('have to match a sortable table header on hover', async () => {
     const selector =
       '[data-visual-test="table-classes"] th.dnb-table--sortable.dnb-table--reversed'
     const screenshot = await testPageScreenshot({
       style: {
-        // display:'block',
         'background-color': 'white',
       },
       styleSelector,
@@ -52,6 +34,23 @@ describe('Table screenshot', () => {
         width: '40rem',
       },
       selector: '[data-visual-test="table-default"] .dnb-table',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Table screenshot', () => {
+  setupPageScreenshot({ url: '/uilib/elements/tables' })
+
+  it('have to match header with wrapped text', async () => {
+    const selector = '[data-visual-test="table-header"] .dnb-table'
+    const screenshot = await testPageScreenshot({
+      style: {
+        // 'table-layout': 'fixed',
+        width: '20rem',
+      },
+      styleSelector,
+      selector,
     })
     expect(screenshot).toMatchImageSnapshot()
   })

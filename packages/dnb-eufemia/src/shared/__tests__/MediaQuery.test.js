@@ -126,11 +126,11 @@ describe('MediaQuery', () => {
     expect(Comp.text()).toBe('xsmall')
   })
 
-  it('should match for what ever query is given when ssr is true', () => {
+  it('should match for what ever query is given when matchOnSSR is true', () => {
     isMatchMediaSupported.mockReturnValue(false)
 
     const Comp = mount(
-      <MediaQuery ssr when={{ someting: 'what-every' }}>
+      <MediaQuery matchOnSSR when={{ someting: 'what-every' }}>
         medium
       </MediaQuery>
     )
@@ -182,7 +182,7 @@ describe('MediaQuery', () => {
             Change
           </button>
           <span id="result">
-            <MediaQuery ssr when={query}>
+            <MediaQuery matchOnSSR when={query}>
               when
             </MediaQuery>
             <MediaQuery not when={query}>

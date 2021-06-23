@@ -36,7 +36,7 @@ import DrawerListContext from './DrawerListContext'
 import {
   disableBodyScroll,
   enableBodyScroll,
-} from '../../shared/libs/bodyScrollLock'
+} from '../../components/modal/bodyScrollLock'
 
 export default class DrawerListProvider extends React.PureComponent {
   static contextType = Context

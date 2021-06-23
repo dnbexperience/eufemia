@@ -11,7 +11,7 @@ import {
   disableBodyScroll,
   enableBodyScroll,
   clearAllBodyScrollLocks,
-} from '../../shared/libs/bodyScrollLock'
+} from './bodyScrollLock'
 import {
   warn,
   isTrue,
@@ -128,8 +128,10 @@ export default class ModalContent extends React.PureComponent {
     const modalRoots = getListOfModalRoots()
     const firstLevel = modalRoots[0]
 
+    // remove it every time, because of nested modals
+    this.removeScrollPossibility()
+
     if (firstLevel === this) {
-      this.removeScrollPossibility()
       this._ii.activate()
     } else {
       modalRoots.forEach((modal) => {

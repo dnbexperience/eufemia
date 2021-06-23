@@ -12,6 +12,7 @@ showTabs: true
 | `position`                                  | _(optional)_ defines the offset position in corporation to the target element the arrow appears. Can be `top`, `right`, `left` and `bottom`. Defaults to `top`. |
 | `align`                                     | _(optional)_ defines the offset alignment in corporation to the target element the arrow appears. Can be `center`, `right` and `left`.Defaults to `center`.     |
 | `arrow`                                     | _(optional)_ defines the direction where the arrow appears. Can be `center`, `top`, `right`, `bottom` and `left`. Defaults to `center`.                         |
+| `fixed_position`                            | _(optional)_ If set to `true`, the Tooltip will be fixed in it's scroll position by using CSS `position: fixed;`. Defaults to `false`.                          |
 | `no_animation`                              | _(optional)_ set to `true` if no fade-in animation should be used.                                                                                              |
 | `show_delay`                                | _(optional)_ define the delay until the tooltip should show up after initial hover / active state.                                                              |
 | `hide_delay`                                | _(optional)_ define the delay until the tooltip should disappear up after initial visibility.                                                                   |

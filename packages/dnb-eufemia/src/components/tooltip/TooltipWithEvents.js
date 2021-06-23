@@ -71,7 +71,8 @@ export default class TooltipWithEvents extends React.PureComponent {
     const domElement = getInnerRef(this._ref).current
     if (domElement) {
       try {
-        domElement.removeEventListener('focus', this.onMouseEnter)
+        domElement.removeEventListener('click', this.onMouseLeave)
+        domElement.removeEventListener('focus', this.onFocus)
         domElement.removeEventListener('blur', this.onMouseLeave)
         domElement.removeEventListener('mouseenter', this.onMouseEnter)
         domElement.removeEventListener('mouseleave', this.onMouseLeave)
@@ -111,7 +112,8 @@ export default class TooltipWithEvents extends React.PureComponent {
   addEvents = () => {
     const domElement = getInnerRef(this._ref).current
     try {
-      domElement.addEventListener('focus', this.onMouseEnter)
+      domElement.addEventListener('click', this.onMouseLeave)
+      domElement.addEventListener('focus', this.onFocus)
       domElement.addEventListener('blur', this.onMouseLeave)
       domElement.addEventListener('mouseenter', this.onMouseEnter)
       domElement.addEventListener('mouseleave', this.onMouseLeave)
@@ -124,6 +126,19 @@ export default class TooltipWithEvents extends React.PureComponent {
 
   isTouch = (e) => {
     return /touch/i.test(e.type)
+  }
+
+  onFocus = (e) => {
+    try {
+      if (
+        document.documentElement.getAttribute('data-whatintent') ===
+        'keyboard'
+      ) {
+        return this.onMouseEnter(e)
+      }
+    } catch (e) {
+      warn(e)
+    }
   }
 
   onMouseEnter = (e) => {

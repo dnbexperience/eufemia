@@ -86,7 +86,7 @@ class Layout extends React.PureComponent {
     return (
       fullscreen ||
       (typeof location !== 'undefined' &&
-        /fullscreen/.test(location.search))
+        /fullscreen|data-visual-test/.test(location.search))
     )
   }
 

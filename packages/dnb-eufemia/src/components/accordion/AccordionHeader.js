@@ -389,7 +389,7 @@ export default class AccordionHeader extends React.PureComponent {
       headerParams.role = 'heading'
       headerParams['aria-level'] = heading_level
         ? String(heading_level)
-        : 'h2'
+        : '2'
     } else if (heading) {
       headerParams.role = null
       Element = heading

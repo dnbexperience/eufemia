@@ -1,32 +1,13 @@
 ---
 title: 'Accordion'
-status: 'wip'
-order: 20
-# showTabs: true
+description: 'The Accordion component, also know as a ComboBox, completes / suggests values during typing.'
+order: 1
+showTabs: true
+status: 'new'
 ---
 
-import {
-AccordionDefaultExample,
-AccordionContainerExample,
-AccordionGroupExample
-} from 'Pages/uilib/components/accordion/Examples'
+import AccordionInfo from 'Pages/uilib/components/accordion/info'
+import AccordionDemos from 'Pages/uilib/components/accordion/demos'
 
-# Accordion
-
-**Under development**
-
-## Single Accordion
-
-<AccordionDefaultExample />
-
-## Accordion with a single container
-
-A single container is used only for wider screens (desktop).
-
-<AccordionContainerExample />
-
-## Grouped Accordion
-
-**NB:** Please to avoid using a group, because it initiate an unexpected result, something the user not would expect to happen. It is an automated out of context UI execution.
-
-<AccordionGroupExample />
+<AccordionInfo />
+<AccordionDemos />

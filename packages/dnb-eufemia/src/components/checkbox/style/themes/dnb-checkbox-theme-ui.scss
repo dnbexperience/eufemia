@@ -45,7 +45,7 @@
 
   // On active
   &__input:not([disabled]):checked:active ~ &__button,
-  &__input:not([disabled])[data-checked='true']:active ~ &__button {
+  &__input:not([disabled]):not([data-checked='true']):active ~ &__button {
     background-color: var(--color-mint-green-50);
     border-color: transparent;
   }
@@ -88,43 +88,43 @@
 
   // On error state
   /* stylelint-disable */
-  &__status--error
-    &__input:not([disabled]):not(:focus):not(:active)
-    ~ &__button {
+  &__status--error &__input:not([disabled]):not(:active) ~ &__button {
     border: none;
   }
   &__status--error
-    &__input:not([disabled]):not(:focus):not(:active)
+    &__input:not([disabled]):not(:active)
     ~ &__button
     &__focus {
     display: block;
     @include fakeBorder(var(--color-fire-red), $focusRingWidth);
   }
-  &__status--error &__input:not([disabled]):not(:focus):hover ~ &__button {
-    border-color: var(--color-fire-red);
+  &__status--error &__input:not([disabled]):hover ~ &__button {
+    &[data-checked='true'] {
+      border-color: var(--color-fire-red);
+    }
     background-color: var(--color-fire-red-8);
   }
-  /* stylelint-enable */
   &__status--error
-    &__input:not([disabled]):not(:focus):not(:active):not(:hover)
+    &__input:not([disabled]):not(:active):not(:hover)
     ~ &__button {
     border-color: var(--color-fire-red-8);
   }
   &__status--error
-    &__input:not([disabled]):not(:focus):not(:active):not(:hover):checked
+    &__input:not([disabled]):not(:active):not(:hover):checked
     ~ &__button,
   &__status--error
-    &__input:not([disabled]):not(:focus):not(:active):not(:hover)[data-checked='true']
+    &__input:not([disabled]):not(:active):not(:hover)[data-checked='true']
     ~ &__button {
     background-color: var(--color-fire-red);
   }
   // check gfx color
-  &__status--error &__input:not([disabled]):not(:focus):hover ~ &__gfx {
+  &__status--error &__input:not([disabled]):hover ~ &__gfx {
     color: var(--color-fire-red);
   }
   &__status--error
-    &__input:not([disabled]):not(:focus):not(:active):not(:hover)
+    &__input:not([disabled]):not(:active):not(:hover)
     ~ &__gfx {
     color: var(--color-fire-red-8);
   }
+  /* stylelint-enable */
 }

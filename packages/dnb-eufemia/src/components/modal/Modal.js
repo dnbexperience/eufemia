@@ -383,21 +383,6 @@ export default class Modal extends React.PureComponent {
   handleSideEffects = () => {
     const modalActive = this.state.modalActive
 
-    // prevent scrolling on the background
-    if (typeof document !== 'undefined') {
-      try {
-        document.body.setAttribute(
-          'data-dnb-modal-active',
-          modalActive ? 'true' : 'false'
-        )
-      } catch (e) {
-        warn(
-          'Modal: Error on set "data-dnb-modal-active" by using element.setAttribute()',
-          e
-        )
-      }
-    }
-
     if (modalActive) {
       if (typeof this.props.close_modal === 'function') {
         const fn = this.props.close_modal(() => {
@@ -407,6 +392,8 @@ export default class Modal extends React.PureComponent {
           this._onUnmount.push(fn)
         }
       }
+
+      this.setActiveState(true)
     } else if (modalActive === false) {
       if (this._triggerRef && this._triggerRef.current) {
         this._triggerRef.current.focus({ preventScroll: true })
@@ -424,6 +411,11 @@ export default class Modal extends React.PureComponent {
         } catch (e) {
           //
         }
+      }
+
+      const list = getListOfModalRoots()
+      if (list.length <= 1) {
+        this.setActiveState(false)
       }
     }
   }
@@ -457,6 +449,23 @@ export default class Modal extends React.PureComponent {
       }
 
       this.toggleOpenClose(event, false)
+    }
+  }
+
+  setActiveState(modalActive) {
+    // prevent scrolling on the background
+    if (typeof document !== 'undefined') {
+      try {
+        document.body.setAttribute(
+          'data-dnb-modal-active',
+          modalActive ? 'true' : 'false'
+        )
+      } catch (e) {
+        warn(
+          'Modal: Error on set "data-dnb-modal-active" by using element.setAttribute()',
+          e
+        )
+      }
     }
   }
 
@@ -522,15 +531,6 @@ export default class Modal extends React.PureComponent {
         }
       }
 
-      const useHelpButton =
-        (!!suffixProps ||
-          (!isTrue(trigger_hidden) &&
-            !trigger_text &&
-            !triggerAttributes.text)) &&
-        ['question', 'information'].includes(
-          String(triggerAttributes.icon || trigger_icon)
-        )
-
       if (triggerAttributes.id) {
         this._id = triggerAttributes.id
       }
@@ -540,7 +540,7 @@ export default class Modal extends React.PureComponent {
       }
       // in case the modal is used in suffix and no title is given
       // suffixProps.label is also available, so we could use that too
-      else if (!rest.title && useHelpButton && suffixProps) {
+      else if (!rest.title && suffixProps) {
         modalProps.title = this.context.translation.HelpButton.title
       }
 

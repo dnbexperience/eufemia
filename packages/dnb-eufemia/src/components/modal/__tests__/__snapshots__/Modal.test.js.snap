@@ -95,7 +95,7 @@ exports[`Modal component have to match snapshot 1`] = `
   on_open={null}
   open_delay={null}
   open_modal={null}
-  open_state={null}
+  open_state={true}
   overlay_class={null}
   prevent_close={false}
   prevent_core_style={false}
@@ -381,6 +381,7 @@ exports[`Modal component have to match snapshot 1`] = `
         arrow="center"
         class={null}
         className={null}
+        fixed_position={false}
         group="main"
         hide_delay={500}
         id="modal_id-tooltip"
@@ -442,6 +443,7 @@ exports[`Modal component have to match snapshot 1`] = `
           }
           class={null}
           className={null}
+          fixed_position={false}
           group="modal_id-tooltip"
           hide_delay={500}
           id="modal_id-tooltip"
@@ -544,6 +546,7 @@ exports[`Modal component have to match snapshot 1`] = `
             }
             class={null}
             className={null}
+            fixed_position={false}
             group="modal_id-tooltip"
             hide_delay={500}
             id="modal_id-tooltip"
@@ -1604,7 +1607,7 @@ button.dnb-button::-moz-focus-inner {
   --modal-min-width: 320px;
   --modal-avg-width: 60vw;
   --modal-max-width: 60rem;
-  --modal-content-top: 7rem;
+  --modal-content-top: 5rem;
   --modal-drawer-width: 40vw;
   --modal-drawer-min-width: 25rem;
   --modal-drawer-max-width: 40rem;
@@ -1640,6 +1643,9 @@ button.dnb-button::-moz-focus-inner {
     @media screen and (max-width: 40em) {
       .dnb-modal__content--auto-fullscreen {
         height: auto; } }
+    @media screen and (min-height: 40em) {
+      .dnb-modal__content--modal {
+        padding-bottom: 10vh; } }
     .dnb-modal__content__inner {
       position: relative;
       width: var(--modal-avg-width);
@@ -1659,6 +1665,9 @@ button.dnb-button::-moz-focus-inner {
         max-width: 100%;
         border-radius: 0;
         box-shadow: none; } }
+    @media (max-height: 40em) and (orientation: landscape) {
+      .dnb-modal__content--modal.dnb-modal__content:not(.dnb-modal__content--fullscreen) .dnb-modal__content__inner {
+        max-height: 80vh; } }
     .dnb-modal__content__spacing {
       position: relative;
       display: block;
@@ -1667,11 +1676,26 @@ button.dnb-button::-moz-focus-inner {
       overflow-x: hidden; }
     .dnb-modal__content--spacing .dnb-modal__content__spacing {
       padding: var(--modal-content-top) var(--modal-spacing) 0; }
+      @media screen and (min-width: 72em) {
+        .dnb-modal__content--spacing .dnb-modal__content__spacing {
+          padding: calc(var(--modal-content-top) + 2rem) calc(var(--modal-spacing) * 1.75) 0; } }
+      @media screen and (max-width: 50em) {
+        .dnb-modal__content--spacing .dnb-modal__content__spacing {
+          padding: var(--modal-content-top) calc(var(--modal-spacing) / 1.333333) 0; } }
       @media screen and (max-width: 40em) {
         .dnb-modal__content--spacing .dnb-modal__content__spacing {
-          padding: var(--modal-content-top) calc(var(--modal-spacing) * 0.75) 0; } }
+          padding: var(--modal-content-top) calc(var(--modal-spacing) / 2) 0; } }
     .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__content__spacing {
-      padding: var(--modal-drawer-content-top) calc(var(--modal-spacing) * 1.75) 0; }
+      padding: var(--modal-drawer-content-top) var(--modal-spacing) 0; }
+      @media screen and (min-width: 72em) {
+        .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__content__spacing {
+          padding: var(--modal-drawer-content-top) calc(var(--modal-spacing) * 1.75) 0; } }
+      @media screen and (max-width: 50em) {
+        .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__content__spacing {
+          padding: var(--modal-drawer-content-top) calc(var(--modal-spacing) / 1.333333) 0; } }
+      @media screen and (max-width: 40em) {
+        .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__content__spacing {
+          padding: var(--modal-drawer-content-top) calc(var(--modal-spacing) / 2) 0; } }
     .dnb-modal__content__align--center .dnb-modal__content__spacing {
       display: flex;
       flex-direction: column;
@@ -1766,29 +1790,32 @@ button.dnb-button::-moz-focus-inner {
   .dnb-modal__wrapper {
     position: relative;
     z-index: 1; }
-  .dnb-modal__content--spacing .dnb-modal__wrapper {
-    padding-bottom: calc(var(--modal-spacing) * 1.75); }
-    @media screen and (max-width: 40em) {
-      .dnb-modal__content--spacing .dnb-modal__wrapper {
-        padding-bottom: calc(var(--modal-spacing) * 1.25); } }
   .dnb-modal__content--drawer .dnb-modal__wrapper {
     padding-bottom: calc(var(--modal-spacing) * 2); }
+  .dnb-modal__content--spacing .dnb-modal__wrapper {
+    padding-bottom: calc(var(--modal-spacing) * 2); }
+    @supports (-webkit-touch-callout: none) {
+      .dnb-modal__content--spacing .dnb-modal__wrapper {
+        padding-bottom: calc(var(--modal-spacing) * 4); } }
   .dnb-modal__title ~ .dnb-modal__wrapper {
     padding-top: calc(var(--modal-spacing) / 2); }
   .dnb-modal__content--drawer .dnb-modal__title ~ .dnb-modal__wrapper {
-    padding-top: calc(var(--modal-spacing) * 0.75); }
+    padding-top: calc(var(--modal-spacing) / 1.333333); }
   .dnb-modal__wrapper__inner {
     padding-bottom: calc(var(--modal-spacing) * 2);
-    margin-bottom: calc(var(--modal-spacing-minus) * 1.75); }
+    margin-bottom: calc(var(--modal-spacing-minus) * 2); }
     @media screen and (max-width: 40em) {
       .dnb-modal__wrapper__inner.dnb-section::after {
         min-height: calc( 100vh - var(--modal-content-top) - calc(var(--modal-spacing) * 1.5)); } }
   .dnb-modal__content--drawer .dnb-modal__wrapper__inner {
     margin-bottom: calc(var(--modal-spacing-minus) * 2); }
+    @supports (-webkit-touch-callout: none) {
+      .dnb-modal__content--drawer .dnb-modal__wrapper__inner {
+        padding-bottom: calc(var(--modal-spacing-minus) * 4); } }
     .dnb-modal__content--drawer .dnb-modal__wrapper__inner.dnb-section::after {
       min-height: calc( 100vh - var(--modal-drawer-content-top) - calc(var(--modal-spacing) * 2)); }
   .dnb-modal__close-button {
-    top: calc(var(--modal-spacing) * 0.75);
+    top: calc(var(--modal-spacing) / 1.333333);
     right: var(--modal-spacing);
     z-index: 1; }
     .dnb-modal__close-button, .dnb-modal__close-button.dnb-button--tertiary {
@@ -1797,8 +1824,15 @@ button.dnb-button::-moz-focus-inner {
       .dnb-modal__close-button {
         right: calc(var(--modal-spacing) / 2); } }
   .dnb-modal__content--drawer .dnb-modal__close-button {
-    top: calc(var(--modal-spacing) * 1.75);
-    right: calc(var(--modal-spacing) * 1.75); }
+    top: var(--modal-spacing);
+    right: calc(var(--modal-spacing) / 1.333333); }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__content--drawer .dnb-modal__close-button {
+        right: calc(var(--modal-spacing) / 4); } }
+    @media screen and (min-width: 72em) {
+      .dnb-modal__content--drawer .dnb-modal__close-button {
+        top: calc(var(--modal-spacing) * 1.75);
+        right: var(--modal-spacing); } }
   .dnb-modal__overlay {
     position: fixed;
     z-index: var(--modal-z-index);

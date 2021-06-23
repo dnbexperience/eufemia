@@ -42,6 +42,10 @@ Eufemia is basing their number formats on both the [Norwegian authority](https:/
 
 For international number formatting, we use the [EU Style Guide](https://ec.europa.eu/info/sites/default/files/styleguide_english_dgt_en.pdf).
 
+## Decimals
+
+When the amount of wanted `decimals` is set as a property, but the given value contains decimals which exceeds the wanted `decimals`, the output value will get round up or down. Use `omit_rounding` if you need to hard-cut decimals from the displayed value.
+
 ## Details
 
 > Screen readers requires numbers to be formatted properly in order to be read as numbers. The **NumberFormat** component will help to achieve this requirement.

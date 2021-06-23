@@ -76,7 +76,7 @@ export default class AccordionContent extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.anim.setElem(
+    this.anim.setElement(
       this._ref.current,
       getPreviousSibling(
         'dnb-accordion-group--single-container',

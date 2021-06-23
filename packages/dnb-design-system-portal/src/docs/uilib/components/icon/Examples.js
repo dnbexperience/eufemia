@@ -103,16 +103,19 @@ export const IconPrimary = () => {
       {() => /* jsx */ `
 () => {
   const Icons = () => getListOfIcons(PrimaryIconsMedium).map(
-    ({name, Svg}) => (
+    ({iconName, Svg}) => {
+
+      return (
       <Icon
-        title={name}
-        key={name}
+        title={iconName}
+        key={iconName}
         icon={Svg}
         size="medium"
         right="small"
         bottom="small"
       />
     )
+    }
   )
   return <Icons />
 }
@@ -135,17 +138,26 @@ export const IconSecondary = () => {
     >
       {() => /* jsx */ `
 () => {
+  const uniqueList = {}
   const Icons = () => getListOfIcons(SecondaryIconsMedium).map(
-    ({name, Svg}) => (
+    ({iconName, Svg}) => {
+ 
+      if(uniqueList[iconName]){
+        console.warn('The icon is already used:', iconName, Svg)
+      }
+      uniqueList[iconName] = true
+
+      return (
       <Icon
-        title={name}
-        key={name}
+        title={iconName}
+        key={iconName}
         icon={Svg}
         size="medium"
         right="small"
         bottom="small"
       />
     )
+    }
   )
   return <Icons />
 }

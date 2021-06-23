@@ -341,12 +341,35 @@ describe('NumberFormat component with provider', () => {
 
 describe('Decimals format', () => {
   const num = -12345.6789
-  it('should handle in unusual cases', () => {
+
+  it('should return default formatted number', () => {
+    expect(format(num)).toBe('-12 345,6789')
+    expect(format(num, { returnAria: true })).toMatchObject({
+      aria: '-12345,6789',
+      cleanedValue: '−12345,6789',
+      locale: 'nb-NO',
+      number: '-12 345,6789',
+      type: 'number',
+      value: num,
+    })
+    expect(format(String(num), { returnAria: true })).toMatchObject({
+      aria: '-12345,6789',
+      cleanedValue: '−12345,6789',
+      locale: 'nb-NO',
+      number: '-12 345,6789',
+      type: 'number',
+      value: String(num),
+    })
+  })
+
+  it('should handle unusual cases', () => {
     expect(format(num, { decimals: 0 })).toBe('-12 346')
     expect(format(num, { decimals: 1 })).toBe('-12 345,7')
     expect(format(num, { decimals: 2 })).toBe('-12 345,68')
     expect(format(num, { decimals: 3 })).toBe('-12 345,679')
     expect(format(num, { decimals: 4 })).toBe('-12 345,6789')
+    expect(format(num, { decimals: 5 })).toBe('-12 345,67890')
+    expect(format(num, { decimals: 6 })).toBe('-12 345,678900')
 
     expect(format(num, { currency: true, decimals: 0 })).toBe('-12 346 kr')
     expect(format(num, { currency: true, decimals: 1 })).toBe(
@@ -361,6 +384,15 @@ describe('Decimals format', () => {
     expect(format(num, { currency: true, decimals: 4 })).toBe(
       '-12 345,6789 kr'
     )
+    expect(format(String(num), { currency: true, decimals: '4' })).toBe(
+      '-12 345,6789 kr'
+    )
+    expect(
+      // more than 20 numbers
+      format('-1.123456789123456789', {
+        decimals: undefined,
+      })
+    ).toBe('-1,1234567891234568')
   })
 
   it('should handle omit rounding', () => {
@@ -534,6 +566,17 @@ describe('Currency format with dirty number', () => {
       '−123 456 789,56 %'
     )
     expect(format(0.2, { percent: true })).toBe('0,2 %')
+    expect(format(-4.1, { percent: true, decimals: 1 })).toBe('−4,1 %')
+    expect(format(-4.1, { percent: true })).toBe('−4,1 %')
+    expect(format(-4.14, { percent: true })).toBe('−4,14 %')
+    expect(format('-4.16', { percent: true })).toBe('−4,16 %')
+    expect(format(-4.165, { percent: true })).toBe('−4,165 %')
+    expect(format('-4.165', { percent: true, decimals: 2 })).toBe(
+      '−4,17 %'
+    )
+    expect(
+      format(-4.165, { percent: true, decimals: '2', omit_rounding: true })
+    ).toBe('−4,16 %')
     expect(format(number, { percent: true, locale: 'no' })).toBe(
       '−123 456 789,56 %'
     )
@@ -552,6 +595,21 @@ describe('Currency format with dirty number', () => {
     expect(
       format(number, { percent: true, decimals: 1, locale: 'en-US' })
     ).toBe('-123,456,789.6%')
+    expect(
+      format(number, {
+        percent: true,
+        decimals: 1,
+        locale: 'en-US',
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: '-123,456,789.6%',
+      cleanedValue: '-12345678956.0%',
+      locale: 'en-US',
+      number: '-123,456,789.6%',
+      type: 'number',
+      value: number,
+    })
   })
 
   it('should support currency_position', () => {
@@ -604,14 +662,14 @@ describe('Currency format with dirty number', () => {
         currency_position: 'after',
         locale: 'en-GB',
       })
-    ).toBe('0.00 NOK')
+    ).toBe('-0.00 NOK')
     expect(
       format(-0, {
         currency: true,
         currency_position: 'after',
         locale: 'en-US',
       })
-    ).toBe('0.00 NOK')
+    ).toBe('-0.00 NOK')
     expect(
       format('-0', {
         currency: true,
