@@ -263,6 +263,7 @@ export const InputExampleClear = () => (
   <Input
     clear={true}
     value="Value ..."
+    size="medium"
   />
   <Input
     clear={true}
