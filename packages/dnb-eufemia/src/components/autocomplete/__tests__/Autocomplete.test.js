@@ -879,6 +879,25 @@ describe('Autocomplete component', () => {
     )
   })
 
+  it('has correct value after useEffect value state change', () => {
+    const newValue = 0
+    const UpdateValue = () => {
+      const [value, setValue] = React.useState(props.value)
+
+      React.useEffect(() => {
+        setValue(newValue)
+      }, [])
+
+      return <Component {...props} data={mockData} value={value} />
+    }
+
+    const Comp = mount(<UpdateValue />)
+
+    expect(Comp.find('.dnb-input__input').instance().value).toBe(
+      mockData[newValue]
+    )
+  })
+
   it('has a disabled attribute, once we set disabled to true', () => {
     const Comp = mount(
       <Component
@@ -910,7 +929,6 @@ describe('Autocomplete component', () => {
         id="autocomplete-id"
         data={mockData}
         {...mockProps}
-        // show_submit_button
         submit_element={<SubmitButton icon="bell" />}
       />
     )

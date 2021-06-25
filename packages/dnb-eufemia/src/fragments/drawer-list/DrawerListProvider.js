@@ -133,7 +133,6 @@ export default class DrawerListProvider extends React.PureComponent {
       selected_item: null,
       ignore_events: false,
       ...prepareStartupState(props),
-      _listenForPropChanges: true,
     }
 
     this._refRoot = React.createRef()
@@ -227,7 +226,6 @@ export default class DrawerListProvider extends React.PureComponent {
         if (this.itemSpots[closestToTop] && closestToTop !== tmpToTop) {
           this.setState({
             closestToTop: this.itemSpots[closestToTop].i,
-            _listenForPropChanges: false,
           })
         }
         // we do this because we want the arrow
@@ -238,7 +236,6 @@ export default class DrawerListProvider extends React.PureComponent {
         ) {
           this.setState({
             closestToBottom: this.itemSpots[closestToBottom].i,
-            _listenForPropChanges: false,
           })
         }
         tmpToTop = closestToTop
@@ -375,12 +372,10 @@ export default class DrawerListProvider extends React.PureComponent {
         if (this.props.direction === 'auto') {
           this.setState({
             direction,
-            _listenForPropChanges: false,
           })
         }
         this.setState({
           max_height,
-          _listenForPropChanges: false,
         })
 
         // call the event, if set
@@ -584,7 +579,6 @@ export default class DrawerListProvider extends React.PureComponent {
       this.setState(
         {
           active_item,
-          _listenForPropChanges: false,
         },
         () => {
           const { selected_item } = this.state
@@ -694,7 +688,6 @@ export default class DrawerListProvider extends React.PureComponent {
       this.setState(
         {
           wrapper_element,
-          _listenForPropChanges: false,
         },
         this.setOutsideClickObserver
       )
@@ -1026,13 +1019,11 @@ export default class DrawerListProvider extends React.PureComponent {
       this.setState({
         hidden: false,
         opened: true,
-        _listenForPropChanges: false,
       })
 
       const animationDelayHandler = () => {
         this.setState({
           isOpen: true,
-          _listenForPropChanges: false,
         })
       }
 
@@ -1096,14 +1087,12 @@ export default class DrawerListProvider extends React.PureComponent {
 
       this.setState({
         opened: false,
-        _listenForPropChanges: false,
       })
 
       const delayHandler = () => {
         this.setState({
           hidden: true,
           isOpen: false,
-          _listenForPropChanges: false,
         })
         if (typeof onStateComplete === 'function') {
           onStateComplete()
@@ -1144,7 +1133,6 @@ export default class DrawerListProvider extends React.PureComponent {
         original_data: overwriteOriginalData
           ? data
           : this.state.original_data,
-        _listenForPropChanges: false,
       },
       () => {
         this.refreshScrollObserver()
@@ -1159,7 +1147,6 @@ export default class DrawerListProvider extends React.PureComponent {
     this.setState(
       {
         ...state,
-        _listenForPropChanges: false,
       },
       cb
     )
@@ -1247,7 +1234,6 @@ export default class DrawerListProvider extends React.PureComponent {
     } else {
       this.setState(
         {
-          _listenForPropChanges: false,
           selected_item: itemToSelect,
           active_item: itemToSelect,
         },
