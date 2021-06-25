@@ -275,7 +275,10 @@ export const prepareDerivedState = (props, state) => {
     }
   }
 
-  if (!(parseFloat(state.active_item) > -1)) {
+  if (
+    !(parseFloat(state.active_item) > -1) ||
+    state._value !== props.value
+  ) {
     state.active_item = state.selected_item
   }
 

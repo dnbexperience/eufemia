@@ -625,6 +625,19 @@ describe('Dropdown component', () => {
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
       mockData[newValue].selected_value
     )
+
+    open(Comp)
+
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(newValue)
+        .hasClass('dnb-drawer-list__option--selected')
+    ).toBe(true)
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(newValue)
+        .hasClass('dnb-drawer-list__option--focus')
+    ).toBe(true)
   })
 
   it('has a default title if no value is given', () => {
