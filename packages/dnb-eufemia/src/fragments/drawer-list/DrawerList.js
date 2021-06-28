@@ -15,18 +15,20 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../../components/space/SpacingHelper'
+import { createSpacingClasses } from '../../components/space/SpacingHelper'
 
 import DrawerListContext from './DrawerListContext'
 import DrawerListProvider from './DrawerListProvider'
 import DrawerListPortal from './DrawerListPortal'
+import {
+  drawerListPropTypes,
+  drawerListDefaultProps,
+} from './DrawerListHelpers'
 
 const propsToFilterOut = {
   on_show: null,
   on_hide: null,
+  handle_dismiss_focus: null,
   on_change: null,
   on_pre_change: null,
   on_resize: null,
@@ -41,171 +43,11 @@ export default class DrawerList extends React.PureComponent {
   static contextType = DrawerListContext // only used for the hasProvide check
 
   static propTypes = {
-    id: PropTypes.string,
-    role: PropTypes.string,
-    cache_hash: PropTypes.string,
-    triangle_position: PropTypes.string,
-    scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    focusable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
-    size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-    max_height: PropTypes.number,
-    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    no_scroll_animation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    use_drawer_on_mobile: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    prevent_selection: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    action_menu: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    is_popup: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    align_drawer: PropTypes.oneOf(['left', 'right']),
-    options_render: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    wrapper_element: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    default_value: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    portal_class: PropTypes.string,
-    list_class: PropTypes.string,
-    prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    independent_width: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    fixed_position: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skip_keysearch: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    class: PropTypes.string,
-    data: PropTypes.oneOfType([
-      PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.func,
-        PropTypes.node,
-        PropTypes.object,
-      ]),
-      PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-          PropTypes.shape({
-            selected_value: PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.node,
-            ]),
-            content: PropTypes.oneOfType([
-              PropTypes.string,
-              PropTypes.node,
-              PropTypes.arrayOf(PropTypes.string),
-            ]),
-          }),
-        ])
-      ),
-    ]),
-    prepared_data: PropTypes.array,
-    raw_data: PropTypes.oneOfType([
-      PropTypes.array,
-      PropTypes.object,
-      PropTypes.func,
-    ]),
-    ignore_events: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    ...spacingPropTypes,
-
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-      PropTypes.object,
-      PropTypes.array,
-    ]),
-
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
-
-    on_show: PropTypes.func,
-    on_hide: PropTypes.func,
-    on_change: PropTypes.func,
-    on_pre_change: PropTypes.func,
-    on_resize: PropTypes.func,
-    on_select: PropTypes.func,
-    on_state_update: PropTypes.func,
+    ...drawerListPropTypes,
   }
 
   static defaultProps = {
-    id: null,
-    role: 'listbox',
-    cache_hash: null,
-    triangle_position: 'left',
-    scrollable: true,
-    focusable: false,
-    max_height: null,
-    direction: 'auto',
-    size: 'default',
-    no_animation: false,
-    no_scroll_animation: false,
-    use_drawer_on_mobile: false,
-    prevent_selection: false,
-    action_menu: false,
-    is_popup: false,
-    align_drawer: 'left',
-    wrapper_element: null,
-    default_value: null,
-    value: 'initval',
-    portal_class: null,
-    list_class: null,
-    skip_portal: null,
-    prevent_close: false,
-    keep_open: false,
-    prevent_focus: false,
-    fixed_position: false,
-    independent_width: false,
-    skip_keysearch: false,
-    opened: null,
-    class: null,
-    data: null,
-    prepared_data: null,
-    raw_data: null,
-    ignore_events: null,
-
-    className: null,
-    children: null,
-
-    custom_element: null,
-    custom_method: null,
-
-    on_show: null,
-    on_hide: null,
-    on_change: null,
-    on_pre_change: null,
-    on_resize: null,
-    on_select: null,
-    on_state_update: null,
-    options_render: null,
+    ...drawerListDefaultProps,
   }
 
   static enableWebComponent() {
