@@ -600,17 +600,44 @@ describe('Dropdown component', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
     open(Comp)
 
-    // const elem = Comp.find('li.dnb-drawer-list__option')
-    //   .find('.dnb-drawer-list__option__inner')
-    //   .at(props.value)
-    //   .simulate('mousedown')
-
     // then simulate changes
     keydown(Comp, 40) // down
 
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
       mockData[props.value].selected_value
     )
+  })
+
+  it('has correct value after useEffect value state change', () => {
+    const newValue = 3
+    const UpdateValue = () => {
+      const [value, setValue] = React.useState(props.value)
+
+      React.useEffect(() => {
+        setValue(newValue)
+      }, [])
+
+      return <Component {...props} data={mockData} value={value} />
+    }
+
+    const Comp = mount(<UpdateValue />)
+
+    expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
+      mockData[newValue].selected_value
+    )
+
+    open(Comp)
+
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(newValue)
+        .hasClass('dnb-drawer-list__option--selected')
+    ).toBe(true)
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(newValue)
+        .hasClass('dnb-drawer-list__option--focus')
+    ).toBe(true)
   })
 
   it('has a default title if no value is given', () => {

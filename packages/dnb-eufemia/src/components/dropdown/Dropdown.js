@@ -219,13 +219,8 @@ export default class Dropdown extends React.PureComponent {
   }
 
   render() {
-    const {
-      more_menu,
-      action_menu,
-      prevent_selection,
-      children,
-      data,
-    } = this.props
+    const { more_menu, action_menu, prevent_selection, children, data } =
+      this.props
 
     return (
       <DrawerListProvider

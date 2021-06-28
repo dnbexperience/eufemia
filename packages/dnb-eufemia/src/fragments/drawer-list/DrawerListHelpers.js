@@ -230,7 +230,6 @@ export const prepareStartupState = (props) => {
     on_show: props.on_show,
     on_change: props.on_change,
     on_select: props.on_select,
-    _listenForPropChanges: false,
   }
 }
 
@@ -239,64 +238,61 @@ export const prepareDerivedState = (props, state) => {
     state.data = getData(props)
   }
 
-  if (state._listenForPropChanges) {
-    if (props.data && props.data !== state.init_data) {
-      state.data = getData(props)
-      state.init_data = props.data
+  if (props.data && props.data !== state.init_data) {
+    state.data = getData(props)
+    state.init_data = props.data
+  }
+
+  state.usePortal =
+    props.skip_portal !== null ? !isTrue(props.skip_portal) : true
+
+  if (
+    typeof props.wrapper_element === 'string' &&
+    typeof document !== 'undefined'
+  ) {
+    const wrapper_element = document.querySelector(props.wrapper_element)
+    if (wrapper_element) {
+      state.wrapper_element = wrapper_element
     }
+  } else if (props.wrapper_element) {
+    state.wrapper_element = props.wrapper_element
+  }
 
-    state.usePortal =
-      props.skip_portal !== null ? !isTrue(props.skip_portal) : true
+  if (
+    typeof props.value !== 'undefined' &&
+    props.value !== 'initval' &&
+    state.selected_item !== props.value &&
+    (state._value !== props.value || isTrue(props.prevent_selection))
+  ) {
+    state.selected_item = getCurrentIndex(props.value, state.data)
 
-    if (
-      typeof props.wrapper_element === 'string' &&
-      typeof document !== 'undefined'
-    ) {
-      const wrapper_element = document.querySelector(props.wrapper_element)
-      if (wrapper_element) {
-        state.wrapper_element = wrapper_element
-      }
-    } else if (props.wrapper_element) {
-      state.wrapper_element = props.wrapper_element
-    }
-
-    if (
-      typeof props.value !== 'undefined' &&
-      props.value !== 'initval' &&
-      state.selected_item !== props.value &&
-      (state._value !== props.value || isTrue(props.prevent_selection))
-    ) {
-      state.selected_item = getCurrentIndex(props.value, state.data)
-
-      if (typeof props.on_state_update === 'function') {
-        dispatchCustomElementEvent({ props }, 'on_state_update', {
-          selected_item: state.selected_item,
-          value: getSelectedItemValue(state.selected_item, state),
-          data: getEventData(state.selected_item, state.data),
-        })
-      }
-    }
-
-    if (!(parseFloat(state.active_item) > -1)) {
-      state.active_item = state.selected_item
-    }
-
-    if (
-      props.direction !== 'auto' &&
-      props.direction !== state.direction
-    ) {
-      state.direction = props.direction
-    }
-
-    if (parseFloat(state.selected_item) > -1) {
-      state.current_title = getCurrentDataTitle(
-        state.selected_item,
-        state.data
-      )
+    if (typeof props.on_state_update === 'function') {
+      dispatchCustomElementEvent({ props }, 'on_state_update', {
+        selected_item: state.selected_item,
+        value: getSelectedItemValue(state.selected_item, state),
+        data: getEventData(state.selected_item, state.data),
+      })
     }
   }
+
+  if (
+    !(parseFloat(state.active_item) > -1) ||
+    state._value !== props.value
+  ) {
+    state.active_item = state.selected_item
+  }
+
+  if (props.direction !== 'auto' && props.direction !== state.direction) {
+    state.direction = props.direction
+  }
+
+  if (parseFloat(state.selected_item) > -1) {
+    state.current_title = getCurrentDataTitle(
+      state.selected_item,
+      state.data
+    )
+  }
   state._value = props.value
-  state._listenForPropChanges = true
 
   return state
 }

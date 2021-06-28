@@ -123,7 +123,7 @@ describe('DrawerList component', () => {
     expect(Comp.exists('.dnb-drawer-list--opened')).toBe(true)
   })
 
-  it('handles default_value correctly on forcing rerender', () => {
+  it('handles default_value correctly on forcing re-render', () => {
     const Comp = mount(
       <Component
         opened
@@ -139,7 +139,7 @@ describe('DrawerList component', () => {
     expect(elem.hasClass('dnb-drawer-list__option--focus')).toBe(true)
     expect(elem.hasClass('dnb-drawer-list__option--selected')).toBe(true)
 
-    // force rerender by prop change
+    // force re-render by prop change
     const title = 'show this attribute now'
     Comp.setProps({
       title,
@@ -148,7 +148,7 @@ describe('DrawerList component', () => {
       Comp.find('.dnb-drawer-list').instance().getAttribute('title')
     ).toBe(title)
 
-    // force rerender with null as value by prop change
+    // force re-render with null as value by prop change
     Comp.setProps({
       value: props.value + 1,
     })
@@ -157,8 +157,8 @@ describe('DrawerList component', () => {
     elem = Comp.find('.dnb-drawer-list__option').at(props.value + 1)
     expect(elem.hasClass('dnb-drawer-list__option--selected')).toBe(true)
 
-    // but the focused item is still on the prev position
-    elem = Comp.find('.dnb-drawer-list__option').at(props.value)
+    // as well as the focus / active state
+    elem = Comp.find('.dnb-drawer-list__option').at(props.value + 1)
     expect(elem.hasClass('dnb-drawer-list__option--focus')).toBe(true)
 
     // and for sure, the title attribute is still the same
@@ -174,7 +174,7 @@ describe('DrawerList component', () => {
 
     keydown(Comp, 83) // S
 
-    // force rerender
+    // force re-render
     Comp.update()
 
     expect(
@@ -185,7 +185,7 @@ describe('DrawerList component', () => {
 
     keydown(Comp, 70) // F
 
-    // force rerender
+    // force re-render
     Comp.update()
 
     expect(
@@ -319,7 +319,7 @@ describe('DrawerList component', () => {
     })
     await wait(100)
 
-    // force rerender to get a updated state
+    // force re-render to get a updated state
     Comp.update()
 
     expect(Comp.exists('.dnb-drawer-list--top')).toBe(true)
