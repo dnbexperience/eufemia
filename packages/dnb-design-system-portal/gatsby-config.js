@@ -128,10 +128,11 @@ if (queries) {
 
 module.exports = {
   flags: {
-    PARALLEL_SOURCING: true,
-    PRESERVE_WEBPACK_CACHE: true,
-    FAST_DEV: false,
+    // because of the local visual tests,
+    // we disable the SSR features.
+    // The reason? every page takes longer time to render.
     DEV_SSR: false,
+    FAST_DEV: false,
   },
   pathPrefix,
   siteMetadata,
