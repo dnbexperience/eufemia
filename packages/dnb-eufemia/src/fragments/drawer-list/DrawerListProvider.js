@@ -785,13 +785,22 @@ export default class DrawerListProvider extends React.PureComponent {
       case 'up':
         {
           e.preventDefault()
+
           if (this.state.active_item === 0) {
-            active_item = -1
+            active_item =
+              this.state.direction === 'top' ? this.getLastItem() : -1
           } else {
             active_item = this.getPrevActiveItem()
             if (isNaN(active_item)) {
-              active_item = this.getFirstItem() || 0
+              active_item = this.getFirstItem() || this.getLastItem()
             }
+          }
+
+          if (
+            this.state.direction === 'top' &&
+            isNaN(this.getCurrentActiveItem()) === null
+          ) {
+            active_item = this.getLastItem()
           }
         }
         break
@@ -799,11 +808,18 @@ export default class DrawerListProvider extends React.PureComponent {
       case 'down':
         {
           e.preventDefault()
-          const activeItem = this.getCurrentActiveItem()
-          if (active_item === -1 || isNaN(activeItem)) {
+
+          if (active_item === -1 || isNaN(this.getCurrentActiveItem())) {
             active_item = this.getFirstItem() || 0
           } else {
             active_item = this.getNextActiveItem() || 0
+          }
+
+          if (
+            this.state.direction === 'top' &&
+            this.state.active_item === this.getLastItem()
+          ) {
+            active_item = -1
           }
         }
         break

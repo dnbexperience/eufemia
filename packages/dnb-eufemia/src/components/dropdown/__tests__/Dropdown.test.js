@@ -726,7 +726,7 @@ describe('Dropdown component', () => {
     ).toBe(true)
   })
 
-  it('will set focus on options when key up is pressed on first item', async () => {
+  it('will set focus on options when key down/up is pressed on first item', async () => {
     const Comp = mount(<Component no_animation data={mockData} />, {
       attachTo: attachToBody(),
     })
@@ -756,6 +756,11 @@ describe('Dropdown component', () => {
         'dnb-drawer-list__option--focus'
       )
     ).toBe(true)
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(0)
+        .hasClass('dnb-drawer-list__option--focus')
+    ).toBe(true)
 
     // then simulate changes
     keydown(Comp, 38) // up
@@ -775,6 +780,82 @@ describe('Dropdown component', () => {
 
     expect(
       document.activeElement.classList.contains('dnb-drawer-list__option')
+    ).toBe(true)
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(mockData.length - 1) // the last item
+        .hasClass('dnb-drawer-list__option--focus')
+    ).toBe(true)
+
+    // then simulate changes
+    keydown(Comp, 40) // down
+
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(0) // the first item
+        .hasClass('dnb-drawer-list__option--focus')
+    ).toBe(true)
+
+    Comp.setProps({
+      direction: 'top',
+    })
+
+    // then simulate changes
+    keydown(Comp, 38) // up
+
+    // delay because we want to wait to have the DOM focus to be called
+    await wait(5)
+
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(mockData.length - 1) // the last item
+        .hasClass('dnb-drawer-list__option--focus')
+    ).toBe(true)
+
+    // then simulate changes
+    keydown(Comp, 40) // down
+
+    // delay because we want to wait to have the DOM focus to be called
+    await wait(5)
+
+    expect(
+      document.activeElement.classList.contains('dnb-drawer-list__options')
+    ).toBe(true)
+
+    // then simulate changes
+    keydown(Comp, 38) // up
+
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(mockData.length - 1) // the last item
+        .hasClass('dnb-drawer-list__option--focus')
+    ).toBe(true)
+
+    // then simulate changes
+    keydown(Comp, 38) // up
+
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(mockData.length - 2) // the second item
+        .hasClass('dnb-drawer-list__option--focus')
+    ).toBe(true)
+
+    // then simulate changes
+    keydown(Comp, 33) // pageUp
+
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(0) // the first item
+        .hasClass('dnb-drawer-list__option--focus')
+    ).toBe(true)
+
+    // then simulate changes
+    keydown(Comp, 38) // up
+
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(mockData.length - 1) // the last item
+        .hasClass('dnb-drawer-list__option--focus')
     ).toBe(true)
   })
 
