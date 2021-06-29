@@ -105,6 +105,7 @@ class DrawerListInstance extends React.PureComponent {
   preventTab = (e) => {
     switch (keycode(e)) {
       case 'tab':
+        e.preventDefault()
         this.context.drawerList.setHidden()
         break
 

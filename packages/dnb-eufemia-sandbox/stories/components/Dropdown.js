@@ -903,7 +903,7 @@ const filter2ToShow = [
 
 export function UpdateData() {
   const [value, setValue] = React.useState(null)
-  const [count, increment] = React.useState(1)
+  // const [count, increment] = React.useState(1)
   const [filtersToShow, setFiltersToShow] = React.useState(filter1ToShow)
   const [preventClose, setPreventClose] = React.useState(true)
 
@@ -934,7 +934,7 @@ export function UpdateData() {
       >
         Reset
       </Button>
-      <Button
+      {/* <Button
         // left
         onClick={() => {
           increment((i) => i + 1)
@@ -942,8 +942,8 @@ export function UpdateData() {
         right
       >
         Increment {count}
-      </Button>
-      <Dropdown
+      </Button> */}
+      {/* <Dropdown
         right
         data={filtersToShow}
         title={'Velg filter:'}
@@ -954,7 +954,7 @@ export function UpdateData() {
         // value={value}
         size="large"
         // prevent_close={preventClose}
-      />
+      /> */}
       <Dropdown
         data={filtersToShow}
         title={'Velg filter:'}
@@ -964,7 +964,7 @@ export function UpdateData() {
         //stretch
         value={value}
         size="large"
-        prevent_close={preventClose}
+        // prevent_close={preventClose}
       />
       <Button
         left

@@ -784,10 +784,10 @@ export default class DrawerListProvider extends React.PureComponent {
     switch (key) {
       case 'up':
         {
+          e.preventDefault()
           if (this.state.active_item === 0) {
             active_item = -1
           } else {
-            e.preventDefault()
             active_item = this.getPrevActiveItem()
             if (isNaN(active_item)) {
               active_item = this.getFirstItem() || 0

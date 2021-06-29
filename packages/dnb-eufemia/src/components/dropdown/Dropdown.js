@@ -321,6 +321,7 @@ class DropdownInstance extends React.PureComponent {
 
       case 'up':
       case 'down':
+        e.preventDefault()
         this.setVisible()
 
         if (this.context.drawerList.opened) {
