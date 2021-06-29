@@ -10,6 +10,7 @@ import {
   axeComponent,
   toJson,
   loadScss,
+  attachToBody, // in order to use document.activeElement properly
 } from '../../../core/jest/jestSetup'
 import Component from '../Dropdown'
 
@@ -29,7 +30,7 @@ const snapshotProps = {
   triangle_position: null,
   prevent_selection: null,
   align_dropdown: null,
-  trigger_component: null,
+  trigger_element: null,
   size: null,
   opened: true,
   skip_portal: true,
@@ -149,6 +150,121 @@ describe('Dropdown component', () => {
     ).toBe(true)
   })
 
+  it('has correct state when opened prop is given', () => {
+    const Comp = mount(
+      <Component skip_portal no_animation opened={true} data={mockData} />
+    )
+
+    expect(
+      Comp.find('button').instance().getAttribute('aria-expanded')
+    ).toBe('true')
+    expect(
+      Comp.find('.dnb-drawer-list__options')
+        .instance()
+        .getAttribute('aria-expanded')
+    ).toBe('true')
+  })
+
+  it('supports a trigger_element properly', () => {
+    const Comp = mount(
+      <Component
+        skip_portal
+        no_animation
+        trigger_element={(props) => <button {...props}>test</button>}
+        data={mockData}
+      />
+    )
+
+    expect(Comp.exists('button')).toBe(true)
+    expect(Array.from(Comp.find('button').instance().classList)).toContain(
+      'dnb-dropdown__trigger'
+    )
+    expect(Comp.find('button').text()).toBe('test')
+
+    // open
+    Comp.find('button.dnb-dropdown__trigger').simulate('click')
+
+    expect(
+      Comp.find('.dnb-drawer-list__options')
+        .instance()
+        .getAttribute('aria-expanded')
+    ).toBe('true')
+  })
+
+  it('will stay open when keep_open and a selection is made', () => {
+    const on_change = jest.fn()
+    const Comp = mount(
+      <Component
+        skip_portal
+        no_animation
+        opened={true}
+        keep_open={true}
+        on_change={on_change}
+        data={mockData}
+      />
+    )
+
+    expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(false)
+
+    // then simulate changes
+    keydown(Comp, 40) // down
+    keydown(Comp, 40) // down
+    keydown(Comp, 32) // space
+
+    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(true)
+    expect(
+      Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+    ).toBe(true)
+
+    // close
+    keydown(Comp, 27) // esc
+
+    expect(
+      Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+    ).toBe(false)
+  })
+
+  it('will stay open when prevent_close is given, regardless', () => {
+    const on_change = jest.fn()
+    const on_hide = jest.fn()
+    const Comp = mount(
+      <Component
+        prevent_close={true}
+        skip_portal
+        no_animation
+        on_change={on_change}
+        on_hide={on_hide}
+        data={mockData}
+      />,
+      {
+        attachTo: attachToBody(),
+      }
+    )
+
+    expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(false)
+
+    // then simulate changes
+    keydown(Comp, 40) // down
+    keydown(Comp, 40) // down
+    keydown(Comp, 32) // space
+
+    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(true)
+    expect(
+      Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+    ).toBe(true)
+
+    // try to close it
+    keydown(Comp, 27) // esc
+
+    expect(
+      Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+    ).toBe(true)
+
+    expect(on_hide).toHaveBeenCalledTimes(0)
+  })
+
   it('has valid on_select callback', () => {
     const on_select = jest.fn()
 
@@ -250,6 +366,37 @@ describe('Dropdown component', () => {
     expect(Comp.exists('.dnb-dropdown--is-popup')).toBe(true)
   })
 
+  it('can be reset to null', () => {
+    let value
+    const Comp = mount(
+      <Component {...props} value={null} data={mockData} />
+    )
+
+    expect(Comp.find('.dnb-dropdown__text').text()).toBe('Valgmeny')
+
+    value = 2
+    Comp.setProps({ value })
+
+    expect(Comp.find('.dnb-dropdown__text').text()).toBe(
+      mockData[value].selected_value
+    )
+
+    Comp.setProps({ value: undefined })
+
+    expect(Comp.find('.dnb-dropdown__text').text()).toBe('Valgmeny')
+
+    value = 3
+    Comp.setProps({ value })
+
+    expect(Comp.find('.dnb-dropdown__text').text()).toBe(
+      mockData[value].selected_value
+    )
+
+    Comp.setProps({ value: null })
+
+    expect(Comp.find('.dnb-dropdown__text').text()).toBe('Valgmeny')
+  })
+
   it('has correct selected value', () => {
     let value
     let Comp
@@ -342,6 +489,8 @@ describe('Dropdown component', () => {
     keydown(Comp, 32) // space
 
     selectedItem = mockData[props.value + 1]
+    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(on_select).toHaveBeenCalledTimes(2)
     expect(on_change.mock.calls[0][0].data).toStrictEqual(selectedItem)
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem)
     expect(on_change).toHaveBeenCalledWith({
@@ -360,6 +509,8 @@ describe('Dropdown component', () => {
     selectedItem = mockData[props.value + 2]
     expect(on_change.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
     expect(on_select.mock.calls[3][0].data).toStrictEqual(selectedItem) // second call!
+    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(on_select).toHaveBeenCalledTimes(4)
   })
 
   it('has valid on_change callback if object was given', () => {
@@ -411,6 +562,8 @@ describe('Dropdown component', () => {
       selected_item: 1,
       value: 'nb-NO',
     })
+
+    expect(on_change).toHaveBeenCalledTimes(2)
   })
 
   it('has correct "aria-expanded"', () => {
@@ -473,6 +626,9 @@ describe('Dropdown component', () => {
       data: null,
       event: new KeyboardEvent('keydown', {}),
     })
+
+    expect(on_show).toHaveBeenCalledTimes(1)
+    expect(on_hide).toHaveBeenCalledTimes(1)
   })
 
   it('has to set correct focus during open and close', async () => {
@@ -567,6 +723,58 @@ describe('Dropdown component', () => {
     // we are still open
     expect(
       Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+    ).toBe(true)
+  })
+
+  it('will set focus on options when key up is pressed on first item', async () => {
+    const Comp = mount(<Component no_animation data={mockData} />, {
+      attachTo: attachToBody(),
+    })
+
+    // first open
+    keydown(Comp, 40) // down
+
+    expect(
+      Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+    ).toBe(true)
+
+    // then simulate changes
+    keydown(Comp, 40) // down
+
+    expect(
+      document.activeElement.classList.contains('dnb-drawer-list__options')
+    ).toBe(true)
+
+    // delay because we want to wait to have the DOM focus to be called
+    await wait(5)
+
+    expect(
+      document.activeElement.classList.contains('dnb-drawer-list__option')
+    ).toBe(true)
+    expect(
+      document.activeElement.classList.contains(
+        'dnb-drawer-list__option--focus'
+      )
+    ).toBe(true)
+
+    // then simulate changes
+    keydown(Comp, 38) // up
+
+    // delay because we want to wait to have the DOM focus to be called
+    await wait(5)
+
+    expect(
+      document.activeElement.classList.contains('dnb-drawer-list__options')
+    ).toBe(true)
+
+    // then simulate changes
+    keydown(Comp, 38) // up
+
+    // delay because we want to wait to have the DOM focus to be called
+    await wait(5)
+
+    expect(
+      document.activeElement.classList.contains('dnb-drawer-list__option')
     ).toBe(true)
   })
 

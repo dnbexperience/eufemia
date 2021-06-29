@@ -199,7 +199,11 @@ describe('DrawerList component', () => {
     const on_select = jest.fn()
 
     const Comp = mount(
-      <Component {...props} data={mockData} on_select={on_select} />
+      <Component
+        {...props}
+        data={Object.freeze(mockData)}
+        on_select={on_select}
+      />
     )
 
     // select the current

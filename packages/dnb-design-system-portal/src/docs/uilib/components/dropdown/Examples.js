@@ -97,7 +97,6 @@ render(
   <Dropdown
     data={scrollableData}
     value="key_1"// use either index (5) or selected_key: 'key_1'
-    use_drawer_on_mobile={true}
     label="Label:"
   />
 )

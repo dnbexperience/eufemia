@@ -98,12 +98,14 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   suffix="suffix"
   title="title"
   triangle_position={null}
-  trigger_component={null}
+  trigger_element={null}
   value={2}
 >
   <DrawerListProvider
     action_menu={null}
+    align_drawer="left"
     align_dropdown={null}
+    cache_hash={null}
     class="class"
     className="className"
     custom_element={Object {}}
@@ -162,20 +164,22 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     default_value="default_value"
     direction="bottom"
     disabled="disabled"
-    enable_body_lock={null}
-    enable_closest_observer={null}
+    fixed_position={false}
     focusable="focusable"
     global_status_id="global_status_id"
+    handle_dismiss_focus={null}
     icon="icon"
     icon_position={null}
     icon_size="icon_size"
     id="dropdown-id"
     ignore_events={false}
     independent_width="independent_width"
+    is_popup={false}
     keep_open="keep_open"
     label="label"
     label_direction="horizontal"
     label_sr_only="label_sr_only"
+    list_class={null}
     max_height={1}
     min_height={10}
     more_menu={null}
@@ -184,17 +188,22 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     observer_element={null}
     on_change={[Function]}
     on_hide={[Function]}
+    on_pre_change={null}
     on_resize={null}
     on_select={[Function]}
     on_show={[Function]}
     on_state_update={[Function]}
     open_on_focus="open_on_focus"
     opened={null}
+    options_render={null}
     page_offset={null}
     portal_class="portal_class"
+    prepared_data={null}
     prevent_close="prevent_close"
     prevent_focus={false}
     prevent_selection={false}
+    raw_data={null}
+    role="listbox"
     scrollable="scrollable"
     size={null}
     skeleton="skeleton"
@@ -208,7 +217,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     tagName="dnb-dropdown"
     title="title"
     triangle_position={null}
-    trigger_component={null}
+    trigger_element={null}
     use_drawer_on_mobile={null}
     value={2}
     wrapper_element={null}
@@ -310,7 +319,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       suffix="suffix"
       title="title"
       triangle_position={null}
-      trigger_component={null}
+      trigger_element={null}
       value={2}
     >
       <span
@@ -667,6 +676,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 disabled="disabled"
                 fixed_position={false}
                 focusable="focusable"
+                handle_dismiss_focus={[Function]}
                 id="dropdown-id"
                 ignore_events={null}
                 independent_width={null}
@@ -715,6 +725,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   disabled="disabled"
                   fixed_position={false}
                   focusable="focusable"
+                  handle_dismiss_focus={[Function]}
                   id="dropdown-id"
                   ignore_events={null}
                   independent_width={null}
@@ -1262,7 +1273,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "suffix": "suffix",
                   "title": "title",
                   "triangle_position": null,
-                  "trigger_component": null,
+                  "trigger_element": null,
                   "value": 2,
                 }
               }

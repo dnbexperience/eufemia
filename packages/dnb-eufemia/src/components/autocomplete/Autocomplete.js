@@ -144,7 +144,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
     ]),
-    input_component: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+    input_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
     data: PropTypes.oneOfType([
       PropTypes.oneOfType([
         PropTypes.string,
@@ -288,7 +288,7 @@ export default class Autocomplete extends React.PureComponent {
     on_change: null,
     on_select: null,
     on_state_update: null,
-    input_component: null,
+    input_element: null,
   }
 
   static enableWebComponent() {
@@ -417,7 +417,6 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    this.setHidden()
     clearTimeout(this._hideTimeout)
     clearTimeout(this._selectTimeout)
     clearTimeout(this._ariaLiveUpdateTimeout)
@@ -710,9 +709,8 @@ class AutocompleteInstance extends React.PureComponent {
 
             if (typedInputValue && typedInputValue.length > 0) {
               // run with side effects, to get preselection of active_item
-              const filteredData = this.runFilterWithSideEffects(
-                typedInputValue
-              )
+              const filteredData =
+                this.runFilterWithSideEffects(typedInputValue)
               if (this.countData(filteredData) === 0) {
                 this.showNoOptionsItem()
               }
@@ -1457,7 +1455,7 @@ class AutocompleteInstance extends React.PureComponent {
       no_scroll_animation,
       show_submit_button,
       submit_element,
-      input_component: CustomInput,
+      input_element: CustomInput,
       options_render,
       prevent_selection,
       max_height,
@@ -1499,13 +1497,8 @@ class AutocompleteInstance extends React.PureComponent {
 
     const { inputValue, visibleIndicator, ariaLiveUpdate } = this.state
 
-    const {
-      hidden,
-      selected_item,
-      active_item,
-      direction,
-      opened,
-    } = this.context.drawerList
+    const { hidden, selected_item, active_item, direction, opened } =
+      this.context.drawerList
 
     const isExpanded = Boolean(opened) && this.hasValidData()
 

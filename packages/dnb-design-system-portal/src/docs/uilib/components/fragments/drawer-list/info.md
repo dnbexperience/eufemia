@@ -48,3 +48,19 @@ const data = {
   b: 'B',
 }
 ```
+
+### Example usage of `options_render`
+
+```jsx
+render(
+  <DrawerList
+    options_render={({ Items, Item, data }) => (
+      <>
+        <Items />
+        <Item>Addition</Item>
+        {data.length > 1 && <li>Addition</li>}
+      </>
+    )}
+  />
+)
+```

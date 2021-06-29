@@ -31,6 +31,8 @@ import {
   getEventData,
   prepareStartupState,
   prepareDerivedState,
+  drawerListPropTypes,
+  drawerListDefaultProps,
 } from './DrawerListHelpers'
 import DrawerListContext from './DrawerListContext'
 import {
@@ -42,30 +44,9 @@ export default class DrawerListProvider extends React.PureComponent {
   static contextType = Context
 
   static propTypes = {
-    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    prevent_selection: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    direction: PropTypes.oneOf(['auto', 'top', 'bottom']),
-    // align_drawer: PropTypes.oneOf(['left', 'right']),
-    wrapper_element: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    prevent_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skip_keysearch: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
+    ...drawerListPropTypes,
+
     use_drawer_on_mobile: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    enable_body_lock: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
     ]),
@@ -74,46 +55,16 @@ export default class DrawerListProvider extends React.PureComponent {
       PropTypes.string,
       PropTypes.node,
     ]),
-    enable_closest_observer: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    opened: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    scrollable: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     min_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    max_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    on_resize: PropTypes.func,
-
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-      PropTypes.object,
-      PropTypes.array,
-    ]),
   }
+
   static defaultProps = {
-    no_animation: false,
-    prevent_selection: false,
-    direction: 'auto',
-    // align_drawer: null,
-    wrapper_element: null,
-    prevent_close: false,
-    keep_open: false,
-    prevent_focus: false,
-    skip_keysearch: false,
+    ...drawerListDefaultProps,
+
     use_drawer_on_mobile: null,
-    enable_body_lock: null,
     page_offset: null,
     observer_element: null,
-    enable_closest_observer: null,
-    opened: null,
-    scrollable: null,
     min_height: 10, // 10rem = 10x16=160,
-    max_height: null,
-    on_resize: null,
-
-    children: null,
   }
 
   static blurDelay = 201 // some ms more than "DrawerListSlideDown 200ms"
@@ -156,6 +107,16 @@ export default class DrawerListProvider extends React.PureComponent {
         this.setVisible()
       } else if (isTrue(this.props.opened) === false) {
         this.setHidden()
+      }
+    }
+
+    if (this.state.opened) {
+      if (
+        this.props.data !== prevProps.data &&
+        typeof document !== 'undefined' &&
+        document.activeElement.tagName === 'BODY'
+      ) {
+        this._refUl.current?.focus()
       }
     }
   }
@@ -557,6 +518,7 @@ export default class DrawerListProvider extends React.PureComponent {
             } else if (ulElement.scrollTop) {
               ulElement.scrollTop = top
             }
+
             if (!isTrue(this.props.prevent_focus) && liElement) {
               liElement.focus()
               dispatchCustomElementEvent(this, 'on_show_focus', {
@@ -787,14 +749,18 @@ export default class DrawerListProvider extends React.PureComponent {
     ) {
       let isSameDrawer = false
       try {
+        const ulElem = getPreviousSibling(
+          'dnb-drawer-list__options',
+          document.activeElement
+        )
+
         isSameDrawer =
-          typeof document !== 'undefined' &&
-          `${document.activeElement.getAttribute('id')}-ul` ===
-            this._refUl.current.getAttribute('id')
+          ulElem === this._refUl.current ||
+          ulElem?.getAttribute('id') === this.props.id
       } catch (e) {
         warn(e)
       }
-      if (!isSameDrawer || key === 'tab') {
+      if (!isSameDrawer && key !== 'tab') {
         return // stop here
       }
     }
@@ -818,10 +784,14 @@ export default class DrawerListProvider extends React.PureComponent {
     switch (key) {
       case 'up':
         {
-          e.preventDefault()
-          active_item = this.getPrevActiveItem()
-          if (isNaN(active_item)) {
-            active_item = this.getFirstItem() || 0
+          if (this.state.active_item === 0) {
+            active_item = -1
+          } else {
+            e.preventDefault()
+            active_item = this.getPrevActiveItem()
+            if (isNaN(active_item)) {
+              active_item = this.getFirstItem() || 0
+            }
           }
         }
         break
@@ -833,7 +803,7 @@ export default class DrawerListProvider extends React.PureComponent {
           if (active_item === -1 || isNaN(activeItem)) {
             active_item = this.getFirstItem() || 0
           } else {
-            active_item = this.getNextActiveItem()
+            active_item = this.getNextActiveItem() || 0
           }
         }
         break
@@ -891,6 +861,12 @@ export default class DrawerListProvider extends React.PureComponent {
               this.focusAnchorElem(anchorElem)
               return
             }
+
+            // We may considder to close the list and set the focus it the handler
+            // but also, in portal mode, we want to prevent to start the focus from the top of the page
+            else if (isTrue(this.props.prevent_close)) {
+              active_item = -1
+            }
           }
 
           this.setHidden({ event: e })
@@ -910,6 +886,22 @@ export default class DrawerListProvider extends React.PureComponent {
         fireSelectEvent: true,
         event: e,
       })
+    } else if (
+      active_item === -1 &&
+      this._refUl.current &&
+      typeof document !== 'undefined'
+    ) {
+      const ulElem = getPreviousSibling(
+        'dnb-drawer-list__options',
+        document.activeElement
+      )
+
+      if (ulElem === this._refUl.current) {
+        this.setState({
+          active_item,
+        })
+        dispatchCustomElementEvent(this.state, 'handle_dismiss_focus')
+      }
     }
   }
 
