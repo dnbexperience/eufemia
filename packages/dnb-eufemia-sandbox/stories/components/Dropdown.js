@@ -878,3 +878,127 @@ function UpdateDataExample() {
     </>
   )
 }
+
+const filter1ToShow = [
+  {
+    selected_key: 'key_1',
+    content: 'item_1',
+  },
+  {
+    selected_key: 'key_2',
+    content: 'item_2',
+  },
+]
+
+const filter2ToShow = [
+  {
+    selected_key: 'key_3',
+    content: 'item_3',
+  },
+  {
+    selected_key: 'key_4',
+    content: 'item_4',
+  },
+]
+
+export function UpdateData() {
+  const [value, setValue] = React.useState(null)
+  // const [count, increment] = React.useState(1)
+  const [filtersToShow, setFiltersToShow] = React.useState(filter1ToShow)
+  const [preventClose, setPreventClose] = React.useState(true)
+
+  const onFilterChange = ({ value, data }) => {
+    setValue(value)
+    if (data?.selected_key === 'key_1' || data?.selected_key === 'key_2') {
+      setFiltersToShow(filter2ToShow)
+      setValue(null)
+      setTimeout(() => {
+        setPreventClose(false)
+      }, 1)
+      return
+    }
+    setPreventClose(false)
+  }
+
+  const onShow = () => {
+    setFiltersToShow(filter1ToShow)
+    setPreventClose(true)
+    setValue(null) // important, we have to change be
+  }
+
+  return (
+    <>
+      {/* <Button
+        // left
+        onClick={() => {
+          setValue(undefined)
+        }}
+        right
+      >
+        Reset
+      </Button> */}
+      {/* <Button
+        // left
+        onClick={() => {
+          increment((i) => i + 1)
+        }}
+        right
+      >
+        Increment {count}
+      </Button> */}
+      {/* <Dropdown
+        right
+        data={filtersToShow}
+        title={'Velg filter:'}
+        on_change={onFilterChange}
+        on_show={onShow}
+        //skip_portal
+        //stretch
+        // value={value}
+        size="large"
+        // prevent_close={preventClose}
+      /> */}
+      <Dropdown
+        top="10rem"
+        data={filtersToShow}
+        title={'Velg filter:'}
+        on_change={onFilterChange}
+        on_show={onShow}
+        //skip_portal
+        //stretch
+        value={value}
+        size="large"
+        direction="top"
+        prevent_close={preventClose}
+      />
+      <Dropdown
+        top="10rem"
+        data={filtersToShow}
+        title={'Velg filter:'}
+        on_change={onFilterChange}
+        on_show={onShow}
+        //skip_portal
+        //stretch
+        value={value}
+        size="large"
+        prevent_close={preventClose}
+      />
+      {/* <Button
+        left
+        onClick={() => {
+          setFiltersToShow(filter1ToShow)
+        }}
+      >
+        Update 1
+      </Button>
+      <Button
+        left
+        onClick={() => {
+          setFiltersToShow(filter2ToShow)
+        }}
+      >
+        Update 2
+      </Button> */}
+    </>
+  )
+}

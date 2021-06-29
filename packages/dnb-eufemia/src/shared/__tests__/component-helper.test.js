@@ -19,7 +19,7 @@ import {
   toCamelCase,
   toSnakeCase,
   toKebabCase,
-  // pickRenderProps,
+  checkIfHasScrollbar,
   detectOutsideClick,
   makeUniqueId,
   filterProps,
@@ -61,6 +61,13 @@ describe('"defineNavigator" should', () => {
 })
 
 describe('"detectOutsideClick" should', () => {
+  jest
+    .spyOn(document.documentElement, 'clientWidth', 'get')
+    .mockImplementation(() => 200)
+  jest
+    .spyOn(document.documentElement, 'clientHeight', 'get')
+    .mockImplementation(() => 200)
+
   it('detect a click outside of our scope element', () => {
     // create some DOM elements
     const inside = document.createElement('BUTTON')
@@ -100,16 +107,82 @@ describe('"detectOutsideClick" should', () => {
       // call again outside
       outside.dispatchEvent(event)
 
-      // but we don't expet more event calls
+      // but we don't expect more event calls
       expect(mockedEvent).toHaveBeenCalledTimes(calledTimes)
     }
 
+    const event = new CustomEvent('mousedown', {
+      bubbles: true,
+    })
+    event.pageX = 300 // over 200 clientWidth
+    event.pageY = 0
+
     // test mousedown
     testEvent({
+      event,
       mockedEvent: jest.fn(),
-      event: new CustomEvent('mousedown', { bubbles: true }),
       calledTimes: 2,
     })
+    event.pageX = 0
+    event.pageY = 300 // over 200 clientHeight
+
+    // test mousedown
+    testEvent({
+      event,
+      mockedEvent: jest.fn(),
+      calledTimes: 2,
+    })
+
+    event.pageX = 100
+    event.pageY = 100
+
+    // test mousedown
+    testEvent({
+      event,
+      mockedEvent: jest.fn(),
+      calledTimes: 3,
+    })
+  })
+})
+
+describe('"checkIfHasScrollbar" should', () => {
+  it('detect if an element has a scrollbar', () => {
+    // create some DOM elements
+    const inside = document.createElement('BUTTON')
+    const outside = document.createElement('DIV')
+    const wrapperWithScrollbar = document.createElement('DIV')
+    outside.appendChild(inside)
+    wrapperWithScrollbar.appendChild(outside)
+    document.body.appendChild(wrapperWithScrollbar)
+
+    // give the scroll wrapper some styles and mock the offset- and scroll width
+    wrapperWithScrollbar.style = 'overflow: auto scroll;'
+
+    const changeProperty = (prop, value) => {
+      Object.defineProperty(wrapperWithScrollbar, prop, {
+        configurable: true,
+        value,
+      })
+    }
+
+    changeProperty('scrollWidth', 200)
+    changeProperty('offsetWidth', 100)
+    expect(checkIfHasScrollbar(wrapperWithScrollbar)).toBe(true)
+
+    changeProperty('scrollWidth', 100)
+    changeProperty('offsetWidth', 200)
+    expect(checkIfHasScrollbar(wrapperWithScrollbar)).toBe(false)
+
+    changeProperty('scrollWidth', undefined)
+    changeProperty('offsetWidth', undefined)
+
+    changeProperty('scrollHeight', 200)
+    changeProperty('offsetHeight', 100)
+    expect(checkIfHasScrollbar(wrapperWithScrollbar)).toBe(true)
+
+    changeProperty('scrollHeight', 100)
+    changeProperty('offsetHeight', 200)
+    expect(checkIfHasScrollbar(wrapperWithScrollbar)).toBe(false)
   })
 })
 

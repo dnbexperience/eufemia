@@ -2,13 +2,13 @@
 
 exports[`DrawerList markup have to match snapshot 1`] = `
 <DrawerList
-  action_menu="action_menu"
+  action_menu={false}
   align_drawer={null}
-  cache_hash="cache_hash"
-  class="class"
-  className="className"
-  custom_element={Object {}}
-  custom_method={[Function]}
+  cache_hash={null}
+  class={null}
+  className={null}
+  custom_element={null}
+  custom_method={null}
   data={
     Array [
       Object {
@@ -57,52 +57,53 @@ exports[`DrawerList markup have to match snapshot 1`] = `
       ],
     ]
   }
-  default_value="default_value"
+  default_value={null}
   direction="bottom"
-  fixed_position="fixed_position"
-  focusable="focusable"
+  fixed_position={false}
+  focusable={false}
+  handle_dismiss_focus={null}
   id="drawer-list-id"
-  ignore_events="ignore_events"
-  independent_width="independent_width"
-  is_popup="is_popup"
-  keep_open="keep_open"
-  list_class="list_class"
-  max_height={1}
+  ignore_events={null}
+  independent_width={false}
+  is_popup={false}
+  keep_open={false}
+  list_class={null}
+  max_height={null}
   no_animation={true}
-  no_scroll_animation="no_scroll_animation"
-  on_change={[Function]}
-  on_hide={[Function]}
-  on_pre_change={[Function]}
-  on_resize={[Function]}
-  on_select={[Function]}
-  on_show={[Function]}
-  on_state_update={[Function]}
+  no_scroll_animation={false}
+  on_change={null}
+  on_hide={null}
+  on_pre_change={null}
+  on_resize={null}
+  on_select={null}
+  on_show={null}
+  on_state_update={null}
   opened={true}
-  options_render={Object {}}
-  portal_class="portal_class"
-  prepared_data={Array []}
-  prevent_close="prevent_close"
-  prevent_focus="prevent_focus"
+  options_render={null}
+  portal_class={null}
+  prepared_data={null}
+  prevent_close={false}
+  prevent_focus={false}
   prevent_selection={null}
-  raw_data={Array []}
-  role="role"
-  scrollable="scrollable"
+  raw_data={null}
+  role="listbox"
+  scrollable={true}
   size="default"
-  skip_keysearch="skip_keysearch"
+  skip_keysearch={false}
   skip_portal={true}
-  triangle_position="triangle_position"
-  use_drawer_on_mobile="use_drawer_on_mobile"
+  triangle_position="left"
+  use_drawer_on_mobile={false}
   value={2}
-  wrapper_element={Object {}}
+  wrapper_element={null}
 >
   <DrawerListProvider
-    action_menu="action_menu"
+    action_menu={false}
     align_drawer={null}
-    cache_hash="cache_hash"
-    class="class"
-    className="className"
-    custom_element={Object {}}
-    custom_method={[Function]}
+    cache_hash={null}
+    class={null}
+    className={null}
+    custom_element={null}
+    custom_method={null}
     data={
       Array [
         Object {
@@ -151,57 +152,56 @@ exports[`DrawerList markup have to match snapshot 1`] = `
         ],
       ]
     }
-    default_value="default_value"
+    default_value={null}
     direction="bottom"
-    enable_body_lock={null}
-    enable_closest_observer={null}
-    fixed_position="fixed_position"
-    focusable="focusable"
+    fixed_position={false}
+    focusable={false}
+    handle_dismiss_focus={null}
     id="drawer-list-id"
-    ignore_events="ignore_events"
-    independent_width="independent_width"
-    is_popup="is_popup"
-    keep_open="keep_open"
-    list_class="list_class"
-    max_height={1}
+    ignore_events={null}
+    independent_width={false}
+    is_popup={false}
+    keep_open={false}
+    list_class={null}
+    max_height={null}
     min_height={10}
     no_animation={true}
-    no_scroll_animation="no_scroll_animation"
+    no_scroll_animation={false}
     observer_element={null}
-    on_change={[Function]}
-    on_hide={[Function]}
-    on_pre_change={[Function]}
-    on_resize={[Function]}
-    on_select={[Function]}
-    on_show={[Function]}
-    on_state_update={[Function]}
+    on_change={null}
+    on_hide={null}
+    on_pre_change={null}
+    on_resize={null}
+    on_select={null}
+    on_show={null}
+    on_state_update={null}
     opened={true}
-    options_render={Object {}}
+    options_render={null}
     page_offset={null}
-    portal_class="portal_class"
-    prepared_data={Array []}
-    prevent_close="prevent_close"
-    prevent_focus="prevent_focus"
+    portal_class={null}
+    prepared_data={null}
+    prevent_close={false}
+    prevent_focus={false}
     prevent_selection={null}
-    raw_data={Array []}
-    role="role"
-    scrollable="scrollable"
+    raw_data={null}
+    role="listbox"
+    scrollable={true}
     size="default"
-    skip_keysearch="skip_keysearch"
+    skip_keysearch={false}
     skip_portal={true}
-    triangle_position="triangle_position"
-    use_drawer_on_mobile="use_drawer_on_mobile"
+    triangle_position="left"
+    use_drawer_on_mobile={false}
     value={2}
-    wrapper_element={Object {}}
+    wrapper_element={null}
   >
     <DrawerListInstance
-      action_menu="action_menu"
+      action_menu={false}
       align_drawer={null}
-      cache_hash="cache_hash"
-      class="class"
-      className="className"
-      custom_element={Object {}}
-      custom_method={[Function]}
+      cache_hash={null}
+      class={null}
+      className={null}
+      custom_element={null}
+      custom_method={null}
       data={
         Array [
           Object {
@@ -250,63 +250,415 @@ exports[`DrawerList markup have to match snapshot 1`] = `
           ],
         ]
       }
-      default_value="default_value"
+      default_value={null}
       direction="bottom"
-      fixed_position="fixed_position"
-      focusable="focusable"
+      fixed_position={false}
+      focusable={false}
+      handle_dismiss_focus={null}
       id="drawer-list-id"
-      ignore_events="ignore_events"
-      independent_width="independent_width"
-      is_popup="is_popup"
-      keep_open="keep_open"
-      list_class="list_class"
-      max_height={1}
+      ignore_events={null}
+      independent_width={false}
+      is_popup={false}
+      keep_open={false}
+      list_class={null}
+      max_height={null}
       no_animation={true}
-      no_scroll_animation="no_scroll_animation"
-      on_change={[Function]}
-      on_hide={[Function]}
-      on_pre_change={[Function]}
-      on_resize={[Function]}
-      on_select={[Function]}
-      on_show={[Function]}
-      on_state_update={[Function]}
+      no_scroll_animation={false}
+      on_change={null}
+      on_hide={null}
+      on_pre_change={null}
+      on_resize={null}
+      on_select={null}
+      on_show={null}
+      on_state_update={null}
       opened={true}
-      options_render={Object {}}
-      portal_class="portal_class"
-      prepared_data={Array []}
-      prevent_close="prevent_close"
-      prevent_focus="prevent_focus"
+      options_render={null}
+      portal_class={null}
+      prepared_data={null}
+      prevent_close={false}
+      prevent_focus={false}
       prevent_selection={null}
-      raw_data={Array []}
-      role="role"
-      scrollable="scrollable"
+      raw_data={null}
+      role="listbox"
+      scrollable={true}
       size="default"
-      skip_keysearch="skip_keysearch"
+      skip_keysearch={false}
       skip_portal={true}
-      triangle_position="triangle_position"
-      use_drawer_on_mobile="use_drawer_on_mobile"
+      triangle_position="left"
+      use_drawer_on_mobile={false}
       value={2}
-      wrapper_element={Object {}}
+      wrapper_element={null}
     >
       <span
         className="dnb-drawer-list__root"
       >
         <span
-          className="dnb-drawer-list dnb-drawer-list--bottom class className dnb-drawer-list--opened dnb-drawer-list--triangle-position-triangle_position dnb-drawer-list--default"
+          className="dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--opened dnb-drawer-list--triangle-position-left dnb-drawer-list--default dnb-drawer-list--scroll"
           id="drawer-list-id-drawer-list"
         >
           <span
-            className="dnb-drawer-list__list list_class dnb-drawer-list__list--no-animation"
+            className="dnb-drawer-list__list dnb-drawer-list__list--no-animation"
             id="drawer-list-id-listbox"
           >
-            <span
-              className="dnb-drawer-list__content"
+            <DrawerList.Options
+              aria-activedescendant="option-drawer-list-id-2"
+              aria-expanded={true}
+              aria-labelledby="drawer-list-id-label"
+              cache_hash="22undefinedundefinedbottom-2"
+              class={null}
+              className={null}
+              id="drawer-list-id-ul"
+              role="listbox"
+              style={
+                Object {
+                  "maxHeight": null,
+                }
+              }
+              tabIndex="-1"
+              triangleRef={
+                Object {
+                  "current": null,
+                }
+              }
             >
-              children
-              <span
-                className="dnb-drawer-list__triangle"
-              />
-            </span>
+              <ul
+                aria-activedescendant="option-drawer-list-id-2"
+                aria-expanded={true}
+                aria-labelledby="drawer-list-id-label"
+                className="dnb-drawer-list__options"
+                id="drawer-list-id-ul"
+                role="listbox"
+                style={
+                  Object {
+                    "maxHeight": null,
+                  }
+                }
+                tabIndex="-1"
+              >
+                <Items>
+                  <DrawerList.Item
+                    active={false}
+                    class={null}
+                    className="first-of-type"
+                    data-item={0}
+                    hash="option-drawer-list-id-0-0"
+                    id="option-drawer-list-id-0"
+                    key="option-drawer-list-id-0-0"
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    on_click={null}
+                    role="option"
+                    selected={false}
+                    value={null}
+                  >
+                    <li
+                      aria-selected={false}
+                      className="first-of-type dnb-drawer-list__option"
+                      data-item={0}
+                      id="option-drawer-list-id-0"
+                      key="lioption-drawer-list-id-0-0"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="option"
+                      tabIndex="-1"
+                    >
+                      <span
+                        className="dnb-drawer-list__option__inner"
+                      >
+                        <ItemContent
+                          hash="option-drawer-list-id-0-0"
+                        >
+                          <span
+                            className="dnb-drawer-list__option__item"
+                            key="option-drawer-list-id-0-00"
+                          >
+                            1234 56 78901
+                          </span>
+                          <span
+                            className="dnb-drawer-list__option__item"
+                            key="option-drawer-list-id-0-01"
+                          >
+                            Brukskonto - Kari Nordmann
+                          </span>
+                        </ItemContent>
+                      </span>
+                    </li>
+                  </DrawerList.Item>
+                  <DrawerList.Item
+                    active={false}
+                    class={null}
+                    className=""
+                    data-item={1}
+                    hash="option-drawer-list-id-1-1"
+                    id="option-drawer-list-id-1"
+                    key="option-drawer-list-id-1-1"
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    on_click={null}
+                    role="option"
+                    selected={false}
+                    value={null}
+                  >
+                    <li
+                      aria-selected={false}
+                      className="dnb-drawer-list__option"
+                      data-item={1}
+                      id="option-drawer-list-id-1"
+                      key="lioption-drawer-list-id-1-1"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="option"
+                      tabIndex="-1"
+                    >
+                      <span
+                        className="dnb-drawer-list__option__inner"
+                      >
+                        <ItemContent
+                          hash="option-drawer-list-id-1-1"
+                        >
+                          <span
+                            className="dnb-drawer-list__option__item"
+                            key="option-drawer-list-id-1-10"
+                          >
+                            1234 56 78902
+                          </span>
+                          <span
+                            className="dnb-drawer-list__option__item"
+                            key="option-drawer-list-id-1-11"
+                          >
+                            Sparekonto - Ole Nordmann
+                          </span>
+                        </ItemContent>
+                      </span>
+                    </li>
+                  </DrawerList.Item>
+                  <DrawerList.Item
+                    active={true}
+                    class={null}
+                    className=""
+                    data-item={2}
+                    hash="option-drawer-list-id-2-2"
+                    id="option-drawer-list-id-2"
+                    key="option-drawer-list-id-2-2"
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    on_click={null}
+                    role="option"
+                    selected={true}
+                    value={null}
+                  >
+                    <li
+                      aria-current={true}
+                      aria-selected={true}
+                      className="dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
+                      data-item={2}
+                      id="option-drawer-list-id-2"
+                      key="lioption-drawer-list-id-2-2"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="option"
+                      tabIndex="0"
+                    >
+                      <span
+                        className="dnb-drawer-list__option__inner"
+                      >
+                        <ItemContent
+                          hash="option-drawer-list-id-2-2"
+                        >
+                          <span
+                            className="dnb-drawer-list__option__item"
+                            key="option-drawer-list-id-2-20"
+                          >
+                            1134 56 78962
+                          </span>
+                          <span
+                            className="dnb-drawer-list__option__item"
+                            key="option-drawer-list-id-2-21"
+                          >
+                            Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+                          </span>
+                        </ItemContent>
+                      </span>
+                    </li>
+                  </DrawerList.Item>
+                  <DrawerList.Item
+                    active={false}
+                    class={null}
+                    className=""
+                    data-item={3}
+                    hash="option-drawer-list-id-3-3"
+                    id="option-drawer-list-id-3"
+                    key="option-drawer-list-id-3-3"
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    on_click={null}
+                    role="option"
+                    selected={false}
+                    value={null}
+                  >
+                    <li
+                      aria-selected={false}
+                      className="dnb-drawer-list__option"
+                      data-item={3}
+                      id="option-drawer-list-id-3"
+                      key="lioption-drawer-list-id-3-3"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="option"
+                      tabIndex="-1"
+                    >
+                      <span
+                        className="dnb-drawer-list__option__inner"
+                      >
+                        <ItemContent
+                          hash="option-drawer-list-id-3-3"
+                        >
+                          <span
+                            className="dnb-drawer-list__option__item"
+                            key="option-drawer-list-id-3-30"
+                          >
+                            1534 96 48901
+                          </span>
+                          <span
+                            className="dnb-drawer-list__option__item"
+                            key="option-drawer-list-id-3-31"
+                          >
+                            Oppussing - Ole Nordmann
+                          </span>
+                        </ItemContent>
+                      </span>
+                    </li>
+                  </DrawerList.Item>
+                  <DrawerList.Item
+                    active={false}
+                    class={null}
+                    className=""
+                    data-item={4}
+                    hash="option-drawer-list-id-4-4"
+                    id="option-drawer-list-id-4"
+                    key="option-drawer-list-id-4-4"
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    on_click={null}
+                    role="option"
+                    selected={false}
+                    value={null}
+                  >
+                    <li
+                      aria-selected={false}
+                      className="dnb-drawer-list__option"
+                      data-item={4}
+                      id="option-drawer-list-id-4"
+                      key="lioption-drawer-list-id-4-4"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="option"
+                      tabIndex="-1"
+                    >
+                      <span
+                        className="dnb-drawer-list__option__inner"
+                      >
+                        <ItemContent
+                          hash="option-drawer-list-id-4-4"
+                        >
+                          Custom content 
+                          123
+                        </ItemContent>
+                      </span>
+                    </li>
+                  </DrawerList.Item>
+                  <DrawerList.Item
+                    active={false}
+                    class={null}
+                    className=""
+                    data-item={5}
+                    hash="option-drawer-list-id-5-5"
+                    id="option-drawer-list-id-5"
+                    key="option-drawer-list-id-5-5"
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    on_click={null}
+                    role="option"
+                    selected={false}
+                    value={null}
+                  >
+                    <li
+                      aria-selected={false}
+                      className="dnb-drawer-list__option"
+                      data-item={5}
+                      id="option-drawer-list-id-5"
+                      key="lioption-drawer-list-id-5-5"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="option"
+                      tabIndex="-1"
+                    >
+                      <span
+                        className="dnb-drawer-list__option__inner"
+                      >
+                        <ItemContent
+                          hash="option-drawer-list-id-5-5"
+                        >
+                          Custom content 
+                          123
+                        </ItemContent>
+                      </span>
+                    </li>
+                  </DrawerList.Item>
+                  <DrawerList.Item
+                    active={false}
+                    class={null}
+                    className="last-of-type"
+                    data-item={6}
+                    hash="option-drawer-list-id-6-6"
+                    id="option-drawer-list-id-6"
+                    key="option-drawer-list-id-6-6"
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    on_click={null}
+                    role="option"
+                    selected={false}
+                    value={null}
+                  >
+                    <li
+                      aria-selected={false}
+                      className="last-of-type dnb-drawer-list__option"
+                      data-item={6}
+                      id="option-drawer-list-id-6"
+                      key="lioption-drawer-list-id-6-6"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="option"
+                      tabIndex="-1"
+                    >
+                      <span
+                        className="dnb-drawer-list__option__inner"
+                      >
+                        <ItemContent
+                          hash="option-drawer-list-id-6-6"
+                        >
+                          <span
+                            className="dnb-drawer-list__option__item"
+                            key="option-drawer-list-id-6-60"
+                          >
+                            Custom content 
+                            123
+                          </span>
+                        </ItemContent>
+                      </span>
+                    </li>
+                  </DrawerList.Item>
+                </Items>
+                <li
+                  aria-hidden={true}
+                  className="dnb-drawer-list__triangle"
+                />
+              </ul>
+            </DrawerList.Options>
+            <OnMounted
+              addObservers={[Function]}
+              removeObservers={[Function]}
+            />
           </span>
         </span>
       </span>
@@ -569,7 +921,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
   /* stylelint-disable-next-line  */ }
   .dnb-drawer-list__portal__style {
     position: absolute;
-    z-index: 3010; }
+    z-index: 3200; }
     .dnb-drawer-list__portal__style--fixed {
       position: fixed; }
   .dnb-drawer-list__root {

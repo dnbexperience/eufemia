@@ -30,7 +30,7 @@ const snapshotProps = {
   triangle_position: null,
   prevent_selection: null,
   align_autocomplete: null,
-  input_component: null,
+  input_element: null,
   size: null,
   opened: true,
   show_submit_button: true,
@@ -416,6 +416,43 @@ describe('Autocomplete component', () => {
     expect(Comp.find('.dnb-input__input').instance().value).toBe(
       mockData[value]
     )
+  })
+
+  it('can be reset to null', () => {
+    let value
+    const Comp = mount(
+      <Component
+        {...props}
+        placeholder="placeholder"
+        value={null}
+        data={mockData}
+      />
+    )
+
+    expect(Comp.find('.dnb-input__input').instance().value).toBe('')
+    expect(Comp.find('.dnb-input__placeholder').text()).toBe('placeholder')
+
+    value = 1
+    Comp.setProps({ value })
+
+    expect(Comp.find('.dnb-input__input').instance().value).toBe(
+      mockData[value]
+    )
+
+    Comp.setProps({ value: undefined })
+
+    expect(Comp.find('.dnb-input__input').instance().value).toBe('')
+
+    value = 0
+    Comp.setProps({ value })
+
+    expect(Comp.find('.dnb-input__input').instance().value).toBe(
+      mockData[value]
+    )
+
+    Comp.setProps({ value: null })
+
+    expect(Comp.find('.dnb-input__input').instance().value).toBe('')
   })
 
   it('behaves by default to take the selection in account', async () => {
@@ -879,6 +916,25 @@ describe('Autocomplete component', () => {
     )
   })
 
+  it('has correct value after useEffect value state change', () => {
+    const newValue = 0
+    const UpdateValue = () => {
+      const [value, setValue] = React.useState(props.value)
+
+      React.useEffect(() => {
+        setValue(newValue)
+      }, [])
+
+      return <Component {...props} data={mockData} value={value} />
+    }
+
+    const Comp = mount(<UpdateValue />)
+
+    expect(Comp.find('.dnb-input__input').instance().value).toBe(
+      mockData[newValue]
+    )
+  })
+
   it('has a disabled attribute, once we set disabled to true', () => {
     const Comp = mount(
       <Component
@@ -904,13 +960,42 @@ describe('Autocomplete component', () => {
     ).toContain('chevron down')
   })
 
+  it('supports input_element properly', () => {
+    const onChange = jest.fn()
+    const Comp = mount(
+      <Component
+        {...mockProps}
+        data={mockData}
+        input_element={(props) => (
+          <input
+            {...props}
+            type="text"
+            aria-label="label"
+            onChange={onChange}
+          />
+        )}
+      />
+    )
+
+    expect(Comp.exists('input')).toBe(true)
+    expect(Array.from(Comp.find('input').instance().classList)).toContain(
+      'dnb-autocomplete__input'
+    )
+    expect(Comp.find('input').instance().getAttribute('aria-label')).toBe(
+      'label'
+    )
+
+    const value = 'new value'
+    Comp.find('input').simulate('change', { target: { value } })
+    expect(onChange).toHaveBeenCalledTimes(1)
+  })
+
   it('submit_element will replace the internal SubmitButton', () => {
     const Comp = mount(
       <Component
         id="autocomplete-id"
         data={mockData}
         {...mockProps}
-        // show_submit_button
         submit_element={<SubmitButton icon="bell" />}
       />
     )

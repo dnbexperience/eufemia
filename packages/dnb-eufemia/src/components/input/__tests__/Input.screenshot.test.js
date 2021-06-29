@@ -75,6 +75,15 @@ describe('Input screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match input with clear button in hover state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="input-clear"]',
+      simulateSelector:
+        '[data-visual-test="input-clear"] .dnb-input:nth-of-type(3) .dnb-button--input-button',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
   it('have to match password input', async () => {
     const screenshot = await testPageScreenshot({
       ...extend('input-password'),

@@ -95,10 +95,7 @@ export default class Dropdown extends React.PureComponent {
     ]),
     size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
     align_dropdown: PropTypes.oneOf(['left', 'right']),
-    trigger_component: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.node,
-    ]),
+    trigger_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
     data: PropTypes.oneOfType([
       PropTypes.oneOfType([
         PropTypes.string,
@@ -187,7 +184,7 @@ export default class Dropdown extends React.PureComponent {
     independent_width: false,
     size: 'default',
     align_dropdown: null,
-    trigger_component: null,
+    trigger_element: null,
     data: null,
     default_value: null,
     value: 'initval',
@@ -219,17 +216,15 @@ export default class Dropdown extends React.PureComponent {
   }
 
   render() {
-    const {
-      more_menu,
-      action_menu,
-      prevent_selection,
-      children,
-      data,
-    } = this.props
+    // generate ID here, so we can send it along the provider
+    const id = this.props.id || makeUniqueId()
+    const { more_menu, action_menu, prevent_selection, children, data } =
+      this.props
 
     return (
       <DrawerListProvider
         {...this.props}
+        id={id}
         data={data || children}
         opened={null}
         tagName="dnb-dropdown"
@@ -240,7 +235,7 @@ export default class Dropdown extends React.PureComponent {
           isTrue(prevent_selection)
         }
       >
-        <DropdownInstance {...this.props} />
+        <DropdownInstance {...this.props} id={id} />
       </DrawerListProvider>
     )
   }
@@ -277,8 +272,6 @@ class DropdownInstance extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    this.setHidden()
-    clearTimeout(this._hideTimeout)
     clearTimeout(this._focusTimeout)
   }
 
@@ -322,10 +315,18 @@ class DropdownInstance extends React.PureComponent {
     switch (keycode(e)) {
       case 'enter':
       case 'space':
+        e.preventDefault()
+        this.setVisible()
+        break
+
       case 'up':
       case 'down':
         e.preventDefault()
         this.setVisible()
+
+        if (this.context.drawerList.opened) {
+          this.context.drawerList.scrollToItem(0)
+        }
         break
 
       case 'esc':
@@ -349,23 +350,27 @@ class DropdownInstance extends React.PureComponent {
     })
 
     if (res !== false) {
-      clearTimeout(this._focusTimeout)
-      this._focusTimeout = setTimeout(() => {
-        try {
-          const element = this._refButton.current._ref.current
-          if (element && typeof element.focus === 'function') {
-            if (args.preventHideFocus !== true) {
-              element.focus({ preventScroll: true })
-            }
-            dispatchCustomElementEvent(this, 'on_hide_focus', { element })
-          }
-        } catch (e) {
-          // do noting
-        }
-      }, 1) // NVDA / Firefox needs a delay to set this focus
+      this.setFocus(args)
     }
 
     return res
+  }
+
+  setFocus = (args) => {
+    clearTimeout(this._focusTimeout)
+    this._focusTimeout = setTimeout(() => {
+      try {
+        const element = this._refButton.current._ref.current
+        if (element && typeof element.focus === 'function') {
+          if (args.preventHideFocus !== true) {
+            element.focus({ preventScroll: true })
+          }
+          dispatchCustomElementEvent(this, 'on_hide_focus', { element })
+        }
+      } catch (e) {
+        // do noting
+      }
+    }, 1) // NVDA / Firefox needs a delay to set this focus
   }
 
   onSelectHandler = (args) => {
@@ -437,7 +442,7 @@ class DropdownInstance extends React.PureComponent {
       triangle_position,
       skip_portal,
       portal_class,
-      trigger_component: CustomTrigger,
+      trigger_element: CustomTrigger,
       more_menu,
       action_menu,
       independent_width,
@@ -667,6 +672,7 @@ class DropdownInstance extends React.PureComponent {
                 on_change={this.onChangeHandler}
                 on_select={this.onSelectHandler}
                 on_hide={this.onHideHandler}
+                handle_dismiss_focus={this.setFocus}
               />
             </span>
 
