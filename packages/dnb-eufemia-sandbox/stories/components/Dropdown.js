@@ -912,6 +912,9 @@ export function UpdateData() {
     if (data?.selected_key === 'key_1' || data?.selected_key === 'key_2') {
       setFiltersToShow(filter2ToShow)
       setValue(null)
+      setTimeout(() => {
+        setPreventClose(false)
+      }, 1)
       return
     }
     setPreventClose(false)
@@ -925,7 +928,7 @@ export function UpdateData() {
 
   return (
     <>
-      <Button
+      {/* <Button
         // left
         onClick={() => {
           setValue(undefined)
@@ -933,7 +936,7 @@ export function UpdateData() {
         right
       >
         Reset
-      </Button>
+      </Button> */}
       {/* <Button
         // left
         onClick={() => {
@@ -956,6 +959,7 @@ export function UpdateData() {
         // prevent_close={preventClose}
       /> */}
       <Dropdown
+        top="10rem"
         data={filtersToShow}
         title={'Velg filter:'}
         on_change={onFilterChange}
@@ -964,9 +968,22 @@ export function UpdateData() {
         //stretch
         value={value}
         size="large"
-        // prevent_close={preventClose}
+        direction="top"
+        prevent_close={preventClose}
       />
-      <Button
+      <Dropdown
+        top="10rem"
+        data={filtersToShow}
+        title={'Velg filter:'}
+        on_change={onFilterChange}
+        on_show={onShow}
+        //skip_portal
+        //stretch
+        value={value}
+        size="large"
+        prevent_close={preventClose}
+      />
+      {/* <Button
         left
         onClick={() => {
           setFiltersToShow(filter1ToShow)
@@ -981,7 +998,7 @@ export function UpdateData() {
         }}
       >
         Update 2
-      </Button>
+      </Button> */}
     </>
   )
 }
