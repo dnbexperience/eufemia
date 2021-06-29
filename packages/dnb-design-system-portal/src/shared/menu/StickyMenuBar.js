@@ -23,10 +23,16 @@ import { MediaQuery } from '@dnb/eufemia/src/shared'
 
 const Header = styled.header`
   position: fixed;
-  z-index: 4000;
+
+  /**
+  - over DrawerList (Dropdown)
+  - under Tooltip
+  */
+  z-index: 3150;
   [data-dnb-modal-active='true'] & {
     z-index: 3000;
   }
+
   top: 0;
   left: 0;
   width: 100%;
