@@ -490,7 +490,7 @@ export class DetectOutsideClickClass {
       this.handleClickOutside = (event) => {
         this.checkOutsideClick(
           {
-            currentElement: event.target,
+            event,
             ignoreElements,
           },
           () => typeof onSuccess === 'function' && onSuccess({ event })
@@ -544,20 +544,21 @@ export class DetectOutsideClickClass {
     }
   }
 
-  checkOutsideClick = (
-    { currentElement, ignoreElements },
-    onSuccess = null
-  ) => {
+  checkOutsideClick = ({ event, ignoreElements }, onSuccess = null) => {
     try {
-      // scrollbars are on HTML, therefore we ignore the click
+      const currentElement = event.target
+
+      // we also check if currentElement is documentElement
+      // and if it has scrollbars, we then ignore the click
       if (
-        typeof currentElement.tagName === 'undefined' ||
-        /html/i.test(currentElement.tagName) // we may also ignore |body
+        currentElement.tagName === 'HTML' &&
+        (event.pageX > document.documentElement.clientWidth - 40 ||
+          event.pageY > document.documentElement.clientHeight - 40)
       ) {
         return // stop here
       }
 
-      // check if element has like "overflow: scroll"
+      // check if element has e.g. "overflow: scroll"
       if (checkIfHasScrollbar(currentElement)) {
         return // stop here
       }
@@ -594,9 +595,12 @@ export const checkIfHasScrollbar = (elem) => {
   )
 }
 const overflowIsScrollable = (elem) => {
-  const style = window.getComputedStyle(elem)
+  const style =
+    typeof window !== 'undefined' ? window.getComputedStyle(elem) : {}
   return /scroll|auto/i.test(
-    style.overflow + (style.overflowX || '') + (style.overflowY || '')
+    (style.overflow || '') +
+      (style.overflowX || '') +
+      (style.overflowY || '')
   )
 }
 
