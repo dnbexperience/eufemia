@@ -8,7 +8,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 import { createBrowserHistory } from 'history'
 
 export const StepIndicatorDefault = () => (
-  <ComponentBox data-visual-test="step-indicator-buttons" hideSyntaxButton>
+  <ComponentBox data-visual-test="step-indicator-buttons">
     {() => /* jsx */ `
 <StepIndicator
   enable_navigation={true}
@@ -35,7 +35,7 @@ export const StepIndicatorDefault = () => (
 )
 
 export const StepIndicatorCustomized = () => (
-  <ComponentBox hideSyntaxButton useRender>
+  <ComponentBox useRender>
     {() => /* jsx */ `
 function CustomStepIndicator({ children, ...props }) {
   const [step, setStep] = React.useState(0)
@@ -124,7 +124,7 @@ export const StepIndicatorTextOnly = () => (
 )
 
 export const StepIndicatorCustomRenderer = () => (
-  <ComponentBox hideSyntaxButton>
+  <ComponentBox>
     {() => /* jsx */ `
 <StepIndicator
   enable_navigation={true}
@@ -171,7 +171,6 @@ export const StepIndicatorUrls = () => (
   <ComponentBox
     data-visual-test="step-indicator-urls"
     scope={{ createBrowserHistory }}
-    hideSyntaxButton
     hideCode
     useRender
   >
