@@ -7,8 +7,8 @@ hideTabs:
   - title: Events
 ---
 
-import ToggleButtonInfo from 'Pages/uilib/components/tooltip/info'
-import ToggleButtonDemos from 'Pages/uilib/components/tooltip/demos'
+import TooltipInfo from 'Pages/uilib/components/tooltip/info'
+import TooltipDemos from 'Pages/uilib/components/tooltip/demos'
 
-<ToggleButtonInfo />
-<ToggleButtonDemos />
+<TooltipInfo />
+<TooltipDemos />
