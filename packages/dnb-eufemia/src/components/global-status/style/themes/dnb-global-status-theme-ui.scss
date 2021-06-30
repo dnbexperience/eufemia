@@ -29,6 +29,9 @@
     font-size: 1rem;
   }
   &__message {
+    // to get the red line on the bottom
+    transform: translate3d(0, -1px, 0);
+
     &__content {
       color: var(--color-black-80);
 

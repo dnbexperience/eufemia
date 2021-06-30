@@ -147,7 +147,8 @@ exports[`Section scss have to match snapshot 1`] = `
  *
  */
 .dnb-section {
-  position: relative; }
+  position: relative;
+  display: flow-root; }
   .dnb-section::after {
     content: '';
     position: absolute;

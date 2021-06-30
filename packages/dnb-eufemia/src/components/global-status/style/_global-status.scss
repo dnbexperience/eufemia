@@ -8,6 +8,10 @@
 }
 
 .dnb-global-status {
+  &.dnb-section {
+    display: block;
+  }
+
   &__wrapper {
     position: relative;
     z-index: 1;
@@ -74,17 +78,11 @@
     cursor: text;
     z-index: 1;
 
-    // to get the red line on the bottom
-    margin-top: -1px;
-
     &__content {
       display: flex;
       flex-direction: column;
 
       padding: 2rem 0 2.5rem;
-
-      // to get the red line on the bottom
-      margin-bottom: 1px;
 
       & .dnb-p,
       .dnb-spacing & .dnb-p,
@@ -118,9 +116,6 @@
 
   &__content {
     width: 100%;
-
-    // to get the red line on the bottom
-    // transform: translate3d(0, -1px, 0);
 
     .dnb-ul,
     .dnb-spacing & .dnb-ul,
