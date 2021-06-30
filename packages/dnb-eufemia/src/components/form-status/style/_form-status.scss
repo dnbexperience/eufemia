@@ -16,20 +16,22 @@
     opacity 400ms #{$defaultEasing}, margin 400ms #{$defaultEasing},
     padding 400ms #{$defaultEasing};
 
-  &--is-animating {
-    overflow: hidden; // because of animation
-  }
   &--hidden {
-    will-change: height;
+    will-change: height, opacity, margin, padding;
 
     width: 0;
     height: 0;
 
-    // overwrite external adjustment
+    opacity: 0;
+  }
+  &--is-animating {
+    overflow: hidden; // because of animation
+    width: auto;
+  }
+  &--disappear,
+  &--hidden {
     margin: 0 !important;
     padding: 0 !important;
-
-    opacity: 0;
   }
 
   &__shell {
