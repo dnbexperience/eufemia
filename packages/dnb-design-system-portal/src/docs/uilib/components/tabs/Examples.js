@@ -45,7 +45,6 @@ export const TabsExampleContentObject = () => (
       scope={{ exampleContent }}
       data-visual-test="tabs-tablist"
       useRender
-      hideSyntaxButton
     >
       {() => /* jsx */ `
 const data = [
@@ -187,7 +186,6 @@ export const TabsExampleReactRouterNavigation = () =>
         title=""
         scope={{ BrowserRouter, Route, withRouter }}
         useRender
-        hideSyntaxButton
       >
         {() => /* jsx */ `
 // import { Router, Route, withRouter } from 'react-router-dom'
@@ -228,11 +226,7 @@ render(<BrowserRouter><TabsNav /></BrowserRouter>)
 export const TabsExampleReachRouterNavigation = () =>
   typeof window === 'undefined' ? null : (
     <Wrapper>
-      <ComponentBox
-        scope={{ Location, Router, navigate }}
-        useRender
-        hideSyntaxButton
-      >
+      <ComponentBox scope={{ Location, Router, navigate }} useRender>
         {() => /* jsx */ `
 // import { Location, Router, navigate } from '@reach/router'
 const Home = () => <H2>Home</H2>
