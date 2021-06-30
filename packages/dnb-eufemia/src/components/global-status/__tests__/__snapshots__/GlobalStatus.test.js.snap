@@ -27,13 +27,14 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
 .dnb-global-status__icon {
   font-size: 1rem; }
 
-.dnb-global-status__message__content {
-  color: var(--color-black-80); }
-  .dnb-global-status__message__content > .dnb-p {
-    font-weight: var(--font-weight-medium); }
-
-.dnb-global-status__message.dnb-section--white ::selection {
-  background-color: var(--color-mint-green); }
+.dnb-global-status__message {
+  transform: translate3d(0, -1px, 0); }
+  .dnb-global-status__message__content {
+    color: var(--color-black-80); }
+    .dnb-global-status__message__content > .dnb-p {
+      font-weight: var(--font-weight-medium); }
+  .dnb-global-status__message.dnb-section--white ::selection {
+    background-color: var(--color-mint-green); }
 
 .dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
   color: var(--color-white); }
@@ -553,7 +554,8 @@ button.dnb-button::-moz-focus-inner {
  *
  */
 .dnb-section {
-  position: relative; }
+  position: relative;
+  display: flow-root; }
   .dnb-section::after {
     content: '';
     position: absolute;
@@ -635,6 +637,9 @@ button.dnb-button::-moz-focus-inner {
 :root {
   --global-status-easing: cubic-bezier(0.42, 0, 0, 1); }
 
+.dnb-global-status.dnb-section {
+  display: block; }
+
 .dnb-global-status__wrapper {
   position: relative;
   z-index: 1; }
@@ -683,13 +688,11 @@ html[data-visual-test] .dnb-global-status__shell {
 
 .dnb-global-status__message {
   cursor: text;
-  z-index: 1;
-  margin-top: -1px; }
+  z-index: 1; }
   .dnb-global-status__message__content {
     display: flex;
     flex-direction: column;
-    padding: 2rem 0 2.5rem;
-    margin-bottom: 1px; }
+    padding: 2rem 0 2.5rem; }
     .dnb-global-status__message__content .dnb-p,
     .dnb-spacing .dnb-global-status__message__content .dnb-p,
     .dnb-spacing .dnb-global-status__message__content .dnb-p:not([class*='dnb-space']) {

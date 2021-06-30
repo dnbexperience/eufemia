@@ -6,6 +6,10 @@
 @mixin SectionStyle() {
   position: relative;
 
+  // flow-root allows content to have margin top and bottom
+  // it eliminates margin-collapsing
+  display: flow-root;
+
   &::after {
     content: '';
     position: absolute;
