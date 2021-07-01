@@ -99,7 +99,7 @@ export const TypesSandbox = () => {
 
       <Tabs onKeyDown={() => {}}>test</Tabs>
 
-      {/* <Modal.Inner>test</Modal.Inner> */}
+      {/* <Modal.Content>test</Modal.Content> */}
 
       <Tabs.Content hash={'2'} title={'123'} onClick={() => {}}>
         ...

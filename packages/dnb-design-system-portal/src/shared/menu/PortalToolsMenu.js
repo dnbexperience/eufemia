@@ -35,7 +35,7 @@ export default function PortalToolsMenu({
       left="x-small"
       {...props}
     >
-      <Modal.Inner spacing>
+      <Modal.Content spacing>
         <Space>
           <H2 skeleton={false} size="small">
             Show everything behind skeletons
@@ -58,7 +58,7 @@ export default function PortalToolsMenu({
             <ToggleGrid />
           </Space>
         </Space>
-      </Modal.Inner>
+      </Modal.Content>
     </Modal>
   )
 }

@@ -32,9 +32,10 @@ import ModalHeader, { ModalHeaderBar, CloseButton } from './ModalHeader'
 export default class Modal extends React.PureComponent {
   static tagName = 'dnb-modal'
   static contextType = Context
-  static Header = ModalHeader
   static Bar = ModalHeaderBar
-  static Inner = ModalInner
+  static Header = ModalHeader
+  static Content = ModalInner
+  static Inner = ModalInner // deprecated
 
   static propTypes = {
     id: PropTypes.string,

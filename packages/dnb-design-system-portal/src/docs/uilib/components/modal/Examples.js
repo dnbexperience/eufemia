@@ -11,9 +11,9 @@ export const ModalExampleDefault = () => (
   <ComponentBox data-visual-test="modal-trigger-default">
     {() => /* jsx */ `
 <Modal title="Modal Title">
-  <Modal.Inner spacing style_type="mint-green">
+  <Modal.Content spacing style_type="mint-green">
     <P>This is the modal text. Triggered by the help button.</P>
-  </Modal.Inner>
+  </Modal.Content>
 </Modal>
 	`}
   </ComponentBox>
@@ -27,9 +27,9 @@ export const ModalExampleHelpButton = () => (
   placeholder="Placeholder ..."
   suffix={
     <Modal>
-      <Modal.Inner spacing style_type="pistachio">
+      <Modal.Content spacing style_type="pistachio">
         <P>Help text</P>
-      </Modal.Inner>
+      </Modal.Content>
     </Modal>
   }
 />
@@ -80,7 +80,7 @@ export const ModalExampleDrawerHeader = () => (
       ]}
     />
   </Modal.Header>
-  <Modal.Inner>
+  <Modal.Content>
     <Tabs.Content id="unique-linked-id">
       {({ title }) => {
         return (
@@ -117,7 +117,7 @@ export const ModalExampleDrawerHeader = () => (
       massa sapien tristique cum senectus sed tortor natoque
       amet hendrerit ut fusce ipsum quis
     </P>
-  </Modal.Inner>
+  </Modal.Content>
 </Modal>
 	`}
   </ComponentBox>
@@ -131,9 +131,9 @@ export const ModalExampleDrawerBasic = () => (
   title="Drawer Title"
   trigger_text="Open Drawer"
 >
-  <Modal.Inner>
+  <Modal.Content>
     <P top>This is a left aligned Drawer content.</P>
-  </Modal.Inner>
+  </Modal.Content>
 </Modal>
 	`}
   </ComponentBox>

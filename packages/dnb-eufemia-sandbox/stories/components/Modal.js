@@ -141,9 +141,9 @@ export const ModalSandbox = () => (
         // open_state="opened"
         // no_animation
       >
-        <Modal.Inner spacing style_type="mint-green">
+        <Modal.Content spacing style_type="mint-green">
           <P>This is the modal text. Triggered by the help button.</P>
-        </Modal.Inner>
+        </Modal.Content>
       </Modal>
     </Box>
 
@@ -207,7 +207,7 @@ export const ModalSandbox = () => (
           console.log('on_close', e)
         }}
       >
-        <Modal.Inner spacing>
+        <Modal.Content spacing>
           <Hr />
           <H2 top>Some content</H2>
           <Input>Focus me with Tab key</Input>
@@ -216,7 +216,7 @@ export const ModalSandbox = () => (
               <Switch label="Checked:" checked />
             </P>
           </Section>
-        </Modal.Inner>
+        </Modal.Content>
       </Modal>
     </Box>
     <Box>
@@ -339,7 +339,7 @@ export const DrawerSandbox = () => (
             ]}
           />
         </Modal.Header>
-        <Modal.Inner>
+        <Modal.Content>
           <Tabs.Content id="unique-linked-id">
             {({ title }) => {
               return (
@@ -380,7 +380,7 @@ export const DrawerSandbox = () => (
             }}
           </Tabs.Content>
           <FillContent />
-        </Modal.Inner>
+        </Modal.Content>
       </Modal>
     </Box>
 
@@ -391,9 +391,9 @@ export const DrawerSandbox = () => (
         trigger_text="Open Drawer"
         trigger_title="Click me"
       >
-        <Modal.Inner>
+        <Modal.Content>
           <P top>This is a left aligned Drawer content.</P>
-        </Modal.Inner>
+        </Modal.Content>
       </Modal>
     </Box>
 
@@ -417,13 +417,13 @@ export const DrawerSandbox = () => (
         // content_class="content_class"
         // class="inner_class"
       >
-        <Modal.Inner style_type="pistachio">
-          Modal.Inner
+        <Modal.Content style_type="pistachio">
+          Modal.Content
           <Modal mode="drawer" title="Title 2" open_state="opened">
             New content 2 <Modal title="Title 3">New content 3</Modal>
           </Modal>
           {/* <FillContent /> */}
-        </Modal.Inner>
+        </Modal.Content>
       </Modal>
     </Box>
   </Wrapper>
@@ -455,7 +455,7 @@ class ModalRerenderExample extends React.PureComponent {
         // trigger_disabled
         // trigger_hidden
       >
-        <Modal.Inner spacing>
+        <Modal.Content spacing>
           {/* <Hr /> */}
           {/* <Box>
           <H2>Some content</H2>
@@ -469,7 +469,7 @@ class ModalRerenderExample extends React.PureComponent {
             direction="top"
           />
           {/* <Switch label="Checked:" checked right /> */}
-        </Modal.Inner>
+        </Modal.Content>
       </Modal>
     )
   }
