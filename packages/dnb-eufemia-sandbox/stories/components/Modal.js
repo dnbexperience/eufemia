@@ -18,12 +18,14 @@ import {
   DatePicker,
   FormSet,
   FormRow,
+  Tabs,
+  FormStatus,
   ProgressIndicator,
   // Space,
   NumberFormat,
 } from '@dnb/eufemia/src/components'
 import { ScrollView } from '@dnb/eufemia/src/fragments'
-import { H2, P, Hr } from '@dnb/eufemia/src/elements'
+import { H1, H2, P, Hr } from '@dnb/eufemia/src/elements'
 
 export default {
   title: 'Eufemia/Components/Modal',
@@ -135,9 +137,11 @@ export const ModalSandbox = () => (
     <Box>
       <Modal
         title="Modal Title"
+        // fullscreen
         // open_state="opened"
+        // no_animation
       >
-        <Modal.Inner top spacing style_type="mint-green">
+        <Modal.Inner spacing style_type="mint-green">
           <P>This is the modal text. Triggered by the help button.</P>
         </Modal.Inner>
       </Modal>
@@ -257,21 +261,124 @@ export const DrawerSandbox = () => (
         // align_content="right"
         // align_content="center"
         // drawer_offset={}
-        title="Tertiary test"
+        title="Original title"
         // title={<span className="dnb-sr-only">Test</span>}
         // min_width="20vw"
         // max_width="40vw"
         // overlay_class="overlay_class"
         // content_class="content_class"
         // class="inner_class"
+        // header_content={
+        //   <>
+        //     <P bottom>This is a lorem ipsum dolor</P>
+        //     <Button bottom size="large">
+        //       Lorem ipsum
+        //     </Button>
+        //     <Button bottom size="large" variant="secondary">
+        //       Dolor sit
+        //     </Button>
+        //     <FormStatus state="info">
+        //       This is a lorem ipsum dolor
+        //     </FormStatus>
+        //     <Tabs
+        //       id="unique-linked-id"
+        //       data={[
+        //         {
+        //           title: 'One',
+        //           key: 'one',
+        //         },
+        //         {
+        //           title: 'Two',
+        //           key: 'two',
+        //         },
+        //       ]}
+        //     >
+        //       content
+        //     </Tabs>
+        //   </>
+        // }
       >
-        <Modal.Inner style_type="pistachio">
-          <Input>Focus me with Tab key</Input>
-          <Section top bottom spacing>
-            <P>
-              <Switch label="Checked:" checked />
-            </P>
-          </Section>
+        <Modal.Bar>
+          <Button
+            variant="tertiary"
+            icon="chevron_left"
+            icon_position="left"
+            wrap
+          >
+            Tilbake ipsum Praesent rutrum
+          </Button>
+          {/* Tilbake Lorem ipsum Praesent rutrum ipsum Praesent rutrum ipsum
+          Praesent rutrum ipsum Praesent rutrum ipsum Praesent rutrum */}
+        </Modal.Bar>
+        <Modal.Header>
+          <div>
+            {/* <h1>Custom heading</h1> */}
+            <H1 size="x-large" bottom>
+              Custom heading
+            </H1>
+          </div>
+          <P bottom>This is a lorem ipsum dolor</P>
+          <Button bottom size="large">
+            Lorem ipsum
+          </Button>
+          <Button bottom size="large" variant="secondary">
+            Dolor sit
+          </Button>
+          <FormStatus state="info">This is a lorem ipsum dolor</FormStatus>
+          <Tabs
+            id="unique-linked-id"
+            data={[
+              {
+                title: 'One',
+                key: 'one',
+              },
+              {
+                title: 'Two',
+                key: 'two',
+              },
+            ]}
+          />
+        </Modal.Header>
+        <Modal.Inner>
+          <Tabs.Content id="unique-linked-id">
+            {({ title }) => {
+              return (
+                <>
+                  <H2>{title}</H2>
+                  <P top>This is a left aligned Drawer content.</P>
+                  <P top>
+                    Elementum eu suspendisse sit platea elit porttitor
+                    magna laoreet ad ultrices tempus urna curae parturient
+                    conubia quisque viverra eget vestibulum neque pulvinar
+                    semper vulputate id dis varius pellentesque nunc
+                    egestas risus amet mus aptent luctus imperdiet netus
+                    natoque cubilia mattis nostra proin ornare scelerisque
+                    sodales faucibus placerat sem bibendum pretium rutrum
+                    vitae sociis ligula inceptos morbi quam mi sed pharetra
+                    fermentum tortor ullamcorper ipsum tellus eros euismod
+                    volutpat nisl dui lectus fames suscipit phasellus
+                    praesent justo mollis montes velit taciti gravida lacus
+                    commodo senectus feugiat lorem etiam consequat
+                    penatibus cum hendrerit accumsan orci potenti purus
+                    nulla interdum metus sollicitudin magnis libero sapien
+                    habitant non class ridiculus consectetur congue nec
+                    litora sociosqu aliquet felis in rhoncus nascetur odio
+                    ultricies nullam a iaculis massa nisi ante nam cras
+                    aenean erat facilisi vivamus ut cursus auctor arcu
+                    lobortis himenaeos dictum habitasse tristique mauris at
+                    blandit sagittis nibh dignissim condimentum per integer
+                    duis lacinia malesuada est adipiscing maecenas donec
+                    eleifend turpis dictumst dapibus tempor fusce aliquam
+                    torquent hac ac curabitur venenatis et tincidunt augue
+                    porta vehicula enim facilisis posuere primis molestie
+                    convallis diam vel fringilla dolor leo quis diam cursus
+                    massa sapien tristique cum senectus sed tortor natoque
+                    amet hendrerit ut fusce ipsum quis
+                  </P>
+                </>
+              )
+            }}
+          </Tabs.Content>
           <FillContent />
         </Modal.Inner>
       </Modal>
@@ -285,7 +392,7 @@ export const DrawerSandbox = () => (
         trigger_title="Click me"
       >
         <Modal.Inner>
-          <P>This is a left aligned Drawer content.</P>
+          <P top>This is a left aligned Drawer content.</P>
         </Modal.Inner>
       </Modal>
     </Box>

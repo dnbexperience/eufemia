@@ -68,7 +68,24 @@ describe('Drawer screenshot', () => {
       selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="modal-drawer"] button:first-of-type',
+        '[data-visual-test="modal-drawer-basic"] button:first-of-type',
+      screenshotSelector: '.dnb-modal__content',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Drawer header screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/modal/demos',
+    pageViewport,
+  })
+  it('have to match the drawer with custom header content', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="modal-drawer-header"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
     })
     expect(screenshot).toMatchImageSnapshot()

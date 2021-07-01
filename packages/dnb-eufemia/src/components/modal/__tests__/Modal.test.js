@@ -202,53 +202,6 @@ describe('Modal component', () => {
     Comp.find('button#close-me').simulate('click')
     expect(on_close).toHaveBeenCalledTimes(1)
   })
-  it('will set focus on first heading', async () => {
-    const Comp = mount(
-      <Component no_animation={true} title="modal title">
-        modal content
-      </Component>,
-      { attachTo: attachToBody() }
-    )
-    Comp.find('button').simulate('click')
-    await wait(2)
-
-    // and check the class of that element
-    expect(
-      document.activeElement.classList.contains('dnb-modal__title')
-    ).toBe(true)
-
-    Comp.find('button.dnb-modal__close-button').simulate('click')
-
-    // and check the class of that element
-    expect(
-      document.activeElement.classList.contains('dnb-modal__trigger')
-    ).toBe(true)
-  })
-  it('will set focus on clsoe button if no h1 is given', async () => {
-    const Comp = mount(
-      <Component
-        no_animation={true}
-        // hide_close_button
-      >
-        modal content
-      </Component>,
-      { attachTo: attachToBody() }
-    )
-    Comp.find('button').simulate('click')
-    await wait(2)
-
-    // and check the class of that element
-    expect(
-      document.activeElement.classList.contains('dnb-modal__close-button')
-    ).toBe(true)
-
-    Comp.find('button.dnb-modal__close-button').simulate('click')
-
-    // and check the class of that element
-    expect(
-      document.activeElement.classList.contains('dnb-modal__trigger')
-    ).toBe(true)
-  })
   it('will set focus on content div if no h1 and close button is given', async () => {
     const Comp = mount(
       <Component no_animation={true} hide_close_button>
@@ -275,6 +228,60 @@ describe('Modal component', () => {
     expect(
       document.activeElement.classList.contains('dnb-modal__trigger')
     ).toBe(true)
+  })
+  it('will warn if first heading is not h1', async () => {
+    process.env.NODE_ENV = 'development'
+    jest.spyOn(global.console, 'log')
+    global.console.log = jest.fn()
+
+    const Comp = mount(
+      <Component no_animation={true}>
+        <Component.Header>
+          <h2>h2</h2>
+        </Component.Header>
+      </Component>,
+      { attachTo: attachToBody() }
+    )
+    Comp.find('button').simulate('click')
+    await wait(2)
+
+    expect(global.console.log).toHaveBeenCalledTimes(1)
+  })
+  it('will only use one heading if a custom one is given', () => {
+    const Comp = mount(
+      <Component no_animation={true} title="original title">
+        <Component.Header>
+          <div>
+            <h1>custom heading</h1>
+          </div>
+        </Component.Header>
+      </Component>,
+      { attachTo: attachToBody() }
+    )
+    Comp.find('button').simulate('click')
+
+    expect(document.querySelectorAll('h1')).toHaveLength(1)
+    expect(document.querySelector('h1').textContent).toBe('custom heading')
+  })
+  it('will provide custom bar, header and content if given', () => {
+    const Comp = mount(
+      <Component no_animation={true} direct_dom_return>
+        <Component.Bar>bar content</Component.Bar>
+        <Component.Header>header content</Component.Header>
+        <Component.Content>modal content</Component.Content>
+      </Component>,
+      { attachTo: attachToBody() }
+    )
+    Comp.find('button').simulate('click')
+
+    const elements = document.querySelectorAll(
+      '.dnb-modal__content__wrapper > .dnb-section'
+    )
+    console.log('elements', elements.length)
+
+    expect(elements[0].textContent).toContain('bar content')
+    expect(elements[1].textContent).toContain('header content')
+    expect(elements[2].textContent).toContain('modal content')
   })
   it('has support for nested modals', () => {
     const on_open = {

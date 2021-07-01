@@ -8,6 +8,7 @@ exports[`Modal component have to match snapshot 1`] = `
       "props": Object {
         "align_content": "'left'",
         "animation_duration": "animation_duration",
+        "bar_content": "bar_content",
         "children": "children",
         "class": "class",
         "className": "className",
@@ -21,6 +22,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "disabled": "disabled",
         "focus_selector": "focus_selector",
         "fullscreen": "'auto'",
+        "header_content": "header_content",
         "hide_close_button": "hide_close_button",
         "id": "id",
         "labelled_by": "labelled_by",
@@ -69,6 +71,7 @@ exports[`Modal component have to match snapshot 1`] = `
   }
   align_content={null}
   animation_duration={300}
+  bar_content={null}
   class={null}
   className={null}
   close_button_attributes={null}
@@ -81,6 +84,7 @@ exports[`Modal component have to match snapshot 1`] = `
   disabled={null}
   focus_selector={null}
   fullscreen="auto"
+  header_content={null}
   hide_close_button={false}
   id="modal_id"
   labelled_by={null}
@@ -646,6 +650,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "props": Object {
           "align_content": "'left'",
           "animation_duration": "animation_duration",
+          "bar_content": "bar_content",
           "children": "children",
           "class": "class",
           "className": "className",
@@ -659,6 +664,7 @@ exports[`Modal component have to match snapshot 1`] = `
           "disabled": "disabled",
           "focus_selector": "focus_selector",
           "fullscreen": "'auto'",
+          "header_content": "header_content",
           "hide_close_button": "hide_close_button",
           "id": "id",
           "labelled_by": "labelled_by",
@@ -707,6 +713,7 @@ exports[`Modal component have to match snapshot 1`] = `
     }
     align_content={null}
     animation_duration={300}
+    bar_content={null}
     class={null}
     className={null}
     closeModal={[Function]}
@@ -719,6 +726,7 @@ exports[`Modal component have to match snapshot 1`] = `
     direct_dom_return={true}
     focus_selector={null}
     fullscreen="auto"
+    header_content={null}
     hide={false}
     hide_close_button={false}
     id="modal_id"
@@ -749,6 +757,7 @@ exports[`Modal component have to match snapshot 1`] = `
           "props": Object {
             "align_content": "'left'",
             "animation_duration": "animation_duration",
+            "bar_content": "bar_content",
             "children": "children",
             "class": "class",
             "className": "className",
@@ -762,6 +771,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "disabled": "disabled",
             "focus_selector": "focus_selector",
             "fullscreen": "'auto'",
+            "header_content": "header_content",
             "hide_close_button": "hide_close_button",
             "id": "id",
             "labelled_by": "labelled_by",
@@ -810,6 +820,7 @@ exports[`Modal component have to match snapshot 1`] = `
       }
       align_content={null}
       animation_duration={300}
+      bar_content={null}
       class={null}
       className={null}
       closeModal={[Function]}
@@ -821,6 +832,7 @@ exports[`Modal component have to match snapshot 1`] = `
       content_id="dnb-modal-modal_id"
       focus_selector={null}
       fullscreen="auto"
+      header_content={null}
       hide={false}
       hide_close_button={false}
       id="modal_id"
@@ -878,156 +890,251 @@ exports[`Modal component have to match snapshot 1`] = `
             >
               <div
                 className="dnb-modal__content__spacing dnb-no-focus"
+                style={null}
                 tabIndex="-1"
               >
-                <h1
-                  className="dnb-modal__title dnb-no-focus dnb-h--large"
-                  id="dnb-modal-modal_id-title"
-                  tabIndex="-1"
-                >
-                  modal_title
-                </h1>
-                <CloseButton
+                <ModalHeaderBar
                   className={null}
-                  close_title="close_title"
-                  icon_position="left"
-                  on_click={[Function]}
-                  size="large"
                 >
-                  <Button
-                    bounding={null}
+                  <Section
                     class={null}
-                    className="dnb-modal__close-button"
-                    custom_content={null}
-                    custom_element={null}
-                    custom_method={null}
-                    disabled={null}
-                    element={null}
-                    global_status_id={null}
-                    href={null}
-                    icon="close"
-                    icon_position="left"
-                    icon_size={null}
-                    id={null}
-                    innerRef={null}
-                    inner_ref={null}
-                    onClick={null}
-                    on_click={[Function]}
-                    size="large"
-                    skeleton={null}
-                    status={null}
-                    status_animation={null}
-                    status_state="error"
-                    stretch={null}
-                    text="close_title"
-                    title={null}
-                    to={null}
-                    tooltip={null}
-                    type="button"
-                    variant="tertiary"
-                    wrap={null}
-                  >
-                    <button
-                      className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-large"
-                      disabled={false}
-                      onClick={[Function]}
-                      type="button"
-                    >
-                      <Content
-                        bounding={null}
-                        class={null}
-                        className="dnb-modal__close-button"
-                        content="close_title"
-                        custom_content={null}
-                        custom_element={null}
-                        custom_method={null}
-                        disabled={null}
-                        element={null}
-                        global_status_id={null}
-                        href={null}
-                        icon="close"
-                        icon_position="left"
-                        icon_size="medium"
-                        id={null}
-                        innerRef={null}
-                        inner_ref={null}
-                        isIconOnly={false}
-                        onClick={null}
-                        on_click={[Function]}
-                        size="large"
-                        skeleton={false}
-                        status={null}
-                        status_animation={null}
-                        status_state="error"
-                        stretch={null}
-                        text="close_title"
-                        title={null}
-                        to={null}
-                        tooltip={null}
-                        type="button"
-                        variant="tertiary"
-                        wrap={null}
-                      >
-                        <span
-                          className="dnb-button__alignment"
-                          key="button-text-empty"
+                    className="dnb-modal__header__bar"
+                    element="section"
+                    inner_ref={
+                      Object {
+                        "current": <section
+                          class="dnb-section dnb-section--white dnb-modal__header__bar"
                         >
-                          ‌
-                        </span>
-                        <span
-                          className="dnb-button__text dnb-skeleton--show-font"
-                          key="button-text"
-                        >
-                          close_title
-                        </span>
-                        <IconPrimary
-                          alt={null}
-                          aria-hidden={true}
-                          attributes={null}
-                          border={null}
-                          className="dnb-button__icon"
-                          color={null}
-                          height={null}
-                          icon="close"
-                          inherit_color={true}
-                          key="button-icon"
-                          modifier={null}
-                          size="medium"
-                          skeleton={false}
-                          title={null}
-                          width={null}
-                        >
-                          <span
-                            aria-hidden={true}
-                            className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                            data-test-id="close icon"
-                            role="presentation"
+                          <div
+                            class="dnb-modal__header__bar__inner"
+                          />
+                          <div
+                            class="dnb-modal__header__bar__close"
                           >
-                            <close_medium>
-                              <svg
-                                fill="none"
-                                height={24}
-                                viewBox="0 0 24 24"
-                                width={24}
-                                xmlns="http://www.w3.org/2000/svg"
+                            <button
+                              class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-large"
+                              type="button"
+                            >
+                              <span
+                                class="dnb-button__alignment"
                               >
-                                <path
-                                  d="M5 19L19 5M19 19L5 5"
-                                  stroke="black"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={1.5}
-                                />
-                              </svg>
-                            </close_medium>
-                          </span>
-                        </IconPrimary>
-                      </Content>
-                    </button>
-                  </Button>
-                </CloseButton>
+                                ‌
+                              </span>
+                              <span
+                                class="dnb-button__text dnb-skeleton--show-font"
+                              >
+                                close_title
+                              </span>
+                              <span
+                                aria-hidden="true"
+                                class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
+                                data-test-id="close icon"
+                                role="presentation"
+                              >
+                                <svg
+                                  fill="none"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M5 19L19 5M19 19L5 5"
+                                    stroke="black"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.5"
+                                  />
+                                </svg>
+                              </span>
+                            </button>
+                          </div>
+                        </section>,
+                      }
+                    }
+                    spacing={null}
+                    style_type="white"
+                  >
+                    <section
+                      className="dnb-section dnb-section--white dnb-modal__header__bar"
+                    >
+                      <div
+                        className="dnb-modal__header__bar__inner"
+                      />
+                      <div
+                        className="dnb-modal__header__bar__close"
+                      >
+                        <CloseButton
+                          className={null}
+                          close_title="close_title"
+                          icon_position="left"
+                          on_click={[Function]}
+                          size="large"
+                        >
+                          <Button
+                            bounding={null}
+                            class={null}
+                            className="dnb-modal__close-button"
+                            custom_content={null}
+                            custom_element={null}
+                            custom_method={null}
+                            disabled={null}
+                            element={null}
+                            global_status_id={null}
+                            href={null}
+                            icon="close"
+                            icon_position="left"
+                            icon_size={null}
+                            id={null}
+                            innerRef={null}
+                            inner_ref={null}
+                            onClick={null}
+                            on_click={[Function]}
+                            size="large"
+                            skeleton={null}
+                            status={null}
+                            status_animation={null}
+                            status_state="error"
+                            stretch={null}
+                            text="close_title"
+                            title={null}
+                            to={null}
+                            tooltip={null}
+                            type="button"
+                            variant="tertiary"
+                            wrap={null}
+                          >
+                            <button
+                              className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-large"
+                              disabled={false}
+                              onClick={[Function]}
+                              type="button"
+                            >
+                              <Content
+                                bounding={null}
+                                class={null}
+                                className="dnb-modal__close-button"
+                                content="close_title"
+                                custom_content={null}
+                                custom_element={null}
+                                custom_method={null}
+                                disabled={null}
+                                element={null}
+                                global_status_id={null}
+                                href={null}
+                                icon="close"
+                                icon_position="left"
+                                icon_size="medium"
+                                id={null}
+                                innerRef={null}
+                                inner_ref={null}
+                                isIconOnly={false}
+                                onClick={null}
+                                on_click={[Function]}
+                                size="large"
+                                skeleton={false}
+                                status={null}
+                                status_animation={null}
+                                status_state="error"
+                                stretch={null}
+                                text="close_title"
+                                title={null}
+                                to={null}
+                                tooltip={null}
+                                type="button"
+                                variant="tertiary"
+                                wrap={null}
+                              >
+                                <span
+                                  className="dnb-button__alignment"
+                                  key="button-text-empty"
+                                >
+                                  ‌
+                                </span>
+                                <span
+                                  className="dnb-button__text dnb-skeleton--show-font"
+                                  key="button-text"
+                                >
+                                  close_title
+                                </span>
+                                <IconPrimary
+                                  alt={null}
+                                  aria-hidden={true}
+                                  attributes={null}
+                                  border={null}
+                                  className="dnb-button__icon"
+                                  color={null}
+                                  height={null}
+                                  icon="close"
+                                  inherit_color={true}
+                                  key="button-icon"
+                                  modifier={null}
+                                  size="medium"
+                                  skeleton={false}
+                                  title={null}
+                                  width={null}
+                                >
+                                  <span
+                                    aria-hidden={true}
+                                    className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
+                                    data-test-id="close icon"
+                                    role="presentation"
+                                  >
+                                    <close_medium>
+                                      <svg
+                                        fill="none"
+                                        height={24}
+                                        viewBox="0 0 24 24"
+                                        width={24}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M5 19L19 5M19 19L5 5"
+                                          stroke="black"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth={1.5}
+                                        />
+                                      </svg>
+                                    </close_medium>
+                                  </span>
+                                </IconPrimary>
+                              </Content>
+                            </button>
+                          </Button>
+                        </CloseButton>
+                      </div>
+                    </section>
+                  </Section>
+                </ModalHeaderBar>
+                <ModalHeader
+                  className={null}
+                  title="modal_title"
+                >
+                  <Section
+                    class={null}
+                    className="dnb-modal__header"
+                    element="section"
+                    inner_ref={null}
+                    spacing={null}
+                    style_type="white"
+                  >
+                    <section
+                      className="dnb-section dnb-section--white dnb-modal__header"
+                    >
+                      <h1
+                        className="dnb-modal__title dnb-space__top--zero dnb-space__bottom--small dnb-h--large"
+                      >
+                        modal_title
+                      </h1>
+                      <div
+                        className="dnb-modal__header__inner"
+                      />
+                    </section>
+                  </Section>
+                </ModalHeader>
                 <div
-                  className="dnb-modal__wrapper"
+                  className="dnb-modal__content__wrapper"
                   id="dnb-modal-modal_id-content"
                 >
                   unique_modal_content
@@ -1607,11 +1714,10 @@ button.dnb-button::-moz-focus-inner {
   --modal-min-width: 320px;
   --modal-avg-width: 60vw;
   --modal-max-width: 60rem;
-  --modal-content-top: 5rem;
   --modal-drawer-width: 40vw;
   --modal-drawer-min-width: 25rem;
   --modal-drawer-max-width: 40rem;
-  --modal-drawer-content-top: 10rem;
+  --modal-drawer-header-min-height: 6rem;
   --modal-overlay-transparent: rgba(0, 0, 0, 0);
   --modal-overlay-bg: rgba(0, 0, 0, 0.32); }
 
@@ -1643,9 +1749,6 @@ button.dnb-button::-moz-focus-inner {
     @media screen and (max-width: 40em) {
       .dnb-modal__content--auto-fullscreen {
         height: auto; } }
-    @media screen and (min-height: 40em) {
-      .dnb-modal__content--modal {
-        padding-bottom: 10vh; } }
     .dnb-modal__content__inner {
       position: relative;
       width: var(--modal-avg-width);
@@ -1665,48 +1768,49 @@ button.dnb-button::-moz-focus-inner {
         max-width: 100%;
         border-radius: 0;
         box-shadow: none; } }
-    @media (max-height: 40em) and (orientation: landscape) {
-      .dnb-modal__content--modal.dnb-modal__content:not(.dnb-modal__content--fullscreen) .dnb-modal__content__inner {
-        max-height: 80vh; } }
+    @supports (-webkit-touch-callout: none) {
+      @media (max-height: 40em) and (orientation: landscape) {
+        .dnb-modal__content--modal.dnb-modal__content:not(.dnb-modal__content--fullscreen) .dnb-modal__content__inner {
+          max-height: 80vh; } } }
     .dnb-modal__content__spacing {
       position: relative;
-      display: block;
+      display: flex;
+      flex-direction: column;
       width: 100%;
       height: 100%;
       overflow-x: hidden; }
+      .dnb-modal__content__spacing::after {
+        content: '';
+        position: absolute;
+        z-index: -4;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100%;
+        background-color: var(--modal-background-color); }
     .dnb-modal__content--spacing .dnb-modal__content__spacing {
-      padding: var(--modal-content-top) var(--modal-spacing) 0; }
+      padding: 0 var(--modal-spacing) 0; }
       @media screen and (min-width: 72em) {
         .dnb-modal__content--spacing .dnb-modal__content__spacing {
-          padding: calc(var(--modal-content-top) + 2rem) calc(var(--modal-spacing) * 1.75) 0; } }
+          padding: 0 calc(var(--modal-spacing) * 1.75) 0; } }
       @media screen and (max-width: 50em) {
         .dnb-modal__content--spacing .dnb-modal__content__spacing {
-          padding: var(--modal-content-top) calc(var(--modal-spacing) / 1.333333) 0; } }
+          padding: 0 calc(var(--modal-spacing) / 1.333333) 0; } }
       @media screen and (max-width: 40em) {
         .dnb-modal__content--spacing .dnb-modal__content__spacing {
-          padding: var(--modal-content-top) calc(var(--modal-spacing) / 2) 0; } }
+          padding: 0 calc(var(--modal-spacing) / 2) 0; } }
     .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__content__spacing {
-      padding: var(--modal-drawer-content-top) var(--modal-spacing) 0; }
+      padding: 0 var(--modal-spacing) 0; }
       @media screen and (min-width: 72em) {
         .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__content__spacing {
-          padding: var(--modal-drawer-content-top) calc(var(--modal-spacing) * 1.75) 0; } }
+          padding: 0 calc(var(--modal-spacing) * 1.75) 0; } }
       @media screen and (max-width: 50em) {
         .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__content__spacing {
-          padding: var(--modal-drawer-content-top) calc(var(--modal-spacing) / 1.333333) 0; } }
+          padding: 0 calc(var(--modal-spacing) / 1.333333) 0; } }
       @media screen and (max-width: 40em) {
         .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__content__spacing {
-          padding: var(--modal-drawer-content-top) calc(var(--modal-spacing) / 2) 0; } }
-    .dnb-modal__content__align--center .dnb-modal__content__spacing {
-      display: flex;
-      flex-direction: column;
-      align-items: center; }
-    .dnb-modal__content__align--right .dnb-modal__content__spacing {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end; }
+          padding: 0 calc(var(--modal-spacing) / 2) 0; } }
     .dnb-modal__content__align--centered .dnb-modal__content__spacing {
-      display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center; }
     .dnb-modal__content--drawer {
@@ -1726,11 +1830,6 @@ button.dnb-button::-moz-focus-inner {
           width: 100vw;
           min-width: auto;
           max-width: auto; } }
-    .dnb-modal__content--fullscreen .dnb-modal__content__content {
-      height: auto; }
-    @media screen and (max-width: 40em) {
-      .dnb-modal__content--auto-fullscreen .dnb-modal__content__content {
-        height: auto; } }
     .dnb-modal__content--drawer.dnb-modal__content--top .dnb-modal__content__inner,
     .dnb-modal__content--drawer.dnb-modal__content--bottom .dnb-modal__content__inner {
       max-width: 100%;
@@ -1755,6 +1854,8 @@ button.dnb-button::-moz-focus-inner {
       max-width: 100%;
       border-radius: 0;
       box-shadow: none; }
+    .dnb-modal__content--fullscreen .dnb-modal__content__content {
+      height: auto; }
     html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--left .dnb-modal__content__inner {
       transform: translate3d(-20rem, 0, 0); }
     html:not([data-visual-test]) .dnb-modal__content--drawer.dnb-modal__content--right .dnb-modal__content__inner {
@@ -1783,56 +1884,82 @@ button.dnb-button::-moz-focus-inner {
     @media screen and (max-width: 40em) {
       .dnb-modal__content--no-animation-on-mobile .dnb-modal__content__inner {
         animation-duration: 0ms !important; } }
-  .dnb-modal__title.dnb-h--large,
-  .dnb-core-style .dnb-modal__title.dnb-h--large:not([class*='dnb-space']) {
-    margin: 0;
+    .dnb-modal__content__wrapper {
+      position: relative;
+      z-index: 1; }
+    .dnb-modal__content--drawer .dnb-modal__content__wrapper {
+      padding-bottom: calc(var(--modal-spacing) * 2); }
+    .dnb-modal__content--spacing .dnb-modal__content__wrapper {
+      padding-bottom: calc(var(--modal-spacing) * 2); }
+      @supports (-webkit-touch-callout: none) {
+        .dnb-modal__content--spacing .dnb-modal__content__wrapper {
+          padding-bottom: calc(var(--modal-spacing) * 8); } }
+    .dnb-modal__content__title ~ .dnb-modal__content__wrapper {
+      padding-top: calc(var(--modal-spacing) / 2); }
+    .dnb-modal__content__align--center .dnb-modal__content__wrapper {
+      align-items: center;
+      text-align: center; }
+    .dnb-modal__content__align--right .dnb-modal__content__wrapper {
+      align-items: flex-end;
+      text-align: right; }
+    .dnb-modal__content--drawer .dnb-modal__content__title ~ .dnb-modal__content__wrapper {
+      padding-top: calc(var(--modal-spacing) / 1.333333); }
+  .dnb-modal__content .dnb-modal__header [class*='dnb-h--'],
+  .dnb-modal__content .dnb-modal__header .dnb-modal__title {
     padding: 0; }
-  .dnb-modal__wrapper {
+    .dnb-modal__content .dnb-modal__header [class*='dnb-h--']:not([class*='__top']),
+    .dnb-modal__content .dnb-modal__header .dnb-modal__title:not([class*='__top']) {
+      margin-top: 0; }
+    .dnb-modal__content .dnb-modal__header [class*='dnb-h--']:not([class*='__bottom']),
+    .dnb-modal__content .dnb-modal__header .dnb-modal__title:not([class*='__bottom']) {
+      margin-bottom: 0; }
+  .dnb-modal__content--drawer .dnb-modal__content__spacing {
     position: relative;
-    z-index: 1; }
-  .dnb-modal__content--drawer .dnb-modal__wrapper {
-    padding-bottom: calc(var(--modal-spacing) * 2); }
-  .dnb-modal__content--spacing .dnb-modal__wrapper {
-    padding-bottom: calc(var(--modal-spacing) * 2); }
-    @supports (-webkit-touch-callout: none) {
-      .dnb-modal__content--spacing .dnb-modal__wrapper {
-        padding-bottom: calc(var(--modal-spacing) * 4); } }
-  .dnb-modal__title ~ .dnb-modal__wrapper {
-    padding-top: calc(var(--modal-spacing) / 2); }
-  .dnb-modal__content--drawer .dnb-modal__title ~ .dnb-modal__wrapper {
-    padding-top: calc(var(--modal-spacing) / 1.333333); }
+    z-index: 10;
+    background-color: var(--color-black-3); }
+  .dnb-modal__content .dnb-modal__header::after {
+    top: -500%;
+    height: 600%; }
+  .dnb-modal__content--spacing .dnb-modal__header .dnb-tabs {
+    margin-top: 3.5rem; }
+  .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__header {
+    min-height: var(--modal-drawer-header-min-height); }
   .dnb-modal__wrapper__inner {
     padding-bottom: calc(var(--modal-spacing) * 2);
     margin-bottom: calc(var(--modal-spacing-minus) * 2); }
-    @media screen and (max-width: 40em) {
-      .dnb-modal__wrapper__inner.dnb-section::after {
-        min-height: calc( 100vh - var(--modal-content-top) - calc(var(--modal-spacing) * 1.5)); } }
   .dnb-modal__content--drawer .dnb-modal__wrapper__inner {
     margin-bottom: calc(var(--modal-spacing-minus) * 2); }
     @supports (-webkit-touch-callout: none) {
       .dnb-modal__content--drawer .dnb-modal__wrapper__inner {
-        padding-bottom: calc(var(--modal-spacing-minus) * 4); } }
-    .dnb-modal__content--drawer .dnb-modal__wrapper__inner.dnb-section::after {
-      min-height: calc( 100vh - var(--modal-drawer-content-top) - calc(var(--modal-spacing) * 2)); }
-  .dnb-modal__close-button {
-    top: calc(var(--modal-spacing) / 1.333333);
-    right: var(--modal-spacing);
-    z-index: 1; }
-    .dnb-modal__close-button, .dnb-modal__close-button.dnb-button--tertiary {
-      position: absolute; }
-    @media screen and (max-width: 40em) {
-      .dnb-modal__close-button {
-        right: calc(var(--modal-spacing) / 2); } }
-  .dnb-modal__content--drawer .dnb-modal__close-button {
-    top: var(--modal-spacing);
-    right: calc(var(--modal-spacing) / 1.333333); }
-    @media screen and (max-width: 40em) {
-      .dnb-modal__content--drawer .dnb-modal__close-button {
-        right: calc(var(--modal-spacing) / 4); } }
-    @media screen and (min-width: 72em) {
-      .dnb-modal__content--drawer .dnb-modal__close-button {
-        top: calc(var(--modal-spacing) * 1.75);
-        right: var(--modal-spacing); } }
+        padding-bottom: calc(var(--modal-spacing-minus) * 8); } }
+  .dnb-modal__content--spacing .dnb-modal__header__bar.dnb-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: calc(var(--modal-spacing) * 1.75);
+    margin-bottom: calc(var(--modal-spacing) / 2); }
+    @media screen and (max-width: 50em) {
+      .dnb-modal__content--spacing .dnb-modal__header__bar.dnb-section {
+        margin-top: calc(var(--modal-spacing) / 2); } }
+  .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__header__bar.dnb-section {
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    margin: calc(var(--modal-spacing) * 1.75) 0; }
+    @media screen and (max-width: 50em) {
+      .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__header__bar.dnb-section {
+        margin: var(--modal-spacing) 0; } }
+  .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__header__bar.dnb-section.dnb-modal__header__bar--shadow {
+    z-index: 2999; }
+  .dnb-modal__content--drawer .dnb-modal__header__bar--shadow::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: -50%;
+    right: -50%;
+    bottom: 0;
+    height: 300%;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
   .dnb-modal__overlay {
     position: fixed;
     z-index: var(--modal-z-index);
