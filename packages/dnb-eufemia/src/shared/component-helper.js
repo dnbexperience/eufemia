@@ -977,3 +977,25 @@ function combineAriaBy(type, params) {
   }
   return params
 }
+
+export function findElementInChildren(children, find) {
+  if (!Array.isArray(children)) {
+    children = [children]
+  }
+
+  let result = null
+  children.some((cur) => {
+    if (cur && cur.props && cur.props.children) {
+      const res = findElementInChildren(cur.props.children, find)
+      if (res) {
+        return (result = res)
+      }
+    }
+    if (React.isValidElement(cur) && find(cur)) {
+      return (result = cur)
+    }
+    return null
+  })
+
+  return result
+}

@@ -11,6 +11,7 @@ import {
   isTrue,
   makeUniqueId,
   registerElement,
+  findElementInChildren,
   extendPropsWithContext,
   validateDOMAttributes,
   dispatchCustomElementEvent,
@@ -233,28 +234,6 @@ export default class Accordion extends React.PureComponent {
     })
   }
 
-  hasAccordionHeader(children) {
-    if (!Array.isArray(children)) {
-      children = [children]
-    }
-    return (
-      children.findIndex(
-        (cur) => React.isValidElement(cur) && cur.type === AccordionHeader
-      ) !== -1
-    )
-  }
-
-  hasAccordionContent(children) {
-    if (!Array.isArray(children)) {
-      children = [children]
-    }
-    return (
-      children.findIndex(
-        (cur) => React.isValidElement(cur) && cur.type === AccordionContent
-      ) !== -1
-    )
-  }
-
   render() {
     return (
       <Context.Consumer>
@@ -367,10 +346,16 @@ export default class Accordion extends React.PureComponent {
               return (
                 <AccordionContext.Provider value={context}>
                   <div {...mainParams}>
-                    {this.hasAccordionHeader(children) ? null : (
+                    {findElementInChildren(
+                      children,
+                      (cur) => cur.type === AccordionHeader
+                    ) ? null : (
                       <AccordionHeader />
                     )}
-                    {this.hasAccordionContent(children) ? (
+                    {findElementInChildren(
+                      children,
+                      (cur) => cur.type === AccordionContent
+                    ) ? (
                       children
                     ) : (
                       <AccordionContent>{children}</AccordionContent>
