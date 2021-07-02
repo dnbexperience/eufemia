@@ -228,27 +228,24 @@ export default class Modal extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (state._listenForPropChanges) {
-      if (props.open_state !== state._open_state) {
-        switch (props.open_state) {
-          case 'opened':
-          case true:
-            state.hide = false
-            if (isTrue(props.no_animation)) {
-              state.modalActive = true
-            }
-            break
-          case 'closed':
-          case false:
-            state.hide = true
-            if (isTrue(props.no_animation)) {
-              state.modalActive = false
-            }
-            break
-        }
+    if (props.open_state !== state._open_state) {
+      switch (props.open_state) {
+        case 'opened':
+        case true:
+          state.hide = false
+          if (isTrue(props.no_animation)) {
+            state.modalActive = true
+          }
+          break
+        case 'closed':
+        case false:
+          state.hide = true
+          if (isTrue(props.no_animation)) {
+            state.modalActive = false
+          }
+          break
       }
     }
-    state._listenForPropChanges = true
     state._open_state = props.open_state
 
     return state
@@ -257,7 +254,6 @@ export default class Modal extends React.PureComponent {
   state = {
     hide: false,
     modalActive: false,
-    _listenForPropChanges: true,
   }
 
   constructor(props) {
@@ -286,31 +282,30 @@ export default class Modal extends React.PureComponent {
     clearTimeout(this._tryToOpenTimeout)
   }
 
-  componentDidUpdate() {
-    this.openBasedOnStateUpdate()
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      this.openBasedOnStateUpdate()
+    }
   }
 
   openBasedOnStateUpdate() {
     const { hide, modalActive } = this.state
+    const { open_state } = this.props
 
     if (!this.activeElement && typeof document !== 'undefined') {
       this.activeElement = document.activeElement
     }
 
     if (
-      !this.isInTransition &&
       !hide &&
       !modalActive &&
-      (this.props.open_state === 'opened' ||
-        this.props.open_state === true)
+      (open_state === 'opened' || open_state === true)
     ) {
       this.toggleOpenClose(null, true)
     } else if (
-      !this.isInTransition &&
       hide &&
       modalActive &&
-      (this.props.open_state === 'closed' ||
-        this.props.open_state === false)
+      (open_state === 'closed' || open_state === false)
     ) {
       this.toggleOpenClose(null, false)
     }
@@ -334,7 +329,6 @@ export default class Modal extends React.PureComponent {
           {
             hide: false,
             modalActive,
-            _listenForPropChanges: false,
           },
           () => {
             this.isInTransition = false
@@ -346,7 +340,6 @@ export default class Modal extends React.PureComponent {
       if (modalActive === false && !isTrue(this.props.no_animation)) {
         this.setState({
           hide: true,
-          _listenForPropChanges: false,
         })
 
         clearTimeout(this._closeTimeout)

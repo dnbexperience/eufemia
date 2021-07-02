@@ -16,7 +16,6 @@ import {
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import Context from '../../shared/Context'
-import hashSum from '../../shared/libs/HashSum'
 import FormLabel from '../form-label/FormLabel'
 import {
   spacingPropTypes,
@@ -226,22 +225,8 @@ export default class FormRow extends React.PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
-    // NB: Update: Using hashSum on props i too CPU expensive
-    // Solution is to only check one dimension by using "false"
-    // We could also check: if(this._cachedContext !== this.context)
-    // but not with props. So it's not a solution
-
-    // NB: check if context has changed, if yes, then update the cache
-    // 1. Modal inside a FormRow will open on rerender without: this._cachedContext !== this.context
-    // 2. But then ToggleButton or any other props
-    if (
-      this._cachedContext !== hashSum(this.context, false) ||
-      this._cachedProps !== hashSum(this.props, false)
-    ) {
-      this._cachedContext = hashSum(this.context, false)
-      this._cachedProps = hashSum(this.props, false)
-
-      const FormRow = {
+    const providerContext = extend(this.context, {
+      FormRow: {
         useId: () => {
           if (this.isIsUsed) {
             // make a new ID, as we used one
@@ -260,16 +245,13 @@ export default class FormRow extends React.PureComponent {
         responsive,
         disabled,
         skeleton,
-      }
-      this._cachedContext = extend(this.context, {
-        FormRow,
-      })
-    }
+      },
+    })
 
     const useFieldset = !isTrue(no_fieldset) && hasLabel
 
     return (
-      <Context.Provider value={this._cachedContext}>
+      <Context.Provider value={providerContext}>
         <Fieldset useFieldset={useFieldset}>
           <div {...params}>
             <AlignmentHelper />

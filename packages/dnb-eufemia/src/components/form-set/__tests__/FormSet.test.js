@@ -52,19 +52,15 @@ describe('FormSet component', () => {
       </Component>
     )
 
-    expect(Comp.find('.dnb-input').find('input').prop('disabled')).toBe(
-      true
-    )
+    expect(Comp.find('input.dnb-input__input').prop('disabled')).toBe(true)
 
     Comp.setProps({ disabled: false })
-    expect(Comp.find('.dnb-input').find('input').prop('disabled')).toBe(
+    expect(Comp.find('input.dnb-input__input').prop('disabled')).toBe(
       false
     )
 
     Comp.setProps({ disabled: true })
-    expect(Comp.find('.dnb-input').find('input').prop('disabled')).toBe(
-      true
-    )
+    expect(Comp.find('input.dnb-input__input').prop('disabled')).toBe(true)
 
     const CompBypassDisabled = mount(
       <Component {...props} disabled>
@@ -75,7 +71,7 @@ describe('FormSet component', () => {
     )
 
     expect(
-      CompBypassDisabled.find('.dnb-input').find('input').prop('disabled')
+      CompBypassDisabled.find('input.dnb-input__input').prop('disabled')
     ).toBe(false)
   })
 
