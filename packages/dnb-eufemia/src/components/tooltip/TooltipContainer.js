@@ -69,16 +69,13 @@ export default class TooltipContainer extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (state._listenForPropChanges) {
-      if (state.leaveInDOM && !props.active && !state.hover) {
-        state.hide = true
-      }
-      if (props.active || state.hover) {
-        state.leaveInDOM = true
-        state.hide = false
-      }
+    if (state.leaveInDOM && !props.active && !state.hover) {
+      state.hide = true
     }
-    state._listenForPropChanges = true
+    if (props.active || state.hover) {
+      state.leaveInDOM = true
+      state.hide = false
+    }
     return state
   }
 
@@ -286,7 +283,6 @@ export default class TooltipContainer extends React.PureComponent {
         this.setState({
           width,
           height,
-          _listenForPropChanges: false,
         })
       }
     } catch (e) {
@@ -295,13 +291,15 @@ export default class TooltipContainer extends React.PureComponent {
   }
 
   handleMouseEnter = () => {
-    isTrue(this.props.active) &&
-      this.props.useHover &&
+    if (isTrue(this.props.active) && this.props.useHover) {
       this.setState({ hover: true })
+    }
   }
 
   handleMouseLeave = () => {
-    this.props.useHover && this.setState({ hover: false })
+    if (this.props.useHover) {
+      this.setState({ hover: false })
+    }
   }
 
   render() {
@@ -320,15 +318,15 @@ export default class TooltipContainer extends React.PureComponent {
 
     const isActive = isTrue(active) || hover
 
-    const style = isActive
-      ? this.checkWindowPosition(this.getGlobalStyle())
-      : null
+    if (isActive) {
+      this._style = this.checkWindowPosition(this.getGlobalStyle())
+    }
 
     return (
       <span
         role="tooltip"
         aria-hidden // make sure SR does not find it in the DOM, because we use "aria-describedby" for that
-        style={style}
+        style={this._style}
         ref={this._rootRef}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
