@@ -93,7 +93,7 @@ $anchorBorderRadius: 0.25em;
   border-radius: $anchorBorderRadius;
 }
 
-// oterh styles
+// other styles
 @mixin useAnchorContrastStyle($contrastColor: var(--color-emerald-green)) {
   color: var(--color-white);
   box-shadow: 0 $anchorBorderBottomWidth 0 0 var(--color-white);
@@ -143,7 +143,7 @@ $anchorBorderRadius: 0.25em;
 
     background-image: inherit;
 
-    transition: transform 0.3s ease-out, filter 1s ease-out;
+    transition: transform 0.3s ease-out, filter 1s ease-in-out;
     transform-origin: bottom;
   }
   &:active {
@@ -175,7 +175,8 @@ $anchorBorderRadius: 0.25em;
     }
   }
 
-  transition: background-color 0.2s ease;
+  transition: background-color 200ms ease-in-out,
+    box-shadow 180ms ease-in-out, border-radius 200ms ease-in-out;
   [data-visual-test-wrapper] & {
     transition: none;
   }

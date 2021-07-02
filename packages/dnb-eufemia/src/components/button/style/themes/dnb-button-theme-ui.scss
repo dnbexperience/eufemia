@@ -13,7 +13,7 @@
   text-align: left;
 
   // no animation yet
-  // transition: background-color 100ms ease-out, box-shadow 100ms ease-out;
+  // transition: background-color 300ms #{$defaultEasing}, box-shadow 300ms #{$defaultEasing};
 
   &--primary {
     color: var(--color-white);
@@ -109,8 +109,7 @@
       @include drawUnderlineBorder() {
         bottom: -0.0625rem;
         color: transparent;
-        opacity: 0;
-        transition: opacity 200ms ease-out, color 200ms ease-out;
+        transition: color 250ms ease-in-out;
         [data-visual-test-wrapper] & {
           transition: none;
         }
@@ -142,7 +141,6 @@
       // underline
       .dnb-button__text::after {
         visibility: visible;
-        opacity: 1;
         color: var(--color-emerald-green);
       }
     }
