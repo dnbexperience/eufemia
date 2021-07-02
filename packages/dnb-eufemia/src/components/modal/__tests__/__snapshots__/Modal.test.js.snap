@@ -232,7 +232,7 @@ exports[`Modal component have to match snapshot 1`] = `
       size={null}
       skeleton={null}
       status={null}
-      status_animation={null}
+      status_no_animation={null}
       status_state="error"
       stretch={null}
       text={null}
@@ -318,7 +318,7 @@ exports[`Modal component have to match snapshot 1`] = `
           size={null}
           skeleton={false}
           status={null}
-          status_animation={null}
+          status_no_animation={null}
           status_state="error"
           stretch={null}
           text={null}
@@ -378,6 +378,30 @@ exports[`Modal component have to match snapshot 1`] = `
           </IconPrimary>
         </Content>
       </button>
+      <FormStatus
+        attributes={null}
+        class={null}
+        className={null}
+        global_status_id={null}
+        icon="error"
+        icon_size="medium"
+        id="modal_id-form-status"
+        label={null}
+        no_animation={null}
+        role={null}
+        show={null}
+        size="default"
+        skeleton={null}
+        state="error"
+        status="error"
+        stretch={null}
+        text={null}
+        text_id="modal_id-status"
+        title={null}
+        variant={null}
+        width_element={null}
+        width_selector={null}
+      />
       <Tooltip
         active={null}
         align={null}
@@ -993,7 +1017,7 @@ exports[`Modal component have to match snapshot 1`] = `
                             size="large"
                             skeleton={null}
                             status={null}
-                            status_animation={null}
+                            status_no_animation={null}
                             status_state="error"
                             stretch={null}
                             text="close_title"
@@ -1034,7 +1058,7 @@ exports[`Modal component have to match snapshot 1`] = `
                                 size="large"
                                 skeleton={false}
                                 status={null}
-                                status_animation={null}
+                                status_no_animation={null}
                                 status_state="error"
                                 stretch={null}
                                 text="close_title"
@@ -1101,6 +1125,30 @@ exports[`Modal component have to match snapshot 1`] = `
                                 </IconPrimary>
                               </Content>
                             </button>
+                            <FormStatus
+                              attributes={null}
+                              class={null}
+                              className={null}
+                              global_status_id={null}
+                              icon="error"
+                              icon_size="medium"
+                              id="null-form-status"
+                              label="close_title"
+                              no_animation={null}
+                              role={null}
+                              show={null}
+                              size="default"
+                              skeleton={null}
+                              state="error"
+                              status="error"
+                              stretch={null}
+                              text={null}
+                              text_id="null-status"
+                              title={null}
+                              variant={null}
+                              width_element={null}
+                              width_selector={null}
+                            />
                           </Button>
                         </CloseButton>
                       </div>
@@ -1300,7 +1348,18 @@ exports[`Modal scss have to match snapshot 1`] = `
   --form-status-radius: 0.25rem; }
 
 .dnb-form-status {
-  display: flex; }
+  display: flex;
+  opacity: 1;
+  transition: height 400ms cubic-bezier(0.42, 0, 0, 1), opacity 400ms cubic-bezier(0.42, 0, 0, 1), margin 400ms cubic-bezier(0.42, 0, 0, 1), padding 400ms cubic-bezier(0.42, 0, 0, 1); }
+  .dnb-form-status--is-animating {
+    overflow: hidden; }
+  .dnb-form-status--hidden {
+    will-change: height;
+    width: 0;
+    height: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    opacity: 0; }
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
@@ -1337,16 +1396,9 @@ exports[`Modal scss have to match snapshot 1`] = `
     max-width: 47rem; }
   .dnb-form-status[hidden] {
     display: none; }
-  .dnb-form-status__animation--fade-in {
-    overflow: hidden;
-    max-height: 0;
-    animation: form-status-fade-in 2s ease-out 400ms forwards; }
-
-@keyframes form-status-fade-in {
-  from {
-    max-height: 0; }
-  to {
-    max-height: calc(var(--input-height) * 8); } }
+  .dnb-form-status--no-animation,
+  .dnb-form-status html[data-visual-test] {
+    transition-duration: 1ms !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-form-status__shell > .dnb-icon {
       border-width: 1px; } }

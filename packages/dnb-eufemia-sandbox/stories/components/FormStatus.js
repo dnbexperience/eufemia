@@ -16,7 +16,9 @@ import {
   Modal,
   Switch,
   Button,
+  ToggleButton,
   Space,
+  HelpButton,
 } from '@dnb/eufemia/src/components'
 import { Link } from '@dnb/eufemia/src/elements'
 
@@ -48,7 +50,6 @@ const SmallWidth = styled(Input)`
 // )
 
 export const FormStatuseSandbox = () => {
-  const [showError, setShowError] = useState(false)
   return (
     <Wrapper>
       <Box>
@@ -137,6 +138,19 @@ export const FormStatuseSandbox = () => {
           </FormRow>
         </FormSet>
       </Box>
+    </Wrapper>
+  )
+}
+
+export const ToggleAnimation = () => {
+  const [status, setStatus] = React.useState(null)
+  const toggleStatus = () => {
+    setStatus((s) => (!s ? 'You have to fill in this field' : null))
+  }
+  const [showError, setShowError] = useState(false)
+
+  return (
+    <Wrapper>
       <Box>
         <FormSet
           label_direction="vertical"
@@ -157,16 +171,33 @@ export const FormStatuseSandbox = () => {
             <DatePicker
               show_input
               right="small"
-              bottom="small"
               status={
                 showError &&
                 'Long text with status vitae tortor metus nulla nunc habitasse adipiscing purus porttitor viverra'
               }
+              suffix={<Modal>Modal Content</Modal>}
             />
-            <Modal right="small">Modal Content</Modal>
-            <Button text="Submit" type="submit" />
+            {/* <Modal right="small" top="small">
+            Modal Content
+          </Modal> */}
+            <Button text="Submit" type="submit" top="small" />
           </FormRow>
         </FormSet>
+      </Box>
+      <Box>
+        <FormRow vertical={false}>
+          <Input
+            label="Input with status:"
+            status={status}
+            value="Input value"
+            suffix={<HelpButton>test</HelpButton>}
+            right
+            // size="small"
+          />
+          <ToggleButton top on_change={toggleStatus}>
+            Toggle
+          </ToggleButton>
+        </FormRow>
       </Box>
     </Wrapper>
   )

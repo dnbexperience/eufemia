@@ -180,6 +180,20 @@
     }
   }
 
+  > .dnb-form-label {
+    line-height: var(--line-height-basis);
+  }
+  @include formLabelWrap();
+
+  &:not(&--vertical)[class*='__status'] {
+    align-items: flex-start;
+
+    & > .dnb-form-label {
+      // vertical align the current font
+      margin-top: 0.25rem;
+    }
+  }
+
   &--small {
     line-height: var(--input-height--small);
     .dnb-input__shell,
@@ -404,20 +418,6 @@
   &--icon-size-medium#{&}--icon-position-right#{&}--has-icon
     &__placeholder {
     padding-right: 3rem;
-  }
-
-  > .dnb-form-label {
-    line-height: var(--line-height-basis);
-  }
-  @include formLabelWrap();
-
-  &[class*='__status'] {
-    align-items: flex-start;
-
-    & > .dnb-form-label {
-      // vertical align the current font
-      margin-top: 0.25rem;
-    }
   }
 
   .dnb-responsive-component & {

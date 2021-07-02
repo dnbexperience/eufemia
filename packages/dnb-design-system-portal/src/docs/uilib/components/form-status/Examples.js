@@ -55,7 +55,7 @@ export const FormStatusWithWarn = () => (
   </ComponentBox>
 )
 
-export const FormSetDefaultInput = () => (
+export const FormStatusInput = () => (
   <ComponentBox>
     {() => /* jsx */ `
 <Input
@@ -63,6 +63,33 @@ export const FormSetDefaultInput = () => (
   status="You have to fill in this field"
   value="Input value"
 />
+`}
+  </ComponentBox>
+)
+
+export const FormStatusAnimation = () => (
+  <ComponentBox useRender>
+    {() => /* jsx */ `
+const ToggleAnimation = () => {
+  const [status, setStatus] = React.useState(null)
+  const toggleStatus = () => {
+    setStatus((s) => (!s ? 'You have to fill in this field' : null))
+  }
+  return (
+    <FormRow vertical={false}>
+      <Input
+        label="Input with status:"
+        status={status}
+        value="Input value"
+        right
+      />
+      <ToggleButton top on_change={toggleStatus}>
+        Toggle
+      </ToggleButton>
+    </FormRow>
+  )
+}
+render(<ToggleAnimation />)
 `}
   </ComponentBox>
 )

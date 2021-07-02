@@ -55,7 +55,7 @@ const props = {
 describe('GlobalStatus component', () => {
   const Comp = mount(<Component {...props} />)
 
-  it('has to to have a text value as defined in the prop', () => {
+  it('has to have a text value as defined in the prop', () => {
     expect(
       Comp.find('div.dnb-global-status__message')
         .find('.dnb-p')
@@ -64,7 +64,7 @@ describe('GlobalStatus component', () => {
     ).toBe(props.text)
   })
 
-  it('has to to have list items as defined in the prop', () => {
+  it('has to have list items as defined in the prop', () => {
     expect(Comp.find('.dnb-ul').text()).toBe(
       props.items.map(({ text }) => text).join('')
     )
@@ -94,7 +94,7 @@ describe('GlobalStatus component', () => {
     ).toBe('off')
   })
 
-  it('has to to have correct content after a controller add', () => {
+  it('has to have correct content after a controller add', () => {
     const startupText = 'text'
     const newText = 'new text'
 
@@ -136,7 +136,7 @@ describe('GlobalStatus component', () => {
     ).toBe(newText)
   })
 
-  it('has to to have correct content after a controller update', () => {
+  it('has to have correct content after a controller update', () => {
     const startupText = 'text'
     const startupItems = ['Item1', 'Item2']
     const newText = 'new text'
@@ -199,7 +199,7 @@ describe('GlobalStatus component', () => {
     expect(Comp.exists('div.dnb-global-status__message')).toBe(false)
   })
 
-  it('has to to have correct content after a controller remove', () => {
+  it('has to have correct content after a controller remove', () => {
     const startupText = 'text'
     const startupItems = ['Item1', 'Item2']
     const newText = 'new text'
@@ -213,6 +213,15 @@ describe('GlobalStatus component', () => {
         id="custom-status-remove"
       />
     )
+
+    expect(
+      Comp.find('div.dnb-global-status__shell').instance().innerHTML
+    ).toBe('')
+    expect(
+      Comp.find('div.dnb-global-status__shell')
+        .instance()
+        .hasAttribute('style')
+    ).toBe(false)
 
     mount(
       <Component.Add
@@ -231,8 +240,12 @@ describe('GlobalStatus component', () => {
     expect(
       Comp.find('div.dnb-global-status__message p.dnb-p').at(0).text()
     ).toBe(startupText)
-
-    // Comp.setProps({ show: false })
+    expect(Comp.exists('div.dnb-global-status__message')).toBe(true)
+    expect(
+      Comp.find('div.dnb-global-status__shell')
+        .instance()
+        .getAttribute('style')
+    ).toBe('height: auto;')
 
     mount(
       <Component.Add
@@ -251,6 +264,9 @@ describe('GlobalStatus component', () => {
     expect(
       Comp.find('div.dnb-global-status__message p.dnb-p').at(0).text()
     ).toBe(newText)
+    expect(
+      Comp.find('div.dnb-global-status__message p.dnb-p')
+    ).toHaveLength(5)
 
     mount(
       <Component.Remove
@@ -270,6 +286,9 @@ describe('GlobalStatus component', () => {
     expect(
       Comp.find('div.dnb-global-status__message p.dnb-p').at(0).text()
     ).toBe(newText)
+    expect(
+      Comp.find('div.dnb-global-status__message p.dnb-p')
+    ).toHaveLength(3)
 
     mount(
       <Component.Remove
@@ -283,9 +302,69 @@ describe('GlobalStatus component', () => {
 
     expect(Comp.state().isActive).toBe(false)
     expect(Comp.exists('div.dnb-global-status__message')).toBe(false)
+    expect(
+      Comp.find('div.dnb-global-status__shell')
+        .instance()
+        .getAttribute('style')
+    ).toBe('height: 0px; visibility: hidden;')
   })
 
-  it('has to to have a working auto close', () => {
+  it('have to be hidden after all messages are removed ', async () => {
+    const ToggleStatus = () => {
+      const [status, setStatus] = React.useState(null)
+
+      return (
+        <Switch
+          id="switch"
+          status={status}
+          status_no_animation={true}
+          global_status_id="main-to-be-empty"
+          on_change={({ checked }) => {
+            setStatus(checked ? 'error-message' : null)
+          }}
+        />
+      )
+    }
+    const Comp = mount(
+      <>
+        <Component
+          id="main-to-be-empty"
+          autoscroll={false}
+          delay={0}
+          no_animation={true}
+        />
+        <ToggleStatus />
+      </>
+    )
+
+    Comp.find('input#switch').simulate('change')
+
+    expect(Comp.find('.dnb-form-status__text').text()).toBe(
+      'error-message'
+    )
+    expect(Comp.find('.dnb-global-status__message p').at(0).text()).toBe(
+      'error-message'
+    )
+
+    expect(
+      Comp.find('div.dnb-global-status__shell')
+        .instance()
+        .getAttribute('style')
+    ).toBe('height: auto;')
+
+    Comp.find('input#switch').simulate('change')
+
+    await wait(10)
+
+    expect(Comp.exists('.dnb-form-status__text')).toBe(false)
+    const inst = Comp.find('div.dnb-global-status__shell').instance()
+    expect(inst.innerHTML).toBe('')
+    expect(inst.getAttribute('style')).toBe(
+      'height: 0px; visibility: hidden;'
+    )
+  })
+
+  it('has to have a working auto close', () => {
     const on_open = jest.fn()
     const on_close = jest.fn()
     const on_hide = jest.fn()
@@ -478,3 +557,5 @@ describe('GlobalStatus scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
+
+const wait = (t) => new Promise((r) => setTimeout(r, t))

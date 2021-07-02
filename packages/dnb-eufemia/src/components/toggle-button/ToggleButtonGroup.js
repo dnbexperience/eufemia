@@ -55,7 +55,10 @@ export default class ToggleButtonGroup extends React.PureComponent {
       PropTypes.node,
     ]),
     status_state: PropTypes.string,
-    status_animation: PropTypes.string,
+    status_no_animation: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
     global_status_id: PropTypes.string,
     suffix: PropTypes.oneOfType([
       PropTypes.string,
@@ -103,7 +106,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
     name: null,
     status: null,
     status_state: 'error',
-    status_animation: null,
+    status_no_animation: null,
     global_status_id: null,
     suffix: null,
     vertical: null,
@@ -205,7 +208,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
     const {
       status,
       status_state,
-      status_animation,
+      status_no_animation,
       global_status_id,
       suffix,
       label_direction,
@@ -325,18 +328,17 @@ export default class ToggleButtonGroup extends React.PureComponent {
               role="group"
               {...params}
             >
-              {showStatus && (
-                <FormStatus
-                  id={id + '-form-status'}
-                  global_status_id={global_status_id}
-                  label={label}
-                  text_id={id + '-status'} // used for "aria-describedby"
-                  text={status}
-                  status={status_state}
-                  animation={status_animation}
-                  skeleton={skeleton}
-                />
-              )}
+              <FormStatus
+                show={showStatus}
+                id={id + '-form-status'}
+                global_status_id={global_status_id}
+                label={label}
+                text_id={id + '-status'} // used for "aria-describedby"
+                text={status}
+                status={status_state}
+                no_animation={status_no_animation}
+                skeleton={skeleton}
+              />
 
               <span className="dnb-toggle-button-group__children">
                 {children}
