@@ -514,10 +514,10 @@ const ModalTriggerExample = () => {
         />
 
         <Button
-          // id="custom-triggerer"
+          id="custom-triggerer"
           text="Custom trigger Button"
           on_click={(e) => {
-            console.log('on_click', e)
+            // console.log('on_click', e)
             return (
               <Modal
                 title="Modal Title"

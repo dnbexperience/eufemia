@@ -16,6 +16,7 @@ import {
 import Input from '../../input/Input'
 import Component from '../Modal'
 import Button from '../../button/Button'
+import Provider from '../../../shared/Provider'
 
 global.userAgent = jest.spyOn(navigator, 'userAgent', 'get')
 global.appVersion = jest.spyOn(navigator, 'appVersion', 'get')
@@ -686,8 +687,8 @@ describe('Modal component', () => {
     expect(Comp.exists('div.dnb-modal__content')).toBe(false)
     expect(Comp.state().modalActive).toBe(false)
   })
-  it('should open and close by using mount / unmount routines', () => {
-    const ModalTriggerExample = () => {
+  it('can be mounted from within another component', () => {
+    const TestCustomTrigger = () => {
       const [count, setCount] = React.useState(0)
 
       return (
@@ -718,7 +719,7 @@ describe('Modal component', () => {
       )
     }
 
-    const Comp = mount(<ModalTriggerExample />)
+    const Comp = mount(<TestCustomTrigger />)
 
     Comp.find('button#count-trigger').simulate('click')
     expect(Comp.find('span.count').text()).toBe('1')
@@ -739,6 +740,79 @@ describe('Modal component', () => {
     // For some reason, in JSDOM, the second open does not work properly.
     // "this.isClosing" is still true at that point. Hard to find the reason. A delay does not help at all.
     // expect(Comp.exists('div.dnb-modal__content')).toBe(true)
+  })
+  it('will keep its internal open_state from within provider', () => {
+    const on_open = jest.fn()
+    const on_close = jest.fn()
+
+    const TestCustomTrigger = () => {
+      const [count, setCount] = React.useState(0)
+
+      return (
+        <Provider>
+          <Button
+            id="count-trigger"
+            text="Count"
+            on_click={() => setCount(count + 1)}
+          />
+
+          <Button
+            id="modal-trigger"
+            on_click={() => {
+              return (
+                <Component
+                  title="Modal Title"
+                  trigger_hidden="true"
+                  open_state="opened"
+                  labelled_by="modal-trigger"
+                  on_open={(e) => {
+                    on_open(e)
+                  }}
+                  on_close={(e) => {
+                    on_close(e)
+                  }}
+                  no_animation
+                  direct_dom_return
+                >
+                  content
+                </Component>
+              )
+            }}
+          />
+
+          <span id="count">{count}</span>
+        </Provider>
+      )
+    }
+
+    const Comp = mount(<TestCustomTrigger />)
+
+    // open
+    Comp.find('button#modal-trigger').simulate('click')
+
+    expect(Comp.exists('div.dnb-modal__content')).toBe(true)
+
+    // close
+    Comp.find('button.dnb-modal__close-button').simulate('click')
+
+    expect(Comp.exists('div.dnb-modal__content')).toBe(false)
+
+    expect(on_open).toHaveBeenCalledTimes(1)
+
+    // state update
+    Comp.find('button#count-trigger').simulate('click')
+    Comp.find('button#count-trigger').simulate('click')
+
+    expect(Comp.find('span#count').text()).toBe('2')
+    expect(Comp.exists('div.dnb-modal__content')).toBe(false)
+    expect(on_close).toHaveBeenCalledTimes(1)
+
+    // open again
+    Comp.find('button#modal-trigger').simulate('click')
+
+    expect(on_open).toHaveBeenCalledTimes(2)
+    expect(on_close).toHaveBeenCalledTimes(1)
+    expect(Comp.exists('div.dnb-modal__content')).toBe(true)
   })
   it('should open and close by using external state only', () => {
     const on_open = jest.fn()

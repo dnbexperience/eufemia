@@ -130,25 +130,33 @@ With placement on the left side.
 
 While the trigger button is not used anymore by using `trigger_hidden`.
 
-<ComponentBox>
+<ComponentBox useRender>
 	{
 	() => /* jsx */ `
-<Button
-  id="custom-triggerer"
-  text="Custom trigger Button"
-  on_click={() => (
-    <Modal
-      title="Modal Title"
-      trigger_hidden
-      open_state="opened"
-      labelled_by="custom-triggerer"
-    >
-      <Section spacing style_type="divider">
-        <P>This Modal was opened by a custom trigger button.</P>
-      </Section>
-    </Modal>
-  )}
-/>
+const Component = () => {
+  const [modalIsActive, setModalState] = React.useState(false)
+  return (
+    <>
+      <Button
+        id="custom-triggerer"
+        text="Custom trigger Button"
+        on_click={() => setModalState((s) => !s)}
+      />
+      <Modal
+        title="Modal Title"
+        trigger_hidden={true}
+        open_state={modalIsActive}
+        labelled_by="custom-triggerer"
+        on_close={() => setModalState(false)}
+      >
+        <Section spacing style_type="divider">
+          <P>This Modal was opened by a custom trigger button.</P>
+        </Section>
+      </Modal>
+    </>
+  )
+}
+render(<Component />)
 	`
 	}
 </ComponentBox>

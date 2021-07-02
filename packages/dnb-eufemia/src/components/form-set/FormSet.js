@@ -18,7 +18,6 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
-import hashSum from '../../shared/libs/HashSum'
 import { formRowDefaultProps, formRowPropTypes } from '../form-row/FormRow'
 
 export default class FormSet extends React.PureComponent {
@@ -89,8 +88,6 @@ export default class FormSet extends React.PureComponent {
       element,
       no_form,
       prevent_submit, // eslint-disable-line
-      disabled, // eslint-disable-line
-      skeleton, // eslint-disable-line
       id, // eslint-disable-line
       className,
       class: _className,
@@ -98,7 +95,7 @@ export default class FormSet extends React.PureComponent {
       ...rest
     } = props
 
-    const formRowProps = Object.entries(rest).reduce((acc, [k, v]) => {
+    const allowedProps = Object.entries(rest).reduce((acc, [k, v]) => {
       if (
         typeof formRowDefaultProps[k] !== 'undefined' &&
         k !== 'id' &&
@@ -110,7 +107,7 @@ export default class FormSet extends React.PureComponent {
       return acc
     }, {})
     const attributes = Object.entries(rest).reduce((acc, [k, v]) => {
-      if (typeof formRowProps[k] === 'undefined') {
+      if (typeof allowedProps[k] === 'undefined' && k !== 'children') {
         acc[k] = v
       }
       return acc
@@ -135,25 +132,15 @@ export default class FormSet extends React.PureComponent {
 
     const content = FormSet.getContent(this.props)
 
-    // check if context has changed, if yes, then update the cache
-    if (hashSum(this._cachedContext) !== hashSum(this.context)) {
-      this._cachedContext = this.context
-
-      const FormRow = {
-        ...formRowProps,
-        skeleton,
-        disabled,
-        // isInsideFormSet: true // We may considder to use this later to check if we are inside FormSet
-      }
-      this._cachedContext = extend(this.context, {
-        FormRow,
-      })
-    }
+    const providerContext = extend(this.context, {
+      FormRow: allowedProps,
+      // isInsideFormSet: true // We may considder to use this later to check if we are inside FormSet
+    })
 
     const Element = isTrue(no_form) ? 'div' : element
 
     return (
-      <Context.Provider value={this._cachedContext}>
+      <Context.Provider value={providerContext}>
         <Element {...params}>{content}</Element>
       </Context.Provider>
     )
