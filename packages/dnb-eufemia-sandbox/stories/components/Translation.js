@@ -113,9 +113,9 @@ export const TranslationSandbox = () => (
             title="Modal Title"
             //  open_state="opened"
           >
-            <Modal.Inner spacing style_type="mint-green">
+            <Modal.Content spacing style_type="mint-green">
               <P>This is the modal text. Triggered by the help button.</P>
-            </Modal.Inner>
+            </Modal.Content>
           </Modal>
         </Provider>
       </Provider>

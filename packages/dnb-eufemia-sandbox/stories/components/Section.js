@@ -6,7 +6,7 @@
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
 import Section from '@dnb/eufemia/src/components/section/web-component'
-import { Button } from '@dnb/eufemia/src'
+import { Button, P } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
 
 export default {
@@ -16,7 +16,11 @@ export default {
 export const SectionSandbox = () => (
   <Wrapper>
     <Box>
-      <Section spacing>content</Section>
+      <Section>
+        <P top="xx-large">Paragraph with spacing on top</P>
+        <P left="xx-large">Paragraph with spacing on top</P>
+        <P bottom="xx-large">Paragraph with spacing on top</P>
+      </Section>
       {/* <Buttons></Buttons> */}
       {/* <DatePicker></DatePicker> */}
     </Box>

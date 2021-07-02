@@ -27,6 +27,7 @@ export default class Section extends React.PureComponent {
     style_type: PropTypes.string,
     spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     element: PropTypes.string,
+    inner_ref: PropTypes.object,
 
     ...spacingPropTypes,
 
@@ -43,6 +44,7 @@ export default class Section extends React.PureComponent {
     style_type: null,
     spacing: null,
     element: 'section',
+    inner_ref: null,
     class: null,
 
     className: null,
@@ -60,7 +62,7 @@ export default class Section extends React.PureComponent {
 
   constructor(props) {
     super(props)
-    this._ref = React.createRef()
+    this._ref = props.inner_ref || React.createRef()
   }
 
   render() {

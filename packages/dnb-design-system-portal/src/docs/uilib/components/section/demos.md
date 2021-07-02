@@ -6,13 +6,13 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 
 ## Demos
 
-### Default Section
+### Default Section without spacing
 
 <ComponentBox hideCode data-visual-test="section-default">
 	{
 	/* @html */ `
 <Section>
-  Visual DNB Section: <code className="dnb-code">default</code>
+	<P top="xx-large">Visual DNB Section: <code className="dnb-code">default</code></P>
 </Section>
 `
 	}
@@ -24,7 +24,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 	{
 	/* @html */ `
 <Section spacing="large">
-  Visual DNB Section: <code className="dnb-code">default with spacing</code>
+  <P space={0}>Visual DNB Section: <code className="dnb-code">default with spacing</code></P>
 </Section>
 `
 	}
@@ -36,7 +36,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 	{
 	/* @html */ `
 <Section spacing="true" style_type="white">
-  Visual DNB Section: <code className="dnb-code">white</code>
+  <P space={0}>Visual DNB Section: <code className="dnb-code">white</code></P>
 </Section>
 `
 	}
@@ -48,7 +48,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 	{
 	/* @html */ `
 <Section spacing="true" style_type="divider">
-  Visual DNB Section: <code className="dnb-code">divider</code>
+  <P space={0}>Visual DNB Section: <code className="dnb-code">divider</code></P>
 </Section>
 `
 	}
@@ -60,7 +60,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 	{
 	/* @html */ `
 <Section spacing="true" style_type="mint-green">
-  Visual DNB Section: <code className="dnb-code">mint-green</code>
+  <P space={0}>Visual DNB Section: <code className="dnb-code">mint-green</code></P>
 </Section>
 `
 	}
@@ -72,7 +72,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 	{
 	/* @html */ `
 <Section spacing="true" style_type="emerald-green">
-  Visual DNB Section: <code className="dnb-code">emerald-green</code>
+  <P space={0}>Visual DNB Section: <code className="dnb-code">emerald-green</code></P>
 </Section>
 `
 	}
@@ -84,7 +84,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 	{
 	/* @html */ `
 <Section spacing="true" style_type="lavender">
-  Visual DNB Section: <code className="dnb-code">lavender</code>
+  <P space={0}>Visual DNB Section: <code className="dnb-code">lavender</code></P>
 </Section>
 `
 	}
@@ -96,7 +96,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 	{
 	/* @html */ `
 <Section spacing="true" style_type="black-3">
-  Visual DNB Section: <code className="dnb-code">black-3</code>
+  <P space={0}>Visual DNB Section: <code className="dnb-code">black-3</code></P>
 </Section>
 `
 	}
@@ -108,7 +108,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 	{
 	/* @html */ `
 <Section spacing="true" style_type="sand-yellow">
-  Visual DNB Section: <code className="dnb-code">sand-yellow</code>
+  <P space={0}>Visual DNB Section: <code className="dnb-code">sand-yellow</code></P>
 </Section>
 `
 	}
@@ -120,7 +120,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 	{
 	/* @html */ `
 <Section spacing="true" style_type="pistachio">
-  Visual DNB Section: <code className="dnb-code">pistachio</code>
+  <P space={0}>Visual DNB Section: <code className="dnb-code">pistachio</code></P>
 </Section>
 `
 	}
@@ -132,7 +132,7 @@ import ComponentBox from 'Src/shared/tags/ComponentBox'
 	{
 	/* @html */ `
 <Section spacing="true" style_type="fire-red">
-  Visual DNB Section: <code className="dnb-code">fire-red</code>
+  <P space={0}>Visual DNB Section: <code className="dnb-code">fire-red</code></P>
 </Section>
 `
 	}

@@ -16,6 +16,7 @@ import {
 import Input from '../../input/Input'
 import Component from '../Modal'
 import Button from '../../button/Button'
+import Provider from '../../../shared/Provider'
 
 global.userAgent = jest.spyOn(navigator, 'userAgent', 'get')
 global.appVersion = jest.spyOn(navigator, 'appVersion', 'get')
@@ -201,53 +202,6 @@ describe('Modal component', () => {
     Comp.find('button#close-me').simulate('click')
     expect(on_close).toHaveBeenCalledTimes(1)
   })
-  it('will set focus on first heading', async () => {
-    const Comp = mount(
-      <Component no_animation={true} title="modal title">
-        modal content
-      </Component>,
-      { attachTo: attachToBody() }
-    )
-    Comp.find('button').simulate('click')
-    await wait(2)
-
-    // and check the class of that element
-    expect(
-      document.activeElement.classList.contains('dnb-modal__title')
-    ).toBe(true)
-
-    Comp.find('button.dnb-modal__close-button').simulate('click')
-
-    // and check the class of that element
-    expect(
-      document.activeElement.classList.contains('dnb-modal__trigger')
-    ).toBe(true)
-  })
-  it('will set focus on clsoe button if no h1 is given', async () => {
-    const Comp = mount(
-      <Component
-        no_animation={true}
-        // hide_close_button
-      >
-        modal content
-      </Component>,
-      { attachTo: attachToBody() }
-    )
-    Comp.find('button').simulate('click')
-    await wait(2)
-
-    // and check the class of that element
-    expect(
-      document.activeElement.classList.contains('dnb-modal__close-button')
-    ).toBe(true)
-
-    Comp.find('button.dnb-modal__close-button').simulate('click')
-
-    // and check the class of that element
-    expect(
-      document.activeElement.classList.contains('dnb-modal__trigger')
-    ).toBe(true)
-  })
   it('will set focus on content div if no h1 and close button is given', async () => {
     const Comp = mount(
       <Component no_animation={true} hide_close_button>
@@ -274,6 +228,60 @@ describe('Modal component', () => {
     expect(
       document.activeElement.classList.contains('dnb-modal__trigger')
     ).toBe(true)
+  })
+  it('will warn if first heading is not h1', async () => {
+    process.env.NODE_ENV = 'development'
+    jest.spyOn(global.console, 'log')
+    global.console.log = jest.fn()
+
+    const Comp = mount(
+      <Component no_animation={true}>
+        <Component.Header>
+          <h2>h2</h2>
+        </Component.Header>
+      </Component>,
+      { attachTo: attachToBody() }
+    )
+    Comp.find('button').simulate('click')
+    await wait(2)
+
+    expect(global.console.log).toHaveBeenCalledTimes(1)
+  })
+  it('will only use one heading if a custom one is given', () => {
+    const Comp = mount(
+      <Component no_animation={true} title="original title">
+        <Component.Header>
+          <div>
+            <h1>custom heading</h1>
+          </div>
+        </Component.Header>
+      </Component>,
+      { attachTo: attachToBody() }
+    )
+    Comp.find('button').simulate('click')
+
+    expect(document.querySelectorAll('h1')).toHaveLength(1)
+    expect(document.querySelector('h1').textContent).toBe('custom heading')
+  })
+  it('will provide custom bar, header and content if given', () => {
+    const Comp = mount(
+      <Component no_animation={true} direct_dom_return>
+        <Component.Bar>bar content</Component.Bar>
+        <Component.Header>header content</Component.Header>
+        <Component.Content>modal content</Component.Content>
+      </Component>,
+      { attachTo: attachToBody() }
+    )
+    Comp.find('button').simulate('click')
+
+    const elements = document.querySelectorAll(
+      '.dnb-modal__content__wrapper > .dnb-section'
+    )
+    console.log('elements', elements.length)
+
+    expect(elements[0].textContent).toContain('bar content')
+    expect(elements[1].textContent).toContain('header content')
+    expect(elements[2].textContent).toContain('modal content')
   })
   it('has support for nested modals', () => {
     const on_open = {
@@ -686,8 +694,8 @@ describe('Modal component', () => {
     expect(Comp.exists('div.dnb-modal__content')).toBe(false)
     expect(Comp.state().modalActive).toBe(false)
   })
-  it('should open and close by using mount / unmount routines', () => {
-    const ModalTriggerExample = () => {
+  it('can be mounted from within another component', () => {
+    const TestCustomTrigger = () => {
       const [count, setCount] = React.useState(0)
 
       return (
@@ -718,7 +726,7 @@ describe('Modal component', () => {
       )
     }
 
-    const Comp = mount(<ModalTriggerExample />)
+    const Comp = mount(<TestCustomTrigger />)
 
     Comp.find('button#count-trigger').simulate('click')
     expect(Comp.find('span.count').text()).toBe('1')
@@ -739,6 +747,79 @@ describe('Modal component', () => {
     // For some reason, in JSDOM, the second open does not work properly.
     // "this.isClosing" is still true at that point. Hard to find the reason. A delay does not help at all.
     // expect(Comp.exists('div.dnb-modal__content')).toBe(true)
+  })
+  it('will keep its internal open_state from within provider', () => {
+    const on_open = jest.fn()
+    const on_close = jest.fn()
+
+    const TestCustomTrigger = () => {
+      const [count, setCount] = React.useState(0)
+
+      return (
+        <Provider>
+          <Button
+            id="count-trigger"
+            text="Count"
+            on_click={() => setCount(count + 1)}
+          />
+
+          <Button
+            id="modal-trigger"
+            on_click={() => {
+              return (
+                <Component
+                  title="Modal Title"
+                  trigger_hidden="true"
+                  open_state="opened"
+                  labelled_by="modal-trigger"
+                  on_open={(e) => {
+                    on_open(e)
+                  }}
+                  on_close={(e) => {
+                    on_close(e)
+                  }}
+                  no_animation
+                  direct_dom_return
+                >
+                  content
+                </Component>
+              )
+            }}
+          />
+
+          <span id="count">{count}</span>
+        </Provider>
+      )
+    }
+
+    const Comp = mount(<TestCustomTrigger />)
+
+    // open
+    Comp.find('button#modal-trigger').simulate('click')
+
+    expect(Comp.exists('div.dnb-modal__content')).toBe(true)
+
+    // close
+    Comp.find('button.dnb-modal__close-button').simulate('click')
+
+    expect(Comp.exists('div.dnb-modal__content')).toBe(false)
+
+    expect(on_open).toHaveBeenCalledTimes(1)
+
+    // state update
+    Comp.find('button#count-trigger').simulate('click')
+    Comp.find('button#count-trigger').simulate('click')
+
+    expect(Comp.find('span#count').text()).toBe('2')
+    expect(Comp.exists('div.dnb-modal__content')).toBe(false)
+    expect(on_close).toHaveBeenCalledTimes(1)
+
+    // open again
+    Comp.find('button#modal-trigger').simulate('click')
+
+    expect(on_open).toHaveBeenCalledTimes(2)
+    expect(on_close).toHaveBeenCalledTimes(1)
+    expect(Comp.exists('div.dnb-modal__content')).toBe(true)
   })
   it('should open and close by using external state only', () => {
     const on_open = jest.fn()

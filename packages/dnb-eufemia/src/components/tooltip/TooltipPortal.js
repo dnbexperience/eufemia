@@ -34,45 +34,93 @@ export default class TooltipPortal extends React.PureComponent {
     hide_delay: 500,
   }
 
-  componentDidMount() {
-    this.renderPortal()
+  state = { isMounted: false }
+
+  init = () => {
+    const { group, active } = this.props
+
+    tooltipPortal[group] = tooltipPortal[group] || {}
+    tooltipPortal[group].node ||
+      (tooltipPortal[group].node = this.useRootElement())
+
+    this.setState({ isMounted: true, active }, () => {
+      if (!this.isMainGorup()) {
+        this.renderPortal()
+      }
+    })
   }
 
-  componentDidUpdate(props) {
-    if (
-      tooltipPortal[this.props.group] &&
-      this.props.active !== props.active
-    ) {
-      this.renderPortal({ active: true })
+  componentDidMount() {
+    if (document.readyState === 'complete') {
+      this.init()
+    } else if (typeof window !== 'undefined') {
+      window.addEventListener('load', this.init)
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { group, active, hide_delay } = this.props
+
+    if (tooltipPortal[group] && active !== prevProps.active) {
+      if (active && !prevProps.active) {
+        this.setState({ active: true }, () => {
+          if (!this.isMainGorup()) {
+            this.renderPortal()
+          }
+        })
+      } else if (!active && prevProps.active) {
+        tooltipPortal[group].timeout = setTimeout(() => {
+          this.setState({ active: false }, () => {
+            if (!this.isMainGorup()) {
+              this.renderPortal()
+            }
+          })
+        }, parseFloat(hide_delay))
+      }
+    }
+  }
+
+  isMainGorup() {
+    const { group } = this.props
+    return group === 'main'
+  }
+
   componentWillUnmount() {
-    if (tooltipPortal[this.props.group]) {
-      ReactDOM.unmountComponentAtNode(tooltipPortal[this.props.group].node)
-      clearTimeout(tooltipPortal[this.props.group].timeout)
+    const { group } = this.props
+    if (tooltipPortal[group]) {
+      if (!this.isMainGorup()) {
+        ReactDOM.unmountComponentAtNode(tooltipPortal[group].node)
+      }
+      clearTimeout(tooltipPortal[group].timeout)
 
       try {
-        document.body.removeChild(tooltipPortal[this.props.group].node)
+        document.body.removeChild(tooltipPortal[group].node)
       } catch (e) {
         //
       }
 
-      tooltipPortal[this.props.group] = null
+      tooltipPortal[group] = null
     }
   }
 
-  createPortal() {
+  getTargetElement() {
+    if (typeof document !== 'undefined') {
+      const { target } = this.props
+      return typeof target === 'string'
+        ? typeof document !== 'undefined' && document.querySelector(target)
+        : target
+    }
+  }
+
+  useRootElement() {
     if (typeof document !== 'undefined') {
       try {
-        tooltipPortal[this.props.group] = {
-          node: document.createElement('div'),
-          timeout: null,
-        }
-        const elem = tooltipPortal[this.props.group].node
-        elem.classList.add('TooltipPortal')
+        const elem = document.createElement('div')
+        elem.classList.add('dnb-tooltip__portal')
         elem.classList.add('dnb-core-style')
         document.body.appendChild(elem)
+
+        return elem
       } catch (e) {
         warn(e)
       }
@@ -95,44 +143,42 @@ export default class TooltipPortal extends React.PureComponent {
     }
   }
 
-  renderPortal(props = {}) {
-    if (!tooltipPortal[this.props.group]) {
-      this.createPortal()
+  renderPortal = () => {
+    const targetElement = this.getTargetElement()
+    const { group } = this.props
+
+    if (tooltipPortal[group].timeout) {
+      clearTimeout(tooltipPortal[group].timeout)
     }
 
-    const { group, target } = this.props
+    this.handleAria(targetElement)
 
-    const targetElement =
-      typeof target === 'string'
-        ? typeof document !== 'undefined' && document.querySelector(target)
-        : target
-
-    if (targetElement) {
-      if (tooltipPortal[group].timeout) {
-        clearTimeout(tooltipPortal[group].timeout)
-      }
-
-      if (!this.props.active && props.active) {
-        tooltipPortal[group].timeout = setTimeout(() => {
-          this.renderPortal({ active: false })
-        }, parseFloat(this.props.hide_delay))
-      }
-
-      this.handleAria(targetElement)
-
-      const component = (
+    if (this.isMainGorup()) {
+      return ReactDOM.createPortal(
         <TooltipContainer
           targetElement={targetElement}
           {...this.props}
-          {...props}
-        />
+          active={this.state.active}
+        />,
+        tooltipPortal[group].node
       )
-
-      ReactDOM.render(component, tooltipPortal[this.props.group].node)
+    } else {
+      ReactDOM.render(
+        <TooltipContainer
+          targetElement={targetElement}
+          {...this.props}
+          active={this.state.active}
+        />,
+        tooltipPortal[group].node
+      )
     }
   }
 
   render() {
+    if (this.state.isMounted && this.isMainGorup()) {
+      return this.renderPortal()
+    }
+
     return null
   }
 }

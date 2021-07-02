@@ -330,13 +330,15 @@ describe('A single Tab component', () => {
 
   it('has to work with "Tabs.Content" from outside', () => {
     let testKey = null
+    let testTitle = null
     const LinkedContent = (props = {}) => {
       return (
         <>
           <Component id="linked" data={tablistData} {...props} />
           <Component.Content id="linked">
-            {({ key }) => {
+            {({ key, title }) => {
               testKey = key
+              testTitle = title
 
               return key
             }}
@@ -350,6 +352,7 @@ describe('A single Tab component', () => {
       Comp.find('button.selected').instance().getAttribute('data-tab-key')
     ).toBe('first')
     expect(testKey).toBe('first')
+    expect(testTitle).toBe('First')
 
     Comp.setProps({
       selected_key: 'second',

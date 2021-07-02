@@ -24,16 +24,18 @@ import {
 } from '../space/SpacingHelper'
 import { buttonVariantPropType } from '../button/Button'
 import HelpButtonInstance from '../help-button/HelpButtonInstance'
-import ModalContent, {
-  CloseButton,
-  getListOfModalRoots,
-} from './ModalContent'
+import ModalContent, { getListOfModalRoots } from './ModalContent'
+import ModalContext from './ModalContext'
 import ModalInner from './ModalInner'
+import ModalHeader, { ModalHeaderBar, CloseButton } from './ModalHeader'
 
 export default class Modal extends React.PureComponent {
   static tagName = 'dnb-modal'
   static contextType = Context
-  static Inner = ModalInner
+  static Bar = ModalHeaderBar
+  static Header = ModalHeader
+  static Content = ModalInner
+  static Inner = ModalInner // deprecated
 
   static propTypes = {
     id: PropTypes.string,
@@ -133,6 +135,8 @@ export default class Modal extends React.PureComponent {
       PropTypes.node,
       PropTypes.func,
     ]),
+    header_content: PropTypes.node,
+    bar_content: PropTypes.node,
   }
 
   static defaultProps = {
@@ -189,6 +193,8 @@ export default class Modal extends React.PureComponent {
     content_class: null,
 
     modal_content: null,
+    header_content: null,
+    bar_content: null,
   }
 
   static enableWebComponent() {
@@ -228,27 +234,24 @@ export default class Modal extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (state._listenForPropChanges) {
-      if (props.open_state !== state._open_state) {
-        switch (props.open_state) {
-          case 'opened':
-          case true:
-            state.hide = false
-            if (isTrue(props.no_animation)) {
-              state.modalActive = true
-            }
-            break
-          case 'closed':
-          case false:
-            state.hide = true
-            if (isTrue(props.no_animation)) {
-              state.modalActive = false
-            }
-            break
-        }
+    if (props.open_state !== state._open_state) {
+      switch (props.open_state) {
+        case 'opened':
+        case true:
+          state.hide = false
+          if (isTrue(props.no_animation)) {
+            state.modalActive = true
+          }
+          break
+        case 'closed':
+        case false:
+          state.hide = true
+          if (isTrue(props.no_animation)) {
+            state.modalActive = false
+          }
+          break
       }
     }
-    state._listenForPropChanges = true
     state._open_state = props.open_state
 
     return state
@@ -257,7 +260,6 @@ export default class Modal extends React.PureComponent {
   state = {
     hide: false,
     modalActive: false,
-    _listenForPropChanges: true,
   }
 
   constructor(props) {
@@ -286,31 +288,30 @@ export default class Modal extends React.PureComponent {
     clearTimeout(this._tryToOpenTimeout)
   }
 
-  componentDidUpdate() {
-    this.openBasedOnStateUpdate()
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      this.openBasedOnStateUpdate()
+    }
   }
 
   openBasedOnStateUpdate() {
     const { hide, modalActive } = this.state
+    const { open_state } = this.props
 
     if (!this.activeElement && typeof document !== 'undefined') {
       this.activeElement = document.activeElement
     }
 
     if (
-      !this.isInTransition &&
       !hide &&
       !modalActive &&
-      (this.props.open_state === 'opened' ||
-        this.props.open_state === true)
+      (open_state === 'opened' || open_state === true)
     ) {
       this.toggleOpenClose(null, true)
     } else if (
-      !this.isInTransition &&
       hide &&
       modalActive &&
-      (this.props.open_state === 'closed' ||
-        this.props.open_state === false)
+      (open_state === 'closed' || open_state === false)
     ) {
       this.toggleOpenClose(null, false)
     }
@@ -334,7 +335,6 @@ export default class Modal extends React.PureComponent {
           {
             hide: false,
             modalActive,
-            _listenForPropChanges: false,
           },
           () => {
             this.isInTransition = false
@@ -346,7 +346,6 @@ export default class Modal extends React.PureComponent {
       if (modalActive === false && !isTrue(this.props.no_animation)) {
         this.setState({
           hide: true,
-          _listenForPropChanges: false,
         })
 
         clearTimeout(this._closeTimeout)
@@ -489,6 +488,8 @@ export default class Modal extends React.PureComponent {
       spacing,
       labelled_by,
       focus_selector,
+      header_content,
+      bar_content,
 
       // All "trigger_" are deprecated
       trigger,
@@ -551,7 +552,7 @@ export default class Modal extends React.PureComponent {
       const TriggerButton = trigger ? trigger : HelpButtonInstance
 
       return (
-        <>
+        <ModalContext.Provider value={{ id: this._id, ...rest }}>
           {TriggerButton && !isTrue(trigger_hidden) && (
             <TriggerButton
               id={this._id}
@@ -581,6 +582,8 @@ export default class Modal extends React.PureComponent {
               labelled_by={labelled_by}
               focus_selector={focus_selector}
               modal_content={modal_content}
+              header_content={header_content}
+              bar_content={bar_content}
               spacing={spacing}
               closeModal={this.close}
               hide={hide}
@@ -588,7 +591,7 @@ export default class Modal extends React.PureComponent {
               {...modalProps}
             />
           )}
-        </>
+        </ModalContext.Provider>
       )
     }
 

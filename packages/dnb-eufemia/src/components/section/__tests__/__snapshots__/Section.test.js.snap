@@ -5,6 +5,7 @@ exports[`Section component have to match snapshot 1`] = `
   class="class"
   className="className"
   element={null}
+  inner_ref={null}
   spacing="spacing"
   style={null}
   style_type="mint-green-12"
@@ -147,11 +148,12 @@ exports[`Section scss have to match snapshot 1`] = `
  *
  */
 .dnb-section {
-  position: relative; }
+  position: relative;
+  display: flow-root; }
   .dnb-section::after {
     content: '';
     position: absolute;
-    z-index: -3;
+    z-index: -15;
     left: -100vw;
     top: 0;
     width: 100vw;
@@ -160,9 +162,15 @@ exports[`Section scss have to match snapshot 1`] = `
     background-color: currentColor;
     box-shadow: 99vw 0 0 0 currentColor, 198vw 0 0 0 currentColor, 297vw 0 0 0 currentColor, 396vw 0 0 0 currentColor; }
   .dnb-section > .dnb-section::after {
-    z-index: -2; }
+    z-index: -14; }
   .dnb-section > .dnb-section > .dnb-section::after {
-    z-index: -1; }
+    z-index: -13; }
+  .dnb-section > .dnb-section > .dnb-section > .dnb-section::after {
+    z-index: -12; }
+  .dnb-section > .dnb-section > .dnb-section > .dnb-section > .dnb-section::after {
+    z-index: -11; }
+  .dnb-section > .dnb-section > .dnb-section > .dnb-section > .dnb-section > .dnb-section::after {
+    z-index: -10; }
   .dnb-section--spacing-small {
     padding-top: var(--spacing-small);
     padding-bottom: var(--spacing-small); }

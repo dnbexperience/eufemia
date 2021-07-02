@@ -309,7 +309,7 @@ export default class Tabs extends React.PureComponent {
 
     if (props.id) {
       this._eventEmitter = EventEmitter.createInstance(props.id)
-      this._eventEmitter.set({ key: selected_key })
+      this._eventEmitter.set(this.getEventArgs({ selected_key }))
     }
   }
 
@@ -355,7 +355,8 @@ export default class Tabs extends React.PureComponent {
       this._eventEmitter &&
       this.props.selected_key !== props.selected_key
     ) {
-      this._eventEmitter.update({ key: this.state.selected_key })
+      const selected_key = this.state.selected_key
+      this._eventEmitter.update(this.getEventArgs({ selected_key }))
     }
   }
 
@@ -718,8 +719,7 @@ export default class Tabs extends React.PureComponent {
     return selected_key
   }
 
-  getCurrentTitle = () => {
-    const { selected_key } = this.state
+  getCurrentTitle = (selected_key = this.state.selected_key) => {
     const current = this.state.data.filter(
       ({ key }) => key == selected_key
     )[0]
@@ -838,19 +838,22 @@ export default class Tabs extends React.PureComponent {
     }
 
     if (this._eventEmitter) {
-      this._eventEmitter.update({ key: selected_key })
+      this._eventEmitter.update(this.getEventArgs({ event, selected_key }))
     }
   }
 
   getEventArgs(args) {
     const { selected_key, focus_key } = this.state
+    const key =
+      typeof args.selected_key !== 'undefined'
+        ? args.selected_key
+        : selected_key
+
     return {
-      key:
-        typeof args.selected_key !== 'undefined'
-          ? args.selected_key
-          : selected_key,
+      key,
       selected_key,
       focus_key,
+      title: this.getCurrentTitle(key),
       ...args,
     }
   }

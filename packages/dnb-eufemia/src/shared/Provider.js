@@ -158,29 +158,11 @@ export default class Provider extends React.PureComponent {
     this.setState({ __newContext })
   }
 
-  // render() {
-  //   this.context.updateTranslation(
-  //     this.state.locale,
-  //     this.state.translation
-  //   )
-
-  //   return (
-  //     <Context.Provider value={this.state}>
-  //       {this.props.children}
-  //     </Context.Provider>
-  //   )
-  // }
-
   render() {
     let value = this.state
 
     // this way we update the translation object
     if (!this.state.isRoot) {
-      value = {
-        ...this.context,
-        ...this.state, // Use this state here, because our child provider can still update the context          ...this.context
-      }
-
       value = Provider.mergeContext(this.state, this.context)
     }
 

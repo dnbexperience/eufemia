@@ -98,6 +98,36 @@ The Modal component is using **3000** as the `z-index`.
 }
 ```
 
+## The Drawer mode
+
+The modal comes with a `drawer` mode. The drawer is made to be used in different content usage than the modal. Typically in context interactions.
+
+### Drawer content wrapper
+
+In order to make it easier to have another colored area below the title, you can make use of the extra wrapper `<Modal.Content>`. Underneath, the [Section](/uilib/components/section) is used, but with the color `black-3` as default. This extra "section" is also customized to work together with the Modal and Drawer component.
+
+```jsx
+<Modal mode="drawer">
+  <Modal.Content>Drawer Content</Modal.Content>
+</Modal>
+```
+
+### Drawer bar and header
+
+You can provide a custom content to both the drawer bar and header. You can provide it either as a React property (`bar_content` and `header_content`), or by markup.
+
+You may want to provide the title heading as a property. But if you need to, you can also provide a <H1 /> Eufemia Component inside the header.
+
+```jsx
+<Modal mode="drawer" title="Heading title">
+  <Modal.Bar>Drawer Bar Content</Modal.Bar>
+  <Modal.Header>Drawer Header Content</Modal.Header>
+  <Modal.Content>Drawer Content</Modal.Content>
+</Modal>
+```
+
+See [demo](/uilib/components/modal#drawer-mode-with-custom-header) for more details.
+
 ## Sizing and spacing
 
 You have the properties `min_width` and `max_width`. But by using these, the width styles get injected inline, which normal circumstances works fine. But in case you want to set it by CSS, you can do so:
@@ -114,29 +144,4 @@ You have the properties `min_width` and `max_width`. But by using these, the wid
   /* Defaults to --spacing-large */
   --modal-spacing: var(--spacing-small);
 }
-```
-
-## Inner section wrapper
-
-In order to make it easier to have another colored area below the title, you can make use of the extra wrapper `<Modal.Inner>`. Underneath, the [Section](/uilib/components/section) is used, but with the color `black-3` as default. This extra "section" is also customized to work together with the Modal and Drawer component.
-
-```jsx
-<Modal mode="drawer">
-  <Modal.Inner spacing>Modal Content</Modal.Inner>
-</Modal>
-```
-
-## Styles and `dnb-core-style`
-
-The Modal component comes with the `dnb-core-style` class predefined by default. If you don't want this behavior because of e.g. CSS specificity, you can opt out by setting this property `prevent_core_style` to true.
-
-```jsx
-/* The CSS class is set by default */
-<Modal className="dnb-core-style">...</Modal>
-
-/* You have the option to set it like this as well as markup only */
-<body>
-  <div id="app" />
-  <div id="dnb-modal-root" class="dnb-core-style" />
-</body>
 ```

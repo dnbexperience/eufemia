@@ -11,7 +11,6 @@ import Highlight, { Prism, defaultProps } from 'prism-react-renderer'
 import ReactMarkdown from 'react-markdown'
 import Tag from './Tag'
 import components from './index'
-import Code from '../parts/uilib/Code'
 import { Button } from '@dnb/eufemia/src/components'
 import { P } from '@dnb/eufemia/src/elements'
 import { makeUniqueId } from '@dnb/eufemia/src/shared/component-helper'
@@ -20,7 +19,6 @@ import AutoLinkHeader from './AutoLinkHeader'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 
 import {
-  generateElement,
   LiveProvider,
   LiveEditor,
   LiveError,
@@ -103,8 +101,6 @@ class LiveCode extends React.PureComponent {
     hideToolbar: PropTypes.bool,
     hideCode: PropTypes.bool,
     hidePreview: PropTypes.bool,
-    showSyntax: PropTypes.bool,
-    hideSyntaxButton: PropTypes.bool,
     language: PropTypes.string,
   }
 
@@ -119,31 +115,18 @@ class LiveCode extends React.PureComponent {
     hideToolbar: false,
     hideCode: false,
     hidePreview: false,
-    showSyntax: false,
-    hideSyntaxButton: null,
     language: 'jsx',
   }
 
   constructor(props) {
     super(props)
-    const {
-      code,
-      hideToolbar,
-      hideCode,
-      hidePreview,
-      showSyntax,
-      useRender,
-      hideSyntaxButton,
-    } = props
+    const { code, hideToolbar, hideCode, hidePreview } = props
 
     this.state = {
       code,
       hideToolbar,
       hideCode,
       hidePreview,
-      showSyntax,
-      hideSyntaxButton:
-        hideSyntaxButton === null ? useRender : hideSyntaxButton,
     }
 
     this._refEditor = React.createRef()
@@ -154,9 +137,6 @@ class LiveCode extends React.PureComponent {
   }
   togglePreview = () => {
     this.setState(() => ({ hidePreview: !this.state.hidePreview }))
-  }
-  toggleSyntax = () => {
-    this.setState(() => ({ showSyntax: !this.state.showSyntax }))
   }
 
   prepareCode(code) {
@@ -169,7 +149,6 @@ class LiveCode extends React.PureComponent {
     ) {
       code = code.replace(/\s+data-visual-test="[^"]*"/g, '') // remove test data
     }
-    // code = code.replace(/^\s*$(?:\r\n?|\n)/gm, '') // remove empty lines
     return code
   }
 
@@ -188,21 +167,12 @@ class LiveCode extends React.PureComponent {
       hideToolbar: _hideToolbar, // eslint-disable-line
       hideCode: _hideCode, // eslint-disable-line
       hidePreview: _hidePreview, // eslint-disable-line
-      showSyntax: _showSyntax, // eslint-disable-line
-      hideSyntaxButton: _hideSyntaxButton, // eslint-disable-line
       'data-visual-test': visualTest, // eslint-disable-line
 
       ...props
     } = this.props
 
-    const {
-      code,
-      hideToolbar,
-      hideCode,
-      hidePreview,
-      showSyntax,
-      hideSyntaxButton,
-    } = this.state
+    const { code, hideToolbar, hideCode, hidePreview } = this.state
 
     const codeToUse =
       typeof code === 'string' ? this.prepareCode(code) : null
@@ -343,17 +313,6 @@ class LiveCode extends React.PureComponent {
           )}
           {!global.IS_TEST && !hideToolbar && (
             <Toolbar className="dnb-live-toolbar">
-              {!hideCode && !hideSyntaxButton && (
-                <Button
-                  className="toggle-button"
-                  on_click={this.toggleSyntax}
-                  variant="secondary"
-                  text="Syntax"
-                  title="Toggle Syntax"
-                  icon={`arrow-${!showSyntax ? 'down' : 'up'}`}
-                  size="medium"
-                />
-              )}
               {this.props.hideCode && (
                 <Button
                   className="toggle-button"
@@ -378,20 +337,6 @@ class LiveCode extends React.PureComponent {
               )}
             </Toolbar>
           )}
-          {!global.IS_TEST && showSyntax && (
-            <Syntax>
-              <Code
-                // eslint-disable-next-line react/no-children-prop
-                children={generateElement({
-                  code:
-                    !useRender && noFragments
-                      ? `<>${codeToUse}</>`
-                      : codeToUse,
-                  scope,
-                })}
-              />
-            </Syntax>
-          )}
         </LiveProvider>
       </LiveCodeEditor>
     )
@@ -411,17 +356,19 @@ const LiveCodeEditor = styled.div`
     position: relative;
     margin-bottom: 4rem;
 
+    transition: box-shadow 0.2s ease-out;
+
     &::after {
       content: '';
       position: absolute;
-      top: calc(-0.5rem + 1px);
-      left: 45%;
+      top: calc(-0.75rem + 1px);
+      left: 1rem;
 
       width: 0;
       height: 0;
 
       border-style: solid;
-      border-width: 0 0.4375rem 0.5rem;
+      border-width: 0 0.75rem 0.75rem;
       border-color: transparent transparent #222 transparent;
 
       opacity: 1;
@@ -465,10 +412,6 @@ const Toolbar = styled.div`
   button {
     pointer-events: all;
   }
-`
-
-const Syntax = styled.div`
-  margin-top: 1rem;
 `
 
 /** Removes the last token from a code example if it's empty. */

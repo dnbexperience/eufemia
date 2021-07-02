@@ -30,22 +30,22 @@ export default class ContentWrapper extends React.PureComponent {
     children: null,
   }
 
-  state = {}
+  state = { key: null }
 
   constructor(props) {
     super(props)
 
     if (props.id) {
       this._eventEmitter = EventEmitter.createInstance(props.id)
-      this.state.key = this._eventEmitter.get().key
+      this.state = this._eventEmitter.get()
     }
   }
 
   componentDidMount() {
     if (this.props.id) {
-      this._eventEmitter.listen(({ key }) => {
-        if (this._eventEmitter && key !== this.state.key) {
-          this.setState({ key })
+      this._eventEmitter.listen((params) => {
+        if (this._eventEmitter && params.key !== this.state.key) {
+          this.setState(params)
         }
       })
     }
@@ -84,7 +84,7 @@ export default class ContentWrapper extends React.PureComponent {
 
     let content = children
     if (typeof children === 'function') {
-      content = children({ key: this.state.key })
+      content = children(this.state)
     }
 
     return (

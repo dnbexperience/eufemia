@@ -6,10 +6,14 @@
 @mixin SectionStyle() {
   position: relative;
 
+  // flow-root allows content to have margin top and bottom
+  // it eliminates margin-collapsing
+  display: flow-root;
+
   &::after {
     content: '';
     position: absolute;
-    z-index: -3;
+    z-index: -15;
     left: -100vw;
     top: 0;
     width: 100vw;
@@ -23,10 +27,19 @@
       297vw 0 0 0 currentColor, 396vw 0 0 0 currentColor;
   }
   & > &::after {
-    z-index: -2;
+    z-index: -14;
   }
   & > & > &::after {
-    z-index: -1;
+    z-index: -13;
+  }
+  & > & > & > &::after {
+    z-index: -12;
+  }
+  & > & > & > & > &::after {
+    z-index: -11;
+  }
+  & > & > & > & > & > &::after {
+    z-index: -10;
   }
 
   &--spacing-small {
