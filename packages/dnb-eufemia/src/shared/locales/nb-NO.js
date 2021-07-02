@@ -85,6 +85,8 @@ export default {
       aria_ready: 'Klar til å samhandle',
     },
     StepIndicator: {
+      overview_title: 'Stegoversikt',
+      step_title_extended: 'Du er på steg %step av %count',
       step_title: 'Steg %step av %count',
     },
     Slider: {
