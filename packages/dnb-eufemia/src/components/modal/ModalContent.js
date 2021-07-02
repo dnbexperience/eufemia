@@ -17,20 +17,22 @@ import {
   isTrue,
   makeUniqueId,
   InteractionInvalidation,
-  extendPropsWithContext,
+  findElementInChildren,
   combineLabelledBy,
   combineDescribedBy,
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import Button from '../button/Button'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
-import Context from '../../shared/Context'
+import ModalContext from './ModalContext'
+import ModalHeader, { ModalHeaderBar } from './ModalHeader'
 
 export default class ModalContent extends React.PureComponent {
   static propTypes = {
     modal_content: PropTypes.node.isRequired,
     mode: PropTypes.oneOf(['modal', 'drawer']),
+    bar_content: PropTypes.node,
+    header_content: PropTypes.node,
     hide: PropTypes.bool,
     id: PropTypes.string,
     root_id: PropTypes.string,
@@ -79,6 +81,8 @@ export default class ModalContent extends React.PureComponent {
 
   static defaultProps = {
     mode: null,
+    bar_content: null,
+    header_content: null,
     hide: null,
     id: null,
     root_id: null,
@@ -265,29 +269,24 @@ export default class ModalContent extends React.PureComponent {
       this._focusTimeout = setTimeout(
         () => {
           try {
-            let focusElement
+            let focusElement = elem
 
-            // 1. Try to use the "first-focus" method first
+            // Try to use the "first-focus" method first
             if (typeof focus_selector === 'string') {
               focusElement = elem.querySelector(focus_selector)
-            } else if (focus_selector === false) {
-              return // stop here
             }
 
-            // 2. fall back to headings and the close button
-            if (!focusElement) {
-              focusElement = elem.querySelector(
-                'h1:first-of-type, h2:first-of-type, .dnb-modal__close-button:not([disabled])'
+            focusElement.focus()
+
+            const noH1Elem = elem.querySelector('h1, h2, h3')
+            if (
+              typeof noH1Elem?.tagName !== 'undefined' &&
+              noH1Elem.tagName !== 'H1'
+            ) {
+              warn(
+                'You have to provide a h1 element at first – instead of:',
+                noH1Elem
               )
-            }
-
-            // 3. fall back to the main element
-            if (!focusElement) {
-              focusElement = elem
-            }
-
-            if (focusElement) {
-              focusElement.focus()
             }
           } catch (e) {
             warn(e)
@@ -350,16 +349,24 @@ export default class ModalContent extends React.PureComponent {
     })
   }
 
+  setBackgroundColor = (color) => {
+    this.setState({
+      color,
+    })
+  }
+
   render() {
     const {
       mode,
       hide,
       title,
       labelled_by,
+      header_content,
       modal_content,
-      close_title,
-      hide_close_button,
-      close_button_attributes,
+      bar_content,
+      close_title, // eslint-disable-line
+      hide_close_button, // eslint-disable-line
+      close_button_attributes, // eslint-disable-line
       spacing,
       prevent_close, // eslint-disable-line
       open_delay, // eslint-disable-line
@@ -384,6 +391,9 @@ export default class ModalContent extends React.PureComponent {
     } = this.props
 
     const id = content_id || this._id
+    const style = this.state.color
+      ? { '--modal-background-color': `var(--color-${this.state.color})` }
+      : null
 
     // ensure the min/max don't conflict
     let minWidth = min_width
@@ -458,88 +468,51 @@ export default class ModalContent extends React.PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, innerParams)
 
+    const bar = findElementInChildren(
+      modal_content,
+      (cur) => cur.type === ModalHeaderBar
+    ) ? null : (
+      <ModalHeaderBar>{bar_content}</ModalHeaderBar>
+    )
+
+    const header = findElementInChildren(
+      modal_content,
+      (cur) => cur.type === ModalHeader
+    ) ? null : (
+      <ModalHeader title={title}>{header_content}</ModalHeader>
+    )
+
+    const content = (
+      <div id={id + '-content'} className="dnb-modal__content__wrapper">
+        {modal_content}
+      </div>
+    )
+
     return (
-      <>
+      <ModalContext.Provider
+        value={{
+          id,
+          setBackgroundColor: this.setBackgroundColor,
+          ...this.props,
+          onCloseClickHandler: this.onCloseClickHandler,
+        }}
+      >
         <div id={id} {...contentParams}>
           <ScrollView {...innerParams}>
             <div
               tabIndex="-1"
               className="dnb-modal__content__spacing dnb-no-focus"
+              style={style}
               ref={this._contentRef}
             >
-              {title && (
-                <h1
-                  id={id + '-title'}
-                  tabIndex="-1"
-                  className={classnames(
-                    'dnb-modal__title',
-                    'dnb-no-focus',
-                    mode === 'drawer' ? 'dnb-h--x-large' : 'dnb-h--large'
-                  )}
-                >
-                  {title}
-                </h1>
-              )}
-              {!isTrue(hide_close_button) && (
-                <CloseButton
-                  on_click={this.onCloseClickHandler}
-                  close_title={close_title}
-                  {...close_button_attributes}
-                />
-              )}
-              <div id={id + '-content'} className="dnb-modal__wrapper">
-                {modal_content}
-              </div>
+              {bar}
+              {header}
+              {content}
             </div>
           </ScrollView>
         </div>
         <span {...overlayParams} aria-hidden="true" />
-      </>
-    )
-  }
-}
-
-export class CloseButton extends React.PureComponent {
-  static contextType = Context
-  static propTypes = {
-    on_click: PropTypes.func.isRequired,
-    close_title: PropTypes.string,
-    size: PropTypes.string,
-    icon_position: PropTypes.string,
-    className: PropTypes.string,
-  }
-  static defaultProps = {
-    close_title: null,
-    size: 'large',
-    icon_position: 'left',
-    className: null,
-  }
-
-  render() {
-    // use only the props from context, who are available here anyway
-    const {
-      on_click,
-      close_title,
-      className = null,
-      ...rest
-    } = extendPropsWithContext(
-      this.props,
-      CloseButton.defaultProps,
-      this.context.getTranslation(this.props).Modal,
-      this.context.FormRow,
-      this.context.ModalContent
-    )
-
-    return (
-      <Button
-        type="button"
-        text={close_title}
-        variant="tertiary"
-        className={classnames('dnb-modal__close-button', className)}
-        icon="close"
-        on_click={on_click}
-        {...rest}
-      />
+      </ModalContext.Provider>
     )
   }
 }

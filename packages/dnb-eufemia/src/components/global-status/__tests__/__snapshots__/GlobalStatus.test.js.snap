@@ -802,6 +802,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
       class={null}
       className="dnb-global-status dnb-global-status--error dnb-global-status--visible dnb-global-status--no-animation"
       element="div"
+      inner_ref={null}
       spacing={null}
       style_type="fire-red"
     >
@@ -1033,6 +1034,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
               class={null}
               className="dnb-global-status__message"
               element="div"
+              inner_ref={null}
               spacing={null}
               style_type="white"
             >
@@ -1125,6 +1127,7 @@ Array [
         class={null}
         className="dnb-global-status dnb-global-status--error dnb-global-status--visible dnb-global-status--no-animation"
         element="div"
+        inner_ref={null}
         spacing={null}
         style_type="fire-red"
       >
@@ -1356,6 +1359,7 @@ Array [
                 class={null}
                 className="dnb-global-status__message"
                 element="div"
+                inner_ref={null}
                 spacing={null}
                 style_type="white"
               >

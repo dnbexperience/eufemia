@@ -38,7 +38,7 @@ import Icon from '../icon/Icon'
  * we have to have them inlined here in this component. Down below.
  */
 // import { InfoIcon, ErrorIcon } from '../form-status/FormStatus'
-import { CloseButton } from '../modal/ModalContent'
+import { CloseButton } from '../modal/Modal'
 import Section from '../section/Section'
 import { IS_IE11 } from '../../shared/helpers'
 

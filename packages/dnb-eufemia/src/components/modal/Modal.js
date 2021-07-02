@@ -24,16 +24,18 @@ import {
 } from '../space/SpacingHelper'
 import { buttonVariantPropType } from '../button/Button'
 import HelpButtonInstance from '../help-button/HelpButtonInstance'
-import ModalContent, {
-  CloseButton,
-  getListOfModalRoots,
-} from './ModalContent'
+import ModalContent, { getListOfModalRoots } from './ModalContent'
+import ModalContext from './ModalContext'
 import ModalInner from './ModalInner'
+import ModalHeader, { ModalHeaderBar, CloseButton } from './ModalHeader'
 
 export default class Modal extends React.PureComponent {
   static tagName = 'dnb-modal'
   static contextType = Context
-  static Inner = ModalInner
+  static Bar = ModalHeaderBar
+  static Header = ModalHeader
+  static Content = ModalInner
+  static Inner = ModalInner // deprecated
 
   static propTypes = {
     id: PropTypes.string,
@@ -133,6 +135,8 @@ export default class Modal extends React.PureComponent {
       PropTypes.node,
       PropTypes.func,
     ]),
+    header_content: PropTypes.node,
+    bar_content: PropTypes.node,
   }
 
   static defaultProps = {
@@ -189,6 +193,8 @@ export default class Modal extends React.PureComponent {
     content_class: null,
 
     modal_content: null,
+    header_content: null,
+    bar_content: null,
   }
 
   static enableWebComponent() {
@@ -482,6 +488,8 @@ export default class Modal extends React.PureComponent {
       spacing,
       labelled_by,
       focus_selector,
+      header_content,
+      bar_content,
 
       // All "trigger_" are deprecated
       trigger,
@@ -544,7 +552,7 @@ export default class Modal extends React.PureComponent {
       const TriggerButton = trigger ? trigger : HelpButtonInstance
 
       return (
-        <>
+        <ModalContext.Provider value={{ id: this._id, ...rest }}>
           {TriggerButton && !isTrue(trigger_hidden) && (
             <TriggerButton
               id={this._id}
@@ -574,6 +582,8 @@ export default class Modal extends React.PureComponent {
               labelled_by={labelled_by}
               focus_selector={focus_selector}
               modal_content={modal_content}
+              header_content={header_content}
+              bar_content={bar_content}
               spacing={spacing}
               closeModal={this.close}
               hide={hide}
@@ -581,7 +591,7 @@ export default class Modal extends React.PureComponent {
               {...modalProps}
             />
           )}
-        </>
+        </ModalContext.Provider>
       )
     }
 

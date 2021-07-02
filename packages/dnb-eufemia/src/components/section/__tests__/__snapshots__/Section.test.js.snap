@@ -5,6 +5,7 @@ exports[`Section component have to match snapshot 1`] = `
   class="class"
   className="className"
   element={null}
+  inner_ref={null}
   spacing="spacing"
   style={null}
   style_type="mint-green-12"

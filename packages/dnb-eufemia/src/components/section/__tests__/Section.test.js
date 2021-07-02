@@ -18,6 +18,7 @@ const props = fakeProps(require.resolve('../Section'), {
 })
 props.style = null
 props.element = null
+props.inner_ref = null
 props.style_type = 'mint-green-12'
 
 describe('Section component', () => {
