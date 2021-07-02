@@ -1088,8 +1088,7 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         background-color: currentColor;
         bottom: -0.0625rem;
         color: transparent;
-        opacity: 0;
-        transition: opacity 200ms ease-out, color 200ms ease-out; }
+        transition: color 250ms ease-in-out; }
         @media screen and (-ms-high-contrast: none) {
           .dnb-button--tertiary .dnb-button__text::after {
             height: 1px;
@@ -1141,7 +1140,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       cursor: not-allowed; }
     html:not([data-whatintent='touch']) .dnb-button--tertiary:hover:not([disabled]) .dnb-button__text::after {
       visibility: visible;
-      opacity: 1;
       color: var(--color-emerald-green); }
     .dnb-button--tertiary:active[disabled],
     html:not([data-whatintent='touch']) .dnb-button--tertiary:active[disabled] {
