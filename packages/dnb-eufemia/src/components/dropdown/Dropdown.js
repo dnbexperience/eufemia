@@ -28,7 +28,7 @@ import Suffix from '../../shared/helpers/Suffix'
 import Icon from '../icon-primary/IconPrimary'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
-import Button from '../button/Button'
+import Button, { buttonVariantPropType } from '../button/Button'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
 import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
@@ -43,6 +43,7 @@ export default class Dropdown extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    variant: buttonVariantPropType.variant,
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
@@ -158,6 +159,7 @@ export default class Dropdown extends React.PureComponent {
   static defaultProps = {
     id: null,
     title: 'Option Menu',
+    variant: 'secondary',
     icon: null,
     icon_size: null,
     icon_position: null,
