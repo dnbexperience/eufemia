@@ -100,6 +100,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   triangle_position={null}
   trigger_element={null}
   value={2}
+  variant="secondary"
 >
   <DrawerListProvider
     action_menu={null}
@@ -220,6 +221,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     trigger_element={null}
     use_drawer_on_mobile={null}
     value={2}
+    variant="secondary"
     wrapper_element={null}
   >
     <DropdownInstance
@@ -321,6 +323,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       triangle_position={null}
       trigger_element={null}
       value={2}
+      variant="secondary"
     >
       <span
         className="dnb-dropdown dnb-dropdown--bottom dnb-dropdown--icon-position-right dnb-dropdown--right dnb-form-component class className dnb-dropdown--opened dnb-dropdown--horizontal dnb-dropdown__status--error dnb-dropdown__form-status"
@@ -1275,6 +1278,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "triangle_position": null,
                   "trigger_element": null,
                   "value": 2,
+                  "variant": "secondary",
                 }
               }
               id="dropdown-id-suffix"
@@ -1307,12 +1311,11 @@ exports[`Dropdown scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-dropdown__trigger {
-  color: var(--color-sea-green); }
-  html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover[disabled] {
-    cursor: not-allowed; }
-  html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover:not([disabled]) {
-    color: var(--color-emerald-green); }
+html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover[disabled] {
+  cursor: not-allowed; }
+
+html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover:not([disabled]) {
+  color: var(--color-emerald-green); }
 
 .dnb-dropdown__trigger[disabled] {
   color: var(--color-black-55);
