@@ -35,6 +35,7 @@ const snapshotProps = {
   opened: true,
   skip_portal: true,
   no_animation: true,
+  variant: 'secondary',
 }
 
 // use no_animation so we don't need to wait
