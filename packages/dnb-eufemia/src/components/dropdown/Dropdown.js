@@ -456,6 +456,7 @@ class DropdownInstance extends React.PureComponent {
       disabled,
       stretch,
       skeleton,
+      variant,
 
       title: _title,
       icon: _icon, // eslint-disable-line
@@ -603,7 +604,7 @@ class DropdownInstance extends React.PureComponent {
                 <CustomTrigger {...triggerParams} />
               ) : (
                 <Button
-                  variant="secondary"
+                  variant={variant}
                   icon={false} // only to suppress the warning about the icon when tertiary variant is used
                   size={size === 'default' ? 'medium' : size}
                   ref={this._refButton}
