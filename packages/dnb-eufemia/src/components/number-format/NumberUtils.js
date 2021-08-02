@@ -33,7 +33,7 @@ const NUMBER_CHARS = '\\-0-9,.'
  * @property {boolean} ban - if true, it formats to a Bank Account Number
  * @property {boolean} nin - if true, it formats to a National Identification Number
  * @property {boolean} percent - if true, it formats with a percent
- * @property {boolean} currency - if true, it formats to a currency
+ * @property {string|boolean} currency - currency code (ISO 4217) or `true` to use the default, `NOK`
  * @property {string} currency_display - use false or empty string to hide the sign or "code", "name", "symbol" or "narrowSymbol" – supports the API from number.toLocaleString
  * @property {string} currency_position - can be "before" or "after"
  * @property {string} omit_currency_sign - hides currency sign if true is given
