@@ -50,8 +50,8 @@ export interface formatOptionParams {
   nin?: boolean;
   /** percent type */
   percent?: boolean;
-  /** currency type */
-  currency?: boolean;
+  /** Currency code (ISO 4217) or `true` to use the default, `NOK`. */
+  currency?: string | boolean;
 
   /** Intl.NumberFormat currency option – you can use false or empty string to hide the sign/name */
   currency_display?: string;
