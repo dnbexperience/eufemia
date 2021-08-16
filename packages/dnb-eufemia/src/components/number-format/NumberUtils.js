@@ -462,7 +462,10 @@ export const formatNumber = (
 ) => {
   try {
     // Safari does not support `narrowSymbol` for now, so `symbol` will be used then.
-    if (IS_SAFARI && options.currencyDisplay === 'narrowSymbol') {
+    if (
+      (IS_SAFARI || IS_IE11) &&
+      options.currencyDisplay === 'narrowSymbol'
+    ) {
       options.currencyDisplay = 'symbol'
     }
 
@@ -498,7 +501,7 @@ export const formatNumber = (
       typeof Intl.NumberFormat === 'function'
     ) {
       const inst = Intl.NumberFormat(locale, options)
-      if (formatter) {
+      if (formatter && typeof inst.formatToParts === 'function') {
         return inst
           .formatToParts(number)
           .map((val) => formatter(val))
