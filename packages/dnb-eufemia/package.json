@@ -70,7 +70,7 @@
     "test": "yarn jest",
     "test:ci": "yarn jest --ci",
     "test:screenshots": "yarn jest --config=./jest.config.screenshots.js --forceExit --detectOpenHandles",
-    "test:screenshots:build": "yarn build && yarn workspace dnb-design-system-portal build-portal && yarn test:screenshots",
+    "test:screenshots:build": "yarn build && yarn workspace dnb-design-system-portal build && yarn test:screenshots",
     "test:screenshots:ci": "yarn jest --config=./jest.config.screenshots.js --ci --forceExit --detectOpenHandles",
     "test:screenshots:recreate": "find . -name '*.snap.png' -type f|xargs rm -f && yarn test:screenshots",
     "test:screenshots:update": "yarn jest --config=./jest.config.screenshots.js --updateSnapshot --forceExit --detectOpenHandles",
