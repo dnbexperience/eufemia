@@ -876,14 +876,12 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
       </Button>
       <Svg
         className="dnb-global-error__gfx"
-        role="presentation"
         status="404"
         title="alt"
       >
         <Svg404
           className="dnb-global-error__gfx"
           height={360}
-          role="presentation"
           title="alt"
           width={339}
         >
@@ -891,7 +889,6 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             className="dnb-global-error__gfx"
             fill="none"
             height={360}
-            role="presentation"
             style={
               Object {
                 "--data-height": 360,

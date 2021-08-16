@@ -390,14 +390,7 @@ export default class FormStatus extends React.PureComponent {
 }
 
 export const ErrorIcon = (props) => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    role="presentation"
-    {...props}
-  >
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
     {props && props.title && <title>{props.title}</title>}
 
     <path
@@ -425,14 +418,7 @@ ErrorIcon.defaultProps = {
 }
 
 export const WarnIcon = (props) => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    role="presentation"
-    {...props}
-  >
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
     {props && props.title && <title>{props.title}</title>}
 
     <path
@@ -460,14 +446,7 @@ WarnIcon.defaultProps = {
 }
 
 export const InfoIcon = (props) => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    role="presentation"
-    {...props}
-  >
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
     {props && props.title && <title>{props.title}</title>}
 
     <path
