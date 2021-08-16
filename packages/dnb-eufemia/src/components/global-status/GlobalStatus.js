@@ -845,7 +845,6 @@ const ErrorIcon = (props) => (
     viewBox="0 0 32 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    role="presentation"
     {...props}
   >
     {props && props.title && <title>{props.title}</title>}
@@ -886,7 +885,6 @@ const InfoIcon = (props) => (
     viewBox="0 0 32 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    role="presentation"
     {...props}
   >
     {props && props.title && <title>{props.title}</title>}
