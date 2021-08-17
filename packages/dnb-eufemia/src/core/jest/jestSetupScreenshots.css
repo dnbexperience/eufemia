@@ -3,12 +3,13 @@ html[data-visual-test] {
   scroll-behavior: auto !important;
 }
 
-html[data-visual-test] .dnb-tabbar,
 html[data-visual-test] .sticky-menu,
-html[data-visual-test] .dnb-live-editor,
-html[data-visual-test] .dnb-live-toolbar,
 html[data-visual-test] #portal-sidebar-menu {
   display: none !important;
+}
+
+html[data-visual-test] .dnb-live-editor,
+html[data-visual-test] .dnb-live-toolbar {
   padding: 0 !important;
 }
 html[data-visual-test] .dnb-app-content {

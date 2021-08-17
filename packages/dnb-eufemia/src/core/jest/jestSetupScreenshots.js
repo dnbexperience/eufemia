@@ -21,7 +21,7 @@ const config = {
   testScreenshotOnPort: 8000,
   headless: true,
   delayDuringNonheadless: 0,
-  timeout: 20e3,
+  timeout: 30e3,
   blockFontRequest: false,
   allowedFonts: [], // e.g. 'LiberationMono'
   pixelGrid: 8,
