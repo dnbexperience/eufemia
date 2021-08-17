@@ -78,7 +78,9 @@ export const createTypes = async (
       const componentName = basename.replace(nodePath.extname(file), '')
 
       // For dev (build:types:dev) mode only
-      const isDev = process.env.npm_config_argv.includes('build:types:dev')
+      const isDev = String(process.env.npm_config_argv).includes(
+        'build:types:dev'
+      )
       const isOfInterest =
         // file.includes('/Element.js') ||
         // file.includes('/Blockquote.js') ||

@@ -31,13 +31,13 @@ import { ProductLogo, TypeLogo, BankLogo, StatusIcon } from './icons'
 
 export { Designs, ProductType, CardType }
 
-const cardDataTypes = PropTypes.shape({
+const cardDataPropTypes = PropTypes.shape({
   productCode: PropTypes.string.isRequired,
   productName: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
-  cardDesign: PropTypes.shape.isRequired,
-  cardType: PropTypes.shape.isRequired,
-  productType: PropTypes.shape.isRequired,
+  cardDesign: PropTypes.object.isRequired,
+  cardType: PropTypes.object.isRequired,
+  productType: PropTypes.object.isRequired,
 })
 
 const translationDefaultPropsProps = {
@@ -56,7 +56,7 @@ export default class PaymentCard extends React.PureComponent {
     card_status: PropTypes.oneOf(['active', 'blocked', 'expired']),
     variant: PropTypes.oneOf(['normal', 'compact']),
     digits: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    raw_data: cardDataTypes,
+    raw_data: cardDataPropTypes,
     id: PropTypes.string,
     locale: PropTypes.string,
 
@@ -276,7 +276,7 @@ function CardText({ cardNumber, translations, skeleton }) {
 NormalCard.propTypes = {
   id: PropTypes.string,
   skeleton: PropTypes.bool,
-  data: cardDataTypes.isRequired,
+  data: cardDataPropTypes.isRequired,
   cardStatus: PropTypes.string.isRequired,
   cardNumber: PropTypes.string.isRequired,
   translations: PropTypes.object.isRequired,

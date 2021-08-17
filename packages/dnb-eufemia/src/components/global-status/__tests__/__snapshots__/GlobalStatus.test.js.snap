@@ -853,7 +853,6 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                         <svg
                           fill="none"
                           height="32"
-                          role="presentation"
                           title={null}
                           viewBox="0 0 32 32"
                           width="32"
@@ -1178,7 +1177,6 @@ Array [
                           <svg
                             fill="none"
                             height="32"
-                            role="presentation"
                             title={null}
                             viewBox="0 0 32 32"
                             width="32"
@@ -1522,7 +1520,6 @@ Array [
                         <svg
                           fill="none"
                           height="24"
-                          role="presentation"
                           title={null}
                           viewBox="0 0 24 24"
                           width="24"

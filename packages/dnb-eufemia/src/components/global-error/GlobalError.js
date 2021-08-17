@@ -233,7 +233,6 @@ export default class GlobalError extends React.PureComponent {
           <Svg
             status={this.props.status}
             title={useAlt}
-            role="presentation"
             className="dnb-global-error__gfx"
           />
           <div className="dnb-global-error__inner__content">

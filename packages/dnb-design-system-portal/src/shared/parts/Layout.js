@@ -218,6 +218,10 @@ const ContentWrapper = styled.div`
       }
     }
   }
+
+  html[data-visual-test] & {
+    margin: 0 !important;
+  }
 `
 
 const MainContent = React.forwardRef((props, ref) => (

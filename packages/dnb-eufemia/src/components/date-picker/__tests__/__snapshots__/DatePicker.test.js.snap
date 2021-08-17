@@ -280,7 +280,6 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       <svg
                         fill="none"
                         height="24"
-                        role="presentation"
                         title={null}
                         viewBox="0 0 24 24"
                         width="24"
