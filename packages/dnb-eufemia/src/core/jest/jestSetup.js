@@ -145,6 +145,9 @@ export function attachToBody() {
   return container
 }
 
-function jestSetup() {}
-
-export default jestSetup
+// For Yarn v3 we need this fix in order to make jest-axe work properly
+// https://github.com/nickcolley/jest-axe/issues/147
+if (typeof window !== 'undefined') {
+  const { getComputedStyle } = window
+  window.getComputedStyle = (...args) => getComputedStyle(...args)
+}
