@@ -29,7 +29,9 @@ There are a couple of components doing so. You may have a look at:
 - `Icon` and `IconPrimary`
 - Also the `SpacingHelper` shares `spacingPropTypes` with almost every component
 
-So, You can share PropTypes between files. But you may have to spread the objects, instead of only referencing them.
+So – You can share PropTypes between files. But you may have to spread the objects, instead of only referencing them.
+
+**NB:** Make sure you include `*PropType` in the variable name. This also effects references inside a single file.
 
 ## Shared Properties docs
 
