@@ -1,12 +1,17 @@
+require('dotenv').config()
 const isCI = require('is-ci')
 const { getCurrentBranchName } = require('./src/uilib/utils/git')
 
 const runModernBuild =
-  !isCI ||
-  (isCI &&
-    !process.env.GATSBY_CLOUD &&
-    !process.env.NETLIFY &&
-    !/(release|portal|beta|alpha)/.test(getCurrentBranchName()))
+  // for local builds
+  process.env.BUILD_LEGACY_BROWSERS !== '1' &&
+  // for local builds
+  (!isCI ||
+    // for CI
+    (isCI &&
+      !process.env.GATSBY_CLOUD &&
+      !process.env.NETLIFY &&
+      !/(release|portal|beta|alpha)/.test(getCurrentBranchName())))
 
 module.exports = {
   presets: [

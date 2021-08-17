@@ -27,9 +27,3 @@ Sometimes You may need a compensation of only a few pixels. Heres how to calcula
 ## Layout system
 
 If You are working together with an DNB UX Designer, You can decide freely what layout mechanism You want to use. For web applications use **CSS Flexbox** or **CSS Grid**. But it is Your responsibility to ensure 100% consistency and compatibility.
-
-## Grid Pattern
-
-There is, however a simple [Grid Pattern with CSS helpers](/uilib/extensions/grid) in Eufemia which you can use.
-
-Although, it will probably be removed in a future major release.

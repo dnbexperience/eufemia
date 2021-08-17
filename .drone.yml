@@ -94,7 +94,7 @@ steps:
       ALGOLIA_API_KEY:
         from_secret: ALGOLIA_API_KEY
     commands:
-      - yarn workspace dnb-design-system-portal build-portal-ci
+      - yarn workspace dnb-design-system-portal build-ci
     when:
       branch:
         include:
