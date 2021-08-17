@@ -3,17 +3,21 @@
  *
  */
 
-.dnb-step-indicator {
-  position: relative;
-  z-index: 1;
+@import './_step-indicator-v1.scss';
 
-  display: block;
-  padding: 0;
+.dnb-step-indicator__sidebar {
+  max-width: 20rem;
+  margin-right: var(--spacing-x-large);
 
+  .dnb-step-indicator__item {
+    min-width: 320px;
+  }
+}
+
+.dnb-step-indicator-v2 .dnb-step-indicator {
   &__list {
     display: flex;
-    flex-direction: row;
-    align-items: stretch;
+    flex-direction: column;
 
     padding: 0;
     margin: 0;
@@ -21,98 +25,70 @@
     list-style: none;
   }
 
-  .dnb-spacing &__list,
-  .dnb-spacing &__list li {
-    margin-top: 0;
-    margin-bottom: 0;
+  &__trigger {
+    // Is needed to make ensure the button stays on top during height animation
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__trigger__button,
+  &__item .dnb-button {
+    overflow: hidden; // only needed when text is large and it overflows during animation (from small to large)
+
+    .dnb-button__text {
+      text-align: left;
+    }
+    &.dnb-button--has-icon .dnb-button__text {
+      margin-right: 1rem;
+    }
+    .dnb-button__alignment {
+      order: 2;
+    }
+
+    justify-content: space-between;
+    border-radius: 0.25rem;
+
+    will-change: height;
+    transition: height 400ms #{$defaultEasing};
+  }
+  &__trigger button#{&}__trigger__button {
+    margin-top: 0.5rem;
   }
 
   &__item {
-    align-self: flex-end; // webkit needs this
+    margin-bottom: 1rem;
+
+    .dnb-button__icon {
+      opacity: 1;
+      transition: opacity 1400ms ease-in-out;
+    }
+    &:not(.dnb-step-indicator__item--visited)
+      .dnb-button:not(.dnb-step-indicator__button__status)
+      .dnb-button__icon {
+      opacity: 0;
+    }
   }
 
   &__item-content {
-    font-size: var(--font-size-basis);
+    display: flex;
+    flex-wrap: nowrap;
 
-    &a,
-    &.dnb-anchor,
-    &--static,
-    &--link {
-      position: relative;
-      z-index: 2;
+    padding: 0.5rem 0;
 
-      display: inline-flex; // make text wrap beside the number
-      align-items: flex-end; // does not work on Safari
-
-      margin: 0;
-      padding: 0.25rem 0.25rem;
-      height: 100%;
-
-      border-bottom: none;
-      text-decoration: none;
-      box-shadow: none;
-    }
-
-    &--link {
-      // to reset the anchor button
-      &.dnb-anchor {
-        line-height: var(--line-height-basis);
-      }
-
-      @include focus() {
-        @include fakeFocus();
-        &::after {
-          content: none;
-        }
-      }
-    }
-
-    &--number {
-      padding-right: 0.25rem;
+    &__number {
+      padding-right: 0.5rem;
       white-space: nowrap;
     }
-    &--text {
-      text-align: left;
-    }
-
-    &::after {
-      content: '';
-      position: absolute;
-      z-index: 1; // over anchor hover
-      left: 0;
-
-      // In case we want to have the first line top aligned: align-items: flex-start;
-      // top: calc(
-      //   0.25rem + var(--line-height-basis)
-      // ); // incl. the padding 0.25rem
-
-      bottom: 0; // because of the link/anchor border-bottom 2px
-
-      width: 100%;
-      height: 3px;
-      border-radius: 1.5px;
+    &__wrapper {
+      display: flex;
+      flex-direction: column;
     }
   }
 
-  // &--visited &__item-content {
-  //   &--link {
-  //     @include hover() {
-  //     }
-  //   }
-  // }
-
-  &::after {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    left: -100vw;
-    bottom: 0;
-
-    width: 100vw;
-    height: 1px;
-
-    color: var(--color-black);
-    background-color: currentColor;
-    box-shadow: 100vw 0 0 0 currentColor;
+  &__button__status .dnb-step-indicator__item-content {
+    &__status {
+      color: var(--color-black-80);
+      font-size: var(--font-size-x-small);
+    }
   }
 }
