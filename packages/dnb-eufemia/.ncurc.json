@@ -1,6 +1,8 @@
 {
   "reject": [
     "eslint",
+    "globby",
+    "gulp-sass",
     "react",
     "react-dom",
     "node-sass",
