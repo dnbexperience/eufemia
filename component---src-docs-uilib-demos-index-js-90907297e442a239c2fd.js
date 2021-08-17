@@ -1,2 +1,0 @@
-(self.webpackChunkdnb_design_system_portal=self.webpackChunkdnb_design_system_portal||[]).push([[95,211],{85098:function(e,t,s){"use strict";s.r(t);var u=s(94254);t.default=u.default},53611:function(e,t,s){"use strict";s.r(t);var u=s(85098);t.default=u.default}}]);
-//# sourceMappingURL=component---src-docs-uilib-demos-index-js-90907297e442a239c2fd.js.map
