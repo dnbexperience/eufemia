@@ -354,11 +354,11 @@
     }
   }
   &__content--spacing#{&}__content--drawer
-    &__header__bar.dnb-section#{&}__header__bar--shadow {
+    &__header__bar.dnb-section#{&}__header__bar--sticky {
     z-index: 2999; // above #dropdown and #date-picker and below #modal
   }
 
-  &__content--drawer &__header__bar--shadow {
+  &__content--drawer &__header__bar--sticky {
     &::before {
       content: '';
       position: absolute;
@@ -369,6 +369,12 @@
       height: 300%; // hide the top shadow
 
       @include defaultDropShadow();
+    }
+  }
+
+  &__content--drawer &__header__bar:not(#{&}__header__bar--sticky) {
+    &::after {
+      color: transparent;
     }
   }
 
