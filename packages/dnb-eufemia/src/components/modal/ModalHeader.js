@@ -116,7 +116,7 @@ export class ModalHeaderBar extends React.PureComponent {
         style_type="white"
         className={classnames(
           'dnb-modal__header__bar',
-          this.state.showShadow && 'dnb-modal__header__bar--shadow',
+          this.state.showShadow && 'dnb-modal__header__bar--sticky',
           className
         )}
         inner_ref={this._ref}
