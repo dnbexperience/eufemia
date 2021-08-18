@@ -241,6 +241,8 @@ import heart_rate from './heart_rate.js'
 import heart_rate_medium from './heart_rate_medium.js'
 import hide from './hide.js'
 import hide_medium from './hide_medium.js'
+import history from './history.js'
+import history_medium from './history_medium.js'
 import home from './home.js'
 import home_medium from './home_medium.js'
 import horse from './horse.js'
@@ -263,6 +265,8 @@ import insurance from './insurance.js'
 import insurance_medium from './insurance_medium.js'
 import kid_number from './kid_number.js'
 import kid_number_medium from './kid_number_medium.js'
+import language from './language.js'
+import language_medium from './language_medium.js'
 import launch from './launch.js'
 import launch_medium from './launch_medium.js'
 import lightbulb from './lightbulb.js'
@@ -685,6 +689,8 @@ export {
   heart_rate_medium,
   hide,
   hide_medium,
+  history,
+  history_medium,
   home,
   home_medium,
   horse,
@@ -707,6 +713,8 @@ export {
   insurance_medium,
   kid_number,
   kid_number_medium,
+  language,
+  language_medium,
   launch,
   launch_medium,
   lightbulb,
