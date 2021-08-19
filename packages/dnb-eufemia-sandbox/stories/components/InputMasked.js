@@ -27,6 +27,34 @@ export const InputsMasked = () => (
     <Wrapper>
       <Box>
         <InputMasked
+          label="Currency:"
+          as_currency="EUR"
+          currency_mask={{ decimalLimit: 1 }}
+          // locale="en-GB"
+          // align="left"
+          value="1234.5"
+          right
+          bottom
+          on_change={({ cleaned_value }) => {
+            console.log(cleaned_value)
+          }}
+        />
+        <InputMasked
+          label="Number:"
+          as_number
+          number_mask={{ decimalLimit: 1 }}
+          align="right"
+          // locale="en-GB"
+          value="1234.5"
+          right
+          bottom
+          on_change={({ cleaned_value }) => {
+            console.log(cleaned_value)
+          }}
+        />
+      </Box>
+      <Box>
+        <InputMasked
           selectall
           label="Amount:"
           currency_mask="kr"

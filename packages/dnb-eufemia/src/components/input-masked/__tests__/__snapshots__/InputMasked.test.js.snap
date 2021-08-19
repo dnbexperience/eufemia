@@ -3,6 +3,8 @@
 exports[`InputMasked component have to match type="text" snapshot 1`] = `
 <InputMasked
   align={null}
+  as_currency={null}
+  as_number={null}
   autocomplete="off"
   class={null}
   className={null}
@@ -27,6 +29,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   label={null}
   label_direction={null}
   label_sr_only={null}
+  locale={null}
   mask={
     Array [
       /\\[a-z\\]/,
