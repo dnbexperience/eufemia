@@ -35,4 +35,18 @@ describe('InputMasked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  it('have to match locale number', async () => {
+    const screenshot = await testPageScreenshot({
+      // style,
+      selector: '[data-visual-test="input-masked-number"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  it('have to match locale currency', async () => {
+    const screenshot = await testPageScreenshot({
+      // style,
+      selector: '[data-visual-test="input-masked-currency"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

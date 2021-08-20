@@ -11,6 +11,71 @@ import styled from '@emotion/styled'
 // How to use masks: https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme
 // import createNumberMask from '@dnb/eufemia/src/components/input-masked/addons/createNumberMask'
 
+export const InputMaskedExampleNumberLocale = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="input-masked-number">
+      {() => /* jsx */ `
+<FormRow vertical>
+  <InputMasked
+    label="Number:"
+    as_number
+    value="1234.50"
+    right
+    bottom
+    on_change={({ cleaned_value }) => {
+      console.log(cleaned_value)
+    }}
+  />
+  <InputMasked
+    label="Number (decimal limit):"
+    as_number
+    number_mask={{ decimalLimit: 1 }}
+    value="1234.50"
+    align="right"
+    right
+    bottom
+    on_change={({ cleaned_value }) => {
+      console.log(cleaned_value)
+    }}
+  />
+</FormRow>
+`}
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputMaskedExampleCurrencyLocale = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="input-masked-currency">
+      {() => /* jsx */ `
+<FormRow vertical>
+  <InputMasked
+    label="Currency:"
+    as_currency="EUR"
+    value="1234.50"
+    right
+    bottom
+    on_change={({ cleaned_value }) => {
+      console.log(cleaned_value)
+    }}
+  />
+  <InputMasked
+    label="Currency:"
+    as_currency="USD"
+    value="1234.50"
+    align="left"
+    right
+    bottom
+    on_change={({ cleaned_value }) => {
+      console.log(cleaned_value)
+    }}
+  />
+</FormRow>
+`}
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const InputMaskedExampleCurrencyMask = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-currency_mask">
@@ -19,8 +84,8 @@ export const InputMaskedExampleCurrencyMask = () => (
   <InputMasked
     label="Right aligned:"
     currency_mask="kr"
-    on_change={(e) => {
-      console.log('e', e)
+    on_change={({ cleaned_value }) => {
+      console.log(cleaned_value)
     }}
     right
     bottom
@@ -29,8 +94,8 @@ export const InputMaskedExampleCurrencyMask = () => (
     label="Left aligned:"
     currency_mask={{ currency: 'NOK' }}
     align="left"
-    on_change={(e) => {
-      console.log('e', e)
+    on_change={({ cleaned_value }) => {
+      console.log(cleaned_value)
     }}
   />
 </FormRow>
@@ -52,8 +117,8 @@ export const InputMaskedExampleCustomMask = () => (
   }}
   placeholder_char={null}
   align="right"
-  on_change={(e) => {
-    console.log('e', e)
+  on_change={({ cleaned_value }) => {
+    console.log(cleaned_value)
   }}
 />
 `}
@@ -63,7 +128,7 @@ export const InputMaskedExampleCustomMask = () => (
 
 export const InputMaskedExampleNumberMask = () => (
   <Wrapper>
-    <ComponentBox title="" data-visual-test="input-masked-number_mask">
+    <ComponentBox data-visual-test="input-masked-number_mask">
       {() => /* jsx */ `
 <InputMasked
   label="Masked input:"
@@ -73,8 +138,8 @@ export const InputMaskedExampleNumberMask = () => (
   }}
   suffix="kr."
   align="right"
-  on_change={(e) => {
-    console.log('e', parseInt(e.cleaned_value || 0, 10))
+  on_change={({ cleaned_value }) => {
+    console.log(parseInt(cleaned_value || 0, 10))
   }}
 />
 `}
@@ -94,8 +159,8 @@ export const InputMaskedExamplePrefix = () => (
   align="right"
   stretch="true"
   placeholder="Enter a number"
-  on_change={(e) => {
-    console.log('e', e)
+  on_change={({ cleaned_value }) => {
+    console.log(cleaned_value)
   }}
 />
 `}
@@ -129,8 +194,8 @@ export const InputMaskedExamplePhone = () => (
   ]}
   show_mask
   keep_char_positions
-  on_change={(e) => {
-    console.log('e', e)
+  on_change={({ cleaned_value }) => {
+    console.log(cleaned_value)
   }}
 />
 `}

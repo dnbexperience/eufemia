@@ -71,7 +71,7 @@ describe('Icon screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/icon/demos',
     screenshotConfig: {
-      pixelThresholdRelative: 0,
+      pixelThresholdRelative: isCI ? 0.02 : 0,
     },
   })
   it('have to match all primary icons', async () => {
