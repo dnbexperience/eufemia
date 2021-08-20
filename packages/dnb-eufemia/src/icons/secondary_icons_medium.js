@@ -92,6 +92,7 @@ import hanger_medium from './hanger_medium.js'
 import heart_medium from './heart_medium.js'
 import heart_rate_medium from './heart_rate_medium.js'
 import hide_medium from './hide_medium.js'
+import history_medium from './history_medium.js'
 import home_medium from './home_medium.js'
 import horse_medium from './horse_medium.js'
 import hourglass_medium from './hourglass_medium.js'
@@ -102,6 +103,7 @@ import information_bubble_medium from './information_bubble_medium.js'
 import information_circled_medium from './information_circled_medium.js'
 import insurance_medium from './insurance_medium.js'
 import kid_number_medium from './kid_number_medium.js'
+import language_medium from './language_medium.js'
 import launch_medium from './launch_medium.js'
 import lightbulb_medium from './lightbulb_medium.js'
 import list_medium from './list_medium.js'
@@ -280,6 +282,7 @@ export {
   heart_medium,
   heart_rate_medium,
   hide_medium,
+  history_medium,
   home_medium,
   horse_medium,
   hourglass_medium,
@@ -290,6 +293,7 @@ export {
   information_circled_medium,
   insurance_medium,
   kid_number_medium,
+  language_medium,
   launch_medium,
   lightbulb_medium,
   list_medium,

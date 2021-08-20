@@ -147,7 +147,6 @@ steps:
           - beta
           - alpha
           - main
-          - eufemia-icons
           - fix/*
           - feat/*
           - feature/*

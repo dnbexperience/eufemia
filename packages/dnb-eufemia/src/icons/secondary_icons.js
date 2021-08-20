@@ -93,6 +93,7 @@ import hanger from './hanger.js'
 import heart from './heart.js'
 import heart_rate from './heart_rate.js'
 import hide from './hide.js'
+import history from './history.js'
 import home from './home.js'
 import horse from './horse.js'
 import hourglass from './hourglass.js'
@@ -103,6 +104,7 @@ import information_bubble from './information_bubble.js'
 import information_circled from './information_circled.js'
 import insurance from './insurance.js'
 import kid_number from './kid_number.js'
+import language from './language.js'
 import launch from './launch.js'
 import lightbulb from './lightbulb.js'
 import list from './list.js'
@@ -281,6 +283,7 @@ export {
   heart,
   heart_rate,
   hide,
+  history,
   home,
   horse,
   hourglass,
@@ -291,6 +294,7 @@ export {
   information_circled,
   insurance,
   kid_number,
+  language,
   launch,
   lightbulb,
   list,
