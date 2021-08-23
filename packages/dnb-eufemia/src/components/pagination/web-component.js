@@ -8,4 +8,4 @@ import Pagination from './Pagination'
 export default Pagination
 export * from './Pagination'
 
-registerElement(Pagination.tagName, Pagination, Pagination.defaultProps)
+registerElement(Pagination?.tagName, Pagination, Pagination.defaultProps)

@@ -116,7 +116,7 @@ export default class Checkbox extends React.PureComponent {
   }
 
   static enableWebComponent() {
-    registerElement(Checkbox.tagName, Checkbox, Checkbox.defaultProps)
+    registerElement(Checkbox?.tagName, Checkbox, Checkbox.defaultProps)
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))

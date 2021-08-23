@@ -9,7 +9,7 @@ export default Autocomplete
 export * from './Autocomplete'
 
 registerElement(
-  Autocomplete.tagName,
+  Autocomplete?.tagName,
   Autocomplete,
   Autocomplete.defaultProps
 )

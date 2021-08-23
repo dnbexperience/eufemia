@@ -13,6 +13,14 @@ const ora = require('ora')
 
 const log = ora()
 
+/**
+ * we may considder using: isCI ? 'networkidle2' : 'domcontentloaded'
+ * because "networkidle2" takes more time.
+ * Why do we not use "load" only? Because it seems,
+ * that a little delay during page load increases reliability
+ */
+const waitUntil = 'networkidle2'
+
 const config = {
   DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
   // use same port as the local dev setup, this way we can test from the dev setup as well
@@ -90,9 +98,7 @@ module.exports.testPageScreenshot = async ({
     }
   }
   if (reload) {
-    await page.reload({
-      waitUntil: 'load',
-    })
+    await page.reload({ waitUntil })
   }
 
   if (screenshotConfig) {
@@ -223,9 +229,7 @@ const setupPageScreenshot = ({
     }
 
     if (url) {
-      await global.__PAGE__.goto(createUrl(url, fullscreen), {
-        waitUntil: 'load',
-      })
+      await global.__PAGE__.goto(createUrl(url, fullscreen), { waitUntil })
     }
   }, timeout)
 
@@ -244,9 +248,7 @@ async function makePageReady({
   styleSelector,
 }) {
   if (url) {
-    await page.goto(createUrl(url, fullscreen), {
-      waitUntil: 'load',
-    })
+    await page.goto(createUrl(url, fullscreen), { waitUntil })
   }
 
   global.IS_TEST = true

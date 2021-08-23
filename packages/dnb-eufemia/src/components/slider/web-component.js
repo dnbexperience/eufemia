@@ -8,4 +8,4 @@ import Slider from './Slider'
 export default Slider
 export * from './Slider'
 
-registerElement(Slider.tagName, Slider, Slider.defaultProps)
+registerElement(Slider?.tagName, Slider, Slider.defaultProps)

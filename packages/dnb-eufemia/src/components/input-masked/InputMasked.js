@@ -97,7 +97,7 @@ export default class InputMasked extends React.PureComponent {
 
   static enableWebComponent() {
     registerElement(
-      InputMasked.tagName,
+      InputMasked?.tagName,
       InputMasked,
       InputMasked.defaultProps
     )

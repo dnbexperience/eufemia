@@ -123,7 +123,7 @@ export default class NumberFormat extends React.PureComponent {
 
   static enableWebComponent() {
     registerElement(
-      NumberFormat.tagName,
+      NumberFormat?.tagName,
       NumberFormat,
       NumberFormat.defaultProps
     )

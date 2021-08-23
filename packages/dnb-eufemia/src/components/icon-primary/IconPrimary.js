@@ -36,7 +36,7 @@ export default class IconPrimary extends React.PureComponent {
   static defaultProps = { ...DefaultIcon.defaultProps }
 
   static enableWebComponent() {
-    DefaultIcon.enableWebComponent(IconPrimary.tagName, IconPrimary)
+    DefaultIcon.enableWebComponent(IconPrimary?.tagName, IconPrimary)
   }
 
   static getIcon(props) {

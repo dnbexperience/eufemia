@@ -9,7 +9,7 @@ export default ProgressIndicator
 export * from './ProgressIndicator'
 
 registerElement(
-  ProgressIndicator.tagName,
+  ProgressIndicator?.tagName,
   ProgressIndicator,
   ProgressIndicator.defaultProps
 )

@@ -214,7 +214,7 @@ export default class Dropdown extends React.PureComponent {
   }
 
   static enableWebComponent() {
-    registerElement(Dropdown.tagName, Dropdown, Dropdown.defaultProps)
+    registerElement(Dropdown?.tagName, Dropdown, Dropdown.defaultProps)
   }
 
   render() {

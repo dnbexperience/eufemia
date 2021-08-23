@@ -68,7 +68,7 @@ export default class GlobalError extends React.PureComponent {
 
   static enableWebComponent() {
     registerElement(
-      GlobalError.tagName,
+      GlobalError?.tagName,
       GlobalError,
       GlobalError.defaultProps
     )

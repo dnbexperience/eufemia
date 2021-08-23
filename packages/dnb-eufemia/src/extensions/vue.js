@@ -14,7 +14,7 @@ export default {
     const ret = {}
     const components = getComponents()
     for (const c in components) {
-      if (components[c] && components[c].tagName) {
+      if (components?.[c]?.tagName) {
         ret[components[c].tagName] = components[c]
       }
     }
@@ -24,7 +24,7 @@ export default {
     const customPatterns = []
     const components = getComponents()
     for (const c in components) {
-      if (components[c] && components[c].tagName) {
+      if (components?.[c]?.tagName) {
         customPatterns.push(components[c].tagName)
       }
     }

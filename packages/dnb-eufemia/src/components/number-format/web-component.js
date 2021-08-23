@@ -9,7 +9,7 @@ export default NumberFormat
 export * from './NumberFormat'
 
 registerElement(
-  NumberFormat.tagName,
+  NumberFormat?.tagName,
   NumberFormat,
   NumberFormat.defaultProps
 )

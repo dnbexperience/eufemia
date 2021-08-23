@@ -8,4 +8,4 @@ import Tabs from './Tabs'
 export default Tabs
 export * from './Tabs'
 
-registerElement(Tabs.tagName, Tabs, Tabs.defaultProps)
+registerElement(Tabs?.tagName, Tabs, Tabs.defaultProps)

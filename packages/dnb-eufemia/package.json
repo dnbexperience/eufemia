@@ -210,7 +210,7 @@
     "puppeteer": "^8.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-fake-props": "^0.3.2",
+    "react-fake-props": "^1.0.3",
     "react-to-typescript-definitions": "^3.0.1",
     "rollup": "^2.49.0",
     "rollup-plugin-node-globals": "^1.4.0",

@@ -6,13 +6,11 @@
 import React from 'react'
 import {
   mount,
-  fakeProps,
   axeComponent,
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
 import Component, {
-  // getCardData,
   Designs,
   ProductType,
   CardType,
@@ -23,14 +21,21 @@ import enGB from '../../../shared/locales/en-GB'
 
 const nb = nbNO['nb-NO'].PaymentCard
 const en = enGB['en-GB'].PaymentCard
-const defaultProps = fakeProps(require.resolve('../PaymentCard'), {
-  optional: true,
-})
-defaultProps.product_code = 'NK1'
-defaultProps.card_number = '************1337'
-defaultProps.card_status = 'active'
-defaultProps.variant = 'normal'
-defaultProps.raw_data = null
+
+const defaultProps = {
+  product_code: 'NK1',
+  card_number: '************1337',
+  card_status: 'active',
+  variant: 'normal',
+  digits: 'digits',
+  raw_data: null,
+  id: 'id',
+  locale: 'locale',
+  skeleton: 'skeleton',
+  class: 'class',
+  className: 'className',
+  children: 'children',
+}
 
 describe('PaymentCard', () => {
   const Comp = mount(<Component {...defaultProps} />)

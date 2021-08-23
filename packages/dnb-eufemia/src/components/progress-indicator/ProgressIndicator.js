@@ -71,7 +71,7 @@ export default class ProgressIndicator extends React.PureComponent {
 
   static enableWebComponent() {
     registerElement(
-      ProgressIndicator.tagName,
+      ProgressIndicator?.tagName,
       ProgressIndicator,
       ProgressIndicator.defaultProps
     )

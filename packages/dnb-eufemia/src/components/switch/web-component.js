@@ -8,4 +8,4 @@ import Switch from './Switch'
 export default Switch
 export * from './Switch'
 
-registerElement(Switch.tagName, Switch, Switch.defaultProps)
+registerElement(Switch?.tagName, Switch, Switch.defaultProps)

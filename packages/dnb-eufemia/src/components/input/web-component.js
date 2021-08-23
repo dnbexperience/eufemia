@@ -8,4 +8,4 @@ import Input from './Input'
 export default Input
 export * from './Input'
 
-registerElement(Input.tagName, Input, Input.defaultProps)
+registerElement(Input?.tagName, Input, Input.defaultProps)

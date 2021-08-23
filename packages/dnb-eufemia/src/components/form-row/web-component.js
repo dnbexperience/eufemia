@@ -8,4 +8,4 @@ import FormRow from './FormRow'
 export default FormRow
 export * from './FormRow'
 
-registerElement(FormRow.tagName, FormRow, FormRow.defaultProps)
+registerElement(FormRow?.tagName, FormRow, FormRow.defaultProps)

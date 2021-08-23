@@ -110,7 +110,7 @@ export default class FormStatus extends React.PureComponent {
 
   static enableWebComponent() {
     registerElement(
-      FormStatus.tagName,
+      FormStatus?.tagName,
       FormStatus,
       FormStatus.defaultProps
     )

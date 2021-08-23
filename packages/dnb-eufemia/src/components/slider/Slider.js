@@ -141,7 +141,7 @@ export default class Slider extends React.PureComponent {
   state = { currentState: 'initial', value: null }
 
   static enableWebComponent() {
-    registerElement(Slider.tagName, Slider, Slider.defaultProps)
+    registerElement(Slider?.tagName, Slider, Slider.defaultProps)
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -560,15 +560,8 @@ export default class Slider extends React.PureComponent {
       ...attributes
     } = props
 
-    const {
-      min,
-      max,
-      reverse,
-      vertical,
-      value,
-      currentState,
-      disabled,
-    } = this.state
+    const { min, max, reverse, vertical, value, currentState, disabled } =
+      this.state
 
     const showStatus = getStatusState(status)
     const showButtons = !isTrue(hide_buttons)
@@ -649,9 +642,10 @@ export default class Slider extends React.PureComponent {
     const addParams = {}
 
     if (typeof thumbParams['aria-hidden'] !== 'undefined') {
-      helperParams['aria-hidden'] = addParams[
-        'aria-hidden'
-      ] = subtractParams['aria-hidden'] = thumbParams['aria-hidden']
+      helperParams['aria-hidden'] =
+        addParams['aria-hidden'] =
+        subtractParams['aria-hidden'] =
+          thumbParams['aria-hidden']
     }
 
     // also used for code markup simulation

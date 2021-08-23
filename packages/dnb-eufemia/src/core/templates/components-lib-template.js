@@ -22,7 +22,7 @@ export const enableWebComponents = () => {
   const components = getComponents()
   // register this component to work with custom element
   for (const c in components) {
-    if (components[c] && components[c].tagName) {
+    if (components?.[c]?.tagName) {
       registerElement(
         components[c].tagName,
         components[c],

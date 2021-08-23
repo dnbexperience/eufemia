@@ -56,7 +56,7 @@ export default class FormSet extends React.PureComponent {
   }
 
   static enableWebComponent() {
-    registerElement(FormSet.tagName, FormSet, FormSet.defaultProps)
+    registerElement(FormSet?.tagName, FormSet, FormSet.defaultProps)
   }
 
   static getContent(props) {

@@ -96,7 +96,7 @@ export default class TooltipWithEvents extends React.PureComponent {
       if (targetElement) {
         const role = targetElement.getAttribute('role')
         if (
-          /div|p|span/i.test(targetElement.tagName) &&
+          /div|p|span/i.test(targetElement?.tagName) &&
           (!role || role === 'text')
         ) {
           this.setState({

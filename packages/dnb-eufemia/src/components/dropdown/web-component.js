@@ -8,4 +8,4 @@ import Dropdown from './Dropdown'
 export default Dropdown
 export * from './Dropdown'
 
-registerElement(Dropdown.tagName, Dropdown, Dropdown.defaultProps)
+registerElement(Dropdown?.tagName, Dropdown, Dropdown.defaultProps)

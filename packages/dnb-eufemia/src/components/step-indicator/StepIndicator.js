@@ -42,7 +42,7 @@ export default class StepIndicator extends React.PureComponent {
 
   static enableWebComponent() {
     registerElement(
-      StepIndicator.tagName,
+      StepIndicator?.tagName,
       StepIndicator,
       StepIndicator.defaultProps
     )
