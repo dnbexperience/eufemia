@@ -1907,13 +1907,13 @@ __metadata:
     babel-plugin-search-and-replace: ^1.1.0
     babel-plugin-transform-dynamic-import: ^2.1.0
     babel-plugin-transform-react-remove-prop-types: ^0.4.24
-    browserslist: ^4.16.7
+    browserslist: ^4.16.8
     camelcase: ^6.2.0
     chalk: ^4.1.2
     ci-info: ^3.2.0
     classnames: ^2.3.1
     color: ^4.0.1
-    core-js: ^3.16.1
+    core-js: ^3.16.2
     cross-env: ^7.0.3
     current-git-branch: ^1.1.0
     date-fns: ^2.23.0
@@ -1925,9 +1925,9 @@ __metadata:
     enzyme: ^3.11.0
     enzyme-to-json: ^3.6.2
     eslint: ^7.19.0
-    eslint-plugin-import: ^2.24.0
+    eslint-plugin-import: ^2.24.1
     eslint-plugin-jsx-a11y: ^6.4.1
-    eslint-plugin-prettier: ^3.4.0
+    eslint-plugin-prettier: ^3.4.1
     eslint-plugin-react: 7.24.0
     eslint-plugin-react-hooks: ^4.2.0
     eslint-plugin-security: ^1.4.0
@@ -1978,7 +1978,7 @@ __metadata:
     react-fake-props: ^1.0.3
     react-text-mask: ^5.4.3
     react-to-typescript-definitions: ^3.0.1
-    rollup: ^2.56.2
+    rollup: ^2.56.3
     rollup-plugin-node-globals: ^1.4.0
     rollup-plugin-size-snapshot: ^0.12.0
     rollup-plugin-terser: ^7.0.2
@@ -1994,7 +1994,7 @@ __metadata:
     stylelint-scss: ^3.20.1
     svg2vectordrawable: ^2.7.1
     svgo: ^2.4.0
-    tar: ^6.1.8
+    tar: ^6.1.10
     traverse: ^0.6.6
     wait-on: ^6.0.0
     what-input: ^5.2.10
@@ -9057,6 +9057,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"browserslist@npm:^4.16.8":
+  version: 4.16.8
+  resolution: "browserslist@npm:4.16.8"
+  dependencies:
+    caniuse-lite: ^1.0.30001251
+    colorette: ^1.3.0
+    electron-to-chromium: ^1.3.811
+    escalade: ^3.1.1
+    node-releases: ^1.1.75
+  bin:
+    browserslist: cli.js
+  checksum: a442ab2156b95bc88627591c5af6f3e4952eab4a3b1eef942af37bbeaa717f60a78b31890c76b1ade08e881c541c6ac9e7a74f0a66968658e9fe013e69e69093
+  languageName: node
+  linkType: hard
+
 "bser@npm:2.1.1":
   version: 2.1.1
   resolution: "bser@npm:2.1.1"
@@ -9558,7 +9573,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30000981, caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001125, caniuse-lite@npm:^1.0.30001243, caniuse-lite@npm:^1.0.30001248":
+"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30000981, caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001125, caniuse-lite@npm:^1.0.30001243, caniuse-lite@npm:^1.0.30001248, caniuse-lite@npm:^1.0.30001251":
   version: 1.0.30001251
   resolution: "caniuse-lite@npm:1.0.30001251"
   checksum: 918e1b1662c26c11291206146bc305d7fd1ca351aa9231c2e21cb1526d87b444830e2d8dc54416ebb8ecf7e0addea12d66a1c41493476229987e5e6922f0c14b
@@ -10417,7 +10432,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"colorette@npm:^1.2.1, colorette@npm:^1.2.2":
+"colorette@npm:^1.2.1, colorette@npm:^1.2.2, colorette@npm:^1.3.0":
   version: 1.3.0
   resolution: "colorette@npm:1.3.0"
   checksum: bda403dfba4d032bee4169f2a6436a83ae3da488a53bcb3be92dc44ace056518245cc614b12429d7529493d6b090a119b2523b0d55e8cd6b81ad939a3003c008
@@ -10972,10 +10987,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.0.4, core-js@npm:^3.12.1, core-js@npm:^3.14.0, core-js@npm:^3.16.0, core-js@npm:^3.16.1, core-js@npm:^3.6.5, core-js@npm:^3.8.2, core-js@npm:^3.9.0":
+"core-js@npm:^3.0.4, core-js@npm:^3.12.1, core-js@npm:^3.14.0, core-js@npm:^3.16.0, core-js@npm:^3.6.5, core-js@npm:^3.8.2, core-js@npm:^3.9.0":
   version: 3.16.1
   resolution: "core-js@npm:3.16.1"
   checksum: 7924fa2a7f00e3a33bbe92fe42ba59fbbe7e01557a59824d000976300be3ba224cca20161f61654b3861ea80d244d6adfee6ed3ae6d6d9931210a37510fb7c9b
+  languageName: node
+  linkType: hard
+
+"core-js@npm:^3.16.2":
+  version: 3.16.2
+  resolution: "core-js@npm:3.16.2"
+  checksum: f48b988ab6d144aad1a7c09a73174946f797ec050b4566dee9bf0227560296cdd0f714b37f0ee065303eccf0e7fb8115ccca52ab3e80db12e0dcc20a88219483
   languageName: node
   linkType: hard
 
@@ -13006,6 +13028,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"electron-to-chromium@npm:^1.3.811":
+  version: 1.3.814
+  resolution: "electron-to-chromium@npm:1.3.814"
+  checksum: 5d74e2fdb46a2edff9d3940a7419aaa950ec07ef0bb89e843a4320222fe14b811b34079ffeac2f04cd21c468c71c10f6921b7e13648b6309f98f5cd42030726d
+  languageName: node
+  linkType: hard
+
 "element-resize-detector@npm:^1.2.2":
   version: 1.2.3
   resolution: "element-resize-detector@npm:1.2.3"
@@ -13637,7 +13666,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-import-resolver-node@npm:^0.3.5":
+"eslint-import-resolver-node@npm:^0.3.5, eslint-import-resolver-node@npm:^0.3.6":
   version: 0.3.6
   resolution: "eslint-import-resolver-node@npm:0.3.6"
   dependencies:
@@ -13694,7 +13723,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import@npm:^2.22.1, eslint-plugin-import@npm:^2.23.3, eslint-plugin-import@npm:^2.24.0":
+"eslint-plugin-import@npm:^2.22.1, eslint-plugin-import@npm:^2.23.3":
   version: 2.24.0
   resolution: "eslint-plugin-import@npm:2.24.0"
   dependencies:
@@ -13719,6 +13748,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-plugin-import@npm:^2.24.1":
+  version: 2.24.1
+  resolution: "eslint-plugin-import@npm:2.24.1"
+  dependencies:
+    array-includes: ^3.1.3
+    array.prototype.flat: ^1.2.4
+    debug: ^2.6.9
+    doctrine: ^2.1.0
+    eslint-import-resolver-node: ^0.3.6
+    eslint-module-utils: ^2.6.2
+    find-up: ^2.0.0
+    has: ^1.0.3
+    is-core-module: ^2.6.0
+    minimatch: ^3.0.4
+    object.values: ^1.1.4
+    pkg-up: ^2.0.0
+    read-pkg-up: ^3.0.0
+    resolve: ^1.20.0
+    tsconfig-paths: ^3.10.1
+  peerDependencies:
+    eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0
+  checksum: 6a43dc2c045d8f70a370fead2ed342a4b009685bb75818c0e4dab8bb118b853a77d532c63684f5c0b808239809a5a7289c968e45b5cc56960963be5b8cf1ee54
+  languageName: node
+  linkType: hard
+
 "eslint-plugin-jsx-a11y@npm:^6.4.1":
   version: 6.4.1
   resolution: "eslint-plugin-jsx-a11y@npm:6.4.1"
@@ -13740,9 +13794,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-prettier@npm:^3.4.0":
-  version: 3.4.0
-  resolution: "eslint-plugin-prettier@npm:3.4.0"
+"eslint-plugin-prettier@npm:^3.4.1":
+  version: 3.4.1
+  resolution: "eslint-plugin-prettier@npm:3.4.1"
   dependencies:
     prettier-linter-helpers: ^1.0.0
   peerDependencies:
@@ -13751,7 +13805,7 @@ __metadata:
   peerDependenciesMeta:
     eslint-config-prettier:
       optional: true
-  checksum: 30a07e8d12637d2988e371f6a20ff4c86fd7fdc3596d1d18d62c0367804f38e06a65052d0281234aeb2552e4d1908dcb2de20543413e038251a2717a46400a9d
+  checksum: fa6a89f0d7cba1cc87064352f5a4a68dc3739448dd279bec2bced1bfa3b704467e603d13b69dcec853f8fa30b286b8b715912898e9da776e1b016cf0ee48bd99
   languageName: node
   linkType: hard
 
@@ -18780,6 +18834,15 @@ fsevents@^1.2.7:
   dependencies:
     has: ^1.0.3
   checksum: e007de6ca5c391f8a669b9335192967d8815f9119f97d81fc4cde07febe09143263bc0146e86e813120223ea9a034cf0608d15b53b0269e19b4dc0a220ce0b4f
+  languageName: node
+  linkType: hard
+
+"is-core-module@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "is-core-module@npm:2.6.0"
+  dependencies:
+    has: ^1.0.3
+  checksum: 183b3b96fed19822b13959876b0317e61fc2cb5ebcbc21639904c81f7ae328af57f8e18cc4750a9c4abebd686130c70d34a89521e57dbe002edfa4614507ce18
   languageName: node
   linkType: hard
 
@@ -24084,6 +24147,13 @@ fsevents@^1.2.7:
   version: 1.1.74
   resolution: "node-releases@npm:1.1.74"
   checksum: 3dde058c30f34bda66e11821a3d6a110deb5dd3abe8b5113cf88d88344f02c7a3b4599e92fd6b1f67fff4df6c70edc23543d3138033c0f32514401438d58a933
+  languageName: node
+  linkType: hard
+
+"node-releases@npm:^1.1.75":
+  version: 1.1.75
+  resolution: "node-releases@npm:1.1.75"
+  checksum: 74028e7d193c9c5986b2f6bb51f4f6405a3f144599bbb19751c81faece52af8eb3f5abac40cbcd11ead44be3f856be125aa71fbb8dd8bf0c7f90caa94179ee51
   languageName: node
   linkType: hard
 
@@ -29901,9 +29971,9 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.56.2":
-  version: 2.56.2
-  resolution: "rollup@npm:2.56.2"
+"rollup@npm:^2.56.3":
+  version: 2.56.3
+  resolution: "rollup@npm:2.56.3"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -29911,7 +29981,7 @@ resolve@^2.0.0-next.3:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 4e8e13c5c43147de142ae2f294f775b1cc567d2f5c196b28a37482d886fb0cabef769c18e427ab0180f5929b8422b27a7664a5e4586be38651871c62e333b8ee
+  checksum: e4c5a6e871f0340f18fc795cbb6b76bfbc5827580c443a7c4f5d9f9b1fec8c3d1553dae5e45bd7fc9dea4de56e01c244b1583f8f08f401d2ba81f5eb3ff83101
   languageName: node
   linkType: hard
 
@@ -32467,6 +32537,20 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"tar@npm:^6.1.10":
+  version: 6.1.10
+  resolution: "tar@npm:6.1.10"
+  dependencies:
+    chownr: ^2.0.0
+    fs-minipass: ^2.0.0
+    minipass: ^3.0.0
+    minizlib: ^2.1.1
+    mkdirp: ^1.0.3
+    yallist: ^4.0.0
+  checksum: 9e7ba4abc81a3095a5fc7a3e97a9f753103f5ce884c52431613f281954ec83d690e58f1ccad3cdd9eacdea901431f96f5f879dddc421f6b231994f6e7de07e1f
+  languageName: node
+  linkType: hard
+
 "telejson@npm:^5.3.2":
   version: 5.3.3
   resolution: "telejson@npm:5.3.3"
@@ -33132,7 +33216,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"tsconfig-paths@npm:^3.9.0":
+"tsconfig-paths@npm:^3.10.1, tsconfig-paths@npm:^3.9.0":
   version: 3.10.1
   resolution: "tsconfig-paths@npm:3.10.1"
   dependencies:
