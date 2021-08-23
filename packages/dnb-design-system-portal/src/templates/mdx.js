@@ -33,13 +33,6 @@ export default class MdxTemplate extends React.PureComponent {
       },
     } = this.props
 
-    if (location.href && location.href.includes('data-visual-test')) {
-      global.IS_TEST = true
-      if (typeof window !== 'undefined') {
-        window.IS_TEST = true
-      }
-    }
-
     const child = children[1] || null
     let pageTitle = title
     let pageDescription =

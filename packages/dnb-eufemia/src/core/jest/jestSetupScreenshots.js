@@ -266,6 +266,7 @@ async function makePageReady({
   await page.addStyleTag({
     path: path.resolve(__dirname, './jestSetupScreenshots.css'),
   })
+
   await page.waitForSelector(selector)
 
   if (style) {

@@ -82,12 +82,7 @@ class Layout extends React.PureComponent {
   }
 
   isFullscreen() {
-    const { location, fullscreen } = this.props
-    return (
-      fullscreen ||
-      (typeof location !== 'undefined' &&
-        /fullscreen|data-visual-test/.test(location.search))
-    )
+    return this.props.fullscreen
   }
 
   render() {
@@ -217,10 +212,6 @@ const ContentWrapper = styled.div`
         max-width: 70rem;
       }
     }
-  }
-
-  html[data-visual-test] & {
-    margin: 0 !important;
   }
 `
 

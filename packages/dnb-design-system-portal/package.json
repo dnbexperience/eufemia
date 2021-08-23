@@ -11,7 +11,7 @@
     "build:legacy": "cross-env BUILD_LEGACY_BROWSERS=1 gatsby build",
     "build:version": "babel-node ./scripts/version.js --new-version",
     "build-ci": "yarn build:version && yarn build --prefix-paths && yarn commit-new-pages",
-    "clean": "rm -rf .cache ./public/**",
+    "clean": "gatsby clean",
     "precommit": "yarn lint-staged",
     "commit-new-pages": "babel-node ./scripts/commitPages.js",
     "cy": "cypress open",
