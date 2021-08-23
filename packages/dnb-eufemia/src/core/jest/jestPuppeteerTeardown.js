@@ -10,7 +10,6 @@ const { create } = require('tar')
 const chalk = require('chalk')
 const rimraf = require('rimraf')
 const isCI = require('is-ci')
-const liveServer = require('live-server')
 import {
   commitToBranch,
   getCurrentBranchName,
@@ -20,10 +19,6 @@ const { DIR } = require('./jestSetupScreenshots').config
 module.exports = async function () {
   await global.__ENDPOINT__.close()
   global.__ENDPOINT__ = null
-
-  if (liveServer.shutdown) {
-    liveServer.shutdown()
-  }
 
   // commit a tar of the reports if we are on a CI
   if (isCI) {

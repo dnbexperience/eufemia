@@ -9,8 +9,6 @@ const puppeteer = require('puppeteer')
 const mkdirp = require('mkdirp')
 const path = require('path')
 const fs = require('fs-extra')
-const isCI = require('is-ci')
-const liveServer = require('live-server')
 const detectPort = require('detect-port')
 const waitOn = require('wait-on')
 const packpath = require('packpath')
@@ -31,15 +29,6 @@ const startStaticServer = async () => {
         '../dnb-design-system-portal/public/'
       )
       if (fs.existsSync(root)) {
-        liveServer.start({
-          host: testScreenshotOnHost,
-          port: testScreenshotOnPort,
-          root,
-          open: false,
-          watch: [],
-          quiet: isCI,
-          wait: 10e3,
-        })
         await waitOn({
           resources: [
             `http://${testScreenshotOnHost}:${testScreenshotOnPort}`,

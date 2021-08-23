@@ -19,7 +19,7 @@ const log = ora()
  * Why do we not use "load" only? Because it seems,
  * that a little delay during page load increases reliability
  */
-const waitUntil = 'networkidle2'
+const waitUntil = 'load'
 
 const config = {
   DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
@@ -153,15 +153,15 @@ module.exports.testPageScreenshot = async ({
     await page.mouse.move(0, 0)
   }
 
+  if (config.delayDuringNonheadless > 0) {
+    await page.waitForTimeout(config.delayDuringNonheadless)
+  }
+
   const screenshot = await takeScreenshot({
     page,
     screenshotElement,
     screenshotSelector,
   })
-
-  if (config.delayDuringNonheadless > 0) {
-    await page.waitForTimeout(config.delayDuringNonheadless)
-  }
 
   // before we had: just to make sure we don't resolve, before the delayed click happened
   // so the next integration on the same url will have a reset state
