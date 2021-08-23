@@ -10,24 +10,23 @@ const { create } = require('tar')
 const chalk = require('chalk')
 const rimraf = require('rimraf')
 const isCI = require('is-ci')
-const kill = require('kill-port')
+const liveServer = require('live-server')
 import {
   commitToBranch,
   getCurrentBranchName,
 } from '../../../scripts/prepub/commitToBranch'
-const { DIR, testScreenshotOnPort } =
-  require('./jestSetupScreenshots').config
+const { DIR } = require('./jestSetupScreenshots').config
 
 module.exports = async function () {
   await global.__ENDPOINT__.close()
   global.__ENDPOINT__ = null
 
+  if (liveServer.shutdown) {
+    liveServer.shutdown()
+  }
+
   // commit a tar of the reports if we are on a CI
   if (isCI) {
-    console.log(chalk.green(`Teardown port: ${testScreenshotOnPort}`))
-
-    await kill(testScreenshotOnPort, 'tcp')
-
     console.log(
       chalk.yellow('Will commit "jest-screenshot-report" to git.')
     )
