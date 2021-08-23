@@ -30,7 +30,6 @@ import Input from './components/input/Input'
 import InputMasked from './components/input-masked/InputMasked'
 import Logo from './components/logo/Logo'
 import Modal from './components/modal/Modal'
-import Notification from './components/notification/Notification'
 import NumberFormat from './components/number-format/NumberFormat'
 import Pagination from './components/pagination/Pagination'
 import ProgressIndicator from './components/progress-indicator/ProgressIndicator'
@@ -97,7 +96,6 @@ export {
   InputMasked,
   Logo,
   Modal,
-  Notification,
   NumberFormat,
   Pagination,
   ProgressIndicator,
