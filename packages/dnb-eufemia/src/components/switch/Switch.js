@@ -116,7 +116,7 @@ export default class Switch extends React.PureComponent {
   }
 
   static enableWebComponent() {
-    registerElement(Switch.tagName, Switch, Switch.defaultProps)
+    registerElement(Switch?.tagName, Switch, Switch.defaultProps)
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))

@@ -52,7 +52,7 @@ export default class Section extends React.PureComponent {
   }
 
   static enableWebComponent() {
-    registerElement(Section.tagName, Section, Section.defaultProps)
+    registerElement(Section?.tagName, Section, Section.defaultProps)
   }
 
   static getContent(props) {

@@ -8,4 +8,4 @@ import Checkbox from './Checkbox'
 export default Checkbox
 export * from './Checkbox'
 
-registerElement(Checkbox.tagName, Checkbox, Checkbox.defaultProps)
+registerElement(Checkbox?.tagName, Checkbox, Checkbox.defaultProps)

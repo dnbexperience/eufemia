@@ -117,7 +117,7 @@ export default class RadioGroup extends React.PureComponent {
 
   static enableWebComponent() {
     registerElement(
-      RadioGroup.tagName,
+      RadioGroup?.tagName,
       RadioGroup,
       RadioGroup.defaultProps
     )

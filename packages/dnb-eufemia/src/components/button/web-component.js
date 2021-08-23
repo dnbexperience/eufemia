@@ -8,4 +8,4 @@ import Button from './Button'
 export default Button
 export * from './Button'
 
-registerElement(Button.tagName, Button, Button.defaultProps)
+registerElement(Button?.tagName, Button, Button.defaultProps)

@@ -1975,7 +1975,7 @@ __metadata:
     puppeteer: ^8.0.0
     react: ^17.0.2
     react-dom: ^17.0.2
-    react-fake-props: ^0.3.2
+    react-fake-props: ^1.0.3
     react-text-mask: ^5.4.3
     react-to-typescript-definitions: ^3.0.1
     rollup: ^2.49.0
@@ -27485,24 +27485,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-docgen@npm:^3.0.0-rc.2":
-  version: 3.0.0
-  resolution: "react-docgen@npm:3.0.0"
-  dependencies:
-    "@babel/parser": ^7.1.3
-    "@babel/runtime": ^7.0.0
-    async: ^2.1.4
-    commander: ^2.19.0
-    doctrine: ^2.0.0
-    node-dir: ^0.1.10
-    recast: ^0.16.0
-  bin:
-    react-docgen: bin/react-docgen.js
-  checksum: f989230a6802164092ea8241c40b7765d1ab124a634aba6e07261cbfc759ae8e246fbaa794b5e92462178c12239b06c4981cbf145aab220f309e8a2e81c2c100
-  languageName: node
-  linkType: hard
-
-"react-docgen@npm:^5.0.0":
+"react-docgen@npm:5.4.0, react-docgen@npm:^5.0.0":
   version: 5.4.0
   resolution: "react-docgen@npm:5.4.0"
   dependencies:
@@ -27519,6 +27502,23 @@ fsevents@^1.2.7:
   bin:
     react-docgen: bin/react-docgen.js
   checksum: b0f16789437c75b02ba726c7c94ed902dfcdf66d11f271232c46d270d7eadc7eabbad95587cc70996bbbe5fea1e860afe0dc2659fa22d5773cef1e8deb7fa2ce
+  languageName: node
+  linkType: hard
+
+"react-docgen@npm:^3.0.0-rc.2":
+  version: 3.0.0
+  resolution: "react-docgen@npm:3.0.0"
+  dependencies:
+    "@babel/parser": ^7.1.3
+    "@babel/runtime": ^7.0.0
+    async: ^2.1.4
+    commander: ^2.19.0
+    doctrine: ^2.0.0
+    node-dir: ^0.1.10
+    recast: ^0.16.0
+  bin:
+    react-docgen: bin/react-docgen.js
+  checksum: f989230a6802164092ea8241c40b7765d1ab124a634aba6e07261cbfc759ae8e246fbaa794b5e92462178c12239b06c4981cbf145aab220f309e8a2e81c2c100
   languageName: node
   linkType: hard
 
@@ -27573,6 +27573,17 @@ fsevents@^1.2.7:
   peerDependencies:
     react: "*"
   checksum: 40544512d762c64ab548eca4c33242af3971da2763be5284f5a2e81501c409772df480fb2fdc7038de46c5f60ca1ee5167d456e3a55145c16399c9485170c562
+  languageName: node
+  linkType: hard
+
+"react-fake-props@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "react-fake-props@npm:1.0.3"
+  dependencies:
+    react-docgen: 5.4.0
+  peerDependencies:
+    react: "*"
+  checksum: 947542bb50f4e6439f957f07e860bb77e9dd297ac995e93409897e7b59766c9abacba778a5201279bff6b5b5189c585e2e79443b26c03c13a708b3dc0e815950
   languageName: node
   linkType: hard
 

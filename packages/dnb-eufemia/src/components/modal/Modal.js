@@ -198,7 +198,7 @@ export default class Modal extends React.PureComponent {
   }
 
   static enableWebComponent() {
-    registerElement(Modal.tagName, Modal, Modal.defaultProps)
+    registerElement(Modal?.tagName, Modal, Modal.defaultProps)
   }
 
   static getContent(props) {

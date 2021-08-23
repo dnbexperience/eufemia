@@ -8,4 +8,4 @@ import FormLabel from './FormLabel'
 export default FormLabel
 export * from './FormLabel'
 
-registerElement(FormLabel.tagName, FormLabel, FormLabel.defaultProps)
+registerElement(FormLabel?.tagName, FormLabel, FormLabel.defaultProps)

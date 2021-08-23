@@ -8,4 +8,4 @@ import Space from './Space'
 export default Space
 export * from './Space'
 
-registerElement(Space.tagName, Space, Space.defaultProps)
+registerElement(Space?.tagName, Space, Space.defaultProps)

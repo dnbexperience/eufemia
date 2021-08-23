@@ -150,7 +150,7 @@ export default class Button extends React.PureComponent {
   }
 
   static enableWebComponent() {
-    registerElement(Button.tagName, Button, Button.defaultProps)
+    registerElement(Button?.tagName, Button, Button.defaultProps)
   }
 
   static getContent(props) {

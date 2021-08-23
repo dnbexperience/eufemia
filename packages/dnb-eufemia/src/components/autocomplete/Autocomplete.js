@@ -293,7 +293,7 @@ export default class Autocomplete extends React.PureComponent {
 
   static enableWebComponent() {
     registerElement(
-      Autocomplete.tagName,
+      Autocomplete?.tagName,
       Autocomplete,
       Autocomplete.defaultProps
     )

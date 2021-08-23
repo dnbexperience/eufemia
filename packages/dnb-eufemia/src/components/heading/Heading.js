@@ -117,7 +117,7 @@ export default class Heading extends React.PureComponent {
   }
 
   static enableWebComponent() {
-    registerElement(Heading.tagName, Heading, Heading.defaultProps)
+    registerElement(Heading?.tagName, Heading, Heading.defaultProps)
   }
 
   static getDerivedStateFromProps(props, state) {

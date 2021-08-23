@@ -8,4 +8,4 @@ import FormStatus from './FormStatus'
 export default FormStatus
 export * from './FormStatus'
 
-registerElement(FormStatus.tagName, FormStatus, FormStatus.defaultProps)
+registerElement(FormStatus?.tagName, FormStatus, FormStatus.defaultProps)

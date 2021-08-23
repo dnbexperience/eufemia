@@ -37,7 +37,7 @@ export default class HelpButton extends React.PureComponent {
 
   static enableWebComponent() {
     registerElement(
-      HelpButton.tagName,
+      HelpButton?.tagName,
       HelpButton,
       HelpButton.defaultProps
     )

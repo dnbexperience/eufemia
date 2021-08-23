@@ -8,4 +8,4 @@ import Tooltip from './Tooltip'
 export default Tooltip
 export * from './Tooltip'
 
-registerElement(Tooltip.tagName, Tooltip, Tooltip.defaultProps)
+registerElement(Tooltip?.tagName, Tooltip, Tooltip.defaultProps)

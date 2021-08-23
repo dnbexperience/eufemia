@@ -128,6 +128,14 @@ exports[`Pagination bar component have to match snapshot 1`] = `
       },
     }
   }
+  3={
+    Object {
+      "displayName": "PaginationContent",
+      "props": Object {
+        "children": "children",
+      },
+    }
+  }
   align="left"
   button_title={null}
   class={null}
@@ -281,6 +289,14 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "startup_count": "startup_count",
           "startup_page": "startup_page",
           "use_load_button": "use_load_button",
+        },
+      }
+    }
+    3={
+      Object {
+        "displayName": "PaginationContent",
+        "props": Object {
+          "children": "children",
         },
       }
     }
@@ -444,6 +460,14 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "startup_count": "startup_count",
             "startup_page": "startup_page",
             "use_load_button": "use_load_button",
+          },
+        }
+      }
+      3={
+        Object {
+          "displayName": "PaginationContent",
+          "props": Object {
+            "children": "children",
           },
         }
       }

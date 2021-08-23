@@ -65,7 +65,7 @@ export default class Accordion extends React.PureComponent {
   }
 
   static enableWebComponent() {
-    registerElement(Accordion.tagName, Accordion, Accordion.defaultProps)
+    registerElement(Accordion?.tagName, Accordion, Accordion.defaultProps)
   }
 
   static getDerivedStateFromProps(props, state) {

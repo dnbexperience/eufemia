@@ -27,10 +27,14 @@ export const registerElement = (
   // remove id, because we never can have more than one of the same id
   { attributesExcludelist = ['id'] } = {}
 ) => {
-  if (!tagName) tagName = ReactComponent.displayName || ReactComponent.name
+  if (!tagName) {
+    tagName = ReactComponent.displayName || ReactComponent.name
+  }
 
   // stop here if we already have registered the tag
-  if (registeredElements.indexOf(tagName) !== -1) return
+  if (registeredElements.indexOf(tagName) !== -1) {
+    return // stop here
+  }
   registeredElements.push(tagName)
 
   if (typeof document === 'undefined' || typeof window === 'undefined') {

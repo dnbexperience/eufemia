@@ -8,4 +8,4 @@ import Radio from './Radio'
 export default Radio
 export * from './Radio'
 
-registerElement(Radio.tagName, Radio, Radio.defaultProps)
+registerElement(Radio?.tagName, Radio, Radio.defaultProps)

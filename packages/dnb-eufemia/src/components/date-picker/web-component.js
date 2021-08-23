@@ -8,4 +8,4 @@ import DatePicker from './DatePicker'
 export default DatePicker
 export * from './DatePicker'
 
-registerElement(DatePicker.tagName, DatePicker, DatePicker.defaultProps)
+registerElement(DatePicker?.tagName, DatePicker, DatePicker.defaultProps)

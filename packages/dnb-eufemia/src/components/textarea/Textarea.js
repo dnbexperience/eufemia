@@ -147,7 +147,7 @@ export default class Textarea extends React.PureComponent {
   }
 
   static enableWebComponent() {
-    registerElement(Textarea.tagName, Textarea, Textarea.defaultProps)
+    registerElement(Textarea?.tagName, Textarea, Textarea.defaultProps)
   }
 
   static getDerivedStateFromProps(props, state) {

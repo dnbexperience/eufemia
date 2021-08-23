@@ -104,7 +104,7 @@ export default class Icon extends React.PureComponent {
   }
 
   static enableWebComponent(
-    tag = Icon.tagName,
+    tag = Icon?.tagName,
     inst = Icon,
     props = Icon.defaultProps
   ) {

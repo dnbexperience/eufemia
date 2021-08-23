@@ -25,7 +25,7 @@ export default function Tabbar({
   )
 
   const [wasFullscreen, setFullscreen] = React.useState(
-    /fullscreen|data-visual-test/.test(path.search)
+    /fullscreen/.test(path.search)
   )
   const fullscreenQuery = () => (wasFullscreen ? '?fullscreen' : '')
 
@@ -78,10 +78,6 @@ export default function Tabbar({
         })
     )
   }, [wasFullscreen]) // eslint-disable-line
-
-  if (/data-visual-test/.test(path.search)) {
-    return null // stop here on visual test
-  }
 
   const selectedKey = [
     path.pathname.replace(/(\/)$/, ''),

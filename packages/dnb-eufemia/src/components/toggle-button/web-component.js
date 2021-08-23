@@ -9,7 +9,7 @@ export default ToggleButton
 export * from './ToggleButton'
 
 registerElement(
-  ToggleButton.tagName,
+  ToggleButton?.tagName,
   ToggleButton,
   ToggleButton.defaultProps
 )

@@ -8,4 +8,4 @@ import Accordion from './Accordion'
 export default Accordion
 export * from './Accordion'
 
-registerElement(Accordion.tagName, Accordion, Accordion.defaultProps)
+registerElement(Accordion?.tagName, Accordion, Accordion.defaultProps)

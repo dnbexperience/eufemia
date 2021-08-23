@@ -8,4 +8,8 @@ import IconPrimary from './IconPrimary'
 export default IconPrimary
 export * from './IconPrimary'
 
-registerElement(IconPrimary.tagName, IconPrimary, IconPrimary.defaultProps)
+registerElement(
+  IconPrimary?.tagName,
+  IconPrimary,
+  IconPrimary.defaultProps
+)

@@ -152,13 +152,17 @@ export default class Pagination extends React.PureComponent {
   static defaultProps = paginationDefaultProps
 
   static enableWebComponent() {
-    registerElement(Pagination.tagName, Pagination, paginationDefaultProps)
+    registerElement(
+      Pagination?.tagName,
+      Pagination,
+      paginationDefaultProps
+    )
   }
 
   render() {
     return (
       <PaginationProvider
-        tagName={Pagination.tagName}
+        tagName="dnb-pagination"
         internalContent={this.props.children}
         {...this.props}
       >
@@ -208,12 +212,8 @@ class PaginationInstance extends React.PureComponent {
     } = props
 
     // our props
-    const {
-      currentPage,
-      items,
-      fallback_element,
-      indicator_element,
-    } = this.context.pagination
+    const { currentPage, items, fallback_element, indicator_element } =
+      this.context.pagination
 
     // Pagination mode
     if (this.context.pagination.mode === 'pagination') {
@@ -272,7 +272,7 @@ export class InfinityMarker extends React.PureComponent {
 
   static enableWebComponent() {
     registerElement(
-      InfinityMarker.tagName,
+      InfinityMarker?.tagName,
       InfinityMarker,
       paginationDefaultProps
     )
@@ -283,7 +283,7 @@ export class InfinityMarker extends React.PureComponent {
     return (
       <PaginationProvider
         useMarkerOnly
-        tagName={InfinityMarker.tagName}
+        tagName="dnb-infinity-marker"
         {...props}
       >
         <InfinityScroller {...props}>{children}</InfinityScroller>
@@ -353,15 +353,12 @@ export const createPagination = (initProps = {}) => {
   })
 
   const Pagination = (props) => (
-    <PaginationWrapper
-      tagName={PaginationWrapper.tagName}
-      {...args(props)}
-    />
+    <PaginationWrapper tagName="dnb-pagination" {...args(props)} />
   )
 
   const InfinityMarker = (props) => (
     <InfinityMarkerWrapper
-      tagName={InfinityMarkerWrapper.tagName}
+      tagName={InfinityMarkerWrapper?.tagName}
       {...args(props)}
     />
   )

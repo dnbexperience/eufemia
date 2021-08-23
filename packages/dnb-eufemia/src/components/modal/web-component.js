@@ -8,4 +8,4 @@ import Modal from './Modal'
 export default Modal
 export * from './Modal'
 
-registerElement(Modal.tagName, Modal, Modal.defaultProps)
+registerElement(Modal?.tagName, Modal, Modal.defaultProps)

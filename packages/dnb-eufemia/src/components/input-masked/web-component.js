@@ -8,4 +8,8 @@ import InputMasked from './InputMasked'
 export default InputMasked
 export * from './InputMasked'
 
-registerElement(InputMasked.tagName, InputMasked, InputMasked.defaultProps)
+registerElement(
+  InputMasked?.tagName,
+  InputMasked,
+  InputMasked.defaultProps
+)

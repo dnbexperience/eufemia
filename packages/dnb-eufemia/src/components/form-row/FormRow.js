@@ -108,7 +108,7 @@ export default class FormRow extends React.PureComponent {
   }
 
   static enableWebComponent() {
-    registerElement(FormRow.tagName, FormRow, FormRow.defaultProps)
+    registerElement(FormRow?.tagName, FormRow, FormRow.defaultProps)
   }
 
   static getContent(props) {

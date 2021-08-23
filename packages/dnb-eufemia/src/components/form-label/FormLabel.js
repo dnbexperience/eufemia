@@ -72,7 +72,7 @@ export default class FormLabel extends React.PureComponent {
   }
 
   static enableWebComponent() {
-    registerElement(FormLabel.tagName, FormLabel, FormLabel.defaultProps)
+    registerElement(FormLabel?.tagName, FormLabel, FormLabel.defaultProps)
   }
 
   static getContent(props) {

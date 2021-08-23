@@ -8,4 +8,8 @@ import GlobalError from './GlobalError'
 export default GlobalError
 export * from './GlobalError'
 
-registerElement(GlobalError.tagName, GlobalError, GlobalError.defaultProps)
+registerElement(
+  GlobalError?.tagName,
+  GlobalError,
+  GlobalError.defaultProps
+)

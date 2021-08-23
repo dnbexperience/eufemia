@@ -43,7 +43,7 @@ export default class AccordionGroup extends React.PureComponent {
 
   static enableWebComponent() {
     registerElement(
-      AccordionGroup.tagName,
+      AccordionGroup?.tagName,
       AccordionGroup,
       AccordionGroup.defaultProps
     )
