@@ -32,7 +32,6 @@ import Input from './input/Input'
 import InputMasked from './input-masked/InputMasked'
 import Logo from './logo/Logo'
 import Modal from './modal/Modal'
-import Notification from './notification/Notification'
 import NumberFormat from './number-format/NumberFormat'
 import Pagination from './pagination/Pagination'
 import ProgressIndicator from './progress-indicator/ProgressIndicator'
@@ -70,7 +69,6 @@ export {
   InputMasked,
   Logo,
   Modal,
-  Notification,
   NumberFormat,
   Pagination,
   ProgressIndicator,
@@ -109,7 +107,6 @@ export const getComponents = () => {
     InputMasked,
     Logo,
     Modal,
-    Notification,
     NumberFormat,
     Pagination,
     ProgressIndicator,
@@ -134,7 +131,7 @@ export const enableWebComponents = () => {
   const components = getComponents()
   // register this component to work with custom element
   for (const c in components) {
-    if (components[c] && components[c].tagName) {
+    if (components?.[c]?.tagName) {
       registerElement(
         components[c].tagName,
         components[c],
