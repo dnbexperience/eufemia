@@ -141,13 +141,8 @@ steps:
     when:
       branch:
         include:
-          - release
-          - release-*
           - portal
-          - beta
-          - alpha
           - main
-          - eufemia-icons
           - fix/*
           - feat/*
           - feature/*

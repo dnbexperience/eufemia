@@ -123,7 +123,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
 
   static enableWebComponent() {
     registerElement(
-      ToggleButtonGroup.tagName,
+      ToggleButtonGroup?.tagName,
       ToggleButtonGroup,
       ToggleButtonGroup.defaultProps
     )

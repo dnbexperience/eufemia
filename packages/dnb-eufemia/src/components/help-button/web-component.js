@@ -8,4 +8,4 @@ import HelpButton from './HelpButton'
 export default HelpButton
 export * from './HelpButton'
 
-registerElement(HelpButton.tagName, HelpButton, HelpButton.defaultProps)
+registerElement(HelpButton?.tagName, HelpButton, HelpButton.defaultProps)

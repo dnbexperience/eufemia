@@ -8,4 +8,4 @@ import Textarea from './Textarea'
 export default Textarea
 export * from './Textarea'
 
-registerElement(Textarea.tagName, Textarea, Textarea.defaultProps)
+registerElement(Textarea?.tagName, Textarea, Textarea.defaultProps)

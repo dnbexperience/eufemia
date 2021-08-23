@@ -9,7 +9,7 @@ export default GlobalStatus
 export * from './GlobalStatus'
 
 registerElement(
-  GlobalStatus.tagName,
+  GlobalStatus?.tagName,
   GlobalStatus,
   GlobalStatus.defaultProps
 )

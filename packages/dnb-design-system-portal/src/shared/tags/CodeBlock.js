@@ -183,11 +183,6 @@ class LiveCode extends React.PureComponent {
 
     const id = makeUniqueId()
 
-    // Add the html attribute, only so we can run it locally during dev
-    if (global.IS_TEST && typeof document !== 'undefined') {
-      document.documentElement.setAttribute('data-visual-test', true)
-    }
-
     return (
       <LiveCodeEditor>
         <LiveProvider
@@ -206,7 +201,6 @@ class LiveCode extends React.PureComponent {
               {title && (
                 <AutoLinkHeader
                   level={3}
-                  // is="h3"
                   useSlug={visualTest}
                   title={title}
                   addToSearchIndex={addToSearchIndex}

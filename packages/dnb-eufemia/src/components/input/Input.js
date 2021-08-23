@@ -188,7 +188,7 @@ export default class Input extends React.PureComponent {
   }
 
   static enableWebComponent() {
-    registerElement(Input.tagName, Input, Input.defaultProps)
+    registerElement(Input?.tagName, Input, Input.defaultProps)
   }
 
   static getDerivedStateFromProps(props, state) {

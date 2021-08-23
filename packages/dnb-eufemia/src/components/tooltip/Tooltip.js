@@ -95,7 +95,7 @@ export default class Tooltip extends React.PureComponent {
   }
 
   static enableWebComponent() {
-    registerElement(Tooltip.tagName, Tooltip, Tooltip.defaultProps)
+    registerElement(Tooltip?.tagName, Tooltip, Tooltip.defaultProps)
   }
 
   static getContent(props) {

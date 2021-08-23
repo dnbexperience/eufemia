@@ -8,4 +8,4 @@ import FormSet from './FormSet'
 export default FormSet
 export * from './FormSet'
 
-registerElement(FormSet.tagName, FormSet, FormSet.defaultProps)
+registerElement(FormSet?.tagName, FormSet, FormSet.defaultProps)

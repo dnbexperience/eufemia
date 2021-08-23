@@ -8,4 +8,4 @@ import Icon from './Icon'
 export default Icon
 export * from './Icon'
 
-registerElement(Icon.tagName, Icon, Icon.defaultProps)
+registerElement(Icon?.tagName, Icon, Icon.defaultProps)

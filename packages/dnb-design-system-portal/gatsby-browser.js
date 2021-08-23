@@ -17,19 +17,28 @@ global.process = process
 require('@dnb/eufemia/src/style/extensions') // import only extensions
 require('@dnb/eufemia/src/style') // import both all components and the default ui theme
 
+if (typeof window !== 'undefined') {
+  setIsTest(window.location)
+}
+
+function setIsTest(location) {
+  if (location && location.href.includes('data-visual-test')) {
+    global.IS_TEST = true
+    window.IS_TEST = true
+  }
+}
+
 export const wrapRootElement = rootElement('browser')
 export const wrapPageElement = pageElement('browser')
 
-export const disableCorePrefetching = () => {
-  return window.IS_TEST
-}
-export const registerServiceWorker = () => {
-  return !window.IS_TEST
-}
-export const onServiceWorkerUpdateFound = () => {
-  window.___swUpdated = true
-  disableServiceWorker()
-}
+// This was used before during visual testing
+// but it looks like they do not safe us any time
+// export const disableCorePrefetching = () => {
+//   return window.IS_TEST
+// }
+// export const registerServiceWorker = () => {
+//   return !window.IS_TEST
+// }
 
 // scroll to top on route change
 export const shouldUpdateScroll = () => true
@@ -56,36 +65,5 @@ export const onRouteUpdate = ({ prevLocation }) => {
   //  then we apply the page content focus for accissibility
   if (prevLocation) {
     applyPageFocus('content')
-  }
-}
-
-if (typeof window !== 'undefined') {
-  setIsTest(window.location)
-  if (window.IS_TEST) {
-    disableServiceWorker()
-  }
-}
-
-function setIsTest(location) {
-  if (location && location.href.includes('data-visual-test')) {
-    global.IS_TEST = true
-    window.IS_TEST = true
-    window.___swUpdated = true
-  }
-}
-
-function disableServiceWorker() {
-  // Because if visual test interruption, we disable the workbox / caching during the tests
-  if (window.IS_TEST && 'serviceWorker' in navigator) {
-    navigator.serviceWorker
-      .getRegistrations()
-      .then((registrations) => {
-        for (let r of registrations) {
-          r.unregister()
-        }
-      })
-      .catch((err) => {
-        console.error('Service Worker registration failed:', err)
-      })
   }
 }

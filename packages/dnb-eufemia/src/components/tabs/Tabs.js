@@ -138,7 +138,7 @@ export default class Tabs extends React.PureComponent {
   static ContentWrapper = ContentWrapper
 
   static enableWebComponent() {
-    registerElement(Tabs.tagName, Tabs, Tabs.defaultProps)
+    registerElement(Tabs?.tagName, Tabs, Tabs.defaultProps)
   }
 
   static getSelectedKeyOrFallback(selected_key, data) {

@@ -145,12 +145,7 @@ export default function StickyMenuBar({
     }
   `)
 
-  if (
-    preventBarVisibility ||
-    hideSidebarToggleButton ||
-    (typeof window !== 'undefined' &&
-      /fullscreen|data-visual-test/.test(window.location.search))
-  ) {
+  if (preventBarVisibility || hideSidebarToggleButton) {
     return null
   }
 

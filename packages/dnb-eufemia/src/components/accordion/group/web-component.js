@@ -9,7 +9,7 @@ export default AccordionGroup
 export * from '../AccordionGroup'
 
 registerElement(
-  AccordionGroup.tagName,
+  AccordionGroup?.tagName,
   AccordionGroup,
   AccordionGroup.defaultProps
 )

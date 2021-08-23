@@ -78,6 +78,20 @@ exports[`Input component have to match type="search" snapshot 1`] = `
       },
     }
   }
+  2={
+    Object {
+      "displayName": "SubmitButton",
+      "props": Object {},
+    }
+  }
+  3={
+    Object {
+      "displayName": "InputIcon",
+      "props": Object {
+        "icon": "icon",
+      },
+    }
+  }
   align={null}
   autocomplete="off"
   class={null}
@@ -243,6 +257,20 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                 },
               }
             }
+            2={
+              Object {
+                "displayName": "SubmitButton",
+                "props": Object {},
+              }
+            }
+            3={
+              Object {
+                "displayName": "InputIcon",
+                "props": Object {
+                  "icon": "icon",
+                },
+              }
+            }
             custom_element={null}
             custom_method={null}
             disabled={false}
@@ -340,6 +368,20 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     "title": "title",
                     "value": "value",
                     "variant": "custom type not supported, please set the correct value for variant prop",
+                  },
+                }
+              }
+              2={
+                Object {
+                  "displayName": "SubmitButton",
+                  "props": Object {},
+                }
+              }
+              3={
+                Object {
+                  "displayName": "InputIcon",
+                  "props": Object {
+                    "icon": "icon",
                   },
                 }
               }
@@ -592,6 +634,20 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "title": "title",
         "value": "value",
         "variant": "custom type not supported, please set the correct value for variant prop",
+      },
+    }
+  }
+  2={
+    Object {
+      "displayName": "SubmitButton",
+      "props": Object {},
+    }
+  }
+  3={
+    Object {
+      "displayName": "InputIcon",
+      "props": Object {
+        "icon": "icon",
       },
     }
   }

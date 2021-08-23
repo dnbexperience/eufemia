@@ -139,7 +139,7 @@ export default class ToggleButton extends React.PureComponent {
 
   static enableWebComponent() {
     registerElement(
-      ToggleButton.tagName,
+      ToggleButton?.tagName,
       ToggleButton,
       ToggleButton.defaultProps
     )

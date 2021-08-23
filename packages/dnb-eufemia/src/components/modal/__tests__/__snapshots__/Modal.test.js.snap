@@ -1949,9 +1949,9 @@ button.dnb-button::-moz-focus-inner {
     @media screen and (max-width: 50em) {
       .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__header__bar.dnb-section {
         margin: var(--modal-spacing) 0; } }
-  .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__header__bar.dnb-section.dnb-modal__header__bar--shadow {
+  .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__header__bar.dnb-section.dnb-modal__header__bar--sticky {
     z-index: 2999; }
-  .dnb-modal__content--drawer .dnb-modal__header__bar--shadow::before {
+  .dnb-modal__content--drawer .dnb-modal__header__bar--sticky::before {
     content: '';
     position: absolute;
     z-index: -1;
@@ -1960,6 +1960,8 @@ button.dnb-button::-moz-focus-inner {
     bottom: 0;
     height: 300%;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
+  .dnb-modal__content--drawer .dnb-modal__header__bar:not(.dnb-modal__header__bar--sticky)::after {
+    color: transparent; }
   .dnb-modal__overlay {
     position: fixed;
     z-index: var(--modal-z-index);

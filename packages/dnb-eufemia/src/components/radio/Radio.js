@@ -120,7 +120,7 @@ export default class Radio extends React.PureComponent {
   static Group = RadioGroup
 
   static enableWebComponent() {
-    registerElement(Radio.tagName, Radio, Radio.defaultProps)
+    registerElement(Radio?.tagName, Radio, Radio.defaultProps)
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))

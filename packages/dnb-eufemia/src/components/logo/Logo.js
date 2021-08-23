@@ -48,7 +48,7 @@ export default class Logo extends React.PureComponent {
   }
 
   static enableWebComponent() {
-    registerElement(Logo.tagName, Logo, Logo.defaultProps)
+    registerElement(Logo?.tagName, Logo, Logo.defaultProps)
   }
 
   render() {

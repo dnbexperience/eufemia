@@ -67,7 +67,7 @@ export default class Space extends React.PureComponent {
   }
 
   static enableWebComponent() {
-    registerElement(Space.tagName, Space, Space.defaultProps)
+    registerElement(Space?.tagName, Space, Space.defaultProps)
   }
 
   static getContent(props) {

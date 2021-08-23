@@ -8,4 +8,4 @@ import RadioGroup from '../RadioGroup'
 export default RadioGroup
 export * from '../RadioGroup'
 
-registerElement(RadioGroup.tagName, RadioGroup, RadioGroup.defaultProps)
+registerElement(RadioGroup?.tagName, RadioGroup, RadioGroup.defaultProps)

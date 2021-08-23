@@ -8,4 +8,4 @@ import Section from './Section'
 export default Section
 export * from './Section'
 
-registerElement(Section.tagName, Section, Section.defaultProps)
+registerElement(Section?.tagName, Section, Section.defaultProps)

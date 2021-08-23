@@ -101,10 +101,6 @@ Use a ProgressIndicator whenever the user has to wait for more than _150ms_.
 
 The step indicator (progress) is a visual representation of a users progress through a set of steps or series of actions. Their purpose is to both guide the user through the process and to help them create a mental model of the amount of time and effort that is required of them.
 
-## [Notification](/uilib/components/notification)
-
-Notifications are messages that communicate information to the user.
-
 ## [Radio](/uilib/components/radio)
 
 Radio buttons lets a user select one option / value of a limited number of choices. It is recommended to use it in a group. You can use either the React component `<Radio.Group>` or use the property `group="NAME"` to define the group.

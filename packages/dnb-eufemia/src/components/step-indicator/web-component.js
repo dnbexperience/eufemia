@@ -9,7 +9,7 @@ export default StepIndicator
 export * from './StepIndicator'
 
 registerElement(
-  StepIndicator.tagName,
+  StepIndicator?.tagName,
   StepIndicator,
   StepIndicator.defaultProps
 )

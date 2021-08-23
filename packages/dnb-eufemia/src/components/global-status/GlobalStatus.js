@@ -141,7 +141,7 @@ export default class GlobalStatus extends React.PureComponent {
 
   static enableWebComponent() {
     registerElement(
-      GlobalStatus.tagName,
+      GlobalStatus?.tagName,
       GlobalStatus,
       GlobalStatus.defaultProps
     )

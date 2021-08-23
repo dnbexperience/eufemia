@@ -153,20 +153,11 @@ export const format = (
       omit_currency_sign = true
     }
 
-    // If currencyDisplay is not defined and locale is "no", use narrowSymbol
-    if (
-      !opts.currencyDisplay &&
-      !currency_display &&
-      (!locale || /(no|nb|nn)$/i.test(locale))
-    ) {
-      opts.currencyDisplay = 'narrowSymbol'
-    }
-
-    // set currency options
-
     opts.style = 'currency'
-    opts.currencyDisplay =
-      opts.currencyDisplay || currency_display || CURRENCY_DISPLAY // code, name, symbol
+    opts.currencyDisplay = getFallbackCurrencyDisplay(
+      locale,
+      opts.currency_display || currency_display
+    )
 
     // if currency has no decimal, then go ahead and remove it
     if (
@@ -180,16 +171,18 @@ export const format = (
     let formatter = undefined
 
     if (isTrue(omit_currency_sign)) {
-      formatter = ({ type, value }) => {
-        switch (type) {
+      formatter = (item) => {
+        switch (item.type) {
           case 'literal':
-            return value === ' ' ? '' : value
+            item.value = item.value === ' ' ? '' : item.value
+            return item
 
           case 'currency':
-            return ''
+            item.value = ''
+            return item
 
           default:
-            return value
+            return item
         }
       }
     }
@@ -205,7 +198,7 @@ export const format = (
     if (currency_position) {
       formatter = currencyPositionFormatter(
         formatter,
-        (currency) => (currencySuffix = currency.trim()),
+        ({ value }) => (currencySuffix = value.trim()),
         currency_position
       )
     }
@@ -260,21 +253,17 @@ export const format = (
     aria = display
   }
 
-  const cleanedValue = formatNumber(
-    value,
-    locale,
-    opts,
-    ({ type, value }) => {
-      switch (type) {
-        case 'currency':
-        case 'group':
-        case 'literal':
-          return ''
-        default:
-          return value
-      }
+  const cleanedValue = formatNumber(value, locale, opts, (item) => {
+    switch (item.type) {
+      case 'currency':
+      case 'group':
+      case 'literal':
+        item.value = ''
+        return item
+      default:
+        return item
     }
-  )
+  })
 
   // return "locale" as well value,l, since we have to "auto" option
   return returnAria
@@ -344,34 +333,34 @@ const currencyPositionFormatter = (
   let count = 0
   let countCurrency = -1
 
-  return ({ type, value }) => {
+  return (item) => {
     // Ensure we do not overwrite a given formatter, but run it as well
     if (typeof existingFormatter === 'function') {
-      value = existingFormatter({ type, value })
+      item = existingFormatter(item)
     }
 
     count++
 
-    switch (type) {
+    switch (item.type) {
       case 'currency': {
         if (position === 'after' || (position === 'before' && count > 2)) {
           countCurrency = count
-          callback(value)
-          return ''
+          callback(item)
+          item.value = ''
         }
-        return value
+        return item
       }
 
       case 'literal': {
         // Remove the literal after currency
         if (count === countCurrency + 1) {
-          return ''
+          item.value = ''
         }
-        return value
+        return item
       }
 
       default:
-        return value
+        return item
     }
   }
 }
@@ -461,39 +450,18 @@ export const formatNumber = (
   formatter = null
 ) => {
   try {
-    // Safari does not support `narrowSymbol` for now, so `symbol` will be used then.
-    if (
-      (IS_SAFARI || IS_IE11) &&
-      options.currencyDisplay === 'narrowSymbol'
-    ) {
-      options.currencyDisplay = 'symbol'
+    if (options.currencyDisplay) {
+      options.currencyDisplay = getFallbackCurrencyDisplay(
+        locale,
+        options.currencyDisplay
+      )
     }
 
     // remove unsupported decimals
     delete options.decimals
 
-    /**
-     * We change the thousand separator to be a non-breaking space
-     *
-     * Effected locales:
-     * - en-GB
-     * - en
-     */
     if (locale && /(en|gb)$/i.test(locale)) {
-      const existingFormatter = formatter
-      formatter = ({ type, value }) => {
-        // Ensure we do not overwrite a given formatter, but run it as well
-        if (typeof existingFormatter === 'function') {
-          value = existingFormatter({ type, value })
-        }
-
-        switch (type) {
-          case 'group':
-            return ' ' // non-breaking space
-          default:
-            return value
-        }
-      }
+      formatter = getGroupFormatter(locale, null, formatter)
     }
 
     if (
@@ -504,8 +472,10 @@ export const formatNumber = (
       if (formatter && typeof inst.formatToParts === 'function') {
         return inst
           .formatToParts(number)
-          .map((val) => formatter(val))
-          .reduce((str, part) => str + part)
+          .map(formatter)
+          .reduce((acc, { value }) => {
+            return acc + value
+          }, '')
       } else {
         return inst.format(number)
       }
@@ -948,4 +918,122 @@ export function useCopyWithNotice() {
   }
 
   return { copy }
+}
+
+/**
+ * Will return currency display value based on navigator/browser and locale
+ *
+ * @property {string} currency_display (optional) code, name, symbol or narrowSymbol
+ * @property {string} locale (optional) the locale to use, defaults to no-NB
+ * @returns {string} a separator symbol
+ */
+export function getFallbackCurrencyDisplay(
+  locale = null,
+  currency_display = null
+) {
+  // If currencyDisplay is not defined and locale is "no", use narrowSymbol
+  if (
+    !currency_display &&
+    // Safari does not support `narrowSymbol` for now, so `symbol` will be used then.
+    !IS_SAFARI &&
+    !IS_IE11 &&
+    (!locale || /(no|nb|nn)$/i.test(locale))
+  ) {
+    currency_display = 'narrowSymbol'
+  }
+
+  return currency_display || CURRENCY_DISPLAY // code, name, symbol
+}
+
+/**
+ * This function returns a decimal separator symbol based on the given locale
+ *
+ * @property {string} locale (optional) the locale to use, defaults to no-NB
+ * @returns {string} a separator symbol
+ */
+export function getDecimalSeparator(locale = null) {
+  return (
+    Intl?.NumberFormat(locale || LOCALE)
+      ?.formatToParts(1.1)
+      .find(({ type }) => type === 'decimal')?.value || ',' // defaults to no-NB
+  )
+}
+
+/**
+ * This function returns a thousands separator symbol based on the given locale
+ *
+ * @property {string} locale (optional) the locale to use, defaults to no-NB
+ * @returns {string} a separator symbol
+ */
+export function getThousandsSeparator(locale = null) {
+  if (!locale) {
+    locale = LOCALE
+  }
+
+  const formatter = getGroupFormatter(locale)
+
+  return (
+    Intl?.NumberFormat(locale)
+      ?.formatToParts(1000)
+      .map(formatter)
+      .find(({ type }) => type === 'group')?.value || ' '
+  ) // defaults to no-NB
+}
+
+/**
+ * This function returns a currency symbol based on the given locale
+ *
+ * @property {string} locale (optional) the locale to use, defaults to no-NB
+ * @property {string} currency (optional) a given currency
+ * @property {currencyDisplay} currencyDisplay (optional) what currency display
+ * @returns {string} a currency symbol
+ */
+export function getCurrencySymbol(
+  locale = null,
+  currency = null,
+  currencyDisplay = null
+) {
+  if (!currency) {
+    currency = CURRENCY
+  }
+  return (
+    Intl?.NumberFormat(locale || LOCALE, {
+      style: 'currency',
+      currency,
+      currencyDisplay: getFallbackCurrencyDisplay(locale, currencyDisplay),
+    })
+      ?.formatToParts(1)
+      .find(({ type }) => type === 'currency')?.value || currency
+  )
+}
+
+function getGroupFormatter(
+  locale = null,
+  separatorSymbol = null,
+  existingFormatter = null
+) {
+  /**
+   * We change the thousand separator to be a non-breaking space
+   *
+   * Effected locales:
+   * - en-GB
+   * - en
+   */
+  if (locale && /(en|gb)$/i.test(locale)) {
+    // eslint-disable-next-line no-irregular-whitespace
+    separatorSymbol = ' ' // non-breaking space
+  }
+
+  return (item) => {
+    // Ensure we do not overwrite a given formatter, but run it as well
+    if (typeof existingFormatter === 'function') {
+      item = existingFormatter(item)
+    }
+
+    if (item.type === 'group') {
+      item.value = separatorSymbol || item.value
+    }
+
+    return item
+  }
 }

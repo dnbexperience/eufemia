@@ -222,8 +222,8 @@ export default class ModalContent extends React.PureComponent {
     this._androidFocusTimeout = setTimeout(() => {
       try {
         if (
-          document.activeElement.tagName == 'INPUT' ||
-          document.activeElement.tagName == 'TEXTAREA'
+          document.activeElement?.tagName == 'INPUT' ||
+          document.activeElement?.tagName == 'TEXTAREA'
         ) {
           document.activeElement.scrollIntoView()
         }
@@ -281,7 +281,7 @@ export default class ModalContent extends React.PureComponent {
             const noH1Elem = elem.querySelector('h1, h2, h3')
             if (
               typeof noH1Elem?.tagName !== 'undefined' &&
-              noH1Elem.tagName !== 'H1'
+              noH1Elem?.tagName !== 'H1'
             ) {
               warn(
                 'You have to provide a h1 element at first – instead of:',

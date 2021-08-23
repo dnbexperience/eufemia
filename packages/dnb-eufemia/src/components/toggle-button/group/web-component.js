@@ -9,7 +9,7 @@ export default ToggleButtonGroup
 export * from '../ToggleButtonGroup'
 
 registerElement(
-  ToggleButtonGroup.tagName,
+  ToggleButtonGroup?.tagName,
   ToggleButtonGroup,
   ToggleButtonGroup.defaultProps
 )

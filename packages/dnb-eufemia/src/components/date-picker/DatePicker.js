@@ -259,7 +259,7 @@ export default class DatePicker extends React.PureComponent {
 
   static enableWebComponent() {
     registerElement(
-      DatePicker.tagName,
+      DatePicker?.tagName,
       DatePicker,
       DatePicker.defaultProps
     )

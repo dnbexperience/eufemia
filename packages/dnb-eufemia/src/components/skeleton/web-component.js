@@ -8,4 +8,4 @@ import Skeleton from './Skeleton'
 export default Skeleton
 export * from './Skeleton'
 
-registerElement(Skeleton.tagName, Skeleton, Skeleton.defaultProps)
+registerElement(Skeleton?.tagName, Skeleton, Skeleton.defaultProps)
