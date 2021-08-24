@@ -4,7 +4,6 @@
  */
 
 const chalk = require('chalk')
-// const serve = require('gatsby/dist/commands/serve')
 const puppeteer = require('puppeteer')
 const mkdirp = require('mkdirp')
 const path = require('path')

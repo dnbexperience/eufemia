@@ -141,17 +141,14 @@ steps:
     when:
       branch:
         include:
-          - release
-          - release-*
-          - portal
-          - beta
-          - alpha
-          - main
-          - fix/*
-          - feat/*
-          - feature/*
-          - chore/*
-          - rc/*
+          # - portal
+          # - main
+          # - fix/*
+          # - feat/*
+          # - feature/*
+          # - chore/*
+          # - rc/*
+          - tests/*
 
   - name: postbuild
     image: tujoworker/docker-node-puppeteer
