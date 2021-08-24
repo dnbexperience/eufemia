@@ -1915,7 +1915,7 @@ button.dnb-button::-moz-focus-inner {
   .dnb-modal__content--drawer .dnb-modal__content__spacing {
     position: relative;
     z-index: 10;
-    background-color: var(--color-black-3); }
+    background-color: var(--modal-background-color, transparent); }
   .dnb-modal__content .dnb-modal__header::after {
     top: -500%;
     height: 600%; }
