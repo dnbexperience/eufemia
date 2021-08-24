@@ -267,6 +267,11 @@ async function makePageReady({
     path: path.resolve(__dirname, './jestSetupScreenshots.css'),
   })
 
+  // TODO: Considder if a general delay will help for better reliability
+  if (isCI) {
+    await page.waitForTimeout(100)
+  }
+
   await page.waitForSelector(selector)
 
   if (style) {
