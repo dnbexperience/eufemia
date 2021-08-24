@@ -61,12 +61,14 @@ export default class StepIndicatorModal extends React.PureComponent {
             sidebar_id={this.context.sidebar_id}
             onChangeState={this.onChangeState}
           >
-            <div className="dnb-step-indicator-v2">
-              <p className="dnb-p dnb-step-indicator__label">
-                {this.context.stepsLabelExtended}
-              </p>
-              <StepIndicatorList />
-            </div>
+            <Modal.Content style_type="white">
+              <div className="dnb-step-indicator-v2">
+                <p className="dnb-p dnb-step-indicator__label">
+                  {this.context.stepsLabelExtended}
+                </p>
+                <StepIndicatorList />
+              </div>
+            </Modal.Content>
           </StepIndicatorProvider>
         </Modal>
       </>
