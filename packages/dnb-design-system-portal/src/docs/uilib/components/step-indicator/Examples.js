@@ -38,6 +38,7 @@ export const StepIndicatorStatic = () => (
 export const StepIndicatorStrict = () => (
   <ComponentBox data-visual-test="step-indicator-strict">
     {() => /* jsx */ `
+<StepIndicator.Sidebar sidebar_id="unique-id-strict" />
 <StepIndicator
   sidebar_id="unique-id-strict"
   mode="strict"

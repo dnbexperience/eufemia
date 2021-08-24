@@ -296,7 +296,7 @@
   &__content--drawer &__content__spacing {
     position: relative;
     z-index: 10;
-    background-color: var(--color-black-3);
+    background-color: var(--modal-background-color, transparent);
   }
 
   &__content &__header {

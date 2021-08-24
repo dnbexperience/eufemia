@@ -26,7 +26,7 @@ export default class StepIndicatorSidebar extends React.PureComponent {
   constructor(props) {
     super(props)
     this._eventEmitter = EventEmitter.createInstance(props.sidebar_id)
-    this._eventEmitter.set({
+    this._eventEmitter.update({
       hideSidebar: true,
     })
   }
