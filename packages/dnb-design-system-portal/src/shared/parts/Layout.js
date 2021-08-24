@@ -82,7 +82,12 @@ class Layout extends React.PureComponent {
   }
 
   isFullscreen() {
-    return this.props.fullscreen
+    const { location, fullscreen } = this.props
+    return (
+      fullscreen ||
+      (typeof location !== 'undefined' &&
+        /fullscreen/.test(location.search))
+    )
   }
 
   render() {
