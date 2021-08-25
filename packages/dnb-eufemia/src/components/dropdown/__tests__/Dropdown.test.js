@@ -727,12 +727,14 @@ describe('Dropdown component', () => {
   })
 
   it('will set focus on options when key down/up is pressed on first item', async () => {
-    const Comp = mount(<Component no_animation data={mockData} />, {
-      attachTo: attachToBody(),
-    })
+    const Comp = mount(
+      <Component id="key-nav" no_animation data={mockData} />,
+      {
+        attachTo: attachToBody(),
+      }
+    )
 
     // first open
-    keydown(Comp, 40) // down
     keydown(Comp, 40) // down
 
     expect(
@@ -742,6 +744,8 @@ describe('Dropdown component', () => {
     expect(
       document.activeElement.classList.contains('dnb-drawer-list__options')
     ).toBe(true)
+
+    keydown(Comp, 40) // down
 
     // delay because we want to wait to have the DOM focus to be called
     await wait(1)
@@ -797,20 +801,17 @@ describe('Dropdown component', () => {
     // then simulate changes
     keydown(Comp, 38) // up
 
-    // delay because we want to wait to have the DOM focus to be called
-    await wait(1)
-
     expect(
       Comp.find('li.dnb-drawer-list__option')
         .at(mockData.length - 1) // the last item
         .hasClass('dnb-drawer-list__option--focus')
     ).toBe(true)
 
-    // then simulate changes
-    keydown(Comp, 40) // down
-
     // delay because we want to wait to have the DOM focus to be called
     await wait(1)
+
+    // then simulate changes
+    keydown(Comp, 40) // down
 
     expect(
       document.activeElement.classList.contains('dnb-drawer-list__options')

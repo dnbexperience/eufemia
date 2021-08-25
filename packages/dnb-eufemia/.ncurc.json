@@ -2,6 +2,7 @@
   "reject": [
     "eslint",
     "globby",
+    "ora",
     "gulp-sass",
     "react",
     "react-dom",
