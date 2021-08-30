@@ -14,6 +14,7 @@ import {
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
+  combineLabelledBy,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import {
@@ -271,7 +272,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
       )
     }
     if (label) {
-      params['aria-labelledby'] = id + '-label'
+      params['aria-labelledby'] = combineLabelledBy(params, id + '-label')
     }
 
     // also used for code markup simulation

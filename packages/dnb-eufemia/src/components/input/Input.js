@@ -455,9 +455,6 @@ export default class Input extends React.PureComponent {
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
     }
-    if (!hasValue && placeholder && focusState !== 'focus') {
-      inputParams['aria-labelledby'] = id + '-placeholder'
-    }
 
     const shellParams = {
       className: classnames(

@@ -16,6 +16,7 @@ import {
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
+  combineLabelledBy,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -554,13 +555,11 @@ class DropdownInstance extends React.PureComponent {
     }
 
     if (label) {
-      triggerParams['aria-labelledby'] = [
-        triggerParams['aria-labelledby'],
+      triggerParams['aria-labelledby'] = combineLabelledBy(
+        triggerParams,
         id + '-label',
-        id, // used to read the current value
-      ]
-        .filter(Boolean)
-        .join(' ')
+        id // used to read the current value
+      )
     }
 
     // also used for code markup simulation
