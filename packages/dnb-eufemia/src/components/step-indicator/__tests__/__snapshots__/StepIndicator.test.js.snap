@@ -204,7 +204,7 @@ Array [
                       size={null}
                       skeleton={null}
                       status={null}
-                      status_animation={null}
+                      status_no_animation={null}
                       status_state="error"
                       stretch={true}
                       text={null}
@@ -316,7 +316,7 @@ Array [
                           size={null}
                           skeleton={false}
                           status={null}
-                          status_animation={null}
+                          status_no_animation={null}
                           status_state="error"
                           stretch={true}
                           text={null}
@@ -409,6 +409,30 @@ Array [
                           </IconPrimary>
                         </Content>
                       </button>
+                      <FormStatus
+                        attributes={null}
+                        class={null}
+                        className={null}
+                        global_status_id={null}
+                        icon="error"
+                        icon_size="medium"
+                        id="null-form-status"
+                        label={null}
+                        no_animation={null}
+                        role={null}
+                        show={null}
+                        size="default"
+                        skeleton={null}
+                        state="error"
+                        status="error"
+                        stretch={null}
+                        text={null}
+                        text_id="null-status"
+                        title={null}
+                        variant={null}
+                        width_element={null}
+                        width_selector={null}
+                      />
                     </Button>
                   </StepItemButton>
                   <span
@@ -598,7 +622,7 @@ Array [
                       size={null}
                       skeleton={null}
                       status={null}
-                      status_animation={null}
+                      status_no_animation={null}
                       status_state="error"
                       stretch={true}
                       text={null}
@@ -710,7 +734,7 @@ Array [
                           size={null}
                           skeleton={false}
                           status={null}
-                          status_animation={null}
+                          status_no_animation={null}
                           status_state="error"
                           stretch={true}
                           text={null}
@@ -803,6 +827,30 @@ Array [
                           </IconPrimary>
                         </Content>
                       </button>
+                      <FormStatus
+                        attributes={null}
+                        class={null}
+                        className={null}
+                        global_status_id={null}
+                        icon="error"
+                        icon_size="medium"
+                        id="null-form-status"
+                        label={null}
+                        no_animation={null}
+                        role={null}
+                        show={null}
+                        size="default"
+                        skeleton={null}
+                        state="error"
+                        status="error"
+                        stretch={null}
+                        text={null}
+                        text_id="null-status"
+                        title={null}
+                        variant={null}
+                        width_element={null}
+                        width_selector={null}
+                      />
                     </Button>
                   </StepItemButton>
                   <span
@@ -991,7 +1039,7 @@ Array [
                       size={null}
                       skeleton={null}
                       status={null}
-                      status_animation={null}
+                      status_no_animation={null}
                       status_state="error"
                       stretch={true}
                       text={null}
@@ -1103,7 +1151,7 @@ Array [
                           size={null}
                           skeleton={false}
                           status={null}
-                          status_animation={null}
+                          status_no_animation={null}
                           status_state="error"
                           stretch={true}
                           text={null}
@@ -1196,6 +1244,30 @@ Array [
                           </IconPrimary>
                         </Content>
                       </button>
+                      <FormStatus
+                        attributes={null}
+                        class={null}
+                        className={null}
+                        global_status_id={null}
+                        icon="error"
+                        icon_size="medium"
+                        id="null-form-status"
+                        label={null}
+                        no_animation={null}
+                        role={null}
+                        show={null}
+                        size="default"
+                        skeleton={null}
+                        state="error"
+                        status="error"
+                        stretch={null}
+                        text={null}
+                        text_id="null-status"
+                        title={null}
+                        variant={null}
+                        width_element={null}
+                        width_selector={null}
+                      />
                     </Button>
                   </StepItemButton>
                   <span
@@ -1384,7 +1456,7 @@ Array [
                       size={null}
                       skeleton={null}
                       status={null}
-                      status_animation={null}
+                      status_no_animation={null}
                       status_state="error"
                       stretch={true}
                       text={null}
@@ -1496,7 +1568,7 @@ Array [
                           size={null}
                           skeleton={false}
                           status={null}
-                          status_animation={null}
+                          status_no_animation={null}
                           status_state="error"
                           stretch={true}
                           text={null}
@@ -1589,6 +1661,30 @@ Array [
                           </IconPrimary>
                         </Content>
                       </button>
+                      <FormStatus
+                        attributes={null}
+                        class={null}
+                        className={null}
+                        global_status_id={null}
+                        icon="error"
+                        icon_size="medium"
+                        id="null-form-status"
+                        label={null}
+                        no_animation={null}
+                        role={null}
+                        show={null}
+                        size="default"
+                        skeleton={null}
+                        state="error"
+                        status="error"
+                        stretch={null}
+                        text={null}
+                        text_id="null-status"
+                        title={null}
+                        variant={null}
+                        width_element={null}
+                        width_selector={null}
+                      />
                     </Button>
                   </StepItemButton>
                   <span
@@ -1902,7 +1998,7 @@ Array [
                       size={null}
                       skeleton={null}
                       status={null}
-                      status_animation={null}
+                      status_no_animation={null}
                       status_state="error"
                       stretch={true}
                       text={null}
@@ -2012,7 +2108,7 @@ Array [
                           size={null}
                           skeleton={false}
                           status={null}
-                          status_animation={null}
+                          status_no_animation={null}
                           status_state="error"
                           stretch={true}
                           text={null}
@@ -2105,6 +2201,30 @@ Array [
                           </IconPrimary>
                         </Content>
                       </span>
+                      <FormStatus
+                        attributes={null}
+                        class={null}
+                        className={null}
+                        global_status_id={null}
+                        icon="error"
+                        icon_size="medium"
+                        id="null-form-status"
+                        label={null}
+                        no_animation={null}
+                        role={null}
+                        show={null}
+                        size="default"
+                        skeleton={null}
+                        state="error"
+                        status="error"
+                        stretch={null}
+                        text={null}
+                        text_id="null-status"
+                        title={null}
+                        variant={null}
+                        width_element={null}
+                        width_selector={null}
+                      />
                     </Button>
                   </StepItemButton>
                   <span
@@ -2293,7 +2413,7 @@ Array [
                       size={null}
                       skeleton={null}
                       status={null}
-                      status_animation={null}
+                      status_no_animation={null}
                       status_state="error"
                       stretch={true}
                       text={null}
@@ -2403,7 +2523,7 @@ Array [
                           size={null}
                           skeleton={false}
                           status={null}
-                          status_animation={null}
+                          status_no_animation={null}
                           status_state="error"
                           stretch={true}
                           text={null}
@@ -2496,6 +2616,30 @@ Array [
                           </IconPrimary>
                         </Content>
                       </span>
+                      <FormStatus
+                        attributes={null}
+                        class={null}
+                        className={null}
+                        global_status_id={null}
+                        icon="error"
+                        icon_size="medium"
+                        id="null-form-status"
+                        label={null}
+                        no_animation={null}
+                        role={null}
+                        show={null}
+                        size="default"
+                        skeleton={null}
+                        state="error"
+                        status="error"
+                        stretch={null}
+                        text={null}
+                        text_id="null-status"
+                        title={null}
+                        variant={null}
+                        width_element={null}
+                        width_selector={null}
+                      />
                     </Button>
                   </StepItemButton>
                   <span
@@ -2683,7 +2827,7 @@ Array [
                       size={null}
                       skeleton={null}
                       status={null}
-                      status_animation={null}
+                      status_no_animation={null}
                       status_state="error"
                       stretch={true}
                       text={null}
@@ -2793,7 +2937,7 @@ Array [
                           size={null}
                           skeleton={false}
                           status={null}
-                          status_animation={null}
+                          status_no_animation={null}
                           status_state="error"
                           stretch={true}
                           text={null}
@@ -2886,6 +3030,30 @@ Array [
                           </IconPrimary>
                         </Content>
                       </span>
+                      <FormStatus
+                        attributes={null}
+                        class={null}
+                        className={null}
+                        global_status_id={null}
+                        icon="error"
+                        icon_size="medium"
+                        id="null-form-status"
+                        label={null}
+                        no_animation={null}
+                        role={null}
+                        show={null}
+                        size="default"
+                        skeleton={null}
+                        state="error"
+                        status="error"
+                        stretch={null}
+                        text={null}
+                        text_id="null-status"
+                        title={null}
+                        variant={null}
+                        width_element={null}
+                        width_selector={null}
+                      />
                     </Button>
                   </StepItemButton>
                   <span
@@ -3073,7 +3241,7 @@ Array [
                       size={null}
                       skeleton={null}
                       status={null}
-                      status_animation={null}
+                      status_no_animation={null}
                       status_state="error"
                       stretch={true}
                       text={null}
@@ -3183,7 +3351,7 @@ Array [
                           size={null}
                           skeleton={false}
                           status={null}
-                          status_animation={null}
+                          status_no_animation={null}
                           status_state="error"
                           stretch={true}
                           text={null}
@@ -3276,6 +3444,30 @@ Array [
                           </IconPrimary>
                         </Content>
                       </span>
+                      <FormStatus
+                        attributes={null}
+                        class={null}
+                        className={null}
+                        global_status_id={null}
+                        icon="error"
+                        icon_size="medium"
+                        id="null-form-status"
+                        label={null}
+                        no_animation={null}
+                        role={null}
+                        show={null}
+                        size="default"
+                        skeleton={null}
+                        state="error"
+                        status="error"
+                        stretch={null}
+                        text={null}
+                        text_id="null-status"
+                        title={null}
+                        variant={null}
+                        width_element={null}
+                        width_selector={null}
+                      />
                     </Button>
                   </StepItemButton>
                   <span
@@ -3590,7 +3782,7 @@ Array [
                       size={null}
                       skeleton={null}
                       status={null}
-                      status_animation={null}
+                      status_no_animation={null}
                       status_state="error"
                       stretch={true}
                       text={null}
@@ -3702,7 +3894,7 @@ Array [
                           size={null}
                           skeleton={false}
                           status={null}
-                          status_animation={null}
+                          status_no_animation={null}
                           status_state="error"
                           stretch={true}
                           text={null}
@@ -3795,6 +3987,30 @@ Array [
                           </IconPrimary>
                         </Content>
                       </button>
+                      <FormStatus
+                        attributes={null}
+                        class={null}
+                        className={null}
+                        global_status_id={null}
+                        icon="error"
+                        icon_size="medium"
+                        id="null-form-status"
+                        label={null}
+                        no_animation={null}
+                        role={null}
+                        show={null}
+                        size="default"
+                        skeleton={null}
+                        state="error"
+                        status="error"
+                        stretch={null}
+                        text={null}
+                        text_id="null-status"
+                        title={null}
+                        variant={null}
+                        width_element={null}
+                        width_selector={null}
+                      />
                     </Button>
                   </StepItemButton>
                   <span
@@ -3984,7 +4200,7 @@ Array [
                       size={null}
                       skeleton={null}
                       status={null}
-                      status_animation={null}
+                      status_no_animation={null}
                       status_state="error"
                       stretch={true}
                       text={null}
@@ -4096,7 +4312,7 @@ Array [
                           size={null}
                           skeleton={false}
                           status={null}
-                          status_animation={null}
+                          status_no_animation={null}
                           status_state="error"
                           stretch={true}
                           text={null}
@@ -4189,6 +4405,30 @@ Array [
                           </IconPrimary>
                         </Content>
                       </button>
+                      <FormStatus
+                        attributes={null}
+                        class={null}
+                        className={null}
+                        global_status_id={null}
+                        icon="error"
+                        icon_size="medium"
+                        id="null-form-status"
+                        label={null}
+                        no_animation={null}
+                        role={null}
+                        show={null}
+                        size="default"
+                        skeleton={null}
+                        state="error"
+                        status="error"
+                        stretch={null}
+                        text={null}
+                        text_id="null-status"
+                        title={null}
+                        variant={null}
+                        width_element={null}
+                        width_selector={null}
+                      />
                     </Button>
                   </StepItemButton>
                   <span
@@ -4376,7 +4616,7 @@ Array [
                       size={null}
                       skeleton={null}
                       status={null}
-                      status_animation={null}
+                      status_no_animation={null}
                       status_state="error"
                       stretch={true}
                       text={null}
@@ -4486,7 +4726,7 @@ Array [
                           size={null}
                           skeleton={false}
                           status={null}
-                          status_animation={null}
+                          status_no_animation={null}
                           status_state="error"
                           stretch={true}
                           text={null}
@@ -4579,6 +4819,30 @@ Array [
                           </IconPrimary>
                         </Content>
                       </span>
+                      <FormStatus
+                        attributes={null}
+                        class={null}
+                        className={null}
+                        global_status_id={null}
+                        icon="error"
+                        icon_size="medium"
+                        id="null-form-status"
+                        label={null}
+                        no_animation={null}
+                        role={null}
+                        show={null}
+                        size="default"
+                        skeleton={null}
+                        state="error"
+                        status="error"
+                        stretch={null}
+                        text={null}
+                        text_id="null-status"
+                        title={null}
+                        variant={null}
+                        width_element={null}
+                        width_selector={null}
+                      />
                     </Button>
                   </StepItemButton>
                   <span
@@ -4766,7 +5030,7 @@ Array [
                       size={null}
                       skeleton={null}
                       status={null}
-                      status_animation={null}
+                      status_no_animation={null}
                       status_state="error"
                       stretch={true}
                       text={null}
@@ -4876,7 +5140,7 @@ Array [
                           size={null}
                           skeleton={false}
                           status={null}
-                          status_animation={null}
+                          status_no_animation={null}
                           status_state="error"
                           stretch={true}
                           text={null}
@@ -4969,6 +5233,30 @@ Array [
                           </IconPrimary>
                         </Content>
                       </span>
+                      <FormStatus
+                        attributes={null}
+                        class={null}
+                        className={null}
+                        global_status_id={null}
+                        icon="error"
+                        icon_size="medium"
+                        id="null-form-status"
+                        label={null}
+                        no_animation={null}
+                        role={null}
+                        show={null}
+                        size="default"
+                        skeleton={null}
+                        state="error"
+                        status="error"
+                        stretch={null}
+                        text={null}
+                        text_id="null-status"
+                        title={null}
+                        variant={null}
+                        width_element={null}
+                        width_selector={null}
+                      />
                     </Button>
                   </StepItemButton>
                   <span

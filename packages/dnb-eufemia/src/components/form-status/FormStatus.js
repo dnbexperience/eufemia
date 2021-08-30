@@ -208,7 +208,10 @@ export default class FormStatus extends React.PureComponent {
     this._ref = React.createRef()
 
     this._heightAnim = new AnimateHeight({
-      animate: !isTrue(props.no_animation),
+      animate: false,
+
+      /** TODO: considder to enable animation by default */
+      // animate: !isTrue(props.no_animation),
     })
 
     this._heightAnim.onStart(() => {
