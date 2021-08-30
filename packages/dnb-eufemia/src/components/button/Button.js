@@ -60,6 +60,7 @@ export const buttonPropTypes = {
     PropTypes.node,
   ]),
   status_state: PropTypes.string,
+  status_props: PropTypes.object,
   status_no_animation: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
@@ -136,6 +137,7 @@ export default class Button extends React.PureComponent {
     tooltip: null,
     status: null,
     status_state: 'error',
+    status_props: null,
     status_no_animation: null,
     global_status_id: null,
     inner_ref: null,
@@ -210,6 +212,7 @@ export default class Button extends React.PureComponent {
       tooltip,
       status,
       status_state,
+      status_props,
       status_no_animation,
       global_status_id,
       id, // eslint-disable-line
@@ -354,6 +357,7 @@ export default class Button extends React.PureComponent {
           text_id={this._id + '-status'} // used for "aria-describedby"
           no_animation={status_no_animation}
           skeleton={skeleton}
+          {...status_props}
         />
 
         {tooltip && this._ref && (

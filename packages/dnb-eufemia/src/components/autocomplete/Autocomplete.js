@@ -99,6 +99,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.node,
     ]),
     status_state: PropTypes.string,
+    status_props: PropTypes.object,
     status_no_animation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -241,6 +242,7 @@ export default class Autocomplete extends React.PureComponent {
     keep_value_and_selection: null,
     status: null,
     status_state: 'error',
+    status_props: null,
     status_no_animation: null,
     global_status_id: null,
     suffix: null,
@@ -1447,6 +1449,7 @@ class AutocompleteInstance extends React.PureComponent {
       fixed_position,
       status,
       status_state,
+      status_props,
       status_no_animation,
       global_status_id,
       suffix,
@@ -1668,6 +1671,7 @@ class AutocompleteInstance extends React.PureComponent {
             status={status_state}
             no_animation={status_no_animation}
             skeleton={skeleton}
+            {...status_props}
           />
 
           <span className="dnb-autocomplete__row">
@@ -1698,6 +1702,7 @@ class AutocompleteInstance extends React.PureComponent {
                   } // because of the short blur / focus during select
                   ref={this._refInput}
                   {...inputParams}
+                  {...status_props}
                 />
               )}
 

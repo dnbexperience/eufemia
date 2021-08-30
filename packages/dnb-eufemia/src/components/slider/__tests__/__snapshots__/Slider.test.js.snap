@@ -29,6 +29,7 @@ exports[`Slider component have to match snapshot 1`] = `
   skeleton="skeleton"
   status={null}
   status_no_animation="status_no_animation"
+  status_props={Object {}}
   status_state="status_state"
   step={10}
   stretch="stretch"
@@ -126,6 +127,7 @@ exports[`Slider component have to match snapshot 1`] = `
           skeleton="skeleton"
           status={null}
           status_no_animation={null}
+          status_props={null}
           status_state="error"
           stretch={null}
           text={null}
@@ -169,6 +171,7 @@ exports[`Slider component have to match snapshot 1`] = `
               skeleton={false}
               status={null}
               status_no_animation={null}
+              status_props={null}
               status_state="error"
               stretch={null}
               text={null}
@@ -307,6 +310,7 @@ exports[`Slider component have to match snapshot 1`] = `
               skeleton="skeleton"
               status={null}
               status_no_animation={null}
+              status_props={null}
               status_state="error"
               stretch={null}
               tabIndex="-1"
@@ -359,6 +363,7 @@ exports[`Slider component have to match snapshot 1`] = `
                   skeleton={false}
                   status={null}
                   status_no_animation={null}
+                  status_props={null}
                   status_state="error"
                   stretch={null}
                   tabIndex="-1"
@@ -440,6 +445,7 @@ exports[`Slider component have to match snapshot 1`] = `
           skeleton="skeleton"
           status={null}
           status_no_animation={null}
+          status_props={null}
           status_state="error"
           stretch={null}
           text={null}
@@ -483,6 +489,7 @@ exports[`Slider component have to match snapshot 1`] = `
               skeleton={false}
               status={null}
               status_no_animation={null}
+              status_props={null}
               status_state="error"
               stretch={null}
               text={null}
@@ -595,6 +602,7 @@ exports[`Slider component have to match snapshot 1`] = `
               "skeleton": "skeleton",
               "status": null,
               "status_no_animation": "status_no_animation",
+              "status_props": Object {},
               "status_state": "status_state",
               "step": 10,
               "stretch": "stretch",

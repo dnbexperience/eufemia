@@ -33,6 +33,7 @@ exports[`Textarea component have to match snapshot 1`] = `
         "skeleton": "skeleton",
         "status": "status",
         "status_no_animation": "status_no_animation",
+        "status_props": Object {},
         "status_state": "status_state",
         "stretch": "stretch",
         "suffix": "suffix",
@@ -70,6 +71,7 @@ exports[`Textarea component have to match snapshot 1`] = `
   skeleton={null}
   status={null}
   status_no_animation={null}
+  status_props={null}
   status_state="error"
   stretch={null}
   suffix={null}

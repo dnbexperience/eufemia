@@ -23,6 +23,7 @@ exports[`Switch component have to match snapshot 1`] = `
   skeleton="skeleton"
   status={null}
   status_no_animation="status_no_animation"
+  status_props={Object {}}
   status_state="status_state"
   suffix="suffix"
   title="title"
@@ -160,6 +161,7 @@ exports[`Switch component have to match snapshot 1`] = `
                 "skeleton": "skeleton",
                 "status": null,
                 "status_no_animation": "status_no_animation",
+                "status_props": Object {},
                 "status_state": "status_state",
                 "suffix": "suffix",
                 "title": "title",

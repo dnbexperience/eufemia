@@ -73,6 +73,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   skip_portal={true}
   status="status"
   status_no_animation="status_no_animation"
+  status_props={null}
   status_state="error"
   stretch="stretch"
   submit_button_icon="submit_button_icon"
@@ -174,6 +175,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     skip_portal={true}
     status="status"
     status_no_animation="status_no_animation"
+    status_props={null}
     status_state="error"
     stretch="stretch"
     submit_button_icon="submit_button_icon"
@@ -259,6 +261,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       skip_portal={true}
       status="status"
       status_no_animation="status_no_animation"
+      status_props={null}
       status_state="error"
       stretch="stretch"
       submit_button_icon="submit_button_icon"
@@ -468,6 +471,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 spellCheck="false"
                 status={null}
                 status_no_animation={null}
+                status_props={null}
                 status_state="error"
                 stretch={null}
                 submit_button_icon="loupe"
@@ -622,6 +626,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             size={null}
                             skeleton={false}
                             status={null}
+                            status_props={null}
                             status_state="error"
                             title="submit_button_title"
                             value={null}
@@ -661,6 +666,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 skeleton={null}
                                 status={null}
                                 status_no_animation={null}
+                                status_props={null}
                                 status_state="error"
                                 stretch={null}
                                 text={null}
@@ -717,6 +723,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     skeleton={false}
                                     status={null}
                                     status_no_animation={null}
+                                    status_props={null}
                                     status_state="error"
                                     stretch={null}
                                     text={null}
@@ -1145,6 +1152,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "skip_portal": true,
                   "status": "status",
                   "status_no_animation": "status_no_animation",
+                  "status_props": null,
                   "status_state": "error",
                   "stretch": "stretch",
                   "submit_button_icon": "submit_button_icon",

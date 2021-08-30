@@ -155,6 +155,7 @@ export default class DatePicker extends React.PureComponent {
       PropTypes.node,
     ]),
     status_state: PropTypes.string,
+    status_props: PropTypes.object,
     status_no_animation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -234,6 +235,7 @@ export default class DatePicker extends React.PureComponent {
     skeleton: null,
     status: null,
     status_state: 'error',
+    status_props: null,
     status_no_animation: null,
     global_status_id: null,
     suffix: null,
@@ -510,6 +512,7 @@ export default class DatePicker extends React.PureComponent {
       skeleton,
       status,
       status_state,
+      status_props,
       status_no_animation,
       global_status_id,
       suffix,
@@ -640,6 +643,7 @@ export default class DatePicker extends React.PureComponent {
               status={status_state}
               no_animation={status_no_animation}
               skeleton={skeleton}
+              {...status_props}
             />
 
             <span className="dnb-date-picker__row">
@@ -665,6 +669,7 @@ export default class DatePicker extends React.PureComponent {
                   submitAttributes={submitParams}
                   onFocus={this.showPicker}
                   onSubmit={this.togglePicker}
+                  {...status_props}
                 />
                 <span className="dnb-date-picker__container">
                   <span
