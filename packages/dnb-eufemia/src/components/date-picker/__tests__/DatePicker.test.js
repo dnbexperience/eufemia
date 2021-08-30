@@ -40,6 +40,7 @@ describe('DatePicker component', () => {
     end_date: '2019-02-15T00:00:00.000Z',
     status: 'status',
     status_state: 'error',
+    status_props: null,
     separatorRexExp: null,
   }
 

@@ -58,6 +58,7 @@ export const inputPropTypes = {
     PropTypes.node,
   ]),
   status_state: PropTypes.string,
+  status_props: PropTypes.object,
   status_no_animation: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
@@ -144,6 +145,7 @@ export default class Input extends React.PureComponent {
     label_sr_only: null,
     status: null,
     status_state: 'error',
+    status_props: null,
     status_no_animation: null,
     input_state: null,
     global_status_id: null,
@@ -331,6 +333,7 @@ export default class Input extends React.PureComponent {
       label_sr_only,
       status,
       status_state,
+      status_props,
       status_no_animation,
       global_status_id,
       disabled,
@@ -430,7 +433,7 @@ export default class Input extends React.PureComponent {
       id,
       disabled: isTrue(disabled),
       name: id,
-      'aria-placeholder': placeholder, // NVDA just reads out the placeholder twice
+      'aria-placeholder': placeholder,
       ...attributes,
       ...inputAttributes,
       onChange: this.onChangeHandler,
@@ -502,6 +505,7 @@ export default class Input extends React.PureComponent {
             text_id={id + '-status'} // used for "aria-describedby"
             no_animation={status_no_animation}
             skeleton={skeleton}
+            {...status_props}
           />
 
           <span className="dnb-input__row">
@@ -576,6 +580,7 @@ export default class Input extends React.PureComponent {
                     skeleton={isTrue(skeleton)}
                     size={size}
                     on_submit={on_submit}
+                    {...status_props}
                   />
                 )}
               </span>
@@ -618,6 +623,7 @@ class InputSubmitButton extends React.PureComponent {
       PropTypes.node,
     ]),
     status_state: PropTypes.string,
+    status_props: PropTypes.object,
     className: PropTypes.string,
 
     on_submit: PropTypes.func,
@@ -636,6 +642,7 @@ class InputSubmitButton extends React.PureComponent {
     icon_size: null,
     status: null,
     status_state: 'error',
+    status_props: null,
     className: null,
 
     on_submit: null,
@@ -674,6 +681,7 @@ class InputSubmitButton extends React.PureComponent {
       icon_size,
       status,
       status_state,
+      status_props,
       className,
       ...rest
     } = this.props
@@ -711,6 +719,7 @@ class InputSubmitButton extends React.PureComponent {
           onFocus={this.onFocusHandler}
           onBlur={this.onBlurHandler}
           {...params}
+          {...status_props}
         />
       </span>
     )

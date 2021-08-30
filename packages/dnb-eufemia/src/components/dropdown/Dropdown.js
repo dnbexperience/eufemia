@@ -67,6 +67,7 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.node,
     ]),
     status_state: PropTypes.string,
+    status_props: PropTypes.object,
     status_no_animation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -173,6 +174,7 @@ export default class Dropdown extends React.PureComponent {
     label_sr_only: null,
     status: null,
     status_state: 'error',
+    status_props: null,
     status_no_animation: null,
     global_status_id: null,
     suffix: null,
@@ -436,6 +438,7 @@ class DropdownInstance extends React.PureComponent {
       enable_body_lock,
       status,
       status_state,
+      status_props,
       status_no_animation,
       global_status_id,
       suffix,
@@ -597,6 +600,7 @@ class DropdownInstance extends React.PureComponent {
             status={status_state}
             no_animation={status_no_animation}
             skeleton={skeleton}
+            {...status_props}
           />
 
           <span className="dnb-dropdown__row">

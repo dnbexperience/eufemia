@@ -18,7 +18,7 @@ redirect_from:
 | `variant`                                   | _(optional)_ as of now, there is the `flat` and the `outlined` variant. Defaults to `flat`.                                                 |
 | `stretch`                                   | _(optional)_ if set to `true`, then the FormStatus will be 100% in available `width`. **NB:** Only use this on independent status messages. |
 | `show`                                      | _(optional)_ provide `false` if you want to animate the visibility. Defaults to `true`.                                                     |
-| `no_animation`                              | _(optional)_ use `true` to omit the animation on content visibility. Defaults to `false`.                                                   |
+| `no_animation`                              | _(optional)_ NB: Animation is disabled as of now. ~~use `true` to omit the animation on content visibility. Defaults to `false`.~~          |
 | `global_status_id`                          | _(optional)_ the `status_id` used for the target [GlobalStatus](/uilib/components/global-status).                                           |
 | `skeleton`                                  | _(optional)_ if set to `true`, an overlaying skeleton with animation will be shown.                                                         |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                       |

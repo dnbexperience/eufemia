@@ -60,6 +60,7 @@ export default class Checkbox extends React.PureComponent {
       PropTypes.node,
     ]),
     status_state: PropTypes.string,
+    status_props: PropTypes.object,
     status_no_animation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -99,6 +100,7 @@ export default class Checkbox extends React.PureComponent {
     size: null,
     status: null,
     status_state: 'error',
+    status_props: null,
     status_no_animation: null,
     global_status_id: null,
     suffix: null,
@@ -197,6 +199,7 @@ export default class Checkbox extends React.PureComponent {
       value,
       status,
       status_state,
+      status_props,
       status_no_animation,
       global_status_id,
       suffix,
@@ -278,6 +281,7 @@ export default class Checkbox extends React.PureComponent {
         status={status_state}
         no_animation={status_no_animation}
         skeleton={skeleton}
+        {...status_props}
       />
     )
 

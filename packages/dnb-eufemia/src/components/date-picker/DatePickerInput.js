@@ -48,6 +48,7 @@ export default class DatePickerInput extends React.PureComponent {
       PropTypes.node,
     ]),
     status_state: PropTypes.string,
+    status_props: PropTypes.object,
     input_element: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
@@ -74,6 +75,7 @@ export default class DatePickerInput extends React.PureComponent {
     isRange: null,
     status: null,
     status_state: 'error',
+    status_props: null,
     input_element: null,
     disabled: null,
     locale: null,
@@ -660,6 +662,7 @@ export default class DatePickerInput extends React.PureComponent {
       opened,
       status,
       status_state,
+      status_props,
 
       ...attributes
     } = this.props
@@ -697,6 +700,7 @@ export default class DatePickerInput extends React.PureComponent {
           skeleton={skeleton}
           status={!opened ? status : null}
           status_state={status_state}
+          {...status_props}
           submit_element={
             <UsedButton
               id={id}
@@ -716,6 +720,7 @@ export default class DatePickerInput extends React.PureComponent {
               on_submit={onSubmit}
               on_click={onSubmit}
               {...submitAttributes}
+              {...status_props}
             />
           }
           lang={locale?.code}
