@@ -4,6 +4,7 @@ import classnames from 'classnames'
 import {
   validateDOMAttributes,
   isTrue,
+  combineLabelledBy,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Section from '../section/Section'
@@ -75,7 +76,10 @@ export default class ContentWrapper extends React.PureComponent {
     const params = rest
 
     if (key) {
-      params['aria-labelledby'] = `${id}-tab-${key}`
+      params['aria-labelledby'] = combineLabelledBy(
+        params,
+        `${id}-tab-${key}`
+      )
     }
 
     validateDOMAttributes(this.props, params)

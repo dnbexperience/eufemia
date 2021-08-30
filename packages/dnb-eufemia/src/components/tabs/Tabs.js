@@ -19,6 +19,7 @@ import {
   dispatchCustomElementEvent,
   getPreviousSibling,
   filterProps,
+  combineLabelledBy,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
@@ -1123,7 +1124,10 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
       params['aria-label'] = label
     }
     if (selected_key) {
-      params['aria-labelledby'] = `${this._id}-tab-${selected_key}`
+      params['aria-labelledby'] = combineLabelledBy(
+        params,
+        `${this._id}-tab-${selected_key}`
+      )
     }
     return (
       <div
