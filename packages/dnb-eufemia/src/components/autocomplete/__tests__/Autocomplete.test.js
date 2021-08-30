@@ -150,6 +150,157 @@ describe('Autocomplete component', () => {
     )
   })
 
+  it('has correct options when search_in_word_index is set to 1', () => {
+    const Comp = mount(
+      <Component
+        id="autocomplete-id"
+        data={mockData}
+        search_in_word_index="1"
+        show_submit_button
+        {...mockProps}
+      />
+    )
+
+    toggle(Comp)
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'ethx' }, // BB cc zethx
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[1]
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'thx' }, // BB cc zethx
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[1]
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'ethxX' }, // BB cc zethx
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      'Ingen alternativer'
+    )
+  })
+
+  it('has correct options after filter with "no whitespace"', () => {
+    const Comp = mount(
+      <Component
+        id="autocomplete-id"
+        data={mockData}
+        show_submit_button
+        {...mockProps}
+      />
+    )
+
+    toggle(Comp)
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'bb cc zethx' }, // BB cc zethx
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[1]
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'bbcczethx' }, // BB cc zethx
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[1]
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'bbcc' }, // BB cc zethx
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[1]
+    )
+
+    expect(
+      Comp.find(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      ).length
+    ).toBe(1)
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'bb c' }, // BB cc zethx
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[1]
+    )
+    expect(Comp.find('li.dnb-drawer-list__option').at(1).text()).toBe(
+      mockData[0]
+    )
+
+    expect(
+      Comp.find(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      ).length
+    ).toBe(3)
+  })
+
+  it('has correct options after filter with "no whitespace"', () => {
+    const mockData = ['100.222.333,40', '123456', '100 222 444,50']
+    
+    const Comp = mount(
+      <Component
+        id="autocomplete-id"
+        data={mockData}
+        show_submit_button
+        search_in_word_index={1}
+        {...mockProps}
+      />
+    )
+
+    toggle(Comp)
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: '1002223' },
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[0]
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: '100,222,3' },
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[0]
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: '100,222,34' },
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      'Ingen alternativer'
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: '1002224' },
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[2]
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: '1' },
+    })
+    expect(
+      Comp.find(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      ).length
+    ).toBe(3)
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: '333' },
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[0]
+    )
+  })
+
   it('has correct options after filter and key interaction', () => {
     const Comp = mount(
       <Component

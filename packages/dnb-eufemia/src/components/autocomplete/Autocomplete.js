@@ -1086,28 +1086,47 @@ class AutocompleteInstance extends React.PureComponent {
       skipReorder = false,
     } = {}
   ) => {
+    const regexNumeric = /[^0-9.,+\-  ]/ // eslint-disable-line
+    const isNumeric = !regexNumeric.test(value)
+    if (isNumeric) {
+      value = value.replace(/[^0-9\s]/g, '')
+    }
+
     const words = value.split(/\s+/g).filter(Boolean)
     const wordsCount = words.length
     const wordCond = '^|\\s'
 
-    const findWords = (item) =>
-      words
+    const findWords = (searchChunk) => {
+      if (typeof searchChunk !== 'string') {
+        return []
+      }
+
+      // If word is numeric, remove chars
+      if (isNumeric) {
+        searchChunk = searchChunk.replace(/[^0-9]/g, '')
+      }
+
+      return words
         .map((word, wordIndex) => ({
           word,
           wordIndex,
           score: wordsCount - wordIndex,
         }))
-        .filter(
-          ({ word, wordIndex }) =>
+        .filter(({ word, wordIndex }) => {
+          const regexWord = new RegExp(
+            wordIndex > this.inWordIndex
+              ? `${word}`
+              : `(${wordCond})${word}`,
+            'i'
+          )
+
+          return (
             // if the uses reached word 3, then we go inside words as well
-            typeof item === 'string' &&
-            new RegExp(
-              wordIndex > this.inWordIndex
-                ? `${word}`
-                : `(${wordCond})${word}`,
-              'i'
-            ).test(item)
-        )
+            regexWord.test(searchChunk) ||
+            regexWord.test(searchChunk.replace(/ | /g, '')) // eslint-disable-line
+          )
+        })
+    }
 
     if (data) {
       searchIndex = this.setSearchIndex({ data })
@@ -1120,8 +1139,8 @@ class AutocompleteInstance extends React.PureComponent {
       return []
     }
 
-    const S = '\uFFFE'
-    const E = '\uFFFF'
+    const strS = '\uFFFE'
+    const strE = '\uFFFF'
     const tagS = '<span class="dnb-drawer-list__option__item--highlight">'
     const tagE = '</span>'
 
@@ -1161,83 +1180,71 @@ class AutocompleteInstance extends React.PureComponent {
           segment: convertJsxToString(component),
         }))
 
-        children = children.map(
-          (
-            { component, segment },
-            idx
-            // , arr
-          ) => {
-            // console.log('segment', idx, segment)
-            if (skipHighlight || this.state.skipHighlight) {
-              return segment
-            }
+        children = children.map(({ component, segment }, idx) => {
+          if (skipHighlight || this.state.skipHighlight) {
+            return segment
+          }
 
-            const origSegment = segment
+          const origSegment = segment
 
-            listOfFoundWords.forEach(({ word, wordIndex }) => {
-              if (wordIndex > this.inWordIndex) {
-                segment = segment.replace(
-                  new RegExp(`(${word})`, 'gi'),
-                  `${S}$1${E}`
-                )
-              } else {
-                segment = segment.replace(
-                  new RegExp(`(${wordCond})(${word})`, 'gi'),
-                  `$1${S}$2${E}`
-                )
-              }
-            })
-
-            let result = segment
-
-            if (segment.includes(S)) {
-              // to make sure we don't have several in a row
-              const __html = segment
-                .replace(new RegExp(`(${S})+`, 'g'), S)
-                .replace(new RegExp(`(${E})+`, 'g'), E)
-                .replace(new RegExp(`(${E}${S})`, 'g'), '')
-                .replace(new RegExp(S, 'g'), tagS)
-                .replace(new RegExp(E, 'g'), tagE)
-
-              result = (
-                <span
-                  key={cacheHash + idx}
-                  dangerouslySetInnerHTML={{
-                    __html,
-                  }}
-                />
+          listOfFoundWords.forEach(({ word, wordIndex }) => {
+            if (wordIndex > this.inWordIndex) {
+              segment = segment.replace(
+                new RegExp(`(${word})`, 'gi'),
+                `${strS}$1${strE}`
               )
             } else {
-              result = segment
+              segment = segment.replace(
+                new RegExp(`(${wordCond})(${word})`, 'gi'),
+                `$1${strS}$2${strE}`
+              )
             }
+          })
 
-            // If we get a component, replace the one we use as the string comparison
-            // This way we can still have an icon before or after
-            if (isComponent) {
-              if (Array.isArray(component.props.children)) {
-                result = component.props.children.map((Comp) =>
-                  Comp === origSegment ||
-                  (Comp.props && Comp.props.children === origSegment)
-                    ? result
-                    : Comp
-                )
-              }
+          let result = segment
 
-              result = React.cloneElement(
-                component,
-                { key: 'clone' + cacheHash },
-                result
+          if (segment.includes(strS)) {
+            // to make sure we don't have several in a row
+            const __html = segment
+              .replace(new RegExp(`(${strS})+`, 'g'), strS)
+              .replace(new RegExp(`(${strE})+`, 'g'), strE)
+              .replace(new RegExp(`(${strE}${strS})`, 'g'), '')
+              .replace(new RegExp(strS, 'g'), tagS)
+              .replace(new RegExp(strE, 'g'), tagE)
+
+            result = (
+              <span
+                key={cacheHash + idx}
+                dangerouslySetInnerHTML={{
+                  __html,
+                }}
+              />
+            )
+          } else {
+            result = segment
+          }
+
+          // If we get a component, replace the one we use as the string comparison
+          // This way we can still have an icon before or after
+          if (isComponent) {
+            if (Array.isArray(component.props.children)) {
+              result = component.props.children.map((Comp) =>
+                Comp === origSegment ||
+                (Comp.props && Comp.props.children === origSegment)
+                  ? result
+                  : Comp
               )
             }
 
-            // add back the skipped spaces
-            // if(idx < arr.length - 1){
-            //   result =  [result, ' ']
-            // }
-
-            return result
+            result = React.cloneElement(
+              component,
+              { key: 'clone' + cacheHash },
+              result
+            )
           }
-        )
+
+          return result
+        })
 
         return (this._rC[cacheHash] = children)
       }
