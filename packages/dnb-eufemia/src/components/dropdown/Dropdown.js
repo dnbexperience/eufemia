@@ -16,6 +16,7 @@ import {
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
+  combineLabelledBy,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -66,7 +67,11 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.node,
     ]),
     status_state: PropTypes.string,
-    status_animation: PropTypes.string,
+    status_props: PropTypes.object,
+    status_no_animation: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
     global_status_id: PropTypes.string,
     suffix: PropTypes.oneOfType([
       PropTypes.string,
@@ -169,7 +174,8 @@ export default class Dropdown extends React.PureComponent {
     label_sr_only: null,
     status: null,
     status_state: 'error',
-    status_animation: null,
+    status_props: null,
+    status_no_animation: null,
     global_status_id: null,
     suffix: null,
     scrollable: true,
@@ -432,7 +438,8 @@ class DropdownInstance extends React.PureComponent {
       enable_body_lock,
       status,
       status_state,
-      status_animation,
+      status_props,
+      status_no_animation,
       global_status_id,
       suffix,
       scrollable,
@@ -551,13 +558,11 @@ class DropdownInstance extends React.PureComponent {
     }
 
     if (label) {
-      triggerParams['aria-labelledby'] = [
-        triggerParams['aria-labelledby'],
+      triggerParams['aria-labelledby'] = combineLabelledBy(
+        triggerParams,
         id + '-label',
-        id, // used to read the current value
-      ]
-        .filter(Boolean)
-        .join(' ')
+        id // used to read the current value
+      )
     }
 
     // also used for code markup simulation
@@ -585,18 +590,18 @@ class DropdownInstance extends React.PureComponent {
         <span className="dnb-dropdown__inner" ref={this._ref}>
           <AlignmentHelper />
 
-          {showStatus && (
-            <FormStatus
-              id={id + '-form-status'}
-              global_status_id={global_status_id}
-              label={label}
-              text_id={id + '-status'} // used for "aria-describedby"
-              text={status}
-              status={status_state}
-              animation={status_animation}
-              skeleton={skeleton}
-            />
-          )}
+          <FormStatus
+            show={showStatus}
+            id={id + '-form-status'}
+            global_status_id={global_status_id}
+            label={label}
+            text_id={id + '-status'} // used for "aria-describedby"
+            text={status}
+            status={status_state}
+            no_animation={status_no_animation}
+            skeleton={skeleton}
+            {...status_props}
+          />
 
           <span className="dnb-dropdown__row">
             <span className="dnb-dropdown__shell" ref={this._refShell}>

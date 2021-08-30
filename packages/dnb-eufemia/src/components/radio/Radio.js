@@ -62,7 +62,11 @@ export default class Radio extends React.PureComponent {
       PropTypes.node,
     ]),
     status_state: PropTypes.string,
-    status_animation: PropTypes.string,
+    status_props: PropTypes.object,
+    status_no_animation: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
     global_status_id: PropTypes.string,
     suffix: PropTypes.oneOfType([
       PropTypes.string,
@@ -98,7 +102,8 @@ export default class Radio extends React.PureComponent {
     group: null,
     status: null,
     status_state: 'error',
-    status_animation: null,
+    status_props: null,
+    status_no_animation: null,
     global_status_id: null,
     suffix: null,
     value: '',
@@ -274,7 +279,8 @@ export default class Radio extends React.PureComponent {
           const {
             status,
             status_state,
-            status_animation,
+            status_props,
+            status_no_animation,
             global_status_id,
             suffix,
             element,
@@ -380,19 +386,19 @@ export default class Radio extends React.PureComponent {
                 <span className="dnb-radio__inner">
                   <AlignmentHelper />
 
-                  {showStatus && (
-                    <FormStatus
-                      id={id + '-form-status'}
-                      global_status_id={global_status_id}
-                      label={label}
-                      text_id={id + '-status'} // used for "aria-describedby"
-                      width_selector={id + ', ' + id + '-label'}
-                      text={status}
-                      status={status_state}
-                      animation={status_animation}
-                      skeleton={skeleton}
-                    />
-                  )}
+                  <FormStatus
+                    show={showStatus}
+                    id={id + '-form-status'}
+                    global_status_id={global_status_id}
+                    label={label}
+                    text_id={id + '-status'} // used for "aria-describedby"
+                    width_selector={id + ', ' + id + '-label'}
+                    text={status}
+                    status={status_state}
+                    no_animation={status_no_animation}
+                    skeleton={skeleton}
+                    {...status_props}
+                  />
 
                   <span className="dnb-radio__row">
                     <span className="dnb-radio__shell">

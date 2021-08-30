@@ -300,7 +300,7 @@
     align-items: flex-start;
   }
 
-  &[class*='__status'] {
+  &:not(&--vertical)[class*='__status'] {
     align-items: flex-start;
     > .dnb-form-label {
       // vertical align the current font

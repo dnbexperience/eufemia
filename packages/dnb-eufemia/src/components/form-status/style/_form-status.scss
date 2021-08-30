@@ -10,6 +10,30 @@
 .dnb-form-status {
   display: flex;
 
+  opacity: 1;
+
+  transition: height 400ms #{$defaultEasing},
+    opacity 400ms #{$defaultEasing}, margin 400ms #{$defaultEasing},
+    padding 400ms #{$defaultEasing};
+
+  &--hidden {
+    will-change: height, opacity, margin, padding;
+
+    width: 0;
+    height: 0;
+
+    opacity: 0;
+  }
+  &--is-animating {
+    overflow: hidden; // because of animation
+    width: auto;
+  }
+  &--disappear,
+  &--hidden {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
   &__shell {
     display: flex;
     justify-content: flex-start;
@@ -83,19 +107,24 @@
     display: none;
   }
 
-  &__animation--fade-in {
-    @keyframes form-status-fade-in {
-      from {
-        max-height: 0;
-      }
-      to {
-        max-height: calc(var(--input-height) * 8);
-      }
-    }
-    overflow: hidden;
-    max-height: 0;
-    animation: form-status-fade-in 2s ease-out 400ms forwards;
+  &--no-animation,
+  html[data-visual-test] {
+    transition-duration: 1ms !important;
   }
+
+  // &__animation--fade-in {
+  //   @keyframes form-status-fade-in {
+  //     from {
+  //       max-height: 0;
+  //     }
+  //     to {
+  //       max-height: calc(var(--input-height) * 8);
+  //     }
+  //   }
+  //   overflow: hidden;
+  //   max-height: 0;
+  //   animation: form-status-fade-in 2s ease-out 400ms forwards;
+  // }
 
   @include IS_IE {
     &__shell > .dnb-icon {

@@ -23,6 +23,7 @@ const snapshotProps = {
   label: 'Autocomplete Label:',
   status: 'status',
   status_state: 'error',
+  status_props: null,
   direction: 'bottom',
   label_direction: 'horizontal',
   value: 2,

@@ -59,8 +59,12 @@ export default class Switch extends React.PureComponent {
       PropTypes.node,
     ]),
     status_state: PropTypes.string,
-    status_animation: PropTypes.string,
+    status_props: PropTypes.object,
     global_status_id: PropTypes.string,
+    status_no_animation: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
     suffix: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
@@ -95,8 +99,9 @@ export default class Switch extends React.PureComponent {
     size: null,
     status: null,
     status_state: 'error',
-    status_animation: null,
+    status_props: null,
     global_status_id: null,
+    status_no_animation: null,
     suffix: null,
     value: null,
     attributes: null,
@@ -215,8 +220,9 @@ export default class Switch extends React.PureComponent {
       size,
       status,
       status_state,
-      status_animation,
+      status_props,
       global_status_id,
+      status_no_animation,
       suffix,
       label,
       label_position,
@@ -299,19 +305,19 @@ export default class Switch extends React.PureComponent {
           <span className="dnb-switch__inner">
             <AlignmentHelper />
 
-            {showStatus && (
-              <FormStatus
-                id={id + '-form-status'}
-                global_status_id={global_status_id}
-                label={label}
-                text_id={id + '-status'} // used for "aria-describedby"
-                width_selector={id + ', ' + id + '-label'}
-                text={status}
-                status={status_state}
-                animation={status_animation}
-                skeleton={skeleton}
-              />
-            )}
+            <FormStatus
+              show={showStatus}
+              id={id + '-form-status'}
+              global_status_id={global_status_id}
+              label={label}
+              text_id={id + '-status'} // used for "aria-describedby"
+              width_selector={id + ', ' + id + '-label'}
+              text={status}
+              status={status_state}
+              skeleton={skeleton}
+              no_animation={status_no_animation}
+              {...status_props}
+            />
 
             <span className="dnb-switch__shell">
               {(label_position === 'right' || !label_position) &&

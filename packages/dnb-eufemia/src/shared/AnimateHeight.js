@@ -76,11 +76,11 @@ export default class AnimateHeight {
     }
   }
   remove() {
+    this.stop()
     this._removeEndEvents()
     this.isAnimating = false
     this.onStartStack = null
     this.onEndStack = null
-    this.stop()
     this.elem = null
     this.state = 'init'
     if (this.onResize && this.isInBrowser) {
@@ -146,7 +146,10 @@ export default class AnimateHeight {
       return // stop here
     }
 
-    if (this.isInBrowser && window.requestAnimationFrame) {
+    if (
+      this.isInBrowser &&
+      typeof window.requestAnimationFrame === 'function'
+    ) {
       this.stop()
 
       this.isAnimating = true
@@ -180,7 +183,10 @@ export default class AnimateHeight {
     }
   }
   stop() {
-    if (this.isInBrowser && window.requestAnimationFrame) {
+    if (
+      this.isInBrowser &&
+      typeof window.requestAnimationFrame === 'function'
+    ) {
       window.cancelAnimationFrame(this.reqId1)
       window.cancelAnimationFrame(this.reqId2)
     }

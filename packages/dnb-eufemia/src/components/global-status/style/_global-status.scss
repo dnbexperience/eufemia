@@ -20,26 +20,18 @@
   &__shell {
     width: 100%;
     opacity: 1;
-    transform: translate3d(0, 0, 0);
 
     will-change: height;
     transition: height 800ms var(--global-status-easing),
-      opacity 600ms var(--global-status-easing),
-      transform 600ms var(--global-status-easing);
+      opacity 600ms var(--global-status-easing);
   }
   &--hidden &__shell {
-    visibility: hidden;
     height: 0;
     opacity: 0;
   }
   &--no-animation &__shell,
   html[data-visual-test] &__shell {
     transition-duration: 1ms !important;
-  }
-  &--is-animating:not(.dnb-global-status--visible) &__shell {
-    // Is needed in order to have a smooth animation, hiding the content nicely.
-    opacity: 0;
-    transform: translate3d(0, -20px, 0);
   }
 
   &,

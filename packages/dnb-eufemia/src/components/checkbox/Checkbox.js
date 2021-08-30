@@ -60,7 +60,11 @@ export default class Checkbox extends React.PureComponent {
       PropTypes.node,
     ]),
     status_state: PropTypes.string,
-    status_animation: PropTypes.string,
+    status_props: PropTypes.object,
+    status_no_animation: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
     global_status_id: PropTypes.string,
     suffix: PropTypes.oneOfType([
       PropTypes.string,
@@ -96,7 +100,8 @@ export default class Checkbox extends React.PureComponent {
     size: null,
     status: null,
     status_state: 'error',
-    status_animation: null,
+    status_props: null,
+    status_no_animation: null,
     global_status_id: null,
     suffix: null,
     value: null,
@@ -194,7 +199,8 @@ export default class Checkbox extends React.PureComponent {
       value,
       status,
       status_state,
-      status_animation,
+      status_props,
+      status_no_animation,
       global_status_id,
       suffix,
       size,
@@ -263,8 +269,9 @@ export default class Checkbox extends React.PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, inputParams)
 
-    const statusComp = showStatus && (
+    const statusComp = (
       <FormStatus
+        show={showStatus}
         id={id + '-form-status'}
         global_status_id={global_status_id}
         label={label}
@@ -272,8 +279,9 @@ export default class Checkbox extends React.PureComponent {
         width_selector={id + ', ' + id + '-label'}
         text={status}
         status={status_state}
-        animation={status_animation}
+        no_animation={status_no_animation}
         skeleton={skeleton}
+        {...status_props}
       />
     )
 

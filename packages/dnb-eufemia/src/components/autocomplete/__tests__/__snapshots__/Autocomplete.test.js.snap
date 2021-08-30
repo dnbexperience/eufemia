@@ -72,7 +72,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   skeleton="skeleton"
   skip_portal={true}
   status="status"
-  status_animation="status_animation"
+  status_no_animation="status_no_animation"
+  status_props={null}
   status_state="error"
   stretch="stretch"
   submit_button_icon="submit_button_icon"
@@ -173,7 +174,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     skip_keysearch={true}
     skip_portal={true}
     status="status"
-    status_animation="status_animation"
+    status_no_animation="status_no_animation"
+    status_props={null}
     status_state="error"
     stretch="stretch"
     submit_button_icon="submit_button_icon"
@@ -258,7 +260,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       skeleton="skeleton"
       skip_portal={true}
       status="status"
-      status_animation="status_animation"
+      status_no_animation="status_no_animation"
+      status_props={null}
       status_state="error"
       stretch="stretch"
       submit_button_icon="submit_button_icon"
@@ -310,17 +313,17 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             />
           </AlignmentHelper>
           <FormStatus
-            animation="status_animation"
             attributes={null}
             class={null}
             className={null}
             global_status_id="global_status_id"
-            hidden={false}
             icon="error"
             icon_size="medium"
             id="autocomplete-id-form-status"
             label="Autocomplete Label:"
+            no_animation="status_no_animation"
             role={null}
+            show={true}
             size="default"
             skeleton="skeleton"
             state="error"
@@ -334,8 +337,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             width_selector={null}
           >
             <span
-              className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status__animation--status_animation dnb-form-status--has-content"
-              hidden={false}
+              className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content"
               id="autocomplete-id-form-status"
               label="Autocomplete Label:"
               role="alert"
@@ -468,7 +470,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 skeleton="skeleton"
                 spellCheck="false"
                 status={null}
-                status_animation={null}
+                status_no_animation={null}
+                status_props={null}
                 status_state="error"
                 stretch={null}
                 submit_button_icon="loupe"
@@ -512,6 +515,30 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         className="dnb-alignment-helper"
                       />
                     </AlignmentHelper>
+                    <FormStatus
+                      attributes={null}
+                      class={null}
+                      className={null}
+                      global_status_id={null}
+                      icon="error"
+                      icon_size="medium"
+                      id="autocomplete-id-form-status"
+                      label={null}
+                      no_animation={null}
+                      role={null}
+                      show={null}
+                      size="default"
+                      skeleton="skeleton"
+                      state="error"
+                      status="error"
+                      stretch={null}
+                      text={null}
+                      text_id="autocomplete-id-status"
+                      title={null}
+                      variant={null}
+                      width_element={null}
+                      width_selector={null}
+                    />
                     <span
                       className="dnb-input__row"
                     >
@@ -599,6 +626,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             size={null}
                             skeleton={false}
                             status={null}
+                            status_props={null}
                             status_state="error"
                             title="submit_button_title"
                             value={null}
@@ -637,7 +665,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 size={null}
                                 skeleton={null}
                                 status={null}
-                                status_animation={null}
+                                status_no_animation={null}
+                                status_props={null}
                                 status_state="error"
                                 stretch={null}
                                 text={null}
@@ -693,7 +722,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     size={null}
                                     skeleton={false}
                                     status={null}
-                                    status_animation={null}
+                                    status_no_animation={null}
+                                    status_props={null}
                                     status_state="error"
                                     stretch={null}
                                     text={null}
@@ -729,6 +759,30 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     />
                                   </Content>
                                 </button>
+                                <FormStatus
+                                  attributes={null}
+                                  class={null}
+                                  className={null}
+                                  global_status_id={null}
+                                  icon="error"
+                                  icon_size="medium"
+                                  id="autocomplete-id-submit-button-form-status"
+                                  label={null}
+                                  no_animation={null}
+                                  role={null}
+                                  show={null}
+                                  size="default"
+                                  skeleton={null}
+                                  state="error"
+                                  status="error"
+                                  stretch={null}
+                                  text={null}
+                                  text_id="autocomplete-id-submit-button-status"
+                                  title={null}
+                                  variant={null}
+                                  width_element={null}
+                                  width_selector={null}
+                                />
                               </Button>
                             </span>
                           </InputSubmitButton>
@@ -1097,7 +1151,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "skeleton": "skeleton",
                   "skip_portal": true,
                   "status": "status",
-                  "status_animation": "status_animation",
+                  "status_no_animation": "status_no_animation",
+                  "status_props": null,
                   "status_state": "error",
                   "stretch": "stretch",
                   "submit_button_icon": "submit_button_icon",
@@ -1329,7 +1384,20 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
   --form-status-radius: 0.25rem; }
 
 .dnb-form-status {
-  display: flex; }
+  display: flex;
+  opacity: 1;
+  transition: height 400ms cubic-bezier(0.42, 0, 0, 1), opacity 400ms cubic-bezier(0.42, 0, 0, 1), margin 400ms cubic-bezier(0.42, 0, 0, 1), padding 400ms cubic-bezier(0.42, 0, 0, 1); }
+  .dnb-form-status--hidden {
+    will-change: height, opacity, margin, padding;
+    width: 0;
+    height: 0;
+    opacity: 0; }
+  .dnb-form-status--is-animating {
+    overflow: hidden;
+    width: auto; }
+  .dnb-form-status--disappear, .dnb-form-status--hidden {
+    margin: 0 !important;
+    padding: 0 !important; }
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
@@ -1366,16 +1434,9 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
     max-width: 47rem; }
   .dnb-form-status[hidden] {
     display: none; }
-  .dnb-form-status__animation--fade-in {
-    overflow: hidden;
-    max-height: 0;
-    animation: form-status-fade-in 2s ease-out 400ms forwards; }
-
-@keyframes form-status-fade-in {
-  from {
-    max-height: 0; }
-  to {
-    max-height: calc(var(--input-height) * 8); } }
+  .dnb-form-status--no-animation,
+  .dnb-form-status html[data-visual-test] {
+    transition-duration: 1ms !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-form-status__shell > .dnb-icon {
       border-width: 1px; } }
@@ -1859,6 +1920,18 @@ legend.dnb-form-label {
     /* IE needs this to stay centered */ }
     .dnb-input__submit-button__button {
       border-radius: 0 var(--input-border-radius) var(--input-border-radius) 0; }
+  .dnb-input > .dnb-form-label {
+    line-height: var(--line-height-basis); }
+  @media screen and (max-width: 40em) {
+    .dnb-input {
+      flex-wrap: wrap; }
+      .dnb-input > .dnb-form-label {
+        margin-bottom: 0.5rem;
+        margin-top: 0.5rem; } }
+  .dnb-input:not(.dnb-input--vertical)[class*='__status'] {
+    align-items: flex-start; }
+    .dnb-input:not(.dnb-input--vertical)[class*='__status'] > .dnb-form-label {
+      margin-top: 0.25rem; }
   .dnb-input--small {
     line-height: var(--input-height--small); }
     .dnb-input--small .dnb-input__shell,
@@ -2002,18 +2075,6 @@ legend.dnb-form-label {
   .dnb-input--icon-size-medium.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
   .dnb-input--icon-size-medium.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
     padding-right: 3rem; }
-  .dnb-input > .dnb-form-label {
-    line-height: var(--line-height-basis); }
-  @media screen and (max-width: 40em) {
-    .dnb-input {
-      flex-wrap: wrap; }
-      .dnb-input > .dnb-form-label {
-        margin-bottom: 0.5rem;
-        margin-top: 0.5rem; } }
-  .dnb-input[class*='__status'] {
-    align-items: flex-start; }
-    .dnb-input[class*='__status'] > .dnb-form-label {
-      margin-top: 0.25rem; }
   @media screen and (max-width: 40em) {
     .dnb-responsive-component .dnb-input {
       display: flex;
@@ -2406,9 +2467,9 @@ legend.dnb-form-label {
     display: flex;
     flex-direction: column;
     align-items: flex-start; }
-  .dnb-autocomplete[class*='__status'] {
+  .dnb-autocomplete:not(.dnb-autocomplete--vertical)[class*='__status'] {
     align-items: flex-start; }
-    .dnb-autocomplete[class*='__status'] > .dnb-form-label {
+    .dnb-autocomplete:not(.dnb-autocomplete--vertical)[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
   @media screen and (max-width: 40em) {
     .dnb-responsive-component .dnb-autocomplete {

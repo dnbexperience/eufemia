@@ -99,7 +99,11 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.node,
     ]),
     status_state: PropTypes.string,
-    status_animation: PropTypes.string,
+    status_props: PropTypes.object,
+    status_no_animation: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
     global_status_id: PropTypes.string,
     suffix: PropTypes.oneOfType([
       PropTypes.string,
@@ -238,7 +242,8 @@ export default class Autocomplete extends React.PureComponent {
     keep_value_and_selection: null,
     status: null,
     status_state: 'error',
-    status_animation: null,
+    status_props: null,
+    status_no_animation: null,
     global_status_id: null,
     suffix: null,
     disable_filter: false,
@@ -1444,7 +1449,8 @@ class AutocompleteInstance extends React.PureComponent {
       fixed_position,
       status,
       status_state,
-      status_animation,
+      status_props,
+      status_no_animation,
       global_status_id,
       suffix,
       scrollable,
@@ -1655,18 +1661,18 @@ class AutocompleteInstance extends React.PureComponent {
         <span className="dnb-autocomplete__inner" ref={this._ref}>
           <AlignmentHelper />
 
-          {showStatus && (
-            <FormStatus
-              id={id + '-form-status'}
-              global_status_id={global_status_id}
-              label={label}
-              text_id={id + '-status'} // used for "aria-describedby"
-              text={status}
-              status={status_state}
-              animation={status_animation}
-              skeleton={skeleton}
-            />
-          )}
+          <FormStatus
+            show={showStatus}
+            id={id + '-form-status'}
+            global_status_id={global_status_id}
+            label={label}
+            text_id={id + '-status'} // used for "aria-describedby"
+            text={status}
+            status={status_state}
+            no_animation={status_no_animation}
+            skeleton={skeleton}
+            {...status_props}
+          />
 
           <span className="dnb-autocomplete__row">
             <span {...shellParams}>
@@ -1696,6 +1702,7 @@ class AutocompleteInstance extends React.PureComponent {
                   } // because of the short blur / focus during select
                   ref={this._refInput}
                   {...inputParams}
+                  {...status_props}
                 />
               )}
 

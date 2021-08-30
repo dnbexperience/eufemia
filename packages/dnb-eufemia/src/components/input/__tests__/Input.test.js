@@ -219,6 +219,49 @@ describe('Input component', () => {
     )
   })
 
+  it('uses aria-placeholder and label for when placeholder is set', async () => {
+    const Comp = mount(
+      <Component
+        id="unique"
+        placeholder="Placeholder-text"
+        label="Label-text"
+      />
+    )
+
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+
+    expect(Comp.find('label').instance().getAttribute('for')).toContain(
+      'unique'
+    )
+    expect(
+      Comp.find('input').instance().getAttribute('aria-placeholder')
+    ).toContain('Placeholder-text')
+
+    Comp.setProps({
+      label: undefined,
+    })
+
+    expect(Comp.exists('label')).toBe(false)
+    expect(
+      Comp.find('input').instance().getAttribute('aria-placeholder')
+    ).toContain('Placeholder-text')
+    expect(
+      Comp.find('input').instance().hasAttribute('aria-labelledby')
+    ).toBe(false)
+
+    Comp.setProps({
+      placeholder: undefined,
+    })
+
+    expect(Comp.exists('label')).toBe(false)
+    expect(
+      Comp.find('input').instance().hasAttribute('aria-placeholder')
+    ).toBe(false)
+    expect(
+      Comp.find('input').instance().hasAttribute('aria-labelledby')
+    ).toBe(false)
+  })
+
   it('has correct medium input size', () => {
     const Comp = mount(<Component size="medium" />)
     expect(Comp.find('.dnb-input--medium').exists()).toBe(true)

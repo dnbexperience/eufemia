@@ -75,6 +75,22 @@ describe('FormStatus component', () => {
     ).toBe('custom-id-status')
   })
 
+  it('should be modifyable with status_prop', () => {
+    const Comp = mount(
+      <Input
+        status="status"
+        status_props={{
+          variant: 'outlined',
+        }}
+      />
+    )
+    expect(
+      Comp.find('.dnb-form-status')
+        .instance()
+        .classList.contains('dnb-form-status__variant--outlined')
+    ).toBe(true)
+  })
+
   it('should have correct attributes once the "hidden" prop changes', async () => {
     const Comp = mount(<Component {...props} hidden />)
     expect(Comp.exists('[aria-hidden]')).toBe(true)
