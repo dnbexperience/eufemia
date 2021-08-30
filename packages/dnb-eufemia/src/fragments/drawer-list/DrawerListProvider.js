@@ -114,7 +114,7 @@ export default class DrawerListProvider extends React.PureComponent {
       if (
         this.props.data !== prevProps.data &&
         typeof document !== 'undefined' &&
-        document.activeElement.tagName === 'BODY'
+        document.activeElement?.tagName === 'BODY'
       ) {
         this._refUl.current?.focus()
       }

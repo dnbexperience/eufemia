@@ -551,7 +551,7 @@ export class DetectOutsideClickClass {
       // we also check if currentElement is documentElement
       // and if it has scrollbars, we then ignore the click
       if (
-        currentElement.tagName === 'HTML' &&
+        currentElement?.tagName === 'HTML' &&
         (event.pageX > document.documentElement.clientWidth - 40 ||
           event.pageY > document.documentElement.clientHeight - 40)
       ) {
