@@ -10,9 +10,8 @@ class GlobalStatusProvider {
   static providers = {}
 
   static create = (id = 'main', props = null) => {
-    return (GlobalStatusProvider.providers[
-      id
-    ] = new GlobalStatusProviderItem(id, props))
+    return (GlobalStatusProvider.providers[id] =
+      new GlobalStatusProviderItem(id, props))
   }
 
   static init(id = 'main', onReady = null, props = null) {

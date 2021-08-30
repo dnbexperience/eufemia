@@ -15,6 +15,7 @@ import {
   processChildren,
   extendPropsWithContext,
 } from '../../shared/component-helper'
+import AnimateHeight from '../../shared/AnimateHeight'
 import {
   spacingPropTypes,
   createSpacingClasses,
@@ -33,6 +34,7 @@ export default class FormStatus extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string,
     title: PropTypes.string,
+    show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     text: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -61,12 +63,11 @@ export default class FormStatus extends React.PureComponent {
     ]),
     global_status_id: PropTypes.string,
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    hidden: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     text_id: PropTypes.string,
     width_selector: PropTypes.string,
     width_element: PropTypes.object,
     class: PropTypes.string,
-    animation: PropTypes.string,
+    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     role: PropTypes.string,
@@ -84,6 +85,7 @@ export default class FormStatus extends React.PureComponent {
   static defaultProps = {
     id: null,
     title: null,
+    show: true,
     text: null,
     label: null,
     icon: 'error',
@@ -94,12 +96,11 @@ export default class FormStatus extends React.PureComponent {
     status: null, // Deprecated
     global_status_id: null,
     attributes: null,
-    hidden: false,
     text_id: null,
     width_selector: null,
     width_element: null,
     class: null,
-    animation: null, // could be 'fade-in'
+    no_animation: null,
     skeleton: null,
     stretch: null,
     role: null,
@@ -167,7 +168,7 @@ export default class FormStatus extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (state._id !== props.id) {
+    if (state._id !== props.id && props.id) {
       state.id = props.id
     }
 
@@ -176,7 +177,7 @@ export default class FormStatus extends React.PureComponent {
     return state
   }
 
-  state = { id: null }
+  state = { id: null, keepContentInDom: null }
 
   constructor(props) {
     super(props)
@@ -184,16 +185,15 @@ export default class FormStatus extends React.PureComponent {
     // we do not use a random ID here, as we don't need it for now
     this.state.id = props.id || makeUniqueId()
 
-    if (props.status !== 'info') {
-      this.gsProvider = GlobalStatusProvider.init(
-        props.global_status_id || 'main',
-        (provider) => {
-          // gets called once ready
+    this._globalStatus = GlobalStatusProvider.init(
+      props.global_status_id || 'main',
+      (provider) => {
+        // gets called once ready
+        if (this.props.state === 'error' && this.isReadyToGetVisible()) {
           const { state, text, label } = this.props
           provider.add({
             state,
-            status_id: `${this.state.id}-gs`,
-            // show: true,
+            status_id: this.getStatusId(),
             item: {
               status_id: this.state.id,
               text,
@@ -202,17 +202,36 @@ export default class FormStatus extends React.PureComponent {
             },
           })
         }
-      )
-    }
+      }
+    )
 
     this._ref = React.createRef()
+
+    this._heightAnim = new AnimateHeight({
+      animate: false,
+
+      /** TODO: considder to enable animation by default */
+      // animate: !isTrue(props.no_animation),
+    })
+
+    this._heightAnim.onStart(() => {
+      this.setState({
+        isAnimating: true,
+        keepContentInDom: true,
+      })
+    })
+
+    this._heightAnim.onEnd(() => {
+      this.setState({
+        isAnimating: false,
+        keepContentInDom: isTrue(this.props.show),
+      })
+    })
   }
 
   init = () => {
     if (this._isMounted) {
-      if (this.gsProvider) {
-        this.gsProvider.isReady()
-      }
+      this._globalStatus.isReady()
 
       this.updateWidth()
     }
@@ -229,41 +248,60 @@ export default class FormStatus extends React.PureComponent {
 
   componentWillUnmount() {
     this._isMounted = false
-    if (this.gsProvider) {
-      const status_id = `${this.state.id}-gs`
-      this.gsProvider.remove(status_id)
-    }
+    const status_id = this.getStatusId()
+    this._globalStatus.remove(status_id)
     if (typeof window !== 'undefined') {
       window.removeEventListener('load', this.init)
     }
+    this._heightAnim.remove()
   }
 
   componentDidUpdate(prevProps) {
     if (
-      this.gsProvider &&
-      (prevProps.text !== this.props.text ||
-        prevProps.state !== this.props.state)
+      // this._globalStatus &&
+      prevProps.text !== this.props.text ||
+      prevProps.children !== this.props.children ||
+      prevProps.show !== this.props.show ||
+      prevProps.state !== this.props.state
     ) {
       const { state, text, label } = this.props
-      const status_id = `${this.state.id}-gs`
-      this.gsProvider.update(
-        status_id,
-        {
-          state,
-          item: {
-            status_id: this.state.id,
-            text,
-            status_anchor_label: label,
-            status_anchor_url: true,
-          },
-        },
-        {
-          preventRestack: true, // because of the internal "close"
-        }
-      )
-    }
+      const status_id = this.getStatusId()
 
-    this.updateWidth()
+      if (this.props.state === 'error' && isTrue(this.props.show)) {
+        this._globalStatus.update(
+          status_id,
+          {
+            state,
+            status_id,
+            item: {
+              status_id: this.state.id,
+              text,
+              status_anchor_label: label,
+              status_anchor_url: true,
+            },
+          },
+          {
+            preventRestack: true, // because of the internal "close"
+          }
+        )
+      }
+
+      if (this.isReadyToGetVisible()) {
+        this.updateWidth()
+        this._heightAnim.setElement(this._ref.current)
+        this._heightAnim.open()
+      } else {
+        this._heightAnim.close()
+        if (this.props.state === 'error') {
+          const status_id = this.getStatusId()
+          this._globalStatus.remove(status_id)
+        }
+      }
+    }
+  }
+
+  getStatusId() {
+    return `${this.state.id}-gs`
   }
 
   updateWidth() {
@@ -278,7 +316,19 @@ export default class FormStatus extends React.PureComponent {
     }
   }
 
+  isReadyToGetVisible(props = this.props) {
+    return isTrue(props.show) && FormStatus.getContent(props)
+      ? true
+      : false
+  }
+
   render() {
+    const isReadyToGetVisible = this.isReadyToGetVisible()
+
+    if (!isReadyToGetVisible && !this.state.keepContentInDom) {
+      return null
+    }
+
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContext(
       this.props,
@@ -289,14 +339,14 @@ export default class FormStatus extends React.PureComponent {
     )
 
     const {
+      show, // eslint-disable-line
       title,
       status: rawStatus,
       state: rawState,
       size,
       variant,
-      hidden,
       className,
-      animation,
+      no_animation,
       stretch,
       class: _className,
       text_id,
@@ -319,34 +369,43 @@ export default class FormStatus extends React.PureComponent {
       icon,
       icon_size,
     })
-    const contentToRender = FormStatus.getContent(this.props)
 
-    // stop here if we don't have content
-    if (contentToRender === null) {
-      return <></>
+    const contentToRender =
+      this.state.keepContentInDom && this._cachedContent
+        ? this._cachedContent
+        : FormStatus.getContent(this.props)
+
+    // Add a cache, we use this during the "hide" period when animating
+    if (!this.state.isAnimating) {
+      this._cachedContent = contentToRender
     }
 
     const hasStringContent =
       typeof contentToRender === 'string' && contentToRender.length > 0
 
     const params = {
-      id: this.state.id,
-      hidden,
       className: classnames(
         'dnb-form-status',
         `dnb-form-status--${state}`,
         `dnb-form-status__size--${size}`,
         variant && `dnb-form-status__variant--${variant}`,
-        animation ? `dnb-form-status__animation--${animation}` : null,
+        this.state.isAnimating && 'dnb-form-status--is-animating',
+        !isReadyToGetVisible &&
+          !this.state.keepContentInDom &&
+          'dnb-form-status--hidden',
+        !isReadyToGetVisible &&
+          this.state.keepContentInDom &&
+          'dnb-form-status--disappear',
+        isTrue(no_animation) && 'dnb-form-status--no-animation',
         stretch && 'dnb-form-status--stretch',
         hasStringContent ? 'dnb-form-status--has-content' : null,
         createSpacingClasses(props),
         className,
         _className
       ),
+      id: !String(id).startsWith('null') ? this.state.id : null,
       title,
       role,
-
       ...rest,
     }
 
@@ -365,11 +424,7 @@ export default class FormStatus extends React.PureComponent {
         'dnb-form-status__text',
         createSkeletonClass('font', skeleton, this.context)
       ),
-      id: text_id,
-    }
-
-    if (hidden) {
-      params['aria-hidden'] = hidden
+      id: !String(text_id).startsWith('null') ? text_id : null,
     }
 
     skeletonDOMAttributes(params, skeleton, this.context)

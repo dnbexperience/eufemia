@@ -92,7 +92,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   skeleton="skeleton"
   skip_portal={true}
   status="status"
-  status_animation="status_animation"
+  status_no_animation="status_no_animation"
   status_state="error"
   stretch="stretch"
   suffix="suffix"
@@ -211,7 +211,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     skip_keysearch={false}
     skip_portal={true}
     status="status"
-    status_animation="status_animation"
+    status_no_animation="status_no_animation"
     status_state="error"
     stretch="stretch"
     suffix="suffix"
@@ -315,7 +315,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       skeleton="skeleton"
       skip_portal={true}
       status="status"
-      status_animation="status_animation"
+      status_no_animation="status_no_animation"
       status_state="error"
       stretch="stretch"
       suffix="suffix"
@@ -366,17 +366,17 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             />
           </AlignmentHelper>
           <FormStatus
-            animation="status_animation"
             attributes={null}
             class={null}
             className={null}
             global_status_id="global_status_id"
-            hidden={false}
             icon="error"
             icon_size="medium"
             id="dropdown-id-form-status"
             label="label"
+            no_animation="status_no_animation"
             role={null}
+            show={true}
             size="default"
             skeleton="skeleton"
             state="error"
@@ -390,8 +390,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             width_selector={null}
           >
             <span
-              className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status__animation--status_animation dnb-form-status--has-content"
-              hidden={false}
+              className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content"
               id="dropdown-id-form-status"
               label="label"
               role="alert"
@@ -531,7 +530,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 size={null}
                 skeleton={null}
                 status={null}
-                status_animation={null}
+                status_no_animation={null}
                 status_state="error"
                 stretch={null}
                 text={null}
@@ -621,7 +620,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     size={null}
                     skeleton={false}
                     status={null}
-                    status_animation={null}
+                    status_no_animation={null}
                     status_state="error"
                     stretch={null}
                     text={null}
@@ -663,6 +662,30 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     </span>
                   </Content>
                 </button>
+                <FormStatus
+                  attributes={null}
+                  class={null}
+                  className={null}
+                  global_status_id={null}
+                  icon="error"
+                  icon_size="medium"
+                  id="dropdown-id-form-status"
+                  label={null}
+                  no_animation={null}
+                  role={null}
+                  show={null}
+                  size="default"
+                  skeleton={null}
+                  state="error"
+                  status="error"
+                  stretch={null}
+                  text={null}
+                  text_id="dropdown-id-status"
+                  title={null}
+                  variant={null}
+                  width_element={null}
+                  width_selector={null}
+                />
               </Button>
               <DrawerList
                 action_menu={null}
@@ -1269,7 +1292,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "skeleton": "skeleton",
                   "skip_portal": true,
                   "status": "status",
-                  "status_animation": "status_animation",
+                  "status_no_animation": "status_no_animation",
                   "status_state": "error",
                   "stretch": "stretch",
                   "suffix": "suffix",
@@ -1509,7 +1532,20 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   --form-status-radius: 0.25rem; }
 
 .dnb-form-status {
-  display: flex; }
+  display: flex;
+  opacity: 1;
+  transition: height 400ms cubic-bezier(0.42, 0, 0, 1), opacity 400ms cubic-bezier(0.42, 0, 0, 1), margin 400ms cubic-bezier(0.42, 0, 0, 1), padding 400ms cubic-bezier(0.42, 0, 0, 1); }
+  .dnb-form-status--hidden {
+    will-change: height, opacity, margin, padding;
+    width: 0;
+    height: 0;
+    opacity: 0; }
+  .dnb-form-status--is-animating {
+    overflow: hidden;
+    width: auto; }
+  .dnb-form-status--disappear, .dnb-form-status--hidden {
+    margin: 0 !important;
+    padding: 0 !important; }
   .dnb-form-status__shell {
     display: flex;
     justify-content: flex-start;
@@ -1546,16 +1582,9 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     max-width: 47rem; }
   .dnb-form-status[hidden] {
     display: none; }
-  .dnb-form-status__animation--fade-in {
-    overflow: hidden;
-    max-height: 0;
-    animation: form-status-fade-in 2s ease-out 400ms forwards; }
-
-@keyframes form-status-fade-in {
-  from {
-    max-height: 0; }
-  to {
-    max-height: calc(var(--input-height) * 8); } }
+  .dnb-form-status--no-animation,
+  .dnb-form-status html[data-visual-test] {
+    transition-duration: 1ms !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-form-status__shell > .dnb-icon {
       border-width: 1px; } }
@@ -2117,9 +2146,9 @@ legend.dnb-form-label {
     display: flex;
     flex-direction: column;
     align-items: flex-start; }
-  .dnb-dropdown[class*='__status'] {
+  .dnb-dropdown:not(.dnb-dropdown--vertical)[class*='__status'] {
     align-items: flex-start; }
-    .dnb-dropdown[class*='__status'] > .dnb-form-label {
+    .dnb-dropdown:not(.dnb-dropdown--vertical)[class*='__status'] > .dnb-form-label {
       margin-top: 0.25rem; }
   @media screen and (max-width: 40em) {
     .dnb-responsive-component .dnb-dropdown {

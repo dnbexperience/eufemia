@@ -91,8 +91,7 @@ export const GlobalStatuseSandbox = () => (
           GlobalStatus.Update({
             id: 'demo-1',
             // id: 'custom-status',
-            text:
-              'This is aDui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',
+            text: 'This is aDui consectetur viverra aenean vestibulum ac tristique sem ligula condimentum',
             scrollto_element,
           })
         }}
@@ -137,7 +136,7 @@ const InputWithError = () => {
               setErrorMessage1(value.length >= 3)
             }}
             right="small"
-            // status_animation="fade-in"
+            // status_no_animation
           />
           <Input
             placeholder="Enter #2 ..."
@@ -146,7 +145,7 @@ const InputWithError = () => {
               setErrorMessage2(value.length >= 3)
             }}
             right="small"
-            // status_animation="fade-in"
+            // status_no_animation
           />
           <FormRow vertical>
             <Switch
@@ -155,14 +154,14 @@ const InputWithError = () => {
                 setErrorMessage3(checked)
               }}
               bottom="small"
-              // status_animation="fade-in"
+              // status_no_animation
             />
             <Switch
               status={haveAnErrorMessage4 ? 'Error Message #4' : null}
               on_change={({ checked }) => {
                 setErrorMessage4(checked)
               }}
-              // status_animation="fade-in"
+              // status_no_animation
             />
           </FormRow>
         </FormRow>
@@ -461,13 +460,8 @@ const UpdateDemo = () => {
 }
 
 const UpdateDemoStatus = () => {
-  const {
-    errorA,
-    errorB,
-    setErrorA,
-    setErrorB,
-    setVisibility,
-  } = React.useContext(Context)
+  const { errorA, errorB, setErrorA, setErrorB, setVisibility } =
+    React.useContext(Context)
 
   return (
     <>
