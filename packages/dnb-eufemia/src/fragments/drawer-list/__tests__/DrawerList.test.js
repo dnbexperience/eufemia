@@ -408,6 +408,9 @@ describe('DrawerList component', () => {
 
     // then open again
     keydown(Comp, 32) // space
+
+    expect(on_change).toBeCalledTimes(1)
+    expect(on_select).toBeCalledTimes(2)
   })
 
   it('has to return all additional attributes the event return', () => {
