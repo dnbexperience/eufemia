@@ -765,11 +765,11 @@ export default class DrawerListProvider extends React.PureComponent {
       }
     }
 
-    if (isTrue(this.state.ignore_events) && key !== 'tab') {
+    if (!this.state.isOpen) {
       return // stop here
     }
 
-    if (!this.state.isOpen) {
+    if (isTrue(this.state.ignore_events) && key !== 'tab') {
       return // stop here
     }
 
@@ -1030,15 +1030,22 @@ export default class DrawerListProvider extends React.PureComponent {
       })
 
       const animationDelayHandler = () => {
+        DrawerListProvider.isOpen = true
         this.setState({
           isOpen: true,
         })
       }
 
       if (isTrue(this.props.no_animation)) {
-        animationDelayHandler()
+        // our tests want no delay!
+        if (process?.env.NODE_ENV === 'test') {
+          animationDelayHandler()
+        } else {
+          // We have to have still a delay, to ensure the user can press enter to toggle the open state
+          clearTimeout(this._hideTimeout)
+          this._hideTimeout = setTimeout(animationDelayHandler, 0) // ensure we do not set isOpen true before the keydown handler has run
+        }
       } else {
-        DrawerListProvider.isOpen = true
         clearTimeout(this._hideTimeout)
         this._hideTimeout = setTimeout(
           animationDelayHandler,
@@ -1059,7 +1066,7 @@ export default class DrawerListProvider extends React.PureComponent {
 
     // If a user clicks on a second drawer list
     // we ensure we first close it, before we open it
-    if (DrawerListProvider.isOpen) {
+    if (DrawerListProvider.isOpen && !isTrue(this.props.no_animation)) {
       clearTimeout(this._hideTimeout)
       this._hideTimeout = setTimeout(
         handleSingleComponentCheck,

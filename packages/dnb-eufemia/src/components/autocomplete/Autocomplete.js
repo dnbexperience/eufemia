@@ -1362,8 +1362,7 @@ class AutocompleteInstance extends React.PureComponent {
           // do nothing
         }
 
-        clearTimeout(this._selectTimeout)
-        this._selectTimeout = setTimeout(() => {
+        const selectDelay = () => {
           this.setState({
             inputValue: AutocompleteInstance.getCurrentDataTitle(
               selected_item,
@@ -1374,7 +1373,17 @@ class AutocompleteInstance extends React.PureComponent {
           })
 
           this.setFocusOnInput()
-        }, 200) // so we properly can set the focus "again" we have to have this amount of delay
+        }
+
+        if (isTrue(this.props.no_animation)) {
+          selectDelay()
+        } else {
+          clearTimeout(this._selectTimeout)
+          this._selectTimeout = setTimeout(
+            selectDelay,
+            DrawerListProvider.blurDelay
+          ) // so we properly can set the focus "again" we have to have this amount of delay
+        }
       } else {
         this.setState({
           inputValue: AutocompleteInstance.getCurrentDataTitle(
