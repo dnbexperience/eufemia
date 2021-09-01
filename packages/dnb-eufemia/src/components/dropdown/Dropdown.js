@@ -332,9 +332,6 @@ class DropdownInstance extends React.PureComponent {
         e.preventDefault()
         this.setVisible()
 
-        if (this.context.drawerList.opened) {
-          this.context.drawerList.scrollToItem(0)
-        }
         break
 
       case 'esc':
@@ -680,7 +677,6 @@ class DropdownInstance extends React.PureComponent {
                 on_change={this.onChangeHandler}
                 on_select={this.onSelectHandler}
                 on_hide={this.onHideHandler}
-                handle_dismiss_focus={this.setFocus}
               />
             </span>
 
