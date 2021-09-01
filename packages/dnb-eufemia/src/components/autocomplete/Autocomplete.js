@@ -177,6 +177,10 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.string,
       PropTypes.number,
     ]),
+    search_numbers: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
     default_value: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
@@ -264,6 +268,7 @@ export default class Autocomplete extends React.PureComponent {
     options_render: null,
     data: null,
     search_in_word_index: 3,
+    search_numbers: null,
     default_value: null,
     value: 'initval',
     input_value: 'initval',
@@ -399,7 +404,6 @@ class AutocompleteInstance extends React.PureComponent {
 
     this.skipFilter = isTrue(props.disable_filter)
     this.skipReorder = isTrue(props.disable_reorder)
-    this.inWordIndex = (parseFloat(props.search_in_word_index) || 3) - 2
   }
 
   componentDidMount() {
@@ -1081,15 +1085,23 @@ class AutocompleteInstance extends React.PureComponent {
     {
       data = null, // rawData
       searchIndex = this.state.searchIndex,
+      searchNumbers = isTrue(this.props.search_numbers),
+      inWordIndex = (parseFloat(this.props.search_in_word_index) || 3) - 2,
       skipHighlight = false,
       skipFilter = false,
       skipReorder = false,
     } = {}
   ) => {
-    const regexNumeric = /[^0-9.,+\-  ]/ // eslint-disable-line
-    const isNumeric = !regexNumeric.test(value)
-    if (isNumeric) {
-      value = value.replace(/[^0-9\s]/g, '')
+    if (data) {
+      searchIndex = this.setSearchIndex({ data })
+    }
+    // get the search index
+    else if (!searchIndex) {
+      searchIndex = this.setSearchIndex()
+    }
+
+    if (typeof searchIndex === 'undefined') {
+      return []
     }
 
     const words = value.split(/\s+/g).filter(Boolean)
@@ -1101,42 +1113,56 @@ class AutocompleteInstance extends React.PureComponent {
         return []
       }
 
-      // If word is numeric, remove chars
-      if (isNumeric) {
-        searchChunk = searchChunk.replace(/[^0-9]/g, '')
-      }
-
       return words
-        .map((word, wordIndex) => ({
-          word,
-          wordIndex,
-          score: wordsCount - wordIndex,
-        }))
-        .filter(({ word, wordIndex }) => {
+        .filter((word, wordIndex) => {
+          if (searchNumbers) {
+            // Remove all other chars, except numbers, so we can compare
+            word = word.replace(/[^\d\w]/g, '')
+          } else {
+            // To ensure we escape regex chars
+            word = escapeRegexChars(word)
+          }
+
+          if (searchNumbers) {
+            // This will make it possible to search with one letter less
+            word = word.replace(/(\d)/g, '$1+')
+          }
+
+          // if the uses reached word 3, then we go inside words as well
           const regexWord = new RegExp(
-            wordIndex > this.inWordIndex
-              ? `${word}`
-              : `(${wordCond})${word}`,
+            wordIndex > inWordIndex ? `${word}` : `(${wordCond})${word}`,
             'i'
           )
 
-          return (
-            // if the uses reached word 3, then we go inside words as well
-            regexWord.test(searchChunk) ||
-            regexWord.test(searchChunk.replace(/ | /g, '')) // eslint-disable-line
-          )
-        })
-    }
+          if (regexWord.test(searchChunk)) {
+            return true
+          }
 
-    if (data) {
-      searchIndex = this.setSearchIndex({ data })
-    }
-    // get the search index
-    else if (!searchIndex) {
-      searchIndex = this.setSearchIndex()
-    }
-    if (typeof searchIndex === 'undefined') {
-      return []
+          if (
+            searchNumbers &&
+            regexWord.test(searchChunk.replace(/[^0-9]/g, ''))
+          ) {
+            return true
+          }
+
+          return false
+        })
+        .map((word, wordIndex) => {
+          let score = wordsCount - wordIndex
+
+          // Change the score if our search term matches with a starting data word
+          const regexWord = new RegExp(`^${escapeRegexChars(word)}`, 'i')
+          const startOfWord = regexWord.test(searchChunk)
+          if (startOfWord) {
+            score = score + 1
+          }
+
+          return {
+            word,
+            wordIndex,
+            score,
+          }
+        })
     }
 
     const strS = '\uFFFE'
@@ -1188,16 +1214,30 @@ class AutocompleteInstance extends React.PureComponent {
           const origSegment = segment
 
           listOfFoundWords.forEach(({ word, wordIndex }) => {
-            if (wordIndex > this.inWordIndex) {
-              segment = segment.replace(
-                new RegExp(`(${word})`, 'gi'),
-                `${strS}$1${strE}`
-              )
+            // To ensure we escape regex chars
+            word = escapeRegexChars(word)
+
+            if (searchNumbers) {
+              word.split('').forEach((char) => {
+                if (/[\d\w]/.test(char)) {
+                  segment = segment.replace(
+                    new RegExp(`(${char})`, 'gi'),
+                    `${strS}$1${strE}`
+                  )
+                }
+              })
             } else {
-              segment = segment.replace(
-                new RegExp(`(${wordCond})(${word})`, 'gi'),
-                `$1${strS}$2${strE}`
-              )
+              if (wordIndex > inWordIndex) {
+                segment = segment.replace(
+                  new RegExp(`(${word})`, 'gi'),
+                  `${strS}$1${strE}`
+                )
+              } else {
+                segment = segment.replace(
+                  new RegExp(`(${wordCond})(${word})`, 'gi'),
+                  `$1${strS}$2${strE}`
+                )
+              }
             }
           })
 
@@ -1482,6 +1522,8 @@ class AutocompleteInstance extends React.PureComponent {
       prevent_selection,
       max_height,
       default_value,
+      search_numbers, // eslint-disable-line
+      search_in_word_index, // eslint-disable-line
       submit_button_title,
       submit_button_icon,
       portal_class,
@@ -1786,3 +1828,7 @@ class AutocompleteInstance extends React.PureComponent {
 }
 
 Autocomplete.HorizontalItem = DrawerList.HorizontalItem
+
+function escapeRegexChars(str) {
+  return str.replace(/[-[\]{}()*+?.,\\^$|#]/g, '\\$&')
+}

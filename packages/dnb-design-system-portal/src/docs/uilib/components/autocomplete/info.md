@@ -26,6 +26,12 @@ Words found during typing are highlighted. The rules are:
 1. The third word will match inside an option (can be changed with `search_in_word_index`)
 1. Case insensitive
 
+### Numbers
+
+Numbers are often different than a word filter. You can use `search_numbers={true}` to enable a number specialized filtering. See example in the demos.
+
+Now the user could search for e.g. bank account numbers by just entering `201`, even if you format it like `2000 12 34567` (e.g. use format(20001234567, { ban: true }) from /components/number-format/NumberUtils)
+
 ### Screen reader support
 
 To enhance screen-reader usage, this component uses `aria-live` to announce the amount of options found (`aria_live_options`).

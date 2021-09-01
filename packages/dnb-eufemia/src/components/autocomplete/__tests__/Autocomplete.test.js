@@ -13,6 +13,7 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Autocomplete'
 import { SubmitButton } from '../../../components/input/Input'
+import { format } from '../../../components/number-format/NumberUtils'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Autocomplete'), {
@@ -69,7 +70,7 @@ describe('Autocomplete component', () => {
       />
     )
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
-      /* @html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">th</span>e <span class="dnb-drawer-list__option__item--highlight">g</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er</span></span></li>`
+      /* html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">th</span>e <span class="dnb-drawer-list__option__item--highlight">g</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er</span></span></li>`
     )
   })
 
@@ -138,7 +139,7 @@ describe('Autocomplete component', () => {
       mockData[1]
     )
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
-      /* @html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight">thx</span></span></span></li>`
+      /* html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight">thx</span></span></span></li>`
     )
 
     // check "invalid"
@@ -241,14 +242,138 @@ describe('Autocomplete component', () => {
     ).toBe(3)
   })
 
-  it('has correct options after filter with "no whitespace"', () => {
-    const mockData = ['100.222.333,40', '123456', '100 222 444,50']
-    
+  it('can be used with regex chars', () => {
+    const mockData = [
+      'AA aa',
+      'BB * bb',
+      'CC + cc',
+      'DD - dd',
+      'EE / ee',
+      'FF \\ ff',
+    ]
+
     const Comp = mount(
       <Component
         id="autocomplete-id"
         data={mockData}
         show_submit_button
+        {...mockProps}
+      />
+    )
+
+    toggle(Comp)
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: '*+-/\\' },
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      'Ingen alternativer'
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'aa ' },
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[0]
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'bb *' },
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[1]
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'cc +' },
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[2]
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'dd -' },
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[3]
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'ee /' },
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[4]
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'ff \\' },
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[5]
+    )
+  })
+
+  it('has correct options when using search_numbers', () => {
+    const mockData = [
+      format(20001234567, { ban: true }),
+      format(22233344425, { ban: true }),
+      format(1234.5, { currency: true }),
+      format('+47116000', { phone: true }),
+    ]
+
+    const Comp = mount(
+      <Component
+        id="autocomplete-id"
+        data={mockData}
+        search_numbers
+        show_submit_button
+        {...mockProps}
+      />
+    )
+
+    toggle(Comp)
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: '222333.444' },
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[1]
+    )
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
+      /* html */ `<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">2223</span> <span class="dnb-drawer-list__option__item--highlight">33</span> <span class="dnb-drawer-list__option__item--highlight">4442</span>5</span></span></li>`
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: '222333 444' },
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[1]
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: '1234' },
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[2]
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: '00' },
+    })
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[3]
+    )
+  })
+
+  it('has correct options when using search_numbers and search_in_word_index=1', () => {
+    const mockData = ['100.222.333,40', '123456', '100 222 444,50']
+
+    const Comp = mount(
+      <Component
+        id="autocomplete-id"
+        data={mockData}
+        show_submit_button
+        search_numbers
         search_in_word_index={1}
         {...mockProps}
       />
@@ -274,7 +399,7 @@ describe('Autocomplete component', () => {
       target: { value: '100,222,34' },
     })
     expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
-      'Ingen alternativer'
+      mockData[0]
     )
 
     Comp.find('.dnb-input__input').simulate('change', {
@@ -318,7 +443,7 @@ describe('Autocomplete component', () => {
       target: { value: 'cc' },
     })
     expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
-      mockData[1]
+      mockData[2].content.join('')
     )
     expect(
       Comp.find(
@@ -370,6 +495,8 @@ describe('Autocomplete component', () => {
       'Vis alt'
     )
     expect(Comp.find('li.dnb-drawer-list__option').length).toBe(3)
+
+    keydown(Comp, 40) // down
 
     let elem
     elem = Comp.find('li.dnb-drawer-list__option').at(1)
@@ -677,7 +804,7 @@ describe('Autocomplete component', () => {
     await wait(1)
 
     // Here is our wanted result
-    expect(Comp.find('input').instance().value).toBe(mockData[1])
+    expect(Comp.find('input').instance().value).toBe(mockData[0])
 
     // Round #3
 
@@ -699,7 +826,9 @@ describe('Autocomplete component', () => {
     await wait(1)
 
     // Here is our wanted result
-    expect(Comp.find('input').instance().value).toBe(mockData[0])
+    expect(Comp.find('input').instance().value).toBe(
+      mockData[2].content.join(' ')
+    )
 
     expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
       'Ingen alternativer'
@@ -713,7 +842,9 @@ describe('Autocomplete component', () => {
 
     // Open
     toggle(Comp)
-    expect(Comp.find('input').instance().value).toBe(mockData[0])
+    expect(Comp.find('input').instance().value).toBe(
+      mockData[2].content.join(' ')
+    )
     Comp.find('AutocompleteInstance').setState({
       skipFocusDuringChange: false,
       hasFocus: false,
@@ -811,7 +942,7 @@ describe('Autocomplete component', () => {
     await wait(1)
 
     // Here is our wanted result
-    expect(Comp.find('input').instance().value).toBe('BB cc zethx')
+    expect(Comp.find('input').instance().value).toBe('AA c')
 
     // Now lets try with "keep_value_and_selection"
     Comp.setProps({

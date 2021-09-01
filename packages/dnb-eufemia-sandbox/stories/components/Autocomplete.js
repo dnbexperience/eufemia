@@ -15,9 +15,36 @@ import {
 } from '@dnb/eufemia/src/components'
 import { Anchor } from '@dnb/eufemia/src/elements'
 import { SubmitButton } from '@dnb/eufemia/src/components/input/Input'
+import { format } from '@dnb/eufemia/src/components/number-format/NumberUtils'
 
 export default {
   title: 'Eufemia/Components/Autocomplete',
+}
+
+const numbers = [
+  format(20001234567, { ban: true }),
+  format(22233344425, { ban: true }),
+  format(1234.5, { currency: true }),
+  format('+47116000', { phone: true }),
+  '100.222.333,40',
+  '123456',
+  '100 222 444,50',
+]
+
+export const SearchNumbers = () => {
+  return (
+    <Autocomplete
+      // input_value="123"
+      input_value="201"
+      // input_value="100 222 4"
+      opened
+      no_animation
+      label="Label:"
+      data={numbers}
+      search_numbers
+      // search_in_word_index={1}
+    />
+  )
 }
 
 const CustomStyle = styled.div`
