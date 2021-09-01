@@ -660,8 +660,6 @@ describe('Dropdown component', () => {
       ulElement: null,
     })
 
-    await wait(50) // ensure that we have this._refUl.current – the check is in "addObservers"
-
     expect(on_show_focus).toBeCalledTimes(1)
     expect(on_show_focus.mock.calls[0][0].element).toBe(
       document.activeElement
@@ -671,7 +669,7 @@ describe('Dropdown component', () => {
     keydown(Comp, 9) // tab – because JSDOM does not support keyboard handling, so we can not check document.activeElement
 
     // delay because we want to wait to have the DOM focus to be called
-    await wait(5)
+    await wait(1)
 
     expect(on_hide).toBeCalledTimes(1)
     expect(on_hide).toHaveBeenCalledWith({
@@ -748,7 +746,7 @@ describe('Dropdown component', () => {
     ).toBe(true)
 
     // delay because we want to wait to have the DOM focus to be called
-    await wait(5)
+    await wait(1)
 
     expect(
       document.activeElement.classList.contains('dnb-drawer-list__option')
@@ -768,7 +766,7 @@ describe('Dropdown component', () => {
     keydown(Comp, 38) // up
 
     // delay because we want to wait to have the DOM focus to be called
-    await wait(5)
+    await wait(1)
 
     expect(
       document.activeElement.classList.contains('dnb-drawer-list__options')
@@ -778,7 +776,7 @@ describe('Dropdown component', () => {
     keydown(Comp, 38) // up
 
     // delay because we want to wait to have the DOM focus to be called
-    await wait(5)
+    await wait(1)
 
     expect(
       document.activeElement.classList.contains('dnb-drawer-list__option')
@@ -806,7 +804,7 @@ describe('Dropdown component', () => {
     keydown(Comp, 38) // up
 
     // delay because we want to wait to have the DOM focus to be called
-    await wait(5)
+    await wait(1)
 
     expect(
       Comp.find('li.dnb-drawer-list__option')
@@ -818,7 +816,7 @@ describe('Dropdown component', () => {
     keydown(Comp, 40) // down
 
     // delay because we want to wait to have the DOM focus to be called
-    await wait(5)
+    await wait(1)
 
     expect(
       document.activeElement.classList.contains('dnb-drawer-list__options')
