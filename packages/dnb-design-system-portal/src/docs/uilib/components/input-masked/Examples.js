@@ -29,8 +29,9 @@ export const InputMaskedExampleNumberLocale = () => (
   <InputMasked
     label="Number (decimal limit):"
     as_number
-    number_mask={{ decimalLimit: 1 }}
-    value="1234.50"
+    number_mask={{ decimalLimit: 2 }}
+    number_format={{ omit_rounding: true }}
+    value="1234.016"
     align="right"
     right
     bottom

@@ -227,7 +227,7 @@ describe('Dropdown component', () => {
     ).toBe(false)
   })
 
-  it('will stay open when prevent_close is given, regardless', () => {
+  it('will stay open when prevent_close is given, regardless', async () => {
     const on_change = jest.fn()
     const on_hide = jest.fn()
     const Comp = mount(
@@ -289,7 +289,7 @@ describe('Dropdown component', () => {
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
   })
 
-  it('has no selected items on using prevent_selection', () => {
+  it('has no selected items on using prevent_selection', async () => {
     let selectedItem
     const on_change = jest.fn()
     const title = 'custom title'
@@ -660,8 +660,6 @@ describe('Dropdown component', () => {
       ulElement: null,
     })
 
-    await wait(50) // ensure that we have this._refUl.current – the check is in "addObservers"
-
     expect(on_show_focus).toBeCalledTimes(1)
     expect(on_show_focus.mock.calls[0][0].element).toBe(
       document.activeElement
@@ -671,7 +669,7 @@ describe('Dropdown component', () => {
     keydown(Comp, 9) // tab – because JSDOM does not support keyboard handling, so we can not check document.activeElement
 
     // delay because we want to wait to have the DOM focus to be called
-    await wait(5)
+    await wait(1)
 
     expect(on_hide).toBeCalledTimes(1)
     expect(on_hide).toHaveBeenCalledWith({
@@ -735,20 +733,18 @@ describe('Dropdown component', () => {
 
     // first open
     keydown(Comp, 40) // down
+    keydown(Comp, 40) // down
 
     expect(
       Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
     ).toBe(true)
-
-    // then simulate changes
-    keydown(Comp, 40) // down
 
     expect(
       document.activeElement.classList.contains('dnb-drawer-list__options')
     ).toBe(true)
 
     // delay because we want to wait to have the DOM focus to be called
-    await wait(5)
+    await wait(1)
 
     expect(
       document.activeElement.classList.contains('dnb-drawer-list__option')
@@ -764,11 +760,7 @@ describe('Dropdown component', () => {
         .hasClass('dnb-drawer-list__option--focus')
     ).toBe(true)
 
-    // then simulate changes
     keydown(Comp, 38) // up
-
-    // delay because we want to wait to have the DOM focus to be called
-    await wait(5)
 
     expect(
       document.activeElement.classList.contains('dnb-drawer-list__options')
@@ -778,7 +770,7 @@ describe('Dropdown component', () => {
     keydown(Comp, 38) // up
 
     // delay because we want to wait to have the DOM focus to be called
-    await wait(5)
+    await wait(1)
 
     expect(
       document.activeElement.classList.contains('dnb-drawer-list__option')
@@ -806,7 +798,7 @@ describe('Dropdown component', () => {
     keydown(Comp, 38) // up
 
     // delay because we want to wait to have the DOM focus to be called
-    await wait(5)
+    await wait(1)
 
     expect(
       Comp.find('li.dnb-drawer-list__option')
@@ -818,7 +810,7 @@ describe('Dropdown component', () => {
     keydown(Comp, 40) // down
 
     // delay because we want to wait to have the DOM focus to be called
-    await wait(5)
+    await wait(1)
 
     expect(
       document.activeElement.classList.contains('dnb-drawer-list__options')

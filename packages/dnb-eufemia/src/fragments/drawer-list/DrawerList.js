@@ -126,7 +126,7 @@ class DrawerListInstance extends React.PureComponent {
       event.currentTarget.getAttribute('data-item')
     )
     if (selected_item > -1) {
-      this.context.drawerList.selectItem(selected_item, {
+      this.context.drawerList.selectItemAndClose(selected_item, {
         fireSelectEvent: true,
         event,
       })
@@ -254,8 +254,15 @@ class DrawerListInstance extends React.PureComponent {
       ref: _refUl,
     }
 
-    if (!hidden && parseFloat(active_item) > -1) {
-      ulParams['aria-activedescendant'] = `option-${id}-${active_item}`
+    if (
+      !hidden &&
+      (parseFloat(active_item) > -1 ||
+        (!(parseFloat(active_item) > -1) &&
+          !(parseFloat(selected_item) > -1)))
+    ) {
+      ulParams['aria-activedescendant'] = `option-${id}-${
+        active_item || 0
+      }`
     } else if (
       !isTrue(prevent_selection) &&
       !hidden &&

@@ -683,8 +683,6 @@ describe('Autocomplete component', () => {
     Comp.find('input').simulate('blur')
     expect(on_blur).toHaveBeenCalledTimes(4)
 
-    await wait(1)
-
     // Here is our wanted result
     expect(Comp.find('input').instance().value).toBe(newValue)
 

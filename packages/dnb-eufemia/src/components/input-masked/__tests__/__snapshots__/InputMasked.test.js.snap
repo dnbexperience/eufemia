@@ -35,6 +35,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
       /\\[a-z\\]/,
     ]
   }
+  number_format="number_format"
   number_mask="number_mask"
   on_blur={[Function]}
   on_change={[Function]}
