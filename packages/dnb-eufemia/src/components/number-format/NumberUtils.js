@@ -464,21 +464,10 @@ export const formatNumber = (
       formatter = getGroupFormatter(locale, null, formatter)
     }
 
-    if (
-      typeof Intl !== 'undefined' &&
-      typeof Intl.NumberFormat === 'function'
-    ) {
-      const inst = Intl.NumberFormat(locale, options)
-      if (formatter && typeof inst.formatToParts === 'function') {
-        return inst
-          .formatToParts(number)
-          .map(formatter)
-          .reduce((acc, { value }) => {
-            return acc + value
-          }, '')
-      } else {
-        return inst.format(number)
-      }
+    if (formatter) {
+      return formatToParts({ number, locale, options })
+        .map(formatter)
+        .reduce((acc, { value }) => acc + value, '')
     } else if (
       typeof Number !== 'undefined' &&
       typeof Number.toLocaleString === 'function'
@@ -952,11 +941,18 @@ export function getFallbackCurrencyDisplay(
  * @returns {string} a separator symbol
  */
 export function getDecimalSeparator(locale = null) {
-  return (
-    Intl?.NumberFormat(locale || LOCALE)
-      ?.formatToParts(1.1)
-      .find(({ type }) => type === 'decimal')?.value || ',' // defaults to no-NB
-  )
+  const separator =
+    formatToParts({
+      number: 1.1,
+      locale,
+    }).find(({ type }) => type === 'decimal')?.value || ',' // defaults to nb-NO
+
+  // To make the separator IE11 compatible
+  if (IS_IE11 && separator === ',' && !String(locale).includes('no')) {
+    return '.'
+  }
+
+  return separator
 }
 
 /**
@@ -966,15 +962,13 @@ export function getDecimalSeparator(locale = null) {
  * @returns {string} a separator symbol
  */
 export function getThousandsSeparator(locale = null) {
-  if (!locale) {
-    locale = LOCALE
-  }
-
   const formatter = getGroupFormatter(locale)
 
   return (
-    Intl?.NumberFormat(locale)
-      ?.formatToParts(1000)
+    formatToParts({
+      number: 1000,
+      locale,
+    })
       .map(formatter)
       .find(({ type }) => type === 'group')?.value || ' '
   ) // defaults to no-NB
@@ -997,13 +991,18 @@ export function getCurrencySymbol(
     currency = CURRENCY
   }
   return (
-    Intl?.NumberFormat(locale || LOCALE, {
-      style: 'currency',
-      currency,
-      currencyDisplay: getFallbackCurrencyDisplay(locale, currencyDisplay),
-    })
-      ?.formatToParts(1)
-      .find(({ type }) => type === 'currency')?.value || currency
+    formatToParts({
+      number: 1,
+      locale,
+      options: {
+        style: 'currency',
+        currency,
+        currencyDisplay: getFallbackCurrencyDisplay(
+          locale,
+          currencyDisplay
+        ),
+      },
+    }).find(({ type }) => type === 'currency')?.value || currency
   )
 }
 
@@ -1020,7 +1019,6 @@ function getGroupFormatter(
    * - en
    */
   if (locale && /(en|gb)$/i.test(locale)) {
-    // eslint-disable-next-line no-irregular-whitespace
     separatorSymbol = ' ' // non-breaking space
   }
 
@@ -1036,4 +1034,29 @@ function getGroupFormatter(
 
     return item
   }
+}
+
+/**
+ * For internal usage Not supported by IE11
+ *
+ * @type {object}
+ * @property {string} number - a number
+ * @property {string} locale - locale as a string. Defaults to the global LOCALE constant
+ * @property {object} options - NumberFormat options
+ * @returns {array} that contains all the parts of the given number [{ value: x, type: 'type' }]
+ */
+function formatToParts({ number, locale = null, options = null }) {
+  if (
+    typeof Intl !== 'undefined' &&
+    typeof Intl.NumberFormat === 'function'
+  ) {
+    const inst = Intl.NumberFormat(locale || LOCALE, options || {})
+    if (typeof inst.formatToParts === 'function') {
+      return inst.formatToParts(number)
+    } else {
+      return [{ value: inst.format(number) }]
+    }
+  }
+
+  return [{ value: number }]
 }

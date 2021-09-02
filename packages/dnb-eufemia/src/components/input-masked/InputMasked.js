@@ -46,6 +46,10 @@ export default class InputMasked extends React.PureComponent {
       PropTypes.bool,
       PropTypes.object,
     ]),
+    number_format: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object,
+    ]),
     locale: PropTypes.string,
     as_currency: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     as_number: PropTypes.oneOfType([
@@ -78,6 +82,7 @@ export default class InputMasked extends React.PureComponent {
     mask: [],
     number_mask: null,
     currency_mask: null,
+    number_format: null,
     as_currency: null,
     as_number: null,
     locale: null,
@@ -112,6 +117,7 @@ export default class InputMasked extends React.PureComponent {
       mask,
       number_mask,
       currency_mask,
+      number_format,
       as_currency,
       as_number,
       locale,
@@ -151,16 +157,29 @@ export default class InputMasked extends React.PureComponent {
       }
 
       if (props.value !== 'initval') {
-        props.value = format(props.value, {
-          locale,
-          ...(as_number || as_currency),
-        })
+        const options = { locale }
+
+        if (
+          typeof number_format === 'string' &&
+          number_format[0] === '{'
+        ) {
+          number_format = JSON.parse(number_format)
+        }
+        if (number_format) {
+          Object.assign(options, number_format)
+        }
+
+        if (as_currency) {
+          options.decimals = currency_mask?.decimalLimit || 2
+        }
+
+        props.value = format(props.value, options)
       }
 
       const decimalSymbol = getDecimalSeparator(locale)
       const thousandsSeparatorSymbol = getThousandsSeparator(
         locale
-      ).replace(' ', ' ')
+      ).replace(' ', ' ') // replace non-breaking space with a regular space
 
       if (as_number) {
         number_mask = {
