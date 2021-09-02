@@ -17,6 +17,7 @@ import {
   registerElement,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
+import { IS_IE11 } from '../../shared/helpers'
 import _MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
 import Context from '../../shared/Context'
 import createNumberMask from './addons/createNumberMask'
@@ -176,10 +177,20 @@ export default class InputMasked extends React.PureComponent {
         props.value = format(props.value, options)
       }
 
-      const decimalSymbol = getDecimalSeparator(locale)
       const thousandsSeparatorSymbol = getThousandsSeparator(
         locale
       ).replace(' ', ' ') // replace non-breaking space with a regular space
+
+      let decimalSymbol = getDecimalSeparator(locale)
+      // To make the separator IE11 compatible
+      if (
+        IS_IE11 &&
+        decimalSymbol === ',' &&
+        locale &&
+        !/no/i.test(locale)
+      ) {
+        decimalSymbol = '.'
+      }
 
       if (as_number) {
         number_mask = {

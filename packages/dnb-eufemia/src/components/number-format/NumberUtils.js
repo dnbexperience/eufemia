@@ -913,7 +913,7 @@ export function useCopyWithNotice() {
  * Will return currency display value based on navigator/browser and locale
  *
  * @property {string} currency_display (optional) code, name, symbol or narrowSymbol
- * @property {string} locale (optional) the locale to use, defaults to no-NB
+ * @property {string} locale (optional) the locale to use, defaults to nb-NO
  * @returns {string} a separator symbol
  */
 export function getFallbackCurrencyDisplay(
@@ -937,7 +937,7 @@ export function getFallbackCurrencyDisplay(
 /**
  * This function returns a decimal separator symbol based on the given locale
  *
- * @property {string} locale (optional) the locale to use, defaults to no-NB
+ * @property {string} locale (optional) the locale to use, defaults to nb-NO
  * @returns {string} a separator symbol
  */
 export function getDecimalSeparator(locale = null) {
@@ -947,18 +947,13 @@ export function getDecimalSeparator(locale = null) {
       locale,
     }).find(({ type }) => type === 'decimal')?.value || ',' // defaults to nb-NO
 
-  // To make the separator IE11 compatible
-  if (IS_IE11 && separator === ',' && !String(locale).includes('no')) {
-    return '.'
-  }
-
   return separator
 }
 
 /**
  * This function returns a thousands separator symbol based on the given locale
  *
- * @property {string} locale (optional) the locale to use, defaults to no-NB
+ * @property {string} locale (optional) the locale to use, defaults to nb-NO
  * @returns {string} a separator symbol
  */
 export function getThousandsSeparator(locale = null) {
@@ -971,13 +966,13 @@ export function getThousandsSeparator(locale = null) {
     })
       .map(formatter)
       .find(({ type }) => type === 'group')?.value || ' '
-  ) // defaults to no-NB
+  ) // defaults to nb-NO
 }
 
 /**
  * This function returns a currency symbol based on the given locale
  *
- * @property {string} locale (optional) the locale to use, defaults to no-NB
+ * @property {string} locale (optional) the locale to use, defaults to nb-NO
  * @property {string} currency (optional) a given currency
  * @property {currencyDisplay} currencyDisplay (optional) what currency display
  * @returns {string} a currency symbol
