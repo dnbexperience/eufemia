@@ -152,7 +152,7 @@ describe('InputMasked component as number', () => {
     expect(Comp.find('input').instance().value).toBe('12 345,678')
   })
 
-  it('should inherit locale prom provider', () => {
+  it('should inherit locale from provider', () => {
     const Comp = mount(
       <Provider locale="en-GB">
         <Component as_number value="12345.678" />
@@ -172,7 +172,7 @@ describe('InputMasked component as currency', () => {
   it('should create a "currency_mask" accordingly the defined properties', () => {
     const Comp = mount(<Component value="12345.678" as_currency />)
 
-    expect(Comp.find('input').instance().value).toBe('12 345,678 kr')
+    expect(Comp.find('input').instance().value).toBe('12 345,68 kr')
   })
 
   it('should merge "currency_mask" properties', () => {
@@ -184,13 +184,36 @@ describe('InputMasked component as currency', () => {
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345,6 kr')
+    expect(Comp.find('input').instance().value).toBe('12 345,7 kr')
   })
 
   it('should use given currency', () => {
     const Comp = mount(<Component value="12345.678" as_currency="USD" />)
 
-    expect(Comp.find('input').instance().value).toBe('12 345,678 $')
+    expect(Comp.find('input').instance().value).toBe('12 345,68 $')
+  })
+
+  it('should have correct decimals', () => {
+    const Comp = mount(<Component value="12345.6" as_currency="NOK" />)
+
+    expect(Comp.find('input').instance().value).toBe('12 345,60 kr')
+
+    Comp.setProps({ value: 12345.7 })
+
+    expect(Comp.find('input').instance().value).toBe('12 345,70 kr')
+
+    Comp.setProps({ value: 12345.01 })
+
+    expect(Comp.find('input').instance().value).toBe('12 345,01 kr')
+
+    Comp.setProps({ value: '12345.016' })
+
+    expect(Comp.find('input').instance().value).toBe('12 345,02 kr')
+
+    Comp.setProps({ value: '12345.016' })
+    Comp.setProps({ number_format: { omit_rounding: true } })
+
+    expect(Comp.find('input').instance().value).toBe('12 345,01 kr')
   })
 
   it('should not append a coma when entering a dot', () => {
@@ -224,26 +247,26 @@ describe('InputMasked component as currency', () => {
       <Component as_currency value="12345.678" locale="en-GB" />
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345.678 NOK')
+    expect(Comp.find('input').instance().value).toBe('12 345.68 NOK')
 
     Comp.setProps({ locale: 'nb-NO' })
 
-    expect(Comp.find('input').instance().value).toBe('12 345,678 kr')
+    expect(Comp.find('input').instance().value).toBe('12 345,68 kr')
   })
 
-  it('should inherit locale prom provider', () => {
+  it('should inherit locale from provider', () => {
     const Comp = mount(
       <Provider locale="en-GB">
         <Component as_currency value="12345.678" />
       </Provider>
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345.678 NOK')
+    expect(Comp.find('input').instance().value).toBe('12 345.68 NOK')
 
     // Change the provider locale
     Comp.setProps({ locale: 'nb-NO' })
 
-    expect(Comp.find('input').instance().value).toBe('12 345,678 kr')
+    expect(Comp.find('input').instance().value).toBe('12 345,68 kr')
   })
 })
 

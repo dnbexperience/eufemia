@@ -520,14 +520,14 @@ describe('getFallbackCurrencyDisplay should', () => {
   it('default to narrowSymbol', () => {
     expect(getFallbackCurrencyDisplay()).toBe('narrowSymbol')
   })
-  it('return narrowSymbol when locale is no-NB', () => {
-    expect(getFallbackCurrencyDisplay('no-NB')).toBe('narrowSymbol')
+  it('return narrowSymbol when locale is nb-NO', () => {
+    expect(getFallbackCurrencyDisplay('nb-NO')).toBe('narrowSymbol')
   })
   it('default to code on invalid locale', () => {
     expect(getFallbackCurrencyDisplay('invalid')).toBe('code')
   })
   it('default to given display', () => {
-    expect(getFallbackCurrencyDisplay('no-NB', 'name')).toBe('name')
+    expect(getFallbackCurrencyDisplay('nb-NO', 'name')).toBe('name')
   })
 })
 
@@ -535,8 +535,8 @@ describe('getDecimalSeparator should', () => {
   it('default to coma', () => {
     expect(getDecimalSeparator()).toBe(',')
   })
-  it('return coma when locale is no-NB', () => {
-    expect(getDecimalSeparator('no-NB')).toBe(',')
+  it('return coma when locale is nb-NO', () => {
+    expect(getDecimalSeparator('nb-NO')).toBe(',')
   })
   it('return coma when locale is sv-SE', () => {
     expect(getDecimalSeparator('sv-SE')).toBe(',')
@@ -553,8 +553,8 @@ describe('getThousandsSeparator should', () => {
   it('default to space', () => {
     expect(getThousandsSeparator()).toBe(' ')
   })
-  it('return space when locale is no-NB', () => {
-    expect(getThousandsSeparator('no-NB')).toBe(' ')
+  it('return space when locale is nb-NO', () => {
+    expect(getThousandsSeparator('nb-NO')).toBe(' ')
   })
   it('return space when locale is sv-SE', () => {
     expect(getThousandsSeparator('sv-SE')).toBe(' ')
@@ -574,8 +574,8 @@ describe('getCurrencySymbol should', () => {
   it('default to space', () => {
     expect(getCurrencySymbol()).toBe('kr')
   })
-  it('return space when locale is no-NB', () => {
-    expect(getCurrencySymbol('no-NB')).toBe('kr')
+  it('return space when locale is nb-NO', () => {
+    expect(getCurrencySymbol('nb-NO')).toBe('kr')
   })
   it('return space when locale is sv-SE', () => {
     expect(getCurrencySymbol('sv-Se')).toBe('NOK')

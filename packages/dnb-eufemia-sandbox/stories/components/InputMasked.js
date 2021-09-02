@@ -32,7 +32,7 @@ export const InputsMasked = () => (
           currency_mask={{ decimalLimit: 1 }}
           // locale="en-GB"
           // align="left"
-          value="1234.5"
+          value="1234.0"
           right
           bottom
           on_change={({ cleaned_value }) => {
@@ -45,7 +45,7 @@ export const InputsMasked = () => (
           number_mask={{ decimalLimit: 1 }}
           align="right"
           // locale="en-GB"
-          value="1234.5"
+          value="1234.0"
           right
           bottom
           on_change={({ cleaned_value }) => {
