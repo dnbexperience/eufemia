@@ -17,6 +17,7 @@ import Input from '../../input/Input'
 import Component from '../Modal'
 import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
+import * as helpers from '../../../shared/helpers'
 
 global.userAgent = jest.spyOn(navigator, 'userAgent', 'get')
 global.appVersion = jest.spyOn(navigator, 'appVersion', 'get')
@@ -30,7 +31,6 @@ props.id = 'modal_id'
 props.content_id = null
 props.style_type = 'button'
 props.modal_content = 'unique_modal_content'
-props.close_title = 'close_title'
 props.direct_dom_return = true
 props.no_animation = true
 
@@ -40,6 +40,7 @@ beforeAll(() => {
 })
 
 beforeEach(() => {
+  document.body.innerHTML = ''
   document.body.removeAttribute('style')
   document.documentElement.removeAttribute('style')
   document.getElementById('dnb-modal-root')?.remove()
@@ -56,7 +57,8 @@ describe('Modal component', () => {
     const Comp = mount(
       <Component {...props}>
         <button>button</button>
-      </Component>
+      </Component>,
+      { attachTo: attachToBody() }
     )
 
     // Check the global button
@@ -870,9 +872,19 @@ describe('Modal component', () => {
       Comp.find('[aria-describedby]').props()['aria-describedby']
     ).toBe(`dnb-modal-${props.id}-content`)
   })
-  it('has to have the correct role on aria-modal', () => {
+  it('has to have correct role on aria-modal', () => {
     const Comp = mount(<Component {...props} open_state={true} />)
-    expect(Comp.find('[aria-modal]').props().role).toBe('main')
+    expect(Comp.find('[aria-modal]').props().role).toBe('dialog')
+
+    // eslint-disable-next-line
+    helpers.IS_MAC = true
+
+    Comp.setProps({ title: 're-render' })
+
+    expect(Comp.find('[aria-modal]').props().role).toBe(undefined)
+
+    // eslint-disable-next-line
+    helpers.IS_MAC = false
   })
   it('has to have a close button', () => {
     const Comp = mount(<Component {...props} />)
@@ -883,7 +895,52 @@ describe('Modal component', () => {
       Comp.find('button.dnb-modal__close-button')
         .instance()
         .textContent.replace(/\u200C/g, '')
-    ).toBe(props.close_title)
+    ).toBe('Lukk')
+  })
+  it('has to have a default dialog title', () => {
+    const Comp = mount(<Component {...props} title={undefined} />)
+    Comp.setState({
+      modalActive: true,
+    })
+    expect(
+      Comp.find('.dnb-modal__content')
+        .instance()
+        .getAttribute('aria-label')
+    ).toContain('Vindu')
+
+    Comp.setProps({ title: 'now there is a title' })
+
+    expect(
+      Comp.find('.dnb-modal__content')
+        .instance()
+        .hasAttribute('aria-label')
+    ).toBe(false)
+  })
+  it('has to have aria-labelledby and aria-describedby', () => {
+    const Comp = mount(<Component {...props} />, {
+      attachTo: attachToBody(),
+    })
+    Comp.setState({
+      modalActive: true,
+    })
+    expect(
+      Comp.find('.dnb-modal__content')
+        .instance()
+        .getAttribute('aria-labelledby')
+    ).toBe('dnb-modal-modal_id-title')
+    expect(
+      Comp.find('.dnb-modal__content')
+        .instance()
+        .getAttribute('aria-describedby')
+    ).toBe('dnb-modal-modal_id-content')
+    expect(
+      document.querySelector('.dnb-modal__header').getAttribute('id')
+    ).toBe('dnb-modal-modal_id-title')
+    expect(
+      document
+        .querySelector('.dnb-modal__content__wrapper')
+        .getAttribute('id')
+    ).toBe('dnb-modal-modal_id-content')
   })
   it('has to have no icon', () => {
     const Comp1 = mount(<Component trigger_text="Open Modal" />)

@@ -37,13 +37,19 @@ export default class ModalHeader extends React.PureComponent {
       return cur.type === 'h1' || cur.type === H1
     })
 
+    const usedTitle = title || this.context.title
+    const showTitle = !customHeader && usedTitle
+
     return (
       <Section
         style_type="white"
         className={classnames('dnb-modal__header', className)}
+        id={
+          showTitle ? 'dnb-modal-' + this.context.id + '-title' : undefined
+        }
         {...props}
       >
-        {!customHeader && (title || this.context.title) && (
+        {showTitle && (
           <h1
             className={classnames(
               'dnb-modal__title',
@@ -54,7 +60,7 @@ export default class ModalHeader extends React.PureComponent {
                 : 'dnb-h--large'
             )}
           >
-            {title || this.context.title}
+            {usedTitle}
           </h1>
         )}
         <div className="dnb-modal__header__inner">{children}</div>

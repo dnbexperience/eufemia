@@ -26,6 +26,7 @@ import {
 import ScrollView from '../../fragments/scroll-view/ScrollView'
 import ModalContext from './ModalContext'
 import ModalHeader, { ModalHeaderBar } from './ModalHeader'
+import { IS_IOS, IS_SAFARI, IS_MAC } from '../../shared/helpers'
 
 export default class ModalContent extends React.PureComponent {
   static propTypes = {
@@ -41,6 +42,7 @@ export default class ModalContent extends React.PureComponent {
     content_id: PropTypes.string,
     title: PropTypes.node,
     close_title: PropTypes.string,
+    dialog_title: PropTypes.string,
     hide_close_button: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -91,6 +93,7 @@ export default class ModalContent extends React.PureComponent {
     content_id: null,
     title: null,
     close_title: null,
+    dialog_title: null,
     hide_close_button: null,
     close_button_attributes: null,
     spacing: null,
@@ -365,6 +368,7 @@ export default class ModalContent extends React.PureComponent {
       modal_content,
       bar_content,
       close_title, // eslint-disable-line
+      dialog_title, // eslint-disable-line
       hide_close_button, // eslint-disable-line
       close_button_attributes, // eslint-disable-line
       spacing,
@@ -406,19 +410,35 @@ export default class ModalContent extends React.PureComponent {
 
     const contentParams = {
       /**
+       * Do not use role="dialog" on Safari
+       *
        * VoiceOver has troubles with role="dialog" and "Modal in Modal",
        * the result is, only the first Modal gets focus (set by Safari)
-       * so we only use "main" instead of "dialog"
+       *
+       * Tests have shown: Both VoiceOver are working fine with the:
+       * "aria-labelledby" and "aria-describedby" approach
        *
        */
-      role: 'main',
+      role: IS_MAC || IS_SAFARI || IS_IOS ? undefined : 'dialog',
       'aria-modal': 'true',
+
+      /**
+       * ARIA references
+       */
       'aria-labelledby': combineLabelledBy(
         this.props,
         title ? id + '-title' : null,
         labelled_by
       ),
       'aria-describedby': combineDescribedBy(this.props, id + '-content'),
+
+      /**
+       * If no labelled_by and no title is given,
+       * set a fallback "dialog_title"
+       */
+      'aria-label':
+        !title && !labelled_by ? this.props.dialog_title : undefined,
+
       className: classnames(
         'dnb-modal__content',
         mode && `dnb-modal__content--${mode}`,

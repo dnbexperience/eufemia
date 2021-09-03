@@ -48,6 +48,7 @@ export default class Modal extends React.PureComponent {
     spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     open_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     content_id: PropTypes.string,
+    dialog_title: PropTypes.string,
     close_title: PropTypes.string,
     hide_close_button: PropTypes.oneOfType([
       PropTypes.string,
@@ -150,6 +151,7 @@ export default class Modal extends React.PureComponent {
     spacing: true,
     open_delay: null,
     content_id: null,
+    dialog_title: 'Vindu',
     close_title: 'Lukk', // Close Modal Window
     hide_close_button: false,
     close_button_attributes: null,
