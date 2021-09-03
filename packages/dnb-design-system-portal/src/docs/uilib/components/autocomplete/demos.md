@@ -4,6 +4,7 @@ showTabs: true
 
 import {
 AutocompleteDefaultExample,
+AutocompleteNumbersExample,
 AutocompleteWithCustomTitle,
 AutocompleteDynamicallyUpdatedData,
 AutocompleteFirstFocusUpdate,
@@ -19,6 +20,10 @@ AutocompleteOpened
 ### Default autocomplete
 
 <AutocompleteDefaultExample />
+
+### Autocomplete with numbers
+
+<AutocompleteNumbersExample />
 
 ### Autocomplete with a custom title
 

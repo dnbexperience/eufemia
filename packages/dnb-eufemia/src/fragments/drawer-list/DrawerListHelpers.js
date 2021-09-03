@@ -276,6 +276,7 @@ export const normalizeData = (props) => {
 
   return (data || []).map((item, __id) => {
     if (
+      typeof item === 'number' ||
       typeof item === 'string' ||
       Array.isArray(item) ||
       React.isValidElement(item)
