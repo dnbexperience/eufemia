@@ -29,7 +29,7 @@
     "axe-core": "^4.2.1"
   },
   "devDependencies": {
-    "husky": "^7.0.1"
+    "husky": "^7.0.2"
   },
   "engines": {
     "node": ">=12.22.1",
