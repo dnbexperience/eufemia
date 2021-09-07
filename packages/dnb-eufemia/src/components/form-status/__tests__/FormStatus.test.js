@@ -91,6 +91,22 @@ describe('FormStatus component', () => {
     ).toBe(true)
   })
 
+  it('should update children when they change', () => {
+    const Comp = mount(<Component>content</Component>)
+
+    Comp.setProps({ children: 'content-a' })
+
+    expect(Comp.find('.dnb-form-status').instance().textContent).toBe(
+      'content-a'
+    )
+
+    Comp.setProps({ children: 'content-b' })
+
+    expect(Comp.find('.dnb-form-status').instance().textContent).toBe(
+      'content-b'
+    )
+  })
+
   it('should have correct attributes once the "hidden" prop changes', async () => {
     const Comp = mount(<Component {...props} hidden />)
     expect(Comp.exists('[aria-hidden]')).toBe(true)
@@ -114,6 +130,7 @@ describe('FormStatus scss', () => {
     const scss = loadScss(require.resolve('../style/dnb-form-status.scss'))
     expect(scss).toMatchSnapshot()
   })
+
   it('have to match default theme snapshot', () => {
     const scss = loadScss(
       require.resolve('../style/themes/dnb-form-status-theme-ui.scss')
