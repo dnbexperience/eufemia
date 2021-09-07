@@ -60,7 +60,7 @@ if (typeof process.env.BABEL_ENV !== 'undefined') {
   ])
 }
 
-module.exports = {
+const config = {
   presets,
   plugins: [
     'babel-plugin-optimize-clsx',
@@ -114,13 +114,14 @@ module.exports = {
           '@babel/preset-env',
           {
             targets: {
-              node: '14.17.0',
+              node: 'current',
             },
           },
         ],
         '@babel/preset-react',
       ],
-      plugins: ['transform-dynamic-import'],
     },
   },
 }
+
+module.exports = config

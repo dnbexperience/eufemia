@@ -7,6 +7,8 @@ import { runFactory } from '../makeLibStyles'
 import isCI from 'is-ci'
 
 if (isCI) {
+  jest.setTimeout(30e3)
+
   beforeAll(async () => {
     global.css = await runFactory(
       './src/components/button/style/dnb-button.scss',

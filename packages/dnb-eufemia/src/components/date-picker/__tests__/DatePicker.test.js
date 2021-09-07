@@ -13,6 +13,8 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../DatePicker'
 
+jest.setTimeout(30e3)
+
 // for the unit calc tests
 // import { addDays, addMonths, getDaysInMonth } from 'date-fns'
 import addDays from 'date-fns/addDays'
