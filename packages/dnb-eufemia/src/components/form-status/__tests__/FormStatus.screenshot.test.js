@@ -13,6 +13,7 @@ describe('FormStatus screenshot', () => {
   const style = {
     'max-width': '60rem', // make sure our input gets an explicit width, because of mac/linux rendering differences
   }
+
   it('have to match the form-status with icon', async () => {
     const screenshot = await testPageScreenshot({
       style,
@@ -20,6 +21,7 @@ describe('FormStatus screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the info state', async () => {
     const screenshot = await testPageScreenshot({
       style,
@@ -27,6 +29,7 @@ describe('FormStatus screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match with stretch prop', async () => {
     const screenshot = await testPageScreenshot({
       style: {
@@ -37,6 +40,7 @@ describe('FormStatus screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the warn state', async () => {
     const screenshot = await testPageScreenshot({
       style,
@@ -44,6 +48,7 @@ describe('FormStatus screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match custom content', async () => {
     const screenshot = await testPageScreenshot({
       style,
@@ -51,6 +56,7 @@ describe('FormStatus screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match icons used in the icon component', async () => {
     const screenshot = await testPageScreenshot({
       style,
