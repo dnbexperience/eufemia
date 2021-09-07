@@ -18,6 +18,7 @@ exports[`Modal component have to match snapshot 1`] = `
         "container_placement": "'left'",
         "content_class": "content_class",
         "content_id": "content_id",
+        "dialog_title": "dialog_title",
         "direct_dom_return": "direct_dom_return",
         "disabled": "disabled",
         "focus_selector": "focus_selector",
@@ -76,10 +77,11 @@ exports[`Modal component have to match snapshot 1`] = `
   className={null}
   close_button_attributes={null}
   close_modal={null}
-  close_title="close_title"
+  close_title="Lukk"
   container_placement={null}
   content_class={null}
   content_id={null}
+  dialog_title="Vindu"
   direct_dom_return={true}
   disabled={null}
   focus_selector={null}
@@ -686,6 +688,7 @@ exports[`Modal component have to match snapshot 1`] = `
           "container_placement": "'left'",
           "content_class": "content_class",
           "content_id": "content_id",
+          "dialog_title": "dialog_title",
           "direct_dom_return": "direct_dom_return",
           "disabled": "disabled",
           "focus_selector": "focus_selector",
@@ -745,10 +748,11 @@ exports[`Modal component have to match snapshot 1`] = `
     closeModal={[Function]}
     close_button_attributes={null}
     close_modal={null}
-    close_title="close_title"
+    close_title="Lukk"
     container_placement={null}
     content_class={null}
     content_id="dnb-modal-modal_id"
+    dialog_title="Separat Vindu"
     direct_dom_return={true}
     focus_selector={null}
     fullscreen="auto"
@@ -793,6 +797,7 @@ exports[`Modal component have to match snapshot 1`] = `
             "container_placement": "'left'",
             "content_class": "content_class",
             "content_id": "content_id",
+            "dialog_title": "dialog_title",
             "direct_dom_return": "direct_dom_return",
             "disabled": "disabled",
             "focus_selector": "focus_selector",
@@ -852,10 +857,11 @@ exports[`Modal component have to match snapshot 1`] = `
       closeModal={[Function]}
       close_button_attributes={null}
       close_modal={null}
-      close_title="close_title"
+      close_title="Lukk"
       container_placement={null}
       content_class={null}
       content_id="dnb-modal-modal_id"
+      dialog_title="Separat Vindu"
       focus_selector={null}
       fullscreen="auto"
       header_content={null}
@@ -889,7 +895,7 @@ exports[`Modal component have to match snapshot 1`] = `
         className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-modal__content--modal dnb-modal__content--spacing dnb-modal__content--no-animation"
         id="dnb-modal-modal_id"
         onClick={[Function]}
-        role="main"
+        role="dialog"
       >
         <ForwardRef(ScrollViewRef)
           className="dnb-modal__content__inner dnb-core-style"
@@ -949,7 +955,7 @@ exports[`Modal component have to match snapshot 1`] = `
                               <span
                                 class="dnb-button__text dnb-skeleton--show-font"
                               >
-                                close_title
+                                Lukk
                               </span>
                               <span
                                 aria-hidden="true"
@@ -992,7 +998,7 @@ exports[`Modal component have to match snapshot 1`] = `
                       >
                         <CloseButton
                           className={null}
-                          close_title="close_title"
+                          close_title="Lukk"
                           icon_position="left"
                           on_click={[Function]}
                           size="large"
@@ -1023,7 +1029,7 @@ exports[`Modal component have to match snapshot 1`] = `
                             status_props={null}
                             status_state="error"
                             stretch={null}
-                            text="close_title"
+                            text="Lukk"
                             title={null}
                             to={null}
                             tooltip={null}
@@ -1041,7 +1047,7 @@ exports[`Modal component have to match snapshot 1`] = `
                                 bounding={null}
                                 class={null}
                                 className="dnb-modal__close-button"
-                                content="close_title"
+                                content="Lukk"
                                 custom_content={null}
                                 custom_element={null}
                                 custom_method={null}
@@ -1065,7 +1071,7 @@ exports[`Modal component have to match snapshot 1`] = `
                                 status_props={null}
                                 status_state="error"
                                 stretch={null}
-                                text="close_title"
+                                text="Lukk"
                                 title={null}
                                 to={null}
                                 tooltip={null}
@@ -1083,7 +1089,7 @@ exports[`Modal component have to match snapshot 1`] = `
                                   className="dnb-button__text dnb-skeleton--show-font"
                                   key="button-text"
                                 >
-                                  close_title
+                                  Lukk
                                 </span>
                                 <IconPrimary
                                   alt={null}
@@ -1137,7 +1143,7 @@ exports[`Modal component have to match snapshot 1`] = `
                               icon="error"
                               icon_size="medium"
                               id="null-form-status"
-                              label="close_title"
+                              label="Lukk"
                               no_animation={null}
                               role={null}
                               show={null}
@@ -1167,12 +1173,14 @@ exports[`Modal component have to match snapshot 1`] = `
                     class={null}
                     className="dnb-modal__header"
                     element="section"
+                    id="dnb-modal-modal_id-title"
                     inner_ref={null}
                     spacing={null}
                     style_type="white"
                   >
                     <section
                       className="dnb-section dnb-section--white dnb-modal__header"
+                      id="dnb-modal-modal_id-title"
                     >
                       <h1
                         className="dnb-modal__title dnb-space__top--zero dnb-space__bottom--small dnb-h--large"
