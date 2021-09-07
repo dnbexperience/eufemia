@@ -4,23 +4,20 @@ showTabs: true
 
 ## Properties
 
-- `as_currency="EUR"`
-- `as_number={true}`
-
-| Properties                                  | Description                                                                                                                                                                                                                                                                                         |
-| ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `as_number`                                 | _(optional)_ Set to `true` to automatically set a number mask based on the given or inherited locale.                                                                                                                                                                                               |
-| `as_currency`                               | _(optional)_ Set to `true` to use `NOK` or give it a currency code e.g. `USD` to automatically set a currency mask based on the given or inherited locale.                                                                                                                                          |
-| `locale`                                    | _(optional)_ Define the locale to be used in the `as_number` or `as_currency` masked. It will be inherited from the [Eufemia Provider](/uilib/usage/customisation/provider) if not given. Defaults to `nb-NO`.                                                                                      |
-| `mask`                                      | _(optional)_ A mask can be define both as a [RegExp style of characters](https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme) or a callback function. Example below.                                                                                                |
-| `number_mask`                               | _(optional)_ Set to `true` to enable the default numbers formatting or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default.                                                     |
-| `currency_mask`                             | _(optional)_ Set to `true` or set the _valuta_ (currency_mask="kr") to enable the a custom currency mask give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default. Defaults to `kr`. |
-| `number_format`                             | _(optional)_ Use an object with [NumberFormat](/uilib/components/number-format/properties) e.g. `{ omit_rounding: true }`.                                                                                                                                                                          |
-| `show_mask`                                 | _(optional)_ Show mask when input is empty and has no focus. Defaults to `false`.                                                                                                                                                                                                                   |
-| `show_guide`                                | _(optional)_ When guide is `false`, input-masked doesn't print out placeholder characters and only adds mask characters when the user reaches them as they're typing. Defaults to `true`.                                                                                                           |
-| `placeholder_char`                          | _(optional)_ The placeholder character represents the fillable spot in the mask. Defaults to underscore `_`.                                                                                                                                                                                        |
-| `keep_char_positions`                       | _(optional)_ When `true`, adding or deleting characters will not affect the positions of existing characters. Defaults to `false`.                                                                                                                                                                  |
-| [Input](/uilib/components/input/properties) | _(optional)_ all `Input` properties are supported.                                                                                                                                                                                                                                                  |
+| Properties                                  | Description                                                                                                                                                                                                                                                                                              |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `as_number`                                 | _(optional)_ Set to `true` to automatically set a number mask based on the given or inherited locale.                                                                                                                                                                                                    |
+| `as_currency`                               | _(optional)_ Set to `true` to use `NOK` or give it a currency code e.g. `USD` to automatically set a currency mask based on the given or inherited locale.                                                                                                                                               |
+| `number_mask`                               | _(optional)_ Set to `true` to enable the default numbers formatting – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default.                                                        |
+| `currency_mask`                             | _(optional)_ Set to `true` or set the _valuta_ (currency_mask="kr") to enable the a custom currency mask – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default. Defaults to `kr`. |
+| `number_format`                             | _(optional)_ Use an object with [NumberFormat](/uilib/components/number-format/properties) e.g. `{ omit_rounding: true }`.                                                                                                                                                                               |
+| `locale`                                    | _(optional)_ Define the locale to be used in the `as_number` or `as_currency` masked. It will be inherited from the [Eufemia Provider](/uilib/usage/customisation/provider) if not given. Defaults to `nb-NO`.                                                                                           |
+| `mask`                                      | _(optional)_ A mask can be define both as a [RegExp style of characters](https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme) or a callback function. Example below.                                                                                                     |
+| `show_mask`                                 | _(optional)_ Show mask when input is empty and has no focus. Defaults to `false`.                                                                                                                                                                                                                        |
+| `show_guide`                                | _(optional)_ When guide is `false`, input-masked doesn't print out placeholder characters and only adds mask characters when the user reaches them as they're typing. Defaults to `true`.                                                                                                                |
+| `placeholder_char`                          | _(optional)_ The placeholder character represents the fillable spot in the mask. Defaults to underscore `_`.                                                                                                                                                                                             |
+| `keep_char_positions`                       | _(optional)_ When `true`, adding or deleting characters will not affect the positions of existing characters. Defaults to `false`.                                                                                                                                                                       |
+| [Input](/uilib/components/input/properties) | _(optional)_ all `Input` properties are supported.                                                                                                                                                                                                                                                       |
 
 ## Number mask properties
 
@@ -49,7 +46,7 @@ The number mask is included and can be set with the `number_mask` property.
 // 1. Use the desired configurations
 const numberMask = {
   prefix: '',
-  suffix: ',- kr.'
+  suffix: ',- kr'
 }
 
 // 2. Then pass 'numberMask' to the InputMasked component as the number_mask
@@ -64,7 +61,7 @@ import createNumberMask from '@dnb/eufemia/components/input-masked/addons/create
 // 1. Create the 'numberMask' with your desired configurations
 const numberMask = createNumberMask({
   prefix: '',
-  suffix: ',- kr.'
+  suffix: ',- kr'
 })
 
 // 2. Then pass 'numberMask' to the InputMasked component as the mask

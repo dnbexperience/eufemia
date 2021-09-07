@@ -6,6 +6,7 @@
 import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
+import { Provider } from '@dnb/eufemia/src/shared'
 
 // https://github.com/text-mask/text-mask
 // How to use masks: https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme
@@ -47,30 +48,45 @@ export const InputMaskedExampleNumberLocale = () => (
 
 export const InputMaskedExampleCurrencyLocale = () => (
   <Wrapper>
-    <ComponentBox data-visual-test="input-masked-currency">
+    <ComponentBox
+      data-visual-test="input-masked-currency"
+      scope={{ Provider }}
+    >
       {() => /* jsx */ `
 <FormRow vertical>
   <InputMasked
     label="Currency:"
     as_currency="EUR"
     value="1234.50"
-    right
-    bottom
     on_change={({ cleaned_value }) => {
       console.log(cleaned_value)
     }}
-  />
-  <InputMasked
-    label="Currency:"
-    as_currency="USD"
-    value="1234.50"
-    align="left"
     right
     bottom
-    on_change={({ cleaned_value }) => {
-      console.log(cleaned_value)
-    }}
   />
+  <Provider
+    locale="en-GB"
+    InputMasked={{
+      currency_mask: {
+        decimalLimit: 3,
+      },
+      number_format: {
+        omit_rounding: true,
+      },
+    }}
+  >
+    <InputMasked
+      label="Currency:"
+      as_currency="USD"
+      value="1234.567"
+      on_change={({ cleaned_value }) => {
+        console.log(cleaned_value)
+      }}
+      align="left"
+      right
+      bottom
+    />
+  </Provider>
 </FormRow>
 `}
     </ComponentBox>
@@ -105,7 +121,7 @@ export const InputMaskedExampleCurrencyMask = () => (
   </Wrapper>
 )
 
-export const InputMaskedExampleCustomMask = () => (
+export const InputMaskedExampleCustomNumberMask = () => (
   <Wrapper>
     <ComponentBox>
       {() => /* jsx */ `
@@ -135,7 +151,8 @@ export const InputMaskedExampleNumberMask = () => (
   label="Masked input:"
   value="1000000"
   number_mask={{
-    suffix: ',-'
+    suffix: ',-',
+    allowDecimal: false
   }}
   suffix="kr."
   align="right"

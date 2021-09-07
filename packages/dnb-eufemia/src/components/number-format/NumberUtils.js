@@ -1045,11 +1045,15 @@ function formatToParts({ number, locale = null, options = null }) {
     typeof Intl !== 'undefined' &&
     typeof Intl.NumberFormat === 'function'
   ) {
-    const inst = Intl.NumberFormat(locale || LOCALE, options || {})
-    if (typeof inst.formatToParts === 'function') {
-      return inst.formatToParts(number)
-    } else {
-      return [{ value: inst.format(number) }]
+    try {
+      const inst = Intl.NumberFormat(locale || LOCALE, options || {})
+      if (typeof inst.formatToParts === 'function') {
+        return inst.formatToParts(number)
+      } else {
+        return [{ value: inst.format(number) }]
+      }
+    } catch (e) {
+      warn(e)
     }
   }
 

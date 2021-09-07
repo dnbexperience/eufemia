@@ -6,7 +6,7 @@ import {
 InputMaskedExampleCurrencyLocale,
 InputMaskedExampleCurrencyMask,
 InputMaskedExampleNumberLocale,
-InputMaskedExampleCustomMask,
+InputMaskedExampleCustomNumberMask,
 InputMaskedExampleNumberMask,
 InputMaskedExamplePrefix,
 InputMaskedExamplePhone
@@ -39,13 +39,11 @@ The input will by default align to `right` when used as currency.
 
 <InputMaskedExampleCurrencyMask />
 
-### Making a custom currency mask
+### Customize the number mask
 
-<InputMaskedExampleCustomMask />
+<InputMaskedExampleCustomNumberMask />
 
 ### Using the `number_mask` with a combined suffix
-
-Decimals are by default now allowed.
 
 <InputMaskedExampleNumberMask />
 
