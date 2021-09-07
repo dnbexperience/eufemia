@@ -5,7 +5,7 @@
 
 import gulp from 'gulp'
 import sass from 'gulp-sass'
-import postcss from 'gulp-postcss'
+import postcss from 'postcss'
 import cssnano from 'gulp-cssnano'
 import clone from 'gulp-clone'
 import rename from 'gulp-rename'
@@ -54,7 +54,12 @@ export const runFactory = (src, { returnResult = false } = {}) =>
             transformPaths('../../../../assets/', '../../../assets/')
           )
         )
-        .pipe(postcss(postcssConfig({ IE11: true })))
+        .pipe(
+          transform(
+            'utf8',
+            transformPostcss(postcssConfig({ IE11: true }))
+          )
+        )
         .pipe(cloneSink)
         .pipe(
           // cssnano has to run after cloneSink! So we get both a non min and a min version
@@ -114,4 +119,14 @@ export const runFactory = (src, { returnResult = false } = {}) =>
 const transformPaths = (from, to) => (content, file) => {
   log.info(`> PrePublish: converting sass to css | ${file.path}`)
   return content.replace(new RegExp(from, 'g'), to)
+}
+
+const transformPostcss = (config) => async (content, file) => {
+  log.info(`> PrePublish: postcss process | ${file.path}`)
+
+  return (
+    await postcss(config).process(content, {
+      from: file.path,
+    })
+  ).toString()
 }

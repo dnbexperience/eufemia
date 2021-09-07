@@ -7,6 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   format,
+  cleanNumber,
   getCurrencySymbol,
   getDecimalSeparator,
   getThousandsSeparator,
@@ -15,6 +16,7 @@ import Input, { inputPropTypes } from '../input/Input'
 import {
   isTrue,
   registerElement,
+  extendPropsWithContext,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { IS_IE11 } from '../../shared/helpers'
@@ -53,11 +55,7 @@ export default class InputMasked extends React.PureComponent {
     ]),
     locale: PropTypes.string,
     as_currency: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    as_number: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      // PropTypes.object,
-    ]),
+    as_number: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     show_mask: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     show_guide: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     pipe: PropTypes.func,
@@ -126,24 +124,27 @@ export default class InputMasked extends React.PureComponent {
       show_guide,
       pipe,
       keep_char_positions,
-      placeholder_char: placeholderChar,
+      placeholder_char,
       ...props
-    } = this.props
+    } = extendPropsWithContext(
+      this.props,
+      InputMasked.defaultProps,
+      this.context.InputMasked
+    )
 
     if (isTrue(number_mask)) {
       number_mask = {}
-    } else {
-      if (typeof number_mask === 'string' && number_mask[0] === '{') {
-        number_mask = JSON.parse(number_mask)
-      }
+    } else if (typeof number_mask === 'string' && number_mask[0] === '{') {
+      number_mask = JSON.parse(number_mask)
     }
 
     if (isTrue(currency_mask)) {
       currency_mask = {}
-    } else {
-      if (typeof currency_mask === 'string' && currency_mask[0] === '{') {
-        currency_mask = JSON.parse(currency_mask)
-      }
+    } else if (
+      typeof currency_mask === 'string' &&
+      currency_mask[0] === '{'
+    ) {
+      currency_mask = JSON.parse(currency_mask)
     }
 
     if (as_number || as_currency) {
@@ -171,7 +172,9 @@ export default class InputMasked extends React.PureComponent {
         }
 
         if (as_currency) {
-          options.decimals = currency_mask?.decimalLimit || 2
+          currency_mask = currency_mask || {}
+          options.decimals = currency_mask.decimalLimit || 2
+          currency_mask.decimalLimit = options.decimals
         }
 
         props.value = format(props.value, options)
@@ -203,7 +206,6 @@ export default class InputMasked extends React.PureComponent {
         currency_mask = {
           decimalSymbol,
           thousandsSeparatorSymbol,
-          decimalLimit: null,
           currency: getCurrencySymbol(
             locale,
             typeof as_currency !== 'string' ? null : as_currency
@@ -218,15 +220,17 @@ export default class InputMasked extends React.PureComponent {
     if (number_mask) {
       maskParams = {
         allowDecimal: true,
+        decimalSymbol: ',',
         ...number_mask,
       }
     } else if (currency_mask) {
       show_mask = true
-      placeholderChar = null
+      placeholder_char = null
       props.align = props.align || 'right'
 
       maskParams = {
         allowDecimal: true,
+        decimalSymbol: ',',
         ...currency_mask,
       }
 
@@ -249,8 +253,8 @@ export default class InputMasked extends React.PureComponent {
     }
 
     if (!props.input_element) {
-      if (placeholderChar === '' || placeholderChar === null) {
-        placeholderChar = '\u200B'
+      if (placeholder_char === '' || placeholder_char === null) {
+        placeholder_char = '\u200B'
       }
 
       if (mask.instanceOf === 'createNumberMask') {
@@ -267,17 +271,28 @@ export default class InputMasked extends React.PureComponent {
             const decimalSeparators = /[,.'·]/
 
             if (
-              maskParams.decimalLimit === 0 &&
+              (maskParams.decimalLimit === 0 ||
+                maskParams.allowDecimal === false) &&
               decimalSeparators.test(keyCode)
             ) {
               event.preventDefault()
             }
 
-            // if we have already a decimal, we do not allow to type another
-            else if (
-              hasDecimalSymbol &&
-              keyCode === maskParams.decimalSymbol
-            ) {
+            // if we have already a decimal ...
+            else if (hasDecimalSymbol && decimalSeparators.test(keyCode)) {
+              // ... we set the cursor on after the decimalSeparators
+              const charAtSelection = value.slice(
+                event.target.selectionStart,
+                event.target.selectionStart + 1
+              )
+              if (decimalSeparators.test(charAtSelection)) {
+                const index = value.indexOf(maskParams.decimalSymbol)
+                if (index > -1) {
+                  event.target.setSelectionRange(index + 1, index + 1)
+                }
+              }
+
+              // ... we do not allow to type another
               event.preventDefault()
             }
 
@@ -293,7 +308,7 @@ export default class InputMasked extends React.PureComponent {
             }
           }
 
-          const cleaned_value = clean(value)
+          const cleaned_value = cleanNumber(value)
 
           return dispatchCustomElementEvent(this, name, {
             event,
@@ -329,7 +344,7 @@ export default class InputMasked extends React.PureComponent {
           showMask: isTrue(show_mask),
           guide: isTrue(show_guide),
           keepCharPositions: isTrue(keep_char_positions),
-          placeholderChar,
+          placeholderChar: placeholder_char,
         }
 
         return (
@@ -349,17 +364,15 @@ export default class InputMasked extends React.PureComponent {
     props.className = classnames(
       'dnb-input-masked',
       props.className,
-      show_mask &&
-        show_guide &&
-        placeholderChar === '_' &&
+      isTrue(show_mask) &&
+        isTrue(show_guide) &&
+        placeholder_char === '_' &&
         'dnb-input-masked--guide'
     )
 
     return <Input {...props} />
   }
 }
-
-const clean = (v) => String(v).replace(new RegExp('[^\\d,.-]', 'g'), '')
 
 /**
  * This is a fix for a "text-mask" bug
@@ -372,7 +385,7 @@ const clean = (v) => String(v).replace(new RegExp('[^\\d,.-]', 'g'), '')
 export const fixPositionIssue = (elem, { align = 'right' } = {}) => {
   clearTimeout(_selectionTimeout)
   _selectionTimeout = setTimeout(() => {
-    const cleaned_value = clean(elem.value)
+    const cleaned_value = cleanNumber(elem.value)
     if (cleaned_value.length > 0) {
       return
     }

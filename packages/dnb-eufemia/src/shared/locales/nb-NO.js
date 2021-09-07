@@ -57,6 +57,7 @@ export default {
       indicator_label: 'Henter data ...',
     },
     Modal: {
+      dialog_title: 'Separat Vindu',
       close_title: 'Lukk',
     },
     NumberFormat: {

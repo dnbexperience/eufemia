@@ -6,6 +6,7 @@
 import React from 'react'
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 import { Autocomplete, IconPrimary } from '@dnb/eufemia/src/components'
+import { format } from '@dnb/eufemia/src/components/number-format/NumberUtils'
 import styled from '@emotion/styled'
 
 const Wrapper = styled.div`
@@ -29,6 +30,29 @@ export const AutocompleteDefaultExample = () => (
   label="Label:"
   icon={false}
 />
+`}
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const AutocompleteNumbersExample = () => (
+  <Wrapper>
+    <ComponentBox useRender scope={{ format }}>
+      {() => /* jsx */ `
+const numbers = [
+  format(20001234567, { ban: true }),
+  format(22233344425, { ban: true }),
+  format(1234.5, { currency: true }),
+  format('+47116000', { phone: true }),
+]
+render(
+  <Autocomplete
+    input_value="201"
+    label="Label:"
+    data={numbers}
+    search_numbers={true}
+  />
+)
 `}
     </ComponentBox>
   </Wrapper>
@@ -306,7 +330,7 @@ const topMovies = [
     ),
     year: 1994,
   },
-  { content: 'The Godfather', year: 1972 },
+  { content: ['The Godfather', 'Description'], year: 1972 },
   { content: 'The Godfather: Part II', year: 1974 },
   { content: 'The Dark Knight', year: 2008 },
   { content: '12 Angry Men', year: 1957 },

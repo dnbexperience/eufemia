@@ -208,7 +208,7 @@ export default class FormStatus extends React.PureComponent {
     this._ref = React.createRef()
 
     this._heightAnim = new AnimateHeight({
-      animate: false,
+      animate: props.no_animation === false,
 
       /** TODO: considder to enable animation by default */
       // animate: !isTrue(props.no_animation),
@@ -257,17 +257,20 @@ export default class FormStatus extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
+    const { state, show, text, children, label } = this.props
+
     if (
-      // this._globalStatus &&
-      prevProps.text !== this.props.text ||
-      prevProps.children !== this.props.children ||
-      prevProps.show !== this.props.show ||
-      prevProps.state !== this.props.state
+      prevProps.text !== text ||
+      prevProps.children !== children ||
+      prevProps.show !== show ||
+      prevProps.state !== state
     ) {
-      const { state, text, label } = this.props
+      // ensure we update the content
+      this.setState({ keepContentInDom: false })
+
       const status_id = this.getStatusId()
 
-      if (this.props.state === 'error' && isTrue(this.props.show)) {
+      if (state === 'error' && isTrue(show)) {
         this._globalStatus.update(
           status_id,
           {
@@ -292,7 +295,7 @@ export default class FormStatus extends React.PureComponent {
         this._heightAnim.open()
       } else {
         this._heightAnim.close()
-        if (this.props.state === 'error') {
+        if (state === 'error') {
           const status_id = this.getStatusId()
           this._globalStatus.remove(status_id)
         }

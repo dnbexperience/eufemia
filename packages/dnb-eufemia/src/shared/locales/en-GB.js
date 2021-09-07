@@ -57,6 +57,7 @@ export default {
       indicator_label: 'Getting data ...',
     },
     Modal: {
+      dialog_title: 'Dialog Window',
       close_title: 'Close',
     },
     NumberFormat: {

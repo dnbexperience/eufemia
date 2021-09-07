@@ -40,9 +40,9 @@ NB: The inner text gets a max width of 47rem to ensure we not exceed 70 characte
 
 <FormStatusInput />
 
-### FormStatus Animation details
+<!-- ### FormStatus Animation details -->
 
-<FormStatusAnimation />
+<!-- <FormStatusAnimation /> -->
 
 ### A FormStatus, with a custom styled content
 

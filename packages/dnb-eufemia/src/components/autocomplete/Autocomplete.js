@@ -177,6 +177,10 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.string,
       PropTypes.number,
     ]),
+    search_numbers: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
     default_value: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
@@ -264,6 +268,7 @@ export default class Autocomplete extends React.PureComponent {
     options_render: null,
     data: null,
     search_in_word_index: 3,
+    search_numbers: null,
     default_value: null,
     value: 'initval',
     input_value: 'initval',
@@ -399,7 +404,6 @@ class AutocompleteInstance extends React.PureComponent {
 
     this.skipFilter = isTrue(props.disable_filter)
     this.skipReorder = isTrue(props.disable_reorder)
-    this.inWordIndex = (parseFloat(props.search_in_word_index) || 3) - 2
   }
 
   componentDidMount() {
@@ -1081,34 +1085,13 @@ class AutocompleteInstance extends React.PureComponent {
     {
       data = null, // rawData
       searchIndex = this.state.searchIndex,
+      searchNumbers = isTrue(this.props.search_numbers),
+      inWordIndex = (parseFloat(this.props.search_in_word_index) || 3) - 2,
       skipHighlight = false,
       skipFilter = false,
       skipReorder = false,
     } = {}
   ) => {
-    const words = value.split(/\s+/g).filter(Boolean)
-    const wordsCount = words.length
-    const wordCond = '^|\\s'
-
-    const findWords = (item) =>
-      words
-        .map((word, wordIndex) => ({
-          word,
-          wordIndex,
-          score: wordsCount - wordIndex,
-        }))
-        .filter(
-          ({ word, wordIndex }) =>
-            // if the uses reached word 3, then we go inside words as well
-            typeof item === 'string' &&
-            new RegExp(
-              wordIndex > this.inWordIndex
-                ? `${word}`
-                : `(${wordCond})${word}`,
-              'i'
-            ).test(item)
-        )
-
     if (data) {
       searchIndex = this.setSearchIndex({ data })
     }
@@ -1116,12 +1099,74 @@ class AutocompleteInstance extends React.PureComponent {
     else if (!searchIndex) {
       searchIndex = this.setSearchIndex()
     }
+
     if (typeof searchIndex === 'undefined') {
       return []
     }
 
-    const S = '\uFFFE'
-    const E = '\uFFFF'
+    const words = value.split(/\s+/g).filter(Boolean)
+    const wordsCount = words.length
+    const wordCond = '^|\\s'
+
+    const findWords = (searchChunk) => {
+      if (typeof searchChunk !== 'string') {
+        return []
+      }
+
+      return words
+        .filter((word, wordIndex) => {
+          if (searchNumbers) {
+            // Remove all other chars, except numbers, so we can compare
+            word = word.replace(/[^\d\w]/g, '')
+          } else {
+            // To ensure we escape regex chars
+            word = escapeRegexChars(word)
+          }
+
+          if (searchNumbers) {
+            // This will make it possible to search with one letter less
+            word = word.replace(/(\d)/g, '$1+')
+          }
+
+          // if the uses reached word 3, then we go inside words as well
+          const regexWord = new RegExp(
+            wordIndex > inWordIndex ? `${word}` : `(${wordCond})${word}`,
+            'i'
+          )
+
+          if (regexWord.test(searchChunk)) {
+            return true
+          }
+
+          if (
+            searchNumbers &&
+            regexWord.test(searchChunk.replace(/[^0-9]/g, ''))
+          ) {
+            return true
+          }
+
+          return false
+        })
+        .map((word, wordIndex) => {
+          let score = wordsCount - wordIndex
+
+          // Change the score if our search term matches with a starting data word
+          const regexWord = new RegExp(`^${escapeRegexChars(word)}`, 'i')
+          const startOfWord = regexWord.test(searchChunk)
+          if (startOfWord) {
+            score = score + 1
+          }
+
+          return {
+            word,
+            wordIndex,
+            score,
+          }
+        })
+    }
+
+    const strS = '\uFFFE'
+    const strE = '\uFFFF'
     const tagS = '<span class="dnb-drawer-list__option__item--highlight">'
     const tagE = '</span>'
 
@@ -1161,83 +1206,85 @@ class AutocompleteInstance extends React.PureComponent {
           segment: convertJsxToString(component),
         }))
 
-        children = children.map(
-          (
-            { component, segment },
-            idx
-            // , arr
-          ) => {
-            // console.log('segment', idx, segment)
-            if (skipHighlight || this.state.skipHighlight) {
-              return segment
-            }
+        children = children.map(({ component, segment }, idx) => {
+          if (skipHighlight || this.state.skipHighlight) {
+            return segment
+          }
 
-            const origSegment = segment
+          const origSegment = segment
 
-            listOfFoundWords.forEach(({ word, wordIndex }) => {
-              if (wordIndex > this.inWordIndex) {
+          listOfFoundWords.forEach(({ word, wordIndex }) => {
+            // To ensure we escape regex chars
+            word = escapeRegexChars(word)
+
+            if (searchNumbers) {
+              word.split('').forEach((char) => {
+                if (/[\d\w]/.test(char)) {
+                  segment = segment.replace(
+                    new RegExp(`(${char})`, 'gi'),
+                    `${strS}$1${strE}`
+                  )
+                }
+              })
+            } else {
+              if (wordIndex > inWordIndex) {
                 segment = segment.replace(
                   new RegExp(`(${word})`, 'gi'),
-                  `${S}$1${E}`
+                  `${strS}$1${strE}`
                 )
               } else {
                 segment = segment.replace(
                   new RegExp(`(${wordCond})(${word})`, 'gi'),
-                  `$1${S}$2${E}`
+                  `$1${strS}$2${strE}`
                 )
               }
-            })
-
-            let result = segment
-
-            if (segment.includes(S)) {
-              // to make sure we don't have several in a row
-              const __html = segment
-                .replace(new RegExp(`(${S})+`, 'g'), S)
-                .replace(new RegExp(`(${E})+`, 'g'), E)
-                .replace(new RegExp(`(${E}${S})`, 'g'), '')
-                .replace(new RegExp(S, 'g'), tagS)
-                .replace(new RegExp(E, 'g'), tagE)
-
-              result = (
-                <span
-                  key={cacheHash + idx}
-                  dangerouslySetInnerHTML={{
-                    __html,
-                  }}
-                />
-              )
-            } else {
-              result = segment
             }
+          })
 
-            // If we get a component, replace the one we use as the string comparison
-            // This way we can still have an icon before or after
-            if (isComponent) {
-              if (Array.isArray(component.props.children)) {
-                result = component.props.children.map((Comp) =>
-                  Comp === origSegment ||
-                  (Comp.props && Comp.props.children === origSegment)
-                    ? result
-                    : Comp
-                )
-              }
+          let result = segment
 
-              result = React.cloneElement(
-                component,
-                { key: 'clone' + cacheHash },
-                result
-              )
-            }
+          if (segment.includes(strS)) {
+            // to make sure we don't have several in a row
+            const __html = segment
+              .replace(new RegExp(`(${strS})+`, 'g'), strS)
+              .replace(new RegExp(`(${strE})+`, 'g'), strE)
+              .replace(new RegExp(`(${strE}${strS})`, 'g'), '')
+              .replace(new RegExp(strS, 'g'), tagS)
+              .replace(new RegExp(strE, 'g'), tagE)
 
-            // add back the skipped spaces
-            // if(idx < arr.length - 1){
-            //   result =  [result, ' ']
-            // }
-
-            return result
+            result = (
+              <span
+                key={cacheHash + idx}
+                dangerouslySetInnerHTML={{
+                  __html,
+                }}
+              />
+            )
+          } else {
+            result = segment
           }
-        )
+
+          // If we get a component, replace the one we use as the string comparison
+          // This way we can still have an icon before or after
+          if (isComponent) {
+            if (Array.isArray(component.props.children)) {
+              result = component.props.children.map((Comp) =>
+                Comp === origSegment ||
+                (Comp.props && Comp.props.children === origSegment)
+                  ? result
+                  : Comp
+              )
+            }
+
+            result = React.cloneElement(
+              component,
+              { key: 'clone' + cacheHash },
+              result
+            )
+          }
+
+          return result
+        })
 
         return (this._rC[cacheHash] = children)
       }
@@ -1475,6 +1522,8 @@ class AutocompleteInstance extends React.PureComponent {
       prevent_selection,
       max_height,
       default_value,
+      search_numbers, // eslint-disable-line
+      search_in_word_index, // eslint-disable-line
       submit_button_title,
       submit_button_icon,
       portal_class,
@@ -1779,3 +1828,7 @@ class AutocompleteInstance extends React.PureComponent {
 }
 
 Autocomplete.HorizontalItem = DrawerList.HorizontalItem
+
+function escapeRegexChars(str) {
+  return str.replace(/[-[\]{}()*+?.,\\^$|#]/g, '\\$&')
+}
