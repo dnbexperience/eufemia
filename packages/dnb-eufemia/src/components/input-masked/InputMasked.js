@@ -14,9 +14,9 @@ import {
 } from '../number-format/NumberUtils'
 import Input, { inputPropTypes } from '../input/Input'
 import {
+  warn,
   isTrue,
   registerElement,
-  extendPropsWithContext,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { IS_IE11 } from '../../shared/helpers'
@@ -126,11 +126,7 @@ export default class InputMasked extends React.PureComponent {
       keep_char_positions,
       placeholder_char,
       ...props
-    } = extendPropsWithContext(
-      this.props,
-      InputMasked.defaultProps,
-      this.context.InputMasked
-    )
+    } = this.props
 
     if (isTrue(number_mask)) {
       number_mask = {}
@@ -147,6 +143,10 @@ export default class InputMasked extends React.PureComponent {
       currency_mask = JSON.parse(currency_mask)
     }
 
+    if (!locale && this.context?.locale) {
+      locale = this.context.locale
+    }
+
     if (as_number || as_currency) {
       if (isTrue(as_number)) {
         as_number = {}
@@ -154,12 +154,8 @@ export default class InputMasked extends React.PureComponent {
         as_currency = {}
       }
 
-      if (!locale && this.context) {
-        locale = this.context.locale
-      }
-
       if (props.value !== 'initval') {
-        const options = { locale }
+        const options = { locale, decimals: 0, omit_rounding: true }
 
         if (
           typeof number_format === 'string' &&
@@ -167,14 +163,35 @@ export default class InputMasked extends React.PureComponent {
         ) {
           number_format = JSON.parse(number_format)
         }
-        if (number_format) {
-          Object.assign(options, number_format)
-        }
+
+        Object.assign(
+          options,
+          this.context?.InputMasked?.number_format,
+          number_format
+        )
 
         if (as_currency) {
-          currency_mask = currency_mask || {}
-          options.decimals = currency_mask.decimalLimit || 2
-          currency_mask.decimalLimit = options.decimals
+          currency_mask = {
+            ...this.context?.InputMasked?.currency_mask,
+            ...currency_mask,
+          }
+
+          if (currency_mask.allowDecimal !== false) {
+            currency_mask.decimalLimit = options.decimals =
+              currency_mask.decimalLimit ?? 2
+          }
+        } else if (as_number) {
+          number_mask = {
+            ...this.context?.InputMasked?.number_mask,
+            ...number_mask,
+          }
+
+          if (
+            number_mask.allowDecimal !== false &&
+            number_mask.decimalLimit > -1
+          ) {
+            options.decimals = number_mask.decimalLimit
+          }
         }
 
         props.value = format(props.value, options)
@@ -199,7 +216,6 @@ export default class InputMasked extends React.PureComponent {
         number_mask = {
           decimalSymbol,
           thousandsSeparatorSymbol,
-          decimalLimit: null,
           ...number_mask,
         }
       } else if (as_currency) {
@@ -219,10 +235,12 @@ export default class InputMasked extends React.PureComponent {
 
     if (number_mask) {
       maskParams = {
-        allowDecimal: true,
+        allowDecimal: number_mask?.decimalLimit > 0,
         decimalSymbol: ',',
+        ...this.context?.InputMasked?.number_mask,
         ...number_mask,
       }
+      props.align = props.align || 'right'
     } else if (currency_mask) {
       show_mask = true
       placeholder_char = null
@@ -231,6 +249,7 @@ export default class InputMasked extends React.PureComponent {
       maskParams = {
         allowDecimal: true,
         decimalSymbol: ',',
+        ...this.context?.InputMasked?.currency_mask,
         ...currency_mask,
       }
 
@@ -266,54 +285,79 @@ export default class InputMasked extends React.PureComponent {
             const hasDecimalSymbol = value.includes(
               maskParams.decimalSymbol
             )
+            const allowedDecimals =
+              maskParams.decimalLimit > 0 ||
+              maskParams.allowDecimal !== false
+            const hasDecimalValue = new RegExp("[,.'·][\\d]{1,}").test(
+              value
+            )
 
             // https://en.wikipedia.org/wiki/Decimal_separator
             const decimalSeparators = /[,.'·]/
 
-            if (
-              (maskParams.decimalLimit === 0 ||
-                maskParams.allowDecimal === false) &&
-              decimalSeparators.test(keyCode)
-            ) {
+            if (!allowedDecimals && decimalSeparators.test(keyCode)) {
               event.preventDefault()
             }
 
-            // if we have already a decimal ...
-            else if (hasDecimalSymbol && decimalSeparators.test(keyCode)) {
-              // ... we set the cursor on after the decimalSeparators
-              const charAtSelection = value.slice(
-                event.target.selectionStart,
-                event.target.selectionStart + 1
-              )
-              if (decimalSeparators.test(charAtSelection)) {
-                const index = value.indexOf(maskParams.decimalSymbol)
-                if (index > -1) {
-                  event.target.setSelectionRange(index + 1, index + 1)
-                }
+            const selStart = event.target.selectionStart
+            const charAtSelection = value.slice(selStart, selStart + 1)
+
+            if (allowedDecimals) {
+              if (
+                keyCode === 'delete' &&
+                charAtSelection === maskParams.decimalSymbol
+              ) {
+                event.preventDefault()
+                event.target.setSelectionRange(selStart + 1, selStart + 1)
+              } else if (
+                keyCode === 'backspace' &&
+                hasDecimalValue &&
+                value.slice(selStart - 1, selStart) ===
+                  maskParams.decimalSymbol
+              ) {
+                event.preventDefault()
+                event.target.setSelectionRange(selStart - 1, selStart - 1)
               }
 
-              // ... we do not allow to type another
-              event.preventDefault()
-            }
+              // if we have already a decimal ...
+              else if (
+                hasDecimalSymbol &&
+                decimalSeparators.test(keyCode)
+              ) {
+                // ... we set the cursor on after the decimalSeparators
+                if (decimalSeparators.test(charAtSelection)) {
+                  const index = value.indexOf(maskParams.decimalSymbol)
+                  if (index > -1) {
+                    event.target.setSelectionRange(index + 1, index + 1)
+                  }
+                }
 
-            // replace other decimal
-            else if (
-              !hasDecimalSymbol &&
-              keyCode !== maskParams.decimalSymbol &&
-              decimalSeparators.test(keyCode) &&
-              maskParams.decimalLimit !== 0
-            ) {
-              value = value.slice(0, event.target.selectionStart)
-              event.target.value = value + maskParams.decimalSymbol
+                // ... we do not allow to type another
+                event.preventDefault()
+              }
+
+              // replace other decimal
+              else if (
+                !hasDecimalSymbol &&
+                keyCode !== maskParams.decimalSymbol &&
+                decimalSeparators.test(keyCode)
+              ) {
+                value = value.slice(0, selStart)
+                event.target.value = value + maskParams.decimalSymbol
+              }
             }
           }
 
-          const cleaned_value = cleanNumber(value)
+          const numberValue = cleanNumber(value, {
+            decimalSeparator: maskParams.decimalSymbol || ',',
+            thousandsSeparator: maskParams.thousandsSeparatorSymbol || ' ',
+          })
 
           return dispatchCustomElementEvent(this, name, {
             event,
             value,
-            cleaned_value,
+            numberValue,
+            cleaned_value: numberValue, // Deprecated
           })
         }
 
@@ -385,8 +429,7 @@ export default class InputMasked extends React.PureComponent {
 export const fixPositionIssue = (elem, { align = 'right' } = {}) => {
   clearTimeout(_selectionTimeout)
   _selectionTimeout = setTimeout(() => {
-    const cleaned_value = cleanNumber(elem.value)
-    if (cleaned_value.length > 0) {
+    if (elem.value.length > 0) {
       return
     }
     try {
@@ -399,7 +442,7 @@ export const fixPositionIssue = (elem, { align = 'right' } = {}) => {
         elem.setSelectionRange(pos, pos)
       }
     } catch (e) {
-      //
+      warn(e)
     }
   }, 1) // to get the current value
 }

@@ -55,12 +55,14 @@ describe('NumberFormat component', () => {
     const Comp = mount(<Component {...snapshotProps} />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
+
   it('have to match default number', () => {
     const Comp = mount(<Component value={value} />)
     expect(Comp.find(displaySelector).first().text()).toBe(
       '12 345 678,9876'
     )
   })
+
   it('have to match currency for default locale', () => {
     const Comp = mount(<Component value={-value} currency />)
 
@@ -81,6 +83,7 @@ describe('NumberFormat component', () => {
 
     expect(Comp.find(displaySelector).first().text()).toBe('12 345 kr')
   })
+
   it('have to match currency in en locale', () => {
     const Comp = mount(<Component value={-value} currency locale="en" />)
 
@@ -101,10 +104,12 @@ describe('NumberFormat component', () => {
 
     expect(Comp.find(displaySelector).first().text()).toBe('NOK 12 345')
   })
+
   it('have to match currency with large decimals', () => {
     const Comp = mount(<Component value="5000.0099" currency />)
     expect(Comp.find(displaySelector).first().text()).toBe('5 000,01 kr')
   })
+
   it('has valid selected number', () => {
     const Comp = mount(<Component value={-value} currency />)
 
@@ -137,6 +142,7 @@ describe('NumberFormat component', () => {
     })
     expect(Comp.find('.dnb-number-format__selection').text()).toBe(enVal)
   })
+
   it('have to match currency with currency_position="after"', () => {
     const Comp = mount(
       <Component value={-value} currency currency_position="after" />
@@ -180,6 +186,7 @@ describe('NumberFormat component', () => {
       'NOK -12 345 678,99'
     )
   })
+
   it('have to match currency with currency_position="before"', () => {
     const Comp = mount(
       <Component value={-value} currency currency_position="before" />
@@ -223,6 +230,7 @@ describe('NumberFormat component', () => {
       '-12 345 678,99 NOK'
     )
   })
+
   it('have to match currency under 100.000', () => {
     const Comp = mount(<Component value={-12345.95} currency />)
 
@@ -232,6 +240,7 @@ describe('NumberFormat component', () => {
       '-12345,95 norske kroner'
     )
   })
+
   it('have to match currency with no decimals', () => {
     const Comp = mount(
       <Component value={-12345.99} currency decimals={0} />
@@ -243,12 +252,14 @@ describe('NumberFormat component', () => {
       '-12346 norske kroner'
     )
   })
+
   it('have to match phone number', () => {
     const Comp = mount(<Component phone>+47 99999999</Component>)
     expect(Comp.find(displaySelector).first().text()).toBe(
       '0047 99 99 99 99'
     )
   })
+
   it('have to match bank account number', () => {
     const Comp = mount(<Component ban>20001234567</Component>)
     expect(Comp.find(displaySelector).first().text()).toBe('2000 12 34567')
@@ -260,6 +271,7 @@ describe('NumberFormat component', () => {
     })
     expect(Comp.find(displaySelector).first().text()).toBe('2000 12 3456')
   })
+
   it('have to match national identification number', () => {
     const Comp = mount(<Component nin>18089212345</Component>)
     expect(Comp.find(displaySelector).first().text()).toBe('180892 12345')
@@ -267,6 +279,7 @@ describe('NumberFormat component', () => {
       '18 08 92 1 2 3 4 5'
     )
   })
+
   it('have to match organization number', () => {
     const Comp = mount(
       <Component org suffix="MVA">
@@ -280,6 +293,7 @@ describe('NumberFormat component', () => {
       '1 2 3 4 5 6 7 8 9 MVA'
     )
   })
+
   it('have to handle prefix and suffix', () => {
     const Comp = mount(
       <Component prefix={<span>prefix</span>} suffix={<span>suffix</span>}>
@@ -293,6 +307,7 @@ describe('NumberFormat component', () => {
       'prefix 123 456 789,5 suffix'
     )
   })
+
   it('should validate with ARIA rules', async () => {
     const Comp = mount(<Component value={-value} currency />)
     expect(
