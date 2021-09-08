@@ -12,6 +12,8 @@ This component uses the basic [Input](/uilib/components/input) but with a set of
 
 You will either create your own mask, or use one of the provided once. There are also masks which change based on different [locales](/uilib/components/input-masked/info?fullscreen#mask-based-on-locale) (`as_currency` or `as_number`).
 
+The build in number and currency masks will `align` the content of the input field to the **right** if noting else is specified.
+
 ### Accessibility
 
 When you use `as_currency`, `as_number`, `currency_mask` or `number_mask` the user can enter both a coma or a dot to separate the decimals.
@@ -45,18 +47,22 @@ You can also receive a clean number value you can use and send back in again:
 <InputMasked
   as_currency="EUR"
   value="1234.50"
-  on_change={({ cleaned_value }) => {
-    console.log(cleaned_value)
+  on_change={({ numberValue }) => {
+    console.log(numberValue)
   }}
 />
 ```
 
 #### Decimals
 
-- `as_currency` will default to two decimals
-- `as_number` will default to infinite decimals
+- `as_number` will default to no decimals
+- `number_mask` will default to no decimals
+- `as_currency` will default to 2 decimals
+- `currency_mask` will default to 2 decimals
 
-You can change the amount of decimals by sending in options to the `currency_mask` (also see example above). Also, you can change the NumberFormat options (`number_format`) internally used – if needed. This example here also shows how to effect every InputMasked component in your application, by setting these options on the [Eufemia Provider](/uilib/usage/customisation/provider).
+You can change the amount of decimals by sending in options to the `currency_mask` or `number_mask` (also see example above).
+
+You can also change the NumberFormat options (`number_format`) internally used – if needed. This example here also shows how to effect every InputMasked component in your application, by setting these options on the [Eufemia Provider](/uilib/usage/customisation/provider).
 
 ```jsx
 <Provider
@@ -66,10 +72,10 @@ You can change the amount of decimals by sending in options to the `currency_mas
       decimalLimit: 3, // defaults to 2
     },
     number_mask: {
-      decimalLimit: 6, // defaults to infinite
+      decimalLimit: 6, // defaults to no decimals
     },
     number_format: {
-      omit_rounding: true, // defaults to false
+      omit_rounding: false, // defaults to true
     },
   }}
 >

@@ -7,7 +7,12 @@ import Context from '../../shared/Context'
  */
 
 import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from '../../shared/defaults'
-import { warn, isTrue, slugify } from '../../shared/component-helper'
+import {
+  warn,
+  isTrue,
+  slugify,
+  escapeRegexChars,
+} from '../../shared/component-helper'
 import {
   getOffsetTop,
   getOffsetLeft,
@@ -679,25 +684,28 @@ export const formatNIN = (number, locale = null) => {
  * @param {string|number} num any number
  * @returns a number that contains valid number separators
  */
-export function cleanNumber(num) {
+export function cleanNumber(
+  num,
+  { decimalSeparator = null, thousandsSeparator = null } = {}
+) {
   if (typeof num === 'number') {
     return num
   }
+
   num = String(num).trim()
 
   // 1. Remove invalid chars on the beginning (not a number)
   if (/^[^0-9-]/.test(num)) {
-    num.replace(/^(^[^0-9-]+)/, '')
+    num = num.replace(/^(^[^0-9-]+)/, '')
   }
 
-  // Find valid decimals
-  let usesThousand = ','
-  let usesDecimal = '\\.'
+  let decimal = decimalSeparator
+  let thousands = thousandsSeparator
 
   // -12 345,678
   if (/(\s)([0-9]{3})/.test(num)) {
-    usesThousand = '\\s'
-    usesDecimal = ','
+    thousands = thousands || '\\s'
+    decimal = decimal || ','
   }
 
   // -12.345,678
@@ -705,27 +713,32 @@ export function cleanNumber(num) {
     /(\.)([0-9]{3})/.test(num) &&
     !/([,'][0-9]{3})(\.)([0-9]{3})/.test(num) // just an additional check, for support with more
   ) {
-    usesThousand = '\\.'
-    usesDecimal = ",|·|'" // also support Spain and CH
+    thousands = thousands || '\\.'
+    decimal = decimal || ",|·|'" // also support Spain and CH
   }
 
   // -1,234,567.891
   else if (/(,)([0-9]{3})/.test(num)) {
-    usesThousand = ','
-    usesDecimal = '\\.|·' // also support Spain
+    thousands = thousands || ','
+    decimal = decimal || '\\.|·' // also support Spain
   }
 
   // -1'234'567.891, only used in CH
   else if (/(')([0-9]{3})/.test(num)) {
-    usesThousand = "'"
-    usesDecimal = '\\.|,'
+    thousands = thousands || "'"
+    decimal = decimal || '\\.|,'
+  } else {
+    thousands = ','
+    decimal = '\\.'
   }
 
   // 3. Remove invalid thousand separators
-  const thousandReg = new RegExp(
-    `([0-9]|)(${usesThousand})([0-9]{3})`,
-    'g'
-  )
+  const thousandReg = thousandsSeparator
+    ? new RegExp(
+        `([0-9]|)(${escapeRegexChars(thousandsSeparator)})([0-9]{3})`,
+        'g'
+      )
+    : new RegExp(`([0-9]|)(${thousands})([0-9]{3})`, 'g')
   if (thousandReg.test(num)) {
     num = num.replace(thousandReg, '$1$3')
   }
@@ -734,15 +747,20 @@ export function cleanNumber(num) {
   // Make sure that there are only two digits after the coma, then we clean that up.
   // else we don't, because it can be a US number
   // therefore, check first, is there a chance of being a decimal?
-  const decimalReg = new RegExp(`(${usesDecimal})([0-9]{1,2})`, 'g')
+  // const decimalReg = new RegExp(`(${decimal})([0-9]{1,2})`, 'g')
+  const decimalReg = decimalSeparator
+    ? new RegExp(`(${escapeRegexChars(decimalSeparator)})([0-9]{0,})`, 'g')
+    : new RegExp(`(${decimal})([0-9]{1,2})`, 'g')
   if (decimalReg.test(num)) {
     num = num.replace(decimalReg, '.$2')
   }
 
   // Edge case, if we have more than 2 decimals, replace these decimals
-  const decimalBackup = new RegExp(`(${usesDecimal})([0-9]{3,})`, 'g')
-  if (decimalBackup.test(num)) {
-    num = num.replace(decimalBackup, '.$2')
+  if (!decimalSeparator) {
+    const decimalBackup = new RegExp(`(${decimal})([0-9]{3,})`, 'g')
+    if (decimalBackup.test(num)) {
+      num = num.replace(decimalBackup, '.$2')
+    }
   }
 
   // Remove all invalid chars

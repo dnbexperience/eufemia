@@ -475,6 +475,71 @@ describe('NumberFormat cleanNumber', () => {
     )
   })
 
+  it('should clean based on options', () => {
+    expect(
+      cleanNumber('NOK 123,1234 kr', {
+        thousandsSeparator: ' ',
+        decimalSeparator: ',',
+      })
+    ).toBe('123.1234')
+
+    expect(
+      cleanNumber('NOK 1234,1234 kr', {
+        thousandsSeparator: ' ',
+        decimalSeparator: ',',
+      })
+    ).toBe('1234.1234')
+
+    expect(
+      cleanNumber('NOK 1 234,1234 kr', {
+        thousandsSeparator: ' ',
+        decimalSeparator: ',',
+      })
+    ).toBe('1234.1234')
+
+    expect(
+      cleanNumber('NOK 1 234.1234 kr', {
+        thousandsSeparator: ' ',
+        decimalSeparator: ',',
+      })
+    ).toBe('1234.1234')
+
+    expect(
+      cleanNumber('NOK 123. kr', {
+        thousandsSeparator: ' ',
+        decimalSeparator: ',',
+      })
+    ).toBe('123.')
+
+    expect(
+      cleanNumber('NOK 123,12 kr', {
+        thousandsSeparator: ' ',
+        decimalSeparator: ',',
+      })
+    ).toBe('123.12')
+
+    expect(
+      cleanNumber('NOK 123,1 kr', {
+        thousandsSeparator: ' ',
+        decimalSeparator: ',',
+      })
+    ).toBe('123.1')
+
+    expect(
+      cleanNumber('NOK 123, kr', {
+        thousandsSeparator: ' ',
+        decimalSeparator: ',',
+      })
+    ).toBe('123.')
+
+    expect(
+      cleanNumber('NOK 1234.567 kr', {
+        thousandsSeparator: ',',
+        decimalSeparator: '.',
+      })
+    ).toBe('1234.567')
+  })
+
   it('should clean up norwegian style (SI style (French version))', () => {
     expect(cleanNumber('prefix -12 345,678 suffix')).toBe('-12345.678')
     expect(cleanNumber('prefix -1 234 567,891 suffix')).toBe(

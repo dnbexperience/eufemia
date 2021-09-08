@@ -71,4 +71,12 @@ export const format: (
   options?: formatOptionParams
 ) => formatReturnType;
 
-export const cleanNumber: (num: number | string) => void;
+type cleanNumberOptions = {
+  decimalSeparator?: string;
+  thousandsSeparator?: string;
+};
+
+export const cleanNumber: (
+  num: number | string,
+  options?: cleanNumberOptions
+) => void;

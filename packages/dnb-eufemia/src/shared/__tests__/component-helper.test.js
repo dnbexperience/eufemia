@@ -29,6 +29,7 @@ import {
   InteractionInvalidation,
   findElementInChildren,
   matchAll,
+  escapeRegexChars,
 } from '../component-helper'
 
 beforeAll(() => {
@@ -790,5 +791,15 @@ describe('"warn" should', () => {
     global.console.log = jest.fn()
     warn(text)
     expect(global.console.log).not.toBeCalled()
+  })
+})
+
+describe('"escapeRegexChars" should', () => {
+  const text = '-\\{}()*+?.,^$|#'
+
+  it('escape regex chars', () => {
+    expect(escapeRegexChars(text)).toBe(
+      '\\-\\\\\\{\\}\\(\\)\\*\\+\\?\\.\\,\\^\\$\\|\\#'
+    )
   })
 })

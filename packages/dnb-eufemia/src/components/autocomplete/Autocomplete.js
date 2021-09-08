@@ -19,6 +19,7 @@ import {
   getStatusState,
   combineDescribedBy,
   convertJsxToString,
+  escapeRegexChars,
 } from '../../shared/component-helper'
 import {
   IS_MAC,
@@ -1828,7 +1829,3 @@ class AutocompleteInstance extends React.PureComponent {
 }
 
 Autocomplete.HorizontalItem = DrawerList.HorizontalItem
-
-function escapeRegexChars(str) {
-  return str.replace(/[-[\]{}()*+?.,\\^$|#]/g, '\\$&')
-}
