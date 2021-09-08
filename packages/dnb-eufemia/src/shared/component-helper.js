@@ -999,3 +999,7 @@ export function findElementInChildren(children, find) {
 
   return result
 }
+
+export function escapeRegexChars(str) {
+  return str.replace(/[-[\]{}()*+?.,\\^$|#]/g, '\\$&')
+}

@@ -23,21 +23,20 @@ export const InputMaskedExampleNumberLocale = () => (
     value="1234.50"
     right
     bottom
-    on_change={({ cleaned_value }) => {
-      console.log(cleaned_value)
+    on_change={({ numberValue }) => {
+      console.log(numberValue)
     }}
   />
   <InputMasked
     label="Number (decimal limit):"
     as_number
     number_mask={{ decimalLimit: 2 }}
-    number_format={{ omit_rounding: true }}
     value="1234.016"
     align="right"
     right
     bottom
-    on_change={({ cleaned_value }) => {
-      console.log(cleaned_value)
+    on_change={({ numberValue }) => {
+      console.log(numberValue)
     }}
   />
 </FormRow>
@@ -58,8 +57,8 @@ export const InputMaskedExampleCurrencyLocale = () => (
     label="Currency:"
     as_currency="EUR"
     value="1234.50"
-    on_change={({ cleaned_value }) => {
-      console.log(cleaned_value)
+    on_change={({ numberValue }) => {
+      console.log(numberValue)
     }}
     right
     bottom
@@ -70,17 +69,14 @@ export const InputMaskedExampleCurrencyLocale = () => (
       currency_mask: {
         decimalLimit: 3,
       },
-      number_format: {
-        omit_rounding: true,
-      },
     }}
   >
     <InputMasked
       label="Currency:"
       as_currency="USD"
       value="1234.567"
-      on_change={({ cleaned_value }) => {
-        console.log(cleaned_value)
+      on_change={({ numberValue }) => {
+        console.log(numberValue)
       }}
       align="left"
       right
@@ -101,8 +97,8 @@ export const InputMaskedExampleCurrencyMask = () => (
   <InputMasked
     label="Right aligned:"
     currency_mask="kr"
-    on_change={({ cleaned_value }) => {
-      console.log(cleaned_value)
+    on_change={({ numberValue }) => {
+      console.log(numberValue)
     }}
     right
     bottom
@@ -111,8 +107,8 @@ export const InputMaskedExampleCurrencyMask = () => (
     label="Left aligned:"
     currency_mask={{ currency: 'NOK' }}
     align="left"
-    on_change={({ cleaned_value }) => {
-      console.log(cleaned_value)
+    on_change={({ numberValue }) => {
+      console.log(numberValue)
     }}
   />
 </FormRow>
@@ -134,8 +130,8 @@ export const InputMaskedExampleCustomNumberMask = () => (
   }}
   placeholder_char={null}
   align="right"
-  on_change={({ cleaned_value }) => {
-    console.log(cleaned_value)
+  on_change={({ numberValue }) => {
+    console.log(numberValue)
   }}
 />
 `}
@@ -156,8 +152,8 @@ export const InputMaskedExampleNumberMask = () => (
   }}
   suffix="kr."
   align="right"
-  on_change={({ cleaned_value }) => {
-    console.log(parseInt(cleaned_value || 0, 10))
+  on_change={({ numberValue }) => {
+    console.log(parseInt(numberValue || 0, 10))
   }}
 />
 `}
@@ -177,8 +173,8 @@ export const InputMaskedExamplePrefix = () => (
   align="right"
   stretch="true"
   placeholder="Enter a number"
-  on_change={({ cleaned_value }) => {
-    console.log(cleaned_value)
+  on_change={({ numberValue }) => {
+    console.log(numberValue)
   }}
 />
 `}
@@ -212,8 +208,8 @@ export const InputMaskedExamplePhone = () => (
   ]}
   show_mask
   keep_char_positions
-  on_change={({ cleaned_value }) => {
-    console.log(cleaned_value)
+  on_change={({ numberValue }) => {
+    console.log(numberValue)
   }}
 />
 `}
