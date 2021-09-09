@@ -34,6 +34,7 @@ import DrawerList from '../../fragments/drawer-list/DrawerList'
 import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
+  drawerListPropTypes,
   parseContentTitle,
   getCurrentData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
@@ -42,6 +43,9 @@ export default class Dropdown extends React.PureComponent {
   static tagName = 'dnb-dropdown'
 
   static propTypes = {
+    ...spacingPropTypes,
+    ...drawerListPropTypes,
+
     id: PropTypes.string,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     variant: buttonVariantPropType.variant,
@@ -139,8 +143,6 @@ export default class Dropdown extends React.PureComponent {
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     class: PropTypes.string,
-
-    ...spacingPropTypes,
 
     className: PropTypes.string,
     children: PropTypes.oneOfType([

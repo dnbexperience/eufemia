@@ -44,6 +44,7 @@ import DrawerList from '../../fragments/drawer-list/DrawerList'
 import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
+  drawerListPropTypes,
   parseContentTitle,
   getCurrentData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
@@ -52,6 +53,9 @@ export default class Autocomplete extends React.PureComponent {
   static tagName = 'dnb-autocomplete'
 
   static propTypes = {
+    ...spacingPropTypes,
+    ...drawerListPropTypes,
+
     id: PropTypes.string,
     mode: PropTypes.oneOf(['sync', 'async']),
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
@@ -198,8 +202,6 @@ export default class Autocomplete extends React.PureComponent {
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     portal_class: PropTypes.string,
     drawer_class: PropTypes.string,
-
-    ...spacingPropTypes,
 
     class: PropTypes.string,
     className: PropTypes.string,
