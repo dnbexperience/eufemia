@@ -17,10 +17,12 @@ export const babylonConfigDefaults = {
     'asyncFunctions',
     'objectRestSpread',
     'classProperties',
+    'nullishCoalescingOperator',
   ],
 }
 
 export const babelPluginDefaultPlugins = [
-  ['@babel/plugin-proposal-class-properties', { loose: true }],
+  ['@babel/plugin-proposal-class-properties', { loose: true }], // Needs to be loose!
   '@babel/plugin-proposal-optional-chaining',
+  '@babel/plugin-proposal-nullish-coalescing-operator',
 ]
