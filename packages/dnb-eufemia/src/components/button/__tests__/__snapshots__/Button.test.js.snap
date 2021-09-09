@@ -100,7 +100,6 @@ exports[`Button component have to match default button snapshot 1`] = `
       </button>,
     }
   }
-  onClick={[Function]}
   on_click="on_click"
   size={null}
   skeleton="skeleton"
@@ -226,7 +225,6 @@ exports[`Button component have to match default button snapshot 1`] = `
         }
       }
       isIconOnly={false}
-      onClick={[Function]}
       on_click="on_click"
       size={null}
       skeleton={false}
@@ -427,7 +425,6 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       </a>,
     }
   }
-  onClick={[Function]}
   on_click="on_click"
   size={null}
   skeleton="skeleton"
@@ -751,7 +748,6 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                 }
               }
               isIconOnly={false}
-              onClick={[Function]}
               on_click="on_click"
               size={null}
               skeleton={false}

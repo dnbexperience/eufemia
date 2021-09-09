@@ -100,7 +100,6 @@ export const buttonPropTypes = {
   custom_element: PropTypes.object,
   custom_method: PropTypes.func,
 
-  onClick: PropTypes.func,
   on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 }
 
@@ -150,7 +149,6 @@ export default class Button extends React.PureComponent {
     custom_element: null,
     custom_method: null,
 
-    onClick: null,
     on_click: null,
   }
 
