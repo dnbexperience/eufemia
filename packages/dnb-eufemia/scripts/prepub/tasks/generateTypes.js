@@ -78,14 +78,14 @@ export const createTypes = async (
       const componentName = basename.replace(nodePath.extname(file), '')
 
       // For dev (build:types:dev) mode only
-      const isDev = String(process.env.npm_config_argv).includes(
-        'build:types:dev'
-      )
+      const isDev =
+        String(process.env.npm_config_argv).includes('build:types:dev') ||
+        String(process.env.npm_lifecycle_event).includes('build:types:dev')
       const isOfInterest =
         // file.includes('/Element.js') ||
         // file.includes('/Blockquote.js') ||
         // file.includes('/Button.js')
-        file.includes('/ProgressIndicator')
+        file.includes('/Dropdown')
       if (isDev && (!isOfInterest || (await existsInGit(destFile)))) {
         return // stop here
       }
