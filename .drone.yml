@@ -164,6 +164,7 @@ steps:
     when:
       branch:
         include:
+          - main
           - release
           - release-*
           - beta
