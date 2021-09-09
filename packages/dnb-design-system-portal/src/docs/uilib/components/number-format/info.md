@@ -60,6 +60,12 @@ To enhance the **Copy & Paste** experience of copying numbers into other applica
 
 **VoiceOver** on mobile devices (iOS) only supports numbers read out properly to a maximum of `99,999.00`. On amounts above this value, VO reads numbers digit by digit.
 
+### Lighthouse and axe-core
+
+In order to enhance the UX while using a screen reader, the NumberFormat component is using a role called `role="text"`. This allows the screen reader to read particular numbers within the context, without interrupting the flow while reading paragraphs.
+
+[Lighthouse](https://developers.google.com/web/tools/lighthouse) is using [axe-core](https://developers.google.com/web/tools/lighthouse) under the hood. Right now axe-core is allowing us to use `role="text"` only within no focusable descendants. But because the NumberFormat component also includes a **Copy & Paste** feature, it uses `tabindex="-1"` which allows JavaScript to focus the descendant DOM Element. In order to enhance the `role="text"` axe rule, you may follow along and support [this issue](https://github.com/dequelabs/axe-core/issues/2934).
+
 ## Formatting only
 
 You can use the formatting without using the Component. Have a look at the [available properties](/uilib/components/number-format/properties).
