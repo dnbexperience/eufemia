@@ -423,13 +423,14 @@ export default class InputMasked extends React.PureComponent {
  * when the user sets the focus after a prefix,
  * its not anymore possible to type.
  *
- * @param {*} elem DOM element
- * @param {*} param1 props from the component – we use only align
+ * @param {Element} elem DOM element
+ * @type {object} props from the component – we use only align
+ * @property {string} align how the alignment is set
  */
 export const fixPositionIssue = (elem, { align = 'right' } = {}) => {
   clearTimeout(_selectionTimeout)
   _selectionTimeout = setTimeout(() => {
-    if (elem.value.length > 0) {
+    if (cleanNumber(elem.value).length > 0) {
       return
     }
     try {
