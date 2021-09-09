@@ -186,6 +186,7 @@ describe('Autocomplete component', () => {
     )
   })
 
+  // Not implemented yey
   it.skip('has correct options after filter with "no whitespace"', () => {
     const Comp = mount(
       <Component

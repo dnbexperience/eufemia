@@ -29,13 +29,9 @@ You can still define extra mask parameters with `number_mask`, as the second inp
 
 When you use `as_currency` it will create a mask for you and inherit the locale from the [Eufemia Provider](/uilib/usage/customisation/provider), if the locale prop is not given.
 
-The input will by default align to `right` when used as currency.
-
 <InputMaskedExampleCurrencyLocale />
 
 ### Define the `currency_mask` manually
-
-The input will by default align to `right` when used as currency.
 
 <InputMaskedExampleCurrencyMask />
 
