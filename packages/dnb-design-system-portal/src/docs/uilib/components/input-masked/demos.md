@@ -17,9 +17,9 @@ import ChangeLocale from 'Src/core/ChangeLocale'
 
 <ChangeLocale label="Locale used in the demos:" label_direction="vertical" bottom />
 
-### Locale based `as_number`
+### Locale based numbers
 
-When you use `as_number` it will create a mask for you and inherit the locale from the [Eufemia Provider](/uilib/usage/customisation/provider), if the locale prop is not given.
+When you use `as_number` or `as_percent` (and `as_currency` see below) it will create a mask for you and inherit the locale from the [Eufemia Provider](/uilib/usage/customisation/provider), if the locale prop is not given.
 
 You can still define extra mask parameters with `number_mask`, as the second input example shows (e.g. `decimalLimit`).
 
