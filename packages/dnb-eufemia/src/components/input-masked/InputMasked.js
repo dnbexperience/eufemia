@@ -356,7 +356,8 @@ export default class InputMasked extends React.PureComponent {
           return dispatchCustomElementEvent(this, name, {
             event,
             value,
-            numberValue,
+            numberValue: Number(numberValue),
+            cleanedValue: numberValue,
             cleaned_value: numberValue, // Deprecated
           })
         }

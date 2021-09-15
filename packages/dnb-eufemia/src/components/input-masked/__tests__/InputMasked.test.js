@@ -94,7 +94,7 @@ describe('InputMasked component', () => {
     )
 
     expect(on_change.mock.calls[0][0].value).toBe(newValue)
-    expect(on_change.mock.calls[0][0].numberValue).toBe('123456789.0')
+    expect(on_change.mock.calls[0][0].numberValue).toBe(123456789)
   })
 
   it('event "on_change" gets emmited with correct value', () => {
@@ -126,7 +126,7 @@ describe('InputMasked component', () => {
     expect(Comp.find('input').instance().value).toBe('123 456 789,67')
 
     expect(on_change.mock.calls[0][0].value).toBe(newValue)
-    expect(on_change.mock.calls[0][0].numberValue).toBe('123456789.678')
+    expect(on_change.mock.calls[0][0].numberValue).toBe(123456789.678)
   })
 
   it('event "on_change" gets emmited with correct value', () => {
@@ -162,7 +162,7 @@ describe('InputMasked component', () => {
     expect(Comp.find('input').instance().value).toBe('123 456 789,67')
 
     expect(on_change.mock.calls[0][0].value).toBe(newValue)
-    expect(on_change.mock.calls[0][0].numberValue).toBe('123456789.678')
+    expect(on_change.mock.calls[0][0].numberValue).toBe(123456789.678)
   })
 })
 
@@ -219,7 +219,7 @@ describe('InputMasked component as_number', () => {
     expect(Comp.find('input').instance().value).toBe('123 456 789,6')
 
     expect(on_change.mock.calls[0][0].value).toBe(newValue)
-    expect(on_change.mock.calls[0][0].numberValue).toBe('123456789.678')
+    expect(on_change.mock.calls[0][0].numberValue).toBe(123456789.678)
   })
 
   it('should append a coma when entering a dot', () => {
@@ -435,7 +435,7 @@ describe('InputMasked component as_currency', () => {
     expect(Comp.find('input').instance().value).toBe('123 456 789,67 kr')
 
     expect(on_change.mock.calls[0][0].value).toBe(newValue)
-    expect(on_change.mock.calls[0][0].numberValue).toBe('123456789.678')
+    expect(on_change.mock.calls[0][0].numberValue).toBe(123456789.678)
 
     Comp.setProps({ currency_mask: { decimalLimit: 1 } })
 
@@ -453,7 +453,7 @@ describe('InputMasked component as_currency', () => {
     expect(Comp.find('input').instance().value).toBe('123 456 789,6 kr')
 
     expect(on_change.mock.calls[0][0].value).toBe(newValue)
-    expect(on_change.mock.calls[0][0].numberValue).toBe('123456789.678')
+    expect(on_change.mock.calls[0][0].numberValue).toBe(123456789.678)
   })
 
   it('event "on_change" gets emmited with correct value with en locale', () => {
@@ -486,7 +486,7 @@ describe('InputMasked component as_currency', () => {
     expect(Comp.find('input').instance().value).toBe('123 456 789.67 NOK')
 
     expect(on_change.mock.calls[0][0].value).toBe(newValue)
-    expect(on_change.mock.calls[0][0].numberValue).toBe('123456789.678')
+    expect(on_change.mock.calls[0][0].numberValue).toBe(123456789.678)
   })
 
   it('should use given currency', () => {
