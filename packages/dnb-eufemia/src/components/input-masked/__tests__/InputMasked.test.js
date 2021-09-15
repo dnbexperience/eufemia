@@ -37,7 +37,7 @@ describe('InputMasked component', () => {
   it('should format "number_mask" accordingly the defined properties', () => {
     const Comp = mount(
       <Component
-        value="1000000"
+        value="1000000.0"
         number_mask={{
           prefix: 'NOK ',
           suffix: ',- kr',
@@ -104,7 +104,7 @@ describe('InputMasked component', () => {
 
     const Comp = mount(
       <Component
-        value="12345,678"
+        value="12345.678"
         number_mask={{ allowDecimal: true }}
         on_change={on_change}
       />
@@ -136,7 +136,7 @@ describe('InputMasked component', () => {
 
     const Comp = mount(
       <Component
-        value="12345,678"
+        value="12345.678"
         number_mask={{
           thousandsSeparatorSymbol: ' ',
           decimalSymbol: ',',

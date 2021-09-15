@@ -147,13 +147,7 @@ export default class InputMasked extends React.PureComponent {
       locale = this.context.locale
     }
 
-    if (as_number || as_currency) {
-      if (isTrue(as_number)) {
-        as_number = {}
-      } else if (isTrue(as_currency)) {
-        as_currency = {}
-      }
-
+    if (as_number || as_currency || number_mask || currency_mask) {
       if (props.value !== 'initval') {
         const options = { locale, decimals: 0, omit_rounding: true }
 
@@ -170,7 +164,7 @@ export default class InputMasked extends React.PureComponent {
           number_format
         )
 
-        if (as_currency) {
+        if (currency_mask || as_currency) {
           currency_mask = {
             ...this.context?.InputMasked?.currency_mask,
             ...currency_mask,
@@ -178,23 +172,31 @@ export default class InputMasked extends React.PureComponent {
 
           if (currency_mask.allowDecimal !== false) {
             currency_mask.decimalLimit = options.decimals =
-              currency_mask.decimalLimit ?? 2
+              typeof currency_mask.decimalLimit !== 'undefined'
+                ? currency_mask.decimalLimit
+                : 2
+          } else if (currency_mask.decimalLimit > 0) {
+            options.decimals = currency_mask.decimalLimit
           }
-        } else if (as_number) {
+        } else if (number_mask || as_number) {
           number_mask = {
             ...this.context?.InputMasked?.number_mask,
             ...number_mask,
           }
 
-          if (
-            number_mask.allowDecimal !== false &&
-            number_mask.decimalLimit > -1
-          ) {
+          if (number_mask.allowDecimal === true) {
+            number_mask.decimalLimit = options.decimals =
+              typeof number_mask.decimalLimit !== 'undefined'
+                ? number_mask.decimalLimit
+                : 2 // default of createNumberMask
+          } else if (number_mask.decimalLimit > 0) {
             options.decimals = number_mask.decimalLimit
           }
         }
 
-        props.value = format(props.value, options)
+        if (!isNaN(parseFloat(props.value))) {
+          props.value = format(props.value, options)
+        }
       }
 
       const thousandsSeparatorSymbol = getThousandsSeparator(
@@ -224,7 +226,7 @@ export default class InputMasked extends React.PureComponent {
           thousandsSeparatorSymbol,
           currency: getCurrencySymbol(
             locale,
-            typeof as_currency !== 'string' ? null : as_currency
+            typeof as_currency === 'string' ? as_currency : null
           ),
           ...currency_mask,
         }
