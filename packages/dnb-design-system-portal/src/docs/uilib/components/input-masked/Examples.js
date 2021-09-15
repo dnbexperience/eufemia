@@ -39,6 +39,18 @@ export const InputMaskedExampleNumberLocale = () => (
       console.log(numberValue)
     }}
   />
+  <InputMasked
+    label="Percentage:"
+    as_percent
+    number_mask={{ decimalLimit: 1 }}
+    value="1234.016"
+    align="right"
+    right
+    bottom
+    on_change={({ numberValue }) => {
+      console.log(numberValue)
+    }}
+  />
 </FormRow>
 `}
     </ComponentBox>

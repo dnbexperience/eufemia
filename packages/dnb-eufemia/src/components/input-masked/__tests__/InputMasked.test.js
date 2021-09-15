@@ -166,13 +166,54 @@ describe('InputMasked component', () => {
   })
 })
 
+describe('InputMasked component as_percent', () => {
+  it('should create a "number_mask" with a % suffix', () => {
+    const Comp = mount(<Component value="12345.678" as_percent />)
+
+    expect(Comp.find('input').instance().value).toBe('12 345 %')
+
+    Comp.setProps({ value: '12345.123' })
+
+    expect(Comp.find('input').instance().value).toBe('12 345 %')
+  })
+
+  it('should merge "number_mask" properties', () => {
+    const Comp = mount(
+      <Component
+        value="12345.678"
+        as_percent
+        number_mask={{ decimalLimit: 1 }}
+      />
+    )
+
+    expect(Comp.find('input').instance().value).toBe('12 345,6 %')
+  })
+
+  it('should react to locale change', () => {
+    const Comp = mount(
+      <Component
+        as_percent
+        number_mask={{ allowDecimal: true, decimalLimit: 3 }}
+        value="12345.678"
+        locale="en-GB"
+      />
+    )
+
+    expect(Comp.find('input').instance().value).toBe('12 345.678%')
+
+    Comp.setProps({ locale: 'nb-NO' })
+
+    expect(Comp.find('input').instance().value).toBe('12 345,678 %')
+  })
+})
+
 describe('InputMasked component as_number', () => {
   it('should create a "number_mask" accordingly the defined properties', () => {
     const Comp = mount(<Component value="12345.678" as_number />)
 
     expect(Comp.find('input').instance().value).toBe('12 345')
 
-    Comp.setProps({ value: '12345,123' })
+    Comp.setProps({ value: '12345.123' })
 
     expect(Comp.find('input').instance().value).toBe('12 345')
   })
