@@ -16,9 +16,9 @@ The build in number and currency masks will `align` the content of the input fie
 
 ### Accessibility
 
-When you use `as_currency`, `as_number`, `currency_mask` or `number_mask` the user can enter both a coma or a dot to separate the decimals.
-
 Screen readers will read also the mask before the user is entering content. Also the user will hear the mask during typing. This behavior can both have positive and negative side effects to the user. But overall, it works ok.
+
+Both entering a coma or a dot will act as a decimal separator if [decimals are enabled](https://eufemia.dnb.no/uilib/components/input-masked#decimals) and one of the internal masks for numbers is used.
 
 ### Mask based on locale
 
@@ -35,7 +35,7 @@ More details in the [examples above](/uilib/components/input-masked/demos).
 
 #### Clean number values
 
-If you use `as_currency` or `as_number` you may always send inn in a clean number without any mask (`value="1234.50"`):
+If you use `as_currency` or `as_number` you have to always send inn in a clean number without any mask (`value="1234.50"`):
 
 ```jsx
 <InputMasked as_currency="EUR" value="1234.50" />
@@ -48,7 +48,7 @@ You can also receive a clean number value you can use and send back in again:
   as_currency="EUR"
   value="1234.50"
   on_change={({ numberValue }) => {
-    console.log(numberValue)
+    console.log(numberValue) // type of float
   }}
 />
 ```
@@ -62,7 +62,7 @@ You can also receive a clean number value you can use and send back in again:
 
 You can change the amount of decimals by sending in options to the `currency_mask` or `number_mask` (also see example above).
 
-You can also change the NumberFormat options (`number_format`) internally used – if needed. This example here also shows how to effect every InputMasked component in your application, by setting these options on the [Eufemia Provider](/uilib/usage/customisation/provider).
+This example here also shows how to effect every InputMasked component in your application, by setting these options on the [Eufemia Provider](/uilib/usage/customisation/provider).
 
 ```jsx
 <Provider
@@ -74,11 +74,38 @@ You can also change the NumberFormat options (`number_format`) internally used �
     number_mask: {
       decimalLimit: 6, // defaults to no decimals
     },
+  }}
+>
+  <InputMasked as_currency="USD" value="1234.567" />
+</Provider>
+```
+
+In order to remove a decimal limit, you can send in `null` and allow decimals with `allowDecimal`:
+
+```jsx
+<InputMasked
+  as_number
+  number_mask={{
+    allowDecimal: true,
+    decimalLimit: null,
+  }}
+  value="1234.567"
+/>
+```
+
+##### Rounding
+
+You can also change the NumberFormat options (`number_format`) internally used – if needed.
+
+```jsx
+<Provider
+  locale="en-GB"
+  InputMasked={{
     number_format: {
       omit_rounding: false, // defaults to true
     },
   }}
 >
-  <InputMasked label="Currency:" as_currency="USD" value="1234.567" />
+  <InputMasked as_currency="USD" value="1234.567" />
 </Provider>
 ```

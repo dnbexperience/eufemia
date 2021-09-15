@@ -56,6 +56,7 @@ export default class InputMasked extends React.PureComponent {
     locale: PropTypes.string,
     as_currency: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     as_number: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    as_percent: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     show_mask: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     show_guide: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     pipe: PropTypes.func,
@@ -84,6 +85,7 @@ export default class InputMasked extends React.PureComponent {
     number_format: null,
     as_currency: null,
     as_number: null,
+    as_percent: null,
     locale: null,
     show_mask: false,
     show_guide: true,
@@ -119,6 +121,7 @@ export default class InputMasked extends React.PureComponent {
       number_format,
       as_currency,
       as_number,
+      as_percent,
       locale,
       show_mask,
       show_guide,
@@ -147,13 +150,13 @@ export default class InputMasked extends React.PureComponent {
       locale = this.context.locale
     }
 
-    if (as_number || as_currency) {
-      if (isTrue(as_number)) {
-        as_number = {}
-      } else if (isTrue(as_currency)) {
-        as_currency = {}
-      }
-
+    if (
+      as_number ||
+      as_percent ||
+      as_currency ||
+      number_mask ||
+      currency_mask
+    ) {
       if (props.value !== 'initval') {
         const options = { locale, decimals: 0, omit_rounding: true }
 
@@ -170,7 +173,7 @@ export default class InputMasked extends React.PureComponent {
           number_format
         )
 
-        if (as_currency) {
+        if (currency_mask || as_currency) {
           currency_mask = {
             ...this.context?.InputMasked?.currency_mask,
             ...currency_mask,
@@ -178,23 +181,35 @@ export default class InputMasked extends React.PureComponent {
 
           if (currency_mask.allowDecimal !== false) {
             currency_mask.decimalLimit = options.decimals =
-              currency_mask.decimalLimit ?? 2
+              typeof currency_mask.decimalLimit !== 'undefined'
+                ? currency_mask.decimalLimit
+                : 2
+          } else if (currency_mask.decimalLimit > 0) {
+            options.decimals = currency_mask.decimalLimit
           }
-        } else if (as_number) {
+        } else if (number_mask || as_number || as_percent) {
           number_mask = {
             ...this.context?.InputMasked?.number_mask,
             ...number_mask,
           }
 
-          if (
-            number_mask.allowDecimal !== false &&
-            number_mask.decimalLimit > -1
-          ) {
+          if (number_mask.allowDecimal === true) {
+            number_mask.decimalLimit = options.decimals =
+              typeof number_mask.decimalLimit !== 'undefined'
+                ? number_mask.decimalLimit
+                : 2 // default of createNumberMask
+          } else if (number_mask.decimalLimit > 0) {
             options.decimals = number_mask.decimalLimit
           }
         }
 
-        props.value = format(props.value, options)
+        if (as_percent) {
+          options.percent = true
+        }
+
+        if (!isNaN(parseFloat(props.value))) {
+          props.value = format(props.value, options)
+        }
       }
 
       const thousandsSeparatorSymbol = getThousandsSeparator(
@@ -218,13 +233,20 @@ export default class InputMasked extends React.PureComponent {
           thousandsSeparatorSymbol,
           ...number_mask,
         }
+      } else if (as_percent) {
+        number_mask = {
+          decimalSymbol,
+          thousandsSeparatorSymbol,
+          suffix: props.value.match(/((\s|)%)$/g, '$1')?.[0] || ' %',
+          ...number_mask,
+        }
       } else if (as_currency) {
         currency_mask = {
           decimalSymbol,
           thousandsSeparatorSymbol,
           currency: getCurrencySymbol(
             locale,
-            typeof as_currency !== 'string' ? null : as_currency
+            typeof as_currency === 'string' ? as_currency : null
           ),
           ...currency_mask,
         }
@@ -356,7 +378,8 @@ export default class InputMasked extends React.PureComponent {
           return dispatchCustomElementEvent(this, name, {
             event,
             value,
-            numberValue,
+            numberValue: Number(numberValue),
+            cleanedValue: numberValue,
             cleaned_value: numberValue, // Deprecated
           })
         }
