@@ -75,6 +75,7 @@ import file_txt from './file_txt.js'
 import file_warning from './file_warning.js'
 import file_word from './file_word.js'
 import file_xls from './file_xls.js'
+import file_xml from './file_xml.js'
 import filter from './filter.js'
 import first_aid from './first_aid.js'
 import flying_money from './flying_money.js'
@@ -106,6 +107,7 @@ import insurance from './insurance.js'
 import kid_number from './kid_number.js'
 import language from './language.js'
 import launch from './launch.js'
+import leaf from './leaf.js'
 import lightbulb from './lightbulb.js'
 import list from './list.js'
 import loan from './loan.js'
@@ -265,6 +267,7 @@ export {
   file_warning,
   file_word,
   file_xls,
+  file_xml,
   filter,
   first_aid,
   flying_money,
@@ -296,6 +299,7 @@ export {
   kid_number,
   language,
   launch,
+  leaf,
   lightbulb,
   list,
   loan,
