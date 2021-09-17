@@ -43,7 +43,7 @@ steps:
       FIGMA_TOKEN:
         from_secret: FIGMA_TOKEN
     commands:
-      - yarn workspace @dnb/eufemia prebuild:ci:figma
+      - yarn workspace @dnb/eufemia prebuild:figma:ci
     when:
       branch:
         include:
@@ -121,7 +121,7 @@ steps:
       GH_TOKEN:
         from_secret: GH_TOKEN
     commands:
-      - yarn workspace @dnb/eufemia postbuild:ci:figma
+      - yarn workspace @dnb/eufemia postbuild:figma:ci
     when:
       branch:
         include:
