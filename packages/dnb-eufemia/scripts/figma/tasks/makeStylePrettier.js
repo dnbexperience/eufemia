@@ -14,7 +14,7 @@ export const makeStylePrettier = (style) =>
     bracketSpacing: true,
     useTabs: false,
     semi: false,
-    jsxBracketSameLine: false,
+    bracketSameLine: false,
     parser: 'babel',
     trailingComma: 'none',
   })
