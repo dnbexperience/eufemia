@@ -137,6 +137,9 @@
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-processor-styled-components": "^1.10.0"
   },
+  "installConfig": {
+    "hoistingLimits": "dependencies"
+  },
   "buildVersion": "[LOCAL BUILD]",
   "volta": {
     "extends": "../../package.json"

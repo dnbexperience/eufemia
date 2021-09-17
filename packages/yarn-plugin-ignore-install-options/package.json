@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "yarn-plugin-ignore-install-options",
+  "description": "Yarn Plugin to ignore invalid CLI options",
+  "license": "SEE LICENSE IN LICENSE FILE",
+  "author": "DNB Team & Tobias Høegh",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "update": "yarn plugin import ./index.js"
+  }
+}
