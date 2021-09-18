@@ -2,6 +2,7 @@ module.exports = {
   name: 'plugin-ignore-install-options',
   factory: () => {
     if (process.argv.includes('install')) {
+      // List all yarn v3 options
       const validOptions = [
         '-h',
         '--help',
