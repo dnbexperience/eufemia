@@ -13,6 +13,10 @@ const siteMetadata = {
 }
 const plugins = [
   {
+    resolve: 'gatsby-plugin-gatsby-cloud',
+    options: {},
+  },
+  {
     resolve: 'gatsby-plugin-manifest',
     options: {
       name: 'Eufemia - DNB Design System',
