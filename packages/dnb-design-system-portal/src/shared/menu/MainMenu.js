@@ -21,7 +21,7 @@ import {
   DesignSystemSvg,
 } from './MainMenuGraphics'
 import { Logo, Button } from '@dnb/eufemia/src'
-import version from '../../../version.json'
+import { version } from '../../../version.json'
 import { MainMenuContext } from './MainMenuContext'
 import {
   setPageFocusElement,
@@ -335,7 +335,7 @@ export default class MainMenu extends React.PureComponent {
                         <>
                           {items['design-system']?.description}
                           <LastUpdated title="Last Change log update">
-                            Updated: {version.buildVersion}
+                            Updated: {version}
                           </LastUpdated>
                         </>
                       }

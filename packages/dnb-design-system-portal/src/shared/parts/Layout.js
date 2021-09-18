@@ -13,7 +13,7 @@ import MainMenu from '../menu/MainMenu'
 import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import { markdownStyle } from './Markdown'
-import packageJson from '../../../package.json'
+import { buildVersion } from '../../../package.json'
 import { MainMenuProvider } from '../menu/MainMenuContext'
 import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
 import ToggleGrid from '../menu/ToggleGrid'
@@ -263,7 +263,7 @@ const Footer = () => {
     <FooterWrapper>
       <Logo height="40" color="white" />
       <small className={createSkeletonClass('font', skeleton)}>
-        Last Portal update: {packageJson.buildVersion}
+        Last Portal update: {buildVersion}
         <Link
           to="/license"
           className="dnb-anchor dnb-anchor--contrast dnb-anchor--no-underline"
