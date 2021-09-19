@@ -13118,6 +13118,7 @@ __metadata:
     stylelint-config-standard: ^22.0.0
     stylelint-config-styled-components: ^0.1.1
     stylelint-processor-styled-components: ^1.10.0
+    yarn-plugin-ignore-install-options: ^1.0.2
   languageName: unknown
   linkType: soft
 
@@ -35567,6 +35568,13 @@ resolve@^2.0.0-next.3:
     y18n: ^3.2.1
     yargs-parser: ^5.0.1
   checksum: 0c330ce1338cd9f293157bf8955af6833ae59032ab1bc936510ce7a216de9bb65b05b39a82ff0e7359bfb643342cc05de5049ce50ee9404b0818f65911fb59a5
+  languageName: node
+  linkType: hard
+
+"yarn-plugin-ignore-install-options@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "yarn-plugin-ignore-install-options@npm:1.0.2"
+  checksum: 4a8bb6a99c8d69a99290619d55cf54019074ec308506a3a94b6b44460be29daf2e546267fac4745b1e9839539dd41766b44081358166e38d6cfe0e50803162f5
   languageName: node
   linkType: hard
 

@@ -136,7 +136,8 @@
     "stylelint-config-recommended": "^5.0.0",
     "stylelint-config-standard": "^22.0.0",
     "stylelint-config-styled-components": "^0.1.1",
-    "stylelint-processor-styled-components": "^1.10.0"
+    "stylelint-processor-styled-components": "^1.10.0",
+    "yarn-plugin-ignore-install-options": "^1.0.2"
   },
   "installConfig": {
     "hoistingLimits": "dependencies"
