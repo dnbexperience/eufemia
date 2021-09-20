@@ -25,9 +25,6 @@
     "test:update": "yarn workspace @dnb/eufemia test:update",
     "prepare": "husky install"
   },
-  "resolutions": {
-    "axe-core": "^4.2.1"
-  },
   "devDependencies": {
     "husky": "^7.0.2"
   },
