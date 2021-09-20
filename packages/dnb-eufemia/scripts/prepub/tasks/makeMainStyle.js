@@ -76,12 +76,6 @@ export const runFactory = (
         )
         .pipe(cloneSink)
         .pipe(transform('utf8', transformCssnano({ reduceIdents: false })))
-        // .pipe(
-        //   // cssnano has to run after cloneSink! So we get both a non min and a min version
-        //   cssnano({
-        //     reduceIdents: false,
-        //   })
-        // )
         .pipe(rename({ suffix: '.min' }))
         .pipe(cloneSink.tap())
 
@@ -104,9 +98,6 @@ export const runFactory = (
       if (returnResult) {
         stream.pipe(
           transform('utf8', transformCssnano({ reduceIdents: false }))
-          // cssnano({
-          //   reduceIdents: false,
-          // })
         )
       }
 
