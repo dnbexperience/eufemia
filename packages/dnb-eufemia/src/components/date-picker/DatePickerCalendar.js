@@ -115,6 +115,12 @@ export default class DatePickerCalendar extends React.PureComponent {
     }
   }
 
+  onMouseLeaveHandler = () => {
+    this.context.updateState({
+      hoverDate: null,
+    })
+  }
+
   onKeyDownHandler = (event) => {
     if (String(event?.target?.nodeName).toLowerCase() === 'td') {
       try {
@@ -331,21 +337,11 @@ export default class DatePickerCalendar extends React.PureComponent {
     )
 
   getCacheKey() {
-    const {
-      nr,
-      month,
-      firstDayOfWeek,
-      onlyMonth,
-      hideNextMonthWeek,
-    } = this.props
+    const { nr, month, firstDayOfWeek, onlyMonth, hideNextMonthWeek } =
+      this.props
 
-    const {
-      startDate,
-      endDate,
-      hoverDate,
-      maxDate,
-      minDate,
-    } = this.context
+    const { startDate, endDate, hoverDate, maxDate, minDate } =
+      this.context
 
     return [
       nr,
@@ -387,13 +383,8 @@ export default class DatePickerCalendar extends React.PureComponent {
   getDays(month) {
     const { nr, firstDayOfWeek, onlyMonth, hideNextMonthWeek } = this.props
 
-    const {
-      startDate,
-      endDate,
-      hoverDate,
-      maxDate,
-      minDate,
-    } = this.context
+    const { startDate, endDate, hoverDate, maxDate, minDate } =
+      this.context
 
     let days = getCalendar(
       month || new Date(),
@@ -513,6 +504,7 @@ export default class DatePickerCalendar extends React.PureComponent {
           tabIndex="0"
           aria-labelledby={`${id}--title`}
           onKeyDown={this.onKeyDownHandler}
+          onMouseLeave={this.onMouseLeaveHandler}
           ref={this._listRef}
         >
           {!hideDays && (

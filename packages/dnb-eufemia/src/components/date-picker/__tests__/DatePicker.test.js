@@ -622,6 +622,140 @@ describe('DatePicker component', () => {
     })
   })
 
+  it('has correct css classes on range selection', () => {
+    const Comp = mount(
+      <Component
+        id="date-picker-id"
+        no_animation
+        range
+        opened
+        show_input
+      />
+    )
+
+    const FirstCalendar = Comp.find('DatePickerCalendar').at(0)
+    const SecondCalendar = Comp.find('DatePickerCalendar').at(1)
+    const firstDayElem = FirstCalendar.find(
+      'td.dnb-date-picker__day--selectable'
+    ).at(0)
+    const lastDayElem = SecondCalendar.find(
+      'td.dnb-date-picker__day--selectable'
+    ).last()
+
+    // 1. Get ready. No selection made
+
+    expect(FirstCalendar.exists('.dnb-date-picker__day--preview')).toBe(
+      false
+    )
+    expect(
+      FirstCalendar.exists('.dnb-date-picker__day--within-selection')
+    ).toBe(false)
+    expect(
+      firstDayElem
+        .instance()
+        .classList.contains('dnb-date-picker__day--start-date')
+    ).toBe(false)
+    expect(
+      firstDayElem
+        .instance()
+        .classList.contains('dnb-date-picker__day--end-date')
+    ).toBe(false)
+
+    // 2. Click on start date
+
+    firstDayElem.find('button').simulate('click')
+
+    // 3. Should be marked with start and end date
+
+    expect(
+      firstDayElem
+        .instance()
+        .classList.contains('dnb-date-picker__day--start-date')
+    ).toBe(true)
+    expect(
+      firstDayElem
+        .instance()
+        .classList.contains('dnb-date-picker__day--end-date')
+    ).toBe(true)
+
+    // 4. But still no "selection"
+
+    expect(FirstCalendar.exists('.dnb-date-picker__day--preview')).toBe(
+      false
+    )
+    expect(
+      FirstCalendar.exists('.dnb-date-picker__day--within-selection')
+    ).toBe(false)
+
+    // 5. Hover on last day
+
+    lastDayElem.find('button').prop('onMouseOver')()
+
+    // 6. We should have all TDs in between, marked as "pewview"
+    // - and we should have marked it as the end-date
+
+    expect(
+      lastDayElem
+        .instance()
+        .classList.contains('dnb-date-picker__day--end-date')
+    ).toBe(true)
+    expect(
+      FirstCalendar.find('td.dnb-date-picker__day--selectable')
+        .at(1)
+        .instance()
+        .classList.contains('dnb-date-picker__day--preview')
+    ).toBe(true)
+    expect(
+      SecondCalendar.find('td.dnb-date-picker__day--selectable')
+        .last(-1)
+        .instance()
+        .classList.contains('dnb-date-picker__day--preview')
+    ).toBe(true)
+
+    // 7. simulate mouse leave the calendar
+
+    FirstCalendar.find('table').at(0).props().onMouseLeave()
+
+    // 8. remove the selection when mouse leaves the calendar
+
+    expect(
+      lastDayElem
+        .instance()
+        .classList.contains('dnb-date-picker__day--end-date')
+    ).toBe(false)
+    expect(
+      FirstCalendar.find('td.dnb-date-picker__day--selectable')
+        .at(1)
+        .instance()
+        .classList.contains('dnb-date-picker__day--preview')
+    ).toBe(false)
+    expect(
+      SecondCalendar.find('td.dnb-date-picker__day--selectable')
+        .last(-1)
+        .instance()
+        .classList.contains('dnb-date-picker__day--preview')
+    ).toBe(false)
+
+    // 9. Now, click on the last day as well
+
+    lastDayElem.find('button').simulate('click')
+
+    // 10. We should have all TDs in between, marked as "within-selection"
+
+    expect(
+      FirstCalendar.find('td.dnb-date-picker__day--selectable')
+        .at(1)
+        .instance()
+        .classList.contains('dnb-date-picker__day--within-selection')
+    ).toBe(true)
+    expect(
+      SecondCalendar.find('td.dnb-date-picker__day--selectable')
+        .last(-1)
+        .instance()
+        .classList.contains('dnb-date-picker__day--within-selection')
+    ).toBe(true)
+  })
+
   it('resets date correctly between interactions', () => {
     let outerState
     const on_change = jest.fn(({ date }) => (outerState = date))
