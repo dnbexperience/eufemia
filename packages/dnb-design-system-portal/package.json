@@ -143,6 +143,7 @@
     "hoistingLimits": "dependencies"
   },
   "buildVersion": "[LOCAL BUILD]",
+  "changelogVersion": "April, 5. 2021",
   "volta": {
     "extends": "../../package.json"
   }

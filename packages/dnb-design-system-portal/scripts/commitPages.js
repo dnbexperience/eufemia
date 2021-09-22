@@ -9,8 +9,8 @@ if (require.main === module) {
   commitToBranch({
     requiredBranch: 'main',
     what: 'pages',
-    filePathsIncludelist: ['version.json', '/src/docs/', '/src/uilib/'],
-    skipCI: (files) => files.every((f) => ['version.json'].includes(f)), // in case we only update the "version.lock"
+    filePathsIncludelist: ['/src/docs/', '/src/uilib/'],
+    skipCI: (files) => files.every((f) => ['package.json'].includes(f)), // in case we only update the "version.lock"
     isFeature: false,
   })
 }

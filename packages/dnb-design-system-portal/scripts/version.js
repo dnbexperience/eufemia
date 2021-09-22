@@ -59,12 +59,17 @@ async function createNewChangelogVersion() {
     )
     const content = await fs.readFile(changelogFilePath, 'utf-8')
 
-    const version = String(/^#+\s(.*)\n/g.exec(content)[0])
+    const changelogVersion = String(/^#+\s(.*)\n/g.exec(content)[0])
       .replace(/#+/, '')
       .trim()
 
-    const exportedFile = path.resolve(__dirname, '../', 'version.json')
-    await fs.writeFile(exportedFile, JSON.stringify({ version }))
+    packageJson.changelogVersion = changelogVersion
+
+    // Update the extracted version of package.json with the change log version
+    await fs.writeFile(
+      path.resolve(__dirname, '../package.json'),
+      JSON.stringify(packageJson, null, 2)
+    )
   } catch (e) {
     console.log(`Failed to create new static version file! \n${e.message}`)
   }
