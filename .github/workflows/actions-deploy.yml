@@ -3,6 +3,23 @@
 name: actions-deploy
 
 on:
+  push:
+    branches:
+      - main
+      - release
+      - beta
+      - alpha
+      - chore/*
+      - rc/*
+      - fix/*
+      - feat/*
+      - feature/*
+      - eufemia-icons
+  pull_request:
+    types:
+      - opened
+    branches:
+      - main
   workflow_run:
     workflows: ['actions-verify']
     types:
