@@ -1,34 +1,23 @@
-name: Eufemia Actions
+## This is the second step, it dependes on actions-verify
+
+name: actions-deploy
 
 on:
-  push:
-    branches:
-      - main
-      - beta
-      - chore/*
-      - rc/*
-      - fix/*
-      - feat/*
-      - feature/*
-      - eufemia-icons
-  pull_request:
+  workflow_run:
+    workflows: ['actions-verify']
     types:
-      - opened
-    branches:
-      - main
+      - completed
   # schedule:
   #   - cron: '44 3 * * 5'
 
 jobs:
   actions:
-    name: Run Eufemia Action
+    name: Test and Deploy Eufemia
 
     strategy:
       matrix:
         platform:
           - macos-latest
-          # - ubuntu-latest
-          # - windows-latest
 
     runs-on: ${{ matrix.platform }}
 
@@ -52,7 +41,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14.17.0
-          # node-version: lts/*
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
@@ -68,15 +56,6 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --immutable
-
-      - name: Audit dependencies
-        run: yarn workspace @dnb/eufemia audit:ci
-
-      - name: Run lint
-        run: yarn workspace @dnb/eufemia lint:ci && yarn workspace dnb-design-system-portal lint:ci
-
-      - name: Run tests
-        run: yarn workspace @dnb/eufemia test:ci && yarn workspace dnb-design-system-portal test:ci
 
       - name: Icons fetch and prebuild
         if: github.ref == 'refs/heads/eufemia-icons'

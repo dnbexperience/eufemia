@@ -19,7 +19,7 @@ const log = ora()
  * Why do we not use "load" only? Because it seems,
  * that a little delay during page load increases reliability
  */
-const waitUntil = 'load'
+const waitUntil = 'domcontentloaded'
 
 const config = {
   DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
@@ -57,8 +57,8 @@ const config = {
     detectAntialiasing: true,
     // local we check for 0% accuracy
     // due to the differences of font rendering between the os (linux/mac/win)
-    // we have to have a high threshold of 8%
-    pixelThresholdRelative: isCI ? 0.08 : 0,
+    // we have to have a high threshold of 3%
+    pixelThresholdRelative: isCI ? 0.03 : 0,
   },
 }
 module.exports.config = config
