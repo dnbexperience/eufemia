@@ -26,65 +26,7 @@ on:
   #   - cron: '44 3 * * 5'
 
 jobs:
-  verify:
-    name: Run Integration Tests
-
-    strategy:
-      matrix:
-        platform:
-          - macos-latest
-          - ubuntu-latest
-          # - windows-latest
-
-    runs-on: ${{ matrix.platform }}
-
-    steps:
-      - name: Git checkout
-        uses: actions/checkout@v2
-
-      - name: Use Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14.17.0
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-
-      - name: Use yarn cache
-        uses: actions/cache@v2
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-yarn-
-
-      - name: Install dependencies
-        run: yarn install --immutable
-
-      - name: Audit dependencies
-        run: yarn workspace @dnb/eufemia audit:ci
-
-      - name: Run lint
-        run: yarn workspace @dnb/eufemia lint:ci && yarn workspace dnb-design-system-portal lint:ci
-
-      - name: Run tests
-        run: yarn workspace @dnb/eufemia test:ci && yarn workspace dnb-design-system-portal test:ci
-
-      - name: Slack
-        uses: 8398a7/action-slack@v3
-        with:
-          channel: '#eufemia-dev'
-          status: ${{ job.status }}
-          fields: commit,repo,ref,author
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
-        if: failure()
-
-  deploy:
-    needs: verify
-
+  actions:
     name: Test and Deploy Eufemia
 
     runs-on: macos-latest
@@ -122,8 +64,27 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-yarn-
 
+      - name: Use node_modules cache
+        uses: actions/cache@v2
+        id: modules-cache
+        with:
+          path: |
+            ./node_modules
+            ./**/node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-modules-
+
       - name: Install dependencies
         run: yarn install --immutable
+
+      - name: Audit dependencies
+        run: yarn workspace @dnb/eufemia audit:ci
+
+      - name: Run lint
+        run: yarn workspace @dnb/eufemia lint:ci && yarn workspace dnb-design-system-portal lint:ci
+
+      - name: Run tests
+        run: yarn workspace @dnb/eufemia test:ci && yarn workspace dnb-design-system-portal test:ci
 
       - name: Icons fetch and prebuild
         if: github.ref == 'refs/heads/eufemia-icons'
