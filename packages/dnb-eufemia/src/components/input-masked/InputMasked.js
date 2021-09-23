@@ -20,14 +20,14 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { IS_IE11 } from '../../shared/helpers'
-import _MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
+import TextMask from 'react-text-mask' // https://github.com/text-mask/text-mask
 import Context from '../../shared/Context'
 import createNumberMask from './addons/createNumberMask'
 import classnames from 'classnames'
 import keycode from 'keycode'
 
 // Looks like we get two defaults back – this may change in a future update
-const MaskedInput = _MaskedInput.default || _MaskedInput
+const MaskedInput = TextMask.default || TextMask
 
 export default class InputMasked extends React.PureComponent {
   static tagName = 'dnb-input-masked'
