@@ -3,7 +3,7 @@ title: 'Naming Conventions'
 icon: 'naming'
 ---
 
-import Img from 'Tags/Img'
+import InlineImg from 'Tags/Img'
 
 import NamingSpace from 'Pages/quickguide-designer/assets/naming-space.svg'
 import TablesSpace from 'Pages/quickguide-designer/assets/tables-space.svg'
@@ -16,11 +16,11 @@ import TablesSpace from 'Pages/quickguide-designer/assets/tables-space.svg'
 
 Eufemia makes use of a very simple 8px unit grid. Margins, paddings, and distances consist of multiples of 8 (mostly - sometimes half and quarter units are required). If we were to combine multiples of this 8px 'space block', we could end up with something like this:
 
-<Img src={NamingSpace} caption="Naming space units" alt="Naming space units" />
+<InlineImg src={NamingSpace} caption="Naming space units" alt="Naming space units" />
 
 These titles can then be transferred to component for example tables. A 'medium' table would refer to the amount of padding in the cells.
 
-<Img src={TablesSpace} caption="Applying space to tables" alt="Applying space to tables" />
+<InlineImg src={TablesSpace} caption="Applying space to tables" alt="Applying space to tables" />
 
 The same can apply to components such as cards, form rows etc. responsive breakpoints can switch between these spacing units in order to expand or contract the overall size of an object.
 

@@ -2,7 +2,7 @@
 showTabs: true
 ---
 
-import Img from 'Tags/Img'
+import InlineImg from 'Tags/Img'
 import ModalExample from './assets/modal-example.svg'
 import ModalExampleButtons from './assets/modal-example-buttons.svg'
 
@@ -69,9 +69,9 @@ While it is possible to nest a Modal within another Modal, You as a developer ha
 
 ### Design Patterns
 
-<Img src={ModalExample} caption="Modal with header, text and close button (spacing suggestions in blue and pink)" alt="Image showing Modal with header" />
+<InlineImg src={ModalExample} caption="Modal with header, text and close button (spacing suggestions in blue and pink)" alt="Image showing Modal with header" />
 
-<Img src={ModalExampleButtons} caption="Modal with header, text, buttons and close button" alt="Image showing Modal with header and close button" />
+<InlineImg src={ModalExampleButtons} caption="Modal with header, text, buttons and close button" alt="Image showing Modal with header and close button" />
 
 ## Root Element
 
