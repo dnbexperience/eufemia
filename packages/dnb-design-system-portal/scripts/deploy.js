@@ -48,4 +48,6 @@ const run = () => {
   )
 }
 
-run()
+if (process.env.DRONE) {
+  run()
+}

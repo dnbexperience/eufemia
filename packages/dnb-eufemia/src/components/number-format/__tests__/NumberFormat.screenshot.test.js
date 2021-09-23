@@ -6,16 +6,16 @@
 import {
   testPageScreenshot,
   setupPageScreenshot,
-  isCI,
+  // isCI,
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('NumberFormat screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/number-format/demos',
-    screenshotConfig: {
-      // use 11% on CI because of the font rendering differences
-      pixelThresholdRelative: isCI ? 0.11 : 0,
-    },
+    // screenshotConfig: {
+    //   // use 11% on CI because of the font rendering differences
+    //   pixelThresholdRelative: isCI ? 0.11 : 0,
+    // },
   })
   it('have to match default numbers', async () => {
     const screenshot = await testPageScreenshot({

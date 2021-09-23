@@ -12,10 +12,10 @@ import {
 describe('Anchor screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/elements/anchor',
-    screenshotConfig: {
-      // use 7% on CI because of the font rendering differences
-      pixelThresholdRelative: isCI ? 0.07 : 0,
-    },
+    // screenshotConfig: {
+    //   // use 7% on CI because of the font rendering differences
+    //   pixelThresholdRelative: isCI ? 0.07 : 0,
+    // },
   })
   // the first one is on 5.54%
   it('have to match the "default" state', async () => {
@@ -69,10 +69,10 @@ describe('Anchor screenshot', () => {
   })
   it('have to match the anchor-contrast "focus" state', async () => {
     const screenshot = await testPageScreenshot({
-      screenshotConfig: {
-        // use 7% on CI because of the font rendering differences
-        pixelThresholdRelative: isCI ? 0.07 : 0,
-      },
+      // screenshotConfig: {
+      //   // use 7% on CI because of the font rendering differences
+      //   pixelThresholdRelative: isCI ? 0.07 : 0,
+      // },
       selector: '[data-visual-test="anchor-contrast"]',
       simulate: 'focus', // should be tested first
     })
@@ -99,10 +99,10 @@ describe('Anchor screenshot', () => {
 describe('Anchor target blank screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/elements/anchor',
-    screenshotConfig: {
-      // use 7% on CI because of the font rendering differences
-      pixelThresholdRelative: isCI ? 0.07 : 0,
-    },
+    // screenshotConfig: {
+    //   // use 7% on CI because of the font rendering differences
+    //   pixelThresholdRelative: isCI ? 0.07 : 0,
+    // },
   })
   it('have to match blank target anchor in heading', async () => {
     const screenshot = await testPageScreenshot({
