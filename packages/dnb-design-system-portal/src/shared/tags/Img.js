@@ -18,6 +18,12 @@ const Img = ({
     height = '100%'
   }
   const props = { width, height }
+
+  if (React.isValidElement(src)) {
+    const Svg = src
+    src = <Svg alt={alt || caption} {...props} />
+  }
+
   return (
     <Image
       className={classnames('image-box', className)}
@@ -33,7 +39,7 @@ Img.propTypes = {
   className: PropTypes.string,
   alt: PropTypes.string,
   children: PropTypes.node,
-  src: PropTypes.string,
+  src: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   size: PropTypes.string,
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

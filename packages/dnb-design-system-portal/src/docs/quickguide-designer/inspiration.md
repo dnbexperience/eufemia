@@ -3,7 +3,7 @@ title: 'Inspiration'
 icon: 'inspiration'
 ---
 
-import Img from 'Tags/Img'
+import InlineImg from 'Tags/Img'
 import InspirationSkadeforsikring from 'Pages/quickguide-designer/assets/inspiration-skadeforsikring-guides.svg'
 import InspirationSkadeforsikringNoGuides from 'Pages/quickguide-designer/assets/inspiration-skadeforsikring.svg'
 
@@ -15,10 +15,10 @@ Be aware that the default text styling in Eufemia does not include top and botto
 
 The first image below shows how the final form looks. The second image highlights some of the vertical and horizontal spacing in the design.
 
-<Img src={InspirationSkadeforsikringNoGuides} caption="Form example with alternating sections" alt="Example of a form" />
+<InlineImg src={InspirationSkadeforsikringNoGuides} caption="Form example with alternating sections" alt="Example of a form" />
 
 ## Using Eufemia's spatial system for layout
 
 Even though there is a lot of freedom built into the Eufemia system regarding how UI layout designs should be, it is recommended to use the standard spacers found in the Eufemia library in order to attain a visually consistent look. The example above is laid out with the standard spacers and these are highlighted in the duplicate example below:
 
-<Img src={InspirationSkadeforsikring} caption="Form example with vertical spacing  and some horizontal highlighted" alt="Example of a form with spacing highlighted" />
+<InlineImg src={InspirationSkadeforsikring} caption="Form example with vertical spacing  and some horizontal highlighted" alt="Example of a form with spacing highlighted" />

@@ -3,10 +3,8 @@ require('dotenv').config()
 module.exports = {
   presets: [
     [
-      '@babel/preset-env',
+      'babel-preset-gatsby',
       {
-        useBuiltIns: 'usage',
-        corejs: 3,
         targets: {
           // Should reflect: https://eufemia.dnb.no/uilib/usage#supported-browsers-and-platforms
           browsers: [
@@ -19,10 +17,10 @@ module.exports = {
         },
       },
     ],
-    '@babel/preset-react',
   ],
-  ignore: [
-    '.*node_modules/(?!rewrite-pattern|regexpu-core|buble|react-live).*',
-  ],
-  plugins: ['@babel/plugin-proposal-class-properties'],
+  // At some point we had to exclude some packages from being processed
+  // Looks like it works fine now
+  // ignore: [
+  //   '.*node_modules/(?!rewrite-pattern|regexpu-core|buble|react-live).*',
+  // ],
 }

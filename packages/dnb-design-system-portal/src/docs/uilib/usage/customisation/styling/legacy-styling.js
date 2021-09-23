@@ -5,7 +5,7 @@
 
 import React from 'react'
 import styled from '@emotion/styled'
-import Img from 'Tags/Img'
+import InlineImg from 'Tags/Img'
 import { css } from '@emotion/react'
 import { Button, Icon } from '@dnb/eufemia/src/components'
 import { H2, H4, P, Hr, Code } from '@dnb/eufemia/src/elements'
@@ -42,7 +42,7 @@ const LegacyCodeStyling = () => (
         </a>
       </p>
       <Hr />
-      <Img
+      <InlineImg
         src={LegacyCodeStylingExample}
         caption="Screenshot of how the first example would look like"
         size="auto"
