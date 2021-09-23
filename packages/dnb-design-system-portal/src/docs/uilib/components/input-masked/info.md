@@ -12,8 +12,6 @@ This component uses the basic [Input](/uilib/components/input) but with a set of
 
 You will either create your own mask, or use one of the provided once. There are also masks which change based on different [locales](/uilib/components/input-masked/info?fullscreen#mask-based-on-locale) (`as_currency` or `as_number`).
 
-The build in number and currency masks will `align` the content of the input field to the **right** if noting else is specified.
-
 ### Accessibility
 
 Screen readers will read also the mask before the user is entering content. Also the user will hear the mask during typing. This behavior can both have positive and negative side effects to the user. But overall, it works ok.
