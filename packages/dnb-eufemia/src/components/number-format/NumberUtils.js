@@ -258,22 +258,29 @@ export const format = (
     aria = display
   }
 
-  const cleanedValue = formatNumber(value, locale, opts, (item) => {
-    switch (item.type) {
-      case 'currency':
-      case 'group':
-      case 'literal':
-        item.value = ''
-        return item
-      default:
-        return item
-    }
-  })
+  if (returnAria) {
+    const cleanedValue = formatNumber(
+      opts.style === 'percent' ? value / 100 : value,
+      locale,
+      opts,
+      (item) => {
+        switch (item.type) {
+          case 'currency':
+          case 'group':
+          case 'literal':
+          case 'percentSign':
+            item.value = ''
+            return item
+          default:
+            return item
+        }
+      }
+    )
+    // return "locale" as well value,l, since we have to "auto" option
+    return { value, cleanedValue, number: display, aria, locale, type }
+  }
 
-  // return "locale" as well value,l, since we have to "auto" option
-  return returnAria
-    ? { value, cleanedValue, number: display, aria, locale, type }
-    : display
+  return display
 }
 
 /**
