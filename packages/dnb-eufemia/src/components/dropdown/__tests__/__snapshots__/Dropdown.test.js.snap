@@ -810,6 +810,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                           className={null}
                           id="dropdown-id-ul"
                           role="listbox"
+                          showFocusRing={false}
                           style={
                             Object {
                               "maxHeight": "1rem",

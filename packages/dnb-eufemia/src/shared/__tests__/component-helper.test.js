@@ -29,6 +29,7 @@ import {
   InteractionInvalidation,
   findElementInChildren,
   matchAll,
+  convertJsxToString,
   escapeRegexChars,
 } from '../component-helper'
 
@@ -792,6 +793,48 @@ describe('"warn" should', () => {
     warn(text)
     expect(global.console.log).not.toBeCalled()
   })
+})
+
+describe('"convertJsxToString" should', () => {
+  it('extracts content from components inside array', () => {
+    const Component = () => 'not reachable'
+    const Content = [
+      <div key="a">reachable A</div>,
+      <Component key="x" />,
+      <div key="b">reachable B</div>,
+    ]
+    expect(convertJsxToString(Content, '|')).toBe(
+      'reachable A|reachable B'
+    )
+  })
+
+  it('handle whitespace situations', () => {
+    const Component = () => 'not reachable'
+    const Content = [
+      <div key="a"> reachable A</div>,
+      <Component key="x" />,
+      <div key="b"> </div>,
+      <div key="c"> reachable B</div>,
+    ]
+    expect(convertJsxToString(Content, ' ')).toBe(
+      'reachable A reachable B'
+    )
+  })
+
+  // This is not supported currently
+  // it.only('extracts content from components inside array', () => {
+  //   const Component = () => 'not reachable'
+  //   const Content = () => (
+  //     <>
+  //       <div key="a">reachable A</div>
+  //       <Component key="x" />
+  //       <div key="b">reachable B</div>
+  //     </>
+  //   )
+  //   expect(convertJsxToString(Content, '|')).toBe(
+  //     'reachable A|reachable B'
+  //   )
+  // })
 })
 
 describe('"escapeRegexChars" should', () => {

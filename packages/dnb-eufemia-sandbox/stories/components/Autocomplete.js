@@ -47,6 +47,36 @@ export const SearchNumbers = () => {
   )
 }
 
+export const SearchWithWrappers = () => {
+  const topMovies = [
+    { content: 'item aa', search_content: ['AA c'] },
+    { content: 'item bb', search_content: ['BB cc zethx'] },
+    { content: 'item cc', search_content: ['CC', 'cc'] },
+    { content: 'item cc second', search_content: ['CC', 'cc', 'more'] },
+    { content: 'item dd', search_content: ['DD', 'dd'] },
+    { content: 'item ee', search_content: ['EE', 'ee'] },
+  ]
+  // const topMovies = ['AA c', 'BB cc zethx', { content: ['CC', 'cc'] }]
+  return (
+    <>
+      <Autocomplete
+        // input_value="123"
+        input_value="cc bb more"
+        // input_value="cc bb zethx"
+        // input_value="the aa red"
+        // input_value="red the"
+        // input_value="100 222 4"
+        opened
+        no_animation
+        label="Label:"
+        data={topMovies}
+        // disable_highlighting
+        // search_in_word_index={1}
+      />
+    </>
+  )
+}
+
 const CustomStyle = styled.div`
   .dnb-autocomplete__shell {
     width: 10rem; /* custom width */
@@ -510,18 +540,33 @@ const autocompleteDataScrollable = [
 
 const topMovies = [
   {
+    // content: [
+    //   <IconPrimary icon="bell" />,
+    //   <span className="custom-selector">The Shawshank Redemption</span>,
+    //   <span className="custom-selector">xx</span>,
+    // ],
     content: (
       <>
         <IconPrimary icon="bell" />
-        <span className="custom-selector">The Shawshank Redemption</span>
+        {/* <div>The Shawshank xRedemption</div> */}
+
+        <span className="custom-selector-a">The Shawshank Redemption</span>
+
+        <span className="custom-selector-b">xx</span>
+
         <NumberFormat
           currency
           value={1234}
           style={{ color: 'var(--color-black-55)' }}
         />
-        <NumberFormat currency value={1234} className="dnb-typo-bold" />
+        <NumberFormat
+          currency
+          value={1234}
+          // className="dnb-typo-bold"
+        />
       </>
     ),
+    // search_content: ['aa', 're', 1234],
     year: 1994,
   },
   { content: 'The Godfather', year: 1972 },
