@@ -10,10 +10,6 @@
   --drawer-list-option-border-width: 0.0625rem;
 }
 
-@mixin drawerListBorderColor($color) {
-  @include fakeBorder($color, 0.125rem, null, true, !important);
-}
-
 .dnb-drawer-list {
   color: var(--color-emerald-green);
 
@@ -152,7 +148,18 @@
 
       // Remove line on selected items
       &::before {
-        content: none;
+        visibility: hidden;
+      }
+    }
+
+    html[data-whatinput='keyboard'] &--selected#{&}--focus {
+      &::before {
+        visibility: visible;
+
+        @include fakeBorder(
+          var(--color-mint-green),
+          var(--drawer-list-focus-border-width)
+        );
       }
     }
 
