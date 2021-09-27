@@ -4,11 +4,11 @@
  *
  */
 
-import dotenv from 'dotenv'
-import ghpages from 'gh-pages'
-import { name as CIName } from 'ci-info'
-import ora from 'ora'
-import { currentVersion } from './version.js'
+const dotenv = require('dotenv')
+const ghpages = require('gh-pages')
+const { name: CIName } = require('ci-info')
+const ora = require('ora')
+const { currentVersion } = require('./version.js')
 
 // import .env variables
 dotenv.config()

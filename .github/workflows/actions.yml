@@ -85,7 +85,7 @@ jobs:
 
       - name: Get current date
         id: date
-        run: echo "::set-output name=timestamp::$(date +'%Y-%m-%U')"
+        run: echo "::set-output name=timestamp::$(date +'%Y-%U')"
 
       - name: Use Gatsby cache
         uses: actions/cache@v2
