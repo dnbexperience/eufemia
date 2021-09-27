@@ -1,45 +1,26 @@
 require('dotenv').config()
-const isCI = require('is-ci')
-const { getCurrentBranchName } = require('./src/uilib/utils/git')
-
-const runModernBuild =
-  // for local builds
-  process.env.BUILD_LEGACY_BROWSERS !== '1' &&
-  // for local builds
-  (!isCI ||
-    // for CI
-    (isCI &&
-      !process.env.GATSBY_CLOUD &&
-      !process.env.NETLIFY &&
-      !/(release|portal|beta|alpha)/.test(getCurrentBranchName())))
 
 module.exports = {
   presets: [
     [
-      '@babel/preset-env',
+      'babel-preset-gatsby',
       {
-        useBuiltIns: 'usage',
-        corejs: 3,
-        targets: runModernBuild
-          ? {
-              chrome: '90', // Like puppeteer v8
-            }
-          : {
-              // Should reflect: https://eufemia.dnb.no/uilib/usage#supported-browsers-and-platforms
-              browsers: [
-                'ie 11',
-                'edge >= 14',
-                'firefox >= 52',
-                'chrome >= 49',
-                'safari >= 10',
-              ],
-            },
+        targets: {
+          // Should reflect: https://eufemia.dnb.no/uilib/usage#supported-browsers-and-platforms
+          browsers: [
+            'ie 11',
+            'edge >= 14',
+            'firefox >= 52',
+            'chrome >= 49',
+            'safari >= 10',
+          ],
+        },
       },
     ],
-    '@babel/preset-react',
   ],
-  ignore: [
-    '.*node_modules/(?!rewrite-pattern|regexpu-core|buble|react-live).*',
-  ],
-  plugins: ['@babel/plugin-proposal-class-properties'],
+  // At some point we had to exclude some packages from being processed
+  // Looks like it works fine now
+  // ignore: [
+  //   '.*node_modules/(?!rewrite-pattern|regexpu-core|buble|react-live).*',
+  // ],
 }

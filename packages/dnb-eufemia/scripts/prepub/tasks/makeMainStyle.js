@@ -7,7 +7,7 @@ import gulp from 'gulp'
 import sass from 'gulp-sass'
 import postcss from 'postcss'
 import onceImporter from 'node-sass-once-importer'
-import cssnano from 'gulp-cssnano'
+import cssnano from 'cssnano'
 import clone from 'gulp-clone'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
@@ -75,12 +75,7 @@ export const runFactory = (
           )
         )
         .pipe(cloneSink)
-        .pipe(
-          // cssnano has to run after cloneSink! So we get both a non min and a min version
-          cssnano({
-            reduceIdents: false,
-          })
-        )
+        .pipe(transform('utf8', transformCssnano({ reduceIdents: false })))
         .pipe(rename({ suffix: '.min' }))
         .pipe(cloneSink.tap())
 
@@ -102,9 +97,7 @@ export const runFactory = (
       // so tests can test the minified code
       if (returnResult) {
         stream.pipe(
-          cssnano({
-            reduceIdents: false,
-          })
+          transform('utf8', transformCssnano({ reduceIdents: false }))
         )
       }
 
@@ -134,6 +127,21 @@ const transformPostcss = (config) => async (content, file) => {
 
   return (
     await postcss(config).process(content, {
+      from: file.path,
+    })
+  ).toString()
+}
+
+const transformCssnano = (config) => async (content, file) => {
+  log.info(`> PrePublish: cssnano process | ${file.path}`)
+
+  return (
+    await postcss([
+      cssnano({
+        preset: 'default',
+        ...config,
+      }),
+    ]).process(content, {
       from: file.path,
     })
   ).toString()

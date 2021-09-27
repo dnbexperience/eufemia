@@ -1,4 +1,4 @@
-import Img from 'Tags/Img'
+import InlineImg from 'Tags/Img'
 import AngularAppScreenshot from 'Pages/uilib/usage/first-steps/assets/example-angular-1-screenshot.png'
 
 # Angular
@@ -42,4 +42,4 @@ Have a look at [this Angular 1 example app](https://github.com/dnbexperience/euf
 
 ## Screenshot
 
-<Img src={AngularAppScreenshot} caption="Screenshot of Angular Example App" width="80%" />
+<InlineImg src={AngularAppScreenshot} caption="Screenshot of Angular Example App" width="80%" />

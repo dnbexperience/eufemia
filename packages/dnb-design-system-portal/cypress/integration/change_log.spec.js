@@ -3,7 +3,7 @@
  *
  */
 
-import { version } from '../../version.json'
+import packageJson from '../../package.json'
 
 describe('Change log', () => {
   beforeEach(() => {
@@ -11,6 +11,8 @@ describe('Change log', () => {
   })
 
   it('click on main menu button should open the main menu', () => {
-    cy.get('main').find('h2:nth-of-type(1)').should('contain', version)
+    cy.get('main')
+      .find('h2:nth-of-type(1)')
+      .should('contain', packageJson.changelogVersion)
   })
 })

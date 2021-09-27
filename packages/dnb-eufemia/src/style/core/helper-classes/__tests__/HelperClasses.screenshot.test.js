@@ -4,17 +4,17 @@
  */
 
 import {
-  isCI,
+  // isCI,
   testPageScreenshot,
   setupPageScreenshot,
 } from '../../../../core/jest/jestSetupScreenshots'
 
 describe('HelperClasses screenshot', () => {
   setupPageScreenshot({
-    screenshotConfig: {
-      // use 11% on CI because of the font rendering differences
-      pixelThresholdRelative: isCI ? 0.11 : 0,
-    },
+    // screenshotConfig: {
+    //   // use 11% on CI because of the font rendering differences
+    //   pixelThresholdRelative: isCI ? 0.11 : 0,
+    // },
     url: '/uilib/helpers/css-examples',
   })
   it('have to match core-style', async () => {

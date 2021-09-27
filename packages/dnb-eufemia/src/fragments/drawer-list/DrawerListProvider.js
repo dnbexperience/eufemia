@@ -396,15 +396,6 @@ export default class DrawerListProvider extends React.PureComponent {
     this.correctHiddenView()
     this.refreshScrollObserver()
 
-    // We used this before to focus on the options, now we set scrollToAndSetActiveItem(0)
-    // const { selected_item, active_item } = this.state
-    // this.scrollToAndSetActiveItem(
-    //   parseFloat(active_item) > -1 ? active_item : selected_item,
-    //   {
-    //     scrollTo: false,
-    //   }
-    // )
-
     renderDirection()
   }
 
@@ -539,12 +530,12 @@ export default class DrawerListProvider extends React.PureComponent {
     }, 1) // to make sure we are after all DOM updates, else we don't get this scrolling
   }
 
-  scrollToAndSetActiveItem = (
+  setActiveItemAndScrollToIt = (
     active_item,
     { fireSelectEvent = false, scrollTo = true, event = null } = {}
   ) => {
     // during opening, and if noting is selected, set focus and scroll to item
-    if (active_item === -1) {
+    if (parseFloat(active_item) === -1) {
       this.setState(
         {
           active_item: -1,
@@ -804,21 +795,16 @@ export default class DrawerListProvider extends React.PureComponent {
         {
           e.preventDefault()
 
-          if (this.state.active_item === 0) {
-            active_item =
-              this.state.direction === 'top' ? this.getLastItem() : -1
+          if (
+            this.state.direction === 'bottom' &&
+            this.state.active_item === this.getFirstItem()
+          ) {
+            active_item = -1
           } else {
             active_item = this.getPrevActiveItem()
             if (isNaN(active_item)) {
-              active_item = this.getFirstItem() || this.getLastItem()
+              active_item = this.getLastItem()
             }
-          }
-
-          if (
-            this.state.direction === 'top' &&
-            isNaN(this.getCurrentActiveItem()) === null
-          ) {
-            active_item = this.getLastItem()
           }
         }
         break
@@ -827,17 +813,17 @@ export default class DrawerListProvider extends React.PureComponent {
         {
           e.preventDefault()
 
-          if (active_item === -1 || isNaN(this.getCurrentActiveItem())) {
-            active_item = this.getFirstItem() || 0
-          } else {
-            active_item = this.getNextActiveItem() || 0
-          }
-
           if (
             this.state.direction === 'top' &&
             this.state.active_item === this.getLastItem()
           ) {
             active_item = -1
+          } else {
+            active_item = this.getNextActiveItem()
+
+            if (isNaN(active_item)) {
+              active_item = this.getFirstItem()
+            }
           }
         }
         break
@@ -865,16 +851,20 @@ export default class DrawerListProvider extends React.PureComponent {
       case 'space':
         {
           active_item = this.getCurrentActiveItem()
+
           if (
             isTrue(this.props.skip_keysearch)
               ? active_item > -1 && key !== 'space'
               : true
           ) {
             e.preventDefault()
-            this.selectItemAndClose(active_item, {
+            const result = this.selectItemAndClose(active_item, {
               fireSelectEvent: true,
               event: e,
             })
+            if (result === false) {
+              return // stop here if the data actually does not exit
+            }
           }
         }
         break
@@ -913,14 +903,6 @@ export default class DrawerListProvider extends React.PureComponent {
     }
 
     if (
-      parseFloat(active_item) > -1 &&
-      active_item !== this.state.active_item
-    ) {
-      this.scrollToAndSetActiveItem(active_item, {
-        fireSelectEvent: true,
-        event: e,
-      })
-    } else if (
       active_item === -1 &&
       this._refUl.current &&
       typeof document !== 'undefined'
@@ -932,11 +914,24 @@ export default class DrawerListProvider extends React.PureComponent {
 
       if (ulElem === this._refUl.current) {
         this.setState({
+          showFocusRing: true,
           active_item,
         })
+
         this._refUl.current.focus({ preventScroll: true })
         dispatchCustomElementEvent(this.state, 'handle_dismiss_focus')
       }
+    } else if (
+      parseFloat(active_item) > -1 &&
+      active_item !== this.state.active_item
+    ) {
+      this.setState({
+        showFocusRing: false,
+      })
+      this.setActiveItemAndScrollToIt(active_item, {
+        fireSelectEvent: true,
+        event: e,
+      })
     }
   }
 
@@ -1084,7 +1079,8 @@ export default class DrawerListProvider extends React.PureComponent {
 
       // Select the first item to NVDA is more easily navigateable,
       // without using the alt + arrow key
-      this.scrollToAndSetActiveItem(
+      // else we set the focus on the "ul" element
+      this.setActiveItemAndScrollToIt(
         parseFloat(active_item) > -1 ? active_item : -1
       )
     }
@@ -1236,7 +1232,7 @@ export default class DrawerListProvider extends React.PureComponent {
     )
 
     if (res === false) {
-      return // stop here
+      return res // stop here
     }
 
     if (hasSelectedText()) {
@@ -1316,7 +1312,7 @@ export default class DrawerListProvider extends React.PureComponent {
             selectItem: this.selectItem,
             selectItemAndClose: this.selectItemAndClose,
             scrollToItem: this.scrollToItem,
-            scrollToAndSetActiveItem: this.scrollToAndSetActiveItem,
+            setActiveItemAndScrollToIt: this.setActiveItemAndScrollToIt,
             ...this.state,
           },
         }}

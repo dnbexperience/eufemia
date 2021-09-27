@@ -342,7 +342,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             <span
               className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content"
               id="autocomplete-id-form-status"
-              label="Autocomplete Label:"
               role="alert"
             >
               <span
@@ -914,6 +913,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           className={null}
                           id="autocomplete-id-ul"
                           role="listbox"
+                          showFocusRing={false}
                           style={
                             Object {
                               "maxHeight": "1rem",
@@ -1240,6 +1240,11 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
 
 .dnb-autocomplete__root .dnb-drawer-list__option__item--highlight {
   font-weight: var(--font-weight-bold); }
+
+.dnb-autocomplete__root
+.dnb-drawer-list__option--selected
+.dnb-drawer-list__option__item:nth-of-type(n + 2) {
+  color: var(--color-white); }
 "
 `;
 

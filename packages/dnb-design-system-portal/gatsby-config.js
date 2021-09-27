@@ -13,6 +13,10 @@ const siteMetadata = {
 }
 const plugins = [
   {
+    resolve: 'gatsby-plugin-gatsby-cloud',
+    options: {},
+  },
+  {
     resolve: 'gatsby-plugin-manifest',
     options: {
       name: 'Eufemia - DNB Design System',
@@ -40,20 +44,13 @@ const plugins = [
   'gatsby-plugin-catch-links',
   'gatsby-plugin-react-helmet',
   'gatsby-plugin-sharp', // is used by gatsby-remark-images
+  'gatsby-remark-images',
   {
     resolve: 'gatsby-plugin-page-creator',
     options: {
       ignore: ['**/*.md', '**/Examples.js', '**/*_not_in_use*'],
       path: `${__dirname}/src/docs`, // for .js files
       name: 'docs',
-    },
-  },
-  {
-    resolve: 'gatsby-source-filesystem',
-    options: {
-      path: `${__dirname}/src/docs`, //for .md (mdx) files
-      name: 'docs',
-      ignore: ['**/*_not_in_use*'],
     },
   },
   {
@@ -77,12 +74,20 @@ const plugins = [
       ],
       // Imports in here are globally available in *.md files
       // globalScope: `
-      //   import Img from 'Tags/Img'
+      //   import InlineImg from 'Tags/Img'
       //   export default { Img }
       // `
       // defaultLayouts: {
       //   // default: require.resolve('./src/templates/mdx.js')
       // }
+    },
+  },
+  {
+    resolve: 'gatsby-source-filesystem',
+    options: {
+      path: `${__dirname}/src/docs`, //for .md (mdx) files
+      name: 'docs',
+      ignore: ['**/*_not_in_use*'],
     },
   },
   {
@@ -128,9 +133,11 @@ if (queries) {
 
 module.exports = {
   flags: {
-    // because of the local visual tests,
-    // we disable the SSR features.
-    // The reason? every page takes longer time to render.
+    /**
+     * because of the local visual tests,
+     * we disable the SSR features.
+     * The reason? every page takes longer time to render.
+     */
     DEV_SSR: false,
     FAST_DEV: false,
   },

@@ -3,7 +3,7 @@ title: 'Spatial system'
 icon: 'special'
 ---
 
-import Img from 'Tags/Img'
+import InlineImg from 'Tags/Img'
 
 import TypeAndLayoutSvg from 'Pages/quickguide-designer/assets/type-and-layout.svg'
 import PaddingExampleSvg from 'Pages/quickguide-designer/assets/padding-example.svg'
@@ -34,7 +34,7 @@ It is simple and consistent whilst allowing for some design freedom.
 
 **NB!** All unitless measurements in the following illustrations are multiples of 8px (for example: x2 means two 8px units)
 
-<Img src={TypeAndLayoutSvg} caption="Label with line height 16 aligning with dropdown of 32px high, padding left and right 16px and an icon sized 16x16" alt="My alt" />
+<InlineImg src={TypeAndLayoutSvg} caption="Label with line height 16 aligning with dropdown of 32px high, padding left and right 16px and an icon sized 16x16" alt="My alt" />
 
 ### Line-height % Grid base unit = 0
 
@@ -48,7 +48,7 @@ Applying the 8px base system to as much as possible within UI design means that 
 
 Sometimes 8 is not small enough or too big. Line thicknesses and borders are usually 1-2px in thickness. When we encounter situations where lines may 'throw' the layout off the grid, we can compensate by removing these line thicknesses from the padding or margin of the neighbouring element.
 
-<Img src={BordersAndLinesSvg} caption="Removing border thickness from padding" alt="Removing border thickness from padding" />
+<InlineImg src={BordersAndLinesSvg} caption="Removing border thickness from padding" alt="Removing border thickness from padding" />
 
 ### Calculating line thickness v. the 8px grid
 
@@ -72,7 +72,7 @@ In this case **line-height / 8** is equal to 3 (24 / 8 = 3)
 The same process should be applied in dealing with divider lines.
 Horizontal rules and other dividing mechanisms usually have some margin or padding around them. Remove the lines thickness from the padding or margin (above or below), to maintain the baseline grid.
 
-<Img src={LineHeightSvg} caption="Line heights divisible by 8 sit on the grid (left side)" alt="Line heights and the grid" />
+<InlineImg src={LineHeightSvg} caption="Line heights divisible by 8 sit on the grid (left side)" alt="Line heights and the grid" />
 
 ## Why do we need a spatial system?
 
@@ -81,9 +81,9 @@ Space affects consistency, usability, readability and ultimately user experience
 A good spatial system takes some of the guesswork out of layout decisions for designers and developers. It also makes it's easier for others to understand the intentions of the designer when viewing design files.
 
 In the example below, a viewer informed of the spatial system could easily assume that the colored line thicknesses are 8px, 16px and 24px respectively and not 'odd' numbers like 7, 13 and 25.
-<Img src={DesignersIntentionsSvg} caption="Three padding thicknesses easily assumed to be 8, 16 and 24px" alt="Image showing three padding thicknesses" />
+<InlineImg src={DesignersIntentionsSvg} caption="Three padding thicknesses easily assumed to be 8, 16 and 24px" alt="Image showing three padding thicknesses" />
 
-<Img src={MultipleMarginsSvg} caption="Vertical and horizontal margins based on the 8px grid" alt="Image showing Vertical and horizontal margins" />
+<InlineImg src={MultipleMarginsSvg} caption="Vertical and horizontal margins based on the 8px grid" alt="Image showing Vertical and horizontal margins" />
 
 ## Principles
 
@@ -108,17 +108,17 @@ Use margins to create space between elements. Objects which allow interaction by
 Set margins based on one or more spatial blocks.
 margins do not have to be equal on all sides of and object. Margins between related objects can be reduced to position closer together.
 
-<Img src={MarginExampleSvg} caption="Margin - highlighted in yellow" alt="Margin example" />
+<InlineImg src={MarginExampleSvg} caption="Margin - highlighted in yellow" alt="Margin example" />
 
 ### 2. Padding
 
 Padding refers to the space **within** an object.
 
-<Img src={PaddingExampleSvg} caption="Padding - highlighted in magenta" alt="Padding example" />
+<InlineImg src={PaddingExampleSvg} caption="Padding - highlighted in magenta" alt="Padding example" />
 
 Padding can be used to 'inflate' an objects bounding or 'hit area' or make it larger without scaling it's internal parts.
 
-<Img src={PaddingButtonsSvg} caption="Padding used to increase the appearance of a button" alt="Padding in buttons" />
+<InlineImg src={PaddingButtonsSvg} caption="Padding used to increase the appearance of a button" alt="Padding in buttons" />
 
 ### 3. Z-index
 
@@ -126,19 +126,19 @@ Z-index spacing refers to space along the z-axis of an interface. It is not used
 
 In the example below the shadow on the left is used for modal windows whereas the shadow on the right is used for open elements and components such as date pickers and dropdowns.
 
-<Img src={ZindexSvg} caption="Shadows used to illustrate space below an object" alt="Shadows" />
+<InlineImg src={ZindexSvg} caption="Shadows used to illustrate space below an object" alt="Shadows" />
 
 ### 4. Extents
 
 Extents refers to the amount of space available on displays and how much of it the content should take up. Ideal line length at default text-size (16px) is about 11-12 words. On large displays this can create vast areas of white space on the sides while still requiring the user to scroll. Use breakpoints to decide if multiple columns of content is a better way to present the content.
 
-<Img src={ExtentsSvg} caption="Making use of the horizontal space" alt="Extents" />
+<InlineImg src={ExtentsSvg} caption="Making use of the horizontal space" alt="Extents" />
 
 ### 5. Space within elements
 
 This relates to the amount of inner space an objects has. It has similarities to padding but also deals with small intricate cavities especially in graphic elements such as icons. When icons are resized down they sometimes loose some of their details and legibility.
 
-<Img src={SpaceWithinSvg} caption="Space within objects - highlighted here by the checkerboard" alt="Space within objects" />
+<InlineImg src={SpaceWithinSvg} caption="Space within objects - highlighted here by the checkerboard" alt="Space within objects" />
 
 ### 6. Typography
 
@@ -150,7 +150,7 @@ Eufemia typographic rules are built on the same units of measurement (multiples 
 
 The Eufemia type scale should be limited to **12px, 14px, 16px, 18px, 24px, 32px**. Larger sizes can be used but must follow the sizing and spacing rules.
 
-<Img src={TypeOnGridSvg} caption="Type elements aligning to the grid" alt="Type elements aligning to the grid" />
+<InlineImg src={TypeOnGridSvg} caption="Type elements aligning to the grid" alt="Type elements aligning to the grid" />
 
 For those familiar with CSS, we establish typographic rules in the following way:
 
@@ -190,7 +190,7 @@ Rules dictate which slugs are placed adjacent to which blocks.
 A spatial system and grid system are two different things. A grid is a component which _uses_ space.
 The Eufemia Spatial System is a very simple set of ’space-blocks’ than _create_ space - akin to the leading slugs in a typesetters frame.
 
-<Img src={SpaceBlocksSvg} caption="Space blocks separating objects" alt="Space blocks" />
+<InlineImg src={SpaceBlocksSvg} caption="Space blocks separating objects" alt="Space blocks" />
 
 A _grid system_ is typically a more elaborate set of containers which divide the UI into sections with margins and gutters between them. Eufemia's spatial system is a simple guide for space and type set around the 8px base unit.
 
@@ -224,7 +224,7 @@ When designing with type, there may sometimes be small discrepancies between the
 
 In order to see how type is rendered in the browser and view the space it uses, toggle the grid view in the top right of this document.
 
-<Img src={DiscrepanciesSvg} caption="Slight discrepancies between design tool and browser rendering" alt="Discrepancies between design tool and browser" />
+<InlineImg src={DiscrepanciesSvg} caption="Slight discrepancies between design tool and browser rendering" alt="Discrepancies between design tool and browser" />
 
 In the image above the heading with the blue background is how Figma shows the space the the heading uses. The heading with the yellow background is how the browser (Chrome) renders and shows the space taken up. Note the space above the first letter 'T'. In Figma this is 2 pixels whereas in Chrome it is 6 pixels.
 
@@ -232,7 +232,7 @@ In the image above the heading with the blue background is how Figma shows the s
 
 The Eufemia Figma library contains a set of standard spacing components which can be very helpful when laying out user interfaces, web pages etc.:
 
-<Img src={StandardSpacingBlocks} caption="Standard Eufemia spacing blocks" alt="Standard Eufemia spacing blocks" />
+<InlineImg src={StandardSpacingBlocks} caption="Standard Eufemia spacing blocks" alt="Standard Eufemia spacing blocks" />
 
 Layout design is not limited to these selected sizing blocks. If you need more space than the blocks provide simply add it in multiples of **8 pixels**, but don't stretch the components as another designer or developer may simply glance at the space component and read it's label assuming it is exactly as large it was when created.
 
@@ -243,6 +243,6 @@ The [example demo apps](/uilib/getting-started/demos) shows the 8px system in pr
 <!-- import ExampleAarsoppgaveGuidesSvg from 'Pages/quickguide-designer/assets/example-aarsoppgave-guides.svg'
 import ExampleAarsoppgaveSvg from 'Pages/quickguide-designer/assets/example-aarsoppgave.svg'
 
-<Img src={ExampleAarsoppgaveSvg} caption="A simple example of the 8px system in use" alt="Aarsoppgave example" />
+<InlineImg src={ExampleAarsoppgaveSvg} caption="A simple example of the 8px system in use" alt="Aarsoppgave example" />
 
-<Img src={ExampleAarsoppgaveGuidesSvg} caption="The 8px system highlighted" alt="Aarsoppgave example" /> -->
+<InlineImg src={ExampleAarsoppgaveGuidesSvg} caption="The 8px system highlighted" alt="Aarsoppgave example" /> -->

@@ -478,10 +478,10 @@
     "name": "objects/file_16",
     "variant": "secondary"
   },
-  "phone": {
-    "tags": ["mobilephone", "device"],
-    "created": 1623927168985,
-    "name": "objects/phone_16",
+  "mobilephone": {
+    "tags": ["device"],
+    "created": 1632764379264,
+    "name": "objects/mobilephone_16",
     "variant": "secondary"
   },
   "padlock": {
@@ -1262,6 +1262,30 @@
     "tags": [],
     "created": 1629317064419,
     "name": "essentials/language_16",
+    "variant": "secondary"
+  },
+  "leaf": {
+    "tags": ["eco", "environment"],
+    "created": 1631883513362,
+    "name": "objects/leaf_16",
+    "variant": "secondary"
+  },
+  "file_xml": {
+    "tags": ["document", "xml"],
+    "created": 1631883513667,
+    "name": "objects/file_xml_16",
+    "variant": "secondary"
+  },
+  "megaphone": {
+    "tags": ["advertising"],
+    "created": 1632764430220,
+    "name": "objects/megaphone_16",
+    "variant": "secondary"
+  },
+  "phone": {
+    "tags": ["telephone", "handset", "call"],
+    "created": 1623927168985,
+    "name": "objects/phone_16",
     "variant": "secondary"
   },
   "products_account_percent": {

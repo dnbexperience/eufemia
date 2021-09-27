@@ -19,15 +19,13 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:import/recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:jsx-a11y/recommended"
   ],
-  "plugins": ["import", "react", "react-hooks", "jsx-a11y"],
+  "plugins": ["react", "react-hooks", "jsx-a11y"],
   "rules": {
     "no-console": "off",
-    "import/no-unresolved": "off",
     "react/prop-types": "warn",
     "react/require-default-props": "warn",
     "react/no-unused-prop-types": "warn",

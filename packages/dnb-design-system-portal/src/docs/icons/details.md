@@ -5,7 +5,7 @@ icon: 'info'
 order: 1
 ---
 
-import Img from 'Tags/Img'
+import InlineImg from 'Tags/Img'
 import IconNearestNeighbour from 'Pages/quickguide-designer/assets/icon-nearest-neighbour.svg'
 import FormStatusIcons from 'Pages/icons/form-status.md'
 
@@ -76,7 +76,7 @@ svg {
 Icons should have a minimum area of 8px between them and their nearest neighbor.
 
 <div class="image-box">
-  <Img
+  <InlineImg
     src={IconNearestNeighbour}
     caption="Icons with nearest neighbour 8px (0.5rem) distance"
     alt="Icon's nearest neighbour"

@@ -335,19 +335,22 @@ class AutocompleteInstance extends React.PureComponent {
   static contextType = DrawerListContext
 
   static parseDataItem(dataItem) {
-    const toParse = parseContentTitle(dataItem, {
-      separator: ' ',
-    })
-    if (typeof toParse !== 'string' && Array.isArray(toParse)) {
-      return AutocompleteInstance.parseDataItem(toParse)
+    const searchWord = parseContentTitle(
+      dataItem.search_content || dataItem,
+      {
+        separator: ' ',
+      }
+    )
+    if (typeof searchWord !== 'string' && Array.isArray(searchWord)) {
+      return AutocompleteInstance.parseDataItem(searchWord)
     }
-    return toParse
+    return searchWord
   }
 
   static createSearchIndex(data) {
     return data.map((dataItem) => {
-      const searchChunk = AutocompleteInstance.parseDataItem(dataItem)
-      return { dataItem, searchChunk }
+      const contentChunk = AutocompleteInstance.parseDataItem(dataItem)
+      return { dataItem, contentChunk }
     })
   }
 
@@ -361,7 +364,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
-      state.skipHighlight = isTrue(props.disable_highlighting)
+      state.disableHighlighting = isTrue(props.disable_highlighting)
 
       if (
         props.input_value !== 'initval' &&
@@ -480,18 +483,6 @@ class AutocompleteInstance extends React.PureComponent {
     this.setVisible()
   }
 
-  scrollToActiveItem = (active_item) => {
-    this.context.drawerList.scrollToItem(active_item, {
-      scrollTo: false,
-    })
-  }
-
-  scrollToSelectedItem = (selected_item) => {
-    this.context.drawerList.scrollToAndSetActiveItem(selected_item, {
-      scrollTo: false,
-    })
-  }
-
   onInputChangeHandler = ({ value, event }, options = {}) => {
     this.setState({
       typedInputValue: value,
@@ -524,15 +515,9 @@ class AutocompleteInstance extends React.PureComponent {
         }
       } else if (count > 0) {
         this.context.drawerList.setData(this.wrapWithShowAll(data))
-        this.context.drawerList.setState(
-          {
-            cache_hash: value + count,
-          }
-          // () =>
-          //   options &&
-          //   typeof options.afterSetState === 'function' &&
-          //   options.afterSetState(data)
-        )
+        this.context.drawerList.setState({
+          cache_hash: value + count,
+        })
 
         if (count === 1) {
           this.context.drawerList.setState({
@@ -569,7 +554,7 @@ class AutocompleteInstance extends React.PureComponent {
     value = String(value || '').trim()
 
     this.setState({
-      skipHighlight: false,
+      disableHighlighting: false,
       _listenForPropChanges: false,
     })
 
@@ -591,28 +576,30 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   wrapWithShowAll = (data) => {
-    if (!this.hasFilterActive(data)) {
+    if (!data || !this.hasFilterActive(data)) {
       return data
     }
 
-    const lastItem = data.slice(-1)[0]
+    const lastItem = this.context.drawerList.original_data.slice(-1)[0]
     if (lastItem && !lastItem.show_all) {
-      const { show_all } = this._props
-
-      // NB: here we could use unshift, but this has to be implemented different places as well
-      data.push({
-        __id: lastItem.__id + 1,
-        class_name: 'dnb-autocomplete__show-all',
-        show_all: true,
-        active_item: false,
-        selected_item: false,
-        content: (
-          <>
-            <IconPrimary icon="arrow_down" />
-            {show_all}
-          </>
-        ),
-      })
+      const lastActiveItem = data.slice(-1)[0]
+      if (lastActiveItem) {
+        // NB: here we could use unshift, but this has to be implemented different places as well
+        data.push({
+          __id: lastItem.__id + 1,
+          lastActiveItem: lastActiveItem.__id,
+          class_name: 'dnb-autocomplete__show-all',
+          show_all: true,
+          active_item: false,
+          selected_item: false,
+          content: (
+            <>
+              <IconPrimary icon="arrow_down" />
+              {this._props.show_all}
+            </>
+          ),
+        })
+      }
     }
 
     return data
@@ -1052,7 +1039,12 @@ class AutocompleteInstance extends React.PureComponent {
     this.context.drawerList.setState({
       cache_hash: 'all',
     })
-    this.scrollToSelectedItem(this.context.drawerList.selected_item)
+    this.context.drawerList.setActiveItemAndScrollToIt(
+      this.context.drawerList.selected_item,
+      {
+        scrollTo: false,
+      }
+    )
   }
 
   totalReset = () => {
@@ -1068,9 +1060,7 @@ class AutocompleteInstance extends React.PureComponent {
       typedInputValue: null,
       _listenForPropChanges: false,
     })
-    this.context.drawerList.setState({
-      selected_item: null,
-    })
+    this.resetSelections()
   }
 
   resetSelections = () => {
@@ -1090,7 +1080,7 @@ class AutocompleteInstance extends React.PureComponent {
       searchIndex = this.state.searchIndex,
       searchNumbers = isTrue(this.props.search_numbers),
       inWordIndex = (parseFloat(this.props.search_in_word_index) || 3) - 2,
-      skipHighlight = false,
+      disableHighlighting = false,
       skipFilter = false,
       skipReorder = false,
     } = {}
@@ -1107,17 +1097,18 @@ class AutocompleteInstance extends React.PureComponent {
       return []
     }
 
-    const words = value.split(/\s+/g).filter(Boolean)
-    const wordsCount = words.length
+    const searchWords = value.split(/\s+/g).filter(Boolean)
     const wordCond = '^|\\s'
 
-    const findWords = (searchChunk) => {
-      if (typeof searchChunk !== 'string') {
+    const findSearchWords = (contentChunk) => {
+      if (typeof contentChunk !== 'string') {
         return []
       }
 
-      return words
-        .filter((word, wordIndex) => {
+      // [cc, bb]
+      return searchWords
+        .map((word, wordIndex) => ({ word, wordIndex }))
+        .filter(({ word, wordIndex }) => {
           if (searchNumbers) {
             // Remove all other chars, except numbers, so we can compare
             word = word.replace(/[^\d\w]/g, '')
@@ -1137,33 +1128,49 @@ class AutocompleteInstance extends React.PureComponent {
             'i'
           )
 
-          if (regexWord.test(searchChunk)) {
+          if (regexWord.test(contentChunk)) {
             return true
           }
 
           if (
             searchNumbers &&
-            regexWord.test(searchChunk.replace(/[^0-9]/g, ''))
+            regexWord.test(contentChunk.replace(/[^0-9]/g, ''))
           ) {
             return true
           }
 
           return false
         })
-        .map((word, wordIndex) => {
-          let score = wordsCount - wordIndex
+        .map(({ word, wordIndex }) => {
+          // Use 1 to ensure we never have 0, because we filter out words with 0 later
+          let wordScore = 0
 
-          // Change the score if our search term matches with a starting data word
-          const regexWord = new RegExp(`^${escapeRegexChars(word)}`, 'i')
-          const startOfWord = regexWord.test(searchChunk)
-          if (startOfWord) {
-            score = score + 1
+          // Check how ofter the current written word is inside the content,
+          // and give a score for each one
+          wordScore += (
+            contentChunk.match(
+              new RegExp(`(${wordCond})${escapeRegexChars(word)}`, 'ig')
+            ) || []
+          ).length
+
+          // Give the first word extra points
+          if (wordIndex === 0) {
+            // Check if the first chunk starts the first written word
+            const isFirstWord = new RegExp(
+              `^${escapeRegexChars(searchWords[0])}`,
+              'i'
+            ).test(contentChunk.split(' ')[0])
+
+            // If yes, add the amount of possible words + 1
+            if (isFirstWord) {
+              wordScore += searchWords.length + 1
+            }
           }
 
           return {
             word,
             wordIndex,
-            score,
+            wordScore,
           }
         })
     }
@@ -1173,8 +1180,8 @@ class AutocompleteInstance extends React.PureComponent {
     const tagS = '<span class="dnb-drawer-list__option__item--highlight">'
     const tagE = '</span>'
 
-    searchIndex = searchIndex.map((item) => {
-      const listOfFoundWords = findWords(item.searchChunk)
+    searchIndex = searchIndex.map((item, i) => {
+      const listOfFoundWords = findSearchWords(item.contentChunk, i)
 
       if (typeof item.dataItem === 'string') {
         item.dataItem = { content: item.dataItem }
@@ -1189,6 +1196,10 @@ class AutocompleteInstance extends React.PureComponent {
       // this function gets called once the items are rendered / in view
       // this part is used for the highlighting
       item.dataItem.render = (children, id) => {
+        if (disableHighlighting || this.state.disableHighlighting) {
+          return children
+        }
+
         // if the ID and the content is the same, use the cached version
         const cacheHash = id + value
         this._rC = this._rC || {}
@@ -1199,47 +1210,50 @@ class AutocompleteInstance extends React.PureComponent {
         const isComponent =
           typeof children !== 'string' && React.isValidElement(children)
 
-        if (!Array.isArray(children)) {
+        if (isComponent && Array.isArray(children?.props?.children)) {
+          children = children.props.children
+        } else if (!Array.isArray(children)) {
           children = [children] // for a while we had split this into separate words children.split(' ') but this is not needed anymore
         }
 
         // make string out of it
-        children = children.map((component) => ({
-          component,
-          segment: convertJsxToString(component),
+        children = children.map((originalChild) => ({
+          originalChild,
+          segment: convertJsxToString(originalChild, ' ').trim(),
         }))
 
-        children = children.map(({ component, segment }, idx) => {
-          if (skipHighlight || this.state.skipHighlight) {
-            return segment
-          }
+        children = children.map(({ originalChild, segment }, idx) => {
+          // Before, we only searched in actually found words
+          // listOfFoundWords.forEach(({ word, wordIndex }) => {
 
-          const origSegment = segment
+          // This way, the user can get highlights that do not match
+          searchWords.forEach((word, wordIndex) => {
+            // Can be empty string
+            if (segment) {
+              // To ensure we escape regex chars
+              word = escapeRegexChars(word)
 
-          listOfFoundWords.forEach(({ word, wordIndex }) => {
-            // To ensure we escape regex chars
-            word = escapeRegexChars(word)
-
-            if (searchNumbers) {
-              word.split('').forEach((char) => {
-                if (/[\d\w]/.test(char)) {
+              if (searchNumbers) {
+                word.split('').forEach((char) => {
+                  if (/[\d\w]/.test(char)) {
+                    segment = segment.replace(
+                      new RegExp(`(${char})`, 'gi'),
+                      `${strS}$1${strE}`
+                    )
+                  }
+                })
+              } else {
+                if (wordIndex > inWordIndex) {
                   segment = segment.replace(
-                    new RegExp(`(${char})`, 'gi'),
+                    new RegExp(`(${word})`, 'gi'),
                     `${strS}$1${strE}`
                   )
+                } else {
+                  segment = segment.replace(
+                    new RegExp(`(${wordCond})(${word})`, 'gi'),
+                    `$1${strS}$2${strE}`
+                  )
                 }
-              })
-            } else {
-              if (wordIndex > inWordIndex) {
-                segment = segment.replace(
-                  new RegExp(`(${word})`, 'gi'),
-                  `${strS}$1${strE}`
-                )
-              } else {
-                segment = segment.replace(
-                  new RegExp(`(${wordCond})(${word})`, 'gi'),
-                  `$1${strS}$2${strE}`
-                )
               }
             }
           })
@@ -1270,20 +1284,24 @@ class AutocompleteInstance extends React.PureComponent {
           // If we get a component, replace the one we use as the string comparison
           // This way we can still have an icon before or after
           if (isComponent) {
-            if (Array.isArray(component.props.children)) {
-              result = component.props.children.map((Comp) =>
-                Comp === origSegment ||
-                (Comp.props && Comp.props.children === origSegment)
+            if (Array.isArray(originalChild?.props?.children)) {
+              result = originalChild.props.children.map((Comp) => {
+                return Comp === originalChild ||
+                  (Comp.props && Comp.props.children === originalChild)
                   ? result
                   : Comp
-              )
+              })
+            } else if (typeof originalChild === 'string') {
+              result = originalChild
             }
 
-            result = React.cloneElement(
-              component,
-              { key: 'clone' + cacheHash },
-              result
-            )
+            if (React.isValidElement(originalChild)) {
+              result = React.cloneElement(
+                originalChild,
+                { key: 'clone' + cacheHash + idx },
+                result
+              )
+            }
           }
 
           return result
@@ -1292,31 +1310,32 @@ class AutocompleteInstance extends React.PureComponent {
         return (this._rC[cacheHash] = children)
       }
 
-      // this prioritizes the first written words
-      const totalScore = listOfFoundWords.reduce(
-        (acc, { score }) => (acc += score),
-        0
-      )
-
       if (this.skipFilter || skipFilter) {
         return item.dataItem
       }
 
+      /**
+       * This prioritizes the first written words (score)
+       * along with who many matches are in the content item (listOfFoundWords)
+       */
+      let totalScore = listOfFoundWords.length // Include the found words
+      for (const { wordScore } of listOfFoundWords) {
+        totalScore += wordScore
+      }
+
       return {
-        countFindings: listOfFoundWords.length + totalScore,
+        totalScore,
         item,
       }
     })
 
     if (!this.skipFilter && !skipFilter) {
-      // This removes items with 0 findings
-      searchIndex = searchIndex.filter(
-        ({ countFindings }) => countFindings
-      )
+      // This removes items with 0 totalScore
+      searchIndex = searchIndex.filter(({ totalScore }) => totalScore)
 
       if (!this.skipReorder && !skipReorder) {
         searchIndex = searchIndex.sort(
-          ({ countFindings: a }, { countFindings: b }) => b - a
+          ({ totalScore: a }, { totalScore: b }) => b - a
         )
       }
 
@@ -1371,16 +1390,15 @@ class AutocompleteInstance extends React.PureComponent {
     }
   }
 
-  onPreChangeHandler = ({ data, selected_item }) => {
+  onPreChangeHandler = ({ data }) => {
     if (data && data.show_all) {
       this.showAll()
 
-      if (parseFloat(selected_item) > -1) {
-        const active_item = selected_item - 1
-        this.context.drawerList.setState({
-          active_item,
+      const active_item = data.lastActiveItem
+      if (parseFloat(active_item) > -1) {
+        this.context.drawerList.setActiveItemAndScrollToIt(active_item, {
+          scrollTo: false,
         })
-        this.scrollToActiveItem(active_item)
       }
 
       return false
@@ -1396,7 +1414,7 @@ class AutocompleteInstance extends React.PureComponent {
       if (!isTrue(keep_open)) {
         this.setState({
           skipFocusDuringChange: true,
-          skipHighlight: true,
+          disableHighlighting: true,
           _listenForPropChanges: false,
         })
 

@@ -32,12 +32,19 @@
   }
 }
 
-.dnb-autocomplete__root .dnb-drawer-list__option__item:nth-of-type(1) {
-  font-weight: var(--font-weight-basis);
+.dnb-autocomplete__root .dnb-drawer-list__option {
+  &__item:nth-of-type(1) {
+    font-weight: var(--font-weight-basis);
+  }
+  &__item:nth-of-type(n + 2) {
+    color: var(--color-black-55);
+  }
+  &__item--highlight {
+    font-weight: var(--font-weight-bold);
+  }
 }
-.dnb-autocomplete__root .dnb-drawer-list__option__item:nth-of-type(n + 2) {
-  color: var(--color-black-55);
-}
-.dnb-autocomplete__root .dnb-drawer-list__option__item--highlight {
-  font-weight: var(--font-weight-bold);
+.dnb-autocomplete__root
+  .dnb-drawer-list__option--selected
+  .dnb-drawer-list__option__item:nth-of-type(n + 2) {
+  color: var(--color-white);
 }

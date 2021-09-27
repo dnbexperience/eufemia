@@ -272,54 +272,16 @@ describe('Currency format with dirty number', () => {
     ).toBe('-1 234 567,89 kr')
   })
 
-  it('should support percentage', () => {
+  it('return corret aria', () => {
     const number = -123456789.56
-    expect(format(String(number), { percent: true })).toBe(
-      '−123 456 789,56 %'
-    )
-    expect(format(0.2, { percent: true })).toBe('0,2 %')
-    expect(format(-4.1, { percent: true, decimals: 1 })).toBe('−4,1 %')
-    expect(format(-4.1, { percent: true })).toBe('−4,1 %')
-    expect(format(-4.14, { percent: true })).toBe('−4,14 %')
-    expect(format('-4.16', { percent: true })).toBe('−4,16 %')
-    expect(format(-4.165, { percent: true })).toBe('−4,165 %')
-    expect(format('-4.165', { percent: true, decimals: 2 })).toBe(
-      '−4,17 %'
-    )
     expect(
-      format(-4.165, { percent: true, decimals: '2', omit_rounding: true })
-    ).toBe('−4,16 %')
-    expect(format(number, { percent: true, locale: 'no' })).toBe(
-      '−123 456 789,56 %'
-    )
-    expect(format(number, { percent: true, locale: 'en-GB' })).toBe(
-      '-123 456 789.56%'
-    )
-    expect(format(number, { percent: true, locale: 'en-US' })).toBe(
-      '-123,456,789.56%'
-    )
-    expect(
-      format(number, { percent: true, decimals: 1, locale: 'no' })
-    ).toBe('−123 456 789,6 %')
-    expect(
-      format(number, { percent: true, decimals: 1, locale: 'en-GB' })
-    ).toBe('-123 456 789.6%')
-    expect(
-      format(number, { percent: true, decimals: 1, locale: 'en-US' })
-    ).toBe('-123,456,789.6%')
-    expect(
-      format(number, {
-        percent: true,
-        decimals: 1,
-        locale: 'en-US',
-        returnAria: true,
-      })
+      format(number, { currency: true, returnAria: true })
     ).toMatchObject({
-      aria: '-123,456,789.6%',
-      cleanedValue: '-12345678956.0%',
-      locale: 'en-US',
-      number: '-123,456,789.6%',
-      type: 'number',
+      aria: '-123 456 789,56 norske kroner',
+      cleanedValue: '−123456789,56',
+      locale: 'nb-NO',
+      number: '-123 456 789,56 kr',
+      type: 'currency',
       value: number,
     })
   })
@@ -451,6 +413,81 @@ describe('Currency format with dirty number', () => {
         currency_display: 'name',
       })
     ).toBe('-123 456 789,50 norske kroner')
+  })
+})
+
+describe('NumberFormat percentage', () => {
+  const number = -123456789.56
+
+  it('should format with default values', () => {
+    expect(format(String(number), { percent: true })).toBe(
+      '−123 456 789,56 %'
+    )
+    expect(format(0.2, { percent: true })).toBe('0,2 %')
+    expect(format(-4.1, { percent: true, decimals: 1 })).toBe('−4,1 %')
+    expect(format(-4.1, { percent: true })).toBe('−4,1 %')
+    expect(format(-4.14, { percent: true })).toBe('−4,14 %')
+    expect(format('-4.16', { percent: true })).toBe('−4,16 %')
+    expect(format(-4.165, { percent: true })).toBe('−4,165 %')
+    expect(format('-4.165', { percent: true, decimals: 2 })).toBe(
+      '−4,17 %'
+    )
+    expect(
+      format(-4.165, { percent: true, decimals: '2', omit_rounding: true })
+    ).toBe('−4,16 %')
+  })
+
+  it('should format based on locale', () => {
+    expect(format(number, { percent: true, locale: 'no' })).toBe(
+      '−123 456 789,56 %'
+    )
+    expect(format(number, { percent: true, locale: 'en-GB' })).toBe(
+      '-123 456 789.56%'
+    )
+    expect(format(number, { percent: true, locale: 'en-US' })).toBe(
+      '-123,456,789.56%'
+    )
+    expect(
+      format(number, { percent: true, decimals: 1, locale: 'no' })
+    ).toBe('−123 456 789,6 %')
+    expect(
+      format(number, { percent: true, decimals: 1, locale: 'en-GB' })
+    ).toBe('-123 456 789.6%')
+    expect(
+      format(number, { percent: true, decimals: 1, locale: 'en-US' })
+    ).toBe('-123,456,789.6%')
+  })
+
+  it('return correct aria', () => {
+    expect(
+      format(number, {
+        percent: true,
+        decimals: 1,
+        locale: 'en-US',
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: '-123,456,789.6%',
+      cleanedValue: '-123456789.6',
+      locale: 'en-US',
+      number: '-123,456,789.6%',
+      type: 'number',
+      value: number,
+    })
+    expect(
+      format(12.34, {
+        percent: true,
+        locale: 'en-US',
+        returnAria: true,
+      })
+    ).toMatchObject({
+      aria: '12.34%',
+      cleanedValue: '12.34',
+      locale: 'en-US',
+      number: '12.34%',
+      type: 'number',
+      value: 12.34,
+    })
   })
 })
 

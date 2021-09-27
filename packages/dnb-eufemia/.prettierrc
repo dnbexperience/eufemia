@@ -5,7 +5,7 @@
   "bracketSpacing": true,
   "useTabs": false,
   "semi": false,
-  "jsxBracketSameLine": false,
+  "bracketSameLine": false,
   "trailingComma": "es5",
   "overrides": [
     {

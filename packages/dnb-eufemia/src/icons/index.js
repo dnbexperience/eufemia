@@ -203,6 +203,8 @@ import file_word from './file_word.js'
 import file_word_medium from './file_word_medium.js'
 import file_xls from './file_xls.js'
 import file_xls_medium from './file_xls_medium.js'
+import file_xml from './file_xml.js'
+import file_xml_medium from './file_xml_medium.js'
 import filter from './filter.js'
 import filter_medium from './filter_medium.js'
 import first_aid from './first_aid.js'
@@ -269,6 +271,8 @@ import language from './language.js'
 import language_medium from './language_medium.js'
 import launch from './launch.js'
 import launch_medium from './launch_medium.js'
+import leaf from './leaf.js'
+import leaf_medium from './leaf_medium.js'
 import lightbulb from './lightbulb.js'
 import lightbulb_medium from './lightbulb_medium.js'
 import list from './list.js'
@@ -291,10 +295,14 @@ import mastercard from './mastercard.js'
 import mastercard_card from './mastercard_card.js'
 import mastercard_card_medium from './mastercard_card_medium.js'
 import mastercard_medium from './mastercard_medium.js'
+import megaphone from './megaphone.js'
+import megaphone_medium from './megaphone_medium.js'
 import microphone from './microphone.js'
 import microphone_medium from './microphone_medium.js'
 import minimize from './minimize.js'
 import minimize_medium from './minimize_medium.js'
+import mobilephone from './mobilephone.js'
+import mobilephone_medium from './mobilephone_medium.js'
 import more from './more.js'
 import more_medium from './more_medium.js'
 import more_vertical from './more_vertical.js'
@@ -651,6 +659,8 @@ export {
   file_word_medium,
   file_xls,
   file_xls_medium,
+  file_xml,
+  file_xml_medium,
   filter,
   filter_medium,
   first_aid,
@@ -717,6 +727,8 @@ export {
   language_medium,
   launch,
   launch_medium,
+  leaf,
+  leaf_medium,
   lightbulb,
   lightbulb_medium,
   list,
@@ -739,10 +751,14 @@ export {
   mastercard_card,
   mastercard_card_medium,
   mastercard_medium,
+  megaphone,
+  megaphone_medium,
   microphone,
   microphone_medium,
   minimize,
   minimize_medium,
+  mobilephone,
+  mobilephone_medium,
   more,
   more_medium,
   more_vertical,

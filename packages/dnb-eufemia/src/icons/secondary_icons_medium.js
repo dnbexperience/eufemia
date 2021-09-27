@@ -74,6 +74,7 @@ import file_txt_medium from './file_txt_medium.js'
 import file_warning_medium from './file_warning_medium.js'
 import file_word_medium from './file_word_medium.js'
 import file_xls_medium from './file_xls_medium.js'
+import file_xml_medium from './file_xml_medium.js'
 import filter_medium from './filter_medium.js'
 import first_aid_medium from './first_aid_medium.js'
 import flying_money_medium from './flying_money_medium.js'
@@ -105,6 +106,7 @@ import insurance_medium from './insurance_medium.js'
 import kid_number_medium from './kid_number_medium.js'
 import language_medium from './language_medium.js'
 import launch_medium from './launch_medium.js'
+import leaf_medium from './leaf_medium.js'
 import lightbulb_medium from './lightbulb_medium.js'
 import list_medium from './list_medium.js'
 import loan_in_medium from './loan_in_medium.js'
@@ -115,8 +117,10 @@ import log_in_medium from './log_in_medium.js'
 import log_out_medium from './log_out_medium.js'
 import mastercard_card_medium from './mastercard_card_medium.js'
 import mastercard_medium from './mastercard_medium.js'
+import megaphone_medium from './megaphone_medium.js'
 import microphone_medium from './microphone_medium.js'
 import minimize_medium from './minimize_medium.js'
+import mobilephone_medium from './mobilephone_medium.js'
 import more_vertical_medium from './more_vertical_medium.js'
 import motorcycle_medium from './motorcycle_medium.js'
 import move_medium from './move_medium.js'
@@ -264,6 +268,7 @@ export {
   file_warning_medium,
   file_word_medium,
   file_xls_medium,
+  file_xml_medium,
   filter_medium,
   first_aid_medium,
   flying_money_medium,
@@ -295,6 +300,7 @@ export {
   kid_number_medium,
   language_medium,
   launch_medium,
+  leaf_medium,
   lightbulb_medium,
   list_medium,
   loan_in_medium,
@@ -305,8 +311,10 @@ export {
   log_out_medium,
   mastercard_card_medium,
   mastercard_medium,
+  megaphone_medium,
   microphone_medium,
   minimize_medium,
+  mobilephone_medium,
   more_vertical_medium,
   motorcycle_medium,
   move_medium,

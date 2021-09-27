@@ -140,13 +140,14 @@ export default class DatePickerRange extends React.PureComponent {
 
 export const getViews = (state, isRange) => {
   // fill the views with the calendar data getMonth()
-  return (Array.isArray(state.views)
-    ? state.views
-    : Array(
-        isRange
-          ? 2 // set default range calendars
-          : state.views
-      ).fill(1)
+  return (
+    Array.isArray(state.views)
+      ? state.views
+      : Array(
+          isRange
+            ? 2 // set default range calendars
+            : state.views
+        ).fill(1)
   ).map((view, nr) => ({
     ...view,
     month: getMonthView(state, nr),

@@ -638,7 +638,7 @@ export default class DatePicker extends React.PureComponent {
               global_status_id={global_status_id}
               label={label}
               text_id={id + '-status'} // used for "aria-describedby"
-              width_selector={id + '-input'}
+              width_selector={id + '-shell'}
               text={status}
               status={status_state}
               no_animation={status_no_animation}
@@ -647,7 +647,7 @@ export default class DatePicker extends React.PureComponent {
             />
 
             <span className="dnb-date-picker__row">
-              <span className="dnb-date-picker__shell">
+              <span className="dnb-date-picker__shell" id={`${id}-shell`}>
                 <DatePickerInput
                   id={id}
                   title={title}

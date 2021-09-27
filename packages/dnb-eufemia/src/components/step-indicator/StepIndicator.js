@@ -20,7 +20,7 @@ import StepIndicatorModal from './StepIndicatorModal'
 import StepIndicatorList from './StepIndicatorList'
 import { StepIndicatorProvider } from './StepIndicatorContext'
 import {
-  stepIndicatorPropsTypes,
+  stepIndicatorPropTypes,
   stepIndicatorDefaultProps,
 } from './StepIndicatorProps'
 
@@ -32,7 +32,7 @@ export default class StepIndicator extends React.PureComponent {
 
   static propTypes = {
     sidebar_id: PropTypes.string,
-    ...stepIndicatorPropsTypes,
+    ...stepIndicatorPropTypes,
   }
 
   static defaultProps = {

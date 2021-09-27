@@ -3,7 +3,7 @@ fullscreen: true
 search: 'Intro - What forms the system?'
 ---
 
-import Img from 'Tags/Img'
+import InlineImg from 'Tags/Img'
 import WhatIsEufemia from 'Docs/uilib/intro/assets/what-is-a-design-system.svg'
 
 <Intro>
@@ -33,7 +33,7 @@ Eufemia as a Design System consist of many sub-systems, like:
 All of these sub-systems dictates on how components, extensions and styles are build. And documentation, principles and guides of best practices will again tell how to build solutions with good UX.
 
 <!-- <WhatIsEufemia /> -->
-<Img src={WhatIsEufemia} caption="Illustration showing all the sub-systems, like color-system or typography-system. All these subsystems are the basis where components, principles and best practices are build upon." className="blank x-10" />
+<InlineImg src={WhatIsEufemia} caption="Illustration showing all the sub-systems, like color-system or typography-system. All these subsystems are the basis where components, principles and best practices are build upon." className="blank x-10" />
 
 ---
 
