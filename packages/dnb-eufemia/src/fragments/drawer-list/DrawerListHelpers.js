@@ -296,10 +296,6 @@ export const getData = (props) => {
   return normalizeData(props)
 }
 
-// export const findCurrentIndex = (current_item, data) => {
-//   return data.findIndex(({ __id }) => __id === current_item)
-// }
-
 export const getCurrentIndex = (value, data) => {
   // if a key is given as a not numeric value
   if (/[^0-9]/.test(String(value))) {
@@ -449,8 +445,9 @@ export const prepareDerivedState = (props, state) => {
     }
   }
 
+  // active_item can be -1, so we check for -2
   if (
-    !(parseFloat(state.active_item) > -1) ||
+    !(parseFloat(state.active_item) > -2) ||
     state._value !== props.value
   ) {
     state.active_item = state.selected_item

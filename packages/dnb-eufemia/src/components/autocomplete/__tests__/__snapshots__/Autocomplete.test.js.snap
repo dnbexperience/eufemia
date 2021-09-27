@@ -913,6 +913,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           className={null}
                           id="autocomplete-id-ul"
                           role="listbox"
+                          showFocusRing={false}
                           style={
                             Object {
                               "maxHeight": "1rem",

@@ -22,9 +22,54 @@ You may check out the [Dropdown](/uilib/components/dropdown/info) component for 
 
 Words found during typing are highlighted. The rules are:
 
-1. The two first words will match the beginning of an option
-1. The third word will match inside an option (can be changed with `search_in_word_index`)
+1. The two first words will match the beginning of a word
+1. The third word will match inside a word (can be changed with `search_in_word_index`)
 1. Case insensitive
+
+#### Using Components inside content
+
+It is **not** possible to wrap them inside of React Components. The reason is because the Autocomplete component needs to know the data is wants to search, before your React Component has rendered. But also, the component can't update the HTML in order to make the bold highlighting – "after" your component has rendered.
+
+That means, you can't run a component that will render as soon as it is displayed.
+
+If you need to format numbers, then do it before you send in the data content.
+
+It is possible to wrap your content inside one HTML Element. Nested elements are **not** supported.
+
+In order to wrap your content only visually, you can provide your wrappers inside an array:
+
+```jsx
+{
+  content: [
+    <IconPrimary icon="bell" />,
+    <span className="custom-selector-a">The Shawshank Redemption</span>,
+    <span className="custom-selector-b">The Dark Knight</span>,
+    // etc.
+    <NumberFormat value={1234} />, // <-- Not searchable nor highlightable
+  ]
+}
+```
+
+or you can provide it inside a fragment:
+
+```jsx
+{
+  content: <>
+    <IconPrimary icon="bell" />
+    <span className="custom-selector-a">The Shawshank Redemption</span>
+    <span className="custom-selector-b">The Dark Knight</span>
+  </>
+}
+```
+
+and if you need to decouple the searchable content form whats displayed, then you can put your searchable content inside `search_content`:
+
+```jsx
+{
+  content: ['your visual content'],
+  search_content: ['your search content'],
+}
+```
 
 ### Numbers
 

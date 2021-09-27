@@ -191,6 +191,7 @@ class DrawerListInstance extends React.PureComponent {
       cache_hash,
       selected_item,
       active_item,
+      showFocusRing,
       closestToTop,
       closestToBottom,
       usePortal,
@@ -346,6 +347,7 @@ class DrawerListInstance extends React.PureComponent {
                   max_height
                 }
                 {...ulParams}
+                showFocusRing={showFocusRing}
                 triangleRef={_refTriangle}
               >
                 {typeof options_render === 'function' ? (
@@ -413,12 +415,15 @@ DrawerList.Options = React.memo(
       class: _className,
       triangleRef = null,
       cache_hash, // eslint-disable-line
+      showFocusRing,
       ...rest
     } = props
+
     return (
       <ul
         className={classnames(
           'dnb-drawer-list__options',
+          showFocusRing && 'dnb-drawer-list__options--focusring',
           className,
           _className
         )}
@@ -443,13 +448,16 @@ DrawerList.Options = React.memo(
 )
 DrawerList.Options.displayName = 'DrawerList.Options'
 DrawerList.Options.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+    .isRequired,
+  cache_hash: PropTypes.string.isRequired,
+  showFocusRing: PropTypes.bool,
   className: PropTypes.string,
   class: PropTypes.string,
   triangleRef: PropTypes.object,
 }
 DrawerList.Options.defaultProps = {
-  children: null,
+  showFocusRing: false,
   className: null,
   class: null,
   triangleRef: null,
@@ -545,7 +553,7 @@ const ItemContent = ({ hash, children }) => {
     ))
   } else if (children.content) {
     return children.render
-      ? children.render(children.content, hash)
+      ? children.render(children.content, hash, children)
       : children.content
   }
 

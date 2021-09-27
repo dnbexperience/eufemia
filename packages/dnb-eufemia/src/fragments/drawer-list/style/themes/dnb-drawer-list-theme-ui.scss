@@ -36,6 +36,9 @@
     &:focus {
       @include fakeFocus();
     }
+    &--focusring {
+      @include fakeFocus('mouse');
+    }
   }
   @media screen and (max-width: 40em) {
     &__portal &--mobile-view &__options {

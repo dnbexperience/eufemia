@@ -309,6 +309,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
               className={null}
               id="drawer-list-id-ul"
               role="listbox"
+              showFocusRing={false}
               style={
                 Object {
                   "maxHeight": null,
@@ -705,6 +706,15 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
         border-color: transparent; }
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-drawer-list__options:focus {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+    .dnb-drawer-list__options--focusring {
+      outline: none; }
+      html[data-whatinput='mouse'] .dnb-drawer-list__options--focusring {
+        --border-color: var(--color-emerald-green);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
+        border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='mouse'] .dnb-drawer-list__options--focusring {
             box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   @media screen and (max-width: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__options {
