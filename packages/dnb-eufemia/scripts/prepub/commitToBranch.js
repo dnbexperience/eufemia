@@ -9,13 +9,6 @@ const ora = require('ora')
 const path = require('path')
 const simpleGit = require('simple-git/promise') // More info: https://github.com/steveukx/git-js#readme
 
-// we use common js to run this, as this is also used by other packages in the repo
-// import dotenv from 'dotenv'
-// import { isCI } from 'ci-info'
-// import ora from 'ora'
-// import path from 'path'
-// import simpleGit from 'simple-git/promise' // More info: https://github.com/steveukx/git-js#readme
-
 // import .env variables
 dotenv.config()
 
@@ -29,35 +22,34 @@ const config = {
   },
 }
 
-const getCurrentBranchName = async () => {
-  const pathToRepo = path.resolve(__dirname, '../../../../')
-  const repo = simpleGit(pathToRepo)
-  return (await repo.branch()).current
+const getCurrentBranchName = async (repo = null) => {
+  return (await (repo || getRepo()).branch()).current
 }
 
 const getRepo = async () => {
   const pathToRepo = path.resolve(__dirname, '../../../../')
   const repo = simpleGit(pathToRepo)
 
-  await repo.silent(true)
-
   // update the origin to use a token
   // cause CI has normally no write access to the repo
   if (isCI && config.remote) {
     await repo.removeRemote('origin')
     await repo.addRemote('origin', config.remote)
-    log.info('> Commit: Added new remote to origin')
+    log.info('Added new remote to origin')
   }
 
   return repo
 }
 
-const getBranchName = async ({ repo = null, requiredBranch = null }) => {
+const getRequiredBranchName = async ({
+  repo = null,
+  requiredBranch = null,
+}) => {
   // in case we set the branch as an environment variable (see TravisCI config)
   const branchName =
     typeof process.env.BRANCH === 'string'
       ? process.env.BRANCH
-      : (await (repo || (await getRepo())).branch()).current
+      : await getCurrentBranchName(repo)
 
   if (!Array.isArray(requiredBranch)) {
     requiredBranch = [requiredBranch]
@@ -90,7 +82,10 @@ const commitToBranch = async ({
   try {
     const repo = await getRepo()
 
-    const branchName = await getBranchName({ repo, requiredBranch })
+    const branchName = await getRequiredBranchName({
+      repo,
+      requiredBranch,
+    })
 
     // if the branch is not as required
     if (!branchName) {
@@ -101,16 +96,14 @@ const commitToBranch = async ({
 
     const status = await repo.status()
 
-    const filesToCommit = [
-      ...status.modified,
-      ...status.not_added,
-    ].filter((f) =>
-      new RegExp(
-        Array.isArray(filePathsIncludelist)
-          ? filePathsIncludelist.join('|')
-          : filePathsIncludelist,
-        'g'
-      ).test(f)
+    const filesToCommit = [...status.modified, ...status.not_added].filter(
+      (f) =>
+        new RegExp(
+          Array.isArray(filePathsIncludelist)
+            ? filePathsIncludelist.join('|')
+            : filePathsIncludelist,
+          'g'
+        ).test(f)
     )
 
     // check if the changes where in the files directories
@@ -174,8 +167,5 @@ const commitToBranch = async ({
 }
 
 exports.commitToBranch = commitToBranch
-exports.getBranchName = getBranchName
+exports.getRequiredBranchName = getRequiredBranchName
 exports.getCurrentBranchName = getCurrentBranchName
-
-// we use common js to run this, as this is also used by other packages in the repo
-// export { getBranchName, commitToBranch }
