@@ -23,7 +23,10 @@ const config = {
 }
 
 const getCurrentBranchName = async (repo = null) => {
-  return (await (repo || getRepo()).branch()).current
+  if (!repo) {
+    repo = await getRepo()
+  }
+  return (await repo.branch()).current
 }
 
 const getRepo = async () => {
