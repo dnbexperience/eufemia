@@ -69,7 +69,7 @@ const Header = () => (
 
       <StepIndicator
         current_step={0}
-        mode="strict"
+        // mode="strict" // The design is not ready for v2
         data={[
           {
             title: 'Information about the complaint',

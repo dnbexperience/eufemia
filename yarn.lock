@@ -13628,6 +13628,7 @@ __metadata:
   resolution: "eufemia@workspace:."
   dependencies:
     husky: ^7.0.2
+    node-gyp: 8.2.0
   languageName: unknown
   linkType: soft
 
@@ -23043,7 +23044,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"node-gyp@npm:*, node-gyp@npm:^8.1.0, node-gyp@npm:latest":
+"node-gyp@npm:*, node-gyp@npm:8.2.0, node-gyp@npm:^8.1.0, node-gyp@npm:latest":
   version: 8.2.0
   resolution: "node-gyp@npm:8.2.0"
   dependencies:

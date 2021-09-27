@@ -3,7 +3,9 @@
  *
  */
 
-import { commitToBranch } from '@dnb/eufemia/scripts/prepub/commitToBranch'
+const {
+  commitToBranch,
+} = require('@dnb/eufemia/scripts/prepub/commitToBranch')
 
 if (require.main === module) {
   commitToBranch({

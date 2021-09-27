@@ -9,7 +9,7 @@ import {
   extractIconsAsPDF,
 } from './tasks/assetsExtractors'
 import { getFigmaDoc } from './helpers/docHelpers'
-import { getBranchName } from './../prepub/commitToBranch'
+import { getRequiredBranchName } from './../prepub/commitToBranch'
 import { log, ErrorHandler } from '../lib'
 
 log.start('> Figma: Preparing for connecting to the Figma API ...')
@@ -86,7 +86,7 @@ export const fetchFigmaAll = async ({
 } = {}) => {
   try {
     // make sure we are on the main branch
-    const branchName = await getBranchName({
+    const branchName = await getRequiredBranchName({
       requiredBranch: 'eufemia-icons',
     }) // as RegExp
 
