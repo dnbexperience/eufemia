@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { spacingPropTypes } from '../space/SpacingHelper'
 
-export const stepIndicatorPropsTypes = {
+export const stepIndicatorPropTypes = {
   mode: PropTypes.oneOf(['static', 'strict', 'loose']),
   data: PropTypes.oneOfType([
     PropTypes.string,
