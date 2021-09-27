@@ -1531,11 +1531,6 @@ Array [
             <span
               className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content"
               id="switch-form-status"
-              label={
-                <span>
-                  Label
-                </span>
-              }
               role="alert"
             >
               <span

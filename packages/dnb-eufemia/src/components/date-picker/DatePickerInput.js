@@ -725,7 +725,7 @@ export default class DatePickerInput extends React.PureComponent {
           }
           lang={locale?.code}
           {...attributes}
-        />{' '}
+        />
       </fieldset>
     )
   }

@@ -395,7 +395,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             <span
               className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content"
               id="dropdown-id-form-status"
-              label="label"
               role="alert"
             >
               <span
