@@ -118,8 +118,10 @@ import log_in from './log_in.js'
 import log_out from './log_out.js'
 import mastercard from './mastercard.js'
 import mastercard_card from './mastercard_card.js'
+import megaphone from './megaphone.js'
 import microphone from './microphone.js'
 import minimize from './minimize.js'
+import mobilephone from './mobilephone.js'
 import more_vertical from './more_vertical.js'
 import motorcycle from './motorcycle.js'
 import move from './move.js'
@@ -310,8 +312,10 @@ export {
   log_out,
   mastercard,
   mastercard_card,
+  megaphone,
   microphone,
   minimize,
+  mobilephone,
   more_vertical,
   motorcycle,
   move,
