@@ -590,7 +590,7 @@ legend.dnb-form-label {
     font-size: var(--font-size-basis); }
   .dnb-textarea__state {
     position: absolute;
-    z-index: -1;
+    z-index: 1;
     top: -0.5rem;
     left: -0.5rem;
     bottom: -0.5rem;
@@ -603,6 +603,8 @@ legend.dnb-form-label {
   .dnb-textarea__suffix {
     padding-left: 1.5rem; }
   .dnb-textarea__textarea {
+    position: relative;
+    z-index: 2;
     cursor: auto;
     border: none;
     margin: 0;
@@ -613,7 +615,7 @@ legend.dnb-form-label {
   .dnb-textarea__placeholder {
     pointer-events: none;
     position: absolute;
-    z-index: 1;
+    z-index: 3;
     top: 0;
     left: 0;
     overflow: hidden;
