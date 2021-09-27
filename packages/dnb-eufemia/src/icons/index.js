@@ -295,10 +295,14 @@ import mastercard from './mastercard.js'
 import mastercard_card from './mastercard_card.js'
 import mastercard_card_medium from './mastercard_card_medium.js'
 import mastercard_medium from './mastercard_medium.js'
+import megaphone from './megaphone.js'
+import megaphone_medium from './megaphone_medium.js'
 import microphone from './microphone.js'
 import microphone_medium from './microphone_medium.js'
 import minimize from './minimize.js'
 import minimize_medium from './minimize_medium.js'
+import mobilephone from './mobilephone.js'
+import mobilephone_medium from './mobilephone_medium.js'
 import more from './more.js'
 import more_medium from './more_medium.js'
 import more_vertical from './more_vertical.js'
@@ -747,10 +751,14 @@ export {
   mastercard_card,
   mastercard_card_medium,
   mastercard_medium,
+  megaphone,
+  megaphone_medium,
   microphone,
   microphone_medium,
   minimize,
   minimize_medium,
+  mobilephone,
+  mobilephone_medium,
   more,
   more_medium,
   more_vertical,
