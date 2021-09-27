@@ -342,7 +342,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             <span
               className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content"
               id="autocomplete-id-form-status"
-              label="Autocomplete Label:"
               role="alert"
             >
               <span

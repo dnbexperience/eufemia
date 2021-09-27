@@ -354,6 +354,7 @@ export default class FormStatus extends React.PureComponent {
       class: _className,
       text_id,
 
+      label, // eslint-disable-line
       status_id, // eslint-disable-line
       id, // eslint-disable-line
       text, // eslint-disable-line
