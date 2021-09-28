@@ -27,6 +27,58 @@ export const InputsMasked = () => (
     <Wrapper>
       <Box>
         <InputMasked
+          // selectall
+          label="Amount:"
+          currency_mask="kr"
+          on_change={({ cleaned_value }) => {
+            console.log(cleaned_value)
+          }}
+          right
+          bottom
+        />
+        <InputMasked
+          label="Amount:"
+          currency_mask={{ currency: 'NOK' }}
+          on_change={({ cleaned_value }) => {
+            console.log(cleaned_value)
+          }}
+          // on_focus={(e) => {
+          //   console.log('on_focus', e)
+          // }}
+          // on_blur={(e) => {
+          //   console.log('on_blur', e)
+          // }}
+        />
+      </Box>
+      <Box>
+        <InputMasked
+          // selectall
+          label="Amount:"
+          currency_mask="kr"
+          align="right"
+          on_change={({ cleaned_value }) => {
+            console.log(cleaned_value)
+          }}
+          right
+          bottom
+        />
+        <InputMasked
+          label="Amount:"
+          currency_mask={{ currency: 'NOK' }}
+          align="right"
+          on_change={({ cleaned_value }) => {
+            console.log(cleaned_value)
+          }}
+          // on_focus={(e) => {
+          //   console.log('on_focus', e)
+          // }}
+          // on_blur={(e) => {
+          //   console.log('on_blur', e)
+          // }}
+        />
+      </Box>
+      <Box>
+        <InputMasked
           label="Currency:"
           as_currency="EUR"
           currency_mask={{ decimalLimit: 1 }}
@@ -50,32 +102,6 @@ export const InputsMasked = () => (
           bottom
           on_change={({ cleaned_value }) => {
             console.log(cleaned_value)
-          }}
-        />
-      </Box>
-      <Box>
-        <InputMasked
-          selectall
-          label="Amount:"
-          currency_mask="kr"
-          on_change={(e) => {
-            console.log('on_change', e)
-          }}
-          right
-          bottom
-        />
-        <InputMasked
-          label="Amount:"
-          currency_mask={{ currency: 'NOK' }}
-          align="left"
-          on_change={(e) => {
-            console.log('on_change', e)
-          }}
-          on_focus={(e) => {
-            console.log('on_focus', e)
-          }}
-          on_blur={(e) => {
-            console.log('on_blur', e)
           }}
         />
       </Box>

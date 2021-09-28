@@ -20,14 +20,14 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { IS_IE11 } from '../../shared/helpers'
-import _MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
+import TextMask from 'react-text-mask' // https://github.com/text-mask/text-mask
 import Context from '../../shared/Context'
 import createNumberMask from './addons/createNumberMask'
 import classnames from 'classnames'
 import keycode from 'keycode'
 
 // Looks like we get two defaults back – this may change in a future update
-const MaskedInput = _MaskedInput.default || _MaskedInput
+const MaskedInput = TextMask.default || TextMask
 
 export default class InputMasked extends React.PureComponent {
   static tagName = 'dnb-input-masked'
@@ -262,11 +262,9 @@ export default class InputMasked extends React.PureComponent {
         ...this.context?.InputMasked?.number_mask,
         ...number_mask,
       }
-      props.align = props.align || 'right'
     } else if (currency_mask) {
       show_mask = true
       placeholder_char = null
-      props.align = props.align || 'right'
 
       maskParams = {
         allowDecimal: true,
@@ -282,11 +280,7 @@ export default class InputMasked extends React.PureComponent {
           ? currency_mask.currency
           : 'kr'
 
-      if (props.align === 'left') {
-        maskParams.prefix = `${fix} `
-      } else {
-        maskParams.suffix = ` ${fix}`
-      }
+      maskParams.suffix = ` ${fix}`
     }
 
     if (maskParams) {
@@ -385,15 +379,17 @@ export default class InputMasked extends React.PureComponent {
         }
 
         props.onMouseUp = (event) => {
-          fixPositionIssue(event.target, props)
+          // Also correct here, because of the second try
+          correctPositionSelection(event, maskParams)
           callEvent({ event }, 'on_mouse_up')
         }
         props.onTouchEnd = (event) => {
-          fixPositionIssue(event.target, props)
+          // Also correct here, because of the second try
+          correctPositionSelection(event, maskParams)
           callEvent({ event }, 'on_touch_end')
         }
         props.on_focus = (params) => {
-          fixPositionIssue(params.event.target, props)
+          correctPositionSelection(params.event, maskParams)
           callEvent(params, 'on_focus')
         }
 
@@ -442,28 +438,34 @@ export default class InputMasked extends React.PureComponent {
 }
 
 /**
- * This is a fix for a "text-mask" bug
- * when the user sets the focus after a prefix,
- * its not anymore possible to type.
+ * This is a helper for setting the cursor position,
+ * when it is on a not allowed position
  *
- * @param {Element} elem DOM element
- * @type {object} props from the component – we use only align
- * @property {string} align how the alignment is set
+ * @param {Event} event User event
+ * @param {Object} event Mask parameters, containing eventually suffix or prefix
  */
-export const fixPositionIssue = (elem, { align = 'right' } = {}) => {
+export const correctPositionSelection = (event, maskParams) => {
   clearTimeout(_selectionTimeout)
   _selectionTimeout = setTimeout(() => {
-    if (cleanNumber(elem.value).length > 0) {
-      return
-    }
     try {
-      const end = elem.selectionEnd
-      if (elem.selectionStart === end && end === elem.value.length) {
-        let pos = 0
-        if (align === 'left') {
-          pos = end - 1
+      const fix = maskParams?.suffix || maskParams?.prefix
+
+      if (fix) {
+        const elem = event.target
+        const start = elem.selectionStart
+        const fixStart = elem.value.indexOf(fix)
+        const fixEnd = fixStart + fix.length
+
+        if (start >= fixStart && start <= fixEnd) {
+          let pos = 0
+          if (fixStart === 1) {
+            pos = fixStart - 1
+          } else {
+            pos = fixStart
+          }
+
+          elem.setSelectionRange(pos, pos)
         }
-        elem.setSelectionRange(pos, pos)
       }
     } catch (e) {
       warn(e)
