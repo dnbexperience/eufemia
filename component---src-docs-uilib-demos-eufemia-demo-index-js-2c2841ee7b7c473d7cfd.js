@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdnb_design_system_portal=self.webpackChunkdnb_design_system_portal||[]).push([[211],{6919:function(e,s,t){t.r(s);var n=t(28751);s.default=n.default}}]);
+//# sourceMappingURL=component---src-docs-uilib-demos-eufemia-demo-index-js-2c2841ee7b7c473d7cfd.js.map

@@ -1,1 +1,0 @@
-{"version":3,"file":"component---src-docs-uilib-demos-eufemia-demo-index-js-5978fda6700e5d7f7576.js","mappings":"gKAMA,UAAeA,EAAf","sources":["webpack://dnb-design-system-portal/./src/docs/uilib/demos/eufemia-demo/index.js"],"sourcesContent":["/**\n * Page\n *\n */\n\nimport def from './form-demo-01'\nexport default def\n"],"names":["def"],"sourceRoot":""}
