@@ -169,6 +169,7 @@ const commitToBranch = async ({
   return []
 }
 
+exports.getRepo = getRepo
 exports.commitToBranch = commitToBranch
 exports.getRequiredBranchName = getRequiredBranchName
 exports.getCurrentBranchName = getCurrentBranchName

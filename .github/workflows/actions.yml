@@ -26,8 +26,8 @@ on:
   #   - cron: '44 3 * * 5'
 
 jobs:
-  actions:
-    name: Test and Deploy Eufemia
+  action:
+    name: Test and Deploy
 
     runs-on: macos-latest
 
@@ -130,9 +130,8 @@ jobs:
           contains(github.ref, '/portal'))
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          personal_token: ${{ secrets.GH_TOKEN }}
           publish_dir: ./packages/dnb-design-system-portal/public
-          # destination_dir: ./
 
       - name: Release
         if: (contains(github.ref, '/release') ||

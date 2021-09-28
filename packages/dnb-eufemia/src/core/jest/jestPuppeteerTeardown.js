@@ -11,8 +11,8 @@ const chalk = require('chalk')
 const rimraf = require('rimraf')
 const isCI = require('is-ci')
 const liveServer = require('live-server')
-const simpleGit = require('simple-git/promise')
 import {
+  getRepo,
   commitToBranch,
   getCurrentBranchName,
 } from '../../../scripts/prepub/commitToBranch'
@@ -50,7 +50,8 @@ module.exports = async function () {
         ['./jest-screenshot-report']
       )
       const newBranchName = `${branchName}-reports`
-      await simpleGit.checkoutBranch(newBranchName, branchName)
+      const repo = await getRepo()
+      await repo.checkoutBranch(newBranchName, `origin/${branchName}`)
       await commitToBranch({
         skipCI: true,
         isFeature: false,
