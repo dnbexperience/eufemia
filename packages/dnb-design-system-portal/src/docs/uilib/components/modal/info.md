@@ -116,7 +116,7 @@ In order to make it easier to have another colored area below the title, you can
 
 You can provide a custom content to both the drawer bar and header. You can provide it either as a React property (`bar_content` and `header_content`), or by markup.
 
-You may want to provide the title heading as a property. But if you need to, you can also provide a <H1 /> Eufemia Component inside the header.
+You may want to provide the title heading as a property. But if you need to, you can also provide a `<H1 />` Eufemia Component inside the header.
 
 ```jsx
 <Modal mode="drawer" title="Heading title">
