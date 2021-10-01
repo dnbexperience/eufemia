@@ -509,7 +509,7 @@ describe('DatePicker component', () => {
     expect(on_change.mock.calls[4][0].is_valid).toBe(true)
   })
 
-  it('has valid event calls', () => {
+  it('has valid on_type and on_change event calls', () => {
     const on_type = jest.fn()
     const on_change = jest.fn()
 
@@ -615,7 +615,7 @@ describe('DatePicker component', () => {
     testInteraction({
       type: 'end',
       typeIndex: 4,
-      changeIndex: 2,
+      changeIndex: 3, // because we do not count the first one
       dayElem: endDayElem,
       monthElem: endMonthElem,
       yearElem: endYearElem,

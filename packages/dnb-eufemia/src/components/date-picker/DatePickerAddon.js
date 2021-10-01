@@ -69,7 +69,11 @@ export default class DatePickerAddon extends React.PureComponent {
   }
 
   callOnChange({ startDate, endDate, event = null } = {}) {
-    this.context.setDate({ startDate, endDate, changeMonthViews: true })
+    this.context.updateState({
+      startDate,
+      endDate,
+      changeMonthViews: true,
+    })
     this.context.callOnChangeHandler({ startDate, endDate, event })
   }
 
