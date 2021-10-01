@@ -579,6 +579,10 @@ export default class DrawerListProvider extends React.PureComponent {
             }
           }
 
+          if (isTrue(this.props.no_animation)) {
+            scrollTo = false
+          }
+
           this.scrollToItem(active_item, { scrollTo })
         }
       )
@@ -1081,7 +1085,8 @@ export default class DrawerListProvider extends React.PureComponent {
       // without using the alt + arrow key
       // else we set the focus on the "ul" element
       this.setActiveItemAndScrollToIt(
-        parseFloat(active_item) > -1 ? active_item : -1
+        parseFloat(active_item) > -1 ? active_item : -1,
+        { scrollTo: false }
       )
     }
 
