@@ -52,7 +52,7 @@ export default class DatePickerFooter extends React.PureComponent {
       args.event.persist()
     }
 
-    this.context.setDate(
+    this.context.updateState(
       {
         startDate,
         endDate,
@@ -71,7 +71,7 @@ export default class DatePickerFooter extends React.PureComponent {
       args.event.persist()
     }
 
-    this.context.setDate(
+    this.context.updateState(
       {
         date: undefined,
         startDate: undefined,
@@ -89,11 +89,8 @@ export default class DatePickerFooter extends React.PureComponent {
   render() {
     const { isRange } = this.props
 
-    const {
-      show_reset_button,
-      show_cancel_button,
-      show_submit_button,
-    } = this.context.props
+    const { show_reset_button, show_cancel_button, show_submit_button } =
+      this.context.props
 
     if (
       !isRange &&
@@ -103,11 +100,8 @@ export default class DatePickerFooter extends React.PureComponent {
       return <></>
     }
 
-    const {
-      submit_button_text,
-      cancel_button_text,
-      reset_button_text,
-    } = this.context.translation.DatePicker
+    const { submit_button_text, cancel_button_text, reset_button_text } =
+      this.context.translation.DatePicker
 
     return (
       <div className="dnb-date-picker__footer">

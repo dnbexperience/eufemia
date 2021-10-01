@@ -153,9 +153,8 @@ export default class DatePickerProvider extends React.PureComponent {
 
     if (
       state.lastEventCallCache &&
-      (String(state.lastEventCallCache.startDate) !==
-        String(state.startDate) ||
-        String(state.lastEventCallCache.endDate) !== String(state.endDate))
+      (state.lastEventCallCache.startDate !== state.startDate ||
+        state.lastEventCallCache.endDate !== state.endDate)
     ) {
       state.lastEventCallCache = {}
     }
@@ -164,6 +163,7 @@ export default class DatePickerProvider extends React.PureComponent {
       state.__startDay = pad(format(state.startDate, 'dd'), 2)
       state.__startMonth = pad(format(state.startDate, 'MM'), 2)
       state.__startYear = format(state.startDate, 'yyyy')
+      state.hasHadValidDate = true
     } else if (state.startDate === undefined) {
       state.__startDay = null
       state.__startMonth = null
@@ -174,6 +174,7 @@ export default class DatePickerProvider extends React.PureComponent {
       state.__endDay = pad(format(state.endDate, 'dd'), 2)
       state.__endMonth = pad(format(state.endDate, 'MM'), 2)
       state.__endYear = format(state.endDate, 'yyyy')
+      state.hasHadValidDate = true
     } else if (state.endDate === undefined) {
       state.__endDay = null
       state.__endMonth = null
@@ -241,30 +242,15 @@ export default class DatePickerProvider extends React.PureComponent {
     this.setState({ ...state, _listenForPropChanges: false }, cb)
   }
 
-  setDate = (state, cb = null) => {
-    this.setState({ ...state, _listenForPropChanges: false }, cb)
-
-    const startDateIsValid = Boolean(
-      state.startDate && isValid(state.startDate)
-    )
-    const endDateIsValid = Boolean(state.endDate && isValid(state.endDate))
-
-    this.setState({
-      hasHadValidDate: startDateIsValid || endDateIsValid,
-    })
-  }
-
   callOnChangeHandler = (args) => {
     /**
-     * Prevent on_change to be fired twite if date not has actually changed
+     * Prevent on_change to be fired twice if date not has actually changed
      * We clear the cache inside getDerivedStateFromProps
      */
     if (
       this.state.lastEventCallCache &&
-      String(this.state.lastEventCallCache.startDate) ===
-        String(this.state.startDate) &&
-      String(this.state.lastEventCallCache.endDate) ===
-        String(this.state.endDate)
+      this.state.lastEventCallCache.startDate === this.state.startDate &&
+      this.state.lastEventCallCache.endDate === this.state.endDate
     ) {
       return // stop here
     }
@@ -350,7 +336,6 @@ export default class DatePickerProvider extends React.PureComponent {
         value={{
           translation: this.context.translation,
           setViews: this.setViews,
-          setDate: this.setDate,
           updateState: this.updateState,
           getReturnObject: this.getReturnObject,
           callOnChangeHandler: this.callOnChangeHandler,

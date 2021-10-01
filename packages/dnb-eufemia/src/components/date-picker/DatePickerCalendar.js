@@ -240,7 +240,7 @@ export default class DatePickerCalendar extends React.PureComponent {
 
       state.changeMonthViews = true
 
-      this.context.setDate(state, () => {
+      this.context.updateState(state, () => {
         // call after state update, so the input get's the latest state as well
         this.callOnSelect({
           event,
@@ -601,7 +601,7 @@ export default class DatePickerCalendar extends React.PureComponent {
                                     resetDate,
                                     event,
                                     onSelect: (state) =>
-                                      this.context.setDate(state, () =>
+                                      this.context.updateState(state, () =>
                                         this.callOnSelect({
                                           event,
                                           nr,
