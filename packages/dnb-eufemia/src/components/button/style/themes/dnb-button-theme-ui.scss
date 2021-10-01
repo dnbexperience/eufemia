@@ -321,6 +321,7 @@
     @include buttonHover(
       var(--color-ocean-green),
       var(--color-accent-yellow),
+      var(--color-ocean-green),
       'touch'
     );
     @include buttonFocus(

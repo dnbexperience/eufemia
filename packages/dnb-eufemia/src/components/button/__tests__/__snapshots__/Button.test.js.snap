@@ -1318,12 +1318,12 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     html:not([data-whatintent='touch']) .dnb-button--signal:hover:not([disabled]) {
       color: var(--color-ocean-green);
       background-color: var(--color-accent-yellow);
-      --border-color: var(--color-emerald-green);
+      --border-color: var(--color-ocean-green);
       box-shadow: 0 0 0 0.125rem var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html:not([data-whatintent='touch']) .dnb-button--signal:hover:not([disabled]) {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+          box-shadow: 0 0 0 0.125rem var(--color-ocean-green); } }
       @media screen and (-ms-high-contrast: none) {
         html:not([data-whatintent='touch']) .dnb-button--signal:hover:not([disabled]) {
           opacity: 1; } }
@@ -1334,13 +1334,13 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     html:not([data-whatintent='touch']) html[data-whatintent='touch'] .dnb-button--signal:active:not([disabled]) {
       color: var(--color-ocean-green);
       background-color: var(--color-accent-yellow);
-      --border-color: var(--color-emerald-green);
+      --border-color: var(--color-ocean-green);
       box-shadow: 0 0 0 0.125rem var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
         html[data-whatintent='touch'] .dnb-button--signal:active:not([disabled]),
         html:not([data-whatintent='touch']) html[data-whatintent='touch'] .dnb-button--signal:active:not([disabled]) {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+          box-shadow: 0 0 0 0.125rem var(--color-ocean-green); } }
     .dnb-button--signal:focus[disabled],
     html:not([data-whatintent='touch']) .dnb-button--signal:focus[disabled] {
       cursor: not-allowed; }

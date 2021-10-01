@@ -2,7 +2,7 @@
 * Button mixins
 *
 */
-@mixin buttonHoverStyle($color, $background-color) {
+@mixin buttonHoverStyle($color, $background-color, $border-color) {
   // NB: to get "over" sibling, because of the extendFakeFocus
   // But if we would use it,
   // then then we have to take care of places we use position="absolute", like the Modal Close button
@@ -11,12 +11,17 @@
   color: $color;
   background-color: $background-color;
 
-  @include fakeBorder(var(--color-emerald-green), 0.125rem /*2px*/);
+  @include fakeBorder($border-color, 0.125rem /*2px*/);
 }
 
-@mixin buttonHover($color, $background-color, $enable-touch: null) {
+@mixin buttonHover(
+  $color,
+  $background-color,
+  $border-color: var(--color-emerald-green),
+  $enable-touch: null
+) {
   @include hover() {
-    @include buttonHoverStyle($color, $background-color);
+    @include buttonHoverStyle($color, $background-color, $border-color);
 
     @include IS_IE {
       // by setting opacity to 1, we make sure we don't get the artifact of a cutted border on top and bottom
@@ -29,7 +34,11 @@
   @if $enable-touch == 'touch' {
     html[data-whatintent='touch'] & {
       @include active() {
-        @include buttonHoverStyle($color, $background-color);
+        @include buttonHoverStyle(
+          $color,
+          $background-color,
+          $border-color
+        );
       }
     }
   }
