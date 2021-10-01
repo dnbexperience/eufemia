@@ -367,6 +367,7 @@ export default class ModalContent extends React.PureComponent {
       header_content,
       modal_content,
       bar_content,
+      id: _id, // eslint-disable-line
       close_title, // eslint-disable-line
       dialog_title, // eslint-disable-line
       hide_close_button, // eslint-disable-line
@@ -408,6 +409,8 @@ export default class ModalContent extends React.PureComponent {
       minWidth = 0
     }
 
+    const useDialogRole = !(IS_MAC || IS_SAFARI || IS_IOS)
+
     const contentParams = {
       /**
        * Do not use role="dialog" on Safari
@@ -419,8 +422,8 @@ export default class ModalContent extends React.PureComponent {
        * "aria-labelledby" and "aria-describedby" approach
        *
        */
-      role: IS_MAC || IS_SAFARI || IS_IOS ? undefined : 'dialog',
-      'aria-modal': 'true',
+      role: useDialogRole ? 'dialog' : 'region',
+      'aria-modal': useDialogRole ? 'true' : undefined,
 
       /**
        * ARIA references

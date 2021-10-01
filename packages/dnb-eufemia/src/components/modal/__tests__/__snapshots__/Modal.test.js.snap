@@ -899,7 +899,6 @@ exports[`Modal component have to match snapshot 1`] = `
       >
         <ForwardRef(ScrollViewRef)
           className="dnb-modal__content__inner dnb-core-style"
-          id="modal_id"
           onClick={[Function]}
           onKeyDown={[Function]}
           onTouchStart={[Function]}
@@ -907,7 +906,6 @@ exports[`Modal component have to match snapshot 1`] = `
           <ScrollView
             class={null}
             className="dnb-modal__content__inner dnb-core-style"
-            id="modal_id"
             innerRef={null}
             onClick={[Function]}
             onKeyDown={[Function]}
@@ -915,7 +913,6 @@ exports[`Modal component have to match snapshot 1`] = `
           >
             <div
               className="dnb-scroll-view dnb-modal__content__inner dnb-core-style"
-              id="modal_id"
               onClick={[Function]}
               onKeyDown={[Function]}
               onTouchStart={[Function]}
