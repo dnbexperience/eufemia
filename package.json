@@ -29,6 +29,9 @@
     "husky": "^7.0.2",
     "node-gyp": "8.2.0"
   },
+  "resolutions": {
+    "svg2vectordrawable/svgo": "2.3.0"
+  },
   "engines": {
     "node": ">=12.22.1",
     "yarn": ">=1.17.0"
