@@ -38,10 +38,10 @@ Besides `vue` and `vuera`, you may also install, `@dnb/eufemia`, `react` and `re
 ```json
 "dependencies": {
   "@dnb/eufemia": "*",
-  "react": "^16",
-  "react-dom": "^16",
-  "vue": "^2",
-  "vuera": "^2"
+  "react": "16",
+  "react-dom": "16",
+  "vue": "2",
+  "vuera": "2"
 },
 ...
 ```

@@ -26,7 +26,7 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "husky": "^7.0.2",
+    "husky": "7.0.2",
     "node-gyp": "8.2.0"
   },
   "resolutions": {
