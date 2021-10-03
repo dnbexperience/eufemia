@@ -1,0 +1,25 @@
+diff --git a/dist/index.js b/dist/index.js
+index 0c601e050fb6ee4d556631935dae4cdc2ff51e5e..67073e7b5010c249b40e8da894775e29fd168d26 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -50,7 +50,7 @@ exports.managerBabel = function (config) {
+     var _a = config.presets, presets = _a === void 0 ? [] : _a;
+     return __assign(__assign({}, config), { presets: __spread(presets, [ie11Preset]) });
+ };
+-var include = /[\\/]node_modules[\\/](@storybook\/node-logger|are-you-es5|better-opn|boxen|chalk|commander|find-cache-dir|find-up|fs-extra|json5|node-fetch|pkg-dir|resolve-from|semver)/;
++var include = /[\\/]node_modules[\\/](@storybook\/node-logger|ansi-regex|strip-ansi|are-you-es5|better-opn|boxen|chalk|commander|find-cache-dir|find-up|fs-extra|json5|node-fetch|pkg-dir|resolve-from|semver)/;
+ var es6Loader = {
+     test: /\.js$/,
+     use: [
+diff --git a/package.json b/package.json
+index 83cf706c98951981e274504fea6b589453e7553a..c890f47080d96a9f370d7b5082b380e653e06402 100644
+--- a/package.json
++++ b/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "@storybook/preset-ie11",
+-  "version": "0.0.1",
++  "version": "0.0.2",
+   "description": "IE11 preset for Storybook",
+   "license": "MIT",
+   "main": "dist",

@@ -30,7 +30,8 @@
     "node-gyp": "8.2.0"
   },
   "resolutions": {
-    "svg2vectordrawable/svgo": "2.3.0"
+    "svg2vectordrawable/svgo": "2.3.0",
+    "@storybook/preset-ie11@0.0.1": "patch:@storybook/preset-ie11@npm:0.0.1#.yarn/patches/@storybook-preset-ie11-npm-0.0.1-f80c765898"
   },
   "engines": {
     "node": ">=12.22.1",

@@ -1,26 +1,9 @@
 require('dotenv').config()
 
 module.exports = {
-  presets: [
-    [
-      'babel-preset-gatsby',
-      {
-        targets: {
-          // Should reflect: https://eufemia.dnb.no/uilib/usage#supported-browsers-and-platforms
-          browsers: [
-            'ie 11',
-            'edge >= 14',
-            'firefox >= 52',
-            'chrome >= 49',
-            'safari >= 10',
-          ],
-        },
-      },
-    ],
+  presets: ['babel-preset-gatsby'],
+  // Needed in order to run on IE11
+  ignore: [
+    '.*node_modules/(?!rewrite-pattern|ansi-regex|strip-ansi|regexpu-core|buble|react-live).*',
   ],
-  // At some point we had to exclude some packages from being processed
-  // Looks like it works fine now
-  // ignore: [
-  //   '.*node_modules/(?!rewrite-pattern|regexpu-core|buble|react-live).*',
-  // ],
 }

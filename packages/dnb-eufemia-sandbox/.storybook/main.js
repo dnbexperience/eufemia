@@ -7,5 +7,5 @@ module.exports = {
     '../stories/helpers/*.js',
     '../stories/helpers/*.tsx',
   ],
-  addons: ['@storybook/addon-essentials', '@storybook/preset-scss'],
+  addons: ['@storybook/preset-ie11', '@storybook/preset-scss'],
 }
