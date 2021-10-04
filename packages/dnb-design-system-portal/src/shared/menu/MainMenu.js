@@ -141,7 +141,7 @@ const LogoWrapper = styled.div`
   margin-bottom: 2vh;
 `
 
-const CardsWrapper = styled.div`
+const CardsWrapper = styled.section`
   display: flex;
   flex-flow: row wrap;
   flex-direction: row;
@@ -233,12 +233,20 @@ export default class MainMenu extends React.PureComponent {
   }
 
   render() {
-    const { closeMenu, isOpen, isClosing, isActive } = this.context
+    const { closeMenu, isOpen, isClosing, isActive, openAsMenu } =
+      this.context
     const { enableOverlay } = this.props
+
     return (
       <StaticQuery
         query={graphql`
           query {
+            site {
+              siteMetadata {
+                title
+                description
+              }
+            }
             categories: allMdx(
               filter: {
                 fields: {
@@ -269,7 +277,15 @@ export default class MainMenu extends React.PureComponent {
             }
           }
         `}
-        render={({ categories: { edges } }) => {
+        render={({
+          site: {
+            siteMetadata: {
+              title: mainTitle,
+              description: mainDescription,
+            },
+          },
+          categories: { edges },
+        }) => {
           const items = edges.reduce(
             (acc, { node: { fields, frontmatter } }) => {
               acc[fields.slug] = {
@@ -293,7 +309,8 @@ export default class MainMenu extends React.PureComponent {
                 {...{ isOpen }}
               >
                 <Head>
-                  <title>Eufemia - DNB Design System</title>
+                  <title>{mainTitle}</title>
+                  <meta name="description" content={mainDescription} />
                 </Head>
                 <h1 className="dnb-sr-only">Welcome to Eufemia</h1>
                 <>
@@ -327,7 +344,11 @@ export default class MainMenu extends React.PureComponent {
                         <SearchBarInput />
                       </ContentWrapper>
                     ))}
-                  <CardsWrapper aria-labelledby="toggle-main-menu">
+                  <CardsWrapper
+                    aria-labelledby={
+                      openAsMenu ? 'toggle-main-menu' : undefined
+                    }
+                  >
                     <Card
                       url={items['design-system']?.url}
                       title={items['design-system']?.title}

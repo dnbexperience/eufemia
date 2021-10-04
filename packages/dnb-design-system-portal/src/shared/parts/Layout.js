@@ -105,7 +105,7 @@ class Layout extends React.PureComponent {
           Skip to content
         </a>
 
-        <MainMenuProvider>
+        <MainMenuProvider openAsMenu>
           <SidebarMenuProvider>
             {!fs && <StickyMenuBar />}
             {!fs && <MainMenu enableOverlay />}
