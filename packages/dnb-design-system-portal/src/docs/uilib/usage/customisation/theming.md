@@ -124,8 +124,8 @@ import 'dnb-eufemia/src/style/themes/dnb-theme-[MY THEME].scss'
 ```json
   "dependencies": {
     "@dnb/eufemia": "*",
-    "react": "^17",
-    "react-dom": "^17",
+    "react": "17",
+    "react-dom": "17",
     ...
   }
 ```
