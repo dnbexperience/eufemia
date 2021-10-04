@@ -48,3 +48,6 @@
   .dnb-drawer-list__option__item:nth-of-type(n + 2) {
   color: var(--color-white);
 }
+.dnb-autocomplete__root .dnb-drawer-list__option--selected .dnb-anchor {
+  color: var(--color-white);
+}

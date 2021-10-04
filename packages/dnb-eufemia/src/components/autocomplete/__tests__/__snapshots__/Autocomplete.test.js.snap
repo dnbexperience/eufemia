@@ -1245,6 +1245,9 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
 .dnb-drawer-list__option--selected
 .dnb-drawer-list__option__item:nth-of-type(n + 2) {
   color: var(--color-white); }
+
+.dnb-autocomplete__root .dnb-drawer-list__option--selected .dnb-anchor {
+  color: var(--color-white); }
 "
 `;
 

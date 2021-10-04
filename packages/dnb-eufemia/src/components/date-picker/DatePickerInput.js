@@ -165,16 +165,24 @@ export default class DatePickerInput extends React.PureComponent {
   }
 
   callOnChangeAsInvalid = (state) => {
-    const { startDate, endDate, event } = { ...this.context, ...state }
-    this.context.updateState({ hoverDate: null })
-    if (this.context.hasHadValidDate) {
-      this.context.callOnChangeHandler({ startDate, endDate, event })
-      this.context.updateState({ hasHadValidDate: false })
-    }
+    this.context.updateState(
+      {
+        hoverDate: null,
+      },
+      () => {
+        if (this.context.hasHadValidDate) {
+          const { startDate, endDate, event } = {
+            ...this.context,
+            ...state,
+          }
+          this.context.callOnChangeHandler({ startDate, endDate, event })
+        }
+      }
+    )
   }
 
   callOnChange = ({ startDate, endDate, event }) => {
-    const state = { changeMonthViews: true, hasHadValidDate: false }
+    const state = { changeMonthViews: true }
     if (typeof startDate !== 'undefined' && isValid(startDate)) {
       state.startDate = startDate
     }
@@ -185,7 +193,7 @@ export default class DatePickerInput extends React.PureComponent {
       state.endDate = endDate
     }
 
-    this.context.setDate(state, () => {
+    this.context.updateState(state, () => {
       if (
         (typeof startDate !== 'undefined' && isValid(startDate)) ||
         (typeof endDate !== 'undefined' && isValid(endDate))
@@ -456,7 +464,7 @@ export default class DatePickerInput extends React.PureComponent {
         event,
       })
     } else {
-      this.context.setDate({ [`${mode}Date`]: null })
+      this.context.updateState({ [`${mode}Date`]: null })
       this.context.updateState({ [`__${mode}${type}`]: value })
 
       this.callOnChangeAsInvalid({

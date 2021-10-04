@@ -69,7 +69,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   value="test"
 >
   <Input
-    align="right"
+    align={null}
     autocomplete="off"
     class={null}
     className="dnb-input-masked"
@@ -122,7 +122,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     value="test"
   >
     <span
-      className="dnb-input dnb-input--text dnb-form-component dnb-input-masked dnb-input__align--right"
+      className="dnb-input dnb-input--text dnb-form-component dnb-input-masked"
       data-has-content="true"
       data-input-state="virgin"
     >

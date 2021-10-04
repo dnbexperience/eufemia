@@ -103,10 +103,7 @@ jobs:
 
       - name: Run visual tests
         if: runner.os == 'macOS' &&
-          (contains(github.ref, '/main') ||
-          contains(github.ref, '/fix/') ||
-          contains(github.ref, '/feat/') ||
-          contains(github.ref, '/feature/'))
+          (!contains(github.ref, '/release') && !contains(github.ref, '/main') && !contains(github.ref, '/portal') && !contains(github.ref, '/eufemia-icons') && !contains(github.ref, '/beta') && !contains(github.ref, '/alpha'))
         run: yarn workspace @dnb/eufemia test:screenshots:ci
 
       - name: Icons postbuild

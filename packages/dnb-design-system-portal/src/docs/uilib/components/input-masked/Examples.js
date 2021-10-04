@@ -32,7 +32,6 @@ export const InputMaskedExampleNumberLocale = () => (
     as_number
     number_mask={{ decimalLimit: 2 }}
     value="1234.016"
-    align="right"
     right
     bottom
     on_change={({ numberValue }) => {
@@ -44,7 +43,6 @@ export const InputMaskedExampleNumberLocale = () => (
     as_percent
     number_mask={{ decimalLimit: 1 }}
     value="1234.016"
-    align="right"
     right
     bottom
     on_change={({ numberValue }) => {
@@ -90,7 +88,6 @@ export const InputMaskedExampleCurrencyLocale = () => (
       on_change={({ numberValue }) => {
         console.log(numberValue)
       }}
-      align="left"
       right
       bottom
     />
@@ -107,7 +104,7 @@ export const InputMaskedExampleCurrencyMask = () => (
       {() => /* jsx */ `
 <FormRow vertical>
   <InputMasked
-    label="Right aligned:"
+    label="Left aligned (default):"
     currency_mask="kr"
     on_change={({ numberValue }) => {
       console.log(numberValue)
@@ -116,9 +113,9 @@ export const InputMaskedExampleCurrencyMask = () => (
     bottom
   />
   <InputMasked
-    label="Left aligned:"
+    label="Right aligned:"
     currency_mask={{ currency: 'NOK' }}
-    align="left"
+    align="right"
     on_change={({ numberValue }) => {
       console.log(numberValue)
     }}
@@ -141,7 +138,6 @@ export const InputMaskedExampleCustomNumberMask = () => (
     allowDecimal: true
   }}
   placeholder_char={null}
-  align="right"
   on_change={({ numberValue }) => {
     console.log(numberValue)
   }}
@@ -162,8 +158,7 @@ export const InputMaskedExampleNumberMask = () => (
     suffix: ',-',
     allowDecimal: false
   }}
-  suffix="kr."
-  align="right"
+  suffix="kr"
   on_change={({ numberValue }) => {
     console.log(parseInt(numberValue || 0, 10))
   }}
@@ -182,7 +177,6 @@ export const InputMaskedExamplePrefix = () => (
   number_mask={{
     prefix: 'NOK '
   }}
-  align="right"
   stretch="true"
   placeholder="Enter a number"
   on_change={({ numberValue }) => {

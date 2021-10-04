@@ -11,7 +11,6 @@ const chalk = require('chalk')
 const rimraf = require('rimraf')
 const isCI = require('is-ci')
 const liveServer = require('live-server')
-const simpleGit = require('simple-git/promise')
 import {
   commitToBranch,
   getCurrentBranchName,
@@ -50,17 +49,19 @@ module.exports = async function () {
         ['./jest-screenshot-report']
       )
       const newBranchName = `${branchName}-reports`
-      await simpleGit.checkoutBranch(newBranchName, branchName)
       await commitToBranch({
         skipCI: true,
         isFeature: false,
-        requiredBranch: newBranchName,
+        requiredBranch: branchName,
+        newBranch: newBranchName,
         what: 'reports',
         filePathsIncludelist: [file],
       })
     } else {
       console.log(
-        chalk.red(`Skipping commit phase. No reports found: ${reportPath}`)
+        chalk.yellow(
+          `Skipping commit phase. No reports found: ${reportPath}`
+        )
       )
     }
   }

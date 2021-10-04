@@ -1,0 +1,6 @@
+# Should reflect: https://eufemia.dnb.no/uilib/usage#supported-browsers-and-platforms
+ie 11
+edge >= 14
+firefox >= 52
+chrome >= 49
+safari >= 10
