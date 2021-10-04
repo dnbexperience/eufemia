@@ -235,10 +235,17 @@ export default class MainMenu extends React.PureComponent {
   render() {
     const { closeMenu, isOpen, isClosing, isActive } = this.context
     const { enableOverlay } = this.props
+
     return (
       <StaticQuery
         query={graphql`
           query {
+            site {
+              siteMetadata {
+                title
+                description
+              }
+            }
             categories: allMdx(
               filter: {
                 fields: {
@@ -269,7 +276,15 @@ export default class MainMenu extends React.PureComponent {
             }
           }
         `}
-        render={({ categories: { edges } }) => {
+        render={({
+          site: {
+            siteMetadata: {
+              title: mainTitle,
+              description: mainDescription,
+            },
+          },
+          categories: { edges },
+        }) => {
           const items = edges.reduce(
             (acc, { node: { fields, frontmatter } }) => {
               acc[fields.slug] = {
@@ -293,7 +308,8 @@ export default class MainMenu extends React.PureComponent {
                 {...{ isOpen }}
               >
                 <Head>
-                  <title>Eufemia - DNB Design System</title>
+                  <title>{mainTitle}</title>
+                  <meta name="description" content={mainDescription} />
                 </Head>
                 <h1 className="dnb-sr-only">Welcome to Eufemia</h1>
                 <>

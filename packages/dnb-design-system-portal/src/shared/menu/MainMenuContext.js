@@ -16,6 +16,7 @@ export const MainMenuContext = React.createContext({
   isOpen: null,
   isClosing: null,
   isActive: false,
+  openAsMenu: false,
 })
 
 export class MainMenuProvider extends React.PureComponent {

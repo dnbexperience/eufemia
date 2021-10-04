@@ -45,12 +45,12 @@ const CardWrapper = styled.div`
   [data-whatinput='keyboard'] &:focus {
     box-shadow: none;
   }
-  &.show-cards {
+  &.open-as-menu.show-cards {
     opacity: 0;
     animation: fade-in 600ms cubic-bezier(0.19, 1, 0.22, 1) 1 var(--delay)
       forwards;
   }
-  &.hide-cards {
+  &.open-as-menu.hide-cards {
     opacity: 1;
     animation: fade-out 800ms cubic-bezier(0.19, 1, 0.22, 1) 1 var(--delay)
       forwards;
@@ -201,12 +201,13 @@ export default class Card extends React.PureComponent {
 
     return (
       <MainMenuContext.Consumer>
-        {({ isActive, isClosing, closeMenu }) => (
+        {({ isActive, isClosing, closeMenu, openAsMenu }) => (
           <CardWrapper
             className={classnames(
               this.isSelected() && 'is-selected',
               isActive && !isClosing && 'show-cards',
-              isClosing && 'hide-cards'
+              isClosing && 'hide-cards',
+              openAsMenu && 'open-as-menu'
             )}
             style={{
               '--delay': `${
