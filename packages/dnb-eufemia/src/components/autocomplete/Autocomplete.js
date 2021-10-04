@@ -20,6 +20,7 @@ import {
   combineDescribedBy,
   convertJsxToString,
   escapeRegexChars,
+  getPreviousSibling,
 } from '../../shared/component-helper'
 import {
   IS_MAC,
@@ -432,7 +433,6 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    clearTimeout(this._hideTimeout)
     clearTimeout(this._selectTimeout)
     clearTimeout(this._ariaLiveUpdateTimeout)
     clearTimeout(this._focusTimeout)
@@ -780,6 +780,14 @@ class AutocompleteInstance extends React.PureComponent {
     }
   }
 
+  onReserveActivityHandler = (event) => {
+    // Prevent to happen the on_blur event during drawer-list activity
+    this.__preventFiringBlurEvent =
+      event.key === 'enter' ||
+      event.key === 'space' ||
+      (event.target && getPreviousSibling('dnb-drawer-list', event.target))
+  }
+
   onBlurHandler = (event) => {
     const {
       input_value,
@@ -789,52 +797,58 @@ class AutocompleteInstance extends React.PureComponent {
       prevent_selection,
     } = this.props
 
-    if (!isTrue(keep_value_and_selection)) {
-      this.setState({
-        typedInputValue: null,
-        _listenForPropChanges: false,
-      })
-    }
+    if (!this.state.hasBlur && !this.__preventFiringBlurEvent) {
+      if (!isTrue(keep_value_and_selection)) {
+        this.setState({
+          typedInputValue: null,
+          _listenForPropChanges: false,
+        })
+      }
 
-    if (isTrue(open_on_focus)) {
-      this.setHidden()
-    }
+      if (
+        !isTrue(prevent_selection) &&
+        !isTrue(keep_value_and_selection)
+      ) {
+        const inputValue = AutocompleteInstance.getCurrentDataTitle(
+          this.context.drawerList.selected_item,
+          this.context.drawerList.original_data
+        )
 
-    if (!isTrue(prevent_selection) && !isTrue(keep_value_and_selection)) {
-      const inputValue = AutocompleteInstance.getCurrentDataTitle(
-        this.context.drawerList.selected_item,
-        this.context.drawerList.original_data
-      )
+        clearTimeout(this._selectTimeout)
+        this._selectTimeout = setTimeout(() => {
+          if (parseFloat(this.context.drawerList.selected_item) > -1) {
+            this.setState({
+              inputValue,
+              _listenForPropChanges: false,
+            })
+          } else if (
+            !(input_value !== 'initval' && input_value.length > 0) &&
+            !isTrue(keep_value)
+          ) {
+            this.setState({
+              inputValue: '',
+              _listenForPropChanges: false,
+            })
+          }
+        }, 1) // to make sure we actually are after the Input state handling -> "input placeholder reset"
+      }
 
-      clearTimeout(this._selectTimeout)
-      this._selectTimeout = setTimeout(() => {
-        if (parseFloat(this.context.drawerList.selected_item) > -1) {
-          this.setState({
-            inputValue,
-            _listenForPropChanges: false,
-          })
-        } else if (
-          !(input_value !== 'initval' && input_value.length > 0) &&
-          !isTrue(keep_value)
-        ) {
-          this.setState({
-            inputValue: '',
-            _listenForPropChanges: false,
-          })
-        }
-      }, 1) // to make sure we actually are after the Input state handling -> "input placeholder reset"
-    }
-
-    if (!this.state.hasBlur) {
       dispatchCustomElementEvent(this, 'on_blur', {
         event,
         ...this.getEventObjects('on_blur'),
       })
 
+      if (isTrue(open_on_focus)) {
+        this.setHidden()
+      }
+
       this.setState({
         hasBlur: true,
         hasFocus: false,
       })
+    } else if (this.__preventFiringBlurEvent) {
+      this.__preventFiringBlurEvent = null
+      return false
     }
   }
 
@@ -1804,6 +1818,9 @@ class AutocompleteInstance extends React.PureComponent {
                 on_select={this.onSelectHandler}
                 on_hide={this.onHideHandler}
                 on_pre_change={this.onPreChangeHandler}
+                on_key_down={this.onReserveActivityHandler}
+                onMouseDown={this.onReserveActivityHandler}
+                onTouchStart={this.onReserveActivityHandler}
               />
             </span>
 

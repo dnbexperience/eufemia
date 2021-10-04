@@ -34,6 +34,7 @@ const propsToFilterOut = {
   on_resize: null,
   on_select: null,
   on_state_update: null,
+  on_key_down: null,
   options_render: null,
   wrapper_element: null,
 }

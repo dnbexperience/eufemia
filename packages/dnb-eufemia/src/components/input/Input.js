@@ -275,13 +275,18 @@ export default class Input extends React.PureComponent {
   }
   onBlurHandler = (event) => {
     const { value } = event.target
-    this.setState({
-      inputState:
-        Input.hasValue(value) && value !== this.state._value
-          ? 'dirty'
-          : 'initial',
+    const result = dispatchCustomElementEvent(this, 'on_blur', {
+      value,
+      event,
     })
-    dispatchCustomElementEvent(this, 'on_blur', { value, event })
+    if (result !== false) {
+      this.setState({
+        inputState:
+          Input.hasValue(value) && value !== this.state._value
+            ? 'dirty'
+            : 'initial',
+      })
+    }
   }
   onChangeHandler = (event) => {
     const { value } = event.target
