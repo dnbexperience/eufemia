@@ -141,7 +141,7 @@ const LogoWrapper = styled.div`
   margin-bottom: 2vh;
 `
 
-const CardsWrapper = styled.div`
+const CardsWrapper = styled.section`
   display: flex;
   flex-flow: row wrap;
   flex-direction: row;
@@ -233,7 +233,8 @@ export default class MainMenu extends React.PureComponent {
   }
 
   render() {
-    const { closeMenu, isOpen, isClosing, isActive } = this.context
+    const { closeMenu, isOpen, isClosing, isActive, openAsMenu } =
+      this.context
     const { enableOverlay } = this.props
 
     return (
@@ -343,7 +344,11 @@ export default class MainMenu extends React.PureComponent {
                         <SearchBarInput />
                       </ContentWrapper>
                     ))}
-                  <CardsWrapper aria-labelledby="toggle-main-menu">
+                  <CardsWrapper
+                    aria-labelledby={
+                      openAsMenu ? 'toggle-main-menu' : undefined
+                    }
+                  >
                     <Card
                       url={items['design-system']?.url}
                       title={items['design-system']?.title}

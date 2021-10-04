@@ -11,9 +11,11 @@ import { MainMenuProvider } from 'Src/shared/menu/MainMenuContext'
 export default class App extends React.PureComponent {
   render() {
     return (
-      <MainMenuProvider isActive>
-        <MainMenu />
-      </MainMenuProvider>
+      <main aria-label="Choose a menu section">
+        <MainMenuProvider isActive>
+          <MainMenu />
+        </MainMenuProvider>
+      </main>
     )
   }
 }
