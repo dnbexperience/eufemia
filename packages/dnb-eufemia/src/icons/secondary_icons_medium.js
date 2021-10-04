@@ -186,6 +186,8 @@ import upload_medium from './upload_medium.js'
 import video_medium from './video_medium.js'
 import view_medium from './view_medium.js'
 import vintage_car_medium from './vintage_car_medium.js'
+import volume_off_medium from './volume_off_medium.js'
+import volume_on_medium from './volume_on_medium.js'
 import wallet_medium from './wallet_medium.js'
 import wearables_medium from './wearables_medium.js'
 import web_medium from './web_medium.js'
@@ -380,6 +382,8 @@ export {
   video_medium,
   view_medium,
   vintage_car_medium,
+  volume_off_medium,
+  volume_on_medium,
   wallet_medium,
   wearables_medium,
   web_medium,

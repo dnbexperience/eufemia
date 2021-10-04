@@ -81,6 +81,8 @@ export const SearchBarInput = () => {
           size="medium"
           align_autocomplete="right"
           placeholder="Search ..."
+          label="Search the Eufemia documentation"
+          label_sr_only
           status={status}
           portal_class={css`
             z-index: 6000;
@@ -150,6 +152,9 @@ const StyledAutocomplete = styled(Autocomplete)`
         width: 60vw;
       }
     }
+  }
+  .dnb-form-label {
+    color: white; /* only for axe-core */
   }
 `
 

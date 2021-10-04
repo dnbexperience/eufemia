@@ -186,6 +186,8 @@ import upload from './upload.js'
 import video from './video.js'
 import view from './view.js'
 import vintage_car from './vintage_car.js'
+import volume_off from './volume_off.js'
+import volume_on from './volume_on.js'
 import wallet from './wallet.js'
 import wearables from './wearables.js'
 import web from './web.js'
@@ -380,6 +382,8 @@ export {
   video,
   view,
   vintage_car,
+  volume_off,
+  volume_on,
   wallet,
   wearables,
   web,

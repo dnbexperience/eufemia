@@ -122,8 +122,8 @@ export default class DrawerListProvider extends React.PureComponent {
   }
 
   componentWillUnmount() {
+    clearTimeout(this._showTimeout)
     clearTimeout(this._hideTimeout)
-    clearTimeout(this._selectTimeout)
     clearTimeout(this._scrollTimeout)
     clearTimeout(this._ddTimeout)
 
@@ -747,6 +747,11 @@ export default class DrawerListProvider extends React.PureComponent {
       this.setMetaKey(e)
     }
 
+    dispatchCustomElementEvent(this.state, 'on_key_down', {
+      event: e,
+      key,
+    })
+
     // To allow copy
     // But makes VO not reading our list items once command key is pressed
     // if (this.meta.cmd || this.meta.ctrl || this.meta.shift || this.meta.alt) {
@@ -1033,11 +1038,12 @@ export default class DrawerListProvider extends React.PureComponent {
   }
 
   setVisible = () => {
-    clearTimeout(this._hideTimeout)
-
     if (this.state.opened && this.state.hidden === false) {
       return // stop
     }
+
+    clearTimeout(this._showTimeout)
+    clearTimeout(this._hideTimeout)
 
     this.searchCache = null
 
@@ -1060,12 +1066,12 @@ export default class DrawerListProvider extends React.PureComponent {
           animationDelayHandler()
         } else {
           // We have to have still a delay, to ensure the user can press enter to toggle the open state
-          clearTimeout(this._hideTimeout)
-          this._hideTimeout = setTimeout(animationDelayHandler, 0) // ensure we do not set isOpen true before the keydown handler has run
+          clearTimeout(this._showTimeout)
+          this._showTimeout = setTimeout(animationDelayHandler, 0) // ensure we do not set isOpen true before the keydown handler has run
         }
       } else {
-        clearTimeout(this._hideTimeout)
-        this._hideTimeout = setTimeout(
+        clearTimeout(this._showTimeout)
+        this._showTimeout = setTimeout(
           animationDelayHandler,
           DrawerListProvider.blurDelay
         ) // wait until animation is over
@@ -1111,6 +1117,7 @@ export default class DrawerListProvider extends React.PureComponent {
       return
     }
 
+    clearTimeout(this._showTimeout)
     clearTimeout(this._hideTimeout)
 
     const { selected_item, active_item } = this.state
@@ -1124,8 +1131,6 @@ export default class DrawerListProvider extends React.PureComponent {
     })
 
     if (res !== false) {
-      this.removeObservers()
-
       this.setState({
         opened: false,
       })
@@ -1139,6 +1144,8 @@ export default class DrawerListProvider extends React.PureComponent {
           onStateComplete()
         }
         DrawerListProvider.isOpen = false
+
+        this.removeObservers()
       }
 
       if (isTrue(this.props.no_animation)) {
@@ -1248,36 +1255,24 @@ export default class DrawerListProvider extends React.PureComponent {
       }
     }
 
-    const { keep_open, no_animation, prevent_selection } = this.props
+    const { keep_open, prevent_selection } = this.props
 
     const doCallOnChange =
       parseFloat(itemToSelect) > -1 &&
       itemToSelect !== this.state.selected_item
     const onSelectionIsComplete = () => {
-      const delayHandler = () => {
-        if (doCallOnChange) {
-          dispatchCustomElementEvent(this.state, 'on_change', attr)
-        }
-        if (fireSelectEvent) {
-          dispatchCustomElementEvent(this.state, 'on_select', {
-            ...attr,
-            active_item: itemToSelect,
-          })
-        }
-
-        if (closeOnSelection && !isTrue(keep_open)) {
-          this.setHidden()
-        }
+      if (doCallOnChange) {
+        dispatchCustomElementEvent(this.state, 'on_change', attr)
+      }
+      if (fireSelectEvent) {
+        dispatchCustomElementEvent(this.state, 'on_select', {
+          ...attr,
+          active_item: itemToSelect,
+        })
       }
 
-      if (isTrue(no_animation)) {
-        delayHandler()
-      } else {
-        clearTimeout(this._selectTimeout)
-        this._selectTimeout = setTimeout(
-          delayHandler,
-          DrawerListProvider.blurDelay / 2
-        ) // only for the user experience
+      if (closeOnSelection && !isTrue(keep_open)) {
+        this.setHidden()
       }
     }
 

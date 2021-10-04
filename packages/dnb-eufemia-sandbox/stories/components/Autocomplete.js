@@ -47,6 +47,24 @@ export const SearchNumbers = () => {
   )
 }
 
+export function onBlur() {
+  return (
+    <Autocomplete
+      left
+      data={['AAA', 'BBB', 'CCC']}
+      // on_change={({ data }) => {
+      //   console.log('on_change', data)
+      // }}
+      on_focus={({ value }) => {
+        console.log('on_focus', value)
+      }}
+      on_blur={({ value }) => {
+        console.log('on_blur', value)
+      }}
+    />
+  )
+}
+
 export const SearchWithWrappers = () => {
   const topMovies = [
     { content: 'item aa', search_content: ['AA c'] },
