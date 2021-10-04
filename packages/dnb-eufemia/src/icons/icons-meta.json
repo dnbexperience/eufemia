@@ -480,7 +480,7 @@
   },
   "mobilephone": {
     "tags": ["device"],
-    "created": 1632764379264,
+    "created": 1632764442926,
     "name": "objects/mobilephone_16",
     "variant": "secondary"
   },
@@ -1286,6 +1286,18 @@
     "tags": ["telephone", "handset", "call"],
     "created": 1623927168985,
     "name": "objects/phone_16",
+    "variant": "secondary"
+  },
+  "volume_off": {
+    "tags": ["sound", "audio", "mute"],
+    "created": 1633375664825,
+    "name": "actions/volume_off_16",
+    "variant": "secondary"
+  },
+  "volume_on": {
+    "tags": ["sound", "audio"],
+    "created": 1633375665167,
+    "name": "actions/volume_on_16",
     "variant": "secondary"
   },
   "products_account_percent": {

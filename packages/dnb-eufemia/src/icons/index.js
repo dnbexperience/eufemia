@@ -442,6 +442,10 @@ import view from './view.js'
 import view_medium from './view_medium.js'
 import vintage_car from './vintage_car.js'
 import vintage_car_medium from './vintage_car_medium.js'
+import volume_off from './volume_off.js'
+import volume_off_medium from './volume_off_medium.js'
+import volume_on from './volume_on.js'
+import volume_on_medium from './volume_on_medium.js'
 import wallet from './wallet.js'
 import wallet_medium from './wallet_medium.js'
 import wearables from './wearables.js'
@@ -898,6 +902,10 @@ export {
   view_medium,
   vintage_car,
   vintage_car_medium,
+  volume_off,
+  volume_off_medium,
+  volume_on,
+  volume_on_medium,
   wallet,
   wallet_medium,
   wearables,
