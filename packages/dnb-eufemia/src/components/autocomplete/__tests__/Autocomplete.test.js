@@ -64,7 +64,6 @@ describe('Autocomplete component', () => {
         id="autocomplete-id"
         data={['aaa', 'The Godfather the godfather The Godfather', 'ccc']}
         opened
-        no_animation
         input_value="the g th"
         {...mockProps}
       />
@@ -599,7 +598,6 @@ describe('Autocomplete component', () => {
 
     const Comp = mount(
       <Component
-        no_animation
         on_show={on_show}
         on_hide={on_hide}
         on_focus={on_focus}
@@ -632,7 +630,11 @@ describe('Autocomplete component', () => {
     expect(on_show).toHaveBeenCalledTimes(1)
     expect(on_show.mock.calls[0][0].attributes).toMatchObject(params)
     expect(on_show).toHaveBeenCalledWith({
-      attributes: params,
+      attributes: {
+        ...params,
+        onMouseDown: expect.any(Function),
+        onTouchStart: expect.any(Function),
+      },
       data: null,
       ulElement: null,
     })
@@ -682,12 +684,7 @@ describe('Autocomplete component', () => {
     let value = 0
 
     const Comp = mount(
-      <Component
-        no_animation
-        value={value}
-        data={mockData}
-        {...mockProps}
-      />
+      <Component value={value} data={mockData} {...mockProps} />
     )
 
     Comp.find('input').simulate('focus')
@@ -753,7 +750,6 @@ describe('Autocomplete component', () => {
 
     const Comp = mount(
       <Component
-        no_animation
         on_show={on_show}
         on_hide={on_hide}
         on_focus={on_focus}
@@ -880,7 +876,6 @@ describe('Autocomplete component', () => {
 
     const Comp = mount(
       <Component
-        no_animation
         on_show={on_show}
         on_hide={on_hide}
         on_focus={on_focus}
@@ -1003,12 +998,94 @@ describe('Autocomplete component', () => {
     expect(Comp.find('li.dnb-drawer-list__option').length).toBe(3)
   })
 
+  it('returns correct value in on_blur event', async () => {
+    const on_focus = jest.fn()
+    const on_blur = jest.fn()
+    const on_change = jest.fn()
+
+    const Comp = mount(
+      <Component
+        on_focus={on_focus}
+        on_blur={on_blur}
+        on_change={on_change}
+        data={mockData}
+        {...mockProps}
+      />
+    )
+
+    Comp.find('input').simulate('focus')
+    expect(on_focus).toHaveBeenCalledTimes(1)
+
+    Comp.find('input').simulate('change', { target: { value: 'cc' } })
+
+    // Try to call on_blur by mousedown
+    Comp.find('.dnb-drawer-list').simulate('mousedown')
+    Comp.find('input').simulate('blur')
+    expect(on_blur).toHaveBeenCalledTimes(0)
+
+    // Try to call on_blur by touch
+    Comp.find('.dnb-drawer-list').simulate('touchstart')
+    Comp.find('input').simulate('blur')
+    expect(on_blur).toHaveBeenCalledTimes(0)
+
+    // Try to call on_blur by keystroke
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        keyCode: 13, // enter
+      })
+    )
+    Comp.find('input').simulate('blur')
+    expect(on_blur).toHaveBeenCalledTimes(0)
+
+    // Make a selection
+    Comp.find('li.dnb-drawer-list__option').at(1).simulate('click')
+
+    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(on_change.mock.calls[0][0].data).toBe('BB cc zethx')
+
+    // All the clicks should not have invoked the on_blur event
+    expect(on_blur).toHaveBeenCalledTimes(0)
+
+    // But a second one will
+    Comp.find('input').simulate('blur')
+
+    expect(on_blur).toHaveBeenCalledTimes(1)
+    expect(on_blur.mock.calls[0][0].value).toBe('BB cc zethx')
+  })
+
+  it('will open drawer when open_on_focus is set to true', async () => {
+    const on_focus = jest.fn()
+    const on_change = jest.fn()
+
+    const Comp = mount(
+      <Component
+        open_on_focus={true}
+        on_focus={on_focus}
+        on_change={on_change}
+        data={mockData}
+        {...mockProps}
+      />
+    )
+
+    Comp.find('input').simulate('focus')
+    expect(on_focus).toHaveBeenCalledTimes(1)
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(true)
+
+    // Make a selection
+    Comp.find('li.dnb-drawer-list__option').at(1).simulate('click')
+
+    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(on_change.mock.calls[0][0].data).toBe('BB cc zethx')
+  })
+
   it('will prevent close if false gets returned from on_hide event', () => {
     let preventClose = false
     const on_hide = jest.fn(() => !preventClose)
     const Comp = mount(
       <Component
-        no_animation
         on_hide={on_hide}
         data={mockData}
         show_submit_button
