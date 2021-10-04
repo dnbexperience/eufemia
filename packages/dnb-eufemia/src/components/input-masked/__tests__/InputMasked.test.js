@@ -189,6 +189,28 @@ describe('InputMasked component as_percent', () => {
     expect(Comp.find('input').instance().value).toBe('12 345,6 %')
   })
 
+  it('should set inputmode to numeric or decimal', () => {
+    const Comp = mount(<Component value="12345.678" as_percent />)
+
+    expect(Comp.find('input').instance().getAttribute('inputMode')).toBe(
+      'numeric'
+    )
+
+    Comp.setProps({ number_mask: { decimalLimit: 1 } })
+
+    expect(Comp.find('input').instance().getAttribute('inputMode')).toBe(
+      'decimal'
+    )
+
+    Comp.setProps({
+      number_mask: { allowDecimal: false, decimalLimit: 1 },
+    })
+
+    expect(Comp.find('input').instance().getAttribute('inputMode')).toBe(
+      'numeric'
+    )
+  })
+
   it('should react to locale change', () => {
     const Comp = mount(
       <Component
@@ -412,6 +434,28 @@ describe('InputMasked component as_number', () => {
     Comp.setProps({ locale: 'nb-NO' })
 
     expect(Comp.find('input').instance().value).toBe('12 345,678')
+  })
+
+  it('should set inputmode to numeric or decimal', () => {
+    const Comp = mount(<Component value="12345" as_number />)
+
+    expect(Comp.find('input').instance().getAttribute('inputMode')).toBe(
+      'numeric'
+    )
+
+    Comp.setProps({ number_mask: { decimalLimit: 1 } })
+
+    expect(Comp.find('input').instance().getAttribute('inputMode')).toBe(
+      'decimal'
+    )
+
+    Comp.setProps({
+      number_mask: { allowDecimal: false, decimalLimit: 1 },
+    })
+
+    expect(Comp.find('input').instance().getAttribute('inputMode')).toBe(
+      'numeric'
+    )
   })
 })
 
@@ -679,6 +723,22 @@ describe('InputMasked component as_currency', () => {
     Comp.setProps({ locale: 'nb-NO' })
 
     expect(Comp.find('input').instance().value).toBe('12 345,67 kr')
+  })
+
+  it('should set inputmode to numeric or decimal', () => {
+    const Comp = mount(<Component value="12345" as_currency />)
+
+    expect(Comp.find('input').instance().getAttribute('inputMode')).toBe(
+      'decimal'
+    )
+
+    Comp.setProps({
+      number_mask: { allowDecimal: false, decimalLimit: 1 },
+    })
+
+    expect(Comp.find('input').instance().getAttribute('inputMode')).toBe(
+      'numeric'
+    )
   })
 })
 

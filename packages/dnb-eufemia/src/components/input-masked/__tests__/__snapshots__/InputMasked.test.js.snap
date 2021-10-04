@@ -84,6 +84,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
     icon_size={null}
     id="input-masked"
     inner_ref={null}
+    inputMode="numeric"
     input_attributes={null}
     input_class={null}
     input_element={[Function]}
@@ -173,6 +174,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
               disabled={false}
               guide={false}
               id="input-masked"
+              inputMode="numeric"
               keepCharPositions={false}
               mask={[Function]}
               name="input-masked"
@@ -195,6 +197,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
                 defaultValue="test"
                 disabled={false}
                 id="input-masked"
+                inputMode="numeric"
                 name="input-masked"
                 onBlur={[Function]}
                 onChange={[Function]}

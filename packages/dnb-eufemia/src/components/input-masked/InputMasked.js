@@ -285,6 +285,14 @@ export default class InputMasked extends React.PureComponent {
 
     if (maskParams) {
       mask = createNumberMask(maskParams)
+
+      // Set "inputMode"
+      if (!props.inputMode) {
+        props.inputMode =
+          maskParams.allowDecimal && maskParams.decimalLimit !== 0
+            ? 'decimal'
+            : 'numeric'
+      }
     }
 
     if (!props.input_element) {
