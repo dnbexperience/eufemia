@@ -1,3 +1,7 @@
+## August, 17. 2021
+
+- New v2 [StepIndicator](/uilib/components/step-indicator) with new look and behavior. [v1](/uilib/components/step-indicator/demos-v1) can still be used for legacy reasons until the next breaking release.
+
 ## April, 5. 2021
 
 - `success-green` changes its color from `#008000` to `#007B5E`.
