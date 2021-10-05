@@ -176,7 +176,6 @@
     "gulp": "4.0.2",
     "gulp-clone": "2.0.1",
     "gulp-rename": "2.0.0",
-    "gulp-sass": "4.1.1",
     "gulp-transform": "3.0.5",
     "history": "5.0.1",
     "is-ci": "3.0.0",

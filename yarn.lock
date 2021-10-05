@@ -1990,7 +1990,6 @@ __metadata:
     gulp: 4.0.2
     gulp-clone: 2.0.1
     gulp-rename: 2.0.0
-    gulp-sass: 4.1.1
     gulp-transform: 3.0.5
     history: 5.0.1
     is-ci: 3.0.0
@@ -9180,7 +9179,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:2.4.2, chalk@npm:^2.0.0, chalk@npm:^2.0.1, chalk@npm:^2.2.0, chalk@npm:^2.3.0, chalk@npm:^2.3.2, chalk@npm:^2.4.1, chalk@npm:^2.4.2":
+"chalk@npm:2.4.2, chalk@npm:^2.0.0, chalk@npm:^2.0.1, chalk@npm:^2.2.0, chalk@npm:^2.3.2, chalk@npm:^2.4.1, chalk@npm:^2.4.2":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
   dependencies:
@@ -16437,22 +16436,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"gulp-sass@npm:4.1.1":
-  version: 4.1.1
-  resolution: "gulp-sass@npm:4.1.1"
-  dependencies:
-    chalk: ^2.3.0
-    lodash: ^4.17.20
-    node-sass: ^4.8.3
-    plugin-error: ^1.0.1
-    replace-ext: ^1.0.0
-    strip-ansi: ^4.0.0
-    through2: ^2.0.0
-    vinyl-sourcemaps-apply: ^0.2.0
-  checksum: 5f0a20e1b24fc36e0efb88f3d17505fc7e1f625076752d950a760396663d739d131b1fd4a47e31f19888ab844dc354c76abbf419d973c8bb9e4750804376fdf5
-  languageName: node
-  linkType: hard
-
 "gulp-transform@npm:3.0.5":
   version: 3.0.5
   resolution: "gulp-transform@npm:3.0.5"
@@ -23032,7 +23015,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"node-sass@npm:^4.8.3, node-sass@npm:^4.9.3":
+"node-sass@npm:^4.9.3":
   version: 4.14.1
   resolution: "node-sass@npm:4.14.1"
   dependencies:
@@ -24951,18 +24934,6 @@ fsevents@^1.2.7:
     arr-union: ^2.0.1
     extend-shallow: ^1.1.2
   checksum: e363d3b644753ef468fc069fd8a76a67a077ece85320e434386e0889e10bbbc507d9733f8f6d6ef1cfda272a6c7f0d03cd70340a0a1f8014fe41a4d0d1ce59d0
-  languageName: node
-  linkType: hard
-
-"plugin-error@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "plugin-error@npm:1.0.1"
-  dependencies:
-    ansi-colors: ^1.0.1
-    arr-diff: ^4.0.0
-    arr-union: ^3.1.0
-    extend-shallow: ^3.0.2
-  checksum: 5cacd34372b909f07125829c2876707f4add64dcdf0dd8bd23d7ceac70eeb961c038a9707a998cc498bf8d478cc81f8d85b82584313926fe61a8fa294f79f3e4
   languageName: node
   linkType: hard
 
@@ -29451,7 +29422,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"source-map@npm:^0.5.0, source-map@npm:^0.5.1, source-map@npm:^0.5.6, source-map@npm:^0.5.7, source-map@npm:~0.5.3":
+"source-map@npm:^0.5.0, source-map@npm:^0.5.6, source-map@npm:^0.5.7, source-map@npm:~0.5.3":
   version: 0.5.7
   resolution: "source-map@npm:0.5.7"
   checksum: 5dc2043b93d2f194142c7f38f74a24670cd7a0063acdaf4bf01d2964b402257ae843c2a8fa822ad5b71013b5fcafa55af7421383da919752f22ff488bc553f4d
@@ -32848,15 +32819,6 @@ resolve@^2.0.0-next.3:
     remove-bom-buffer: ^3.0.0
     vinyl: ^2.0.0
   checksum: e7174851faff44ffd0f91d4d7234a0c153cad7da9c142e5ef46b4a24fe5ab0c98c997db7c719919cbab28edb4b9cf9ec3d7fed8460f047b3d640740a613ec944
-  languageName: node
-  linkType: hard
-
-"vinyl-sourcemaps-apply@npm:^0.2.0":
-  version: 0.2.1
-  resolution: "vinyl-sourcemaps-apply@npm:0.2.1"
-  dependencies:
-    source-map: ^0.5.1
-  checksum: c1a81b085fc2ee7c140ab26cb1a87031b79590c22a992dafcbc47f8db74e58fbfca2689200df6a08c341e65a67b539dcee14a7fd80e6fdeaa2e88bfe2622f361
   languageName: node
   linkType: hard
 
