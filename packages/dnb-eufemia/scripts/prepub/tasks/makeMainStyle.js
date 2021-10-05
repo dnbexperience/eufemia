@@ -4,10 +4,7 @@
  */
 
 import gulp from 'gulp'
-import sass from 'gulp-sass'
-import postcss from 'postcss'
 import onceImporter from 'node-sass-once-importer'
-import cssnano from 'cssnano'
 import clone from 'gulp-clone'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
@@ -15,6 +12,12 @@ import { log } from '../../lib'
 import globby from 'globby'
 import { asyncForEach } from '../../tools/index'
 import packpath from 'packpath'
+import {
+  transformSass,
+  transformPaths,
+  transformPostcss,
+  transformCssnano,
+} from './transformUtils'
 
 // import the post css config
 import postcssConfig from '../config/postcssConfig'
@@ -56,18 +59,22 @@ export const runFactory = (
 ) =>
   new Promise((resolve, reject) => {
     log.start('> PrePublish: transforming main style')
-    try {
-      const sassStream = sass({
-        importer: importOnce ? [onceImporter()] : [],
-      }).on('error', sass.logError)
 
+    try {
       const cloneSink = clone.sink()
 
       let stream = gulp
         .src(src, {
           cwd: ROOT_DIR,
         })
-        .pipe(sassStream)
+        .pipe(
+          transform(
+            'utf8',
+            transformSass({
+              importer: importOnce ? [onceImporter()] : [],
+            })
+          )
+        )
         .pipe(
           transform(
             'utf8',
@@ -118,31 +125,3 @@ export const runFactory = (
       reject(e)
     }
   })
-
-const transformPaths = (from, to) => (content) =>
-  content.replace(new RegExp(from, 'g'), to)
-
-const transformPostcss = (config) => async (content, file) => {
-  log.info(`> PrePublish: postcss process | ${file.path}`)
-
-  return (
-    await postcss(config).process(content, {
-      from: file.path,
-    })
-  ).toString()
-}
-
-const transformCssnano = (config) => async (content, file) => {
-  log.info(`> PrePublish: cssnano process | ${file.path}`)
-
-  return (
-    await postcss([
-      cssnano({
-        preset: 'default',
-        ...config,
-      }),
-    ]).process(content, {
-      from: file.path,
-    })
-  ).toString()
-}
