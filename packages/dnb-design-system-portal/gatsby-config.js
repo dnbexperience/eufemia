@@ -14,7 +14,11 @@ const siteMetadata = {
 const plugins = [
   {
     resolve: 'gatsby-plugin-gatsby-cloud',
-    options: {},
+    options: {
+      headers: {
+        '/*': ['x-robots-tag: all'],
+      },
+    },
   },
   {
     resolve: 'gatsby-plugin-manifest',
