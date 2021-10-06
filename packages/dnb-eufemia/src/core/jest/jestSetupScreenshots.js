@@ -362,7 +362,9 @@ async function handleSimulation({
       }
 
       case 'longclick': {
-        delaySimulation = 300
+        delaySimulation = isCI ? 600 : 400
+
+        // No await
         elementToSimulate.click({ delay: delaySimulation })
         break
       }
@@ -371,7 +373,7 @@ async function handleSimulation({
         await elementToSimulate.click()
         screenshotElement.press('Shift')
         await screenshotElement.press('Tab')
-        await screenshotElement.press('Tab')
+        await screenshotElement.press('Tab') // tab two times
         await elementToSimulate.focus()
         break
       }
