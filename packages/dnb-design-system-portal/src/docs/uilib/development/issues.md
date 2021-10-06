@@ -23,7 +23,7 @@ order: 8
 
 ## puppeteer
 
-- Screen shot tests fails when simulating `active` state and v9 of `puppeteer` is sued. Probably because the delay property has changed? Because the active simulation is not kicking in.
+- When upgrading to a newer version than v8, puppeteer behaves inconsistent. Sometimes the content is just tiny bit off. But most importantly, > v10.4 is very inconsistent and off running on the GitHub Actions maxOS.
 
 ## eslint
 
@@ -43,7 +43,6 @@ When switching over to Yarn PnP, there are some issues:
           on line 6 of ../../.yarn/__virtual__/@dnb-eufemia-virtual-761b82657c/1/packages/dnb-eufemia/src/components/slider/style/dnb-range.scss
   >> @import '../../../style/components/imports.scss';
   ```
-  
 - Gatsby
   ```bash
   gatsby-plugin-mdx tried to access mkdirp, but it isn't declared in its dependencies; this makes the require call ambiguous and unsound.

@@ -300,6 +300,7 @@ export const AutocompleteOpened = () => {
   input_value="lord"
   opened
   no_animation
+  direction="bottom"
   prevent_close
   data={topMovies}
   right="large"
@@ -310,6 +311,7 @@ export const AutocompleteOpened = () => {
   skip_portal
   opened
   no_animation
+  direction="bottom"
   prevent_close
   data={topMovies}
   className="focus-trigger"
@@ -333,7 +335,7 @@ const topMovies = [
   { content: ['The Godfather', 'Description', 'Enda mer'], year: 1972 },
   { content: 'The Godfather: Part II', year: 1974 },
   { content: 'The Dark Knight', year: 2008 },
-  { content: '12 Angry Men', year: 1957 },
+  { content: ['12 Angry Men', 'Second row', 'Third row'], year: 1957 },
   { content: "Schindler's List", year: 1993 },
   { content: 'Pulp Fiction', year: 1994 },
   { content: 'The Lord of the Rings: The Return of the King', year: 2003 },

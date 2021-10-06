@@ -10,12 +10,14 @@ import {
 
 describe('StepIndicator screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/step-indicator/demos' })
+
   it('have to match loose mode', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="step-indicator-loose"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match loose mode after click simulation', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="step-indicator-loose"]',
@@ -25,12 +27,14 @@ describe('StepIndicator screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match strict mode', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="step-indicator-strict"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match strict mode after click simulation', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="step-indicator-strict"]',
@@ -40,6 +44,7 @@ describe('StepIndicator screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match static mode after click simulation', async () => {
     const screenshot = await testPageScreenshot({
       selector: 'div#dnb-modal-root',
@@ -60,18 +65,21 @@ describe('StepIndicator screenshot', () => {
       height: 600,
     },
   })
+
   it('have to match loose mode for small screens', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="step-indicator-loose"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match strict mode for small screens', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="step-indicator-strict"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match strict mode for small screens after click simulation', async () => {
     const screenshot = await testPageScreenshot({
       selector: 'div#dnb-modal-root',

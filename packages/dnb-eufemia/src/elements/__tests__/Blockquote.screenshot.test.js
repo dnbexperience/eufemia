@@ -13,6 +13,7 @@ describe('Blockquote screenshot', () => {
   const style = {
     width: '30rem', // make sure our input gets an explicit width, because of mac/linux rendering differences
   }
+
   it('have to match default "blockquote"', async () => {
     const screenshot = await testPageScreenshot({
       style,
@@ -20,6 +21,7 @@ describe('Blockquote screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match "blockquote" with top aligned graphic', async () => {
     const screenshot = await testPageScreenshot({
       style,
@@ -27,6 +29,7 @@ describe('Blockquote screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match "blockquote" with top aligned graphic and no background', async () => {
     const screenshot = await testPageScreenshot({
       style,
@@ -34,6 +37,7 @@ describe('Blockquote screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match "blockquote" with no background', async () => {
     const screenshot = await testPageScreenshot({
       style,

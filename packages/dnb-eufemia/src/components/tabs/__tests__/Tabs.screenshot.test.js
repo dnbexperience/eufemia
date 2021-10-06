@@ -10,18 +10,21 @@ import {
 
 describe('Tabs screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/tabs/demos' })
+
   it('have to match the "Tablist"', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match a tablist with a click handler', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="tabs-clickhandler"] .dnb-tabs__tabs',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the right aligned tabs', async () => {
     const screenshot = await testPageScreenshot({
       style: {
@@ -32,6 +35,7 @@ describe('Tabs screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match custom section styles', async () => {
     const screenshot = await testPageScreenshot({
       style: {
@@ -43,6 +47,7 @@ describe('Tabs screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match ignored scrollable tabs', async () => {
     const screenshot = await testPageScreenshot({
       style: {
@@ -53,6 +58,7 @@ describe('Tabs screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the "Tablist" on focus state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs',
@@ -103,6 +109,7 @@ describe('Tabs screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match first scrollable tabs', async () => {
     const screenshot = await testPageScreenshot({
       style: {
@@ -125,6 +132,7 @@ describe('Tabs screenshot', () => {
     },
     url: '/uilib/components/tabs/demos',
   })
+
   it('have to match last scrollable tabs', async () => {
     const screenshot = await testPageScreenshot({
       style: {

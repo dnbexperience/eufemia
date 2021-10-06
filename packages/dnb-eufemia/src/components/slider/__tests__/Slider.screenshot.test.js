@@ -10,6 +10,7 @@ import {
 
 describe('Slider screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/slider/demos' })
+
   it('have to match default slider', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '20rem' },
@@ -17,6 +18,7 @@ describe('Slider screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the focus state', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '20rem' },
@@ -27,6 +29,7 @@ describe('Slider screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the hover state', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '20rem' },
@@ -37,6 +40,7 @@ describe('Slider screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match vertical slider', async () => {
     const screenshot = await testPageScreenshot({
       style: { height: '20rem' },

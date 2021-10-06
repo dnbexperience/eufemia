@@ -10,6 +10,7 @@ import {
 
 describe('Skeleton screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/skeleton/demos' })
+
   it('have to match skeleton article figure', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '20rem', height: '20rem' },
@@ -17,6 +18,7 @@ describe('Skeleton screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match excluded components', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '20rem', height: '20rem' },
@@ -24,6 +26,7 @@ describe('Skeleton screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match a removed skeleton', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '20rem', height: '20rem' },
@@ -34,6 +37,7 @@ describe('Skeleton screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match all components - vertical', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '60rem' },
@@ -41,6 +45,7 @@ describe('Skeleton screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match all components - horizontal', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '60rem' },

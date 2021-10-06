@@ -11,6 +11,7 @@ import {
 
 describe('Logo image', () => {
   setupJestScreenshot()
+
   it('have to match image snapshot', async () => {
     const image = await loadImage(
       path.resolve(__dirname, '../dnb-logo.png')
