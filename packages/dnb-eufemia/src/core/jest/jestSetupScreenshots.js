@@ -13,13 +13,7 @@ const ora = require('ora')
 
 const log = ora()
 
-/**
- * we may considder using: isCI ? 'networkidle2' : 'domcontentloaded'
- * because "networkidle2" takes more time.
- * Why do we not use "load" only? Because it seems,
- * that a little delay during page load increases reliability
- */
-const waitUntil = 'domcontentloaded'
+const waitUntil = isCI ? 'domcontentloaded' : 'load'
 
 const config = {
   DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
@@ -131,17 +125,16 @@ module.exports.testPageScreenshot = async ({
     )
   }
 
-  const { elementToSimulate, activeSimulationDelay } =
-    await handleSimulation({
-      page,
-      element,
-      simulate,
-      simulateSelector,
-      screenshotElement,
-      waitAfterSimulateSelector,
-      waitAfterSimulate,
-      waitBeforeSimulate,
-    })
+  const { elementToSimulate, delaySimulation } = await handleSimulation({
+    page,
+    element,
+    simulate,
+    simulateSelector,
+    screenshotElement,
+    waitAfterSimulateSelector,
+    waitAfterSimulate,
+    waitBeforeSimulate,
+  })
 
   await handleMeasureOfElement({
     page,
@@ -163,12 +156,11 @@ module.exports.testPageScreenshot = async ({
     screenshotSelector,
   })
 
-  // before we had: just to make sure we don't resolve, before the delayed click happened
-  // so the next integration on the same url will have a reset state
-  if (activeSimulationDelay > 0) {
-    await page.waitForTimeout(activeSimulationDelay)
-    await elementToSimulate.click()
-  } else if (elementToSimulate) {
+  if (delaySimulation > 0) {
+    await page.waitForTimeout(delaySimulation)
+  }
+
+  if (elementToSimulate) {
     await elementToSimulate.dispose()
   }
 
@@ -267,11 +259,6 @@ async function makePageReady({
     path: path.resolve(__dirname, './jestSetupScreenshots.css'),
   })
 
-  // TODO: Considder if a general delay will help for better reliability
-  if (isCI) {
-    await page.waitForTimeout(100)
-  }
-
   await page.waitForSelector(selector)
 
   if (style) {
@@ -347,7 +334,7 @@ async function handleSimulation({
   }
 
   let elementToSimulate = null
-  let activeSimulationDelay = 0
+  let delaySimulation = 0
 
   if (simulate) {
     if (simulateSelector) {
@@ -359,12 +346,24 @@ async function handleSimulation({
 
     switch (simulate) {
       case 'hover': {
+        await page.mouse.move(0, 0)
         await elementToSimulate.hover()
         break
       }
 
       case 'click': {
         await elementToSimulate.click()
+        break
+      }
+
+      case 'enter': {
+        await screenshotElement.press('Enter')
+        break
+      }
+
+      case 'longclick': {
+        delaySimulation = 300
+        elementToSimulate.click({ delay: delaySimulation })
         break
       }
 
@@ -378,12 +377,21 @@ async function handleSimulation({
       }
 
       case 'active': {
-        // make a delayed click – have mouse down until screen shot is taken
-        activeSimulationDelay = isCI ? 500 : 400
-        // no await – else we get only a release state
-        elementToSimulate.click({
-          delay: activeSimulationDelay,
+        await elementToSimulate.click()
+
+        const { pageXOffset, pageYOffset } = await page.evaluate(() => {
+          const pageXOffset = window.pageXOffset
+          const pageYOffset = window.pageYOffset
+          return { pageXOffset, pageYOffset }
         })
+
+        const boundingBox = await elementToSimulate.boundingBox()
+
+        await page.mouse.down(
+          boundingBox.x + boundingBox.width / 2 - pageXOffset,
+          boundingBox.y + boundingBox.height / 2 - pageYOffset
+        )
+
         break
       }
 
@@ -407,7 +415,7 @@ async function handleSimulation({
     await page.waitForTimeout(waitAfterSimulate)
   }
 
-  return { elementToSimulate, activeSimulationDelay }
+  return { elementToSimulate, delaySimulation }
 }
 
 async function handleWrapper({
