@@ -85,7 +85,7 @@ const commitToBranch = async ({
   try {
     const repo = await getRepo()
 
-    const branchName = await getRequiredBranchName({
+    let branchName = await getRequiredBranchName({
       repo,
       requiredBranch,
     })
@@ -95,7 +95,7 @@ const commitToBranch = async ({
       return []
     }
 
-    log.start(`> Commit: Commit new ${what} to the repo: ${branchName}`)
+    log.start(`Commit: Commit new ${what} to the repo: ${branchName}`)
 
     const status = await repo.status()
 
@@ -115,7 +115,7 @@ const commitToBranch = async ({
     if (hasChanges) {
       if (config.user && config.user.name && config.user.email) {
         log.info(
-          `> Commit: Add Git user: ${config.user.name}, ${config.user.email}`
+          `Commit: Add Git user: ${config.user.name}, ${config.user.email}`
         )
         await repo.addConfig('user.name', config.user.name)
         await repo.addConfig('user.email', config.user.email)
@@ -125,7 +125,7 @@ const commitToBranch = async ({
       await repo.add(filesToCommit) // use "'./*'" for adding all files
 
       const files = filesToCommit.map((f) => path.basename(f))
-      log.info(`> Commit: Add ${files.length} new ${what}`)
+      log.info(`Commit: Add ${files.length} new ${what}`)
 
       if (typeof isFeature === 'function') {
         isFeature = isFeature(files)
@@ -141,11 +141,13 @@ const commitToBranch = async ({
           skipCI ? ' [CI SKIP]' : ''
         }`
       ).trim()
-      log.info(`> Commit: ${commitMessage}`)
+      log.info(`Commit: ${commitMessage}`)
 
       if (newBranch) {
+        branchName = newBranch
         await repo.checkoutLocalBranch(newBranch)
-        log.info(`> Commit: created a new branch: ${newBranch}`)
+        await repo.addRemote('origin', config.remote)
+        log.info(`Commit: created a new branch: ${newBranch}`)
       }
 
       await repo.commit(commitMessage, null, {
@@ -154,15 +156,15 @@ const commitToBranch = async ({
       await repo.push('origin', branchName)
 
       log.succeed(
-        `> Commit: These ${what} were successfully updated/added: ${files}`
+        `Commit: These ${what} were successfully updated/added: ${files}`
       )
 
       return files
     } else {
-      log.succeed(`> Commit: There where no ${what} to commit`)
+      log.succeed(`Commit: There where no ${what} to commit`)
     }
   } catch (e) {
-    log.fail(`> Commit: Cached error with message:\n${e.message}\n`)
+    log.fail(`Commit: Cached error with message:\n${e.message}\n`)
     console.log(e)
   }
 
