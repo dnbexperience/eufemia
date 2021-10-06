@@ -62,10 +62,10 @@ describe('Autocomplete screenshot', () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="autocomplete-opened"]',
       simulateSelector:
-        '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type .first-of-type',
+        '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type li.first-of-type',
       simulate: 'click',
       waitAfterSimulateSelector:
-        '.dnb-drawer-list__options .first-of-type.dnb-drawer-list__option',
+        '.dnb-drawer-list__options li.first-of-type.dnb-drawer-list__option--selected',
       style: {
         height: '40rem',
       },
