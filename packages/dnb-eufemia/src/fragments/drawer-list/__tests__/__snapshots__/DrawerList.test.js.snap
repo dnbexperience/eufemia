@@ -688,7 +688,7 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
 .dnb-drawer-list {
   color: var(--color-emerald-green); }
   .dnb-drawer-list__list {
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 8px 16px rgba(51, 51, 51, 0.08);
     background-color: var(--color-white);
     border-radius: calc( var(--drawer-list-options-border-radius) + 0.15rem); }
   @media screen and (max-width: 40em) {
@@ -834,7 +834,7 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
   .dnb-drawer-list__triangle::before {
     border: none;
     background-color: var(--color-white);
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
+    box-shadow: 0 8px 16px rgba(51, 51, 51, 0.08); }
   .dnb-drawer-list--top .dnb-drawer-list__option.last-of-type:hover ~ .dnb-drawer-list__triangle::before,
   .dnb-drawer-list--bottom .dnb-drawer-list__option.first-of-type:hover ~ .dnb-drawer-list__triangle::before,
   .dnb-drawer-list--bottom .dnb-drawer-list__option.closest-to-top:hover ~ .dnb-drawer-list__triangle::before,
