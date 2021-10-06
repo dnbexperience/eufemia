@@ -25,12 +25,14 @@ describe('Heading screenshot', () => {
     //   pixelThresholdRelative: isCI ? 0.1 : 0,
     // },
   })
+
   it('have to match the default heading examples', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="heading-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the additional heading examples', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="heading-additional"]',
@@ -47,18 +49,21 @@ describe('Paragraph screenshot', () => {
     //   pixelThresholdRelative: isCI ? 0.1 : 0,
     // },
   })
+
   it('have to match the paragraph example', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="paragraph-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the paragraph with small text', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="paragraph-small"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the paragraph with modifiers', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="paragraph-modifiers"]',

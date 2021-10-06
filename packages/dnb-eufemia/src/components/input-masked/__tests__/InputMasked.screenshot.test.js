@@ -13,6 +13,7 @@ describe('InputMasked screenshot', () => {
   const style = {
     width: '200px', // make sure our input gets an explicit width, because of mac/linux rendering differences
   }
+
   it('have to match masked input', async () => {
     const screenshot = await testPageScreenshot({
       style,
@@ -21,6 +22,7 @@ describe('InputMasked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match currency_mask', async () => {
     const screenshot = await testPageScreenshot({
       // style,
@@ -28,6 +30,7 @@ describe('InputMasked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match number_mask', async () => {
     const screenshot = await testPageScreenshot({
       // style,
@@ -35,6 +38,7 @@ describe('InputMasked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match locale number', async () => {
     const screenshot = await testPageScreenshot({
       // style,
@@ -42,6 +46,7 @@ describe('InputMasked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match locale currency', async () => {
     const screenshot = await testPageScreenshot({
       // style,

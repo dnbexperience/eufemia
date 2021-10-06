@@ -12,12 +12,14 @@ describe('Autocomplete screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/autocomplete/demos',
   })
+
   it('have to match different sizes', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="autocomplete-sizes"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match autocomplete with drawer-button', async () => {
     const screenshot = await testPageScreenshot({
       selector:
@@ -25,6 +27,7 @@ describe('Autocomplete screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the closed autocomplete', async () => {
     const screenshot = await testPageScreenshot({
       selector:
@@ -38,6 +41,7 @@ describe('Autocomplete screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/autocomplete/demos',
   })
+
   it('have to match autocomplete with search result', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="autocomplete-drawer-search"]',
@@ -58,6 +62,7 @@ describe('Autocomplete screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/autocomplete/demos',
   })
+
   it('have to match autocomplete opened list', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="autocomplete-opened"]',

@@ -13,6 +13,7 @@ describe('GlobalError screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/global-error/demos',
   })
+
   it('have to match the 404 status', async () => {
     const screenshot = await testPageScreenshot({
       style,
@@ -20,6 +21,7 @@ describe('GlobalError screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the 500 status', async () => {
     const screenshot = await testPageScreenshot({
       style,

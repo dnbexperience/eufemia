@@ -13,6 +13,7 @@ describe('Textarea screenshot', () => {
     width: '14rem', // make sure our textarea gets an explicit width, because of mac/linux rendering differences
   }
   setupPageScreenshot({ url: '/uilib/components/textarea/demos' })
+
   it('have to match the "default" textarea style', async () => {
     const screenshot = await testPageScreenshot({
       style,
@@ -22,6 +23,7 @@ describe('Textarea screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the default error textarea style', async () => {
     const screenshot = await testPageScreenshot({
       style,
@@ -31,6 +33,7 @@ describe('Textarea screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match stretched textarea style', async () => {
     const screenshot = await testPageScreenshot({
       style: {
@@ -43,6 +46,7 @@ describe('Textarea screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
   // we do not make a active state, due to the differences of font rendering
+
   it('have to match the "focus" textarea style', async () => {
     const screenshot = await testPageScreenshot({
       style,
@@ -55,6 +59,7 @@ describe('Textarea screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
   // we do not make a active state, due to the differences of font rendering
+
   it('have to match the "hover" textarea style', async () => {
     const screenshot = await testPageScreenshot({
       style,

@@ -17,18 +17,21 @@ describe('Modal screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/modal/demos',
   })
+
   it('have to match the default modal trigger button', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="modal-trigger-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the suffix help button usage', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="modal-help-button"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the default modal window with title', async () => {
     const screenshot = await testPageScreenshot({
       selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
@@ -46,6 +49,7 @@ describe('Modal screenshot', () => {
     url: '/uilib/components/modal/demos',
     pageViewport,
   })
+
   it('have to match the default modal window', async () => {
     const screenshot = await testPageScreenshot({
       selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
@@ -63,6 +67,7 @@ describe('Drawer screenshot', () => {
     url: '/uilib/components/modal/demos',
     pageViewport,
   })
+
   it('have to match the default drawer window', async () => {
     const screenshot = await testPageScreenshot({
       selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
@@ -80,6 +85,7 @@ describe('Drawer header screenshot', () => {
     url: '/uilib/components/modal/demos',
     pageViewport,
   })
+
   it('have to match the drawer with custom header content', async () => {
     const screenshot = await testPageScreenshot({
       selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
@@ -97,6 +103,7 @@ describe('Additional Modal screenshot', () => {
     url: '/uilib/components/modal/demos',
     pageViewport,
   })
+
   it('have to match modal without spacing', async () => {
     const screenshot = await testPageScreenshot({
       selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
@@ -118,6 +125,7 @@ describe('Additional Modal screenshot', () => {
     url: '/uilib/components/modal/demos',
     pageViewport,
   })
+
   it('have to match a fullscreen modal', async () => {
     const screenshot = await testPageScreenshot({
       selector: 'div#dnb-modal-root', // only to make sure we have a valid selector

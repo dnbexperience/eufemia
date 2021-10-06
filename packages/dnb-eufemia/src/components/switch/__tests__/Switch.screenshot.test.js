@@ -10,12 +10,14 @@ import {
 
 describe('Switch unchecked screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/switch/demos' })
+
   it('have to match switch in unchecked state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="switch-default"] .dnb-switch',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match switch in unchecked state with focus', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="switch-default"] .dnb-switch',
@@ -25,6 +27,7 @@ describe('Switch unchecked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match switch in unchecked state with hover', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="switch-default"] .dnb-switch',
@@ -40,12 +43,14 @@ describe('Switch unchecked screenshot', () => {
 // we have to run the two focus simulations in a separate run each
 describe('Switch checked screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/switch/demos' })
+
   it('have to match switch in checked state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="switch-checked"] .dnb-switch',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match switch in checked state with focus', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="switch-checked"] .dnb-switch',
@@ -55,6 +60,7 @@ describe('Switch checked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match switch in checked state with hover', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="switch-checked"] .dnb-switch',
@@ -64,18 +70,21 @@ describe('Switch checked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match switch in different sizes', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="switch-sizes"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match disabled switch', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="switch-disabled"] .dnb-switch',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match switch in error state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="switch-error"] .dnb-switch',

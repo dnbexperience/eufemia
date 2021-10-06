@@ -10,6 +10,7 @@ import {
 
 describe('StepIndicator screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/step-indicator/demos-v1' })
+
   it('have to match button mode', async () => {
     const screenshot = await testPageScreenshot({
       selector:
@@ -17,6 +18,7 @@ describe('StepIndicator screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match default mode with a narrow width', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '30rem' },

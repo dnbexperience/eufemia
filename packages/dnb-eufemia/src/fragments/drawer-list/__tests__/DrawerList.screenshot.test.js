@@ -12,6 +12,7 @@ describe('DrawerList screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/fragments/drawer-list/demos',
   })
+
   it('have to match the default drawer-list', async () => {
     const screenshot = await testPageScreenshot({
       style: {

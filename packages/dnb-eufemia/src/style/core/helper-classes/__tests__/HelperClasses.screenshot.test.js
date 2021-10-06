@@ -17,6 +17,7 @@ describe('HelperClasses screenshot', () => {
     // },
     url: '/uilib/helpers/css-examples',
   })
+
   it('have to match core-style', async () => {
     const screenshot = await testPageScreenshot({
       addWrapper: false,
@@ -24,6 +25,7 @@ describe('HelperClasses screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match tap-focus', async () => {
     const screenshot = await testPageScreenshot({
       addWrapper: false,
@@ -31,6 +33,7 @@ describe('HelperClasses screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match unstyled-list', async () => {
     const screenshot = await testPageScreenshot({
       addWrapper: false,
@@ -38,6 +41,7 @@ describe('HelperClasses screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match sr-only', async () => {
     const screenshot = await testPageScreenshot({
       addWrapper: false,
@@ -45,6 +49,7 @@ describe('HelperClasses screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match not-sr-only', async () => {
     const screenshot = await testPageScreenshot({
       addWrapper: false,

@@ -12,12 +12,14 @@ describe('ToggleButton unchecked screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/toggle-button/demos',
   })
+
   it('have to match toggle-button in unchecked state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="toggle-button-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match toggle-button in unchecked state with focus', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="toggle-button-default"]',
@@ -27,6 +29,7 @@ describe('ToggleButton unchecked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match toggle-button in unchecked state with hover', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="toggle-button-default"]',
@@ -42,12 +45,14 @@ describe('ToggleButton unchecked screenshot', () => {
 // we have to run the two focus simulations in a separate run each
 describe('ToggleButton checked screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/toggle-button/demos' })
+
   it('have to match toggle-button in checked state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="toggle-button-checked"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match toggle-button in checked state with focus', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="toggle-button-checked"]',
@@ -57,6 +62,7 @@ describe('ToggleButton checked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match toggle-button in checked state with hover', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="toggle-button-checked"]',
@@ -66,6 +72,7 @@ describe('ToggleButton checked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match toggle-button in active focus state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="toggle-button-checked"]',
@@ -75,6 +82,7 @@ describe('ToggleButton checked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match toggle-button group', async () => {
     const screenshot = await testPageScreenshot({
       selector:
@@ -82,6 +90,7 @@ describe('ToggleButton checked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match toggle-button group in vertical layout', async () => {
     const screenshot = await testPageScreenshot({
       selector:
@@ -89,6 +98,7 @@ describe('ToggleButton checked screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match toggle-button group with form-status', async () => {
     const screenshot = await testPageScreenshot({
       selector:

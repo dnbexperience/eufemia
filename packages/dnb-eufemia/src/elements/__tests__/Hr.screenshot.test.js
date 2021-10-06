@@ -12,18 +12,21 @@ describe('List screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/elements/horizontal-rule',
   })
+
   it('have to match default horizontal rule', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="hr-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match fullscreen horizontal rule', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="hr-fullscreen"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match thickness horizontal rule', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="hr-thickness"]',

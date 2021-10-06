@@ -17,6 +17,7 @@ describe('Icon screenshot', () => {
     //   pixelThresholdRelative: isCI ? 0.1 : 0,
     // },
   })
+
   it('have to match default icons setup', async () => {
     const screenshot = await testPageScreenshot({
       style: {
@@ -28,6 +29,7 @@ describe('Icon screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match inherited sized icons', async () => {
     const screenshot = await testPageScreenshot({
       style: {
@@ -39,6 +41,7 @@ describe('Icon screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match icons with border', async () => {
     const screenshot = await testPageScreenshot({
       // screenshotConfig: {
@@ -54,6 +57,7 @@ describe('Icon screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match responsive icons', async () => {
     const screenshot = await testPageScreenshot({
       style: {
@@ -74,6 +78,7 @@ describe('Icon screenshot', () => {
     //   pixelThresholdRelative: isCI ? 0.02 : 0,
     // },
   })
+
   it('have to match all primary icons', async () => {
     const screenshot = await testPageScreenshot({
       style: {
@@ -85,6 +90,7 @@ describe('Icon screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match all secondary icons', async () => {
     const screenshot = await testPageScreenshot({
       style: {

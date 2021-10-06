@@ -13,6 +13,7 @@ describe('Dropdown screenshot', () => {
     url: '/uilib/components/dropdown/demos',
     timeout: 300e3,
   })
+
   it('have to match the closed dropdown', async () => {
     const screenshot = await testPageScreenshot({
       selector:
@@ -20,24 +21,28 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match different sizes', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="dropdown-sizes"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match disabled state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="dropdown-disabled"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the dropdown with icon on left side', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="dropdown-left-icon"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the dropdown with status: error', async () => {
     const screenshot = await testPageScreenshot({
       selector:
@@ -45,12 +50,14 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the dropdown as more_menu', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="dropdown-more_menu"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the dropdown with tertiary button', async () => {
     const screenshot = await testPageScreenshot({
       selector:
@@ -58,6 +65,7 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the dropdown as action menu', async () => {
     const screenshot = await testPageScreenshot({
       selector:
@@ -65,6 +73,7 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the closed dropdown with focus', async () => {
     const screenshot = await testPageScreenshot({
       selector:
@@ -75,6 +84,7 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the closed dropdown with hover', async () => {
     const screenshot = await testPageScreenshot({
       selector:
@@ -85,6 +95,7 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the dropdown items', async () => {
     const screenshot = await testPageScreenshot({
       style: {
@@ -98,6 +109,7 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the dropdown button in active state', async () => {
     const screenshot = await testPageScreenshot({
       selector:
@@ -117,6 +129,7 @@ describe('Dropdown screenshot', () => {
       width: 2000,
     },
   })
+
   it('have to match the dropdown action menu with custom items', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="dropdown-action_menu-custom"]',
@@ -132,6 +145,7 @@ describe('Dropdown screenshot', () => {
       width: 600,
     },
   })
+
   it('have to match the dropdown action menu in mobile view', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="dropdown-action_menu-custom"]',
@@ -153,6 +167,7 @@ describe('Dropdown screenshot', () => {
       pixelThresholdRelative: 0.01, // because the anchor changes slightly
     },
   })
+
   it('have to match the dropdown as more_menu opened on left side', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="dropdown-more_menu"]',
@@ -171,6 +186,7 @@ describe('Dropdown screenshot', () => {
       pixelThresholdRelative: 0.01, // because the anchor changes slightly
     },
   })
+
   it('have to match the dropdown as more_menu opened on right side', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="dropdown-more_menu"]',
@@ -189,6 +205,7 @@ describe('Dropdown screenshot', () => {
     //   pixelThresholdRelative: 0.01, // because the anchor changes slightly
     // },
   })
+
   it('have to match different item direactions', async () => {
     const screenshot = await testPageScreenshot({
       style: {
