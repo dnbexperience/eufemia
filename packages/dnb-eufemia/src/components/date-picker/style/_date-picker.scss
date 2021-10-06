@@ -9,34 +9,36 @@
   --date-picker-day-horizontal-spacing: 4px;
 }
 
-@mixin openDatePicker($state: 'animation') {
-  z-index: 100; // make sure we are over e.g. switch
+// @mixin openDatePicker($state: 'animation') {
+//   z-index: 100; // make sure we are over e.g. switch
 
-  &:not(#{&}--no-animation) {
-    animation: date-picker-slide-down 200ms ease-out 1 forwards;
-  }
-  html[data-visual-test] &,
-  &--no-animation {
-    animation: date-picker-slide-down 1ms ease-out 1 forwards;
-  }
-}
-@mixin closeDatePicker($state: 'animation') {
-  &:not(#{&}--no-animation) {
-    animation: date-picker-slide-up 150ms ease-out 1 forwards;
-  }
-  html[data-visual-test] &,
-  &--no-animation {
-    animation: date-picker-slide-up 1ms ease-out 1 forwards;
-  }
-}
+//   &:not(#{&}--no-animation) {
+//     animation: date-picker-slide-down 200ms ease-out 1 forwards;
+//   }
+//   html[data-visual-test] &,
+//   &--no-animation {
+//     animation: date-picker-slide-down 1ms ease-out 1 forwards;
+//   }
+// }
+// @mixin closeDatePicker($state: 'animation') {
+//   &:not(#{&}--no-animation) {
+//     animation: date-picker-slide-up 150ms ease-out 1 forwards;
+//   }
+//   html[data-visual-test] &,
+//   &--no-animation {
+//     animation: date-picker-slide-up 1ms ease-out 1 forwards;
+//   }
+// }
 
-@mixin datePickerClosed() {
-  display: none;
-}
+// @mixin datePickerClosed() {
+//   display: none;
+// }
 
 .dnb-date-picker {
   display: inline-flex;
   align-items: center;
+  // flex-direction: column;
+  // margin-bottom: 0.5rem;
 
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);
@@ -67,35 +69,40 @@
   }
 
   &__container {
-    position: absolute;
-    display: block;
-    z-index: 3;
-    left: -1rem;
-    top: var(--date-picker-input-height);
+    margin-top: var(--spacing-large);
+    background-color: var(--color-white);
   }
-  &--show-input &__container {
-    left: 0;
-  }
+
+  // &__container {
+  //   position: absolute;
+  //   display: block;
+  //   z-index: 3;
+  //   left: -1rem;
+  //   top: var(--date-picker-input-height);
+  // }
+  // &--show-input &__container {
+  //   left: 0;
+  // }
 
   // alignment
-  &--right &__container {
-    left: auto;
-    right: -1rem;
-  }
-  &--show-input#{&}--right &__container {
-    left: auto;
-    right: 0;
-  }
+  // &--right &__container {
+  //   left: auto;
+  //   right: -1rem;
+  // }
+  // &--show-input#{&}--right &__container {
+  //   left: auto;
+  //   right: 0;
+  // }
 
-  &--opened &__container {
-    @include openDatePicker();
-  }
-  &--hidden &__container {
-    @include datePickerClosed();
-  }
-  &:not(#{&}--opened) &__container {
-    @include closeDatePicker();
-  }
+  // &--opened &__container {
+  //   @include openDatePicker();
+  // }
+  // &--hidden &__container {
+  //   @include datePickerClosed();
+  // }
+  // &:not(#{&}--opened) &__container {
+  //   @include closeDatePicker();
+  // }
 
   // stylelint-disable-next-line
   &__input,
@@ -182,13 +189,14 @@
 
   &__views {
     display: flex;
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
+    flex-direction: column;
+
+    // user-select: none;
+    // -webkit-user-select: none; // Safari / Touch fix
 
     // Wrap aleady on 50em, because 40em is too narrow in range mode
-    @media screen and (max-width: 50em) {
-      flex-direction: column;
-    }
+    // @media screen and (max-width: 50em) {
+    // }
   }
 
   &__calendar {
@@ -238,6 +246,8 @@
     &::after {
       left: 1rem;
       width: calc(100% - 2rem);
+      top: 0;
+      bottom: auto;
     }
   }
 
@@ -347,38 +357,38 @@
     }
   }
 
-  &__triangle {
-    pointer-events: none;
+  // &__triangle {
+  //   pointer-events: none;
 
-    position: absolute;
-    top: calc(1px + 1px - var(--date-picker-input-height) / 2);
-    left: 0;
-    right: auto;
-    margin: 0 1.5rem;
+  //   position: absolute;
+  //   top: calc(1px + 1px - var(--date-picker-input-height) / 2);
+  //   left: 0;
+  //   right: auto;
+  //   margin: 0 1.5rem;
 
-    width: calc(var(--date-picker-input-height) / 2);
-    height: calc(var(--date-picker-input-height) / 2);
+  //   width: calc(var(--date-picker-input-height) / 2);
+  //   height: calc(var(--date-picker-input-height) / 2);
 
-    overflow: hidden;
+  //   overflow: hidden;
 
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
+  //   &::before {
+  //     content: '';
+  //     position: absolute;
+  //     top: 0;
+  //     left: 0;
 
-      width: calc(var(--date-picker-input-height) / 2);
-      height: calc(var(--date-picker-input-height) / 2);
-      transform: translateY(60%) rotate(45deg);
+  //     width: calc(var(--date-picker-input-height) / 2);
+  //     height: calc(var(--date-picker-input-height) / 2);
+  //     transform: translateY(60%) rotate(45deg);
 
-      border: 1px solid var(--color-black-border);
-      background-color: var(--color-white);
-    }
-  }
-  &--right &__triangle {
-    left: auto;
-    right: 0;
-  }
+  //     border: 1px solid var(--color-black-border);
+  //     background-color: var(--color-white);
+  //   }
+  // }
+  // &--right &__triangle {
+  //   left: auto;
+  //   right: 0;
+  // }
 
   .rtl {
     direction: rtl;
@@ -437,22 +447,22 @@
     border-radius: 50%;
   }
 
-  .dnb-responsive-component & {
-    @media screen and (max-width: 40em) {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
+  // .dnb-responsive-component & {
+  //   @media screen and (max-width: 40em) {
+  //     display: flex;
+  //     flex-direction: column;
+  //     align-items: flex-start;
 
-      margin-bottom: 0.5rem;
+  //     margin-bottom: 0.5rem;
 
-      > .dnb-form-label {
-        margin-bottom: 0.5rem;
-      }
-      &__helper {
-        display: none;
-      }
-    }
-  }
+  //     > .dnb-form-label {
+  //       margin-bottom: 0.5rem;
+  //     }
+  //     &__helper {
+  //       display: none;
+  //     }
+  //   }
+  // }
 
   .dnb-input__submit-button .dnb-button.dnb-skeleton {
     visibility: hidden;

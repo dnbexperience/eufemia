@@ -231,19 +231,25 @@ export const DatePickerErrorStatus = () => (
   </ComponentBox>
 )
 
-export const DatePickerCalendar = () => (
-  <Wrapper>
-    <ComponentBox data-visual-test="date-picker-calendar">
-      {() => /* jsx */ `
-<DatePicker
-  opened="true"
-  prevent_close="true"
-  disable_autofocus="true"
-  range="true"
-  start_date="2019-05-05"
-  end_date="2019-06-05"
-/>
- `}
-    </ComponentBox>
-  </Wrapper>
-)
+export const DatePickerTests = () => {
+  if (!(typeof window !== 'undefined' && window.IS_TEST)) {
+    return <></>
+  }
+
+  return (
+    <Wrapper>
+      <ComponentBox data-visual-test="date-picker-calendar">
+        {() => /* jsx */ `
+  <DatePicker
+    // opened="true"
+    prevent_close="true"
+    disable_autofocus="true"
+    range="true"
+    start_date="2019-05-05"
+    end_date="2019-06-05"
+  />
+   `}
+      </ComponentBox>
+    </Wrapper>
+  )
+}

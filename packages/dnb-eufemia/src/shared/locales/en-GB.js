@@ -17,6 +17,7 @@ export default {
       year: 'Year',
       start: 'from',
       end: 'to',
+      choose_date: 'Selected a date',
       selected_date: 'Selected date: %s',
       selected_month: 'Selected month %s',
       selected_year: 'Selected year %s',
@@ -29,7 +30,7 @@ export default {
       mask_placeholder: 'dd/mm/yyyy', // have to be same setup as "mask" - but can be like: dd/mm/åååå
       date_format: 'yyyy-MM-dd', // in v1 of date-fns we where more flexible in terms of the format
       return_format: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
-      submit_button_text: 'OK',
+      submit_button_text: 'Close',
       cancel_button_text: 'Cancel',
       reset_button_text: 'Reset',
     },

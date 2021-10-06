@@ -32,14 +32,13 @@
     }
   }
 
-  &__container {
-    @include defaultDropShadow();
-    border-radius: 0.25rem;
-    background-color: var(--color-white);
-  }
+  // &__container {
+  //   @include defaultDropShadow();
+  //   border-radius: 0.25rem;
+  //   background-color: var(--color-white);
+  // }
 
-  &__addon,
-  &__calendar {
+  &__addon {
     // border
     &::after {
       background-color: var(--color-black-8);
@@ -162,11 +161,11 @@
     }
   }
 
-  &__triangle::before {
-    border: none;
-    background-color: var(--color-white);
-    @include defaultDropShadow();
-  }
+  // &__triangle::before {
+  //   border: none;
+  //   background-color: var(--color-white);
+  //   @include defaultDropShadow();
+  // }
 
   &__status--error:not(#{&}--opened)
     .dnb-form-label:hover

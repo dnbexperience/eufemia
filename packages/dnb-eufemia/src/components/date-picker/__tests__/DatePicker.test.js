@@ -33,10 +33,12 @@ import {
 describe('DatePicker component', () => {
   // for the integration tests
   const defaultProps = {
+    variant: 'drawer',
     id: 'date-picker-id',
     no_animation: true,
     range: true,
     show_input: true,
+    skip_portal: true,
     date: '1970-01-01T00:00:00.000Z',
     start_date: '2019-01-01T00:00:00.000Z',
     end_date: '2019-02-15T00:00:00.000Z',
@@ -104,19 +106,26 @@ describe('DatePicker component', () => {
     const startButton = startTd.find('button')
     const startLabel = startButton.instance().getAttribute('aria-label')
 
-    const endTd = Comp.find('td.dnb-date-picker__day').at(60)
+    expect(startLabel).toBe('torsdag 10. januar 2019')
+
+    Comp.find('button.dnb-date-picker__next').simulate('click')
+
+    const endTd = Comp.find('td.dnb-date-picker__day').at(18)
     const endButton = endTd.find('button')
     const endLabel = endButton.instance().getAttribute('aria-label')
 
-    expect(startLabel).toBe('torsdag 10. januar 2019')
     expect(endLabel).toBe('fredag 15. februar 2019')
 
     expect(on_change).not.toHaveBeenCalled()
+
+    Comp.find('button.dnb-date-picker__prev').simulate('click')
 
     startButton.simulate('click')
     expect(on_change).toHaveBeenCalledTimes(1)
     expect(on_change.mock.calls[0][0].start_date).toBe('2019-01-10')
     expect(on_change.mock.calls[0][0].end_date).toBe(null)
+
+    Comp.find('button.dnb-date-picker__next').simulate('click')
 
     endButton.simulate('click')
     expect(on_change).toHaveBeenCalledTimes(2)
@@ -132,6 +141,8 @@ describe('DatePicker component', () => {
     })
 
     expect(on_change).toHaveBeenCalledTimes(2)
+
+    Comp.find('button.dnb-date-picker__prev').simulate('click')
 
     const singleTd = Comp.find('td.dnb-date-picker__day').at(11)
     const singleButton = singleTd.find('button')
@@ -196,6 +207,7 @@ describe('DatePicker component', () => {
     const Comp = mount(
       <Component
         no_animation
+        skip_portal
         on_change={on_change}
         shortcuts={[
           { title: 'Set date', date: '2020-05-23' },
@@ -227,10 +239,10 @@ describe('DatePicker component', () => {
     expect(on_change).toBeCalledTimes(2)
   })
 
-  it('has two calendar views', () => {
+  it('has one calendar view by default', () => {
     Comp.find('button.dnb-input__submit-button__button').simulate('click')
     expect(Comp.find('.dnb-date-picker__views').exists()).toBe(true)
-    expect(Comp.find('.dnb-date-picker__calendar').length).toBe(2)
+    expect(Comp.find('.dnb-date-picker__calendar').length).toBe(1)
   })
 
   it('has a reacting start date input with valid value', () => {
@@ -298,8 +310,10 @@ describe('DatePicker component', () => {
     const Comp = mount(
       <Component
         date={date}
+        variant="inline"
         opened
         no_animation
+        skip_portal
         show_reset_button
         show_cancel_button
         show_submit_button
@@ -585,9 +599,10 @@ describe('DatePicker component', () => {
     const Comp = mount(
       <Component
         id="date-picker-id"
-        no_animation={true}
-        range={true}
-        show_input={true}
+        no_animation
+        skip_portal
+        range
+        show_input
         on_type={on_type}
         on_change={on_change}
       />
@@ -696,20 +711,17 @@ describe('DatePicker component', () => {
       <Component
         id="date-picker-id"
         no_animation
+        skip_portal
         range
         opened
         show_input
       />
     )
 
-    const FirstCalendar = Comp.find('DatePickerCalendar').at(0)
-    const SecondCalendar = Comp.find('DatePickerCalendar').at(1)
+    const FirstCalendar = Comp.find('DatePickerCalendar')
     const firstDayElem = FirstCalendar.find(
       'td.dnb-date-picker__day--selectable'
     ).at(0)
-    const lastDayElem = SecondCalendar.find(
-      'td.dnb-date-picker__day--selectable'
-    ).last()
 
     // 1. Get ready. No selection made
 
@@ -757,6 +769,13 @@ describe('DatePicker component', () => {
     ).toBe(false)
 
     // 5. Hover on last day
+
+    Comp.find('button.dnb-date-picker__next').simulate('click')
+
+    const SecondCalendar = Comp.find('DatePickerCalendar')
+    const lastDayElem = SecondCalendar.find(
+      'td.dnb-date-picker__day--selectable'
+    ).last()
 
     lastDayElem.find('button').prop('onMouseOver')()
 
@@ -962,6 +981,7 @@ describe('DatePicker component', () => {
     const Comp = mount(
       <Component
         show_input
+        skip_portal
         range
         start_date={defaultProps.start_date}
         end_date={defaultProps.end_date}
@@ -985,20 +1005,17 @@ describe('DatePicker component', () => {
       ).text()
     ).toBe('1')
 
+    Comp.find('button.dnb-date-picker__next').simulate('click')
+
     expect(
       Comp.find(
         'td.dnb-date-picker__day--end-date .dnb-button__text'
       ).text()
     ).toBe('15')
 
-    // from now on, check the second calendar
+    Comp.find('button.dnb-date-picker__next').simulate('click')
 
-    Comp.find('.dnb-date-picker__calendar')
-      .at(1)
-      .find('.dnb-date-picker__next button')
-      .simulate('click')
-
-    expect(Comp.find('.dnb-date-picker__header__title').at(1).text()).toBe(
+    expect(Comp.find('.dnb-date-picker__header__title').text()).toBe(
       'mars 2019'
     )
   })

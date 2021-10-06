@@ -42,7 +42,6 @@ export default class DatePickerRange extends React.PureComponent {
     onlyMonth: null,
     hideNav: null,
     views: null,
-    // views: [{ nextBtn: false }, { prevBtn: false }],
 
     // events
     onChange: null, // fires when user makes a selection or navigates
@@ -138,14 +137,14 @@ export default class DatePickerRange extends React.PureComponent {
   }
 }
 
-export const getViews = (state, isRange) => {
+export const getViews = (state, isRange, calendar_amount = 1) => {
   // fill the views with the calendar data getMonth()
   return (
     Array.isArray(state.views)
       ? state.views
       : Array(
           isRange
-            ? 2 // set default range calendars
+            ? calendar_amount // set default range calendars
             : state.views
         ).fill(1)
   ).map((view, nr) => ({

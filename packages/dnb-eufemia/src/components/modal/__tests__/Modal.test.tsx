@@ -31,7 +31,7 @@ props.id = 'modal_id'
 props.content_id = null
 props.style_type = 'button'
 props.modal_content = 'unique_modal_content'
-props.direct_dom_return = true
+props.skip_portal = true
 props.no_animation = true
 
 beforeAll(() => {
@@ -347,7 +347,7 @@ describe('Modal component', () => {
 
   it('will provide custom bar, header and content if given', () => {
     const Comp = mount(
-      <Component no_animation={true} direct_dom_return>
+      <Component no_animation={true} skip_portal>
         <Component.Bar>bar content</Component.Bar>
         <Component.Header>header content</Component.Header>
         <Component.Content>modal content</Component.Content>
@@ -378,7 +378,7 @@ describe('Modal component', () => {
     }
 
     const props = {
-      direct_dom_return: false,
+      skip_portal: false,
       no_animation: true,
     }
 
@@ -724,7 +724,7 @@ describe('Modal component', () => {
         {...props}
         title={null}
         modal_content={null}
-        direct_dom_return={false}
+        skip_portal={false}
       >
         {modalContent}
       </Component>
@@ -1001,7 +1001,7 @@ describe('Modal component', () => {
                     on_close(e)
                   }}
                   no_animation
-                  direct_dom_return
+                  skip_portal
                 >
                   content
                 </OriginalComponent>

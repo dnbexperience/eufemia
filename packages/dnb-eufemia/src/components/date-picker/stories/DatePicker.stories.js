@@ -109,7 +109,7 @@ export const DatePickerSandbox = () => (
             console.log('on_hide', props)
           }}
           on_change={(props) => {
-            console.log('on_change', props)
+            console.log('on_change', props.start_date, props.end_date)
           }}
           on_type={(props) => {
             console.log('on_type', props)

@@ -92,8 +92,12 @@ export default class DatePickerFooter extends React.PureComponent {
   render() {
     const { isRange, resetButtonText } = this.props
 
-    const { show_reset_button, show_cancel_button, show_submit_button } =
-      this.context.props
+    const {
+      variant,
+      show_reset_button,
+      show_cancel_button,
+      show_submit_button,
+    } = this.context.props
 
     if (
       !isRange &&
@@ -132,16 +136,17 @@ export default class DatePickerFooter extends React.PureComponent {
             />
           )) || <span />}
 
-          {((isRange || isTrue(show_cancel_button)) && (
-            <Button
-              text={cancel_button_text}
-              icon="close"
-              icon_position="left"
-              variant="tertiary"
-              onClick={this.onCancelHandler}
-              data-visual-test="cancel"
-            />
-          )) || <span />}
+          {(variant !== 'drawer' &&
+            (isRange || isTrue(show_cancel_button)) && (
+              <Button
+                text={cancel_button_text}
+                icon="close"
+                icon_position="left"
+                variant="tertiary"
+                onClick={this.onCancelHandler}
+                data-visual-test="cancel"
+              />
+            )) || <span />}
         </span>
       </div>
     )

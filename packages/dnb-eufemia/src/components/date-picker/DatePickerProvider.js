@@ -42,7 +42,6 @@ export default class DatePickerProvider extends React.PureComponent {
       .isRequired,
     setReturnObject: PropTypes.func.isRequired,
     enhanceWithMethods: PropTypes.object,
-
     attributes: PropTypes.object,
     children: PropTypes.node.isRequired,
   }
@@ -198,7 +197,11 @@ export default class DatePickerProvider extends React.PureComponent {
       state.endMonth = state.endDate || state.startMonth
     }
 
-    state.views = getViews(state, isRange)
+    state.views = getViews(
+      state,
+      isRange,
+      parseFloat(props.calendar_amount) || 1
+    )
 
     // Update the months, in case they do not exist
     if (!state.startMonth) {

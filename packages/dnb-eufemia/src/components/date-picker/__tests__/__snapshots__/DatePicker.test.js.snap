@@ -4,7 +4,9 @@ exports[`DatePicker component have to match snapshot 1`] = `
 <DatePicker
   addon_element={null}
   align_picker={null}
+  calendar_amount={1}
   cancel_button_text="Avbryt"
+  choose_date={null}
   class={null}
   className={null}
   correct_invalid_date={null}
@@ -86,22 +88,26 @@ exports[`DatePicker component have to match snapshot 1`] = `
   show_reset_button={null}
   show_submit_button={null}
   skeleton={null}
+  skip_portal={true}
   start_date="2019-01-01T00:00:00.000Z"
   status="status"
   status_no_animation={null}
   status_props={null}
   status_state="error"
   stretch={null}
-  submit_button_text="Ok"
+  submit_button_text="Lukk"
   suffix={null}
   sync={true}
   title={null}
+  variant="drawer"
 >
   <DatePickerProvider
     addon_element={null}
     align_picker={null}
     attributes={Object {}}
+    calendar_amount={1}
     cancel_button_text="Avbryt"
+    choose_date={null}
     class={null}
     className={null}
     correct_invalid_date={null}
@@ -191,16 +197,18 @@ exports[`DatePicker component have to match snapshot 1`] = `
     show_reset_button={null}
     show_submit_button={null}
     skeleton={null}
+    skip_portal={true}
     start_date="2019-01-01T00:00:00.000Z"
     status="status"
     status_no_animation={null}
     status_props={null}
     status_state="error"
     stretch={null}
-    submit_button_text="Ok"
+    submit_button_text="Lukk"
     suffix={null}
     sync={true}
     title={null}
+    variant="drawer"
   >
     <span
       className="dnb-date-picker dnb-form-component dnb-date-picker--show-footer dnb-date-picker__status--error dnb-date-picker--hidden dnb-date-picker--show-input"
@@ -365,7 +373,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
               onFocus={[Function]}
               onSubmit={[Function]}
               opened={false}
-              selectedDateTitle=""
+              selectedDateTitle="Velg dato"
               separatorRexExp={/\\[-/ \\]/g}
               showInput={true}
               skeleton={false}
@@ -379,7 +387,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   "ref": Object {
                     "current": <button
                       aria-expanded="false"
-                      aria-label="åpne datovelger"
+                      aria-label="Velg dato, åpne datovelger"
                       class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium dnb-button__status--error"
                       id="date-picker-id"
                       type="button"
@@ -469,7 +477,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   submit_element={
                     <ForwardRef
                       aria-expanded={false}
-                      aria-label="åpne datovelger"
+                      aria-label="Velg dato, åpne datovelger"
                       className="dnb-button--input-button"
                       disabled={false}
                       icon="calendar"
@@ -1367,7 +1375,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                         >
                           <ForwardRef
                             aria-expanded={false}
-                            aria-label="åpne datovelger"
+                            aria-label="Velg dato, åpne datovelger"
                             className="dnb-button--input-button"
                             disabled={false}
                             icon="calendar"
@@ -1383,7 +1391,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                           >
                             <InputSubmitButton
                               aria-expanded={false}
-                              aria-label="åpne datovelger"
+                              aria-label="Velg dato, åpne datovelger"
                               className="dnb-button--input-button"
                               disabled={false}
                               icon="calendar"
@@ -1393,7 +1401,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 Object {
                                   "current": <button
                                     aria-expanded="false"
-                                    aria-label="åpne datovelger"
+                                    aria-label="Velg dato, åpne datovelger"
                                     class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium dnb-button__status--error"
                                     id="date-picker-id"
                                     type="button"
@@ -1445,7 +1453,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               >
                                 <Button
                                   aria-expanded={false}
-                                  aria-label="åpne datovelger"
+                                  aria-label="Velg dato, åpne datovelger"
                                   bounding={null}
                                   class={null}
                                   className="dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button"
@@ -1464,7 +1472,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                     Object {
                                       "current": <button
                                         aria-expanded="false"
-                                        aria-label="åpne datovelger"
+                                        aria-label="Velg dato, åpne datovelger"
                                         class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium dnb-button__status--error"
                                         id="date-picker-id"
                                         type="button"
@@ -1519,7 +1527,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 >
                                   <button
                                     aria-expanded={false}
-                                    aria-label="åpne datovelger"
+                                    aria-label="Velg dato, åpne datovelger"
                                     className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium dnb-button__status--error"
                                     disabled={false}
                                     id="date-picker-id"
@@ -1530,7 +1538,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   >
                                     <Content
                                       aria-expanded={false}
-                                      aria-label="åpne datovelger"
+                                      aria-label="Velg dato, åpne datovelger"
                                       bounding={null}
                                       class={null}
                                       className="dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button"
@@ -1550,7 +1558,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                         Object {
                                           "current": <button
                                             aria-expanded="false"
-                                            aria-label="åpne datovelger"
+                                            aria-label="Velg dato, åpne datovelger"
                                             class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium dnb-button__status--error"
                                             id="date-picker-id"
                                             type="button"
@@ -1687,13 +1695,58 @@ exports[`DatePicker component have to match snapshot 1`] = `
                 </Input>
               </fieldset>
             </DatePickerInput>
-            <span
-              className="dnb-date-picker__container"
-            >
-              <span
-                className="dnb-date-picker__triangle"
-              />
-            </span>
+            <Modal
+              align_content={null}
+              animation_duration={300}
+              bar_content={null}
+              class={null}
+              className={null}
+              close_button_attributes={null}
+              close_modal={null}
+              close_title="Lukk"
+              container_placement={null}
+              content_class={null}
+              content_id={null}
+              dialog_title="Vindu"
+              direct_dom_return={false}
+              disabled={null}
+              focus_selector={null}
+              fullscreen="auto"
+              header_content={null}
+              hide_close_button={false}
+              id={null}
+              labelled_by={null}
+              max_width={null}
+              min_width={null}
+              modal_content={null}
+              mode="drawer"
+              no_animation={false}
+              no_animation_on_mobile={false}
+              on_close={[Function]}
+              on_close_prevent={null}
+              on_open={null}
+              open_delay={null}
+              open_modal={null}
+              open_state={false}
+              overlay_class={null}
+              prevent_close={false}
+              prevent_core_style={false}
+              root_id="root"
+              skip_portal={true}
+              spacing={true}
+              title="Velg dato"
+              trigger={null}
+              trigger_attributes={null}
+              trigger_class={null}
+              trigger_disabled={null}
+              trigger_hidden={true}
+              trigger_icon={null}
+              trigger_icon_position="left"
+              trigger_size={null}
+              trigger_text={null}
+              trigger_title={null}
+              trigger_variant="secondary"
+            />
           </span>
         </span>
       </span>
@@ -1729,12 +1782,7 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
   .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='0']:not([data-input-state='disabled']) ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='1']:not([data-input-state='disabled']) ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='2']:not([data-input-state='disabled']) ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='3']:not([data-input-state='disabled']) ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='4']:not([data-input-state='disabled']) ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='5']:not([data-input-state='disabled']) ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='6']:not([data-input-state='disabled']) ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='7']:not([data-input-state='disabled']) ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='8']:not([data-input-state='disabled']) ~ .dnb-date-picker--separator, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-date-picker__input[value*='9']:not([data-input-state='disabled']) ~ .dnb-date-picker--separator {
     color: var(--color-black); }
 
-.dnb-date-picker__container {
-  box-shadow: var(--shadow-default);
-  border-radius: 0.25rem;
-  background-color: var(--color-white); }
-
-.dnb-date-picker__addon::after, .dnb-date-picker__calendar::after {
+.dnb-date-picker__addon::after {
   background-color: var(--color-black-8); }
 
 .dnb-date-picker__header::after {
@@ -1820,11 +1868,6 @@ html:not([data-whatintent='touch']) .dnb-date-picker__day--inactive .dnb-button[
   .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover
 ~ .dnb-date-picker__inner .dnb-input:not([data-input-state='disabled']) .dnb-input__submit-button__button.dnb-button--secondary::after {
     background-color: inherit; }
-
-.dnb-date-picker__triangle::before {
-  border: none;
-  background-color: var(--color-white);
-  box-shadow: var(--shadow-default); }
 
 .dnb-date-picker__status--error:not(.dnb-date-picker--opened) .dnb-form-label:hover
 ~ .dnb-date-picker__inner .dnb-input:not([data-input-state='disabled']) .dnb-input__shell {
@@ -3471,31 +3514,8 @@ legend.dnb-form-label {
     white-space: nowrap;
     height: inherit; }
   .dnb-date-picker__container {
-    position: absolute;
-    display: block;
-    z-index: 3;
-    left: -1rem;
-    top: var(--date-picker-input-height); }
-  .dnb-date-picker--show-input .dnb-date-picker__container {
-    left: 0; }
-  .dnb-date-picker--right .dnb-date-picker__container {
-    left: auto;
-    right: -1rem; }
-  .dnb-date-picker--show-input.dnb-date-picker--right .dnb-date-picker__container {
-    left: auto;
-    right: 0; }
-  .dnb-date-picker--opened .dnb-date-picker__container {
-    z-index: 100; }
-    .dnb-date-picker--opened .dnb-date-picker__container {
-      animation: date-picker-slide-down 200ms ease-out 1 forwards; }
-    html[data-visual-test] .dnb-date-picker--opened .dnb-date-picker__container, .dnb-date-picker--opened .dnb-date-picker__container--no-animation {
-      animation: date-picker-slide-down 1ms ease-out 1 forwards; }
-  .dnb-date-picker--hidden .dnb-date-picker__container {
-    display: none; }
-  .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container {
-    animation: date-picker-slide-up 150ms ease-out 1 forwards; }
-  html[data-visual-test] .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container, .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-picker__container--no-animation {
-    animation: date-picker-slide-up 1ms ease-out 1 forwards; }
+    margin-top: var(--spacing-large);
+    background-color: var(--color-white); }
   .dnb-date-picker__input,
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input,
   .dnb-core-style .dnb-date-picker__input {
@@ -3557,11 +3577,7 @@ legend.dnb-form-label {
     margin-left: 0; }
   .dnb-date-picker__views {
     display: flex;
-    user-select: none;
-    -webkit-user-select: none; }
-    @media screen and (max-width: 50em) {
-      .dnb-date-picker__views {
-        flex-direction: column; } }
+    flex-direction: column; }
   .dnb-date-picker__calendar {
     position: relative;
     padding: 1rem; }
@@ -3592,7 +3608,9 @@ legend.dnb-form-label {
     padding: 1rem; }
     .dnb-date-picker__addon::after {
       left: 1rem;
-      width: calc(100% - 2rem); }
+      width: calc(100% - 2rem);
+      top: 0;
+      bottom: auto; }
   .dnb-date-picker__footer {
     position: relative;
     display: flex;
@@ -3664,29 +3682,6 @@ legend.dnb-form-label {
       right: auto; }
     .dnb-date-picker__day--start-date.dnb-date-picker__day--end-date::after {
       content: none; }
-  .dnb-date-picker__triangle {
-    pointer-events: none;
-    position: absolute;
-    top: calc(1px + 1px - var(--date-picker-input-height) / 2);
-    left: 0;
-    right: auto;
-    margin: 0 1.5rem;
-    width: calc(var(--date-picker-input-height) / 2);
-    height: calc(var(--date-picker-input-height) / 2);
-    overflow: hidden; }
-    .dnb-date-picker__triangle::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: calc(var(--date-picker-input-height) / 2);
-      height: calc(var(--date-picker-input-height) / 2);
-      transform: translateY(60%) rotate(45deg);
-      border: 1px solid var(--color-black-border);
-      background-color: var(--color-white); }
-  .dnb-date-picker--right .dnb-date-picker__triangle {
-    left: auto;
-    right: 0; }
   .dnb-date-picker .rtl {
     direction: rtl; }
     .dnb-date-picker .rtl .dnb-date-picker__prev::before {
@@ -3722,16 +3717,6 @@ legend.dnb-form-label {
   .dnb-date-picker:not(.dnb-date-picker--show-input) .dnb-input__submit-button
 .dnb-button {
     border-radius: 50%; }
-  @media screen and (max-width: 40em) {
-    .dnb-responsive-component .dnb-date-picker {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      margin-bottom: 0.5rem; }
-      .dnb-responsive-component .dnb-date-picker > .dnb-form-label {
-        margin-bottom: 0.5rem; }
-      .dnb-responsive-component .dnb-date-picker__helper {
-        display: none; } }
   .dnb-date-picker .dnb-input__submit-button .dnb-button.dnb-skeleton {
     visibility: hidden; }
   .dnb-date-picker__fieldset,
