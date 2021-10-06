@@ -297,6 +297,9 @@
       // }
 
       transition: opacity 300ms ease-out;
+      [data-visual-test-wrapper] & {
+        transition: none;
+      }
     }
   }
   tr.sticky.show-shadow th::after {
