@@ -10,6 +10,7 @@ import {
   axeComponent,
   toJson,
   loadScss,
+  attachToBody,
 } from '../../../core/jest/jestSetup'
 import Component from '../Autocomplete'
 import { SubmitButton } from '../../../components/input/Input'
@@ -71,6 +72,30 @@ describe('Autocomplete component', () => {
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
       /* html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">th</span>e <span class="dnb-drawer-list__option__item--highlight">g</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er</span></span></li>`
     )
+  })
+
+  it('has correct input HTML Element attributes', () => {
+    const Comp = mount(
+      <Component
+        id="autocomplete-id"
+        data={mockData}
+        opened
+        {...mockProps}
+      />
+    )
+
+    const elem = Comp.find('input').instance()
+
+    expect(elem.getAttribute('autocomplete')).toBe('off')
+    expect(elem.getAttribute('autocapitalize')).toBe('none')
+    expect(elem.getAttribute('spellcheck')).toBe('false')
+    expect(elem.getAttribute('autocorrect')).toBe('off')
+    expect(elem.getAttribute('role')).toBe('combobox')
+    expect(elem.getAttribute('aria-autocomplete')).toBe('both')
+    expect(elem.getAttribute('aria-haspopup')).toBe('listbox')
+    expect(elem.getAttribute('aria-controls')).toBe('autocomplete-id-ul')
+    expect(elem.getAttribute('aria-expanded')).toBe('true')
+    expect(elem.getAttribute('name')).toBe('autocomplete-id')
   })
 
   it('has correct options after filter', () => {
@@ -567,7 +592,7 @@ describe('Autocomplete component', () => {
     ).toBe(3)
   })
 
-  it('has correct "opened" state', () => {
+  it('has correct "opened" state on submit button click', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
 
     toggle(Comp)
@@ -1051,6 +1076,51 @@ describe('Autocomplete component', () => {
 
     expect(on_blur).toHaveBeenCalledTimes(1)
     expect(on_blur.mock.calls[0][0].value).toBe('BB cc zethx')
+  })
+
+  it('should keep input focus when using show-all or select item', async () => {
+    const Comp = mount(<Component data={mockData} {...mockProps} />, {
+      attachTo: attachToBody(),
+    })
+
+    Comp.find('input').simulate('focus')
+
+    Comp.find('input').simulate('change', { target: { value: 'cc' } })
+
+    expect(
+      document.activeElement.classList.contains('dnb-drawer-list__options')
+    ).toBe(true)
+    expect(
+      Comp.find(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      ).length
+    ).toBe(mockData.length - 1)
+
+    Comp.find('input').instance().focus()
+
+    expect(
+      document.activeElement.classList.contains('dnb-input__input')
+    ).toBe(true)
+
+    Comp.find('input').instance().blur()
+    Comp.find('li.dnb-autocomplete__show-all').simulate('click')
+
+    expect(
+      document.activeElement.classList.contains('dnb-input__input')
+    ).toBe(true)
+
+    expect(
+      Comp.find(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      ).length
+    ).toBe(mockData.length)
+
+    Comp.find('input').instance().blur()
+    Comp.find('li.dnb-drawer-list__option').at(0).simulate('click')
+
+    expect(
+      document.activeElement.classList.contains('dnb-input__input')
+    ).toBe(true)
   })
 
   it('will open drawer when open_on_focus is set to true', async () => {

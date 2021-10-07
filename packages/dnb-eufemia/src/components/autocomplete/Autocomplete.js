@@ -1415,6 +1415,8 @@ class AutocompleteInstance extends React.PureComponent {
         })
       }
 
+      this.setFocusOnInput()
+
       return false
     }
   }
