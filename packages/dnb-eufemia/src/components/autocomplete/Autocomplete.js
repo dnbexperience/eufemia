@@ -436,6 +436,7 @@ class AutocompleteInstance extends React.PureComponent {
     clearTimeout(this._selectTimeout)
     clearTimeout(this._ariaLiveUpdateTimeout)
     clearTimeout(this._focusTimeout)
+    clearTimeout(this._blurTimeout)
     clearTimeout(this._toggleVisibleTimeout)
   }
 
@@ -625,7 +626,7 @@ class AutocompleteInstance extends React.PureComponent {
       () => [],
       () => {
         this.setSearchIndex({ overwriteSearchIndex: true })
-        this.resetSelections()
+        this.resetActiveItem()
         this.totalReset()
       },
       {
@@ -635,7 +636,7 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   showNoOptionsItem = () => {
-    this.resetSelections()
+    this.resetActiveItem()
     this.ignoreEvents()
     this.context.drawerList.setData([
       {
@@ -652,7 +653,7 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   showIndicatorItem = () => {
-    this.resetSelections()
+    this.resetActiveItem()
     this.ignoreEvents()
     this.context.drawerList.setData([
       {
@@ -714,7 +715,7 @@ class AutocompleteInstance extends React.PureComponent {
                 this.showNoOptionsItem()
               }
             } else {
-              this.resetSelections()
+              this.resetActiveItem()
               if (this.context.drawerList.opened) {
                 this.showAllItems()
               }
@@ -790,14 +791,24 @@ class AutocompleteInstance extends React.PureComponent {
 
   onBlurHandler = (event) => {
     const {
-      input_value,
       open_on_focus,
       keep_value,
       keep_value_and_selection,
       prevent_selection,
+      no_animation,
     } = this.props
 
     if (!this.state.hasBlur && !this.__preventFiringBlurEvent) {
+      dispatchCustomElementEvent(this, 'on_blur', {
+        event,
+        ...this.getEventObjects('on_blur'),
+      })
+
+      this.setState({
+        hasBlur: true,
+        hasFocus: false,
+      })
+
       if (!isTrue(keep_value_and_selection)) {
         this.setState({
           typedInputValue: null,
@@ -809,43 +820,34 @@ class AutocompleteInstance extends React.PureComponent {
         !isTrue(prevent_selection) &&
         !isTrue(keep_value_and_selection)
       ) {
-        const inputValue = AutocompleteInstance.getCurrentDataTitle(
-          this.context.drawerList.selected_item,
-          this.context.drawerList.original_data
-        )
+        const existingValue = this.state.inputValue
+        this.clearInputValue()
 
-        clearTimeout(this._selectTimeout)
-        this._selectTimeout = setTimeout(() => {
-          if (parseFloat(this.context.drawerList.selected_item) > -1) {
-            this.setState({
-              inputValue,
-              _listenForPropChanges: false,
-            })
-          } else if (
-            !(input_value !== 'initval' && input_value.length > 0) &&
-            !isTrue(keep_value)
+        const resetAfterClose = () => {
+          if (
+            !isTrue(keep_value) ||
+            !existingValue ||
+            this.hasSelectedItem()
           ) {
-            this.setState({
-              inputValue: '',
-              _listenForPropChanges: false,
-            })
+            this.resetActiveItem()
           }
-        }, 1) // to make sure we actually are after the Input state handling -> "input placeholder reset"
-      }
+          this.resetFilter()
+        }
 
-      dispatchCustomElementEvent(this, 'on_blur', {
-        event,
-        ...this.getEventObjects('on_blur'),
-      })
+        if (isTrue(no_animation)) {
+          resetAfterClose()
+        } else {
+          clearTimeout(this._blurTimeout)
+          this._blurTimeout = setTimeout(
+            resetAfterClose,
+            DrawerList.blurDelay
+          ) // only to let the animation pass, before we make the effect. Else this would be a visible change
+        }
+      }
 
       if (isTrue(open_on_focus)) {
         this.setHidden()
       }
-
-      this.setState({
-        hasBlur: true,
-        hasFocus: false,
-      })
     } else if (this.__preventFiringBlurEvent) {
       this.__preventFiringBlurEvent = null
       return false
@@ -1074,13 +1076,57 @@ class AutocompleteInstance extends React.PureComponent {
       typedInputValue: null,
       _listenForPropChanges: false,
     })
-    this.resetSelections()
+    this.resetActiveItem()
+    this.resetSelectionItem()
   }
 
-  resetSelections = () => {
+  resetActiveItem = () => {
     this.context.drawerList.setState({
       active_item: null,
     })
+  }
+
+  resetSelectionItem = () => {
+    const hasHadValue = this.hasSelectedItem()
+    this.context.drawerList.setState(
+      {
+        selected_item: null,
+      },
+      () => {
+        if (hasHadValue) {
+          dispatchCustomElementEvent(this, 'on_change', {
+            ...this.getEventObjects('on_change'),
+          })
+        }
+      }
+    )
+  }
+
+  clearInputValue = () => {
+    const { input_value, keep_value } = this.props
+
+    const inputValue = AutocompleteInstance.getCurrentDataTitle(
+      this.context.drawerList.selected_item,
+      this.context.drawerList.original_data
+    )
+
+    clearTimeout(this._selectTimeout)
+    this._selectTimeout = setTimeout(() => {
+      if (this.hasSelectedItem()) {
+        this.setState({
+          inputValue,
+          _listenForPropChanges: false,
+        })
+      } else if (
+        !(input_value !== 'initval' && input_value.length > 0) &&
+        !isTrue(keep_value)
+      ) {
+        this.setState({
+          inputValue: '',
+          _listenForPropChanges: false,
+        })
+      }
+    }, 1) // to make sure we actually are after the Input state handling -> "input placeholder reset"
   }
 
   resetFilter = () => {
