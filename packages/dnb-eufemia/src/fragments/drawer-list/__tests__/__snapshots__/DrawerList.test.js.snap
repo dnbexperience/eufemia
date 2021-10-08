@@ -815,6 +815,15 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
       border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
     .dnb-drawer-list__option.last-of-type:not(.dnb-drawer-list__option--focus)::before {
       content: none; }
+    .dnb-drawer-list__option--selected .dnb-drawer-list__option__item .dnb-anchor:focus {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-drawer-list__option--selected .dnb-drawer-list__option__item .dnb-anchor:focus {
+        --border-color: var(--color-white);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
+        border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-drawer-list__option--selected .dnb-drawer-list__option__item .dnb-anchor:focus {
+            box-shadow: 0 0 0 0.125rem var(--color-white); } }
   .dnb-drawer-list--scroll .dnb-drawer-list__option:not(.dnb-drawer-list__option--focus)::before {
     left: 0.5rem;
     right: 0.5rem; }
@@ -1019,8 +1028,13 @@ exports[`DrawerList scss have to match snapshot 1`] = `
         align-self: self-start; }
     .dnb-drawer-list__option__item {
       display: block;
-      overflow: hidden;
       text-overflow: ellipsis; }
+      .dnb-drawer-list__option__item .dnb-anchor {
+        display: inline-block;
+        margin-right: 0.5rem;
+        word-break: break-word;
+        white-space: nowrap;
+        font-size: inherit; }
     .dnb-drawer-list__option--ignore {
       cursor: default;
       pointer-events: none; }

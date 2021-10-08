@@ -196,6 +196,12 @@
     &.last-of-type:not(#{&}--focus)::before {
       content: none;
     }
+
+    &--selected &__item {
+      .dnb-anchor:focus {
+        @include fakeFocus(null, var(--color-white));
+      }
+    }
   }
 
   // make sure we have a spacing on the right side if we have a scrollbar
