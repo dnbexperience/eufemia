@@ -394,7 +394,7 @@ export default class Modal extends React.PureComponent {
         }
       }
 
-      this.setActiveState(true)
+      this.setActiveState(this._id)
     } else if (modalActive === false) {
       if (this._triggerRef && this._triggerRef.current) {
         this._triggerRef.current.focus({ preventScroll: true })
@@ -414,8 +414,10 @@ export default class Modal extends React.PureComponent {
         }
       }
 
-      const list = getListOfModalRoots()
-      if (list.length <= 1) {
+      const last = getListOfModalRoots(-1)
+      if (last) {
+        this.setActiveState(last._id)
+      } else if (getListOfModalRoots().length <= 1) {
         this.setActiveState(false)
       }
     }
@@ -453,13 +455,23 @@ export default class Modal extends React.PureComponent {
     }
   }
 
-  setActiveState(modalActive) {
+  setActiveState(modalId) {
     // prevent scrolling on the background
     if (typeof document !== 'undefined') {
       try {
+        if (modalId) {
+          document.documentElement.setAttribute(
+            'data-dnb-modal-active',
+            modalId
+          )
+        } else {
+          document.documentElement.removeAttribute('data-dnb-modal-active')
+        }
+
+        // Deprecated
         document.body.setAttribute(
           'data-dnb-modal-active',
-          modalActive ? 'true' : 'false'
+          modalId ? 'true' : 'false'
         )
       } catch (e) {
         warn(

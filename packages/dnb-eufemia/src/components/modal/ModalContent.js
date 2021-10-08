@@ -121,7 +121,7 @@ export default class ModalContent extends React.PureComponent {
   constructor(props) {
     super(props)
     this._contentRef = React.createRef()
-    this._id = makeUniqueId()
+    this._id = props.id
     this._ii = new InteractionInvalidation()
     this._ii.setBypassSelector([
       '.dnb-modal__content',
@@ -239,7 +239,9 @@ export default class ModalContent extends React.PureComponent {
   addToIndex() {
     if (typeof window !== 'undefined') {
       try {
-        window.__modalStack = window.__modalStack || []
+        if (!Array.isArray(window.__modalStack)) {
+          window.__modalStack = []
+        }
         window.__modalStack.push(this)
       } catch (e) {
         warn(e)
@@ -250,7 +252,9 @@ export default class ModalContent extends React.PureComponent {
   removeFromIndex() {
     if (typeof window !== 'undefined') {
       try {
-        window.__modalStack = window.__modalStack || []
+        if (!Array.isArray(window.__modalStack)) {
+          window.__modalStack = []
+        }
         window.__modalStack = window.__modalStack.filter(
           (cur) => cur !== this
         )
@@ -328,7 +332,8 @@ export default class ModalContent extends React.PureComponent {
   onKeyDownHandler = (e) => {
     switch (keycode(e)) {
       case 'esc': {
-        const mostCurrent = [...getListOfModalRoots()].pop()
+        // const mostCurrent = [...getListOfModalRoots()].pop()
+        const mostCurrent = getListOfModalRoots(-1)
 
         if (mostCurrent === this) {
           e.preventDefault()
@@ -395,7 +400,7 @@ export default class ModalContent extends React.PureComponent {
       ...rest
     } = this.props
 
-    const id = content_id || this._id
+    const contentId = content_id || makeUniqueId()
     const style = this.state.color
       ? { '--modal-background-color': `var(--color-${this.state.color})` }
       : null
@@ -430,10 +435,13 @@ export default class ModalContent extends React.PureComponent {
        */
       'aria-labelledby': combineLabelledBy(
         this.props,
-        title ? id + '-title' : null,
+        title ? contentId + '-title' : null,
         labelled_by
       ),
-      'aria-describedby': combineDescribedBy(this.props, id + '-content'),
+      'aria-describedby': combineDescribedBy(
+        this.props,
+        contentId + '-content'
+      ),
 
       /**
        * If no labelled_by and no title is given,
@@ -506,7 +514,10 @@ export default class ModalContent extends React.PureComponent {
     )
 
     const content = (
-      <div id={id + '-content'} className="dnb-modal__content__wrapper">
+      <div
+        id={contentId + '-content'}
+        className="dnb-modal__content__wrapper"
+      >
         {modal_content}
       </div>
     )
@@ -514,13 +525,13 @@ export default class ModalContent extends React.PureComponent {
     return (
       <ModalContext.Provider
         value={{
-          id,
+          id: contentId,
           setBackgroundColor: this.setBackgroundColor,
           ...this.props,
           onCloseClickHandler: this.onCloseClickHandler,
         }}
       >
-        <div id={id} {...contentParams}>
+        <div id={contentId} {...contentParams}>
           <ScrollView {...innerParams}>
             <div
               tabIndex="-1"
