@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`InputMasked component have to match type="text" snapshot 1`] = `
-<InputMasked
+<ForwardRef
   align={null}
   as_currency={null}
   as_number={null}
-  as_percent="as_percent"
+  as_percent={null}
   autocomplete="off"
   class={null}
   className={null}
   clear={null}
   clear_button_title={null}
-  currency_mask="currency_mask"
+  currency_mask={null}
   custom_element={null}
   custom_method={null}
   disabled={false}
@@ -36,8 +36,9 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
       /\\[a-z\\]/,
     ]
   }
-  number_format="number_format"
-  number_mask="number_mask"
+  mask_options="mask_options"
+  number_format={null}
+  number_mask={null}
   on_blur={[Function]}
   on_change={[Function]}
   on_focus={[Function]}
@@ -68,152 +69,164 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   type="text"
   value="test"
 >
-  <Input
-    align={null}
-    autocomplete="off"
-    class={null}
-    className="dnb-input-masked"
-    clear={null}
-    clear_button_title={null}
-    custom_element={null}
-    custom_method={null}
-    disabled={false}
-    global_status_id={null}
-    icon={null}
-    icon_position="left"
-    icon_size={null}
-    id="input-masked"
-    inner_ref={null}
-    inputMode="numeric"
-    input_attributes={null}
-    input_class={null}
-    input_element={[Function]}
-    input_state={null}
-    keep_placeholder={null}
-    label={null}
-    label_direction={null}
-    label_sr_only={null}
-    onMouseUp={[Function]}
-    onTouchEnd={[Function]}
-    on_blur={[Function]}
-    on_change={[Function]}
-    on_focus={[Function]}
-    on_key_down={[Function]}
-    on_state_update={null}
-    on_submit={[Function]}
-    on_submit_blur={[Function]}
-    on_submit_focus={[Function]}
-    placeholder={null}
-    readOnly={false}
-    selectall={null}
-    size={null}
-    skeleton={null}
-    status={null}
-    status_no_animation={null}
-    status_props={null}
-    status_state="error"
-    stretch={null}
-    submit_button_icon="loupe"
-    submit_button_status={null}
-    submit_button_title={null}
-    submit_button_variant="secondary"
-    submit_element={null}
-    suffix={null}
-    type="text"
-    value="test"
-  >
-    <span
-      className="dnb-input dnb-input--text dnb-form-component dnb-input-masked"
-      data-has-content="true"
-      data-input-state="virgin"
+  <InputMaskedElement>
+    <Input
+      align={null}
+      autocomplete="off"
+      class={null}
+      className="dnb-input-masked"
+      clear={null}
+      clear_button_title={null}
+      custom_element={null}
+      custom_method={null}
+      disabled={false}
+      global_status_id={null}
+      icon={null}
+      icon_position="left"
+      icon_size={null}
+      id="input-masked"
+      inner_ref={null}
+      input_attributes={null}
+      input_class={null}
+      input_element={[Function]}
+      input_state={null}
+      keep_placeholder={null}
+      label={null}
+      label_direction={null}
+      label_sr_only={null}
+      onMouseUp={[Function]}
+      on_blur={[Function]}
+      on_change={[Function]}
+      on_focus={[Function]}
+      on_key_down={[Function]}
+      on_state_update={null}
+      on_submit={[Function]}
+      on_submit_blur={[Function]}
+      on_submit_focus={[Function]}
+      placeholder={null}
+      readOnly={false}
+      selectall={null}
+      size={null}
+      skeleton={null}
+      status={null}
+      status_no_animation={null}
+      status_props={null}
+      status_state="error"
+      stretch={null}
+      submit_button_icon="loupe"
+      submit_button_status={null}
+      submit_button_title={null}
+      submit_button_variant="secondary"
+      submit_element={null}
+      suffix={null}
+      type="text"
+      value="test"
     >
       <span
-        className="dnb-input__inner"
+        className="dnb-input dnb-input--text dnb-form-component dnb-input-masked"
+        data-has-content="true"
+        data-input-state="virgin"
       >
-        <AlignmentHelper
-          className={null}
-        >
-          <span
-            aria-hidden={true}
-            className="dnb-alignment-helper"
-          />
-        </AlignmentHelper>
-        <FormStatus
-          attributes={null}
-          class={null}
-          className={null}
-          global_status_id={null}
-          icon="error"
-          icon_size="medium"
-          id="input-masked-form-status"
-          label={null}
-          no_animation={null}
-          role={null}
-          show={null}
-          size="default"
-          skeleton={null}
-          state="error"
-          status="error"
-          stretch={null}
-          text={null}
-          text_id="input-masked-status"
-          title={null}
-          variant={null}
-          width_element={null}
-          width_selector={null}
-        />
         <span
-          className="dnb-input__row"
+          className="dnb-input__inner"
         >
-          <span
-            className="dnb-input__shell"
+          <AlignmentHelper
+            className={null}
           >
-            <t
-              autoComplete="off"
-              className="dnb-input__input"
-              disabled={false}
-              guide={false}
-              id="input-masked"
-              inputMode="numeric"
-              keepCharPositions={false}
-              mask={[Function]}
-              name="input-masked"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              pipe={null}
-              placeholderChar="placeholder_char"
-              render={[Function]}
-              showMask={true}
-              type="text"
-              value="test"
+            <span
+              aria-hidden={true}
+              className="dnb-alignment-helper"
+            />
+          </AlignmentHelper>
+          <FormStatus
+            attributes={null}
+            class={null}
+            className={null}
+            global_status_id={null}
+            icon="error"
+            icon_size="medium"
+            id="input-masked-form-status"
+            label={null}
+            no_animation={null}
+            role={null}
+            show={null}
+            size="default"
+            skeleton={null}
+            state="error"
+            status="error"
+            stretch={null}
+            text={null}
+            text_id="input-masked-status"
+            title={null}
+            variant={null}
+            width_element={null}
+            width_selector={null}
+          />
+          <span
+            className="dnb-input__row"
+          >
+            <span
+              className="dnb-input__shell"
             >
-              <input
+              <TextMask
                 autoComplete="off"
                 className="dnb-input__input"
-                defaultValue="test"
                 disabled={false}
+                guide={false}
                 id="input-masked"
-                inputMode="numeric"
+                inputElement={<input />}
+                inputRef={
+                  Object {
+                    "current": <input
+                      autocomplete="off"
+                      class="dnb-input__input"
+                      id="input-masked"
+                      name="input-masked"
+                      type="text"
+                      value="test"
+                    />,
+                  }
+                }
+                keepCharPositions={false}
+                mask={
+                  Array [
+                    /\\[a-z\\]/,
+                  ]
+                }
                 name="input-masked"
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
                 onKeyDown={[Function]}
                 onMouseUp={[Function]}
-                onTouchEnd={[Function]}
+                pipe={null}
+                placeholderChar="_"
+                showMask={true}
                 type="text"
-              />
-            </t>
+                value="test"
+              >
+                <input
+                  autoComplete="off"
+                  className="dnb-input__input"
+                  defaultValue="test"
+                  disabled={false}
+                  id="input-masked"
+                  name="input-masked"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  onKeyDown={[Function]}
+                  onMouseUp={[Function]}
+                  type="text"
+                />
+              </TextMask>
+            </span>
           </span>
         </span>
       </span>
-    </span>
-  </Input>
-</InputMasked>
+    </Input>
+  </InputMaskedElement>
+</ForwardRef>
 `;
 
 exports[`InputMasked scss have to match snapshot 1`] = `

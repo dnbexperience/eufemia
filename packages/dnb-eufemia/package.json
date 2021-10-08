@@ -99,7 +99,7 @@
     "core-js": "3.17.3",
     "date-fns": "2.24.0",
     "keycode": "2.2.0",
-    "react-text-mask": "5.4.3",
+    "prop-types": "15.7.2",
     "what-input": "5.2.10"
   },
   "peerDependencies": {

@@ -5,121 +5,190 @@
 
 import React from 'react'
 import { Wrapper, Box } from '../helpers'
-import styled from '@emotion/styled'
-
-import { Input, InputMasked } from '@dnb/eufemia/src/components'
-
-// import emailMask from 'text-mask-addons/dist/emailMask'
 import emailMask from '@dnb/eufemia/src/components/input-masked/addons/emailMask'
+import { InputMasked, FormSet, ToggleButton, Hr } from '@dnb/eufemia/src'
+import styled from '@emotion/styled'
+import { Provider } from '@dnb/eufemia/src/shared'
+
+const Pre = styled.pre`
+  margin-top: 0;
+  margin-bottom: 0;
+`
 
 export default {
   title: 'Eufemia/Components/InputMasked',
 }
 
-const CustomStyle = styled.div`
-  p {
-    background-color: rgba(213, 30, 149, 0.25);
-  }
-`
-
-export const InputsMasked = () => (
-  <CustomStyle>
+export function Sandbox() {
+  const [locale, setLocale] = React.useState('nb-NO')
+  return (
     <Wrapper>
-      <Box>
-        <InputMasked
-          // selectall
-          label="Amount:"
-          currency_mask="kr"
-          on_change={({ cleaned_value }) => {
-            console.log(cleaned_value)
-          }}
-          right
-          bottom
-        />
-        <InputMasked
-          label="Amount:"
-          currency_mask={{ currency: 'NOK' }}
-          on_change={({ cleaned_value }) => {
-            console.log(cleaned_value)
-          }}
-          // on_focus={(e) => {
-          //   console.log('on_focus', e)
-          // }}
-          // on_blur={(e) => {
-          //   console.log('on_blur', e)
-          // }}
-        />
-      </Box>
-      <Box>
-        <InputMasked
-          // selectall
-          label="Amount:"
-          currency_mask="kr"
-          align="right"
-          on_change={({ cleaned_value }) => {
-            console.log(cleaned_value)
-          }}
-          right
-          bottom
-        />
-        <InputMasked
-          label="Amount:"
-          currency_mask={{ currency: 'NOK' }}
-          align="right"
-          on_change={({ cleaned_value }) => {
-            console.log(cleaned_value)
-          }}
-          // on_focus={(e) => {
-          //   console.log('on_focus', e)
-          // }}
-          // on_blur={(e) => {
-          //   console.log('on_blur', e)
-          // }}
-        />
-      </Box>
-      <Box>
-        <InputMasked
-          label="Currency:"
-          as_currency="EUR"
-          currency_mask={{ decimalLimit: 1 }}
-          // locale="en-GB"
-          // align="left"
-          value="1234.0"
-          right
-          bottom
-          on_change={({ cleaned_value }) => {
-            console.log(cleaned_value)
-          }}
-        />
-        <InputMasked
-          label="Number:"
-          as_number
-          number_mask={{ decimalLimit: 1 }}
-          align="right"
-          // locale="en-GB"
-          value="1234.0"
-          right
-          bottom
-          on_change={({ cleaned_value }) => {
-            console.log(cleaned_value)
-          }}
-        />
-      </Box>
-      <Box>
-        <InputMasked
-          label="Email:"
-          // DOMException: Failed to execute 'setSelectionRange' on 'HTMLInputElement'
-          // The input element's type ('email') does not support selection.
-          // type="email"
-          placeholder="@."
-          autocomplete="on"
-          keep_placeholder
-          mask={emailMask}
-          right
-          bottom
-        />
-        <Input label="Email:" type="email" autocomplete="on" />
-      </Box>
+      <Provider locale={locale}>
+        <FormSet label_direction="vertical">
+          <ToggleButton.Group
+            value={locale}
+            on_change={({ value }) => setLocale(value)}
+            right
+            label="Choose locale"
+          >
+            <ToggleButton value="nb-NO" right>
+              nb-NO
+            </ToggleButton>
+            <ToggleButton value="en-GB" right>
+              en-GB
+            </ToggleButton>
+          </ToggleButton.Group>
+          <Hr top bottom />
+          <Box>
+            <BasicNumberMask />
+          </Box>
+          <Box>
+            <BasicCurrencyMask />
+          </Box>
+          <Box>
+            <CurrencyInput />
+          </Box>
+          <Box>
+            <NumberInput />
+          </Box>
+          <Box>
+            <PercentInput />
+          </Box>
+          <Box>
+            <EmailMask />
+          </Box>
+          <Box>
+            <ShowMask />
+          </Box>
+        </FormSet>
+      </Provider>
     </Wrapper>
-  </CustomStyle>
-)
+  )
+}
+
+function BasicNumberMask() {
+  const [floatval, setState] = React.useState(10234.556)
+
+  return (
+    <InputMasked
+      label="number_mask"
+      // selectall
+      value={floatval}
+      // placeholder="En placeholder"
+      number_mask
+      mask_options={{ allowLeadingZeroes: true }}
+      suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
+      on_change={({ numberValue }) => {
+        setState(numberValue)
+      }}
+    />
+  )
+}
+
+function BasicCurrencyMask() {
+  const [floatval, setState] = React.useState(1234.556)
+
+  return (
+    <InputMasked
+      label="currency_mask"
+      // selectall
+      value={floatval}
+      // placeholder="En placeholder"
+      currency_mask={{
+        currency: 'NOK',
+        prefix: 'Prefix ',
+        // allowDecimal: false,
+      }}
+      // mask_options={{ allowLeadingZeroes: true }}
+      suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
+      on_change={({ numberValue }) => {
+        setState(numberValue)
+      }}
+    />
+  )
+}
+
+function CurrencyInput() {
+  const [floatval, setState] = React.useState(1234.556)
+  // const [floatval, setState] = React.useState(0.01)
+
+  return (
+    <InputMasked
+      label="as_currency"
+      value={floatval}
+      as_currency="NOK"
+      // mask_options={{ allowLeadingZeroes: true }}
+      suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
+      on_change={({ numberValue }) => {
+        setState(numberValue)
+      }}
+    />
+  )
+}
+
+function NumberInput() {
+  const [floatval, setState] = React.useState('1234.556')
+
+  return (
+    <>
+      <InputMasked
+        label="as_number"
+        value={floatval}
+        as_number
+        mask_options={{ allowDecimal: true, decimalLimit: null }}
+        suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
+        on_change={({ numberValue }) => {
+          setState(numberValue)
+        }}
+      />
+    </>
+  )
+}
+
+function PercentInput() {
+  const [floatval, setState] = React.useState(1)
+
+  return (
+    <InputMasked
+      label="as_percent"
+      value={floatval}
+      as_percent
+      mask_options={{ allowDecimal: true, allowLeadingZeroes: true }}
+      // number_mask={{ allowDecimal: true, decimalLimit: 1 }}
+      suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
+      on_change={({ numberValue }) => {
+        setState(numberValue)
+      }}
+    />
+  )
+}
+
+function EmailMask() {
+  return (
+    <InputMasked
+      label="emailMask"
+      // DOMException: Failed to execute 'setSelectionRange' on 'HTMLInputElement'
+      // The input element's type ('email') does not support selection.
+      // type="email"
+      placeholder="@."
+      autocomplete="on"
+      keep_placeholder
+      mask={emailMask}
+      right
+      bottom
+    />
+  )
+}
+
+function ShowMask() {
+  return (
+    <InputMasked
+      label="show_mask"
+      show_mask
+      number_mask={{
+        suffix: ' kr',
+        allowDecimal: true,
+      }}
+    />
+  )
+}

@@ -2,6 +2,22 @@
 // No license was given at the point of writing
 
 const emptyString = ''
+const minus = '-'
+const minusRegExp = /-/
+const nonDigitsRegExp = /\D+/g
+const number = 'number'
+const caretTrap = '[]'
+const digitRegExp = /\d/
+
+function convertToMask(strNumber) {
+  return strNumber.split(emptyString).map((char) => {
+    if (digitRegExp.test(char)) {
+      char = digitRegExp
+    }
+    return char
+  })
+}
+
 export default function createNumberMask({
   prefix = emptyString,
   suffix = emptyString,
@@ -12,22 +28,8 @@ export default function createNumberMask({
   decimalLimit = 2,
   requireDecimal = false,
   allowNegative = true,
-  allowLeadingZeroes = false,
   integerLimit = null,
 } = {}) {
-  const minus = '-'
-  const minusRegExp = /-/
-  const nonDigitsRegExp = /\D+/g
-  const number = 'number'
-  const caretTrap = '[]'
-  const digitRegExp = /\d/
-
-  function convertToMask(strNumber) {
-    return strNumber
-      .split(emptyString)
-      .map((char) => (digitRegExp.test(char) ? digitRegExp : char))
-  }
-
   // http://stackoverflow.com/a/10899795/604296
   function addThousandsSeparator(n, thousandsSeparatorSymbol) {
     return n.replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSeparatorSymbol) // eslint-disable-line
@@ -57,7 +59,7 @@ export default function createNumberMask({
     }
 
     const isNegative = rawValue[0] === minus && allowNegative
-    //If negative remove "-" sign
+    // If negative remove "-" sign
     if (isNegative) {
       rawValue = rawValue.toString().substr(1)
     }
@@ -109,10 +111,6 @@ export default function createNumberMask({
     }
 
     integer = integer.replace(nonDigitsRegExp, emptyString)
-
-    if (!allowLeadingZeroes) {
-      integer = integer.replace(/^0+(0$|[^0])/, '$1')
-    }
 
     integer = includeThousandsSeparator
       ? addThousandsSeparator(integer, thousandsSeparatorSymbol)

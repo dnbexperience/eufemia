@@ -2027,7 +2027,6 @@ __metadata:
     react: 17.0.2
     react-dom: 17.0.2
     react-fake-props: 1.0.3
-    react-text-mask: 5.4.3
     react-to-typescript-definitions: 3.0.1
     rollup: 2.56.3
     rollup-plugin-node-globals: 1.4.0
@@ -26494,7 +26493,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"prop-types@npm:15.7.2, prop-types@npm:^15.0.0, prop-types@npm:^15.5.6, prop-types@npm:^15.6.0, prop-types@npm:^15.6.1, prop-types@npm:^15.6.2, prop-types@npm:^15.7.0, prop-types@npm:^15.7.2":
+"prop-types@npm:15.7.2, prop-types@npm:^15.0.0, prop-types@npm:^15.6.0, prop-types@npm:^15.6.1, prop-types@npm:^15.6.2, prop-types@npm:^15.7.0, prop-types@npm:^15.7.2":
   version: 15.7.2
   resolution: "prop-types@npm:15.7.2"
   dependencies:
@@ -27306,17 +27305,6 @@ fsevents@^1.2.7:
   peerDependencies:
     react: 17.0.2
   checksum: e6b5c6ed2a0bde2c34f1ab9523ff9bc4c141a271daf730d6b852374e83acc0155d58ab71a318251e953ebfa65b8bebb9c5dce3eba1ccfcbef7cc4e1e8261c401
-  languageName: node
-  linkType: hard
-
-"react-text-mask@npm:5.4.3":
-  version: 5.4.3
-  resolution: "react-text-mask@npm:5.4.3"
-  dependencies:
-    prop-types: ^15.5.6
-  peerDependencies:
-    react: ^0.14.0 || ^15.0.0 || ^16.0.0
-  checksum: ee9c560f47d2f67d0193636eeea36852503d6d7bfd16d75ecb8170256606923d786bbb3511971deedbd01136340acf597fe2b6ba0be3cddb2a17a602767eb7b9
   languageName: node
   linkType: hard
 

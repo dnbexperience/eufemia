@@ -76,6 +76,8 @@ export const format: (
 type cleanNumberOptions = {
   decimalSeparator?: string;
   thousandsSeparator?: string;
+  prefix?: string; // to help the cleaning process
+  suffix?: string; // to help the cleaning process
 };
 
 export const cleanNumber: (
