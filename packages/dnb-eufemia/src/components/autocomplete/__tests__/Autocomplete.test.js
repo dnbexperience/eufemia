@@ -574,7 +574,11 @@ describe('Autocomplete component', () => {
 
     const elem = Comp.find('.dnb-autocomplete')
     expect(
-      elem.find('button').instance().getAttribute('aria-expanded')
+      elem
+        .find('button.dnb-input__submit-button__button')
+        .not('.dnb-input__clear-button')
+        .instance()
+        .getAttribute('aria-expanded')
     ).toBe('true')
   })
 
@@ -1306,11 +1310,13 @@ describe('Autocomplete component', () => {
     })
     expect(
       Comp.find('button.dnb-input__submit-button__button')
+        .not('.dnb-input__clear-button')
         .instance()
         .hasAttribute('disabled')
     ).toBe(true)
     expect(
       Comp.find('button.dnb-input__submit-button__button')
+        .not('.dnb-input__clear-button')
         .find('.dnb-icon')
         .instance()
         .getAttribute('data-test-id')
@@ -1424,25 +1430,57 @@ describe('Autocomplete component', () => {
     })
     expect(
       Comp.find('button.dnb-input__submit-button__button')
+        .not('.dnb-input__clear-button')
         .instance()
         .hasAttribute('disabled')
     ).toBe(true)
     expect(
-      Comp.find('button.dnb-input__submit-button__button').exists(
-        '.dnb-icon'
-      )
-    ).toBe(true)
-    expect(
-      Comp.find('button.dnb-input__submit-button__button').exists(
-        '.dnb-icon'
-      )
+      Comp.find('button.dnb-input__submit-button__button')
+        .not('.dnb-input__clear-button')
+        .exists('.dnb-icon')
     ).toBe(true)
     expect(
       Comp.find('button.dnb-input__submit-button__button')
+        .not('.dnb-input__clear-button')
+        .exists('.dnb-icon')
+    ).toBe(true)
+    expect(
+      Comp.find('button.dnb-input__submit-button__button')
+        .not('.dnb-input__clear-button')
         .find('.dnb-icon')
         .instance()
         .getAttribute('data-test-id')
     ).toContain('bell')
+  })
+
+  it('should have a button for screen readers to open options – regardless', () => {
+    const Comp = mount(
+      <Component id="autocomplete-id" data={mockData} no_animation />,
+      { attachTo: attachToBody() }
+    )
+
+    const buttonElem = Comp.find('.dnb-sr-only').find('button')
+
+    expect(buttonElem.exists()).toBe(true)
+    expect(buttonElem.instance().getAttribute('tabindex')).toBe('-1')
+
+    buttonElem.simulate('click')
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(true)
+    expect(
+      document.activeElement.classList.contains('dnb-drawer-list__options')
+    ).toBe(true)
+
+    buttonElem.simulate('click')
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(false)
+    expect(
+      document.activeElement.classList.contains('dnb-input__input')
+    ).toBe(true)
   })
 })
 
@@ -1490,5 +1528,7 @@ const keydown = (Comp, keyCode) => {
   })
 }
 const toggle = (Comp) => {
-  Comp.find('button.dnb-input__submit-button__button').simulate('click')
+  Comp.find('button.dnb-input__submit-button__button')
+    .not('.dnb-input__clear-button')
+    .simulate('click')
 }
