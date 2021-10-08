@@ -16,7 +16,7 @@ To fetch new icons from the Figma Icons file, you have to:
 
 This is a description on what happens during adding new icons to the icons library.
 
-Icons are getting added mor or less automatically by extracting them from Figma. Heres how the process is tied together.
+Icons are getting added (more or less) automatically by extracting them from Figma. Following is how the process is tied together.
 
 1. The connection happens on CI.
 1. Checks if a new Figma Icons library version is available.

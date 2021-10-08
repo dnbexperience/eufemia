@@ -25,7 +25,7 @@ They also exists as [React Components](/uilib/components/icon) to be easily inte
 
 ## Icon color
 
-Eufemia SVG icons do simply inherit the used color. In case you don't can use the [Icon component](/uilib/components/icon), you have to handle colors by yourself.
+Eufemia SVG icons do simply inherit the used color. In case you don't use the [Icon component](/uilib/components/icon), you have to handle colors by yourself.
 
 ### Change SVG border color
 
