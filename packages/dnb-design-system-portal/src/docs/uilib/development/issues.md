@@ -27,7 +27,7 @@ order: 8
 
 ## eslint
 
-- Where where some issues with newer versions than v7.19.0. This way be fixed in later verions.
+- Where some issues with newer versions than v7.19.0. This may be fixed in later versions.
 
 ## Yarn PnP
 
