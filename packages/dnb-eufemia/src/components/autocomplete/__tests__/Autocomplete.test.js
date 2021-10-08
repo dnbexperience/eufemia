@@ -15,6 +15,7 @@ import {
 import Component from '../Autocomplete'
 import { SubmitButton } from '../../../components/input/Input'
 import { format } from '../../../components/number-format/NumberUtils'
+import userEvent from '@testing-library/user-event'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Autocomplete'), {
@@ -1344,6 +1345,69 @@ describe('Autocomplete component', () => {
     const value = 'new value'
     Comp.find('input').simulate('change', { target: { value } })
     expect(onChange).toHaveBeenCalledTimes(1)
+  })
+
+  it('will make anchors inside drawer-list item accessible', () => {
+    const mockData = [
+      'first item',
+      [
+        <a href="/" className="first-anchor" key="first">
+          anchor
+        </a>,
+        <a href="/" className="second-anchor" key="second">
+          anchor
+        </a>,
+      ],
+      'one more item',
+    ]
+
+    const Comp = mount(
+      <Component id="autocomplete-id" data={mockData} {...mockProps} />,
+      {
+        attachTo: attachToBody(),
+      }
+    )
+
+    // open
+    keydown(Comp, 40) // down
+
+    expect(Array.from(document.activeElement.classList)).toContain(
+      'dnb-drawer-list__options'
+    )
+
+    Comp.find('input').instance().focus()
+
+    // focus the first item
+    keydown(Comp, 40) // down
+
+    // focus the second item
+    keydown(Comp, 40) // down
+
+    const runTabs = () => {
+      userEvent.tab()
+
+      expect(Array.from(document.activeElement.classList)).toContain(
+        'first-anchor'
+      )
+
+      userEvent.tab()
+
+      expect(Array.from(document.activeElement.classList)).toContain(
+        'second-anchor'
+      )
+
+      userEvent.tab()
+
+      expect(Array.from(document.activeElement.classList)).toContain(
+        'dnb-input__input'
+      )
+    }
+
+    // run first round
+    runTabs()
+
+    // run second round
+    runTabs()
   })
 
   it('submit_element will replace the internal SubmitButton', () => {

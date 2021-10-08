@@ -798,7 +798,11 @@ class AutocompleteInstance extends React.PureComponent {
       no_animation,
     } = this.props
 
-    if (!this.state.hasBlur && !this.__preventFiringBlurEvent) {
+    if (
+      !this.state.hasBlur &&
+      !this.__preventFiringBlurEvent &&
+      !this.context.drawerList.hasFocusOnElement
+    ) {
       dispatchCustomElementEvent(this, 'on_blur', {
         event,
         ...this.getEventObjects('on_blur'),
@@ -1279,13 +1283,10 @@ class AutocompleteInstance extends React.PureComponent {
         // make string out of it
         children = children.map((originalChild) => ({
           originalChild,
-          segment: convertJsxToString(originalChild, ' ').trim(),
+          segment: convertJsxToString(originalChild, ' '),
         }))
 
         children = children.map(({ originalChild, segment }, idx) => {
-          // Before, we only searched in actually found words
-          // listOfFoundWords.forEach(({ word, wordIndex }) => {
-
           // This way, the user can get highlights that do not match
           searchWords.forEach((word, wordIndex) => {
             // Can be empty string
@@ -1338,7 +1339,7 @@ class AutocompleteInstance extends React.PureComponent {
               />
             )
           } else {
-            result = segment
+            result = <span key={cacheHash + idx}>{segment}</span>
           }
 
           // If we get a component, replace the one we use as the string comparison

@@ -108,8 +108,10 @@ class DrawerListInstance extends React.PureComponent {
   preventTab = (e) => {
     switch (keycode(e)) {
       case 'tab':
-        e.preventDefault()
-        this.context.drawerList.setHidden()
+        if (!this.context.drawerList.hasFocusOnElement) {
+          e.preventDefault()
+          this.context.drawerList.setHidden()
+        }
         break
 
       case 'page down':

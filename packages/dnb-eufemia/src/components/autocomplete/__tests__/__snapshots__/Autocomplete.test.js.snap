@@ -2507,6 +2507,8 @@ legend.dnb-form-label {
         margin-bottom: 0.5rem; }
       .dnb-responsive-component .dnb-autocomplete__helper {
         display: none; } }
+  .dnb-autocomplete__list .dnb-drawer-list__option__item > span {
+    padding-right: 0.125em; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-autocomplete {
       flex: none;

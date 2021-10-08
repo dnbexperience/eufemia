@@ -185,10 +185,16 @@
 
     &__item {
       display: block;
-      // If we use overflow and have an anchor, we cut the focus outline
-      // So it has to be handled by project case
-      overflow: hidden;
       text-overflow: ellipsis;
+
+      .dnb-anchor {
+        display: inline-block;
+        margin-right: 0.5rem;
+        word-break: break-word;
+        white-space: nowrap;
+
+        font-size: inherit;
+      }
     }
 
     &--ignore {
