@@ -124,7 +124,7 @@ exports[`Tooltip scss have to match default theme snapshot 1`] = `
   border-radius: 1rem;
   color: var(--color-white);
   background-color: var(--color-black-80);
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
+  box-shadow: 0 8px 16px rgba(51, 51, 51, 0.08); }
   .dnb-tooltip__arrow::before {
     border: 1px solid rgba(0, 0, 0, 0.1);
     background-color: var(--color-black-80); }

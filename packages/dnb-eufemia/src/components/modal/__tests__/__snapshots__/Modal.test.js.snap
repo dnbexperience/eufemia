@@ -1818,7 +1818,7 @@ button.dnb-button::-moz-focus-inner {
       min-width: var(--modal-min-width);
       max-width: var(--modal-max-width);
       max-height: 100vh;
-      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
+      box-shadow: 0 8px 16px rgba(51, 51, 51, 0.08);
       border-radius: 0.5rem;
       user-select: text;
       -webkit-user-select: text;
@@ -2021,7 +2021,7 @@ button.dnb-button::-moz-focus-inner {
     right: -50%;
     bottom: 0;
     height: 300%;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
+    box-shadow: 0 8px 16px rgba(51, 51, 51, 0.08); }
   .dnb-modal__content--drawer .dnb-modal__header__bar:not(.dnb-modal__header__bar--sticky)::after {
     color: transparent; }
   .dnb-modal__overlay {

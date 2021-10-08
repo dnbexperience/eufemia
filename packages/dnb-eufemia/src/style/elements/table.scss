@@ -289,12 +289,10 @@
       right: -2px;
       bottom: 0;
       height: 6px;
-      box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.5);
 
-      // old shadow
-      // @mixin bottomDropShadow() {
-      //   box-shadow: 0 6px 6px -6px rgba(0, 0, 0, 0.16);
-      // }
+      // The @mixin defaultDropShadow() does not work in this case
+      // because we need only a bottom shadow
+      box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.5);
 
       transition: opacity 300ms ease-out;
       [data-visual-test-wrapper] & {
