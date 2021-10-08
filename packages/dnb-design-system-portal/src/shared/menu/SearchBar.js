@@ -72,8 +72,9 @@ export const SearchBarInput = () => {
     <ClassNames>
       {({ css }) => (
         <StyledAutocomplete
-          right
+          id="portal-search"
           mode="async"
+          show_clear_button
           no_scroll_animation
           prevent_selection
           disable_filter
@@ -94,16 +95,7 @@ export const SearchBarInput = () => {
                 font-size: var(--font-size-small);
 
                 padding-bottom: 0.5rem;
-                overflow: visible;
-
-                .dnb-anchor {
-                  display: inline-block;
-                  margin-right: 0.5rem;
-                  word-break: break-word;
-                  white-space: nowrap;
-
-                  font-size: inherit;
-                }
+                overflow: visible; /* just to make sure we get anchors working properly */
               }
 
               .dnb-drawer-list__option__item:first-of-type {
@@ -144,12 +136,17 @@ export const SearchBarInput = () => {
 }
 
 const StyledAutocomplete = styled(Autocomplete)`
+  margin-right: 1rem;
+  @media (max-width: 40em) {
+    margin-right: 0.5rem;
+  }
+
   .dnb-autocomplete__shell {
     &,
     input {
       width: 40vw;
-      @media screen and (max-width: 40em) {
-        width: 60vw;
+      @media (max-width: 40em) {
+        width: 50vw;
       }
     }
   }
@@ -192,12 +189,10 @@ const makeHitsHumanFriendly = ({ hits, setHidden }) => {
 
     const content = [title, description, search].filter(Boolean)
 
-    const notes = hit.headings
-      ?.map(({ value, slug: hash /* depth, slug */ }, i) => {
-        if (value === title) {
-          return null
-        }
-        return (
+    hit.headings?.forEach(({ value, slug: hash /* depth, slug */ }, i) => {
+      // Because we don't want duplication
+      if (value !== title) {
+        content.push(
           <Anchor
             key={slug + hash + i}
             href={`/${slug}#${hash}`}
@@ -213,12 +208,8 @@ const makeHitsHumanFriendly = ({ hits, setHidden }) => {
             {value}
           </Anchor>
         )
-      })
-      .filter(Boolean)
-
-    if (notes?.length > 0) {
-      content.push(notes)
-    }
+      }
+    })
 
     data.push({
       hit,
