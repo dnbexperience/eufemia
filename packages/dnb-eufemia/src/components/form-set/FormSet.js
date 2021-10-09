@@ -86,6 +86,7 @@ export default class FormSet extends React.PureComponent {
 
     const {
       element,
+      locale,
       no_form,
       prevent_submit, // eslint-disable-line
       id, // eslint-disable-line
@@ -133,6 +134,7 @@ export default class FormSet extends React.PureComponent {
     const content = FormSet.getContent(this.props)
 
     const providerContext = extend(this.context, {
+      locale: locale ? locale : this.context.locale,
       FormRow: allowedProps,
       // isInsideFormSet: true // We may considder to use this later to check if we are inside FormSet
     })

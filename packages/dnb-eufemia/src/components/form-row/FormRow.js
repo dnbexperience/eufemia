@@ -35,6 +35,7 @@ export const formRowPropTypes = {
   label_class: PropTypes.string,
   no_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  locale: PropTypes.string,
   indent: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
@@ -73,6 +74,7 @@ export const formRowDefaultProps = {
   label_class: null,
   no_label: false,
   no_fieldset: null,
+  locale: null,
   indent: null,
   wrap: null,
   direction: null,
@@ -157,6 +159,7 @@ export default class FormRow extends React.PureComponent {
       label_class,
       no_fieldset,
       no_label,
+      locale,
       indent,
       direction,
       vertical,
@@ -226,6 +229,7 @@ export default class FormRow extends React.PureComponent {
     validateDOMAttributes(this.props, params)
 
     const providerContext = extend(this.context, {
+      locale: locale ? locale : this.context.locale,
       FormRow: {
         useId: () => {
           if (this.isIsUsed) {
