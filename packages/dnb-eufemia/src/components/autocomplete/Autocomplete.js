@@ -99,6 +99,10 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
+    show_clear_button: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
     status: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -250,6 +254,7 @@ export default class Autocomplete extends React.PureComponent {
     label_sr_only: null,
     keep_value: null,
     keep_value_and_selection: null,
+    show_clear_button: null,
     status: null,
     status_state: 'error',
     status_props: null,
@@ -1603,6 +1608,7 @@ class AutocompleteInstance extends React.PureComponent {
       keep_open,
       keep_value, // eslint-disable-line
       keep_value_and_selection, // eslint-disable-line
+      show_clear_button,
       prevent_close,
       no_animation,
       no_scroll_animation,
@@ -1846,6 +1852,7 @@ class AutocompleteInstance extends React.PureComponent {
                   input_state={
                     this.state.skipFocusDuringChange ? 'focus' : undefined
                   } // because of the short blur / focus during select
+                  clear={isTrue(show_clear_button)}
                   ref={this._refInput}
                   {...inputParams}
                   {...status_props}

@@ -28,7 +28,6 @@ export const AutocompleteDefaultExample = () => (
 <Autocomplete
   data={topMovies}
   label="Label:"
-  icon={false}
 />
 `}
     </ComponentBox>
@@ -48,6 +47,7 @@ const numbers = [
 render(
   <Autocomplete
     input_value="201"
+    show_clear_button
     label="Label:"
     data={numbers}
     search_numbers={true}
@@ -67,6 +67,8 @@ export const AutocompleteWithCustomTitle = () => (
       {() => /* jsx */ `
 <Autocomplete
   data={topMovies}
+  keep_value={true}
+  show_clear_button={true}
   label="Label:"
   placeholder="Custom placeholder ..."
   on_change={({ data }) => {

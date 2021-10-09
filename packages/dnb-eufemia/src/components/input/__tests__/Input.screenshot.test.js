@@ -88,7 +88,7 @@ describe('Input screenshot', () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="input-clear"]',
       simulateSelector:
-        '[data-visual-test="input-clear"] .dnb-input:nth-of-type(3) .dnb-button--input-button',
+        '[data-visual-test="input-clear"] .dnb-input:nth-of-type(3) .dnb-input__clear-button',
       simulate: 'hover',
     })
     expect(screenshot).toMatchImageSnapshot()

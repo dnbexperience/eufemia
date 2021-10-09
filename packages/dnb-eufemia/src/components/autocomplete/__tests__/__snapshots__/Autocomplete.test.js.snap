@@ -68,6 +68,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   search_in_word_index="search_in_word_index"
   search_numbers="search_numbers"
   show_all="show_all"
+  show_clear_button="show_clear_button"
   show_options_sr="show_options_sr"
   show_submit_button={true}
   size={null}
@@ -171,6 +172,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     search_in_word_index="search_in_word_index"
     search_numbers="search_numbers"
     show_all="show_all"
+    show_clear_button="show_clear_button"
     show_options_sr="show_options_sr"
     show_submit_button={true}
     size={null}
@@ -260,6 +262,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       search_in_word_index="search_in_word_index"
       search_numbers="search_numbers"
       show_all="show_all"
+      show_clear_button="show_clear_button"
       show_options_sr="show_options_sr"
       show_submit_button={true}
       size={null}
@@ -435,7 +438,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 autocomplete="off"
                 class={null}
                 className="dnb-autocomplete__input"
-                clear={null}
+                clear={false}
                 clear_button_title={null}
                 custom_element={null}
                 custom_method={null}
@@ -1162,6 +1165,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "search_in_word_index": "search_in_word_index",
                   "search_numbers": "search_numbers",
                   "show_all": "show_all",
+                  "show_clear_button": "show_clear_button",
                   "show_options_sr": "show_options_sr",
                   "show_submit_button": true,
                   "size": null,
