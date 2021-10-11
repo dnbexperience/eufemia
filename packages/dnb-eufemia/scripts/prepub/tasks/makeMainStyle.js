@@ -55,7 +55,7 @@ export default async function makeMainStyle() {
 
 export const runFactory = (
   src,
-  { returnResult = false, importOnce = true } = {}
+  { returnResult = false, returnFiles = false, importOnce = true } = {}
 ) =>
   new Promise((resolve, reject) => {
     log.start('> PrePublish: transforming main style')
@@ -63,7 +63,7 @@ export const runFactory = (
     try {
       const cloneSink = clone.sink()
 
-      let stream = gulp
+      const stream = gulp
         .src(src, {
           cwd: ROOT_DIR,
         })
@@ -76,6 +76,11 @@ export const runFactory = (
           )
         )
         .pipe(
+          rename({
+            extname: '.css',
+          })
+        )
+        .pipe(
           transform(
             'utf8',
             transformPostcss(postcssConfig({ IE11: true }))
@@ -86,8 +91,8 @@ export const runFactory = (
         .pipe(rename({ suffix: '.min' }))
         .pipe(cloneSink.tap())
 
-      if (!returnResult) {
-        stream = stream
+      if (!returnResult && !returnFiles) {
+        stream
           .pipe(
             gulp.dest('./build/cjs/style', {
               cwd: ROOT_DIR,
@@ -108,13 +113,25 @@ export const runFactory = (
         )
       }
 
+      const collectedFiles = []
+      const collectedResults = []
+
       stream
         .pipe(
           transform('utf8', transformPaths('../../assets/', '../assets/'))
         )
         .pipe(
-          returnResult
-            ? transform('utf8', (result) => resolve(result))
+          returnResult || returnFiles
+            ? transform('utf8', (result, file) => {
+                if (returnFiles) {
+                  collectedFiles.push(file.path)
+                  resolve(collectedFiles)
+                } else if (returnResult) {
+                  collectedResults.push(result)
+                  resolve(collectedResults)
+                }
+                return result
+              })
             : gulp.dest('./build/style', {
                 cwd: ROOT_DIR,
               })
