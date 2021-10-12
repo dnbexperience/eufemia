@@ -24,14 +24,18 @@
     margin-right: 0;
     margin-bottom: 0.5rem;
   }
+
   &--sr-only {
-    // could posssibly be 0, but has to be tested if sr still reads the text then
-    width: 1px;
-    margin: 0;
-    padding: 0;
-    margin-left: -1px; // because of 1px width
-    overflow: hidden;
-    white-space: nowrap; // so we don't get a large height because of wrapping in norrow space
+    // Could possibly be 0, but has to be tested if sr still reads the text then
+    // We make it custom here, because we need the height,
+    // therefore we don't use @mixin srOnly()
+    // also, we want !important here, because project styles, meant to adjust, can suddenly add a margin etc.
+    width: 1px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-left: -1px !important; // because of 1px width
+    overflow: hidden !important;
+    white-space: nowrap !important; // so we don't get a large height because of wrapping in norrow space
   }
 
   // Is not in use
