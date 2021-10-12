@@ -35,7 +35,10 @@ export default async function makeLibStyles() {
   }
 }
 
-export const runFactory = (src, { returnResult = false } = {}) =>
+export const runFactory = (
+  src,
+  { returnResult = false, returnFiles = false } = {}
+) =>
   new Promise((resolve, reject) => {
     log.start(`> PrePublish: converting sass to css | ${src}`)
 
@@ -45,11 +48,16 @@ export const runFactory = (src, { returnResult = false } = {}) =>
       const dest = src.replace('./src/', '').split('/**/')[0]
       const files = [src, '!**/__tests__/**', '!**/*_not_in_use*/**/*']
 
-      let stream = gulp
+      const stream = gulp
         .src(files, {
           cwd: ROOT_DIR,
         })
         .pipe(transform('utf8', transformSass()))
+        .pipe(
+          rename({
+            extname: '.css',
+          })
+        )
         .pipe(
           transform(
             'utf8',
@@ -63,12 +71,12 @@ export const runFactory = (src, { returnResult = false } = {}) =>
           )
         )
         .pipe(cloneSink)
-      transform('utf8', transformCssnano({ reduceIdents: false }))
+        .pipe(transform('utf8', transformCssnano({ reduceIdents: false })))
         .pipe(rename({ suffix: '.min' }))
         .pipe(cloneSink.tap())
 
-      if (!returnResult) {
-        stream = stream
+      if (!returnResult && !returnFiles) {
+        stream
           .pipe(
             gulp.dest(`./build/cjs/${dest}/`, {
               cwd: ROOT_DIR,
@@ -89,6 +97,9 @@ export const runFactory = (src, { returnResult = false } = {}) =>
         )
       }
 
+      const collectedFiles = []
+      const collectedResults = []
+
       stream
         .pipe(
           transform(
@@ -97,8 +108,17 @@ export const runFactory = (src, { returnResult = false } = {}) =>
           )
         )
         .pipe(
-          returnResult
-            ? transform('utf8', (result) => resolve(result))
+          returnResult || returnFiles
+            ? transform('utf8', (result, file) => {
+                if (returnFiles) {
+                  collectedFiles.push(file.path)
+                  resolve(collectedFiles)
+                } else if (returnResult) {
+                  collectedResults.push(result)
+                  resolve(collectedResults)
+                }
+                return result
+              })
             : gulp.dest(`./build/${dest}/`, {
                 cwd: ROOT_DIR,
               })
