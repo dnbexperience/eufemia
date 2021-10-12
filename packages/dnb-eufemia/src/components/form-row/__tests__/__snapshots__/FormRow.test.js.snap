@@ -18,6 +18,7 @@ exports[`FormRow component have to match snapshot 1`] = `
   label_direction="horizontal"
   label_id="label_id"
   label_sr_only="label_sr_only"
+  locale="locale"
   no_fieldset="no_fieldset"
   no_label="no_label"
   responsive="responsive"

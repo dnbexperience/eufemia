@@ -541,6 +541,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
       label_direction={null}
       label_id="group-label"
       label_sr_only={null}
+      locale={null}
       no_fieldset={null}
       no_label={false}
       responsive={null}
