@@ -86,7 +86,7 @@ export const runFactory = async ({
     groups[name].push(object)
   })
 
-  // make a group of all gathered themes we later will interact through
+  // make a group of all gathered themes we later will iterate through
   const themes = []
   Object.entries(groups).forEach((group) => {
     const name = group[0]
@@ -138,7 +138,7 @@ export const runFactory = async ({
       }
     })
   } catch (e) {
-    log.fail(`There was an error on creating ${scssOutputPath}!`)
+    log.fail(`There was an error when creating ${scssOutputPath}!`)
     new ErrorHandler(e)
   }
 
