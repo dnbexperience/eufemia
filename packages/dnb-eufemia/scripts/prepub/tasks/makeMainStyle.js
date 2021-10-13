@@ -25,14 +25,14 @@ import postcssConfig from '../config/postcssConfig'
 const ROOT_DIR = packpath.self()
 
 export default async function makeMainStyle() {
-  // info: use this aproach to process files because:
+  // info: use this approach to process files because:
   // this way we avoid cross "includePaths" and the result is:
   // Now a custom theme can overwrite existing CSS Custom Properties
   const listWithThemesToProcess = await globby(
     './src/style/themes/theme-*/dnb-theme-*.scss'
   )
   await asyncForEach(listWithThemesToProcess, async (themeFile) => {
-    // in order to keep the foder structure, we have to add these asteix
+    // in order to keep the folder structure, we have to add these asterisks
     themeFile = themeFile.replace('/style/themes/', '/style/**/themes/')
     await runFactory(themeFile, {
       importOnce: false,
@@ -43,7 +43,7 @@ export default async function makeMainStyle() {
     './src/style/dnb-ui-*.scss'
   )
   await asyncForEach(listWithPackagesToProcess, async (packageFile) => {
-    // in order to keep the foder structure, we have to add these asteix
+    // in order to keep the folder structure, we have to add these asterisks
     packageFile = packageFile.replace('/style/', '/style/**/')
     await runFactory(packageFile)
   })
