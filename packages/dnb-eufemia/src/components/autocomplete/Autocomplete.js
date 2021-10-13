@@ -71,6 +71,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.string,
       PropTypes.node,
     ]),
+    show_options_sr: PropTypes.string,
     submit_button_title: PropTypes.string,
     submit_button_icon: PropTypes.oneOfType([
       PropTypes.string,
@@ -236,6 +237,7 @@ export default class Autocomplete extends React.PureComponent {
     show_all: null,
     aria_live_options: null,
     indicator_label: null,
+    show_options_sr: null,
     submit_button_title: null,
     submit_button_icon: 'chevron_down',
     input_ref: null,
@@ -440,33 +442,51 @@ class AutocompleteInstance extends React.PureComponent {
     clearTimeout(this._toggleVisibleTimeout)
   }
 
-  setVisible = () => {
+  setVisible = (args = null, onStateComplete = null) => {
     this.context.drawerList
       .setWrapperElement(this._refShell.current)
-      .setVisible()
+      .setVisible(args, onStateComplete)
   }
 
-  setHidden = () => {
-    this.context.drawerList.setHidden()
+  setHidden = (args = null, onStateComplete = null) => {
+    this.context.drawerList.setHidden(args, onStateComplete)
   }
 
-  toggleVisible = ({ hasFilter = false } = {}) => {
+  toggleVisible = (args = null, onStateComplete = null) => {
+    args = args || {}
+    if (typeof args.hasFilter === 'undefined') {
+      args.hasFilter = false
+    }
     if (isTrue(this.props.disabled)) {
       return // stop here
     }
     if (
-      !hasFilter &&
+      !args.hasFilter &&
       !isTrue(this.props.prevent_close) &&
       !this.context.drawerList.hidden &&
       this.context.drawerList.isOpen
     ) {
-      this.setHidden()
+      this.setHidden(null, onStateComplete)
     } else {
-      this.setVisibleByContext()
+      this.setVisibleByContext(null, onStateComplete)
     }
   }
 
-  setVisibleByContext = (options = {}) => {
+  toggleVisibleAndFocusOptions = () => {
+    this.context.drawerList.toggleVisible(null, (isVisible) => {
+      if (isVisible) {
+        try {
+          this.context.drawerList._refUl.current.focus({
+            preventScroll: true,
+          })
+        } catch (e) {
+          // do nothing
+        }
+      }
+    })
+  }
+
+  setVisibleByContext = (options = {}, onStateComplete = null) => {
     const skipFilter = this.state.showAllNextTime
     if (skipFilter) {
       this.setState({
@@ -481,7 +501,7 @@ class AutocompleteInstance extends React.PureComponent {
       ...options,
     })
 
-    this.setVisible()
+    this.setVisible(null, onStateComplete)
   }
 
   onInputChangeHandler = ({ value, event }, options = {}) => {
@@ -886,10 +906,6 @@ class AutocompleteInstance extends React.PureComponent {
         }
         break
     }
-  }
-
-  onSubmit = () => {
-    this.toggleVisible()
   }
 
   onShellKeyDownHandler = (e) => {
@@ -1585,6 +1601,8 @@ class AutocompleteInstance extends React.PureComponent {
       scrollable,
       focusable,
       keep_open,
+      keep_value, // eslint-disable-line
+      keep_value_and_selection, // eslint-disable-line
       prevent_close,
       no_animation,
       no_scroll_animation,
@@ -1597,6 +1615,7 @@ class AutocompleteInstance extends React.PureComponent {
       default_value,
       search_numbers, // eslint-disable-line
       search_in_word_index, // eslint-disable-line
+      show_options_sr, // eslint-disable-line
       submit_button_title,
       submit_button_icon,
       portal_class,
@@ -1734,37 +1753,33 @@ class AutocompleteInstance extends React.PureComponent {
     }
 
     let submitButton = false
-    if (
-      (submit_element && React.isValidElement(submit_element)) ||
-      isTrue(show_submit_button)
-    ) {
-      const triggerParams = {
-        id: id + '-submit-button',
-        disabled,
-        status: !opened && status ? status_state : null,
-        onKeyDown: this.onTriggerKeyDownHandler,
-        onSubmit: this.onSubmit,
-        'aria-haspopup': 'listbox',
-        'aria-expanded': isExpanded,
-        className: classnames(opened && 'dnb-button--active'),
-      }
+    const triggerParams = {
+      id: id + '-submit-button',
+      disabled,
+      status: !opened && status ? status_state : null,
+      onKeyDown: this.onTriggerKeyDownHandler,
+      onSubmit: this.toggleVisible,
+      'aria-haspopup': 'listbox',
+      'aria-expanded': isExpanded,
+      tooltip: hidden ? submit_button_title : null,
+      className: opened ? 'dnb-button--active' : null,
+    }
 
-      if (submit_element && React.isValidElement(submit_element)) {
-        submitButton = React.cloneElement(submit_element, triggerParams)
-      } else if (isTrue(show_submit_button)) {
-        submitButton = (
-          <SubmitButton
-            icon={submit_button_icon}
-            icon_size={
-              icon_size || (size === 'large' ? 'medium' : 'default')
-            }
-            title={submit_button_title}
-            variant="secondary"
-            size={size === 'default' ? 'medium' : size}
-            {...triggerParams}
-          />
-        )
-      }
+    if (submit_element && React.isValidElement(submit_element)) {
+      submitButton = React.cloneElement(submit_element, triggerParams)
+    } else if (isTrue(show_submit_button)) {
+      submitButton = (
+        <SubmitButton
+          icon={submit_button_icon}
+          icon_size={
+            icon_size || (size === 'large' ? 'medium' : 'default')
+          }
+          variant="secondary"
+          size={size === 'default' ? 'medium' : size}
+          type="button"
+          {...triggerParams}
+        />
+      )
     }
 
     // also used for code markup simulation
@@ -1835,6 +1850,18 @@ class AutocompleteInstance extends React.PureComponent {
                   {...inputParams}
                   {...status_props}
                 />
+              )}
+
+              {!submitButton && (
+                <span className="dnb-sr-only">
+                  <button
+                    tabIndex="-1"
+                    type="button" // is needed, else a form will submit
+                    onClick={this.toggleVisibleAndFocusOptions}
+                  >
+                    {show_options_sr}
+                  </button>
+                </span>
               )}
 
               <DrawerList

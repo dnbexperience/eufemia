@@ -53,6 +53,7 @@ export default {
       submit_button_title: 'Vis alternativer',
       no_options: 'Ingen alternativer',
       show_all: 'Vis alt',
+      show_options_sr: 'Bla gjennom alternativer, lukk med esc knappen',
       aria_live_options: '%s alternativer',
       indicator_label: 'Henter data ...',
     },

@@ -1015,8 +1015,17 @@ export default class DrawerListProvider extends React.PureComponent {
     this.removeOutsideClickObserver()
   }
 
-  setVisible = () => {
+  toggleVisible = (...args) => {
+    return this.state.opened
+      ? this.setHidden(...args)
+      : this.setVisible(...args)
+  }
+
+  setVisible = (args = {}, onStateComplete = null) => {
     if (this.state.opened && this.state.hidden === false) {
+      if (typeof onStateComplete === 'function') {
+        onStateComplete(true)
+      }
       return // stop
     }
 
@@ -1036,6 +1045,10 @@ export default class DrawerListProvider extends React.PureComponent {
         this.setState({
           isOpen: true,
         })
+
+        if (typeof onStateComplete === 'function') {
+          onStateComplete(true)
+        }
       }
 
       if (isTrue(this.props.no_animation)) {
@@ -1057,6 +1070,7 @@ export default class DrawerListProvider extends React.PureComponent {
 
       const { selected_item, active_item } = this.state
       dispatchCustomElementEvent(this.state, 'on_show', {
+        ...args,
         data: getEventData(
           parseFloat(selected_item) > -1 ? selected_item : active_item,
           this.state.data
@@ -1090,9 +1104,9 @@ export default class DrawerListProvider extends React.PureComponent {
   setHidden = (args = {}, onStateComplete = null) => {
     if (!this.state.opened || isTrue(this.props.prevent_close)) {
       if (typeof onStateComplete === 'function') {
-        onStateComplete()
+        onStateComplete(false)
       }
-      return
+      return // stop here
     }
 
     clearTimeout(this._showTimeout)
@@ -1119,7 +1133,7 @@ export default class DrawerListProvider extends React.PureComponent {
           isOpen: false,
         })
         if (typeof onStateComplete === 'function') {
-          onStateComplete()
+          onStateComplete(false)
         }
         DrawerListProvider.isOpen = false
 
@@ -1287,6 +1301,7 @@ export default class DrawerListProvider extends React.PureComponent {
             removeObservers: this.removeObservers,
             setVisible: this.setVisible,
             setHidden: this.setHidden,
+            toggleVisible: this.toggleVisible,
             selectItem: this.selectItem,
             selectItemAndClose: this.selectItemAndClose,
             scrollToItem: this.scrollToItem,

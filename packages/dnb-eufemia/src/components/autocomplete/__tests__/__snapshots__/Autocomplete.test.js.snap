@@ -68,6 +68,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   search_in_word_index="search_in_word_index"
   search_numbers="search_numbers"
   show_all="show_all"
+  show_options_sr="show_options_sr"
   show_submit_button={true}
   size={null}
   skeleton="skeleton"
@@ -170,6 +171,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     search_in_word_index="search_in_word_index"
     search_numbers="search_numbers"
     show_all="show_all"
+    show_options_sr="show_options_sr"
     show_submit_button={true}
     size={null}
     skeleton="skeleton"
@@ -258,6 +260,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       search_in_word_index="search_in_word_index"
       search_numbers="search_numbers"
       show_all="show_all"
+      show_options_sr="show_options_sr"
       show_submit_button={true}
       size={null}
       skeleton="skeleton"
@@ -493,7 +496,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                     onSubmit={[Function]}
                     size={null}
                     status={null}
-                    title="submit_button_title"
+                    tooltip={null}
+                    type="button"
                     variant="secondary"
                   />
                 }
@@ -608,7 +612,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           onSubmit={[Function]}
                           size={null}
                           status={null}
-                          title="submit_button_title"
+                          tooltip={null}
+                          type="button"
                           variant="secondary"
                         >
                           <InputSubmitButton
@@ -630,7 +635,9 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             status={null}
                             status_props={null}
                             status_state="error"
-                            title="submit_button_title"
+                            title={null}
+                            tooltip={null}
+                            type="button"
                             value={null}
                             variant="secondary"
                           >
@@ -641,7 +648,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                               <Button
                                 aria-expanded={true}
                                 aria-haspopup="listbox"
-                                aria-label="submit_button_title"
                                 bounding={null}
                                 class={null}
                                 className="dnb-input__submit-button__button dnb-button--input-button dnb-button--active"
@@ -675,14 +681,13 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 title={null}
                                 to={null}
                                 tooltip={null}
-                                type="submit"
+                                type="button"
                                 variant="secondary"
                                 wrap={null}
                               >
                                 <button
                                   aria-expanded={true}
                                   aria-haspopup="listbox"
-                                  aria-label="submit_button_title"
                                   className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--active dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
                                   disabled={false}
                                   id="autocomplete-id-submit-button"
@@ -691,12 +696,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   onFocus={[Function]}
                                   onKeyDown={[Function]}
                                   onSubmit={[Function]}
-                                  type="submit"
+                                  type="button"
                                 >
                                   <Content
                                     aria-expanded={true}
                                     aria-haspopup="listbox"
-                                    aria-label="submit_button_title"
                                     bounding={null}
                                     class={null}
                                     className="dnb-input__submit-button__button dnb-button--input-button dnb-button--active"
@@ -732,7 +736,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     title={null}
                                     to={null}
                                     tooltip={null}
-                                    type="submit"
+                                    type="button"
                                     variant="secondary"
                                     wrap={null}
                                   >
@@ -1158,6 +1162,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "search_in_word_index": "search_in_word_index",
                   "search_numbers": "search_numbers",
                   "show_all": "show_all",
+                  "show_options_sr": "show_options_sr",
                   "show_submit_button": true,
                   "size": null,
                   "skeleton": "skeleton",
