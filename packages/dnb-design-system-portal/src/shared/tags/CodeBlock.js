@@ -130,6 +130,7 @@ class LiveCode extends React.PureComponent {
     }
 
     this._refEditor = React.createRef()
+    this._id = makeUniqueId()
   }
 
   toggleCode = () => {
@@ -137,6 +138,14 @@ class LiveCode extends React.PureComponent {
   }
   togglePreview = () => {
     this.setState(() => ({ hidePreview: !this.state.hidePreview }))
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.code !== prevProps.code) {
+      this.setState({
+        code: this.prepareCode(this.props.code),
+      })
+    }
   }
 
   prepareCode(code) {
@@ -180,8 +189,6 @@ class LiveCode extends React.PureComponent {
     if (codeToUse.trim().length === 0) {
       return <span>No Code provided</span>
     }
-
-    const id = makeUniqueId()
 
     return (
       <LiveCodeEditor>
@@ -251,11 +258,11 @@ class LiveCode extends React.PureComponent {
               )}
               ref={this._refEditor}
             >
-              <label className="dnb-sr-only" htmlFor={id}>
+              <label className="dnb-sr-only" htmlFor={this._id}>
                 Code Editor
               </label>
               <LiveEditor
-                textareaId={id}
+                textareaId={this._id}
                 ignoreTabKey
                 padding={0}
                 style={{

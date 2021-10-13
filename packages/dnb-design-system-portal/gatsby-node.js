@@ -10,7 +10,6 @@ const {
 } = require('./scripts/version.js')
 
 exports.onPreInit = async () => {
-  console.log('onPreBuild', process.env.NODE_ENV)
   if (process.env.NODE_ENV === 'production') {
     await createNewVersion()
     await createNewChangelogVersion()
@@ -25,7 +24,7 @@ exports.onCreateNode = ({ node, ...props }) => {
 
 // find the root child which has a frontmatter.title
 // so the Tabbar can use the mother title
-global.nodesCache = global.nodesCache || {}
+global.nodesCache = {}
 function createMdxNode({
   node,
   getNodesByType,
