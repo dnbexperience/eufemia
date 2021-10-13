@@ -364,6 +364,53 @@ describe('GlobalStatus component', () => {
     )
   })
 
+  it('should support component given as labels', async () => {
+    const ToggleStatus = () => {
+      const [status, setStatus] = React.useState(null)
+
+      const Component = () => {
+        return 'my-label'
+      }
+
+      return (
+        <Switch
+          id="switch"
+          label={<Component />}
+          status={status}
+          status_no_animation={true}
+          global_status_id="main-to-be-empty"
+          on_change={({ checked }) => {
+            setStatus(checked ? 'error-message' : null)
+          }}
+        />
+      )
+    }
+    const Comp = mount(
+      <>
+        <Component
+          id="main-to-be-empty"
+          autoscroll={false}
+          delay={0}
+          no_animation={true}
+          status_anchor_text={<span>custon anchor text</span>}
+        />
+        <ToggleStatus />
+      </>
+    )
+
+    Comp.find('input#switch').simulate('change')
+
+    expect(Comp.find('.dnb-global-status__message p').at(0).text()).toBe(
+      'error-message'
+    )
+    expect(
+      Comp.find('.dnb-global-status__message__content ul li')
+        .at(0)
+        .find('a.dnb-anchor')
+        .text()
+    ).toBe('custon anchor text my-label')
+  })
+
   it('has to have a working auto close', () => {
     const on_open = jest.fn()
     const on_close = jest.fn()

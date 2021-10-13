@@ -15,7 +15,6 @@ import {
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
-  convertJsxToString,
   processChildren,
   extendPropsWithContext,
 } from '../../shared/component-helper'
@@ -49,7 +48,7 @@ export default class GlobalStatus extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string,
     status_id: PropTypes.string,
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    title: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
     default_title: PropTypes.string,
     text: PropTypes.oneOfType([
       PropTypes.string,
@@ -73,7 +72,7 @@ export default class GlobalStatus extends React.PureComponent {
     autoclose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    close_text: PropTypes.string,
+    close_text: PropTypes.node,
     hide_close_button: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -86,7 +85,7 @@ export default class GlobalStatus extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
-    status_anchor_text: PropTypes.string,
+    status_anchor_text: PropTypes.node,
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
     ...spacingPropTypes,
@@ -611,14 +610,24 @@ export default class GlobalStatus extends React.PureComponent {
         item.id || item.status_id
           ? `${item.status_id}-${i}`
           : makeUniqueId()
-      const label = React.isValidElement(item.status_anchor_label)
-        ? convertJsxToString(item.status_anchor_label)
-        : item.status_anchor_label || ''
-      const anchorText = String(
-        item.status_anchor_text || status_anchor_text
-      )
-        .replace('%s', label)
-        .replace(/[: ]$/g, '')
+
+      let anchorText = status_anchor_text
+
+      if (React.isValidElement(item.status_anchor_label)) {
+        anchorText = (
+          <>
+            {typeof status_anchor_text === 'string'
+              ? status_anchor_text.replace('%s', '').trim()
+              : status_anchor_text}{' '}
+            {item.status_anchor_label}
+          </>
+        )
+      } else {
+        anchorText = String(item.status_anchor_text || status_anchor_text)
+          .replace('%s', item.status_anchor_label || '')
+          .replace(/[: ]$/g, '')
+      }
+
       const useAutolink = item.status_id && isTrue(item.status_anchor_url)
 
       return (

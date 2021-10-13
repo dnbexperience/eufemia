@@ -29,6 +29,35 @@ export default {
   title: 'Eufemia/Components/GlobalStatus',
 }
 
+export const ComponentAsLabel = () => {
+  const [status, setStatus] = React.useState(null)
+
+  const Component = () => {
+    return 'my label'
+  }
+
+  return (
+    <>
+      <GlobalStatus id="test" />
+
+      <FormSet label_direction="vertical" global_status_id="test">
+        <ToggleButton
+          bottom
+          on_change={() => setStatus((s) => (!s ? 'min status' : null))}
+        >
+          set status
+        </ToggleButton>
+
+        <FormRow>
+          <Input label={<Component />} status={status} />
+        </FormRow>
+        <Input label={<Component />} status={status} />
+        <Input label={<Component />} status={status} />
+      </FormSet>
+    </>
+  )
+}
+
 const CustomStatus = () => (
   <>
     <H2>Custom Status</H2>
