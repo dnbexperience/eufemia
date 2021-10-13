@@ -275,7 +275,7 @@ export default class FormStatus extends React.PureComponent {
           status_id,
           {
             state,
-            status_id,
+            // status_id,
             item: {
               status_id: this.state.id,
               text,
