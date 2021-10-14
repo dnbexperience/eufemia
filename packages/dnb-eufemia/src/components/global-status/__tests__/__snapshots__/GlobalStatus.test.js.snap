@@ -768,12 +768,12 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
     Array [
       Object {
         "id": "id-1",
-        "status_id": "idid-1textitem-1",
+        "item_id": "idid-1textitem-1",
         "text": "item #1",
       },
       Object {
         "id": "id-2",
-        "status_id": "idid-2textitem-2",
+        "item_id": "idid-2textitem-2",
         "text": "item #2",
       },
     ]
@@ -1467,14 +1467,14 @@ Array [
                     >
                       <p
                         className="dnb-p"
-                        id="switch-form-status-0"
+                        id="status-idswitch-form-statustexterror-messagestatus-anchor-labeltypespankeynullrefnullpropschildrenlabel-ownernull-storestatus-anchor-urltrue-0"
                       >
                         error-message
                       </p>
                       <a
-                        aria-describedby="switch-form-status-0"
+                        aria-describedby="status-idswitch-form-statustexterror-messagestatus-anchor-labeltypespankeynullrefnullpropschildrenlabel-ownernull-storestatus-anchor-urltrue-0"
                         className="dnb-anchor"
-                        href="#switch-form-status"
+                        href="#status-idswitch-form-statustexterror-messagestatus-anchor-labeltypespankeynullrefnullpropschildrenlabel-ownernull-storestatus-anchor-urltrue"
                         lang="nb-NO"
                         onClick={[Function]}
                         onKeyDown={[Function]}

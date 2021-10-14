@@ -55,8 +55,8 @@ class GlobalStatusProvider {
     if (typeof item === 'string') {
       item = { text: item }
     }
-    if (!item.status_id) {
-      item.status_id =
+    if (!item.item_id) {
+      item.item_id =
         status_id && status_id !== 'status-main' // same as defaultProps.status_id
           ? status_id
           : slugify(JSON.stringify(item))
@@ -65,9 +65,9 @@ class GlobalStatusProvider {
   }
 
   static combineMessages(stack) {
-    const globalStatus = stack.reduce((acc, _cur) => {
+    const globalStatus = stack.reduce((acc, cur) => {
       // make a copy, because items are read-only
-      const cur = { ..._cur }
+      cur = { ...cur }
 
       if (typeof cur.items === 'string' && cur.items[0] === '[') {
         cur.items = JSON.parse(cur.items)
@@ -85,20 +85,20 @@ class GlobalStatusProvider {
 
       // merge items from prev stack into the current
       if (cur.items) {
-        cur.items = cur.items.reduce((acc, item) => {
+        cur.items = cur.items.reduce((_acc, item) => {
           // only a fallback and to make sure we have
           item = GlobalStatusProvider.prepareItemWithStatusId(item)
 
-          const foundAtIndex = acc.findIndex(
-            ({ status_id }) => status_id === item.status_id
+          const foundAtIndex = _acc.findIndex(
+            ({ item_id }) => item_id === item.item_id
           )
           if (foundAtIndex > -1) {
-            acc[foundAtIndex] = item
+            _acc[foundAtIndex] = item
           } else {
-            acc.push(item)
+            _acc.push(item)
           }
 
-          return acc
+          return _acc
         }, acc.items || []) // here we use the items from the prev stack
       }
 
@@ -202,37 +202,33 @@ class GlobalStatusProviderItem {
   }
 
   update(status_id, newProps, opts = {}) {
-    if (status_id) {
-      const item = this.get(status_id)
-      if (!item) {
-        this.add(newProps)
-      }
-    }
-
-    this.stack = this.stack.map((cur, i, arr) => {
-      if (
-        !status_id ? i === arr.length - 1 : cur.status_id === status_id
-      ) {
-        if (!status_id) {
-          newProps = { ...newProps }
-          delete newProps.status_id
+    const item = this.get(status_id)
+    if (!item) {
+      this.add(newProps, { preventRerender: true })
+    } else {
+      this.stack = this.stack.map((cur, i, arr) => {
+        if (
+          status_id ? cur.status_id === status_id : i === arr.length - 1
+        ) {
+          // if (!status_id) {
+          //   // newProps = { ...newProps }
+          //   delete newProps.status_id
+          // }
+          return { ...cur, ...newProps }
         }
-        return { ...cur, ...newProps }
-      }
 
-      return cur
-    })
-
-    if (!opts?.preventRestack) {
-      this.restack(status_id)
+        return cur
+      })
     }
+
+    this.restack(status_id)
 
     const globalStatus = GlobalStatusProvider.combineMessages(this.stack)
 
     if (!opts?.preventRerender) {
       this.forceRerender(globalStatus, null, {
         buffer_delay:
-          newProps?.buffer_delay > -1 ? newProps.buffer_delay : 0,
+          newProps?.buffer_delay > -1 ? newProps.buffer_delay : 1,
       })
     }
   }
@@ -258,7 +254,7 @@ class GlobalStatusProviderItem {
 
       if (!opts?.preventRerender) {
         this.forceRerender(globalStatus, null, {
-          buffer_delay: opts?.buffer_delay > -1 ? opts.buffer_delay : 10,
+          buffer_delay: opts?.buffer_delay > -1 ? opts.buffer_delay : 1,
         })
       }
     }

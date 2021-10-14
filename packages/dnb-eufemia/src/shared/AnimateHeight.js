@@ -53,6 +53,8 @@ export default class AnimateHeight {
 
   // Public methods
   setElement(elem, container = null) {
+    this._removeEndEvents() // in case element gets set several times
+
     this.elem =
       elem ||
       (typeof document !== 'undefined' && document.createElement('div'))
@@ -132,6 +134,7 @@ export default class AnimateHeight {
     } catch (e) {
       //
     }
+
     if (animate === false || this.opts?.animate === false) {
       this.elem.style.height = `${toHeight}px`
       this._callOnStart()
@@ -200,12 +203,17 @@ export default class AnimateHeight {
     this.elem.style.height = `${height}px`
     return height
   }
-  adjustTo(fromHeight, toHeight = null, { animate = true } = {}) {
+  adjustTo(fromHeight = null, toHeight = null, { animate = true } = {}) {
     if (!this.elem) {
       return
     }
 
-    toHeight = toHeight !== null ? toHeight : this.getUnknownHeight()
+    if (fromHeight === null) {
+      fromHeight = this.getHeight()
+    }
+    if (toHeight === null) {
+      toHeight = this.getUnknownHeight()
+    }
 
     this.state = 'adjusting'
     this._removeEndEvents() // also, remove events on every open (but not on close!)

@@ -12,7 +12,9 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../GlobalStatus'
+import FormSet from '../../form-set/FormSet'
 import Switch from '../../switch/Switch'
+import Autocomplete from '../../autocomplete/Autocomplete'
 
 const id = 'main'
 const status_id = null
@@ -53,9 +55,8 @@ const props = {
 }
 
 describe('GlobalStatus component', () => {
-  const Comp = mount(<Component {...props} />)
-
   it('has to have a text value as defined in the prop', () => {
+    const Comp = mount(<Component {...props} />)
     expect(
       Comp.find('div.dnb-global-status__message')
         .find('.dnb-p')
@@ -65,6 +66,7 @@ describe('GlobalStatus component', () => {
   })
 
   it('has to have list items as defined in the prop', () => {
+    const Comp = mount(<Component {...props} />)
     expect(Comp.find('.dnb-ul').text()).toBe(
       props.items.map(({ text }) => text).join('')
     )
@@ -241,11 +243,6 @@ describe('GlobalStatus component', () => {
       Comp.find('div.dnb-global-status__message p.dnb-p').at(0).text()
     ).toBe(startupText)
     expect(Comp.exists('div.dnb-global-status__message')).toBe(true)
-    expect(
-      Comp.find('div.dnb-global-status__shell')
-        .instance()
-        .getAttribute('style')
-    ).toBe('height: auto;')
 
     mount(
       <Component.Add
@@ -309,6 +306,267 @@ describe('GlobalStatus component', () => {
     ).toBe('height: 0px; visibility: hidden;')
   })
 
+  it('have to handle delayed interactions ', async () => {
+    const FormField1 = () => {
+      const [status, setStatus] = React.useState()
+      return (
+        <Switch
+          id="switch-1"
+          status={status}
+          status_no_animation={true}
+          on_change={({ checked }) => {
+            setStatus(checked ? 'error-message-1' : null)
+          }}
+        />
+      )
+    }
+
+    const FormField2 = () => {
+      const [status, setStatus] = React.useState()
+      return (
+        <Switch
+          id="switch-2"
+          status={status}
+          status_no_animation={true}
+          on_change={({ checked }) => {
+            setStatus(checked ? 'error-message-2' : null)
+          }}
+        />
+      )
+    }
+
+    const FormField3 = () => {
+      const [status, setStatus] = React.useState()
+      return (
+        <Autocomplete
+          id="autocomplete-3"
+          status={status}
+          status_no_animation={true}
+          on_focus={() => {
+            setStatus('error-message-3')
+          }}
+          on_blur={() => {
+            setStatus(null)
+          }}
+        />
+      )
+    }
+
+    const Comp = mount(
+      <>
+        <Component
+          id="my-form"
+          autoscroll={false}
+          delay={0}
+          no_animation={true}
+        />
+        <FormSet global_status_id="my-form">
+          <FormField1 />
+          <FormField2 />
+          <FormField3 />
+        </FormSet>
+      </>
+    )
+
+    await wait(1)
+    Comp.find('input#switch-1').simulate('change')
+
+    await wait(1)
+    Comp.find('input#switch-2').simulate('change')
+
+    await wait(1)
+    Comp.find('input#autocomplete-3').simulate('focus')
+
+    // FormStatus content
+    expect(Comp.find('.dnb-form-status__text').at(0).text()).toBe(
+      'error-message-1'
+    )
+    expect(Comp.find('.dnb-form-status__text').at(1).text()).toBe(
+      'error-message-2'
+    )
+    expect(
+      Comp.find('.dnb-autocomplete')
+        .at(0)
+        .find('.dnb-form-status__text')
+        .text()
+    ).toBe('error-message-3')
+
+    await refresh(Comp)
+
+    // GlobalStatus content
+    expect(Comp.find('.dnb-global-status__message p').at(0).text()).toBe(
+      'error-message-1'
+    )
+    expect(Comp.find('.dnb-global-status__message p').at(1).text()).toBe(
+      'error-message-2'
+    )
+    expect(Comp.find('.dnb-global-status__message p').at(2).text()).toBe(
+      'error-message-3'
+    )
+
+    await wait(1)
+    Comp.find('input#switch-1').simulate('change')
+
+    await wait(1)
+    Comp.find('input#switch-2').simulate('change')
+
+    await wait(1)
+    Comp.find('input#autocomplete-3').simulate('blur')
+
+    expect(Comp.exists('.dnb-form-status__text')).toBe(false)
+
+    await refresh(Comp)
+
+    expect(Comp.exists('.dnb-global-status__message p')).toBe(false)
+    expect(Comp.exists('.dnb-form-status__text')).toBe(false)
+    const inst = Comp.find('div.dnb-global-status__shell').instance()
+    expect(inst.innerHTML).toBe('')
+    expect(inst.getAttribute('style')).toBe(
+      'height: 0px; visibility: hidden;'
+    )
+  })
+
+  it('have to scroll to GlobalStatus ', async () => {
+    const scrollTo = jest.fn()
+    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+    const offsetTop = 1000
+
+    const ToggleStatus = () => {
+      const [status, setStatus] = React.useState(null)
+
+      return (
+        <Switch
+          id="switch"
+          status={status}
+          status_no_animation={true}
+          global_status_id="scroll-to-test"
+          on_change={({ checked }) => {
+            setStatus(checked ? 'error-message' : null)
+          }}
+        />
+      )
+    }
+    const Comp = mount(
+      <>
+        <Component id="scroll-to-test" delay={0} no_animation={true} />
+        <ToggleStatus />
+      </>
+    )
+
+    // Open
+    Comp.find('input#switch').simulate('change')
+    await refresh(Comp)
+
+    expect(scrollTo).toBeCalledTimes(1)
+    expect(scrollTo).toHaveBeenCalledWith({
+      behavior: 'smooth',
+      top: 0,
+    })
+
+    jest
+      .spyOn(
+        Comp.find('.dnb-global-status__wrapper').instance(),
+        'offsetTop',
+        'get'
+      )
+      .mockImplementation(() => offsetTop)
+
+    // Close
+    Comp.find('input#switch').simulate('change')
+    await refresh(Comp)
+
+    expect(scrollTo).toBeCalledTimes(1)
+
+    // Open
+    Comp.find('input#switch').simulate('change')
+    await refresh(Comp)
+
+    expect(scrollTo).toBeCalledTimes(2)
+    expect(scrollTo).toHaveBeenCalledWith({
+      behavior: 'smooth',
+      top: offsetTop,
+    })
+  })
+
+  it('have to close when esc key is pressed ', async () => {
+    const on_close = jest.fn()
+    const on_hide = jest.fn()
+
+    const ToggleStatus = () => {
+      const [status, setStatus] = React.useState(null)
+
+      return (
+        <Switch
+          id="switch"
+          status={status}
+          status_no_animation={true}
+          global_status_id="esc-test"
+          on_change={({ checked }) => {
+            setStatus(checked ? 'error-message' : null)
+          }}
+        />
+      )
+    }
+    const Comp = mount(
+      <>
+        <Component
+          id="esc-test"
+          delay={0}
+          autoscroll={false}
+          no_animation={true}
+          on_hide={on_hide}
+          on_close={on_close}
+        />
+        <ToggleStatus />
+      </>
+    )
+
+    // Open
+    Comp.find('input#switch').simulate('change')
+    await refresh(Comp)
+
+    expect(on_close).toBeCalledTimes(0)
+
+    // Close with key
+    keydown(Comp, 27) // esc
+
+    expect(on_hide).toBeCalledTimes(1)
+    expect(on_close).toBeCalledTimes(1)
+  })
+
+  it('have to have height of auto value', async () => {
+    const ToggleStatus = () => {
+      const [status, setStatus] = React.useState(null)
+
+      return (
+        <Switch
+          id="switch"
+          status={status}
+          status_no_animation={true}
+          global_status_id="height-test"
+          on_change={({ checked }) => {
+            setStatus(checked ? 'error-message' : null)
+          }}
+        />
+      )
+    }
+    const Comp = mount(
+      <>
+        <Component id="height-test" delay={0} no_animation={true} />
+        <ToggleStatus />
+      </>
+    )
+
+    Comp.find('input#switch').simulate('change')
+    await refresh(Comp)
+
+    expect(
+      Comp.find('div.dnb-global-status__shell')
+        .instance()
+        .getAttribute('style')
+    ).toBe('height: auto;')
+  })
+
   it('have to be hidden after all messages are removed ', async () => {
     const ToggleStatus = () => {
       const [status, setStatus] = React.useState(null)
@@ -338,23 +596,19 @@ describe('GlobalStatus component', () => {
     )
 
     Comp.find('input#switch').simulate('change')
+    await refresh(Comp)
 
     expect(Comp.find('.dnb-form-status__text').text()).toBe(
       'error-message'
     )
-    expect(Comp.find('.dnb-global-status__message p').at(0).text()).toBe(
+
+    expect(Comp.exists('.dnb-global-status__content')).toBe(true)
+    expect(Comp.find('.dnb-global-status__message p').text()).toBe(
       'error-message'
     )
 
-    expect(
-      Comp.find('div.dnb-global-status__shell')
-        .instance()
-        .getAttribute('style')
-    ).toBe('height: auto;')
-
     Comp.find('input#switch').simulate('change')
-
-    await wait(10)
+    await refresh(Comp)
 
     expect(Comp.exists('.dnb-form-status__text')).toBe(false)
     const inst = Comp.find('div.dnb-global-status__shell').instance()
@@ -399,6 +653,8 @@ describe('GlobalStatus component', () => {
     )
 
     Comp.find('input#switch').simulate('change')
+
+    await refresh(Comp)
 
     expect(Comp.find('.dnb-global-status__message p').at(0).text()).toBe(
       'error-message'
@@ -558,6 +814,7 @@ describe('GlobalStatus component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
+    const Comp = mount(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
@@ -606,3 +863,16 @@ describe('GlobalStatus scss', () => {
 })
 
 const wait = (t) => new Promise((r) => setTimeout(r, t))
+
+const refresh = async (Comp) => {
+  await wait(1)
+  Comp.update()
+}
+
+const keydown = (Comp, keyCode) => {
+  document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
+
+  Comp.find('.dnb-global-status__wrapper').simulate('keydown', {
+    keyCode,
+  })
+}

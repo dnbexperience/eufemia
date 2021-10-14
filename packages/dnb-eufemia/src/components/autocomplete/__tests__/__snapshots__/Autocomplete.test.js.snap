@@ -474,7 +474,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 size={null}
                 skeleton="skeleton"
                 spellCheck="false"
-                status={null}
+                status="error"
                 status_no_animation={null}
                 status_props={null}
                 status_state="error"
@@ -506,7 +506,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 value="CC cc"
               >
                 <span
-                  className="dnb-input dnb-input--null dnb-form-component dnb-autocomplete__input dnb-input--icon-position-null dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
+                  className="dnb-input dnb-input--null dnb-form-component dnb-autocomplete__input dnb-input--icon-position-null dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element dnb-input__status--error"
                   data-has-content="true"
                   data-input-state="virgin"
                 >
@@ -532,13 +532,13 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       label={null}
                       no_animation={null}
                       role={null}
-                      show={null}
+                      show={false}
                       size="default"
                       skeleton="skeleton"
                       state="error"
                       status="error"
                       stretch={null}
-                      text={null}
+                      text="error"
                       text_id="autocomplete-id-status"
                       title={null}
                       variant={null}

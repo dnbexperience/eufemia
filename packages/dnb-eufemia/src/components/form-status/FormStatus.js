@@ -179,14 +179,17 @@ export default class FormStatus extends React.PureComponent {
 
   state = { id: null, keepContentInDom: null }
 
-  constructor(props) {
+  constructor(props, context) {
     super(props)
 
     // we do not use a random ID here, as we don't need it for now
     this.state.id = props.id || makeUniqueId()
 
     this._globalStatus = GlobalStatusProvider.init(
-      props.global_status_id || 'main',
+      props?.global_status_id ||
+        context?.FormStatus?.global_status_id ||
+        context?.FormRow?.global_status_id ||
+        'main',
       (provider) => {
         // gets called once ready
         if (this.props.state === 'error' && this.isReadyToGetVisible()) {
@@ -268,25 +271,30 @@ export default class FormStatus extends React.PureComponent {
       // ensure we update the content
       this.setState({ keepContentInDom: false })
 
-      const status_id = this.getStatusId()
+      if (state === 'error') {
+        const status_id = this.getStatusId()
 
-      if (state === 'error' && isTrue(show)) {
-        this._globalStatus.update(
-          status_id,
-          {
-            state,
-            // status_id,
-            item: {
-              status_id: this.state.id,
-              text,
-              status_anchor_label: label,
-              status_anchor_url: true,
+        if (isTrue(show)) {
+          this._globalStatus.update(
+            status_id,
+            {
+              state,
+              status_id,
+              item: {
+                item_id: this.state.id,
+                text,
+                status_anchor_label: label,
+                status_anchor_url: true,
+              },
             },
-          },
-          {
-            preventRestack: true, // because of the internal "close"
-          }
-        )
+            {
+              preventRestack: true, // because of the internal "close"
+            }
+          )
+        } else if (!FormStatus.getContent(this.props)) {
+          const status_id = this.getStatusId()
+          this._globalStatus.remove(status_id)
+        }
       }
 
       if (this.isReadyToGetVisible()) {
@@ -295,10 +303,6 @@ export default class FormStatus extends React.PureComponent {
         this._heightAnim.open()
       } else {
         this._heightAnim.close()
-        if (state === 'error') {
-          const status_id = this.getStatusId()
-          this._globalStatus.remove(status_id)
-        }
       }
     }
   }
