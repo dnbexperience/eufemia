@@ -1437,7 +1437,11 @@ Array [
                           onClick={[Function]}
                           onKeyDown={[Function]}
                         >
-                          Gå til Label
+                          Gå til
+                           
+                          <span>
+                            Label
+                          </span>
                         </a>
                       </li>
                     </ul>
