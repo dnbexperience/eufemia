@@ -98,6 +98,13 @@
   --layout-x-large: 72em; // 1152
   --layout-xx-large: 80em; // 1280
   --layout-xxx-large: 90em; // 1440
+
+  // Shadow
+  --shadow-default: 0 8px 16px rgba(51, 51, 51, 0.08);
+  --shadow-default-x: 0;
+  --shadow-default-y: 8px;
+  --shadow-default-blur-radius: 16px;
+  --shadow-default-color: rgba(51, 51, 51, 0.08);
 }
 
 @mixin setProperties() {

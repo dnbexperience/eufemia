@@ -127,6 +127,23 @@ The opposite of `dnb-sr-only`, so not visible to screen readers.
 
 Adds a default drop shadow, `box-shadow: 0 8px 16px rgba(51, 51, 51, 0.08)`, to the component. The current shadow spesification is designed to be less sharp and more blurry.
 
+### CSS properties
+
+The DNB Drop shadow is also available as a CSS Custom Property:
+
+```js
+import properties from '@dnb/eufemia/style/properties.js'
+
+const cssBoxShadow = properties['--shadow-default']
+```
+
+If you only want to apply parts of the property, these are available as well:
+
+- `--shadow-default-x: 0;`
+- `--shadow-default-y: 8px;`
+- `--shadow-default-blur-radius: 16px;`
+- `--shadow-default-color: rgba(51, 51, 51, 0.08);`
+
 ## Responsive component
 
 `dnb-responsive-component`
