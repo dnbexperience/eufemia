@@ -8,6 +8,7 @@ on:
       - beta
       - alpha
       - chore/*
+      - docs/*
       - rc/*
       - fix/*
       - feat/*
