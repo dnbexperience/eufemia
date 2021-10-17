@@ -39,8 +39,8 @@ Thank You for all who as contributed to build Eufemia. People who has contribute
 
 - [Jens Thuland](https://dnb.enterprise.slack.com/user/@WE4QCR6PQ)
 - [Tobias Høegh](https://dnb.enterprise.slack.com/user/@WE2M4E65N)
-- [Sindre Marken](https://dnb.enterprise.slack.com/user/@WDUUEJNVC)
 - [Casper Brekke](https://dnb.enterprise.slack.com/user/@WDU4VCEP5)
+- Sindre Marken
 - Kevin Murphy
 - Hans Kristian Smedsrød
 
