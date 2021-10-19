@@ -2,32 +2,167 @@
 showTabs: true
 ---
 
-import CSSHelperClassesExamples from 'Pages/uilib/helpers/css-examples'
-
-## CSS helper classes
+import {
+CoreStyleExample,
+TabFocusExample,
+UnstyledListExample,
+ScreenReaderOnlyExample,
+NoScreenReaderExample,
+SelectionExample
+} from 'Pages/uilib/helpers/Examples'
+import SkipLinkExample from 'Pages/uilib/usage/accessibility/examples/skip-link-example.js'
 
 Reusing classes in the markup instead of using SCSS extends or _mixins_ will prevent duplication in the `@dnb/eufemia`. So also your application will have good benefits from reusing these helper classes.
 
-| Selector                   | Description                                                                                                                                                                                                                                            |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `dnb-core-style`           | In order to be able to have the core Body Style inside a wrapper and available for all its children. The Body Style contains among others styles, both the correct line-height and a CSS reset.                                                        |
-| `dnb-tab-focus`            | Removes default focus outline from a focusable element and adds a custom visual focus state when is focused by a tab key. There is also: `dnb-mouse-focus`, `dnb-focus-ring` and `dnb-no-focus`                                                        |
-| `dnb-skip-link`            | A default Skip Link style. More details in the [Focus Section](/uilib/usage/accessibility/focus#skip-link)                                                                                                                                             |
-| `dnb-spacing`              | Default spacing styles. More details in [Styling](/uilib/usage/customisation/styling#spacing)                                                                                                                                                          |
-| `dnb-scrollbar-appearance` | Define the DNB scrollbar appearance, including the color.                                                                                                                                                                                              |
-| `dnb-sr-only`              | Visually hides an element, but is still reachable by screen readers. (_sr_ stands for _Screen Reader_)                                                                                                                                                 |
-| `dnb-sr-only--inline`      | Like `dnb-sr-only` - but with flow elements in mind. This enables a set of text (in a paragraph `<p>`) to be enhanced with spans inside `<p>text <span class="dnb-sr-only--inline">sr-only</span> text</p>` without NVDA to split up reading the text. |
-| `dnb-drop-shadow`          | Adds the default drop shadow used in the components.                                                                                                                                                                                                   |
-| `dnb-responsive-component` | Makes some component form components, like [Input](/uilib/components/input) react to mobile sized screens. But as this can have some negative effects to have this enabled by default, you can enable this optionally using this helper class.         |
-| `dnb-unstyled-list`        | Removes default styling for lists. Applies to the `ul` or `ol` elements                                                                                                                                                                                |
-| `dnb-selection`            | Applies the DNB selection colors to the selected content. More notes below.                                                                                                                                                                            |
+## Core style
 
-## Selection color
+`dnb-core-style`
+
+In order to be able to have the core Body Style inside a wrapper and available for all its children. The Body Style contains among others styles, the correct color, line-height, font and a CSS reset.
+
+### Example
+
+<CoreStyleExample />
+
+## Tab focus
+
+`dnb-tab-focus`
+
+Removes default focus outline from a focusable element and adds a custom visual focus state when is focused by a tab key.
+There is also:
+
+- `dnb-mouse-focus`
+- `dnb-focus-ring`
+- `dnb-no-focus`
+
+### Example
+
+<TabFocusExample />
+
+## Skip link
+
+`dnb-skip-link`
+
+A default Skip Link style, for adding a link at the top of each page that goes directly to the main content area.
+
+### Example
+
+<SkipLinkExample />
+
+```html
+<body>
+  <a class="dnb-skip-link" href="#content-id">Skip to content</a>
+  <header>
+    <nav>
+      <!-- Nav links or content to skip -->
+    </nav>
+  </header>
+  <main id="content-id">
+    <!-- Content goes here -->
+  </main>
+</body>
+```
+
+More details in the [Focus Section](/uilib/usage/accessibility/focus#skip-link).
+
+## Spacing
+
+`dnb-spacing`
+
+Sets default spacing (using _margin_) on all HTML elements inside the container with this style. The default spacing is a `margin-bottom: 1.5rem`, but spesific margins are defined for headings, lists and tables.
+
+### Example
+
+```html
+<article class="dnb-spacing">
+  <!-- DNB spacings -->
+  <h1 class="dnb-h--xx-large">
+    e.g. I have now the Eufemia spacing (margin)
+  </h1>
+  <p class="dnb-p">👉 Me as well</p>
+</article>
+```
+
+More details in [Styling](/uilib/usage/customisation/styling#spacing).
+
+## Scrollbar appearance
+
+`dnb-scrollbar-appearance`
+
+Define the DNB scrollbar appearance, including the color `--color-emerald-green` with `transparent`.
+
+NB: Browser support is not fully covered (2021).
+
+## Screen Reader (sr) only
+
+`dnb-sr-only`
+
+Visually hides an element, but is still reachable by screen readers. (_sr_ stands for _Screen Reader_)
+
+### Example
+
+<ScreenReaderOnlyExample />
+
+### Screen Reader only: inline
+
+`dnb-sr-only--inline`
+
+Like `dnb-sr-only` - but with flow elements in mind. This enables a set of text (in a paragraph `<p>`) to be enhanced with spans inside without NVDA to split up reading the text.
+
+### Not Screen Reader only
+
+`dnb-not-sr-only`
+
+The opposite of `dnb-sr-only`, so not visible to screen readers.
+
+```html
+<p>text <span class="dnb-sr-only--inline">sr-only</span> text</p>
+```
+
+<NoScreenReaderExample />
+
+## Drop shadow
+
+`dnb-drop-shadow`
+
+Adds a default drop shadow, `box-shadow: 0 8px 16px rgba(51, 51, 51, 0.08)`, to the component. The current shadow spesification is designed to be less sharp and more blurry.
+
+## Responsive component
+
+`dnb-responsive-component`
+
+Makes some component form components, like [Input](/uilib/components/input) react to small sized screens. But as this can have some negative effects to have this enabled by default, you can enable this optionally using this helper class.
+
+## Unstyled list
+
+`dnb-unstyled-list`
+
+Removes default styling for lists. Applies to the `ul` or `ol` elements.
+
+### Example
+
+<UnstyledListExample />
+
+## Selection
+
+`dnb-selection`
+
+Applies the DNB selection colors to the selected content.
 
 Eufemia uses custom `::selection` colors to enhance the contrast and to play well against the many green colors.
-Every HTML class that starts with the prefix `dnb-` will be effected. In some circumstances you can simply make use of the class `.dnb-selection`.
+Every HTML class that starts with the prefix `dnb-` will be effected. In some circumstances you can simply make use of the class `.dnb-selection`, which applies the styles below on `::selection`.
 
-### HTML class naming
+```css
+background-color: var(--color-mint-green);
+color: var(--color-black);
+text-shadow: none;
+```
+
+### Example
+
+<SelectionExample />
+
+## HTML class naming
 
 To ensure a consistent class structure and to ensure that the class is owned by the DNB UI Library, all classes in the UI Library are prefixed with `dnb-`. Read more about that in the [Naming conventions](/uilib/development/naming).
 
@@ -95,7 +230,3 @@ You can import Eufemia _mixins_ directly into your SCSS styles:
 @include hideScrollbar();
 @include scrollbarAppearance();
 ```
-
-## Examples
-
-<CSSHelperClassesExamples />

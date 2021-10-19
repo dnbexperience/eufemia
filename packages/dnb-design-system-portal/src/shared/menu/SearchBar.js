@@ -11,9 +11,10 @@ import { Autocomplete } from '@dnb/eufemia/src/components'
 import { Anchor } from '@dnb/eufemia/src/elements'
 import { navigate } from 'gatsby'
 import { scrollToAnimation } from '../parts/Layout'
+import { isCI } from 'ci-info'
 
 const indexName =
-  process.env.NODE_ENV === 'production'
+  isCI && process.env.NODE_ENV === 'production'
     ? typeof window !== 'undefined' && /-beta/.test(window.location.href)
       ? 'beta_eufemia_docs'
       : 'prod_eufemia_docs'
