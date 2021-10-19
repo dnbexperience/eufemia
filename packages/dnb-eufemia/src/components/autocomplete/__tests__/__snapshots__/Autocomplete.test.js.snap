@@ -441,7 +441,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 custom_method={null}
                 disabled="disabled"
                 global_status_id={null}
-                icon="icon"
+                icon="input_icon"
                 icon_position={null}
                 icon_size="icon_size"
                 id="autocomplete-id"
@@ -577,7 +577,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         />
                         <Component
                           className="dnb-input__icon"
-                          icon="icon"
+                          icon="input_icon"
                           size="icon_size"
                         >
                           <IconPrimary
@@ -587,7 +587,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             className="dnb-input__icon"
                             color={null}
                             height={null}
-                            icon="icon"
+                            icon="input_icon"
                             inherit_color={true}
                             modifier={null}
                             size="icon_size"

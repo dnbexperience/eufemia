@@ -79,6 +79,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.func,
     ]),
     input_ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     icon_size: PropTypes.string,
     icon_position: PropTypes.oneOf(['left', 'right']),
     triangle_position: PropTypes.oneOf(['left', 'right']),
@@ -194,7 +195,6 @@ export default class Autocomplete extends React.PureComponent {
     ]),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     input_value: PropTypes.string,
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     open_on_focus: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     keep_open: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -241,6 +241,7 @@ export default class Autocomplete extends React.PureComponent {
     submit_button_title: null,
     submit_button_icon: 'chevron_down',
     input_ref: null,
+    icon: null,
     icon_size: null,
     icon_position: 'left',
     triangle_position: null,
@@ -278,7 +279,6 @@ export default class Autocomplete extends React.PureComponent {
     default_value: null,
     value: 'initval',
     input_value: 'initval',
-    icon: null,
     open_on_focus: false,
     prevent_close: false,
     keep_open: false,
@@ -1587,6 +1587,7 @@ class AutocompleteInstance extends React.PureComponent {
       label,
       label_direction,
       label_sr_only,
+      icon, // eslint-disable-line
       icon_size,
       input_icon,
       size,
@@ -1658,11 +1659,14 @@ class AutocompleteInstance extends React.PureComponent {
 
     const isExpanded = Boolean(opened) && this.hasValidData()
 
+    // In case a developer is using onBlur
+    // it would blur uncontrolled – so we relay on "on_blur".
+    // But the "onBlur" will still function, now just as expected.
+    delete attributes.onBlur
+
     // make it possible to grab the rest attributes and return it with all events
-    Object.assign(
-      this.context.drawerList.attributes,
-      validateDOMAttributes(null, attributes)
-    )
+    this.attributes = validateDOMAttributes(null, attributes)
+    Object.assign(this.context.drawerList.attributes, this.attributes)
 
     const mainParams = {
       className: classnames(
@@ -1785,9 +1789,6 @@ class AutocompleteInstance extends React.PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(null, mainParams)
     validateDOMAttributes(null, shellParams)
-
-    // make it possible to grab the rest attributes and return it with all events
-    this.attributes = validateDOMAttributes(null, attributes)
 
     return (
       <span {...mainParams}>
