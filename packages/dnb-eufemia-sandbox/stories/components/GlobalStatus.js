@@ -17,6 +17,7 @@ import {
   Button,
   FormRow,
   FormSet,
+  Autocomplete,
 } from '@dnb/eufemia/src/components'
 import {
   H2,
@@ -49,10 +50,19 @@ export const ComponentAsLabel = () => {
         </ToggleButton>
 
         <FormRow>
-          <Input label={<Component />} status={status} />
+          <Input
+            label={<Component />}
+            status={status ? status + '1' : undefined}
+          />
         </FormRow>
-        <Input label={<Component />} status={status} />
-        <Input label={<Component />} status={status} />
+        <Input
+          label={<Component />}
+          status={status ? status + '2' : undefined}
+        />
+        <Autocomplete
+          label={<Component />}
+          status={status ? status + '3' : undefined}
+        />
       </FormSet>
     </>
   )
@@ -249,7 +259,7 @@ const ModalExample = () => (
   </Modal>
 )
 
-const SimulateSteps = () => {
+export const SimulateSteps = () => {
   const [count, toggleUpdateStatus] = React.useState(0)
   return (
     <>

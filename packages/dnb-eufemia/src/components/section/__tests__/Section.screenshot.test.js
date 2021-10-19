@@ -47,6 +47,13 @@ describe('Section screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match sea-green section', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="section-sea-green"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match emerald-green section', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="section-emerald-green"]',

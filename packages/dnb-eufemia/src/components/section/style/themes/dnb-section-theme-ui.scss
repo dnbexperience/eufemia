@@ -43,8 +43,11 @@
     &::after {
       color: var(--color-emerald-green);
     }
-    .dnb-code {
-      color: var(--color-emerald-green);
+  }
+  &--sea-green {
+    color: var(--color-white);
+    &::after {
+      color: var(--color-sea-green);
     }
   }
   &--fire-red {
@@ -52,9 +55,24 @@
     &::after {
       color: var(--color-fire-red);
     }
+  }
+  &--fire-red-8 {
+    &::after {
+      color: var(--color-fire-red-8);
+    }
+  }
 
-    .dnb-code {
-      color: var(--color-emerald-green);
+  // Contrast styles
+  &--fire-red .dnb-anchor,
+  &--emerald-green .dnb-anchor,
+  &--sea-green .dnb-anchor {
+    color: var(--color-white);
+    &:hover {
+      color: var(--color-sea-green);
+    }
+    &:focus {
+      color: var(--color-white);
+      @include fakeFocus(null, var(--color-black-8));
     }
   }
 
