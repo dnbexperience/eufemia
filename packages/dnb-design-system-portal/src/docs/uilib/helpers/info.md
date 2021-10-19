@@ -10,7 +10,7 @@ All the [components](/uilib/components) do share a couple of common used helpers
 - [dnb-tab-focus](/uilib/helpers/classes#tab-focus): Adds a custom visual focus state on tab focus.
 - [dnb-skip-link](/uilib/helpers/classes#skip-link): For adding a link at the top of each page that goes directly to the main content area.
 - [dnb-spacing](/uilib/helpers/classes#spacing): Sets a default spacing on all nested HTML elements.
-- [dnb-scrollbar-appearance](/uilib/helpers/classes#scrollbar-apperance): Defines the DNB scrollbar appearance.
+- [dnb-scrollbar-appearance](/uilib/helpers/classes#scrollbar-appearance): Defines the DNB scrollbar appearance.
 - [dnb-sr-only](/uilib/helpers/classes#screen-reader-sr-only): An element that is reachable by screen readers, but is visually hidden.
 - [dnb-drop-shadow](/uilib/helpers/classes#drop-shadow): Adds the default drop shadow to the component.
 - [dnb-responsive-component](/uilib/helpers/classes#drop-shadow): Makes the component react to small sized screens.

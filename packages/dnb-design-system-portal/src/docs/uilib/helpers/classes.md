@@ -85,11 +85,13 @@ Sets default spacing (using _margin_) on all HTML elements inside the container 
 
 More details in [Styling](/uilib/usage/customisation/styling#spacing).
 
-## Scrollbar apperance
+## Scrollbar appearance
 
 `dnb-scrollbar-appearance`
 
 Define the DNB scrollbar appearance, including the color `--color-emerald-green` with `transparent`.
+
+NB: Browser support is not fully covered (2021).
 
 ## Screen Reader (sr) only
 
@@ -107,15 +109,15 @@ Visually hides an element, but is still reachable by screen readers. (_sr_ stand
 
 Like `dnb-sr-only` - but with flow elements in mind. This enables a set of text (in a paragraph `<p>`) to be enhanced with spans inside without NVDA to split up reading the text.
 
-```html
-<p>text <span class="dnb-sr-only--inline">sr-only</span> text</p>
-```
-
 ### Not Screen Reader only
 
 `dnb-not-sr-only`
 
-The opposite of `-dnb-sr-only`, so not visible to screen readers.
+The opposite of `dnb-sr-only`, so not visible to screen readers.
+
+```html
+<p>text <span class="dnb-sr-only--inline">sr-only</span> text</p>
+```
 
 <NoScreenReaderExample />
 
@@ -150,7 +152,7 @@ Applies the DNB selection colors to the selected content.
 Eufemia uses custom `::selection` colors to enhance the contrast and to play well against the many green colors.
 Every HTML class that starts with the prefix `dnb-` will be effected. In some circumstances you can simply make use of the class `.dnb-selection`, which applies the styles below on `::selection`.
 
-```scss
+```css
 background-color: var(--color-mint-green);
 color: var(--color-black);
 text-shadow: none;
