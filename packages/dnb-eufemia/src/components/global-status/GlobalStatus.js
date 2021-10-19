@@ -27,6 +27,7 @@ import {
   spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
+import Hr from '../../elements/Hr'
 import GlobalStatusController, {
   GlobalStatusInterceptor,
 } from './GlobalStatusController'
@@ -194,7 +195,6 @@ export default class GlobalStatus extends React.PureComponent {
   constructor(props) {
     super(props)
 
-    this._mainRef = React.createRef()
     this._wrapperRef = React.createRef()
     this._shellRef = React.createRef()
 
@@ -728,7 +728,7 @@ export default class GlobalStatus extends React.PureComponent {
     const noAnimation = isTrue(no_animation)
     const itemsToRender = props.items || []
     const contentToRender = GlobalStatus.getContent(props)
-    const style = state === 'info' ? null : 'fire-red'
+    const style = state === 'info' ? 'sea-green' : 'fire-red'
 
     /**
      * Show aria-live="assertive" when:
@@ -745,7 +745,6 @@ export default class GlobalStatus extends React.PureComponent {
      */
 
     const params = {
-      element: 'div',
       className: classnames(
         'dnb-global-status',
         `dnb-global-status--${state}`,
@@ -775,18 +774,22 @@ export default class GlobalStatus extends React.PureComponent {
     const renderedContent = (
       <div className="dnb-global-status__content">
         {title !== false && (
-          <p className="dnb-p dnb-global-status__title" lang={lang}>
-            <span className="dnb-global-status__icon">{iconToRender}</span>
-            {titleToRender}
-            {!isTrue(hide_close_button) && (
-              <CloseButton
-                className="dnb-global-status__close-button"
-                on_click={this.closeHandler}
-                text={close_text}
-                title={close_text}
-              />
-            )}
-          </p>
+          <Section element="div" style_type={style}>
+            <p className="dnb-p dnb-global-status__title" lang={lang}>
+              <span className="dnb-global-status__icon">
+                {iconToRender}
+              </span>
+              {titleToRender}
+              {!isTrue(hide_close_button) && (
+                <CloseButton
+                  className="dnb-global-status__close-button"
+                  on_click={this.closeHandler}
+                  text={close_text}
+                  title={close_text}
+                />
+              )}
+            </p>
+          </Section>
         )}
         {hasContent && (
           <Section
@@ -802,6 +805,7 @@ export default class GlobalStatus extends React.PureComponent {
               )}
               {renderedItems}
             </div>
+            <Hr fullscreen />
           </Section>
         )}
       </div>
@@ -809,12 +813,12 @@ export default class GlobalStatus extends React.PureComponent {
 
     return (
       <div {...wrapperParams} ref={this._wrapperRef}>
-        <Section style_type={style} {...params} ref={this._mainRef}>
+        <section {...params}>
           <div className="dnb-global-status__shell" ref={this._shellRef}>
             {(isAnimating || keepContentVisible || isActive) &&
               renderedContent}
           </div>
-        </Section>
+        </section>
       </div>
     )
   }

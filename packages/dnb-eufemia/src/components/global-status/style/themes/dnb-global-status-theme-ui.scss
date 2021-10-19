@@ -13,12 +13,6 @@
       100vw 0.0625rem 0 0 var(--color-black-80);
   }
 
-  // because "--mint-green-12" is the default
-  // and we don't set a spesific state --> const style = state === 'info' ? null : 'fire-red'
-  &--info#{&}.dnb-section--mint-green-12::after {
-    color: var(--color-sea-green);
-  }
-
   &__title {
     color: var(--color-white);
     &.dnb-p {
@@ -29,9 +23,6 @@
     font-size: 1rem;
   }
   &__message {
-    // to get the red line on the bottom
-    transform: translate3d(0, -1px, 0);
-
     &__content {
       color: var(--color-black-80);
 
@@ -43,6 +34,13 @@
     &.dnb-section--white ::selection {
       background-color: var(--color-mint-green);
     }
+  }
+
+  &__message .dnb-hr {
+    color: var(--color-fire-red);
+  }
+  &--info &__message .dnb-hr {
+    color: var(--color-sea-green);
   }
 
   // TODO: This has to be implemented as a contrast version
