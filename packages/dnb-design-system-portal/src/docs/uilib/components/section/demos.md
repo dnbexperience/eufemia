@@ -4,136 +4,72 @@ showTabs: true
 
 import ComponentBox from 'Src/shared/tags/ComponentBox'
 
+import {
+SectionDemo,
+SectionDemoSpacing,
+SectionDemoWhite,
+SectionDemoDivier,
+SectionDemoMintGreen,
+SectionDemoSeaGreen,
+SectionDemoEmeraldGreen,
+SectionDemoLavender,
+SectionDemoBlack3,
+SectionDemoSandYellow,
+SectionDemoPistachio,
+SectionDemoFireRed,
+SectionDemoFireRed8,
+} from 'Pages/uilib/components/section/Examples'
+
 ## Demos
 
 ### Default Section without spacing
 
-<ComponentBox hideCode data-visual-test="section-default">
-	{
-	/* @html */ `
-<Section>
-	<P top="xx-large">Visual DNB Section: <code className="dnb-code">default</code></P>
-</Section>
-`
-	}
-</ComponentBox>
+<SectionDemo />
 
 ### Default Section with large spacing
 
-<ComponentBox hideCode data-visual-test="section-spacing">
-	{
-	/* @html */ `
-<Section spacing="large">
-  <P space={0}>Visual DNB Section: <code className="dnb-code">default with spacing</code></P>
-</Section>
-`
-	}
-</ComponentBox>
+<SectionDemoSpacing />
 
 ### White Section
 
-<ComponentBox hideCode data-visual-test="section-white">
-	{
-	/* @html */ `
-<Section spacing="true" style_type="white">
-  <P space={0}>Visual DNB Section: <code className="dnb-code">white</code></P>
-</Section>
-`
-	}
-</ComponentBox>
+<SectionDemoWhite />
 
 ### Divider Section
 
-<ComponentBox hideCode data-visual-test="section-divider">
-	{
-	/* @html */ `
-<Section spacing="true" style_type="divider">
-  <P space={0}>Visual DNB Section: <code className="dnb-code">divider</code></P>
-</Section>
-`
-	}
-</ComponentBox>
+<SectionDemoDivier />
 
 ### Mint-Green Section
 
-<ComponentBox hideCode data-visual-test="section-mint-green">
-	{
-	/* @html */ `
-<Section spacing="true" style_type="mint-green">
-  <P space={0}>Visual DNB Section: <code className="dnb-code">mint-green</code></P>
-</Section>
-`
-	}
-</ComponentBox>
+<SectionDemoMintGreen />
+
+### Sea-Green Section
+
+<SectionDemoSeaGreen />
 
 ### Emerald-Green Section
 
-<ComponentBox hideCode data-visual-test="section-emerald-green">
-	{
-	/* @html */ `
-<Section spacing="true" style_type="emerald-green">
-  <P space={0}>Visual DNB Section: <code className="dnb-code">emerald-green</code></P>
-</Section>
-`
-	}
-</ComponentBox>
+<SectionDemoEmeraldGreen />
 
 ### Lavender Section
 
-<ComponentBox data-visual-test="section-lavender">
-	{
-	/* @html */ `
-<Section spacing="true" style_type="lavender">
-  <P space={0}>Visual DNB Section: <code className="dnb-code">lavender</code></P>
-</Section>
-`
-	}
-</ComponentBox>
+<SectionDemoLavender />
 
 ### Grey Section
 
-<ComponentBox data-visual-test="section-black-3">
-	{
-	/* @html */ `
-<Section spacing="true" style_type="black-3">
-  <P space={0}>Visual DNB Section: <code className="dnb-code">black-3</code></P>
-</Section>
-`
-	}
-</ComponentBox>
+<SectionDemoBlack3 />
 
 ### Sand-Yellow Section
 
-<ComponentBox data-visual-test="section-sand-yellow">
-	{
-	/* @html */ `
-<Section spacing="true" style_type="sand-yellow">
-  <P space={0}>Visual DNB Section: <code className="dnb-code">sand-yellow</code></P>
-</Section>
-`
-	}
-</ComponentBox>
+<SectionDemoSandYellow />
 
 ### Pistachio Section
 
-<ComponentBox data-visual-test="section-pistachio">
-	{
-	/* @html */ `
-<Section spacing="true" style_type="pistachio">
-  <P space={0}>Visual DNB Section: <code className="dnb-code">pistachio</code></P>
-</Section>
-`
-	}
-</ComponentBox>
+<SectionDemoPistachio />
 
 ### Fire-Red Section
 
-<ComponentBox data-visual-test="section-fire-red">
-	{
-	/* @html */ `
-<Section spacing="true" style_type="fire-red">
-  <P space={0}>Visual DNB Section: <code className="dnb-code">fire-red</code></P>
-</Section>
-`
-	}
-</ComponentBox>
+<SectionDemoFireRed />
+
+### Fire-Red-8 Section
+
+<SectionDemoFireRed8 />

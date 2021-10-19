@@ -59,15 +59,44 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   color: var(--color-mint-green); }
   .dnb-section--emerald-green::after {
     color: var(--color-emerald-green); }
-  .dnb-section--emerald-green .dnb-code {
-    color: var(--color-emerald-green); }
+
+.dnb-section--sea-green {
+  color: var(--color-white); }
+  .dnb-section--sea-green::after {
+    color: var(--color-sea-green); }
 
 .dnb-section--fire-red {
   color: var(--color-white); }
   .dnb-section--fire-red::after {
     color: var(--color-fire-red); }
-  .dnb-section--fire-red .dnb-code {
-    color: var(--color-emerald-green); }
+
+.dnb-section--fire-red-8::after {
+  color: var(--color-fire-red-8); }
+
+.dnb-section--fire-red .dnb-anchor,
+.dnb-section--emerald-green .dnb-anchor,
+.dnb-section--sea-green .dnb-anchor {
+  color: var(--color-white); }
+  .dnb-section--fire-red .dnb-anchor:hover,
+  .dnb-section--emerald-green .dnb-anchor:hover,
+  .dnb-section--sea-green .dnb-anchor:hover {
+    color: var(--color-sea-green); }
+  .dnb-section--fire-red .dnb-anchor:focus,
+  .dnb-section--emerald-green .dnb-anchor:focus,
+  .dnb-section--sea-green .dnb-anchor:focus {
+    color: var(--color-white);
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-section--fire-red .dnb-anchor:focus, html[data-whatinput='keyboard']
+    .dnb-section--emerald-green .dnb-anchor:focus, html[data-whatinput='keyboard']
+    .dnb-section--sea-green .dnb-anchor:focus {
+      --border-color: var(--color-black-8);
+      box-shadow: 0 0 0 0.125rem var(--border-color);
+      border-color: transparent; }
+      @media screen and (-ms-high-contrast: none) {
+        html[data-whatinput='keyboard'] .dnb-section--fire-red .dnb-anchor:focus, html[data-whatinput='keyboard']
+        .dnb-section--emerald-green .dnb-anchor:focus, html[data-whatinput='keyboard']
+        .dnb-section--sea-green .dnb-anchor:focus {
+          box-shadow: 0 0 0 0.125rem var(--color-black-8); } }
 
 .dnb-section--signal-orange {
   color: var(--color-ocean-green); }
