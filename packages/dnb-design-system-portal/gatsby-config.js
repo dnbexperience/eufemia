@@ -102,17 +102,19 @@ const plugins = [
     },
   },
   'gatsby-plugin-emotion',
-  // this (optional) plugin enables Progressive Web App + Offline functionality
-  // To learn more, visit: https://gatsby.app/offline
-  {
-    resolve: 'gatsby-plugin-offline',
-    options: {
-      workboxConfig: {
-        globPatterns: ['*.html'],
-        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
+  process.env.NODE_ENV === 'development'
+    ? 'gatsby-plugin-remove-serviceworker'
+    : {
+        // this (optional) plugin enables Progressive Web App + Offline functionality
+        // To learn more, visit: https://gatsby.app/offline
+        resolve: 'gatsby-plugin-offline',
+        options: {
+          workboxConfig: {
+            globPatterns: ['*.html'],
+            maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
+          },
+        },
       },
-    },
-  },
 ].filter(Boolean)
 
 // used for algolia search
