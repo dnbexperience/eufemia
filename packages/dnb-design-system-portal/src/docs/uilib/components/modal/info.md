@@ -98,6 +98,18 @@ The Modal component is using **3000** as the `z-index`.
 }
 ```
 
+### data-dnb-modal-active
+
+When a Modal / Drawer is open, it will set a HTML attribute on the main HTML Element called `data-dnb-modal-active`. The attribute value will be the ID of the current Modal / Drawer.
+
+This can be used to handle z-index issues from within CSS only:
+
+```css
+html[data-dnb-modal-active='MODAL-ID'] {
+  /* Your css */
+}
+```
+
 ## The Drawer mode
 
 The modal comes with a `drawer` mode. The drawer is made to be used in different content usage than the modal. Typically in context interactions.

@@ -345,8 +345,17 @@ describe('Modal component', () => {
     expect(Comp.exists('#content-third')).toBe(false)
 
     Comp.find('button#modal-first').simulate('click')
+    expect(
+      document.documentElement.getAttribute('data-dnb-modal-active')
+    ).toBe('modal-first')
     Comp.find('button#modal-second').simulate('click')
+    expect(
+      document.documentElement.getAttribute('data-dnb-modal-active')
+    ).toBe('modal-second')
     Comp.find('button#modal-third').simulate('click')
+    expect(
+      document.documentElement.getAttribute('data-dnb-modal-active')
+    ).toBe('modal-third')
 
     expect(on_open.first).toHaveBeenCalledTimes(1)
     expect(on_open.second).toHaveBeenCalledTimes(1)
@@ -388,6 +397,9 @@ describe('Modal component', () => {
     expect(on_close.second).toHaveBeenCalledTimes(0)
     expect(on_close.third).toHaveBeenCalledTimes(1)
 
+    expect(
+      document.documentElement.getAttribute('data-dnb-modal-active')
+    ).toBe('modal-second')
     expect(Comp.exists('#content-third')).toBe(false)
     expect(
       Comp.find('#content-second').instance().hasAttribute('aria-hidden')
@@ -412,6 +424,9 @@ describe('Modal component', () => {
     expect(on_close.second).toHaveBeenCalledTimes(1)
     expect(on_close.third).toHaveBeenCalledTimes(1)
 
+    expect(
+      document.documentElement.getAttribute('data-dnb-modal-active')
+    ).toBe('modal-first')
     expect(Comp.exists('#content-second')).toBe(false)
     expect(
       Comp.find('#content-first').instance().hasAttribute('aria-hidden')
@@ -431,6 +446,9 @@ describe('Modal component', () => {
     expect(on_close.third).toHaveBeenCalledTimes(1)
 
     expect(Comp.exists('#content-first')).toBe(false)
+    expect(
+      document.documentElement.hasAttribute('data-dnb-modal-active')
+    ).toBe(false)
   })
 
   it('will prevent closing the modal on prevent_close', () => {
@@ -589,18 +607,18 @@ describe('Modal component', () => {
     expect(document.body.style.boxSizing).toBe('border-box')
     expect(document.body.style.marginRight).toBe('0px')
     expect(document.documentElement.style.height).toBe('100%')
-    expect(document.body.getAttribute('data-dnb-modal-active')).toBe(
-      'true'
-    )
+    expect(
+      document.documentElement.getAttribute('data-dnb-modal-active')
+    ).toBe(props.id)
 
     // close modal
     elem.simulate('click')
 
     expect(document.body.getAttribute('style')).toBe('')
     expect(document.documentElement.getAttribute('style')).toBe('')
-    expect(document.body.getAttribute('data-dnb-modal-active')).toBe(
-      'false'
-    )
+    expect(
+      document.documentElement.hasAttribute('data-dnb-modal-active')
+    ).toBe(false)
   })
 
   it('runs expected side effects on iOS pre 14', () => {
@@ -635,9 +653,9 @@ describe('Modal component', () => {
       expect.any(Function)
     )
 
-    expect(document.body.getAttribute('data-dnb-modal-active')).toBe(
-      'true'
-    )
+    expect(
+      document.documentElement.getAttribute('data-dnb-modal-active')
+    ).toBe(props.id)
 
     // close modal
     elem.simulate('click')
@@ -645,9 +663,9 @@ describe('Modal component', () => {
     expect(document.body.getAttribute('style')).toBeFalsy()
     expect(document.documentElement.getAttribute('style')).toBeFalsy()
 
-    expect(document.body.getAttribute('data-dnb-modal-active')).toBe(
-      'false'
-    )
+    expect(
+      document.documentElement.hasAttribute('data-dnb-modal-active')
+    ).toBe(false)
 
     expect(removeEventListener).toBeCalledTimes(2)
     expect(removeEventListener).toHaveBeenCalledWith(
@@ -679,18 +697,18 @@ describe('Modal component', () => {
     expect(document.body.style.right).toBe('0px')
     expect(document.body.style.height).toBe('auto')
     expect(document.documentElement.style.height).toBe('100%')
-    expect(document.body.getAttribute('data-dnb-modal-active')).toBe(
-      'true'
-    )
+    expect(
+      document.documentElement.getAttribute('data-dnb-modal-active')
+    ).toBe(props.id)
 
     // close modal
     elem.simulate('click')
 
     expect(document.body.getAttribute('style')).toBe('')
     expect(document.documentElement.getAttribute('style')).toBe('')
-    expect(document.body.getAttribute('data-dnb-modal-active')).toBe(
-      'false'
-    )
+    expect(
+      document.documentElement.hasAttribute('data-dnb-modal-active')
+    ).toBe(false)
   })
 
   it('has correct opened state when "open_state" is used', () => {
