@@ -93,7 +93,8 @@ const flatten = (arr) =>
 
               if (first && first.depth === 2) {
                 headings.shift()
-                newTitle = `${newTitle} > ${first.value}`
+                // eslint-disable-next-line no-irregular-whitespace
+                newTitle = `${newTitle} → ${first.value}`
               }
 
               frontmatter = {

@@ -24,13 +24,14 @@ import { MediaQuery } from '@dnb/eufemia/src/shared'
 const Header = styled.header`
   position: fixed;
 
-  /**
-  - over DrawerList (Dropdown)
-  - under Tooltip
-  */
-  z-index: 3150;
-  [data-dnb-modal-active='true'] & {
-    z-index: 3000;
+  /* Over Tooltip of 3100 */
+  z-index: 3101;
+
+  html[data-dnb-modal-active] &,
+  html[data-dnb-tooltip-active] &,
+  html[data-dnb-drawer-list-active]:not([data-dnb-drawer-list-active='portal-search'])
+    & {
+    z-index: 3201;
   }
 
   top: 0;
@@ -85,7 +86,7 @@ const Header = styled.header`
       padding: 0.5rem 5vw;
     }
 
-    body[data-dnb-modal-active='true'] & {
+    html[data-dnb-modal-active] & {
       margin-right: var(--scrollbar-width);
     }
 
