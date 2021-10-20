@@ -770,12 +770,14 @@ describe('Autocomplete component', () => {
   it('returns correct value in on_blur event', () => {
     const on_focus = jest.fn()
     const on_blur = jest.fn()
+    const onBlur = jest.fn()
     const on_change = jest.fn()
 
     const Comp = mount(
       <Component
         on_focus={on_focus}
         on_blur={on_blur}
+        onBlur={onBlur}
         on_change={on_change}
         data={mockData}
         {...mockProps}
@@ -791,11 +793,13 @@ describe('Autocomplete component', () => {
     Comp.find('.dnb-drawer-list').simulate('mousedown')
     Comp.find('input').simulate('blur')
     expect(on_blur).toHaveBeenCalledTimes(0)
+    expect(onBlur).toHaveBeenCalledTimes(0)
 
     // Try to call on_blur by touch
     Comp.find('.dnb-drawer-list').simulate('touchstart')
     Comp.find('input').simulate('blur')
     expect(on_blur).toHaveBeenCalledTimes(0)
+    expect(onBlur).toHaveBeenCalledTimes(0)
 
     // Try to call on_blur by keystroke
     document.dispatchEvent(
@@ -805,6 +809,7 @@ describe('Autocomplete component', () => {
     )
     Comp.find('input').simulate('blur')
     expect(on_blur).toHaveBeenCalledTimes(0)
+    expect(onBlur).toHaveBeenCalledTimes(0)
 
     // Make a selection
     Comp.find('li.dnb-drawer-list__option').at(1).simulate('click')
@@ -814,12 +819,15 @@ describe('Autocomplete component', () => {
 
     // All the clicks should not have invoked the on_blur event
     expect(on_blur).toHaveBeenCalledTimes(0)
+    expect(onBlur).toHaveBeenCalledTimes(0)
 
     // But a second one will
     Comp.find('input').simulate('blur')
 
     expect(on_blur).toHaveBeenCalledTimes(1)
+    expect(onBlur).toHaveBeenCalledTimes(1)
     expect(on_blur.mock.calls[0][0].value).toBe('BB cc zethx')
+    expect(onBlur.mock.calls[0][0].value).toBe('BB cc zethx')
   })
 
   const runBlurActiveItemTest = ({
