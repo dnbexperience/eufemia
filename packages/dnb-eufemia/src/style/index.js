@@ -6,3 +6,7 @@
 import './dnb-ui-core.scss'
 import './dnb-ui-components.scss'
 import './themes/theme-ui/dnb-theme-ui.scss'
+
+import properties from './properties'
+
+export { properties }
