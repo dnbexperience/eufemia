@@ -835,16 +835,15 @@ function UpdateDataExample() {
               size="small"
               on_click={() => {
                 const updatedSelectedData = selectedData.filter(
-                  ({ selected_value }) =>
-                    item?.selected_value !== selected_value
+                  (data) => item?.selected_value !== data?.selected_value
                 )
                 setSelectedData(updatedSelectedData)
                 setChoiceData(
                   initialData.filter(
-                    ({ selected_value }) =>
+                    (data) =>
                       updatedSelectedData.findIndex(
                         ({ selected_value: updatedValue }) =>
-                          updatedValue === selected_value
+                          updatedValue === data?.selected_value
                       ) === -1
                   )
                 )
