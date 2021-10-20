@@ -17,8 +17,6 @@ const waitUntil = isCI ? 'domcontentloaded' : 'load'
 
 const config = {
   DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
-  // use same port as the local dev setup, this way we can test from the dev setup as well
-  // testScreenshotOnHost: isCI ? '127.0.0.1' : 'localhost',
   testScreenshotOnHost: 'localhost',
   testScreenshotOnPort: 8000,
   headless: true,
@@ -27,18 +25,7 @@ const config = {
   blockFontRequest: false,
   allowedFonts: [], // e.g. 'LiberationMono'
   pixelGrid: 8,
-  defaultViewport: {
-    /**
-     * For some reason, puppeteer.launch({ defaultViewport, ... does not take the config in account
-     * so we use pageViewport instead
-     */
-    // width: 1280,
-    // height: 1024,
-    // isMobile: false,
-    // hasTouch: false,
-    // isLandscape: false,
-    // deviceScaleFactor: 1
-  },
+  defaultViewport: {},
   pageViewport: {
     width: 1280,
     height: 1024,
@@ -49,10 +36,7 @@ const config = {
   },
   screenshotConfig: {
     detectAntialiasing: true,
-    // local we check for 0% accuracy
-    // due to the differences of font rendering between the os (linux/mac/win)
-    // we have to have a high threshold of 3%
-    pixelThresholdRelative: isCI ? 0.03 : 0,
+    pixelThresholdRelative: isCI ? 0.005 : 0, // If the CI is macOS, we can have a low threshold there as well
   },
 }
 module.exports.config = config
