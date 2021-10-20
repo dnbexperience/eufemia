@@ -1049,6 +1049,8 @@ export default class DrawerListProvider extends React.PureComponent {
         if (typeof onStateComplete === 'function') {
           onStateComplete(true)
         }
+
+        this.setActiveState(true)
       }
 
       if (isTrue(this.props.no_animation)) {
@@ -1137,6 +1139,7 @@ export default class DrawerListProvider extends React.PureComponent {
         }
         DrawerListProvider.isOpen = false
 
+        this.setActiveState(false)
         this.removeObservers()
       }
 
@@ -1148,6 +1151,28 @@ export default class DrawerListProvider extends React.PureComponent {
           delayHandler,
           DrawerListProvider.blurDelay
         ) // wait until animation is over
+      }
+    }
+  }
+
+  setActiveState(active) {
+    if (typeof document !== 'undefined') {
+      try {
+        if (active) {
+          document.documentElement.setAttribute(
+            'data-dnb-drawer-list-active',
+            String(this.props.id)
+          )
+        } else {
+          document.documentElement.removeAttribute(
+            'data-dnb-drawer-list-active'
+          )
+        }
+      } catch (e) {
+        warn(
+          'DrawerList: Error on set "data-dnb-drawer-list-active" by using element.setAttribute()',
+          e
+        )
       }
     }
   }

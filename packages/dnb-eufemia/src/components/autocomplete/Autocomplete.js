@@ -315,10 +315,17 @@ export default class Autocomplete extends React.PureComponent {
     )
   }
 
+  constructor(props) {
+    super(props)
+
+    this._id = props.id || makeUniqueId()
+  }
+
   render() {
     return (
       <DrawerListProvider
         {...this.props}
+        id={this._id}
         data={this.props.data || this.props.children}
         opened={null}
         tagName="dnb-autocomplete"
@@ -326,7 +333,7 @@ export default class Autocomplete extends React.PureComponent {
         prevent_focus
         skip_keysearch
       >
-        <AutocompleteInstance {...this.props} />
+        <AutocompleteInstance id={this._id} {...this.props} />
       </DrawerListProvider>
     )
   }

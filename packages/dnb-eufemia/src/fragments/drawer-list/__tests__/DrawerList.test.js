@@ -10,6 +10,7 @@ import {
   axeComponent,
   toJson,
   loadScss,
+  attachToBody,
 } from '../../../core/jest/jestSetup'
 import Component from '../DrawerList'
 
@@ -230,6 +231,31 @@ describe('DrawerList component', () => {
 
     const selectedItem = mockData[props.value + 1]
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
+  })
+
+  it('will set data-dnb-drawer-list-active with id', () => {
+    const Comp = mount(
+      <Component {...props} opened={false} data={mockData} />,
+      {
+        attachTo: attachToBody(),
+      }
+    )
+
+    Comp.setProps({
+      opened: true,
+    })
+
+    expect(
+      document.documentElement.getAttribute('data-dnb-drawer-list-active')
+    ).toBe(props.id)
+
+    Comp.setProps({
+      opened: false,
+    })
+
+    expect(
+      document.documentElement.hasAttribute('data-dnb-drawer-list-active')
+    ).toBe(false)
   })
 
   it('has valid on_change callback', () => {

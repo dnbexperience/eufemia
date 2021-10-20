@@ -53,6 +53,12 @@ export default class DrawerList extends React.PureComponent {
     ...drawerListDefaultProps,
   }
 
+  constructor(props) {
+    super(props)
+
+    this._id = props.id || makeUniqueId()
+  }
+
   static enableWebComponent() {
     registerElement(
       DrawerList.tagName,
@@ -70,10 +76,11 @@ export default class DrawerList extends React.PureComponent {
 
     return (
       <DrawerListProvider
+        id={this._id}
         {...this.props}
         data={this.props.data || this.props.children}
       >
-        <DrawerListInstance {...this.props} />
+        <DrawerListInstance id={this._id} {...this.props} />
       </DrawerListProvider>
     )
   }
