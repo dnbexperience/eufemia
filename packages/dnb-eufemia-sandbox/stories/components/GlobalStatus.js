@@ -18,6 +18,7 @@ import {
   FormRow,
   FormSet,
   Autocomplete,
+  DatePicker,
 } from '@dnb/eufemia/src/components'
 import {
   H2,
@@ -62,6 +63,11 @@ export const ComponentAsLabel = () => {
         <Autocomplete
           label={<Component />}
           status={status ? status + '3' : undefined}
+        />
+        <DatePicker
+          label={<Component />}
+          show_input
+          status={status ? status + '4' : undefined}
         />
       </FormSet>
     </>

@@ -1840,7 +1840,7 @@ class AutocompleteInstance extends React.PureComponent {
                     icon_size || (size === 'large' ? 'medium' : 'default')
                   }
                   size={size}
-                  status={!opened && status ? status_state : null}
+                  status={status ? status_state : null}
                   status_state={status_state}
                   type={null}
                   submit_element={submitButton}
