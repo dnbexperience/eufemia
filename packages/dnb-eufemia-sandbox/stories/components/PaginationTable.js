@@ -18,6 +18,11 @@ export default {
   title: 'Eufemia/Components/Pagination-Table',
 }
 
+const tableItems = []
+for (let i = 1; i <= 300; i++) {
+  tableItems.push({ ssn: i, text: String(i), expanded: false })
+}
+
 export const PaginationTable = () => (
   <Wrapper className="dnb-core-style" spacing>
     <Space left>
@@ -38,15 +43,10 @@ export const PaginationTable = () => (
   </Wrapper>
 )
 
-// create our items
-const tableItems = []
-for (let i = 1; i <= 300; i++) {
-  tableItems.push({ ssn: i, text: String(i), expanded: false })
-}
-
-export const InfinityPaginationTable = ({ tableItems, ...props }) => {
+const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const startupPage = 3 // what we start with
   const perPageCount = 10 // how many items per page
+  const maxPagesCount = Math.floor(tableItems?.length / perPageCount)
 
   // create our Pagination instance
   const [
@@ -56,8 +56,10 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   const [currentPage, setLocalPage] = React.useState(null)
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
 
-  // is not needed
-  // const maxPagesCount = Math.floor(tableItems?.length / perPageCount)
+  React.useEffect(() => {
+    // Could also be set as "startup_page" in <Pagination startup_page={startupPage} ...>
+    setLocalPage(startupPage)
+  }, [])
 
   // ascending / descending
   tableItems = reorderDirection(tableItems, orderDirection)
@@ -80,7 +82,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       // used to update the page inside the Pagination Component
       setLocalPage(pageNumber)
 
-      // force rerender of this component
+      // force re-render of this component
       forceRerender(new Date().getTime())
 
       // set new height
@@ -114,6 +116,22 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   let serverDelayTimeout
   React.useEffect(() => () => clearTimeout(serverDelayTimeout))
 
+  const action = ({ page }) => {
+    console.log('on_change: with page', page)
+
+    // simulate server delay
+    clearTimeout(serverDelayTimeout)
+    serverDelayTimeout = setTimeout(() => {
+      if (page === currentPage) {
+        // once we set current page, we force a re-render, and sync of data
+        // but only if we are on the same page
+        forceRerender(new Date().getTime())
+      } else {
+        setLocalPage(page)
+      }
+    }, Math.ceil(Math.random() * 1e3)) // simulate random delay
+  }
+
   return (
     <StyledTable sticky>
       <thead>
@@ -130,10 +148,10 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
                 resetInfinity()
                 resetContent()
 
-                // rerender our component to get back the default state
+                // re-render our component to get back the default state
                 setOrderDirection('asc')
 
-                // rerender our component to get back the default state
+                // re-render our component to get back the default state
                 forceRerender(new Date().getTime())
               }}
             >
@@ -165,46 +183,17 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
         <StickyHelper />
         <Pagination
           mode="infinity"
-          // use_load_button // disables infinity scroller, but will add a button to do so
           marker_element="tr"
           fallback_element={({ className, ...props }) => (
             <TableRow className={className}>
               <TableData colSpan="2" {...props} />
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the orw
-          startup_count={1} // how many pages to show on starutp
-          parallel_load_count={1} // how many pages to load during next load
-          startup_page={startupPage} // the very first page we load
-          // current_page={currentPage}// is not needed
-          // page_count={maxPagesCount}// is not needed
+          current_page={currentPage}
+          page_count={maxPagesCount}
           {...props}
-          on_startup={({ page }) => {
-            console.log('on_startup: with page', page)
-
-            // simulate server delay
-            clearTimeout(serverDelayTimeout)
-            serverDelayTimeout = setTimeout(() => {
-              // once we set current page, we force a rerender, and sync of data
-              setLocalPage(page)
-
-              // since currentPage already is the same
-              clearTimeout(serverDelayTimeout)
-              forceRerender(new Date().getTime())
-            }, Math.ceil(Math.random() * 1e3)) // simulate random delay
-          }}
-          // on_load={({ page /*, setContent, resetContent */ }) => {
-          //   console.log('on_load: with page', page)
-          // }}
-          on_change={({ page }) => {
-            console.log('on_change: with page', page)
-
-            // simulate server delay
-            clearTimeout(serverDelayTimeout)
-            serverDelayTimeout = setTimeout(() => {
-              // once we set current page, we force a rerender, and sync of data
-              setLocalPage(page)
-            }, Math.ceil(Math.random() * 1e3)) // simulate random delay
-          }}
+          on_startup={action}
+          on_change={action}
         />
       </tbody>
     </StyledTable>

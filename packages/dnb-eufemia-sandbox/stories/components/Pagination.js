@@ -12,7 +12,6 @@ import { Button, Section } from '@dnb/eufemia/src/components'
 import Pagination, {
   createPagination,
 } from '@dnb/eufemia/src/components/pagination/Pagination'
-import { InfinityPaginationTable } from './PaginationTable'
 
 export default {
   title: 'Eufemia/Components/Pagination',
@@ -39,6 +38,32 @@ const CustomIndicator = styled(LargePage)`
 const tableItems = []
 for (let i = 1; i <= 300; i++) {
   tableItems.push({ ssn: i, text: String(i), expanded: false })
+}
+
+export const Infinity = () => {
+  const props = {
+    current_page: 3,
+    // page_count: 30,
+  }
+
+  const action = ({ pageNumber, setContent }) => {
+    console.log('pageNumber', pageNumber)
+    setTimeout(() => {
+      setContent(
+        pageNumber,
+        <LargePage color="lightgreen">{pageNumber}</LargePage>
+      )
+    }, 100)
+  }
+
+  return (
+    <Pagination
+      mode="infinity"
+      {...props}
+      on_startup={action}
+      on_change={action}
+    />
+  )
 }
 
 export const PaginationSandbox = () => (
@@ -138,12 +163,6 @@ export const PaginationSandbox = () => (
         />
       </HeightLimit>
     </Box>
-
-    <Box>
-      <HeightLimit>
-        <InfinityPaginationTable tableItems={tableItems} />
-      </HeightLimit>
-    </Box>
   </Wrapper>
 )
 
@@ -159,9 +178,8 @@ const PaginationWithState = ({ children, ...props }) => {
   const [currentPage, setCurrentPage] = React.useState(1)
 
   // create our Pagination instance
-  const [
-    { Pagination: PaginationInstance, setContent, resetContent },
-  ] = React.useState(createPagination)
+  const [{ Pagination: PaginationInstance, setContent, resetContent }] =
+    React.useState(createPagination)
   setContent(currentPage, children(currentPage))
 
   // will reset the pagination
