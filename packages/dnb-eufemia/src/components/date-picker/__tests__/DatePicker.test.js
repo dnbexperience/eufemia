@@ -168,6 +168,7 @@ describe('DatePicker component', () => {
         {...defaultProps}
         on_days_render={on_days_render}
         range={false}
+        end_date={null}
       />
     )
 
