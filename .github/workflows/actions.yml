@@ -48,7 +48,6 @@ jobs:
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-yarn-
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -69,6 +68,17 @@ jobs:
       - name: Prebuild Library
         run: yarn workspace @dnb/eufemia prebuild:ci
 
+      - name: Icons postbuild
+        if: github.ref == 'refs/heads/eufemia-icons'
+        run: yarn workspace @dnb/eufemia postbuild:figma:ci
+
+      - name: Lib postbuild
+        if: (contains(github.ref, '/main') ||
+          contains(github.ref, '/release') ||
+          contains(github.ref, '/beta') ||
+          contains(github.ref, '/alpha'))
+        run: yarn workspace @dnb/eufemia postbuild:ci
+
       - name: Get current date
         id: date
         run: echo "::set-output name=timestamp::$(date +'%Y-%U')"
@@ -80,8 +90,7 @@ jobs:
           path: |
             ./packages/dnb-design-system-portal/.cache
             ./packages/dnb-design-system-portal/public
-          key: ${{ runner.os }}-gatsby-${{ steps.date.outputs.timestamp }}
-          restore-keys: ${{ runner.os }}-gatsby-
+          key: ${{ runner.os }}-gatsby-${{ hashFiles('**/yarn.lock') }}-${{ steps.date.outputs.timestamp }}
 
       - name: Build portal
         run: yarn workspace dnb-design-system-portal build-ci
@@ -90,17 +99,6 @@ jobs:
         if: runner.os == 'macOS' &&
           (!contains(github.ref, '/release') && !contains(github.ref, '/main') && !contains(github.ref, '/portal') && !contains(github.ref, '/eufemia-icons') && !contains(github.ref, '/beta') && !contains(github.ref, '/alpha'))
         run: yarn workspace @dnb/eufemia test:screenshots:ci
-
-      - name: Icons postbuild
-        if: github.ref == 'refs/heads/eufemia-icons'
-        run: yarn workspace @dnb/eufemia postbuild:figma:ci
-
-      - name: Lib postbuild
-        if: (contains(github.ref, '/main') ||
-          contains(github.ref, '/release') ||
-          contains(github.ref, '/beta') ||
-          contains(github.ref, '/alpha'))
-        run: yarn workspace @dnb/eufemia postbuild:ci
 
       # - name: Deploy portal (drone.io)
       #   if: (contains(github.ref, '/release') ||
