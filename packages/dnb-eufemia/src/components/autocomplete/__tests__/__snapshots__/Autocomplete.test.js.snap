@@ -28,7 +28,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   disabled="disabled"
   drawer_class="drawer_class"
   focusable="focusable"
-  global_status_id="global_status_id"
+  global_status_id="main"
   icon="icon"
   icon_position={null}
   icon_size="icon_size"
@@ -118,7 +118,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     drawer_class="drawer_class"
     fixed_position={false}
     focusable="focusable"
-    global_status_id="global_status_id"
+    global_status_id="main"
     handle_dismiss_focus={null}
     icon="icon"
     icon_position={null}
@@ -222,7 +222,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       disabled="disabled"
       drawer_class="drawer_class"
       focusable="focusable"
-      global_status_id="global_status_id"
+      global_status_id="main"
       icon="icon"
       icon_position={null}
       icon_size="icon_size"
@@ -325,7 +325,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             attributes={null}
             class={null}
             className={null}
-            global_status_id="global_status_id"
+            global_status_id="main"
             icon="error"
             icon_size="medium"
             id="autocomplete-id-form-status"
@@ -1125,7 +1125,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "disabled": "disabled",
                   "drawer_class": "drawer_class",
                   "focusable": "focusable",
-                  "global_status_id": "global_status_id",
+                  "global_status_id": "main",
                   "icon": "icon",
                   "icon_position": null,
                   "icon_size": "icon_size",

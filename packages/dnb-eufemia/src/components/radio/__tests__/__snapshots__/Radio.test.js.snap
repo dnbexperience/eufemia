@@ -11,7 +11,7 @@ exports[`Radio component have to match snapshot 1`] = `
   direction="horizontal"
   disabled="disabled"
   element="input"
-  global_status_id="global_status_id"
+  global_status_id="main"
   group={null}
   id="radio"
   label="label"
@@ -74,7 +74,7 @@ exports[`Radio component have to match snapshot 1`] = `
           attributes={null}
           class={null}
           className={null}
-          global_status_id="global_status_id"
+          global_status_id="main"
           icon="error"
           icon_size="medium"
           id="radio-form-status"
@@ -143,7 +143,7 @@ exports[`Radio component have to match snapshot 1`] = `
                 "direction": "horizontal",
                 "disabled": "disabled",
                 "element": "input",
-                "global_status_id": "global_status_id",
+                "global_status_id": "main",
                 "group": null,
                 "id": "radio",
                 "label": "label",

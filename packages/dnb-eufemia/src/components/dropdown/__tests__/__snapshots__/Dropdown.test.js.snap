@@ -63,7 +63,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   direction="bottom"
   disabled="disabled"
   focusable="focusable"
-  global_status_id="global_status_id"
+  global_status_id="main"
   icon="icon"
   icon_position={null}
   icon_size="icon_size"
@@ -168,7 +168,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     disabled="disabled"
     fixed_position={false}
     focusable="focusable"
-    global_status_id="global_status_id"
+    global_status_id="main"
     handle_dismiss_focus={null}
     icon="icon"
     icon_position={null}
@@ -288,7 +288,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       direction="bottom"
       disabled="disabled"
       focusable="focusable"
-      global_status_id="global_status_id"
+      global_status_id="main"
       icon="icon"
       icon_position={null}
       icon_size="icon_size"
@@ -372,7 +372,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             attributes={null}
             class={null}
             className={null}
-            global_status_id="global_status_id"
+            global_status_id="main"
             icon="error"
             icon_size="medium"
             id="dropdown-id-form-status"
@@ -1268,7 +1268,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "direction": "bottom",
                   "disabled": "disabled",
                   "focusable": "focusable",
-                  "global_status_id": "global_status_id",
+                  "global_status_id": "main",
                   "icon": "icon",
                   "icon_position": null,
                   "icon_size": "icon_size",

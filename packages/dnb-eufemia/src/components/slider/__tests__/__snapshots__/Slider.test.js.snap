@@ -6,7 +6,7 @@ exports[`Slider component have to match snapshot 1`] = `
   class="class"
   className="className"
   disabled="disabled"
-  global_status_id="global_status_id"
+  global_status_id="main"
   hide_buttons="hide_buttons"
   id="id"
   label="label"
@@ -80,7 +80,7 @@ exports[`Slider component have to match snapshot 1`] = `
         attributes={null}
         class={null}
         className={null}
-        global_status_id="global_status_id"
+        global_status_id="main"
         icon="error"
         icon_size="medium"
         id="id-form-status"
@@ -575,7 +575,7 @@ exports[`Slider component have to match snapshot 1`] = `
               "class": "class",
               "className": "className",
               "disabled": "disabled",
-              "global_status_id": "global_status_id",
+              "global_status_id": "main",
               "hide_buttons": "hide_buttons",
               "id": "id",
               "label": "label",
