@@ -272,7 +272,7 @@ describe('Linear ProgressIndicator component', () => {
 
   it('has title set to the value of progress property when title is default', () => {
     const LinearComp = mount(
-      <Component {...props} type="linear" progress={1} d />
+      <Component {...props} type="linear" progress={1} />
     )
     expect(
       LinearComp.find('.dnb-progress-indicator__linear')
