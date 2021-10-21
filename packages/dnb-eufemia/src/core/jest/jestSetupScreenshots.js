@@ -36,7 +36,10 @@ const config = {
   },
   screenshotConfig: {
     detectAntialiasing: true,
-    pixelThresholdRelative: isCI ? 0.005 : 0, // If the CI is macOS, we can have a low threshold there as well
+
+    // If the CI is macOS, we can have a low threshold there as well
+    // Else we opt for a slightly difference in font-rendering form setup to setup
+    pixelThresholdRelative: isCI ? 0.005 : 0.005,
   },
 }
 module.exports.config = config

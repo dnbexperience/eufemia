@@ -1491,7 +1491,7 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
     color: var(--color-black); }
 
 .dnb-date-picker__container {
-  box-shadow: 0 8px 16px rgba(51, 51, 51, 0.08);
+  box-shadow: var(--shadow-default);
   border-radius: 0.25rem;
   background-color: var(--color-white); }
 
@@ -1585,7 +1585,7 @@ html:not([data-whatintent='touch']) .dnb-date-picker__day--inactive .dnb-button[
 .dnb-date-picker__triangle::before {
   border: none;
   background-color: var(--color-white);
-  box-shadow: 0 8px 16px rgba(51, 51, 51, 0.08); }
+  box-shadow: var(--shadow-default); }
 
 .dnb-date-picker__status--error:not(.dnb-date-picker--opened) .dnb-form-label:hover
 ~ .dnb-date-picker__inner .dnb-input:not([data-input-state='disabled']) .dnb-input__shell {

@@ -16,6 +16,7 @@ import {
   DatePicker,
   NumberFormat,
 } from '@dnb/eufemia/src/components'
+import { Table } from '@dnb/eufemia/src/elements'
 
 export default {
   title: 'Eufemia/Elements/Table',
@@ -277,3 +278,55 @@ const data = [
     content: 'H',
   },
 ]
+
+export const StickyTable = () => (
+  <Table sticky={true} className="dnb-table--fixed">
+    <caption className="dnb-sr-only">A Table Caption</caption>
+    <thead>
+      <tr>
+        <th scope="col" colSpan="2">
+          Header
+        </th>
+        <th
+          scope="col"
+          className="dnb-table--sortable dnb-table--reversed"
+        >
+          <Button
+            variant="tertiary"
+            icon="arrow-down"
+            text="Sortable"
+            title="Sort table column"
+            wrap="true"
+          />
+        </th>
+        <th scope="col" className="dnb-table--sortable dnb-table--active">
+          <Button
+            variant="tertiary"
+            icon="arrow-down"
+            text="Active"
+            title="Sort table column"
+            wrap="true"
+          />
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <Table.StickyHelper />
+      <tr>
+        <td colSpan="4">Empty row below</td>
+      </tr>
+      <tr>
+        <td colSpan="4"></td>
+      </tr>
+      {Array(12)
+        .fill()
+        .map(() => (
+          <tr>
+            <td colSpan="2">Column which spans over four columns</td>
+            <td>Five</td>
+            <td>Scrollable table</td>
+          </tr>
+        ))}
+    </tbody>
+  </Table>
+)

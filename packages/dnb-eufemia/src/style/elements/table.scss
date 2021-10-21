@@ -285,14 +285,15 @@
       content: '';
       position: absolute;
       opacity: 0;
-      left: -2px;
-      right: -2px;
+      left: 0;
+      right: 0;
       bottom: 0;
       height: 6px;
 
       // The @mixin defaultDropShadow() does not work in this case
-      // because we need only a bottom shadow
-      box-shadow: 0 3px 3px -2px rgba(0, 0, 0, 0.5);
+      // because we need only a bottom shadow (with clip-path)
+      box-shadow: var(--shadow-default-x) -2px 12px 8px var(--shadow-default-color);
+      clip-path: inset(6px 0 -48px 0);
 
       transition: opacity 300ms ease-out;
       [data-visual-test-wrapper] & {

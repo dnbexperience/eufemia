@@ -73,5 +73,10 @@ export default {
   '--layout-large': '60em',
   '--layout-x-large': '72em',
   '--layout-xx-large': '80em',
-  '--layout-xxx-large': '90em'
+  '--layout-xxx-large': '90em',
+  '--shadow-default': '0 8px 16px rgba(51, 51, 51, 0.08)',
+  '--shadow-default-x': '0',
+  '--shadow-default-y': '8px',
+  '--shadow-default-blur-radius': '16px',
+  '--shadow-default-color': 'rgba(51, 51, 51, 0.08)'
 }; // prettier-ignore

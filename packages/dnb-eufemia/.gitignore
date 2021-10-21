@@ -4,7 +4,8 @@
 # testing
 /coverage
 /jest-screenshot-report
-/reports/jest-screenshot-report
+/reports/*
+!/reports/*.tgz
 
 # production
 *.min.mjs
