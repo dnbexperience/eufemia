@@ -23,6 +23,7 @@ props.value = 70
 props.step = 10
 props.number_format = { currency: true, decimals: 0 }
 props.label_direction = 'horizontal'
+props.global_status_id = 'main'
 
 describe('Slider component', () => {
   const Comp = mount(<Component {...props} />)

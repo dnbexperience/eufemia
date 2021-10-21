@@ -21,6 +21,7 @@ props.size = 'default'
 props.label_position = 'left'
 props.readOnly = false
 props.label_direction = 'horizontal'
+props.global_status_id = 'main'
 
 describe('Switch component', () => {
   // then test the state management

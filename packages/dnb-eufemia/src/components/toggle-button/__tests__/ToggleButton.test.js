@@ -22,6 +22,7 @@ props.icon_position = 'left'
 props.label_direction = 'horizontal'
 props.variant = 'checkbox'
 props.readOnly = false
+props.global_status_id = 'main'
 
 describe('ToggleButton component', () => {
   // then test the state management
