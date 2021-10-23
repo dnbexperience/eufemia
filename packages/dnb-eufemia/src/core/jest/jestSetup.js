@@ -142,3 +142,26 @@ if (typeof window !== 'undefined') {
   const { getComputedStyle } = window
   window.getComputedStyle = (...args) => getComputedStyle(...args)
 }
+
+const originalError = console.error
+export function bypassActWarning() {
+  // this is just a little hack to silence a warning that we'll get until we
+  // upgrade to 16.9. See also: https://github.com/facebook/react/pull/14853
+  beforeAll(() => {
+    console.error = (...args) => {
+      if (/Warning.*not wrapped in act/.test(args[0])) {
+        return
+      }
+      originalError.call(console, ...args)
+    }
+  })
+
+  afterAll(() => {
+    console.error = originalError
+  })
+}
+
+// Call it for now regardless
+// TODO: We may call this later only if enzyme is used
+// but we can't call it "inside a test", because we use beforeAll / afterAll
+bypassActWarning()
