@@ -23,13 +23,25 @@ The Portal (documentations) uses dart based `sass`, while the bundle and build p
   undefined
   ```
 
-## puppeteer
+### puppeteer
 
 - When upgrading to a newer version than v8, puppeteer behaves inconsistent. Sometimes the content is just tiny bit off. But most importantly, > v10.4 is very inconsistent and off running on the GitHub Actions maxOS.
 
-## eslint
+### eslint
 
 - Where some issues with newer versions than v7.19.0. This may be fixed in later versions.
+
+## Storybook
+
+The sandbox Storybook setup is using the default `@storybook/preset-scss` addon with the recommended dependencies. But for some reason, we cant use the latest versions of the following dependencies:
+
+- `sass-loader` v10.2.0
+- `style-loader` v2.0.0
+- `css-loader` v5.2.7
+
+We get else this error:
+
+> Type Error: this.getOptions is not a function for style-loader
 
 ## Yarn PnP
 
