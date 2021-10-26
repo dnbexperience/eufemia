@@ -69,6 +69,7 @@ export default class PrimaryComponent extends React.PureComponent {
   }
 
   static Secondary = SecondaryComponent
+  static SecondaryDuplication = SecondaryComponent
 
   render() {
     return [
