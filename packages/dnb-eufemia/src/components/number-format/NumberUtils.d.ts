@@ -59,6 +59,8 @@ export interface formatOptionParams {
   currency_position?: formatCurrencyPosition;
   /** hides the currency sign */
   omit_currency_sign?: boolean;
+  /** will remove all extra signs,like a currency sign or percent sign for the cleanedValue return when returnAria is true */
+  clean_copy_value?: boolean;
 
   /** Intl.NumberFormat options (NumberFormatOptions) */
   options?: object;

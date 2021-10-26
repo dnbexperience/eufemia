@@ -74,6 +74,10 @@ export default class NumberFormat extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
+    clean_copy_value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
     omit_rounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     clean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     element: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -110,6 +114,7 @@ export default class NumberFormat extends React.PureComponent {
     selectall: true,
     always_selectall: false,
     copy_selection: true,
+    clean_copy_value: false,
     omit_rounding: null,
     clean: null,
     element: 'span', // span or abbr
@@ -245,6 +250,7 @@ export default class NumberFormat extends React.PureComponent {
       clean,
       selectall,
       copy_selection,
+      clean_copy_value,
       element,
       class: _className,
       className,
@@ -274,6 +280,7 @@ export default class NumberFormat extends React.PureComponent {
       omit_rounding: isTrue(omit_rounding),
       options,
       clean: isTrue(clean),
+      clean_copy_value: isTrue(clean_copy_value),
       returnAria: true,
     }
 

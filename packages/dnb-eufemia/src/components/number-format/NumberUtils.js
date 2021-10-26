@@ -62,6 +62,7 @@ export const format = (
     currency_display = null,
     currency_position = null,
     omit_currency_sign = null,
+    clean_copy_value = null,
     decimals = null,
     omit_rounding = null,
     options = null,
@@ -259,23 +260,34 @@ export const format = (
   }
 
   if (returnAria) {
-    const cleanedValue = formatNumber(
-      opts.style === 'percent' ? value / 100 : value,
-      locale,
-      opts,
-      (item) => {
-        switch (item.type) {
-          case 'currency':
-          case 'group':
-          case 'literal':
-          case 'percentSign':
-            item.value = ''
-            return item
-          default:
-            return item
+    let cleanedValue
+
+    if (clean_copy_value) {
+      cleanedValue = formatNumber(
+        opts.style === 'percent' ? value / 100 : value,
+        locale,
+        opts,
+        (item) => {
+          switch (item.type) {
+            case 'group':
+            case 'literal':
+            case 'currency':
+            case 'percentSign':
+              item.value = ''
+              return item
+            default:
+              return item
+          }
         }
-      }
-    )
+      )
+    } else {
+      const thousandsSeparator = getThousandsSeparator(locale)
+      cleanedValue = display.replace(
+        new RegExp(`${thousandsSeparator}(?=\\d{3})`, 'g'),
+        ''
+      )
+    }
+
     // return "locale" as well value,l, since we have to "auto" option
     return { value, cleanedValue, number: display, aria, locale, type }
   }
