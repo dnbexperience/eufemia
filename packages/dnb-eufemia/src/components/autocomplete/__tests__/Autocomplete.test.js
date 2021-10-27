@@ -831,6 +831,66 @@ describe('Autocomplete component', () => {
     expect(onBlur.mock.calls[0][0].value).toBe('BB cc zethx')
   })
 
+  it('will invalidate selected_item when selected_key changes', () => {
+    const mockData = [
+      { selected_key: 'a', content: 'AA c' },
+      { selected_key: 'b', content: 'BB cc zethx' },
+      { selected_key: 'c', content: ['CC', 'cc'] },
+    ]
+
+    const newMockData = [
+      { selected_key: 'a', content: 'AA c' },
+      { selected_key: 'x', content: 'BB cc changed value' },
+      { selected_key: 'c', content: ['CC', 'cc'] },
+    ]
+
+    const onTypeHandler = ({ value, updateData }) => {
+      if (value === 'c') {
+        updateData(newMockData)
+      }
+    }
+
+    const on_change = jest.fn()
+    const on_type = jest.fn(onTypeHandler)
+
+    const Comp = mount(
+      <Component
+        {...mockProps}
+        on_change={on_change}
+        on_type={on_type}
+        data={mockData}
+      />
+    )
+
+    Comp.find('input').simulate('change', { target: { value: 'cc' } })
+
+    // Make a selection
+    Comp.find('li.dnb-drawer-list__option').at(1).simulate('click')
+
+    expect(Comp.find('input').instance().value).toBe(mockData[1].content)
+
+    expect(on_change).toHaveBeenCalledTimes(1)
+    expect(on_change.mock.calls[0][0].data).toEqual(mockData[1])
+
+    Comp.find('input').simulate('change', { target: { value: 'c' } })
+
+    expect(Comp.find('input').instance().value).toBe('c')
+    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(on_change.mock.calls[1][0].data).toEqual(undefined)
+
+    Comp.find('input').simulate('change', { target: { value: 'cc' } })
+    expect(on_type).toHaveBeenCalledTimes(3)
+
+    // Make a selection
+    Comp.find('li.dnb-drawer-list__option').at(1).simulate('click')
+
+    expect(on_change).toHaveBeenCalledTimes(3)
+    expect(on_change.mock.calls[2][0].data).toEqual(newMockData[1])
+    expect(Comp.find('input').instance().value).toBe(
+      newMockData[1].content
+    )
+  })
+
   const runBlurActiveItemTest = ({
     Comp,
     shouldHaveActiveItem,
