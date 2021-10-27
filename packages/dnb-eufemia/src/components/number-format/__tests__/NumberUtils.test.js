@@ -14,6 +14,7 @@ import {
   getDecimalSeparator,
   getThousandsSeparator,
   getCurrencySymbol,
+  countDecimals,
 } from '../NumberUtils'
 
 const locale = LOCALE
@@ -593,6 +594,13 @@ describe('NumberFormat cleanNumber', () => {
         decimalSeparator: '.',
       })
     ).toBe('1234.567')
+
+    expect(
+      cleanNumber('NOK 1234 567,0123 kr', {
+        prefix: 'NOK ',
+        suffix: ' kr',
+      })
+    ).toBe('1234567.0123')
   })
 
   it('should clean up norwegian style (SI style (French version))', () => {
@@ -705,5 +713,32 @@ describe('getCurrencySymbol should', () => {
   })
   it('return space when locale is en-US', () => {
     expect(getCurrencySymbol('en-US')).toBe('NOK')
+  })
+})
+
+describe('countDecimals should', () => {
+  it('return deciamls count for string', () => {
+    expect(countDecimals('1.2')).toBe(1)
+    expect(countDecimals('1.23')).toBe(2)
+    expect(countDecimals('1.01')).toBe(2)
+    expect(countDecimals('1.00')).toBe(2)
+  })
+  it('return deciamls count for float', () => {
+    expect(countDecimals(1.2)).toBe(1)
+    expect(countDecimals(1.23)).toBe(2)
+    expect(countDecimals(1.01)).toBe(2)
+  })
+  it('return 0 when 1.0 is given (we can not determine better in JS)', () => {
+    expect(countDecimals(1.0)).toBe(0)
+  })
+  it('return 0 when wrong decimal is given', () => {
+    expect(countDecimals('1,2')).toBe(0)
+  })
+  it('allow defining other decimal separator', () => {
+    const decimalSeparator = ','
+    expect(countDecimals('1,2', decimalSeparator)).toBe(1)
+    expect(countDecimals('1,23', decimalSeparator)).toBe(2)
+    expect(countDecimals('1,01', decimalSeparator)).toBe(2)
+    expect(countDecimals('1,00', decimalSeparator)).toBe(2)
   })
 })

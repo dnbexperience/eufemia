@@ -330,13 +330,14 @@ export const formatDecimals = (
  * Find the amount of decimals
  *
  * @param {number|string} value any number
+ * @param {string} decimalSeparator a dot or coma
  * @returns amount of decimals
  */
-const countDecimals = (value) => {
+export const countDecimals = (value, decimalSeparator = '.') => {
   if (Math.floor(value.valueOf()) === value.valueOf()) {
     return 0
   }
-  return String(value).split('.')[1].length || 0
+  return String(value).split(decimalSeparator)[1]?.length || 0
 }
 
 /**
@@ -705,13 +706,25 @@ export const formatNIN = (number, locale = null) => {
  */
 export function cleanNumber(
   num,
-  { decimalSeparator = null, thousandsSeparator = null } = {}
+  {
+    decimalSeparator = null,
+    thousandsSeparator = null,
+    prefix = null,
+    suffix = null,
+  } = {}
 ) {
   if (typeof num === 'number') {
     return num
   }
 
   num = String(num).trim()
+
+  if (typeof prefix === 'string' && num.startsWith(prefix)) {
+    num = num.substring(prefix.length, num.length)
+  }
+  if (typeof suffix === 'string' && num.endsWith(suffix)) {
+    num = num.substring(0, num.length - suffix.length)
+  }
 
   // 1. Remove invalid chars on the beginning (not a number)
   if (/^[^0-9-]/.test(num)) {

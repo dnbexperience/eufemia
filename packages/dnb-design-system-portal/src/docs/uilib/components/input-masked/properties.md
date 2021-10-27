@@ -9,6 +9,7 @@ showTabs: true
 | `as_number`                                 | _(optional)_ Set to `true` to automatically set a number mask based on the given or inherited locale.                                                                                                                                                                                                    |
 | `as_percent`                                | _(optional)_ Set to `true` to automatically set a number mask with a percentage sign based on the given or inherited locale.                                                                                                                                                                             |
 | `as_currency`                               | _(optional)_ Set to `true` to use `NOK` or give it a currency code e.g. `USD` to automatically set a currency mask based on the given or inherited locale.                                                                                                                                               |
+| `mask_options`                              | _(optional)_ Use it to manipulate internal masks. You can use it instead of e.g. `number_mask` or `curreny_mask`. All options are listed below.                                                                                                                                                          |
 | `number_mask`                               | _(optional)_ Set to `true` to enable the default numbers formatting – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default.                                                        |
 | `currency_mask`                             | _(optional)_ Set to `true` or set the _valuta_ (currency_mask="kr") to enable the a custom currency mask – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default. Defaults to `kr`. |
 | `number_format`                             | _(optional)_ Use an object with [NumberFormat](/uilib/components/number-format/properties) e.g. `{ omit_rounding: false }`.                                                                                                                                                                              |
@@ -22,7 +23,22 @@ showTabs: true
 
 ## Number mask properties
 
-Defaults to Norwegian number format:
+The number mask is used for all kinds of number based masks, like:
+
+**Locale based masks:**
+
+- `as_number`
+- `as_currency`
+- `as_percent`
+
+**Static masks:**
+
+- `number_mask`
+- `currency_mask`
+
+You can `mask_options` to manipulate the options.
+
+Defaults to Norwegian number format.
 
 | Properties                  | Description                                                                                                                            |
 | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
@@ -69,22 +85,9 @@ const numberMask = createNumberMask({
 <InputMasked mask={numberMask} ... />
 ```
 
-## Custom mask usage
-
-By now, you don't need to install `react-text-mask` as it comes with the `@dnb/eufemia`. For other masks than the **createNumberMask** you have to create or install custom masks. Read more on [how to use the addons](https://github.com/text-mask/text-mask/blob/master/addons/README.md).
-
-1. Install the needed dependencies:
-
-```bash
-npm i text-mask-addons
-```
-
-2. Create and use the mask:
+## Email mask
 
 ```jsx
-import emailMask from 'text-mask-addons/dist/emailMask'
-
-// or import it from the @dnb/eufemia
 import emailMask from '@dnb/eufemia/components/input-masked/addons/emailMask'
 
 render(
@@ -97,4 +100,4 @@ render(
 )
 ```
 
-Read more about the details [on the open source project](https://github.com/text-mask/text-mask)
+Read more about other addons [on the open source project](https://github.com/text-mask/text-mask)
