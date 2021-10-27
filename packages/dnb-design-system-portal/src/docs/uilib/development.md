@@ -28,6 +28,7 @@ Many defaults are given by the linting and prettier configurations. But to keep 
 - Use best practices for [CSS style structures](/uilib/usage/best-practices/for-styling#structure).
 - Use [nested CSS class selectors](https://medium.com/@andrew_barnes/bem-and-sass-a-perfect-match-5e48d9bc3894) with SASS (SCSS) and [BEM](http://getbem.com/naming/) (Block Element Modifier).
 - Use [React Hooks](https://reactjs.org/docs/hooks-overview.html) over React class components when possible.
+- Use [Typescript](https://www.typescriptlang.org), even most of the components do use PropTypes to generated type definition files only.
 
 ## Recommended Tools
 
