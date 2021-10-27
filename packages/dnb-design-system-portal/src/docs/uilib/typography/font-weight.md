@@ -9,6 +9,8 @@ import TypographyExamples from 'Pages/uilib/typography/TypographyExamples'
 
 # Font Weights
 
+For details about what values Typographic elements do use, have a loot at the [Fonts & Typography](/quickguide-designer/fonts#typographic-elements) documentation.
+
 ## Eufemia has three (3) font-weights
 
 - <span class="dnb-typo-regular">Regular</span> (normal)
@@ -17,11 +19,11 @@ import TypographyExamples from 'Pages/uilib/typography/TypographyExamples'
 
 ## `font-weight` table
 
-| Type        | Custom Property         | Info      |
-| ----------- | ----------------------- | --------- |
-| **Regular** | `--font-weight-regular` | Body text |
-| **Medium**  | `--font-weight-medium`  | Headings  |
-| **Bold**    | `--font-weight-bold`    |           |
+| Type        | Custom Property         |
+| ----------- | ----------------------- |
+| **Regular** | `--font-weight-regular` |
+| **Medium**  | `--font-weight-medium`  |
+| **Bold**    | `--font-weight-bold`    |
 
 ### How to use the weights (CSS)
 

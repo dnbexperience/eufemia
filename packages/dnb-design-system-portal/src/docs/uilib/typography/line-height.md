@@ -5,16 +5,18 @@ order: 3
 
 # Line Height
 
+For details about what values Typographic elements do use, have a loot at the [Fonts & Typography](/quickguide-designer/fonts#typographic-elements) documentation.
+
 ## Default `line-height` **rem** table
 
-| Pixel | Type      | Rem          | Custom Property         | Info      |
-| ----- | --------- | ------------ | ----------------------- | --------- |
-| 18px  | `x-small` | **1.125rem** | `--line-height-x-small` |           |
-| 20px  | `small`   | **1.25rem**  | `--line-height-small`   |           |
-| 24px  | `basis`   | **1.5rem**   | `--line-height-basis`   | Body text |
-| 32px  | `medium`  | **2rem**     | `--line-height-medium`  | H2        |
-| 40px  | `large`   | **2.5rem**   | `--line-height-large`   | H1 small  |
-| 56px  | `x-large` | **3.5rem**   | `--line-height-x-large` | H1        |
+| Pixel | Type      | Rem          | Custom Property         |
+| ----- | --------- | ------------ | ----------------------- |
+| 18px  | `x-small` | **1.125rem** | `--line-height-x-small` |
+| 20px  | `small`   | **1.25rem**  | `--line-height-small`   |
+| 24px  | `basis`   | **1.5rem**   | `--line-height-basis`   |
+| 32px  | `medium`  | **2rem**     | `--line-height-medium`  |
+| 40px  | `large`   | **2.5rem**   | `--line-height-large`   |
+| 56px  | `x-large` | **3.5rem**   | `--line-height-x-large` |
 
 <!-- - Used for `<h5>` and `<h6>`, who are not a part of the design system. -->
 
