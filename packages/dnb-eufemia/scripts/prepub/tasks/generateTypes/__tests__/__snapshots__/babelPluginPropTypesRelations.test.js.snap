@@ -57,6 +57,7 @@ PrimaryComponent.defaultProps = {
   children: null
 };
 PrimaryComponent.Secondary = SecondaryComponent;
+PrimaryComponent.SecondaryDuplication = SecondaryComponent;
 
 const Element = () => {
   return null;

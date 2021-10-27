@@ -35,6 +35,7 @@ export interface PrimaryComponentProps extends React.HTMLProps<HTMLElement> {
 }
 export default class PrimaryComponent extends React.Component<PrimaryComponentProps, any> {
   static defaultProps: object;
+  static SecondaryDuplication = SecondaryComponent;
   static Secondary = SecondaryComponent;
   render(): JSX.Element;
 }"
