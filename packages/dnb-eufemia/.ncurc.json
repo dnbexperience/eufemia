@@ -6,6 +6,11 @@
     "react",
     "react-dom",
     "node-sass",
-    "puppeteer"
+    "puppeteer",
+    "stylelint",
+    "stylelint-config-prettier",
+    "stylelint-config-recommended",
+    "stylelint-config-standard",
+    "stylelint-scss"
   ]
 }

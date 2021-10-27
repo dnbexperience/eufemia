@@ -111,7 +111,7 @@ async function createPages({ graphql, actions }) {
 
       createPage({
         path: slug,
-        component: path.resolve(__dirname, './src/templates/mdx.js'),
+        component: path.resolve(__dirname, 'src/templates/mdx.js'),
         context: {
           id: node.id,
           prev,
