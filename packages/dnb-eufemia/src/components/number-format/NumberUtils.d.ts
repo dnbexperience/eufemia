@@ -81,4 +81,4 @@ type cleanNumberOptions = {
 export const cleanNumber: (
   num: number | string,
   options?: cleanNumberOptions
-) => void;
+) => number | string;

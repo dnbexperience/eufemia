@@ -1,7 +1,7 @@
 const config = {
   testEnvironment: 'jsdom',
   testURL: 'http://localhost',
-  testRegex: '(/__tests__/\\.js|(\\.|/)(test|spec))\\.js?$',
+  testRegex: '(/__tests__/\\.js|(\\.|/)(test|spec))\\.[jt]s?$',
   modulePathIgnorePatterns: [
     'not_in_use',
     '<rootDir>/build/',
@@ -14,7 +14,7 @@ const config = {
   // We  may use this in future when converting to ESM
   // transformIgnorePatterns: ['/node_modules/(?!ora|globby)'],
   transform: {
-    '^.+\\.(js|jsx)$': 'babel-jest',
+    '^.+\\.(js|jsx|ts)$': 'babel-jest',
     '^.+\\.(md|txt|css|scss)$': 'jest-raw-loader',
   },
   moduleNameMapper: {
