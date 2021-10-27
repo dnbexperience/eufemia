@@ -129,7 +129,8 @@
     "typescript": "4.5.5"
   },
   "buildVersion": "[LOCAL BUILD]",
-  "changelogVersion": "April, 5. 2021",
+  "releaseVersion": "[LOCAL BUILD]",
+  "changelogVersion": "[LOCAL BUILD]",
   "installConfig": {
     "hoistingLimits": "dependencies"
   },

@@ -64,7 +64,6 @@ steps:
       branch:
         include:
           - release
-          - release-*
           - portal
           - beta
           - alpha
@@ -99,7 +98,6 @@ steps:
       branch:
         include:
           - release
-          - release-*
           - portal
           - beta
           - alpha
@@ -166,7 +164,6 @@ steps:
         include:
           - main
           - release
-          - release-*
           - beta
           - alpha
 
@@ -187,7 +184,6 @@ steps:
       branch:
         include:
           - release
-          - release-*
           - portal
 
   - name: publish release
@@ -209,7 +205,6 @@ steps:
       branch:
         include:
           - release
-          - release-*
           - beta
           - alpha
 
