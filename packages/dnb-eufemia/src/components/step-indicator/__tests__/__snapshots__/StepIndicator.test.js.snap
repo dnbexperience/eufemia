@@ -2001,7 +2001,6 @@ Array [
                           </span>,
                         }
                       }
-                      onClick={null}
                       on_click={null}
                       size={null}
                       skeleton={null}
@@ -2112,7 +2111,6 @@ Array [
                             }
                           }
                           isIconOnly={false}
-                          onClick={null}
                           on_click={null}
                           size={null}
                           skeleton={false}
@@ -2418,7 +2416,6 @@ Array [
                           </span>,
                         }
                       }
-                      onClick={null}
                       on_click={null}
                       size={null}
                       skeleton={null}
@@ -2529,7 +2526,6 @@ Array [
                             }
                           }
                           isIconOnly={false}
-                          onClick={null}
                           on_click={null}
                           size={null}
                           skeleton={false}
@@ -2834,7 +2830,6 @@ Array [
                           </span>,
                         }
                       }
-                      onClick={null}
                       on_click={null}
                       size={null}
                       skeleton={null}
@@ -2945,7 +2940,6 @@ Array [
                             }
                           }
                           isIconOnly={false}
-                          onClick={null}
                           on_click={null}
                           size={null}
                           skeleton={false}
@@ -3250,7 +3244,6 @@ Array [
                           </span>,
                         }
                       }
-                      onClick={null}
                       on_click={null}
                       size={null}
                       skeleton={null}
@@ -3361,7 +3354,6 @@ Array [
                             }
                           }
                           isIconOnly={false}
-                          onClick={null}
                           on_click={null}
                           size={null}
                           skeleton={false}
@@ -4631,7 +4623,6 @@ Array [
                           </span>,
                         }
                       }
-                      onClick={null}
                       on_click={null}
                       size={null}
                       skeleton={null}
@@ -4742,7 +4733,6 @@ Array [
                             }
                           }
                           isIconOnly={false}
-                          onClick={null}
                           on_click={null}
                           size={null}
                           skeleton={false}
@@ -5047,7 +5037,6 @@ Array [
                           </span>,
                         }
                       }
-                      onClick={null}
                       on_click={null}
                       size={null}
                       skeleton={null}
@@ -5158,7 +5147,6 @@ Array [
                             }
                           }
                           isIconOnly={false}
-                          onClick={null}
                           on_click={null}
                           size={null}
                           skeleton={false}

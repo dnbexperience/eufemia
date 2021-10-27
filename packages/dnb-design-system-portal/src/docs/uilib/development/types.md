@@ -35,7 +35,7 @@ So – You can share PropTypes between files. But you may have to spread the obj
 
 ## Shared Properties docs
 
-If you have one `/properties.md` file, but e.g. two components shares most or all of the properties. Like a component and a provider for that component (Accordion and AccordionProvider) – then you can define din the markdown table header name both of the components: You can then provide a second table with more specific table for a second component.
+If you have one `/properties.md` file, but e.g. two components shares most or all of the properties. Like a component and a provider for that component (Accordion and AccordionProvider) – then you can define in the markdown table header name both of the components: You can then provide a second table with more specific table for a second component.
 
 ```md
 ## Properties

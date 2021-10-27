@@ -27,6 +27,9 @@ AutocompleteOpened
 
 ### Autocomplete with a custom title
 
+- `keep_value` means the input value gets not removed after a input blur happens.
+- `show_clear_button` means a clear button will show up when the input field contains a value.
+
 <AutocompleteWithCustomTitle />
 
 ### Async usage, dynamically update data during typing

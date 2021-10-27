@@ -17,6 +17,7 @@ describe('Input screenshot', () => {
     simulateSelector: `[data-visual-test="${selector}"] .dnb-input__input`,
   })
   setupPageScreenshot({ url: '/uilib/components/input/demos' })
+
   it('have to match input with placeholder', async () => {
     const screenshot = await testPageScreenshot({
       ...extend('input-placeholder'),
@@ -24,6 +25,7 @@ describe('Input screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match input with icon', async () => {
     const screenshot = await testPageScreenshot({
       ...extend('input-icon'),
@@ -31,6 +33,7 @@ describe('Input screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match disabled input', async () => {
     const screenshot = await testPageScreenshot({
       ...extend('input-disabled'),
@@ -38,6 +41,7 @@ describe('Input screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match search type', async () => {
     const screenshot = await testPageScreenshot({
       ...extend('input-search'),
@@ -45,6 +49,7 @@ describe('Input screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match search type with focus state', async () => {
     const screenshot = await testPageScreenshot({
       ...extend('input-search'),
@@ -53,6 +58,7 @@ describe('Input screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match stretched and medium size', async () => {
     const screenshot = await testPageScreenshot({
       // make sure our input gets an explicit width, because of mac/linux rendering differences
@@ -62,6 +68,7 @@ describe('Input screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match error state', async () => {
     const screenshot = await testPageScreenshot({
       ...extend('input-error'),
@@ -69,21 +76,24 @@ describe('Input screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match input with clear button', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="input-clear"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match input with clear button in hover state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="input-clear"]',
       simulateSelector:
-        '[data-visual-test="input-clear"] .dnb-input:nth-of-type(3) .dnb-button--input-button',
+        '[data-visual-test="input-clear"] .dnb-input:nth-of-type(3) .dnb-input__clear-button',
       simulate: 'hover',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match password input', async () => {
     const screenshot = await testPageScreenshot({
       ...extend('input-password'),
@@ -91,6 +101,7 @@ describe('Input screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match text align with icon', async () => {
     const screenshot = await testPageScreenshot({
       ...extend('input-align'),

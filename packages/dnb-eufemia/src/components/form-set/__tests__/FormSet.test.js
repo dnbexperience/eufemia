@@ -14,6 +14,8 @@ import {
 import Component from '../FormSet'
 import FormRow from '../../form-row/FormRow'
 import Input from '../../input/Input'
+import NumberFormat from '../../number-format/NumberFormat'
+import Provider from '../../../shared/Provider'
 
 const props = fakeProps(require.resolve('../FormSet'), {
   optional: true,
@@ -84,6 +86,40 @@ describe('FormSet component', () => {
     expect(
       Comp.find('.dnb-form-row').hasClass('dnb-form-row__indent--large')
     ).toBe(true)
+  })
+
+  it('should support locale context forwarding', () => {
+    const Comp = mount(
+      <Component>
+        <NumberFormat currency>1234</NumberFormat>
+      </Component>
+    )
+
+    expect(Comp.find('.dnb-number-format').find('span').at(1).text()).toBe(
+      '1 234,00 kr'
+    )
+
+    Comp.setProps({
+      locale: 'en-GB',
+    })
+
+    expect(Comp.find('.dnb-number-format').find('span').at(1).text()).toBe(
+      'NOK 1 234.00'
+    )
+  })
+
+  it('should not overwrite locale from provider when not set', () => {
+    const Comp = mount(
+      <Provider locale="en-GB">
+        <Component>
+          <NumberFormat currency>1234</NumberFormat>
+        </Component>
+      </Provider>
+    )
+
+    expect(Comp.find('.dnb-number-format').find('span').at(1).text()).toBe(
+      'NOK 1 234.00'
+    )
   })
 
   it('should validate with ARIA rules', async () => {

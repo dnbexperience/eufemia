@@ -28,7 +28,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   disabled="disabled"
   drawer_class="drawer_class"
   focusable="focusable"
-  global_status_id="global_status_id"
+  global_status_id="main"
   icon="icon"
   icon_position={null}
   icon_size="icon_size"
@@ -68,6 +68,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   search_in_word_index="search_in_word_index"
   search_numbers="search_numbers"
   show_all="show_all"
+  show_clear_button="show_clear_button"
+  show_options_sr="show_options_sr"
   show_submit_button={true}
   size={null}
   skeleton="skeleton"
@@ -116,7 +118,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     drawer_class="drawer_class"
     fixed_position={false}
     focusable="focusable"
-    global_status_id="global_status_id"
+    global_status_id="main"
     handle_dismiss_focus={null}
     icon="icon"
     icon_position={null}
@@ -170,6 +172,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     search_in_word_index="search_in_word_index"
     search_numbers="search_numbers"
     show_all="show_all"
+    show_clear_button="show_clear_button"
+    show_options_sr="show_options_sr"
     show_submit_button={true}
     size={null}
     skeleton="skeleton"
@@ -218,7 +222,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       disabled="disabled"
       drawer_class="drawer_class"
       focusable="focusable"
-      global_status_id="global_status_id"
+      global_status_id="main"
       icon="icon"
       icon_position={null}
       icon_size="icon_size"
@@ -258,6 +262,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       search_in_word_index="search_in_word_index"
       search_numbers="search_numbers"
       show_all="show_all"
+      show_clear_button="show_clear_button"
+      show_options_sr="show_options_sr"
       show_submit_button={true}
       size={null}
       skeleton="skeleton"
@@ -319,7 +325,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             attributes={null}
             class={null}
             className={null}
-            global_status_id="global_status_id"
+            global_status_id="main"
             icon="error"
             icon_size="medium"
             id="autocomplete-id-form-status"
@@ -432,13 +438,13 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 autocomplete="off"
                 class={null}
                 className="dnb-autocomplete__input"
-                clear={null}
+                clear={false}
                 clear_button_title={null}
                 custom_element={null}
                 custom_method={null}
                 disabled="disabled"
                 global_status_id={null}
-                icon="icon"
+                icon="input_icon"
                 icon_position={null}
                 icon_size="icon_size"
                 id="autocomplete-id"
@@ -471,7 +477,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 size={null}
                 skeleton="skeleton"
                 spellCheck="false"
-                status={null}
+                status="error"
                 status_no_animation={null}
                 status_props={null}
                 status_state="error"
@@ -493,7 +499,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                     onSubmit={[Function]}
                     size={null}
                     status={null}
-                    title="submit_button_title"
+                    tooltip={null}
+                    type="button"
                     variant="secondary"
                   />
                 }
@@ -502,7 +509,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 value="CC cc"
               >
                 <span
-                  className="dnb-input dnb-input--null dnb-form-component dnb-autocomplete__input dnb-input--icon-position-null dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element"
+                  className="dnb-input dnb-input--null dnb-form-component dnb-autocomplete__input dnb-input--icon-position-null dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element dnb-input__status--error"
                   data-has-content="true"
                   data-input-state="virgin"
                 >
@@ -528,13 +535,13 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       label={null}
                       no_animation={null}
                       role={null}
-                      show={null}
+                      show={false}
                       size="default"
                       skeleton="skeleton"
                       state="error"
                       status="error"
                       stretch={null}
-                      text={null}
+                      text="error"
                       text_id="autocomplete-id-status"
                       title={null}
                       variant={null}
@@ -573,7 +580,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         />
                         <Component
                           className="dnb-input__icon"
-                          icon="icon"
+                          icon="input_icon"
                           size="icon_size"
                         >
                           <IconPrimary
@@ -583,7 +590,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             className="dnb-input__icon"
                             color={null}
                             height={null}
-                            icon="icon"
+                            icon="input_icon"
                             inherit_color={true}
                             modifier={null}
                             size="icon_size"
@@ -608,7 +615,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           onSubmit={[Function]}
                           size={null}
                           status={null}
-                          title="submit_button_title"
+                          tooltip={null}
+                          type="button"
                           variant="secondary"
                         >
                           <InputSubmitButton
@@ -630,7 +638,9 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             status={null}
                             status_props={null}
                             status_state="error"
-                            title="submit_button_title"
+                            title={null}
+                            tooltip={null}
+                            type="button"
                             value={null}
                             variant="secondary"
                           >
@@ -641,7 +651,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                               <Button
                                 aria-expanded={true}
                                 aria-haspopup="listbox"
-                                aria-label="submit_button_title"
                                 bounding={null}
                                 class={null}
                                 className="dnb-input__submit-button__button dnb-button--input-button dnb-button--active"
@@ -675,14 +684,13 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 title={null}
                                 to={null}
                                 tooltip={null}
-                                type="submit"
+                                type="button"
                                 variant="secondary"
                                 wrap={null}
                               >
                                 <button
                                   aria-expanded={true}
                                   aria-haspopup="listbox"
-                                  aria-label="submit_button_title"
                                   className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--active dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
                                   disabled={false}
                                   id="autocomplete-id-submit-button"
@@ -691,12 +699,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   onFocus={[Function]}
                                   onKeyDown={[Function]}
                                   onSubmit={[Function]}
-                                  type="submit"
+                                  type="button"
                                 >
                                   <Content
                                     aria-expanded={true}
                                     aria-haspopup="listbox"
-                                    aria-label="submit_button_title"
                                     bounding={null}
                                     class={null}
                                     className="dnb-input__submit-button__button dnb-button--input-button dnb-button--active"
@@ -732,7 +739,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     title={null}
                                     to={null}
                                     tooltip={null}
-                                    type="submit"
+                                    type="button"
                                     variant="secondary"
                                     wrap={null}
                                   >
@@ -1118,7 +1125,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "disabled": "disabled",
                   "drawer_class": "drawer_class",
                   "focusable": "focusable",
-                  "global_status_id": "global_status_id",
+                  "global_status_id": "main",
                   "icon": "icon",
                   "icon_position": null,
                   "icon_size": "icon_size",
@@ -1158,6 +1165,8 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "search_in_word_index": "search_in_word_index",
                   "search_numbers": "search_numbers",
                   "show_all": "show_all",
+                  "show_clear_button": "show_clear_button",
+                  "show_options_sr": "show_options_sr",
                   "show_submit_button": true,
                   "size": null,
                   "skeleton": "skeleton",
@@ -1437,6 +1446,8 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
     line-height: var(--line-height-small);
     font-size: var(--font-size-small);
     white-space: normal; }
+    button .dnb-form-status__text {
+      cursor: inherit; }
     .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
   .dnb-icon + .dnb-form-status__text {
@@ -1773,12 +1784,12 @@ button.dnb-button::-moz-focus-inner {
     margin-right: 0;
     margin-bottom: 0.5rem; }
   .dnb-form-label--sr-only {
-    width: 1px;
-    margin: 0;
-    padding: 0;
-    margin-left: -1px;
-    overflow: hidden;
-    white-space: nowrap; }
+    width: 1px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-left: -1px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -2507,6 +2518,8 @@ legend.dnb-form-label {
         margin-bottom: 0.5rem; }
       .dnb-responsive-component .dnb-autocomplete__helper {
         display: none; } }
+  .dnb-autocomplete__list .dnb-drawer-list__option__item > span {
+    padding-right: 0.125em; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-autocomplete {
       flex: none;

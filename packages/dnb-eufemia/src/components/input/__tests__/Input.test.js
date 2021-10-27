@@ -267,6 +267,21 @@ describe('Input component', () => {
     expect(Comp.find('.dnb-input--medium').exists()).toBe(true)
   })
 
+  it('will select the whole input when selectall is set', async () => {
+    const Comp = mount(<Component selectall={true} value="1234" />)
+
+    const select = jest.fn()
+    Comp.find('input').instance().select = select
+
+    Comp.find('input').simulate('focus')
+
+    expect(select).toBeCalledTimes(0)
+
+    await wait(1)
+
+    expect(select).toBeCalledTimes(1)
+  })
+
   it('uses children as the value', () => {
     const Comp = mount(<Component>children</Component>)
     expect(Comp.find('input').instance().getAttribute('value')).toBe(
@@ -467,3 +482,5 @@ describe('Input scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
+
+const wait = (t) => new Promise((r) => setTimeout(r, t))

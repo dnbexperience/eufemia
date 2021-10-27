@@ -96,6 +96,21 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
       Program(path) {
         root = path
 
+        const hasImportStatement = (importStatement) => {
+          let exists = false
+
+          root.traverse({
+            ImportDeclaration(path) {
+              if (importStatement === path.toString()) {
+                exists = true
+                path.stop()
+              }
+            },
+          })
+
+          return exists
+        }
+
         const classProperties = getListOfClassProperties({ file })
 
         if (classProperties) {
@@ -109,7 +124,9 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
             }) => {
               root.traverse({
                 ImportDeclaration(path) {
-                  path.insertAfter(babel.template.ast(importStatement))
+                  if (!hasImportStatement(importStatement)) {
+                    path.insertAfter(babel.template.ast(importStatement))
+                  }
                   path.stop()
                 },
               })
@@ -214,7 +231,8 @@ function getListOfClassProperties({ file }) {
                         keyName,
                         valueName,
                         sourceFile,
-                        importStatement: path.parentPath.parentPath.toString(),
+                        importStatement:
+                          path.parentPath.parentPath.toString(),
                       })
 
                       path.stop()

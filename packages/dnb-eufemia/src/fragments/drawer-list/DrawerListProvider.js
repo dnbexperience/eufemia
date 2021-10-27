@@ -614,43 +614,6 @@ export default class DrawerListProvider extends React.PureComponent {
     }
   }
 
-  // NB: from v7, CSS is resolving the positioning (deprecated)
-  // setTrianglePosition = () => {
-  //   if (!this._refTriangle.current) {
-  //     return
-  //   }
-  //   // do not change the triangle on popup mode
-  //   if (isTrue(this.props.prevent_selection)) {
-  //     return
-  //   }
-
-  //   try {
-  //     const width = this._refUl.current.offsetWidth
-  //     if (parseFloat(width) > 0) {
-  //       const { align_drawer } = this.props
-  //       const { triangle_position } = this.state
-  //       switch (align_drawer) {
-  //         case 'left':
-  //         default:
-  //           if (triangle_position !== 'left') {
-  //             this._refTriangle.current.style.left = `${width / 16 - 3}rem` // -3rem
-  //           }
-  //           break
-  //         case 'right':
-  //           if (triangle_position === 'left') {
-  //             this._refTriangle.current.style.left = 'auto'
-  //             this._refTriangle.current.style.right = `${
-  //               width / 16 - 3
-  //             }rem` // -3rem
-  //           }
-  //           break
-  //       }
-  //     }
-  //   } catch (e) {
-  //     warn(e)
-  //   }
-  // }
-
   setWrapperElement = (wrapper_element = this.props.wrapper_element) => {
     if (
       typeof wrapper_element === 'string' &&
@@ -671,57 +634,11 @@ export default class DrawerListProvider extends React.PureComponent {
     return this
   }
 
-  getAnchorElem() {
+  getAnchorElem(activeElement) {
     try {
-      return this.getActiveElement().querySelector(
-        'a:not(:focus):first-of-type'
-      )
+      return activeElement.querySelector('a:first-of-type')
     } catch (e) {
       return null
-    }
-  }
-
-  anchorKeyDownHandler = (e) => {
-    const key = keycode(e)
-
-    switch (key) {
-      case 'tab':
-        try {
-          const nextEl = this.meta.shift
-            ? e.target.previousSibling
-            : e.target.nextSibling
-
-          e.stopPropagation()
-          e.preventDefault()
-
-          if (nextEl) {
-            this.focusAnchorElem(nextEl)
-          } else {
-            this.getActiveElement().focus()
-          }
-        } catch (e) {
-          // do nothing
-        }
-        break
-
-      case 'enter':
-      case 'space':
-        e.stopPropagation()
-        break
-
-      default:
-        break
-    }
-  }
-
-  focusAnchorElem(elem) {
-    if (elem) {
-      elem.focus({ preventScroll: true })
-
-      if (!elem._hkh) {
-        elem._hkh = true
-        elem.addEventListener('keydown', this.anchorKeyDownHandler)
-      }
     }
   }
 
@@ -888,11 +805,72 @@ export default class DrawerListProvider extends React.PureComponent {
       case 'tab':
         {
           if (active_item > -1) {
-            const anchorElem = this.getAnchorElem()
-            if (anchorElem) {
-              e.preventDefault() // so we can set focus to an anchor inside
-              this.focusAnchorElem(anchorElem)
-              return
+            // If there is an active item
+            // we make it possible to tab inside it (to an anchor) instead of closing the list
+            const activeElement = this.getActiveElement()
+            const hasFocusOnElement = Boolean(
+              this.getAnchorElem(activeElement)
+            )
+
+            this.setState({ hasFocusOnElement })
+
+            // And if there is an anchor inside our active element
+            if (hasFocusOnElement) {
+              e.stopPropagation()
+
+              // Also, set the focus actively into the active element, if it is not from beforehand
+              const currentActiveElement = getPreviousSibling(
+                'dnb-drawer-list__option',
+                document.activeElement
+              )
+
+              if (currentActiveElement !== activeElement) {
+                /**
+                 * Create an fake element,
+                 * so it's the last one we focus, within our active element.
+                 *
+                 * When the users tabs to it,
+                 * we return the focus the the users prev focus element, e.g. autocomplete input
+                 *
+                 * Why is this needed? Because we have our list in a portal, outside of the tab order
+                 */
+                const createTabElem = () => {
+                  try {
+                    const elem = document.createElement('BUTTON')
+                    elem.style = 'opacity:0;position:absolute;'
+                    const focus = () => {
+                      prevActiveElement.focus()
+                      elem.removeEventListener('focus', focus)
+                      activeElement.removeChild(after)
+                      activeElement.removeChild(before)
+                    }
+                    elem.addEventListener('focus', focus)
+                    return elem
+                  } catch (e) {
+                    //
+                  }
+                }
+
+                const prevActiveElement = document.activeElement
+                const after = createTabElem()
+                const before = createTabElem()
+
+                try {
+                  // Now, focus our active element
+                  activeElement.focus()
+
+                  // Insert our fake elements
+                  activeElement.appendChild(after)
+                  activeElement.insertBefore(
+                    before,
+                    activeElement.firstChild
+                  )
+                } catch (e) {
+                  //
+                }
+              }
+
+              return // stop here
             }
 
             // We may considder to close the list and set the focus it the handler
@@ -1037,8 +1015,17 @@ export default class DrawerListProvider extends React.PureComponent {
     this.removeOutsideClickObserver()
   }
 
-  setVisible = () => {
+  toggleVisible = (...args) => {
+    return this.state.opened
+      ? this.setHidden(...args)
+      : this.setVisible(...args)
+  }
+
+  setVisible = (args = {}, onStateComplete = null) => {
     if (this.state.opened && this.state.hidden === false) {
+      if (typeof onStateComplete === 'function') {
+        onStateComplete(true)
+      }
       return // stop
     }
 
@@ -1058,6 +1045,12 @@ export default class DrawerListProvider extends React.PureComponent {
         this.setState({
           isOpen: true,
         })
+
+        if (typeof onStateComplete === 'function') {
+          onStateComplete(true)
+        }
+
+        this.setActiveState(true)
       }
 
       if (isTrue(this.props.no_animation)) {
@@ -1079,6 +1072,7 @@ export default class DrawerListProvider extends React.PureComponent {
 
       const { selected_item, active_item } = this.state
       dispatchCustomElementEvent(this.state, 'on_show', {
+        ...args,
         data: getEventData(
           parseFloat(selected_item) > -1 ? selected_item : active_item,
           this.state.data
@@ -1112,9 +1106,9 @@ export default class DrawerListProvider extends React.PureComponent {
   setHidden = (args = {}, onStateComplete = null) => {
     if (!this.state.opened || isTrue(this.props.prevent_close)) {
       if (typeof onStateComplete === 'function') {
-        onStateComplete()
+        onStateComplete(false)
       }
-      return
+      return // stop here
     }
 
     clearTimeout(this._showTimeout)
@@ -1141,10 +1135,11 @@ export default class DrawerListProvider extends React.PureComponent {
           isOpen: false,
         })
         if (typeof onStateComplete === 'function') {
-          onStateComplete()
+          onStateComplete(false)
         }
         DrawerListProvider.isOpen = false
 
+        this.setActiveState(false)
         this.removeObservers()
       }
 
@@ -1156,6 +1151,28 @@ export default class DrawerListProvider extends React.PureComponent {
           delayHandler,
           DrawerListProvider.blurDelay
         ) // wait until animation is over
+      }
+    }
+  }
+
+  setActiveState(active) {
+    if (typeof document !== 'undefined') {
+      try {
+        if (active) {
+          document.documentElement.setAttribute(
+            'data-dnb-drawer-list-active',
+            String(this.props.id)
+          )
+        } else {
+          document.documentElement.removeAttribute(
+            'data-dnb-drawer-list-active'
+          )
+        }
+      } catch (e) {
+        warn(
+          'DrawerList: Error on set "data-dnb-drawer-list-active" by using element.setAttribute()',
+          e
+        )
       }
     }
   }
@@ -1309,6 +1326,7 @@ export default class DrawerListProvider extends React.PureComponent {
             removeObservers: this.removeObservers,
             setVisible: this.setVisible,
             setHidden: this.setHidden,
+            toggleVisible: this.toggleVisible,
             selectItem: this.selectItem,
             selectItemAndClose: this.selectItemAndClose,
             scrollToItem: this.scrollToItem,

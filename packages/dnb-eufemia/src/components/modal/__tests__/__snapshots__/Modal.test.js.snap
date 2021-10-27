@@ -1017,7 +1017,6 @@ exports[`Modal component have to match snapshot 1`] = `
                             id={null}
                             innerRef={null}
                             inner_ref={null}
-                            onClick={null}
                             on_click={[Function]}
                             size="large"
                             skeleton={null}
@@ -1059,7 +1058,6 @@ exports[`Modal component have to match snapshot 1`] = `
                                 innerRef={null}
                                 inner_ref={null}
                                 isIconOnly={false}
-                                onClick={null}
                                 on_click={[Function]}
                                 size="large"
                                 skeleton={false}
@@ -1384,6 +1382,8 @@ exports[`Modal scss have to match snapshot 1`] = `
     line-height: var(--line-height-small);
     font-size: var(--font-size-small);
     white-space: normal; }
+    button .dnb-form-status__text {
+      cursor: inherit; }
     .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
   .dnb-icon + .dnb-form-status__text {
@@ -1784,7 +1784,7 @@ button.dnb-button::-moz-focus-inner {
   --modal-overlay-transparent: rgba(0, 0, 0, 0);
   --modal-overlay-bg: rgba(0, 0, 0, 0.32); }
 
-[data-dnb-modal-active='true'] {
+[data-dnb-modal-active] {
   user-select: none;
   -webkit-user-select: none; }
 
@@ -1818,7 +1818,7 @@ button.dnb-button::-moz-focus-inner {
       min-width: var(--modal-min-width);
       max-width: var(--modal-max-width);
       max-height: 100vh;
-      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
+      box-shadow: var(--shadow-default);
       border-radius: 0.5rem;
       user-select: text;
       -webkit-user-select: text;
@@ -2021,7 +2021,7 @@ button.dnb-button::-moz-focus-inner {
     right: -50%;
     bottom: 0;
     height: 300%;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
+    box-shadow: var(--shadow-default); }
   .dnb-modal__content--drawer .dnb-modal__header__bar:not(.dnb-modal__header__bar--sticky)::after {
     color: transparent; }
   .dnb-modal__overlay {

@@ -360,12 +360,12 @@ exports[`Checkbox scss have to match snapshot 1`] = `
     margin-right: 0;
     margin-bottom: 0.5rem; }
   .dnb-form-label--sr-only {
-    width: 1px;
-    margin: 0;
-    padding: 0;
-    margin-left: -1px;
-    overflow: hidden;
-    white-space: nowrap; }
+    width: 1px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-left: -1px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -461,6 +461,8 @@ legend.dnb-form-label {
     line-height: var(--line-height-small);
     font-size: var(--font-size-small);
     white-space: normal; }
+    button .dnb-form-status__text {
+      cursor: inherit; }
     .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
   .dnb-icon + .dnb-form-status__text {

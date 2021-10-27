@@ -20,12 +20,14 @@ describe('List screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match ol list', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="lists-ol"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match outside ol list', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '20rem', height: '20rem' },
@@ -33,18 +35,21 @@ describe('List screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match ol list with custom types', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="lists-ol-types"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match dl list', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="lists-dl"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match lists reset', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="lists-reset"]',
@@ -62,12 +67,14 @@ describe('Lists with skeleton screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match ol list', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="lists-ol"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match outside ol list', async () => {
     const screenshot = await testPageScreenshot({
       style: { width: '20rem', height: '20rem' },
@@ -75,12 +82,14 @@ describe('Lists with skeleton screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match ol list with custom types', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="lists-ol-types"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match dl list', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="lists-dl"]',

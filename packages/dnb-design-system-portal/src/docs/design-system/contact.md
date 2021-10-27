@@ -8,16 +8,14 @@ order: 2
 
 ## Slack Channel on [DNB IT](https://dnb-it.slack.com)
 
-- `eufemia-web` (Web development)
+- [#eufemia-web](https://dnb-it.slack.com/archives/CMXABCHEY) (Web development)
 - `eufemia-native` (Native mobile development)
 - `eufemia-design-system` (UX designers)
 
 ### Related channels
 
-- `# figma`
-- `# frontend`
-- `# ux-design`
-- `# experience-design`
+- [#figma](https://dnb-it.slack.com/archives/CEA5N836V)
+- [#frontend](https://dnb-it.slack.com/archives/CFC7QK21E)
 
 ---
 

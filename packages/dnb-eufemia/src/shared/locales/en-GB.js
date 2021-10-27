@@ -53,6 +53,7 @@ export default {
       submit_button_title: 'Show options',
       no_options: 'No option',
       show_all: 'Show everything',
+      show_options_sr: 'Browse options, close with esc button',
       aria_live_options: '%s options',
       indicator_label: 'Getting data ...',
     },

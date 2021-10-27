@@ -158,25 +158,27 @@ export const AutocompleteSandbox = () => {
           // keep_value
           // disable_filter
           keep_value_and_selection
+          show_clear_button
           // prevent_selection
-          on_change={({ data }) => {
-            console.log('on_change', data)
-          }}
-          on_show={({ event, data }) => {
-            console.log('on_show', event, data)
-          }}
-          on_focus={({ event, data }) => {
-            console.log('on_focus', event, data)
-          }}
-          on_blur={({ event, data }) => {
-            console.log('on_blur', event, data)
-          }}
+          // on_change={({ data }) => {
+          //   console.log('on_change', data)
+          // }}
+          // on_show={({ event, data }) => {
+          //   console.log('on_show', event, data)
+          // }}
+          // on_focus={({ event, data }) => {
+          //   console.log('on_focus', event, data)
+          // }}
+          // on_blur={({ event, data }) => {
+          //   console.log('on_blur', event, data)
+          // }}
         />
       </Box>
       <Box>
         <Autocomplete
           label="Label:"
           show_submit_button="true"
+          show_clear_button
           // icon="bell"
           // input_icon="bell"
           // submit_button_icon="bell"
@@ -218,6 +220,7 @@ export const AutocompleteSandbox = () => {
           // input_value="foo bar th"
           // input_value="bb th x"
           input_value="co pr ti"
+          show_clear_button
           show_submit_button
           // value="b"
           data={[
@@ -719,16 +722,15 @@ function UpdateDataExample() {
             size="small"
             on_click={() => {
               const updatedSelectedData = selectedData.filter(
-                ({ selected_value }) =>
-                  item.selected_value !== selected_value
+                (data) => item.selected_value !== data.selected_value
               )
               setSelectedData(updatedSelectedData)
               setChoiceData(
                 initialData.filter(
-                  ({ selected_value }) =>
+                  (data) =>
                     updatedSelectedData.findIndex(
                       ({ selected_value: updatedValue }) =>
-                        updatedValue === selected_value
+                        updatedValue === data?.selected_value
                     ) === -1
                 )
               )
@@ -740,6 +742,7 @@ function UpdateDataExample() {
       </pre>
 
       <Autocomplete
+        prevent_selection
         title="Choose an item"
         // prevent_selection
         data={choiceData}

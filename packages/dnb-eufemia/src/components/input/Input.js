@@ -317,7 +317,7 @@ export default class Input extends React.PureComponent {
     const value = ''
     this.setState({ value })
     dispatchCustomElementEvent(this, 'on_change', { value, event })
-    this._ref.current.focus()
+    this._ref.current.focus({ preventScroll: true })
   }
   render() {
     // use only the props from context, who are available here anyway
@@ -539,10 +539,11 @@ export default class Input extends React.PureComponent {
                 </span>
               )}
 
-              {isTrue(clear) && (
+              {isTrue(clear) && icon_position !== 'right' && (
                 <span className="dnb-input--clear dnb-input__submit-element">
-                  <SubmitButton
+                  <InputSubmitButton
                     aria-hidden={!hasValue}
+                    attributes={{ className: 'dnb-input__clear-button' }}
                     id={id + '-clear-button'}
                     type="button"
                     variant="tertiary"
@@ -564,7 +565,7 @@ export default class Input extends React.PureComponent {
                 {submit_element ? (
                   submit_element
                 ) : (
-                  <SubmitButton
+                  <InputSubmitButton
                     {...attributes}
                     id={id + '-submit-button'}
                     value={inputParams.value}

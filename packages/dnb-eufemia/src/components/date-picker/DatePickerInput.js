@@ -14,7 +14,7 @@ import isValid from 'date-fns/isValid'
 import parseISO from 'date-fns/parseISO'
 
 import classnames from 'classnames'
-import _MaskedInput from 'react-text-mask' // https://github.com/text-mask/text-mask
+import TextMask from '../input-masked/TextMask'
 import Button from '../button/Button'
 import Input, { SubmitButton } from '../input/Input'
 import keycode from 'keycode'
@@ -25,9 +25,6 @@ import {
 } from '../../shared/component-helper'
 import { convertStringToDate } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
-
-// Looks like we get two defaults back – this may change in a future update
-const MaskedInput = _MaskedInput.default || _MaskedInput
 
 export default class DatePickerInput extends React.PureComponent {
   static contextType = DatePickerContext
@@ -353,7 +350,7 @@ export default class DatePickerInput extends React.PureComponent {
     const secondSelectionStart = target.selectionStart
     const isValid = /[0-9]/.test(keyCode)
     const index = this.refList.findIndex(
-      ({ current }) => current.inputElement === target
+      ({ current }) => current === target
     )
 
     if (
@@ -369,7 +366,7 @@ export default class DatePickerInput extends React.PureComponent {
         if (!this.refList[index + 1].current) {
           return
         }
-        const nextSibling = this.refList[index + 1].current.inputElement
+        const nextSibling = this.refList[index + 1].current
         if (nextSibling) {
           nextSibling.focus()
           nextSibling.setSelectionRange(0, 0)
@@ -382,8 +379,7 @@ export default class DatePickerInput extends React.PureComponent {
         case 'left':
         case 'backspace':
           try {
-            const prevSibling =
-              this.refList[index - 1].current.inputElement
+            const prevSibling = this.refList[index - 1].current
             if (prevSibling) {
               const endPos = prevSibling.value.length
               prevSibling.focus()
@@ -550,7 +546,7 @@ export default class DatePickerInput extends React.PureComponent {
                   )}
                   size="2"
                   mask={[/[0-3]/, /[0-9]/]}
-                  ref={this[`_${mode}DayRef`]}
+                  inputRef={this[`_${mode}DayRef`]}
                   onChange={this[`set_${mode}Day`]}
                   value={this.context[`__${mode}Day`] || ''}
                   aria-labelledby={`${this.props.id}-${mode}-day-label`}
@@ -580,7 +576,7 @@ export default class DatePickerInput extends React.PureComponent {
                   )}
                   size="2"
                   mask={[/[0-1]/, /[0-9]/]}
-                  ref={this[`_${mode}MonthRef`]}
+                  inputRef={this[`_${mode}MonthRef`]}
                   onChange={this[`set_${mode}Month`]}
                   value={this.context[`__${mode}Month`] || ''}
                   aria-labelledby={`${this.props.id}-${mode}-month-label`}
@@ -610,7 +606,7 @@ export default class DatePickerInput extends React.PureComponent {
                   )}
                   size="4"
                   mask={[/[1-2]/, /[0-9]/, /[0-9]/, /[0-9]/]}
-                  ref={this[`_${mode}YearRef`]}
+                  inputRef={this[`_${mode}YearRef`]}
                   onChange={this[`set_${mode}Year`]}
                   value={this.context[`__${mode}Year`] || ''}
                   aria-labelledby={`${this.props.id}-${mode}-year-label`}
@@ -744,9 +740,9 @@ const selectInput = (e) => {
   e.target.select()
 }
 
-const InputElement = React.forwardRef((props, innerRef) => {
+const InputElement = (props) => {
   return (
-    <MaskedInput
+    <TextMask
       guide={true}
       showMask={true}
       keepCharPositions={false} // so we can overwrite next value, if it already exists
@@ -754,11 +750,10 @@ const InputElement = React.forwardRef((props, innerRef) => {
       autoCapitalize="none"
       spellCheck={false}
       autoCorrect="off"
-      ref={innerRef}
       {...props}
     />
   )
-})
+}
 
 // const pad = (num, size) => ('000000000' + num).substr(-size)
 const wait = (t) => new Promise((r) => setTimeout(r, t))

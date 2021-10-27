@@ -43,12 +43,20 @@ export default class DrawerList extends React.PureComponent {
   static tagName = 'dnb-drawer-list'
   static contextType = DrawerListContext // only used for the hasProvide check
 
+  static blurDelay = DrawerListProvider.blurDelay // some ms more than "DrawerListSlideDown 200ms" = 201 // some ms more than "DrawerListSlideDown 200ms"
+
   static propTypes = {
     ...drawerListPropTypes,
   }
 
   static defaultProps = {
     ...drawerListDefaultProps,
+  }
+
+  constructor(props) {
+    super(props)
+
+    this._id = props.id || makeUniqueId()
   }
 
   static enableWebComponent() {
@@ -68,10 +76,11 @@ export default class DrawerList extends React.PureComponent {
 
     return (
       <DrawerListProvider
+        id={this._id}
         {...this.props}
         data={this.props.data || this.props.children}
       >
-        <DrawerListInstance {...this.props} />
+        <DrawerListInstance id={this._id} {...this.props} />
       </DrawerListProvider>
     )
   }
@@ -106,8 +115,10 @@ class DrawerListInstance extends React.PureComponent {
   preventTab = (e) => {
     switch (keycode(e)) {
       case 'tab':
-        e.preventDefault()
-        this.context.drawerList.setHidden()
+        if (!this.context.drawerList.hasFocusOnElement) {
+          e.preventDefault()
+          this.context.drawerList.setHidden()
+        }
         break
 
       case 'page down':
@@ -451,13 +462,14 @@ DrawerList.Options.displayName = 'DrawerList.Options'
 DrawerList.Options.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
     .isRequired,
-  cache_hash: PropTypes.string.isRequired,
+  cache_hash: PropTypes.string,
   showFocusRing: PropTypes.bool,
   className: PropTypes.string,
   class: PropTypes.string,
   triangleRef: PropTypes.object,
 }
 DrawerList.Options.defaultProps = {
+  cache_hash: null,
   showFocusRing: false,
   className: null,
   class: null,

@@ -15,7 +15,6 @@ import {
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
-  convertJsxToString,
   processChildren,
   extendPropsWithContext,
 } from '../../shared/component-helper'
@@ -28,6 +27,7 @@ import {
   spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
+import Hr from '../../elements/Hr'
 import GlobalStatusController, {
   GlobalStatusInterceptor,
 } from './GlobalStatusController'
@@ -49,7 +49,7 @@ export default class GlobalStatus extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string,
     status_id: PropTypes.string,
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    title: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
     default_title: PropTypes.string,
     text: PropTypes.oneOfType([
       PropTypes.string,
@@ -73,7 +73,7 @@ export default class GlobalStatus extends React.PureComponent {
     autoclose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    close_text: PropTypes.string,
+    close_text: PropTypes.node,
     hide_close_button: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -86,7 +86,7 @@ export default class GlobalStatus extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
-    status_anchor_text: PropTypes.string,
+    status_anchor_text: PropTypes.node,
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
     ...spacingPropTypes,
@@ -195,7 +195,6 @@ export default class GlobalStatus extends React.PureComponent {
   constructor(props) {
     super(props)
 
-    this._mainRef = React.createRef()
     this._wrapperRef = React.createRef()
     this._shellRef = React.createRef()
 
@@ -281,6 +280,11 @@ export default class GlobalStatus extends React.PureComponent {
         this._globalStatus = globalStatus
       }
 
+      let height
+      if (this.state.keepContentVisible) {
+        height = this.anim.adjustFrom()
+      }
+
       // force re-render
       this.setState({
         globalStatus,
@@ -298,7 +302,7 @@ export default class GlobalStatus extends React.PureComponent {
       // make sure to show the new status, inc. scroll
       if (
         (isTrue(this.props.autoclose) &&
-          this.hadContent &&
+          this._hadContent &&
           !this.hasContent(globalStatus) &&
           !isTrue(this.props.show)) ||
         (typeof globalStatus.show !== 'undefined' &&
@@ -310,8 +314,13 @@ export default class GlobalStatus extends React.PureComponent {
         (typeof globalStatus.show !== 'undefined' &&
           isTrue(globalStatus.show))
       ) {
-        this.hadContent = this.hasContent(globalStatus)
-        this.setVisible({ delay: 0 })
+        this._hadContent = this.hasContent(globalStatus)
+
+        if (this.state.keepContentVisible) {
+          this.anim.adjustTo(height)
+        } else {
+          this.setVisible({ delay: 0 })
+        }
       }
     })
 
@@ -321,8 +330,7 @@ export default class GlobalStatus extends React.PureComponent {
   componentDidMount() {
     this.anim.setElement(this._shellRef.current)
 
-    const isActive = isTrue(this.props.show)
-    if (isActive) {
+    if (isTrue(this.props.show)) {
       this.setVisible()
     }
   }
@@ -354,9 +362,9 @@ export default class GlobalStatus extends React.PureComponent {
         globalStatus,
       })
     }
+
     if (prevProps.show !== this.props.show) {
-      const isActive = isTrue(this.props.show)
-      if (isActive) {
+      if (isTrue(this.props.show)) {
         this.setVisible()
       } else {
         this.setHidden()
@@ -365,7 +373,7 @@ export default class GlobalStatus extends React.PureComponent {
   }
 
   hasContent(globalStatus) {
-    return globalStatus.items?.length > 0 || globalStatus.text
+    return Boolean(globalStatus.items?.length > 0 || globalStatus.text)
   }
 
   correctStatus(state) {
@@ -386,31 +394,10 @@ export default class GlobalStatus extends React.PureComponent {
       return // stop here
     }
 
-    const { isActive, initialOpened } = this.state
-
-    if (isActive === true && initialOpened) {
-      if (!this.adjustHeight) {
-        this.adjustHeight = this.anim.adjustFrom()
-      }
-
-      // just because we want to run "adjust" after the content has been set
-      this.setState(
-        {
-          keepContentVisible: true,
-        },
-        () => {
-          this.anim.adjustTo(this.adjustHeight, null, {})
-        }
-      )
-
-      return // stop here
-    }
-
     const run = () => {
       this.setState(
         {
           isActive: true,
-          initialOpened: true,
         },
         () => {
           this.anim.open()
@@ -435,15 +422,17 @@ export default class GlobalStatus extends React.PureComponent {
       return // stop here
     }
 
+    this.setState({
+      isClosing: true,
+    })
+
     const run = () => {
       this.setState(
         {
+          isClosing: false,
           isActive: false,
-          initialOpened: false,
         },
-        () => {
-          this.anim.close()
-        }
+        () => this.anim.close()
       )
     }
 
@@ -539,7 +528,7 @@ export default class GlobalStatus extends React.PureComponent {
     event.persist()
     const keyCode = keycode(event)
     if (
-      (item.status_id &&
+      (item.item_id &&
         typeof document !== 'undefined' &&
         typeof window !== 'undefined' &&
         keyCode === 'space') ||
@@ -549,7 +538,7 @@ export default class GlobalStatus extends React.PureComponent {
       event.preventDefault()
       try {
         // find the element
-        const element = document.getElementById(item.status_id)
+        const element = document.getElementById(item.item_id)
 
         if (!element) {
           return
@@ -608,18 +597,26 @@ export default class GlobalStatus extends React.PureComponent {
       }
 
       const id =
-        item.id || item.status_id
-          ? `${item.status_id}-${i}`
-          : makeUniqueId()
-      const label = React.isValidElement(item.status_anchor_label)
-        ? convertJsxToString(item.status_anchor_label)
-        : item.status_anchor_label || ''
-      const anchorText = String(
-        item.status_anchor_text || status_anchor_text
-      )
-        .replace('%s', label)
-        .replace(/[: ]$/g, '')
-      const useAutolink = item.status_id && isTrue(item.status_anchor_url)
+        item.id || item.item_id ? `${item.item_id}-${i}` : makeUniqueId()
+
+      let anchorText = status_anchor_text
+
+      if (React.isValidElement(item.status_anchor_label)) {
+        anchorText = (
+          <>
+            {typeof status_anchor_text === 'string'
+              ? status_anchor_text.replace('%s', '').trim()
+              : status_anchor_text}{' '}
+            {item.status_anchor_label}
+          </>
+        )
+      } else {
+        anchorText = String(item.status_anchor_text || status_anchor_text)
+          .replace('%s', item.status_anchor_label || '')
+          .replace(/[: ]$/g, '')
+      }
+
+      const useAutolink = item.item_id && isTrue(item.status_anchor_url)
 
       return (
         <li key={i}>
@@ -633,7 +630,7 @@ export default class GlobalStatus extends React.PureComponent {
               aria-describedby={id}
               lang={lang}
               href={
-                useAutolink ? `#${item.status_id}` : item.status_anchor_url
+                useAutolink ? `#${item.item_id}` : item.status_anchor_url
               }
               onClick={(e) => this.gotoItem(e, item)}
               onKeyDown={(e) => this.gotoItem(e, item)}
@@ -719,7 +716,7 @@ export default class GlobalStatus extends React.PureComponent {
     const noAnimation = isTrue(no_animation)
     const itemsToRender = props.items || []
     const contentToRender = GlobalStatus.getContent(props)
-    const style = state === 'info' ? null : 'fire-red'
+    const style = state === 'info' ? 'sea-green' : 'fire-red'
 
     /**
      * Show aria-live="assertive" when:
@@ -736,7 +733,6 @@ export default class GlobalStatus extends React.PureComponent {
      */
 
     const params = {
-      element: 'div',
       className: classnames(
         'dnb-global-status',
         `dnb-global-status--${state}`,
@@ -766,18 +762,22 @@ export default class GlobalStatus extends React.PureComponent {
     const renderedContent = (
       <div className="dnb-global-status__content">
         {title !== false && (
-          <p className="dnb-p dnb-global-status__title" lang={lang}>
-            <span className="dnb-global-status__icon">{iconToRender}</span>
-            {titleToRender}
-            {!isTrue(hide_close_button) && (
-              <CloseButton
-                className="dnb-global-status__close-button"
-                on_click={this.closeHandler}
-                text={close_text}
-                title={close_text}
-              />
-            )}
-          </p>
+          <Section element="div" style_type={style}>
+            <p className="dnb-p dnb-global-status__title" lang={lang}>
+              <span className="dnb-global-status__icon">
+                {iconToRender}
+              </span>
+              {titleToRender}
+              {!isTrue(hide_close_button) && (
+                <CloseButton
+                  className="dnb-global-status__close-button"
+                  on_click={this.closeHandler}
+                  text={close_text}
+                  title={close_text}
+                />
+              )}
+            </p>
+          </Section>
         )}
         {hasContent && (
           <Section
@@ -793,6 +793,7 @@ export default class GlobalStatus extends React.PureComponent {
               )}
               {renderedItems}
             </div>
+            <Hr fullscreen />
           </Section>
         )}
       </div>
@@ -800,12 +801,12 @@ export default class GlobalStatus extends React.PureComponent {
 
     return (
       <div {...wrapperParams} ref={this._wrapperRef}>
-        <Section style_type={style} {...params} ref={this._mainRef}>
+        <section {...params}>
           <div className="dnb-global-status__shell" ref={this._shellRef}>
             {(isAnimating || keepContentVisible || isActive) &&
               renderedContent}
           </div>
-        </Section>
+        </section>
       </div>
     )
   }

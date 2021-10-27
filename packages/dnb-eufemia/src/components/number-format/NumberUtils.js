@@ -62,6 +62,7 @@ export const format = (
     currency_display = null,
     currency_position = null,
     omit_currency_sign = null,
+    clean_copy_value = null,
     decimals = null,
     omit_rounding = null,
     options = null,
@@ -259,23 +260,34 @@ export const format = (
   }
 
   if (returnAria) {
-    const cleanedValue = formatNumber(
-      opts.style === 'percent' ? value / 100 : value,
-      locale,
-      opts,
-      (item) => {
-        switch (item.type) {
-          case 'currency':
-          case 'group':
-          case 'literal':
-          case 'percentSign':
-            item.value = ''
-            return item
-          default:
-            return item
+    let cleanedValue
+
+    if (clean_copy_value) {
+      cleanedValue = formatNumber(
+        opts.style === 'percent' ? value / 100 : value,
+        locale,
+        opts,
+        (item) => {
+          switch (item.type) {
+            case 'group':
+            case 'literal':
+            case 'currency':
+            case 'percentSign':
+              item.value = ''
+              return item
+            default:
+              return item
+          }
         }
-      }
-    )
+      )
+    } else {
+      const thousandsSeparator = getThousandsSeparator(locale)
+      cleanedValue = display.replace(
+        new RegExp(`${thousandsSeparator}(?=\\d{3})`, 'g'),
+        ''
+      )
+    }
+
     // return "locale" as well value,l, since we have to "auto" option
     return { value, cleanedValue, number: display, aria, locale, type }
   }
@@ -318,13 +330,14 @@ export const formatDecimals = (
  * Find the amount of decimals
  *
  * @param {number|string} value any number
+ * @param {string} decimalSeparator a dot or coma
  * @returns amount of decimals
  */
-const countDecimals = (value) => {
+export const countDecimals = (value, decimalSeparator = '.') => {
   if (Math.floor(value.valueOf()) === value.valueOf()) {
     return 0
   }
-  return String(value).split('.')[1].length || 0
+  return String(value).split(decimalSeparator)[1]?.length || 0
 }
 
 /**
@@ -693,13 +706,25 @@ export const formatNIN = (number, locale = null) => {
  */
 export function cleanNumber(
   num,
-  { decimalSeparator = null, thousandsSeparator = null } = {}
+  {
+    decimalSeparator = null,
+    thousandsSeparator = null,
+    prefix = null,
+    suffix = null,
+  } = {}
 ) {
   if (typeof num === 'number') {
     return num
   }
 
   num = String(num).trim()
+
+  if (typeof prefix === 'string' && num.startsWith(prefix)) {
+    num = num.substring(prefix.length, num.length)
+  }
+  if (typeof suffix === 'string' && num.endsWith(suffix)) {
+    num = num.substring(0, num.length - suffix.length)
+  }
 
   // 1. Remove invalid chars on the beginning (not a number)
   if (/^[^0-9-]/.test(num)) {

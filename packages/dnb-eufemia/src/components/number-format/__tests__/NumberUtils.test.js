@@ -14,6 +14,7 @@ import {
   getDecimalSeparator,
   getThousandsSeparator,
   getCurrencySymbol,
+  countDecimals,
 } from '../NumberUtils'
 
 const locale = LOCALE
@@ -58,7 +59,7 @@ describe('Decimals format', () => {
     expect(format(num)).toBe('-12 345,6789')
     expect(format(num, { returnAria: true })).toMatchObject({
       aria: '-12345,6789',
-      cleanedValue: '−12345,6789',
+      cleanedValue: '-12345,6789',
       locale: 'nb-NO',
       number: '-12 345,6789',
       type: 'number',
@@ -66,7 +67,7 @@ describe('Decimals format', () => {
     })
     expect(format(String(num), { returnAria: true })).toMatchObject({
       aria: '-12345,6789',
-      cleanedValue: '−12345,6789',
+      cleanedValue: '-12345,6789',
       locale: 'nb-NO',
       number: '-12 345,6789',
       type: 'number',
@@ -278,6 +279,24 @@ describe('Currency format with dirty number', () => {
       format(number, { currency: true, returnAria: true })
     ).toMatchObject({
       aria: '-123 456 789,56 norske kroner',
+      cleanedValue: '-123456789,56 kr',
+      locale: 'nb-NO',
+      number: '-123 456 789,56 kr',
+      type: 'currency',
+      value: number,
+    })
+  })
+
+  it('return corret aria with "clean_copy_value"', () => {
+    const number = -123456789.56
+    expect(
+      format(number, {
+        currency: true,
+        returnAria: true,
+        clean_copy_value: true,
+      })
+    ).toMatchObject({
+      aria: '-123 456 789,56 norske kroner',
       cleanedValue: '−123456789,56',
       locale: 'nb-NO',
       number: '-123 456 789,56 kr',
@@ -468,7 +487,7 @@ describe('NumberFormat percentage', () => {
       })
     ).toMatchObject({
       aria: '-123,456,789.6%',
-      cleanedValue: '-123456789.6',
+      cleanedValue: '-123456789.6%',
       locale: 'en-US',
       number: '-123,456,789.6%',
       type: 'number',
@@ -482,7 +501,7 @@ describe('NumberFormat percentage', () => {
       })
     ).toMatchObject({
       aria: '12.34%',
-      cleanedValue: '12.34',
+      cleanedValue: '12.34%',
       locale: 'en-US',
       number: '12.34%',
       type: 'number',
@@ -575,6 +594,13 @@ describe('NumberFormat cleanNumber', () => {
         decimalSeparator: '.',
       })
     ).toBe('1234.567')
+
+    expect(
+      cleanNumber('NOK 1234 567,0123 kr', {
+        prefix: 'NOK ',
+        suffix: ' kr',
+      })
+    ).toBe('1234567.0123')
   })
 
   it('should clean up norwegian style (SI style (French version))', () => {
@@ -687,5 +713,32 @@ describe('getCurrencySymbol should', () => {
   })
   it('return space when locale is en-US', () => {
     expect(getCurrencySymbol('en-US')).toBe('NOK')
+  })
+})
+
+describe('countDecimals should', () => {
+  it('return deciamls count for string', () => {
+    expect(countDecimals('1.2')).toBe(1)
+    expect(countDecimals('1.23')).toBe(2)
+    expect(countDecimals('1.01')).toBe(2)
+    expect(countDecimals('1.00')).toBe(2)
+  })
+  it('return deciamls count for float', () => {
+    expect(countDecimals(1.2)).toBe(1)
+    expect(countDecimals(1.23)).toBe(2)
+    expect(countDecimals(1.01)).toBe(2)
+  })
+  it('return 0 when 1.0 is given (we can not determine better in JS)', () => {
+    expect(countDecimals(1.0)).toBe(0)
+  })
+  it('return 0 when wrong decimal is given', () => {
+    expect(countDecimals('1,2')).toBe(0)
+  })
+  it('allow defining other decimal separator', () => {
+    const decimalSeparator = ','
+    expect(countDecimals('1,2', decimalSeparator)).toBe(1)
+    expect(countDecimals('1,23', decimalSeparator)).toBe(2)
+    expect(countDecimals('1,01', decimalSeparator)).toBe(2)
+    expect(countDecimals('1,00', decimalSeparator)).toBe(2)
   })
 })

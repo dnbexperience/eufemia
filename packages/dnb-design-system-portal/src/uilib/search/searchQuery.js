@@ -5,6 +5,7 @@
 
 const { getCurrentBranchName } = require('../utils/git')
 const { makeSlug } = require('../utils/slug')
+const { isCI } = require('ci-info')
 
 const docsQuery = /* GraphQL */ `
   {
@@ -92,7 +93,8 @@ const flatten = (arr) =>
 
               if (first && first.depth === 2) {
                 headings.shift()
-                newTitle = `${newTitle} > ${first.value}`
+                // eslint-disable-next-line no-irregular-whitespace
+                newTitle = `${newTitle} → ${first.value}`
               }
 
               frontmatter = {
@@ -134,22 +136,50 @@ const hasTitle = (r) => String(r.title || '').length > 0
 const hasSearch = (r) => String(r.search || '').length > 0
 const hasDescription = (r) => String(r.description || '').length > 0
 
-const dev = false
+// Finds current index name for the Algolia search
+const getIndexName = (currentBranch) => {
+  if (process.env.NODE_ENV !== 'production' || !isCI) {
+    return 'dev_eufemia_docs'
+  }
+
+  if (/^(beta)$/.test(currentBranch)) {
+    return 'beta_eufemia_docs'
+  }
+
+  return 'prod_eufemia_docs'
+}
+
+const runQueriesWhen = (currentBranch) => {
+  if ((process.env.ALGOLIA_API_KEY || '').length === 0) {
+    console.info(
+      'If you want to submit searchable data to Algolia, you need to request access keys and put them in a local .env file.'
+    )
+    return true
+  }
+
+  if (isCI) {
+    return /^(release|beta|portal)$/.test(currentBranch)
+  }
+
+  if (process.env.NODE_ENV === 'production') {
+    return true
+  }
+
+  return false
+}
+
 const currentBranch = getCurrentBranchName()
-const queries =
-  dev || /^(release|beta|portal)$/.test(currentBranch)
-    ? [
-        {
-          query: docsQuery,
-          transformer: ({ data }) => flatten(data.pages.edges),
-          indexName:
-            dev || process.env.NODE_ENV !== 'production'
-              ? 'dev_eufemia_docs'
-              : /^(beta)$/.test(currentBranch)
-              ? 'beta_eufemia_docs'
-              : 'prod_eufemia_docs',
-        },
-      ]
-    : null
+
+// Queries for Algolia search including updated pages
+// When queries=null, the Algolia search will not be updated with the newest pages
+const queries = runQueriesWhen(currentBranch)
+  ? [
+      {
+        query: docsQuery,
+        transformer: ({ data }) => flatten(data.pages.edges),
+        indexName: getIndexName(currentBranch),
+      },
+    ]
+  : null
 
 module.exports = queries

@@ -3,8 +3,9 @@
  */
 
 $defaultEasing: cubic-bezier(0.42, 0, 0, 1);
+
 @mixin defaultDropShadow() {
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
+  box-shadow: var(--shadow-default);
 }
 
 // Uses html:not([data-whatintent='touch'] )

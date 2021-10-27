@@ -12,6 +12,7 @@ exports[`NumberFormat component have to match default number-format snapshot 1`]
     class={null}
     className={null}
     clean={null}
+    clean_copy_value={false}
     copy_selection={true}
     currency={null}
     currency_display={null}

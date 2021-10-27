@@ -16,9 +16,6 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
 .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in.dnb-global-status.dnb-section::after {
   box-shadow: 99vw 0 0 0 currentColor, 198vw 0 0 0 currentColor, 297vw 0 0 0 currentColor, 396vw 0 0 0 currentColor, 0 0.0625rem 0 0 var(--color-black-80), 100vw 0.0625rem 0 0 var(--color-black-80); }
 
-.dnb-global-status--info.dnb-global-status.dnb-section--mint-green-12::after {
-  color: var(--color-sea-green); }
-
 .dnb-global-status__title {
   color: var(--color-white); }
   .dnb-global-status__title.dnb-p {
@@ -27,14 +24,19 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
 .dnb-global-status__icon {
   font-size: 1rem; }
 
-.dnb-global-status__message {
-  transform: translate3d(0, -1px, 0); }
-  .dnb-global-status__message__content {
-    color: var(--color-black-80); }
-    .dnb-global-status__message__content > .dnb-p {
-      font-weight: var(--font-weight-medium); }
-  .dnb-global-status__message.dnb-section--white ::selection {
-    background-color: var(--color-mint-green); }
+.dnb-global-status__message__content {
+  color: var(--color-black-80); }
+  .dnb-global-status__message__content > .dnb-p {
+    font-weight: var(--font-weight-medium); }
+
+.dnb-global-status__message.dnb-section--white ::selection {
+  background-color: var(--color-mint-green); }
+
+.dnb-global-status__message .dnb-hr {
+  color: var(--color-fire-red); }
+
+.dnb-global-status--info .dnb-global-status__message .dnb-hr {
+  color: var(--color-sea-green); }
 
 .dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
   color: var(--color-white); }
@@ -239,6 +241,8 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
     line-height: var(--line-height-small);
     font-size: var(--font-size-small);
     white-space: normal; }
+    button .dnb-form-status__text {
+      cursor: inherit; }
     .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
   .dnb-icon + .dnb-form-status__text {
@@ -764,12 +768,12 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
     Array [
       Object {
         "id": "id-1",
-        "status_id": "idid-1textitem-1",
+        "item_id": "idid-1textitem-1",
         "text": "item #1",
       },
       Object {
         "id": "id-2",
-        "status_id": "idid-2textitem-2",
+        "item_id": "idid-2textitem-2",
         "text": "item #2",
       },
     ]
@@ -798,372 +802,25 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
     onKeyDown={[Function]}
     tabIndex="-1"
   >
-    <Section
-      class={null}
+    <section
       className="dnb-global-status dnb-global-status--error dnb-global-status--visible dnb-global-status--no-animation"
-      element="div"
-      inner_ref={null}
-      spacing={null}
-      style_type="fire-red"
     >
       <div
-        className="dnb-section dnb-section--fire-red dnb-global-status dnb-global-status--error dnb-global-status--visible dnb-global-status--no-animation"
+        className="dnb-global-status__shell"
       >
         <div
-          className="dnb-global-status__shell"
+          className="dnb-global-status__content"
         >
-          <div
-            className="dnb-global-status__content"
-          >
-            <p
-              className="dnb-p dnb-global-status__title"
-              lang="nb-NO"
-            >
-              <span
-                className="dnb-global-status__icon"
-              >
-                <Icon
-                  alt={null}
-                  attributes={null}
-                  border={null}
-                  className={null}
-                  color={null}
-                  height={null}
-                  icon={
-                    <ErrorIcon
-                      title={null}
-                    />
-                  }
-                  inherit_color={true}
-                  modifier={null}
-                  size="icon_size"
-                  skeleton={null}
-                  title={null}
-                  width={null}
-                >
-                  <span
-                    aria-hidden={true}
-                    className="dnb-icon dnb-icon--default dnb-icon--inherit-color"
-                    role="presentation"
-                  >
-                    <Component>
-                      <ErrorIcon
-                        title={null}
-                      >
-                        <svg
-                          fill="none"
-                          height="32"
-                          title={null}
-                          viewBox="0 0 32 32"
-                          width="32"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
-                            stroke="#000"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1.5"
-                          />
-                          <path
-                            d="M16 21V11"
-                            stroke="#000"
-                            strokeLinecap="round"
-                            strokeWidth="1.5"
-                          />
-                          <path
-                            clipRule="evenodd"
-                            d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
-                            stroke="#000"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1.5"
-                          />
-                        </svg>
-                      </ErrorIcon>
-                    </Component>
-                  </span>
-                </Icon>
-              </span>
-              title
-              <CloseButton
-                className="dnb-global-status__close-button"
-                close_title={null}
-                icon_position="left"
-                on_click={[Function]}
-                size="large"
-                text="close_text"
-                title="close_text"
-              >
-                <Button
-                  bounding={null}
-                  class={null}
-                  className="dnb-modal__close-button dnb-global-status__close-button"
-                  custom_content={null}
-                  custom_element={null}
-                  custom_method={null}
-                  disabled={null}
-                  element={null}
-                  global_status_id={null}
-                  href={null}
-                  icon="close"
-                  icon_position="left"
-                  icon_size={null}
-                  id={null}
-                  innerRef={null}
-                  inner_ref={null}
-                  onClick={null}
-                  on_click={[Function]}
-                  size="large"
-                  skeleton={null}
-                  status={null}
-                  status_no_animation={null}
-                  status_props={null}
-                  status_state="error"
-                  stretch={null}
-                  text="close_text"
-                  title="close_text"
-                  to={null}
-                  tooltip={null}
-                  type="button"
-                  variant="tertiary"
-                  wrap={null}
-                >
-                  <button
-                    className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-large"
-                    disabled={false}
-                    onClick={[Function]}
-                    title="close_text"
-                    type="button"
-                  >
-                    <Content
-                      bounding={null}
-                      class={null}
-                      className="dnb-modal__close-button dnb-global-status__close-button"
-                      content="close_text"
-                      custom_content={null}
-                      custom_element={null}
-                      custom_method={null}
-                      disabled={null}
-                      element={null}
-                      global_status_id={null}
-                      href={null}
-                      icon="close"
-                      icon_position="left"
-                      icon_size="medium"
-                      id={null}
-                      innerRef={null}
-                      inner_ref={null}
-                      isIconOnly={false}
-                      onClick={null}
-                      on_click={[Function]}
-                      size="large"
-                      skeleton={false}
-                      status={null}
-                      status_no_animation={null}
-                      status_props={null}
-                      status_state="error"
-                      stretch={null}
-                      text="close_text"
-                      title="close_text"
-                      to={null}
-                      tooltip={null}
-                      type="button"
-                      variant="tertiary"
-                      wrap={null}
-                    >
-                      <span
-                        className="dnb-button__alignment"
-                        key="button-text-empty"
-                      >
-                        ‌
-                      </span>
-                      <span
-                        className="dnb-button__text dnb-skeleton--show-font"
-                        key="button-text"
-                      >
-                        close_text
-                      </span>
-                      <IconPrimary
-                        alt={null}
-                        aria-hidden={true}
-                        attributes={null}
-                        border={null}
-                        className="dnb-button__icon"
-                        color={null}
-                        height={null}
-                        icon="close"
-                        inherit_color={true}
-                        key="button-icon"
-                        modifier={null}
-                        size="medium"
-                        skeleton={false}
-                        title={null}
-                        width={null}
-                      >
-                        <span
-                          aria-hidden={true}
-                          className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                          data-test-id="close icon"
-                          role="presentation"
-                        >
-                          <close_medium>
-                            <svg
-                              fill="none"
-                              height={24}
-                              viewBox="0 0 24 24"
-                              width={24}
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M5 19L19 5M19 19L5 5"
-                                stroke="black"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={1.5}
-                              />
-                            </svg>
-                          </close_medium>
-                        </span>
-                      </IconPrimary>
-                    </Content>
-                  </button>
-                  <FormStatus
-                    attributes={null}
-                    class={null}
-                    className={null}
-                    global_status_id={null}
-                    icon="error"
-                    icon_size="medium"
-                    id="null-form-status"
-                    label="close_text"
-                    no_animation={null}
-                    role={null}
-                    show={null}
-                    size="default"
-                    skeleton={null}
-                    state="error"
-                    status="error"
-                    stretch={null}
-                    text={null}
-                    text_id="null-status"
-                    title={null}
-                    variant={null}
-                    width_element={null}
-                    width_selector={null}
-                  />
-                </Button>
-              </CloseButton>
-            </p>
-            <Section
-              class={null}
-              className="dnb-global-status__message"
-              element="div"
-              inner_ref={null}
-              spacing={null}
-              style_type="white"
-            >
-              <div
-                className="dnb-section dnb-section--white dnb-global-status__message"
-              >
-                <div
-                  className="dnb-global-status__message__content"
-                >
-                  <p
-                    className="dnb-p"
-                  >
-                    text
-                  </p>
-                  <ul
-                    className="dnb-ul"
-                  >
-                    <li
-                      key="0"
-                    >
-                      <p
-                        className="dnb-p"
-                        id="idid-1textitem-1-0"
-                      >
-                        item #1
-                      </p>
-                    </li>
-                    <li
-                      key="1"
-                    >
-                      <p
-                        className="dnb-p"
-                        id="idid-2textitem-2-1"
-                      >
-                        item #2
-                      </p>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </Section>
-          </div>
-        </div>
-      </div>
-    </Section>
-  </div>
-</GlobalStatus>
-`;
-
-exports[`GlobalStatus snapshot have to match linked components snapshot 1`] = `
-Array [
-  <GlobalStatus
-    autoclose={true}
-    autoscroll={false}
-    class={null}
-    className={null}
-    close_text="Lukk"
-    default_title={null}
-    delay={0}
-    hide_close_button={false}
-    icon="error"
-    icon_size="large"
-    id="linked"
-    items={Array []}
-    no_animation={true}
-    omit_set_focus={false}
-    omit_set_focus_on_update={true}
-    on_adjust={null}
-    on_close={null}
-    on_hide={null}
-    on_open={null}
-    on_show={null}
-    show={true}
-    skeleton={null}
-    state="error"
-    status_anchor_text={null}
-    status_id="status-main"
-    text={null}
-    title={null}
-  >
-    <div
-      aria-live="assertive"
-      className="dnb-global-status__wrapper dnb-no-focus"
-      id="linked"
-      key="global-status"
-      onKeyDown={[Function]}
-      tabIndex="-1"
-    >
-      <Section
-        class={null}
-        className="dnb-global-status dnb-global-status--error dnb-global-status--visible dnb-global-status--no-animation"
-        element="div"
-        inner_ref={null}
-        spacing={null}
-        style_type="fire-red"
-      >
-        <div
-          className="dnb-section dnb-section--fire-red dnb-global-status dnb-global-status--error dnb-global-status--visible dnb-global-status--no-animation"
-        >
-          <div
-            className="dnb-global-status__shell"
+          <Section
+            class={null}
+            className={null}
+            element="div"
+            inner_ref={null}
+            spacing={null}
+            style_type="fire-red"
           >
             <div
-              className="dnb-global-status__content"
+              className="dnb-section dnb-section--fire-red"
             >
               <p
                 className="dnb-p dnb-global-status__title"
@@ -1186,14 +843,14 @@ Array [
                     }
                     inherit_color={true}
                     modifier={null}
-                    size="large"
+                    size="icon_size"
                     skeleton={null}
                     title={null}
                     width={null}
                   >
                     <span
                       aria-hidden={true}
-                      className="dnb-icon dnb-icon--large dnb-icon--inherit-color"
+                      className="dnb-icon dnb-icon--default dnb-icon--inherit-color"
                       role="presentation"
                     >
                       <Component>
@@ -1235,15 +892,15 @@ Array [
                     </span>
                   </Icon>
                 </span>
-                En feil har skjedd
+                title
                 <CloseButton
                   className="dnb-global-status__close-button"
                   close_title={null}
                   icon_position="left"
                   on_click={[Function]}
                   size="large"
-                  text="Lukk"
-                  title="Lukk"
+                  text="close_text"
+                  title="close_text"
                 >
                   <Button
                     bounding={null}
@@ -1262,7 +919,6 @@ Array [
                     id={null}
                     innerRef={null}
                     inner_ref={null}
-                    onClick={null}
                     on_click={[Function]}
                     size="large"
                     skeleton={null}
@@ -1271,8 +927,8 @@ Array [
                     status_props={null}
                     status_state="error"
                     stretch={null}
-                    text="Lukk"
-                    title="Lukk"
+                    text="close_text"
+                    title="close_text"
                     to={null}
                     tooltip={null}
                     type="button"
@@ -1283,14 +939,14 @@ Array [
                       className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-large"
                       disabled={false}
                       onClick={[Function]}
-                      title="Lukk"
+                      title="close_text"
                       type="button"
                     >
                       <Content
                         bounding={null}
                         class={null}
                         className="dnb-modal__close-button dnb-global-status__close-button"
-                        content="Lukk"
+                        content="close_text"
                         custom_content={null}
                         custom_element={null}
                         custom_method={null}
@@ -1305,7 +961,6 @@ Array [
                         innerRef={null}
                         inner_ref={null}
                         isIconOnly={false}
-                        onClick={null}
                         on_click={[Function]}
                         size="large"
                         skeleton={false}
@@ -1314,8 +969,8 @@ Array [
                         status_props={null}
                         status_state="error"
                         stretch={null}
-                        text="Lukk"
-                        title="Lukk"
+                        text="close_text"
+                        title="close_text"
                         to={null}
                         tooltip={null}
                         type="button"
@@ -1332,7 +987,7 @@ Array [
                           className="dnb-button__text dnb-skeleton--show-font"
                           key="button-text"
                         >
-                          Lukk
+                          close_text
                         </span>
                         <IconPrimary
                           alt={null}
@@ -1386,7 +1041,7 @@ Array [
                       icon="error"
                       icon_size="medium"
                       id="null-form-status"
-                      label="Lukk"
+                      label="close_text"
                       no_animation={null}
                       role={null}
                       show={null}
@@ -1405,51 +1060,470 @@ Array [
                   </Button>
                 </CloseButton>
               </p>
-              <Section
-                class={null}
-                className="dnb-global-status__message"
-                element="div"
-                inner_ref={null}
-                spacing={null}
-                style_type="white"
+            </div>
+          </Section>
+          <Section
+            class={null}
+            className="dnb-global-status__message"
+            element="div"
+            inner_ref={null}
+            spacing={null}
+            style_type="white"
+          >
+            <div
+              className="dnb-section dnb-section--white dnb-global-status__message"
+            >
+              <div
+                className="dnb-global-status__message__content"
+              >
+                <p
+                  className="dnb-p"
+                >
+                  text
+                </p>
+                <ul
+                  className="dnb-ul"
+                >
+                  <li
+                    key="0"
+                  >
+                    <p
+                      className="dnb-p"
+                      id="idid-1textitem-1-0"
+                    >
+                      item #1
+                    </p>
+                  </li>
+                  <li
+                    key="1"
+                  >
+                    <p
+                      className="dnb-p"
+                      id="idid-2textitem-2-1"
+                    >
+                      item #2
+                    </p>
+                  </li>
+                </ul>
+              </div>
+              <Hr
+                className={null}
+                fullscreen={true}
+                light={null}
+                medium={null}
+              >
+                <ForwardRef
+                  class={null}
+                  className="dnb-hr--fullscreen"
+                  css={null}
+                  internalClass={null}
+                  is="hr"
+                  skeleton={null}
+                  skeleton_method="font"
+                >
+                  <ElementInstance
+                    class={null}
+                    className="dnb-hr--fullscreen"
+                    css={null}
+                    inner_ref={null}
+                    internalClass={null}
+                    is="hr"
+                    skeleton={null}
+                    skeleton_method="font"
+                  >
+                    <hr
+                      className="dnb-hr--fullscreen dnb-hr"
+                    />
+                  </ElementInstance>
+                </ForwardRef>
+              </Hr>
+            </div>
+          </Section>
+        </div>
+      </div>
+    </section>
+  </div>
+</GlobalStatus>
+`;
+
+exports[`GlobalStatus snapshot have to match linked components snapshot 1`] = `
+Array [
+  <GlobalStatus
+    autoclose={true}
+    autoscroll={false}
+    class={null}
+    className={null}
+    close_text="Lukk"
+    default_title={null}
+    delay={0}
+    hide_close_button={false}
+    icon="error"
+    icon_size="large"
+    id="linked"
+    items={Array []}
+    no_animation={true}
+    omit_set_focus={false}
+    omit_set_focus_on_update={true}
+    on_adjust={null}
+    on_close={null}
+    on_hide={null}
+    on_open={null}
+    on_show={null}
+    show={true}
+    skeleton={null}
+    state="error"
+    status_anchor_text={null}
+    status_id="status-main"
+    text={null}
+    title={null}
+  >
+    <div
+      aria-live="assertive"
+      className="dnb-global-status__wrapper dnb-no-focus"
+      id="linked"
+      key="global-status"
+      onKeyDown={[Function]}
+      tabIndex="-1"
+    >
+      <section
+        className="dnb-global-status dnb-global-status--error dnb-global-status--visible dnb-global-status--no-animation"
+      >
+        <div
+          className="dnb-global-status__shell"
+        >
+          <div
+            className="dnb-global-status__content"
+          >
+            <Section
+              class={null}
+              className={null}
+              element="div"
+              inner_ref={null}
+              spacing={null}
+              style_type="fire-red"
+            >
+              <div
+                className="dnb-section dnb-section--fire-red"
+              >
+                <p
+                  className="dnb-p dnb-global-status__title"
+                  lang="nb-NO"
+                >
+                  <span
+                    className="dnb-global-status__icon"
+                  >
+                    <Icon
+                      alt={null}
+                      attributes={null}
+                      border={null}
+                      className={null}
+                      color={null}
+                      height={null}
+                      icon={
+                        <ErrorIcon
+                          title={null}
+                        />
+                      }
+                      inherit_color={true}
+                      modifier={null}
+                      size="large"
+                      skeleton={null}
+                      title={null}
+                      width={null}
+                    >
+                      <span
+                        aria-hidden={true}
+                        className="dnb-icon dnb-icon--large dnb-icon--inherit-color"
+                        role="presentation"
+                      >
+                        <Component>
+                          <ErrorIcon
+                            title={null}
+                          >
+                            <svg
+                              fill="none"
+                              height="32"
+                              title={null}
+                              viewBox="0 0 32 32"
+                              width="32"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
+                                stroke="#000"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1.5"
+                              />
+                              <path
+                                d="M16 21V11"
+                                stroke="#000"
+                                strokeLinecap="round"
+                                strokeWidth="1.5"
+                              />
+                              <path
+                                clipRule="evenodd"
+                                d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
+                                stroke="#000"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1.5"
+                              />
+                            </svg>
+                          </ErrorIcon>
+                        </Component>
+                      </span>
+                    </Icon>
+                  </span>
+                  En feil har skjedd
+                  <CloseButton
+                    className="dnb-global-status__close-button"
+                    close_title={null}
+                    icon_position="left"
+                    on_click={[Function]}
+                    size="large"
+                    text="Lukk"
+                    title="Lukk"
+                  >
+                    <Button
+                      bounding={null}
+                      class={null}
+                      className="dnb-modal__close-button dnb-global-status__close-button"
+                      custom_content={null}
+                      custom_element={null}
+                      custom_method={null}
+                      disabled={null}
+                      element={null}
+                      global_status_id={null}
+                      href={null}
+                      icon="close"
+                      icon_position="left"
+                      icon_size={null}
+                      id={null}
+                      innerRef={null}
+                      inner_ref={null}
+                      on_click={[Function]}
+                      size="large"
+                      skeleton={null}
+                      status={null}
+                      status_no_animation={null}
+                      status_props={null}
+                      status_state="error"
+                      stretch={null}
+                      text="Lukk"
+                      title="Lukk"
+                      to={null}
+                      tooltip={null}
+                      type="button"
+                      variant="tertiary"
+                      wrap={null}
+                    >
+                      <button
+                        className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-large"
+                        disabled={false}
+                        onClick={[Function]}
+                        title="Lukk"
+                        type="button"
+                      >
+                        <Content
+                          bounding={null}
+                          class={null}
+                          className="dnb-modal__close-button dnb-global-status__close-button"
+                          content="Lukk"
+                          custom_content={null}
+                          custom_element={null}
+                          custom_method={null}
+                          disabled={null}
+                          element={null}
+                          global_status_id={null}
+                          href={null}
+                          icon="close"
+                          icon_position="left"
+                          icon_size="medium"
+                          id={null}
+                          innerRef={null}
+                          inner_ref={null}
+                          isIconOnly={false}
+                          on_click={[Function]}
+                          size="large"
+                          skeleton={false}
+                          status={null}
+                          status_no_animation={null}
+                          status_props={null}
+                          status_state="error"
+                          stretch={null}
+                          text="Lukk"
+                          title="Lukk"
+                          to={null}
+                          tooltip={null}
+                          type="button"
+                          variant="tertiary"
+                          wrap={null}
+                        >
+                          <span
+                            className="dnb-button__alignment"
+                            key="button-text-empty"
+                          >
+                            ‌
+                          </span>
+                          <span
+                            className="dnb-button__text dnb-skeleton--show-font"
+                            key="button-text"
+                          >
+                            Lukk
+                          </span>
+                          <IconPrimary
+                            alt={null}
+                            aria-hidden={true}
+                            attributes={null}
+                            border={null}
+                            className="dnb-button__icon"
+                            color={null}
+                            height={null}
+                            icon="close"
+                            inherit_color={true}
+                            key="button-icon"
+                            modifier={null}
+                            size="medium"
+                            skeleton={false}
+                            title={null}
+                            width={null}
+                          >
+                            <span
+                              aria-hidden={true}
+                              className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
+                              data-test-id="close icon"
+                              role="presentation"
+                            >
+                              <close_medium>
+                                <svg
+                                  fill="none"
+                                  height={24}
+                                  viewBox="0 0 24 24"
+                                  width={24}
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M5 19L19 5M19 19L5 5"
+                                    stroke="black"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={1.5}
+                                  />
+                                </svg>
+                              </close_medium>
+                            </span>
+                          </IconPrimary>
+                        </Content>
+                      </button>
+                      <FormStatus
+                        attributes={null}
+                        class={null}
+                        className={null}
+                        global_status_id={null}
+                        icon="error"
+                        icon_size="medium"
+                        id="null-form-status"
+                        label="Lukk"
+                        no_animation={null}
+                        role={null}
+                        show={null}
+                        size="default"
+                        skeleton={null}
+                        state="error"
+                        status="error"
+                        stretch={null}
+                        text={null}
+                        text_id="null-status"
+                        title={null}
+                        variant={null}
+                        width_element={null}
+                        width_selector={null}
+                      />
+                    </Button>
+                  </CloseButton>
+                </p>
+              </div>
+            </Section>
+            <Section
+              class={null}
+              className="dnb-global-status__message"
+              element="div"
+              inner_ref={null}
+              spacing={null}
+              style_type="white"
+            >
+              <div
+                className="dnb-section dnb-section--white dnb-global-status__message"
               >
                 <div
-                  className="dnb-section dnb-section--white dnb-global-status__message"
+                  className="dnb-global-status__message__content"
                 >
-                  <div
-                    className="dnb-global-status__message__content"
+                  <ul
+                    className="dnb-ul"
                   >
-                    <ul
-                      className="dnb-ul"
+                    <li
+                      key="0"
                     >
-                      <li
-                        key="0"
+                      <p
+                        className="dnb-p"
+                        id="status-idswitch-form-statustexterror-messagestatus-anchor-labeltypespankeynullrefnullpropschildrenlabel-ownernull-storestatus-anchor-urltrue-0"
                       >
-                        <p
-                          className="dnb-p"
-                          id="switch-form-status-0"
-                        >
-                          error-message
-                        </p>
-                        <a
-                          aria-describedby="switch-form-status-0"
-                          className="dnb-anchor"
-                          href="#switch-form-status"
-                          lang="nb-NO"
-                          onClick={[Function]}
-                          onKeyDown={[Function]}
-                        >
-                          Gå til Label
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                        error-message
+                      </p>
+                      <a
+                        aria-describedby="status-idswitch-form-statustexterror-messagestatus-anchor-labeltypespankeynullrefnullpropschildrenlabel-ownernull-storestatus-anchor-urltrue-0"
+                        className="dnb-anchor"
+                        href="#status-idswitch-form-statustexterror-messagestatus-anchor-labeltypespankeynullrefnullpropschildrenlabel-ownernull-storestatus-anchor-urltrue"
+                        lang="nb-NO"
+                        onClick={[Function]}
+                        onKeyDown={[Function]}
+                      >
+                        Gå til
+                         
+                        <span>
+                          Label
+                        </span>
+                      </a>
+                    </li>
+                  </ul>
                 </div>
-              </Section>
-            </div>
+                <Hr
+                  className={null}
+                  fullscreen={true}
+                  light={null}
+                  medium={null}
+                >
+                  <ForwardRef
+                    class={null}
+                    className="dnb-hr--fullscreen"
+                    css={null}
+                    internalClass={null}
+                    is="hr"
+                    skeleton={null}
+                    skeleton_method="font"
+                  >
+                    <ElementInstance
+                      class={null}
+                      className="dnb-hr--fullscreen"
+                      css={null}
+                      inner_ref={null}
+                      internalClass={null}
+                      is="hr"
+                      skeleton={null}
+                      skeleton_method="font"
+                    >
+                      <hr
+                        className="dnb-hr--fullscreen dnb-hr"
+                      />
+                    </ElementInstance>
+                  </ForwardRef>
+                </Hr>
+              </div>
+            </Section>
           </div>
         </div>
-      </Section>
+      </section>
     </div>
   </GlobalStatus>,
   <Switch

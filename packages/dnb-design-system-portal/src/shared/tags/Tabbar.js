@@ -87,9 +87,11 @@ export default function Tabbar({
 
   return (
     <div className="dnb-tabbar">
-      <AutoLinkHeader className="dnb-no-focus" level={1} skip_correction>
-        {title}
-      </AutoLinkHeader>
+      {title && (
+        <AutoLinkHeader className="dnb-no-focus" level={1} skip_correction>
+          {title}
+        </AutoLinkHeader>
+      )}
       <Tabs
         id="tabbar"
         data={preparedTabs}
@@ -144,7 +146,7 @@ Tabbar.propTypes = {
   location: PropTypes.object.isRequired,
   tabs: PropTypes.array,
   defaultTabs: PropTypes.array,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   hideTabs: PropTypes.array,
   usePath: PropTypes.string.isRequired,
   children: PropTypes.node,
@@ -157,6 +159,7 @@ Tabbar.defaultProps = {
     { title: 'Properties', key: '/properties' },
     { title: 'Events', key: '/events' },
   ],
+  title: null,
   hideTabs: null,
   children: null,
 }

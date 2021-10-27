@@ -6,23 +6,25 @@
 import {
   testPageScreenshot,
   setupPageScreenshot,
-  isCI,
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Button primary screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/button/demos' })
+
   it('have to match primary button with href', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-anchor"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match "dnb-button--primary"', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-primary"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match "dnb-button--primary" with focus state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-primary"]',
@@ -30,6 +32,7 @@ describe('Button primary screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match "dnb-button--primary" with hover state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-primary"]',
@@ -37,6 +40,7 @@ describe('Button primary screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match a stretched button', async () => {
     const screenshot = await testPageScreenshot({
       style: {
@@ -47,26 +51,25 @@ describe('Button primary screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  // "active" simulation is suddenly too unstable – no reason found
-  if (!isCI) {
-    it('have to match "dnb-button--primary" with active state', async () => {
-      const screenshot = await testPageScreenshot({
-        selector: '[data-visual-test="button-primary"]',
-        simulate: 'active',
-      })
-      expect(screenshot).toMatchImageSnapshot()
+  it('have to match "dnb-button--primary" with active state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="button-primary"]',
+      simulate: 'active',
     })
-  }
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('Button secondary screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/button/demos' })
+
   it('have to match "dnb-button--secondary"', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-secondary"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match "dnb-button--secondary" with focus state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-secondary"]',
@@ -74,6 +77,7 @@ describe('Button secondary screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match "dnb-button--secondary" with hover state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-secondary"]',
@@ -81,25 +85,26 @@ describe('Button secondary screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  if (!isCI) {
-    it('have to match "dnb-button--secondary" with active state', async () => {
-      const screenshot = await testPageScreenshot({
-        selector: '[data-visual-test="button-secondary"]',
-        simulate: 'active',
-      })
-      expect(screenshot).toMatchImageSnapshot()
+
+  it('have to match "dnb-button--secondary" with active state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="button-secondary"]',
+      simulate: 'active',
     })
-  }
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('Button icon screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/button/demos' })
+
   it('have to match icon button', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-icon"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match icon button with focus state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-icon"]',
@@ -107,6 +112,7 @@ describe('Button icon screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match icon button with hover state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-icon"]',
@@ -114,48 +120,48 @@ describe('Button icon screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  if (!isCI) {
-    it('have to match icon button with active state', async () => {
-      const screenshot = await testPageScreenshot({
-        selector: '[data-visual-test="button-icon"]',
-        simulate: 'active',
-      })
-      expect(screenshot).toMatchImageSnapshot()
+
+  it('have to match icon button with active state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="button-icon"]',
+      simulate: 'active',
     })
-  }
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
-if (!isCI) {
-  describe('Button target blank', () => {
-    it('have to match with tooltip', async () => {
-      const screenshot = await testPageScreenshot({
-        style: {
-          'padding-top': '2rem',
-        },
-        selector: '[data-visual-test="button-anchor"]',
-        simulateSelector:
-          '[data-visual-test="button-anchor"] a[target="_blank"]',
-        simulate: 'hover',
-      })
-      expect(screenshot).toMatchImageSnapshot()
+describe('Button target blank', () => {
+  it('have to match with tooltip', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        'padding-top': '2rem',
+      },
+      selector: '[data-visual-test="button-anchor"]',
+      simulateSelector:
+        '[data-visual-test="button-anchor"] a[target="_blank"]',
+      simulate: 'hover',
     })
+    expect(screenshot).toMatchImageSnapshot()
   })
-}
+})
 
 describe('Button tertiary screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/button/demos' })
+
   it('have to match "dnb-button--tertiary" without icon', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-tertiary-no-icon"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match "dnb-button--tertiary"', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-tertiary"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match "dnb-button--tertiary" with focus state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-tertiary"]',
@@ -163,6 +169,7 @@ describe('Button tertiary screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match "dnb-button--tertiary" with hover state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-tertiary"]',
@@ -171,34 +178,35 @@ describe('Button tertiary screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  // "active" simulation is suddenly too unstable – no reason found
-  if (!isCI) {
-    it('have to match "dnb-button--tertiary" with active state', async () => {
-      const screenshot = await testPageScreenshot({
-        selector: '[data-visual-test="button-tertiary"]',
-        simulate: 'active',
-      })
-      expect(screenshot).toMatchImageSnapshot()
+  it('have to match "dnb-button--tertiary" with active state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="button-tertiary"]',
+      simulate: 'active',
     })
-  }
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match all tertiary buttons', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-tertiary-all"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match tertiary with top icon', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-tertiary-top"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match button with custom content', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-custom-content"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match tertiary button with text wrap', async () => {
     const screenshot = await testPageScreenshot({
       style: {
@@ -213,12 +221,14 @@ describe('Button tertiary screenshot', () => {
 
 describe('Button signal screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/button/demos' })
+
   it('have to match "dnb-button--signal"', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-signal"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match "dnb-button--signal" with focus state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-signal"]',
@@ -226,6 +236,7 @@ describe('Button signal screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match "dnb-button--signal" with hover state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-signal"]',
@@ -234,14 +245,11 @@ describe('Button signal screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  // "active" simulation is suddenly too unstable – no reason found
-  if (!isCI) {
-    it('have to match "dnb-button--signal" with active state', async () => {
-      const screenshot = await testPageScreenshot({
-        selector: '[data-visual-test="button-signal"]',
-        simulate: 'active',
-      })
-      expect(screenshot).toMatchImageSnapshot()
+  it('have to match "dnb-button--signal" with active state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="button-signal"]',
+      simulate: 'active',
     })
-  }
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

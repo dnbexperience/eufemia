@@ -6,7 +6,10 @@
 
 const presets =
   process.env.BABEL_ENV === 'es'
-    ? ['@babel/preset-react']
+    ? [
+        '@babel/preset-react',
+        ['@babel/preset-typescript', { isTSX: true, allExtensions: true }],
+      ]
     : [
         [
           // Using .browserslistrc for the targets
@@ -18,6 +21,7 @@ const presets =
           },
         ],
         '@babel/preset-react',
+        ['@babel/preset-typescript', { isTSX: true, allExtensions: true }],
       ]
 
 // also for IE testing with Storybook}
@@ -119,6 +123,7 @@ const config = {
           },
         ],
         '@babel/preset-react',
+        ['@babel/preset-typescript', { isTSX: true, allExtensions: true }],
       ],
     },
   },

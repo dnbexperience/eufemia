@@ -13,6 +13,8 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../FormRow'
 import Input from '../../input/Input'
+import NumberFormat from '../../number-format/NumberFormat'
+import Provider from '../../../shared/Provider'
 
 const props = fakeProps(require.resolve('../FormRow'), {
   optional: true,
@@ -20,6 +22,7 @@ const props = fakeProps(require.resolve('../FormRow'), {
 props.id = 'form-row'
 props.direction = 'horizontal'
 props.label_direction = 'horizontal'
+props.global_status_id = 'main'
 
 describe('FormRow component', () => {
   const Comp = mount(<Component {...props} />)
@@ -73,6 +76,40 @@ describe('FormRow component', () => {
     expect(Comp.find('label').exists()).toBe(true)
     expect(Comp.find('fieldset').exists()).toBe(false)
     expect(Comp.find('legend').exists()).toBe(false)
+  })
+
+  it('should support locale context forwarding', () => {
+    const Comp = mount(
+      <Component>
+        <NumberFormat currency>1234</NumberFormat>
+      </Component>
+    )
+
+    expect(Comp.find('.dnb-number-format').find('span').at(1).text()).toBe(
+      '1 234,00 kr'
+    )
+
+    Comp.setProps({
+      locale: 'en-GB',
+    })
+
+    expect(Comp.find('.dnb-number-format').find('span').at(1).text()).toBe(
+      'NOK 1 234.00'
+    )
+  })
+
+  it('should not overwrite locale from provider when not set', () => {
+    const Comp = mount(
+      <Provider locale="en-GB">
+        <Component>
+          <NumberFormat currency>1234</NumberFormat>
+        </Component>
+      </Provider>
+    )
+
+    expect(Comp.find('.dnb-number-format').find('span').at(1).text()).toBe(
+      'NOK 1 234.00'
+    )
   })
 
   it('should react correct on two states in row', () => {

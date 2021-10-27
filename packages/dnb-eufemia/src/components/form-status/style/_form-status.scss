@@ -48,6 +48,9 @@
     padding: 0.625rem 1rem;
 
     cursor: text;
+    button & {
+      cursor: inherit;
+    }
     color: inherit;
     line-height: var(--line-height-small);
     font-size: var(--font-size-small);

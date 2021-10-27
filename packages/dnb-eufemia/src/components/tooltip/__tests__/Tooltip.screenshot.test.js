@@ -12,6 +12,7 @@ describe('Tooltip', () => {
   setupPageScreenshot({
     url: '/uilib/components/tooltip/demos',
   })
+
   it('have to match tooltip in active state', async () => {
     const screenshot = await testPageScreenshot({
       style: {
@@ -22,6 +23,7 @@ describe('Tooltip', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match tooltip on button hover state', async () => {
     const screenshot = await testPageScreenshot({
       style: {

@@ -537,13 +537,32 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             className="dnb-date-picker__input__wrapper"
                             id="date-picker-id-input"
                           >
-                            <ForwardRef
+                            <InputElement
                               aria-labelledby="date-picker-id-start-day-label"
                               autoComplete="off"
                               className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
                               disabled={false}
                               hidden={true}
                               id="date-picker-id-start-day"
+                              inputRef={
+                                Object {
+                                  "current": <input
+                                    aria-labelledby="date-picker-id-start-day-label"
+                                    autocapitalize="none"
+                                    autocomplete="off"
+                                    autocorrect="off"
+                                    class="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
+                                    hidden=""
+                                    id="date-picker-id-start-day"
+                                    lang="nb"
+                                    name="date-picker-id__input"
+                                    size="2"
+                                    spellcheck="false"
+                                    type="text"
+                                    value="01"
+                                  />,
+                                }
+                              }
                               key="di0"
                               lang="nb"
                               mask={
@@ -564,7 +583,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               type="text"
                               value="01"
                             >
-                              <t
+                              <TextMask
                                 aria-labelledby="date-picker-id-start-day-label"
                                 autoCapitalize="none"
                                 autoComplete="off"
@@ -574,6 +593,26 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 guide={true}
                                 hidden={true}
                                 id="date-picker-id-start-day"
+                                inputElement={null}
+                                inputRef={
+                                  Object {
+                                    "current": <input
+                                      aria-labelledby="date-picker-id-start-day-label"
+                                      autocapitalize="none"
+                                      autocomplete="off"
+                                      autocorrect="off"
+                                      class="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
+                                      hidden=""
+                                      id="date-picker-id-start-day"
+                                      lang="nb"
+                                      name="date-picker-id__input"
+                                      size="2"
+                                      spellcheck="false"
+                                      type="text"
+                                      value="01"
+                                    />,
+                                  }
+                                }
                                 keepCharPositions={false}
                                 lang="nb"
                                 mask={
@@ -589,8 +628,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 onKeyDown={[Function]}
                                 onMouseUp={[Function]}
                                 onPaste={[Function]}
+                                pipe={null}
                                 placeholderChar="d"
-                                render={[Function]}
                                 showMask={true}
                                 size="2"
                                 spellCheck={false}
@@ -619,8 +658,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   spellCheck={false}
                                   type="text"
                                 />
-                              </t>
-                            </ForwardRef>
+                              </TextMask>
+                            </InputElement>
                             <label
                               hidden={true}
                               id="date-picker-id-start-day-label"
@@ -635,13 +674,32 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             >
                               .
                             </span>
-                            <ForwardRef
+                            <InputElement
                               aria-labelledby="date-picker-id-start-month-label"
                               autoComplete="off"
                               className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
                               disabled={false}
                               hidden={true}
                               id="date-picker-id-start-month"
+                              inputRef={
+                                Object {
+                                  "current": <input
+                                    aria-labelledby="date-picker-id-start-month-label"
+                                    autocapitalize="none"
+                                    autocomplete="off"
+                                    autocorrect="off"
+                                    class="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
+                                    hidden=""
+                                    id="date-picker-id-start-month"
+                                    lang="nb"
+                                    name="date-picker-id__input"
+                                    size="2"
+                                    spellcheck="false"
+                                    type="text"
+                                    value="01"
+                                  />,
+                                }
+                              }
                               key="mi2"
                               lang="nb"
                               mask={
@@ -662,7 +720,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               type="text"
                               value="01"
                             >
-                              <t
+                              <TextMask
                                 aria-labelledby="date-picker-id-start-month-label"
                                 autoCapitalize="none"
                                 autoComplete="off"
@@ -672,6 +730,26 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 guide={true}
                                 hidden={true}
                                 id="date-picker-id-start-month"
+                                inputElement={null}
+                                inputRef={
+                                  Object {
+                                    "current": <input
+                                      aria-labelledby="date-picker-id-start-month-label"
+                                      autocapitalize="none"
+                                      autocomplete="off"
+                                      autocorrect="off"
+                                      class="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
+                                      hidden=""
+                                      id="date-picker-id-start-month"
+                                      lang="nb"
+                                      name="date-picker-id__input"
+                                      size="2"
+                                      spellcheck="false"
+                                      type="text"
+                                      value="01"
+                                    />,
+                                  }
+                                }
                                 keepCharPositions={false}
                                 lang="nb"
                                 mask={
@@ -687,8 +765,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 onKeyDown={[Function]}
                                 onMouseUp={[Function]}
                                 onPaste={[Function]}
+                                pipe={null}
                                 placeholderChar="m"
-                                render={[Function]}
                                 showMask={true}
                                 size="2"
                                 spellCheck={false}
@@ -717,8 +795,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   spellCheck={false}
                                   type="text"
                                 />
-                              </t>
-                            </ForwardRef>
+                              </TextMask>
+                            </InputElement>
                             <label
                               hidden={true}
                               id="date-picker-id-start-month-label"
@@ -733,13 +811,32 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             >
                               .
                             </span>
-                            <ForwardRef
+                            <InputElement
                               aria-labelledby="date-picker-id-start-year-label"
                               autoComplete="off"
                               className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
                               disabled={false}
                               hidden={true}
                               id="date-picker-id-start-year"
+                              inputRef={
+                                Object {
+                                  "current": <input
+                                    aria-labelledby="date-picker-id-start-year-label"
+                                    autocapitalize="none"
+                                    autocomplete="off"
+                                    autocorrect="off"
+                                    class="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
+                                    hidden=""
+                                    id="date-picker-id-start-year"
+                                    lang="nb"
+                                    name="date-picker-id__input"
+                                    size="4"
+                                    spellcheck="false"
+                                    type="text"
+                                    value="2019"
+                                  />,
+                                }
+                              }
                               key="yi4"
                               lang="nb"
                               mask={
@@ -762,7 +859,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               type="text"
                               value="2019"
                             >
-                              <t
+                              <TextMask
                                 aria-labelledby="date-picker-id-start-year-label"
                                 autoCapitalize="none"
                                 autoComplete="off"
@@ -772,6 +869,26 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 guide={true}
                                 hidden={true}
                                 id="date-picker-id-start-year"
+                                inputElement={null}
+                                inputRef={
+                                  Object {
+                                    "current": <input
+                                      aria-labelledby="date-picker-id-start-year-label"
+                                      autocapitalize="none"
+                                      autocomplete="off"
+                                      autocorrect="off"
+                                      class="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
+                                      hidden=""
+                                      id="date-picker-id-start-year"
+                                      lang="nb"
+                                      name="date-picker-id__input"
+                                      size="4"
+                                      spellcheck="false"
+                                      type="text"
+                                      value="2019"
+                                    />,
+                                  }
+                                }
                                 keepCharPositions={false}
                                 lang="nb"
                                 mask={
@@ -789,8 +906,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 onKeyDown={[Function]}
                                 onMouseUp={[Function]}
                                 onPaste={[Function]}
+                                pipe={null}
                                 placeholderChar="å"
-                                render={[Function]}
                                 showMask={true}
                                 size="4"
                                 spellCheck={false}
@@ -819,8 +936,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   spellCheck={false}
                                   type="text"
                                 />
-                              </t>
-                            </ForwardRef>
+                              </TextMask>
+                            </InputElement>
                             <label
                               hidden={true}
                               id="date-picker-id-start-year-label"
@@ -834,13 +951,32 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             >
                                – 
                             </span>
-                            <ForwardRef
+                            <InputElement
                               aria-labelledby="date-picker-id-end-day-label"
                               autoComplete="off"
                               className="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
                               disabled={false}
                               hidden={true}
                               id="date-picker-id-end-day"
+                              inputRef={
+                                Object {
+                                  "current": <input
+                                    aria-labelledby="date-picker-id-end-day-label"
+                                    autocapitalize="none"
+                                    autocomplete="off"
+                                    autocorrect="off"
+                                    class="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
+                                    hidden=""
+                                    id="date-picker-id-end-day"
+                                    lang="nb"
+                                    name="date-picker-id__input"
+                                    size="2"
+                                    spellcheck="false"
+                                    type="text"
+                                    value="15"
+                                  />,
+                                }
+                              }
                               key="di0"
                               lang="nb"
                               mask={
@@ -861,7 +997,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               type="text"
                               value="15"
                             >
-                              <t
+                              <TextMask
                                 aria-labelledby="date-picker-id-end-day-label"
                                 autoCapitalize="none"
                                 autoComplete="off"
@@ -871,6 +1007,26 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 guide={true}
                                 hidden={true}
                                 id="date-picker-id-end-day"
+                                inputElement={null}
+                                inputRef={
+                                  Object {
+                                    "current": <input
+                                      aria-labelledby="date-picker-id-end-day-label"
+                                      autocapitalize="none"
+                                      autocomplete="off"
+                                      autocorrect="off"
+                                      class="dnb-date-picker__input dnb-date-picker__input--day dnb-input__input"
+                                      hidden=""
+                                      id="date-picker-id-end-day"
+                                      lang="nb"
+                                      name="date-picker-id__input"
+                                      size="2"
+                                      spellcheck="false"
+                                      type="text"
+                                      value="15"
+                                    />,
+                                  }
+                                }
                                 keepCharPositions={false}
                                 lang="nb"
                                 mask={
@@ -886,8 +1042,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 onKeyDown={[Function]}
                                 onMouseUp={[Function]}
                                 onPaste={[Function]}
+                                pipe={null}
                                 placeholderChar="d"
-                                render={[Function]}
                                 showMask={true}
                                 size="2"
                                 spellCheck={false}
@@ -916,8 +1072,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   spellCheck={false}
                                   type="text"
                                 />
-                              </t>
-                            </ForwardRef>
+                              </TextMask>
+                            </InputElement>
                             <label
                               hidden={true}
                               id="date-picker-id-end-day-label"
@@ -932,13 +1088,32 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             >
                               .
                             </span>
-                            <ForwardRef
+                            <InputElement
                               aria-labelledby="date-picker-id-end-month-label"
                               autoComplete="off"
                               className="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
                               disabled={false}
                               hidden={true}
                               id="date-picker-id-end-month"
+                              inputRef={
+                                Object {
+                                  "current": <input
+                                    aria-labelledby="date-picker-id-end-month-label"
+                                    autocapitalize="none"
+                                    autocomplete="off"
+                                    autocorrect="off"
+                                    class="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
+                                    hidden=""
+                                    id="date-picker-id-end-month"
+                                    lang="nb"
+                                    name="date-picker-id__input"
+                                    size="2"
+                                    spellcheck="false"
+                                    type="text"
+                                    value="02"
+                                  />,
+                                }
+                              }
                               key="mi2"
                               lang="nb"
                               mask={
@@ -959,7 +1134,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               type="text"
                               value="02"
                             >
-                              <t
+                              <TextMask
                                 aria-labelledby="date-picker-id-end-month-label"
                                 autoCapitalize="none"
                                 autoComplete="off"
@@ -969,6 +1144,26 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 guide={true}
                                 hidden={true}
                                 id="date-picker-id-end-month"
+                                inputElement={null}
+                                inputRef={
+                                  Object {
+                                    "current": <input
+                                      aria-labelledby="date-picker-id-end-month-label"
+                                      autocapitalize="none"
+                                      autocomplete="off"
+                                      autocorrect="off"
+                                      class="dnb-date-picker__input dnb-date-picker__input--month dnb-input__input"
+                                      hidden=""
+                                      id="date-picker-id-end-month"
+                                      lang="nb"
+                                      name="date-picker-id__input"
+                                      size="2"
+                                      spellcheck="false"
+                                      type="text"
+                                      value="02"
+                                    />,
+                                  }
+                                }
                                 keepCharPositions={false}
                                 lang="nb"
                                 mask={
@@ -984,8 +1179,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 onKeyDown={[Function]}
                                 onMouseUp={[Function]}
                                 onPaste={[Function]}
+                                pipe={null}
                                 placeholderChar="m"
-                                render={[Function]}
                                 showMask={true}
                                 size="2"
                                 spellCheck={false}
@@ -1014,8 +1209,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   spellCheck={false}
                                   type="text"
                                 />
-                              </t>
-                            </ForwardRef>
+                              </TextMask>
+                            </InputElement>
                             <label
                               hidden={true}
                               id="date-picker-id-end-month-label"
@@ -1030,13 +1225,32 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             >
                               .
                             </span>
-                            <ForwardRef
+                            <InputElement
                               aria-labelledby="date-picker-id-end-year-label"
                               autoComplete="off"
                               className="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
                               disabled={false}
                               hidden={true}
                               id="date-picker-id-end-year"
+                              inputRef={
+                                Object {
+                                  "current": <input
+                                    aria-labelledby="date-picker-id-end-year-label"
+                                    autocapitalize="none"
+                                    autocomplete="off"
+                                    autocorrect="off"
+                                    class="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
+                                    hidden=""
+                                    id="date-picker-id-end-year"
+                                    lang="nb"
+                                    name="date-picker-id__input"
+                                    size="4"
+                                    spellcheck="false"
+                                    type="text"
+                                    value="2019"
+                                  />,
+                                }
+                              }
                               key="yi4"
                               lang="nb"
                               mask={
@@ -1059,7 +1273,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               type="text"
                               value="2019"
                             >
-                              <t
+                              <TextMask
                                 aria-labelledby="date-picker-id-end-year-label"
                                 autoCapitalize="none"
                                 autoComplete="off"
@@ -1069,6 +1283,26 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 guide={true}
                                 hidden={true}
                                 id="date-picker-id-end-year"
+                                inputElement={null}
+                                inputRef={
+                                  Object {
+                                    "current": <input
+                                      aria-labelledby="date-picker-id-end-year-label"
+                                      autocapitalize="none"
+                                      autocomplete="off"
+                                      autocorrect="off"
+                                      class="dnb-date-picker__input dnb-date-picker__input--year dnb-input__input"
+                                      hidden=""
+                                      id="date-picker-id-end-year"
+                                      lang="nb"
+                                      name="date-picker-id__input"
+                                      size="4"
+                                      spellcheck="false"
+                                      type="text"
+                                      value="2019"
+                                    />,
+                                  }
+                                }
                                 keepCharPositions={false}
                                 lang="nb"
                                 mask={
@@ -1086,8 +1320,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 onKeyDown={[Function]}
                                 onMouseUp={[Function]}
                                 onPaste={[Function]}
+                                pipe={null}
                                 placeholderChar="å"
-                                render={[Function]}
                                 showMask={true}
                                 size="4"
                                 spellCheck={false}
@@ -1116,8 +1350,8 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   spellCheck={false}
                                   type="text"
                                 />
-                              </t>
-                            </ForwardRef>
+                              </TextMask>
+                            </InputElement>
                             <label
                               hidden={true}
                               id="date-picker-id-end-year-label"
@@ -1491,7 +1725,7 @@ exports[`DatePicker scss have to match default theme snapshot 1`] = `
     color: var(--color-black); }
 
 .dnb-date-picker__container {
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16);
+  box-shadow: var(--shadow-default);
   border-radius: 0.25rem;
   background-color: var(--color-white); }
 
@@ -1585,7 +1819,7 @@ html:not([data-whatintent='touch']) .dnb-date-picker__day--inactive .dnb-button[
 .dnb-date-picker__triangle::before {
   border: none;
   background-color: var(--color-white);
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16); }
+  box-shadow: var(--shadow-default); }
 
 .dnb-date-picker__status--error:not(.dnb-date-picker--opened) .dnb-form-label:hover
 ~ .dnb-date-picker__inner .dnb-input:not([data-input-state='disabled']) .dnb-input__shell {
@@ -1777,6 +2011,8 @@ exports[`DatePicker scss have to match snapshot 1`] = `
     line-height: var(--line-height-small);
     font-size: var(--font-size-small);
     white-space: normal; }
+    button .dnb-form-status__text {
+      cursor: inherit; }
     .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
   .dnb-icon + .dnb-form-status__text {
@@ -2113,12 +2349,12 @@ button.dnb-button::-moz-focus-inner {
     margin-right: 0;
     margin-bottom: 0.5rem; }
   .dnb-form-label--sr-only {
-    width: 1px;
-    margin: 0;
-    padding: 0;
-    margin-left: -1px;
-    overflow: hidden;
-    white-space: nowrap; }
+    width: 1px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-left: -1px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;

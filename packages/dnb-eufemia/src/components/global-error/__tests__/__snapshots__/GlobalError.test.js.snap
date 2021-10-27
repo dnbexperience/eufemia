@@ -182,6 +182,8 @@ exports[`GlobalError scss have to match snapshot 1`] = `
     line-height: var(--line-height-small);
     font-size: var(--font-size-small);
     white-space: normal; }
+    button .dnb-form-status__text {
+      cursor: inherit; }
     .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
   .dnb-icon + .dnb-form-status__text {
@@ -585,7 +587,6 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
         id={null}
         innerRef={null}
         inner_ref={null}
-        onClick={null}
         on_click={[Function]}
         size={null}
         skeleton={null}
@@ -804,7 +805,6 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                     innerRef={null}
                     inner_ref={null}
                     isIconOnly={false}
-                    onClick={null}
                     on_click={[Function]}
                     size={null}
                     skeleton={false}

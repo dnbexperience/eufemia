@@ -15,26 +15,40 @@ For more development details you may have a look at the confluence pages about [
 
 1. Avoid including runtime dependencies as much as possible.
 1. Write integration tests with [these advices](/uilib/usage/best-practices/for-testing#integration-tests).
-1. Re-use existing helper functions and classes.
+1. Re-use existing helper functions and helper classes to lower the build size.
 1. Use existing linting and code styles, based on configuration.
-1. Follow the existing structures for documentation, naming and setup.
+1. Follow the existing structures for documentation, naming and structure.
 
 ## Development environment and defaults
 
 Many defaults are given by the linting and prettier configurations. But to keep the code base consistent and clean, we have set a certain set of rules:
 
-- Use [Volta](https://volta.sh/) for [Node.js](https://nodejs.org/) and [yarn](https://yarnpkg.com/) version handling.
-- Use only [Function and Class Components](https://reactjs.org/docs/components-and-props.html#function-and-class-components) for components, elements, fragments and extensions - no [Hooks](https://reactjs.org/docs/hooks-overview.html).
-- Use strictly the [naming conventions](/uilib/development/naming).
-- Use correct [message decoration](/uilib/development/commit) to insure correct versioning.
+- Use [git message decoration](/uilib/development/commit) to ensure correct publish versioning.
+- Use [naming conventions](/uilib/development/naming) when possible.
 - Use best practices for [CSS style structures](/uilib/usage/best-practices/for-styling#structure).
-- Use [nested CSS class selectors](https://medium.com/@andrew_barnes/bem-and-sass-a-perfect-match-5e48d9bc3894) with SASS (SCSS) and BEM (Block Element Modifier).
+- Use [nested CSS class selectors](https://medium.com/@andrew_barnes/bem-and-sass-a-perfect-match-5e48d9bc3894) with SASS (SCSS) and [BEM](http://getbem.com/naming/) (Block Element Modifier).
+- Use [React Hooks](https://reactjs.org/docs/hooks-overview.html) over React class components when possible.
+- Use [Typescript](https://www.typescriptlang.org), even most of the components do use PropTypes to generated type definition files only.
 
-## How to publish a new version to NPM?
+## Recommended Tools
 
-Create a Fork, make your changes and create a _Pull Request_) - or commit your changes to a new branch. From there an admin will create a _Pull Request_ into the `origin/main` branch. Once Your commits got approved on CI, we will create a _Pull Request_ to merge the changes in to the `origin/release` branch.
+- Use [React Testing Library](https://testing-library.com) when possible, even Enzyme is still used in existing components.
+- Use [Volta](https://volta.sh/) for [Node.js](https://nodejs.org/) version handling.
 
-As soon as the _Pull Request_ gets merged into `origin/release`, a CI/CD server will check all commits and figure out the new NPM **Version Number** and publish a new version based on the message decorations.
+## How to contribute?
+
+If you don't have commit access;
+
+- Create a Fork.
+- Make your changes in your Fork and create a _Pull Request_ back to the Eufemia repo and `origin/main`.
+- Watch the result of the tests.
+
+If you have commit access;
+
+- Make a new branch.
+- Make your changes and commit it to the repo.
+- Make a _Pull Request_ to `origin/main`.
+- Watch the result of the tests.
 
 ## How to create a local package
 

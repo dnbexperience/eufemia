@@ -27,7 +27,7 @@ As of now you can enable these masks by giving:
 - `as_currency="EUR"`
 - `as_number={true}`
 
-You can still send in custom mask parameters by the `currency_mask={{ ... }}` and `number_mask={{ ... }}` properties.
+You can still send in custom mask parameters to `currency_mask={{ ... }}` or `number_mask={{ ... }}`. But you can also make use of `mask_options={{ ... }}` and just send in your extra options in there.
 
 More details in the [examples above](/uilib/components/input-masked/demos).
 
@@ -53,12 +53,12 @@ You can also receive a clean number value you can use and send back in again:
 
 #### Decimals
 
-- `as_number` will default to no decimals
 - `number_mask` will default to no decimals
+- `currency_mask` will default to no decimals
+- `as_number` will default to no decimals
 - `as_currency` will default to 2 decimals
-- `currency_mask` will default to 2 decimals
 
-You can change the amount of decimals by sending in options to the `currency_mask` or `number_mask` (also see example above).
+You can change the amount of decimals by sending in options to the `currency_mask`, `number_mask` or `mask_options` (see example above).
 
 This example here also shows how to effect every InputMasked component in your application, by setting these options on the [Eufemia Provider](/uilib/usage/customisation/provider).
 
@@ -83,27 +83,10 @@ In order to remove a decimal limit, you can send in `null` and allow decimals wi
 ```jsx
 <InputMasked
   as_number
-  number_mask={{
+  mask_options={{
     allowDecimal: true,
     decimalLimit: null,
   }}
   value="1234.567"
 />
-```
-
-##### Rounding
-
-You can also change the NumberFormat options (`number_format`) internally used – if needed.
-
-```jsx
-<Provider
-  locale="en-GB"
-  InputMasked={{
-    number_format: {
-      omit_rounding: false, // defaults to true
-    },
-  }}
->
-  <InputMasked as_currency="USD" value="1234.567" />
-</Provider>
 ```

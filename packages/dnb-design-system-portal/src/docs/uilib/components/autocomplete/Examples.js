@@ -28,7 +28,6 @@ export const AutocompleteDefaultExample = () => (
 <Autocomplete
   data={topMovies}
   label="Label:"
-  icon={false}
 />
 `}
     </ComponentBox>
@@ -48,6 +47,7 @@ const numbers = [
 render(
   <Autocomplete
     input_value="201"
+    show_clear_button
     label="Label:"
     data={numbers}
     search_numbers={true}
@@ -67,6 +67,8 @@ export const AutocompleteWithCustomTitle = () => (
       {() => /* jsx */ `
 <Autocomplete
   data={topMovies}
+  keep_value={true}
+  show_clear_button={true}
   label="Label:"
   placeholder="Custom placeholder ..."
   on_change={({ data }) => {
@@ -300,6 +302,7 @@ export const AutocompleteOpened = () => {
   input_value="lord"
   opened
   no_animation
+  direction="bottom"
   prevent_close
   data={topMovies}
   right="large"
@@ -310,6 +313,7 @@ export const AutocompleteOpened = () => {
   skip_portal
   opened
   no_animation
+  direction="bottom"
   prevent_close
   data={topMovies}
   className="focus-trigger"
@@ -330,10 +334,22 @@ const topMovies = [
     ),
     year: 1994,
   },
-  { content: ['The Godfather', 'Description', 'Enda mer'], year: 1972 },
-  { content: 'The Godfather: Part II', year: 1974 },
+  { content: ['The Godfather', 'Line with more info'], year: 1972 },
+  {
+    content: [
+      'The Godfather: Part II',
+      <a key="a-1" className="dnb-anchor" href="/">
+        Anchor 1
+      </a>,
+      <a key="a-2" className="dnb-anchor" href="/">
+        Anchor 2
+      </a>,
+      'Line with more info',
+    ],
+    year: 1974,
+  },
   { content: 'The Dark Knight', year: 2008 },
-  { content: '12 Angry Men', year: 1957 },
+  { content: ['12 Angry Men', 'Second row', 'Third row'], year: 1957 },
   { content: "Schindler's List", year: 1993 },
   { content: 'Pulp Fiction', year: 1994 },
   { content: 'The Lord of the Rings: The Return of the King', year: 2003 },

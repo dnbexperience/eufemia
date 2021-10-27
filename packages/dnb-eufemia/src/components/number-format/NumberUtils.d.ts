@@ -59,6 +59,8 @@ export interface formatOptionParams {
   currency_position?: formatCurrencyPosition;
   /** hides the currency sign */
   omit_currency_sign?: boolean;
+  /** will remove all extra signs,like a currency sign or percent sign for the cleanedValue return when returnAria is true */
+  clean_copy_value?: boolean;
 
   /** Intl.NumberFormat options (NumberFormatOptions) */
   options?: object;
@@ -74,9 +76,11 @@ export const format: (
 type cleanNumberOptions = {
   decimalSeparator?: string;
   thousandsSeparator?: string;
+  prefix?: string; // to help the cleaning process
+  suffix?: string; // to help the cleaning process
 };
 
 export const cleanNumber: (
   num: number | string,
   options?: cleanNumberOptions
-) => void;
+) => number | string;

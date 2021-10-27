@@ -22,6 +22,9 @@ const Wrapper = styled.div`
     width: 20rem;
     height: 15rem !important;
   }
+  [data-visual-test='dropdown-action_menu-custom'] .dnb-dropdown__list {
+    width: 15rem;
+  }
   [data-visual-test='dropdown-list'] .dnb-drawer-list__list {
     display: block;
     visibility: visible;
@@ -158,23 +161,42 @@ render(
   </Wrapper>
 )
 
-export const DropdownDirections = () => (
-  <Wrapper>
-    <ComponentBox data-visual-test="dropdown-item-directions">
-      {() => /* jsx */ `
-<Dropdown
-  label="Label:"
-  data={[
-    ['Vertical', 'text'],
-    <><span className="dnb-p--medium">Vertical</span> text</>,
-    <Dropdown.HorizontalItem><span className="dnb-p--medium">Horizontal</span> text</Dropdown.HorizontalItem>
-  ]}
-  skip_portal
-/>
-`}
-    </ComponentBox>
-  </Wrapper>
-)
+export const DropdownDirections = () => {
+  const visualTestProps = (enabled) => {
+    if (!enabled) {
+      return {}
+    }
+    return {
+      opened: true,
+      prevent_close: true,
+      direction: 'top',
+    }
+  }
+  return (
+    <Wrapper>
+      <ComponentBox
+        scope={{ visualTestProps }}
+        data-visual-test="dropdown-item-directions"
+      >
+        {() => /* jsx */ `
+  <Dropdown
+    label="Label:"
+    data={[
+      ['Vertical', 'text'],
+      <>
+        <span className="dnb-p--medium">Vertical</span> text
+      </>,
+      <Dropdown.HorizontalItem>
+        <span className="dnb-p--medium">Horizontal</span> text
+      </Dropdown.HorizontalItem>,
+    ]}
+    {...visualTestProps(window.IS_TEST && window.location.search.includes('item-directions'))}
+  />
+  `}
+      </ComponentBox>
+    </Wrapper>
+  )
+}
 
 export const DropdownIconLeft = () => (
   <Wrapper>
@@ -238,16 +260,32 @@ export const DropdownTertiary = () => (
   </Wrapper>
 )
 
-export const DropdownMoreMenu = () => (
-  <Wrapper>
-    <ComponentBox data-visual-test="dropdown-more_menu">
-      {() => /* jsx */ `
+export const DropdownMoreMenu = () => {
+  const visualTestProps = (enabled) => {
+    if (!enabled) {
+      return {}
+    }
+    return {
+      opened: true,
+      prevent_close: true,
+      independent_width: true,
+      direction: 'bottom',
+    }
+  }
+  return (
+    <Wrapper>
+      <ComponentBox
+        scope={{ visualTestProps }}
+        data-visual-test="dropdown-more_menu"
+      >
+        {() => /* jsx */ `
 <Dropdown
   more_menu="true"
   size="small"
   title="Choose an item"
   data={() => [<Link href="/">Go to this Link</Link>, 'Or press on me', <>Custom component</>]}
   right="small"
+  {...visualTestProps(window.IS_TEST && window.location.search.includes('left-side'))}
 />
 <Dropdown
   prevent_selection="true"
@@ -257,6 +295,7 @@ export const DropdownMoreMenu = () => (
   aria-label="Choose an item"
   data={() => [<Link href="/">Go to this Link</Link>, 'Or press on me', <>Custom component</>]}
   right="small"
+  {...visualTestProps(window.IS_TEST && window.location.search.includes('right-side'))}
 />
 <Dropdown
   more_menu="true"
@@ -277,10 +316,11 @@ export const DropdownMoreMenu = () => (
     console.log('on_select', active_item)
   }}
 />
-`}
-    </ComponentBox>
-  </Wrapper>
-)
+  `}
+      </ComponentBox>
+    </Wrapper>
+  )
+}
 
 export const DropdownDisabled = () => (
   <Wrapper>
@@ -292,14 +332,27 @@ export const DropdownDisabled = () => (
   </Wrapper>
 )
 
-export const DropdownCustomEvent = () => (
-  <Wrapper>
-    <ComponentBox
-      scope={{ data }}
-      useRender
-      data-visual-test="dropdown-action_menu-custom"
-    >
-      {() => /* jsx */ `
+export const DropdownCustomEvent = () => {
+  const visualTestProps = (enabled) => {
+    if (!enabled) {
+      return {}
+    }
+    return {
+      opened: true,
+      prevent_close: true,
+      independent_width: true,
+      skip_portal: true,
+      direction: 'bottom',
+    }
+  }
+  return (
+    <Wrapper>
+      <ComponentBox
+        scope={{ data, visualTestProps }}
+        useRender
+        data-visual-test="dropdown-action_menu-custom"
+      >
+        {() => /* jsx */ `
 const CustomComponent = () => (
   <CustomComponentInner
     onTouchStart={preventDefault}
@@ -336,12 +389,14 @@ render(
       console.log('More menu:', value)
     }}
     suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
+    {...visualTestProps(window.IS_TEST && window.location.search.includes('action_menu-custom'))}
   />
 )
-`}
-    </ComponentBox>
-  </Wrapper>
-)
+  `}
+      </ComponentBox>
+    </Wrapper>
+  )
+}
 
 export const DropdownSizes = () => (
   <Wrapper>

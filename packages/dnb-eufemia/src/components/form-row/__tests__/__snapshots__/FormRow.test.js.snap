@@ -9,7 +9,7 @@ exports[`FormRow component have to match snapshot 1`] = `
   custom_method={[Function]}
   direction="horizontal"
   disabled="disabled"
-  global_status_id="global_status_id"
+  global_status_id="main"
   id="form-row"
   indent="indent"
   indent_offset="indent_offset"
@@ -18,6 +18,7 @@ exports[`FormRow component have to match snapshot 1`] = `
   label_direction="horizontal"
   label_id="label_id"
   label_sr_only="label_sr_only"
+  locale="locale"
   no_fieldset="no_fieldset"
   no_label="no_label"
   responsive="responsive"
@@ -182,12 +183,12 @@ exports[`FormRow scss have to match snapshot 1`] = `
     margin-right: 0;
     margin-bottom: 0.5rem; }
   .dnb-form-label--sr-only {
-    width: 1px;
-    margin: 0;
-    padding: 0;
-    margin-left: -1px;
-    overflow: hidden;
-    white-space: nowrap; }
+    width: 1px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-left: -1px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;

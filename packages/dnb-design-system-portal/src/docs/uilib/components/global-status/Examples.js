@@ -22,6 +22,7 @@ export const GlobalStatusError = () => (
   show="true"
   autoscroll="false"
   no_animation="true"
+  omit_set_focus="true"
   id="demo-1"
 />
 `}
@@ -39,6 +40,7 @@ export const GlobalStatusInfo = () => (
   show="true"
   autoscroll="false"
   no_animation="true"
+  omit_set_focus="true"
   id="demo-4"
 />
 `}

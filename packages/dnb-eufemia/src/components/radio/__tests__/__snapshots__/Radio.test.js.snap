@@ -11,7 +11,7 @@ exports[`Radio component have to match snapshot 1`] = `
   direction="horizontal"
   disabled="disabled"
   element="input"
-  global_status_id="global_status_id"
+  global_status_id="main"
   group={null}
   id="radio"
   label="label"
@@ -74,7 +74,7 @@ exports[`Radio component have to match snapshot 1`] = `
           attributes={null}
           class={null}
           className={null}
-          global_status_id="global_status_id"
+          global_status_id="main"
           icon="error"
           icon_size="medium"
           id="radio-form-status"
@@ -143,7 +143,7 @@ exports[`Radio component have to match snapshot 1`] = `
                 "direction": "horizontal",
                 "disabled": "disabled",
                 "element": "input",
-                "global_status_id": "global_status_id",
+                "global_status_id": "main",
                 "group": null,
                 "id": "radio",
                 "label": "label",
@@ -261,6 +261,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
       label_direction={null}
       label_id="group-label"
       label_sr_only={null}
+      locale={null}
       no_fieldset={true}
       no_label={false}
       responsive={null}
@@ -792,12 +793,12 @@ exports[`Radio scss have to match snapshot 1`] = `
     margin-right: 0;
     margin-bottom: 0.5rem; }
   .dnb-form-label--sr-only {
-    width: 1px;
-    margin: 0;
-    padding: 0;
-    margin-left: -1px;
-    overflow: hidden;
-    white-space: nowrap; }
+    width: 1px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-left: -1px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;
@@ -893,6 +894,8 @@ legend.dnb-form-label {
     line-height: var(--line-height-small);
     font-size: var(--font-size-small);
     white-space: normal; }
+    button .dnb-form-status__text {
+      cursor: inherit; }
     .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
   .dnb-icon + .dnb-form-status__text {

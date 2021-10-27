@@ -14,6 +14,7 @@ describe('DatePicker screenshot', () => {
 
   if (!isCI) {
     // skip the input fields, as there is a linux input issue
+
     it('have to match the input fields', async () => {
       const screenshot = await testPageScreenshot({
         selector:
@@ -21,6 +22,7 @@ describe('DatePicker screenshot', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
     it('have to match the date-picker with input in error state', async () => {
       const screenshot = await testPageScreenshot({
         style: {
@@ -40,6 +42,7 @@ describe('DatePicker screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the date-picker trigger button', async () => {
     const screenshot = await testPageScreenshot({
       selector:
@@ -47,6 +50,7 @@ describe('DatePicker screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the date-picker trigger button in error state', async () => {
     const screenshot = await testPageScreenshot({
       selector:

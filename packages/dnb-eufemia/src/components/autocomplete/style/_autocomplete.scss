@@ -223,6 +223,11 @@
     }
   }
 
+  // Search highlight wrapper
+  &__list .dnb-drawer-list__option__item > span {
+    padding-right: 0.125em; // add one space because of the word split
+  }
+
   @include IS_IE {
     flex: none;
     vertical-align: baseline;

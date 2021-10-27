@@ -12,12 +12,14 @@ describe('Autocomplete screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/autocomplete/demos',
   })
+
   it('have to match different sizes', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="autocomplete-sizes"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match autocomplete with drawer-button', async () => {
     const screenshot = await testPageScreenshot({
       selector:
@@ -25,6 +27,7 @@ describe('Autocomplete screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match the closed autocomplete', async () => {
     const screenshot = await testPageScreenshot({
       selector:
@@ -38,6 +41,7 @@ describe('Autocomplete screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/autocomplete/demos',
   })
+
   it('have to match autocomplete with search result', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="autocomplete-drawer-search"]',
@@ -58,14 +62,15 @@ describe('Autocomplete screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/autocomplete/demos',
   })
+
   it('have to match autocomplete opened list', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="autocomplete-opened"]',
       simulateSelector:
-        '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type .first-of-type',
+        '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type li.first-of-type',
       simulate: 'click',
       waitAfterSimulateSelector:
-        '.dnb-drawer-list__options .first-of-type.dnb-drawer-list__option',
+        '.dnb-drawer-list__options li.first-of-type.dnb-drawer-list__option--selected',
       style: {
         height: '40rem',
       },

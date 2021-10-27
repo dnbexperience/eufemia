@@ -207,7 +207,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         <span
           className="dnb-input__submit-element"
         >
-          <ForwardRef
+          <InputSubmitButton
             0={
               Object {
                 "displayName": "Input",
@@ -300,6 +300,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                 },
               }
             }
+            className={null}
             custom_element={null}
             custom_method={null}
             disabled={false}
@@ -318,298 +319,179 @@ exports[`Input component have to match type="search" snapshot 1`] = `
             size={null}
             skeleton={false}
             status={null}
+            status_props={null}
             status_state="error"
             title="Send knapp"
             value="test"
             variant="secondary"
           >
-            <InputSubmitButton
-              0={
-                Object {
-                  "displayName": "Input",
-                  "props": Object {
-                    "align": "'left'",
-                    "autocomplete": "autocomplete",
-                    "children": "children",
-                    "class": "class",
-                    "className": "className",
-                    "clear": "clear",
-                    "clear_button_title": "clear_button_title",
-                    "custom_element": Object {},
-                    "custom_method": [Function],
-                    "disabled": "disabled",
-                    "global_status_id": "global_status_id",
-                    "icon": "icon",
-                    "icon_position": "'left'",
-                    "icon_size": "icon_size",
-                    "id": "id",
-                    "inner_ref": [Function],
-                    "input_attributes": "input_attributes",
-                    "input_class": "input_class",
-                    "input_element": [Function],
-                    "input_state": "input_state",
-                    "keep_placeholder": "keep_placeholder",
-                    "label": "label",
-                    "label_direction": "'horizontal'",
-                    "label_sr_only": "label_sr_only",
-                    "on_blur": [Function],
-                    "on_change": [Function],
-                    "on_focus": [Function],
-                    "on_state_update": [Function],
-                    "on_submit": [Function],
-                    "on_submit_blur": [Function],
-                    "on_submit_focus": [Function],
-                    "placeholder": "placeholder",
-                    "readOnly": "readOnly",
-                    "selectall": "selectall",
-                    "size": "'default'",
-                    "skeleton": "skeleton",
-                    "status": "status",
-                    "status_no_animation": "status_no_animation",
-                    "status_props": Object {},
-                    "status_state": "status_state",
-                    "stretch": "stretch",
-                    "submit_button_icon": "submit_button_icon",
-                    "submit_button_status": "submit_button_status",
-                    "submit_button_title": "submit_button_title",
-                    "submit_button_variant": "custom type not supported, please set the correct value for submit_button_variant prop",
-                    "submit_element": [Function],
-                    "suffix": "suffix",
-                    "type": "type",
-                    "value": "value",
-                  },
-                }
-              }
-              1={
-                Object {
-                  "displayName": "InputSubmitButton",
-                  "props": Object {
-                    "className": "className",
-                    "disabled": "disabled",
-                    "icon": "icon",
-                    "icon_size": "icon_size",
-                    "id": "id",
-                    "on_submit": [Function],
-                    "on_submit_blur": [Function],
-                    "on_submit_focus": [Function],
-                    "skeleton": "skeleton",
-                    "status": "status",
-                    "status_props": Object {},
-                    "status_state": "status_state",
-                    "title": "title",
-                    "value": "value",
-                    "variant": "custom type not supported, please set the correct value for variant prop",
-                  },
-                }
-              }
-              2={
-                Object {
-                  "displayName": "SubmitButton",
-                  "props": Object {},
-                }
-              }
-              3={
-                Object {
-                  "displayName": "InputIcon",
-                  "props": Object {
-                    "icon": "icon",
-                  },
-                }
-              }
-              className={null}
-              custom_element={null}
-              custom_method={null}
-              disabled={false}
-              icon="loupe"
-              icon_size="default"
-              id="input-submit-button"
-              innerRef={null}
-              inner_ref={null}
-              input_state={null}
-              on_blur={null}
-              on_change={null}
-              on_focus={null}
-              on_state_update={null}
-              on_submit={null}
-              on_submit_blur={null}
-              on_submit_focus={null}
-              size={null}
-              skeleton={false}
-              status={null}
-              status_props={null}
-              status_state="error"
-              title="Send knapp"
-              value="test"
-              variant="secondary"
+            <span
+              className="dnb-input__submit-button"
+              data-input-state="virgin"
             >
-              <span
-                className="dnb-input__submit-button"
-                data-input-state="virgin"
+              <Button
+                aria-label="Send knapp"
+                bounding={null}
+                class={null}
+                className="dnb-input__submit-button__button dnb-button--input-button"
+                custom_content={null}
+                custom_element={null}
+                custom_method={null}
+                disabled={false}
+                element={null}
+                global_status_id={null}
+                href={null}
+                icon="loupe"
+                icon_position="right"
+                icon_size="default"
+                id="input-submit-button"
+                innerRef={null}
+                inner_ref={null}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                on_click={null}
+                size={null}
+                skeleton={null}
+                status={null}
+                status_no_animation={null}
+                status_props={null}
+                status_state="error"
+                stretch={null}
+                text={null}
+                title={null}
+                to={null}
+                tooltip={null}
+                type="submit"
+                value="test"
+                variant="secondary"
+                wrap={null}
               >
-                <Button
+                <button
                   aria-label="Send knapp"
-                  bounding={null}
-                  class={null}
-                  className="dnb-input__submit-button__button dnb-button--input-button"
-                  custom_content={null}
-                  custom_element={null}
-                  custom_method={null}
+                  className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-default dnb-button--size-medium"
                   disabled={false}
-                  element={null}
-                  global_status_id={null}
-                  href={null}
-                  icon="loupe"
-                  icon_position="right"
-                  icon_size="default"
                   id="input-submit-button"
-                  innerRef={null}
-                  inner_ref={null}
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
-                  on_click={null}
-                  size={null}
-                  skeleton={null}
-                  status={null}
-                  status_no_animation={null}
-                  status_props={null}
-                  status_state="error"
-                  stretch={null}
-                  text={null}
-                  title={null}
-                  to={null}
-                  tooltip={null}
                   type="submit"
                   value="test"
-                  variant="secondary"
-                  wrap={null}
                 >
-                  <button
+                  <Content
                     aria-label="Send knapp"
-                    className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-default dnb-button--size-medium"
+                    bounding={null}
+                    class={null}
+                    className="dnb-input__submit-button__button dnb-button--input-button"
+                    content={null}
+                    custom_content={null}
+                    custom_element={null}
+                    custom_method={null}
                     disabled={false}
+                    element={null}
+                    global_status_id={null}
+                    href={null}
+                    icon="loupe"
+                    icon_position="right"
+                    icon_size="default"
                     id="input-submit-button"
+                    innerRef={null}
+                    inner_ref={null}
+                    isIconOnly={true}
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
-                    type="submit"
-                    value="test"
-                  >
-                    <Content
-                      aria-label="Send knapp"
-                      bounding={null}
-                      class={null}
-                      className="dnb-input__submit-button__button dnb-button--input-button"
-                      content={null}
-                      custom_content={null}
-                      custom_element={null}
-                      custom_method={null}
-                      disabled={false}
-                      element={null}
-                      global_status_id={null}
-                      href={null}
-                      icon="loupe"
-                      icon_position="right"
-                      icon_size="default"
-                      id="input-submit-button"
-                      innerRef={null}
-                      inner_ref={null}
-                      isIconOnly={true}
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
-                      on_click={null}
-                      size={null}
-                      skeleton={false}
-                      status={null}
-                      status_no_animation={null}
-                      status_props={null}
-                      status_state="error"
-                      stretch={null}
-                      text={null}
-                      title={null}
-                      to={null}
-                      tooltip={null}
-                      type="submit"
-                      value="test"
-                      variant="secondary"
-                      wrap={null}
-                    >
-                      <span
-                        className="dnb-button__alignment"
-                        key="button-text-empty"
-                      >
-                        ‌
-                      </span>
-                      <IconPrimary
-                        alt={null}
-                        aria-hidden={null}
-                        attributes={null}
-                        border={null}
-                        className="dnb-button__icon"
-                        color={null}
-                        height={null}
-                        icon="loupe"
-                        inherit_color={true}
-                        key="button-icon"
-                        modifier={null}
-                        size="default"
-                        skeleton={false}
-                        title={null}
-                        width={null}
-                      >
-                        <span
-                          aria-hidden={true}
-                          className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                          data-test-id="loupe icon"
-                          role="presentation"
-                        >
-                          <loupe>
-                            <svg
-                              fill="none"
-                              height={16}
-                              viewBox="0 0 16 16"
-                              width={16}
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M12.0303 10.9697C11.7374 10.6768 11.2626 10.6768 10.9697 10.9697C10.6768 11.2626 10.6768 11.7374 10.9697 12.0303L12.0303 10.9697ZM14.4697 15.5303C14.7626 15.8232 15.2374 15.8232 15.5303 15.5303C15.8232 15.2374 15.8232 14.7626 15.5303 14.4697L14.4697 15.5303ZM10.9697 12.0303L14.4697 15.5303L15.5303 14.4697L12.0303 10.9697L10.9697 12.0303ZM11.0682 6.40909C11.0682 8.98224 8.98224 11.0682 6.40909 11.0682V12.5682C9.81066 12.5682 12.5682 9.81066 12.5682 6.40909H11.0682ZM6.40909 11.0682C3.83595 11.0682 1.75 8.98224 1.75 6.40909H0.25C0.25 9.81066 3.00752 12.5682 6.40909 12.5682V11.0682ZM1.75 6.40909C1.75 3.83595 3.83595 1.75 6.40909 1.75V0.25C3.00752 0.25 0.25 3.00752 0.25 6.40909H1.75ZM6.40909 1.75C8.98224 1.75 11.0682 3.83595 11.0682 6.40909H12.5682C12.5682 3.00752 9.81066 0.25 6.40909 0.25V1.75Z"
-                                fill="black"
-                              />
-                            </svg>
-                          </loupe>
-                        </span>
-                      </IconPrimary>
-                    </Content>
-                  </button>
-                  <FormStatus
-                    attributes={null}
-                    class={null}
-                    className={null}
-                    global_status_id={null}
-                    icon="error"
-                    icon_size="medium"
-                    id="input-submit-button-form-status"
-                    label={null}
-                    no_animation={null}
-                    role={null}
-                    show={null}
-                    size="default"
-                    skeleton={null}
-                    state="error"
-                    status="error"
+                    on_click={null}
+                    size={null}
+                    skeleton={false}
+                    status={null}
+                    status_no_animation={null}
+                    status_props={null}
+                    status_state="error"
                     stretch={null}
                     text={null}
-                    text_id="input-submit-button-status"
                     title={null}
-                    variant={null}
-                    width_element={null}
-                    width_selector={null}
-                  />
-                </Button>
-              </span>
-            </InputSubmitButton>
-          </ForwardRef>
+                    to={null}
+                    tooltip={null}
+                    type="submit"
+                    value="test"
+                    variant="secondary"
+                    wrap={null}
+                  >
+                    <span
+                      className="dnb-button__alignment"
+                      key="button-text-empty"
+                    >
+                      ‌
+                    </span>
+                    <IconPrimary
+                      alt={null}
+                      aria-hidden={null}
+                      attributes={null}
+                      border={null}
+                      className="dnb-button__icon"
+                      color={null}
+                      height={null}
+                      icon="loupe"
+                      inherit_color={true}
+                      key="button-icon"
+                      modifier={null}
+                      size="default"
+                      skeleton={false}
+                      title={null}
+                      width={null}
+                    >
+                      <span
+                        aria-hidden={true}
+                        className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                        data-test-id="loupe icon"
+                        role="presentation"
+                      >
+                        <loupe>
+                          <svg
+                            fill="none"
+                            height={16}
+                            viewBox="0 0 16 16"
+                            width={16}
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M12.0303 10.9697C11.7374 10.6768 11.2626 10.6768 10.9697 10.9697C10.6768 11.2626 10.6768 11.7374 10.9697 12.0303L12.0303 10.9697ZM14.4697 15.5303C14.7626 15.8232 15.2374 15.8232 15.5303 15.5303C15.8232 15.2374 15.8232 14.7626 15.5303 14.4697L14.4697 15.5303ZM10.9697 12.0303L14.4697 15.5303L15.5303 14.4697L12.0303 10.9697L10.9697 12.0303ZM11.0682 6.40909C11.0682 8.98224 8.98224 11.0682 6.40909 11.0682V12.5682C9.81066 12.5682 12.5682 9.81066 12.5682 6.40909H11.0682ZM6.40909 11.0682C3.83595 11.0682 1.75 8.98224 1.75 6.40909H0.25C0.25 9.81066 3.00752 12.5682 6.40909 12.5682V11.0682ZM1.75 6.40909C1.75 3.83595 3.83595 1.75 6.40909 1.75V0.25C3.00752 0.25 0.25 3.00752 0.25 6.40909H1.75ZM6.40909 1.75C8.98224 1.75 11.0682 3.83595 11.0682 6.40909H12.5682C12.5682 3.00752 9.81066 0.25 6.40909 0.25V1.75Z"
+                              fill="black"
+                            />
+                          </svg>
+                        </loupe>
+                      </span>
+                    </IconPrimary>
+                  </Content>
+                </button>
+                <FormStatus
+                  attributes={null}
+                  class={null}
+                  className={null}
+                  global_status_id={null}
+                  icon="error"
+                  icon_size="medium"
+                  id="input-submit-button-form-status"
+                  label={null}
+                  no_animation={null}
+                  role={null}
+                  show={null}
+                  size="default"
+                  skeleton={null}
+                  state="error"
+                  status="error"
+                  stretch={null}
+                  text={null}
+                  text_id="input-submit-button-status"
+                  title={null}
+                  variant={null}
+                  width_element={null}
+                  width_selector={null}
+                />
+              </Button>
+            </span>
+          </InputSubmitButton>
         </span>
       </span>
     </span>
@@ -1119,6 +1001,8 @@ exports[`Input scss have to match snapshot 1`] = `
     line-height: var(--line-height-small);
     font-size: var(--font-size-small);
     white-space: normal; }
+    button .dnb-form-status__text {
+      cursor: inherit; }
     .dnb-form-status__text .dnb-anchor {
       font-size: inherit; }
   .dnb-icon + .dnb-form-status__text {
@@ -1455,12 +1339,12 @@ button.dnb-button::-moz-focus-inner {
     margin-right: 0;
     margin-bottom: 0.5rem; }
   .dnb-form-label--sr-only {
-    width: 1px;
-    margin: 0;
-    padding: 0;
-    margin-left: -1px;
-    overflow: hidden;
-    white-space: nowrap; }
+    width: 1px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-left: -1px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important; }
   .dnb-form-label[for]:not([disabled]) {
     user-select: none;
     -webkit-user-select: none;

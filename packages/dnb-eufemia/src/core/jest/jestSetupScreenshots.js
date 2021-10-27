@@ -13,18 +13,10 @@ const ora = require('ora')
 
 const log = ora()
 
-/**
- * we may considder using: isCI ? 'networkidle2' : 'domcontentloaded'
- * because "networkidle2" takes more time.
- * Why do we not use "load" only? Because it seems,
- * that a little delay during page load increases reliability
- */
-const waitUntil = 'domcontentloaded'
+const waitUntil = isCI ? 'domcontentloaded' : 'load'
 
 const config = {
   DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
-  // use same port as the local dev setup, this way we can test from the dev setup as well
-  // testScreenshotOnHost: isCI ? '127.0.0.1' : 'localhost',
   testScreenshotOnHost: 'localhost',
   testScreenshotOnPort: 8000,
   headless: true,
@@ -33,18 +25,7 @@ const config = {
   blockFontRequest: false,
   allowedFonts: [], // e.g. 'LiberationMono'
   pixelGrid: 8,
-  defaultViewport: {
-    /**
-     * For some reason, puppeteer.launch({ defaultViewport, ... does not take the config in account
-     * so we use pageViewport instead
-     */
-    // width: 1280,
-    // height: 1024,
-    // isMobile: false,
-    // hasTouch: false,
-    // isLandscape: false,
-    // deviceScaleFactor: 1
-  },
+  defaultViewport: {},
   pageViewport: {
     width: 1280,
     height: 1024,
@@ -55,10 +36,10 @@ const config = {
   },
   screenshotConfig: {
     detectAntialiasing: true,
-    // local we check for 0% accuracy
-    // due to the differences of font rendering between the os (linux/mac/win)
-    // we have to have a high threshold of 3%
-    pixelThresholdRelative: isCI ? 0.03 : 0,
+
+    // If the CI is macOS, we can have a low threshold there as well
+    // Else we opt for a slightly difference in font-rendering form setup to setup
+    pixelThresholdRelative: isCI ? 0.005 : 0.005,
   },
 }
 module.exports.config = config
@@ -131,17 +112,16 @@ module.exports.testPageScreenshot = async ({
     )
   }
 
-  const { elementToSimulate, activeSimulationDelay } =
-    await handleSimulation({
-      page,
-      element,
-      simulate,
-      simulateSelector,
-      screenshotElement,
-      waitAfterSimulateSelector,
-      waitAfterSimulate,
-      waitBeforeSimulate,
-    })
+  const { elementToSimulate, delaySimulation } = await handleSimulation({
+    page,
+    element,
+    simulate,
+    simulateSelector,
+    screenshotElement,
+    waitAfterSimulateSelector,
+    waitAfterSimulate,
+    waitBeforeSimulate,
+  })
 
   await handleMeasureOfElement({
     page,
@@ -163,12 +143,11 @@ module.exports.testPageScreenshot = async ({
     screenshotSelector,
   })
 
-  // before we had: just to make sure we don't resolve, before the delayed click happened
-  // so the next integration on the same url will have a reset state
-  if (activeSimulationDelay > 0) {
-    await page.waitForTimeout(activeSimulationDelay)
-    await elementToSimulate.click()
-  } else if (elementToSimulate) {
+  if (delaySimulation > 0) {
+    await page.waitForTimeout(delaySimulation)
+  }
+
+  if (elementToSimulate) {
     await elementToSimulate.dispose()
   }
 
@@ -267,11 +246,6 @@ async function makePageReady({
     path: path.resolve(__dirname, './jestSetupScreenshots.css'),
   })
 
-  // TODO: Considder if a general delay will help for better reliability
-  if (isCI) {
-    await page.waitForTimeout(100)
-  }
-
   await page.waitForSelector(selector)
 
   if (style) {
@@ -347,7 +321,7 @@ async function handleSimulation({
   }
 
   let elementToSimulate = null
-  let activeSimulationDelay = 0
+  let delaySimulation = 0
 
   if (simulate) {
     if (simulateSelector) {
@@ -359,6 +333,7 @@ async function handleSimulation({
 
     switch (simulate) {
       case 'hover': {
+        await page.mouse.move(0, 0)
         await elementToSimulate.hover()
         break
       }
@@ -368,22 +343,44 @@ async function handleSimulation({
         break
       }
 
+      case 'enter': {
+        await screenshotElement.press('Enter')
+        break
+      }
+
+      case 'longclick': {
+        delaySimulation = isCI ? 600 : 400
+
+        // No await
+        elementToSimulate.click({ delay: delaySimulation })
+        break
+      }
+
       case 'clickfocus': {
         await elementToSimulate.click()
         screenshotElement.press('Shift')
         await screenshotElement.press('Tab')
-        await screenshotElement.press('Tab')
+        await screenshotElement.press('Tab') // tab two times
         await elementToSimulate.focus()
         break
       }
 
       case 'active': {
-        // make a delayed click – have mouse down until screen shot is taken
-        activeSimulationDelay = isCI ? 500 : 400
-        // no await – else we get only a release state
-        elementToSimulate.click({
-          delay: activeSimulationDelay,
+        await elementToSimulate.click()
+
+        const { pageXOffset, pageYOffset } = await page.evaluate(() => {
+          const pageXOffset = window.pageXOffset
+          const pageYOffset = window.pageYOffset
+          return { pageXOffset, pageYOffset }
         })
+
+        const boundingBox = await elementToSimulate.boundingBox()
+
+        await page.mouse.down(
+          boundingBox.x + boundingBox.width / 2 - pageXOffset,
+          boundingBox.y + boundingBox.height / 2 - pageYOffset
+        )
+
         break
       }
 
@@ -407,7 +404,7 @@ async function handleSimulation({
     await page.waitForTimeout(waitAfterSimulate)
   }
 
-  return { elementToSimulate, activeSimulationDelay }
+  return { elementToSimulate, delaySimulation }
 }
 
 async function handleWrapper({

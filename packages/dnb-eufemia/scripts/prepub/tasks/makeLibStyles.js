@@ -4,14 +4,17 @@
  */
 
 import gulp from 'gulp'
-import sass from 'gulp-sass'
-import postcss from 'postcss'
-import cssnano from 'cssnano'
 import clone from 'gulp-clone'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
 import packpath from 'packpath'
 import { log } from '../../lib'
+import {
+  transformSass,
+  transformPaths,
+  transformPostcss,
+  transformCssnano,
+} from './transformUtils'
 
 // import the post css config
 import postcssConfig from '../config/postcssConfig'
@@ -32,22 +35,29 @@ export default async function makeLibStyles() {
   }
 }
 
-export const runFactory = (src, { returnResult = false } = {}) =>
+export const runFactory = (
+  src,
+  { returnResult = false, returnFiles = false } = {}
+) =>
   new Promise((resolve, reject) => {
     log.start(`> PrePublish: converting sass to css | ${src}`)
 
     try {
       // do not use 'node-sass-json-importer' here! Every file needs the same core imports over and over again.
-      const sassStream = sass().on('error', sass.logError)
       const cloneSink = clone.sink()
       const dest = src.replace('./src/', '').split('/**/')[0]
       const files = [src, '!**/__tests__/**', '!**/*_not_in_use*/**/*']
 
-      let stream = gulp
+      const stream = gulp
         .src(files, {
           cwd: ROOT_DIR,
         })
-        .pipe(sassStream)
+        .pipe(transform('utf8', transformSass()))
+        .pipe(
+          rename({
+            extname: '.css',
+          })
+        )
         .pipe(
           transform(
             'utf8',
@@ -61,12 +71,12 @@ export const runFactory = (src, { returnResult = false } = {}) =>
           )
         )
         .pipe(cloneSink)
-      transform('utf8', transformCssnano({ reduceIdents: false }))
+        .pipe(transform('utf8', transformCssnano({ reduceIdents: false })))
         .pipe(rename({ suffix: '.min' }))
         .pipe(cloneSink.tap())
 
-      if (!returnResult) {
-        stream = stream
+      if (!returnResult && !returnFiles) {
+        stream
           .pipe(
             gulp.dest(`./build/cjs/${dest}/`, {
               cwd: ROOT_DIR,
@@ -87,6 +97,9 @@ export const runFactory = (src, { returnResult = false } = {}) =>
         )
       }
 
+      const collectedFiles = []
+      const collectedResults = []
+
       stream
         .pipe(
           transform(
@@ -95,8 +108,17 @@ export const runFactory = (src, { returnResult = false } = {}) =>
           )
         )
         .pipe(
-          returnResult
-            ? transform('utf8', (result) => resolve(result))
+          returnResult || returnFiles
+            ? transform('utf8', (result, file) => {
+                if (returnFiles) {
+                  collectedFiles.push(file.path)
+                  resolve(collectedFiles)
+                } else if (returnResult) {
+                  collectedResults.push(result)
+                  resolve(collectedResults)
+                }
+                return result
+              })
             : gulp.dest(`./build/${dest}/`, {
                 cwd: ROOT_DIR,
               })
@@ -108,33 +130,3 @@ export const runFactory = (src, { returnResult = false } = {}) =>
       reject(e)
     }
   })
-
-const transformPaths = (from, to) => (content, file) => {
-  log.info(`> PrePublish: converting sass to css | ${file.path}`)
-  return content.replace(new RegExp(from, 'g'), to)
-}
-
-const transformPostcss = (config) => async (content, file) => {
-  log.info(`> PrePublish: postcss process | ${file.path}`)
-
-  return (
-    await postcss(config).process(content, {
-      from: file.path,
-    })
-  ).toString()
-}
-
-const transformCssnano = (config) => async (content, file) => {
-  log.info(`> PrePublish: cssnano process | ${file.path}`)
-
-  return (
-    await postcss([
-      cssnano({
-        preset: 'default',
-        ...config,
-      }),
-    ]).process(content, {
-      from: file.path,
-    })
-  ).toString()
-}
