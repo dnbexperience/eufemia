@@ -5,6 +5,8 @@ order: 2
 
 # Font Size
 
+For details about what values Typographic elements do use, have a loot at the [Fonts & Typography](/quickguide-designer/fonts#typographic-elements) documentation.
+
 ## Default `font-size` **rem** table
 
 | Pixel | Type       | Rem          | Custom Property        | Info                            |
@@ -12,10 +14,10 @@ order: 2
 | 14px  | `x-small`  | **0.875rem** | `--font-size-x-small`  | Do not use for texts            |
 | 16px  | `small`    | **1rem**     | `--font-size-small`    | [Fallback](#fallback-font-size) |
 | 18px  | `basis`    | **1.125rem** | `--font-size-basis`    | Default size                    |
-| 20px  | `medium`   | **1.25rem**  | `--font-size-medium`   | Lead                            |
-| 26px  | `large`    | **1.625rem** | `--font-size-large`    | Heading                         |
-| 34px  | `x-large`  | **2.125rem** | `--font-size-x-large`  | Heading                         |
-| 48px  | `xx-large` | **3rem**     | `--font-size-xx-large` | Heading                         |
+| 20px  | `medium`   | **1.25rem**  | `--font-size-medium`   |                                 |
+| 26px  | `large`    | **1.625rem** | `--font-size-large`    |                                 |
+| 34px  | `x-large`  | **2.125rem** | `--font-size-x-large`  |                                 |
+| 48px  | `xx-large` | **3rem**     | `--font-size-xx-large` |                                 |
 
 ## Additional `font-size` **em** table
 
