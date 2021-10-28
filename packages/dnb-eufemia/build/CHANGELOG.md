@@ -3,6 +3,19 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.15.0](https://github.com/dnbexperience/eufemia/compare/v9.14.0...v9.15.0) (2021-10-28)
+
+
+### Bug Fixes
+
+* **Autocomplete:** fix updateData when selected_key changes ([90f8b05](https://github.com/dnbexperience/eufemia/commit/90f8b050bdb3c375cb5e0186a72d6f376e1a3cd5))
+* **TypeScript:** fix export of type definitions ([ff1e603](https://github.com/dnbexperience/eufemia/commit/ff1e603d757dda67c381b482355169a8013400d6)), closes [#1075](https://github.com/dnbexperience/eufemia/issues/1075)
+
+
+### Features
+
+* **Icons:** new icons: oil, fridge, factory, chip, charger, brickwall ([218315a](https://github.com/dnbexperience/eufemia/commit/218315aca050ecce46f66f2963d94172848bdf80))
+
 # [9.14.0](https://github.com/dnbexperience/eufemia/compare/v9.13.1...v9.14.0) (2021-10-28)
 
 
