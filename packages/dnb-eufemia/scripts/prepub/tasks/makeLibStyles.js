@@ -4,6 +4,7 @@
  */
 
 import gulp from 'gulp'
+import sass from 'node-sass'
 import clone from 'gulp-clone'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
@@ -67,7 +68,7 @@ export const runFactory = (
         .pipe(
           transform(
             'utf8',
-            transformPostcss(postcssConfig({ IE11: true }))
+            transformPostcss(postcssConfig({ IE11: true, sass }))
           )
         )
         .pipe(cloneSink)
