@@ -18,4 +18,4 @@ echo 'Building cjs done!'
 
 echo 'Copy .d.ts files ...'
 
-cd ./src && find . -name '*.d.ts' | cpio -p -dumv ../build/cjs && cd ../
+OUT_DIR=./build/cjs babel-node ./scripts/release/copyTypeScriptDefinitionFiles.js
