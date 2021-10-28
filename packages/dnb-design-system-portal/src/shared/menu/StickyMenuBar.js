@@ -34,6 +34,11 @@ const Header = styled.header`
     z-index: 3201;
   }
 
+  /* stylelint-disable-next-line */
+  html[data-dnb-modal-active='portal-tools'] & {
+    z-index: 3000;
+  }
+
   top: 0;
   left: 0;
   width: 100%;
