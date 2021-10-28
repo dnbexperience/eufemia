@@ -1,7 +1,7 @@
 const config = {
   testEnvironment: 'jsdom',
   testURL: 'http://localhost',
-  testRegex: '(/__tests__/\\.js|(\\.|/)(test|spec))\\.[jt]s?$',
+  testRegex: '(/__tests__/\\.js|(\\.|/)(test|spec))\\.(js|jsx|ts)?$',
   modulePathIgnorePatterns: [
     'not_in_use',
     '<rootDir>/build/',

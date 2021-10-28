@@ -646,7 +646,7 @@ class AutocompleteInstance extends React.PureComponent {
   }
 
   emptyData = () => {
-    this._rC = {}
+    this._cacheMemory = {}
 
     this.setState({
       inputValue: '',
@@ -730,6 +730,17 @@ class AutocompleteInstance extends React.PureComponent {
     this.context.drawerList.setState({
       cache_hash: 'updateData',
     })
+
+    // If the "selected_key" has changed in comparison to the existing data,
+    // invalidated our selected_item
+    const itemIndex = this.context.drawerList.selected_item
+    if (parseFloat(itemIndex) > -1) {
+      const newItem = rawData[itemIndex]
+      const oldItem = this.context.drawerList.original_data[itemIndex]
+      if (newItem?.selected_key !== oldItem?.selected_key) {
+        this.resetSelectionItem()
+      }
+    }
 
     this.context.drawerList.setData(
       () => rawData, // set data as a function, so it gets re-evaluated with normalizeData
@@ -1034,7 +1045,7 @@ class AutocompleteInstance extends React.PureComponent {
     } = {},
     cb
   ) {
-    this._rC = {}
+    this._cacheMemory = {}
 
     if (!overwriteSearchIndex && this.state.searchIndex) {
       return this.state.searchIndex
@@ -1294,9 +1305,9 @@ class AutocompleteInstance extends React.PureComponent {
 
         // if the ID and the content is the same, use the cached version
         const cacheHash = id + value
-        this._rC = this._rC || {}
-        if (this._rC[cacheHash]) {
-          return this._rC[cacheHash]
+        this._cacheMemory = this._cacheMemory || {}
+        if (this._cacheMemory[cacheHash]) {
+          return this._cacheMemory[cacheHash]
         }
 
         const isComponent =
@@ -1396,7 +1407,7 @@ class AutocompleteInstance extends React.PureComponent {
           return result
         })
 
-        return (this._rC[cacheHash] = children)
+        return (this._cacheMemory[cacheHash] = children)
       }
 
       if (this.skipFilter || skipFilter) {
@@ -1541,6 +1552,10 @@ class AutocompleteInstance extends React.PureComponent {
           _listenForPropChanges: false,
         })
       }
+    }
+
+    if (typeof args.data.render === 'function') {
+      delete args.data.render
     }
 
     dispatchCustomElementEvent(this, 'on_change', {
