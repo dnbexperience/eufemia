@@ -21,6 +21,7 @@ import bankid_qr from './bankid_qr.js'
 import bicycle from './bicycle.js'
 import boat from './boat.js'
 import bowling from './bowling.js'
+import brickwall from './brickwall.js'
 import broken_chain from './broken_chain.js'
 import brush from './brush.js'
 import bsu from './bsu.js'
@@ -37,8 +38,10 @@ import card_out from './card_out.js'
 import card_with_padlock from './card_with_padlock.js'
 import cat from './cat.js'
 import chain from './chain.js'
+import charger from './charger.js'
 import chat from './chat.js'
 import chatbot from './chatbot.js'
+import chip from './chip.js'
 import clock from './clock.js'
 import cog from './cog.js'
 import coins_1 from './coins_1.js'
@@ -62,6 +65,7 @@ import email from './email.js'
 import equities_and_mutual_funds from './equities_and_mutual_funds.js'
 import exclamation_circled from './exclamation_circled.js'
 import exclamation_triangle from './exclamation_triangle.js'
+import factory from './factory.js'
 import file from './file.js'
 import file_add from './file_add.js'
 import file_contract from './file_contract.js'
@@ -80,6 +84,7 @@ import filter from './filter.js'
 import first_aid from './first_aid.js'
 import flying_money from './flying_money.js'
 import folder from './folder.js'
+import fridge from './fridge.js'
 import fullscreen from './fullscreen.js'
 import funds from './funds.js'
 import funds_in from './funds_in.js'
@@ -126,6 +131,7 @@ import more_vertical from './more_vertical.js'
 import motorcycle from './motorcycle.js'
 import move from './move.js'
 import office_buildings from './office_buildings.js'
+import oil from './oil.js'
 import owl from './owl.js'
 import padlock from './padlock.js'
 import paperclip from './paperclip.js'
@@ -217,6 +223,7 @@ export {
   bicycle,
   boat,
   bowling,
+  brickwall,
   broken_chain,
   brush,
   bsu,
@@ -233,8 +240,10 @@ export {
   card_with_padlock,
   cat,
   chain,
+  charger,
   chat,
   chatbot,
+  chip,
   clock,
   cog,
   coins_1,
@@ -258,6 +267,7 @@ export {
   equities_and_mutual_funds,
   exclamation_circled,
   exclamation_triangle,
+  factory,
   file,
   file_add,
   file_contract,
@@ -276,6 +286,7 @@ export {
   first_aid,
   flying_money,
   folder,
+  fridge,
   fullscreen,
   funds,
   funds_in,
@@ -322,6 +333,7 @@ export {
   motorcycle,
   move,
   office_buildings,
+  oil,
   owl,
   padlock,
   paperclip,
