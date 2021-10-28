@@ -18,4 +18,4 @@ echo 'Building esm done!'
 
 echo 'Copy .d.ts files ...'
 
-cd ./src && find . -name '*.d.ts' | cpio -p -dumv ../build/esm && cd ../
+OUT_DIR=./build/esm babel-node ./scripts/release/copyTypeScriptDefinitionFiles.js

@@ -18,4 +18,4 @@ echo 'Building es done!'
 
 echo 'Copy .d.ts files ...'
 
-cd ./src && find . -name '*.d.ts' | cpio -p -dumv ../build/es && cd ../
+OUT_DIR=./build/es babel-node ./scripts/release/copyTypeScriptDefinitionFiles.js
