@@ -6,7 +6,14 @@
     "variant": "secondary"
   },
   "check": {
-    "tags": ["checkmark", "done", "complete", "success", "checkmark"],
+    "tags": [
+      "checkmark",
+      "done",
+      "complete",
+      "success",
+      "approve",
+      "checkmark"
+    ],
     "created": 1623927073898,
     "name": "essentials/check_16",
     "variant": "primary"
@@ -1298,6 +1305,42 @@
     "tags": ["sound", "audio"],
     "created": 1633375665167,
     "name": "actions/volume_on_16",
+    "variant": "secondary"
+  },
+  "oil": {
+    "tags": ["energy"],
+    "created": 1635407031308,
+    "name": "objects/oil_16",
+    "variant": "secondary"
+  },
+  "factory": {
+    "tags": ["industry"],
+    "created": 1635407031645,
+    "name": "objects/factory_16",
+    "variant": "secondary"
+  },
+  "chip": {
+    "tags": ["technology", "tech"],
+    "created": 1635407031999,
+    "name": "objects/chip_16",
+    "variant": "secondary"
+  },
+  "charger": {
+    "tags": ["supply"],
+    "created": 1635407032343,
+    "name": "objects/charger_16",
+    "variant": "secondary"
+  },
+  "brickwall": {
+    "tags": ["materials"],
+    "created": 1635407032666,
+    "name": "objects/brickwall_16",
+    "variant": "secondary"
+  },
+  "fridge": {
+    "tags": ["stable consumption"],
+    "created": 1635407033017,
+    "name": "objects/fridge_16",
     "variant": "secondary"
   },
   "products_account_percent": {

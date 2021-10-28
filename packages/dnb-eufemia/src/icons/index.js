@@ -53,6 +53,8 @@ import boat from './boat.js'
 import boat_medium from './boat_medium.js'
 import bowling from './bowling.js'
 import bowling_medium from './bowling_medium.js'
+import brickwall from './brickwall.js'
+import brickwall_medium from './brickwall_medium.js'
 import broken_chain from './broken_chain.js'
 import broken_chain_medium from './broken_chain_medium.js'
 import brush from './brush.js'
@@ -87,6 +89,8 @@ import cat from './cat.js'
 import cat_medium from './cat_medium.js'
 import chain from './chain.js'
 import chain_medium from './chain_medium.js'
+import charger from './charger.js'
+import charger_medium from './charger_medium.js'
 import chat from './chat.js'
 import chat_medium from './chat_medium.js'
 import chatbot from './chatbot.js'
@@ -101,6 +105,8 @@ import chevron_right from './chevron_right.js'
 import chevron_right_medium from './chevron_right_medium.js'
 import chevron_up from './chevron_up.js'
 import chevron_up_medium from './chevron_up_medium.js'
+import chip from './chip.js'
+import chip_medium from './chip_medium.js'
 import clock from './clock.js'
 import clock_medium from './clock_medium.js'
 import close from './close.js'
@@ -177,6 +183,8 @@ import exclamation_circled_medium from './exclamation_circled_medium.js'
 import exclamation_medium from './exclamation_medium.js'
 import exclamation_triangle from './exclamation_triangle.js'
 import exclamation_triangle_medium from './exclamation_triangle_medium.js'
+import factory from './factory.js'
+import factory_medium from './factory_medium.js'
 import file from './file.js'
 import file_add from './file_add.js'
 import file_add_medium from './file_add_medium.js'
@@ -213,6 +221,8 @@ import flying_money from './flying_money.js'
 import flying_money_medium from './flying_money_medium.js'
 import folder from './folder.js'
 import folder_medium from './folder_medium.js'
+import fridge from './fridge.js'
+import fridge_medium from './fridge_medium.js'
 import fullscreen from './fullscreen.js'
 import fullscreen_medium from './fullscreen_medium.js'
 import fund_in from './fund_in.js'
@@ -313,6 +323,8 @@ import move from './move.js'
 import move_medium from './move_medium.js'
 import office_buildings from './office_buildings.js'
 import office_buildings_medium from './office_buildings_medium.js'
+import oil from './oil.js'
+import oil_medium from './oil_medium.js'
 import owl from './owl.js'
 import owl_medium from './owl_medium.js'
 import padlock from './padlock.js'
@@ -513,6 +525,8 @@ export {
   boat_medium,
   bowling,
   bowling_medium,
+  brickwall,
+  brickwall_medium,
   broken_chain,
   broken_chain_medium,
   brush,
@@ -547,6 +561,8 @@ export {
   cat_medium,
   chain,
   chain_medium,
+  charger,
+  charger_medium,
   chat,
   chat_medium,
   chatbot,
@@ -561,6 +577,8 @@ export {
   chevron_right_medium,
   chevron_up,
   chevron_up_medium,
+  chip,
+  chip_medium,
   clock,
   clock_medium,
   close,
@@ -637,6 +655,8 @@ export {
   exclamation_medium,
   exclamation_triangle,
   exclamation_triangle_medium,
+  factory,
+  factory_medium,
   file,
   file_add,
   file_add_medium,
@@ -673,6 +693,8 @@ export {
   flying_money_medium,
   folder,
   folder_medium,
+  fridge,
+  fridge_medium,
   fullscreen,
   fullscreen_medium,
   fund_in,
@@ -773,6 +795,8 @@ export {
   move_medium,
   office_buildings,
   office_buildings_medium,
+  oil,
+  oil_medium,
   owl,
   owl_medium,
   padlock,

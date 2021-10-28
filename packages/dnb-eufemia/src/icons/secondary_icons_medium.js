@@ -20,6 +20,7 @@ import bankid_qr_medium from './bankid_qr_medium.js'
 import bicycle_medium from './bicycle_medium.js'
 import boat_medium from './boat_medium.js'
 import bowling_medium from './bowling_medium.js'
+import brickwall_medium from './brickwall_medium.js'
 import broken_chain_medium from './broken_chain_medium.js'
 import brush_medium from './brush_medium.js'
 import bsu_medium from './bsu_medium.js'
@@ -36,8 +37,10 @@ import card_out_medium from './card_out_medium.js'
 import card_with_padlock_medium from './card_with_padlock_medium.js'
 import cat_medium from './cat_medium.js'
 import chain_medium from './chain_medium.js'
+import charger_medium from './charger_medium.js'
 import chat_medium from './chat_medium.js'
 import chatbot_medium from './chatbot_medium.js'
+import chip_medium from './chip_medium.js'
 import clock_medium from './clock_medium.js'
 import cog_medium from './cog_medium.js'
 import coins_1_medium from './coins_1_medium.js'
@@ -61,6 +64,7 @@ import email_medium from './email_medium.js'
 import equities_and_mutual_funds_medium from './equities_and_mutual_funds_medium.js'
 import exclamation_circled_medium from './exclamation_circled_medium.js'
 import exclamation_triangle_medium from './exclamation_triangle_medium.js'
+import factory_medium from './factory_medium.js'
 import file_add_medium from './file_add_medium.js'
 import file_contract_medium from './file_contract_medium.js'
 import file_csv_medium from './file_csv_medium.js'
@@ -79,6 +83,7 @@ import filter_medium from './filter_medium.js'
 import first_aid_medium from './first_aid_medium.js'
 import flying_money_medium from './flying_money_medium.js'
 import folder_medium from './folder_medium.js'
+import fridge_medium from './fridge_medium.js'
 import fullscreen_medium from './fullscreen_medium.js'
 import funds_in_medium from './funds_in_medium.js'
 import funds_medium from './funds_medium.js'
@@ -125,6 +130,7 @@ import more_vertical_medium from './more_vertical_medium.js'
 import motorcycle_medium from './motorcycle_medium.js'
 import move_medium from './move_medium.js'
 import office_buildings_medium from './office_buildings_medium.js'
+import oil_medium from './oil_medium.js'
 import owl_medium from './owl_medium.js'
 import padlock_medium from './padlock_medium.js'
 import paperclip_medium from './paperclip_medium.js'
@@ -216,6 +222,7 @@ export {
   bicycle_medium,
   boat_medium,
   bowling_medium,
+  brickwall_medium,
   broken_chain_medium,
   brush_medium,
   bsu_medium,
@@ -232,8 +239,10 @@ export {
   card_with_padlock_medium,
   cat_medium,
   chain_medium,
+  charger_medium,
   chat_medium,
   chatbot_medium,
+  chip_medium,
   clock_medium,
   cog_medium,
   coins_1_medium,
@@ -257,6 +266,7 @@ export {
   equities_and_mutual_funds_medium,
   exclamation_circled_medium,
   exclamation_triangle_medium,
+  factory_medium,
   file_add_medium,
   file_contract_medium,
   file_csv_medium,
@@ -275,6 +285,7 @@ export {
   first_aid_medium,
   flying_money_medium,
   folder_medium,
+  fridge_medium,
   fullscreen_medium,
   funds_in_medium,
   funds_medium,
@@ -321,6 +332,7 @@ export {
   motorcycle_medium,
   move_medium,
   office_buildings_medium,
+  oil_medium,
   owl_medium,
   padlock_medium,
   paperclip_medium,
