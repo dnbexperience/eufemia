@@ -14,6 +14,7 @@ export default function PortalToolsMenu({
   const { skeleton } = React.useContext(Context)
   return (
     <Modal
+      id="portal-tools"
       mode="drawer"
       title="Portal Tools"
       trigger_tooltip={
