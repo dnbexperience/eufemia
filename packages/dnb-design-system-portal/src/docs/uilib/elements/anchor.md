@@ -14,19 +14,6 @@ import { Link, Anchor } from '@dnb/eufemia/elements'
 render(<Anchor href="/uilib/elements/anchor">Accessible text</Anchor>)
 ```
 
-**NB:** If you only use a vanilla HTML anchor element including `target="_blank"` then you have to ensure you add a `title` attribute that includes `Opens a new Window` or as a part of the text:
-
-```html
-<a
-  title="Opens a new Window"
-  target="_blank"
-  href="https://"
-  class="dnb-anchor"
->
-  text (opens in new window)
-</a>
-```
-
 ### Anchor states
 
 <ComponentBox>
@@ -40,6 +27,11 @@ render(<Anchor href="/uilib/elements/anchor">Accessible text</Anchor>)
   <li data-visual-test="anchor-blank">
     <Anchor target="_blank" href="/uilib/elements/anchor">
       Blank target with https
+    </Anchor>
+  </li>
+  <li data-visual-test="anchor-external">
+    <Anchor external href="https://www.w3.org/WAI/standards-guidelines/wcag/">
+      External site
     </Anchor>
   </li>
   <li>
@@ -149,6 +141,36 @@ To force a specific state of style, use the following classes to do so:
 </h2>
 `}
 </ComponentBox>
+
+### Target `_blank`
+
+If you only use a vanilla HTML anchor element including `target="_blank"` then you have to ensure you add a `title` attribute that includes `Opens a new Window` or as a part of the text:
+
+```html
+<a
+  title="Opens a new Window"
+  target="_blank"
+  href="https://"
+  class="dnb-anchor"
+>
+  text (opens in new window)
+</a>
+```
+
+### External sites
+
+If you only use a vanilla HTML anchor element including a href to an external page, then you have to include a `title` attribute that says `Opens external link in new window` or as a part of the text:
+
+```html
+<a
+  title="Opens external link in new window"
+  target="_blank"
+  href="https://"
+  class="dnb-anchor"
+>
+  text (external site)
+</a>
+```
 
 ### Customize blank target graphic
 

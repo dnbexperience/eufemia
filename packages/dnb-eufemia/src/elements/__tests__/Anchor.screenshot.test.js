@@ -6,13 +6,13 @@
 import {
   testPageScreenshot,
   setupPageScreenshot,
-  isCI,
 } from '../../core/jest/jestSetupScreenshots'
 
 describe('Anchor screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/elements/anchor',
   })
+
   // the first one is on 5.54%
   it('have to match the "default" state', async () => {
     const screenshot = await testPageScreenshot({
@@ -86,15 +86,6 @@ describe('Anchor screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-
-  // "active" simulation is suddenly too unstable – no reason found
-  // it('have to match the anchor-contrast "active" state', async () => {
-  //   const screenshot = await testPageScreenshot({
-  //     selector: '[data-visual-test="anchor-contrast"]',
-  //     simulate: 'active',
-  //   })
-  //   expect(screenshot).toMatchImageSnapshot()
-  // })
 })
 
 describe('Anchor target blank screenshot', () => {
@@ -116,18 +107,45 @@ describe('Anchor target blank screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  if (!isCI) {
-    it('have to match the target blank with tooltip', async () => {
-      const screenshot = await testPageScreenshot({
-        style: {
-          'padding-top': '2rem',
-        },
-        waitBeforeSimulate: 200,
-        selector: '[data-visual-test="anchor-blank"]',
-        simulateSelector: '[data-visual-test="anchor-blank"] a.dnb-anchor',
-        simulate: 'hover',
-      })
-      expect(screenshot).toMatchImageSnapshot()
+  it('have to match the target blank with tooltip', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        'padding-top': '2rem',
+      },
+      waitBeforeSimulate: 200,
+      selector: '[data-visual-test="anchor-blank"]',
+      simulateSelector: '[data-visual-test="anchor-blank"] a.dnb-anchor',
+      simulate: 'hover',
     })
-  }
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Anchor target external screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/elements/anchor',
+  })
+
+  it('have to match the target external state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="anchor-external"] a',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the target external with tooltip', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        'padding-top': '2rem',
+        'padding-left': '4rem',
+        'padding-right': '3.5rem',
+      },
+      waitBeforeSimulate: 200,
+      selector: '[data-visual-test="anchor-external"]',
+      simulateSelector:
+        '[data-visual-test="anchor-external"] a.dnb-anchor',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

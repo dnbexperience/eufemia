@@ -4,10 +4,13 @@ exports[`Anchor element have to match default Anchor element snapshot 1`] = `
 <ForwardRef
   className="className"
   element="a"
+  external="external"
   href="href"
   inner_ref={null}
   omitClass={true}
+  skeleton="skeleton"
   target="target"
+  target_blank_external_title="target_blank_external_title"
   target_blank_title="target_blank_title"
   to="to"
   tooltip={[Function]}
@@ -15,10 +18,13 @@ exports[`Anchor element have to match default Anchor element snapshot 1`] = `
   <AnchorInstance
     className="className"
     element="a"
+    external="external"
     href="href"
     inner_ref={null}
     omitClass={true}
+    skeleton="skeleton"
     target="target"
+    target_blank_external_title="target_blank_external_title"
     target_blank_title="target_blank_title"
     to="to"
     tooltip={[Function]}
@@ -42,9 +48,10 @@ exports[`Anchor element have to match default Anchor element snapshot 1`] = `
       }
       internalClass={null}
       is="a"
-      skeleton={null}
+      skeleton="skeleton"
       skeleton_method="font"
       target="target"
+      target_blank_external_title="target_blank_external_title"
       target_blank_title="target_blank_title"
       to="to"
     >
@@ -67,9 +74,10 @@ exports[`Anchor element have to match default Anchor element snapshot 1`] = `
         }
         internalClass={null}
         is="a"
-        skeleton={null}
+        skeleton="skeleton"
         skeleton_method="font"
         target="target"
+        target_blank_external_title="target_blank_external_title"
         target_blank_title="target_blank_title"
         to="to"
       >

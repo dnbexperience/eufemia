@@ -747,10 +747,13 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
           disabled={false}
           element={null}
+          external="auto"
           href="href"
           omitClass={true}
           onClick={[Function]}
+          skeleton={null}
           target={null}
+          target_blank_external_title={null}
           target_blank_title={null}
           to={null}
           tooltip={null}
@@ -759,6 +762,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
             disabled={false}
             element={null}
+            external="auto"
             href="href"
             inner_ref={
               Object {
@@ -803,7 +807,9 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             }
             omitClass={true}
             onClick={[Function]}
+            skeleton={null}
             target={null}
+            target_blank_external_title={null}
             target_blank_title={null}
             to={null}
             tooltip={null}
@@ -861,6 +867,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
               skeleton={null}
               skeleton_method="font"
               target={null}
+              target_blank_external_title="Åpner ekstern lenke i nytt vindu"
               target_blank_title="Åpner et nytt vindu"
               to={null}
             >
@@ -917,6 +924,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                 skeleton={null}
                 skeleton_method="font"
                 target={null}
+                target_blank_external_title="Åpner ekstern lenke i nytt vindu"
                 target_blank_title="Åpner et nytt vindu"
                 to={null}
               >

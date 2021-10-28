@@ -345,6 +345,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
         href="https://url"
         id="button"
+        target="_blank"
         title="This is a button title"
         type="type"
       >
@@ -388,6 +389,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
         href="https://url"
         id="button"
+        target="_blank"
         title="This is a button title"
         type="type"
       >
@@ -445,11 +447,14 @@ exports[`Button component have to match href="..." snapshot 1`] = `
     className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
     disabled={false}
     element={null}
+    external="auto"
     href="https://url"
     id="button"
     omitClass={true}
     onClick={[Function]}
+    skeleton={null}
     target={null}
+    target_blank_external_title={null}
     target_blank_title={null}
     title="This is a button title"
     to={null}
@@ -460,6 +465,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
       disabled={false}
       element={null}
+      external="auto"
       href="https://url"
       id="button"
       inner_ref={
@@ -468,6 +474,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
             class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
             href="https://url"
             id="button"
+            target="_blank"
             title="This is a button title"
             type="type"
           >
@@ -507,7 +514,9 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       }
       omitClass={true}
       onClick={[Function]}
+      skeleton={null}
       target={null}
+      target_blank_external_title={null}
       target_blank_title={null}
       title="This is a button title"
       to={null}
@@ -527,6 +536,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
               class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
               href="https://url"
               id="button"
+              target="_blank"
               title="This is a button title"
               type="type"
             >
@@ -569,7 +579,8 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         onClick={[Function]}
         skeleton={null}
         skeleton_method="font"
-        target={null}
+        target="_blank"
+        target_blank_external_title="Åpner ekstern lenke i nytt vindu"
         target_blank_title="Åpner et nytt vindu"
         title="This is a button title"
         to={null}
@@ -588,6 +599,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                 class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
                 href="https://url"
                 id="button"
+                target="_blank"
                 title="This is a button title"
                 type="type"
               >
@@ -630,7 +642,8 @@ exports[`Button component have to match href="..." snapshot 1`] = `
           onClick={[Function]}
           skeleton={null}
           skeleton_method="font"
-          target={null}
+          target="_blank"
+          target_blank_external_title="Åpner ekstern lenke i nytt vindu"
           target_blank_title="Åpner et nytt vindu"
           title="This is a button title"
           to={null}
@@ -642,6 +655,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
             href="https://url"
             id="button"
             onClick={[Function]}
+            target="_blank"
             title="This is a button title"
             type="type"
           >
@@ -667,6 +681,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                     class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
                     href="https://url"
                     id="button"
+                    target="_blank"
                     title="This is a button title"
                     type="type"
                   >
@@ -710,6 +725,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                     class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
                     href="https://url"
                     id="button"
+                    target="_blank"
                     title="This is a button title"
                     type="type"
                   >
