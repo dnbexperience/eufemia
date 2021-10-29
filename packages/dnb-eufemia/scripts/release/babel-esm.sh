@@ -16,6 +16,6 @@ babel ./src \
 
 echo 'Building esm done!'
 
-echo 'Copy .d.ts files ...'
+echo 'Copy .d.ts files to esm ...'
 
 OUT_DIR=./build/esm babel-node ./scripts/release/copyTypeScriptDefinitionFiles.js

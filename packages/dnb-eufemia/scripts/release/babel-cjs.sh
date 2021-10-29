@@ -16,6 +16,10 @@ babel ./src \
 
 echo 'Building cjs done!'
 
-echo 'Copy .d.ts files ...'
+echo 'Copy .d.ts files to cjs ...'
 
 OUT_DIR=./build/cjs babel-node ./scripts/release/copyTypeScriptDefinitionFiles.js
+
+echo 'Copy extra cjs package.json ...'
+
+cp ./src/cjs/package.json ./build/cjs/package.json
