@@ -3477,7 +3477,7 @@ legend.dnb-form-label {
             box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   .dnb-date-picker__day, .dnb-date-picker__labels__day {
     display: flex;
-    flex-basis: 14.28571%;
+    flex-basis: calc(1 / 7 * 100%);
     justify-content: center; }
   .dnb-date-picker__day {
     position: relative;

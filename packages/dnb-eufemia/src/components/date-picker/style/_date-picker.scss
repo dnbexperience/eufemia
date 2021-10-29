@@ -283,7 +283,7 @@
   &__day,
   &__labels__day {
     display: flex;
-    flex-basis: percentage(1 / 7);
+    flex-basis: calc(1 / 7 * 100%);
     justify-content: center;
   }
 
@@ -470,7 +470,9 @@
 
     &__day,
     &__labels__day {
-      flex-basis: percentage(1 / 7) - 0.8;
+      // math.div works only in dart sass
+      // flex-basis: math.div(1, 7) * 100% - 0.8;
+      flex-basis: 13.48571%;
     }
 
     &__day {

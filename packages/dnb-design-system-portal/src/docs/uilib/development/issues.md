@@ -8,12 +8,14 @@ order: 8
 
 ## Dependencies
 
-## sass
+## node-sass vs sass
 
-- Eufemia uses `node-sass` instead of `sass` (dart based) because we render sass during jest tests with `sass.renderSync` – even that should work with `sass` as well, it can't find the file it says.
-- We use several places a module called `node-sass-once-importer`, that is compatible only with `node-sass`.
-- We use `sass-loader` v10 because `TypeError: this.getOptions is not a function`.
-- We use `node-sass` v5, else we get this error message during portal run:
+The Portal (documentations) uses dart based `sass`, while the bundle and build process of the package `@dnb/eufemia` uses `node-sass` – because:
+
+- we render sass styles during jest tests with `sass.renderSync` – even that should work with `sass` as well, it can't find the [file it says](https://github.com/sass/dart-sass/issues/710).
+- several places a module called `node-sass-once-importer` is used, that is compatible only with `node-sass`.
+- it uses `sass-loader` v10 because `TypeError: this.getOptions is not a function`.
+- it uses `node-sass` v5, else we get this error message during portal run:
 
   ```
   ERROR in polyfill

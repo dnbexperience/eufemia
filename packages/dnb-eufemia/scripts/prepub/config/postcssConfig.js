@@ -5,10 +5,11 @@
  */
 
 const fs = require('fs')
-const sass = require('node-sass')
+const sassBin = require('sass')
+const os = require('os')
 const path = require('path')
 
-module.exports = ({ IE11 = false, ...options } = {}) => {
+module.exports = ({ IE11 = false, sass = sassBin, ...options } = {}) => {
   return [
     // preset-env processes the most of our old legacy browsers
     require('postcss-preset-env')({
@@ -19,7 +20,9 @@ module.exports = ({ IE11 = false, ...options } = {}) => {
       ),
       importFrom: [
         extractCSSProperties(
-          require.resolve('@dnb/eufemia/src/style/index.scss')
+          require.resolve('@dnb/eufemia/src/style/index.scss'),
+          null,
+          sass
         ),
       ],
       ...options,
@@ -56,13 +59,13 @@ module.exports = ({ IE11 = false, ...options } = {}) => {
   ].filter((i) => i)
 }
 
-function extractCSSProperties(file, opts = {}) {
+function extractCSSProperties(file, opts = {}, sass = sassBin) {
   try {
     const sassResult = sass.renderSync({
       file,
       ...opts,
     })
-    const tmpDir = String(require('os').tmpdir)
+    const tmpDir = String(os.tmpdir)
     const tmpFile = path.resolve(
       tmpDir,
       path.basename(file.replace('.scss', '.css'))

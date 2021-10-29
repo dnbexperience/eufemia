@@ -24,8 +24,8 @@
     "@storybook/react": "6.3.8",
     "@storybook/theming": "6.3.8",
     "css-loader": "5.2.7",
-    "node-sass": "5.0.0",
     "raw-loader": "4.0.2",
+    "sass": "1.43.4",
     "sass-loader": "10.2.0",
     "style-loader": "2.0.0"
   },
