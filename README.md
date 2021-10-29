@@ -1,30 +1,29 @@
-# DNB Design System
+<div align="center"> 
+<img src="./logo.png" height="100">
+<h1>DNB's Design System</h1>
+
+![Downloads](https://img.shields.io/npm/dt/@dnb/eufemia?style=flat-square) ![NPM version](https://img.shields.io/npm/v/@dnb/eufemia?style=flat-square) ![Last commit](https://img.shields.io/github/last-commit/dnbexperience/eufemia?style=flat-square) [![Eufemia Actions](https://github.com/dnbexperience/eufemia/actions/workflows/actions.yml/badge.svg)](https://github.com/dnbexperience/eufemia/actions/workflows/actions.yml) [![CodeQL](https://github.com/dnbexperience/eufemia/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/dnbexperience/eufemia/actions/workflows/codeql-analysis.yml)
+
+</div>
 
 This is a mono repo and uses **yarn workspaces** to manage the sub packages/workspaces.
-Some of the included packages/workspaces are `dnb-design-system-portal` and `dnb-eufemia`. Read more about the purposes of them in the respective packages `README.md` files.
+## Workspaces
+- [Design system portal](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal): Source code for the portal website [eufemia.dnb.no](https://eufemia.dnb.no/).
+- [@dnb/eufemia](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia): Repo for the npm package @dnb/eufemia.
+- [Storybook Sandbox](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia-sandbox): Development sandbox.
 
-## DNB Eufemia Portal
-
-Find more information on how to use the Design System on the [Eufemia Portal](https://eufemia.dnb.no/).
+## Quick start
+```bash
+yarn add @dnb/eufemia
+```
 
 ## Contribution
+Find more information about how to contribute in [Eufemia Portal - Development](https://eufemia.dnb.no/uilib/development).
 
-Find more information about how to contribute in [the development](https://eufemia.dnb.no/uilib/development) section. But in short, follow along and read the rest of this short readme text.
+### Our contributors
+<a href="https://github.com/dnbexperience/eufemia/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=dnbexperience/eufemia" />
+</a>
 
-### Requirements
-
-Install [Node.js](https://nodejs.org) and [yarn](https://yarnpkg.com).
-
-### Setup Instructions
-
-1.  Clone this repo to your local machine `git clone [repo]`
-1.  cd into the main directory and run `yarn install`
-
-#### Use `main` and the _GitHub Flow_
-
-1.  Make sure You run `git checkout main` - as **main** is the working branch
-1.  Make your own branch in case You are making a pull request into **main**
-
-### Releases
-
-The CI will handle new releases once the changes (by a Pull Request) gets merged from `origin/main` into the `origin/release` branch.
+## Licence
+Go to [LICENSE](https://github.com/dnbexperience/eufemia/blob/main/LICENSE).
