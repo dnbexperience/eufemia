@@ -8,10 +8,12 @@ import { Wrapper, Box } from '../helpers'
 import styled from '@emotion/styled'
 
 import { H2, H3 } from '@dnb/eufemia/src/elements'
-import AllComponents from '@dnb/eufemia/src/components/form-row/AllComponents'
-import AllStretchComponents from '@dnb/eufemia/src/components/form-row/AllStretchComponents'
+// import {
+//   AllComponents,
+//   AllStretchComponents,
+// } from 'dnb-design-system-portal/src/docs/uilib/components/form-row/Examples'
 
-import Provider from '@dnb/eufemia/src/shared/Provider'
+// import Provider from '@dnb/eufemia/src/shared/Provider'
 import {
   Checkbox,
   Radio,
@@ -26,10 +28,6 @@ export default {
 
 const Center = styled.div`
   display: flex;
-  ${'' /* justify-content: center; */}
-  ${'' /* > div {
-    max-width: 60rem;
-  } */}
   .dnb-h--large,
   .dnb-h--medium {
     margin: 0 0 2rem;
@@ -40,61 +38,55 @@ const Center = styled.div`
 export const FormRowSandbox = () => (
   <Center>
     <Wrapper showOverflow>
-      <Box>
+      {/* <Box>
         <H3 bottom="large">Plain</H3>
         <AllComponents showText horizontal vertical />
-      </Box>
+      </Box> */}
 
-      <Box>
+      {/* <Box>
         <H3 bottom="large">Horizontal label</H3>
         <Provider
           FormRow={{
-            // indent: true,
-            // indent_offset: 'large',
             direction: 'horizontal',
-            //  vertical: true
           }}
         >
           <FormRow
-            // indent
-            // indent_offset="large"
             label="Horizontal Legend Aptent:"
-            // direction="horizontal"
           >
             <AllComponents showText horizontal />
           </FormRow>
         </Provider>
-      </Box>
+      </Box> */}
 
-      <Box>
+      {/* <Box>
         <H3 bottom="large">Horizontal with vertical label direction</H3>
         <FormRow label="Vertical Legend:" label_direction="vertical">
           <AllComponents showText horizontal />
         </FormRow>
-      </Box>
+      </Box> */}
 
-      <Box>
+      {/* <Box>
         <H3 bottom="large">
           Horizontal with vertical label direction, but no label
         </H3>
         <FormRow label="Vertical Legend:" label_direction="vertical">
           <AllComponents showText horizontal hideLabel />
         </FormRow>
-      </Box>
+      </Box> */}
 
-      <Box>
+      {/* <Box>
         <H3 bottom="large">Vertical direction</H3>
         <FormRow label="Vertical direction:" direction="vertical">
           <AllComponents showText />
         </FormRow>
-      </Box>
+      </Box> */}
 
-      <Box>
+      {/* <Box>
         <H3 bottom="large">Vertical everything</H3>
         <FormRow label="Vertical everything:" vertical="true">
           <AllComponents showText />
         </FormRow>
-      </Box>
+      </Box> */}
 
       <Box>
         <FormRow label="Inputs legend:">
@@ -180,6 +172,6 @@ export const FormRowSandbox = () => (
   </Center>
 )
 
-export const FormRowStretch = () => {
-  return <AllStretchComponents />
-}
+// export const FormRowStretch = () => {
+//   return <AllStretchComponents />
+// }
