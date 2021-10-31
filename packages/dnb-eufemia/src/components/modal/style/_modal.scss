@@ -448,3 +448,8 @@
     z-index: calc(var(--modal-z-index) + 4);
   }
 }
+
+[data-visual-test].hide-page-content #___gatsby {
+  // NB: visibility: hidden; does not work here, because puppeteer does not find the selectors anymore
+  opacity: 0;
+}

@@ -58,6 +58,7 @@ module.exports.testPageScreenshot = async ({
   page = global.__PAGE__,
   selector,
   style = null,
+  rootClassName = null,
   addWrapper = true,
   text = null,
   simulate = null,
@@ -92,6 +93,7 @@ module.exports.testPageScreenshot = async ({
     fullscreen,
     selector,
     style,
+    rootClassName,
     styleSelector,
   })
 
@@ -224,6 +226,7 @@ async function makePageReady({
   fullscreen,
   selector,
   style,
+  rootClassName,
   styleSelector,
 }) {
   if (url) {
@@ -239,6 +242,8 @@ async function makePageReady({
       //
     }
   })
+
+  await handleRootClassName({ page, rootClassName })
 
   // Keep in mind, we also import this file in dev/prod portal (gatsby-browser),
   // just because it makes local dev easier
@@ -257,6 +262,38 @@ async function makePageReady({
       },
       makeStyles(style)
     )
+  }
+}
+
+async function handleRootClassName({ page, rootClassName }) {
+  // This removes a previews added global css class to HTML
+  if (global.rootClassName) {
+    await page.evaluate(
+      ({ rootClassName }) => {
+        const elem = document.documentElement
+        if (elem.classList.contains(rootClassName)) {
+          elem.classList.remove(rootClassName)
+        }
+      },
+      {
+        rootClassName: global.rootClassName,
+      }
+    )
+    global.rootClassName = null
+  }
+
+  // This adds a global css class to HTML
+  if (rootClassName) {
+    await page.evaluate(
+      ({ rootClassName }) => {
+        const elem = document.documentElement
+        if (!elem.classList.contains(rootClassName)) {
+          elem.classList.add(rootClassName)
+        }
+      },
+      { rootClassName }
+    )
+    global.rootClassName = rootClassName
   }
 }
 
@@ -422,6 +459,8 @@ async function handleWrapper({
   if (addWrapper) {
     wrapperId = makeUniqueId()
 
+    // get the background color of the screenshot selector
+    // and put it on the new wrapper
     // because of getComputedStyle we have to use evaluate
     const background = await page.evaluate(
       ({ selector }) => {

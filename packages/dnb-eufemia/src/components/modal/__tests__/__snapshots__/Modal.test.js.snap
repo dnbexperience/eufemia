@@ -2063,5 +2063,8 @@ button.dnb-button::-moz-focus-inner {
     z-index: calc(var(--modal-z-index) + 3); }
   .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner {
     z-index: calc(var(--modal-z-index) + 4); }
+
+[data-visual-test].hide-page-content #___gatsby {
+  opacity: 0; }
 "
 `;
