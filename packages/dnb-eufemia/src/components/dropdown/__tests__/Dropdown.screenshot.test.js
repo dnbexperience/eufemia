@@ -159,12 +159,28 @@ describe('Dropdown screenshot', () => {
 
 describe('Dropdown screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/dropdown/demos?left-side',
+    url: '/uilib/components/dropdown/demos?item-directions',
     pageViewport: {
       width: 480,
     },
-    screenshotConfig: {
-      pixelThresholdRelative: 0.01, // because the anchor changes slightly
+  })
+
+  it('have to match different item direactions', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        'padding-top': '16rem',
+      },
+      selector: '[data-visual-test="dropdown-item-directions"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Dropdown screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/dropdown/demos?left-side',
+    pageViewport: {
+      width: 480,
     },
   })
 
@@ -182,36 +198,11 @@ describe('Dropdown screenshot', () => {
     pageViewport: {
       width: 480,
     },
-    screenshotConfig: {
-      pixelThresholdRelative: 0.01, // because the anchor changes slightly
-    },
   })
 
   it('have to match the dropdown as more_menu opened on right side', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="dropdown-more_menu"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
-
-describe('Dropdown screenshot', () => {
-  setupPageScreenshot({
-    url: '/uilib/components/dropdown/demos?item-directions',
-    pageViewport: {
-      width: 480,
-    },
-    // screenshotConfig: {
-    //   pixelThresholdRelative: 0.01, // because the anchor changes slightly
-    // },
-  })
-
-  it('have to match different item direactions', async () => {
-    const screenshot = await testPageScreenshot({
-      style: {
-        'padding-top': '16rem',
-      },
-      selector: '[data-visual-test="dropdown-item-directions"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
