@@ -3,6 +3,14 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.15.1](https://github.com/dnbexperience/eufemia/compare/v9.15.0...v9.15.1) (2021-11-01)
+
+
+### Bug Fixes
+
+* **InputMasked:** change value when leading zero is 0 initially ([04cca2e](https://github.com/dnbexperience/eufemia/commit/04cca2e18211dc531c31bcf1d53d2633c88d3e9d))
+* test build stage and provide cjs build with correct type in a custom package.json ([82794f7](https://github.com/dnbexperience/eufemia/commit/82794f72e9a1d968f6168210fd2c8fbd53df3881))
+
 # [9.15.0](https://github.com/dnbexperience/eufemia/compare/v9.14.0...v9.15.0) (2021-10-28)
 
 
