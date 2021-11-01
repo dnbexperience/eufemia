@@ -97,6 +97,7 @@ const plugins = [
         process.env.NODE_ENV === 'production'
           ? require('@dnb/eufemia/scripts/prepub/config/postcssConfig')({
               IE11: true,
+              sass: require('sass'),
             })
           : [],
     },

@@ -173,7 +173,9 @@ Content.defaultProps = {
 
 const ContentWrapper = styled.div`
   position: relative;
-  z-index: 2; /* higher than styled.aside */
+
+  /* higher than nav#portal-sidebar-menu */
+  z-index: 2;
 
   width: 100%;
 

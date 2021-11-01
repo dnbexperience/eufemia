@@ -1,3 +1,3 @@
 {
-  "reject": ["node-sass", "sass-loader"]
+  "reject": ["sass-loader", "style-loader", "css-loader"]
 }

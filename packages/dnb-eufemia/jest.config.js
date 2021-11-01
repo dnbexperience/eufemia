@@ -4,6 +4,7 @@ const config = {
   testRegex: '(/__tests__/\\.js|(\\.|/)(test|spec))\\.(js|jsx|ts)?$',
   modulePathIgnorePatterns: [
     'not_in_use',
+    '<rootDir>/scripts/release/__tests__/postbuild.test*',
     '<rootDir>/build/',
     '<rootDir>/assets/',
     '<rootDir>/stories/',

@@ -16,6 +16,6 @@ babel ./src \
 
 echo 'Building es done!'
 
-echo 'Copy .d.ts files ...'
+echo 'Copy .d.ts files to es ...'
 
 OUT_DIR=./build/es babel-node ./scripts/release/copyTypeScriptDefinitionFiles.js

@@ -37,3 +37,7 @@ The Code Base is based on several Static Tests to help the code to be uniform:
 - StyleLint
 
 You may consider to install plugins for your editor of choice - to visualize and run the code formatters and linters based on the given config files. This way you can immediately see how the code will and have to consist.
+
+## Ignore CI run
+
+You can either include `[skip ci]` in your [commit message](https://github.blog/changelog/2021-02-08-github-actions-skip-pull-request-and-push-workflows-with-skip-ci/) or let your branch name end with `--skip-ci`.

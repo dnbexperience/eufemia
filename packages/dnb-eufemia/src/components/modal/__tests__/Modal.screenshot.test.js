@@ -57,6 +57,7 @@ describe('Modal screenshot', () => {
       simulateSelector:
         '[data-visual-test="modal-trigger-default"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
+      rootClassName: 'hide-page-content',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -75,6 +76,7 @@ describe('Drawer screenshot', () => {
       simulateSelector:
         '[data-visual-test="modal-drawer-basic"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
+      rootClassName: 'hide-page-content',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -93,6 +95,7 @@ describe('Drawer header screenshot', () => {
       simulateSelector:
         '[data-visual-test="modal-drawer-header"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
+      rootClassName: 'hide-page-content',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -133,6 +136,7 @@ describe('Additional Modal screenshot', () => {
       simulateSelector:
         '[data-visual-test="modal-fullscreen"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
+      rootClassName: 'hide-page-content',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

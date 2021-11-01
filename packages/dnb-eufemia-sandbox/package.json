@@ -10,22 +10,22 @@
     "start": "start-storybook -s / -p 8002 --ci --no-release-notes --no-version-updates"
   },
   "dependencies": {
+    "@dnb/eufemia": "workspace:*",
+    "@emotion/react": "11.5.0",
+    "@emotion/styled": "11.3.0",
     "prop-types": "15.7.2",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
   "devDependencies": {
-    "@dnb/eufemia": "workspace:*",
-    "@emotion/react": "11.4.1",
-    "@emotion/styled": "11.3.0",
-    "@storybook/addons": "6.3.8",
+    "@storybook/addons": "6.3.12",
     "@storybook/preset-ie11": "patch:@storybook/preset-ie11@0.0.1#../../.yarn/patches/@storybook-preset-ie11-npm-0.0.1-f80c765898",
     "@storybook/preset-scss": "1.0.3",
-    "@storybook/react": "6.3.8",
-    "@storybook/theming": "6.3.8",
+    "@storybook/react": "6.3.12",
+    "@storybook/theming": "6.3.12",
     "css-loader": "5.2.7",
-    "node-sass": "5.0.0",
     "raw-loader": "4.0.2",
+    "sass": "1.43.4",
     "sass-loader": "10.2.0",
     "style-loader": "2.0.0"
   },
