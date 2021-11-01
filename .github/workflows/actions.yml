@@ -2,18 +2,9 @@ name: Eufemia Actions
 
 on:
   push:
-    branches:
-      - main
-      - release
-      - beta
-      - alpha
-      - chore/*
-      - docs/*
-      - rc/*
-      - fix/*
-      - feat/*
-      - feature/*
-      - eufemia-icons
+    branches-ignore:
+      - '*--skip-ci'
+      - '*--visual-reports'
   pull_request:
     types:
       - opened
