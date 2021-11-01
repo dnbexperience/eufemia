@@ -104,8 +104,24 @@ export const correctNumberValue = ({
 
   if (localValue !== null) {
     const localNumberValue = localValue.replace(/[^\d,.]/g, '')
+    const numberValue = value.replace(/[^\d,.]/g, '')
 
-    if (localNumberValue.startsWith('0')) {
+    /**
+     * If the user removes a leading digit and we have left a leading zero.
+     *
+     * The users enters these steps:
+     * Step 1. 1012
+     * Step 2. 012 -> user removes 1, now use "localValue"
+     * Step 3. 2012
+     *
+     * If a dev listens on_change and sends the number value back in,
+     * for this, we also ensure that "numberValue" and "localNumberValue" is the same.
+     */
+    if (
+      localNumberValue !== '0' &&
+      localNumberValue.startsWith('0') &&
+      parseFloat(numberValue) === parseFloat(localNumberValue)
+    ) {
       value = localValue
     }
 

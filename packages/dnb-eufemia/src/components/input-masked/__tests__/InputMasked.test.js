@@ -282,6 +282,23 @@ describe('InputMasked component', () => {
     expect(Comp.find('input').instance().value).toBe('NOK 0 012,01 kr')
   })
 
+  it('should update value when value has leading zero', () => {
+    const Comp = mount(
+      <Component
+        value={0.1}
+        number_mask={{
+          allowDecimal: true,
+        }}
+      />
+    )
+
+    expect(Comp.find('input').instance().value).toBe('0,1')
+
+    Comp.setProps({ value: 1234 })
+
+    expect(Comp.find('input').instance().value).toBe('1 234')
+  })
+
   it('should not set leading zero when entering decimal separator', () => {
     const onKeyDown = jest.fn()
     const preventDefault = jest.fn()
