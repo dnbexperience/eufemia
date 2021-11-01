@@ -228,7 +228,10 @@ const StyledListItem = styled.li`
 const Navigation = styled.nav`
   position: fixed;
 
-  /* lower than styled.main */
+  /* 
+  We use this to make header appear "over" content and sidebar
+  Lower than styled.main and header
+  */
   z-index: 1;
 
   /* height of StickyMenuBar */

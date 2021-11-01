@@ -24,18 +24,15 @@ import { MediaQuery } from '@dnb/eufemia/src/shared'
 const Header = styled.header`
   position: fixed;
 
-  /* Over Tooltip of 3100 */
-  z-index: 3101;
-
-  html[data-dnb-modal-active] &,
-  html[data-dnb-tooltip-active] &,
-  html[data-dnb-drawer-list-active]:not([data-dnb-drawer-list-active='portal-search'])
-    & {
-    z-index: 3201;
-  }
+  /* 
+    - Higher than z-index of 2 by ContentWrapper (.dnb-app-content)
+    - and higher than z-index of 3200 by .dnb-drawer-list__portal__style 
+  */
+  z-index: 3201;
 
   /* stylelint-disable-next-line */
   html[data-dnb-modal-active='portal-tools'] & {
+    /* Now, when the drawer tools are opened, we lower it back to appear behind the modal  */
     z-index: 3000;
   }
 
