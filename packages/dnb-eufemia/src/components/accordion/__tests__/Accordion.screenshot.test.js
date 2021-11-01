@@ -8,6 +8,53 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
+describe('Accordion closed screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/accordion/demos',
+  })
+
+  it('have to match accordion in closed state', async () => {
+    const screenshot = await testPageScreenshot({
+      style: { width: '20rem', height: '15rem' },
+      selector: '[data-visual-test="accordion-default"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match accordion in closed state with hover', async () => {
+    const screenshot = await testPageScreenshot({
+      style: { width: '20rem', height: '15rem' },
+      selector: '[data-visual-test="accordion-default"]',
+      simulateSelector:
+        '[data-visual-test="accordion-default"] .dnb-accordion__header',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match accordion in open state with focus', async () => {
+    const screenshot = await testPageScreenshot({
+      style: { width: '20rem', height: '20rem' },
+      selector: '[data-visual-test="accordion-default"]',
+      simulateSelector:
+        '[data-visual-test="accordion-default"] .dnb-accordion__header',
+      simulate: 'focus',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match accordion in closed state with focus', async () => {
+    const screenshot = await testPageScreenshot({
+      style: { width: '20rem', height: '20rem' },
+      selector: '[data-visual-test="accordion-default"]',
+      simulateSelector:
+        '[data-visual-test="accordion-default"] .dnb-accordion__header',
+      simulate: 'clickfocus',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
 describe('Accordion container screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/accordion/demos',
@@ -58,55 +105,6 @@ describe('Accordion group screenshot', () => {
       simulateSelector:
         '[data-visual-test="accordion-group"] .dnb-accordion:first-of-type .dnb-accordion__header',
       simulate: 'click',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
-
-// NB: Run the one we expand last
-
-describe('Accordion closed screenshot', () => {
-  setupPageScreenshot({
-    url: '/uilib/components/accordion/demos',
-  })
-
-  it('have to match accordion in closed state', async () => {
-    const screenshot = await testPageScreenshot({
-      style: { width: '20rem', height: '15rem' },
-      selector: '[data-visual-test="accordion-default"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match accordion in closed state with hover', async () => {
-    const screenshot = await testPageScreenshot({
-      style: { width: '20rem', height: '15rem' },
-      selector: '[data-visual-test="accordion-default"]',
-      simulateSelector:
-        '[data-visual-test="accordion-default"] .dnb-accordion__header',
-      simulate: 'hover',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match accordion in open state with focus', async () => {
-    const screenshot = await testPageScreenshot({
-      style: { width: '20rem', height: '20rem' },
-      selector: '[data-visual-test="accordion-default"]',
-      simulateSelector:
-        '[data-visual-test="accordion-default"] .dnb-accordion__header',
-      simulate: 'focus',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match accordion in closed state with focus', async () => {
-    const screenshot = await testPageScreenshot({
-      style: { width: '20rem', height: '20rem' },
-      selector: '[data-visual-test="accordion-default"]',
-      simulateSelector:
-        '[data-visual-test="accordion-default"] .dnb-accordion__header',
-      simulate: 'clickfocus',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

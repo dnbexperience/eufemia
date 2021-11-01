@@ -146,7 +146,6 @@ const commitToBranch = async ({
       if (newBranch) {
         branchName = newBranch
         await repo.checkoutLocalBranch(newBranch)
-        await repo.addRemote('origin', config.remote)
         log.info(`Commit: created a new branch: ${newBranch}`)
       }
 

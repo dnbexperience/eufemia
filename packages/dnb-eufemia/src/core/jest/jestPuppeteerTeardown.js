@@ -48,7 +48,7 @@ module.exports = async function () {
         },
         ['./jest-screenshot-report']
       )
-      const newBranchName = `${branchName}-reports`
+      const newBranchName = `${branchName}--visual-reports`
       await commitToBranch({
         skipCI: true,
         isFeature: false,
