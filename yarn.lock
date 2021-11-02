@@ -12556,7 +12556,6 @@ __metadata:
     "@mdx-js/react": 1.6.22
     "@netlify/plugin-gatsby": 1.0.3
     algoliasearch: 4.10.5
-    babel-jest: 27.3.1
     babel-preset-gatsby: 1.14.0
     camelcase: 6.2.0
     ci-info: 3.2.0
@@ -12568,8 +12567,6 @@ __metadata:
     date-fns: 2.24.0
     del: 6.0.0
     dotenv: 10.0.0
-    enzyme: 3.11.0
-    enzyme-to-json: 3.6.2
     eslint: 7.32.0
     eslint-plugin-cypress: 2.12.1
     eslint-plugin-jsx-a11y: 6.4.1
@@ -12600,7 +12597,6 @@ __metadata:
     is-ci: 3.0.0
     jest: 27.3.1
     jest-emotion: 11.0.0
-    jest-raw-loader: 1.0.1
     keycode: 2.2.0
     lint-staged: 11.1.2
     nodemon: 2.0.13
@@ -12615,7 +12611,6 @@ __metadata:
     raw-loader: 4.0.2
     react: 17.0.2
     react-dom: 17.0.2
-    react-fake-props: 1.0.3
     react-helmet: 6.1.0
     react-live: 2.4.0
     react-markdown: 7.0.1

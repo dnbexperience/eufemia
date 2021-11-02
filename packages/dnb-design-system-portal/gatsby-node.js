@@ -227,6 +227,13 @@ async function createRedirects({ graphql, actions }) {
   })
 }
 
+let eufemiaBuildExists = false
+try {
+  eufemiaBuildExists = fs.existsSync(require.resolve('@dnb/eufemia/build'))
+} catch (e) {
+  //
+}
+
 exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
   actions.setWebpackConfig({
     resolve: {
@@ -241,10 +248,10 @@ exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
     },
   })
 
-  // Get Webpack config
-  const config = getConfig()
+  if (isCI && eufemiaBuildExists) {
+    // Get Webpack config
+    const config = getConfig()
 
-  if (isCI && fs.existsSync(require.resolve('@dnb/eufemia/build'))) {
     // Consume the prod bundle from Eufemia (during prod build of the Portal)
     config.plugins.push(
       new webpack.NormalModuleReplacementPlugin(
@@ -257,7 +264,7 @@ exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
         }
       )
     )
-  }
 
-  actions.replaceWebpackConfig(config)
+    actions.replaceWebpackConfig(config)
+  }
 }
