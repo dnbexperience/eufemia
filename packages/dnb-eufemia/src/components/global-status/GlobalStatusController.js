@@ -59,6 +59,7 @@ class GlobalStatusController extends React.PureComponent {
   static getDerivedStateFromProps(props, state) {
     if (state._props !== props) {
       state.provider.update(state.status_id, props)
+      state._props = props
     }
 
     return state

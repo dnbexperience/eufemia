@@ -12,6 +12,7 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../GlobalStatus'
+import { GlobalStatusInterceptor } from '../GlobalStatusController'
 import FormSet from '../../form-set/FormSet'
 import Switch from '../../switch/Switch'
 import Autocomplete from '../../autocomplete/Autocomplete'
@@ -618,23 +619,78 @@ describe('GlobalStatus component', () => {
     )
   })
 
+  it('should generete item_id form React Element', () => {
+    const StatusComponent = ({ children }) => {
+      return children
+    }
+    const StatusAsComponent = React.forwardRef((props, ref) => {
+      return <StatusComponent {...props} inner_ref={ref} />
+    })
+
+    const Comp = mount(
+      <Component
+        no_animation={true}
+        autoscroll={false}
+        delay={0}
+        id="custom-status-element"
+        locale="en-GB"
+      />
+    )
+
+    const provider = new GlobalStatusInterceptor({
+      id: 'custom-status-element',
+    })
+
+    provider.add({
+      status_id: 'status-1',
+      item: {
+        text: <StatusAsComponent>error-message--a</StatusAsComponent>,
+        status_anchor_label: (
+          <StatusAsComponent>label--a</StatusAsComponent>
+        ),
+        status_anchor_url: true,
+      },
+    })
+
+    provider.add({
+      status_id: 'status-2',
+      item: {
+        text: <StatusAsComponent>error-message--b</StatusAsComponent>,
+        status_anchor_label: (
+          <StatusAsComponent>label--b</StatusAsComponent>
+        ),
+        status_anchor_url: true,
+      },
+    })
+
+    Comp.update()
+
+    // expect(Comp.exists('div.dnb-global-status__message')).toBe(true)
+    expect(Comp.find('div.dnb-global-status__message').text()).toBe(
+      'error-message--aGo to label--aerror-message--bGo to label--b'
+    )
+  })
+
   it('should support component given as labels', async () => {
+    const LabelAsComponent = () => {
+      return 'my-label'
+    }
+    const StatusAsComponent = () => {
+      return 'error-message'
+    }
+
     const ToggleStatus = () => {
       const [status, setStatus] = React.useState(null)
-
-      const Component = () => {
-        return 'my-label'
-      }
 
       return (
         <Switch
           id="switch"
-          label={<Component />}
+          label={<LabelAsComponent />}
           status={status}
           status_no_animation={true}
           global_status_id="main-to-be-empty"
           on_change={({ checked }) => {
-            setStatus(checked ? 'error-message' : null)
+            setStatus(checked ? <StatusAsComponent /> : null)
           }}
         />
       )

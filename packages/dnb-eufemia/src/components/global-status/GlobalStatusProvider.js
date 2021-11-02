@@ -3,7 +3,11 @@
  *
  */
 
-import { makeUniqueId, warn } from '../../shared/component-helper'
+import {
+  makeUniqueId,
+  warn,
+  convertJsxToString,
+} from '../../shared/component-helper'
 
 // The meaning with this is that we can force a rerender without sharing the same context
 class GlobalStatusProvider {
@@ -55,12 +59,19 @@ class GlobalStatusProvider {
     if (typeof item === 'string') {
       item = { text: item }
     }
+
     if (!item.item_id) {
-      item.item_id =
-        status_id && status_id !== 'status-main' // same as defaultProps.status_id
-          ? status_id
-          : slugify(JSON.stringify(item))
+      if (status_id && status_id !== 'status-main') {
+        item.item_id = status_id
+      } else {
+        if (item?.text) {
+          item.item_id = slugify(convertJsxToString(item.text))
+        } else {
+          item.item_id = slugify(item)
+        }
+      }
     }
+
     return item
   }
 
