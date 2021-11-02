@@ -48,7 +48,7 @@ const plugins = [
   {
     resolve: 'gatsby-plugin-page-creator',
     options: {
-      ignore: ['**/*.md', '**/Examples.js', '**/*_not_in_use*'],
+      ignore: ['**/*.md', '**/Examples.*', '**/*_not_in_use*'],
       path: `${__dirname}/src/docs`, // for .js files
       name: 'docs',
     },
@@ -87,21 +87,10 @@ const plugins = [
     options: {
       path: `${__dirname}/src/docs`, //for .md (mdx) files
       name: 'docs',
-      ignore: ['**/*_not_in_use*'],
+      ignore: ['**/Examples.*', '**/*_not_in_use*'],
     },
   },
-  {
-    resolve: 'gatsby-plugin-sass',
-    options: {
-      postCssPlugins:
-        process.env.NODE_ENV === 'production'
-          ? require('@dnb/eufemia/scripts/prepub/config/postcssConfig')({
-              IE11: true,
-              sass: require('sass'),
-            })
-          : [],
-    },
-  },
+  'gatsby-plugin-sass',
   'gatsby-plugin-emotion',
   process.env.NODE_ENV === 'development'
     ? 'gatsby-plugin-remove-serviceworker'
