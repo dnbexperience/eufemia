@@ -31,7 +31,7 @@ const Header = styled.header`
   z-index: 3201;
 
   /* stylelint-disable-next-line */
-  html[data-dnb-modal-active='portal-tools'] & {
+  html[data-dnb-modal-active] & {
     /* Now, when the drawer tools are opened, we lower it back to appear behind the modal  */
     z-index: 3000;
   }
