@@ -9,8 +9,6 @@ import {
   // isCI,
 } from '../../../core/jest/jestSetupScreenshots'
 
-// NB: Remember that the fonts are swapped out with arial during the tests
-
 describe('Heading screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/typography/heading',
@@ -44,10 +42,6 @@ describe('Heading screenshot', () => {
 describe('Paragraph screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/typography/paragraph',
-    // screenshotConfig: {
-    //   // use 10% on CI because of the font rendering differences
-    //   pixelThresholdRelative: isCI ? 0.1 : 0,
-    // },
   })
 
   it('have to match the paragraph example', async () => {
