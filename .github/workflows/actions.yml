@@ -2,9 +2,11 @@ name: Eufemia Actions
 
 on:
   push:
-    branches-ignore:
-      - '*--skip-ci'
-      - '*--visual-reports'
+    branches:
+      - '**'
+      - '!**--skip-ci'
+      - '!**--visual-reports'
+      - 'experiments/**'
   pull_request:
     types:
       - opened
