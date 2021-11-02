@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.15.2](https://github.com/dnbexperience/eufemia/compare/v9.15.1...v9.15.2) (2021-11-02)
+
+
+### Bug Fixes
+
+* **GlobalStatus:** fix FormStatus auto generation of IDs (item_id) ([e449427](https://github.com/dnbexperience/eufemia/commit/e449427c0fbfc60308cc7524f4e43b2095bd9991))
+
 ## [9.15.1](https://github.com/dnbexperience/eufemia/compare/v9.15.0...v9.15.1) (2021-11-01)
 
 
