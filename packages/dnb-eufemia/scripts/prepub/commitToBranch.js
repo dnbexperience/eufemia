@@ -138,7 +138,7 @@ const commitToBranch = async ({
         `${
           isFeature ? 'feat:' : 'chore:'
         } some ${what} got added/changed during CI | ${files.join(', ')}${
-          skipCI ? ' [CI SKIP]' : ''
+          skipCI ? ' [skip ci]' : ''
         }`
       ).trim()
       log.info(`Commit: ${commitMessage}`)

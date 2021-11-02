@@ -35,7 +35,7 @@ const run = () => {
     {
       message: `Auto-generated deploy commit by ${
         CIName || 'localhost'
-      } ${currentVersion} [CI SKIP]`,
+      } ${currentVersion} [skip ci]`,
       branch: 'gh-pages',
       ...config,
     },
