@@ -48,12 +48,13 @@ export const StepIndicatorStrict = () => (
   }}
   data={[
     {
-      title: 'Om din nye bolig',
+      title: 'Velg mottaker',
     },
     {
-      title: 'Ditt lån og egenkapital',
+      title: 'Bestill eller erstatt',
       on_click: ({ current_step }) =>
-        console.log(current_step)
+        console.log('current_step:', current_step),
+      status: 'Du må velge bestill nytt kort eller erstatt kort for å kunne fullføre bestillingen din.'
     },
     {
       title: 'Oppsummering',
