@@ -144,15 +144,17 @@ const commitToBranch = async ({
       log.info(`Commit: ${commitMessage}`)
 
       if (newBranch) {
-        branchName = newBranch
         await repo.checkoutLocalBranch(newBranch)
         log.info(`Commit: created a new branch: ${newBranch}`)
+
+        // Replace the branchName – because we want this one to push
+        branchName = newBranch
       }
 
       await repo.commit(commitMessage, null, {
         '--no-verify': null,
       })
-      await repo.push('origin', branchName)
+      await repo.push('origin', branchName, ['--force-with-lease'])
 
       log.succeed(
         `Commit: These ${what} were successfully updated/added: ${files}`
