@@ -3,7 +3,7 @@ import { Modal, Space, Tooltip } from '@dnb/eufemia/src/components'
 import { H2 } from '@dnb/eufemia/src/elements'
 import ToggleGrid from './ToggleGrid'
 import { Context } from '@dnb/eufemia/src/shared'
-import PortalSkeleton from '../../docs/uilib/components/skeleton/PortalSkeleton'
+import PortalSkeleton from 'Parts/uilib/PortalSkeleton'
 import ChangeLocale from '../../core/ChangeLocale'
 
 export default function PortalToolsMenu({

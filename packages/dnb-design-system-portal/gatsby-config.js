@@ -48,7 +48,16 @@ const plugins = [
   {
     resolve: 'gatsby-plugin-page-creator',
     options: {
-      ignore: ['**/*.md', '**/Examples.*', '**/*_not_in_use*'],
+      ignore: [
+        '**/*.md',
+        '**/Examples.*',
+        '**/*_not_in_use*',
+        '**/TypographyExamples.js',
+        '**/demos/layout/Layout.js',
+        '**/skip-link-example.js',
+        '**/CardProductsTable.js',
+        '**/assets/*.js',
+      ],
       path: `${__dirname}/src/docs`, // for .js files
       name: 'docs',
     },
