@@ -7,17 +7,6 @@ on:
       - '!**--skip-ci'
       - '!**--visual-reports'
       - 'experiments/**'
-  pull_request:
-    types:
-      - opened
-    branches:
-      - main
-  # workflow_run:
-  #   workflows: ['actions-verify']
-  #   types:
-  #     - completed
-  # schedule:
-  #   - cron: '44 3 * * 5'
 
 jobs:
   action:
