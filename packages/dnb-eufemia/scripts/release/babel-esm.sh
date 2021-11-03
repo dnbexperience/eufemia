@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo 'Building esm ...'
+echo 'Building esm bundle ...'
 
 cross-env \
 NODE_ENV=production \
@@ -14,8 +14,9 @@ babel ./src \
 --no-copy-ignored \
 --ignore 'src/cjs,src/esm,src/umd,src/core,**/*.test.js,**/__tests__/**/*,**/*.d.ts'
 
-echo 'Building esm done!'
+echo 'Building esm bundle done!'
 
 echo 'Copy .d.ts files to esm ...'
 
 OUT_DIR=./build/esm babel-node ./scripts/release/copyTypeScriptDefinitionFiles.js
+OUT_DIR=./build/esm babel-node ./scripts/release/copyStyles.js
