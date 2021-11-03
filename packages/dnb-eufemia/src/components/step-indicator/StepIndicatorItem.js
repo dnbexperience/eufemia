@@ -273,7 +273,7 @@ export default class StepIndicatorItem extends React.PureComponent {
       // Deprecated
       isTrue(this.context.use_navigation)
     ) {
-      buttonParams.onClick = (event) =>
+      buttonParams.onClick = ({ event }) =>
         this.onClickHandler({
           event,
           item: this.props,
