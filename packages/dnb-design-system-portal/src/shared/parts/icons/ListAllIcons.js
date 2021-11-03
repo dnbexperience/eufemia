@@ -17,6 +17,9 @@ import AutoLinkHeader from '../../tags/AutoLinkHeader'
 export const getListOfIcons = (icons) => {
   return Object.entries(icons)
     .map(([iconName, Svg]) => {
+      if (typeof Svg !== 'function') {
+        return null
+      }
       const meta =
         iconsMetaData && iconsMetaData[iconName]
           ? iconsMetaData[iconName]
@@ -24,6 +27,7 @@ export const getListOfIcons = (icons) => {
       const category = grabCategory(meta.name)
       return { iconName, Svg, category, ...meta }
     })
+    .filter(Boolean)
     .sort((a, b) => {
       return a.created < b.created ? 1 : -1
     })
