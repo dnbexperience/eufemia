@@ -12556,7 +12556,6 @@ __metadata:
     "@mdx-js/react": 1.6.22
     "@netlify/plugin-gatsby": 1.0.3
     algoliasearch: 4.10.5
-    babel-jest: 27.3.1
     babel-preset-gatsby: 1.14.0
     camelcase: 6.2.0
     ci-info: 3.2.0
@@ -12568,8 +12567,6 @@ __metadata:
     date-fns: 2.24.0
     del: 6.0.0
     dotenv: 10.0.0
-    enzyme: 3.11.0
-    enzyme-to-json: 3.6.2
     eslint: 7.32.0
     eslint-plugin-cypress: 2.12.1
     eslint-plugin-jsx-a11y: 6.4.1
@@ -12600,12 +12597,10 @@ __metadata:
     is-ci: 3.0.0
     jest: 27.3.1
     jest-emotion: 11.0.0
-    jest-raw-loader: 1.0.1
     keycode: 2.2.0
     lint-staged: 11.1.2
     nodemon: 2.0.13
     ora: 5.4.1
-    path-browserify: 1.0.1
     postcss: 8.3.8
     postcss-preset-env: 6.7.0
     prettier: 2.4.1
@@ -12616,7 +12611,6 @@ __metadata:
     raw-loader: 4.0.2
     react: 17.0.2
     react-dom: 17.0.2
-    react-fake-props: 1.0.3
     react-helmet: 6.1.0
     react-live: 2.4.0
     react-markdown: 7.0.1
@@ -25466,13 +25460,6 @@ __metadata:
   version: 0.0.1
   resolution: "path-browserify@npm:0.0.1"
   checksum: ae8dcd45d0d3cfbaf595af4f206bf3ed82d77f72b4877ae7e77328079e1468c84f9386754bb417d994d5a19bf47882fd253565c18441cd5c5c90ae5187599e35
-  languageName: node
-  linkType: hard
-
-"path-browserify@npm:1.0.1":
-  version: 1.0.1
-  resolution: "path-browserify@npm:1.0.1"
-  checksum: c6d7fa376423fe35b95b2d67990060c3ee304fc815ff0a2dc1c6c3cfaff2bd0d572ee67e18f19d0ea3bbe32e8add2a05021132ac40509416459fffee35200699
   languageName: node
   linkType: hard
 

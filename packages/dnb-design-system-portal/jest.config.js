@@ -1,9 +1,5 @@
 const config = {
-  transform: {
-    '^.+\\.(js|jsx)$': 'babel-jest',
-    '^.+\\.(md|txt|css|scss)$': 'jest-raw-loader',
-  },
-  modulePathIgnorePatterns: ['.cache', 'cypress'],
+  modulePathIgnorePatterns: ['not_in_use', '.cache', 'cypress'],
   moduleNameMapper: {
     '^.+\\.(jpg|jpeg|png)$': '<rootDir>/src/core/jest/fileMock.js',
     '^.+\\.(svg)$': '<rootDir>/src/core/jest/jsxMock.js',

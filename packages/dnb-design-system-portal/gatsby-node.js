@@ -3,7 +3,10 @@
  *
  */
 
+const fs = require('fs-extra')
 const path = require('path')
+const webpack = require('webpack')
+const { isCI } = require('ci-info')
 const {
   createNewVersion,
   createNewChangelogVersion,
@@ -224,11 +227,16 @@ async function createRedirects({ graphql, actions }) {
   })
 }
 
-exports.onCreateWebpackConfig = ({ actions }) => {
+let eufemiaBuildExists = false
+try {
+  eufemiaBuildExists = fs.existsSync(require.resolve('@dnb/eufemia/build'))
+} catch (e) {
+  //
+}
+
+exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
   actions.setWebpackConfig({
     resolve: {
-      fallback: { path: require.resolve('path-browserify') }, // was added during webpack 4 to 5 migration
-      modules: [path.resolve(__dirname, 'src'), 'node_modules'],
       alias: {
         Root: path.resolve(__dirname),
         Src: path.resolve(__dirname, 'src'),
@@ -239,4 +247,24 @@ exports.onCreateWebpackConfig = ({ actions }) => {
       },
     },
   })
+
+  if (isCI && eufemiaBuildExists) {
+    // Get Webpack config
+    const config = getConfig()
+
+    // Consume the prod bundle from Eufemia (during prod build of the Portal)
+    config.plugins.push(
+      new webpack.NormalModuleReplacementPlugin(
+        /@dnb\/eufemia\/src/,
+        (resource) => {
+          resource.request = resource.request.replace(
+            /@dnb\/eufemia\/src(.*)/,
+            '@dnb/eufemia/build$1'
+          )
+        }
+      )
+    )
+
+    actions.replaceWebpackConfig(config)
+  }
 }
