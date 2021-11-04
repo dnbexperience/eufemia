@@ -39,6 +39,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
     scroll={null}
     selected_key="second"
     skeleton={null}
+    tab_element="button"
     tabs_spacing={null}
     tabs_style={null}
     use_hash={false}
@@ -562,6 +563,7 @@ exports[`Tabs component have to match snapshot 1`] = `
         "scroll": "scroll",
         "selected_key": "selected_key",
         "skeleton": "skeleton",
+        "tab_element": Object {},
         "tabs_spacing": "tabs_spacing",
         "tabs_style": "tabs_style",
         "use_hash": "use_hash",
@@ -618,6 +620,7 @@ exports[`Tabs component have to match snapshot 1`] = `
   scroll={null}
   selected_key="second"
   skeleton={null}
+  tab_element="button"
   tabs_spacing={null}
   tabs_style={null}
   use_hash={false}
@@ -1403,6 +1406,7 @@ html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
   border: none;
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
+  text-decoration: none;
   white-space: nowrap; }
   .dnb-tabs__button__title .dnb-icon,
   .dnb-core-style .dnb-tabs .dnb-tabs__button__title .dnb-icon {
