@@ -25,9 +25,9 @@ The Portal (documentations) uses dart based `sass`, while the bundle and build p
 
 - When upgrading to a newer version than v8, puppeteer behaves inconsistent. Sometimes the content is just tiny bit off. But most importantly, > v10.4 is very inconsistent and off running on the GitHub Actions maxOS.
 
-### eslint
+### Stylelint
 
-- Where some issues with newer versions than v7.19.0. This may be fixed in later versions.
+- v14 has changed a good amount of their default styling rules. Updating would require us to refactor a good amount of SCSS code. We are currently on v13.
 
 ## Storybook
 

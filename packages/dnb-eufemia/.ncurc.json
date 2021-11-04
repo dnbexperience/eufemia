@@ -1,6 +1,5 @@
 {
   "reject": [
-    "eslint",
     "globby",
     "ora",
     "react",
