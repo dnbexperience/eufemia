@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo 'Building cjs ...'
+echo 'Building cjs bundle ...'
 
 cross-env \
 NODE_ENV=production \
@@ -14,11 +14,12 @@ babel ./src \
 --no-copy-ignored \
 --ignore 'src/esm,src/umd,src/core,**/*.test.js,**/__tests__/**/*,**/*.d.ts'
 
-echo 'Building cjs done!'
+echo 'Building cjs bundle done!'
 
 echo 'Copy .d.ts files to cjs ...'
 
 OUT_DIR=./build/cjs babel-node ./scripts/release/copyTypeScriptDefinitionFiles.js
+OUT_DIR=./build/cjs babel-node ./scripts/release/copyStyles.js
 
 echo 'Copy extra cjs package.json ...'
 

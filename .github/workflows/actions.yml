@@ -6,7 +6,8 @@ on:
       - '**'
       - '!**--skip-ci'
       - '!**--visual-reports'
-      - 'experiments/**'
+      - '!wip/**'
+      - '!experiments/**'
 
 jobs:
   action:
@@ -80,8 +81,7 @@ jobs:
           path: |
             ./packages/dnb-design-system-portal/.cache
             ./packages/dnb-design-system-portal/public
-          key: ${{ runner.os }}-gatsby-${{ steps.date.outputs.timestamp }}
-          restore-keys: ${{ runner.os }}-gatsby-
+          key: ${{ runner.os }}-gatsby-${{ hashFiles('**/yarn.lock') }}-${{ steps.date.outputs.timestamp }}
 
       - name: Build portal
         run: yarn workspace dnb-design-system-portal build-ci

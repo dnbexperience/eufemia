@@ -227,9 +227,9 @@ async function createRedirects({ graphql, actions }) {
   })
 }
 
-let eufemiaBuildExists = false
+let prebuildExists = false
 try {
-  eufemiaBuildExists = fs.existsSync(require.resolve('@dnb/eufemia/build'))
+  prebuildExists = fs.existsSync(require.resolve('@dnb/eufemia/build'))
 } catch (e) {
   //
 }
@@ -248,7 +248,7 @@ exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
     },
   })
 
-  if (isCI && eufemiaBuildExists) {
+  if (isCI && prebuildExists) {
     // Get Webpack config
     const config = getConfig()
 
