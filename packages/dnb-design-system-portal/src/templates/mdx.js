@@ -1,10 +1,9 @@
+/* eslint-disable react/prop-types */
 /**
  * MDX Template
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
-
 import { MDXProvider } from '@mdx-js/react'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
 import { graphql } from 'gatsby'
@@ -21,30 +20,26 @@ export default class MdxTemplate extends React.PureComponent {
     const {
       location,
       data: {
-        mdx: {
-          body,
-          frontmatter: { title, description, fullscreen, showTabs },
-          tableOfContents,
-          children,
-        },
+        mdx,
         site: {
           siteMetadata: { title: mainTitle, description: mainDescription },
         },
       },
     } = this.props
 
-    const child = children[1] || null
-    let pageTitle = title
-    let pageDescription =
-      description || child?.frontmatter?.description || mainDescription
+    const { body, tableOfContents, siblings } = mdx
+
+    const mother = siblings?.[0] || mdx
+    const frontmatter = mother?.frontmatter
+
+    const pageDescription = frontmatter?.description || mainDescription
+    let pageTitle
 
     // Extend the title with a sub tab title
-    if (!pageTitle) {
-      if (child && Array.isArray(tableOfContents?.items)) {
-        pageTitle = `${child?.frontmatter?.title} – ${tableOfContents.items[0]?.title}`
-      } else {
-        pageTitle = child?.frontmatter?.title || mainTitle
-      }
+    if (frontmatter?.title && Array.isArray(tableOfContents?.items?.[0])) {
+      pageTitle = `${frontmatter.title} – ${tableOfContents.items[0]?.title}`
+    } else {
+      pageTitle = frontmatter?.title || mainTitle
     }
 
     return (
@@ -58,15 +53,19 @@ export default class MdxTemplate extends React.PureComponent {
           key="layout"
           location={location}
           fullscreen={
-            Boolean(fullscreen) || this.props.pageContext.fullscreen
+            Boolean(frontmatter?.fullscreen) ||
+            this.props.pageContext.fullscreen
           }
         >
-          {showTabs && (
+          {frontmatter?.showTabs && (
             <Tabbar
               key="tabbar"
               location={location}
-              {...(child?.frontmatter || {})}
-              usePath={'/' + (child?.fields?.slug || '')}
+              rootPath={'/' + (mother.slug || frontmatter?.slug)}
+              title={frontmatter?.title}
+              tabs={frontmatter?.tabs}
+              defaultTabs={frontmatter?.defaultTabs}
+              hideTabs={frontmatter?.hideTabs}
             />
           )}
 
@@ -81,24 +80,6 @@ export default class MdxTemplate extends React.PureComponent {
   }
 }
 
-MdxTemplate.propTypes = {
-  location: PropTypes.object.isRequired,
-  pageContext: PropTypes.shape({
-    fullscreen: PropTypes.bool,
-  }).isRequired,
-  data: PropTypes.shape({
-    mdx: PropTypes.shape({
-      body: PropTypes.string.isRequired,
-      frontmatter: PropTypes.object.isRequired,
-      tableOfContents: PropTypes.object.isRequired,
-      children: PropTypes.array.isRequired,
-    }).isRequired,
-    site: PropTypes.shape({
-      siteMetadata: PropTypes.object.isRequired,
-    }).isRequired,
-  }).isRequired,
-}
-
 export const pageQuery = graphql`
   query MDXQuery($id: String!) {
     site {
@@ -108,30 +89,36 @@ export const pageQuery = graphql`
       }
     }
     mdx(id: { eq: $id }) {
+      slug
       frontmatter {
         title
         description
         fullscreen
         showTabs
+        hideTabs {
+          title
+        }
+        tabs {
+          title
+          key
+        }
       }
       tableOfContents
       body
-      children {
-        ... on Mdx {
-          fields {
-            slug
-          }
-          frontmatter {
+      siblings {
+        slug
+        frontmatter {
+          menuTitle
+          title
+          description
+          fullscreen
+          showTabs
+          hideTabs {
             title
-            menuTitle
-            showTabs
-            tabs {
-              title
-              key
-            }
-            hideTabs {
-              title
-            }
+          }
+          tabs {
+            title
+            key
           }
         }
       }

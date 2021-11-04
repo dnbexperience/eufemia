@@ -13,9 +13,7 @@ const docsQuery = /* GraphQL */ `
       edges {
         node {
           objectID: id
-          fields {
-            slug
-          }
+          slug
           frontmatter {
             title
             description
@@ -26,16 +24,11 @@ const docsQuery = /* GraphQL */ `
             value
             depth
           }
-          # use the first children as the category
-          children {
-            ... on Mdx {
-              fields {
-                slug
-                tag
-              }
-              frontmatter {
-                title
-              }
+          # use the first siblings as the category
+          siblings {
+            slug
+            frontmatter {
+              title
             }
           }
         }
@@ -49,13 +42,13 @@ const flatten = (arr) =>
     .filter(
       ({
         node: {
-          fields: { slug },
+          slug,
           frontmatter: { skipSearch },
         },
       }) => !slug.includes('not_in_use') && skipSearch !== true
     )
     .map(
-      ({ node: { children, fields, frontmatter, headings, ...rest } }) => {
+      ({ node: { siblings, slug, frontmatter, headings, ...rest } }) => {
         if (headings && Array.isArray(headings)) {
           headings = headings.map((item) => ({
             ...item,
@@ -80,10 +73,10 @@ const flatten = (arr) =>
                 ...frontmatter,
                 title: first.value,
               }
-            } else if (Array.isArray(children)) {
-              const category = children
+            } else if (Array.isArray(siblings)) {
+              const category = siblings
                 .reverse()
-                .find(({ fields: { slug } }) => fields.slug.includes(slug))
+                .find(({ slug: _slug }) => slug.includes(_slug))
 
               const {
                 frontmatter: { title, search },
@@ -107,7 +100,7 @@ const flatten = (arr) =>
 
         // bundle our whole request
         const result = {
-          ...fields,
+          slug,
           ...frontmatter,
           ...rest,
           headings,
@@ -118,10 +111,10 @@ const flatten = (arr) =>
         }
 
         // handle category
-        if (children[0]) {
-          const { fields, frontmatter, ...rest } = children[0]
+        if (siblings[0]) {
+          const { slug, frontmatter, ...rest } = siblings[0]
           result.category = {
-            ...fields,
+            slug,
             ...frontmatter,
             ...rest,
           }
