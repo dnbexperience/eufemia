@@ -74,6 +74,11 @@ export default class Tabs extends React.PureComponent {
       PropTypes.bool,
     ]),
     label: PropTypes.string,
+    tab_element: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.node,
+      PropTypes.func,
+    ]),
     selected_key: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
@@ -114,6 +119,7 @@ export default class Tabs extends React.PureComponent {
     content_style: null,
     content_spacing: true,
     label: null,
+    tab_element: 'button',
     selected_key: null,
     align: 'left',
     tabs_style: null,
@@ -183,8 +189,10 @@ export default class Tabs extends React.PureComponent {
         props.selected_key &&
         state._selected_key !== props.selected_key
       ) {
-        state.selected_key = state._selected_key =
-          Tabs.getSelectedKeyOrFallback(props.selected_key, state.data)
+        state.selected_key = state._selected_key = Tabs.getSelectedKeyOrFallback(
+          props.selected_key,
+          state.data
+        )
       }
     }
     state._listenForPropChanges = true
@@ -220,12 +228,7 @@ export default class Tabs extends React.PureComponent {
             delete componentProps.title
           }
 
-          const {
-            title,
-            key: _key,
-            hash,
-            ...rest
-          } = {
+          const { title, key: _key, hash, ...rest } = {
             ...dataProps,
             ...componentProps,
             ...{ children: null }, // remove children, if there is some
@@ -990,7 +993,7 @@ export default class Tabs extends React.PureComponent {
     )
   }
 
-  TabsListHandler = ({ children, className }) => {
+  TabsListHandler = ({ children, className, ...rest }) => {
     const { align, tabs_style, tabs_spacing } = this.props
     const { hasScrollbar, atEdge } = this.state
 
@@ -1010,6 +1013,7 @@ export default class Tabs extends React.PureComponent {
           className
         )}
         ref={this._tabsRef}
+        {...rest}
       >
         <ScrollNavButton
           onMouseDown={this.openPrevTab}
@@ -1055,13 +1059,15 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
     )
   }
 
-  TabsHandler = () => {
-    const { label, skeleton } = this._props
+  TabsHandler = (props) => {
+    const { label, skeleton, tab_element } = { ...this._props, ...props }
     const { selected_key } = this.state
 
+    const TabElement = tab_element || 'button'
+
     const tabs = this.state.data.map(
-      ({ title, key, disabled = false }) => {
-        const itemParams = {}
+      ({ title, key, disabled = false, to, href }) => {
+        const itemParams = { to, href }
         const isFocus = this.isFocus(key)
         const isSelected = this.isSelected(key)
         if (isSelected) {
@@ -1076,6 +1082,10 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
           itemParams['aria-disabled'] = true
         }
 
+        if (TabElement === 'button') {
+          itemParams.type = 'button'
+        }
+
         skeletonDOMAttributes(itemParams, skeleton, this.context)
 
         return (
@@ -1087,8 +1097,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
             )}
             key={`tab-${key}`}
           >
-            <button
-              type="button"
+            <TabElement
               role="tab"
               tabIndex="-1"
               id={`${this._id}-tab-${key}`}
@@ -1113,7 +1122,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
                 {title}
               </span>
               <Dummy>{title}</Dummy>
-            </button>
+            </TabElement>
           </div>
         )
       }
