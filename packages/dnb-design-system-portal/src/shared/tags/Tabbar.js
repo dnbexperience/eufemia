@@ -60,8 +60,7 @@ export default function Tabbar({
       (tabs || defaultTabs)
         // remove the tab if it is hidden in frontmatter
         .filter(
-          ({ title }) =>
-            !(hideTabs && hideTabs.find(({ title: t }) => t === title))
+          ({ title }) => !hideTabs?.find(({ title: t }) => t === title)
         )
         .map(({ key, ...rest }) => {
           const hasPlaceholderChar = key.includes('$1')
@@ -98,19 +97,6 @@ export default function Tabbar({
         tab_element={Link}
         data={preparedTabs}
         selected_key={selectedKey}
-        on_change={({ key }) => navigate(key)}
-        on_mouse_enter={({ key }) => {
-          // preload pages the tab page
-          if (
-            typeof window !== 'undefined' &&
-            typeof window.___loader !== 'undefined'
-          ) {
-            const preloadPath = parsePath(key).pathname
-            if (preloadPath !== path.pathname) {
-              window.___loader.enqueue(preloadPath)
-            }
-          }
-        }}
         render={({ Wrapper, Content, TabsList, Tabs }) => {
           return (
             <Wrapper css={tabsWrapperStyle}>
