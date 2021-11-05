@@ -8,7 +8,6 @@ const packpath = require('packpath')
 const path = require('path')
 const { create } = require('tar')
 const chalk = require('chalk')
-const rimraf = require('rimraf')
 const isCI = require('is-ci')
 const liveServer = require('live-server')
 import {
@@ -67,5 +66,5 @@ module.exports = async function () {
   }
 
   // clean-up the wsEndpoint file
-  rimraf.sync(DIR)
+  fs.emptyDir(DIR)
 }
