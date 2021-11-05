@@ -7,6 +7,8 @@ const { getCurrentBranchName } = require('../utils/git')
 const { makeSlug } = require('../utils/slug')
 const { isCI } = require('ci-info')
 
+require('dotenv').config()
+
 const docsQuery = /* GraphQL */ `
   {
     pages: allMdx {
@@ -78,21 +80,23 @@ const flatten = (arr) =>
                 .reverse()
                 .find(({ slug: _slug }) => slug.includes(_slug))
 
-              const {
-                frontmatter: { title, search },
-              } = category
+              if (category) {
+                const {
+                  frontmatter: { title, search },
+                } = category
 
-              let newTitle = title || search
+                let newTitle = title || search
 
-              if (first && first.depth === 2) {
-                headings.shift()
-                // eslint-disable-next-line no-irregular-whitespace
-                newTitle = `${newTitle} → ${first.value}`
-              }
+                if (first && first.depth === 2) {
+                  headings.shift()
+                  // eslint-disable-next-line no-irregular-whitespace
+                  newTitle = `${newTitle} → ${first.value}`
+                }
 
-              frontmatter = {
-                ...frontmatter,
-                title: newTitle,
+                frontmatter = {
+                  ...frontmatter,
+                  title: newTitle,
+                }
               }
             }
           }
@@ -147,7 +151,7 @@ const runQueriesWhen = (currentBranch) => {
     console.info(
       'If you want to submit searchable data to Algolia, you need to request access keys and put them in a local .env file.'
     )
-    return true
+    return false
   }
 
   if (isCI) {

@@ -47,10 +47,7 @@ exports.createResolvers = ({ createResolvers }) => {
         resolve: (source, args, context) => {
           const slug = source.__gatsby_resolved?.slug
 
-          const hasTitle = Boolean(source.frontmatter?.title)
-          console.log('hasTitle', { hasTitle, slug })
-
-          if (hasTitle || !slug || !slug.includes('uilib')) {
+          if (!slug) {
             return []
           }
 
@@ -114,7 +111,7 @@ async function createPages({ graphql, actions }) {
 
       createPage({
         path: slug,
-        component: path.resolve('./src/templates/mdx.js'),
+        component: path.resolve(__dirname, './src/templates/mdx.js'),
         context: {
           id: node.id,
           prev,

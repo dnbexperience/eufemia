@@ -29,7 +29,10 @@ export default class MdxTemplate extends React.PureComponent {
 
     const { body, tableOfContents, siblings } = mdx
 
-    const mother = siblings?.[0] || mdx
+    const makeUseOfCategorySibling = Boolean(
+      !mdx?.frontmatter?.title && mdx?.frontmatter?.showTabs
+    )
+    const mother = makeUseOfCategorySibling ? siblings?.[0] : mdx
     const frontmatter = mother?.frontmatter
 
     const pageDescription = frontmatter?.description || mainDescription

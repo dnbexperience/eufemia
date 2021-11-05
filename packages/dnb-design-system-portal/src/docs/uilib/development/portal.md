@@ -37,3 +37,19 @@ The build will be exported to the `/public` directory. You can now also run a lo
 # In the `dnb-design-system-portal` directory, run:
 $ yarn serve
 ```
+
+### Run Algolia search queries locally
+
+In order to commit Algolia search queries to the `dev_eufemia_docs` index, you have to:
+
+Create a `.env` file inside `dnb-design-system-portal` with valid:
+
+- `ALGOLIA_INDEX_NAME=dev_eufemia_docs`
+- `ALGOLIA_APP_ID=SLD6KEYMQ9`
+- `ALGOLIA_API_KEY=secret`
+
+In order to make faster local builds, you can:
+
+- Inside `gatsby-config.js` rename all sourcing from `/docs` to `/docs_dummy`
+
+Run `yarn workspace dnb-design-system-portal build`

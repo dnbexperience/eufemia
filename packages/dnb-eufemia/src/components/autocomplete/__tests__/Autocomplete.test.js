@@ -1422,7 +1422,14 @@ describe('Autocomplete component', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
   })
 
+  const orig = window.requestAnimationFrame
+  afterEach(() => {
+    window.requestAnimationFrame = orig
+  })
+
   it('will make anchors inside drawer-list item accessible', () => {
+    window.requestAnimationFrame = undefined
+
     const mockData = [
       'first item',
       [

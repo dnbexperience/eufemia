@@ -119,7 +119,6 @@ const plugins = [
 // used for algolia search
 const queries = require('./src/uilib/search/searchQuery')
 if (queries) {
-  require('dotenv').config()
   plugins.push({
     resolve: 'gatsby-plugin-algolia',
     options: {
