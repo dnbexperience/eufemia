@@ -19,108 +19,59 @@ exports.onPreInit = async () => {
   }
 }
 
-exports.onCreateNode = ({ node, ...props }) => {
-  if (node.internal.type === 'Mdx') {
-    createMdxNode({ node, ...props })
-  }
+/**
+ * Extend every mdx type with a siblings array,
+ * based on the slug.
+ *
+ * Every:
+ * mdx.slug = uilib/components/button/demos node
+ * will include:
+ * mother.slug = uilib/components/button
+ * mother.frontmatter.title = Button
+ *
+ */
+exports.createSchemaCustomization = ({ actions: { createTypes } }) => {
+  const typeDefs = `
+    type Mdx implements Node {
+      siblings: [Mdx]
+    }
+  `
+
+  createTypes(typeDefs)
 }
 
-// find the root child which has a frontmatter.title
-// so the Tabbar can use the mother title
-global.nodesCache = {}
-function createMdxNode({
-  node,
-  getNodesByType,
-  getNode, //getNodeAndSavePathDependency could be an option
-  actions,
-}) {
-  const { createNodeField } = actions
+exports.createResolvers = ({ createResolvers }) => {
+  const resolvers = {
+    Mdx: {
+      siblings: {
+        resolve: (source, args, context) => {
+          const slug = source.__gatsby_resolved?.slug
 
-  const parent = getNode(node.parent)
-  const slug = parent.relativePath.replace(parent.ext, '')
+          if (!slug) {
+            return []
+          }
 
-  createNodeField({
-    name: 'slug',
-    node,
-    value: slug,
-  })
-
-  // to make sure we get nodes which has not been there during the run
-  // we count for the length of all nodes
-
-  // get all nodes
-  const nodes = getNodesByType('Mdx')
-  nodes.forEach(
-    (node) =>
-      (global.nodesCache[node.fileAbsolutePath.replace('.md', '')] = node)
-  )
-
-  const { createParentChildLink } = actions
-
-  // collect the category items - used for search
-  const categoryDir = (node.fileAbsolutePath
-    .replace('.md', '')
-    .match(/.*\/docs\/([^/]*)/) || [])[0]
-
-  const categoryMdx = global.nodesCache[categoryDir]
-
-  if (categoryMdx) {
-    createNodeField({
-      node: categoryMdx,
-      name: 'tag',
-      value: 'category',
-    })
-    createParentChildLink({ parent: node, child: categoryMdx })
+          return slug
+            .split('/')
+            .map((_, i, arr) => {
+              const eq = arr.slice(0, -(i + 1)).join('/')
+              return (
+                eq &&
+                context.nodeModel.findOne({
+                  type: 'Mdx',
+                  query: {
+                    filter: { slug: { eq } },
+                  },
+                })
+              )
+            })
+            .filter(Boolean)
+        },
+      },
+    },
   }
 
-  // from here on we only handle the sub tab linking
-  const motherDir = node.fileAbsolutePath.replace('.md', '')
-
-  // have this check in place only to skip not needed parts
-  if (
-    /uilib\/(components|extensions|elements|helpers|typography)/.test(
-      motherDir
-    )
-  ) {
-    const parts = motherDir.split('/')
-    parts.shift() // do not search on empty parts
-
-    let motherMdx = null
-
-    // traverse down the mother path parts
-    for (let i = 0, l = parts.length; i < l; ++i) {
-      motherMdx = global.nodesCache['/' + parts.join('/')]
-
-      // ohh we got motherMdx, that's fine
-      if (
-        motherMdx &&
-        motherMdx.frontmatter &&
-        motherMdx.frontmatter.title &&
-        motherMdx.frontmatter.title.length > 0 // we don't need to crawler nodes which has a title
-      ) {
-        break
-      }
-
-      // then we continue the next round
-      parts.pop()
-
-      // and stop if the folder is called "src" or "docs"
-      // if we get the parent (node), we can use parent.sourceInstanceName
-      if (parts[parts.length - 1] === 'docs') {
-        break
-      }
-    }
-
-    // Add the mother title to the children
-    if (motherMdx) {
-      createNodeField({
-        node: motherMdx,
-        name: 'tag',
-        value: 'mother',
-      })
-      createParentChildLink({ parent: node, child: motherMdx })
-    }
-  }
+  createResolvers(resolvers)
 }
 
 exports.createPages = async (params) => {
@@ -135,9 +86,7 @@ async function createPages({ graphql, actions }) {
         edges {
           node {
             id
-            fields {
-              slug
-            }
+            slug
           }
         }
       }
@@ -157,12 +106,12 @@ async function createPages({ graphql, actions }) {
     const next = i === edges.length - 1 ? null : edges[i + 1].node
 
     // check if the slug is valid, in case we deleted one during build
-    if (node && node.fields && node.fields.slug) {
-      const slug = node.fields.slug
+    if (node?.slug) {
+      const slug = node.slug
 
       createPage({
         path: slug,
-        component: path.resolve('./src/templates/mdx.js'),
+        component: path.resolve(__dirname, './src/templates/mdx.js'),
         context: {
           id: node.id,
           prev,
@@ -179,9 +128,7 @@ async function createRedirects({ graphql, actions }) {
       allMdx(filter: { frontmatter: { redirect_from: { ne: null } } }) {
         edges {
           node {
-            fields {
-              slug
-            }
+            slug
             frontmatter {
               redirect_from
             }
@@ -203,10 +150,10 @@ async function createRedirects({ graphql, actions }) {
   // extract all values and push to redirects array
   const redirects = edges.reduce((acc, { node }) => {
     // check if the slug is valid, in case we deleted one during build
-    if (node && node.fields && node.fields.slug) {
+    if (node?.slug) {
       acc.push({
         fromItems: node.frontmatter.redirect_from,
-        toPath: node.fields.slug,
+        toPath: node.slug,
       })
     }
     return acc

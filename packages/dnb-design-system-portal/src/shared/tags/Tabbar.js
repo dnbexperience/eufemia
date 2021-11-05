@@ -6,7 +6,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from '@emotion/react'
-import { parsePath, navigate } from 'gatsby'
+import { Link, parsePath, navigate } from 'gatsby'
 import { Button, Tabs } from '@dnb/eufemia/src/components'
 import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons/secondary_icons'
 import AutoLinkHeader from './AutoLinkHeader'
@@ -15,7 +15,7 @@ export default function Tabbar({
   location,
   title,
   hideTabs,
-  usePath,
+  rootPath,
   tabs,
   defaultTabs,
   children,
@@ -60,21 +60,21 @@ export default function Tabbar({
       (tabs || defaultTabs)
         // remove the tab if it is hidden in frontmatter
         .filter(
-          ({ title }) =>
-            !(hideTabs && hideTabs.find(({ title: t }) => t === title))
+          ({ title }) => !hideTabs?.find(({ title: t }) => t === title)
         )
         .map(({ key, ...rest }) => {
-          if (key.includes('$1')) {
+          const hasPlaceholderChar = key.includes('$1')
+          if (hasPlaceholderChar) {
             key = cleanPath(
               key.replace(/\$1$/, [fullscreenQuery(), path.hash].join(''))
             )
           } else {
             key = cleanPath(
-              [usePath, key, fullscreenQuery(), path.hash].join('')
+              [rootPath, key, fullscreenQuery(), path.hash].join('')
             )
           }
 
-          return { ...rest, key }
+          return { ...rest, key, to: key }
         })
     )
   }, [wasFullscreen]) // eslint-disable-line
@@ -94,21 +94,9 @@ export default function Tabbar({
       )}
       <Tabs
         id="tabbar"
+        tab_element={Link}
         data={preparedTabs}
         selected_key={selectedKey}
-        on_change={({ key }) => navigate(key)}
-        on_mouse_enter={({ key }) => {
-          // preload pages the tab page
-          if (
-            typeof window !== 'undefined' &&
-            typeof window.___loader !== 'undefined'
-          ) {
-            const preloadPath = parsePath(key).pathname
-            if (preloadPath !== path.pathname) {
-              window.___loader.enqueue(preloadPath)
-            }
-          }
-        }}
         render={({ Wrapper, Content, TabsList, Tabs }) => {
           return (
             <Wrapper css={tabsWrapperStyle}>
@@ -148,7 +136,7 @@ Tabbar.propTypes = {
   defaultTabs: PropTypes.array,
   title: PropTypes.string,
   hideTabs: PropTypes.array,
-  usePath: PropTypes.string.isRequired,
+  rootPath: PropTypes.string.isRequired,
   children: PropTypes.node,
 }
 Tabbar.defaultProps = {
@@ -192,13 +180,11 @@ const tabsWrapperStyle = css`
   }
 
   @media screen and (max-width: 40em) {
-    ${
-      '' /* .dnb-tabs__tabs {
+    ${'' /* .dnb-tabs__tabs {
       NB: Now this gets handled automatically
       margin: 0 -2rem;
       padding: 0 2rem;
-    } */
-    }
+    } */}
     .dnb-tabs__tabs .dnb-button.fullscreen {
       display: none;
     }

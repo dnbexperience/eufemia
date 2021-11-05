@@ -35,6 +35,10 @@ const Header = styled.header`
     /* Now, when the drawer tools are opened, we lower it back to appear behind the modal  */
     z-index: 3000;
   }
+  html[data-dnb-drawer-list-active='portal-search'] & {
+    /* Now, when the drawer tools are opened, we lower it back to appear behind the modal  */
+    z-index: 3200;
+  }
 
   top: 0;
   left: 0;

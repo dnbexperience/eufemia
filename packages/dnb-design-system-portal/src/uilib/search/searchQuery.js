@@ -7,15 +7,15 @@ const { getCurrentBranchName } = require('../utils/git')
 const { makeSlug } = require('../utils/slug')
 const { isCI } = require('ci-info')
 
+require('dotenv').config()
+
 const docsQuery = /* GraphQL */ `
   {
     pages: allMdx {
       edges {
         node {
           objectID: id
-          fields {
-            slug
-          }
+          slug
           frontmatter {
             title
             description
@@ -26,16 +26,11 @@ const docsQuery = /* GraphQL */ `
             value
             depth
           }
-          # use the first children as the category
-          children {
-            ... on Mdx {
-              fields {
-                slug
-                tag
-              }
-              frontmatter {
-                title
-              }
+          # use the first siblings as the category
+          siblings {
+            slug
+            frontmatter {
+              title
             }
           }
         }
@@ -49,13 +44,13 @@ const flatten = (arr) =>
     .filter(
       ({
         node: {
-          fields: { slug },
+          slug,
           frontmatter: { skipSearch },
         },
       }) => !slug.includes('not_in_use') && skipSearch !== true
     )
     .map(
-      ({ node: { children, fields, frontmatter, headings, ...rest } }) => {
+      ({ node: { siblings, slug, frontmatter, headings, ...rest } }) => {
         if (headings && Array.isArray(headings)) {
           headings = headings.map((item) => ({
             ...item,
@@ -80,26 +75,28 @@ const flatten = (arr) =>
                 ...frontmatter,
                 title: first.value,
               }
-            } else if (Array.isArray(children)) {
-              const category = children
+            } else if (Array.isArray(siblings)) {
+              const category = siblings
                 .reverse()
-                .find(({ fields: { slug } }) => fields.slug.includes(slug))
+                .find(({ slug: _slug }) => slug.includes(_slug))
 
-              const {
-                frontmatter: { title, search },
-              } = category
+              if (category) {
+                const {
+                  frontmatter: { title, search },
+                } = category
 
-              let newTitle = title || search
+                let newTitle = title || search
 
-              if (first && first.depth === 2) {
-                headings.shift()
-                // eslint-disable-next-line no-irregular-whitespace
-                newTitle = `${newTitle} → ${first.value}`
-              }
+                if (first && first.depth === 2) {
+                  headings.shift()
+                  // eslint-disable-next-line no-irregular-whitespace
+                  newTitle = `${newTitle} → ${first.value}`
+                }
 
-              frontmatter = {
-                ...frontmatter,
-                title: newTitle,
+                frontmatter = {
+                  ...frontmatter,
+                  title: newTitle,
+                }
               }
             }
           }
@@ -107,7 +104,7 @@ const flatten = (arr) =>
 
         // bundle our whole request
         const result = {
-          ...fields,
+          slug,
           ...frontmatter,
           ...rest,
           headings,
@@ -118,10 +115,10 @@ const flatten = (arr) =>
         }
 
         // handle category
-        if (children[0]) {
-          const { fields, frontmatter, ...rest } = children[0]
+        if (siblings[0]) {
+          const { slug, frontmatter, ...rest } = siblings[0]
           result.category = {
-            ...fields,
+            slug,
             ...frontmatter,
             ...rest,
           }
@@ -154,7 +151,7 @@ const runQueriesWhen = (currentBranch) => {
     console.info(
       'If you want to submit searchable data to Algolia, you need to request access keys and put them in a local .env file.'
     )
-    return true
+    return false
   }
 
   if (isCI) {

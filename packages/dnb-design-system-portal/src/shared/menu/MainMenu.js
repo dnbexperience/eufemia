@@ -233,8 +233,13 @@ export default class MainMenu extends React.PureComponent {
   }
 
   render() {
-    const { closeMenu, isOpen, isClosing, isActive, openAsMenu } =
-      this.context
+    const {
+      closeMenu,
+      isOpen,
+      isClosing,
+      isActive,
+      openAsMenu,
+    } = this.context
     const { enableOverlay } = this.props
 
     return (
@@ -249,25 +254,21 @@ export default class MainMenu extends React.PureComponent {
             }
             categories: allMdx(
               filter: {
-                fields: {
-                  slug: {
-                    in: [
-                      "uilib"
-                      "quickguide-designer"
-                      "icons"
-                      "design-system"
-                      "brand"
-                      "principles"
-                    ]
-                  }
+                slug: {
+                  in: [
+                    "uilib"
+                    "quickguide-designer"
+                    "icons"
+                    "design-system"
+                    "brand"
+                    "principles"
+                  ]
                 }
               }
             ) {
               edges {
                 node {
-                  fields {
-                    slug
-                  }
+                  slug
                   frontmatter {
                     title
                     description
@@ -287,10 +288,10 @@ export default class MainMenu extends React.PureComponent {
           categories: { edges },
         }) => {
           const items = edges.reduce(
-            (acc, { node: { fields, frontmatter } }) => {
-              acc[fields.slug] = {
-                url: `/${fields.slug}/`,
-                ...fields,
+            (acc, { node: { slug, frontmatter } }) => {
+              acc[slug] = {
+                url: `/${slug}/`,
+                slug,
                 ...frontmatter,
               }
               return acc
