@@ -139,7 +139,7 @@ const getIndexName = (currentBranch) => {
     return 'dev_eufemia_docs'
   }
 
-  if (/^(beta)$/.test(currentBranch)) {
+  if (currentBranch !== 'release') {
     return 'beta_eufemia_docs'
   }
 

@@ -7,6 +7,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const webpack = require('webpack')
 const { isCI } = require('ci-info')
+const getCurrentBranchName = require('current-git-branch')
 const {
   createNewVersion,
   createNewChangelogVersion,
@@ -181,6 +182,8 @@ try {
   //
 }
 
+const currentBranch = getCurrentBranchName()
+
 exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
   actions.setWebpackConfig({
     resolve: {
@@ -195,10 +198,16 @@ exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
     },
   })
 
-  if (isCI && prebuildExists) {
-    // Get Webpack config
-    const config = getConfig()
+  // Get Webpack config
+  const config = getConfig()
 
+  config.plugins.push(
+    new webpack.DefinePlugin({
+      'process.env.CURRENT_BRANCH': JSON.stringify(currentBranch),
+    })
+  )
+
+  if (isCI && prebuildExists) {
     // Consume the prod bundle from Eufemia (during prod build of the Portal)
     config.plugins.push(
       new webpack.NormalModuleReplacementPlugin(
@@ -211,9 +220,9 @@ exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
         }
       )
     )
-
-    actions.replaceWebpackConfig(config)
   }
+
+  actions.replaceWebpackConfig(config)
 }
 
 exports.onCreateDevServer = () => {
