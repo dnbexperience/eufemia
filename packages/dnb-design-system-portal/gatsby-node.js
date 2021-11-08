@@ -41,14 +41,14 @@ exports.createSchemaCustomization = ({ actions: { createTypes } }) => {
   createTypes(typeDefs)
 }
 
-exports.createResolvers = ({ createResolvers }) => {
+exports.createResolvers = ({ stage, createResolvers }) => {
   const resolvers = {
     Mdx: {
       siblings: {
         resolve: (source, args, context) => {
-          const slug = source.__gatsby_resolved?.slug
+          const slug = context?.slug // during dev: source?.__gatsby_resolved?.slug
 
-          if (!slug) {
+          if (typeof slug !== 'string') {
             return []
           }
 
@@ -115,6 +115,7 @@ async function createPages({ graphql, actions }) {
         component: path.resolve(__dirname, 'src/templates/mdx.js'),
         context: {
           id: node.id,
+          slug,
           prev,
           next,
         },
