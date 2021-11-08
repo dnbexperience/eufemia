@@ -215,3 +215,13 @@ exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
     actions.replaceWebpackConfig(config)
   }
 }
+
+exports.onCreateDevServer = () => {
+  // We call the "onPostBuild" because we want it to run during development
+  // Source https://github.com/NekR/self-destroying-sw/tree/master/packages/gatsby-plugin-remove-serviceworker
+  const {
+    onPostBuild,
+  } = require('gatsby-plugin-remove-serviceworker/gatsby-node.js')
+
+  onPostBuild()
+}
