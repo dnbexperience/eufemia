@@ -5,9 +5,11 @@ import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
 import classnames from 'classnames'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import Section from '../section/Section'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { useMediaQuery, SkeletonTypes } from '../../shared'
 import { extendPropsWithContext } from '../../shared/component-helper'
+import { Button } from '..'
 
 export interface BreadcrumbProps {
   /**
@@ -75,6 +77,18 @@ export interface BreadcrumbProps {
    * Default: null
    */
   isCollapsed?: boolean | string
+
+  /**
+   * Use one of the Section component style types (style_type)
+   * Default: transparent
+   */
+  styleType?: string
+
+  /**
+   * Use one of the Section component style types (style_type)
+   * Default: pistachio
+   */
+  collapsedStyleType?: string
 }
 
 export const defaultProps = {
@@ -88,6 +102,8 @@ export const defaultProps = {
   homeText: 'Home',
   backToText: 'Back to...',
   isCollapsed: true,
+  styleType: 'transparent',
+  collapsedStyleType: 'pistachio',
   data: null,
 }
 
@@ -100,12 +116,14 @@ export default function Breadcrumb(
   const {
     className,
     skeleton,
-    children,
+    children: childrenItems,
     variant,
     onClick,
     goBackText, // has a translation in context
     homeText, // has a translation in context
     backToText, // has a translation in context
+    styleType,
+    collapsedStyleType,
     isCollapsed: overrideIsCollapsed,
     data,
     href,
@@ -127,7 +145,7 @@ export default function Breadcrumb(
 
   let currentVariant = variant
   if (variant === null) {
-    if (children || data) {
+    if (childrenItems || data) {
       currentVariant = isSmallScreen ? 'collapse' : 'multiple'
     } else {
       currentVariant = 'single'
@@ -139,64 +157,73 @@ export default function Breadcrumb(
   }, [overrideIsCollapsed])
 
   const MultipleCrumbs = () => (
-    <>
+    <ol className="dnb-breadcrumb__list">
       {data?.map((breadcrumbItem, i) => (
-        <span key={`${breadcrumbItem.text}`}>
-          <BreadcrumbItem
-            variant={
-              (i == 0 && 'home') ||
-              (i == data.length - 1 && 'current') ||
-              null
-            }
-            {...breadcrumbItem}
-          />
-        </span>
+        <BreadcrumbItem
+          key={`${breadcrumbItem.text}`}
+          variant={
+            (i == 0 && 'home') ||
+            (i == data.length - 1 && 'current') ||
+            null
+          }
+          {...breadcrumbItem}
+        />
       ))}
 
-      {children}
-    </>
+      {childrenItems}
+    </ol>
   )
 
   return (
     <nav
-      className={classnames(skeletonClasses, spacingClasses, className)}
+      data-testid="breadcrumb-nav"
+      className={classnames(
+        'dnb-breadcrumb',
+        skeletonClasses,
+        spacingClasses,
+        className
+      )}
       {...props}
     >
-      <ol className="dnb-breadcrumb" data-testid="breadcrumb">
-        <span className="dnb-breadcrumb__bar">
-          {currentVariant === 'single' && (
-            <BreadcrumbItem
-              text={goBackText}
-              icon="chevron_left"
-              onClick={onClick}
-              href={href}
-            />
-          )}
-
-          {currentVariant === 'multiple' && <MultipleCrumbs />}
-
-          {currentVariant === 'collapse' && (
-            <BreadcrumbItem
-              text={backToText}
-              icon="chevron_left"
-              onClick={
-                onClick ||
-                (() => {
-                  setCollapse(!isCollapsed)
-                })
-              }
-            />
-          )}
-        </span>
-        {currentVariant === 'collapse' && !isCollapsed && (
-          <span
-            className="dnb-breadcrumb__collapse"
-            data-testid="breadcrumb-collapse"
-          >
-            <MultipleCrumbs />
-          </span>
+      <Section style_type={styleType} className="dnb-breadcrumb__bar">
+        {currentVariant === 'collapse' && (
+          <Button
+            text={backToText}
+            variant="tertiary"
+            icon="chevron_left"
+            icon_position="left"
+            onClick={
+              onClick ||
+              (() => {
+                setCollapse(!isCollapsed)
+              })
+            }
+          />
         )}
-      </ol>
+
+        {currentVariant === 'single' && (
+          <Button
+            text={goBackText}
+            variant="tertiary"
+            icon="chevron_left"
+            icon_position="left"
+            onClick={onClick}
+            href={href}
+          />
+        )}
+
+        {currentVariant === 'multiple' && <MultipleCrumbs />}
+      </Section>
+
+      {currentVariant === 'collapse' && !isCollapsed && (
+        <Section
+          style_type={collapsedStyleType}
+          className="dnb-breadcrumb__collapse"
+          data-testid="breadcrumb-collapse"
+        >
+          <MultipleCrumbs />
+        </Section>
+      )}
     </nav>
   )
 }

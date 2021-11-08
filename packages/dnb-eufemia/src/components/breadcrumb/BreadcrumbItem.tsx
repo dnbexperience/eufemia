@@ -63,13 +63,21 @@ export default function BreadcrumbItem(localProps: BreadcrumbItemProps) {
       Breadcrumb: { homeText },
     },
   } = context
+
   // Extract additional props from global context
-  const { text, href, icon, onClick, variant, skeleton, ...props } =
-    extendPropsWithContext(
-      { ...defaultProps, ...localProps },
-      defaultProps,
-      context?.BreadcrumbItem
-    )
+  const {
+    text,
+    href,
+    icon,
+    onClick,
+    variant,
+    skeleton,
+    ...props
+  } = extendPropsWithContext(
+    { ...defaultProps, ...localProps },
+    defaultProps,
+    context?.BreadcrumbItem
+  )
 
   const currentIcon =
     icon || (variant === 'home' && homeIcon) || 'chevron_left'
@@ -92,11 +100,12 @@ export default function BreadcrumbItem(localProps: BreadcrumbItemProps) {
       ) : (
         <span className="dnb-breadcrumb__item__span">
           <IconPrimary
-            data-testid="breadcrumb-item-icon"
             icon={currentIcon}
             className="dnb-breadcrumb__item__span__icon"
           />
-          <P left="1rem">{currentText}</P>
+          <P left="0" data-testid="breadcrumb-item-text">
+            {currentText}
+          </P>
         </span>
       )}
     </li>
