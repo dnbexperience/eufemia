@@ -55,6 +55,12 @@ export interface BreadcrumbProps {
   href?: string
 
   /**
+   * Every <nav> on a page needs an unique aria-label text
+   * Default: Page hierarchy
+   */
+  navText?: React.ReactNode
+
+  /**
    * Add custom 'Back' text for variant 'single'
    * Default: 'Back' or defined by Context translation
    */
@@ -98,6 +104,7 @@ export const defaultProps = {
   variant: null,
   onClick: null,
   href: null,
+  navText: 'Back',
   goBackText: 'Back',
   homeText: 'Home',
   backToText: 'Back to...',
@@ -119,6 +126,7 @@ export default function Breadcrumb(
     children: childrenItems,
     variant,
     onClick,
+    navText, // has a translation in context
     goBackText, // has a translation in context
     homeText, // has a translation in context
     backToText, // has a translation in context
@@ -176,13 +184,14 @@ export default function Breadcrumb(
 
   return (
     <nav
-      data-testid="breadcrumb-nav"
+      aria-label={navText}
       className={classnames(
         'dnb-breadcrumb',
         skeletonClasses,
         spacingClasses,
         className
       )}
+      data-testid="breadcrumb-nav"
       {...props}
     >
       <Section style_type={styleType} className="dnb-breadcrumb__bar">
