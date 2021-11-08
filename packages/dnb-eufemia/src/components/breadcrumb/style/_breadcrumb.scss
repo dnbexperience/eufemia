@@ -1,0 +1,44 @@
+/*
+* Breadcrumb component
+*
+*/
+
+.dnb-breadcrumb {
+  padding: 0;
+  list-style: none;
+  width: 100%;
+
+  &__bar {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    background-color: var(--color-white);
+    padding: var(--spacing-small) var(--spacing-small)
+      var(--spacing-x-small) var(--spacing-small);
+  }
+
+  &__item {
+    &__span {
+      display: flex;
+      align-items: center;
+      line-height: normal;
+      padding: var(--spacing-x-small) 0;
+
+      // To match the other tertiary buttons
+      &__icon {
+        margin-right: -0.5rem;
+        margin-left: calc(var(--button-icon-size) / 2);
+      }
+    }
+  }
+
+  &__collapse {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    background-color: var(--color-pistachio);
+    padding: var(--spacing-x-small) var(--spacing-large);
+  }
+}

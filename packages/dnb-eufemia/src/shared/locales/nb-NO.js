@@ -1,5 +1,10 @@
 export default {
   'nb-NO': {
+    Breadcrumb: {
+      goBackText: 'Tilbake',
+      homeText: 'Hjem',
+      backToText: 'Tilbake til...',
+    },
     DatePicker: {
       day: 'dag',
       month: 'måned',

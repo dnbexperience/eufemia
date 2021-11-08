@@ -1,5 +1,10 @@
 export default {
   'en-GB': {
+    Breadcrumb: {
+      goBackText: 'Back',
+      homeText: 'Home',
+      backToText: 'Back to...',
+    },
     DatePicker: {
       day: 'Day',
       month: 'Month',

@@ -1,0 +1,12 @@
+/*
+* DNB Breadcrumb
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+.dnb-breadcrumb {
+  @include componentReset();
+}
+
+@import './_breadcrumb.scss';
