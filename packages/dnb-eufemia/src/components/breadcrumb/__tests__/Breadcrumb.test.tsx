@@ -76,6 +76,39 @@ describe('Breadcrumb', () => {
     expect(screen.queryByTestId('breadcrumb-collapse')).toBeNull()
   })
 
+  it('will handle last item as current', () => {
+    render(
+      <Breadcrumb
+        data={[
+          { href: '/' },
+          { href: '/page1', text: 'Page 1' },
+          { href: '/page1/page2', text: 'Page 2' },
+        ]}
+      />
+    )
+
+    expect(screen.getAllByTestId('breadcrumb-item')).toHaveLength(3)
+    const lastElem = screen.getAllByTestId('breadcrumb-item').slice(-1)[0]
+    expect(
+      lastElem.querySelector('.dnb-breadcrumb__item__span').textContent
+    ).toBe('Page 2')
+  })
+
+  it('current will have aria-current="true', () => {
+    render(
+      <Breadcrumb
+        data={[
+          { href: '/' },
+          { href: '/page1', text: 'Page 1' },
+          { href: '/page1/page2', text: 'Page 2' },
+        ]}
+      />
+    )
+
+    const lastElem = screen.getAllByTestId('breadcrumb-item').slice(-1)[0]
+    expect(lastElem.getAttribute('aria-current')).toBe('true')
+  })
+
   it('variant collapse opens the collapsed content on click', () => {
     matchMedia.useMediaQuery('(max-width: 50em)')
 

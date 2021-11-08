@@ -82,10 +82,15 @@ export default function BreadcrumbItem(localProps: BreadcrumbItemProps) {
   const currentIcon =
     icon || (variant === 'home' && homeIcon) || 'chevron_left'
   const currentText = text || (variant === 'home' && homeText) || ''
+  const isInteractive = (href || onClick) && variant !== 'current'
 
   return (
-    <li className="dnb-breadcrumb__item" data-testid="breadcrumb-item">
-      {(href || onClick) && variant !== 'current' ? (
+    <li
+      className="dnb-breadcrumb__item"
+      data-testid="breadcrumb-item"
+      aria-current={variant === 'current' ? true : undefined}
+    >
+      {isInteractive ? (
         <Button
           variant="tertiary"
           href={href}
