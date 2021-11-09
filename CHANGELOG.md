@@ -1,6 +1,10 @@
+## November, 05. 2021
+
+- New component [Breadcrumb](/uilib/components/breadcrumb).
+
 ## October, 08. 2021
 
-- Default shadow (`defaultDropShadow()` and `.dnb-drop-shadow`) was changed to `0 8px 16px rgba(51, 51, 51, 0.08)` 
+- Default shadow (`defaultDropShadow()` and `.dnb-drop-shadow`) was changed to `0 8px 16px rgba(51, 51, 51, 0.08)`
 
 ## August, 17. 2021
 

@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import { gridStyle } from './GridStyle'
 import classnames from 'classnames'
@@ -18,13 +17,14 @@ const Grid = styled.div`
   padding: 1rem;
   ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })};
 `
+
 export const Wrapper = ({
-  showOverflow,
-  skipCoreStyle,
+  showOverflow = null,
+  skipCoreStyle = null,
   children,
-  className,
+  className = null,
   ...rest
-}) => (
+}: IWrapper) => (
   <React.StrictMode>
     <MainWrapper
       role="main"
@@ -40,16 +40,12 @@ export const Wrapper = ({
     </MainWrapper>
   </React.StrictMode>
 )
-Wrapper.propTypes = {
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  skipCoreStyle: PropTypes.bool,
-  showOverflow: PropTypes.bool,
-}
-Wrapper.defaultProps = {
-  className: null,
-  skipCoreStyle: null,
-  showOverflow: null,
+
+interface IWrapper {
+  className?: string;
+  skipCoreStyle?: boolean;
+  showOverflow?: boolean;
+  children: React.ReactNode;
 }
 
 export const Box = styled(Space)`

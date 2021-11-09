@@ -20,6 +20,9 @@
   &--mint-green-12::after {
     color: var(--color-mint-green-12);
   }
+  &--transparent::after {
+    color: transparent;
+  }
   &--white::after {
     color: var(--color-white);
   }

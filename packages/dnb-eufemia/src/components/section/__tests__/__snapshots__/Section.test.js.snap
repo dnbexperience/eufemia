@@ -37,6 +37,9 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 .dnb-section--mint-green-12::after {
   color: var(--color-mint-green-12); }
 
+.dnb-section--transparent::after {
+  color: transparent; }
+
 .dnb-section--white::after {
   color: var(--color-white); }
 
