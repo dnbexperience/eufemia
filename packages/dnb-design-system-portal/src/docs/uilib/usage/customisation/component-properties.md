@@ -12,7 +12,7 @@ Every [Component](/uilib/components) has its own `properties` to make them work 
 
 ## Naming
 
-Both the properties- and event names are using **snake case** to support a universal [naming convention](/uilib/development/naming), with a background and requirement on supporting [Web Components](/uilib/usage/first-steps/web-components).
+Both the properties- and event names are using **snake case** to support a universal [naming convention](/contribution/naming), with a background and requirement on supporting [Web Components](/uilib/usage/first-steps/web-components).
 
 ## Large Buttons & Icons
 

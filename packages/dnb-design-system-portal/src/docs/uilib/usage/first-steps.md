@@ -3,7 +3,7 @@ title: 'First Steps'
 order: 2
 ---
 
-import GithubLogo from 'Pages/uilib/development/assets/github-logo.js'
+import GithubLogo from 'Pages/contribution/assets/github-logo.js'
 import { Icon } from '@dnb/eufemia/src'
 
 # First Steps

@@ -16,9 +16,9 @@ import {
   UilibSvg,
   BrandSvg,
   IconsSvg,
-  PrinciplesSvg,
   QuickguideDesignerSvg,
   DesignSystemSvg,
+  DevelopmentSvg,
 } from './MainMenuGraphics'
 import { Logo, Button } from '@dnb/eufemia/src'
 import packageJson from '../../../package.json'
@@ -233,13 +233,8 @@ export default class MainMenu extends React.PureComponent {
   }
 
   render() {
-    const {
-      closeMenu,
-      isOpen,
-      isClosing,
-      isActive,
-      openAsMenu,
-    } = this.context
+    const { closeMenu, isOpen, isClosing, isActive, openAsMenu } =
+      this.context
     const { enableOverlay } = this.props
 
     return (
@@ -262,6 +257,7 @@ export default class MainMenu extends React.PureComponent {
                     "design-system"
                     "brand"
                     "principles"
+                    "contribution"
                   ]
                 }
               }
@@ -388,10 +384,10 @@ export default class MainMenu extends React.PureComponent {
                       icon={BrandSvg}
                     />
                     <Card
-                      url={items['principles']?.url}
-                      title={items['principles']?.title}
-                      about={items['principles']?.description}
-                      icon={PrinciplesSvg}
+                      url={items['contribution']?.url}
+                      title={items['contribution']?.title}
+                      about={items['contribution']?.description}
+                      icon={DevelopmentSvg}
                     />
                   </CardsWrapper>
                 </>

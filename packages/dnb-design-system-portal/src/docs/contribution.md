@@ -1,13 +1,12 @@
 ---
-title: 'Development'
-icon: 'development'
-order: 10
+title: 'Contribution Guide'
+description: 'Project overview, development guides, conventions etc.'
 ---
 
-import GithubLogo from 'Pages/uilib/development/assets/github-logo.js'
+import GithubLogo from 'Pages/contribution/assets/github-logo.js'
 import { Icon } from '@dnb/eufemia/src'
 
-# Development
+# Contribution
 
 For more development details you may have a look at the confluence pages about [development details](https://confluence.tech.dnb.no/display/EDS/).
 
@@ -23,8 +22,8 @@ For more development details you may have a look at the confluence pages about [
 
 Many defaults are given by the linting and prettier configurations. But to keep the code base consistent and clean, we have set a certain set of rules:
 
-- Use [git message decoration](/uilib/development/commit) to ensure correct publish versioning.
-- Use [naming conventions](/uilib/development/naming) when possible.
+- Use [git message decoration](/contribution/commit) to ensure correct publish versioning.
+- Use [naming conventions](/contribution/naming) when possible.
 - Use best practices for [CSS style structures](/uilib/usage/best-practices/for-styling#structure).
 - Use [nested CSS class selectors](https://medium.com/@andrew_barnes/bem-and-sass-a-perfect-match-5e48d9bc3894) with SASS (SCSS) and [BEM](http://getbem.com/naming/) (Block Element Modifier).
 - Use [React Hooks](https://reactjs.org/docs/hooks-overview.html) over React class components when possible.
@@ -65,12 +64,12 @@ LINT_STAGED=1
 
 ## Other development topics
 
-- [Changes](/uilib/development/changes)
-- [Commit](/uilib/development/commit)
-- [Deploy](/uilib/development/deploy)
-- [Library](/uilib/development/ui-lib)
-- [Portal](/uilib/development/portal)
-- [Naming](/uilib/development/naming)
-- [Icons](/uilib/development/icons)
-- [Types](/uilib/development/types)
-- [Issues](/uilib/development/issues)
+- [Changes](/contribution/changes)
+- [Commit](/contribution/commit)
+- [Deploy](/contribution/deploy)
+- [Library](/contribution/ui-lib)
+- [Portal](/contribution/portal)
+- [Naming](/contribution/naming)
+- [Icons](/contribution/icons)
+- [Types](/contribution/types)
+- [Issues](/contribution/issues)

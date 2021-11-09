@@ -1,7 +1,5 @@
 ---
 title: 'Icons Library'
-draft: true
-order: 6
 ---
 
 # Icons Library development

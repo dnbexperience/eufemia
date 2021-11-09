@@ -1,7 +1,5 @@
 ---
 title: 'TypeScript Types'
-draft: true
-order: 7
 ---
 
 # TypeScript Types

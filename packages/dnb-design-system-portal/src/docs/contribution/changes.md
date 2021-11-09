@@ -17,7 +17,7 @@ Here are typical steps when making changes:
 1. Runt the visual test against it: `yarn test:screenshots`
 1. Check the result / reports, located in: `open ./packages/dnb-eufemia/jest-screenshot-report/index.html`
 1. Update eventually new or valid PNG snapshots by running: `yarn test:screenshots:update`
-1. [Commit your change](/uilib/development/commit) and create a Pull Request to the `origin/main` branch.
+1. [Commit your change](/contribution/commit) and create a Pull Request to the `origin/main` branch.
 
 ## Get started on making new Components, Elements and Extensions
 
