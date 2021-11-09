@@ -3,7 +3,11 @@
  *
  */
 
+const getCurrentBranchName = require('current-git-branch')
+const currentBranch = getCurrentBranchName()
+
 const pathPrefix = '/'
+
 const siteMetadata = {
   title: 'Eufemia - DNB Design System',
   name: 'Eufemia',
@@ -11,6 +15,7 @@ const siteMetadata = {
     'Eufemia Design System is the go to place for all who has to design, develop and make digital WEB applications for DNB.',
   repoUrl: 'https://github.com/dnbexperience/eufemia/',
 }
+
 const plugins = [
   {
     resolve: 'gatsby-plugin-gatsby-cloud',
@@ -101,7 +106,10 @@ const plugins = [
   },
   'gatsby-plugin-sass',
   'gatsby-plugin-emotion',
-  {
+].filter(Boolean)
+
+if (currentBranch === 'release') {
+  plugins.push({
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.app/offline
     resolve: 'gatsby-plugin-offline',
@@ -111,8 +119,8 @@ const plugins = [
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
       },
     },
-  },
-].filter(Boolean)
+  })
+}
 
 // used for algolia search
 const queries = require('./src/uilib/search/searchQuery')

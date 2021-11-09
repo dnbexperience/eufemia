@@ -3,7 +3,7 @@
  *
  */
 
-const { getCurrentBranchName } = require('../utils/git')
+const getCurrentBranchName = require('current-git-branch')
 const { makeSlug } = require('../utils/slug')
 const { isCI } = require('ci-info')
 
