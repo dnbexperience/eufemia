@@ -13,6 +13,21 @@ import { Provider, Context } from '@dnb/eufemia/src/shared'
 import enUS from '@dnb/eufemia/src/shared/locales/en-US'
 import stylisPlugin from '@dnb/eufemia/src/style/stylis'
 import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
+import { isCI } from 'ci-info'
+
+/**
+ * Import Eufemia Styles
+ * Use require because Webpack does not import styles after we change /src to /build
+ */
+if (isCI && process.env.PREBUILD_EXISTS) {
+  require('@dnb/eufemia/build/style/dnb-ui-extensions.min.css')
+  require('@dnb/eufemia/build/style/dnb-ui-core.min.css')
+  require('@dnb/eufemia/build/style/dnb-ui-components.min.css')
+  require('@dnb/eufemia/build/style/themes/theme-ui/dnb-theme-ui.min.css')
+} else {
+  require('@dnb/eufemia/src/style/extensions')
+  require('@dnb/eufemia/src/style')
+}
 
 import cssVars from 'css-vars-ponyfill'
 

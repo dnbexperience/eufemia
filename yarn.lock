@@ -12070,7 +12070,6 @@ __metadata:
     stylelint-config-styled-components: 0.1.1
     stylelint-processor-styled-components: 1.10.0
     svg-react-loader: 0.4.6
-    webpack: 5.61.0
     yarn-plugin-ignore-install-options: 1.0.2
   languageName: unknown
   linkType: soft
@@ -33453,7 +33452,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:5.61.0, webpack@npm:^5.58.1":
+"webpack@npm:^5.58.1":
   version: 5.61.0
   resolution: "webpack@npm:5.61.0"
   dependencies:

@@ -5,7 +5,6 @@
 
 const fs = require('fs-extra')
 const path = require('path')
-const webpack = require('webpack')
 const { isCI } = require('ci-info')
 const getCurrentBranchName = require('current-git-branch')
 const {
@@ -185,8 +184,8 @@ try {
 
 const currentBranch = getCurrentBranchName()
 
-exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
-  actions.setWebpackConfig({
+exports.onCreateWebpackConfig = ({ actions, plugins }) => {
+  const config = {
     resolve: {
       alias: {
         Root: path.resolve(__dirname),
@@ -197,33 +196,26 @@ exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
         Parts: path.resolve(__dirname, 'src/shared/parts'),
       },
     },
-  })
-
-  // Get Webpack config
-  const config = getConfig()
-
-  config.plugins.push(
-    new webpack.DefinePlugin({
-      'process.env.CURRENT_BRANCH': JSON.stringify(currentBranch),
-    })
-  )
+    plugins: [
+      plugins.define({
+        'process.env.CURRENT_BRANCH': JSON.stringify(currentBranch),
+        'process.env.PREBUILD_EXISTS': JSON.stringify(prebuildExists),
+      }),
+    ],
+  }
 
   if (isCI && prebuildExists) {
-    // Consume the prod bundle from Eufemia (during prod build of the Portal)
     config.plugins.push(
-      new webpack.NormalModuleReplacementPlugin(
-        /@dnb\/eufemia\/src/,
-        (resource) => {
-          resource.request = resource.request.replace(
-            /@dnb\/eufemia\/src(.*)/,
-            '@dnb/eufemia/build$1'
-          )
-        }
-      )
+      plugins.normalModuleReplacement(/@dnb\/eufemia\/src/, (resource) => {
+        resource.request = resource.request.replace(
+          /@dnb\/eufemia\/src(.*)/,
+          '@dnb/eufemia/build$1'
+        )
+      })
     )
   }
 
-  actions.replaceWebpackConfig(config)
+  actions.setWebpackConfig(config)
 }
 
 exports.onCreateDevServer = () => {
