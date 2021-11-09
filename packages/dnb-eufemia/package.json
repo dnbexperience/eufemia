@@ -187,7 +187,6 @@
     "jest-screenshot": "0.3.5",
     "jest-tobetype": "1.2.3",
     "lint-staged": "11.2.6",
-    "live-server": "1.2.1",
     "lockfile-lint": "4.6.2",
     "lodash.isequal": "4.5.0",
     "lodash.isequalwith": "4.4.0",
