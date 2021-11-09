@@ -207,6 +207,7 @@ export default function Breadcrumb(
                 setCollapse(!isCollapsed)
               })
             }
+            aria-expanded={!isCollapsed}
           />
         )}
 
