@@ -29,7 +29,8 @@
   },
   "devDependencies": {
     "husky": "7.0.4",
-    "node-gyp": "8.4.0"
+    "node-gyp": "8.4.0",
+    "typescript": "4.4.4"
   },
   "resolutions": {
     "svg2vectordrawable/svgo": "2.3.0",
