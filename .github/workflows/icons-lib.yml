@@ -1,0 +1,86 @@
+name: Icons Library
+
+on:
+  push:
+    branches:
+      - 'eufemia-icons'
+
+jobs:
+  action:
+    name: Fetch and Build Icons
+
+    runs-on: macos-latest
+
+    env:
+      GH_EMAIL: ${{ secrets.GH_EMAIL }}
+      GH_NAME: ${{ secrets.GH_NAME }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+      FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
+      ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+      ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
+      ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_SEARCH_KEY }}
+      ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+      CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.17.0
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+
+      - name: Use yarn cache
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        if: steps.modules-cache.outputs.cache-hit != 'true'
+        run: yarn install --immutable
+
+      - name: Icons fetch and prebuild
+        run: yarn workspace @dnb/eufemia prebuild:figma:ci
+
+      - name: Prebuild Library
+        run: yarn workspace @dnb/eufemia prebuild:ci
+
+      - name: Use Gatsby cache
+        uses: actions/cache@v2
+        id: gatsby-cache
+        with:
+          path: |
+            ./packages/dnb-design-system-portal/.cache
+            ./packages/dnb-design-system-portal/public
+          key: ${{ runner.os }}-gatsby-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-gatsby-
+
+      - name: Build portal
+        run: yarn workspace dnb-design-system-portal build
+
+      - name: Icons postbuild
+        run: yarn workspace @dnb/eufemia postbuild:figma:ci
+
+      - name: Slack
+        uses: 8398a7/action-slack@v3
+        with:
+          channel: '#eufemia-dev'
+          status: ${{ job.status }}
+          fields: author,ref,action,workflow
+          github_base_url: https://github.com/
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        if: always()
