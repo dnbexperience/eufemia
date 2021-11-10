@@ -6,8 +6,8 @@ order: 8
 showTabs: true
 ---
 
-import InputInfo from 'Pages/uilib/components/input/info'
-import InputDemos from 'Pages/uilib/components/input/demos'
+import InputInfo from 'Docs/uilib/components/input/info'
+import InputDemos from 'Docs/uilib/components/input/demos'
 
 <InputInfo />
 <InputDemos />

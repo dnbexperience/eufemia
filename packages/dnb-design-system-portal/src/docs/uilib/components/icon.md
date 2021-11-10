@@ -8,8 +8,8 @@ hideTabs:
   - title: Events
 ---
 
-import IconInfo from 'Pages/uilib/components/icon/info'
-import IconDemos from 'Pages/uilib/components/icon/demos'
+import IconInfo from 'Docs/uilib/components/icon/info'
+import IconDemos from 'Docs/uilib/components/icon/demos'
 
 <IconInfo />
 <IconDemos />

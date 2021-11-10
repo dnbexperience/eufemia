@@ -10,8 +10,8 @@ redirect_from:
   - /uilib/components/status-message
 ---
 
-import FormStatusInfo from 'Pages/uilib/components/form-status/info'
-import FormStatusDemos from 'Pages/uilib/components/form-status/demos'
+import FormStatusInfo from 'Docs/uilib/components/form-status/info'
+import FormStatusDemos from 'Docs/uilib/components/form-status/demos'
 
 <FormStatusInfo />
 <FormStatusDemos />

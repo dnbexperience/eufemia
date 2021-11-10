@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "Pages/*": ["./packages/dnb-design-system-portal/src/docs/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}

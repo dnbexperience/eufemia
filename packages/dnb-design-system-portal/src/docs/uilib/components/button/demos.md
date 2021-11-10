@@ -19,7 +19,7 @@ ButtonSignalLarge,
 ButtonIcon,
 ButtonStretch,
 TertiaryWithNoIcon,
-} from 'Pages/uilib/components/button/Examples'
+} from 'Docs/uilib/components/button/Examples'
 
 ## Demos
 

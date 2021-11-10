@@ -5,8 +5,8 @@ order: 18
 showTabs: true
 ---
 
-import ToggleButtonInfo from 'Pages/uilib/components/toggle-button/info'
-import ToggleButtonDemos from 'Pages/uilib/components/toggle-button/demos'
+import ToggleButtonInfo from 'Docs/uilib/components/toggle-button/info'
+import ToggleButtonDemos from 'Docs/uilib/components/toggle-button/demos'
 
 <ToggleButtonInfo />
 <ToggleButtonDemos />

@@ -5,7 +5,7 @@ icon: 'getting_started'
 order: 2
 ---
 
-import WelcomeAdvice from 'Pages/welcome-advice.md'
+import WelcomeAdvice from 'Docs/welcome-advice.md'
 import { Button } from '@dnb/eufemia/src'
 
 # Getting Started

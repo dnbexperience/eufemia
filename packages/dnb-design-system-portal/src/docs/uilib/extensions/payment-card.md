@@ -18,8 +18,8 @@ redirect_from:
   - /uilib/patterns/payment-card
 ---
 
-import PaymentCardInfo from 'Pages/uilib/extensions/payment-card/info'
-import PaymentCardDemos from 'Pages/uilib/extensions/payment-card/demos'
+import PaymentCardInfo from 'Docs/uilib/extensions/payment-card/info'
+import PaymentCardDemos from 'Docs/uilib/extensions/payment-card/demos'
 
 <PaymentCardInfo />
 <PaymentCardDemos />

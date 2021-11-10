@@ -3,7 +3,7 @@ title: 'The Basics'
 order: 2
 ---
 
-import ComponentBox from 'Tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 <!-- They don't rely on any global style-sheets such as **normalize.css** beside the main DNB Stylesheet. -->
 

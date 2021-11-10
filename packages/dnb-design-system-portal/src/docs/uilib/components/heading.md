@@ -8,8 +8,8 @@ hideTabs:
   - title: Events
 ---
 
-import HeadingInfo from 'Pages/uilib/components/heading/info'
-import HeadingDemos from 'Pages/uilib/components/heading/demos'
+import HeadingInfo from 'Docs/uilib/components/heading/info'
+import HeadingDemos from 'Docs/uilib/components/heading/demos'
 
 <HeadingInfo />
 <HeadingDemos />

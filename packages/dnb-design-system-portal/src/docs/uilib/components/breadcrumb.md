@@ -6,8 +6,8 @@ order: 2
 showTabs: true
 ---
 
-import BreadcrumbInfo from 'Pages/uilib/components/breadcrumb/info'
-import BreadcrumbDemos from 'Pages/uilib/components/breadcrumb/demos'
+import BreadcrumbInfo from 'Docs/uilib/components/breadcrumb/info'
+import BreadcrumbDemos from 'Docs/uilib/components/breadcrumb/demos'
 
 <BreadcrumbInfo />
 <BreadcrumbDemos />

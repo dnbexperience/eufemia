@@ -13,7 +13,7 @@ TextareaExampleFormStatus,
 TextareaExampleError,
 TextareaExampleDisabled,
 TextareaExampleSuffix
-} from 'Pages/uilib/components/textarea/Examples'
+} from 'Docs/uilib/components/textarea/Examples'
 
 ## Demos
 

@@ -2,8 +2,8 @@
 title: 'Icons'
 ---
 
-import ComponentBox from 'Tags/ComponentBox'
-import Beach from 'Pages/uilib/usage/accessibility/assets/beach'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import Beach from 'Docs/uilib/usage/accessibility/assets/beach'
 
 # Accessibility of Icons
 

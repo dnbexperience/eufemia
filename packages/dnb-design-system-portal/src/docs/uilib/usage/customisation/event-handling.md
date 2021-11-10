@@ -3,7 +3,7 @@ title: 'Event Handling'
 order: 2
 ---
 
-import ComponentBox from 'Tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 # Event Handling
 

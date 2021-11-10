@@ -1,5 +1,5 @@
-import InlineImg from 'Tags/Img'
-import AngularAppScreenshot from 'Pages/uilib/usage/first-steps/assets/example-angular-1-screenshot.png'
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
+import AngularAppScreenshot from 'Docs/uilib/usage/first-steps/assets/example-angular-1-screenshot.png'
 
 # Angular
 

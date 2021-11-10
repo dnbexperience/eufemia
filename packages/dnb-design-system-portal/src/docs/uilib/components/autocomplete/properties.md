@@ -2,7 +2,7 @@
 showTabs: true
 ---
 
-import DrawerListProperties from 'Pages/uilib/components/fragments/drawer-list/properties'
+import DrawerListProperties from 'Docs/uilib/components/fragments/drawer-list/properties'
 
 ## Properties
 

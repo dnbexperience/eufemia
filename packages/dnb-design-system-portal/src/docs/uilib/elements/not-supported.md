@@ -1,4 +1,4 @@
-import CodeBlock from 'Tags/CodeBlock'
+import CodeBlock from 'dnb-design-system-portal/src/shared/tags/CodeBlock'
 
 ## Missing HTML Elements
 

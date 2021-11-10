@@ -3,9 +3,9 @@ title: 'Inspiration'
 icon: 'inspiration'
 ---
 
-import InlineImg from 'Tags/Img'
-import InspirationSkadeforsikring from 'Pages/quickguide-designer/assets/inspiration-skadeforsikring-guides.svg'
-import InspirationSkadeforsikringNoGuides from 'Pages/quickguide-designer/assets/inspiration-skadeforsikring.svg'
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
+import InspirationSkadeforsikring from 'Docs/quickguide-designer/assets/inspiration-skadeforsikring-guides.svg'
+import InspirationSkadeforsikringNoGuides from 'Docs/quickguide-designer/assets/inspiration-skadeforsikring.svg'
 
 # UI inspiration
 

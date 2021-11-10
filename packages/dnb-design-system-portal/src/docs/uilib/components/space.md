@@ -7,8 +7,8 @@ hideTabs:
   - title: Events
 ---
 
-import SpaceInfo from 'Pages/uilib/components/space/info'
-import SpaceDemos from 'Pages/uilib/components/space/demos'
+import SpaceInfo from 'Docs/uilib/components/space/info'
+import SpaceDemos from 'Docs/uilib/components/space/demos'
 
 <SpaceInfo />
 <SpaceDemos />

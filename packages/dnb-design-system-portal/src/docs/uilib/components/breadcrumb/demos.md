@@ -8,7 +8,7 @@ BreadcrumbMultiple,
 BreadcrumbMultipleData,
 BreadcrumbVariants,
 BreadcrumbCollapseOpen
-} from 'Pages/uilib/components/breadcrumb/Examples'
+} from 'Docs/uilib/components/breadcrumb/Examples'
 
 ## Demos
 

@@ -4,7 +4,7 @@ description: 'List of all Eufemia icons.'
 order: 1
 ---
 
-import ListAllIcons from "Parts/icons/ListAllIcons";
+import ListAllIcons from "dnb-design-system-portal/src/shared/parts/icons/ListAllIcons";
 
 # Icons
 

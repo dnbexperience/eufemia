@@ -7,8 +7,8 @@ redirect_from:
   - /uilib/components/progress
 ---
 
-import ProgressIndicatorInfo from 'Pages/uilib/components/progress-indicator/info'
-import ProgressIndicatorDemos from 'Pages/uilib/components/progress-indicator/demos'
+import ProgressIndicatorInfo from 'Docs/uilib/components/progress-indicator/info'
+import ProgressIndicatorDemos from 'Docs/uilib/components/progress-indicator/demos'
 
 <ProgressIndicatorInfo />
 <ProgressIndicatorDemos />

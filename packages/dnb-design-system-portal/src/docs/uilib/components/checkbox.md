@@ -5,8 +5,8 @@ order: 2
 showTabs: true
 ---
 
-import CheckboxInfo from 'Pages/uilib/components/checkbox/info'
-import CheckboxDemos from 'Pages/uilib/components/checkbox/demos'
+import CheckboxInfo from 'Docs/uilib/components/checkbox/info'
+import CheckboxDemos from 'Docs/uilib/components/checkbox/demos'
 
 <CheckboxInfo />
 <CheckboxDemos />

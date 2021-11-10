@@ -2,7 +2,7 @@
 showTabs: true
 ---
 
-import InlineImg from 'Tags/Img'
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
 import ModalExample from './assets/modal-example.svg'
 import ModalExampleButtons from './assets/modal-example-buttons.svg'
 

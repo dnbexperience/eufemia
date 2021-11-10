@@ -3,7 +3,7 @@ title: 'Provider / Context'
 order: 9
 ---
 
-import ProviderInfo from 'Pages/uilib/usage/customisation/provider-info.md'
+import ProviderInfo from 'Docs/uilib/usage/customisation/provider-info.md'
 
 # Provider / Context
 

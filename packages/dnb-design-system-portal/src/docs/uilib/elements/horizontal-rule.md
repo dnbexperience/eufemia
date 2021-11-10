@@ -4,7 +4,7 @@ redirect_from:
   - /uilib/elements/hr
 ---
 
-import ComponentBox from 'Tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 ## Horizontal Rule
 

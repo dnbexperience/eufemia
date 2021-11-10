@@ -1,4 +1,4 @@
-import ComponentBox from 'Tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 ## Unstyled HTML Elements
 

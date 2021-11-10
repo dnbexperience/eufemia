@@ -5,8 +5,8 @@ showTabs: true
 status: null
 ---
 
-import DrawerListInfo from 'Pages/uilib/components/fragments/drawer-list/info'
-import DrawerListDemos from 'Pages/uilib/components/fragments/drawer-list/demos'
+import DrawerListInfo from 'Docs/uilib/components/fragments/drawer-list/info'
+import DrawerListDemos from 'Docs/uilib/components/fragments/drawer-list/demos'
 
 <DrawerListInfo />
 <DrawerListDemos />

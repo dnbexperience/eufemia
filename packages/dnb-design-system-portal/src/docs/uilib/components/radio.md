@@ -5,8 +5,8 @@ order: 12
 showTabs: true
 ---
 
-import RadioInfo from 'Pages/uilib/components/radio/info'
-import RadioDemos from 'Pages/uilib/components/radio/demos'
+import RadioInfo from 'Docs/uilib/components/radio/info'
+import RadioDemos from 'Docs/uilib/components/radio/demos'
 
 <RadioInfo />
 <RadioDemos />

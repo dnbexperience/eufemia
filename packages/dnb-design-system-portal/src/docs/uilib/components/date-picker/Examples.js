@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import ComponentBox from 'Src/shared/tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import addDays from 'date-fns/addDays'
 import startOfMonth from 'date-fns/startOfMonth'

@@ -3,7 +3,7 @@ title: 'Colors'
 icon: 'colors'
 ---
 
-import ColorsTable from 'Pages/quickguide-designer/colors-table.md'
+import ColorsTable from 'Docs/quickguide-designer/colors-table.md'
 
 # Colors
 

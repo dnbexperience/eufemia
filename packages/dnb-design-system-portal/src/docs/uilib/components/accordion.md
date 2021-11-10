@@ -6,8 +6,8 @@ showTabs: true
 status: 'new'
 ---
 
-import AccordionInfo from 'Pages/uilib/components/accordion/info'
-import AccordionDemos from 'Pages/uilib/components/accordion/demos'
+import AccordionInfo from 'Docs/uilib/components/accordion/info'
+import AccordionDemos from 'Docs/uilib/components/accordion/demos'
 
 <AccordionInfo />
 <AccordionDemos />

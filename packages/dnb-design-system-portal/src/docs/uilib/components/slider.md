@@ -5,8 +5,8 @@ order: 13
 showTabs: true
 ---
 
-import SliderInfo from 'Pages/uilib/components/slider/info'
-import SliderDemos from 'Pages/uilib/components/slider/demos'
+import SliderInfo from 'Docs/uilib/components/slider/info'
+import SliderDemos from 'Docs/uilib/components/slider/demos'
 
 <SliderInfo />
 <SliderDemos />

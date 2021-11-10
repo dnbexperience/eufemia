@@ -9,7 +9,7 @@ CheckboxWithError,
 CheckboxSuffix,
 CheckboxDifferentSizes,
 CheckboxDisabled
-} from 'Pages/uilib/components/checkbox/Examples'
+} from 'Docs/uilib/components/checkbox/Examples'
 
 ## Demos
 

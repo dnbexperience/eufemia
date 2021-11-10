@@ -3,7 +3,7 @@ title: 'Bundles: UMD and ESM (mjs)'
 order: 10
 ---
 
-import ComponentBox from 'Tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 # Bundles
 

@@ -7,8 +7,8 @@ hideTabs:
   - title: Events
 ---
 
-import SectionInfo from 'Pages/uilib/components/section/info'
-import SectionDemos from 'Pages/uilib/components/section/demos'
+import SectionInfo from 'Docs/uilib/components/section/info'
+import SectionDemos from 'Docs/uilib/components/section/demos'
 
 <SectionInfo />
 <SectionDemos />

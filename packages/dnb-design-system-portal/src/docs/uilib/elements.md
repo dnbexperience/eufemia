@@ -4,18 +4,18 @@ icon: 'elements'
 order: 6
 ---
 
-import CodeBlock from 'Tags/CodeBlock'
-import ComponentBox from 'Tags/ComponentBox'
+import CodeBlock from 'dnb-design-system-portal/src/shared/tags/CodeBlock'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import { Link } from '@dnb/eufemia/src/elements'
-import NotSupportedElements from 'Pages/uilib/elements/not-supported'
-import UnstyledElements from 'Pages/uilib/elements/unstyled'
-import Anchor from 'Pages/uilib/elements/anchor'
-import Blockquote from 'Pages/uilib/elements/blockquote'
-import Tables from 'Pages/uilib/elements/tables'
-import Lists from 'Pages/uilib/elements/lists'
-import Image from 'Pages/uilib/elements/image'
-import Hr from 'Pages/uilib/elements/horizontal-rule'
-import Code from 'Pages/uilib/elements/code'
+import NotSupportedElements from 'Docs/uilib/elements/not-supported'
+import UnstyledElements from 'Docs/uilib/elements/unstyled'
+import Anchor from 'Docs/uilib/elements/anchor'
+import Blockquote from 'Docs/uilib/elements/blockquote'
+import Tables from 'Docs/uilib/elements/tables'
+import Lists from 'Docs/uilib/elements/lists'
+import Image from 'Docs/uilib/elements/image'
+import Hr from 'Docs/uilib/elements/horizontal-rule'
+import Code from 'Docs/uilib/elements/code'
 
 # HTML Elements
 

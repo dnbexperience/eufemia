@@ -16,7 +16,7 @@ FormRowWrap,
 FormRowLegendUsage,
 FormRowInheritContext,
 FormRowDifferentDirections,
-} from 'Pages/uilib/components/form-row/Examples'
+} from 'Docs/uilib/components/form-row/Examples'
 
 ## Demos
 

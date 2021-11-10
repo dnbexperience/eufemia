@@ -2,7 +2,7 @@
 title: 'Tables'
 ---
 
-import ComponentBox from 'Tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import { css, Global } from '@emotion/react'
 
 <Global styles={css`body{ .dnb-app-content { overflow: visible; } }`} />

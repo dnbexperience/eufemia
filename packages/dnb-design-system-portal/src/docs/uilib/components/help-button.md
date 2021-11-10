@@ -6,8 +6,8 @@ order: 4
 showTabs: true
 ---
 
-import HelpButtonInfo from 'Pages/uilib/components/help-button/info'
-import HelpButtonDemos from 'Pages/uilib/components/help-button/demos'
+import HelpButtonInfo from 'Docs/uilib/components/help-button/info'
+import HelpButtonDemos from 'Docs/uilib/components/help-button/demos'
 
 <HelpButtonInfo />
 <HelpButtonDemos />

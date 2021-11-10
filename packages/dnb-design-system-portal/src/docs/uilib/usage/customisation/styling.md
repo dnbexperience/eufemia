@@ -4,9 +4,9 @@ description: 'To ensure flexibility and the possibility of theming, the DNB CSS 
 order: 3
 ---
 
-import InlineImg from 'Tags/Img'
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
 import { Icon } from '@dnb/eufemia/src'
-import CSSDiagram from 'Pages/uilib/usage/customisation/assets/css_structure_diagram.js'
+import CSSDiagram from 'Docs/uilib/usage/customisation/assets/css_structure_diagram.js'
 
 # CSS Styles
 

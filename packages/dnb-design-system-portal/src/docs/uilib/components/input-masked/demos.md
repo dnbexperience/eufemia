@@ -10,8 +10,8 @@ InputMaskedExampleCustomNumberMask,
 InputMaskedExampleNumberMask,
 InputMaskedExamplePrefix,
 InputMaskedExamplePhone
-} from 'Pages/uilib/components/input-masked/Examples'
-import ChangeLocale from 'Src/core/ChangeLocale'
+} from 'Docs/uilib/components/input-masked/Examples'
+import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
 
 ## Demos
 

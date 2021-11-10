@@ -14,8 +14,8 @@ NumberNationalIdentification,
 NumberOrganization,
 NumberLocales,
 NumberSpacing,
-} from 'Pages/uilib/components/number-format/Examples'
-import ChangeLocale from 'Src/core/ChangeLocale'
+} from 'Docs/uilib/components/number-format/Examples'
+import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
 
 ## Demos
 

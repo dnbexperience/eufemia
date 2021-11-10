@@ -7,8 +7,8 @@ hideTabs:
   - title: Events
 ---
 
-import FormLabelInfo from 'Pages/uilib/components/form-label/info'
-import FormLabelDemos from 'Pages/uilib/components/form-label/demos'
+import FormLabelInfo from 'Docs/uilib/components/form-label/info'
+import FormLabelDemos from 'Docs/uilib/components/form-label/demos'
 
 <FormLabelInfo />
 <FormLabelDemos />
