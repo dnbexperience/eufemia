@@ -88,7 +88,12 @@ jobs:
 
       - name: Run visual tests
         if: runner.os == 'macOS' &&
-          (!contains(github.ref, '/release') && !contains(github.ref, '/main') && !contains(github.ref, '/portal') && !contains(github.ref, '/eufemia-icons') && !contains(github.ref, '/beta') && !contains(github.ref, '/alpha'))
+          github.ref != 'refs/heads/release' &&
+          github.ref != 'refs/heads/main' &&
+          github.ref != 'refs/heads/portal' &&
+          github.ref != 'refs/heads/eufemia-icons' &&
+          github.ref != 'refs/heads/beta' &&
+          github.ref != 'refs/heads/alpha'
         run: yarn workspace @dnb/eufemia test:screenshots:ci
 
       - name: Icons postbuild
@@ -96,29 +101,29 @@ jobs:
         run: yarn workspace @dnb/eufemia postbuild:figma:ci
 
       - name: Lib postbuild
-        if: (contains(github.ref, '/main') ||
-          contains(github.ref, '/release') ||
-          contains(github.ref, '/beta') ||
-          contains(github.ref, '/alpha'))
+        if: (github.ref == 'refs/heads/main' ||
+          github.ref == 'refs/heads/release' ||
+          github.ref == 'refs/heads/beta' ||
+          github.ref == 'refs/heads/alpha')
         run: yarn workspace @dnb/eufemia postbuild:ci
 
       # - name: Deploy portal (drone.io)
-      #   if: (contains(github.ref, '/release') ||
-      #     contains(github.ref, '/portal'))
+      #   if: (github.ref == 'refs/heads/release' ||
+      #     github.ref == 'refs/heads/portal')
       #   run: yarn workspace dnb-design-system-portal deploy-ci
 
       - name: Deploy portal
-        if: (contains(github.ref, '/release') ||
-          contains(github.ref, '/portal'))
+        if: (github.ref == 'refs/heads/release' ||
+          github.ref == 'refs/heads/portal')
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.GH_TOKEN }}
           publish_dir: ./packages/dnb-design-system-portal/public
 
       - name: Release
-        if: (contains(github.ref, '/release') ||
-          contains(github.ref, '/beta') ||
-          contains(github.ref, '/alpha'))
+        if: (github.ref == 'refs/heads/release' ||
+          github.ref == 'refs/heads/beta' ||
+          github.ref == 'refs/heads/alpha')
         run: yarn workspace @dnb/eufemia publish:ci
 
       - name: Slack

@@ -4,8 +4,8 @@ menuTitle: 'Change log'
 description: 'Change log, contact, etc.'
 ---
 
-import ChangeLog from 'Root/../../CHANGELOG.md'
-import ReleasesInfo from 'Pages/design-system/changelog/info-about-releases'
+import ChangeLog from 'dnb-design-system-portal/../../CHANGELOG.md'
+import ReleasesInfo from './design-system/changelog/info-about-releases'
 
 # Change log of Eufemia
 

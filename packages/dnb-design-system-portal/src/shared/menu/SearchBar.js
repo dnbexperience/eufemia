@@ -15,7 +15,7 @@ import { isCI } from 'ci-info'
 
 const indexName =
   isCI && process.env.NODE_ENV === 'production'
-    ? typeof window !== 'undefined' && /-beta/.test(window.location.href)
+    ? process.env.CURRENT_BRANCH !== 'release'
       ? 'beta_eufemia_docs'
       : 'prod_eufemia_docs'
     : 'dev_eufemia_docs'

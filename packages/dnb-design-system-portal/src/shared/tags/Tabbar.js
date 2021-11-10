@@ -6,7 +6,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from '@emotion/react'
-import { Link, parsePath, navigate } from 'gatsby'
+import { Link, navigate } from 'gatsby'
 import { Button, Tabs } from '@dnb/eufemia/src/components'
 import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons/secondary_icons'
 import AutoLinkHeader from './AutoLinkHeader'
@@ -20,39 +20,36 @@ export default function Tabbar({
   defaultTabs,
   children,
 }) {
-  const path = parsePath(
-    cleanPath([location.pathname, location.search, location.hash].join(''))
-  )
-
   const [wasFullscreen, setFullscreen] = React.useState(
-    /fullscreen/.test(path.search)
+    /fullscreen/.test(location.search)
   )
-  const fullscreenQuery = () => (wasFullscreen ? '?fullscreen' : '')
 
   const openFullscreen = () => {
     setFullscreen(true)
-    navigate(
-      cleanPath(
-        [
-          path.pathname,
-          `?fullscreen&${path.search.replace('?', '')}`,
-          path.hash,
-        ].join('')
-      )
-    )
+
+    const path = [
+      location.pathname,
+      location.search ? location.search + '&' : '?',
+      'fullscreen',
+      location.hash,
+    ].join('')
+
+    navigate(path)
   }
+
+  const cleanFullscreen = (s) =>
+    s.replace(/\?fullscreen$|&fullscreen|fullscreen|\?$/, '')
 
   const quitFullscreen = () => {
     setFullscreen(false)
-    navigate(
-      cleanPath(
-        [
-          path.pathname,
-          path.search.replace('fullscreen', ''),
-          path.hash,
-        ].join('')
-      )
-    )
+
+    const path = [
+      location.pathname,
+      cleanFullscreen(location.search),
+      location.hash,
+    ].join('')
+
+    navigate(path)
   }
 
   const preparedTabs = React.useMemo(() => {
@@ -63,16 +60,14 @@ export default function Tabbar({
           ({ title }) => !hideTabs?.find(({ title: t }) => t === title)
         )
         .map(({ key, ...rest }) => {
-          const hasPlaceholderChar = key.includes('$1')
-          if (hasPlaceholderChar) {
-            key = cleanPath(
-              key.replace(/\$1$/, [fullscreenQuery(), path.hash].join(''))
-            )
-          } else {
-            key = cleanPath(
-              [rootPath, key, fullscreenQuery(), path.hash].join('')
-            )
-          }
+          const search = cleanFullscreen(location.search)
+          key = [
+            rootPath,
+            key.replace(rootPath, '').replace(/(\/+)$/, ''),
+            search,
+            wasFullscreen ? (search ? '&' : '?') + 'fullscreen' : '',
+            location.hash,
+          ].join('')
 
           return { ...rest, key, to: key }
         })
@@ -80,9 +75,9 @@ export default function Tabbar({
   }, [wasFullscreen]) // eslint-disable-line
 
   const selectedKey = [
-    path.pathname.replace(/(\/)$/, ''),
-    path.search,
-    path.hash,
+    location.pathname.replace(/(\/+)$/, ''),
+    location.search,
+    location.hash,
   ].join('')
 
   return (
@@ -190,5 +185,3 @@ const tabsWrapperStyle = css`
     }
   }
 `
-
-const cleanPath = (p) => p.replace(/(&|\?)$/, '')

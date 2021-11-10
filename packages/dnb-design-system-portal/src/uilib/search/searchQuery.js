@@ -3,7 +3,7 @@
  *
  */
 
-const { getCurrentBranchName } = require('../utils/git')
+const getCurrentBranchName = require('current-git-branch')
 const { makeSlug } = require('../utils/slug')
 const { isCI } = require('ci-info')
 
@@ -139,7 +139,7 @@ const getIndexName = (currentBranch) => {
     return 'dev_eufemia_docs'
   }
 
-  if (/^(beta)$/.test(currentBranch)) {
+  if (currentBranch !== 'release') {
     return 'beta_eufemia_docs'
   }
 

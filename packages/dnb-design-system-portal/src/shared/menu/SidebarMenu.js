@@ -718,7 +718,6 @@ class ListItem extends React.PureComponent {
                 createSkeletonClass('font', this.context.skeleton)
               )}
               title={statusTitle}
-              aria-label={statusTitle}
             >
               {status}
             </span>

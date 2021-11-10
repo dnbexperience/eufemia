@@ -8,11 +8,9 @@ const puppeteer = require('puppeteer')
 const mkdirp = require('mkdirp')
 const path = require('path')
 const fs = require('fs-extra')
-const isCI = require('is-ci')
-const liveServer = require('live-server')
+const { exec } = require('child_process')
 const detectPort = require('detect-port')
 const waitOn = require('wait-on')
-const packpath = require('packpath')
 const {
   DIR,
   headless,
@@ -25,20 +23,17 @@ const startStaticServer = async () => {
   try {
     const portIsAvailable = await detectPort(testScreenshotOnPort)
     if (testScreenshotOnPort === portIsAvailable) {
-      const root = path.resolve(
-        packpath.self(),
-        '../dnb-design-system-portal/public/'
+      const publicDirExusts = fs.existsSync(
+        require.resolve('dnb-design-system-portal/public/index.html')
       )
-      if (fs.existsSync(root)) {
-        liveServer.start({
-          host: testScreenshotOnHost,
-          port: testScreenshotOnPort,
-          root,
-          open: false,
-          watch: [],
-          quiet: isCI,
-          wait: 10e3,
-        })
+
+      if (publicDirExusts) {
+        global.startedGatsbyServe = true
+
+        // Do not wait for exec to end
+        const command = `yarn workspace dnb-design-system-portal gatsby serve -p ${testScreenshotOnPort}`
+        exec(command)
+
         await waitOn({
           resources: [
             `http://${testScreenshotOnHost}:${testScreenshotOnPort}`,
@@ -57,6 +52,7 @@ const startStaticServer = async () => {
 
 module.exports = async function () {
   console.log(chalk.green('Setup Puppeteer'))
+
   await startStaticServer()
 
   const browser = await puppeteer.launch({

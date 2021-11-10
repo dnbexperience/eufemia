@@ -5,8 +5,8 @@
 
 const fs = require('fs-extra')
 const path = require('path')
-const webpack = require('webpack')
 const { isCI } = require('ci-info')
+const getCurrentBranchName = require('current-git-branch')
 const {
   createNewVersion,
   createNewChangelogVersion,
@@ -40,14 +40,14 @@ exports.createSchemaCustomization = ({ actions: { createTypes } }) => {
   createTypes(typeDefs)
 }
 
-exports.createResolvers = ({ createResolvers }) => {
+exports.createResolvers = ({ stage, createResolvers }) => {
   const resolvers = {
     Mdx: {
       siblings: {
         resolve: (source, args, context) => {
-          const slug = source.__gatsby_resolved?.slug
+          const slug = context?.slug // during dev: source?.__gatsby_resolved?.slug
 
-          if (!slug) {
+          if (typeof slug !== 'string') {
             return []
           }
 
@@ -111,9 +111,10 @@ async function createPages({ graphql, actions }) {
 
       createPage({
         path: slug,
-        component: path.resolve(__dirname, './src/templates/mdx.js'),
+        component: path.resolve(__dirname, 'src/templates/mdx.js'),
         context: {
           id: node.id,
+          slug,
           prev,
           next,
         },
@@ -181,8 +182,10 @@ try {
   //
 }
 
-exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
-  actions.setWebpackConfig({
+const currentBranch = getCurrentBranchName()
+
+exports.onCreateWebpackConfig = ({ actions, plugins }) => {
+  const config = {
     resolve: {
       alias: {
         Root: path.resolve(__dirname),
@@ -193,25 +196,34 @@ exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
         Parts: path.resolve(__dirname, 'src/shared/parts'),
       },
     },
-  })
+    plugins: [
+      plugins.define({
+        'process.env.CURRENT_BRANCH': JSON.stringify(currentBranch),
+        'process.env.PREBUILD_EXISTS': JSON.stringify(prebuildExists),
+      }),
+    ],
+  }
 
   if (isCI && prebuildExists) {
-    // Get Webpack config
-    const config = getConfig()
-
-    // Consume the prod bundle from Eufemia (during prod build of the Portal)
     config.plugins.push(
-      new webpack.NormalModuleReplacementPlugin(
-        /@dnb\/eufemia\/src/,
-        (resource) => {
-          resource.request = resource.request.replace(
-            /@dnb\/eufemia\/src(.*)/,
-            '@dnb/eufemia/build$1'
-          )
-        }
-      )
+      plugins.normalModuleReplacement(/@dnb\/eufemia\/src/, (resource) => {
+        resource.request = resource.request.replace(
+          /@dnb\/eufemia\/src(.*)/,
+          '@dnb/eufemia/build$1'
+        )
+      })
     )
-
-    actions.replaceWebpackConfig(config)
   }
+
+  actions.setWebpackConfig(config)
+}
+
+exports.onCreateDevServer = () => {
+  // We call the "onPostBuild" because we want it to run during development
+  // Source https://github.com/NekR/self-destroying-sw/tree/master/packages/gatsby-plugin-remove-serviceworker
+  const {
+    onPostBuild,
+  } = require('gatsby-plugin-remove-serviceworker/gatsby-node.js')
+
+  onPostBuild()
 }

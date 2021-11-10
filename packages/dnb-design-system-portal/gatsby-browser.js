@@ -5,7 +5,10 @@
 
 import { applyPageFocus } from '@dnb/eufemia/src/shared/helpers'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
-import { rootElement, pageElement } from './src/core/portalProviders'
+import {
+  rootElement,
+  pageElement,
+} from './src/core/PortalStylesAndProviders'
 import smoothscroll from 'smoothscroll-polyfill'
 import process from 'process/browser'
 
@@ -13,9 +16,6 @@ smoothscroll.polyfill()
 
 // was added during webpack 4 to 5 migration
 global.process = process
-
-require('@dnb/eufemia/src/style/extensions') // import only extensions
-require('@dnb/eufemia/src/style') // import both all components and the default ui theme
 
 if (typeof window !== 'undefined') {
   setIsTest(window.location)

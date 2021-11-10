@@ -5,13 +5,13 @@ order: 3
 showTabs: true
 tabs:
   - title: Info
-    key: /uilib/components/form-row/info$1
+    key: /uilib/components/form-row/info
   - title: Demos
-    key: /uilib/components/form-row/demos$1
+    key: /uilib/components/form-row/demos
   - title: Properties
-    key: /uilib/components/form-row/properties$1
+    key: /uilib/components/form-row/properties
   - title: Provider
-    key: /uilib/components/form-row/provider$1
+    key: /uilib/components/form-row/provider
 # hideTabs:
 #   - title: Events
 ---

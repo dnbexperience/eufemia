@@ -3,7 +3,7 @@ import React from 'react'
 import { Dropdown } from '@dnb/eufemia/src'
 
 import Context from '@dnb/eufemia/src/shared/Context'
-import { setLang } from './portalProviders'
+import { setLang } from './PortalStylesAndProviders'
 
 export default function ChangeLocale({ showUS, ...props }) {
   const { locale, setLocale } = React.useContext(Context)

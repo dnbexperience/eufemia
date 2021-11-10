@@ -121,9 +121,10 @@ export default class DatePickerInput extends React.PureComponent {
 
   shortcutHandler = async (e) => {
     if (this.focusMode) {
-      const success = (e.clipboardData || window?.clipboardData).getData(
-        'text'
-      )
+      const success = (
+        e.clipboardData ||
+        (typeof window !== 'undefined' && window.clipboardData)
+      ).getData('text')
       if (success) {
         e.preventDefault()
         try {

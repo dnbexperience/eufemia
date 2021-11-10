@@ -29,20 +29,23 @@ export default class MdxTemplate extends React.PureComponent {
 
     const { body, tableOfContents, siblings } = mdx
 
-    const makeUseOfCategorySibling = Boolean(
+    const makeUseOfCategory = Boolean(
       !mdx?.frontmatter?.title && mdx?.frontmatter?.showTabs
     )
-    const mother = makeUseOfCategorySibling ? siblings?.[0] : mdx
-    const frontmatter = mother?.frontmatter
+    const category = siblings?.[0]
+    const categoryFm = category?.frontmatter || {}
+    const currentFm = mdx?.frontmatter || {}
 
-    const pageDescription = frontmatter?.description || mainDescription
+    const pageDescription = currentFm?.description || mainDescription
     let pageTitle
 
     // Extend the title with a sub tab title
-    if (frontmatter?.title && Array.isArray(tableOfContents?.items?.[0])) {
-      pageTitle = `${frontmatter.title} – ${tableOfContents.items[0]?.title}`
+    if (currentFm?.title && Array.isArray(tableOfContents?.items?.[0])) {
+      pageTitle = `${currentFm.title || categoryFm?.title} – ${
+        tableOfContents.items[0]?.title
+      }`
     } else {
-      pageTitle = frontmatter?.title || mainTitle
+      pageTitle = currentFm?.title || categoryFm?.title || mainTitle
     }
 
     return (
@@ -56,19 +59,21 @@ export default class MdxTemplate extends React.PureComponent {
           key="layout"
           location={location}
           fullscreen={
-            Boolean(frontmatter?.fullscreen) ||
+            Boolean(currentFm.fullscreen || categoryFm.fullscreen) ||
             this.props.pageContext.fullscreen
           }
         >
-          {frontmatter?.showTabs && (
+          {currentFm.showTabs && (
             <Tabbar
               key="tabbar"
               location={location}
-              rootPath={'/' + (mother.slug || frontmatter?.slug)}
-              title={frontmatter?.title}
-              tabs={frontmatter?.tabs}
-              defaultTabs={frontmatter?.defaultTabs}
-              hideTabs={frontmatter?.hideTabs}
+              rootPath={
+                '/' + (makeUseOfCategory ? category?.slug : mdx?.slug)
+              }
+              title={currentFm.title || categoryFm.title}
+              tabs={currentFm.tabs || categoryFm.tabs}
+              defaultTabs={currentFm.defaultTabs || categoryFm.defaultTabs}
+              hideTabs={currentFm.hideTabs || categoryFm.hideTabs}
             />
           )}
 

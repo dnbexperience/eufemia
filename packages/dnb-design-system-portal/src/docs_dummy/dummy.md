@@ -11,7 +11,7 @@ draft: true
 fullscreen: true
 tabs:
   - title: Dummy
-    key: /dummy$1
+    key: /dummy
 showTabs: true
 hideTabs:
   - title: Events

@@ -1,3 +1,12 @@
 {
-  "reject": ["eslint", "ora"]
+  "reject": [
+    "eslint",
+    "ora",
+    "react-router-dom",
+    "stylelint",
+    "stylelint-config-prettier",
+    "stylelint-config-recommended",
+    "stylelint-config-standard",
+    "stylelint-scss"
+  ]
 }

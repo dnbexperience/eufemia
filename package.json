@@ -28,8 +28,8 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "husky": "7.0.2",
-    "node-gyp": "8.2.0"
+    "husky": "7.0.4",
+    "node-gyp": "8.4.0"
   },
   "resolutions": {
     "svg2vectordrawable/svgo": "2.3.0",
