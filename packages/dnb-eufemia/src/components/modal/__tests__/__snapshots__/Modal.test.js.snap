@@ -1994,10 +1994,11 @@ button.dnb-button::-moz-focus-inner {
     @supports (-webkit-touch-callout: none) {
       .dnb-modal__content--drawer .dnb-modal__wrapper__inner {
         padding-bottom: calc(var(--modal-spacing-minus) * 8); } }
-  .dnb-modal__content--spacing .dnb-modal__header__bar.dnb-section {
+  .dnb-modal__header__bar.dnb-section {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-between; }
+  .dnb-modal__content--spacing .dnb-modal__header__bar.dnb-section {
     margin-top: calc(var(--modal-spacing) * 1.75);
     margin-bottom: calc(var(--modal-spacing) / 2); }
     @media screen and (max-width: 50em) {
@@ -2063,6 +2064,8 @@ button.dnb-button::-moz-focus-inner {
     z-index: calc(var(--modal-z-index) + 3); }
   .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner {
     z-index: calc(var(--modal-z-index) + 4); }
+  .dnb-modal__close-button {
+    z-index: calc(var(--modal-z-index) + 1); }
 
 [data-visual-test].hide-page-content #___gatsby {
   opacity: 0; }
