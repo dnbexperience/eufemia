@@ -1,6 +1,8 @@
 ---
 title: 'Design Principles'
 icon: 'principles'
+redirect_from:
+  - /principles
 ---
 
 # Principles & Values

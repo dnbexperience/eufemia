@@ -1,6 +1,8 @@
 ---
 title: 'Contribution Guide'
 description: 'Project overview, development guides, conventions etc.'
+redirect_from:
+  - /uilib/development
 ---
 
 import GithubLogo from 'Pages/contribution/assets/github-logo.js'
