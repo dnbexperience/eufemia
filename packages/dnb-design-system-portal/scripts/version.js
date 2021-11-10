@@ -55,7 +55,7 @@ async function createNewChangelogVersion() {
     const changelogFilePath = path.resolve(
       __dirname,
       '../../../',
-      'CHANGELOG.md'
+      'EUFEMIA_CHANGELOG.md'
     )
     const content = await fs.readFile(changelogFilePath, 'utf-8')
 
