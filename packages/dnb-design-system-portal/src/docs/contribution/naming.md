@@ -1,6 +1,6 @@
 ---
 title: 'Naming conventions'
-order: 6
+order: 1
 ---
 
 # Naming conventions

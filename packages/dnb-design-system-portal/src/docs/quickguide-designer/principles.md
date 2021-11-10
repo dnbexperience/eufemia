@@ -1,6 +1,8 @@
 ---
 title: 'Design Principles'
-description: 'DNB, Eufemia and UI design principles'
+icon: 'principles'
+redirect_from:
+  - /principles
 ---
 
 # Principles & Values

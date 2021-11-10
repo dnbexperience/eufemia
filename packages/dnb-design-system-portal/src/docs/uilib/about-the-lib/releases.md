@@ -6,7 +6,7 @@ redirect_from:
 ---
 
 import WelcomeAdvice from 'Pages/welcome-advice.md'
-import GithubLogo from 'Pages/uilib/development/assets/github-logo.js'
+import GithubLogo from 'Pages/contribution/assets/github-logo.js'
 import { Icon } from '@dnb/eufemia/src'
 
 # Releases and versions

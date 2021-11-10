@@ -1,10 +1,8 @@
 ---
-title: 'Issues'
-draft: true
-order: 8
+title: 'Known issues'
 ---
 
-# Issues
+# Known issues
 
 ## Dependencies
 

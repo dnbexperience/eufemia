@@ -22,7 +22,7 @@ Do you want to...
 
 ## So, how do I get started?
 
-You can [follow an intro](/uilib/intro), guiding You through all the elementary parts of Eufemia.
+You can [follow an intro](/uilib/intro), guiding you through all the elementary parts of Eufemia.
 
 And for sure, check out the code in the [**Demo Apps**](/uilib/getting-started/demos)
 

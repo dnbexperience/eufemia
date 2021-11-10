@@ -1,18 +1,16 @@
 ---
-title: 'Commit'
-draft: true
-order: 2
+title: 'Git convention'
 ---
 
-# Commit
+# Git convention
 
-**Make sure You follow [Semantic Versioning](https://semver.org)**
+**Make sure you follow [Semantic Versioning](https://semver.org)**
 
 Version numbers are handled automatically by using [semantic-release](https://github.com/semantic-release/semantic-release#readme).
 
 ## Commit Messages
 
-Make sure to decorate Your **commit messages** with either [commit message format](https://github.com/semantic-release/semantic-release#commit-message-format) or simply use the following three methods:
+Make sure to decorate your **commit messages** with either [commit message format](https://github.com/semantic-release/semantic-release#commit-message-format) or simply use the following three methods:
 
 - `fix: an example fix message`
 - `feat: this is a new feature`
@@ -28,7 +26,7 @@ Read more about [simple-commit-message](https://github.com/bahmutov/simple-commi
 
 ## Committing changes
 
-During a commit (locally), your commit content (code) will be tested with both Static and Integration tests. You may run `yarn test` or `yarn test:update` before you try to commit. You may also write new tests for your code before committing.
+During a commit (locally), your commit content (code) will be tested with both Static and Integration tests. you may run `yarn test` or `yarn test:update` before you try to commit. you may also write new tests for your code before committing.
 
 The Code Base is based on several Static Tests to help the code to be uniform:
 
