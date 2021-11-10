@@ -6,8 +6,8 @@ order: 16
 showTabs: true
 ---
 
-import TabsInfo from 'Pages/uilib/components/tabs/info'
-import TabsDemos from 'Pages/uilib/components/tabs/demos'
+import TabsInfo from 'Docs/uilib/components/tabs/info'
+import TabsDemos from 'Docs/uilib/components/tabs/demos'
 
 <TabsInfo />
 <TabsDemos />

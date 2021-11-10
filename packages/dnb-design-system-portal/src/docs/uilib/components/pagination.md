@@ -5,8 +5,8 @@ order: 12
 showTabs: true
 ---
 
-import PaginationInfo from 'Pages/uilib/components/pagination/info'
-import PaginationDemos from 'Pages/uilib/components/pagination/demos'
+import PaginationInfo from 'Docs/uilib/components/pagination/info'
+import PaginationDemos from 'Docs/uilib/components/pagination/demos'
 
 <PaginationInfo />
 <PaginationDemos />

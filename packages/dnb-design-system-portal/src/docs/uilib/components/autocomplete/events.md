@@ -2,7 +2,7 @@
 showTabs: true
 ---
 
-import AutocompleteMethods from 'Pages/uilib/components/autocomplete/methods'
+import AutocompleteMethods from 'Docs/uilib/components/autocomplete/methods'
 
 ## Events
 

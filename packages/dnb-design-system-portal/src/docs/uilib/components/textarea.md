@@ -6,8 +6,8 @@ order: 17
 showTabs: true
 ---
 
-import TextareaInfo from 'Pages/uilib/components/textarea/info'
-import TextareaDemos from 'Pages/uilib/components/textarea/demos'
+import TextareaInfo from 'Docs/uilib/components/textarea/info'
+import TextareaDemos from 'Docs/uilib/components/textarea/demos'
 
 <TextareaInfo />
 <TextareaDemos />

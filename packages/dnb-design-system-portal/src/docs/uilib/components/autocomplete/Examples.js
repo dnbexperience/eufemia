@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import ComponentBox from 'Src/shared/tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import { Autocomplete, IconPrimary } from '@dnb/eufemia/src/components'
 import { format } from '@dnb/eufemia/src/components/number-format/NumberUtils'
 import styled from '@emotion/styled'

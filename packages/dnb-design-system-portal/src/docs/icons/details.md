@@ -5,9 +5,9 @@ icon: 'info'
 order: 1
 ---
 
-import InlineImg from 'Tags/Img'
-import IconNearestNeighbour from 'Pages/quickguide-designer/assets/icon-nearest-neighbour.svg'
-import FormStatusIcons from 'Pages/icons/form-status.md'
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
+import IconNearestNeighbour from 'Docs/quickguide-designer/assets/icon-nearest-neighbour.svg'
+import FormStatusIcons from 'Docs/icons/form-status.md'
 
 # Icon Details
 

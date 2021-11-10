@@ -4,7 +4,7 @@ icon: 'info'
 order: 3
 ---
 
-import WelcomeAdvice from 'Pages/welcome-advice'
+import WelcomeAdvice from 'Docs/welcome-advice'
 
 # About Eufemia
 

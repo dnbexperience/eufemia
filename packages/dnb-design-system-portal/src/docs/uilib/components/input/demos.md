@@ -17,7 +17,7 @@ InputExampleNumbers,
 InputExamplePassword,
 InputExampleSubmit,
 InputExampleClear
-} from 'Pages/uilib/components/input/Examples'
+} from 'Docs/uilib/components/input/Examples'
 
 ## Demos
 

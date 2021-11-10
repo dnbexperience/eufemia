@@ -5,13 +5,15 @@
 
 import React from 'react'
 import styled from '@emotion/styled'
-import InlineImg from 'Tags/Img'
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
 import { css } from '@emotion/react'
 import { Button, Icon } from '@dnb/eufemia/src/components'
 import { H2, H4, P, Hr, Code } from '@dnb/eufemia/src/elements'
 import { bell } from '@dnb/eufemia/src/icons'
 import LegacyCodeStylingExample from './assets/legacy-code-styling-example.png'
-import PortalStyle, { gridStyle } from 'Src/shared/parts/PortalStyle'
+import PortalStyle, {
+  gridStyle,
+} from 'dnb-design-system-portal/src/shared/parts/PortalStyle'
 
 const LegacyCodeStyling = () => (
   <div

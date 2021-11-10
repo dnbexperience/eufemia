@@ -8,8 +8,8 @@ hideTabs:
   - title: Events
 ---
 
-import LogoInfo from 'Pages/uilib/components/logo/info'
-import LogoDemos from 'Pages/uilib/components/logo/demos'
+import LogoInfo from 'Docs/uilib/components/logo/info'
+import LogoDemos from 'Docs/uilib/components/logo/demos'
 
 <LogoInfo />
 <LogoDemos />

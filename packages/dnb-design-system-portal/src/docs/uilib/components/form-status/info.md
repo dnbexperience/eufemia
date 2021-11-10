@@ -4,7 +4,7 @@ redirect_from:
   - /uilib/components/status-message/info
 ---
 
-import FormStatusIcons from 'Pages/icons/form-status.md'
+import FormStatusIcons from 'Docs/icons/form-status.md'
 
 ## Description
 

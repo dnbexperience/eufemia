@@ -3,8 +3,8 @@ title: 'Colors'
 order: 5
 ---
 
-import ComponentBox from 'Tags/ComponentBox'
-import ColorsTable from 'Pages/quickguide-designer/colors-table.md'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ColorsTable from 'Docs/quickguide-designer/colors-table.md'
 
 # Colors
 

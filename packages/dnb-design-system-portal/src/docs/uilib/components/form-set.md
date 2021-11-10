@@ -5,8 +5,8 @@ order: 3
 showTabs: true
 ---
 
-import FormSetInfo from 'Pages/uilib/components/form-set/info'
-import FormSetDemos from 'Pages/uilib/components/form-set/demos'
+import FormSetInfo from 'Docs/uilib/components/form-set/info'
+import FormSetDemos from 'Docs/uilib/components/form-set/demos'
 
 <FormSetInfo />
 <FormSetDemos />

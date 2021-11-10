@@ -8,8 +8,8 @@ hideTabs:
   - title: Events
 ---
 
-import SkeletonInfo from 'Pages/uilib/components/skeleton/info'
-import SkeletonDemos from 'Pages/uilib/components/skeleton/demos'
+import SkeletonInfo from 'Docs/uilib/components/skeleton/info'
+import SkeletonDemos from 'Docs/uilib/components/skeleton/demos'
 
 <SkeletonInfo />
 <SkeletonDemos />

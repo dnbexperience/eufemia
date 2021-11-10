@@ -5,7 +5,7 @@ redirect_from:
   - /uilib/development
 ---
 
-import GithubLogo from 'Pages/contribution/assets/github-logo.js'
+import GithubLogo from 'Docs/contribution/assets/github-logo.js'
 import { Icon } from '@dnb/eufemia/src'
 
 # Contribution

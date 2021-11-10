@@ -4,8 +4,8 @@
  */
 
 import React from 'react'
-import MainMenu from 'Src/shared/menu/MainMenu'
-import { MainMenuProvider } from 'Src/shared/menu/MainMenuContext'
+import MainMenu from 'dnb-design-system-portal/src/shared/menu/MainMenu'
+import { MainMenuProvider } from 'dnb-design-system-portal/src/shared/menu/MainMenuContext'
 
 // react component
 export default class App extends React.PureComponent {

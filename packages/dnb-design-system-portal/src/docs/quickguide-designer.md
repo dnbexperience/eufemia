@@ -3,11 +3,11 @@ title: 'Quick Guide - Designers'
 description: 'Eufemia for designers - design guidelines and resources'
 ---
 
-import InlineImg from 'Tags/Img'
-import FigmaTeam from 'Pages/quickguide-designer/assets/figma-team.svg'
-import FigmaLibraries from 'Pages/quickguide-designer/assets/figma-libraries.svg'
-import FigmaLayoutGrid from 'Pages/quickguide-designer/assets/figma-layout-grid.svg'
-import FigmaLibrary from 'Pages/quickguide-designer/assets/figma-library.svg'
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
+import FigmaTeam from 'Docs/quickguide-designer/assets/figma-team.svg'
+import FigmaLibraries from 'Docs/quickguide-designer/assets/figma-libraries.svg'
+import FigmaLayoutGrid from 'Docs/quickguide-designer/assets/figma-layout-grid.svg'
+import FigmaLibrary from 'Docs/quickguide-designer/assets/figma-library.svg'
 
 # QuickStart - Designers
 

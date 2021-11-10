@@ -3,7 +3,7 @@ fullscreen: true
 search: 'Intro - What forms the system?'
 ---
 
-import InlineImg from 'Tags/Img'
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
 import WhatIsEufemia from 'Docs/uilib/intro/assets/what-is-a-design-system.svg'
 
 <Intro>

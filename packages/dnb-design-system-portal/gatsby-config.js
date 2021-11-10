@@ -88,7 +88,7 @@ const plugins = [
       ],
       // Imports in here are globally available in *.md files
       // globalScope: `
-      //   import InlineImg from 'Tags/Img'
+      //   import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
       //   export default { Img }
       // `
       // defaultLayouts: {

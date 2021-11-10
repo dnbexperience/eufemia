@@ -5,7 +5,7 @@ order: 9
 draft: true
 ---
 
-import ComponentBox from 'Tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 # Web Components
 

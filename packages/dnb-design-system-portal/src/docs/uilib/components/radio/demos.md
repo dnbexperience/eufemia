@@ -11,7 +11,7 @@ RadioExampleSizes,
 RadioExampleDisabled,
 RadioExampleSuffix,
 RadioVisualTests
-} from 'Pages/uilib/components/radio/Examples'
+} from 'Docs/uilib/components/radio/Examples'
 
 ## Demos
 

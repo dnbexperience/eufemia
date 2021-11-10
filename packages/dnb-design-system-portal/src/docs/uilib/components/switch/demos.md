@@ -9,7 +9,7 @@ SwitchExampleErrorMessage,
 SwitchExampleSuffix,
 SwitchExampleSizes,
 SwitchExampleDisabled
-} from 'Pages/uilib/components/switch/Examples'
+} from 'Docs/uilib/components/switch/Examples'
 
 ## Demos
 

@@ -188,12 +188,7 @@ exports.onCreateWebpackConfig = ({ actions, plugins }) => {
   const config = {
     resolve: {
       alias: {
-        Root: path.resolve(__dirname),
-        Src: path.resolve(__dirname, 'src'),
-        Pages: path.resolve(__dirname, 'src/docs'),
         Docs: path.resolve(__dirname, 'src/docs'),
-        Tags: path.resolve(__dirname, 'src/shared/tags'),
-        Parts: path.resolve(__dirname, 'src/shared/parts'),
       },
     },
     plugins: [

@@ -13,7 +13,7 @@ tabs:
     key: /uilib/typography/paragraph
 ---
 
-import ComponentBox from 'Tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 ## Typography in general
 

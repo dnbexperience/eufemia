@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import ComponentBox from 'Src/shared/tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 export const BreadcrumbSingle = () => (
   <ComponentBox data-visual-test="breadcrumb-single">

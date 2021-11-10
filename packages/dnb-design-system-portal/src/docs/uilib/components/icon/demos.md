@@ -6,7 +6,7 @@ import IconTests, {
 IconDefault,
 IconBorder,
 IconInheritSized
-} from 'Pages/uilib/components/icon/Examples'
+} from 'Docs/uilib/components/icon/Examples'
 
 ## Demos
 

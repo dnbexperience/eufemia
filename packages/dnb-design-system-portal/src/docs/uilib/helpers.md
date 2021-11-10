@@ -15,6 +15,6 @@ redirect_from:
   - /uilib/helper-classes
 ---
 
-import HelperClassesInfo from 'Pages/uilib/helpers/info'
+import HelperClassesInfo from 'Docs/uilib/helpers/info'
 
 <HelperClassesInfo />

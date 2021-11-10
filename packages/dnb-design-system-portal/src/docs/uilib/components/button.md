@@ -5,8 +5,8 @@ order: 2
 showTabs: true
 ---
 
-import ButtonInfo from 'Pages/uilib/components/button/info'
-import ButtonDemos from 'Pages/uilib/components/button/demos'
+import ButtonInfo from 'Docs/uilib/components/button/info'
+import ButtonDemos from 'Docs/uilib/components/button/demos'
 
 <ButtonInfo />
 <ButtonDemos />

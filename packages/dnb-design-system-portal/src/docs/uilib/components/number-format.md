@@ -17,8 +17,8 @@ redirect_from:
   - /uilib/components/number
 ---
 
-import NumberInfo from 'Pages/uilib/components/number-format/info'
-import NumberDemos from 'Pages/uilib/components/number-format/demos'
+import NumberInfo from 'Docs/uilib/components/number-format/info'
+import NumberDemos from 'Docs/uilib/components/number-format/demos'
 
 <NumberInfo />
 <NumberDemos />

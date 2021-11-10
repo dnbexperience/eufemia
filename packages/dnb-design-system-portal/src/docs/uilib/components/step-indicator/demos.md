@@ -11,7 +11,7 @@ StepIndicatorUrls,
 StepIndicatorSidebar,
 StepIndicatorTextOnly,
 StepIndicatorCustomRenderer
-} from 'Pages/uilib/components/step-indicator/Examples'
+} from 'Docs/uilib/components/step-indicator/Examples'
 
 ## Demos
 

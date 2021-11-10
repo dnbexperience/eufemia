@@ -13,7 +13,7 @@ ToggleButtonStatusMessages,
 ToggleButtonDisabledGroup,
 ToggleButtonSuffix,
 ToggleButtonIconOnly
-} from 'Pages/uilib/components/toggle-button/Examples'
+} from 'Docs/uilib/components/toggle-button/Examples'
 
 ## Demos
 

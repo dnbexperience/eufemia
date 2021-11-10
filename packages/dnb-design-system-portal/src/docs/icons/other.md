@@ -5,7 +5,7 @@ icon: 'helper_classes'
 order: 4
 ---
 
-import FormStatusIcons from 'Pages/icons/form-status.md'
+import FormStatusIcons from 'Docs/icons/form-status.md'
 
 # Other Icons
 

@@ -2,7 +2,7 @@
 title: 'Anchor (Text Link)'
 ---
 
-import ComponentBox from 'Tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import { IconPrimary } from '@dnb/eufemia/src'
 
 ## Anchor (Text Link)

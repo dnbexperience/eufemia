@@ -8,7 +8,7 @@ AccordionLargeContentExample,
 AccordionCustomisationExample,
 AccordionContainerExample,
 AccordionGroupExample
-} from 'Pages/uilib/components/accordion/Examples'
+} from 'Docs/uilib/components/accordion/Examples'
 
 ## Demos
 

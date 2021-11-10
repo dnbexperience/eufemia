@@ -2,7 +2,7 @@
 showTabs: true
 ---
 
-import SpacingTable from 'Pages/uilib/usage/layout/spacing-table.md'
+import SpacingTable from 'Docs/uilib/usage/layout/spacing-table.md'
 
 ## Description
 

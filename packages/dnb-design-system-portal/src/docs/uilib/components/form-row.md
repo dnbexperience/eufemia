@@ -16,8 +16,8 @@ tabs:
 #   - title: Events
 ---
 
-import FormRowInfo from 'Pages/uilib/components/form-row/info'
-import FormRowDemos from 'Pages/uilib/components/form-row/demos'
+import FormRowInfo from 'Docs/uilib/components/form-row/info'
+import FormRowDemos from 'Docs/uilib/components/form-row/demos'
 
 <FormRowInfo />
 <FormRowDemos />

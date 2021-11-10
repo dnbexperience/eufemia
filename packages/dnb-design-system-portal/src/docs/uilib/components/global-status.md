@@ -5,8 +5,8 @@ order: 4
 showTabs: true
 ---
 
-import GlobalStatusComponentInfo from 'Pages/uilib/components/global-status/info'
-import GlobalStatusComponentDemos from 'Pages/uilib/components/global-status/demos'
+import GlobalStatusComponentInfo from 'Docs/uilib/components/global-status/info'
+import GlobalStatusComponentDemos from 'Docs/uilib/components/global-status/demos'
 
 <GlobalStatusComponentInfo />
 <GlobalStatusComponentDemos />

@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import ComponentBox from 'Src/shared/tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 const onChange = (state) => {
   console.log('onChangeHandler', state)

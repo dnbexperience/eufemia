@@ -10,7 +10,7 @@ SpaceExampleMarginCollapse,
 SpaceExampleMargins,
 SpaceVisualTestPatterns,
 SpaceVisualTestElements
-} from 'Pages/uilib/components/space/Examples'
+} from 'Docs/uilib/components/space/Examples'
 
 ## Demos
 

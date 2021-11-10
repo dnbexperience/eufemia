@@ -5,8 +5,8 @@ order: 2
 showTabs: true
 ---
 
-import DropdownInfo from 'Pages/uilib/components/dropdown/info'
-import DropdownDemos from 'Pages/uilib/components/dropdown/demos'
+import DropdownInfo from 'Docs/uilib/components/dropdown/info'
+import DropdownDemos from 'Docs/uilib/components/dropdown/demos'
 
 <DropdownInfo />
 <DropdownDemos />
