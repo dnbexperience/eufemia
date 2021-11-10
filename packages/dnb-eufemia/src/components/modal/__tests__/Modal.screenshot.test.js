@@ -141,3 +141,22 @@ describe('Additional Modal screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 })
+
+describe('Drawer without spacing', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/modal/visual-tests/drawer-without-spacing',
+    pageViewport,
+  })
+
+  it('have to match drawer without spacing', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="drawer-no-spacing"] button:first-of-type',
+      screenshotSelector: '.dnb-modal__content',
+      rootClassName: 'hide-page-content',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
