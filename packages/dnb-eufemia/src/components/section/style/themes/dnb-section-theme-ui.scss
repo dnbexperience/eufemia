@@ -6,40 +6,66 @@
 @import '../../../../style/elements/_anchor-mixins.scss';
 
 @mixin SectionTheme() {
-  &--divider::after {
-    color: var(--color-white);
-    box-shadow: 99vw 0 0 0 currentColor, 198vw 0 0 0 currentColor,
-      297vw 0 0 0 currentColor, 396vw 0 0 0 currentColor,
-      0 0.0625rem 0 0 var(--color-mint-green-50),
-      99vw 0.0625rem 0 0 var(--color-mint-green-50),
-      0 -0.0625rem 0 0 var(--color-mint-green-50),
-      99vw -0.0625rem 0 0 var(--color-mint-green-50),
-      198vw 0.0625rem 0 0 var(--color-mint-green-50),
-      198vw -0.0625rem 0 0 var(--color-mint-green-50);
+  &--divider {
+    color: var(--color-black-80);
+    &::after {
+      color: var(--color-white);
+      box-shadow: 99vw 0 0 0 currentColor, 198vw 0 0 0 currentColor,
+        297vw 0 0 0 currentColor, 396vw 0 0 0 currentColor,
+        0 0.0625rem 0 0 var(--color-mint-green-50),
+        99vw 0.0625rem 0 0 var(--color-mint-green-50),
+        0 -0.0625rem 0 0 var(--color-mint-green-50),
+        99vw -0.0625rem 0 0 var(--color-mint-green-50),
+        198vw 0.0625rem 0 0 var(--color-mint-green-50),
+        198vw -0.0625rem 0 0 var(--color-mint-green-50);
+    }
   }
-  &--mint-green-12::after {
-    color: var(--color-mint-green-12);
+  &--transparent {
+    &::after {
+      color: transparent;
+    }
   }
-  &--transparent::after {
-    color: transparent;
+  &--mint-green-12 {
+    color: var(--color-black-80);
+    &::after {
+      color: var(--color-mint-green-12);
+    }
   }
-  &--white::after {
-    color: var(--color-white);
+  &--white {
+    color: var(--color-black-80);
+    &::after {
+      color: var(--color-white);
+    }
   }
-  &--mint-green::after {
-    color: var(--color-mint-green);
+  &--mint-green {
+    color: var(--color-black-80);
+    &::after {
+      color: var(--color-mint-green);
+    }
   }
-  &--lavender::after {
-    color: var(--color-lavender);
+  &--lavender {
+    color: var(--color-black-80);
+    &::after {
+      color: var(--color-lavender);
+    }
   }
-  &--sand-yellow::after {
-    color: var(--color-sand-yellow);
+  &--sand-yellow {
+    color: var(--color-black-80);
+    &::after {
+      color: var(--color-sand-yellow);
+    }
   }
-  &--pistachio::after {
-    color: var(--color-pistachio);
+  &--pistachio {
+    color: var(--color-black-80);
+    &::after {
+      color: var(--color-pistachio);
+    }
   }
-  &--black-3::after {
-    color: var(--color-black-3);
+  &--black-3 {
+    color: var(--color-black-80);
+    &::after {
+      color: var(--color-black-3);
+    }
   }
   &--emerald-green {
     color: var(--color-mint-green);
@@ -60,6 +86,7 @@
     }
   }
   &--fire-red-8 {
+    color: var(--color-white);
     &::after {
       color: var(--color-fire-red-8);
     }

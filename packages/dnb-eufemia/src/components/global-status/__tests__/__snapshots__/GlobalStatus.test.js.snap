@@ -587,6 +587,12 @@ button.dnb-button::-moz-focus-inner {
     z-index: -11; }
   .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
     z-index: -10; }
+  .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
+    z-index: -9; }
+  .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
+    z-index: -8; }
+  .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
+    z-index: -7; }
   .dnb-section--spacing-small {
     padding-top: var(--spacing-small);
     padding-bottom: var(--spacing-small); }

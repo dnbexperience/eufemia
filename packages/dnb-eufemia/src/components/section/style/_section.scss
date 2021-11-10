@@ -41,6 +41,15 @@
   & & & & & &::after {
     z-index: -10;
   }
+  & & & & & & &::after {
+    z-index: -9;
+  }
+  & & & & & & & &::after {
+    z-index: -8;
+  }
+  & & & & & & & & &::after {
+    z-index: -7;
+  }
 
   &--spacing-small {
     padding-top: var(--spacing-small);

@@ -13,7 +13,8 @@ const ora = require('ora')
 
 const log = ora()
 
-const waitUntil = isCI ? 'domcontentloaded' : 'load'
+// We may use one of these: load, domcontentloaded, networkidle2
+const waitUntil = isCI ? 'load' : 'load'
 
 const config = {
   DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),

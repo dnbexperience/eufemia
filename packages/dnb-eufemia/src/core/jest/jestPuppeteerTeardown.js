@@ -61,6 +61,7 @@ module.exports = async function () {
       )
       const newBranchName = `${branchName}--visual-reports`
       await commitToBranch({
+        force: true,
         skipCI: true,
         isFeature: false,
         requiredBranch: branchName,

@@ -7,8 +7,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "NODE_NO_WARNINGS=1 gatsby build",
-    "build:legacy": "cross-env BUILD_LEGACY_BROWSERS=1 gatsby build",
+    "build": "NODE_NO_WARNINGS=1 gatsby build --no-uglify",
     "build:version": "node ./scripts/version.js --new-version",
     "build-ci": "yarn build:version && yarn build --prefix-paths && yarn commit-new-pages",
     "clean": "NODE_NO_WARNINGS=1 gatsby clean",
