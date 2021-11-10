@@ -341,9 +341,17 @@ export default class ToggleButton extends React.PureComponent {
               typeof propValue === 'number'
             ) {
               checked = propValue === contextValue
-            } else if (typeof JSON !== 'undefined') {
-              checked =
-                JSON.stringify(propValue) === JSON.stringify(contextValue)
+            }
+          } else if (
+            isTrue(this.context.multiselect) &&
+            typeof this.context.values !== 'undefined'
+          ) {
+            const contextValues = this.context.values
+            if (
+              typeof propValue === 'string' ||
+              typeof propValue === 'number'
+            ) {
+              checked = contextValues.includes(propValue)
             }
           }
 
