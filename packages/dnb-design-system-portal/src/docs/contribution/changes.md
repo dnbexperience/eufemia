@@ -19,6 +19,12 @@ Here are typical steps when making changes:
 1. Update eventually new or valid PNG snapshots by running: `yarn test:screenshots:update`
 1. [Commit your change](/contribution/commit) and create a Pull Request to the `origin/main` branch.
 
+## Change logs
+
+Changes to `@dnb/eufemia` have to be mentioned by using a [git commit messages decoration](/contribution/commit#commit-messages). During next release, a `CHANGELOG.md` file will be generated and changes will get listed on the [GitHub Releases](https://github.com/dnbexperience/eufemia/releases) page.
+
+General Eufemia **Design System** changes have to be written down in the `EUFEMIA_CHANGELOG.md` file, located in the repository root.
+
 ## Get started on making new Components, Elements and Extensions
 
 Make a new working branch and name it e.g. `fix/my-branch-name` or `feat/my-feature-name`.
