@@ -193,15 +193,15 @@ exports[`Section scss have to match snapshot 1`] = `
     color: var(--color-mint-green-12);
     background-color: currentColor;
     box-shadow: 99vw 0 0 0 currentColor, 198vw 0 0 0 currentColor, 297vw 0 0 0 currentColor, 396vw 0 0 0 currentColor; }
-  .dnb-section > .dnb-section::after {
+  .dnb-section .dnb-section::after {
     z-index: -14; }
-  .dnb-section > .dnb-section > .dnb-section::after {
+  .dnb-section .dnb-section .dnb-section::after {
     z-index: -13; }
-  .dnb-section > .dnb-section > .dnb-section > .dnb-section::after {
+  .dnb-section .dnb-section .dnb-section .dnb-section::after {
     z-index: -12; }
-  .dnb-section > .dnb-section > .dnb-section > .dnb-section > .dnb-section::after {
+  .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
     z-index: -11; }
-  .dnb-section > .dnb-section > .dnb-section > .dnb-section > .dnb-section > .dnb-section::after {
+  .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
     z-index: -10; }
   .dnb-section--spacing-small {
     padding-top: var(--spacing-small);

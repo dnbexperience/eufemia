@@ -26,19 +26,19 @@
     box-shadow: 99vw 0 0 0 currentColor, 198vw 0 0 0 currentColor,
       297vw 0 0 0 currentColor, 396vw 0 0 0 currentColor;
   }
-  & > &::after {
+  & &::after {
     z-index: -14;
   }
-  & > & > &::after {
+  & & &::after {
     z-index: -13;
   }
-  & > & > & > &::after {
+  & & & &::after {
     z-index: -12;
   }
-  & > & > & > & > &::after {
+  & & & & &::after {
     z-index: -11;
   }
-  & > & > & > & > & > &::after {
+  & & & & & &::after {
     z-index: -10;
   }
 
