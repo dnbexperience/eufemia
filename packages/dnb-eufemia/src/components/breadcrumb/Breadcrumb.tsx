@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem'
-export * from './Breadcrumb'
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
 import classnames from 'classnames'
@@ -10,6 +9,8 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import { useMediaQuery, SkeletonTypes } from '../../shared'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import { Button } from '..'
+
+export * from './BreadcrumbItem'
 
 export interface BreadcrumbProps {
   /**
@@ -114,9 +115,7 @@ export const defaultProps = {
   data: null,
 }
 
-export default function Breadcrumb(
-  localProps: BreadcrumbProps & ISpacingProps
-) {
+function Breadcrumb(localProps: BreadcrumbProps & ISpacingProps) {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context
@@ -240,4 +239,6 @@ export default function Breadcrumb(
 
 Breadcrumb.Item = BreadcrumbItem
 
-export { BreadcrumbItem, BreadcrumbItemProps }
+export { BreadcrumbItem }
+
+export default Breadcrumb

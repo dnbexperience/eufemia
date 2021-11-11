@@ -10,12 +10,12 @@ import React, { useState } from 'react'
 import {
   Breadcrumb,
   Skeleton,
-  ToggleButton,
-  Button,
+  // ToggleButton,
+  // Button,
 } from '@dnb/eufemia/src/components'
 import { Provider } from '@dnb/eufemia/src/shared'
 import {
-  BreadcrumbItem,
+  // BreadcrumbItem,
   BreadcrumbItemProps,
 } from '@dnb/eufemia/src/components/breadcrumb/Breadcrumb'
 import { Box, Wrapper } from '../helpers'
