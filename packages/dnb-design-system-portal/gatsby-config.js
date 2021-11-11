@@ -110,7 +110,7 @@ const plugins = [
 
 if (currentBranch === 'release') {
   plugins.push({
-    // this (optional) plugin enables Progressive Web App + Offline functionality
+    // This (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.app/offline
     resolve: 'gatsby-plugin-offline',
     options: {
@@ -122,7 +122,7 @@ if (currentBranch === 'release') {
   })
 }
 
-// used for algolia search
+// Algolia search
 const queries = require('./src/uilib/search/searchQuery')
 if (queries) {
   plugins.push({
@@ -138,15 +138,6 @@ if (queries) {
 }
 
 module.exports = {
-  flags: {
-    /**
-     * because of the local visual tests,
-     * we disable the SSR features.
-     * The reason? every page takes longer time to render.
-     */
-    DEV_SSR: false,
-    FAST_DEV: false,
-  },
   pathPrefix,
   siteMetadata,
   plugins,

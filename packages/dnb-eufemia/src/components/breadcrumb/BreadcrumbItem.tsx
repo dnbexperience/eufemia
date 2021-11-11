@@ -65,19 +65,12 @@ export default function BreadcrumbItem(localProps: BreadcrumbItemProps) {
   } = context
 
   // Extract additional props from global context
-  const {
-    text,
-    href,
-    icon,
-    onClick,
-    variant,
-    skeleton,
-    ...props
-  } = extendPropsWithContext(
-    { ...defaultProps, ...localProps },
-    defaultProps,
-    context?.BreadcrumbItem
-  )
+  const { text, href, icon, onClick, variant, skeleton, ...props } =
+    extendPropsWithContext(
+      { ...defaultProps, ...localProps },
+      defaultProps,
+      context?.BreadcrumbItem
+    )
 
   const currentIcon =
     icon || (variant === 'home' && homeIcon) || 'chevron_left'

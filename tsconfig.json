@@ -2,11 +2,12 @@
   "compileOnSave": false,
   "compilerOptions": {
     "jsx": "react",
-    "allowJs": false,
+    "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "types": ["node", "jest"],
     "sourceMap": true,
+    "outFile": "out.js",
     "rootDir": ".",
     "baseUrl": ".",
     "paths": {
