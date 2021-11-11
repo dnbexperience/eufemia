@@ -370,89 +370,86 @@ export default class Button extends React.PureComponent {
   }
 }
 
-class Content extends React.PureComponent {
-  static propTypes = {
-    title: PropTypes.node,
-    custom_content: PropTypes.node,
-    content: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.array,
-      PropTypes.node,
-    ]),
-    icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func,
-    ]),
-    icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.bool,
-    isIconOnly: PropTypes.bool,
-  }
-  static defaultProps = {
-    custom_content: null,
-    title: null,
-    content: null,
-    icon: null,
-    icon_size: 'default',
-    bounding: null,
-    skeleton: null,
-    isIconOnly: null,
-  }
-  render() {
-    const {
-      title,
-      content,
-      custom_content,
-      icon,
-      icon_size,
-      bounding,
-      skeleton,
-      isIconOnly,
-    } = this.props
+Content.propTypes = {
+  title: PropTypes.node,
+  custom_content: PropTypes.node,
+  content: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+    PropTypes.node,
+  ]),
+  icon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func,
+  ]),
+  icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.bool,
+  isIconOnly: PropTypes.bool,
+}
 
-    const ret = []
+Content.defaultProps = {
+  custom_content: null,
+  title: null,
+  content: null,
+  icon: null,
+  icon_size: 'default',
+  bounding: null,
+  skeleton: null,
+  isIconOnly: null,
+}
 
-    if (isTrue(bounding)) {
-      ret.push(
+function Content({
+  title,
+  content,
+  custom_content,
+  icon,
+  icon_size,
+  bounding,
+  skeleton,
+  isIconOnly,
+}) {
+  return (
+    <>
+      {isTrue(bounding) && (
         <span key="button-bounding" className="dnb-button__bounding" />
-      )
-    }
+      )}
 
-    if (custom_content) {
-      ret.push(
+      {custom_content && (
         <React.Fragment key="button-custom-content">
           {custom_content}
         </React.Fragment>
-      )
-    }
+      )}
 
-    if (content) {
-      ret.push(
-        <span key="button-text-empty" className="dnb-button__alignment">
-          &zwnj;
-        </span>,
-        <span
-          key="button-text"
-          className="dnb-button__text dnb-skeleton--show-font"
-        >
-          {content}
-        </span>
-      )
-    } else if (icon) {
-      // on empty text, use a zero-width non-joiner
-      // so the icon button gets vertical aligned
-      // we need the dnb-button__text for alignment
-      ret.push(
-        <span key="button-text-empty" className="dnb-button__alignment">
-          &zwnj;
-        </span>
-      )
-    }
+      {content && (
+        <>
+          <span key="button-text-empty" className="dnb-button__alignment">
+            &zwnj;
+          </span>
+          <span
+            key="button-text"
+            className="dnb-button__text dnb-skeleton--show-font"
+          >
+            {content}
+          </span>
+        </>
+      )}
 
-    if (icon) {
-      ret.push(
-        icon.props?.icon || icon.props?.className?.includes('dnb-icon') ? (
+      {
+        // on empty text, use a zero-width non-joiner
+        // so the icon button gets vertical aligned
+        // we need the dnb-button__text for alignment
+        !content && icon && (
+          <span key="button-text-empty" className="dnb-button__alignment">
+            &zwnj;
+          </span>
+        )
+      }
+
+      {icon &&
+        (icon.props?.icon ||
+        icon.props?.className?.includes('dnb-icon') ? (
           React.cloneElement(icon, {
             key: 'button-icon-clone',
             className: classnames(
@@ -469,10 +466,7 @@ class Content extends React.PureComponent {
             aria-hidden={isIconOnly && !title ? null : true}
             skeleton={skeleton}
           />
-        )
-      )
-    }
-
-    return ret
-  }
+        ))}
+    </>
+  )
 }
