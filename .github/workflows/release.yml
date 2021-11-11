@@ -1,14 +1,13 @@
 name: Eufemia Release
 
 on:
-  push:
+  workflow_run:
     branches:
       - 'release'
       - 'portal'
       - 'beta'
       - 'alpha'
-  workflow_run:
-    workflows: ['Verify', 'Build Check']
+    workflows: ['Verify']
     types:
       - completed
 
@@ -41,18 +40,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14.17.0
-
-      # - name: Get yarn cache directory path
-      #   id: yarn-cache-dir-path
-      #   run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-
-      # - name: Use yarn cache
-      #   uses: actions/cache@v2
-      #   id: yarn-cache
-      #   with:
-      #     path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-      #     key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-      #     restore-keys: ${{ runner.os }}-yarn-
 
       - name: Use node_modules cache
         uses: actions/cache@v2
