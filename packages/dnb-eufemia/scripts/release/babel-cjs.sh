@@ -7,7 +7,6 @@ NODE_ENV=production \
 BABEL_ENV=cjs \
 babel ./src \
 --extensions '.cjs,.js,.ts,.tsx' \
---keep-file-extension \
 --config-file ./babel.config.js \
 --out-dir ./build/cjs \
 --copy-files \
@@ -18,7 +17,7 @@ echo 'Building cjs bundle done!'
 
 echo 'Copy .d.ts files to cjs ...'
 
-OUT_DIR=./build/cjs babel-node ./scripts/release/copyTypeScriptDefinitionFiles.js
+OUT_DIR=./build/cjs babel-node ./scripts/release/copyTypeScriptFiles.js
 OUT_DIR=./build/cjs babel-node ./scripts/release/copyStyles.js
 
 echo 'Copy extra cjs package.json ...'
