@@ -47,6 +47,65 @@ export const SearchNumbers = () => {
   )
 }
 
+const accounts = [
+  { selected_id: 1, content: 'A' },
+  { selected_id: 2, content: 'B' },
+  { selected_id: 3, content: 'C' },
+  { selected_id: 4, content: 'D' },
+]
+export function UpdateEachOther() {
+  const [selectedA, setSelectedA] = React.useState(-1)
+  const [selectedB, setSelectedB] = React.useState(-1)
+  const [selectedAccountsA, setSelectedAccountsA] =
+    React.useState(accounts)
+  const [selectedAccountsB, setSelectedAccountsB] =
+    React.useState(accounts)
+
+  const indexA = selectedAccountsA.findIndex(({ selected_id }) => {
+    return selected_id === selectedA
+  })
+  const indexB = selectedAccountsB.findIndex(({ selected_id }) => {
+    return selected_id === selectedB
+  })
+
+  console.log('selectedA', { selectedAccountsA, selectedA, indexA })
+  console.log('selectedB', { selectedAccountsB, selectedB, indexB })
+
+  return (
+    <>
+      <Autocomplete
+        top
+        right
+        label="selectedA"
+        data={selectedAccountsA}
+        value={indexA}
+        on_change={({ data: account }) => {
+          setSelectedA(account?.selected_id)
+          setSelectedAccountsB(
+            accounts.filter(({ selected_id }) => {
+              return selected_id !== account?.selected_id
+            })
+          )
+        }}
+      />
+      <Autocomplete
+        top
+        label="selectedB"
+        data={selectedAccountsB}
+        value={indexB}
+        on_change={({ data: account }) => {
+          setSelectedB(account?.selected_id)
+          setSelectedAccountsA(
+            accounts.filter(({ selected_id }) => {
+              return selected_id !== account?.selected_id
+            })
+          )
+        }}
+      />
+    </>
+  )
+}
+
 export function onBlur() {
   return (
     <Autocomplete

@@ -436,12 +436,16 @@ class AutocompleteInstance extends React.PureComponent {
 
   componentDidUpdate(prevProps) {
     if (prevProps.value !== this.props.value) {
-      const inputValue = AutocompleteInstance.getCurrentDataTitle(
-        this.context.drawerList.selected_item,
-        this.context.drawerList.original_data
-      )
-      this.setState({
-        inputValue,
+      // Ensure we run getCurrentDataTitle after also data has been update,
+      // in case data has changed
+      this.setState({}, () => {
+        const inputValue = AutocompleteInstance.getCurrentDataTitle(
+          this.context.drawerList.selected_item,
+          this.context.drawerList.original_data
+        )
+        this.setState({
+          inputValue,
+        })
       })
     }
   }

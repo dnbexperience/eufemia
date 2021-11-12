@@ -711,23 +711,26 @@ describe('Autocomplete component', () => {
     expect(on_focus).toHaveBeenCalledTimes(2)
   })
 
-  it('updates its input value if value prop changes', () => {
+  it('updates its input value if value and data prop changes', () => {
     let value = 0
+    let data = mockData
 
     const Comp = mount(
-      <Component value={value} data={mockData} {...mockProps} />
+      <Component value={value} data={data} {...mockProps} />
     )
 
     Comp.find('input').simulate('focus')
 
     expect(Comp.find('.dnb-input__input').instance().value).toBe(
-      mockData[value]
+      data[value]
     )
 
     value = 1
-    Comp.setProps({ value })
+    data = ['New data', ...mockData]
+
+    Comp.setProps({ value, data })
     expect(Comp.find('.dnb-input__input').instance().value).toBe(
-      mockData[value]
+      data[value]
     )
   })
 
