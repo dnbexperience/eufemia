@@ -99,14 +99,7 @@ export const ButtonTertiary = () => (
   text={<span>Text inside additional span</span>}
   icon_position="left"
   icon="chevron_left"
-  left
-/>
-<Button
-  variant="tertiary"
-  size="large"
-  text="Large tertiary button"
-  icon="chevron_right"
-  left
+  right="1rem"
 />
 `}
   </ComponentBox>
@@ -119,14 +112,6 @@ export const ButtonTertiaryTop = () => (
   variant="tertiary"
   icon_position="top"
   icon="close"
-  text="Button text"
-  right="large"
-/>
-<Button
-  variant="tertiary"
-  icon_position="top"
-  icon="close"
-  size="large"
   text="Button text"
 />
 `}

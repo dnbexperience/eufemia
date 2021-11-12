@@ -96,11 +96,8 @@
   &__close-button.dnb-button--tertiary {
     position: absolute;
     z-index: 1;
-    top: -0.25rem;
     right: 1rem; // also because of the focus-ring
     left: auto;
-
-    margin-top: 0.75rem;
   }
   .dnb-modal__content__inner &__close-button {
     right: 0;

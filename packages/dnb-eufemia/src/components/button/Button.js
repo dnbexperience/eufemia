@@ -159,7 +159,7 @@ export default class Button extends React.PureComponent {
         usedSize = 'default'
       }
     }
-    if (!iconSize && variant === 'tertiary' && usedSize === 'large') {
+    if (!iconSize && variant === 'tertiary' && icon_position === 'top') {
       iconSize = 'medium'
     }
 
