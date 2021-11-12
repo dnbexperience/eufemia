@@ -35,73 +35,6 @@ import Tooltip from '../tooltip/Tooltip'
 export const buttonVariantPropType = {
   variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'signal']),
 }
-export const buttonPropTypes = {
-  text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  type: PropTypes.string,
-  title: PropTypes.node,
-  variant: buttonVariantPropType.variant,
-  size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func,
-  ]),
-  icon_position: PropTypes.oneOf(['left', 'right', 'top']),
-  icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  tooltip: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  status_state: PropTypes.string,
-  status_props: PropTypes.object,
-  status_no_animation: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
-  global_status_id: PropTypes.string,
-  id: PropTypes.string,
-  class: PropTypes.string,
-  href: PropTypes.string,
-  to: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.func,
-  ]),
-  custom_content: PropTypes.node,
-  wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  inner_ref: PropTypes.object,
-
-  className: PropTypes.string,
-  innerRef: PropTypes.object,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  element: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.object,
-    PropTypes.node,
-  ]),
-
-  ...spacingPropTypes,
-
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-
-  on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-}
 
 /**
  * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
@@ -109,48 +42,6 @@ export const buttonPropTypes = {
 export default class Button extends React.PureComponent {
   static tagName = 'dnb-button'
   static contextType = Context
-
-  static propTypes = {
-    ...buttonPropTypes,
-  }
-
-  static defaultProps = {
-    type: null, // set the type because of the anchor/href situation – can be made more smart in future
-    text: null,
-    variant: null,
-    size: null,
-    title: null,
-    icon: null,
-    icon_position: 'right',
-    icon_size: null,
-    href: null,
-    to: null,
-    id: null,
-    class: null,
-    custom_content: null,
-    wrap: null,
-    bounding: null,
-    stretch: null,
-    skeleton: null,
-    disabled: null,
-    tooltip: null,
-    status: null,
-    status_state: 'error',
-    status_props: null,
-    status_no_animation: null,
-    global_status_id: null,
-    inner_ref: null,
-
-    className: null,
-    innerRef: null,
-    children: null,
-    element: null,
-
-    custom_element: null,
-    custom_method: null,
-
-    on_click: null,
-  }
 
   static enableWebComponent() {
     registerElement(Button?.tagName, Button, Button.defaultProps)
@@ -370,34 +261,110 @@ export default class Button extends React.PureComponent {
   }
 }
 
-Content.propTypes = {
+Button.propTypes = {
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  type: PropTypes.string,
   title: PropTypes.node,
-  custom_content: PropTypes.node,
-  content: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.array,
-    PropTypes.node,
-  ]),
+  variant: buttonVariantPropType.variant,
+  size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
     PropTypes.func,
   ]),
+  icon_position: PropTypes.oneOf(['left', 'right', 'top']),
   icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  tooltip: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
+  status: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
+  status_state: PropTypes.string,
+  status_props: PropTypes.object,
+  status_no_animation: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]),
+  global_status_id: PropTypes.string,
+  id: PropTypes.string,
+  class: PropTypes.string,
+  href: PropTypes.string,
+  to: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.func,
+  ]),
+  custom_content: PropTypes.node,
+  wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.bool,
-  isIconOnly: PropTypes.bool,
+  stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  inner_ref: PropTypes.object,
+
+  className: PropTypes.string,
+  innerRef: PropTypes.object,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
+  element: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.node,
+  ]),
+
+  ...spacingPropTypes,
+
+  custom_element: PropTypes.object,
+  custom_method: PropTypes.func,
+
+  on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 }
 
-Content.defaultProps = {
-  custom_content: null,
+Button.defaultProps = {
+  type: null, // set the type because of the anchor/href situation – can be made more smart in future
+  text: null,
+  variant: null,
+  size: null,
   title: null,
-  content: null,
   icon: null,
-  icon_size: 'default',
+  icon_position: 'right',
+  icon_size: null,
+  href: null,
+  to: null,
+  id: null,
+  class: null,
+  custom_content: null,
+  wrap: null,
   bounding: null,
+  stretch: null,
   skeleton: null,
-  isIconOnly: null,
+  disabled: null,
+  tooltip: null,
+  status: null,
+  status_state: 'error',
+  status_props: null,
+  status_no_animation: null,
+  global_status_id: null,
+  inner_ref: null,
+
+  className: null,
+  innerRef: null,
+  children: null,
+  element: null,
+
+  custom_element: null,
+  custom_method: null,
+
+  on_click: null,
 }
 
 function Content({
@@ -469,4 +436,34 @@ function Content({
         ))}
     </>
   )
+}
+
+Content.propTypes = {
+  title: PropTypes.node,
+  custom_content: PropTypes.node,
+  content: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+    PropTypes.node,
+  ]),
+  icon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func,
+  ]),
+  icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.bool,
+  isIconOnly: PropTypes.bool,
+}
+
+Content.defaultProps = {
+  custom_content: null,
+  title: null,
+  content: null,
+  icon: null,
+  icon_size: 'default',
+  bounding: null,
+  skeleton: null,
+  isIconOnly: null,
 }
