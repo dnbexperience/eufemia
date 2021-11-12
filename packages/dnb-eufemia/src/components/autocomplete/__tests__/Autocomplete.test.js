@@ -865,6 +865,24 @@ describe('Autocomplete component', () => {
       />
     )
 
+    // 1. Make first a selected_item change
+    Comp.setProps({ value: 2 })
+
+    // 2. Then update the data
+    Comp.setProps({ data: newMockData })
+
+    // 3. And change the value again
+    Comp.setProps({ value: 1 })
+
+    // It should not trigger the resetSelectionItem method
+    expect(on_change).toHaveBeenCalledTimes(0)
+    expect(Comp.find('input').instance().value).toBe(
+      newMockData[1].content
+    )
+
+    // Reset data and value
+    Comp.setProps({ value: null, data: mockData })
+
     Comp.find('input').simulate('change', { target: { value: 'cc' } })
 
     // Make a selection
@@ -875,9 +893,11 @@ describe('Autocomplete component', () => {
     expect(on_change).toHaveBeenCalledTimes(1)
     expect(on_change.mock.calls[0][0].data).toEqual(mockData[1])
 
+    // Trigger data update
     Comp.find('input').simulate('change', { target: { value: 'c' } })
 
     expect(Comp.find('input').instance().value).toBe('c')
+
     expect(on_change).toHaveBeenCalledTimes(2)
     expect(on_change.mock.calls[1][0].data).toEqual(undefined)
 
