@@ -4,9 +4,9 @@ icon: 'usage'
 order: 3
 ---
 
-<!-- import ReleasesInfo from 'Pages/design-system/changelog/info-about-releases' -->
+<!-- import ReleasesInfo from 'Docs/design-system/changelog/info-about-releases' -->
 
-import WatchingReleases from 'Pages/uilib/info/about-watching-releases.md'
+import WatchingReleases from 'Docs/uilib/info/about-watching-releases.md'
 
 # Usage
 

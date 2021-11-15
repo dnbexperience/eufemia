@@ -5,8 +5,8 @@ order: 2
 showTabs: true
 ---
 
-import DatePickerInfo from 'Pages/uilib/components/date-picker/info'
-import DatePickerDemos from 'Pages/uilib/components/date-picker/demos'
+import DatePickerInfo from 'Docs/uilib/components/date-picker/info'
+import DatePickerDemos from 'Docs/uilib/components/date-picker/demos'
 
 <DatePickerInfo />
 <DatePickerDemos />

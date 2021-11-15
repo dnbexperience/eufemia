@@ -7,7 +7,7 @@ HeadingDefault,
 HeadingContext,
 HeadingIsolation,
 HeadingMix
-} from 'Pages/uilib/components/heading/Examples'
+} from 'Docs/uilib/components/heading/Examples'
 
 ## Demos
 

@@ -9,8 +9,8 @@ hideTabs:
   - title: Events
 ---
 
-import IconPrimaryInfo from 'Pages/uilib/components/icon-primary/info'
-import IconPrimaryDemos from 'Pages/uilib/components/icon-primary/demos'
+import IconPrimaryInfo from 'Docs/uilib/components/icon-primary/info'
+import IconPrimaryDemos from 'Docs/uilib/components/icon-primary/demos'
 
 <IconPrimaryInfo />
 <IconPrimaryDemos />

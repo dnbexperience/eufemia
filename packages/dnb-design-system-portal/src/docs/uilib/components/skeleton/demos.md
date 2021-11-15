@@ -2,9 +2,9 @@
 showTabs: true
 ---
 
-import PortalSkeleton from 'Pages/uilib/components/skeleton/PortalSkeleton'
+import PortalSkeleton from 'dnb-design-system-portal/src/shared/parts/uilib/PortalSkeleton'
 import { AllComponents } from 'dnb-design-system-portal/src/docs/uilib/components/form-row/Examples'
-import ComponentBox from 'Tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import Provider from '@dnb/eufemia/src/shared/Provider'
 import Context from '@dnb/eufemia/src/shared/Context'
 import { Article } from '@dnb/eufemia/src/components/skeleton/figures'

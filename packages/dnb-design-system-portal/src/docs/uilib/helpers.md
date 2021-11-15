@@ -6,15 +6,15 @@ order: 4
 showTabs: true
 tabs:
   - title: Info
-    key: /uilib/helpers/info$1
+    key: /uilib/helpers/info
   - title: CSS Classes
-    key: /uilib/helpers/classes$1
+    key: /uilib/helpers/classes
   - title: Functions
-    key: /uilib/helpers/functions$1
+    key: /uilib/helpers/functions
 redirect_from:
   - /uilib/helper-classes
 ---
 
-import HelperClassesInfo from 'Pages/uilib/helpers/info'
+import HelperClassesInfo from 'Docs/uilib/helpers/info'
 
 <HelperClassesInfo />

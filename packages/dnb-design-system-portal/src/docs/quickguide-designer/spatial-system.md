@@ -3,23 +3,23 @@ title: 'Spatial system'
 icon: 'special'
 ---
 
-import InlineImg from 'Tags/Img'
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
 
-import TypeAndLayoutSvg from 'Pages/quickguide-designer/assets/type-and-layout.svg'
-import PaddingExampleSvg from 'Pages/quickguide-designer/assets/padding-example.svg'
-import MarginExampleSvg from 'Pages/quickguide-designer/assets/margin-example.svg'
-import BordersAndLinesSvg from 'Pages/quickguide-designer/assets/borders-lines.svg'
-import LineHeightSvg from 'Pages/quickguide-designer/assets/line-height.svg'
-import DesignersIntentionsSvg from 'Pages/quickguide-designer/assets/designers-intentions.svg'
-import MultipleMarginsSvg from 'Pages/quickguide-designer/assets/multiple-margins.svg'
-import PaddingButtonsSvg from 'Pages/quickguide-designer/assets/padding-buttons.svg'
-import ZindexSvg from 'Pages/quickguide-designer/assets/zindex.svg'
-import ExtentsSvg from 'Pages/quickguide-designer/assets/extents.svg'
-import SpaceWithinSvg from 'Pages/quickguide-designer/assets/space-within.svg'
-import TypeOnGridSvg from 'Pages/quickguide-designer/assets/type-on-grid.svg'
-import SpaceBlocksSvg from 'Pages/quickguide-designer/assets/space-blocks.svg'
-import DiscrepanciesSvg from 'Pages/quickguide-designer/assets/discrepancies.svg'
-import StandardSpacingBlocks from 'Pages/quickguide-designer/assets/standard-spacing-blocks.svg'
+import TypeAndLayoutSvg from 'Docs/quickguide-designer/assets/type-and-layout.svg'
+import PaddingExampleSvg from 'Docs/quickguide-designer/assets/padding-example.svg'
+import MarginExampleSvg from 'Docs/quickguide-designer/assets/margin-example.svg'
+import BordersAndLinesSvg from 'Docs/quickguide-designer/assets/borders-lines.svg'
+import LineHeightSvg from 'Docs/quickguide-designer/assets/line-height.svg'
+import DesignersIntentionsSvg from 'Docs/quickguide-designer/assets/designers-intentions.svg'
+import MultipleMarginsSvg from 'Docs/quickguide-designer/assets/multiple-margins.svg'
+import PaddingButtonsSvg from 'Docs/quickguide-designer/assets/padding-buttons.svg'
+import ZindexSvg from 'Docs/quickguide-designer/assets/zindex.svg'
+import ExtentsSvg from 'Docs/quickguide-designer/assets/extents.svg'
+import SpaceWithinSvg from 'Docs/quickguide-designer/assets/space-within.svg'
+import TypeOnGridSvg from 'Docs/quickguide-designer/assets/type-on-grid.svg'
+import SpaceBlocksSvg from 'Docs/quickguide-designer/assets/space-blocks.svg'
+import DiscrepanciesSvg from 'Docs/quickguide-designer/assets/discrepancies.svg'
+import StandardSpacingBlocks from 'Docs/quickguide-designer/assets/standard-spacing-blocks.svg'
 
 # Spatial system
 
@@ -240,8 +240,8 @@ Layout design is not limited to these selected sizing blocks. If you need more s
 
 The [example demo apps](/uilib/getting-started/demos) shows the 8px system in practice.
 
-<!-- import ExampleAarsoppgaveGuidesSvg from 'Pages/quickguide-designer/assets/example-aarsoppgave-guides.svg'
-import ExampleAarsoppgaveSvg from 'Pages/quickguide-designer/assets/example-aarsoppgave.svg'
+<!-- import ExampleAarsoppgaveGuidesSvg from 'Docs/quickguide-designer/assets/example-aarsoppgave-guides.svg'
+import ExampleAarsoppgaveSvg from 'Docs/quickguide-designer/assets/example-aarsoppgave.svg'
 
 <InlineImg src={ExampleAarsoppgaveSvg} caption="A simple example of the 8px system in use" alt="Aarsoppgave example" />
 

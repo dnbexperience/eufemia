@@ -4,7 +4,7 @@ icon: 'info'
 order: 3
 ---
 
-import WelcomeAdvice from 'Pages/welcome-advice'
+import WelcomeAdvice from 'Docs/welcome-advice'
 
 # About Eufemia
 
@@ -35,7 +35,7 @@ You can read more about what we at DNB UX expect and define as the minimal [acce
 
 ## Special Thanks
 
-Thank You for all who as contributed to build Eufemia. People who has contributed heavily to Eufemia are:
+Thank you for all who as contributed to build Eufemia. People who has contributed heavily to Eufemia are:
 
 - [Jens Thuland](https://dnb.enterprise.slack.com/user/@WE4QCR6PQ)
 - [Tobias Høegh](https://dnb.enterprise.slack.com/user/@WE2M4E65N)

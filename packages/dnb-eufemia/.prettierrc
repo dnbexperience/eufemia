@@ -16,13 +16,6 @@
       }
     },
     {
-      "files": "*.tsx",
-      "options": {
-        "semi": true,
-        "trailingComma": "none"
-      }
-    },
-    {
       "files": "*.scss",
       "options": {
         "singleQuote": true

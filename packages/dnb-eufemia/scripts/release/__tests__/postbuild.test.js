@@ -69,6 +69,17 @@ describe('babel build', () => {
             expect(content).toContain('var Modal = function')
             expect(content).toMatch(/^"use strict";/g)
           }
+
+          {
+            const content = fs.readFileSync(
+              path.resolve(
+                `./build/${stage}/components/breadcrumb/Breadcrumb.js`
+              ),
+              'utf-8'
+            )
+            expect(content).toContain('var _default = Breadcrumb')
+            expect(content).toMatch(/^"use strict";/g)
+          }
         }
         break
 
@@ -82,15 +93,31 @@ describe('babel build', () => {
             expect(content).toContain('export default {};')
           }
 
-          const content = fs.readFileSync(
-            path.resolve(`./build/${stage}/components/modal/Modal.js`),
-            'utf-8'
-          )
-          expect(content).toContain('export { Modal as default };')
-          expect(content).toContain('core-js/modules/es')
-          expect(content).toContain(
-            'import _extends from "@babel/runtime/helpers/esm/extends";'
-          )
+          {
+            const content = fs.readFileSync(
+              path.resolve(`./build/${stage}/components/modal/Modal.js`),
+              'utf-8'
+            )
+            expect(content).toContain('export { Modal as default };')
+            expect(content).toContain('core-js/modules/es')
+            expect(content).toContain(
+              'import _extends from "@babel/runtime/helpers/esm/extends";'
+            )
+          }
+
+          {
+            const content = fs.readFileSync(
+              path.resolve(
+                `./build/${stage}/components/breadcrumb/Breadcrumb.js`
+              ),
+              'utf-8'
+            )
+            expect(content).toContain('export default Breadcrumb;')
+            expect(content).toContain('core-js/modules/es')
+            expect(content).toContain(
+              'import "core-js/modules/es.object.keys.js";'
+            )
+          }
         }
         break
 
@@ -104,17 +131,43 @@ describe('babel build', () => {
             expect(content).toContain('export default {};')
           }
 
-          const content = fs.readFileSync(
-            path.resolve(`./build/${stage}/components/modal/Modal.js`),
-            'utf-8'
-          )
-          expect(content).toMatch(/export default class Modal extends/g)
-          expect(content).not.toContain('core-js/modules/es')
-          expect(content).toContain(
-            'import _extends from "@babel/runtime/helpers/esm/extends";'
-          )
+          {
+            const content = fs.readFileSync(
+              path.resolve(`./build/${stage}/components/modal/Modal.js`),
+              'utf-8'
+            )
+            expect(content).toMatch(/export default class Modal extends/g)
+            expect(content).not.toContain('core-js/modules/es')
+            expect(content).toContain(
+              'import _extends from "@babel/runtime/helpers/esm/extends";'
+            )
+          }
+
+          {
+            const content = fs.readFileSync(
+              path.resolve(
+                `./build/${stage}/components/breadcrumb/Breadcrumb.js`
+              ),
+              'utf-8'
+            )
+            expect(content).toContain('export default Breadcrumb;')
+            expect(content).not.toContain('core-js/modules/es')
+            expect(content).toContain(
+              'import _extends from "@babel/runtime/helpers/esm/extends";'
+            )
+          }
         }
         break
+    }
+
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          `./build/${stage}/components/breadcrumb/Breadcrumb.tsx`
+        ),
+        'utf-8'
+      )
+      expect(content).toContain('export interface BreadcrumbProps')
     }
   })
 })

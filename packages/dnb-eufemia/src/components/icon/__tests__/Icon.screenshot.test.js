@@ -6,16 +6,11 @@
 import {
   testPageScreenshot,
   setupPageScreenshot,
-  // isCI,
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Icon screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/icon/demos',
-    // screenshotConfig: {
-    //   // use 10% on CI because of the font rendering differences
-    //   pixelThresholdRelative: isCI ? 0.1 : 0,
-    // },
   })
 
   it('have to match default icons setup', async () => {
@@ -44,10 +39,6 @@ describe('Icon screenshot', () => {
 
   it('have to match icons with border', async () => {
     const screenshot = await testPageScreenshot({
-      // screenshotConfig: {
-      //   // use 2% on CI because of the font rendering differences
-      //   pixelThresholdRelative: isCI ? 0.02 : 0,
-      // },
       style: {
         // Flex makes the pixel height 100% correct
         display: 'flex',
@@ -74,9 +65,6 @@ describe('Icon screenshot', () => {
 describe('Icon screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/icon/demos',
-    // screenshotConfig: {
-    //   pixelThresholdRelative: isCI ? 0.02 : 0,
-    // },
   })
 
   it('have to match all primary icons', async () => {

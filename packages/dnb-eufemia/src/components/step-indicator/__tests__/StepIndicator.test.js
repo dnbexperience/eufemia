@@ -107,6 +107,10 @@ describe('StepIndicator in loose mode', () => {
     items.at(0).find('button').simulate('click')
 
     expect(on_change).toBeCalledTimes(1)
+    expect(on_change.mock.calls[0][0].currentStep).toBe(0)
+    expect(typeof on_change.mock.calls[0][0].event.preventDefault).toBe(
+      'function'
+    )
     expect(
       items
         .at(0)

@@ -52,6 +52,7 @@ describe('StepIndicator screenshot', () => {
         '[data-visual-test="step-indicator-static"] .dnb-step-indicator__trigger__button',
       simulate: 'click',
       screenshotSelector: '.dnb-modal__content',
+      rootClassName: 'hide-page-content',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -87,6 +88,7 @@ describe('StepIndicator screenshot', () => {
         '[data-visual-test="step-indicator-strict"] .dnb-step-indicator__trigger__button',
       simulate: 'click',
       screenshotSelector: '.dnb-modal__content',
+      rootClassName: 'hide-page-content',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

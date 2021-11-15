@@ -5,7 +5,7 @@ icon: 'primary'
 order: 2
 ---
 
-import ListAllIcons from "Parts/icons/ListAllIcons";
+import ListAllIcons from "dnb-design-system-portal/src/shared/parts/icons/ListAllIcons";
 
 # Primary Icons
 

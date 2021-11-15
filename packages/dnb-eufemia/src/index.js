@@ -12,6 +12,7 @@
 // import all the available components and extensions
 import Accordion from './components/accordion/Accordion'
 import Autocomplete from './components/autocomplete/Autocomplete'
+import Breadcrumb from './components/breadcrumb/Breadcrumb'
 import Button from './components/button/Button'
 import Checkbox from './components/checkbox/Checkbox'
 import DatePicker from './components/date-picker/DatePicker'
@@ -78,6 +79,7 @@ import Ul from './elements/Ul'
 export {
   Accordion,
   Autocomplete,
+  Breadcrumb,
   Button,
   Checkbox,
   DatePicker,

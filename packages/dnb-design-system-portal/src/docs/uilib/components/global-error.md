@@ -7,8 +7,8 @@ hideTabs:
   - title: Events
 ---
 
-import GlobalErrorInfo from 'Pages/uilib/components/global-error/info'
-import GlobalErrorDemos from 'Pages/uilib/components/global-error/demos'
+import GlobalErrorInfo from 'Docs/uilib/components/global-error/info'
+import GlobalErrorDemos from 'Docs/uilib/components/global-error/demos'
 
 <GlobalErrorInfo />
 <GlobalErrorDemos />

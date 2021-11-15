@@ -4,8 +4,8 @@ icon: 'about_the_lib'
 order: 1
 ---
 
-import WelcomeAdvice from 'Pages/welcome-advice.md'
-import WatchingReleases from 'Pages/uilib/info/about-watching-releases.md'
+import WelcomeAdvice from 'Docs/welcome-advice.md'
+import WatchingReleases from 'Docs/uilib/info/about-watching-releases.md'
 
 # About the library
 

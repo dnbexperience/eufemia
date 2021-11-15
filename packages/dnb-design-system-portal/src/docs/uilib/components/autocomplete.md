@@ -5,8 +5,8 @@ order: 1
 showTabs: true
 ---
 
-import AutocompleteInfo from 'Pages/uilib/components/autocomplete/info'
-import AutocompleteDemos from 'Pages/uilib/components/autocomplete/demos'
+import AutocompleteInfo from 'Docs/uilib/components/autocomplete/info'
+import AutocompleteDemos from 'Docs/uilib/components/autocomplete/demos'
 
 <AutocompleteInfo />
 <AutocompleteDemos />

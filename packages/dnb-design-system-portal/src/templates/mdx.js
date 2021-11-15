@@ -1,10 +1,9 @@
+/* eslint-disable react/prop-types */
 /**
  * MDX Template
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
-
 import { MDXProvider } from '@mdx-js/react'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
 import { graphql } from 'gatsby'
@@ -21,30 +20,32 @@ export default class MdxTemplate extends React.PureComponent {
     const {
       location,
       data: {
-        mdx: {
-          body,
-          frontmatter: { title, description, fullscreen, showTabs },
-          tableOfContents,
-          children,
-        },
+        mdx,
         site: {
           siteMetadata: { title: mainTitle, description: mainDescription },
         },
       },
     } = this.props
 
-    const child = children[1] || null
-    let pageTitle = title
-    let pageDescription =
-      description || child?.frontmatter?.description || mainDescription
+    const { body, tableOfContents, siblings } = mdx
+
+    const makeUseOfCategory = Boolean(
+      !mdx?.frontmatter?.title && mdx?.frontmatter?.showTabs
+    )
+    const category = siblings?.[0]
+    const categoryFm = category?.frontmatter || {}
+    const currentFm = mdx?.frontmatter || {}
+
+    const pageDescription = currentFm?.description || mainDescription
+    let pageTitle
 
     // Extend the title with a sub tab title
-    if (!pageTitle) {
-      if (child && Array.isArray(tableOfContents?.items)) {
-        pageTitle = `${child?.frontmatter?.title} – ${tableOfContents.items[0]?.title}`
-      } else {
-        pageTitle = child?.frontmatter?.title || mainTitle
-      }
+    if (currentFm?.title && Array.isArray(tableOfContents?.items?.[0])) {
+      pageTitle = `${currentFm.title || categoryFm?.title} – ${
+        tableOfContents.items[0]?.title
+      }`
+    } else {
+      pageTitle = currentFm?.title || categoryFm?.title || mainTitle
     }
 
     return (
@@ -58,15 +59,21 @@ export default class MdxTemplate extends React.PureComponent {
           key="layout"
           location={location}
           fullscreen={
-            Boolean(fullscreen) || this.props.pageContext.fullscreen
+            Boolean(currentFm.fullscreen || categoryFm.fullscreen) ||
+            this.props.pageContext.fullscreen
           }
         >
-          {showTabs && (
+          {currentFm.showTabs && (
             <Tabbar
               key="tabbar"
               location={location}
-              {...(child?.frontmatter || {})}
-              usePath={'/' + (child?.fields?.slug || '')}
+              rootPath={
+                '/' + (makeUseOfCategory ? category?.slug : mdx?.slug)
+              }
+              title={currentFm.title || categoryFm.title}
+              tabs={currentFm.tabs || categoryFm.tabs}
+              defaultTabs={currentFm.defaultTabs || categoryFm.defaultTabs}
+              hideTabs={currentFm.hideTabs || categoryFm.hideTabs}
             />
           )}
 
@@ -81,24 +88,6 @@ export default class MdxTemplate extends React.PureComponent {
   }
 }
 
-MdxTemplate.propTypes = {
-  location: PropTypes.object.isRequired,
-  pageContext: PropTypes.shape({
-    fullscreen: PropTypes.bool,
-  }).isRequired,
-  data: PropTypes.shape({
-    mdx: PropTypes.shape({
-      body: PropTypes.string.isRequired,
-      frontmatter: PropTypes.object.isRequired,
-      tableOfContents: PropTypes.object.isRequired,
-      children: PropTypes.array.isRequired,
-    }).isRequired,
-    site: PropTypes.shape({
-      siteMetadata: PropTypes.object.isRequired,
-    }).isRequired,
-  }).isRequired,
-}
-
 export const pageQuery = graphql`
   query MDXQuery($id: String!) {
     site {
@@ -108,30 +97,36 @@ export const pageQuery = graphql`
       }
     }
     mdx(id: { eq: $id }) {
+      slug
       frontmatter {
         title
         description
         fullscreen
         showTabs
+        hideTabs {
+          title
+        }
+        tabs {
+          title
+          key
+        }
       }
       tableOfContents
       body
-      children {
-        ... on Mdx {
-          fields {
-            slug
-          }
-          frontmatter {
+      siblings {
+        slug
+        frontmatter {
+          menuTitle
+          title
+          description
+          fullscreen
+          showTabs
+          hideTabs {
             title
-            menuTitle
-            showTabs
-            tabs {
-              title
-              key
-            }
-            hideTabs {
-              title
-            }
+          }
+          tabs {
+            title
+            key
           }
         }
       }

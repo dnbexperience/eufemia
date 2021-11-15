@@ -77,18 +77,11 @@ export const runFactory = (
         .pipe(cloneSink.tap())
 
       if (!returnResult && !returnFiles) {
-        stream
-          .pipe(
-            gulp.dest(`./build/cjs/${dest}/`, {
-              cwd: ROOT_DIR,
-            })
-          )
-          .pipe(gulp.dest(`./build/es/${dest}/`, { cwd: ROOT_DIR }))
-          .pipe(
-            gulp.dest(`./build/esm/${dest}/`, {
-              cwd: ROOT_DIR,
-            })
-          )
+        stream.pipe(
+          gulp.dest(`./build/${dest}/`, {
+            cwd: ROOT_DIR,
+          })
+        )
       }
 
       // so tests can test the minified code

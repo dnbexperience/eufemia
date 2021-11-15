@@ -2,8 +2,8 @@
 showTabs: true
 ---
 
-import InlineImg from 'Tags/Img'
-import InputMaskedUsage from 'Pages/uilib/components/input/assets/input-masked.svg'
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
+import InputMaskedUsage from 'Docs/uilib/components/input/assets/input-masked.svg'
 
 ## Description
 

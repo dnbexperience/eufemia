@@ -3,7 +3,7 @@ fullscreen: true
 search: 'Intro - What forms the system?'
 ---
 
-import InlineImg from 'Tags/Img'
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
 import WhatIsEufemia from 'Docs/uilib/intro/assets/what-is-a-design-system.svg'
 
 <Intro>
@@ -14,7 +14,7 @@ import WhatIsEufemia from 'Docs/uilib/intro/assets/what-is-a-design-system.svg'
 
 - Consistent User Experience (**UX**) for all DNB products
 - [**Single source of truth**](https://www.npmjs.com/package/@dnb/eufemia)
-- [Contribution](!/uilib/development) and [collaboration](https://github.com/dnbexperience/eufemia)
+- [Contribution](!/contribution) and [collaboration](https://github.com/dnbexperience/eufemia)
 - Independent "visual" layer with semantic versioning
 - Notification of [new releases](!/uilib/usage#the-eufemia-repository)
 - Ready to use sub-systems, tested and easy to integrate

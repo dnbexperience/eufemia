@@ -96,92 +96,6 @@ export const BrandSvg = (props) => (
     />
   </svg>
 )
-export const PrinciplesSvg = (props) => (
-  <svg
-    viewBox="0 0 48 47"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
-    <path
-      d="M22 46V10"
-      stroke="black"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M13 46H31"
-      stroke="black"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M24.4502 5.27399L38.5002 1"
-      stroke="black"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M4 11.4999L18.98 6.93994"
-      stroke="black"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M22 10C23.66 10 25 8.657 25 7C25 5.343 23.66 4 22 4C20.34 4 19 5.343 19 7C19 8.657 20.34 10 22 10Z"
-      stroke="black"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M16 31C16 32.989 15.21 34.897 13.8 36.303C12.4 37.71 10.49 38.5 8.5 38.5C6.51 38.5 4.60001 37.71 3.20001 36.303C1.79001 34.897 1 32.989 1 31H16Z"
-      stroke="black"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M8.41998 10.1538L1 24.9998"
-      stroke="black"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M8.55957 10.1143L15.9996 25.0002"
-      stroke="black"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M43 22C43 23.989 42.21 25.897 40.8 27.303C39.4 28.71 37.49 29.5 35.5 29.5C33.51 29.5 31.6 28.71 30.2 27.303C28.79 25.897 28 23.989 28 22H43Z"
-      stroke="black"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M34.96 2.07812L28 16.0001"
-      stroke="black"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M43.0004 15.9998L35.9004 1.7998"
-      stroke="black"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
 export const QuickguideDesignerSvg = (props) => (
   <svg
     width="48"
@@ -395,6 +309,53 @@ export const UilibSvg = (props) => (
     <path
       d="M28.9192 11.7106a7.1658 7.1658 0 0 1-4.4992-.078 7.101 7.101 0 0 1-3.5518-2.7395"
       stroke="black"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
+export const DevelopmentSvg = (props) => (
+  <svg
+    width="48"
+    height="48"
+    viewBox="0 0 48 48"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M4.5 43.5C3.70435 43.5 2.94129 43.1839 2.37868 42.6213C1.81607 42.0587 1.5 41.2956 1.5 40.5V7.73C1.50264 6.87416 1.84379 6.05413 2.44896 5.44896C3.05413 4.84379 3.87416 4.50264 4.73 4.5H43.286C44.1376 4.50264 44.9536 4.8421 45.5557 5.44427C46.1579 6.04644 46.4974 6.86241 46.5 7.714V40.27C46.4974 41.1258 46.1562 41.9459 45.551 42.551C44.9459 43.1562 44.1258 43.4974 43.27 43.5H4.5Z"
+      stroke="#00343E"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M46.5 13.5H1.5"
+      stroke="#00343E"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M33 22.5L39 28.5L33 34.5"
+      stroke="#00343E"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M15 22.5L9 28.5L15 34.5"
+      stroke="#00343E"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M27 22.5L21 34.5"
+      stroke="#00343E"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"

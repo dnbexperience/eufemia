@@ -3,7 +3,7 @@ fullscreen: true
 search: 'Intro - CSS Packages'
 ---
 
-import { Next } from 'Tags/Intro'
+import { Next } from 'dnb-design-system-portal/src/shared/tags/Intro'
 import { Link } from '@dnb/eufemia/src/elements'
 
 <Intro>

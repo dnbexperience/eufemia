@@ -10,7 +10,6 @@ import {
 
 describe('Section screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/section/demos' })
-  // const style = { width: '8rem' }
 
   it('have to match default section', async () => {
     const screenshot = await testPageScreenshot({
@@ -85,6 +84,13 @@ describe('Section screenshot', () => {
   it('have to match fire-red section', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="section-fire-red"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match z-index test', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="section-z-index"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

@@ -5,21 +5,21 @@ order: 10
 showTabs: true
 tabs:
   - title: Info
-    key: /uilib/extensions/payment-card/info$1
+    key: /uilib/extensions/payment-card/info
   - title: Demos
-    key: /uilib/extensions/payment-card/demos$1
+    key: /uilib/extensions/payment-card/demos
   - title: Properties
-    key: /uilib/extensions/payment-card/properties$1
+    key: /uilib/extensions/payment-card/properties
   - title: Products
-    key: /uilib/extensions/payment-card/products$1
+    key: /uilib/extensions/payment-card/products
 #   - title: Maker
-#     key: /uilib/extensions/payment-card/maker$1
+#     key: /uilib/extensions/payment-card/maker
 redirect_from:
   - /uilib/patterns/payment-card
 ---
 
-import PaymentCardInfo from 'Pages/uilib/extensions/payment-card/info'
-import PaymentCardDemos from 'Pages/uilib/extensions/payment-card/demos'
+import PaymentCardInfo from 'Docs/uilib/extensions/payment-card/info'
+import PaymentCardDemos from 'Docs/uilib/extensions/payment-card/demos'
 
 <PaymentCardInfo />
 <PaymentCardDemos />

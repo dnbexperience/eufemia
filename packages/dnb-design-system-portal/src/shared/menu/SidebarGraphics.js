@@ -24,6 +24,7 @@ import special from './graphics/special'
 import tools from './graphics/tools'
 import fonts from './graphics/fonts'
 import inspiration from './graphics/inspiration'
+import principles from './graphics/principles'
 import ui_guides from './graphics/ui_guides'
 import logos from './graphics/logos'
 import secondary from './graphics/secondary'
@@ -52,6 +53,7 @@ export default {
   tools,
   fonts,
   inspiration,
+  principles,
   ui_guides,
   logos,
   secondary,

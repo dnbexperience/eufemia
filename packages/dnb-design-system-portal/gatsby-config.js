@@ -3,7 +3,11 @@
  *
  */
 
+const getCurrentBranchName = require('current-git-branch')
+const currentBranch = getCurrentBranchName()
+
 const pathPrefix = '/'
+
 const siteMetadata = {
   title: 'Eufemia - DNB Design System',
   name: 'Eufemia',
@@ -11,6 +15,7 @@ const siteMetadata = {
     'Eufemia Design System is the go to place for all who has to design, develop and make digital WEB applications for DNB.',
   repoUrl: 'https://github.com/dnbexperience/eufemia/',
 }
+
 const plugins = [
   {
     resolve: 'gatsby-plugin-gatsby-cloud',
@@ -48,7 +53,16 @@ const plugins = [
   {
     resolve: 'gatsby-plugin-page-creator',
     options: {
-      ignore: ['**/*.md', '**/Examples.js', '**/*_not_in_use*'],
+      ignore: [
+        '**/*.md',
+        '**/Examples.*',
+        '**/*_not_in_use*',
+        '**/TypographyExamples.js',
+        '**/demos/layout/Layout.js',
+        '**/skip-link-example.js',
+        '**/CardProductsTable.js',
+        '**/assets/*.js',
+      ],
       path: `${__dirname}/src/docs`, // for .js files
       name: 'docs',
     },
@@ -74,7 +88,7 @@ const plugins = [
       ],
       // Imports in here are globally available in *.md files
       // globalScope: `
-      //   import InlineImg from 'Tags/Img'
+      //   import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
       //   export default { Img }
       // `
       // defaultLayouts: {
@@ -87,41 +101,30 @@ const plugins = [
     options: {
       path: `${__dirname}/src/docs`, //for .md (mdx) files
       name: 'docs',
-      ignore: ['**/*_not_in_use*'],
+      ignore: ['**/Examples.*', '**/*_not_in_use*'],
     },
   },
-  {
-    resolve: 'gatsby-plugin-sass',
-    options: {
-      postCssPlugins:
-        process.env.NODE_ENV === 'production'
-          ? require('@dnb/eufemia/scripts/prepub/config/postcssConfig')({
-              IE11: true,
-              sass: require('sass'),
-            })
-          : [],
-    },
-  },
+  'gatsby-plugin-sass',
   'gatsby-plugin-emotion',
-  process.env.NODE_ENV === 'development'
-    ? 'gatsby-plugin-remove-serviceworker'
-    : {
-        // this (optional) plugin enables Progressive Web App + Offline functionality
-        // To learn more, visit: https://gatsby.app/offline
-        resolve: 'gatsby-plugin-offline',
-        options: {
-          workboxConfig: {
-            globPatterns: ['*.html'],
-            maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
-          },
-        },
-      },
 ].filter(Boolean)
 
-// used for algolia search
+if (currentBranch === 'release') {
+  plugins.push({
+    // This (optional) plugin enables Progressive Web App + Offline functionality
+    // To learn more, visit: https://gatsby.app/offline
+    resolve: 'gatsby-plugin-offline',
+    options: {
+      workboxConfig: {
+        globPatterns: ['*.html'],
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
+      },
+    },
+  })
+}
+
+// Algolia search
 const queries = require('./src/uilib/search/searchQuery')
 if (queries) {
-  require('dotenv').config()
   plugins.push({
     resolve: 'gatsby-plugin-algolia',
     options: {
@@ -135,15 +138,6 @@ if (queries) {
 }
 
 module.exports = {
-  flags: {
-    /**
-     * because of the local visual tests,
-     * we disable the SSR features.
-     * The reason? every page takes longer time to render.
-     */
-    DEV_SSR: false,
-    FAST_DEV: false,
-  },
   pathPrefix,
   siteMetadata,
   plugins,

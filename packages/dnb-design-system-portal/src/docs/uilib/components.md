@@ -39,7 +39,7 @@ The FormRow component is a helper to archive more easily often used DNB form lay
 
 ## [FormSet](/uilib/components/form-set)
 
-The FormSet component gives You both a HTML form element `<form>` by default and also a React provider for [FormRow](/uilib/components/form-row). This way You can define more globally e.g. if all the rows should be displayed **vertically**.
+The FormSet component gives you both a HTML form element `<form>` by default and also a React provider for [FormRow](/uilib/components/form-row). This way you can define more globally e.g. if all the rows should be displayed **vertically**.
 
 ## [FormStatus](/uilib/components/form-status)
 

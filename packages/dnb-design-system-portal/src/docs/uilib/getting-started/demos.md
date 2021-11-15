@@ -5,7 +5,7 @@ order: 5
 ---
 
 import { Button } from '@dnb/eufemia/src'
-import GithubLogo from 'Pages/uilib/development/assets/github-logo.js'
+import GithubLogo from 'Docs/contribution/assets/github-logo.js'
 
 # Demo Apps
 

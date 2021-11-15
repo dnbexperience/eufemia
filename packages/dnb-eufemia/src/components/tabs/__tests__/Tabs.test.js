@@ -123,6 +123,32 @@ describe('Tabs component', () => {
     expect(on_focus).toBeCalledTimes(2)
   })
 
+  it('will use given tab_element', () => {
+    const Link = ({ href, children }) => {
+      return <a href={href}>{children}</a>
+    }
+
+    const tablistData = [
+      { title: 'First', key: 'first', href: '/first' },
+      { title: 'Second', key: 'second', href: '/second' },
+      { title: 'Third', key: 'third', href: '/third' },
+    ]
+
+    const Comp = mount(
+      <Component {...props} data={tablistData} tab_element={Link}>
+        {contentWrapperData}
+      </Component>
+    )
+
+    expect(
+      Comp.find('.dnb-tabs__tabs__tablist')
+        .find('.dnb-tabs__button[data-tab-key="second"]')
+        .html()
+    ).toMatchInlineSnapshot(
+      `"<a href=\\"/second\\"><span class=\\"dnb-tabs__button__title\\">Second</span><span aria-hidden=\\"true\\" hidden=\\"\\" class=\\"dnb-dummy\\">Second</span></a>"`
+    )
+  })
+
   it('should validate with ARIA rules', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })

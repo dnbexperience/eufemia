@@ -8,21 +8,32 @@ const packpath = require('packpath')
 const path = require('path')
 const { create } = require('tar')
 const chalk = require('chalk')
-const rimraf = require('rimraf')
+const { exec } = require('child_process')
 const isCI = require('is-ci')
-const liveServer = require('live-server')
 import {
   commitToBranch,
   getCurrentBranchName,
 } from '../../../scripts/prepub/commitToBranch'
-const { DIR } = require('./jestSetupScreenshots').config
+const { DIR, testScreenshotOnPort } =
+  require('./jestSetupScreenshots').config
 
 module.exports = async function () {
   await global.__ENDPOINT__.close()
   global.__ENDPOINT__ = null
 
-  if (liveServer.shutdown) {
-    liveServer.shutdown()
+  // Do not wait for exec to end
+  if (global.startedGatsbyServe) {
+    exec(
+      `lsof -t -i tcp:${testScreenshotOnPort} | xargs kill -9 `,
+      (error, stdout, stderr) => {
+        if (error) {
+          throw new Error(error)
+        }
+        if (stderr) {
+          throw new Error(stderr)
+        }
+      }
+    )
   }
 
   // commit a tar of the reports if we are on a CI
@@ -50,6 +61,7 @@ module.exports = async function () {
       )
       const newBranchName = `${branchName}--visual-reports`
       await commitToBranch({
+        force: true,
         skipCI: true,
         isFeature: false,
         requiredBranch: branchName,
@@ -67,5 +79,5 @@ module.exports = async function () {
   }
 
   // clean-up the wsEndpoint file
-  rimraf.sync(DIR)
+  fs.emptyDir(DIR)
 }

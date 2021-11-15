@@ -9,7 +9,7 @@ GlobalStatusUpdate,
 GlobalStatusCoupling,
 GlobalStatusAddRemoveItems,
 GlobalStatusScrolling,
-} from 'Pages/uilib/components/global-status/Examples'
+} from 'Docs/uilib/components/global-status/Examples'
 
 ## Demos
 

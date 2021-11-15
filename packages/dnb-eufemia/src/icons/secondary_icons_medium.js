@@ -42,6 +42,12 @@ import chat_medium from './chat_medium.js'
 import chatbot_medium from './chatbot_medium.js'
 import chip_medium from './chip_medium.js'
 import clock_medium from './clock_medium.js'
+import cloud_download_medium from './cloud_download_medium.js'
+import cloud_medium from './cloud_medium.js'
+import cloud_rain_medium from './cloud_rain_medium.js'
+import cloud_sync_medium from './cloud_sync_medium.js'
+import cloud_transfer_medium from './cloud_transfer_medium.js'
+import cloud_upload_medium from './cloud_upload_medium.js'
 import cog_medium from './cog_medium.js'
 import coins_1_medium from './coins_1_medium.js'
 import coins_2_medium from './coins_2_medium.js'
@@ -244,6 +250,12 @@ export {
   chatbot_medium,
   chip_medium,
   clock_medium,
+  cloud_download_medium,
+  cloud_medium,
+  cloud_rain_medium,
+  cloud_sync_medium,
+  cloud_transfer_medium,
+  cloud_upload_medium,
   cog_medium,
   coins_1_medium,
   coins_2_medium,

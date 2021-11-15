@@ -13,7 +13,8 @@ const ora = require('ora')
 
 const log = ora()
 
-const waitUntil = isCI ? 'domcontentloaded' : 'load'
+// We may use one of these: load, domcontentloaded, networkidle2
+const waitUntil = isCI ? 'load' : 'load'
 
 const config = {
   DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
@@ -39,7 +40,7 @@ const config = {
 
     // If the CI is macOS, we can have a low threshold there as well
     // Else we opt for a slightly difference in font-rendering form setup to setup
-    pixelThresholdRelative: isCI ? 0.005 : 0.005,
+    pixelThresholdRelative: isCI ? 0.01 : 0.005,
   },
 }
 module.exports.config = config

@@ -5,8 +5,8 @@ redirect_from:
   - /uilib/releases
 ---
 
-import WelcomeAdvice from 'Pages/welcome-advice.md'
-import GithubLogo from 'Pages/uilib/development/assets/github-logo.js'
+import WelcomeAdvice from 'Docs/welcome-advice.md'
+import GithubLogo from 'Docs/contribution/assets/github-logo.js'
 import { Icon } from '@dnb/eufemia/src'
 
 # Releases and versions

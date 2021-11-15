@@ -90,7 +90,8 @@ export class ModalHeaderBar extends React.PureComponent {
   componentDidMount() {
     if (
       typeof window !== 'undefined' &&
-      typeof IntersectionObserver !== 'undefined'
+      typeof IntersectionObserver !== 'undefined' &&
+      this._ref.current
     ) {
       const marginTop = -this._ref.current.clientHeight
       this.intersectionObserver = new IntersectionObserver(
@@ -116,6 +117,14 @@ export class ModalHeaderBar extends React.PureComponent {
 
   render() {
     const { className, children, ...props } = this.props
+
+    if (
+      !this.context.title &&
+      isTrue(this.context.hide_close_button) &&
+      !this._ref.current
+    ) {
+      return null
+    }
 
     return (
       <Section

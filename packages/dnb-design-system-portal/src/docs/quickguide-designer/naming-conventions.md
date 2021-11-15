@@ -3,10 +3,10 @@ title: 'Naming Conventions'
 icon: 'naming'
 ---
 
-import InlineImg from 'Tags/Img'
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
 
-import NamingSpace from 'Pages/quickguide-designer/assets/naming-space.svg'
-import TablesSpace from 'Pages/quickguide-designer/assets/tables-space.svg'
+import NamingSpace from 'Docs/quickguide-designer/assets/naming-space.svg'
+import TablesSpace from 'Docs/quickguide-designer/assets/tables-space.svg'
 
 # Naming conventions (Designers)
 

@@ -6,7 +6,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from '@emotion/react'
-import { parsePath, navigate } from 'gatsby'
+import { Link, navigate } from 'gatsby'
 import { Button, Tabs } from '@dnb/eufemia/src/components'
 import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons/secondary_icons'
 import AutoLinkHeader from './AutoLinkHeader'
@@ -15,44 +15,41 @@ export default function Tabbar({
   location,
   title,
   hideTabs,
-  usePath,
+  rootPath,
   tabs,
   defaultTabs,
   children,
 }) {
-  const path = parsePath(
-    cleanPath([location.pathname, location.search, location.hash].join(''))
-  )
-
   const [wasFullscreen, setFullscreen] = React.useState(
-    /fullscreen/.test(path.search)
+    /fullscreen/.test(location.search)
   )
-  const fullscreenQuery = () => (wasFullscreen ? '?fullscreen' : '')
 
   const openFullscreen = () => {
     setFullscreen(true)
-    navigate(
-      cleanPath(
-        [
-          path.pathname,
-          `?fullscreen&${path.search.replace('?', '')}`,
-          path.hash,
-        ].join('')
-      )
-    )
+
+    const path = [
+      location.pathname,
+      location.search ? location.search + '&' : '?',
+      'fullscreen',
+      location.hash,
+    ].join('')
+
+    navigate(path)
   }
+
+  const cleanFullscreen = (s) =>
+    s.replace(/\?fullscreen$|&fullscreen|fullscreen|\?$/, '')
 
   const quitFullscreen = () => {
     setFullscreen(false)
-    navigate(
-      cleanPath(
-        [
-          path.pathname,
-          path.search.replace('fullscreen', ''),
-          path.hash,
-        ].join('')
-      )
-    )
+
+    const path = [
+      location.pathname,
+      cleanFullscreen(location.search),
+      location.hash,
+    ].join('')
+
+    navigate(path)
   }
 
   const preparedTabs = React.useMemo(() => {
@@ -60,29 +57,27 @@ export default function Tabbar({
       (tabs || defaultTabs)
         // remove the tab if it is hidden in frontmatter
         .filter(
-          ({ title }) =>
-            !(hideTabs && hideTabs.find(({ title: t }) => t === title))
+          ({ title }) => !hideTabs?.find(({ title: t }) => t === title)
         )
         .map(({ key, ...rest }) => {
-          if (key.includes('$1')) {
-            key = cleanPath(
-              key.replace(/\$1$/, [fullscreenQuery(), path.hash].join(''))
-            )
-          } else {
-            key = cleanPath(
-              [usePath, key, fullscreenQuery(), path.hash].join('')
-            )
-          }
+          const search = cleanFullscreen(location.search)
+          key = [
+            rootPath,
+            key.replace(rootPath, '').replace(/(\/+)$/, ''),
+            search,
+            wasFullscreen ? (search ? '&' : '?') + 'fullscreen' : '',
+            location.hash,
+          ].join('')
 
-          return { ...rest, key }
+          return { ...rest, key, to: key }
         })
     )
   }, [wasFullscreen]) // eslint-disable-line
 
   const selectedKey = [
-    path.pathname.replace(/(\/)$/, ''),
-    path.search,
-    path.hash,
+    location.pathname.replace(/(\/+)$/, ''),
+    location.search,
+    location.hash,
   ].join('')
 
   return (
@@ -94,21 +89,9 @@ export default function Tabbar({
       )}
       <Tabs
         id="tabbar"
+        tab_element={Link}
         data={preparedTabs}
         selected_key={selectedKey}
-        on_change={({ key }) => navigate(key)}
-        on_mouse_enter={({ key }) => {
-          // preload pages the tab page
-          if (
-            typeof window !== 'undefined' &&
-            typeof window.___loader !== 'undefined'
-          ) {
-            const preloadPath = parsePath(key).pathname
-            if (preloadPath !== path.pathname) {
-              window.___loader.enqueue(preloadPath)
-            }
-          }
-        }}
         render={({ Wrapper, Content, TabsList, Tabs }) => {
           return (
             <Wrapper css={tabsWrapperStyle}>
@@ -148,7 +131,7 @@ Tabbar.propTypes = {
   defaultTabs: PropTypes.array,
   title: PropTypes.string,
   hideTabs: PropTypes.array,
-  usePath: PropTypes.string.isRequired,
+  rootPath: PropTypes.string.isRequired,
   children: PropTypes.node,
 }
 Tabbar.defaultProps = {
@@ -192,17 +175,13 @@ const tabsWrapperStyle = css`
   }
 
   @media screen and (max-width: 40em) {
-    ${
-      '' /* .dnb-tabs__tabs {
+    ${'' /* .dnb-tabs__tabs {
       NB: Now this gets handled automatically
       margin: 0 -2rem;
       padding: 0 2rem;
-    } */
-    }
+    } */}
     .dnb-tabs__tabs .dnb-button.fullscreen {
       display: none;
     }
   }
 `
-
-const cleanPath = (p) => p.replace(/(&|\?)$/, '')

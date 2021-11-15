@@ -7,8 +7,8 @@ showTabs: true
 #   - /uilib/components/drawer
 ---
 
-import ModalInfo from 'Pages/uilib/components/modal/info'
-import ModalDemos from 'Pages/uilib/components/modal/demos'
+import ModalInfo from 'Docs/uilib/components/modal/info'
+import ModalDemos from 'Docs/uilib/components/modal/demos'
 
 <ModalInfo />
 <ModalDemos />

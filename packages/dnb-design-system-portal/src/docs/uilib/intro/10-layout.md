@@ -3,7 +3,7 @@ fullscreen: true
 search: 'Intro - Layout'
 ---
 
-import ComponentBox from 'Tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 <Intro>
 

@@ -14,6 +14,7 @@ import { registerElement } from '../shared/component-helper'
 // import all the available components
 import Accordion from './accordion/Accordion'
 import Autocomplete from './autocomplete/Autocomplete'
+import Breadcrumb from './breadcrumb/Breadcrumb'
 import Button from './button/Button'
 import Checkbox from './checkbox/Checkbox'
 import DatePicker from './date-picker/DatePicker'
@@ -51,6 +52,7 @@ import Tooltip from './tooltip/Tooltip'
 export {
   Accordion,
   Autocomplete,
+  Breadcrumb,
   Button,
   Checkbox,
   DatePicker,
@@ -89,6 +91,7 @@ export const getComponents = () => {
   return {
     Accordion,
     Autocomplete,
+    Breadcrumb,
     Button,
     Checkbox,
     DatePicker,

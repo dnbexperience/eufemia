@@ -6,7 +6,7 @@ import {
 FormSetDefault,
 FormSetVertical,
 FormSetSubmit
-} from 'Pages/uilib/components/form-set/Examples'
+} from 'Docs/uilib/components/form-set/Examples'
 
 ## Demos
 

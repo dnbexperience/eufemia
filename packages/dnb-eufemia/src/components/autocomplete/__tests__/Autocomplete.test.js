@@ -711,23 +711,26 @@ describe('Autocomplete component', () => {
     expect(on_focus).toHaveBeenCalledTimes(2)
   })
 
-  it('updates its input value if value prop changes', () => {
+  it('updates its input value if value and data prop changes', () => {
     let value = 0
+    let data = mockData
 
     const Comp = mount(
-      <Component value={value} data={mockData} {...mockProps} />
+      <Component value={value} data={data} {...mockProps} />
     )
 
     Comp.find('input').simulate('focus')
 
     expect(Comp.find('.dnb-input__input').instance().value).toBe(
-      mockData[value]
+      data[value]
     )
 
     value = 1
-    Comp.setProps({ value })
+    data = ['New data', ...mockData]
+
+    Comp.setProps({ value, data })
     expect(Comp.find('.dnb-input__input').instance().value).toBe(
-      mockData[value]
+      data[value]
     )
   })
 
@@ -862,6 +865,24 @@ describe('Autocomplete component', () => {
       />
     )
 
+    // 1. Make first a selected_item change
+    Comp.setProps({ value: 2 })
+
+    // 2. Then update the data
+    Comp.setProps({ data: newMockData })
+
+    // 3. And change the value again
+    Comp.setProps({ value: 1 })
+
+    // It should not trigger the resetSelectionItem method
+    expect(on_change).toHaveBeenCalledTimes(0)
+    expect(Comp.find('input').instance().value).toBe(
+      newMockData[1].content
+    )
+
+    // Reset data and value
+    Comp.setProps({ value: null, data: mockData })
+
     Comp.find('input').simulate('change', { target: { value: 'cc' } })
 
     // Make a selection
@@ -872,9 +893,11 @@ describe('Autocomplete component', () => {
     expect(on_change).toHaveBeenCalledTimes(1)
     expect(on_change.mock.calls[0][0].data).toEqual(mockData[1])
 
+    // Trigger data update
     Comp.find('input').simulate('change', { target: { value: 'c' } })
 
     expect(Comp.find('input').instance().value).toBe('c')
+
     expect(on_change).toHaveBeenCalledTimes(2)
     expect(on_change.mock.calls[1][0].data).toEqual(undefined)
 
@@ -1422,7 +1445,14 @@ describe('Autocomplete component', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
   })
 
+  const orig = window.requestAnimationFrame
+  afterEach(() => {
+    window.requestAnimationFrame = orig
+  })
+
   it('will make anchors inside drawer-list item accessible', () => {
+    window.requestAnimationFrame = undefined
+
     const mockData = [
       'first item',
       [

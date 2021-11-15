@@ -9,13 +9,13 @@ import { ClassNames } from '@emotion/react'
 import algoliasearch from 'algoliasearch/lite'
 import { Autocomplete } from '@dnb/eufemia/src/components'
 import { Anchor } from '@dnb/eufemia/src/elements'
-import { navigate } from 'gatsby'
+import { Link, navigate } from 'gatsby'
 import { scrollToAnimation } from '../parts/Layout'
 import { isCI } from 'ci-info'
 
 const indexName =
   isCI && process.env.NODE_ENV === 'production'
-    ? typeof window !== 'undefined' && /-beta/.test(window.location.href)
+    ? process.env.CURRENT_BRANCH !== 'release'
       ? 'beta_eufemia_docs'
       : 'prod_eufemia_docs'
     : 'dev_eufemia_docs'
@@ -195,8 +195,9 @@ const makeHitsHumanFriendly = ({ hits, setHidden }) => {
       if (value !== title) {
         content.push(
           <Anchor
+            element={Link}
             key={slug + hash + i}
-            href={`/${slug}#${hash}`}
+            to={`/${slug}#${hash}`}
             onClick={(e) => {
               e.preventDefault()
               e.stopPropagation()

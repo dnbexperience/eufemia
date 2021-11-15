@@ -3,7 +3,7 @@ title: 'React & TypeScript'
 order: 5
 ---
 
-import ComponentBox from 'Tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import { Button, IconPrimary } from '@dnb/eufemia/src'
 import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons/secondary_icons'
 

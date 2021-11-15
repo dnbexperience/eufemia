@@ -8,7 +8,6 @@ redirect_from:
 
 | Properties                                  | Description                                                                                                                                                                   |
 | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `label`                                     | _(optional)_ if a text label is needed. Defaults to `null`.                                                                                                                   |
 | `progress`                                  | _(optional)_ to visualize a static **percentage** (0-100) as a progress state. Defaults to `null`.                                                                            |
 | `visible`                                   | _(optional)_ defines the visibility of the progress. Toggling the `visible` property to false will force a fade-out animation. Defaults to `true`.                            |
 | `type`                                      | _(optional)_ defines the **type** of progress, like `circular` or `linear`. Defaults to `circular`.                                                                           |

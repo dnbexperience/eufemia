@@ -2,7 +2,7 @@
 showTabs: true
 ---
 
-import ComponentBox from 'Src/shared/tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 import {
 SectionDemo,
@@ -18,7 +18,8 @@ SectionDemoSandYellow,
 SectionDemoPistachio,
 SectionDemoFireRed,
 SectionDemoFireRed8,
-} from 'Pages/uilib/components/section/Examples'
+SectionZIndex,
+} from 'Docs/uilib/components/section/Examples'
 
 ## Demos
 
@@ -73,3 +74,5 @@ SectionDemoFireRed8,
 ### Fire-Red-8 Section
 
 <SectionDemoFireRed8 />
+
+<SectionZIndex />

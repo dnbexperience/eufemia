@@ -81,6 +81,7 @@ const commitToBranch = async ({
   filePathsIncludelist = [],
   skipCI = false,
   isFeature = false,
+  force = false,
 } = {}) => {
   try {
     const repo = await getRepo()
@@ -138,21 +139,23 @@ const commitToBranch = async ({
         `${
           isFeature ? 'feat:' : 'chore:'
         } some ${what} got added/changed during CI | ${files.join(', ')}${
-          skipCI ? ' [CI SKIP]' : ''
+          skipCI ? ' [skip ci]' : ''
         }`
       ).trim()
       log.info(`Commit: ${commitMessage}`)
 
       if (newBranch) {
-        branchName = newBranch
         await repo.checkoutLocalBranch(newBranch)
         log.info(`Commit: created a new branch: ${newBranch}`)
+
+        // Replace the branchName – because we want this one to push
+        branchName = newBranch
       }
 
       await repo.commit(commitMessage, null, {
         '--no-verify': null,
       })
-      await repo.push('origin', branchName)
+      await repo.push('origin', branchName, force ? ['--force'] : null)
 
       log.succeed(
         `Commit: These ${what} were successfully updated/added: ${files}`

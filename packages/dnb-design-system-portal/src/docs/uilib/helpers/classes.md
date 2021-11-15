@@ -9,8 +9,8 @@ UnstyledListExample,
 ScreenReaderOnlyExample,
 NoScreenReaderExample,
 SelectionExample
-} from 'Pages/uilib/helpers/Examples'
-import SkipLinkExample from 'Pages/uilib/usage/accessibility/examples/skip-link-example.js'
+} from 'Docs/uilib/helpers/Examples'
+import SkipLinkExample from 'Docs/uilib/usage/accessibility/examples/skip-link-example.js'
 
 Reusing classes in the markup instead of using SCSS extends or _mixins_ will prevent duplication in the `@dnb/eufemia`. So also your application will have good benefits from reusing these helper classes.
 
@@ -181,7 +181,7 @@ text-shadow: none;
 
 ## HTML class naming
 
-To ensure a consistent class structure and to ensure that the class is owned by the DNB UI Library, all classes in the UI Library are prefixed with `dnb-`. Read more about that in the [Naming conventions](/uilib/development/naming).
+To ensure a consistent class structure and to ensure that the class is owned by the DNB UI Library, all classes in the UI Library are prefixed with `dnb-`. Read more about that in the [Naming conventions](/contribution/naming).
 
 ### SASS and mixins
 

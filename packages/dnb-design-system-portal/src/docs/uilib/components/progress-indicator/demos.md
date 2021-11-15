@@ -4,7 +4,7 @@ redirect_from:
   - /uilib/components/progress/demos
 ---
 
-import ComponentBox from 'Src/shared/tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 ## Demos
 

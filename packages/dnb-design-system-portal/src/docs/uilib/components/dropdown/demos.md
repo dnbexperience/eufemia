@@ -16,7 +16,7 @@ DropdownSizes,
 DropdownCustomWidth,
 DropdownStatusVertical,
 DropdownListOpened,
-} from 'Pages/uilib/components/dropdown/Examples'
+} from 'Docs/uilib/components/dropdown/Examples'
 
 ## Demos
 

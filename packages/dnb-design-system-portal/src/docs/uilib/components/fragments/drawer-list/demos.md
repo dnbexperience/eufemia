@@ -8,7 +8,7 @@ DrawerListExampleOnlyToVisualize,
 DrawerListExampleDefault,
 DrawerListExampleSingleItem,
 DrawerListExampleMarkup
-} from 'Pages/uilib/components/fragments/drawer-list/Examples'
+} from 'Docs/uilib/components/fragments/drawer-list/Examples'
 
 ## Demos
 

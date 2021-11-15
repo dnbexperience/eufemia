@@ -14,7 +14,7 @@ FormStatusAnimation,
 FormStatusCustom,
 FormStatusLarge,
 FormStatusWithIcons,
-} from 'Pages/uilib/components/form-status/Examples'
+} from 'Docs/uilib/components/form-status/Examples'
 
 ## Demos
 

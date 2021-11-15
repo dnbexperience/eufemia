@@ -2,9 +2,9 @@
 showTabs: true
 ---
 
-import ComponentBox from 'Tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import PaymentCard, { getCardData, Designs, ProductType, CardType } from '@dnb/eufemia/src/extensions/payment-card'
-import ChangeLocale from 'Src/core/ChangeLocale'
+import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
 
 ## Demos
 

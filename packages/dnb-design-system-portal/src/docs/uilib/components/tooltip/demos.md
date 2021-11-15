@@ -9,7 +9,7 @@ TooltipExampleNumberFormat,
 TooltipExampleNumberFormatWrapped,
 TooltipExampleLinked,
 TooltipExampleActive
-} from 'Pages/uilib/components/tooltip/Examples'
+} from 'Docs/uilib/components/tooltip/Examples'
 
 ## Demos
 

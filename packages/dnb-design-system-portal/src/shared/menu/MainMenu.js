@@ -16,9 +16,9 @@ import {
   UilibSvg,
   BrandSvg,
   IconsSvg,
-  PrinciplesSvg,
   QuickguideDesignerSvg,
   DesignSystemSvg,
+  DevelopmentSvg,
 } from './MainMenuGraphics'
 import { Logo, Button } from '@dnb/eufemia/src'
 import packageJson from '../../../package.json'
@@ -249,25 +249,22 @@ export default class MainMenu extends React.PureComponent {
             }
             categories: allMdx(
               filter: {
-                fields: {
-                  slug: {
-                    in: [
-                      "uilib"
-                      "quickguide-designer"
-                      "icons"
-                      "design-system"
-                      "brand"
-                      "principles"
-                    ]
-                  }
+                slug: {
+                  in: [
+                    "uilib"
+                    "quickguide-designer"
+                    "icons"
+                    "design-system"
+                    "brand"
+                    "principles"
+                    "contribution"
+                  ]
                 }
               }
             ) {
               edges {
                 node {
-                  fields {
-                    slug
-                  }
+                  slug
                   frontmatter {
                     title
                     description
@@ -287,10 +284,10 @@ export default class MainMenu extends React.PureComponent {
           categories: { edges },
         }) => {
           const items = edges.reduce(
-            (acc, { node: { fields, frontmatter } }) => {
-              acc[fields.slug] = {
-                url: `/${fields.slug}/`,
-                ...fields,
+            (acc, { node: { slug, frontmatter } }) => {
+              acc[slug] = {
+                url: `/${slug}/`,
+                slug,
                 ...frontmatter,
               }
               return acc
@@ -387,10 +384,10 @@ export default class MainMenu extends React.PureComponent {
                       icon={BrandSvg}
                     />
                     <Card
-                      url={items['principles']?.url}
-                      title={items['principles']?.title}
-                      about={items['principles']?.description}
-                      icon={PrinciplesSvg}
+                      url={items['contribution']?.url}
+                      title={items['contribution']?.title}
+                      about={items['contribution']?.description}
+                      icon={DevelopmentSvg}
                     />
                   </CardsWrapper>
                 </>

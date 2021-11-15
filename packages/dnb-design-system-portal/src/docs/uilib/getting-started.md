@@ -5,7 +5,7 @@ icon: 'getting_started'
 order: 2
 ---
 
-import WelcomeAdvice from 'Pages/welcome-advice.md'
+import WelcomeAdvice from 'Docs/welcome-advice.md'
 import { Button } from '@dnb/eufemia/src'
 
 # Getting Started
@@ -22,7 +22,7 @@ Do you want to...
 
 ## So, how do I get started?
 
-You can [follow an intro](/uilib/intro), guiding You through all the elementary parts of Eufemia.
+You can [follow an intro](/uilib/intro), guiding you through all the elementary parts of Eufemia.
 
 And for sure, check out the code in the [**Demo Apps**](/uilib/getting-started/demos)
 

@@ -14,7 +14,7 @@ ModalExampleStateOnly,
 ModalExampleCloseByCallback,
 ModalExampleCloseByHandler,
 ModalExampleProgressIndicator,
-} from 'Pages/uilib/components/modal/Examples'
+} from 'Docs/uilib/components/modal/Examples'
 
 ## Demos
 

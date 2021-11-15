@@ -390,9 +390,9 @@ class AutocompleteInstance extends React.PureComponent {
         state.inputValue = props.input_value
       }
 
-      if (props.data !== state.init_data) {
+      if (props.data !== state.prevData) {
         state.updateData(props.data)
-        state.init_data = props.data
+        state.prevData = props.data
       }
     }
 
@@ -410,7 +410,7 @@ class AutocompleteInstance extends React.PureComponent {
     this.state = this.state || {}
     this.state._listenForPropChanges = true
     this.state.mode = props.mode
-    this.state.init_data = props.data // only to compare against new data
+    this.state.prevData = props.data // only to compare against new data
     this.state.updateData = this.updateData // only so we can call setData
 
     if (context.drawerList && context.drawerList.current_title) {
@@ -436,12 +436,16 @@ class AutocompleteInstance extends React.PureComponent {
 
   componentDidUpdate(prevProps) {
     if (prevProps.value !== this.props.value) {
-      const inputValue = AutocompleteInstance.getCurrentDataTitle(
-        this.context.drawerList.selected_item,
-        this.context.drawerList.original_data
-      )
-      this.setState({
-        inputValue,
+      // Ensure we run getCurrentDataTitle after also data has been update,
+      // in case data has changed
+      this.setState({}, () => {
+        const inputValue = AutocompleteInstance.getCurrentDataTitle(
+          this.context.drawerList.selected_item,
+          this.context.drawerList.original_data
+        )
+        this.setState({
+          inputValue,
+        })
       })
     }
   }
@@ -727,20 +731,25 @@ class AutocompleteInstance extends React.PureComponent {
   updateData = (rawData) => {
     // invalidate the local cache now,
     // because we get else the same after we show the new result
-    this.context.drawerList.setState({
-      cache_hash: 'updateData',
-    })
-
-    // If the "selected_key" has changed in comparison to the existing data,
-    // invalidated our selected_item
-    const itemIndex = this.context.drawerList.selected_item
-    if (parseFloat(itemIndex) > -1) {
-      const newItem = rawData[itemIndex]
-      const oldItem = this.context.drawerList.original_data[itemIndex]
-      if (newItem?.selected_key !== oldItem?.selected_key) {
-        this.resetSelectionItem()
+    this.context.drawerList.setState(
+      {
+        cache_hash: 'updateData',
+      },
+      () => {
+        // If the "selected_key" has changed in comparison to the existing data,
+        // invalidated our selected_item
+        // Also, ensure to run if after a state update, because the "selected_item" (value prop) can have changed,
+        // and should match the new data
+        const itemIndex = this.context.drawerList.selected_item
+        if (parseFloat(itemIndex) > -1) {
+          const newItem = rawData[itemIndex]
+          const oldItem = this.context.drawerList.original_data[itemIndex]
+          if (newItem?.selected_key !== oldItem?.selected_key) {
+            this.resetSelectionItem()
+          }
+        }
       }
-    }
+    )
 
     this.context.drawerList.setData(
       () => rawData, // set data as a function, so it gets re-evaluated with normalizeData

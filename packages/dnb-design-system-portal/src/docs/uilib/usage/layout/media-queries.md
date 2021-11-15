@@ -4,7 +4,7 @@ status: 'new'
 order: 2
 ---
 
-import ComponentBox from 'Src/shared/tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import MediaQuery from '@dnb/eufemia/src/shared/MediaQuery'
 import useMediaQuery from '@dnb/eufemia/src/shared/useMediaQuery'
 

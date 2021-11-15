@@ -15,8 +15,8 @@ DatePickerNoInputStatus,
 DatePickerErrorMessage,
 DatePickerErrorStatus,
 DatePickerCalendar,
-} from 'Pages/uilib/components/date-picker/Examples'
-import ChangeLocale from 'Src/core/ChangeLocale'
+} from 'Docs/uilib/components/date-picker/Examples'
+import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
 
 ## Demos
 

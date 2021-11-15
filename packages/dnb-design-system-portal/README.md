@@ -13,8 +13,5 @@ The DNB Eufemia Portal is built with the [Gatsby](https://www.gatsbyjs.com/).
 ## Create local build
 
 1. Run `yarn workspace dnb-design-system-portal build`
-   - and if you need to create a IE11 (legacy browser build), use `yarn workspace dnb-design-system-portal build:legacy`.
-1. This will generate a new folder called: `public`. You will find it in the root in this package.
-   1. `public` contain all the generated static files inside
-1. You may run `yarn serve` to view the site at `http://localhost:8000/`
-1. You may delete all Browser Caches afterwards to remove the Service Worker
+1. This will generate a new folder called: `public`. You will find it in here: `./packages/dnb-design-system-portal/public`
+1. You may run `yarn workspace dnb-design-system-portal serve` to view the site at `http://localhost:8000/`

@@ -3,7 +3,7 @@ title: 'Event Handling'
 order: 2
 ---
 
-import ComponentBox from 'Tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 # Event Handling
 
@@ -14,7 +14,7 @@ The `@dnb/eufemia` offers a couple of different ways to handling events:
 
 Have a look at the following basic examples:
 
-The `@dnb/eufemia` uses _snake case_ (**snake_case**) to define the event name property (e.g. `on_click` or `on_change`). Read more about the [naming conventions](uilib/development/naming).
+The `@dnb/eufemia` uses _snake case_ (**snake_case**) to define the event name property (e.g. `on_click` or `on_change`). Read more about the [naming conventions](/contribution/naming).
 
 ## React
 

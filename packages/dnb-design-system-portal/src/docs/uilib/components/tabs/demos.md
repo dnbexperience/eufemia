@@ -11,7 +11,7 @@ TabsExampleUsingData,
 TabsExampleRightAligned,
 TabsExampleReachRouterNavigation,
 TabsExampleReactRouterNavigation,
-} from 'Pages/uilib/components/tabs/Examples'
+} from 'Docs/uilib/components/tabs/Examples'
 
 ## Demos
 

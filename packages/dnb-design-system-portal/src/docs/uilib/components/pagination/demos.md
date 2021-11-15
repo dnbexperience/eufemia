@@ -10,7 +10,7 @@ PaginationExampleInfinityLoadButton,
 PaginationExampleInfinityIndicator,
 PaginationExampleInfinityUnknown,
 PaginationExampleInfinityTable,
-} from 'Pages/uilib/components/pagination/Examples'
+} from 'Docs/uilib/components/pagination/Examples'
 
 ## Demos
 

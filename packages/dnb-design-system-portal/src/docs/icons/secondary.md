@@ -5,7 +5,7 @@ icon: 'secondary'
 order: 3
 ---
 
-import ListAllIcons from "Parts/icons/ListAllIcons";
+import ListAllIcons from "dnb-design-system-portal/src/shared/parts/icons/ListAllIcons";
 
 # Secondary Icons
 

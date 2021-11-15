@@ -6,8 +6,8 @@ order: 14
 showTabs: true
 ---
 
-import StepIndicatorInfo from 'Pages/uilib/components/step-indicator/info'
-import StepIndicatorDemos from 'Pages/uilib/components/step-indicator/demos'
+import StepIndicatorInfo from 'Docs/uilib/components/step-indicator/info'
+import StepIndicatorDemos from 'Docs/uilib/components/step-indicator/demos'
 
 <StepIndicatorInfo />
 <StepIndicatorDemos />

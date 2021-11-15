@@ -116,6 +116,8 @@
         height: 100%;
       }
     }
+
+    // Padding right and left based on screen size
     &--spacing &__spacing {
       padding: 0 var(--modal-spacing) 0;
 
@@ -328,11 +330,13 @@
     }
   }
 
-  &__content--spacing &__header__bar.dnb-section {
+  &__header__bar.dnb-section {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+  }
 
+  &__content--spacing &__header__bar.dnb-section {
     // on large screens
     margin-top: calc(var(--modal-spacing) * 1.75);
     margin-bottom: calc(var(--modal-spacing) / 2);
@@ -446,6 +450,9 @@
   }
   &-root__inner ~ &-root__inner ~ &-root__inner ~ &-root__inner {
     z-index: calc(var(--modal-z-index) + 4);
+  }
+  &__close-button {
+    z-index: calc(var(--modal-z-index) + 1);
   }
 }
 

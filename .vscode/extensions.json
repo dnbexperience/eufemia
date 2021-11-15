@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "stylelint.vscode-stylelint",
+    "shd101wyy.markdown-preview-enhanced",
+    "darkriszty.markdown-table-prettify",
+    "davidanson.vscode-markdownlint",
+    "razio.es6-string-jsx",
+    "sainoba.px-to-rem"
+  ]
+}

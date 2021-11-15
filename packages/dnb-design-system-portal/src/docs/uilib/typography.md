@@ -6,14 +6,14 @@ order: 5
 showTabs: true
 tabs:
   - title: General
-    key: /uilib/typography$1
+    key: /uilib/typography
   - title: Headings
-    key: /uilib/typography/heading$1
+    key: /uilib/typography/heading
   - title: Paragraphs
-    key: /uilib/typography/paragraph$1
+    key: /uilib/typography/paragraph
 ---
 
-import ComponentBox from 'Tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 ## Typography in general
 

@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import ComponentBox from 'Src/shared/tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 export const SectionDemo = () => (
   <ComponentBox hideCode data-visual-test="section-default">
@@ -135,3 +135,57 @@ export const SectionDemoFireRed8 = () => (
 `}
   </ComponentBox>
 )
+
+export const SectionZIndex = () =>
+  !globalThis.IS_TEST ? null : (
+    <ComponentBox data-visual-test="section-z-index">
+      {() => /* jsx */ `
+<Section spacing style_type="mint-green-12">
+    mint-green-12
+    <div>
+      <Section spacing style_type="mint-green">
+        mint-green
+        <div>
+          <Section spacing style_type="sea-green">
+            sea-green
+            <div>
+              <Section spacing style_type="emerald-green">
+                emerald-green
+                <div>
+                  <Section spacing style_type="fire-red">
+                    fire-red
+                    <div>
+                      <Section spacing style_type="sand-yellow">
+                        sand-yellow
+                        <div>
+                          <Section spacing style_type="pistachio">
+                            pistachio
+                            <div>
+                              <Section spacing style_type="lavender">
+                                lavender
+                                <div>
+                                  <Section
+                                    spacing
+                                    style_type="divider"
+                                  >
+                                    divider
+                                  </Section>
+                                </div>
+                              </Section>
+                            </div>
+                          </Section>
+                        </div>
+                      </Section>
+                    </div>
+                  </Section>
+                </div>
+              </Section>
+            </div>
+          </Section>
+        </div>
+      </Section>
+    </div>
+  </Section>
+`}
+    </ComponentBox>
+  )

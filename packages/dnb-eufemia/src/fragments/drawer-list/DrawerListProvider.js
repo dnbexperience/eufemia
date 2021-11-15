@@ -776,6 +776,12 @@ export default class DrawerListProvider extends React.PureComponent {
       case 'enter':
       case 'space':
         {
+          if (e.target.tagName === 'A') {
+            e.target.dispatchEvent(new MouseEvent('click'))
+            this.setHidden()
+            return // stop here, and let the browser + anchor do the rest
+          }
+
           active_item = this.getCurrentActiveItem()
 
           if (
@@ -855,18 +861,28 @@ export default class DrawerListProvider extends React.PureComponent {
                 const after = createTabElem()
                 const before = createTabElem()
 
-                try {
-                  // Now, focus our active element
-                  activeElement.focus()
+                // Now, focus our active element
+                activeElement.focus()
 
-                  // Insert our fake elements
-                  activeElement.appendChild(after)
-                  activeElement.insertBefore(
-                    before,
-                    activeElement.firstChild
-                  )
-                } catch (e) {
-                  //
+                const insertElem = () => {
+                  try {
+                    // Insert our fake elements
+                    activeElement.appendChild(after)
+                    activeElement.insertBefore(
+                      before,
+                      activeElement.firstChild
+                    )
+                  } catch (e) {
+                    //
+                  }
+                }
+
+                // check because of test
+                if (typeof window.requestAnimationFrame === 'function') {
+                  // requestAnimationFrame is need by chromium browsers
+                  window.requestAnimationFrame(insertElem)
+                } else {
+                  insertElem()
                 }
               }
 

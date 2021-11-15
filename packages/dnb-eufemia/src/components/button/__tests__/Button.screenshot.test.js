@@ -4,6 +4,7 @@
  */
 
 import {
+  isCI,
   testPageScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
@@ -11,12 +12,14 @@ import {
 describe('Button primary screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/button/demos' })
 
-  it('have to match primary button with href', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="button-anchor"]',
+  if (!isCI) {
+    it('have to match primary button with href', async () => {
+      const screenshot = await testPageScreenshot({
+        selector: '[data-visual-test="button-anchor"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
+  }
 
   it('have to match "dnb-button--primary"', async () => {
     const screenshot = await testPageScreenshot({

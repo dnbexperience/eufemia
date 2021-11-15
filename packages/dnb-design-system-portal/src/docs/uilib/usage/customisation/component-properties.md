@@ -3,7 +3,7 @@ title: 'Component Properties'
 order: 1
 ---
 
-import ComponentBox from 'Tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons/secondary_icons'
 
 # Component Properties
@@ -12,7 +12,7 @@ Every [Component](/uilib/components) has its own `properties` to make them work 
 
 ## Naming
 
-Both the properties- and event names are using **snake case** to support a universal [naming convention](/uilib/development/naming), with a background and requirement on supporting [Web Components](/uilib/usage/first-steps/web-components).
+Both the properties- and event names are using **snake case** to support a universal [naming convention](/contribution/naming), with a background and requirement on supporting [Web Components](/uilib/usage/first-steps/web-components).
 
 ## Large Buttons & Icons
 

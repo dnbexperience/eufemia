@@ -455,17 +455,13 @@ export default class SidebarLayout extends React.PureComponent {
                 pathPrefix
               }
               allMdx(
-                # limit: 2
-                # sort: { fields: [frontmatter___order], order: ASC }
                 filter: {
                   frontmatter: { title: { ne: null }, draft: { ne: true } }
                 }
               ) {
                 edges {
                   node {
-                    fields {
-                      slug
-                    }
+                    slug
                     frontmatter {
                       title
                       menuTitle
@@ -722,7 +718,6 @@ class ListItem extends React.PureComponent {
                 createSkeletonClass('font', this.context.skeleton)
               )}
               title={statusTitle}
-              aria-label={statusTitle}
             >
               {status}
             </span>
@@ -742,13 +737,7 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
   }
 
   const navItems = allMdx.edges
-    .map(
-      ({
-        node: {
-          fields: { slug },
-        },
-      }) => slug
-    )
+    .map(({ node: { slug } }) => slug)
     .filter((slug) => slug !== '/')
     // preorder
     .sort()
@@ -794,16 +783,10 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
     .map((slugPath) => {
       const {
         node: {
-          fields: { slug },
+          slug,
           frontmatter: { title, order, ...rest },
         },
-      } = allMdx.edges.find(
-        ({
-          node: {
-            fields: { slug },
-          },
-        }) => slug === slugPath
-      )
+      } = allMdx.edges.find(({ node: { slug } }) => slug === slugPath)
 
       const level = slug.split('/').filter((p) => p).length
       level > countLevels ? (countLevels = level) : countLevels

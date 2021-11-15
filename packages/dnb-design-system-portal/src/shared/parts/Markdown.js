@@ -7,7 +7,6 @@ import React from 'react'
 
 import PropTypes from 'prop-types'
 import { enableWebComponents } from '@dnb/eufemia/src/lib'
-import portalStyle from './PortalStyle'
 
 export class Html extends React.PureComponent {
   static propTypes = {
@@ -44,5 +43,3 @@ export class Html extends React.PureComponent {
     )
   }
 }
-
-export const markdownStyle = portalStyle
