@@ -1,15 +1,12 @@
 name: Eufemia Release
 
 on:
-  workflow_run:
+  push:
     branches:
       - 'release'
       - 'portal'
       - 'beta'
       - 'alpha'
-    workflows: ['Verify']
-    types:
-      - completed
 
 jobs:
   action:
