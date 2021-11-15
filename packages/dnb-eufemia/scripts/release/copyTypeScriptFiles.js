@@ -8,11 +8,15 @@ import path from 'path'
 import globby from 'globby'
 
 if (require.main === module) {
-  copyDefinitonFiles(process.env.OUT_DIR)
+  copyTypeScriptFiles(process.env.OUT_DIR)
 }
 
-async function copyDefinitonFiles(dist) {
-  const files = await globby('./src/**/*.d.ts')
+async function copyTypeScriptFiles(dist) {
+  const files = await globby([
+    './src/**/*.ts',
+    './src/**/*.tsx',
+    './src/**/*.d.ts',
+  ])
 
   for await (const file of files) {
     const src = path.resolve(file)
