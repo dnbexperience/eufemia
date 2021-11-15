@@ -28,7 +28,11 @@ workbox.core.clientsClaim();
 self.__precacheManifest = [
   {
     "url": "404.html",
-    "revision": "db9ec1a1eac60dac575f28b81b33e193"
+    "revision": "34dc19ed7921058d752a6f0f5ec9aaa3"
+  },
+  {
+    "url": "500.html",
+    "revision": "2cc9e437472a7a9912033b365b969a3b"
   },
   {
     "url": "google4f78509f2ca83a08.html",
@@ -40,23 +44,20 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "6d6c30b88eb856f3d98048223be49813"
+    "revision": "c061d7c58840d0f214726a2567ffcfed"
   },
   {
-    "url": "framework-8ab2fccfd3d4d6ba9757.js"
+    "url": "framework-b0d3b71e37bb06cbab1d.js"
   },
   {
-    "url": "styles.b3d4eb82d0fbc4e3f7d9.css"
+    "url": "styles.41940879d79b7004cd01.css"
   },
   {
-    "url": "044b48a8-cb98e67883da185e0a64.js"
-  },
-  {
-    "url": "app-787031c7510cd685cf24.js"
+    "url": "044b48a8-68d869305880e19f608f.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "63dca9b414ec410d29a010bf702776fe"
+    "revision": "207fc90b63c935647df4323a81e7fbc8"
   },
   {
     "url": "static/DNB-Regular-54d35ae78c18491c35feab30a836875a.woff2"
@@ -68,10 +69,13 @@ self.__precacheManifest = [
     "url": "static/DNBMono-Regular-322db7bbbe1d833cb61311e4f598b3fb.woff2"
   },
   {
-    "url": "webpack-runtime-fcb9bf2303334e9df8fd.js"
+    "url": "webpack-runtime-b720ad907fc95a5fa53b.js"
   },
   {
-    "url": "polyfill-7a6d3b536f49d45b6170.js"
+    "url": "component---cache-caches-gatsby-plugin-offline-app-shell-js-c9bec89919a64e479397.js"
+  },
+  {
+    "url": "polyfill-5cc15862edac70122149.js"
   },
   {
     "url": "manifest.webmanifest",
@@ -167,7 +171,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/app-787031c7510cd685cf24.js`))) {
+  if (!resources || !(await caches.match(`/app-9db54cfadd68d6b41a18.js`))) {
     return await fetch(event.request)
   }
 
