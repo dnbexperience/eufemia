@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem'
 import Context from '../../shared/Context'
-import { ISpacingProps } from '../../shared/interfaces'
+import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
 import classnames from 'classnames'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import Section from '../section/Section'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import { useMediaQuery, SkeletonTypes } from '../../shared'
+import { useMediaQuery } from '../../shared'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import { Button } from '..'
 
@@ -127,7 +127,7 @@ function Breadcrumb(localProps: BreadcrumbProps & ISpacingProps) {
     onClick,
     navText, // has a translation in context
     goBackText, // has a translation in context
-    homeText, // has a translation in context
+    homeText, // eslint-disable-line
     backToText, // has a translation in context
     styleType,
     collapsedStyleType,

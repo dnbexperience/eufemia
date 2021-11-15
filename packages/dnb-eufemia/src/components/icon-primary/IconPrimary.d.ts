@@ -43,7 +43,9 @@ export type IconPrimaryHeight = string | number;
 export type IconPrimaryBorder = string | boolean;
 export type IconPrimaryInheritColor = string | boolean;
 export type IconPrimarySkeleton = string | boolean;
-export type IconPrimaryAttributes = string | Object;
+export type IconPrimaryAttributes =
+  | string
+  | React.AllHTMLAttributes<string>;
 export type IconPrimaryChildren =
   | React.ReactNode
   | ((...args: any[]) => any);

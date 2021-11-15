@@ -4,8 +4,8 @@ import Button from '../Button'
 import homeIcon from '../../icons/home'
 import P from '../../elements/P'
 import { IconPrimary } from '..'
-import { IconPrimaryIcon } from '../IconPrimary'
-import { SkeletonTypes } from '../../shared'
+import { IconPrimaryIcon } from '../icon-primary/IconPrimary'
+import { SkeletonTypes } from '../../shared/interfaces'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
 export interface BreadcrumbItemProps {
