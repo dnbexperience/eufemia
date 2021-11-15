@@ -1343,6 +1343,42 @@
     "name": "objects/fridge_16",
     "variant": "secondary"
   },
+  "cloud_rain": {
+    "tags": [],
+    "created": 1636977971760,
+    "name": "objects/cloud_rain_16",
+    "variant": "secondary"
+  },
+  "cloud_sync": {
+    "tags": [],
+    "created": 1636977971841,
+    "name": "objects/cloud_sync_16",
+    "variant": "secondary"
+  },
+  "cloud_upload": {
+    "tags": [],
+    "created": 1636977971919,
+    "name": "objects/cloud_upload_16",
+    "variant": "secondary"
+  },
+  "cloud_download": {
+    "tags": [],
+    "created": 1636977971992,
+    "name": "objects/cloud_download_16",
+    "variant": "secondary"
+  },
+  "cloud_transfer": {
+    "tags": [],
+    "created": 1636977972061,
+    "name": "objects/cloud_transfer_16",
+    "variant": "secondary"
+  },
+  "cloud": {
+    "tags": [],
+    "created": 1636977972147,
+    "name": "objects/cloud_16",
+    "variant": "secondary"
+  },
   "products_account_percent": {
     "tags": ["Loan value ratio"],
     "created": 1623927453967,
