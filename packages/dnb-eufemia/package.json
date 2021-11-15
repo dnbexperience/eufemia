@@ -140,6 +140,7 @@
     "@testing-library/react-hooks": "7.0.2",
     "@testing-library/user-event": "13.5.0",
     "@types/jest": "27.0.2",
+    "@typescript-eslint/parser": "5.3.1",
     "@wojtekmaj/enzyme-adapter-react-17": "0.6.5",
     "audit-ci": "5.1.2",
     "babel-jest": "27.3.1",
