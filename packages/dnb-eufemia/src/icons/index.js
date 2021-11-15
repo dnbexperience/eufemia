@@ -111,6 +111,18 @@ import clock from './clock.js'
 import clock_medium from './clock_medium.js'
 import close from './close.js'
 import close_medium from './close_medium.js'
+import cloud from './cloud.js'
+import cloud_download from './cloud_download.js'
+import cloud_download_medium from './cloud_download_medium.js'
+import cloud_medium from './cloud_medium.js'
+import cloud_rain from './cloud_rain.js'
+import cloud_rain_medium from './cloud_rain_medium.js'
+import cloud_sync from './cloud_sync.js'
+import cloud_sync_medium from './cloud_sync_medium.js'
+import cloud_transfer from './cloud_transfer.js'
+import cloud_transfer_medium from './cloud_transfer_medium.js'
+import cloud_upload from './cloud_upload.js'
+import cloud_upload_medium from './cloud_upload_medium.js'
 import cog from './cog.js'
 import cog_medium from './cog_medium.js'
 import coins_1 from './coins_1.js'
@@ -583,6 +595,18 @@ export {
   clock_medium,
   close,
   close_medium,
+  cloud,
+  cloud_download,
+  cloud_download_medium,
+  cloud_medium,
+  cloud_rain,
+  cloud_rain_medium,
+  cloud_sync,
+  cloud_sync_medium,
+  cloud_transfer,
+  cloud_transfer_medium,
+  cloud_upload,
+  cloud_upload_medium,
   cog,
   cog_medium,
   coins_1,

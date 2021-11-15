@@ -43,6 +43,12 @@ import chat from './chat.js'
 import chatbot from './chatbot.js'
 import chip from './chip.js'
 import clock from './clock.js'
+import cloud from './cloud.js'
+import cloud_download from './cloud_download.js'
+import cloud_rain from './cloud_rain.js'
+import cloud_sync from './cloud_sync.js'
+import cloud_transfer from './cloud_transfer.js'
+import cloud_upload from './cloud_upload.js'
 import cog from './cog.js'
 import coins_1 from './coins_1.js'
 import coins_2 from './coins_2.js'
@@ -245,6 +251,12 @@ export {
   chatbot,
   chip,
   clock,
+  cloud,
+  cloud_download,
+  cloud_rain,
+  cloud_sync,
+  cloud_transfer,
+  cloud_upload,
   cog,
   coins_1,
   coins_2,
