@@ -3,6 +3,27 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.16.0](https://github.com/dnbexperience/eufemia/compare/v9.15.2...v9.16.0) (2021-11-15)
+
+
+### Bug Fixes
+
+* **Autocomplete:** fix wrong on_change reset event call ([abd9bdd](https://github.com/dnbexperience/eufemia/commit/abd9bdda3eb9f13c265698ed8f09c9d1c17472ef))
+* **Autocomplete:** take updated data in account when changing the index value ([c0c16f5](https://github.com/dnbexperience/eufemia/commit/c0c16f542802cad0261ce2898f3f142341fc72a7))
+* fix Breadcrumb Storybook Docgen issue ([130405d](https://github.com/dnbexperience/eufemia/commit/130405dd405abb1e99e131dcbd26e40e5680b378))
+* make Section z-index handling more robust ([6d46b81](https://github.com/dnbexperience/eufemia/commit/6d46b81831893c3942384f080f6b7e54c88c3249))
+* Modal without spacing bug ([4dfc51f](https://github.com/dnbexperience/eufemia/commit/4dfc51fb32f4f7fd7e3981be0cd3594b37d09f7e))
+* set default text color in Section component ([0a10427](https://github.com/dnbexperience/eufemia/commit/0a104275fce89ae6745efffda6f3c59a4b068acf))
+* **StepIndicator:** fix item click event forwarding ([22fa411](https://github.com/dnbexperience/eufemia/commit/22fa4111e4e43b7bd9eaec542d7c3bd91df0384a))
+
+
+### Features
+
+* add cloud* icons ([05cddbd](https://github.com/dnbexperience/eufemia/commit/05cddbdb35cf6ce7ada55190162891565242b0aa))
+* add tab_element property to allow tabs use Gatsby Link as the element ([837a7a8](https://github.com/dnbexperience/eufemia/commit/837a7a897c811676d523637e119dcdb29b826f80))
+* **Breadcrumb:** Added new component! ([491dc54](https://github.com/dnbexperience/eufemia/commit/491dc54a5512128f8e1c24357356853843266a50))
+* **Section:** add transparent as a style type ([ab2e6fc](https://github.com/dnbexperience/eufemia/commit/ab2e6fc0ac17baca06b56a0cfc1206001186de55))
+
 ## [9.15.2](https://github.com/dnbexperience/eufemia/compare/v9.15.1...v9.15.2) (2021-11-02)
 
 
