@@ -81,6 +81,7 @@ const commitToBranch = async ({
   filePathsIncludelist = [],
   skipCI = false,
   isFeature = false,
+  force = false,
 } = {}) => {
   try {
     const repo = await getRepo()
@@ -154,7 +155,7 @@ const commitToBranch = async ({
       await repo.commit(commitMessage, null, {
         '--no-verify': null,
       })
-      await repo.push('origin', branchName, ['--force-with-lease'])
+      await repo.push('origin', branchName, force ? ['--force'] : null)
 
       log.succeed(
         `Commit: These ${what} were successfully updated/added: ${files}`

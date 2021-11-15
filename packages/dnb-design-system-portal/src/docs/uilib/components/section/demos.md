@@ -18,6 +18,7 @@ SectionDemoSandYellow,
 SectionDemoPistachio,
 SectionDemoFireRed,
 SectionDemoFireRed8,
+SectionZIndex,
 } from 'Docs/uilib/components/section/Examples'
 
 ## Demos
@@ -73,3 +74,5 @@ SectionDemoFireRed8,
 ### Fire-Red-8 Section
 
 <SectionDemoFireRed8 />
+
+<SectionZIndex />

@@ -12,7 +12,7 @@ import { Global } from '@emotion/react'
 import MainMenu from '../menu/MainMenu'
 import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
-import { markdownStyle } from './Markdown'
+import portalStyle from './PortalStyle'
 import packageJson from '../../../package.json'
 import { MainMenuProvider } from '../menu/MainMenuContext'
 import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
@@ -158,8 +158,8 @@ const Content = ({ className, fullscreen, children }) => (
       className
     )}
   >
-    <Global styles={markdownStyle} />
     {children}
+    <Global styles={portalStyle} />
   </ContentWrapper>
 )
 Content.propTypes = {

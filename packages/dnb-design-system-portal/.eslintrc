@@ -17,6 +17,9 @@
     },
     "sourceType": "module"
   },
+  "globals": {
+    "globalThis": true
+  },
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
