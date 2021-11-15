@@ -122,7 +122,16 @@
     {
       "files": ["*.ts", "*.tsx"],
       "parser": "@typescript-eslint/parser",
-      "rules": { "import/named": "off" }
+      "globals": { "JSX": true },
+      "plugins": ["@typescript-eslint"],
+      "extends": ["plugin:@typescript-eslint/recommended"],
+      "rules": {
+        "import/named": "off",
+        "no-unused-vars": [
+          "error",
+          { "args": "none", "ignoreRestSiblings": true }
+        ]
+      }
     }
   ]
 }

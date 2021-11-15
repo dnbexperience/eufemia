@@ -3,7 +3,7 @@ export interface AutoSizeProps {
   __element?: React.ReactNode;
   children?: React.ReactNode;
   className?: string;
-  style?: Object;
+  style?: React.CSSProperties;
 }
 export class AutoSize extends React.Component<AutoSizeProps, any> {
   render(): JSX.Element;
