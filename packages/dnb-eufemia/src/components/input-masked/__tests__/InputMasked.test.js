@@ -361,6 +361,7 @@ describe('InputMasked component', () => {
         target: {
           value,
           selectionStart: value.indexOf('kr'), // set it where the mask starts
+          selectionEnd: value.indexOf('kr'), // set it where the mask starts
           setSelectionRange,
         },
       })
