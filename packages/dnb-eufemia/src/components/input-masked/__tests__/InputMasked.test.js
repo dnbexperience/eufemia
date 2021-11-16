@@ -282,6 +282,16 @@ describe('InputMasked component', () => {
     expect(Comp.find('input').instance().value).toBe('NOK 0 012,01 kr')
   })
 
+  it('should update value when initial value was an empty string', () => {
+    const Comp = mount(<Component value="" number_mask />)
+
+    expect(Comp.find('input').instance().value).toBe('')
+
+    Comp.setProps({ value: 1234 })
+
+    expect(Comp.find('input').instance().value).toBe('1 234')
+  })
+
   it('should update value when value has leading zero', () => {
     const Comp = mount(
       <Component
