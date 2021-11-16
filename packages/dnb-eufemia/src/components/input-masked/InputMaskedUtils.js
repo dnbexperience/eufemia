@@ -164,6 +164,12 @@ export const correctCaretPosition = (element, maskParams) => {
 
       if (suffix || prefix) {
         const start = element.selectionStart
+        const end = element.selectionEnd
+
+        if (start !== end) {
+          return // stop here
+        }
+
         const suffixStart = element.value.indexOf(suffix)
         const suffixEnd = suffixStart + suffix?.length
         let pos = undefined
