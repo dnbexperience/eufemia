@@ -92,7 +92,8 @@ export default class TextMask extends React.PureComponent {
       isPipeChanged
 
     // Сalculate that value was changed
-    const isValueChanged = value !== this.inputRef.current.value
+    const isValueChanged =
+      value !== this.inputRef.current.value || prevProps.value !== value
 
     // Check value and settings to prevent duplicating update() call
     if (isValueChanged || isSettingChanged) {

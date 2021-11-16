@@ -136,11 +136,7 @@ export const correctNumberValue = ({
       value = localValue
     }
 
-    if (
-      localNumberValue === ''
-      // TODO: Not sure if we need this check
-      // String(value).replace(/[^\d]/g, '') === '0'
-    ) {
+    if (localNumberValue === '' && numberValue === '0') {
       value = ''
     }
   }
