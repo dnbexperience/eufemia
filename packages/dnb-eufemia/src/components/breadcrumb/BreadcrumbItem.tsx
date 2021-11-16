@@ -1,10 +1,17 @@
 import React from 'react'
-import Context from '../../shared/Context'
-import Button from '../Button'
-import homeIcon from '../../icons/home'
+
+// Components
+import Button from '../button/Button'
+import IconPrimary, { IconPrimaryIcon } from '../icon-primary/IconPrimary'
+
+// Elements
 import P from '../../elements/P'
-import { IconPrimary } from '..'
-import { IconPrimaryIcon } from '../icon-primary/IconPrimary'
+
+// Icons
+import homeIcon from '../../icons/home'
+
+// Shared
+import Context from '../../shared/Context'
 import { SkeletonTypes } from '../../shared/interfaces'
 import { extendPropsWithContext } from '../../shared/component-helper'
 

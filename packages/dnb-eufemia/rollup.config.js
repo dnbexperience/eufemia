@@ -28,7 +28,7 @@ const excludes = [
 ]
 
 const currentBranch = branchName()
-export default isCI && !/^(release|beta|alpha)$/.test(currentBranch)
+export default !/^(release|beta|alpha)$/.test(currentBranch)
   ? [
       // NB: rollup needs at least one config
       makeRollupConfig(
@@ -204,7 +204,10 @@ function makeRollupConfig(
     }
   })
 
+  const extensions = ['.js', '.ts', '.tsx']
+
   const babelOptions = {
+    extensions,
     exclude: /node_modules/,
     babelHelpers: 'runtime', // using @babel/plugin-transform-runtime
     configFile: './babel.config.js',
@@ -226,7 +229,9 @@ function makeRollupConfig(
     },
     external,
     plugins: [
-      nodeResolve(),
+      nodeResolve({
+        extensions,
+      }),
       babel(babelOptions),
       commonjs(commonjsOptions),
       nodeGlobals(),

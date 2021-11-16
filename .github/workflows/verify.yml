@@ -8,6 +8,10 @@ on:
       - '!**--visual-reports'
       - '!wip/**'
       - '!experiments/**'
+      - '!release'
+      - '!portal'
+      - '!beta'
+      - '!alpha'
 
 jobs:
   action:

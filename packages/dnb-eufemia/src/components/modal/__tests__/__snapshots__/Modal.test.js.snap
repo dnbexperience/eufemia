@@ -1784,7 +1784,7 @@ button.dnb-button::-moz-focus-inner {
   --modal-overlay-transparent: rgba(0, 0, 0, 0);
   --modal-overlay-bg: rgba(0, 0, 0, 0.32); }
 
-[data-dnb-modal-active] {
+html[data-dnb-modal-active] {
   user-select: none;
   -webkit-user-select: none; }
 

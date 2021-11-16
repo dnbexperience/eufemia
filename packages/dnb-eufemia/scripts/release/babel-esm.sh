@@ -15,7 +15,7 @@ babel ./src \
 
 echo 'Building esm bundle done!'
 
-echo 'Copy .d.ts files to esm ...'
+echo 'Copy additional files to esm ...'
 
 OUT_DIR=./build/esm babel-node ./scripts/release/copyTypeScriptFiles.js
 OUT_DIR=./build/esm babel-node ./scripts/release/copyStyles.js

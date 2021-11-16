@@ -34,6 +34,7 @@
     "security"
   ],
   "rules": {
+    "react/react-in-jsx-scope": "off",
     "import/namespace": "off",
     "no-restricted-imports": [
       "error",

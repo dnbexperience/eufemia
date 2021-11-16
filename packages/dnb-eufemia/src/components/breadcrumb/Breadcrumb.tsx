@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem'
+import classnames from 'classnames'
+
+// Components
+import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
+import Section from '../section/Section'
+import Button from '../button/Button'
+
+// Shared
+import { useMediaQuery } from '../../shared'
 import Context from '../../shared/Context'
 import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
-import classnames from 'classnames'
-import { createSkeletonClass } from '../skeleton/SkeletonHelper'
-import Section from '../section/Section'
-import { createSpacingClasses } from '../space/SpacingHelper'
-import { useMediaQuery } from '../../shared'
 import { extendPropsWithContext } from '../../shared/component-helper'
-import { Button } from '..'
+
+// Internal
+import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem'
 
 export * from './BreadcrumbItem'
 
