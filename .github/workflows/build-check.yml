@@ -1,4 +1,4 @@
-name: Build Check
+name: Build Check # This name is used in the release.yml workflow_run event
 
 on:
   push:
@@ -8,6 +8,10 @@ on:
       - '!**--visual-reports'
       - '!wip/**'
       - '!experiments/**'
+      - '!release'
+      - '!portal'
+      - '!beta'
+      - '!alpha'
   pull_request:
     branches:
       - 'main'
