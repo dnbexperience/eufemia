@@ -141,4 +141,5 @@ module.exports = {
   pathPrefix,
   siteMetadata,
   plugins,
+  jsxRuntime: 'automatic',
 }
