@@ -14,8 +14,8 @@ if (require.main === module) {
 async function copyTypeScriptFiles(dist) {
   const globbyFiles = ['./src/**/*.d.ts']
 
-  if (!process.env.ONLY_DEFINITION_FILES) {
-    globbyFiles.push(['./src/**/*.ts', './src/**/*.tsx'])
+  if (process.env.ONLY_DEFINITION_FILES !== '1') {
+    globbyFiles.push('./src/**/*.ts', './src/**/*.tsx')
   }
 
   const files = await globby(globbyFiles)

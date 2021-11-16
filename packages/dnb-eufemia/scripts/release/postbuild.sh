@@ -10,6 +10,5 @@ yarn build:umd
 echo 'Can be enabled in future if needed -> yarn build:resources'
 yarn build:copy
 yarn prettier:other
-yarn test:build
 
 echo 'Postbuild done!'
