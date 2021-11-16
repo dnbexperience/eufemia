@@ -3,6 +3,18 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.16.1](https://github.com/dnbexperience/eufemia/compare/v9.16.0...v9.16.1) (2021-11-16)
+
+
+### Bug Fixes
+
+* **Breadcrumb:** fix usage of tsx file in /cjs – which is used when running Jest tests ([7787929](https://github.com/dnbexperience/eufemia/commit/7787929e95492a5c408de0f1b2cd8ee05248032a))
+* fix Circular dependency imports (reported by rollup, UMD build) ([37c70b2](https://github.com/dnbexperience/eufemia/commit/37c70b29e89872e6963042eb348cea2e0eab742d))
+* **InputMasked:** fix manual range selection ([a2a1a98](https://github.com/dnbexperience/eufemia/commit/a2a1a98096e31f109e6037c8a81abbd149787652))
+* **InputMasked:** fix misplaced leading zero while typing ([a40e6a0](https://github.com/dnbexperience/eufemia/commit/a40e6a09848471dce04cfd7b5f189d6ff0c50e26))
+* **InputMasked:** handle initial empty string value ([70c5fd8](https://github.com/dnbexperience/eufemia/commit/70c5fd853b4e3d36fdc62a87a8301ec01c518f47))
+* **Modal:** text selection issue after modal has been closed ([a1a612b](https://github.com/dnbexperience/eufemia/commit/a1a612bd94231d1c0b92e8b0caab6b07d0e13ea6))
+
 # [9.16.0](https://github.com/dnbexperience/eufemia/compare/v9.15.2...v9.16.0) (2021-11-15)
 
 
