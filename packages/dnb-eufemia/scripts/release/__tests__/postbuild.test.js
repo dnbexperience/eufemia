@@ -160,7 +160,14 @@ describe('babel build', () => {
         break
     }
 
-    {
+    if (stage == 'cjs') {
+      const exists = fs.existsSync(
+        path.resolve(
+          `./build/${stage}/components/breadcrumb/Breadcrumb.tsx`
+        )
+      )
+      expect(exists).toBe(false)
+    } else {
       const content = fs.readFileSync(
         path.resolve(
           `./build/${stage}/components/breadcrumb/Breadcrumb.tsx`

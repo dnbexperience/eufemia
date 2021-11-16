@@ -15,9 +15,9 @@ babel ./src \
 
 echo 'Building cjs bundle done!'
 
-echo 'Copy .d.ts files to cjs ...'
+echo 'Copy additional files to cjs ...'
 
-OUT_DIR=./build/cjs babel-node ./scripts/release/copyTypeScriptFiles.js
+OUT_DIR=./build/cjs ONLY_DEFINITION_FILES=1 babel-node ./scripts/release/copyTypeScriptFiles.js
 OUT_DIR=./build/cjs babel-node ./scripts/release/copyStyles.js
 
 echo 'Copy extra cjs package.json ...'

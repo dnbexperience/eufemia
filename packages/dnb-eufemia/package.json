@@ -21,7 +21,7 @@
     "audit:ci:yarn-outdated": "babel-node ./scripts/prepub/audit/toOpt && audit-ci --config ./audit-ci.json --package-manager=yarn --report-type full && babel-node ./scripts/prepub/audit/toDev",
     "build": "yarn build:prebuild && yarn build:esm && yarn build:copy",
     "prebuild:ci": "yarn build",
-    "postbuild:ci": "./scripts/release/postbuild.sh",
+    "postbuild:ci": "./scripts/release/postbuild.sh && yarn test:build",
     "build:cjs": "./scripts/release/babel-cjs.sh",
     "build:clean": "rm -rf build/**",
     "build:copy": "./scripts/release/copy-build-artifacts.sh",

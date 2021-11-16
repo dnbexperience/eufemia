@@ -1,15 +1,16 @@
-/* stylelint-disable */
 /**
  * Main Babel config
  *
  */
 
-const presets =
+const basisPresets = [
+  '@babel/preset-react',
+  ['@babel/preset-typescript', { isTSX: true, allExtensions: true }],
+]
+
+const presetsGeneral =
   process.env.BABEL_ENV === 'es'
-    ? [
-        '@babel/preset-react',
-        ['@babel/preset-typescript', { isTSX: true, allExtensions: true }],
-      ]
+    ? basisPresets
     : [
         [
           // Using .browserslistrc for the targets
@@ -20,25 +21,51 @@ const presets =
               : 'cjs',
           },
         ],
-        '@babel/preset-react',
-        ['@babel/preset-typescript', { isTSX: true, allExtensions: true }],
+
+        ...basisPresets,
       ]
 
-// also for IE testing with Storybook}
-const legacy =
+// Used for legacy, IE11 builds
+const legacyPresets =
   process.env.BABEL_ENV === 'es'
     ? []
     : [
+        // Include the rest
+        ...presetsGeneral,
+
+        // Manipulate @babel/preset-env
         [
-          presets[0][0], // get preset id
+          presetsGeneral[0][0], // get preset id
           {
-            ...presets[0][1], // get preset options
+            ...presetsGeneral[0][1], // get preset options
             useBuiltIns: 'usage',
             corejs: 3,
           },
         ],
-        presets[1],
       ]
+        .slice(1) // remove the first "presetsGeneral"
+        .reverse()
+
+const testingPresets =
+  process.env.BABEL_ENV === 'es'
+    ? []
+    : [
+        // Include the rest
+        ...presetsGeneral,
+
+        // Manipulate @babel/preset-env
+        [
+          presetsGeneral[0][0], // get preset id
+          {
+            ...presetsGeneral[0][1], // get preset options
+            targets: {
+              node: 'current',
+            },
+          },
+        ],
+      ]
+        .slice(1) // remove the first "presetsGeneral"
+        .reverse()
 
 const productionPlugins = [
   '@babel/plugin-transform-react-constant-elements',
@@ -65,7 +92,7 @@ if (typeof process.env.BABEL_ENV !== 'undefined') {
 }
 
 const config = {
-  presets,
+  presets: presetsGeneral,
   plugins: [
     'babel-plugin-optimize-clsx',
     '@babel/plugin-proposal-export-default-from',
@@ -79,13 +106,13 @@ const config = {
   ignore: ['node_modules/**'],
   env: {
     cjs: {
-      presets: legacy,
+      presets: legacyPresets,
       plugins: productionPlugins.concat([
         '@babel/plugin-transform-modules-commonjs',
       ]),
     },
     esm: {
-      presets: legacy,
+      presets: legacyPresets,
       plugins: [
         ...productionPlugins,
         ['@babel/plugin-transform-runtime', { useESModules: true }],
@@ -98,33 +125,22 @@ const config = {
       ],
     },
     umd: {
-      presets: legacy,
+      presets: legacyPresets,
       plugins: [
         ...productionPlugins,
         ['@babel/plugin-transform-runtime', { useESModules: true }],
       ],
     },
     production: {
-      presets: legacy,
+      presets: legacyPresets,
       plugins: [
         ...productionPlugins,
         ['@babel/plugin-transform-runtime', { useESModules: true }],
       ],
     },
-    development: { presets: legacy },
+    development: { presets: presetsGeneral },
     test: {
-      presets: [
-        [
-          '@babel/preset-env',
-          {
-            targets: {
-              node: 'current',
-            },
-          },
-        ],
-        '@babel/preset-react',
-        ['@babel/preset-typescript', { isTSX: true, allExtensions: true }],
-      ],
+      presets: testingPresets,
     },
   },
 }

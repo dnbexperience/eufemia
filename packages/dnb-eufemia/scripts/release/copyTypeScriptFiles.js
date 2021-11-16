@@ -1,5 +1,5 @@
 /**
- * Copy .d.ts files recursively
+ * Copy additional files recursively
  *
  */
 
@@ -12,11 +12,13 @@ if (require.main === module) {
 }
 
 async function copyTypeScriptFiles(dist) {
-  const files = await globby([
-    './src/**/*.ts',
-    './src/**/*.tsx',
-    './src/**/*.d.ts',
-  ])
+  const globbyFiles = ['./src/**/*.d.ts']
+
+  if (process.env.ONLY_DEFINITION_FILES !== '1') {
+    globbyFiles.push('./src/**/*.ts', './src/**/*.tsx')
+  }
+
+  const files = await globby(globbyFiles)
 
   for await (const file of files) {
     const src = path.resolve(file)
