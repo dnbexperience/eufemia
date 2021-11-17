@@ -20,7 +20,7 @@ const enableNumberMaskWhen = [
   'currency_mask',
 ]
 
-export const unvisibleSpace = '\u200B'
+export const invisibleSpace = '\u200B'
 
 /**
  * Will return true if a prop needs Locale support
@@ -152,8 +152,7 @@ export const correctNumberValue = ({
  * @param {Object} maskParams Mask parameters, containing eventually suffix or prefix
  */
 export const correctCaretPosition = (element, maskParams) => {
-  clearTimeout(_selectionTimeout)
-  _selectionTimeout = setTimeout(() => {
+  const correction = () => {
     try {
       const suffix = maskParams?.suffix
       const prefix = maskParams?.prefix
@@ -172,6 +171,16 @@ export const correctCaretPosition = (element, maskParams) => {
 
         if (start >= suffixStart && start <= suffixEnd) {
           pos = suffixStart
+
+          // If there is a placeholder,
+          // and the user clicks after the suffix
+          // we want the position to be "before" the placeholderChar
+          if (
+            maskParams.placeholderChar !== invisibleSpace &&
+            element.value.length - 1 === String(suffix + prefix).length
+          ) {
+            pos = pos - 1
+          }
         } else {
           const prefixStart = element.value.indexOf(prefix)
           const prefixEnd = prefixStart + prefix?.length || 0
@@ -182,10 +191,11 @@ export const correctCaretPosition = (element, maskParams) => {
         }
 
         const char = element.value.slice(pos - 1, pos)
-        if (char === unvisibleSpace) {
+        if (char === invisibleSpace) {
           pos = suffixStart - 1
         }
 
+        // console.log('pos2', pos)
         if (!isNaN(parseFloat(pos))) {
           element.setSelectionRange(pos, pos)
         }
@@ -193,9 +203,12 @@ export const correctCaretPosition = (element, maskParams) => {
     } catch (e) {
       warn(e)
     }
-  }, 1) // to get the current value
+  }
+
+  if (typeof window !== 'undefined') {
+    window.requestAnimationFrame(correction)
+  }
 }
-let _selectionTimeout
 
 /**
  * Manipulate needed mask for handle: percent

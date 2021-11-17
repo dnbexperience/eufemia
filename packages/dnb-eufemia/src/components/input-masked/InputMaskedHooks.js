@@ -4,6 +4,7 @@
  */
 
 import React from 'react'
+import classnames from 'classnames'
 import {
   cleanNumber,
   getCurrencySymbol,
@@ -31,7 +32,7 @@ import {
   handleThousandsSeparator,
   handleDecimalSeparator,
   fromJSON,
-  unvisibleSpace,
+  invisibleSpace,
 } from './InputMaskedUtils'
 
 /**
@@ -174,6 +175,46 @@ export const useInternalMask = () => {
 }
 
 /**
+ * Returns the final mask params
+ *
+ * @returns mask params
+ */
+export const useMaskParams = () => {
+  const { props } = React.useContext(InputMaskedContext)
+
+  const {
+    keep_char_positions,
+    show_guide,
+    show_mask,
+    placeholder_char,
+    placeholder,
+  } = props
+
+  const mask = useInternalMask()
+  const maskParams = useNumberMaskParams() || {}
+
+  maskParams.showMask = !placeholder && isTrue(show_mask)
+
+  // Revalidated placeholder char to a zero width space
+  maskParams.placeholderChar = placeholder_char
+  if (typeof mask?.placeholderChar !== 'undefined') {
+    maskParams.placeholderChar = mask.placeholderChar
+  }
+  if (maskParams.placeholderChar === null) {
+    maskParams.placeholderChar = invisibleSpace
+  }
+
+  if (typeof mask?.showMask !== 'undefined') {
+    maskParams.showMask = mask.showMask
+  }
+
+  maskParams.showGuide = isTrue(show_guide)
+  maskParams.keepCharPositions = isTrue(keep_char_positions)
+
+  return maskParams
+}
+
+/**
  * Handle the TextMask dependency
  *
  * @returns React Element
@@ -182,15 +223,11 @@ export const useInputElement = () => {
   const ref = useInputElementRef()
   const { props } = React.useContext(InputMaskedContext)
 
-  const {
-    pipe,
-    keep_char_positions,
-    show_guide,
-    show_mask,
-    placeholder_char,
-  } = props
+  const { pipe } = props
 
   const mask = useInternalMask()
+  const { showMask, showGuide, placeholderChar, keepCharPositions } =
+    useMaskParams()
 
   // Create the actual input element
   const inputElementRef = React.useRef(<input ref={ref} />)
@@ -204,22 +241,6 @@ export const useInputElement = () => {
       params.inputMode = getInputModeFromMask(mask)
     }
 
-    // Revalidated placeholder char to a zero width space
-    let placeholderChar = placeholder_char
-    if (typeof mask?.placeholderChar !== 'undefined') {
-      placeholderChar = mask.placeholderChar
-    }
-    if (placeholder_char === '' || placeholder_char === null) {
-      placeholderChar = unvisibleSpace
-    } else {
-      placeholderChar = '_'
-    }
-
-    let showMask = !props.placeholder && isTrue(show_mask)
-    if (typeof mask?.showMask !== 'undefined') {
-      showMask = mask.showMask
-    }
-
     return (
       <TextMask
         inputRef={ref}
@@ -227,10 +248,18 @@ export const useInputElement = () => {
         pipe={pipe}
         mask={mask}
         showMask={showMask}
-        guide={isTrue(show_guide)}
-        keepCharPositions={isTrue(keep_char_positions)}
+        guide={showGuide}
+        keepCharPositions={keepCharPositions}
         placeholderChar={placeholderChar}
         {...params}
+        className={classnames(
+          params.className,
+          showMask &&
+            showGuide &&
+            placeholderChar &&
+            placeholderChar !== invisibleSpace &&
+            'dnb-input-masked--guide' // will use --font-family-monospace
+        )}
       />
     )
   }
@@ -266,7 +295,7 @@ export const useEventMapping = ({ setLocalValue }) => {
  */
 const useCallEvent = ({ setLocalValue }) => {
   const { props } = React.useContext(InputMaskedContext)
-  const maskParams = useNumberMaskParams()
+  const maskParams = useMaskParams()
 
   // Return empty func if no number mask is used
   if (!maskParams) {

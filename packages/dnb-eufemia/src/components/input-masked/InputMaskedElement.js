@@ -5,7 +5,6 @@
 
 import React from 'react'
 import Input from '../input/Input'
-import { isTrue } from '../../shared/component-helper'
 import classnames from 'classnames'
 import {
   useInputElement,
@@ -33,14 +32,7 @@ export default function InputMaskedElement() {
       {...events}
       input_element={inputElement}
       value={localValue}
-      className={classnames(
-        'dnb-input-masked',
-        className,
-        isTrue(show_mask) &&
-          isTrue(show_guide) &&
-          placeholder_char === '_' &&
-          'dnb-input-masked--guide'
-      )}
+      className={classnames('dnb-input-masked', className)}
     />
   )
 }
