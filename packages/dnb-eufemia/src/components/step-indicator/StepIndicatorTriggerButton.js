@@ -7,7 +7,7 @@ import classnames from 'classnames'
 import React from 'react'
 import PropTypes from 'prop-types'
 import Button from '../button/Button'
-import fullscreen_medium from '../../icons/fullscreen_medium'
+import chevron_down_medium from '../../icons/chevron_down_medium'
 import {
   validateDOMAttributes,
   combineDescribedBy,
@@ -131,7 +131,7 @@ export default class StepIndicatorTriggerButton extends React.PureComponent {
           wrap
           stretch
           variant="secondary"
-          icon={fullscreen_medium}
+          icon={chevron_down_medium}
           icon_size="medium"
           icon_position="right"
           inner_ref={this._buttonRef}
