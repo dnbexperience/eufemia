@@ -2451,7 +2451,8 @@ legend.dnb-form-label {
     outline: none;
     word-break: normal;
     position: relative;
-    z-index: 2; }
+    z-index: 2;
+    caret-color: var(--color-sea-green); }
   .dnb-input input.dnb-input__input {
     font-size: var(--input-font-size);
     line-height: var(--font-size-basis); }

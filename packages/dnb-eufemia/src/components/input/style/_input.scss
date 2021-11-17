@@ -51,6 +51,8 @@
 
     position: relative;
     z-index: 2; // to make sure we are over the placeholder
+
+    caret-color: var(--color-sea-green);
   }
 
   input#{&}__input {

@@ -613,7 +613,8 @@ legend.dnb-form-label {
     padding: 0 var(--textarea-padding-width);
     outline: none;
     font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis); }
+    line-height: var(--line-height-basis);
+    caret-color: var(--color-sea-green); }
   .dnb-textarea__placeholder {
     pointer-events: none;
     position: absolute;
