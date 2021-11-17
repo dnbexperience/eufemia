@@ -90,7 +90,7 @@ exports[`Section scss have to match default theme snapshot 1`] = `
     color: var(--color-fire-red); }
 
 .dnb-section--fire-red-8 {
-  color: var(--color-white); }
+  color: var(--color-black-80); }
   .dnb-section--fire-red-8::after {
     color: var(--color-fire-red-8); }
 
