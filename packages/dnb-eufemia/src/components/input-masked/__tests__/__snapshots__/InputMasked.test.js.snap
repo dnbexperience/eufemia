@@ -200,7 +200,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
                 onKeyDown={[Function]}
                 onMouseUp={[Function]}
                 pipe={null}
-                placeholderChar="_"
+                placeholderChar="placeholder_char"
                 showMask={true}
                 type="text"
                 value="test"
@@ -1140,7 +1140,7 @@ legend.dnb-form-label {
 * InputMasked component
 *
 */
-.dnb-input-masked--guide input {
+.dnb-input-masked--guide {
   font-family: var(--font-family-monospace); }
 "
 `;

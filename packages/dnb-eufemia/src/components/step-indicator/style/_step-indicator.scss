@@ -50,6 +50,10 @@
 
     will-change: height;
     transition: height 400ms #{$defaultEasing};
+
+    html[data-visual-test] & {
+      transition-duration: 1ms !important;
+    }
   }
   &__trigger button#{&}__trigger__button {
     margin-top: 0.5rem;
@@ -61,6 +65,10 @@
     .dnb-button__icon {
       opacity: 1;
       transition: opacity 1400ms ease-in-out;
+
+      html[data-visual-test] & {
+        transition-duration: 1ms !important;
+      }
     }
     &:not(.dnb-step-indicator__item--visited)
       .dnb-button:not(.dnb-step-indicator__button__status)

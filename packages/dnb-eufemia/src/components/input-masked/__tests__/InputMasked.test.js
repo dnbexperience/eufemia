@@ -36,6 +36,13 @@ const props = {
   id: 'input-masked',
 }
 
+beforeEach(() => {
+  // Use this because of the correctCaretPosition
+  window.requestAnimationFrame = jest.fn((callback) => {
+    return setTimeout(callback, 0)
+  })
+})
+
 describe('InputMasked component', () => {
   // compare the snapshot
   it('have to match type="text" snapshot', () => {
@@ -353,6 +360,35 @@ describe('InputMasked component', () => {
     expect(preventDefault).toHaveBeenCalledTimes(1)
   })
 
+  it('should show placeholder chars when show_mask is true', () => {
+    const Comp = mount(
+      <Component
+        show_mask
+        placeholder_char="_"
+        mask={[
+          '0',
+          '0',
+          /[4]/, // have to start with 4
+          /[5-7]/, // can be 5,6 or 7
+          ' ',
+          /[49]/, // have to start with 4 or 9
+          /\d/,
+          ' ',
+          /\d/,
+          /\d/,
+          ' ',
+          /\d/,
+          /\d/,
+          ' ',
+          /\d/,
+          /\d/,
+        ]}
+      />
+    )
+
+    expect(Comp.find('input').instance().value).toBe('00__ __ __ __ __')
+  })
+
   it('should set caret position before suffix', async () => {
     const Comp = mount(
       <Component
@@ -379,7 +415,7 @@ describe('InputMasked component', () => {
 
     focus({ value: '​ kr' })
     expect(Comp.find('input').instance().value).toBe(
-      '​ kr' // includes a hidden space: unvisibleSpace
+      '​ kr' // includes a hidden space: invisibleSpace
     )
 
     await wait(2)
@@ -400,7 +436,7 @@ describe('InputMasked component', () => {
 
     focus({ comp: CompWithPrefix, value: 'Prefix​  kr' })
     expect(CompWithPrefix.find('input').instance().value).toBe(
-      'Prefix ​ kr' // includes a hidden space: unvisibleSpace
+      'Prefix ​ kr' // includes a hidden space: invisibleSpace
     )
 
     await wait(2)
