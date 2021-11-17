@@ -920,7 +920,7 @@ legend.dnb-form-label {
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--no-animation,
-  .dnb-form-status html[data-visual-test] {
+  html[data-visual-test] .dnb-form-status {
     transition-duration: 1ms !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-form-status__shell > .dnb-icon {

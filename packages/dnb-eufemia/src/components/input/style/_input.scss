@@ -117,7 +117,7 @@
     display: none;
   }
 
-  // change file type apperance on type="file"
+  // change file type appearance on type="file"
   ::-webkit-file-upload-button {
     cursor: pointer;
     outline: none;
@@ -418,6 +418,10 @@
   &--icon-size-medium#{&}--icon-position-right#{&}--has-icon
     &__placeholder {
     padding-right: 3rem;
+  }
+
+  html[data-visual-test] &__input {
+    caret-color: var(--color-white);
   }
 
   .dnb-responsive-component & {

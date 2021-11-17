@@ -111,7 +111,7 @@
   }
 
   &--no-animation,
-  html[data-visual-test] {
+  html[data-visual-test] & {
     transition-duration: 1ms !important;
   }
 

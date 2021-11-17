@@ -47,6 +47,10 @@ describe('Tabs screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+})
+
+describe('Tabs screenshot', () => {
+  setupPageScreenshot({ url: '/uilib/components/tabs/demos' })
 
   it('have to match ignored scrollable tabs', async () => {
     const screenshot = await testPageScreenshot({
