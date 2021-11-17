@@ -9,7 +9,7 @@ import {
   getThousandsSeparator,
 } from '../number-format/NumberUtils'
 import { warn } from '../../shared/component-helper'
-import { IS_IE11 } from '../../shared/helpers'
+import { IS_IE11, IS_ANDROID } from '../../shared/helpers'
 
 const enableLocaleSupportWhen = ['as_number', 'as_percent', 'as_currency']
 const enableNumberMaskWhen = [
@@ -301,7 +301,11 @@ export const handleNumberMask = ({
  */
 export function getInputModeFromMask(mask) {
   const maskParams = mask?.maskParams
-  if (maskParams && mask?.instanceOf === 'createNumberMask') {
+  if (
+    !IS_ANDROID &&
+    maskParams &&
+    mask?.instanceOf === 'createNumberMask'
+  ) {
     return maskParams.allowDecimal && maskParams.decimalLimit !== 0
       ? 'decimal'
       : 'numeric'

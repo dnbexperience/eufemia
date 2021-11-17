@@ -12,6 +12,7 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../InputMasked'
 import Provider from '../../../shared/Provider'
+import * as helpers from '../../../shared/helpers'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../InputMasked'), {
@@ -287,6 +288,50 @@ describe('InputMasked component', () => {
     expect(onChange.mock.calls[0][0].value).toBe('NOK 0012,01 kr')
     expect(onChange.mock.calls[0][0].numberValue).toBe(12.01)
     expect(Comp.find('input').instance().value).toBe('NOK 0 012,01 kr')
+  })
+
+  it('should change inputmode to text when IS_ANDROID', () => {
+    const onKeyDown = jest.fn()
+    const preventDefault = jest.fn()
+
+    const Comp = mount(
+      <Component
+        {...props}
+        value={1234.5}
+        number_mask
+        on_key_down={onKeyDown}
+      />
+    )
+
+    expect(Comp.find('input').instance().getAttribute('inputmode')).toBe(
+      'numeric'
+    )
+
+    // eslint-disable-next-line
+    helpers.IS_ANDROID = true
+
+    // Re-render
+    Comp.setProps({})
+
+    expect(Comp.find('input').instance().getAttribute('inputmode')).toBe(
+      null
+    )
+
+    // eslint-disable-next-line
+    helpers.IS_ANDROID = false
+
+    Comp.find('input').simulate('keydown', {
+      key: ',',
+      keyCode: 229, // unidentified, while 188 would have worked fine
+      target: {
+        value: '1234.5',
+      },
+      preventDefault,
+    })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(preventDefault).toHaveBeenCalledTimes(0)
+    expect(Comp.find('input').instance().value).toBe('1 234')
   })
 
   it('should update value when initial value was an empty string', () => {
