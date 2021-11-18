@@ -1229,7 +1229,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         margin-bottom: 0.25rem;
         font-size: var(--font-size-x-small); }
         .dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__text::after {
-          left: 0; }
+          left: 0;
+          right: 0; }
       .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--size-large .dnb-button__text {
         font-size: var(--font-size-small); }
       .dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__alignment {
@@ -1782,6 +1783,8 @@ exports[`Button scss have to match snapshot 1`] = `
     padding-left: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
     padding-right: 1rem; }
+  .dnb-button--tertiary .dnb-button__text {
+    margin: 0; }
   .dnb-button--has-text {
     width: auto; }
   .dnb-button--has-text .dnb-button__icon {

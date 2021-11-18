@@ -1,3 +1,7 @@
+## November, 12. 2021
+
+- Updated icon sizes for component [Button](/uilib/components/button) variant tertiary (16px default, 24px for icon position top).
+
 ## November, 05. 2021
 
 - New component [Breadcrumb](/uilib/components/breadcrumb).
