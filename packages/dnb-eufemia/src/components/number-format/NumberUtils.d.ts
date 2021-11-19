@@ -68,7 +68,7 @@ export interface formatOptionParams {
   /** If an object should be returned, including the "aria" property */
   returnAria?: boolean;
 }
-export type format = (
+export const format: (
   value: formatValue,
   options?: formatOptionParams
 ) => formatReturnType;
@@ -80,7 +80,7 @@ type cleanNumberOptions = {
   suffix?: string; // to help the cleaning process
 };
 
-export type cleanNumber = (
+export const cleanNumber: (
   num: number | string,
   options?: cleanNumberOptions
 ) => number | string;
