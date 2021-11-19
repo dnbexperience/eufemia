@@ -49,9 +49,9 @@ module.exports.config = config
 module.exports.isCI = isCI
 
 let currentScreenshotSetup = null
-const setScreenshotSetup = (config) => {
-  currentScreenshotSetup = config
-  setupJestScreenshot(config)
+const setScreenshotSetup = (custom) => {
+  currentScreenshotSetup = { ...config.screenshotConfig, ...custom }
+  setupJestScreenshot(currentScreenshotSetup)
 }
 
 module.exports.testPageScreenshot = async ({
