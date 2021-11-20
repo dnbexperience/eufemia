@@ -3,6 +3,18 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.16.2](https://github.com/dnbexperience/eufemia/compare/v9.16.1...v9.16.2) (2021-11-20)
+
+
+### Bug Fixes
+
+* **Breadcrumb:** Remove padding on left and right side ([903cb34](https://github.com/dnbexperience/eufemia/commit/903cb34950b4c3366f314f03832bbd3924ded0e0))
+* **InputMasked:** fix show_mask and use invisible guide char by default ([92fd07b](https://github.com/dnbexperience/eufemia/commit/92fd07bc26783906303ec593187f98957c7f28f5))
+* **NumberFormat:** types for NumberUtils ([#1141](https://github.com/dnbexperience/eufemia/issues/1141)) ([293cc20](https://github.com/dnbexperience/eufemia/commit/293cc20fd9b5f71269a157b68358b8b5b99d7450))
+* **Section:** Text color on --fire-red-8 ([7901667](https://github.com/dnbexperience/eufemia/commit/79016672aae9f04f4aeb188f152c95e33b2c8f56))
+* **StepIndicator:** Update triggerbutton icon to chevron_down ([b6ef50b](https://github.com/dnbexperience/eufemia/commit/b6ef50b5145561e6663a69114d4dc9238a6d7478))
+* Update icon size on button tertiary ([8e8b8ab](https://github.com/dnbexperience/eufemia/commit/8e8b8ab19ac2e0bdcb6478f00c882c9af8ebbcc2))
+
 ## [9.16.1](https://github.com/dnbexperience/eufemia/compare/v9.16.0...v9.16.1) (2021-11-16)
 
 
