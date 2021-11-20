@@ -69,6 +69,17 @@ module.exports = async function () {
         what: 'reports',
         filePathsIncludelist: [file],
       })
+
+      const reportUrl = `https://github.com/dnbexperience/eufemia/raw/${newBranchName}/packages/dnb-eufemia/reports/${file}`
+      console.log(
+        chalk.green(
+          `
+Download the Report: 
+${reportUrl}
+
+`
+        )
+      )
     } else {
       console.log(
         chalk.yellow(

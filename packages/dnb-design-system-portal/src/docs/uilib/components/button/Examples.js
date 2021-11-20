@@ -99,14 +99,7 @@ export const ButtonTertiary = () => (
   text={<span>Text inside additional span</span>}
   icon_position="left"
   icon="chevron_left"
-  left
-/>
-<Button
-  variant="tertiary"
-  size="large"
-  text="Large tertiary button"
-  icon="chevron_right"
-  left
+  right="1rem"
 />
 `}
   </ComponentBox>
@@ -119,14 +112,6 @@ export const ButtonTertiaryTop = () => (
   variant="tertiary"
   icon_position="top"
   icon="close"
-  text="Button text"
-  right="large"
-/>
-<Button
-  variant="tertiary"
-  icon_position="top"
-  icon="close"
-  size="large"
   text="Button text"
 />
 `}
@@ -279,6 +264,196 @@ export const ButtonStretch = () => {
   icon={<Bell />}
   size="large"
   data-visual-test="button-stretch"
+/>
+`}
+    </ComponentBox>
+  )
+}
+
+export const PrimaryButtonSizes = () => {
+  return (
+    <ComponentBox scope={{ Bell }} hideCode>
+      {() => /* jsx */ `
+<Button
+  text="Default button"
+  on_click={() => {
+    console.log('on_click')
+  }}
+/>
+<Button
+  text="Large button"
+  on_click={() => {
+    console.log('on_click')
+  }}
+  size="large"
+  left
+/>
+<Button
+  text="Default button icon"
+  on_click={() => {
+    console.log('on_click')
+  }}
+  icon="chevron_right"
+  left
+
+/>
+<Button
+  text="Large button icon"
+  on_click={() => {
+    console.log('on_click')
+  }}
+  size="large"
+  icon="chevron_right"
+  left
+/>
+`}
+    </ComponentBox>
+  )
+}
+
+export const SecondaryButtonSizes = () => {
+  return (
+    <ComponentBox scope={{ Bell }} hideCode>
+      {() => /* jsx */ `
+<Button
+  text="Default button"
+  on_click={() => {
+    console.log('on_click')
+  }}
+  variant="secondary"
+/>
+<Button
+  text="Large button"
+  on_click={() => {
+    console.log('on_click')
+  }}
+  size="large"
+  variant="secondary"
+  left
+/>
+<Button
+  text="Default button icon"
+  on_click={() => {
+    console.log('on_click')
+  }}
+  icon="chevron_right"
+  variant="secondary"
+  left
+
+/>
+<Button
+  text="Large button icon"
+  on_click={() => {
+    console.log('on_click')
+  }}
+  size="large"
+  icon="chevron_right"
+  variant="secondary"
+  left
+/>
+`}
+    </ComponentBox>
+  )
+}
+
+export const TertiaryButtonSizes = () => {
+  return (
+    <ComponentBox scope={{ Bell }} hideCode>
+      {() => /* jsx */ `
+<Button
+  text="Default button"
+  on_click={() => {
+    console.log('on_click')
+  }}
+  icon="chevron_right"
+  variant="tertiary"
+/>
+<Button
+  text="Button text"
+  on_click={() => {
+    console.log('on_click')
+  }}
+  icon="bell"
+  icon_position="top"
+  variant="tertiary"
+  left
+/>
+`}
+    </ComponentBox>
+  )
+}
+
+export const SignalButtonSizes = () => {
+  return (
+    <ComponentBox scope={{ Bell }} hideCode>
+      {() => /* jsx */ `
+<Button
+  text="Default button"
+  on_click={() => {
+    console.log('on_click')
+  }}
+  variant="signal"
+/>
+<Button
+  text="Large button"
+  on_click={() => {
+    console.log('on_click')
+  }}
+  size="large"
+  variant="signal"
+  left
+/>
+<Button
+  text="Default button icon"
+  on_click={() => {
+    console.log('on_click')
+  }}
+  icon="chevron_right"
+  variant="signal"
+  left
+
+/>
+<Button
+  text="Large button icon"
+  on_click={() => {
+    console.log('on_click')
+  }}
+  size="large"
+  icon="chevron_right"
+  variant="signal"
+  left
+/>
+`}
+    </ComponentBox>
+  )
+}
+
+export const IconButtonSizes = () => {
+  return (
+    <ComponentBox hideCode>
+      {() => /* jsx */ `
+<Button
+  title="Small sized button with add icon"
+  icon="add"
+  size="small"
+/>
+<Button
+  title="Medium sized button with add icon"
+  icon="add"
+  size="medium"
+  left
+/>
+<Button
+  title="Default sized button with add icon"
+  icon="add"
+  size="default"
+  left
+/>
+<Button
+  title="Large sized button with add icon"
+  icon="add"
+  size="large"
+  left
 />
 `}
     </ComponentBox>

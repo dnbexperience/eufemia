@@ -37,19 +37,21 @@ const config = {
   },
   screenshotConfig: {
     detectAntialiasing: true,
+    colorThreshold: 0.3,
+    // pixelThresholdAbsolute: 10,// when having this enabled, the Jest logs shows pixel values instead of %
 
     // If the CI is macOS, we can have a low threshold there as well
     // Else we opt for a slightly difference in font-rendering form setup to setup
-    pixelThresholdRelative: isCI ? 0.01 : 0.005,
+    pixelThresholdRelative: 0, // isCI ? 0.01 : 0
   },
 }
 module.exports.config = config
 module.exports.isCI = isCI
 
 let currentScreenshotSetup = null
-const setScreenshotSetup = (config) => {
-  currentScreenshotSetup = config
-  setupJestScreenshot(config)
+const setScreenshotSetup = (custom) => {
+  currentScreenshotSetup = { ...config.screenshotConfig, ...custom }
+  setupJestScreenshot(currentScreenshotSetup)
 }
 
 module.exports.testPageScreenshot = async ({

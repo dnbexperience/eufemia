@@ -35,73 +35,6 @@ import Tooltip from '../tooltip/Tooltip'
 export const buttonVariantPropType = {
   variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'signal']),
 }
-export const buttonPropTypes = {
-  text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  type: PropTypes.string,
-  title: PropTypes.node,
-  variant: buttonVariantPropType.variant,
-  size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
-  icon: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node,
-    PropTypes.func,
-  ]),
-  icon_position: PropTypes.oneOf(['left', 'right', 'top']),
-  icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  tooltip: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  status: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  status_state: PropTypes.string,
-  status_props: PropTypes.object,
-  status_no_animation: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
-  global_status_id: PropTypes.string,
-  id: PropTypes.string,
-  class: PropTypes.string,
-  href: PropTypes.string,
-  to: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.func,
-  ]),
-  custom_content: PropTypes.node,
-  wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  inner_ref: PropTypes.object,
-
-  className: PropTypes.string,
-  innerRef: PropTypes.object,
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
-  element: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.object,
-    PropTypes.node,
-  ]),
-
-  ...spacingPropTypes,
-
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-
-  on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-}
 
 /**
  * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
@@ -109,48 +42,6 @@ export const buttonPropTypes = {
 export default class Button extends React.PureComponent {
   static tagName = 'dnb-button'
   static contextType = Context
-
-  static propTypes = {
-    ...buttonPropTypes,
-  }
-
-  static defaultProps = {
-    type: null, // set the type because of the anchor/href situation – can be made more smart in future
-    text: null,
-    variant: null,
-    size: null,
-    title: null,
-    icon: null,
-    icon_position: 'right',
-    icon_size: null,
-    href: null,
-    to: null,
-    id: null,
-    class: null,
-    custom_content: null,
-    wrap: null,
-    bounding: null,
-    stretch: null,
-    skeleton: null,
-    disabled: null,
-    tooltip: null,
-    status: null,
-    status_state: 'error',
-    status_props: null,
-    status_no_animation: null,
-    global_status_id: null,
-    inner_ref: null,
-
-    className: null,
-    innerRef: null,
-    children: null,
-    element: null,
-
-    custom_element: null,
-    custom_method: null,
-
-    on_click: null,
-  }
 
   static enableWebComponent() {
     registerElement(Button?.tagName, Button, Button.defaultProps)
@@ -268,7 +159,7 @@ export default class Button extends React.PureComponent {
         usedSize = 'default'
       }
     }
-    if (!iconSize && variant === 'tertiary' && usedSize === 'large') {
+    if (!iconSize && variant === 'tertiary' && icon_position === 'top') {
       iconSize = 'medium'
     }
 
@@ -370,89 +261,162 @@ export default class Button extends React.PureComponent {
   }
 }
 
-class Content extends React.PureComponent {
-  static propTypes = {
-    title: PropTypes.node,
-    custom_content: PropTypes.node,
-    content: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.array,
-      PropTypes.node,
-    ]),
-    icon: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func,
-    ]),
-    icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.bool,
-    isIconOnly: PropTypes.bool,
-  }
-  static defaultProps = {
-    custom_content: null,
-    title: null,
-    content: null,
-    icon: null,
-    icon_size: 'default',
-    bounding: null,
-    skeleton: null,
-    isIconOnly: null,
-  }
-  render() {
-    const {
-      title,
-      content,
-      custom_content,
-      icon,
-      icon_size,
-      bounding,
-      skeleton,
-      isIconOnly,
-    } = this.props
+Button.propTypes = {
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  type: PropTypes.string,
+  title: PropTypes.node,
+  variant: buttonVariantPropType.variant,
+  size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
+  icon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func,
+  ]),
+  icon_position: PropTypes.oneOf(['left', 'right', 'top']),
+  icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  tooltip: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
+  status: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
+  status_state: PropTypes.string,
+  status_props: PropTypes.object,
+  status_no_animation: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]),
+  global_status_id: PropTypes.string,
+  id: PropTypes.string,
+  class: PropTypes.string,
+  href: PropTypes.string,
+  to: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.func,
+  ]),
+  custom_content: PropTypes.node,
+  wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  inner_ref: PropTypes.object,
 
-    const ret = []
+  className: PropTypes.string,
+  innerRef: PropTypes.object,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
+  element: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.object,
+    PropTypes.node,
+  ]),
 
-    if (isTrue(bounding)) {
-      ret.push(
+  ...spacingPropTypes,
+
+  custom_element: PropTypes.object,
+  custom_method: PropTypes.func,
+
+  on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+}
+
+Button.defaultProps = {
+  type: null, // set the type because of the anchor/href situation – can be made more smart in future
+  text: null,
+  variant: null,
+  size: null,
+  title: null,
+  icon: null,
+  icon_position: 'right',
+  icon_size: null,
+  href: null,
+  to: null,
+  id: null,
+  class: null,
+  custom_content: null,
+  wrap: null,
+  bounding: null,
+  stretch: null,
+  skeleton: null,
+  disabled: null,
+  tooltip: null,
+  status: null,
+  status_state: 'error',
+  status_props: null,
+  status_no_animation: null,
+  global_status_id: null,
+  inner_ref: null,
+
+  className: null,
+  innerRef: null,
+  children: null,
+  element: null,
+
+  custom_element: null,
+  custom_method: null,
+
+  on_click: null,
+}
+
+function Content({
+  title,
+  content,
+  custom_content,
+  icon,
+  icon_size,
+  bounding,
+  skeleton,
+  isIconOnly,
+}) {
+  return (
+    <>
+      {isTrue(bounding) && (
         <span key="button-bounding" className="dnb-button__bounding" />
-      )
-    }
+      )}
 
-    if (custom_content) {
-      ret.push(
+      {custom_content && (
         <React.Fragment key="button-custom-content">
           {custom_content}
         </React.Fragment>
-      )
-    }
+      )}
 
-    if (content) {
-      ret.push(
-        <span key="button-text-empty" className="dnb-button__alignment">
-          &zwnj;
-        </span>,
-        <span
-          key="button-text"
-          className="dnb-button__text dnb-skeleton--show-font"
-        >
-          {content}
-        </span>
-      )
-    } else if (icon) {
-      // on empty text, use a zero-width non-joiner
-      // so the icon button gets vertical aligned
-      // we need the dnb-button__text for alignment
-      ret.push(
-        <span key="button-text-empty" className="dnb-button__alignment">
-          &zwnj;
-        </span>
-      )
-    }
+      {content && (
+        <>
+          <span key="button-text-empty" className="dnb-button__alignment">
+            &zwnj;
+          </span>
+          <span
+            key="button-text"
+            className="dnb-button__text dnb-skeleton--show-font"
+          >
+            {content}
+          </span>
+        </>
+      )}
 
-    if (icon) {
-      ret.push(
-        icon.props?.icon || icon.props?.className?.includes('dnb-icon') ? (
+      {
+        // on empty text, use a zero-width non-joiner
+        // so the icon button gets vertical aligned
+        // we need the dnb-button__text for alignment
+        !content && icon && (
+          <span key="button-text-empty" className="dnb-button__alignment">
+            &zwnj;
+          </span>
+        )
+      }
+
+      {icon &&
+        (icon.props?.icon ||
+        icon.props?.className?.includes('dnb-icon') ? (
           React.cloneElement(icon, {
             key: 'button-icon-clone',
             className: classnames(
@@ -469,10 +433,37 @@ class Content extends React.PureComponent {
             aria-hidden={isIconOnly && !title ? null : true}
             skeleton={skeleton}
           />
-        )
-      )
-    }
+        ))}
+    </>
+  )
+}
 
-    return ret
-  }
+Content.propTypes = {
+  title: PropTypes.node,
+  custom_content: PropTypes.node,
+  content: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+    PropTypes.node,
+  ]),
+  icon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func,
+  ]),
+  icon_size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  bounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  skeleton: PropTypes.bool,
+  isIconOnly: PropTypes.bool,
+}
+
+Content.defaultProps = {
+  custom_content: null,
+  title: null,
+  content: null,
+  icon: null,
+  icon_size: 'default',
+  bounding: null,
+  skeleton: null,
+  isIconOnly: null,
 }

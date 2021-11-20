@@ -105,6 +105,7 @@ export const InputMaskedExampleCurrencyMask = () => (
 <FormRow vertical>
   <InputMasked
     label="Left aligned (default):"
+    show_mask
     currency_mask="kr"
     on_change={({ numberValue }) => {
       console.log(numberValue)
@@ -114,6 +115,7 @@ export const InputMaskedExampleCurrencyMask = () => (
   />
   <InputMasked
     label="Right aligned:"
+    show_mask
     currency_mask={{ currency: 'NOK' }}
     align="right"
     on_change={({ numberValue }) => {
@@ -213,6 +215,7 @@ export const InputMaskedExamplePhone = () => (
     /\\d/
   ]}
   show_mask
+  placeholder_char="_"
   keep_char_positions
   on_change={({ numberValue }) => {
     console.log(numberValue)

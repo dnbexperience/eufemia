@@ -5701,6 +5701,9 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
   .dnb-step-indicator-v2 .dnb-step-indicator__trigger__button .dnb-button__alignment,
   .dnb-step-indicator-v2 .dnb-step-indicator__item .dnb-button .dnb-button__alignment {
     order: 2; }
+  html[data-visual-test] .dnb-step-indicator-v2 .dnb-step-indicator__trigger__button, html[data-visual-test]
+  .dnb-step-indicator-v2 .dnb-step-indicator__item .dnb-button {
+    transition-duration: 1ms !important; }
 
 .dnb-step-indicator-v2 .dnb-step-indicator__trigger button.dnb-step-indicator-v2 .dnb-step-indicator__trigger__button {
   margin-top: 0.5rem; }
@@ -5710,6 +5713,8 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
   .dnb-step-indicator-v2 .dnb-step-indicator__item .dnb-button__icon {
     opacity: 1;
     transition: opacity 1400ms ease-in-out; }
+    html[data-visual-test] .dnb-step-indicator-v2 .dnb-step-indicator__item .dnb-button__icon {
+      transition-duration: 1ms !important; }
   .dnb-step-indicator-v2 .dnb-step-indicator__item:not(.dnb-step-indicator__item--visited) .dnb-button:not(.dnb-step-indicator__button__status)
 .dnb-button__icon {
     opacity: 0; }

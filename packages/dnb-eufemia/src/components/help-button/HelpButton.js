@@ -9,14 +9,14 @@ import { registerElement } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import Modal from '../modal/Modal'
 import HelpButtonInstance from './HelpButtonInstance'
-import { buttonPropTypes } from '../button/Button'
+import Button from '../button/Button'
 
 export default class HelpButton extends React.PureComponent {
   static contextType = Context
   static tagName = 'dnb-help-button'
 
   static propTypes = {
-    ...buttonPropTypes,
+    ...Button.propTypes,
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,

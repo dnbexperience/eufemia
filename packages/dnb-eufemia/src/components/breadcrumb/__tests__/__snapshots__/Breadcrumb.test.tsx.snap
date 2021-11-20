@@ -75,8 +75,7 @@ exports[`Breadcumb scss have to match snapshot 1`] = `
   flex-direction: column; }
   .dnb-breadcrumb__bar.dnb-section {
     display: flex;
-    padding: var(--spacing-small) var(--spacing-small);
-    padding-bottom: var(--spacing-x-small); }
+    padding: var(--spacing-small) 0 var(--spacing-x-small) 0; }
   .dnb-breadcrumb__list {
     list-style: none;
     margin: 0;

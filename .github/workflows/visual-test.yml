@@ -15,10 +15,9 @@ on:
       - '!beta'
       - '!alpha'
     paths:
-      - './packages/dnb-eufemia/src/**/*'
-      - './packages/dnb-eufemia/src/**/*screenshot*'
-      - './packages/dnb-design-system-portal/src/**/{Examples,demos}*'
-      - '.github/workflows/**/visual-test.yml'
+      - 'packages/dnb-eufemia/src/**/*'
+      - 'packages/dnb-eufemia/src/**/*screenshot*'
+      - 'packages/dnb-design-system-portal/src/**/{Examples,demos}*'
 
 jobs:
   action:

@@ -269,6 +269,23 @@ export const ButtonSandbox = () => (
       <Button text="Signal" variant="signal" icon="add" />
       <Button text="Signal" variant="signal" icon="add" disabled />
     </Box>
+    <Box>
+      <Button variant="tertiary" text="Button text" icon="add" />
+
+      <Button
+        variant="tertiary"
+        text="Button text"
+        icon_position="top"
+        icon="add"
+      />
+
+      <Button
+        variant="tertiary"
+        text="Button text"
+        icon="add"
+        icon_position="left"
+      />
+    </Box>
   </Wrapper>
 )
 

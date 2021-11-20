@@ -200,7 +200,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
                 onKeyDown={[Function]}
                 onMouseUp={[Function]}
                 pipe={null}
-                placeholderChar="_"
+                placeholderChar="placeholder_char"
                 showMask={true}
                 type="text"
                 value="test"
@@ -433,7 +433,7 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   .dnb-form-status[hidden] {
     display: none; }
   .dnb-form-status--no-animation,
-  .dnb-form-status html[data-visual-test] {
+  html[data-visual-test] .dnb-form-status {
     transition-duration: 1ms !important; }
   @media screen and (-ms-high-contrast: none) {
     .dnb-form-status__shell > .dnb-icon {
@@ -595,6 +595,8 @@ exports[`InputMasked scss have to match snapshot 1`] = `
     padding-left: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
     padding-right: 1rem; }
+  .dnb-button--tertiary .dnb-button__text {
+    margin: 0; }
   .dnb-button--has-text {
     width: auto; }
   .dnb-button--has-text .dnb-button__icon {
@@ -1073,6 +1075,8 @@ legend.dnb-form-label {
   .dnb-input--icon-size-medium.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input,
   .dnb-input--icon-size-medium.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
     padding-right: 3rem; }
+  html[data-visual-test] .dnb-input__input {
+    caret-color: var(--color-white); }
   @media screen and (max-width: 40em) {
     .dnb-responsive-component .dnb-input {
       display: flex;
@@ -1140,7 +1144,7 @@ legend.dnb-form-label {
 * InputMasked component
 *
 */
-.dnb-input-masked--guide input {
+.dnb-input-masked--guide {
   font-family: var(--font-family-monospace); }
 "
 `;
