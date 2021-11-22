@@ -139,7 +139,7 @@
     -webkit-user-select: none; // Safari / Touch fix
 
     margin: 0;
-    padding: 0.25rem 0.125rem; /* 1/16*4 */
+    padding: 0 0.125rem; /* 1/16*4 */
 
     background-color: transparent;
     border-bottom: 1px solid transparent;
@@ -166,6 +166,10 @@
     }
 
     @include dummySpacing();
+
+    & .dnb-dummy {
+      margin-top: 0.25rem;
+    }
 
     &::after {
       content: '';
