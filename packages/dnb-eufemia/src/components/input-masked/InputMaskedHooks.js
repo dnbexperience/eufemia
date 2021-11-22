@@ -309,10 +309,12 @@ const useCallEvent = ({ setLocalValue }) => {
     value = value || event.target.value
     const keyCode = keycode(event)
     const selStart = event.target.selectionStart
+    const isUnidentified = event.which === 229 || keyCode === undefined // Android issue
 
     // Prevent entering a leading zero
     if (
       name === 'on_key_down' &&
+      !isUnidentified &&
       !maskParams?.allowLeadingZeroes &&
       (keyCode === '0' ||
         (value.replace(/[^\d]/g, '') === '' &&
@@ -330,7 +332,11 @@ const useCallEvent = ({ setLocalValue }) => {
       }
     }
 
-    if (name === 'on_key_down' && maskParams?.decimalSymbol) {
+    if (
+      name === 'on_key_down' &&
+      !isUnidentified &&
+      maskParams?.decimalSymbol
+    ) {
       const hasDecimalSymbol = value.includes(maskParams.decimalSymbol)
       const allowedDecimals =
         maskParams.decimalLimit > 0 || maskParams.allowDecimal !== false

@@ -7,6 +7,7 @@ import {
   warn,
   PLATFORM_MAC,
   PLATFORM_WIN,
+  PLATFORM_ANDROID,
   PLATFORM_LINUX,
   PLATFORM_IOS,
 } from './component-helper'
@@ -17,6 +18,7 @@ export let IS_IOS = false
 export let IS_SAFARI = false
 export let IS_WIN = false
 export let IS_MAC = false
+export let IS_ANDROID = false
 export let IS_LINUX = false
 
 export const isMac = () =>
@@ -28,6 +30,11 @@ export const isWin = () =>
   (IS_WIN =
     typeof navigator !== 'undefined' &&
     new RegExp(PLATFORM_WIN, 'i').test(navigator?.platform))
+
+export const isAndroid = () =>
+  (IS_ANDROID =
+    typeof navigator !== 'undefined' &&
+    new RegExp(PLATFORM_ANDROID, 'i').test(navigator?.userAgent))
 
 export const isLinux = () =>
   (IS_LINUX =
@@ -60,6 +67,7 @@ isEdge()
 isiOS()
 isSafari()
 isWin()
+isAndroid()
 isMac()
 isLinux()
 
