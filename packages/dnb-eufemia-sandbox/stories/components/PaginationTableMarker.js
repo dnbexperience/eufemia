@@ -44,14 +44,13 @@ for (let i = 1; i <= 60; i++) {
   tableItems.push({ ssn: i, text: String(i), expanded: false })
 }
 
-export const InfinityPaginationTable = ({ tableItems, ...props }) => {
-  const startupPage = 3 // what we start with
+const InfinityPaginationTable = ({ tableItems, ...props }) => {
+  const startupPage = 1 // what we start with
   const perPageCount = 10 // how many items per page
 
   // create our Pagination instance
-  const [{ InfinityMarker, endInfinity, resetInfinity }] = React.useState(
-    createPagination
-  )
+  const [{ InfinityMarker, endInfinity, resetInfinity }] =
+    React.useState(createPagination)
   const [orderDirection, setOrderDirection] = React.useState('asc')
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
   const [currentPage, setCurrentPage] = React.useState(startupPage)
@@ -155,21 +154,18 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
       <tbody>
         <StickyHelper />
         <InfinityMarker
+          debug
           marker_element="tr"
           fallback_element={({ className, ...props }) => (
             <TableRow className={className}>
               <TableData colSpan="2" {...props} />
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the orw
-          // startup_page={startupPage} // is not needed
-          startup_count={2}
-          current_page={currentPage} // Mandatory!
-          // page_count={maxPagesCount}// is not needed
-          // page_count={4} // is not needed
           {...props}
-          // on_startup={({ page }) => {
-          //   console.log('on_startup: with page', page)
-          // }}
+          min_wait_time={0}
+          startup_page={startupPage}
+          startup_count={2}
+          current_page={currentPage} // Mandatory
           on_load={({ page }) => {
             console.log('on_load: with page', page)
 
@@ -183,6 +179,12 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
                 setCurrentPage(page)
               }, Math.ceil(Math.random() * 1e3)) // simulate random delay
             }
+          }}
+          on_startup={({ page }) => {
+            console.log('on_startup: with page', page)
+          }}
+          on_change={({ page }) => {
+            console.log('on_change: with page', page)
           }}
           on_end={({ page }) => {
             console.log('on_end: with page', page)

@@ -41,7 +41,7 @@ export default class PaginationBar extends React.PureComponent {
 
   componentDidMount() {
     const context = this.context.pagination
-    const currentPage = context.startupPage || context.currentPage
+    const currentPage = context.startupPage || context.currentPage || 1
     const items = context.prefillItems(currentPage, {
       skipObserver: true,
     })
@@ -126,12 +126,8 @@ export default class PaginationBar extends React.PureComponent {
     const { button_title, prev_title, next_title, more_pages } = props
 
     // our states
-    const {
-      pageCount,
-      currentPage,
-      disabled,
-      skeleton,
-    } = this.context.pagination
+    const { pageCount, currentPage, disabled, skeleton } =
+      this.context.pagination
 
     const prevIsDisabled = currentPage === 1
     const nextIsDisabled = currentPage === pageCount || pageCount === 0

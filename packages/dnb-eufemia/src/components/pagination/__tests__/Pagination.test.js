@@ -4,6 +4,7 @@
  */
 
 import React from 'react'
+import { act } from '@testing-library/react'
 import {
   mount,
   fakeProps,
@@ -11,7 +12,7 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
-import Component from '../Pagination'
+import Component, { createPagination } from '../Pagination'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Pagination'), {
@@ -20,12 +21,12 @@ const snapshotProps = {
   }),
 }
 
-const props = {
-  page_count: 30,
-  current_page: 15,
-}
+describe('Pagination bar', () => {
+  const props = {
+    page_count: 30,
+    current_page: 15,
+  }
 
-describe('Pagination bar component', () => {
   it('has correct state at startup', () => {
     const Comp = mount(<Component {...props} />)
     const innerElem = Comp.find('.dnb-pagination__bar__inner')
@@ -219,14 +220,375 @@ describe('Pagination bar component', () => {
     expect(on_change.mock.calls[1][0].page).toBe(17)
   })
 
-  const CheckComponent = mount(<Component {...snapshotProps} />)
-
   // compare the snapshot
   it('have to match snapshot', () => {
+    const CheckComponent = mount(<Component {...snapshotProps} />)
     expect(toJson(CheckComponent)).toMatchSnapshot()
   })
 
   it('should validate with ARIA rules', async () => {
+    const CheckComponent = mount(<Component {...snapshotProps} />)
+    expect(await axeComponent(CheckComponent)).toHaveNoViolations()
+  })
+})
+
+describe('Infinity scroller', () => {
+  beforeEach(() => {
+    window.IntersectionObserver = jest.fn(() => ({
+      observe: jest.fn(),
+      disconnect: jest.fn(),
+    }))
+  })
+
+  const props = {
+    page_count: 5,
+    current_page: 3,
+    min_wait_time: 0,
+  }
+
+  const PageItem = ({ children }) => (
+    <div className="page-item">{children}</div>
+  )
+
+  const rerenderComponent = async (Comp) => {
+    await wait(10)
+    Comp.update()
+  }
+
+  it('should load pages with intersection observer (after)', async () => {
+    const action = ({ pageNumber, setContent }) => {
+      setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
+    }
+
+    const on_end = jest.fn()
+    const on_startup = jest.fn(action)
+    const on_change = jest.fn(action)
+    const on_load = jest.fn()
+    const observe = jest.fn()
+    const disconnect = jest.fn()
+
+    let callObserver
+
+    window.IntersectionObserver = jest.fn((cb) => {
+      callObserver = cb
+      return {
+        observe,
+        disconnect,
+      }
+    })
+
+    const intersect = async () => {
+      callObserver([{ isIntersecting: true }])
+      await rerenderComponent(Comp)
+    }
+
+    const Comp = mount(
+      <Component
+        mode="infinity"
+        {...props}
+        on_startup={on_startup}
+        on_change={on_change}
+        on_load={on_load}
+        on_end={on_end}
+      />
+    )
+
+    await rerenderComponent(Comp)
+
+    await intersect()
+    expect(observe).toHaveBeenCalledTimes(2)
+
+    Comp.update()
+    expect(Comp.find('div.page-item').length).toBe(2)
+    expect(Comp.find('div.page-item').at(0).text()).toBe('3')
+    expect(Comp.find('div.page-item').at(1).text()).toBe('4')
+
+    await intersect()
+    expect(observe).toHaveBeenCalledTimes(3)
+
+    Comp.update()
+    expect(Comp.find('div.page-item').length).toBe(3)
+    expect(Comp.find('div.page-item').at(0).text()).toBe('3')
+    expect(Comp.find('div.page-item').at(1).text()).toBe('4')
+    expect(Comp.find('div.page-item').at(2).text()).toBe('5')
+
+    expect(disconnect).toHaveBeenCalledTimes(2)
+
+    await intersect()
+
+    expect(on_startup).toHaveBeenCalledTimes(1)
+    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(on_load).toHaveBeenCalledTimes(3)
+    expect(on_end).toHaveBeenCalledTimes(1)
+  })
+
+  it('should handle startup_count properly', async () => {
+    let resetInfinityHandler
+
+    const on_startup = jest.fn()
+    const on_change = jest.fn()
+
+    let callObserver
+
+    window.IntersectionObserver = jest.fn((cb) => {
+      callObserver = cb
+      return {
+        observe: () => null,
+        disconnect: () => null,
+      }
+    })
+
+    const intersect = async () => {
+      callObserver([{ isIntersecting: true }])
+      await rerenderComponent(Comp)
+    }
+
+    const startupPage = 2
+    const perPageCount = 10
+
+    const tableItems = []
+    for (let i = 1; i <= 60; i++) {
+      tableItems.push({
+        ssn: i,
+        content: <PageItem key={i}>page-{i}</PageItem>,
+      })
+    }
+
+    const localStack = { current: {} }
+
+    const MyComponent = () => {
+      const [{ InfinityMarker, endInfinity, resetInfinity }] =
+        React.useState(createPagination)
+      const [currentPage, setCurrentPage] = React.useState(startupPage)
+
+      resetInfinityHandler = resetInfinity
+
+      tableItems
+        .filter((cur, idx) => {
+          const floor = (currentPage - 1) * perPageCount
+          const ceil = floor + perPageCount
+          return idx >= floor && idx < ceil
+        })
+        .forEach((item) => {
+          localStack.current[item.ssn] = item.content
+        })
+      const items = Object.values(localStack.current)
+
+      const action = ({ pageNumber }) => {
+        act(() => {
+          setCurrentPage(pageNumber)
+
+          if (pageNumber === 1) {
+            endInfinity()
+          }
+        })
+      }
+
+      return (
+        <InfinityMarker
+          min_wait_time={0}
+          current_page={currentPage}
+          startup_count={2}
+          on_startup={(e) => {
+            action(e)
+            on_startup(e)
+          }}
+          on_change={(e) => {
+            action(e)
+            on_change(e)
+          }}
+        >
+          {items}
+        </InfinityMarker>
+      )
+    }
+
+    const Comp = mount(<MyComponent />)
+
+    await rerenderComponent(Comp)
+
+    expect(Comp.find('div.page-item').length).toBe(20)
+    expect(Comp.find('div.page-item').at(0).text()).toBe('page-11')
+    expect(Comp.find('div.page-item').last().text()).toBe('page-30')
+
+    await intersect()
+
+    Comp.update()
+    expect(Comp.find('div.page-item').length).toBe(30)
+    expect(Comp.find('div.page-item').at(0).text()).toBe('page-11')
+    expect(Comp.find('div.page-item').last().text()).toBe('page-40')
+
+    await intersect()
+
+    Comp.update()
+    expect(Comp.find('div.page-item').length).toBe(40)
+    expect(Comp.find('div.page-item').at(0).text()).toBe('page-11')
+    expect(Comp.find('div.page-item').last().text()).toBe('page-50')
+
+    localStack.current = {}
+    resetInfinityHandler()
+
+    await rerenderComponent(Comp)
+
+    expect(Comp.find('div.page-item').length).toBe(20)
+    expect(Comp.find('div.page-item').at(0).text()).toBe('page-11')
+    expect(Comp.find('div.page-item').last().text()).toBe('page-30')
+  })
+
+  it('should load pages with load more button (before)', async () => {
+    const action = ({ pageNumber, setContent }) => {
+      setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
+    }
+
+    const on_startup = jest.fn(action)
+    const on_change = jest.fn(action)
+    const on_load = jest.fn()
+
+    const clickOnLoadMore = async () => {
+      Comp.find('div.dnb-pagination__loadbar button').simulate('click')
+
+      // expect(Comp.exists('div.dnb-pagination__indicator')).toBe(true)
+
+      await rerenderComponent(Comp)
+
+      // expect(Comp.exists('div.dnb-pagination__indicator')).toBe(false)
+    }
+
+    const Comp = mount(
+      <Component
+        mode="infinity"
+        {...props}
+        on_startup={on_startup}
+        on_change={on_change}
+        on_load={on_load}
+      />
+    )
+
+    await rerenderComponent(Comp)
+
+    expect(Comp.find('div.page-item').length).toBe(1)
+
+    await clickOnLoadMore()
+
+    expect(Comp.find('div.page-item').length).toBe(2)
+    expect(Comp.find('div.page-item').at(0).text()).toBe('2')
+
+    await clickOnLoadMore()
+
+    expect(Comp.find('div.page-item').length).toBe(3)
+    expect(Comp.find('div.page-item').at(0).text()).toBe('1')
+    expect(Comp.exists('div.dnb-pagination__loadbar')).toBe(false)
+
+    expect(on_startup).toHaveBeenCalledTimes(1)
+    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(on_load).toHaveBeenCalledTimes(3)
+  })
+
+  it('will pass children', () => {
+    const Comp = mount(
+      <Component mode="infinity" {...props}>
+        <div id="page-content">content</div>
+      </Component>
+    )
+
+    expect(Comp.exists('div#page-content')).toBe(true)
+  })
+
+  it('should support InfinityMarker from createPagination', async () => {
+    let resetInfinityHandler
+
+    const on_startup = jest.fn()
+    const on_change = jest.fn()
+    const on_load = jest.fn()
+    const on_end = jest.fn()
+
+    const MyComponent = () => {
+      const startupPage = 3
+      const [{ InfinityMarker, endInfinity, resetInfinity }] =
+        React.useState(createPagination)
+      const [currentPage, setCurrentPage] = React.useState(startupPage)
+
+      resetInfinityHandler = resetInfinity
+
+      const action = ({ pageNumber }) => {
+        act(() => {
+          setCurrentPage(pageNumber)
+
+          if (pageNumber === 1) {
+            endInfinity()
+          }
+        })
+      }
+
+      return (
+        <InfinityMarker
+          min_wait_time={0}
+          current_page={currentPage}
+          on_startup={(e) => {
+            action(e)
+            on_startup(e)
+          }}
+          on_change={(e) => {
+            action(e)
+            on_change(e)
+          }}
+          on_load={on_load}
+          on_end={on_end}
+        >
+          <div id="page-content">page-{currentPage}</div>
+        </InfinityMarker>
+      )
+    }
+
+    const Comp = mount(<MyComponent />)
+
+    await rerenderComponent(Comp)
+
+    const clickOnLoadMore = async () => {
+      Comp.find('div.dnb-pagination__loadbar button').simulate('click')
+
+      await rerenderComponent(Comp)
+    }
+
+    expect(Comp.find('div#page-content').text()).toBe('page-3')
+
+    await clickOnLoadMore()
+
+    expect(Comp.find('div#page-content').text()).toBe('page-2')
+
+    await clickOnLoadMore()
+
+    expect(Comp.find('div#page-content').text()).toBe('page-1')
+
+    expect(on_startup).toHaveBeenCalledTimes(1)
+    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(on_load).toHaveBeenCalledTimes(3)
+    expect(on_end).toHaveBeenCalledTimes(1)
+
+    resetInfinityHandler()
+
+    await rerenderComponent(Comp)
+
+    expect(Comp.find('div#page-content').text()).toBe('page-3')
+
+    expect(on_startup).toHaveBeenCalledTimes(2)
+    expect(on_change).toHaveBeenCalledTimes(2)
+    expect(on_load).toHaveBeenCalledTimes(4)
+    expect(on_end).toHaveBeenCalledTimes(1)
+  })
+
+  // compare the snapshot
+  it('have to match snapshot', async () => {
+    const CheckComponent = mount(<Component mode="infinity" {...props} />)
+    await wait(1)
+    CheckComponent.update()
+    expect(toJson(CheckComponent)).toMatchSnapshot()
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const CheckComponent = mount(<Component mode="infinity" {...props} />)
+    await wait(1)
+    CheckComponent.update()
     expect(await axeComponent(CheckComponent)).toHaveNoViolations()
   })
 })
@@ -243,3 +605,5 @@ describe('Pagination scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
+
+const wait = (t) => new Promise((r) => setTimeout(r, t))

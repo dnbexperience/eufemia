@@ -9,7 +9,7 @@ import {
   getThousandsSeparator,
 } from '../number-format/NumberUtils'
 import { warn } from '../../shared/component-helper'
-import { IS_IE11 } from '../../shared/helpers'
+import { IS_IE11, IS_ANDROID } from '../../shared/helpers'
 
 const enableLocaleSupportWhen = ['as_number', 'as_percent', 'as_currency']
 const enableNumberMaskWhen = [
@@ -113,7 +113,15 @@ export const correctNumberValue = ({
 
     if (endsWithDecimal) {
       value = `${value}${decimalSymbol}`
-    } else if (endsWithZeroAndDecimal) {
+    } else if (
+      endsWithZeroAndDecimal &&
+      !numberValue.endsWith(`${decimalSymbol}0`)
+    ) {
+      /**
+       * When the users has 20,02, then hits "backspace",
+       * the returned {numberValue} in the onChange event would then be "20",
+       * but we want it to be 20,0
+       */
       value = `${value}${decimalSymbol}0`
     }
 
@@ -195,7 +203,6 @@ export const correctCaretPosition = (element, maskParams) => {
           pos = suffixStart - 1
         }
 
-        // console.log('pos2', pos)
         if (!isNaN(parseFloat(pos))) {
           element.setSelectionRange(pos, pos)
         }
@@ -301,7 +308,11 @@ export const handleNumberMask = ({
  */
 export function getInputModeFromMask(mask) {
   const maskParams = mask?.maskParams
-  if (maskParams && mask?.instanceOf === 'createNumberMask') {
+  if (
+    !IS_ANDROID &&
+    maskParams &&
+    mask?.instanceOf === 'createNumberMask'
+  ) {
     return maskParams.allowDecimal && maskParams.decimalLimit !== 0
       ? 'decimal'
       : 'numeric'

@@ -12,6 +12,7 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../InputMasked'
 import Provider from '../../../shared/Provider'
+import * as helpers from '../../../shared/helpers'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../InputMasked'), {
@@ -289,6 +290,50 @@ describe('InputMasked component', () => {
     expect(Comp.find('input').instance().value).toBe('NOK 0 012,01 kr')
   })
 
+  it('should change inputmode to text when IS_ANDROID', () => {
+    const onKeyDown = jest.fn()
+    const preventDefault = jest.fn()
+
+    const Comp = mount(
+      <Component
+        {...props}
+        value={1234.5}
+        number_mask
+        on_key_down={onKeyDown}
+      />
+    )
+
+    expect(Comp.find('input').instance().getAttribute('inputmode')).toBe(
+      'numeric'
+    )
+
+    // eslint-disable-next-line
+    helpers.IS_ANDROID = true
+
+    // Re-render
+    Comp.setProps({})
+
+    expect(Comp.find('input').instance().getAttribute('inputmode')).toBe(
+      null
+    )
+
+    // eslint-disable-next-line
+    helpers.IS_ANDROID = false
+
+    Comp.find('input').simulate('keydown', {
+      key: ',',
+      keyCode: 229, // unidentified, while 188 would have worked fine
+      target: {
+        value: '1234.5',
+      },
+      preventDefault,
+    })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(preventDefault).toHaveBeenCalledTimes(0)
+    expect(Comp.find('input').instance().value).toBe('1 234')
+  })
+
   it('should update value when initial value was an empty string', () => {
     const Comp = mount(<Component value="" number_mask />)
 
@@ -479,6 +524,36 @@ describe('InputMasked component with currency_mask', () => {
     )
 
     expect(Comp.find('TextMask').props().showMask).toBe(false)
+  })
+
+  it('should handle zero after decimal', () => {
+    const Input = () => {
+      const [value, setValue] = React.useState('20.0')
+      return (
+        <Component
+          value={value}
+          currency_mask
+          on_change={({ numberValue }) => {
+            setValue(numberValue)
+          }}
+        />
+      )
+    }
+    const Comp = mount(<Input />)
+
+    expect(Comp.find('input').instance().value).toBe('20,0 kr')
+
+    Comp.find('input').simulate('change', {
+      target: { value: '20,02' },
+    })
+
+    expect(Comp.find('input').instance().value).toBe('20,02 kr')
+
+    Comp.find('input').simulate('change', {
+      target: { value: '20,0' },
+    })
+
+    expect(Comp.find('input').instance().value).toBe('20,0 kr')
   })
 
   it('can change value to be empty', () => {
