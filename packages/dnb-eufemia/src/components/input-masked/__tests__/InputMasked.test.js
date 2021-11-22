@@ -526,6 +526,36 @@ describe('InputMasked component with currency_mask', () => {
     expect(Comp.find('TextMask').props().showMask).toBe(false)
   })
 
+  it('should handle zero after decimal', () => {
+    const Input = () => {
+      const [value, setValue] = React.useState('20.0')
+      return (
+        <Component
+          value={value}
+          currency_mask
+          on_change={({ numberValue }) => {
+            setValue(numberValue)
+          }}
+        />
+      )
+    }
+    const Comp = mount(<Input />)
+
+    expect(Comp.find('input').instance().value).toBe('20,0 kr')
+
+    Comp.find('input').simulate('change', {
+      target: { value: '20,02' },
+    })
+
+    expect(Comp.find('input').instance().value).toBe('20,02 kr')
+
+    Comp.find('input').simulate('change', {
+      target: { value: '20,0' },
+    })
+
+    expect(Comp.find('input').instance().value).toBe('20,0 kr')
+  })
+
   it('can change value to be empty', () => {
     const BasicMask = () => {
       const [floatval, setState] = React.useState(123)
