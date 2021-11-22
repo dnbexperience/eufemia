@@ -1,6 +1,228 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Pagination bar component have to match snapshot 1`] = `
+exports[`Infinity scroller have to match snapshot 1`] = `
+<Pagination
+  align="left"
+  button_title={null}
+  class={null}
+  className={null}
+  current_page={3}
+  debug={null}
+  disabled={null}
+  hide_progress_indicator={false}
+  is_loading_text={null}
+  items={null}
+  load_button_text={null}
+  min_wait_time={0}
+  mode="infinity"
+  more_pages={null}
+  next_title={null}
+  on_change={null}
+  on_end={null}
+  on_load={null}
+  on_startup={null}
+  page_count={5}
+  parallel_load_count={1}
+  place_maker_before_content={false}
+  prev_title={null}
+  reset_content_handler={null}
+  set_content_handler={null}
+  skeleton={null}
+  startup_count={1}
+  startup_page={null}
+  use_load_button={false}
+>
+  <PaginationProvider
+    align="left"
+    button_title={null}
+    class={null}
+    className={null}
+    current_page={3}
+    debug={null}
+    disabled={null}
+    end_infinity_handler={null}
+    hide_progress_indicator={false}
+    internalContent={null}
+    is_loading_text={null}
+    items={null}
+    load_button_text={null}
+    min_wait_time={0}
+    mode="infinity"
+    more_pages={null}
+    next_title={null}
+    on_change={null}
+    on_end={null}
+    on_load={null}
+    on_startup={null}
+    page_count={5}
+    parallel_load_count={1}
+    place_maker_before_content={false}
+    prev_title={null}
+    rerender={null}
+    reset_content_handler={null}
+    reset_pagination_handler={null}
+    set_content_handler={null}
+    skeleton={null}
+    startup_count={1}
+    startup_page={null}
+    store={null}
+    tagName="dnb-pagination"
+    useMarkerOnly={null}
+    use_load_button={false}
+  >
+    <PaginationInstance
+      align="left"
+      button_title={null}
+      class={null}
+      className={null}
+      current_page={3}
+      debug={null}
+      disabled={null}
+      hide_progress_indicator={false}
+      is_loading_text={null}
+      items={null}
+      load_button_text={null}
+      min_wait_time={0}
+      mode="infinity"
+      more_pages={null}
+      next_title={null}
+      on_change={null}
+      on_end={null}
+      on_load={null}
+      on_startup={null}
+      page_count={5}
+      parallel_load_count={1}
+      place_maker_before_content={false}
+      prev_title={null}
+      reset_content_handler={null}
+      set_content_handler={null}
+      skeleton={null}
+      startup_count={1}
+      startup_page={null}
+      use_load_button={false}
+    >
+      <InfinityScroller>
+        <PaginationIndicator
+          indicator_element="div"
+        >
+          <ForwardRef>
+            <div
+              className="dnb-pagination__page"
+            >
+              <div
+                className="dnb-pagination__indicator"
+              >
+                <div
+                  className="dnb-pagination__indicator__inner"
+                >
+                  <ProgressIndicator
+                    class={null}
+                    className={null}
+                    indicator_label={null}
+                    label={null}
+                    label_direction="horizontal"
+                    no_animation={false}
+                    on_complete={null}
+                    progress={null}
+                    section_spacing={null}
+                    section_style={null}
+                    show_label={false}
+                    size="default"
+                    title={null}
+                    type="circular"
+                    visible={true}
+                  >
+                    <div
+                      className="dnb-progress-indicator dnb-progress-indicator--visible dnb-progress-indicator--horizontal"
+                    >
+                      <ProgressIndicatorCircular
+                        callOnCompleteHandler={[Function]}
+                        complete={false}
+                        maxOffset={88}
+                        onComplete={null}
+                        progress={null}
+                        size="default"
+                        title={null}
+                        visible={true}
+                      >
+                        <div
+                          aria-busy={true}
+                          className="dnb-progress-indicator__circular dnb-progress-indicator__circular--default"
+                          role="alert"
+                        >
+                          <ForwardRef
+                            className="dnb-progress-indicator__circular__line light paused"
+                          >
+                            <svg
+                              className="dnb-progress-indicator__circular__line light paused"
+                              shapeRendering="geometricPrecision"
+                              viewBox="0 0 32 32"
+                            >
+                              <circle
+                                className="dnb-progress-indicator__circular__circle"
+                                cx="16"
+                                cy="16"
+                                fill="none"
+                                r="14"
+                                strokeWidth="4"
+                              />
+                            </svg>
+                          </ForwardRef>
+                          <ForwardRef
+                            className="dnb-progress-indicator__circular__line dark dark"
+                            style={Object {}}
+                          >
+                            <svg
+                              className="dnb-progress-indicator__circular__line dark dark"
+                              shapeRendering="geometricPrecision"
+                              style={Object {}}
+                              viewBox="0 0 32 32"
+                            >
+                              <circle
+                                className="dnb-progress-indicator__circular__circle"
+                                cx="16"
+                                cy="16"
+                                fill="none"
+                                r="14"
+                                strokeWidth="4"
+                              />
+                            </svg>
+                          </ForwardRef>
+                          <ForwardRef
+                            className="dnb-progress-indicator__circular__line light"
+                          >
+                            <svg
+                              className="dnb-progress-indicator__circular__line light"
+                              shapeRendering="geometricPrecision"
+                              viewBox="0 0 32 32"
+                            >
+                              <circle
+                                className="dnb-progress-indicator__circular__circle"
+                                cx="16"
+                                cy="16"
+                                fill="none"
+                                r="14"
+                                strokeWidth="4"
+                              />
+                            </svg>
+                          </ForwardRef>
+                        </div>
+                      </ProgressIndicatorCircular>
+                    </div>
+                  </ProgressIndicator>
+                  Laster nytt innhold
+                </div>
+              </div>
+            </div>
+          </ForwardRef>
+        </PaginationIndicator>
+      </InfinityScroller>
+    </PaginationInstance>
+  </PaginationProvider>
+</Pagination>
+`;
+
+exports[`Pagination bar have to match snapshot 1`] = `
 <Pagination
   0={
     Object {
@@ -12,6 +234,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "class": "class",
         "className": "className",
         "current_page": "current_page",
+        "debug": true,
         "disabled": "disabled",
         "end_infinity_handler": "end_infinity_handler",
         "fallback_element": Object {},
@@ -54,6 +277,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "class": "class",
         "className": "className",
         "current_page": "current_page",
+        "debug": true,
         "disabled": "disabled",
         "end_infinity_handler": "end_infinity_handler",
         "fallback_element": Object {},
@@ -96,6 +320,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
         "class": "class",
         "className": "className",
         "current_page": "current_page",
+        "debug": true,
         "disabled": "disabled",
         "end_infinity_handler": "end_infinity_handler",
         "fallback_element": Object {},
@@ -141,6 +366,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
   class={null}
   className={null}
   current_page={null}
+  debug={null}
   disabled={null}
   hide_progress_indicator={false}
   is_loading_text={null}
@@ -176,6 +402,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "class": "class",
           "className": "className",
           "current_page": "current_page",
+          "debug": true,
           "disabled": "disabled",
           "end_infinity_handler": "end_infinity_handler",
           "fallback_element": Object {},
@@ -218,6 +445,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "class": "class",
           "className": "className",
           "current_page": "current_page",
+          "debug": true,
           "disabled": "disabled",
           "end_infinity_handler": "end_infinity_handler",
           "fallback_element": Object {},
@@ -260,6 +488,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
           "class": "class",
           "className": "className",
           "current_page": "current_page",
+          "debug": true,
           "disabled": "disabled",
           "end_infinity_handler": "end_infinity_handler",
           "fallback_element": Object {},
@@ -305,6 +534,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
     class={null}
     className={null}
     current_page={null}
+    debug={null}
     disabled={null}
     end_infinity_handler={null}
     hide_progress_indicator={false}
@@ -347,6 +577,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "class": "class",
             "className": "className",
             "current_page": "current_page",
+            "debug": true,
             "disabled": "disabled",
             "end_infinity_handler": "end_infinity_handler",
             "fallback_element": Object {},
@@ -389,6 +620,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "class": "class",
             "className": "className",
             "current_page": "current_page",
+            "debug": true,
             "disabled": "disabled",
             "end_infinity_handler": "end_infinity_handler",
             "fallback_element": Object {},
@@ -431,6 +663,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
             "class": "class",
             "className": "className",
             "current_page": "current_page",
+            "debug": true,
             "disabled": "disabled",
             "end_infinity_handler": "end_infinity_handler",
             "fallback_element": Object {},
@@ -476,6 +709,7 @@ exports[`Pagination bar component have to match snapshot 1`] = `
       class={null}
       className={null}
       current_page={null}
+      debug={null}
       disabled={null}
       hide_progress_indicator={false}
       is_loading_text={null}

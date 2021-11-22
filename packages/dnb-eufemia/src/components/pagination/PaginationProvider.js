@@ -72,62 +72,69 @@ export default class PaginationProvider extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (state._listenForPropChanges) {
-      if (props.page_count !== null) {
-        state.pageCount = parseFloat(props.page_count) || 1
-      }
+    if (props.page_count !== null) {
+      state.pageCount = parseFloat(props.page_count) || 1
+    }
+    if (
+      props.current_page !== null &&
+      typeof state.currentPage === 'undefined'
+    ) {
+      state.currentPage = parseFloat(props.current_page) || 1
+    }
+    if (typeof state.startupPage !== 'number') {
+      state.startupPage =
+        parseFloat(props.startup_page) ||
+        parseFloat(props.current_page) ||
+        state.currentPage
+      // We do not fall back to 1 here,
+      // because the first render cycle in the users component may have:
+      // props.current_page: null – that means, we fall back only in the on_startup / on_change callbacks
+    }
+
+    state.parallelLoadCount = parseFloat(props.parallel_load_count) || 1
+    state.minTime = parseFloat(props.min_wait_time) || 0
+    state.placeMakerBeforeContent = isTrue(
+      props.place_maker_before_content
+    )
+
+    // reset pagination, like the resetInfinity method
+    if (
+      props.useMarkerOnly &&
+      props.reset_pagination_handler !== null &&
+      isTrue(props.reset_pagination_handler)
+    ) {
+      state.lowerPage = undefined
+      state.upperPage = undefined
+    }
+
+    // only used by handleInfinityMarker
+    if (props.useMarkerOnly) {
       if (
-        props.current_page !== null &&
-        typeof state.currentPage === 'undefined'
+        typeof state.lowerPage === 'undefined' &&
+        parseFloat(props.current_page) > 0
       ) {
-        state.currentPage = parseFloat(props.current_page) || 1
+        state.lowerPage = state.startupPage
       }
-      if (typeof state.startupPage === 'undefined') {
-        state.startupPage =
-          parseFloat(props.startup_page) ||
-          parseFloat(props.current_page) ||
-          1
-      }
-
-      state.parallelLoadCount = parseFloat(props.parallel_load_count) || 1
-      state.minTime = parseFloat(props.min_wait_time) || 0
-      state.placeMakerBeforeContent = isTrue(
-        props.place_maker_before_content
-      )
-
-      // only used by handleInfinityMarker
-      if (props.useMarkerOnly) {
-        if (!state.lowerPage) {
-          state.lowerPage = state.upperPage = state.startupPage
-        }
-      }
-
-      // reset pagination, like the resetInfinity method
-      if (
-        props.reset_pagination_handler !== null &&
-        isTrue(props.reset_pagination_handler)
-      ) {
-        if (props.useMarkerOnly) {
-          state.lowerPage = state.upperPage = state.startupPage
-        }
-      }
-
-      // reset content, like the resetContent method
-      if (
-        props.reset_content_handler !== null &&
-        isTrue(props.reset_content_handler)
-      ) {
-        state.items = []
-        state.pageCount = parseFloat(props.page_count) || 1
-      }
-
-      if (typeof props.items === 'string' && props.items[0] === '[') {
-        state.items = JSON.parse(props.items)
-      } else if (Array.isArray(props.items)) {
-        state.items = props.items
+      if (typeof state.upperPage === 'undefined') {
+        state.upperPage =
+          state.startupPage + parseFloat(props.startup_count) - 1
       }
     }
-    state._listenForPropChanges = true
+
+    // reset content, like the resetContent method
+    if (
+      props.reset_content_handler !== null &&
+      isTrue(props.reset_content_handler)
+    ) {
+      state.items = []
+      state.pageCount = parseFloat(props.page_count) || 1
+    }
+
+    if (typeof props.items === 'string' && props.items[0] === '[') {
+      state.items = JSON.parse(props.items)
+    } else if (Array.isArray(props.items)) {
+      state.items = props.items
+    }
     return state
   }
 
@@ -138,7 +145,6 @@ export default class PaginationProvider extends React.PureComponent {
       items: [],
       // scrollDirection: 'down',// NB: We do currently not use scroll direction handling
       isLoading: false,
-      _listenForPropChanges: true,
     }
 
     if (props.rerender) {
@@ -214,7 +220,7 @@ export default class PaginationProvider extends React.PureComponent {
       newContent = [newContent, content]
     }
 
-    const pageNumber = parseFloat(newContent[0]) // parse, since we get it from a return
+    const pageNumber = parseFloat(newContent[0]) || 1 // parse, since we get it from a return
     newContent = newContent[1]
 
     if (typeof newContent === 'function') {
@@ -233,7 +239,6 @@ export default class PaginationProvider extends React.PureComponent {
       if (!itemToPrepare) {
         items = this.prefillItems(pageNumber, {
           position,
-          skipObserver: true,
         })
         itemToPrepare = items.find(({ pageNumber: p }) => p === pageNumber)
       }
@@ -248,7 +253,6 @@ export default class PaginationProvider extends React.PureComponent {
         {
           items: [...(items || this.state.items)], // we make a copy, only to rerender
           currentPage: pageNumber, // update the currentPage
-          _listenForPropChanges: false,
         },
         this.callOnPageUpdate
       )
@@ -261,7 +265,6 @@ export default class PaginationProvider extends React.PureComponent {
     this.resetContentTimeout = setTimeout(() => {
       this.setState({
         items: [],
-        _listenForPropChanges: false,
       })
     }, 10) // we have to be two tick after "rerender"
   }
@@ -269,38 +272,30 @@ export default class PaginationProvider extends React.PureComponent {
   // like reset_content_handler in DerivedState
   resetInfinity = (pageNumber = this.state.startupPage) => {
     const lowerPage = pageNumber
-    const upperPage = pageNumber
+    const upperPage = pageNumber + parseFloat(this.props.startup_count) - 1
     const currentPage = pageNumber
-    this._hasEndedInfinity = true
+
     this.setState({
+      items: [],
       hasEndedInfinity: true,
       lowerPage,
       upperPage,
       currentPage,
-      _listenForPropChanges: false,
     })
 
-    clearTimeout(this.resetInfinityTimeout)
-    this.resetInfinityTimeout = setTimeout(() => {
-      this.startInfinity()
-    }, this.state.minTime) // give it custom defined time to start again
+    this.startInfinity()
   }
 
-  // not implemented yet
   startInfinity = () => {
-    this._hasEndedInfinity = false
     this.setState({
       hasEndedInfinity: false,
-      _listenForPropChanges: false,
     })
   }
 
   endInfinity = () => {
-    this._hasEndedInfinity = true
     this.setState(
       {
         hasEndedInfinity: true,
-        _listenForPropChanges: false,
       },
       () => {
         const pageNumber = this.state.currentPage + 1
@@ -318,7 +313,6 @@ export default class PaginationProvider extends React.PureComponent {
     this.setState(
       {
         items,
-        _listenForPropChanges: false,
       },
       cb
     )
@@ -328,6 +322,16 @@ export default class PaginationProvider extends React.PureComponent {
     const position =
       props.position ||
       (pageNumber < this.state.currentPage ? 'before' : 'after')
+
+    if (isNaN(pageNumber)) {
+      pageNumber = 1
+    }
+
+    const exists =
+      items.findIndex(({ pageNumber: p }) => p === pageNumber) > -1
+    if (exists) {
+      return items
+    }
 
     const obj = {
       pageNumber,
@@ -345,7 +349,7 @@ export default class PaginationProvider extends React.PureComponent {
   }
 
   setStateHandler = (state, cb) => {
-    this.setState({ ...state, _listenForPropChanges: false }, cb)
+    this.setState({ ...state }, cb)
   }
 
   callOnPageUpdate = () => {
@@ -403,7 +407,6 @@ export default class PaginationProvider extends React.PureComponent {
             prefillItems: this.prefillItems,
             setState: this.setStateHandler,
             onPageUpdate: this.onPageUpdate,
-            _hasEndedInfinity: this._hasEndedInfinity,
             ...this.props,
             ...this.state,
           },
