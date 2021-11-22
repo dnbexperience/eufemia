@@ -3,6 +3,16 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.16.3](https://github.com/dnbexperience/eufemia/compare/v9.16.2...v9.16.3) (2021-11-22)
+
+
+### Bug Fixes
+
+* fix pagination indicator and load button issue ([c672251](https://github.com/dnbexperience/eufemia/commit/c6722514d990603d5ebf350bf6bda6da1ccf7141))
+* **InputMasked:** enhance handling of decimals with a following zero ([6ed6e75](https://github.com/dnbexperience/eufemia/commit/6ed6e7565d46b60c010c05686e67f07abead60d4))
+* **InputMasked:** fix Android keyCode issue by using the keypress event ([0028e6f](https://github.com/dnbexperience/eufemia/commit/0028e6fd8c1d625d6b5576fcc15dfca8ed2d6de1))
+* **Tabs:** Larger spacing to line + changed focus design ([3f093e6](https://github.com/dnbexperience/eufemia/commit/3f093e6ed79971301d91bf556e6d7e129a3e658f))
+
 ## [9.16.2](https://github.com/dnbexperience/eufemia/compare/v9.16.1...v9.16.2) (2021-11-20)
 
 
