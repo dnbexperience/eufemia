@@ -33,11 +33,7 @@ import GlobalStatusController, {
 } from './GlobalStatusController'
 import GlobalStatusProvider from './GlobalStatusProvider'
 import Icon from '../icon/Icon'
-/**
- * Because of the new icons, which do not fit into the current GlobalStatus UI,
- * we have to have them inlined here in this component. Down below.
- */
-// import { InfoIcon, ErrorIcon } from '../form-status/FormStatus'
+import { InfoIcon, ErrorIcon } from '../form-status/FormStatus'
 import { CloseButton } from '../modal/Modal'
 import Section from '../section/Section'
 import { IS_IE11 } from '../../shared/helpers'
@@ -114,7 +110,7 @@ export default class GlobalStatus extends React.PureComponent {
     text: null,
     items: [],
     icon: 'error',
-    icon_size: 'large',
+    icon_size: 'medium',
     state: 'error',
     show: 'auto',
     autoscroll: true,
@@ -166,7 +162,13 @@ export default class GlobalStatus extends React.PureComponent {
           IconToLoad = ErrorIcon
       }
 
-      icon = <Icon icon={<IconToLoad title={null} />} size={icon_size} />
+      icon = (
+        <Icon
+          icon={<IconToLoad />}
+          size={icon_size}
+          inherit_color={false}
+        />
+      )
     }
 
     return icon
@@ -716,7 +718,7 @@ export default class GlobalStatus extends React.PureComponent {
     const noAnimation = isTrue(no_animation)
     const itemsToRender = props.items || []
     const contentToRender = GlobalStatus.getContent(props)
-    const style = state === 'info' ? 'sea-green' : 'fire-red'
+    const style = state === 'info' ? 'pistachio' : 'fire-red-8'
 
     /**
      * Show aria-live="assertive" when:
@@ -774,25 +776,26 @@ export default class GlobalStatus extends React.PureComponent {
                   on_click={this.closeHandler}
                   text={close_text}
                   title={close_text}
+                  size="medium"
                 />
               )}
             </p>
-          </Section>
-        )}
-        {hasContent && (
-          <Section
-            element="div"
-            style_type="white"
-            className="dnb-global-status__message"
-          >
-            <div className="dnb-global-status__message__content">
-              {typeof contentToRender === 'string' ? (
-                <p className="dnb-p">{contentToRender}</p>
-              ) : (
-                contentToRender
-              )}
-              {renderedItems}
-            </div>
+            {hasContent && (
+              <Section
+                element="div"
+                style_type={style}
+                className="dnb-global-status__message"
+              >
+                <div className="dnb-global-status__message__content">
+                  {typeof contentToRender === 'string' ? (
+                    <p className="dnb-p">{contentToRender}</p>
+                  ) : (
+                    contentToRender
+                  )}
+                  {renderedItems}
+                </div>
+              </Section>
+            )}
             <Hr fullscreen />
           </Section>
         )}
@@ -839,69 +842,4 @@ const isElementVisible = (elem, callback, delayFallback = 1e3) => {
     }
   }
   return null
-}
-
-const ErrorIcon = (props) => (
-  <svg
-    width="32"
-    height="32"
-    viewBox="0 0 32 32"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
-    {props && props.title && <title>{props.title}</title>}
-    <path
-      d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
-      stroke="#000"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M16 21V11"
-      stroke="#000"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-    <path
-      clipRule="evenodd"
-      d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
-      stroke="#000"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
-ErrorIcon.propTypes = {
-  title: PropTypes.string,
-}
-ErrorIcon.defaultProps = {
-  title: 'error',
-}
-
-const InfoIcon = (props) => (
-  <svg
-    width="32"
-    height="32"
-    viewBox="0 0 32 32"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
-    {props && props.title && <title>{props.title}</title>}
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M10.1 1.08A14.75 14.75 0 00.26 15.01a14.73 14.73 0 0022.16 12.74l8.27 3.94a.75.75 0 001-1l-3.94-8.27A14.75 14.75 0 0010.1 1.08zM1.76 15.01a13.25 13.25 0 1124.5 6.97.75.75 0 00-.04.72l3.2 6.73-6.72-3.2a.75.75 0 00-.72.04A13.23 13.23 0 011.76 15zM13.38 7.9a1.31 1.31 0 112.63 0 1.31 1.31 0 01-2.63 0zm-1.13 5.07c0-.41.34-.75.75-.75h1.13c1.04 0 1.88.85 1.88 1.88v5.64c0 .84.67 1.51 1.5 1.51h1.13a.75.75 0 110 1.5h-1.13a3 3 0 01-3-3V14.1c0-.2-.17-.38-.38-.38H13a.75.75 0 01-.75-.75z"
-      fill="#000"
-    />
-  </svg>
-)
-InfoIcon.propTypes = {
-  title: PropTypes.string,
-}
-InfoIcon.defaultProps = {
-  title: 'info',
 }

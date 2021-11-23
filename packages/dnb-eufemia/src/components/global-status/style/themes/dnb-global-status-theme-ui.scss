@@ -13,22 +13,12 @@
       100vw 0.0625rem 0 0 var(--color-black-80);
   }
 
-  &__title {
-    color: var(--color-white);
-    &.dnb-p {
-      font-weight: var(--font-weight-medium);
-    }
-  }
   &__icon {
     font-size: 1rem;
   }
   &__message {
     &__content {
       color: var(--color-black-80);
-
-      & > .dnb-p {
-        font-weight: var(--font-weight-medium);
-      }
     }
 
     &.dnb-section--white ::selection {
@@ -36,34 +26,10 @@
     }
   }
 
-  &__message .dnb-hr {
+  &__content .dnb-hr {
     color: var(--color-fire-red);
   }
-  &--info &__message .dnb-hr {
+  &--info &__content .dnb-hr {
     color: var(--color-sea-green);
-  }
-
-  // TODO: This has to be implemented as a contrast version
-  &__close-button,
-  &__close-button.dnb-button--tertiary {
-    color: var(--color-white);
-
-    @include hover() {
-      .dnb-button__text {
-        color: inherit;
-
-        // underline
-        &::after {
-          color: inherit;
-        }
-      }
-    }
-
-    &:not([disabled]):focus::before {
-      @include fakeFocus(null, var(--color-white));
-    }
-    &:not([disabled]):active::before {
-      @include fakeFocus('mouse', var(--color-white));
-    }
   }
 }
