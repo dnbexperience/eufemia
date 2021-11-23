@@ -11,12 +11,13 @@ const theme = create({
   colorPrimary: '#007272',
   colorSecondary: '#a5e1d2',
   brandTitle: 'Eufemia dev',
-  brandUrl: 'http://localhost:8000/'
+  brandUrl: 'http://localhost:8002/',
 })
 
 addons.setConfig({
   theme,
-  isFullscreen: true,
-  panelPosition: 'right',
-  isToolshown: true
+  isFullscreen: false,
+  isToolshown: true,
+  showPanel: true,
+  panelPosition: 'left',
 })

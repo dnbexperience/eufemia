@@ -16,54 +16,20 @@ exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
 .dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in.dnb-global-status.dnb-section::after {
   box-shadow: 99vw 0 0 0 currentColor, 198vw 0 0 0 currentColor, 297vw 0 0 0 currentColor, 396vw 0 0 0 currentColor, 0 0.0625rem 0 0 var(--color-black-80), 100vw 0.0625rem 0 0 var(--color-black-80); }
 
-.dnb-global-status__title {
-  color: var(--color-white); }
-  .dnb-global-status__title.dnb-p {
-    font-weight: var(--font-weight-medium); }
-
 .dnb-global-status__icon {
   font-size: 1rem; }
 
 .dnb-global-status__message__content {
   color: var(--color-black-80); }
-  .dnb-global-status__message__content > .dnb-p {
-    font-weight: var(--font-weight-medium); }
 
 .dnb-global-status__message.dnb-section--white ::selection {
   background-color: var(--color-mint-green); }
 
-.dnb-global-status__message .dnb-hr {
+.dnb-global-status__content .dnb-hr {
   color: var(--color-fire-red); }
 
-.dnb-global-status--info .dnb-global-status__message .dnb-hr {
+.dnb-global-status--info .dnb-global-status__content .dnb-hr {
   color: var(--color-sea-green); }
-
-.dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
-  color: var(--color-white); }
-  html:not([data-whatintent='touch']) .dnb-global-status__close-button:hover[disabled], html:not([data-whatintent='touch']) .dnb-global-status__close-button.dnb-button--tertiary:hover[disabled] {
-    cursor: not-allowed; }
-  html:not([data-whatintent='touch']) .dnb-global-status__close-button:hover:not([disabled]) .dnb-button__text, html:not([data-whatintent='touch']) .dnb-global-status__close-button.dnb-button--tertiary:hover:not([disabled]) .dnb-button__text {
-    color: inherit; }
-    html:not([data-whatintent='touch']) .dnb-global-status__close-button:hover:not([disabled]) .dnb-button__text::after, html:not([data-whatintent='touch']) .dnb-global-status__close-button.dnb-button--tertiary:hover:not([disabled]) .dnb-button__text::after {
-      color: inherit; }
-  .dnb-global-status__close-button:not([disabled]):focus::before, .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before {
-    outline: none; }
-    html[data-whatinput='keyboard'] .dnb-global-status__close-button:not([disabled]):focus::before, html[data-whatinput='keyboard'] .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before {
-      --border-color: var(--color-white);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
-      border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        html[data-whatinput='keyboard'] .dnb-global-status__close-button:not([disabled]):focus::before, html[data-whatinput='keyboard'] .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):focus::before {
-          box-shadow: 0 0 0 0.125rem var(--color-white); } }
-  .dnb-global-status__close-button:not([disabled]):active::before, .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):active::before {
-    outline: none; }
-    html[data-whatinput='mouse'] .dnb-global-status__close-button:not([disabled]):active::before, html[data-whatinput='mouse'] .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):active::before {
-      --border-color: var(--color-white);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
-      border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        html[data-whatinput='mouse'] .dnb-global-status__close-button:not([disabled]):active::before, html[data-whatinput='mouse'] .dnb-global-status__close-button.dnb-button--tertiary:not([disabled]):active::before {
-          box-shadow: 0 0 0 0.125rem var(--color-white); } }
 "
 `;
 
@@ -691,15 +657,15 @@ html[data-visual-test] .dnb-global-status__shell {
 .dnb-global-status__title {
   position: relative;
   cursor: text;
-  min-height: 3.5rem; }
+  min-height: 4.5rem; }
   .dnb-global-status__title.dnb-p {
     display: flex;
     align-items: center;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    padding-left: 3rem;
     padding-right: 5rem;
-    font-size: var(--font-size-medium); }
+    padding-left: 2.5rem;
+    margin-bottom: 0.5rem; }
   .dnb-spacing .dnb-global-status__title.dnb-p,
   .dnb-spacing .dnb-global-status__title.dnb-p:not([class*='dnb-space']) {
     margin: 0; }
@@ -710,7 +676,7 @@ html[data-visual-test] .dnb-global-status__shell {
   .dnb-global-status__message__content {
     display: flex;
     flex-direction: column;
-    padding: 2rem 0 2.5rem; }
+    padding: 0.5rem 0 2.5rem 2.5rem; }
     .dnb-global-status__message__content .dnb-p,
     .dnb-spacing .dnb-global-status__message__content .dnb-p,
     .dnb-spacing .dnb-global-status__message__content .dnb-p:not([class*='dnb-space']) {
@@ -722,7 +688,7 @@ html[data-visual-test] .dnb-global-status__shell {
   position: absolute;
   top: 0;
   left: 0;
-  margin-top: 0.75rem; }
+  margin-top: 1.5rem; }
 
 .dnb-global-status__close-button, .dnb-global-status__close-button.dnb-button--tertiary {
   position: absolute;
@@ -741,15 +707,14 @@ html[data-visual-test] .dnb-global-status__shell {
     margin: 0;
     margin-top: 0.5rem;
     padding-left: 1rem; }
-    .dnb-global-status__content .dnb-ul > li,
-    .dnb-spacing .dnb-global-status__content .dnb-ul > li,
-    .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*='dnb-space']) > li {
-      margin: 0;
-      padding-left: 0; }
-      .dnb-global-status__content .dnb-ul > li .dnb-anchor:last-of-type,
-      .dnb-spacing .dnb-global-status__content .dnb-ul > li .dnb-anchor:last-of-type,
-      .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*='dnb-space']) > li .dnb-anchor:last-of-type {
-        margin-left: 0.5rem; }
+    .dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type,
+    .dnb-spacing .dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type,
+    .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*='dnb-space']) .dnb-anchor:last-of-type {
+      margin-left: 0.5rem; }
+  .dnb-global-status__content .dnb-hr,
+  .dnb-spacing .dnb-global-status__content .dnb-hr,
+  .dnb-spacing .dnb-global-status__content .dnb-hr:not([class*='dnb-space']) {
+    margin: 0; }
 
 @media screen and (-ms-high-contrast: none) {
   .dnb-global-status__icon > .dnb-icon {
@@ -823,10 +788,10 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
             element="div"
             inner_ref={null}
             spacing={null}
-            style_type="fire-red"
+            style_type="fire-red-8"
           >
             <div
-              className="dnb-section dnb-section--fire-red"
+              className="dnb-section dnb-section--fire-red-8"
             >
               <p
                 className="dnb-p dnb-global-status__title"
@@ -844,10 +809,10 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                     height={null}
                     icon={
                       <ErrorIcon
-                        title={null}
+                        title="error"
                       />
                     }
-                    inherit_color={true}
+                    inherit_color={false}
                     modifier={null}
                     size="icon_size"
                     skeleton={null}
@@ -856,38 +821,34 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                   >
                     <span
                       aria-hidden={true}
-                      className="dnb-icon dnb-icon--default dnb-icon--inherit-color"
+                      className="dnb-icon dnb-icon--default"
                       role="presentation"
                     >
                       <Component>
                         <ErrorIcon
-                          title={null}
+                          title="error"
                         >
                           <svg
                             fill="none"
-                            height="32"
-                            title={null}
-                            viewBox="0 0 32 32"
-                            width="32"
-                            xmlns="http://www.w3.org/2000/svg"
+                            height="24"
+                            title="error"
+                            viewBox="0 0 24 24"
+                            width="24"
                           >
+                            <title>
+                              error
+                            </title>
                             <path
-                              d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
-                              stroke="#000"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="1.5"
+                              d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
+                              fill="#DC2A2A"
                             />
                             <path
-                              d="M16 21V11"
-                              stroke="#000"
-                              strokeLinecap="round"
-                              strokeWidth="1.5"
+                              d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
+                              fill="#fff"
                             />
                             <path
-                              clipRule="evenodd"
-                              d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
-                              stroke="#000"
+                              d="M12 13.818v-5"
+                              stroke="#fff"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               strokeWidth="1.5"
@@ -904,7 +865,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                   close_title={null}
                   icon_position="left"
                   on_click={[Function]}
-                  size="large"
+                  size="medium"
                   text="close_text"
                   title="close_text"
                 >
@@ -926,7 +887,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                     innerRef={null}
                     inner_ref={null}
                     on_click={[Function]}
-                    size="large"
+                    size="medium"
                     skeleton={null}
                     status={null}
                     status_no_animation={null}
@@ -942,7 +903,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                     wrap={null}
                   >
                     <button
-                      className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-large"
+                      className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
                       disabled={false}
                       onClick={[Function]}
                       title="close_text"
@@ -968,7 +929,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                         inner_ref={null}
                         isIconOnly={false}
                         on_click={[Function]}
-                        size="large"
+                        size="medium"
                         skeleton={false}
                         status={null}
                         status_no_animation={null}
@@ -1066,52 +1027,52 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                   </Button>
                 </CloseButton>
               </p>
-            </div>
-          </Section>
-          <Section
-            class={null}
-            className="dnb-global-status__message"
-            element="div"
-            inner_ref={null}
-            spacing={null}
-            style_type="white"
-          >
-            <div
-              className="dnb-section dnb-section--white dnb-global-status__message"
-            >
-              <div
-                className="dnb-global-status__message__content"
+              <Section
+                class={null}
+                className="dnb-global-status__message"
+                element="div"
+                inner_ref={null}
+                spacing={null}
+                style_type="fire-red-8"
               >
-                <p
-                  className="dnb-p"
+                <div
+                  className="dnb-section dnb-section--fire-red-8 dnb-global-status__message"
                 >
-                  text
-                </p>
-                <ul
-                  className="dnb-ul"
-                >
-                  <li
-                    key="0"
+                  <div
+                    className="dnb-global-status__message__content"
                   >
                     <p
                       className="dnb-p"
-                      id="item-1-0"
                     >
-                      item #1
+                      text
                     </p>
-                  </li>
-                  <li
-                    key="1"
-                  >
-                    <p
-                      className="dnb-p"
-                      id="item-2-1"
+                    <ul
+                      className="dnb-ul"
                     >
-                      item #2
-                    </p>
-                  </li>
-                </ul>
-              </div>
+                      <li
+                        key="0"
+                      >
+                        <p
+                          className="dnb-p"
+                          id="item-1-0"
+                        >
+                          item #1
+                        </p>
+                      </li>
+                      <li
+                        key="1"
+                      >
+                        <p
+                          className="dnb-p"
+                          id="item-2-1"
+                        >
+                          item #2
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </Section>
               <Hr
                 className={null}
                 fullscreen={true}
@@ -1164,7 +1125,7 @@ Array [
     delay={0}
     hide_close_button={false}
     icon="error"
-    icon_size="large"
+    icon_size="medium"
     id="linked"
     items={Array []}
     no_animation={true}
@@ -1206,10 +1167,10 @@ Array [
               element="div"
               inner_ref={null}
               spacing={null}
-              style_type="fire-red"
+              style_type="fire-red-8"
             >
               <div
-                className="dnb-section dnb-section--fire-red"
+                className="dnb-section dnb-section--fire-red-8"
               >
                 <p
                   className="dnb-p dnb-global-status__title"
@@ -1227,50 +1188,46 @@ Array [
                       height={null}
                       icon={
                         <ErrorIcon
-                          title={null}
+                          title="error"
                         />
                       }
-                      inherit_color={true}
+                      inherit_color={false}
                       modifier={null}
-                      size="large"
+                      size="medium"
                       skeleton={null}
                       title={null}
                       width={null}
                     >
                       <span
                         aria-hidden={true}
-                        className="dnb-icon dnb-icon--large dnb-icon--inherit-color"
+                        className="dnb-icon dnb-icon--medium"
                         role="presentation"
                       >
                         <Component>
                           <ErrorIcon
-                            title={null}
+                            title="error"
                           >
                             <svg
                               fill="none"
-                              height="32"
-                              title={null}
-                              viewBox="0 0 32 32"
-                              width="32"
-                              xmlns="http://www.w3.org/2000/svg"
+                              height="24"
+                              title="error"
+                              viewBox="0 0 24 24"
+                              width="24"
                             >
+                              <title>
+                                error
+                              </title>
                               <path
-                                d="M16 25a.5.5 0 100 1 .5.5 0 000-1v0"
-                                stroke="#000"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="1.5"
+                                d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
+                                fill="#DC2A2A"
                               />
                               <path
-                                d="M16 21V11"
-                                stroke="#000"
-                                strokeLinecap="round"
-                                strokeWidth="1.5"
+                                d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
+                                fill="#fff"
                               />
                               <path
-                                clipRule="evenodd"
-                                d="M18.161 2.347a2.408 2.408 0 00-4.322 0L1.208 28.077A2.028 2.028 0 003.029 31h25.942a2.028 2.028 0 001.821-2.923l-12.63-25.73z"
-                                stroke="#000"
+                                d="M12 13.818v-5"
+                                stroke="#fff"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth="1.5"
@@ -1287,7 +1244,7 @@ Array [
                     close_title={null}
                     icon_position="left"
                     on_click={[Function]}
-                    size="large"
+                    size="medium"
                     text="Lukk"
                     title="Lukk"
                   >
@@ -1309,7 +1266,7 @@ Array [
                       innerRef={null}
                       inner_ref={null}
                       on_click={[Function]}
-                      size="large"
+                      size="medium"
                       skeleton={null}
                       status={null}
                       status_no_animation={null}
@@ -1325,7 +1282,7 @@ Array [
                       wrap={null}
                     >
                       <button
-                        className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-large"
+                        className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-global-status__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
                         disabled={false}
                         onClick={[Function]}
                         title="Lukk"
@@ -1351,7 +1308,7 @@ Array [
                           inner_ref={null}
                           isIconOnly={false}
                           on_click={[Function]}
-                          size="large"
+                          size="medium"
                           skeleton={false}
                           status={null}
                           status_no_animation={null}
@@ -1449,51 +1406,51 @@ Array [
                     </Button>
                   </CloseButton>
                 </p>
-              </div>
-            </Section>
-            <Section
-              class={null}
-              className="dnb-global-status__message"
-              element="div"
-              inner_ref={null}
-              spacing={null}
-              style_type="white"
-            >
-              <div
-                className="dnb-section dnb-section--white dnb-global-status__message"
-              >
-                <div
-                  className="dnb-global-status__message__content"
+                <Section
+                  class={null}
+                  className="dnb-global-status__message"
+                  element="div"
+                  inner_ref={null}
+                  spacing={null}
+                  style_type="fire-red-8"
                 >
-                  <ul
-                    className="dnb-ul"
+                  <div
+                    className="dnb-section dnb-section--fire-red-8 dnb-global-status__message"
                   >
-                    <li
-                      key="0"
+                    <div
+                      className="dnb-global-status__message__content"
                     >
-                      <p
-                        className="dnb-p"
-                        id="switch-form-status-0"
+                      <ul
+                        className="dnb-ul"
                       >
-                        error-message
-                      </p>
-                      <a
-                        aria-describedby="switch-form-status-0"
-                        className="dnb-anchor"
-                        href="#switch-form-status"
-                        lang="nb-NO"
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
-                      >
-                        Gå til
-                         
-                        <span>
-                          Label
-                        </span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+                        <li
+                          key="0"
+                        >
+                          <p
+                            className="dnb-p"
+                            id="switch-form-status-0"
+                          >
+                            error-message
+                          </p>
+                          <a
+                            aria-describedby="switch-form-status-0"
+                            className="dnb-anchor"
+                            href="#switch-form-status"
+                            lang="nb-NO"
+                            onClick={[Function]}
+                            onKeyDown={[Function]}
+                          >
+                            Gå til
+                             
+                            <span>
+                              Label
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </Section>
                 <Hr
                   className={null}
                   fullscreen={true}

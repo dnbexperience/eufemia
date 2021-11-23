@@ -613,3 +613,69 @@ const UpdateDemoTools = () => {
     </Section>
   )
 }
+
+export const AsFigmaGlobalStatus = () => {
+  return (
+    <Wrapper>
+      <Box>
+        <GlobalStatus
+          state="info"
+          title="Kortet vil bli sendt til adresse: Osloveien 68b, 1234 Oslo"
+          show="true"
+          autoscroll="false"
+          no_animation="true"
+          omit_set_focus="true"
+          id="demo-1"
+        />
+      </Box>
+      <Box>
+        <GlobalStatus
+          title="Custom Title"
+          show="true"
+          autoscroll="false"
+          no_animation="true"
+          omit_set_focus="true"
+          id="demo-1"
+        />
+      </Box>
+      <Box>
+        <GlobalStatus
+          state="info"
+          title="Kortet vil bli sendt til adresse: Osloveien 68b, 1234 Oslo"
+          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+          items={[
+            {
+              text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ullamcorper at elit quisque maecenas turpis gravida nisl tellus.',
+            },
+            {
+              text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Faucibus cursus turpis massased senectus consequat nec in. Quam in egestas sed commodo fames commodo ornare erat.',
+            },
+          ]}
+          show="true"
+          autoscroll="false"
+          no_animation="true"
+          omit_set_focus="true"
+          id="demo-1"
+        />
+      </Box>
+      <Box>
+        <GlobalStatus
+          title="Custom Title"
+          text="Failure text"
+          items={[
+            {
+              text: 'List item',
+              status_anchor_url: '/uilib/components/global-status',
+              status_anchor_label: 'eksempel',
+            },
+          ]}
+          show="true"
+          autoscroll="false"
+          no_animation="true"
+          omit_set_focus="true"
+          id="demo-1"
+        />
+      </Box>
+    </Wrapper>
+  )
+}
