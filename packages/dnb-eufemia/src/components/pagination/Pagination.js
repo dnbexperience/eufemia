@@ -23,7 +23,6 @@ import InfinityScroller from './PaginationInfinity'
 import PaginationBar from './PaginationBar'
 
 const paginationPropTypes = {
-  debug: PropTypes.bool,
   startup_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   current_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   page_count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -110,7 +109,6 @@ const paginationPropTypes = {
 }
 
 const paginationDefaultProps = {
-  debug: null,
   startup_page: null,
   current_page: null,
   page_count: null,
