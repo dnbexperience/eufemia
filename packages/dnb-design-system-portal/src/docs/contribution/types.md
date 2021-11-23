@@ -21,15 +21,66 @@ If a `*.d.ts` file is included in the source code, it will not be overwritten. B
 
 ## Sharing PropTypes between components
 
+You can share PropTypes between files. You can either export them explicitly (named export):
+
+**Named Export**
+
+```jsx
+// Make sure you include `*PropType` in the variable name. This also effects references inside a single file.
+export const componentPropTypes = {
+  ...otherPropTypes,
+  children: PropTypes.node,
+  roperty: PropTypes.string,
+}
+```
+
+and import them in other components by using the spread operator:
+
+```jsx
+import { componentPropTypes } from './component'
+
+const Other = () => {}
+
+Other.propTypes = {
+  ...componentPropTypes,
+  otherProperty: PropTypes.string,
+}
+```
+
+**Default Export**
+
+or as a static reference on the component itself (default export):
+
+```jsx
+const Component = () => {}
+Component.propTypes = {
+  children: PropTypes.node,
+  property: PropTypes.string,
+}
+
+export default Component
+```
+
+and import them in other components by using the spread operator:
+
+```jsx
+import Component from './component'
+
+const Other = () => {}
+
+Other.propTypes = {
+  ...Component.propTypes,
+  otherProperty: PropTypes.string,
+}
+```
+
 There are a couple of components doing so. You may have a look at:
 
 - `Input` and `InputMasked`
 - `Icon` and `IconPrimary`
 - Also the `SpacingHelper` shares `spacingPropTypes` with almost every component
 
-So – You can share PropTypes between files. But you may have to spread the objects, instead of only referencing them.
-
-**NB:** Make sure you include `*PropType` in the variable name. This also effects references inside a single file.
+**NB:** In order to activate the type generation, a component needs to import the `prop-types` dependency.
 
 ## Shared Properties docs
 

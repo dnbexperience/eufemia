@@ -8,6 +8,7 @@ exports[`babelPluginCorrectTypes has to match snapshot 1`] = `
 import React from 'react';
 import { PropTypes } from \\"react\\";
 import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
+import ClassComponent from './ClassComponent';
 export const primaryPropTypes = {
   top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -41,6 +42,7 @@ PrimaryComponent.propTypes = {
   bottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   left: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  classProperty: PropTypes.string,
   secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   secondary_spacing: PropTypes.shape({
     secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
@@ -54,6 +56,7 @@ PrimaryComponent.defaultProps = {
   top: null,
   ...primaryDefaultProps,
   ...secondaryDefaultProps,
+  classProperty: null,
   children: null
 };
 PrimaryComponent.Secondary = SecondaryComponent;
