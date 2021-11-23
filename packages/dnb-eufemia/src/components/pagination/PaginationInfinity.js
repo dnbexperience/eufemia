@@ -72,6 +72,11 @@ export default class InfinityScroller extends React.PureComponent {
   ) => {
     const { pageCount, endInfinity } = this.context.pagination
 
+    console.log('InfinityScroller: getNewContent', {
+      newPageNo,
+      pageCount,
+    })
+
     // if "page_count" is set do not load more than that value
     if (newPageNo > pageCount) {
       return endInfinity()
@@ -200,6 +205,18 @@ export default class InfinityScroller extends React.PureComponent {
       indicator_element,
     } = this.context.pagination
 
+    console.log('InfinityScroller: render', {
+      // our states
+      lowerPage,
+      upperPage,
+      pageCount,
+      hasEndedInfinity,
+      parallelLoadCount,
+
+      // our props
+      current_page,
+    })
+
     const Marker = () => (
       <InteractionMarker
         pageNumber={upperPage}
@@ -284,12 +301,19 @@ export default class InfinityScroller extends React.PureComponent {
       indicator_element,
     } = this.context.pagination
 
+    console.log('InfinityScroller: items.length', items.length)
+
     // invoke startup if needed
     if (!(items && items.length > 0)) {
       clearTimeout(this._startupTimeout)
       this._startupTimeout = setTimeout(this.startup, 1) // call startup()
       return null // stop here
     }
+
+    console.log(
+      'InfinityScroller: useMarkerOnly',
+      this.context.pagination.useMarkerOnly
+    )
 
     if (this.context.pagination.useMarkerOnly) {
       return this.handleInfinityMarker()

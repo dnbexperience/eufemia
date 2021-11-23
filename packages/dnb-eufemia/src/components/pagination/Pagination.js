@@ -96,11 +96,7 @@ const paginationPropTypes = {
 
   class: PropTypes.string,
   className: PropTypes.string,
-  children: PropTypes.oneOfType([
-    // PropTypes.array,
-    PropTypes.node,
-    PropTypes.func,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
   on_change: PropTypes.func,
   on_startup: PropTypes.func,

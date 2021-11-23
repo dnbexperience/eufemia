@@ -106,7 +106,7 @@ export default class PaginationProvider extends React.PureComponent {
     // only used by handleInfinityMarker
     if (props.useMarkerOnly) {
       if (typeof state.lowerPage === 'undefined') {
-        state.lowerPage = state.startupPage
+        state.lowerPage = state.startupPage || 1
       }
       const cur = parseFloat(props.current_page)
       if (!isNaN(cur) && cur < state.lowerPage) {
@@ -114,8 +114,11 @@ export default class PaginationProvider extends React.PureComponent {
       }
       if (typeof state.upperPage === 'undefined') {
         state.upperPage =
-          state.startupPage + parseFloat(props.startup_count) - 1
+          state.startupPage + (parseFloat(props.startup_count) || 1) - 1 ||
+          1
       }
+      console.log('InfinityScroller: lowerPage', state.lowerPage)
+      console.log('InfinityScroller: upperPage', state.upperPage)
     }
 
     // reset content, like the resetContent method
@@ -288,6 +291,8 @@ export default class PaginationProvider extends React.PureComponent {
   }
 
   endInfinity = () => {
+    console.log('InfinityScroller: endInfinity')
+
     this.setState(
       {
         hasEndedInfinity: true,
