@@ -1189,8 +1189,6 @@ exports[`Input scss have to match snapshot 1`] = `
     padding-left: 1rem; }
   .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
     padding-right: 1rem; }
-  .dnb-button--tertiary .dnb-button__text {
-    margin: 0; }
   .dnb-button--has-text {
     width: auto; }
   .dnb-button--has-text .dnb-button__icon {
