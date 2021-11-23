@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import { act } from '@testing-library/react'
 import {
   mount,
   fakeProps,
@@ -377,13 +376,11 @@ describe('Infinity scroller', () => {
       const items = Object.values(localStack.current)
 
       const action = ({ pageNumber }) => {
-        act(() => {
-          setCurrentPage(pageNumber)
+        setCurrentPage(pageNumber)
 
-          if (pageNumber === 1) {
-            endInfinity()
-          }
-        })
+        if (pageNumber === 1) {
+          endInfinity()
+        }
       }
 
       return (
@@ -501,11 +498,7 @@ describe('Infinity scroller', () => {
     const clickOnLoadMore = async () => {
       Comp.find('div.dnb-pagination__loadbar button').simulate('click')
 
-      // expect(Comp.exists('div.dnb-pagination__indicator')).toBe(true)
-
       await rerenderComponent(Comp)
-
-      // expect(Comp.exists('div.dnb-pagination__indicator')).toBe(false)
     }
 
     const Comp = mount(
@@ -565,13 +558,11 @@ describe('Infinity scroller', () => {
       resetInfinityHandler = resetInfinity
 
       const action = ({ pageNumber }) => {
-        act(() => {
-          setCurrentPage(pageNumber)
+        setCurrentPage(pageNumber)
 
-          if (pageNumber === 1) {
-            endInfinity()
-          }
-        })
+        if (pageNumber === 1) {
+          endInfinity()
+        }
       }
 
       return (
