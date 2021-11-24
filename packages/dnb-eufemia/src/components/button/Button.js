@@ -135,7 +135,8 @@ export default class Button extends React.PureComponent {
       icon !== false
     ) {
       warn(
-        `A Tertiary Button requires an icon. Please declare an icon to: ${content}`
+        `Icon required: A Tertiary Button requires an icon to be WCAG compliant in most cases, because variant tertiary has no underline.
+(Override this warning using icon={false}, or consider using one of the other variants)`
       )
     }
 

@@ -23,7 +23,7 @@ For variant secondary, the recommended sizes are `default` and `large`.
 <SecondaryButtonSizes />
 
 For variant tertiary, the recommended size are `default`. A variant with `icon_position="top"` is also available for use.
-It is **not** recommended to use the tertiary button without icon.
+It is **not** recommended to use the tertiary button without icon. Looking for a similar variant without icon? You might want to check out [Anchor](/uilib/elements/anchor) instead.
 
 <TertiaryButtonSizes />
 
