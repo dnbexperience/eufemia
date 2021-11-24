@@ -94,6 +94,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
       label={null}
       label_direction={null}
       label_sr_only={null}
+      onBeforeInput={[Function]}
       onMouseUp={[Function]}
       on_blur={[Function]}
       on_change={[Function]}
@@ -194,6 +195,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
                   ]
                 }
                 name="input-masked"
+                onBeforeInput={[Function]}
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
@@ -212,6 +214,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
                   disabled={false}
                   id="input-masked"
                   name="input-masked"
+                  onBeforeInput={[Function]}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}

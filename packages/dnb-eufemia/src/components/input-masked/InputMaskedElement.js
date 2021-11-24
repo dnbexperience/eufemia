@@ -21,9 +21,6 @@ export default function InputMaskedElement() {
   const { props, htmlAttributes } = useFilteredProps()
   const {
     className, // eslint-disable-line
-    show_guide, // eslint-disable-line
-    show_mask, // eslint-disable-line
-    placeholder_char, // eslint-disable-line
   } = props
 
   return (

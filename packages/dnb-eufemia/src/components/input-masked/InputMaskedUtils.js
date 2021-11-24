@@ -9,7 +9,7 @@ import {
   getThousandsSeparator,
 } from '../number-format/NumberUtils'
 import { warn } from '../../shared/component-helper'
-import { IS_IE11, IS_ANDROID } from '../../shared/helpers'
+import { IS_IE11, IS_ANDROID, IS_IOS } from '../../shared/helpers'
 
 const enableLocaleSupportWhen = ['as_number', 'as_percent', 'as_currency']
 const enableNumberMaskWhen = [
@@ -144,7 +144,10 @@ export const correctNumberValue = ({
       value = localValue
     }
 
-    if (localNumberValue === '' && numberValue === '0') {
+    // If the local value is - or -0 we use it
+    if (/^-|-0$/.test(localValue)) {
+      value = localValue
+    } else if (localNumberValue === '' && numberValue === '0') {
       value = ''
     }
   }
@@ -308,11 +311,13 @@ export const handleNumberMask = ({
  */
 export function getInputModeFromMask(mask) {
   const maskParams = mask?.maskParams
-  if (
-    !IS_ANDROID &&
-    maskParams &&
-    mask?.instanceOf === 'createNumberMask'
-  ) {
+
+  // because of the missing minus key, we still have to use text on Android and iOS
+  if ((IS_ANDROID || IS_IOS) && maskParams?.allowNegative !== false) {
+    return undefined
+  }
+
+  if (maskParams && mask?.instanceOf === 'createNumberMask') {
     return maskParams.allowDecimal && maskParams.decimalLimit !== 0
       ? 'decimal'
       : 'numeric'
