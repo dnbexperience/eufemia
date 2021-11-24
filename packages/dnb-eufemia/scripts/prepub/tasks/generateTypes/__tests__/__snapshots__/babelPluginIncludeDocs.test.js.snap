@@ -8,6 +8,7 @@ exports[`babelPluginIncludeDocs has to match code snapshot 1`] = `
 import React from 'react';
 import { PropTypes } from \\"react\\";
 import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
+import ClassComponent from './ClassComponent';
 export const primaryPropTypes = {
   top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -65,6 +66,7 @@ PrimaryComponent.propTypes = {
    * Text \`secondary\`.
   */
   secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  classProperty: PropTypes.string,
   secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   secondary_spacing: PropTypes.shape({
     secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
@@ -82,6 +84,7 @@ PrimaryComponent.defaultProps = {
   top: null,
   ...primaryDefaultProps,
   ...secondaryDefaultProps,
+  classProperty: null,
   children: null
 };
 PrimaryComponent.Secondary = SecondaryComponent;
@@ -157,6 +160,7 @@ exports[`babelPluginIncludeDocs has to match code snapshot in strict mode 1`] = 
 import React from 'react';
 import { PropTypes } from \\"react\\";
 import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
+import ClassComponent from './ClassComponent';
 export const primaryPropTypes = {
   top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -214,6 +218,7 @@ PrimaryComponent.propTypes = {
    * Text \`secondary\`.
   */
   secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  classProperty: PropTypes.string,
   secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   secondary_spacing: PropTypes.shape({
     secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
@@ -231,6 +236,7 @@ PrimaryComponent.defaultProps = {
   top: null,
   ...primaryDefaultProps,
   ...secondaryDefaultProps,
+  classProperty: null,
   children: null
 };
 PrimaryComponent.Secondary = SecondaryComponent;
@@ -306,6 +312,7 @@ exports[`babelPluginIncludeDocs has to match collectProps snapshot given by onCo
 import React from 'react';
 import { PropTypes } from \\"react\\";
 import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
+import ClassComponent from './ClassComponent';
 export const primaryPropTypes = {
   top: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   right: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
@@ -363,6 +370,7 @@ PrimaryComponent.propTypes = {
    * Text \`secondary\`.
   */
   secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  classProperty: PropTypes.string,
   secondary_foo: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   secondary_spacing: PropTypes.shape({
     secondary: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
@@ -380,6 +388,7 @@ PrimaryComponent.defaultProps = {
   top: null,
   ...primaryDefaultProps,
   ...secondaryDefaultProps,
+  classProperty: null,
   children: null
 };
 PrimaryComponent.Secondary = SecondaryComponent;
@@ -468,6 +477,7 @@ Array [
   "bottom",
   "left",
   "secondary",
+  "classProperty",
   "secondary_foo",
   "secondary_spacing",
   "children",
