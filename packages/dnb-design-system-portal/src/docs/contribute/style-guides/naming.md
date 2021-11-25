@@ -1,9 +1,9 @@
 ---
-title: 'Naming conventions'
-order: 1
+title: 'Naming convention'
+order: 5
 ---
 
-# Naming conventions
+# Naming convention
 
 The DNB Design System Eufemia uses the following naming conventions.
 
@@ -56,8 +56,6 @@ The DNB Design System Eufemia uses the following naming conventions.
 ## Documentation
 
 - `Pages` and directories use **kebab case**.
-
----
 
 ## Why `snake_case` property naming
 

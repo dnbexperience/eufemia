@@ -28,7 +28,7 @@ isTouchDevice() // returns Boolean
 
 ### toPascalCase
 
-Transforms a string from **snake_case** to [PascalCase](!/contribution/naming).
+Transforms a string from **snake_case** to [PascalCase](!/contribute/naming).
 
 ```js
 import { toPascalCase } from '@dnb/eufemia/shared/component-helper'
@@ -38,7 +38,7 @@ toPascalCase(String) // returns String
 
 ### toCamelCase
 
-Transforms a string from **snake_case** to [camelCase](!/contribution/naming).
+Transforms a string from **snake_case** to [camelCase](!/contribute/naming).
 
 ```js
 import { toCamelCase } from '@dnb/eufemia/shared/component-helper'
@@ -48,7 +48,7 @@ toCamelCase(String) // returns String
 
 ### toSnakeCase
 
-Transforms a string from **PascalCase** to [snake_case](!/contribution/naming).
+Transforms a string from **PascalCase** to [snake_case](!/contribute/naming).
 
 ```js
 import { toSnakeCase } from '@dnb/eufemia/shared/component-helper'
@@ -58,7 +58,7 @@ toSnakeCase(String) // returns String
 
 ### toKebabCase
 
-Transforms a string from **PascalCase** to [kebab-case](!/contribution/naming).
+Transforms a string from **PascalCase** to [kebab-case](!/contribute/naming).
 
 ```js
 import { toKebabCase } from '@dnb/eufemia/shared/component-helper'

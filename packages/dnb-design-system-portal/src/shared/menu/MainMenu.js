@@ -257,7 +257,7 @@ export default class MainMenu extends React.PureComponent {
                     "design-system"
                     "brand"
                     "principles"
-                    "contribution"
+                    "contribute"
                   ]
                 }
               }
@@ -384,9 +384,9 @@ export default class MainMenu extends React.PureComponent {
                       icon={BrandSvg}
                     />
                     <Card
-                      url={items['contribution']?.url}
-                      title={items['contribution']?.title}
-                      about={items['contribution']?.description}
+                      url={items['contribute']?.url}
+                      title={items['contribute']?.title}
+                      about={items['contribute']?.description}
                       icon={DevelopmentSvg}
                     />
                   </CardsWrapper>

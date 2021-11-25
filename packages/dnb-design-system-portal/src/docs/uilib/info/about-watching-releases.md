@@ -1,5 +1,5 @@
-import EufemiaLogo from 'Docs/contribution/assets/eufemia-logo.js'
-import GithubLogo from 'Docs/contribution/assets/github-logo.js'
+import EufemiaLogo from 'Docs/contribute/assets/eufemia-logo.js'
+import GithubLogo from 'Docs/contribute/assets/github-logo.js'
 import { Icon } from '@dnb/eufemia/src'
 
 ## The Eufemia Repository
