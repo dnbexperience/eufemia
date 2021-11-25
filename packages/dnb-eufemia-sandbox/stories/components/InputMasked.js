@@ -76,7 +76,7 @@ function BasicNumberMask() {
       value={floatval}
       // placeholder="En placeholder"
       number_mask
-      mask_options={{ allowLeadingZeroes: true }}
+      mask_options={{ allowLeadingZeroes: true, allowNegative: false }}
       suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
@@ -98,6 +98,7 @@ function BasicCurrencyMask() {
         currency: 'NOK',
         prefix: 'Prefix ',
         // allowDecimal: false,
+        allowNegative: false,
       }}
       // mask_options={{ allowLeadingZeroes: true }}
       suffix={<Pre>{JSON.stringify(floatval)}</Pre>}

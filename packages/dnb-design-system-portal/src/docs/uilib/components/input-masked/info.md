@@ -18,6 +18,14 @@ Screen readers will read also the mask before the user is entering content. Also
 
 Both entering a coma or a dot will act as a decimal separator if [decimals are enabled](https://eufemia.dnb.no/uilib/components/input-masked#decimals) and one of the internal masks for numbers is used.
 
+#### InputMode
+
+For mobile devices and soft keyboards, the HTML input element does support a numeric only keyboard. But sadly it does not support negative values at the time of writing this. So it is only enable if `allowNegative` is set to false.
+
+```jsx
+<InputMasked mask_options={{ allowNegative: false }} />
+```
+
 ### Mask based on locale
 
 The InputMasked component supports masks based on a given locale. The locale will be inherited from the [Eufemia Provider](/uilib/usage/customisation/provider) if not given.

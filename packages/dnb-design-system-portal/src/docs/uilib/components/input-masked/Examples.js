@@ -20,6 +20,7 @@ export const InputMaskedExampleNumberLocale = () => (
   <InputMasked
     label="Number:"
     as_number
+    mask_options={{ allowNegative: false }}
     value="1234.50"
     right
     bottom

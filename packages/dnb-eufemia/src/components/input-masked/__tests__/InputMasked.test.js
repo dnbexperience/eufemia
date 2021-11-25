@@ -290,7 +290,52 @@ describe('InputMasked component', () => {
     expect(Comp.find('input').instance().value).toBe('NOK 0 012,01 kr')
   })
 
-  it('should change inputmode to text when IS_ANDROID', () => {
+  it('should handle minus values', () => {
+    const onChange = jest.fn()
+
+    const EditValue = () => {
+      const [value, setValue] = React.useState(-0.1)
+
+      return (
+        <Component
+          {...props}
+          value={value}
+          number_mask={{
+            allowDecimal: true,
+          }}
+          on_change={(...params) => {
+            const { numberValue } = params[0]
+            setValue(numberValue)
+            onChange(...params)
+          }}
+        />
+      )
+    }
+
+    const Comp = mount(<EditValue />)
+
+    expect(Comp.find('input').instance().value).toBe('-0,1')
+
+    Comp.find('input').simulate('change', {
+      target: {
+        value: '-',
+      },
+    })
+
+    expect(onChange.mock.calls[0][0].numberValue).toBe(-0)
+    expect(Comp.find('input').instance().value).toBe('-​')
+
+    Comp.find('input').simulate('change', {
+      target: {
+        value: '-0',
+      },
+    })
+
+    expect(onChange.mock.calls[0][0].numberValue).toBe(-0)
+    expect(Comp.find('input').instance().value).toBe('-0')
+  })
+
+  it('should set inputmode based on device and mask options', () => {
     const onKeyDown = jest.fn()
     const preventDefault = jest.fn()
 
@@ -317,6 +362,22 @@ describe('InputMasked component', () => {
       null
     )
 
+    // Re-render
+    Comp.setProps({ mask_options: { allowNegative: false } })
+
+    expect(Comp.find('input').instance().getAttribute('inputmode')).toBe(
+      'numeric'
+    )
+
+    // Re-render
+    Comp.setProps({
+      mask_options: { allowNegative: false, allowDecimal: true },
+    })
+
+    expect(Comp.find('input').instance().getAttribute('inputmode')).toBe(
+      'decimal'
+    )
+
     // eslint-disable-next-line
     helpers.IS_ANDROID = false
 
@@ -331,7 +392,7 @@ describe('InputMasked component', () => {
 
     expect(onKeyDown).toHaveBeenCalledTimes(1)
     expect(preventDefault).toHaveBeenCalledTimes(0)
-    expect(Comp.find('input').instance().value).toBe('1 234')
+    expect(Comp.find('input').instance().value).toBe('1 234,5')
   })
 
   it('should update value when initial value was an empty string', () => {
@@ -617,28 +678,6 @@ describe('InputMasked component as_percent', () => {
     expect(Comp.find('input').instance().value).toBe('12 345,6 %')
   })
 
-  it('should set inputmode to numeric or decimal', () => {
-    const Comp = mount(<Component value="12345.678" as_percent />)
-
-    expect(Comp.find('input').instance().getAttribute('inputMode')).toBe(
-      'numeric'
-    )
-
-    Comp.setProps({ number_mask: { decimalLimit: 1 } })
-
-    expect(Comp.find('input').instance().getAttribute('inputMode')).toBe(
-      'decimal'
-    )
-
-    Comp.setProps({
-      number_mask: { allowDecimal: false, decimalLimit: 1 },
-    })
-
-    expect(Comp.find('input').instance().getAttribute('inputMode')).toBe(
-      'numeric'
-    )
-  })
-
   it('should react to locale change', () => {
     const Comp = mount(
       <Component
@@ -840,28 +879,6 @@ describe('InputMasked component as_number', () => {
     Comp.setProps({ locale: 'nb-NO' })
 
     expect(Comp.find('input').instance().value).toBe('12 345,678')
-  })
-
-  it('should set inputmode to numeric or decimal', () => {
-    const Comp = mount(<Component value="12345" as_number />)
-
-    expect(Comp.find('input').instance().getAttribute('inputMode')).toBe(
-      'numeric'
-    )
-
-    Comp.setProps({ number_mask: { decimalLimit: 1 } })
-
-    expect(Comp.find('input').instance().getAttribute('inputMode')).toBe(
-      'decimal'
-    )
-
-    Comp.setProps({
-      mask_options: { allowDecimal: false, decimalLimit: 1 },
-    })
-
-    expect(Comp.find('input').instance().getAttribute('inputMode')).toBe(
-      'numeric'
-    )
   })
 })
 
@@ -1093,22 +1110,6 @@ describe('InputMasked component as_currency', () => {
     Comp.setProps({ value: '12345.123' })
 
     expect(Comp.find('input').instance().value).toBe('12 345,12 kr')
-  })
-
-  it('should set inputmode to numeric or decimal', () => {
-    const Comp = mount(<Component value="12345" as_currency />)
-
-    expect(Comp.find('input').instance().getAttribute('inputMode')).toBe(
-      'decimal'
-    )
-
-    Comp.setProps({
-      number_mask: { allowDecimal: false, decimalLimit: 1 },
-    })
-
-    expect(Comp.find('input').instance().getAttribute('inputMode')).toBe(
-      'numeric'
-    )
   })
 })
 
