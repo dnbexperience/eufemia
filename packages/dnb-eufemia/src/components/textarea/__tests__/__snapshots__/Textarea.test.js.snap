@@ -680,6 +680,8 @@ legend.dnb-form-label {
       margin-bottom: 0.5rem; }
       .dnb-responsive-component .dnb-textarea > .dnb-form-label {
         margin-bottom: 0.5rem; } }
+  html[data-visual-test] .dnb-textarea__textarea {
+    caret-color: var(--color-white); }
   .dnb-textarea.dnb-skeleton .dnb-textarea__inner {
     margin: 0;
     border-radius: 0.25rem; }
