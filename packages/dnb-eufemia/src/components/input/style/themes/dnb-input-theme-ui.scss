@@ -45,10 +45,13 @@
     background-color: var(--color-black-3);
   }
 
-  &[data-input-state='focus'] &__shell,
   &:not([data-input-state='disabled']) &__shell:hover,
   &:not([data-input-state='disabled']):hover &__shell {
     @include fakeBorder(var(--color-sea-green), 0.125rem);
+  }
+
+  &[data-input-state='focus']:not([data-input-state='disabled']) &__shell {
+    @include fakeBorder(var(--color-emerald-green), 0.125rem);
   }
 
   // with status_state = "error"
