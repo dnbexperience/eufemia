@@ -19,7 +19,6 @@ import {
   InfoIcon,
   ErrorIcon,
 } from '../../components/form-status/FormStatus'
-import EventEmitter from '../../shared/EventEmitter'
 import StepIndicatorContext from './StepIndicatorContext'
 
 // Deprecated
@@ -96,7 +95,6 @@ export default class StepIndicatorItem extends React.PureComponent {
   constructor(props, context) {
     super(props)
 
-    this._eventEmitter = EventEmitter.createInstance(context.sidebar_id)
     this._heightAnim = new AnimateHeight({
       animate: !isTrue(context.no_animation),
     })
@@ -110,7 +108,6 @@ export default class StepIndicatorItem extends React.PureComponent {
 
   componentWillUnmount() {
     this._heightAnim.remove()
-    this._eventEmitter.remove()
   }
 
   getSnapshotBeforeUpdate() {
@@ -226,7 +223,9 @@ export default class StepIndicatorItem extends React.PureComponent {
       ?.replace('%step', currentItemNum + 1)
       .replace('%count', countSteps)
 
-    const isCurrent = currentItemNum === activeStep || isTrue(is_current)
+    const isCurrent =
+      currentItemNum === activeStep ||
+      (isTrue(is_current) && isNaN(parseFloat(activeStep)))
     let element = (
       <StepItemWrapper
         number={currentItemNum + 1}

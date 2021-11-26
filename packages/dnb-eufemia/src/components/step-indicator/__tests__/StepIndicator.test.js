@@ -11,9 +11,19 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../StepIndicator'
+import Provider from '../../../shared/Provider'
 import MatchMediaMock from 'jest-matchmedia-mock'
 
 const matchMedia = new MatchMediaMock()
+
+beforeEach(() => {
+  matchMedia.useMediaQuery('(min-width: 50em)')
+  document.body.innerHTML = `<div id="root"></div>`
+})
+
+function simulateSmallScreen() {
+  matchMedia.useMediaQuery('(min-width: 0) and (max-width: 50em)')
+}
 
 const stepIndicatorListData = [
   {
@@ -30,6 +40,54 @@ const stepIndicatorListData = [
   },
 ]
 
+describe('StepIndicator Sidebar', () => {
+  it('has to inherit Provider data for initial SSR render', () => {
+    const Comp = mount(
+      <Provider StepIndicator={{ data: ['one', 'two', 'three'] }}>
+        <Component.Sidebar
+          sidebar_id="unique-id-initial"
+          showInitialData
+        />
+      </Provider>
+    )
+
+    expect(Comp.find('li.dnb-step-indicator__item')).toHaveLength(3)
+  })
+
+  it('has to use data prop for initial SSR render', () => {
+    const Comp = mount(
+      <Component.Sidebar
+        sidebar_id="unique-id-initial"
+        data={['one', 'two', 'three']}
+        showInitialData
+      />
+    )
+    expect(Comp.find('li.dnb-step-indicator__item')).toHaveLength(3)
+  })
+
+  it('has to remove data from Sidebar when mounted', () => {
+    const Comp = mount(
+      <Component.Sidebar
+        sidebar_id="unique-id-initial"
+        data={['one', 'two', 'three']}
+      />
+    )
+    expect(Comp.exists('li.dnb-step-indicator__item')).toBe(false)
+  })
+
+  it('has to show skeleton when no data is given to Sidebar', () => {
+    const Comp = mount(
+      <Component.Sidebar sidebar_id="unique-id-initial" showInitialData />
+    )
+    expect(Comp.find('li.dnb-step-indicator__item')).toHaveLength(4)
+    expect(
+      Comp.find('li.dnb-step-indicator__item')
+        .at(0)
+        .exists('.dnb-skeleton--show-font')
+    ).toBe(true)
+  })
+})
+
 describe('StepIndicator in loose mode', () => {
   const renderComponent = (id, props = null) => {
     return mount(
@@ -42,7 +100,8 @@ describe('StepIndicator in loose mode', () => {
           data={stepIndicatorListData}
           {...props}
         />
-      </>
+      </>,
+      { attachTo: document.getElementById('root') }
     )
   }
 
@@ -51,18 +110,47 @@ describe('StepIndicator in loose mode', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
+  it('have to match snapshot on small screen', () => {
+    simulateSmallScreen()
+    const Comp = renderComponent('unique-id-loose-snapshot')
+    expect(toJson(Comp)).toMatchSnapshot()
+  })
+
   it('has trigger button when mobile', () => {
-    matchMedia.useMediaQuery('(min-width: 0) and (max-width: 50em)')
+    simulateSmallScreen()
+
     const Comp = renderComponent('unique-id-loose-mobile')
     expect(
       Comp.at(1).exists('button.dnb-step-indicator__trigger__button')
     ).toBe(true)
   })
 
+  it('has to keep the current step on re-render', () => {
+    const Comp = renderComponent('unique-id-loose-mobile')
+    expect(
+      Comp.at(1).exists('button.dnb-step-indicator__trigger__button')
+    ).toBe(false)
+
+    expect(Comp.find('li.dnb-step-indicator__item')).toHaveLength(4)
+    expect(
+      Comp.find('li.dnb-step-indicator__item--current').text()
+    ).toContain('2.Step BSteg 2 av 4')
+
+    simulateSmallScreen()
+
+    // re-render
+    document.body.innerHTML = `<div id="root"></div>`
+    Comp.update()
+
+    expect(
+      Comp.find('button.dnb-step-indicator__trigger__button').text()
+    ).toContain('‌2.Step B')
+  })
+
   it('has correct states on steps', () => {
-    matchMedia.useMediaQuery('(min-width: 50em)')
     const Comp = renderComponent('unique-id-loose-states')
     const items = Comp.find('li.dnb-step-indicator__item')
+
     expect(items.length).toBe(4)
     expect(
       items
@@ -86,10 +174,10 @@ describe('StepIndicator in loose mode', () => {
   })
 
   it('has correct state after change', () => {
-    matchMedia.useMediaQuery('(min-width: 50em)')
     const on_change = jest.fn()
     const Comp = renderComponent('unique-id-loose-simulate', { on_change })
     const items = Comp.find('li.dnb-step-indicator__item')
+
     expect(items.length).toBe(4)
     expect(
       items
@@ -117,6 +205,121 @@ describe('StepIndicator in loose mode', () => {
         .instance()
         .classList.contains('dnb-step-indicator__item--current')
     ).toBe(true)
+    expect(Comp.find('li.dnb-step-indicator__item--current')).toHaveLength(
+      1
+    )
+  })
+
+  it('should have only one "current" at a time', () => {
+    const Comp = renderComponent('unique-id-sidebar', {
+      current_step: null,
+      data: [
+        {
+          title: 'Step A',
+        },
+        {
+          title: 'Step B',
+        },
+        {
+          title: 'Step C',
+          is_current: true,
+        },
+      ],
+    })
+
+    expect(Comp.find('li.dnb-step-indicator__item--current')).toHaveLength(
+      1
+    )
+    expect(
+      Comp.find('li.dnb-step-indicator__item')
+        .at(2)
+        .instance()
+        .classList.contains('dnb-step-indicator__item--current')
+    ).toBe(true)
+
+    // Make state change
+    Comp.find('li.dnb-step-indicator__item')
+      .at(0)
+      .find('button')
+      .simulate('click')
+
+    expect(Comp.find('li.dnb-step-indicator__item--current')).toHaveLength(
+      1
+    )
+    expect(
+      Comp.find('li.dnb-step-indicator__item')
+        .at(0)
+        .instance()
+        .classList.contains('dnb-step-indicator__item--current')
+    ).toBe(true)
+  })
+
+  it('should react on current_step prop change', () => {
+    const TestComp = ({ id, ...props }) => {
+      return (
+        <>
+          <Component.Sidebar sidebar_id={id} />
+          <Component
+            current_step={1}
+            mode="loose"
+            sidebar_id={id}
+            data={stepIndicatorListData}
+            {...props}
+          />
+        </>
+      )
+    }
+
+    const renderComponent = (id, props = null) => {
+      return mount(<TestComp id={id} {...props} />, {
+        attachTo: document.getElementById('root'),
+      })
+    }
+    const Comp = renderComponent('unique-id-loose-simulate')
+
+    Comp.setProps({
+      current_step: 2,
+    })
+
+    expect(
+      Comp.find('li.dnb-step-indicator__item--current').text()
+    ).toContain('3.Step CSteg 3 av 4')
+  })
+
+  it('should render button when no Sidebar was found', () => {
+    const Comp = mount(
+      <Component
+        current_step={1}
+        mode="loose"
+        sidebar_id="unique-id-loose-simulate"
+        data={stepIndicatorListData}
+      />,
+      {
+        attachTo: document.getElementById('root'),
+      }
+    )
+
+    expect(
+      Comp.find('button.dnb-step-indicator__trigger__button').text()
+    ).toContain('‌2.Step B')
+
+    simulateSmallScreen()
+
+    // re-render
+    document.body.innerHTML = `<div id="root"></div>`
+    Comp.update()
+
+    expect(
+      Comp.find('button.dnb-step-indicator__trigger__button').text()
+    ).toContain('‌2.Step B')
+  })
+
+  it('should have no current if current_step is not given', () => {
+    const Comp = renderComponent('unique-id-loose-simulate', {
+      current_step: null,
+    })
+
+    expect(Comp.exists('li.dnb-step-indicator__item--current')).toBe(false)
   })
 
   it('should validate with ARIA rules', async () => {
@@ -137,7 +340,8 @@ describe('StepIndicator in strict mode', () => {
           data={stepIndicatorListData}
           {...props}
         />
-      </>
+      </>,
+      { attachTo: document.getElementById('root') }
     )
   }
 
@@ -146,8 +350,15 @@ describe('StepIndicator in strict mode', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
+  it('have to match snapshot on small screen', () => {
+    simulateSmallScreen()
+    const Comp = renderComponent('unique-id-strict-snapshot')
+    expect(toJson(Comp)).toMatchSnapshot()
+  })
+
   it('has trigger button when mobile', () => {
-    matchMedia.useMediaQuery('(min-width: 0) and (max-width: 50em)')
+    simulateSmallScreen()
+
     const Comp = renderComponent('unique-id-strict-mobile')
     expect(
       Comp.at(1).exists('button.dnb-step-indicator__trigger__button')
@@ -155,9 +366,9 @@ describe('StepIndicator in strict mode', () => {
   })
 
   it('has correct states on steps', () => {
-    matchMedia.useMediaQuery('(min-width: 50em)')
     const Comp = renderComponent('unique-id-strict-states')
     const items = Comp.find('li.dnb-step-indicator__item')
+
     expect(items.length).toBe(4)
     expect(
       items
@@ -181,12 +392,12 @@ describe('StepIndicator in strict mode', () => {
   })
 
   it('has correct state after change', () => {
-    matchMedia.useMediaQuery('(min-width: 50em)')
     const on_change = jest.fn()
     const Comp = renderComponent('unique-id-strict-simulate', {
       on_change,
     })
     const items = Comp.find('li.dnb-step-indicator__item')
+
     expect(items.length).toBe(4)
     expect(
       items
@@ -210,6 +421,9 @@ describe('StepIndicator in strict mode', () => {
         .instance()
         .classList.contains('dnb-step-indicator__item--current')
     ).toBe(true)
+    expect(Comp.find('li.dnb-step-indicator__item--current')).toHaveLength(
+      1
+    )
   })
 
   it('should validate with ARIA rules', async () => {
@@ -230,7 +444,8 @@ describe('StepIndicator in static mode', () => {
           data={stepIndicatorListData}
           {...props}
         />
-      </>
+      </>,
+      { attachTo: document.getElementById('root') }
     )
   }
 
@@ -239,8 +454,15 @@ describe('StepIndicator in static mode', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
+  it('have to match snapshot on small screen', () => {
+    simulateSmallScreen()
+    const Comp = renderComponent('unique-id-static-snapshot')
+    expect(toJson(Comp)).toMatchSnapshot()
+  })
+
   it('has trigger button when mobile', () => {
-    matchMedia.useMediaQuery('(min-width: 0) and (max-width: 50em)')
+    simulateSmallScreen()
+
     const Comp = renderComponent('unique-id-static-mobile')
     expect(
       Comp.at(1).exists('button.dnb-step-indicator__trigger__button')
@@ -248,9 +470,9 @@ describe('StepIndicator in static mode', () => {
   })
 
   it('has correct states on steps', () => {
-    matchMedia.useMediaQuery('(min-width: 50em)')
     const Comp = renderComponent('unique-id-static-states')
     const items = Comp.find('li.dnb-step-indicator__item')
+
     expect(items.length).toBe(4)
     expect(
       items

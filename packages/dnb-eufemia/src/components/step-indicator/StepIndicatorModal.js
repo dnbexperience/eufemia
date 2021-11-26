@@ -4,46 +4,60 @@
  */
 
 import React from 'react'
+import ReactDOM from 'react-dom'
 import Modal from '../modal/Modal'
 import StepIndicatorTriggerButton from './StepIndicatorTriggerButton'
 import StepIndicatorList from './StepIndicatorList'
-import StepIndicatorContext, {
-  StepIndicatorProvider,
-} from './StepIndicatorContext'
+import StepIndicatorContext from './StepIndicatorContext'
 
 export default class StepIndicatorModal extends React.PureComponent {
   static contextType = StepIndicatorContext
 
-  state = { open_state: false }
-
   constructor(props) {
     super(props)
+
     this._triggerRef = React.createRef()
+
+    this.state = { container: null }
   }
 
-  onChangeState = () => {
-    this.setState({ open_state: false })
-  }
-
-  openHandler = () => {
-    this.setState({ open_state: true })
-  }
-
-  closeHandler = () => {
-    this.setState({ open_state: false })
+  closeHandler = (...args) => {
     if (this.context.hasSidebar) {
       this._triggerRef.current?.focus()
     }
+    this.context.closeHandler(...args)
+  }
+
+  componentDidMount() {
+    const container = document.getElementById(
+      'sidebar__' + this.context.sidebar_id
+    )
+
+    this.setState({
+      container,
+    })
+  }
+
+  renderPortal() {
+    if (!this.state.container) {
+      return null
+    }
+
+    return ReactDOM.createPortal(
+      <StepIndicatorList />,
+      this.state.container
+    )
   }
 
   render() {
-    if (this.context.hasSidebar && !this.context.hideSidebar) {
-      return null
+    if (this.context.sidebarIsVisible) {
+      return this.renderPortal()
     }
+
     return (
       <>
         <StepIndicatorTriggerButton
-          on_click={this.openHandler}
+          on_click={this.context.openHandler}
           inner_ref={this._triggerRef}
         />
         <Modal
@@ -52,24 +66,18 @@ export default class StepIndicatorModal extends React.PureComponent {
           trigger_hidden
           mode="drawer"
           animation_direction="bottom"
-          open_state={this.state.open_state}
-          on_open={this.openHandler}
+          open_state={this.context.openState}
+          on_open={this.context.openHandler}
           on_close={this.closeHandler}
         >
-          <StepIndicatorProvider
-            {...this.context}
-            sidebar_id={this.context.sidebar_id}
-            onChangeState={this.onChangeState}
-          >
-            <Modal.Content style_type="white">
-              <div className="dnb-step-indicator-v2">
-                <p className="dnb-p dnb-step-indicator__label">
-                  {this.context.stepsLabelExtended}
-                </p>
-                <StepIndicatorList />
-              </div>
-            </Modal.Content>
-          </StepIndicatorProvider>
+          <Modal.Content style_type="white">
+            <div className="dnb-step-indicator-v2">
+              <p className="dnb-p dnb-step-indicator__label">
+                {this.context.stepsLabelExtended}
+              </p>
+              <StepIndicatorList />
+            </div>
+          </Modal.Content>
         </Modal>
       </>
     )
