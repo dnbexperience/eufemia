@@ -85,17 +85,17 @@
 
 @keyframes show-modal-overlay {
   from {
-    background-color: var(--modal-overlay-transparent);
+    opacity: 0;
   }
   to {
-    background-color: var(--modal-overlay-bg);
+    opacity: var(--modal-overlay-opacity);
   }
 }
 @keyframes hide-modal-overlay {
   from {
-    background-color: var(--modal-overlay-bg);
+    opacity: var(--modal-overlay-opacity);
   }
   to {
-    background-color: var(--modal-overlay-transparent);
+    opacity: 0;
   }
 }

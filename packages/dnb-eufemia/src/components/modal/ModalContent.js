@@ -121,24 +121,65 @@ export default class ModalContent extends React.PureComponent {
   constructor(props) {
     super(props)
     this._contentRef = React.createRef()
+
+    // NB: The ""._id" is used in the __modalStack as "last._id"
     this._id = props.id
-    this._ii = new InteractionInvalidation()
-    this._ii.setBypassSelector([
-      '.dnb-modal__content',
-      `#dnb-modal-${props.root_id || 'root'}`,
-    ])
   }
 
   componentDidMount() {
+    // Add it to the index at first
+    // we use it later with getListOfModalRoots
     this.addToIndex()
 
+    // Because of nested modals/drawers, we run this regardless
+    // has to be run at first – so the scrollbar gets removed
+    this.removeScrollPossibility() // forces browser to re-paint
+
+    this.setFocus()
+    this.setAndroidFocusHelper()
+
+    const id = this.props.id
+    dispatchCustomElementEvent(this, 'on_open', {
+      id,
+    })
+
+    if (
+      isTrue(this.props.no_animation) ||
+      process.env.NODE_ENV === 'test'
+    ) {
+      this.lockBody() // forces browser to re-paint
+    } else {
+      this._lockTimeout = setTimeout(() => {
+        this.lockBody() // forces browser to re-paint
+      }, 500) // a little over --modal-animation-duration
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this._focusTimeout)
+    clearTimeout(this._lockTimeout)
+
+    this.removeLocks()
+  }
+
+  lockBody() {
     const modalRoots = getListOfModalRoots()
     const firstLevel = modalRoots[0]
 
-    // remove it every time, because of nested modals
-    this.removeScrollPossibility()
-
     if (firstLevel === this) {
+      this._ii = new InteractionInvalidation()
+      this._ii.setBypassSelector(
+        [
+          // Bypass modal content
+          '.dnb-modal__content *',
+          `#dnb-modal-${this.props.root_id || 'root'} *`,
+
+          // TODO: Eventually in future, make it possible to bypass invalidation from outside
+          // '.dnb-modal--bypass_invalidation',
+          // '.dnb-modal--bypass_invalidation_deep *',
+          // this.props.bypass_invalidation_selectors,
+        ].filter(Boolean)
+      )
       this._ii.activate()
     } else {
       modalRoots.forEach((modal) => {
@@ -153,30 +194,20 @@ export default class ModalContent extends React.PureComponent {
       })
     }
 
-    this.setAndroidFocusHelper()
-    this.setFocus()
-
-    const id = this.props.id
-    dispatchCustomElementEvent(this, 'on_open', {
-      id,
-    })
-
     if (typeof document !== 'undefined') {
       /** To ensure, we have always a working keydown, we call it both on the element and document */
       document.addEventListener('keydown', this.onKeyDownHandler)
     }
   }
 
-  componentWillUnmount() {
-    clearTimeout(this._focusTimeout)
-
+  removeLocks() {
     const modalRoots = getListOfModalRoots()
     const firstLevel = modalRoots[0]
 
     this.removeFromIndex()
 
     if (firstLevel === this) {
-      this._ii.revert()
+      this._ii?.revert()
       this.revertScrollPossibility()
     } else {
       try {
@@ -258,9 +289,6 @@ export default class ModalContent extends React.PureComponent {
         window.__modalStack = window.__modalStack.filter(
           (cur) => cur !== this
         )
-        if (!window.__modalStack.length) {
-          delete window.__modalStack
-        }
       } catch (e) {
         warn(e)
       }
@@ -400,7 +428,7 @@ export default class ModalContent extends React.PureComponent {
       ...rest
     } = this.props
 
-    const contentId = content_id || makeUniqueId()
+    const contentId = content_id || makeUniqueId('modal-')
     const style = this.state.color
       ? { '--modal-background-color': `var(--color-${this.state.color})` }
       : null

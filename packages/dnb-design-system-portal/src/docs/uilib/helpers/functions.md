@@ -154,7 +154,7 @@ import { InteractionInvalidation } from '@dnb/eufemia/shared/component-helper'
 const instance = new InteractionInvalidation()
 
 // do not invalidate inside here
-instance.setBypassSelector('.dnb-modal__content')
+instance.setBypassSelector('.dnb-modal__content *')
 
 // Enable the invalidation
 instance.activate()
