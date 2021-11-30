@@ -70,6 +70,7 @@ import email_medium from './email_medium.js'
 import equities_and_mutual_funds_medium from './equities_and_mutual_funds_medium.js'
 import exclamation_circled_medium from './exclamation_circled_medium.js'
 import exclamation_triangle_medium from './exclamation_triangle_medium.js'
+import facebook_medium from './facebook_medium.js'
 import factory_medium from './factory_medium.js'
 import file_add_medium from './file_add_medium.js'
 import file_contract_medium from './file_contract_medium.js'
@@ -113,12 +114,14 @@ import house_2_medium from './house_2_medium.js'
 import house_value_medium from './house_value_medium.js'
 import information_bubble_medium from './information_bubble_medium.js'
 import information_circled_medium from './information_circled_medium.js'
+import instagram_medium from './instagram_medium.js'
 import insurance_medium from './insurance_medium.js'
 import kid_number_medium from './kid_number_medium.js'
 import language_medium from './language_medium.js'
 import launch_medium from './launch_medium.js'
 import leaf_medium from './leaf_medium.js'
 import lightbulb_medium from './lightbulb_medium.js'
+import linkedin_medium from './linkedin_medium.js'
 import list_medium from './list_medium.js'
 import loan_in_medium from './loan_in_medium.js'
 import loan_medium from './loan_medium.js'
@@ -185,6 +188,7 @@ import stopwatch_medium from './stopwatch_medium.js'
 import subtract_circled_medium from './subtract_circled_medium.js'
 import support_medium from './support_medium.js'
 import swap_medium from './swap_medium.js'
+import tag_medium from './tag_medium.js'
 import thumbs_down_medium from './thumbs_down_medium.js'
 import thumbs_up_medium from './thumbs_up_medium.js'
 import tractor_medium from './tractor_medium.js'
@@ -278,6 +282,7 @@ export {
   equities_and_mutual_funds_medium,
   exclamation_circled_medium,
   exclamation_triangle_medium,
+  facebook_medium,
   factory_medium,
   file_add_medium,
   file_contract_medium,
@@ -321,12 +326,14 @@ export {
   house_value_medium,
   information_bubble_medium,
   information_circled_medium,
+  instagram_medium,
   insurance_medium,
   kid_number_medium,
   language_medium,
   launch_medium,
   leaf_medium,
   lightbulb_medium,
+  linkedin_medium,
   list_medium,
   loan_in_medium,
   loan_medium,
@@ -393,6 +400,7 @@ export {
   subtract_circled_medium,
   support_medium,
   swap_medium,
+  tag_medium,
   thumbs_down_medium,
   thumbs_up_medium,
   tractor_medium,

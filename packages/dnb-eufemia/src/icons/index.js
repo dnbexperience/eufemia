@@ -195,6 +195,8 @@ import exclamation_circled_medium from './exclamation_circled_medium.js'
 import exclamation_medium from './exclamation_medium.js'
 import exclamation_triangle from './exclamation_triangle.js'
 import exclamation_triangle_medium from './exclamation_triangle_medium.js'
+import facebook from './facebook.js'
+import facebook_medium from './facebook_medium.js'
 import factory from './factory.js'
 import factory_medium from './factory_medium.js'
 import file from './file.js'
@@ -285,6 +287,8 @@ import information_bubble_medium from './information_bubble_medium.js'
 import information_circled from './information_circled.js'
 import information_circled_medium from './information_circled_medium.js'
 import information_medium from './information_medium.js'
+import instagram from './instagram.js'
+import instagram_medium from './instagram_medium.js'
 import insurance from './insurance.js'
 import insurance_medium from './insurance_medium.js'
 import kid_number from './kid_number.js'
@@ -297,6 +301,8 @@ import leaf from './leaf.js'
 import leaf_medium from './leaf_medium.js'
 import lightbulb from './lightbulb.js'
 import lightbulb_medium from './lightbulb_medium.js'
+import linkedin from './linkedin.js'
+import linkedin_medium from './linkedin_medium.js'
 import list from './list.js'
 import list_medium from './list_medium.js'
 import loan from './loan.js'
@@ -440,6 +446,8 @@ import support from './support.js'
 import support_medium from './support_medium.js'
 import swap from './swap.js'
 import swap_medium from './swap_medium.js'
+import tag from './tag.js'
+import tag_medium from './tag_medium.js'
 import thumbs_down from './thumbs_down.js'
 import thumbs_down_medium from './thumbs_down_medium.js'
 import thumbs_up from './thumbs_up.js'
@@ -679,6 +687,8 @@ export {
   exclamation_medium,
   exclamation_triangle,
   exclamation_triangle_medium,
+  facebook,
+  facebook_medium,
   factory,
   factory_medium,
   file,
@@ -769,6 +779,8 @@ export {
   information_circled,
   information_circled_medium,
   information_medium,
+  instagram,
+  instagram_medium,
   insurance,
   insurance_medium,
   kid_number,
@@ -781,6 +793,8 @@ export {
   leaf_medium,
   lightbulb,
   lightbulb_medium,
+  linkedin,
+  linkedin_medium,
   list,
   list_medium,
   loan,
@@ -924,6 +938,8 @@ export {
   support_medium,
   swap,
   swap_medium,
+  tag,
+  tag_medium,
   thumbs_down,
   thumbs_down_medium,
   thumbs_up,

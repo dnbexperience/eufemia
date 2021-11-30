@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-function information_circled_medium(props) {
+function facebook_medium(props) {
   return (
     <svg
       width={24}
@@ -13,15 +13,14 @@ function information_circled_medium(props) {
       {...props}
     >
       <path
-        d="M14.25 16.5H13.5C12.6716 16.5 12 15.8284 12 15V11.25C12 10.8358 11.6642 10.5 11.25 10.5H10.5M23.25 12C23.25 18.2132 18.2132 23.25 12 23.25C5.7868 23.25 0.75 18.2132 0.75 12C0.75 5.7868 5.7868 0.75 12 0.75C18.2132 0.75 23.25 5.7868 23.25 12Z"
+        d="M18 8.00689H13.8303V6.09773C13.775 5.53519 14.2295 4.99525 14.8091 4.99822H17.7455V1H13.5073C9.66069 1 8.93638 3.99867 8.93638 5.85784V8.00689H6V12.0051H8.93638V23H13.8303V12.0051H17.5987L18 8.00689Z"
         stroke="black"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <circle cx={11.5} cy={7} r={1} fill="black" />
     </svg>
   )
 }
 
-export default information_circled_medium
+export default facebook_medium
