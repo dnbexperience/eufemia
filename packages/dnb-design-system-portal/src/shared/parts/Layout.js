@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import classnames from 'classnames'
 import styled from '@emotion/styled'
-import { Global } from '@emotion/react'
+import { css, Global } from '@emotion/react'
 import MainMenu from '../menu/MainMenu'
 import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
@@ -81,7 +81,7 @@ class Layout extends React.PureComponent {
   }
 
   isFullscreen() {
-    const { location, fullscreen } = this.props
+    const { fullscreen, location } = this.props
     return (
       fullscreen ||
       (typeof location !== 'undefined' &&
@@ -96,6 +96,9 @@ class Layout extends React.PureComponent {
 
     return (
       <>
+        <Global styles={portalStyle} />
+        {fs && <Global styles={fullscreenStyles} />}
+
         <a
           className="dnb-skip-link"
           href="#dnb-app-content"
@@ -149,7 +152,7 @@ const Wrapper = styled.div`
   }
 `
 
-const Content = ({ className, fullscreen, children }) => (
+const Content = ({ fullscreen = false, className = null, children }) => (
   <ContentWrapper
     className={classnames(
       'dnb-app-content',
@@ -158,7 +161,6 @@ const Content = ({ className, fullscreen, children }) => (
     )}
   >
     {children}
-    <Global styles={portalStyle} />
   </ContentWrapper>
 )
 Content.propTypes = {
@@ -235,6 +237,13 @@ const StyledMain = styled.main`
   width: 100%;
   min-height: 90vh;
   padding: 0 2rem;
+`
+
+const fullscreenStyles = css`
+  :root {
+    /* ensure the sidebar has not left over margin during fullscreen (SSR issue) */
+    --aside-width-fullscreen: 0;
+  }
 `
 
 const FooterWrapper = styled.footer`
