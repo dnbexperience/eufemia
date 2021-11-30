@@ -831,22 +831,9 @@ export class InteractionInvalidation {
           ) {
             node._orig_ariahidden = node.getAttribute('aria-hidden')
           }
-          // Skip the outline for now - or does it give a value?
-          // if (
-          //   node &&
-          //   typeof node._orig_outline === 'undefined' &&
-          //   node.style.outline
-          // ) {
-          //   node._orig_outline = node.style.outline
-          // }
 
           node.setAttribute('tabindex', '-1')
           node.setAttribute('aria-hidden', 'true')
-
-          // tabindex=-1 does not prevent the mouse from focusing the node (which
-          // would show a focus outline around the element). prevent this by disabling
-          // outline styles while the modal is open
-          // node.style.outline = 'none'
         } catch (e) {
           //
         }
@@ -876,14 +863,6 @@ export class InteractionInvalidation {
         } else {
           node.removeAttribute('aria-hidden')
         }
-
-        // Skip the outline for now - or does it give a value?
-        // if (node && typeof node._orig_outline !== 'undefined') {
-        //   node.style.outline = node._orig_outline
-        //   delete node._orig_outline
-        // } else if(node.style) {
-        //   node.style.outline = null
-        // }
       } catch (e) {
         //
       }
