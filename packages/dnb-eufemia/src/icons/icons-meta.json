@@ -1379,6 +1379,30 @@
     "name": "objects/cloud_16",
     "variant": "secondary"
   },
+  "instagram": {
+    "tags": [],
+    "created": 1638272829307,
+    "name": "essentials/instagram_16",
+    "variant": "secondary"
+  },
+  "linkedin": {
+    "tags": [],
+    "created": 1638272829676,
+    "name": "essentials/linkedin_16",
+    "variant": "secondary"
+  },
+  "facebook": {
+    "tags": [],
+    "created": 1638272830000,
+    "name": "essentials/facebook_16",
+    "variant": "secondary"
+  },
+  "tag": {
+    "tags": [],
+    "created": 1638272843722,
+    "name": "objects/tag_16",
+    "variant": "secondary"
+  },
   "products_account_percent": {
     "tags": ["Loan value ratio"],
     "created": 1623927453967,
