@@ -1,12 +1,21 @@
 ---
-title: 'Known issues'
+title: 'FAQ'
+order: 7
+icon: 'helper_classes'
 ---
 
-# Known issues
+# Frequently Asked Questions (FAQ)
 
-## Dependencies
+## How to enable lint-staged?
 
-## node-sass vs sass
+Create a file called `.env.local` in the root of the repo (side-by-side to the .git folder), and put `LINT_STAGED=1` inside:
+
+```bash
+# File: .env.local
+LINT_STAGED=1
+```
+
+## Issue: node-sass vs sass
 
 The Portal (documentations) uses dart based `sass`, while the bundle and build process of the package `@dnb/eufemia` uses `node-sass` – because:
 
@@ -29,9 +38,9 @@ The Portal (documentations) uses dart based `sass`, while the bundle and build p
 
 - v14 has changed a good amount of their default styling rules. Updating would require us to refactor a good amount of SCSS code. We are currently on v13.
 
-## Storybook
+## Issue: Storybook
 
-The sandbox Storybook setup is using the default `@storybook/preset-scss` addon with the recommended dependencies. But for some reason, we cant use the latest versions of the following dependencies:
+The sandbox Storybook setup is using the default `@storybook/preset-scss` addon with the recommended dependencies. But for some reason, we can't use the latest versions of the following dependencies:
 
 - `sass-loader` v10.2.0
 - `style-loader` v2.0.0
@@ -41,7 +50,7 @@ We get else this error:
 
 > Type Error: this.getOptions is not a function for style-loader
 
-## Yarn PnP
+## Issue: Yarn PnP
 
 Currently, Eufemia uses yarn v3 with `node_modules`.
 
@@ -59,3 +68,21 @@ When switching over to Yarn PnP, there are some issues:
   ```bash
   gatsby-plugin-mdx tried to access mkdirp, but it isn't declared in its dependencies; this makes the require call ambiguous and unsound.
   ```
+
+## How can I make faster builds?
+
+In order to make faster local builds, you can:
+
+- Inside `gatsby-config.js` rename all sourcing from `/docs` to `/docs_dummy`
+
+Run `yarn workspace dnb-design-system-portal build`
+
+## I get Gatsby 404 Not Found on the pages I work on
+
+- Try cleaning cache: `yarn workspace dnb-design-system-portal gatsby clean`
+- Try running `yarn build` again
+
+## I get an error importing other components in my .tsx file
+
+You might get an error importing .js files in typescript files.
+Then you have to extract their typescript files .d.ts by changing _included files_ in `generateTypes.js` and then run `yarn build:types:dev`.

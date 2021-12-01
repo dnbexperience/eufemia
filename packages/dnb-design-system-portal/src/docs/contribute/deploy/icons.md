@@ -2,13 +2,19 @@
 title: 'Icons Library'
 ---
 
-# Icons Library development
+# Icons Library
 
 To fetch new icons from the Figma Icons file, you have to:
 
-1. re-branch `main`, and name it `eufemia-icons` (it needs to include icons in the name): `git checkout main && git pull origin main && git checkout -b eufemia-icons && git push -u origin eufemia-icons`.
-1. after the CI/CD process and finished, make a PR back to `main`, review and squash merge it.
-1. depending on the icons updated, you may have to pull the changes down locally, and run all tests, to eventually update broken visual snapshots. But ideally, all of that should be handled during the CI/CD process.
+1. Re-branch `main`, and name it `eufemia-icons` (it needs to include icons in the name):
+   ```bash
+   git checkout main && git pull origin main
+   ```
+   ```bash
+   git checkout -b eufemia-icons && git push -u origin eufemia-icons
+   ```
+1. After the CI/CD process and finished, make a PR back to `main`, review and squash merge it.
+1. Depending on the icons updated, you may have to pull the changes down locally, and run all tests, to eventually update broken visual snapshots. But ideally, all of that should be handled during the CI/CD process.
 
 ## Icons CI/CD process description
 
