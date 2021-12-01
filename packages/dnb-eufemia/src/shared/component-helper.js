@@ -7,15 +7,15 @@ import React from 'react'
 import keycode from 'keycode'
 import whatInput from 'what-input'
 import { registerElement } from './custom-element'
-import { IS_IE11 } from './helpers'
+import {
+  warn,
+  IS_IE11,
+  PLATFORM_MAC,
+  PLATFORM_WIN,
+  PLATFORM_LINUX,
+} from './helpers'
 
-export { registerElement }
-
-export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'
-export const PLATFORM_WIN = 'Win'
-export const PLATFORM_ANDROID = 'Android'
-export const PLATFORM_LINUX = 'Linux'
-export const PLATFORM_IOS = 'iOS|iPhone|iPad|iPod'
+export { registerElement, warn }
 
 if (
   typeof process !== 'undefined' &&
@@ -724,17 +724,6 @@ export const isInsideScrollView = (
     return elem == window ? null : elem
   }
   return elem == window ? false : Boolean(elem)
-}
-
-export const warn = (...e) => {
-  if (
-    typeof process !== 'undefined' &&
-    process.env.NODE_ENV !== 'production' &&
-    typeof console !== 'undefined' &&
-    typeof console.log === 'function'
-  ) {
-    console.log('Eufemia:', ...e)
-  }
 }
 
 export const convertJsxToString = (elements, separator = undefined) => {
