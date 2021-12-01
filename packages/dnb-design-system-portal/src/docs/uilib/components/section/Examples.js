@@ -10,7 +10,7 @@ export const SectionDemo = () => (
   <ComponentBox hideCode data-visual-test="section-default">
     {() => /* jsx */ `
 <Section>
-	<P top="xx-large">Visual DNB Section: <Anchor href="#">default</Anchor></P>
+	<P>Visual DNB Section: <Anchor href="#">default</Anchor></P>
 </Section>
 `}
   </ComponentBox>

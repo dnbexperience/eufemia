@@ -11,7 +11,9 @@
 
   &__bar.dnb-section {
     display: flex;
-    padding: var(--spacing-small) 0 var(--spacing-x-small) 0;
+  }
+  &--spacing &__bar.dnb-section {
+    padding: var(--spacing-x-small) 0;
   }
 
   &__list {
@@ -37,18 +39,19 @@
         margin-left: calc(var(--button-icon-size) / 2);
         margin-right: 0.5rem;
       }
-
-      color: var(--color-black-80);
     }
   }
 
   &__collapse {
     display: flex;
     flex-direction: column;
-    padding: var(--spacing-x-small) var(--spacing-large);
+    padding: 0 var(--spacing-large);
   }
   &__collapse &__list {
     flex-direction: column;
     align-items: flex-start;
+  }
+  &--spacing &__collapse {
+    padding: var(--spacing-x-small) var(--spacing-large);
   }
 }
