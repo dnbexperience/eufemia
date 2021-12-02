@@ -16,7 +16,7 @@ You will either create your own mask, or use one of the provided once. There are
 
 Screen readers will read also the mask before the user is entering content. Also the user will hear the mask during typing. This behavior can both have positive and negative side effects to the user. But overall, it works ok.
 
-Both entering a coma or a dot will act as a decimal separator if [decimals are enabled](https://eufemia.dnb.no/uilib/components/input-masked#decimals) and one of the internal masks for numbers is used.
+Both entering a coma or a dot will act as a decimal separator if [decimals are enabled](/uilib/components/input-masked#decimals) and one of the internal masks for numbers is used.
 
 #### InputMode
 

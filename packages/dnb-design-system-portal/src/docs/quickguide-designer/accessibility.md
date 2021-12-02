@@ -96,7 +96,7 @@ Responsive component and layout design should be planned from the beginning and 
 
 NB: Move this section to it's own menu item pages
 
-Building an accessible interface starts at the UX stage of design. Ideally a designer should be able to convey to a developer how they would like a keyboard user to use and navigate through an interface. Much of the DNB Design System's styling and development have taken accessibility into consideration to a certain extent (see https://eufemia.dnb.no/uilib/usage/accessibility). However, each interface design comes with it's own challenges and requirement
+Building an accessible interface starts at the UX stage of design. Ideally a designer should be able to convey to a developer how they would like a keyboard user to use and navigate through an interface. Much of the DNB Design System's styling and development have taken accessibility into consideration to a certain extent, see [Accessibility](/uilib/usage/accessibility). However, each interface design comes with it's own challenges and requirement
 
 - make sure the content is perceivable - ensure good contrast between background and foreground
 - plan how you would like a keyboard navigator to access interface laments/areas. What will the order of tabbing be?

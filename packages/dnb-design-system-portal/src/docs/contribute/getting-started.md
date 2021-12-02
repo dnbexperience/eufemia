@@ -66,7 +66,7 @@ Run an environment with either `yarn dev` (for Storybook sandbox) or `yarn start
 
 ### Styling, css and scss of components
 
-Use the same sass setup as all the other components. You may re-use all the [helper classes](https://eufemia.dnb.no/uilib/helpers/classes):
+Use the same sass setup as all the other components. You may re-use all the [helper classes](/uilib/helpers/classes):
 
 - `./packages/dnb-eufemia/src/style/core/utilities.scss`
 - `./packages/dnb-eufemia/src/style/core/properties.scss`
@@ -157,7 +157,7 @@ function MyComponent(props: Types) {
 
 #### Spacing support
 
-It depends from case to case on how you would make [spacing](https://eufemia.dnb.no/uilib/components/space) support available. But you may always give the developer to send in the spacing properties to the very root element of your component.
+It depends from case to case on how you would make [spacing](/uilib/components/space) support available. But you may always give the developer to send in the spacing properties to the very root element of your component.
 
 ```tsx
 import { Context } from '../../shared'
@@ -211,7 +211,7 @@ function MyComponent(props: MyComponentProps) {
 
 #### Skeleton support
 
-It depends from case to case on how you would make skeleton support available. There are also more info on how to create a [custom skeleton](https://eufemia.dnb.no/uilib/components/skeleton#create-custom-skeleton). But in case your component supports the `skeleton` boolean property, then you may ensure it both can be set locally on the component, and it reacts on the global Context.
+It depends from case to case on how you would make skeleton support available. There are also more info on how to create a [custom skeleton](/uilib/components/skeleton#create-custom-skeleton). But in case your component supports the `skeleton` boolean property, then you may ensure it both can be set locally on the component, and it reacts on the global Context.
 
 ```tsx
 import { Context } from '../../shared'
