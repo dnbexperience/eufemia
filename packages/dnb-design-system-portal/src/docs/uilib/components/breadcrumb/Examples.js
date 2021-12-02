@@ -42,7 +42,7 @@ export const BreadcrumbMultipleData = () => (
   ];
   
   return (
-    <Breadcrumb data={pages} />
+    <Breadcrumb data={pages} spacing/>
   )
 }
 `}
@@ -52,7 +52,7 @@ export const BreadcrumbMultipleData = () => (
 export const BreadcrumbMultiple = () => (
   <ComponentBox data-visual-test="breadcrumb-multiple-children">
     {() => /* jsx */ `
-<Breadcrumb>
+<Breadcrumb spacing>
   <Breadcrumb.Item onClick={() => {console.log("go home!")}} variant="home" />
   <Breadcrumb.Item text="Page item" onClick={() => {console.log("go to page 1")}} />
   <Breadcrumb.Item text="Page item" onClick={() => {console.log("go to page 2")}} variant="current" />
@@ -82,7 +82,7 @@ export const BreadcrumbVariants = () => (
   
   return (
     // Try changing variant here
-    <Breadcrumb variant="collapse" data={pages} />
+    <Breadcrumb variant="collapse" data={pages} spacing/>
   )
 }
 `}
@@ -112,7 +112,7 @@ export const BreadcrumbCollapseOpen = () => (
   ];
   
   return (
-    <Breadcrumb variant="collapse" data={pages} isCollapsed={false} />
+    <Breadcrumb variant="collapse" data={pages} isCollapsed={false} spacing />
   )
 }
 `}
