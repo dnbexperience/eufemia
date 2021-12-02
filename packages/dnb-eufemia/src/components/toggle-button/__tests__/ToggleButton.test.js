@@ -25,15 +25,16 @@ props.readOnly = false
 props.global_status_id = 'main'
 
 describe('ToggleButton component', () => {
-  // then test the state management
-  const Comp = mount(<Component {...props} />)
-
   // mount compare the snapshot
   it('have to match snapshot', () => {
+    const Comp = mount(<Component {...props} />)
+
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('has correct state after "click" trigger', () => {
+    const Comp = mount(<Component {...props} />)
+
     // default checked value has to be false
     expect(
       Comp.find('.dnb-checkbox__input')
@@ -233,6 +234,8 @@ describe('ToggleButton component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
+    const Comp = mount(<Component {...props} />)
+
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
@@ -367,7 +370,59 @@ describe('ToggleButton group component', () => {
     expect(my_event.mock.calls[2][0].values).toEqual([])
   })
 
-  it('will let their items to be check/uncheck by external state', () => {
+  it('can be changed from props', () => {
+    const GroupOf = () => {
+      const [values, setValues] = React.useState(['second'])
+
+      const selectAll = () => setValues(['first', 'second'])
+      const deselectAll = () => setValues([])
+
+      return (
+        <>
+          <button id="select-all" onClick={selectAll}>
+            select
+          </button>
+          <button id="deselect-all" onClick={deselectAll}>
+            deselect
+          </button>
+          <Component.Group id="group" multiselect values={values}>
+            <Component
+              variant="checkbox"
+              id="toggle-button-1"
+              text="ToggleButton 1"
+              value="first"
+            />
+            <Component
+              variant="checkbox"
+              id="toggle-button-2"
+              text="ToggleButton 2"
+              value="second"
+            />
+          </Component.Group>
+        </>
+      )
+    }
+
+    const Comp = mount(<GroupOf />)
+
+    const first = Comp.find('button#toggle-button-1')
+    const second = Comp.find('button#toggle-button-2')
+
+    expect(first.instance().getAttribute('aria-pressed')).toBe('false')
+    expect(second.instance().getAttribute('aria-pressed')).toBe('true')
+
+    Comp.find('button#select-all').simulate('click')
+
+    expect(first.instance().getAttribute('aria-pressed')).toBe('true')
+    expect(second.instance().getAttribute('aria-pressed')).toBe('true')
+
+    Comp.find('button#deselect-all').simulate('click')
+
+    expect(first.instance().getAttribute('aria-pressed')).toBe('false')
+    expect(second.instance().getAttribute('aria-pressed')).toBe('false')
+  })
+
+  it('will let their items to be check/uncheck by its siblings', () => {
     const Comp = mount(
       <Component.Group id="group" multiselect="true">
         <Component
