@@ -449,10 +449,10 @@ export const toKebabCase = (str) =>
 //     }, {})
 
 /**
- * [detectOutsideClick Detects a click outside a given DOM element]
- * @param  {[type]} ignoreElement [The element we want to protect from a click]
- * @param  {[type]} onSuccess     [Will be called on outside click]
- * @return {[type]}               [void]
+ * detectOutsideClick Detects a click outside a given DOM element
+ * @param  {type} ignoreElement The element we want to protect from a click
+ * @param  {type} onSuccess     Will be called on outside click
+ * @return {type}               void
  */
 export const detectOutsideClick = (ignoreElements, onSuccess, options) =>
   new DetectOutsideClickClass(ignoreElements, onSuccess, options)

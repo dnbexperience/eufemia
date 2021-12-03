@@ -27,6 +27,7 @@ import {
   findElementInChildren,
   matchAll,
   convertJsxToString,
+  getPreviousSibling,
   escapeRegexChars,
 } from '../component-helper'
 
@@ -672,6 +673,72 @@ describe('"convertJsxToString" should', () => {
   //     'reachable A|reachable B'
   //   )
   // })
+})
+
+describe('"getPreviousSibling" should', () => {
+  beforeAll(() => {
+    document.body.innerHTML = /* jsx */ `
+      <div class="sibling-c">
+        <div id="sibling-b" class="sibling-b">
+          <div id="sibling-a" class="sibling-a">
+            <div id="selector" class="selector">hi</div>
+          </div>
+        </div>
+      </div>
+`
+  })
+
+  it('return nested element based on class selector', () => {
+    const element = document.getElementById('selector')
+
+    expect(
+      getPreviousSibling('.sibling-a', element).getAttribute('class')
+    ).toBe('sibling-a')
+
+    expect(
+      getPreviousSibling('.sibling-b', element).getAttribute('class')
+    ).toBe('sibling-b')
+  })
+
+  it('return nested element based on default fallback class selector', () => {
+    const element = document.getElementById('selector')
+
+    expect(
+      getPreviousSibling('sibling-c', element).getAttribute('class')
+    ).toBe('sibling-c')
+
+    expect(
+      getPreviousSibling('sibling-b', element).getAttribute('class')
+    ).toBe('sibling-b')
+  })
+
+  it('return nested element based on id selector', () => {
+    const element = document.getElementById('selector')
+
+    expect(
+      getPreviousSibling('#sibling-a', element).getAttribute('id')
+    ).toBe('sibling-a')
+
+    expect(
+      getPreviousSibling('#sibling-b', element).getAttribute('id')
+    ).toBe('sibling-b')
+  })
+
+  it('return same element based on selector', () => {
+    const element = document.getElementById('selector')
+
+    expect(
+      getPreviousSibling('selector', element).getAttribute('class')
+    ).toBe('selector')
+
+    expect(
+      getPreviousSibling('.selector', element).getAttribute('class')
+    ).toBe('selector')
+
+    expect(
+      getPreviousSibling('#selector', element).getAttribute('id')
+    ).toBe('selector')
+  })
 })
 
 describe('"escapeRegexChars" should', () => {
