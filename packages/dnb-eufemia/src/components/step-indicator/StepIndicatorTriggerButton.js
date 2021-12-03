@@ -137,7 +137,7 @@ export default class StepIndicatorTriggerButton extends React.PureComponent {
           inner_ref={this._buttonRef}
         >
           <StepItemWrapper
-            number={this.context.activeStep + 1}
+            number={(this.context.activeStep || 0) + 1}
             hide_numbers={this.context.hide_numbers}
           >
             {(typeof item === 'string' ? item : item && item.title) || ''}

@@ -26,7 +26,7 @@ The step indicator has a optionally a Sidebar "sister" component you can place i
 
 ```jsx
 <main>
-	<StepIndicator sidebar_id="unique-id" mode="strict" />
+	<StepIndicator sidebar_id="unique-id" mode="strict" data={[...]} />
 </main>
 
 <aside>
@@ -34,9 +34,31 @@ The step indicator has a optionally a Sidebar "sister" component you can place i
 </aside>
 ```
 
+#### Sidebar and SSR
+
+**NB:** Keep in mind, if you SSR render the Sidebar **before** the main component, it has no access to the `data` and will show a basic skeleton to ensure the sidebar gets its width. This helps to lower the impact of unwanted layout shift.
+
+If you are able to provide the `data` to the Sidebar as well, it will use it during SSR render. You also can provide the data with a wrapper Eufemia Provider (You can nest Eufemia Providers):
+
+```jsx
+<Provider StepIndicator={{ data: [...] }}>
+  <main>
+    <StepIndicator sidebar_id="unique-id" mode="strict" />
+  </main>
+
+  <aside>
+    <StepIndicator.Sidebar sidebar_id="unique-id" />
+  </aside>
+</Provider>
+```
+
 ## Modes
 
 The mode property is mandatory. It tells the component how it should behave.
+
+- [`strict`](/uilib/components/step-indicator#strict-mode)
+- [`loose`](/uilib/components/step-indicator#loose-mode)
+- [`static`](/uilib/components/step-indicator#static-mode)
 
 ### Strict mode
 

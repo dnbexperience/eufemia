@@ -14,6 +14,10 @@
  */
 
 class EventEmitter {
+  static createInstance(id) {
+    return new EventEmitter(id)
+  }
+
   constructor(id) {
     scope.__EEE__ = scope.__EEE__ || {}
     if (!scope.__EEE__[id]) {
@@ -75,8 +79,4 @@ class EventEmitter {
 
 const scope = typeof window !== 'undefined' ? window : EventEmitter
 
-function createInstance(id) {
-  return new EventEmitter(id)
-}
-
-export default { createInstance }
+export default EventEmitter

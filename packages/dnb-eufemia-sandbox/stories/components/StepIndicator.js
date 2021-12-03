@@ -9,9 +9,66 @@ import { Wrapper, Box } from '../helpers'
 import { createBrowserHistory } from 'history'
 import { StepIndicator, Button, Space } from '@dnb/eufemia/src/components'
 import { Code } from '@dnb/eufemia/src/elements'
+import { Provider } from '@dnb/eufemia/src/shared'
 
 export default {
   title: 'Eufemia/Components/StepIndicator',
+}
+
+export function RenderDuringSSR() {
+  const [count, increment] = React.useState(0)
+
+  const data = [
+    {
+      title: 'Velg mottaker ' + count,
+    },
+    {
+      title: 'Bestill eller erstatt ' + count,
+      on_click: ({ current_step }) =>
+        console.log('current_step:', current_step),
+      status:
+        'Du må velge bestill nytt kort eller erstatt kort for å kunne fullføre bestillingen din.',
+    },
+    {
+      title: 'Oppsummering ' + count,
+    },
+  ]
+
+  return (
+    <>
+      <Provider StepIndicator={{ data }}>
+        <StepIndicator.Sidebar
+          // showInitialData
+          // top
+          id="sidebar"
+          sidebar_id="unique-id-strict"
+          // data={data}
+          // mode="loose"
+          // current_step={2}
+        />
+        <StepIndicator
+          // skeleton
+          id="main"
+          sidebar_id="unique-id-strict"
+          // mode="strict"
+          mode="loose"
+          data={data}
+          // current_step={0}
+          current_step={1}
+          on_change={({ current_step }) => {
+            console.log('on_change', current_step)
+          }}
+        />
+      </Provider>
+      <Button
+        top
+        on_click={() => {
+          increment((c) => c + 1)
+        }}
+        text="increment"
+      />
+    </>
+  )
 }
 
 const data = [

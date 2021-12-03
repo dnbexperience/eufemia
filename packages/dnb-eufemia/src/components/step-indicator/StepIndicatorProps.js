@@ -29,7 +29,7 @@ export const stepIndicatorPropTypes = {
         url_passed: PropTypes.string, // Deprecated
       })
     ),
-  ]).isRequired,
+  ]),
   overview_title: PropTypes.string,
   step_title_extended: PropTypes.string,
   step_title: PropTypes.string,

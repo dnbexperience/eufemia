@@ -35,15 +35,10 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
   use_navigation={true}
 >
   <StepIndicatorProvider
-    _active_item={1}
-    _active_url={null}
-    _current_step={null}
-    activeStep={1}
     active_item={1}
     active_url={null}
     class={null}
     className={null}
-    countSteps={3}
     current_step={null}
     data={
       Array [
@@ -60,6 +55,7 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
     }
     hide_numbers={false}
     internalId="unique-buttons"
+    isSidebar={false}
     isV1={true}
     listAttributes={
       Object {
@@ -95,23 +91,16 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
         "use_navigation": true,
       }
     }
-    listOfReachedSteps={
-      Array [
-        1,
-      ]
-    }
     mode={null}
     no_animation={null}
     on_change={null}
     on_click={null}
     on_item_render={null}
-    overview_title="Stegoversikt"
-    setActiveStep={[Function]}
+    overview_title={null}
     sidebar_id="unique-buttons"
-    step_title="Steg %step av %count"
-    step_title_extended="Du er på steg %step av %count"
-    stepsLabel="Steg 2 av 3"
-    stepsLabelExtended="Du er på steg 2 av 3"
+    skeleton={false}
+    step_title={null}
+    step_title_extended={null}
     use_navigation={true}
   >
     <div
@@ -341,15 +330,10 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
   use_navigation={null}
 >
   <StepIndicatorProvider
-    _active_item={null}
-    _active_url="?b"
-    _current_step={null}
-    activeStep={1}
     active_item={null}
     active_url="?b"
     class={null}
     className={null}
-    countSteps={3}
     current_step={null}
     data={
       Array [
@@ -370,6 +354,7 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
     }
     hide_numbers={false}
     internalId="unique"
+    isSidebar={false}
     isV1={true}
     listAttributes={
       Object {
@@ -409,23 +394,16 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
         "use_navigation": null,
       }
     }
-    listOfReachedSteps={
-      Array [
-        1,
-      ]
-    }
     mode={null}
     no_animation={null}
     on_change={null}
     on_click={null}
     on_item_render={null}
-    overview_title="Stegoversikt"
-    setActiveStep={[Function]}
+    overview_title={null}
     sidebar_id="unique"
-    step_title="Steg %step av %count"
-    step_title_extended="Du er på steg %step av %count"
-    stepsLabel="Steg 2 av 3"
-    stepsLabelExtended="Du er på steg 2 av 3"
+    skeleton={false}
+    step_title={null}
+    step_title_extended={null}
     use_navigation={null}
   >
     <div
@@ -900,11 +878,19 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
     background-color: currentColor;
     box-shadow: 100vw 0 0 0 currentColor; }
 
-.dnb-step-indicator__sidebar {
-  max-width: 20rem;
-  margin-right: var(--spacing-x-large); }
-  .dnb-step-indicator__sidebar .dnb-step-indicator__item {
-    min-width: 320px; }
+@media screen and (min-width: 50.1em) {
+  .dnb-step-indicator__sidebar {
+    max-width: 20rem;
+    margin-right: var(--spacing-x-large); }
+    .dnb-step-indicator__sidebar .dnb-step-indicator__item {
+      min-width: 320px; } }
+
+@media screen and (max-width: 50.1em) {
+  .dnb-step-indicator__sidebar--ssr-skeleton {
+    visibility: hidden;
+    overflow: hidden;
+    width: 0;
+    height: 5.5rem; } }
 
 .dnb-step-indicator-v2 .dnb-step-indicator__list {
   display: flex;
