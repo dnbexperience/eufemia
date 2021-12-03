@@ -672,26 +672,27 @@ export default class DrawerListProvider extends React.PureComponent {
     //   return // stop here
     // }
 
-    // stop here if the focus is not set
-    // and the drawer is opened by default
-    if (
-      isTrue(this.props.prevent_close)
-      // TODO: Has to be worked on better!
-      // !isTrue(this.props.prevent_focus)
-    ) {
+    // If prevent_close is enabled,
+    // there may be several other drawer-lists on the page
+    // with this check, we ensure we only allow the currently active one to be controlled by keys
+    if (isTrue(this.props.prevent_close)) {
       let isSameDrawer = false
-      try {
-        const ulElem = getPreviousSibling(
-          'dnb-drawer-list__options',
-          document.activeElement
-        )
 
+      try {
         isSameDrawer =
-          ulElem === this._refUl.current ||
-          ulElem?.getAttribute('id') === this.props.id
+          this.props.id === DrawerListProvider._activeDrawerId ||
+          getPreviousSibling(
+            '#' + this.props.id,
+            document.activeElement
+          ) ||
+          getPreviousSibling(
+            '#' + this.props.id + '-ul',
+            document.activeElement
+          )
       } catch (e) {
         warn(e)
       }
+
       if (!isSameDrawer && key !== 'tab') {
         return // stop here
       }
@@ -997,7 +998,10 @@ export default class DrawerListProvider extends React.PureComponent {
         this._refRoot.current,
         this._refUl.current,
       ],
-      () => this.setHidden({ preventHideFocus: true }),
+      () => {
+        DrawerListProvider._activeDrawerId = null
+        this.setHidden({ preventHideFocus: true })
+      },
       { includedKeys: ['tab'] }
     )
 
@@ -1230,6 +1234,10 @@ export default class DrawerListProvider extends React.PureComponent {
     return this
   }
 
+  setActiveDrawer = (drawerId) => {
+    DrawerListProvider._activeDrawerId = drawerId
+  }
+
   selectItemAndClose = (itemToSelect, args = {}) => {
     args.closeOnSelection = true
     return this.selectItem(itemToSelect, args)
@@ -1340,6 +1348,7 @@ export default class DrawerListProvider extends React.PureComponent {
             toggleVisible: this.toggleVisible,
             selectItem: this.selectItem,
             selectItemAndClose: this.selectItemAndClose,
+            setActiveDrawer: this.setActiveDrawer,
             scrollToItem: this.scrollToItem,
             setActiveItemAndScrollToIt: this.setActiveItemAndScrollToIt,
             ...this.state,

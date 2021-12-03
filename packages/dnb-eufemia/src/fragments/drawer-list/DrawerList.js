@@ -135,6 +135,7 @@ class DrawerListInstance extends React.PureComponent {
     // if (getPreviousSibling('dnb-number-format', event.target)) {
     //   return // stop
     // }
+
     const selected_item = parseFloat(
       event.currentTarget.getAttribute('data-item')
     )
@@ -144,6 +145,8 @@ class DrawerListInstance extends React.PureComponent {
         event,
       })
     }
+
+    this.context.drawerList.setActiveDrawer(this._id)
   }
 
   render() {
