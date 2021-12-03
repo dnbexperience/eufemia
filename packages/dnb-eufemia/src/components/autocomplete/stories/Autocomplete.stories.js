@@ -206,6 +206,39 @@ const AutocompleteWithState = () => {
   )
 }
 
+export const AutocompleteLimit = () => {
+  const data = []
+
+  const topMovies = [
+    { content: 'aaa' },
+    { content: 'bbb' },
+    { content: 'ccc' },
+  ]
+  const multi = 20
+  const total = topMovies.length
+
+  for (let i = 0, l = total * multi; i < l; ++i) {
+    console.log('c', i % l)
+    const item = topMovies[i % total]
+    item.__id = i
+    data.push(item)
+  }
+
+  return (
+    <Autocomplete
+      opened
+      prevent_close
+      // no_animation
+      // input_value="the"
+      input_value="a"
+      show_clear_button
+      show_submit_button
+      // limit_results={2}
+      data={data}
+    />
+  )
+}
+
 export const AutocompleteSandbox = () => {
   // const [data, setData] = useState(autocompleteData)
   // const [value, setSelectedItem] = useState(0)
