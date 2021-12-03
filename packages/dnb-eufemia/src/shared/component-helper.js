@@ -7,14 +7,15 @@ import React from 'react'
 import keycode from 'keycode'
 import whatInput from 'what-input'
 import { registerElement } from './custom-element'
+import {
+  warn,
+  IS_IE11,
+  PLATFORM_MAC,
+  PLATFORM_WIN,
+  PLATFORM_LINUX,
+} from './helpers'
 
-export { registerElement }
-
-export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'
-export const PLATFORM_WIN = 'Win'
-export const PLATFORM_ANDROID = 'Android'
-export const PLATFORM_LINUX = 'Linux'
-export const PLATFORM_IOS = 'iOS|iPhone|iPad|iPod'
+export { registerElement, warn }
 
 if (
   typeof process !== 'undefined' &&
@@ -725,17 +726,6 @@ export const isInsideScrollView = (
   return elem == window ? false : Boolean(elem)
 }
 
-export const warn = (...e) => {
-  if (
-    typeof process !== 'undefined' &&
-    process.env.NODE_ENV !== 'production' &&
-    typeof console !== 'undefined' &&
-    typeof console.log === 'function'
-  ) {
-    console.log('Eufemia:', ...e)
-  }
-}
-
 export const convertJsxToString = (elements, separator = undefined) => {
   if (!Array.isArray(elements)) {
     elements = [elements]
@@ -793,136 +783,133 @@ export class InteractionInvalidation {
   }
 
   activate(targetElement = null) {
-    if (!this.nodesToInvalidate) {
+    if (!this._nodesToInvalidate) {
       this._runInvalidaiton(targetElement)
     }
   }
 
   revert() {
     this._revertInvalidation()
-    this.nodesToInvalidate = null
+    this._nodesToInvalidate = null
   }
 
   _runInvalidaiton(targetElement) {
-    if (
-      typeof document === 'undefined'
-      // || isTouchDevice() // as for now, we do the same on touch devices
-    ) {
+    if (typeof document === 'undefined') {
       return // stop here
     }
 
-    this.nodesToInvalidate = this.getNodesToInvalidate(targetElement)
+    this._nodesToInvalidate = this.getNodesToInvalidate(targetElement)
 
-    if (Array.isArray(this.nodesToInvalidate)) {
-      this.nodesToInvalidate.forEach((node) => {
-        try {
-          // save the previous tabindex state so we can restore it on close
-          if (
-            node &&
-            typeof node._orig_tabindex === 'undefined' &&
-            node.hasAttribute('tabindex')
-          ) {
-            node._orig_tabindex = node.getAttribute('tabindex')
-          }
-          if (
-            node &&
-            typeof node._orig_ariahidden === 'undefined' &&
-            node.hasAttribute('aria-hidden')
-          ) {
-            node._orig_ariahidden = node.getAttribute('aria-hidden')
-          }
-          // Skip the outline for now - or does it give a value?
-          // if (
-          //   node &&
-          //   typeof node._orig_outline === 'undefined' &&
-          //   node.style.outline
-          // ) {
-          //   node._orig_outline = node.style.outline
-          // }
+    // 1. Save the previous tabindex and aria-hidden state so we can restore it on close
+    // 2. And invalidate the node
+    for (const node of this._nodesToInvalidate) {
+      if (!node) {
+        continue
+      }
 
-          node.setAttribute('tabindex', '-1')
-          node.setAttribute('aria-hidden', 'true')
+      const tabindex = node.getAttribute('tabindex')
+      const ariahidden = node.getAttribute('aria-hidden')
 
-          // tabindex=-1 does not prevent the mouse from focusing the node (which
-          // would show a focus outline around the element). prevent this by disabling
-          // outline styles while the modal is open
-          // node.style.outline = 'none'
-        } catch (e) {
-          //
-        }
-      })
+      const dataset = node.dataset
+
+      if (tabindex !== null && typeof dataset._tabindex === 'undefined') {
+        node.dataset._tabindex = tabindex
+      }
+      if (
+        ariahidden !== null &&
+        typeof dataset._ariahidden === 'undefined'
+      ) {
+        node.dataset._ariahidden = ariahidden
+      }
+
+      node.setAttribute('tabindex', '-1')
+      node.setAttribute('aria-hidden', 'true')
     }
   }
 
   _revertInvalidation() {
-    if (!this.nodesToInvalidate) {
+    if (!Array.isArray(this._nodesToInvalidate)) {
       return // stop here
     }
 
     // restore or remove tabindex and aria-hidden from nodes
-    this.nodesToInvalidate.forEach((node) => {
-      try {
-        if (node && typeof node._orig_tabindex !== 'undefined') {
-          node.setAttribute('tabindex', node._orig_tabindex)
-          node._orig_tabindex = null
-          delete node._orig_tabindex
-        } else {
-          node.removeAttribute('tabindex')
-        }
-        if (node && typeof node._orig_ariahidden !== 'undefined') {
-          node.setAttribute('aria-hidden', node._orig_ariahidden)
-          node._orig_ariahidden = null
-          delete node._orig_ariahidden
-        } else {
-          node.removeAttribute('aria-hidden')
-        }
-
-        // Skip the outline for now - or does it give a value?
-        // if (node && typeof node._orig_outline !== 'undefined') {
-        //   node.style.outline = node._orig_outline
-        //   delete node._orig_outline
-        // } else if(node.style) {
-        //   node.style.outline = null
-        // }
-      } catch (e) {
-        //
+    for (const node of this._nodesToInvalidate) {
+      if (!node) {
+        continue
       }
-    })
+
+      if (typeof node.dataset._tabindex !== 'undefined') {
+        node.setAttribute('tabindex', node.dataset._tabindex)
+        node.dataset._tabindex = null
+      } else {
+        node.removeAttribute('tabindex')
+      }
+      if (typeof node.dataset._ariahidden !== 'undefined') {
+        node.setAttribute('aria-hidden', node.dataset._ariahidden)
+        node.dataset._ariahidden = null
+      } else {
+        node.removeAttribute('aria-hidden')
+      }
+    }
   }
 
   getNodesToInvalidate(targetElement = null) {
     if (typeof document === 'undefined') {
-      return // stop here
+      return [] // stop here
     }
 
     if (typeof targetElement === 'string') {
       targetElement = document.querySelector(targetElement)
     }
 
-    const skipTheseNodes =
-      this.bypassSelectors && this.bypassSelectors.length > 0
-        ? Array.from(
-            (this.bypassElement || document).querySelectorAll(
-              this.bypassSelectors
-                ? this.bypassSelectors.map((s) => `${s} *`).join(', ')
-                : '*'
-            )
-          )
-        : []
-
     // by only finding elements that do not have tabindex="-1" we ensure we don't
     // corrupt the previous state of the element if a modal was already open
     const rootSelector = targetElement ? '*' : 'html *'
+
     const elementSelector = this.bypassSelectors
       .map((s) => `:not(${s})`)
       .join('')
-    const selector = `${rootSelector} ${elementSelector}:not(script):not(style):not(path)`
+
+    const selector = `${rootSelector} ${elementSelector}:not(script):not(style):not(path):not(head *)`
+
+    // JSDOM and IE11 has issues with the selector :not(x *), so we used it only in the browser,
+    // so we remove the asterisk from the selector, but add it to the exclude selectors list and make another querySelectorAll call
+    // - so we query all bypass selectors with "asterisk" manually
+    if (IS_IE11 || process.env.NODE_ENV === 'test') {
+      const excludeSelectors = []
+
+      const testSelector = selector
+        .split(':')
+        .map((localSel) => {
+          if (localSel.endsWith(' *)')) {
+            excludeSelectors.push(
+              ...Array.from(
+                (
+                  targetElement || document.documentElement
+                ).querySelectorAll(localSel.match(/\(([^)]*)\)/)[1])
+              )
+            )
+            localSel = localSel.replace(' *', '')
+          }
+
+          return localSel
+        })
+        .join(':')
+
+      return Array.from(
+        (targetElement || document.documentElement).querySelectorAll(
+          testSelector
+        )
+      ).filter((node) => !excludeSelectors.includes(node))
+    }
+
+    // console.log('selector', selector)
 
     return Array.from(
       (targetElement || document.documentElement).querySelectorAll(
         selector
       )
-    ).filter((node) => !skipTheseNodes.includes(node))
+    )
   }
 }
 

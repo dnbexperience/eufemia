@@ -1759,15 +1759,15 @@ button.dnb-button::-moz-focus-inner {
 
 @keyframes show-modal-overlay {
   from {
-    background-color: var(--modal-overlay-transparent); }
+    opacity: 0; }
   to {
-    background-color: var(--modal-overlay-bg); } }
+    opacity: var(--modal-overlay-opacity); } }
 
 @keyframes hide-modal-overlay {
   from {
-    background-color: var(--modal-overlay-bg); }
+    opacity: var(--modal-overlay-opacity); }
   to {
-    background-color: var(--modal-overlay-transparent); } }
+    opacity: 0; } }
 
 :root {
   --modal-z-index: 3000;
@@ -1781,8 +1781,8 @@ button.dnb-button::-moz-focus-inner {
   --modal-drawer-min-width: 25rem;
   --modal-drawer-max-width: 40rem;
   --modal-drawer-header-min-height: 6rem;
-  --modal-overlay-transparent: rgba(0, 0, 0, 0);
-  --modal-overlay-bg: rgba(0, 0, 0, 0.32); }
+  --modal-overlay-bg: black;
+  --modal-overlay-opacity: 0.32; }
 
 html[data-dnb-modal-active] {
   user-select: none;
@@ -2032,22 +2032,13 @@ html[data-dnb-modal-active] {
     top: 0;
     width: 100%;
     height: 100%;
-    will-change: background-color;
-    background-color: var(--modal-overlay-transparent);
-    box-shadow: 0 100vh 0 0 var(--modal-overlay-bg); }
-    .dnb-modal__overlay--modal {
-      animation: show-modal-overlay var(--modal-animation-duration) ease-out forwards 0ms; }
-    .dnb-modal__overlay--drawer {
-      animation: show-modal-overlay var(--modal-animation-duration) ease-out forwards 100ms; }
-    .dnb-modal__overlay--hide {
-      animation: hide-modal-overlay var(--modal-animation-duration) ease-in-out forwards; }
+    background-color: var(--modal-overlay-bg); }
   .dnb-modal-root__inner .dnb-modal__overlay {
-    opacity: 0;
-    transition: opacity 300ms ease-in-out; }
+    animation: hide-modal-overlay var(--modal-animation-duration) ease-in-out forwards; }
   .dnb-modal-root__inner:last-of-type .dnb-modal__overlay {
-    opacity: 1; }
-  html[data-visual-test] .dnb-modal-root__inner .dnb-modal__overlay {
-    transition: none; }
+    animation: show-modal-overlay var(--modal-animation-duration) ease-out forwards 0ms; }
+    .dnb-modal-root__inner:last-of-type .dnb-modal__overlay--hide {
+      animation: hide-modal-overlay var(--modal-animation-duration) ease-in-out forwards; }
   html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
     animation-delay: 0ms !important;
     animation-duration: 0ms !important; }
