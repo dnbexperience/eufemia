@@ -29,12 +29,12 @@ v6 contains a couple of braking changes. As a migration process, you can simply 
 1. find `style_type="demi` replace it with `style_type="medium`
 1. find `family-book` replace it with `family-default`
 1. find `family-medium` replace it with `family-default`
-1. find `dnb-typo-number` remvoe it
-1. find `dnb-typo-std` remvoe it
+1. find `dnb-typo-number` remove it
+1. find `dnb-typo-std` remove it
 
 ## New DNB font
 
-We have now our very own _DNB font_. As this font behaves very differently than Fedra Sans, the DNB UX has spesifyed how we will use the _DNB font_ on digital medium. Therefore `font-family`, `font-size`, `font-weight` and `line-height` properties have changed.
+We have now our very own _DNB font_. As this font behaves very differently than Fedra Sans, the DNB UX has specified how we will use the _DNB font_ on digital medium. Therefore `font-family`, `font-size`, `font-weight` and `line-height` properties have changed.
 
 In normal circumstances, you have to do **nothing** regarding to this change.
 

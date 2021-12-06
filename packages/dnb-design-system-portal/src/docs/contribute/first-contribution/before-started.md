@@ -86,7 +86,7 @@ You can share PropTypes between files. You can either export them explicitly (na
 export const componentPropTypes = {
   ...otherPropTypes,
   children: PropTypes.node,
-  roperty: PropTypes.string,
+  property: PropTypes.string,
 }
 ```
 
@@ -301,4 +301,4 @@ $ yarn workspace @dnb/eufemia postbuild:ci
 - Assets are getting generated
 - All the lib code gets compiled (ECMAScript 6 and ECMAScript 5.1)
 - UMD/ESM/ES/CJS bundles are getting generated
-- TypdeScript definitions are getting generated
+- TypeScript definitions are getting generated

@@ -34,7 +34,7 @@ More information in [Style guides - Issue reporting](/contribute/style-guides/is
 
 ## How to submit a Pull Request
 
-After you have commited your changes in a branch, you can go to [Github Pull Requests](https://github.com/dnbexperience/eufemia/pulls) and open a new pull request.
+After you have committed your changes in a branch, you can go to [Github Pull Requests](https://github.com/dnbexperience/eufemia/pulls) and open a new pull request.
 In the pull request message there will be a template that you fill out (including a summary of your changes and of the runned tests). Request one of the maintainers as reviewers and submit your request.
 
 More information in [Style guides - Git convention](/contribute/style-guides/git#pull-requests).
@@ -51,7 +51,7 @@ Have a look at the "before getting started" section for a description of technic
 
 The maintainers are the project contributors responsible for driving the [Eufemia vision](/vision) forward and managing the organizational aspects of the project. These are the ones that will maintain the project, review pull requests and answer questions regarding decisions in Eufemia.
 
-As of this date, there are only a few number of maintainers. That means you can expect **longer response times** in periods. When contributing to Eufemia and becoming more familiar with the way of works, you will have the option of becoming an official maintainer. More contributors and more maintainers will help accelerate Eufemia and become up-to-date with fast repond times, which will benefit all involved parts.
+As of this date, there are only a few number of maintainers. That means you can expect **longer response times** in periods. When contributing to Eufemia and becoming more familiar with the way of works, you will have the option of becoming an official maintainer. More contributors and more maintainers will help accelerate Eufemia and become up-to-date with fast response times, which will benefit all involved parts.
 
 ## Next step
 

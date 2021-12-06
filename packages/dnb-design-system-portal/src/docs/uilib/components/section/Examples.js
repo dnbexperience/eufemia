@@ -36,7 +36,7 @@ export const SectionDemoWhite = () => (
   </ComponentBox>
 )
 
-export const SectionDemoDivier = () => (
+export const SectionDemoDivider = () => (
   <ComponentBox hideCode data-visual-test="section-divider">
     {() => /* jsx */ `
 <Section spacing="true" style_type="divider">

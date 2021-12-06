@@ -10,7 +10,7 @@ The Heading component is a helper to create automated semantic headings within a
 
 How does it work? The heading leveling is handled synchronously. But you can easily isolate one level, or a part by using a context provider: `<Heading.Level ...`. This allows you to later, asynchronous, add new headings inside. You can nest several contexts inside each.
 
-The first code example is without using context provider. To handle levels in batches or asynchron, use a `Heading.Level` context provider.
+The first code example is without using context provider. To handle levels in batches or asynchronous, use a `Heading.Level` context provider.
 
 ```jsx
 import { Heading } from '@dnb/eufemia/components'
@@ -67,7 +67,7 @@ You get a `console.warn` warning (only in development) about corrections. You ca
 
 You can also disable corrections by using the property `skip_correction={true}`.
 
-### Heading level context provider / asynchron
+### Heading level context provider / asynchronous
 
 In order to control leveling of headings systematically, you can make use of the `Heading.Level`, `Heading.Increase` or `Heading.Decrease` providers.
 

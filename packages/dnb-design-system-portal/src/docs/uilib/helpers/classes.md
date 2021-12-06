@@ -125,7 +125,7 @@ The opposite of `dnb-sr-only`, so not visible to screen readers.
 
 `dnb-drop-shadow`
 
-Adds a default drop shadow, `box-shadow: 0 8px 16px rgba(51, 51, 51, 0.08)`, to the component. The current shadow spesification is designed to be less sharp and more blurry.
+Adds a default drop shadow, `box-shadow: 0 8px 16px rgba(51, 51, 51, 0.08)`, to the component. The current shadow specification is designed to be less sharp and more blurry.
 
 ### CSS properties
 

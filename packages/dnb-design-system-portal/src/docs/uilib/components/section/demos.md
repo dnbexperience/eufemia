@@ -8,7 +8,7 @@ import {
 SectionDemo,
 SectionDemoSpacing,
 SectionDemoWhite,
-SectionDemoDivier,
+SectionDemoDivider,
 SectionDemoMintGreen,
 SectionDemoSeaGreen,
 SectionDemoEmeraldGreen,
@@ -37,7 +37,7 @@ SectionZIndex,
 
 ### Divider Section
 
-<SectionDemoDivier />
+<SectionDemoDivider />
 
 ### Mint-Green Section
 
