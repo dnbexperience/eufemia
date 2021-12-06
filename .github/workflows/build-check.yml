@@ -1,4 +1,4 @@
-name: Build Check # This name is used in the release.yml workflow_run event
+name: Build Check
 
 on:
   push:
@@ -22,8 +22,6 @@ jobs:
     name: Build Check Action
 
     runs-on: ubuntu-latest
-
-    # if: github.event.pull_request.base.ref == 'main'
 
     env:
       GH_EMAIL: ${{ secrets.GH_EMAIL }}
@@ -80,4 +78,4 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
-        if: always()
+        if: github.repository_owner == 'dnbexperience'
