@@ -1,0 +1,17 @@
+/*
+* Tag component
+*
+*/
+
+.dnb-tag {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--color-black-8);
+  border-radius: var(--button-border-radius);
+  font-size: var(--font-size-x-small);
+  padding: var(--spacing-xx-small) var(--spacing-small);
+  &__icon {
+    display: flex;
+    align-items: center;
+  }
+}
