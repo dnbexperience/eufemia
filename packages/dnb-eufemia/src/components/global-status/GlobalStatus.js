@@ -34,9 +34,9 @@ import GlobalStatusController, {
 import GlobalStatusProvider from './GlobalStatusProvider'
 import Icon from '../icon/Icon'
 import { InfoIcon, ErrorIcon } from '../form-status/FormStatus'
-import { CloseButton } from '../modal/Modal'
 import Section from '../section/Section'
 import { IS_IE11 } from '../../shared/helpers'
+import Button from '../button/Button'
 
 export default class GlobalStatus extends React.PureComponent {
   static tagName = 'dnb-global-status'
@@ -771,12 +771,15 @@ export default class GlobalStatus extends React.PureComponent {
               </span>
               {titleToRender}
               {!isTrue(hide_close_button) && (
-                <CloseButton
-                  className="dnb-global-status__close-button"
-                  on_click={this.closeHandler}
+                <Button
                   text={close_text}
                   title={close_text}
+                  variant="tertiary"
+                  className="dnb-global-status__close-button"
+                  icon="close"
+                  on_click={this.closeHandler}
                   size="medium"
+                  icon_position="left"
                 />
               )}
             </p>
