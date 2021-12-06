@@ -158,13 +158,11 @@ export class CloseButton extends React.PureComponent {
   static propTypes = {
     on_click: PropTypes.func.isRequired,
     close_title: PropTypes.string,
-    size: PropTypes.string,
     icon_position: PropTypes.string,
     className: PropTypes.string,
   }
   static defaultProps = {
     close_title: null,
-    size: 'large',
     icon_position: 'left',
     className: null,
   }

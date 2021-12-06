@@ -24,6 +24,7 @@ import {
   ProgressIndicator,
   // Space,
   NumberFormat,
+  Breadcrumb,
 } from '@dnb/eufemia/src'
 import { ScrollView } from '@dnb/eufemia/src/fragments'
 import { H1, H2, P, Hr } from '@dnb/eufemia/src/elements'
@@ -255,8 +256,9 @@ export const DrawerSandbox = () => (
       {/* <Button variant="tertiary" text="Button" /> */}
       <Modal
         // no_animation
-        // open_state="opened"
+        open_state="opened"
         mode="drawer"
+        show_back_button
         // fullscreen
         // container_placement="left"
         // align_content="right"
@@ -300,16 +302,17 @@ export const DrawerSandbox = () => (
         // }
       >
         <Modal.Bar>
-          <Button
+          {/*   <Button
             variant="tertiary"
             icon="chevron_left"
             icon_position="left"
             wrap
           >
             Tilbake ipsum Praesent rutrum
-          </Button>
-          {/* Tilbake Lorem ipsum Praesent rutrum ipsum Praesent rutrum ipsum
-          Praesent rutrum ipsum Praesent rutrum ipsum Praesent rutrum */}
+          </Button> */}
+          <Breadcrumb onClick={() => {}} />
+          {/*  Tilbake Lorem ipsum Praesent rutrum ipsum Praesent rutrum ipsum
+          Praesent rutrum ipsum Praesent rutrum ipsum Praesent rutrum*/}
         </Modal.Bar>
         <Modal.Header>
           <div>

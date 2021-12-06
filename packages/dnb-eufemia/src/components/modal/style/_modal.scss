@@ -132,16 +132,10 @@ html[data-dnb-modal-active] {
       }
     }
     &--spacing#{&}--drawer &__spacing {
-      padding: 0 var(--modal-spacing) 0; // should be 56px – but then the whole width should be larger
+      padding: 0 calc(var(--modal-spacing) * 1.75) 0; // 3.5rem (56px)
 
-      @include allAbove(x-large) {
-        padding: 0 calc(var(--modal-spacing) * 1.75) 0; // 3.5rem (56px)
-      }
       @include allBelow(medium) {
-        padding: 0 calc(var(--modal-spacing) / 1.333333) 0; // 2rem (32px)
-      }
-      @include allBelow(small) {
-        padding: 0 calc(var(--modal-spacing) / 2) 0; // 1rem (16px)
+        padding: 0 calc(var(--modal-spacing) / 2) 0; // 2rem (32px)
       }
     }
 
@@ -268,6 +262,7 @@ html[data-dnb-modal-active] {
         padding-bottom: calc(var(--modal-spacing) * 8);
       }
     }
+
     &__title ~ &__wrapper {
       padding-top: calc(var(--modal-spacing) / 2);
     }
@@ -293,6 +288,9 @@ html[data-dnb-modal-active] {
     &:not([class*='__bottom']) {
       margin-bottom: 0;
     }
+    @include allBelow(medium) {
+      font-size: var(--font-size-large);
+    }
   }
 
   &__content--drawer &__content__spacing {
@@ -310,7 +308,7 @@ html[data-dnb-modal-active] {
 
   &__content--spacing &__header {
     .dnb-tabs {
-      margin-top: 3.5rem;
+      margin-top: var(--modal-spacing);
     }
   }
 
@@ -334,14 +332,17 @@ html[data-dnb-modal-active] {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap-reverse;
   }
 
   &__content--spacing &__header__bar.dnb-section {
     // on large screens
     margin-top: calc(var(--modal-spacing) * 1.75);
-    margin-bottom: calc(var(--modal-spacing) / 2);
+    margin-bottom: calc(var(--modal-spacing));
     @include allBelow(medium) {
       margin-top: calc(var(--modal-spacing) / 2);
+      margin-bottom: calc(var(--modal-spacing) / 2);
     }
   }
 
@@ -351,9 +352,10 @@ html[data-dnb-modal-active] {
     z-index: 99; // below #dropdown and #date-picker
 
     // on large screens
-    margin: calc(var(--modal-spacing) * 1.75) 0;
+    margin-top: calc(var(--modal-spacing) * 1.75);
+    margin-bottom: calc(var(--modal-spacing));
     @include allBelow(medium) {
-      margin: var(--modal-spacing) 0;
+      margin-top: calc(var(--modal-spacing));
     }
   }
   &__content--spacing#{&}__content--drawer

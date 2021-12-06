@@ -941,7 +941,7 @@ exports[`Modal component have to match snapshot 1`] = `
                             class="dnb-modal__header__bar__close"
                           >
                             <button
-                              class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-large"
+                              class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon"
                               type="button"
                             >
                               <span
@@ -998,7 +998,6 @@ exports[`Modal component have to match snapshot 1`] = `
                           close_title="Lukk"
                           icon_position="left"
                           on_click={[Function]}
-                          size="large"
                         >
                           <Button
                             bounding={null}
@@ -1018,7 +1017,7 @@ exports[`Modal component have to match snapshot 1`] = `
                             innerRef={null}
                             inner_ref={null}
                             on_click={[Function]}
-                            size="large"
+                            size={null}
                             skeleton={null}
                             status={null}
                             status_no_animation={null}
@@ -1034,7 +1033,7 @@ exports[`Modal component have to match snapshot 1`] = `
                             wrap={null}
                           >
                             <button
-                              className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-large"
+                              className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon"
                               disabled={false}
                               onClick={[Function]}
                               type="button"
@@ -1059,7 +1058,7 @@ exports[`Modal component have to match snapshot 1`] = `
                                 inner_ref={null}
                                 isIconOnly={false}
                                 on_click={[Function]}
-                                size="large"
+                                size={null}
                                 skeleton={false}
                                 status={null}
                                 status_no_animation={null}
@@ -1862,14 +1861,8 @@ html[data-dnb-modal-active] {
         .dnb-modal__content--spacing .dnb-modal__content__spacing {
           padding: 0 calc(var(--modal-spacing) / 2) 0; } }
     .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__content__spacing {
-      padding: 0 var(--modal-spacing) 0; }
-      @media screen and (min-width: 72em) {
-        .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__content__spacing {
-          padding: 0 calc(var(--modal-spacing) * 1.75) 0; } }
+      padding: 0 calc(var(--modal-spacing) * 1.75) 0; }
       @media screen and (max-width: 50em) {
-        .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__content__spacing {
-          padding: 0 calc(var(--modal-spacing) / 1.333333) 0; } }
-      @media screen and (max-width: 40em) {
         .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__content__spacing {
           padding: 0 calc(var(--modal-spacing) / 2) 0; } }
     .dnb-modal__content__align--centered .dnb-modal__content__spacing {
@@ -1975,6 +1968,10 @@ html[data-dnb-modal-active] {
     .dnb-modal__content .dnb-modal__header [class*='dnb-h--']:not([class*='__bottom']),
     .dnb-modal__content .dnb-modal__header .dnb-modal__title:not([class*='__bottom']) {
       margin-bottom: 0; }
+    @media screen and (max-width: 50em) {
+      .dnb-modal__content .dnb-modal__header [class*='dnb-h--'],
+      .dnb-modal__content .dnb-modal__header .dnb-modal__title {
+        font-size: var(--font-size-large); } }
   .dnb-modal__content--drawer .dnb-modal__content__spacing {
     position: relative;
     z-index: 10;
@@ -1983,7 +1980,7 @@ html[data-dnb-modal-active] {
     top: -500%;
     height: 600%; }
   .dnb-modal__content--spacing .dnb-modal__header .dnb-tabs {
-    margin-top: 3.5rem; }
+    margin-top: var(--modal-spacing); }
   .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__header {
     min-height: var(--modal-drawer-header-min-height); }
   .dnb-modal__wrapper__inner {
@@ -1997,21 +1994,25 @@ html[data-dnb-modal-active] {
   .dnb-modal__header__bar.dnb-section {
     display: flex;
     flex-direction: row;
-    justify-content: space-between; }
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap-reverse; }
   .dnb-modal__content--spacing .dnb-modal__header__bar.dnb-section {
     margin-top: calc(var(--modal-spacing) * 1.75);
-    margin-bottom: calc(var(--modal-spacing) / 2); }
+    margin-bottom: calc(var(--modal-spacing)); }
     @media screen and (max-width: 50em) {
       .dnb-modal__content--spacing .dnb-modal__header__bar.dnb-section {
-        margin-top: calc(var(--modal-spacing) / 2); } }
+        margin-top: calc(var(--modal-spacing) / 2);
+        margin-bottom: calc(var(--modal-spacing) / 2); } }
   .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__header__bar.dnb-section {
     position: sticky;
     top: 0;
     z-index: 99;
-    margin: calc(var(--modal-spacing) * 1.75) 0; }
+    margin-top: calc(var(--modal-spacing) * 1.75);
+    margin-bottom: calc(var(--modal-spacing)); }
     @media screen and (max-width: 50em) {
       .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__header__bar.dnb-section {
-        margin: var(--modal-spacing) 0; } }
+        margin-top: calc(var(--modal-spacing)); } }
   .dnb-modal__content--spacing.dnb-modal__content--drawer .dnb-modal__header__bar.dnb-section.dnb-modal__header__bar--sticky {
     z-index: 2999; }
   .dnb-modal__content--drawer .dnb-modal__header__bar--sticky::before {
