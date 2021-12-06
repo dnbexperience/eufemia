@@ -40,7 +40,7 @@ You can either include `[skip ci]` in your [commit message](https://github.blog/
 
 #### Squash commits
 
-If you have to make a small fix after you commited:
+If you have to make a small fix after you committed:
 
 - Make and commit the new change
 - Squash and rebase with the previous commit
@@ -56,7 +56,7 @@ git fetch origin && git rebase origin/main
 
 ## Pull Requests
 
-When you have commited changes to your branch, go to [Github Pull Requests](https://github.com/dnbexperience/eufemia/pulls) and open a `New pull request`.
+When you have committed changes to your branch, go to [Github Pull Requests](https://github.com/dnbexperience/eufemia/pulls) and open a `New pull request`.
 
 <InlineImg src="/images/pull-request.png" width="900" alt="Screenshot of the location of new pull request button on Github" top bottom/>
 

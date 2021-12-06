@@ -245,10 +245,10 @@ export const RadioButtonSandbox = () => (
 )
 
 const RadioGroupsWithStatus = () => {
-  const [currentValueForGorupA, setValueForGorupA] = React.useState(
+  const [currentValueForGroupA, setValueForGroupA] = React.useState(
     'first'
   )
-  const [currentValueForGorupB, setValueForGorupB] = React.useState(
+  const [currentValueForGroupB, setValueForGroupB] = React.useState(
     'second'
   )
 
@@ -258,10 +258,10 @@ const RadioGroupsWithStatus = () => {
         <Radio.Group
           label="Group A label:"
           // label_direction="vertical"
-          value={currentValueForGorupA}
+          value={currentValueForGroupA}
           on_change={({ value }) => {
             console.log('on_change A', value)
-            setValueForGorupA(value)
+            setValueForGroupA(value)
           }}
         >
           <Radio label="First" value="first" />
@@ -271,7 +271,7 @@ const RadioGroupsWithStatus = () => {
         <Radio.Group
           label="Group B label:"
           // label_direction="vertical"
-          value={currentValueForGorupB}
+          value={currentValueForGroupB}
           on_change={({ value }) => {
             console.log('on_change B', value)
           }}
@@ -282,7 +282,7 @@ const RadioGroupsWithStatus = () => {
         </Radio.Group>
         <Button
           on_click={() => {
-            setValueForGorupB(
+            setValueForGroupB(
               shuffleArray(['first', 'second', 'third'])[0]
             )
           }}

@@ -49,7 +49,7 @@ const SmallWidth = styled(Input)`
 //   </>
 // )
 
-export const FormStatuseSandbox = () => {
+export const FormStatusSandbox = () => {
   return (
     <Wrapper>
       <Box>

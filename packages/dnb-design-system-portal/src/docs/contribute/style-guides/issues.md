@@ -21,8 +21,8 @@ First step is to click on the `New issue` button in the `Issues tab` on Github.
 
 <InlineImg src="/images/report-issue.png" width="900" alt="Screenshot of the location of new issue button on Github" top bottom/>
 
-The next step will show you all the possibilites for new issues. Create a new `Bug Report` or `Feature Proposal` to go next.
+The next step will show you all the possibilities for new issues. Create a new `Bug Report` or `Feature Proposal` to go next.
 
-<InlineImg src="/images/report-issue-part-2.png" width="900" alt="Screenshot of the possibilites in creating a new issue" top/>
+<InlineImg src="/images/report-issue-part-2.png" width="900" alt="Screenshot of the possibilities in creating a new issue" top/>
 
 These will each have a prepared template you need to fill out in order to submit your issue.

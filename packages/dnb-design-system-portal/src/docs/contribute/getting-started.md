@@ -151,7 +151,7 @@ function MyComponent(props: Types) {
     // ...
   )
 
-  // Use myParam and spead the ...rest
+  // Use myParam and spread the ...rest
 }
 ```
 

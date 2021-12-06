@@ -29,7 +29,7 @@ function Component() {
 
 ### Prevent setting a new value
 
-You can use e.g. `event.preventDefault()` during `onKeyDown`, or return false during `onChange`. They are not 100% the same user experiance, but can both usefull in different use casecases.
+You can use e.g. `event.preventDefault()` during `onKeyDown`, or return false during `onChange`. They are not 100% the same user experience, but can both be useful in different use cases.
 
 ```jsx
 function Component() {

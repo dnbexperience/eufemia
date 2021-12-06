@@ -18,7 +18,7 @@ We want to **thank you** for being interested and we are so glad you want to hel
 
 Eufemia is a [living design system](/design-system/about/living-system). It doesn't have a 'finished' state. Continuous improvement, removal and addition of content is important if it is to remain relevant as a resource for current and future DNB products and services. For the future of Eufemia, have a look at [our vision](/contribute/vision).
 
-Note that the [licence](/license) states `@dnb/eufemia` is for internal DNB development only.
+Note that the [license](/license) states `@dnb/eufemia` is for internal DNB development only.
 
 ## How can I contribute?
 
