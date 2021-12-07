@@ -46,7 +46,7 @@
     position: relative; // because of the close button
     cursor: text;
 
-    min-height: 3.5rem; // Could be var(--spacing-xx-large)
+    min-height: 4.5rem;
 
     &.dnb-p {
       display: flex;
@@ -54,10 +54,9 @@
 
       padding-top: 1rem;
       padding-bottom: 1rem;
-      padding-left: 3rem;
       padding-right: 5rem;
-
-      font-size: var(--font-size-medium);
+      padding-left: 2.5rem;
+      margin-bottom: 0.5rem;
     }
 
     .dnb-spacing &.dnb-p,
@@ -74,7 +73,7 @@
       display: flex;
       flex-direction: column;
 
-      padding: 2rem 0 2.5rem;
+      padding: 0.5rem 0 2.5rem 2.5rem;
 
       & .dnb-p,
       .dnb-spacing & .dnb-p,
@@ -90,7 +89,7 @@
     top: 0;
     left: 0;
 
-    margin-top: 0.75rem;
+    margin-top: 1.5rem;
   }
   &__close-button,
   &__close-button.dnb-button--tertiary {
@@ -112,13 +111,16 @@
       margin: 0;
       margin-top: 0.5rem;
       padding-left: 1rem;
-      & > li {
-        margin: 0;
-        padding-left: 0;
-        .dnb-anchor:last-of-type {
-          margin-left: 0.5rem;
-        }
+
+      .dnb-anchor:last-of-type {
+        margin-left: 0.5rem;
       }
+    }
+
+    & .dnb-hr,
+    .dnb-spacing & .dnb-hr,
+    .dnb-spacing & .dnb-hr:not([class*='dnb-space']) {
+      margin: 0;
     }
   }
 

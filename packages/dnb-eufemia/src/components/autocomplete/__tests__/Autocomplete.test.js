@@ -608,6 +608,16 @@ describe('Autocomplete component', () => {
     expect(elem.hasClass('dnb-autocomplete--opened')).toBe(true)
   })
 
+  it('has type="button" on submit button', () => {
+    const Comp = mount(<Component {...props} data={mockData} />)
+
+    expect(
+      Comp.find('button.dnb-input__submit-button__button')
+        .instance()
+        .getAttribute('type')
+    ).toBe('button')
+  })
+
   it('has correct length of li elements', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
 

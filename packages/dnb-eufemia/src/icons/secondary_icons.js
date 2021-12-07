@@ -71,6 +71,7 @@ import email from './email.js'
 import equities_and_mutual_funds from './equities_and_mutual_funds.js'
 import exclamation_circled from './exclamation_circled.js'
 import exclamation_triangle from './exclamation_triangle.js'
+import facebook from './facebook.js'
 import factory from './factory.js'
 import file from './file.js'
 import file_add from './file_add.js'
@@ -114,12 +115,14 @@ import house_2 from './house_2.js'
 import house_value from './house_value.js'
 import information_bubble from './information_bubble.js'
 import information_circled from './information_circled.js'
+import instagram from './instagram.js'
 import insurance from './insurance.js'
 import kid_number from './kid_number.js'
 import language from './language.js'
 import launch from './launch.js'
 import leaf from './leaf.js'
 import lightbulb from './lightbulb.js'
+import linkedin from './linkedin.js'
 import list from './list.js'
 import loan from './loan.js'
 import loan_in from './loan_in.js'
@@ -185,6 +188,7 @@ import stopwatch from './stopwatch.js'
 import subtract_circled from './subtract_circled.js'
 import support from './support.js'
 import swap from './swap.js'
+import tag from './tag.js'
 import thumbs_down from './thumbs_down.js'
 import thumbs_up from './thumbs_up.js'
 import tractor from './tractor.js'
@@ -279,6 +283,7 @@ export {
   equities_and_mutual_funds,
   exclamation_circled,
   exclamation_triangle,
+  facebook,
   factory,
   file,
   file_add,
@@ -322,12 +327,14 @@ export {
   house_value,
   information_bubble,
   information_circled,
+  instagram,
   insurance,
   kid_number,
   language,
   launch,
   leaf,
   lightbulb,
+  linkedin,
   list,
   loan,
   loan_in,
@@ -393,6 +400,7 @@ export {
   subtract_circled,
   support,
   swap,
+  tag,
   thumbs_down,
   thumbs_up,
   tractor,

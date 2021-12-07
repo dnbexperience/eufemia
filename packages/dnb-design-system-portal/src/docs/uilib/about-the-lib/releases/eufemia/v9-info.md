@@ -6,7 +6,7 @@
 
 ## Migration
 
-v9 of @dnb/eufemia contains _braking changes_. As a migration process, you can simply search and replace:
+v9 of @dnb/eufemia contains _breaking changes_. As a migration process, you can simply search and replace:
 
 ### General
 

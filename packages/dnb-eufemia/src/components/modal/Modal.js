@@ -266,7 +266,7 @@ export default class Modal extends React.PureComponent {
 
   constructor(props) {
     super(props)
-    this._id = props.id || makeUniqueId()
+    this._id = props.id || makeUniqueId('modal-')
 
     this._triggerRef = React.createRef()
 

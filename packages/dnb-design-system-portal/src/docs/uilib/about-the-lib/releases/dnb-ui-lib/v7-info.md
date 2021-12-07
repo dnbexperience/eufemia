@@ -14,7 +14,7 @@ redirect_from:
 
 ## Migration
 
-v7 contains a couple of _braking changes_. As a migration process, you can simply search and replace:
+v7 contains a couple of _breaking changes_. As a migration process, you can simply search and replace:
 
 1. Find `sea-green-alt-30` and replace it with `sea-green-30`
 1. Find `sea-green-alt` and replace it with `sea-green`

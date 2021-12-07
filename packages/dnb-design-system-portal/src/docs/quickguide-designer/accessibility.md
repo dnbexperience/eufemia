@@ -1,6 +1,5 @@
 ---
 title: 'WCAG Accessibility'
-
 icon: 'accessibility'
 ---
 
@@ -9,6 +8,11 @@ icon: 'accessibility'
 Accessibility affects all users, not just those with stereotypical disabilities. The extra work that may be required to ensure good accessibility in DNB applications and services will be worth it.
 
 Remember - test for accessibility early in the design process.
+
+## Useful Resources
+
+- What is Universal Design? (DNB Sharepoint) https://dnbasa.sharepoint.com/sites/n1317
+- (Norwegian) Gjeldende regelverk og krav https://www.uutilsynet.no/regelverk/gjeldende-regelverk-og-krav/746
 
 ## WCAG (Web Content and Accessibility Guide)
 
@@ -94,9 +98,9 @@ Responsive component and layout design should be planned from the beginning and 
 
 ### Accessibility checklist for designers
 
-NB: Move this section to it's own menu item pages
+**NB:** Move this section to it's own menu item pages
 
-Building an accessible interface starts at the UX stage of design. Ideally a designer should be able to convey to a developer how they would like a keyboard user to use and navigate through an interface. Much of the DNB Design System's styling and development have taken accessibility into consideration to a certain extent (see https://eufemia.dnb.no/uilib/usage/accessibility). However, each interface design comes with it's own challenges and requirement
+Building an accessible interface starts at the UX stage of design. Ideally a designer should be able to convey to a developer how they would like a keyboard user to use and navigate through an interface. Much of the DNB Design System's styling and development have taken accessibility into consideration to a certain extent, see [Accessibility](/uilib/usage/accessibility). However, each interface design comes with it's own challenges and requirement
 
 - make sure the content is perceivable - ensure good contrast between background and foreground
 - plan how you would like a keyboard navigator to access interface laments/areas. What will the order of tabbing be?
@@ -115,14 +119,17 @@ Tab 1 : Skip-Link
 Enter : Focus is applied to the main content
 
 There are no fixed rules for the order of what becomes focusable after the Skip-Link link. It can be based on context for example:
+
 **If on index**
-Tab 1: Skip-Link
-Tab 2: First link in main menu or main menu button or search field
+
+- Tab 1: Skip-Link
+- Tab 2: First link in main menu or main menu button or search field
 
 **If not on index**
-Tab 1: Skip-Link
-Tab 2: Logo with link to homepage
-Tab 3: First link in main menu or main menu button or search field
+
+- Tab 1: Skip-Link
+- Tab 2: Logo with link to homepage
+- Tab 3: First link in main menu or main menu button or search field
 
 Or, it can be based on user needs. For example it may be more beneficial that a search field becomes in focus before the main menu.
 

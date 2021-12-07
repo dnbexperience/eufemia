@@ -19,11 +19,12 @@ import {
   FormSet,
   FormRow,
   Tabs,
+  Table,
   FormStatus,
   ProgressIndicator,
   // Space,
   NumberFormat,
-} from '@dnb/eufemia/src/components'
+} from '@dnb/eufemia/src'
 import { ScrollView } from '@dnb/eufemia/src/fragments'
 import { H1, H2, P, Hr } from '@dnb/eufemia/src/elements'
 
@@ -852,3 +853,92 @@ function CloseByCallback() {
     </Modal>
   )
 }
+
+const LargeListOfTrs = () => {
+  const list = []
+
+  for (let i = 0, l = 10000; i < l; ++i) {
+    // for (let i = 0, l = 4; i < l; ++i) {
+    list.push(
+      <tr key={i}>
+        <td>Row {i} Column 1</td>
+        <td>Row {i} Column 2</td>
+        <td>Row {i} Column 3</td>
+        <td align="right">Row {i} Column 4</td>
+      </tr>
+    )
+  }
+
+  return list
+}
+
+export const ModalPerformance = () => (
+  <div>
+    <Modal mode="drawer" trigger_text="Open Drawer" bottom>
+      Content
+    </Modal>
+
+    <Table
+    //  className="dnb-modal--bypass_invalidation_deep"
+    >
+      <caption>A Table Caption</caption>
+      <thead>
+        <tr>
+          <th scope="col" colSpan="2" className="dnb-table--no-wrap">
+            Header
+          </th>
+          <th
+            scope="col"
+            className="dnb-table--sortable dnb-table--reversed"
+          >
+            <Button
+              variant="tertiary"
+              icon="arrow-down"
+              text="Sortable"
+              title="Sort table column"
+              wrap="true"
+            />
+          </th>
+          <th
+            scope="col"
+            align="right"
+            className="dnb-table--sortable dnb-table--active"
+          >
+            <Button
+              variant="tertiary"
+              icon="arrow-down"
+              text="Active"
+              title="Sort table column"
+              wrap="true"
+            />
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <p className="dnb-p" aria-hidden="true">
+              Column 1 <b>width p</b> <Button text="Focus me" />
+            </p>
+          </td>
+          <td>
+            <code className="dnb-code">Column 2 with code</code>
+          </td>
+          <td>
+            <span>Column 3 with span</span>
+          </td>
+          <td align="right">Column 4</td>
+        </tr>
+        <tr>
+          <td colSpan="2">Column which spans over two columns</td>
+          <td>Column 3</td>
+          <td align="right">
+            Column 4 <Button text="Focus me" />
+            const template ={' '}
+          </td>
+        </tr>
+        <LargeListOfTrs />
+      </tbody>
+    </Table>
+  </div>
+)

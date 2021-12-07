@@ -9,6 +9,7 @@ import SecondaryComponent, {
   secondaryDefaultProps,
   secondaryPropTypes,
 } from './SecondaryComponent'
+import ClassComponent from './ClassComponent'
 
 export const primaryPropTypes = {
   top: PropTypes.oneOfType([
@@ -50,6 +51,7 @@ export default class PrimaryComponent extends React.PureComponent {
     top: primaryPropTypes.top,
     ...primaryPropTypes,
     ...secondaryPropTypes,
+    ...ClassComponent.propTypes,
     secondary_foo: secondaryPropTypes.secondary,
     secondary_spacing: PropTypes.shape(secondaryPropTypes),
 
@@ -64,6 +66,7 @@ export default class PrimaryComponent extends React.PureComponent {
     top: null,
     ...primaryDefaultProps,
     ...secondaryDefaultProps,
+    ...ClassComponent.defaultProps,
 
     children: null,
   }

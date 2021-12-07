@@ -28,8 +28,10 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
       }
 
       if (
-        path.type === 'VariableDeclarator' &&
-        path.node?.init?.properties
+        (path.type === 'VariableDeclarator' &&
+          path.node?.init?.properties) ||
+        (path.type === 'ClassProperty' && path.node?.value?.properties) ||
+        (path.type === 'ObjectExpression' && path.node?.properties)
       ) {
         path.traverse({
           /**
@@ -140,7 +142,11 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
     }
   }
 
-  const findDeclarationRelation = ({ targetRoot = root, targetPath }) => {
+  const findDeclarationRelation = ({
+    targetRoot = root,
+    targetPath,
+    propertyName = null,
+  }) => {
     let foundPath = null
     let ast = null
 
@@ -153,13 +159,12 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
             /**
              * Find imported relation
              */
-
-            path.parentPath.isImportSpecifier()
+            path.parentPath.isImportSpecifier() ||
+            path.parentPath.isImportDefaultSpecifier()
           ) {
             let selectedObjectExpression
 
             const sourceFile = path.parentPath.parentPath.node.source.value
-            const importName = path.parentPath.node.imported.name
 
             const code = fs.readFileSync(
               nodePath.resolve(sourceDir, sourceFile + '.js'),
@@ -167,14 +172,76 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
             )
             ast = parse(code, babylonConfigDefaults)
 
-            traverse(ast, {
-              VariableDeclarator(path) {
-                if (path.node.id.name === importName) {
-                  selectedObjectExpression = path
-                  path.stop()
-                }
-              },
-            })
+            if (path.parentPath.isImportSpecifier()) {
+              const importName = path.parentPath.node.imported.name
+              traverse(ast, {
+                VariableDeclarator(path) {
+                  if (path.node.id.name === importName) {
+                    selectedObjectExpression = path
+                    path.stop()
+                  }
+                },
+              })
+            }
+
+            if (path.parentPath.isImportDefaultSpecifier()) {
+              traverse(ast, {
+                ExportDefaultDeclaration(exportPath) {
+                  const exportDeclarationName =
+                    exportPath.node.declaration?.id?.name ||
+                    exportPath.node.declaration.name
+
+                  traverse(ast, {
+                    MemberExpression(path) {
+                      // Find Button.propTypes = "AssignmentExpression"
+                      if (
+                        path.node.property.name === propertyName &&
+                        path.node.object.name === exportDeclarationName
+                      ) {
+                        if (
+                          path.parent.type === 'AssignmentExpression' &&
+                          path.parent.right.type === 'ObjectExpression'
+                        ) {
+                          path.parentPath.traverse({
+                            ObjectExpression(path) {
+                              selectedObjectExpression = path
+                            },
+                          })
+                          path.stop()
+                        }
+
+                        path.stop()
+                      }
+                    },
+
+                    // Find const someNameToProps = {}
+                    Identifier(path) {
+                      if (
+                        path.node.name === exportDeclarationName &&
+                        path.parent.type === 'VariableDeclarator'
+                      ) {
+                        selectedObjectExpression = path.parentPath
+                        path.stop()
+                      }
+                    },
+
+                    // Find class { strict propTypes = {} }
+                    ClassProperty(path) {
+                      if (
+                        exportPath.node.declaration.type ===
+                          'ClassDeclaration' &&
+                        path.parentPath.parentPath.node?.id.name ===
+                          exportDeclarationName &&
+                        path.node.key.name === propertyName
+                      ) {
+                        selectedObjectExpression = path
+                        path.stop()
+                      }
+                    },
+                  })
+                },
+              })
+            }
 
             if (selectedObjectExpression) {
               foundPath = selectedObjectExpression
@@ -207,19 +274,40 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
          * Iterate over every propTypes object properties,
          * and extend them, we they need to.
          */
-        if (path.isIdentifier({ name: 'propTypes' })) {
+        if (
+          path.isIdentifier() &&
+          (path.node.name === 'propTypes' ||
+            path.node.name === 'defaultProps')
+        ) {
           path.parentPath.parentPath.traverse({
             ObjectExpression(path) {
               path.traverse({
                 Identifier(path) {
+                  let targetPath = null
+
                   /**
-                   * Ensure, linked props do include "xPropTypes", like spacingPropTypes
+                   * Support for imported prop types like spacingPropTypes
                    */
                   if (/[a-z]PropType/.test(path.node.name)) {
-                    const targetPath = path
+                    targetPath = path
+                  } else if (
+                    /**
+                     * Support for imported prop types like Button.propTypes
+                     */
+                    path.parent.type === 'MemberExpression' &&
+                    (path.parent.property.name === 'propTypes' ||
+                      path.parent.property.name === 'defaultProps')
+                  ) {
+                    targetPath = {
+                      node: path.parentPath.node.object,
+                      parentPath: path.parentPath.parentPath, // is needed by handleDeclarationRelation
+                    }
+                  }
 
+                  if (targetPath) {
                     const { foundPath, ast } = findDeclarationRelation({
                       targetPath,
+                      propertyName: path.parent?.property?.name,
                     })
 
                     if (foundPath) {

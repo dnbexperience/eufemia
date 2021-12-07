@@ -102,6 +102,12 @@ export interface BreadcrumbProps {
    * Default: pistachio
    */
   collapsedStyleType?: string
+
+  /**
+   * Spacing around the breadcrumb
+   * Default: false
+   */
+  spacing?: boolean
 }
 
 export const defaultProps = {
@@ -119,6 +125,7 @@ export const defaultProps = {
   styleType: 'transparent',
   collapsedStyleType: 'pistachio',
   data: null,
+  spacing: false,
 }
 
 function Breadcrumb(localProps: BreadcrumbProps & ISpacingProps) {
@@ -138,6 +145,7 @@ function Breadcrumb(localProps: BreadcrumbProps & ISpacingProps) {
     styleType,
     collapsedStyleType,
     isCollapsed: overrideIsCollapsed,
+    spacing,
     data,
     href,
     ...props
@@ -194,6 +202,7 @@ function Breadcrumb(localProps: BreadcrumbProps & ISpacingProps) {
         'dnb-breadcrumb',
         skeletonClasses,
         spacingClasses,
+        spacing && 'dnb-breadcrumb--spacing',
         className
       )}
       data-testid="breadcrumb-nav"

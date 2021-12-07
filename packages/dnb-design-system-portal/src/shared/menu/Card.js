@@ -164,7 +164,7 @@ export default class Card extends React.PureComponent {
     title: PropTypes.string.isRequired,
     about: PropTypes.oneOfType([PropTypes.node, PropTypes.string])
       .isRequired,
-    icon: PropTypes.func.isRequired,
+    icon: PropTypes.func,
   }
   static defaultProps = {
     customStyle: null,
@@ -227,7 +227,7 @@ export default class Card extends React.PureComponent {
             >
               <LinkInner>
                 <Box>
-                  <Svg {...svgParams} />
+                  {Svg && <Svg {...svgParams} />}
                   <Header className={classnames('dnb-lead')}>
                     {title}
                   </Header>

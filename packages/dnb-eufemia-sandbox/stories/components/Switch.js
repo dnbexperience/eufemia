@@ -13,7 +13,7 @@ export default {
   title: 'Eufemia/Components/Switch',
 }
 
-export const SwitcheSandbox = () => (
+export const SwitchSandbox = () => (
   <Wrapper>
     <Box>
       <Switch

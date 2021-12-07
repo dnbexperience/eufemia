@@ -166,12 +166,14 @@
       align-self: flex-start;
       margin-top: 0.75rem;
     }
-    &.dnb-button--size-large .dnb-button__icon,
-    &.dnb-button--size-small .dnb-button__icon {
-      margin-top: 0.25rem;
+    &.dnb-button--size-large .dnb-button__icon {
+      margin-top: 1rem;
     }
     &.dnb-button--size-medium .dnb-button__icon {
       margin-top: 0.5rem;
+    }
+    &.dnb-button--size-small .dnb-button__icon {
+      margin-top: 0.25rem;
     }
 
     &.dnb-button--icon-position-top {
@@ -208,21 +210,6 @@
         order: 3;
         height: 0;
       }
-    }
-
-    // Ensure tertiary button has medium size when size is large
-    &.dnb-button--has-text.dnb-button--size-large .dnb-button__icon,
-    &:not(.dnb-button--size-large) .dnb-button__icon.dnb-icon--medium {
-      margin-top: 0.5rem;
-    }
-    &.dnb-button--size-large {
-      &,
-      .dnb-core-style & {
-        line-height: var(--button-height--medium);
-      }
-    }
-    &.dnb-button--size-large.dnb-button--has-icon:not(.dnb-button--has-text) {
-      width: var(--button-width--medium);
     }
 
     &.dnb-button--has-icon {

@@ -97,27 +97,70 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 .dnb-section--fire-red .dnb-anchor,
 .dnb-section--emerald-green .dnb-anchor,
 .dnb-section--sea-green .dnb-anchor {
-  color: var(--color-white); }
-  .dnb-section--fire-red .dnb-anchor:hover,
+  color: var(--color-white);
+  box-shadow: 0 0.09375rem 0 0 var(--color-white); }
+  .dnb-section--fire-red .dnb-anchor:hover, .dnb-section--fire-red .dnb-anchor:active,
   .dnb-section--emerald-green .dnb-anchor:hover,
-  .dnb-section--sea-green .dnb-anchor:hover {
-    color: var(--color-sea-green); }
-  .dnb-section--fire-red .dnb-anchor:focus,
-  .dnb-section--emerald-green .dnb-anchor:focus,
-  .dnb-section--sea-green .dnb-anchor:focus {
+  .dnb-section--emerald-green .dnb-anchor:active,
+  .dnb-section--sea-green .dnb-anchor:hover,
+  .dnb-section--sea-green .dnb-anchor:active {
+    color: var(--color-emerald-green);
+    background-color: var(--color-white);
+    box-shadow: none; }
+  .dnb-section--fire-red .dnb-anchor:active,
+  .dnb-section--emerald-green .dnb-anchor:active,
+  .dnb-section--sea-green .dnb-anchor:active {
+    color: var(--color-emerald-green);
+    background-color: var(--color-white); }
+  .dnb-section--fire-red .dnb-anchor:not(:disabled):focus,
+  .dnb-section--emerald-green .dnb-anchor:not(:disabled):focus,
+  .dnb-section--sea-green .dnb-anchor:not(:disabled):focus {
     color: var(--color-white);
+    background-color: transparent;
     outline: none; }
-    html[data-whatinput='keyboard'] .dnb-section--fire-red .dnb-anchor:focus, html[data-whatinput='keyboard']
-    .dnb-section--emerald-green .dnb-anchor:focus, html[data-whatinput='keyboard']
-    .dnb-section--sea-green .dnb-anchor:focus {
-      --border-color: var(--color-black-8);
+    html[data-whatinput='keyboard'] .dnb-section--fire-red .dnb-anchor:not(:disabled):focus, html[data-whatinput='keyboard']
+    .dnb-section--emerald-green .dnb-anchor:not(:disabled):focus, html[data-whatinput='keyboard']
+    .dnb-section--sea-green .dnb-anchor:not(:disabled):focus {
+      --border-color: var(--color-white);
       box-shadow: 0 0 0 0.125rem var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
-        html[data-whatinput='keyboard'] .dnb-section--fire-red .dnb-anchor:focus, html[data-whatinput='keyboard']
-        .dnb-section--emerald-green .dnb-anchor:focus, html[data-whatinput='keyboard']
-        .dnb-section--sea-green .dnb-anchor:focus {
-          box-shadow: 0 0 0 0.125rem var(--color-black-8); } }
+        html[data-whatinput='keyboard'] .dnb-section--fire-red .dnb-anchor:not(:disabled):focus, html[data-whatinput='keyboard']
+        .dnb-section--emerald-green .dnb-anchor:not(:disabled):focus, html[data-whatinput='keyboard']
+        .dnb-section--sea-green .dnb-anchor:not(:disabled):focus {
+          box-shadow: 0 0 0 0.125rem var(--color-white); } }
+
+.dnb-section--fire-red .dnb-button--tertiary,
+.dnb-section--emerald-green .dnb-button--tertiary,
+.dnb-section--sea-green .dnb-button--tertiary {
+  color: var(--color-white); }
+  .dnb-section--fire-red .dnb-button--tertiary:hover,
+  .dnb-section--emerald-green .dnb-button--tertiary:hover,
+  .dnb-section--sea-green .dnb-button--tertiary:hover {
+    color: var(--color-white); }
+  .dnb-section--fire-red .dnb-button--tertiary:hover .dnb-button__text::after,
+  .dnb-section--emerald-green .dnb-button--tertiary:hover .dnb-button__text::after,
+  .dnb-section--sea-green .dnb-button--tertiary:hover .dnb-button__text::after {
+    color: var(--color-white) !important; }
+  .dnb-section--fire-red .dnb-button--tertiary:focus,
+  .dnb-section--emerald-green .dnb-button--tertiary:focus,
+  .dnb-section--sea-green .dnb-button--tertiary:focus {
+    color: var(--color-white); }
+    .dnb-section--fire-red .dnb-button--tertiary:focus::before,
+    .dnb-section--emerald-green .dnb-button--tertiary:focus::before,
+    .dnb-section--sea-green .dnb-button--tertiary:focus::before {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-section--fire-red .dnb-button--tertiary:focus::before, html[data-whatinput='keyboard']
+      .dnb-section--emerald-green .dnb-button--tertiary:focus::before, html[data-whatinput='keyboard']
+      .dnb-section--sea-green .dnb-button--tertiary:focus::before {
+        --border-color: var(--color-white);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
+        border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-section--fire-red .dnb-button--tertiary:focus::before, html[data-whatinput='keyboard']
+          .dnb-section--emerald-green .dnb-button--tertiary:focus::before, html[data-whatinput='keyboard']
+          .dnb-section--sea-green .dnb-button--tertiary:focus::before {
+            box-shadow: 0 0 0 0.125rem var(--color-white); } }
 
 .dnb-section--signal-orange {
   color: var(--color-ocean-green); }

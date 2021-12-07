@@ -6,11 +6,24 @@
 @import './_step-indicator-v1.scss';
 
 .dnb-step-indicator__sidebar {
-  max-width: 20rem;
-  margin-right: var(--spacing-x-large);
+  @media screen and (min-width: 50.1em) {
+    max-width: 20rem;
+    margin-right: var(--spacing-x-large);
 
-  .dnb-step-indicator__item {
-    min-width: 320px;
+    .dnb-step-indicator__item {
+      min-width: 320px;
+    }
+  }
+
+  // To avoid layout shift during SSR hydration
+  // we hide the sidebar with skeleton on small screens
+  &--ssr-skeleton {
+    @media screen and (max-width: 50.1em) {
+      visibility: hidden;
+      overflow: hidden;
+      width: 0;
+      height: 5.5rem; // the height of the modal button + label + margin
+    }
   }
 }
 

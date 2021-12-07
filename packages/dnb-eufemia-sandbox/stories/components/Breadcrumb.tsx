@@ -90,6 +90,30 @@ export const BreadcrumbSandbox = () => {
       <Box>
         <Multiple />
       </Box>
+      <Box>
+        <Breadcrumb data={breadcrumbItems} styleType="sea-green" />
+      </Box>
+      <Box>
+        <Breadcrumb data={breadcrumbItems} spacing styleType="sea-green" />
+      </Box>
+      <Box>
+        <Breadcrumb data={breadcrumbItems} spacing styleType="fire-red" />
+      </Box>
+      <Box>
+        <Breadcrumb
+          data={breadcrumbItems}
+          spacing
+          styleType="emerald-green"
+        />
+      </Box>
+      <Box>
+        <Breadcrumb
+          data={breadcrumbItems}
+          styleType="mint-green"
+          spacing
+          variant="collapse"
+        />
+      </Box>
     </Wrapper>
   )
 }
@@ -108,6 +132,14 @@ export const CustomCollapsedBreadcrumb = () => {
         }}
         variant="collapse"
       />
+    </Provider>
+  )
+}
+
+export const CollapsedBreadcrumbWithSpacing = () => {
+  return (
+    <Provider>
+      <Breadcrumb data={breadcrumbItems} variant="collapse" spacing />
     </Provider>
   )
 }

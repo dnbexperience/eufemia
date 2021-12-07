@@ -186,7 +186,7 @@ const AutocompleteWithState = () => {
         setResults(topMovies)
         debounce(
           ({ value, results }) => {
-            // 1. simualte server delay
+            // 1. simulate server delay
             const timeout = setTimeout(() => {
               console.log('value 2', value, results)
               updateData(results)
@@ -372,7 +372,7 @@ export const AutocompleteSandbox = () => {
             console.log('dataList', dataList)
             showIndicator()
             debounce(() => {
-              // 1. simualte server delay
+              // 1. simulate server delay
               const timeout = setTimeout(() => {
                 // updateData(['topMovies'])
                 updateData(topMovies)

@@ -44,7 +44,7 @@ beforeEach(() => {
   document.body.removeAttribute('style')
   document.documentElement.removeAttribute('style')
   document.getElementById('dnb-modal-root')?.remove()
-  window.__modalStack = []
+  window.__modalStack = undefined
 })
 
 describe('Modal component', () => {
@@ -52,6 +52,23 @@ describe('Modal component', () => {
     const Comp = mount(<Component {...props} open_state={true} />)
     expect(toJson(Comp)).toMatchSnapshot()
     Comp.find('button.dnb-modal__close-button').simulate('click')
+  })
+
+  it('should add its instance to the stack', () => {
+    const Comp = mount(
+      <Component {...props}>
+        <button>button</button>
+      </Component>
+    )
+
+    Comp.find('Modal').find('button.dnb-modal__trigger').simulate('click')
+
+    expect(window.__modalStack).toHaveLength(1)
+    expect(typeof window.__modalStack[0]).toBe('object')
+
+    Comp.find('button.dnb-modal__close-button').simulate('click')
+
+    expect(window.__modalStack).toHaveLength(0)
   })
 
   it('should have aria-hidden and tabindex on other elements', () => {
@@ -242,7 +259,6 @@ describe('Modal component', () => {
   })
 
   it('will warn if first heading is not h1', async () => {
-    process.env.NODE_ENV = 'development'
     jest.spyOn(global.console, 'log')
     global.console.log = jest.fn()
 
@@ -291,7 +307,6 @@ describe('Modal component', () => {
     const elements = document.querySelectorAll(
       '.dnb-modal__content__wrapper > .dnb-section'
     )
-    console.log('elements', elements.length)
 
     expect(elements[0].textContent).toContain('bar content')
     expect(elements[1].textContent).toContain('header content')

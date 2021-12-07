@@ -96,13 +96,26 @@
   &--fire-red .dnb-anchor,
   &--emerald-green .dnb-anchor,
   &--sea-green .dnb-anchor {
+    @include useAnchorContrastStyle();
+  }
+
+  &--fire-red .dnb-button--tertiary,
+  &--emerald-green .dnb-button--tertiary,
+  &--sea-green .dnb-button--tertiary {
     color: var(--color-white);
     &:hover {
-      color: var(--color-sea-green);
+      color: var(--color-white);
     }
+    &:hover .dnb-button__text::after {
+      color: var(--color-white) !important;
+    }
+
     &:focus {
       color: var(--color-white);
-      @include fakeFocus(null, var(--color-black-8));
+
+      &::before {
+        @include fakeFocus(null, var(--color-white));
+      }
     }
   }
 

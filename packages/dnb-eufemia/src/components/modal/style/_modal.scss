@@ -23,8 +23,8 @@
   --modal-drawer-header-min-height: 6rem;
 
   // Overlay
-  --modal-overlay-transparent: rgba(0, 0, 0, 0);
-  --modal-overlay-bg: rgba(0, 0, 0, 0.32);
+  --modal-overlay-bg: black;
+  --modal-overlay-opacity: 0.32;
 }
 
 html[data-dnb-modal-active] {
@@ -390,39 +390,22 @@ html[data-dnb-modal-active] {
     width: 100%;
     height: 100%;
 
-    will-change: background-color;
-    background-color: var(--modal-overlay-transparent);
-    box-shadow: 0 100vh 0 0 var(--modal-overlay-bg);
+    background-color: var(--modal-overlay-bg);
+  }
 
-    // Modal & Drawer mode
-    &--modal {
-      animation: show-modal-overlay var(--modal-animation-duration)
-        ease-out forwards 0ms;
-    }
-    &--drawer {
-      animation: show-modal-overlay var(--modal-animation-duration)
-        ease-out forwards 100ms;
-    }
+  &-root__inner &__overlay {
+    animation: hide-modal-overlay var(--modal-animation-duration)
+      ease-in-out forwards;
+  }
+
+  &-root__inner:last-of-type &__overlay {
+    animation: show-modal-overlay var(--modal-animation-duration) ease-out
+      forwards 0ms;
+
     &--hide {
       animation: hide-modal-overlay var(--modal-animation-duration)
         ease-in-out forwards;
     }
-  }
-
-  &-root__inner &__overlay {
-    opacity: 0;
-    transition: opacity 300ms ease-in-out;
-  }
-  // We may possibly use something like this to avoid the transition
-  // when there are several stacked modals
-  // &-root__inner:nth-of-type(n + 2) &__overlay {
-  //   animation-duration: 0ms !important;
-  // }
-  &-root__inner:last-of-type &__overlay {
-    opacity: 1;
-  }
-  html[data-visual-test] &-root__inner &__overlay {
-    transition: none;
   }
 
   /* stylelint-disable-next-line */

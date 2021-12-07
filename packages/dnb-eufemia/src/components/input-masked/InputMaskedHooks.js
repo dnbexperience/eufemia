@@ -277,6 +277,7 @@ export const useEventMapping = ({ setLocalValue }) => {
   const callEvent = useCallEvent({ setLocalValue })
 
   return {
+    onBeforeInput: (event) => callEvent({ event }, 'on_before_input'),
     onMouseUp: (event) => callEvent({ event }, 'on_mouse_up'),
     on_focus: (params) => callEvent(params, 'on_focus'),
     on_key_down: (params) => callEvent(params, 'on_key_down'),
@@ -304,12 +305,32 @@ const useCallEvent = ({ setLocalValue }) => {
 
   // Source: https://en.wikipedia.org/wiki/Decimal_separator
   const decimalSeparators = /[,.'·]/
+  let isUnidentified = false
 
   const callEvent = ({ event, value }, name) => {
     value = value || event.target.value
-    const keyCode = keycode(event)
     const selStart = event.target.selectionStart
-    const isUnidentified = event.which === 229 || keyCode === undefined // Android issue
+    let keyCode = keycode(event)
+
+    // Android issue: https://bugs.chromium.org/p/chromium/issues/detail?id=118639
+    if (
+      name === 'on_key_down' &&
+      (event.which === 229 || keyCode === undefined)
+    ) {
+      isUnidentified = true
+    }
+
+    // Android issue: https://bugs.chromium.org/p/chromium/issues/detail?id=118639
+    // so we use this solution instead
+    if (
+      isUnidentified &&
+      name === 'on_before_input' &&
+      typeof event?.data !== 'undefined'
+    ) {
+      name = 'on_key_down'
+      keyCode = event.data
+      isUnidentified = false
+    }
 
     // Prevent entering a leading zero
     if (
@@ -371,18 +392,26 @@ const useCallEvent = ({ setLocalValue }) => {
           value = value.slice(0, selStart)
           setLocalValue(value + maskParams.decimalSymbol)
           event.target.value = value + maskParams.decimalSymbol
+          event.preventDefault()
         }
       }
     }
 
-    const num = cleanNumber(value, {
+    let num = cleanNumber(value, {
       prefix: maskParams.prefix,
       suffix: maskParams.suffix,
       decimalSeparator: maskParams.decimalSymbol || ',',
       thousandsSeparator: maskParams.thousandsSeparatorSymbol || ' ',
     })
 
+    // We don't want to return NaN, so we set it to 0
+    if (num === '-') {
+      num = -0
+    }
+
     const numberValue = Number(num)
+
+    // We may have to check against a negative value: && 1 / +0 === 1 / numberValue
     const cleanedValue = numberValue === 0 ? '' : num
     const cleaned_value = cleanedValue // Deprecated
 

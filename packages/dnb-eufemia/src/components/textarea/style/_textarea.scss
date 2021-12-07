@@ -168,6 +168,10 @@
     }
   }
 
+  html[data-visual-test] &__textarea {
+    caret-color: var(--color-white);
+  }
+
   &.dnb-skeleton &__inner {
     margin: 0;
     border-radius: 0.25rem;

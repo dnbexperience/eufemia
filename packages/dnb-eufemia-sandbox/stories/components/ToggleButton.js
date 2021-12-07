@@ -10,6 +10,7 @@ import { Wrapper, Box } from '../helpers'
 import Provider from '@dnb/eufemia/src/shared/Provider'
 import {
   ToggleButton,
+  Button,
   Space,
   // FormSet,
   FormRow,
@@ -377,3 +378,51 @@ export const ToggleButtonSandbox = () => (
     </Box>
   </Wrapper>
 )
+
+export function MultiselectRerender() {
+  const [values, setValues] = React.useState(['third'])
+  const [count, increment] = React.useState(0)
+
+  const selectAll = () => setValues(['first', 'second', 'third'])
+  const deselectAll = () => setValues([])
+
+  return (
+    <>
+      <Button
+        variant="secondary"
+        text="Select all"
+        on_click={selectAll}
+        right
+      />
+      <Button
+        variant="secondary"
+        text="Deselect"
+        on_click={deselectAll}
+        right
+      />
+      <Button
+        variant="secondary"
+        text={'Increment ' + count}
+        on_click={() => increment((s) => s + 1)}
+        right
+      />
+      <br />
+      <ToggleButton.Group
+        top
+        label="Vertical Group:"
+        variant="checkbox"
+        value={'second'}
+        multiselect={true}
+        values={values}
+        on_change={({ values }) => {
+          console.log('on_change', values)
+          setValues(values)
+        }}
+      >
+        <ToggleButton text="First" value="first" />
+        <ToggleButton text="Second" value="second" />
+        <ToggleButton text="Third" value="third" checked />
+      </ToggleButton.Group>
+    </>
+  )
+}
