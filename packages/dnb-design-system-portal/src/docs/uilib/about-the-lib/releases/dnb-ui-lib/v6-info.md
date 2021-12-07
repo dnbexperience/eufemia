@@ -16,7 +16,7 @@ redirect_from:
 
 ## Migration
 
-v6 contains a couple of braking changes. As a migration process, you can simply search and replace:
+v6 contains a couple of breaking changes. As a migration process, you can simply search and replace:
 
 1. find `--color-signal-yellow` or `--color-signal-yellow-30` and replace it with `--color-accent-yellow` and `--color-accent-yellow-30`
 1. find `weight-book` replace it with `weight-regular`

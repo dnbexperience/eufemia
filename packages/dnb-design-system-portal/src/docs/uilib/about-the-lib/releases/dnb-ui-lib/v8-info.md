@@ -10,7 +10,7 @@ redirect_from:
 
 ## Migration
 
-v8 contains a couple of _braking changes_. As a migration process, you can simply search and replace:
+v8 contains a couple of _breaking changes_. As a migration process, you can simply search and replace:
 
 1. Find `black-30` and replace it with `black-20`.
 1. Removed the undocumented icons package `dnb-ui-icons-archive`.
