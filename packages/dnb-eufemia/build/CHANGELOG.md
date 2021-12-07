@@ -3,6 +3,27 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.17.0](https://github.com/dnbexperience/eufemia/compare/v9.16.3...v9.17.0) (2021-12-07)
+
+
+### Bug Fixes
+
+* **Breadcrumb:** Spacing prop + contrast colors ([29dd469](https://github.com/dnbexperience/eufemia/commit/29dd4692cc1cb142cb7d49f031ef59aed6453169))
+* **Button:** fix margin on tertiary button multiline ([f332154](https://github.com/dnbexperience/eufemia/commit/f332154279f724de7bbacf94000681f04b4f45e5))
+* enhance type generation when using Button.propTypes instead of buttonPropTypes ([6c81db7](https://github.com/dnbexperience/eufemia/commit/6c81db7b88f19238a99568ed2616c7505fcb9db3))
+* fix re-render issue with ToggleButtons ([6507e0f](https://github.com/dnbexperience/eufemia/commit/6507e0fb18bb970c4772a292153b64310808bb85))
+* **InputMasked:** only use inputmode=numeric/decimal when safe to use ([01f95e0](https://github.com/dnbexperience/eufemia/commit/01f95e034e67290acebd6888942ff6bea1cb73fd))
+* **Input:** use emerald-green on focus border color ([a7fdcba](https://github.com/dnbexperience/eufemia/commit/a7fdcba6b0ba5b78953aad4ee154106c32e548cc))
+* **Modal:** enhance Modal performance ([cff5e00](https://github.com/dnbexperience/eufemia/commit/cff5e00d80550b273df69965a50884d68dfd08e0))
+* **StepIndicator:** fix TypeScript private event emitter warning ([cee529d](https://github.com/dnbexperience/eufemia/commit/cee529d742dab37c44c671b23e53c055e91ef560))
+* **StepIndicator:** show skeleton during SSR if no data is given to Sidebar ([696d209](https://github.com/dnbexperience/eufemia/commit/696d2098f2839c02707ceb39e328bc99e056b389))
+
+
+### Features
+
+* add icons: facebook, linkedin, instagram and tag ([7fa3da1](https://github.com/dnbexperience/eufemia/commit/7fa3da1e973a7f2c6de5fb40bb3c23252bd27280))
+* **GlobalStatus:** New design ([88630ec](https://github.com/dnbexperience/eufemia/commit/88630ece7c88a94b8234e305cc139f2b713d7ce1))
+
 ## [9.16.3](https://github.com/dnbexperience/eufemia/compare/v9.16.2...v9.16.3) (2021-11-22)
 
 
