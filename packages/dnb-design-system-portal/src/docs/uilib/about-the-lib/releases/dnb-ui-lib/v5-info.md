@@ -16,7 +16,7 @@ redirect_from:
 
 ## Migration
 
-v5 contains a couple of braking changes. As a migration process, you can simply search your application for:
+v5 contains a couple of breaking changes. As a migration process, you can simply search your application for:
 
 - find `save_alt_01` and replace if with `save`
 - find `--color-cherry-red` or `--color-cherry-red-8` and replace it with `--color-fire-red` and `--color-fire-red-8`
