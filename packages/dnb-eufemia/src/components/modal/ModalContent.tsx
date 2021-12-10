@@ -171,10 +171,11 @@ export default class ModalContent extends React.PureComponent<
   }
 
   setAndroidFocusHelper() {
+    const userAgent = navigator.userAgent || navigator.vendor
     if (
       typeof window !== 'undefined' &&
       typeof navigator !== 'undefined' &&
-      /Android/.test(navigator.appVersion)
+      /android/i.test(userAgent)
     ) {
       window.addEventListener('resize', this._androidFocusHelper)
     }
