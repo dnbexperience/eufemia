@@ -17,18 +17,18 @@ describe('type definitions', () => {
   })
 
   it.each(buildStages)(
-    'has correct Modal type definitions on stage %s',
+    'has correct Input type definitions on stage %s',
     (stage) => {
       expect(
         fs.existsSync(
-          path.resolve(`./build/${stage}/components/Modal.d.ts`)
+          path.resolve(`./build/${stage}/components/Input.d.ts`)
         )
       ).toBe(true)
 
       // To ensure babel did not compile the d.ts file
       expect(
         fs.readFileSync(
-          path.resolve(`./build/${stage}/components/modal/Modal.d.ts`),
+          path.resolve(`./build/${stage}/components/input/Input.d.ts`),
           'utf-8'
         )
       ).toMatch(/export interface/g)
@@ -39,7 +39,7 @@ describe('type definitions', () => {
 describe('babel build', () => {
   it.each(buildStages)('has correctly compiled on stage %s', (stage) => {
     expect(
-      fs.existsSync(path.resolve(`./build/${stage}/components/Modal.js`))
+      fs.existsSync(path.resolve(`./build/${stage}/components/Input.js`))
     ).toBe(true)
 
     switch (stage) {
@@ -63,10 +63,10 @@ describe('babel build', () => {
 
           {
             const content = fs.readFileSync(
-              path.resolve(`./build/${stage}/components/modal/Modal.js`),
+              path.resolve(`./build/${stage}/components/input/Input.js`),
               'utf-8'
             )
-            expect(content).toContain('var Modal = function')
+            expect(content).toContain('var Input = function')
             expect(content).toMatch(/^"use strict";/g)
           }
 
@@ -95,10 +95,10 @@ describe('babel build', () => {
 
           {
             const content = fs.readFileSync(
-              path.resolve(`./build/${stage}/components/modal/Modal.js`),
+              path.resolve(`./build/${stage}/components/input/Input.js`),
               'utf-8'
             )
-            expect(content).toContain('export { Modal as default };')
+            expect(content).toContain('export { Input as default };')
             expect(content).toContain('core-js/modules/es')
             expect(content).toContain(
               'import _extends from "@babel/runtime/helpers/esm/extends";'
@@ -133,10 +133,10 @@ describe('babel build', () => {
 
           {
             const content = fs.readFileSync(
-              path.resolve(`./build/${stage}/components/modal/Modal.js`),
+              path.resolve(`./build/${stage}/components/input/Input.js`),
               'utf-8'
             )
-            expect(content).toMatch(/export default class Modal extends/g)
+            expect(content).toMatch(/export default class Input extends/g)
             expect(content).not.toContain('core-js/modules/es')
             expect(content).toContain(
               'import _extends from "@babel/runtime/helpers/esm/extends";'

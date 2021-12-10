@@ -4,31 +4,30 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Section from '../section/Section'
 import ModalContext from './ModalContext'
+import { ModalInnerProps } from './types'
 
-export default class ModalInner extends React.PureComponent {
+export default class ModalInner extends React.PureComponent<
+  ModalInnerProps & React.HTMLProps<HTMLElement>
+> {
   static contextType = ModalContext
-  static propTypes = {
-    style_type: PropTypes.string,
-    className: PropTypes.string,
-  }
-  static defaultProps = {
-    style_type: 'black-3',
-    className: null,
-  }
 
   componentDidMount() {
-    const { style_type } = this.props
+    const { style_type = 'black-3' } = this.props
     if (style_type) {
       this.context.setBackgroundColor(style_type)
     }
   }
 
   render() {
-    const { className, style_type, ...props } = this.props
+    const {
+      className = null,
+      style_type = 'black-3',
+      ref, // eslint-disable-line
+      ...props
+    } = this.props
 
     return (
       <Section
