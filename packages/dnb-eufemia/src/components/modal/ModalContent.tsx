@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
@@ -27,96 +26,33 @@ import ScrollView from '../../fragments/scroll-view/ScrollView'
 import ModalContext from './ModalContext'
 import ModalHeader, { ModalHeaderBar } from './ModalHeader'
 import { IS_IOS, IS_SAFARI, IS_MAC } from '../../shared/helpers'
+import { ModalContentProps } from './types'
 
-export default class ModalContent extends React.PureComponent {
-  static propTypes = {
-    modal_content: PropTypes.node.isRequired,
-    mode: PropTypes.oneOf(['modal', 'drawer']),
-    bar_content: PropTypes.node,
-    header_content: PropTypes.node,
-    hide: PropTypes.bool,
-    id: PropTypes.string,
-    root_id: PropTypes.string,
-    labelled_by: PropTypes.string,
-    focus_selector: PropTypes.string,
-    content_id: PropTypes.string,
-    title: PropTypes.node,
-    close_title: PropTypes.string,
-    dialog_title: PropTypes.string,
-    hide_close_button: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    close_button_attributes: PropTypes.object,
-    spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    prevent_close: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    prevent_core_style: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    animation_duration: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
-    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    no_animation_on_mobile: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    min_width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    max_width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    fullscreen: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    align_content: PropTypes.string,
-    container_placement: PropTypes.string,
-    class: PropTypes.string,
-    content_class: PropTypes.string,
-    overlay_class: PropTypes.string,
+interface ModalContentState {
+  triggeredBy: string
+  triggeredByEvent: Event
+  color: string
+}
 
-    closeModal: PropTypes.func.isRequired,
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-      PropTypes.func,
-    ]),
+declare global {
+  interface Window {
+    __modalStack: any[]
   }
+}
 
-  static defaultProps = {
-    mode: null,
-    bar_content: null,
-    header_content: null,
-    hide: null,
-    id: null,
-    root_id: null,
-    labelled_by: null,
-    focus_selector: null,
-    content_id: null,
-    title: null,
-    close_title: null,
-    dialog_title: null,
-    hide_close_button: null,
-    close_button_attributes: null,
-    spacing: null,
-    prevent_close: null,
-    prevent_core_style: null,
-    animation_duration: null,
-    no_animation: null,
-    no_animation_on_mobile: null,
-    min_width: null,
-    max_width: null,
-    fullscreen: null,
-    align_content: null,
-    container_placement: null,
-    class: null,
-    overlay_class: null,
-    content_class: null,
+export default class ModalContent extends React.PureComponent<
+  ModalContentProps & React.HTMLProps<HTMLElement>,
+  ModalContentState
+> {
+  state = { triggeredBy: null, triggeredByEvent: null, color: null }
 
-    closeModal: null,
-    className: null,
-    children: null,
-  }
-
-  state = { triggeredBy: null, triggeredByEvent: null }
+  _contentRef: React.RefObject<any>
+  _id: string
+  _lockTimeout: NodeJS.Timeout
+  _focusTimeout: NodeJS.Timeout
+  _androidFocusTimeout: NodeJS.Timeout
+  _ii: InteractionInvalidation
+  _iiLocal: InteractionInvalidation
 
   constructor(props) {
     super(props)
@@ -127,6 +63,7 @@ export default class ModalContent extends React.PureComponent {
   }
 
   componentDidMount() {
+    const { id = null, no_animation = null } = this.props
     // Add it to the index at first
     // we use it later with getListOfModalRoots
     this.addToIndex()
@@ -138,15 +75,11 @@ export default class ModalContent extends React.PureComponent {
     this.setFocus()
     this.setAndroidFocusHelper()
 
-    const id = this.props.id
     dispatchCustomElementEvent(this, 'on_open', {
       id,
     })
 
-    if (
-      isTrue(this.props.no_animation) ||
-      process.env.NODE_ENV === 'test'
-    ) {
+    if (isTrue(no_animation) || process.env.NODE_ENV === 'test') {
       this.lockBody() // forces browser to re-paint
     } else {
       this._lockTimeout = setTimeout(
@@ -268,37 +201,17 @@ export default class ModalContent extends React.PureComponent {
     }, parseFloat(this.props.animation_duration) / 2) // Older Android needs a delay here
   }
 
-  addToIndex() {
-    if (typeof window !== 'undefined') {
-      try {
-        if (!Array.isArray(window.__modalStack)) {
-          window.__modalStack = []
-        }
-        window.__modalStack.push(this)
-      } catch (e) {
-        warn(e)
-      }
-    }
-  }
-
-  removeFromIndex() {
-    if (typeof window !== 'undefined') {
-      try {
-        if (!Array.isArray(window.__modalStack)) {
-          window.__modalStack = []
-        }
-        window.__modalStack = window.__modalStack.filter(
-          (cur) => cur !== this
-        )
-      } catch (e) {
-        warn(e)
-      }
-    }
-  }
-
   setFocus() {
-    const { focus_selector, no_animation, animation_duration } = this.props
+    const {
+      focus_selector = null,
+      no_animation = null,
+      animation_duration = null,
+    } = this.props
     const elem = this._contentRef.current
+    const timeoutDuration =
+      typeof animation_duration === 'string'
+        ? parseFloat(animation_duration)
+        : animation_duration
 
     if (elem) {
       clearTimeout(this._focusTimeout)
@@ -328,7 +241,7 @@ export default class ModalContent extends React.PureComponent {
             warn(e)
           }
         },
-        isTrue(no_animation) ? 0 : parseFloat(animation_duration) || 0
+        isTrue(no_animation) ? 0 : timeoutDuration || 0
       ) // with this delay, the user can press esc without an focus action first
     }
   }
@@ -344,29 +257,32 @@ export default class ModalContent extends React.PureComponent {
     clearAllBodyScrollLocks()
   }
 
-  preventClick = (e) => {
-    if (e) {
-      e.stopPropagation()
+  preventClick = (event) => {
+    if (event) {
+      event.stopPropagation()
     }
   }
 
-  onCloseClickHandler = (e) => {
-    this.closeModal(e, { triggeredBy: 'button' })
+  onCloseClickHandler = (event) => {
+    this.closeModalContent(event, { triggeredBy: 'button' })
   }
 
-  onContentClickHandler = (e) => {
-    this.closeModal(e, { triggeredBy: 'overlay', ifIsLatest: false })
+  onContentClickHandler = (event) => {
+    this.closeModalContent(event, {
+      triggeredBy: 'overlay',
+      ifIsLatest: false,
+    })
   }
 
-  onKeyDownHandler = (e) => {
-    switch (keycode(e)) {
+  onKeyDownHandler = (event) => {
+    switch (keycode(event)) {
       case 'esc': {
         // const mostCurrent = [...getListOfModalRoots()].pop()
-        const mostCurrent = getListOfModalRoots(-1)
+        const mostCurrent = getModalRoot(-1)
 
         if (mostCurrent === this) {
-          e.preventDefault()
-          this.closeModal(e, {
+          event.preventDefault()
+          this.closeModalContent(event, {
             triggeredBy: 'keyboard',
           })
         }
@@ -376,7 +292,7 @@ export default class ModalContent extends React.PureComponent {
     }
   }
 
-  closeModal(event, { triggeredBy, ...params }) {
+  closeModalContent(event, { triggeredBy, ...params }) {
     event?.persist?.()
     this.setState({ triggeredBy, triggeredByEvent: event }, () => {
       this.props.closeModal(event, {
@@ -386,7 +302,39 @@ export default class ModalContent extends React.PureComponent {
     })
   }
 
-  setBackgroundColor = (color) => {
+  addToIndex() {
+    if (typeof window !== 'undefined') {
+      try {
+        if (!Array.isArray(window.__modalStack)) {
+          window.__modalStack = []
+        }
+        window.__modalStack.push(this)
+      } catch (e) {
+        warn(e)
+      }
+    }
+  }
+
+  removeFromIndex() {
+    if (typeof window !== 'undefined') {
+      try {
+        if (!Array.isArray(window.__modalStack)) {
+          window.__modalStack = []
+        }
+        window.__modalStack = window.__modalStack.filter(
+          (cur) => cur !== this
+        )
+      } catch (e) {
+        warn(e)
+      }
+    }
+  }
+
+  setBackgroundColor = (color: string) => {
+    document.documentElement.style.setProperty(
+      '--modal-background-color',
+      color
+    )
     this.setState({
       color,
     })
@@ -408,7 +356,6 @@ export default class ModalContent extends React.PureComponent {
       close_button_attributes, // eslint-disable-line
       spacing,
       prevent_close, // eslint-disable-line
-      open_delay, // eslint-disable-line
       prevent_core_style,
       animation_duration, // eslint-disable-line
       no_animation,
@@ -419,27 +366,27 @@ export default class ModalContent extends React.PureComponent {
       align_content,
       container_placement,
       closeModal, // eslint-disable-line
+      open_delay, // eslint-disable-line
       className,
       class: _className,
       content_class,
       overlay_class,
       content_id,
-      toggleOpenClose, // eslint-disable-line
       children, // eslint-disable-line
+      ref, // eslint-disable-line
+      toggleOpenClose, //eslint-disable-line
       ...rest
     } = this.props
+    const { color } = this.state
 
     const contentId = content_id || makeUniqueId('modal-')
-    const style = this.state.color
-      ? { '--modal-background-color': `var(--color-${this.state.color})` }
-      : null
 
     // ensure the min/max don't conflict
     let minWidth = min_width
     let maxWidth = max_width
-    if (minWidth && !maxWidth && parseFloat(minWidth) > 0) {
+    if (minWidth && !maxWidth && parseFloat(String(minWidth)) > 0) {
       maxWidth = 0
-    } else if (maxWidth && !minWidth && parseFloat(maxWidth) > 0) {
+    } else if (maxWidth && !minWidth && parseFloat(String(maxWidth)) > 0) {
       minWidth = 0
     }
 
@@ -513,42 +460,17 @@ export default class ModalContent extends React.PureComponent {
       ...rest,
     }
 
-    const overlayParams = {
-      className: classnames(
-        'dnb-modal__overlay',
-        hide && 'dnb-modal__overlay--hide',
-        mode && `dnb-modal__overlay--${mode}`,
-        isTrue(no_animation) && 'dnb-modal__overlay--no-animation',
-        isTrue(no_animation_on_mobile) &&
-          'dnb-modal__overlay--no-animation-on-mobile',
-        overlay_class
-      ),
-    }
-
     // also used for code markup simulation
     validateDOMAttributes(this.props, innerParams)
 
-    const bar = findElementInChildren(
+    const barExists = findElementInChildren(
       modal_content,
       (cur) => cur.type === ModalHeaderBar
-    ) ? null : (
-      <ModalHeaderBar>{bar_content}</ModalHeaderBar>
     )
 
-    const header = findElementInChildren(
+    const headerExists = findElementInChildren(
       modal_content,
       (cur) => cur.type === ModalHeader
-    ) ? null : (
-      <ModalHeader title={title}>{header_content}</ModalHeader>
-    )
-
-    const content = (
-      <div
-        id={contentId + '-content'}
-        className="dnb-modal__content__wrapper"
-      >
-        {modal_content}
-      </div>
     )
 
     return (
@@ -561,26 +483,64 @@ export default class ModalContent extends React.PureComponent {
         }}
       >
         <div id={contentId} {...contentParams}>
+          {/* Div should now be clickable */}
           <ScrollView {...innerParams}>
             <div
-              tabIndex="-1"
+              tabIndex={-1}
               className="dnb-modal__content__spacing dnb-no-focus"
-              style={style}
+              style={
+                color
+                  ? { '--modal-background-color': `var(--color-${color})` }
+                  : null
+              }
               ref={this._contentRef}
             >
-              {bar}
-              {header}
-              {content}
+              {!barExists && (
+                <ModalHeaderBar>{bar_content}</ModalHeaderBar>
+              )}
+              {!headerExists && (
+                <ModalHeader title={title}>{header_content}</ModalHeader>
+              )}
+              <div
+                id={contentId + '-content'}
+                className="dnb-modal__content__wrapper"
+              >
+                {modal_content}
+              </div>
             </div>
           </ScrollView>
         </div>
-        <span {...overlayParams} aria-hidden="true" />
+        <span
+          className={classnames(
+            'dnb-modal__overlay',
+            hide && 'dnb-modal__overlay--hide',
+            mode && `dnb-modal__overlay--${mode}`,
+            isTrue(no_animation) && 'dnb-modal__overlay--no-animation',
+            isTrue(no_animation_on_mobile) &&
+              'dnb-modal__overlay--no-animation-on-mobile',
+            overlay_class
+          )}
+          aria-hidden="true"
+        />
       </ModalContext.Provider>
     )
   }
 }
 
-export function getListOfModalRoots(index = null) {
+export function getListOfModalRoots(): any[] {
+  if (typeof window !== 'undefined') {
+    try {
+      const stack = window.__modalStack || []
+      return stack
+    } catch (e) {
+      warn(e)
+    }
+  }
+
+  return []
+}
+
+export function getModalRoot(index?: number): any {
   if (typeof window !== 'undefined') {
     try {
       const stack = window.__modalStack || []
@@ -592,11 +552,11 @@ export function getListOfModalRoots(index = null) {
         }
       }
 
-      return stack
+      return null
     } catch (e) {
       warn(e)
     }
   }
 
-  return []
+  return null
 }

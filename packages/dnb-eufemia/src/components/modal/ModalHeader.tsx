@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   isTrue,
@@ -16,22 +15,24 @@ import ModalContext from './ModalContext'
 import Button from '../button/Button'
 import H1 from '../../elements/H1'
 import Context from '../../shared/Context'
+import {
+  ModalHeaderProps,
+  ModalHeaderBarProps,
+  CloseButtonProps,
+} from './types'
 
-export default class ModalHeader extends React.PureComponent {
+export default class ModalHeader extends React.PureComponent<
+  ModalHeaderProps & React.HTMLProps<HTMLElement>
+> {
   static contextType = ModalContext
-  static propTypes = {
-    children: PropTypes.node,
-    title: PropTypes.node,
-    className: PropTypes.string,
-  }
-  static defaultProps = {
-    children: null,
-    title: null,
-    className: null,
-  }
-
   render() {
-    const { title, className, children, ...props } = this.props
+    const {
+      title = null,
+      className = null,
+      children = null,
+      ref, // eslint-disable-line
+      ...props
+    } = this.props
 
     const customHeader = findElementInChildren(children, (cur) => {
       return cur.type === 'h1' || cur.type === H1
@@ -69,16 +70,16 @@ export default class ModalHeader extends React.PureComponent {
   }
 }
 
-export class ModalHeaderBar extends React.PureComponent {
+interface ModalHeaderState {
+  showShadow: boolean
+}
+export class ModalHeaderBar extends React.PureComponent<
+  ModalHeaderBarProps & React.HTMLProps<HTMLElement>,
+  ModalHeaderState
+> {
   static contextType = ModalContext
-  static propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string,
-  }
-  static defaultProps = {
-    children: null,
-    className: null,
-  }
+  _ref: React.RefObject<any>
+  intersectionObserver: IntersectionObserver
 
   constructor(props) {
     super(props)
@@ -116,13 +117,22 @@ export class ModalHeaderBar extends React.PureComponent {
   }
 
   render() {
-    const { className, children, ...props } = this.props
+    const {
+      className = null,
+      children = null,
+      ref, //eslint-disable-line
+      ...props
+    } = this.props
+    const { showShadow } = this.state
+    const {
+      title,
+      hide_close_button,
+      close_button_attributes,
+      onCloseClickHandler,
+      close_title,
+    } = this.context
 
-    if (
-      !this.context.title &&
-      isTrue(this.context.hide_close_button) &&
-      !this._ref.current
-    ) {
+    if (!title && isTrue(hide_close_button) && !this._ref.current) {
       return null
     }
 
@@ -131,7 +141,7 @@ export class ModalHeaderBar extends React.PureComponent {
         style_type="white"
         className={classnames(
           'dnb-modal__header__bar',
-          this.state.showShadow && 'dnb-modal__header__bar--sticky',
+          showShadow && 'dnb-modal__header__bar--sticky',
           className
         )}
         inner_ref={this._ref}
@@ -139,12 +149,12 @@ export class ModalHeaderBar extends React.PureComponent {
       >
         <div className="dnb-modal__header__bar__inner">{children}</div>
 
-        {!isTrue(this.context.hide_close_button) && (
+        {!isTrue(hide_close_button) && (
           <div className="dnb-modal__header__bar__close">
             <CloseButton
-              on_click={this.context.onCloseClickHandler}
-              close_title={this.context.close_title}
-              {...this.context.close_button_attributes}
+              on_click={onCloseClickHandler}
+              close_title={close_title}
+              {...close_button_attributes}
             />
           </div>
         )}
@@ -153,15 +163,10 @@ export class ModalHeaderBar extends React.PureComponent {
   }
 }
 
-export class CloseButton extends React.PureComponent {
+export class CloseButton extends React.PureComponent<
+  CloseButtonProps & React.HTMLProps<HTMLElement>
+> {
   static contextType = Context
-  static propTypes = {
-    on_click: PropTypes.func.isRequired,
-    close_title: PropTypes.string,
-    size: PropTypes.string,
-    icon_position: PropTypes.string,
-    className: PropTypes.string,
-  }
   static defaultProps = {
     close_title: null,
     size: 'large',
@@ -173,7 +178,9 @@ export class CloseButton extends React.PureComponent {
     // use only the props from context, who are available here anyway
     const {
       on_click,
-      close_title,
+      close_title = null,
+      size = 'large',
+      icon_position = 'left',
       className = null,
       ...rest
     } = extendPropsWithContext(
@@ -190,6 +197,8 @@ export class CloseButton extends React.PureComponent {
         className={classnames('dnb-modal__close-button', className)}
         icon="close"
         on_click={on_click}
+        size={size}
+        icon_position={icon_position}
         {...rest}
       />
     )
