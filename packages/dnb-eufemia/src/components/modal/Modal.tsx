@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import ReactDOM from 'react-dom'
 import classnames from 'classnames'
 import { SuffixContext } from '../../shared/helpers/Suffix'
 import Context from '../../shared/Context'
@@ -19,14 +18,14 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import HelpButtonInstance from '../help-button/HelpButtonInstance'
-import ModalContent, {
-  getListOfModalRoots,
-  getModalRoot,
-} from './ModalContent'
+import { getListOfModalRoots, getModalRoot } from './helpers'
 import ModalContext from './ModalContext'
 import ModalInner from './ModalInner'
-import ModalHeader, { ModalHeaderBar, CloseButton } from './ModalHeader'
-import { ModalProps, ModalRootProps } from './types'
+import { ModalProps } from './types'
+import ModalHeader from './components/ModalHeader'
+import ModalHeaderBar from './components/ModalHeaderBar'
+import CloseButton from './components/CloseButton'
+import ModalRoot from './ModalRoot'
 
 export const ANIMATION_DURATION = 300
 
@@ -131,29 +130,6 @@ export default class Modal extends React.PureComponent<
       return props.modal_content(props)
     }
     return processChildren(props)
-  }
-
-  static insertModalRoot(id) {
-    if (typeof window === 'undefined') {
-      return false
-    }
-
-    try {
-      id = `dnb-modal-${id || 'root'}`
-      window.__modalRoot = document.getElementById(id)
-      if (!window.__modalRoot) {
-        window.__modalRoot = document.createElement('div')
-        window.__modalRoot.setAttribute('id', id)
-        document.body.insertBefore(
-          window.__modalRoot,
-          document.body.firstChild
-        )
-      }
-    } catch (e) {
-      warn('Modal: Could not insert dnb-modal-root', e)
-    }
-
-    return window.__modalRoot
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -461,7 +437,7 @@ export default class Modal extends React.PureComponent<
       const triggerAttributes = { ...trigger_attributes }
 
       // Deprecated - this is only to handle the legacy Modal trigger button
-      //eslint-disable-next-line
+      // eslint-disable-next-line
       for (let prop in props) {
         if (prop.includes('trigger_') && props[prop] !== null) {
           const name = String(prop).replace('trigger_', '')
@@ -539,93 +515,6 @@ export default class Modal extends React.PureComponent<
     }
 
     return <SuffixContext.Consumer>{render}</SuffixContext.Consumer>
-  }
-}
-
-interface ModalRootState {
-  isMounted: boolean
-}
-class ModalRoot extends React.PureComponent<
-  ModalRootProps & React.HTMLProps<HTMLElement>,
-  ModalRootState
-> {
-  portalElem: HTMLDivElement | null
-  static defaultProps = {
-    id: null,
-    root_id: null,
-    direct_dom_return: false,
-    children: null,
-  }
-
-  state = {
-    isMounted: false,
-  }
-
-  componentDidMount() {
-    const { direct_dom_return, root_id } = this.props
-    if (!isTrue(direct_dom_return)) {
-      Modal.insertModalRoot(root_id)
-
-      try {
-        if (!this.portalElem) {
-          this.portalElem = document.createElement('div')
-          this.portalElem.className = 'dnb-modal-root__inner'
-        }
-        if (
-          this.portalElem &&
-          typeof window !== 'undefined' &&
-          window.__modalRoot
-        ) {
-          window.__modalRoot.appendChild(this.portalElem)
-        }
-      } catch (e) {
-        warn(e)
-      }
-      this.setState({ isMounted: true })
-    }
-  }
-
-  componentWillUnmount() {
-    try {
-      if (
-        this.portalElem &&
-        typeof window !== 'undefined' &&
-        window.__modalRoot &&
-        window.__modalRoot.removeChild
-      ) {
-        window.__modalRoot.removeChild(this.portalElem)
-        this.portalElem = null
-      }
-    } catch (e) {
-      warn(e)
-    }
-  }
-
-  render() {
-    const {
-      children,
-      direct_dom_return,
-      ref, //eslint-disable-line
-      ...props
-    } = this.props
-
-    if (isTrue(direct_dom_return)) {
-      return <ModalContent {...props}>{children}</ModalContent>
-    }
-
-    if (
-      this.portalElem &&
-      typeof window !== 'undefined' &&
-      window.__modalRoot &&
-      this.state.isMounted
-    ) {
-      return ReactDOM.createPortal(
-        <ModalContent {...props}>{children}</ModalContent>,
-        this.portalElem
-      )
-    }
-
-    return null
   }
 }
 

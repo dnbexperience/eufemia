@@ -24,9 +24,16 @@ import {
 } from '../../shared/component-helper'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
 import ModalContext from './ModalContext'
-import ModalHeader, { ModalHeaderBar } from './ModalHeader'
+import ModalHeader from './components/ModalHeader'
+import ModalHeaderBar from './components/ModalHeaderBar'
 import { IS_IOS, IS_SAFARI, IS_MAC } from '../../shared/helpers'
 import { ModalContentProps } from './types'
+import {
+  getListOfModalRoots,
+  getModalRoot,
+  addToIndex,
+  removeFromIndex,
+} from './helpers'
 
 interface ModalContentState {
   triggeredBy: string
@@ -66,7 +73,7 @@ export default class ModalContent extends React.PureComponent<
     const { id = null, no_animation = null } = this.props
     // Add it to the index at first
     // we use it later with getListOfModalRoots
-    this.addToIndex()
+    addToIndex(this)
 
     // Because of nested modals/drawers, we run this regardless
     // has to be run at first – so the scrollbar gets removed
@@ -138,7 +145,7 @@ export default class ModalContent extends React.PureComponent<
     const modalRoots = getListOfModalRoots()
     const firstLevel = modalRoots[0]
 
-    this.removeFromIndex()
+    removeFromIndex(this)
 
     if (firstLevel === this) {
       this._ii?.revert()
@@ -301,34 +308,6 @@ export default class ModalContent extends React.PureComponent<
         ...params,
       })
     })
-  }
-
-  addToIndex() {
-    if (typeof window !== 'undefined') {
-      try {
-        if (!Array.isArray(window.__modalStack)) {
-          window.__modalStack = []
-        }
-        window.__modalStack.push(this)
-      } catch (e) {
-        warn(e)
-      }
-    }
-  }
-
-  removeFromIndex() {
-    if (typeof window !== 'undefined') {
-      try {
-        if (!Array.isArray(window.__modalStack)) {
-          window.__modalStack = []
-        }
-        window.__modalStack = window.__modalStack.filter(
-          (cur) => cur !== this
-        )
-      } catch (e) {
-        warn(e)
-      }
-    }
   }
 
   setBackgroundColor = (color: string) => {
@@ -526,38 +505,4 @@ export default class ModalContent extends React.PureComponent<
       </ModalContext.Provider>
     )
   }
-}
-
-export function getListOfModalRoots(): any[] {
-  if (typeof window !== 'undefined') {
-    try {
-      const stack = window.__modalStack || []
-      return stack
-    } catch (e) {
-      warn(e)
-    }
-  }
-
-  return []
-}
-
-export function getModalRoot(index?: number): any {
-  if (typeof window !== 'undefined') {
-    try {
-      const stack = window.__modalStack || []
-      if (index !== null) {
-        if (index === -1 && stack.length) {
-          return stack[stack.length - 1]
-        } else if (index > -1) {
-          return stack[index]
-        }
-      }
-
-      return null
-    } catch (e) {
-      warn(e)
-    }
-  }
-
-  return null
 }

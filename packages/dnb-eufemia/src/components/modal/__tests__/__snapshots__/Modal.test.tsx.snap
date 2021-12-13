@@ -8,12 +8,6 @@ exports[`Modal component have to match snapshot 1`] = `
       "props": Object {},
     }
   }
-  1={
-    Object {
-      "displayName": "ModalRoot",
-      "props": Object {},
-    }
-  }
   align_content={null}
   animation_duration={300}
   bar_content={null}
@@ -622,12 +616,6 @@ exports[`Modal component have to match snapshot 1`] = `
         "props": Object {},
       }
     }
-    1={
-      Object {
-        "displayName": "ModalRoot",
-        "props": Object {},
-      }
-    }
     align_content={null}
     animation_duration={300}
     bar_content={null}
@@ -672,12 +660,6 @@ exports[`Modal component have to match snapshot 1`] = `
       0={
         Object {
           "displayName": "Modal",
-          "props": Object {},
-        }
-      }
-      1={
-        Object {
-          "displayName": "ModalRoot",
           "props": Object {},
         }
       }
