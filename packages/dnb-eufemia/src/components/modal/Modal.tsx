@@ -19,13 +19,13 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import HelpButtonInstance from '../help-button/HelpButtonInstance'
 import { getListOfModalRoots, getModalRoot } from './helpers'
-import ModalContext from './ModalContext'
-import ModalInner from './ModalInner'
+import ModalInner from './components/ModalInner'
 import { ModalProps } from './types'
 import ModalHeader from './components/ModalHeader'
 import ModalHeaderBar from './components/ModalHeaderBar'
 import CloseButton from './components/CloseButton'
 import ModalRoot from './ModalRoot'
+import { ISpacingProps } from 'packages/dnb-eufemia/build/shared/interfaces'
 
 export const ANIMATION_DURATION = 300
 
@@ -35,7 +35,7 @@ interface ModalState {
 }
 
 export default class Modal extends React.PureComponent<
-  ModalProps & React.HTMLProps<HTMLElement>,
+  ModalProps & ISpacingProps,
   ModalState
 > {
   static tagName = 'dnb-modal'
@@ -62,8 +62,6 @@ export default class Modal extends React.PureComponent<
 
   static defaultProps = {
     id: null,
-    root_id: 'root',
-    mode: 'modal',
     focus_selector: null,
     labelled_by: null,
     title: null,
@@ -217,7 +215,10 @@ export default class Modal extends React.PureComponent<
     }
 
     const toggleNow = () => {
-      const { animation_duration, no_animation } = this.props
+      const {
+        animation_duration = ANIMATION_DURATION,
+        no_animation = false,
+      } = this.props
       const timeoutDuration =
         typeof animation_duration === 'string'
           ? parseFloat(animation_duration)
@@ -332,7 +333,7 @@ export default class Modal extends React.PureComponent<
     event: Event,
     { ifIsLatest, triggeredBy = null } = { ifIsLatest: true }
   ) => {
-    const { prevent_close } = this.props
+    const { prevent_close = false } = this.props
 
     if (isTrue(prevent_close)) {
       const id = this._id
@@ -402,8 +403,8 @@ export default class Modal extends React.PureComponent<
       id, // eslint-disable-line
       open_state, // eslint-disable-line
       open_delay, // eslint-disable-line
-      disabled,
-      spacing,
+      disabled, // eslint-disable-line
+      spacing = true,
       labelled_by,
       focus_selector,
       header_content,
@@ -412,14 +413,14 @@ export default class Modal extends React.PureComponent<
       // All "trigger_" are deprecated
       trigger,
       trigger_attributes,
-      trigger_hidden,
+      trigger_hidden = 'false',
       trigger_disabled, // eslint-disable-line
-      trigger_variant, // eslint-disable-line
+      trigger_variant = 'secondary', // eslint-disable-line
       trigger_text, // eslint-disable-line
       trigger_title, // eslint-disable-line
       trigger_size, // eslint-disable-line
       trigger_icon, // eslint-disable-line
-      trigger_icon_position, // eslint-disable-line
+      trigger_icon_position = 'left', // eslint-disable-line
       trigger_class, // eslint-disable-line
 
       ...rest
@@ -433,7 +434,7 @@ export default class Modal extends React.PureComponent<
     )
 
     const render = (suffixProps) => {
-      const modalProps: { title?: string } = {}
+      let modalTitle: string
       const triggerAttributes = { ...trigger_attributes }
 
       // Deprecated - this is only to handle the legacy Modal trigger button
@@ -451,34 +452,31 @@ export default class Modal extends React.PureComponent<
         }
       }
 
+      if (isTrue(disabled)) {
+        triggerAttributes.disabled = true
+      }
       if (triggerAttributes.id) {
         this._id = triggerAttributes.id
       }
 
       if (!rest.title && triggerAttributes.title) {
-        modalProps.title = triggerAttributes.title
+        modalTitle = triggerAttributes.title
       }
       // in case the modal is used in suffix and no title is given
       // suffixProps.label is also available, so we could use that too
       else if (!rest.title && suffixProps) {
-        modalProps.title = this.context.translation.HelpButton.title
-      }
-
-      if (isTrue(disabled)) {
-        triggerAttributes.disabled = true
+        modalTitle = this.context.translation.HelpButton.title
       }
 
       const TriggerButton = trigger ? trigger : HelpButtonInstance
 
       return (
-        <ModalContext.Provider value={{ id: this._id, ...rest }}>
+        <>
           {TriggerButton && !isTrue(trigger_hidden) && (
             <TriggerButton
               id={this._id}
               title={
-                !triggerAttributes.text
-                  ? props.title || modalProps.title
-                  : null
+                !triggerAttributes.text ? props.title || modalTitle : null
               }
               onClick={this.toggleOpenClose}
               {...triggerAttributes}
@@ -506,11 +504,10 @@ export default class Modal extends React.PureComponent<
               spacing={spacing}
               closeModal={this.close}
               hide={hide}
-              toggleOpenClose={this.toggleOpenClose}
-              {...modalProps}
+              title={rest.title || modalTitle}
             />
           )}
-        </ModalContext.Provider>
+        </>
       )
     }
 

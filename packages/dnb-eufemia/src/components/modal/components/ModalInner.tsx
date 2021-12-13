@@ -5,13 +5,18 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import Section from '../section/Section'
-import ModalContext from './ModalContext'
-import { ModalInnerProps } from './types'
+import Section from '../../section/Section'
+import ModalContext from '../ModalContext'
+import { SectionProps } from '../../Section'
 
-export default class ModalInner extends React.PureComponent<
-  ModalInnerProps & React.HTMLProps<HTMLElement>
-> {
+export interface ModalInnerProps extends SectionProps {
+  /**
+   * Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).
+   */
+  className?: string
+}
+
+export default class ModalInner extends React.PureComponent<ModalInnerProps> {
   static contextType = ModalContext
 
   componentDidMount() {

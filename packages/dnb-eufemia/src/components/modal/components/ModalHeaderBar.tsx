@@ -8,14 +8,27 @@ import classnames from 'classnames'
 import { isTrue } from '../../../shared/component-helper'
 import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
-import { ModalHeaderBarProps } from '../types'
 import CloseButton from './CloseButton'
+import { SectionProps } from '../../Section'
+
+export interface ModalHeaderBarProps extends SectionProps {
+  /**
+   * The content which will appear when triggering the modal/drawer.
+   */
+  children?: React.ReactNode
+
+  /**
+   * Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).
+   */
+  className?: string
+}
 
 interface ModalHeaderBarState {
   showShadow: boolean
 }
+
 export default class ModalHeaderBar extends React.PureComponent<
-  ModalHeaderBarProps & React.HTMLProps<HTMLElement>,
+  ModalHeaderBarProps,
   ModalHeaderBarState
 > {
   static contextType = ModalContext
@@ -67,7 +80,7 @@ export default class ModalHeaderBar extends React.PureComponent<
     const { showShadow } = this.state
     const {
       title,
-      hide_close_button,
+      hide_close_button = false,
       close_button_attributes,
       onCloseClickHandler,
       close_title,

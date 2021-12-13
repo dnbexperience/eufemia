@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { warn, isTrue } from '../../shared/component-helper'
 import ModalContent from './ModalContent'
-import { ModalRootProps } from './types'
+import { ModalContentProps } from './types'
 
 declare global {
   interface Window {
@@ -10,18 +10,32 @@ declare global {
   }
 }
 
+export interface ModalRootProps extends ModalContentProps {
+  /**
+   * The id used internal in the modal/drawer root element. Defaults to `root`, so the element id will be `dnb-modal-root`.
+   */
+  id?: string
+  root_id?: string
+  direct_dom_return?: string | boolean
+
+  /**
+   * The content which will appear when triggering the modal/drawer.
+   */
+  children?: string | React.ReactNode | ((...args: any[]) => any)
+}
+
 interface ModalRootState {
   isMounted: boolean
 }
 
 export default class ModalRoot extends React.PureComponent<
-  ModalRootProps & React.HTMLProps<HTMLElement>,
+  ModalRootProps,
   ModalRootState
 > {
   portalElem: HTMLDivElement | null
   static defaultProps = {
     id: null,
-    root_id: null,
+    root_id: 'root',
     direct_dom_return: false,
     children: null,
   }
@@ -54,7 +68,7 @@ export default class ModalRoot extends React.PureComponent<
   }
 
   componentDidMount() {
-    const { direct_dom_return, root_id } = this.props
+    const { direct_dom_return = false, root_id = 'root' } = this.props
     if (!isTrue(direct_dom_return)) {
       ModalRoot.insertModalRoot(root_id)
 
@@ -94,12 +108,7 @@ export default class ModalRoot extends React.PureComponent<
   }
 
   render() {
-    const {
-      children,
-      direct_dom_return,
-      ref, //eslint-disable-line
-      ...props
-    } = this.props
+    const { children, direct_dom_return, ...props } = this.props
 
     if (isTrue(direct_dom_return)) {
       return <ModalContent {...props}>{children}</ModalContent>

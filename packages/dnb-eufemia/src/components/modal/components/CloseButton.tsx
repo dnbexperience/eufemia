@@ -8,11 +8,16 @@ import classnames from 'classnames'
 import { extendPropsWithContext } from '../../../shared/component-helper'
 import Button from '../../button/Button'
 import Context from '../../../shared/Context'
-import { CloseButtonProps } from '../types'
+import { ButtonProps } from '../../button'
 
-export default class CloseButton extends React.PureComponent<
-  CloseButtonProps & React.HTMLProps<HTMLElement>
-> {
+export interface CloseButtonProps extends ButtonProps {
+  /**
+   * The title of the close button. Defaults to <em>Close</em> or <em>Lukk</em>.
+   */
+  close_title?: string
+}
+
+export default class CloseButton extends React.PureComponent<CloseButtonProps> {
   static contextType = Context
   static defaultProps = {
     close_title: null,
@@ -24,12 +29,11 @@ export default class CloseButton extends React.PureComponent<
   render() {
     // use only the props from context, who are available here anyway
     const {
-      on_click,
       close_title = null,
       size = 'large',
       icon_position = 'left',
       className = null,
-      ...rest
+      ...button_props
     } = extendPropsWithContext(
       this.props,
       CloseButton.defaultProps,
@@ -39,14 +43,13 @@ export default class CloseButton extends React.PureComponent<
     return (
       <Button
         type="button"
-        text={close_title}
         variant="tertiary"
-        className={classnames('dnb-modal__close-button', className)}
         icon="close"
-        on_click={on_click}
+        text={close_title}
         size={size}
         icon_position={icon_position}
-        {...rest}
+        className={classnames('dnb-modal__close-button', className)}
+        {...button_props}
       />
     )
   }

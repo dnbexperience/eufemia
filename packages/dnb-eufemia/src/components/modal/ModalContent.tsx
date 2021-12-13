@@ -48,7 +48,7 @@ declare global {
 }
 
 export default class ModalContent extends React.PureComponent<
-  ModalContentProps & React.HTMLProps<HTMLElement>,
+  ModalContentProps,
   ModalContentState
 > {
   state = { triggeredBy: null, triggeredByEvent: null, color: null }
@@ -70,7 +70,7 @@ export default class ModalContent extends React.PureComponent<
   }
 
   componentDidMount() {
-    const { id = null, no_animation = null } = this.props
+    const { id = null, no_animation = false } = this.props
     // Add it to the index at first
     // we use it later with getListOfModalRoots
     addToIndex(this)
@@ -216,7 +216,7 @@ export default class ModalContent extends React.PureComponent<
       animation_duration = null,
     } = this.props
     const elem = this._contentRef.current
-    const timeoutDuration =
+    const timeoutDuration: number =
       typeof animation_duration === 'string'
         ? parseFloat(animation_duration)
         : animation_duration
@@ -322,7 +322,7 @@ export default class ModalContent extends React.PureComponent<
 
   render() {
     const {
-      mode,
+      mode = 'modal',
       hide,
       title,
       labelled_by,
@@ -330,13 +330,12 @@ export default class ModalContent extends React.PureComponent<
       modal_content,
       bar_content,
       id: _id, // eslint-disable-line
-      close_title, // eslint-disable-line
+      close_title = 'Lukk',
       dialog_title, // eslint-disable-line
-      hide_close_button, // eslint-disable-line
-      close_button_attributes, // eslint-disable-line
+      hide_close_button,
+      close_button_attributes,
       spacing,
-      prevent_close, // eslint-disable-line
-      prevent_core_style,
+      prevent_core_style = false,
       animation_duration, // eslint-disable-line
       no_animation,
       no_animation_on_mobile,
@@ -346,15 +345,12 @@ export default class ModalContent extends React.PureComponent<
       align_content,
       container_placement,
       closeModal, // eslint-disable-line
-      open_delay, // eslint-disable-line
       className,
       class: _className,
       content_class,
       overlay_class,
       content_id,
       children, // eslint-disable-line
-      ref, // eslint-disable-line
-      toggleOpenClose, //eslint-disable-line
       ...rest
     } = this.props
     const { color } = this.state
@@ -384,7 +380,7 @@ export default class ModalContent extends React.PureComponent<
        *
        */
       role: useDialogRole ? 'dialog' : 'region',
-      'aria-modal': useDialogRole ? 'true' : undefined,
+      'aria-modal': useDialogRole ? true : undefined,
 
       /**
        * ARIA references
@@ -456,9 +452,13 @@ export default class ModalContent extends React.PureComponent<
     return (
       <ModalContext.Provider
         value={{
-          id: contentId,
+          id: this.props.id,
+          title,
+          hide_close_button,
+          close_button_attributes,
+          close_title,
+          mode,
           setBackgroundColor: this.setBackgroundColor,
-          ...this.props,
           onCloseClickHandler: this.onCloseClickHandler,
         }}
       >

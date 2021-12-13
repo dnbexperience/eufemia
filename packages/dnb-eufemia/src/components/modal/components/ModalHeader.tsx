@@ -7,12 +7,30 @@ import React from 'react'
 import classnames from 'classnames'
 import { findElementInChildren } from '../../../shared/component-helper'
 import Section from '../../section/Section'
+import { SectionProps } from '../../section'
 import ModalContext from '../ModalContext'
 import H1 from '../../../elements/H1'
-import { ModalHeaderProps } from '../types'
+import { ReactChildType } from '../types'
+
+interface ModalHeaderProps {
+  /**
+   * The content which will appear when triggering the modal/drawer.
+   */
+  children?: ReactChildType
+
+  /**
+   * The modal/drawer title. Displays on the very top of the content.
+   */
+  title?: React.ReactNode | string
+
+  /**
+   * Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).
+   */
+  className?: string
+}
 
 export default class ModalHeader extends React.PureComponent<
-  ModalHeaderProps & React.HTMLProps<HTMLElement>
+  ModalHeaderProps & SectionProps
 > {
   static contextType = ModalContext
   render() {

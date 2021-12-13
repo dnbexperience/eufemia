@@ -84,6 +84,9 @@ class ScrollView extends React.PureComponent<ScrollViewProps> {
   }
 }
 
-export default React.forwardRef(function ScrollViewRef(props, ref) {
+export default React.forwardRef(function ScrollViewRef(
+  props: ScrollViewProps,
+  ref
+) {
   return <ScrollView innerRef={ref} {...props} />
 })
