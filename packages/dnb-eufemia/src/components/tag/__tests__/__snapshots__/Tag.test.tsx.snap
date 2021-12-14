@@ -76,12 +76,14 @@ exports[`Tag scss have to match snapshot 1`] = `
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: var(--color-black-8);
-  border-radius: var(--tag-border-radius);
+  padding: var(--spacing-xx-small) var(--spacing-x-small);
   font-size: var(--font-size-x-small);
-  padding: var(--spacing-xx-small) var(--spacing-x-small); }
+  background-color: var(--color-black-8);
+  border-radius: var(--tag-border-radius); }
   .dnb-tag__icon {
     display: flex;
     align-items: center; }
+  .dnb-tag__text {
+    color: var(--color-black-80); }
 "
 `;
