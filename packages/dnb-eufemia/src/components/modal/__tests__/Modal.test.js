@@ -259,21 +259,31 @@ describe('Modal component', () => {
   })
 
   it('will warn if first heading is not h1', async () => {
-    jest.spyOn(global.console, 'log')
+    jest.spyOn(helpers, 'warn')
+    const log = global.console.log
     global.console.log = jest.fn()
+
+    const H2 = <h2>h2</h2>
 
     const Comp = mount(
       <Component no_animation={true}>
-        <Component.Header>
-          <h2>h2</h2>
-        </Component.Header>
+        <Component.Header>{H2}</Component.Header>
       </Component>,
       { attachTo: attachToBody() }
     )
-    Comp.find('button').simulate('click')
-    await wait(2)
 
-    expect(global.console.log).toHaveBeenCalledTimes(1)
+    // open
+    Comp.find('button').simulate('click')
+
+    await wait(1)
+
+    expect(helpers.warn).toHaveBeenCalledTimes(1)
+    expect(helpers.warn).toHaveBeenCalledWith(
+      'You have to provide a h1 element at first – instead of:',
+      expect.anything()
+    )
+
+    global.console.log = log
   })
 
   it('will only use one heading if a custom one is given', () => {
@@ -464,6 +474,86 @@ describe('Modal component', () => {
     expect(
       document.documentElement.hasAttribute('data-dnb-modal-active')
     ).toBe(false)
+  })
+
+  it('will remove HTML attributes on unmount when open_state is used', () => {
+    const HandleState = () => {
+      const [open, toggle] = React.useState(false)
+      return (
+        <>
+          <button id="toggle" onClick={() => toggle((s) => !s)}>
+            toggle
+          </button>
+          <Component
+            no_animation
+            id="modal-id"
+            open_state={open}
+            trigger_hidden
+          >
+            content
+          </Component>
+        </>
+      )
+    }
+
+    const Comp = mount(<HandleState />)
+
+    expect(
+      document.documentElement.hasAttribute('data-dnb-modal-active')
+    ).toBe(false)
+
+    Comp.find('button#toggle').simulate('click')
+
+    expect(
+      document.documentElement.getAttribute('data-dnb-modal-active')
+    ).toBe('modal-id')
+
+    Comp.find('button#toggle').simulate('click')
+
+    expect(
+      document.documentElement.hasAttribute('data-dnb-modal-active')
+    ).toBe(false)
+  })
+
+  it('will animate when open_state is used', async () => {
+    const on_open = jest.fn()
+    const on_close = jest.fn()
+
+    const HandleState = () => {
+      const [open, toggle] = React.useState(false)
+      return (
+        <>
+          <button id="toggle" onClick={() => toggle((s) => !s)}>
+            toggle
+          </button>
+          <Component
+            id="modal-id"
+            open_delay={2}
+            animation_duration={2}
+            open_state={open}
+            on_open={on_open}
+            on_close={on_close}
+            trigger_hidden
+          >
+            content
+          </Component>
+        </>
+      )
+    }
+
+    const Comp = mount(<HandleState />)
+
+    Comp.find('button#toggle').simulate('click')
+
+    await wait(3)
+
+    expect(on_open).toBeCalledTimes(1)
+
+    Comp.find('button#toggle').simulate('click')
+
+    await wait(10)
+
+    expect(on_close).toBeCalledTimes(1)
   })
 
   it('will prevent closing the modal on prevent_close', () => {
