@@ -39,6 +39,13 @@ it('renders a tag with content if both text and children prop is used', () => {
   expect(screen.queryByTestId('tag-text').textContent).toBe(text)
 })
 
+it('renders a tag with skeleton if skeleton is true', () => {
+  const skeletonClassName = 'dnb-skeleton'
+
+  render(<Tag skeleton>ClassName</Tag>)
+  expect(screen.queryByTestId('tag').className).toMatch(skeletonClassName)
+})
+
 it('renders a tag with provider', () => {
   render(
     <Provider locale="en-GB">
