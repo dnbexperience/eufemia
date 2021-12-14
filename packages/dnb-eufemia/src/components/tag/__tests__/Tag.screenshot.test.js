@@ -30,27 +30,4 @@ describe('Tag screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-
-  it('have to match Breadcrumb multiple with children', async () => {
-    const screenshot = await testPageScreenshot({
-      selector:
-        '[data-visual-test="breadcrumb-multiple-children"] .dnb-breadcrumb',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match Breadcrumb collapse', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="breadcrumb-collapse"] .dnb-breadcrumb',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match Breadcrumb collapse opened', async () => {
-    const screenshot = await testPageScreenshot({
-      selector:
-        '[data-visual-test="breadcrumb-collapse-open"] .dnb-breadcrumb',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 })
