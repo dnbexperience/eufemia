@@ -41,12 +41,6 @@ export interface TagProps {
    * Default: null
    */
   children?: string | React.ReactNode // ReactNode allows multiple elements, strings, numbers, fragments, portals...
-
-  /**
-   * Handle the click event on 'tag' element
-   * Default: null
-   */
-  onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 
 export const defaultProps = {
@@ -54,7 +48,6 @@ export const defaultProps = {
   skeleton: false,
   text: null,
   children: null,
-  onClick: null,
   icon: null,
 }
 
@@ -62,7 +55,7 @@ function Tag(localProps: TagProps & ISpacingProps) {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context
-  const { className, skeleton, children, onClick, icon, text, ...props } =
+  const { className, skeleton, children, icon, text, ...props } =
     extendPropsWithContext(
       { ...defaultProps, ...localProps },
       defaultProps,
