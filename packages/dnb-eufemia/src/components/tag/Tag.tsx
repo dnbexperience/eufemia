@@ -88,13 +88,13 @@ function Tag(localProps: TagProps & ISpacingProps) {
       {...props}
     >
       {icon && (
-        <span data-testid="dnb-tag__icon" className="dnb-tag__icon">
+        <span data-testid="tag-icon" className="dnb-tag__icon">
           <Icon icon={icon} right="x-small" />
         </span>
       )}
       {content && (
         <>
-          <span key="button-text-empty" className="dnb-tag__text">
+          <span data-testid="tag-text" className="dnb-tag__text">
             {content}
           </span>
         </>
