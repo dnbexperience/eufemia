@@ -14,7 +14,7 @@ TagWithSecondaryIcon,
 
 <TagDefault />
 
-#### Tag with icon
+#### Tag with primary icon
 
 <TagWithIcon />
 
