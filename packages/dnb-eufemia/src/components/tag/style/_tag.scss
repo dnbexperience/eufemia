@@ -20,4 +20,7 @@
     display: flex;
     align-items: center;
   }
+  &__text {
+    color: var(--color-black-80);
+  }
 }
