@@ -60,6 +60,7 @@ exports[`Modal component have to match snapshot 1`] = `
   <HelpButtonInstance
     class={null}
     className="dnb-modal__trigger"
+    disabled={null}
     hidden={false}
     icon={null}
     icon_position="left"
@@ -104,6 +105,8 @@ exports[`Modal component have to match snapshot 1`] = `
       }
     }
     onClick={[Function]}
+    size={null}
+    text={null}
     title="modal_title"
     variant="secondary"
   >

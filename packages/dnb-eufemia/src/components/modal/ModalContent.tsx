@@ -331,17 +331,17 @@ export default class ModalContent extends React.PureComponent<
       bar_content,
       id: _id, // eslint-disable-line
       close_title = 'Lukk',
-      dialog_title, // eslint-disable-line
-      hide_close_button,
+      dialog_title = 'Vindu',
+      hide_close_button = false,
       close_button_attributes,
-      spacing,
+      spacing = true,
       prevent_core_style = false,
       animation_duration, // eslint-disable-line
-      no_animation,
-      no_animation_on_mobile,
+      no_animation = false,
+      no_animation_on_mobile = false,
       min_width,
       max_width,
-      fullscreen,
+      fullscreen = 'auto',
       align_content,
       container_placement,
       closeModal, // eslint-disable-line
@@ -399,8 +399,7 @@ export default class ModalContent extends React.PureComponent<
        * If no labelled_by and no title is given,
        * set a fallback "dialog_title"
        */
-      'aria-label':
-        !title && !labelled_by ? this.props.dialog_title : undefined,
+      'aria-label': !title && !labelled_by ? dialog_title : undefined,
 
       className: classnames(
         'dnb-modal__content',

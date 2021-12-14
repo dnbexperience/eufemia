@@ -398,30 +398,31 @@ export default class Modal extends React.PureComponent<
     )
 
     const {
-      root_id,
-      content_id,
+      root_id = 'root',
+      content_id = null,
+      disabled = null,
+      spacing = true,
+      labelled_by = null,
+      focus_selector = null,
+      header_content = null,
+      bar_content = null,
+
       id, // eslint-disable-line
       open_state, // eslint-disable-line
       open_delay, // eslint-disable-line
-      disabled, // eslint-disable-line
-      spacing = true,
-      labelled_by,
-      focus_selector,
-      header_content,
-      bar_content,
 
       // All "trigger_" are deprecated
-      trigger,
-      trigger_attributes,
+      trigger = null,
+      trigger_attributes = null,
       trigger_hidden = 'false',
-      trigger_disabled, // eslint-disable-line
+      trigger_disabled = null, // eslint-disable-line
       trigger_variant = 'secondary', // eslint-disable-line
-      trigger_text, // eslint-disable-line
-      trigger_title, // eslint-disable-line
-      trigger_size, // eslint-disable-line
+      trigger_text = null, // eslint-disable-line
+      trigger_title = null, // eslint-disable-line
+      trigger_size = null, // eslint-disable-line
       trigger_icon, // eslint-disable-line
       trigger_icon_position = 'left', // eslint-disable-line
-      trigger_class, // eslint-disable-line
+      trigger_class = null, // eslint-disable-line
 
       ...rest
     } = props
@@ -434,38 +435,34 @@ export default class Modal extends React.PureComponent<
     )
 
     const render = (suffixProps) => {
-      let modalTitle: string
-      const triggerAttributes = { ...trigger_attributes }
-
-      // Deprecated - this is only to handle the legacy Modal trigger button
-      // eslint-disable-next-line
-      for (let prop in props) {
-        if (prop.includes('trigger_') && props[prop] !== null) {
-          const name = String(prop).replace('trigger_', '')
-          if (
-            name !== 'attributes' &&
-            name !== 'props' &&
-            prop !== 'element'
-          ) {
-            triggerAttributes[name] = props[prop]
-          }
-        }
+      const triggerAttributes = {
+        hidden: trigger_hidden,
+        disabled: trigger_disabled,
+        variant: trigger_variant,
+        text: trigger_text,
+        title: trigger_title,
+        size: trigger_size,
+        icon: trigger_icon,
+        icon_position: trigger_icon_position,
+        class: trigger_class,
+        ...trigger_attributes,
       }
-
       if (isTrue(disabled)) {
         triggerAttributes.disabled = true
       }
+
       if (triggerAttributes.id) {
         this._id = triggerAttributes.id
       }
 
-      if (!rest.title && triggerAttributes.title) {
-        modalTitle = triggerAttributes.title
+      let fallbackTitle: string
+      if (triggerAttributes.title) {
+        fallbackTitle = triggerAttributes.title
       }
       // in case the modal is used in suffix and no title is given
       // suffixProps.label is also available, so we could use that too
-      else if (!rest.title && suffixProps) {
-        modalTitle = this.context.translation.HelpButton.title
+      else if (suffixProps) {
+        fallbackTitle = this.context.translation.HelpButton.title
       }
 
       const TriggerButton = trigger ? trigger : HelpButtonInstance
@@ -474,12 +471,14 @@ export default class Modal extends React.PureComponent<
         <>
           {TriggerButton && !isTrue(trigger_hidden) && (
             <TriggerButton
+              {...triggerAttributes}
               id={this._id}
               title={
-                !triggerAttributes.text ? props.title || modalTitle : null
+                !triggerAttributes.text
+                  ? rest.title || fallbackTitle
+                  : null
               }
               onClick={this.toggleOpenClose}
-              {...triggerAttributes}
               innerRef={this._triggerRef}
               className={classnames(
                 'dnb-modal__trigger',
@@ -504,7 +503,7 @@ export default class Modal extends React.PureComponent<
               spacing={spacing}
               closeModal={this.close}
               hide={hide}
-              title={rest.title || modalTitle}
+              title={rest.title || fallbackTitle}
             />
           )}
         </>
