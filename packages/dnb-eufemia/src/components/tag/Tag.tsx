@@ -69,7 +69,7 @@ function Tag(localProps: TagProps & ISpacingProps) {
       context?.translation?.Tag,
       context?.Tag
     )
-  const skeletonClasses = createSkeletonClass('font', skeleton, context)
+  const skeletonClasses = createSkeletonClass('shape', skeleton, context)
   const spacingClasses = createSpacingClasses(props)
 
   const content = text || children
