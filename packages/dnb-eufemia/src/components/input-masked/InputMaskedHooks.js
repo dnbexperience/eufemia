@@ -106,7 +106,7 @@ export const useLocale = () => {
 export const useLocalValue = () => {
   const { props } = React.useContext(InputMaskedContext)
   const context = React.useContext(Context)
-  const maskParams = useNumberMaskParams()
+  const maskParams = useNumberMaskParams() || {}
   const locale = useLocale()
 
   const [localValue, setLocalValue] = React.useState(() =>
