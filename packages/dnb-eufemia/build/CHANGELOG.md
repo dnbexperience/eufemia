@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.17.1](https://github.com/dnbexperience/eufemia/compare/v9.17.0...v9.17.1) (2021-12-14)
+
+
+### Bug Fixes
+
+* fix bug in InputMasked without maskParams ([12eda1d](https://github.com/dnbexperience/eufemia/commit/12eda1de6dca60f2ad2379307be7e47aaeacf870))
+
 # [9.17.0](https://github.com/dnbexperience/eufemia/compare/v9.16.3...v9.17.0) (2021-12-07)
 
 
