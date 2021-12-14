@@ -74,8 +74,6 @@ function Tag(localProps: TagProps & ISpacingProps) {
 
   const content = text || children
 
-  /*   const isInteractive = !onClick
-   */
   return (
     <div
       className={classnames(
