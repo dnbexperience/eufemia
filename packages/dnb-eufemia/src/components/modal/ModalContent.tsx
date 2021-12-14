@@ -25,7 +25,7 @@ import {
 import ScrollView from '../../fragments/scroll-view/ScrollView'
 import ModalContext from './ModalContext'
 import ModalHeader, { ModalHeaderBar } from './ModalHeader'
-import { IS_IOS, IS_SAFARI, IS_MAC } from '../../shared/helpers'
+import { IS_IOS, IS_SAFARI, IS_MAC, isAndroid } from '../../shared/helpers'
 import { ModalContentProps } from './types'
 
 interface ModalContentState {
@@ -170,11 +170,7 @@ export default class ModalContent extends React.PureComponent<
   }
 
   setAndroidFocusHelper() {
-    if (
-      typeof window !== 'undefined' &&
-      typeof navigator !== 'undefined' &&
-      /Android/.test(navigator.appVersion)
-    ) {
+    if (typeof window !== 'undefined' && isAndroid()) {
       window.addEventListener('resize', this._androidFocusHelper)
     }
   }
