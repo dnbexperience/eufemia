@@ -466,6 +466,30 @@ describe('InputMasked component', () => {
     expect(preventDefault).toHaveBeenCalledTimes(1)
   })
 
+  it('should accept mask only (ssn)', () => {
+    const Comp = mount(
+      <Component
+        value="01020312345"
+        mask={() => [
+          /[0-9]/,
+          /\d/,
+          /\d/,
+          /\d/,
+          /\d/,
+          /\d/,
+          ' ',
+          /\d/,
+          /\d/,
+          /\d/,
+          /\d/,
+          /\d/,
+        ]}
+      />
+    )
+
+    expect(Comp.find('input').instance().value).toBe('010203 12345')
+  })
+
   it('should show placeholder chars when show_mask is true', () => {
     const Comp = mount(
       <Component
