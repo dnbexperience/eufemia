@@ -70,7 +70,17 @@ export default class ModalContent extends React.PureComponent<
   }
 
   componentDidMount() {
-    const { id = null, no_animation = false } = this.props
+    const {
+      id = null,
+      no_animation = false,
+      animation_duration = null,
+    } = this.props
+
+    const timeoutDuration: number =
+      typeof animation_duration === 'string'
+        ? parseFloat(animation_duration)
+        : animation_duration
+
     // Add it to the index at first
     // we use it later with getListOfModalRoots
     addToIndex(this)
@@ -89,10 +99,7 @@ export default class ModalContent extends React.PureComponent<
     if (isTrue(no_animation) || process.env.NODE_ENV === 'test') {
       this.lockBody() // forces browser to re-paint
     } else {
-      this._lockTimeout = setTimeout(
-        this.lockBody,
-        parseFloat(this.props.animation_duration) * 1.2
-      ) // a little over --modal-animation-duration
+      this._lockTimeout = setTimeout(this.lockBody, timeoutDuration * 1.2) // a little over --modal-animation-duration
     }
   }
 
@@ -194,6 +201,12 @@ export default class ModalContent extends React.PureComponent<
   }
 
   _androidFocusHelper = () => {
+    const { animation_duration = null } = this.props
+    const timeoutDuration: number =
+      typeof animation_duration === 'string'
+        ? parseFloat(animation_duration)
+        : animation_duration
+
     clearTimeout(this._androidFocusTimeout)
     this._androidFocusTimeout = setTimeout(() => {
       try {
@@ -206,7 +219,7 @@ export default class ModalContent extends React.PureComponent<
       } catch (e) {
         //
       }
-    }, parseFloat(this.props.animation_duration) / 2) // Older Android needs a delay here
+    }, timeoutDuration / 2) // Older Android needs a delay here
   }
 
   setFocus() {
