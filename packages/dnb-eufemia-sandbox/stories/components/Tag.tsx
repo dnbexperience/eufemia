@@ -44,3 +44,11 @@ export const TagWithIcon = () => {
     </Provider>
   )
 }
+
+export const TagWithSkeleton = () => {
+  return (
+    <Provider>
+      <Tag icon={account} text={'Icon'} skeleton />
+    </Provider>
+  )
+}

@@ -3,13 +3,19 @@
 *
 */
 
+:root {
+  --tag-border-radius: 2.5rem;
+}
+
 .dnb-tag {
   display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
   background-color: var(--color-black-8);
-  border-radius: var(--button-border-radius);
+  border-radius: var(--tag-border-radius);
   font-size: var(--font-size-x-small);
-  padding: var(--spacing-xx-small) var(--spacing-small);
+  padding: var(--spacing-xx-small) var(--spacing-x-small);
   &__icon {
     display: flex;
     align-items: center;
