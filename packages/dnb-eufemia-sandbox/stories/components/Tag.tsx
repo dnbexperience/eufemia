@@ -52,3 +52,11 @@ export const TagWithSkeleton = () => {
     </Provider>
   )
 }
+
+export const TagWithSpace = () => {
+  return (
+    <Provider>
+      <Tag icon={account} text={'Space'} space={{ top: 'small' }} />
+    </Provider>
+  )
+}
