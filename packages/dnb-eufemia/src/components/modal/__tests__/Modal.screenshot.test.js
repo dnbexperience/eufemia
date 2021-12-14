@@ -65,7 +65,7 @@ describe('Modal screenshot', () => {
 
 describe('Drawer screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/modal/demos',
+    url: '/uilib/components/modal/drawer/demos',
     pageViewport,
   })
 
@@ -84,7 +84,7 @@ describe('Drawer screenshot', () => {
 
 describe('Drawer header screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/modal/demos',
+    url: '/uilib/components/modal/drawer/demos',
     pageViewport,
   })
 
