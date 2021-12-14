@@ -5,13 +5,10 @@ showTabs: true
 import {
 ModalExampleDefault,
 ModalExampleHelpButton,
-ModalExampleDrawerHeader,
-ModalExampleDrawerBasic,
 ModalExampleFullscreen,
 ModalExampleDelayClose,
 ModalExampleCustomTrigger,
 ModalExampleStateOnly,
-ModalExampleCloseByCallback,
 ModalExampleCloseByHandler,
 ModalExampleProgressIndicator,
 } from 'Docs/uilib/components/modal/Examples'
@@ -27,14 +24,6 @@ ModalExampleProgressIndicator,
 Most of the components do have a `suffix` property you can make use of.
 
 <ModalExampleHelpButton />
-
-### Drawer mode
-
-<ModalExampleDrawerBasic />
-
-### Drawer mode with custom header
-
-<ModalExampleDrawerHeader />
 
 ### Fullscreen Modal, triggered by a tertiary button
 
@@ -53,10 +42,6 @@ Most of the components do have a `suffix` property you can make use of.
 While the trigger button is not used anymore by using `trigger_hidden`.
 
 <ModalExampleStateOnly />
-
-### Close Modal by callback method
-
-<ModalExampleCloseByCallback />
 
 ### Close Modal by handlers
 
