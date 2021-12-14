@@ -4,13 +4,10 @@
  */
 
 import React, { useState } from 'react'
-// import { Wrapper, Box } from '../helpers'
-// import styled from '@emotion/styled'
-
 import { Tag } from '@dnb/eufemia/src/components'
 import { Provider } from '@dnb/eufemia/src/shared'
 import { Box, Wrapper } from '../helpers'
-import { account } from '@dnb/eufemia/src/icons'
+import { account, bell, car_1, chip, send } from '@dnb/eufemia/src/icons'
 
 export default {
   title: 'Eufemia/Components/Tag',
@@ -31,7 +28,20 @@ export const TagSandbox = () => {
         <Default />
       </Box>
       <Box>
-        <Tag icon={account} text={'Default'} />
+        <Tag icon={account} text={'Icon'} />
+      </Box>
+    </Wrapper>
+  )
+}
+
+export const TagMultiple = () => {
+  return (
+    <Wrapper>
+      <Box>
+        <Default /> <Tag icon={send} text={'First'} />{' '}
+        <Tag icon={bell} text={'Second'} />{' '}
+        <Tag icon={car_1} text={'Third'} />{' '}
+        <Tag icon={chip} text={'Fourth'} />{' '}
       </Box>
     </Wrapper>
   )
