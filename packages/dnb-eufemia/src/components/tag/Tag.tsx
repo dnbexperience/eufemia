@@ -4,7 +4,7 @@ import classnames from 'classnames'
 // Components
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import Icon from '../icon-primary/IconPrimary'
+import Icon, { IconPrimaryIcon } from '../icon-primary/IconPrimary'
 
 // Shared
 import Context from '../../shared/Context'
@@ -22,7 +22,7 @@ export interface TagProps {
    * Icon displaying on the left side
    * Default: null
    */
-  icon?: Icon
+  icon?: IconPrimaryIcon
 
   /**
    * Custom className on the component root
@@ -43,7 +43,7 @@ export interface TagProps {
   children?: string | React.ReactNode // ReactNode allows multiple elements, strings, numbers, fragments, portals...
 
   /**
-   * Handle the click event on 'single'/'collapse'
+   * Handle the click event on 'tag' element
    * Default: null
    */
   onClick?: React.MouseEventHandler<HTMLButtonElement>

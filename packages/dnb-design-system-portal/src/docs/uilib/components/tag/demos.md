@@ -4,12 +4,20 @@ showTabs: true
 
 import {
 TagDefault,
+TagWithIcon,
+TagWithSecondaryIcon,
 } from 'Docs/uilib/components/tag/Examples'
 
 ## Demos
 
-### Default Tag
-
-Default tag
+#### Tag
 
 <TagDefault />
+
+#### Tag with icon
+
+<TagWithIcon />
+
+#### Tag with secondary icon
+
+<TagWithSecondaryIcon />
