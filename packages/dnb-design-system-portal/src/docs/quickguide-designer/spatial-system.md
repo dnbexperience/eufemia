@@ -116,7 +116,7 @@ Padding refers to the space **within** an object.
 
 <InlineImg src={PaddingExampleSvg} caption="Padding - highlighted in magenta" alt="Padding example" />
 
-Padding can be used to 'inflate' objects' bounding or 'hit area' or make it larger without scaling its internal parts.
+Padding can be used to 'inflate' the' bounding or 'hit area' of objects, or make it larger without scaling its internal parts.
 
 <InlineImg src={PaddingButtonsSvg} caption="Padding used to increase the appearance of a button" alt="Padding in buttons" />
 
