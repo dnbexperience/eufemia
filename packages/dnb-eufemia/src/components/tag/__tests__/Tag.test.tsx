@@ -10,50 +10,52 @@ describe('Tag', () => {
 
     expect(screen.queryByTestId('tag')).not.toBeNull()
   })
-})
 
-it('renders a tag with content by text prop', () => {
-  const text = 'This is a tag'
+  it('renders a tag with content by text prop', () => {
+    const text = 'This is a tag'
 
-  render(<Tag text="This is a tag" />)
+    render(<Tag text="This is a tag" />)
 
-  expect(screen.queryByTestId('tag-text')).not.toBeNull()
-  expect(screen.queryByTestId('tag-text').textContent).toBe(text)
-})
+    expect(screen.queryByTestId('tag-text')).not.toBeNull()
+    expect(screen.queryByTestId('tag-text').textContent).toBe(text)
+  })
 
-it('renders a tag with content by children prop', () => {
-  const text = 'This is a tag'
+  it('renders a tag with content by children prop', () => {
+    const text = 'This is a tag'
 
-  render(<Tag>{text}</Tag>)
+    render(<Tag>{text}</Tag>)
 
-  expect(screen.queryByTestId('tag-text')).not.toBeNull()
-  expect(screen.queryByTestId('tag-text').textContent).toBe(text)
-})
+    expect(screen.queryByTestId('tag-text')).not.toBeNull()
+    expect(screen.queryByTestId('tag-text').textContent).toBe(text)
+  })
 
-it('renders a tag with content if both text and children prop is used', () => {
-  const text = 'This is a tag'
+  it('renders a tag with content if both text and children prop is used', () => {
+    const text = 'This is a tag'
 
-  render(<Tag text={text}>{text}</Tag>)
+    render(<Tag text={text}>{text}</Tag>)
 
-  expect(screen.queryByTestId('tag-text')).not.toBeNull()
-  expect(screen.queryByTestId('tag-text').textContent).toBe(text)
-})
+    expect(screen.queryByTestId('tag-text')).not.toBeNull()
+    expect(screen.queryByTestId('tag-text').textContent).toBe(text)
+  })
 
-it('renders a tag with skeleton if skeleton is true', () => {
-  const skeletonClassName = 'dnb-skeleton'
+  it('renders a tag with skeleton if skeleton is true', () => {
+    const skeletonClassName = 'dnb-skeleton'
 
-  render(<Tag skeleton>ClassName</Tag>)
-  expect(screen.queryByTestId('tag').className).toMatch(skeletonClassName)
-})
+    render(<Tag skeleton>ClassName</Tag>)
+    expect(screen.queryByTestId('tag').className).toMatch(
+      skeletonClassName
+    )
+  })
 
-it('renders a tag with provider', () => {
-  render(
-    <Provider locale="en-GB">
-      <Tag text="With provider" />
-    </Provider>
-  )
+  it('renders a tag with provider', () => {
+    render(
+      <Provider locale="en-GB">
+        <Tag text="With provider" />
+      </Provider>
+    )
 
-  expect(screen.queryByTestId('tag-text')).not.toBeNull()
+    expect(screen.queryByTestId('tag-text')).not.toBeNull()
+  })
 })
 
 describe('Tag aria', () => {
