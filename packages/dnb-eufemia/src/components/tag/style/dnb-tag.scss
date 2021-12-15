@@ -1,0 +1,12 @@
+/*
+* DNB Tag
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+.dnb-tag {
+  @include componentReset();
+}
+
+@import './_tag.scss';

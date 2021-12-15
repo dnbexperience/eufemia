@@ -42,6 +42,7 @@ import Space from './components/space/Space'
 import StepIndicator from './components/step-indicator/StepIndicator'
 import Switch from './components/switch/Switch'
 import Tabs from './components/tabs/Tabs'
+import Tag from './components/tag/Tag'
 import Textarea from './components/textarea/Textarea'
 import ToggleButton from './components/toggle-button/ToggleButton'
 import Tooltip from './components/tooltip/Tooltip'
@@ -109,6 +110,7 @@ export {
   StepIndicator,
   Switch,
   Tabs,
+  Tag,
   Textarea,
   ToggleButton,
   Tooltip,

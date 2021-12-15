@@ -51,6 +51,7 @@ export const prepareContext = (props = {}) => {
     // All eufemia components because of Typescript:
     Breadcrumb: {},
     BreadcrumbItem: {},
+    Tag: {},
   }
 
   return context
