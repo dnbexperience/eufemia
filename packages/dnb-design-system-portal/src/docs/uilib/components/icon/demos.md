@@ -10,11 +10,11 @@ IconInheritSized
 
 ## Demos
 
-### Default and Medium sized icons (Responsive)
+### Default and Medium-sized icons (Responsive)
 
 <IconDefault />
 
-### Icons with border. **NB:** Use it with caution. It should not be used where the usage can confuse users to be a clickable button.
+### Icons with border. **NB:** Use it with caution. It should not be used where it can confuse users with being a clickable button.
 
 <IconBorder />
 

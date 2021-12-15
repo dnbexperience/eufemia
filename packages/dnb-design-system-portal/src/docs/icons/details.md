@@ -21,7 +21,7 @@ The icons are in SVG format and are optimized for performance and to have the sm
 
 The sources are located in the [assets folder](https://unpkg.com/@dnb/eufemia@latest/assets/icons/).
 
-They also exists as [React Components](/uilib/components/icon) to be easily integrated, without need of an additional SVG file loader.
+They also exist as [React Components](/uilib/components/icon) to be easily integrated, without the need of an additional SVG file loader.
 
 ## Icon color
 
@@ -53,11 +53,11 @@ Eufemia icons come in **two** sizes:
 - **Default Size** 1.0rem with 1.5px stroke weight
 - **Medium Size** 1.5rem with 1.5px stroke weight
 
-The reason why there are two sizes, is mainly do to the SVG artifact, that the Icons, alongside with the strokes, will scale up, once we use them with a larger width and height.
+The reason why there are two sizes, is mainly due to the SVG artifact, that the Icons, alongside the strokes, will scale up, once we use them with a larger width and height.
 
 ### Scalability in web
 
-To ensure that the relative size of the SVG icons are scalable by the inherited CSS font size, do not explicitly specify the SVG, unless for older browsers like Internet Explorer.
+To ensure that the relative size of the SVG icons is scalable by the inherited CSS font size, do not explicitly specify the SVG, unless for older browsers like Internet Explorer.
 
 **Example size definition by CSS**
 
@@ -86,6 +86,6 @@ Icons should have a minimum area of 8px between them and their nearest neighbor.
 
 ## Custom Icons
 
-[Streamline](https://www.streamlineicons.com/) caters for pretty much all of Eufemia's icon needs. However, sometimes there is a need for a custom icon. In these cases please contact one of Eufemia's [design leads](/design-system/contact).
+[Streamline](https://www.streamlineicons.com/) caters to pretty much all of Eufemia's icon needs. However, sometimes there is a need for a custom icon. In these cases please contact one of Eufemia's [design leads](/design-system/contact).
 
 <FormStatusIcons />

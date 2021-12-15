@@ -49,7 +49,7 @@ import properties from 'dnb-ui-lib/style/properties
 
 ## Number component
 
-The new [Number component](/uilib/components/number) is a ready to use DNB number formatter. Use it where over you have to display a number, a currency value, phone number etc.
+The new [Number component](/uilib/components/number) is a ready to use DNB number formatter. Use it where over you have to display a number, a currency value, phone number, etc.
 
 Good reasons for why we have this is to:
 

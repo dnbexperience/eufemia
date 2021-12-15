@@ -33,7 +33,7 @@ And the syntax would look like:
 
 Besides `vue` and `vuera`, you may also install, `@dnb/eufemia`, `react` and `react-dom`.
 
-**NB:** Make sure You add `vuera` to Your Package dependencies. Even if you not use it directly in Your Application.
+**NB:** Make sure you add `vuera` to your package dependencies. Even if you not use it directly in your application.
 
 ```json
 "dependencies": {

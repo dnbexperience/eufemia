@@ -52,7 +52,7 @@ import {
   applyPageFocus,
 } from '@dnb/eufemia/shared/helpers'
 
-// 1. Somewhere in Your app, set either an element, or a CSS Selector
+// 1. Somewhere in your app, set either an element, or a CSS Selector
 setPageFocusElement('.css-selector', 'MyCustomName')
 
 // 2. Later You can call this action, once it's time to activate the new focus state

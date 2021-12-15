@@ -6,7 +6,7 @@ showTabs: true
 
 | Properties       | Description                                                                                                                 |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `status`         | _(optional)_ status code define the view showing up.                                                                        |
+| `status`         | _(optional)_ status code defines the view showing up.                                                                        |
 | `status_content` | _(optional)_ a JSON object or a JS object providing the status texts. More details below.                                   |
 | `title`          | _(optional)_ defining a `title` will overwrite the default provided by `status_content`.                                    |
 | `text`           | _(optional)_ defining a `text` will overwrite the default provided by `status_content`.                                     |

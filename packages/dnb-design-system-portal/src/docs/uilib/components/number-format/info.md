@@ -8,7 +8,7 @@ import { NumberFormat } from '@dnb/eufemia/src'
 
 ## Description
 
-A ready to use DNB number formatter. Use it where over you have to display a number, a currency value, phone number etc.
+A ready-to-use DNB number formatter. Use it where over you have to display a number, a currency value, phone number, etc.
 
 Good reasons for why we have this is to:
 
@@ -34,7 +34,7 @@ It uses the browser APIs `number.toLocaleString` or `Intl.NumberFormat.format` u
 
 ### Element and style
 
-The number component is style independent, so it has no visual styles. By default a `<span>` is used (with [speak-as: numbers](https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style/speak-as), even the support is very low). But you can easily change the element type by providing something else to `element="div"` property.
+The number component is style-independent, so it has no visual styles. By default, a `<span>` is used (with [speak-as: numbers](https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style/speak-as), even the support is very low). But you can easily change the element type by providing something else to `element="div"` property.
 
 ### Sources
 
@@ -44,19 +44,19 @@ For international number formatting, we use the [EU Style Guide](https://ec.euro
 
 ## Decimals
 
-When the amount of wanted `decimals` is set as a property, but the given value contains decimals which exceeds the wanted `decimals`, the output value will get round up or down. Use `omit_rounding` if you need to hard-cut decimals from the displayed value.
+When the amount of wanted `decimals` is set as a property, but the given value contains decimals that exceeds the wanted `decimals`, the output value will get rounded up or down. Use `omit_rounding` if you need to hard-cut decimals from the displayed value.
 
 ## Details
 
-> Screen readers requires numbers to be formatted properly in order to be read as numbers. The **NumberFormat** component will help to achieve this requirement.
+> Screen readers require numbers to be formatted properly in order to be read as numbers. The **NumberFormat** component will help to achieve this requirement.
 
-So, numbers are formatted differently for screen readers than the visual number. And numbers also gets assigned a `lang` attribute, so the screen reader knows what language (locale) should be used on the particular number, even if the text around not corresponds to the same language.
+So, numbers are formatted differently for screen readers than the visual number. And numbers also get assigned a `lang` attribute, so the screen reader knows what language (locale) should be used on the particular number, even if the text around does not correspond to the same language.
 
 ## Accessibility
 
-To enhance the **Copy & Paste** experience of copying numbers into other applications, the NumberFormat component automatically changes the number formatting to be without thousand separator and to have a dot, instead of a coma for the decimal separator.
+To enhance the **Copy & Paste** experience of copying numbers into other applications, the NumberFormat component automatically changes the number formatting to be without thousand separators and to have a dot, instead of a comma for the decimal separator.
 
-**NVDA** has also [issues](https://github.com/nvaccess/nvda/issues/8874) on reconciling the `lang` attribute, this makes it hard to have a solid and good working solution for reading numbers. VoiceOver on desktop makes a perfect job there.
+**NVDA** has also [issues](https://github.com/nvaccess/nvda/issues/8874) on reconciling the `lang` attribute, this makes it hard to have a solid and good solution for reading numbers. VoiceOver on desktop makes a perfect job there.
 
 **VoiceOver** on mobile devices (iOS) only supports numbers read out properly to a maximum of `99,999.00`. On amounts above this value, VO reads numbers digit by digit.
 
@@ -107,7 +107,7 @@ If you run the component or `format` function in [Node.js](https://nodejs.org) y
 
 ## Provider
 
-You can send down the `locale` as an application wide property (Context). More info about the [provider and locale usage](/uilib/components/number-format/provider).
+You can send down the `locale` as an application-wide property (Context). More info about the [provider and locale usage](/uilib/components/number-format/provider).
 
 ```jsx
 import Provider from '@dnb/eufemia/shared/Provider'

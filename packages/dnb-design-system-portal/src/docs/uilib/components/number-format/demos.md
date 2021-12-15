@@ -35,7 +35,7 @@ import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
 
 ### Phone
 
-By using `selectall={false}` you disable the auto select all feature.
+By using `selectall={false}` you disable the auto-select all feature.
 
 <NumberPhone />
 

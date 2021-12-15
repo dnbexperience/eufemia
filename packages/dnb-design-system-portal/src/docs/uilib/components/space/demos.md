@@ -30,7 +30,7 @@ SpaceVisualTestElements
 
 <SpaceExampleMarginCollapse />
 
-### All four values will result in a equivalent margin
+### All four values will result in an equivalent margin
 
 <SpaceExampleMargins />
 

@@ -32,6 +32,6 @@ import { bell_medium, chevron_right } from '@dnb/eufemia/icons'
 
 ## A list of all Primary Icons
 
-Title in parentheses are the icon's variable name used in coding.
+Title in parentheses is the icon's variable name used in coding.
 
 <ListAllIcons variant="primary" />

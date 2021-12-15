@@ -4,7 +4,7 @@ showTabs: true
 
 ## Description
 
-The step indicator (progress indicator) is a visual representation of a users progress through a set of steps or series of actions. Their purpose is to both guide the user through the process and to help them create a mental model of the amount of time and effort that is required to fulfill the process.
+The step indicator (progress indicator) is a visual representation of a user's progress through a set of steps or series of actions. Their purpose is to both guide the user through the process and to help them create a mental model of the amount of time and effort that is required to fulfill the process.
 
 If the user should be able to navigate back and forth, use the `mode="loose"` property. More about the modes further down.
 
@@ -18,25 +18,25 @@ Depending on the screen width, the component will hide the Sidebar responsively,
 
 ### Why a sidebar?
 
-In order to provide a user experience, where the amount of steps are almost unlimited, and at the same time, make these steps as accessible as possible, the solution was to provide the steps side-by-side the content, as long as there is enough available room for it to show properly.
+In order to provide a user experience, where the number of steps are almost unlimited, and at the same time, make these steps as accessible as possible, the solution was to provide the steps side-by-side the content, as long as there is enough available room for it to show properly.
 
 ### How to use the sidebar?
 
-The step indicator has a optionally a Sidebar "sister" component you can place in your layout, if the steps should be shown side-by-side to the content. Use the property `sidebar_id` to bind these two together:
+The step indicator has an optional Sidebar "sister" component you can place in your layout if the steps should be shown side-by-side to the content. Use the property `sidebar_id` to bind these two together:
 
 ```jsx
 <main>
-	<StepIndicator sidebar_id="unique-id" mode="strict" data={[...]} />
+  <StepIndicator sidebar_id="unique-id" mode="strict" data={[...]} />
 </main>
 
 <aside>
-	<StepIndicator.Sidebar sidebar_id="unique-id" />
+  <StepIndicator.Sidebar sidebar_id="unique-id" />
 </aside>
 ```
 
 #### Sidebar and SSR
 
-**NB:** Keep in mind, if you SSR render the Sidebar **before** the main component, it has no access to the `data` and will show a basic skeleton to ensure the sidebar gets its width. This helps to lower the impact of unwanted layout shift.
+**NB:** Keep in mind, if you SSR render the Sidebar **before** the main component, it has no access to the `data` and will show a basic skeleton to ensure the sidebar gets its width. This helps to lower the impact of unwanted layout shifts.
 
 If you are able to provide the `data` to the Sidebar as well, it will use it during SSR render. You also can provide the data with a wrapper Eufemia Provider (You can nest Eufemia Providers):
 
@@ -64,11 +64,11 @@ The mode property is mandatory. It tells the component how it should behave.
 
 Use `strict` for a chronological step order.
 
-The user can navigate between visited steps and the current step. The component keeps track of these reached steps.
+The user can navigate between the visited steps and the current step. The component keeps track of these reached steps.
 
 ### Loose mode
 
-Use `loose` if the user should be able to navigate freely between all steps. Also those which are not visited before.
+Use `loose` if the user should be able to navigate freely between all steps. Also, those which are not visited before.
 
 ### Static mode
 
@@ -103,11 +103,11 @@ The sidebar comes with these styles:
 
 ## API changes after version 9.8
 
-The API has been simplified and some properties have to be changes by the next major version release. The changes are made backwards compatible. But in order to use the new UX look, you have to make a few changes:
+The API has been simplified and some properties have to be changed by the next major version release. The changes are made backward compatible. But in order to use the new UX look, you have to make a few changes:
 
 - Add a property called `mode="strict"` (choose your mode)
 - Add a property called `sidebar_id` with an unique ID.
 - Optional, place `<StepIndicator.Sidebar sidebar_id="unique-step-indicator" />` in your layout.
 - URL handling is deprecated and will be removed in v10
 
-The documentation is updated and every property name that will be deprecated is clear marked with a strike-through line. You will get a console warning during development when you use the outdated properties.
+The documentation is updated and every property name that will be deprecated is clearly marked with a strike-through line. You will get a console warning during development when you use outdated properties.

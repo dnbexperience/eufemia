@@ -20,4 +20,4 @@ There is the `Accordion.Provider` and `Accordion.Group`. They are technical the 
 
 #### Unexpected behavior
 
-**NB:** Please to avoid using a group, because it initiate an unexpected behavior accessibility wise. Because the users interaction will trigger an action on another place, out the the current context, something some users not would expect to happen. It is an automated out of context UI execution.
+**NB:** Please try to avoid using a group, because it initiates an unexpected behavior accessibility-wise. This is because the user's interaction will trigger an action in another place, out of the current context, something some users may not expect to happen. It is an automated out-of-context UI execution.

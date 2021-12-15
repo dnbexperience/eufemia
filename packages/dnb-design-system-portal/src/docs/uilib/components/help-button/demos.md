@@ -9,10 +9,10 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 ### Default HelpButton
 
 <ComponentBox data-visual-test="help-button-default">
-	{
-	() => /* jsx */ `
+    {
+    () => /* jsx */ `
 <HelpButton>
-	Text
+    Text
 </HelpButton>
 `}
 </ComponentBox>
@@ -20,12 +20,12 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 ### Help button inside a suffix
 
 <ComponentBox data-visual-test="help-button-suffix">
-	{
-	() => /* jsx */ `
+    {
+    () => /* jsx */ `
 <Input
-	size={10}
-	placeholder="Input ..."
-	suffix={<HelpButton title="Custom title">Text</HelpButton>}
+    size={10}
+    placeholder="Input ..."
+    suffix={<HelpButton title="Custom title">Text</HelpButton>}
 />
 `}
 </ComponentBox>
@@ -33,30 +33,30 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 ### Help button in different sizes
 
 <ComponentBox data-visual-test="help-button-sizes">
-	{
-	() => /* jsx */ `
+    {
+    () => /* jsx */ `
 <HelpButton title="Custom title">Text</HelpButton>
 <HelpButton
-	size="small"
-	left
-	on_click={() => {
-    	console.log('on_click')
-	}}
+    size="small"
+    left
+    on_click={() => {
+        console.log('on_click')
+    }}
 />
 `}
 </ComponentBox>
 
-### Help button with information icon
+### Help button with an information icon
 
 <ComponentBox>
-	{() => /* jsx */ `
+    {() => /* jsx */ `
 <HelpButton icon="information" tooltip="More info">
-	<Dl>
-		<Dt>Term</Dt>
-		<Dd>Description</Dd>
-		<Dd>Description</Dd>
-    	<Dt>Term</Dt>
-    	<Dd>Description</Dd>
+    <Dl>
+        <Dt>Term</Dt>
+        <Dd>Description</Dd>
+        <Dd>Description</Dd>
+        <Dt>Term</Dt>
+        <Dd>Description</Dd>
     </Dl>
 </HelpButton>
 `}

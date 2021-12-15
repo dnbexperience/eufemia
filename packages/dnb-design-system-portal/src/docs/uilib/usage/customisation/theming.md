@@ -91,7 +91,7 @@ One of which is by using the [linking feature of Yarn](https://yarnpkg.com/lang/
 
 #### _Method:_ yarn link and SASS
 
-Make sure Your project can handle **\*.scss** files.
+Make sure your project can handle **\*.scss** files.
 
 **1.** make a copy of the [repository](https://github.com/dnbexperience/eufemia). Place it somewhere locally on your machine
 

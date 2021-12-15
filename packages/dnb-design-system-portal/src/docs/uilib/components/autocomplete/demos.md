@@ -27,18 +27,18 @@ AutocompleteOpened
 
 ### Autocomplete with a custom title
 
-- `keep_value` means the input value gets not removed after a input blur happens.
+- `keep_value` means the input value gets not removed after an input blur happens.
 - `show_clear_button` means a clear button will show up when the input field contains a value.
 
 <AutocompleteWithCustomTitle />
 
 ### Async usage, dynamically update data during typing
 
-This example simulates server delay with a timeout and - if it gets debounced, we cancel the timeout.<br /><br />Also, you may consider of using `disable_filter` if you have a backend doing the search operation.
+This example simulates server delay with a timeout and - if it gets debounced, we cancel the timeout.<br /><br />Also, you may consider using `disable_filter` if you have a backend doing the search operation.
 
 <AutocompleteDynamicallyUpdatedData />
 
-### Update data dynamically on first focus
+### Update data dynamically on the first focus
 
 <AutocompleteFirstFocusUpdate />
 

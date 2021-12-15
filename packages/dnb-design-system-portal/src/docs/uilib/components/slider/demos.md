@@ -10,7 +10,7 @@ import '@dnb/eufemia/src/components/slider/style/dnb-range.scss'
 ### Default Slider
 
 <ComponentBox data-visual-test="slider-default">
-	{() => /* jsx */ `
+  {() => /* jsx */ `
 <Slider
   min={0}
   max={100}
@@ -18,13 +18,13 @@ import '@dnb/eufemia/src/components/slider/style/dnb-range.scss'
   label="Default Slider:"
   on_change={({ value }) => console.log('on_change:', value)}
 />
-	`}
+  `}
 </ComponentBox>
 
 ### Vertical slider with steps of 10
 
 <ComponentBox data-visual-test="slider-vertical" useRender>
-	{() => /* jsx */ `
+  {() => /* jsx */ `
 const VerticalWrapper = styled.div\`
   display: inline-flex;
   flex-direction: column;
@@ -42,13 +42,13 @@ render(<VerticalWrapper>
     on_change={({ value }) => console.log('on_change:', value)}
   />
 </VerticalWrapper>)
-	`}
+  `}
 </ComponentBox>
 
 ### Horizontal and vertical slider in sync with input field
 
 <ComponentBox useRender>
-	{() => /* jsx */ `
+  {() => /* jsx */ `
 const Component = () => {
   const [value, setValue] = React.useState(70)
   return (<>
@@ -92,13 +92,13 @@ const VerticalWrapper = styled.div\`
   }
 \`
 render(<Component />)
-	`}
+  `}
 </ComponentBox>
 
-### Slider with suffix
+### Slider with a suffix
 
 <ComponentBox>
-	{() => /* jsx */ `
+  {() => /* jsx */ `
 <Slider
   min={0}
   max={100}
@@ -106,7 +106,7 @@ render(<Component />)
   label="Slider with suffix:"
   suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
 />
-	`}
+  `}
 </ComponentBox>
 
 ### Native Range Slider
@@ -114,7 +114,7 @@ render(<Component />)
 In order to get the styles, import also: `@dnb/eufemia/components/slider/style/dnb-range.min.css`
 
 <ComponentBox>
-	{() => /* jsx */ `
+  {() => /* jsx */ `
 <FormRow>
   <FormLabel for_id="range-slider">
     Native Range Slider
@@ -129,5 +129,5 @@ In order to get the styles, import also: `@dnb/eufemia/components/slider/style/d
     onChange={(event) => console.log(event.currentTarget.value)}
   />
 </FormRow>
-	`}
+  `}
 </ComponentBox>

@@ -53,13 +53,13 @@ Completely customized step indicator.
 
 <StepIndicatorTextOnly />
 
-### StepIndicator with custom renderer.
+### StepIndicator with a custom renderer.
 
 <StepIndicatorCustomRenderer />
 
 ### StepIndicator with urls
 
-**NB:** The URL support is deprecated. You have to handle this kind of logic internal in your application from v10 of `@dnb/eufemia`.
+**NB:** The URL support is deprecated. You have to handle this kind of logic internally in your application from v10 of `@dnb/eufemia`.
 
 You find more [v1 demos here](/uilib/components/step-indicator/demos-v1).
 

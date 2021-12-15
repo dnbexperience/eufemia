@@ -6,9 +6,9 @@ import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
 
 # What you should know before getting started
 
-**Last updated**: _24. november 2021_
+**Last updated**: _24. November 2021_
 
-Before you get started, there is some technical decisions you should know about - as in every project.
+Before you get started, there are some technical decisions you should know about - as in every project.
 
 Skip to:
 
@@ -23,7 +23,7 @@ Skip to:
 
 ## About technology
 
-The library exists of React components. The newer components are written as functional components, with [React hooks](https://reactjs.org/docs/hooks-intro.html). This was added to React version 16.8 and have become the new standard of React.
+The library exists of React components. The newer components are written as functional components, with [React hooks](https://reactjs.org/docs/hooks-intro.html). This was added to React version 16.8 and has become the new standard of React.
 
 Files in the library were first written in JavaScript using [PropTypes](https://reactjs.org/docs/typechecking-with-proptypes.html) to define component types. For newer components we adopt using [TypeScript](https://www.typescriptlang.org/), substituting the use of PropTypes.
 
@@ -69,7 +69,7 @@ As of now, the TypeScript types are mainly generated during the package build st
 - Inline property documentation
 - Property validation and type safety
 
-While the documentation, including the property tables, have to be kept in Markdown Tables, they get extracted, parsed and inserted in the type definition files.
+While the documentation, including the property tables, have to be kept in Markdown Tables, they get extracted, parsed, and inserted in the type definition files.
 
 #### Manual type definitions
 
@@ -140,7 +140,7 @@ There are a couple of components doing so. You may have a look at:
 
 #### Shared Properties docs
 
-If you have one `/properties.md` file, but e.g. two components shares most or all of the properties. Like a component and a provider for that component (Accordion and AccordionProvider) – then you can define in the markdown table header name both of the components: You can then provide a second table with more specific table for a second component.
+If you have one `/properties.md` file, but e.g. two components share most or all of the properties. Like a component and a provider for that component (Accordion and AccordionProvider) – then you can define in the markdown table header name both of the components: You can then provide a second table with a more specific table for a second component.
 
 ```md
 #### Properties
@@ -161,7 +161,7 @@ You can either run `yarn build:types` to generate type for all files, or use `ya
 
 ## About component structure
 
-Eufemia has a couple of common parts, so every component do behave consistent:
+Eufemia has a couple of common parts, so every component behaves consistent:
 
 - [Locale](/uilib/usage/customisation/localization) support
 - [Provider](/uilib/usage/customisation/provider) support for centralized property forwarding
@@ -275,7 +275,7 @@ Create a `.env` file inside `dnb-design-system-portal` with valid:
 
 ## What happens in the build steps
 
-During the build, a lot of various things will happen. First, a prebuild before the build and afterwards a postbuild.
+During the build, a lot of various things will happen. First, a prebuild before the build and afterward a postbuild.
 
 ### During prebuild
 
@@ -287,7 +287,7 @@ $ yarn build
 - All index and lib files are getting generated
 - All the lib code gets compiled (ECMAScript 6 and ECMAScript 5.1)
 - All SASS styles are validated and compiled (to support IE)
-- All bundles gets minified
+- All bundles get minified
 - Icons are getting converted
 
 To use the local build, you can either run the portal, or use `yarn link` to link the package with a totally different project.
