@@ -6,6 +6,7 @@ import {
 TagDefault,
 TagWithIcon,
 TagWithSecondaryIcon,
+TagClickable
 } from 'Docs/uilib/components/tag/Examples'
 
 ## Demos
@@ -21,3 +22,7 @@ TagWithSecondaryIcon,
 #### Tag with secondary icon
 
 <TagWithSecondaryIcon />
+
+#### Clickable Tag
+
+<TagClickable />
