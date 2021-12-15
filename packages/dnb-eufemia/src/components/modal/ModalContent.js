@@ -149,9 +149,10 @@ export default class ModalContent extends React.PureComponent {
     ) {
       this.lockBody() // forces browser to re-paint
     } else {
-      this._lockTimeout = setTimeout(() => {
-        this.lockBody() // forces browser to re-paint
-      }, 500) // a little over --modal-animation-duration
+      this._lockTimeout = setTimeout(
+        this.lockBody,
+        parseFloat(this.props.animation_duration) * 1.2
+      ) // a little over --modal-animation-duration
     }
   }
 
@@ -162,7 +163,7 @@ export default class ModalContent extends React.PureComponent {
     this.removeLocks()
   }
 
-  lockBody() {
+  lockBody = () => {
     const modalRoots = getListOfModalRoots()
     const firstLevel = modalRoots[0]
 
@@ -264,7 +265,7 @@ export default class ModalContent extends React.PureComponent {
       } catch (e) {
         //
       }
-    }, 100) // Older Android needs a delay here
+    }, parseFloat(this.props.animation_duration) / 2) // Older Android needs a delay here
   }
 
   addToIndex() {

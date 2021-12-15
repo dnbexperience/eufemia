@@ -278,16 +278,16 @@ export default class Modal extends React.PureComponent {
   }
 
   componentWillUnmount() {
+    clearTimeout(this._openTimeout)
+    clearTimeout(this._closeTimeout)
+
+    this.removeActiveState(false)
+
     this._onUnmount.forEach((fn) => {
       if (typeof fn === 'function') {
         fn()
       }
     })
-
-    clearTimeout(this._openTimeout)
-    clearTimeout(this._closeTimeout)
-    clearTimeout(this._sideEffectsTimeout)
-    clearTimeout(this._tryToOpenTimeout)
   }
 
   componentDidUpdate(prevProps) {
@@ -297,24 +297,16 @@ export default class Modal extends React.PureComponent {
   }
 
   openBasedOnStateUpdate() {
-    const { hide, modalActive } = this.state
+    const { hide } = this.state
     const { open_state } = this.props
 
     if (!this.activeElement && typeof document !== 'undefined') {
       this.activeElement = document.activeElement
     }
 
-    if (
-      !hide &&
-      !modalActive &&
-      (open_state === 'opened' || open_state === true)
-    ) {
+    if (!hide && (open_state === 'opened' || open_state === true)) {
       this.toggleOpenClose(null, true)
-    } else if (
-      hide &&
-      modalActive &&
-      (open_state === 'closed' || open_state === false)
-    ) {
+    } else if (hide && (open_state === 'closed' || open_state === false)) {
       this.toggleOpenClose(null, false)
     }
   }
@@ -350,7 +342,6 @@ export default class Modal extends React.PureComponent {
           hide: true,
         })
 
-        clearTimeout(this._closeTimeout)
         this._closeTimeout = setTimeout(
           doItNow,
           parseFloat(this.props.animation_duration)
@@ -363,12 +354,14 @@ export default class Modal extends React.PureComponent {
     const waitBeforeOpen = () => {
       const delay = parseFloat(this.props.open_delay)
       if (delay > 0 && !isTrue(this.props.no_animation)) {
-        clearTimeout(this._openTimeout)
         this._openTimeout = setTimeout(toggleNow, delay) // custom delay
       } else {
         toggleNow()
       }
     }
+
+    clearTimeout(this._closeTimeout)
+    clearTimeout(this._openTimeout)
 
     const { open_modal } = this.props
     if (typeof open_modal === 'function') {
@@ -414,12 +407,7 @@ export default class Modal extends React.PureComponent {
         }
       }
 
-      const last = getListOfModalRoots(-1)
-      if (last) {
-        this.setActiveState(last._id)
-      } else if (getListOfModalRoots().length <= 1) {
-        this.setActiveState(false)
-      }
+      this.removeActiveState()
     }
   }
 
@@ -455,29 +443,46 @@ export default class Modal extends React.PureComponent {
     }
   }
 
+  removeActiveState() {
+    const last = getListOfModalRoots(-1)
+
+    // If this instance is not the last one,
+    // make the current one to as the active one
+    if (last?._id && last._id !== this._id) {
+      return this.setActiveState(last._id)
+    }
+
+    try {
+      document.documentElement.removeAttribute('data-dnb-modal-active')
+
+      // Deprecated
+      document.body.setAttribute('data-dnb-modal-active', 'false')
+    } catch (e) {
+      warn('Modal: Error on remove "data-dnb-modal-active"', e)
+    }
+  }
+
+  /**
+   * Prevent scrolling on the background
+   * But checks if this instance was the last one or not
+   *
+   * @param {string} modalId Will remove the attribute if false is given
+   */
   setActiveState(modalId) {
-    // prevent scrolling on the background
+    if (!modalId) {
+      warn('Modal: A valid modalId is required')
+    }
     if (typeof document !== 'undefined') {
       try {
-        if (modalId) {
-          document.documentElement.setAttribute(
-            'data-dnb-modal-active',
-            modalId
-          )
-        } else {
-          document.documentElement.removeAttribute('data-dnb-modal-active')
-        }
+        document.documentElement.setAttribute(
+          'data-dnb-modal-active',
+          modalId
+        )
 
         // Deprecated
-        document.body.setAttribute(
-          'data-dnb-modal-active',
-          modalId ? 'true' : 'false'
-        )
+        document.body.setAttribute('data-dnb-modal-active', 'true')
       } catch (e) {
-        warn(
-          'Modal: Error on set "data-dnb-modal-active" by using element.setAttribute()',
-          e
-        )
+        warn('Modal: Error on set "data-dnb-modal-active"', e)
       }
     }
   }

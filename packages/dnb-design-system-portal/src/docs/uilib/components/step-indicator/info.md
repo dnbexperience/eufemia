@@ -14,7 +14,7 @@ The current active step is set with the `current_step` property or within the da
 
 The StepIndicator has two layouts. One for larger screens (above [medium](/uilib/usage/layout/media-queries#media-queries-properties-table)) and one for more narrow screens (below [medium](/uilib/usage/layout/media-queries#media-queries-properties-table)).
 
-Depending on the screen width, the component will hide the Sidebar responsively, and in return show a button to access all the steps inside a [Drawer](/uilib/components/modal#drawer-mode). You may have a [look at an demo](/uilib/components/step-indicator/#stepindicator-in-loose-mode).
+Depending on the screen width, the component will hide the Sidebar responsively, and in return show a button to access all the steps inside a [Drawer](/uilib/components/modal/drawer). You may have a [look at an demo](/uilib/components/step-indicator/#stepindicator-in-loose-mode).
 
 ### Why a sidebar?
 

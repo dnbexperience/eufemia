@@ -278,12 +278,18 @@ export const useEventMapping = ({ setLocalValue }) => {
 
   return {
     onBeforeInput: (event) => callEvent({ event }, 'on_before_input'),
+    onFocus: (params) => callEvent(params, 'on_focus'),
+    onBlur: (params) => callEvent(params, 'on_blur'),
     onMouseUp: (event) => callEvent({ event }, 'on_mouse_up'),
-    on_focus: (params) => callEvent(params, 'on_focus'),
-    on_key_down: (params) => callEvent(params, 'on_key_down'),
-    on_submit: (params) => callEvent(params, 'on_submit'),
-    on_blur: (params) => callEvent(params, 'on_blur'),
-    on_change: (params) => callEvent(params, 'on_change'),
+    onKeyDown: (params) => callEvent(params, 'on_key_down'),
+    onSubmit: (params) => callEvent(params, 'on_submit'),
+    onChange: (params) => callEvent(params, 'on_change'),
+
+    on_focus: undefined,
+    on_blur: undefined,
+    on_key_down: undefined,
+    on_submit: undefined,
+    on_change: undefined,
   }
 }
 
@@ -297,11 +303,7 @@ export const useEventMapping = ({ setLocalValue }) => {
 const useCallEvent = ({ setLocalValue }) => {
   const { props } = React.useContext(InputMaskedContext)
   const maskParams = useMaskParams()
-
-  // Return empty func if no number mask is used
-  if (!maskParams) {
-    return () => {}
-  }
+  const isNumberMask = useNumberMask()
 
   // Source: https://en.wikipedia.org/wiki/Decimal_separator
   const decimalSeparators = /[,.'·]/
@@ -336,8 +338,10 @@ const useCallEvent = ({ setLocalValue }) => {
     if (
       name === 'on_key_down' &&
       !isUnidentified &&
-      !maskParams?.allowLeadingZeroes &&
+      ((isNumberMask && !maskParams?.allowLeadingZeroes) ||
+        (!isNumberMask && maskParams?.allowLeadingZeroes === false)) &&
       (keyCode === '0' ||
+        keyCode === 'numpad 0' ||
         (value.replace(/[^\d]/g, '') === '' &&
           decimalSeparators.test(keyCode)))
     ) {
@@ -355,6 +359,7 @@ const useCallEvent = ({ setLocalValue }) => {
 
     if (
       name === 'on_key_down' &&
+      isNumberMask &&
       !isUnidentified &&
       maskParams?.decimalSymbol
     ) {
