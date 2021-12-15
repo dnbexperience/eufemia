@@ -1,6 +1,6 @@
 ---
 title: 'Demos'
-description: 'The purpose of having Eufemia Demos is that You as a developer can see the code and understand Eufemia and be inspired and give You a good start.'
+description: 'The purpose of having Eufemia Demos is that you as a developer can see the code and understand Eufemia and be inspired and give you a good start.'
 order: 5
 ---
 
@@ -9,7 +9,7 @@ import GithubLogo from 'Docs/contribute/assets/github-logo.js'
 
 # Demo Apps
 
-The purpose of having Eufemia Demos is that You as a developer can see the code and understand Eufemia and be inspired - and not least, give You a good start.
+The purpose of having Eufemia Demos is that you as a developer can see the code and understand Eufemia and be inspired - and not least, give you a good start.
 
 <Button href="https://github.com/dnbexperience/eufemia-demo/" size="large" target="_blank" text="Get a Clone on GitHub" icon={GithubLogo} />
 

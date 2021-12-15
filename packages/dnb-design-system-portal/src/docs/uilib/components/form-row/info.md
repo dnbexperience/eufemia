@@ -86,12 +86,12 @@ To give a FormRow space, properties from [Space](/uilib/components/space/propert
 
 ## Provider
 
-You can send down the `FormRow` as an application wide property (Context). More info about the [provider usage](/uilib/components/form-row/provider).
+You can send down the `FormRow` as an application-wide property (Context). More info about the [provider usage](/uilib/components/form-row/provider).
 
 ## Responsiveness
 
 The FormRow component provides by default responsiveness.
-But if you also want the form components to act responsive. E.g. the label of the input should be wrapped to be vertical / above the input, then you have to set the `responsive` prop to `true`.
+But if you also want the form components to be responsive. E.g. the label of the input should be wrapped to be vertical / above the input, then you have to set the `responsive` prop to `true`.
 
 ```jsx
 <FormRow responsive="true">
@@ -99,6 +99,6 @@ But if you also want the form components to act responsive. E.g. the label of th
 </FormRow>
 ```
 
-Wrapping happens then if the view port (screen) is less than `max-width: 40em`.
+Wrapping happens then if the viewport (screen) is less than `max-width: 40em`.
 
 You can also make use of the [helper class](/uilib/helpers), e.g. `<FormRow className="dnb-responsive-component">...</FormRow>`.

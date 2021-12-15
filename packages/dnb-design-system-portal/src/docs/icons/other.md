@@ -9,6 +9,6 @@ import FormStatusIcons from 'Docs/icons/form-status.md'
 
 # Other Icons
 
-Some icons are not a part of the icon library of various reasons.
+Some icons are not a part of the icon library for various reasons.
 
 <FormStatusIcons />

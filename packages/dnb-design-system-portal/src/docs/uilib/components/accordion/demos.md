@@ -32,6 +32,6 @@ AccordionGroupExample
 
 ### Accordion with a single container
 
-A single container is used only for wider screens (desktop). And when the users screen is more narrow (mobile) it will change to a normal accordion. The change happens with CSS only, so it will not interrupt any React render.
+A single container is only used for wider screens (desktop).  When the users' screen is narrower (mobile), it will change to a normal accordion. The change happens with CSS only, so it will not interrupt any React render.
 
 <AccordionContainerExample />

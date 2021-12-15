@@ -14,7 +14,7 @@ BreadcrumbCollapseOpen
 
 ### Multiple Breadcrumb (recommended)
 
-To ensure correct use of the Breadcrumb, we recommend passing down pages as a variable to `data`. If you have other specific cases, check out how to customize with [children in Multiple Breadcrumb](/uilib/components/breadcrumb/#multiple-breadcrumb-with-children).
+To ensure the correct use of the Breadcrumb, we recommend passing down pages as a variable to `data`. If you have other specific cases, check out how to customize with [children in Multiple Breadcrumb](/uilib/components/breadcrumb/#multiple-breadcrumb-with-children).
 
 <BreadcrumbMultipleData />
 
@@ -26,7 +26,7 @@ Some extra functionality is provided to this variant:
 
 ### Single Breadcrumb
 
-When you only want a single button for `back`, this variant is recommended and default when neither `data` or `children` is present.
+When you only want a single button for `back`, this variant is recommended and default when neither `data` nor `children` is present.
 
 <BreadcrumbSingle />
 
@@ -38,7 +38,7 @@ For customizing the Breadcrumb to fit your needs, this variant can be utilized.
 
 ### Setting property 'variant'
 
-Property variant is default set based on the combination of children and data properties, and also screen size.
+Property variant is by default set based on the combination of children and data properties, and also screen size.
 If you want to override this property, pass in the prop `variant` to be either `single`, `multiple`, or `collapse`.
 
 <BreadcrumbVariants />

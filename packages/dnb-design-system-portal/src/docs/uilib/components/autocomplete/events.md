@@ -21,6 +21,6 @@ import AutocompleteMethods from 'Docs/uilib/components/autocomplete/methods'
 The difference between `on_change` and `on_select` is:
 
 - `on_change` will be called when the state changes, either with a **click** or **space/enter** keypress confirmation.
-- `on_select` differs most when the users is navigating by keyboard. Once the uses is pressing e.g. the arrow keys, the selection is changing, but not the state.
+- `on_select` differs most when the user is navigating by keyboard. Once the user is pressing e.g. the arrow keys, the selection is changing, but not the state.
 
 <AutocompleteMethods></AutocompleteMethods>

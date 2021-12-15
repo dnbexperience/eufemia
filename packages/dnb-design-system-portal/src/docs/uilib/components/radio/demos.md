@@ -29,7 +29,7 @@ RadioVisualTests
 
 ### Plain Radio group
 
-Without `<Radio.Group>`. It is recommended to use the `<Radio.Group>` if You are using **React**.
+Without `<Radio.Group>`. It is recommended to use the `<Radio.Group>` if you are using **React**.
 
 <RadioExampleWithoutGroup />
 
@@ -45,7 +45,7 @@ With `label_position` set to left.
 
 <RadioExampleDisabled />
 
-### Radio Buttons with suffix
+### Radio Buttons with a suffix
 
 <RadioExampleSuffix />
 

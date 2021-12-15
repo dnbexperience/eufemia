@@ -4,9 +4,9 @@ showTabs: true
 
 ## Description
 
-The main Icon component is basically a wrapper for whatever icon you place within it. This means a `span` wrapping an inline `svg`.
+The main Icon component is a wrapper for whatever icon you place within it. This means a `span` wrapping an inline `SVG`.
 
-You can basically use whatever you like inside this `Icon` component.
+You can use whatever you like inside this `Icon` component.
 
 ### Why use it?
 
@@ -18,7 +18,7 @@ You will get several advantages on using it, like:
 
 ### Importing Icons
 
-In case your environment doesn't support tree-shaking, import the icons explicit.
+In case your environment doesn't support tree-shaking, import the icons explicitly.
 
 ```jsx
 // Named ES import
@@ -46,19 +46,19 @@ _Additional Sizes_
 
 ### Custom project Icons
 
-For decorative or functional icons (not illustrations) use `SVG` as it gives the user responsiveness and better accessibility. But it gives you also more control, so you can change color and size inherited by the parent HTML element.
+For decorative or functional icons (not illustrations) use `SVG` as it gives the user responsiveness and better accessibility. But it gives you also more control, so you can change the color and size inherited by the parent HTML element.
 
 To optimize your SVG icons to be used with Eufemia, you can follow these steps or get at least, inspired:
 
 1. Make sure your SVG icon fits in the two sizes (default of `16px` and medium of `24px`) with the correct stroke thickness of `1.5px`.
 1. **Copy** the SVG markup (in Figma, `right click` -> `Copy as` -> `Copy as SVG`).
-1. **Declutter** and remove ID attributes in the markup, so they don't appear twice in your web application DOM. In most cases you don't need `<defs ... />` and the corresponding ids anyway.
+1. **Declutter** and remove ID attributes in the markup, so they don't appear twice in your web application DOM. In most cases, you don't need `<defs ... />` and the corresponding ids anyway.
 1. **Optimize** the SVG. Use e.g. [Online SVGOMG](https://jakearchibald.github.io/svgomg/) by using `Paste markup`.
 1. **NB:** Do not remove `viewBox`! The `viewBox` will together with some CSS ensure that the icon scales based on the root font-size.
 1. Copy again the optimized markup and paste it into your JSX component (inline) og SVG file.
 1. Consume the custom icons with either dynamic imports (`import(...)`) if you have many icons, or use static imports, like so:
 
-#### If you have a SVG loader
+#### If you have an SVG loader
 
 ```jsx
 import ImportedSVGIcon from 'my-icons/custom_icon.svg'

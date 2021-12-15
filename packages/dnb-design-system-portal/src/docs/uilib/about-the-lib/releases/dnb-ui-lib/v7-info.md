@@ -46,7 +46,7 @@ v7 contains a couple of _breaking changes_. As a migration process, you can simp
 
 ## Heading changes
 
-The new naming of h1, h2 etc. is to make it more clear that [semantic use of headings](/uilib/usage/best-practices/for-typography#headings-and-styling) don't have to do anything the actually styling. Developers still too often don't care about the correct [leveling of headings](/uilib/usage/best-practices/for-typography#think-semantics-first), because of the visual prioritization.
+The new naming of h1, h2, etc. is to make it more clear that [semantic use of headings](/uilib/usage/best-practices/for-typography#headings-and-styling) don't have to do anything the actual styling. Developers still too often don't care about the correct [leveling of headings](/uilib/usage/best-practices/for-typography#think-semantics-first), because of the visual prioritization.
 
 We hope with that change we embrace [better accessibility](/uilib/usage/accessibility/checklist).
 
@@ -91,7 +91,7 @@ We hope with that change we embrace [better accessibility](/uilib/usage/accessib
 
 ## Font fixes
 
-- The `DNB` Font got updates on the bold weight. The changes effects these characters: `i?!`.
+- The `DNB` Font got updates on the bold weight. The changes affect these characters: `i?!`.
 
 ## Install
 

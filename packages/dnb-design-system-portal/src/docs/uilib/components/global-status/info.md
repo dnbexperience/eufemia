@@ -11,12 +11,12 @@ By default, the `GlobalStatus` is automatically connected together with the [For
 
 1. Once a **FormStatus** is shown, the `main` **GlobalStatus** will show up.
 1. The page will scroll (if needed) to the dedicated **GlobalStatus**.
-1. Form components will send along both the status text, and it's label to show a good and accessible summary.
+1. Form components will send along both the status text and its label to show a good and accessible summary.
 1. Screen reader uses will automatically hear the whole content of the `GlobalStatus` once it shows up.
 
 ### Several Global statuses
 
-Normally, You only want to have **one** `GlobalStatus` inside Your application. But You can have several in parallel. But make sure You give every other a new ID:
+Normally, You only want to have **one** `GlobalStatus` inside Your application. But you can have several in parallel. But make sure you give every other a new ID:
 
 ```jsx
 <GlobalStatus id="other-global-status" />
@@ -25,7 +25,7 @@ Normally, You only want to have **one** `GlobalStatus` inside Your application. 
 ### Where to put it
 
 - The `GlobalStatus` component should be positioned right under the header. By default, it uses `main` as the ID.
-- Or as a secondary summary of errors in a submit form. Keep in mind, by default, form components like [Input](/uilib/components/input) are using the ID `main`. To make sure the build in [FormStatus](/uilib/components/form-status) is sending along the message to another `GlobalStatus`, You have to set the `global_status_id`, like:
+- Or as a secondary summary of errors in a submit form. Keep in mind, by default, form components like [Input](/uilib/components/input) are using the ID `main`. To make sure the build in [FormStatus](/uilib/components/form-status) is sending along the message to another `GlobalStatus`, you have to set the `global_status_id`, like:
 
 ```jsx
 <GlobalStatus id="other-global-status" />
@@ -46,7 +46,7 @@ But You can also make use of the [FormSet](/uilib/components/form-set) or [FormR
 
 ### Smooth scrolling
 
-Not every browser (e.g. Safari, Edge and IE) supports smooth scrolling. Therefore, add the [smoothscroll-polyfill](https://github.com/iamdustan/smoothscroll) to your project:
+Not every browser (e.g. Safari, Edge, and IE) supports smooth scrolling. Therefore, add the [smoothscroll-polyfill](https://github.com/iamdustan/smoothscroll) to your project:
 
 ```js
 import smoothscroll from 'smoothscroll-polyfill'
@@ -57,7 +57,7 @@ smoothscroll.polyfill()
 
 ### Manually updates
 
-Beside the automated connection between the error states of form components ([FormStatus](/uilib/components/form-status)), You can update messages from everywhere in Your application on any time:
+Besides the automated connection between the error states of form components ([FormStatus](/uilib/components/form-status)), you can update messages from everywhere in your application at any time:
 
 **NB:** The GlobalStatus will `autoclose` by default, once all messages are removed.
 
@@ -71,7 +71,7 @@ You can access and manipulate an existing GlobalStatus from outside of the React
 <GlobalStatus id="other-global-status" />
 ```
 
-2. Then you can control it from within a JavaScript context when ever you need to:
+2. Then you can control it from within a JavaScript context whenever you need to:
 
 ```js
 import { GlobalStatus } from '@dnb/eufemia/components'
@@ -121,7 +121,7 @@ import { GlobalStatus } from '@dnb/eufemia/components'
 // 1. Place it somewhere in Your application
 <GlobalStatus id="custom-status" />
 
-// 2. later on, You can show a message
+// 2. later on, you can show a message
 <GlobalStatus.Add
   id="custom-status"
   status_id="custom-id-1"

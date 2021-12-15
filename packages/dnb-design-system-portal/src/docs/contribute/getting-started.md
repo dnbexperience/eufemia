@@ -64,7 +64,7 @@ Inside `./packages/dnb-eufemia` you will find the directory `/src/components`, `
 
 Run an environment with either `yarn dev` (for Storybook sandbox) or `yarn start` (for Eufemia Portal). Make sure you follow the [Code guide](/contribute/style-guide/coding) under development.
 
-### Styling, css and scss of components
+### Styling, CSS and SCSS of components
 
 Use the same sass setup as all the other components. You may re-use all the [helper classes](/uilib/helpers/classes):
 
@@ -75,7 +75,7 @@ Use the same sass setup as all the other components. You may re-use all the [hel
 
 Next, we need to create a local build (prebuild) by using `yarn build` again.
 
-Running the build command will walk thought all parts and tie together all needed parts in order to generate valid build bundles.
+Running the build command will walk through all parts and tie together all needed parts in order to generate valid build bundles.
 
 ```bash
 $ yarn build
@@ -126,7 +126,7 @@ function MyComponent(props: Types) {
 }
 ```
 
-The function `getTranslation` will along with the properties will support both `locale` and the HTML `lang` attribute. This way, these properties can be set by a component basis and a context basis.
+The function `getTranslation` will along with the properties support both `locale` and the HTML `lang` attribute. This way, these properties can be set by a component basis and a context basis.
 
 #### Provider support
 
@@ -316,7 +316,7 @@ describe('Breadcrumb aria', () => {
 
 ## 5. (Optional) Update change logs
 
-Changes to `@dnb/eufemia` have to be mentioned by using a [git commit messages decoration](/contribute/commit#commit-messages). During next release, a `CHANGELOG.md` file will be generated and changes will get listed on the [GitHub Releases](https://github.com/dnbexperience/eufemia/releases) page.
+Changes to `@dnb/eufemia` have to be mentioned by using a [git commit messages decoration](/contribute/commit#commit-messages). During the next release, a `CHANGELOG.md` file will be generated and changes will get listed on the [GitHub Releases](https://github.com/dnbexperience/eufemia/releases) page.
 
 General Eufemia **Design System** changes have to be written down in the `EUFEMIA_CHANGELOG.md` file, located in the repository root. This file should only be updated if there is a change in the `@dnb/eufemia` package, which affects the components/elements/extensions.
 

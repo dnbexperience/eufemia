@@ -13,7 +13,7 @@ Components and styles for HTML elements can be consumed differently. But for the
 - [Import styles](!/uilib/usage/customisation/styling/consume-styles) application wide:
 
 ```js
-/* In Your Application root */
+/* In your application root */
 import '@dnb/eufemia/style/core'
 import '@dnb/eufemia/style/components'
 import '@dnb/eufemia/style/themes/ui'
