@@ -23,7 +23,7 @@ export const TagWithIcon = () => (
 )
 
 export const TagWithSecondaryIcon = () => (
-  <ComponentBox data-visual-test="tag-secondary-icon"scope={{ Car }}>
+  <ComponentBox data-visual-test="tag-secondary-icon" scope={{ Car }}>
       {() => /* jsx */ `
         <Tag icon={Car} text="Vehicle"/>
       `}
