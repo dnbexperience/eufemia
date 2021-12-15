@@ -17,7 +17,7 @@ All the major edge cases as listed below:
 
 Every component that provides a `label` property is now wrapping the `FormLabel` inside itself.
 
-> **Note:** This is not a breaking change, but if You has made CSS styling to the component, then this can cause some issues.
+> **Note:** This is not a breaking change, but if You have made CSS styling to the component, then this can cause some issues.
 
 To select and change the component **inside** with CSS, You can use now the `*__inner` wrapper. But - for sure, it depends on Your customization made with v3.
 
@@ -51,7 +51,7 @@ To select and change the component **inside** with CSS, You can use now the `*__
 
 ## Dropdown event handling
 
-Did You use `on_select` before? Then make sure You double check that You really want `on_select`. In most cases You will only need `on_change`. [Read more about the difference](/uilib/components/dropdown/events) between `on_change` and `on_select`.
+Did You use `on_select` before? Then make sure You double-check that You really want `on_select`. In most cases, You will only need `on_change`. [Read more about the difference](/uilib/components/dropdown/events) between `on_change` and `on_select`.
 
 ## Switch label position
 
@@ -59,7 +59,7 @@ Now the [Switch](/uilib/components/switch) component has `right` as the default 
 
 ## Layout and Spacing
 
-Spacing is an important part of Eufemia, that's why there are now tree new helper components to make it really easy and fast to build forms and layouts with proper spacing.
+Spacing is an important part of Eufemia, that's why there are now three new helper components to make it easy and fast to build forms and layouts with proper spacing.
 
 - [FormSet](/uilib/components/form-set) provides by default the `<form>` tag and sends some `FormRow` properties along down.
 - [FormRow](/uilib/components/form-row) provides by default the `<fieldset>` tag and `<legend>` tag. `FormRow` is meant to help You achieve easily common DNB layout patterns and setups. Also, `FormRow` is supporting the `Spacing` component.

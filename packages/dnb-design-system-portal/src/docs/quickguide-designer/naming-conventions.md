@@ -10,7 +10,7 @@ import TablesSpace from 'Docs/quickguide-designer/assets/tables-space.svg'
 
 # Naming conventions (Designers)
 
-> Persist the same component name throughout design, code and conversation <cite>Nathan Curtis</cite>
+> Persist the same component name throughout the design, code, and conversation <cite>Nathan Curtis</cite>
 
 ## Naming space
 
@@ -18,23 +18,23 @@ Eufemia makes use of a very simple 8px unit grid. Margins, paddings, and distanc
 
 <InlineImg src={NamingSpace} caption="Naming space units" alt="Naming space units" />
 
-These titles can then be transferred to component for example tables. A 'medium' table would refer to the amount of padding in the cells.
+These titles can then be transferred to components, for example, tables. A 'medium' table would refer to the amount of padding in the cells.
 
 <InlineImg src={TablesSpace} caption="Applying space to tables" alt="Applying space to tables" />
 
-The same can apply to components such as cards, form rows etc. responsive breakpoints can switch between these spacing units in order to expand or contract the overall size of an object.
+The same can apply to components such as cards, form rows, etc. Responsive breakpoints can switch between these spacing units to expand or contract the overall size of an object.
 
 ## Naming Colors
 
-Eufemia for web uses a simple naming system:
+Eufemia for the web uses a simple naming system:
 
 <div class="typography-box">
 Color name + percentage
 </div>
 
-Depending on where the color will be used, it's name formation will be different. For example, in Figma (and other design tools), the name is constructed thus:
+Depending on where the color will be used, its name formation will be different. For example, in Figma (and other design tools), the name is constructed thus:
 
-The color name is written with spaces between words. The first word starts with a capital. Some color names have a percentage sign denoting the tint value.
+The color name is written with spaces between words. The first word starts with capital. Some color names have a percentage sign denoting the tint value.
 
 Example:
 
@@ -54,9 +54,9 @@ Colors have a naming convention across all platforms and formats. Please refer t
 
 ### Naming conventions in design applications
 
-We don't have a naming convention for design files in Figma. However, it is encouraged to name your design file frames and interface designs with clear logical names in english.
+We don't have a naming convention for design files in Figma. However, it is encouraged to name your design file frames and interface designs with clear logical names in English.
 
-However, in order to maintain consistency, in Figma we name Pages and Frames (canvases) with the first letter capitalized.
+However, to maintain consistency, in Figma we name Pages and Frames (canvases) with the first letter capitalized.
 
 Example of a Figma Page name:
 

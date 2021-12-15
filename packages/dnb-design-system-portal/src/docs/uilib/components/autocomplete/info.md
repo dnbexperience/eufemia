@@ -10,11 +10,11 @@ The Autocomplete component is a combination of an [Input](/uilib/components/inpu
 
 ## Type Ahead and ComboBox
 
-The Autocomplete component may also be known as _Type Ahead_ or _ComboBox_. But autocomplete describes the purpose more pricey and descriptive, therefore Eufemia is using this term.
+The Autocomplete component may also be known as _Type Ahead_ or _ComboBox_. But autocomplete describes the purpose more precisely and descriptive, therefore Eufemia is using this term.
 
 ### When to use it:
 
-Use it for both small autocomplete purposes and large (async) data set search. The component supports two ways of showing [ProgressIndicator](/uilib/components/progress-indicator).
+Use it for both small autocomplete purposes and large (async) data set searches. The component supports two ways of showing [ProgressIndicator](/uilib/components/progress-indicator).
 
 You may check out the [Dropdown](/uilib/components/dropdown/info) component for more details on how to use it etc. They both share the same [DrawerList](/uilib/components/fragments/drawer-list).
 
@@ -28,15 +28,15 @@ Words found during typing are highlighted. The rules are:
 
 #### Using Components inside content
 
-It is **not** possible to wrap them inside of React Components. The reason is because the Autocomplete component needs to know the data is wants to search, before your React Component has rendered. But also, the component can't update the HTML in order to make the bold highlighting – "after" your component has rendered.
+It is **not** possible to wrap them inside React Components. The reason is that the Autocomplete component needs to know what data it wants to search for before your React Component has rendered. But also, the component can't update the HTML to make the bold highlighting – "after" your component has rendered.
 
-That means, you can't run a component that will render as soon as it is displayed.
+That means you can't run a component that will render as soon as it is displayed.
 
 If you need to format numbers, then do it before you send in the data content.
 
 It is possible to wrap your content inside one HTML Element. Nested elements are **not** supported.
 
-In order to wrap your content only visually, you can provide your wrappers inside an array:
+To wrap your content only visually, you can provide your wrappers inside an array:
 
 ```jsx
 {
@@ -62,7 +62,7 @@ or you can provide it inside a fragment:
 }
 ```
 
-and if you need to decouple the searchable content form whats displayed, then you can put your searchable content inside `search_content`:
+and if you need to decouple the searchable content from what's displayed, then you can put your searchable content inside `search_content`:
 
 ```jsx
 {
@@ -79,7 +79,7 @@ Now the user could search for e.g. bank account numbers by just entering `201`, 
 
 ### Screen reader support
 
-To enhance screen-reader usage, this component uses `aria-live` to announce the amount of options found (`aria_live_options`).
+To enhance screen-reader usage, this component uses `aria-live` to announce the number of options found (`aria_live_options`).
 
 ## Custom size
 

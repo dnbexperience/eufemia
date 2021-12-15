@@ -6,7 +6,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 ## Demos
 
-### Default and Medium sized icons (responsive)
+### Default and Medium-sized icons (responsive)
 
 <ComponentBox>
 	{() => /* jsx */ `

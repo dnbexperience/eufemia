@@ -13,7 +13,7 @@ title: 'Code'
 ### Code and Pre Tag usage
 
 Styling for both the `<code>` and the `<pre>` tags are build in the `@dnb/eufemia`.
-So simply use them in Your Syntax:
+So simply use them in your syntax:
 
 ```html
 <p class="dnb-p">

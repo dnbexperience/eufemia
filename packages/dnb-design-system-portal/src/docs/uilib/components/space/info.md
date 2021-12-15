@@ -8,8 +8,8 @@ import SpacingTable from 'Docs/uilib/usage/layout/spacing-table.md'
 
 The Space component provides `margins` within the [provided spacing patterns](/uilib/usage/layout/spacing#spacing-helpers).
 
-The reason why this exists is to make Your Syntax as clean as possible.
-This way You see directly in words what the spacing is for every effected component
+The reason why this exists is to make your syntax as clean as possible.
+This way You see directly in words what the spacing is for every affected component
 
 ### Spacing Table
 
@@ -17,14 +17,14 @@ This way You see directly in words what the spacing is for every effected compon
 
 ### Value Format
 
-There are a couple different ways You can define the spacing types and values:
+There are a couple of different ways you can define the spacing types and values:
 
 - **Types:** `small small x-small` (combine types up to _10rem_)
 - **number:** `2.5` (equivalent to `rem`)
 - **rem:** `2.5rem`
 - **px:** `40px` (gets converted to `rem`)
 
-To get a spacing of e.g. **2.5rem** (40px)- You may combine types `large` and `x-small`.
+To get a spacing of e.g. **2.5rem** (40px)- you may combine types `large` and `x-small`.
 
 ```jsx
 /** All of these methods will result in the same spacing */
@@ -80,7 +80,7 @@ Is `margin` not giving the expected spacing? That may be the reason due to **Mar
 - Completely empty boxes
 - Parent and first or last child element
 
-The best solution is to only use once direction of margins e.g. `bottom`. Or You can set the [collapse property](/uilib/components/space/properties) to `false`.
+The best solution is to only use one direction of margins e.g. `bottom`. Or you can set the [collapse property](/uilib/components/space/properties) to `false`.
 
 ### Margin collapsing
 

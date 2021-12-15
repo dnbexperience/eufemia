@@ -6,7 +6,7 @@ showTabs: true
 
 The Heading component is a helper to create automated semantic headings within a boundary of the web heading rules.
 
-> Basically, only assistive technologies do have need for semantic headings. But they need them correct.
+> Basically, only assistive technologies do need semantic headings. But they need them correct.
 
 How does it work? The heading leveling is handled synchronously. But you can easily isolate one level, or a part by using a context provider: `<Heading.Level ...`. This allows you to later, asynchronous, add new headings inside. You can nest several contexts inside each.
 

@@ -21,7 +21,7 @@ v9 of @dnb/eufemia contains _breaking changes_. As a migration process, you can 
 1. Find the `dnb-number` and replace it with `dnb-number-format`.
 1. In case you import it from `components/number/Number`, it has to be `components/number-format/NumberFormat`.
 1. In case you use `format` or `cleanNumber` from either `/components/Number` or `/components/number/Number`, replace the import path to be `/components/number-format/NumberUtils`.
-1. You can also use Regex: Find `Number([^F)]|$)` and replace with `NumberFormat$1`.
+1. You can also use Regex: Find `Number([^F)]|$)` and replace it with `NumberFormat$1`.
 
 ### Tabs props
 
@@ -86,7 +86,7 @@ Removed already depreciated CSS properties (vars):
 ## Changes
 
 - The visual appearance of a couple of components has been changed (e.g. border-radius).
-- The color `success-green` has changed it's HEX value
+- The color `success-green` has changed its HEX value
 
 ### Updates to the language files
 

@@ -10,7 +10,7 @@ The Button component should be used as the **primary call-to-action** in a form,
 
 ### Variants and sizes
 
-There should never be more than one `primary` button in a given context; `secondary` and `tertiary` button variants does not have this constraint. Generally speaking, a button should not be used when a link would suffice.
+There should never be more than one `primary` button in a given context; `secondary` and `tertiary` button variants do not have this constraint. Generally speaking, a button should not be used when a link would suffice.
 
 The Button component comes in different sizes.
 
@@ -22,8 +22,8 @@ For variant secondary, the recommended sizes are `default` and `large`.
 
 <SecondaryButtonSizes />
 
-For variant tertiary, the recommended size are `default`. A variant with `icon_position="top"` is also available for use.
-It is **not** recommended to use the tertiary button without icon. Looking for a similar variant without icon? You might want to check out [Anchor](/uilib/elements/anchor) instead.
+For variant tertiary, the recommended size is `default`. A variant with `icon_position="top"` is also available for use.
+It is **not** recommended to use the tertiary button without an icon. Looking for a similar variant without an icon? You might want to check out [Anchor](/uilib/elements/anchor) instead.
 
 <TertiaryButtonSizes />
 
@@ -31,6 +31,6 @@ For variant signal, the recommended sizes are `default` and `large`.
 
 <SignalButtonSizes />
 
-Icon buttons comes in all sizes.
+Icon buttons come in all sizes.
 
 <IconButtonSizes />

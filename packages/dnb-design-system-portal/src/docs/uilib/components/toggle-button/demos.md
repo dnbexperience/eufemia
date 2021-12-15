@@ -37,7 +37,7 @@ ToggleButtonIconOnly
 
 <ToggleButtonVertical />
 
-### ToggleButton group as `multiselect` with status message
+### ToggleButton group as `multiselect` with a status message
 
 <ToggleButtonStatus />
 
@@ -49,7 +49,7 @@ ToggleButtonIconOnly
 
 <ToggleButtonDisabledGroup />
 
-### ToggleButtons with suffix
+### ToggleButtons with a suffix
 
 <ToggleButtonSuffix />
 

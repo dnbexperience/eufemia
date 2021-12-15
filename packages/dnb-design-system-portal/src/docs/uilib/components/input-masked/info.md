@@ -14,13 +14,13 @@ You will either create your own mask, or use one of the provided once. There are
 
 ### Accessibility
 
-Screen readers will read also the mask before the user is entering content. Also the user will hear the mask during typing. This behavior can both have positive and negative side effects to the user. But overall, it works ok.
+Screen readers will read also the mask before the user is entering the content. Also, the user will hear the mask during typing. This behavior can both have positive and negative side effects on the user. But overall, it works ok.
 
 Both entering a coma or a dot will act as a decimal separator if [decimals are enabled](/uilib/components/input-masked#decimals) and one of the internal masks for numbers is used.
 
 #### InputMode
 
-For mobile devices and soft keyboards, the HTML input element does support a numeric only keyboard. But sadly it does not support negative values at the time of writing this. So it is only enable if `allowNegative` is set to false.
+For mobile devices and soft keyboards, the HTML input element does support a numeric-only keyboard. But sadly it does not support negative values at the time of writing this. So it is only enabled if `allowNegative` is set to false.
 
 ```jsx
 <InputMasked mask_options={{ allowNegative: false }} />
@@ -30,7 +30,7 @@ For mobile devices and soft keyboards, the HTML input element does support a num
 
 The InputMasked component supports masks based on a given locale. The locale will be inherited from the [Eufemia Provider](/uilib/usage/customisation/provider) if not given.
 
-As of now you can enable these masks by giving:
+As of now, you can enable these masks by giving:
 
 - `as_currency="EUR"`
 - `as_number={true}`
@@ -66,9 +66,9 @@ You can also receive a clean number value you can use and send back in again:
 - `as_number` will default to no decimals
 - `as_currency` will default to 2 decimals
 
-You can change the amount of decimals by sending in options to the `currency_mask`, `number_mask` or `mask_options` (see example above).
+You can change the number of decimals by sending in options to the `currency_mask`, `number_mask`, or `mask_options` (see example above).
 
-This example here also shows how to effect every InputMasked component in your application, by setting these options on the [Eufemia Provider](/uilib/usage/customisation/provider).
+This example here also shows how to affect every InputMasked component in your application, by setting these options on the [Eufemia Provider](/uilib/usage/customisation/provider).
 
 ```jsx
 <Provider
@@ -86,7 +86,7 @@ This example here also shows how to effect every InputMasked component in your a
 </Provider>
 ```
 
-In order to remove a decimal limit, you can send in `null` and allow decimals with `allowDecimal`:
+To remove a decimal limit, you can send in `null` and allow decimals with `allowDecimal`:
 
 ```jsx
 <InputMasked

@@ -13,7 +13,7 @@ showTabs: true
 | `on_reset`       | _(optional)_ will be called once a user presses the reset button.                                       |
 | `on_show`        | _(optional)_ will be called once date-picker is visible.                                                |
 | `on_hide`        | _(optional)_ will be called once date-picker is hidden.                                                 |
-| `on_days_render` | _(optional)_ will be called right before every new calendar view gets rendered. Se example above.       |
+| `on_days_render` | _(optional)_ will be called right before every new calendar view gets rendered. See the example above.       |
 
 ## Returned Object
 
@@ -48,7 +48,7 @@ Additional event return object properties:
 
 ### Min & Max date
 
-If `min_date` or `max_date` is given, the return object also contains info about if the `start_date` or `end_date` is in between the given limitation. The reason is because the user can still enter an invalid date in the input.
+If `min_date` or `max_date` is given, the return object also contains info about if the `start_date` or `end_date` is in between the given limits. The reason is that the user can still enter an invalid date in the input.
 
 ```js
 {
@@ -60,7 +60,7 @@ If `min_date` or `max_date` is given, the return object also contains info about
 
 ### Manipulate the days in the calendar view
 
-The callback event `on_days_render` gives you the possibility to manipulate the "day" object, before it gets rendered. This callback will be called many times. Both on the first render, and on every user interaction, like hover and selection etc. This means, you have to ensure a performant date calculation.
+The callback event `on_days_render` gives you the possibility to manipulate the "day" object, before it gets rendered. This callback will be called many times. Both on the first render, and on every user interaction, like hover and selection, etc. This means you have to ensure a performant date calculation.
 
 Please use [date-fns](https://date-fns.org) to make the calculations.
 

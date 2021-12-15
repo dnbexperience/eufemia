@@ -30,7 +30,7 @@ FormRowDifferentDirections,
 
 ### Vertical aligned labels
 
-Only the labels are vertical aligned - while the input labels are still horizontal.
+Only the labels are vertically aligned - while the input labels are still horizontal.
 
 <FormRowVerticalAlignedLabels />
 
@@ -76,7 +76,7 @@ The `label` property can be used to set a row label as well as the `section_styl
 
 ### Custom indent layout
 
-Customize the `.dnb-form-row` styles. Instead of using the build in `indent` property.
+Customize the `.dnb-form-row` styles. Instead of using the built in `indent` property.
 
 <FormRowCustomIndentLayout />
 

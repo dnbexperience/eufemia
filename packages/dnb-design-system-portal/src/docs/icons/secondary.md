@@ -1,6 +1,6 @@
 ---
 title: 'Secondary'
-description: 'The secondary icons will be extended over time to include all the often used Eufemia icons.'
+description: 'The secondary icons will be extended over time to include all the often-used Eufemia icons.'
 icon: 'secondary'
 order: 3
 ---
