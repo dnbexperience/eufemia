@@ -467,9 +467,14 @@ describe('InputMasked component', () => {
   })
 
   it('should accept mask only (ssn)', () => {
+    const onKeyDown = jest.fn()
+    const preventDefault = jest.fn()
+    const newValue = '010203 12345'
+
     const Comp = mount(
       <Component
-        value="01020312345"
+        value="11020312345"
+        onKeyDown={onKeyDown}
         mask={() => [
           /[0-9]/,
           /\d/,
@@ -487,7 +492,21 @@ describe('InputMasked component', () => {
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('010203 12345')
+    expect(Comp.find('input').instance().value).toBe('110203 12345')
+
+    Comp.find('input').simulate('keydown', {
+      key: '0',
+      keyCode: 48, // zero
+      target: {
+        value: newValue,
+        selectionStart: 0, // set it to be a leading zero
+      },
+      preventDefault,
+    })
+
+    expect(preventDefault).toHaveBeenCalledTimes(0)
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(onKeyDown.mock.calls[0][0].value).toBe('010203 12345')
   })
 
   it('should show placeholder chars when show_mask is true', () => {
