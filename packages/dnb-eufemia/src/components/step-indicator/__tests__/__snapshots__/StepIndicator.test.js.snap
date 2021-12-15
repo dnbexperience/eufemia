@@ -3217,7 +3217,6 @@ Array [
                             aria-describedby="unique-id-static-snapshot-0"
                             className="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                             disabled={false}
-                            onClick={[Function]}
                           >
                             <Content
                               aria-describedby="unique-id-static-snapshot-0"
@@ -3632,7 +3631,6 @@ Array [
                             aria-describedby="unique-id-static-snapshot-1"
                             className="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                             disabled={false}
-                            onClick={[Function]}
                           >
                             <Content
                               aria-describedby="unique-id-static-snapshot-1"
@@ -4046,7 +4044,6 @@ Array [
                             aria-describedby="unique-id-static-snapshot-2"
                             className="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                             disabled={false}
-                            onClick={[Function]}
                           >
                             <Content
                               aria-describedby="unique-id-static-snapshot-2"
@@ -4460,7 +4457,6 @@ Array [
                             aria-describedby="unique-id-static-snapshot-3"
                             className="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                             disabled={false}
-                            onClick={[Function]}
                           >
                             <Content
                               aria-describedby="unique-id-static-snapshot-3"
@@ -6678,7 +6674,6 @@ Array [
                             aria-describedby="unique-id-strict-snapshot-2"
                             className="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                             disabled={false}
-                            onClick={[Function]}
                           >
                             <Content
                               aria-describedby="unique-id-strict-snapshot-2"
@@ -7092,7 +7087,6 @@ Array [
                             aria-describedby="unique-id-strict-snapshot-3"
                             className="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                             disabled={false}
-                            onClick={[Function]}
                           >
                             <Content
                               aria-describedby="unique-id-strict-snapshot-3"
