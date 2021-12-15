@@ -84,11 +84,9 @@ function Tag(localProps: TagProps & ISpacingProps) {
         </span>
       )}
       {content && (
-        <>
-          <span data-testid="tag-text" className="dnb-tag__text">
-            {content}
-          </span>
-        </>
+        <span data-testid="tag-text" className="dnb-tag__text">
+          {content}
+        </span>
       )}
     </div>
   )
