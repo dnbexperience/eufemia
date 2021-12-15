@@ -216,7 +216,7 @@ export default class StepIndicatorItem extends React.PureComponent {
       isTrue(inactive) ||
       is_active === false /* deprecated */ ||
       (mode === 'strict' && !hasPassedAndIsCurrent)
-    let isVisited = currentItemNum < activeStep // mode === 'strict' &&
+    let isVisited = currentItemNum < activeStep
 
     const id = `${sidebar_id || makeUniqueId()}-${currentItemNum}`
     const ariaLabel = step_title
@@ -226,6 +226,7 @@ export default class StepIndicatorItem extends React.PureComponent {
     const isCurrent =
       currentItemNum === activeStep ||
       (isTrue(is_current) && isNaN(parseFloat(activeStep)))
+
     let element = (
       <StepItemWrapper
         number={currentItemNum + 1}
@@ -283,6 +284,7 @@ export default class StepIndicatorItem extends React.PureComponent {
     if (!buttonParams.onClick) {
       buttonParams.element = 'span'
       buttonParams.type = ''
+      buttonParams.on_click = undefined
       isInactive = true
     }
 

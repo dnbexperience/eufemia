@@ -209,7 +209,10 @@ export default class Button extends React.PureComponent {
       id: this._id,
       disabled: isTrue(disabled),
       ...attributes,
-      onClick: this.onClickHandler,
+    }
+
+    if (this.props.on_click || this.props.onClick) {
+      params.onClick = this.onClickHandler
     }
 
     if (Element !== Anchor && !params.type) {
