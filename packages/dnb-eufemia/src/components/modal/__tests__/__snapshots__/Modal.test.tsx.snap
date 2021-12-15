@@ -5,69 +5,7 @@ exports[`Modal component have to match snapshot 1`] = `
   0={
     Object {
       "displayName": "Modal",
-      "props": Object {
-        "align_content": "'left'",
-        "animation_duration": "animation_duration",
-        "bar_content": "bar_content",
-        "children": "children",
-        "class": "class",
-        "className": "className",
-        "close_button_attributes": Object {},
-        "close_modal": [Function],
-        "close_title": "close_title",
-        "container_placement": "'left'",
-        "content_class": "content_class",
-        "content_id": "content_id",
-        "dialog_title": "dialog_title",
-        "direct_dom_return": "direct_dom_return",
-        "disabled": "disabled",
-        "focus_selector": "focus_selector",
-        "fullscreen": "'auto'",
-        "header_content": "header_content",
-        "hide_close_button": "hide_close_button",
-        "id": "id",
-        "labelled_by": "labelled_by",
-        "max_width": "max_width",
-        "min_width": "min_width",
-        "modal_content": "modal_content",
-        "mode": "'modal'",
-        "no_animation": "no_animation",
-        "no_animation_on_mobile": "no_animation_on_mobile",
-        "on_close": [Function],
-        "on_close_prevent": [Function],
-        "on_open": [Function],
-        "open_delay": "open_delay",
-        "open_modal": [Function],
-        "open_state": "'opened'",
-        "overlay_class": "overlay_class",
-        "prevent_close": "prevent_close",
-        "prevent_core_style": "prevent_core_style",
-        "root_id": "root_id",
-        "spacing": "spacing",
-        "title": "title",
-        "trigger": "trigger",
-        "trigger_attributes": Object {},
-        "trigger_class": "trigger_class",
-        "trigger_disabled": "trigger_disabled",
-        "trigger_hidden": "trigger_hidden",
-        "trigger_icon": "trigger_icon",
-        "trigger_icon_position": "'left'",
-        "trigger_size": "trigger_size",
-        "trigger_text": "trigger_text",
-        "trigger_title": "trigger_title",
-        "trigger_variant": "custom type not supported, please set the correct value for trigger_variant prop",
-      },
-    }
-  }
-  1={
-    Object {
-      "displayName": "ModalRoot",
-      "props": Object {
-        "children": "children",
-        "direct_dom_return": "direct_dom_return",
-        "id": "id",
-        "root_id": "root_id",
-      },
+      "props": Object {},
     }
   }
   align_content={null}
@@ -93,7 +31,6 @@ exports[`Modal component have to match snapshot 1`] = `
   max_width={null}
   min_width={null}
   modal_content="unique_modal_content"
-  mode="modal"
   no_animation={true}
   no_animation_on_mobile={false}
   on_close={null}
@@ -124,6 +61,7 @@ exports[`Modal component have to match snapshot 1`] = `
   <HelpButtonInstance
     class={null}
     className="dnb-modal__trigger"
+    disabled={null}
     hidden={false}
     icon={null}
     icon_position="left"
@@ -168,6 +106,8 @@ exports[`Modal component have to match snapshot 1`] = `
       }
     }
     onClick={[Function]}
+    size={null}
+    text={null}
     title="modal_title"
     variant="secondary"
   >
@@ -675,69 +615,7 @@ exports[`Modal component have to match snapshot 1`] = `
     0={
       Object {
         "displayName": "Modal",
-        "props": Object {
-          "align_content": "'left'",
-          "animation_duration": "animation_duration",
-          "bar_content": "bar_content",
-          "children": "children",
-          "class": "class",
-          "className": "className",
-          "close_button_attributes": Object {},
-          "close_modal": [Function],
-          "close_title": "close_title",
-          "container_placement": "'left'",
-          "content_class": "content_class",
-          "content_id": "content_id",
-          "dialog_title": "dialog_title",
-          "direct_dom_return": "direct_dom_return",
-          "disabled": "disabled",
-          "focus_selector": "focus_selector",
-          "fullscreen": "'auto'",
-          "header_content": "header_content",
-          "hide_close_button": "hide_close_button",
-          "id": "id",
-          "labelled_by": "labelled_by",
-          "max_width": "max_width",
-          "min_width": "min_width",
-          "modal_content": "modal_content",
-          "mode": "'modal'",
-          "no_animation": "no_animation",
-          "no_animation_on_mobile": "no_animation_on_mobile",
-          "on_close": [Function],
-          "on_close_prevent": [Function],
-          "on_open": [Function],
-          "open_delay": "open_delay",
-          "open_modal": [Function],
-          "open_state": "'opened'",
-          "overlay_class": "overlay_class",
-          "prevent_close": "prevent_close",
-          "prevent_core_style": "prevent_core_style",
-          "root_id": "root_id",
-          "spacing": "spacing",
-          "title": "title",
-          "trigger": "trigger",
-          "trigger_attributes": Object {},
-          "trigger_class": "trigger_class",
-          "trigger_disabled": "trigger_disabled",
-          "trigger_hidden": "trigger_hidden",
-          "trigger_icon": "trigger_icon",
-          "trigger_icon_position": "'left'",
-          "trigger_size": "trigger_size",
-          "trigger_text": "trigger_text",
-          "trigger_title": "trigger_title",
-          "trigger_variant": "custom type not supported, please set the correct value for trigger_variant prop",
-        },
-      }
-    }
-    1={
-      Object {
-        "displayName": "ModalRoot",
-        "props": Object {
-          "children": "children",
-          "direct_dom_return": "direct_dom_return",
-          "id": "id",
-          "root_id": "root_id",
-        },
+        "props": Object {},
       }
     }
     align_content={null}
@@ -764,7 +642,6 @@ exports[`Modal component have to match snapshot 1`] = `
     max_width={null}
     min_width={null}
     modal_content="unique_modal_content"
-    mode="modal"
     no_animation={true}
     no_animation_on_mobile={false}
     on_close={null}
@@ -778,75 +655,12 @@ exports[`Modal component have to match snapshot 1`] = `
     spacing={true}
     style_type="button"
     title="modal_title"
-    toggleOpenClose={[Function]}
   >
     <ModalContent
       0={
         Object {
           "displayName": "Modal",
-          "props": Object {
-            "align_content": "'left'",
-            "animation_duration": "animation_duration",
-            "bar_content": "bar_content",
-            "children": "children",
-            "class": "class",
-            "className": "className",
-            "close_button_attributes": Object {},
-            "close_modal": [Function],
-            "close_title": "close_title",
-            "container_placement": "'left'",
-            "content_class": "content_class",
-            "content_id": "content_id",
-            "dialog_title": "dialog_title",
-            "direct_dom_return": "direct_dom_return",
-            "disabled": "disabled",
-            "focus_selector": "focus_selector",
-            "fullscreen": "'auto'",
-            "header_content": "header_content",
-            "hide_close_button": "hide_close_button",
-            "id": "id",
-            "labelled_by": "labelled_by",
-            "max_width": "max_width",
-            "min_width": "min_width",
-            "modal_content": "modal_content",
-            "mode": "'modal'",
-            "no_animation": "no_animation",
-            "no_animation_on_mobile": "no_animation_on_mobile",
-            "on_close": [Function],
-            "on_close_prevent": [Function],
-            "on_open": [Function],
-            "open_delay": "open_delay",
-            "open_modal": [Function],
-            "open_state": "'opened'",
-            "overlay_class": "overlay_class",
-            "prevent_close": "prevent_close",
-            "prevent_core_style": "prevent_core_style",
-            "root_id": "root_id",
-            "spacing": "spacing",
-            "title": "title",
-            "trigger": "trigger",
-            "trigger_attributes": Object {},
-            "trigger_class": "trigger_class",
-            "trigger_disabled": "trigger_disabled",
-            "trigger_hidden": "trigger_hidden",
-            "trigger_icon": "trigger_icon",
-            "trigger_icon_position": "'left'",
-            "trigger_size": "trigger_size",
-            "trigger_text": "trigger_text",
-            "trigger_title": "trigger_title",
-            "trigger_variant": "custom type not supported, please set the correct value for trigger_variant prop",
-          },
-        }
-      }
-      1={
-        Object {
-          "displayName": "ModalRoot",
-          "props": Object {
-            "children": "children",
-            "direct_dom_return": "direct_dom_return",
-            "id": "id",
-            "root_id": "root_id",
-          },
+          "props": Object {},
         }
       }
       align_content={null}
@@ -872,7 +686,6 @@ exports[`Modal component have to match snapshot 1`] = `
       max_width={null}
       min_width={null}
       modal_content="unique_modal_content"
-      mode="modal"
       no_animation={true}
       no_animation_on_mobile={false}
       on_close={null}
@@ -886,12 +699,11 @@ exports[`Modal component have to match snapshot 1`] = `
       spacing={true}
       style_type="button"
       title="modal_title"
-      toggleOpenClose={[Function]}
     >
       <div
         aria-describedby="dnb-modal-modal_id-content"
         aria-labelledby="dnb-modal-modal_id-title"
-        aria-modal="true"
+        aria-modal={true}
         className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-modal__content--modal dnb-modal__content--spacing dnb-modal__content--no-animation"
         id="dnb-modal-modal_id"
         onClick={[Function]}
@@ -920,11 +732,9 @@ exports[`Modal component have to match snapshot 1`] = `
               <div
                 className="dnb-modal__content__spacing dnb-no-focus"
                 style={null}
-                tabIndex="-1"
+                tabIndex={-1}
               >
-                <ModalHeaderBar
-                  className={null}
-                >
+                <ModalHeaderBar>
                   <Section
                     class={null}
                     className="dnb-modal__header__bar"
@@ -1161,7 +971,6 @@ exports[`Modal component have to match snapshot 1`] = `
                   </Section>
                 </ModalHeaderBar>
                 <ModalHeader
-                  className={null}
                   title="modal_title"
                 >
                   <Section
