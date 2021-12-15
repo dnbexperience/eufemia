@@ -26,7 +26,7 @@ describe('Tag screenshot', () => {
 
   it('have to match Tag with secondary icon', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test=""tag-secondary-icon"] .dnb-tag',
+      selector: '[data-visual-test="tag-secondary-icon"] .dnb-tag',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
