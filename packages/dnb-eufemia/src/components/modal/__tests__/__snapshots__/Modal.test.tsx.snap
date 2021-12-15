@@ -42,6 +42,7 @@ exports[`Modal component have to match snapshot 1`] = `
   overlay_class={null}
   prevent_close={false}
   prevent_core_style={false}
+  root_id="root"
   spacing={true}
   style_type="button"
   title="modal_title"

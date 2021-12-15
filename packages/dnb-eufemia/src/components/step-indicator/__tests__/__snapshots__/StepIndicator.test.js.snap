@@ -2622,6 +2622,7 @@ Array [
             overlay_class={null}
             prevent_close={false}
             prevent_core_style={false}
+            root_id="root"
             spacing={true}
             title="Stegoversikt"
             trigger={null}
@@ -5241,6 +5242,7 @@ Array [
             overlay_class={null}
             prevent_close={false}
             prevent_core_style={false}
+            root_id="root"
             spacing={true}
             title="Stegoversikt"
             trigger={null}
@@ -7872,6 +7874,7 @@ Array [
             overlay_class={null}
             prevent_close={false}
             prevent_core_style={false}
+            root_id="root"
             spacing={true}
             title="Stegoversikt"
             trigger={null}

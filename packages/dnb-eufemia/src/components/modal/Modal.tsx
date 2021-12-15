@@ -86,6 +86,7 @@ export default class Modal extends React.PureComponent<
     open_state: null,
     direct_dom_return: false,
     class: null,
+    root_id: 'root',
 
     className: null,
     children: null,

@@ -22,7 +22,7 @@ export type ButtonStatus =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type ButtonStatusNoAnimation = string | boolean;
-export type ButtonTo = string | Object | ((...args: any[]) => any);
+export type ButtonTo = string | any | ((...args: any[]) => any);
 export type ButtonWrap = string | boolean;
 export type ButtonBounding = string | boolean;
 export type ButtonStretch = string | boolean;
@@ -34,7 +34,7 @@ export type ButtonChildren =
   | React.ReactNode;
 export type ButtonElement =
   | ((...args: any[]) => any)
-  | Object
+  | any
   | React.ReactNode;
 export type ButtonSpace =
   | string
@@ -129,7 +129,7 @@ export interface ButtonProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Object;
+  status_props?: any;
   status_no_animation?: ButtonStatusNoAnimation;
 
   /**
@@ -178,9 +178,9 @@ export interface ButtonProps extends React.HTMLProps<HTMLElement> {
    */
   skeleton?: ButtonSkeleton;
   disabled?: ButtonDisabled;
-  inner_ref?: Object;
+  inner_ref?: any;
   className?: string;
-  innerRef?: Object;
+  innerRef?: any;
 
   /**
    * The content of the button can be a string or a React Element.
@@ -193,7 +193,7 @@ export interface ButtonProps extends React.HTMLProps<HTMLElement> {
   element?: ButtonElement;
 
   /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
+   * Has to be an any with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
    */
   space?: ButtonSpace;
 
@@ -216,7 +216,7 @@ export interface ButtonProps extends React.HTMLProps<HTMLElement> {
    * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
    */
   left?: ButtonLeft;
-  custom_element?: Object;
+  custom_element?: any;
   custom_method?: (...args: any[]) => any;
 
   /**
