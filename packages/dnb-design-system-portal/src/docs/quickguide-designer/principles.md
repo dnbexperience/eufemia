@@ -22,7 +22,7 @@ The purposes of Eufemia are:
 You will find two sets of principles in the DNB Design System and one set of values.
 
 1.  Design System principles: this is a set of principles for users of the Design System.
-1.  End user principles - the principles upon which we build DNB products and services for our users.
+1.  End-user principles - the principles upon which we build DNB products and services for our users.
 1.  Brand values - located in the Brand book.
 
 ### Design System Principles (Eufemia Principles)
@@ -30,7 +30,7 @@ You will find two sets of principles in the DNB Design System and one set of val
 1. Don't add bloat to the system at the same time do not let the system develop debt - old content is no longer relevant.
 1. The system and its content should be self-explanatory - easily picked up and understood by a new designer or developer, i.e not dependent on a single individual.
 1. Add content to the system like it's your last day - add comments, clear succinct descriptions to code and design files.
-1. Eliminate this question : "I'm new here - where do I find the...".
+1. Eliminate this question: "I'm new here - where do I find the...".
 1. The work is never done - A system of guides can and should be continuously improved.
 1. Focus more on communication than the tools of the trade - common language and understanding, frequent discussions, including of all stakeholders...
 1. Stay agnostic - code, data, and design file formats should remain as platform and application-independent as possible.
