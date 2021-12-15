@@ -324,7 +324,6 @@ exports[`Slider component have to match snapshot 1`] = `
                 className="dnb-button dnb-button--secondary"
                 disabled={false}
                 onBlur={[Function]}
-                onClick={[Function]}
                 onFocus={[Function]}
                 onMouseDown={[Function]}
                 tabIndex="-1"
