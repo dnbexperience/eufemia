@@ -3,6 +3,14 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.17.2](https://github.com/dnbexperience/eufemia/compare/v9.17.1...v9.17.2) (2021-12-15)
+
+
+### Bug Fixes
+
+* fix Modal DOM attribute cleanup during close when open_state is used ([28d14ae](https://github.com/dnbexperience/eufemia/commit/28d14aefa71d8af3a20126979ccd93d3b4c2930e))
+* **InputMasked:** allow leading zero when custom mask is given ([d3ecada](https://github.com/dnbexperience/eufemia/commit/d3ecadae0ef86dc108840a833a2476cfd064dc9e))
+
 ## [9.17.1](https://github.com/dnbexperience/eufemia/compare/v9.17.0...v9.17.1) (2021-12-14)
 
 
