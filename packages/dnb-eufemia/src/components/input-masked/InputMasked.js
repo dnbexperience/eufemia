@@ -6,7 +6,10 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { registerElement } from '../../shared/component-helper'
+import {
+  registerElement,
+  extendPropsWithContext,
+} from '../../shared/component-helper'
 import InputMaskedContext from './InputMaskedContext'
 import InputMaskedElement from './InputMaskedElement'
 import Input, { inputPropTypes } from '../input/Input'
@@ -14,12 +17,22 @@ import Context from '../../shared/Context'
 
 const InputMasked = React.forwardRef((props, ref) => {
   const context = React.useContext(Context)
+
+  const contextAndProps = React.useCallback(
+    extendPropsWithContext(
+      props,
+      InputMasked.defaultProps,
+      context?.InputMasked
+    ),
+    [props, InputMasked.defaultProps, context?.InputMasked]
+  )
+
   return (
     <InputMaskedContext.Provider
       value={{
         inner_ref: ref,
-        props,
-        ...context,
+        props: contextAndProps,
+        context,
       }}
     >
       <InputMaskedElement />
