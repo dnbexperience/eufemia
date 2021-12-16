@@ -194,6 +194,7 @@ describe('InputMasked component', () => {
       preventDefault,
     })
     expect(preventDefault).toHaveBeenCalledTimes(0)
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
     expect(onKeyDown.mock.calls[0][0].value).toBe('NOK 1 234,56 kr')
     expect(onKeyDown.mock.calls[0][0].numberValue).toBe(1234.56)
 
@@ -207,7 +208,7 @@ describe('InputMasked component', () => {
       preventDefault,
     })
     expect(preventDefault).toHaveBeenCalledTimes(1)
-    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(onKeyDown).toHaveBeenCalledTimes(2)
 
     Comp.setProps({
       number_mask: {
@@ -244,8 +245,8 @@ describe('InputMasked component', () => {
       },
       preventDefault,
     })
-    expect(preventDefault).toHaveBeenCalledTimes(2)
-    expect(onKeyDown).toHaveBeenCalledTimes(2)
+    expect(preventDefault).toHaveBeenCalledTimes(3)
+    expect(onKeyDown).toHaveBeenCalledTimes(4)
   })
 
   it('should allow leading zero when removing first letter', () => {
@@ -445,7 +446,7 @@ describe('InputMasked component', () => {
       preventDefault,
     })
     expect(preventDefault).toHaveBeenCalledTimes(1)
-    expect(onKeyDown).toHaveBeenCalledTimes(0)
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
 
     Comp.setProps({
       number_mask: {
@@ -461,12 +462,13 @@ describe('InputMasked component', () => {
       },
       preventDefault,
     })
-    expect(onKeyDown.mock.calls[0][0].value).toBe('0 kr')
-    expect(onKeyDown).toHaveBeenCalledTimes(1)
+
+    expect(onKeyDown).toHaveBeenCalledTimes(2)
+    expect(onKeyDown.mock.calls[1][0].value).toBe('0 kr')
     expect(preventDefault).toHaveBeenCalledTimes(1)
   })
 
-  it('should accept mask only (ssn)', () => {
+  it('should accept custom mask only', () => {
     const onKeyDown = jest.fn()
     const preventDefault = jest.fn()
     const newValue = '010203 12345'
@@ -507,6 +509,51 @@ describe('InputMasked component', () => {
     expect(preventDefault).toHaveBeenCalledTimes(0)
     expect(onKeyDown).toHaveBeenCalledTimes(1)
     expect(onKeyDown.mock.calls[0][0].value).toBe('010203 12345')
+
+    Comp.setProps({
+      mask_options: {
+        allowLeadingZeroes: false,
+      },
+    })
+
+    Comp.find('input').simulate('keydown', {
+      key: '0',
+      keyCode: 48, // zero
+      target: {
+        value: newValue,
+        selectionStart: 0, // set it to be a leading zero
+      },
+      preventDefault,
+    })
+
+    expect(preventDefault).toHaveBeenCalledTimes(1)
+    expect(onKeyDown).toHaveBeenCalledTimes(2)
+  })
+
+  it('should accept provider props with custom mask', () => {
+    const Comp = mount(
+      <Provider value={{ InputMasked: { value: '00020300000' } }}>
+        <Component
+          value="11020312345"
+          mask={() => [
+            /[0-9]/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            ' ',
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+            /\d/,
+          ]}
+        />
+      </Provider>
+    )
+
+    expect(Comp.find('input').instance().value).toBe('110203 12345')
   })
 
   it('should show placeholder chars when show_mask is true', () => {

@@ -61,7 +61,6 @@ export const isRequestingNumberMask = (props) => {
 export const correctNumberValue = ({
   localValue = null,
   props,
-  context,
   locale,
   maskParams,
 }) => {
@@ -85,13 +84,11 @@ export const correctNumberValue = ({
   /**
    * This only runs IF "number_format" is set – we do not use it else
    */
-  const numberFormatFromContext = context?.InputMasked?.number_format
-  if (props.number_format || numberFormatFromContext) {
+  if (props.number_format) {
     const options = {
       locale,
       decimals: 0,
-      ...fromJSON(props.number_format),
-      ...numberFormatFromContext,
+      ...props.number_format,
     }
     if (shouldHaveDecimals) {
       options.decimals = maskParams.decimalLimit
@@ -245,19 +242,13 @@ export const handlePercentMask = ({ props, locale, maskParams }) => {
  * @property {object} currency_mask Component property for change the currency parameters
  * @returns object maskParams
  */
-export const handleCurrencyMask = ({
-  context,
-  mask_options,
-  currency_mask,
-}) => {
+export const handleCurrencyMask = ({ mask_options, currency_mask }) => {
   const maskParams = {
     showMask: true,
     placeholderChar: null,
     allowDecimal: true,
     decimalLimit: 2,
     decimalSymbol: ',',
-    ...context?.InputMasked?.mask_options,
-    ...context?.InputMasked?.currency_mask,
     ...mask_options,
     ...currency_mask,
   }
@@ -283,15 +274,9 @@ export const handleCurrencyMask = ({
  * @property {object} number_mask Component property for change the number parameters
  * @returns object maskParams
  */
-export const handleNumberMask = ({
-  context,
-  mask_options,
-  number_mask,
-}) => {
+export const handleNumberMask = ({ mask_options, number_mask }) => {
   const maskParams = {
     decimalSymbol: ',',
-    ...context?.InputMasked?.mask_options,
-    ...context?.InputMasked?.number_mask,
     ...mask_options,
     ...number_mask,
   }
