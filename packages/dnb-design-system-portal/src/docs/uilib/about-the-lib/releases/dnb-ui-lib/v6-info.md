@@ -48,7 +48,7 @@ More info and details in the respective documentation on:
 
 ### Adjustments
 
-A lot of small layout adjustments are med in v6 to fix alignment regarding new font and positioning styles.
+A lot of small layout adjustments are made in v6 to fix alignment regarding new font and positioning styles.
 
 ## Color changes
 
@@ -136,7 +136,7 @@ With v6 the `dnb-ui-lib` has it's own localization to be used both for component
 
 ## Resources package
 
-A new package, only containing resources needed by the DNB DCE team. This package is provided as a `tar` file.
+A new package only contains resources needed by the DNB DCE team. This package is provided as a `tar` file.
 
 - `https://unpkg.com/browse/dnb-ui-lib@6/dist/dnb-ui-resources.tgz`
 

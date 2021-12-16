@@ -44,6 +44,7 @@ import Space from './space/Space'
 import StepIndicator from './step-indicator/StepIndicator'
 import Switch from './switch/Switch'
 import Tabs from './tabs/Tabs'
+import Tag from './tag/Tag'
 import Textarea from './textarea/Textarea'
 import ToggleButton from './toggle-button/ToggleButton'
 import Tooltip from './tooltip/Tooltip'
@@ -82,6 +83,7 @@ export {
   StepIndicator,
   Switch,
   Tabs,
+  Tag,
   Textarea,
   ToggleButton,
   Tooltip,
@@ -121,6 +123,7 @@ export const getComponents = () => {
     StepIndicator,
     Switch,
     Tabs,
+    Tag,
     Textarea,
     ToggleButton,
     Tooltip,

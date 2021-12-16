@@ -30,18 +30,18 @@ One of the most important reasons why Eufemia exists, is to make it more easy to
 
 Therefore, You come a long way on using the `@dnb/eufemia` correctly:
 
-- Make You use [import the style packages correctly](/uilib/usage/customisation/styling) (with or without CSS reset depending on Your legacy code situation)
+- Make You use [import the style packages correctly](/uilib/usage/customisation/styling) (with or without CSS reset depending on your legacy code situation)
 - Always (mostly) use `rem` to the nearest "8px" value, like **1px = 0.0625rem** (1/16)
 - Always use the [HTML Elements](/uilib/elements) or [UI Components](/uilib/components)
 - There are more [useful tips on styling](/uilib/usage/best-practices/for-styling)
 
-**Make sure You test Your Layout and Styles for various conditions during and after development:**
+**Make sure you test your layout and styles for various conditions during and after development:**
 
 - Up two 3x times in **font-size** (change the Web Browser default font size)
 - **Zoom** the Web Browser up to 3x times
-- Make Your layout **responsive**, either with CSS Grid or Media Queries and,
+- Makeyour layout **responsive**, either with CSS Grid or Media Queries and,
 - Check the different screen sizes
-- Test Your App on different devices and operating systems
+- Testyour app on different devices and operating systems
 - Pixel perfection is good for many, for the rest, make everything [accessible for everyone](/uilib/usage/accessibility)
 
 ## States
@@ -146,7 +146,7 @@ import BellMedium from '@dnb/eufemia/icons/bell_medium'
 
 ## UMD
 
-In case you don't have a compiling/build process, You can use the UMD packed version of the `@dnb/eufemia`. Take a look into this repo and the [UMD example usage](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-html/static). But this will not optimize your code for the best user experience.
+In case you don't have a compiling/build process, you can use the UMD packed version of the `@dnb/eufemia`. Take a look into this repo and the [UMD example usage](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-html/static). But this will not optimize your code for the best user experience.
 
 ```html
 <html>

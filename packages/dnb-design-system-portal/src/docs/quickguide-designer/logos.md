@@ -17,7 +17,7 @@ From the Brandbook PDF file, digital media should use the 3rd level logos (page 
 
 ## Developers
 
-The DNB Logo can easily be used and [integrated in digital web products as a component](/uilib/components/logo).
+The DNB Logo can easily be used and [integrated into digital web products as a component](/uilib/components/logo).
 
 <div class="example-box center">
   <Logo size="200" />

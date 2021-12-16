@@ -21,7 +21,7 @@ As this may be a more common use case, we still have to ensure our tabs content 
 
 You have to provide an `id` to both of the components.
 
-**NB:** You don't need to use a function inside `Tabs.Content` – it can contain what ever you need to, as long as it is a React Node.
+**NB:** You don't need to use a function inside `Tabs.Content` – it can contain any element you need, as long as it is a React Node.
 
 <TabsExampleContentOutside />
 
@@ -47,7 +47,7 @@ Also, this is an example of how to define a different content background color, 
 
 <TabsExampleScrollable />
 
-**Notes about mobile view:** The Tabs component does automatically calculate the remaining spacing once the screen gets under `40em` in width.
+**Notes about the mobile view:** The Tabs component does automatically calculate the remaining spacing once the screen gets under `40em` in width.
 But depending on your setup, you may have to align your Tabs all the way to the edge of the browser window. E.g. with a negative margin:
 
 ```css

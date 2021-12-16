@@ -58,7 +58,6 @@ exports[`HelpButton component have to match snapshot 1`] = `
         className="dnb-button dnb-button--secondary dnb-help-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
         disabled={false}
         id="help-button"
-        onClick={[Function]}
         type="button"
       >
         <Content

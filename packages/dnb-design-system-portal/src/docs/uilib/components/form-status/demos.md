@@ -28,7 +28,7 @@ FormStatusWithIcons,
 
 ### A stretched and independent FormStatus
 
-NB: The inner text gets a max width of 47rem to ensure we not exceed 70 characters limit per line.
+NB: The inner text gets a max-width of 47rem to ensure we do not exceed 70 characters limit per line.
 
 <FormStatusWithStretch />
 
@@ -44,7 +44,7 @@ NB: The inner text gets a max width of 47rem to ensure we not exceed 70 characte
 
 <!-- <FormStatusAnimation /> -->
 
-### A FormStatus, with a custom styled content
+### A FormStatus, with a custom-styled content
 
 <FormStatusCustom />
 

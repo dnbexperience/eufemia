@@ -1,7 +1,7 @@
 ---
 title: 'ToggleButton'
 description: 'The ToggleButton component should be used to toggle on or off a limited number of choices.'
-order: 18
+order: 19
 showTabs: true
 ---
 

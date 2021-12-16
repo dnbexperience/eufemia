@@ -20,8 +20,8 @@ These properties are available in many other components and elements.
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `element`     | _(optional)_ defines the HTML element used. Defaults to `div`.                                                                                                                                         |
 | `stretch`     | _(optional)_ if set to `true`, then the space element will be 100% in `width`.                                                                                                                         |
-| `inline`      | _(optional)_ if set to `true`, then `display: inline-block;` is used, so the HTML elements gets aligned horizontally. Defaults to `false`.                                                             |
-| `no_collapse` | _(optional)_ if set to `true`, then a wrapper with `display: flow-root;` is used. This way You avoid **Margin Collapsing**. Defaults to `false`. _Note:_ You can't use `inline="true"` in combination. |
+| `inline`      | _(optional)_ if set to `true`, then `display: inline-block;` is used, so the HTML elements get aligned horizontally. Defaults to `false`.                                                             |
+| `no_collapse` | _(optional)_ if set to `true`, then a wrapper with `display: flow-root;` is used. This way you avoid **Margin Collapsing**. Defaults to `false`. _Note:_ You can't use `inline="true"` in combination. |
 
 ## Zero
 

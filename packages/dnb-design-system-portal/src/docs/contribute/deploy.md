@@ -18,7 +18,7 @@ Both the Portal (`dnb-design-system-portal`) and the NPM Package (`@dnb/eufemia`
 
 Once you push your branch `feat/your-feature` (or what ever) to remote **origin**, all tests will be run against your latest pushes.
 
-Merges from a Pull Request and other pushes to the development branch `origin/main`, will trigger a **test build** of the Portal. This way me make sure that a new Portal version can be build, before we actually publish a new build.
+Merges from a Pull Request and other pushes to the development branch `origin/main`, will trigger a **test build** of the Portal. In this way, we make sure that a new Portal version can be built, before we actually publish a new build.
 
 ### The Release Branch
 
@@ -29,7 +29,7 @@ The Release Branch is more kind of a **secondary branch**. It reflects the lates
 
 ### Steps to follow
 
-The steps, from code changes to production builds are:
+The steps, from code changes to production builds, are:
 
 1. Push or make a Pull Request to the `origin/main` branch
 1. Wait until the CI Server has validated the commits
@@ -61,4 +61,4 @@ These folders/files will be a part of the NPM [package](https://unpkg.com/@dnb/e
 #### Important aspects
 
 - PropTypes are getting wrapped with [this babel plugin](babel-plugin-transform-react-remove-prop-types)) `process.env.NODE_ENV !== "production"`. This way applications in production, will not include `propTypes`. If a component depends to check `propTypes` during runtime, consider to export them, so they not getting removed – or simply use `defaultProps` for the operation.
-- As for now, we use React Class Components, because there may happen the case, where two React instances are used, and that does not work with Hooks. Also performance is a key factor. But we may consider a rewrite at some point of time.
+- As for now, we use React Class Components, because there may happen a case, where two React instances are used, and that does not work with Hooks. Also, performance is a key factor. But we may consider a rewrite at some point.

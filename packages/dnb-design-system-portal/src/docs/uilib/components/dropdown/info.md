@@ -4,7 +4,7 @@ showTabs: true
 
 ## Description
 
-The Dropdown component is a fully custom-made component. This allows us to change it's form based on context (small screens, touch devices etc.)
+The Dropdown component is a fully custom-made component. This allows us to change its form based on context (small screens, touch devices, etc.)
 
 ### When to use it:
 
@@ -18,11 +18,11 @@ When you need to provide a considerable amount of options to the user and do not
 
 1. do not use this if you have only a few _menu_ options which could otherwise be shown such as [Radio buttons](/uilib/components/radio) or [ToggleButtons](/uilib/components/toggle-button).
 
-**NB:** This pattern can be constructed in a number of ways to achieve a similar effect - from using the HTML 'select' element to custom building with divs, spans and javascript.
+**NB:** This pattern can be constructed in a number of ways to achieve a similar effect - from using the HTML 'select' element to custom building with divs, spans, and JavaScript.
 
 ## Action Menu
 
-The Dropdown component can easily be used as a so called **action button** by setting the prop `action_menu="true"`. In mobile view, the title/text will be hidden, only showing the icon and the DrawerList will open from the browser bottom.
+The Dropdown component can easily be used as a so-called **action button** by setting the prop `action_menu="true"`. In mobile view, the title/text will be hidden, only showing the icon and the DrawerList will open from the browser bottom.
 
 ## Menu Button
 

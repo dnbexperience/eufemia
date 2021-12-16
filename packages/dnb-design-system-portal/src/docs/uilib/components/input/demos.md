@@ -73,13 +73,13 @@ Pressing the enter key will trigger a submit.
 
 ### Input with clear button
 
-Pushing the clear button or pressing the esc key will clear the input.
+Pushing the clear button or pressing the ESC key will clear the input.
 
 <InputExampleClear />
 
 ### Input password type
 
-The password component have to ensure that there is still room for password managers to inject the input with their UX functionality.
+The password component has to ensure that there is still room for password managers to inject the input with their UX functionality.
 
 In order to get the show/hide button, you may have to import the component like so:
 

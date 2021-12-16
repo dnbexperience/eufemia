@@ -192,6 +192,31 @@ describe('Button component', () => {
     expect(Comp.find('.custom-icon-component').exists()).toBe(true)
   })
 
+  it('will only have attached event listener if one is given', () => {
+    const on_click = jest.fn()
+    const Comp = mount(<Component text="Button" on_click={on_click} />)
+
+    Comp.instance().onClickHandler = on_click
+
+    const button = Comp.find('button')
+
+    button.simulate('click')
+    button.simulate('click')
+
+    expect(on_click).toHaveBeenCalledTimes(2)
+    expect(Comp.instance().onClickHandler).toHaveBeenCalledTimes(2)
+
+    Comp.setProps({
+      on_click: undefined,
+    })
+
+    button.simulate('click')
+
+    // still 2
+    expect(on_click).toHaveBeenCalledTimes(2)
+    expect(Comp.instance().onClickHandler).toHaveBeenCalledTimes(2)
+  })
+
   it('will warn when tertiary is used without an icon', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()

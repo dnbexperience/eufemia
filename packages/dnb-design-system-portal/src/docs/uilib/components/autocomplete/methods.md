@@ -1,6 +1,6 @@
 ## Dynamically change data
 
-You can manipulate the used data dynamically, either by changing the `data` property, or during user events like `on_type` or `on_focus`. The following properties and methods are there to use:
+You can manipulate the used data dynamically, either by changing the `data` property or during user events like `on_type` or `on_focus`. The following properties and methods are there to use:
 
 **Methods**
 

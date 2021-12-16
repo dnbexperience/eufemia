@@ -67,7 +67,7 @@ render(
 
 ### data-dnb-drawer-list-active
 
-When a DrawerList is open, it will set a HTML attribute on the main HTML Element called `data-dnb-drawer-list-active`. The attribute value will be the ID of the current DrawerList.
+When a DrawerList is open, it will set an HTML attribute on the main HTML Element called `data-dnb-drawer-list-active`. The attribute value will be the ID of the current DrawerList.
 
 This can be used to handle z-index issues from within CSS only:
 

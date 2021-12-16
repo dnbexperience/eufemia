@@ -4,17 +4,17 @@ showTabs: true
 
 ## Description
 
-The Skeleton component is a visual building block helper. It will provide loading placeholders that displays a non-interactive preview of the app’s actual UI to visually communicate that content is being processed.
+The Skeleton component is a visual building block helper. It will provide loading placeholders that display a non-interactive preview of the app’s actual UI to visually communicate that content is being processed.
 
 ### Take in consideration
 
-It has to be used carefully and not as a quick loading indicator replacement. The reason lays in that, that the browser will use additional resources to render the additional state. And if it is misused, like showing not an nearly identical UI or it is shown for just a fraction of a second, then it will rather distract the user experience, than enhance it.
+It has to be used carefully and not as a quick loading indicator replacement. The reason lays in that, that the browser will use additional resources to render the additional state. And if it is misused, like showing not a nearly identical UI or it is shown for just a fraction of a second, then it will rather distract the user experience, than enhance it.
 
-Also the fact, that in some setups, the users is first downloading almost the whole web application before we actually are able to show some skeletons during the API calls.
+Also, the fact, that in some setups, the user is first downloading almost the whole web application before we actually are able to show some skeletons during the API calls.
 
 #### Gatsby
 
-Gatsby as a framework makes the perfect fit to utilize a good skeleton user experience from the very first page visit. Every page is optimized to load as fast as possible (in addition to page preloading and PWA). This we can take advantage off and show our skeleton as our initial state.
+Gatsby as a framework makes the perfect fit to utilize a good skeleton user experience from the very first-page visit. Every page is optimized to load as fast as possible (in addition to page preloading and PWA). We can take advantage of this and show our skeleton as our initial state.
 
 1. The skeletons will show up during the very first paint – even without JavaScript enabled.
 1. Next, our page loads the needed application bundle, so we can start an API call, getting our user data.
@@ -29,9 +29,9 @@ Gatsby as a framework makes the perfect fit to utilize a good skeleton user expe
 
 ### When not to use
 
-- For low-traffic pages, such as super-user only admin pages, use a loading spinner instead.
+- For low-traffic pages, such as super-user-only admin pages, use a loading spinner instead.
 - For a tiny, inline action or feedback, e.g. clicked a button and the action will take time, use the [ProgressIndicator](/uilib/components/progress-indicator) instead (animation).
-- For fast processes that takes less than `300ms`, consider the [ProgressIndicator](/uilib/components/progress-indicator) or no loading state at all.
+- For fast processes that take less than `300ms`, consider the [ProgressIndicator](/uilib/components/progress-indicator) or no loading state at all.
 - For a background process or a long-running process, e.g. importing data or exporting reports, use the [ProgressIndicator](/uilib/components/progress-indicator) instead (percentage).
 
 ### When to use
@@ -43,7 +43,7 @@ Gatsby as a framework makes the perfect fit to utilize a good skeleton user expe
 
 ### How to use
 
-You can use the Skeleton component as a provider for all underlying components, like inputs and buttons. This way, you can simply toggle on and off the skeletons. And all the spacing and sizing will be given form the components itself.
+You can use the Skeleton component as a provider for all underlying components, like inputs and buttons. This way, you can simply toggle on and off the skeletons. And all the spacing and sizing will be given from the components themselves.
 
 But you can also use the Skeleton component to show a fake article or other figures.
 
@@ -53,7 +53,7 @@ Every Eufemia component should support a skeleton natively. But for simplificati
 
 If you use the skeleton as a provider, the [Space](/uilib/components/space) component is used as a wrapper. This wrapper also serves the underlying components to define the style type or animation. If only the defaults are used, then you can skip it by setting the element to false `element={false}`.
 
-But the Skeleton component also supports a set of ready to use figures. Use it like `figure="article"`.
+But the Skeleton component also supports a set of ready-to-use figures. Use it like `figure="article"`.
 
 ```jsx
 <App>
@@ -119,7 +119,7 @@ You can take advantage of an async component by using the React Suspense with a 
 ...
 ```
 
-### Create custom skeleton
+### Create a custom skeleton
 
 In order to create the same skeletons as the build-ins, you can make use of a couple of helper tools.
 

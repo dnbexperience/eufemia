@@ -4,35 +4,33 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
-  extendPropsWithContext,
-  registerElement,
   validateDOMAttributes,
   processChildren,
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../../components/space/SpacingHelper'
+import { createSpacingClasses } from '../../components/space/SpacingHelper'
+import { ISpacingProps } from '../../shared/interfaces'
 
-class ScrollView extends React.PureComponent {
+interface ScrollViewProps extends ISpacingProps {
+  className: string
+  children: string | React.ReactNode | ((...args: any[]) => any)
+  innerRef: any
+  class: string
+  // All other props
+  [x: string]: any
+}
+
+class ScrollView extends React.PureComponent<ScrollViewProps> {
   static tagName = 'dnb-scroll-view'
   static contextType = Context
+  ref: any
 
-  static propTypes = {
-    ...spacingPropTypes,
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    innerRef: PropTypes.object,
-
-    class: PropTypes.string,
+  static getContent(props) {
+    if (props.text) return props.text
+    return processChildren(props)
   }
 
   static defaultProps = {
@@ -41,19 +39,6 @@ class ScrollView extends React.PureComponent {
     innerRef: null,
 
     class: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      ScrollView.tagName,
-      ScrollView,
-      ScrollView.defaultProps
-    )
-  }
-
-  static getContent(props) {
-    if (props.text) return props.text
-    return processChildren(props)
   }
 
   constructor(props) {
@@ -71,9 +56,9 @@ class ScrollView extends React.PureComponent {
     )
 
     const {
-      className,
+      className = null,
       class: _className,
-      innerRef, // eslint-disable-line
+      innerRef = null, // eslint-disable-line
       ...attributes
     } = props
 
@@ -99,6 +84,9 @@ class ScrollView extends React.PureComponent {
   }
 }
 
-export default React.forwardRef(function ScrollViewRef(props, ref) {
+export default React.forwardRef(function ScrollViewRef(
+  props: ScrollViewProps,
+  ref
+) {
   return <ScrollView innerRef={ref} {...props} />
 })

@@ -8,7 +8,7 @@ The Pagination component supports both classical **page pagination** and **infin
 
 ### When to use it:
 
-Use it to split up larger data sets into pages / sections so the users can interact sequential through the content.
+Use it to split up larger data sets into pages / sections so the users can interact sequentially through the content.
 
 ### Async data handling
 
@@ -20,7 +20,7 @@ To make it easier for screen-readers to navigate, the _navigation bar_ markup is
 
 ### Gotchas
 
-**Infinity scroller:** Once content inside a page changes, we have to tell the component explicit on what "page" number that happened, including the new content.
+**Infinity scroller:** Once content inside a page changes, we have to tell the component explicitly what "page" number happened, including the new content.
 
 ```jsx
 setContent(pageNumber, ReactComponent)
@@ -28,7 +28,7 @@ setContent(pageNumber, ReactComponent)
 
 ### Legacy browser support (Internet Explorer 11)
 
-The **infinity scroller** is using the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API). This API is supported by all now-days browsers. But if your applications needs support for outdated browser, you can install e.g. [this IntersectionObserver polyfill](https://www.npmjs.com/package/intersection-observer) and import it:
+The **infinity scroller** is using the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API). This API is supported by all nowadays browsers. But if your applications need support for outdated browser, you can install e.g. [this IntersectionObserver polyfill](https://www.npmjs.com/package/intersection-observer) and import it:
 
 ```js
 import 'intersection-observer'
@@ -41,11 +41,11 @@ import 'intersection-observer'
 You can either only use the pagination component with the buttons (bar) and have your content outside, but linked together with your own states.
 
 - or you put your content inside the pagination wrapper. This has the advantage that it gives screen-reader users an easier way to interact and understand the content.
-- and it will "keep" the old page height until the next page is inserted, while showing an indicator.
+- and it will "keep" the old page height until the next page is inserted while showing an indicator.
 
 #### Pagination method #1
 
-Returning a component directly inside a function child.
+Returning a component directly inside a function as a child.
 
 ```jsx
 import { Pagination } from '@dnb/eufemia/components'

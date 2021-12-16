@@ -13,7 +13,6 @@ import {
   isTrue,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import Context from '../../shared/Context'
 
 import TextMask from './TextMask'
 import createNumberMask from './addons/createNumberMask'
@@ -84,8 +83,7 @@ export const useInputElementRef = () => {
  * @returns string
  */
 export const useLocale = () => {
-  const { props } = React.useContext(InputMaskedContext)
-  const context = React.useContext(Context)
+  const { props, context } = React.useContext(InputMaskedContext)
 
   let { locale } = props
   if (!locale && context?.locale) {
@@ -104,16 +102,14 @@ export const useLocale = () => {
  * @returns object with internal value state and state setter
  */
 export const useLocalValue = () => {
-  const { props } = React.useContext(InputMaskedContext)
-  const context = React.useContext(Context)
+  const { props, context } = React.useContext(InputMaskedContext)
   const maskParams = useNumberMaskParams() || {}
   const locale = useLocale()
 
   const [localValue, setLocalValue] = React.useState(() =>
     correctNumberValue({
-      props,
-      context,
       locale,
+      props,
       maskParams,
     })
   )
@@ -125,9 +121,8 @@ export const useLocalValue = () => {
   React.useEffect(() => {
     const value = correctNumberValue({
       localValue,
-      props,
-      context,
       locale,
+      props,
       maskParams,
     })
 
@@ -146,8 +141,9 @@ export const useLocalValue = () => {
  */
 export const useNumberMask = () => {
   const maskParams = useNumberMaskParams()
+  const { props } = React.useContext(InputMaskedContext)
 
-  if (!maskParams) {
+  if (!maskParams || !isRequestingNumberMask(props)) {
     return null
   }
 
@@ -163,7 +159,7 @@ export const useNumberMask = () => {
  *
  * @returns mask function
  */
-export const useInternalMask = () => {
+export const useMask = () => {
   const { props } = React.useContext(InputMaskedContext)
 
   const numberMask = useNumberMask()
@@ -190,7 +186,7 @@ export const useMaskParams = () => {
     placeholder,
   } = props
 
-  const mask = useInternalMask()
+  const mask = useMask()
   const maskParams = useNumberMaskParams() || {}
 
   maskParams.showMask = !placeholder && isTrue(show_mask)
@@ -225,7 +221,7 @@ export const useInputElement = () => {
 
   const { pipe } = props
 
-  const mask = useInternalMask()
+  const mask = useMask()
   const { showMask, showGuide, placeholderChar, keepCharPositions } =
     useMaskParams()
 
@@ -353,7 +349,6 @@ const useCallEvent = ({ setLocalValue }) => {
 
       if (/^0/.test(testValue)) {
         event.preventDefault()
-        return // stop here
       }
     }
 
@@ -457,11 +452,10 @@ const useCallEvent = ({ setLocalValue }) => {
  */
 const useNumberMaskParams = () => {
   const { props } = React.useContext(InputMaskedContext)
-  const context = React.useContext(Context)
   const locale = useLocale()
 
   if (!isRequestingNumberMask(props)) {
-    return null
+    return { ...fromJSON(props.mask_options) }
   }
 
   let { number_mask, currency_mask, mask_options } = props
@@ -506,7 +500,6 @@ const useNumberMaskParams = () => {
 
   if (number_mask) {
     maskParams = handleNumberMask({
-      context,
       mask_options,
       number_mask,
     })
@@ -516,7 +509,6 @@ const useNumberMaskParams = () => {
     }
   } else if (currency_mask) {
     maskParams = handleCurrencyMask({
-      context,
       mask_options,
       currency_mask,
     })

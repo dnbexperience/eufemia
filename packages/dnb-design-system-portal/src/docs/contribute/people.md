@@ -8,7 +8,7 @@ icon: 'accessibility'
 
 ## Special Thanks
 
-Thank you for all who as contributed to build Eufemia. People who has contributed heavily to Eufemia are:
+Thank you to all who have contributed to build Eufemia. People who have contributed heavily to Eufemia are:
 
 - [Jens Thuland](https://dnb.enterprise.slack.com/user/@WE4QCR6PQ)
 - [Tobias Høegh](https://dnb.enterprise.slack.com/user/@WE2M4E65N)
@@ -17,7 +17,7 @@ Thank you for all who as contributed to build Eufemia. People who has contribute
 - Kevin Murphy
 - Hans Kristian Smedsrød
 
-The DNB ASA Design System (Eufemia) is build together with [EGGS Design](https://eggsdesign.com/).
+The DNB ASA Design System (Eufemia) is built together with [EGGS Design](https://eggsdesign.com/).
 
 ## More People to thank
 

@@ -37,7 +37,7 @@ Most of the components do have a `suffix` property you can make use of.
 
 <ModalExampleCustomTrigger />
 
-### Open Modal by state only
+### Open Modal by the state only
 
 While the trigger button is not used anymore by using `trigger_hidden`.
 

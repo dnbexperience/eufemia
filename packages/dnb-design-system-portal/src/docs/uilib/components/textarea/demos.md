@@ -25,11 +25,11 @@ TextareaExampleSuffix
 
 <TextareaExamplePlaceholder />
 
-### Vertical placed label
+### Vertically placed label
 
 <TextareaExampleVertical />
 
-### Stretched horizontal placed label
+### Stretched horizontally placed label
 
 <TextareaExampleStretched />
 
@@ -53,6 +53,6 @@ TextareaExampleSuffix
 
 <TextareaExampleDisabled />
 
-### Textarea with suffix
+### Textarea with a suffix
 
 <TextareaExampleSuffix />

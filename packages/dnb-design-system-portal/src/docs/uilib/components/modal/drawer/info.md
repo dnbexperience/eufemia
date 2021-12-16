@@ -8,7 +8,7 @@ The Drawer component is a part of (mode) the [Modal component](/uilib/components
 
 ### Drawer content wrapper
 
-In order to make it easier to have another colored area below the title, you can make use of the extra wrapper `<Modal.Content>`. Underneath, the [Section](/uilib/components/section) is used, but with the color `black-3` as default. This extra "section" is also customized to work together with the Modal and Drawer component.
+To make it easier to have another colored area below the title, you can make use of the extra wrapper `<Modal.Content>`. Underneath, the [Section](/uilib/components/section) is used, but with the color `black-3` as default. This extra "section" is also customized to work together with the Modal and Drawer component.
 
 ```jsx
 <Modal mode="drawer">
@@ -18,7 +18,7 @@ In order to make it easier to have another colored area below the title, you can
 
 ### Drawer bar and header
 
-You can provide a custom content to both the drawer bar and header. You can provide it either as a React property (`bar_content` and `header_content`), or by markup.
+You can provide custom content to both the drawer bar and header. You can provide it either as a React property (`bar_content` and `header_content`), or by markup.
 
 You may want to provide the title heading as a property. But if you need to, you can also provide a `<H1 />` Eufemia Component inside the header.
 

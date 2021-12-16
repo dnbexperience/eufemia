@@ -35,7 +35,7 @@ The DNB Design System Eufemia uses the following naming conventions.
 
 - `Functions` and `Variables` use **camel case**.
 - `Classes` use **pascal case**.
-- Other Javascript files use **kebab case**.
+- Other JavaScript files use **kebab case**.
 
 ## Events and Properties
 
