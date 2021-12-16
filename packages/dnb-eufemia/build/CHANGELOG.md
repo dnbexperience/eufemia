@@ -3,6 +3,20 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.18.0](https://github.com/dnbexperience/eufemia/compare/v9.17.2...v9.18.0) (2021-12-16)
+
+
+### Bug Fixes
+
+* **InputMasked:** inherit of provider/context props ([89db309](https://github.com/dnbexperience/eufemia/commit/89db309fd0d09f125c3d66ff9e745a12fbfb6ed2))
+* **Modal:** Convert to TypeScript ([#1177](https://github.com/dnbexperience/eufemia/issues/1177)) ([b832b29](https://github.com/dnbexperience/eufemia/commit/b832b29c401d6c1d8f1e9bb36eadbcac984bd330))
+* **StepIndicator:** enhance NVDA support by omitting click event ([74ae87c](https://github.com/dnbexperience/eufemia/commit/74ae87ca601ac3f004518d6c5b6fd34ca8d5a439))
+
+
+### Features
+
+* **Tag:** add new tag component ([dec57cb](https://github.com/dnbexperience/eufemia/commit/dec57cb8ded032b70b15a1b479d5cdc9782e0528))
+
 ## [9.17.2](https://github.com/dnbexperience/eufemia/compare/v9.17.1...v9.17.2) (2021-12-15)
 
 
