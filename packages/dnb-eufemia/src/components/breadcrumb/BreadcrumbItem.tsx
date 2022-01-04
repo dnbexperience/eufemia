@@ -88,7 +88,7 @@ export default function BreadcrumbItem(localProps: BreadcrumbItemProps) {
     <li
       className="dnb-breadcrumb__item"
       data-testid="breadcrumb-item"
-      aria-current={variant === 'current' ? true : undefined}
+      aria-current={variant === 'current' ? 'page' : undefined}
     >
       {isInteractive ? (
         <Button
