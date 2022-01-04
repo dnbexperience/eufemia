@@ -94,7 +94,7 @@ describe('Breadcrumb', () => {
     ).toBe('Page 2')
   })
 
-  it('current will have aria-current="true', () => {
+  it('current item will have aria-current="page', () => {
     render(
       <Breadcrumb
         data={[
@@ -106,7 +106,7 @@ describe('Breadcrumb', () => {
     )
 
     const lastElem = screen.getAllByTestId('breadcrumb-item').slice(-1)[0]
-    expect(lastElem.getAttribute('aria-current')).toBe('true')
+    expect(lastElem.getAttribute('aria-current')).toBe('page')
   })
 
   it('variant collapse opens the collapsed content on click', () => {
