@@ -8,14 +8,14 @@ import CodeBlock from 'dnb-design-system-portal/src/shared/tags/CodeBlock'
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import { Link } from '@dnb/eufemia/src/elements'
 import NotSupportedElements from 'Docs/uilib/elements/not-supported'
-import UnstyledElements from 'Docs/uilib/elements/unstyled'
-import Anchor from 'Docs/uilib/elements/anchor'
-import Blockquote from 'Docs/uilib/elements/blockquote'
-import Tables from 'Docs/uilib/elements/tables'
-import Lists from 'Docs/uilib/elements/lists'
-import Image from 'Docs/uilib/elements/image'
-import Hr from 'Docs/uilib/elements/horizontal-rule'
-import Code from 'Docs/uilib/elements/code'
+import UnstyledElementsDemos from 'Docs/uilib/elements/unstyled'
+import AnchorDemos from 'Docs/uilib/elements/anchor'
+import BlockquoteDemos from 'Docs/uilib/elements/blockquote'
+import TablesDemos from 'Docs/uilib/elements/tables'
+import ListsDemos from 'Docs/uilib/elements/lists'
+import ImageDemos from 'Docs/uilib/elements/image'
+import HrDemos from 'Docs/uilib/elements/horizontal-rule'
+import CodeDemos from 'Docs/uilib/elements/code'
 
 # HTML Elements
 
@@ -78,14 +78,14 @@ render(<StyledLink href="/" target="_blank">Styled Link</StyledLink>)
 `}
 </ComponentBox>
 
-<Anchor />
-<Lists />
-<Tables />
-<Blockquote />
-<Image />
-<Hr />
-<UnstyledElements />
-<Code />
+<AnchorDemos />
+<ListsDemos />
+<TablesDemos />
+<BlockquoteDemos />
+<ImageDemos />
+<HrDemos />
+<UnstyledElementsDemos />
+<CodeDemos />
 
 ---
 
