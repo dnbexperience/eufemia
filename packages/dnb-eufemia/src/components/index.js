@@ -45,6 +45,7 @@ import Switch from './switch/Switch'
 import Tabs from './tabs/Tabs'
 import Tag from './tag/Tag'
 import Textarea from './textarea/Textarea'
+import Timeline from './timeline/Timeline'
 import ToggleButton from './toggle-button/ToggleButton'
 import Tooltip from './tooltip/Tooltip'
 
@@ -85,6 +86,7 @@ export {
   Tabs,
   Tag,
   Textarea,
+  Timeline,
   ToggleButton,
   Tooltip,
 }

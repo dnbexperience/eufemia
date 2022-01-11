@@ -1,5 +1,10 @@
 export default {
   'nb-NO': {
+    TimelineItem: {
+      alt_label_completed: 'Utført',
+      alt_label_current: 'Nåværende',
+      alt_label_upcoming: 'Kommende',
+    },
     Breadcrumb: {
       navText: 'Sidehierarki',
       goBackText: 'Tilbake',
@@ -39,14 +44,12 @@ export default {
     GlobalError: {
       404: {
         title: 'Oisann! Vi finner ikke siden du leter etter …',
-        text:
-          'Sikker på at du har skrevet riktig adresse? Eller har vi rotet med lenkene? Prøv på nytt, eller [gå tilbake der du kom fra](/back).',
+        text: 'Sikker på at du har skrevet riktig adresse? Eller har vi rotet med lenkene? Prøv på nytt, eller [gå tilbake der du kom fra](/back).',
         alt: 'Dame søker i tom eske',
       },
       500: {
         title: 'Oops, her ble det en teknisk feil!',
-        text:
-          'Tjenesten fungerer ikke slik den skal for øyeblikket, men prøv igjen senere.',
+        text: 'Tjenesten fungerer ikke slik den skal for øyeblikket, men prøv igjen senere.',
         alt: 'Mann leter etter spor',
       },
     },
