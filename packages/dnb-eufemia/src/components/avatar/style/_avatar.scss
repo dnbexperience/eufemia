@@ -1,0 +1,90 @@
+/*
+* Avatar component
+*
+*/
+
+:root {
+  --avatar-font-size--small: var(--font-size-x-small);
+  --avatar-font-size--medium: var(--font-size-basis);
+  --avatar-font-size--large: var(--font-size-x-large);
+  --avatar-font-size--x-large: var(--font-size-x-large);
+  --avatar-line-height--small: var(--line-height-x-small);
+  --avatar-line-height--medium: var(--line-height-basis);
+  --avatar-line-height--large: var(--line-height-large);
+  --avatar-line-height--x-large: var(--line-height-large);
+  --avatar-width--small: 1.5rem;
+  --avatar-height--small: 1.5rem;
+  --avatar-width--medium: 2rem;
+  --avatar-height--medium: 2rem;
+  --avatar-width--large: 4rem;
+  --avatar-height--large: 4rem;
+  --avatar-width--x-large: 5rem;
+  --avatar-height--x-large: 5rem;
+}
+
+.dnb-avatar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+  overflow: hidden;
+  user-select: none;
+
+  border-radius: 50%;
+  font-weight: var(--font-weight-medium);
+
+  // Safari needs a correct CSS specificity
+  &,
+  .dnb-core-style & {
+    line-height: var(--button-height);
+  }
+
+  // size small
+  &--size-small {
+    width: var(--avatar-width--small);
+    height: var(--avatar-height--small);
+    font-size: var(--avatar-font-size--small);
+    // Safari needs a correct CSS specificity
+    &,
+    .dnb-core-style & {
+      line-height: var(--avatar-line-height--small);
+    }
+  }
+
+  // size medium
+  &--size-medium {
+    width: var(--avatar-width--medium);
+    height: var(--avatar-height--medium);
+    font-size: var(--avatar-font-size--medium);
+    // Safari needs a correct CSS specificity
+    &,
+    .dnb-core-style & {
+      line-height: var(--avatar-line-height--medium);
+    }
+  }
+
+  // size large
+  &--size-large {
+    width: var(--avatar-width--large);
+    height: var(--avatar-height--large);
+    font-size: var(--avatar-font-size--large);
+    // Safari needs a correct CSS specificity
+    &,
+    .dnb-core-style & {
+      line-height: var(--avatar-line-height--large);
+    }
+  }
+
+  &--size-x-large {
+    width: var(--avatar-width--x-large);
+    height: var(--avatar-height--x-large);
+    font-size: var(--avatar-font-size--x-large);
+    // Safari needs a correct CSS specificity
+    &,
+    .dnb-core-style & {
+      line-height: var(--avatar-line-height--x-large);
+    }
+  }
+}
