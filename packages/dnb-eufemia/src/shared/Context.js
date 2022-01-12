@@ -46,12 +46,13 @@ export const prepareContext = (props = {}) => {
       return context.translation
     },
     locales,
-    ...props,
-    translation, // make sure we set this after props, since we update this one!
     // All eufemia components because of Typescript:
     Breadcrumb: {},
     BreadcrumbItem: {},
     Tag: {},
+
+    ...props,
+    translation, // make sure we set this after props, since we update this one!
   }
 
   return context
