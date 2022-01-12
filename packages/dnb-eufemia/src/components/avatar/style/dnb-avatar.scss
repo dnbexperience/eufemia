@@ -1,0 +1,12 @@
+/*
+* DNB Avatar
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+.dnb-avatar {
+  @include componentReset();
+}
+
+@import './_avatar.scss';

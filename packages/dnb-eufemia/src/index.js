@@ -12,6 +12,7 @@
 // import all the available components and extensions
 import Accordion from './components/accordion/Accordion'
 import Autocomplete from './components/autocomplete/Autocomplete'
+import Avatar from './components/avatar/Avatar'
 import Breadcrumb from './components/breadcrumb/Breadcrumb'
 import Button from './components/button/Button'
 import Checkbox from './components/checkbox/Checkbox'
@@ -80,6 +81,7 @@ import Ul from './elements/Ul'
 export {
   Accordion,
   Autocomplete,
+  Avatar,
   Breadcrumb,
   Button,
   Checkbox,
