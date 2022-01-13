@@ -30,6 +30,7 @@ import Heading from './heading/Heading'
 import HelpButton from './help-button/HelpButton'
 import Icon from './icon/Icon'
 import IconPrimary from './icon-primary/IconPrimary'
+import InfoCard from './info-card/InfoCard'
 import Input from './input/Input'
 import InputMasked from './input-masked/InputMasked'
 import Logo from './logo/Logo'
@@ -71,6 +72,7 @@ export {
   HelpButton,
   Icon,
   IconPrimary,
+  InfoCard,
   Input,
   InputMasked,
   Logo,
@@ -113,6 +115,7 @@ export const getComponents = () => {
     HelpButton,
     Icon,
     IconPrimary,
+    InfoCard,
     Input,
     InputMasked,
     Logo,
