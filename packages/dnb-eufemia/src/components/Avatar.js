@@ -6,7 +6,7 @@
 
 /**
  * Library Index avatar to autogenerate all the components and extensions
- * Used by "prepareAvatar"
+ * Used by "prepareAvatars"
  */
 
 import Avatar from './avatar/Avatar'
