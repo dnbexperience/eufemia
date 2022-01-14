@@ -361,7 +361,6 @@ describe('DatePicker component', () => {
 
     const Comp = mount(
       <Component
-        range
         opened
         no_animation
         show_reset_button
@@ -372,6 +371,54 @@ describe('DatePicker component', () => {
     const resetElem = Comp.find('button[data-visual-test="reset"]')
     expect(resetElem.exists()).toBe(true)
     expect(resetElem.text()).toMatch(reset_button_text)
+  })
+
+  it('footer is rendered when show_reset_button is provided', () => {
+    const Comp = mount(<Component opened no_animation show_reset_button />)
+
+    const datePickerFooter = Comp.find('.dnb-date-picker__footer')
+    expect(datePickerFooter.exists()).toBe(true)
+  })
+
+  it('footer is rendered when show_cancel_button is provided', () => {
+    const Comp = mount(
+      <Component opened no_animation show_cancel_button />
+    )
+
+    const datePickerFooter = Comp.find('.dnb-date-picker__footer')
+    expect(datePickerFooter.exists()).toBe(true)
+  })
+
+  it('footer is rendered when show_submit_button is provided', () => {
+    const Comp = mount(
+      <Component opened no_animation show_submit_button />
+    )
+
+    const datePickerFooter = Comp.find('.dnb-date-picker__footer')
+    expect(datePickerFooter.exists()).toBe(true)
+  })
+
+  it('footer is rendered when range is provided', () => {
+    const Comp = mount(<Component opened no_animation range />)
+
+    const datePickerFooter = Comp.find('.dnb-date-picker__footer')
+    expect(datePickerFooter.exists()).toBe(true)
+  })
+
+  it('footer is not rendered', () => {
+    const Comp = mount(
+      <Component
+        opened
+        no_animation
+        show_reset_button={false}
+        show_cancel_button={false}
+        show_submit_button={false}
+        range={false}
+      />
+    )
+
+    const datePickerFooter = Comp.find('.dnb-date-picker__footer')
+    expect(datePickerFooter.exists()).toBe(false)
   })
 
   it('has a working month correction', () => {
