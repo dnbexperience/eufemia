@@ -4,7 +4,7 @@ title: 'Checklist for designers'
 
 ## Accessibility checklist for designers
 
-Building an accessible interface starts at the UX stage of design. Much of the DNB Design System's styling and development have taken accessibility into consideration to a certain extent (see [UI Library Accessibility](/uilib/usage/accessibility)). However, each interface design comes with it's own challenges and requirement.
+Building an accessible interface starts at the UX stage of design. Much of the DNB Design System's styling and development have taken accessibility into consideration to a certain extent (see [UI Library Accessibility](/uilib/usage/accessibility)). However, each interface design comes with its own challenges and requirement.
 
 - [ ] **Content is perceivable**: Ensure good contrast between background and foreground.
 - [ ] **Accessible for keyboard users**: Plan how you would like a keyboard navigator to access interface laments/areas. What will the order of tabbing be?
