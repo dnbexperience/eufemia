@@ -98,7 +98,8 @@ export default class DatePickerFooter extends React.PureComponent {
     if (
       !isRange &&
       !isTrue(show_submit_button) &&
-      !isTrue(show_cancel_button)
+      !isTrue(show_cancel_button) &&
+      !isTrue(show_reset_button)
     ) {
       return <></>
     }
