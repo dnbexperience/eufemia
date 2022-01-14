@@ -311,12 +311,15 @@ describe('DatePicker component', () => {
 
     const resetElem = Comp.find('button[data-visual-test="reset"]')
     expect(resetElem.exists()).toBe(true)
+    expect(resetElem.text()).toMatch('Tilbakestill')
 
     const cancelElem = Comp.find('button[data-visual-test="cancel"]')
     expect(cancelElem.exists()).toBe(true)
+    expect(cancelElem.text()).toMatch('Avbryt')
 
     const submitElem = Comp.find('button[data-visual-test="submit"]')
     expect(submitElem.exists()).toBe(true)
+    expect(submitElem.text()).toMatch('Ok')
 
     expect(
       Comp.find('input.dnb-date-picker__input--year').instance().value
@@ -353,7 +356,25 @@ describe('DatePicker component', () => {
     expect(on_submit.mock.calls[0][0].date).toBe(date)
   })
 
-  it('has a warking month correction', () => {
+  it('footers reset button text is set by prop reset_button_text', () => {
+    const reset_button_text = 'custom reset button text'
+
+    const Comp = mount(
+      <Component
+        range
+        opened
+        no_animation
+        show_reset_button
+        reset_button_text={reset_button_text}
+      />
+    )
+
+    const resetElem = Comp.find('button[data-visual-test="reset"]')
+    expect(resetElem.exists()).toBe(true)
+    expect(resetElem.text()).toMatch(reset_button_text)
+  })
+
+  it('has a working month correction', () => {
     const Comp = mount(<Component show_input />)
 
     const dayElem = Comp.find('input.dnb-date-picker__input--day').at(0)
