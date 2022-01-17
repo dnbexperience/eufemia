@@ -40,9 +40,10 @@ export default async function makeMainStyle() {
     })
   })
 
-  const listWithPackagesToProcess = await globby(
-    './src/style/dnb-ui-*.scss'
-  )
+  const listWithPackagesToProcess = await globby([
+    './src/style/dnb-ui-*.scss',
+    './src/style/index.scss', // main package
+  ])
   await asyncForEach(listWithPackagesToProcess, async (packageFile) => {
     // in order to keep the folder structure, we have to add these asterisks
     packageFile = packageFile.replace('/style/', '/style/**/')
