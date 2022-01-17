@@ -1,8 +1,75 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import Tag from '../Tag'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import {
+  axeComponent,
+  loadScss,
+  mount,
+} from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
+
+describe('Tag Group', () => {
+  it('renders without children', () => {
+    render(<Tag.Group label="tags" />)
+
+    expect(screen.queryByTestId('tag-group')).not.toBeNull()
+    expect(screen.queryByTestId('tag')).toBeNull()
+  })
+
+  it('renders the label', () => {
+    const label = 'tags'
+    render(<Tag.Group label={label} />)
+    expect(screen.queryByTestId('tag-group-label')).not.toBeNull()
+    expect(screen.queryByTestId('tag-group-label').textContent).toBe(label)
+  })
+
+  it('renders a tag group with multiple tag items by data prop', () => {
+    render(
+      <Tag.Group
+        label="tags"
+        data={[
+          {
+            text: 'Cat',
+          },
+          {
+            text: 'Horse',
+          },
+          {
+            text: 'Dog',
+          },
+        ]}
+      />
+    )
+
+    expect(screen.queryAllByTestId('tag')).toHaveLength(3)
+  })
+
+  it('renders a tag group with multiple tag elements by children', () => {
+    render(
+      <Tag.Group label="animals">
+        <Tag text="Cat" />
+        <Tag text="Horse" />
+        <Tag text="Dog" />
+        <Tag text="Cow" />
+      </Tag.Group>
+    )
+
+    expect(screen.queryAllByTestId('tag')).toHaveLength(4)
+  })
+
+  it('renders a tag group with className if className is provided', () => {
+    const customClassName = 'custom-class'
+
+    render(
+      <Tag.Group label="aria" className={customClassName}>
+        ClassName
+      </Tag.Group>
+    )
+    expect(screen.queryByTestId('tag-group').className).toMatch(
+      customClassName
+    )
+  })
+})
 
 describe('Tag', () => {
   it('renders without properties', () => {
@@ -112,18 +179,32 @@ describe('Tag', () => {
         screen.queryByTestId('tag').querySelector('.dnb-icon')
       ).toBeTruthy()
     })
+  })
 
-    it('renders a tag with provider', () => {
-      render(
-        <Provider locale="en-GB">
-          <Tag text="With provider" />
-        </Provider>
-      )
+  it('warns when Tag is used without a Tag.Group as parent component', () => {
+    process.env.NODE_ENV = 'development'
+    global.console.log = jest.fn()
+    mount(<Tag text="Tag" />)
+    expect(global.console.log).toBeCalled()
+  })
 
-      expect(
-        screen.queryByTestId('tag').querySelector('.dnb-button__text')
-      ).not.toBeNull()
-    })
+  it('renders a tag with className if className is provided', () => {
+    const customClassName = 'custom-class'
+
+    render(<Tag className={customClassName}>ClassName</Tag>)
+    expect(screen.queryByTestId('tag').className).toMatch(customClassName)
+  })
+
+  it('renders a tag with provider', () => {
+    render(
+      <Provider locale="en-GB">
+        <Tag text="With provider" />
+      </Provider>
+    )
+
+    expect(
+      screen.queryByTestId('tag').querySelector('.dnb-button__text')
+    ).not.toBeNull()
   })
 })
 

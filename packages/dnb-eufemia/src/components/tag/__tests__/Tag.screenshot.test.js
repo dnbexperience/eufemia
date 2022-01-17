@@ -36,6 +36,14 @@ describe('Tag screenshot', () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="tag-clickable"] .dnb-tag',
     })
-    expect(screenshot).toMatchImageSnapshot()
+
+      expect(screenshot).toMatchImageSnapshot()
+    })
   })
+
+  it('have to match Tag group with data', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="tag-group-with-data"] .dnb-tag',
+    })
+    expect(screenshot).toMatchImageSnapshot()
 })

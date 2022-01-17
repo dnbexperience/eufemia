@@ -8,7 +8,15 @@ import Button from '../button/Button'
 // Shared
 import Context from '../../shared/Context'
 import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import {
+  warn,
+  extendPropsWithContext,
+} from '../../shared/component-helper'
+
+// Internal
+import TagGroup, { TagGroupContext } from './TagGroup'
+
+export * from './TagGroup'
 
 export interface TagProps {
   /**
@@ -60,13 +68,16 @@ export const defaultProps = {
 const Tag = (localProps: TagProps & ISpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
+  const tagGroupContext = React.useContext(TagGroupContext)
+
   // Extract additional props from global context
   const { className, skeleton, children, onClick, text, ...props } =
     extendPropsWithContext(
       { ...defaultProps, ...localProps },
       defaultProps,
       context?.translation?.Tag,
-      context?.Tag
+      context?.Tag,
+      tagGroupContext
     )
 
   const content = text || children
@@ -83,6 +94,12 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
     props.type = ''
   }
 
+  if (!tagGroupContext) {
+    warn(
+      `Tag group required: A Tag requires a Tag.Group with label description as a parent component. This is to ensure correct semantic and accessibility.`
+    )
+  }
+
   return (
     <Button
       data-testid="tag"
@@ -97,5 +114,9 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
     />
   )
 }
+
+Tag.Group = TagGroup
+
+export { TagGroup }
 
 export default Tag
