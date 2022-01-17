@@ -252,6 +252,22 @@ export const TertiaryWithNoIcon = () => {
   )
 }
 
+export const UnstyledVariant = () => {
+  if (!(typeof window !== 'undefined' && window.IS_TEST)) {
+    return <></>
+  }
+  return (
+    <ComponentBox
+      title="Unstyled button with icon"
+      data-visual-test="button-unstyled"
+    >
+      {() => /* jsx */ `
+<Button text="Unstyled button with icon" icon="bell" variant="unstyled" />
+`}
+    </ComponentBox>
+  )
+}
+
 export const ButtonStretch = () => {
   if (!(typeof window !== 'undefined' && window.IS_TEST)) {
     return <></>

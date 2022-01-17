@@ -373,4 +373,7 @@
     color: var(--color-black-55);
     background-color: var(--color-black-3);
   }
+
+  // For internal usage only, we have also "unstyled"
+  // &--unstyled {}
 }

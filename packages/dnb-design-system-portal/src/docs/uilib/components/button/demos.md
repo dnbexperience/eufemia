@@ -19,6 +19,7 @@ ButtonSignalLarge,
 ButtonIcon,
 ButtonStretch,
 TertiaryWithNoIcon,
+UnstyledVariant,
 } from 'Docs/uilib/components/button/Examples'
 
 ## Demos
@@ -89,3 +90,4 @@ This is, as all of the demos, only an example of how to achieve various needs, a
 
 <ButtonStretch />
 <TertiaryWithNoIcon />
+<UnstyledVariant />
