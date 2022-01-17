@@ -148,6 +148,17 @@ describe('Button target blank', () => {
   })
 })
 
+describe('Button unstyled screenshot', () => {
+  setupPageScreenshot({ url: '/uilib/components/button/demos' })
+
+  it('have to match "dnb-button--unstyled" with icon', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="button-unstyled"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
 describe('Button tertiary screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/button/demos' })
 
