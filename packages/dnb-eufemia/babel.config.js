@@ -75,6 +75,7 @@ const productionPlugins = [
       mode: 'unsafe-wrap',
     },
   ],
+  'babel-plugin-fully-specified',
 ]
 
 if (typeof process.env.BABEL_ENV !== 'undefined') {
