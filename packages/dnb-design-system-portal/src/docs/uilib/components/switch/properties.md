@@ -7,7 +7,7 @@ showTabs: true
 | Properties                                  | Description                                                                                                                                                         |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `checked`                                   | _(optional)_ determine whether the switch is checked or not. The default will be `false`.                                                                               |
-| `title`                                     | _(mandatory)_ the `title` of the input - describing it a bit further for accessibility reasons.                                                                     |
+| `title`                                     | _(required)_ the `title` of the input - describing it a bit further for accessibility reasons.                                                                     |
 | `label`                                     | _(optional)_ use either the `label` property or provide a custom one.                                                                                                 |
 | `label_position`                            | _(optional)_ defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.                                                                |
 | `size`                                      | _(optional)_ the size of the switch. For now there is **medium** (default) and **large**.                                                                           |
