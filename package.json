@@ -26,7 +26,9 @@
     "test:update": "yarn workspace @dnb/eufemia test:update",
     "test:screenshots": "yarn workspace @dnb/eufemia test:screenshots",
     "test:screenshots:update": "yarn workspace @dnb/eufemia test:screenshots:update",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "yarn workspace @dnb/eufemia lint && yarn workspace dnb-design-system-portal lint",
+    "lint:ci": "yarn workspace @dnb/eufemia lint:ci && yarn workspace dnb-design-system-portal lint:ci"
   },
   "devDependencies": {
     "husky": "7.0.4",

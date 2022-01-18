@@ -11,6 +11,7 @@ import { P } from '@dnb/eufemia/src/elements'
 import { Button, Section } from '@dnb/eufemia/src/components'
 import Pagination, {
   createPagination,
+  Bar,
 } from '@dnb/eufemia/src/components/pagination/Pagination'
 
 export default {
@@ -40,7 +41,7 @@ for (let i = 1; i <= 300; i++) {
   tableItems.push({ ssn: i, text: String(i), expanded: false })
 }
 
-export const Infinity = () => {
+export const InfinitySandbox = () => {
   const props = {
     current_page: 3,
     // page_count: 30,
@@ -66,10 +67,42 @@ export const Infinity = () => {
   )
 }
 
+export const PaginationNoChildren = () => (
+  <Wrapper>
+    <Box>
+      <Bar
+        page_count={10}
+        currentPage={2}
+        on_change={(page) => {
+          console.log(page)
+        }}
+      />
+    </Box>
+    <Box>
+      <Bar
+        page_count={10}
+        currentPage={2}
+        on_change={(page) => {
+          console.log(page)
+        }}
+      />
+    </Box>
+  </Wrapper>
+)
+
 export const PaginationSandbox = () => (
   <Wrapper>
     <Box>
       <PaginationRender />
+    </Box>
+    <Box>
+      <Pagination
+        page_count={10}
+        currentPage={2}
+        on_change={(page) => {
+          console.log(page)
+        }}
+      />
     </Box>
     <Box>
       <Pagination page_count={2}>

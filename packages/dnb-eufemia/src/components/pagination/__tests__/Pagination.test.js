@@ -12,7 +12,7 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
-import Component, { createPagination } from '../Pagination'
+import Component, { createPagination, Bar } from '../Pagination'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Pagination'), {
@@ -575,6 +575,13 @@ describe('Infinity scroller', () => {
     expect(on_change).toHaveBeenCalledTimes(2)
     expect(on_load).toHaveBeenCalledTimes(4)
     expect(on_end).toHaveBeenCalledTimes(1)
+  })
+
+  it('should show pagination bar using Bar component', () => {
+    const Comp = mount(<Bar {...props} on_change={jest.fn()} />)
+
+    expect(Comp.exists('.dnb-pagination__bar')).toBe(true)
+    expect(Comp.exists('.dnb-pagination__indicator')).toBe(false)
   })
 
   // compare the snapshot
