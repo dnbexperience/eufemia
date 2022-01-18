@@ -4,7 +4,7 @@ order: 2
 icon: 'naming'
 ---
 
-import { Button, Blockquote, cite } from '@dnb/eufemia/src'
+import { Button, Blockquote } from '@dnb/eufemia/src'
 
 # New contributor
 
