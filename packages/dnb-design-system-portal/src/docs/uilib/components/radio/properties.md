@@ -6,7 +6,7 @@ showTabs: true
 
 | Properties         | Description                                                                                                                                          |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `value`            | _(mandatory)_ defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **RadioGroup**.         |
+| `value`            | _(required)_ defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **RadioGroup**.         |
 | `checked`          | _(optional)_ determine whether the radio is checked or not. Default will be `false`.                                                                 |
 | `group`            | _(optional)_ use a unique group identifier to define the Radio buttons that belongs together.                                                         |
 | `size`             | _(optional)_ the size of the Radio button. For now there is **medium** (default) and **large**.                                                      |
