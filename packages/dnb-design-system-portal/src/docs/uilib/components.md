@@ -8,9 +8,21 @@ order: 7
 
 DNB Eufemia components are ready to use, styled and custom build HTML elements.
 
+## [Accordion](/uilib/components/accordion)
+
+The Accordion component, also know as a ComboBox, completes / suggests values during typing.
+
 ## [Autocomplete](/uilib/components/autocomplete)
 
 The Autocomplete component is a combination of an [Input](/uilib/components/input) and a [Dropdown](/uilib/components/dropdown), also called **ComboBox**. During typing, matching data items gets suggested in an option menu (listbox).
+
+## [Avatar](/uilib/components/avatar)
+
+The Avatar component are identifiers that makes people and companies more scannable.
+
+## [Breadcrumb](/uilib/components/breadcrumb)
+
+The Breadcrumb component is a bar for navigation showing current web path.
 
 ## [Button](/uilib/components/button)
 
@@ -24,6 +36,10 @@ Checkboxes are used to let a user select one or more options of a limited number
 ## [DatePicker](/uilib/components/date-picker)
 
 The DatePicker component should be used whenever there is to enter a single date or a date range/period with a start and end date.
+
+## [Drawer](/uilib/components/drawer)
+
+The Drawer component is a part of (mode) the Modal component because they have many similarities.
 
 ## [Dropdown](/uilib/components/dropdown)
 
@@ -97,10 +113,6 @@ The Pagination component supports both classical **page pagination** and **infin
 
 Use a ProgressIndicator whenever the user has to wait for more than _150ms_.
 
-## [StepIndicator](/uilib/components/step-indicator)
-
-The step indicator (progress) is a visual representation of a users progress through a set of steps or series of actions. Their purpose is to both guide the user through the process and to help them create a mental model of the amount of time and effort that is required of them.
-
 ## [Radio](/uilib/components/radio)
 
 Radio buttons lets a user select one option / value of a limited number of choices. It is recommended to use it in a group. You can use either the React component `<Radio.Group>` or use the property `group="NAME"` to define the group.
@@ -113,6 +125,10 @@ Sliders provide a visual indication of adjustable content. A value can be adjust
 
 The Space component provides `margins` within the [provided spacing extensions](/uilib/usage/layout/spacing#spacing-helpers).
 
+## [StepIndicator](/uilib/components/step-indicator)
+
+The step indicator (progress) is a visual representation of a users progress through a set of steps or series of actions. Their purpose is to both guide the user through the process and to help them create a mental model of the amount of time and effort that is required of them.
+
 ## [Switch](/uilib/components/switch)
 
 The Switch component (toggle) is a digital on/off switch. Toggle switches are best used for changing the state of system functionalities and preferences.
@@ -121,6 +137,10 @@ The Switch component (toggle) is a digital on/off switch. Toggle switches are be
 
 Tabs are a set of buttons which allow navigation between content that is related and on the same level of hierarchy.
 
+## [Tag](/uilib/components/tag)
+
+The Tag component is a compact component for displaying discrete information.
+
 ## [Textarea](/uilib/components/textarea)
 
 The Textarea component has to be used as a multi-line text input control with an unlimited number of characters possible.
@@ -128,3 +148,7 @@ The Textarea component has to be used as a multi-line text input control with an
 ## [ToggleButton](/uilib/components/toggle-button)
 
 The ToggleButton component should be used to toggle on or off a limited number of choices.
+
+## [Tooltip](/uilib/components/tooltip)
+
+The Tooltip component is primarily meant to enhance the UX for various and additional information.
