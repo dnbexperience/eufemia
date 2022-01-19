@@ -698,6 +698,37 @@ describe('Modal component', () => {
     Comp.find('button.dnb-modal__close-button').simulate('click')
   })
 
+  it('should not add aria-hidden to the modal root', () => {
+    const modalContent = 'Modal Content'
+
+    const Comp = mount(
+      <div>
+        <Component
+          {...props}
+          title={null}
+          modal_content={null}
+          direct_dom_return={false}
+        >
+          {modalContent}
+        </Component>
+
+        <button id="my-button">I should become hidden after open</button>
+      </div>,
+      { attachTo: attachToBody() }
+    )
+
+    Comp.find('button.dnb-modal__trigger').simulate('click')
+
+    const id = `#dnb-modal-${props.id}`
+    const modalRoot = document.querySelector(id)
+    const outsideButton = document.querySelector('#my-button')
+
+    expect(modalRoot.getAttribute('aria-hidden')).toBeFalsy()
+    expect(outsideButton.getAttribute('aria-hidden')).toEqual('true')
+
+    Comp.find('button.dnb-modal__close-button').simulate('click')
+  })
+
   it('runs expected side effects on desktop', () => {
     const Comp = mount(<Component {...props} />)
     const elem = Comp.find('button')

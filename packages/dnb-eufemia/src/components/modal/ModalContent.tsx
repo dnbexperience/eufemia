@@ -124,6 +124,7 @@ export default class ModalContent extends React.PureComponent<
         [
           // Bypass modal content
           '.dnb-modal__content *',
+          `#dnb-modal-${this.props.root_id || 'root'}`,
           `#dnb-modal-${this.props.root_id || 'root'} *`,
 
           // TODO: Eventually in future, make it possible to bypass invalidation from outside
