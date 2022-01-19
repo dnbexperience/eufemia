@@ -145,7 +145,6 @@
     "@wojtekmaj/enzyme-adapter-react-17": "0.6.5",
     "audit-ci": "5.1.2",
     "babel-jest": "27.3.1",
-    "babel-plugin-fully-specified": "1.3.0",
     "babel-plugin-optimize-clsx": "2.6.2",
     "babel-plugin-search-and-replace": "1.1.0",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
