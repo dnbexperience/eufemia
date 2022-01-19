@@ -18,8 +18,8 @@ showTabs: true
 
 | Properties    | Description                                                                                                                                                                        |
 | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`        | _(mandatory)_ Name/title of the Timeline item.                                                                                                                                     |
-| `state`       | _(mandatory)_ The component state. Options: `completed` \| `current` \| `upcoming`.                                                                                                |
+| `name`        | _(required)_ Name/title of the Timeline item.                                                                                                                                     |
+| `state`       | _(required)_ The component state. Options: `completed` \| `current` \| `upcoming`.                                                                                                |
 | `date`        | _(optional)_ Date of the Timeline item, displayed below the `name`.                                                                                                                |
 | `infoMessage` | _(optional)_ Info message, displayed in a [FormStatus of state info](/uilib/components/form-status#formstatus-displaying-info-status), below the `date` if it exists.              |
 | `icon`        | _(optional)_ Override icon displaying on the left side (Not recommended). Default: `check` for state `completed`, `pin` for state `current`, and `calendar` for state `upcoming` . |

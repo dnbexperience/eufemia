@@ -6,7 +6,7 @@ showTabs: true
 
 | Properties                                  | Description                                                                                         |
 | ------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `for_id`                                    | _(mandatory)_ the `id` of the input.                                                                |
+| `for_id`                                    | _(required)_ the `id` of the input.                                                                |
 | `vertical`                                  | _(optional)_ will force both `direction` and `label_direction` to be **vertical** if set to `true`. |
 | `title`                                     | _(optional)_ the `title` attribute of the label.                                                    |
 | `text`                                      | _(optional)_ the `text` of the label.                                                               |

@@ -6,8 +6,8 @@ showTabs: true
 
 | Properties                                  | Description                                                                                                                                                                     |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `value`                                     | _(mandatory)_ defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **ToggleButtonGroup**.                             |
-| `text`                                      | _(mandatory)_ the text shown in the ToggleButton.                                                                                                                                |
+| `value`                                     | _(required)_ defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the **ToggleButtonGroup**.                             |
+| `text`                                      | _(required)_ the text shown in the ToggleButton.                                                                                                                                |
 | `checked`                                   | _(optional)_ determine whether the ToggleButton is checked or not. The default will be `false`.                                                                                     |
 | `title`                                     | _(optional)_ the `title` of the input - describing it a bit further for accessibility reasons.                                                                                  |
 | `label`                                     | _(optional)_ use either the `label` property or provide a custom one.                                                                                                             |
