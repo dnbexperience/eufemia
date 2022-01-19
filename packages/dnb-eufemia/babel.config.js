@@ -75,13 +75,6 @@ const productionPlugins = [
       mode: 'unsafe-wrap',
     },
   ],
-  [
-    'babel-plugin-fully-specified',
-    {
-      ensureFileExists: ['umd'].includes(process.env.BABEL_ENV),
-      includePackages: ['date-fns'],
-    },
-  ],
 ]
 
 if (typeof process.env.BABEL_ENV !== 'undefined') {

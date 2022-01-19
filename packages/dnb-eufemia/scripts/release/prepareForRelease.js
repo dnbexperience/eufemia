@@ -46,9 +46,6 @@ export async function cleanupPackage({ packageString, filepath }) {
   delete packageJson.resolutions
   delete packageJson.volta
 
-  // Add required fields
-  packageJson.type = 'module'
-
   const prettierrc = JSON.parse(
     await fs.readFile(
       path.resolve(packpath.self(), '.prettierrc'),

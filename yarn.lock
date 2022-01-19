@@ -1960,7 +1960,6 @@ __metadata:
     "@wojtekmaj/enzyme-adapter-react-17": 0.6.5
     audit-ci: 5.1.2
     babel-jest: 27.3.1
-    babel-plugin-fully-specified: 1.3.0
     babel-plugin-optimize-clsx: 2.6.2
     babel-plugin-search-and-replace: 1.1.0
     babel-plugin-transform-react-remove-prop-types: 0.4.24
@@ -8078,15 +8077,6 @@ __metadata:
   dependencies:
     "@babel/helper-plugin-utils": 7.10.4
   checksum: 145ccf09c96d36411d340e78086555f8d4d5924ea39fcb0eca461c066cfa98bc4344982bb35eb85d054ef88f8d4dfc0205ba27370c1d8fcc78191b02908d044d
-  languageName: node
-  linkType: hard
-
-"babel-plugin-fully-specified@npm:1.3.0":
-  version: 1.3.0
-  resolution: "babel-plugin-fully-specified@npm:1.3.0"
-  peerDependencies:
-    "@babel/core": "*"
-  checksum: a561b33da1f0e976d34721f55c25c4132c24194ad5d089ac7427db229a852dcb3e83044f9ca34e380e0eba31d789cbaf73b2d8efefb95952c7daedbf83ccd4b8
   languageName: node
   linkType: hard
 
