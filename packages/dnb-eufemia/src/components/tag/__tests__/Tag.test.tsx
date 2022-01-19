@@ -16,8 +16,13 @@ describe('Tag', () => {
 
     render(<Tag text="This is a tag" />)
 
-    expect(screen.queryByTestId('tag-text')).not.toBeNull()
-    expect(screen.queryByTestId('tag-text').textContent).toBe(text)
+    expect(
+      screen.queryByTestId('tag').querySelector('.dnb-button__text')
+    ).not.toBeNull()
+    expect(
+      screen.queryByTestId('tag').querySelector('.dnb-button__text')
+        .textContent
+    ).toBe(text)
   })
 
   it('renders a tag with content by children prop', () => {
@@ -25,8 +30,13 @@ describe('Tag', () => {
 
     render(<Tag>{text}</Tag>)
 
-    expect(screen.queryByTestId('tag-text')).not.toBeNull()
-    expect(screen.queryByTestId('tag-text').textContent).toBe(text)
+    expect(
+      screen.queryByTestId('tag').querySelector('.dnb-button__text')
+    ).not.toBeNull()
+    expect(
+      screen.queryByTestId('tag').querySelector('.dnb-button__text')
+        .textContent
+    ).toBe(text)
   })
 
   it('renders a tag with content if both text and children prop is defined', () => {
@@ -34,8 +44,13 @@ describe('Tag', () => {
 
     render(<Tag text={text}>{text}</Tag>)
 
-    expect(screen.queryByTestId('tag-text')).not.toBeNull()
-    expect(screen.queryByTestId('tag-text').textContent).toBe(text)
+    expect(
+      screen.queryByTestId('tag').querySelector('.dnb-button__text')
+    ).not.toBeNull()
+    expect(
+      screen.queryByTestId('tag').querySelector('.dnb-button__text')
+        .textContent
+    ).toBe(text)
   })
 
   it('renders a tag with skeleton if skeleton is true', () => {
@@ -51,44 +66,64 @@ describe('Tag', () => {
     render(<Tag text="Tag with text" />)
 
     expect(screen.queryByRole('button')).toBeNull()
-    expect(screen.queryByTestId('tag').textContent).toBe('Tag with text')
+    expect(screen.queryByTestId('tag').textContent).toBe('‌Tag with text')
   })
 
-  it('renders a clickable tag with the correct attributes if onClick is defined', () => {
-    const clickableClassName = 'dnb-tag--clickable'
+  it('does support icon', () => {
+    render(<Tag text="Tag with icon" icon="bell" />)
 
-    render(
-      <Tag
-        onClick={() => {
-          console.log('onClick')
-        }}
-      >
-        Clickable
-      </Tag>
-    )
-    expect(screen.queryByTestId('tag').className).toMatch(
-      clickableClassName
-    )
-    expect(screen.queryByRole('button')).not.toBeNull()
-    expect(screen.queryByRole('button').tabIndex).toBe(0)
+    expect(
+      screen.queryByTestId('tag').querySelector('.dnb-icon')
+    ).toBeTruthy()
   })
 
-  it('fires onClick event if onClick is defined', () => {
-    const onClick = jest.fn()
-    render(<Tag onClick={onClick}>onClick</Tag>)
+  describe('with onClick', () => {
+    it('renders a clickable tag with the correct attributes if onClick is defined', () => {
+      const clickableClassName = 'dnb-tag--clickable'
 
-    fireEvent.click(screen.getByRole('button'))
-    expect(onClick).toHaveBeenCalledTimes(1)
-  })
+      render(
+        <Tag
+          onClick={() => {
+            console.log('onClick')
+          }}
+        >
+          Clickable
+        </Tag>
+      )
+      expect(screen.queryByTestId('tag').className).toMatch(
+        clickableClassName
+      )
+      expect(screen.queryByRole('button')).not.toBeNull()
+      expect(screen.queryByRole('button').tabIndex).toBe(0)
+    })
 
-  it('renders a tag with provider', () => {
-    render(
-      <Provider locale="en-GB">
-        <Tag text="With provider" />
-      </Provider>
-    )
+    it('fires onClick event if onClick is defined', () => {
+      const onClick = jest.fn()
+      render(<Tag onClick={onClick}>onClick</Tag>)
 
-    expect(screen.queryByTestId('tag-text')).not.toBeNull()
+      fireEvent.click(screen.getByRole('button'))
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
+
+    it('does support icon', () => {
+      render(<Tag text="Tag with icon" icon="bell" onClick={jest.fn()} />)
+
+      expect(
+        screen.queryByTestId('tag').querySelector('.dnb-icon')
+      ).toBeTruthy()
+    })
+
+    it('renders a tag with provider', () => {
+      render(
+        <Provider locale="en-GB">
+          <Tag text="With provider" />
+        </Provider>
+      )
+
+      expect(
+        screen.queryByTestId('tag').querySelector('.dnb-button__text')
+      ).not.toBeNull()
+    })
   })
 })
 

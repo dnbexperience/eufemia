@@ -3,63 +3,49 @@
 *
 */
 
-:root {
-  --tag-border-radius: 2.5rem;
-  --tag-line-height: 1.125rem;
-}
+@import '../../button/style/themes/_button-mixins.scss';
 
 .dnb-tag {
-  display: inline-flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: var(--spacing-xx-small) var(--spacing-x-small);
-  font-size: var(--font-size-x-small);
-  background-color: var(--color-black-8);
-  border-radius: var(--tag-border-radius);
-  color: var(--color-black-80);
-  appearance: none;
-  vertical-align: middle;
+  &.dnb-button {
+    appearance: none;
+    background-color: var(--color-black-8);
 
-  &__icon {
-    display: flex;
-    align-items: center;
+    &.dnb-button--size-small {
+      padding-left: 0.25rem;
+      padding-right: 0.5rem;
+    }
+    &.dnb-button--size-small.dnb-button--has-icon {
+      padding-left: 0;
+    }
+
+    .dnb-button__text {
+      font-size: var(--font-size-x-small);
+    }
   }
 
-  &__text {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  &:not(#{&}--clickable) {
+    user-select: unset;
+    cursor: unset;
+    .dnb-button__text {
+      cursor: text;
+    }
   }
 
   &--clickable {
     &.dnb-button {
       color: var(--color-sea-green);
-      box-shadow: 0 0 0 1px var(--color-sea-green) inset;
-      line-height: var(--tag-line-height);
-      padding: var(--spacing-xx-small) var(--spacing-xx-small);
-      outline: none;
 
-      &:hover {
-        box-shadow: 0 0 0 2px var(--color-sea-green);
-      }
-
-      &:focus {
-        box-shadow: 0 0 0 2px var(--color-sea-green) inset;
-      }
-
-      &:active {
-        background-color: var(--color-mint-green-50);
-        box-shadow: none;
-      }
-
-      .dnb-button__text {
-        padding: calc(#{var(--spacing-xx-small)} - 1px)
-          var(--spacing-xx-small);
-        font-size: var(--font-size-x-small);
-        line-height: var(--tag-line-height);
-        margin: 0;
-        transform: none;
+      @include fakeBorder(var(--color-sea-green), 0.0625rem, inset, true);
+      @include buttonHover(var(--color-sea-green), var(--color-black-8));
+      @include buttonFocus(var(--color-sea-green), var(--color-black-8));
+      @include buttonActive(
+        var(--color-sea-green),
+        var(--color-mint-green-50)
+      );
+      &[disabled] {
+        color: var(--color-sea-green-30);
+        background-color: var(--color-white);
+        @include fakeBorder(var(--color-sea-green-30));
       }
     }
   }

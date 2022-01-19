@@ -2,9 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 
 // Components
-import { createSkeletonClass } from '../skeleton/SkeletonHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
-import Icon, { IconPrimaryIcon } from '../icon-primary/IconPrimary'
+import { IconPrimaryIcon } from '../icon-primary/IconPrimary'
 import Button from '../button/Button'
 
 // Shared
@@ -63,52 +61,40 @@ function Tag(localProps: TagProps & ISpacingProps) {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context
-  const { className, skeleton, children, onClick, icon, text, ...props } =
+  const { className, skeleton, children, onClick, text, ...props } =
     extendPropsWithContext(
       { ...defaultProps, ...localProps },
       defaultProps,
       context?.translation?.Tag,
       context?.Tag
     )
-  const skeletonClasses = createSkeletonClass('shape', skeleton, context)
-  const spacingClasses = createSpacingClasses(props)
 
   const content = text || children
   const isClickable = !!onClick
 
   const tagClassNames = classnames(
     'dnb-tag',
-    skeletonClasses,
-    spacingClasses,
     className,
     isClickable && 'dnb-tag--clickable'
   )
 
-  const textContent = content && (
-    <span data-testid="tag-text" className="dnb-tag__text">
-      {content}
-    </span>
-  )
+  if (!isClickable) {
+    props.element = 'span'
+    props.type = ''
+  }
 
-  return isClickable ? (
+  return (
     <Button
       data-testid="tag"
       variant="unstyled"
+      icon_position="left"
+      size="small"
       className={tagClassNames}
       on_click={onClick}
-      text={textContent}
+      text={content}
       skeleton={skeleton}
       {...props}
     />
-  ) : (
-    <div data-testid="tag" className={tagClassNames} {...props}>
-      {icon && (
-        <span data-testid="tag-icon" className="dnb-tag__icon">
-          <Icon icon={icon} right="x-small" />
-        </span>
-      )}
-      {textContent}
-    </div>
   )
 }
 
