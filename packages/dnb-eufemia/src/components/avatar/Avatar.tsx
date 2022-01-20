@@ -4,13 +4,23 @@ import classnames from 'classnames'
 // Components
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+
 // Elements
 import { ImgProps } from '../../elements/Img'
+
 // Shared
 import Context from '../../shared/Context'
 import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import { Img } from '../..'
+
+// Internal
+import AvatarGroup from './AvatarGroup'
+
+export * from './AvatarGroup'
+
+export type AvatarSizes = 'small' | 'medium' | 'large' | 'x-large'
+export type AvatarVariants = 'primary' | 'secondary' | 'tertiary'
 
 export interface AvatarProps {
   /**
@@ -41,7 +51,7 @@ export interface AvatarProps {
    * The size of the component.
    * Default: medium.
    */
-  size?: 'small' | 'medium' | 'large' | 'x-large'
+  size?: AvatarSizes
 
   /**
    * Specifies the path to the image
@@ -59,7 +69,7 @@ export interface AvatarProps {
    * The variant of the component.
    * Default: primary.
    */
-  variant?: 'primary' | 'secondary' | 'tertiary'
+  variant?: AvatarVariants
 }
 
 export const defaultProps = {
@@ -122,5 +132,9 @@ function Avatar(localProps: AvatarProps & ISpacingProps) {
     </div>
   )
 }
+
+Avatar.Group = AvatarGroup
+
+export { AvatarGroup }
 
 export default Avatar

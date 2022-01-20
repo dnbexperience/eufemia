@@ -129,4 +129,37 @@ describe('Avatar screenshot', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
   })
+  describe('grouping', () => {
+    it('have to match grouping of small avatars', async () => {
+      const screenshot = await testPageScreenshot({
+        selector: '[data-visual-test="avatar-grouped-small"] .dnb-avatar',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+    it('have to match grouping of medium avatars', async () => {
+      const screenshot = await testPageScreenshot({
+        selector: '[data-visual-test="avatar-grouped-medium"] .dnb-avatar',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+    it('have to match grouping of large avatars', async () => {
+      const screenshot = await testPageScreenshot({
+        selector: '[data-visual-test="avatar-grouped-large"] .dnb-avatar',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+    it('have to match grouping of x-large avatars', async () => {
+      const screenshot = await testPageScreenshot({
+        selector:
+          '[data-visual-test="avatar-grouped-x-large"] .dnb-avatar',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+    it('have to match grouping of img avatars', async () => {
+      const screenshot = await testPageScreenshot({
+        selector: '[data-visual-test="avatar-grouped-image"] .dnb-avatar',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  })
 })

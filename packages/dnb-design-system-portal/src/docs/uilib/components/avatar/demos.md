@@ -19,7 +19,12 @@ AvatarDNBLogo,
 AvatarImageDNB,
 AvatarImageTobias,
 AvatarImagePinnedTab,
-AvatarImageProps
+AvatarImageProps,
+GroupedAvatarsSmall,
+GroupedAvatarsMedium,
+GroupedAvatarsLarge,
+GroupedAvatarsXLarge,
+GroupedAvatarsImg
 } from 'Docs/uilib/components/avatar/Examples'
 
 ## Demos
@@ -77,3 +82,11 @@ AvatarImageProps
 <AvatarImageDNB />
 <AvatarImageTobias />
 <AvatarImageProps />
+
+### Grouping Avatars
+
+<GroupedAvatarsSmall />
+<GroupedAvatarsMedium />
+<GroupedAvatarsLarge />
+<GroupedAvatarsXLarge />
+<GroupedAvatarsImg />

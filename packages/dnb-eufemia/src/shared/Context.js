@@ -48,6 +48,7 @@ export const prepareContext = (props = {}) => {
     locales,
     // All eufemia components because of Typescript:
     Avatar: {},
+    AvatarGroup: {},
     Breadcrumb: {},
     BreadcrumbItem: {},
     Tag: {},

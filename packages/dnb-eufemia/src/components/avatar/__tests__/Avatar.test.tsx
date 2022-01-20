@@ -48,8 +48,8 @@ describe('Avatar', () => {
 
   it('renders imgProps', () => {
     const img_src = '/android-chrome-192x192.png'
-    const img_width = '16'
-    const img_height = '16'
+    const img_width = '48'
+    const img_height = '48'
     const img_alt = 'custom_alt_label'
     const imgProps = {
       width: img_width,
@@ -67,6 +67,120 @@ describe('Avatar', () => {
     expect(image.getAttribute('alt')).toBe(img_alt)
     expect(image.getAttribute('width')).toBe(img_width)
     expect(image.getAttribute('height')).toBe(img_height)
+  })
+
+  describe('AvatarGroup', () => {
+    it('renders the "elements left"-avatar when having more avatars than maxElements', () => {
+      render(
+        <Avatar.Group maxElements={2}>
+          <Avatar>A</Avatar>
+          <Avatar>B</Avatar>
+          <Avatar>C</Avatar>
+        </Avatar.Group>
+      )
+
+      const avatarsDisplayed = screen.queryAllByTestId('avatar')
+      const avatarElementsLeft = screen.queryByTestId('elements-left')
+
+      expect(avatarElementsLeft).not.toBeNull()
+      expect(avatarElementsLeft.textContent).toBe('+2')
+
+      expect(avatarsDisplayed.length).toBe(1)
+    })
+
+    it('renders the "elements left"-avatar when having multiple avatars, and maxElement 1', () => {
+      render(
+        <Avatar.Group maxElements={1}>
+          <Avatar>A</Avatar>
+          <Avatar>B</Avatar>
+          <Avatar>C</Avatar>
+        </Avatar.Group>
+      )
+
+      const avatarsDisplayed = screen.queryAllByTestId('avatar')
+      const avatarElementsLeft = screen.queryByTestId('elements-left')
+
+      expect(avatarElementsLeft).not.toBeNull()
+      expect(avatarElementsLeft.textContent).toBe('+3')
+
+      expect(avatarsDisplayed.length).toBe(0)
+    })
+
+    it('does not render "elements left"-avatar when num of avatars is the same as maxElements', () => {
+      render(
+        <Avatar.Group maxElements={3}>
+          <Avatar>A</Avatar>
+          <Avatar>B</Avatar>
+          <Avatar>C</Avatar>
+        </Avatar.Group>
+      )
+
+      const avatarsDisplayed = screen.queryAllByTestId('avatar')
+
+      expect(screen.queryByTestId('elements-left')).toBeNull()
+      expect(avatarsDisplayed.length).toBe(3)
+    })
+
+    it('does not render "elements left"-avatar when num of avatars is less than maxElements', () => {
+      render(
+        <Avatar.Group maxElements={4}>
+          <Avatar>A</Avatar>
+          <Avatar>B</Avatar>
+          <Avatar>C</Avatar>
+        </Avatar.Group>
+      )
+
+      const avatarsDisplayed = screen.queryAllByTestId('avatar')
+
+      expect(screen.queryByTestId('elements-left')).toBeNull()
+      expect(avatarsDisplayed.length).toBe(3)
+    })
+
+    it('does not render "elements left"-avatar when maxElements is 0', () => {
+      render(
+        <Avatar.Group maxElements={0}>
+          <Avatar>A</Avatar>
+          <Avatar>B</Avatar>
+          <Avatar>C</Avatar>
+        </Avatar.Group>
+      )
+
+      const avatarsDisplayed = screen.queryAllByTestId('avatar')
+
+      expect(screen.queryByTestId('elements-left')).toBeNull()
+      expect(avatarsDisplayed.length).toBe(3)
+    })
+
+    it('does not render "elements left"-avatar when maxElements is not a number', () => {
+      render(
+        <Avatar.Group maxElements={null}>
+          <Avatar>A</Avatar>
+          <Avatar>B</Avatar>
+        </Avatar.Group>
+      )
+
+      const avatarsDisplayed = screen.queryAllByTestId('avatar')
+
+      expect(screen.queryByTestId('elements-left')).toBeNull()
+      expect(avatarsDisplayed.length).toBe(2)
+    })
+
+    it('renders "elements left"-avatar when maxElements is not a number, and five or more avatars', () => {
+      render(
+        <Avatar.Group maxElements={null}>
+          <Avatar>A</Avatar>
+          <Avatar>B</Avatar>
+          <Avatar>C</Avatar>
+          <Avatar>D</Avatar>
+          <Avatar>E</Avatar>
+        </Avatar.Group>
+      )
+
+      const avatarsDisplayed = screen.queryAllByTestId('avatar')
+
+      expect(screen.queryByTestId('elements-left')).not.toBeNull()
+      expect(avatarsDisplayed.length).toBe(3)
+    })
   })
 })
 

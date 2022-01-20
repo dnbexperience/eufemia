@@ -179,8 +179,8 @@ export const AvatarImageProps = () => (
     {() => /* jsx */ `
 () => {
   const imgProps = {
-    width: "16", 
-    height: "16", 
+    width: "48", 
+    height: "48", 
     src: "/android-chrome-192x192.png" , 
     alt: "DNB Logo"
   };
@@ -194,5 +194,85 @@ export const AvatarImageProps = () => (
   )
 }
 `}
+  </ComponentBox>
+)
+
+export const GroupedAvatarsSmall = () => (
+  <ComponentBox hideCode data-visual-test="avatar-grouped-small">
+    {() => /* jsx */ `
+<Avatar.Group size="small" variant="primary" maxElements={6}>
+  <Avatar>A</Avatar>
+  <Avatar>B</Avatar>
+  <Avatar>C</Avatar>
+  <Avatar>D</Avatar>
+  <Avatar>E</Avatar>
+  <Avatar>F</Avatar>
+  <Avatar>G</Avatar>
+</Avatar.Group>
+  `}
+  </ComponentBox>
+)
+
+export const GroupedAvatarsMedium = () => (
+  <ComponentBox hideCode data-visual-test="avatar-grouped-medium">
+    {() => /* jsx */ `
+<Avatar.Group size="medium" maxElements={5}>
+  <Avatar>A</Avatar>
+  <Avatar>B</Avatar>
+  <Avatar>C</Avatar>
+  <Avatar>D</Avatar>
+  <Avatar>E</Avatar>
+  <Avatar>F</Avatar>
+  <Avatar>G</Avatar>
+</Avatar.Group>
+  `}
+  </ComponentBox>
+)
+
+export const GroupedAvatarsLarge = () => (
+  <ComponentBox hideCode data-visual-test="avatar-grouped-large">
+    {() => /* jsx */ `
+<Avatar.Group size="large" variant="tertiary" maxElements={4}>
+  <Avatar>A</Avatar>
+  <Avatar>B</Avatar>
+  <Avatar>C</Avatar>
+  <Avatar>D</Avatar>
+  <Avatar>E</Avatar>
+  <Avatar>F</Avatar>
+  <Avatar>G</Avatar>
+</Avatar.Group>
+  `}
+  </ComponentBox>
+)
+
+export const GroupedAvatarsXLarge = () => (
+  <ComponentBox hideCode data-visual-test="avatar-grouped-x-large">
+    {() => /* jsx */ `
+<Avatar.Group size="x-large" variant="secondary" maxElements={3}>
+  <Avatar>A</Avatar>
+  <Avatar>B</Avatar>
+  <Avatar>C</Avatar>
+  <Avatar>D</Avatar>
+  <Avatar>E</Avatar>
+  <Avatar>F</Avatar>
+  <Avatar>G</Avatar>
+</Avatar.Group>
+  `}
+  </ComponentBox>
+)
+
+export const GroupedAvatarsImg = () => (
+  <ComponentBox hideCode data-visual-test="avatar-grouped-image">
+    {() => /* jsx */ `
+<Avatar.Group size="large" maxElements={5}>
+  <Avatar src="https://avatars.githubusercontent.com/u/1501870?v=4" alt="Profile picture"/>
+  <Avatar src="https://avatars.githubusercontent.com/u/35217511?v=4" alt="Profile picture"/>
+  <Avatar src="https://avatars.githubusercontent.com/u/21338570?v=4" alt="Profile picture"/>
+  <Avatar src="https://avatars.githubusercontent.com/u/1359205?v=4" alt="Profile picture"/>
+  <Avatar src="https://avatars.githubusercontent.com/u/1501870?v=4" alt="Profile picture"/>
+  <Avatar src="https://avatars.githubusercontent.com/u/1501870?v=4" alt="Profile picture"/>
+  <Avatar src="https://avatars.githubusercontent.com/u/1501870?v=4" alt="Profile picture"/>
+</Avatar.Group>
+  `}
   </ComponentBox>
 )
