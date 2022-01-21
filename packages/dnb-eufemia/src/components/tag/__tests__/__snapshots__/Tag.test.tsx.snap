@@ -500,12 +500,13 @@ button.dnb-button::-moz-focus-inner {
   appearance: none;
   background-color: var(--color-black-8); }
   .dnb-tag.dnb-button.dnb-button--size-small {
-    padding-left: 0.25rem;
+    padding-left: 0.5rem;
     padding-right: 0.5rem; }
   .dnb-tag.dnb-button.dnb-button--size-small.dnb-button--has-icon {
     padding-left: 0; }
   .dnb-tag.dnb-button .dnb-button__text {
-    font-size: var(--font-size-x-small); }
+    font-size: var(--font-size-x-small);
+    transform: none; }
 
 .dnb-tag:not(.dnb-tag--clickable) {
   user-select: unset;

@@ -15,7 +15,7 @@ export interface TagProps {
    * The content of the tag element, can be a string or a React Element.
    * Default: null
    */
-  text?: React.ReactNode
+  text?: string | React.ReactNode
 
   /**
    * Icon displaying on the left side
@@ -57,7 +57,7 @@ export const defaultProps = {
   onClick: null,
 }
 
-function Tag(localProps: TagProps & ISpacingProps) {
+const Tag = (localProps: TagProps & ISpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context

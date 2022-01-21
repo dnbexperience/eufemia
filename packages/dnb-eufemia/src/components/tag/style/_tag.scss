@@ -11,15 +11,17 @@
     background-color: var(--color-black-8);
 
     &.dnb-button--size-small {
-      padding-left: 0.25rem;
+      padding-left: 0.5rem;
       padding-right: 0.5rem;
     }
+
     &.dnb-button--size-small.dnb-button--has-icon {
       padding-left: 0;
     }
 
     .dnb-button__text {
       font-size: var(--font-size-x-small);
+      transform: none;
     }
   }
 

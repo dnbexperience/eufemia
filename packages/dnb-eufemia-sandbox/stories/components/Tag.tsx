@@ -90,7 +90,7 @@ export const TagClickable = () => {
     <Provider>
       <Tag
         icon={account}
-        text={'Space'}
+        text={'Clickable'}
         onClick={() => {
           console.log('Tag is clicked!')
         }}
@@ -165,34 +165,10 @@ export const TagWithMediumSizedIcons = () => {
   return (
     <Wrapper>
       <Box>
-        <Tag
-          icon={save_medium}
-          onClick={() => {
-            console.log('Click1')
-          }}
-          text={'First'}
-        />{' '}
-        <Tag
-          icon={scissors_medium}
-          onClick={() => {
-            console.log('Click2')
-          }}
-          text={'Second'}
-        />{' '}
-        <Tag
-          icon={scooter_medium}
-          onClick={() => {
-            console.log('Click3')
-          }}
-          text={'Third'}
-        />{' '}
-        <Tag
-          icon={share_ios_medium}
-          onClick={() => {
-            console.log('Click4')
-          }}
-          text={'Fourth'}
-        />{' '}
+        <Tag icon={save_medium} text={'First'} />{' '}
+        <Tag icon={scissors_medium} text={'Second'} />{' '}
+        <Tag icon={scooter_medium} text={'Third'} />{' '}
+        <Tag icon={share_ios_medium} text={'Fourth'} />{' '}
       </Box>
     </Wrapper>
   )
