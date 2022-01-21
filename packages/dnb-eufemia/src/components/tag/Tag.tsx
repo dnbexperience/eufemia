@@ -2,9 +2,8 @@ import React from 'react'
 import classnames from 'classnames'
 
 // Components
-import { createSkeletonClass } from '../skeleton/SkeletonHelper'
-import { createSpacingClasses } from '../space/SpacingHelper'
-import Icon, { IconPrimaryIcon } from '../icon-primary/IconPrimary'
+import { IconPrimaryIcon } from '../icon-primary/IconPrimary'
+import Button from '../button/Button'
 
 // Shared
 import Context from '../../shared/Context'
@@ -16,7 +15,7 @@ export interface TagProps {
    * The content of the tag element, can be a string or a React Element.
    * Default: null
    */
-  text?: React.ReactNode
+  text?: string | React.ReactNode
 
   /**
    * Icon displaying on the left side
@@ -41,6 +40,12 @@ export interface TagProps {
    * Default: null
    */
   children?: string | React.ReactNode // ReactNode allows multiple elements, strings, numbers, fragments, portals...
+
+  /**
+   * Handle the click event on 'tag' element
+   * Default: null
+   */
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 
 export const defaultProps = {
@@ -49,46 +54,47 @@ export const defaultProps = {
   text: null,
   children: null,
   icon: null,
+  onClick: null,
 }
 
-function Tag(localProps: TagProps & ISpacingProps) {
+const Tag = (localProps: TagProps & ISpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context
-  const { className, skeleton, children, icon, text, ...props } =
+  const { className, skeleton, children, onClick, text, ...props } =
     extendPropsWithContext(
       { ...defaultProps, ...localProps },
       defaultProps,
       context?.translation?.Tag,
       context?.Tag
     )
-  const skeletonClasses = createSkeletonClass('shape', skeleton, context)
-  const spacingClasses = createSpacingClasses(props)
 
   const content = text || children
+  const isClickable = !!onClick
+
+  const tagClassNames = classnames(
+    'dnb-tag',
+    className,
+    isClickable && 'dnb-tag--clickable'
+  )
+
+  if (!isClickable) {
+    props.element = 'span'
+    props.type = ''
+  }
 
   return (
-    <div
-      className={classnames(
-        'dnb-tag',
-        skeletonClasses,
-        spacingClasses,
-        className
-      )}
+    <Button
       data-testid="tag"
+      variant="unstyled"
+      icon_position="left"
+      size="small"
+      className={tagClassNames}
+      on_click={onClick}
+      text={content}
+      skeleton={skeleton}
       {...props}
-    >
-      {icon && (
-        <span data-testid="tag-icon" className="dnb-tag__icon">
-          <Icon icon={icon} right="x-small" />
-        </span>
-      )}
-      {content && (
-        <span data-testid="tag-text" className="dnb-tag__text">
-          {content}
-        </span>
-      )}
-    </div>
+    />
   )
 }
 

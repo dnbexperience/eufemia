@@ -17,6 +17,7 @@ describe('Tag screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
   it('have to match Tag with primary icon', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="tag-icon"] .dnb-tag',
@@ -27,6 +28,13 @@ describe('Tag screenshot', () => {
   it('have to match Tag with secondary icon', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="tag-secondary-icon"] .dnb-tag',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match a clickable Tag', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="tag-clickable"] .dnb-tag',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

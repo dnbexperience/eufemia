@@ -3,24 +3,52 @@
 *
 */
 
-:root {
-  --tag-border-radius: 2.5rem;
-}
+@import '../../button/style/themes/_button-mixins.scss';
 
 .dnb-tag {
-  display: inline-flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: var(--spacing-xx-small) var(--spacing-x-small);
-  font-size: var(--font-size-x-small);
-  background-color: var(--color-black-8);
-  border-radius: var(--tag-border-radius);
-  &__icon {
-    display: flex;
-    align-items: center;
+  &.dnb-button {
+    appearance: none;
+    background-color: var(--color-black-8);
+
+    &.dnb-button--size-small {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    &.dnb-button--size-small.dnb-button--has-icon {
+      padding-left: 0;
+    }
+
+    .dnb-button__text {
+      font-size: var(--font-size-x-small);
+      transform: none;
+    }
   }
-  &__text {
-    color: var(--color-black-80);
+
+  &:not(#{&}--clickable) {
+    user-select: unset;
+    cursor: unset;
+    .dnb-button__text {
+      cursor: text;
+    }
+  }
+
+  &--clickable {
+    &.dnb-button {
+      color: var(--color-sea-green);
+
+      @include fakeBorder(var(--color-sea-green), 0.0625rem, inset, true);
+      @include buttonHover(var(--color-sea-green), var(--color-black-8));
+      @include buttonFocus(var(--color-sea-green), var(--color-black-8));
+      @include buttonActive(
+        var(--color-sea-green),
+        var(--color-mint-green-50)
+      );
+      &[disabled] {
+        color: var(--color-sea-green-30);
+        background-color: var(--color-white);
+        @include fakeBorder(var(--color-sea-green-30));
+      }
+    }
   }
 }
