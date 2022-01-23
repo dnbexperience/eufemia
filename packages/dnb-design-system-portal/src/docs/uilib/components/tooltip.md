@@ -1,6 +1,5 @@
 ---
 title: 'Tooltip'
-status: 'new'
 order: 21
 showTabs: true
 hideTabs:

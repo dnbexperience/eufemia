@@ -1,7 +1,6 @@
 ---
 title: 'Heading'
 description: 'The Heading component is a helper to create automated semantic headings within a boundary of some rules.'
-status: 'new'
 order: 4
 showTabs: true
 hideTabs:
