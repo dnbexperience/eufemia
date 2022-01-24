@@ -361,6 +361,12 @@ exports[`Pagination bar have to match snapshot 1`] = `
       },
     }
   }
+  4={
+    Object {
+      "displayName": "Bar",
+      "props": Object {},
+    }
+  }
   align="left"
   button_title={null}
   class={null}
@@ -527,6 +533,12 @@ exports[`Pagination bar have to match snapshot 1`] = `
         "props": Object {
           "children": "children",
         },
+      }
+    }
+    4={
+      Object {
+        "displayName": "Bar",
+        "props": Object {},
       }
     }
     align="left"
@@ -702,6 +714,12 @@ exports[`Pagination bar have to match snapshot 1`] = `
           "props": Object {
             "children": "children",
           },
+        }
+      }
+      4={
+        Object {
+          "displayName": "Bar",
+          "props": Object {},
         }
       }
       align="left"

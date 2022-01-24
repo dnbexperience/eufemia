@@ -320,6 +320,10 @@ Pagination.Content = PaginationContent
 const PaginationWrapper = Pagination
 const InfinityMarkerWrapper = InfinityMarker
 
+export const Bar = (props) => (
+  <Pagination fallback_element={() => null} {...props} />
+)
+
 export const createPagination = (initProps = {}) => {
   const store = React.createRef({})
   const rerender = React.createRef(null)
