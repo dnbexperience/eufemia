@@ -308,7 +308,7 @@ describe('Breadcrumb aria', () => {
 
 ### Running tests locally
 
-The commands are run from the repository's root folder. Replace `breadcrumb` with your component's name in the commands.
+Run the commands from the repository's root folder. Replace `breadcrumb` with your component's name in the commands.
 
 1. Run the integration tests:
 
