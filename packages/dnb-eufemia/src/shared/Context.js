@@ -52,9 +52,9 @@ export const prepareContext = (props = {}) => {
     Breadcrumb: {},
     BreadcrumbItem: {},
     Tag: {},
+    TagGroup: {},
     Timeline: {},
     TimelineItem: {},
-
     ...props,
     translation, // make sure we set this after props, since we update this one!
   }
