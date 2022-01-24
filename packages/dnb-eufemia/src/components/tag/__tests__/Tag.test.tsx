@@ -73,7 +73,11 @@ describe('Tag Group', () => {
 
 describe('Tag', () => {
   it('renders without properties', () => {
-    render(<Tag />)
+    render(
+      <Tag.Group label="tags">
+        <Tag />
+      </Tag.Group>
+    )
 
     expect(screen.queryByTestId('tag')).not.toBeNull()
   })
@@ -81,7 +85,11 @@ describe('Tag', () => {
   it('renders a tag with content by text prop', () => {
     const text = 'This is a tag'
 
-    render(<Tag text="This is a tag" />)
+    render(
+      <Tag.Group label="tags">
+        <Tag text="This is a tag" />
+      </Tag.Group>
+    )
 
     expect(
       screen.queryByTestId('tag').querySelector('.dnb-button__text')
@@ -95,7 +103,11 @@ describe('Tag', () => {
   it('renders a tag with content by children prop', () => {
     const text = 'This is a tag'
 
-    render(<Tag>{text}</Tag>)
+    render(
+      <Tag.Group label="tags">
+        <Tag>{text}</Tag>
+      </Tag.Group>
+    )
 
     expect(
       screen.queryByTestId('tag').querySelector('.dnb-button__text')
@@ -109,7 +121,11 @@ describe('Tag', () => {
   it('renders a tag with content if both text and children prop is defined', () => {
     const text = 'This is a tag'
 
-    render(<Tag text={text}>{text}</Tag>)
+    render(
+      <Tag.Group label="tags">
+        <Tag text={text}>{text}</Tag>
+      </Tag.Group>
+    )
 
     expect(
       screen.queryByTestId('tag').querySelector('.dnb-button__text')
@@ -123,21 +139,33 @@ describe('Tag', () => {
   it('renders a tag with skeleton if skeleton is true', () => {
     const skeletonClassName = 'dnb-skeleton'
 
-    render(<Tag skeleton>ClassName</Tag>)
+    render(
+      <Tag.Group label="tags">
+        <Tag skeleton>ClassName</Tag>
+      </Tag.Group>
+    )
     expect(screen.queryByTestId('tag').className).toMatch(
       skeletonClassName
     )
   })
 
   it('does not render a clickable Tag as default', () => {
-    render(<Tag text="Tag with text" />)
+    render(
+      <Tag.Group label="tags">
+        <Tag text="Tag with text" />
+      </Tag.Group>
+    )
 
     expect(screen.queryByRole('button')).toBeNull()
     expect(screen.queryByTestId('tag').textContent).toBe('‌Tag with text')
   })
 
   it('does support icon', () => {
-    render(<Tag text="Tag with icon" icon="bell" />)
+    render(
+      <Tag.Group label="tags">
+        <Tag text="Tag with icon" icon="bell" />
+      </Tag.Group>
+    )
 
     expect(
       screen.queryByTestId('tag').querySelector('.dnb-icon')
@@ -149,13 +177,15 @@ describe('Tag', () => {
       const clickableClassName = 'dnb-tag--clickable'
 
       render(
-        <Tag
-          onClick={() => {
-            console.log('onClick')
-          }}
-        >
-          Clickable
-        </Tag>
+        <Tag.Group label="tags">
+          <Tag
+            onClick={() => {
+              console.log('onClick')
+            }}
+          >
+            Clickable
+          </Tag>
+        </Tag.Group>
       )
       expect(screen.queryByTestId('tag').className).toMatch(
         clickableClassName
@@ -166,14 +196,22 @@ describe('Tag', () => {
 
     it('fires onClick event if onClick is defined', () => {
       const onClick = jest.fn()
-      render(<Tag onClick={onClick}>onClick</Tag>)
+      render(
+        <Tag.Group label="tags">
+          <Tag onClick={onClick}>onClick</Tag>
+        </Tag.Group>
+      )
 
       fireEvent.click(screen.getByRole('button'))
       expect(onClick).toHaveBeenCalledTimes(1)
     })
 
     it('does support icon', () => {
-      render(<Tag text="Tag with icon" icon="bell" onClick={jest.fn()} />)
+      render(
+        <Tag.Group label="tags">
+          <Tag text="Tag with icon" icon="bell" onClick={jest.fn()} />
+        </Tag.Group>
+      )
 
       expect(
         screen.queryByTestId('tag').querySelector('.dnb-icon')
@@ -191,14 +229,20 @@ describe('Tag', () => {
   it('renders a tag with className if className is provided', () => {
     const customClassName = 'custom-class'
 
-    render(<Tag className={customClassName}>ClassName</Tag>)
+    render(
+      <Tag.Group label="tags">
+        <Tag className={customClassName}>ClassName</Tag>
+      </Tag.Group>
+    )
     expect(screen.queryByTestId('tag').className).toMatch(customClassName)
   })
 
   it('renders a tag with provider', () => {
     render(
       <Provider locale="en-GB">
-        <Tag text="With provider" />
+        <Tag.Group label="tags">
+          <Tag text="With provider" />
+        </Tag.Group>
       </Provider>
     )
 
@@ -210,7 +254,11 @@ describe('Tag', () => {
 
 describe('Tag aria', () => {
   it('should validate', async () => {
-    const Component = render(<Tag text="Tag aria" />)
+    const Component = render(
+      <Tag.Group label="tags">
+        <Tag text="Tag aria" />
+      </Tag.Group>
+    )
     expect(await axeComponent(Component)).toHaveNoViolations()
   })
 })
