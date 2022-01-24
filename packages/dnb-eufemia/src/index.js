@@ -28,6 +28,7 @@ import Heading from './components/heading/Heading'
 import HelpButton from './components/help-button/HelpButton'
 import Icon from './components/icon/Icon'
 import IconPrimary from './components/icon-primary/IconPrimary'
+import InfoCard from './components/info-card/InfoCard'
 import Input from './components/input/Input'
 import InputMasked from './components/input-masked/InputMasked'
 import Logo from './components/logo/Logo'
@@ -98,6 +99,7 @@ export {
   HelpButton,
   Icon,
   IconPrimary,
+  InfoCard,
   Input,
   InputMasked,
   Logo,

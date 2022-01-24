@@ -85,6 +85,10 @@ The main Icon component is basically a wrapper for whatever icon you place withi
 
 The IconPrimary component loads by default all Primary Icons so they can easily be included and used without additionally importing every icon.
 
+## [InfoCard](/uilib/components/info-card)
+
+The InfoCard is used to give the user more information than we can give in a messagebox. It can also be used as to give useful tips.
+
 ## [Input](/uilib/components/input)
 
 The input component is an umbrella component for all inputs which share the same style as the classic text input field. Radio buttons and other form elements are not included here.
