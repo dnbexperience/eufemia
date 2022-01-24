@@ -306,13 +306,50 @@ describe('Breadcrumb aria', () => {
 })
 ```
 
-### Adding tests
+### Running tests locally
 
-1. Run the integration tests: `yarn test` – you may need to update changed snapshots: `yarn test:update`. You can test only your component with `yarn test <component>`.
-1. Start the portal: `yarn workspace dnb-design-system-portal start`
-1. Run the visual test against it: `yarn test:screenshots`
-1. Check the result / reports, located in: `open ./packages/dnb-eufemia/jest-screenshot-report/index.html`
-1. Update eventually new or valid PNG snapshots by running: `yarn test:screenshots:update`
+The commands are run from the repository's root folder. Replace `breadcrumb` with your component's name in the commands.
+
+1. Run the integration tests:
+
+```bash
+# Run all tests including the word 'breadcrumb'
+yarn test breadcrumb
+```
+
+```bash
+# or be more specific
+yarn test /breadcrumb.test.tsx
+```
+
+```bash
+# Execute the tests periodically
+yarn test:watch breadcrumb
+```
+
+2. Update the changed snapshots:
+
+```bash
+yarn test:update breadcrumb
+```
+
+3. Run the visual test against the portal:
+
+```bash
+# First start the portal
+yarn start
+# Then run all screenshot tests including 'breadcrumb'
+yarn test:screenshots breadcrumb
+```
+
+You can also create a screenshot report for all components running `yarn test:screenshots`. Check the result / reports, located in: `open ./packages/dnb-eufemia/jest-screenshot-report/index.html`
+
+4. Update eventually new or valid PNG snapshots:
+
+```bash
+# Update all screenshot tests including 'breadcrumb'
+yarn test:screenshots:update breadcrumb
+```
 
 ## 5. (Optional) Update change logs
 
