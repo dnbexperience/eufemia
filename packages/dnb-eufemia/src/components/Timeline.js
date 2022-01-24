@@ -6,7 +6,7 @@
 
 /**
  * Library Index timeline to autogenerate all the components and extensions
- * Used by "prepareTimeline"
+ * Used by "prepareTimelines"
  */
 
 import Timeline from './timeline/Timeline'
