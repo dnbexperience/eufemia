@@ -174,7 +174,7 @@ describe('Tag', () => {
 
   describe('with onClick', () => {
     it('renders a clickable tag with the correct attributes if onClick is defined', () => {
-      const clickableClassName = 'dnb-tag--clickable'
+      const clickableClassName = 'dnb-tag--interactive'
 
       render(
         <Tag.Group label="tags">
@@ -191,7 +191,6 @@ describe('Tag', () => {
         clickableClassName
       )
       expect(screen.queryByRole('button')).not.toBeNull()
-      expect(screen.queryByRole('button').tabIndex).toBe(0)
     })
 
     it('fires onClick event if onClick is defined', () => {
@@ -216,6 +215,120 @@ describe('Tag', () => {
       expect(
         screen.queryByTestId('tag').querySelector('.dnb-icon')
       ).toBeTruthy()
+    })
+  })
+
+  describe('with onDelete', () => {
+    it('renders a removable tag with the correct attributes if onDelete is defined', () => {
+      const clickableClassName = 'dnb-tag--interactive'
+      const removableClassName = 'dnb-tag--removable'
+
+      render(
+        <Tag.Group label="onDelete">
+          <Tag
+            onDelete={() => {
+              console.log('onDelete')
+            }}
+          >
+            Removable
+          </Tag>
+        </Tag.Group>
+      )
+      expect(screen.queryByTestId('tag').className).toMatch(
+        removableClassName
+      )
+      expect(screen.queryByTestId('tag').className).toMatch(
+        clickableClassName
+      )
+      expect(screen.queryByRole('button')).not.toBeNull()
+    })
+
+    it('fires onClick event if onDelete is defined', () => {
+      const onClick = jest.fn()
+      render(
+        <Tag.Group label="onDelete">
+          <Tag onDelete={onClick}>onDelete</Tag>
+        </Tag.Group>
+      )
+
+      fireEvent.click(screen.getByRole('button'))
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
+
+    it('renders the close button if onDelete is defined', () => {
+      render(
+        <Tag.Group label="onDelete">
+          <Tag text="Delete" onDelete={jest.fn()} />
+        </Tag.Group>
+      )
+
+      expect(
+        screen.queryByTestId('tag').querySelector('.dnb-icon')
+      ).toBeTruthy()
+    })
+
+    it('does not support icon if onDelete', () => {
+      render(
+        <Tag.Group label="onDelete">
+          <Tag text="Tag with icon" icon="bell" onDelete={jest.fn()} />
+        </Tag.Group>
+      )
+
+      expect(
+        screen.queryByTestId('tag').querySelector('.dnb-icon')
+      ).toBeTruthy()
+      expect(
+        screen.queryByTestId('tag').querySelectorAll('.dnb-icon').length
+      ).toBe(1)
+    })
+
+    it('renders the delete icon if onDelete is provided', () => {
+      render(
+        <Tag.Group label="onDelete">
+          <Tag text="Deletable" onDelete={jest.fn()} />
+        </Tag.Group>
+      )
+
+      expect(screen.queryByTestId('tag-delete-icon')).not.toBeNull()
+    })
+
+    it('fires onClick event if both onClick and onDelete are defined', () => {
+      const onClick = jest.fn()
+      const onDelete = jest.fn()
+
+      render(
+        <Tag.Group label="onDelete">
+          <Tag onClick={onClick} onDelete={onDelete}>
+            onClick
+          </Tag>
+        </Tag.Group>
+      )
+
+      fireEvent.click(screen.getByRole('button'))
+      expect(onClick).toHaveBeenCalledTimes(1)
+      expect(onDelete).toHaveBeenCalledTimes(0)
+    })
+
+    it('fires onClick event when releasing Space or Delete (key up)', () => {
+      const onClick = jest.fn()
+
+      render(
+        <Tag.Group label="onDelete">
+          <Tag onDelete={onClick}>Keyboard</Tag>
+        </Tag.Group>
+      )
+
+      fireEvent.keyUp(screen.getByRole('button'), {
+        key: 'Backspace',
+        keyCode: 'Backspace',
+      })
+
+      fireEvent.keyUp(screen.getByRole('button'), {
+        key: 'Delete',
+        keyCode: 'Delete',
+      })
+
+      expect(onClick).toHaveBeenCalledTimes(2)
     })
   })
 

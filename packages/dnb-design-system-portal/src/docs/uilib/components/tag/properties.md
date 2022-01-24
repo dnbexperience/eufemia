@@ -13,6 +13,7 @@ showTabs: true
 | `skeleton`                                  | _(optional)_ Applies loading skeleton.                                                                                                                 |
 | `className`                                 | _(optional)_ Custom className for the component root.                                                                                                  |
 | [Space](/uilib/components/space/properties) | _(optional)_ Spacing properties like `top` or `bottom` are supported.                                                                                  |
+| `omitOnKeyUpDeleteEvent`                            | _(optional)_ Set to `true` to omit triggering an event when the user releases the `Delete` or `Backspace` keys. Defaults to `false`.
 
 ### `Tag.Group` properties
 

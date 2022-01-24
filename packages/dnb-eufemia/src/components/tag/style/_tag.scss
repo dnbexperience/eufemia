@@ -4,6 +4,7 @@
 */
 
 @import '../../button/style/themes/_button-mixins.scss';
+@import './themes/_tag-mixins.scss';
 
 .dnb-tag {
   &.dnb-button {
@@ -25,7 +26,7 @@
     }
   }
 
-  &:not(#{&}--clickable) {
+  &:not(#{&}--interactive) {
     user-select: unset;
     cursor: unset;
     .dnb-button__text {
@@ -33,7 +34,7 @@
     }
   }
 
-  &--clickable {
+  &--interactive {
     &.dnb-button {
       color: var(--color-sea-green);
 
@@ -49,6 +50,40 @@
         background-color: var(--color-white);
         @include fakeBorder(var(--color-sea-green-30));
       }
+    }
+  }
+
+  &--removable {
+    &.dnb-button {
+      color: var(--color-white);
+      background-color: var(--color-sea-green);
+
+      @include buttonFocus(var(--color-sea-green), var(--color-white)) {
+        @include deleteIcon();
+      }
+      @include buttonHover(var(--color-sea-green), var(--color-white)) {
+        @include deleteIcon();
+      }
+      @include buttonActive(
+        var(--color-sea-green),
+        var(--color-mint-green-50)
+      ) {
+        @include deleteIcon();
+      }
+      &[disabled] {
+        @include deleteIcon(
+          var(--color-mint-green-50),
+          var(--color-sea-green-30)
+        );
+      }
+
+      .dnb-button__text {
+        padding-left: 0.5rem;
+      }
+    }
+
+    &.dnb-button--size-small.dnb-button--has-icon {
+      padding-right: 0;
     }
   }
 }

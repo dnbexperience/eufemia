@@ -217,3 +217,81 @@ export const TagWithoutGroup = () => {
     </Provider>
   )
 }
+
+export const TagRemovable = () => {
+  return (
+    <Wrapper>
+      <Box>
+        <Tag.Group label="remove">
+          <Tag
+            icon={tag}
+            text={'Removable'}
+            onDelete={() => {
+              console.log('Removed!')
+            }}
+          />
+        </Tag.Group>
+      </Box>
+    </Wrapper>
+  )
+}
+
+export const TagRemovableClickable = () => {
+  return (
+    <Wrapper>
+      <Box>
+        <Tag.Group label="remove">
+          <Tag
+            icon={tag}
+            text={'Click/Delete'}
+            onClick={() => {
+              console.log('Clicked!')
+            }}
+            onDelete={() => {
+              console.log('Removed!')
+            }}
+          />
+        </Tag.Group>
+      </Box>
+    </Wrapper>
+  )
+}
+
+export const TagMultipleRemovable = () => {
+  return (
+    <Wrapper>
+      <Box>
+        <Tag.Group label="multiple removable">
+          <Tag
+            icon={save}
+            onDelete={() => {
+              console.log('Delete1')
+            }}
+            text={'First'}
+          />{' '}
+          <Tag
+            icon={scissors}
+            onDelete={() => {
+              console.log('Delete2')
+            }}
+            text={'Second'}
+          />{' '}
+          <Tag
+            icon={scooter}
+            onDelete={() => {
+              console.log('Delete3')
+            }}
+            text={'Third'}
+          />{' '}
+          <Tag
+            icon={share_ios}
+            onDelete={() => {
+              console.log('Delete4')
+            }}
+            text={'Fourth'}
+          />{' '}
+        </Tag.Group>
+      </Box>
+    </Wrapper>
+  )
+}

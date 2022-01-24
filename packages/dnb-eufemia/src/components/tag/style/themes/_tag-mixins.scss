@@ -1,0 +1,18 @@
+/*
+* Tag mixins
+*
+*/
+
+@mixin deleteIcon(
+  $fillColor: var(--color-sea-green),
+  $strokeColor: var(--color-white)
+) {
+  svg {
+    .dnb-icon-close-circle-path {
+      fill: $fillColor;
+    }
+    .dnb-icon-close-cross-path {
+      stroke: $strokeColor;
+    }
+  }
+}
