@@ -1257,6 +1257,7 @@ thead > tr > th.dnb-table--active .dnb-button:hover:focus .dnb-button__text::aft
   padding: 0.25em 0.25em;
   /* 2px 4px */
   overflow: auto;
+  transform: translateY(0.1875rem);
   font-size: inherit;
   text-decoration: inherit;
   line-height: var(--line-height-xx-small--em);
