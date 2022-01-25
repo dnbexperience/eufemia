@@ -5,9 +5,10 @@ showTabs: true
 import {
 TagDefault,
 TagWithIcon,
-TagWithSecondaryIcon,
 TagClickable,
 TagGroupWithData,
+TagRemovable,
+TagMultipleRemovable,
 } from 'Docs/uilib/components/tag/Examples'
 
 ## Demos
@@ -20,18 +21,27 @@ See more examples below.
 
 <TagDefault />
 
-#### Tag with primary icon
+#### Tag with icon
 
 <TagWithIcon />
 
-#### Tag with secondary icon
+#### Tag group with data
 
-<TagWithSecondaryIcon />
+<TagGroupWithData />
 
 #### Clickable Tag
 
 <TagClickable />
 
-#### Tag group with data
+#### Removable tag
 
-<TagGroupWithData />
+Use the `onDelete`-prop to make a tag removable. A removable tag supports adds a `onClick`-event to the underlying `Button`-component. <br/>
+Removable tags will not support the `icon`-prop and will also be ignored if a `onClick`-prop is defined.
+
+<TagRemovable />
+
+#### Multiple removable tags
+
+Removable tags can for example be used in filter lists. This example simple example on how to implement a filter list using removable `Tags`.<br/> When a `Tag` is focused (e.g. when tabbing) releasing `Backspace` or `Delete` (`keyup` event) will call the `onDelete`-handler. This behavior can be omitted by setting the `omitOnKeyUpDeleteEvent`-prop to `true`.
+
+<TagMultipleRemovable />

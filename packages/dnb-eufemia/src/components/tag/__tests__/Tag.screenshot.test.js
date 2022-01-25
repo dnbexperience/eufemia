@@ -18,16 +18,9 @@ describe('Tag screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match Tag with primary icon', async () => {
+  it('have to match Tag with icon', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="tag-icon"] .dnb-tag',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match Tag with secondary icon', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="tag-secondary-icon"] .dnb-tag',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -46,4 +39,18 @@ describe('Tag screenshot', () => {
       selector: '[data-visual-test="tag-group-with-data"] .dnb-tag',
     })
     expect(screenshot).toMatchImageSnapshot()
+})
+
+it('have to match a removable Tag', async () => {
+  const screenshot = await testPageScreenshot({
+    selector: '[data-visual-test="tag-removable"] .dnb-tag',
+  })
+  expect(screenshot).toMatchImageSnapshot()
+})
+
+it('have to match a removable Tag list', async () => {
+  const screenshot = await testPageScreenshot({
+    selector: '[data-visual-test="tag-removable-list"] .dnb-tag',
+  })
+  expect(screenshot).toMatchImageSnapshot()
 })
