@@ -22,6 +22,7 @@ showTabs: true
 
 | Properties                                  | Description                                                                                                                                    |
 | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `label`                                     | _(required)_ The label description of the group of avatars.                                                                                    |
 | `size`                                      | _(optional)_ Size of the Avatars, and "elements hidden text (+x)". Options: `small` \| `medium` \| `large` \| `x-large`. Defaults to `medium`. |
 | `variant`                                   | _(optional)_ Override the variant of the Avatars. Options: `primary` \| `secondary` \| `tertiary`. Defaults to `primary`.                      |
 | `maxElements`                               | _(optional)_ Number of max displayed elements, including the "elements hidden text (+x)". Defaults to 4.                                       |
