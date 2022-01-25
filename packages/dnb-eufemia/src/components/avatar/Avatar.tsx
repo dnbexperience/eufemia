@@ -22,16 +22,17 @@ import AvatarGroup, { AvatarGroupContext } from './AvatarGroup'
 
 export * from './AvatarGroup'
 
+type AltSrcProps =
+  | {
+      alt?: string
+      src?: string
+    }
+  | { alt: string; src: string }
+
 export type AvatarSizes = 'small' | 'medium' | 'large' | 'x-large'
 export type AvatarVariants = 'primary' | 'secondary' | 'tertiary'
 
 export interface AvatarProps {
-  /**
-   * Used in combination with `src` to provide an alt attribute for the `img` element.
-   * Default: null
-   */
-  alt?: string
-
   /**
    * Custom className on the component root
    * Default: null
@@ -57,12 +58,6 @@ export interface AvatarProps {
   size?: AvatarSizes
 
   /**
-   * Specifies the path to the image
-   * Default: null
-   */
-  src?: string
-
-  /**
    * Props applied to the `img` element if the component is used to display an image.
    * Default: null
    */
@@ -76,17 +71,15 @@ export interface AvatarProps {
 }
 
 export const defaultProps = {
-  alt: null,
   className: null,
   size: 'medium',
-  src: null,
   imgProps: null,
   variant: 'primary',
   skeleton: false,
   children: null,
 }
 
-function Avatar(localProps: AvatarProps & ISpacingProps) {
+function Avatar(localProps: AvatarProps & AltSrcProps & ISpacingProps) {
   // Every component should have a context
   const context = React.useContext(Context)
   const avatarGroupContext = React.useContext(AvatarGroupContext)

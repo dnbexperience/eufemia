@@ -19,12 +19,14 @@ import Context from '../../shared/Context'
 import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
+type AltSrcProps =
+  | {
+      alt?: string
+      src?: string
+    }
+  | { alt: string; src: string }
+
 export interface InfoCardProps {
-  /**
-   * Used in combination with `src` to provide an alt attribute for the `img` element.
-   * Default: null
-   */
-  alt?: string
   /**
    * Aligns the content to center, rather than left
    * Default: false
@@ -50,11 +52,6 @@ export interface InfoCardProps {
    * Default: null
    */
   skeleton?: SkeletonTypes
-  /**
-   * Specifies the path to the image
-   * Default: null
-   */
-  src?: string
   /**
    * Image src, will replace the 'icon' with the image
    * Default: null
@@ -98,13 +95,11 @@ export interface InfoCardProps {
 }
 
 export const defaultProps = {
-  alt: null,
   centered: false,
   className: null,
   skeleton: false,
   icon: LightbulbIcon,
   imgProps: null,
-  src: null,
   title: null,
   onAccept: null,
   onClose: null,
@@ -114,7 +109,9 @@ export const defaultProps = {
   acceptButtonAttributes: null,
 }
 
-function InfoCard(localProps: InfoCardProps & ISpacingProps) {
+function InfoCard(
+  localProps: InfoCardProps & AltSrcProps & ISpacingProps
+) {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context

@@ -49,12 +49,12 @@ describe('InfoCard', () => {
 
   it('renders the image', () => {
     const img_src = '/android-chrome-192x192.png'
+    const img_alt = 'alt text'
 
-    render(
-      <InfoCard text="text" imgProps={{ alt: 'alt-text', src: img_src }} />
-    )
+    render(<InfoCard text="text" src={img_src} alt={img_alt} />)
 
     expect(screen.queryByRole('img').getAttribute('src')).toBe(img_src)
+    expect(screen.queryByRole('img').getAttribute('alt')).toBe(img_alt)
   })
 
   it('renders imgProps', () => {

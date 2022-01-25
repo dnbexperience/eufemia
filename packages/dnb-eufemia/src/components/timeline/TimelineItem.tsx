@@ -16,19 +16,14 @@ import Context from '../../shared/Context'
 import { SkeletonTypes } from '../../shared/interfaces'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
+type IconAltProps =
+  | {
+      icon?: IconPrimaryIcon
+      iconAlt?: string
+    }
+  | { icon: IconPrimaryIcon; iconAlt: string }
+
 export interface TimelineItemProps {
-  /**
-   * Icon displaying on the left side.
-   * Default: `check` for state `completed`, `pin` for state `current`, and `calendar` for state `upcoming` .
-   */
-  icon?: IconPrimaryIcon
-
-  /**
-   * Text displaying the title of the item's corresponding page.
-   * Default: translations based on the icon.
-   */
-  iconAlt?: string
-
   /**
    * Text displaying the name of the timeline item.
    */
@@ -58,8 +53,6 @@ export interface TimelineItemProps {
 }
 
 const defaultProps = {
-  icon: null,
-  iconAlt: null,
   name: null,
   date: null,
   infoMessage: null,
@@ -67,7 +60,9 @@ const defaultProps = {
   skeleton: false,
 }
 
-export default function TimelineItem(localProps: TimelineItemProps) {
+export default function TimelineItem(
+  localProps: TimelineItemProps & IconAltProps
+) {
   // Every component should have a context
   const context = React.useContext(Context)
   const {
