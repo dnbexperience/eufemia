@@ -1,0 +1,12 @@
+/*
+* DNB InfoCard
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+.dnb-info-card {
+  @include componentReset();
+}
+
+@import './_info-card.scss';

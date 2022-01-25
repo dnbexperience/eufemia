@@ -51,6 +51,7 @@ export const prepareContext = (props = {}) => {
     AvatarGroup: {},
     Breadcrumb: {},
     BreadcrumbItem: {},
+    InfoCard: {},
     Tag: {},
     TagGroup: {},
     Timeline: {},
