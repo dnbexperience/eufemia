@@ -39,7 +39,7 @@ export const SearchBarInput = () => {
     debounce(
       ({ value }) => {
         searchIndex.current
-          .search(value)
+          ?.search(value)
           .then(({ hits }) => {
             updateData(
               makeHitsHumanFriendly({ hits, setHidden, emptyData })

@@ -258,6 +258,29 @@ describe('DrawerList component', () => {
     ).toBe(false)
   })
 
+  it('will unset data-dnb-drawer-list-active on unmount', () => {
+    const Comp = mount(
+      <Component {...props} opened={false} data={mockData} />,
+      {
+        attachTo: attachToBody(),
+      }
+    )
+
+    Comp.setProps({
+      opened: true,
+    })
+
+    expect(
+      document.documentElement.getAttribute('data-dnb-drawer-list-active')
+    ).toBe(props.id)
+
+    Comp.unmount()
+
+    expect(
+      document.documentElement.hasAttribute('data-dnb-drawer-list-active')
+    ).toBe(false)
+  })
+
   it('has valid on_change callback', () => {
     const on_change = jest.fn()
     const on_select = jest.fn()
