@@ -11,11 +11,14 @@ import { ImgProps } from '../../elements/Img'
 // Shared
 import Context from '../../shared/Context'
 import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import {
+  extendPropsWithContext,
+  warn,
+} from '../../shared/component-helper'
 import { Img } from '../..'
 
 // Internal
-import AvatarGroup from './AvatarGroup'
+import AvatarGroup, { AvatarGroupContext } from './AvatarGroup'
 
 export * from './AvatarGroup'
 
@@ -86,6 +89,8 @@ export const defaultProps = {
 function Avatar(localProps: AvatarProps & ISpacingProps) {
   // Every component should have a context
   const context = React.useContext(Context)
+  const avatarGroupContext = React.useContext(AvatarGroupContext)
+
   // Extract additional props from global context
   const {
     alt,
@@ -100,7 +105,8 @@ function Avatar(localProps: AvatarProps & ISpacingProps) {
   } = extendPropsWithContext(
     { ...defaultProps, ...localProps },
     defaultProps,
-    context?.Avatar
+    context?.Avatar,
+    avatarGroupContext
   )
 
   let children = null
@@ -108,11 +114,26 @@ function Avatar(localProps: AvatarProps & ISpacingProps) {
   const skeletonClasses = createSkeletonClass('shape', skeleton, context)
   const spacingClasses = createSpacingClasses(props)
 
+  const childrenIsString = typeof childrenProp === 'string'
+
   if (src || imgProps) {
     const imageProps = { src, alt, ...imgProps }
     children = <Img {...imageProps} />
+  } else if (childrenIsString) {
+    const firstLetterUpperCase = childrenProp.charAt(0).toUpperCase()
+    children = (
+      <span data-testid="avatar-text" aria-hidden>
+        {firstLetterUpperCase}
+      </span>
+    )
   } else {
     children = childrenProp
+  }
+
+  if (!avatarGroupContext) {
+    warn(
+      `Avatar group required: An Avatar requires an Avatar.Group with label description as a parent component. This is to ensure correct semantic and accessibility.`
+    )
   }
 
   return (
@@ -128,6 +149,11 @@ function Avatar(localProps: AvatarProps & ISpacingProps) {
       data-testid="avatar"
       {...props}
     >
+      {childrenIsString && (
+        <span data-testid="avatar-label" className="dnb-sr-only">
+          {childrenProp}
+        </span>
+      )}
       {children}
     </div>
   )

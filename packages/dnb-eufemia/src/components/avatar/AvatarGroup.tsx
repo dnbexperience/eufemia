@@ -12,6 +12,12 @@ import { extendPropsWithContext } from '../../shared/component-helper'
 
 export interface AvatarGroupProps {
   /**
+   * Label to describe the avatar group
+   * Default: null
+   */
+  label: string
+
+  /**
    * Custom className on the component root
    * Default: null
    */
@@ -43,6 +49,7 @@ export interface AvatarGroupProps {
 }
 
 export const defaultProps = {
+  label: null,
   className: null,
   maxElements: 4,
   size: 'medium',
@@ -50,11 +57,14 @@ export const defaultProps = {
   variant: 'primary',
 }
 
+export const AvatarGroupContext = React.createContext(null)
+
 function AvatarGroup(localProps: AvatarGroupProps & ISpacingProps) {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context
   const {
+    label,
     className,
     children: childrenProp,
     size,
@@ -97,20 +107,27 @@ function AvatarGroup(localProps: AvatarGroupProps & ISpacingProps) {
   const spacingClasses = createSpacingClasses(props)
 
   return (
-    <div
-      className={classnames(
-        'dnb-avatar--group',
-        spacingClasses,
-        className
-      )}
-      data-testid="avatar-group"
-      {...props}
-    >
-      {numOfHiddenAvatars ? (
-        <ElementsHidden size={size}>+{numOfHiddenAvatars}</ElementsHidden>
-      ) : null}
-      {children}
-    </div>
+    <AvatarGroupContext.Provider value={props}>
+      <div
+        className={classnames(
+          'dnb-avatar--group',
+          spacingClasses,
+          className
+        )}
+        data-testid="avatar-group"
+        {...props}
+      >
+        <span data-testid="avatar-group-label" className="dnb-sr-only">
+          {label}
+        </span>
+        {numOfHiddenAvatars ? (
+          <ElementsHidden size={size}>
+            +{numOfHiddenAvatars}
+          </ElementsHidden>
+        ) : null}
+        {children}
+      </div>
+    </AvatarGroupContext.Provider>
   )
 }
 

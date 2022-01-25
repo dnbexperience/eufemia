@@ -29,6 +29,12 @@ GroupedAvatarsImg
 
 ## Demos
 
+### Avatar
+
+To ensure the correct use of Avatars, we require using a `Avatar.Group` with `Avatar`-components as children. <br/>
+The required `label`-property in `Avatar.Group` will ensure the correct use of accessibility for screen readers. <br/>
+See more examples below.
+
 ### Setting property `size`
 
 #### default `size` is 'medium'
