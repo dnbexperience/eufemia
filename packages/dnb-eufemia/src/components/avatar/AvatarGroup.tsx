@@ -80,17 +80,18 @@ function AvatarGroup(localProps: AvatarGroupProps & ISpacingProps) {
   const maxElements =
     maxElementsProp && maxElementsProp > 0 ? maxElementsProp : 4
 
-  const numOfHiddenAvatars =
-    childrenProp.length > maxElements
-      ? childrenProp.length - maxElements + 1
-      : 0
-
   let children = childrenProp
+  let numOfHiddenAvatars = 0
 
   if (Array.isArray(childrenProp)) {
-    children = [...childrenProp]
-      .slice(0, childrenProp.length - numOfHiddenAvatars)
-      .reverse()
+    const total = childrenProp.length
+
+    if (total > maxElements) {
+      numOfHiddenAvatars = total - maxElements + 1
+    }
+
+    children = childrenProp
+      .slice(0, total - numOfHiddenAvatars)
       .map((child, i) => {
         const appliedSize = child.props.size ? child.props.size : size
         const appliedVariant = child.props.variant
@@ -99,6 +100,7 @@ function AvatarGroup(localProps: AvatarGroupProps & ISpacingProps) {
         return React.cloneElement(child, {
           size: appliedSize,
           variant: appliedVariant,
+          style: { ...child.props.style, zIndex: total - i },
           key: i,
         })
       })
@@ -110,7 +112,7 @@ function AvatarGroup(localProps: AvatarGroupProps & ISpacingProps) {
     <AvatarGroupContext.Provider value={props}>
       <span
         className={classnames(
-          'dnb-avatar--group',
+          'dnb-avatar__group',
           spacingClasses,
           className
         )}
@@ -120,12 +122,14 @@ function AvatarGroup(localProps: AvatarGroupProps & ISpacingProps) {
         <span data-testid="avatar-group-label" className="dnb-sr-only">
           {label}
         </span>
+
+        {children}
+
         {numOfHiddenAvatars ? (
           <ElementsHidden size={size}>
             +{numOfHiddenAvatars}
           </ElementsHidden>
         ) : null}
-        {children}
       </span>
     </AvatarGroupContext.Provider>
   )
@@ -150,8 +154,8 @@ function ElementsHidden(props: ElementsHiddenProps) {
   return (
     <span
       className={classnames(
-        'dnb-avatar--group--elements-left',
-        `dnb-avatar--group--elements-left--size-${size || 'medium'}`
+        'dnb-avatar__group--elements-left',
+        `dnb-avatar__group--elements-left--size-${size || 'medium'}`
       )}
       data-testid="elements-left"
     >

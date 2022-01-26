@@ -85,13 +85,13 @@
     }
   }
 
-  &--group {
+  &__group {
     display: inline-flex;
-    justify-content: flex-end;
-    flex-direction: row-reverse;
+    justify-content: flex;
+    flex-direction: row;
+
     .dnb-avatar {
       box-sizing: content-box;
-      z-index: 1; // To make Img components overlapping
       border: 0.125rem solid var(--color-black-3);
 
       &--size-small {
@@ -110,10 +110,11 @@
         margin-left: -1.5rem;
       }
 
-      &:last-child {
+      &:nth-of-type(2) {
         margin-left: 0;
       }
     }
+
     &--elements-left {
       display: inline-flex;
       align-items: center;
