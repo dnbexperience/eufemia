@@ -10,6 +10,7 @@ import {
 
 describe('Avatar screenshot', () => {
   setupPageScreenshot({ url: '/uilib/components/avatar/demos' })
+
   describe('size', () => {
     it('have to match default size', async () => {
       const screenshot = await testPageScreenshot({
@@ -17,24 +18,28 @@ describe('Avatar screenshot', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
     it('have to match small size', async () => {
       const screenshot = await testPageScreenshot({
         selector: '[data-visual-test="avatar-size-small"] .dnb-avatar',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
     it('have to match medium size', async () => {
       const screenshot = await testPageScreenshot({
         selector: '[data-visual-test="avatar-size-medium"] .dnb-avatar',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
     it('have to match large size', async () => {
       const screenshot = await testPageScreenshot({
         selector: '[data-visual-test="avatar-size-large"] .dnb-avatar',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
     it('have to match x-large size', async () => {
       const screenshot = await testPageScreenshot({
         selector: '[data-visual-test="avatar-size-x-large"] .dnb-avatar',
@@ -42,6 +47,7 @@ describe('Avatar screenshot', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
   })
+
   describe('variant', () => {
     it('have to match default variant', async () => {
       const screenshot = await testPageScreenshot({
@@ -50,6 +56,7 @@ describe('Avatar screenshot', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
     it('have to match primary variant', async () => {
       const screenshot = await testPageScreenshot({
         selector:
@@ -57,6 +64,7 @@ describe('Avatar screenshot', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
     it('have to match secondary variant', async () => {
       const screenshot = await testPageScreenshot({
         selector:
@@ -64,6 +72,7 @@ describe('Avatar screenshot', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
     it('have to match tertiary variant', async () => {
       const screenshot = await testPageScreenshot({
         selector:
@@ -72,6 +81,7 @@ describe('Avatar screenshot', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
   })
+
   describe('children', () => {
     it('have to match icon of variant primary as children', async () => {
       const screenshot = await testPageScreenshot({
@@ -80,6 +90,7 @@ describe('Avatar screenshot', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
     it('have to match icon of variant secondary as children', async () => {
       const screenshot = await testPageScreenshot({
         selector:
@@ -87,6 +98,7 @@ describe('Avatar screenshot', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
     it('have to match icon of variant tertiary as children', async () => {
       const screenshot = await testPageScreenshot({
         selector:
@@ -94,6 +106,7 @@ describe('Avatar screenshot', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
     it('have to match logo as children', async () => {
       const screenshot = await testPageScreenshot({
         selector: '[data-visual-test="avatar-children-logo"] .dnb-avatar',
@@ -101,6 +114,7 @@ describe('Avatar screenshot', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
   })
+
   describe('src', () => {
     it('have to match png image of local src', async () => {
       const screenshot = await testPageScreenshot({
@@ -109,6 +123,7 @@ describe('Avatar screenshot', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
     it('have to match svg image of local src', async () => {
       const screenshot = await testPageScreenshot({
         selector:
@@ -116,12 +131,14 @@ describe('Avatar screenshot', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
     it('have to match image of external src', async () => {
       const screenshot = await testPageScreenshot({
         selector: '[data-visual-test="avatar-image-external"] .dnb-avatar',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
     it('have to match image when passing imgProps', async () => {
       const screenshot = await testPageScreenshot({
         selector: '[data-visual-test="avatar-image-props"] .dnb-avatar',
@@ -129,6 +146,7 @@ describe('Avatar screenshot', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
   })
+
   describe('grouping', () => {
     it('have to match grouping of small avatars', async () => {
       const screenshot = await testPageScreenshot({
@@ -136,18 +154,21 @@ describe('Avatar screenshot', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
     it('have to match grouping of medium avatars', async () => {
       const screenshot = await testPageScreenshot({
         selector: '[data-visual-test="avatar-grouped-medium"] .dnb-avatar',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
     it('have to match grouping of large avatars', async () => {
       const screenshot = await testPageScreenshot({
         selector: '[data-visual-test="avatar-grouped-large"] .dnb-avatar',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
     it('have to match grouping of x-large avatars', async () => {
       const screenshot = await testPageScreenshot({
         selector:
@@ -155,6 +176,7 @@ describe('Avatar screenshot', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
     it('have to match grouping of img avatars', async () => {
       const screenshot = await testPageScreenshot({
         selector: '[data-visual-test="avatar-grouped-image"] .dnb-avatar',
