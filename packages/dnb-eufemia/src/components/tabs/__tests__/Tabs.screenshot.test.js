@@ -25,13 +25,23 @@ describe('Tabs screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the right aligned tabs', async () => {
+  it('have to match horizontal aligned tabs', async () => {
     const screenshot = await testPageScreenshot({
       style: {
         width: '60rem',
       },
-      selector:
-        '[data-visual-test="tabs-tablist-right-aligned"] .dnb-tabs__tabs',
+      selector: '[data-visual-test="tabs-horizontal-aligned"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match max-width tabs', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        width: '40rem',
+        height: '4rem',
+      },
+      selector: '[data-visual-test="tabs-max-width"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -95,7 +105,7 @@ describe('Tabs screenshot', () => {
     url: '/uilib/components/tabs/demos',
   })
 
-  it('have to match scrollable tabs edge to edge', async () => {
+  it('have to match scrollable tabs narrow', async () => {
     const screenshot = await testPageScreenshot({
       style: {
         width: '30rem',
