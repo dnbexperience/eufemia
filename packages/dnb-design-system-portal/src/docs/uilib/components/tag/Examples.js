@@ -5,9 +5,6 @@
 
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import {
-  funds as Funds,
-  stocks as Stocks,
-  equities_and_mutual_funds as Equities,
   send as Send,
   einvoice as EInvoice,
   ainvoice as AInvoice,
@@ -28,13 +25,13 @@ export const TagDefault = () => (
 export const TagWithIcon = () => (
   <ComponentBox
     data-visual-test="tag-icon"
-    scope={{ Funds, Stocks, Equities }}
+    scope={{ EInvoice, AInvoice, DigiPost }}
   >
     {() => /* jsx */ `
-<Tag.Group label="Investments:">
-  <Tag icon={Funds} text="Funds" right="x-small"/>
-  <Tag icon={Stocks} text="Stocks" right="x-small"/>
-  <Tag icon={Equities} text="Equities" right="x-small"/>
+<Tag.Group label="Betalingstyper:">
+  <Tag icon={AInvoice} text="AvtaleGiro" right="x-small"/>
+  <Tag icon={EInvoice} text="eFaktura" right="x-small"/>
+  <Tag icon={DigiPost} text="DigiPost" right="x-small"/>
 </Tag.Group>
 `}
   </ComponentBox>
@@ -48,43 +45,13 @@ export const TagClickable = () => (
   </ComponentBox>
 )
 
-export const TagGroupWithData = () => (
-  <ComponentBox
-    data-visual-test="tag-group-with-data"
-    scope={{ EInvoice, AInvoice, DigiPost }}
-  >
-    {() => /* jsx */ `
-<Tag.Group label="Payment types:" data={[
-  {
-    icon: AInvoice,
-    text: 'AvtaleGiro',
-    right: 'x-small',
-  },
-  {
-    icon: EInvoice,
-    text: 'eFaktura',
-    right: 'x-small',
-  },
-  {
-    icon: DigiPost,
-    text: 'DigiPost',
-    right: 'x-small',
-  },
-]}/>
-`}
-  </ComponentBox>
-)
-
 export const TagRemovable = () => (
   <ComponentBox
     data-visual-test="tag-removable">
     {() => /* jsx */ `
-<Tag.Group label="Files:" data={[
-  {
-    text: 'Eufemia.tsx',
-    onDelete: () => { console.log("I was deleted!") },
-  },
-]}/>
+<Tag.Group label="Files:">
+  <Tag text='Eufemia.tsx' onDelete={() => { console.log("I was deleted!")}}/>
+</Tag.Group>
 `}
   </ComponentBox>
 )
