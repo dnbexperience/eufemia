@@ -8,6 +8,8 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
 import { extendPropsWithContext } from '../../shared/component-helper'
+import { TagGroupContext } from './TagContext'
+
 export interface TagGroupProps {
   /**
    * Aria label to describe the tag group
@@ -33,8 +35,6 @@ export const defaultProps = {
   className: null,
   children: null,
 }
-
-export const TagGroupContext = React.createContext(null)
 
 function TagGroup(localProps: TagGroupProps & ISpacingProps) {
   // Every component should have a context

@@ -6,7 +6,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
 // Elements
-import { ImgProps } from '../../elements/Img'
+import Img, { ImgProps } from '../../elements/Img'
 
 // Shared
 import Context from '../../shared/Context'
@@ -15,12 +15,9 @@ import {
   extendPropsWithContext,
   warn,
 } from '../../shared/component-helper'
-import { Img } from '../..'
 
 // Internal
 import AvatarGroup, { AvatarGroupContext } from './AvatarGroup'
-
-export * from './AvatarGroup'
 
 export type AvatarSizes = 'small' | 'medium' | 'large' | 'x-large'
 export type AvatarVariants = 'primary' | 'secondary' | 'tertiary'

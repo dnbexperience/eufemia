@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import Breadcrumb, { BreadcrumbItem } from '../Breadcrumb'
 import { Provider } from '../../../shared'
 import MatchMediaMock from 'jest-matchmedia-mock'
-import { IconPrimary } from '../..'
+import IconPrimary from '../../icon-primary/IconPrimary'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 
 const matchMedia = new MatchMediaMock()

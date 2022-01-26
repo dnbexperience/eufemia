@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import Timeline, { TimelineItem } from '../Timeline'
 
-import { IconPrimary } from '../..'
+import IconPrimary from '../../icon-primary/IconPrimary'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 
 describe('Timeline', () => {

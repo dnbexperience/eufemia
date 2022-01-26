@@ -14,9 +14,8 @@ import {
 } from '../../shared/component-helper'
 
 // Internal
-import TagGroup, { TagGroupContext } from './TagGroup'
-
-export * from './TagGroup'
+import TagGroup from './TagGroup'
+import { TagGroupContext } from './TagContext'
 
 export interface TagProps {
   /**
@@ -191,7 +190,5 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
 }
 
 Tag.Group = TagGroup
-
-export { TagGroup }
 
 export default Tag
