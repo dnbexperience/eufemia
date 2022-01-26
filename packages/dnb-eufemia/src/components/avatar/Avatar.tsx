@@ -137,7 +137,7 @@ function Avatar(localProps: AvatarProps & ISpacingProps) {
   }
 
   return (
-    <div
+    <span
       className={classnames(
         'dnb-avatar',
         `dnb-avatar--${variant || 'primary'}`,
@@ -155,7 +155,7 @@ function Avatar(localProps: AvatarProps & ISpacingProps) {
         </span>
       )}
       {children}
-    </div>
+    </span>
   )
 }
 

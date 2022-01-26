@@ -24,7 +24,7 @@
 
 .dnb-avatar {
   position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
@@ -86,7 +86,7 @@
   }
 
   &--group {
-    display: flex;
+    display: inline-flex;
     justify-content: flex-end;
     flex-direction: row-reverse;
     .dnb-avatar {
@@ -115,7 +115,7 @@
       }
     }
     &--elements-left {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
       color: var(--color-black-55);

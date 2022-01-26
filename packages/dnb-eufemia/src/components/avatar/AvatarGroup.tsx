@@ -108,7 +108,7 @@ function AvatarGroup(localProps: AvatarGroupProps & ISpacingProps) {
 
   return (
     <AvatarGroupContext.Provider value={props}>
-      <div
+      <span
         className={classnames(
           'dnb-avatar--group',
           spacingClasses,
@@ -126,7 +126,7 @@ function AvatarGroup(localProps: AvatarGroupProps & ISpacingProps) {
           </ElementsHidden>
         ) : null}
         {children}
-      </div>
+      </span>
     </AvatarGroupContext.Provider>
   )
 }

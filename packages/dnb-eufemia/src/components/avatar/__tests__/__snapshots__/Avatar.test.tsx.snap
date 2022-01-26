@@ -119,7 +119,7 @@ exports[`Avatar scss have to match snapshot 1`] = `
 
 .dnb-avatar {
   position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
@@ -160,7 +160,7 @@ exports[`Avatar scss have to match snapshot 1`] = `
     .dnb-core-style .dnb-avatar--size-x-large {
       line-height: var(--avatar-line-height--x-large); }
   .dnb-avatar--group {
-    display: flex;
+    display: inline-flex;
     justify-content: flex-end;
     flex-direction: row-reverse; }
     .dnb-avatar--group .dnb-avatar {
@@ -178,7 +178,7 @@ exports[`Avatar scss have to match snapshot 1`] = `
       .dnb-avatar--group .dnb-avatar:last-child {
         margin-left: 0; }
     .dnb-avatar--group--elements-left {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
       color: var(--color-black-55); }
