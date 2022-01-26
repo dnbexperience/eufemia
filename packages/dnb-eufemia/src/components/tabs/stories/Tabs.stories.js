@@ -8,7 +8,7 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 import { Global, css } from '@emotion/react'
 
-import { Input, Tabs, Icon, Button } from '../../'
+import { Input, Tabs, Icon, Button, ToggleButton } from '../../'
 import { bell as Bell } from '../../../icons'
 
 import { H2 } from '../../../elements'
@@ -328,6 +328,104 @@ const TabsContentUsage = () => {
         text="two"
         on_click={() => {
           setValue('two')
+        }}
+      />
+    </>
+  )
+}
+
+const data = [
+  { title: '1st item', key: '1' },
+  { title: '2nd item', key: '2' },
+  { title: '3rd item', key: '3' },
+  { title: '4th item', key: '4' },
+  { title: '5th item', key: '5' },
+  { title: '6th item', key: '6' },
+  // { title: '7th item', key: '7' },
+  // { title: '8th item', key: '8' },
+  // { title: '9th item', key: '9' },
+  // { title: '10th item', key: '10' },
+  // { title: '11th item', key: '11' },
+  // { title: '12th item', key: '12' },
+  // { title: '13th item', key: '13' },
+]
+
+const FlexWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+
+const MaxWidthWrapper = styled.div`
+  max-width: 30rem;
+  background: var(--color-mint-green-12);
+`
+
+const LeftArea = styled.div`
+  /* Ensure no-wrap */
+  flex-shrink: 0;
+`
+const RightArea = styled.div`
+  /* Ensure the tabbar is hidden outside this area */
+  overflow: hidden;
+
+  /* Ensure the focus ring is visible! (because of overflow: hidden) */
+  margin: -2px;
+  padding: 2px;
+`
+
+export function TabsAndFlex() {
+  return (
+    <>
+      <FlexWrapper>
+        <LeftArea>
+          <ToggleButton.Group value="first">
+            <ToggleButton text="first" value="first" />
+            <ToggleButton text="second" value="second" />
+          </ToggleButton.Group>
+        </LeftArea>
+
+        <RightArea>
+          <Tabs
+            left
+            no_border
+            selected_key="5"
+            id="unique-tabs-row"
+            data={data}
+          />
+        </RightArea>
+      </FlexWrapper>
+
+      <MaxWidthWrapper>
+        <Tabs
+          top
+          no_border
+          nav_button_edge
+          selected_key="5"
+          id="unique-tabs-edge"
+          data={data}
+        />
+      </MaxWidthWrapper>
+
+      <Tabs
+        top
+        no_border
+        id="right-aligned"
+        selected_key="2"
+        align="right"
+        label="Some Tabs label"
+        data={data.slice(0, 3)}
+        render={({ Wrapper, Content, TabsList, Tabs }) => {
+          return (
+            <Wrapper>
+              <TabsList className="dnb-section">
+                <small>
+                  <b>Content</b>
+                </small>
+                <Tabs />
+              </TabsList>
+              <Content />
+            </Wrapper>
+          )
         }}
       />
     </>

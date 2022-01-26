@@ -20,24 +20,20 @@
       display: flex;
       flex: 0 1 auto;
 
-      // Fix the active/focus border spacing
-      padding: 0 0.5rem;
-      margin: 0 -0.5rem;
-
       &:focus {
         @include fakeFocus();
       }
 
       @include scrollX(auto);
       @include hideScrollbar();
-      // scroll-snap-type: x mandatory;// gives not the wanted extra UX yet
+      // scroll-snap-type: x mandatory; // gives not the wanted extra UX yet
     }
 
     &--left &__tablist {
       justify-content: flex-start;
     }
     &--right &__tablist {
-      flex-grow: 1;
+      flex: 1;
       justify-content: flex-end;
     }
     &--center &__tablist {
@@ -61,32 +57,22 @@
     }
   }
 
-  &:not(.dnb-tabs--has-scrollbar) &__tabs__tablist {
-    margin-left: -0.5rem;
-    padding-left: 0.5rem;
-  }
-
   &__scroll-nav-button {
-    position: absolute;
+    position: relative;
     z-index: 2;
 
     &.dnb-button--primary {
       background-color: var(--color-emerald-green);
     }
 
-    display: none;
+    display: none; // use "none" to remove it from markup by default
     opacity: 0;
+    pointer-events: none;
     transition: opacity 600ms ease-out;
 
-    &:first-of-type {
-      left: -2.5rem;
-    }
-    &:last-of-type {
-      right: -2.5rem;
-    }
-
     &--visible {
-      display: flex;
+      display: flex; // needs to be "flex" in order to make the transition work
+      pointer-events: initial;
       opacity: 1;
     }
 
@@ -95,45 +81,6 @@
       opacity: 0 !important;
     }
   }
-
-  &--at-edge &__scroll-nav-button {
-    &:first-of-type {
-      left: 0;
-    }
-    &:last-of-type {
-      right: 0;
-    }
-  }
-
-  html[data-visual-test] & &__scroll-nav-button {
-    transition: none;
-  }
-
-  &__button__snap {
-    display: flex;
-    padding: 0 1rem 0 1.5rem;
-
-    @include allBelow(small) {
-      padding: 0 1rem;
-    }
-
-    &:first-of-type {
-      padding-left: 0;
-    }
-    &:last-of-type {
-      padding-right: 0.5rem;
-    }
-  }
-  &--has-scrollbar &__button__snap {
-    &:last-of-type {
-      padding-right: 1.5rem;
-    }
-  }
-
-  // gives not the wanted extra UX yet
-  // &--has-scrollbar &__button__snap {
-  //   scroll-snap-align: start;
-  // }
 
   // Tab Button
   &__button,
@@ -160,6 +107,9 @@
     text-decoration: none;
 
     white-space: nowrap;
+
+    // make the transition smooth, when going from :focus not no focus
+    transition: margin 400ms ease-out;
 
     // should be same as .lead small
     &__title {
@@ -188,6 +138,79 @@
       height: 1px;
     }
   }
+
+  &__button__snap {
+    display: flex;
+
+    padding: 0 1rem 0 1.5rem;
+
+    @include allBelow(small) {
+      padding: 0 1rem;
+    }
+
+    &:first-of-type {
+      padding-left: 0;
+    }
+    &:last-of-type {
+      padding-right: 0.5rem;
+    }
+
+    // Make the transition smooth when its the first or last item
+    // keep focus and selected separate
+    &:first-of-type.selected.focus,
+    &:last-of-type.focus,
+    &:last-of-type.selected {
+      transition: padding 1s #{$defaultEasing} 10ms;
+    }
+  }
+
+  &--has-scrollbar &__button__snap {
+    &:first-of-type {
+      margin-left: -3rem;
+      padding-left: 3rem;
+    }
+    &:last-of-type {
+      margin-right: -3rem;
+      padding-right: 3rem;
+    }
+
+    &:first-of-type.focus,
+    &:first-of-type.selected.focus {
+      padding-left: 0;
+
+      // add space so the focus ring is visible within our overflow
+      .dnb-tabs__button:focus {
+        margin-left: 0.5rem;
+      }
+    }
+
+    &:last-of-type.focus,
+    &:last-of-type.selected.focus {
+      padding-right: 0;
+
+      // add space so the focus ring is visible within our overflow
+      /* stylelint-disable */
+      .dnb-tabs__button:focus {
+        margin-right: 0.5rem;
+      }
+      /* stylelint-enable */
+    }
+  }
+
+  // Do this in order to have the selected tab to be nice aligned during scrollTo
+  &--has-scrollbar &__tabs__tablist {
+    margin: 0 -2rem; // The width of the nav-button
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  /* stylelint-disable */
+  html[data-visual-test] & &__button,
+  html[data-visual-test] & &__button__snap,
+  html[data-visual-test] & &__scroll-nav-button {
+    transition: none !important;
+  }
+  /* stylelint-enable */
 
   &__content--spacing {
     padding-top: 2rem;
