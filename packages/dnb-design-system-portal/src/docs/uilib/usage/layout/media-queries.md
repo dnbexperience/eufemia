@@ -1,6 +1,5 @@
 ---
 title: 'Media Queries'
-status: 'new'
 order: 2
 ---
 
@@ -252,4 +251,4 @@ You can re-use the SASS mixins from Eufemia:
 }
 ```
 
-Based of the findings of [this article](https://zellwk.com/blog/media-query-units/) and [this webkit bug](https://bugs.webkit.org/show_bug.cgi?id=156684) Eufemia recommends to use `em` units for media query usage to meed the best overall browser support. Read [more about units](/uilib/usage/best-practices/for-styling#units).
+Based of the findings of [this article](https://zellwk.com/blog/media-query-units/) and [this webkit bug](https://bugs.webkit.org/show_bug.cgi?id=156684) Eufemia recommends to use `em` units for media query usage to meet the best overall browser support. Read [more about units](/uilib/usage/best-practices/for-styling#units).
