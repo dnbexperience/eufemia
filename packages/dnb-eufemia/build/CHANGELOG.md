@@ -3,6 +3,40 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.19.0](https://github.com/dnbexperience/eufemia/compare/v9.18.0...v9.19.0) (2022-01-26)
+
+
+### Bug Fixes
+
+* add "unstyled" as a button variant ([8cb0712](https://github.com/dnbexperience/eufemia/commit/8cb07126120e1013d7784bc3b88de2b2b6bbd7cc))
+* added export of Bar in Pagination ([#1200](https://github.com/dnbexperience/eufemia/issues/1200)) ([f148786](https://github.com/dnbexperience/eufemia/commit/f148786cad324f55ce34a91df811b1b14eccbf62))
+* **Avatar:** improve accessibility ([#1213](https://github.com/dnbexperience/eufemia/issues/1213)) ([3a456c5](https://github.com/dnbexperience/eufemia/commit/3a456c54c18cf1337357229c268f019302d5d527))
+* **Breadcrumb:** forward props in BreadcrumbItem to span as well ([#1188](https://github.com/dnbexperience/eufemia/issues/1188)) ([17a1de0](https://github.com/dnbexperience/eufemia/commit/17a1de0b361bffa667c9bd3fe88fb202951aaf91))
+* **Breadcrumb:** improve accessibility ([#1189](https://github.com/dnbexperience/eufemia/issues/1189)) ([59825b8](https://github.com/dnbexperience/eufemia/commit/59825b88d99148d5e26a8f638ad39507e4661bc3))
+* **build:** break build when step fails ([cb436d3](https://github.com/dnbexperience/eufemia/commit/cb436d3e5b33ba0bee91aad549efb476393ad93f))
+* **CodeHighlighting:** ensure a scrollbar is shown when not enough space is available ([634df1b](https://github.com/dnbexperience/eufemia/commit/634df1bcf437c388b3bca223d02057cbe542ab8d))
+* **DrawerList:** ensure DrawerList is unsetting its global attributes on unmount ([d64ccf8](https://github.com/dnbexperience/eufemia/commit/d64ccf8dbffe358955a236db136778e9c7f25bec))
+* fix circular dependency issue for Timeline and Avatar ([439ccc3](https://github.com/dnbexperience/eufemia/commit/439ccc3ec8ce612b790e71fc14664283a751251f))
+* fix rendering of DatePickerFooter when show_reset_button is provided ([#1197](https://github.com/dnbexperience/eufemia/issues/1197)) ([d7d4507](https://github.com/dnbexperience/eufemia/commit/d7d45078508378383d1d2c3415cb13e4867759ce))
+* fix reset_button_text property of DatePicker ([#1196](https://github.com/dnbexperience/eufemia/issues/1196)) ([e50fb6f](https://github.com/dnbexperience/eufemia/commit/e50fb6f56b9b3f0b7e808315419f1da4b53c8f03))
+* fixed global context bug that removed component props ([#1193](https://github.com/dnbexperience/eufemia/issues/1193)) ([82be98c](https://github.com/dnbexperience/eufemia/commit/82be98cb8da63376f1f9a9550479b44df0cb928c))
+* **Tag:** fix circular dependency issue when bundling UMD modules with Rollup.js ([d155f7c](https://github.com/dnbexperience/eufemia/commit/d155f7c4740c3afc950f8e2b8cd9cb5494c3e7ec))
+* **Tag:** remove data-prop from TagGroup ([#1225](https://github.com/dnbexperience/eufemia/issues/1225)) ([72e4207](https://github.com/dnbexperience/eufemia/commit/72e4207835d6882a796b83aac3c96c3d0b36fbc0))
+* **Tag:** remove tag group warnings in tests ([#1214](https://github.com/dnbexperience/eufemia/issues/1214)) ([16bd840](https://github.com/dnbexperience/eufemia/commit/16bd8403fa7673962afa9309cb2f089569a5406b))
+* **Tag:** update delete icon ([#1224](https://github.com/dnbexperience/eufemia/issues/1224)) ([fe5c766](https://github.com/dnbexperience/eufemia/commit/fe5c7660bcd79fce3af48b41444dd3738d527890))
+
+
+### Features
+
+* add Avatar component ([#1191](https://github.com/dnbexperience/eufemia/issues/1191)) ([6a30523](https://github.com/dnbexperience/eufemia/commit/6a30523484c2802069e64b716ff2d61e6dc64338))
+* add AvatarGroup component ([#1195](https://github.com/dnbexperience/eufemia/issues/1195)) ([ae5ef7d](https://github.com/dnbexperience/eufemia/commit/ae5ef7d758314b189640e00690f78e40a825cf38))
+* add InfoCard component ([5db0cbc](https://github.com/dnbexperience/eufemia/commit/5db0cbce2c73949d2b80d8cd9b96da5579708bba))
+* add TagGroup component ([#1208](https://github.com/dnbexperience/eufemia/issues/1208)) ([781007d](https://github.com/dnbexperience/eufemia/commit/781007de4ce30cf47def8f750956e280f1633956))
+* add TimeLine component ([#1186](https://github.com/dnbexperience/eufemia/issues/1186)) ([255a14e](https://github.com/dnbexperience/eufemia/commit/255a14ea0e1037468f9d757564b1ce658d341c52))
+* remove type="module" in order omit the "fullySpecified" spec ([b424e08](https://github.com/dnbexperience/eufemia/commit/b424e0882fd091afa61a27340c0a0f7f0010f4e7))
+* **Tag:** Add onClick prop ([db68b30](https://github.com/dnbexperience/eufemia/commit/db68b3059cf53093effbf584ef0f9d1edfacfefe))
+* **Tag:** add onDelete-prop ([#1217](https://github.com/dnbexperience/eufemia/issues/1217)) ([2f1642b](https://github.com/dnbexperience/eufemia/commit/2f1642b080d257474a4c56681eb0ad45807bfe1e))
+
 # [9.18.0](https://github.com/dnbexperience/eufemia/compare/v9.17.2...v9.18.0) (2021-12-16)
 
 
