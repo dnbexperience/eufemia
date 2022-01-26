@@ -606,6 +606,10 @@ button.dnb-button::-moz-focus-inner {
 .dnb-tag--removable.dnb-button {
   color: var(--color-white);
   background-color: var(--color-sea-green); }
+  .dnb-tag--removable.dnb-button svg .dnb-icon-close-circle-path {
+    fill: var(--color-white); }
+  .dnb-tag--removable.dnb-button svg .dnb-icon-close-cross-path {
+    stroke: var(--color-sea-green); }
   .dnb-tag--removable.dnb-button:focus[disabled],
   html:not([data-whatintent='touch']) .dnb-tag--removable.dnb-button:focus[disabled] {
     cursor: not-allowed; }

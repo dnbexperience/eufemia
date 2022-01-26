@@ -169,22 +169,19 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
           <svg
             width="16"
             height="16"
-            viewBox="0 0 16 16"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M0 8C0 3.58172 3.58172 0 8 0V0C12.4183 0 16 3.58172 16 8V8C16 12.4183 12.4183 16 8 16V16C3.58172 16 0 12.4183 0 8V8Z"
-              fill="white"
+              d="M0 8a8 8 0 1 1 16 0A8 8 0 1 1 0 8Z"
               className="dnb-icon-close-circle-path"
             />
             <path
-              d="M5.5 10.5L10.5 5.5M10.5 10.5L5.5 5.5"
-              stroke="#007272"
+              d="m5.5 10.5 5-5m0 5-5-5"
+              className="dnb-icon-close-cross-path"
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="dnb-icon-close-cross-path"
             />
           </svg>
         }
