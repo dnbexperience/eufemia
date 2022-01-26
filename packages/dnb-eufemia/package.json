@@ -34,7 +34,7 @@
     "build:resources": "babel-node ./scripts/prepub/resources/makeResourcesPackage.js",
     "build:types": "babel-node ./scripts/prepub/generateTypes.js && yarn test:types",
     "build:types:dev": "nodemon --exec 'babel-node ./scripts/prepub/generateTypes.js' --ext js --watch './src/**/*' --watch './scripts/**/*'",
-    "build:umd": "cross-env NODE_ENV=production BABEL_ENV=umd rollup -c ./rollup.config.js",
+    "build:umd": "./scripts/release/babel-umd.sh",
     "precommit": "yarn lint-staged",
     "dev:icons": "nodemon --exec 'babel-node ./scripts/tools/convertIcons' --ignore '/icons/**' --ignore '*.json'",
     "dev:resources": "nodemon --exec 'babel-node ./scripts/prepub/resources/makeResourcesPackage.js' --ext js,html,json,css,scss --watch './build/style/**/*' --watch './scripts/**/*' --ignore '*.json'",
