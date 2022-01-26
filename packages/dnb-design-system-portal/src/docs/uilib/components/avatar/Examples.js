@@ -16,17 +16,19 @@ export const AvatarSizeDefault = () => (
 <Avatar.Group label="Persons:">
   <Avatar>Ola Nordmann</Avatar>
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
 
 export const AvatarSizeSmall = () => (
   <ComponentBox hideCode data-visual-test="avatar-size-small">
     {() => /* jsx */ `
+Text
 <Avatar.Group label="Animals:">
   <Avatar size="small">Duck</Avatar>
 </Avatar.Group>
-  `}
+Text
+`}
   </ComponentBox>
 )
 
@@ -36,7 +38,7 @@ export const AvatarSizeMedium = () => (
 <Avatar.Group label="Stocks:">
   <Avatar size="medium">NFLX</Avatar>
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
 
@@ -46,7 +48,7 @@ export const AvatarSizeLarge = () => (
 <Avatar.Group label="Companies:">
   <Avatar size="large">Amazon</Avatar>
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
 
@@ -56,7 +58,7 @@ export const AvatarSizeXLarge = () => (
 <Avatar.Group label="TV Shows:">
   <Avatar size="x-large">Friends</Avatar>
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
 
@@ -66,7 +68,7 @@ export const AvatarVariantDefault = () => (
 <Avatar.Group label="Dogs:">
   <Avatar>Kleiner münsterländer</Avatar>
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
 
@@ -76,7 +78,7 @@ export const AvatarVariantPrimary = () => (
 <Avatar.Group label="Cities:">
   <Avatar variant="primary">Oslo</Avatar>
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
 
@@ -86,7 +88,7 @@ export const AvatarVariantSecondary = () => (
 <Avatar.Group label="Countries:">
   <Avatar variant="secondary">Spain</Avatar>
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
 
@@ -96,7 +98,7 @@ export const AvatarVariantTertiary = () => (
 <Avatar.Group label="Cars:">
   <Avatar variant="tertiary">Tesla</Avatar>
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
 
@@ -112,7 +114,7 @@ export const AvatarConfettiIcon = () => (
     <Icon icon={Confetti} />
   </Avatar>
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
 
@@ -128,7 +130,7 @@ export const AvatarCardIcon = () => (
     <Icon icon={Card} />
   </Avatar>
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
 
@@ -144,7 +146,7 @@ export const AvatarAccountCardIcon = () => (
     <Icon icon={AccountCard} />
   </Avatar>
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
 
@@ -156,7 +158,7 @@ export const AvatarDNBLogo = () => (
     <Logo/>
   </Avatar>
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
 
@@ -170,7 +172,7 @@ export const AvatarImageDNB = () => (
     size="x-large"
   />
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
 
@@ -184,7 +186,7 @@ export const AvatarImagePinnedTab = () => (
     alt="DNB Logo" 
   />
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
 
@@ -198,7 +200,7 @@ export const AvatarImageTobias = () => (
     size="large"
   />
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
 
@@ -234,6 +236,7 @@ export const AvatarImageProps = () => (
 export const GroupedAvatarsSmall = () => (
   <ComponentBox hideCode data-visual-test="avatar-grouped-small">
     {() => /* jsx */ `
+Text
 <Avatar.Group label="Friends:" size="small" variant="primary" maxElements={6}>
   <Avatar>Anders</Avatar>
   <Avatar>Bjørnar</Avatar>
@@ -243,7 +246,8 @@ export const GroupedAvatarsSmall = () => (
   <Avatar>Frida</Avatar>
   <Avatar>Gøril</Avatar>
 </Avatar.Group>
-  `}
+Text
+`}
   </ComponentBox>
 )
 
@@ -259,7 +263,7 @@ export const GroupedAvatarsMedium = () => (
   <Avatar>Frida</Avatar>
   <Avatar>Gøril</Avatar>
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
 
@@ -275,7 +279,7 @@ export const GroupedAvatarsLarge = () => (
   <Avatar>Frida</Avatar>
   <Avatar>Gøril</Avatar>
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
 
@@ -291,7 +295,7 @@ export const GroupedAvatarsXLarge = () => (
   <Avatar>Frida</Avatar>
   <Avatar>Gøril</Avatar>
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
 
@@ -307,6 +311,6 @@ export const GroupedAvatarsImg = () => (
   <Avatar src="https://avatars.githubusercontent.com/u/1501870?v=4" alt="Profile picture"/>
   <Avatar src="https://avatars.githubusercontent.com/u/1501870?v=4" alt="Profile picture"/>
 </Avatar.Group>
-  `}
+`}
   </ComponentBox>
 )
