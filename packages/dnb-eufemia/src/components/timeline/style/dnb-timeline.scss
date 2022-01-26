@@ -1,0 +1,12 @@
+/*
+* DNB Timeline
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+.dnb-timeline {
+  @include componentReset();
+}
+
+@import './_timeline.scss';

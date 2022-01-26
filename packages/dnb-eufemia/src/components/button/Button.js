@@ -33,7 +33,17 @@ import Anchor from '../../elements/Anchor'
 import Tooltip from '../tooltip/Tooltip'
 
 export const buttonVariantPropType = {
-  variant: PropTypes.oneOf(['primary', 'secondary', 'tertiary', 'signal']),
+  variant: PropTypes.oneOf([
+    'primary',
+    'secondary',
+    'tertiary',
+    'signal',
+
+    /**
+     * For internal use only (as of now)
+     */
+    'unstyled',
+  ]),
 }
 
 /**

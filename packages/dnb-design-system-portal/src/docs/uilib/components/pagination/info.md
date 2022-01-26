@@ -38,10 +38,15 @@ import 'intersection-observer'
 
 ### Default pagination and content handling
 
-You can either only use the pagination component with the buttons (bar) and have your content outside, but linked together with your own states.
+You can put your content inside the pagination wrapper. This has the advantage that it gives screen-reader users an easier way to interact and understand the content. It will also "keep" the old page height until the next page is inserted while showing an indicator.
 
-- or you put your content inside the pagination wrapper. This has the advantage that it gives screen-reader users an easier way to interact and understand the content.
-- and it will "keep" the old page height until the next page is inserted while showing an indicator.
+The pagination component can be used outside of the content. Then you have to export the `Bar` component directly from Pagination and link it together with your own states.
+
+```jsx
+import { Bar } from '@dnb/eufemia/components/Pagination'
+```
+
+We recommend contacting one of the developers at Eufemia ([Slack channel #eufemia-web](https://dnb-it.slack.com/archives/CMXABCHEY)) to help you set up `Bar`, so that the pagination becomes screen-reader compliant.
 
 #### Pagination method #1
 

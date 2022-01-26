@@ -6,12 +6,13 @@
 
 import fs from 'fs-extra'
 import path from 'path'
+import packpath from 'packpath'
 
 const buildStages = ['es', 'esm', 'cjs']
 
 describe('type definitions', () => {
   it.each(buildStages)('has d.ts index file on stage %s', (stage) => {
-    const file = path.resolve(`./build/${stage}/index.d.ts`)
+    const file = path.resolve(packpath.self(), `build/${stage}/index.d.ts`)
     const exists = fs.existsSync(file)
     expect(exists).toBe(true)
   })
@@ -21,14 +22,20 @@ describe('type definitions', () => {
     (stage) => {
       expect(
         fs.existsSync(
-          path.resolve(`./build/${stage}/components/Input.d.ts`)
+          path.resolve(
+            packpath.self(),
+            `build/${stage}/components/Input.d.ts`
+          )
         )
       ).toBe(true)
 
       // To ensure babel did not compile the d.ts file
       expect(
         fs.readFileSync(
-          path.resolve(`./build/${stage}/components/input/Input.d.ts`),
+          path.resolve(
+            packpath.self(),
+            `build/${stage}/components/input/Input.d.ts`
+          ),
           'utf-8'
         )
       ).toMatch(/export interface/g)
@@ -39,7 +46,9 @@ describe('type definitions', () => {
 describe('babel build', () => {
   it.each(buildStages)('has correctly compiled on stage %s', (stage) => {
     expect(
-      fs.existsSync(path.resolve(`./build/${stage}/components/Input.js`))
+      fs.existsSync(
+        path.resolve(packpath.self(), `build/${stage}/components/Input.js`)
+      )
     ).toBe(true)
 
     switch (stage) {
@@ -47,7 +56,7 @@ describe('babel build', () => {
         {
           {
             const content = fs.readFileSync(
-              path.resolve(`./build/${stage}/index.js`),
+              path.resolve(packpath.self(), `build/${stage}/index.js`),
               'utf-8'
             )
             expect(content).toContain(
@@ -57,13 +66,27 @@ describe('babel build', () => {
 
             // Has extra cjs package
             expect(
-              fs.existsSync(path.resolve(`./build/${stage}/package.json`))
+              fs.existsSync(
+                path.resolve(
+                  packpath.self(),
+                  `build/${stage}/package.json`
+                )
+              )
             ).toBe(true)
+
+            const packageJson = fs.readJsonSync(
+              path.resolve(packpath.self(), `build/${stage}/package.json`)
+            )
+
+            expect(packageJson.type).toBe('commonjs')
           }
 
           {
             const content = fs.readFileSync(
-              path.resolve(`./build/${stage}/components/input/Input.js`),
+              path.resolve(
+                packpath.self(),
+                `build/${stage}/components/input/Input.js`
+              ),
               'utf-8'
             )
             expect(content).toContain('var Input = function')
@@ -73,7 +96,8 @@ describe('babel build', () => {
           {
             const content = fs.readFileSync(
               path.resolve(
-                `./build/${stage}/components/breadcrumb/Breadcrumb.js`
+                packpath.self(),
+                `build/${stage}/components/breadcrumb/Breadcrumb.js`
               ),
               'utf-8'
             )
@@ -87,7 +111,7 @@ describe('babel build', () => {
         {
           {
             const content = fs.readFileSync(
-              path.resolve(`./build/${stage}/index.js`),
+              path.resolve(packpath.self(), `build/${stage}/index.js`),
               'utf-8'
             )
             expect(content).toContain('export default {};')
@@ -95,7 +119,10 @@ describe('babel build', () => {
 
           {
             const content = fs.readFileSync(
-              path.resolve(`./build/${stage}/components/input/Input.js`),
+              path.resolve(
+                packpath.self(),
+                `build/${stage}/components/input/Input.js`
+              ),
               'utf-8'
             )
             expect(content).toContain('export { Input as default };')
@@ -108,7 +135,8 @@ describe('babel build', () => {
           {
             const content = fs.readFileSync(
               path.resolve(
-                `./build/${stage}/components/breadcrumb/Breadcrumb.js`
+                packpath.self(),
+                `build/${stage}/components/breadcrumb/Breadcrumb.js`
               ),
               'utf-8'
             )
@@ -125,7 +153,7 @@ describe('babel build', () => {
         {
           {
             const content = fs.readFileSync(
-              path.resolve(`./build/${stage}/index.js`),
+              path.resolve(packpath.self(), `build/${stage}/index.js`),
               'utf-8'
             )
             expect(content).toContain('export default {};')
@@ -133,7 +161,10 @@ describe('babel build', () => {
 
           {
             const content = fs.readFileSync(
-              path.resolve(`./build/${stage}/components/input/Input.js`),
+              path.resolve(
+                packpath.self(),
+                `build/${stage}/components/input/Input.js`
+              ),
               'utf-8'
             )
             expect(content).toMatch(/export default class Input extends/g)
@@ -146,7 +177,8 @@ describe('babel build', () => {
           {
             const content = fs.readFileSync(
               path.resolve(
-                `./build/${stage}/components/breadcrumb/Breadcrumb.js`
+                packpath.self(),
+                `build/${stage}/components/breadcrumb/Breadcrumb.js`
               ),
               'utf-8'
             )
@@ -163,14 +195,16 @@ describe('babel build', () => {
     if (stage == 'cjs') {
       const exists = fs.existsSync(
         path.resolve(
-          `./build/${stage}/components/breadcrumb/Breadcrumb.tsx`
+          packpath.self(),
+          `build/${stage}/components/breadcrumb/Breadcrumb.tsx`
         )
       )
       expect(exists).toBe(false)
     } else {
       const content = fs.readFileSync(
         path.resolve(
-          `./build/${stage}/components/breadcrumb/Breadcrumb.tsx`
+          packpath.self(),
+          `build/${stage}/components/breadcrumb/Breadcrumb.tsx`
         ),
         'utf-8'
       )

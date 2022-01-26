@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import Breadcrumb, { BreadcrumbItem } from '../Breadcrumb'
 import { Provider } from '../../../shared'
 import MatchMediaMock from 'jest-matchmedia-mock'
-import { IconPrimary } from '../..'
+import IconPrimary from '../../icon-primary/IconPrimary'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 
 const matchMedia = new MatchMediaMock()
@@ -94,7 +94,7 @@ describe('Breadcrumb', () => {
     ).toBe('Page 2')
   })
 
-  it('current will have aria-current="true', () => {
+  it('current item will have aria-current="page', () => {
     render(
       <Breadcrumb
         data={[
@@ -106,7 +106,7 @@ describe('Breadcrumb', () => {
     )
 
     const lastElem = screen.getAllByTestId('breadcrumb-item').slice(-1)[0]
-    expect(lastElem.getAttribute('aria-current')).toBe('true')
+    expect(lastElem.getAttribute('aria-current')).toBe('page')
   })
 
   it('variant collapse opens the collapsed content on click', () => {

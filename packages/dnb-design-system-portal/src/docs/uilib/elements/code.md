@@ -10,25 +10,27 @@ title: 'Code'
 
 - `@dnb/eufemia/style/themes/theme-ui/prism/dnb-prism-theme.js`
 
+You find the theme and its definitions in the [GitHub repository](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/style/themes/theme-ui/prism/dnb-prism-theme.js).
+
 ### Code and Pre Tag usage
 
 Styling for both the `<code>` and the `<pre>` tags are build in the `@dnb/eufemia`.
-So simply use them in your syntax:
+
+So simply use them for your code syntax:
 
 ```html
 <p class="dnb-p">
-  My <code class="dnb-code">Formatted example</code> in a Paragraph
+  My <code class="dnb-code">formatted text</code> inside a paragraph
 </p>
 
 <pre class="dnb-pre">
-  One line
-  New lines
+  Code Syntax
 </pre>
 ```
 
-### Code and Typography
+#### Code and Typography
 
-`<code>` snippets look best when rendered in a _Monotype_ font. Developers will normally have installed some of these fonts on their devices. Here is an example of CSS `font-family` usage:
+When you use `<code>` or `<pre>` – the DNB _DNBMono_ font is used, like so:
 
 ```css
 font-family: var(--font-family-monospace);

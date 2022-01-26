@@ -11,8 +11,8 @@ Remember - test for accessibility early in the design process.
 
 ## Useful Resources
 
-- What is Universal Design? (DNB Sharepoint) https://dnbasa.sharepoint.com/sites/n1317
-- (Norwegian) Gjeldende regelverk og krav https://www.uutilsynet.no/regelverk/gjeldende-regelverk-og-krav/746
+- [What is Universal Design? (DNB Sharepoint)](https://dnbasa.sharepoint.com/sites/n1317)
+- [Gjeldende regelverk og krav (Uutilsynet)](https://www.uutilsynet.no/regelverk/gjeldende-regelverk-og-krav/746) (in norwegian)
 
 ## WCAG (Web Content and Accessibility Guide)
 
@@ -96,19 +96,6 @@ Semantic markup makes robust content that's accessible. Pay attention to the fol
 Responsive Design ensures that content can be viewed on a wide spectrum of display sizes.
 Responsive components and layout design should be planned from the beginning and not applied as an afterthought. Build prototypes early in code or design and begin testing their breakpoints sooner rather than later.
 
-### Accessibility checklist for designers
-
-**NB:** Move this section to its own menu item pages
-
-Building an accessible interface starts at the UX stage of design. Ideally, a designer should be able to convey to a developer how they would like a keyboard user to use and navigate through an interface. Much of the DNB Design System's styling and development have considered accessibility to a certain extent, see [Accessibility](/uilib/usage/accessibility). However, each interface design comes with its own challenges and requirement
-
-- make sure the content is perceivable - ensure good contrast between background and foreground
-- plan how you would like a keyboard navigator to access interface laments/areas. What will the order of tabbing be?
-- should you provide a ’skip to content’ feature to allow users to get to the main content quickly
-- plan how the interface will respond to different screen sizes. The layout may have to change - how will this affect accessibility?
-- zoom the interface - some users zoom their browser to increase the size. How will elements behave in these scenarios? Will they overlap? What happens to wide horizontal components such as navigation or tab sets?
-- fluid design as opposed to using fixed breakpoints, allows the content to reflow in the same order as screen readers render content to users who are blind or visually impaired.
-
 ## Focus management
 
 ### Where should the focus start on the first page init?
@@ -137,3 +124,7 @@ Or, it can be based on user needs. For example, it may be more beneficial for a 
 
 Again, this is dependent on both content, context, and user needs which ultimately affect the user experience. If there are blocks of repeating content on multiple pages then it may improve user experience to add a Skip-Link.
 It is not a requirement to have a Skip-Link but an asset.
+
+## Accessibility checklist for designers
+
+Check out the [Accessibility checklist for designers](/quickguide-designer/accessibility/checklist) for the most important features in accessibility.

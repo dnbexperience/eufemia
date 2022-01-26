@@ -19,12 +19,15 @@ export default class DatePickerFooter extends React.PureComponent {
     onSubmit: PropTypes.func,
     onCancel: PropTypes.func,
     onReset: PropTypes.func,
+
+    resetButtonText: PropTypes.string,
   }
 
   static defaultProps = {
     onSubmit: null,
     onCancel: null,
     onReset: null,
+    resetButtonText: null,
   }
 
   onSubmitHandler = (args) => {
@@ -87,7 +90,7 @@ export default class DatePickerFooter extends React.PureComponent {
   }
 
   render() {
-    const { isRange } = this.props
+    const { isRange, resetButtonText } = this.props
 
     const { show_reset_button, show_cancel_button, show_submit_button } =
       this.context.props
@@ -95,13 +98,17 @@ export default class DatePickerFooter extends React.PureComponent {
     if (
       !isRange &&
       !isTrue(show_submit_button) &&
-      !isTrue(show_cancel_button)
+      !isTrue(show_cancel_button) &&
+      !isTrue(show_reset_button)
     ) {
       return <></>
     }
 
-    const { submit_button_text, cancel_button_text, reset_button_text } =
-      this.context.translation.DatePicker
+    const {
+      submit_button_text,
+      cancel_button_text,
+      reset_button_text: reset_button_text_translation,
+    } = this.context.translation.DatePicker
 
     return (
       <div className="dnb-date-picker__footer">
@@ -116,7 +123,7 @@ export default class DatePickerFooter extends React.PureComponent {
         <span>
           {(isTrue(show_reset_button) && (
             <Button
-              text={reset_button_text}
+              text={resetButtonText || reset_button_text_translation}
               icon="reset"
               icon_position="left"
               variant="tertiary"

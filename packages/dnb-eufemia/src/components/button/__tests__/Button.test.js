@@ -176,6 +176,11 @@ describe('Button component', () => {
     expect(Comp.find('.dnb-button--tertiary').exists()).toBe(true)
   })
 
+  it('has variant unstyled', () => {
+    const Comp = mount(<Component text="Button" variant="unstyled" />)
+    expect(Comp.find('.dnb-button--unstyled').exists()).toBe(true)
+  })
+
   it('will replace icon with icon component', () => {
     const Comp = mount(
       <Component

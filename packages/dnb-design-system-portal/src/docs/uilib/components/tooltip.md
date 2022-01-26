@@ -1,7 +1,6 @@
 ---
 title: 'Tooltip'
-status: 'new'
-order: 20
+order: 21
 showTabs: true
 hideTabs:
   - title: Events

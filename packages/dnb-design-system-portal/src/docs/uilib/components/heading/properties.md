@@ -6,7 +6,7 @@ showTabs: true
 
 | Properties                                  | Description                                                                                                                                                             |
 | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `text` or `children`                        | _(mandatory)_ a heading, can be text or React.Node.                                                                                                            |
+| `text` or `children`                        | _(required)_ a heading, can be text or React.Node.                                                                                                            |
 | `size`                                      | _(optional)_ Define the typography [font-size](/uilib/typography/font-size) by a size _type_, e.g. `x-large`. Defaults to the predefined heading sizes.                 |
 | `increase`                                  | _(optional)_ If set to true, the heading level will be incremented by 1.                                                                                                |
 | `decrease`                                  | _(optional)_ If set to true, the heading level will be decremented by 1.                                                                                                |

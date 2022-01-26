@@ -519,6 +519,7 @@ export default class DatePicker extends React.PureComponent {
       mask_order,
       mask_placeholder,
       align_picker,
+      reset_button_text,
 
       hide_navigation: _hide_navigation, // eslint-disable-line
       return_format: _return_format, // eslint-disable-line
@@ -710,6 +711,7 @@ export default class DatePicker extends React.PureComponent {
                         onSubmit={this.onSubmitHandler}
                         onCancel={this.onCancelHandler}
                         onReset={this.onResetHandler}
+                        resetButtonText={reset_button_text}
                       />
                     </>
                   )}

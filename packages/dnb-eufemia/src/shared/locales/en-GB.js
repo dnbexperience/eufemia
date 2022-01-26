@@ -1,5 +1,10 @@
 export default {
   'en-GB': {
+    TimelineItem: {
+      alt_label_completed: 'Complete',
+      alt_label_current: 'Current',
+      alt_label_upcoming: 'Upcoming',
+    },
     Breadcrumb: {
       navText: 'Page hierarchy',
       goBackText: 'Back',
@@ -39,14 +44,12 @@ export default {
     GlobalError: {
       404: {
         title: "Oops! We can't find the page you're looking for …",
-        text:
-          'Did we messed with the links? Try again, or [go back where you came from](/back).',
+        text: 'Did we messed with the links? Try again, or [go back where you came from](/back).',
         alt: 'Lady searching in empty box',
       },
       500: {
         title: 'Ohh, a technical error happened!',
-        text:
-          'The service is not working properly at the moment, but try again later.',
+        text: 'The service is not working properly at the moment, but try again later.',
         alt: 'Man looking for clues',
       },
     },

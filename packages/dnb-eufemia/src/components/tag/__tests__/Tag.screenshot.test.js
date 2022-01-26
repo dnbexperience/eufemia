@@ -3,7 +3,7 @@
  * This file will not run on "test:staged" because we don't require any related files
  */
 
-import {
+ import {
   testPageScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
@@ -17,17 +17,32 @@ describe('Tag screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  it('have to match Tag with primary icon', async () => {
+
+  it('have to match Tag with icon', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="tag-icon"] .dnb-tag',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match Tag with secondary icon', async () => {
+  it('have to match a clickable Tag', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="tag-secondary-icon"] .dnb-tag',
+      selector: '[data-visual-test="tag-clickable"] .dnb-tag',
     })
-    expect(screenshot).toMatchImageSnapshot()
+
+      expect(screenshot).toMatchImageSnapshot()
+    })
   })
+it('have to match a removable Tag', async () => {
+  const screenshot = await testPageScreenshot({
+    selector: '[data-visual-test="tag-removable"] .dnb-tag',
+  })
+  expect(screenshot).toMatchImageSnapshot()
+})
+
+it('have to match a removable Tag list', async () => {
+  const screenshot = await testPageScreenshot({
+    selector: '[data-visual-test="tag-removable-list"] .dnb-tag',
+  })
+  expect(screenshot).toMatchImageSnapshot()
 })

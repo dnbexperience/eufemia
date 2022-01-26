@@ -88,7 +88,7 @@ export default function BreadcrumbItem(localProps: BreadcrumbItemProps) {
     <li
       className="dnb-breadcrumb__item"
       data-testid="breadcrumb-item"
-      aria-current={variant === 'current' ? true : undefined}
+      aria-current={variant === 'current' ? 'page' : undefined}
     >
       {isInteractive ? (
         <Button
@@ -103,7 +103,7 @@ export default function BreadcrumbItem(localProps: BreadcrumbItemProps) {
           {...props}
         />
       ) : (
-        <span className="dnb-breadcrumb__item__span">
+        <span className="dnb-breadcrumb__item__span" {...props}>
           <IconPrimary
             icon={currentIcon}
             className="dnb-breadcrumb__item__span__icon"

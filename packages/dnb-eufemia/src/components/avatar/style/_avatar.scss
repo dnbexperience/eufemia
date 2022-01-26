@@ -1,0 +1,145 @@
+/*
+* Avatar component
+*
+*/
+
+:root {
+  --avatar-font-size--small: var(--font-size-x-small);
+  --avatar-font-size--medium: var(--font-size-basis);
+  --avatar-font-size--large: var(--font-size-x-large);
+  --avatar-font-size--x-large: var(--font-size-x-large);
+  --avatar-line-height--small: var(--line-height-x-small);
+  --avatar-line-height--medium: var(--line-height-basis);
+  --avatar-line-height--large: var(--line-height-large);
+  --avatar-line-height--x-large: var(--line-height-large);
+  --avatar-width--small: 1.5rem;
+  --avatar-height--small: 1.5rem;
+  --avatar-width--medium: 2rem;
+  --avatar-height--medium: 2rem;
+  --avatar-width--large: 4rem;
+  --avatar-height--large: 4rem;
+  --avatar-width--x-large: 5rem;
+  --avatar-height--x-large: 5rem;
+}
+
+.dnb-avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+  overflow: hidden;
+  user-select: none;
+
+  border-radius: 50%;
+  font-weight: var(--font-weight-medium);
+
+  // Safari needs a correct CSS specificity
+  &,
+  .dnb-core-style & {
+    line-height: var(--button-height);
+  }
+
+  &--size-small {
+    width: var(--avatar-width--small);
+    height: var(--avatar-height--small);
+    font-size: var(--avatar-font-size--small);
+    // Safari needs a correct CSS specificity
+    &,
+    .dnb-core-style & {
+      line-height: var(--avatar-line-height--small);
+    }
+  }
+
+  &--size-medium {
+    width: var(--avatar-width--medium);
+    height: var(--avatar-height--medium);
+    font-size: var(--avatar-font-size--medium);
+    // Safari needs a correct CSS specificity
+    &,
+    .dnb-core-style & {
+      line-height: var(--avatar-line-height--medium);
+    }
+  }
+
+  &--size-large {
+    width: var(--avatar-width--large);
+    height: var(--avatar-height--large);
+    font-size: var(--avatar-font-size--large);
+    // Safari needs a correct CSS specificity
+    &,
+    .dnb-core-style & {
+      line-height: var(--avatar-line-height--large);
+    }
+  }
+
+  &--size-x-large {
+    width: var(--avatar-width--x-large);
+    height: var(--avatar-height--x-large);
+    font-size: var(--avatar-font-size--x-large);
+    // Safari needs a correct CSS specificity
+    &,
+    .dnb-core-style & {
+      line-height: var(--avatar-line-height--x-large);
+    }
+  }
+
+  &__group {
+    display: inline-flex;
+    justify-content: flex;
+    flex-direction: row;
+
+    .dnb-avatar {
+      box-sizing: content-box;
+      border: 0.125rem solid var(--color-black-3);
+
+      &--size-small {
+        margin-left: -0.5rem;
+      }
+
+      &--size-medium {
+        margin-left: -0.75rem;
+      }
+
+      &--size-large {
+        margin-left: -1rem;
+      }
+
+      &--size-x-large {
+        margin-left: -1.5rem;
+      }
+
+      &:nth-of-type(2) {
+        margin-left: 0;
+      }
+    }
+
+    &--elements-left {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-black-55);
+
+      &--size-small {
+        font-size: var(--font-size-x-small);
+        margin-left: 0.125rem;
+      }
+
+      &--size-medium {
+        font-size: var(--font-size-small);
+        margin-left: 0.125rem;
+      }
+
+      &--size-large {
+        font-size: var(--font-size-large);
+        margin-left: var(--spacing-xx-small);
+      }
+
+      &--size-x-large {
+        font-size: var(--font-size-large);
+        margin-left: var(--spacing-xx-small);
+      }
+    }
+  }
+}

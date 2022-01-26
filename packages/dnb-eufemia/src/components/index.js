@@ -12,6 +12,7 @@
 // import all the available components
 import Accordion from './accordion/Accordion'
 import Autocomplete from './autocomplete/Autocomplete'
+import Avatar from './avatar/Avatar'
 import Breadcrumb from './breadcrumb/Breadcrumb'
 import Button from './button/Button'
 import Checkbox from './checkbox/Checkbox'
@@ -27,6 +28,7 @@ import Heading from './heading/Heading'
 import HelpButton from './help-button/HelpButton'
 import Icon from './icon/Icon'
 import IconPrimary from './icon-primary/IconPrimary'
+import InfoCard from './info-card/InfoCard'
 import Input from './input/Input'
 import InputMasked from './input-masked/InputMasked'
 import Logo from './logo/Logo'
@@ -44,6 +46,7 @@ import Switch from './switch/Switch'
 import Tabs from './tabs/Tabs'
 import Tag from './tag/Tag'
 import Textarea from './textarea/Textarea'
+import Timeline from './timeline/Timeline'
 import ToggleButton from './toggle-button/ToggleButton'
 import Tooltip from './tooltip/Tooltip'
 
@@ -51,6 +54,7 @@ import Tooltip from './tooltip/Tooltip'
 export {
   Accordion,
   Autocomplete,
+  Avatar,
   Breadcrumb,
   Button,
   Checkbox,
@@ -66,6 +70,7 @@ export {
   HelpButton,
   Icon,
   IconPrimary,
+  InfoCard,
   Input,
   InputMasked,
   Logo,
@@ -83,6 +88,7 @@ export {
   Tabs,
   Tag,
   Textarea,
+  Timeline,
   ToggleButton,
   Tooltip,
 }
