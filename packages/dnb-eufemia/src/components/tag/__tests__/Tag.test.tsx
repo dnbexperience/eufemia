@@ -23,27 +23,6 @@ describe('Tag Group', () => {
     expect(screen.queryByTestId('tag-group-label').textContent).toBe(label)
   })
 
-  it('renders a tag group with multiple tag items by data prop', () => {
-    render(
-      <Tag.Group
-        label="tags"
-        data={[
-          {
-            text: 'Cat',
-          },
-          {
-            text: 'Horse',
-          },
-          {
-            text: 'Dog',
-          },
-        ]}
-      />
-    )
-
-    expect(screen.queryAllByTestId('tag')).toHaveLength(3)
-  })
-
   it('renders a tag group with multiple tag elements by children', () => {
     render(
       <Tag.Group label="animals">

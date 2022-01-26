@@ -6,7 +6,6 @@ import {
 TagDefault,
 TagWithIcon,
 TagClickable,
-TagGroupWithData,
 TagRemovable,
 TagMultipleRemovable,
 } from 'Docs/uilib/components/tag/Examples'
@@ -24,10 +23,6 @@ See more examples below.
 #### Tag with icon
 
 <TagWithIcon />
-
-#### Tag group with data
-
-<TagGroupWithData />
 
 #### Clickable Tag
 

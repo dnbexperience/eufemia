@@ -8,20 +8,12 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
 import { extendPropsWithContext } from '../../shared/component-helper'
-import Tag, { TagProps } from './Tag'
-
 export interface TagGroupProps {
   /**
    * Aria label to describe the tag group
    * Default: null
    */
   label: string
-
-  /**
-   * Pass in a list of Tag objects.
-   * Default: null
-   */
-  data?: TagProps[]
 
   /**
    * Custom className on the component root
@@ -52,7 +44,6 @@ function TagGroup(localProps: TagGroupProps & ISpacingProps) {
     label,
     className,
     children: childrenProp,
-    data,
     ...props
   } = extendPropsWithContext(
     { ...defaultProps, ...localProps },
@@ -80,9 +71,6 @@ function TagGroup(localProps: TagGroupProps & ISpacingProps) {
         <span data-testid="tag-group-label" className="dnb-sr-only">
           {label}
         </span>
-        {data?.map((tag) => (
-          <Tag key={`${tag.text}`} {...tag} />
-        ))}
         {children}
       </div>
     </TagGroupContext.Provider>

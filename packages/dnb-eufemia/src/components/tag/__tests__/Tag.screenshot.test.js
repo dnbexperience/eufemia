@@ -3,7 +3,7 @@
  * This file will not run on "test:staged" because we don't require any related files
  */
 
-import {
+ import {
   testPageScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
@@ -33,14 +33,6 @@ describe('Tag screenshot', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
   })
-
-  it('have to match Tag group with data', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="tag-group-with-data"] .dnb-tag',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-})
-
 it('have to match a removable Tag', async () => {
   const screenshot = await testPageScreenshot({
     selector: '[data-visual-test="tag-removable"] .dnb-tag',
