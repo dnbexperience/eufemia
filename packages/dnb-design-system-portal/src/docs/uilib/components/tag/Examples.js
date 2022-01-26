@@ -29,9 +29,9 @@ export const TagWithIcon = () => (
   >
     {() => /* jsx */ `
 <Tag.Group label="Betalingstyper:">
-  <Tag icon={AInvoice} text="AvtaleGiro" right="x-small"/>
-  <Tag icon={EInvoice} text="eFaktura" right="x-small"/>
-  <Tag icon={DigiPost} text="DigiPost" right="x-small"/>
+  <Tag icon={AInvoice} text="AvtaleGiro" right="x-small" />
+  <Tag icon={EInvoice} text="eFaktura" right="x-small" />
+  <Tag icon={DigiPost} text="DigiPost" right="x-small" />
 </Tag.Group>
 `}
   </ComponentBox>
@@ -46,12 +46,25 @@ export const TagClickable = () => (
 )
 
 export const TagRemovable = () => (
-  <ComponentBox
-    data-visual-test="tag-removable">
+  <ComponentBox data-visual-test="tag-removable">
     {() => /* jsx */ `
 <Tag.Group label="Files:">
   <Tag text='Eufemia.tsx' onDelete={() => { console.log("I was deleted!")}}/>
 </Tag.Group>
+`}
+  </ComponentBox>
+)
+
+export const TagInline = () => (
+  <ComponentBox data-visual-test="tag-inline">
+    {() => /* jsx */ `
+Text
+<Tag.Group label="Betalingstyper:">
+  <Tag text="First" /> between 
+  <Tag text="Second" />
+  <Tag text="Third" />
+</Tag.Group>
+Text
 `}
   </ComponentBox>
 )
@@ -90,6 +103,6 @@ const Genres = () => {
   )
 }
 render(<Genres />)
-	`}
+`}
   </ComponentBox>
 )

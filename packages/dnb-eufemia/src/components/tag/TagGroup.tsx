@@ -63,7 +63,7 @@ function TagGroup(localProps: TagGroupProps & ISpacingProps) {
 
   return (
     <TagGroupContext.Provider value={props}>
-      <div
+      <span
         className={classnames('dnb-tag__group', spacingClasses, className)}
         data-testid="tag-group"
         {...props}
@@ -72,7 +72,7 @@ function TagGroup(localProps: TagGroupProps & ISpacingProps) {
           {label}
         </span>
         {children}
-      </div>
+      </span>
     </TagGroupContext.Provider>
   )
 }
