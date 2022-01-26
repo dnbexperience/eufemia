@@ -57,6 +57,7 @@
     &.dnb-button {
       color: var(--color-white);
       background-color: var(--color-sea-green);
+      @include deleteIcon(var(--color-white), var(--color-sea-green));
 
       @include buttonFocus(var(--color-sea-green), var(--color-white)) {
         @include deleteIcon();
