@@ -1,0 +1,20 @@
+/*
+* VisuallyHidden component
+*
+*/
+
+.dnb-visually-hidden {
+  &--default {
+    @include srOnly();
+
+    &:not(:focus):not(:active) {
+      @include srOnly();
+    }
+  }
+
+  &--focusable {
+    &:not(:focus):not(:focus-within) {
+      @include srOnly();
+    }
+  }
+}
