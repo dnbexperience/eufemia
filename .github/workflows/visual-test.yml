@@ -14,10 +14,6 @@ on:
       - '!eufemia-icons'
       - '!beta'
       - '!alpha'
-    paths:
-      - 'packages/dnb-eufemia/src/**/*'
-      - 'packages/dnb-eufemia/src/**/*screenshot*'
-      - 'packages/dnb-design-system-portal/src/**/{Examples,demos}*'
 
 jobs:
   action:
