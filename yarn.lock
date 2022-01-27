@@ -2098,7 +2098,6 @@ __metadata:
     browserslist: 4.18.0
     camelcase: 6.2.0
     chalk: 4.1.2
-    ci-info: 3.2.0
     classnames: 2.3.1
     color: 4.0.1
     core-js: 3.19.1
@@ -9862,7 +9861,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ci-info@npm:3.2.0, ci-info@npm:^3.2.0":
+"ci-info@npm:^3.2.0":
   version: 3.2.0
   resolution: "ci-info@npm:3.2.0"
   checksum: c68995a94e95ce3f233ff845e62dfc56f2e8ff1e3f5c1361bcdd520cbbc9726d8a54cbc1a685cb9ee19c3c5e71a1dade6dda23eb364b59b8e6c32508a9b761bc
@@ -12337,7 +12336,6 @@ __metadata:
     algoliasearch: 4.12.0
     babel-preset-gatsby: 2.1.0
     camelcase: 6.2.0
-    ci-info: 3.2.0
     classnames: 2.3.1
     cross-env: 7.0.3
     css-vars-ponyfill: 2.4.7
@@ -28716,6 +28714,12 @@ __metadata:
   checksum: a330e7c4fda2ba7978472dcaf9ee9129755ca0d704f903b4fc5f0384170f74fdaf1b3f10977ec3fc910cb992f90896c17c8e44d0de327cb9f01ee9bb7eed8d24
   languageName: node
   linkType: hard
+
+"repo-utils@workspace:tools/repo-utils":
+  version: 0.0.0-use.local
+  resolution: "repo-utils@workspace:tools/repo-utils"
+  languageName: unknown
+  linkType: soft
 
 "request@npm:^2.87.0, request@npm:^2.88.0, request@npm:^2.88.2":
   version: 2.88.2

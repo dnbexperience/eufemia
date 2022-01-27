@@ -4,7 +4,7 @@
  */
 
 // require('dotenv').config()
-const { isCI } = require('ci-info')
+const { isCI } = require('repo-utils')
 
 /**
  * @type {Cypress.PluginConfig}
