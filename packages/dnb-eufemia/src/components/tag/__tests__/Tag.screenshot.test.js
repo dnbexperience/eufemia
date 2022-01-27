@@ -3,7 +3,7 @@
  * This file will not run on "test:staged" because we don't require any related files
  */
 
- import {
+import {
   testPageScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
@@ -30,19 +30,27 @@ describe('Tag screenshot', () => {
       selector: '[data-visual-test="tag-clickable"] .dnb-tag',
     })
 
-      expect(screenshot).toMatchImageSnapshot()
-    })
+    expect(screenshot).toMatchImageSnapshot()
   })
-it('have to match a removable Tag', async () => {
-  const screenshot = await testPageScreenshot({
-    selector: '[data-visual-test="tag-removable"] .dnb-tag',
-  })
-  expect(screenshot).toMatchImageSnapshot()
-})
 
-it('have to match a removable Tag list', async () => {
-  const screenshot = await testPageScreenshot({
-    selector: '[data-visual-test="tag-removable-list"] .dnb-tag',
+  it('have to match a removable Tag', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="tag-removable"] .dnb-tag',
+    })
+    expect(screenshot).toMatchImageSnapshot()
   })
-  expect(screenshot).toMatchImageSnapshot()
+
+  it('have to match a removable Tag list', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="tag-removable-list"] .dnb-tag',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match a inline Tag', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="tag-inline"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

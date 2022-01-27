@@ -8,6 +8,7 @@ TagWithIcon,
 TagClickable,
 TagRemovable,
 TagMultipleRemovable,
+TagInline,
 } from 'Docs/uilib/components/tag/Examples'
 
 ## Demos
@@ -40,3 +41,7 @@ Removable tags will not support the `icon`-prop and will also be ignored if a `o
 Removable tags can for example be used in filter lists. This example simple example on how to implement a filter list using removable `Tags`.<br/> When a `Tag` is focused (e.g. when tabbing) releasing `Backspace` or `Delete` (`keyup` event) will call the `onDelete`-handler. This behavior can be omitted by setting the `omitOnKeyUpDeleteEvent`-prop to `true`.
 
 <TagMultipleRemovable />
+
+#### Tag used inside text
+
+<TagInline />
