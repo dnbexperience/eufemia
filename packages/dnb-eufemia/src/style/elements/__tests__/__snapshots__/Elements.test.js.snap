@@ -1256,8 +1256,6 @@ thead > tr > th.dnb-table--active .dnb-button:hover:focus .dnb-button__text::aft
   margin: -0.25em 0;
   padding: 0.25em 0.25em;
   /* 2px 4px */
-  overflow: auto;
-  transform: translateY(0.1875rem);
   font-size: inherit;
   text-decoration: inherit;
   line-height: var(--line-height-xx-small--em);
@@ -1269,6 +1267,7 @@ thead > tr > th.dnb-table--active .dnb-button:hover:focus .dnb-button__text::aft
 
 .dnb-pre {
   display: block;
+  overflow: auto;
   padding: 1rem;
   border-radius: 0.5rem;
   color: var(--color-mint-green-12);

@@ -8,9 +8,6 @@
   margin: -0.25em 0;
   padding: 0.25em 0.25em; /* 2px 4px */
 
-  overflow: auto; // adding auto to overflow, moves the element 3px up
-  transform: translateY(0.1875rem); // therefore we correct it back again
-
   font-size: inherit;
   text-decoration: inherit;
   line-height: var(--line-height-xx-small--em); // 1.5rem - 0.25em - 0.25em
@@ -27,6 +24,7 @@
 }
 @mixin preStyle() {
   display: block;
+  overflow: auto;
 
   &:not([class*='dnb-space']) {
     margin: 0;
