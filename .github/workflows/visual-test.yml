@@ -14,10 +14,6 @@ on:
       - '!eufemia-icons'
       - '!beta'
       - '!alpha'
-    paths:
-      - 'packages/dnb-eufemia/src/**/*'
-      - 'packages/dnb-eufemia/src/**/*screenshot*'
-      - 'packages/dnb-design-system-portal/src/**/{Examples,demos}*'
 
 jobs:
   action:
@@ -49,16 +45,16 @@ jobs:
         with:
           node-version: 14.17.0
 
-      - name: Use node_modules cache
+      - name: Use yarn cache
         uses: actions/cache@v2
-        id: modules-cache
+        id: yarn-cache
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-modules-
+          path: ./.yarn/cache
+          key: ${{ runner.os }}-deps-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-deps-
 
       - name: Install dependencies
-        if: steps.modules-cache.outputs.cache-hit != 'true'
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install --immutable
 
       - name: Get current date
