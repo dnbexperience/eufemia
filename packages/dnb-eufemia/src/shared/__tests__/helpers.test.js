@@ -20,6 +20,7 @@ import {
   isWin,
   isMac,
   isLinux,
+  warn,
 } from '../helpers'
 
 import { mockGetSelection } from '../../core/jest/jestSetup'
@@ -184,5 +185,62 @@ describe('"debounce" should', () => {
     setTimeout(() => {
       done()
     }, 2)
+  })
+})
+
+describe('"warn" should', () => {
+  const log = global.console.log
+
+  beforeEach(() => {
+    global.console.log = jest.fn()
+  })
+
+  afterEach(() => {
+    global.console.log = log
+
+    jest.resetAllMocks()
+  })
+
+  it('run console.log with several messages', () => {
+    warn('message-1', 'message-2')
+
+    expect(global.console.log).toHaveBeenCalledTimes(1)
+    expect(global.console.log).toHaveBeenCalledWith(
+      '%cEufemia',
+      'padding: 0.125rem 0.5rem 0;font-weight: bold;color: #00343E;background: #A5E1D2',
+      'message-1',
+      'message-2'
+    )
+  })
+
+  it('run not log if NODE_ENV is production', () => {
+    const env = process.env.NODE_ENV
+    process.env.NODE_ENV = 'production'
+
+    warn('message-1', 'message-2')
+
+    expect(global.console.log).toHaveBeenCalledTimes(0)
+
+    process.env.NODE_ENV = env
+  })
+
+  it('run not use styles when not in browser', () => {
+    const windowSpy = jest.spyOn(window, 'window', 'get')
+    windowSpy.mockImplementation(() => undefined)
+
+    warn('message-1', 'message-2')
+
+    expect(global.console.log).toHaveBeenCalledTimes(1)
+  })
+
+  it('run not log if NODE_ENV is production', () => {
+    const env = process.env.NODE_ENV
+    process.env.NODE_ENV = 'production'
+
+    warn('message-1', 'message-2')
+
+    expect(global.console.log).toHaveBeenCalledTimes(0)
+
+    process.env.NODE_ENV = env
   })
 })

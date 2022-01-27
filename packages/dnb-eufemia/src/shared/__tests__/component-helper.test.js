@@ -7,7 +7,6 @@ import React from 'react'
 import { mount } from '../../core/jest/jestSetup'
 import { registerElement } from '../custom-element'
 import {
-  warn,
   isTrue,
   extend,
   extendPropsWithContext,
@@ -770,25 +769,6 @@ describe('"matchAll" should', () => {
         expect.arrayContaining(['var(--color-two)', '--color-two']),
       ])
     )
-  })
-})
-
-describe('"warn" should', () => {
-  const text = 'warning text'
-
-  it('print a console.log', () => {
-    process.env.NODE_ENV = 'development'
-    global.console.log = jest.fn()
-    warn(text)
-    expect(global.console.log).toBeCalled()
-    expect(global.console.log).toHaveBeenCalledWith('Eufemia:', text)
-  })
-
-  it('not print a console.log in production', () => {
-    process.env.NODE_ENV = 'production'
-    global.console.log = jest.fn()
-    warn(text)
-    expect(global.console.log).not.toBeCalled()
   })
 })
 
