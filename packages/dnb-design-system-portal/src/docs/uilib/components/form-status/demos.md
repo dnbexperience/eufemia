@@ -9,6 +9,7 @@ FormStatusDefault,
 FormStatusWithInfo,
 FormStatusWithStretch,
 FormStatusWithWarn,
+FormStatusWithMarketing,
 FormStatusInput,
 FormStatusAnimation,
 FormStatusCustom,
@@ -35,6 +36,10 @@ NB: The inner text gets a max-width of 47rem to ensure we do not exceed 70 chara
 ### FormStatus displaying warn status
 
 <FormStatusWithWarn />
+
+### FormStatus displaying marketing status
+
+<FormStatusWithMarketing />
 
 ### A FormStatus, used by the Input Component
 

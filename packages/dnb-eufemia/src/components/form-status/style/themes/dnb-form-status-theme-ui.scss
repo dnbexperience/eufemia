@@ -25,6 +25,10 @@
     background-color: var(--color-pistachio);
   }
 
+  &--marketing &__shell {
+    background-color: var(--color-lavender);
+  }
+
   &:not(#{&}--attention-focus)#{&}__text {
     color: var(--color-black-80);
   }
@@ -37,6 +41,9 @@
   }
   &__variant--outlined#{&}--info &__shell {
     @include fakeBorder(var(--color-sea-green));
+  }
+  &__variant--outlined#{&}--marketing &__shell {
+    @include fakeBorder(var(--color-black-55));
   }
 
   &--error#{&}--attention-focus &__shell,

@@ -75,7 +75,7 @@ describe('FormStatus component', () => {
     ).toBe('custom-id-status')
   })
 
-  it('should be modifyable with status_prop', () => {
+  it('should be modifiable with status_prop', () => {
     const Comp = mount(
       <Input
         status="status"

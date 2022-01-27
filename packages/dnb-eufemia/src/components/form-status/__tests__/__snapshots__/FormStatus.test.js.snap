@@ -56,6 +56,14 @@ exports[`FormStatus component have to match snapshot 1`] = `
       },
     }
   }
+  4={
+    Object {
+      "displayName": "MarketingIcon",
+      "props": Object {
+        "title": "title",
+      },
+    }
+  }
   attributes={null}
   class={null}
   className={null}
@@ -183,6 +191,9 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
 .dnb-form-status--info .dnb-form-status__shell {
   background-color: var(--color-pistachio); }
 
+.dnb-form-status--marketing .dnb-form-status__shell {
+  background-color: var(--color-lavender); }
+
 .dnb-form-status:not(.dnb-form-status--attention-focus).dnb-form-status__text {
   color: var(--color-black-80); }
 
@@ -209,6 +220,14 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
   @media screen and (-ms-high-contrast: none) {
     .dnb-form-status__variant--outlined.dnb-form-status--info .dnb-form-status__shell {
       box-shadow: 0 0 0 0.0625rem var(--color-sea-green); } }
+
+.dnb-form-status__variant--outlined.dnb-form-status--marketing .dnb-form-status__shell {
+  --border-color: var(--color-black-55);
+  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  border-color: transparent; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__variant--outlined.dnb-form-status--marketing .dnb-form-status__shell {
+      box-shadow: 0 0 0 0.0625rem var(--color-black-55); } }
 
 .dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell,
 .dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell {
