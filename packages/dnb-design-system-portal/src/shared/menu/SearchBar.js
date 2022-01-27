@@ -11,15 +11,9 @@ import { Autocomplete } from '@dnb/eufemia/src/components'
 import { Anchor } from '@dnb/eufemia/src/elements'
 import { Link, navigate } from 'gatsby'
 import { scrollToAnimation } from '../parts/Layout'
-import { isCI } from 'ci-info'
+import { getIndexName } from '../../uilib/search/searchHelpers'
 
-const indexName =
-  isCI && process.env.NODE_ENV === 'production'
-    ? process.env.CURRENT_BRANCH !== 'release'
-      ? 'beta_eufemia_docs'
-      : 'prod_eufemia_docs'
-    : 'dev_eufemia_docs'
-
+const indexName = getIndexName()
 const algoliaApplicationID = 'SLD6KEYMQ9'
 const algoliaAPIKey = '6cf238b7456ffd9f7a400d8de37318a3'
 
