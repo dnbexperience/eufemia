@@ -8,7 +8,7 @@ import { AvatarSizes, AvatarVariants } from './Avatar'
 // Shared
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { usePropsWithContext } from '../../shared/hooks'
 
 export interface AvatarGroupProps {
   /**
@@ -71,11 +71,7 @@ function AvatarGroup(localProps: AvatarGroupProps & ISpacingProps) {
     maxElements: maxElementsProp,
     variant,
     ...props
-  } = extendPropsWithContext(
-    { ...defaultProps, ...localProps },
-    defaultProps,
-    context?.AvatarGroup
-  )
+  } = usePropsWithContext(localProps, defaultProps, context?.AvatarGroup)
 
   const maxElements =
     maxElementsProp && maxElementsProp > 0 ? maxElementsProp : 4

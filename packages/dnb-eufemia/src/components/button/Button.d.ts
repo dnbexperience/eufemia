@@ -4,7 +4,8 @@ export type ButtonVariant =
   | 'primary'
   | 'secondary'
   | 'tertiary'
-  | 'signal';
+  | 'signal'
+  | 'unstyled';
 export type ButtonSize = 'default' | 'small' | 'medium' | 'large';
 export type ButtonIcon =
   | string

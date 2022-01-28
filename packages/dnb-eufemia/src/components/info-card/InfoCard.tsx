@@ -17,7 +17,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
 import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { usePropsWithContext } from '../../shared/hooks'
 
 export interface InfoCardProps {
   /**
@@ -135,7 +135,7 @@ function InfoCard(localProps: InfoCardProps & ISpacingProps) {
     closeButtonAttributes,
     acceptButtonAttributes,
     ...props
-  } = extendPropsWithContext({
+  } = usePropsWithContext({
     ...defaultProps,
     ...localProps,
   })

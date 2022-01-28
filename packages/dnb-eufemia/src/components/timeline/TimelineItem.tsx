@@ -14,7 +14,7 @@ import pinIcon from '../../icons/pin'
 // Shared
 import Context from '../../shared/Context'
 import { SkeletonTypes } from '../../shared/interfaces'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { usePropsWithContext } from '../../shared/hooks'
 
 export interface TimelineItemProps {
   /**
@@ -90,11 +90,7 @@ export default function TimelineItem(localProps: TimelineItemProps) {
     state,
     skeleton,
     ...props
-  } = extendPropsWithContext(
-    { ...defaultProps, ...localProps },
-    defaultProps,
-    context?.TimelineItem
-  )
+  } = usePropsWithContext(localProps, defaultProps, context?.TimelineItem)
 
   const stateIsCompleted = state === 'completed'
   const stateIsCurrent = state === 'current'

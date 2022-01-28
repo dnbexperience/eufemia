@@ -11,7 +11,7 @@ import Button from '../button/Button'
 import { useMediaQuery } from '../../shared'
 import Context from '../../shared/Context'
 import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { usePropsWithContext } from '../../shared/hooks'
 
 // Internal
 import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem'
@@ -149,8 +149,8 @@ function Breadcrumb(localProps: BreadcrumbProps & ISpacingProps) {
     data,
     href,
     ...props
-  } = extendPropsWithContext(
-    { ...defaultProps, ...localProps },
+  } = usePropsWithContext(
+    localProps,
     defaultProps,
     context?.translation?.Breadcrumb,
     context?.Breadcrumb

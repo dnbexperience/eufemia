@@ -7,7 +7,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 // Shared
 import Context from '../../shared/Context'
 import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { usePropsWithContext } from '../../shared/hooks'
 
 // Internal
 import TimelineItem, { TimelineItemProps } from './TimelineItem'
@@ -57,11 +57,7 @@ function Timeline(localProps: TimelineProps & ISpacingProps) {
     data,
     children: childrenItems,
     ...props
-  } = extendPropsWithContext(
-    { ...defaultProps, ...localProps },
-    defaultProps,
-    context?.Timeline
-  )
+  } = usePropsWithContext(localProps, defaultProps, context?.Timeline)
 
   const spacingClasses = createSpacingClasses(props)
 

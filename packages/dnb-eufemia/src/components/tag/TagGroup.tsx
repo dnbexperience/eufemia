@@ -7,7 +7,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 // Shared
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { usePropsWithContext } from '../../shared/hooks'
 import { TagGroupContext } from './TagContext'
 
 export interface TagGroupProps {
@@ -45,11 +45,7 @@ function TagGroup(localProps: TagGroupProps & ISpacingProps) {
     className,
     children: childrenProp,
     ...props
-  } = extendPropsWithContext(
-    { ...defaultProps, ...localProps },
-    defaultProps,
-    context?.TagGroup
-  )
+  } = usePropsWithContext(localProps, defaultProps, context?.TagGroup)
 
   let children = childrenProp
 
