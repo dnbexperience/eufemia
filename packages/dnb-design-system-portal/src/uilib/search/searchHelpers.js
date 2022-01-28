@@ -1,4 +1,4 @@
-const { isCI } = require('ci-info')
+const { isCI } = require('repo-utils')
 
 // Finds current index name for the Algolia search
 const getIndexName = (currentBranch) => {

@@ -13,7 +13,7 @@ import { Provider, Context } from '@dnb/eufemia/src/shared'
 import enUS from '@dnb/eufemia/src/shared/locales/en-US'
 import stylisPlugin from '@dnb/eufemia/src/style/stylis'
 import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
-import { isCI } from 'ci-info'
+import { isCI } from 'repo-utils'
 
 /**
  * Import Eufemia Styles
