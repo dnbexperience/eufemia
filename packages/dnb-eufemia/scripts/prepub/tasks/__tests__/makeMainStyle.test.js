@@ -5,7 +5,7 @@
 
 import { loadScss } from '../../../../src/core/jest/jestSetup'
 import { runFactory } from '../makeMainStyle'
-import isCI from 'is-ci'
+import { isCI } from 'repo-utils'
 
 jest.mock('ora', () => {
   return jest.fn(() => ({

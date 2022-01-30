@@ -44,7 +44,7 @@ describe('type definitions', () => {
 })
 
 describe('babel build', () => {
-  it.each(buildStages)('has correctly compiled on stage %s', (stage) => {
+  it.each(buildStages)('has correctly compiled on stage "%s"', (stage) => {
     expect(
       fs.existsSync(
         path.resolve(packpath.self(), `build/${stage}/components/Input.js`)
@@ -143,7 +143,7 @@ describe('babel build', () => {
             expect(content).toContain('export default Breadcrumb;')
             expect(content).toContain('core-js/modules/es')
             expect(content).toContain(
-              'import "core-js/modules/es.object.keys.js";'
+              'import "core-js/modules/es.array.map.js";'
             )
           }
         }

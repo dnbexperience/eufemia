@@ -4,7 +4,7 @@
  */
 
 import { runFactory } from '../makeLibStyles'
-import isCI from 'is-ci'
+import { isCI } from 'repo-utils'
 
 jest.mock('ora', () => {
   return jest.fn(() => ({

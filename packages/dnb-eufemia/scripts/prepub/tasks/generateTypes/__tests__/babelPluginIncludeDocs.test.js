@@ -10,7 +10,7 @@ import { babelPluginPropTypesRelations } from '../babelPluginPropTypesRelations'
 import { fetchPropertiesFromDocs } from '../fetchPropertiesFromDocs'
 import { babelPluginIncludeDocs } from '../babelPluginIncludeDocs'
 import { babelPluginCorrectTypes } from '../babelPluginCorrectTypes'
-import isCI from 'is-ci'
+import { isCI } from 'repo-utils'
 
 jest.setTimeout(isCI ? 30e3 : 10e3)
 
