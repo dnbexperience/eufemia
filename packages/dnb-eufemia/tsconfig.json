@@ -6,12 +6,10 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
-    "declaration": true,
     "types": ["node", "jest"],
-    "sourceMap": true,
     "outDir": "./out",
     "rootDir": ".",
     "baseUrl": "."
   },
-  "exclude": ["node_modules", "build"]
+  "exclude": ["./node_modules", "build"]
 }
