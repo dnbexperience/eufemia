@@ -263,11 +263,11 @@ $focusRingColor: var(--color-emerald-green);
 }
 
 $breakpoints: (
-  'small': 40em,
-  'medium': 50em,
-  'large': 60em,
-  'x-large': 72em,
-  'xx-large': 80em,
+  'small': var(--layout-small),
+  'medium': var(--layout-medium),
+  'large': var(--layout-large),
+  'x-large': var(--layout-x-large),
+  'xx-large': var(--layout-xx-large),
 );
 
 // Example usage:
