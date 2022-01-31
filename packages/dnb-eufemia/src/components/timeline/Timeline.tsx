@@ -6,7 +6,8 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 
 // Shared
 import Context from '../../shared/Context'
-import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
+import { ISpacingProps } from '../../shared/interfaces'
+import { SkeletonShow } from '../skeleton/Skeleton'
 import { usePropsWithContext } from '../../shared/hooks'
 
 // Internal
@@ -25,7 +26,7 @@ export interface TimelineProps {
    * Skeleton should be applied when loading content
    * Default: null
    */
-  skeleton?: SkeletonTypes
+  skeleton?: SkeletonShow
 
   /**
    * Pass in a list of your events as objects of timelineitem, to render them as timelineitems.

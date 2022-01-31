@@ -15,8 +15,9 @@ import { lightbulb_medium as LightbulbIcon } from '../../icons'
 // Shared
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import { SkeletonShow } from '../skeleton/Skeleton'
 import Context from '../../shared/Context'
-import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
+import { ISpacingProps } from '../../shared/interfaces'
 import { usePropsWithContext } from '../../shared/hooks'
 
 export interface InfoCardProps {
@@ -49,7 +50,7 @@ export interface InfoCardProps {
    * Skeleton should be applied when loading content
    * Default: null
    */
-  skeleton?: SkeletonTypes
+  skeleton?: SkeletonShow
   /**
    * Specifies the path to the image
    * Default: null

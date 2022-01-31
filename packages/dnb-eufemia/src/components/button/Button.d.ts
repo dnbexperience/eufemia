@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../skeleton/Skeleton';
 export type ButtonText = string | React.ReactNode;
 export type ButtonVariant =
   | 'primary'
@@ -27,7 +28,7 @@ export type ButtonTo = string | any | ((...args: any[]) => any);
 export type ButtonWrap = string | boolean;
 export type ButtonBounding = string | boolean;
 export type ButtonStretch = string | boolean;
-export type ButtonSkeleton = string | boolean;
+export type ButtonSkeleton = SkeletonShow;
 export type ButtonDisabled = string | boolean;
 export type ButtonChildren =
   | string

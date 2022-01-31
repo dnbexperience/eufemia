@@ -12,7 +12,7 @@ import homeIcon from '../../icons/home'
 
 // Shared
 import Context from '../../shared/Context'
-import { SkeletonTypes } from '../../shared/interfaces'
+import { SkeletonShow } from '../skeleton/Skeleton'
 import { usePropsWithContext } from '../../shared/hooks'
 
 export interface BreadcrumbItemProps {
@@ -50,7 +50,7 @@ export interface BreadcrumbItemProps {
    * Skeleton should be applied when loading content
    * Default: null
    */
-  skeleton?: SkeletonTypes
+  skeleton?: SkeletonShow
 }
 
 const defaultProps = {
