@@ -32,7 +32,7 @@
     "build:pack": "yarn build && yarn publish:prepare && cd ./build && yarn pack",
     "build:prebuild": "babel-node ./scripts/prepub/runPrepub.js",
     "build:resources": "babel-node ./scripts/prepub/resources/makeResourcesPackage.js",
-    "build:types": "babel-node ./scripts/prepub/generateTypes.js && yarn test:types",
+    "build:types": "babel-node ./scripts/prepub/generateTypes.js && yarn test:auto-generated-types",
     "build:types:dev": "nodemon --exec 'babel-node ./scripts/prepub/generateTypes.js' --ext js --watch './src/**/*' --watch './scripts/**/*'",
     "build:umd": "./scripts/release/babel-umd.sh",
     "precommit": "yarn lint-staged",
@@ -70,7 +70,9 @@
     "test:screenshots:update": "jest --config=./jest.config.screenshots.js --updateSnapshot --detectOpenHandles",
     "test:screenshots:watch": "jest --config=./jest.config.screenshots.js --forceExit --detectOpenHandles --watchAll --testPathPattern ",
     "test:staged": "jest --bail --findRelatedTests ",
-    "test:types": "TEST_POST_TYPES=1 jest --ci --rootDir ./scripts/prepub ./postTypeGeneration.test.js",
+    "test:types": "tsc --noEmit",
+    "test:types:watch": "tsc --noEmit --watch",
+    "test:auto-generated-types": "TEST_POST_TYPES=1 jest --ci --rootDir ./scripts/prepub ./postTypeGeneration.test.js",
     "test:update": "jest --updateSnapshot",
     "test:watch": "jest --watchAll --testPathPattern ",
     "prettier:diff": "prettier --list-different '{scripts,src}/**/*.{md,js}'",
@@ -230,6 +232,7 @@
     "svgo": "2.8.0",
     "tar": "6.1.11",
     "traverse": "0.6.6",
+    "typescript": "4.5.5",
     "wait-on": "6.0.0"
   },
   "keywords": [

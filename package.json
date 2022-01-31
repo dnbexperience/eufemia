@@ -25,6 +25,8 @@
     "build:ci": "yarn workspace @dnb/eufemia prebuild:ci && yarn workspace @dnb/eufemia postbuild:ci && yarn workspace @dnb/eufemia publish:prepare",
     "test": "yarn workspace @dnb/eufemia test",
     "test:update": "yarn workspace @dnb/eufemia test:update",
+    "test:types": "yarn workspace @dnb/eufemia test:types",
+    "test:types:watch": "yarn workspace @dnb/eufemia test:types:watch",
     "test:screenshots": "yarn workspace @dnb/eufemia test:screenshots",
     "test:screenshots:update": "yarn workspace @dnb/eufemia test:screenshots:update",
     "prepare": "husky install",
@@ -33,8 +35,7 @@
   },
   "devDependencies": {
     "husky": "7.0.4",
-    "node-gyp": "8.4.0",
-    "typescript": "4.4.4"
+    "node-gyp": "8.4.0"
   },
   "resolutions": {
     "svg2vectordrawable/svgo": "2.3.0",
