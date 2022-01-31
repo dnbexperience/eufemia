@@ -128,7 +128,7 @@ export const defaultProps = {
   spacing: false,
 }
 
-function Breadcrumb(localProps: BreadcrumbProps & ISpacingProps) {
+const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context

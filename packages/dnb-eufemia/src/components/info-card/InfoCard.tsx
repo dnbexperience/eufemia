@@ -114,7 +114,7 @@ export const defaultProps = {
   acceptButtonAttributes: null,
 }
 
-function InfoCard(localProps: InfoCardProps & ISpacingProps) {
+const InfoCard = (localProps: InfoCardProps & ISpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context

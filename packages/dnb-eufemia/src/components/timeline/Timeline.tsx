@@ -47,7 +47,7 @@ export const defaultProps = {
   children: null,
 }
 
-function Timeline(localProps: TimelineProps & ISpacingProps) {
+const Timeline = (localProps: TimelineProps & ISpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context

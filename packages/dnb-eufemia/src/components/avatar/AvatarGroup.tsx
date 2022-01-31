@@ -59,7 +59,7 @@ export const defaultProps = {
 
 export const AvatarGroupContext = React.createContext(null)
 
-function AvatarGroup(localProps: AvatarGroupProps & ISpacingProps) {
+const AvatarGroup = (localProps: AvatarGroupProps & ISpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context

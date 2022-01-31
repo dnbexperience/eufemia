@@ -62,7 +62,7 @@ const defaultProps = {
   skeleton: null,
 }
 
-export default function BreadcrumbItem(localProps: BreadcrumbItemProps) {
+const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   const {
@@ -116,3 +116,5 @@ export default function BreadcrumbItem(localProps: BreadcrumbItemProps) {
     </li>
   )
 }
+
+export default BreadcrumbItem
