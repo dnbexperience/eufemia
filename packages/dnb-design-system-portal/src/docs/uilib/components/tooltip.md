@@ -1,6 +1,5 @@
 ---
 title: 'Tooltip'
-order: 21
 showTabs: true
 hideTabs:
   - title: Events

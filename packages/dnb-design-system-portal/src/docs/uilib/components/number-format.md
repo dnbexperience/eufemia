@@ -2,7 +2,6 @@
 title: 'NumberFormat'
 description: 'A ready to use DNB number formatter'
 # status: 'new'
-order: 12
 showTabs: true
 tabs:
   - title: Info

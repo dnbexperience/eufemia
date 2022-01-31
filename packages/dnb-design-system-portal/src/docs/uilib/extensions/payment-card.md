@@ -1,7 +1,6 @@
 ---
 title: 'PaymentCard'
 description: 'The PaymentCard component is a dynamic defined visual component imitate a physical payment card.'
-order: 10
 showTabs: true
 tabs:
   - title: Info

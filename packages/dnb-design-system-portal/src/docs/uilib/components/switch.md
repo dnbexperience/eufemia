@@ -1,6 +1,5 @@
 ---
 title: 'Switch'
-order: 15
 showTabs: true
 ---
 

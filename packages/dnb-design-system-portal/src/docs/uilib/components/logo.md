@@ -2,7 +2,6 @@
 title: 'Logo'
 description: 'A ready to use DNB logo in SVG format'
 status: null
-order: 10
 showTabs: true
 hideTabs:
   - title: Events

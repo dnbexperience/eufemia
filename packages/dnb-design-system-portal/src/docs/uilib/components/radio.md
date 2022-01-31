@@ -1,7 +1,6 @@
 ---
 title: 'Radio'
 description: 'The Radio component is shown as a circle that is filled (checked) when activated.'
-order: 12
 showTabs: true
 ---
 

@@ -1,7 +1,6 @@
 ---
 title: 'Section'
 description: 'The Section component is a visual helper.'
-order: 12
 showTabs: true
 hideTabs:
   - title: Events

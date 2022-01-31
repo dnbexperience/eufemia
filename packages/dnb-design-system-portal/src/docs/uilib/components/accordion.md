@@ -1,7 +1,6 @@
 ---
 title: 'Accordion'
 description: 'The Accordion component, also known as a ComboBox, completes / suggests values during typing.'
-order: 1
 showTabs: true
 ---
 

@@ -1,7 +1,6 @@
 ---
 title: 'FormRow'
 description: 'The FormRow component is a helper to archive more easily often used DNB form layout setups.'
-order: 3
 showTabs: true
 tabs:
   - title: Info
