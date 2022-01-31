@@ -67,7 +67,7 @@ const defaultProps = {
   skeleton: false,
 }
 
-export default function TimelineItem(localProps: TimelineItemProps) {
+const TimelineItem = (localProps: TimelineItemProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   const {
@@ -191,3 +191,5 @@ export default function TimelineItem(localProps: TimelineItemProps) {
     </div>
   )
 }
+
+export default TimelineItem

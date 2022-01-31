@@ -83,7 +83,7 @@ export const defaultProps = {
   children: null,
 }
 
-function Avatar(localProps: AvatarProps & ISpacingProps) {
+const Avatar = (localProps: AvatarProps & ISpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   const avatarGroupContext = React.useContext(AvatarGroupContext)
