@@ -3,15 +3,13 @@ import classnames from 'classnames'
 
 // Components
 import IconPrimary, { IconPrimaryIcon } from '../icon-primary/IconPrimary'
-import Button from '../button/Button'
+import Button, { ButtonProps } from '../button/Button'
 
 // Shared
 import Context from '../../shared/Context'
 import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
-import {
-  warn,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { warn } from '../../shared/component-helper'
+import { usePropsWithContext } from '../../shared/hooks'
 
 // Internal
 import TagGroup from './TagGroup'
@@ -93,8 +91,8 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
     onDelete,
     omitOnKeyUpDeleteEvent,
     ...props
-  } = extendPropsWithContext(
-    { ...defaultProps, ...localProps },
+  } = usePropsWithContext(
+    localProps,
     defaultProps,
     context?.translation?.Tag,
     context?.Tag,
@@ -125,13 +123,16 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
     }
   }
 
+  const buttonAttr: typeof props & Pick<ButtonProps, 'element' | 'type'> =
+    props
+
   if (!isInteractive) {
-    props.element = 'span'
-    props.type = ''
+    buttonAttr.element = 'span'
+    buttonAttr.type = ''
   }
 
   if (isRemovable) {
-    props.icon = getDeleteIcon()
+    buttonAttr.icon = getDeleteIcon()
   }
 
   if (!tagGroupContext) {
@@ -155,7 +156,7 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
           ? (e) => handleKeyUp(e)
           : undefined
       }
-      {...props}
+      {...buttonAttr}
     />
   )
 

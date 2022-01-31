@@ -103,7 +103,7 @@ And use it as so:
 
 ```tsx
 import { Context } from '../../shared'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { usePropsWithContext } from '../../shared/hooks'
 
 const defaultProps = {
   myString: null, // can be null, as we get our default from the translation file
@@ -112,11 +112,8 @@ const defaultProps = {
 function MyComponent(props: Types) {
   const context = React.useContext(Context)
 
-  const { myString } = extendPropsWithContext(
-    {
-      ...props,
-      ...defaultProps,
-    },
+  const { myString } = usePropsWithContext(
+    props,
     defaultProps,
     context.getTranslation(props).MyComponent // details below 👇
     // ...
@@ -132,7 +129,7 @@ The function `getTranslation` will along with the properties support both `local
 
 ```tsx
 import { Context } from '../../shared'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { usePropsWithContext } from '../../shared/hooks'
 
 const defaultProps = {
   myParam: null,
@@ -141,11 +138,8 @@ const defaultProps = {
 function MyComponent(props: Types) {
   const context = React.useContext(Context)
 
-  const { myParam, ...rest } = extendPropsWithContext(
-    {
-      ...props,
-      ...defaultProps,
-    },
+  const { myParam, ...rest } = usePropsWithContext(
+    props,
     defaultProps,
     context.MyComponent
     // ...
@@ -164,7 +158,7 @@ import { Context } from '../../shared'
 import classnames from 'classnames'
 import {
   validateDOMAttributes,
-  extendPropsWithContext,
+  usePropsWithContext,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes, // In case you need them as PropTypes
@@ -186,11 +180,8 @@ const defaultProps = {
 function MyComponent(props: MyComponentProps) {
   const context = React.useContext(Context)
 
-  const { myParam, className, ...rest } = extendPropsWithContext(
-    {
-      ...props,
-      ...defaultProps,
-    },
+  const { myParam, className, ...rest } = usePropsWithContext(
+    props,
     defaultProps
     // ...
   )
@@ -215,7 +206,7 @@ It depends from case to case on how you would make skeleton support available. T
 
 ```tsx
 import { Context } from '../../shared'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { usePropsWithContext } from '../../shared/hooks'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -228,11 +219,8 @@ const defaultProps = {
 function MyComponent(props: Types) {
   const context = React.useContext(Context)
 
-  const { skeleton, className, ...rest } = extendPropsWithContext(
-    {
-      ...props,
-      ...defaultProps,
-    },
+  const { skeleton, className, ...rest } = usePropsWithContext(
+    props,
     defaultProps,
     { skeleton: context?.skeleton }
     // ...

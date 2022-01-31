@@ -11,10 +11,8 @@ import Img, { ImgProps } from '../../elements/Img'
 // Shared
 import Context from '../../shared/Context'
 import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
-import {
-  extendPropsWithContext,
-  warn,
-} from '../../shared/component-helper'
+import { warn } from '../../shared/component-helper'
+import { usePropsWithContext } from '../../shared/hooks'
 
 // Internal
 import AvatarGroup, { AvatarGroupContext } from './AvatarGroup'
@@ -99,8 +97,8 @@ const Avatar = (localProps: AvatarProps & ISpacingProps) => {
     src,
     imgProps,
     ...props
-  } = extendPropsWithContext(
-    { ...defaultProps, ...localProps },
+  } = usePropsWithContext(
+    localProps,
     defaultProps,
     context?.Avatar,
     avatarGroupContext
