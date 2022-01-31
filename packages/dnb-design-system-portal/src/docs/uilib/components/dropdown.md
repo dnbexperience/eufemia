@@ -1,7 +1,6 @@
 ---
 title: 'Dropdown'
 description: 'The Dropdown component is a custom-made data selection component.'
-order: 2
 showTabs: true
 ---
 
