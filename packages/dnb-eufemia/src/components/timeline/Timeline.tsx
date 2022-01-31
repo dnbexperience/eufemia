@@ -13,8 +13,6 @@ import { usePropsWithContext } from '../../shared/hooks'
 // Internal
 import TimelineItem, { TimelineItemProps } from './TimelineItem'
 
-export * from './TimelineItem'
-
 export interface TimelineProps {
   /**
    * Custom className on the component root
@@ -38,7 +36,9 @@ export interface TimelineProps {
    * The content of the component. Can be used instead of prop "data".
    * Default: null
    */
-  children?: TimelineItemProps[]
+  children?:
+    | React.ReactElement<TimelineItemProps>[]
+    | React.ReactElement<TimelineItemProps>
 }
 
 export const defaultProps = {
