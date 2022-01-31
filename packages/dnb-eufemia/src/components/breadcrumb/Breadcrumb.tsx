@@ -16,8 +16,7 @@ import { usePropsWithContext } from '../../shared/hooks'
 
 // Internal
 import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem'
-
-export * from './BreadcrumbItem'
+import { convertJsxToString } from '../../shared/component-helper'
 
 export interface BreadcrumbProps {
   /**
@@ -198,7 +197,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
 
   return (
     <nav
-      aria-label={navText}
+      aria-label={convertJsxToString(navText)}
       className={classnames(
         'dnb-breadcrumb',
         skeletonClasses,
