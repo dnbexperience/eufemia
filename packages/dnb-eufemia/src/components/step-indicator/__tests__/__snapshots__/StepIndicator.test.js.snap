@@ -2171,7 +2171,6 @@ Array [
                   aria-describedby="unique-id-loose-snapshot-overview"
                   class="dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__trigger__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                   id="unique-id-loose-snapshot"
-                  style="height: auto;"
                   type="button"
                 >
                   <span
@@ -2288,7 +2287,6 @@ Array [
                       aria-describedby="unique-id-loose-snapshot-overview"
                       class="dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__trigger__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                       id="unique-id-loose-snapshot"
-                      style="height: auto;"
                       type="button"
                     >
                       <span
@@ -2402,7 +2400,6 @@ Array [
                           aria-describedby="unique-id-loose-snapshot-overview"
                           class="dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__trigger__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                           id="unique-id-loose-snapshot"
-                          style="height: auto;"
                           type="button"
                         >
                           <span
@@ -4787,7 +4784,6 @@ Array [
                   aria-describedby="unique-id-static-snapshot-overview"
                   class="dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__trigger__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                   id="unique-id-static-snapshot"
-                  style="height: auto;"
                   type="button"
                 >
                   <span
@@ -4904,7 +4900,6 @@ Array [
                       aria-describedby="unique-id-static-snapshot-overview"
                       class="dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__trigger__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                       id="unique-id-static-snapshot"
-                      style="height: auto;"
                       type="button"
                     >
                       <span
@@ -5018,7 +5013,6 @@ Array [
                           aria-describedby="unique-id-static-snapshot-overview"
                           class="dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__trigger__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                           id="unique-id-static-snapshot"
-                          style="height: auto;"
                           type="button"
                         >
                           <span
@@ -7417,7 +7411,6 @@ Array [
                   aria-describedby="unique-id-strict-snapshot-overview"
                   class="dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__trigger__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                   id="unique-id-strict-snapshot"
-                  style="height: auto;"
                   type="button"
                 >
                   <span
@@ -7534,7 +7527,6 @@ Array [
                       aria-describedby="unique-id-strict-snapshot-overview"
                       class="dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__trigger__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                       id="unique-id-strict-snapshot"
-                      style="height: auto;"
                       type="button"
                     >
                       <span
@@ -7648,7 +7640,6 @@ Array [
                           aria-describedby="unique-id-strict-snapshot-overview"
                           class="dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__trigger__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                           id="unique-id-strict-snapshot"
-                          style="height: auto;"
                           type="button"
                         >
                           <span

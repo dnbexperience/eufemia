@@ -51,6 +51,7 @@ export default class StepIndicatorTriggerButton extends React.PureComponent {
 
   componentDidMount() {
     this._heightAnim.setElement(this._buttonRef.current)
+    this._prevStep = this.context.activeStep
   }
 
   componentWillUnmount() {
@@ -61,14 +62,9 @@ export default class StepIndicatorTriggerButton extends React.PureComponent {
     if (this._prevStep !== this.context.activeStep) {
       const toHeight = this._heightAnim.getUnknownHeight()
 
-      // make animation smooth
-      // because we set the height before requestAnimationFrame
-      // also, to ensure smoothness, the parent li wrapper (&__trigger) needs flex column
-      this._heightAnim.adjustFrom(height)
-
       this._heightAnim.adjustTo(height, toHeight)
+      this._prevStep = this.context.activeStep
     }
-    this._prevStep = this.context.activeStep
   }
 
   render() {

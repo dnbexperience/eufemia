@@ -50,6 +50,14 @@ export default class AnimateHeight {
       this.onCloseEnd = null
     }
   }
+  _emitTransitionEnd() {
+    try {
+      const event = new CustomEvent('transitionend')
+      this.elem.dispatchEvent(event)
+    } catch (e) {
+      warn(e)
+    }
+  }
 
   // Public methods
   setElement(elem, container = null) {
@@ -127,24 +135,20 @@ export default class AnimateHeight {
     this.onEndStack.push(fn)
   }
   start(fromHeight, toHeight, { animate = true } = {}) {
-    try {
-      if (window.location.href.includes('data-visual-test')) {
-        animate = false
-      }
-    } catch (e) {
-      //
+    if (window?.location?.href?.includes('data-visual-test')) {
+      animate = false
     }
 
-    if (animate === false || this.opts?.animate === false) {
+    if (
+      fromHeight === toHeight ||
+      animate === false ||
+      this.opts?.animate === false
+    ) {
       this.elem.style.height = `${toHeight}px`
+
       this._callOnStart()
 
-      try {
-        const event = new CustomEvent('transitionend')
-        this.elem.dispatchEvent(event)
-      } catch (e) {
-        warn(e)
-      }
+      this._emitTransitionEnd()
 
       return // stop here
     }
