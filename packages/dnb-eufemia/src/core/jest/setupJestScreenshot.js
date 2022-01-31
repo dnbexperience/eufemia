@@ -6,6 +6,8 @@
 const { setupJestScreenshot } = require('jest-screenshot')
 const { config } = require('./jestSetupScreenshots')
 
+jest.retryTimes(config.retryTimes || 0)
+
 jest.setTimeout(
   config.delayDuringNonheadless > 0 &&
     config.delayDuringNonheadless > config.timeout
