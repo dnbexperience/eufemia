@@ -9,7 +9,7 @@ const path = require('path')
 const { create } = require('tar')
 const chalk = require('chalk')
 const { exec } = require('child_process')
-const isCI = require('is-ci')
+const { isCI } = require('repo-utils')
 import {
   commitToBranch,
   getCurrentBranchName,

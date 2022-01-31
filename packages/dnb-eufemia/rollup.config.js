@@ -11,7 +11,7 @@ import replace from '@rollup/plugin-replace'
 import nodeGlobals from 'rollup-plugin-node-globals'
 import { terser } from 'rollup-plugin-terser'
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
-import isCI from 'is-ci'
+import { isCI } from 'repo-utils'
 import branchName from 'current-git-branch'
 
 const excludes = [

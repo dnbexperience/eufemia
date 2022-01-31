@@ -5,7 +5,7 @@
 
 const fs = require('fs-extra')
 const path = require('path')
-const isCI = require('is-ci')
+const { isCI } = require('repo-utils')
 const os = require('os')
 const { setupJestScreenshot } = require('jest-screenshot')
 const { makeUniqueId } = require('../../shared/component-helper')
