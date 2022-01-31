@@ -318,7 +318,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
             <TableRow className={className}>
               <TableData colSpan="2" {...props} />
             </TableRow>
-          )} // in order to show the injected "indicator" and "load button" in the middle of the orw
+          )} // in order to show the injected "indicator" and "load button" in the middle of the row
           current_page={currentPage}
           page_count={maxPagesCount}
           {...props}
