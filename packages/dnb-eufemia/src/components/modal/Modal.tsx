@@ -25,7 +25,7 @@ import ModalHeader from './components/ModalHeader'
 import ModalHeaderBar from './components/ModalHeaderBar'
 import CloseButton from './components/CloseButton'
 import ModalRoot from './ModalRoot'
-import { ISpacingProps } from 'packages/dnb-eufemia/build/shared/interfaces'
+import { ISpacingProps } from '../../shared/interfaces'
 
 export const ANIMATION_DURATION = 300
 

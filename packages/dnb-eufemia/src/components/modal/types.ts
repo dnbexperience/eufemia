@@ -255,7 +255,7 @@ export interface ModalContentProps {
    */
   overlay_class?: string
 
-  closeModal: (...args: any[]) => any
+  closeModal?: (...args: any[]) => any
 
   /**
    * Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).
