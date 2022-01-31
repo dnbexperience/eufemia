@@ -75,7 +75,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   const { text, href, icon, onClick, variant, skeleton, ...props } =
     usePropsWithContext(localProps, defaultProps, context?.BreadcrumbItem)
 
-  const currentIcon =
+  const currentIcon: IconPrimaryIcon =
     icon || (variant === 'home' && homeIcon) || 'chevron_left'
   const currentText = text || (variant === 'home' && homeText) || ''
   const isInteractive = (href || onClick) && variant !== 'current'
@@ -92,7 +92,6 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
           href={href}
           icon={currentIcon}
           icon_position="left"
-          icon_={currentIcon} // what does this do?
           on_click={onClick}
           text={currentText}
           skeleton={skeleton}

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { SkeletonShow } from '../skeleton/Skeleton';
+import { IconPrimaryIcon } from '../icon-primary/IconPrimary';
 export type ButtonText = string | React.ReactNode;
 export type ButtonVariant =
   | 'primary'
@@ -8,10 +9,7 @@ export type ButtonVariant =
   | 'signal'
   | 'unstyled';
 export type ButtonSize = 'default' | 'small' | 'medium' | 'large';
-export type ButtonIcon =
-  | string
-  | React.ReactNode
-  | ((...args: any[]) => any);
+export type ButtonIcon = IconPrimaryIcon;
 export type ButtonIconPosition = 'left' | 'right' | 'top';
 export type ButtonIconSize = string | number;
 export type ButtonTooltip =
