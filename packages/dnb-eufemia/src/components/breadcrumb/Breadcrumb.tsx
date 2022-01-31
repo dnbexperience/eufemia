@@ -90,7 +90,7 @@ export interface BreadcrumbProps {
    * If variant='collapse', you can override isCollapsed for the collapsed content by updating this value.
    * Default: null
    */
-  isCollapsed?: boolean | string
+  isCollapsed?: boolean
 
   /**
    * Use one of the Section component style types (style_type)
