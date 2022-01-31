@@ -32,7 +32,7 @@ export interface TimelineItemProps {
   /**
    * Text displaying the name of the timeline item.
    */
-  name: React.ReactNode
+  name: React.ReactNode & string
 
   /**
    * Text displaying the date of the timeline item.

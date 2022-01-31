@@ -70,7 +70,11 @@ export type ButtonOnClick = string | ((...args: any[]) => any);
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */
-export interface ButtonProps extends React.HTMLProps<HTMLElement> {
+export interface ButtonProps
+  extends Omit<
+    React.HTMLProps<HTMLElement>,
+    'disabled' | 'size' | 'title' | 'wrap'
+  > {
   /**
    * The content of the button can be a string or a React Element.
    */

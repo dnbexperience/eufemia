@@ -25,7 +25,8 @@ export type PSize =
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */
-export interface PProps extends React.HTMLProps<HTMLElement> {
+export interface PProps
+  extends Omit<React.HTMLProps<HTMLElement>, 'size'> {
   space?: PSpace;
   top?: PTop;
   right?: PRight;

@@ -180,7 +180,7 @@ export interface ModalContentProps {
   /**
    * The modal/drawer title. Displays on the very top of the content.
    */
-  title?: React.ReactNode | string
+  title?: React.ReactNode
 
   dialog_title?: string
 

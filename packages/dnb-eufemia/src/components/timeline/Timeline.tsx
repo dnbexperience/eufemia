@@ -68,12 +68,8 @@ const Timeline = (localProps: TimelineProps & ISpacingProps) => {
       data-testid="timeline"
       {...props}
     >
-      {data?.map((timelineItem: TimelineItemProps) => (
-        <TimelineItem
-          key={timelineItem.name}
-          skeleton={skeleton}
-          {...timelineItem}
-        />
+      {data?.map((timelineItem, i) => (
+        <TimelineItem key={i} skeleton={skeleton} {...timelineItem} />
       ))}
 
       {childrenItems}
