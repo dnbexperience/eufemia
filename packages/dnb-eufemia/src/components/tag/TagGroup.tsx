@@ -36,7 +36,7 @@ export const defaultProps = {
   children: null,
 }
 
-function TagGroup(localProps: TagGroupProps & ISpacingProps) {
+const TagGroup = (localProps: TagGroupProps & ISpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context
