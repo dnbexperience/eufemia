@@ -10,7 +10,8 @@ import Img, { ImgProps } from '../../elements/Img'
 
 // Shared
 import Context from '../../shared/Context'
-import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
+import { ISpacingProps } from '../../shared/interfaces'
+import { SkeletonShow } from '../skeleton/Skeleton'
 import { warn } from '../../shared/component-helper'
 import { usePropsWithContext } from '../../shared/hooks'
 
@@ -37,7 +38,7 @@ export interface AvatarProps {
    * Skeleton should be applied when loading content
    * Default: null
    */
-  skeleton?: SkeletonTypes
+  skeleton?: SkeletonShow
 
   /**
    * The content of the component. Can be used instead of prop "data".

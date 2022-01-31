@@ -7,7 +7,8 @@ import Button, { ButtonProps } from '../button/Button'
 
 // Shared
 import Context from '../../shared/Context'
-import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
+import { ISpacingProps } from '../../shared/interfaces'
+import { SkeletonShow } from '../skeleton/Skeleton'
 import { warn } from '../../shared/component-helper'
 import { usePropsWithContext } from '../../shared/hooks'
 
@@ -38,7 +39,7 @@ export interface TagProps {
    * Skeleton should be applied when loading content
    * Default: null
    */
-  skeleton?: SkeletonTypes
+  skeleton?: SkeletonShow
 
   /**
    * The content of the tag element, can be a string or a React Element. Will be overwritten by text prop

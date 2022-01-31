@@ -33,6 +33,7 @@
     "test": "jest",
     "test:ci": "jest --ci --passWithNoTests",
     "test:staged": "jest --bail --findRelatedTests ",
+    "test:types": "echo Type checking on the Portal code is not implemented yet",
     "test:update": "jest --updateSnapshot",
     "prettier:components": "prettier --loglevel warn --write './src/uilib/{components,extensions}/**/*.{js,md}' './src/docs/uilib/{components,elements,extensions}/*.{js,md}'",
     "prettier:diff": "prettier --list-different '{scripts,stories,src}/**/*.{js,md}'",

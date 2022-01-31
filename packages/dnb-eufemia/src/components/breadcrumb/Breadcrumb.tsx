@@ -10,13 +10,13 @@ import Button from '../button/Button'
 // Shared
 import { useMediaQuery } from '../../shared'
 import Context from '../../shared/Context'
-import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
+import { ISpacingProps } from '../../shared/interfaces'
+import { SkeletonShow } from '../skeleton/Skeleton'
 import { usePropsWithContext } from '../../shared/hooks'
 
 // Internal
 import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem'
-
-export * from './BreadcrumbItem'
+import { convertJsxToString } from '../../shared/component-helper'
 
 export interface BreadcrumbProps {
   /**
@@ -29,7 +29,7 @@ export interface BreadcrumbProps {
    * Skeleton should be applied when loading content
    * Default: null
    */
-  skeleton?: SkeletonTypes
+  skeleton?: SkeletonShow
 
   /**
    * Pass in a list of your pages as objects of breadcrumbitem to render them as breadcrumbitems.
@@ -89,7 +89,7 @@ export interface BreadcrumbProps {
    * If variant='collapse', you can override isCollapsed for the collapsed content by updating this value.
    * Default: null
    */
-  isCollapsed?: boolean | string
+  isCollapsed?: boolean
 
   /**
    * Use one of the Section component style types (style_type)
@@ -197,7 +197,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
 
   return (
     <nav
-      aria-label={navText}
+      aria-label={convertJsxToString(navText)}
       className={classnames(
         'dnb-breadcrumb',
         skeletonClasses,

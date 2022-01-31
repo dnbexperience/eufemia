@@ -53,7 +53,8 @@ export type IconPrimaryChildren =
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */
-export interface IconPrimaryProps extends React.HTMLProps<HTMLElement> {
+export interface IconPrimaryProps
+  extends Omit<React.HTMLProps<HTMLElement>, 'size'> {
   /**
    * A React SVG Component or the icon name (in case we use `IconPrimary` or `dnb-icon-primary`).
    */

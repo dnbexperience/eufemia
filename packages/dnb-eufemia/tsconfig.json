@@ -7,15 +7,11 @@
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "declaration": true,
-    "emitDeclarationOnly": true,
     "types": ["node", "jest"],
     "sourceMap": true,
     "outDir": "./out",
     "rootDir": ".",
-    "baseUrl": ".",
-    "paths": {
-      "Pages/*": ["./packages/dnb-design-system-portal/src/docs/*"]
-    }
+    "baseUrl": "."
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "build"]
 }

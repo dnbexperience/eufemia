@@ -21,7 +21,7 @@ interface ModalHeaderProps {
   /**
    * The modal/drawer title. Displays on the very top of the content.
    */
-  title?: React.ReactNode | string
+  title?: React.ReactNode
 
   /**
    * Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).
@@ -30,7 +30,7 @@ interface ModalHeaderProps {
 }
 
 export default class ModalHeader extends React.PureComponent<
-  ModalHeaderProps & SectionProps
+  ModalHeaderProps & Omit<SectionProps, 'title'>
 > {
   static contextType = ModalContext
   render() {

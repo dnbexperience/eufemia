@@ -1,0 +1,10 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "paths": {
+      "Pages/*": ["./src/docs/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}

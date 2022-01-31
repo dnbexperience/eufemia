@@ -47,6 +47,10 @@ declare global {
   }
 }
 
+interface CSSPropertiesWithVars extends React.CSSProperties {
+  '--modal-background-color': string
+}
+
 export default class ModalContent extends React.PureComponent<
   ModalContentProps,
   ModalContentState
@@ -476,9 +480,9 @@ export default class ModalContent extends React.PureComponent<
               tabIndex={-1}
               className="dnb-modal__content__spacing dnb-no-focus"
               style={
-                color
+                (color
                   ? { '--modal-background-color': `var(--color-${color})` }
-                  : null
+                  : null) as CSSPropertiesWithVars
               }
               ref={this._contentRef}
             >
