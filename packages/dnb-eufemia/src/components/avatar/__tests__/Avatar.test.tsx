@@ -128,7 +128,7 @@ describe('Avatar', () => {
   })
 
   describe('AvatarGroup', () => {
-    it('renders the label', () => {
+    it('renders the label as string', () => {
       const label = 'avatar'
       render(
         <Avatar.Group label={label} maxElements={2}>
@@ -141,6 +141,23 @@ describe('Avatar', () => {
       expect(screen.queryByTestId('avatar-group-label').textContent).toBe(
         label
       )
+    })
+
+    it('renders the label as react node', () => {
+      const label = <span data-testid="react-node">ReactNode</span>
+      render(
+        <Avatar.Group label={label} maxElements={2}>
+          <Avatar>A</Avatar>
+          <Avatar>B</Avatar>
+          <Avatar>C</Avatar>
+        </Avatar.Group>
+      )
+      expect(screen.queryByTestId('avatar-group-label')).not.toBeNull()
+      expect(
+        within(screen.queryByTestId('avatar-group-label')).queryByTestId(
+          'react-node'
+        )
+      ).not.toBeNull()
     })
 
     it('renders the "elements left"-avatar when having more avatars than maxElements', () => {

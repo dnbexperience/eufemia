@@ -15,7 +15,7 @@ export interface AvatarGroupProps {
    * Label to describe the avatar group
    * Default: null
    */
-  label: string
+  label: React.ReactNode
 
   /**
    * Custom className on the component root
