@@ -1,5 +1,7 @@
 <div align="center"> 
-<img src="./logo.png" height="100">
+   <a href="https://eufemia.dnb.no/">
+    <img src="./logo.png" height="100">
+  </a> 
 <h1>DNB's Design System</h1>
 
 ![Downloads](https://img.shields.io/npm/dt/@dnb/eufemia?style=flat-square) ![NPM version](https://img.shields.io/npm/v/@dnb/eufemia?style=flat-square) ![Last commit](https://img.shields.io/github/last-commit/dnbexperience/eufemia?style=flat-square) [![Eufemia Actions](https://github.com/dnbexperience/eufemia/actions/workflows/actions.yml/badge.svg)](https://github.com/dnbexperience/eufemia/actions/workflows/actions.yml) [![CodeQL](https://github.com/dnbexperience/eufemia/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/dnbexperience/eufemia/actions/workflows/codeql-analysis.yml)
