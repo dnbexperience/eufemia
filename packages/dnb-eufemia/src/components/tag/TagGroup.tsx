@@ -15,7 +15,7 @@ export interface TagGroupProps {
    * Aria label to describe the tag group
    * Default: null
    */
-  label: string
+  label: React.ReactNode
 
   /**
    * Custom className on the component root
