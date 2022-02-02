@@ -1,3 +1,11 @@
+## January, 26. 2022
+
+- New components released in `@dnb/eufemia`:
+  - [Avatar](/uilib/components/avatar)
+  - [InfoCard](/uilib/components/info-card)
+  - [Tag](/uilib/components/tag)
+  - [Timeline](/uilib/components/timeline)
+
 ## November, 23. 2021
 
 - New design for component [GlobalStatus](/uilib/components/global-status) with brighter colors.

@@ -66,4 +66,4 @@ Colors, fonts and logo guidelines are set in the DNB Brandbook and the digital v
 
 ### People of Eufemia
 
-We want to thank every [contributor of Eufemia](/contribute/people), without you Eufemia would not be the design system it is today.
+We want to thank every [contributor of Eufemia](/design-system/about#please-contribute), without you Eufemia would not be the design system it is today.

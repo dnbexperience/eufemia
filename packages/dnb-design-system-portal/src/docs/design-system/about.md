@@ -37,10 +37,13 @@ You can read more about what we at DNB UX expect and define as the minimal [acce
 
 Thank you to all who have contributed to build Eufemia. People who have contributed heavily to Eufemia are:
 
-- [Jens Thuland](https://dnb.enterprise.slack.com/user/@WE4QCR6PQ)
-- [Tobias Høegh](https://dnb.enterprise.slack.com/user/@WE2M4E65N)
-- [Casper Brekke](https://dnb.enterprise.slack.com/user/@WDU4VCEP5)
+- Jens Thuland
+- Casper Brekke
+- Tobias Høegh
 - Sindre Marken
+- Dina Rosvoll
+- Anders Langseth
+- Thayanan Tharmapalan
 - Kevin Murphy
 - Hans Kristian Smedsrød
 
@@ -48,7 +51,7 @@ The DNB ASA Design System (Eufemia) is built together with [EGGS Design](https:/
 
 ## More People to thank
 
-- [Nicolai Rygh](https://dnb.enterprise.slack.com/user/@WDY36GXKM)
+- Nicolai Rygh
 
 ## Credits
 
