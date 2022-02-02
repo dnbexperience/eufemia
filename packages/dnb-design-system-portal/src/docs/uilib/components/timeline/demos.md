@@ -14,6 +14,7 @@ TimelineMultipleUpcomingData,
 TimelineStates,
 TimelineIcons,
 TimelineSkeleton,
+TimelineAsChildrenSkeleton,
 TimelineItemSkeleton
 } from 'Docs/uilib/components/timeline/Examples'
 
@@ -64,6 +65,10 @@ See default icons based on value of `state` property in documentation for `icon`
 ### Timeline skeleton:
 
 <TimelineSkeleton />
+
+### Timeline as children skeleton:
+
+<TimelineAsChildrenSkeleton />
 
 ### [Timeline item](/uilib/components/timeline/properties#timelineitem-properties) skeleton:
 

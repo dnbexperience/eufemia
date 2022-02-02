@@ -56,11 +56,22 @@ const Timeline = (localProps: TimelineProps & ISpacingProps) => {
     className,
     skeleton,
     data,
-    children: childrenItems,
+    children: childrenProp,
     ...props
   } = usePropsWithContext(localProps, defaultProps, context?.Timeline)
 
   const spacingClasses = createSpacingClasses(props)
+
+  let children = childrenProp
+
+  if (Array.isArray(childrenProp)) {
+    children = childrenProp.map((child, i) => {
+      return React.cloneElement(child, {
+        skeleton: skeleton,
+        key: i,
+      })
+    })
+  }
 
   return (
     <div
@@ -72,7 +83,7 @@ const Timeline = (localProps: TimelineProps & ISpacingProps) => {
         <TimelineItem key={i} skeleton={skeleton} {...timelineItem} />
       ))}
 
-      {childrenItems}
+      {children}
     </div>
   )
 }
