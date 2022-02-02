@@ -34,32 +34,32 @@ export function withCamelCaseProps<TBase extends React.ComponentType>(
 }
 
 // Same – but "class" based
-// function withCamelCaseProps<TBase extends React.ComponentClass>(
-//   Base: TBase
-// ): typeof Base {
-//   const Component: React.ComponentClass = Base
+export function classWithCamelCaseProps<
+  TBase extends React.ComponentClass
+>(Base: TBase): typeof Base {
+  const Component: React.ComponentClass = Base
 
-//   // Bug? https://github.com/microsoft/TypeScript/issues/37142
-//   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//   // @ts-ignore
-//   class Derived extends Base {
-//     render() {
-//       return (
-//         <Component {...Object.freeze(convertCamelCaseProps(this.props))} />
-//       )
-//     }
-//   }
+  // Bug? https://github.com/microsoft/TypeScript/issues/37142
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  class Derived extends Base {
+    render() {
+      return (
+        <Component {...Object.freeze(convertCamelCaseProps(this.props))} />
+      )
+    }
+  }
 
-//   Object.defineProperty(Derived, 'name', {
-//     value: Base.name,
-//   })
+  Object.defineProperty(Derived, 'name', {
+    value: Base.name,
+  })
 
-//   Object.defineProperty(Derived, 'displayName', {
-//     value: Base.displayName || Base.name,
-//   })
+  Object.defineProperty(Derived, 'displayName', {
+    value: Base.displayName || Base.name,
+  })
 
-//   return Derived
-// }
+  return Derived
+}
 
 function convertCamelCaseProps<P>(props: P) {
   const newProps = { ...props }
@@ -80,6 +80,9 @@ function convertCamelCaseProps<P>(props: P) {
  * Use it like so:
  * OriginalProps & ToCamelCase<OriginalProps>
  *
+ * Disclaimer: Be careful using these with required props
+ * - ToCamelCase makes the required snake_case props also required in camelCase
+ * - ToCamelCasePartial removes required for the camelCase props
  *
  */
 export type ToCamelCasePartial<T> = Partial<ToCamelCase<T>>
@@ -90,6 +93,7 @@ export type ToCamelCase<T> = T extends object
       >
     }
   : T
+export type IncludeCamelCase<T> = Partial<T> & ToCamelCasePartial<T>
 type ConvertSnakeToCamelCase<S extends string> =
   S extends `${infer T}_${infer U}`
     ? `${T}${Capitalize<ConvertSnakeToCamelCase<U>>}`
