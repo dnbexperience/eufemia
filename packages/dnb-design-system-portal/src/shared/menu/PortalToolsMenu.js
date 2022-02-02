@@ -17,20 +17,22 @@ export default function PortalToolsMenu({
       id="portal-tools"
       mode="drawer"
       title="Portal Tools"
-      trigger_tooltip={
-        // Use 4001 to be over header of 4000
-        <Tooltip
-          position={tooltipPosition}
-          style={{ zIndex: 4001 }}
-          fixed_position
-        >
-          Open the portal tools
-        </Tooltip>
-      }
       trigger_size="default"
       trigger_icon="more"
       trigger_class={className}
-      trigger_attributes={{ skeleton: false }}
+      trigger_attributes={{
+        skeleton: false,
+        // Use 4001 to be over header of 4000
+        tooltip: (
+          <Tooltip
+            position={tooltipPosition}
+            style={{ zIndex: 4001 }}
+            fixed_position
+          >
+            Open the portal tools
+          </Tooltip>
+        ),
+      }}
       trigger_icon_size="default"
       close_button_attributes={{ skeleton: false }}
       left="x-small"
