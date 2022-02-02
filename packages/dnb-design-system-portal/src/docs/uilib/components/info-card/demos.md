@@ -47,7 +47,7 @@ Each button can be used independently
 
 <InfoCardCentered />
 
-### ImfoCard custom image
+### InfoCard custom image
 
 <InfoCardCustomImage />
 
