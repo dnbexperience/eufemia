@@ -21,9 +21,8 @@ import {
   setPageFocusElement,
   scrollToLocationHashId,
 } from '@dnb/eufemia/src/shared/helpers'
-import { Context } from '@dnb/eufemia/src/shared'
 import { Logo, GlobalStatus } from '@dnb/eufemia/src/components'
-import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
+import { P } from '@dnb/eufemia/src/elements'
 
 export function scrollToAnimation() {
   // if url hash is defined, scroll to the id
@@ -234,7 +233,7 @@ const MainContent = React.forwardRef((props, ref) => (
 
 const StyledMain = styled.main`
   width: 100%;
-  min-height: 85vh;
+  min-height: 90vh;
   padding: 0 2rem;
 `
 
@@ -245,35 +244,32 @@ const FooterWrapper = styled.footer`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 2rem;
 
   padding: 1rem;
 
   border-top: 1px solid var(--color-black-border);
   background-color: var(--color-emerald-green);
   color: var(--color-white);
-
-  a {
-    margin-left: 0.5rem;
-  }
-  small {
-    padding: 0 2rem;
-  }
 `
 const Footer = () => {
-  const { skeleton } = React.useContext(Context)
   return (
     <FooterWrapper>
+      <P>
+        <small>
+          Package release: {packageJson.releaseVersion} <br />
+          Portal update: {packageJson.buildVersion}
+        </small>
+      </P>
+
       <Logo height="40" color="white" />
-      <small className={createSkeletonClass('font', skeleton)}>
-        Last Portal update: {packageJson.buildVersion}
-        <Link
-          to="/license"
-          className="dnb-anchor dnb-anchor--contrast dnb-anchor--no-underline"
-        >
-          Copyright (c) 2018-present DNB.no
-        </Link>
-      </small>
-      <span />
+
+      <Link
+        to="/license"
+        className="dnb-anchor dnb-anchor--contrast dnb-anchor--no-underline"
+      >
+        Copyright (c) 2018-present DNB.no
+      </Link>
     </FooterWrapper>
   )
 }

@@ -7,15 +7,11 @@ const fs = require('fs-extra')
 const path = require('path')
 const { isCI } = require('repo-utils')
 const getCurrentBranchName = require('current-git-branch')
-const {
-  createNewVersion,
-  createNewChangelogVersion,
-} = require('./scripts/version.js')
+const { init } = require('./scripts/version.js')
 
 exports.onPreInit = async () => {
   if (process.env.NODE_ENV === 'production') {
-    await createNewVersion()
-    await createNewChangelogVersion()
+    await init()
   }
 }
 
@@ -40,7 +36,7 @@ exports.createSchemaCustomization = ({ actions: { createTypes } }) => {
   createTypes(typeDefs)
 }
 
-exports.createResolvers = ({ stage, createResolvers }) => {
+exports.createResolvers = ({ createResolvers }) => {
   const resolvers = {
     Mdx: {
       siblings: {
