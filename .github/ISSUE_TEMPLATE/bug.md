@@ -12,6 +12,8 @@ A clear and concise description of what the bug is.
 
 Steps to reproduce the behavior:
 
+🍀 Use [this starter](https://eufemia.dnb.no/issue) to reproduce the issue.
+
 ## Expected behavior
 
 A clear and concise description of what you expected to happen.
