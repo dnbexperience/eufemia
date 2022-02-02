@@ -20,7 +20,6 @@ showTabs: true
 | Properties                                  | Description                                                                                                                                   |
 | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | `label`                                      | _(required)_ The label description of the group of tags.             |
-| `data`                                      | _(optional)_ List of tags. Each object in data can include all properties from [Tag props](/uilib/components/tag/properties#tag-properties). |
 | `children`                                  | _(optional)_ Content of the component. Can be used instead of the `data`-property, by adding Tag elements as children `<Tag {...props} />`.                                                      |
 | `className`                                 | _(optional)_ Custom className for the component root.                                                                                         |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.
