@@ -25,7 +25,7 @@ export interface InfoCardProps {
    * Used in combination with `src` to provide an alt attribute for the `img` element.
    * Default: null
    */
-  alt?: string
+  alt?: React.ReactNode
   /**
    * Aligns the content to center, rather than left
    * Default: false
@@ -60,12 +60,12 @@ export interface InfoCardProps {
    * Image src, will replace the 'icon' with the image
    * Default: null
    */
-  text: string
+  text: React.ReactNode
   /**
    * Component title
    * Default: null
    */
-  title?: string
+  title?: React.ReactNode
   /**
    * Is called when the close button is clicked
    * Default: null
@@ -75,7 +75,7 @@ export interface InfoCardProps {
    * The text of the close button.
    * Default: null
    */
-  closeButtonText?: string
+  closeButtonText?: React.ReactNode
   /**
    * Is called when the accept button is clicked
    * Default: null
@@ -85,7 +85,7 @@ export interface InfoCardProps {
    * The text of the accept button.
    * Default: null
    */
-  acceptButtonText?: string
+  acceptButtonText?: React.ReactNode
   /**
    * Additional attributes for the close button.
    * Default: null
@@ -200,7 +200,7 @@ const InfoCard = (localProps: InfoCardProps & ISpacingProps) => {
         {!acceptButtonIsHidden && (
           <Button
             type="button"
-            data-testid="into-card-accept-button"
+            data-testid="info-card-accept-button"
             variant="secondary"
             right={!centered && 'small'}
             on_click={onAccept}
@@ -211,7 +211,7 @@ const InfoCard = (localProps: InfoCardProps & ISpacingProps) => {
         {!closeButtonIsHidden && (
           <Button
             type="button"
-            data-testid="into-card-close-button"
+            data-testid="info-card-close-button"
             variant="tertiary"
             top={centered && 'small'}
             on_click={onClose}
