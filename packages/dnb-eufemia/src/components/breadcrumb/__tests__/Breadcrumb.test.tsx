@@ -192,7 +192,7 @@ describe('Breadcrumb aria', () => {
   })
 })
 
-describe('Breadcumb scss', () => {
+describe('Breadcrumb scss', () => {
   it('have to match snapshot', () => {
     const scss = loadScss(require.resolve('../style/dnb-breadcrumb.scss'))
     expect(scss).toMatchSnapshot()
