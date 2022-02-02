@@ -237,28 +237,20 @@ class PaginationInstance extends React.PureComponent {
       )?.content
 
       return (
-        <>
-          {this.context.pagination.mode === 'infinity' &&
-            typeof children !== 'function' &&
-            children}
-
-          <div {...mainParams}>
-            <PaginationBar contentRef={this._contentRef}>
-              {children}
-            </PaginationBar>
-            {items.length > 0 && (
-              <PaginationContent ref={this._contentRef}>
-                {content || (
-                  <PaginationIndicator
-                    indicator_element={
-                      indicator_element || fallback_element
-                    }
-                  />
-                )}
-              </PaginationContent>
-            )}
-          </div>
-        </>
+        <div {...mainParams}>
+          <PaginationBar contentRef={this._contentRef}>
+            {children}
+          </PaginationBar>
+          {items.length > 0 && (
+            <PaginationContent ref={this._contentRef}>
+              {content || (
+                <PaginationIndicator
+                  indicator_element={indicator_element || fallback_element}
+                />
+              )}
+            </PaginationContent>
+          )}
+        </div>
       )
     }
 

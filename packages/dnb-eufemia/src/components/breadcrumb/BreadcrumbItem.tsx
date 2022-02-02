@@ -12,8 +12,8 @@ import homeIcon from '../../icons/home'
 
 // Shared
 import Context from '../../shared/Context'
-import { SkeletonTypes } from '../../shared/interfaces'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { SkeletonShow } from '../skeleton/Skeleton'
+import { usePropsWithContext } from '../../shared/hooks'
 
 export interface BreadcrumbItemProps {
   /**
@@ -50,7 +50,7 @@ export interface BreadcrumbItemProps {
    * Skeleton should be applied when loading content
    * Default: null
    */
-  skeleton?: SkeletonTypes
+  skeleton?: SkeletonShow
 }
 
 const defaultProps = {
@@ -62,7 +62,7 @@ const defaultProps = {
   skeleton: null,
 }
 
-export default function BreadcrumbItem(localProps: BreadcrumbItemProps) {
+const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   const {
@@ -73,13 +73,9 @@ export default function BreadcrumbItem(localProps: BreadcrumbItemProps) {
 
   // Extract additional props from global context
   const { text, href, icon, onClick, variant, skeleton, ...props } =
-    extendPropsWithContext(
-      { ...defaultProps, ...localProps },
-      defaultProps,
-      context?.BreadcrumbItem
-    )
+    usePropsWithContext(localProps, defaultProps, context?.BreadcrumbItem)
 
-  const currentIcon =
+  const currentIcon: IconPrimaryIcon =
     icon || (variant === 'home' && homeIcon) || 'chevron_left'
   const currentText = text || (variant === 'home' && homeText) || ''
   const isInteractive = (href || onClick) && variant !== 'current'
@@ -96,7 +92,6 @@ export default function BreadcrumbItem(localProps: BreadcrumbItemProps) {
           href={href}
           icon={currentIcon}
           icon_position="left"
-          icon_={currentIcon} // what does this do?
           on_click={onClick}
           text={currentText}
           skeleton={skeleton}
@@ -116,3 +111,5 @@ export default function BreadcrumbItem(localProps: BreadcrumbItemProps) {
     </li>
   )
 }
+
+export default BreadcrumbItem

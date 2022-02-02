@@ -7,7 +7,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 // Shared
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { usePropsWithContext } from '../../shared/hooks'
 import { TagGroupContext } from './TagContext'
 
 export interface TagGroupProps {
@@ -15,7 +15,7 @@ export interface TagGroupProps {
    * Aria label to describe the tag group
    * Default: null
    */
-  label: string
+  label: React.ReactNode
 
   /**
    * Custom className on the component root
@@ -36,7 +36,7 @@ export const defaultProps = {
   children: null,
 }
 
-function TagGroup(localProps: TagGroupProps & ISpacingProps) {
+const TagGroup = (localProps: TagGroupProps & ISpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context
@@ -45,11 +45,7 @@ function TagGroup(localProps: TagGroupProps & ISpacingProps) {
     className,
     children: childrenProp,
     ...props
-  } = extendPropsWithContext(
-    { ...defaultProps, ...localProps },
-    defaultProps,
-    context?.TagGroup
-  )
+  } = usePropsWithContext(localProps, defaultProps, context?.TagGroup)
 
   let children = childrenProp
 
@@ -63,7 +59,7 @@ function TagGroup(localProps: TagGroupProps & ISpacingProps) {
 
   return (
     <TagGroupContext.Provider value={props}>
-      <div
+      <span
         className={classnames('dnb-tag__group', spacingClasses, className)}
         data-testid="tag-group"
         {...props}
@@ -72,7 +68,7 @@ function TagGroup(localProps: TagGroupProps & ISpacingProps) {
           {label}
         </span>
         {children}
-      </div>
+      </span>
     </TagGroupContext.Provider>
   )
 }

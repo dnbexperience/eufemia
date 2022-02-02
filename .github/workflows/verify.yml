@@ -12,6 +12,10 @@ on:
       - '!portal'
       - '!beta'
       - '!alpha'
+  pull_request:
+    branches:
+      - 'main'
+    types: [opened]
 
 jobs:
   action:
@@ -61,6 +65,9 @@ jobs:
       - name: Run lint
         run: yarn workspace @dnb/eufemia lint:ci && yarn workspace dnb-design-system-portal lint:ci
 
+      - name: Run type checks
+        run: yarn workspace @dnb/eufemia test:types && yarn workspace dnb-design-system-portal test:types
+
       - name: Run tests
         run: yarn workspace @dnb/eufemia test:ci && yarn workspace dnb-design-system-portal test:ci
 
@@ -74,4 +81,4 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
-        if: always()
+        if: github.repository_owner == 'dnbexperience'

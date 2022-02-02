@@ -6,13 +6,12 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 
 // Shared
 import Context from '../../shared/Context'
-import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { ISpacingProps } from '../../shared/interfaces'
+import { SkeletonShow } from '../skeleton/Skeleton'
+import { usePropsWithContext } from '../../shared/hooks'
 
 // Internal
 import TimelineItem, { TimelineItemProps } from './TimelineItem'
-
-export * from './TimelineItem'
 
 export interface TimelineProps {
   /**
@@ -25,7 +24,7 @@ export interface TimelineProps {
    * Skeleton should be applied when loading content
    * Default: null
    */
-  skeleton?: SkeletonTypes
+  skeleton?: SkeletonShow
 
   /**
    * Pass in a list of your events as objects of timelineitem, to render them as timelineitems.
@@ -37,7 +36,9 @@ export interface TimelineProps {
    * The content of the component. Can be used instead of prop "data".
    * Default: null
    */
-  children?: TimelineItemProps[]
+  children?:
+    | React.ReactElement<TimelineItemProps>[]
+    | React.ReactElement<TimelineItemProps>
 }
 
 export const defaultProps = {
@@ -47,7 +48,7 @@ export const defaultProps = {
   children: null,
 }
 
-function Timeline(localProps: TimelineProps & ISpacingProps) {
+const Timeline = (localProps: TimelineProps & ISpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context
@@ -55,15 +56,22 @@ function Timeline(localProps: TimelineProps & ISpacingProps) {
     className,
     skeleton,
     data,
-    children: childrenItems,
+    children: childrenProp,
     ...props
-  } = extendPropsWithContext(
-    { ...defaultProps, ...localProps },
-    defaultProps,
-    context?.Timeline
-  )
+  } = usePropsWithContext(localProps, defaultProps, context?.Timeline)
 
   const spacingClasses = createSpacingClasses(props)
+
+  let children = childrenProp
+
+  if (Array.isArray(childrenProp)) {
+    children = childrenProp.map((child, i) => {
+      return React.cloneElement(child, {
+        skeleton: skeleton,
+        key: i,
+      })
+    })
+  }
 
   return (
     <div
@@ -71,15 +79,11 @@ function Timeline(localProps: TimelineProps & ISpacingProps) {
       data-testid="timeline"
       {...props}
     >
-      {data?.map((timelineItem: TimelineItemProps) => (
-        <TimelineItem
-          key={timelineItem.name}
-          skeleton={skeleton}
-          {...timelineItem}
-        />
+      {data?.map((timelineItem, i) => (
+        <TimelineItem key={i} skeleton={skeleton} {...timelineItem} />
       ))}
 
-      {childrenItems}
+      {children}
     </div>
   )
 }

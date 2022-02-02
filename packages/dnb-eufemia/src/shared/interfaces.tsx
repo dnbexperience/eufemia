@@ -10,5 +10,3 @@ export interface ISpacingElementProps {
 }
 
 export type SpaceTypes = string | boolean | number
-
-export type SkeletonTypes = string | boolean

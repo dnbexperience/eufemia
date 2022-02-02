@@ -1,15 +1,15 @@
 import * as React from 'react';
+import { SkeletonShow } from '../skeleton/Skeleton';
+import { IconPrimaryIcon } from '../icon-primary/IconPrimary';
 export type ButtonText = string | React.ReactNode;
 export type ButtonVariant =
   | 'primary'
   | 'secondary'
   | 'tertiary'
-  | 'signal';
+  | 'signal'
+  | 'unstyled';
 export type ButtonSize = 'default' | 'small' | 'medium' | 'large';
-export type ButtonIcon =
-  | string
-  | React.ReactNode
-  | ((...args: any[]) => any);
+export type ButtonIcon = IconPrimaryIcon;
 export type ButtonIconPosition = 'left' | 'right' | 'top';
 export type ButtonIconSize = string | number;
 export type ButtonTooltip =
@@ -26,7 +26,7 @@ export type ButtonTo = string | any | ((...args: any[]) => any);
 export type ButtonWrap = string | boolean;
 export type ButtonBounding = string | boolean;
 export type ButtonStretch = string | boolean;
-export type ButtonSkeleton = string | boolean;
+export type ButtonSkeleton = SkeletonShow;
 export type ButtonDisabled = string | boolean;
 export type ButtonChildren =
   | string
@@ -70,7 +70,11 @@ export type ButtonOnClick = string | ((...args: any[]) => any);
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */
-export interface ButtonProps extends React.HTMLProps<HTMLElement> {
+export interface ButtonProps
+  extends Omit<
+    React.HTMLProps<HTMLElement>,
+    'disabled' | 'size' | 'title' | 'wrap'
+  > {
   /**
    * The content of the button can be a string or a React Element.
    */

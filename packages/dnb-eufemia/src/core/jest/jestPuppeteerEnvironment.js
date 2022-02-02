@@ -6,6 +6,7 @@
 const NodeEnvironment = require('jest-environment-node')
 const fs = require('fs-extra')
 const path = require('path')
+const chalk = require('chalk')
 const puppeteer = require('puppeteer')
 const { DIR } = require('./jestSetupScreenshots').config
 
@@ -32,6 +33,19 @@ class PuppeteerEnvironment extends NodeEnvironment {
     })
 
     this.global.__PAGE__ = await this.global.__BROWSER__.newPage()
+  }
+
+  async handleTestEvent(event, state) {
+    if (event.name === 'test_fn_failure') {
+      this.global.__EVENT_FAILURE__ = true
+
+      const { currentlyRunningTest } = state
+      console.log(
+        chalk.yellow(
+          `Retry attempt #${currentlyRunningTest.invocations}: ${currentlyRunningTest.parent.name} / ${currentlyRunningTest.name}`
+        )
+      )
+    }
   }
 
   async teardown() {

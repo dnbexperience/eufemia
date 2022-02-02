@@ -102,6 +102,14 @@ describe('Timeline screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match Timeline as children skeleton', async () => {
+    const screenshot = await testPageScreenshot({
+      selector:
+        '[data-visual-test="timeline-children-skeleton"] .dnb-timeline',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match Timeline item skeleton', async () => {
     const screenshot = await testPageScreenshot({
       selector:

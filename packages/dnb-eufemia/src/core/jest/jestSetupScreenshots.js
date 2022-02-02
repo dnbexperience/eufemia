@@ -5,7 +5,7 @@
 
 const fs = require('fs-extra')
 const path = require('path')
-const isCI = require('is-ci')
+const { isCI } = require('repo-utils')
 const os = require('os')
 const { setupJestScreenshot } = require('jest-screenshot')
 const { makeUniqueId } = require('../../shared/component-helper')
@@ -22,6 +22,7 @@ const config = {
   testScreenshotOnPort: 8000,
   headless: true,
   delayDuringNonheadless: 0,
+  retryTimes: isCI ? 5 : 0,
   timeout: 30e3,
   blockFontRequest: false,
   allowedFonts: [], // e.g. 'LiberationMono'
@@ -82,7 +83,9 @@ module.exports.testPageScreenshot = async ({
       page = pages[0]
     }
   }
-  if (reload) {
+
+  if (reload || global.__EVENT_FAILURE__) {
+    global.__EVENT_FAILURE__ = false
     await page.reload({ waitUntil })
   }
 

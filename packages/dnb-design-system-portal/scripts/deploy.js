@@ -6,9 +6,11 @@
 
 const dotenv = require('dotenv')
 const ghpages = require('gh-pages')
-const { name: CIName } = require('ci-info')
+const { CIName } = require('repo-utils')
 const ora = require('ora')
-const { currentVersion } = require('./version.js')
+const packageJson = require('../package.json')
+
+const { currentVersion } = packageJson.buildVersion
 
 // import .env variables
 dotenv.config()

@@ -8,19 +8,13 @@ import PropTypes from 'prop-types'
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
-import { Section, Space, Button } from '@dnb/eufemia/src/components'
-import { Table, H1, P, Ul } from '@dnb/eufemia/src/elements'
+import { Button } from '@dnb/eufemia/src/components'
+import { Table, P } from '@dnb/eufemia/src/elements'
 import { StickyHelper } from '@dnb/eufemia/src/elements/Table'
 import { hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 
 import { createPagination } from '@dnb/eufemia/src/components/Pagination'
 
-const HeightLimit = styled.div`
-  height: ${(props) => props.height || '20rem'};
-  overflow-y: scroll;
-  background-color: var(--color-white);
-  border: 0.25rem dotted var(--color-black);
-`
 const LargePage = styled.div`
   display: flex;
   justify-content: center;
@@ -87,136 +81,6 @@ export const PaginationExampleCentered = () => (
 `}
   </ComponentBox>
 )
-
-export const PaginationExampleInfinityLoadButton = () => (
-  <ComponentBox scope={{ HeightLimit, LargePage }}>
-    {() => /* jsx */ `
-<HeightLimit>
-  <Pagination
-    mode="infinity"
-    use_load_button
-    startup_page={5}
-    min_wait_time={0}
-    on_load={({ page, setContent }) => {
-      // simulate server communication delay
-      const timeout = setTimeout(() => {
-        setContent(page, (
-          <LargePage>
-            {page}
-          </LargePage>)
-        )
-      }, Math.ceil(Math.random() * 500))
-      
-      return () => clearTimeout(timeout)
-    }}
-  />
-</HeightLimit>
-`}
-  </ComponentBox>
-)
-
-export const PaginationExampleInfinityIndicator = () => (
-  <ComponentBox scope={{ HeightLimit, LargePage }}>
-    {() => /* jsx */ `
-<HeightLimit>
-  <Pagination
-    mode="infinity"
-    indicator_element={() => (
-      <LargePage color="lightgreen">Loading ...</LargePage>
-    )}
-    startup_page={3}
-    page_count={10}
-    min_wait_time={0}
-    on_load={({ page, setContent }) => {
-      // simulate server communication delay
-      const timeout = setTimeout(() => {
-        setContent(page, (
-          <LargePage>
-            {page}
-          </LargePage>)
-        )
-      }, Math.ceil(Math.random() * 500))
-
-      return () => clearTimeout(timeout)
-    }}
-    on_end={({ page, setContent }) => {
-      setContent(page, <LargePage color="lightgreen">End</LargePage>)
-    }}
-  />
-</HeightLimit>
-`}
-  </ComponentBox>
-)
-
-export const PaginationExampleInfinityUnknown = () => (
-  <ComponentBox scope={{ HeightLimit, LargePage }}>
-    {() => /* jsx */ `
-<HeightLimit>
-  <Pagination
-    mode="infinity"
-    parallel_load_count={2}
-    min_wait_time={0}
-    on_load={({ page, setContent, endInfinity }) => {
-      // simulate server communication delay
-      const timeout = setTimeout(() => {
-        if(page > 10){
-          endInfinity()
-        }
-        else {
-          setContent(page, (
-            <LargePage>
-              {page}
-            </LargePage>)
-          )
-        }
-      }, Math.ceil(Math.random() * 1e3))
-
-      return () => clearTimeout(timeout)
-    }}
-    on_end={({ page, setContent }) => {
-      setContent(page,
-        <LargePage color="lightgreen">
-          End
-        </LargePage>
-      )
-    }}
-  />
-</HeightLimit>
-`}
-  </ComponentBox>
-)
-
-export const PaginationExampleInfinityTable = () => (
-  <ComponentBox scope={{ HeightLimit, PaginationTableExample }}>
-    {() => /* jsx */ `
-<HeightLimit height="60rem">
-  <PaginationTableExample />
-</HeightLimit>
-`}
-  </ComponentBox>
-)
-
-export function PaginationTableExample() {
-  return (
-    <Wrapper className="dnb-core-style" spacing>
-      <Space left>
-        <H1 size="small">Infinity Table</H1>
-        <P bottom>
-          This is a semantic correct table using infinity scrolling. It
-          also has a sticky header.
-        </P>
-        <Ul bottom>
-          <li>The startup page number is set to 3.</li>
-          <li>And per page we show 10 items.</li>
-          <li>
-            A random delay is added to simulate asynchronous interaction.
-          </li>
-        </Ul>
-      </Space>
-      <InfinityPaginationTable tableItems={tableItems} />
-    </Wrapper>
-  )
-}
 
 // create our items
 const tableItems = []
@@ -611,9 +475,3 @@ const reorderDirection = (items, dir) =>
     const b = parseFloat(B)
     return (dir === 'asc' ? a > b : a < b) ? 1 : -1
   })
-
-// Page layout
-const Wrapper = styled(Section)`
-  width: 100%;
-  background: var(--color-white);
-`

@@ -1,7 +1,6 @@
 ---
 title: 'DatePicker'
 description: 'The DatePicker component should be used whenever there is to enter a single date or a date period.'
-order: 2
 showTabs: true
 ---
 

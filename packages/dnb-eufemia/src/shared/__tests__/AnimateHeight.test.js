@@ -136,237 +136,297 @@ describe('AnimateHeight', () => {
     expect(changedHeight).toBe(200)
   })
 
-  it('start without animation should work properly', () => {
-    const inst = new AnimateHeight()
-    inst.setElement(element)
+  describe('start', () => {
+    it('start without animation should work properly', async () => {
+      const inst = new AnimateHeight()
+      inst.setElement(element)
 
-    const onStart = jest.fn()
-    inst.onStart(onStart)
-    const onEnd = jest.fn()
-    inst.onEnd(onEnd)
+      const onStart = jest.fn()
+      inst.onStart(onStart)
+      const onEnd = jest.fn()
+      inst.onEnd(onEnd)
 
-    const onTransitionEnd = jest.fn()
-    element.addEventListener('transitionend', onTransitionEnd)
-    expect(onTransitionEnd).toHaveBeenCalledTimes(0)
+      const onTransitionEnd = jest.fn()
+      element.addEventListener('transitionend', onTransitionEnd)
+      expect(onTransitionEnd).toHaveBeenCalledTimes(0)
 
-    const fromHeight = 100
-    const toHeight = 200
-    inst.start(fromHeight, toHeight, { animate: false })
+      const fromHeight = 100
+      const toHeight = 200
+      inst.start(fromHeight, toHeight, { animate: false })
 
-    expect(onTransitionEnd).toHaveBeenCalledTimes(1)
-    expect(element.getAttribute('style')).toBe('height: 200px;')
+      await wait(1)
 
-    expect(onStart).toHaveBeenCalledTimes(1)
-    expect(onEnd).toHaveBeenCalledTimes(0)
+      expect(onTransitionEnd).toHaveBeenCalledTimes(1)
+      expect(element.getAttribute('style')).toBe('height: 200px;')
+
+      expect(onStart).toHaveBeenCalledTimes(1)
+      expect(onEnd).toHaveBeenCalledTimes(0)
+    })
+
+    it('start with animation should work properly', async () => {
+      const inst = new AnimateHeight()
+      inst.setElement(element, container)
+
+      emulateSetContainerHeight()
+
+      const onStart = jest.fn()
+      inst.onStart(onStart)
+      const onEnd = jest.fn()
+      inst.onEnd(onEnd)
+
+      const onTransitionEnd = jest.fn()
+      element.addEventListener('transitionend', onTransitionEnd)
+      expect(onTransitionEnd).toHaveBeenCalledTimes(0)
+
+      const fromHeight = 100
+      const toHeight = 200
+      inst.start(fromHeight, toHeight)
+
+      expect(window.cancelAnimationFrame).toHaveBeenCalledTimes(2)
+      expect(window.cancelAnimationFrame).toHaveBeenNthCalledWith(
+        1,
+        undefined
+      )
+      expect(window.cancelAnimationFrame).toHaveBeenNthCalledWith(
+        2,
+        undefined
+      )
+
+      expect(window.requestAnimationFrame).toHaveBeenCalledTimes(1)
+
+      await wait(1)
+
+      expect(element.getAttribute('style')).toBe('height: 100px;')
+      expect(container.getAttribute('style')).toBe('min-height: 100px;')
+
+      await wait(1)
+
+      expect(element.getAttribute('style')).toBe('height: 200px;')
+      expect(container.getAttribute('style')).toBe('min-height: 300px;')
+
+      expect(window.requestAnimationFrame).toHaveBeenCalledTimes(2)
+
+      expect(element.getAttribute('style')).toBe('height: 200px;')
+
+      expect(onStart).toHaveBeenCalledTimes(1)
+      expect(onEnd).toHaveBeenCalledTimes(0)
+    })
   })
 
-  it('start with animation should work properly', async () => {
-    const inst = new AnimateHeight()
-    inst.setElement(element, container)
+  describe('adjustTo', () => {
+    it('adjustTo with animation should work properly', async () => {
+      const inst = new AnimateHeight()
+      inst.setElement(element, container)
 
-    emulateSetContainerHeight()
+      emulateSetContainerHeight()
 
-    const onStart = jest.fn()
-    inst.onStart(onStart)
-    const onEnd = jest.fn()
-    inst.onEnd(onEnd)
+      const onStart = jest.fn()
+      inst.onStart(onStart)
+      const onEnd = jest.fn()
+      inst.onEnd(onEnd)
 
-    const onTransitionEnd = jest.fn()
-    element.addEventListener('transitionend', onTransitionEnd)
-    expect(onTransitionEnd).toHaveBeenCalledTimes(0)
+      const onTransitionEnd = jest.fn()
+      element.addEventListener('transitionend', onTransitionEnd)
 
-    const fromHeight = 100
-    const toHeight = 200
-    inst.start(fromHeight, toHeight)
+      const fromHeight = 100
+      const toHeight = 200
+      inst.adjustTo(fromHeight, toHeight)
 
-    expect(window.cancelAnimationFrame).toHaveBeenCalledTimes(2)
-    expect(window.cancelAnimationFrame).toHaveBeenNthCalledWith(
-      1,
-      undefined
-    )
-    expect(window.cancelAnimationFrame).toHaveBeenNthCalledWith(
-      2,
-      undefined
-    )
+      expect(window.cancelAnimationFrame).toHaveBeenCalledTimes(2)
+      expect(window.cancelAnimationFrame).toHaveBeenNthCalledWith(
+        1,
+        undefined
+      )
+      expect(window.cancelAnimationFrame).toHaveBeenNthCalledWith(
+        2,
+        undefined
+      )
 
-    expect(onStart).toHaveBeenCalledTimes(1)
+      expect(window.requestAnimationFrame).toHaveBeenCalledTimes(1)
 
-    expect(window.requestAnimationFrame).toHaveBeenCalledTimes(1)
+      await wait(1)
 
-    await wait(0)
+      expect(element.getAttribute('style')).toBe('height: 100px;')
+      expect(container.getAttribute('style')).toBe('min-height: 100px;')
 
-    expect(element.getAttribute('style')).toBe('height: 100px;')
-    expect(container.getAttribute('style')).toBe('min-height: 100px;')
+      await wait(1)
 
-    await wait(0)
+      expect(element.getAttribute('style')).toBe('height: 200px;')
+      expect(container.getAttribute('style')).toBe('min-height: 300px;')
 
-    expect(element.getAttribute('style')).toBe('height: 200px;')
-    expect(container.getAttribute('style')).toBe('min-height: 300px;')
+      simulateAnimationEnd()
 
-    expect(window.requestAnimationFrame).toHaveBeenCalledTimes(2)
+      expect(element.getAttribute('style')).toBe('height: auto;')
 
-    const event = new CustomEvent('transitionend')
-    element.dispatchEvent(event)
+      expect(window.requestAnimationFrame).toHaveBeenCalledTimes(2)
 
-    expect(element.getAttribute('style')).toBe('height: 200px;')
+      expect(onTransitionEnd).toHaveBeenCalledTimes(1)
+      expect(onStart).toHaveBeenCalledTimes(1)
+      expect(onEnd).toHaveBeenCalledTimes(1)
+    })
+
+    it('adjustTo with animation and same height should call events', async () => {
+      const inst = new AnimateHeight()
+      inst.setElement(element)
+
+      const onStart = jest.fn()
+      inst.onStart(onStart)
+      const onEnd = jest.fn()
+      inst.onEnd(onEnd)
+
+      const onTransitionEnd = jest.fn()
+      element.addEventListener('transitionend', onTransitionEnd)
+
+      // await wait(1)
+      const fromHeight = 100
+      const toHeight = 100
+      inst.adjustTo(fromHeight, toHeight)
+
+      expect(element.getAttribute('style')).toBe('height: auto;')
+
+      expect(window.cancelAnimationFrame).toHaveBeenCalledTimes(0)
+      expect(window.requestAnimationFrame).toHaveBeenCalledTimes(0)
+
+      expect(onTransitionEnd).toHaveBeenCalledTimes(1)
+      expect(onStart).toHaveBeenCalledTimes(1)
+      expect(onEnd).toHaveBeenCalledTimes(1)
+    })
   })
 
-  it('adjustTo with animation should work properly', async () => {
-    const inst = new AnimateHeight()
-    inst.setElement(element, container)
+  describe('open', () => {
+    it('open without animation should work properly', async () => {
+      const inst = new AnimateHeight()
+      inst.setElement(element)
 
-    emulateSetContainerHeight()
+      const onStart = jest.fn()
+      inst.onStart(onStart)
+      const onEnd = jest.fn()
+      inst.onEnd(onEnd)
 
-    const onStart = jest.fn()
-    inst.onStart(onStart)
-    const onEnd = jest.fn()
-    inst.onEnd(onEnd)
+      jest
+        .spyOn(element, 'clientHeight', 'get')
+        .mockImplementation(() => 100)
 
-    const onTransitionEnd = jest.fn()
-    element.addEventListener('transitionend', onTransitionEnd)
-    expect(onTransitionEnd).toHaveBeenCalledTimes(0)
+      inst.open({ animate: false })
 
-    const fromHeight = 100
-    const toHeight = 200
-    inst.adjustTo(fromHeight, toHeight)
+      await wait(1)
 
-    expect(window.cancelAnimationFrame).toHaveBeenCalledTimes(2)
-    expect(window.cancelAnimationFrame).toHaveBeenNthCalledWith(
-      1,
-      undefined
-    )
-    expect(window.cancelAnimationFrame).toHaveBeenNthCalledWith(
-      2,
-      undefined
-    )
+      expect(element.getAttribute('style')).toBe('height: auto;')
 
-    expect(onStart).toHaveBeenCalledTimes(1)
+      expect(window.requestAnimationFrame).toHaveBeenCalledTimes(0)
 
-    expect(window.requestAnimationFrame).toHaveBeenCalledTimes(1)
+      expect(onStart).toHaveBeenCalledTimes(1)
+      expect(onEnd).toHaveBeenCalledTimes(1)
+    })
 
-    await wait(0)
+    it('open with animation should work properly', async () => {
+      const inst = new AnimateHeight()
+      inst.setElement(element)
 
-    expect(element.getAttribute('style')).toBe('height: 100px;')
-    expect(container.getAttribute('style')).toBe('min-height: 100px;')
+      const onStart = jest.fn()
+      inst.onStart(onStart)
+      const onEnd = jest.fn()
+      inst.onEnd(onEnd)
 
-    await wait(0)
+      jest
+        .spyOn(element, 'clientHeight', 'get')
+        .mockImplementation(() => 100)
 
-    expect(element.getAttribute('style')).toBe('height: 200px;')
-    expect(container.getAttribute('style')).toBe('min-height: 300px;')
+      inst.open()
 
-    expect(window.requestAnimationFrame).toHaveBeenCalledTimes(2)
+      expect(window.requestAnimationFrame).toHaveBeenCalledTimes(1)
 
-    const event = new CustomEvent('transitionend')
-    element.dispatchEvent(event)
+      await wait(1)
 
-    expect(onEnd).toHaveBeenCalledTimes(1)
+      expect(element.getAttribute('style')).toBe('height: 0px;')
 
-    expect(element.getAttribute('style')).toBe('height: auto;')
+      await wait(1)
+
+      expect(element.getAttribute('style')).toBe('height: 100px;')
+      expect(window.requestAnimationFrame).toHaveBeenCalledTimes(2)
+
+      simulateAnimationEnd()
+
+      expect(element.getAttribute('style')).toBe('height: auto;')
+
+      expect(onStart).toHaveBeenCalledTimes(1)
+      expect(onEnd).toHaveBeenCalledTimes(1)
+    })
   })
 
-  it('open without animation should work properly', async () => {
-    const inst = new AnimateHeight()
-    inst.setElement(element)
+  describe('close', () => {
+    it('close without animation should work properly', async () => {
+      const inst = new AnimateHeight()
+      inst.setElement(element)
 
-    jest
-      .spyOn(element, 'clientHeight', 'get')
-      .mockImplementation(() => 100)
+      const onStart = jest.fn()
+      inst.onStart(onStart)
+      const onEnd = jest.fn()
+      inst.onEnd(onEnd)
 
-    inst.open({ animate: false })
+      jest
+        .spyOn(element, 'clientHeight', 'get')
+        .mockImplementation(() => 100)
 
-    await wait(1)
+      inst.close({ animate: false })
 
-    expect(element.getAttribute('style')).toBe('height: auto;')
+      await wait(1)
 
-    const event = new CustomEvent('transitionend')
-    element.dispatchEvent(event)
+      expect(element.getAttribute('style')).toBe(
+        'height: 0px; visibility: hidden;'
+      )
 
-    expect(element.getAttribute('style')).toBe('height: auto;')
+      expect(element.getAttribute('style')).toBe(
+        'height: 0px; visibility: hidden;'
+      )
 
-    expect(window.requestAnimationFrame).toHaveBeenCalledTimes(0)
-  })
+      expect(window.requestAnimationFrame).toHaveBeenCalledTimes(0)
 
-  it('close without animation should work properly', async () => {
-    const inst = new AnimateHeight()
-    inst.setElement(element)
+      expect(onStart).toHaveBeenCalledTimes(1)
+      expect(onEnd).toHaveBeenCalledTimes(1)
+    })
 
-    jest
-      .spyOn(element, 'clientHeight', 'get')
-      .mockImplementation(() => 100)
+    it('close with animation should work properly', async () => {
+      const inst = new AnimateHeight()
+      inst.setElement(element)
 
-    inst.close({ animate: false })
+      const onStart = jest.fn()
+      inst.onStart(onStart)
+      const onEnd = jest.fn()
+      inst.onEnd(onEnd)
 
-    await wait(1)
+      jest
+        .spyOn(element, 'clientHeight', 'get')
+        .mockImplementation(() => 100)
 
-    expect(element.getAttribute('style')).toBe(
-      'height: 0px; visibility: hidden;'
-    )
+      inst.close()
 
-    const event = new CustomEvent('transitionend')
-    element.dispatchEvent(event)
+      expect(window.requestAnimationFrame).toHaveBeenCalledTimes(1)
 
-    expect(element.getAttribute('style')).toBe(
-      'height: 0px; visibility: hidden;'
-    )
+      await wait(1)
 
-    expect(window.requestAnimationFrame).toHaveBeenCalledTimes(0)
-  })
+      expect(element.getAttribute('style')).toBe('height: 100px;')
 
-  it('open with animation should work properly', async () => {
-    const inst = new AnimateHeight()
-    inst.setElement(element)
+      await wait(1)
 
-    jest
-      .spyOn(element, 'clientHeight', 'get')
-      .mockImplementation(() => 100)
+      expect(element.getAttribute('style')).toBe('height: 0px;')
+      expect(window.requestAnimationFrame).toHaveBeenCalledTimes(2)
 
-    inst.open()
+      simulateAnimationEnd()
 
-    expect(window.requestAnimationFrame).toHaveBeenCalledTimes(1)
+      expect(element.getAttribute('style')).toBe(
+        'height: 0px; visibility: hidden;'
+      )
 
-    await wait(0)
-
-    expect(element.getAttribute('style')).toBe('height: 0px;')
-
-    await wait(0)
-
-    expect(element.getAttribute('style')).toBe('height: 100px;')
-    expect(window.requestAnimationFrame).toHaveBeenCalledTimes(2)
-
-    const event = new CustomEvent('transitionend')
-    element.dispatchEvent(event)
-
-    expect(element.getAttribute('style')).toBe('height: auto;')
-  })
-
-  it('close with animation should work properly', async () => {
-    const inst = new AnimateHeight()
-    inst.setElement(element)
-
-    jest
-      .spyOn(element, 'clientHeight', 'get')
-      .mockImplementation(() => 100)
-
-    inst.close()
-
-    expect(window.requestAnimationFrame).toHaveBeenCalledTimes(1)
-
-    await wait(0)
-
-    expect(element.getAttribute('style')).toBe('height: 100px;')
-
-    await wait(0)
-
-    expect(element.getAttribute('style')).toBe('height: 0px;')
-    expect(window.requestAnimationFrame).toHaveBeenCalledTimes(2)
-
-    const event = new CustomEvent('transitionend')
-    element.dispatchEvent(event)
-
-    expect(element.getAttribute('style')).toBe(
-      'height: 0px; visibility: hidden;'
-    )
+      expect(onStart).toHaveBeenCalledTimes(1)
+      expect(onEnd).toHaveBeenCalledTimes(1)
+    })
   })
 })
 
 const wait = (t) => new Promise((r) => setTimeout(r, t))
+
+function simulateAnimationEnd() {
+  const event = new CustomEvent('transitionend')
+  element.dispatchEvent(event)
+}

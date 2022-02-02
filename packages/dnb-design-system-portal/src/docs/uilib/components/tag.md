@@ -2,7 +2,6 @@
 title: 'Tag'
 description: 'The Tag component'
 status: 'new'
-order: 17
 showTabs: true
 ---
 

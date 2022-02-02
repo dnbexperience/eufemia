@@ -4,7 +4,7 @@
  */
 
 const dotenv = require('dotenv')
-const { isCI } = require('ci-info')
+const { isCI } = require('repo-utils')
 const ora = require('ora')
 const path = require('path')
 const simpleGit = require('simple-git/promise') // More info: https://github.com/steveukx/git-js#readme

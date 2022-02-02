@@ -419,16 +419,34 @@ export async function copyToClipboard(string) {
   return success
 }
 
-export const warn = (...e) => {
+/**
+ * Uses console.log to warn about Eufemia usage issues
+ *
+ * It uses log instead of warn,
+ * because of the stack track some browser do add
+ * which takes a lot of visual space in the console
+ *
+ * @param  {...any} params Send in what ever you would
+ */
+export const warn = (...params) => {
   if (
     typeof process !== 'undefined' &&
     process.env.NODE_ENV !== 'production' &&
     typeof console !== 'undefined' &&
     typeof console.log === 'function'
   ) {
-    // Use log instead of warn,
-    // because of the stack track some browser do add
-    // which takes a lot of visual space in the console
-    console.log('Eufemia:', ...e)
+    const isBrowser = typeof window !== 'undefined'
+
+    if (isBrowser) {
+      const styles = [
+        `padding: 0.125rem 0.5rem ${IS_SAFARI ? '' : '0'}`,
+        'font-weight: bold',
+        'color: #00343E',
+        'background: #A5E1D2',
+      ].join(';')
+      console.log('%cEufemia', styles, ...params)
+    } else {
+      console.log('Eufemia:', ...params)
+    }
   }
 }

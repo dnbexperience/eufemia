@@ -3,15 +3,14 @@ import classnames from 'classnames'
 
 // Components
 import IconPrimary, { IconPrimaryIcon } from '../icon-primary/IconPrimary'
-import Button from '../button/Button'
+import Button, { ButtonProps } from '../button/Button'
 
 // Shared
 import Context from '../../shared/Context'
-import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
-import {
-  warn,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { ISpacingProps } from '../../shared/interfaces'
+import { SkeletonShow } from '../skeleton/Skeleton'
+import { warn } from '../../shared/component-helper'
+import { usePropsWithContext } from '../../shared/hooks'
 
 // Internal
 import TagGroup from './TagGroup'
@@ -40,7 +39,7 @@ export interface TagProps {
    * Skeleton should be applied when loading content
    * Default: null
    */
-  skeleton?: SkeletonTypes
+  skeleton?: SkeletonShow
 
   /**
    * The content of the tag element, can be a string or a React Element. Will be overwritten by text prop
@@ -93,8 +92,8 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
     onDelete,
     omitOnKeyUpDeleteEvent,
     ...props
-  } = extendPropsWithContext(
-    { ...defaultProps, ...localProps },
+  } = usePropsWithContext(
+    localProps,
     defaultProps,
     context?.translation?.Tag,
     context?.Tag,
@@ -125,13 +124,16 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
     }
   }
 
+  const buttonAttr: typeof props & Pick<ButtonProps, 'element' | 'type'> =
+    props
+
   if (!isInteractive) {
-    props.element = 'span'
-    props.type = ''
+    buttonAttr.element = 'span'
+    buttonAttr.type = ''
   }
 
   if (isRemovable) {
-    props.icon = getDeleteIcon()
+    buttonAttr.icon = getDeleteIcon()
   }
 
   if (!tagGroupContext) {
@@ -155,7 +157,7 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
           ? (e) => handleKeyUp(e)
           : undefined
       }
-      {...props}
+      {...buttonAttr}
     />
   )
 

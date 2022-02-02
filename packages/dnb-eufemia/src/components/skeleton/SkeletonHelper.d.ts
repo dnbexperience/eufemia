@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from './Skeleton';
 export interface AutoSizeProps {
   __element?: React.ReactNode;
   children?: React.ReactNode;
@@ -20,7 +21,7 @@ export interface SkeletonContextProps {
 }
 export const createSkeletonClass: (
   method: 'shape' | 'font',
-  skeleton: boolean,
+  skeleton: SkeletonShow,
   context?: SkeletonContextProps
 ) => React.HTMLProps<HTMLElement>;
 export interface skeletonDOMAttributesContext {

@@ -10,11 +10,10 @@ import Img, { ImgProps } from '../../elements/Img'
 
 // Shared
 import Context from '../../shared/Context'
-import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
-import {
-  extendPropsWithContext,
-  warn,
-} from '../../shared/component-helper'
+import { ISpacingProps } from '../../shared/interfaces'
+import { SkeletonShow } from '../skeleton/Skeleton'
+import { warn } from '../../shared/component-helper'
+import { usePropsWithContext } from '../../shared/hooks'
 
 // Internal
 import AvatarGroup, { AvatarGroupContext } from './AvatarGroup'
@@ -39,7 +38,7 @@ export interface AvatarProps {
    * Skeleton should be applied when loading content
    * Default: null
    */
-  skeleton?: SkeletonTypes
+  skeleton?: SkeletonShow
 
   /**
    * The content of the component. Can be used instead of prop "data".
@@ -83,7 +82,7 @@ export const defaultProps = {
   children: null,
 }
 
-function Avatar(localProps: AvatarProps & ISpacingProps) {
+const Avatar = (localProps: AvatarProps & ISpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   const avatarGroupContext = React.useContext(AvatarGroupContext)
@@ -99,8 +98,8 @@ function Avatar(localProps: AvatarProps & ISpacingProps) {
     src,
     imgProps,
     ...props
-  } = extendPropsWithContext(
-    { ...defaultProps, ...localProps },
+  } = usePropsWithContext(
+    localProps,
     defaultProps,
     context?.Avatar,
     avatarGroupContext

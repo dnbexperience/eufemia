@@ -15,16 +15,17 @@ import { lightbulb_medium as LightbulbIcon } from '../../icons'
 // Shared
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import { SkeletonShow } from '../skeleton/Skeleton'
 import Context from '../../shared/Context'
-import { ISpacingProps, SkeletonTypes } from '../../shared/interfaces'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { ISpacingProps } from '../../shared/interfaces'
+import { usePropsWithContext } from '../../shared/hooks'
 
 export interface InfoCardProps {
   /**
    * Used in combination with `src` to provide an alt attribute for the `img` element.
    * Default: null
    */
-  alt?: string
+  alt?: React.ReactNode
   /**
    * Aligns the content to center, rather than left
    * Default: false
@@ -49,7 +50,7 @@ export interface InfoCardProps {
    * Skeleton should be applied when loading content
    * Default: null
    */
-  skeleton?: SkeletonTypes
+  skeleton?: SkeletonShow
   /**
    * Specifies the path to the image
    * Default: null
@@ -59,12 +60,12 @@ export interface InfoCardProps {
    * Image src, will replace the 'icon' with the image
    * Default: null
    */
-  text: string
+  text: React.ReactNode
   /**
    * Component title
    * Default: null
    */
-  title?: string
+  title?: React.ReactNode
   /**
    * Is called when the close button is clicked
    * Default: null
@@ -74,7 +75,7 @@ export interface InfoCardProps {
    * The text of the close button.
    * Default: null
    */
-  closeButtonText?: string
+  closeButtonText?: React.ReactNode
   /**
    * Is called when the accept button is clicked
    * Default: null
@@ -84,7 +85,7 @@ export interface InfoCardProps {
    * The text of the accept button.
    * Default: null
    */
-  acceptButtonText?: string
+  acceptButtonText?: React.ReactNode
   /**
    * Additional attributes for the close button.
    * Default: null
@@ -114,7 +115,7 @@ export const defaultProps = {
   acceptButtonAttributes: null,
 }
 
-function InfoCard(localProps: InfoCardProps & ISpacingProps) {
+const InfoCard = (localProps: InfoCardProps & ISpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context
@@ -135,7 +136,7 @@ function InfoCard(localProps: InfoCardProps & ISpacingProps) {
     closeButtonAttributes,
     acceptButtonAttributes,
     ...props
-  } = extendPropsWithContext({
+  } = usePropsWithContext({
     ...defaultProps,
     ...localProps,
   })
@@ -199,7 +200,7 @@ function InfoCard(localProps: InfoCardProps & ISpacingProps) {
         {!acceptButtonIsHidden && (
           <Button
             type="button"
-            data-testid="into-card-accept-button"
+            data-testid="info-card-accept-button"
             variant="secondary"
             right={!centered && 'small'}
             on_click={onAccept}
@@ -210,7 +211,7 @@ function InfoCard(localProps: InfoCardProps & ISpacingProps) {
         {!closeButtonIsHidden && (
           <Button
             type="button"
-            data-testid="into-card-close-button"
+            data-testid="info-card-close-button"
             variant="tertiary"
             top={centered && 'small'}
             on_click={onClose}

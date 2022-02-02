@@ -7,7 +7,6 @@ import React from 'react'
 import { mount } from '../../core/jest/jestSetup'
 import { registerElement } from '../custom-element'
 import {
-  warn,
   isTrue,
   extend,
   extendPropsWithContext,
@@ -194,7 +193,7 @@ describe('"validateDOMAttributes" should', () => {
     const props = {}
     const params = {}
     const res = validateDOMAttributes(props, params)
-    expect(params).toMatchObject(res)
+    expect(params).toEqual(res)
   })
 
   it('has equal object after sending a json object as an prop.attributes', () => {
@@ -202,7 +201,7 @@ describe('"validateDOMAttributes" should', () => {
     const props = { attributes: JSON.stringify(attr) }
     const params = {}
     const res = validateDOMAttributes(props, params)
-    expect(res).toMatchObject(attr)
+    expect(res).toEqual(attr)
   })
 
   it('"disabled" property should be removed once its value is false', () => {
@@ -298,7 +297,7 @@ describe('"processChildren" should', () => {
       },
     }
     const res = processChildren(props)
-    expect(res.props).toMatchObject({ children: 'foo new content' })
+    expect(res.props).toEqual({ children: 'foo new content' })
   })
 })
 
@@ -311,22 +310,22 @@ describe('"extend" should', () => {
     expect(extend(false, object2, object1)).not.toBe(object2)
   })
   it('extend an object and have correct object shape', () => {
-    expect(extend({ key: null }, { key: 'value' })).toMatchObject({
+    expect(extend({ key: null }, { key: 'value' })).toEqual({
       key: 'value',
     })
-    expect(extend({ key: 'value' }, { key: null })).toMatchObject({
+    expect(extend({ key: 'value' }, { key: null })).toEqual({
       key: 'value',
     })
   })
   it('extend an object recursively and have correct object shape', () => {
     expect(
       extend({ key1: { key2: null } }, { key1: { key2: 'value' } })
-    ).toMatchObject({
+    ).toEqual({
       key1: { key2: 'value' },
     })
     expect(
       extend({ key1: { key2: 'value' } }, { key1: { key2: null } })
-    ).toMatchObject({
+    ).toEqual({
       key1: { key2: 'value' },
     })
     expect(
@@ -334,7 +333,7 @@ describe('"extend" should', () => {
         { key1: { key2: 'value' } },
         { key1: { key2: null, foo: 'bar' } }
       )
-    ).toMatchObject({
+    ).toEqual({
       key1: { key2: 'value', foo: 'bar' },
     })
   })
@@ -348,7 +347,7 @@ describe('"extendPropsWithContext" should', () => {
         { key: { x: 'y' }, foo: null }, // default props
         { key: 'I can’t replace You', foo: 'bar' }
       )
-    ).toMatchObject({
+    ).toEqual({
       key: { x: 'y' },
       foo: 'bar', // because the prop was null, we get bar
     })
@@ -456,12 +455,12 @@ describe('"dispatchCustomElementEvent" should', () => {
     }
     dispatchCustomElementEvent(instance, 'my_event', { event, attributes })
     expect(my_event.mock.calls.length).toBe(1)
-    expect(
-      my_event.mock.calls[0][0].event.currentTarget.dataset
-    ).toMatchObject({
-      attr: 'value',
-      prop: 'value',
-    })
+    expect(my_event.mock.calls[0][0].event.currentTarget.dataset).toEqual(
+      expect.objectContaining({
+        attr: 'value',
+        prop: 'value',
+      })
+    )
   })
 })
 
@@ -770,25 +769,6 @@ describe('"matchAll" should', () => {
         expect.arrayContaining(['var(--color-two)', '--color-two']),
       ])
     )
-  })
-})
-
-describe('"warn" should', () => {
-  const text = 'warning text'
-
-  it('print a console.log', () => {
-    process.env.NODE_ENV = 'development'
-    global.console.log = jest.fn()
-    warn(text)
-    expect(global.console.log).toBeCalled()
-    expect(global.console.log).toHaveBeenCalledWith('Eufemia:', text)
-  })
-
-  it('not print a console.log in production', () => {
-    process.env.NODE_ENV = 'production'
-    global.console.log = jest.fn()
-    warn(text)
-    expect(global.console.log).not.toBeCalled()
   })
 })
 

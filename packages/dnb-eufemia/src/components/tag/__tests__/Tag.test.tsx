@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import Tag from '../Tag'
 import {
   axeComponent,
@@ -16,11 +16,24 @@ describe('Tag Group', () => {
     expect(screen.queryByTestId('tag')).toBeNull()
   })
 
-  it('renders the label', () => {
+  it('renders the label as string', () => {
     const label = 'tags'
     render(<Tag.Group label={label} />)
     expect(screen.queryByTestId('tag-group-label')).not.toBeNull()
     expect(screen.queryByTestId('tag-group-label').textContent).toBe(label)
+  })
+
+  it('renders the label as react node', () => {
+    const label = <span data-testid="react-node">ReactNode</span>
+    render(<Tag.Group label={label} />)
+
+    expect(screen.queryByTestId('tag-group-label')).not.toBeNull()
+
+    expect(
+      within(screen.queryByTestId('tag-group-label')).queryByTestId(
+        'react-node'
+      )
+    ).not.toBeNull()
   })
 
   it('renders a tag group with multiple tag elements by children', () => {

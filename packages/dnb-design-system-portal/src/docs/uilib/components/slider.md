@@ -1,7 +1,6 @@
 ---
 title: 'Slider'
 description: 'The Slider component provides a visual indication of adjustable value.'
-order: 13
 showTabs: true
 ---
 

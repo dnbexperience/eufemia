@@ -21,12 +21,6 @@ order: 2
 
 ## People
 
-### Designers
-
-- **Colin McMahon** (Figma, Web)
-- **Sindre Marken** (Figma, Typography)
-- **Casper Brekke** (Figma, Native mobile)
-
-### Developers
-
-- **Tobias Høegh** (tobias.hoegh@dnb.no) (GitHub, `@dnb/eufemia`)
+- **[Kirsti Merete Frelsøy](https://dnb.enterprise.slack.com/user/@U02DQ8G2KAN)** (Seksjonsleder UX)
+- **[Mats Ødegaard Vassli](https://dnb.enterprise.slack.com/user/@WDSTJDNG1)** (Principal designer)
+- **[Tobias Høegh](https://dnb.enterprise.slack.com/user/@WE2M4E65N)** (Frontend Technology Advocate)

@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "repo-utils",
+  "description": "DNB Design System Portal Repo Utils",
+  "license": "SEE LICENSE IN LICENSE FILE",
+  "author": "DNB Team & Tobias Høegh",
+  "version": "1.0.0",
+  "main": "node-utils.js",
+  "scripts": {
+    "test-is-ci": "node node-utils.test.js"
+  },
+  "volta": {
+    "extends": "./package.json"
+  }
+}

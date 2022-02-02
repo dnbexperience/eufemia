@@ -1,15 +1,15 @@
 {
   "private": true,
   "name": "dnb-design-system-portal",
+  "version": "1.0.0",
   "description": "DNB Design System Portal",
   "license": "SEE LICENSE IN LICENSE FILE",
   "author": "DNB Team & Tobias Høegh",
-  "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "build": "NODE_NO_WARNINGS=1 gatsby build --no-uglify",
-    "build:version": "node ./scripts/version.js --new-version",
     "build-ci": "yarn build:version && yarn build --prefix-paths && yarn commit-new-pages",
+    "build:version": "node ./scripts/version.js --new-version",
     "clean": "NODE_NO_WARNINGS=1 gatsby clean",
     "precommit": "yarn lint-staged",
     "commit-new-pages": "node ./scripts/commitPages.js",
@@ -21,8 +21,8 @@
     "deploy": "yarn deploy-ci",
     "deploy-ci": "node ./scripts/deploy.js",
     "lint": "eslint --quiet ./src",
-    "lint:ci": "yarn lint:js && yarn lint:styles",
     "lint-staged": "lint-staged",
+    "lint:ci": "yarn lint:js && yarn lint:styles",
     "lint:js": "yarn lint --fix",
     "lint:js:staged": "eslint --quiet --fix",
     "lint:styles": "stylelint './src/**/*.{js,css}'",
@@ -33,6 +33,8 @@
     "test": "jest",
     "test:ci": "jest --ci --passWithNoTests",
     "test:staged": "jest --bail --findRelatedTests ",
+    "test:types": "tsc --noEmit",
+    "test:types:watch": "tsc --noEmit --watch",
     "test:update": "jest --updateSnapshot",
     "prettier:components": "prettier --loglevel warn --write './src/uilib/{components,extensions}/**/*.{js,md}' './src/docs/uilib/{components,elements,extensions}/*.{js,md}'",
     "prettier:diff": "prettier --list-different '{scripts,stories,src}/**/*.{js,md}'",
@@ -48,7 +50,7 @@
     "@emotion/styled": "11.3.0",
     "@mdx-js/mdx": "1.6.22",
     "@mdx-js/react": "1.6.22",
-    "algoliasearch": "4.11.0",
+    "algoliasearch": "4.12.0",
     "classnames": "2.3.1",
     "css-vars-ponyfill": "2.4.7",
     "dnb-eufemia-sandbox": "workspace:*",
@@ -67,7 +69,6 @@
     "@netlify/plugin-gatsby": "1.0.3",
     "babel-preset-gatsby": "2.1.0",
     "camelcase": "6.2.0",
-    "ci-info": "3.2.0",
     "cross-env": "7.0.3",
     "current-git-branch": "1.1.0",
     "date-fns": "2.25.0",
@@ -82,7 +83,7 @@
     "fs-extra": "10.0.0",
     "gatsby": "4.1.2",
     "gatsby-link": "4.1.0",
-    "gatsby-plugin-algolia": "0.23.0",
+    "gatsby-plugin-algolia": "0.25.0",
     "gatsby-plugin-catch-links": "4.1.0",
     "gatsby-plugin-emotion": "7.1.0",
     "gatsby-plugin-gatsby-cloud": "4.1.0",
@@ -101,7 +102,6 @@
     "gh-pages": "3.2.3",
     "github-slugger": "1.4.0",
     "is-absolute-url": "4.0.1",
-    "is-ci": "3.0.1",
     "jest": "27.3.1",
     "jest-emotion": "11.0.0",
     "keycode": "2.2.0",
@@ -126,13 +126,14 @@
     "stylelint-config-styled-components": "0.1.1",
     "stylelint-processor-styled-components": "1.10.0",
     "svg-react-loader": "0.4.6",
-    "yarn-plugin-ignore-install-options": "1.0.2"
+    "typescript": "4.5.5"
   },
+  "buildVersion": "[LOCAL BUILD]",
+  "releaseVersion": "[LOCAL BUILD]",
+  "changelogVersion": "[LOCAL BUILD]",
   "installConfig": {
     "hoistingLimits": "dependencies"
   },
-  "buildVersion": "[LOCAL BUILD]",
-  "changelogVersion": "April, 5. 2021",
   "volta": {
     "extends": "../../package.json"
   }

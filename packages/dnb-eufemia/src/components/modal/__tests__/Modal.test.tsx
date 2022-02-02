@@ -1030,8 +1030,10 @@ describe('Modal component', () => {
     expect(elem.getAttribute('role')).toBe('dialog')
     expect(elem.hasAttribute('aria-modal')).toBe(true)
 
-    // eslint-disable-next-line
-    helpers.IS_MAC = true
+    Object.defineProperty(helpers, 'IS_MAC', {
+      value: true,
+      writable: true,
+    })
 
     Comp.setProps({ title: 're-render' })
 
@@ -1039,8 +1041,10 @@ describe('Modal component', () => {
     expect(elem.getAttribute('role')).toBe('region')
     expect(elem.hasAttribute('aria-modal')).toBe(false)
 
-    // eslint-disable-next-line
-    helpers.IS_MAC = false
+    Object.defineProperty(helpers, 'IS_MAC', {
+      value: false,
+      writable: true,
+    })
   })
 
   it('has to have a close button', () => {

@@ -13,8 +13,8 @@ import pinIcon from '../../icons/pin'
 
 // Shared
 import Context from '../../shared/Context'
-import { SkeletonTypes } from '../../shared/interfaces'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { SkeletonShow } from '../skeleton/Skeleton'
+import { usePropsWithContext } from '../../shared/hooks'
 
 export interface TimelineItemProps {
   /**
@@ -32,7 +32,7 @@ export interface TimelineItemProps {
   /**
    * Text displaying the name of the timeline item.
    */
-  name: React.ReactNode
+  name: React.ReactNode & string
 
   /**
    * Text displaying the date of the timeline item.
@@ -54,7 +54,7 @@ export interface TimelineItemProps {
    * Skeleton should be applied when loading content
    * Default: null
    */
-  skeleton?: SkeletonTypes
+  skeleton?: SkeletonShow
 }
 
 const defaultProps = {
@@ -67,7 +67,7 @@ const defaultProps = {
   skeleton: false,
 }
 
-export default function TimelineItem(localProps: TimelineItemProps) {
+const TimelineItem = (localProps: TimelineItemProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   const {
@@ -90,11 +90,7 @@ export default function TimelineItem(localProps: TimelineItemProps) {
     state,
     skeleton,
     ...props
-  } = extendPropsWithContext(
-    { ...defaultProps, ...localProps },
-    defaultProps,
-    context?.TimelineItem
-  )
+  } = usePropsWithContext(localProps, defaultProps, context?.TimelineItem)
 
   const stateIsCompleted = state === 'completed'
   const stateIsCurrent = state === 'current'
@@ -191,3 +187,5 @@ export default function TimelineItem(localProps: TimelineItemProps) {
     </div>
   )
 }
+
+export default TimelineItem

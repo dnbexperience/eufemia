@@ -85,6 +85,10 @@ The main Icon component is basically a wrapper for whatever icon you place withi
 
 The IconPrimary component loads by default all Primary Icons so they can easily be included and used without additionally importing every icon.
 
+## [InfinityScroll](/uilib/components/pagination/infinity-scroll)
+
+The InfinityScroller component is a `mode` of the Pagination component which loads content continuously as the user scrolls down the page.
+
 ## [InfoCard](/uilib/components/info-card)
 
 The InfoCard is used to give the user more information than we can give in a messagebox. It can also be used as to give useful tips.
