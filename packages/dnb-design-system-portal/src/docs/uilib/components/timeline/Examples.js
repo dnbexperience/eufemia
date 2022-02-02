@@ -318,6 +318,30 @@ export const TimelineSkeleton = () => (
   </ComponentBox>
 )
 
+export const TimelineAsChildrenSkeleton = () => (
+  <ComponentBox data-visual-test="timeline-children-skeleton" hideCode>
+    {() => /* jsx */ `
+<Timeline skeleton>
+  <Timeline.Item 
+    name="Upcoming" 
+    date="10. september 2021"
+    state="upcoming"
+  />
+  <Timeline.Item 
+    name="Current" 
+    date="11. september 2021"
+    state="current"
+  />
+  <Timeline.Item 
+    name="Completed" 
+    date="11. september 2021"
+    state="completed"
+  />
+</Timeline>
+`}
+  </ComponentBox>
+)
+
 export const TimelineItemSkeleton = () => (
   <ComponentBox data-visual-test="timeline-item-skeleton" hideCode>
     {() => /* jsx */ `
