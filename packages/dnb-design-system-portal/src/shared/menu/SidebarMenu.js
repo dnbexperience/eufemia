@@ -796,20 +796,20 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
 
     // prepare items, make sure we forward order for sub paths, if needed
     .map((item) => {
-      const parts = item.path.split('/').filter((p) => p)
-      const sub = parts.slice(0, parts.length - 1).join('/')
-
-      subCache[sub] = subCache[sub] || {
-        count: 1,
-      }
       levelCache[item.level] = levelCache[item.level] || {}
+
+      const parts = item.path.split('/').filter(Boolean)
+
+      // Handle ordering when no order field is given
+      const sub = parts.slice(0, -1).join('/')
+      subCache[sub] = subCache[sub] || { count: 1000 }
       const count = subCache[sub].count++
 
       item._order = parts
         .reduce((acc, cur, i) => {
           if (!levelCache[item.level][cur]) {
             levelCache[item.level][cur] = item.order
-              ? parseFloat(item.order) + 1000 // push manual ordering to the top
+              ? parseFloat(item.order) + 2000 // push manual ordering to the top
               : count
           }
           if (levelCache[i + 1]) {
@@ -829,6 +829,3 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
     )
   return list
 }
-
-// const random = (min, max) =>
-//   Math.floor(Math.random() * (max - min + 1) + min)

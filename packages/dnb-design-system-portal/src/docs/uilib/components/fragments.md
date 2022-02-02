@@ -1,9 +1,7 @@
 ---
 title: 'Fragments'
 description: 'Fragments are small, low-level and reusable parts used inside other components.'
-# showTabs: true
-# hideTabs:
-#   - title: Events
+order: 300
 ---
 
 # Fragments
