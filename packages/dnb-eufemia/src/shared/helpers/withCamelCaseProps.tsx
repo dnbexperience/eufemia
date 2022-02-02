@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import { toSnakeCase } from '../component-helper'
 
 /**
- * withCamelCaseProps is a HOC
+ * withCamelCaseProps is a HOC for function components
  * it will return a React Component where all snake_case props gets converted to camelCase
  *
  * Use the same for TypeScript types by using: ToCamelCase
@@ -10,13 +11,12 @@ import { toSnakeCase } from '../component-helper'
  * @param Base the original function or class
  * @returns extended function or class
  */
-export function withCamelCaseProps<TBase extends React.ComponentType>(
-  Base: TBase
-) {
+export function withCamelCaseProps<TBase, P>(
+  Base: React.FunctionComponent<P> & TBase
+): typeof Base {
   const Component: React.ComponentType = Base
 
-  // const Derived = (props: Omit<TBase, keyof MoreProps>) => {
-  const Derived = (props: Record<string, unknown>) => {
+  const Derived = (props: P) => {
     return <Component {...Object.freeze(convertCamelCaseProps(props))} />
   }
 
@@ -30,17 +30,25 @@ export function withCamelCaseProps<TBase extends React.ComponentType>(
     })
   }
 
-  return Derived as TBase
+  // @ts-ignore
+  return Derived
 }
 
-// Same – but "class" based
+/**
+ * withCamelCaseProps is a HOC for classes
+ * it will return a React Component where all snake_case props gets converted to camelCase
+ *
+ * Use the same for TypeScript types by using: ToCamelCase
+ *
+ * @param Base the original function or class
+ * @returns extended function or class
+ */
 export function classWithCamelCaseProps<
   TBase extends React.ComponentClass
 >(Base: TBase): typeof Base {
   const Component: React.ComponentClass = Base
 
   // Bug? https://github.com/microsoft/TypeScript/issues/37142
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   class Derived extends Base {
     render() {
