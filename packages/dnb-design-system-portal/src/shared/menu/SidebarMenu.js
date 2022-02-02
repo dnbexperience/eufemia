@@ -478,9 +478,9 @@ export default class SidebarLayout extends React.PureComponent {
             const currentPathname = location.pathname.replace(/(\/)$/, '')
             const currentPathnameList = currentPathname
               .split('/')
-              .filter((i) => i)
+              .filter(Boolean)
 
-            const nav = prepareNav({
+            const menuItems = prepareNav({
               location,
               allMdx,
               showAll,
@@ -489,17 +489,15 @@ export default class SidebarLayout extends React.PureComponent {
               .filter(({ title, menuTitle }) => title || menuTitle)
 
               .map((props) => {
-                const path = `/${props.path}`
+                const path = `/${props.path.replace(/(\/)$/, '')}`
 
                 // get the active item
-                const active =
-                  currentPathname === path ||
-                  currentPathname === path.replace(/(\/)$/, '')
+                const active = currentPathname === path
 
                 // check if a item path is inside another
                 const inside = path
                   .split('/')
-                  .filter((i) => i)
+                  .filter(Boolean)
                   .every((i) => currentPathnameList.includes(i))
 
                 return { ...props, active, inside }
@@ -508,6 +506,8 @@ export default class SidebarLayout extends React.PureComponent {
               // mark also the rest of the same level as inside
               .map((curr, i, arr) => {
                 const prev = arr[i - 1] ? arr[i - 1] : null
+
+                // use 4 here, so the logic is the same in the CSS
                 if (prev && curr.level >= 4) {
                   if (prev.inside && curr.level >= prev.level) {
                     curr.inside = true
@@ -515,6 +515,31 @@ export default class SidebarLayout extends React.PureComponent {
                 }
                 return curr
               })
+
+            let hasActive = menuItems.some(({ active }) => active)
+            const currentPathnameOneLevelBack = !hasActive
+              ? currentPathname
+                  .split('/')
+                  .filter(Boolean)
+                  .slice(0, -1)
+                  .join('/')
+              : null
+
+            const nav = menuItems
+              // in case there was no active item
+              // like inside /modal/demos and /modal/properties
+              // then we make sure we get the most possible item
+              // and set active on it – this way we get the correct color and aria-current
+              .map((curr) => {
+                if (!hasActive && curr.inside) {
+                  if (curr.path === currentPathnameOneLevelBack) {
+                    curr.active = true
+                    hasActive = true
+                  }
+                }
+                return curr
+              })
+
               .map(
                 (
                   {
@@ -743,7 +768,7 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
     .sort()
     .reduce(
       (acc, cur) => {
-        const prefix = cur.split('/').filter((p) => p)[0]
+        const prefix = cur.split('/').filter(Boolean)[0]
 
         if (showAll === false) {
           if (prefix === first) {
@@ -788,7 +813,7 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
         },
       } = allMdx.edges.find(({ node: { slug } }) => slug === slugPath)
 
-      const level = slug.split('/').filter((p) => p).length
+      const level = slug.split('/').filter(Boolean).length
       level > countLevels ? (countLevels = level) : countLevels
 
       return { title, path: slug, level, order, _order: slug, ...rest }
@@ -796,20 +821,20 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
 
     // prepare items, make sure we forward order for sub paths, if needed
     .map((item) => {
-      const parts = item.path.split('/').filter((p) => p)
-      const sub = parts.slice(0, parts.length - 1).join('/')
-
-      subCache[sub] = subCache[sub] || {
-        count: 1,
-      }
       levelCache[item.level] = levelCache[item.level] || {}
+
+      const parts = item.path.split('/').filter(Boolean)
+
+      // Handle ordering when no order field is given
+      const sub = parts.slice(0, -1).join('/')
+      subCache[sub] = subCache[sub] || { count: 1000 }
       const count = subCache[sub].count++
 
       item._order = parts
         .reduce((acc, cur, i) => {
           if (!levelCache[item.level][cur]) {
             levelCache[item.level][cur] = item.order
-              ? parseFloat(item.order) + 1000 // push manual ordering to the top
+              ? parseFloat(item.order) + 2000 // push manual ordering to the top
               : count
           }
           if (levelCache[i + 1]) {
@@ -829,6 +854,3 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
     )
   return list
 }
-
-// const random = (min, max) =>
-//   Math.floor(Math.random() * (max - min + 1) + min)
