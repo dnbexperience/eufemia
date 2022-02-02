@@ -12,7 +12,7 @@ describe('InfoCard', () => {
     expect(screen.queryByTestId('info-card')).not.toBeNull()
   })
 
-  it('renders the title', () => {
+  it('renders the title as string', () => {
     const title = 'my title'
 
     render(<InfoCard text="text" title={title} />)
@@ -23,7 +23,20 @@ describe('InfoCard', () => {
     )
   })
 
-  it('renders the text', () => {
+  it('renders the title as react node', () => {
+    const title = <span data-testid="react-node">ReactNode</span>
+
+    render(<InfoCard text="text" title={title} />)
+
+    expect(screen.queryByTestId('info-card-title')).not.toBeNull()
+    expect(
+      within(screen.queryByTestId('info-card-title')).queryByTestId(
+        'react-node'
+      )
+    ).not.toBeNull()
+  })
+
+  it('renders the text as string', () => {
     const text = 'my-text'
 
     render(<InfoCard text={text} />)
@@ -32,6 +45,19 @@ describe('InfoCard', () => {
     expect(screen.queryByTestId('info-card-text').textContent).toMatch(
       text
     )
+  })
+
+  it('renders the text as react node', () => {
+    const text = <span data-testid="react-node">ReactNode</span>
+
+    render(<InfoCard text={text} />)
+
+    expect(screen.queryByTestId('info-card-text')).not.toBeNull()
+    expect(
+      within(screen.queryByTestId('info-card-text')).queryByTestId(
+        'react-node'
+      )
+    ).not.toBeNull()
   })
 
   it('renders the icon', () => {
@@ -83,15 +109,15 @@ describe('InfoCard', () => {
   it('does not render the buttons', () => {
     render(<InfoCard text="text" />)
 
-    expect(screen.queryByTestId('into-card-accept-button')).toBeNull()
-    expect(screen.queryByTestId('into-card-close-button')).toBeNull()
+    expect(screen.queryByTestId('info-card-accept-button')).toBeNull()
+    expect(screen.queryByTestId('info-card-close-button')).toBeNull()
   })
 
   it('renders the accept button when on_accept is provided', () => {
     const onAccept = jest.fn()
     render(<InfoCard text="text" onAccept={onAccept} />)
 
-    const buttonElement = screen.queryByTestId('into-card-accept-button')
+    const buttonElement = screen.queryByTestId('info-card-accept-button')
 
     expect(buttonElement).not.toBeNull()
 
@@ -100,21 +126,36 @@ describe('InfoCard', () => {
     expect(onAccept).toHaveBeenCalled()
   })
 
-  it('renders the accept button text', () => {
+  it('renders the accept button text as string', () => {
     const acceptButtonText = 'some text'
     render(<InfoCard text="text" acceptButtonText={acceptButtonText} />)
 
-    const buttonElement = screen.queryByTestId('into-card-accept-button')
+    const buttonElement = screen.queryByTestId('info-card-accept-button')
 
     expect(buttonElement).not.toBeNull()
     expect(buttonElement.textContent).toMatch(acceptButtonText)
+  })
+
+  it('renders the accept button text as react node', () => {
+    const acceptButtonText = (
+      <span data-testid="react-node">ReactNode</span>
+    )
+
+    render(<InfoCard text="text" acceptButtonText={acceptButtonText} />)
+
+    expect(screen.queryByTestId('info-card-accept-button')).not.toBeNull()
+    expect(
+      within(
+        screen.queryByTestId('info-card-accept-button')
+      ).queryByTestId('react-node')
+    ).not.toBeNull()
   })
 
   it('renders the close button when on_close is provided', () => {
     const onClose = jest.fn()
     render(<InfoCard text="text" onClose={onClose} />)
 
-    const buttonElement = screen.queryByTestId('into-card-close-button')
+    const buttonElement = screen.queryByTestId('info-card-close-button')
 
     expect(buttonElement).not.toBeNull()
 
@@ -123,14 +164,27 @@ describe('InfoCard', () => {
     expect(onClose).toHaveBeenCalled()
   })
 
-  it('renders the close button text', () => {
+  it('renders the close button text as string', () => {
     const closeButtonText = 'some text'
     render(<InfoCard text="text" closeButtonText={closeButtonText} />)
 
-    const buttonElement = screen.queryByTestId('into-card-close-button')
+    const buttonElement = screen.queryByTestId('info-card-close-button')
 
     expect(buttonElement).not.toBeNull()
     expect(buttonElement.textContent).toMatch(closeButtonText)
+  })
+
+  it('renders the close button text as react node', () => {
+    const closeButtonText = <span data-testid="react-node">ReactNode</span>
+
+    render(<InfoCard text="text" closeButtonText={closeButtonText} />)
+
+    expect(screen.queryByTestId('info-card-close-button')).not.toBeNull()
+    expect(
+      within(screen.queryByTestId('info-card-close-button')).queryByTestId(
+        'react-node'
+      )
+    ).not.toBeNull()
   })
 
   it('renders the accept button with additional props', () => {
@@ -144,7 +198,7 @@ describe('InfoCard', () => {
       />
     )
 
-    const buttonElement = screen.queryByTestId('into-card-accept-button')
+    const buttonElement = screen.queryByTestId('info-card-accept-button')
 
     expect(buttonElement.getAttribute('href')).toMatch(href)
   })
@@ -159,7 +213,7 @@ describe('InfoCard', () => {
       />
     )
 
-    const buttonElement = screen.queryByTestId('into-card-close-button')
+    const buttonElement = screen.queryByTestId('info-card-close-button')
 
     expect(buttonElement.getAttribute('href')).toMatch(href)
   })
