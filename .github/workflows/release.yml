@@ -59,6 +59,12 @@ jobs:
       - name: Postbuild Library
         run: yarn workspace @dnb/eufemia postbuild:ci
 
+      - name: Release
+        if: (github.ref == 'refs/heads/release' ||
+          github.ref == 'refs/heads/beta' ||
+          github.ref == 'refs/heads/alpha')
+        run: yarn workspace @dnb/eufemia publish:ci
+
       - name: Deploy portal
         if: (github.ref == 'refs/heads/release' ||
           github.ref == 'refs/heads/portal')
@@ -66,12 +72,6 @@ jobs:
         with:
           personal_token: ${{ secrets.GH_TOKEN }}
           publish_dir: ./packages/dnb-design-system-portal/public
-
-      - name: Release
-        if: (github.ref == 'refs/heads/release' ||
-          github.ref == 'refs/heads/beta' ||
-          github.ref == 'refs/heads/alpha')
-        run: yarn workspace @dnb/eufemia publish:ci
 
       - name: Slack
         uses: 8398a7/action-slack@v3
