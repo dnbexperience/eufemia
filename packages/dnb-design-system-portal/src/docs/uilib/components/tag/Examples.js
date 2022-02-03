@@ -15,8 +15,8 @@ export const TagDefault = () => (
   <ComponentBox data-visual-test="tag-default">
     {() => /* jsx */ `
 <Tag.Group label="Payment types:">
-  <Tag right="x-small">Digipost</Tag>
-  <Tag right="x-small">AvtaleGiro</Tag>
+  <Tag>Digipost</Tag>
+  <Tag>AvtaleGiro</Tag>
 </Tag.Group>
 `}
   </ComponentBox>
@@ -29,9 +29,9 @@ export const TagWithIcon = () => (
   >
     {() => /* jsx */ `
 <Tag.Group label="Betalingstyper:">
-  <Tag icon={AInvoice} text="AvtaleGiro" right="x-small" />
-  <Tag icon={EInvoice} text="eFaktura" right="x-small" />
-  <Tag icon={DigiPost} text="DigiPost" right="x-small" />
+  <Tag icon={AInvoice} text="AvtaleGiro" />
+  <Tag icon={EInvoice} text="eFaktura" />
+  <Tag icon={DigiPost} text="DigiPost" />
 </Tag.Group>
 `}
   </ComponentBox>
@@ -94,7 +94,6 @@ const Genres = () => {
               key={tag.key}
               text={tag.text}
               onDelete={handleDelete(tag)}
-              space={{right: 'x-small'}}
             />
         );
       })
@@ -111,9 +110,9 @@ export const TagSkeleton = () => (
   <ComponentBox data-visual-test="tag-skeleton">
     {() => /* jsx */ `
 <Tag.Group label="Skeletons:">
-  <Tag skeleton text="Skeleton" space={{right: 'x-small'}} /> 
-  <Tag skeleton text="Skeleton" space={{right: 'x-small'}} />
-  <Tag skeleton text="Skeleton" space={{right: 'x-small'}} />
+  <Tag skeleton text="Skeleton" /> 
+  <Tag skeleton text="Skeleton" />
+  <Tag skeleton text="Skeleton" />
 </Tag.Group>
 `}
   </ComponentBox>
