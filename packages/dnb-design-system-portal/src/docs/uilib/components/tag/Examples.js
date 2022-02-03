@@ -59,7 +59,7 @@ export const TagInline = () => (
   <ComponentBox data-visual-test="tag-inline">
     {() => /* jsx */ `
 Text
-<Tag.Group label="Betalingstyper:">
+<Tag.Group label="Inline:">
   <Tag text="First" /> between 
   <Tag text="Second" />
   <Tag text="Third" />
@@ -103,6 +103,18 @@ const Genres = () => {
   )
 }
 render(<Genres />)
+`}
+  </ComponentBox>
+)
+
+export const TagSkeleton = () => (
+  <ComponentBox data-visual-test="tag-skeleton">
+    {() => /* jsx */ `
+<Tag.Group label="Skeletons:">
+  <Tag skeleton text="Skeleton" space={{right: 'x-small'}} /> 
+  <Tag skeleton text="Skeleton" space={{right: 'x-small'}} />
+  <Tag skeleton text="Skeleton" space={{right: 'x-small'}} />
+</Tag.Group>
 `}
   </ComponentBox>
 )

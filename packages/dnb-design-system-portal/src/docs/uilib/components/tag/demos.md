@@ -9,6 +9,7 @@ TagClickable,
 TagRemovable,
 TagMultipleRemovable,
 TagInline,
+TagSkeleton,
 } from 'Docs/uilib/components/tag/Examples'
 
 ## Demos
@@ -45,3 +46,7 @@ Removable tags can for example be used in filter lists. This example simple exam
 #### Tag used inside text
 
 <TagInline />
+
+#### Tag used as skeleton
+
+<TagSkeleton />
