@@ -10,6 +10,7 @@ import {
 } from '../number-format/NumberUtils'
 import { warn } from '../../shared/component-helper'
 import { IS_IE11, IS_ANDROID, IS_IOS } from '../../shared/helpers'
+import { safeSetSelection } from './text-mask/createTextMaskInputElement'
 
 const enableLocaleSupportWhen = ['as_number', 'as_percent', 'as_currency']
 const enableNumberMaskWhen = [
@@ -204,7 +205,7 @@ export const correctCaretPosition = (element, maskParams) => {
         }
 
         if (!isNaN(parseFloat(pos))) {
-          element.setSelectionRange(pos, pos)
+          safeSetSelection(element, pos)
         }
       }
     } catch (e) {

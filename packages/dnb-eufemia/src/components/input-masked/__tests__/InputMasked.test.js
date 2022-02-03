@@ -597,7 +597,6 @@ describe('InputMasked component', () => {
     )
 
     const setSelectionRange = jest.fn()
-    const wait = (t) => new Promise((r) => setTimeout(r, t))
     const focus = ({ comp = Comp, value }) => {
       comp.find('input').simulate('focus', {
         target: {
@@ -639,6 +638,59 @@ describe('InputMasked component', () => {
 
     expect(setSelectionRange).toBeCalledTimes(2)
     expect(setSelectionRange).toHaveBeenCalledWith(8, 8)
+  })
+
+  it('should move carret position on delete key', () => {
+    const Comp = mount(
+      <Component
+        value={123456}
+        show_mask
+        number_mask={{
+          suffix: ' kr',
+          prefix: 'NOK ',
+          allowDecimal: true,
+        }}
+      />
+    )
+
+    const setSelectionRange = jest.fn()
+    const preventDefault = jest.fn()
+
+    const simulate = ({ name, value, selectionPosition, keyCode }) => {
+      Comp.find('input').simulate(name, {
+        target: {
+          value,
+          selectionStart: selectionPosition,
+          selectionEnd: selectionPosition,
+          setSelectionRange,
+        },
+        preventDefault,
+        keyCode,
+      })
+    }
+
+    const element = Comp.find('input').instance()
+
+    expect(element.value).toBe(
+      'NOK 123 456 kr' // includes a hidden space: invisibleSpace
+    )
+
+    let selectionPosition = 7
+    const value = element.value
+
+    // test "delete" key
+    simulate({
+      name: 'keydown',
+      value,
+      selectionPosition,
+      keyCode: 46, // delete
+    })
+    expect(setSelectionRange).toBeCalledTimes(1)
+    expect(setSelectionRange).toHaveBeenCalledWith(
+      selectionPosition + 1,
+      selectionPosition + 1
+    )
+    expect(preventDefault).toBeCalledTimes(1)
   })
 })
 
@@ -1211,3 +1263,5 @@ describe('InputMasked scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
+
+const wait = (t) => new Promise((r) => setTimeout(r, t))
