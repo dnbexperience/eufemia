@@ -53,4 +53,11 @@ describe('Tag screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match a skeleton Tag', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="tag-skeleton"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
