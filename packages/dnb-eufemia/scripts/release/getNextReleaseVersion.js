@@ -66,4 +66,5 @@ function runCommand(command) {
   })
 }
 
+exports.releaseBranches = releaseBranches
 exports.getNextReleaseVersion = getNextReleaseVersion
