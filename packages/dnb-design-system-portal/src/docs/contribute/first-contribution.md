@@ -4,7 +4,7 @@ order: 2
 icon: 'naming'
 ---
 
-import { Button, Blockquote } from '@dnb/eufemia/src'
+import { Button, Blockquote, Section } from '@dnb/eufemia/src'
 
 # New contributor
 
@@ -12,9 +12,9 @@ import { Button, Blockquote } from '@dnb/eufemia/src'
 
 If you are new to the Eufemia Library, we would recommend following an intro to the elementary parts of Eufemia.
 
-<div className="dnb-section dnb-section--spacing dnb-section--mint-green">
+<Section style_type="mint-green" spacing>
   <Button href="/uilib/intro" size="large" text="Quick Intro" icon="chevron_right"  variant="secondary"/>
-</div>
+</Section>
 
 ## Your first contribution
 
@@ -43,9 +43,9 @@ More information in [Style guides - Git convention](/contribute/style-guides/git
 
 Have a look at the "before getting started" section for a description of technical details. In this section, you will find what packages are included, design decisions explained, the format of the component structure, what purpose different files have, what happens during a build, and the different development environments.
 
-<div className="dnb-section dnb-section--spacing dnb-section--mint-green">
+<Section style_type="mint-green" spacing>
   <Button href="/contribute/first-contribution/before-started" size="large" text="Before getting started" icon="chevron_right" variant="secondary" />
-</div>
+</Section>
 
 ## What to expect from the maintainers
 

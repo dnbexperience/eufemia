@@ -4,6 +4,8 @@ order: 1
 icon: 'principles'
 ---
 
+import { Button, Section } from '@dnb/eufemia/src'
+
 # Ground rules
 
 ## Development principles
@@ -66,3 +68,9 @@ If you experience or witness unacceptable behaviorâ€”or have any other concernsâ
 After filing a report, a representative will contact you personally. If the person who is harassing you is part of the response team, they will recuse themselves from handling your incident. A representative will then review the incident, follow up with any additional questions, and make a decision as to how to respond. We will respect confidentiality requests for the purpose of protecting victims of abuse.
 
 Anyone asked to stop unacceptable behavior is expected to comply immediately. If an individual engages in unacceptable behavior, the representative may take any action they deem appropriate, up to and including a permanent ban from our community without warning.
+
+You may use [this "reproduction" starter](!/issue) to reproduce the issue when reporting.
+
+<Section style_type="mint-green" spacing>
+  <Button href="/issue" size="large" text="Starter" target="_blank_"  variant="secondary"/>
+</Section>
