@@ -66,7 +66,6 @@
     "@babel/eslint-parser": "7.16.0",
     "@babel/node": "7.16.0",
     "@emotion/cache": "11.5.0",
-    "@netlify/plugin-gatsby": "1.0.3",
     "babel-preset-gatsby": "2.1.0",
     "camelcase": "6.2.0",
     "cross-env": "7.0.3",
