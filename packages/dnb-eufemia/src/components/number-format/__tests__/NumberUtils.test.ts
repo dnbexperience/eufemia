@@ -5,7 +5,7 @@
 
 import { mockGetSelection } from '../../../core/jest/jestSetup'
 import { LOCALE } from '../../../shared/defaults'
-import { isMac } from '../../../shared/helpers'
+import * as helpers from '../../../shared/helpers'
 import {
   format,
   cleanNumber,
@@ -32,7 +32,7 @@ beforeAll(() => {
   platformGetter.mockReturnValue('Mac')
   languageGetter.mockReturnValue(locale)
 
-  isMac() // just to update the exported const: IS_MAC
+  helpers.isMac() // just to update the exported const: IS_MAC
 
   mockGetSelection()
 })
@@ -97,7 +97,7 @@ describe('Decimals format', () => {
     expect(format(num, { currency: true, decimals: 4 })).toBe(
       '-12 345,6789 kr'
     )
-    expect(format(String(num), { currency: true, decimals: '4' })).toBe(
+    expect(format(String(num), { currency: true, decimals: 4 })).toBe(
       '-12 345,6789 kr'
     )
     expect(
@@ -452,7 +452,7 @@ describe('NumberFormat percentage', () => {
       '−4,17 %'
     )
     expect(
-      format(-4.165, { percent: true, decimals: '2', omit_rounding: true })
+      format(-4.165, { percent: true, decimals: 2, omit_rounding: true })
     ).toBe('−4,16 %')
   })
 
