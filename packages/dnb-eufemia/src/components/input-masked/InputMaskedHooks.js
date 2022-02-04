@@ -13,6 +13,7 @@ import {
   isTrue,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
+import { safeSetSelection } from './text-mask/createTextMaskInputElement'
 
 import TextMask from './TextMask'
 import createNumberMask from './addons/createNumberMask'
@@ -375,7 +376,7 @@ const useCallEvent = ({ setLocalValue }) => {
           if (decimalSeparators.test(charAtSelection)) {
             const index = value.indexOf(maskParams.decimalSymbol)
             if (index > -1) {
-              event.target.setSelectionRange(index + 1, index + 1)
+              safeSetSelection(event.target, index + 1)
             }
           }
 
@@ -394,6 +395,15 @@ const useCallEvent = ({ setLocalValue }) => {
           event.target.value = value + maskParams.decimalSymbol
           event.preventDefault()
         }
+      }
+
+      // move cursor to right if key is delete and char at selection is thousand separator
+      if (
+        keyCode === 'delete' &&
+        charAtSelection === (maskParams.thousandsSeparatorSymbol || ' ')
+      ) {
+        safeSetSelection(event.target, selStart + 1)
+        event.preventDefault()
       }
     }
 
