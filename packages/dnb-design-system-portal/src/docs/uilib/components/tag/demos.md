@@ -5,7 +5,6 @@ showTabs: true
 import {
 TagDefault,
 TagWithIcon,
-TagClickable,
 TagRemovable,
 TagMultipleRemovable,
 TagInline,
@@ -25,10 +24,6 @@ See more examples below.
 #### Tag with icon
 
 <TagWithIcon />
-
-#### Clickable Tag
-
-<TagClickable />
 
 #### Removable tag
 

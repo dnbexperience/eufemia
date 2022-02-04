@@ -59,9 +59,9 @@ export const TagMultiple = () => {
     <Wrapper>
       <Box>
         <Tag.Group label="tags">
-          <Tag icon={bell} text={'Tag 1'} />{' '}
-          <Tag icon={car_1} text={'Tag 2'} />{' '}
-          <Tag icon={chip} text={'Tag 3'} />{' '}
+          <Tag icon={bell} text={'Tag 1'} />
+          <Tag icon={car_1} text={'Tag 2'} />
+          <Tag icon={chip} text={'Tag 3'} />
         </Tag.Group>
       </Box>
     </Wrapper>
@@ -123,7 +123,7 @@ export const TagClickable = () => {
           onClick={() => {
             console.log('Tag is clicked!')
           }}
-        />{' '}
+        />
       </Tag.Group>
     </Provider>
   )
@@ -140,28 +140,28 @@ export const TagMultipleClickable = () => {
               console.log('Click1')
             }}
             text={'First'}
-          />{' '}
+          />
           <Tag
             icon={scissors}
             onClick={() => {
               console.log('Click2')
             }}
             text={'Second'}
-          />{' '}
+          />
           <Tag
             icon={scooter}
             onClick={() => {
               console.log('Click3')
             }}
             text={'Third'}
-          />{' '}
+          />
           <Tag
             icon={share_ios}
             onClick={() => {
               console.log('Click4')
             }}
             text={'Fourth'}
-          />{' '}
+          />
         </Tag.Group>
       </Box>
     </Wrapper>
@@ -173,22 +173,22 @@ export const TagMixed = () => {
     <Wrapper>
       <Box>
         <Tag.Group label="numbers">
-          <Tag icon={save} text={'First'} />{' '}
+          <Tag icon={save} text={'First'} />
           <Tag
             icon={scissors}
             onClick={() => {
               console.log('Click2')
             }}
             text={'Second'}
-          />{' '}
-          <Tag icon={scooter} text={'Third'} />{' '}
+          />
+          <Tag icon={scooter} text={'Third'} />
           <Tag
             icon={share_ios}
             onClick={() => {
               console.log('Click4')
             }}
             text={'Fourth'}
-          />{' '}
+          />
         </Tag.Group>
       </Box>
     </Wrapper>
@@ -200,10 +200,10 @@ export const TagWithMediumSizedIcons = () => {
     <Wrapper>
       <Box>
         <Tag.Group label="medium sized">
-          <Tag icon={save_medium} text={'First'} />{' '}
-          <Tag icon={scissors_medium} text={'Second'} />{' '}
-          <Tag icon={scooter_medium} text={'Third'} />{' '}
-          <Tag icon={share_ios_medium} text={'Fourth'} />{' '}
+          <Tag icon={save_medium} text={'First'} />
+          <Tag icon={scissors_medium} text={'Second'} />
+          <Tag icon={scooter_medium} text={'Third'} />
+          <Tag icon={share_ios_medium} text={'Fourth'} />
         </Tag.Group>
       </Box>
     </Wrapper>
@@ -268,28 +268,28 @@ export const TagMultipleRemovable = () => {
               console.log('Delete1')
             }}
             text={'First'}
-          />{' '}
+          />
           <Tag
             icon={scissors}
             onDelete={() => {
               console.log('Delete2')
             }}
             text={'Second'}
-          />{' '}
+          />
           <Tag
             icon={scooter}
             onDelete={() => {
               console.log('Delete3')
             }}
             text={'Third'}
-          />{' '}
+          />
           <Tag
             icon={share_ios}
             onDelete={() => {
               console.log('Delete4')
             }}
             text={'Fourth'}
-          />{' '}
+          />
         </Tag.Group>
       </Box>
     </Wrapper>

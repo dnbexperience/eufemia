@@ -25,14 +25,6 @@ describe('Tag screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match a clickable Tag', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="tag-clickable"] .dnb-tag',
-    })
-
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
   it('have to match a removable Tag', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="tag-removable"] .dnb-tag',
@@ -58,6 +50,19 @@ describe('Tag screenshot', () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="tag-skeleton"]',
     })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Clickable tag screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/tag/visual-tests/clickable-tag',
+  })
+  it('have to match a clickable Tag', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="tag-clickable"] .dnb-tag',
+    })
+
     expect(screenshot).toMatchImageSnapshot()
   })
 })
