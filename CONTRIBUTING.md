@@ -1,5 +1,6 @@
 # Contribution
-![Contributors](https://img.shields.io/github/contributors/dnbexperience/eufemia?style=for-the-badge) ![Issues](https://img.shields.io/github/issues/dnbexperience/eufemia?style=for-the-badge) ![Pull Requests](https://img.shields.io/github/issues-pr/dnbexperience/eufemia?style=for-the-badge) 
+
+![Contributors](https://img.shields.io/github/contributors/dnbexperience/eufemia?style=for-the-badge) ![Issues](https://img.shields.io/github/issues/dnbexperience/eufemia?style=for-the-badge) ![Pull Requests](https://img.shields.io/github/issues-pr/dnbexperience/eufemia?style=for-the-badge)
 
 Find more information about how to contribute in [the development](https://eufemia.dnb.no/uilib/development) section. But in short, follow along and read the rest of this short readme text.
 
@@ -11,11 +12,11 @@ Install [Node.js](https://nodejs.org) and [yarn](https://yarnpkg.com).
 
 1. Clone this repo to your local machine:
 
-```git clone https://github.com/dnbexperience/eufemia.git```
+`git clone https://github.com/dnbexperience/eufemia.git`
 
 2. Change directory into the directory and install dependencies:
 
-```cd eufemia && yarn install```
+`cd eufemia && yarn install`
 
 ### Use `main` and the _GitHub Flow_
 
