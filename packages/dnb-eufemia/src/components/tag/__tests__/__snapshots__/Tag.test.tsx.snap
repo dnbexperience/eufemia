@@ -694,7 +694,10 @@ button.dnb-button::-moz-focus-inner {
 .dnb-tag--removable.dnb-button--size-small.dnb-button--has-icon {
   padding-right: 0; }
 
-.dnb-tag__group .dnb-tag.dnb-button:not(:last-of-type):not([class*='dnb-space']) {
-  margin-right: 0.5rem; }
+.dnb-tag__group .dnb-button:not([class*='dnb-space']):not(:last-of-type) {
+  margin-right: 0.25rem; }
+
+.dnb-tag__group .dnb-button:not([class*='dnb-space']):not(:first-of-type) {
+  margin-left: 0.25rem; }
 "
 `;

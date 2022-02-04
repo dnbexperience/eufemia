@@ -5,7 +5,6 @@
 
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import {
-  send as Send,
   einvoice as EInvoice,
   ainvoice as AInvoice,
   digipost as DigiPost,
@@ -33,14 +32,6 @@ export const TagWithIcon = () => (
   <Tag icon={EInvoice} text="eFaktura" />
   <Tag icon={DigiPost} text="DigiPost" />
 </Tag.Group>
-`}
-  </ComponentBox>
-)
-
-export const TagClickable = () => (
-  <ComponentBox data-visual-test="tag-clickable" scope={{ Send }}>
-    {() => /* jsx */ `
-<Tag icon={Send} text="Send" onClick={() => { console.log("I was sent!") }}/>
 `}
   </ComponentBox>
 )
