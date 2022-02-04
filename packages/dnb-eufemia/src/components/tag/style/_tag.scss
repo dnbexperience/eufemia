@@ -87,4 +87,16 @@
       padding-right: 0;
     }
   }
+
+  // Default space between tags
+  &__group {
+    .dnb-button:not([class*='dnb-space']) {
+      &:not(:last-of-type) {
+        margin-right: 0.25rem;
+      }
+      &:not(:first-of-type) {
+        margin-left: 0.25rem;
+      }
+    }
+  }
 }

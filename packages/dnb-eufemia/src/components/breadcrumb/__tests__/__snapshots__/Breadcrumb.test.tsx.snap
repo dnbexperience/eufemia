@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Breadcumb scss have to match snapshot 1`] = `
+exports[`Breadcrumb scss have to match snapshot 1`] = `
 "/*
 * DNB Breadcrumb
 *

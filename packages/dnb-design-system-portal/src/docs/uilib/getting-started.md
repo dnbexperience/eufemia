@@ -6,7 +6,7 @@ order: 2
 ---
 
 import WelcomeAdvice from 'Docs/welcome-advice.md'
-import { Button } from '@dnb/eufemia/src'
+import { Button, Section } from '@dnb/eufemia/src'
 
 # Getting Started
 
@@ -26,8 +26,8 @@ You can [follow an intro](/uilib/intro), guiding you through all the elementary 
 
 And for sure, check out the code in the [**Demo Apps**](/uilib/getting-started/demos)
 
-<div align="center" className="dnb-section dnb-section--spacing dnb-section--mint-green">
+<Section style_type="mint-green" spacing align="center">
   <Button href="/uilib/intro" size="large" text="Quick Intro" />
-</div>
+</Section>
 
 <WelcomeAdvice />

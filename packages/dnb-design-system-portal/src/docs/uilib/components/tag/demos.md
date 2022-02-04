@@ -5,10 +5,10 @@ showTabs: true
 import {
 TagDefault,
 TagWithIcon,
-TagClickable,
 TagRemovable,
 TagMultipleRemovable,
 TagInline,
+TagSkeleton,
 } from 'Docs/uilib/components/tag/Examples'
 
 ## Demos
@@ -24,10 +24,6 @@ See more examples below.
 #### Tag with icon
 
 <TagWithIcon />
-
-#### Clickable Tag
-
-<TagClickable />
 
 #### Removable tag
 
@@ -45,3 +41,7 @@ Removable tags can for example be used in filter lists. This example simple exam
 #### Tag used inside text
 
 <TagInline />
+
+#### Tag used as skeleton
+
+<TagSkeleton />

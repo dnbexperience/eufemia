@@ -5,7 +5,6 @@
 
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import {
-  send as Send,
   einvoice as EInvoice,
   ainvoice as AInvoice,
   digipost as DigiPost,
@@ -15,8 +14,8 @@ export const TagDefault = () => (
   <ComponentBox data-visual-test="tag-default">
     {() => /* jsx */ `
 <Tag.Group label="Payment types:">
-  <Tag right="x-small">Digipost</Tag>
-  <Tag right="x-small">AvtaleGiro</Tag>
+  <Tag>Digipost</Tag>
+  <Tag>AvtaleGiro</Tag>
 </Tag.Group>
 `}
   </ComponentBox>
@@ -29,18 +28,10 @@ export const TagWithIcon = () => (
   >
     {() => /* jsx */ `
 <Tag.Group label="Betalingstyper:">
-  <Tag icon={AInvoice} text="AvtaleGiro" right="x-small" />
-  <Tag icon={EInvoice} text="eFaktura" right="x-small" />
-  <Tag icon={DigiPost} text="DigiPost" right="x-small" />
+  <Tag icon={AInvoice} text="AvtaleGiro" />
+  <Tag icon={EInvoice} text="eFaktura" />
+  <Tag icon={DigiPost} text="DigiPost" />
 </Tag.Group>
-`}
-  </ComponentBox>
-)
-
-export const TagClickable = () => (
-  <ComponentBox data-visual-test="tag-clickable" scope={{ Send }}>
-    {() => /* jsx */ `
-<Tag icon={Send} text="Send" onClick={() => { console.log("I was sent!") }}/>
 `}
   </ComponentBox>
 )
@@ -59,7 +50,7 @@ export const TagInline = () => (
   <ComponentBox data-visual-test="tag-inline">
     {() => /* jsx */ `
 Text
-<Tag.Group label="Betalingstyper:">
+<Tag.Group label="Inline:">
   <Tag text="First" /> between 
   <Tag text="Second" />
   <Tag text="Third" />
@@ -94,7 +85,6 @@ const Genres = () => {
               key={tag.key}
               text={tag.text}
               onDelete={handleDelete(tag)}
-              space={{right: 'x-small'}}
             />
         );
       })
@@ -103,6 +93,18 @@ const Genres = () => {
   )
 }
 render(<Genres />)
+`}
+  </ComponentBox>
+)
+
+export const TagSkeleton = () => (
+  <ComponentBox data-visual-test="tag-skeleton">
+    {() => /* jsx */ `
+<Tag.Group label="Skeletons:">
+  <Tag skeleton text="Skeleton" /> 
+  <Tag skeleton text="Skeleton" />
+  <Tag skeleton text="Skeleton" />
+</Tag.Group>
 `}
   </ComponentBox>
 )
