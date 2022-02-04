@@ -20,7 +20,7 @@ describe('onMediaQueryChange', () => {
     matchMedia.useMediaQuery('(min-width: 40em)')
     expect(callback).toHaveBeenCalledTimes(1)
 
-    matchMedia.useMediaQuery('(min-width: 50em)')
+    matchMedia.useMediaQuery('(min-width: 60em)')
     expect(callback).toHaveBeenCalledTimes(1)
 
     matchMedia.useMediaQuery('(min-width: 40em)')
@@ -54,7 +54,7 @@ describe('onMediaQueryChange', () => {
       })
     )
 
-    matchMedia.useMediaQuery('(min-width: 60em)')
+    matchMedia.useMediaQuery('(min-width: 72em)')
     expect(callback).toHaveBeenCalledTimes(2)
     expect(callback).toHaveBeenCalledWith(
       true,
@@ -127,7 +127,7 @@ describe('buildQuery', () => {
           maxWidth: 'large',
         },
       })
-    ).toBe('(min-width: 40em) and (max-width: 60em)')
+    ).toBe('(min-width: 40em) and (max-width: 72em)')
   })
 
   it('should return query string by given but shorten breakpoint type', () => {
@@ -138,7 +138,7 @@ describe('buildQuery', () => {
           max: 'large',
         },
       })
-    ).toBe('(min-width: 40em) and (max-width: 60em)')
+    ).toBe('(min-width: 40em) and (max-width: 72em)')
   })
 
   it('should return reversed query string by given but shorten breakpoint type', () => {
@@ -150,7 +150,7 @@ describe('buildQuery', () => {
           max: 'large',
         },
       })
-    ).toBe('not all and (min-width: 40em) and (max-width: 60em)')
+    ).toBe('not all and (min-width: 40em) and (max-width: 72em)')
   })
 
   it('should return reversed query string by given but shorten breakpoint type', () => {
@@ -162,7 +162,7 @@ describe('buildQuery', () => {
           max: 'large',
         },
       })
-    ).toBe('not all and (min-width: 40em) and (max-width: 60em)')
+    ).toBe('not all and (min-width: 40em) and (max-width: 72em)')
   })
 
   it('should return not change the min value to zero if only a small min property was given', () => {
@@ -188,10 +188,10 @@ describe('buildQuery', () => {
       buildQuery({
         when: {
           min: 10,
-          max: '60em',
+          max: '72em',
         },
       })
-    ).toBe('(min-width: 10em) and (max-width: 60em)')
+    ).toBe('(min-width: 10em) and (max-width: 72em)')
   })
 
   it('should return not reversed query string by providing reversed twice', () => {
@@ -204,7 +204,7 @@ describe('buildQuery', () => {
           max: 'large',
         },
       })
-    ).toBe('all and (min-width: 40em) and (max-width: 60em)')
+    ).toBe('all and (min-width: 40em) and (max-width: 72em)')
   })
 
   it('should return reversed query string', () => {
@@ -216,7 +216,7 @@ describe('buildQuery', () => {
           max: 'large',
         },
       })
-    ).toBe('not all and (min-width: 40em) and (max-width: 60em)')
+    ).toBe('not all and (min-width: 40em) and (max-width: 72em)')
   })
 
   it('should return query string based on types given as an array', () => {
@@ -224,7 +224,7 @@ describe('buildQuery', () => {
       buildQuery({
         when: [{ max: 'small' }, { min: 'large', max: 'x-large' }],
       })
-    ).toBe('(max-width: 40em), (min-width: 60em) and (max-width: 72em)')
+    ).toBe('(max-width: 40em), (min-width: 72em) and (max-width: 80em)')
   })
 
   it('should return query string based on types given as a string', () => {
@@ -232,7 +232,7 @@ describe('buildQuery', () => {
       buildQuery({
         when: [{ max: 'small' }, { min: 'x-large', max: 'xx-large' }],
       })
-    ).toBe('(max-width: 40em), (min-width: 72em) and (max-width: 80em)')
+    ).toBe('(max-width: 40em), (min-width: 80em) and (max-width: 90em)')
   })
 
   it('should return comma seperated query string for multiple media queries', () => {
@@ -321,7 +321,7 @@ describe('convertToMediaQuery', () => {
         minWidth: 'small',
         maxWidth: 'large',
       })
-    ).toBe('(min-width: 40em) and (max-width: 60em)')
+    ).toBe('(min-width: 40em) and (max-width: 72em)')
   })
 
   it('should return query string by given but shorten breakpoint type', () => {
@@ -330,7 +330,7 @@ describe('convertToMediaQuery', () => {
         min: 'small',
         max: 'large',
       })
-    ).toBe('(min-width: 40em) and (max-width: 60em)')
+    ).toBe('(min-width: 40em) and (max-width: 72em)')
   })
 
   it('should return reversed query string by given but shorten breakpoint type', () => {
@@ -340,7 +340,7 @@ describe('convertToMediaQuery', () => {
         min: 'small',
         max: 'large',
       })
-    ).toBe('not all and (min-width: 40em) and (max-width: 60em)')
+    ).toBe('not all and (min-width: 40em) and (max-width: 72em)')
   })
 
   it('should add em unit to dimension features', () => {
