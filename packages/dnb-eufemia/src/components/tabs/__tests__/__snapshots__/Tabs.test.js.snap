@@ -181,8 +181,8 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M15 5L8 12L15 19"
-                              stroke="black"
+                              d="m15 5-7 7 7 7"
+                              stroke="#000"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               strokeWidth={1.5}
@@ -455,8 +455,8 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M9 19L16 12L9 5"
-                              stroke="black"
+                              d="m9 19 7-7-7-7"
+                              stroke="#000"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               strokeWidth={1.5}
@@ -760,8 +760,8 @@ exports[`Tabs component have to match snapshot 1`] = `
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M15 5L8 12L15 19"
-                            stroke="black"
+                            d="m15 5-7 7 7 7"
+                            stroke="#000"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={1.5}
@@ -1034,8 +1034,8 @@ exports[`Tabs component have to match snapshot 1`] = `
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M9 19L16 12L9 5"
-                            stroke="black"
+                            d="m9 19 7-7-7-7"
+                            stroke="#000"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={1.5}
