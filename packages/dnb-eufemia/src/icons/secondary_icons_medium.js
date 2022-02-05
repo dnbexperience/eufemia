@@ -26,6 +26,7 @@ import brush_medium from './brush_medium.js'
 import bsu_medium from './bsu_medium.js'
 import bubble_medium from './bubble_medium.js'
 import building_construction_medium from './building_construction_medium.js'
+import calculator_medium from './calculator_medium.js'
 import camera_medium from './camera_medium.js'
 import camper_trailer_medium from './camper_trailer_medium.js'
 import car_1_medium from './car_1_medium.js'
@@ -57,8 +58,10 @@ import confetti_medium from './confetti_medium.js'
 import contacts_medium from './contacts_medium.js'
 import cookie_medium from './cookie_medium.js'
 import copy_medium from './copy_medium.js'
+import credit_note_medium from './credit_note_medium.js'
 import currency_medium from './currency_medium.js'
 import customer_service_medium from './customer_service_medium.js'
+import deleted_invoice_medium from './deleted_invoice_medium.js'
 import diamond_medium from './diamond_medium.js'
 import digipass_medium from './digipass_medium.js'
 import digipost_medium from './digipost_medium.js'
@@ -180,6 +183,7 @@ import share_ios_medium from './share_ios_medium.js'
 import shield_medium from './shield_medium.js'
 import shopping_cart_medium from './shopping_cart_medium.js'
 import snowmobile_medium from './snowmobile_medium.js'
+import speedometer_medium from './speedometer_medium.js'
 import split_medium from './split_medium.js'
 import star_medium from './star_medium.js'
 import stocks_medium from './stocks_medium.js'
@@ -197,6 +201,7 @@ import train_medium from './train_medium.js'
 import transfer_medium from './transfer_medium.js'
 import transfer_to_medium from './transfer_to_medium.js'
 import trash_medium from './trash_medium.js'
+import travel_medium from './travel_medium.js'
 import undo_medium from './undo_medium.js'
 import upload_medium from './upload_medium.js'
 import video_medium from './video_medium.js'
@@ -238,6 +243,7 @@ export {
   bsu_medium,
   bubble_medium,
   building_construction_medium,
+  calculator_medium,
   camera_medium,
   camper_trailer_medium,
   car_1_medium,
@@ -269,8 +275,10 @@ export {
   contacts_medium,
   cookie_medium,
   copy_medium,
+  credit_note_medium,
   currency_medium,
   customer_service_medium,
+  deleted_invoice_medium,
   diamond_medium,
   digipass_medium,
   digipost_medium,
@@ -392,6 +400,7 @@ export {
   shield_medium,
   shopping_cart_medium,
   snowmobile_medium,
+  speedometer_medium,
   split_medium,
   star_medium,
   stocks_medium,
@@ -409,6 +418,7 @@ export {
   transfer_medium,
   transfer_to_medium,
   trash_medium,
+  travel_medium,
   undo_medium,
   upload_medium,
   video_medium,

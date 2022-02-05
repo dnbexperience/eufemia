@@ -27,6 +27,7 @@ import brush from './brush.js'
 import bsu from './bsu.js'
 import bubble from './bubble.js'
 import building_construction from './building_construction.js'
+import calculator from './calculator.js'
 import camera from './camera.js'
 import camper_trailer from './camper_trailer.js'
 import car_1 from './car_1.js'
@@ -58,8 +59,10 @@ import confetti from './confetti.js'
 import contacts from './contacts.js'
 import cookie from './cookie.js'
 import copy from './copy.js'
+import credit_note from './credit_note.js'
 import currency from './currency.js'
 import customer_service from './customer_service.js'
+import deleted_invoice from './deleted_invoice.js'
 import diamond from './diamond.js'
 import digipass from './digipass.js'
 import digipost from './digipost.js'
@@ -180,6 +183,7 @@ import share_ios from './share_ios.js'
 import shield from './shield.js'
 import shopping_cart from './shopping_cart.js'
 import snowmobile from './snowmobile.js'
+import speedometer from './speedometer.js'
 import split from './split.js'
 import star from './star.js'
 import stocks from './stocks.js'
@@ -197,6 +201,7 @@ import train from './train.js'
 import transfer from './transfer.js'
 import transfer_to from './transfer_to.js'
 import trash from './trash.js'
+import travel from './travel.js'
 import undo from './undo.js'
 import upload from './upload.js'
 import video from './video.js'
@@ -239,6 +244,7 @@ export {
   bsu,
   bubble,
   building_construction,
+  calculator,
   camera,
   camper_trailer,
   car_1,
@@ -270,8 +276,10 @@ export {
   contacts,
   cookie,
   copy,
+  credit_note,
   currency,
   customer_service,
+  deleted_invoice,
   diamond,
   digipass,
   digipost,
@@ -392,6 +400,7 @@ export {
   shield,
   shopping_cart,
   snowmobile,
+  speedometer,
   split,
   star,
   stocks,
@@ -409,6 +418,7 @@ export {
   transfer,
   transfer_to,
   trash,
+  travel,
   undo,
   upload,
   video,
