@@ -2,24 +2,22 @@
 
 import React from 'react'
 
-function bankid_medium(props) {
-  return (
-    <svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M0.75 5.5H5.25M0.75 18.5H5.25M0.75 14H5.25M18.75 5.5H23.25M18.75 18.5H23.25M18.75 9.5H23.25M9.75 9.5H14.25M9.75 14H14.25"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-      />
-    </svg>
-  )
-}
+const bankid_medium = (props) => (
+  <svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M.75 5.5h4.5m-4.5 13h4.5M.75 14h4.5m13.5-8.5h4.5m-4.5 13h4.5m-4.5-9h4.5m-13.5 0h4.5M9.75 14h4.5"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+    />
+  </svg>
+)
 
 export default bankid_medium

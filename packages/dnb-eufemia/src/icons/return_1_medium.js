@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function return_1_medium(props) {
-  return (
-    <svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M5.25 21.7469L0.75 17.2469M0.75 17.2469L5.25 12.7469M0.75 17.2469H15.75C19.8921 17.2469 23.25 13.8891 23.25 9.74695C23.25 5.60481 19.8921 2.24695 15.75 2.24695H9.75"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const return_1_medium = (props) => (
+  <svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="m5.25 21.747-4.5-4.5m0 0 4.5-4.5m-4.5 4.5h15a7.5 7.5 0 1 0 0-15h-6"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default return_1_medium

@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function stopwatch_medium(props) {
-  return (
-    <svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M12 5.25C16.9706 5.25 21 9.27944 21 14.25C21 19.2206 16.9706 23.25 12 23.25C7.02944 23.25 3 19.2206 3 14.25C3 9.27944 7.02944 5.25 12 5.25ZM12 5.25V0.75M18 7.5L19.875 5.625M19.5 5.25L20.25 6M14.25 0.75H9.75M12 15L8.25 10.849"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const stopwatch_medium = (props) => (
+  <svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M12 5.25a9 9 0 1 1 0 18 9 9 0 0 1 0-18Zm0 0V.75m6 6.75 1.875-1.875M19.5 5.25l.75.75m-6-5.25h-4.5M12 15l-3.75-4.151"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default stopwatch_medium

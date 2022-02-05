@@ -2,32 +2,30 @@
 
 import React from 'react'
 
-function tag(props) {
-  return (
-    <svg
-      width={16}
-      height={16}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M1 1.96683V6.00042C1.00011 6.51321 1.20392 7.00496 1.56659 7.36751L9.0631 14.8636C9.33158 15.1323 9.80653 14.9798 9.87915 14.6168L10.6688 10.6683L14.6175 9.87868C14.99 9.80418 15.1263 9.32437 14.8644 9.06268L7.36785 1.56656C7.00528 1.2039 6.51351 1.00011 6.00068 1H1.96688C1.44025 1 1 1.44023 1 1.96683Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M4.38407 5.35071C4.91806 5.35071 5.35094 4.91785 5.35094 4.38389C5.35094 3.84992 4.91806 3.41706 4.38407 3.41706C3.85008 3.41706 3.41719 3.84992 3.41719 4.38389C3.41719 4.91785 3.85008 5.35071 4.38407 5.35071Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const tag = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M1 1.967V6c0 .513.204 1.005.567 1.368l7.496 7.496c.269.268.744.116.816-.247l.79-3.949 3.948-.79c.373-.074.51-.554.247-.815L7.368 1.567A1.934 1.934 0 0 0 6 1H1.967A.976.976 0 0 0 1 1.967Z"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M4.384 5.35a.967.967 0 1 0 0-1.933.967.967 0 0 0 0 1.934Z"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default tag

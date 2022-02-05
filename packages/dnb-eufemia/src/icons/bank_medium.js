@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function bank_medium(props) {
-  return (
-    <svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M1.5 22.5001H22.5M21 10.5001V19.5001H18V10.5001M13.5 10.5001V19.5001H10.5V10.5001M6 10.5001V19.5001H3V10.5001M22.5 7.50014H1.5L11.189 1.73814C11.4309 1.58266 11.7124 1.5 12 1.5C12.2876 1.5 12.5691 1.58266 12.811 1.73814L22.5 7.50014Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const bank_medium = (props) => (
+  <svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M1.5 22.5h21m-1.5-12v9h-3v-9m-4.5 0v9h-3v-9m-4.5 0v9H3v-9m19.5-3h-21l9.689-5.762a1.5 1.5 0 0 1 1.622 0L22.5 7.5Z"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default bank_medium

@@ -2,39 +2,31 @@
 
 import React from 'react'
 
-function information_bubble(props) {
-  return (
-    <svg
-      width={16}
-      height={16}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M7.52288 0.75001C8.72779 0.748271 9.91122 1.06928 10.9504 1.67971C11.9895 2.29015 12.8465 3.16777 13.4323 4.22151C14.0182 5.27524 14.3116 6.4667 14.2822 7.67222C14.2527 8.87775 13.9014 10.0534 13.2648 11.0772L15.25 15.25L11.0812 13.2632C10.1921 13.8164 9.18686 14.1554 8.14455 14.2536C7.10225 14.3517 6.05142 14.2063 5.07485 13.8287C4.09828 13.4512 3.22265 12.8518 2.51696 12.0779C1.81127 11.304 1.29479 10.3766 1.00823 9.36888C0.721663 8.36115 0.672837 7.30059 0.865597 6.27076C1.05836 5.24093 1.48744 4.26996 2.11903 3.43437C2.75062 2.59877 3.56747 1.92138 4.50521 1.45555C5.44296 0.989731 6.47597 0.748206 7.52288 0.75001Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M9 10.6665H8.5C7.94772 10.6665 7.5 10.2188 7.5 9.6665V7.1665C7.5 6.89036 7.27614 6.6665 7 6.6665H6.5"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <ellipse
-        cx={7.16667}
-        cy={4.33317}
-        rx={0.666667}
-        ry={0.666667}
-        fill="black"
-      />
-    </svg>
-  )
-}
+const information_bubble = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M7.523.75a6.748 6.748 0 0 1 5.91 3.472 6.762 6.762 0 0 1-.168 6.855l1.985 4.173-4.169-1.987A6.759 6.759 0 0 1 1.008 9.37a6.772 6.772 0 0 1 3.497-7.913A6.757 6.757 0 0 1 7.523.75Z"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M9 10.666h-.5a1 1 0 0 1-1-1v-2.5a.5.5 0 0 0-.5-.5h-.5"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <circle cx={7.167} cy={4.333} fill="#000" r={0.667} />
+  </svg>
+)
 
 export default information_bubble

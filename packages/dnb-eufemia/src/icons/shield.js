@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function shield(props) {
-  return (
-    <svg
-      width={16}
-      height={16}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M2.00002 3.47442V7.98922C2.00005 11.2493 4.24969 13.6728 7.33723 14.816C7.99998 15.0613 7.99998 15.0614 8.66277 14.816C11.7503 13.6728 13.9999 11.2493 14 7.98922V3.47442C14.0023 3.13463 13.7865 2.80825 13.4658 2.66681C10.4615 2.33416 8 1 8 1C8 1 5.53849 2.33416 2.53417 2.66681C2.21353 2.80825 1.99766 3.13463 2.00002 3.47442Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const shield = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M2 3.474V7.99c0 3.26 2.25 5.684 5.337 6.827.663.245.663.245 1.326 0C11.75 13.673 14 11.249 14 7.989V3.474a.896.896 0 0 0-.534-.807C10.46 2.334 8 1 8 1S5.538 2.334 2.534 2.667A.896.896 0 0 0 2 3.474Z"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default shield

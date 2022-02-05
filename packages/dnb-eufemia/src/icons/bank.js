@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function bank(props) {
-  return (
-    <svg
-      width={16}
-      height={16}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M1 15.0001H15M3.5 7.50015V12.5001H6.5V7.50015M9.5 7.50015V12.5001H12.5V7.50015M15 5.0001H1L7.45933 1.15876C7.62061 1.05511 7.80829 1 8 1C8.19171 1 8.37939 1.05511 8.54067 1.15876L15 5.0001Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const bank = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M1 15h14M3.5 7.5v5h3v-5m3 0v5h3v-5M15 5H1L7.46 1.16a1 1 0 0 1 1.08 0L15 5Z"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default bank

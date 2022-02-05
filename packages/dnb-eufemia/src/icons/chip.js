@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function chip(props) {
-  return (
-    <svg
-      width={16}
-      height={16}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M5.5 1V2.5M10.5 1V2.5M5.5 15V13.5M10.5 15V13.5M15 10.5H13.5M15 5.5H13.5M1 10.5H2.5M1 5.5H2.5M2.5 5.5V3.5C2.5 2.94772 2.94772 2.5 3.5 2.5H5.5M2.5 5.5V10.5M2.5 10.5V12.5C2.5 13.0523 2.94772 13.5 3.5 13.5H5.5M5.5 13.5H10.5M10.5 13.5H12.5C13.0523 13.5 13.5 13.0523 13.5 12.5V10.5M13.5 10.5V5.5M13.5 5.5V3.5C13.5 2.94772 13.0523 2.5 12.5 2.5H10.5M10.5 2.5H5.5M5.85714 5H10.1429C10.6162 5 11 5.38376 11 5.85714V10.1429C11 10.6162 10.6162 11 10.1429 11H5.85714C5.38376 11 5 10.6162 5 10.1429V5.85714C5 5.38376 5.38376 5 5.85714 5Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const chip = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M5.5 1v1.5m5-1.5v1.5M5.5 15v-1.5m5 1.5v-1.5m4.5-3h-1.5m1.5-5h-1.5M1 10.5h1.5M1 5.5h1.5m0 0v-2a1 1 0 0 1 1-1h2m-3 3v5m0 0v2a1 1 0 0 0 1 1h2m0 0h5m0 0h2a1 1 0 0 0 1-1v-2m0 0v-5m0 0v-2a1 1 0 0 0-1-1h-2m0 0h-5M5.857 5h4.286c.473 0 .857.384.857.857v4.286a.857.857 0 0 1-.857.857H5.857A.857.857 0 0 1 5 10.143V5.857C5 5.384 5.384 5 5.857 5Z"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default chip

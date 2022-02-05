@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function wheelchair(props) {
-  return (
-    <svg
-      width={16}
-      height={16}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M9.07971 13.6701C7.68035 15.2336 5.10692 15.4513 3.42798 14.1481C1.74903 12.8449 1.5153 10.4483 2.91467 8.8847M8.5 6.5H5.5V11H10.5L13.5 14M8 2.5C8 3.32843 7.32842 4 6.5 4C5.67157 4 5 3.32843 5 2.5C5 1.67157 5.67157 1 6.5 1C7.32842 1 8 1.67157 8 2.5Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const wheelchair = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M9.08 13.67c-1.4 1.564-3.973 1.781-5.652.478-1.679-1.303-1.913-3.7-.513-5.263M8.5 6.5h-3V11h5l3 3M8 2.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default wheelchair
