@@ -237,11 +237,10 @@ export function debounce(
 
   // This is the function that is actually executed when
   // the DOM event is triggered.
-  return function executedFunction() {
+  return function executedFunction(...args) {
     // Store the context of this and any
     // parameters passed to executedFunction
     const ctx = context || this
-    const args = arguments
 
     if (typeof recall === 'function') {
       recall()
