@@ -155,7 +155,7 @@ export const AvatarDNBLogo = () => (
     {() => /* jsx */ `
 <Avatar.Group label="Logos:">
   <Avatar>
-    <Logo/>
+    <Logo size="auto" />
   </Avatar>
 </Avatar.Group>
 `}
