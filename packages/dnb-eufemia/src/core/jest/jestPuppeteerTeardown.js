@@ -37,7 +37,7 @@ module.exports = async function () {
   }
 
   // commit a tar of the reports if we are on a CI
-  if (isCI) {
+  if (isCI && global.__EVENT_FAILURE_CACHE__.length > 0) {
     console.log(
       chalk.yellow('Will commit "jest-screenshot-report" to git.')
     )

@@ -13,6 +13,8 @@ const { DIR } = require('./jestSetupScreenshots').config
 class PuppeteerEnvironment extends NodeEnvironment {
   constructor(config) {
     super(config)
+
+    global.__EVENT_FAILURE_CACHE__ = []
   }
 
   async setup() {
@@ -35,16 +37,31 @@ class PuppeteerEnvironment extends NodeEnvironment {
     this.global.__PAGE__ = await this.global.__BROWSER__.newPage()
   }
 
+  getName(state) {
+    const { currentlyRunningTest } = state
+    return `${currentlyRunningTest.parent.name} / ${currentlyRunningTest.name}`
+  }
+
   async handleTestEvent(event, state) {
     if (event.name === 'test_fn_failure') {
       this.global.__EVENT_FAILURE__ = true
 
-      const { currentlyRunningTest } = state
+      const name = this.getName(state)
+      if (!global.__EVENT_FAILURE_CACHE__.includes(name)) {
+        global.__EVENT_FAILURE_CACHE__.push(name)
+      }
+
       console.log(
         chalk.yellow(
-          `Retry attempt #${currentlyRunningTest.invocations}: ${currentlyRunningTest.parent.name} / ${currentlyRunningTest.name}`
+          `Retry attempt #${state.currentlyRunningTest.invocations}: ${name}`
         )
       )
+    }
+
+    if (event.name === 'test_fn_success') {
+      const name = this.getName(state)
+      global.__EVENT_FAILURE_CACHE__ =
+        global.__EVENT_FAILURE_CACHE__.filter((n) => n !== name)
     }
   }
 
