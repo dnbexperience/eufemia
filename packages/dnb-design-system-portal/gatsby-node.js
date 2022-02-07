@@ -192,6 +192,9 @@ exports.onCreateWebpackConfig = ({ actions, plugins }) => {
         'process.env.CURRENT_BRANCH': JSON.stringify(currentBranch),
         'process.env.PREBUILD_EXISTS': JSON.stringify(prebuildExists),
       }),
+
+      // Webpack 4 to 5 migration
+      plugins.provide({ process: 'process/browser' }),
     ],
   }
 
