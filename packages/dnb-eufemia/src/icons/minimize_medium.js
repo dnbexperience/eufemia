@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function minimize_medium(props) {
-  return (
-    <svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M5 19H19M3.35714 23H20.6429C21.9447 23 23 21.8635 23 20.4615V3.53846C23 2.13651 21.9447 1 20.6429 1H3.35714C2.05533 1 1 2.13651 1 3.53846V20.4615C1 21.8635 2.05533 23 3.35714 23Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const minimize_medium = (props) => (
+  <svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M5 19h14M3.357 23h17.286C21.945 23 23 21.863 23 20.462V3.538C23 2.137 21.945 1 20.643 1H3.357C2.055 1 1 2.137 1 3.538v16.924C1 21.863 2.055 23 3.357 23Z"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default minimize_medium

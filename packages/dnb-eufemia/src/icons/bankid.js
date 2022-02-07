@@ -2,24 +2,22 @@
 
 import React from 'react'
 
-function bankid(props) {
-  return (
-    <svg
-      width={16}
-      height={16}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M1 3.6665H4M1 12.3332H4M1 9.33317H4M12 3.6665H15M12 12.3332H15M12 6.33317H15M6.5 6.33317H9.5M6.5 9.33317H9.5"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-      />
-    </svg>
-  )
-}
+const bankid = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M1 3.667h3m-3 8.666h3m-3-3h3m8-5.667h3m-3 8.667h3m-3-6h3m-8.5 0h3m-3 3h3"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+    />
+  </svg>
+)
 
 export default bankid

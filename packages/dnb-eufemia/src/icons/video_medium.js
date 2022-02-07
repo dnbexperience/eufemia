@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function video_medium(props) {
-  return (
-    <svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M0.75 9.87305V20.373C0.75 21.19 1.433 21.873 2.25 21.873H12M23.25 12.123V9.87305M8.25 0.873047L6.75 6.87305M17.25 0.873047L15.75 6.87305M23.25 6.87305H0.75V2.37305C0.75 1.55605 1.433 0.873047 2.25 0.873047H21.75C22.567 0.873047 23.25 1.55605 23.25 2.37305V6.87305ZM22.886 18.107L16.844 14.482C16.364 14.1939 15.708 14.5517 15.708 15.125V22.375C15.708 22.9484 16.364 23.3062 16.844 23.018L22.886 19.393C23.3632 19.1065 23.3528 18.3873 22.886 18.107Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const video_medium = (props) => (
+  <svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M.75 9.873v10.5c0 .817.683 1.5 1.5 1.5H12m11.25-9.75v-2.25m-15-9-1.5 6m10.5-6-1.5 6m7.5 0H.75v-4.5c0-.817.683-1.5 1.5-1.5h19.5c.817 0 1.5.683 1.5 1.5v4.5Zm-.364 11.234-6.042-3.625c-.48-.288-1.136.07-1.136.643v7.25c0 .573.656.931 1.136.643l6.042-3.625c.477-.287.467-1.006 0-1.286Z"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default video_medium

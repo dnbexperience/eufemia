@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function return_1(props) {
-  return (
-    <svg
-      width={16}
-      height={16}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M3.8 14.1333L1 11.3333M1 11.3333L3.8 8.53333M1 11.3333H10.3333C12.9107 11.3333 15 9.244 15 6.66667C15 4.08934 12.9107 2 10.3333 2H6.6"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const return_1 = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="m3.8 14.133-2.8-2.8m0 0 2.8-2.8m-2.8 2.8h9.333a4.667 4.667 0 1 0 0-9.333H6.6"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default return_1

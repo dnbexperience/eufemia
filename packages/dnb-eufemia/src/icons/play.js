@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function play(props) {
-  return (
-    <svg
-      width={16}
-      height={16}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M1.5 2.01973V13.9792C1.49993 14.7318 2.33122 15.2407 2.98798 14.8831L13.9832 8.90342C14.6629 8.53346 14.6816 7.47558 13.9832 7.09548L2.98798 1.11576C2.34509 0.765719 1.49993 1.25053 1.5 2.01973Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const play = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M1.5 2.02v11.96c0 .752.831 1.26 1.488.903l10.995-5.98c.68-.37.699-1.427 0-1.808L2.988 1.115C2.345.766 1.5 1.252 1.5 2.02Z"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default play

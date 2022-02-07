@@ -9,7 +9,7 @@ import del from 'del'
 import gulp from 'gulp'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
-import svgr from '@svgr/core'
+import { transform as svgr } from '@svgr/core'
 import prettier from 'prettier'
 import globby from 'globby'
 import { iconCase } from '../../../src/components/icon'
@@ -92,8 +92,9 @@ const transformToJsx = (content, file) => {
       svgr(
         content,
         {
-          ids: true, //do not remove IDs from the syntax
-          prettier: false, // we use our own prettier version here
+          icon: false, // do not use "1em"
+          plugins: ['@svgr/plugin-svgo', '@svgr/plugin-jsx'],
+          // svgoConfig: {},// We use svgo.config.js
         },
         { componentName }
       )

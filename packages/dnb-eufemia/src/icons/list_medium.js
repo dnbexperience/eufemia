@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function list_medium(props) {
-  return (
-    <svg
-      width={24}
-      height={25}
-      viewBox="0 0 24 25"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M8.25 3.00201H23.25M8.25 12.002H23.25M8.25 21.002H23.25M3 5.25C4.24264 5.25 5.25 4.24264 5.25 3C5.25 1.75736 4.24264 0.75 3 0.75C1.75736 0.75 0.75 1.75736 0.75 3C0.75 4.24264 1.75736 5.25 3 5.25ZM3 14.25C4.24264 14.25 5.25 13.2426 5.25 12C5.25 10.7574 4.24264 9.75 3 9.75C1.75736 9.75 0.75 10.7574 0.75 12C0.75 13.2426 1.75736 14.25 3 14.25ZM3 23.25C4.24264 23.25 5.25 22.2426 5.25 21C5.25 19.7574 4.24264 18.75 3 18.75C1.75736 18.75 0.75 19.7574 0.75 21C0.75 22.2426 1.75736 23.25 3 23.25Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const list_medium = (props) => (
+  <svg
+    width={24}
+    height={25}
+    viewBox="0 0 24 25"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M8.25 3.002h15m-15 9h15m-15 9h15M3 5.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Zm0 9a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Zm0 9a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default list_medium

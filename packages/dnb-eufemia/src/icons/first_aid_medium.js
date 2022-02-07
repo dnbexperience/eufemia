@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function first_aid_medium(props) {
-  return (
-    <svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M12 11.231V14.231M12 17.231V14.231M12 14.231H9M12 14.231H15M7.5 6.75H4.5C2.84315 6.75 1.5 8.09315 1.5 9.75V18.75C1.5 20.4069 2.84315 21.75 4.5 21.75H19.5C21.1569 21.75 22.5 20.4069 22.5 18.75V9.75C22.5 8.09315 21.1569 6.75 19.5 6.75H16.5M7.5 6.75V3.75C7.5 2.92157 8.17157 2.25 9 2.25H15C15.8284 2.25 16.5 2.92157 16.5 3.75V6.75M7.5 6.75H16.5"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const first_aid_medium = (props) => (
+  <svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M12 11.231v3m0 3v-3m0 0H9m3 0h3M7.5 6.75h-3a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3h-3m-9 0v-3A1.5 1.5 0 0 1 9 2.25h6a1.5 1.5 0 0 1 1.5 1.5v3m-9 0h9"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default first_aid_medium

@@ -2,40 +2,38 @@
 
 import React from 'react'
 
-function instagram_medium(props) {
-  return (
-    <svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <g clipPath="url(#clip-11f112_2912_69)">
-        <path
-          d="M17.24 0.75H6.73999C3.42628 0.75 0.73999 3.43629 0.73999 6.75V17.25C0.73999 20.5637 3.42628 23.25 6.73999 23.25H17.24C20.5537 23.25 23.24 20.5637 23.24 17.25V6.75C23.24 3.43629 20.5537 0.75 17.24 0.75Z"
-          stroke="black"
-          strokeWidth={1.5}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M11.99 17C14.7514 17 16.99 14.7614 16.99 12C16.99 9.23858 14.7514 7 11.99 7C9.22857 7 6.98999 9.23858 6.98999 12C6.98999 14.7614 9.22857 17 11.99 17Z"
-          stroke="black"
-          strokeWidth={1.5}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle cx={18.75} cy={5.25} r={1.25} fill="black" />
-      </g>
-      <defs>
-        <clipPath id="clip-11f112_2912_69">
-          <rect width={24} height={24} fill="white" />
-        </clipPath>
-      </defs>
-    </svg>
-  )
-}
+const instagram_medium = (props) => (
+  <svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <g clipPath="url(#a)">
+      <path
+        d="M17.24.75H6.74a6 6 0 0 0-6 6v10.5a6 6 0 0 0 6 6h10.5a6 6 0 0 0 6-6V6.75a6 6 0 0 0-6-6Z"
+        stroke="#000"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M11.99 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"
+        stroke="#000"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx={18.75} cy={5.25} r={1.25} fill="#000" />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h24v24H0z" />
+      </clipPath>
+    </defs>
+  </svg>
+)
 
 export default instagram_medium

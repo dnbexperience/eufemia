@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function split(props) {
-  return (
-    <svg
-      width={16}
-      height={16}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M13.1333 9.86669L15 11.7334M15 11.7334L13.1333 13.6M15 11.7334L11.7333 11.7346C9.4 11.7346 7.53333 8.00127 7.53333 8.00127M13.1333 2.40002L15 4.26669M15 4.26669L13.1333 6.13336M15 4.26669L11.7333 4.26794C9.4 4.26794 7.53333 8.00127 7.53333 8.00127M7.53333 8.00127L1 8.00002"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const split = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M13.133 9.867 15 11.733m0 0L13.133 13.6M15 11.733l-3.267.002C9.4 11.735 7.533 8 7.533 8m5.6-5.601L15 4.267m0 0-1.867 1.866M15 4.267h-3.267c-2.333 0-4.2 3.734-4.2 3.734m0 0L1 8"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default split

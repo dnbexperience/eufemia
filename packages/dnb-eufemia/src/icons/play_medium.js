@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function play_medium(props) {
-  return (
-    <svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M2 3.03742V20.9625C1.9999 22.0905 3.27722 22.8534 4.28636 22.3174L21.181 13.3549C22.2256 12.8004 22.2542 11.2148 21.181 10.6451L4.28636 1.68254C3.29852 1.15789 1.99989 1.88454 2 3.03742Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const play_medium = (props) => (
+  <svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M2 3.037v17.925c0 1.128 1.277 1.891 2.286 1.355l16.895-8.962c1.045-.555 1.073-2.14 0-2.71L4.286 1.683C3.3 1.158 2 1.885 2 3.037Z"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default play_medium

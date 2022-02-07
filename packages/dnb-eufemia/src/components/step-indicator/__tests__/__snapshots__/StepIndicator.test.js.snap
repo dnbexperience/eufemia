@@ -152,8 +152,8 @@ Array [
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M1.5 15L7.5 21L22.5 3"
-                              stroke="black"
+                              d="m1.5 15 6 6 15-18"
+                              stroke="#000"
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               stroke-width="1.5"
@@ -221,8 +221,8 @@ Array [
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M1.5 15L7.5 21L22.5 3"
-                              stroke="black"
+                              d="m1.5 15 6 6 15-18"
+                              stroke="#000"
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               stroke-width="1.5"
@@ -289,8 +289,8 @@ Array [
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M1.5 15L7.5 21L22.5 3"
-                              stroke="black"
+                              d="m1.5 15 6 6 15-18"
+                              stroke="#000"
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               stroke-width="1.5"
@@ -357,8 +357,8 @@ Array [
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M1.5 15L7.5 21L22.5 3"
-                              stroke="black"
+                              d="m1.5 15 6 6 15-18"
+                              stroke="#000"
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               stroke-width="1.5"
@@ -465,8 +465,8 @@ Array [
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
                                   <path
-                                    d="M1.5 15L7.5 21L22.5 3"
-                                    stroke="black"
+                                    d="m1.5 15 6 6 15-18"
+                                    stroke="#000"
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     stroke-width="1.5"
@@ -547,8 +547,8 @@ Array [
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
                                     <path
-                                      d="M1.5 15L7.5 21L22.5 3"
-                                      stroke="black"
+                                      d="m1.5 15 6 6 15-18"
+                                      stroke="#000"
                                       stroke-linecap="round"
                                       stroke-linejoin="round"
                                       stroke-width="1.5"
@@ -659,8 +659,8 @@ Array [
                                         xmlns="http://www.w3.org/2000/svg"
                                       >
                                         <path
-                                          d="M1.5 15L7.5 21L22.5 3"
-                                          stroke="black"
+                                          d="m1.5 15 6 6 15-18"
+                                          stroke="#000"
                                           stroke-linecap="round"
                                           stroke-linejoin="round"
                                           stroke-width="1.5"
@@ -758,8 +758,8 @@ Array [
                                       xmlns="http://www.w3.org/2000/svg"
                                     >
                                       <path
-                                        d="M1.5 15L7.5 21L22.5 3"
-                                        stroke="black"
+                                        d="m1.5 15 6 6 15-18"
+                                        stroke="#000"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={1.5}
@@ -885,8 +885,8 @@ Array [
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
                                   <path
-                                    d="M1.5 15L7.5 21L22.5 3"
-                                    stroke="black"
+                                    d="m1.5 15 6 6 15-18"
+                                    stroke="#000"
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     stroke-width="1.5"
@@ -967,8 +967,8 @@ Array [
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
                                     <path
-                                      d="M1.5 15L7.5 21L22.5 3"
-                                      stroke="black"
+                                      d="m1.5 15 6 6 15-18"
+                                      stroke="#000"
                                       stroke-linecap="round"
                                       stroke-linejoin="round"
                                       stroke-width="1.5"
@@ -1079,8 +1079,8 @@ Array [
                                         xmlns="http://www.w3.org/2000/svg"
                                       >
                                         <path
-                                          d="M1.5 15L7.5 21L22.5 3"
-                                          stroke="black"
+                                          d="m1.5 15 6 6 15-18"
+                                          stroke="#000"
                                           stroke-linecap="round"
                                           stroke-linejoin="round"
                                           stroke-width="1.5"
@@ -1178,8 +1178,8 @@ Array [
                                       xmlns="http://www.w3.org/2000/svg"
                                     >
                                       <path
-                                        d="M1.5 15L7.5 21L22.5 3"
-                                        stroke="black"
+                                        d="m1.5 15 6 6 15-18"
+                                        stroke="#000"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={1.5}
@@ -1304,8 +1304,8 @@ Array [
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
                                   <path
-                                    d="M1.5 15L7.5 21L22.5 3"
-                                    stroke="black"
+                                    d="m1.5 15 6 6 15-18"
+                                    stroke="#000"
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     stroke-width="1.5"
@@ -1386,8 +1386,8 @@ Array [
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
                                     <path
-                                      d="M1.5 15L7.5 21L22.5 3"
-                                      stroke="black"
+                                      d="m1.5 15 6 6 15-18"
+                                      stroke="#000"
                                       stroke-linecap="round"
                                       stroke-linejoin="round"
                                       stroke-width="1.5"
@@ -1498,8 +1498,8 @@ Array [
                                         xmlns="http://www.w3.org/2000/svg"
                                       >
                                         <path
-                                          d="M1.5 15L7.5 21L22.5 3"
-                                          stroke="black"
+                                          d="m1.5 15 6 6 15-18"
+                                          stroke="#000"
                                           stroke-linecap="round"
                                           stroke-linejoin="round"
                                           stroke-width="1.5"
@@ -1597,8 +1597,8 @@ Array [
                                       xmlns="http://www.w3.org/2000/svg"
                                     >
                                       <path
-                                        d="M1.5 15L7.5 21L22.5 3"
-                                        stroke="black"
+                                        d="m1.5 15 6 6 15-18"
+                                        stroke="#000"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={1.5}
@@ -1723,8 +1723,8 @@ Array [
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
                                   <path
-                                    d="M1.5 15L7.5 21L22.5 3"
-                                    stroke="black"
+                                    d="m1.5 15 6 6 15-18"
+                                    stroke="#000"
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     stroke-width="1.5"
@@ -1805,8 +1805,8 @@ Array [
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
                                     <path
-                                      d="M1.5 15L7.5 21L22.5 3"
-                                      stroke="black"
+                                      d="m1.5 15 6 6 15-18"
+                                      stroke="#000"
                                       stroke-linecap="round"
                                       stroke-linejoin="round"
                                       stroke-width="1.5"
@@ -1917,8 +1917,8 @@ Array [
                                         xmlns="http://www.w3.org/2000/svg"
                                       >
                                         <path
-                                          d="M1.5 15L7.5 21L22.5 3"
-                                          stroke="black"
+                                          d="m1.5 15 6 6 15-18"
+                                          stroke="#000"
                                           stroke-linecap="round"
                                           stroke-linejoin="round"
                                           stroke-width="1.5"
@@ -2016,8 +2016,8 @@ Array [
                                       xmlns="http://www.w3.org/2000/svg"
                                     >
                                       <path
-                                        d="M1.5 15L7.5 21L22.5 3"
-                                        stroke="black"
+                                        d="m1.5 15 6 6 15-18"
+                                        stroke="#000"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={1.5}
@@ -2216,8 +2216,8 @@ Array [
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        d="M19 8.5L12 15.5L5 8.5"
-                        stroke="black"
+                        d="m19 8.5-7 7-7-7"
+                        stroke="#000"
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="1.5"
@@ -2332,8 +2332,8 @@ Array [
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M19 8.5L12 15.5L5 8.5"
-                            stroke="black"
+                            d="m19 8.5-7 7-7-7"
+                            stroke="#000"
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             stroke-width="1.5"
@@ -2445,8 +2445,8 @@ Array [
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                d="M19 8.5L12 15.5L5 8.5"
-                                stroke="black"
+                                d="m19 8.5-7 7-7-7"
+                                stroke="#000"
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                                 stroke-width="1.5"
@@ -2543,8 +2543,8 @@ Array [
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M19 8.5L12 15.5L5 8.5"
-                              stroke="black"
+                              d="m19 8.5-7 7-7-7"
+                              stroke="#000"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               strokeWidth={1.5}
@@ -2792,8 +2792,8 @@ Array [
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M1.5 15L7.5 21L22.5 3"
-                              stroke="black"
+                              d="m1.5 15 6 6 15-18"
+                              stroke="#000"
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               stroke-width="1.5"
@@ -2860,8 +2860,8 @@ Array [
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M1.5 15L7.5 21L22.5 3"
-                              stroke="black"
+                              d="m1.5 15 6 6 15-18"
+                              stroke="#000"
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               stroke-width="1.5"
@@ -2927,8 +2927,8 @@ Array [
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M1.5 15L7.5 21L22.5 3"
-                              stroke="black"
+                              d="m1.5 15 6 6 15-18"
+                              stroke="#000"
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               stroke-width="1.5"
@@ -2994,8 +2994,8 @@ Array [
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M1.5 15L7.5 21L22.5 3"
-                              stroke="black"
+                              d="m1.5 15 6 6 15-18"
+                              stroke="#000"
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               stroke-width="1.5"
@@ -3102,8 +3102,8 @@ Array [
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
                                   <path
-                                    d="M1.5 15L7.5 21L22.5 3"
-                                    stroke="black"
+                                    d="m1.5 15 6 6 15-18"
+                                    stroke="#000"
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     stroke-width="1.5"
@@ -3183,8 +3183,8 @@ Array [
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
                                     <path
-                                      d="M1.5 15L7.5 21L22.5 3"
-                                      stroke="black"
+                                      d="m1.5 15 6 6 15-18"
+                                      stroke="#000"
                                       stroke-linecap="round"
                                       stroke-linejoin="round"
                                       stroke-width="1.5"
@@ -3291,8 +3291,8 @@ Array [
                                         xmlns="http://www.w3.org/2000/svg"
                                       >
                                         <path
-                                          d="M1.5 15L7.5 21L22.5 3"
-                                          stroke="black"
+                                          d="m1.5 15 6 6 15-18"
+                                          stroke="#000"
                                           stroke-linecap="round"
                                           stroke-linejoin="round"
                                           stroke-width="1.5"
@@ -3389,8 +3389,8 @@ Array [
                                       xmlns="http://www.w3.org/2000/svg"
                                     >
                                       <path
-                                        d="M1.5 15L7.5 21L22.5 3"
-                                        stroke="black"
+                                        d="m1.5 15 6 6 15-18"
+                                        stroke="#000"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={1.5}
@@ -3516,8 +3516,8 @@ Array [
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
                                   <path
-                                    d="M1.5 15L7.5 21L22.5 3"
-                                    stroke="black"
+                                    d="m1.5 15 6 6 15-18"
+                                    stroke="#000"
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     stroke-width="1.5"
@@ -3597,8 +3597,8 @@ Array [
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
                                     <path
-                                      d="M1.5 15L7.5 21L22.5 3"
-                                      stroke="black"
+                                      d="m1.5 15 6 6 15-18"
+                                      stroke="#000"
                                       stroke-linecap="round"
                                       stroke-linejoin="round"
                                       stroke-width="1.5"
@@ -3705,8 +3705,8 @@ Array [
                                         xmlns="http://www.w3.org/2000/svg"
                                       >
                                         <path
-                                          d="M1.5 15L7.5 21L22.5 3"
-                                          stroke="black"
+                                          d="m1.5 15 6 6 15-18"
+                                          stroke="#000"
                                           stroke-linecap="round"
                                           stroke-linejoin="round"
                                           stroke-width="1.5"
@@ -3803,8 +3803,8 @@ Array [
                                       xmlns="http://www.w3.org/2000/svg"
                                     >
                                       <path
-                                        d="M1.5 15L7.5 21L22.5 3"
-                                        stroke="black"
+                                        d="m1.5 15 6 6 15-18"
+                                        stroke="#000"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={1.5}
@@ -3929,8 +3929,8 @@ Array [
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
                                   <path
-                                    d="M1.5 15L7.5 21L22.5 3"
-                                    stroke="black"
+                                    d="m1.5 15 6 6 15-18"
+                                    stroke="#000"
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     stroke-width="1.5"
@@ -4010,8 +4010,8 @@ Array [
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
                                     <path
-                                      d="M1.5 15L7.5 21L22.5 3"
-                                      stroke="black"
+                                      d="m1.5 15 6 6 15-18"
+                                      stroke="#000"
                                       stroke-linecap="round"
                                       stroke-linejoin="round"
                                       stroke-width="1.5"
@@ -4118,8 +4118,8 @@ Array [
                                         xmlns="http://www.w3.org/2000/svg"
                                       >
                                         <path
-                                          d="M1.5 15L7.5 21L22.5 3"
-                                          stroke="black"
+                                          d="m1.5 15 6 6 15-18"
+                                          stroke="#000"
                                           stroke-linecap="round"
                                           stroke-linejoin="round"
                                           stroke-width="1.5"
@@ -4216,8 +4216,8 @@ Array [
                                       xmlns="http://www.w3.org/2000/svg"
                                     >
                                       <path
-                                        d="M1.5 15L7.5 21L22.5 3"
-                                        stroke="black"
+                                        d="m1.5 15 6 6 15-18"
+                                        stroke="#000"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={1.5}
@@ -4342,8 +4342,8 @@ Array [
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
                                   <path
-                                    d="M1.5 15L7.5 21L22.5 3"
-                                    stroke="black"
+                                    d="m1.5 15 6 6 15-18"
+                                    stroke="#000"
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     stroke-width="1.5"
@@ -4423,8 +4423,8 @@ Array [
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
                                     <path
-                                      d="M1.5 15L7.5 21L22.5 3"
-                                      stroke="black"
+                                      d="m1.5 15 6 6 15-18"
+                                      stroke="#000"
                                       stroke-linecap="round"
                                       stroke-linejoin="round"
                                       stroke-width="1.5"
@@ -4531,8 +4531,8 @@ Array [
                                         xmlns="http://www.w3.org/2000/svg"
                                       >
                                         <path
-                                          d="M1.5 15L7.5 21L22.5 3"
-                                          stroke="black"
+                                          d="m1.5 15 6 6 15-18"
+                                          stroke="#000"
                                           stroke-linecap="round"
                                           stroke-linejoin="round"
                                           stroke-width="1.5"
@@ -4629,8 +4629,8 @@ Array [
                                       xmlns="http://www.w3.org/2000/svg"
                                     >
                                       <path
-                                        d="M1.5 15L7.5 21L22.5 3"
-                                        stroke="black"
+                                        d="m1.5 15 6 6 15-18"
+                                        stroke="#000"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={1.5}
@@ -4829,8 +4829,8 @@ Array [
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        d="M19 8.5L12 15.5L5 8.5"
-                        stroke="black"
+                        d="m19 8.5-7 7-7-7"
+                        stroke="#000"
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="1.5"
@@ -4945,8 +4945,8 @@ Array [
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M19 8.5L12 15.5L5 8.5"
-                            stroke="black"
+                            d="m19 8.5-7 7-7-7"
+                            stroke="#000"
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             stroke-width="1.5"
@@ -5058,8 +5058,8 @@ Array [
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                d="M19 8.5L12 15.5L5 8.5"
-                                stroke="black"
+                                d="m19 8.5-7 7-7-7"
+                                stroke="#000"
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                                 stroke-width="1.5"
@@ -5156,8 +5156,8 @@ Array [
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M19 8.5L12 15.5L5 8.5"
-                              stroke="black"
+                              d="m19 8.5-7 7-7-7"
+                              stroke="#000"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               strokeWidth={1.5}
@@ -5406,8 +5406,8 @@ Array [
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M1.5 15L7.5 21L22.5 3"
-                              stroke="black"
+                              d="m1.5 15 6 6 15-18"
+                              stroke="#000"
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               stroke-width="1.5"
@@ -5475,8 +5475,8 @@ Array [
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M1.5 15L7.5 21L22.5 3"
-                              stroke="black"
+                              d="m1.5 15 6 6 15-18"
+                              stroke="#000"
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               stroke-width="1.5"
@@ -5542,8 +5542,8 @@ Array [
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M1.5 15L7.5 21L22.5 3"
-                              stroke="black"
+                              d="m1.5 15 6 6 15-18"
+                              stroke="#000"
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               stroke-width="1.5"
@@ -5609,8 +5609,8 @@ Array [
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M1.5 15L7.5 21L22.5 3"
-                              stroke="black"
+                              d="m1.5 15 6 6 15-18"
+                              stroke="#000"
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               stroke-width="1.5"
@@ -5717,8 +5717,8 @@ Array [
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
                                   <path
-                                    d="M1.5 15L7.5 21L22.5 3"
-                                    stroke="black"
+                                    d="m1.5 15 6 6 15-18"
+                                    stroke="#000"
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     stroke-width="1.5"
@@ -5799,8 +5799,8 @@ Array [
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
                                     <path
-                                      d="M1.5 15L7.5 21L22.5 3"
-                                      stroke="black"
+                                      d="m1.5 15 6 6 15-18"
+                                      stroke="#000"
                                       stroke-linecap="round"
                                       stroke-linejoin="round"
                                       stroke-width="1.5"
@@ -5911,8 +5911,8 @@ Array [
                                         xmlns="http://www.w3.org/2000/svg"
                                       >
                                         <path
-                                          d="M1.5 15L7.5 21L22.5 3"
-                                          stroke="black"
+                                          d="m1.5 15 6 6 15-18"
+                                          stroke="#000"
                                           stroke-linecap="round"
                                           stroke-linejoin="round"
                                           stroke-width="1.5"
@@ -6010,8 +6010,8 @@ Array [
                                       xmlns="http://www.w3.org/2000/svg"
                                     >
                                       <path
-                                        d="M1.5 15L7.5 21L22.5 3"
-                                        stroke="black"
+                                        d="m1.5 15 6 6 15-18"
+                                        stroke="#000"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={1.5}
@@ -6137,8 +6137,8 @@ Array [
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
                                   <path
-                                    d="M1.5 15L7.5 21L22.5 3"
-                                    stroke="black"
+                                    d="m1.5 15 6 6 15-18"
+                                    stroke="#000"
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     stroke-width="1.5"
@@ -6219,8 +6219,8 @@ Array [
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
                                     <path
-                                      d="M1.5 15L7.5 21L22.5 3"
-                                      stroke="black"
+                                      d="m1.5 15 6 6 15-18"
+                                      stroke="#000"
                                       stroke-linecap="round"
                                       stroke-linejoin="round"
                                       stroke-width="1.5"
@@ -6331,8 +6331,8 @@ Array [
                                         xmlns="http://www.w3.org/2000/svg"
                                       >
                                         <path
-                                          d="M1.5 15L7.5 21L22.5 3"
-                                          stroke="black"
+                                          d="m1.5 15 6 6 15-18"
+                                          stroke="#000"
                                           stroke-linecap="round"
                                           stroke-linejoin="round"
                                           stroke-width="1.5"
@@ -6430,8 +6430,8 @@ Array [
                                       xmlns="http://www.w3.org/2000/svg"
                                     >
                                       <path
-                                        d="M1.5 15L7.5 21L22.5 3"
-                                        stroke="black"
+                                        d="m1.5 15 6 6 15-18"
+                                        stroke="#000"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={1.5}
@@ -6556,8 +6556,8 @@ Array [
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
                                   <path
-                                    d="M1.5 15L7.5 21L22.5 3"
-                                    stroke="black"
+                                    d="m1.5 15 6 6 15-18"
+                                    stroke="#000"
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     stroke-width="1.5"
@@ -6637,8 +6637,8 @@ Array [
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
                                     <path
-                                      d="M1.5 15L7.5 21L22.5 3"
-                                      stroke="black"
+                                      d="m1.5 15 6 6 15-18"
+                                      stroke="#000"
                                       stroke-linecap="round"
                                       stroke-linejoin="round"
                                       stroke-width="1.5"
@@ -6745,8 +6745,8 @@ Array [
                                         xmlns="http://www.w3.org/2000/svg"
                                       >
                                         <path
-                                          d="M1.5 15L7.5 21L22.5 3"
-                                          stroke="black"
+                                          d="m1.5 15 6 6 15-18"
+                                          stroke="#000"
                                           stroke-linecap="round"
                                           stroke-linejoin="round"
                                           stroke-width="1.5"
@@ -6843,8 +6843,8 @@ Array [
                                       xmlns="http://www.w3.org/2000/svg"
                                     >
                                       <path
-                                        d="M1.5 15L7.5 21L22.5 3"
-                                        stroke="black"
+                                        d="m1.5 15 6 6 15-18"
+                                        stroke="#000"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={1.5}
@@ -6969,8 +6969,8 @@ Array [
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
                                   <path
-                                    d="M1.5 15L7.5 21L22.5 3"
-                                    stroke="black"
+                                    d="m1.5 15 6 6 15-18"
+                                    stroke="#000"
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     stroke-width="1.5"
@@ -7050,8 +7050,8 @@ Array [
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
                                     <path
-                                      d="M1.5 15L7.5 21L22.5 3"
-                                      stroke="black"
+                                      d="m1.5 15 6 6 15-18"
+                                      stroke="#000"
                                       stroke-linecap="round"
                                       stroke-linejoin="round"
                                       stroke-width="1.5"
@@ -7158,8 +7158,8 @@ Array [
                                         xmlns="http://www.w3.org/2000/svg"
                                       >
                                         <path
-                                          d="M1.5 15L7.5 21L22.5 3"
-                                          stroke="black"
+                                          d="m1.5 15 6 6 15-18"
+                                          stroke="#000"
                                           stroke-linecap="round"
                                           stroke-linejoin="round"
                                           stroke-width="1.5"
@@ -7256,8 +7256,8 @@ Array [
                                       xmlns="http://www.w3.org/2000/svg"
                                     >
                                       <path
-                                        d="M1.5 15L7.5 21L22.5 3"
-                                        stroke="black"
+                                        d="m1.5 15 6 6 15-18"
+                                        stroke="#000"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={1.5}
@@ -7456,8 +7456,8 @@ Array [
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        d="M19 8.5L12 15.5L5 8.5"
-                        stroke="black"
+                        d="m19 8.5-7 7-7-7"
+                        stroke="#000"
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="1.5"
@@ -7572,8 +7572,8 @@ Array [
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M19 8.5L12 15.5L5 8.5"
-                            stroke="black"
+                            d="m19 8.5-7 7-7-7"
+                            stroke="#000"
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             stroke-width="1.5"
@@ -7685,8 +7685,8 @@ Array [
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                d="M19 8.5L12 15.5L5 8.5"
-                                stroke="black"
+                                d="m19 8.5-7 7-7-7"
+                                stroke="#000"
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                                 stroke-width="1.5"
@@ -7783,8 +7783,8 @@ Array [
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M19 8.5L12 15.5L5 8.5"
-                              stroke="black"
+                              d="m19 8.5-7 7-7-7"
+                              stroke="#000"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               strokeWidth={1.5}

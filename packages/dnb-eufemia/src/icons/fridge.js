@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function fridge(props) {
-  return (
-    <svg
-      width={16}
-      height={17}
-      viewBox="0 0 16 17"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M13.5 5.75H2.5M5 9V11.5M5 3V3.5M4.5 14.75H3.19933C2.8131 14.75 2.5 14.4369 2.5 14.0507V5.75M4.5 14.75V15.75M4.5 14.75H11.5M11.5 14.75H12.8007C13.1869 14.75 13.5 14.4369 13.5 14.0507V1.44933C13.5 1.0631 13.1869 0.75 12.8007 0.75H3.19933C2.8131 0.75 2.5 1.0631 2.5 1.44933V5.75M11.5 14.75V15.75"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const fridge = (props) => (
+  <svg
+    width={16}
+    height={17}
+    viewBox="0 0 16 17"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M13.5 5.75h-11M5 9v2.5M5 3v.5m-.5 11.25H3.2a.7.7 0 0 1-.7-.7v-8.3m2 9v1m0-1h7m0 0h1.3a.7.7 0 0 0 .7-.7V1.45a.7.7 0 0 0-.7-.7H3.2a.7.7 0 0 0-.7.7v4.3m9 9v1"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default fridge

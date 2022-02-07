@@ -2,33 +2,31 @@
 
 import React from 'react'
 
-function instagram(props) {
-  return (
-    <svg
-      width={16}
-      height={16}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M11.2667 1H4.73333C2.67147 1 1 2.67147 1 4.73333V11.2667C1 13.3285 2.67147 15 4.73333 15H11.2667C13.3285 15 15 13.3285 15 11.2667V4.73333C15 2.67147 13.3285 1 11.2667 1Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M8 11.1111C9.71822 11.1111 11.1111 9.71822 11.1111 8C11.1111 6.28178 9.71822 4.88889 8 4.88889C6.28178 4.88889 4.88889 6.28178 4.88889 8C4.88889 9.71822 6.28178 11.1111 8 11.1111Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <ellipse cx={11.75} cy={3.75} rx={0.75} ry={0.75} fill="black" />
-    </svg>
-  )
-}
+const instagram = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M11.267 1H4.733A3.733 3.733 0 0 0 1 4.733v6.534A3.733 3.733 0 0 0 4.733 15h6.534A3.733 3.733 0 0 0 15 11.267V4.733A3.733 3.733 0 0 0 11.267 1Z"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M8 11.111A3.111 3.111 0 1 0 8 4.89a3.111 3.111 0 0 0 0 6.222Z"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <circle cx={11.75} cy={3.75} fill="#000" r={0.75} />
+  </svg>
+)
 
 export default instagram

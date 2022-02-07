@@ -65,6 +65,8 @@ import bubble from './bubble.js'
 import bubble_medium from './bubble_medium.js'
 import building_construction from './building_construction.js'
 import building_construction_medium from './building_construction_medium.js'
+import calculator from './calculator.js'
+import calculator_medium from './calculator_medium.js'
 import calendar from './calendar.js'
 import calendar_medium from './calendar_medium.js'
 import camera from './camera.js'
@@ -141,10 +143,14 @@ import cookie from './cookie.js'
 import cookie_medium from './cookie_medium.js'
 import copy from './copy.js'
 import copy_medium from './copy_medium.js'
+import credit_note from './credit_note.js'
+import credit_note_medium from './credit_note_medium.js'
 import currency from './currency.js'
 import currency_medium from './currency_medium.js'
 import customer_service from './customer_service.js'
 import customer_service_medium from './customer_service_medium.js'
+import deleted_invoice from './deleted_invoice.js'
+import deleted_invoice_medium from './deleted_invoice_medium.js'
 import diamond from './diamond.js'
 import diamond_medium from './diamond_medium.js'
 import digipass from './digipass.js'
@@ -428,6 +434,8 @@ import shopping_cart from './shopping_cart.js'
 import shopping_cart_medium from './shopping_cart_medium.js'
 import snowmobile from './snowmobile.js'
 import snowmobile_medium from './snowmobile_medium.js'
+import speedometer from './speedometer.js'
+import speedometer_medium from './speedometer_medium.js'
 import split from './split.js'
 import split_medium from './split_medium.js'
 import star from './star.js'
@@ -464,6 +472,8 @@ import transfer_to from './transfer_to.js'
 import transfer_to_medium from './transfer_to_medium.js'
 import trash from './trash.js'
 import trash_medium from './trash_medium.js'
+import travel from './travel.js'
+import travel_medium from './travel_medium.js'
 import undo from './undo.js'
 import undo_medium from './undo_medium.js'
 import upload from './upload.js'
@@ -557,6 +567,8 @@ export {
   bubble_medium,
   building_construction,
   building_construction_medium,
+  calculator,
+  calculator_medium,
   calendar,
   calendar_medium,
   camera,
@@ -633,10 +645,14 @@ export {
   cookie_medium,
   copy,
   copy_medium,
+  credit_note,
+  credit_note_medium,
   currency,
   currency_medium,
   customer_service,
   customer_service_medium,
+  deleted_invoice,
+  deleted_invoice_medium,
   diamond,
   diamond_medium,
   digipass,
@@ -920,6 +936,8 @@ export {
   shopping_cart_medium,
   snowmobile,
   snowmobile_medium,
+  speedometer,
+  speedometer_medium,
   split,
   split_medium,
   star,
@@ -956,6 +974,8 @@ export {
   transfer_to_medium,
   trash,
   trash_medium,
+  travel,
+  travel_medium,
   undo,
   undo_medium,
   upload,

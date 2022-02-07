@@ -2,37 +2,27 @@
 
 import React from 'react'
 
-function file_xml_medium(props) {
-  return (
-    <svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M13 23H2.5C1.94772 23 1.5 22.5523 1.5 22V2C1.5 1.44772 1.94772 1 2.5 1H12.5362C12.8304 1 13.1096 1.12951 13.2996 1.35406L18.2634 7.22036C18.4162 7.40092 18.5 7.62979 18.5 7.86631V9"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M11.6 19L9.58 15.4L11.51 12H9.86L8.81 14.11L7.8 12H6.09L8.01 15.5L6 19H7.72L8.79 16.86L9.82 19H11.6Z"
-        fill="black"
-      />
-      <path
-        d="M17.4961 12.01H15.7161L14.9761 15.42L14.2361 12H12.4961V19H13.8661V15.36L14.3861 17.57H15.5961L16.0661 15.35V19.01H17.4961V12.01Z"
-        fill="black"
-      />
-      <path
-        d="M20.4922 17.8V12H18.9922V19H23.5922V17.8H20.4922Z"
-        fill="black"
-      />
-    </svg>
-  )
-}
+const file_xml_medium = (props) => (
+  <svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M13 23H2.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h10.036a1 1 0 0 1 .764.354l4.963 5.866a1 1 0 0 1 .237.646V9"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="m11.6 19-2.02-3.6 1.93-3.4H9.86l-1.05 2.11L7.8 12H6.09l1.92 3.5L6 19h1.72l1.07-2.14L9.82 19h1.78ZM17.496 12.01h-1.78l-.74 3.41-.74-3.42h-1.74v7h1.37v-3.64l.52 2.21h1.21l.47-2.22v3.66h1.43v-7ZM20.492 17.8V12h-1.5v7h4.6v-1.2h-3.1Z"
+      fill="#000"
+    />
+  </svg>
+)
 
 export default file_xml_medium

@@ -1403,6 +1403,36 @@
     "name": "objects/tag_16",
     "variant": "secondary"
   },
+  "speedometer": {
+    "tags": ["gauge", "dashboard", "vehicle", "car"],
+    "created": 1644051894624,
+    "name": "objects/speedometer_16",
+    "variant": "secondary"
+  },
+  "calculator": {
+    "tags": [],
+    "created": 1644051894702,
+    "name": "objects/calculator_16",
+    "variant": "secondary"
+  },
+  "travel": {
+    "tags": ["insurance", "plane", "flight"],
+    "created": 1644051902299,
+    "name": "products/travel_16",
+    "variant": "secondary"
+  },
+  "deleted_invoice": {
+    "tags": ["slettet faktura"],
+    "created": 1644051905101,
+    "name": "products/deleted_invoice_16",
+    "variant": "secondary"
+  },
+  "credit_note": {
+    "tags": ["kreditnota"],
+    "created": 1644051905197,
+    "name": "products/credit_note_16",
+    "variant": "secondary"
+  },
   "products_account_percent": {
     "tags": ["Loan value ratio"],
     "created": 1623927453967,

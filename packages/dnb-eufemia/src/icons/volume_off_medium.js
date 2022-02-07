@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function volume_off_medium(props) {
-  return (
-    <svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M10.816 16.7351L14.1 18.8251C14.5457 19.1593 15.1725 19.2159 15.6708 18.9667C16.1691 18.7175 16.5 18.1822 16.5 17.6251V12.3751M15.6708 4.28341C15.1725 4.03425 14.5457 4.09077 14.1 4.42505L7.5 8.62505H4.5C3.683 8.62505 3 9.30805 3 10.1251V13.1251C3 13.9421 3.683 14.6251 4.5 14.6251M3 19.8751L21 4.87505"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const volume_off_medium = (props) => (
+  <svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="m10.816 16.735 3.284 2.09c.446.334 1.072.39 1.57.142.5-.25.83-.785.83-1.342v-5.25m-.83-8.092a1.525 1.525 0 0 0-1.57.142l-6.6 4.2h-3c-.817 0-1.5.683-1.5 1.5v3c0 .817.683 1.5 1.5 1.5M3 19.875l18-15"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default volume_off_medium
