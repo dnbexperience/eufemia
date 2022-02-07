@@ -343,7 +343,7 @@ yarn test:screenshots:update breadcrumb
 
 Changes to `@dnb/eufemia` have to be mentioned by using a [git commit messages decoration](/contribute/commit#commit-messages). During the next release, a `CHANGELOG.md` file will be generated and changes will get listed on the [GitHub Releases](https://github.com/dnbexperience/eufemia/releases) page.
 
-General Eufemia **Design System** changes have to be written down in the `EUFEMIA_CHANGELOG.md` file, located in the repository root. This file should only be updated if there is a change in the `@dnb/eufemia` package, which affects the components/elements/extensions.
+General Eufemia **Design System** changes have to be written down in the `EUFEMIA_CHANGELOG.md` file, located in the docs. This file should only be updated if there is a change in the `@dnb/eufemia` package, which affects the components/elements/extensions.
 
 ## 6. Commit changes
 
