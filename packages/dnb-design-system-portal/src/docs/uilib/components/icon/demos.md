@@ -5,7 +5,8 @@ showTabs: true
 import IconTests, {
 IconDefault,
 IconBorder,
-IconInheritSized
+IconInheritSized,
+IconColors
 } from 'Docs/uilib/components/icon/Examples'
 
 ## Demos
@@ -21,5 +22,10 @@ IconInheritSized
 ### Responsive to its inherited `font-size`
 
 <IconInheritSized />
+
+### Icon color variations
+All of these methods will output the same color
+
+<IconColors />
 
 <IconTests />
