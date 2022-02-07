@@ -49,6 +49,7 @@ import Textarea from './components/textarea/Textarea'
 import Timeline from './components/timeline/Timeline'
 import ToggleButton from './components/toggle-button/ToggleButton'
 import Tooltip from './components/tooltip/Tooltip'
+import VisuallyHidden from './components/visually-hidden/VisuallyHidden'
 import Anchor from './elements/Anchor'
 import Blockquote from './elements/Blockquote'
 import Code from './elements/Code'
@@ -120,6 +121,7 @@ export {
   Timeline,
   ToggleButton,
   Tooltip,
+  VisuallyHidden,
   Anchor,
   Blockquote,
   Code,
