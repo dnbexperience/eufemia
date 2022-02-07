@@ -15,6 +15,7 @@ import del from 'del'
  * so we can commit them as as core part.
  * The rest is only generated during the package build
  */
+import { makeReleaseVersion } from './tasks/makeReleaseVersion'
 import { prepareTemplates } from './tasks/prepareTemplates'
 import { runStyleFactory } from './tasks/styleFactory'
 import { runThemeFactory } from './tasks/themeFactory'
@@ -62,6 +63,7 @@ export const runPrepublishTasks = async ({
     // await makeIconLib()
     // await makeIconsUMDBundle({ doRefetch })
 
+    await makeReleaseVersion()
     await runStyleFactory()
     await runThemeFactory()
     await makeLibStyles() // have to run before "makeLibModules"

@@ -14,8 +14,11 @@ import {
   PLATFORM_WIN,
   PLATFORM_LINUX,
 } from './helpers'
+import { init } from './Eufemia'
 
 export { registerElement, warn }
+
+init()
 
 if (
   typeof process !== 'undefined' &&
