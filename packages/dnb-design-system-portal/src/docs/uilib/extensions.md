@@ -6,6 +6,8 @@ redirect_from:
   - /uilib/patterns
 ---
 
+import ListSummaryFromPages from 'dnb-design-system-portal/src/shared/parts/ListSummaryFromPages'
+
 # Extensions
 
 ## Description
@@ -20,6 +22,6 @@ The styles for extensions are not a part of the default styles, so you have to i
 import '@dnb/eufemia/style/extensions'
 ```
 
-## [PaymentCard](/uilib/extensions/payment-card)
+## Available Extensions
 
-The PaymentCard component is a dynamic defined visual component imitate a physical payment card.
+<ListSummaryFromPages slug="uilib/extensions/" />
