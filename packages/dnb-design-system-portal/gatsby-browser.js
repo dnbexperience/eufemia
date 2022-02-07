@@ -10,12 +10,8 @@ import {
   pageElement,
 } from './src/core/PortalStylesAndProviders'
 import smoothscroll from 'smoothscroll-polyfill'
-import process from 'process/browser'
 
 smoothscroll.polyfill()
-
-// was added during webpack 4 to 5 migration
-global.process = process
 
 if (typeof window !== 'undefined') {
   setIsTest(window.location)
