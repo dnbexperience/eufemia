@@ -813,16 +813,14 @@ export class InteractionInvalidation {
       const tabindex = node.getAttribute('tabindex')
       const ariahidden = node.getAttribute('aria-hidden')
 
-      const dataset = node.dataset
-
-      if (tabindex !== null && typeof dataset._tabindex === 'undefined') {
-        node.dataset._tabindex = tabindex
+      if (tabindex !== null && typeof node.__tabindex === 'undefined') {
+        node.__tabindex = tabindex
       }
       if (
         ariahidden !== null &&
-        typeof dataset._ariahidden === 'undefined'
+        typeof node.__ariahidden === 'undefined'
       ) {
-        node.dataset._ariahidden = ariahidden
+        node.__ariahidden = ariahidden
       }
 
       node.setAttribute('tabindex', '-1')
@@ -841,15 +839,15 @@ export class InteractionInvalidation {
         continue
       }
 
-      if (typeof node.dataset._tabindex !== 'undefined') {
-        node.setAttribute('tabindex', node.dataset._tabindex)
-        node.dataset._tabindex = null
+      if (typeof node.__tabindex !== 'undefined') {
+        node.setAttribute('tabindex', node.__tabindex)
+        delete node.__tabindex
       } else {
         node.removeAttribute('tabindex')
       }
-      if (typeof node.dataset._ariahidden !== 'undefined') {
-        node.setAttribute('aria-hidden', node.dataset._ariahidden)
-        node.dataset._ariahidden = null
+      if (typeof node.__ariahidden !== 'undefined') {
+        node.setAttribute('aria-hidden', node.__ariahidden)
+        delete node.__ariahidden
       } else {
         node.removeAttribute('aria-hidden')
       }
