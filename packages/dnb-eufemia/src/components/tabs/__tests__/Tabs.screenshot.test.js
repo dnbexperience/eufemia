@@ -47,6 +47,18 @@ describe('Tabs screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match tabs with no bottom border', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        width: '40rem',
+        height: '10rem',
+        padding: '0 2rem 4rem 2rem',
+      },
+      selector: '[data-visual-test="tabs-no-border"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('Tabs screenshot', () => {

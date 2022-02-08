@@ -316,3 +316,19 @@ const MaxWidth = styled(Wrapper)`
     }
   } */
 `
+export const TabsNoBorder = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="tabs-no-border">
+      {() => /* jsx */ `
+<Tabs no_border={true}>
+  <Tabs.Content title="First">
+    <H2 top={0} bottom>First</H2>
+  </Tabs.Content>
+  <Tabs.Content title="Second">
+    <H2 top={0} bottom>Second</H2>
+  </Tabs.Content>
+</Tabs>
+`}
+    </ComponentBox>
+  </Wrapper>
+)
