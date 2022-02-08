@@ -29,6 +29,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
     }
     id="linked"
     label={null}
+    no_border={false}
     on_change={null}
     on_click={null}
     on_focus={null}
@@ -551,6 +552,7 @@ exports[`Tabs component have to match snapshot 1`] = `
         "data": "data",
         "id": "id",
         "label": "label",
+        "no_border": "no_border",
         "on_change": [Function],
         "on_click": [Function],
         "on_focus": [Function],
@@ -608,6 +610,7 @@ exports[`Tabs component have to match snapshot 1`] = `
   }
   id="id"
   label={null}
+  no_border={false}
   on_change={null}
   on_click={null}
   on_focus={null}
@@ -1342,6 +1345,8 @@ exports[`Tabs scss have to match snapshot 1`] = `
     bottom: 0;
     width: 100vw;
     height: 1px; }
+  .dnb-tabs__tabs--no-border::before {
+    content: none; }
 
 .dnb-tabs:not(.dnb-tabs--has-scrollbar) .dnb-tabs__tabs__tablist {
   margin-left: -0.5rem;

@@ -86,6 +86,7 @@ export default class Tabs extends React.PureComponent {
     align: PropTypes.oneOf(['left', 'center', 'right']),
     tabs_style: PropTypes.string,
     tabs_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    no_border: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     use_hash: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_rerender: PropTypes.oneOfType([
@@ -124,6 +125,7 @@ export default class Tabs extends React.PureComponent {
     align: 'left',
     tabs_style: null,
     tabs_spacing: null,
+    no_border: false,
     use_hash: false,
     prerender: false,
     prevent_rerender: false,
@@ -994,7 +996,7 @@ export default class Tabs extends React.PureComponent {
   }
 
   TabsListHandler = ({ children, className, ...rest }) => {
-    const { align, tabs_style, tabs_spacing } = this.props
+    const { align, tabs_style, tabs_spacing, no_border } = this.props
     const { hasScrollbar, atEdge } = this.state
 
     return (
@@ -1010,6 +1012,7 @@ export default class Tabs extends React.PureComponent {
             : null,
           hasScrollbar && 'dnb-tabs--has-scrollbar',
           atEdge && 'dnb-tabs--at-edge',
+          no_border && 'dnb-tabs__tabs--no-border',
           className
         )}
         ref={this._tabsRef}

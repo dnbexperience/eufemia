@@ -11,6 +11,7 @@ TabsExampleUsingData,
 TabsExampleRightAligned,
 TabsExampleReachRouterNavigation,
 TabsExampleReactRouterNavigation,
+TabsNoBorder,
 } from 'Docs/uilib/components/tabs/Examples'
 
 ## Demos
@@ -60,6 +61,10 @@ But depending on your setup, you may have to align your Tabs all the way to the 
   }
 }
 ```
+
+### Tabs without bottom border
+
+<TabsNoBorder />
 
 ### Router navigation with Reach Router
 
