@@ -79,6 +79,7 @@ export default class ProgressIndicatorLinear extends React.PureComponent {
       params.role = 'progressbar'
       params['aria-label'] = title
       params['title'] = title
+      params['aria-valuenow'] = progress
     } else {
       params.role = 'alert'
       params['aria-busy'] = true

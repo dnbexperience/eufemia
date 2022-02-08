@@ -330,6 +330,30 @@ describe('Linear ProgressIndicator component', () => {
     ).toBe('loading')
   })
 
+  it('has aria-valuenow set to the value of progress property', () => {
+    const progress = 30;
+    const LinearComp = mount(
+      <Component {...props} type="linear" progress={progress} title="loading" />
+    )
+    expect(
+      LinearComp.find('.dnb-progress-indicator__linear')
+        .instance()
+        .getAttribute('aria-valuenow')
+    ).toBe(`${progress}`)
+  })
+
+  it('does not have aria-valuenow when progress is null', () => {
+    const LinearComp = mount(
+      <Component {...props} type="linear" progress={null} />
+    )
+    expect(
+      LinearComp.find('.dnb-progress-indicator__linear')
+        .instance()
+        .getAttribute('aria-valuenow')
+    ).toBeNull()
+  })
+
+
   it('should validate with ARIA rules', async () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
