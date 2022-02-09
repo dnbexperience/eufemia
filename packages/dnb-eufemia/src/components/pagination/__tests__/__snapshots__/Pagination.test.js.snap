@@ -1111,45 +1111,46 @@ exports[`Pagination scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-pagination__page, .dnb-pagination__loadbar {
-  min-height: 6rem; }
-
-.dnb-pagination__bar {
-  margin-top: 1rem;
-  margin-bottom: 1rem; }
-
-.dnb-pagination__indicator {
-  min-height: inherit; }
-  .dnb-pagination__indicator__inner {
-    animation: show-page 300ms ease-out forwards; }
-
-.dnb-core-style .dnb-pagination__button.dnb-button--primary, .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):hover, .dnb-pagination__button.dnb-button--primary, .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):hover {
-  background-color: var(--color-emerald-green);
-  color: var(--color-mint-green); }
-
-.dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
-  color: var(--color-emerald-green);
-  background-color: var(--color-mint-green);
-  outline: none; }
-  html[data-whatinput='keyboard'] .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
-    --border-color: var(--color-emerald-green);
-    box-shadow: 0 0 0 0.125rem var(--border-color);
-    border-color: transparent; }
-    @media screen and (-ms-high-contrast: none) {
-      html[data-whatinput='keyboard'] .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
-
-.dnb-pagination__dots > div {
-  background-color: var(--color-emerald-green); }
-
-@media screen and (max-width: 40em) {
-  .dnb-pagination--many-pages .dnb-pagination__bar__inner .dnb-pagination__button:not([aria-current]):nth-of-type(2),
-  .dnb-pagination--many-pages .dnb-pagination__bar__inner .dnb-pagination__button:not([aria-current]):nth-last-of-type(2) {
-    width: 0;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-    box-shadow: none; } }
+.dnb-pagination {
+  /*   @media screen and (max-width: 40em) {
+    &--many-pages
+      &__bar__inner
+      &__button:not([aria-current]):nth-of-type(2),
+    &--many-pages
+      &__bar__inner
+      &__button:not([aria-current]):nth-last-of-type(2) {
+      width: 0;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      box-shadow: none; // because on iOS we force an outer \\"fakeBorder\\" on secondary button
+    }
+  } */ }
+  .dnb-pagination__page, .dnb-pagination__loadbar {
+    min-height: 6rem; }
+  .dnb-pagination__bar {
+    margin-top: 1rem;
+    margin-bottom: 1rem; }
+  .dnb-pagination__indicator {
+    min-height: inherit; }
+    .dnb-pagination__indicator__inner {
+      animation: show-page 300ms ease-out forwards; }
+  .dnb-core-style .dnb-pagination__button.dnb-button--primary, .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):hover, .dnb-pagination__button.dnb-button--primary, .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):hover {
+    background-color: var(--color-emerald-green);
+    color: var(--color-mint-green); }
+  .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
+    color: var(--color-emerald-green);
+    background-color: var(--color-mint-green);
+    outline: none; }
+    html[data-whatinput='keyboard'] .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
+      --border-color: var(--color-emerald-green);
+      box-shadow: 0 0 0 0.125rem var(--border-color);
+      border-color: transparent; }
+      @media screen and (-ms-high-contrast: none) {
+        html[data-whatinput='keyboard'] .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
+          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+  .dnb-pagination__dots > div {
+    background-color: var(--color-emerald-green); }
 
 @keyframes show-page {
   from {

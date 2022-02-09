@@ -4,51 +4,49 @@
  */
 
 export const calculatePagination = (
-  page_count: number,
-  current_page: number
+  pageCount: number,
+  currentPage: number,
+  isSmallScreen?: boolean
 ): Array<Array<number>> => {
-  if (page_count === 1) return [[1]]
+  if (pageCount === 1) return [[1]]
+  const MIDDLE_WIDTH = isSmallScreen ? 1 : 2
+  const EDGE_WIDTH = isSmallScreen ? 2 : 4
+  const START = 1
 
-  const start = Math.max.apply(Math, [
+  const currentAtEnd = currentPage + 2 > pageCount
+  const currentAtStart = currentPage - 2 < START
+
+  const middleStart = Math.max(
     1,
-    current_page + 2 > page_count
-      ? current_page -
-        4 +
-        (Math.min.apply(Math, [
-          page_count,
-          current_page - 2 < 1
-            ? current_page + 4 - (current_page - 1)
-            : current_page + 2,
-        ]) -
-          current_page)
-      : current_page - 2,
-  ])
+    currentAtEnd ? pageCount - EDGE_WIDTH : currentPage - MIDDLE_WIDTH
+  )
 
-  const end = Math.min.apply(Math, [
-    page_count,
-    current_page - 2 < 1
-      ? current_page + 4 - (current_page - start)
-      : current_page + 2,
-  ])
+  const middleEnd = Math.min(
+    pageCount,
+    currentAtStart ? middleStart + EDGE_WIDTH : currentPage + MIDDLE_WIDTH
+  )
 
-  let middle = []
-
-  for (let i = start; i <= end; i++) {
-    middle.push(i)
+  const startArray = [START]
+  const middleArray = []
+  const endArray = [pageCount]
+  if (middleStart === START + 1) {
+    middleArray.push(startArray[0])
+  }
+  for (let i = middleStart; i <= middleEnd; i++) {
+    middleArray.push(i)
+  }
+  if (middleEnd === pageCount - 1) {
+    middleArray.push(endArray[0])
   }
 
   const pages = []
-  if (start > 2) {
-    pages.push([1])
-  } else if (start === 2) {
-    middle = [1].concat(middle)
+  if (middleStart > 2) {
+    pages.push(startArray)
   }
-  pages.push(middle)
+  pages.push(middleArray)
 
-  if (end <= page_count - 2) {
-    pages.push([page_count])
-  } else if (end === page_count - 1) {
-    middle.push(page_count)
+  if (middleEnd <= pageCount - 2) {
+    pages.push(endArray)
   }
 
   return pages
