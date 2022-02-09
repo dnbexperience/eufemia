@@ -2,32 +2,23 @@
 
 import React from 'react'
 
-function pause(props) {
-  return (
-    <svg
-      width={16}
-      height={16}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M5.22222 2H4.11111C3.49746 2 3 2.48842 3 3.09091V12.9091C3 13.5116 3.49746 14 4.11111 14H5.22222C5.83587 14 6.33333 13.5116 6.33333 12.9091V3.09091C6.33333 2.48842 5.83587 2 5.22222 2Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M11.8889 2H10.7778C10.1641 2 9.66667 2.48842 9.66667 3.09091V12.9091C9.66667 13.5116 10.1641 14 10.7778 14H11.8889C12.5025 14 13 13.5116 13 12.9091V3.09091C13 2.48842 12.5025 2 11.8889 2Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const pause = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M5.222 2h-1.11C3.496 2 3 2.488 3 3.09v9.82c0 .602.497 1.09 1.111 1.09h1.111c.614 0 1.111-.488 1.111-1.09V3.09c0-.602-.497-1.09-1.11-1.09ZM11.889 2h-1.111c-.614 0-1.111.488-1.111 1.09v9.82c0 .602.497 1.09 1.11 1.09h1.112c.614 0 1.111-.488 1.111-1.09V3.09C13 2.489 12.502 2 11.889 2Z"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default pause

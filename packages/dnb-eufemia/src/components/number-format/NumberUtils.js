@@ -231,8 +231,8 @@ export const format = (
 
     // IE has a bug, where negative numbers has a parenthesis around the number
     if (IS_IE11) {
-      display = display.replace(/^\((.*)\)$/, '-$1')
-      aria = aria.replace(/^\((.*)\)$/, '-$1')
+      display = String(display).replace(/^\((.*)\)$/, '-$1')
+      aria = String(aria).replace(/^\((.*)\)$/, '-$1')
       display = prepareMinus(display, locale)
       aria = prepareMinus(aria, locale)
     }

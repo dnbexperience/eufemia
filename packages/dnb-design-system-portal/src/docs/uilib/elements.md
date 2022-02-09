@@ -16,6 +16,7 @@ import ListsDemos from 'Docs/uilib/elements/lists'
 import ImageDemos from 'Docs/uilib/elements/image'
 import HrDemos from 'Docs/uilib/elements/horizontal-rule'
 import CodeDemos from 'Docs/uilib/elements/code'
+import ListSummaryFromPages from 'dnb-design-system-portal/src/shared/parts/ListSummaryFromPages'
 
 # HTML Elements
 
@@ -23,17 +24,7 @@ The `@dnb/eufemia` contains styling for the most commonly used [HTML Elements](h
 
 ## Overview
 
-- [Anchor (Text Link)](#anchor-text-link)
-- [Headings](/uilib/typography/heading)
-- [Paragraph](/uilib/typography/paragraph)
-- [Lists](#lists)
-- [Tables](#tables)
-- [Horizontal Rule](/uilib/elements#horizontal-rule)
-- [Blockquote](#blockquote)
-- [Image](#image)
-- [Div/Span](#unstyled-html-elements)
-- [Select](#missing-html-elements)
-- [Code](#code)
+<ListSummaryFromPages useAsIndex slug="uilib/elements/" />
 
 ### Vanilla HTML
 

@@ -49,6 +49,7 @@ import Textarea from './textarea/Textarea'
 import Timeline from './timeline/Timeline'
 import ToggleButton from './toggle-button/ToggleButton'
 import Tooltip from './tooltip/Tooltip'
+import VisuallyHidden from './visually-hidden/VisuallyHidden'
 
 // define / export all the available components
 export {
@@ -91,4 +92,5 @@ export {
   Timeline,
   ToggleButton,
   Tooltip,
+  VisuallyHidden,
 }

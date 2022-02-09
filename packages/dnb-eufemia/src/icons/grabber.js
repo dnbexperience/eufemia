@@ -2,24 +2,22 @@
 
 import React from 'react'
 
-function grabber(props) {
-  return (
-    <svg
-      width={16}
-      height={16}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M1 5H15M1 8H15M1 11H15"
-        stroke="black"
-        strokeWidth={1.56}
-        strokeLinecap="round"
-      />
-    </svg>
-  )
-}
+const grabber = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M1 5h14M1 8h14M1 11h14"
+      stroke="#000"
+      strokeWidth={1.56}
+      strokeLinecap="round"
+    />
+  </svg>
+)
 
 export default grabber

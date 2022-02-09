@@ -946,50 +946,14 @@ const optimizeSVG = async (file) => {
   try {
     let content = await fs.readFile(file, 'utf8')
 
-    // const transformSvg = async (content) => {
     // Figma has an issue where 16px icons gets exported as 17px
     // This is a fix for that issue
     content = content.replace(/="17"/g, '="16"')
     content = content.replace(/="25"/g, '="24"')
 
-    // If we change the viewBox, then we change the position of the icons slightly
-    // content = content.replace(/ (17)("| )/g, ' 16$2')
-    // content = content.replace(/ (25)("| )/g, ' 24$2')
+    const svgo = new SVGOptim() // We use svgo.config.js
 
-    // find an id, and remove the element containing it, as we don't want IDs in our markups!
-    const id = (/id="(.*)"/g.exec(content) || [0, null])[1]
-
-    const plugins = [
-      // {
-      //   removeAttrs: {
-      //     attrs: [
-      //       // once this pullrequest goes throug https://github.com/svg/svgo/pull/977
-      //       // we can use this method
-      //       // '*:(fill)|((?!^none$).)*'
-      //       // remove all fills - if the instance has a defined background color, then things are not showing good. Then then have to allow this setting to be there
-      //       'fill'
-      //       // 'stroke' // for now, we don't remove stroke
-      //       // 'svg:fill'
-      //       // 'svg:xmlns',
-      //       // 'svg:width',
-      //       // 'svg:height'
-      //     ]
-      //   }
-      // },
-      {
-        removeElementsByAttr: {
-          id,
-        },
-      },
-      // { convertPathData: false }, // if we prefer to not transform any data paths, we have to disable this
-      { cleanupIDs: true },
-      { removeViewBox: false },
-      { removeDimensions: false },
-    ]
-    const svgo = new SVGOptim({
-      plugins,
-    })
-
+    // WIP
     // content = insertInlineStylesToSVG(content)
 
     const { data } = await svgo.optimize(content, { path: file })

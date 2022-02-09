@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function share_android(props) {
-  return (
-    <svg
-      width={16}
-      height={16}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M5.83067 6.594L10.1693 4.90667M5.73667 8.61867L10.2633 10.882M6 7.5C6 8.88071 4.88071 10 3.5 10C2.11929 10 1 8.88071 1 7.5C1 6.11929 2.11929 5 3.5 5C4.88071 5 6 6.11929 6 7.5ZM15 4C15 5.38071 13.8807 6.5 12.5 6.5C11.1193 6.5 10 5.38071 10 4C10 2.61929 11.1193 1.5 12.5 1.5C13.8807 1.5 15 2.61929 15 4ZM15 12C15 13.3807 13.8807 14.5 12.5 14.5C11.1193 14.5 10 13.3807 10 12C10 10.6193 11.1193 9.5 12.5 9.5C13.8807 9.5 15 10.6193 15 12Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const share_android = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="m5.83 6.594 4.34-1.687M5.736 8.619l4.526 2.263M6 7.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM15 4a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm0 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default share_android

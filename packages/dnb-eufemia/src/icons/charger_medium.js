@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function charger_medium(props) {
-  return (
-    <svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M6 0.75V5.25M12 0.75V5.25M9 15.75V18.75C9 23 15 23 15 18.75C15 15 21 15 21 18.75V23.25M7.5 8.25H10.5M6 5.25H4.49996C4.10213 5.25 3.7206 5.40804 3.4393 5.68934C3.15799 5.97064 3.12207 6.37109 3.12207 6.5938C3.12207 12 3.4393 15.5938 9.12207 15.5938C14.4585 15.5938 14.9989 12 15 6.75C15 6.36328 14.8419 5.97064 14.5606 5.68934C14.2793 5.40804 13.8978 5.25 13.5 5.25H12M6 5.25H12"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const charger_medium = (props) => (
+  <svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M6 .75v4.5m6-4.5v4.5m-3 10.5v3c0 4.25 6 4.25 6 0 0-3.75 6-3.75 6 0v4.5m-13.5-15h3m-4.5-3H4.5a1.5 1.5 0 0 0-1.06.44c-.282.28-.318.681-.318.904 0 5.406.317 9 6 9C14.46 15.594 15 12 15 6.75a1.5 1.5 0 0 0-1.5-1.5H12m-6 0h6"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default charger_medium

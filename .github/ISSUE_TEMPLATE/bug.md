@@ -25,3 +25,7 @@ Paste the results here:
 ```bash
 
 ```
+
+## Eufemia Version
+
+Type `Eufemia.version` in your browser console and include it here.

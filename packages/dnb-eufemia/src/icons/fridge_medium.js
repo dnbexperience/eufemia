@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function fridge_medium(props) {
-  return (
-    <svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M6.75 23.25V21.75M17.25 23.25V21.75M20.25 8.25H3.75M6.75 12.75V17.25M6.75 3.75V5.25M6.75 21.75H4.799C4.21965 21.75 3.75 21.2803 3.75 20.701V8.25M6.75 21.75H17.25M17.25 21.75H19.201C19.7803 21.75 20.25 21.2803 20.25 20.701V1.799C20.25 1.21965 19.7803 0.75 19.201 0.75H4.799C4.21965 0.75 3.75 1.21965 3.75 1.799V8.25"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const fridge_medium = (props) => (
+  <svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M6.75 23.25v-1.5m10.5 1.5v-1.5m3-13.5H3.75m3 4.5v4.5m0-13.5v1.5m0 16.5H4.799c-.58 0-1.049-.47-1.049-1.049V8.25m3 13.5h10.5m0 0h1.951c.58 0 1.049-.47 1.049-1.049V1.799c0-.58-.47-1.049-1.049-1.049H4.799c-.58 0-1.049.47-1.049 1.049V8.25"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default fridge_medium

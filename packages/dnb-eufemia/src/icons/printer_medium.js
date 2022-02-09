@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function printer_medium(props) {
-  return (
-    <svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M5.24979 17.2493H2.24991C1.42152 17.2493 0.749969 16.5778 0.749969 15.7494V8.24966C0.749969 7.42127 1.42152 6.74973 2.24991 6.74973H21.7491C22.5775 6.74973 23.2491 7.42127 23.2491 8.24966V15.7494C23.2491 16.5778 22.5775 17.2493 21.7491 17.2493H18.7492M3.74985 9.7496H5.24979M8.24966 15.7494H15.7494M8.24966 18.7492H13.4995M5.24979 12.7495H18.7492V23.2491H5.24979V12.7495ZM18.7492 6.74973H5.24979V2.24991C5.24979 1.42152 5.92133 0.749969 6.74973 0.749969H17.2493C18.0777 0.749969 18.7492 1.42152 18.7492 2.24991V6.74973Z"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const printer_medium = (props) => (
+  <svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M5.25 17.25h-3a1.5 1.5 0 0 1-1.5-1.5v-7.5a1.5 1.5 0 0 1 1.5-1.5h19.5a1.5 1.5 0 0 1 1.5 1.5v7.5a1.5 1.5 0 0 1-1.5 1.5h-3m-15-7.5h1.5m3 6h7.5m-7.5 3h5.25m-8.25-6h13.5v10.5H5.25v-10.5Zm13.5-6H5.25v-4.5a1.5 1.5 0 0 1 1.5-1.5h10.5a1.5 1.5 0 0 1 1.5 1.5v4.5Z"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default printer_medium

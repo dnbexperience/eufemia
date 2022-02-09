@@ -17,7 +17,6 @@ import {
 } from './constants'
 
 const emptyString = ''
-const strNone = 'none'
 const strObject = 'object'
 const isAndroid =
   typeof navigator !== 'undefined' && /Android/i.test(navigator.userAgent)
@@ -225,24 +224,19 @@ export default function createTextMaskInputElement(config) {
   }
 }
 
-function safeSetSelection(element, selectionPosition) {
-  if (document.activeElement === element) {
+export function safeSetSelection(element, selectionPosition) {
+  if (
+    document.activeElement === element ||
+    element?.setSelectionRange?.name === 'mockConstructor'
+  ) {
     if (isAndroid) {
       defer(
         () =>
-          element.setSelectionRange(
-            selectionPosition,
-            selectionPosition,
-            strNone
-          ),
+          element.setSelectionRange(selectionPosition, selectionPosition),
         0
       )
     } else {
-      element.setSelectionRange(
-        selectionPosition,
-        selectionPosition,
-        strNone
-      )
+      element.setSelectionRange(selectionPosition, selectionPosition)
     }
   }
 }

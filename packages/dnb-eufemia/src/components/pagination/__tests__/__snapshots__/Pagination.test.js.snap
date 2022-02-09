@@ -952,8 +952,8 @@ exports[`Pagination bar have to match snapshot 1`] = `
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M10 3L5 8L10 13"
-                            stroke="black"
+                            d="M10 3 5 8l5 5"
+                            stroke="#000"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={1.5}
@@ -1106,8 +1106,8 @@ exports[`Pagination bar have to match snapshot 1`] = `
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M6 13L11 8L6 3"
-                            stroke="black"
+                            d="m6 13 5-5-5-5"
+                            stroke="#000"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={1.5}

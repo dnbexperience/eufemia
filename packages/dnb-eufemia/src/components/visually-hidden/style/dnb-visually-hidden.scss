@@ -1,0 +1,12 @@
+/*
+* DNB Visually Hidden
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+.dnb-visually-hidden {
+  @include componentReset();
+}
+
+@import './_visually-hidden.scss';

@@ -53,6 +53,12 @@
       width: 100vw;
       height: 1px;
     }
+
+    &--no-border {
+      &::before {
+        content: none;
+      }
+    }
   }
 
   &:not(.dnb-tabs--has-scrollbar) &__tabs__tablist {

@@ -2,24 +2,22 @@
 
 import React from 'react'
 
-function grabber_medium(props) {
-  return (
-    <svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M1 9H23M1 12H23M1 15H23"
-        stroke="black"
-        strokeWidth={1.56}
-        strokeLinecap="round"
-      />
-    </svg>
-  )
-}
+const grabber_medium = (props) => (
+  <svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M1 9h22M1 12h22M1 15h22"
+      stroke="#000"
+      strokeWidth={1.56}
+      strokeLinecap="round"
+    />
+  </svg>
+)
 
 export default grabber_medium

@@ -5,7 +5,7 @@
 
 import { mockGetSelection } from '../../../core/jest/jestSetup'
 import { LOCALE } from '../../../shared/defaults'
-import { isMac } from '../../../shared/helpers'
+import * as helpers from '../../../shared/helpers'
 import {
   format,
   cleanNumber,
@@ -16,6 +16,7 @@ import {
   getCurrencySymbol,
   countDecimals,
 } from '../NumberUtils'
+import type { formatReturnValue } from '../NumberUtils'
 
 const locale = LOCALE
 const value = 12345678.9876
@@ -32,7 +33,7 @@ beforeAll(() => {
   platformGetter.mockReturnValue('Mac')
   languageGetter.mockReturnValue(locale)
 
-  isMac() // just to update the exported const: IS_MAC
+  helpers.isMac() // just to update the exported const: IS_MAC
 
   mockGetSelection()
 })
@@ -97,7 +98,7 @@ describe('Decimals format', () => {
     expect(format(num, { currency: true, decimals: 4 })).toBe(
       '-12 345,6789 kr'
     )
-    expect(format(String(num), { currency: true, decimals: '4' })).toBe(
+    expect(format(String(num), { currency: true, decimals: 4 })).toBe(
       '-12 345,6789 kr'
     )
     expect(
@@ -188,6 +189,39 @@ describe('Decimals format', () => {
         omit_currency_sign: true,
       })
     ).toBe('-12,345.68')
+  })
+
+  it('should handle wired IE11 issue', () => {
+    Object.defineProperty(helpers, 'IS_IE11', {
+      value: true,
+      writable: true,
+    })
+
+    // Mock the IE parenthesis issue
+    jest
+      .spyOn(Number.prototype, 'toLocaleString')
+      .mockImplementationOnce(() => {
+        return `(12345,67 norske kroner)`
+      })
+
+    const resultNegative = format(-12345.67, {
+      currency: true,
+      returnAria: true,
+      locale: 'nb-NO',
+    }) as formatReturnValue
+    const resultPositive = format(12345.67, {
+      currency: true,
+      returnAria: true,
+      locale: 'nb-NO',
+    }) as formatReturnValue
+
+    Object.defineProperty(helpers, 'IS_IE11', {
+      value: false,
+      writable: true,
+    })
+
+    expect(resultNegative.aria).toBe('-12345,67 norske kroner')
+    expect(resultPositive.aria).toBe('12345,67 norske kroner')
   })
 })
 
@@ -452,7 +486,7 @@ describe('NumberFormat percentage', () => {
       '−4,17 %'
     )
     expect(
-      format(-4.165, { percent: true, decimals: '2', omit_rounding: true })
+      format(-4.165, { percent: true, decimals: 2, omit_rounding: true })
     ).toBe('−4,16 %')
   })
 

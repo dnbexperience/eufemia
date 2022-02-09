@@ -1330,6 +1330,52 @@ describe('Autocomplete component', () => {
     expect(callThree.dataList).toStrictEqual(callTwo.dataList)
   })
 
+  it('will select correct item after updateData', () => {
+    const mockData = [
+      { selected_value: 'a value', content: '11 aa' },
+      { selected_value: 'b value', content: '22 bb' },
+      { selected_value: 'c value', content: '22 cc' },
+    ]
+
+    const onTypeHandler = ({ updateData }) => {
+      updateData(mockData)
+    }
+
+    const WithState = () => {
+      const [value, setValue] = React.useState(null)
+
+      return (
+        <Component
+          {...mockProps}
+          mode="async"
+          value={value}
+          data={mockData}
+          show_submit_button
+          on_type={onTypeHandler}
+          on_change={({ value }) => {
+            setValue(value)
+          }}
+        />
+      )
+    }
+    const Comp = mount(<WithState />)
+
+    toggle(Comp)
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: '22' },
+    })
+
+    Comp.find(Component)
+      .find('li.dnb-drawer-list__option')
+      .at(1)
+      .simulate('click')
+
+    expect(
+      Comp.find(Component).find('.dnb-input__input').instance().value
+    ).toBe('c value')
+  })
+
   it('has correct selected value', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
     expect(Comp.find('.dnb-input__input').instance().value).toBe(

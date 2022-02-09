@@ -11,7 +11,6 @@ on:
       - '!release'
       - '!main'
       - '!portal'
-      - '!eufemia-icons'
       - '!beta'
       - '!alpha'
 

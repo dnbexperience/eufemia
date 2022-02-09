@@ -54,7 +54,7 @@ export interface formatOptionParams {
   currency?: string | boolean;
 
   /** Intl.NumberFormat currency option – you can use false or empty string to hide the sign/name */
-  currency_display?: string;
+  currency_display?: string | boolean;
   /** currency option */
   currency_position?: formatCurrencyPosition;
   /** hides the currency sign */
@@ -84,3 +84,29 @@ export const cleanNumber: (
   num: number | string,
   options?: cleanNumberOptions
 ) => number | string;
+
+export const copyWithEffect: (
+  value: number | string,
+  label?: string,
+  positionElement?: HTMLElement
+) => boolean;
+
+export const getFallbackCurrencyDisplay: (
+  locale?: string,
+  currency_display?: string
+) => string;
+
+export const getDecimalSeparator: (locale?: string) => string;
+
+export const getThousandsSeparator: (locale?: string) => string;
+
+export const getCurrencySymbol: (
+  locale?: string,
+  currency?: string,
+  currencyDisplay?: string
+) => string;
+
+export const countDecimals: (
+  value: number | string,
+  currency_display?: string
+) => number;

@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function loan_in(props) {
-  return (
-    <svg
-      width={17}
-      height={16}
-      viewBox="0 0 17 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M15.75 13.5001H14.75M0.75 13.5001H1.75M4.75 3.66675C4.75 3.39061 4.52614 3.16675 4.25 3.16675H2.25C1.97386 3.16675 1.75 3.39061 1.75 3.66675V4.5M1.75 13.5001H4.75M1.75 13.5001V12.6667M4.75 13.5001H6.75M4.75 13.5001V12.6667M6.75 13.5001H9.75M6.75 13.5001V12.6667M9.75 13.5001V6.33341C9.75 6.05727 9.52614 5.83341 9.25 5.83341H8.25M9.75 13.5001H11.75M11.75 13.5001V9.00008C11.75 8.72394 11.9739 8.50008 12.25 8.50008H14.25C14.5261 8.50008 14.75 8.72394 14.75 9.00008V13.5001M11.75 13.5001H14.75M0.916667 8.33341H5.91667M4.25 10.0001L5.91667 8.33341M5.91667 8.33341L4.25 6.66675"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const loan_in = (props) => (
+  <svg
+    width={17}
+    height={16}
+    viewBox="0 0 17 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M15.75 13.5h-1m-14 0h1m3-9.833a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 0-.5.5V4.5m0 9h3m-3 0v-.833m3 .833h2m-2 0v-.833m2 .833h3m-3 0v-.833m3 .833V6.333a.5.5 0 0 0-.5-.5h-1m1.5 7.667h2m0 0V9a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v4.5m-3 0h3M.917 8.333h5M4.25 10l1.667-1.667m0 0L4.25 6.667"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default loan_in

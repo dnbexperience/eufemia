@@ -2,25 +2,23 @@
 
 import React from 'react'
 
-function swap(props) {
-  return (
-    <svg
-      width={16}
-      height={16}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M11 4.75L13 2.75M13 2.75L15 4.75M13 2.75V10.5833C13 11.964 11.8807 13.0833 10.5 13.0833C9.11929 13.0833 8 11.964 8 10.5833V5.25C8 3.86929 6.88071 2.75 5.5 2.75C4.11929 2.75 3 3.86929 3 5.25L3 13.0833M5 11.0833L3 13.0833M3 13.0833L1 11.0833"
-        stroke="black"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
+const swap = (props) => (
+  <svg
+    width={16}
+    height={16}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="m11 4.75 2-2m0 0 2 2m-2-2v7.833a2.5 2.5 0 0 1-5 0V5.25a2.5 2.5 0 0 0-5 0v7.833m2-2-2 2m0 0-2-2"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 
 export default swap

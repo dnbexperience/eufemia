@@ -650,8 +650,8 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        d="M10 3L5 8L10 13"
-                        stroke="black"
+                        d="M10 3 5 8l5 5"
+                        stroke="#000"
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="1.5"
@@ -704,8 +704,8 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M10 3L5 8L10 13"
-                          stroke="black"
+                          d="M10 3 5 8l5 5"
+                          stroke="#000"
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           stroke-width="1.5"
@@ -760,8 +760,8 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M10 3L5 8L10 13"
-                            stroke="black"
+                            d="M10 3 5 8l5 5"
+                            stroke="#000"
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             stroke-width="1.5"
@@ -865,8 +865,8 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M10 3L5 8L10 13"
-                              stroke="black"
+                              d="M10 3 5 8l5 5"
+                              stroke="#000"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               strokeWidth={1.5}

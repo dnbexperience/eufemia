@@ -68,6 +68,14 @@ const plugins = [
     },
   },
   {
+    resolve: 'gatsby-source-filesystem',
+    options: {
+      path: `${__dirname}/src/docs`, //for .md (mdx) files
+      name: 'docs',
+      ignore: ['**/Examples.*', '**/*_not_in_use*'],
+    },
+  },
+  {
     resolve: 'gatsby-plugin-mdx',
     options: {
       extensions: ['.md'],
@@ -94,14 +102,6 @@ const plugins = [
       // defaultLayouts: {
       //   // default: require.resolve('./src/templates/mdx.js')
       // }
-    },
-  },
-  {
-    resolve: 'gatsby-source-filesystem',
-    options: {
-      path: `${__dirname}/src/docs`, //for .md (mdx) files
-      name: 'docs',
-      ignore: ['**/Examples.*', '**/*_not_in_use*'],
     },
   },
   'gatsby-plugin-sass',

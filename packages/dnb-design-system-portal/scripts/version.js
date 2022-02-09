@@ -73,8 +73,7 @@ async function createNewChangelogVersion() {
     const packageJson = await fs.readJson(file)
     const changelogFilePath = path.resolve(
       __dirname,
-      '../../../',
-      'EUFEMIA_CHANGELOG.md'
+      '../src/docs/EUFEMIA_CHANGELOG.md'
     )
     const content = await fs.readFile(changelogFilePath, 'utf-8')
 

@@ -2,22 +2,20 @@
 
 import React from 'react'
 
-function add_medium(props) {
-  return (
-    <svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M11.25 21C11.25 21.4142 11.5858 21.75 12 21.75C12.4142 21.75 12.75 21.4142 12.75 21H11.25ZM12.75 3C12.75 2.58579 12.4142 2.25 12 2.25C11.5858 2.25 11.25 2.58579 11.25 3H12.75ZM21 12.75C21.4142 12.75 21.75 12.4142 21.75 12C21.75 11.5858 21.4142 11.25 21 11.25V12.75ZM3 11.25C2.58579 11.25 2.25 11.5858 2.25 12C2.25 12.4142 2.58579 12.75 3 12.75V11.25ZM12.75 21V3H11.25V21H12.75ZM21 11.25H3V12.75H21V11.25Z"
-        fill="black"
-      />
-    </svg>
-  )
-}
+const add_medium = (props) => (
+  <svg
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M11.25 21a.75.75 0 0 0 1.5 0h-1.5Zm1.5-18a.75.75 0 0 0-1.5 0h1.5ZM21 12.75a.75.75 0 0 0 0-1.5v1.5Zm-18-1.5a.75.75 0 0 0 0 1.5v-1.5ZM12.75 21V3h-1.5v18h1.5ZM21 11.25H3v1.5h18v-1.5Z"
+      fill="#000"
+    />
+  </svg>
+)
 
 export default add_medium

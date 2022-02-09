@@ -2,24 +2,22 @@
 
 import React from 'react'
 
-function wallet_medium(props) {
-  return (
-    <svg
-      width={25}
-      height={24}
-      viewBox="0 0 25 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M22 11.5C22 10.2344 22 9.04972 22 8C22 6.89543 21.1046 6 20 6H19M22 11.5H17.5C16.9477 11.5 16.5 11.9477 16.5 12.5V15.5C16.5 16.0523 16.9477 16.5 17.5 16.5H22M22 11.5H22.5C23.0523 11.5 23.5 11.9477 23.5 12.5V15.5C23.5 16.0523 23.0523 16.5 22.5 16.5H22M22 16.5C22 18.0069 22 19.5301 22 21C22 22.1046 21.1046 23 20 23H3C1.89543 23 1 22.1046 1 21V8C1 6.89543 1.89543 6 3 6H6M6 6L16.4671 1.44909C17.0166 1.21017 17.6515 1.50487 17.8236 2.07881L19 6M6 6H19"
-        stroke="black"
-        strokeWidth={1.5}
-      />
-      <circle cx={19} cy={14} r={1} fill="black" />
-    </svg>
-  )
-}
+const wallet_medium = (props) => (
+  <svg
+    width={25}
+    height={24}
+    viewBox="0 0 25 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M22 11.5V8a2 2 0 0 0-2-2h-1m3 5.5h-4.5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1H22m0-5h.5a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H22m0 0V21a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3m0 0 10.467-4.55a1 1 0 0 1 1.357.629L19 6M6 6h13"
+      stroke="#000"
+      strokeWidth={1.5}
+    />
+    <circle cx={19} cy={14} r={1} fill="#000" />
+  </svg>
+)
 
 export default wallet_medium

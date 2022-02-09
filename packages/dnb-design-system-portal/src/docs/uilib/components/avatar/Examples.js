@@ -155,7 +155,7 @@ export const AvatarDNBLogo = () => (
     {() => /* jsx */ `
 <Avatar.Group label="Logos:">
   <Avatar>
-    <Logo/>
+    <Logo size="auto" />
   </Avatar>
 </Avatar.Group>
 `}
@@ -195,7 +195,7 @@ export const AvatarImageTobias = () => (
     {() => /* jsx */ `
 <Avatar.Group label="Profiles:">
   <Avatar 
-    src="https://avatars.githubusercontent.com/u/1501870?v=4" 
+    src="/images/avatars/1501870.jpg" 
     alt="Profile picture" 
     size="large"
   />
@@ -303,13 +303,13 @@ export const GroupedAvatarsImg = () => (
   <ComponentBox hideCode data-visual-test="avatar-grouped-image">
     {() => /* jsx */ `
 <Avatar.Group label="Eufemia contributors:" size="large" maxElements={5}>
-  <Avatar src="https://avatars.githubusercontent.com/u/1501870?v=4" alt="Profile picture"/>
-  <Avatar src="https://avatars.githubusercontent.com/u/35217511?v=4" alt="Profile picture"/>
-  <Avatar src="https://avatars.githubusercontent.com/u/21338570?v=4" alt="Profile picture"/>
-  <Avatar src="https://avatars.githubusercontent.com/u/1359205?v=4" alt="Profile picture"/>
-  <Avatar src="https://avatars.githubusercontent.com/u/1501870?v=4" alt="Profile picture"/>
-  <Avatar src="https://avatars.githubusercontent.com/u/1501870?v=4" alt="Profile picture"/>
-  <Avatar src="https://avatars.githubusercontent.com/u/1501870?v=4" alt="Profile picture"/>
+  <Avatar src="/images/avatars/1501870.jpg" alt="Profile picture"/>
+  <Avatar src="/images/avatars/35217511.jpg" alt="Profile picture"/>
+  <Avatar src="/images/avatars/21338570.jpg" alt="Profile picture"/>
+  <Avatar src="/images/avatars/1359205.jpg" alt="Profile picture"/>
+  <Avatar src="/images/avatars/1501870.jpg" alt="Profile picture"/>
+  <Avatar src="/images/avatars/1501870.jpg" alt="Profile picture"/>
+  <Avatar src="/images/avatars/1501870.jpg" alt="Profile picture"/>
 </Avatar.Group>
 `}
   </ComponentBox>
