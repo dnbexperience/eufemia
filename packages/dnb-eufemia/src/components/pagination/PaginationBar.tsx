@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   dispatchCustomElementEvent,
@@ -19,25 +18,45 @@ import PaginationContext from './PaginationContext'
 
 import Button from '../button/Button'
 
-export default class PaginationBar extends React.PureComponent {
-  static contextType = PaginationContext
+interface PaginationBarProps {
+  /**
+   * The title used in every button shown in the bar. Defaults to Side %s.
+   */
+  button_title: string
+  /**
+   *  The title used in the previous page button. Defaults to Forrige side.
+   */
+  prev_title: string
+  /**
+   *  The title used in the next page button. Defaults to Neste side.
+   */
+  next_title: string
+  /**
+   * The title used in the dots. Relevant for screen-readers. Defaults to %s flere sider.
+   */
+  more_pages: string
+  /**
+   * Reference to the parent component. Used to contain height between updates.
+   */
+  contentRef: React.RefObject<any>
+  /**
+   *  the given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
+   */
+  children: React.ReactNode
+}
 
-  static propTypes = {
-    button_title: PropTypes.string, // eslint-disable-line
-    prev_title: PropTypes.string, // eslint-disable-line
-    next_title: PropTypes.string, // eslint-disable-line
-    more_pages: PropTypes.string, // eslint-disable-line
-    contentRef: PropTypes.object,
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]), // eslint-disable-line
-  }
-  static defaultProps = {
-    button_title: null,
-    prev_title: null,
-    next_title: null,
-    more_pages: null,
-    contentRef: null,
-    children: null,
-  }
+const defaultProps = {
+  button_title: null,
+  prev_title: null,
+  next_title: null,
+  more_pages: null,
+  contentRef: null,
+  children: null,
+}
+
+export default class PaginationBar extends React.PureComponent<PaginationBarProps> {
+  static contextType = PaginationContext
+  static defaultProps = { ...defaultProps }
 
   componentDidMount() {
     const context = this.context.pagination
