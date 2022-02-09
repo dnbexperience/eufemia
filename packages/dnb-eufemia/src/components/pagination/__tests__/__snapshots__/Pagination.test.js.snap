@@ -756,84 +756,11 @@ exports[`Pagination bar have to match snapshot 1`] = `
         className="dnb-pagination dnb-pagination--left"
       >
         <PaginationBar
-          button_title={null}
           contentRef={
             Object {
-              "current": <div
-                class="dnb-pagination__content dnb-no-focus"
-                tabindex="-1"
-              >
-                <div
-                  class="dnb-pagination__page"
-                >
-                  <div
-                    class="dnb-pagination__indicator"
-                  >
-                    <div
-                      class="dnb-pagination__indicator__inner"
-                    >
-                      <div
-                        class="dnb-progress-indicator dnb-progress-indicator--visible dnb-progress-indicator--horizontal"
-                      >
-                        <div
-                          aria-busy="true"
-                          class="dnb-progress-indicator__circular dnb-progress-indicator__circular--default"
-                          role="alert"
-                        >
-                          <svg
-                            class="dnb-progress-indicator__circular__line light paused"
-                            shape-rendering="geometricPrecision"
-                            viewBox="0 0 32 32"
-                          >
-                            <circle
-                              class="dnb-progress-indicator__circular__circle"
-                              cx="16"
-                              cy="16"
-                              fill="none"
-                              r="14"
-                              stroke-width="4"
-                            />
-                          </svg>
-                          <svg
-                            class="dnb-progress-indicator__circular__line dark dark"
-                            shape-rendering="geometricPrecision"
-                            viewBox="0 0 32 32"
-                          >
-                            <circle
-                              class="dnb-progress-indicator__circular__circle"
-                              cx="16"
-                              cy="16"
-                              fill="none"
-                              r="14"
-                              stroke-width="4"
-                            />
-                          </svg>
-                          <svg
-                            class="dnb-progress-indicator__circular__line light"
-                            shape-rendering="geometricPrecision"
-                            viewBox="0 0 32 32"
-                          >
-                            <circle
-                              class="dnb-progress-indicator__circular__circle"
-                              cx="16"
-                              cy="16"
-                              fill="none"
-                              r="14"
-                              stroke-width="4"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      Laster nytt innhold
-                    </div>
-                  </div>
-                </div>
-              </div>,
+              "current": null,
             }
           }
-          more_pages={null}
-          next_title={null}
-          prev_title={null}
         >
           <div
             className="dnb-pagination__bar"
@@ -851,7 +778,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
                   custom_content={null}
                   custom_element={null}
                   custom_method={null}
-                  disabled={true}
+                  disabled={false}
                   element={null}
                   global_status_id={null}
                   href={null}
@@ -871,7 +798,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
                   status_state="error"
                   stretch={null}
                   text="Forrige side"
-                  title={null}
+                  title="Forrige side"
                   to={null}
                   tooltip={null}
                   type={null}
@@ -879,10 +806,10 @@ exports[`Pagination bar have to match snapshot 1`] = `
                   wrap={null}
                 >
                   <button
-                    aria-disabled={true}
                     className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-button--icon-position-left dnb-button--has-icon"
-                    disabled={true}
+                    disabled={false}
                     onClick={[Function]}
+                    title="Forrige side"
                     type="button"
                   >
                     <Content
@@ -893,7 +820,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
                       custom_content={null}
                       custom_element={null}
                       custom_method={null}
-                      disabled={true}
+                      disabled={false}
                       element={null}
                       global_status_id={null}
                       href={null}
@@ -913,7 +840,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
                       status_state="error"
                       stretch={null}
                       text="Forrige side"
-                      title={null}
+                      title="Forrige side"
                       to={null}
                       tooltip={null}
                       type={null}
@@ -1008,7 +935,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
                   custom_content={null}
                   custom_element={null}
                   custom_method={null}
-                  disabled={false}
+                  disabled={true}
                   element={null}
                   global_status_id={null}
                   href={null}
@@ -1028,7 +955,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
                   status_state="error"
                   stretch={null}
                   text="Neste side"
-                  title="Neste side"
+                  title={null}
                   to={null}
                   tooltip={null}
                   type={null}
@@ -1036,10 +963,10 @@ exports[`Pagination bar have to match snapshot 1`] = `
                   wrap={null}
                 >
                   <button
+                    aria-disabled={true}
                     className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
-                    disabled={false}
+                    disabled={true}
                     onClick={[Function]}
-                    title="Neste side"
                     type="button"
                   >
                     <Content
@@ -1050,7 +977,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
                       custom_content={null}
                       custom_element={null}
                       custom_method={null}
-                      disabled={false}
+                      disabled={true}
                       element={null}
                       global_status_id={null}
                       href={null}
@@ -1070,7 +997,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
                       status_state="error"
                       stretch={null}
                       text="Neste side"
-                      title="Neste side"
+                      title={null}
                       to={null}
                       tooltip={null}
                       type={null}
@@ -1165,127 +1092,6 @@ exports[`Pagination bar have to match snapshot 1`] = `
             </div>
           </div>
         </PaginationBar>
-        <ForwardRef>
-          <div
-            className="dnb-pagination__content dnb-no-focus"
-            tabIndex="-1"
-          >
-            <PaginationIndicator
-              indicator_element="div"
-            >
-              <ForwardRef>
-                <div
-                  className="dnb-pagination__page"
-                >
-                  <div
-                    className="dnb-pagination__indicator"
-                  >
-                    <div
-                      className="dnb-pagination__indicator__inner"
-                    >
-                      <ProgressIndicator
-                        class={null}
-                        className={null}
-                        indicator_label={null}
-                        label={null}
-                        label_direction="horizontal"
-                        no_animation={false}
-                        on_complete={null}
-                        progress={null}
-                        section_spacing={null}
-                        section_style={null}
-                        show_label={false}
-                        size="default"
-                        title={null}
-                        type="circular"
-                        visible={true}
-                      >
-                        <div
-                          className="dnb-progress-indicator dnb-progress-indicator--visible dnb-progress-indicator--horizontal"
-                        >
-                          <ProgressIndicatorCircular
-                            callOnCompleteHandler={[Function]}
-                            complete={false}
-                            maxOffset={88}
-                            onComplete={null}
-                            progress={null}
-                            size="default"
-                            title={null}
-                            visible={true}
-                          >
-                            <div
-                              aria-busy={true}
-                              className="dnb-progress-indicator__circular dnb-progress-indicator__circular--default"
-                              role="alert"
-                            >
-                              <ForwardRef
-                                className="dnb-progress-indicator__circular__line light paused"
-                              >
-                                <svg
-                                  className="dnb-progress-indicator__circular__line light paused"
-                                  shapeRendering="geometricPrecision"
-                                  viewBox="0 0 32 32"
-                                >
-                                  <circle
-                                    className="dnb-progress-indicator__circular__circle"
-                                    cx="16"
-                                    cy="16"
-                                    fill="none"
-                                    r="14"
-                                    strokeWidth="4"
-                                  />
-                                </svg>
-                              </ForwardRef>
-                              <ForwardRef
-                                className="dnb-progress-indicator__circular__line dark dark"
-                                style={Object {}}
-                              >
-                                <svg
-                                  className="dnb-progress-indicator__circular__line dark dark"
-                                  shapeRendering="geometricPrecision"
-                                  style={Object {}}
-                                  viewBox="0 0 32 32"
-                                >
-                                  <circle
-                                    className="dnb-progress-indicator__circular__circle"
-                                    cx="16"
-                                    cy="16"
-                                    fill="none"
-                                    r="14"
-                                    strokeWidth="4"
-                                  />
-                                </svg>
-                              </ForwardRef>
-                              <ForwardRef
-                                className="dnb-progress-indicator__circular__line light"
-                              >
-                                <svg
-                                  className="dnb-progress-indicator__circular__line light"
-                                  shapeRendering="geometricPrecision"
-                                  viewBox="0 0 32 32"
-                                >
-                                  <circle
-                                    className="dnb-progress-indicator__circular__circle"
-                                    cx="16"
-                                    cy="16"
-                                    fill="none"
-                                    r="14"
-                                    strokeWidth="4"
-                                  />
-                                </svg>
-                              </ForwardRef>
-                            </div>
-                          </ProgressIndicatorCircular>
-                        </div>
-                      </ProgressIndicator>
-                      Laster nytt innhold
-                    </div>
-                  </div>
-                </div>
-              </ForwardRef>
-            </PaginationIndicator>
-          </div>
-        </ForwardRef>
       </div>
     </PaginationInstance>
   </PaginationProvider>

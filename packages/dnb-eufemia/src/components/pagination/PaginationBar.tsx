@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import classnames from 'classnames'
 import {
   dispatchCustomElementEvent,
@@ -15,7 +15,7 @@ import {
   getDotsAriaLabel,
 } from './PaginationCalculation'
 import PaginationContext from './PaginationContext'
-
+import Context from '../../shared/Context'
 import Button from '../button/Button'
 
 interface PaginationBarProps {
@@ -54,30 +54,18 @@ const defaultProps = {
   children: null,
 }
 
-export default class PaginationBar extends React.PureComponent<PaginationBarProps> {
-  static contextType = PaginationContext
-  static defaultProps = { ...defaultProps }
-
-  componentDidMount() {
-    const context = this.context.pagination
-    const currentPage = context.startupPage || context.currentPage || 1
-    const items = context.prefillItems(currentPage, {
-      skipObserver: true,
-    })
-
-    context.setState({
-      currentPage,
-      items,
-    })
-
-    context.updatePageContent(currentPage)
-  }
+const PaginationBar = (innerProps: PaginationBarProps) => {
+  const context = useContext(PaginationContext)
+  const { currentPage, pageCount, disabled, skeleton } = context.pagination
 
   // because of accessibility
-  focusPage() {
-    this.context.pagination.onPageUpdate(() => {
+  const focusPage = () => {
+    const { onPageUpdate } = context.pagination
+    const { contentRef } = innerProps
+
+    onPageUpdate(() => {
       try {
-        const elem = this.props.contentRef.current
+        const elem = contentRef.current
         elem.focus()
       } catch (e) {
         //
@@ -85,9 +73,9 @@ export default class PaginationBar extends React.PureComponent<PaginationBarProp
     })
   }
 
-  keepPageHeight() {
+  const keepPageHeight = () => {
     try {
-      const elem = this.props.contentRef.current
+      const elem = innerProps.contentRef.current
       const pageHeight = elem.offsetHeight
       elem.style.height = `${pageHeight / 16}rem`
       elem.style.minHeight = elem.style.height // because of the "min-height: inherit;" in &__indicator
@@ -95,9 +83,11 @@ export default class PaginationBar extends React.PureComponent<PaginationBarProp
       //
     }
 
-    this.context.pagination.onPageUpdate(() => {
+    const { onPageUpdate } = context.pagination
+
+    onPageUpdate(() => {
       try {
-        const elem = this.props.contentRef.current
+        const elem = innerProps.contentRef.current
         elem.style.height = 'auto'
         elem.style.minHeight = elem.style.height
       } catch (e) {
@@ -106,148 +96,142 @@ export default class PaginationBar extends React.PureComponent<PaginationBarProp
     })
   }
 
-  setPage = (currentPage, event = null) => {
-    this.keepPageHeight()
-    this.focusPage()
+  const setPage = (currentPage, event = null) => {
+    keepPageHeight()
+    focusPage()
 
-    this.context.pagination.setState({
+    const { setState: setContextState, updatePageContent } =
+      context.pagination
+    setContextState({
       currentPage,
     })
-    this.context.pagination.updatePageContent(currentPage)
+    updatePageContent(currentPage)
 
-    dispatchCustomElementEvent(this.context.pagination, 'on_change', {
+    dispatchCustomElementEvent(context.pagination, 'on_change', {
       page: currentPage, // deprecated
       pageNo: currentPage, // deprecated
       pageNumber: currentPage,
-      ...this.context.pagination,
+      ...context.pagination,
       event,
     })
   }
 
-  setPrevPage = () => {
-    this.setPage(this.context.pagination.currentPage - 1)
+  const setPrevPage = () => {
+    setPage(context.pagination.currentPage - 1)
   }
-  setNextPage = () => {
-    this.setPage(this.context.pagination.currentPage + 1)
-  }
-
-  clickHandler = ({ pageNumber, event }) => {
-    this.setPage(pageNumber, event)
+  const setNextPage = () => {
+    setPage(context.pagination.currentPage + 1)
   }
 
-  render() {
-    const props = extendPropsWithContext(
-      this.props,
-      PaginationBar.defaultProps,
-      this.context.getTranslation(this.props).Pagination
+  const clickHandler = ({ pageNumber, event }) => {
+    setPage(pageNumber, event)
+  }
+
+  const { getTranslation } = useContext(Context)
+  const { button_title, prev_title, next_title, more_pages } =
+    extendPropsWithContext(
+      { ...defaultProps, ...innerProps },
+      defaultProps,
+      getTranslation(innerProps).Pagination
     )
 
-    const { button_title, prev_title, next_title, more_pages } = props
+  // our states
 
-    // our states
-    const { pageCount, currentPage, disabled, skeleton } =
-      this.context.pagination
+  const prevIsDisabled = currentPage === 1
+  const nextIsDisabled = currentPage === pageCount || pageCount === 0
 
-    const prevIsDisabled = currentPage === 1
-    const nextIsDisabled = currentPage === pageCount || pageCount === 0
+  const pageNumberGroups = calculatePagination(pageCount, currentPage)
 
-    const pageNumberGroups = calculatePagination(pageCount, currentPage)
+  return (
+    <div
+      className={classnames(
+        'dnb-pagination__bar',
+        pageCount >= 8 && 'dnb-pagination--many-pages'
+      )}
+    >
+      <div className="dnb-pagination__bar__wrapper">
+        <div className="dnb-pagination__bar__skip">
+          <Button
+            key="left-arrow"
+            disabled={disabled || prevIsDisabled}
+            skeleton={skeleton}
+            variant="tertiary"
+            icon="chevron_left"
+            icon_position="left"
+            text={prev_title}
+            on_click={setPrevPage}
+            title={prevIsDisabled ? null : prev_title}
+          />
 
-    return (
-      <div
-        className={classnames(
-          'dnb-pagination__bar',
-          pageCount >= 8 && 'dnb-pagination--many-pages'
-        )}
-      >
-        <div className="dnb-pagination__bar__wrapper">
-          <div className="dnb-pagination__bar__skip">
+          <Button
+            key="right-arrow"
+            disabled={disabled || nextIsDisabled}
+            skeleton={skeleton}
+            variant="tertiary"
+            size="small"
+            icon="chevron_right"
+            icon_position="right"
+            text={next_title}
+            on_click={setNextPage}
+            title={nextIsDisabled ? null : next_title}
+          />
+        </div>
+
+        <div className="dnb-pagination__bar__inner">
+          {pageNumberGroups[0].map((pageNumber) => (
             <Button
-              key="left-arrow"
-              disabled={disabled || prevIsDisabled}
+              key={pageNumber}
+              className="dnb-pagination__button"
+              size="medium"
+              text={String(pageNumber)}
+              aria-label={button_title.replace('%s', pageNumber)}
+              variant={
+                pageNumber === currentPage ? 'primary' : 'secondary'
+              }
+              disabled={disabled}
               skeleton={skeleton}
-              variant="tertiary"
-              icon="chevron_left"
-              icon_position="left"
-              text={prev_title}
-              on_click={this.setPrevPage}
-              title={prevIsDisabled ? null : prev_title}
+              aria-current={pageNumber === currentPage ? 'page' : null}
+              on_click={(event) => clickHandler({ pageNumber, event })}
             />
+          ))}
 
-            <Button
-              key="right-arrow"
-              disabled={disabled || nextIsDisabled}
-              skeleton={skeleton}
-              variant="tertiary"
-              size="small"
-              icon="chevron_right"
-              icon_position="right"
-              text={next_title}
-              on_click={this.setNextPage}
-              title={nextIsDisabled ? null : next_title}
-            />
-          </div>
-
-          <div className="dnb-pagination__bar__inner">
-            {pageNumberGroups[0].map((pageNumber) => (
-              <Button
-                key={pageNumber}
-                className="dnb-pagination__button"
-                size="medium"
-                text={String(pageNumber)}
-                aria-label={button_title.replace('%s', pageNumber)}
-                variant={
-                  pageNumber === currentPage ? 'primary' : 'secondary'
-                }
-                disabled={disabled}
-                skeleton={skeleton}
-                aria-current={pageNumber === currentPage ? 'page' : null}
-                on_click={(event) =>
-                  this.clickHandler({ pageNumber, event })
-                }
-              />
-            ))}
-
-            {pageNumberGroups.slice(1).map((numbersList, idx) => (
-              <React.Fragment key={idx}>
-                <div
-                  key={`dots-${idx}`}
-                  className="dnb-pagination__dots"
-                  aria-label={getDotsAriaLabel({
-                    more_pages,
-                    numbersList,
-                    pageNumberGroups,
-                  })}
-                >
-                  <div key="dot-1" />
-                  <div key="dot-2" />
-                  <div key="dot-3" />
-                </div>
-                {numbersList.map((pageNumber) => (
-                  <Button
-                    key={pageNumber}
-                    className="dnb-pagination__button"
-                    size="medium"
-                    text={String(pageNumber)}
-                    aria-label={button_title.replace('%s', pageNumber)}
-                    variant={
-                      pageNumber === currentPage ? 'primary' : 'secondary'
-                    }
-                    disabled={disabled}
-                    skeleton={skeleton}
-                    aria-current={
-                      pageNumber === currentPage ? 'page' : null
-                    }
-                    on_click={(event) =>
-                      this.clickHandler({ pageNumber, event })
-                    }
-                  />
-                ))}
-              </React.Fragment>
-            ))}
-          </div>
+          {pageNumberGroups.slice(1).map((numbersList, idx) => (
+            <React.Fragment key={idx}>
+              <div
+                key={`dots-${idx}`}
+                className="dnb-pagination__dots"
+                aria-label={getDotsAriaLabel({
+                  more_pages,
+                  numbersList,
+                  pageNumberGroups,
+                })}
+              >
+                <div key="dot-1" />
+                <div key="dot-2" />
+                <div key="dot-3" />
+              </div>
+              {numbersList.map((pageNumber) => (
+                <Button
+                  key={pageNumber}
+                  className="dnb-pagination__button"
+                  size="medium"
+                  text={String(pageNumber)}
+                  aria-label={button_title.replace('%s', pageNumber)}
+                  variant={
+                    pageNumber === currentPage ? 'primary' : 'secondary'
+                  }
+                  disabled={disabled}
+                  skeleton={skeleton}
+                  aria-current={pageNumber === currentPage ? 'page' : null}
+                  on_click={(event) => clickHandler({ pageNumber, event })}
+                />
+              ))}
+            </React.Fragment>
+          ))}
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 }
+
+export default PaginationBar
