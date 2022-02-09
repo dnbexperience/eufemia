@@ -260,6 +260,7 @@ class PaginationInstance extends React.PureComponent {
 }
 
 export class InfinityMarker extends React.PureComponent {
+  // take this out
   static tagName = 'dnb-infinity-marker'
   static propTypes = { ...paginationPropTypes }
   static defaultProps = paginationDefaultProps
@@ -287,6 +288,7 @@ export class InfinityMarker extends React.PureComponent {
 }
 
 const PaginationContent = React.forwardRef(
+  // take this out
   ({ children, ...props }, ref) => {
     return (
       <div

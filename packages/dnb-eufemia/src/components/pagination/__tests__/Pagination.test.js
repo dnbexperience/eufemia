@@ -68,7 +68,7 @@ describe('Pagination bar', () => {
       false
     )
 
-    const prevNavButton = Comp.find('button.dnb-pagination__button').at(0)
+    const prevNavButton = Comp.find('.dnb-button').at(0)
     expect(prevNavButton.instance().hasAttribute('disabled')).toBe(true)
     expect(
       prevNavButton
@@ -140,8 +140,8 @@ describe('Pagination bar', () => {
     expect(Comp.find('.dnb-pagination__content').text()).toBe('2')
 
     const nextButton = Comp.find('div.dnb-pagination__bar')
-      .find('button.dnb-pagination__button')
-      .find('.dnb-button--size-small')
+      .find('.dnb-pagination__bar__skip')
+      .find('.dnb-button')
       .at(1)
 
     expect(nextButton.instance().getAttribute('title')).toBe('Neste side')
@@ -186,8 +186,8 @@ describe('Pagination bar', () => {
     )
 
     const nextButton = Comp.find('div.dnb-pagination__bar')
-      .find('button.dnb-pagination__button')
-      .find('.dnb-button--size-small')
+      .find('.dnb-pagination__bar__skip')
+      .find('.dnb-button')
       .at(1)
 
     nextButton.simulate('click')
@@ -207,8 +207,8 @@ describe('Pagination bar', () => {
     const Comp = mount(<Component {...props} on_change={on_change} />)
 
     const nextButton = Comp.find('div.dnb-pagination__bar')
-      .find('button.dnb-pagination__button')
-      .find('.dnb-button--size-small')
+      .find('.dnb-pagination__bar__skip')
+      .find('.dnb-button')
       .at(1)
 
     nextButton.simulate('click')

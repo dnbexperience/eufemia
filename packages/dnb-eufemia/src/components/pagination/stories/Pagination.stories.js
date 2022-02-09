@@ -85,6 +85,27 @@ export const PaginationNoChildren = () => (
         on_change={(page) => {
           console.log(page)
         }}
+        align="right"
+      />
+    </Box>
+    <Box>
+      <Bar
+        page_count={10}
+        currentPage={2}
+        on_change={(page) => {
+          console.log(page)
+        }}
+        align="left"
+      />
+    </Box>
+    <Box>
+      <Bar
+        page_count={10}
+        currentPage={2}
+        on_change={(page) => {
+          console.log(page)
+        }}
+        align="center"
       />
     </Box>
   </Wrapper>

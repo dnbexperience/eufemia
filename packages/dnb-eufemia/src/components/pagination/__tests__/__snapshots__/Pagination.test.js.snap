@@ -838,52 +838,16 @@ exports[`Pagination bar have to match snapshot 1`] = `
           <div
             className="dnb-pagination__bar"
           >
-            <Button
-              bounding={null}
-              class={null}
-              className="dnb-pagination__button"
-              custom_content={null}
-              custom_element={null}
-              custom_method={null}
-              disabled={true}
-              element={null}
-              global_status_id={null}
-              href={null}
-              icon="chevron_left"
-              icon_position="right"
-              icon_size={null}
-              id={null}
-              innerRef={null}
-              inner_ref={null}
-              key="left-arrow"
-              on_click={[Function]}
-              size="small"
-              skeleton={null}
-              status={null}
-              status_no_animation={null}
-              status_props={null}
-              status_state="error"
-              stretch={null}
-              text={null}
-              title={null}
-              to={null}
-              tooltip={null}
-              type={null}
-              variant={null}
-              wrap={null}
+            <div
+              className="dnb-pagination__bar__wrapper"
             >
-              <button
-                aria-disabled={true}
-                className="dnb-button dnb-button--secondary dnb-pagination__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
-                disabled={true}
-                onClick={[Function]}
-                type="button"
+              <div
+                className="dnb-pagination__bar__skip"
               >
-                <Content
+                <Button
                   bounding={null}
                   class={null}
-                  className="dnb-pagination__button"
-                  content={null}
+                  className={null}
                   custom_content={null}
                   custom_element={null}
                   custom_method={null}
@@ -892,152 +856,155 @@ exports[`Pagination bar have to match snapshot 1`] = `
                   global_status_id={null}
                   href={null}
                   icon="chevron_left"
-                  icon_position="right"
+                  icon_position="left"
                   icon_size={null}
                   id={null}
                   innerRef={null}
                   inner_ref={null}
-                  isIconOnly={true}
+                  key="left-arrow"
                   on_click={[Function]}
-                  size="small"
-                  skeleton={false}
+                  size={null}
+                  skeleton={null}
                   status={null}
                   status_no_animation={null}
                   status_props={null}
                   status_state="error"
                   stretch={null}
-                  text={null}
+                  text="Forrige side"
                   title={null}
                   to={null}
                   tooltip={null}
                   type={null}
-                  variant={null}
+                  variant="tertiary"
                   wrap={null}
                 >
-                  <span
-                    className="dnb-button__alignment"
-                    key="button-text-empty"
+                  <button
+                    aria-disabled={true}
+                    className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-button--icon-position-left dnb-button--has-icon"
+                    disabled={true}
+                    onClick={[Function]}
+                    type="button"
                   >
-                    ‌
-                  </span>
-                  <IconPrimary
-                    alt={null}
-                    aria-hidden={null}
-                    attributes={null}
-                    border={null}
-                    className="dnb-button__icon"
-                    color={null}
-                    height={null}
-                    icon="chevron_left"
-                    inherit_color={true}
-                    key="button-icon"
-                    modifier={null}
-                    size={null}
-                    skeleton={false}
-                    title={null}
-                    width={null}
-                  >
-                    <span
-                      aria-hidden={true}
-                      className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                      data-test-id="chevron left icon"
-                      role="presentation"
+                    <Content
+                      bounding={null}
+                      class={null}
+                      className={null}
+                      content="Forrige side"
+                      custom_content={null}
+                      custom_element={null}
+                      custom_method={null}
+                      disabled={true}
+                      element={null}
+                      global_status_id={null}
+                      href={null}
+                      icon="chevron_left"
+                      icon_position="left"
+                      icon_size={null}
+                      id={null}
+                      innerRef={null}
+                      inner_ref={null}
+                      isIconOnly={false}
+                      on_click={[Function]}
+                      size={null}
+                      skeleton={false}
+                      status={null}
+                      status_no_animation={null}
+                      status_props={null}
+                      status_state="error"
+                      stretch={null}
+                      text="Forrige side"
+                      title={null}
+                      to={null}
+                      tooltip={null}
+                      type={null}
+                      variant="tertiary"
+                      wrap={null}
                     >
-                      <chevron_left>
-                        <svg
-                          fill="none"
-                          height={16}
-                          viewBox="0 0 16 16"
-                          width={16}
-                          xmlns="http://www.w3.org/2000/svg"
+                      <span
+                        className="dnb-button__alignment"
+                        key="button-text-empty"
+                      >
+                        ‌
+                      </span>
+                      <span
+                        className="dnb-button__text dnb-skeleton--show-font"
+                        key="button-text"
+                      >
+                        Forrige side
+                      </span>
+                      <IconPrimary
+                        alt={null}
+                        aria-hidden={true}
+                        attributes={null}
+                        border={null}
+                        className="dnb-button__icon"
+                        color={null}
+                        height={null}
+                        icon="chevron_left"
+                        inherit_color={true}
+                        key="button-icon"
+                        modifier={null}
+                        size={null}
+                        skeleton={false}
+                        title={null}
+                        width={null}
+                      >
+                        <span
+                          aria-hidden={true}
+                          className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                          data-test-id="chevron left icon"
+                          role="presentation"
                         >
-                          <path
-                            d="M10 3 5 8l5 5"
-                            stroke="#000"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1.5}
-                          />
-                        </svg>
-                      </chevron_left>
-                    </span>
-                  </IconPrimary>
-                </Content>
-              </button>
-              <FormStatus
-                attributes={null}
-                class={null}
-                className={null}
-                global_status_id={null}
-                icon="error"
-                icon_size="medium"
-                id="null-form-status"
-                label={null}
-                no_animation={null}
-                role={null}
-                show={null}
-                size="default"
-                skeleton={null}
-                state="error"
-                status="error"
-                stretch={null}
-                text={null}
-                text_id="null-status"
-                title={null}
-                variant={null}
-                width_element={null}
-                width_selector={null}
-              />
-            </Button>
-            <div
-              className="dnb-pagination__bar__inner"
-            />
-            <Button
-              bounding={null}
-              class={null}
-              className="dnb-pagination__button"
-              custom_content={null}
-              custom_element={null}
-              custom_method={null}
-              disabled={false}
-              element={null}
-              global_status_id={null}
-              href={null}
-              icon="chevron_right"
-              icon_position="right"
-              icon_size={null}
-              id={null}
-              innerRef={null}
-              inner_ref={null}
-              key="right-arrow"
-              on_click={[Function]}
-              size="small"
-              skeleton={null}
-              status={null}
-              status_no_animation={null}
-              status_props={null}
-              status_state="error"
-              stretch={null}
-              text={null}
-              title="Neste side"
-              to={null}
-              tooltip={null}
-              type={null}
-              variant={null}
-              wrap={null}
-            >
-              <button
-                className="dnb-button dnb-button--secondary dnb-pagination__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
-                disabled={false}
-                onClick={[Function]}
-                title="Neste side"
-                type="button"
-              >
-                <Content
+                          <chevron_left>
+                            <svg
+                              fill="none"
+                              height={16}
+                              viewBox="0 0 16 16"
+                              width={16}
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M10 3 5 8l5 5"
+                                stroke="#000"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={1.5}
+                              />
+                            </svg>
+                          </chevron_left>
+                        </span>
+                      </IconPrimary>
+                    </Content>
+                  </button>
+                  <FormStatus
+                    attributes={null}
+                    class={null}
+                    className={null}
+                    global_status_id={null}
+                    icon="error"
+                    icon_size="medium"
+                    id="null-form-status"
+                    label="Forrige side"
+                    no_animation={null}
+                    role={null}
+                    show={null}
+                    size="default"
+                    skeleton={null}
+                    state="error"
+                    status="error"
+                    stretch={null}
+                    text={null}
+                    text_id="null-status"
+                    title={null}
+                    variant={null}
+                    width_element={null}
+                    width_selector={null}
+                  />
+                </Button>
+                <Button
                   bounding={null}
                   class={null}
-                  className="dnb-pagination__button"
-                  content={null}
+                  className={null}
                   custom_content={null}
                   custom_element={null}
                   custom_method={null}
@@ -1051,98 +1018,151 @@ exports[`Pagination bar have to match snapshot 1`] = `
                   id={null}
                   innerRef={null}
                   inner_ref={null}
-                  isIconOnly={true}
+                  key="right-arrow"
                   on_click={[Function]}
                   size="small"
-                  skeleton={false}
+                  skeleton={null}
                   status={null}
                   status_no_animation={null}
                   status_props={null}
                   status_state="error"
                   stretch={null}
-                  text={null}
+                  text="Neste side"
                   title="Neste side"
                   to={null}
                   tooltip={null}
                   type={null}
-                  variant={null}
+                  variant="tertiary"
                   wrap={null}
                 >
-                  <span
-                    className="dnb-button__alignment"
-                    key="button-text-empty"
+                  <button
+                    className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
+                    disabled={false}
+                    onClick={[Function]}
+                    title="Neste side"
+                    type="button"
                   >
-                    ‌
-                  </span>
-                  <IconPrimary
-                    alt={null}
-                    aria-hidden={true}
-                    attributes={null}
-                    border={null}
-                    className="dnb-button__icon"
-                    color={null}
-                    height={null}
-                    icon="chevron_right"
-                    inherit_color={true}
-                    key="button-icon"
-                    modifier={null}
-                    size={null}
-                    skeleton={false}
-                    title={null}
-                    width={null}
-                  >
-                    <span
-                      aria-hidden={true}
-                      className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                      data-test-id="chevron right icon"
-                      role="presentation"
+                    <Content
+                      bounding={null}
+                      class={null}
+                      className={null}
+                      content="Neste side"
+                      custom_content={null}
+                      custom_element={null}
+                      custom_method={null}
+                      disabled={false}
+                      element={null}
+                      global_status_id={null}
+                      href={null}
+                      icon="chevron_right"
+                      icon_position="right"
+                      icon_size={null}
+                      id={null}
+                      innerRef={null}
+                      inner_ref={null}
+                      isIconOnly={false}
+                      on_click={[Function]}
+                      size="small"
+                      skeleton={false}
+                      status={null}
+                      status_no_animation={null}
+                      status_props={null}
+                      status_state="error"
+                      stretch={null}
+                      text="Neste side"
+                      title="Neste side"
+                      to={null}
+                      tooltip={null}
+                      type={null}
+                      variant="tertiary"
+                      wrap={null}
                     >
-                      <chevron_right>
-                        <svg
-                          fill="none"
-                          height={16}
-                          viewBox="0 0 16 16"
-                          width={16}
-                          xmlns="http://www.w3.org/2000/svg"
+                      <span
+                        className="dnb-button__alignment"
+                        key="button-text-empty"
+                      >
+                        ‌
+                      </span>
+                      <span
+                        className="dnb-button__text dnb-skeleton--show-font"
+                        key="button-text"
+                      >
+                        Neste side
+                      </span>
+                      <IconPrimary
+                        alt={null}
+                        aria-hidden={true}
+                        attributes={null}
+                        border={null}
+                        className="dnb-button__icon"
+                        color={null}
+                        height={null}
+                        icon="chevron_right"
+                        inherit_color={true}
+                        key="button-icon"
+                        modifier={null}
+                        size={null}
+                        skeleton={false}
+                        title={null}
+                        width={null}
+                      >
+                        <span
+                          aria-hidden={true}
+                          className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                          data-test-id="chevron right icon"
+                          role="presentation"
                         >
-                          <path
-                            d="m6 13 5-5-5-5"
-                            stroke="#000"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1.5}
-                          />
-                        </svg>
-                      </chevron_right>
-                    </span>
-                  </IconPrimary>
-                </Content>
-              </button>
-              <FormStatus
-                attributes={null}
-                class={null}
-                className={null}
-                global_status_id={null}
-                icon="error"
-                icon_size="medium"
-                id="null-form-status"
-                label={null}
-                no_animation={null}
-                role={null}
-                show={null}
-                size="default"
-                skeleton={null}
-                state="error"
-                status="error"
-                stretch={null}
-                text={null}
-                text_id="null-status"
-                title={null}
-                variant={null}
-                width_element={null}
-                width_selector={null}
+                          <chevron_right>
+                            <svg
+                              fill="none"
+                              height={16}
+                              viewBox="0 0 16 16"
+                              width={16}
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="m6 13 5-5-5-5"
+                                stroke="#000"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={1.5}
+                              />
+                            </svg>
+                          </chevron_right>
+                        </span>
+                      </IconPrimary>
+                    </Content>
+                  </button>
+                  <FormStatus
+                    attributes={null}
+                    class={null}
+                    className={null}
+                    global_status_id={null}
+                    icon="error"
+                    icon_size="medium"
+                    id="null-form-status"
+                    label="Neste side"
+                    no_animation={null}
+                    role={null}
+                    show={null}
+                    size="default"
+                    skeleton={null}
+                    state="error"
+                    status="error"
+                    stretch={null}
+                    text={null}
+                    text_id="null-status"
+                    title={null}
+                    variant={null}
+                    width_element={null}
+                    width_selector={null}
+                  />
+                </Button>
+              </div>
+              <div
+                className="dnb-pagination__bar__inner"
               />
-            </Button>
+            </div>
           </div>
         </PaginationBar>
         <ForwardRef>
@@ -2115,7 +2135,11 @@ button.dnb-button::-moz-focus-inner {
  */
 .dnb-pagination {
   display: flex;
-  flex-direction: column-reverse; }
+  flex-direction: column-reverse;
+  /*   &__button:first-child,
+  &__bar__inner {
+    margin-right: 1rem;
+  } */ }
   .dnb-pagination__bar, .dnb-pagination__loadbar, .dnb-pagination__bar__inner {
     display: flex;
     flex-wrap: wrap;
@@ -2129,6 +2153,17 @@ button.dnb-button::-moz-focus-inner {
         justify-content: flex-start; } }
   .dnb-pagination--right .dnb-pagination__bar {
     justify-content: flex-end; }
+  .dnb-pagination__bar__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column-reverse; }
+  .dnb-pagination--center .dnb-pagination__bar__wrapper {
+    align-items: center; }
+  .dnb-pagination--right .dnb-pagination__bar__wrapper {
+    align-items: flex-end; }
+  .dnb-pagination__bar__inner {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem; }
   .dnb-pagination__loadbar {
     cursor: default;
     display: flex;
@@ -2171,15 +2206,17 @@ button.dnb-button::-moz-focus-inner {
       width: 1px;
       height: 1px;
       opacity: 0; }
-  .dnb-pagination__button:first-child, .dnb-pagination__bar__inner {
-    margin-right: 1rem; }
+  .dnb-pagination__prev {
+    margin-right: 1.5rem; }
   .dnb-pagination__bar__inner .dnb-pagination__button {
     margin-right: 0.5rem; }
-  .dnb-core-style .dnb-pagination__button, .dnb-pagination__button, .dnb-pagination__dots {
+  .dnb-pagination__bar__skip .dnb-button:first-of-type {
+    margin-right: 1.5rem; }
+  .dnb-core-style .dnb-pagination__button, .dnb-pagination__dots {
     margin-right: 0.5rem;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem; }
-    .dnb-core-style .dnb-pagination__button:last-child, .dnb-pagination__button:last-child, .dnb-pagination__dots:last-child {
+    .dnb-core-style .dnb-pagination__button:last-child, .dnb-pagination__dots:last-child {
       margin-right: 0; }
 "
 `;

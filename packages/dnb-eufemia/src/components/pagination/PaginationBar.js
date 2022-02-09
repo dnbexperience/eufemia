@@ -132,7 +132,7 @@ export default class PaginationBar extends React.PureComponent {
     const prevIsDisabled = currentPage === 1
     const nextIsDisabled = currentPage === pageCount || pageCount === 0
 
-    const pages = calculatePagination(pageCount, currentPage)
+    const pageNumberGroups = calculatePagination(pageCount, currentPage)
 
     return (
       <div
@@ -141,84 +141,93 @@ export default class PaginationBar extends React.PureComponent {
           pageCount >= 8 && 'dnb-pagination--many-pages'
         )}
       >
-        <Button
-          key="left-arrow"
-          className="dnb-pagination__button"
-          disabled={disabled || prevIsDisabled}
-          skeleton={skeleton}
-          size="small"
-          icon="chevron_left"
-          on_click={this.setPrevPage}
-          title={prevIsDisabled ? null : prev_title}
-        />
-
-        <div className="dnb-pagination__bar__inner">
-          {pages[0].map((pageNumber) => (
+        <div className="dnb-pagination__bar__wrapper">
+          <div className="dnb-pagination__bar__skip">
             <Button
-              key={pageNumber}
-              className="dnb-pagination__button"
-              size="medium"
-              text={String(pageNumber)}
-              aria-label={button_title.replace('%s', pageNumber)}
-              variant={
-                pageNumber === currentPage ? 'primary' : 'secondary'
-              }
-              disabled={disabled}
+              key="left-arrow"
+              disabled={disabled || prevIsDisabled}
               skeleton={skeleton}
-              aria-current={pageNumber === currentPage ? 'page' : null}
-              on_click={(event) =>
-                this.clickHandler({ pageNumber, event })
-              }
+              variant="tertiary"
+              icon="chevron_left"
+              icon_position="left"
+              text={prev_title}
+              on_click={this.setPrevPage}
+              title={prevIsDisabled ? null : prev_title}
             />
-          ))}
 
-          {pages.slice(1).map((list, idx) => (
-            <React.Fragment key={idx}>
-              <div
-                key={`dots-${idx}`}
-                className="dnb-pagination__dots"
-                aria-label={getDotsAriaLabel({
-                  more_pages,
-                  list,
-                  pages,
-                })}
-              >
-                <div key="dot-1" />
-                <div key="dot-2" />
-                <div key="dot-3" />
-              </div>
-              {list.map((pageNumber) => (
-                <Button
-                  key={pageNumber}
-                  className="dnb-pagination__button"
-                  size="medium"
-                  text={String(pageNumber)}
-                  aria-label={button_title.replace('%s', pageNumber)}
-                  variant={
-                    pageNumber === currentPage ? 'primary' : 'secondary'
-                  }
-                  disabled={disabled}
-                  skeleton={skeleton}
-                  aria-current={pageNumber === currentPage ? 'page' : null}
-                  on_click={(event) =>
-                    this.clickHandler({ pageNumber, event })
-                  }
-                />
-              ))}
-            </React.Fragment>
-          ))}
+            <Button
+              key="right-arrow"
+              disabled={disabled || nextIsDisabled}
+              skeleton={skeleton}
+              variant="tertiary"
+              size="small"
+              icon="chevron_right"
+              icon_position="right"
+              text={next_title}
+              on_click={this.setNextPage}
+              title={nextIsDisabled ? null : next_title}
+            />
+          </div>
+
+          <div className="dnb-pagination__bar__inner">
+            {pageNumberGroups[0].map((pageNumber) => (
+              <Button
+                key={pageNumber}
+                className="dnb-pagination__button"
+                size="medium"
+                text={String(pageNumber)}
+                aria-label={button_title.replace('%s', pageNumber)}
+                variant={
+                  pageNumber === currentPage ? 'primary' : 'secondary'
+                }
+                disabled={disabled}
+                skeleton={skeleton}
+                aria-current={pageNumber === currentPage ? 'page' : null}
+                on_click={(event) =>
+                  this.clickHandler({ pageNumber, event })
+                }
+              />
+            ))}
+
+            {pageNumberGroups.slice(1).map((numbersList, idx) => (
+              <React.Fragment key={idx}>
+                <div
+                  key={`dots-${idx}`}
+                  className="dnb-pagination__dots"
+                  aria-label={getDotsAriaLabel({
+                    more_pages,
+                    numbersList,
+                    pageNumberGroups,
+                  })}
+                >
+                  <div key="dot-1" />
+                  <div key="dot-2" />
+                  <div key="dot-3" />
+                </div>
+                {numbersList.map((pageNumber) => (
+                  <Button
+                    key={pageNumber}
+                    className="dnb-pagination__button"
+                    size="medium"
+                    text={String(pageNumber)}
+                    aria-label={button_title.replace('%s', pageNumber)}
+                    variant={
+                      pageNumber === currentPage ? 'primary' : 'secondary'
+                    }
+                    disabled={disabled}
+                    skeleton={skeleton}
+                    aria-current={
+                      pageNumber === currentPage ? 'page' : null
+                    }
+                    on_click={(event) =>
+                      this.clickHandler({ pageNumber, event })
+                    }
+                  />
+                ))}
+              </React.Fragment>
+            ))}
+          </div>
         </div>
-
-        <Button
-          key="right-arrow"
-          className="dnb-pagination__button"
-          disabled={disabled || nextIsDisabled}
-          skeleton={skeleton}
-          size="small"
-          icon="chevron_right"
-          on_click={this.setNextPage}
-          title={nextIsDisabled ? null : next_title}
-        />
       </div>
     )
   }

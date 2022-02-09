@@ -3,8 +3,12 @@
  *
  */
 
-export const calculatePagination = (page_count, current_page) => {
+export const calculatePagination = (
+  page_count: number,
+  current_page: number
+): Array<Array<number>> => {
   if (page_count === 1) return [[1]]
+
   const start = Math.max.apply(Math, [
     1,
     current_page + 2 > page_count
@@ -50,22 +54,30 @@ export const calculatePagination = (page_count, current_page) => {
   return pages
 }
 
-export const getDotsAriaLabel = ({ more_pages, list, pages }) => {
+export const getDotsAriaLabel = ({
+  more_pages,
+  numbersList: nList,
+  pageNumberGroups: pGroups,
+}: {
+  more_pages: string
+  numbersList: Array<number>
+  pageNumberGroups: Array<Array<number>>
+}) => {
   let count = 0
 
   try {
-    if (list.length === 1) {
+    if (nList.length === 1) {
       count =
-        list[0] -
-        (pages.length === 2
-          ? pages[0][pages[0].length - 1]
-          : pages[1][pages[1].length - 1])
-    } else if (list.length > 1) {
-      count = list[0] - pages[0] - 1
+        nList[0] -
+        (pGroups.length === 2
+          ? pGroups[0][pGroups[0].length - 1]
+          : pGroups[1][pGroups[1].length - 1])
+    } else if (nList.length > 1) {
+      count = nList[0] - pGroups[0][0] - 1
     }
   } catch (e) {
     //
   }
 
-  return count > 0 ? more_pages.replace('%s', count) : null
+  return count > 0 ? more_pages.replace('%s', count.toString()) : null
 }
