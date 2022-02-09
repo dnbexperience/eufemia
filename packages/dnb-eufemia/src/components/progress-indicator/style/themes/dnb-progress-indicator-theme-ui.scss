@@ -43,6 +43,23 @@
     &__line.dark &__circle {
       stroke: var(--color-emerald-green);
     }
+
+    // compensate for 'aliasing artifacts' seen when rendering same sized, lighter on dark elements
+    &--small &__line.dark &__circle {
+      stroke-width: 3.1;
+    }
+    &--medium &__line.dark &__circle {
+      stroke-width: 3.3;
+    }
+    &--default &__line.dark &__circle {
+      stroke-width: 3.5;
+    }
+    &--large &__line.dark &__circle {
+      stroke-width: 3.7;
+    }
+    &--huge &__line.dark &__circle {
+      stroke-width: 3.9;
+    }
   }
 
   // linear variant
