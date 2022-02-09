@@ -1807,6 +1807,12 @@ html[data-dnb-modal-active] {
     display: flex;
     flex-direction: row;
     justify-content: space-between; }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-modal__header__bar.dnb-section {
+        align-items: center; } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-core-style .dnb-modal__header__bar__close {
+      margin-left: auto; } }
   .dnb-modal__content--spacing .dnb-modal__header__bar.dnb-section {
     margin-top: calc(var(--modal-spacing) * 1.75);
     margin-bottom: calc(var(--modal-spacing) / 2); }
