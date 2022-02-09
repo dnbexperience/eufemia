@@ -51,10 +51,19 @@ export function classWithCamelCaseProps<
   // Bug? https://github.com/microsoft/TypeScript/issues/37142
   // @ts-ignore
   class Derived extends Base {
+    _prevProps: Record<string, unknown>
+    _elem: React.ReactElement
     render() {
-      return (
-        <Component {...Object.freeze(convertCamelCaseProps(this.props))} />
-      )
+      if (this.props !== this._prevProps) {
+        this._prevProps = this.props
+        this._elem = (
+          <Component
+            {...Object.freeze(convertCamelCaseProps(this.props))}
+          />
+        )
+      }
+
+      return this._elem
     }
   }
 

@@ -14,6 +14,7 @@ type OriginalProps = {
   camel_case?: number
   is_class?: boolean
   optional?: string
+  update_comp?: () => void
 }
 
 const Context = React.createContext(null)
@@ -163,6 +164,16 @@ describe('classWithCamelCaseProps', () => {
       someState: true,
     }
     static property = 'thing'
+
+    componentDidUpdate(prevProps: IncludeCamelCase<OriginalProps>) {
+      if (
+        prevProps !== this.props &&
+        this.props.update_comp !== undefined
+      ) {
+        this.props.update_comp()
+      }
+    }
+
     render() {
       return (
         <div data-testid="content">
@@ -338,5 +349,31 @@ describe('classWithCamelCaseProps', () => {
     )
 
     Comp.unmount()
+  })
+
+  it('should not update prop object when props are unchanged', () => {
+    const on_update = jest.fn()
+
+    const { rerender } = render(
+      <Component
+        snake_case={false}
+        camelCase={1}
+        update_comp={on_update}
+      />
+    )
+
+    rerender(
+      <Component
+        snake_case={false}
+        camelCase={1}
+        update_comp={on_update}
+      />
+    )
+    expect(on_update).toHaveBeenCalledTimes(0)
+
+    rerender(
+      <Component snake_case={true} camelCase={1} update_comp={on_update} />
+    )
+    expect(on_update).toHaveBeenCalledTimes(2)
   })
 })
