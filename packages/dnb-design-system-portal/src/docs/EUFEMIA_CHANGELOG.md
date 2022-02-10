@@ -1,3 +1,14 @@
+## February, 8. 2022
+
+- New components released in `@dnb/eufemia`:
+  - [VisuallyHidden](/uilib/components/visually-hidden)
+
+- New [Icons](/icons/secondary):
+  - secondary `credit_note`
+  - secondary `deleted_invoice`
+  - secondary `speedometer`
+  - secondary `travel`
+
 ## January, 26. 2022
 
 - New components released in `@dnb/eufemia`:
