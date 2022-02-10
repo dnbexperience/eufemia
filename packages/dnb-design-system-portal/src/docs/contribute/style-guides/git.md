@@ -13,24 +13,27 @@ Version numbers are handled automatically by using [semantic-release](https://gi
 
 ## Commit Messages
 
-Make sure to decorate your **commit messages** with either [commit message format](https://github.com/semantic-release/semantic-release#commit-message-format) or simply use the following three methods:
+Make sure to decorate your **commit messages** with either [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) or [simple-commit-message](https://github.com/bahmutov/simple-commit-message):
 
 - `fix: an example fix message`
 - `feat: this is a new feature`
-- `break: breaking change in API`
-
-You can use these synonyms as well:
-
-- `patch: an example fix message`
-- `minor: this is a new feature`
-- `major: breaking change in API`
-
-Read more about [simple-commit-message](https://github.com/bahmutov/simple-commit-message).
+- `BREAKING CHANGE (must be in the footer of the commit)`
 
 If you are working on a single component update, you can use
 
 - `fix(ExampleComponent): an example fix message` or
 - `feat(ExampleComponent): this is a new feature`.
+
+You can also use the following decorators – but keep in mind, they wan't be included in the [releases change log](https://github.com/dnbexperience/eufemia/releases):
+
+- `chore:`
+- `docs:`
+- `style:`
+- `build:`
+- `ci:`
+- `refactor:`
+- `perf:`
+- `test:`
 
 ### Ignore CI run
 
