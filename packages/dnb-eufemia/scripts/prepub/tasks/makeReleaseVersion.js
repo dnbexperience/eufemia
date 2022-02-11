@@ -14,7 +14,7 @@ import {
 export async function makeReleaseVersion() {
   const branchName = getBranchName()
 
-  if (releaseBranches.includes(branchName)) {
+  if (!releaseBranches.includes(branchName)) {
     return // stop here
   }
 
