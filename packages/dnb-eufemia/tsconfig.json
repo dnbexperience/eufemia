@@ -7,9 +7,9 @@
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "types": ["node", "jest"],
-    "outDir": "./out",
+    "outDir": "./build",
     "rootDir": ".",
     "baseUrl": "."
   },
-  "exclude": ["./node_modules", "build"]
+  "exclude": ["node_modules", "build"]
 }
