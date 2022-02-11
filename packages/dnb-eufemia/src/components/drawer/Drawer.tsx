@@ -59,40 +59,40 @@ function Drawer({
   const context = useContext(Context)
 
   const modalProps = removeUndefinedProps({
-    title: title,
-    id: id,
-    focus_selector: focusSelector,
-    labelled_by: labelledBy,
-    disabled: disabled,
-    spacing: spacing,
-    open_delay: openDelay,
-    content_id: contentId,
-    dialog_title: dialogTitle,
-    close_title: closeTitle,
-    hide_close_button: hideCloseButton,
-    close_button_attributes: closeButtonAttributes,
-    prevent_close: preventClose,
-    animation_duration: animationDuration,
-    no_animation: noAnimation,
-    no_animation_on_mobile: noAnimationOnMobile,
-    fullscreen: fullscreen,
-    container_placement: containerPlacement,
-    open_state: openState,
-    direct_dom_return: directDomReturn,
-    root_id: rootId,
-    on_open: onOpen,
-    on_close: onClose,
-    on_close_prevent: onClosePrevent,
-    open_modal: openModal,
-    close_modal: closeModal,
-    trigger: trigger,
-    trigger_attributes: triggerAttributes,
-    overlay_class: overlayClass,
-    top: top,
-    bottom: bottom,
-    left: left,
-    right: right,
-    space: space,
+    title,
+    id,
+    focusSelector,
+    labelledBy,
+    disabled,
+    spacing,
+    openDelay,
+    contentId,
+    dialogTitle,
+    closeTitle,
+    hideCloseButton,
+    closeButtonAttributes,
+    preventClose,
+    animationDuration,
+    noAnimation,
+    noAnimationOnMobile,
+    fullscreen,
+    containerPlacement,
+    openState,
+    directDomReturn,
+    rootId,
+    onOpen,
+    onClose,
+    onClosePrevent,
+    openModal,
+    closeModal,
+    trigger,
+    triggerAttributes,
+    overlayClass,
+    top,
+    bottom,
+    left,
+    right,
+    space,
   })
 
   const drawerProps = removeUndefinedProps({
@@ -108,7 +108,7 @@ function Drawer({
       {...context.Drawer}
       {...modalProps}
       mode="custom"
-      content_class={classnames('dnb-drawer__root', contentClass)}
+      contentClass={classnames('dnb-drawer__root', contentClass)}
     >
       <DrawerContent {...context.Drawer} {...drawerProps} />
     </Modal>

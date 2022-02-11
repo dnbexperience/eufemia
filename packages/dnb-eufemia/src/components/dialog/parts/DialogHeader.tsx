@@ -4,12 +4,17 @@ import ModalHeader, {
   ModalHeaderProps,
 } from '../../modal/parts/ModalHeader'
 
+interface DialogHeaderProps extends ModalHeaderProps {
+  titleClass?: string
+}
+
 export default function DialogHeader({
   className,
   titleClass,
   size = 'large',
+  ref, // eslint-disable-line
   ...props
-}: ModalHeaderProps) {
+}: DialogHeaderProps) {
   return (
     <ModalHeader
       {...props}

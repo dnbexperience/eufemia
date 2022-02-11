@@ -1,7 +1,8 @@
+import { ToCamelCasePartial } from '../../shared/helpers/withCamelCaseProps'
 import { ScrollViewProps } from '../../fragments/ScrollView'
-import { ModalPropsV2 } from '../modal/typesV2'
+import { ModalPropTypes } from '../modal/Modal'
 
-export interface DrawerProps extends ModalPropsV2 {
+export interface DrawerProps extends ToCamelCasePartial<ModalPropTypes> {
   /**
    * Defines the placement on what side the Drawer should be opened. Can be set to `left`, `right`, `top` and `bottom`. Defaults to `right`.
    */
@@ -28,11 +29,6 @@ export interface DrawerContentProps extends ScrollViewProps {
    * Give the Drawer content a class name (maps to `dnb-drawer`).
    */
   className?: string
-
-  /**
-   * Give the Drawer content a class (maps to `dnb-drawer`).
-   */
-  class?: string
 
   /**
    * If set to `false` then the drawer content will be shown without any spacing. Defaults to `true`.

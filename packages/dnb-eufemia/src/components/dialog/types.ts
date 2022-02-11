@@ -1,7 +1,8 @@
+import { ToCamelCasePartial } from '../../shared/helpers/withCamelCaseProps'
 import { ScrollViewProps } from '../../fragments/ScrollView'
-import { ModalPropsV2 } from '../modal/typesV2'
+import { ModalPropTypes } from '../modal/Modal'
 
-export interface DialogProps extends ModalPropsV2 {
+export interface DialogProps extends ToCamelCasePartial<ModalPropTypes> {
   /**
    * The dialog title. Displays on the very top of the content.
    */
@@ -28,11 +29,6 @@ export interface DialogContentProps extends ScrollViewProps {
    * Give the Dialog content a class name (maps to `dnb-dialog`).
    */
   className?: string
-
-  /**
-   * Give the Dialog content a class (maps to `dnb-dialog`).
-   */
-  class?: string
 
   /**
    * If set to `false` then the dialog content will be shown without any spacing. Defaults to `true`.

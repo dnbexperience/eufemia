@@ -21,13 +21,17 @@ import HelpButtonInstance from '../help-button/HelpButtonInstance'
 import { getListOfModalRoots, getModalRoot } from './helpers'
 import ModalInner from './parts/ModalInner'
 import { ModalProps } from './types'
-import { ModalPropsV2 } from './typesV2'
+
 import ModalHeader from './parts/ModalHeader'
 import ModalHeaderBar from './parts/ModalHeaderBar'
 import { ScrollViewProps } from '../../fragments/scroll-view/ScrollView'
 import CloseButton from './parts/CloseButton'
 import ModalRoot from './ModalRoot'
 import { ISpacingProps } from '../../shared/interfaces'
+import {
+  classWithCamelCaseProps,
+  ToCamelCasePartial,
+} from '../../shared/helpers/withCamelCaseProps'
 
 export const ANIMATION_DURATION = 300
 
@@ -36,8 +40,10 @@ interface ModalState {
   modalActive: boolean
 }
 
+export type ModalPropTypes = ModalProps & ISpacingProps & ScrollViewProps
+
 class Modal extends React.PureComponent<
-  ModalProps & ModalPropsV2 & ISpacingProps & ScrollViewProps,
+  ModalPropTypes & ToCamelCasePartial<ModalPropTypes>,
   ModalState
 > {
   static contextType = Context
@@ -520,6 +526,6 @@ class Modal extends React.PureComponent<
   }
 }
 
-export { CloseButton }
+export { CloseButton, Modal as OriginalComponent }
 
-export default Modal
+export default classWithCamelCaseProps(Modal)

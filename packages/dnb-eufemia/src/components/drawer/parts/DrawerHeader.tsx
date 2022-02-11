@@ -4,12 +4,17 @@ import ModalHeader, {
   ModalHeaderProps,
 } from '../../modal/parts/ModalHeader'
 
+interface DrawerHeaderProps extends ModalHeaderProps {
+  titleClass?: string
+}
+
 export default function DrawerHeader({
   className,
   titleClass,
   size = 'x-large',
+  ref, // eslint-disable-line
   ...props
-}: ModalHeaderProps) {
+}: DrawerHeaderProps) {
   return (
     <ModalHeader
       {...props}

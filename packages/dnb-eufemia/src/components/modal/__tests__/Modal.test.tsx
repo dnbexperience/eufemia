@@ -14,7 +14,7 @@ import {
 } from '../../../core/jest/jestSetup'
 
 import Input from '../../input/Input'
-import Component from '../Modal'
+import Component, { OriginalComponent } from '../Modal'
 import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
@@ -945,7 +945,7 @@ describe('Modal component', () => {
             id="modal-trigger"
             on_click={() => {
               return (
-                <Component
+                <OriginalComponent
                   title="Modal Title"
                   trigger_hidden="true"
                   open_state="opened"
@@ -960,7 +960,7 @@ describe('Modal component', () => {
                   direct_dom_return
                 >
                   content
-                </Component>
+                </OriginalComponent>
               )
             }}
           />
@@ -1078,11 +1078,12 @@ describe('Modal component', () => {
 
   it('has to have a close button', () => {
     const Comp = mount(<Component {...props} />)
-    Comp.setState({
+    Comp.find(OriginalComponent).setState({
       modalActive: true,
     })
     expect(
-      Comp.find('button.dnb-modal__close-button')
+      Comp.find(OriginalComponent)
+        .find('button.dnb-modal__close-button')
         .instance()
         .textContent.replace(/\u200C/g, '')
     ).toBe('Lukk')
@@ -1090,11 +1091,12 @@ describe('Modal component', () => {
 
   it('has to have a default dialog title', () => {
     const Comp = mount(<Component {...props} title={undefined} />)
-    Comp.setState({
+    Comp.find(OriginalComponent).setState({
       modalActive: true,
     })
     expect(
-      Comp.find('.dnb-modal__content')
+      Comp.find(OriginalComponent)
+        .find('.dnb-modal__content')
         .instance()
         .getAttribute('aria-label')
     ).toContain('Vindu')
@@ -1102,7 +1104,8 @@ describe('Modal component', () => {
     Comp.setProps({ title: 'now there is a title' })
 
     expect(
-      Comp.find('.dnb-modal__content')
+      Comp.find(OriginalComponent)
+        .find('.dnb-modal__content')
         .instance()
         .hasAttribute('aria-label')
     ).toBe(false)
@@ -1112,16 +1115,18 @@ describe('Modal component', () => {
     const Comp = mount(<Component {...props} />, {
       attachTo: attachToBody(),
     })
-    Comp.setState({
+    Comp.find(OriginalComponent).setState({
       modalActive: true,
     })
     expect(
-      Comp.find('.dnb-modal__content')
+      Comp.find(OriginalComponent)
+        .find('.dnb-modal__content')
         .instance()
         .getAttribute('aria-labelledby')
     ).toBe('dnb-modal-modal_id-title')
     expect(
-      Comp.find('.dnb-modal__content')
+      Comp.find(OriginalComponent)
+        .find('.dnb-modal__content')
         .instance()
         .getAttribute('aria-describedby')
     ).toBe('dnb-modal-modal_id-content')
@@ -1157,18 +1162,23 @@ describe('Modal component', () => {
     expect(Comp2.find('.dnb-icon').exists()).toBe(true)
   })
 
-  /* it('should render camelcase props', () => {
-    const customText = 'Custom title in camelcase'
-     const Comp = mount(
+  it('should render camelcase props', () => {
+    const customText = 'Custom text in camelcase'
+    const Comp = mount(
       <Component
         triggerAttributes={{ text: customText }}
         open_state={true}
       >
         The informational content
       </Component>
-    ) 
-    expect(Comp.find('h1').text()).toBe(customText)
-  })*/
+    )
+
+    expect(
+      Comp.find('button.dnb-modal__trigger')
+        .find('.dnb-button__text')
+        .text()
+    ).toBe(customText)
+  })
 
   it('should validate with ARIA rules as a dialog', async () => {
     const Comp = mount(<Component {...props} />)

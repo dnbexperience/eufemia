@@ -10,7 +10,6 @@
   --dialog-min-width: 320px; // use px, so larger font-size don't enlarge the min, has to be under 20rem, because of spacing and later mobile fullscreen
   --dialog-avg-width: 60vw; // content defines the size
   --dialog-max-width: 60rem; // because of our default width --layout-large
-
   --dialog-spacing: 2rem; // should reflect --spacing-large
   --dialog-spacing-minus: -2rem; // should reflect --spacing-large
 }
