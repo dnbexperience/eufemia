@@ -2583,7 +2583,7 @@ Array [
             </div>
           </StepIndicatorTriggerButton>
           <Modal
-            align_content={null}
+            align_content="left"
             animation_direction="bottom"
             animation_duration={300}
             bar_content={null}
@@ -5196,7 +5196,7 @@ Array [
             </div>
           </StepIndicatorTriggerButton>
           <Modal
-            align_content={null}
+            align_content="left"
             animation_direction="bottom"
             animation_duration={300}
             bar_content={null}
@@ -7823,7 +7823,7 @@ Array [
             </div>
           </StepIndicatorTriggerButton>
           <Modal
-            align_content={null}
+            align_content="left"
             animation_direction="bottom"
             animation_duration={300}
             bar_content={null}

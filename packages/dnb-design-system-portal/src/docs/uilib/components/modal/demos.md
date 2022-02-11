@@ -3,54 +3,29 @@ showTabs: true
 ---
 
 import {
-ModalExampleDefault,
-ModalExampleHelpButton,
-ModalExampleFullscreen,
-ModalExampleDelayClose,
-ModalExampleCustomTrigger,
+ModalExampleModeCustom,
 ModalExampleStateOnly,
-ModalExampleCloseByHandler,
-ModalExampleProgressIndicator,
+ModalExampleCloseByHandler
 } from 'Docs/uilib/components/modal/Examples'
 
 ## Demos
 
-### Triggered by the help button
+The following examples are to demonstrate the functionality of Modal. Please go to [Drawer demos](/uilib/components/drawer/demos) or [Dialog demos](/uilib/components/drawer/demos) for complete component demos.
 
-<ModalExampleDefault />
+### Mode custom
 
-### Help button and suffix
+Use `mode="custom"` in the Modal component to create other components with overlay.
 
-Most of the components do have a `suffix` property you can make use of.
-
-<ModalExampleHelpButton />
-
-### Fullscreen Modal, triggered by a tertiary button
-
-<ModalExampleFullscreen />
-
-### Hide the Close Button and Prevent Close for 1sec
-
-<ModalExampleDelayClose />
-
-### Custom trigger component
-
-<ModalExampleCustomTrigger />
+<ModalExampleModeCustom />
 
 ### Open Modal by the state only
 
-While the trigger button is not used anymore by using `trigger_hidden`.
+Use a custom trigger button and state handling by setting `hidden` for the default trigger button.
 
 <ModalExampleStateOnly />
 
 ### Close Modal by handlers
 
-With a `max_width` of `40rem`.
+Use the `close_modal` prop to set another close handler, like a timeout for when the modal should close.
 
 <ModalExampleCloseByHandler />
-
-### ProgressIndicator inside a Modal
-
-Also, `fullscreen` and `spacing` is disabled and the `align_content` is centered.
-
-<ModalExampleProgressIndicator />

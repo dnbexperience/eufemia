@@ -12,4 +12,6 @@
   @include componentReset();
 }
 
+@import '../../drawer/style/_drawer.scss';
+@import '../../dialog/style/_dialog.scss';
 @import './_modal.scss';

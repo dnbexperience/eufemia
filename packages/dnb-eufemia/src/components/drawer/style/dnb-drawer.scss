@@ -1,0 +1,15 @@
+/*
+* DNB Drawer
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+// import dependencies
+//@import '../../modal/style/dnb-modal.scss';
+
+.dnb-drawer {
+  @include componentReset();
+}
+
+@import './_drawer.scss';

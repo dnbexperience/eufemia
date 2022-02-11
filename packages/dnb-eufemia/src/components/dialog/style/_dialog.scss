@@ -1,0 +1,189 @@
+/*
+ * Dialog component
+ *
+ */
+
+@import '../../modal/style/_modal-mixins';
+
+:root {
+  // we do this because SCSS fails by using min(100vw, 50rem) = "Incompatible units: 'rem' and 'vw'"
+  --dialog-min-width: 320px; // use px, so larger font-size don't enlarge the min, has to be under 20rem, because of spacing and later mobile fullscreen
+  --dialog-avg-width: 60vw; // content defines the size
+  --dialog-max-width: 60rem; // because of our default width --layout-large
+
+  --dialog-spacing: 2rem; // should reflect --spacing-large
+  --dialog-spacing-minus: -2rem; // should reflect --spacing-large
+}
+
+.dnb-dialog {
+  position: relative;
+
+  width: var(--dialog-avg-width);
+  min-width: var(--dialog-min-width);
+  max-width: var(--dialog-max-width);
+  max-height: 100vh;
+
+  @include defaultDropShadow();
+  border-radius: 0.5rem;
+
+  user-select: text;
+  -webkit-user-select: text; // Safari / Touch fix
+  border: none;
+
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  &--auto-fullscreen {
+    @include allBelow(small) {
+      @include modalFullscreen();
+    }
+  }
+  &--fullscreen {
+    @include modalFullscreen();
+  }
+
+  @include IS_SAFARI_MOBILE() {
+    // iOS on iPhone fix
+    // Because Safari includes the navigation bar on the height
+    @media (max-height: 40em) and (orientation: landscape) {
+      &:not(#{&}--fullscreen) {
+        max-height: 80vh;
+      }
+    }
+  }
+
+  &__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: -4;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100%;
+    }
+  }
+
+  // Padding right and left based on screen size
+  &--spacing &__inner {
+    // FOR DIALOG STYLES
+    padding: 0 var(--dialog-spacing) 0;
+
+    @include allAbove(x-large) {
+      padding: 0 calc(var(--dialog-spacing) * 1.75) 0; // 3.5rem (56px)
+    }
+    @include allBelow(medium) {
+      padding: 0 calc(var(--dialog-spacing) / 1.333333) 0; // 2rem (32px)
+    }
+    @include allBelow(small) {
+      padding: 0 calc(var(--dialog-spacing) / 2) 0; // 1rem (16px)
+    }
+  }
+
+  &__align--centered &__inner {
+    align-items: center;
+    justify-content: center;
+  }
+
+  // Animation in
+  html:not([data-visual-test]) & {
+    animation: show-modal var(--modal-animation-duration) ease-out forwards;
+  }
+  // Animation out
+  html:not([data-visual-test]) &--hide {
+    animation: hide-modal 220ms ease-in-out forwards;
+  }
+
+  &--no-animation {
+    animation-duration: 0ms !important;
+  }
+  @include allBelow(small) {
+    &--no-animation-on-mobile {
+      animation-delay: 0ms !important;
+      animation-duration: 0ms !important;
+    }
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  &--spacing &__content {
+    padding-bottom: calc(var(--dialog-spacing) * 2);
+
+    @include IS_SAFARI_MOBILE {
+      padding-bottom: calc(var(--dialog-spacing) * 8);
+    }
+  }
+
+  &__align--center &__content {
+    align-items: center;
+    text-align: center;
+  }
+
+  &__align--right &__content {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  &__title ~ &__content {
+    padding-top: calc(var(--dialog-spacing) / 2);
+  }
+
+  & &__header [class*='dnb-h--'],
+  & &__header .dnb-modal__title {
+    padding: 0;
+    &:not([class*='__top']) {
+      margin-top: 0;
+    }
+    &:not([class*='__bottom']) {
+      margin-bottom: 0;
+    }
+  }
+
+  & &__header {
+    &::after {
+      top: -500%;
+      height: 600%;
+    }
+  }
+
+  &--spacing &__header {
+    .dnb-tabs {
+      margin-top: 3.5rem;
+    }
+  }
+
+  &__body {
+    padding-bottom: calc(var(--dialog-spacing) * 2);
+    margin-bottom: calc(var(--dialog-spacing-minus) * 2);
+  }
+
+  &__navigation.dnb-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &--spacing &__navigation.dnb-section {
+    // on large screens
+    margin-top: calc(var(--dialog-spacing) * 1.75);
+    margin-bottom: calc(var(--dialog-spacing) / 2);
+    @include allBelow(medium) {
+      margin-top: calc(var(--dialog-spacing) / 2);
+    }
+  }
+}
+
+[data-visual-test].hide-page-content #___gatsby {
+  // NB: visibility: hidden; does not work here, because puppeteer does not find the selectors anymore
+  opacity: 0;
+}

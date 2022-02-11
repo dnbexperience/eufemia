@@ -19,11 +19,13 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import HelpButtonInstance from '../help-button/HelpButtonInstance'
 import { getListOfModalRoots, getModalRoot } from './helpers'
-import ModalInner from './components/ModalInner'
+import ModalInner from './parts/ModalInner'
 import { ModalProps } from './types'
-import ModalHeader from './components/ModalHeader'
-import ModalHeaderBar from './components/ModalHeaderBar'
-import CloseButton from './components/CloseButton'
+import { ModalPropsV2 } from './typesV2'
+import ModalHeader from './parts/ModalHeader'
+import ModalHeaderBar from './parts/ModalHeaderBar'
+import { ScrollViewProps } from '../../fragments/scroll-view/ScrollView'
+import CloseButton from './parts/CloseButton'
 import ModalRoot from './ModalRoot'
 import { ISpacingProps } from '../../shared/interfaces'
 
@@ -34,16 +36,28 @@ interface ModalState {
   modalActive: boolean
 }
 
-export default class Modal extends React.PureComponent<
-  ModalProps & ISpacingProps,
+class Modal extends React.PureComponent<
+  ModalProps & ModalPropsV2 & ISpacingProps & ScrollViewProps,
   ModalState
 > {
-  static tagName = 'dnb-modal'
   static contextType = Context
+  static tagName = 'dnb-modal'
   static Bar = ModalHeaderBar
   static Header = ModalHeader
   static Content = ModalInner
   static Inner = ModalInner // deprecated
+
+  static getContent(props) {
+    if (typeof props.modal_content === 'string') {
+      return props.modal_content
+    } else if (typeof props.modal_content === 'function') {
+      return props.modal_content(props)
+    }
+    return processChildren(props)
+  }
+  static enableWebComponent() {
+    registerElement(Modal?.tagName, Modal, Modal.defaultProps)
+  }
 
   _id: string
   _triggerRef: React.RefObject<any>
@@ -81,7 +95,7 @@ export default class Modal extends React.PureComponent<
     fullscreen: 'auto',
     min_width: null,
     max_width: null,
-    align_content: null,
+    align_content: 'left',
     container_placement: null,
     open_state: null,
     direct_dom_return: false,
@@ -116,19 +130,6 @@ export default class Modal extends React.PureComponent<
     modal_content: null,
     header_content: null,
     bar_content: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Modal?.tagName, Modal, Modal.defaultProps)
-  }
-
-  static getContent(props) {
-    if (typeof props.modal_content === 'string') {
-      return props.modal_content
-    } else if (typeof props.modal_content === 'function') {
-      return props.modal_content(props)
-    }
-    return processChildren(props)
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -408,7 +409,6 @@ export default class Modal extends React.PureComponent<
       root_id = 'root',
       content_id = null,
       disabled = null,
-      spacing = true,
       labelled_by = null,
       focus_selector = null,
       header_content = null,
@@ -422,14 +422,14 @@ export default class Modal extends React.PureComponent<
       trigger = null,
       trigger_attributes = null,
       trigger_hidden = 'false',
-      trigger_disabled = null, // eslint-disable-line
-      trigger_variant = 'secondary', // eslint-disable-line
-      trigger_text = null, // eslint-disable-line
-      trigger_title = null, // eslint-disable-line
-      trigger_size = null, // eslint-disable-line
-      trigger_icon, // eslint-disable-line
-      trigger_icon_position = 'left', // eslint-disable-line
-      trigger_class = null, // eslint-disable-line
+      trigger_disabled = null,
+      trigger_variant = 'secondary',
+      trigger_text = null,
+      trigger_title = null,
+      trigger_size = null,
+      trigger_icon,
+      trigger_icon_position = 'left',
+      trigger_class = null,
 
       ...rest
     } = props
@@ -507,7 +507,6 @@ export default class Modal extends React.PureComponent<
               modal_content={modal_content}
               header_content={header_content}
               bar_content={bar_content}
-              spacing={spacing}
               closeModal={this.close}
               hide={hide}
               title={rest.title || fallbackTitle}
@@ -522,3 +521,5 @@ export default class Modal extends React.PureComponent<
 }
 
 export { CloseButton }
+
+export default Modal

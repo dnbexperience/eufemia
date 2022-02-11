@@ -1,4 +1,4 @@
-import { warn } from '../../shared/component-helper'
+import { warn, processChildren } from '../../shared/component-helper'
 
 export function getListOfModalRoots(): any[] {
   if (typeof window !== 'undefined') {
@@ -60,4 +60,13 @@ export function removeFromIndex(elem) {
       warn(e)
     }
   }
+}
+
+export function getContent(props) {
+  if (typeof props.modal_content === 'string') {
+    return props.modal_content
+  } else if (typeof props.modal_content === 'function') {
+    return props.modal_content(props)
+  }
+  return processChildren(props)
 }
