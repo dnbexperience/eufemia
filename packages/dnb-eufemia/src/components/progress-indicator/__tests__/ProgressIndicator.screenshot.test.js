@@ -32,3 +32,21 @@ describe('ProgressIndicator screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 })
+
+describe('ProgressIndicator circular screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/progress-indicator/visual-tests',
+  })
+
+  it('have to match static primary circular sizes', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        height: '3.5rem',
+        width: '8rem',
+      },
+      // addWrapper: false,
+      selector: '[data-visual-test="progress-indicator-sizes"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})

@@ -13,6 +13,18 @@ export default {
   title: 'Eufemia/Components/ProgressIndicator',
 }
 
+export function ProgressIndicatorSizes() {
+  return (
+    <>
+      <ProgressIndicator size="small" />
+      <ProgressIndicator size="medium" />
+      <ProgressIndicator />
+      <ProgressIndicator size="large" />
+      <ProgressIndicator size="huge" />
+    </>
+  )
+}
+
 export const ProgressIndicatorSandbox = () => (
   <Wrapper>
     <Box>
@@ -36,7 +48,7 @@ const ProgressIndicatorCircular = () => {
   return (
     <ProgressIndicator
       // progress={88}
-      size="huge"
+      size="large"
       visible={visible}
       on_complete={() => {
         console.log('on_complete')
