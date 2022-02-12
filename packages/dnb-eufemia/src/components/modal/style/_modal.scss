@@ -8,21 +8,6 @@
 :root {
   --modal-z-index: 3000;
   --modal-animation-duration: 300ms;
-  --modal-spacing: 2rem; // should reflect --spacing-large
-  --modal-spacing-minus: -2rem; // should reflect --spacing-large
-
-  // we do this because SCSS fails by using min(100vw, 50rem) = "Incompatible units: 'rem' and 'vw'"
-  --modal-min-width: 320px; // use px, so larger font-size don't enlarge the min, has to be under 20rem, because of spacing and later mobile fullscreen
-  --modal-avg-width: 60vw; // content defines the size
-  --modal-max-width: 60rem; // because of our default width --layout-large
-
-  // Drawer mode
-  --modal-drawer-width: 40vw;
-  --modal-drawer-min-width: 25rem;
-  --modal-drawer-max-width: 40rem;
-  --modal-drawer-header-min-height: 6rem;
-
-  // Overlay
   --modal-overlay-bg: black;
   --modal-overlay-opacity: 0.32;
 }
@@ -48,9 +33,12 @@ html[data-dnb-modal-active] {
     display: flex;
     align-items: center;
     justify-content: center;
-
+    max-width: 100vw;
     width: 100%;
     height: 100%;
+
+    user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
 
     &--auto-fullscreen {
       @include allBelow(small) {
@@ -58,338 +46,21 @@ html[data-dnb-modal-active] {
       }
     }
 
-    max-width: 100vw;
-
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
-
-    &__inner {
-      position: relative;
-
-      width: var(--modal-avg-width);
-      min-width: var(--modal-min-width);
-      max-width: var(--modal-max-width);
-      max-height: 100vh;
-
-      @include defaultDropShadow();
-      border-radius: 0.5rem;
-
-      user-select: text;
-      -webkit-user-select: text; // Safari / Touch fix
-      border: none;
-
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    }
-
-    &--auto-fullscreen &__inner {
-      @include allBelow(small) {
-        @include modalFullscreen();
-      }
-    }
-
-    @include IS_SAFARI_MOBILE() {
-      // iOS on iPhone fix
-      // Because Safari includes the navigation bar on the height
-      @media (max-height: 40em) and (orientation: landscape) {
-        &--modal#{&}:not(#{&}--fullscreen) &__inner {
-          max-height: 80vh;
-        }
-      }
-    }
-
-    &__spacing {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-
-      width: 100%;
-      height: 100%;
-      overflow-x: hidden;
-
-      &::after {
-        content: '';
-        position: absolute;
-        z-index: -4;
-        left: 0;
-        top: 0;
-        width: 100vw;
-        height: 100%;
-      }
-    }
-
-    // Padding right and left based on screen size
-    &--spacing &__spacing {
-      padding: 0 var(--modal-spacing) 0;
-
-      @include allAbove(x-large) {
-        padding: 0 calc(var(--modal-spacing) * 1.75) 0; // 3.5rem (56px)
-      }
-      @include allBelow(medium) {
-        padding: 0 calc(var(--modal-spacing) / 1.333333) 0; // 2rem (32px)
-      }
-      @include allBelow(small) {
-        padding: 0 calc(var(--modal-spacing) / 2) 0; // 1rem (16px)
-      }
-    }
-    &--spacing#{&}--drawer &__spacing {
-      padding: 0 var(--modal-spacing) 0; // should be 56px – but then the whole width should be larger
-
-      @include allAbove(x-large) {
-        padding: 0 calc(var(--modal-spacing) * 1.75) 0; // 3.5rem (56px)
-      }
-      @include allBelow(medium) {
-        padding: 0 calc(var(--modal-spacing) / 1.333333) 0; // 2rem (32px)
-      }
-      @include allBelow(small) {
-        padding: 0 calc(var(--modal-spacing) / 2) 0; // 1rem (16px)
-      }
-    }
-
-    &__align--centered &__spacing {
-      align-items: center;
-      justify-content: center;
-    }
-
-    // Drawer mode
-    &--drawer {
-      align-items: flex-start;
-      justify-content: flex-start;
-    }
-    &--drawer &__inner {
-      @include modalFullscreen(); // 'drawer'
-
-      width: var(--modal-drawer-width);
-      min-width: var(--modal-drawer-min-width);
-      max-width: var(--modal-drawer-max-width);
-
-      @include allBelow(small) {
-        width: 100vw;
-        min-width: auto;
-        max-width: auto;
-      }
-    }
-
-    &--drawer#{&}--top &__inner,
-    &--drawer#{&}--bottom &__inner {
-      max-width: 100%; // Edge/IE overflow fix
-      width: 100vw;
-      height: 40vh;
-
-      @media screen and (max-height: 40em) {
-        height: 100vw;
-        min-height: auto;
-        max-height: auto;
-      }
-    }
-    &--drawer#{&}--right {
-      justify-content: flex-end;
-    }
-    &--drawer#{&}--bottom {
-      align-items: flex-end;
-    }
-
     &--fullscreen {
       align-items: flex-start;
       justify-content: flex-start;
     }
 
-    &--fullscreen &__inner {
-      @include modalFullscreen();
-    }
+    // Is this used?
     &--fullscreen &__content {
       height: auto;
     }
 
-    // Drawer animation
-    html:not([data-visual-test]) &--drawer#{&}--left &__inner {
-      transform: translate3d(-20rem, 0, 0);
+    &--right {
+      justify-content: flex-end;
     }
-    html:not([data-visual-test]) &--drawer#{&}--right &__inner {
-      transform: translate3d(20rem, 0, 0);
-    }
-    html:not([data-visual-test]) &--drawer#{&}--top &__inner {
-      transform: translate3d(0, -20rem, 0);
-    }
-    html:not([data-visual-test]) &--drawer#{&}--bottom &__inner {
-      transform: translate3d(0, 20rem, 0);
-    }
-    html:not([data-visual-test]) &--drawer &__inner {
-      opacity: 0.1;
-      animation: show-drawer var(--modal-animation-duration) ease-out
-        forwards;
-    }
-    html:not([data-visual-test]) &--drawer#{&}--hide#{&}--left &__inner {
-      animation: hide-drawer-left var(--modal-animation-duration)
-        ease-in-out forwards;
-    }
-    html:not([data-visual-test]) &--drawer#{&}--hide#{&}--right &__inner {
-      animation: hide-drawer-right var(--modal-animation-duration)
-        ease-in-out forwards;
-    }
-    html:not([data-visual-test]) &--drawer#{&}--hide#{&}--top &__inner {
-      animation: hide-drawer-top var(--modal-animation-duration)
-        ease-in-out forwards;
-    }
-    html:not([data-visual-test]) &--drawer#{&}--hide#{&}--bottom &__inner {
-      animation: hide-drawer-bottom var(--modal-animation-duration)
-        ease-in-out forwards;
-    }
-
-    // Modal mode
-    html:not([data-visual-test]) &--modal &__inner {
-      animation: show-modal var(--modal-animation-duration) ease-out
-        forwards;
-    }
-    html:not([data-visual-test]) &--modal#{&}--hide &__inner {
-      animation: hide-modal 220ms ease-in-out forwards;
-    }
-
-    /* stylelint-disable-next-line */
-    &--no-animation &__inner {
-      animation-duration: 0ms !important;
-    }
-    @include allBelow(small) {
-      &--no-animation-on-mobile &__inner {
-        animation-duration: 0ms !important;
-      }
-    }
-
-    &__wrapper {
-      position: relative;
-      z-index: 1;
-    }
-    &--drawer &__wrapper {
-      padding-bottom: calc(var(--modal-spacing) * 2);
-    }
-    &--spacing &__wrapper {
-      padding-bottom: calc(var(--modal-spacing) * 2);
-
-      @include IS_SAFARI_MOBILE {
-        padding-bottom: calc(var(--modal-spacing) * 8);
-      }
-    }
-    &__title ~ &__wrapper {
-      padding-top: calc(var(--modal-spacing) / 2);
-    }
-    &__align--center &__wrapper {
-      align-items: center;
-      text-align: center;
-    }
-    &__align--right &__wrapper {
+    &--bottom {
       align-items: flex-end;
-      text-align: right;
-    }
-    &--drawer &__title ~ &__wrapper {
-      padding-top: calc(var(--modal-spacing) / 1.333333);
-    }
-  }
-
-  &__content &__header [class*='dnb-h--'],
-  &__content &__header &__title {
-    padding: 0;
-    &:not([class*='__top']) {
-      margin-top: 0;
-    }
-    &:not([class*='__bottom']) {
-      margin-bottom: 0;
-    }
-  }
-
-  &__content--drawer &__content__spacing {
-    position: relative;
-    z-index: 10;
-    background-color: var(--modal-background-color, transparent);
-  }
-
-  &__content &__header {
-    &::after {
-      top: -500%;
-      height: 600%;
-    }
-  }
-
-  &__content--spacing &__header {
-    .dnb-tabs {
-      margin-top: 3.5rem;
-    }
-  }
-
-  &__content--spacing#{&}__content--drawer &__header {
-    min-height: var(--modal-drawer-header-min-height);
-  }
-
-  &__wrapper__inner {
-    padding-bottom: calc(var(--modal-spacing) * 2);
-    margin-bottom: calc(var(--modal-spacing-minus) * 2);
-  }
-  &__content--drawer &__wrapper__inner {
-    margin-bottom: calc(var(--modal-spacing-minus) * 2);
-
-    @include IS_SAFARI_MOBILE {
-      padding-bottom: calc(var(--modal-spacing-minus) * 8);
-    }
-  }
-
-  &__header__bar {
-    &.dnb-section {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-
-      @include IS_IE() {
-        align-items: center; // IE11 uses top as default
-      }
-    }
-
-    @include IS_IE() {
-      .dnb-core-style &__close {
-        margin-left: auto; // place the button to the right side
-      }
-    }
-  }
-
-  &__content--spacing &__header__bar.dnb-section {
-    // on large screens
-    margin-top: calc(var(--modal-spacing) * 1.75);
-    margin-bottom: calc(var(--modal-spacing) / 2);
-    @include allBelow(medium) {
-      margin-top: calc(var(--modal-spacing) / 2);
-    }
-  }
-
-  &__content--spacing#{&}__content--drawer &__header__bar.dnb-section {
-    position: sticky;
-    top: 0;
-    z-index: 99; // below #dropdown and #date-picker
-
-    // on large screens
-    margin: calc(var(--modal-spacing) * 1.75) 0;
-    @include allBelow(medium) {
-      margin: var(--modal-spacing) 0;
-    }
-  }
-  &__content--spacing#{&}__content--drawer
-    &__header__bar.dnb-section#{&}__header__bar--sticky {
-    z-index: 2999; // above #dropdown and #date-picker and below #modal
-  }
-
-  &__content--drawer &__header__bar--sticky {
-    &::before {
-      content: '';
-      position: absolute;
-      z-index: -1;
-      left: -50%;
-      right: -50%;
-      bottom: 0;
-      height: 300%; // hide the top shadow
-
-      @include defaultDropShadow();
-    }
-  }
-
-  &__content--drawer &__header__bar:not(#{&}__header__bar--sticky) {
-    &::after {
-      color: transparent;
     }
   }
 
@@ -426,12 +97,6 @@ html[data-dnb-modal-active] {
     animation-delay: 0ms !important;
     animation-duration: 0ms !important;
   }
-  @include allBelow(small) {
-    &--no-animation-on-mobile {
-      animation-delay: 0ms !important;
-      animation-duration: 0ms !important;
-    }
-  }
 
   &-root__inner {
     position: relative;
@@ -448,6 +113,24 @@ html[data-dnb-modal-active] {
   }
   &__close-button {
     z-index: calc(var(--modal-z-index) + 1);
+  }
+
+  &__header__bar {
+    &.dnb-section {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      @include IS_IE() {
+        align-items: center; // IE11 uses top as default
+      }
+    }
+
+    @include IS_IE() {
+      .dnb-core-style &__close {
+        margin-left: auto; // place the button to the right side
+      }
+    }
   }
 }
 

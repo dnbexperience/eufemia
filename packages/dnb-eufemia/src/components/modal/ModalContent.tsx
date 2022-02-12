@@ -16,16 +16,11 @@ import {
   isTrue,
   makeUniqueId,
   InteractionInvalidation,
-  findElementInChildren,
   combineLabelledBy,
   combineDescribedBy,
-  validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import ScrollView from '../../fragments/scroll-view/ScrollView'
 import ModalContext from './ModalContext'
-import ModalHeader from './components/ModalHeader'
-import ModalHeaderBar from './components/ModalHeaderBar'
 import { IS_IOS, IS_SAFARI, IS_MAC, isAndroid } from '../../shared/helpers'
 import { ModalContentProps } from './types'
 import {
@@ -34,6 +29,8 @@ import {
   addToIndex,
   removeFromIndex,
 } from './helpers'
+import DrawerContent from '../drawer/DrawerContent'
+import DialogContent from '../dialog/DialogContent'
 
 interface ModalContentState {
   triggeredBy: string
@@ -57,7 +54,7 @@ export default class ModalContent extends React.PureComponent<
 > {
   state = { triggeredBy: null, triggeredByEvent: null, color: null }
 
-  _contentRef: React.RefObject<any>
+  _contentRef: React.RefObject<HTMLElement>
   _id: string
   _lockTimeout: NodeJS.Timeout
   _focusTimeout: NodeJS.Timeout
@@ -65,7 +62,7 @@ export default class ModalContent extends React.PureComponent<
   _ii: InteractionInvalidation
   _iiLocal: InteractionInvalidation
 
-  constructor(props) {
+  constructor(props: ModalContentProps) {
     super(props)
     this._contentRef = React.createRef()
 
@@ -339,45 +336,35 @@ export default class ModalContent extends React.PureComponent<
       hide,
       title,
       labelled_by,
-      header_content,
-      modal_content,
-      bar_content,
       id: _id, // eslint-disable-line
       close_title = 'Lukk',
       dialog_title = 'Vindu',
       hide_close_button = false,
       close_button_attributes,
-      spacing = true,
-      prevent_core_style = false,
       animation_duration, // eslint-disable-line
       no_animation = false,
       no_animation_on_mobile = false,
-      min_width,
-      max_width,
       fullscreen = 'auto',
-      align_content,
-      container_placement,
+      align_content = 'left',
+      container_placement = 'right',
       closeModal, // eslint-disable-line
-      className,
-      class: _className,
       content_class,
       overlay_class,
       content_id,
       children, // eslint-disable-line
+      min_width,
+      max_width,
+      modal_content,
+      header_content,
+      bar_content,
+      className,
+      prevent_core_style,
+      class: _className,
       ...rest
     } = this.props
     const { color } = this.state
 
     const contentId = content_id || makeUniqueId('modal-')
-
-    // ensure the min/max don't conflict
-    let minWidth = min_width
-    let maxWidth = max_width
-    if (minWidth && !maxWidth && parseFloat(String(minWidth)) > 0) {
-      maxWidth = 0
-    } else if (maxWidth && !minWidth && parseFloat(String(maxWidth)) > 0) {
-      minWidth = 0
-    }
 
     const useDialogRole = !(IS_MAC || IS_SAFARI || IS_IOS)
 
@@ -416,50 +403,36 @@ export default class ModalContent extends React.PureComponent<
 
       className: classnames(
         'dnb-modal__content',
-        mode && `dnb-modal__content--${mode}`,
-        hide && 'dnb-modal__content--hide',
-        isTrue(spacing) && 'dnb-modal__content--spacing',
-        align_content && `dnb-modal__content__align--${align_content}`,
-        container_placement || mode === 'drawer'
-          ? `dnb-modal__content--${container_placement || 'right'}`
-          : null,
         isTrue(fullscreen)
           ? 'dnb-modal__content--fullscreen'
           : fullscreen === 'auto' && 'dnb-modal__content--auto-fullscreen',
-        isTrue(no_animation) && 'dnb-modal__content--no-animation',
-        isTrue(no_animation_on_mobile) &&
-          'dnb-modal__content--no-animation-on-mobile',
+        container_placement || mode === 'drawer'
+          ? `dnb-modal__content--${container_placement || 'right'}`
+          : null,
+        mode && `dnb-modal__content--${mode}`,
+
         content_class
       ),
       onClick: this.onContentClickHandler,
     }
 
-    const innerParams = {
-      className: classnames(
-        'dnb-modal__content__inner',
-        !isTrue(prevent_core_style) && 'dnb-core-style',
-        className,
-        _className
-      ),
-      style: (minWidth || maxWidth) && { minWidth, maxWidth },
-      onClick: this.preventClick,
-      onTouchStart: this.preventClick,
-      onKeyDown: this.onKeyDownHandler,
+    const modeParams = {
+      minWidth: min_width,
+      maxWidth: max_width,
+      modalContent: modal_content,
+      navContent: bar_content,
+      headerContent: header_content,
+      preventCoreStyle: prevent_core_style,
+      className,
+      class: _className,
+      title,
+      alignContent: align_content,
+      noAnimation: no_animation,
+      noAnimationOnMobile: no_animation_on_mobile,
+      fullscreen,
+      containerPlacement: container_placement,
       ...rest,
     }
-
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, innerParams)
-
-    const barExists = findElementInChildren(
-      modal_content,
-      (cur) => cur.type === ModalHeaderBar
-    )
-
-    const headerExists = findElementInChildren(
-      modal_content,
-      (cur) => cur.type === ModalHeader
-    )
 
     return (
       <ModalContext.Provider
@@ -470,43 +443,47 @@ export default class ModalContent extends React.PureComponent<
           close_button_attributes,
           close_title,
           mode,
+          hide,
           setBackgroundColor: this.setBackgroundColor,
           onCloseClickHandler: this.onCloseClickHandler,
+          preventClick: this.preventClick,
+          onKeyDownHandler: this.onKeyDownHandler,
+          contentRef: this._contentRef,
+          contentId,
+          close: closeModal,
         }}
       >
-        <div id={contentId} {...contentParams}>
-          {/* Div should now be clickable */}
-          <ScrollView {...innerParams}>
-            <div
-              tabIndex={-1}
-              className="dnb-modal__content__spacing dnb-no-focus"
-              style={
-                (color
-                  ? { '--modal-background-color': `var(--color-${color})` }
-                  : null) as CSSPropertiesWithVars
-              }
-              ref={this._contentRef}
-            >
-              {!barExists && (
-                <ModalHeaderBar>{bar_content}</ModalHeaderBar>
-              )}
-              {!headerExists && (
-                <ModalHeader title={title}>{header_content}</ModalHeader>
-              )}
-              <div
-                id={contentId + '-content'}
-                className="dnb-modal__content__wrapper"
-              >
-                {modal_content}
-              </div>
-            </div>
-          </ScrollView>
+        <div
+          id={contentId}
+          style={
+            (color
+              ? { '--modal-background-color': `var(--color-${color})` }
+              : null) as CSSPropertiesWithVars
+          }
+          {...contentParams}
+        >
+          {/* Deprecated: Only to provide backward compatibility */}
+          {mode == 'drawer' && (
+            <DrawerContent
+              className="dnb-modal__content__inner" // backward compatibility
+              {...modeParams}
+            />
+          )}
+          {(mode == 'modal' || mode == 'dialog') && (
+            <DialogContent
+              className="dnb-modal__content__inner" // backward compatibility
+              {...modeParams}
+            />
+          )}
+
+          {/* New method of using Modal */}
+          {mode == 'custom' && children}
         </div>
+
         <span
           className={classnames(
             'dnb-modal__overlay',
             hide && 'dnb-modal__overlay--hide',
-            mode && `dnb-modal__overlay--${mode}`,
             isTrue(no_animation) && 'dnb-modal__overlay--no-animation',
             isTrue(no_animation_on_mobile) &&
               'dnb-modal__overlay--no-animation-on-mobile',

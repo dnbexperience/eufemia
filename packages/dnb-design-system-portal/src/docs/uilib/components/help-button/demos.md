@@ -42,7 +42,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
     on_click={() => {
         console.log('on_click')
     }}
-/>
+>Text</HelpButton>
 `}
 </ComponentBox>
 

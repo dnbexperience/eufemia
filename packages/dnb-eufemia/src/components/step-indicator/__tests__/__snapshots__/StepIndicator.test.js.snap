@@ -2583,7 +2583,7 @@ Array [
             </div>
           </StepIndicatorTriggerButton>
           <Modal
-            align_content={null}
+            align_content="left"
             animation_direction="bottom"
             animation_duration={300}
             bar_content={null}
@@ -2633,7 +2633,61 @@ Array [
             trigger_text={null}
             trigger_title={null}
             trigger_variant="secondary"
-          />
+          >
+            <Modal
+              align_content="left"
+              animation_direction="bottom"
+              animation_duration={300}
+              bar_content={null}
+              class={null}
+              className={null}
+              class_name={null}
+              close_button_attributes={null}
+              close_modal={null}
+              close_title="Lukk"
+              container_placement={null}
+              content_class={null}
+              content_id={null}
+              dialog_title="Vindu"
+              direct_dom_return={false}
+              disabled={null}
+              focus_selector={null}
+              fullscreen="auto"
+              header_content={null}
+              hide_close_button={false}
+              id="unique-id-loose-snapshot"
+              labelled_by={null}
+              max_width={null}
+              min_width={null}
+              modal_content={null}
+              mode="drawer"
+              no_animation={false}
+              no_animation_on_mobile={false}
+              on_close={[Function]}
+              on_close_prevent={null}
+              on_open={[Function]}
+              open_delay={null}
+              open_modal={null}
+              open_state={null}
+              overlay_class={null}
+              prevent_close={false}
+              prevent_core_style={false}
+              root_id="root"
+              spacing={true}
+              title="Stegoversikt"
+              trigger={null}
+              trigger_attributes={null}
+              trigger_class={null}
+              trigger_disabled={null}
+              trigger_hidden={true}
+              trigger_icon={null}
+              trigger_icon_position="left"
+              trigger_size={null}
+              trigger_text={null}
+              trigger_title={null}
+              trigger_variant="secondary"
+            />
+          </Modal>
         </StepIndicatorModal>
       </div>
     </StepIndicatorProvider>
@@ -5196,7 +5250,7 @@ Array [
             </div>
           </StepIndicatorTriggerButton>
           <Modal
-            align_content={null}
+            align_content="left"
             animation_direction="bottom"
             animation_duration={300}
             bar_content={null}
@@ -5246,7 +5300,61 @@ Array [
             trigger_text={null}
             trigger_title={null}
             trigger_variant="secondary"
-          />
+          >
+            <Modal
+              align_content="left"
+              animation_direction="bottom"
+              animation_duration={300}
+              bar_content={null}
+              class={null}
+              className={null}
+              class_name={null}
+              close_button_attributes={null}
+              close_modal={null}
+              close_title="Lukk"
+              container_placement={null}
+              content_class={null}
+              content_id={null}
+              dialog_title="Vindu"
+              direct_dom_return={false}
+              disabled={null}
+              focus_selector={null}
+              fullscreen="auto"
+              header_content={null}
+              hide_close_button={false}
+              id="unique-id-static-snapshot"
+              labelled_by={null}
+              max_width={null}
+              min_width={null}
+              modal_content={null}
+              mode="drawer"
+              no_animation={false}
+              no_animation_on_mobile={false}
+              on_close={[Function]}
+              on_close_prevent={null}
+              on_open={[Function]}
+              open_delay={null}
+              open_modal={null}
+              open_state={null}
+              overlay_class={null}
+              prevent_close={false}
+              prevent_core_style={false}
+              root_id="root"
+              spacing={true}
+              title="Stegoversikt"
+              trigger={null}
+              trigger_attributes={null}
+              trigger_class={null}
+              trigger_disabled={null}
+              trigger_hidden={true}
+              trigger_icon={null}
+              trigger_icon_position="left"
+              trigger_size={null}
+              trigger_text={null}
+              trigger_title={null}
+              trigger_variant="secondary"
+            />
+          </Modal>
         </StepIndicatorModal>
       </div>
     </StepIndicatorProvider>
@@ -7823,7 +7931,7 @@ Array [
             </div>
           </StepIndicatorTriggerButton>
           <Modal
-            align_content={null}
+            align_content="left"
             animation_direction="bottom"
             animation_duration={300}
             bar_content={null}
@@ -7873,7 +7981,61 @@ Array [
             trigger_text={null}
             trigger_title={null}
             trigger_variant="secondary"
-          />
+          >
+            <Modal
+              align_content="left"
+              animation_direction="bottom"
+              animation_duration={300}
+              bar_content={null}
+              class={null}
+              className={null}
+              class_name={null}
+              close_button_attributes={null}
+              close_modal={null}
+              close_title="Lukk"
+              container_placement={null}
+              content_class={null}
+              content_id={null}
+              dialog_title="Vindu"
+              direct_dom_return={false}
+              disabled={null}
+              focus_selector={null}
+              fullscreen="auto"
+              header_content={null}
+              hide_close_button={false}
+              id="unique-id-strict-snapshot"
+              labelled_by={null}
+              max_width={null}
+              min_width={null}
+              modal_content={null}
+              mode="drawer"
+              no_animation={false}
+              no_animation_on_mobile={false}
+              on_close={[Function]}
+              on_close_prevent={null}
+              on_open={[Function]}
+              open_delay={null}
+              open_modal={null}
+              open_state={null}
+              overlay_class={null}
+              prevent_close={false}
+              prevent_core_style={false}
+              root_id="root"
+              spacing={true}
+              title="Stegoversikt"
+              trigger={null}
+              trigger_attributes={null}
+              trigger_class={null}
+              trigger_disabled={null}
+              trigger_hidden={true}
+              trigger_icon={null}
+              trigger_icon_position="left"
+              trigger_size={null}
+              trigger_text={null}
+              trigger_title={null}
+              trigger_variant="secondary"
+            />
+          </Modal>
         </StepIndicatorModal>
       </div>
     </StepIndicatorProvider>

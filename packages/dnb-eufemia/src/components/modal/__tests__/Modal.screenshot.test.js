@@ -15,7 +15,7 @@ const pageViewport = {
 
 describe('Modal screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/modal/demos',
+    url: '/uilib/components/modal/visual-tests/hidden-tests',
   })
 
   it('have to match the default modal trigger button', async () => {
@@ -38,7 +38,7 @@ describe('Modal screenshot', () => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="modal-trigger-default"] button:first-of-type',
-      screenshotSelector: '.dnb-modal__content__inner',
+      screenshotSelector: '.dnb-dialog',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -46,7 +46,7 @@ describe('Modal screenshot', () => {
 
 describe('Modal screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/modal/demos',
+    url: '/uilib/components/modal/visual-tests/hidden-tests',
     pageViewport,
   })
 
@@ -65,7 +65,7 @@ describe('Modal screenshot', () => {
 
 describe('Drawer screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/modal/drawer/demos',
+    url: '/uilib/components/modal/visual-tests/hidden-tests',
     pageViewport,
   })
 
@@ -84,7 +84,7 @@ describe('Drawer screenshot', () => {
 
 describe('Drawer header screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/modal/drawer/demos',
+    url: '/uilib/components/modal/visual-tests/hidden-tests',
     pageViewport,
   })
 
@@ -102,30 +102,12 @@ describe('Drawer header screenshot', () => {
 })
 
 describe('Additional Modal screenshot', () => {
-  setupPageScreenshot({
-    url: '/uilib/components/modal/demos',
-    pageViewport,
-  })
-
-  it('have to match modal without spacing', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
-      simulate: 'click',
-      simulateSelector:
-        '[data-visual-test="modal-no-spacing"] button:first-of-type',
-      screenshotSelector: '.dnb-modal__content .dnb-modal__content__inner',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
-
-describe('Additional Modal screenshot', () => {
   const pageViewport = {
     width: 400,
     height: 400,
   }
   setupPageScreenshot({
-    url: '/uilib/components/modal/demos',
+    url: '/uilib/components/modal/visual-tests/hidden-tests',
     pageViewport,
   })
 
@@ -144,7 +126,7 @@ describe('Additional Modal screenshot', () => {
 
 describe('Drawer without spacing', () => {
   setupPageScreenshot({
-    url: '/uilib/components/modal/visual-tests/drawer-without-spacing',
+    url: '/uilib/components/modal/visual-tests/hidden-tests',
     pageViewport,
   })
 
