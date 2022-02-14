@@ -36,8 +36,13 @@ module.exports = async function () {
     )
   }
 
+  const countFailures = global.__EVENT_FAILURE_CACHE__.length
+  console.log(
+    chalk.green(`Jest screenshot tests had ${countFailures} failures`)
+  )
+
   // commit a tar of the reports if we are on a CI
-  if (isCI && global.__EVENT_FAILURE_CACHE__.length > 0) {
+  if (isCI && countFailures > 0) {
     console.log(
       chalk.yellow('Will commit "jest-screenshot-report" to git.')
     )

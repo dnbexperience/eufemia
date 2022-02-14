@@ -14,7 +14,9 @@ class PuppeteerEnvironment extends NodeEnvironment {
   constructor(config) {
     super(config)
 
-    global.__EVENT_FAILURE_CACHE__ = []
+    if (typeof global.__EVENT_FAILURE_CACHE__ === 'undefined') {
+      global.__EVENT_FAILURE_CACHE__ = []
+    }
   }
 
   async setup() {
