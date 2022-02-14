@@ -35,7 +35,6 @@ The Eufemia repository is a mono repo consisting of the following workspaces:
 
 - **dnb-design-system-portal**: Source code of the portal website - this website.
 - **dnb-eufemia**: Source code of the npm package - where all the components are located.
-- **dnb-eufemia-sandbox**: A development sandbox for playing around with components (not deployed, only for development purposes).
 
 ### dnb-eufemia
 
@@ -196,16 +195,18 @@ As an example, we show the folder structure of component Breadcrumb. You can als
 
 There are a couple of environments for different purposes.
 
-- For developing and styling new components, you can run a [storybook development sandbox](/contribute/first-contribution/before-started#storybook-development).
+- For developing and styling new components, you can run a [Storybook development](/contribute/first-contribution/before-started#storybook-development).
 - For writing documentation and displaying the components, you can run [the portal](/contribute/first-contribution/before-started#eufemia-portal) locally.
 - After development, you can run [your tests](/contribute/first-contribution/before-started#testing).
 - If you want to see the local changes of the search results, you can run [Algolia search queries locally](/).
 
 ### Storybook development
 
-The sandbox is made with [Storybook](https://storybook.js.org/), a tool for building UI components and pages in isolation.
+[Storybook](https://storybook.js.org/) is used for quick examples and component development. They do not need to be perfect.
 
-Run the sandbox locally by running
+Stories are placed inside a `/stories` directory and contain _.stories_ in the filename: `/components/button/stories/Button.stories.tsx`
+
+Run Storybook locally by running
 
 ```bash
 yarn dev
@@ -213,7 +214,7 @@ yarn dev
 
 in the root folder. Then you can view the Storybook website by visiting [localhost:8002](http://localhost:8002/).
 
-Add new pages to the storybook by adding a new file under `dnb-eufemia-sandbox/stories/components` and following the similar structure of the other files.
+Add new pages to the storybook by adding a new directory `/stories` and a new file under `ComponentName.stories.tsx` and following the similar structure of the other files.
 
 ### Eufemia portal
 
