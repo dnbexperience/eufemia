@@ -28,6 +28,7 @@ export default async function generateTypes({
     './src/*.js',
     './src/**/*.js',
     '!**/__tests__',
+    '!**/stories',
     '!./src/esm/',
     '!./src/cjs/',
     '!./src/umd/',
