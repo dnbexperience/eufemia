@@ -6,8 +6,8 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { Wrapper, Box } from 'storybook-utils/helpers'
-import Button from '../components/button/Button'
-import { Provider, MediaQuery, useMediaQuery } from './'
+import Button from '../../components/button/Button'
+import { Provider, MediaQuery, useMediaQuery } from '../'
 
 export default {
   title: 'Eufemia/Helpers/MediaQuery',
