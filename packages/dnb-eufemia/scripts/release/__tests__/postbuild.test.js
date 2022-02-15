@@ -192,23 +192,19 @@ describe('babel build', () => {
         break
     }
 
-    if (stage == 'cjs') {
-      const exists = fs.existsSync(
-        path.resolve(
-          packpath.self(),
-          `build/${stage}/components/breadcrumb/Breadcrumb.tsx`
-        )
-      )
-      expect(exists).toBe(false)
-    } else {
-      const content = fs.readFileSync(
-        path.resolve(
-          packpath.self(),
-          `build/${stage}/components/breadcrumb/Breadcrumb.tsx`
-        ),
-        'utf-8'
-      )
-      expect(content).toContain('export interface BreadcrumbProps')
-    }
+    const tsxFile = path.resolve(
+      packpath.self(),
+      `build/${stage}/components/breadcrumb/Breadcrumb.tsx`
+    )
+    const dtsFile = path.resolve(
+      packpath.self(),
+      `build/${stage}/components/breadcrumb/Breadcrumb.d.ts`
+    )
+
+    expect(fs.existsSync(tsxFile)).toBe(false)
+    expect(fs.existsSync(dtsFile)).toBe(true)
+
+    const content = fs.readFileSync(dtsFile, 'utf-8')
+    expect(content).toContain('export interface BreadcrumbProps')
   })
 })
