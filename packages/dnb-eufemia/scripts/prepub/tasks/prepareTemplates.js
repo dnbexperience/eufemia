@@ -277,7 +277,7 @@ const runFactory = async ({
     }
     processToNamesList = processToNamesList
       .filter(({ file }) => {
-        if (/not_in_use|__tests__/g.test(file)) {
+        if (/not_in_use|__tests__|DS_Store/g.test(file)) {
           return false
         }
         return !processToNamesIgnoreList.includes(file)
