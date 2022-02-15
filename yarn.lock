@@ -2310,6 +2310,9 @@ __metadata:
     "@babel/preset-typescript": 7.16.0
     "@babel/runtime": 7.16.3
     "@babel/traverse": 7.16.3
+    "@emotion/react": 11.5.0
+    "@emotion/styled": 11.3.0
+    "@reach/router": 1.3.4
     "@rollup/plugin-babel": 5.3.0
     "@rollup/plugin-commonjs": 21.0.1
     "@rollup/plugin-node-resolve": 13.0.6
@@ -2320,6 +2323,11 @@ __metadata:
     "@semantic-release/github": 8.0.2
     "@semantic-release/npm": 8.0.3
     "@semantic-release/release-notes-generator": 10.0.2
+    "@storybook/addons": 6.3.12
+    "@storybook/preset-ie11": "patch:@storybook/preset-ie11@0.0.1#../../.yarn/patches/@storybook-preset-ie11-npm-0.0.1-f80c765898"
+    "@storybook/preset-scss": 1.0.3
+    "@storybook/react": 6.3.12
+    "@storybook/theming": 6.3.12
     "@svgr/core": 6.2.1
     "@svgr/plugin-jsx": 6.2.1
     "@svgr/plugin-svgo": 6.2.0
@@ -2408,6 +2416,7 @@ __metadata:
     rollup-plugin-size-snapshot: 0.12.0
     rollup-plugin-terser: 7.0.2
     sass: 1.43.4
+    sass-loader: 10.2.0
     sass-variable-parser: 1.2.2
     semantic-release: 18.0.0
     simple-commit-message: 4.1.3
@@ -2503,6 +2512,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@emotion/cache@npm:^11.7.1":
+  version: 11.7.1
+  resolution: "@emotion/cache@npm:11.7.1"
+  dependencies:
+    "@emotion/memoize": ^0.7.4
+    "@emotion/sheet": ^1.1.0
+    "@emotion/utils": ^1.0.0
+    "@emotion/weak-memoize": ^0.2.5
+    stylis: 4.0.13
+  checksum: cf7aa8fe3bacfdedcda94b53e76a7635e122043439715fcfbf7f1a81340cfe6099a59134481a03ec3e0437466566d18528577d1e6ea92f5b98c372b8b38a8f35
+  languageName: node
+  linkType: hard
+
 "@emotion/core@npm:^10.1.1":
   version: 10.1.1
   resolution: "@emotion/core@npm:10.1.1"
@@ -2555,6 +2577,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@emotion/is-prop-valid@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@emotion/is-prop-valid@npm:1.1.1"
+  dependencies:
+    "@emotion/memoize": ^0.7.4
+  checksum: 5816696dae6ac79537a31fe95256e0c1f55651507204676dd9903542b102f727c16a68924e6634a89b0972f0d15b0803bb9d4e14bd0fb8a49da8a2e3956e6639
+  languageName: node
+  linkType: hard
+
 "@emotion/memoize@npm:0.7.4":
   version: 0.7.4
   resolution: "@emotion/memoize@npm:0.7.4"
@@ -2589,6 +2620,29 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 4188b664cc5b7142cf58323d78911cfdeef106d7b26987f8e4aceb51074e99a48a16cf6c3d1aa124462d2135a7b0d2b5d1bc2bbb6ac6167010f69607d822d51a
+  languageName: node
+  linkType: hard
+
+"@emotion/react@npm:11.7.1":
+  version: 11.7.1
+  resolution: "@emotion/react@npm:11.7.1"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+    "@emotion/cache": ^11.7.1
+    "@emotion/serialize": ^1.0.2
+    "@emotion/sheet": ^1.1.0
+    "@emotion/utils": ^1.0.0
+    "@emotion/weak-memoize": ^0.2.5
+    hoist-non-react-statics: ^3.3.1
+  peerDependencies:
+    "@babel/core": ^7.0.0
+    react: ">=16.8.0"
+  peerDependenciesMeta:
+    "@babel/core":
+      optional: true
+    "@types/react":
+      optional: true
+  checksum: 3392aa71f9c68c16022947959f7f842174e6b075b3baf58e185462411cd9b5a87557109a9225b1abaa2d7200a08b7cb9d7f21aa035f0d36b2c89e19b2a124e02
   languageName: node
   linkType: hard
 
@@ -2632,6 +2686,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@emotion/sheet@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@emotion/sheet@npm:1.1.0"
+  checksum: a4b74e16a8fea1157413efe4904f5f679d724323cb605d66d20a0b98744422f5d411fca927ceb52e4de454a0a819c5273ca9496db9f011b4ecd17b9f1b212007
+  languageName: node
+  linkType: hard
+
 "@emotion/styled-base@npm:^10.0.27":
   version: 10.0.31
   resolution: "@emotion/styled-base@npm:10.0.31"
@@ -2666,6 +2727,28 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 5e5c1e89d2022696e44d2a44e352aba56ab0961d9c4a78eff5d1bfa3deae08487fb17641610446595471d74e956b791e619d3a9006c18e145ed849ef7062e1b5
+  languageName: node
+  linkType: hard
+
+"@emotion/styled@npm:11.6.0":
+  version: 11.6.0
+  resolution: "@emotion/styled@npm:11.6.0"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+    "@emotion/babel-plugin": ^11.3.0
+    "@emotion/is-prop-valid": ^1.1.1
+    "@emotion/serialize": ^1.0.2
+    "@emotion/utils": ^1.0.0
+  peerDependencies:
+    "@babel/core": ^7.0.0
+    "@emotion/react": ^11.0.0-rc.0
+    react: ">=16.8.0"
+  peerDependenciesMeta:
+    "@babel/core":
+      optional: true
+    "@types/react":
+      optional: true
+  checksum: 612bbf114a4ca49e5b3ec4554bea1cd5aad9eeb2371babc3e6b79eab5020bd0300b9904108b621837fe715e221ba09dd131dc29918c1fd966e082d8e74fca833
   languageName: node
   linkType: hard
 
@@ -5379,9 +5462,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/preset-ie11@patch:@storybook/preset-ie11@0.0.1#../../.yarn/patches/@storybook-preset-ie11-npm-0.0.1-f80c765898::locator=dnb-eufemia-sandbox%40workspace%3Apackages%2Fdnb-eufemia-sandbox":
+"@storybook/preset-ie11@patch:@storybook/preset-ie11@0.0.1#../../.yarn/patches/@storybook-preset-ie11-npm-0.0.1-f80c765898::locator=%40dnb%2Feufemia%40workspace%3Apackages%2Fdnb-eufemia":
   version: 0.0.1
-  resolution: "@storybook/preset-ie11@patch:@storybook/preset-ie11@npm%3A0.0.1#../../.yarn/patches/@storybook-preset-ie11-npm-0.0.1-f80c765898::version=0.0.1&hash=3a7f56&locator=dnb-eufemia-sandbox%40workspace%3Apackages%2Fdnb-eufemia-sandbox"
+  resolution: "@storybook/preset-ie11@patch:@storybook/preset-ie11@npm%3A0.0.1#../../.yarn/patches/@storybook-preset-ie11-npm-0.0.1-f80c765898::version=0.0.1&hash=3a7f56&locator=%40dnb%2Feufemia%40workspace%3Apackages%2Fdnb-eufemia"
   dependencies:
     "@babel/plugin-transform-classes": ^7.12.1
     "@babel/preset-env": ^7.12.7
@@ -11577,26 +11660,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-loader@npm:5.2.7, css-loader@npm:^5.2.7":
-  version: 5.2.7
-  resolution: "css-loader@npm:5.2.7"
-  dependencies:
-    icss-utils: ^5.1.0
-    loader-utils: ^2.0.0
-    postcss: ^8.2.15
-    postcss-modules-extract-imports: ^3.0.0
-    postcss-modules-local-by-default: ^4.0.0
-    postcss-modules-scope: ^3.0.0
-    postcss-modules-values: ^4.0.0
-    postcss-value-parser: ^4.1.0
-    schema-utils: ^3.0.0
-    semver: ^7.3.5
-  peerDependencies:
-    webpack: ^4.27.0 || ^5.0.0
-  checksum: fb0742b30ac0919f94b99a323bdefe6d48ae46d66c7d966aae59031350532f368f8bba5951fcd268f2e053c5e6e4655551076268e9073ccb58e453f98ae58f8e
-  languageName: node
-  linkType: hard
-
 "css-loader@npm:^3.6.0":
   version: 3.6.0
   resolution: "css-loader@npm:3.6.0"
@@ -11617,6 +11680,26 @@ __metadata:
   peerDependencies:
     webpack: ^4.0.0 || ^5.0.0
   checksum: a45d7ee8105eea7a76caa45286f4b31f9413520511ae99a78886c522305a94c8adf289951f989d239919a9ffc08ea8cac2bf9c362f21b65d6f54f6812e904cc0
+  languageName: node
+  linkType: hard
+
+"css-loader@npm:^5.2.7":
+  version: 5.2.7
+  resolution: "css-loader@npm:5.2.7"
+  dependencies:
+    icss-utils: ^5.1.0
+    loader-utils: ^2.0.0
+    postcss: ^8.2.15
+    postcss-modules-extract-imports: ^3.0.0
+    postcss-modules-local-by-default: ^4.0.0
+    postcss-modules-scope: ^3.0.0
+    postcss-modules-values: ^4.0.0
+    postcss-value-parser: ^4.1.0
+    schema-utils: ^3.0.0
+    semver: ^7.3.5
+  peerDependencies:
+    webpack: ^4.27.0 || ^5.0.0
+  checksum: fb0742b30ac0919f94b99a323bdefe6d48ae46d66c7d966aae59031350532f368f8bba5951fcd268f2e053c5e6e4655551076268e9073ccb58e453f98ae58f8e
   languageName: node
   linkType: hard
 
@@ -12709,7 +12792,6 @@ __metadata:
     current-git-branch: 1.1.0
     date-fns: 2.25.0
     del: 6.0.0
-    dnb-eufemia-sandbox: "workspace:*"
     dotenv: 10.0.0
     eslint: 8.1.0
     eslint-plugin-cypress: 2.12.1
@@ -12761,6 +12843,7 @@ __metadata:
     sass: 1.43.4
     smoothscroll-polyfill: 0.4.4
     start-server-and-test: 1.14.0
+    storybook-utils: "workspace:*"
     stylelint: 13.13.1
     stylelint-config-prettier: 8.0.2
     stylelint-config-recommended: 5.0.0
@@ -12770,36 +12853,6 @@ __metadata:
     svg-react-loader: 0.4.6
     typescript: 4.5.5
     yarn-plugin-ignore-install-options: 1.0.2
-  languageName: unknown
-  linkType: soft
-
-"dnb-eufemia-sandbox@workspace:*, dnb-eufemia-sandbox@workspace:packages/dnb-eufemia-sandbox":
-  version: 0.0.0-use.local
-  resolution: "dnb-eufemia-sandbox@workspace:packages/dnb-eufemia-sandbox"
-  dependencies:
-    "@babel/preset-env": 7.16.0
-    "@dnb/eufemia": "workspace:*"
-    "@emotion/react": 11.5.0
-    "@emotion/styled": 11.3.0
-    "@reach/router": 1.3.4
-    "@storybook/addons": 6.3.12
-    "@storybook/preset-ie11": "patch:@storybook/preset-ie11@0.0.1#../../.yarn/patches/@storybook-preset-ie11-npm-0.0.1-f80c765898"
-    "@storybook/preset-scss": 1.0.3
-    "@storybook/react": 6.3.12
-    "@storybook/theming": 6.3.12
-    classnames: 2.3.1
-    core-js: 3.19.1
-    css-loader: 5.2.7
-    date-fns: 2.25.0
-    eslint: 8.2.0
-    history: 5.1.0
-    prop-types: 15.7.2
-    raw-loader: 4.0.2
-    react: 17.0.2
-    react-dom: 17.0.2
-    sass: 1.43.4
-    sass-loader: 10.2.0
-    style-loader: 2.0.0
   languageName: unknown
   linkType: soft
 
@@ -31024,6 +31077,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"storybook-utils@workspace:*, storybook-utils@workspace:tools/storybook-utils":
+  version: 0.0.0-use.local
+  resolution: "storybook-utils@workspace:tools/storybook-utils"
+  dependencies:
+    "@dnb/eufemia": "workspace:*"
+    "@emotion/react": 11.7.1
+    "@emotion/styled": 11.6.0
+    classnames: 2.3.1
+    react: 17.0.2
+    react-dom: 17.0.2
+  languageName: unknown
+  linkType: soft
+
 "stream-browserify@npm:^2.0.1":
   version: 2.0.2
   resolution: "stream-browserify@npm:2.0.2"
@@ -31537,18 +31603,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"style-loader@npm:2.0.0, style-loader@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "style-loader@npm:2.0.0"
-  dependencies:
-    loader-utils: ^2.0.0
-    schema-utils: ^3.0.0
-  peerDependencies:
-    webpack: ^4.0.0 || ^5.0.0
-  checksum: 21425246a5a8f14d1625a657a3a56f8a323193fa341a71af818a2ed2a429efa2385a328b4381cf2f12c2d0e6380801eb9e0427ed9c3a10ff95c86e383184d632
-  languageName: node
-  linkType: hard
-
 "style-loader@npm:^1.3.0":
   version: 1.3.0
   resolution: "style-loader@npm:1.3.0"
@@ -31558,6 +31612,18 @@ __metadata:
   peerDependencies:
     webpack: ^4.0.0 || ^5.0.0
   checksum: 1be9e8705307f5b8eb89e80f3703fa27296dccec349d790eace7aabe212f08c7c8f3ea6b6cb97bc53e82fbebfb9aa0689259671a8315f4655e24a850781e062a
+  languageName: node
+  linkType: hard
+
+"style-loader@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "style-loader@npm:2.0.0"
+  dependencies:
+    loader-utils: ^2.0.0
+    schema-utils: ^3.0.0
+  peerDependencies:
+    webpack: ^4.0.0 || ^5.0.0
+  checksum: 21425246a5a8f14d1625a657a3a56f8a323193fa341a71af818a2ed2a429efa2385a328b4381cf2f12c2d0e6380801eb9e0427ed9c3a10ff95c86e383184d632
   languageName: node
   linkType: hard
 
@@ -31710,6 +31776,13 @@ __metadata:
   bin:
     stylelint: bin/stylelint.js
   checksum: 9dafa8d90f139e0518753546855df149a8770cead6fc31e40fc0b1904f7698a734767b441c0ba44dd694c846491708c6127dd0e5bb6917507ffe230dd40f0b8a
+  languageName: node
+  linkType: hard
+
+"stylis@npm:4.0.13":
+  version: 4.0.13
+  resolution: "stylis@npm:4.0.13"
+  checksum: 8ea7a87028b6383c6a982231c4b5b6150031ce028e0fdaf7b2ace82253d28a8af50cc5a9da8a421d3c7c4441592f393086e332795add672aa4a825f0fe3713a3
   languageName: node
   linkType: hard
 

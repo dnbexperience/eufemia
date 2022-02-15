@@ -13,7 +13,7 @@ babel ./src \
 --out-dir ./build/cjs \
 --copy-files \
 --no-copy-ignored \
---ignore 'src/esm,src/umd,src/core,**/*.test.js,**/__tests__/**/*,**/*.d.ts'
+--ignore 'src/esm,src/umd,src/core,**/*.test.*,**/__tests__/**/*,**/*.stories.*,**/stories,**/*.d.ts'
 
 echo 'Building cjs bundle done!'
 

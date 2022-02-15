@@ -47,7 +47,12 @@ export const runFactory = (
       // do not use 'node-sass-json-importer' here! Every file needs the same core imports over and over again.
       const cloneSink = clone.sink()
       const dest = src.replace('./src/', '').split('/**/')[0]
-      const files = [src, '!**/__tests__/**', '!**/*_not_in_use*/**/*']
+      const files = [
+        src,
+        '!**/__tests__/**',
+        '!**/stories/**',
+        '!**/*_not_in_use*/**/*',
+      ]
 
       const stream = gulp
         .src(files, {

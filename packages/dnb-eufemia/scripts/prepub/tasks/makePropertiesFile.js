@@ -60,6 +60,7 @@ export const runFactory = ({ returnResult = false } = {}) =>
           [
             './src/style/**/properties.scss',
             '!**/__tests__/**',
+            '!**/stories/**',
             '!**/*_not_in_use*/**/*',
           ],
           {
