@@ -52,13 +52,6 @@ export default async function generateTypes({
   }
 }
 
-function isIndexFile({ file, basename }) {
-  return (
-    /^index/.test(basename) ||
-    /src\/(components|fragments|extensions)\/[A-Z][^.]*\.js/.test(file)
-  )
-}
-
 export const createTypes = async (
   listOfAllFiles,
   { isTest = false, ...opts } = {}
@@ -107,11 +100,7 @@ export const createTypes = async (
         }
       }
 
-      if (isIndexFile({ file, basename })) {
-        if (!fs.existsSync(destFile)) {
-          await fs.copyFile(file, destFile)
-        }
-      } else if (
+      if (
         /^[A-Z]/.test(basename) &&
         (await fileContains(file, 'propTypes'))
       ) {
