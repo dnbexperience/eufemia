@@ -8,6 +8,6 @@ rm -rf build/**/{__tests__,cjs}
 cp -r ./assets/ ./build/assets
 cp .npmignore ./build/.npmignore
 cp README README.md LICENSE ./build
-babel-node ./scripts/release/copyFinaleBuild.js
+babel-node ./scripts/postbuild/copyFinaleBuild.js
 
 echo 'Copy build artifacts done!'

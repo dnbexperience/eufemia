@@ -11,19 +11,19 @@ import { generateTypes } from './index'
 
 const runGenerateTypesTasks = async ({ doRefetch } = {}) => {
   process.env.NODE_ENV = 'production'
-  log.start('Starting to build types...', doRefetch)
+  log.start('Starting to generate type definitions ...', doRefetch)
   try {
     await generateTypes()
-    log.succeed('Types build has succeeded!')
+    log.succeed('Type definitions are successfully generated!')
   } catch (e) {
-    log.fail(new ErrorHandler('Failed to build types!', e))
+    log.fail(new ErrorHandler('Failed to generate type definitions!', e))
   }
   return true
 }
 
 const run = async () => {
   process.env.NODE_ENV = 'production'
-  log.start('Starting making JS properties file ...')
+  log.start('Make JavaScript properties file ...')
 
   await runGenerateTypesTasks()
 

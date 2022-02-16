@@ -8,7 +8,7 @@ const path = require('path')
 const { isCI } = require('ci-info')
 const {
   getNextReleaseVersion,
-} = require('@dnb/eufemia/scripts/release/getNextReleaseVersion')
+} = require('@dnb/eufemia/scripts/postbuild/getNextReleaseVersion')
 
 const init = async () => {
   if (!isCI) {

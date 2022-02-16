@@ -13,7 +13,7 @@ const { isCI } = require('repo-utils')
 import {
   commitToBranch,
   getCurrentBranchName,
-} from '../../../scripts/prepub/commitToBranch'
+} from '../../../scripts/prebuild/commitToBranch'
 const { DIR, testScreenshotOnPort } =
   require('./jestSetupScreenshots').config
 

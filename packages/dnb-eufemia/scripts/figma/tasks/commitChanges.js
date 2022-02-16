@@ -3,7 +3,7 @@
  *
  */
 
-import { commitToBranch } from '../../prepub/commitToBranch'
+import { commitToBranch } from '../../prebuild/commitToBranch'
 
 if (require.main === module) {
   commitToBranch({

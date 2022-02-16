@@ -9,7 +9,7 @@ import getBranchName from 'current-git-branch'
 import {
   getNextReleaseVersion,
   releaseBranches,
-} from '../../release/getNextReleaseVersion'
+} from '../../postbuild/getNextReleaseVersion'
 
 export async function makeReleaseVersion() {
   const branchName = getBranchName()
