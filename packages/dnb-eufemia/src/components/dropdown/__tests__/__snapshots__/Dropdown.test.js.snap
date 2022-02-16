@@ -1347,13 +1347,14 @@ html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover:not([disabled])
 
 .dnb-dropdown__trigger[disabled] {
   color: var(--color-black-55);
-  background-color: var(--color-black-3);
-  --border-color: var(--color-black-55);
-  box-shadow: 0 0 0 0.0625rem var(--border-color);
-  border-color: transparent; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-dropdown__trigger[disabled] {
-      box-shadow: 0 0 0 0.0625rem var(--color-black-55); } }
+  background-color: var(--color-black-3); }
+  .dnb-dropdown__trigger[disabled]:not(.dnb-button--tertiary) {
+    --border-color: var(--color-black-55);
+    box-shadow: 0 0 0 0.0625rem var(--border-color);
+    border-color: transparent; }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-dropdown__trigger[disabled]:not(.dnb-button--tertiary) {
+        box-shadow: 0 0 0 0.0625rem var(--color-black-55); } }
 
 .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
   --border-color: var(--color-fire-red);

@@ -326,8 +326,25 @@ export const DropdownDisabled = () => (
   <Wrapper>
     <ComponentBox scope={{ data }} data-visual-test="dropdown-disabled">
       {() => /* jsx */ `
-<Dropdown disabled data={['Disabled Dropdown']} label="Label:" />
-`}
+<Dropdown 
+  disabled 
+  data={['Disabled Dropdown']} 
+  label="Label:" />
+      `}
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DropdownDisabledTertiary = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="dropdown-disabled-tertiary">
+     {() => /* jsx */`
+  <Dropdown 
+    disabled 
+    variant="tertiary" 
+    data={['Disabled Dropdown']} 
+    label="Disabled tertiary dropdown" />
+    `}
     </ComponentBox>
   </Wrapper>
 )
