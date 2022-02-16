@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.23.0-beta.2](https://github.com/dnbexperience/eufemia/compare/v9.23.0-beta.1...v9.23.0-beta.2) (2022-02-16)
+
+
+### Bug Fixes
+
+* ensure auto type generation dont gets overwritten by tsc afterwards ([b94a786](https://github.com/dnbexperience/eufemia/commit/b94a786572275489ba9e5b1f864d14a9f52a9022))
+
 # [9.23.0-beta.1](https://github.com/dnbexperience/eufemia/compare/v9.22.0...v9.23.0-beta.1) (2022-02-16)
 
 
