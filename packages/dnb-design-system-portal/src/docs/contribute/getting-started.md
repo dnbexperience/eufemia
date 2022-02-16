@@ -12,20 +12,31 @@ import { Hr } from '@dnb/eufemia/src'
 You are now ready to get started. Here you will find a step-by-step guide to making changes in the Eufemia repo.
 If you are new to the repository, first check out [what I should know before getting started](/contribute/first-contribution#what-should-i-know-before-getting-started).
 
-**Skip to step**:
+**Table of Contents**
 
-1. [Get the repository on your local computer](/contribute/getting-started#1-get-the-repo-on-your-local-computer)
-1. [Install dependencies](//contribute/getting-started#2-install-the-dependencies)
-1. [Making changes](/contribute/getting-started#3-making-changes)
-   - [Check out a new branch](/contribute/getting-started#check-out-in-a-new-branch)
-   - [Add changes](/contribute/getting-started#add-changes)
-   - [Styling](/contribute/getting-started#styling-css-and-scss-of-components)
-   - [Create a local build](/contribute/getting-started#create-a-local-build)
-   - [Additional support](/contribute/getting-started#additional-support): Support for locale, provider, spacing and skeleton.
-   - [Write documentation](/contribute/getting-started#write-documentation)
-1. [Make and run tests](/contribute/getting-started#4-make-and-run-tests)
-1. (Optional): [Update the EUFEMIA_CHANGELOG.md with your changes](/contribute/getting-started#5-optional-update-change-logs)
-1. [Commit your change and create a Pull Request](/contribute/getting-started#6-commit-changes)
+- [Getting started](#getting-started)
+  - [1. Get the repo on your local computer](#1-get-the-repo-on-your-local-computer)
+  - [2. Install the dependencies](#2-install-the-dependencies)
+  - [3. Making changes](#3-making-changes)
+    - [Check out a new branch](#check-out-a-new-branch)
+    - [Add changes](#add-changes)
+    - [Styling, CSS and SCSS of components](#styling-css-and-scss-of-components)
+      - [SCSS dependencies](#scss-dependencies)
+      - [SCSS Theming](#scss-theming)
+      - [SCSS utilities and properties](#scss-utilities-and-properties)
+    - [Create a local build](#create-a-local-build)
+    - [Additional support](#additional-support)
+      - [Locale support](#locale-support)
+      - [Provider support](#provider-support)
+      - [Spacing support](#spacing-support)
+      - [Skeleton support](#skeleton-support)
+    - [Write documentation](#write-documentation)
+  - [4. Make and run tests](#4-make-and-run-tests)
+    - [Running tests locally](#running-tests-locally)
+    - [Support SCSS snapshot test](#support-scss-snapshot-test)
+    - [Support Axe test](#support-axe-test)
+  - [5. (Optional) Update change logs](#5-optional-update-change-logs)
+  - [6. Commit changes](#6-commit-changes)
 
 <Hr top="large" light />
 
@@ -66,6 +77,30 @@ Run an environment with either `yarn dev` (for Storybook) or `yarn start` (for E
 
 ### Styling, CSS and SCSS of components
 
+Each component has two or three SCSS files.
+
+All layout and position related styles go here:
+
+- `./packages/dnb-eufemia/src/components/button/style/_button.scss` (with leading underscore)
+
+#### SCSS dependencies
+
+SCSS file names staring with `dnb-` are later possible to get imported as self-contained, individual packages:
+
+- `./packages/dnb-eufemia/src/components/button/style/dnb-button.scss`
+
+There you can `@import` related **SCSS dependencies**. Like the button component also includes the icon component styles.
+
+#### SCSS Theming
+
+Styles that belong to a "theming footprint" – like colors or individual variants – can be put inside the `/themes` directory:
+
+- `./packages/dnb-eufemia/src/components/button/style/themes/dnb-button-theme-ui.scss`
+
+Theming file names ending with `-ui` will during the package release get packed into the global theming package. More details in the [theming section](/uilib/usage/customisation/theming).
+
+#### SCSS utilities and properties
+
 Use the same sass setup as all the other components. You may re-use all the [helper classes](/uilib/helpers/classes):
 
 - `./packages/dnb-eufemia/src/style/core/utilities.scss`
@@ -75,7 +110,7 @@ Use the same sass setup as all the other components. You may re-use all the [hel
 
 Next, we need to create a local build (prebuild) by using `yarn build` again.
 
-Running the build command will walk through all parts and tie together all needed parts in order to generate valid build bundles.
+Running the build command will walk through all parts and tie together all needed parts (index files of new components) in order to generate valid build bundles.
 
 ```bash
 $ yarn build
@@ -258,11 +293,73 @@ Make tests for the new component (or for your current issue) and set up screensh
 
 More on testing in the [UI Library](/uilib/usage/best-practices/for-testing#testing-frontend-code).
 
+### Running tests locally
+
+Run the commands from the repository's root folder. Replace `breadcrumb` with your component's name in the commands.
+
+1. Run the integration tests:
+
+```bash
+# Run all tests
+yarn test
+```
+
+```bash
+# Execute the tests on file (git) changes
+yarn test:watch
+
+# Run all tests including the word 'breadcrumb'
+yarn test breadcrumb
+
+# Or be more specific
+yarn test /breadcrumb.test.tsx
+
+# Run several together
+yarn test breadcrumb avatar button
+```
+
+2. Update the changed snapshots:
+
+```bash
+yarn test:update
+
+# More specific
+yarn test:update breadcrumb avatar
+```
+
+3. Run the visual test against the portal:
+
+```bash
+# 1. First start the portal
+yarn start
+
+# 2. Then run all screenshot tests including 'breadcrumb' or 'avatar'
+yarn test:screenshots breadcrumb avatar
+```
+
+You can also create a screenshot report for all components running `yarn test:screenshots`. Check the result / reports, located in: `open ./packages/dnb-eufemia/jest-screenshot-report/index.html`
+
+4. Update eventually new or valid PNG snapshots:
+
+```bash
+# Update all screenshot tests including 'breadcrumb'
+yarn test:screenshots:update breadcrumb
+```
+
+5. How to deal with failing tests on the CI server?
+
+You may check out the logs for detailed reports.
+
+**Failing visual screenshot tests**
+
+If visual screenshot tests are failing on the CI, you can scroll all the way to the end of the logs. There you will find a link **Download the Report** you can use to download a zip file containing the visual test reports and diffs.
+
 ### Support SCSS snapshot test
 
 Add a similar code snippet to your tests for watching changes in the SCSS you just created.
 
 ```js
+import { loadScss } from '../../../core/jest/jestSetup'
 describe('Breadcrumb scss', () => {
   it('have to match snapshot', () => {
     const scss = loadScss(require.resolve('../style/dnb-breadcrumb.scss'))
@@ -294,60 +391,15 @@ describe('Breadcrumb aria', () => {
 })
 ```
 
-### Running tests locally
-
-Run the commands from the repository's root folder. Replace `breadcrumb` with your component's name in the commands.
-
-1. Run the integration tests:
-
-```bash
-# Run all tests including the word 'breadcrumb'
-yarn test breadcrumb
-```
-
-```bash
-# or be more specific
-yarn test /breadcrumb.test.tsx
-```
-
-```bash
-# Execute the tests periodically
-yarn test:watch breadcrumb
-```
-
-2. Update the changed snapshots:
-
-```bash
-yarn test:update breadcrumb
-```
-
-3. Run the visual test against the portal:
-
-```bash
-# First start the portal
-yarn start
-# Then run all screenshot tests including 'breadcrumb'
-yarn test:screenshots breadcrumb
-```
-
-You can also create a screenshot report for all components running `yarn test:screenshots`. Check the result / reports, located in: `open ./packages/dnb-eufemia/jest-screenshot-report/index.html`
-
-4. Update eventually new or valid PNG snapshots:
-
-```bash
-# Update all screenshot tests including 'breadcrumb'
-yarn test:screenshots:update breadcrumb
-```
-
 ## 5. (Optional) Update change logs
 
-Changes to `@dnb/eufemia` have to be mentioned by using a [git commit messages decoration](/contribute/commit#commit-messages). During the next release, a `CHANGELOG.md` file will be generated and changes will get listed on the [GitHub Releases](https://github.com/dnbexperience/eufemia/releases) page.
+Changes to `@dnb/eufemia` have to be mentioned by using a [git commit messages decoration](/contribute/commit#commit-messages). During the next release, the package `CHANGELOG.md` file will be updated and changes will get listed on the [GitHub Releases](https://github.com/dnbexperience/eufemia/releases) page.
 
-General Eufemia **Design System** changes have to be written down in the `EUFEMIA_CHANGELOG.md` file, located in the docs. This file should only be updated if there is a change in the `@dnb/eufemia` package, which affects the components/elements/extensions.
+General Eufemia **Design System** changes have to be written down in the `EUFEMIA_CHANGELOG.md` file, located in the docs. This file should only be updated if there is a change in the `@dnb/eufemia` package, which affects the components, elements or extensions.
 
 ## 6. Commit changes
 
-[Commit your change](/contribute/commit) and create a Pull Request to the `origin/main` branch. Check out the [Git convention](/contribute/style-guides/git) for how to commit and make pull requests.
+[Commit your change](/contribute/commit) and create a _Pull Request_ to the `origin/main` branch. Check out the [Git convention](/contribute/style-guides/git) for how to commit and make _Pull Request_.
 
 From a Fork:
 
