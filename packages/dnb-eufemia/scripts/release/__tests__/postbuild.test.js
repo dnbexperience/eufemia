@@ -39,6 +39,42 @@ describe('type definitions', () => {
           'utf-8'
         )
       ).toMatch(/export interface/g)
+
+      // Test the output of js files
+      const dtsInput = path.resolve(
+        packpath.self(),
+        `build/${stage}/components/input/Input.d.ts`
+      )
+
+      expect(fs.existsSync(dtsInput)).toBe(true)
+
+      const contentInput = fs.readFileSync(dtsInput, 'utf-8')
+      expect(contentInput).toContain(
+        'export interface InputProps extends React.HTMLProps<HTMLElement>'
+      )
+    }
+  )
+
+  it.each(buildStages)(
+    'has correct Breadcrumb type definitions on stage %s',
+    (stage) => {
+      // Test the output of tsx files
+      const tsxBreadcrumb = path.resolve(
+        packpath.self(),
+        `build/${stage}/components/breadcrumb/Breadcrumb.tsx`
+      )
+      const dtsBreadcrumb = path.resolve(
+        packpath.self(),
+        `build/${stage}/components/breadcrumb/Breadcrumb.d.ts`
+      )
+
+      expect(fs.existsSync(tsxBreadcrumb)).toBe(false)
+      expect(fs.existsSync(dtsBreadcrumb)).toBe(true)
+
+      const contentBreadcrumb = fs.readFileSync(dtsBreadcrumb, 'utf-8')
+      expect(contentBreadcrumb).toContain(
+        'export interface BreadcrumbProps'
+      )
     }
   )
 })
@@ -191,20 +227,5 @@ describe('babel build', () => {
         }
         break
     }
-
-    const tsxFile = path.resolve(
-      packpath.self(),
-      `build/${stage}/components/breadcrumb/Breadcrumb.tsx`
-    )
-    const dtsFile = path.resolve(
-      packpath.self(),
-      `build/${stage}/components/breadcrumb/Breadcrumb.d.ts`
-    )
-
-    expect(fs.existsSync(tsxFile)).toBe(false)
-    expect(fs.existsSync(dtsFile)).toBe(true)
-
-    const content = fs.readFileSync(dtsFile, 'utf-8')
-    expect(content).toContain('export interface BreadcrumbProps')
   })
 })
