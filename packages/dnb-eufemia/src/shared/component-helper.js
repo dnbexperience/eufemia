@@ -993,3 +993,12 @@ export function findElementInChildren(children, find) {
 export function escapeRegexChars(str) {
   return str.replace(/[-[\]{}()*+?.,\\^$|#]/g, '\\$&')
 }
+
+export function removeUndefinedProps(object) {
+  Object.keys(object).forEach((key) => {
+    if (object[key] === undefined) {
+      delete object[key]
+    }
+  })
+  return object
+}

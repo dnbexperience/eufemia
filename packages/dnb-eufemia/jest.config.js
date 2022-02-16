@@ -11,8 +11,8 @@ const config = {
     '<rootDir>/jest-screenshot-report/',
     'screenshot',
   ],
-  transformIgnorePatterns: ['node_modules'],
-  // We  may use this in future when converting to ESM
+  transformIgnorePatterns: ['node_modules', 'stories'],
+  // We may use this in future when converting to ESM
   // transformIgnorePatterns: ['/node_modules/(?!ora|globby)'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',

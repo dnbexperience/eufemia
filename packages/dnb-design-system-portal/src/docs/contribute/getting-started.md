@@ -62,7 +62,7 @@ $ git checkout -b feat/my-feature
 
 Inside `./packages/dnb-eufemia` you will find the directory `/src/components`, `/src/elements` or `/src/extensions`. There you can place a new directory with all the necessary sub folders. As a reference, take a look at Component folder section in [Before getting started](/contribute/first-contribution/before-started#component-folder).
 
-Run an environment with either `yarn dev` (for Storybook sandbox) or `yarn start` (for Eufemia Portal). Make sure you follow the [Code guide](/contribute/style-guide/coding) under development.
+Run an environment with either `yarn dev` (for Storybook) or `yarn start` (for Eufemia Portal). Make sure you follow the [Code guide](/contribute/style-guide/coding) under development.
 
 ### Styling, CSS and SCSS of components
 

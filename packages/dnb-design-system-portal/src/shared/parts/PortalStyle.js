@@ -4,7 +4,7 @@
  */
 
 import { css } from '@emotion/react'
-import { gridStyle } from 'dnb-eufemia-sandbox/stories/GridStyle'
+import { gridStyle } from 'storybook-utils/GridStyle'
 
 export { gridStyle }
 

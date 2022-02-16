@@ -1,7 +1,8 @@
 ---
 title: 'Modal'
-description: 'Modal dialogs appear on top of the main content changing the mode of the system into a special mode requiring user interaction'
+description: 'Modal dialogs appear on top of the main content changing the mode of the system into a special mode requiring user interaction.'
 showTabs: true
+status: 'new'
 # redirect_from:
 #   - /uilib/components/drawer
 ---

@@ -17,6 +17,8 @@ import Breadcrumb from './components/breadcrumb/Breadcrumb'
 import Button from './components/button/Button'
 import Checkbox from './components/checkbox/Checkbox'
 import DatePicker from './components/date-picker/DatePicker'
+import Dialog from './components/dialog/Dialog'
+import Drawer from './components/drawer/Drawer'
 import Dropdown from './components/dropdown/Dropdown'
 import FormLabel from './components/form-label/FormLabel'
 import FormRow from './components/form-row/FormRow'
@@ -89,6 +91,8 @@ export {
   Button,
   Checkbox,
   DatePicker,
+  Dialog,
+  Drawer,
   Dropdown,
   FormLabel,
   FormRow,

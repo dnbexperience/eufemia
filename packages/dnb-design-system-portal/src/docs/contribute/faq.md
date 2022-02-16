@@ -40,7 +40,7 @@ The Portal (documentations) uses dart based `sass`, while the bundle and build p
 
 ## Issue: Storybook
 
-The sandbox Storybook setup is using the default `@storybook/preset-scss` addon with the recommended dependencies. But for some reason, we can't use the latest versions of the following dependencies:
+The Storybook setup is using the default `@storybook/preset-scss` addon with the recommended dependencies. But for some reason, we can't use the latest versions of the following dependencies:
 
 - `sass-loader` v10.2.0
 - `style-loader` v2.0.0

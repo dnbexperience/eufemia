@@ -17,9 +17,8 @@ This is a mono repo and uses **yarn workspaces** to manage the sub packages/work
 
 ## Workspaces
 
+- [@dnb/eufemia](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia): Repo for the NPM package [@dnb/eufemia](https://www.npmjs.com/package/@dnb/eufemia).
 - [Design system portal](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal): Source code for the portal website [eufemia.dnb.no](https://eufemia.dnb.no/).
-- [@dnb/eufemia](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia): Repo for the npm package @dnb/eufemia.
-- [Storybook Sandbox](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia-sandbox): Development sandbox.
 
 ## Quick start
 

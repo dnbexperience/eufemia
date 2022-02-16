@@ -1,6 +1,25 @@
+## February, 15. 2022
+
+- New components released:
+  - [Dialog](/uilib/components/dialog)
+  - [Drawer](/uilib/components/drawer)
+  - [Modal](/uilib/components/modal) (redefined)
+
+## February, 8. 2022
+
+- New components released:
+
+  - [VisuallyHidden](/uilib/components/visually-hidden)
+
+- New [Icons](/icons/secondary):
+  - secondary `credit_note`
+  - secondary `deleted_invoice`
+  - secondary `speedometer`
+  - secondary `travel`
+
 ## January, 26. 2022
 
-- New components released in `@dnb/eufemia`:
+- New components released:
   - [Avatar](/uilib/components/avatar)
   - [InfoCard](/uilib/components/info-card)
   - [Tag](/uilib/components/tag)

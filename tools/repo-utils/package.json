@@ -10,6 +10,6 @@
     "test-is-ci": "node node-utils.test.js"
   },
   "volta": {
-    "extends": "./package.json"
+    "extends": "../../package.json"
   }
 }

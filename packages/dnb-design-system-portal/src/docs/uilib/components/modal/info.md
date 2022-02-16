@@ -2,11 +2,9 @@
 showTabs: true
 ---
 
-import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
-import ModalExample from './assets/modal-example.svg'
-import ModalExampleButtons from './assets/modal-example-buttons.svg'
-
 ## Description
+
+Modal is the root component for [Drawer](/uilib/components/drawer) and [Dialog](/uilib/components/dialog). If one of these satisfy your needs, you probably want to use those rather than directly using Modal. It is possible to implement other modal variants using `mode="custom"`. The new Modal is backward compatible with the previous Modal version using `mode="dialog"` (default) or `mode="drawer"`. The old documentation for Modal can be viewed in [Previous Modal (v1)](/uilib/components/modal/modal-v1).
 
 NB! Modal dialogs interrupt users and demand an action. They are appropriate when the user’s attention needs to be directed toward important information.
 
@@ -32,7 +30,7 @@ You can also used the broadly available `suffix` property, like so:
 
 In order to make modals accessible, a lot of things are considered.
 
-Entering a Modal / Drawer will:
+Entering a Modal (all variants) will:
 
 1. Set focus on the heading or close button.
 2. Enable escape key listener.
@@ -49,7 +47,7 @@ Typically an opaque cover over the main content (fullscreen) and a small centere
 
 Modal dialogs appear on top of the main content changing the _mode_ of the system into a special mode requiring user interaction. The main content is disabled until the user interacts with the modal dialog.
 
-### Disadvantages of modal Dialogs
+### Disadvantages of Modal
 
 1.  They require immediate attention
 1.  They interrupt users
@@ -66,12 +64,6 @@ Modal dialogs appear on top of the main content changing the _mode_ of the syste
 #### Nested modals
 
 While it is possible to nest a Modal within another Modal, you as a developer have to ensure the Browsers back-button (alongside the URL path), does take care of the nested Modal situation. Because a user should still be able to use the back button as expected and return to the last visited "page".
-
-### Design Patterns
-
-<InlineImg src={ModalExample} caption="Modal with header, text and close button (spacing suggestions in blue and pink)" alt="Image showing Modal with header" />
-
-<InlineImg src={ModalExampleButtons} caption="Modal with header, text, buttons and close button" alt="Image showing Modal with header and close button" />
 
 ## Root Element
 
@@ -107,29 +99,5 @@ This can be used to handle z-index issues from within CSS only:
 ```css
 html[data-dnb-modal-active='MODAL-ID'] {
   /* Your css */
-}
-```
-
-## The Drawer mode
-
-The modal comes with a `drawer` mode. The drawer is made to be used in different content usage than the modal. Typically in context interactions.
-
-See more in [Drawer](/uilib/components/modal/drawer).
-
-## Sizing and spacing
-
-You have the properties `min_width` and `max_width`. But by using these, the width styles get injected inline, which normal circumstances work fine. But in case you want to set it by CSS, you can do so:
-
-```css
-/* Change the Modal size  */
-.dnb-modal__content__inner {
-  min-width: 20vw;
-  max-width: 40rem;
-}
-
-/* Change the Modal spacing  */
-:root {
-  /* Defaults to --spacing-large */
-  --modal-spacing: var(--spacing-small);
 }
 ```

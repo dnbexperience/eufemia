@@ -223,6 +223,21 @@ exports[`ProgressIndicator scss have to match default theme snapshot 1`] = `
 .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
   stroke: var(--color-emerald-green); }
 
+.dnb-progress-indicator__circular--small .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
+  stroke-width: 3.1; }
+
+.dnb-progress-indicator__circular--medium .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
+  stroke-width: 3.3; }
+
+.dnb-progress-indicator__circular--default .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
+  stroke-width: 3.5; }
+
+.dnb-progress-indicator__circular--large .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
+  stroke-width: 3.7; }
+
+.dnb-progress-indicator__circular--huge .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
+  stroke-width: 3.9; }
+
 .dnb-progress-indicator__linear {
   background-color: var(--color-black-8); }
   .dnb-progress-indicator__linear--small {

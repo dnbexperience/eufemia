@@ -20,7 +20,7 @@ import { Button, Section } from '@dnb/eufemia/src'
 
 Many defaults are given by the linting and prettier configurations. But to keep the codebase consistent and clean, we have set a certain set of rules:
 
-- Use [git message decoration](/contribute/style-guide/commit) to ensure correct publish versioning.
+- Use [git message decoration](/contribute/style-guide/git) to ensure correct publish versioning.
 - Use [naming conventions](/contribute/style-guide/naming) when possible.
 - Use best practices for [CSS style structures](/uilib/usage/best-practices/for-styling#structure).
 - Use [nested CSS class selectors](https://medium.com/@andrew_barnes/bem-and-sass-a-perfect-match-5e48d9bc3894) with SASS (SCSS) and [BEM](http://getbem.com/naming/) (Block Element Modifier).
