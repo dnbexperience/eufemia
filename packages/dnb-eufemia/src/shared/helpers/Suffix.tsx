@@ -4,12 +4,22 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
-export const SuffixContext = React.createContext()
+const SuffixContext = React.createContext(null)
 
-const Suffix = ({ className, children, context, ...props }) => {
+interface SuffixProps {
+  className: string
+  children: React.ReactNode
+  context: Record<string, unknown>
+}
+
+const Suffix = ({
+  className,
+  children,
+  context,
+  ...props
+}: SuffixProps) => {
   const content = (
     // The styles are as of now, set in @dnb/eufemia/src/style/components/imports.scss
     <span className={classnames('dnb-suffix', className)} {...props}>
@@ -27,13 +37,7 @@ const Suffix = ({ className, children, context, ...props }) => {
 
   return content
 }
-Suffix.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-}
-Suffix.defaultProps = {
-  className: null,
-  children: null,
-}
+
+export { SuffixContext }
 
 export default Suffix
