@@ -5,6 +5,9 @@
 
 @import '../../../style/components/imports.scss';
 
+// import dependencies
+@import '../../icon/style/dnb-icon.scss';
+
 .dnb-accordion {
   @include componentReset();
 }

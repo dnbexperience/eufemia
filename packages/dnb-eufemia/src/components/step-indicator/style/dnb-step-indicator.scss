@@ -5,6 +5,8 @@
 
 @import '../../../style/components/imports.scss';
 
+@import '../../button/style/dnb-button.scss';
+
 .dnb-step-indicator {
   @include componentReset();
 }
