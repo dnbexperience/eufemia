@@ -22,11 +22,11 @@ The `@dnb/eufemia` uses **ESM** as the default module format. This allows us to 
 ```js
 // Imports only the code needed for the button
 import { Button } from '@dnb/eufemia'
-import { Button } from '@dnb/eufemia/esm'
+import { Button } from '@dnb/eufemia/es'
 
-// Imports only the code needed for the icon
+// Imports only the code needed for icons
 import { question } from '@dnb/eufemia/icons'
-import { question } from '@dnb/eufemia/esm/icons'
+import { question } from '@dnb/eufemia/es/icons'
 ```
 
 ## CommonJS (CJS)

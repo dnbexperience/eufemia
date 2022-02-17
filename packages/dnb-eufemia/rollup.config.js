@@ -40,6 +40,14 @@ export default !/^(release|beta|alpha)$/.test(currentBranch)
           excludes,
         }
       ),
+      makeRollupConfig(
+        './src/esm/dnb-ui-lib.js',
+        'build/esm/dnb-ui-lib.min.mjs',
+        {
+          format: 'esm',
+          excludes,
+        }
+      ),
     ]
   : [
       makeRollupConfig(
