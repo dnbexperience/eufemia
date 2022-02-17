@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.23.0-beta.3](https://github.com/dnbexperience/eufemia/compare/v9.23.0-beta.2...v9.23.0-beta.3) (2022-02-17)
+
+
+### Features
+
+* **esm:** remove esm directory in package build ([e36a90f](https://github.com/dnbexperience/eufemia/commit/e36a90fc6981ae6986eaebfa753cbcae4a0b29c5))
+
 # [9.23.0-beta.2](https://github.com/dnbexperience/eufemia/compare/v9.23.0-beta.1...v9.23.0-beta.2) (2022-02-16)
 
 
