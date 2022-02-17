@@ -15,6 +15,6 @@ yarn prettier:other
 
 echo 'Testing the postbuild ...'
 
-jest --ci --rootDir ./scripts/release ./postbuild.test.js
+jest --ci --rootDir ./scripts/postbuild ./postbuild.test.js
 
 echo 'Postbuild done!'

@@ -4,8 +4,8 @@
  */
 
 // When on a "release" branch:
-// run: yarn nodemon --exec 'babel-node ./scripts/release/getNextReleaseVersion.js' --ext js --watch './scripts/**/*'
-// run (mjs): yarn nodemon --exec 'node --experimental-import-meta-resolve ./scripts/release/getNextReleaseVersion.mjs' --ext mjs --watch './scripts/**/*'
+// run: yarn nodemon --exec 'babel-node ./scripts/postbuild/getNextReleaseVersion.js' --ext js --watch './scripts/**/*'
+// run (mjs): yarn nodemon --exec 'node --experimental-import-meta-resolve ./scripts/postbuild/getNextReleaseVersion.mjs' --ext mjs --watch './scripts/**/*'
 
 const { exec } = require('child_process')
 const getBranchName = require('current-git-branch')

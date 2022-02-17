@@ -9,7 +9,7 @@ import {
   extractIconsAsPDF,
 } from './tasks/assetsExtractors'
 import { getFigmaDoc } from './helpers/docHelpers'
-import { getRequiredBranchName } from './../prepub/commitToBranch'
+import { getRequiredBranchName } from './../prebuild/commitToBranch'
 import { log, ErrorHandler } from '../lib'
 
 log.start('> Figma: Preparing for connecting to the Figma API ...')

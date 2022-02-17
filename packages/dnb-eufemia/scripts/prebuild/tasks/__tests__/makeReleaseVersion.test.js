@@ -6,11 +6,11 @@
 import fs from 'fs-extra'
 import { makeReleaseVersion } from '../makeReleaseVersion'
 import * as getBranchName from 'current-git-branch'
-import * as getNextReleaseVersion from '../../../release/getNextReleaseVersion'
+import * as getNextReleaseVersion from '../../../postbuild/getNextReleaseVersion'
 
-jest.mock('../../../release/getNextReleaseVersion', () => {
+jest.mock('../../../postbuild/getNextReleaseVersion', () => {
   return {
-    ...jest.requireActual('../../../release/getNextReleaseVersion'),
+    ...jest.requireActual('../../../postbuild/getNextReleaseVersion'),
     getNextReleaseVersion: jest.fn().mockResolvedValue(),
   }
 })

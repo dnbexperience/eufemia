@@ -1,0 +1,25 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "declarationDir": ".",
+    "rootDir": ".",
+    "baseUrl": "."
+  },
+  "include": ["src/**/*.js", "src/**/*.ts", "src/**/*.tsx"],
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "src/core",
+    "**/stories/**/*",
+    "**/__tests__/**/*"
+  ]
+}
