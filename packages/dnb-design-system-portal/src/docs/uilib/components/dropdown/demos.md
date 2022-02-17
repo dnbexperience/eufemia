@@ -16,6 +16,7 @@ DropdownSizes,
 DropdownCustomWidth,
 DropdownStatusVertical,
 DropdownListOpened,
+DropdownDisabledTertiary,
 } from 'Docs/uilib/components/dropdown/Examples'
 
 ## Demos
@@ -79,6 +80,10 @@ With long list to make it scrollable and searchable
 ### Disabled dropdown
 
 <DropdownDisabled />
+
+### Disabled tertiary dropdown
+
+<DropdownDisabledTertiary />
 
 ### DrawerList opened
 
