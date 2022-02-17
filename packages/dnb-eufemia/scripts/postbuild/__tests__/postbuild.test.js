@@ -8,23 +8,30 @@ import fs from 'fs-extra'
 import path from 'path'
 import packpath from 'packpath'
 
-const buildStages = ['es', 'esm', 'cjs']
+const makeStagePathException = (stage) => (stage === '/esm' ? '' : stage)
 
 describe('type definitions', () => {
+  const buildStages = ['/es', '/esm', '/cjs']
+
   it.each(buildStages)('has d.ts index file on stage %s', (stage) => {
-    const file = path.resolve(packpath.self(), `build/${stage}/index.d.ts`)
+    stage = makeStagePathException(stage)
+
+    const file = path.resolve(packpath.self(), `build${stage}/index.d.ts`)
     const exists = fs.existsSync(file)
+
     expect(exists).toBe(true)
   })
 
   it.each(buildStages)(
     'has correct Input type definitions on stage %s',
     (stage) => {
+      stage = makeStagePathException(stage)
+
       expect(
         fs.existsSync(
           path.resolve(
             packpath.self(),
-            `build/${stage}/components/Input.d.ts`
+            `build${stage}/components/Input.d.ts`
           )
         )
       ).toBe(true)
@@ -34,22 +41,22 @@ describe('type definitions', () => {
         fs.readFileSync(
           path.resolve(
             packpath.self(),
-            `build/${stage}/components/input/Input.d.ts`
+            `build${stage}/components/input/Input.d.ts`
           ),
           'utf-8'
         )
       ).toMatch(/export interface/g)
 
       // Test the output of js files
-      const dtsInput = path.resolve(
+      const file = path.resolve(
         packpath.self(),
-        `build/${stage}/components/input/Input.d.ts`
+        `build${stage}/components/input/Input.d.ts`
       )
 
-      expect(fs.existsSync(dtsInput)).toBe(true)
+      expect(fs.existsSync(file)).toBe(true)
 
-      const contentInput = fs.readFileSync(dtsInput, 'utf-8')
-      expect(contentInput).toContain(
+      const content = fs.readFileSync(file, 'utf-8')
+      expect(content).toContain(
         'export interface InputProps extends React.HTMLProps<HTMLElement>'
       )
     }
@@ -58,41 +65,37 @@ describe('type definitions', () => {
   it.each(buildStages)(
     'has correct Breadcrumb type definitions on stage %s',
     (stage) => {
+      stage = makeStagePathException(stage)
+
       // Test the output of tsx files
-      const tsxBreadcrumb = path.resolve(
+      const tsxFile = path.resolve(
         packpath.self(),
-        `build/${stage}/components/breadcrumb/Breadcrumb.tsx`
+        `build${stage}/components/breadcrumb/Breadcrumb.tsx`
       )
-      const dtsBreadcrumb = path.resolve(
+      const dtsFile = path.resolve(
         packpath.self(),
-        `build/${stage}/components/breadcrumb/Breadcrumb.d.ts`
+        `build${stage}/components/breadcrumb/Breadcrumb.d.ts`
       )
 
-      expect(fs.existsSync(tsxBreadcrumb)).toBe(false)
-      expect(fs.existsSync(dtsBreadcrumb)).toBe(true)
+      expect(fs.existsSync(tsxFile)).toBe(false)
+      expect(fs.existsSync(dtsFile)).toBe(true)
 
-      const contentBreadcrumb = fs.readFileSync(dtsBreadcrumb, 'utf-8')
-      expect(contentBreadcrumb).toContain(
-        'export interface BreadcrumbProps'
-      )
+      const content = fs.readFileSync(dtsFile, 'utf-8')
+      expect(content).toContain('export interface BreadcrumbProps')
     }
   )
 })
 
 describe('babel build', () => {
-  it.each(buildStages)('has correctly compiled on stage "%s"', (stage) => {
-    expect(
-      fs.existsSync(
-        path.resolve(packpath.self(), `build/${stage}/components/Input.js`)
-      )
-    ).toBe(true)
+  const buildStages = ['/es', '/esm', '/cjs']
 
+  it.each(buildStages)('has correctly compiled on stage "%s"', (stage) => {
     switch (stage) {
-      case 'cjs':
+      case '/cjs':
         {
           {
             const content = fs.readFileSync(
-              path.resolve(packpath.self(), `build/${stage}/index.js`),
+              path.resolve(packpath.self(), `build${stage}/index.js`),
               'utf-8'
             )
             expect(content).toContain(
@@ -103,15 +106,12 @@ describe('babel build', () => {
             // Has extra cjs package
             expect(
               fs.existsSync(
-                path.resolve(
-                  packpath.self(),
-                  `build/${stage}/package.json`
-                )
+                path.resolve(packpath.self(), `build${stage}/package.json`)
               )
             ).toBe(true)
 
             const packageJson = fs.readJsonSync(
-              path.resolve(packpath.self(), `build/${stage}/package.json`)
+              path.resolve(packpath.self(), `build${stage}/package.json`)
             )
 
             expect(packageJson.type).toBe('commonjs')
@@ -121,7 +121,7 @@ describe('babel build', () => {
             const content = fs.readFileSync(
               path.resolve(
                 packpath.self(),
-                `build/${stage}/components/input/Input.js`
+                `build${stage}/components/input/Input.js`
               ),
               'utf-8'
             )
@@ -133,7 +133,7 @@ describe('babel build', () => {
             const content = fs.readFileSync(
               path.resolve(
                 packpath.self(),
-                `build/${stage}/components/breadcrumb/Breadcrumb.js`
+                `build${stage}/components/breadcrumb/Breadcrumb.js`
               ),
               'utf-8'
             )
@@ -143,11 +143,13 @@ describe('babel build', () => {
         }
         break
 
-      case 'esm':
+      case '/esm':
         {
+          stage = makeStagePathException(stage)
+
           {
             const content = fs.readFileSync(
-              path.resolve(packpath.self(), `build/${stage}/index.js`),
+              path.resolve(packpath.self(), `build${stage}/index.js`),
               'utf-8'
             )
             expect(content).toContain('export default {};')
@@ -157,7 +159,7 @@ describe('babel build', () => {
             const content = fs.readFileSync(
               path.resolve(
                 packpath.self(),
-                `build/${stage}/components/input/Input.js`
+                `build${stage}/components/input/Input.js`
               ),
               'utf-8'
             )
@@ -172,7 +174,7 @@ describe('babel build', () => {
             const content = fs.readFileSync(
               path.resolve(
                 packpath.self(),
-                `build/${stage}/components/breadcrumb/Breadcrumb.js`
+                `build${stage}/components/breadcrumb/Breadcrumb.js`
               ),
               'utf-8'
             )
@@ -185,11 +187,11 @@ describe('babel build', () => {
         }
         break
 
-      case 'es':
+      case '/es':
         {
           {
             const content = fs.readFileSync(
-              path.resolve(packpath.self(), `build/${stage}/index.js`),
+              path.resolve(packpath.self(), `build${stage}/index.js`),
               'utf-8'
             )
             expect(content).toContain('export default {};')
@@ -199,7 +201,7 @@ describe('babel build', () => {
             const content = fs.readFileSync(
               path.resolve(
                 packpath.self(),
-                `build/${stage}/components/input/Input.js`
+                `build${stage}/components/input/Input.js`
               ),
               'utf-8'
             )
@@ -214,7 +216,7 @@ describe('babel build', () => {
             const content = fs.readFileSync(
               path.resolve(
                 packpath.self(),
-                `build/${stage}/components/breadcrumb/Breadcrumb.js`
+                `build${stage}/components/breadcrumb/Breadcrumb.js`
               ),
               'utf-8'
             )
@@ -222,6 +224,56 @@ describe('babel build', () => {
             expect(content).not.toContain('core-js/modules/es')
             expect(content).toContain(
               'import _extends from "@babel/runtime/helpers/esm/extends";'
+            )
+          }
+        }
+        break
+    }
+
+    stage = makeStagePathException(stage)
+
+    expect(
+      fs.existsSync(
+        path.resolve(packpath.self(), `build${stage}/components/Input.js`)
+      )
+    ).toBe(true)
+  })
+})
+
+describe('rollup build', () => {
+  const buildStages = ['/esm', '/umd']
+
+  it.each(buildStages)('has created a package on stage "%s"', (stage) => {
+    switch (stage) {
+      case '/esm':
+        {
+          {
+            const content = fs.readFileSync(
+              path.resolve(
+                packpath.self(),
+                `build${stage}/dnb-ui-lib.min.mjs`
+              ),
+              'utf-8'
+            )
+            expect(content).toContain(`import*as `)
+            expect(content).toContain(` from"react-dom";`)
+            expect(content).toContain(` from"../icons/primary_icons.js";`)
+          }
+        }
+        break
+
+      case '/umd':
+        {
+          {
+            const content = fs.readFileSync(
+              path.resolve(
+                packpath.self(),
+                `build${stage}/dnb-ui-lib.min.js`
+              ),
+              'utf-8'
+            )
+            expect(content).toContain(
+              'require("react"),require("react-dom")'
             )
           }
         }
