@@ -3,23 +3,39 @@ title: 'Before getting started'
 ---
 
 import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
+import { Hr } from '@dnb/eufemia/src'
 
 # What you should know before getting started
 
-**Last updated**: _24. November 2021_
-
 Before you get started, there are some technical decisions you should know about - as in every project.
 
-Skip to:
+**Table of Contents**
 
-- [About technology](/contribute/first-contribution/before-started#about-technology)
-- [Mono repository](/contribute/first-contribution/before-started#eufemia-is-a-mono-repository)
-  - [About project structure](/contribute/first-contribution/before-started#dnb-eufemia)
-  - [About configuration files](/contribute/first-contribution/before-started#configuration-files)
-  - [About types]()
-- [About components](/contribute/first-contribution/before-started#about-component-structure)
-  - [Component folder](/contribute/first-contribution/before-started#component-folder)
-- [Development environments](/contribute/first-contribution/before-started#development-environments)
+- [What you should know before getting started](#what-you-should-know-before-getting-started)
+  - [About technology](#about-technology)
+  - [Eufemia is a Mono Repository](#eufemia-is-a-mono-repository)
+    - [dnb-eufemia](#dnb-eufemia)
+    - [dnb-design-system-portal](#dnb-design-system-portal)
+    - [Configuration files](#configuration-files)
+    - [About Types](#about-types)
+      - [Manual type definitions](#manual-type-definitions)
+      - [Sharing PropTypes between components](#sharing-proptypes-between-components)
+      - [Shared Properties docs](#shared-properties-docs)
+      - [Local development](#local-development)
+  - [About component structure](#about-component-structure)
+    - [Component folder](#component-folder)
+      - [Modifications](#modifications)
+  - [Development environments](#development-environments)
+    - [Storybook development](#storybook-development)
+    - [Eufemia portal](#eufemia-portal)
+      - [Local build](#local-build)
+    - [Testing](#testing)
+    - [Run Algolia search queries locally](#run-algolia-search-queries-locally)
+  - [What happens in the build steps](#what-happens-in-the-build-steps)
+    - [During prebuild](#during-prebuild)
+    - [During postbuild](#during-postbuild)
+
+<Hr top="large" light />
 
 ## About technology
 
