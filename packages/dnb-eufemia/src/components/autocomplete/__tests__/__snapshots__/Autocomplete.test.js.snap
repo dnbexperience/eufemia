@@ -1365,6 +1365,140 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
       flex: none; } }
 
 /*
+* DNB Tooltip
+*
+*/
+.dnb-tooltip {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-tooltip *,
+  .dnb-tooltip ::before,
+  .dnb-tooltip ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-tooltip ::before,
+  .dnb-tooltip ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Tooltip component
+*
+*/
+.dnb-tooltip {
+  position: absolute;
+  z-index: 3100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease-out; }
+  .dnb-tooltip--large {
+    padding: 0.25rem 1rem; }
+  .dnb-tooltip--animate_position {
+    transition: all 300ms ease-in-out, opacity 200ms ease-out; }
+  .dnb-tooltip--active {
+    visibility: visible;
+    /*
+      because of the first \\"show\\" we also use animation
+      also, use forwards because of the usage of visibility
+    */
+    animation: show-tooltip 200ms ease-out forwards; }
+  html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {
+    animation: show-tooltip 1ms ease-out forwards; }
+  .dnb-tooltip--hide {
+    visibility: visible;
+    animation: hide-tooltip 200ms ease-in-out forwards; }
+  .dnb-tooltip--hide.dnb-tooltip--no-animation {
+    animation: hide-tooltip 1ms ease-out forwards; }
+  .dnb-tooltip--fixed {
+    position: fixed; }
+  html[data-visual-test] .dnb-tooltip--hide {
+    animation: hide-tooltip 1ms ease-out 1s forwards; }
+  .dnb-tooltip__content {
+    min-width: 2rem;
+    min-height: 1.5rem;
+    padding: 0; }
+  .dnb-tooltip__arrow {
+    position: absolute;
+    pointer-events: none;
+    margin: 0;
+    width: 1rem;
+    height: 0.5rem;
+    overflow: hidden; }
+    .dnb-tooltip__arrow::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 1rem;
+      height: 1rem;
+      transform: translateY(70%) rotate(45deg); }
+    .dnb-tooltip__arrow__position--bottom {
+      top: -0.5rem; }
+    .dnb-tooltip__arrow__position--top {
+      bottom: -0.5rem;
+      transform: rotate(180deg); }
+    .dnb-tooltip__arrow__position--left {
+      right: -0.75rem;
+      margin-right: 3px;
+      transform: rotate(90deg); }
+    .dnb-tooltip__arrow__position--right {
+      left: -0.75rem;
+      margin-left: 3px;
+      transform: rotate(270deg); }
+    .dnb-tooltip__arrow__arrow--left {
+      align-self: flex-start; }
+    .dnb-tooltip__arrow__arrow--right {
+      align-self: flex-end; }
+
+@keyframes show-tooltip {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+@keyframes hide-tooltip {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0;
+    visibility: hidden; } }
+
+/*
 * DNB FormStatus
 *
 */
@@ -2133,6 +2267,265 @@ legend.dnb-form-label {
         width: 100%; }
       .dnb-input__input, .dnb-input__placeholder {
         transform: translateY(-0.0625rem); } }
+
+/*
+* DNB Dropdown
+*
+*/
+.dnb-dropdown {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-dropdown *,
+  .dnb-dropdown ::before,
+  .dnb-dropdown ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-dropdown ::before,
+  .dnb-dropdown ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Dropdown component
+*
+*/
+:root {
+  --dropdown-width: 16rem;
+  --dropdown-height: 2rem;
+  --dropdown-height--small: 1.5rem;
+  --dropdown-height--medium: 2.5rem;
+  --dropdown-height--large: 3rem;
+  --dropdown-padding-horizontal: 1rem;
+  --dropdown-focus-border-width: 0.125rem;
+  --dropdown-text-padding: 0.5rem;
+  --dropdown-border-radius: 0.25rem; }
+
+.dnb-dropdown {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--font-size-small);
+  line-height: var(--dropdown-height); }
+  .dnb-dropdown__inner {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    color: inherit; }
+  .dnb-dropdown__shell {
+    position: relative;
+    width: var(--dropdown-width);
+    height: var(--dropdown-height);
+    margin: 0;
+    padding: 0;
+    color: inherit; }
+  .dnb-dropdown__row {
+    display: inline-flex; }
+  .dnb-dropdown--large .dnb-drawer-list__triangle {
+    margin-left: calc(var(--dropdown-padding-horizontal) - 0.25rem); }
+  .dnb-dropdown--icon-position-left.dnb-dropdown--large .dnb-drawer-list__triangle {
+    margin-left: calc(var(--dropdown-padding-horizontal) + 0.25rem); }
+  .dnb-dropdown__icon {
+    position: relative;
+    order: 2;
+    display: inline-flex;
+    justify-content: center;
+    pointer-events: none; }
+  .dnb-dropdown__trigger {
+    position: relative;
+    z-index: 1;
+    user-select: none;
+    -webkit-user-select: none;
+    width: 100%; }
+    .dnb-dropdown__trigger.dnb-button {
+      padding: 0 1rem;
+      border-radius: var(--dropdown-border-radius); }
+  .dnb-dropdown--is-popup .dnb-dropdown__trigger.dnb-button {
+    padding: 0;
+    border-radius: 50%; }
+  .dnb-dropdown__text {
+    order: 1;
+    position: relative;
+    z-index: 4;
+    display: inline-flex;
+    width: 100%;
+    overflow: hidden;
+    color: inherit;
+    text-align: left;
+    text-overflow: ellipsis;
+    line-height: inherit;
+    font-size: var(--font-size-basis); }
+    .dnb-dropdown__text__inner {
+      display: inherit;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: inherit; }
+  .dnb-dropdown--icon-position-left .dnb-dropdown__text {
+    order: 2;
+    padding-right: 0;
+    padding-left: var(--dropdown-text-padding); }
+  .dnb-dropdown--icon-position-left .dnb-dropdown__icon {
+    order: 1; }
+  .dnb-dropdown--icon-position-right .dnb-dropdown__text {
+    padding-right: var(--dropdown-text-padding); }
+  .dnb-dropdown--independent-width .dnb-dropdown__shell {
+    width: auto; }
+  @media screen and (max-width: 40em) {
+    .dnb-dropdown--action-menu .dnb-dropdown__trigger.dnb-button {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+      border-radius: 50%; } }
+  @media screen and (min-width: 40em) {
+    .dnb-dropdown--action-menu .dnb-dropdown__shell .dnb-dropdown__text {
+      padding: 0 0.5rem; } }
+  @media screen and (max-width: 40em) {
+    .dnb-dropdown--action-menu .dnb-dropdown__shell .dnb-dropdown__text {
+      width: 0;
+      padding: 0; } }
+  .dnb-dropdown--icon-position-left .dnb-button--tertiary
+~ .dnb-drawer-list__root--portal {
+    left: -0.5rem; }
+  .dnb-dropdown--icon-position-right .dnb-button--tertiary
+~ .dnb-drawer-list__root--portal {
+    left: 0.5rem; }
+  .dnb-dropdown .dnb-button--tertiary.dnb-button--active {
+    box-shadow: none; }
+  .dnb-dropdown .dnb-button--tertiary .dnb-button__text {
+    margin: 0 0.5rem; }
+    .dnb-dropdown .dnb-button--tertiary .dnb-button__text::after {
+      bottom: 0; }
+  .dnb-dropdown--icon-position-left .dnb-button--tertiary .dnb-dropdown__text,
+  .dnb-dropdown--icon-position-right .dnb-button--tertiary .dnb-dropdown__text {
+    padding: 0; }
+  .dnb-dropdown .dnb-button--tertiary:focus::before {
+    left: 0 !important;
+    right: 0 !important; }
+  .dnb-dropdown--default.dnb-dropdown--is-popup .dnb-dropdown__shell,
+  .dnb-dropdown--is-popup .dnb-dropdown__trigger {
+    padding: 0;
+    width: var(--dropdown-height);
+    height: var(--dropdown-height); }
+  .dnb-dropdown--is-popup .dnb-dropdown__icon {
+    width: 100%; }
+  .dnb-dropdown--is-popup.dnb-dropdown--scroll .dnb-dropdown__options {
+    min-height: 1rem; }
+  .dnb-dropdown--is-popup .dnb-drawer-list__root {
+    width: var(--dropdown-width); }
+  .dnb-dropdown--small.dnb-dropdown--is-popup .dnb-dropdown__shell,
+  .dnb-dropdown--small.dnb-dropdown--is-popup .dnb-dropdown__trigger {
+    width: var(--dropdown-height--small); }
+  .dnb-dropdown--medium.dnb-dropdown--is-popup .dnb-dropdown__shell,
+  .dnb-dropdown--medium.dnb-dropdown--is-popup .dnb-dropdown__trigger {
+    width: var(--dropdown-height--medium); }
+  .dnb-dropdown--large.dnb-dropdown--is-popup .dnb-dropdown__shell,
+  .dnb-dropdown--large.dnb-dropdown--is-popup .dnb-dropdown__trigger {
+    width: var(--dropdown-height--large); }
+  .dnb-dropdown--small .dnb-dropdown__shell,
+  .dnb-dropdown--small .dnb-dropdown__trigger {
+    height: var(--dropdown-height--small); }
+  .dnb-dropdown--small,
+  .dnb-dropdown--small .dnb-dropdown__trigger.dnb-button {
+    line-height: var(--dropdown-height--small); }
+  .dnb-dropdown--medium .dnb-dropdown__shell,
+  .dnb-dropdown--medium .dnb-dropdown__trigger {
+    height: var(--dropdown-height--medium); }
+  .dnb-dropdown--medium,
+  .dnb-dropdown--medium .dnb-dropdown__trigger.dnb-button {
+    line-height: var(--dropdown-height--medium); }
+  .dnb-dropdown--large .dnb-dropdown__shell,
+  .dnb-dropdown--large .dnb-dropdown__trigger {
+    height: var(--dropdown-height--large); }
+  .dnb-dropdown--large,
+  .dnb-dropdown--large .dnb-dropdown__trigger.dnb-button {
+    line-height: var(--dropdown-height--large); }
+  .dnb-dropdown--large .dnb-dropdown__trigger.dnb-button .dnb-dropdown__text {
+    line-height: var(--line-height-basis); }
+  .dnb-dropdown > .dnb-form-label {
+    margin-right: 1rem;
+    line-height: var(--line-height-basis); }
+  @media screen and (max-width: 40em) {
+    .dnb-dropdown {
+      flex-wrap: wrap; }
+      .dnb-dropdown > .dnb-form-label {
+        margin-bottom: 0.5rem;
+        margin-top: 0.5rem; } }
+  .dnb-dropdown--stretch {
+    display: flex;
+    flex-grow: 1; }
+  .dnb-dropdown--stretch .dnb-dropdown__inner {
+    flex-grow: 1; }
+  .dnb-dropdown--stretch .dnb-dropdown__row, .dnb-dropdown--stretch .dnb-dropdown__inner, .dnb-dropdown--stretch .dnb-dropdown__shell {
+    width: 100%; }
+  .dnb-dropdown--stretch .dnb-form-label + .dnb-dropdown__inner {
+    width: auto; }
+  .dnb-dropdown--vertical.dnb-dropdown--stretch .dnb-dropdown__inner {
+    width: 100%; }
+  .dnb-form-row--horizontal .dnb-dropdown--stretch {
+    width: 100%; }
+  label + .dnb-dropdown[class*='__form-status'] {
+    vertical-align: top; }
+    label + .dnb-dropdown[class*='__form-status'] .dnb-dropdown__shell {
+      top: -0.375rem; }
+  .dnb-dropdown__inner > .dnb-form-status {
+    order: 2;
+    margin-top: 0.5rem; }
+  .dnb-dropdown--vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; }
+  .dnb-dropdown:not(.dnb-dropdown--vertical)[class*='__status'] {
+    align-items: flex-start; }
+    .dnb-dropdown:not(.dnb-dropdown--vertical)[class*='__status'] > .dnb-form-label {
+      margin-top: 0.25rem; }
+  @media screen and (max-width: 40em) {
+    .dnb-responsive-component .dnb-dropdown {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 0.5rem; }
+      .dnb-responsive-component .dnb-dropdown > .dnb-form-label {
+        margin-bottom: 0.5rem; }
+      .dnb-responsive-component .dnb-dropdown__helper {
+        display: none; } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-dropdown {
+      flex: none;
+      vertical-align: baseline; }
+      .dnb-dropdown__shell {
+        top: 0; }
+      .dnb-dropdown__options {
+        display: block; } }
 
 /*
 * DNB ProgressIndicator
