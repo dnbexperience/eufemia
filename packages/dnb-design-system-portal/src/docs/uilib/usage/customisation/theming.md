@@ -8,6 +8,20 @@ order: 7
 Read the [Styling examples](/uilib/usage/customisation/styling) on how to include styles and a theme.
 This section is about how theming works and how to actually create a custom theme.
 
+- [Theming](#theming)
+  - [WIP: Ready to use themes](#wip-ready-to-use-themes)
+    - [Chrome Extension: Eufemia Theme Manager](#chrome-extension-eufemia-theme-manager)
+  - [Component theming](#component-theming)
+    - [Theming inside your application](#theming-inside-your-application)
+    - [Using `postcss-replace`](#using-postcss-replace)
+    - [Using CSS (vars) Custom Properties](#using-css-vars-custom-properties)
+  - [Integrated theming](#integrated-theming)
+    - [Brand theming](#brand-theming)
+    - [Run the portal with a different theme](#run-the-portal-with-a-different-theme)
+    - [Technical aspects](#technical-aspects)
+    - [Local Theming setup](#local-theming-setup)
+      - [_Method:_ yarn link and SASS](#method-yarn-link-and-sass)
+
 ## WIP: Ready to use themes
 
 Right now, theres work going on to create Eufemia Themes that utilize both color and spacing and the [Spatial system](/quickguide-designer/spatial-system).
@@ -27,15 +41,34 @@ You can also download the [Chrome Browser Extension (ZIP)](https://github.com/dn
 
 Contributions are welcome. Heres the [source code](https://github.com/dnbexperience/eufemia-theme-manager).
 
-## How are component themes built
+## Component theming
 
-By default, all the HTML Elements (components) are built by separating the "visual styling" parts from the "functional layout" parts. This way we can create new custom visual styles.
+By default, all the HTML Elements (components) are built by separating the "visual styling" parts from the "functional layout" parts. This way we can create new custom visual styles:
 
-Of course, we can still overwrite the functional layout properties to customize our theme even further.
+```js
+/button/style/_button.scss // layout styles
+/button/style/themes/dnb-button-theme-ui.scss // main theme styles
+/button/style/themes/dnb-button-theme-eiendom.scss// additional theme styles
+```
 
-### The total custom way
+- The main theme (`ui`) does contain mainly colorization and sizes.
+- While all the raw positioning and layout related properties are in the main `.scss` file, starting with an underscore: `_button.scss`
 
-Simply do not import **dnb-theme-ui** and create your own visual styles for every component you use in your App.
+It's still possible to overwrite the _layout_ properties to customize our theme even further, if that is needed.
+
+### Theming inside your application
+
+You can skip to import the default theme `dnb-theme-ui` and create your own visual styles for every component you use in your App:
+
+```diff
+import '@dnb/eufemia/style/core' // or /basis, when dnb-core-style is used
+import '@dnb/eufemia/style/components'
+- import '@dnb/eufemia/style/themes/ui'
+```
+
+This approach is fragile, because further Eufemia changes and updates will possibly misalign with your customization.
+
+Therefore, its probably a good idea to rather create theme styling files inside of the Eufemia repo itself. More on that topic in [integrated theming](#integrated-theming).
 
 ### Using `postcss-replace`
 
@@ -61,12 +94,26 @@ If your applications only need new colors or other CSS properties, you could sim
 
 This is for sure a very nice and powerful solution, but lacks Internet Explorer support.
 
-## The hard way
+## Integrated theming
 
-Maybe the most common ways would be:
+Eufemia supports theming right inside where all the style-sources lives. Having the ability to control different styles as close to the source as possible, will make it possible to carefully handle continues improvements over time.
 
-- Make a Fork of Eufemia and go from there
-- Submit a request of creating a theme inside the main Eufemia repository so everyone can get access to it.
+### Brand theming
+
+Eufemia is design system that aims to help DNB brands unleash their power.
+
+Eufemia is a system that is build on top of brand-assets. So means, it should be possible to swap out or extend these brand-assets.
+
+Therefore, instead of overwriting Eufemia (DNB main brand) styles inside projects, it is beneficial to create additional brand themes – directly where the source of the original brand lives.
+
+The default DNB brand theme is called: `ui` which stands for _user interface_.
+
+### Run the portal with a different theme
+
+- Create a new `/packages/dnb-design-system-portal/.env` file that includes e.g. `GATSBY_STYLE_THEME=eiendom` and start the portal with `$ yarn start`.
+- What theme gets imported is defined in this file: `PortalStylesAndProviders`.
+- WIP: We may add an easy way to switch themes directly in the portal itself.
+- WIP: We may also find a solution to make visual tests to verify some theme changed properties.
 
 ### Technical aspects
 
@@ -83,6 +130,8 @@ From here, we "can" reuse some default theming mechanism, just to have a fallbac
 All the additional sub theming files (for every component) are automatically added to the **Main Theming File** by running `$ yarn build`. More on that further down.
 
 If we need a custom theming file for one or more components, we can do so by creating `dnb-eufemia/src/components/[COMPONENT]/style/dnb-button-theme-[THEME].scss`.
+
+**NB:** Every time you create a new theme file, you have to run `$ yarn build`. This way the new theme file gets added/bundled to the **Main Theming File**.
 
 ### Local Theming setup
 
@@ -129,5 +178,3 @@ import 'dnb-eufemia/src/style/themes/dnb-theme-[MY THEME].scss'
     ...
   }
 ```
-
-**7.** _Note:_ Every time you create a new theme file, you have to run `yarn build` again. This way the new theme file gets added/bundled to the **Main Theming File**.

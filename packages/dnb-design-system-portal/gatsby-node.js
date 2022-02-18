@@ -189,6 +189,7 @@ exports.onCreateWebpackConfig = ({ actions, plugins }) => {
     },
     plugins: [
       plugins.define({
+        'process.env.STYLE_THEME': JSON.stringify(getStyleTheme()),
         'process.env.CURRENT_BRANCH': JSON.stringify(currentBranch),
         'process.env.PREBUILD_EXISTS': JSON.stringify(prebuildExists),
       }),
@@ -220,4 +221,22 @@ exports.onCreateDevServer = () => {
   } = require('gatsby-plugin-remove-serviceworker/gatsby-node.js')
 
   onPostBuild()
+}
+
+function getStyleTheme() {
+  let themeName = 'ui'
+  if (typeof process.env.GATSBY_STYLE_THEME !== 'undefined') {
+    themeName = process.env.GATSBY_STYLE_THEME
+  }
+
+  /**
+   * Checking for "branch name" could be interesting to have,
+   * but this requires that we have a visual testing strategy in place first.
+   *
+   */
+  if (process.env.GATSBY_CLOUD && currentBranch.includes('eiendom')) {
+    themeName = 'eiendom'
+  }
+
+  return themeName
 }
