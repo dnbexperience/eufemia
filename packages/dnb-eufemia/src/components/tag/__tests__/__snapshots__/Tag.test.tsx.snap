@@ -828,10 +828,14 @@ button.dnb-button::-moz-focus-inner {
 .dnb-tag--removable.dnb-button--size-small.dnb-button--has-icon {
   padding-right: 0; }
 
-.dnb-tag__group .dnb-button:not([class*='dnb-space']):not(:last-of-type) {
-  margin-right: 0.25rem; }
-
-.dnb-tag__group .dnb-button:not([class*='dnb-space']):not(:first-of-type) {
-  margin-left: 0.25rem; }
+.dnb-tag__group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.5rem; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-tag__group .dnb-button:not([class*='dnb-space']) {
+      margin-bottom: 0.5rem; }
+      .dnb-tag__group .dnb-button:not([class*='dnb-space']):not(:last-of-type) {
+        margin-right: 0.5rem; } }
 "
 `;
