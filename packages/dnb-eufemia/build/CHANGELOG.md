@@ -3,6 +3,22 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.23.0-beta.4](https://github.com/dnbexperience/eufemia/compare/v9.23.0-beta.3...v9.23.0-beta.4) (2022-02-21)
+
+
+### Bug Fixes
+
+* **Dropdown:** disabled tertiary dropdown ([c1b4c4b](https://github.com/dnbexperience/eufemia/commit/c1b4c4b58511a7055e95ac32e0ed849e1838f075))
+* **Styles:** ensure independent styling packages have declared their dependencies ([8b3c230](https://github.com/dnbexperience/eufemia/commit/8b3c230b4e0c91d96695791731b61a6b8641c9db))
+
+
+### Features
+
+* **esm:** remove esm directory in package build ([f189b62](https://github.com/dnbexperience/eufemia/commit/f189b62dfcb620f0d0f7f8673c781c3e08060d32))
+* **Icon:** add examples for color property ([#1275](https://github.com/dnbexperience/eufemia/issues/1275)) ([67f8121](https://github.com/dnbexperience/eufemia/commit/67f8121485bbb419c6cc5f104023ccb619aeac73))
+* **Tabs:** Enhance parent width handling and remove auto edge detection ([d002f2c](https://github.com/dnbexperience/eufemia/commit/d002f2cada9a31d1923e6507d2015a06b751be71))
+* **TypeScript:** remove original ts/tsx files and only leave type definition files ([#1292](https://github.com/dnbexperience/eufemia/issues/1292)) ([79bdfb4](https://github.com/dnbexperience/eufemia/commit/79bdfb404dd9ebd484fff4770e849e16b6bbff2e))
+
 # [9.23.0-beta.3](https://github.com/dnbexperience/eufemia/compare/v9.23.0-beta.2...v9.23.0-beta.3) (2022-02-17)
 
 
