@@ -71,6 +71,26 @@ const DropdownStory = () => {
         <Dropdown variant="primary" title="Primary" data={data} top />
         <Dropdown variant="signal" title="Signal" data={data} top />
         <Dropdown variant="tertiary" title="Tertiary" data={data} top />
+        <Dropdown
+          variant="tertiary"
+          title="Tertiary disabled"
+          disabled
+          data={data}
+        />
+        <Dropdown
+          variant="secondary"
+          title="Secondary disabled"
+          disabled
+          data={data}
+          top
+        />
+        <Dropdown
+          variant="primary"
+          title="Primary disabled"
+          disabled
+          data={data}
+          top
+        />
       </Box>
       <Box>
         <RightAligned>
