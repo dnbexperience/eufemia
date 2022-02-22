@@ -17,7 +17,7 @@ const siteMetadata = {
 }
 
 const plugins = [
-  {
+  process.env.GATSBY_CLOUD === 'true' && {
     resolve: 'gatsby-plugin-gatsby-cloud',
     options: {},
   },
