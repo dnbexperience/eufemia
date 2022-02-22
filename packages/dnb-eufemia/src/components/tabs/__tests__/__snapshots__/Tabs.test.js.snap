@@ -73,7 +73,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                 href={null}
                 icon="chevron_left"
                 icon_position="right"
-                icon_size="medium"
+                icon_size={null}
                 id={null}
                 innerRef={null}
                 inner_ref={null}
@@ -97,7 +97,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
               >
                 <button
                   aria-hidden={true}
-                  className="dnb-button dnb-button--primary dnb-tabs__scroll-nav-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
+                  className="dnb-button dnb-button--primary dnb-tabs__scroll-nav-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
                   disabled={false}
                   onMouseDown={[Function]}
                   tabIndex="-1"
@@ -118,7 +118,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                     href={null}
                     icon="chevron_left"
                     icon_position="right"
-                    icon_size="medium"
+                    icon_size={null}
                     id={null}
                     innerRef={null}
                     inner_ref={null}
@@ -163,34 +163,34 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                       inherit_color={true}
                       key="button-icon"
                       modifier={null}
-                      size="medium"
+                      size={null}
                       skeleton={false}
                       title={null}
                       width={null}
                     >
                       <span
                         aria-hidden={true}
-                        className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
+                        className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                         data-test-id="chevron left icon"
                         role="presentation"
                       >
-                        <chevron_left_medium>
+                        <chevron_left>
                           <svg
                             fill="none"
-                            height={24}
-                            viewBox="0 0 24 24"
-                            width={24}
+                            height={16}
+                            viewBox="0 0 16 16"
+                            width={16}
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="m15 5-7 7 7 7"
+                              d="M10 3 5 8l5 5"
                               stroke="#000"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               strokeWidth={1.5}
                             />
                           </svg>
-                        </chevron_left_medium>
+                        </chevron_left>
                       </span>
                     </IconPrimary>
                   </Content>
@@ -350,7 +350,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                 href={null}
                 icon="chevron_right"
                 icon_position="right"
-                icon_size="medium"
+                icon_size={null}
                 id={null}
                 innerRef={null}
                 inner_ref={null}
@@ -374,7 +374,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
               >
                 <button
                   aria-hidden={true}
-                  className="dnb-button dnb-button--primary dnb-tabs__scroll-nav-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
+                  className="dnb-button dnb-button--primary dnb-tabs__scroll-nav-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
                   disabled={false}
                   onMouseDown={[Function]}
                   tabIndex="-1"
@@ -395,7 +395,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                     href={null}
                     icon="chevron_right"
                     icon_position="right"
-                    icon_size="medium"
+                    icon_size={null}
                     id={null}
                     innerRef={null}
                     inner_ref={null}
@@ -440,34 +440,34 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                       inherit_color={true}
                       key="button-icon"
                       modifier={null}
-                      size="medium"
+                      size={null}
                       skeleton={false}
                       title={null}
                       width={null}
                     >
                       <span
                         aria-hidden={true}
-                        className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
+                        className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                         data-test-id="chevron right icon"
                         role="presentation"
                       >
-                        <chevron_right_medium>
+                        <chevron_right>
                           <svg
                             fill="none"
-                            height={24}
-                            viewBox="0 0 24 24"
-                            width={24}
+                            height={16}
+                            viewBox="0 0 16 16"
+                            width={16}
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="m9 19 7-7-7-7"
+                              d="m6 13 5-5-5-5"
                               stroke="#000"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               strokeWidth={1.5}
                             />
                           </svg>
-                        </chevron_right_medium>
+                        </chevron_right>
                       </span>
                     </IconPrimary>
                   </Content>
@@ -659,7 +659,7 @@ exports[`Tabs component have to match snapshot 1`] = `
               href={null}
               icon="chevron_left"
               icon_position="right"
-              icon_size="medium"
+              icon_size={null}
               id={null}
               innerRef={null}
               inner_ref={null}
@@ -683,7 +683,7 @@ exports[`Tabs component have to match snapshot 1`] = `
             >
               <button
                 aria-hidden={true}
-                className="dnb-button dnb-button--primary dnb-tabs__scroll-nav-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
+                className="dnb-button dnb-button--primary dnb-tabs__scroll-nav-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
                 disabled={false}
                 onMouseDown={[Function]}
                 tabIndex="-1"
@@ -704,7 +704,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                   href={null}
                   icon="chevron_left"
                   icon_position="right"
-                  icon_size="medium"
+                  icon_size={null}
                   id={null}
                   innerRef={null}
                   inner_ref={null}
@@ -749,34 +749,34 @@ exports[`Tabs component have to match snapshot 1`] = `
                     inherit_color={true}
                     key="button-icon"
                     modifier={null}
-                    size="medium"
+                    size={null}
                     skeleton={false}
                     title={null}
                     width={null}
                   >
                     <span
                       aria-hidden={true}
-                      className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
+                      className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                       data-test-id="chevron left icon"
                       role="presentation"
                     >
-                      <chevron_left_medium>
+                      <chevron_left>
                         <svg
                           fill="none"
-                          height={24}
-                          viewBox="0 0 24 24"
-                          width={24}
+                          height={16}
+                          viewBox="0 0 16 16"
+                          width={16}
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="m15 5-7 7 7 7"
+                            d="M10 3 5 8l5 5"
                             stroke="#000"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={1.5}
                           />
                         </svg>
-                      </chevron_left_medium>
+                      </chevron_left>
                     </span>
                   </IconPrimary>
                 </Content>
@@ -936,7 +936,7 @@ exports[`Tabs component have to match snapshot 1`] = `
               href={null}
               icon="chevron_right"
               icon_position="right"
-              icon_size="medium"
+              icon_size={null}
               id={null}
               innerRef={null}
               inner_ref={null}
@@ -960,7 +960,7 @@ exports[`Tabs component have to match snapshot 1`] = `
             >
               <button
                 aria-hidden={true}
-                className="dnb-button dnb-button--primary dnb-tabs__scroll-nav-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--size-medium"
+                className="dnb-button dnb-button--primary dnb-tabs__scroll-nav-button dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-medium"
                 disabled={false}
                 onMouseDown={[Function]}
                 tabIndex="-1"
@@ -981,7 +981,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                   href={null}
                   icon="chevron_right"
                   icon_position="right"
-                  icon_size="medium"
+                  icon_size={null}
                   id={null}
                   innerRef={null}
                   inner_ref={null}
@@ -1026,34 +1026,34 @@ exports[`Tabs component have to match snapshot 1`] = `
                     inherit_color={true}
                     key="button-icon"
                     modifier={null}
-                    size="medium"
+                    size={null}
                     skeleton={false}
                     title={null}
                     width={null}
                   >
                     <span
                       aria-hidden={true}
-                      className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
+                      className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
                       data-test-id="chevron right icon"
                       role="presentation"
                     >
-                      <chevron_right_medium>
+                      <chevron_right>
                         <svg
                           fill="none"
-                          height={24}
-                          viewBox="0 0 24 24"
-                          width={24}
+                          height={16}
+                          viewBox="0 0 16 16"
+                          width={16}
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="m9 19 7-7-7-7"
+                            d="m6 13 5-5-5-5"
                             stroke="#000"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={1.5}
                           />
                         </svg>
-                      </chevron_right_medium>
+                      </chevron_right>
                     </span>
                   </IconPrimary>
                 </Content>
@@ -1368,8 +1368,6 @@ exports[`Tabs scss have to match snapshot 1`] = `
     .dnb-tabs__scroll-nav-button:first-of-type {
       left: -2px;
       right: auto; }
-    .dnb-tabs__scroll-nav-button.dnb-button--primary {
-      background-color: var(--color-emerald-green); }
     .dnb-tabs__scroll-nav-button--visible {
       display: flex;
       pointer-events: initial;

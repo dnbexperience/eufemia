@@ -1232,7 +1232,6 @@ const ScrollNavButton = (props) => {
       tabIndex="-1"
       bounding
       aria-hidden
-      icon_size="medium"
       {...props}
       className={classnames(
         'dnb-tabs__scroll-nav-button',

@@ -67,10 +67,6 @@
       right: auto;
     }
 
-    &.dnb-button--primary {
-      background-color: var(--color-emerald-green);
-    }
-
     display: none; // use "none" to remove it from markup by default
     opacity: 0;
     pointer-events: none;
