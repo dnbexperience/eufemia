@@ -79,25 +79,25 @@ export const InfoCardSandbox = () => (
     </Box>
     <Box>
       <InfoCard
-        on_accept={() => console.log('accept')}
-        accept_button_text="accept"
+        onAccept={() => console.log('accept')}
+        acceptButtonText="accept"
         text="This is a description of some information or a tip that will inform the user of something that will help them."
       />
       <InfoCard
-        on_accept={() => console.log('accept')}
-        accept_button_text="Accept"
-        on_close={() => console.log('close')}
-        close_button_text="Close"
+        onAccept={() => console.log('accept')}
+        acceptButtonText="Accept"
+        onClose={() => console.log('close')}
+        closeButtonText="Closeeeeeeeeeeeeeee"
         text="This is a description of some information or a tip that will inform the user of something that will help them."
       />
     </Box>
     <Box>
       <InfoCard
         centered
-        on_accept={() => console.log('accept')}
-        accept_button_text="Accept"
-        on_close={() => console.log('close')}
-        close_button_text="Close"
+        onAccept={() => console.log('accept')}
+        acceptButtonText="Accept"
+        onClose={() => console.log('close')}
+        closeButtonText="Close"
         text="This is a description of some information or a tip that will inform the user of something that will help them."
       />
     </Box>
