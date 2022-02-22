@@ -353,6 +353,73 @@ exports[`Accordion scss have to match snapshot 1`] = `
  * Document Reset
  *
  */
+/*
+* DNB icon
+*
+*/
+/*
+* Icon component
+*
+*/
+.dnb-icon {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: inherit;
+  width: 1em;
+  height: 1em; }
+  .dnb-icon img,
+  .dnb-icon svg {
+    width: inherit;
+    height: inherit;
+    shape-rendering: geometricPrecision;
+    vertical-align: top; }
+  .dnb-icon svg[width='100%'] {
+    width: inherit; }
+  .dnb-icon svg[height='100%'] {
+    height: inherit; }
+  .dnb-icon--inherit-color svg:not([fill]),
+  .dnb-icon--inherit-color svg [fill] {
+    fill: currentColor; }
+  .dnb-icon--inherit-color svg [stroke] {
+    stroke: currentColor; }
+  .dnb-icon--small {
+    font-size: 0.75rem; }
+  .dnb-icon--default {
+    font-size: 1rem; }
+  .dnb-icon--medium {
+    font-size: 1.5rem; }
+  .dnb-icon--large {
+    font-size: 2rem; }
+  .dnb-icon--x-large {
+    font-size: 2.5rem; }
+  .dnb-icon--xx-large {
+    font-size: 3rem; }
+  .dnb-icon--custom-size {
+    width: auto;
+    height: auto; }
+  .dnb-icon--auto {
+    font-size: 1em; }
+  .dnb-icon--auto > .dnb-icon--wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; }
+  h1 .dnb-icon,
+  h2 .dnb-icon,
+  h3 .dnb-icon,
+  h4 .dnb-icon,
+  h5 .dnb-icon,
+  h6 .dnb-icon {
+    vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-icon {
+      flex: none; } }
+
 .dnb-accordion {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-basis);

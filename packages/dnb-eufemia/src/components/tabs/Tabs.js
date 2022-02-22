@@ -87,6 +87,10 @@ export default class Tabs extends React.PureComponent {
     tabs_style: PropTypes.string,
     tabs_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_border: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    nav_button_edge: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
     use_hash: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prerender: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     prevent_rerender: PropTypes.oneOfType([
@@ -126,6 +130,7 @@ export default class Tabs extends React.PureComponent {
     tabs_style: null,
     tabs_spacing: null,
     no_border: false,
+    nav_button_edge: false,
     use_hash: false,
     prerender: false,
     prevent_rerender: false,
@@ -191,10 +196,8 @@ export default class Tabs extends React.PureComponent {
         props.selected_key &&
         state._selected_key !== props.selected_key
       ) {
-        state.selected_key = state._selected_key = Tabs.getSelectedKeyOrFallback(
-          props.selected_key,
-          state.data
-        )
+        state.selected_key = state._selected_key =
+          Tabs.getSelectedKeyOrFallback(props.selected_key, state.data)
       }
     }
     state._listenForPropChanges = true
@@ -230,7 +233,12 @@ export default class Tabs extends React.PureComponent {
             delete componentProps.title
           }
 
-          const { title, key: _key, hash, ...rest } = {
+          const {
+            title,
+            key: _key,
+            hash,
+            ...rest
+          } = {
             ...dataProps,
             ...componentProps,
             ...{ children: null }, // remove children, if there is some
@@ -285,7 +293,7 @@ export default class Tabs extends React.PureComponent {
       data
     )
 
-    // check if we have to open a diffrent tab
+    // check if we have to open a different tab
     if (props.use_hash && typeof window !== 'undefined') {
       try {
         const useHashKey = String(window.location.hash).replace('#', '')
@@ -300,10 +308,10 @@ export default class Tabs extends React.PureComponent {
     const lastPosition = this.getLastPosition()
     this.state = {
       data,
-      lastPosition,
       selected_key,
       focus_key: selected_key,
       atEdge: false,
+      lastPosition,
       hasScrollbar: lastPosition > -1,
       _selected_key: selected_key,
       _data: props.data || props.children,
@@ -335,7 +343,6 @@ export default class Tabs extends React.PureComponent {
       this._eventEmitter.remove()
       this._eventEmitter = null
     }
-    clearTimeout(this._scrollToTabTimeout)
     if (typeof window !== 'undefined') {
       window.removeEventListener('resize', this.onResizeHandler)
       window.removeEventListener('load', this.init)
@@ -345,34 +352,64 @@ export default class Tabs extends React.PureComponent {
   init = () => {
     if (this._isMounted) {
       this.addScrollBehaviour()
-      this.scrollToLastPosition()
-      this.scrollToTab('selected')
 
-      if (this.getLastUsedTab() !== null) {
-        this.setState(null, this.setFocusOnTab)
+      const hasScrollbar = this.hasScrollbar()
+      const hasLastPosition = this.hasLastPosition()
+      this.setScrollbarState({ hasScrollbar })
+
+      if (hasLastPosition) {
+        this.setLeftPosition(this.state.lastPosition)
+      }
+
+      if (hasScrollbar) {
+        this.scrollToTab({
+          type: 'selected',
+          behavior: hasLastPosition ? 'smooth' : 'auto',
+        })
+      }
+
+      /**
+       * This is a helper in order to set the focus on the content,
+       * when the Tabs component is used with real route.
+       *
+       * 1. We save the last used tab every time
+       * 2. Check if it is set
+       * 3. If yes, then focus the tab content
+       *
+       */
+      if (this.hasLastUsedTab() !== null) {
+        this.setState(null, this.setFocusOnTabButton)
       }
     }
   }
 
   componentDidUpdate(props) {
-    this.onResizeHandler()
-
     if (
       this._eventEmitter &&
-      this.props.selected_key !== props.selected_key
+      (this.props.selected_key !== props.selected_key ||
+        this.props.data !== props.data)
     ) {
-      const selected_key = this.state.selected_key
-      this._eventEmitter.update(this.getEventArgs({ selected_key }))
+      this.onResizeHandler()
+
+      if (this._eventEmitter) {
+        const selected_key = this.state.selected_key
+        this._eventEmitter.update(this.getEventArgs({ selected_key }))
+      }
     }
+  }
+
+  hasLastPosition() {
+    return this.state.lastPosition > -1
   }
 
   getLastPosition() {
     if (typeof window !== 'undefined') {
       try {
-        const pos =
-          parseFloat(window.localStorage.getItem('tmp-tabs-pos')) || -1
-        window.localStorage.removeItem('tmp-tabs-pos')
-        return pos
+        const pos = parseFloat(
+          window.localStorage.getItem(`tabs-pos-${this._id}`)
+        )
+        window.localStorage.removeItem(`tabs-pos-${this._id}`)
+        return isNaN(pos) ? -1 : pos
       } catch (e) {
         warn(e)
       }
@@ -380,11 +417,12 @@ export default class Tabs extends React.PureComponent {
     return -1
   }
 
-  getLastUsedTab() {
+  hasLastUsedTab() {
     if (typeof window !== 'undefined') {
       try {
-        const key = window.localStorage.getItem('tmp-tabs-last') || null
-        window.localStorage.removeItem('tmp-tabs-last')
+        const key =
+          window.localStorage.getItem(`tabs-last-${this._id}`) || null
+        window.localStorage.removeItem(`tabs-last-${this._id}`)
         return key
       } catch (e) {
         warn(e)
@@ -397,7 +435,7 @@ export default class Tabs extends React.PureComponent {
     if (typeof window !== 'undefined') {
       try {
         window.localStorage.setItem(
-          'tmp-tabs-last',
+          `tabs-last-${this._id}`,
           this.state.selected_key
         ) // gets removed right afterwards
       } catch (e) {
@@ -406,70 +444,31 @@ export default class Tabs extends React.PureComponent {
     }
   }
 
-  saveLastPosition(pos = this._tablistRef.current.scrollLeft) {
+  saveLastPosition(position = this._tablistRef.current.scrollLeft) {
     if (typeof window !== 'undefined') {
       try {
-        window.localStorage.setItem('tmp-tabs-pos', pos) // gets removed right afterwards
+        window.localStorage.setItem(`tabs-pos-${this._id}`, position) // gets removed right afterwards
       } catch (e) {
         warn(e)
       }
     }
   }
 
-  onResizeHandler = () => {
-    const hasScrollbar = (this._hasScrollbar = this.hasScrollbar())
+  setScrollbarState = ({ hasScrollbar = this.hasScrollbar() } = {}) => {
     if (hasScrollbar !== this.state.hasScrollbar) {
       this.setState({
         hasScrollbar,
       })
     }
+  }
 
-    if (this._hasScrollbar) {
-      try {
-        if (Math.ceil(window.innerWidth / 16) <= 40 || this.isAtEdge()) {
-          if (!this._tabsRef.current.style.marginLeft) {
-            const tabsStyle = window.getComputedStyle(
-              this._tabsRef.current
-            )
+  onResizeHandler = () => {
+    const hasScrollbar = this.hasScrollbar()
+    this.setScrollbarState({ hasScrollbar })
 
-            if (!(Math.abs(parseFloat(tabsStyle.marginLeft)) > 0)) {
-              const diff =
-                window.innerWidth - this._tabsRef.current.offsetWidth
-              let val = (Math.round(diff / 16) / 2) * 16
-              this._tabsRef.current.style.marginLeft = `-${val}px`
-              this._tabsRef.current.style.marginRight = `-${val}px`
-              if (val < 32) {
-                val = 32
-              }
-              const tablistStyle = window.getComputedStyle(
-                this._tablistRef.current
-              )
-              this._tablistRef.current.style.paddingLeft = `${
-                (parseFloat(tablistStyle.paddingLeft) || 0) + val
-              }px`
-              this._tablistRef.current.style.paddingRight = `${
-                (parseFloat(tablistStyle.paddingRight) || 0) + val
-              }px`
-            }
-          }
-        } else {
-          this._tabsRef.current.style.marginLeft = ''
-          this._tabsRef.current.style.marginRight = ''
-          this._tablistRef.current.style.paddingLeft = ''
-          this._tablistRef.current.style.paddingRight = ''
-        }
-      } catch (e) {
-        //
-      }
-    }
-
-    this.setState({
-      atEdge: this.isAtEdge(),
-    })
-
-    // ensure that we scroll to the active item
+    // ensure that we scroll to the "active" item
     if (hasScrollbar) {
-      this.scrollToTab('selected')
+      this.scrollToTab({ type: 'selected' })
     }
   }
 
@@ -484,32 +483,7 @@ export default class Tabs extends React.PureComponent {
     )
   }
 
-  isAtEdge() {
-    if (!this._hasScrollbar || typeof window === 'undefined') {
-      return false
-    }
-
-    try {
-      const padding = parseFloat(
-        window.getComputedStyle(this._tablistRef.current).paddingLeft
-      )
-      /**
-       * 2 for border correction to ensure we do that
-       * + 64 for the buttons (2x2rem)
-       */
-      const width = this._tablistRef.current.offsetWidth + 2 + 64 - padding
-      const screenWidth = window.innerWidth
-
-      return width >= screenWidth
-    } catch (e) {
-      //
-    }
-
-    return false
-  }
-
   addScrollBehaviour() {
-    this.onResizeHandler()
     if (typeof window !== 'undefined') {
       window.addEventListener('resize', this.onResizeHandler)
     }
@@ -553,31 +527,31 @@ export default class Tabs extends React.PureComponent {
   focusFirstTab = (e) => {
     const key = this.state.data[0].key
     this.focusTab(key, e, 'step')
-    this.scrollToTab('focus')
+    this.scrollToTab({ type: 'focus' })
   }
 
   focusLastTab = (e) => {
     const key = this.state.data[this.state.data.length - 1].key
     this.focusTab(key, e, 'step')
-    this.scrollToTab('focus')
+    this.scrollToTab({ type: 'focus' })
   }
 
   focusPrevTab = (e) => {
     this.focusTab(-1, e, 'step')
-    this.scrollToTab('focus')
+    this.scrollToTab({ type: 'focus' })
   }
   focusNextTab = (e) => {
     this.focusTab(+1, e, 'step')
-    this.scrollToTab('focus')
+    this.scrollToTab({ type: 'focus' })
   }
 
   openPrevTab = (e) => {
     this.openTab(-1, e, 'step')
-    this.scrollToTab('selected')
+    this.scrollToTab({ type: 'selected' })
   }
   openNextTab = (e) => {
     this.openTab(+1, e, 'step')
-    this.scrollToTab('selected')
+    this.scrollToTab({ type: 'selected' })
   }
 
   handleVerticalScroll = () => {
@@ -593,81 +567,98 @@ export default class Tabs extends React.PureComponent {
     }
   }
 
-  scrollToLastPosition() {
+  setLeftPosition(scrollLeft) {
     try {
       this._tablistRef.current.style.scrollBehavior = 'auto'
-      this._tablistRef.current.scrollLeft = this.state.lastPosition
+      this._tablistRef.current.scrollLeft = scrollLeft
       this._tablistRef.current.style.scrollBehavior = 'smooth'
     } catch (e) {
       //
     }
   }
 
-  scrollToTab(type) {
+  scrollToTab({ type, behavior = 'smooth' }) {
     if (typeof window === 'undefined') {
       return // stop here
     }
-    clearTimeout(this._scrollToTabTimeout)
-    this._scrollToTabTimeout = setTimeout(
-      () => {
-        try {
-          if (
-            (this._hasScrollbar || this.state.hasScrollbar) &&
-            this._tablistRef.current
-          ) {
-            const first = this._tablistRef.current.querySelector(
-              '.dnb-tabs__button__snap:first-of-type'
+
+    if (window.IS_TEST) {
+      behavior = 'auto'
+    }
+
+    const delay = () => {
+      try {
+        if (this.state.hasScrollbar && this._tablistRef.current) {
+          const first = this._tablistRef.current.querySelector(
+            '.dnb-tabs__button__snap:first-of-type'
+          )
+          const isFirst = first.classList.contains(type)
+          const last = this._tablistRef.current.querySelector(
+            '.dnb-tabs__button__snap:last-of-type'
+          )
+          const isLast = last.classList.contains(type)
+          const elem = this._tablistRef.current.querySelector(
+            `.dnb-tabs__button.${type}`
+          )
+
+          const style = window.getComputedStyle(this._tabsRef.current)
+          const margin = parseFloat(style.marginLeft)
+          let padding = margin < 0 ? parseFloat(style.paddingLeft) : 0
+
+          // Add the extra padding when we go from 1 to 2 tab so the nav button
+          if (!isFirst && !isLast && parseFloat(style.paddingLeft) < 16) {
+            const navButton = this._tabsRef.current.querySelector(
+              '.dnb-tabs__scroll-nav-button:first-of-type'
             )
-            const isFirst = first.classList.contains(type)
-            const last = this._tablistRef.current.querySelector(
-              '.dnb-tabs__button__snap:last-of-type'
-            )
-            const isLast = last.classList.contains(type)
-            const elem = this._tablistRef.current.querySelector(
-              `.dnb-tabs__button.${type}`
-            )
+            const additionalSpace =
+              parseFloat(window.getComputedStyle(navButton).width) * 1.5
 
-            const style = window.getComputedStyle(this._tabsRef.current)
-            const margin = parseFloat(style.marginLeft)
-            let padding = margin < 0 ? parseFloat(style.paddingLeft) : 0
-
-            if (
-              !isFirst &&
-              this.state.atEdge &&
-              parseFloat(style.paddingLeft) < 16
-            ) {
-              const navButton = this._tabsRef.current.querySelector(
-                '.dnb-tabs__scroll-nav-button:first-of-type'
-              )
-              padding = parseFloat(
-                window.getComputedStyle(navButton).width
-              )
-            }
-
-            const leftPadding =
-              (margin < 0 ? Math.abs(margin) : 0) +
-              padding +
-              parseFloat(window.getComputedStyle(first).paddingLeft)
-
-            const left =
-              elem && !isFirst ? elem.offsetLeft - leftPadding : 0
-
-            this._tablistRef.current.scrollTo({
-              left,
-              behavior: window.IS_TEST ? 'auto' : 'smooth',
-            })
-
-            this.setState({
-              isFirst,
-              isLast,
-            })
+            padding += additionalSpace
           }
-        } catch (e) {
-          warn(e)
+
+          let leftPadding =
+            (margin < 0 ? Math.abs(margin) : 0) +
+            padding +
+            parseFloat(window.getComputedStyle(first).paddingLeft)
+          const offsetLeft = elem.offsetLeft
+
+          const left = elem && !isFirst ? offsetLeft - leftPadding : 0
+
+          if (behavior === 'auto') {
+            this._tablistRef.current.style.scrollBehavior = 'auto'
+          }
+
+          this._tablistRef.current.scrollTo({
+            left,
+            behavior,
+          })
+
+          if (behavior === 'auto') {
+            this._tablistRef.current.style.scrollBehavior = ''
+          }
+
+          this.setState({
+            isFirst,
+            isLast,
+          })
         }
-      },
-      window.IS_TEST ? 0 : 100
-    ) // Delay so Chrome/Safari makes the transition / animation smooth
+      } catch (e) {
+        warn(e)
+      }
+    }
+
+    if (window.IS_TEST) {
+      delay()
+    } else {
+      // Delay so Chrome/Safari makes the transition / animation smooth
+      window.requestAnimationFrame(delay)
+    }
+  }
+
+  onMouseDown = (event) => {
+    // once we press with mouse, the focus makes the scroll view move
+    // in order to enhance UX, we prevent that and only allow a real click
+    event.preventDefault()
   }
 
   onKeyDownHandler = (event) => {
@@ -675,9 +666,9 @@ export default class Tabs extends React.PureComponent {
       case 'enter':
         try {
           const elem = document.getElementById(`${this._id}-content`)
-          elem.focus()
+          elem.focus({ preventScroll: true })
         } catch (e) {
-          warn(e)
+          this.warnAboutMissingContainer()
         }
         break
     }
@@ -705,7 +696,7 @@ export default class Tabs extends React.PureComponent {
 
       if (ret !== false) {
         this.openTab(selected_key, event)
-        this.scrollToTab('selected')
+        this.scrollToTab({ type: 'selected' })
       }
     }
   }
@@ -762,7 +753,7 @@ export default class Tabs extends React.PureComponent {
         focus_key,
         _listenForPropChanges: false,
       },
-      this.setFocusOnTab
+      this.setFocusOnTabButton
     )
 
     dispatchCustomElementEvent(
@@ -782,25 +773,29 @@ export default class Tabs extends React.PureComponent {
     whatInput.specificKeys([9])
   }
 
-  setFocusOnTab = () => {
+  setFocusOnTabButton = () => {
     try {
       const elem = this._tablistRef.current.querySelector(
         '.dnb-tabs__button.focus'
       )
-      elem.focus()
+      elem.focus({ preventScroll: true })
 
       if (
         !document.getElementById(`${this._id}-content`) &&
         typeof process !== 'undefined' &&
         process.env.NODE_ENV !== 'test'
       ) {
-        warn(
-          `Could not find the required <Tabs.Content id="${this._id}-content" ... /> that provides role="tabpanel"`
-        )
+        this.warnAboutMissingContainer()
       }
     } catch (e) {
       warn(e)
     }
+  }
+
+  warnAboutMissingContainer() {
+    warn(
+      `Could not find the required <Tabs.Content id="${this._id}-content" ... /> that provides role="tabpanel"`
+    )
   }
 
   openTab = (selected_key, event = null, mode = null) => {
@@ -996,8 +991,9 @@ export default class Tabs extends React.PureComponent {
   }
 
   TabsListHandler = ({ children, className, ...rest }) => {
-    const { align, tabs_style, tabs_spacing, no_border } = this.props
-    const { hasScrollbar, atEdge } = this.state
+    const { align, tabs_style, tabs_spacing, no_border, nav_button_edge } =
+      this.props
+    const { hasScrollbar } = this.state
 
     return (
       <div
@@ -1011,7 +1007,7 @@ export default class Tabs extends React.PureComponent {
               }`
             : null,
           hasScrollbar && 'dnb-tabs--has-scrollbar',
-          atEdge && 'dnb-tabs--at-edge',
+          nav_button_edge && 'dnb-tabs--at-edge',
           no_border && 'dnb-tabs__tabs--no-border',
           className
         )}
@@ -1022,16 +1018,24 @@ export default class Tabs extends React.PureComponent {
           onMouseDown={this.openPrevTab}
           icon="chevron_left"
           className={classnames(
-            hasScrollbar && 'dnb-tabs__scroll-nav-button--visible',
+            hasScrollbar &&
+              (typeof this.state.isFirst !== 'undefined' ||
+                this.hasLastPosition()) &&
+              'dnb-tabs__scroll-nav-button--visible',
             this.state.isFirst && 'dnb-tabs__scroll-nav-button--hide'
           )}
         />
+
         {children}
+
         <ScrollNavButton
           onMouseDown={this.openNextTab}
           icon="chevron_right"
           className={classnames(
-            hasScrollbar && 'dnb-tabs__scroll-nav-button--visible',
+            hasScrollbar &&
+              (typeof this.state.isLast !== 'undefined' ||
+                this.hasLastPosition()) &&
+              'dnb-tabs__scroll-nav-button--visible',
             this.state.isLast && 'dnb-tabs__scroll-nav-button--hide'
           )}
         />
@@ -1113,6 +1117,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
               onMouseEnter={this.onMouseEnterHandler}
               onClick={this.onClickHandler}
               onKeyUp={this.onKeyDownHandler}
+              onMouseDown={this.onMouseDown}
               data-tab-key={key}
               {...itemParams}
             >
@@ -1227,7 +1232,6 @@ const ScrollNavButton = (props) => {
       tabIndex="-1"
       bounding
       aria-hidden
-      icon_size="medium"
       {...props}
       className={classnames(
         'dnb-tabs__scroll-nav-button',

@@ -3,23 +3,39 @@ title: 'Before getting started'
 ---
 
 import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
+import { Hr } from '@dnb/eufemia/src'
 
 # What you should know before getting started
 
-**Last updated**: _24. November 2021_
-
 Before you get started, there are some technical decisions you should know about - as in every project.
 
-Skip to:
+**Table of Contents**
 
-- [About technology](/contribute/first-contribution/before-started#about-technology)
-- [Mono repository](/contribute/first-contribution/before-started#eufemia-is-a-mono-repository)
-  - [About project structure](/contribute/first-contribution/before-started#dnb-eufemia)
-  - [About configuration files](/contribute/first-contribution/before-started#configuration-files)
-  - [About types]()
-- [About components](/contribute/first-contribution/before-started#about-component-structure)
-  - [Component folder](/contribute/first-contribution/before-started#component-folder)
-- [Development environments](/contribute/first-contribution/before-started#development-environments)
+- [What you should know before getting started](#what-you-should-know-before-getting-started)
+  - [About technology](#about-technology)
+  - [Eufemia is a Mono Repository](#eufemia-is-a-mono-repository)
+    - [dnb-eufemia](#dnb-eufemia)
+    - [dnb-design-system-portal](#dnb-design-system-portal)
+    - [Configuration files](#configuration-files)
+    - [About Types](#about-types)
+      - [Manual type definitions](#manual-type-definitions)
+      - [Sharing PropTypes between components](#sharing-proptypes-between-components)
+      - [Shared Properties docs](#shared-properties-docs)
+      - [Local development](#local-development)
+  - [About component structure](#about-component-structure)
+    - [Component folder](#component-folder)
+      - [Modifications](#modifications)
+  - [Development environments](#development-environments)
+    - [Storybook development](#storybook-development)
+    - [Eufemia portal](#eufemia-portal)
+      - [Local build](#local-build)
+    - [Testing](#testing)
+    - [Run Algolia search queries locally](#run-algolia-search-queries-locally)
+  - [What happens in the build steps](#what-happens-in-the-build-steps)
+    - [During prebuild](#during-prebuild)
+    - [During postbuild](#during-postbuild)
+
+<Hr top="large" light />
 
 ## About technology
 
@@ -35,7 +51,6 @@ The Eufemia repository is a mono repo consisting of the following workspaces:
 
 - **dnb-design-system-portal**: Source code of the portal website - this website.
 - **dnb-eufemia**: Source code of the npm package - where all the components are located.
-- **dnb-eufemia-sandbox**: A development sandbox for playing around with components (not deployed, only for development purposes).
 
 ### dnb-eufemia
 
@@ -196,16 +211,18 @@ As an example, we show the folder structure of component Breadcrumb. You can als
 
 There are a couple of environments for different purposes.
 
-- For developing and styling new components, you can run a [storybook development sandbox](/contribute/first-contribution/before-started#storybook-development).
+- For developing and styling new components, you can run a [Storybook development](/contribute/first-contribution/before-started#storybook-development).
 - For writing documentation and displaying the components, you can run [the portal](/contribute/first-contribution/before-started#eufemia-portal) locally.
 - After development, you can run [your tests](/contribute/first-contribution/before-started#testing).
 - If you want to see the local changes of the search results, you can run [Algolia search queries locally](/).
 
 ### Storybook development
 
-The sandbox is made with [Storybook](https://storybook.js.org/), a tool for building UI components and pages in isolation.
+[Storybook](https://storybook.js.org/) is used for quick examples and component development. They do not need to be perfect.
 
-Run the sandbox locally by running
+Stories are placed inside a `/stories` directory and contain _.stories_ in the filename: `/components/button/stories/Button.stories.tsx`
+
+Run Storybook locally by running
 
 ```bash
 yarn dev
@@ -213,7 +230,7 @@ yarn dev
 
 in the root folder. Then you can view the Storybook website by visiting [localhost:8002](http://localhost:8002/).
 
-Add new pages to the storybook by adding a new file under `dnb-eufemia-sandbox/stories/components` and following the similar structure of the other files.
+Add new pages to the storybook by adding a new directory `/stories` and a new file under `ComponentName.stories.tsx` and following the similar structure of the other files.
 
 ### Eufemia portal
 

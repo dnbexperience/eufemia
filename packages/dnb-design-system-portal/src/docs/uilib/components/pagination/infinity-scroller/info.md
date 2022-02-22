@@ -93,7 +93,7 @@ render(
 
 #### Infinity scroller method #4
 
-Using a `InfinityMarker` only. See [code example on GitHub](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia-sandbox/stories/components/PaginationTableMarker.js).
+Using a `InfinityMarker` only. See [code example on GitHub](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/stories/PaginationTableMarker.stories.js).
 
 This method will basically add a load button on top, if `startup_page` or `current_page` is higher than `1` at the first render.
 

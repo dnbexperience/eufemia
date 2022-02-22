@@ -98,7 +98,7 @@ export const TabsExampleUsingData = () => (
 )
 
 export const TabsExampleScrollable = () => (
-  <MaxWidth>
+  <Wrapper>
     <ComponentBox
       data-visual-test="tabs-tablist-scrollable"
       scope={{ manyTabs, manyTabsContent }}
@@ -109,7 +109,7 @@ export const TabsExampleScrollable = () => (
 </Tabs>
 `}
     </ComponentBox>
-  </MaxWidth>
+  </Wrapper>
 )
 
 export const TabsExampleLeftAligned = () => (
@@ -129,55 +129,96 @@ export const TabsExampleLeftAligned = () => (
   </Wrapper>
 )
 
-export class TabsExampleRightAligned extends React.PureComponent {
-  state = { activeTabKey: 'second' }
-  openTab = ({ key }) => {
-    this.setState({
-      activeTabKey: key,
-    })
-  }
-  isActive(tabKey) {
-    return this.state.activeTabKey === tabKey
-  }
+export const TabsExampleHorizontalAligned = () => (
+  <ComponentBox
+    data-visual-test="tabs-horizontal-aligned"
+    scope={{ manyTabs }}
+    useRender
+  >
+    {() => /* jsx */ `
 
-  render() {
-    const { activeTabKey } = this.state
-    const openTab = this.openTab
-    return (
-      <Wrapper>
-        <ComponentBox
-          data-visual-test="tabs-tablist-right-aligned"
-          scope={{ exampleContent, activeTabKey, openTab, data }}
-        >
-          {() => /* jsx */ `
-<Tabs
-  selected_key={activeTabKey}
-  align="right"
-  label="Some Tabs label"
-  data={data}
-  on_change={openTab}
-  render={({ Wrapper, Content, TabsList, Tabs }) => {
+const FlexWrapper = styled.div\`
+  display: flex;
+  flex-direction: row;
+\`
+
+const MaxWidthWrapper = styled.div\`
+  max-width: 30rem;
+  background: var(--color-mint-green-12);
+\`
+
+const LeftArea = styled.div\`
+  /* Ensure no-wrap */
+  flex-shrink: 0;
+\`
+const RightArea = styled.div\`
+  /* Ensure the tabbar is hidden outside this area */
+  overflow: hidden;
+
+  /* Ensure the focus ring is visible! (because of overflow: hidden) */
+  margin: -2px;
+  padding: 2px;
+\`
+
+function TabsHorizontalAligned() {
   return (
-    <Wrapper>
-      <TabsList className="dnb-section">
-        <small>
-          <b>Active:</b> {activeTabKey}
-        </small>
-        <Tabs />
-      </TabsList>
-      <Content />
-    </Wrapper>
+    <FlexWrapper>
+      <LeftArea>
+        <ToggleButton.Group value="first">
+          <ToggleButton text="first" value="first" />
+          <ToggleButton text="second" value="second" />
+        </ToggleButton.Group>
+      </LeftArea>
+
+      <RightArea>
+        <Tabs
+          left
+          no_border
+          selected_key="first"
+          id="unique-tabs-row"
+          data={manyTabs}
+        />
+      </RightArea>
+    </FlexWrapper>
   )
-  }}
->
-  { exampleContent /* See Example Content below */ }
-</Tabs>
-`}
-        </ComponentBox>
-      </Wrapper>
-    )
-  }
 }
+
+render(<TabsHorizontalAligned />)
+`}
+  </ComponentBox>
+)
+
+export const TabsExampleMaxWidth = () => (
+  <ComponentBox
+    data-visual-test="tabs-max-width"
+    scope={{ manyTabs }}
+    useRender
+  >
+    {() => /* jsx */ `
+
+const MaxWidthWrapper = styled.div\`
+  max-width: 30rem;
+  background: var(--color-mint-green-12);
+\`
+
+function TabsMaxWidth() {
+  return (
+    <MaxWidthWrapper>
+      <Tabs
+        top
+        no_border
+        selected_key="fifth"
+        id="unique-tabs-max-width"
+        data={manyTabs}
+      />
+    </MaxWidthWrapper>
+  )
+}
+
+render(<TabsMaxWidth />)
+`}
+  </ComponentBox>
+)
 
 export const TabsExampleReactRouterNavigation = () =>
   typeof window === 'undefined' ? null : (
@@ -275,12 +316,6 @@ const exampleContent = {
   fourth: 'Fourth as a string only',
 }
 
-const data = [
-  { title: 'First', key: 'first' },
-  { title: 'Second', key: 'second' },
-  { title: 'Third', key: 'third', disabled: true },
-  { title: 'Fourth', key: 'fourth' },
-]
 const manyTabs = [
   { title: 'First', key: 'first' },
   { title: 'Second', key: 'second' },
@@ -304,18 +339,6 @@ const Wrapper = styled.div`
   }
 `
 
-// The example has a `max-width` of 60rem.
-const MaxWidth = styled(Wrapper)`
-  /* @media screen and (max-width: 40em) {
-    NB: Now this gets handled automatically
-    .dnb-tabs .dnb-tabs__tabs {
-      margin: 0 -4rem;
-    }
-    .dnb-tabs .dnb-tabs__tabs__tablist {
-      padding: 0 4rem;
-    }
-  } */
-`
 export const TabsNoBorder = () => (
   <Wrapper>
     <ComponentBox data-visual-test="tabs-no-border">

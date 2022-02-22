@@ -4,5 +4,5 @@
  *
  */
 
-import convertSvgToJsx from '../prepub/tasks/convertSvgToJsx'
+import convertSvgToJsx from '../prebuild/tasks/convertSvgToJsx'
 convertSvgToJsx({ preventDelete: true })

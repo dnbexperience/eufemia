@@ -9,11 +9,17 @@ import {
 } from '../withCamelCaseProps'
 import { mount, attachToBody, toJson } from '../../../core/jest/jestSetup'
 
+type CustomType = {
+  foo_bar: number
+}
+
 type OriginalProps = {
   snake_case?: boolean
   camel_case?: number
   is_class?: boolean
   optional?: string
+  custom_type?: CustomType
+  update_comp?: () => void
 }
 
 const Context = React.createContext(null)
@@ -54,29 +60,36 @@ describe('withCamelCaseProps', () => {
       <Component snake_case={false} camelCase={1} />
     )
 
-    rerender(<Component snake_case={false} camelCase={2} />)
+    rerender(
+      <Component
+        snake_case={false}
+        camelCase={2}
+        custom_type={{ foo_bar: 1 }}
+        customType={{ fooBar: 1 }}
+      />
+    )
 
     expect(screen.queryByTestId('props').textContent).toMatch(
-      '{"snake_case":false,"camel_case":2}'
+      '{"snake_case":false,"custom_type":{"fooBar":1},"camel_case":2}'
     )
     expect(asFragment()).toMatchInlineSnapshot(`
-        <DocumentFragment>
+      <DocumentFragment>
+        <div
+          data-testid="content"
+        >
           <div
-            data-testid="content"
+            data-testid="props"
           >
-            <div
-              data-testid="props"
-            >
-              {"snake_case":false,"camel_case":2}
-            </div>
-            <div
-              data-testid="context"
-            >
-              {}
-            </div>
+            {"snake_case":false,"custom_type":{"fooBar":1},"camel_case":2}
           </div>
-        </DocumentFragment>
-      `)
+          <div
+            data-testid="context"
+          >
+            {}
+          </div>
+        </div>
+      </DocumentFragment>
+    `)
   })
 
   it('will render with enzyme', () => {
@@ -163,6 +176,16 @@ describe('classWithCamelCaseProps', () => {
       someState: true,
     }
     static property = 'thing'
+
+    componentDidUpdate(prevProps: IncludeCamelCase<OriginalProps>) {
+      if (
+        prevProps !== this.props &&
+        this.props.update_comp !== undefined
+      ) {
+        this.props.update_comp()
+      }
+    }
+
     render() {
       return (
         <div data-testid="content">
@@ -338,5 +361,31 @@ describe('classWithCamelCaseProps', () => {
     )
 
     Comp.unmount()
+  })
+
+  it('should not update prop object when props are unchanged', () => {
+    const on_update = jest.fn()
+
+    const { rerender } = render(
+      <Component
+        snake_case={false}
+        camelCase={1}
+        update_comp={on_update}
+      />
+    )
+
+    rerender(
+      <Component
+        snake_case={false}
+        camelCase={1}
+        update_comp={on_update}
+      />
+    )
+    expect(on_update).toHaveBeenCalledTimes(0)
+
+    rerender(
+      <Component snake_case={true} camelCase={1} update_comp={on_update} />
+    )
+    expect(on_update).toHaveBeenCalledTimes(2)
   })
 })

@@ -4,15 +4,15 @@ const config = {
   testRegex: '(/__tests__/\\.js|(\\.|/)(test|spec))\\.(js|jsx|ts|tsx)?$',
   modulePathIgnorePatterns: [
     'not_in_use',
-    '<rootDir>/scripts/release/*',
+    '<rootDir>/scripts/postbuild/*',
     '<rootDir>/build/',
     '<rootDir>/assets/',
     '<rootDir>/stories/',
     '<rootDir>/jest-screenshot-report/',
     'screenshot',
   ],
-  transformIgnorePatterns: ['node_modules'],
-  // We  may use this in future when converting to ESM
+  transformIgnorePatterns: ['node_modules', 'stories'],
+  // We may use this in future when converting to ESM
   // transformIgnorePatterns: ['/node_modules/(?!ora|globby)'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',

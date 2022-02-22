@@ -57,6 +57,9 @@ export const prepareContext = (props = {}) => {
     Timeline: {},
     TimelineItem: {},
     VisuallyHidden: {},
+    Drawer: {},
+    Dialog: {},
+
     ...props,
     translation, // make sure we set this after props, since we update this one!
   }

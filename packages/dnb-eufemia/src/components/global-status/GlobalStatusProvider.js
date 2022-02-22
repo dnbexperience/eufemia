@@ -9,121 +9,7 @@ import {
   convertJsxToString,
 } from '../../shared/component-helper'
 
-// The meaning with this is that we can force a rerender without sharing the same context
-class GlobalStatusProvider {
-  static providers = {}
-
-  static create = (id = 'main', props = null) => {
-    return (GlobalStatusProvider.providers[id] =
-      new GlobalStatusProviderItem(id, props))
-  }
-
-  static init(id = 'main', onReady = null, props = null) {
-    const existingStatus = GlobalStatusProvider.get(id)
-
-    if (existingStatus) {
-      if (props) {
-        existingStatus.add(props)
-      }
-      if (typeof onReady === 'function') {
-        onReady(existingStatus)
-      }
-      return existingStatus
-    }
-
-    const newStatus = GlobalStatusProvider.create(id, props)
-
-    if (onReady) {
-      // send along the new status
-      newStatus.addOnReady(newStatus, onReady)
-    }
-
-    if (id !== 'main') {
-      warn(`No <GlobalStatus ${`id="${id}"`} /> found.`)
-    }
-
-    return newStatus
-  }
-
-  static get(id = 'main') {
-    return GlobalStatusProvider.providers[id] || null
-  }
-
-  static remove(id = 'main') {
-    if (GlobalStatusProvider.providers[id]) {
-      delete GlobalStatusProvider.providers[id]
-    }
-  }
-
-  static prepareItemWithStatusId(item, status_id = null) {
-    if (typeof item === 'string') {
-      item = { text: item }
-    }
-
-    if (!item.item_id) {
-      if (status_id && status_id !== 'status-main') {
-        item.item_id = status_id
-      } else {
-        if (item?.text) {
-          item.item_id = slugify(convertJsxToString(item.text))
-        } else {
-          item.item_id = slugify(item)
-        }
-      }
-    }
-
-    return item
-  }
-
-  static combineMessages(stack) {
-    const globalStatus = stack.reduce((acc, cur) => {
-      // make a copy, because items are read-only
-      cur = { ...cur }
-
-      if (typeof cur.items === 'string' && cur.items[0] === '[') {
-        cur.items = JSON.parse(cur.items)
-      }
-
-      // if there is only one item, put it into the array
-      if (cur.item) {
-        if (typeof cur.item === 'string' && cur.item[0] === '{') {
-          cur.item = JSON.parse(cur.item)
-        }
-        // make sure we have an array of items
-        cur.items = cur.items || []
-        cur.items.push(cur.item)
-      }
-
-      // merge items from prev stack into the current
-      if (cur.items) {
-        cur.items = cur.items.reduce((_acc, item) => {
-          // only a fallback and to make sure we have
-          item = GlobalStatusProvider.prepareItemWithStatusId(item)
-
-          const foundAtIndex = _acc.findIndex(
-            ({ item_id }) => item_id === item.item_id
-          )
-          if (foundAtIndex > -1) {
-            _acc[foundAtIndex] = item
-          } else {
-            _acc.push(item)
-          }
-
-          return _acc
-        }, acc.items || []) // here we use the items from the prev stack
-      }
-
-      // merge the prev stack with the current
-      Object.assign(acc, cur)
-
-      return acc
-    }, {})
-
-    return globalStatus
-  }
-}
-
-class GlobalStatusProviderItem {
+export class GlobalStatusProviderItem {
   constructor(id, props = null) {
     this.internal_id = id
     if (props) {
@@ -310,6 +196,120 @@ class GlobalStatusProviderItem {
   globalStatus = {} // summary of all stacks
   _onUpdateEvents = [] // for the "onUpdate" events
   _onReadyEvents = [] // for startup events
+}
+
+// The meaning with this is that we can force a rerender without sharing the same context
+class GlobalStatusProvider {
+  static providers = {}
+
+  static create = (id = 'main', props = null) => {
+    return (GlobalStatusProvider.providers[id] =
+      new GlobalStatusProviderItem(id, props))
+  }
+
+  static init(id = 'main', onReady = null, props = null) {
+    const existingStatus = GlobalStatusProvider.get(id)
+
+    if (existingStatus) {
+      if (props) {
+        existingStatus.add(props)
+      }
+      if (typeof onReady === 'function') {
+        onReady(existingStatus)
+      }
+      return existingStatus
+    }
+
+    const newStatus = GlobalStatusProvider.create(id, props)
+
+    if (onReady) {
+      // send along the new status
+      newStatus.addOnReady(newStatus, onReady)
+    }
+
+    if (id !== 'main') {
+      warn(`No <GlobalStatus ${`id="${id}"`} /> found.`)
+    }
+
+    return newStatus
+  }
+
+  static get(id = 'main') {
+    return GlobalStatusProvider.providers[id] || null
+  }
+
+  static remove(id = 'main') {
+    if (GlobalStatusProvider.providers[id]) {
+      delete GlobalStatusProvider.providers[id]
+    }
+  }
+
+  static prepareItemWithStatusId(item, status_id = null) {
+    if (typeof item === 'string') {
+      item = { text: item }
+    }
+
+    if (!item.item_id) {
+      if (status_id && status_id !== 'status-main') {
+        item.item_id = status_id
+      } else {
+        if (item?.text) {
+          item.item_id = slugify(convertJsxToString(item.text))
+        } else {
+          item.item_id = slugify(item)
+        }
+      }
+    }
+
+    return item
+  }
+
+  static combineMessages(stack) {
+    const globalStatus = stack.reduce((acc, cur) => {
+      // make a copy, because items are read-only
+      cur = { ...cur }
+
+      if (typeof cur.items === 'string' && cur.items[0] === '[') {
+        cur.items = JSON.parse(cur.items)
+      }
+
+      // if there is only one item, put it into the array
+      if (cur.item) {
+        if (typeof cur.item === 'string' && cur.item[0] === '{') {
+          cur.item = JSON.parse(cur.item)
+        }
+        // make sure we have an array of items
+        cur.items = cur.items || []
+        cur.items.push(cur.item)
+      }
+
+      // merge items from prev stack into the current
+      if (cur.items) {
+        cur.items = cur.items.reduce((_acc, item) => {
+          // only a fallback and to make sure we have
+          item = GlobalStatusProvider.prepareItemWithStatusId(item)
+
+          const foundAtIndex = _acc.findIndex(
+            ({ item_id }) => item_id === item.item_id
+          )
+          if (foundAtIndex > -1) {
+            _acc[foundAtIndex] = item
+          } else {
+            _acc.push(item)
+          }
+
+          return _acc
+        }, acc.items || []) // here we use the items from the prev stack
+      }
+
+      // merge the prev stack with the current
+      Object.assign(acc, cur)
+
+      return acc
+    }, {})
+
+    return globalStatus
+  }
 }
 
 // add a fallback, in case we don't run this inside the same React instance

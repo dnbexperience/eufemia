@@ -7,27 +7,9 @@
 
 .dnb-modal {
   &__content {
-    &__inner {
-      background: var(--color-white);
-    }
-
     // Used by "setBackgroundColor"
     &::after {
       background-color: var(--modal-background-color);
     }
   }
-
-  // deprecated - removed in v9
-  // &__close-button--cross {
-  //   cursor: pointer;
-  //   color: var(--color-sea-green);
-
-  //   @include fakeFocus();
-
-  //   html[data-whatinput='keyboard'] &,
-  //   &.dnb-button--secondary {
-  //     box-shadow: none;
-  //     background-color: transparent;
-  //   }
-  // }
 }

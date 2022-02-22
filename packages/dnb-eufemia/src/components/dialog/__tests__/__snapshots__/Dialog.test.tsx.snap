@@ -1,0 +1,2330 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dialog component snapshot should match component snapshot 1`] = `
+<Dialog
+  0={
+    Object {
+      "displayName": "Dialog",
+      "props": Object {},
+    }
+  }
+  contentId={null}
+  directDomReturn={true}
+  id="dialog_id"
+  modalContent="unique_modal_content"
+  noAnimation={true}
+  openState={true}
+  title="dialog_title"
+>
+  <Modal
+    align_content="left"
+    animation_duration={300}
+    bar_content={null}
+    class={null}
+    className={null}
+    close_button_attributes={null}
+    close_modal={null}
+    close_title="Lukk"
+    container_placement={null}
+    contentClass="dnb-dialog__root"
+    contentId={null}
+    content_class={null}
+    content_id={null}
+    dialog_title="Vindu"
+    directDomReturn={true}
+    direct_dom_return={false}
+    disabled={null}
+    focus_selector={null}
+    fullscreen="auto"
+    header_content={null}
+    hide_close_button={false}
+    id="dialog_id"
+    labelled_by={null}
+    max_width={null}
+    min_width={null}
+    modal_content={null}
+    mode="custom"
+    noAnimation={true}
+    no_animation={false}
+    no_animation_on_mobile={false}
+    on_close={null}
+    on_close_prevent={null}
+    on_open={null}
+    openState={true}
+    open_delay={null}
+    open_modal={null}
+    open_state={null}
+    overlay_class={null}
+    prevent_close={false}
+    prevent_core_style={false}
+    root_id="root"
+    spacing={true}
+    title="dialog_title"
+    trigger={null}
+    trigger_attributes={null}
+    trigger_class={null}
+    trigger_disabled={null}
+    trigger_hidden={false}
+    trigger_icon={null}
+    trigger_icon_position="left"
+    trigger_size={null}
+    trigger_text={null}
+    trigger_title={null}
+    trigger_variant="secondary"
+  >
+    <Modal
+      align_content="left"
+      animation_duration={300}
+      bar_content={null}
+      class={null}
+      className={null}
+      class_name={null}
+      close_button_attributes={null}
+      close_modal={null}
+      close_title="Lukk"
+      container_placement={null}
+      content_class="dnb-dialog__root"
+      content_id={null}
+      dialog_title="Vindu"
+      direct_dom_return={true}
+      disabled={null}
+      focus_selector={null}
+      fullscreen="auto"
+      header_content={null}
+      hide_close_button={false}
+      id="dialog_id"
+      labelled_by={null}
+      max_width={null}
+      min_width={null}
+      modal_content={null}
+      mode="custom"
+      no_animation={true}
+      no_animation_on_mobile={false}
+      on_close={null}
+      on_close_prevent={null}
+      on_open={null}
+      open_delay={null}
+      open_modal={null}
+      open_state={true}
+      overlay_class={null}
+      prevent_close={false}
+      prevent_core_style={false}
+      root_id="root"
+      spacing={true}
+      title="dialog_title"
+      trigger={null}
+      trigger_attributes={null}
+      trigger_class={null}
+      trigger_disabled={null}
+      trigger_hidden={false}
+      trigger_icon={null}
+      trigger_icon_position="left"
+      trigger_size={null}
+      trigger_text={null}
+      trigger_title={null}
+      trigger_variant="secondary"
+    >
+      <HelpButtonInstance
+        class={null}
+        className="dnb-modal__trigger"
+        disabled={null}
+        hidden={false}
+        icon={null}
+        icon_position="left"
+        id="dialog_id"
+        innerRef={
+          Object {
+            "current": <button
+              aria-describedby="dialog_id-tooltip"
+              aria-label="dialog_title"
+              aria-roledescription="Hjelp-knapp"
+              class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+              id="dialog_id"
+              type="button"
+            >
+              <span
+                class="dnb-button__alignment"
+              >
+                ‌
+              </span>
+              <span
+                aria-hidden="true"
+                class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                data-test-id="question icon"
+                role="presentation"
+              >
+                <svg
+                  fill="none"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M6.142 4.876c0-1.205 1.081-2.203 2.272-2.12 1.202.082 2.123 1.23 1.96 2.412A2.174 2.174 0 0 1 8.975 6.88c-.961.34-1.313 1.123-1.426 1.826-.054.34-.059.685-.053.985.002.154.007.28.011.396.005.143.01.27.01.413a.75.75 0 0 0 1.5 0c0-.15-.006-.338-.012-.516l-.01-.32a4.196 4.196 0 0 1 .036-.72c.062-.393.19-.56.444-.65a3.673 3.673 0 0 0 2.383-2.92c.283-2.038-1.267-3.972-3.341-4.115-2.053-.142-3.876 1.537-3.876 3.616a.75.75 0 1 0 1.5 0ZM8.25 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                    fill="#000"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </span>
+            </button>,
+          }
+        }
+        onClick={[Function]}
+        size={null}
+        text={null}
+        title="dialog_title"
+        variant="secondary"
+      >
+        <Button
+          aria-label="dialog_title"
+          aria-roledescription="Hjelp-knapp"
+          bounding={null}
+          class={null}
+          className="dnb-help-button dnb-modal__trigger"
+          custom_content={null}
+          custom_element={null}
+          custom_method={null}
+          disabled={null}
+          element={null}
+          global_status_id={null}
+          hidden={false}
+          href={null}
+          icon="question"
+          icon_position="left"
+          icon_size={null}
+          id="dialog_id"
+          innerRef={
+            Object {
+              "current": <button
+                aria-describedby="dialog_id-tooltip"
+                aria-label="dialog_title"
+                aria-roledescription="Hjelp-knapp"
+                class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+                id="dialog_id"
+                type="button"
+              >
+                <span
+                  class="dnb-button__alignment"
+                >
+                  ‌
+                </span>
+                <span
+                  aria-hidden="true"
+                  class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                  data-test-id="question icon"
+                  role="presentation"
+                >
+                  <svg
+                    fill="none"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M6.142 4.876c0-1.205 1.081-2.203 2.272-2.12 1.202.082 2.123 1.23 1.96 2.412A2.174 2.174 0 0 1 8.975 6.88c-.961.34-1.313 1.123-1.426 1.826-.054.34-.059.685-.053.985.002.154.007.28.011.396.005.143.01.27.01.413a.75.75 0 0 0 1.5 0c0-.15-.006-.338-.012-.516l-.01-.32a4.196 4.196 0 0 1 .036-.72c.062-.393.19-.56.444-.65a3.673 3.673 0 0 0 2.383-2.92c.283-2.038-1.267-3.972-3.341-4.115-2.053-.142-3.876 1.537-3.876 3.616a.75.75 0 1 0 1.5 0ZM8.25 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                      fill="#000"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </span>
+              </button>,
+            }
+          }
+          inner_ref={null}
+          onClick={[Function]}
+          on_click={null}
+          size={null}
+          skeleton={null}
+          status={null}
+          status_no_animation={null}
+          status_props={null}
+          status_state="error"
+          stretch={null}
+          text={null}
+          title={null}
+          to={null}
+          tooltip="dialog_title"
+          type={null}
+          variant="secondary"
+          wrap={null}
+        >
+          <button
+            aria-label="dialog_title"
+            aria-roledescription="Hjelp-knapp"
+            className="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+            disabled={false}
+            hidden={false}
+            id="dialog_id"
+            onClick={[Function]}
+            type="button"
+          >
+            <Content
+              aria-label="dialog_title"
+              aria-roledescription="Hjelp-knapp"
+              bounding={null}
+              class={null}
+              className="dnb-help-button dnb-modal__trigger"
+              content={null}
+              custom_content={null}
+              custom_element={null}
+              custom_method={null}
+              disabled={null}
+              element={null}
+              global_status_id={null}
+              hidden={false}
+              href={null}
+              icon="question"
+              icon_position="left"
+              icon_size={null}
+              id="dialog_id"
+              innerRef={
+                Object {
+                  "current": <button
+                    aria-describedby="dialog_id-tooltip"
+                    aria-label="dialog_title"
+                    aria-roledescription="Hjelp-knapp"
+                    class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+                    id="dialog_id"
+                    type="button"
+                  >
+                    <span
+                      class="dnb-button__alignment"
+                    >
+                      ‌
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                      data-test-id="question icon"
+                      role="presentation"
+                    >
+                      <svg
+                        fill="none"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          clip-rule="evenodd"
+                          d="M6.142 4.876c0-1.205 1.081-2.203 2.272-2.12 1.202.082 2.123 1.23 1.96 2.412A2.174 2.174 0 0 1 8.975 6.88c-.961.34-1.313 1.123-1.426 1.826-.054.34-.059.685-.053.985.002.154.007.28.011.396.005.143.01.27.01.413a.75.75 0 0 0 1.5 0c0-.15-.006-.338-.012-.516l-.01-.32a4.196 4.196 0 0 1 .036-.72c.062-.393.19-.56.444-.65a3.673 3.673 0 0 0 2.383-2.92c.283-2.038-1.267-3.972-3.341-4.115-2.053-.142-3.876 1.537-3.876 3.616a.75.75 0 1 0 1.5 0ZM8.25 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                          fill="#000"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                    </span>
+                  </button>,
+                }
+              }
+              inner_ref={null}
+              isIconOnly={true}
+              onClick={[Function]}
+              on_click={null}
+              size={null}
+              skeleton={false}
+              status={null}
+              status_no_animation={null}
+              status_props={null}
+              status_state="error"
+              stretch={null}
+              text={null}
+              title={null}
+              to={null}
+              tooltip="dialog_title"
+              type={null}
+              variant="secondary"
+              wrap={null}
+            >
+              <span
+                className="dnb-button__alignment"
+                key="button-text-empty"
+              >
+                ‌
+              </span>
+              <IconPrimary
+                alt={null}
+                aria-hidden={null}
+                attributes={null}
+                border={null}
+                className="dnb-button__icon"
+                color={null}
+                height={null}
+                icon="question"
+                inherit_color={true}
+                key="button-icon"
+                modifier={null}
+                size={null}
+                skeleton={false}
+                title={null}
+                width={null}
+              >
+                <span
+                  aria-hidden={true}
+                  className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                  data-test-id="question icon"
+                  role="presentation"
+                >
+                  <question>
+                    <svg
+                      fill="none"
+                      height={16}
+                      viewBox="0 0 16 16"
+                      width={16}
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clipRule="evenodd"
+                        d="M6.142 4.876c0-1.205 1.081-2.203 2.272-2.12 1.202.082 2.123 1.23 1.96 2.412A2.174 2.174 0 0 1 8.975 6.88c-.961.34-1.313 1.123-1.426 1.826-.054.34-.059.685-.053.985.002.154.007.28.011.396.005.143.01.27.01.413a.75.75 0 0 0 1.5 0c0-.15-.006-.338-.012-.516l-.01-.32a4.196 4.196 0 0 1 .036-.72c.062-.393.19-.56.444-.65a3.673 3.673 0 0 0 2.383-2.92c.283-2.038-1.267-3.972-3.341-4.115-2.053-.142-3.876 1.537-3.876 3.616a.75.75 0 1 0 1.5 0ZM8.25 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                        fill="#000"
+                        fillRule="evenodd"
+                      />
+                    </svg>
+                  </question>
+                </span>
+              </IconPrimary>
+            </Content>
+          </button>
+          <FormStatus
+            attributes={null}
+            class={null}
+            className={null}
+            global_status_id={null}
+            icon="error"
+            icon_size="medium"
+            id="dialog_id-form-status"
+            label={null}
+            no_animation={null}
+            role={null}
+            show={null}
+            size="default"
+            skeleton={null}
+            state="error"
+            status="error"
+            stretch={null}
+            text={null}
+            text_id="dialog_id-status"
+            title={null}
+            variant={null}
+            width_element={null}
+            width_selector={null}
+          />
+          <Tooltip
+            active={null}
+            align={null}
+            animate_position={false}
+            arrow="center"
+            class={null}
+            className={null}
+            fixed_position={false}
+            group="main"
+            hide_delay={500}
+            id="dialog_id-tooltip"
+            no_animation={false}
+            position="top"
+            show_delay={300}
+            size="basis"
+            target_element={
+              Object {
+                "current": <button
+                  aria-describedby="dialog_id-tooltip"
+                  aria-label="dialog_title"
+                  aria-roledescription="Hjelp-knapp"
+                  class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+                  id="dialog_id"
+                  type="button"
+                >
+                  <span
+                    class="dnb-button__alignment"
+                  >
+                    ‌
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                    data-test-id="question icon"
+                    role="presentation"
+                  >
+                    <svg
+                      fill="none"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M6.142 4.876c0-1.205 1.081-2.203 2.272-2.12 1.202.082 2.123 1.23 1.96 2.412A2.174 2.174 0 0 1 8.975 6.88c-.961.34-1.313 1.123-1.426 1.826-.054.34-.059.685-.053.985.002.154.007.28.011.396.005.143.01.27.01.413a.75.75 0 0 0 1.5 0c0-.15-.006-.338-.012-.516l-.01-.32a4.196 4.196 0 0 1 .036-.72c.062-.393.19-.56.444-.65a3.673 3.673 0 0 0 2.383-2.92c.283-2.038-1.267-3.972-3.341-4.115-2.053-.142-3.876 1.537-3.876 3.616a.75.75 0 1 0 1.5 0ZM8.25 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                        fill="#000"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </span>
+                </button>,
+              }
+            }
+            target_selector={null}
+            tooltip="dialog_title"
+          >
+            <TooltipWithEvents
+              align={null}
+              animate_position={false}
+              arrow="center"
+              attributes={
+                Object {
+                  "children": "dialog_title",
+                  "className": "dnb-tooltip",
+                }
+              }
+              class={null}
+              className={null}
+              fixed_position={false}
+              group="dialog_id-tooltip"
+              hide_delay={500}
+              id="dialog_id-tooltip"
+              internal_id="dialog_id-tooltip"
+              no_animation={false}
+              position="top"
+              show_delay={300}
+              size="basis"
+              target={
+                Object {
+                  "current": <button
+                    aria-describedby="dialog_id-tooltip"
+                    aria-label="dialog_title"
+                    aria-roledescription="Hjelp-knapp"
+                    class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+                    id="dialog_id"
+                    type="button"
+                  >
+                    <span
+                      class="dnb-button__alignment"
+                    >
+                      ‌
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                      data-test-id="question icon"
+                      role="presentation"
+                    >
+                      <svg
+                        fill="none"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          clip-rule="evenodd"
+                          d="M6.142 4.876c0-1.205 1.081-2.203 2.272-2.12 1.202.082 2.123 1.23 1.96 2.412A2.174 2.174 0 0 1 8.975 6.88c-.961.34-1.313 1.123-1.426 1.826-.054.34-.059.685-.053.985.002.154.007.28.011.396.005.143.01.27.01.413a.75.75 0 0 0 1.5 0c0-.15-.006-.338-.012-.516l-.01-.32a4.196 4.196 0 0 1 .036-.72c.062-.393.19-.56.444-.65a3.673 3.673 0 0 0 2.383-2.92c.283-2.038-1.267-3.972-3.341-4.115-2.053-.142-3.876 1.537-3.876 3.616a.75.75 0 1 0 1.5 0ZM8.25 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                          fill="#000"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                    </span>
+                  </button>,
+                }
+              }
+              target_element={
+                Object {
+                  "current": <button
+                    aria-describedby="dialog_id-tooltip"
+                    aria-label="dialog_title"
+                    aria-roledescription="Hjelp-knapp"
+                    class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+                    id="dialog_id"
+                    type="button"
+                  >
+                    <span
+                      class="dnb-button__alignment"
+                    >
+                      ‌
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                      data-test-id="question icon"
+                      role="presentation"
+                    >
+                      <svg
+                        fill="none"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          clip-rule="evenodd"
+                          d="M6.142 4.876c0-1.205 1.081-2.203 2.272-2.12 1.202.082 2.123 1.23 1.96 2.412A2.174 2.174 0 0 1 8.975 6.88c-.961.34-1.313 1.123-1.426 1.826-.054.34-.059.685-.053.985.002.154.007.28.011.396.005.143.01.27.01.413a.75.75 0 0 0 1.5 0c0-.15-.006-.338-.012-.516l-.01-.32a4.196 4.196 0 0 1 .036-.72c.062-.393.19-.56.444-.65a3.673 3.673 0 0 0 2.383-2.92c.283-2.038-1.267-3.972-3.341-4.115-2.053-.142-3.876 1.537-3.876 3.616a.75.75 0 1 0 1.5 0ZM8.25 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                          fill="#000"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                    </span>
+                  </button>,
+                }
+              }
+              target_selector={null}
+              tooltip="dialog_title"
+            >
+              <TooltipPortal
+                active={false}
+                align={null}
+                animate_position={false}
+                arrow="center"
+                attributes={
+                  Object {
+                    "children": "dialog_title",
+                    "className": "dnb-tooltip",
+                  }
+                }
+                class={null}
+                className={null}
+                fixed_position={false}
+                group="dialog_id-tooltip"
+                hide_delay={500}
+                id="dialog_id-tooltip"
+                internal_id="dialog_id-tooltip"
+                key="tooltip"
+                no_animation={false}
+                position="top"
+                show_delay={300}
+                size="basis"
+                target={
+                  <button
+                    aria-describedby="dialog_id-tooltip"
+                    aria-label="dialog_title"
+                    aria-roledescription="Hjelp-knapp"
+                    class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+                    id="dialog_id"
+                    type="button"
+                  >
+                    <span
+                      class="dnb-button__alignment"
+                    >
+                      ‌
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                      data-test-id="question icon"
+                      role="presentation"
+                    >
+                      <svg
+                        fill="none"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          clip-rule="evenodd"
+                          d="M6.142 4.876c0-1.205 1.081-2.203 2.272-2.12 1.202.082 2.123 1.23 1.96 2.412A2.174 2.174 0 0 1 8.975 6.88c-.961.34-1.313 1.123-1.426 1.826-.054.34-.059.685-.053.985.002.154.007.28.011.396.005.143.01.27.01.413a.75.75 0 0 0 1.5 0c0-.15-.006-.338-.012-.516l-.01-.32a4.196 4.196 0 0 1 .036-.72c.062-.393.19-.56.444-.65a3.673 3.673 0 0 0 2.383-2.92c.283-2.038-1.267-3.972-3.341-4.115-2.053-.142-3.876 1.537-3.876 3.616a.75.75 0 1 0 1.5 0ZM8.25 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                          fill="#000"
+                          fill-rule="evenodd"
+                        />
+                      </svg>
+                    </span>
+                  </button>
+                }
+                target_element={
+                  Object {
+                    "current": <button
+                      aria-describedby="dialog_id-tooltip"
+                      aria-label="dialog_title"
+                      aria-roledescription="Hjelp-knapp"
+                      class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+                      id="dialog_id"
+                      type="button"
+                    >
+                      <span
+                        class="dnb-button__alignment"
+                      >
+                        ‌
+                      </span>
+                      <span
+                        aria-hidden="true"
+                        class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                        data-test-id="question icon"
+                        role="presentation"
+                      >
+                        <svg
+                          fill="none"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          width="16"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            clip-rule="evenodd"
+                            d="M6.142 4.876c0-1.205 1.081-2.203 2.272-2.12 1.202.082 2.123 1.23 1.96 2.412A2.174 2.174 0 0 1 8.975 6.88c-.961.34-1.313 1.123-1.426 1.826-.054.34-.059.685-.053.985.002.154.007.28.011.396.005.143.01.27.01.413a.75.75 0 0 0 1.5 0c0-.15-.006-.338-.012-.516l-.01-.32a4.196 4.196 0 0 1 .036-.72c.062-.393.19-.56.444-.65a3.673 3.673 0 0 0 2.383-2.92c.283-2.038-1.267-3.972-3.341-4.115-2.053-.142-3.876 1.537-3.876 3.616a.75.75 0 1 0 1.5 0ZM8.25 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                            fill="#000"
+                            fill-rule="evenodd"
+                          />
+                        </svg>
+                      </span>
+                    </button>,
+                  }
+                }
+                target_selector={null}
+                tooltip="dialog_title"
+              />
+            </TooltipWithEvents>
+          </Tooltip>
+        </Button>
+      </HelpButtonInstance>
+      <ModalRoot
+        align_content="left"
+        animation_duration={300}
+        bar_content={null}
+        class={null}
+        className={null}
+        class_name={null}
+        closeModal={[Function]}
+        close_button_attributes={null}
+        close_modal={null}
+        close_title="Lukk"
+        container_placement={null}
+        content_class="dnb-dialog__root"
+        content_id="dnb-modal-dialog_id"
+        dialog_title="Separat Vindu"
+        direct_dom_return={true}
+        focus_selector={null}
+        fullscreen="auto"
+        header_content={null}
+        hide={false}
+        hide_close_button={false}
+        id="dialog_id"
+        labelled_by={null}
+        max_width={null}
+        min_width={null}
+        modal_content={
+          <DialogContent
+            0={
+              Object {
+                "displayName": "Dialog",
+                "props": Object {},
+              }
+            }
+            fullscreen="auto"
+            modalContent="unique_modal_content"
+            noAnimation={true}
+            spacing={true}
+          />
+        }
+        mode="custom"
+        no_animation={true}
+        no_animation_on_mobile={false}
+        on_close={null}
+        on_close_prevent={null}
+        on_open={null}
+        open_modal={null}
+        overlay_class={null}
+        prevent_close={false}
+        prevent_core_style={false}
+        root_id="root"
+        spacing={true}
+        title="dialog_title"
+      >
+        <ModalContent
+          align_content="left"
+          animation_duration={300}
+          bar_content={null}
+          class={null}
+          className={null}
+          class_name={null}
+          closeModal={[Function]}
+          close_button_attributes={null}
+          close_modal={null}
+          close_title="Lukk"
+          container_placement={null}
+          content_class="dnb-dialog__root"
+          content_id="dnb-modal-dialog_id"
+          dialog_title="Separat Vindu"
+          focus_selector={null}
+          fullscreen="auto"
+          header_content={null}
+          hide={false}
+          hide_close_button={false}
+          id="dialog_id"
+          labelled_by={null}
+          max_width={null}
+          min_width={null}
+          modal_content={
+            <DialogContent
+              0={
+                Object {
+                  "displayName": "Dialog",
+                  "props": Object {},
+                }
+              }
+              fullscreen="auto"
+              modalContent="unique_modal_content"
+              noAnimation={true}
+              spacing={true}
+            />
+          }
+          mode="custom"
+          no_animation={true}
+          no_animation_on_mobile={false}
+          on_close={null}
+          on_close_prevent={null}
+          on_open={null}
+          open_modal={null}
+          overlay_class={null}
+          prevent_close={false}
+          prevent_core_style={false}
+          root_id="root"
+          spacing={true}
+          title="dialog_title"
+        >
+          <div
+            aria-describedby="dnb-modal-dialog_id-content"
+            aria-labelledby="dnb-modal-dialog_id-title"
+            aria-modal={true}
+            className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-dialog__root dnb-modal__content--custom"
+            id="dnb-modal-dialog_id"
+            onClick={[Function]}
+            role="dialog"
+            style={null}
+          >
+            <DialogContent
+              0={
+                Object {
+                  "displayName": "Dialog",
+                  "props": Object {},
+                }
+              }
+              fullscreen="auto"
+              modalContent="unique_modal_content"
+              noAnimation={true}
+              spacing={true}
+            >
+              <ForwardRef(ScrollViewRef)
+                0={
+                  Object {
+                    "displayName": "Dialog",
+                    "props": Object {},
+                  }
+                }
+                className="dnb-dialog dnb-dialog--auto-fullscreen dnb-core-style dnb-dialog--spacing dnb-dialog__align--left dnb-dialog--no-animation"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                onTouchStart={[Function]}
+                style={null}
+              >
+                <ScrollView
+                  0={
+                    Object {
+                      "displayName": "Dialog",
+                      "props": Object {},
+                    }
+                  }
+                  class={null}
+                  className="dnb-dialog dnb-dialog--auto-fullscreen dnb-core-style dnb-dialog--spacing dnb-dialog__align--left dnb-dialog--no-animation"
+                  innerRef={null}
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  onTouchStart={[Function]}
+                  style={null}
+                >
+                  <div
+                    className="dnb-scroll-view dnb-dialog dnb-dialog--auto-fullscreen dnb-core-style dnb-dialog--spacing dnb-dialog__align--left dnb-dialog--no-animation"
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    onTouchStart={[Function]}
+                  >
+                    <div
+                      className="dnb-dialog__inner dnb-no-focus"
+                      tabIndex={-1}
+                    >
+                      <DialogNavigation>
+                        <ModalHeaderBar
+                          className="dnb-dialog__navigation"
+                        >
+                          <Section
+                            class={null}
+                            className="dnb-modal__header__bar dnb-dialog__navigation"
+                            element="section"
+                            inner_ref={
+                              Object {
+                                "current": <section
+                                  class="dnb-section dnb-section--white dnb-modal__header__bar dnb-dialog__navigation"
+                                >
+                                  <div
+                                    class="dnb-modal__header__bar__inner"
+                                  />
+                                  <div
+                                    class="dnb-modal__header__bar__close"
+                                  >
+                                    <button
+                                      class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-large"
+                                      type="button"
+                                    >
+                                      <span
+                                        class="dnb-button__alignment"
+                                      >
+                                        ‌
+                                      </span>
+                                      <span
+                                        class="dnb-button__text dnb-skeleton--show-font"
+                                      >
+                                        Lukk
+                                      </span>
+                                      <span
+                                        aria-hidden="true"
+                                        class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                                        data-test-id="close icon"
+                                        role="presentation"
+                                      >
+                                        <svg
+                                          fill="none"
+                                          height="16"
+                                          viewBox="0 0 16 16"
+                                          width="16"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <path
+                                            d="M3 13 13 3m0 10L3 3"
+                                            stroke="#000"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="1.5"
+                                          />
+                                        </svg>
+                                      </span>
+                                    </button>
+                                  </div>
+                                </section>,
+                              }
+                            }
+                            spacing={null}
+                            style_type="white"
+                          >
+                            <section
+                              className="dnb-section dnb-section--white dnb-modal__header__bar dnb-dialog__navigation"
+                            >
+                              <div
+                                className="dnb-modal__header__bar__inner"
+                              />
+                              <div
+                                className="dnb-modal__header__bar__close"
+                              >
+                                <CloseButton
+                                  className={null}
+                                  close_title="Lukk"
+                                  icon_position="left"
+                                  on_click={[Function]}
+                                  size="large"
+                                >
+                                  <Button
+                                    bounding={null}
+                                    class={null}
+                                    className="dnb-modal__close-button"
+                                    custom_content={null}
+                                    custom_element={null}
+                                    custom_method={null}
+                                    disabled={null}
+                                    element={null}
+                                    global_status_id={null}
+                                    href={null}
+                                    icon="close"
+                                    icon_position="left"
+                                    icon_size={null}
+                                    id={null}
+                                    innerRef={null}
+                                    inner_ref={null}
+                                    on_click={[Function]}
+                                    size="large"
+                                    skeleton={null}
+                                    status={null}
+                                    status_no_animation={null}
+                                    status_props={null}
+                                    status_state="error"
+                                    stretch={null}
+                                    text="Lukk"
+                                    title={null}
+                                    to={null}
+                                    tooltip={null}
+                                    type="button"
+                                    variant="tertiary"
+                                    wrap={null}
+                                  >
+                                    <button
+                                      className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-large"
+                                      disabled={false}
+                                      onClick={[Function]}
+                                      type="button"
+                                    >
+                                      <Content
+                                        bounding={null}
+                                        class={null}
+                                        className="dnb-modal__close-button"
+                                        content="Lukk"
+                                        custom_content={null}
+                                        custom_element={null}
+                                        custom_method={null}
+                                        disabled={null}
+                                        element={null}
+                                        global_status_id={null}
+                                        href={null}
+                                        icon="close"
+                                        icon_position="left"
+                                        icon_size={null}
+                                        id={null}
+                                        innerRef={null}
+                                        inner_ref={null}
+                                        isIconOnly={false}
+                                        on_click={[Function]}
+                                        size="large"
+                                        skeleton={false}
+                                        status={null}
+                                        status_no_animation={null}
+                                        status_props={null}
+                                        status_state="error"
+                                        stretch={null}
+                                        text="Lukk"
+                                        title={null}
+                                        to={null}
+                                        tooltip={null}
+                                        type="button"
+                                        variant="tertiary"
+                                        wrap={null}
+                                      >
+                                        <span
+                                          className="dnb-button__alignment"
+                                          key="button-text-empty"
+                                        >
+                                          ‌
+                                        </span>
+                                        <span
+                                          className="dnb-button__text dnb-skeleton--show-font"
+                                          key="button-text"
+                                        >
+                                          Lukk
+                                        </span>
+                                        <IconPrimary
+                                          alt={null}
+                                          aria-hidden={true}
+                                          attributes={null}
+                                          border={null}
+                                          className="dnb-button__icon"
+                                          color={null}
+                                          height={null}
+                                          icon="close"
+                                          inherit_color={true}
+                                          key="button-icon"
+                                          modifier={null}
+                                          size={null}
+                                          skeleton={false}
+                                          title={null}
+                                          width={null}
+                                        >
+                                          <span
+                                            aria-hidden={true}
+                                            className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                                            data-test-id="close icon"
+                                            role="presentation"
+                                          >
+                                            <close>
+                                              <svg
+                                                fill="none"
+                                                height={16}
+                                                viewBox="0 0 16 16"
+                                                width={16}
+                                                xmlns="http://www.w3.org/2000/svg"
+                                              >
+                                                <path
+                                                  d="M3 13 13 3m0 10L3 3"
+                                                  stroke="#000"
+                                                  strokeLinecap="round"
+                                                  strokeLinejoin="round"
+                                                  strokeWidth={1.5}
+                                                />
+                                              </svg>
+                                            </close>
+                                          </span>
+                                        </IconPrimary>
+                                      </Content>
+                                    </button>
+                                    <FormStatus
+                                      attributes={null}
+                                      class={null}
+                                      className={null}
+                                      global_status_id={null}
+                                      icon="error"
+                                      icon_size="medium"
+                                      id="null-form-status"
+                                      label="Lukk"
+                                      no_animation={null}
+                                      role={null}
+                                      show={null}
+                                      size="default"
+                                      skeleton={null}
+                                      state="error"
+                                      status="error"
+                                      stretch={null}
+                                      text={null}
+                                      text_id="null-status"
+                                      title={null}
+                                      variant={null}
+                                      width_element={null}
+                                      width_selector={null}
+                                    />
+                                  </Button>
+                                </CloseButton>
+                              </div>
+                            </section>
+                          </Section>
+                        </ModalHeaderBar>
+                      </DialogNavigation>
+                      <DialogHeader
+                        title="dialog_title"
+                      >
+                        <ModalHeader
+                          className="dnb-dialog__header"
+                          size="large"
+                          title="dialog_title"
+                          title_class="dnb-dialog__title"
+                        >
+                          <Section
+                            class={null}
+                            className="dnb-dialog__header"
+                            element="section"
+                            id="dnb-modal-dialog_id-title"
+                            inner_ref={null}
+                            spacing={null}
+                            style_type="white"
+                          >
+                            <section
+                              className="dnb-section dnb-section--white dnb-dialog__header"
+                              id="dnb-modal-dialog_id-title"
+                            >
+                              <h1
+                                className="dnb-modal__title dnb-space__top--zero dnb-space__bottom--small dnb-h--large dnb-dialog__title"
+                              >
+                                dialog_title
+                              </h1>
+                              <div />
+                            </section>
+                          </Section>
+                        </ModalHeader>
+                      </DialogHeader>
+                      <div
+                        className="dnb-dialog__content"
+                        id="dnb-modal-dialog_id-content"
+                      >
+                        unique_modal_content
+                      </div>
+                    </div>
+                  </div>
+                </ScrollView>
+              </ForwardRef(ScrollViewRef)>
+            </DialogContent>
+          </div>
+          <span
+            aria-hidden="true"
+            className="dnb-modal__overlay dnb-modal__overlay--no-animation"
+          />
+        </ModalContent>
+      </ModalRoot>
+    </Modal>
+  </Modal>
+</Dialog>
+`;
+
+exports[`Dialog scss have to match snapshot 1`] = `
+"/*
+* DNB Drawer
+*
+*/
+/**
+ * This file is only used to make components independent
+ * so that they can get imported individually, without the core styles
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Scopes
+ *
+ */
+/*
+ * Document Reset
+ *
+ */
+/*
+* DNB Modal
+*
+*/
+/*
+* DNB HelpButton
+*
+*/
+/*
+* DNB Button
+*
+*/
+/*
+* DNB icon
+*
+*/
+/*
+* Icon component
+*
+*/
+.dnb-icon {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: inherit;
+  width: 1em;
+  height: 1em; }
+  .dnb-icon img,
+  .dnb-icon svg {
+    width: inherit;
+    height: inherit;
+    shape-rendering: geometricPrecision;
+    vertical-align: top; }
+  .dnb-icon svg[width='100%'] {
+    width: inherit; }
+  .dnb-icon svg[height='100%'] {
+    height: inherit; }
+  .dnb-icon--inherit-color svg:not([fill]),
+  .dnb-icon--inherit-color svg [fill] {
+    fill: currentColor; }
+  .dnb-icon--inherit-color svg [stroke] {
+    stroke: currentColor; }
+  .dnb-icon--small {
+    font-size: 0.75rem; }
+  .dnb-icon--default {
+    font-size: 1rem; }
+  .dnb-icon--medium {
+    font-size: 1.5rem; }
+  .dnb-icon--large {
+    font-size: 2rem; }
+  .dnb-icon--x-large {
+    font-size: 2.5rem; }
+  .dnb-icon--xx-large {
+    font-size: 3rem; }
+  .dnb-icon--custom-size {
+    width: auto;
+    height: auto; }
+  .dnb-icon--auto {
+    font-size: 1em; }
+  .dnb-icon--auto > .dnb-icon--wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; }
+  h1 .dnb-icon,
+  h2 .dnb-icon,
+  h3 .dnb-icon,
+  h4 .dnb-icon,
+  h5 .dnb-icon,
+  h6 .dnb-icon {
+    vertical-align: middle; }
+  .dnb-icon.dnb-skeleton {
+    color: var(--skeleton-color) !important; }
+    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+      content: none !important; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-icon {
+      flex: none; } }
+
+/*
+* DNB Tooltip
+*
+*/
+.dnb-tooltip {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-tooltip *,
+  .dnb-tooltip ::before,
+  .dnb-tooltip ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-tooltip ::before,
+  .dnb-tooltip ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Tooltip component
+*
+*/
+.dnb-tooltip {
+  position: absolute;
+  z-index: 3100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease-out; }
+  .dnb-tooltip--large {
+    padding: 0.25rem 1rem; }
+  .dnb-tooltip--animate_position {
+    transition: all 300ms ease-in-out, opacity 200ms ease-out; }
+  .dnb-tooltip--active {
+    visibility: visible;
+    /*
+      because of the first \\"show\\" we also use animation
+      also, use forwards because of the usage of visibility
+    */
+    animation: show-tooltip 200ms ease-out forwards; }
+  html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {
+    animation: show-tooltip 1ms ease-out forwards; }
+  .dnb-tooltip--hide {
+    visibility: visible;
+    animation: hide-tooltip 200ms ease-in-out forwards; }
+  .dnb-tooltip--hide.dnb-tooltip--no-animation {
+    animation: hide-tooltip 1ms ease-out forwards; }
+  .dnb-tooltip--fixed {
+    position: fixed; }
+  html[data-visual-test] .dnb-tooltip--hide {
+    animation: hide-tooltip 1ms ease-out 1s forwards; }
+  .dnb-tooltip__content {
+    min-width: 2rem;
+    min-height: 1.5rem;
+    padding: 0; }
+  .dnb-tooltip__arrow {
+    position: absolute;
+    pointer-events: none;
+    margin: 0;
+    width: 1rem;
+    height: 0.5rem;
+    overflow: hidden; }
+    .dnb-tooltip__arrow::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 1rem;
+      height: 1rem;
+      transform: translateY(70%) rotate(45deg); }
+    .dnb-tooltip__arrow__position--bottom {
+      top: -0.5rem; }
+    .dnb-tooltip__arrow__position--top {
+      bottom: -0.5rem;
+      transform: rotate(180deg); }
+    .dnb-tooltip__arrow__position--left {
+      right: -0.75rem;
+      margin-right: 3px;
+      transform: rotate(90deg); }
+    .dnb-tooltip__arrow__position--right {
+      left: -0.75rem;
+      margin-left: 3px;
+      transform: rotate(270deg); }
+    .dnb-tooltip__arrow__arrow--left {
+      align-self: flex-start; }
+    .dnb-tooltip__arrow__arrow--right {
+      align-self: flex-end; }
+
+@keyframes show-tooltip {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+@keyframes hide-tooltip {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0;
+    visibility: hidden; } }
+
+/*
+* DNB FormStatus
+*
+*/
+.dnb-form-status {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-form-status *,
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-form-status ::before,
+  .dnb-form-status ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * FormStatus component
+ *
+ */
+:root {
+  --form-status-radius: 0.25rem; }
+
+.dnb-form-status {
+  display: flex;
+  opacity: 1;
+  transition: height 400ms cubic-bezier(0.42, 0, 0, 1), opacity 400ms cubic-bezier(0.42, 0, 0, 1), margin 400ms cubic-bezier(0.42, 0, 0, 1), padding 400ms cubic-bezier(0.42, 0, 0, 1); }
+  .dnb-form-status--hidden {
+    will-change: height, opacity, margin, padding;
+    width: 0;
+    height: 0;
+    opacity: 0; }
+  .dnb-form-status--is-animating {
+    overflow: hidden;
+    width: auto; }
+  .dnb-form-status--disappear, .dnb-form-status--hidden {
+    margin: 0 !important;
+    padding: 0 !important; }
+  .dnb-form-status__shell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-width: inherit;
+    border-radius: var(--form-status-radius); }
+  .dnb-form-status__text {
+    padding: 0.625rem 1rem;
+    cursor: text;
+    color: inherit;
+    line-height: var(--line-height-small);
+    font-size: var(--font-size-small);
+    white-space: normal; }
+    button .dnb-form-status__text {
+      cursor: inherit; }
+    .dnb-form-status__text .dnb-anchor {
+      font-size: inherit; }
+  .dnb-icon + .dnb-form-status__text {
+    padding-left: 0.5rem; }
+  .dnb-form-status__shell > .dnb-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
+  .dnb-form-status__size--large .dnb-form-status__text {
+    padding-top: 1.125rem;
+    padding-bottom: 1.125rem; }
+  .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+    margin-top: 0.6666666em;
+    margin-bottom: 0.6666666em; }
+  .dnb-form-status--stretch {
+    flex-grow: 1; }
+  .dnb-form-status--stretch .dnb-form-status__shell {
+    width: 100%; }
+  .dnb-form-status--stretch .dnb-form-status__text {
+    max-width: 47rem; }
+  .dnb-form-status[hidden] {
+    display: none; }
+  .dnb-form-status--no-animation,
+  html[data-visual-test] .dnb-form-status {
+    transition-duration: 1ms !important; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-form-status__shell > .dnb-icon {
+      border-width: 1px; } }
+
+.dnb-button {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-button *,
+  .dnb-button ::before,
+  .dnb-button ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-button ::before,
+  .dnb-button ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Button component
+*
+*/
+:root {
+  --button-font-size: var(--font-size-basis);
+  --button-font-size-small: var(--font-size-small);
+  --button-width: 2.5rem;
+  --button-height: 2.5rem;
+  --button-width--small: 1.5rem;
+  --button-height--small: 1.5rem;
+  --button-width--medium: 2rem;
+  --button-height--medium: 2rem;
+  --button-width--large: 3rem;
+  --button-height--large: 3rem;
+  --button-icon-size: 1rem;
+  --button-border-width: 0.0625rem;
+  --button-border-width--hover: 0.1875rem;
+  --button-border-radius: calc(var(--button-height) / 2);
+  --button-border-radius--small: calc(var(--button-height--small) / 2);
+  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
+  --button-border-radius--large: calc(var(--button-height--large) / 2); }
+
+.dnb-button {
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-width);
+  height: auto;
+  padding: 0;
+  border: var(--button-border-width) solid transparent;
+  border-radius: var(--button-border-radius);
+  text-decoration: none;
+  font-size: var(--font-size-small);
+  /* stylelint-disable-next-line */ }
+  .dnb-button--wrap {
+    overflow-wrap: break-word;
+    white-space: normal; }
+  .dnb-button,
+  .dnb-core-style .dnb-button {
+    line-height: var(--button-height); }
+  .dnb-button__text {
+    margin: 0.5rem 0;
+    font-size: var(--button-font-size);
+    line-height: var(--line-height-basis);
+    color: inherit;
+    transform: translateY(-0.03125rem); }
+    .dnb-button__text [data-os='linux'] {
+      transform: translateY(-0.035rem); }
+  .dnb-button__alignment {
+    display: inline-block;
+    width: 0; }
+  .dnb-button__bounding {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    transform: scale(1.1, 1.4);
+    background-color: transparent;
+    border-radius: var(--button-border-radius); }
+  .dnb-button--has-text {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem; }
+  .dnb-button--size-small {
+    width: var(--button-width--small);
+    font-size: var(--button-font-size-small);
+    border-radius: var(--button-border-radius--small); }
+    .dnb-button--size-small,
+    .dnb-core-style .dnb-button--size-small {
+      line-height: var(--button-height--small); }
+  .dnb-button--size-small .dnb-button__text {
+    margin: 0; }
+  .dnb-button--has-text.dnb-button--size-small {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
+    padding-right: 0.5rem; }
+  .dnb-button--size-medium {
+    width: var(--button-width--medium);
+    border-radius: var(--button-border-radius--medium); }
+    .dnb-button--size-medium,
+    .dnb-core-style .dnb-button--size-medium {
+      line-height: var(--button-height--medium); }
+  .dnb-button--size-medium .dnb-button__text {
+    margin: 0; }
+  .dnb-button--has-text.dnb-button--size-medium {
+    padding-left: 1rem;
+    padding-right: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
+    padding-right: 0.5rem; }
+  .dnb-button--size-large {
+    width: var(--button-width--large);
+    border-radius: var(--button-border-radius--large); }
+    .dnb-button--size-large,
+    .dnb-core-style .dnb-button--size-large {
+      line-height: var(--button-height--large); }
+  .dnb-button--has-text.dnb-button--size-large {
+    padding-left: 2rem;
+    padding-right: 2rem; }
+  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
+    padding-left: 1rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
+    padding-right: 1rem; }
+  .dnb-button--has-text {
+    width: auto; }
+  .dnb-button--has-text .dnb-button__icon {
+    margin: 0 calc(var(--button-icon-size) / 2); }
+  .dnb-button--has-text.dnb-button--icon-position-left {
+    padding-left: 0.5rem; }
+  .dnb-button--has-text.dnb-button--icon-position-right {
+    padding-right: 0.5rem; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
+    order: 2; }
+  .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
+    order: 1; }
+  .dnb-button:not(.dnb-button--has-text) .dnb-button__icon {
+    width: inherit; }
+  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
+    width: var(--button-icon-size);
+    height: var(--button-icon-size); }
+  [href] > .dnb-button__icon.dnb-icon {
+    line-height: var(--button-font-size); }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__icon {
+    order: 1; }
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left > *,
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
+  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
+    order: 2; }
+  .dnb-button--stretch {
+    width: 100%; }
+  .dnb-button--reset {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    appearance: none;
+    box-shadow: none;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    line-height: inherit; }
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
+      cursor: not-allowed; }
+    html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
+      box-shadow: none;
+      border: none; }
+    .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+      outline: none; }
+      html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+        --border-color: var(--color-emerald-green);
+        box-shadow: 0 0 0 0.125rem var(--border-color);
+        border-color: transparent; }
+        @media screen and (-ms-high-contrast: none) {
+          html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
+            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
+    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
+      box-shadow: none;
+      color: inherit;
+      border: none; }
+  .dnb-button[type='button'], .dnb-button[type='reset'], .dnb-button[type='submit'] {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none; }
+  .dnb-button[disabled] {
+    cursor: not-allowed; }
+  .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
+    align-self: flex-start; }
+  .dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
+    white-space: nowrap; }
+  .dnb-button + .dnb-form-status {
+    margin-top: 0.5rem; }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-button {
+      flex: none; }
+      .dnb-button__icon, .dnb-button__text {
+        transform: translateY(-0.0625rem); } }
+
+/* Firefox includes a hidden border which messes up button dimensions */
+button.dnb-button::-moz-focus-inner {
+  border: none; }
+
+.dnb-help-button {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-help-button *,
+  .dnb-help-button ::before,
+  .dnb-help-button ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-help-button ::before,
+  .dnb-help-button ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+ * HelpButton component
+ *
+ * TODO: Set spacing in the theme file, as theme comes later in the stack
+ *
+ */
+.dnb-modal__content {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-modal__content *,
+  .dnb-modal__content ::before,
+  .dnb-modal__content ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-modal__content ::before,
+  .dnb-modal__content ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+
+/*
+* Drawer component
+*
+*/
+/*
+ * Modal component
+ *
+ */
+@keyframes show-modal {
+  from {
+    opacity: 0.1;
+    transform: translate3d(0, -1rem, 0); }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1; } }
+
+@keyframes hide-modal {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1; }
+  to {
+    transform: translate3d(0, 1rem, 0);
+    opacity: 0; } }
+
+@keyframes show-drawer {
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1; } }
+
+@keyframes hide-drawer-left {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1; }
+  to {
+    transform: translate3d(-20rem, 0, 0);
+    opacity: 0; } }
+
+@keyframes hide-drawer-top {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1; }
+  to {
+    transform: translate3d(0, -20rem, 0);
+    opacity: 0; } }
+
+@keyframes hide-drawer-bottom {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1; }
+  to {
+    transform: translate3d(0, 20rem, 0);
+    opacity: 0; } }
+
+@keyframes hide-drawer-right {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1; }
+  to {
+    transform: translate3d(20rem, 0, 0);
+    opacity: 0; } }
+
+@keyframes show-modal-overlay {
+  from {
+    opacity: 0; }
+  to {
+    opacity: var(--modal-overlay-opacity); } }
+
+@keyframes hide-modal-overlay {
+  from {
+    opacity: var(--modal-overlay-opacity); }
+  to {
+    opacity: 0; } }
+
+:root {
+  --drawer-width: 40vw;
+  --drawer-min-width: 25rem;
+  --drawer-max-width: 40rem;
+  --drawer-header-min-height: 6rem;
+  --drawer-spacing: 2rem;
+  --drawer-spacing-minus: -2rem; }
+
+.dnb-drawer {
+  position: relative;
+  max-height: 100vh;
+  width: 100%;
+  height: 100vh;
+  max-width: 100%;
+  border-radius: 0;
+  box-shadow: none;
+  width: var(--drawer-width);
+  min-width: var(--drawer-min-width);
+  max-width: var(--drawer-max-width);
+  box-shadow: var(--shadow-default);
+  user-select: text;
+  -webkit-user-select: text;
+  border: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  @media screen and (max-width: 40em) {
+    .dnb-drawer {
+      width: 100vw;
+      min-width: auto;
+      max-width: auto; } }
+  @media screen and (max-width: 40em) {
+    .dnb-drawer--auto-fullscreen {
+      width: 100%;
+      height: 100vh;
+      max-width: 100%;
+      border-radius: 0;
+      box-shadow: none; } }
+  .dnb-drawer__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    background-color: var(--modal-background-color, transparent);
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden; }
+    .dnb-drawer__inner::after {
+      content: '';
+      position: absolute;
+      z-index: -4;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100%; }
+  .dnb-drawer--spacing .dnb-drawer__inner {
+    padding: 0 var(--drawer-spacing) 0; }
+    @media screen and (min-width: 72em) {
+      .dnb-drawer--spacing .dnb-drawer__inner {
+        padding: 0 calc(var(--drawer-spacing) * 1.75) 0; } }
+    @media screen and (max-width: 50em) {
+      .dnb-drawer--spacing .dnb-drawer__inner {
+        padding: 0 calc(var(--drawer-spacing) / 1.333333) 0; } }
+    @media screen and (max-width: 40em) {
+      .dnb-drawer--spacing .dnb-drawer__inner {
+        padding: 0 calc(var(--drawer-spacing) / 2) 0; } }
+  .dnb-drawer__align--centered .dnb-drawer__inner {
+    align-items: center;
+    justify-content: center; }
+  .dnb-drawer__content {
+    position: relative;
+    z-index: 1;
+    padding-bottom: calc(var(--drawer-spacing) * 2); }
+  .dnb-drawer--spacing .dnb-drawer__content {
+    padding-bottom: calc(var(--drawer-spacing) * 2); }
+    @supports (-webkit-touch-callout: none) {
+      .dnb-drawer--spacing .dnb-drawer__content {
+        padding-bottom: calc(var(--drawer-spacing) * 8); } }
+  .dnb-drawer__align--center .dnb-drawer__content {
+    align-items: center;
+    text-align: center; }
+  .dnb-drawer__align--right .dnb-drawer__content {
+    align-items: flex-end;
+    text-align: right; }
+  .dnb-drawer--top, .dnb-drawer--bottom {
+    max-width: 100%;
+    width: 100vw;
+    height: 40vh; }
+    @media screen and (max-height: 40em) {
+      .dnb-drawer--top, .dnb-drawer--bottom {
+        height: 100vw;
+        min-height: auto;
+        max-height: auto; } }
+  .dnb-drawer--fullscreen {
+    width: 100%;
+    height: 100vh;
+    max-width: 100%;
+    border-radius: 0;
+    box-shadow: none; }
+  html:not([data-visual-test]) .dnb-drawer {
+    opacity: 0.1;
+    animation: show-drawer var(--modal-animation-duration) ease-out forwards; }
+  html:not([data-visual-test]) .dnb-drawer--left {
+    transform: translate3d(-20rem, 0, 0); }
+  html:not([data-visual-test]) .dnb-drawer--right {
+    transform: translate3d(20rem, 0, 0); }
+  html:not([data-visual-test]) .dnb-drawer--top {
+    transform: translate3d(0, -20rem, 0); }
+  html:not([data-visual-test]) .dnb-drawer--bottom {
+    transform: translate3d(0, 20rem, 0); }
+  html:not([data-visual-test]) .dnb-drawer--hide.dnb-drawer--left {
+    animation: hide-drawer-left var(--modal-animation-duration) ease-in-out forwards; }
+  html:not([data-visual-test]) .dnb-drawer--hide.dnb-drawer--right {
+    animation: hide-drawer-right var(--modal-animation-duration) ease-in-out forwards; }
+  html:not([data-visual-test]) .dnb-drawer--hide.dnb-drawer--top {
+    animation: hide-drawer-top var(--modal-animation-duration) ease-in-out forwards; }
+  html:not([data-visual-test]) .dnb-drawer--hide.dnb-drawer--bottom {
+    animation: hide-drawer-bottom var(--modal-animation-duration) ease-in-out forwards; }
+  .dnb-drawer--no-animation {
+    animation-duration: 0ms !important; }
+  @media screen and (max-width: 40em) {
+    .dnb-drawer--no-animation-on-mobile {
+      animation-duration: 0ms !important; } }
+  .dnb-drawer__root {
+    align-items: flex-start;
+    justify-content: flex-start; }
+  .dnb-drawer__title ~ .dnb-drawer__content {
+    padding-top: calc(var(--drawer-spacing) / 1.333333); }
+  .dnb-drawer .dnb-drawer__header [class*='dnb-h--'],
+  .dnb-drawer .dnb-drawer__header .dnb-drawer__title {
+    padding: 0; }
+    .dnb-drawer .dnb-drawer__header [class*='dnb-h--']:not([class*='__top']),
+    .dnb-drawer .dnb-drawer__header .dnb-drawer__title:not([class*='__top']) {
+      margin-top: 0; }
+    .dnb-drawer .dnb-drawer__header [class*='dnb-h--']:not([class*='__bottom']),
+    .dnb-drawer .dnb-drawer__header .dnb-drawer__title:not([class*='__bottom']) {
+      margin-bottom: 0; }
+  .dnb-drawer .dnb-drawer__header::after {
+    top: -500%;
+    height: 600%; }
+  .dnb-drawer--spacing .dnb-drawer__header {
+    min-height: var(--drawer-header-min-height); }
+    .dnb-drawer--spacing .dnb-drawer__header .dnb-tabs {
+      margin-top: 3.5rem; }
+  .dnb-drawer__body {
+    padding-bottom: calc(var(--drawer-spacing) * 2);
+    margin-bottom: calc(var(--drawer-spacing-minus) * 2); }
+    @supports (-webkit-touch-callout: none) {
+      .dnb-drawer__body {
+        padding-bottom: calc(var(--drawer-spacing-minus) * 8); } }
+  .dnb-drawer__navigation.dnb-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; }
+  .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section {
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    margin: calc(var(--drawer-spacing) * 1.75) 0; }
+    @media screen and (max-width: 50em) {
+      .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section {
+        margin: var(--drawer-spacing) 0; } }
+  .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section.dnb-drawer__navigation--sticky {
+    z-index: 2999; }
+  .dnb-drawer .dnb-drawer__navigation--sticky::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: -50%;
+    right: -50%;
+    bottom: 0;
+    height: 300%;
+    box-shadow: var(--shadow-default); }
+  .dnb-drawer .dnb-drawer__navigation:not(.dnb-drawer__navigation--sticky)::after {
+    color: transparent; }
+  @media screen and (max-width: 40em) {
+    .dnb-drawer--no-animation-on-mobile {
+      animation-delay: 0ms !important;
+      animation-duration: 0ms !important; } }
+
+[data-visual-test].hide-page-content #___gatsby {
+  opacity: 0; }
+
+/*
+ * Dialog component
+ *
+ */
+:root {
+  --dialog-min-width: 320px;
+  --dialog-avg-width: 60vw;
+  --dialog-max-width: 60rem;
+  --dialog-spacing: 2rem;
+  --dialog-spacing-minus: -2rem; }
+
+.dnb-dialog {
+  position: relative;
+  width: var(--dialog-avg-width);
+  min-width: var(--dialog-min-width);
+  max-width: var(--dialog-max-width);
+  max-height: 100vh;
+  box-shadow: var(--shadow-default);
+  border-radius: 0.5rem;
+  user-select: text;
+  -webkit-user-select: text;
+  border: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  @media screen and (max-width: 40em) {
+    .dnb-dialog--auto-fullscreen {
+      width: 100%;
+      height: 100vh;
+      max-width: 100%;
+      border-radius: 0;
+      box-shadow: none; } }
+  .dnb-dialog--fullscreen {
+    width: 100%;
+    height: 100vh;
+    max-width: 100%;
+    border-radius: 0;
+    box-shadow: none; }
+  @supports (-webkit-touch-callout: none) {
+    @media (max-height: 40em) and (orientation: landscape) {
+      .dnb-dialog:not(.dnb-dialog--fullscreen) {
+        max-height: 80vh; } } }
+  .dnb-dialog__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden; }
+    .dnb-dialog__inner::after {
+      content: '';
+      position: absolute;
+      z-index: -4;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100%; }
+  .dnb-dialog--spacing .dnb-dialog__inner {
+    padding: 0 var(--dialog-spacing) 0; }
+    @media screen and (min-width: 72em) {
+      .dnb-dialog--spacing .dnb-dialog__inner {
+        padding: 0 calc(var(--dialog-spacing) * 1.75) 0; } }
+    @media screen and (max-width: 50em) {
+      .dnb-dialog--spacing .dnb-dialog__inner {
+        padding: 0 calc(var(--dialog-spacing) / 1.333333) 0; } }
+    @media screen and (max-width: 40em) {
+      .dnb-dialog--spacing .dnb-dialog__inner {
+        padding: 0 calc(var(--dialog-spacing) / 2) 0; } }
+  .dnb-dialog__align--centered .dnb-dialog__inner {
+    align-items: center;
+    justify-content: center; }
+  html:not([data-visual-test]) .dnb-dialog {
+    animation: show-modal var(--modal-animation-duration) ease-out forwards; }
+  html:not([data-visual-test]) .dnb-dialog--hide {
+    animation: hide-modal 220ms ease-in-out forwards; }
+  .dnb-dialog--no-animation {
+    animation-duration: 0ms !important; }
+  @media screen and (max-width: 40em) {
+    .dnb-dialog--no-animation-on-mobile {
+      animation-delay: 0ms !important;
+      animation-duration: 0ms !important; } }
+  .dnb-dialog__content {
+    position: relative;
+    z-index: 1; }
+  .dnb-dialog--spacing .dnb-dialog__content {
+    padding-bottom: calc(var(--dialog-spacing) * 2); }
+    @supports (-webkit-touch-callout: none) {
+      .dnb-dialog--spacing .dnb-dialog__content {
+        padding-bottom: calc(var(--dialog-spacing) * 8); } }
+  .dnb-dialog__align--center .dnb-dialog__content {
+    align-items: center;
+    text-align: center; }
+  .dnb-dialog__align--right .dnb-dialog__content {
+    align-items: flex-end;
+    text-align: right; }
+  .dnb-dialog__title ~ .dnb-dialog__content {
+    padding-top: calc(var(--dialog-spacing) / 2); }
+  .dnb-dialog .dnb-dialog__header [class*='dnb-h--'],
+  .dnb-dialog .dnb-dialog__header .dnb-modal__title {
+    padding: 0; }
+    .dnb-dialog .dnb-dialog__header [class*='dnb-h--']:not([class*='__top']),
+    .dnb-dialog .dnb-dialog__header .dnb-modal__title:not([class*='__top']) {
+      margin-top: 0; }
+    .dnb-dialog .dnb-dialog__header [class*='dnb-h--']:not([class*='__bottom']),
+    .dnb-dialog .dnb-dialog__header .dnb-modal__title:not([class*='__bottom']) {
+      margin-bottom: 0; }
+  .dnb-dialog .dnb-dialog__header::after {
+    top: -500%;
+    height: 600%; }
+  .dnb-dialog--spacing .dnb-dialog__header .dnb-tabs {
+    margin-top: 3.5rem; }
+  .dnb-dialog__body {
+    padding-bottom: calc(var(--dialog-spacing) * 2);
+    margin-bottom: calc(var(--dialog-spacing-minus) * 2); }
+  .dnb-dialog__navigation.dnb-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; }
+  .dnb-dialog--spacing .dnb-dialog__navigation.dnb-section {
+    margin-top: calc(var(--dialog-spacing) * 1.75);
+    margin-bottom: calc(var(--dialog-spacing) / 2); }
+    @media screen and (max-width: 50em) {
+      .dnb-dialog--spacing .dnb-dialog__navigation.dnb-section {
+        margin-top: calc(var(--dialog-spacing) / 2); } }
+
+[data-visual-test].hide-page-content #___gatsby {
+  opacity: 0; }
+
+/*
+ * Modal component
+ *
+ */
+:root {
+  --modal-z-index: 3000;
+  --modal-animation-duration: 300ms;
+  --modal-overlay-bg: black;
+  --modal-overlay-opacity: 0.32; }
+
+html[data-dnb-modal-active] {
+  user-select: none;
+  -webkit-user-select: none; }
+
+#dnb-modal-root {
+  position: absolute;
+  top: 0;
+  left: 0; }
+
+.dnb-modal {
+  /* stylelint-disable-next-line */ }
+  .dnb-modal__content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: calc(var(--modal-z-index) + 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100vw;
+    width: 100%;
+    height: 100%;
+    user-select: none;
+    -webkit-user-select: none; }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__content--auto-fullscreen {
+        height: auto; } }
+    .dnb-modal__content--fullscreen {
+      align-items: flex-start;
+      justify-content: flex-start; }
+    .dnb-modal__content--fullscreen .dnb-modal__content__content {
+      height: auto; }
+    .dnb-modal__content--right {
+      justify-content: flex-end; }
+    .dnb-modal__content--bottom {
+      align-items: flex-end; }
+  .dnb-modal__overlay {
+    position: fixed;
+    z-index: var(--modal-z-index);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--modal-overlay-bg); }
+  .dnb-modal-root__inner .dnb-modal__overlay {
+    animation: hide-modal-overlay var(--modal-animation-duration) ease-in-out forwards; }
+  .dnb-modal-root__inner:last-of-type .dnb-modal__overlay {
+    animation: show-modal-overlay var(--modal-animation-duration) ease-out forwards 0ms; }
+    .dnb-modal-root__inner:last-of-type .dnb-modal__overlay--hide {
+      animation: hide-modal-overlay var(--modal-animation-duration) ease-in-out forwards; }
+  html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
+    animation-delay: 0ms !important;
+    animation-duration: 0ms !important; }
+  .dnb-modal-root__inner {
+    position: relative;
+    z-index: calc(var(--modal-z-index) + 1); }
+  .dnb-modal-root__inner ~ .dnb-modal-root__inner {
+    z-index: calc(var(--modal-z-index) + 2); }
+  .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner {
+    z-index: calc(var(--modal-z-index) + 3); }
+  .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner {
+    z-index: calc(var(--modal-z-index) + 4); }
+  .dnb-modal__close-button {
+    z-index: calc(var(--modal-z-index) + 1); }
+  .dnb-modal__header__bar.dnb-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-modal__header__bar.dnb-section {
+        align-items: center; } }
+  @media screen and (-ms-high-contrast: none) {
+    .dnb-core-style .dnb-modal__header__bar__close {
+      margin-left: auto; } }
+
+[data-visual-test].hide-page-content #___gatsby {
+  opacity: 0; }
+
+.dnb-dialog {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-basis);
+  font-size: var(--font-size-small);
+  font-style: normal;
+  line-height: var(--line-height-basis);
+  color: var(--color-black-80, #333);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  /**
+  * Ensure consistency and use the same as HTML reset -> html {...}
+  * between base and code package
+  */
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-break: break-word;
+  /**
+  * 1. Remove repeating backgrounds in all browsers (opinionated).
+  * 2. Add border box sizing in all browsers (opinionated).
+  */
+  /**
+  * 1. Add text decoration inheritance in all browsers (opinionated).
+  * 2. Add vertical alignment inheritance in all browsers (opinionated).
+  */
+  margin: 0;
+  padding: 0; }
+  .dnb-dialog *,
+  .dnb-dialog ::before,
+  .dnb-dialog ::after {
+    background-repeat: no-repeat;
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */ }
+  .dnb-dialog ::before,
+  .dnb-dialog ::after {
+    text-decoration: inherit;
+    /* 1 */
+    vertical-align: inherit;
+    /* 2 */ }
+"
+`;

@@ -49,6 +49,18 @@ describe('Icon screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match icons with colors', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        // Flex makes the pixel height 100% correct
+        display: 'flex',
+        'align-items': 'center',
+      },
+      selector: '[data-visual-test="icon-colors"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match responsive icons', async () => {
     const screenshot = await testPageScreenshot({
       style: {

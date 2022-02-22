@@ -175,3 +175,18 @@ export default function IconTests() {
     </>
   )
 }
+
+export const IconColors = () => {
+  return (
+    <ComponentBox
+      data-visual-test="icon-colors"
+      scope={{ BellMedium }}
+    >
+      {() => /* jsx */ `
+<Icon icon={BellMedium} color="var(--color-fire-red)" title="CSS variable" />
+<Icon icon={BellMedium} color="#DC2A2A" title="Hex" />
+<Icon icon={BellMedium} color="rgb(220,42,42)" title="RGB" />
+`}
+    </ComponentBox>
+  )
+}

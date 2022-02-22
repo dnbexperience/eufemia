@@ -4,5 +4,5 @@
  *
  */
 
-import makeEveryComponentStyle from '../prepub/tasks/makeEveryComponentStyle'
+import makeEveryComponentStyle from '../prebuild/tasks/makeEveryComponentStyle'
 makeEveryComponentStyle({ preventDelete: true })

@@ -8,13 +8,15 @@ const fs = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
 const puppeteer = require('puppeteer')
-const { DIR } = require('./jestSetupScreenshots').config
+const { config } = require('./jestSetupScreenshots')
 
 class PuppeteerEnvironment extends NodeEnvironment {
   constructor(config) {
     super(config)
 
-    global.__EVENT_FAILURE_CACHE__ = []
+    if (typeof global.__EVENT_FAILURE_CACHE__ === 'undefined') {
+      global.__EVENT_FAILURE_CACHE__ = []
+    }
   }
 
   async setup() {
@@ -22,7 +24,7 @@ class PuppeteerEnvironment extends NodeEnvironment {
 
     // get the wsEndpoint
     const wsEndpoint = await fs.readFile(
-      path.join(DIR, 'wsEndpoint'),
+      path.join(config.DIR, 'wsEndpoint'),
       'utf8'
     )
     if (!wsEndpoint) {
@@ -43,25 +45,27 @@ class PuppeteerEnvironment extends NodeEnvironment {
   }
 
   async handleTestEvent(event, state) {
-    if (event.name === 'test_fn_failure') {
-      this.global.__EVENT_FAILURE__ = true
+    if (config.retryTimes > 0) {
+      if (event.name === 'test_fn_failure') {
+        this.global.__EVENT_FAILURE__ = true
 
-      const name = this.getName(state)
-      if (!global.__EVENT_FAILURE_CACHE__.includes(name)) {
-        global.__EVENT_FAILURE_CACHE__.push(name)
+        const name = this.getName(state)
+        if (!global.__EVENT_FAILURE_CACHE__.includes(name)) {
+          global.__EVENT_FAILURE_CACHE__.push(name)
+        }
+
+        console.log(
+          chalk.yellow(
+            `Retry attempt #${state.currentlyRunningTest.invocations}: ${name}`
+          )
+        )
       }
 
-      console.log(
-        chalk.yellow(
-          `Retry attempt #${state.currentlyRunningTest.invocations}: ${name}`
-        )
-      )
-    }
-
-    if (event.name === 'test_fn_success') {
-      const name = this.getName(state)
-      global.__EVENT_FAILURE_CACHE__ =
-        global.__EVENT_FAILURE_CACHE__.filter((n) => n !== name)
+      if (event.name === 'test_fn_success') {
+        const name = this.getName(state)
+        global.__EVENT_FAILURE_CACHE__ =
+          global.__EVENT_FAILURE_CACHE__.filter((n) => n !== name)
+      }
     }
   }
 
