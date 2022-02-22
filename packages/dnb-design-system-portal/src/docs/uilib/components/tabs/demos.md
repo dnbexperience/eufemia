@@ -8,7 +8,8 @@ TabsExampleContentObject,
 TabsExampleScrollable,
 TabsExampleLeftAligned,
 TabsExampleUsingData,
-TabsExampleRightAligned,
+TabsExampleHorizontalAligned,
+TabsExampleMaxWidth,
 TabsExampleReachRouterNavigation,
 TabsExampleReactRouterNavigation,
 TabsNoBorder,
@@ -40,31 +41,23 @@ Also, this is an example of how to define a different content background color, 
 
 <TabsExampleLeftAligned />
 
-### Right aligned tabs
-
-<TabsExampleRightAligned />
-
-### Tabs optimized for mobile
-
-<TabsExampleScrollable />
-
-**Notes about the mobile view:** The Tabs component does automatically calculate the remaining spacing once the screen gets under `40em` in width.
-But depending on your setup, you may have to align your Tabs all the way to the edge of the browser window. E.g. with a negative margin:
-
-```css
-@media screen and (min-width: 40em) {
-  .dnb-tabs .dnb-tabs__tabs {
-    margin: 0 -2rem;
-  }
-  .dnb-tabs .dnb-tabs__tabs__tablist {
-    padding: 0 2rem;
-  }
-}
-```
-
 ### Tabs without bottom border
 
 <TabsNoBorder />
+
+### Tabs optimized for narrow screens
+
+Navigation buttons will be shown and the tabs-list will be scrollable.
+
+<TabsExampleScrollable />
+
+### Horizontal aligned tabs
+
+<TabsExampleHorizontalAligned />
+
+### max-width usage
+
+<TabsExampleMaxWidth />
 
 ### Router navigation with Reach Router
 

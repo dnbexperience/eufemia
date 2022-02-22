@@ -92,6 +92,9 @@ export default function Tabbar({
         tab_element={Link}
         data={preparedTabs}
         selected_key={selectedKey}
+        on_change={({ selected_key }) => {
+          navigate(selected_key)
+        }}
         render={({ Wrapper, Content, TabsList, Tabs }) => {
           return (
             <Wrapper css={tabsWrapperStyle}>
@@ -154,12 +157,6 @@ const tabsWrapperStyle = css`
   .dnb-tabs__tabs {
     justify-content: space-between;
   }
-  .fullscreen-page & {
-    top: 0;
-    .is-sticky .dnb-tabs__tabs {
-      margin: 0 -2rem;
-    }
-  }
   .dnb-tabs__tabs .dnb-modal__close-button {
     position: relative;
     top: auto; /* to force the button to center */
@@ -175,12 +172,15 @@ const tabsWrapperStyle = css`
   }
 
   @media screen and (max-width: 40em) {
-    ${
-      '' /* .dnb-tabs__tabs {
-      NB: Now this gets handled automatically
-      margin: 0 -2rem;
-      padding: 0 2rem;
-    } */
+    .fullscreen-page & {
+      top: 0;
+
+      /*
+        Will align the tabbar to the browser edges 
+        .dnb-tabs__tabs.dnb-tabs--has-scrollbar {
+          margin: 0 -2rem;
+        }
+      */
     }
     .dnb-tabs__tabs .dnb-button.fullscreen {
       display: none;
