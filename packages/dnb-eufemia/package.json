@@ -62,7 +62,7 @@
     "publish:ci": "yarn publish:prepare && ./scripts/postbuild/publish-release.sh",
     "publish:dry": "dotenv semantic-release --no-ci --dry-run",
     "publish:prepare": "./scripts/postbuild/publish-prepare.sh",
-    "reset": "rm -rf ./node_modules ./components ./elements ./es ./icons ./extensions ./shared ./style ./umd",
+    "reset": "rm -rf ./node_modules ./build",
     "skeleton:font": "nodemon --exec 'babel-node ./scripts/tools/createSkeletonFont.js'",
     "start": "start-storybook -s / -p 8002 --ci --no-release-notes --no-version-updates",
     "test": "jest",
