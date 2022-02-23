@@ -191,7 +191,6 @@ const InfoCard = (localProps: InfoCardProps & ISpacingProps) => {
 
     return (
       <Div
-        top={centered ? 'medium' : 'small'}
         className={classnames(
           'dnb-info-card--buttons',
           centered && 'dnb-info-card--buttons-centered'
@@ -199,6 +198,7 @@ const InfoCard = (localProps: InfoCardProps & ISpacingProps) => {
       >
         {!acceptButtonIsHidden && (
           <Button
+            top={centered ? 'medium' : 'small'}
             type="button"
             data-testid="info-card-accept-button"
             variant="secondary"
@@ -213,7 +213,7 @@ const InfoCard = (localProps: InfoCardProps & ISpacingProps) => {
             type="button"
             data-testid="info-card-close-button"
             variant="tertiary"
-            top={centered && 'small'}
+            top="small"
             on_click={onClose}
             icon="close"
             icon_position="left"
