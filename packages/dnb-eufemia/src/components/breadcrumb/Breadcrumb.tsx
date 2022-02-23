@@ -111,12 +111,7 @@ export interface BreadcrumbProps {
 }
 
 export const defaultProps = {
-  className: null,
   skeleton: false,
-  children: null,
-  variant: null,
-  onClick: null,
-  href: null,
   navText: 'Back',
   goBackText: 'Back',
   homeText: 'Home',
@@ -124,7 +119,6 @@ export const defaultProps = {
   isCollapsed: true,
   styleType: 'transparent',
   collapsedStyleType: 'pistachio',
-  data: null,
   spacing: false,
 }
 
@@ -165,7 +159,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
   })
 
   let currentVariant = variant
-  if (variant === null) {
+  if (!variant) {
     if (childrenItems || data) {
       currentVariant = isSmallScreen ? 'collapse' : 'multiple'
     } else {

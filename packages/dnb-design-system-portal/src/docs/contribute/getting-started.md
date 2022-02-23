@@ -141,7 +141,7 @@ import { Context } from '../../shared'
 import { usePropsWithContext } from '../../shared/hooks'
 
 const defaultProps = {
-  myString: null, // can be null, as we get our default from the translation file
+  myParam: 'value',
 }
 
 function MyComponent(props: Types) {
@@ -167,7 +167,7 @@ import { Context } from '../../shared'
 import { usePropsWithContext } from '../../shared/hooks'
 
 const defaultProps = {
-  myParam: null,
+  myParam: 'value',
 }
 
 function MyComponent(props: Types) {
@@ -205,11 +205,11 @@ import {
 } from '../space/Space'
 
 interface MyComponentProps extends SpaceProps {
-  myParam: string
+  myParam?: string
 }
 
 const defaultProps = {
-  myParam: null,
+  myParam: 'value',
 }
 
 function MyComponent(props: MyComponentProps) {

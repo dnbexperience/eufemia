@@ -99,18 +99,9 @@ export interface InfoCardProps {
 }
 
 export const defaultProps = {
-  alt: null,
   centered: false,
-  className: null,
   skeleton: false,
   icon: LightbulbIcon,
-  imgProps: null,
-  src: null,
-  title: null,
-  onAccept: null,
-  onClose: null,
-  closeButtonText: null,
-  acceptButtonText: null,
   closeButtonAttributes: null,
   acceptButtonAttributes: null,
 }
