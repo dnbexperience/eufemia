@@ -5,7 +5,6 @@ import { P, Anchor, Ul, Li } from '@dnb/eufemia/src/elements'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
 
 const ListSummaryFromDocs = ({ slug, useAsIndex = false }) => {
-  console.log('slug', slug)
   const {
     allMdx: { edges },
   } = useStaticQuery(graphql`

@@ -9,6 +9,7 @@ DrawerWithoutSpacing,
 ModalExampleDefault,
 ModalExampleHelpButton,
 ModalExampleFullscreen,
+DrawerExamplePlacementLeft,
 } from 'Docs/uilib/components/modal/visual-tests/Examples'
 
 ## Demos
@@ -24,6 +25,10 @@ ModalExampleFullscreen,
 ### Drawer without spacing
 
 <DrawerWithoutSpacing />
+
+## Drawer with container placement left
+
+<DrawerExamplePlacementLeft />
 
 ### Triggered by the help button
 

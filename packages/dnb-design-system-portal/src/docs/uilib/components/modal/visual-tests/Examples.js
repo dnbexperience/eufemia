@@ -161,3 +161,16 @@ export const ModalExampleFullscreen = () => (
 	`}
   </ComponentBox>
 )
+
+export const DrawerExamplePlacementLeft = () => (
+  <ComponentBox data-visual-test="modal-drawer-leftsided">
+    {() => /* jsx */ `
+<Modal
+  mode="drawer"
+  title="Modal title"
+  container_placement="left"
+  modal_content="This is the modal text. Triggered by a tertiary button."
+/>
+	`}
+  </ComponentBox>
+)

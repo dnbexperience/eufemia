@@ -13,6 +13,8 @@
   border-radius: 0.25rem;
   padding: 1rem;
 
+  overflow: hidden;
+
   @include defaultDropShadow();
 
   &--centered {
@@ -43,6 +45,7 @@
   &--buttons {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     &-centered {
       flex-direction: column;
       align-items: center;
