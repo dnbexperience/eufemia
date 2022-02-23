@@ -40,7 +40,7 @@ describe('usePropsWithContext', () => {
       prop2: 'prop2',
       a: 'a',
       b: 'b',
-      // c: 'c', // but not c
+      c: 'c',
     })
   })
 

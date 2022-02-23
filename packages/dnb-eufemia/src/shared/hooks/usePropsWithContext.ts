@@ -27,12 +27,8 @@ function usePropsWithContext<Props>(
   return {
     ...props,
     ...Object.entries(context).reduce((acc, [key, value]) => {
-      if (
-        // check if a prop of the same name exists
-        typeof props[key] !== 'undefined' &&
-        // and if it was NOT defined as a component prop, because its still the same as the defaults
-        props[key] === defaults[key]
-      ) {
+      // if it was NOT defined as a component prop, because its still the same as the defaults
+      if (props[key] === defaults[key]) {
         // then we use the context value
         acc[key] = value
       }
