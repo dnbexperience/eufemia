@@ -25,7 +25,7 @@ InfoCardCustomImageCentered,
 
 <InfoCardTitle />
 
-### Button
+### InfoCard with Buttons
 
 Two buttons
 
