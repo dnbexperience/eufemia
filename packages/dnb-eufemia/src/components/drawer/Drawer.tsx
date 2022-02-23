@@ -101,6 +101,7 @@ function Drawer({
     noAnimationOnMobile,
     fullscreen,
     spacing,
+    containerPlacement,
   })
 
   return (
