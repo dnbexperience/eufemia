@@ -15,7 +15,9 @@ Create a file called `.env.local` in the root of the repo (side-by-side to the .
 LINT_STAGED=1
 ```
 
-## Issue: node-sass vs sass
+## Dependency issues
+
+### node-sass vs sass
 
 The Portal (documentations) uses dart based `sass`, while the bundle and build process of the package `@dnb/eufemia` uses `node-sass` – because:
 
@@ -38,7 +40,7 @@ The Portal (documentations) uses dart based `sass`, while the bundle and build p
 
 - v14 has changed a good amount of their default styling rules. Updating would require us to refactor a good amount of SCSS code. We are currently on v13.
 
-## Issue: Storybook
+### Storybook
 
 The Storybook setup is using the default `@storybook/preset-scss` addon with the recommended dependencies. But for some reason, we can't use the latest versions of the following dependencies:
 
@@ -50,7 +52,17 @@ We get else this error:
 
 > Type Error: this.getOptions is not a function for style-loader
 
-## Issue: Yarn PnP
+### Gatsby Cloud
+
+The plugin `gatsby-plugin-gatsby-cloud` relays on a newer Webpack version than other plugins. In order to let the Portal run on the latest version, we set the yarn resolutions:
+
+```json
+"resolutions": {
+  "webpack": "5.61.0"
+}
+```
+
+### Yarn PnP
 
 Currently, Eufemia uses yarn v3 with `node_modules`.
 
@@ -71,7 +83,7 @@ When switching over to Yarn PnP, there are some issues:
 
 ## How can I make faster builds?
 
-In order to make faster local builds, you can:
+This is only meant for "setup testing" purposes! In order to make faster local builds, you can:
 
 - Inside `gatsby-config.js` rename all sourcing from `/docs` to `/docs_dummy`
 

@@ -6,6 +6,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
+    "skipLibCheck": true,
     "types": ["node", "jest"],
     "outDir": "./build",
     "rootDir": ".",
