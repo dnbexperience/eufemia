@@ -1,20 +1,19 @@
 import { ToCamelCasePartial } from '../../shared/helpers/withCamelCaseProps'
 import { ScrollViewProps } from '../../fragments/ScrollView'
 import { ModalPropTypes } from '../modal/Modal'
+import { IconPrimaryIcon } from '../IconPrimary'
+import { DialogActionProps } from './parts/DialogAction'
 
 export interface DialogProps extends ToCamelCasePartial<ModalPropTypes> {
   /**
    * The dialog title. Displays on the very top of the content.
    */
   title?: React.ReactNode
-
-  /**
-   * Variant of Dialog (coming)
-   */
-  // variant: 'inform' | 'confirm'
 }
 
-export interface DialogContentProps extends ScrollViewProps {
+export interface DialogContentProps
+  extends ScrollViewProps,
+    Omit<DialogActionProps, 'children'> {
   /**
    * The minimum Dialog content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).
    */
@@ -74,4 +73,19 @@ export interface DialogContentProps extends ScrollViewProps {
    * Same as `noAnimation`, but gets triggered only if the viewport width is less than `40em`. Defaults to false.
    */
   noAnimationOnMobile?: string | boolean
+
+  /**
+   * Variant of Dialog. Defaults to 'inform'.
+   */
+  variant?: 'inform' | 'confirm'
+
+  /**
+   * An icon to display at the top of the component. Should be of size medium, so make sure you import the `_medium` version of the Eufemia icon.
+   */
+  icon?: IconPrimaryIcon
+
+  /**
+   * For variant confirm, the dialog is either an informational or a warning message. Defaults to 'info'.
+   */
+  confirmType?: 'info' | 'warning'
 }

@@ -3,9 +3,8 @@
  *
  */
 
-import React from 'react'
-import { Wrapper, Box } from 'storybook-utils/helpers'
-// import { Global, css } from '@emotion/react'
+import React, { useEffect, useState } from 'react'
+import { Box, Wrapper } from 'storybook-utils/helpers'
 
 import {
   HelpButton,
@@ -19,14 +18,155 @@ import {
   FormRow,
   ProgressIndicator,
   NumberFormat,
-} from '../../'
+} from '../..'
 import { ScrollView } from '../../../fragments'
-import Dialog from '../../dialog/Dialog'
+import Dialog from '../Dialog'
 import { H2, P, Hr } from '../../../elements'
+import Provider from '../../../shared/Provider'
+import {
+  trash_medium as TrashIcon,
+  log_out_medium as LogOutIcon,
+  edit,
+  cookie_medium,
+} from '../../../icons'
 
 export default {
   title: 'Eufemia/Components/Dialog',
 }
+
+export const DialogConfirmLoggedout = () => {
+  const [active, setActive] = useState(false)
+  useEffect(() => {
+    setTimeout(() => setActive(true), 3000)
+  }, [])
+  return (
+    <Dialog
+      variant="confirm"
+      openState={active}
+      icon={LogOutIcon}
+      title="Du har blitt logget ut"
+      modalContent="For å fortsette må du logge inn igjen."
+      confirmText="Logg inn"
+    />
+  )
+}
+
+export const DialogConfirm = () => (
+  <Wrapper>
+    <Box>
+      <Dialog
+        triggerAttributes={{
+          text: 'Show cookie dialog',
+        }}
+        icon={cookie_medium}
+        variant="confirm"
+        title="Informasjonskapsler (cookies)"
+      >
+        Vi bruker cookies for å gi deg den beste opplevelsen i nettbanken
+        vår.
+        <br />
+        <a
+          className="dnb-anchor"
+          target="_blank"
+          rel="noreferrer"
+          href="https://www.dnb.no/cookies"
+        >
+          Les mer om cookies
+        </a>
+        <Dialog.Action>
+          <Button
+            variant="tertiary"
+            text="Administrer"
+            icon={edit}
+            icon_position="left"
+            on_click={({ close }) => {
+              close()
+            }}
+          />
+          <Button
+            text="Jeg godtar"
+            on_click={({ close }) => {
+              close()
+            }}
+          />
+        </Dialog.Action>
+      </Dialog>
+    </Box>
+    <Box>
+      <Provider Button={{ size: 'small' }}>
+        <Dialog
+          variant="confirm"
+          triggerAttributes={{
+            text: 'Delete record',
+            variant: 'primary',
+          }}
+          icon={TrashIcon}
+          title="Are you sure you want to delete this?"
+          modalContent="This action cannot be undone"
+          confirmText="Delete"
+          declineText="Cancel"
+          confirmType="warning"
+        />
+      </Provider>
+    </Box>
+    <Box>
+      <Dialog
+        triggerAttributes={{
+          text: 'Default stuff',
+        }}
+        icon={TrashIcon}
+        variant="confirm"
+        title="Default stuff"
+        modalContent="This action cannot be undone"
+        confirmType="warning"
+      />
+    </Box>
+    <Box>
+      <Dialog
+        triggerAttributes={{
+          text: 'Trigger logged out',
+        }}
+        variant="confirm"
+        icon={LogOutIcon}
+        title="Du har blitt logget ut"
+        modalContent="For å fortsette må du logge inn igjen."
+        confirmText="Logg inn"
+        hideDecline
+      />
+    </Box>
+    <Box>
+      <Dialog
+        variant="confirm"
+        triggerAttributes={{
+          text: 'Big content',
+          variant: 'primary',
+        }}
+        icon={TrashIcon}
+        confirmType="warning"
+        title="This dialog has a lot of content to check out how it looks like when the title is above one line and check out the max width of the dialog"
+        modalContent="Just some more content inside the dialog content for the same purpose as for the title, the more content the better to visualize how it will look with a lot of content but it should not contain this amount of content anyways but you never know, right?"
+        confirmText="Got it!"
+        declineText="Didn't get it"
+      />
+    </Box>
+    <Box>
+      <Dialog
+        variant="confirm"
+        triggerAttributes={{
+          text: 'No spacing :(',
+          variant: 'tertiary',
+          icon: LogOutIcon,
+        }}
+        icon={LogOutIcon}
+        title="This dialog has no spacing"
+        modalContent="Just some more content inside the dialog content"
+        confirmText="Give me space!"
+        declineText="I like it"
+        spacing={false}
+      />
+    </Box>
+  </Wrapper>
+)
 
 export const DialogSandbox = () => (
   <Wrapper>

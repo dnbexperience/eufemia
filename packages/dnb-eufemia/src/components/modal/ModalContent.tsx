@@ -313,7 +313,7 @@ export default class ModalContent extends React.PureComponent<
   closeModalContent(event, { triggeredBy, ...params }) {
     event?.persist?.()
     this.setState({ triggeredBy, triggeredByEvent: event }, () => {
-      this.props.closeModal(event, {
+      this.props.close(event, {
         triggeredBy,
         ...params,
       })
@@ -347,7 +347,7 @@ export default class ModalContent extends React.PureComponent<
       fullscreen = 'auto',
       align_content = 'left',
       container_placement = 'right',
-      closeModal, // eslint-disable-line
+      close, // eslint-disable-line
       content_class,
       overlay_class,
       content_id,
@@ -450,7 +450,7 @@ export default class ModalContent extends React.PureComponent<
           onKeyDownHandler: this.onKeyDownHandler,
           contentRef: this._contentRef,
           contentId,
-          close: closeModal,
+          close,
         }}
       >
         <div
