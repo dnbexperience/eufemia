@@ -2257,10 +2257,15 @@ html[data-dnb-modal-active] {
       justify-content: flex-start; }
     .dnb-modal__content--fullscreen .dnb-modal__content__content {
       height: auto; }
+    .dnb-modal__content--left {
+      align-items: flex-start;
+      justify-content: flex-start; }
     .dnb-modal__content--right {
+      align-items: flex-start;
       justify-content: flex-end; }
     .dnb-modal__content--bottom {
-      align-items: flex-end; }
+      align-items: flex-end;
+      justify-content: flex-start; }
   .dnb-modal__overlay {
     position: fixed;
     z-index: var(--modal-z-index);
