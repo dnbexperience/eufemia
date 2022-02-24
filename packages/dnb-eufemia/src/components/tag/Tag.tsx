@@ -67,13 +67,7 @@ export interface TagProps {
 }
 
 export const defaultProps = {
-  className: null,
   skeleton: false,
-  text: null,
-  children: null,
-  icon: null,
-  onClick: null,
-  onDelete: null,
   omitOnKeyUpDeleteEvent: false,
 }
 

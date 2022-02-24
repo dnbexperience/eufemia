@@ -72,14 +72,9 @@ export interface AvatarProps {
 }
 
 export const defaultProps = {
-  alt: null,
-  className: null,
   size: 'medium',
-  src: null,
-  imgProps: null,
   variant: 'primary',
   skeleton: false,
-  children: null,
 }
 
 const Avatar = (localProps: AvatarProps & ISpacingProps) => {
