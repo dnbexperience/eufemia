@@ -564,7 +564,7 @@ const ItemContent = ({ hash, children }) => {
         {children.render ? children.render(item, hash + n) : item}
       </span>
     ))
-  } else if (children.content) {
+  } else if (Object.prototype.hasOwnProperty.call(children, 'content')) {
     return children.render
       ? children.render(children.content, hash, children)
       : children.content
