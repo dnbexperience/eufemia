@@ -30,6 +30,12 @@ export interface TagProps {
   icon?: IconPrimaryIcon
 
   /**
+   * If a label is given, typical inside a table or dl (definition list), then you can disable Tag.Group as a dependent of Tag. Use `true` to omit the `Tag group required:` warning.
+   * Default: null
+   */
+  hasLabel?: boolean
+
+  /**
    * Custom className on the component root
    * Default: null
    */
@@ -82,6 +88,7 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
     skeleton,
     children,
     text,
+    hasLabel,
     onClick,
     onDelete,
     omitOnKeyUpDeleteEvent,
@@ -130,7 +137,7 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
     buttonAttr.icon = getDeleteIcon()
   }
 
-  if (!tagGroupContext) {
+  if (!tagGroupContext && !hasLabel) {
     warn(
       `Tag group required: A Tag requires a Tag.Group with label description as a parent component. This is to ensure correct semantic and accessibility.`
     )
