@@ -41,11 +41,11 @@ export const DialogConfirmLoggedout = () => {
   }, [])
   return (
     <Dialog
-      variant="confirm"
+      variant="confirmation"
       openState={active}
       icon={LogOutIcon}
       title="Du har blitt logget ut"
-      modalContent="For å fortsette må du logge inn igjen."
+      description="For å fortsette må du logge inn igjen."
       confirmText="Logg inn"
     />
   )
@@ -59,7 +59,7 @@ export const DialogConfirm = () => (
           text: 'Show cookie dialog',
         }}
         icon={cookie_medium}
-        variant="confirm"
+        variant="confirmation"
         title="Informasjonskapsler (cookies)"
       >
         Vi bruker cookies for å gi deg den beste opplevelsen i nettbanken
@@ -95,14 +95,14 @@ export const DialogConfirm = () => (
     <Box>
       <Provider Button={{ size: 'small' }}>
         <Dialog
-          variant="confirm"
+          variant="confirmation"
           triggerAttributes={{
             text: 'Delete record',
             variant: 'primary',
           }}
           icon={TrashIcon}
           title="Are you sure you want to delete this?"
-          modalContent="This action cannot be undone"
+          description="This action cannot be undone"
           confirmText="Delete"
           declineText="Cancel"
           confirmType="warning"
@@ -115,9 +115,9 @@ export const DialogConfirm = () => (
           text: 'Default stuff',
         }}
         icon={TrashIcon}
-        variant="confirm"
+        variant="confirmation"
         title="Default stuff"
-        modalContent="This action cannot be undone"
+        description="This action cannot be undone"
         confirmType="warning"
       />
     </Box>
@@ -126,17 +126,17 @@ export const DialogConfirm = () => (
         triggerAttributes={{
           text: 'Trigger logged out',
         }}
-        variant="confirm"
+        variant="confirmation"
         icon={LogOutIcon}
         title="Du har blitt logget ut"
-        modalContent="For å fortsette må du logge inn igjen."
+        description="For å fortsette må du logge inn igjen."
         confirmText="Logg inn"
         hideDecline
       />
     </Box>
     <Box>
       <Dialog
-        variant="confirm"
+        variant="confirmation"
         triggerAttributes={{
           text: 'Big content',
           variant: 'primary',
@@ -144,14 +144,14 @@ export const DialogConfirm = () => (
         icon={TrashIcon}
         confirmType="warning"
         title="This dialog has a lot of content to check out how it looks like when the title is above one line and check out the max width of the dialog"
-        modalContent="Just some more content inside the dialog content for the same purpose as for the title, the more content the better to visualize how it will look with a lot of content but it should not contain this amount of content anyways but you never know, right?"
+        description="Just some more content inside the dialog content for the same purpose as for the title, the more content the better to visualize how it will look with a lot of content but it should not contain this amount of content anyways but you never know, right?"
         confirmText="Got it!"
         declineText="Didn't get it"
       />
     </Box>
     <Box>
       <Dialog
-        variant="confirm"
+        variant="confirmation"
         triggerAttributes={{
           text: 'No spacing :(',
           variant: 'tertiary',
@@ -159,7 +159,7 @@ export const DialogConfirm = () => (
         }}
         icon={LogOutIcon}
         title="This dialog has no spacing"
-        modalContent="Just some more content inside the dialog content"
+        description="Just some more content inside the dialog content"
         confirmText="Give me space!"
         declineText="I like it"
         spacing={false}

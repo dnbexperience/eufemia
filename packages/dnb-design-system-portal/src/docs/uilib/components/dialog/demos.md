@@ -18,10 +18,10 @@ DialogConfirmCookies,
 
 ## Table of contents
 
-1. [Inform demos](/uilib/components/dialog/demos#demos-for-variant-inform)
-1. [Confirm demos](/uilib/components/dialog/demos#demos-for-variant-confirm)
+1. [Inform demos](/uilib/components/dialog/demos#demos-for-variant-information)
+1. [Confirm demos](/uilib/components/dialog/demos#demos-for-variant-confirmation)
 
-## Demos for variant `inform`
+## Demos for variant `information`
 
 ### Basic Dialog
 
@@ -51,7 +51,7 @@ DialogConfirmCookies,
 
 <DialogExampleDelayClose />
 
-## Demos for variant `confirm`
+## Demos for variant `confirmation`
 
 ### Confirm dialog
 

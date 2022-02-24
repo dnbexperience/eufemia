@@ -15,7 +15,7 @@ import DialogAction from './parts/DialogAction'
 import { usePropsWithContext } from '../../shared/hooks'
 
 const defaultProps = {
-  variant: 'inform',
+  variant: 'information',
   spacing: true,
 }
 
@@ -78,14 +78,14 @@ function Dialog(
   let currentTriggerAttributes = triggerAttributes
   let currentFullscreen = fullscreen
 
-  if (variant === 'confirm') {
+  if (variant === 'confirmation') {
     currentHideCloseButton =
       hideCloseButton !== undefined ? hideCloseButton : true
     currentTriggerAttributes = triggerAttributes || { hidden: true }
   }
 
   if (fullscreen === undefined) {
-    currentFullscreen = variant === 'inform' ? 'auto' : false
+    currentFullscreen = variant === 'information' ? 'auto' : false
   }
 
   const modalProps = {

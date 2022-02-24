@@ -157,11 +157,11 @@ export const DialogConfirmDefault = () => (
   >
     {() => /* jsx */ `
 <Dialog
-  variant="confirm"
-  title="Dialog confirm title"
+  variant="confirmation"
+  title="Dialog confirmation title"
   icon={bell_medium}
-  modalContent="Some content describing the situation."
-  onConfirm={(e, close) => {close();}}
+  description="Some content describing the situation."
+  onConfirm={({close}) => close()}
   triggerAttributes={{
     text: 'Trigger button',
   }}
@@ -176,14 +176,14 @@ export const DialogConfirmDelete = () => (
   >
     {() => /* jsx */ `
 <Dialog
-  variant="confirm"
+  variant="confirmation"
   confirmType="warning"
   title="Are you sure you want to delete this?"
   icon={trash_medium}
-  modalContent="This action cannot be undone."
+  description="This action cannot be undone."
   confirmText="Delete"
   declineText="Cancel"
-  onConfirm={(e, close) => {close();}}
+  onConfirm={({close}) => close()}
   triggerAttributes={{
     text: 'Delete record',
     icon: trash_medium,
@@ -211,10 +211,10 @@ const Component = () => {
         on_click={() => setOpen(true)}
       />
       <Dialog
-        variant="confirm"
+        variant="confirmation"
         title="Du har blitt logget ut"
         icon={log_out_medium}
-        modalContent="For å fortsette må du logge inn igjen."
+        description="For å fortsette må du logge inn igjen."
         confirmText="Logg inn"
         hideDecline
         openState={open}
@@ -246,7 +246,7 @@ export const DialogConfirmCookies = () => (
     text: 'Show cookie dialog',
   }}
   icon={cookie_medium}
-  variant="confirm"
+  variant="confirmation"
   title="Informasjonskapsler (cookies)"
 >
   Vi bruker cookies for å gi deg den beste opplevelsen i nettbanken
@@ -261,13 +261,13 @@ export const DialogConfirmCookies = () => (
       text="Administrer"
       icon={edit}
       icon_position="left"
-      on_click={({_, close}) => {
+      on_click={({close}) => {
         close()
       }}
     />
     <Button
       text="Jeg godtar"
-      on_click={({_, close}) => {
+      on_click={({close}) => {
         close()
       }}
     />

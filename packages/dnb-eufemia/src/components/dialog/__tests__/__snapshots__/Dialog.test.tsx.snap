@@ -714,7 +714,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
             modalContent="unique_modal_content"
             noAnimation={true}
             spacing={true}
-            variant="inform"
+            variant="information"
           />
         }
         mode="custom"
@@ -767,7 +767,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
               modalContent="unique_modal_content"
               noAnimation={true}
               spacing={true}
-              variant="inform"
+              variant="information"
             />
           }
           mode="custom"
@@ -805,7 +805,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
               modalContent="unique_modal_content"
               noAnimation={true}
               spacing={true}
-              variant="inform"
+              variant="information"
             >
               <ForwardRef(ScrollViewRef)
                 0={
@@ -814,7 +814,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                     "props": Object {},
                   }
                 }
-                className="dnb-dialog dnb-dialog--auto-fullscreen dnb-core-style dnb-dialog--inform dnb-dialog--spacing dnb-dialog__align--left dnb-dialog--no-animation"
+                className="dnb-dialog dnb-dialog--auto-fullscreen dnb-core-style dnb-dialog--information dnb-dialog--spacing dnb-dialog__align--left dnb-dialog--no-animation"
                 onClick={[Function]}
                 onKeyDown={[Function]}
                 onTouchStart={[Function]}
@@ -828,7 +828,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                     }
                   }
                   class={null}
-                  className="dnb-dialog dnb-dialog--auto-fullscreen dnb-core-style dnb-dialog--inform dnb-dialog--spacing dnb-dialog__align--left dnb-dialog--no-animation"
+                  className="dnb-dialog dnb-dialog--auto-fullscreen dnb-core-style dnb-dialog--information dnb-dialog--spacing dnb-dialog__align--left dnb-dialog--no-animation"
                   innerRef={null}
                   onClick={[Function]}
                   onKeyDown={[Function]}
@@ -836,7 +836,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                   style={null}
                 >
                   <div
-                    className="dnb-scroll-view dnb-dialog dnb-dialog--auto-fullscreen dnb-core-style dnb-dialog--inform dnb-dialog--spacing dnb-dialog__align--left dnb-dialog--no-animation"
+                    className="dnb-scroll-view dnb-dialog dnb-dialog--auto-fullscreen dnb-core-style dnb-dialog--information dnb-dialog--spacing dnb-dialog__align--left dnb-dialog--no-animation"
                     onClick={[Function]}
                     onKeyDown={[Function]}
                     onTouchStart={[Function]}
@@ -2095,11 +2095,11 @@ button.dnb-button::-moz-focus-inner {
   -webkit-user-select: text;
   border: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
-  .dnb-dialog--inform {
+  .dnb-dialog--information {
     min-width: var(--dialog-min-width);
     width: var(--dialog-avg-width);
     max-width: var(--dialog-max-width); }
-  .dnb-dialog--confirm {
+  .dnb-dialog--confirmation {
     max-width: var(--dialog-confirm-max-width);
     margin: 0 1rem; }
   @media screen and (max-width: 40em) {
@@ -2115,32 +2115,32 @@ button.dnb-button::-moz-focus-inner {
     max-width: 100%;
     border-radius: 0;
     box-shadow: none; }
-  .dnb-dialog--spacing.dnb-dialog--inform .dnb-dialog__content {
+  .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__content {
     padding-bottom: calc(var(--dialog-spacing) * 2); }
     @supports (-webkit-touch-callout: none) {
-      .dnb-dialog--spacing.dnb-dialog--inform .dnb-dialog__content {
+      .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__content {
         padding-bottom: calc(var(--dialog-spacing) * 8); } }
-  .dnb-dialog--spacing.dnb-dialog--inform .dnb-dialog__inner {
+  .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__inner {
     padding-left: calc(var(--dialog-spacing) * 1.75);
     padding-right: calc(var(--dialog-spacing) * 1.75); }
     @media screen and (max-width: 60em) {
-      .dnb-dialog--spacing.dnb-dialog--inform .dnb-dialog__inner {
+      .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__inner {
         padding-left: calc(var(--dialog-spacing));
         padding-right: calc(var(--dialog-spacing)); } }
     @media screen and (max-width: 40em) {
-      .dnb-dialog--spacing.dnb-dialog--inform .dnb-dialog__inner {
+      .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__inner {
         padding-left: calc(var(--dialog-spacing) / 2);
         padding-right: calc(var(--dialog-spacing) / 2); } }
-  .dnb-dialog--spacing.dnb-dialog--inform .dnb-dialog__navigation.dnb-section {
+  .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__navigation.dnb-section {
     margin-top: calc(var(--dialog-spacing));
     margin-bottom: calc(var(--dialog-spacing) / 2); }
     @media screen and (max-width: 50em) {
-      .dnb-dialog--spacing.dnb-dialog--inform .dnb-dialog__navigation.dnb-section {
+      .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__navigation.dnb-section {
         margin-top: calc(var(--dialog-spacing) / 2); } }
-  .dnb-dialog--spacing.dnb-dialog--confirm .dnb-dialog__inner {
+  .dnb-dialog--spacing.dnb-dialog--confirmation .dnb-dialog__inner {
     padding: calc(var(--dialog-spacing)); }
     @supports (-webkit-touch-callout: none) {
-      .dnb-dialog--spacing.dnb-dialog--confirm .dnb-dialog__inner {
+      .dnb-dialog--spacing.dnb-dialog--confirmation .dnb-dialog__inner {
         padding-bottom: calc(var(--dialog-spacing) * 8); } }
   .dnb-dialog__inner {
     position: relative;
@@ -2161,7 +2161,7 @@ button.dnb-button::-moz-focus-inner {
     align-items: center;
     justify-content: center; }
   .dnb-dialog__align--centered .dnb-dialog__title,
-  .dnb-dialog__align--centered.dnb-dialog--confirm .dnb-dialog__content {
+  .dnb-dialog__align--centered.dnb-dialog--confirmation .dnb-dialog__content {
     text-align: center; }
   .dnb-dialog__content {
     position: relative;
@@ -2189,9 +2189,9 @@ button.dnb-button::-moz-focus-inner {
     .dnb-dialog__title {
       font-size: var(--font-size-medium) !important;
       line-height: calc(var(--line-height-medium) - 0.25rem) !important; } }
-  .dnb-dialog--inform .dnb-dialog__title {
+  .dnb-dialog--information .dnb-dialog__title {
     margin-bottom: var(--spacing-small) !important; }
-  .dnb-dialog--confirm .dnb-dialog__title {
+  .dnb-dialog--confirmation .dnb-dialog__title {
     margin-bottom: var(--spacing-x-small) !important; }
   .dnb-dialog__navigation.dnb-section {
     display: flex;

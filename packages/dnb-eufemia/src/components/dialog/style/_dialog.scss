@@ -26,13 +26,13 @@
   border: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
-  &--inform {
+  &--information {
     min-width: var(--dialog-min-width);
     width: var(--dialog-avg-width);
     max-width: var(--dialog-max-width);
   }
 
-  &--confirm {
+  &--confirmation {
     max-width: var(--dialog-confirm-max-width);
     margin: 0 1rem;
   }
@@ -45,7 +45,7 @@
   &--fullscreen {
     @include modalFullscreen();
   }
-  &--spacing#{&}--inform &__content {
+  &--spacing#{&}--information &__content {
     padding-bottom: calc(var(--dialog-spacing) * 2);
 
     @include IS_SAFARI_MOBILE {
@@ -53,7 +53,7 @@
     }
   }
 
-  &--spacing#{&}--inform &__inner {
+  &--spacing#{&}--information &__inner {
     padding-left: calc(var(--dialog-spacing) * 1.75); // 3.5rem (56px)
     padding-right: calc(var(--dialog-spacing) * 1.75); // 3.5rem (56px)
 
@@ -68,7 +68,7 @@
     }
   }
 
-  &--spacing#{&}--inform &__navigation.dnb-section {
+  &--spacing#{&}--information &__navigation.dnb-section {
     margin-top: calc(var(--dialog-spacing)); // 2rem (32px)
     margin-bottom: calc(var(--dialog-spacing) / 2); // 1rem (16px)
 
@@ -77,7 +77,7 @@
     }
   }
 
-  &--spacing#{&}--confirm &__inner {
+  &--spacing#{&}--confirmation &__inner {
     padding: calc(var(--dialog-spacing)); // 2rem (32px)
 
     @include IS_SAFARI_MOBILE {
@@ -110,7 +110,7 @@
     justify-content: center;
   }
   &__align--centered &__title,
-  &__align--centered#{&}--confirm &__content {
+  &__align--centered#{&}--confirmation &__content {
     text-align: center;
   }
 
@@ -156,11 +156,11 @@
     }
   }
 
-  &--inform &__title {
+  &--information &__title {
     margin-bottom: var(--spacing-small) !important;
   }
 
-  &--confirm &__title {
+  &--confirmation &__title {
     margin-bottom: var(--spacing-x-small) !important;
   }
 

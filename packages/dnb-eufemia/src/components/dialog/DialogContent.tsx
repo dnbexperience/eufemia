@@ -35,9 +35,10 @@ export default function DialogContent({
   noAnimationOnMobile = false,
   minWidth: min_width = null,
   maxWidth: max_width = null,
-  variant = 'inform',
+  variant = 'information',
   confirmType = 'info',
   icon = null,
+  description,
   hideDecline,
   onConfirm,
   onDecline,
@@ -56,7 +57,7 @@ export default function DialogContent({
     )
 
   if (alignContent === null) {
-    alignContent = variant === 'inform' ? 'left' : 'centered'
+    alignContent = variant === 'information' ? 'left' : 'centered'
   }
 
   const innerParams = {
@@ -133,7 +134,7 @@ export default function DialogContent({
         {!headerExists && (
           <DialogHeader
             title={context?.title}
-            size={variant === 'inform' ? 'x-large' : 'large'}
+            size={variant === 'information' ? 'x-large' : 'large'}
           >
             {headerContent}
           </DialogHeader>
@@ -143,10 +144,11 @@ export default function DialogContent({
           id={context?.contentId + '-content'}
           className="dnb-dialog__content"
         >
+          {description}
           {content}
         </div>
 
-        {variant === 'confirm' && !actionExists && (
+        {variant === 'confirmation' && !actionExists && (
           <DialogAction {...dialogActionProps} />
         )}
       </div>

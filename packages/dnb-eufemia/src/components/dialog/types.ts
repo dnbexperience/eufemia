@@ -3,6 +3,7 @@ import { ScrollViewProps } from '../../fragments/ScrollView'
 import { ModalPropTypes } from '../modal/Modal'
 import { IconPrimaryIcon } from '../IconPrimary'
 import { DialogActionProps } from './parts/DialogAction'
+import React from 'react'
 
 export interface DialogProps extends ToCamelCasePartial<ModalPropTypes> {
   /**
@@ -75,9 +76,9 @@ export interface DialogContentProps
   noAnimationOnMobile?: string | boolean
 
   /**
-   * Variant of Dialog. Defaults to 'inform'.
+   * Variant of Dialog. Defaults to 'information'.
    */
-  variant?: 'inform' | 'confirm'
+  variant?: 'information' | 'confirmation'
 
   /**
    * An icon to display at the top of the component. Should be of size medium, so make sure you import the `_medium` version of the Eufemia icon.
@@ -85,7 +86,12 @@ export interface DialogContentProps
   icon?: IconPrimaryIcon
 
   /**
-   * For variant confirm, the dialog is either an informational or a warning message. Defaults to 'info'.
+   * For variant confirmation, the dialog is either an informational or a warning message. Defaults to 'info'.
    */
   confirmType?: 'info' | 'warning'
+
+  /**
+   * A description will be positioned below the title, but before the content.
+   */
+  description?: React.ReactNode
 }

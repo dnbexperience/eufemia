@@ -4,6 +4,10 @@ import { Context } from '../../../shared'
 import ModalContext from '../../modal/ModalContext'
 import { dispatchCustomElementEvent } from '../../../shared/component-helper'
 
+type extendedMouseEvent = {
+  event: React.MouseEvent<HTMLElement>
+  close: () => void
+}
 interface DialogActionProps {
   /**
    * For dialog actions, give a custom text for the decline button.
@@ -16,24 +20,18 @@ interface DialogActionProps {
   confirmText?: string
 
   /**
-   * For variant confirm, handle the confirm action click.
+   * For variant confirmation, handle the confirm action click.
    */
 
-  onConfirm?: (
-    event: React.MouseEvent<HTMLElement>,
-    close: () => void
-  ) => void
+  onConfirm?: (event: extendedMouseEvent) => void
 
   /**
-   * For variant confirm, handle the decline action click.
+   * For variant confirmation, handle the decline action click.
    */
-  onDecline?: (
-    event: React.MouseEvent<HTMLElement>,
-    close: () => void
-  ) => void
+  onDecline?: (event: extendedMouseEvent) => void
 
   /**
-   * For variant confirm, hide the default decline button and only show the confirm button.
+   * For variant confirmation, hide the default decline button and only show the confirm button.
    */
   hideDecline?: boolean
 
@@ -43,10 +41,7 @@ interface DialogActionProps {
   children?: React.ReactElement | Array<React.ReactElement>
 }
 
-const fallbackCloseAction = (
-  _: React.MouseEvent<HTMLElement>,
-  close: () => void
-) => close()
+const fallbackCloseAction = ({ close }: extendedMouseEvent) => close()
 
 const DialogAction = ({
   declineText = null,
@@ -90,8 +85,11 @@ const DialogAction = ({
         <Button
           text={declineText || translation?.Dialog?.declineText}
           variant="secondary"
-          onClick={(e) => {
-            onDecline(e, close)
+          onClick={(event) => {
+            dispatchCustomElementEvent({ onDecline }, 'onDecline', {
+              event,
+              close,
+            })
           }}
           size={ButtonContext?.size || 'large'}
         />
@@ -100,8 +98,11 @@ const DialogAction = ({
         <Button
           text={confirmText || translation?.Dialog?.confirmText}
           variant="primary"
-          onClick={(e) => {
-            onConfirm(e, close)
+          onClick={(event) => {
+            dispatchCustomElementEvent({ onConfirm }, 'onConfirm', {
+              event,
+              close,
+            })
           }}
           size={ButtonContext?.size || 'large'}
         />
