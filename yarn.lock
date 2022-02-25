@@ -12480,7 +12480,6 @@ __metadata:
     css-vars-ponyfill: 2.4.7
     current-git-branch: 1.1.0
     date-fns: 2.25.0
-    del: 6.0.0
     dotenv: 10.0.0
     eslint: 8.1.0
     eslint-plugin-cypress: 2.12.1
@@ -12514,7 +12513,6 @@ __metadata:
     jest-emotion: 11.0.0
     keycode: 2.2.0
     lint-staged: 11.2.6
-    nodemon: 2.0.15
     ora: 5.4.1
     postcss: 8.3.11
     postcss-preset-env: 6.7.0
