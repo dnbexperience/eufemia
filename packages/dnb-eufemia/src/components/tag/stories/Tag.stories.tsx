@@ -197,9 +197,12 @@ export const TagWithMediumSizedIcons = () => {
 export const TagWithoutGroup = () => {
   return (
     <Provider>
-      <Tag icon={tag} text={'Tag.Group'} />
+      <Tag icon={tag} text="TagWithoutGroup" />
     </Provider>
   )
+}
+export const TagWithoutLabel = () => {
+  return <Tag hasLabel icon={tag} text="Tag.WithoutLabel" />
 }
 
 export const TagRemovable = () => {

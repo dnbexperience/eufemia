@@ -331,6 +331,13 @@ describe('Tag', () => {
     expect(global.console.log).toBeCalled()
   })
 
+  it('will not warn when hasLabel is true', () => {
+    process.env.NODE_ENV = 'development'
+    global.console.log = jest.fn()
+    mount(<Tag text="Tag" hasLabel />)
+    expect(global.console.log).not.toBeCalled()
+  })
+
   it('renders a tag with className if className is provided', () => {
     const customClassName = 'custom-class'
 
