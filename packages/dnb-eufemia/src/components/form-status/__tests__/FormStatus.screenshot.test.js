@@ -49,6 +49,14 @@ describe('FormStatus screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match the marketing state', async () => {
+    const screenshot = await testPageScreenshot({
+      style,
+      selector: '[data-visual-test="form-status-marketing"] .dnb-form-status',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match custom content', async () => {
     const screenshot = await testPageScreenshot({
       style,
