@@ -22,7 +22,6 @@ interface DialogActionProps {
   /**
    * For variant confirmation, handle the confirm action click.
    */
-
   onConfirm?: (event: extendedMouseEvent) => void
 
   /**
