@@ -284,7 +284,7 @@ export const normalizeData = (props) => {
       item = { content: item, __isTransformed: true }
     }
 
-    return typeof item.__id !== 'undefined' ? item : { ...item, __id }
+    return typeof item?.__id !== 'undefined' ? item : { ...item, __id }
   })
 }
 
