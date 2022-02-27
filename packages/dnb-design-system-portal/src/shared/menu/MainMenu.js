@@ -141,10 +141,11 @@ const LogoWrapper = styled.div`
   margin-bottom: 2vh;
 `
 
-const CardsWrapper = styled.section`
+const CardsWrapper = styled.ul`
   display: flex;
   flex-flow: row wrap;
   flex-direction: row;
+  padding: 0;
 
   max-width: 60rem;
 
@@ -297,101 +298,103 @@ export default class MainMenu extends React.PureComponent {
 
           return (
             (isActive || !enableOverlay) && (
-              <MainWrapper
-                className={classnames(
-                  enableOverlay && 'is-overlay',
-                  isOpen && 'is-open',
-                  isClosing && 'is-closing'
-                )}
-                {...{ isOpen }}
-              >
-                <Head>
-                  <title>{mainTitle}</title>
-                  <meta name="description" content={mainDescription} />
-                </Head>
+              <>
                 <h1 className="dnb-sr-only">Welcome to Eufemia</h1>
-                <>
-                  <Global styles={customBodyStyle} />
-                  {isOpen && !isClosing && (
-                    <Global styles={toggleContent} />
+                <MainWrapper
+                  className={classnames(
+                    enableOverlay && 'is-overlay',
+                    isOpen && 'is-open',
+                    isClosing && 'is-closing'
                   )}
-                  {(enableOverlay && (
-                    <Toolbar
-                      className={classnames(isClosing && 'is-closing')}
-                    >
-                      {isOpen && !isClosing && (
-                        <Button
-                          variant="secondary"
-                          className="close-button dnb-always-focus"
-                          on_click={closeMenu}
-                          icon="close"
-                          icon_position="left"
-                          text="Close"
-                          aria-label="Close Main Menu"
-                        />
-                      )}
-                    </Toolbar>
-                  )) ||
-                    (!enableOverlay && (
-                      <ContentWrapper>
-                        <LogoWrapper aria-hidden>
-                          <Logo size="48" />
-                          Eufemia
-                        </LogoWrapper>
-                        <SearchBarInput />
-                      </ContentWrapper>
-                    ))}
-                  <CardsWrapper
-                    aria-labelledby={
-                      openAsMenu ? 'toggle-main-menu' : undefined
-                    }
-                  >
-                    <Card
-                      url={items['design-system']?.url}
-                      title={items['design-system']?.title}
-                      about={
-                        <>
-                          {items['design-system']?.description}
-                          <LastUpdated title="Last Change log update">
-                            Updated: {packageJson.changelogVersion}
-                          </LastUpdated>
-                        </>
+                  {...{ isOpen }}
+                >
+                  <Head>
+                    <title>{mainTitle}</title>
+                    <meta name="description" content={mainDescription} />
+                  </Head>
+                  <>
+                    <Global styles={customBodyStyle} />
+                    {isOpen && !isClosing && (
+                      <Global styles={toggleContent} />
+                    )}
+                    {(enableOverlay && (
+                      <Toolbar
+                        className={classnames(isClosing && 'is-closing')}
+                      >
+                        {isOpen && !isClosing && (
+                          <Button
+                            variant="secondary"
+                            className="close-button dnb-always-focus"
+                            on_click={closeMenu}
+                            icon="close"
+                            icon_position="left"
+                            text="Close"
+                            aria-label="Close Main Menu"
+                          />
+                        )}
+                      </Toolbar>
+                    )) ||
+                      (!enableOverlay && (
+                        <ContentWrapper>
+                          <LogoWrapper aria-hidden>
+                            <Logo size="48" />
+                            Eufemia
+                          </LogoWrapper>
+                          <SearchBarInput />
+                        </ContentWrapper>
+                      ))}
+                    <CardsWrapper
+                      aria-labelledby={
+                        openAsMenu ? 'toggle-main-menu' : undefined
                       }
-                      icon={DesignSystemSvg}
-                    />
-                    <Card
-                      url={items['uilib']?.url}
-                      title={items['uilib']?.title}
-                      about={items['uilib']?.description}
-                      icon={UilibSvg}
-                    />
-                    <Card
-                      url={items['quickguide-designer']?.url}
-                      title={items['quickguide-designer']?.title}
-                      about={items['quickguide-designer']?.description}
-                      icon={QuickguideDesignerSvg}
-                    />
-                    <Card
-                      url={items['icons']?.url}
-                      title={items['icons']?.title}
-                      about={items['icons']?.description}
-                      icon={IconsSvg}
-                    />
-                    <Card
-                      url={items['brand']?.url}
-                      title={items['brand']?.title}
-                      about={items['brand']?.description}
-                      icon={BrandSvg}
-                    />
-                    <Card
-                      url={items['contribute']?.url}
-                      title={items['contribute']?.title}
-                      about={items['contribute']?.description}
-                      icon={DevelopmentSvg}
-                    />
-                  </CardsWrapper>
-                </>
-              </MainWrapper>
+                    >
+                      <Card
+                        url={items['design-system']?.url}
+                        title={items['design-system']?.title}
+                        about={
+                          <>
+                            {items['design-system']?.description}
+                            <LastUpdated title="Last Change log update">
+                              Updated: {packageJson.changelogVersion}
+                            </LastUpdated>
+                          </>
+                        }
+                        icon={DesignSystemSvg}
+                      />
+                      <Card
+                        url={items['uilib']?.url}
+                        title={items['uilib']?.title}
+                        about={items['uilib']?.description}
+                        icon={UilibSvg}
+                      />
+                      <Card
+                        url={items['quickguide-designer']?.url}
+                        title={items['quickguide-designer']?.title}
+                        about={items['quickguide-designer']?.description}
+                        icon={QuickguideDesignerSvg}
+                      />
+                      <Card
+                        url={items['icons']?.url}
+                        title={items['icons']?.title}
+                        about={items['icons']?.description}
+                        icon={IconsSvg}
+                      />
+                      <Card
+                        url={items['brand']?.url}
+                        title={items['brand']?.title}
+                        about={items['brand']?.description}
+                        icon={BrandSvg}
+                      />
+                      <Card
+                        url={items['contribute']?.url}
+                        title={items['contribute']?.title}
+                        about={items['contribute']?.description}
+                        icon={DevelopmentSvg}
+                      />
+                    </CardsWrapper>
+                  </>
+                </MainWrapper>
+              </>
             )
           )
         }}
