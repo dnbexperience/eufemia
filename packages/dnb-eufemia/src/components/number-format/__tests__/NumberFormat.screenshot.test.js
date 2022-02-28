@@ -27,6 +27,13 @@ describe('NumberFormat screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match compact numbers', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="number-format-compact"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match numbers in different locales', async () => {
     const screenshot = await testPageScreenshot({
       style: { height: '30rem' },

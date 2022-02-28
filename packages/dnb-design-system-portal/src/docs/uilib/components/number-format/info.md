@@ -24,6 +24,7 @@ Good reasons for why we have this is to:
 - Bank account number e.g. <pre className="dnb-code"><NumberFormat ban value="20001234567" /></pre>
 - National identification number e.g. <pre className="dnb-code"><NumberFormat nin value="18089212345" /></pre>
 - Organization number e.g. <pre className="dnb-code"><NumberFormat org value="123456789" /></pre>
+- Compact (shorten) numbers e.g. <pre className="dnb-code"><NumberFormat compact value="123456" decimals={1} /></pre>
 
 ### Defaults
 
