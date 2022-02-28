@@ -209,6 +209,7 @@ class PaginationInstance extends React.PureComponent {
       mode: _mode, // eslint-disable-line
       hide_progress_indicator: _hide_progress_indicator, // eslint-disable-line
       use_load_button: _use_load_button, // eslint-disable-line
+      currentPage: _currentPage, // eslint-disable-line
 
       ...attributes
     } = props

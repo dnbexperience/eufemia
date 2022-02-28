@@ -13,39 +13,52 @@ export const calculatePagination = (
   const EDGE_WIDTH = isSmallScreen ? 2 : 4
   const START = 1
 
-  const currentAtEnd = currentPage + 2 > pageCount
-  const currentAtStart = currentPage - 2 < START
+  const currentAtStart = currentPage - EDGE_WIDTH < START
+  const currentAtEnd = currentPage + EDGE_WIDTH > pageCount
+  let middleStart
+  let middleEnd
 
-  const middleStart = Math.max(
+  if (currentAtStart) {
+    middleStart = 2
+    middleEnd = EDGE_WIDTH
+  } else if (currentAtEnd) {
+    middleStart = pageCount - EDGE_WIDTH
+    middleEnd = pageCount - 1
+  } else {
+    middleStart = currentPage - MIDDLE_WIDTH
+    middleEnd = currentPage + MIDDLE_WIDTH
+  }
+
+  /*   const middleStart = Math.max(
     1,
     currentAtEnd ? pageCount - EDGE_WIDTH : currentPage - MIDDLE_WIDTH
   )
 
   const middleEnd = Math.min(
     pageCount,
-    currentAtStart ? middleStart + EDGE_WIDTH : currentPage + MIDDLE_WIDTH
-  )
+    currentAtStart ? START + EDGE_WIDTH : currentPage + MIDDLE_WIDTH
+  ) */
 
   const startArray = [START]
   const middleArray = []
   const endArray = [pageCount]
-  if (middleStart === START + 1) {
+  if (currentAtStart) {
     middleArray.push(startArray[0])
   }
   for (let i = middleStart; i <= middleEnd; i++) {
     middleArray.push(i)
   }
-  if (middleEnd === pageCount - 1) {
+  if (currentAtEnd) {
     middleArray.push(endArray[0])
   }
 
   const pages = []
-  if (middleStart > 2) {
+  if (!currentAtStart) {
     pages.push(startArray)
   }
   pages.push(middleArray)
 
-  if (middleEnd <= pageCount - 2) {
+  if (!currentAtEnd) {
     pages.push(endArray)
   }
 

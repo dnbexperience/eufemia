@@ -13,6 +13,9 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import Component, { createPagination, Bar } from '../Pagination'
+import MatchMediaMock from 'jest-matchmedia-mock'
+
+new MatchMediaMock()
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Pagination'), {

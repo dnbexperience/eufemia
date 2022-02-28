@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import classnames from 'classnames'
 import {
   dispatchCustomElementEvent,
@@ -17,6 +17,7 @@ import {
 import PaginationContext from './PaginationContext'
 import Context from '../../shared/Context'
 import Button from '../button/Button'
+import { useMediaQuery } from '../../shared'
 
 interface PaginationBarProps {
   /**
@@ -135,12 +136,19 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
       getTranslation(innerProps).Pagination
     )
 
-  // our states
-
   const prevIsDisabled = currentPage === 1
   const nextIsDisabled = currentPage === pageCount || pageCount === 0
 
-  const pageNumberGroups = calculatePagination(pageCount, currentPage)
+  const isSmallScreen = useMediaQuery({
+    matchOnSSR: true,
+    when: { max: 'small' },
+  })
+
+  const pageNumberGroups = calculatePagination(
+    pageCount,
+    currentPage,
+    isSmallScreen
+  )
 
   return (
     <div
