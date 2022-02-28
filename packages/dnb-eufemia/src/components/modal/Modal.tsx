@@ -513,7 +513,7 @@ class Modal extends React.PureComponent<
               modal_content={modal_content}
               header_content={header_content}
               bar_content={bar_content}
-              closeModal={this.close}
+              close={this.close}
               hide={hide}
               title={rest.title || fallbackTitle}
             />

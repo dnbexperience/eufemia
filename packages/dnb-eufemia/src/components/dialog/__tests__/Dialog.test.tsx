@@ -82,7 +82,6 @@ describe('Dialog', () => {
       </Provider>
     )
 
-    //console.log(Comp.debug())
     Comp.find('button').simulate('click')
 
     expect(document.querySelector('.dnb-dialog__title').textContent).toBe(

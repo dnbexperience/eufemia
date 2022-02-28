@@ -297,7 +297,11 @@ export interface ModalContentProps {
    */
   overlay_class?: string
 
-  closeModal?: (...args: any[]) => any
+  /**
+   * For internal usage
+   * Will close the modal
+   */
+  close?: (...args: any[]) => any
 
   /**
    * Give the inner Dialog or Drawer component a className (only works with mode)

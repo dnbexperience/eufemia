@@ -11,53 +11,84 @@ import DialogNavigation from './parts/DialogNavigation'
 import { DialogProps, DialogContentProps } from './types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
-import { removeUndefinedProps } from '../../shared/component-helper'
+import DialogAction from './parts/DialogAction'
+import { usePropsWithContext } from '../../shared/hooks'
 
-function Dialog({
-  id,
-  rootId,
-  contentId,
-  focusSelector,
-  labelledBy,
-  directDomReturn,
-  hideCloseButton,
-  closeButtonAttributes,
-  disabled,
+const defaultProps = {
+  variant: 'information',
+  spacing: true,
+}
 
-  title,
-  dialogTitle,
-  closeTitle,
-  spacing = true,
-  noAnimation,
-  noAnimationOnMobile,
-  animationDuration,
-  fullscreen = 'auto',
-
-  onOpen,
-  onClose,
-  onClosePrevent,
-  openModal,
-  closeModal,
-  preventClose,
-  openState,
-  openDelay,
-
-  trigger,
-  triggerAttributes,
-  overlayClass,
-  contentClass,
-
-  top,
-  bottom,
-  left,
-  right,
-  space,
-
-  ...props
-}: DialogProps & DialogContentProps): JSX.Element {
+function Dialog(
+  localProps: DialogProps & DialogContentProps
+): JSX.Element {
   const context = useContext(Context)
 
-  const modalProps = removeUndefinedProps({
+  const propsWithContext = usePropsWithContext(
+    localProps,
+    defaultProps,
+    context?.Dialog
+  )
+
+  const {
+    id,
+    rootId,
+    contentId,
+    focusSelector,
+    labelledBy,
+    directDomReturn,
+    closeButtonAttributes,
+    disabled,
+
+    variant,
+    title,
+    dialogTitle,
+    closeTitle,
+    spacing,
+    noAnimation,
+    noAnimationOnMobile,
+    animationDuration,
+    triggerAttributes,
+    hideCloseButton,
+    fullscreen,
+
+    onOpen,
+    onClose,
+    onClosePrevent,
+    openModal,
+    closeModal,
+    preventClose,
+    openState,
+    openDelay,
+
+    trigger,
+    overlayClass,
+    contentClass,
+
+    top,
+    bottom,
+    left,
+    right,
+    space,
+
+    ...props
+  } = propsWithContext
+
+  let currentHideCloseButton = hideCloseButton
+  let currentTriggerAttributes = triggerAttributes
+  let currentFullscreen = fullscreen
+
+  if (variant === 'confirmation') {
+    currentHideCloseButton =
+      hideCloseButton !== undefined ? hideCloseButton : true
+    currentTriggerAttributes = triggerAttributes || { hidden: true }
+  }
+
+  if (fullscreen === undefined) {
+    currentFullscreen = variant === 'information' ? 'auto' : false
+  }
+
+  const modalProps = {
     title,
     id,
     focusSelector,
@@ -68,13 +99,13 @@ function Dialog({
     contentId,
     dialogTitle,
     closeTitle,
-    hideCloseButton,
+    hideCloseButton: currentHideCloseButton,
     closeButtonAttributes,
     preventClose,
     animationDuration,
     noAnimation,
     noAnimationOnMobile,
-    fullscreen,
+    fullscreen: currentFullscreen,
     openState,
     directDomReturn,
     rootId,
@@ -84,31 +115,31 @@ function Dialog({
     openModal,
     closeModal,
     trigger,
-    triggerAttributes,
+    triggerAttributes: currentTriggerAttributes,
     overlayClass,
     top,
     bottom,
     left,
     right,
     space,
-  })
+  }
 
-  const dialogProps = removeUndefinedProps({
+  const dialogProps = {
     ...props,
     noAnimation,
     noAnimationOnMobile,
-    fullscreen,
+    fullscreen: currentFullscreen,
     spacing,
-  })
+    variant,
+  }
 
   return (
     <Modal
-      {...context.Dialog}
       {...modalProps}
       mode="custom"
       contentClass={classnames('dnb-dialog__root', contentClass)}
     >
-      <DialogContent {...context.Dialog} {...dialogProps} />
+      <DialogContent {...dialogProps} />
     </Modal>
   )
 }
@@ -116,5 +147,6 @@ function Dialog({
 Dialog.Body = DialogBody
 Dialog.Header = DialogHeader
 Dialog.Navigation = DialogNavigation
+Dialog.Action = DialogAction
 
 export default Dialog

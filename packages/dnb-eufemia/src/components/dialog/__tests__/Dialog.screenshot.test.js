@@ -153,3 +153,77 @@ describe('Dialog screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 })
+
+describe('Dialog confirmation screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/dialog/demos',
+    pageViewport,
+  })
+
+  it('have to match the default confirmation', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="dialog-confirm-default"] button:first-of-type',
+      screenshotSelector: '.dnb-modal__content',
+      rootClassName: 'hide-page-content',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Dialog confirmation screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/dialog/demos',
+    pageViewport,
+  })
+
+  it('have to match the delete confirmation', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="dialog-confirm-delete"] button:first-of-type',
+      screenshotSelector: '.dnb-modal__content',
+      rootClassName: 'hide-page-content',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Dialog confirmation screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/dialog/demos',
+    pageViewport,
+  })
+  it('have to match the logged out confirmation', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="dialog-confirm-loggedout"] button:first-of-type',
+      screenshotSelector: '.dnb-modal__content',
+      rootClassName: 'hide-page-content',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Dialog confirmation screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/dialog/demos',
+    pageViewport,
+  })
+  it('have to match the cookie concent confirmation', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="dialog-confirm-cookie"] button:first-of-type',
+      screenshotSelector: '.dnb-modal__content',
+      rootClassName: 'hide-page-content',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
