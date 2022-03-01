@@ -7,6 +7,7 @@ redirect_from:
 import {
 NumberDefault,
 NumberCurrency,
+NumberCompact,
 NumberPercent,
 NumberPhone,
 NumberBankAccount,
@@ -28,6 +29,12 @@ import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
 ### Currency
 
 <NumberCurrency />
+
+### Compact (shorten) numbers
+
+Shorten numbers should only be used for numbers above 100 000. A small `k` for thausand is not a Norwegian standard, and should not be used in formal contexts.
+
+<NumberCompact />
 
 ### Percentage
 

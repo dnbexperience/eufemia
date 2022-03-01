@@ -66,6 +66,45 @@ export const NumberCurrency = () => (
   </Style>
 )
 
+export const NumberCompact = () => (
+  <Style>
+    <ComponentBox data-visual-test="number-format-compact">
+      {() => /* jsx */ `
+<P>
+  <NumberFormat compact decimals={1}>1234</NumberFormat>
+  <NumberFormat
+    compact
+    decimals={1}
+    value={123456}
+  />
+  <NumberFormat
+    compact="short"
+    decimals={2}
+    value={-1723967.38}
+  />
+  <NumberFormat
+    compact="long"
+    decimals={3}
+    value={-1234567.9876}
+  />
+  <NumberFormat
+    compact="long"
+    currency
+    value={12345}
+    decimals={1}
+    currency_display="name"
+  />
+  <NumberFormat
+    compact
+    value={123455678912}
+    decimals={3}
+  />
+</P>
+`}
+    </ComponentBox>
+  </Style>
+)
+
 export const NumberPhone = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-phone">

@@ -45,6 +45,12 @@ export default class NumberFormat extends React.PureComponent {
     currency_display: PropTypes.string,
     currency_position: PropTypes.oneOf(['auto', 'before', 'after']),
 
+    // shortens any number or currency including an abbreviation
+    compact: PropTypes.oneOfType([
+      PropTypes.oneOf(['short', 'long']),
+      PropTypes.bool,
+    ]),
+
     // bank account number
     ban: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
@@ -103,6 +109,7 @@ export default class NumberFormat extends React.PureComponent {
     currency: null,
     currency_display: null, // code, name, symbol
     currency_position: null, // null, before, after
+    compact: null,
     ban: null,
     nin: null,
     phone: null,
@@ -235,6 +242,7 @@ export default class NumberFormat extends React.PureComponent {
       currency,
       currency_display,
       currency_position,
+      compact,
       ban,
       nin,
       phone,
@@ -271,6 +279,7 @@ export default class NumberFormat extends React.PureComponent {
       currency_display,
       currency_position,
       omit_currency_sign: this.state.omitCurrencySign,
+      compact,
       ban,
       nin,
       phone,
