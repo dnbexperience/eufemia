@@ -568,7 +568,7 @@ const ModalTriggerExample = () => {
               <Dialog
                 title="Modal Title"
                 triggerAttributes={{
-                  hidden: 'true',
+                  hidden: true,
                 }}
                 openState="opened"
                 labelledBy="custom-triggerer"
