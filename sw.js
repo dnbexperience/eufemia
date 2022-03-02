@@ -28,11 +28,11 @@ workbox.core.clientsClaim();
 self.__precacheManifest = [
   {
     "url": "404.html",
-    "revision": "8635f62db61733aae7a50f628906d4c9"
+    "revision": "a9f58634d0cab062500fbcd8487a9ba3"
   },
   {
     "url": "500.html",
-    "revision": "2a0082744f7292c773ff186dbdbd2741"
+    "revision": "9f9e6bd6d61e087d166da23b4751d98a"
   },
   {
     "url": "google4f78509f2ca83a08.html",
@@ -44,20 +44,20 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "1b710ee851c1e42b03fd0ac4ff7c31bc"
+    "revision": "c39c328782dafcd81b1aaa68236c9d5b"
   },
   {
     "url": "framework-7c8f4490c71a3976984f.js"
   },
   {
-    "url": "styles.4bfd456ab69e6920c450.css"
+    "url": "styles.c6b8a5fdea33bf4714d2.css"
   },
   {
     "url": "09744744-5fc232cd71019a5e3c29.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "89f280f88e75bb25bae8bc331aee21cc"
+    "revision": "9013f05720f6121b858974e097fddca6"
   },
   {
     "url": "static/DNB-Regular-54d35ae78c18491c35feab30a836875a.woff2"
@@ -186,7 +186,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/app-8fca6d31e846f0236bfd.js`))) {
+  if (!resources || !(await caches.match(`/app-830bc2a0d827c4652f34.js`))) {
     return await fetch(event.request)
   }
 
