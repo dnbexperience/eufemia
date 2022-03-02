@@ -17,12 +17,19 @@ export const runFigmaReset = async () => {
     if (fs.existsSync(versionLockFile)) {
       await fs.unlink(versionLockFile)
     }
-    const iconsLockFile = path.resolve(
+    const svgLockFile = path.resolve(
       __dirname,
       '../../src/icons/icons-svg.lock'
     )
-    if (fs.existsSync(iconsLockFile)) {
-      await fs.unlink(iconsLockFile)
+    if (fs.existsSync(svgLockFile)) {
+      await fs.unlink(svgLockFile)
+    }
+    const pdfLockFile = path.resolve(
+      __dirname,
+      '../../src/icons/icons-pdf.lock'
+    )
+    if (fs.existsSync(pdfLockFile)) {
+      await fs.unlink(pdfLockFile)
     }
   } catch (e) {
     log.fail(e)

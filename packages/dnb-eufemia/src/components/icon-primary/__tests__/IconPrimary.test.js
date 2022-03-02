@@ -33,6 +33,7 @@ describe('IconPrimary component', () => {
     expect(elem.exists()).toBe(true)
     expect(elem.props().width).toBe(width)
     expect(elem.props().height).toBe(height)
+    expect(elem.props().viewBox).toBe('0 0 16 16')
   })
 
   it('has valid medium size as enum', () => {
