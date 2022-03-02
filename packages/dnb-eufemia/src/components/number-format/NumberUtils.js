@@ -33,6 +33,7 @@ const NUMBER_CHARS = '\\-0-9,.'
  * @type {object} string or object { when: { min: 'small' } } that describes the media query
  * @property {string} locale - media queries
  * @property {boolean} clean - if true, clean the number for unwanted decimal separators
+ * @property {string|boolean} compact - shortens any number or currency including an abbreviation. You can combine `compact` with `currency`. It gives you zero decimal by default `decimals={0}`. Use either a boolean, or a string with "short" or "long"
  * @property {boolean} phone - if true, it formats to a phone number
  * @property {boolean} org - if true, it formats to a Organization Number
  * @property {boolean} ban - if true, it formats to a Bank Account Number
@@ -53,6 +54,7 @@ export const format = (
   {
     locale = null, // can be "auto"
     clean = false,
+    compact = null,
     phone = null,
     org = null,
     ban = null,
@@ -95,7 +97,7 @@ export const format = (
 
   if (parseFloat(decimals) >= 0) {
     value = formatDecimals(value, decimals, omit_rounding, opts)
-  } else {
+  } else if (typeof opts.maximumFractionDigits === 'undefined') {
     // if no decimals are set, opts.maximumFractionDigits is set
     // why do we this? because the ".toLotoLocaleString" will else use 3 as the default
     opts.maximumFractionDigits = 20
@@ -146,6 +148,8 @@ export const format = (
     opts.currency =
       opts.currency || (isTrue(currency) ? CURRENCY : currency)
 
+    handleCompactBeforeDisplay({ value, locale, compact, decimals, opts })
+
     if (decimals === null) {
       decimals = 2
       value = formatDecimals(value, decimals, omit_rounding, opts)
@@ -162,7 +166,7 @@ export const format = (
     opts.style = 'currency'
     opts.currencyDisplay = getFallbackCurrencyDisplay(
       locale,
-      opts.currency_display || currency_display
+      opts.currencyDisplay || currency_display
     )
 
     // if currency has no decimal, then go ahead and remove it
@@ -220,6 +224,8 @@ export const format = (
       }
     }
 
+    handleCompactBeforeAria({ value, compact, opts })
+
     // aria options
     aria = formatNumber(cleanedNumber, locale, {
       minimumFractionDigits: 0,
@@ -242,16 +248,16 @@ export const format = (
     // const name = aria.replace(num, '')
     // aria = cleanedNumber + name
   } else {
+    handleCompactBeforeDisplay({ value, locale, compact, decimals, opts })
+
     display = formatNumber(value, locale, opts)
     display = prepareMinus(display, locale)
 
+    handleCompactBeforeAria({ value, compact, opts })
+
     // fix for NDVA to make sure we read the number, we add a minimum fraction digit (decimal)
     // NVDA fix
-    aria = formatNumber(value, locale, {
-      ...opts,
-      minimumFractionDigits: 1,
-      maximumFractionDigits: 20,
-    })
+    aria = formatNumber(value, locale, opts)
     aria = enhanceSR(value, aria, locale) // also calls prepareMinus
   }
 
@@ -282,7 +288,7 @@ export const format = (
       )
     } else {
       const thousandsSeparator = getThousandsSeparator(locale)
-      cleanedValue = display.replace(
+      cleanedValue = String(display).replace(
         new RegExp(`${thousandsSeparator}(?=\\d{3})`, 'g'),
         ''
       )
@@ -1108,4 +1114,117 @@ function formatToParts({ number, locale = null, options = null }) {
   }
 
   return [{ value: number }]
+}
+
+/**
+ * Helper for getting a consistent compact format
+ * Mutates a given "opts" object.
+ *
+ * @param {object}
+ * @property {string} value any number
+ * @property {string} locale a given locale
+ * @property {string|boolean} compact "short" or "long" if true is given, "short" is used
+ * @property {number} decimals the amount of decimals
+ * @property {object} opts the options object – it gets mutated
+ */
+function handleCompactBeforeDisplay({
+  value,
+  locale,
+  compact,
+  decimals = 0,
+  opts,
+} = {}) {
+  if (!canHandleCompact({ value, compact })) {
+    return // stop here
+  }
+
+  value = parseInt(Math.abs(value))
+  opts.notation = 'compact'
+
+  // For numbers under 1M we do
+  if (isTrue(compact) && locale && /(no|nb|nn)$/i.test(locale)) {
+    opts.compactDisplay = Math.abs(value) < 1000000 ? 'long' : 'short'
+  } else {
+    opts.compactDisplay = !isTrue(compact) ? compact : 'short'
+  }
+
+  if (typeof opts.maximumSignificantDigits === 'undefined') {
+    if (isNaN(parseFloat(decimals))) {
+      decimals = 0
+    } else {
+      decimals = parseFloat(decimals)
+    }
+
+    // This formula ensures we always get the same amount deciamls
+    const ref = String(value).length % 3
+    if (ref === 2) {
+      decimals += 1
+    } else if (ref === 0) {
+      decimals += 2
+    }
+
+    // The result of this formula would be equal to this:
+    // if (value >= 100000000000000) {
+    //   decimals += 2
+    // } else if (value >= 10000000000000) {
+    //   decimals += 1
+    // } else if (value >= 1000000000000) {
+    //   decimals += 0
+    // } else if (value >= 100000000000) {
+    //   decimals += 2
+    // } else if (value >= 10000000000) {
+    //   decimals += 1
+    // } else if (value >= 1000000000) {
+    //   decimals += 0
+    // } else if (value >= 100000000) {
+    //   decimals += 2
+    // } else if (value >= 10000000) {
+    //   decimals += 1
+    // } else if (value >= 1000000) {
+    //   decimals += 0
+    // } else if (value >= 100000) {
+    //   decimals += 2
+    // } else if (value >= 10000) {
+    //   decimals += 1
+    // }
+
+    // Firefox issue?
+    // If we do not define "maximumSignificantDigits" Firefox does not show any decimals at all
+    opts.maximumSignificantDigits = decimals + 1
+  }
+}
+
+/**
+ * Helper for getting a consistent compact format
+ * Mutates a given "opts" object.
+ *
+ * @param {object}
+ * @property {string|boolean} compact "short" or "long" if true is given, "short" is used
+ * @property {object} opts the options object – it gets mutated
+ */
+function handleCompactBeforeAria({ value, compact, opts }) {
+  if (!canHandleCompact({ value, compact })) {
+    return // stop here
+  }
+
+  opts.compactDisplay = 'long'
+}
+
+/**
+ * Checks if we should/can handle the compact format
+ *
+ * @param {object}
+ * @property {string|number} value any number
+ * @property {string|boolean} compact "short" or "long" if true is given, "short" is used
+ */
+function canHandleCompact({ value, compact }) {
+  if (IS_IE11) {
+    return false
+  }
+
+  if (compact && Math.abs(value) >= 1000) {
+    return true
+  }
+
+  return false
 }

@@ -12,27 +12,38 @@ import {
 import ScrollView from '../../fragments/scroll-view/ScrollView'
 import DialogHeader from './parts/DialogHeader'
 import DialogNavigation from './parts/DialogNavigation'
+import DialogAction from './parts/DialogAction'
 import { getContent } from '../modal/helpers'
 import ModalContext from '../modal/ModalContext'
 import { checkMinMaxWidth } from '../drawer/helpers'
 import { DialogContentProps } from './types'
 import ModalHeaderBar from '../modal/parts/ModalHeaderBar'
 import ModalHeader from '../modal/parts/ModalHeader'
+import IconPrimary from '../icon-primary/IconPrimary'
 
 export default function DialogContent({
   modalContent = null,
   navContent = null,
   headerContent = null,
-  alignContent = 'left',
+  alignContent = null,
   className = null,
   class: _className = null,
   preventCoreStyle = null,
   spacing = true,
-  fullscreen = 'auto',
+  fullscreen,
   noAnimation = false,
   noAnimationOnMobile = false,
   minWidth: min_width = null,
   maxWidth: max_width = null,
+  variant = 'information',
+  confirmType = 'info',
+  icon = null,
+  description,
+  hideDecline,
+  onConfirm,
+  onDecline,
+  declineText,
+  confirmText,
   ...rest
 }: DialogContentProps): JSX.Element {
   const context = useContext(ModalContext)
@@ -45,11 +56,16 @@ export default function DialogContent({
         : rest
     )
 
+  if (alignContent === null) {
+    alignContent = variant === 'information' ? 'left' : 'centered'
+  }
+
   const innerParams = {
     className: classnames(
       !isTrue(preventCoreStyle) && 'dnb-core-style',
 
       'dnb-dialog',
+      variant && `dnb-dialog--${variant}`,
       isTrue(spacing) && 'dnb-dialog--spacing',
       alignContent && `dnb-dialog__align--${alignContent}`,
       isTrue(fullscreen)
@@ -77,6 +93,20 @@ export default function DialogContent({
     content,
     (cur) => cur.type === DialogHeader || cur.type === ModalHeader
   )
+
+  const actionExists = findElementInChildren(
+    content,
+    (cur) => cur.type === DialogAction
+  )
+
+  const dialogActionProps = {
+    onConfirm,
+    onDecline,
+    declineText,
+    confirmText,
+    hideDecline,
+  }
+
   return (
     <ScrollView {...innerParams}>
       <div
@@ -85,17 +115,42 @@ export default function DialogContent({
         ref={context?.contentRef}
       >
         {!navExists && <DialogNavigation>{navContent}</DialogNavigation>}
+
+        {icon && (
+          <div className="dnb-dialog__icon">
+            <IconPrimary
+              border
+              key="dialog-icon"
+              icon={icon}
+              aria-hidden
+              className={classnames(
+                'dnb-dialog__icon__primary',
+                'dnb-dialog__icon--' + confirmType
+              )}
+            />
+          </div>
+        )}
+
         {!headerExists && (
-          <DialogHeader title={context?.title}>
+          <DialogHeader
+            title={context?.title}
+            size={variant === 'information' ? 'x-large' : 'large'}
+          >
             {headerContent}
           </DialogHeader>
         )}
+
         <div
           id={context?.contentId + '-content'}
           className="dnb-dialog__content"
         >
+          {description}
           {content}
         </div>
+
+        {variant === 'confirmation' && !actionExists && (
+          <DialogAction {...dialogActionProps} />
+        )}
       </div>
     </ScrollView>
   )

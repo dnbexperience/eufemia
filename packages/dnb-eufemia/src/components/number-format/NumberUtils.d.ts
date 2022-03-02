@@ -34,6 +34,9 @@ export interface formatOptionParams {
   /** Should the number be cleaned */
   clean?: boolean;
 
+  /** shortens any number or currency including an abbreviation. You can combine `compact` with `currency`. It gives you zero decimal by default `decimals={0}`. Use either a boolean, or a string with "short" or "long" */
+  compact?: boolean | 'short' | 'long';
+
   /** How many decimals */
   decimals?: number;
 
@@ -53,13 +56,19 @@ export interface formatOptionParams {
   /** Currency code (ISO 4217) or `true` to use the default, `NOK`. */
   currency?: string | boolean;
 
-  /** Intl.NumberFormat currency option – you can use false or empty string to hide the sign/name */
-  currency_display?: string | boolean;
+  /** Intl.NumberFormat currency option – you can use false or empty string to hide the sign/name. Defaults to narrowSymbol when the locale is no else we default to code. */
+  currency_display?:
+    | boolean
+    | ''
+    | 'code'
+    | 'name'
+    | 'symbol'
+    | 'narrowSymbol';
   /** currency option */
   currency_position?: formatCurrencyPosition;
   /** hides the currency sign */
   omit_currency_sign?: boolean;
-  /** will remove all extra signs,like a currency sign or percent sign for the cleanedValue return when returnAria is true */
+  /** will remove all extra signs, like a currency sign or percent sign for the cleanedValue return when returnAria is true */
   clean_copy_value?: boolean;
 
   /** Intl.NumberFormat options (NumberFormatOptions) */

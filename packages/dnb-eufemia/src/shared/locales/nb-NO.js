@@ -72,6 +72,10 @@ export default {
       dialog_title: 'Separat Vindu',
       close_title: 'Lukk',
     },
+    Dialog: {
+      declineText: 'Avbryt',
+      confirmText: 'Godta',
+    },
     NumberFormat: {
       clipboard_copy: 'Kopiert',
     },

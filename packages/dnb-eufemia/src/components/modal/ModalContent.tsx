@@ -313,7 +313,7 @@ export default class ModalContent extends React.PureComponent<
   closeModalContent(event, { triggeredBy, ...params }) {
     event?.persist?.()
     this.setState({ triggeredBy, triggeredByEvent: event }, () => {
-      this.props.closeModal(event, {
+      this.props.close(event, {
         triggeredBy,
         ...params,
       })
@@ -347,7 +347,7 @@ export default class ModalContent extends React.PureComponent<
       fullscreen = 'auto',
       align_content = 'left',
       container_placement = 'right',
-      closeModal, // eslint-disable-line
+      close, // eslint-disable-line
       content_class,
       overlay_class,
       content_id,
@@ -360,6 +360,7 @@ export default class ModalContent extends React.PureComponent<
       className,
       prevent_core_style,
       class: _className,
+      dialog_role = null,
       ...rest
     } = this.props
     const { color } = this.state
@@ -367,6 +368,10 @@ export default class ModalContent extends React.PureComponent<
     const contentId = content_id || makeUniqueId('modal-')
 
     const useDialogRole = !(IS_MAC || IS_SAFARI || IS_IOS)
+    let role = dialog_role || 'dialog'
+    if (!useDialogRole && role === 'dialog') {
+      role = 'region'
+    }
 
     const contentParams = {
       /**
@@ -379,7 +384,7 @@ export default class ModalContent extends React.PureComponent<
        * "aria-labelledby" and "aria-describedby" approach
        *
        */
-      role: useDialogRole ? 'dialog' : 'region',
+      role,
       'aria-modal': useDialogRole ? true : undefined,
 
       /**
@@ -450,7 +455,7 @@ export default class ModalContent extends React.PureComponent<
           onKeyDownHandler: this.onKeyDownHandler,
           contentRef: this._contentRef,
           contentId,
-          close: closeModal,
+          close,
         }}
       >
         <div

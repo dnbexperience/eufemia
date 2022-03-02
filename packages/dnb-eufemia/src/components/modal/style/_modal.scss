@@ -126,6 +126,7 @@ html[data-dnb-modal-active] {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      width: 100%;
 
       @include IS_IE() {
         align-items: center; // IE11 uses top as default

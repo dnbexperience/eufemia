@@ -72,6 +72,10 @@ export default {
       dialog_title: 'Dialog Window',
       close_title: 'Close',
     },
+    Dialog: {
+      declineText: 'Cancel',
+      confirmText: 'Approve',
+    },
     NumberFormat: {
       clipboard_copy: 'Copied',
     },

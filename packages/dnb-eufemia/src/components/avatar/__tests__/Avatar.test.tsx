@@ -127,6 +127,13 @@ describe('Avatar', () => {
     expect(global.console.log).toBeCalled()
   })
 
+  it('will not warn when hasLabel is true', () => {
+    process.env.NODE_ENV = 'development'
+    global.console.log = jest.fn()
+    mount(<Avatar hasLabel />)
+    expect(global.console.log).not.toBeCalled()
+  })
+
   describe('AvatarGroup', () => {
     it('renders the label as string', () => {
       const label = 'avatar'

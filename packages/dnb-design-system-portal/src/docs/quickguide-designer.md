@@ -13,14 +13,16 @@ import FigmaLibrary from 'Docs/quickguide-designer/assets/figma-library.svg'
 
 ## Contents
 
-1.  Design tools - recommended applications
-1.  Fonts - downloads and links to other resources
-1.  Logos - downloads
-1.  Colors - color libraries downloads, recommendations
-1.  UI guides - startup templates with grid, fonts, colors, symbols etc...
-1.  Naming conventions - overview of we name things across code and design
-1.  Brand guidelines - in relation to designing digital UI's
-1.  Inspiration - examples of good application of Eufemia in products
+1.  [Accessibility](/quickguide-designer/accessibility) - accessibility, inclusiveness, and WCAG
+1.  [Design tools](/quickguide-designer/tools) - recommended applications
+1.  [Fonts](/quickguide-designer/fonts) - downloads and links to other resources
+1.  [Logos](/quickguide-designer/logos) - DNB brand logo
+1.  [Colors](/quickguide-designer/colors) - color libraries downloads, recommendations
+1.  [UI guides](/quickguide-designer/tools) - startup templates with grid, fonts, colors, symbols etc...
+1.  [Naming conventions](/quickguide-designer/naming-conventions) - overview of we name things across code and design
+1.  [Design principles](/quickguide-designer/principles) - in relation to designing digital UI's
+1.  [UI Resources](/quickguide-designer/ui-resources) - set of interface design resources
+1.  [Spatial System](/quickguide-designer/spatial-system) - spatial system used in Eufemia
 
 ### Brand guidelines
 

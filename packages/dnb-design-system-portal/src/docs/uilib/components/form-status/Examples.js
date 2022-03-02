@@ -9,6 +9,7 @@ import {
   InfoIcon,
   WarnIcon,
   ErrorIcon,
+  MarketingIcon,
 } from '@dnb/eufemia/src/components/form-status/FormStatus'
 
 export const FormStatusDefault = () => (
@@ -50,6 +51,16 @@ export const FormStatusWithWarn = () => (
     {() => /* jsx */ `
 <FormStatus state="warn" variant="outlined">
   Warningmessage. Take notice!
+</FormStatus>
+`}
+  </ComponentBox>
+)
+
+export const FormStatusWithMarketing = () => (
+  <ComponentBox data-visual-test="form-status-marketing">
+    {() => /* jsx */ `
+<FormStatus state="marketing" variant="outlined">
+Marketingmessage. What a deal!
 </FormStatus>
 `}
   </ComponentBox>
@@ -132,7 +143,7 @@ render(
 
 export const FormStatusWithIcons = () => (
   <ComponentBox
-    scope={{ InfoIcon, WarnIcon, ErrorIcon }}
+    scope={{ InfoIcon, WarnIcon, ErrorIcon, MarketingIcon }}
     data-visual-test="form-status-icons"
   >
     {`
@@ -152,6 +163,13 @@ export const FormStatusWithIcons = () => (
 />
 <Icon
 	icon={ErrorIcon}
+	size="medium"
+	title="Some title"
+  inherit_color={false}
+  right
+/>
+<Icon
+	icon={MarketingIcon}
 	size="medium"
 	title="Some title"
   inherit_color={false}

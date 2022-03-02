@@ -69,17 +69,19 @@ export interface AvatarProps {
    * Default: primary.
    */
   variant?: AvatarVariants
+
+  /**
+   * If an avatar is hidden from the screen reader (by setting aria-hidden="true") or if label is given, typical inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar.
+   * Use `true` to omit the `Avatar group required:` warning.
+   * Default: null
+   */
+  hasLabel?: boolean
 }
 
 export const defaultProps = {
-  alt: null,
-  className: null,
   size: 'medium',
-  src: null,
-  imgProps: null,
   variant: 'primary',
   skeleton: false,
-  children: null,
 }
 
 const Avatar = (localProps: AvatarProps & ISpacingProps) => {
@@ -97,6 +99,7 @@ const Avatar = (localProps: AvatarProps & ISpacingProps) => {
     variant,
     src,
     imgProps,
+    hasLabel,
     ...props
   } = usePropsWithContext(
     localProps,
@@ -126,7 +129,7 @@ const Avatar = (localProps: AvatarProps & ISpacingProps) => {
     children = childrenProp
   }
 
-  if (!avatarGroupContext) {
+  if (!avatarGroupContext && !hasLabel) {
     warn(
       `Avatar group required: An Avatar requires an Avatar.Group with label description as a parent component. This is to ensure correct semantic and accessibility.`
     )

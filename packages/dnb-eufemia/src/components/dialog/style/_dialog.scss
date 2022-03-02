@@ -9,27 +9,33 @@
   // we do this because SCSS fails by using min(100vw, 50rem) = "Incompatible units: 'rem' and 'vw'"
   --dialog-min-width: 320px; // use px, so larger font-size don't enlarge the min, has to be under 20rem, because of spacing and later mobile fullscreen
   --dialog-avg-width: 60vw; // content defines the size
-  --dialog-max-width: 60rem; // because of our default width --layout-large
+  --dialog-max-width: 49rem; // because of our default width --layout-large
+  --dialog-confirm-max-width: 40rem;
   --dialog-spacing: 2rem; // should reflect --spacing-large
   --dialog-spacing-minus: -2rem; // should reflect --spacing-large
 }
 
 .dnb-dialog {
   position: relative;
-
-  width: var(--dialog-avg-width);
-  min-width: var(--dialog-min-width);
-  max-width: var(--dialog-max-width);
   max-height: 100vh;
-
-  @include defaultDropShadow();
   border-radius: 0.5rem;
+  @include defaultDropShadow();
 
   user-select: text;
   -webkit-user-select: text; // Safari / Touch fix
   border: none;
-
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  &--information {
+    min-width: var(--dialog-min-width);
+    width: var(--dialog-avg-width);
+    max-width: var(--dialog-max-width);
+  }
+
+  &--confirmation {
+    max-width: var(--dialog-confirm-max-width);
+    margin: 0 1rem;
+  }
 
   &--auto-fullscreen {
     @include allBelow(small) {
@@ -39,14 +45,43 @@
   &--fullscreen {
     @include modalFullscreen();
   }
+  &--spacing#{&}--information &__content {
+    padding-bottom: calc(var(--dialog-spacing) * 2);
 
-  @include IS_SAFARI_MOBILE() {
-    // iOS on iPhone fix
-    // Because Safari includes the navigation bar on the height
-    @media (max-height: 40em) and (orientation: landscape) {
-      &:not(#{&}--fullscreen) {
-        max-height: 80vh;
-      }
+    @include IS_SAFARI_MOBILE {
+      padding-bottom: calc(var(--dialog-spacing) * 8);
+    }
+  }
+
+  &--spacing#{&}--information &__inner {
+    padding-left: calc(var(--dialog-spacing) * 1.75); // 3.5rem (56px)
+    padding-right: calc(var(--dialog-spacing) * 1.75); // 3.5rem (56px)
+
+    @include allBelow(large) {
+      padding-left: calc(var(--dialog-spacing)); // 2rem (32px)
+      padding-right: calc(var(--dialog-spacing)); // 2rem (32px)
+    }
+
+    @include allBelow(small) {
+      padding-left: calc(var(--dialog-spacing) / 2); // 1rem (16px)
+      padding-right: calc(var(--dialog-spacing) / 2); // 1rem (16px)
+    }
+  }
+
+  &--spacing#{&}--information &__navigation.dnb-section {
+    margin-top: calc(var(--dialog-spacing)); // 2rem (32px)
+    margin-bottom: calc(var(--dialog-spacing) / 2); // 1rem (16px)
+
+    @include allBelow(medium) {
+      margin-top: calc(var(--dialog-spacing) / 2); // 1rem (16px)
+    }
+  }
+
+  &--spacing#{&}--confirmation &__inner {
+    padding: calc(var(--dialog-spacing)); // 2rem (32px)
+
+    @include IS_SAFARI_MOBILE {
+      padding-bottom: calc(var(--dialog-spacing) * 8);
     }
   }
 
@@ -70,25 +105,98 @@
     }
   }
 
-  // Padding right and left based on screen size
-  &--spacing &__inner {
-    // FOR DIALOG STYLES
-    padding: 0 var(--dialog-spacing) 0;
-
-    @include allAbove(x-large) {
-      padding: 0 calc(var(--dialog-spacing) * 1.75) 0; // 3.5rem (56px)
-    }
-    @include allBelow(medium) {
-      padding: 0 calc(var(--dialog-spacing) / 1.333333) 0; // 2rem (32px)
-    }
-    @include allBelow(small) {
-      padding: 0 calc(var(--dialog-spacing) / 2) 0; // 1rem (16px)
-    }
-  }
-
   &__align--centered &__inner {
     align-items: center;
     justify-content: center;
+  }
+  &__align--centered &__title,
+  &__align--centered#{&}--confirmation &__content {
+    text-align: center;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__actions {
+    padding-top: 1.5rem;
+
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    > :not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
+
+  &__align--center &__content {
+    align-items: center;
+    text-align: center;
+  }
+
+  &__align--right &__content {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  &__title ~ &__content {
+    padding-top: calc(var(--dialog-spacing) / 2);
+  }
+
+  &__title {
+    @include allBelow(medium) {
+      font-size: var(--font-size-large) !important;
+      line-height: var(--line-height-medium) !important;
+    }
+    @include allBelow(small) {
+      font-size: var(--font-size-medium) !important;
+      line-height: calc(var(--line-height-medium) - 0.25rem) !important;
+    }
+  }
+
+  &--information &__title {
+    margin-bottom: var(--spacing-small) !important;
+  }
+
+  &--confirmation &__title {
+    margin-bottom: var(--spacing-x-small) !important;
+  }
+
+  &__navigation.dnb-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &__icon {
+    // Modify the border prop from the icon component
+    &__primary.dnb-icon--border::after {
+      left: -50%;
+      right: -50%;
+      top: -50%;
+      bottom: -50%;
+
+      border: none;
+      background-color: currentColor;
+      opacity: 0.1;
+    }
+
+    &__primary#{&}--warning {
+      color: var(--color-fire-red);
+
+      ::after {
+        background-color: var(--color-fire-red-8);
+      }
+    }
+    &__primary#{&}--info {
+      color: var(--color-emerald-green);
+
+      ::after {
+        background-color: var(--color-pistachio);
+      }
+    }
   }
 
   // Animation in
@@ -110,35 +218,20 @@
     }
   }
 
-  &__content {
-    position: relative;
-    z-index: 1;
+  &__body {
+    padding-bottom: calc(var(--dialog-spacing) * 2);
+    margin-bottom: calc(var(--dialog-spacing-minus) * 2);
   }
 
-  &--spacing &__content {
-    padding-bottom: calc(var(--dialog-spacing) * 2);
-
-    @include IS_SAFARI_MOBILE {
-      padding-bottom: calc(var(--dialog-spacing) * 8);
+  &__header {
+    &::after {
+      top: -500%;
+      height: 600%;
     }
   }
 
-  &__align--center &__content {
-    align-items: center;
-    text-align: center;
-  }
-
-  &__align--right &__content {
-    align-items: flex-end;
-    text-align: right;
-  }
-
-  &__title ~ &__content {
-    padding-top: calc(var(--dialog-spacing) / 2);
-  }
-
-  & &__header [class*='dnb-h--'],
-  & &__header .dnb-modal__title {
+  &__header [class*='dnb-h--'],
+  &__header .dnb-modal__title {
     padding: 0;
     &:not([class*='__top']) {
       margin-top: 0;
@@ -148,36 +241,23 @@
     }
   }
 
-  & &__header {
-    &::after {
-      top: -500%;
-      height: 600%;
-    }
-  }
-
   &--spacing &__header {
     .dnb-tabs {
       margin-top: 3.5rem;
     }
   }
 
-  &__body {
-    padding-bottom: calc(var(--dialog-spacing) * 2);
-    margin-bottom: calc(var(--dialog-spacing-minus) * 2);
+  &__icon ~ &__header {
+    margin-top: 1.5rem;
   }
 
-  &__navigation.dnb-section {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  &--spacing &__navigation.dnb-section {
-    // on large screens
-    margin-top: calc(var(--dialog-spacing) * 1.75);
-    margin-bottom: calc(var(--dialog-spacing) / 2);
-    @include allBelow(medium) {
-      margin-top: calc(var(--dialog-spacing) / 2);
+  @include IS_SAFARI_MOBILE() {
+    // iOS on iPhone fix
+    // Because Safari includes the navigation bar on the height
+    @media (max-height: 40em) and (orientation: landscape) {
+      &:not(#{&}--fullscreen) {
+        max-height: 80vh;
+      }
     }
   }
 }

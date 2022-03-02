@@ -935,6 +935,21 @@ describe('Dropdown component', () => {
     ).toBe(title)
   })
 
+  it('should support empty data entry', () => {
+    const Comp = mount(<Component data={['']} />)
+
+    keydown(Comp, 32) // space
+
+    expect(
+      Comp.find('button').instance().getAttribute('aria-expanded')
+    ).toBe('true')
+    expect(
+      Comp.find('.dnb-drawer-list__option')
+        .find('.dnb-drawer-list__option__inner')
+        .instance().innerHTML
+    ).toBe('')
+  })
+
   it('has a correct value content if we send in a React component', () => {
     const aStringOf = 'Custom content 123'
     const Comp1 = mount(

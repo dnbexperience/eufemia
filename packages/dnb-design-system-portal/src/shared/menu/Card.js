@@ -14,7 +14,7 @@ import { MainMenuContext } from './MainMenuContext'
 import classnames from 'classnames'
 import { P } from '@dnb/eufemia/src/elements'
 
-const CardWrapper = styled.div`
+const CardWrapper = styled.li`
   width: calc(33.333333% - 1rem);
 
   margin: 0.5rem;
@@ -240,6 +240,7 @@ export default class Card extends React.PureComponent {
                     icon="chevron_right"
                     text="Read more"
                     tabIndex="-1"
+                    element="span"
                   />
                 </BottomWrapper>
               </LinkInner>

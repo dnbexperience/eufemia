@@ -10,6 +10,7 @@ import {
   axeComponent,
   attachToBody,
 } from '../../../core/jest/jestSetup'
+import * as helpers from '../../../shared/helpers'
 
 const props = fakeProps(require.resolve('../Dialog.tsx'), {
   all: true,
@@ -82,12 +83,42 @@ describe('Dialog', () => {
       </Provider>
     )
 
-    //console.log(Comp.debug())
     Comp.find('button').simulate('click')
 
     expect(document.querySelector('.dnb-dialog__title').textContent).toBe(
       contextTitle
     )
+  })
+
+  it('has to have correct role', () => {
+    const Comp = mount(
+      <Dialog {...props} openState={true}>
+        <button>button</button>
+      </Dialog>
+    )
+    const elem = Comp.find('.dnb-modal__content').instance()
+    expect(elem.getAttribute('role')).toBe('dialog')
+    expect(elem.hasAttribute('aria-modal')).toBe(true)
+
+    Object.defineProperty(helpers, 'IS_MAC', {
+      value: true,
+      writable: true,
+    })
+
+    Comp.setProps({ title: 're-render' })
+
+    expect(elem.getAttribute('role')).toBe('region')
+    expect(elem.hasAttribute('aria-modal')).toBe(false)
+
+    Object.defineProperty(helpers, 'IS_MAC', {
+      value: false,
+      writable: true,
+    })
+
+    Comp.setProps({ variant: 'confirmation' })
+
+    expect(elem.getAttribute('role')).toBe('alertdialog')
+    expect(elem.hasAttribute('aria-modal')).toBe(true)
   })
 
   it('is closed by keyboardevent esc', () => {
