@@ -371,7 +371,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
   button_title={null}
   class={null}
   className={null}
-  current_page={null}
+  current_page={2}
   debug={null}
   disabled={null}
   hide_progress_indicator={false}
@@ -386,7 +386,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
   on_end={null}
   on_load={null}
   on_startup={null}
-  page_count={null}
+  page_count={4}
   parallel_load_count={1}
   place_maker_before_content={false}
   prev_title={null}
@@ -545,7 +545,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
     button_title={null}
     class={null}
     className={null}
-    current_page={null}
+    current_page={2}
     debug={null}
     disabled={null}
     end_infinity_handler={null}
@@ -562,7 +562,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
     on_end={null}
     on_load={null}
     on_startup={null}
-    page_count={null}
+    page_count={4}
     parallel_load_count={1}
     place_maker_before_content={false}
     prev_title={null}
@@ -726,7 +726,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
       button_title={null}
       class={null}
       className={null}
-      current_page={null}
+      current_page={2}
       debug={null}
       disabled={null}
       hide_progress_indicator={false}
@@ -741,7 +741,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
       on_end={null}
       on_load={null}
       on_startup={null}
-      page_count={null}
+      page_count={4}
       parallel_load_count={1}
       place_maker_before_content={false}
       prev_title={null}
@@ -935,7 +935,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
                   custom_content={null}
                   custom_element={null}
                   custom_method={null}
-                  disabled={true}
+                  disabled={false}
                   element={null}
                   global_status_id={null}
                   href={null}
@@ -955,7 +955,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
                   status_state="error"
                   stretch={null}
                   text="Neste side"
-                  title={null}
+                  title="Neste side"
                   to={null}
                   tooltip={null}
                   type={null}
@@ -963,10 +963,10 @@ exports[`Pagination bar have to match snapshot 1`] = `
                   wrap={null}
                 >
                   <button
-                    aria-disabled={true}
                     className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
-                    disabled={true}
+                    disabled={false}
                     onClick={[Function]}
+                    title="Neste side"
                     type="button"
                   >
                     <Content
@@ -977,7 +977,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
                       custom_content={null}
                       custom_element={null}
                       custom_method={null}
-                      disabled={true}
+                      disabled={false}
                       element={null}
                       global_status_id={null}
                       href={null}
@@ -997,7 +997,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
                       status_state="error"
                       stretch={null}
                       text="Neste side"
-                      title={null}
+                      title="Neste side"
                       to={null}
                       tooltip={null}
                       type={null}
@@ -1208,39 +1208,9 @@ exports[`Pagination bar have to match snapshot 1`] = `
                     width_selector={null}
                   />
                 </Button>
-                <div
-                  aria-label={null}
-                  className="dnb-pagination__dots"
-                  key="dots-0"
-                >
-                  <div
-                    key="dot-1"
-                  />
-                  <div
-                    key="dot-2"
-                  />
-                  <div
-                    key="dot-3"
-                  />
-                </div>
-                <div
-                  aria-label={null}
-                  className="dnb-pagination__dots"
-                  key="dots-1"
-                >
-                  <div
-                    key="dot-1"
-                  />
-                  <div
-                    key="dot-2"
-                  />
-                  <div
-                    key="dot-3"
-                  />
-                </div>
                 <Button
                   aria-current="page"
-                  aria-label="Side undefined"
+                  aria-label="Side 2"
                   bounding={null}
                   class={null}
                   className="dnb-pagination__button"
@@ -1257,6 +1227,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
                   id={null}
                   innerRef={null}
                   inner_ref={null}
+                  key="2"
                   on_click={[Function]}
                   size="medium"
                   skeleton={null}
@@ -1265,7 +1236,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
                   status_props={null}
                   status_state="error"
                   stretch={null}
-                  text="undefined"
+                  text="2"
                   title={null}
                   to={null}
                   tooltip={null}
@@ -1275,7 +1246,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
                 >
                   <button
                     aria-current="page"
-                    aria-label="Side undefined"
+                    aria-label="Side 2"
                     className="dnb-button dnb-button--primary dnb-button--has-text dnb-pagination__button dnb-button--size-medium"
                     disabled={false}
                     onClick={[Function]}
@@ -1283,11 +1254,11 @@ exports[`Pagination bar have to match snapshot 1`] = `
                   >
                     <Content
                       aria-current="page"
-                      aria-label="Side undefined"
+                      aria-label="Side 2"
                       bounding={null}
                       class={null}
                       className="dnb-pagination__button"
-                      content="undefined"
+                      content="2"
                       custom_content={null}
                       custom_element={null}
                       custom_method={null}
@@ -1310,7 +1281,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
                       status_props={null}
                       status_state="error"
                       stretch={null}
-                      text="undefined"
+                      text="2"
                       title={null}
                       to={null}
                       tooltip={null}
@@ -1328,7 +1299,7 @@ exports[`Pagination bar have to match snapshot 1`] = `
                         className="dnb-button__text dnb-skeleton--show-font"
                         key="button-text"
                       >
-                        undefined
+                        2
                       </span>
                     </Content>
                   </button>
@@ -1340,7 +1311,245 @@ exports[`Pagination bar have to match snapshot 1`] = `
                     icon="error"
                     icon_size="medium"
                     id="null-form-status"
-                    label="undefined"
+                    label="2"
+                    no_animation={null}
+                    role={null}
+                    show={null}
+                    size="default"
+                    skeleton={null}
+                    state="error"
+                    status="error"
+                    stretch={null}
+                    text={null}
+                    text_id="null-status"
+                    title={null}
+                    variant={null}
+                    width_element={null}
+                    width_selector={null}
+                  />
+                </Button>
+                <Button
+                  aria-current={null}
+                  aria-label="Side 3"
+                  bounding={null}
+                  class={null}
+                  className="dnb-pagination__button"
+                  custom_content={null}
+                  custom_element={null}
+                  custom_method={null}
+                  disabled={null}
+                  element={null}
+                  global_status_id={null}
+                  href={null}
+                  icon={null}
+                  icon_position="right"
+                  icon_size={null}
+                  id={null}
+                  innerRef={null}
+                  inner_ref={null}
+                  key="3"
+                  on_click={[Function]}
+                  size="medium"
+                  skeleton={null}
+                  status={null}
+                  status_no_animation={null}
+                  status_props={null}
+                  status_state="error"
+                  stretch={null}
+                  text="3"
+                  title={null}
+                  to={null}
+                  tooltip={null}
+                  type={null}
+                  variant="secondary"
+                  wrap={null}
+                >
+                  <button
+                    aria-label="Side 3"
+                    className="dnb-button dnb-button--secondary dnb-button--has-text dnb-pagination__button dnb-button--size-medium"
+                    disabled={false}
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <Content
+                      aria-current={null}
+                      aria-label="Side 3"
+                      bounding={null}
+                      class={null}
+                      className="dnb-pagination__button"
+                      content="3"
+                      custom_content={null}
+                      custom_element={null}
+                      custom_method={null}
+                      disabled={null}
+                      element={null}
+                      global_status_id={null}
+                      href={null}
+                      icon={null}
+                      icon_position="right"
+                      icon_size={null}
+                      id={null}
+                      innerRef={null}
+                      inner_ref={null}
+                      isIconOnly={false}
+                      on_click={[Function]}
+                      size="medium"
+                      skeleton={false}
+                      status={null}
+                      status_no_animation={null}
+                      status_props={null}
+                      status_state="error"
+                      stretch={null}
+                      text="3"
+                      title={null}
+                      to={null}
+                      tooltip={null}
+                      type={null}
+                      variant="secondary"
+                      wrap={null}
+                    >
+                      <span
+                        className="dnb-button__alignment"
+                        key="button-text-empty"
+                      >
+                        ‌
+                      </span>
+                      <span
+                        className="dnb-button__text dnb-skeleton--show-font"
+                        key="button-text"
+                      >
+                        3
+                      </span>
+                    </Content>
+                  </button>
+                  <FormStatus
+                    attributes={null}
+                    class={null}
+                    className={null}
+                    global_status_id={null}
+                    icon="error"
+                    icon_size="medium"
+                    id="null-form-status"
+                    label="3"
+                    no_animation={null}
+                    role={null}
+                    show={null}
+                    size="default"
+                    skeleton={null}
+                    state="error"
+                    status="error"
+                    stretch={null}
+                    text={null}
+                    text_id="null-status"
+                    title={null}
+                    variant={null}
+                    width_element={null}
+                    width_selector={null}
+                  />
+                </Button>
+                <Button
+                  aria-current={null}
+                  aria-label="Side 4"
+                  bounding={null}
+                  class={null}
+                  className="dnb-pagination__button"
+                  custom_content={null}
+                  custom_element={null}
+                  custom_method={null}
+                  disabled={null}
+                  element={null}
+                  global_status_id={null}
+                  href={null}
+                  icon={null}
+                  icon_position="right"
+                  icon_size={null}
+                  id={null}
+                  innerRef={null}
+                  inner_ref={null}
+                  key="4"
+                  on_click={[Function]}
+                  size="medium"
+                  skeleton={null}
+                  status={null}
+                  status_no_animation={null}
+                  status_props={null}
+                  status_state="error"
+                  stretch={null}
+                  text="4"
+                  title={null}
+                  to={null}
+                  tooltip={null}
+                  type={null}
+                  variant="secondary"
+                  wrap={null}
+                >
+                  <button
+                    aria-label="Side 4"
+                    className="dnb-button dnb-button--secondary dnb-button--has-text dnb-pagination__button dnb-button--size-medium"
+                    disabled={false}
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <Content
+                      aria-current={null}
+                      aria-label="Side 4"
+                      bounding={null}
+                      class={null}
+                      className="dnb-pagination__button"
+                      content="4"
+                      custom_content={null}
+                      custom_element={null}
+                      custom_method={null}
+                      disabled={null}
+                      element={null}
+                      global_status_id={null}
+                      href={null}
+                      icon={null}
+                      icon_position="right"
+                      icon_size={null}
+                      id={null}
+                      innerRef={null}
+                      inner_ref={null}
+                      isIconOnly={false}
+                      on_click={[Function]}
+                      size="medium"
+                      skeleton={false}
+                      status={null}
+                      status_no_animation={null}
+                      status_props={null}
+                      status_state="error"
+                      stretch={null}
+                      text="4"
+                      title={null}
+                      to={null}
+                      tooltip={null}
+                      type={null}
+                      variant="secondary"
+                      wrap={null}
+                    >
+                      <span
+                        className="dnb-button__alignment"
+                        key="button-text-empty"
+                      >
+                        ‌
+                      </span>
+                      <span
+                        className="dnb-button__text dnb-skeleton--show-font"
+                        key="button-text"
+                      >
+                        4
+                      </span>
+                    </Content>
+                  </button>
+                  <FormStatus
+                    attributes={null}
+                    class={null}
+                    className={null}
+                    global_status_id={null}
+                    icon="error"
+                    icon_size="medium"
+                    id="null-form-status"
+                    label="4"
                     no_animation={null}
                     role={null}
                     show={null}

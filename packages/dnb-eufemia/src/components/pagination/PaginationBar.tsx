@@ -136,8 +136,9 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
       getTranslation(innerProps).Pagination
     )
 
-  const prevIsDisabled = currentPage === 1
-  const nextIsDisabled = currentPage === pageCount || pageCount === 0
+  const prevIsDisabled = currentPage > -1 ? currentPage === 1 : true
+  const nextIsDisabled =
+    currentPage > -1 ? currentPage === pageCount || pageCount === 0 : true
 
   const paginationBarRef = useRef(null)
   const currentScreenSize = useResizeObserver(paginationBarRef)
@@ -145,7 +146,7 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
   const pageNumberGroups = calculatePagination(
     pageCount,
     currentPage,
-    currentScreenSize == 'small'
+    currentScreenSize === 'small'
   )
 
   return (
@@ -185,7 +186,7 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
         </div>
 
         <div className="dnb-pagination__bar__inner">
-          {pageNumberGroups[0].map((pageNumber) => (
+          {(pageNumberGroups?.[0] || []).map((pageNumber) => (
             <Button
               key={pageNumber}
               className="dnb-pagination__button"
