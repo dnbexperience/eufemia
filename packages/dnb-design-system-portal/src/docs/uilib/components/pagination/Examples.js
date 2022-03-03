@@ -34,8 +34,8 @@ export const PaginationExampleDefault = () => (
   <ComponentBox data-visual-test="pagination-default">
     {() => /* jsx */ `
 <Pagination
-  page_count={30}
-  current_page={15}
+  page_count={888}
+  current_page={4}
   on_change={({ page }) => {
     console.log('on_change:', page)
   }}

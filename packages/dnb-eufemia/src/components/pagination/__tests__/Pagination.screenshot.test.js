@@ -17,7 +17,7 @@ describe('Pagination screenshot', () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="pagination-default"]',
       style: {
-        width: '41rem', // make sure our textarea gets an explicit width, because of mac/linux rendering differences
+        width: '50rem',
       },
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -27,7 +27,7 @@ describe('Pagination screenshot', () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="pagination-default"]',
       style: {
-        width: '41rem', // make sure our textarea gets an explicit width, because of mac/linux rendering differences
+        width: '50rem',
       },
       simulateSelector:
         '[data-visual-test="pagination-default"] div.dnb-pagination__bar__inner button.dnb-pagination__button:first-of-type',
@@ -40,7 +40,7 @@ describe('Pagination screenshot', () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="pagination-default"]',
       style: {
-        width: '41rem', // make sure our textarea gets an explicit width, because of mac/linux rendering differences
+        width: '50rem',
       },
       simulateSelector:
         '[data-visual-test="pagination-default"] div.dnb-pagination__bar__inner button.dnb-pagination__button:last-of-type',
@@ -59,7 +59,7 @@ describe('Pagination screenshot small', () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="pagination-default"]',
       style: {
-        width: '20rem', // make sure our textarea gets an explicit width, because of mac/linux rendering differences
+        width: '30rem',
       },
     })
     expect(screenshot).toMatchImageSnapshot()

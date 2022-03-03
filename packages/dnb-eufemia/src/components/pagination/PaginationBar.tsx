@@ -17,6 +17,8 @@ import {
 import PaginationContext from './PaginationContext'
 import Context from '../../shared/Context'
 import Button from '../button/Button'
+import Icon from '../icon/Icon'
+import dotsSVG from '../../icons/more_medium'
 import styleProperties from '../../style/properties'
 
 interface PaginationBarProps {
@@ -97,9 +99,8 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
     })
   }
 
-  const setPage = (currentPage, event = null) => {
+  const setPage = (currentPage: number, event = null) => {
     keepPageHeight()
-    focusPage()
 
     const { setState: setContextState, updatePageContent } =
       context.pagination
@@ -126,6 +127,7 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
 
   const clickHandler = ({ pageNumber, event }) => {
     setPage(pageNumber, event)
+    focusPage()
   }
 
   const { getTranslation } = useContext(Context)
@@ -176,7 +178,6 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
             disabled={disabled || nextIsDisabled}
             skeleton={skeleton}
             variant="tertiary"
-            size="small"
             icon="chevron_right"
             icon_position="right"
             text={next_title}
@@ -190,7 +191,6 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
             <Button
               key={pageNumber}
               className="dnb-pagination__button"
-              size="medium"
               text={String(pageNumber)}
               aria-label={button_title.replace('%s', pageNumber)}
               variant={
@@ -205,39 +205,54 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
 
           {pageNumberGroups.slice(1).map((numbersList, idx) => (
             <React.Fragment key={idx}>
-              <div
-                key={`dots-${idx}`}
-                className="dnb-pagination__dots"
-                aria-label={getDotsAriaLabel({
+              <Icon
+                role="separator"
+                aria-orientation="vertical"
+                aria-hidden={false}
+                title={getDotsAriaLabel({
                   more_pages,
                   numbersList,
                   pageNumberGroups,
                 })}
-              >
-                <div key="dot-1" />
-                <div key="dot-2" />
-                <div key="dot-3" />
-              </div>
-              {numbersList.map((pageNumber) => (
-                <Button
-                  key={pageNumber}
-                  className="dnb-pagination__button"
-                  size="medium"
-                  text={String(pageNumber)}
-                  aria-label={button_title.replace('%s', pageNumber)}
-                  variant={
-                    pageNumber === currentPage ? 'primary' : 'secondary'
-                  }
-                  disabled={disabled}
-                  skeleton={skeleton}
-                  aria-current={pageNumber === currentPage ? 'page' : null}
-                  on_click={(event) => clickHandler({ pageNumber, event })}
-                />
-              ))}
+                className="dnb-pagination__dots"
+                icon={dotsSVG}
+                size="medium"
+              />
+
+              {numbersList.map((pageNumber) => {
+                return (
+                  <Button
+                    key={(pageNumber || 0) + idx}
+                    className={classnames(
+                      'dnb-pagination__button',
+                      String(pageNumber).length > 3
+                        ? 'dnb-pagination__button--large-number'
+                        : null
+                    )}
+                    text={String(pageNumber)}
+                    aria-label={button_title.replace('%s', pageNumber)}
+                    variant={
+                      pageNumber === currentPage ? 'primary' : 'secondary'
+                    }
+                    disabled={disabled}
+                    skeleton={skeleton}
+                    aria-current={
+                      pageNumber === currentPage ? 'page' : null
+                    }
+                    on_click={(event) =>
+                      clickHandler({ pageNumber, event })
+                    }
+                  />
+                )
+              })}
             </React.Fragment>
           ))}
         </div>
       </div>
+
+      <span className="dnb-sr-only" aria-live="assertive">
+        {button_title.replace('%s', currentPage)}
+      </span>
     </div>
   )
 }
