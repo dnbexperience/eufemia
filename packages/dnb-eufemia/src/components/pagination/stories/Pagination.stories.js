@@ -69,15 +69,13 @@ export const InfinitySandbox = () => {
 
 export const PaginationNoChildren = () => (
   <Wrapper>
-    <Box>
-      <Bar
-        page_count={10}
-        currentPage={2}
-        on_change={(page) => {
-          console.log(page)
-        }}
-      />
-    </Box>
+    <Bar
+      page_count={10}
+      currentPage={2}
+      on_change={(page) => {
+        console.log(page)
+      }}
+    />
     <Box>
       <Bar
         page_count={10}
@@ -108,6 +106,13 @@ export const PaginationNoChildren = () => (
         align="center"
       />
     </Box>
+    <Bar
+      page_count={3}
+      currentPage={2}
+      on_change={(page) => {
+        console.log(page)
+      }}
+    />
   </Wrapper>
 )
 

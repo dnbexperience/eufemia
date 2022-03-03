@@ -183,7 +183,6 @@ export default class InfinityScroller extends React.PureComponent {
   }
 
   handleInfinityMarker() {
-    // TODO take this into own component
     const { children } = this.props
 
     const {

@@ -109,11 +109,6 @@
     }
   }
 
-  /*   &__button:first-child,
-  &__bar__inner {
-    margin-right: 1rem;
-  } */
-
   &__prev {
     margin-right: 1.5rem;
   }
@@ -123,8 +118,9 @@
   &__bar__skip .dnb-button:first-of-type {
     margin-right: 1.5rem;
   }
-  @at-root .dnb-core-style &__button,
-    &__dots {
+
+  &__button.dnb-button,
+  &__dots {
     margin-right: 0.5rem;
     margin-top: 0.5rem; // because of wrapping
     margin-bottom: 0.5rem; // because of wrapping

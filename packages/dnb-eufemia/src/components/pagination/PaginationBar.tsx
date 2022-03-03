@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useContext } from 'react'
+import React, { useContext, useRef, useEffect, useState } from 'react'
 import classnames from 'classnames'
 import {
   dispatchCustomElementEvent,
@@ -17,7 +17,7 @@ import {
 import PaginationContext from './PaginationContext'
 import Context from '../../shared/Context'
 import Button from '../button/Button'
-import { useMediaQuery } from '../../shared'
+import styleProperties from '../../style/properties'
 
 interface PaginationBarProps {
   /**
@@ -139,19 +139,18 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
   const prevIsDisabled = currentPage === 1
   const nextIsDisabled = currentPage === pageCount || pageCount === 0
 
-  const isSmallScreen = useMediaQuery({
-    matchOnSSR: true,
-    when: { max: 'small' },
-  })
+  const paginationBarRef = useRef(null)
+  const currentScreenSize = useResizeObserver(paginationBarRef)
 
   const pageNumberGroups = calculatePagination(
     pageCount,
     currentPage,
-    isSmallScreen
+    currentScreenSize == 'small'
   )
 
   return (
     <div
+      ref={paginationBarRef}
       className={classnames(
         'dnb-pagination__bar',
         pageCount >= 8 && 'dnb-pagination--many-pages'
@@ -242,4 +241,64 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
   )
 }
 
+export const useResizeObserver = (element) => {
+  const [currentSize, setSize] = useState('large')
+  const resizeObserver = useRef(null)
+
+  useEffect(() => {
+    try {
+      const handleSizeChange = (width) => {
+        if (width <= getSizeInPx('small') && currentSize !== 'small') {
+          setSize('small')
+        } else if (
+          width <= getSizeInPx('medium') &&
+          currentSize !== 'medium'
+        ) {
+          setSize('medium')
+        } else if (
+          width <= getSizeInPx('large') &&
+          currentSize !== 'large'
+        ) {
+          setSize('large')
+        } else if (
+          width <= getSizeInPx('x-large') &&
+          currentSize !== 'x-large'
+        ) {
+          setSize('x-large')
+        } else if (
+          width <= getSizeInPx('xx-large') &&
+          currentSize !== 'xx-large'
+        ) {
+          setSize('xx-large')
+        }
+      }
+      resizeObserver.current = new ResizeObserver((entries) => {
+        handleSizeChange(entries[0].contentRect.width)
+      })
+
+      resizeObserver.current?.observe(element.current)
+      handleSizeChange(element.current.clientWidth)
+    } catch (e) {
+      //
+    }
+
+    return () => {
+      resizeObserver.current?.disconnect()
+    }
+  }, [element]) // eslint-disable-line
+
+  return currentSize
+}
+
+const getSizeInPx = (size) => {
+  const styleSize = styleProperties[`--layout-${size}`]
+
+  if (styleSize.includes('em')) {
+    return parseFloat(styleSize.replace(/(rem|em)$/, '')) * 16
+  }
+
+  return parseFloat(styleSize.replace(/(px)$/, ''))
+}
+
 export default PaginationBar
+export type { PaginationBarProps }

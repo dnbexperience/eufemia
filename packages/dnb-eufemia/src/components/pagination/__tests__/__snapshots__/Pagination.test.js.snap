@@ -1088,7 +1088,276 @@ exports[`Pagination bar have to match snapshot 1`] = `
               </div>
               <div
                 className="dnb-pagination__bar__inner"
-              />
+              >
+                <Button
+                  aria-current={null}
+                  aria-label="Side 1"
+                  bounding={null}
+                  class={null}
+                  className="dnb-pagination__button"
+                  custom_content={null}
+                  custom_element={null}
+                  custom_method={null}
+                  disabled={null}
+                  element={null}
+                  global_status_id={null}
+                  href={null}
+                  icon={null}
+                  icon_position="right"
+                  icon_size={null}
+                  id={null}
+                  innerRef={null}
+                  inner_ref={null}
+                  key="1"
+                  on_click={[Function]}
+                  size="medium"
+                  skeleton={null}
+                  status={null}
+                  status_no_animation={null}
+                  status_props={null}
+                  status_state="error"
+                  stretch={null}
+                  text="1"
+                  title={null}
+                  to={null}
+                  tooltip={null}
+                  type={null}
+                  variant="secondary"
+                  wrap={null}
+                >
+                  <button
+                    aria-label="Side 1"
+                    className="dnb-button dnb-button--secondary dnb-button--has-text dnb-pagination__button dnb-button--size-medium"
+                    disabled={false}
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <Content
+                      aria-current={null}
+                      aria-label="Side 1"
+                      bounding={null}
+                      class={null}
+                      className="dnb-pagination__button"
+                      content="1"
+                      custom_content={null}
+                      custom_element={null}
+                      custom_method={null}
+                      disabled={null}
+                      element={null}
+                      global_status_id={null}
+                      href={null}
+                      icon={null}
+                      icon_position="right"
+                      icon_size={null}
+                      id={null}
+                      innerRef={null}
+                      inner_ref={null}
+                      isIconOnly={false}
+                      on_click={[Function]}
+                      size="medium"
+                      skeleton={false}
+                      status={null}
+                      status_no_animation={null}
+                      status_props={null}
+                      status_state="error"
+                      stretch={null}
+                      text="1"
+                      title={null}
+                      to={null}
+                      tooltip={null}
+                      type={null}
+                      variant="secondary"
+                      wrap={null}
+                    >
+                      <span
+                        className="dnb-button__alignment"
+                        key="button-text-empty"
+                      >
+                        ‌
+                      </span>
+                      <span
+                        className="dnb-button__text dnb-skeleton--show-font"
+                        key="button-text"
+                      >
+                        1
+                      </span>
+                    </Content>
+                  </button>
+                  <FormStatus
+                    attributes={null}
+                    class={null}
+                    className={null}
+                    global_status_id={null}
+                    icon="error"
+                    icon_size="medium"
+                    id="null-form-status"
+                    label="1"
+                    no_animation={null}
+                    role={null}
+                    show={null}
+                    size="default"
+                    skeleton={null}
+                    state="error"
+                    status="error"
+                    stretch={null}
+                    text={null}
+                    text_id="null-status"
+                    title={null}
+                    variant={null}
+                    width_element={null}
+                    width_selector={null}
+                  />
+                </Button>
+                <div
+                  aria-label={null}
+                  className="dnb-pagination__dots"
+                  key="dots-0"
+                >
+                  <div
+                    key="dot-1"
+                  />
+                  <div
+                    key="dot-2"
+                  />
+                  <div
+                    key="dot-3"
+                  />
+                </div>
+                <div
+                  aria-label={null}
+                  className="dnb-pagination__dots"
+                  key="dots-1"
+                >
+                  <div
+                    key="dot-1"
+                  />
+                  <div
+                    key="dot-2"
+                  />
+                  <div
+                    key="dot-3"
+                  />
+                </div>
+                <Button
+                  aria-current="page"
+                  aria-label="Side undefined"
+                  bounding={null}
+                  class={null}
+                  className="dnb-pagination__button"
+                  custom_content={null}
+                  custom_element={null}
+                  custom_method={null}
+                  disabled={null}
+                  element={null}
+                  global_status_id={null}
+                  href={null}
+                  icon={null}
+                  icon_position="right"
+                  icon_size={null}
+                  id={null}
+                  innerRef={null}
+                  inner_ref={null}
+                  on_click={[Function]}
+                  size="medium"
+                  skeleton={null}
+                  status={null}
+                  status_no_animation={null}
+                  status_props={null}
+                  status_state="error"
+                  stretch={null}
+                  text="undefined"
+                  title={null}
+                  to={null}
+                  tooltip={null}
+                  type={null}
+                  variant="primary"
+                  wrap={null}
+                >
+                  <button
+                    aria-current="page"
+                    aria-label="Side undefined"
+                    className="dnb-button dnb-button--primary dnb-button--has-text dnb-pagination__button dnb-button--size-medium"
+                    disabled={false}
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <Content
+                      aria-current="page"
+                      aria-label="Side undefined"
+                      bounding={null}
+                      class={null}
+                      className="dnb-pagination__button"
+                      content="undefined"
+                      custom_content={null}
+                      custom_element={null}
+                      custom_method={null}
+                      disabled={null}
+                      element={null}
+                      global_status_id={null}
+                      href={null}
+                      icon={null}
+                      icon_position="right"
+                      icon_size={null}
+                      id={null}
+                      innerRef={null}
+                      inner_ref={null}
+                      isIconOnly={false}
+                      on_click={[Function]}
+                      size="medium"
+                      skeleton={false}
+                      status={null}
+                      status_no_animation={null}
+                      status_props={null}
+                      status_state="error"
+                      stretch={null}
+                      text="undefined"
+                      title={null}
+                      to={null}
+                      tooltip={null}
+                      type={null}
+                      variant="primary"
+                      wrap={null}
+                    >
+                      <span
+                        className="dnb-button__alignment"
+                        key="button-text-empty"
+                      >
+                        ‌
+                      </span>
+                      <span
+                        className="dnb-button__text dnb-skeleton--show-font"
+                        key="button-text"
+                      >
+                        undefined
+                      </span>
+                    </Content>
+                  </button>
+                  <FormStatus
+                    attributes={null}
+                    class={null}
+                    className={null}
+                    global_status_id={null}
+                    icon="error"
+                    icon_size="medium"
+                    id="null-form-status"
+                    label="undefined"
+                    no_animation={null}
+                    role={null}
+                    show={null}
+                    size="default"
+                    skeleton={null}
+                    state="error"
+                    status="error"
+                    stretch={null}
+                    text={null}
+                    text_id="null-status"
+                    title={null}
+                    variant={null}
+                    width_element={null}
+                    width_selector={null}
+                  />
+                </Button>
+              </div>
             </div>
           </div>
         </PaginationBar>
@@ -1932,11 +2201,7 @@ button.dnb-button::-moz-focus-inner {
  */
 .dnb-pagination {
   display: flex;
-  flex-direction: column-reverse;
-  /*   &__button:first-child,
-  &__bar__inner {
-    margin-right: 1rem;
-  } */ }
+  flex-direction: column-reverse; }
   .dnb-pagination__bar, .dnb-pagination__loadbar, .dnb-pagination__bar__inner {
     display: flex;
     flex-wrap: wrap;
@@ -2009,11 +2274,11 @@ button.dnb-button::-moz-focus-inner {
     margin-right: 0.5rem; }
   .dnb-pagination__bar__skip .dnb-button:first-of-type {
     margin-right: 1.5rem; }
-  .dnb-core-style .dnb-pagination__button, .dnb-pagination__dots {
+  .dnb-pagination__button.dnb-button, .dnb-pagination__dots {
     margin-right: 0.5rem;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem; }
-    .dnb-core-style .dnb-pagination__button:last-child, .dnb-pagination__dots:last-child {
+    .dnb-pagination__button.dnb-button:last-child, .dnb-pagination__dots:last-child {
       margin-right: 0; }
 "
 `;

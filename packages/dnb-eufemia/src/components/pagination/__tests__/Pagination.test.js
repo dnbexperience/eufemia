@@ -13,9 +13,6 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import Component, { createPagination, Bar } from '../Pagination'
-import MatchMediaMock from 'jest-matchmedia-mock'
-
-new MatchMediaMock()
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Pagination'), {
@@ -34,8 +31,8 @@ describe('Pagination bar', () => {
     const Comp = mount(<Component {...props} />)
     const innerElem = Comp.find('.dnb-pagination__bar__inner')
 
-    expect(innerElem.find('button.dnb-pagination__button').length).toBe(7)
-    expect(innerElem.find('button.dnb-button--secondary').length).toBe(6)
+    expect(innerElem.find('button.dnb-pagination__button').length).toBe(9)
+    expect(innerElem.find('button.dnb-button--secondary').length).toBe(8)
     expect(innerElem.find('button.dnb-button--primary').length).toBe(1)
   })
 
@@ -103,8 +100,8 @@ describe('Pagination bar', () => {
     )
 
     buttonElements.at(2).simulate('click')
-    expect(currentPage).toBe(14)
-    expect(Comp.find('div#page-no').text()).toBe('14')
+    expect(currentPage).toBe(13)
+    expect(Comp.find('div#page-no').text()).toBe('13')
 
     Comp.setProps({
       current_page: 5,
@@ -113,8 +110,8 @@ describe('Pagination bar', () => {
     expect(Comp.find('div#page-no').text()).toBe('5')
 
     buttonElements.at(3).simulate('click')
-    expect(currentPage).toBe(15)
-    expect(Comp.find('div#page-no').text()).toBe('15')
+    expect(currentPage).toBe(14)
+    expect(Comp.find('div#page-no').text()).toBe('14')
 
     Comp.setProps({
       current_page: 3,
