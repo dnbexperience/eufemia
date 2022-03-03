@@ -28,6 +28,23 @@
     justify-content: flex-end;
   }
 
+  &__bar__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column-reverse; // because of screen readers
+  }
+  &--center &__bar__wrapper {
+    align-items: center;
+  }
+  &--right &__bar__wrapper {
+    align-items: flex-end;
+  }
+
+  &__bar__inner {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
   &__loadbar {
     cursor: default;
     display: flex;
@@ -92,16 +109,18 @@
     }
   }
 
-  &__button:first-child,
-  &__bar__inner {
-    margin-right: 1rem;
+  &__prev {
+    margin-right: 1.5rem;
   }
   &__bar__inner &__button {
     margin-right: 0.5rem;
   }
-  @at-root .dnb-core-style &__button,
-    &__button,
-    &__dots {
+  &__bar__skip .dnb-button:first-of-type {
+    margin-right: 1.5rem;
+  }
+
+  &__button.dnb-button,
+  &__dots {
     margin-right: 0.5rem;
     margin-top: 0.5rem; // because of wrapping
     margin-bottom: 0.5rem; // because of wrapping
