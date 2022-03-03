@@ -1209,13 +1209,13 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         visibility: hidden; }
     .dnb-button--tertiary .dnb-button__icon {
       align-self: flex-start;
-      margin-top: 0.75rem; }
+      margin-top: calc(var(--button-height) / 2 - 0.5rem); }
     .dnb-button--tertiary.dnb-button--size-large .dnb-button__icon {
-      margin-top: 1rem; }
+      margin-top: calc(var(--button-height--large) / 2 - 0.5rem); }
     .dnb-button--tertiary.dnb-button--size-medium .dnb-button__icon {
-      margin-top: 0.5rem; }
+      margin-top: calc(var(--button-height--medium) / 2 - 0.5rem); }
     .dnb-button--tertiary.dnb-button--size-small .dnb-button__icon {
-      margin-top: 0.25rem; }
+      margin-top: calc(var(--button-height--small) / 2 - 0.5rem); }
     .dnb-button--tertiary.dnb-button--icon-position-top {
       flex-direction: column;
       border-radius: 0.5rem;
