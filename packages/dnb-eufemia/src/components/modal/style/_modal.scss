@@ -56,7 +56,8 @@ html[data-dnb-modal-active] {
       height: auto;
     }
 
-    &--left {
+    &--left,
+    &--top {
       align-items: flex-start;
       justify-content: flex-start;
     }
