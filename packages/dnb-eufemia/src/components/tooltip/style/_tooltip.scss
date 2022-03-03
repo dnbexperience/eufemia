@@ -54,6 +54,13 @@
     animation: hide-tooltip 1ms ease-out 1s forwards;
   }
 
+  &__portal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
   &__content {
     min-width: 2rem;
     min-height: 1.5rem;
