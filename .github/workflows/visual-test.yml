@@ -49,8 +49,8 @@ jobs:
         id: yarn-cache
         with:
           path: ./.yarn/cache
-          key: ${{ runner.os }}-deps-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-deps-
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-deps-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-deps-
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -66,8 +66,8 @@ jobs:
           path: |
             ./packages/dnb-design-system-portal/.cache
             ./packages/dnb-design-system-portal/public
-          key: ${{ runner.os }}-gatsby-dev-${{ steps.date.outputs.timestamp }}
-          restore-keys: ${{ runner.os }}-gatsby-dev-
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-dev-${{ steps.date.outputs.timestamp }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-dev-
 
       - name: Build portal
         run: yarn workspace dnb-design-system-portal build
