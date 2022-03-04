@@ -247,6 +247,28 @@ describe('Tag', () => {
       expect(onClick).toHaveBeenCalledTimes(1)
     })
 
+    it('space should not be inherited by children tags', () => {
+      const { container, rerender } = render(
+        <Tag.Group label="Space" space={{ top: true }}>
+          <Tag>Tag</Tag>
+        </Tag.Group>
+      )
+
+      expect(
+        container.querySelectorAll('.dnb-space__top--small').length
+      ).toBe(1)
+
+      rerender(
+        <Tag.Group label="Space" space={{ top: true }}>
+          <Tag top={true}>Tag</Tag>
+        </Tag.Group>
+      )
+
+      expect(
+        container.querySelectorAll('.dnb-space__top--small').length
+      ).toBe(2)
+    })
+
     it('renders the close button if onDelete is defined', () => {
       render(
         <Tag.Group label="onDelete">

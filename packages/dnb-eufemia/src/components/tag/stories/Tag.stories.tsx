@@ -91,7 +91,10 @@ export const TagWithSpace = () => {
   return (
     <Provider>
       <Tag.Group label="space">
-        <Tag icon={account} text={'Space'} space={{ top: 'small' }} />
+        <Tag text="Space" space={{ top: true }} />
+      </Tag.Group>
+      <Tag.Group label="space" space={{ left: true }}>
+        <Tag text="Space" />
       </Tag.Group>
     </Provider>
   )
