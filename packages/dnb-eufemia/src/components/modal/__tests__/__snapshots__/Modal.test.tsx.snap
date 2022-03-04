@@ -1727,7 +1727,8 @@ exports[`Modal scss have to match snapshot 1`] = `
     -moz-appearance: none;
     -webkit-appearance: none; }
   .dnb-button[disabled] {
-    cursor: not-allowed; }
+    cursor: not-allowed;
+    outline: none; }
   .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
     align-self: flex-start; }
   .dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
