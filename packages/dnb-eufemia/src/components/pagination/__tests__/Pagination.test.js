@@ -20,6 +20,8 @@ const snapshotProps = {
     optional: true,
   }),
 }
+snapshotProps.page_count = 4
+snapshotProps.current_page = 2
 
 describe('Pagination bar', () => {
   const props = {

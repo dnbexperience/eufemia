@@ -38,13 +38,13 @@ export const calculatePagination = (
 
   // Merge the middlearray with first or last button if it is at the start/end of the pagination
   const middleArray = []
-  if (middleStart == 2) {
+  if (middleStart === 2) {
     middleArray.push(FIRST_BUTTON)
   }
   for (let i = middleStart; i <= middleEnd; i++) {
     middleArray.push(i)
   }
-  if (middleEnd == LAST_BUTTON - 1) {
+  if (middleEnd === LAST_BUTTON - 1) {
     middleArray.push(LAST_BUTTON)
   }
 
@@ -53,9 +53,11 @@ export const calculatePagination = (
   if (middleStart !== 2) {
     pages.push([FIRST_BUTTON])
   }
-  pages.push(middleArray)
-  if (middleEnd != LAST_BUTTON - 1) {
-    pages.push([LAST_BUTTON])
+  if (typeof LAST_BUTTON !== 'undefined') {
+    pages.push(middleArray)
+    if (middleEnd !== LAST_BUTTON - 1) {
+      pages.push([LAST_BUTTON])
+    }
   }
 
   return pages
