@@ -17,6 +17,7 @@ DropdownCustomWidth,
 DropdownStatusVertical,
 DropdownListOpened,
 DropdownDisabledTertiary,
+DropdownEllipsisOverflow,
 } from 'Docs/uilib/components/dropdown/Examples'
 
 ## Demos
@@ -90,3 +91,5 @@ With long list to make it scrollable and searchable
 Only to visualize and used for visual testing
 
 <DropdownListOpened />
+
+<DropdownEllipsisOverflow />

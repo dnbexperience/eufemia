@@ -127,6 +127,14 @@ describe('Dropdown screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match the dropdown button with ellipsis overflow', async () => {
+    const screenshot = await testPageScreenshot({
+      selector:
+        '[data-visual-test="dropdown-ellipsis"] .dnb-dropdown__inner',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('Dropdown screenshot', () => {
