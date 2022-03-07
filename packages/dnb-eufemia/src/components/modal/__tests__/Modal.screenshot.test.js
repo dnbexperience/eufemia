@@ -77,6 +77,7 @@ describe('Drawer screenshot', () => {
         '[data-visual-test="modal-drawer-basic"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
       rootClassName: 'hide-page-content',
+      waitBeforeSimulate: 200,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -119,6 +120,7 @@ describe('Drawer without spacing', () => {
         '[data-visual-test="drawer-no-spacing"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
       rootClassName: 'hide-page-content',
+      waitBeforeSimulate: 200,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
