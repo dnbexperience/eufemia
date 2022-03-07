@@ -2164,7 +2164,7 @@ legend.dnb-form-label {
     order: 1;
     position: relative;
     z-index: 4;
-    display: inline-flex;
+    display: inline-block;
     width: 100%;
     overflow: hidden;
     color: inherit;

@@ -161,6 +161,23 @@ render(
   </Wrapper>
 )
 
+export const DropdownEllipsisOverflow = () =>
+  typeof window !== 'undefined' && window.IS_TEST ? (
+    <Wrapper>
+      <ComponentBox data-visual-test="dropdown-ellipsis" useRender>
+        {() => /* jsx */ `
+render(
+  <Dropdown
+    data={['Long text that will overflow with CSS ellipsis']}
+    value={0}
+    label="Label:"
+  />
+)
+`}
+      </ComponentBox>
+    </Wrapper>
+  ) : null
+
 export const DropdownDirections = () => {
   const visualTestProps = (enabled) => {
     if (!enabled) {
@@ -338,7 +355,7 @@ export const DropdownDisabled = () => (
 export const DropdownDisabledTertiary = () => (
   <Wrapper>
     <ComponentBox data-visual-test="dropdown-disabled-tertiary">
-     {() => /* jsx */`
+      {() => /* jsx */ `
   <Dropdown 
     disabled 
     variant="tertiary" 
