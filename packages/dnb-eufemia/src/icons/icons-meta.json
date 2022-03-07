@@ -1,9 +1,108 @@
 {
+  "user_feedback_medium": {
+    "tags": ["feedback", "comment"],
+    "created": 1646679515872,
+    "name": "user_feedback",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "user_feedback": {
+    "tags": ["feedback", "comment"],
+    "created": 1646679516696,
+    "name": "user_feedback",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "instagram_medium": {
+    "tags": [],
+    "created": 1646679517518,
+    "name": "instagram",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "instagram": {
+    "tags": [],
+    "created": 1646679518336,
+    "name": "instagram",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "linkedin_medium": {
+    "tags": [],
+    "created": 1646679519228,
+    "name": "linkedin",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "linkedin": {
+    "tags": [],
+    "created": 1646679520047,
+    "name": "linkedin",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "facebook_medium": {
+    "tags": [],
+    "created": 1646679520969,
+    "name": "facebook",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "facebook": {
+    "tags": [],
+    "created": 1646679521887,
+    "name": "facebook",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "language_medium": {
+    "tags": [],
+    "created": 1646679522809,
+    "name": "language",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "language": {
+    "tags": [],
+    "created": 1646679523733,
+    "name": "language",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "history_medium": {
+    "tags": ["log"],
+    "created": 1646679524553,
+    "name": "history",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "history": {
+    "tags": ["log"],
+    "created": 1646679525373,
+    "name": "history",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "grabber_medium": {
+    "tags": [],
+    "created": 1646679526197,
+    "name": "grabber",
+    "variant": "secondary",
+    "category": "essentials"
+  },
   "grabber": {
     "tags": [],
-    "created": 1623927073144,
-    "name": "essentials/grabber_16",
-    "variant": "secondary"
+    "created": 1646679527110,
+    "name": "grabber",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "check_medium": {
+    "tags": ["checkmark", "done", "complete", "success", "approve"],
+    "created": 1646679527931,
+    "name": "check",
+    "variant": "primary",
+    "category": "essentials"
   },
   "check": {
     "tags": [
@@ -14,1429 +113,3257 @@
       "approve",
       "checkmark"
     ],
-    "created": 1623927073898,
-    "name": "essentials/check_16",
-    "variant": "primary"
+    "created": 1646679528736,
+    "name": "check",
+    "variant": "primary",
+    "category": "essentials"
+  },
+  "list_medium": {
+    "tags": ["bulletpoints"],
+    "created": 1646679529568,
+    "name": "list",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "list": {
     "tags": ["bulletpoints"],
-    "created": 1623927074650,
-    "name": "essentials/list_16",
-    "variant": "secondary"
+    "created": 1646679530377,
+    "name": "list",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "paragraph_medium": {
+    "tags": ["law", "legal"],
+    "created": 1646679531160,
+    "name": "paragraph",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "paragraph": {
     "tags": ["law", "legal"],
-    "created": 1623927075425,
-    "name": "essentials/paragraph_16",
-    "variant": "secondary"
+    "created": 1646679531933,
+    "name": "paragraph",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "above_the_line_medium": {
+    "tags": [],
+    "created": 1646679532724,
+    "name": "above_the_line",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "above_the_line": {
     "tags": ["Place over the line"],
-    "created": 1623927076216,
-    "name": "essentials/above_the_line_16",
-    "variant": "secondary"
+    "created": 1646679533515,
+    "name": "above_the_line",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "star_medium": {
+    "tags": ["favourite", "rating"],
+    "created": 1646679534300,
+    "name": "star",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "star": {
     "tags": ["favourite", "rating"],
-    "created": 1623927076992,
-    "name": "essentials/star_16",
-    "variant": "secondary"
+    "created": 1646679535089,
+    "name": "star",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "heart_medium": {
+    "tags": ["health", "love"],
+    "created": 1646679535884,
+    "name": "heart",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "heart": {
     "tags": ["health", "love"],
-    "created": 1623927077759,
-    "name": "essentials/heart_16",
-    "variant": "secondary"
+    "created": 1646679536674,
+    "name": "heart",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "hand_money_medium": {
+    "tags": ["recieve"],
+    "created": 1646679537481,
+    "name": "hand_money",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "hand_money": {
     "tags": ["recieve"],
-    "created": 1623927078546,
-    "name": "essentials/hand_money_16",
-    "variant": "secondary"
+    "created": 1646679538295,
+    "name": "hand_money",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "support_medium": {
+    "tags": ["hand", "heart", "holding", "care"],
+    "created": 1646679539197,
+    "name": "support",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "support": {
     "tags": ["hand", "heart", "holding", "care"],
-    "created": 1623927079314,
-    "name": "essentials/support_16",
-    "variant": "secondary"
+    "created": 1646679539990,
+    "name": "support",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "ref_number_medium": {
+    "tags": ["referance"],
+    "created": 1646679540788,
+    "name": "ref_number",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "ref_number": {
     "tags": ["referance"],
-    "created": 1623927080058,
-    "name": "essentials/ref_number_16",
-    "variant": "secondary"
+    "created": 1646679541584,
+    "name": "ref_number",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "kid_number_medium": {
+    "tags": [],
+    "created": 1646679542358,
+    "name": "kid_number",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "kid_number": {
     "tags": [],
-    "created": 1623927080871,
-    "name": "essentials/kid_number_16",
-    "variant": "secondary"
+    "created": 1646679543134,
+    "name": "kid_number",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "attachment_medium": {
+    "tags": ["attachment"],
+    "created": 1646679543903,
+    "name": "attachment",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "attachment": {
     "tags": ["attachment"],
-    "created": 1623927081644,
-    "name": "essentials/attachment_16",
-    "variant": "secondary"
+    "created": 1646679544682,
+    "name": "attachment",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "web_medium": {
+    "tags": ["internet", "www"],
+    "created": 1646679545513,
+    "name": "web",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "web": {
     "tags": ["internet", "www"],
-    "created": 1623927082440,
-    "name": "essentials/web_16",
-    "variant": "secondary"
+    "created": 1646679546344,
+    "name": "web",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "chat_medium": {
+    "tags": ["message", "conversation", "talk", "communicate"],
+    "created": 1646679547179,
+    "name": "chat",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "chat": {
     "tags": ["message", "conversation", "talk", "communicate"],
-    "created": 1623927083303,
-    "name": "essentials/chat_16",
-    "variant": "secondary"
+    "created": 1646679548016,
+    "name": "chat",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "bubble_medium": {
+    "tags": ["message", "speak"],
+    "created": 1646679548821,
+    "name": "bubble",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "bubble": {
     "tags": ["message", "speak"],
-    "created": 1623927084076,
-    "name": "essentials/bubble_16",
-    "variant": "secondary"
+    "created": 1646679549639,
+    "name": "bubble",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "location_medium": {
+    "tags": ["place", "geo"],
+    "created": 1646679550449,
+    "name": "location",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "location": {
     "tags": ["place", "geo"],
-    "created": 1623927084864,
-    "name": "essentials/location_16",
-    "variant": "secondary"
+    "created": 1646679551266,
+    "name": "location",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "exclamation_medium": {
+    "tags": ["warning", "!", "alert"],
+    "created": 1646679552071,
+    "name": "exclamation",
+    "variant": "primary",
+    "category": "essentials"
   },
   "exclamation": {
     "tags": ["warning", "!", "alert"],
-    "created": 1623927085607,
-    "name": "essentials/exclamation_16",
-    "variant": "primary"
+    "created": 1646679552881,
+    "name": "exclamation",
+    "variant": "primary",
+    "category": "essentials"
+  },
+  "exclamation_triangle_medium": {
+    "tags": ["warning", "!", "alert"],
+    "created": 1646679553682,
+    "name": "exclamation_triangle",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "exclamation_triangle": {
     "tags": ["warning", "!", "alert"],
-    "created": 1623927086382,
-    "name": "essentials/exclamation_triangle_16",
-    "variant": "secondary"
+    "created": 1646679554574,
+    "name": "exclamation_triangle",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "exclamation_circled_medium": {
+    "tags": ["warning", "!", "alert"],
+    "created": 1646679555390,
+    "name": "exclamation_circled",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "exclamation_circled": {
     "tags": ["warning", "!", "alert"],
-    "created": 1623927087148,
-    "name": "essentials/exclamation_circled_16",
-    "variant": "secondary"
+    "created": 1646679556245,
+    "name": "exclamation_circled",
+    "variant": "secondary",
+    "category": "essentials"
   },
-  "question": {
+  "question_circled_medium": {
     "tags": ["?", "questionmark", "help"],
-    "created": 1623927087903,
-    "name": "essentials/question_16",
-    "variant": "primary"
+    "created": 1646679557070,
+    "name": "question_circled",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "question_circled": {
     "tags": ["?", "questionmark", "help"],
-    "created": 1623927088646,
-    "name": "essentials/question_circled_16",
-    "variant": "secondary"
+    "created": 1646679557885,
+    "name": "question_circled",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "question_medium": {
+    "tags": ["?", "questionmark", "help"],
+    "created": 1646679558695,
+    "name": "question",
+    "variant": "primary",
+    "category": "essentials"
+  },
+  "question": {
+    "tags": ["?", "questionmark", "help"],
+    "created": 1646679559484,
+    "name": "question",
+    "variant": "primary",
+    "category": "essentials"
+  },
+  "information_medium": {
+    "tags": ["i"],
+    "created": 1646679560330,
+    "name": "information",
+    "variant": "primary",
+    "category": "essentials"
   },
   "information": {
     "tags": ["i"],
-    "created": 1623927089414,
-    "name": "essentials/information_16",
-    "variant": "primary"
+    "created": 1646679561128,
+    "name": "information",
+    "variant": "primary",
+    "category": "essentials"
   },
-  "information_circled": {
+  "information_bubble_medium": {
     "tags": ["i"],
-    "created": 1623927090217,
-    "name": "essentials/information_circled_16",
-    "variant": "secondary"
+    "created": 1646679561967,
+    "name": "information_bubble",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "information_bubble": {
     "tags": ["i"],
-    "created": 1623927091001,
-    "name": "essentials/information_bubble_16",
-    "variant": "secondary"
+    "created": 1646679562794,
+    "name": "information_bubble",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "information_circled_medium": {
+    "tags": ["i"],
+    "created": 1646679563612,
+    "name": "information_circled",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "information_circled": {
+    "tags": ["i"],
+    "created": 1646679564441,
+    "name": "information_circled",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "progress_medium": {
+    "tags": ["goal", "process", "%"],
+    "created": 1646679565274,
+    "name": "progress",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "progress": {
     "tags": ["goal", "process", "%"],
-    "created": 1623927091764,
-    "name": "essentials/progress_16",
-    "variant": "secondary"
+    "created": 1646679566109,
+    "name": "progress",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "filter_medium": {
+    "tags": ["adjust"],
+    "created": 1646679566947,
+    "name": "filter",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "filter": {
     "tags": ["adjust"],
-    "created": 1623927092635,
-    "name": "essentials/filter_16",
-    "variant": "secondary"
+    "created": 1646679567775,
+    "name": "filter",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "people_2_medium": {
+    "tags": ["firend", "persons"],
+    "created": 1646679568585,
+    "name": "people_2",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "people_2": {
     "tags": ["firend", "persons"],
-    "created": 1623927093410,
-    "name": "essentials/people_2_16",
-    "variant": "secondary"
+    "created": 1646679569407,
+    "name": "people_2",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "people_1_medium": {
+    "tags": ["persons", "friends"],
+    "created": 1646679570191,
+    "name": "people_1",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "people_1": {
     "tags": ["persons", "friends"],
-    "created": 1623927094155,
-    "name": "essentials/people_1_16",
-    "variant": "secondary"
+    "created": 1646679571015,
+    "name": "people_1",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "person_shield_medium": {
+    "tags": ["administrator"],
+    "created": 1646679572169,
+    "name": "person_shield",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "person_shield": {
     "tags": ["administrator"],
-    "created": 1623927094903,
-    "name": "essentials/person_shield_24",
-    "variant": "secondary"
+    "created": 1646679572995,
+    "name": "person_shield",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "person_medium": {
+    "tags": ["profile"],
+    "created": 1646679573819,
+    "name": "person",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "person": {
     "tags": ["profile"],
-    "created": 1623927095671,
-    "name": "essentials/person_16",
-    "variant": "secondary"
+    "created": 1646679574725,
+    "name": "person",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "profile_medium": {
+    "tags": ["head", "me", "person", "profile"],
+    "created": 1646679575525,
+    "name": "profile",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "profile": {
     "tags": ["head", "me", "person", "profile"],
-    "created": 1623927096499,
-    "name": "essentials/profile_16",
-    "variant": "secondary"
+    "created": 1646679576327,
+    "name": "profile",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "globe_medium": {
+    "tags": ["earth", "world"],
+    "created": 1646679577107,
+    "name": "globe",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "globe": {
     "tags": ["earth", "world"],
-    "created": 1623927097256,
-    "name": "essentials/globe_16",
-    "variant": "secondary"
+    "created": 1646679577903,
+    "name": "globe",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "digipass_medium": {
+    "tags": ["login", "authenticate"],
+    "created": 1646679578676,
+    "name": "digipass",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "digipass": {
     "tags": ["login", "authenticate"],
-    "created": 1623927097997,
-    "name": "essentials/digipass_16",
-    "variant": "secondary"
+    "created": 1646679579472,
+    "name": "digipass",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "pin_code_medium": {
+    "tags": ["login", "authenticate"],
+    "created": 1646679580259,
+    "name": "pin_code",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "pin_code": {
     "tags": ["login", "authenticate"],
-    "created": 1623927098757,
-    "name": "essentials/pin_code_16",
-    "variant": "secondary"
+    "created": 1646679581053,
+    "name": "pin_code",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "bankid_qr_medium": {
+    "tags": ["login", "authenticate"],
+    "created": 1646679581876,
+    "name": "bankid_qr",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "bankid_qr": {
     "tags": ["login", "authenticate"],
-    "created": 1623927099528,
-    "name": "essentials/bankid_qr_16",
-    "variant": "secondary"
+    "created": 1646679582682,
+    "name": "bankid_qr",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "bankid_mobile_medium": {
+    "tags": ["login", "authenticate"],
+    "created": 1646679583473,
+    "name": "bankid_mobile",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "bankid_mobile": {
     "tags": ["login", "authenticate"],
-    "created": 1623927100301,
-    "name": "essentials/bankid_mobile_16",
-    "variant": "secondary"
+    "created": 1646679584260,
+    "name": "bankid_mobile",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "bankid_medium": {
+    "tags": ["login", "authenticate"],
+    "created": 1646679585076,
+    "name": "bankid",
+    "variant": "secondary",
+    "category": "essentials"
   },
   "bankid": {
     "tags": ["login", "authenticate"],
-    "created": 1623927101061,
-    "name": "essentials/bankid_16",
-    "variant": "secondary"
-  },
-  "shield": {
-    "tags": ["security"],
-    "created": 1623927101824,
-    "name": "objects/shield_16",
-    "variant": "secondary"
-  },
-  "pin": {
-    "tags": ["thumbtack"],
-    "created": 1623927102588,
-    "name": "objects/pin_16",
-    "variant": "secondary"
-  },
-  "video": {
-    "tags": ["film", "movie", "play"],
-    "created": 1623927103332,
-    "name": "objects/video_16",
-    "variant": "secondary"
-  },
-  "cookie": {
-    "tags": [],
-    "created": 1623927104080,
-    "name": "objects/cookie_16",
-    "variant": "secondary"
-  },
-  "photo": {
-    "tags": ["picture", "image", "gallery"],
-    "created": 1623927110354,
-    "name": "objects/photo_16",
-    "variant": "secondary"
-  },
-  "folder": {
-    "tags": ["file"],
-    "created": 1623927111119,
-    "name": "objects/folder_16",
-    "variant": "secondary"
-  },
-  "hourglass": {
-    "tags": ["timer", "time", "waiting"],
-    "created": 1623927114456,
-    "name": "objects/hourglass_16",
-    "variant": "secondary"
-  },
-  "email": {
-    "tags": [],
-    "created": 1623927115249,
-    "name": "objects/email_16",
-    "variant": "secondary"
-  },
-  "paperclip": {
-    "tags": ["attachment"],
-    "created": 1623927121904,
-    "name": "objects/paperclip_16",
-    "variant": "secondary"
-  },
-  "printer": {
-    "tags": ["print"],
-    "created": 1623927122926,
-    "name": "objects/printer_16",
-    "variant": "secondary"
-  },
-  "customer_service": {
-    "tags": ["headset"],
-    "created": 1623927129198,
-    "name": "objects/customer_service_16",
-    "variant": "secondary"
-  },
-  "chatbot": {
-    "tags": ["aino"],
-    "created": 1623927130005,
-    "name": "objects/chatbot_16",
-    "variant": "secondary"
-  },
-  "broken_chain": {
-    "tags": ["broken link"],
-    "created": 1623927137117,
-    "name": "objects/broken_chain_16",
-    "variant": "secondary"
-  },
-  "chain": {
-    "tags": ["link"],
-    "created": 1623927138004,
-    "name": "objects/chain_16",
-    "variant": "secondary"
-  },
-  "microphone": {
-    "tags": ["record"],
-    "created": 1623927141063,
-    "name": "objects/microphone_16",
-    "variant": "secondary"
-  },
-  "wearables": {
-    "tags": ["smartwatch"],
-    "created": 1623927141839,
-    "name": "objects/wearables_16",
-    "variant": "secondary"
-  },
-  "apple_watch": {
-    "tags": ["smartwatch"],
-    "created": 1623927142627,
-    "name": "objects/apple_watch_16",
-    "variant": "secondary"
-  },
-  "widget_android": {
-    "tags": [],
-    "created": 1623927148845,
-    "name": "objects/widget_android_16",
-    "variant": "secondary"
-  },
-  "widget_ios": {
-    "tags": ["puzzle", "piece"],
-    "created": 1623927149696,
-    "name": "objects/widget_ios_16",
-    "variant": "secondary"
-  },
-  "owl": {
-    "tags": ["knowledge"],
-    "created": 1623927150782,
-    "name": "objects/owl_16",
-    "variant": "secondary"
-  },
-  "confetti": {
-    "tags": ["tada", "party"],
-    "created": 1623927151615,
-    "name": "objects/confetti_16",
-    "variant": "secondary"
-  },
-  "flying_money": {
-    "tags": [],
-    "created": 1623927152423,
-    "name": "objects/flying_money_16",
-    "variant": "secondary"
-  },
-  "restaurant": {
-    "tags": ["food", "fork", "knife", "eat"],
-    "created": 1623927153186,
-    "name": "objects/restaurant_16",
-    "variant": "secondary"
-  },
-  "hanger": {
-    "tags": ["clothes"],
-    "created": 1623927153980,
-    "name": "objects/hanger_16",
-    "variant": "secondary"
-  },
-  "plant": {
-    "tags": ["garden"],
-    "created": 1623927154771,
-    "name": "objects/plant_16",
-    "variant": "secondary"
-  },
-  "heart_rate": {
-    "tags": ["health", "wellbeing"],
-    "created": 1623927155538,
-    "name": "objects/heart_rate_16",
-    "variant": "secondary"
-  },
-  "bowling": {
-    "tags": ["Categorization: Leisure"],
-    "created": 1623927156394,
-    "name": "objects/bowling_16",
-    "variant": "secondary"
-  },
-  "shopping_cart": {
-    "tags": ["groceries"],
-    "created": 1623927157150,
-    "name": "objects/shopping_cart_16",
-    "variant": "secondary"
-  },
-  "lightbulb": {
-    "tags": ["tips", "tricks", "idea", "light"],
-    "created": 1623927157913,
-    "name": "objects/lightbulb_16",
-    "variant": "secondary"
-  },
-  "file_txt": {
-    "tags": ["document", "text", ".txt"],
-    "created": 1623927158722,
-    "name": "objects/file_txt_16",
-    "variant": "secondary"
-  },
-  "file_csv": {
-    "tags": [
-      "document",
-      "comma separated value",
-      ".csv",
-      "comma separated values"
-    ],
-    "created": 1623927159626,
-    "name": "objects/file_csv_16",
-    "variant": "secondary"
-  },
-  "file_ppt": {
-    "tags": ["document", "powerpoint", ".ppt"],
-    "created": 1623927160494,
-    "name": "objects/file_ppt_16",
-    "variant": "secondary"
-  },
-  "file_xls": {
-    "tags": ["document", "excel", ".xls"],
-    "created": 1623927161431,
-    "name": "objects/file_xls_16",
-    "variant": "secondary"
-  },
-  "file_word": {
-    "tags": ["document", ".doc"],
-    "created": 1623927162201,
-    "name": "objects/file_word_16",
-    "variant": "secondary"
-  },
-  "file_pdf": {
-    "tags": ["document", ".pdf"],
-    "created": 1623927162930,
-    "name": "objects/file_pdf_16",
-    "variant": "secondary"
-  },
-  "file_contract": {
-    "tags": ["document"],
-    "created": 1623927163701,
-    "name": "objects/file_contract_16",
-    "variant": "secondary"
-  },
-  "file_warning": {
-    "tags": ["document"],
-    "created": 1623927164448,
-    "name": "objects/file_warning_16",
-    "variant": "secondary"
-  },
-  "file_loupe": {
-    "tags": ["document"],
-    "created": 1623927165218,
-    "name": "objects/file_loupe_16",
-    "variant": "secondary"
-  },
-  "file_rejected": {
-    "tags": ["document"],
-    "created": 1623927165973,
-    "name": "objects/file_rejected_16",
-    "variant": "secondary"
-  },
-  "file_signing": {
-    "tags": ["document", "apply", "signature"],
-    "created": 1623927166733,
-    "name": "objects/file_signing_16",
-    "variant": "secondary"
-  },
-  "file_add": {
-    "tags": ["document"],
-    "created": 1623927167487,
-    "name": "objects/file_add_16",
-    "variant": "secondary"
-  },
-  "file": {
-    "tags": ["document", "document"],
-    "created": 1623927168233,
-    "name": "objects/file_16",
-    "variant": "secondary"
-  },
-  "mobilephone": {
-    "tags": ["device"],
-    "created": 1632764442926,
-    "name": "objects/mobilephone_16",
-    "variant": "secondary"
-  },
-  "padlock": {
-    "tags": [],
-    "created": 1623927169734,
-    "name": "objects/padlock_16",
-    "variant": "secondary"
-  },
-  "contacts": {
-    "tags": ["recipients"],
-    "created": 1623927170622,
-    "name": "objects/contacts_16",
-    "variant": "secondary"
-  },
-  "camera": {
-    "tags": ["scanner"],
-    "created": 1623927171394,
-    "name": "objects/camera_16",
-    "variant": "secondary"
-  },
-  "brush": {
-    "tags": ["theme", "colour"],
-    "created": 1623927172284,
-    "name": "objects/brush_16",
-    "variant": "secondary"
-  },
-  "train": {
-    "tags": ["transport", "travel"],
-    "created": 1623927173043,
-    "name": "objects/train_16",
-    "variant": "secondary"
-  },
-  "car_2": {
-    "tags": ["vehicle", "transport"],
-    "created": 1623927173839,
-    "name": "objects/car_2_16",
-    "variant": "secondary"
-  },
-  "car_1": {
-    "tags": ["vehicle", "transport"],
-    "created": 1623927174629,
-    "name": "objects/car_1_16",
-    "variant": "secondary"
-  },
-  "coins_3": {
-    "tags": ["Categorization: Other savings"],
-    "created": 1623927175408,
-    "name": "objects/coins_3_16",
-    "variant": "secondary"
-  },
-  "coins_2": {
-    "tags": ["Other savings"],
-    "created": 1623927176151,
-    "name": "objects/coins_2_16",
-    "variant": "secondary"
-  },
-  "coins_1": {
-    "tags": ["spending"],
-    "created": 1623927176912,
-    "name": "objects/coins_1_16",
-    "variant": "secondary"
-  },
-  "wallet": {
-    "tags": ["payments"],
-    "created": 1623927177654,
-    "name": "objects/wallet_16",
-    "variant": "secondary"
-  },
-  "recurring": {
-    "tags": ["calendar", "date"],
-    "created": 1623927178450,
-    "name": "objects/recurring_16",
-    "variant": "secondary"
-  },
-  "calendar": {
-    "tags": ["date"],
-    "created": 1623927179261,
-    "name": "objects/calendar_16",
-    "variant": "primary"
-  },
-  "stopwatch": {
-    "tags": ["timer", "countdown"],
-    "created": 1623927180054,
-    "name": "objects/stopwatch_16",
-    "variant": "secondary"
-  },
-  "clock": {
-    "tags": ["watch", "time", "expired"],
-    "created": 1623927180856,
-    "name": "objects/clock_16",
-    "variant": "secondary"
-  },
-  "scissors": {
-    "tags": ["cut"],
-    "created": 1623927181696,
-    "name": "objects/scissors_16",
-    "variant": "secondary"
-  },
-  "office_buildings": {
-    "tags": ["corporate"],
-    "created": 1623927182455,
-    "name": "objects/office_buildings_16",
-    "variant": "secondary"
-  },
-  "bank": {
-    "tags": ["pillars"],
-    "created": 1623927183204,
-    "name": "objects/bank_16",
-    "variant": "secondary"
-  },
-  "house_value": {
-    "tags": ["Categorization: Rental income"],
-    "created": 1623927183940,
-    "name": "objects/house_value_16",
-    "variant": "secondary"
-  },
-  "house_2": {
-    "tags": ["Categorization: Utilities", "cabin"],
-    "created": 1623927184724,
-    "name": "objects/house_2_16",
-    "variant": "secondary"
-  },
-  "house_1": {
-    "tags": ["Property"],
-    "created": 1623927185485,
-    "name": "objects/house_1_16",
-    "variant": "secondary"
-  },
-  "home": {
-    "tags": ["house"],
-    "created": 1623927186247,
-    "name": "objects/home_16",
-    "variant": "secondary"
-  },
-  "bell": {
-    "tags": ["notification"],
-    "created": 1623927187009,
-    "name": "objects/bell_16",
-    "variant": "primary"
-  },
-  "loupe": {
-    "tags": ["search", "find"],
-    "created": 1623927187767,
-    "name": "objects/loupe_16",
-    "variant": "primary"
-  },
-  "cog": {
-    "tags": ["settings"],
-    "created": 1623927188532,
-    "name": "objects/cog_16",
-    "variant": "secondary"
-  },
-  "animal_print": {
-    "tags": ["insurance", "paw"],
-    "created": 1623927189418,
-    "name": "products/animal_print_16",
-    "variant": "secondary"
-  },
-  "building_construction": {
-    "tags": ["insurance", "home", "house"],
-    "created": 1623927190205,
-    "name": "products/building_construction_16",
-    "variant": "secondary"
-  },
-  "tractor": {
-    "tags": ["insurance", "farming"],
-    "created": 1623927190963,
-    "name": "products/tractor_16",
-    "variant": "secondary"
-  },
-  "vintage_car": {
-    "tags": ["insurance", "old"],
-    "created": 1623927191730,
-    "name": "products/vintage_car_16",
-    "variant": "secondary"
-  },
-  "snowmobile": {
-    "tags": ["insurance"],
-    "created": 1623927192577,
-    "name": "products/snowmobile_16",
-    "variant": "secondary"
-  },
-  "motorcycle": {
-    "tags": ["mc", "motorbike", "vehicle", "insurance"],
-    "created": 1623927193353,
-    "name": "products/motorcycle_16",
-    "variant": "secondary"
-  },
-  "scooter": {
-    "tags": ["scooter", "vehicle", "insurance"],
-    "created": 1623927194185,
-    "name": "products/scooter_16",
-    "variant": "secondary"
-  },
-  "boat": {
-    "tags": ["sailboat", "insurance"],
-    "created": 1623927194972,
-    "name": "products/boat_16",
-    "variant": "secondary"
-  },
-  "trailer": {
-    "tags": ["flatbead", "insurance"],
-    "created": 1623927195751,
-    "name": "products/trailer_16",
-    "variant": "secondary"
-  },
-  "camper_trailer": {
-    "tags": ["camping", "insurance"],
-    "created": 1623927196522,
-    "name": "products/camper_trailer_16",
-    "variant": "secondary"
-  },
-  "caravan": {
-    "tags": ["mobile home", "camping", "insurance"],
-    "created": 1623927197323,
-    "name": "products/caravan_16",
-    "variant": "secondary"
-  },
-  "first_aid": {
-    "tags": ["treatment", "insurance"],
-    "created": 1623927198097,
-    "name": "products/first_aid_16",
-    "variant": "secondary"
-  },
-  "ambulance": {
-    "tags": ["vehicle", "car", "sick", "sickness", "illness", "insurance"],
-    "created": 1623927198879,
-    "name": "products/ambulance_16",
-    "variant": "secondary"
-  },
-  "bandage": {
-    "tags": ["bandaid", "accident", "injury", "insurance"],
-    "created": 1623927199672,
-    "name": "products/bandage_16",
-    "variant": "secondary"
-  },
-  "wheelchair": {
-    "tags": ["disability", "insurance"],
-    "created": 1623927200518,
-    "name": "products/wheelchair_16",
-    "variant": "secondary"
-  },
-  "baby": {
-    "tags": ["kid", "child", "insurance"],
-    "created": 1623927201283,
-    "name": "products/baby_16",
-    "variant": "secondary"
-  },
-  "diamond": {
-    "tags": ["jewelry", "valuables", "insurance"],
-    "created": 1623927202052,
-    "name": "products/diamond_16",
-    "variant": "secondary"
-  },
-  "bicycle": {
-    "tags": ["bike", "insurance"],
-    "created": 1623927202830,
-    "name": "products/bicycle_16",
-    "variant": "secondary"
-  },
-  "horse": {
-    "tags": ["animal", "insurance"],
-    "created": 1623927203570,
-    "name": "products/horse_16",
-    "variant": "secondary"
-  },
-  "cat": {
-    "tags": ["animal", "insurance", "kitty"],
-    "created": 1623927204325,
-    "name": "products/cat_16",
-    "variant": "secondary"
-  },
-  "dog": {
-    "tags": ["animal", "insurance"],
-    "created": 1623927205106,
-    "name": "products/dog_16",
-    "variant": "secondary"
-  },
-  "pension": {
-    "tags": ["binoculars", "pensjon"],
-    "created": 1623927205975,
-    "name": "products/pension_16",
-    "variant": "secondary"
-  },
-  "currency": {
-    "tags": ["currency"],
-    "created": 1623927206737,
-    "name": "products/currency_16",
-    "variant": "secondary"
-  },
-  "bsu": {
-    "tags": ["house"],
-    "created": 1623927207516,
-    "name": "products/bsu_16",
-    "variant": "secondary"
-  },
-  "equities_and_mutual_funds": {
-    "tags": ["graph"],
-    "created": 1623927208259,
-    "name": "products/equities_and_mutual_funds_16",
-    "variant": "secondary"
-  },
-  "stocks": {
-    "tags": ["graph"],
-    "created": 1623927209030,
-    "name": "products/stocks_16",
-    "variant": "secondary"
-  },
-  "funds": {
-    "tags": ["graph"],
-    "created": 1623927209788,
-    "name": "products/funds_16",
-    "variant": "secondary"
-  },
-  "loan": {
-    "tags": ["graph"],
-    "created": 1623927210573,
-    "name": "products/loan_16",
-    "variant": "secondary"
-  },
-  "insurance": {
-    "tags": ["umbrella", "forsikring"],
-    "created": 1623927211384,
-    "name": "products/insurance_16",
-    "variant": "secondary"
-  },
-  "digipost": {
-    "tags": [],
-    "created": 1623927212171,
-    "name": "products/digipost_16",
-    "variant": "secondary"
-  },
-  "ainvoice": {
-    "tags": ["avtalegiro"],
-    "created": 1623927212950,
-    "name": "products/ainvoice_16",
-    "variant": "secondary"
-  },
-  "einvoice": {
-    "tags": ["efaktura"],
-    "created": 1623927213724,
-    "name": "products/einvoice_16",
-    "variant": "secondary"
-  },
-  "card_with_padlock": {
-    "tags": ["blocked"],
-    "created": 1623927214551,
-    "name": "products/card_with_padlock_16",
-    "variant": "secondary"
-  },
-  "card": {
-    "tags": [],
-    "created": 1623927215293,
-    "name": "products/card_16",
-    "variant": "secondary"
-  },
-  "savings_account": {
-    "tags": ["piggybank"],
-    "created": 1623927216133,
-    "name": "products/savings_account_16",
-    "variant": "secondary"
-  },
-  "mastercard_card": {
-    "tags": ["Mastercard account with card"],
-    "created": 1623927216923,
-    "name": "products/mastercard_card_16",
-    "variant": "secondary"
-  },
-  "mastercard": {
-    "tags": ["Mastercard account"],
-    "created": 1623927217706,
-    "name": "products/mastercard_16",
-    "variant": "secondary"
-  },
-  "account_card": {
-    "tags": ["moneybag"],
-    "created": 1623927218474,
-    "name": "products/account_card_16",
-    "variant": "secondary"
-  },
-  "account_percent": {
-    "tags": ["moneybag"],
-    "created": 1623927219231,
-    "name": "products/account_percent_16",
-    "variant": "secondary"
-  },
-  "account": {
-    "tags": ["moneybag"],
-    "created": 1623927219985,
-    "name": "products/account_16",
-    "variant": "secondary"
-  },
-  "pause": {
-    "tags": [],
-    "created": 1623927220794,
-    "name": "actions/pause_16",
-    "variant": "secondary"
-  },
-  "play": {
-    "tags": [],
-    "created": 1623927221543,
-    "name": "actions/play_16",
-    "variant": "secondary"
-  },
-  "thumbs_down": {
-    "tags": ["dislike"],
-    "created": 1623927222366,
-    "name": "actions/thumbs_down_16",
-    "variant": "secondary"
-  },
-  "thumbs_up": {
-    "tags": ["like"],
-    "created": 1623927223276,
-    "name": "actions/thumbs_up_16",
-    "variant": "secondary"
-  },
-  "minimize": {
-    "tags": [],
-    "created": 1623927224071,
-    "name": "actions/minimize_16",
-    "variant": "secondary"
-  },
-  "loan_out": {
-    "tags": ["graph"],
-    "created": 1623927224908,
-    "name": "actions/loan_out_16",
-    "variant": "secondary"
-  },
-  "loan_in": {
-    "tags": ["graph", "downpayment"],
-    "created": 1623927225757,
-    "name": "actions/loan_in_16",
-    "variant": "secondary"
-  },
-  "funds_out": {
-    "tags": ["graph"],
-    "created": 1623927226695,
-    "name": "actions/funds_out_16",
-    "variant": "secondary"
-  },
-  "funds_in": {
-    "tags": ["graph"],
-    "created": 1623927227749,
-    "name": "actions/funds_in_16",
-    "variant": "secondary"
-  },
-  "card_out": {
-    "tags": [],
-    "created": 1623927228663,
-    "name": "actions/card_out_16",
-    "variant": "secondary"
-  },
-  "card_in": {
-    "tags": [],
-    "created": 1623927229476,
-    "name": "actions/card_in_16",
-    "variant": "secondary"
-  },
-  "savings_account_out": {
-    "tags": ["piggybank"],
-    "created": 1623927230236,
-    "name": "actions/savings_account_out_16",
-    "variant": "secondary"
-  },
-  "savings_account_in": {
-    "tags": ["piggybank"],
-    "created": 1623927231009,
-    "name": "actions/savings_account_in_16",
-    "variant": "secondary"
-  },
-  "account_out": {
-    "tags": ["moneybag"],
-    "created": 1623927231870,
-    "name": "actions/account_out_16",
-    "variant": "secondary"
-  },
-  "account_in": {
-    "tags": ["moneybag"],
-    "created": 1623927232619,
-    "name": "actions/account_in_16",
-    "variant": "secondary"
-  },
-  "dismiss_keyboard": {
-    "tags": [],
-    "created": 1623927233388,
-    "name": "actions/dismiss_keyboard_16",
-    "variant": "secondary"
-  },
-  "move": {
-    "tags": [],
-    "created": 1623927234152,
-    "name": "actions/move_16",
-    "variant": "secondary"
-  },
-  "split": {
-    "tags": ["divide"],
-    "created": 1623927234902,
-    "name": "actions/split_16",
-    "variant": "secondary"
-  },
-  "fullscreen": {
-    "tags": ["full screen"],
-    "created": 1623927235662,
-    "name": "actions/fullscreen_16",
-    "variant": "secondary"
-  },
-  "save": {
-    "tags": [],
-    "created": 1623927236422,
-    "name": "actions/save_16",
-    "variant": "primary"
-  },
-  "copy": {
-    "tags": ["duplicate"],
-    "created": 1623927237199,
-    "name": "actions/copy_16",
-    "variant": "secondary"
-  },
-  "subtract": {
-    "tags": ["minus", "remove"],
-    "created": 1623927238023,
-    "name": "actions/subtract_16",
-    "variant": "primary"
-  },
-  "subtract_circled": {
-    "tags": ["minus", "remove"],
-    "created": 1623927238779,
-    "name": "actions/subtract_circled_16",
-    "variant": "secondary"
-  },
-  "add": {
-    "tags": ["plus"],
-    "created": 1623927239520,
-    "name": "actions/add_16",
-    "variant": "primary"
-  },
-  "add_circled": {
-    "tags": ["plus"],
-    "created": 1623927240280,
-    "name": "actions/add_circled_16",
-    "variant": "secondary"
-  },
-  "reply": {
-    "tags": [],
-    "created": 1623927241015,
-    "name": "actions/reply_16",
-    "variant": "secondary"
-  },
-  "return_1": {
-    "tags": [],
-    "created": 1623927241770,
-    "name": "actions/return_1_16",
-    "variant": "secondary"
-  },
-  "redo": {
-    "tags": ["Restart"],
-    "created": 1623927242531,
-    "name": "actions/redo_16",
-    "variant": "secondary"
-  },
-  "undo": {
-    "tags": ["restart"],
-    "created": 1623927243294,
-    "name": "actions/undo_16",
-    "variant": "secondary"
-  },
-  "reset": {
-    "tags": ["refresh"],
-    "created": 1623927244063,
-    "name": "actions/reset_16",
-    "variant": "primary"
-  },
-  "refresh": {
-    "tags": ["repeat", "repeat"],
-    "created": 1623927244845,
-    "name": "actions/refresh_16",
-    "variant": "secondary"
-  },
-  "stop": {
-    "tags": ["Stop"],
-    "created": 1623927245609,
-    "name": "actions/stop_16",
-    "variant": "secondary"
-  },
-  "log_out": {
-    "tags": ["door"],
-    "created": 1623927246435,
-    "name": "actions/log_out_16",
-    "variant": "secondary"
-  },
-  "log_in": {
-    "tags": ["door"],
-    "created": 1623927247221,
-    "name": "actions/log_in_16",
-    "variant": "secondary"
-  },
-  "share_android": {
-    "tags": [],
-    "created": 1623927248046,
-    "name": "actions/share_android_16",
-    "variant": "secondary"
-  },
-  "share_ios": {
-    "tags": [],
-    "created": 1623927248815,
-    "name": "actions/share_ios_16",
-    "variant": "secondary"
-  },
-  "upload": {
-    "tags": [],
-    "created": 1623927249588,
-    "name": "actions/upload_16",
-    "variant": "secondary"
-  },
-  "download": {
-    "tags": [],
-    "created": 1623927250357,
-    "name": "actions/download_16",
-    "variant": "primary"
-  },
-  "edit": {
-    "tags": ["pencil"],
-    "created": 1623927251123,
-    "name": "actions/edit_16",
-    "variant": "secondary"
-  },
-  "compose": {
-    "tags": ["create", "write"],
-    "created": 1623927251891,
-    "name": "actions/compose_16",
-    "variant": "secondary"
-  },
-  "hide": {
-    "tags": ["eye"],
-    "created": 1623927252623,
-    "name": "actions/hide_16",
-    "variant": "secondary"
-  },
-  "view": {
-    "tags": ["show", "eye"],
-    "created": 1623927253380,
-    "name": "actions/view_16",
-    "variant": "secondary"
-  },
-  "swap": {
-    "tags": ["exchange"],
-    "created": 1623927254166,
-    "name": "actions/swap_16",
-    "variant": "secondary"
-  },
-  "send": {
-    "tags": ["paper plane"],
-    "created": 1623927254915,
-    "name": "actions/send_16",
-    "variant": "secondary"
-  },
-  "trash": {
-    "tags": ["delete"],
-    "created": 1623927255697,
-    "name": "actions/trash_16",
-    "variant": "secondary"
-  },
-  "graph_increase": {
-    "tags": ["loan"],
-    "created": 1623927256546,
-    "name": "actions/graph_increase_16",
-    "variant": "secondary"
-  },
-  "graph_decrease": {
-    "tags": ["downpayment", "loan"],
-    "created": 1623927257307,
-    "name": "actions/graph_decrease_16",
-    "variant": "secondary"
-  },
-  "transfer": {
-    "tags": ["Transfer"],
-    "created": 1623927258068,
-    "name": "actions/transfer_16",
-    "variant": "secondary"
-  },
-  "transfer_to": {
-    "tags": ["Transfer to"],
-    "created": 1623927258837,
-    "name": "actions/transfer_to_16",
-    "variant": "secondary"
-  },
-  "pay_from": {
-    "tags": ["Payment"],
-    "created": 1623927259658,
-    "name": "actions/pay_from_16",
-    "variant": "secondary"
-  },
-  "chevron_up": {
-    "tags": ["collapse"],
-    "created": 1623927260426,
-    "name": "navigation/chevron_up_16",
-    "variant": "primary"
-  },
-  "chevron_down": {
-    "tags": ["expand"],
-    "created": 1623927261178,
-    "name": "navigation/chevron_down_16",
-    "variant": "primary"
-  },
-  "chevron_right": {
-    "tags": [],
-    "created": 1623927261937,
-    "name": "navigation/chevron_right_16",
-    "variant": "primary"
-  },
-  "chevron_left": {
-    "tags": [],
-    "created": 1623927262692,
-    "name": "navigation/chevron_left_16",
-    "variant": "primary"
-  },
-  "arrow_up": {
-    "tags": ["upward"],
-    "created": 1623927263481,
-    "name": "navigation/arrow_up_16",
-    "variant": "primary"
-  },
-  "arrow_down": {
-    "tags": ["downward"],
-    "created": 1623927264280,
-    "name": "navigation/arrow_down_16",
-    "variant": "primary"
-  },
-  "arrow_right": {
-    "tags": ["forward"],
-    "created": 1623927265053,
-    "name": "navigation/arrow_right_16",
-    "variant": "primary"
-  },
-  "arrow_left": {
-    "tags": ["backward", "back"],
-    "created": 1623927265855,
-    "name": "navigation/arrow_left_16",
-    "variant": "primary"
-  },
-  "launch": {
-    "tags": ["open in new", "link out", "external"],
-    "created": 1623927266633,
-    "name": "navigation/launch_16",
-    "variant": "secondary"
-  },
-  "close": {
-    "tags": ["x", "exit", "dismiss"],
-    "created": 1623927267418,
-    "name": "navigation/close_16",
-    "variant": "primary"
-  },
-  "more": {
-    "tags": ["horizontal", "overflow", "local menu", "more_horizontal"],
-    "created": 1623927268237,
-    "name": "navigation/more_16",
-    "variant": "primary"
-  },
-  "more_vertical": {
-    "tags": ["overflow", "local menu"],
-    "created": 1623927268989,
-    "name": "navigation/more_vertical_16",
-    "variant": "secondary"
-  },
-  "hamburger": {
-    "tags": ["menu", "drawer", "navigation drawer"],
-    "created": 1623927269734,
-    "name": "navigation/hamburger_16",
-    "variant": "secondary"
-  },
-  "history": {
-    "tags": ["log"],
-    "created": 1629317064130,
-    "name": "essentials/history_16",
-    "variant": "secondary"
-  },
-  "language": {
-    "tags": [],
-    "created": 1629317064419,
-    "name": "essentials/language_16",
-    "variant": "secondary"
-  },
-  "leaf": {
-    "tags": ["eco", "environment"],
-    "created": 1631883513362,
-    "name": "objects/leaf_16",
-    "variant": "secondary"
-  },
-  "file_xml": {
-    "tags": ["document", "xml"],
-    "created": 1631883513667,
-    "name": "objects/file_xml_16",
-    "variant": "secondary"
-  },
-  "megaphone": {
-    "tags": ["advertising"],
-    "created": 1632764430220,
-    "name": "objects/megaphone_16",
-    "variant": "secondary"
-  },
-  "phone": {
-    "tags": ["telephone", "handset", "call"],
-    "created": 1623927168985,
-    "name": "objects/phone_16",
-    "variant": "secondary"
-  },
-  "volume_off": {
-    "tags": ["sound", "audio", "mute"],
-    "created": 1633375664825,
-    "name": "actions/volume_off_16",
-    "variant": "secondary"
-  },
-  "volume_on": {
-    "tags": ["sound", "audio"],
-    "created": 1633375665167,
-    "name": "actions/volume_on_16",
-    "variant": "secondary"
-  },
-  "oil": {
-    "tags": ["energy"],
-    "created": 1635407031308,
-    "name": "objects/oil_16",
-    "variant": "secondary"
-  },
-  "factory": {
-    "tags": ["industry"],
-    "created": 1635407031645,
-    "name": "objects/factory_16",
-    "variant": "secondary"
-  },
-  "chip": {
-    "tags": ["technology", "tech"],
-    "created": 1635407031999,
-    "name": "objects/chip_16",
-    "variant": "secondary"
-  },
-  "charger": {
-    "tags": ["supply"],
-    "created": 1635407032343,
-    "name": "objects/charger_16",
-    "variant": "secondary"
-  },
-  "brickwall": {
-    "tags": ["materials"],
-    "created": 1635407032666,
-    "name": "objects/brickwall_16",
-    "variant": "secondary"
-  },
-  "fridge": {
-    "tags": ["stable consumption"],
-    "created": 1635407033017,
-    "name": "objects/fridge_16",
-    "variant": "secondary"
-  },
-  "cloud_rain": {
-    "tags": [],
-    "created": 1636977971760,
-    "name": "objects/cloud_rain_16",
-    "variant": "secondary"
-  },
-  "cloud_sync": {
-    "tags": [],
-    "created": 1636977971841,
-    "name": "objects/cloud_sync_16",
-    "variant": "secondary"
-  },
-  "cloud_upload": {
-    "tags": [],
-    "created": 1636977971919,
-    "name": "objects/cloud_upload_16",
-    "variant": "secondary"
-  },
-  "cloud_download": {
-    "tags": [],
-    "created": 1636977971992,
-    "name": "objects/cloud_download_16",
-    "variant": "secondary"
-  },
-  "cloud_transfer": {
-    "tags": [],
-    "created": 1636977972061,
-    "name": "objects/cloud_transfer_16",
-    "variant": "secondary"
-  },
-  "cloud": {
-    "tags": [],
-    "created": 1636977972147,
-    "name": "objects/cloud_16",
-    "variant": "secondary"
-  },
-  "instagram": {
-    "tags": [],
-    "created": 1638272829307,
-    "name": "essentials/instagram_16",
-    "variant": "secondary"
-  },
-  "linkedin": {
-    "tags": [],
-    "created": 1638272829676,
-    "name": "essentials/linkedin_16",
-    "variant": "secondary"
-  },
-  "facebook": {
-    "tags": [],
-    "created": 1638272830000,
-    "name": "essentials/facebook_16",
-    "variant": "secondary"
-  },
-  "tag": {
-    "tags": [],
-    "created": 1638272843722,
-    "name": "objects/tag_16",
-    "variant": "secondary"
+    "created": 1646679585893,
+    "name": "bankid",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "speedometer_medium": {
+    "tags": ["gauge", "dashboard", "vehicle", "car"],
+    "created": 1646679586674,
+    "name": "speedometer",
+    "variant": "secondary",
+    "category": "objects"
   },
   "speedometer": {
     "tags": ["gauge", "dashboard", "vehicle", "car"],
-    "created": 1644051894624,
-    "name": "objects/speedometer_16",
-    "variant": "secondary"
+    "created": 1646679587450,
+    "name": "speedometer",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "news_medium": {
+    "tags": ["news", "content", "paper", "articles"],
+    "created": 1646679588234,
+    "name": "news",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "news": {
+    "tags": ["news", "content", "paper", "articles"],
+    "created": 1646679589009,
+    "name": "news",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "podcast_medium": {
+    "tags": ["microphone", "mic", "voice", "speak"],
+    "created": 1646679589856,
+    "name": "podcast",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "podcast": {
+    "tags": ["microphone", "mic", "voice", "speak"],
+    "created": 1646679590663,
+    "name": "podcast",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "calculator_medium": {
+    "tags": [],
+    "created": 1646679591521,
+    "name": "calculator",
+    "variant": "secondary",
+    "category": "objects"
   },
   "calculator": {
     "tags": [],
-    "created": 1644051894702,
-    "name": "objects/calculator_16",
-    "variant": "secondary"
+    "created": 1646679592360,
+    "name": "calculator",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "tag_medium": {
+    "tags": [],
+    "created": 1646679593161,
+    "name": "tag",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "tag": {
+    "tags": [],
+    "created": 1646679593980,
+    "name": "tag",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "cloud_rain_medium": {
+    "tags": [],
+    "created": 1646679594783,
+    "name": "cloud_rain",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "cloud_rain": {
+    "tags": [],
+    "created": 1646679595610,
+    "name": "cloud_rain",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "cloud_sync_medium": {
+    "tags": [],
+    "created": 1646679596409,
+    "name": "cloud_sync",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "cloud_sync": {
+    "tags": [],
+    "created": 1646679597240,
+    "name": "cloud_sync",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "cloud_upload_medium": {
+    "tags": [],
+    "created": 1646679598066,
+    "name": "cloud_upload",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "cloud_upload": {
+    "tags": [],
+    "created": 1646679598874,
+    "name": "cloud_upload",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "cloud_download_medium": {
+    "tags": [],
+    "created": 1646679599685,
+    "name": "cloud_download",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "cloud_download": {
+    "tags": [],
+    "created": 1646679600503,
+    "name": "cloud_download",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "cloud_transfer_medium": {
+    "tags": [],
+    "created": 1646679601375,
+    "name": "cloud_transfer",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "cloud_transfer": {
+    "tags": [],
+    "created": 1646679602582,
+    "name": "cloud_transfer",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "cloud_medium": {
+    "tags": [],
+    "created": 1646679603469,
+    "name": "cloud",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "cloud": {
+    "tags": [],
+    "created": 1646679604280,
+    "name": "cloud",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "fridge_medium": {
+    "tags": ["stable consumption"],
+    "created": 1646679605046,
+    "name": "fridge",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "fridge": {
+    "tags": ["stable consumption"],
+    "created": 1646679605857,
+    "name": "fridge",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "brickwall_medium": {
+    "tags": ["materials"],
+    "created": 1646679606706,
+    "name": "brickwall",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "brickwall": {
+    "tags": ["materials"],
+    "created": 1646679607601,
+    "name": "brickwall",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "charger_medium": {
+    "tags": ["supply"],
+    "created": 1646679608396,
+    "name": "charger",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "charger": {
+    "tags": ["supply"],
+    "created": 1646679609192,
+    "name": "charger",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "chip_medium": {
+    "tags": ["technology", "tech"],
+    "created": 1646679609999,
+    "name": "chip",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "chip": {
+    "tags": ["technology", "tech"],
+    "created": 1646679610790,
+    "name": "chip",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "factory_medium": {
+    "tags": ["industry"],
+    "created": 1646679611583,
+    "name": "factory",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "factory": {
+    "tags": ["industry"],
+    "created": 1646679612370,
+    "name": "factory",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "oil_medium": {
+    "tags": ["energy"],
+    "created": 1646679613138,
+    "name": "oil",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "oil": {
+    "tags": ["energy"],
+    "created": 1646679613905,
+    "name": "oil",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "megaphone_medium": {
+    "tags": ["advertising"],
+    "created": 1646679614700,
+    "name": "megaphone",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "megaphone": {
+    "tags": ["advertising"],
+    "created": 1646679615473,
+    "name": "megaphone",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "phone_medium": {
+    "tags": ["telephone", "handset", "call"],
+    "created": 1646679616271,
+    "name": "phone",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "phone": {
+    "tags": ["telephone", "handset", "call"],
+    "created": 1646679617076,
+    "name": "phone",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "leaf_medium": {
+    "tags": ["eco", "environment"],
+    "created": 1646679617867,
+    "name": "leaf",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "leaf": {
+    "tags": ["eco", "environment"],
+    "created": 1646679618668,
+    "name": "leaf",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "shield_medium": {
+    "tags": ["security"],
+    "created": 1646679619464,
+    "name": "shield",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "shield": {
+    "tags": ["security"],
+    "created": 1646679620266,
+    "name": "shield",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "pin_medium": {
+    "tags": ["thumbtack"],
+    "created": 1646679621051,
+    "name": "pin",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "pin": {
+    "tags": ["thumbtack"],
+    "created": 1646679621845,
+    "name": "pin",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "video_medium": {
+    "tags": ["film", "movie", "play"],
+    "created": 1646679622644,
+    "name": "video",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "video": {
+    "tags": ["film", "movie", "play"],
+    "created": 1646679623421,
+    "name": "video",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "cookie_medium": {
+    "tags": [],
+    "created": 1646679624196,
+    "name": "cookie",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "cookie": {
+    "tags": [],
+    "created": 1646679625005,
+    "name": "cookie",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "photo_medium": {
+    "tags": ["picture", "image", "gallery"],
+    "created": 1646679625812,
+    "name": "photo",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "photo": {
+    "tags": ["picture", "image", "gallery"],
+    "created": 1646679626581,
+    "name": "photo",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "folder_medium": {
+    "tags": ["file"],
+    "created": 1646679627359,
+    "name": "folder",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "folder": {
+    "tags": ["file"],
+    "created": 1646679628125,
+    "name": "folder",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "hourglass_medium": {
+    "tags": ["timer", "time", "waiting"],
+    "created": 1646679628913,
+    "name": "hourglass",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "hourglass": {
+    "tags": ["timer", "time", "waiting"],
+    "created": 1646679629697,
+    "name": "hourglass",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "email_medium": {
+    "tags": [],
+    "created": 1646679630492,
+    "name": "email",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "email": {
+    "tags": [],
+    "created": 1646679631264,
+    "name": "email",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "paperclip_medium": {
+    "tags": ["attachment"],
+    "created": 1646679632055,
+    "name": "paperclip",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "paperclip": {
+    "tags": ["attachment"],
+    "created": 1646679632824,
+    "name": "paperclip",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "printer_medium": {
+    "tags": [],
+    "created": 1646679633661,
+    "name": "printer",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "printer": {
+    "tags": ["print"],
+    "created": 1646679634460,
+    "name": "printer",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "customer_service_medium": {
+    "tags": ["headset"],
+    "created": 1646679635284,
+    "name": "customer_service",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "customer_service": {
+    "tags": ["headset"],
+    "created": 1646679636111,
+    "name": "customer_service",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "chatbot_medium": {
+    "tags": ["aino"],
+    "created": 1646679636941,
+    "name": "chatbot",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "chatbot": {
+    "tags": ["aino"],
+    "created": 1646679637751,
+    "name": "chatbot",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "broken_chain_medium": {
+    "tags": ["broken link"],
+    "created": 1646679638590,
+    "name": "broken_chain",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "broken_chain": {
+    "tags": ["broken link"],
+    "created": 1646679639434,
+    "name": "broken_chain",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "chain_medium": {
+    "tags": ["link"],
+    "created": 1646679640222,
+    "name": "chain",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "chain": {
+    "tags": ["link"],
+    "created": 1646679641069,
+    "name": "chain",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "microphone_medium": {
+    "tags": ["record"],
+    "created": 1646679641879,
+    "name": "microphone",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "microphone": {
+    "tags": ["record"],
+    "created": 1646679642657,
+    "name": "microphone",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "wearables_medium": {
+    "tags": ["smartwatch"],
+    "created": 1646679643509,
+    "name": "wearables",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "wearables": {
+    "tags": ["smartwatch"],
+    "created": 1646679644325,
+    "name": "wearables",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "apple_watch_medium": {
+    "tags": ["smartwatch"],
+    "created": 1646679645136,
+    "name": "apple_watch",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "apple_watch": {
+    "tags": ["smartwatch"],
+    "created": 1646679645937,
+    "name": "apple_watch",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "widget_android_medium": {
+    "tags": [],
+    "created": 1646679646729,
+    "name": "widget_android",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "widget_android": {
+    "tags": [],
+    "created": 1646679647540,
+    "name": "widget_android",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "widget_ios_medium": {
+    "tags": ["puzzle", "piece"],
+    "created": 1646679648353,
+    "name": "widget_ios",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "widget_ios": {
+    "tags": ["puzzle", "piece"],
+    "created": 1646679649180,
+    "name": "widget_ios",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "owl_medium": {
+    "tags": ["knowledge"],
+    "created": 1646679650013,
+    "name": "owl",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "owl": {
+    "tags": ["knowledge"],
+    "created": 1646679650827,
+    "name": "owl",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "confetti_medium": {
+    "tags": ["tada", "party"],
+    "created": 1646679651646,
+    "name": "confetti",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "confetti": {
+    "tags": ["tada", "party"],
+    "created": 1646679652453,
+    "name": "confetti",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "flying_money_medium": {
+    "tags": [],
+    "created": 1646679653277,
+    "name": "flying_money",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "flying_money": {
+    "tags": [],
+    "created": 1646679654082,
+    "name": "flying_money",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "restaurant_medium": {
+    "tags": ["food", "fork", "knife", "eat"],
+    "created": 1646679654911,
+    "name": "restaurant",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "restaurant": {
+    "tags": ["food", "fork", "knife", "eat"],
+    "created": 1646679655827,
+    "name": "restaurant",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "hanger_medium": {
+    "tags": ["clothes"],
+    "created": 1646679656648,
+    "name": "hanger",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "hanger": {
+    "tags": ["clothes"],
+    "created": 1646679657445,
+    "name": "hanger",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "plant_medium": {
+    "tags": ["garden"],
+    "created": 1646679658257,
+    "name": "plant",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "plant": {
+    "tags": ["garden"],
+    "created": 1646679659077,
+    "name": "plant",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "heart_rate_medium": {
+    "tags": ["health", "wellbeing"],
+    "created": 1646679659889,
+    "name": "heart_rate",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "heart_rate": {
+    "tags": ["health", "wellbeing"],
+    "created": 1646679660690,
+    "name": "heart_rate",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "bowling_medium": {
+    "tags": [],
+    "created": 1646679661508,
+    "name": "bowling",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "bowling": {
+    "tags": ["Categorization: Leisure"],
+    "created": 1646679662305,
+    "name": "bowling",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "shopping_cart_medium": {
+    "tags": ["groceries"],
+    "created": 1646679663135,
+    "name": "shopping_cart",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "shopping_cart": {
+    "tags": ["groceries"],
+    "created": 1646679663986,
+    "name": "shopping_cart",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "lightbulb_medium": {
+    "tags": ["tips", "tricks", "idea", "light"],
+    "created": 1646679664803,
+    "name": "lightbulb",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "lightbulb": {
+    "tags": ["tips", "tricks", "idea", "light"],
+    "created": 1646679665596,
+    "name": "lightbulb",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_xml_medium": {
+    "tags": ["document", "xml"],
+    "created": 1646679666399,
+    "name": "file_xml",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_xml": {
+    "tags": ["document", "xml"],
+    "created": 1646679667233,
+    "name": "file_xml",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_txt_medium": {
+    "tags": ["document", "text", ".txt"],
+    "created": 1646679668052,
+    "name": "file_txt",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_txt": {
+    "tags": ["document", "text", ".txt"],
+    "created": 1646679668842,
+    "name": "file_txt",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_csv_medium": {
+    "tags": ["document", "comma separated values", ".csv"],
+    "created": 1646679669712,
+    "name": "file_csv",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_csv": {
+    "tags": ["document", "comma separated value", ".csv"],
+    "created": 1646679670577,
+    "name": "file_csv",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_ppt_medium": {
+    "tags": ["document", "powerpoint", ".ppt"],
+    "created": 1646679671381,
+    "name": "file_ppt",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_ppt": {
+    "tags": ["document", "powerpoint", ".ppt"],
+    "created": 1646679672187,
+    "name": "file_ppt",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_xls_medium": {
+    "tags": ["document", "excel", ".xls"],
+    "created": 1646679672992,
+    "name": "file_xls",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_xls": {
+    "tags": ["document", "excel", ".xls"],
+    "created": 1646679673805,
+    "name": "file_xls",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_word_medium": {
+    "tags": ["document", ".doc"],
+    "created": 1646679674632,
+    "name": "file_word",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_word": {
+    "tags": ["document", ".doc"],
+    "created": 1646679675427,
+    "name": "file_word",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_pdf_medium": {
+    "tags": ["document", ".pdf"],
+    "created": 1646679676232,
+    "name": "file_pdf",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_pdf": {
+    "tags": ["document", ".pdf"],
+    "created": 1646679677052,
+    "name": "file_pdf",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_contract_medium": {
+    "tags": ["document"],
+    "created": 1646679677878,
+    "name": "file_contract",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_contract": {
+    "tags": ["document"],
+    "created": 1646679678698,
+    "name": "file_contract",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_warning_medium": {
+    "tags": ["document"],
+    "created": 1646679679509,
+    "name": "file_warning",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_warning": {
+    "tags": ["document"],
+    "created": 1646679680405,
+    "name": "file_warning",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_loupe_medium": {
+    "tags": ["document"],
+    "created": 1646679681197,
+    "name": "file_loupe",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_loupe": {
+    "tags": ["document"],
+    "created": 1646679682023,
+    "name": "file_loupe",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_rejected_medium": {
+    "tags": ["document"],
+    "created": 1646679682864,
+    "name": "file_rejected",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_rejected": {
+    "tags": ["document"],
+    "created": 1646679683692,
+    "name": "file_rejected",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_signing_medium": {
+    "tags": ["document", "apply", "signature"],
+    "created": 1646679684514,
+    "name": "file_signing",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_signing": {
+    "tags": ["document", "apply", "signature"],
+    "created": 1646679685342,
+    "name": "file_signing",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_add_medium": {
+    "tags": ["document"],
+    "created": 1646679686135,
+    "name": "file_add",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_add": {
+    "tags": ["document"],
+    "created": 1646679686943,
+    "name": "file_add",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_medium": {
+    "tags": ["document"],
+    "created": 1646679687759,
+    "name": "file",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file": {
+    "tags": ["document", "document"],
+    "created": 1646679688582,
+    "name": "file",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "mobilephone_medium": {
+    "tags": ["device"],
+    "created": 1646679689369,
+    "name": "mobilephone",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "mobilephone": {
+    "tags": ["device"],
+    "created": 1646679690191,
+    "name": "mobilephone",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "padlock_medium": {
+    "tags": [],
+    "created": 1646679690996,
+    "name": "padlock",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "padlock": {
+    "tags": [],
+    "created": 1646679691818,
+    "name": "padlock",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "contacts_medium": {
+    "tags": ["recipients"],
+    "created": 1646679692629,
+    "name": "contacts",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "contacts": {
+    "tags": ["recipients"],
+    "created": 1646679693445,
+    "name": "contacts",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "camera_medium": {
+    "tags": ["scanner"],
+    "created": 1646679694282,
+    "name": "camera",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "camera": {
+    "tags": ["scanner"],
+    "created": 1646679695099,
+    "name": "camera",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "brush_medium": {
+    "tags": ["theme", "colour"],
+    "created": 1646679695909,
+    "name": "brush",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "brush": {
+    "tags": ["theme", "colour"],
+    "created": 1646679696728,
+    "name": "brush",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "train_medium": {
+    "tags": ["transport", "travel"],
+    "created": 1646679697550,
+    "name": "train",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "train": {
+    "tags": ["transport", "travel"],
+    "created": 1646679698370,
+    "name": "train",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "car_2_medium": {
+    "tags": ["vehicle", "transport"],
+    "created": 1646679699178,
+    "name": "car_2",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "car_2": {
+    "tags": ["vehicle", "transport"],
+    "created": 1646679699974,
+    "name": "car_2",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "car_1_medium": {
+    "tags": ["vehicle", "transport"],
+    "created": 1646679700763,
+    "name": "car_1",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "car_1": {
+    "tags": ["vehicle", "transport"],
+    "created": 1646679701557,
+    "name": "car_1",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "coins_3_medium": {
+    "tags": [],
+    "created": 1646679702363,
+    "name": "coins_3",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "coins_3": {
+    "tags": ["Categorization: Other savings"],
+    "created": 1646679703163,
+    "name": "coins_3",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "coins_2_medium": {
+    "tags": [],
+    "created": 1646679703957,
+    "name": "coins_2",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "coins_2": {
+    "tags": ["Other savings"],
+    "created": 1646679704792,
+    "name": "coins_2",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "coins_1_medium": {
+    "tags": ["spending"],
+    "created": 1646679705699,
+    "name": "coins_1",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "coins_1": {
+    "tags": ["spending"],
+    "created": 1646679706509,
+    "name": "coins_1",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "wallet_medium": {
+    "tags": ["payments"],
+    "created": 1646679707725,
+    "name": "wallet",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "wallet": {
+    "tags": ["payments"],
+    "created": 1646679708535,
+    "name": "wallet",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "recurring_medium": {
+    "tags": ["calendar", "date"],
+    "created": 1646679709376,
+    "name": "recurring",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "recurring": {
+    "tags": ["calendar", "date"],
+    "created": 1646679710271,
+    "name": "recurring",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "calendar_medium": {
+    "tags": ["date"],
+    "created": 1646679711079,
+    "name": "calendar",
+    "variant": "primary",
+    "category": "objects"
+  },
+  "calendar": {
+    "tags": ["date"],
+    "created": 1646679711889,
+    "name": "calendar",
+    "variant": "primary",
+    "category": "objects"
+  },
+  "stopwatch_medium": {
+    "tags": ["timer", "countdown"],
+    "created": 1646679712725,
+    "name": "stopwatch",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "stopwatch": {
+    "tags": ["timer", "countdown"],
+    "created": 1646679713568,
+    "name": "stopwatch",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "clock_medium": {
+    "tags": ["watch", "time", "expired"],
+    "created": 1646679714420,
+    "name": "clock",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "clock": {
+    "tags": ["watch", "time", "expired"],
+    "created": 1646679715218,
+    "name": "clock",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "scissors_medium": {
+    "tags": ["cut"],
+    "created": 1646679716026,
+    "name": "scissors",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "scissors": {
+    "tags": ["cut"],
+    "created": 1646679716827,
+    "name": "scissors",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "office_buildings_medium": {
+    "tags": ["corporate"],
+    "created": 1646679717638,
+    "name": "office_buildings",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "office_buildings": {
+    "tags": ["corporate"],
+    "created": 1646679718423,
+    "name": "office_buildings",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "bank_medium": {
+    "tags": ["pillars"],
+    "created": 1646679719278,
+    "name": "bank",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "bank": {
+    "tags": ["pillars"],
+    "created": 1646679720091,
+    "name": "bank",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "house_value_medium": {
+    "tags": [],
+    "created": 1646679720923,
+    "name": "house_value",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "house_value": {
+    "tags": ["Categorization: Rental income"],
+    "created": 1646679721725,
+    "name": "house_value",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "house_2_medium": {
+    "tags": ["cabin"],
+    "created": 1646679722595,
+    "name": "house_2",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "house_2": {
+    "tags": ["Categorization: Utilities"],
+    "created": 1646679723413,
+    "name": "house_2",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "house_1_medium": {
+    "tags": [],
+    "created": 1646679724265,
+    "name": "house_1",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "house_1": {
+    "tags": ["Property"],
+    "created": 1646679725101,
+    "name": "house_1",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "home_medium": {
+    "tags": ["house"],
+    "created": 1646679725940,
+    "name": "home",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "home": {
+    "tags": ["house"],
+    "created": 1646679726767,
+    "name": "home",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "bell_medium": {
+    "tags": ["notification"],
+    "created": 1646679727764,
+    "name": "bell",
+    "variant": "primary",
+    "category": "objects"
+  },
+  "bell": {
+    "tags": ["notification"],
+    "created": 1646679728573,
+    "name": "bell",
+    "variant": "primary",
+    "category": "objects"
+  },
+  "loupe_medium": {
+    "tags": ["search", "find"],
+    "created": 1646679729417,
+    "name": "loupe",
+    "variant": "primary",
+    "category": "objects"
+  },
+  "loupe": {
+    "tags": ["search", "find"],
+    "created": 1646679730212,
+    "name": "loupe",
+    "variant": "primary",
+    "category": "objects"
+  },
+  "cog_medium": {
+    "tags": ["settings"],
+    "created": 1646679731021,
+    "name": "cog",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "cog": {
+    "tags": ["settings"],
+    "created": 1646679731856,
+    "name": "cog",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "travel_medium": {
+    "tags": ["insurance", "plane", "flight"],
+    "created": 1646679732675,
+    "name": "travel",
+    "variant": "secondary",
+    "category": "products"
   },
   "travel": {
-    "tags": ["insurance", "plane", "flight"],
-    "created": 1644051902299,
-    "name": "products/travel_16",
-    "variant": "secondary"
+    "tags": ["insurance", "plane"],
+    "created": 1646679733487,
+    "name": "travel",
+    "variant": "secondary",
+    "category": "products"
   },
-  "deleted_invoice": {
-    "tags": ["slettet faktura"],
-    "created": 1644051905101,
-    "name": "products/deleted_invoice_16",
-    "variant": "secondary"
+  "animal_print_medium": {
+    "tags": ["insurance", "paw"],
+    "created": 1646679734285,
+    "name": "animal_print",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "animal_print": {
+    "tags": ["insurance", "paw"],
+    "created": 1646679735084,
+    "name": "animal_print",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "building_construction_medium": {
+    "tags": ["insurance", "home", "house"],
+    "created": 1646679735896,
+    "name": "building_construction",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "building_construction": {
+    "tags": ["insurance", "home", "house"],
+    "created": 1646679736686,
+    "name": "building_construction",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "tractor_medium": {
+    "tags": ["insurance", "farming"],
+    "created": 1646679742564,
+    "name": "tractor",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "tractor": {
+    "tags": ["insurance", "farming"],
+    "created": 1646679743380,
+    "name": "tractor",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "vintage_car_medium": {
+    "tags": ["insurance", "old"],
+    "created": 1646679744174,
+    "name": "vintage_car",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "vintage_car": {
+    "tags": ["insurance", "old"],
+    "created": 1646679744999,
+    "name": "vintage_car",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "snowmobile_medium": {
+    "tags": ["insurance"],
+    "created": 1646679745779,
+    "name": "snowmobile",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "snowmobile": {
+    "tags": ["insurance"],
+    "created": 1646679746596,
+    "name": "snowmobile",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "motorcycle_medium": {
+    "tags": ["mc", "motorbike", "vehicle", "insurance"],
+    "created": 1646679747362,
+    "name": "motorcycle",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "motorcycle": {
+    "tags": ["mc", "motorbike", "vehicle", "insurance"],
+    "created": 1646679748159,
+    "name": "motorcycle",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "scooter_medium": {
+    "tags": ["scooter", "vehicle", "insurance"],
+    "created": 1646679748963,
+    "name": "scooter",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "scooter": {
+    "tags": ["scooter", "vehicle", "insurance"],
+    "created": 1646679749758,
+    "name": "scooter",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "boat_medium": {
+    "tags": ["sailboat", "insurance"],
+    "created": 1646679750544,
+    "name": "boat",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "boat": {
+    "tags": ["sailboat", "insurance"],
+    "created": 1646679751335,
+    "name": "boat",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "trailer_medium": {
+    "tags": ["flatbead", "insurance"],
+    "created": 1646679752111,
+    "name": "trailer",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "trailer": {
+    "tags": ["flatbead", "insurance"],
+    "created": 1646679752960,
+    "name": "trailer",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "camper_trailer_medium": {
+    "tags": ["camping", "insurance"],
+    "created": 1646679753762,
+    "name": "camper_trailer",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "camper_trailer": {
+    "tags": ["camping", "insurance"],
+    "created": 1646679754569,
+    "name": "camper_trailer",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "caravan_medium": {
+    "tags": ["mobile home", "camping", "insurance"],
+    "created": 1646679755393,
+    "name": "caravan",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "caravan": {
+    "tags": ["mobile home", "camping", "insurance"],
+    "created": 1646679756184,
+    "name": "caravan",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "first_aid_medium": {
+    "tags": ["treatment", "insurance"],
+    "created": 1646679756983,
+    "name": "first_aid",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "first_aid": {
+    "tags": ["treatment", "insurance"],
+    "created": 1646679757771,
+    "name": "first_aid",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "ambulance_medium": {
+    "tags": ["vehicle", "car", "sick", "sickness", "illness", "insurance"],
+    "created": 1646679758551,
+    "name": "ambulance",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "ambulance": {
+    "tags": ["vehicle", "car", "sick", "sickness", "illness", "insurance"],
+    "created": 1646679759328,
+    "name": "ambulance",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "bandage_medium": {
+    "tags": ["bandaid", "accident", "injury", "insurance"],
+    "created": 1646679760112,
+    "name": "bandage",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "bandage": {
+    "tags": ["bandaid", "accident", "injury", "insurance"],
+    "created": 1646679760916,
+    "name": "bandage",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "wheelchair_medium": {
+    "tags": ["disability", "insurance"],
+    "created": 1646679761694,
+    "name": "wheelchair",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "wheelchair": {
+    "tags": ["disability", "insurance"],
+    "created": 1646679762479,
+    "name": "wheelchair",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "baby_medium": {
+    "tags": ["kid", "child", "insurance"],
+    "created": 1646679763263,
+    "name": "baby",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "baby": {
+    "tags": ["kid", "child", "insurance"],
+    "created": 1646679764058,
+    "name": "baby",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "diamond_medium": {
+    "tags": ["jewelry", "valuables", "insurance"],
+    "created": 1646679764826,
+    "name": "diamond",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "diamond": {
+    "tags": ["jewelry", "valuables", "insurance"],
+    "created": 1646679765604,
+    "name": "diamond",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "bicycle_medium": {
+    "tags": ["bike", "insurance"],
+    "created": 1646679766456,
+    "name": "bicycle",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "bicycle": {
+    "tags": ["bike", "insurance"],
+    "created": 1646679767287,
+    "name": "bicycle",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "horse_medium": {
+    "tags": ["animal", "insurance"],
+    "created": 1646679768089,
+    "name": "horse",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "horse": {
+    "tags": ["animal", "insurance"],
+    "created": 1646679768904,
+    "name": "horse",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "cat_medium": {
+    "tags": ["kitty", "animal", "insurance"],
+    "created": 1646679769702,
+    "name": "cat",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "cat": {
+    "tags": ["animal", "insurance"],
+    "created": 1646679770533,
+    "name": "cat",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "dog_medium": {
+    "tags": ["animal", "insurance"],
+    "created": 1646679771344,
+    "name": "dog",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "dog": {
+    "tags": ["animal", "insurance"],
+    "created": 1646679772138,
+    "name": "dog",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "insurance_medium": {
+    "tags": ["umbrella", "forsikring"],
+    "created": 1646679772961,
+    "name": "insurance",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "insurance": {
+    "tags": ["umbrella", "forsikring"],
+    "created": 1646679773786,
+    "name": "insurance",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "pension_medium": {
+    "tags": ["binoculars", "pensjon"],
+    "created": 1646679774613,
+    "name": "pension",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "pension": {
+    "tags": ["binoculars", "pensjon"],
+    "created": 1646679775424,
+    "name": "pension",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "currency_medium": {
+    "tags": [],
+    "created": 1646679776227,
+    "name": "currency",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "currency": {
+    "tags": ["currency"],
+    "created": 1646679777015,
+    "name": "currency",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "bsu_medium": {
+    "tags": ["house"],
+    "created": 1646679778256,
+    "name": "bsu",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "bsu": {
+    "tags": ["house"],
+    "created": 1646679779078,
+    "name": "bsu",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "equities_and_mutual_funds_medium": {
+    "tags": ["graph"],
+    "created": 1646679779875,
+    "name": "equities_and_mutual_funds",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "equities_and_mutual_funds": {
+    "tags": ["graph"],
+    "created": 1646679780704,
+    "name": "equities_and_mutual_funds",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "stocks_medium": {
+    "tags": ["graph"],
+    "created": 1646679781535,
+    "name": "stocks",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "stocks": {
+    "tags": ["graph"],
+    "created": 1646679782357,
+    "name": "stocks",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "funds_medium": {
+    "tags": ["graph"],
+    "created": 1646679783174,
+    "name": "funds",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "funds": {
+    "tags": ["graph"],
+    "created": 1646679783981,
+    "name": "funds",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "loan_medium": {
+    "tags": ["graph"],
+    "created": 1646679784789,
+    "name": "loan",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "loan": {
+    "tags": ["graph"],
+    "created": 1646679785591,
+    "name": "loan",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "credit_note_medium": {
+    "tags": ["kreditnota"],
+    "created": 1646679786421,
+    "name": "credit_note",
+    "variant": "secondary",
+    "category": "products"
   },
   "credit_note": {
     "tags": ["kreditnota"],
-    "created": 1644051905197,
-    "name": "products/credit_note_16",
-    "variant": "secondary"
+    "created": 1646679787215,
+    "name": "credit_note",
+    "variant": "secondary",
+    "category": "products"
   },
-  "products_account_percent": {
+  "deleted_invoice_medium": {
+    "tags": ["slettet faktura"],
+    "created": 1646679788028,
+    "name": "deleted_invoice",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "deleted_invoice": {
+    "tags": ["slettet faktura"],
+    "created": 1646679788839,
+    "name": "deleted_invoice",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "digipost_medium": {
+    "tags": [],
+    "created": 1646679789646,
+    "name": "digipost",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "digipost": {
+    "tags": [],
+    "created": 1646679790484,
+    "name": "digipost",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "ainvoice_medium": {
+    "tags": ["avtalegiro"],
+    "created": 1646679791278,
+    "name": "ainvoice",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "ainvoice": {
+    "tags": ["avtalegiro"],
+    "created": 1646679792086,
+    "name": "ainvoice",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "einvoice_medium": {
+    "tags": ["efaktura"],
+    "created": 1646679792902,
+    "name": "einvoice",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "einvoice": {
+    "tags": ["efaktura"],
+    "created": 1646679793716,
+    "name": "einvoice",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "card_with_padlock_medium": {
+    "tags": ["blocked"],
+    "created": 1646679794543,
+    "name": "card_with_padlock",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "card_with_padlock": {
+    "tags": ["blocked"],
+    "created": 1646679795349,
+    "name": "card_with_padlock",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "card_medium": {
+    "tags": [],
+    "created": 1646679796145,
+    "name": "card",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "card": {
+    "tags": [],
+    "created": 1646679796972,
+    "name": "card",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "savings_account_medium": {
+    "tags": ["piggybank"],
+    "created": 1646679797783,
+    "name": "savings_account",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "savings_account": {
+    "tags": ["piggybank"],
+    "created": 1646679798590,
+    "name": "savings_account",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "mastercard_card_medium": {
+    "tags": [],
+    "created": 1646679799420,
+    "name": "mastercard_card",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "mastercard_card": {
+    "tags": ["Mastercard account with card"],
+    "created": 1646679800217,
+    "name": "mastercard_card",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "mastercard_medium": {
+    "tags": [],
+    "created": 1646679801057,
+    "name": "mastercard",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "mastercard": {
+    "tags": ["Mastercard account"],
+    "created": 1646679801885,
+    "name": "mastercard",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "account_percent_medium": {
     "tags": ["Loan value ratio"],
-    "created": 1623927453967,
-    "name": "products/account_percent",
-    "variant": "secondary"
+    "created": 1646679802716,
+    "name": "account_percent",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "account_percent": {
+    "tags": ["moneybag"],
+    "created": 1646679803586,
+    "name": "account_percent",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "account_card_medium": {
+    "tags": ["moneybag"],
+    "created": 1646679804421,
+    "name": "account_card",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "account_card": {
+    "tags": ["moneybag"],
+    "created": 1646679805245,
+    "name": "account_card",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "account_medium": {
+    "tags": ["moneybag"],
+    "created": 1646679806038,
+    "name": "account",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "account": {
+    "tags": ["moneybag"],
+    "created": 1646679806862,
+    "name": "account",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "volume_off_medium": {
+    "tags": ["sound", "audio", "mute"],
+    "created": 1646679807656,
+    "name": "volume_off",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "volume_off": {
+    "tags": ["sound", "audio", "mute"],
+    "created": 1646679808478,
+    "name": "volume_off",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "volume_on_medium": {
+    "tags": ["sound", "audio"],
+    "created": 1646679809365,
+    "name": "volume_on",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "volume_on": {
+    "tags": ["sound", "audio"],
+    "created": 1646679810177,
+    "name": "volume_on",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "pause_medium": {
+    "tags": [],
+    "created": 1646679810986,
+    "name": "pause",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "pause": {
+    "tags": [],
+    "created": 1646679811764,
+    "name": "pause",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "play_medium": {
+    "tags": [],
+    "created": 1646679812577,
+    "name": "play",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "play": {
+    "tags": [],
+    "created": 1646679813400,
+    "name": "play",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "thumbs_down_medium": {
+    "tags": ["dislike"],
+    "created": 1646679814209,
+    "name": "thumbs_down",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "thumbs_down": {
+    "tags": ["dislike"],
+    "created": 1646679815220,
+    "name": "thumbs_down",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "thumbs_up_medium": {
+    "tags": ["like"],
+    "created": 1646679816024,
+    "name": "thumbs_up",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "thumbs_up": {
+    "tags": ["like"],
+    "created": 1646679816841,
+    "name": "thumbs_up",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "minimize_medium": {
+    "tags": [],
+    "created": 1646679817676,
+    "name": "minimize",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "minimize": {
+    "tags": [],
+    "created": 1646679818479,
+    "name": "minimize",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "loan_out_medium": {
+    "tags": ["graph"],
+    "created": 1646679819363,
+    "name": "loan_out",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "loan_out": {
+    "tags": ["graph"],
+    "created": 1646679820183,
+    "name": "loan_out",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "loan_in_medium": {
+    "tags": ["graph", "downpayment"],
+    "created": 1646679821018,
+    "name": "loan_in",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "loan_in": {
+    "tags": ["graph", "downpayment"],
+    "created": 1646679821839,
+    "name": "loan_in",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "funds_out_medium": {
+    "tags": ["graph"],
+    "created": 1646679822627,
+    "name": "funds_out",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "funds_out": {
+    "tags": ["graph"],
+    "created": 1646679823455,
+    "name": "funds_out",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "funds_in_medium": {
+    "tags": ["graph"],
+    "created": 1646679824265,
+    "name": "funds_in",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "funds_in": {
+    "tags": ["graph"],
+    "created": 1646679825071,
+    "name": "funds_in",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "card_out_medium": {
+    "tags": [],
+    "created": 1646679826540,
+    "name": "card_out",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "card_out": {
+    "tags": [],
+    "created": 1646679827340,
+    "name": "card_out",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "card_in_medium": {
+    "tags": [],
+    "created": 1646679828166,
+    "name": "card_in",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "card_in": {
+    "tags": [],
+    "created": 1646679828976,
+    "name": "card_in",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "savings_account_in_medium": {
+    "tags": ["piggybank"],
+    "created": 1646679829779,
+    "name": "savings_account_in",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "savings_account_in": {
+    "tags": ["piggybank"],
+    "created": 1646679830544,
+    "name": "savings_account_in",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "savings_account_out_medium": {
+    "tags": ["piggybank"],
+    "created": 1646679831396,
+    "name": "savings_account_out",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "savings_account_out": {
+    "tags": ["piggybank"],
+    "created": 1646679832170,
+    "name": "savings_account_out",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "account_out_medium": {
+    "tags": ["moneybag"],
+    "created": 1646679832960,
+    "name": "account_out",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "account_out": {
+    "tags": ["moneybag"],
+    "created": 1646679833758,
+    "name": "account_out",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "account_in_medium": {
+    "tags": ["moneybag"],
+    "created": 1646679834621,
+    "name": "account_in",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "account_in": {
+    "tags": ["moneybag"],
+    "created": 1646679835420,
+    "name": "account_in",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "dismiss_keyboard_medium": {
+    "tags": [],
+    "created": 1646679836189,
+    "name": "dismiss_keyboard",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "dismiss_keyboard": {
+    "tags": [],
+    "created": 1646679836959,
+    "name": "dismiss_keyboard",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "move_medium": {
+    "tags": [],
+    "created": 1646679837754,
+    "name": "move",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "move": {
+    "tags": [],
+    "created": 1646679838529,
+    "name": "move",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "split_medium": {
+    "tags": ["divide"],
+    "created": 1646679839335,
+    "name": "split",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "split": {
+    "tags": ["divide"],
+    "created": 1646679840101,
+    "name": "split",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "fullscreen_medium": {
+    "tags": [],
+    "created": 1646679840924,
+    "name": "fullscreen",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "fullscreen": {
+    "tags": ["full screen"],
+    "created": 1646679841757,
+    "name": "fullscreen",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "save_medium": {
+    "tags": [],
+    "created": 1646679842593,
+    "name": "save",
+    "variant": "primary",
+    "category": "actions"
+  },
+  "save": {
+    "tags": [],
+    "created": 1646679843391,
+    "name": "save",
+    "variant": "primary",
+    "category": "actions"
+  },
+  "copy_medium": {
+    "tags": ["duplicate"],
+    "created": 1646679844210,
+    "name": "copy",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "copy": {
+    "tags": ["duplicate"],
+    "created": 1646679845034,
+    "name": "copy",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "subtract_medium": {
+    "tags": ["minus", "remove"],
+    "created": 1646679845833,
+    "name": "subtract",
+    "variant": "primary",
+    "category": "actions"
+  },
+  "subtract": {
+    "tags": ["minus", "remove"],
+    "created": 1646679846651,
+    "name": "subtract",
+    "variant": "primary",
+    "category": "actions"
+  },
+  "subtract_circled_medium": {
+    "tags": ["minus", "remove"],
+    "created": 1646679847532,
+    "name": "subtract_circled",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "subtract_circled": {
+    "tags": ["minus", "remove"],
+    "created": 1646679848334,
+    "name": "subtract_circled",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "add_medium": {
+    "tags": ["plus"],
+    "created": 1646679849265,
+    "name": "add",
+    "variant": "primary",
+    "category": "actions"
+  },
+  "add": {
+    "tags": ["plus"],
+    "created": 1646679850068,
+    "name": "add",
+    "variant": "primary",
+    "category": "actions"
+  },
+  "add_circled_medium": {
+    "tags": ["plus"],
+    "created": 1646679850921,
+    "name": "add_circled",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "add_circled": {
+    "tags": ["plus"],
+    "created": 1646679851718,
+    "name": "add_circled",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "reply_medium": {
+    "tags": [],
+    "created": 1646679852514,
+    "name": "reply",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "reply": {
+    "tags": [],
+    "created": 1646679853354,
+    "name": "reply",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "return_1_medium": {
+    "tags": [],
+    "created": 1646679854152,
+    "name": "return_1",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "return_1": {
+    "tags": [],
+    "created": 1646679854956,
+    "name": "return_1",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "redo_medium": {
+    "tags": [],
+    "created": 1646679855780,
+    "name": "redo",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "redo": {
+    "tags": ["Restart"],
+    "created": 1646679856610,
+    "name": "redo",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "undo_medium": {
+    "tags": ["restart"],
+    "created": 1646679857456,
+    "name": "undo",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "undo": {
+    "tags": ["restart"],
+    "created": 1646679858264,
+    "name": "undo",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "reset_medium": {
+    "tags": ["refresh"],
+    "created": 1646679859092,
+    "name": "reset",
+    "variant": "primary",
+    "category": "actions"
+  },
+  "reset": {
+    "tags": ["refresh"],
+    "created": 1646679859923,
+    "name": "reset",
+    "variant": "primary",
+    "category": "actions"
+  },
+  "refresh_medium": {
+    "tags": ["repeat"],
+    "created": 1646679860736,
+    "name": "refresh",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "refresh": {
+    "tags": ["repeat", "repeat"],
+    "created": 1646679861570,
+    "name": "refresh",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "stop_medium": {
+    "tags": [],
+    "created": 1646679862382,
+    "name": "stop",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "stop": {
+    "tags": ["Stop"],
+    "created": 1646679863213,
+    "name": "stop",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "log_out_medium": {
+    "tags": ["door"],
+    "created": 1646679864070,
+    "name": "log_out",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "log_out": {
+    "tags": ["door"],
+    "created": 1646679864890,
+    "name": "log_out",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "log_in_medium": {
+    "tags": ["door"],
+    "created": 1646679865746,
+    "name": "log_in",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "log_in": {
+    "tags": ["door"],
+    "created": 1646679866573,
+    "name": "log_in",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "share_android_medium": {
+    "tags": [],
+    "created": 1646679867443,
+    "name": "share_android",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "share_android": {
+    "tags": [],
+    "created": 1646679868263,
+    "name": "share_android",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "share_ios_medium": {
+    "tags": [],
+    "created": 1646679869070,
+    "name": "share_ios",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "share_ios": {
+    "tags": [],
+    "created": 1646679869900,
+    "name": "share_ios",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "upload_medium": {
+    "tags": [],
+    "created": 1646679870736,
+    "name": "upload",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "upload": {
+    "tags": [],
+    "created": 1646679871544,
+    "name": "upload",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "download_medium": {
+    "tags": [],
+    "created": 1646679872412,
+    "name": "download",
+    "variant": "primary",
+    "category": "actions"
+  },
+  "download": {
+    "tags": [],
+    "created": 1646679873249,
+    "name": "download",
+    "variant": "primary",
+    "category": "actions"
+  },
+  "edit_medium": {
+    "tags": ["pencil"],
+    "created": 1646679874160,
+    "name": "edit",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "edit": {
+    "tags": ["pencil"],
+    "created": 1646679875009,
+    "name": "edit",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "compose_medium": {
+    "tags": ["create", "write"],
+    "created": 1646679875813,
+    "name": "compose",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "compose": {
+    "tags": ["create", "write"],
+    "created": 1646679876641,
+    "name": "compose",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "hide_medium": {
+    "tags": ["eye"],
+    "created": 1646679877466,
+    "name": "hide",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "hide": {
+    "tags": ["eye"],
+    "created": 1646679878329,
+    "name": "hide",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "view_medium": {
+    "tags": ["show", "eye"],
+    "created": 1646679879168,
+    "name": "view",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "view": {
+    "tags": ["show", "eye"],
+    "created": 1646679880041,
+    "name": "view",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "swap_medium": {
+    "tags": ["exchange"],
+    "created": 1646679880845,
+    "name": "swap",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "swap": {
+    "tags": ["exchange"],
+    "created": 1646679881649,
+    "name": "swap",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "send_medium": {
+    "tags": ["paper plane"],
+    "created": 1646679882468,
+    "name": "send",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "send": {
+    "tags": ["paper plane"],
+    "created": 1646679883283,
+    "name": "send",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "trash_medium": {
+    "tags": ["delete"],
+    "created": 1646679884070,
+    "name": "trash",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "trash": {
+    "tags": ["delete"],
+    "created": 1646679884880,
+    "name": "trash",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "graph_increase_medium": {
+    "tags": ["loan"],
+    "created": 1646679885681,
+    "name": "graph_increase",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "graph_increase": {
+    "tags": ["loan"],
+    "created": 1646679886496,
+    "name": "graph_increase",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "graph_decrease_medium": {
+    "tags": ["downpayment", "loan"],
+    "created": 1646679887357,
+    "name": "graph_decrease",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "graph_decrease": {
+    "tags": ["downpayment", "loan"],
+    "created": 1646679888176,
+    "name": "graph_decrease",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "transfer_medium": {
+    "tags": [],
+    "created": 1646679888992,
+    "name": "transfer",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "transfer": {
+    "tags": ["Transfer"],
+    "created": 1646679889815,
+    "name": "transfer",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "transfer_to_medium": {
+    "tags": [],
+    "created": 1646679890635,
+    "name": "transfer_to",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "transfer_to": {
+    "tags": ["Transfer to"],
+    "created": 1646679891454,
+    "name": "transfer_to",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "pay_from_medium": {
+    "tags": [],
+    "created": 1646679892371,
+    "name": "pay_from",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "pay_from": {
+    "tags": ["Payment"],
+    "created": 1646679893159,
+    "name": "pay_from",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "chevron_up_medium": {
+    "tags": ["collapse"],
+    "created": 1646679894012,
+    "name": "chevron_up",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "chevron_up": {
+    "tags": ["collapse"],
+    "created": 1646679894831,
+    "name": "chevron_up",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "chevron_down_medium": {
+    "tags": ["expand"],
+    "created": 1646679895645,
+    "name": "chevron_down",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "chevron_down": {
+    "tags": ["expand"],
+    "created": 1646679896466,
+    "name": "chevron_down",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "chevron_right_medium": {
+    "tags": [],
+    "created": 1646679897290,
+    "name": "chevron_right",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "chevron_right": {
+    "tags": [],
+    "created": 1646679898110,
+    "name": "chevron_right",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "chevron_left_medium": {
+    "tags": [],
+    "created": 1646679898928,
+    "name": "chevron_left",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "chevron_left": {
+    "tags": [],
+    "created": 1646679899849,
+    "name": "chevron_left",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "arrow_up_medium": {
+    "tags": ["upward"],
+    "created": 1646679900773,
+    "name": "arrow_up",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "arrow_up": {
+    "tags": ["upward"],
+    "created": 1646679901564,
+    "name": "arrow_up",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "arrow_down_medium": {
+    "tags": ["downward"],
+    "created": 1646679902482,
+    "name": "arrow_down",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "arrow_down": {
+    "tags": ["downward"],
+    "created": 1646679903250,
+    "name": "arrow_down",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "arrow_right_medium": {
+    "tags": ["forward"],
+    "created": 1646679904037,
+    "name": "arrow_right",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "arrow_right": {
+    "tags": ["forward"],
+    "created": 1646679904866,
+    "name": "arrow_right",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "arrow_left_medium": {
+    "tags": ["backward", "back"],
+    "created": 1646679905693,
+    "name": "arrow_left",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "arrow_left": {
+    "tags": ["backward", "back"],
+    "created": 1646679906476,
+    "name": "arrow_left",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "launch_medium": {
+    "tags": ["open in new", "link out", "external"],
+    "created": 1646679907265,
+    "name": "launch",
+    "variant": "secondary",
+    "category": "navigation"
+  },
+  "launch": {
+    "tags": ["open in new", "link out", "external"],
+    "created": 1646679908057,
+    "name": "launch",
+    "variant": "secondary",
+    "category": "navigation"
+  },
+  "close_medium": {
+    "tags": ["x", "exit", "dismiss"],
+    "created": 1646679908834,
+    "name": "close",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "close": {
+    "tags": ["x", "exit", "dismiss"],
+    "created": 1646679909647,
+    "name": "close",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "more_medium": {
+    "tags": ["horizontal", "overflow", "local menu"],
+    "created": 1646679910428,
+    "name": "more",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "more": {
+    "tags": ["horizontal", "overflow", "local menu", "more_horizontal"],
+    "created": 1646679911223,
+    "name": "more",
+    "variant": "primary",
+    "category": "navigation"
+  },
+  "more_vertical_medium": {
+    "tags": ["overflow", "local menu"],
+    "created": 1646679912039,
+    "name": "more_vertical",
+    "variant": "secondary",
+    "category": "navigation"
+  },
+  "more_vertical": {
+    "tags": ["overflow", "local menu"],
+    "created": 1646679912838,
+    "name": "more_vertical",
+    "variant": "secondary",
+    "category": "navigation"
+  },
+  "hamburger_medium": {
+    "tags": ["menu", "drawer", "navigation drawer"],
+    "created": 1646679913625,
+    "name": "hamburger",
+    "variant": "secondary",
+    "category": "navigation"
+  },
+  "hamburger": {
+    "tags": ["menu", "drawer", "navigation drawer"],
+    "created": 1646679914466,
+    "name": "hamburger",
+    "variant": "secondary",
+    "category": "navigation"
   }
 }

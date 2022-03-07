@@ -4,21 +4,20 @@ import React from 'react'
 
 const information_circled = (props) => (
   <svg
-    width={17}
-    height={17}
+    width={16}
+    height={16}
     viewBox="0 0 17 17"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
     <path
-      d="M10.04 11.581h-.513c-.567 0-1.027-.46-1.027-1.027V7.986a.514.514 0 0 0-.514-.513h-.513m8.73 1.027a7.703 7.703 0 1 1-15.406 0 7.703 7.703 0 0 1 15.406 0Z"
+      d="M10.04 11.581h-.513c-.567 0-1.027-.46-1.027-1.027V7.986a.514.514 0 0 0-.514-.513h-.513m.674-2.487h.024M16.203 8.5a7.703 7.703 0 1 1-15.406 0 7.703 7.703 0 0 1 15.406 0Z"
       stroke="#000"
       strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-    <circle cx={8.158} cy={5.076} fill="#000" r={0.685} />
   </svg>
 )
 
