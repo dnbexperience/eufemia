@@ -1590,6 +1590,11 @@ exports[`Button scss have to match snapshot 1`] = `
     position: fixed; }
   html[data-visual-test] .dnb-tooltip--hide {
     animation: hide-tooltip 1ms ease-out 1s forwards; }
+  .dnb-tooltip__portal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0; }
   .dnb-tooltip__content {
     min-width: 2rem;
     min-height: 1.5rem;
