@@ -7,12 +7,12 @@
 // change some properties
 @import '../../core/properties.scss';
 @include setProperties() {
-  // open-bankin colors
-  --color-open-banking-green: #a5e1d2;
-  --color-open-banking-emerald: #00343e;
+  // eiendom colors
+  --color-eiendom-green: #a5e1d2;
+  --color-eiendom-emerald: #00343e;
 
   // Overwriting UX colors, defined in properties.scss
-  --color-sea-green: fuchsia; //#f0f
+  --color-sea-green: fuchsia;
 }
 
 // before we again import "properties.scss" by "dnb-theme-ui.scss"
@@ -29,4 +29,4 @@ $hasCustomProperties: true;
   All the themes get auto generated in here
 */
 
-@import '../../../components/button/style/themes/dnb-button-theme-open-banking.scss';
+@import '../../../components/button/style/themes/dnb-button-theme-eiendom.scss';
