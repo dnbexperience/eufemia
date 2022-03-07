@@ -271,6 +271,7 @@
 
   &[disabled] {
     cursor: not-allowed;
+    outline: none; // when state goes from enabled to disabled and the focus is set, the outline (Safari) will show up, because it already had focus
   }
 
   .dnb-form-row--vertical .dnb-form-row__content > & {
