@@ -17,8 +17,7 @@ import {
 import PaginationContext from './PaginationContext'
 import Context from '../../shared/Context'
 import Button from '../button/Button'
-import Icon from '../icon/Icon'
-import dotsSVG from '../../icons/more_medium'
+import IconPrimary from '../icon-primary/IconPrimary'
 import styleProperties from '../../style/properties'
 
 interface PaginationBarProps {
@@ -205,7 +204,7 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
 
           {pageNumberGroups.slice(1).map((numbersList, idx) => (
             <React.Fragment key={idx}>
-              <Icon
+              <IconPrimary
                 role="separator"
                 aria-orientation="vertical"
                 aria-hidden={false}
@@ -215,7 +214,7 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
                   pageNumberGroups,
                 })}
                 className="dnb-pagination__dots"
-                icon={dotsSVG}
+                icon="more"
                 size="medium"
               />
 
