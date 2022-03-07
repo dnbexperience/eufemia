@@ -5,6 +5,7 @@ import classnames from 'classnames'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 // Shared
+import { validateDOMAttributes } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
 import { usePropsWithContext } from '../../shared/hooks'
@@ -62,7 +63,7 @@ const TagGroup = (localProps: TagGroupProps & ISpacingProps) => {
       <span
         className={classnames('dnb-tag__group', spacingClasses, className)}
         data-testid="tag-group"
-        {...props}
+        {...validateDOMAttributes({}, props)}
       >
         <span data-testid="tag-group-label" className="dnb-sr-only">
           {label}
