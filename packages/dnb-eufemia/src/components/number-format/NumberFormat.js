@@ -347,7 +347,7 @@ export default class NumberFormat extends React.PureComponent {
      * Makes the span with it's roles etc. appear as text.
      * Special useful if a number is in side e.g. a paragraph alongside with numbers
      */
-    attributes['role'] = 'text'
+    attributes['role'] = 'text' // role="text"
 
     const displayParams = {}
     if (isTrue(selectall) || isTrue(copy_selection)) {

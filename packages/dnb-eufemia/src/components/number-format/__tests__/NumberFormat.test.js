@@ -311,14 +311,7 @@ describe('NumberFormat component', () => {
 
   it('should validate with ARIA rules', async () => {
     const Comp = mount(<Component value={-value} currency />)
-    expect(
-      await axeComponent(Comp, {
-        rules: {
-          // because of the role="text", we disable this rule for now
-          'aria-text': { enabled: false },
-        },
-      })
-    ).toHaveNoViolations()
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 
