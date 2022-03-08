@@ -39,9 +39,12 @@ export default class TooltipPortal extends React.PureComponent {
   init = () => {
     const { group, active } = this.props
 
-    tooltipPortal[group] = tooltipPortal[group] || {}
-    tooltipPortal[group].node ||
-      (tooltipPortal[group].node = this.useRootElement())
+    tooltipPortal[group] = tooltipPortal[group] || {
+      node: this.useRootElement(),
+      count: 0,
+    }
+
+    tooltipPortal[group].count++
 
     this.setState({ isMounted: true, active }, () => {
       if (!this.isMainGorup()) {
@@ -69,7 +72,7 @@ export default class TooltipPortal extends React.PureComponent {
           }
         })
       } else if (!active && prevProps.active) {
-        tooltipPortal[group].timeout = setTimeout(() => {
+        this.timeout = tooltipPortal[group].timeout = setTimeout(() => {
           this.setState({ active: false }, () => {
             if (!this.isMainGorup()) {
               this.renderPortal()
@@ -87,19 +90,25 @@ export default class TooltipPortal extends React.PureComponent {
 
   componentWillUnmount() {
     const { group } = this.props
+
+    clearTimeout(this.timeout)
+
     if (tooltipPortal[group]) {
+      tooltipPortal[group].count--
+
       if (!this.isMainGorup()) {
         ReactDOM.unmountComponentAtNode(tooltipPortal[group].node)
       }
-      clearTimeout(tooltipPortal[group].timeout)
 
-      try {
-        document.body.removeChild(tooltipPortal[group].node)
-      } catch (e) {
-        //
+      if (tooltipPortal[group].count === 0) {
+        try {
+          document.body.removeChild(tooltipPortal[group].node)
+        } catch (e) {
+          //
+        }
+
+        tooltipPortal[group] = null
       }
-
-      tooltipPortal[group] = null
     }
   }
 
@@ -147,7 +156,7 @@ export default class TooltipPortal extends React.PureComponent {
     const targetElement = this.getTargetElement()
     const { group } = this.props
 
-    if (tooltipPortal[group].timeout) {
+    if (!this.isMainGorup() && tooltipPortal[group]) {
       clearTimeout(tooltipPortal[group].timeout)
     }
 
