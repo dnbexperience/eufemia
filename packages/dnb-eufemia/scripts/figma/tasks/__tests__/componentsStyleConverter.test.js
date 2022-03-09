@@ -3,25 +3,12 @@
  *
  */
 
-import fs from 'fs-extra'
 import '../../../../src/core/jest/jestSetup'
 import { getFigmaDoc } from '../../helpers/docHelpers'
 import { ComponentsStyleConverter } from '../componentsStyleConverter'
 
 const selector = 'dnb-ui-components'
 const localFile = require.resolve('./files/FigmaTestDoc.json')
-
-describe('FigmaTestDoc', () => {
-  it('has to match selector criteria', async () => {
-    const figmaDocString = await fs.readFile(localFile, 'utf8')
-    expect(figmaDocString).toContain(selector)
-
-    const figmaDoc = JSON.parse(figmaDocString)
-    expect(typeof figmaDoc).toBe('object')
-    expect(figmaDoc).toHaveProperty('name')
-    expect(figmaDoc).toHaveProperty('lastModified')
-  })
-})
 
 describe.skip('ComponentsStyleConverter', () => {
   // not used anymore

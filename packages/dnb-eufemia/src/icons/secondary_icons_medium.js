@@ -5,6 +5,7 @@ import account_card_medium from './account_card_medium.js'
 import account_in_medium from './account_in_medium.js'
 import account_medium from './account_medium.js'
 import account_out_medium from './account_out_medium.js'
+import account_percent_medium from './account_percent_medium.js'
 import add_circled_medium from './add_circled_medium.js'
 import ainvoice_medium from './ainvoice_medium.js'
 import ambulance_medium from './ambulance_medium.js'
@@ -141,6 +142,7 @@ import mobilephone_medium from './mobilephone_medium.js'
 import more_vertical_medium from './more_vertical_medium.js'
 import motorcycle_medium from './motorcycle_medium.js'
 import move_medium from './move_medium.js'
+import news_medium from './news_medium.js'
 import office_buildings_medium from './office_buildings_medium.js'
 import oil_medium from './oil_medium.js'
 import owl_medium from './owl_medium.js'
@@ -160,8 +162,8 @@ import pin_code_medium from './pin_code_medium.js'
 import pin_medium from './pin_medium.js'
 import plant_medium from './plant_medium.js'
 import play_medium from './play_medium.js'
+import podcast_medium from './podcast_medium.js'
 import printer_medium from './printer_medium.js'
-import products_account_percent_medium from './products_account_percent_medium.js'
 import profile_medium from './profile_medium.js'
 import progress_medium from './progress_medium.js'
 import question_circled_medium from './question_circled_medium.js'
@@ -204,6 +206,7 @@ import trash_medium from './trash_medium.js'
 import travel_medium from './travel_medium.js'
 import undo_medium from './undo_medium.js'
 import upload_medium from './upload_medium.js'
+import user_feedback_medium from './user_feedback_medium.js'
 import video_medium from './video_medium.js'
 import view_medium from './view_medium.js'
 import vintage_car_medium from './vintage_car_medium.js'
@@ -222,6 +225,7 @@ export {
   account_in_medium,
   account_medium,
   account_out_medium,
+  account_percent_medium,
   add_circled_medium,
   ainvoice_medium,
   ambulance_medium,
@@ -358,6 +362,7 @@ export {
   more_vertical_medium,
   motorcycle_medium,
   move_medium,
+  news_medium,
   office_buildings_medium,
   oil_medium,
   owl_medium,
@@ -377,8 +382,8 @@ export {
   pin_medium,
   plant_medium,
   play_medium,
+  podcast_medium,
   printer_medium,
-  products_account_percent_medium,
   profile_medium,
   progress_medium,
   question_circled_medium,
@@ -421,6 +426,7 @@ export {
   travel_medium,
   undo_medium,
   upload_medium,
+  user_feedback_medium,
   video_medium,
   view_medium,
   vintage_car_medium,

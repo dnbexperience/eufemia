@@ -5,14 +5,14 @@ import React from 'react'
 const fridge = (props) => (
   <svg
     width={16}
-    height={17}
-    viewBox="0 0 16 17"
+    height={16}
+    viewBox="0 0 16 16"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
     <path
-      d="M13.5 5.75h-11M5 9v2.5M5 3v.5m-.5 11.25H3.2a.7.7 0 0 1-.7-.7v-8.3m2 9v1m0-1h7m0 0h1.3a.7.7 0 0 0 .7-.7V1.45a.7.7 0 0 0-.7-.7H3.2a.7.7 0 0 0-.7.7v4.3m9 9v1"
+      d="M13.5 5.75h-11M5 9v2.25m-.5 3.5H3.2a.7.7 0 0 1-.7-.7v-8.3m2 9v1m0-1h7m0 0h1.3a.7.7 0 0 0 .7-.7V1.45a.7.7 0 0 0-.7-.7H3.2a.7.7 0 0 0-.7.7v4.3m9 9v1M5 3.113v.25"
       stroke="#000"
       strokeWidth={1.5}
       strokeLinecap="round"
