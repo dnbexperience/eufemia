@@ -73,7 +73,7 @@ export interface TagProps {
 }
 
 export const defaultProps = {
-  skeleton: false,
+  skeleton: null,
   omitOnKeyUpDeleteEvent: false,
 }
 
