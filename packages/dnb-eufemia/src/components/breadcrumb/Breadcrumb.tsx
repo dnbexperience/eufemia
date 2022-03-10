@@ -111,7 +111,7 @@ export interface BreadcrumbProps {
 }
 
 export const defaultProps = {
-  skeleton: false,
+  skeleton: null,
   navText: 'Back',
   goBackText: 'Back',
   homeText: 'Home',

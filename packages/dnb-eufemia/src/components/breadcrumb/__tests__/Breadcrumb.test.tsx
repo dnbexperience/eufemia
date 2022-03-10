@@ -127,6 +127,18 @@ describe('Breadcrumb', () => {
     expect(screen.queryByTestId('breadcrumb-collapse')).toBeDefined()
   })
 
+  it('inherits skeleton prop from provider', () => {
+    const skeletonClassName = 'dnb-skeleton'
+
+    render(
+      <Provider skeleton>
+        <Breadcrumb data={[{ onClick: jest.fn(), text: 'Page 1' }]} />
+      </Provider>
+    )
+
+    expect(screen.getByRole('button').className).toMatch(skeletonClassName)
+  })
+
   describe('BreadcrumbItem', () => {
     it('renders breadcrumbitem as a link', () => {
       render(<BreadcrumbItem href="/url" text="Page" />)
@@ -171,6 +183,32 @@ describe('Breadcrumb', () => {
       const element = screen.queryByTestId('breadcrumb-item-custom-icon')
       expect(element).not.toBeNull()
       expect(element.getAttribute('data-test-id')).toBe('bell icon')
+    })
+
+    it('renders a skeleton if skeleton is true', () => {
+      const skeletonClassName = 'dnb-skeleton'
+
+      render(
+        <BreadcrumbItem skeleton onClick={jest.fn()} text="skeleton" />
+      )
+
+      expect(screen.getByRole('button').className).toMatch(
+        skeletonClassName
+      )
+    })
+
+    it('inherits skeleton prop from provider', () => {
+      const skeletonClassName = 'dnb-skeleton'
+
+      render(
+        <Provider skeleton>
+          <BreadcrumbItem onClick={jest.fn()} text="skeleton" />
+        </Provider>
+      )
+
+      expect(screen.getByRole('button').className).toMatch(
+        skeletonClassName
+      )
     })
   })
 })
