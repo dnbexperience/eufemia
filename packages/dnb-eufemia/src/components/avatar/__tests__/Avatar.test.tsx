@@ -9,6 +9,7 @@ import {
   axeComponent,
   mount,
 } from '../../../core/jest/jestSetup'
+import { Provider } from '../../../shared'
 
 describe('Avatar', () => {
   it('renders without properties', () => {
@@ -132,6 +133,36 @@ describe('Avatar', () => {
     global.console.log = jest.fn()
     mount(<Avatar hasLabel />)
     expect(global.console.log).not.toBeCalled()
+  })
+
+  it('renders skeleton if skeleton is true', () => {
+    const skeletonClassName = 'dnb-skeleton'
+
+    render(
+      <Avatar.Group label="label">
+        <Avatar skeleton>A</Avatar>
+      </Avatar.Group>
+    )
+
+    expect(screen.queryByTestId('avatar').className).toMatch(
+      skeletonClassName
+    )
+  })
+
+  it('inherits skeleton prop from provider', () => {
+    const skeletonClassName = 'dnb-skeleton'
+
+    render(
+      <Provider skeleton>
+        <Avatar.Group label="label">
+          <Avatar>A</Avatar>
+        </Avatar.Group>
+      </Provider>
+    )
+
+    expect(screen.queryByTestId('avatar').className).toMatch(
+      skeletonClassName
+    )
   })
 
   describe('AvatarGroup', () => {
