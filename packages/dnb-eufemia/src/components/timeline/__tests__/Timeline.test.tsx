@@ -5,6 +5,7 @@ import TimelineItem from '../TimelineItem'
 
 import IconPrimary from '../../icon-primary/IconPrimary'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
+import { Provider } from '../../../shared'
 
 describe('Timeline', () => {
   it('renders without properties', () => {
@@ -58,6 +59,27 @@ describe('Timeline', () => {
 
     const lastElem = screen.getAllByTestId('timeline-item').slice(-1)[0]
     expect(lastElem.getAttribute('aria-current')).toBe('step')
+  })
+
+  it('inherits skeleton prop from provider', () => {
+    const skeletonClassName = 'dnb-skeleton'
+
+    render(
+      <Provider skeleton>
+        <Timeline
+          data={[
+            {
+              name: 'Upcoming',
+              state: 'upcoming',
+            },
+          ]}
+        />
+      </Provider>
+    )
+
+    expect(screen.queryByTestId('timeline-item').className).toMatch(
+      skeletonClassName
+    )
   })
 
   describe('TimelineItem', () => {
@@ -122,6 +144,30 @@ describe('Timeline', () => {
 
       expect(screen.findByAltText('custom_alt_label')).not.toBeNull()
       expect(screen.queryByRole('img').getAttribute('alt')).toBe(iconAlt)
+    })
+
+    it('renders skeleton if skeleton is true', () => {
+      const skeletonClassName = 'dnb-skeleton'
+
+      render(<TimelineItem skeleton name="name" state="completed" />)
+
+      expect(screen.queryByTestId('timeline-item').className).toMatch(
+        skeletonClassName
+      )
+    })
+
+    it('inherits skeleton prop from provider', () => {
+      const skeletonClassName = 'dnb-skeleton'
+
+      render(
+        <Provider skeleton>
+          <TimelineItem name="name" state="completed" />
+        </Provider>
+      )
+
+      expect(screen.queryByTestId('timeline-item').className).toMatch(
+        skeletonClassName
+      )
     })
 
     describe('renders default icon based on state property', () => {

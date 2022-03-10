@@ -43,7 +43,7 @@ export interface TimelineProps {
 
 export const defaultProps = {
   className: null,
-  skeleton: false,
+  skeleton: null,
   data: null,
   children: null,
 }
