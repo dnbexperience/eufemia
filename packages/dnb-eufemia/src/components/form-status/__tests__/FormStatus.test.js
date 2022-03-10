@@ -10,8 +10,9 @@ import {
   axeComponent,
   toJson,
   loadScss,
+  attachToBody,
 } from '../../../core/jest/jestSetup'
-import Component, { setMaxWidthToElement } from '../FormStatus'
+import Component from '../FormStatus'
 import Input from '../../Input'
 
 const props = fakeProps(require.resolve('../FormStatus'), {
@@ -27,41 +28,72 @@ props.hidden = false
 props.icon = 'exclamation'
 
 describe('FormStatus component', () => {
-  const Comp = mount(<Component {...props} />)
-
   it('have to match snapshot', () => {
+    const Comp = mount(<Component {...props} />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('should validate with ARIA rules', async () => {
+    const Comp = mount(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
   it('should set correct max-width', () => {
     const Comp = mount(
       <Input
-        id="custom-id"
         style={{ width: '10rem' }}
         status="Long status pulvinar per ad varius nostra faucibus enim ante posuere in"
-      />
+      />,
+      { attachTo: attachToBody() }
     )
 
-    // mock call the setMaxWidthToElement since document.getElementById is not an option
-    const formStatusElement = Comp.find('.dnb-form-status').instance()
-    const inputElement = Comp.find('.dnb-input__input').instance()
-
-    setMaxWidthToElement({
-      element: formStatusElement,
-      widthElement: inputElement,
-    })
-
-    // now, setMaxWidthToElement should have set an inline style with an "max-width as rem"
     expect(
       Comp.find('.dnb-input__input').instance().getAttribute('style')
     ).toBe('width: 10rem;')
     expect(
       Comp.find('.dnb-form-status').instance().getAttribute('style')
-    ).toContain('max-width: 12rem;')
+    ).toContain('max-width: 30rem;')
+  })
+
+  it('should re-calculate max-width', () => {
+    const Comp = mount(
+      <Input style={{ width: '10rem' }} status="status message" />,
+      {
+        attachTo: attachToBody(),
+      }
+    )
+
+    expect(
+      Comp.find('.dnb-form-status').instance().getAttribute('style')
+    ).toBe('max-width: 30rem;')
+
+    Comp.setProps({
+      status_props: { text: 'change width to 35rem' },
+      style: { width: '35rem' },
+    })
+
+    expect(
+      Comp.find('.dnb-form-status').instance().getAttribute('style')
+    ).toBe('max-width: 35rem; height: auto;')
+
+    Comp.setProps({
+      status_props: { text: 'change width to 40rem' },
+      style: { width: '40rem' },
+    })
+
+    expect(
+      Comp.find('.dnb-form-status').instance().getAttribute('style')
+    ).toBe('max-width: 40rem; height: auto;')
+
+    Comp.setProps({
+      style: { width: '10rem' },
+    })
+
+    window.dispatchEvent(new Event('resize'))
+
+    expect(
+      Comp.find('.dnb-form-status').instance().getAttribute('style')
+    ).toBe('max-width: 30rem; height: auto;')
   })
 
   it('should set correct id', () => {
@@ -78,7 +110,7 @@ describe('FormStatus component', () => {
   it('should be modifiable with status_prop', () => {
     const Comp = mount(
       <Input
-        status="status"
+        status="status message"
         status_props={{
           variant: 'outlined',
         }}
@@ -121,6 +153,7 @@ describe('FormStatus component', () => {
   })
 
   it('has to to have a text value as defined in the prop', () => {
+    const Comp = mount(<Component {...props} />)
     expect(Comp.find('.dnb-form-status__text').text()).toBe(props.text)
   })
 })

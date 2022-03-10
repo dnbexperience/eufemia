@@ -134,7 +134,7 @@ export default class FormStatus extends React.PureComponent {
         break
       case 'warning':
         state = 'warn'
-        break 
+        break
     }
     return state
   }
@@ -152,7 +152,7 @@ export default class FormStatus extends React.PureComponent {
           break
         case 'marketing':
           IconToLoad = MarketingIcon
-          break  
+          break
         case 'error':
         default:
           IconToLoad = ErrorIcon
@@ -250,6 +250,9 @@ export default class FormStatus extends React.PureComponent {
     } else if (typeof window !== 'undefined') {
       window.addEventListener('load', this.init)
     }
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', this.updateWidth)
+    }
   }
 
   componentWillUnmount() {
@@ -258,6 +261,7 @@ export default class FormStatus extends React.PureComponent {
     this._globalStatus.remove(status_id)
     if (typeof window !== 'undefined') {
       window.removeEventListener('load', this.init)
+      window.removeEventListener('resize', this.updateWidth)
     }
     this._heightAnim.remove()
   }
@@ -314,7 +318,7 @@ export default class FormStatus extends React.PureComponent {
     return `${this.state.id}-gs`
   }
 
-  updateWidth() {
+  updateWidth = () => {
     // set max-width to this form-status, using the "linked mother"
     if (this._ref.current) {
       const { width_element, width_selector } = this.props
@@ -536,9 +540,18 @@ InfoIcon.defaultProps = {
 }
 
 export const MarketingIcon = (props) => (
-  <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+  <svg
+    width="24"
+    height="24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
     {props && props.title && <title>{props.title}</title>}
-    <path d="M6 15.25H4.5c-2.042 0-3.75-1.707-3.75-3.75S2.458 7.75 4.5 7.75H6v7.5ZM7.5 15.25c4.801 0 8.846 1.897 12.75 4.5V3.25c-3.904 2.603-7.949 4.5-12.75 4.5v7.5ZM23.25 10a.75.75 0 0 0-1.5 0h1.5Zm-1.5 3a.75.75 0 0 0 1.5 0h-1.5ZM8.483 21.043a.75.75 0 1 0 1.034-1.086l-1.034 1.086ZM21.75 10v3h1.5v-3h-1.5ZM6 15.25a8.058 8.058 0 0 0 2.483 5.793l1.034-1.086A6.559 6.559 0 0 1 7.5 15.25H6Z" fill="#333"/>
+    <path
+      d="M6 15.25H4.5c-2.042 0-3.75-1.707-3.75-3.75S2.458 7.75 4.5 7.75H6v7.5ZM7.5 15.25c4.801 0 8.846 1.897 12.75 4.5V3.25c-3.904 2.603-7.949 4.5-12.75 4.5v7.5ZM23.25 10a.75.75 0 0 0-1.5 0h1.5Zm-1.5 3a.75.75 0 0 0 1.5 0h-1.5ZM8.483 21.043a.75.75 0 1 0 1.034-1.086l-1.034 1.086ZM21.75 10v3h1.5v-3h-1.5ZM6 15.25a8.058 8.058 0 0 0 2.483 5.793l1.034-1.086A6.559 6.559 0 0 1 7.5 15.25H6Z"
+      fill="#333"
+    />
   </svg>
 )
 MarketingIcon.propTypes = {
@@ -561,25 +574,26 @@ export function setMaxWidthToElement({
     if (!id && !widthSelector) {
       id = element.getAttribute('id')
     }
+    widthSelector = widthSelector || id?.replace('-form-status', '') || id
 
     let width = sumElementWidth({
       widthElement,
-      widthSelector: widthSelector || id.replace('-form-status', '') || id,
+      widthSelector,
     })
 
     if (width > 40) {
-      const minWidth = 12 * 16 // use 12rem, because that's the default width in chrome for an input
-      if (width < minWidth) {
-        width = minWidth
+      const maxWidth = 30 * 16 // use 12rem, because that's the default width in chrome for an input
+      if (width < maxWidth) {
+        width = maxWidth
       }
 
       const remWidth = `${width / 16}rem`
 
-      const cS = window.getComputedStyle(element)
+      const style = window.getComputedStyle(element)
       const hasCustomWidth = element.style.maxWidth
         ? false
-        : (cS.minWidth !== '' && cS.minWidth !== 'auto') ||
-          (cS.maxWidth !== '' && cS.maxWidth !== 'none')
+        : (style.minWidth !== '' && style.minWidth !== 'auto') ||
+          (style.maxWidth !== '' && style.maxWidth !== 'none')
 
       if (!hasCustomWidth) {
         element.style.maxWidth = remWidth

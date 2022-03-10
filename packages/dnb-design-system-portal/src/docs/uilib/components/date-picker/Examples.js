@@ -211,7 +211,7 @@ export const DatePickerErrorMessage = () => (
   show_input={true}
   show_submit_button={true}
   stretch={true}
-  status={<span>Status message, that will stretch all the way to the right side if we use the <b>stretch</b> property</span>}
+  status={<span>Status message with <b>HTML</b> inside</span>}
 />
 `}
     </ComponentBox>

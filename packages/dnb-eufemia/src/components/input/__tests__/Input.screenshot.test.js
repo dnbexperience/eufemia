@@ -61,10 +61,16 @@ describe('Input screenshot', () => {
 
   it('have to match stretched and medium size', async () => {
     const screenshot = await testPageScreenshot({
-      // make sure our input gets an explicit width, because of mac/linux rendering differences
       ...{ ...extend('input-medium'), style: { width: '300px' } },
       selector: '[data-visual-test="input-medium"]',
-      // simulate: 'hover'
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match stretched input with status', async () => {
+    const screenshot = await testPageScreenshot({
+      ...{ ...extend('input-stretch'), style: { width: '300px' } },
+      selector: '[data-visual-test="input-stretch"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
