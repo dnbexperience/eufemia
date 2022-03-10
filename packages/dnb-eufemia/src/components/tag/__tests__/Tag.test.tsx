@@ -133,9 +133,26 @@ describe('Tag', () => {
 
     render(
       <Tag.Group label="tags">
-        <Tag skeleton>ClassName</Tag>
+        <Tag skeleton>skeleton</Tag>
       </Tag.Group>
     )
+
+    expect(screen.queryByTestId('tag').className).toMatch(
+      skeletonClassName
+    )
+  })
+
+  it('inherits skeleton prop from provider', () => {
+    const skeletonClassName = 'dnb-skeleton'
+
+    render(
+      <Provider skeleton>
+        <Tag.Group label="tags">
+          <Tag>skeleton</Tag>
+        </Tag.Group>
+      </Provider>
+    )
+
     expect(screen.queryByTestId('tag').className).toMatch(
       skeletonClassName
     )
