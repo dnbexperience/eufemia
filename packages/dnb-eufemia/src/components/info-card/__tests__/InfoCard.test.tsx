@@ -4,6 +4,7 @@ import InfoCard from '../InfoCard'
 import { confetti as Confetti } from '../../../icons'
 
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
+import { Provider } from '../../../shared'
 
 describe('InfoCard', () => {
   it('renders with no props', () => {
@@ -202,6 +203,7 @@ describe('InfoCard', () => {
 
     expect(buttonElement.getAttribute('href')).toMatch(href)
   })
+
   it('renders the close button with additional props', () => {
     const href = 'href'
 
@@ -216,6 +218,30 @@ describe('InfoCard', () => {
     const buttonElement = screen.queryByTestId('info-card-close-button')
 
     expect(buttonElement.getAttribute('href')).toMatch(href)
+  })
+
+  it('renders skeleton if skeleton is true', () => {
+    const skeletonClassName = 'dnb-skeleton'
+
+    render(<InfoCard skeleton text="skeleton" />)
+
+    expect(screen.queryByTestId('info-card').className).toMatch(
+      skeletonClassName
+    )
+  })
+
+  it('inherits skeleton prop from provider', () => {
+    const skeletonClassName = 'dnb-skeleton'
+
+    render(
+      <Provider skeleton>
+        <InfoCard text="skeleton" />
+      </Provider>
+    )
+
+    expect(screen.queryByTestId('info-card').className).toMatch(
+      skeletonClassName
+    )
   })
 
   describe('InfoCard aria', () => {
