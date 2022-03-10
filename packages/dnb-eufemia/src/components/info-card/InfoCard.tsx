@@ -100,7 +100,7 @@ export interface InfoCardProps {
 
 export const defaultProps = {
   centered: false,
-  skeleton: false,
+  skeleton: null,
   icon: LightbulbIcon,
   closeButtonAttributes: null,
   acceptButtonAttributes: null,
