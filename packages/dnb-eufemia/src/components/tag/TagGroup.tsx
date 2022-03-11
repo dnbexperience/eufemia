@@ -10,6 +10,7 @@ import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
 import { usePropsWithContext } from '../../shared/hooks'
 import { TagGroupContext } from './TagContext'
+import { SkeletonShow } from '../skeleton/Skeleton'
 
 export interface TagGroupProps {
   /**
@@ -29,12 +30,19 @@ export interface TagGroupProps {
    * Default: null
    */
   children?: React.ReactNode
+
+  /**
+   * Skeleton should be applied when loading content
+   * Default: null
+   */
+  skeleton?: SkeletonShow
 }
 
 export const defaultProps = {
   label: null,
   className: null,
   children: null,
+  skeleton: null,
 }
 
 const TagGroup = (localProps: TagGroupProps & ISpacingProps) => {

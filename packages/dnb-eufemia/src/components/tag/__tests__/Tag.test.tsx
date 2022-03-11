@@ -61,6 +61,20 @@ describe('Tag Group', () => {
       customClassName
     )
   })
+
+  it('renders a tag with skeleton if skeleton is true', () => {
+    const skeletonClassName = 'dnb-skeleton'
+
+    render(
+      <Tag.Group skeleton label="tags">
+        <Tag>skeleton</Tag>
+      </Tag.Group>
+    )
+
+    expect(screen.queryByTestId('tag').className).toMatch(
+      skeletonClassName
+    )
+  })
 })
 
 describe('Tag', () => {
