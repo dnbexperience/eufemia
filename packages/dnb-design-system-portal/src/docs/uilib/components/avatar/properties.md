@@ -6,18 +6,18 @@ showTabs: true
 
 ### `Avatar` properties
 
-| Properties                                  | Description                                                                                                                       |
-| ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `size`                                      | _(optional)_ Size of the Avatar. Options: `small` \| `medium` \| `large` \| `x-large`. Defaults to `medium`.                      |
-| `children`                                  | _(optional)_ Content of the component.                                                                                            |
-| `alt`                                       | _(optional)_ Used in combination with `src` to provide an alt attribute for the `img` element.                                    |
-| `src`                                       | _(optional)_ Specifies the path to the image                                                                                      |
-| `skeleton`                                  | _(optional)_ Applies loading skeleton.                                                                                            |
-| `imgProps`                                  | _(optional)_ [Image properties](/uilib/elements/image) applied to the `img` element if the component is used to display an image. |
-| `variant`                                   | _(optional)_ Override the variant of the component. Options: `primary` \| `secondary` \|
-| `hasLabel`                                   | _(optional)_ If aria-hidden is set to "true" or if a label is given, typical inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar. Use `true` to omit the `Avatar group required:` warning.| `tertiary`. Defaults to `primary`.       |
-| `className`                                 | _(optional)_ Custom className for the component root.                                                                             |
-| [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                             |
+| Properties                                  | Description                                                                                                                                                                                                                               |
+| ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| `size`                                      | _(optional)_ Size of the Avatar. Options: `small` \| `medium` \| `large` \| `x-large`. Defaults to `medium`.                                                                                                                              |
+| `children`                                  | _(optional)_ Content of the component.                                                                                                                                                                                                    |
+| `alt`                                       | _(optional)_ Used in combination with `src` to provide an alt attribute for the `img` element.                                                                                                                                            |
+| `src`                                       | _(optional)_ Specifies the path to the image                                                                                                                                                                                              |
+| `skeleton`                                  | _(optional)_ Applies loading skeleton.                                                                                                                                                                                                    |
+| `imgProps`                                  | _(optional)_ [Image properties](/uilib/elements/image) applied to the `img` element if the component is used to display an image.                                                                                                         |
+| `variant`                                   | _(optional)_ Override the variant of the component. Options: `primary` \| `secondary` \|                                                                                                                                                  |
+| `hasLabel`                                  | _(optional)_ If aria-hidden is set to "true" or if a label is given, typical inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar. Use `true` to omit the `Avatar group required:` warning. | `tertiary`. Defaults to `primary`. |
+| `className`                                 | _(optional)_ Custom className for the component root.                                                                                                                                                                                     |
+| [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                                                                     |
 
 ### `Avatar.Group` properties
 
@@ -30,3 +30,4 @@ showTabs: true
 | `children`                                  | _(optional)_ The Avatars to group.                                                                                                             |
 | `className`                                 | _(optional)_ Custom className for the component root.                                                                                          |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                          |
+| `skeleton`                                  | _(optional)_ Applies loading skeleton.                                                                                                         |

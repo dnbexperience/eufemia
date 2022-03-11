@@ -9,6 +9,7 @@ import { AvatarSizes, AvatarVariants } from './Avatar'
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
 import { usePropsWithContext } from '../../shared/hooks'
+import { SkeletonShow } from '../skeleton/Skeleton'
 
 export interface AvatarGroupProps {
   /**
@@ -46,6 +47,12 @@ export interface AvatarGroupProps {
    * Default: primary.
    */
   variant?: AvatarVariants
+
+  /**
+   * Skeleton should be applied when loading content
+   * Default: null
+   */
+  skeleton?: SkeletonShow
 }
 
 export const defaultProps = {
@@ -55,6 +62,7 @@ export const defaultProps = {
   size: 'medium',
   children: null,
   variant: 'primary',
+  skeleton: null,
 }
 
 export const AvatarGroupContext = React.createContext(null)
