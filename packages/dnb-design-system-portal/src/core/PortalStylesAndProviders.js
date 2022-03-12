@@ -23,12 +23,12 @@ if (isCI && process.env.PREBUILD_EXISTS) {
   require('@dnb/eufemia/build/style/dnb-ui-extensions.min.css')
   require('@dnb/eufemia/build/style/dnb-ui-core.min.css')
   require('@dnb/eufemia/build/style/dnb-ui-components.min.css')
-  require(`@dnb/eufemia/build/style/themes/theme-${process.env.STYLE_THEME}/dnb-theme-${process.env.STYLE_THEME}.min.css`)
+  // Themes are imported by "gatsby-plugin-eufemia-theme-handler"
 } else {
   require('@dnb/eufemia/src/style/extensions')
   require('@dnb/eufemia/src/style/core')
   require('@dnb/eufemia/src/style/components')
-  require(`@dnb/eufemia/src/style/themes/${process.env.STYLE_THEME}`)
+  // Themes are imported by "gatsby-plugin-eufemia-theme-handler"
 }
 
 import cssVars from 'css-vars-ponyfill'

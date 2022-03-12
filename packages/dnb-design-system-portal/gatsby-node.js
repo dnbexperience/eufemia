@@ -8,8 +8,21 @@ const path = require('path')
 const { isCI } = require('repo-utils')
 const getCurrentBranchName = require('current-git-branch')
 const { init } = require('./scripts/version.js')
+const {
+  defineSrcAddition,
+} = require('gatsby-plugin-eufemia-theme-handler/collectThemes')
+
+let prebuildExists = false
+const currentBranch = getCurrentBranchName()
 
 exports.onPreInit = async () => {
+  try {
+    prebuildExists = fs.existsSync(require.resolve('@dnb/eufemia/build'))
+  } catch (e) {
+    //
+  }
+  defineSrcAddition(isCI && prebuildExists ? 'build/' : 'src/')
+
   if (process.env.NODE_ENV === 'production') {
     await init()
   }
@@ -171,15 +184,6 @@ async function createRedirects({ graphql, actions }) {
   })
 }
 
-let prebuildExists = false
-try {
-  prebuildExists = fs.existsSync(require.resolve('@dnb/eufemia/build'))
-} catch (e) {
-  //
-}
-
-const currentBranch = getCurrentBranchName()
-
 exports.onCreateWebpackConfig = ({ actions, plugins }) => {
   const config = {
     resolve: {
@@ -225,8 +229,8 @@ exports.onCreateDevServer = () => {
 
 function getStyleTheme() {
   let themeName = 'ui'
-  if (typeof process.env.GATSBY_STYLE_THEME !== 'undefined') {
-    themeName = process.env.GATSBY_STYLE_THEME
+  if (typeof process.env.GATSBY_THEME_STYLE_DEV !== 'undefined') {
+    themeName = process.env.GATSBY_THEME_STYLE_DEV
   }
 
   /**
