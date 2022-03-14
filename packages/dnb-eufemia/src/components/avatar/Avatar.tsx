@@ -81,7 +81,7 @@ export interface AvatarProps {
 export const defaultProps = {
   size: 'medium',
   variant: 'primary',
-  skeleton: null,
+  skeleton: false,
 }
 
 const Avatar = (localProps: AvatarProps & ISpacingProps) => {
@@ -105,7 +105,8 @@ const Avatar = (localProps: AvatarProps & ISpacingProps) => {
     localProps,
     defaultProps,
     context?.Avatar,
-    avatarGroupContext
+    avatarGroupContext,
+    { skeleton: context?.skeleton }
   )
 
   let children = null
