@@ -111,7 +111,7 @@ export interface BreadcrumbProps {
 }
 
 export const defaultProps = {
-  skeleton: null,
+  skeleton: false,
   navText: 'Back',
   goBackText: 'Back',
   homeText: 'Home',
@@ -147,7 +147,8 @@ const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
     localProps,
     defaultProps,
     context?.translation?.Breadcrumb,
-    context?.Breadcrumb
+    context?.Breadcrumb,
+    { skeleton: context?.skeleton }
   )
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
   const spacingClasses = createSpacingClasses(props)
