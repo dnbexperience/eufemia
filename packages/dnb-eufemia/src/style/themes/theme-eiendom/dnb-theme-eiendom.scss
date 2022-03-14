@@ -5,8 +5,7 @@
  */
 
 // change some properties
-@import '../../core/properties.scss';
-@include setProperties() {
+@mixin propertiesCustomisation() {
   // eiendom colors
   --color-eiendom-green: #a5e1d2;
   --color-eiendom-emerald: #00343e;
@@ -15,9 +14,22 @@
   --color-sea-green: fuchsia;
 }
 
-// before we again import "properties.scss" by "dnb-theme-ui.scss"
-// we set this var to true
-$hasCustomProperties: true;
+// import additional font
+$fonts-path: '../../../../assets/fonts' !default;
+@font-face {
+  font-family: DNBMono;
+  src: url('#{$fonts-path}/DNBMono-Medium.woff2') format('woff2'),
+    url('#{$fonts-path}/DNBMono-Medium.woff') format('woff'),
+    url('#{$fonts-path}/DNBMono-Medium.ttf') format('truetype');
+  font-weight: 500; // have to be the same as: --font-weight-medium
+  font-style: normal;
+  font-display: fallback;
+}
+
+// change headings
+@mixin headingDefaultsCustomisation() {
+  font-family: var(--font-family-monospace);
+}
 
 // import the default theme, and go from there
 // will also have all the component themes included
