@@ -105,17 +105,12 @@
   --shadow-default-y: 8px;
   --shadow-default-blur-radius: 16px;
   --shadow-default-color: rgba(51, 51, 51, 0.08);
-}
 
-@mixin setProperties() {
-  :root {
-    @content;
+  @if mixin-exists('propertiesCustomisation') {
+    @include propertiesCustomisation();
   }
 }
 
-$hasCustomProperties: false !default;
-@if $hasCustomProperties == false {
-  :root {
-    @include getDefaultProperties();
-  }
+:root {
+  @include getDefaultProperties();
 }

@@ -51,7 +51,7 @@ export default class MdxTemplate extends React.PureComponent {
     return (
       <>
         <Head>
-          <title>{pageTitle}</title>
+          <title>{pageTitle} | Eufemia</title>
           <meta name="description" content={pageDescription} />
         </Head>
 

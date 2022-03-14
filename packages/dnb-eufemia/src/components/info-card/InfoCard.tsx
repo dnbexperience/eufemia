@@ -127,10 +127,11 @@ const InfoCard = (localProps: InfoCardProps & ISpacingProps) => {
     closeButtonAttributes,
     acceptButtonAttributes,
     ...props
-  } = usePropsWithContext({
-    ...defaultProps,
-    ...localProps,
-  })
+  } = usePropsWithContext(
+    localProps,
+    defaultProps,
+    { skeleton: context?.skeleton }
+  )
 
   const skeletonClasses = createSkeletonClass('shape', skeleton, context)
   const spacingClasses = createSpacingClasses(props)

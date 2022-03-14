@@ -27,6 +27,10 @@
     padding-top: 0;
     padding-bottom: 0.03125rem;
   }
+
+  @if mixin-exists('headingDefaultsCustomisation') {
+    @include headingDefaultsCustomisation();
+  }
 }
 @mixin headingStyle_xx-large() {
   font-size: var(--font-size-xx-large);
@@ -37,6 +41,10 @@
     display: block;
     font-size: var(--font-size-x-large);
     line-height: var(--line-height-large);
+  }
+
+  @if mixin-exists('headingStyle_xx-largeCustomisation') {
+    @include headingStyle_xx-largeCustomisation();
   }
 }
 @mixin headingStyle_x-large() {
@@ -49,6 +57,10 @@
     font-size: var(--font-size-x-large);
     line-height: var(--line-height-large);
   }
+
+  @if mixin-exists('headingStyle_x-largeCustomisation') {
+    @include headingStyle_x-largeCustomisation();
+  }
 }
 @mixin headingStyle_large() {
   font-size: var(--font-size-large);
@@ -58,6 +70,10 @@
   & > small {
     font-size: var(--font-size-medium);
     line-height: calc(var(--line-height-medium) - 0.125rem);
+  }
+
+  @if mixin-exists('headingStyle_largeCustomisation') {
+    @include headingStyle_largeCustomisation();
   }
 }
 // Like Lead / --lead
@@ -69,6 +85,10 @@
   & > small {
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
+  }
+
+  @if mixin-exists('headingStyle_mediumCustomisation') {
+    @include headingStyle_mediumCustomisation();
   }
 }
 @mixin headingStyle_basis() {
@@ -92,12 +112,9 @@
 @mixin headingStyle_x-small() {
   font-size: var(--font-size-x-small);
   line-height: var(--line-height-x-small);
-
-  // font-weight: var(--font-weight-regular);
 }
 @mixin paragraphStyle() {
   font-size: var(--font-size-basis);
-  // color: var(--color-black-80);
   color: var(--theme-color-black-80, currentColor);
 
   // if we not reset margin, the browser is using: margin-block-end: 1rem;
