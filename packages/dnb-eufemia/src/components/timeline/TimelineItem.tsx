@@ -64,7 +64,7 @@ const defaultProps = {
   date: null,
   infoMessage: null,
   state: null,
-  skeleton: null,
+  skeleton: false,
 }
 
 const TimelineItem = (localProps: TimelineItemProps) => {

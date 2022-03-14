@@ -43,7 +43,7 @@ export interface TimelineProps {
 
 export const defaultProps = {
   className: null,
-  skeleton: null,
+  skeleton: false,
   data: null,
   children: null,
 }
@@ -58,12 +58,9 @@ const Timeline = (localProps: TimelineProps & ISpacingProps) => {
     data,
     children: childrenProp,
     ...props
-  } = usePropsWithContext(
-    localProps, 
-    defaultProps, 
-    context?.Timeline, 
-    { skeleton: context?.skeleton }
-  )
+  } = usePropsWithContext(localProps, defaultProps, context?.Timeline, {
+    skeleton: context?.skeleton,
+  })
 
   const spacingClasses = createSpacingClasses(props)
 
