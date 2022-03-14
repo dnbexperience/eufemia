@@ -100,7 +100,7 @@ export interface InfoCardProps {
 
 export const defaultProps = {
   centered: false,
-  skeleton: null,
+  skeleton: false,
   icon: LightbulbIcon,
   closeButtonAttributes: null,
   acceptButtonAttributes: null,
@@ -127,10 +127,11 @@ const InfoCard = (localProps: InfoCardProps & ISpacingProps) => {
     closeButtonAttributes,
     acceptButtonAttributes,
     ...props
-  } = usePropsWithContext({
-    ...defaultProps,
-    ...localProps,
-  })
+  } = usePropsWithContext(
+    localProps,
+    defaultProps,
+    { skeleton: context?.skeleton }
+  )
 
   const skeletonClasses = createSkeletonClass('shape', skeleton, context)
   const spacingClasses = createSpacingClasses(props)
