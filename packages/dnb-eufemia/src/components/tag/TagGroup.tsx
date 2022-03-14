@@ -54,7 +54,12 @@ const TagGroup = (localProps: TagGroupProps & ISpacingProps) => {
     className,
     children: childrenProp,
     ...props
-  } = usePropsWithContext(localProps, defaultProps, context?.TagGroup)
+  } = usePropsWithContext(
+    localProps, 
+    defaultProps, 
+    context?.TagGroup,
+    { skeleton: context?.skeleton }
+  )
 
   let children = childrenProp
 
