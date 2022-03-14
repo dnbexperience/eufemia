@@ -79,7 +79,12 @@ const AvatarGroup = (localProps: AvatarGroupProps & ISpacingProps) => {
     maxElements: maxElementsProp,
     variant,
     ...props
-  } = usePropsWithContext(localProps, defaultProps, context?.AvatarGroup)
+  } = usePropsWithContext(
+    localProps, 
+    defaultProps, 
+    context?.AvatarGroup,
+    { skeleton: context?.skeleton }
+  )
 
   const maxElements =
     maxElementsProp && maxElementsProp > 0 ? maxElementsProp : 4
