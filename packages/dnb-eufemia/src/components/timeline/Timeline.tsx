@@ -58,7 +58,9 @@ const Timeline = (localProps: TimelineProps & ISpacingProps) => {
     data,
     children: childrenProp,
     ...props
-  } = usePropsWithContext(localProps, defaultProps, context?.Timeline)
+  } = usePropsWithContext(localProps, defaultProps, context?.Timeline, {
+    skeleton: context?.skeleton,
+  })
 
   const spacingClasses = createSpacingClasses(props)
 

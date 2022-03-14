@@ -90,7 +90,12 @@ const TimelineItem = (localProps: TimelineItemProps) => {
     state,
     skeleton,
     ...props
-  } = usePropsWithContext(localProps, defaultProps, context?.TimelineItem)
+  } = usePropsWithContext(
+    localProps,
+    defaultProps,
+    context?.TimelineItem,
+    { skeleton: context?.skeleton }
+  )
 
   const stateIsCompleted = state === 'completed'
   const stateIsCurrent = state === 'current'
