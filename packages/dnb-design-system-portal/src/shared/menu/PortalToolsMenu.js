@@ -5,6 +5,7 @@ import ToggleGrid from './ToggleGrid'
 import { Context } from '@dnb/eufemia/src/shared'
 import PortalSkeleton from 'dnb-design-system-portal/src/shared/parts/uilib/PortalSkeleton'
 import ChangeLocale from '../../core/ChangeLocale'
+import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 
 export default function PortalToolsMenu({
   className,
@@ -52,6 +53,13 @@ export default function PortalToolsMenu({
           <H2 size="small">Change portal language</H2>
           <Space top>
             <ChangeLocale />
+          </Space>
+        </Space>
+
+        <Space top="large">
+          <H2 size="small">Change style theme</H2>
+          <Space top>
+            <ChangeStyleTheme />
           </Space>
         </Space>
 
