@@ -24,3 +24,4 @@ showTabs: true
 | `children`                                  | _(optional)_ Content of the component. Can be used instead of the `data`-property, by adding Tag elements as children `<Tag {...props} />`. |
 | `className`                                 | _(optional)_ Custom className for the component root.                                                                                       |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                       |
+| `skeleton`                                  | _(optional)_ Applies loading skeleton.                                                                                                      |
