@@ -100,7 +100,7 @@ export interface InfoCardProps {
 
 export const defaultProps = {
   centered: false,
-  skeleton: null,
+  skeleton: false,
   icon: LightbulbIcon,
   closeButtonAttributes: null,
   acceptButtonAttributes: null,
@@ -128,8 +128,7 @@ const InfoCard = (localProps: InfoCardProps & ISpacingProps) => {
     acceptButtonAttributes,
     ...props
   } = usePropsWithContext(
-    localProps,
-    defaultProps,
+    { ...defaultProps, ...localProps },
     { skeleton: context?.skeleton }
   )
 
