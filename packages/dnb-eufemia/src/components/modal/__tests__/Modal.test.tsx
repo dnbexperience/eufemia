@@ -118,15 +118,16 @@ describe('Modal component', () => {
     expect(Comp.find('h1').text()).toBe(props.title)
   })
 
-  it('has no trigger button once we set trigger_hidden to true', () => {
-    const Comp = mount(<Component {...props} open_state={true} />)
+  it('has no trigger button once we set omitTriggerButton', () => {
+    const Comp = mount(<Component {...props} />)
     Comp.setProps({
-      trigger_hidden: true,
+      omitTriggerButton: true,
     })
     expect(Comp.find('button.dnb-modal__trigger').exists()).toBe(false)
     Comp.setProps({
-      trigger_hidden: false,
+      omitTriggerButton: false,
     })
+    expect(Comp.find('button.dnb-modal__trigger').exists()).toBe(true)
   })
 
   it('should act as a help button by default', () => {

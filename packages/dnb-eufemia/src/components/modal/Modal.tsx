@@ -107,6 +107,7 @@ class Modal extends React.PureComponent<
     direct_dom_return: false,
     class: null,
     root_id: 'root',
+    omit_trigger_button: false,
 
     className: null,
     children: null,
@@ -424,6 +425,7 @@ class Modal extends React.PureComponent<
       open_state, // eslint-disable-line
       open_delay, // eslint-disable-line
 
+      omit_trigger_button = false,
       // All "trigger_" are deprecated
       trigger = null,
       trigger_attributes = null,
@@ -482,25 +484,26 @@ class Modal extends React.PureComponent<
 
       return (
         <>
-          {TriggerButton && !isTrue(trigger_hidden) && (
-            <TriggerButton
-              {...triggerAttributes}
-              id={this._id}
-              title={
-                !triggerAttributes.text
-                  ? rest.title || fallbackTitle
-                  : null
-              }
-              onClick={this.toggleOpenClose}
-              innerRef={this._triggerRef}
-              className={classnames(
-                'dnb-modal__trigger',
-                createSpacingClasses(props),
-                triggerAttributes.class,
-                triggerAttributes.className
-              )}
-            />
-          )}
+          {TriggerButton &&
+            !isTrue(omit_trigger_button) && (
+              <TriggerButton
+                {...triggerAttributes}
+                id={this._id}
+                title={
+                  !triggerAttributes.text
+                    ? rest.title || fallbackTitle
+                    : null
+                }
+                onClick={this.toggleOpenClose}
+                innerRef={this._triggerRef}
+                className={classnames(
+                  'dnb-modal__trigger',
+                  createSpacingClasses(props),
+                  triggerAttributes.class,
+                  triggerAttributes.className
+                )}
+              />
+            )}
 
           {modalActive && modal_content && (
             <ModalRoot

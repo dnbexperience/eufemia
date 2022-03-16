@@ -63,7 +63,7 @@ export default class StepIndicatorModal extends React.PureComponent {
         <Modal
           id={this.context.sidebar_id}
           title={this.context.overview_title}
-          trigger_hidden
+          omitTriggerButton
           mode="drawer"
           animation_direction="bottom"
           open_state={this.context.openState}

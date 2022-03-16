@@ -20,7 +20,7 @@ Use `mode="custom"` in the Modal component to create other components with overl
 
 ### Open Modal by the state only
 
-Use a custom trigger button and state handling by setting `hidden` for the default trigger button.
+Use a custom trigger button and state handling by setting `omitTriggerButton` to Modal.
 
 <ModalExampleStateOnly />
 

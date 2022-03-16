@@ -43,6 +43,7 @@ function Drawer({
   openState,
   openDelay,
 
+  omitTriggerButton,
   trigger,
   triggerAttributes,
   overlayClass,
@@ -85,6 +86,7 @@ function Drawer({
     onClosePrevent,
     openModal,
     closeModal,
+    omitTriggerButton,
     trigger,
     triggerAttributes,
     overlayClass,
