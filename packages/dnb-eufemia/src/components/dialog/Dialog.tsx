@@ -62,6 +62,7 @@ function Dialog(
     openDelay,
 
     trigger,
+    omitTriggerButton = false,
     overlayClass,
     contentClass,
 
@@ -75,13 +76,14 @@ function Dialog(
   } = propsWithContext
 
   let currentHideCloseButton = hideCloseButton
-  let currentTriggerAttributes = triggerAttributes
+  let currentOmitTriggerButton = omitTriggerButton
   let currentFullscreen = fullscreen
 
   if (variant === 'confirmation') {
     currentHideCloseButton =
       hideCloseButton !== undefined ? hideCloseButton : true
-    currentTriggerAttributes = triggerAttributes || { hidden: true }
+    currentOmitTriggerButton =
+      triggerAttributes !== undefined ? omitTriggerButton : true
   }
 
   if (fullscreen === undefined) {
@@ -114,8 +116,9 @@ function Dialog(
     onClosePrevent,
     openModal,
     closeModal,
+    omitTriggerButton: currentOmitTriggerButton,
     trigger,
-    triggerAttributes: currentTriggerAttributes,
+    triggerAttributes,
     overlayClass,
     top,
     bottom,

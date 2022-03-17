@@ -42,9 +42,7 @@ const Component = () => {
       />
       <Modal
         title="Modal Title"
-        trigger_attributes={{
-          hidden: true
-        }}
+        omit_trigger_button
         open_state={modalIsActive}
         labelled_by="custom-triggerer"
         on_close={() => setModalState(false)}

@@ -2610,6 +2610,8 @@ Array [
             mode="drawer"
             no_animation={false}
             no_animation_on_mobile={false}
+            omitTriggerButton={true}
+            omit_trigger_button={false}
             on_close={[Function]}
             on_close_prevent={null}
             on_open={[Function]}
@@ -2626,7 +2628,7 @@ Array [
             trigger_attributes={null}
             trigger_class={null}
             trigger_disabled={null}
-            trigger_hidden={true}
+            trigger_hidden={false}
             trigger_icon={null}
             trigger_icon_position="left"
             trigger_size={null}
@@ -2663,6 +2665,7 @@ Array [
               mode="drawer"
               no_animation={false}
               no_animation_on_mobile={false}
+              omit_trigger_button={true}
               on_close={[Function]}
               on_close_prevent={null}
               on_open={[Function]}
@@ -2679,7 +2682,7 @@ Array [
               trigger_attributes={null}
               trigger_class={null}
               trigger_disabled={null}
-              trigger_hidden={true}
+              trigger_hidden={false}
               trigger_icon={null}
               trigger_icon_position="left"
               trigger_size={null}
@@ -5277,6 +5280,8 @@ Array [
             mode="drawer"
             no_animation={false}
             no_animation_on_mobile={false}
+            omitTriggerButton={true}
+            omit_trigger_button={false}
             on_close={[Function]}
             on_close_prevent={null}
             on_open={[Function]}
@@ -5293,7 +5298,7 @@ Array [
             trigger_attributes={null}
             trigger_class={null}
             trigger_disabled={null}
-            trigger_hidden={true}
+            trigger_hidden={false}
             trigger_icon={null}
             trigger_icon_position="left"
             trigger_size={null}
@@ -5330,6 +5335,7 @@ Array [
               mode="drawer"
               no_animation={false}
               no_animation_on_mobile={false}
+              omit_trigger_button={true}
               on_close={[Function]}
               on_close_prevent={null}
               on_open={[Function]}
@@ -5346,7 +5352,7 @@ Array [
               trigger_attributes={null}
               trigger_class={null}
               trigger_disabled={null}
-              trigger_hidden={true}
+              trigger_hidden={false}
               trigger_icon={null}
               trigger_icon_position="left"
               trigger_size={null}
@@ -7958,6 +7964,8 @@ Array [
             mode="drawer"
             no_animation={false}
             no_animation_on_mobile={false}
+            omitTriggerButton={true}
+            omit_trigger_button={false}
             on_close={[Function]}
             on_close_prevent={null}
             on_open={[Function]}
@@ -7974,7 +7982,7 @@ Array [
             trigger_attributes={null}
             trigger_class={null}
             trigger_disabled={null}
-            trigger_hidden={true}
+            trigger_hidden={false}
             trigger_icon={null}
             trigger_icon_position="left"
             trigger_size={null}
@@ -8011,6 +8019,7 @@ Array [
               mode="drawer"
               no_animation={false}
               no_animation_on_mobile={false}
+              omit_trigger_button={true}
               on_close={[Function]}
               on_close_prevent={null}
               on_open={[Function]}
@@ -8027,7 +8036,7 @@ Array [
               trigger_attributes={null}
               trigger_class={null}
               trigger_disabled={null}
-              trigger_hidden={true}
+              trigger_hidden={false}
               trigger_icon={null}
               trigger_icon_position="left"
               trigger_size={null}

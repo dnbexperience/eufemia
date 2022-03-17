@@ -61,6 +61,11 @@ export interface ModalProps extends ModalRootProps {
   children?: ReactChildType
 
   /**
+   * Omits default showing trigger button
+   */
+  omit_trigger_button?: boolean
+
+  /**
    * This event gets triggered once the modal shows up. Returns the modal id: `{ id }`.
    */
   on_open?: ({ id }: { id?: string }) => void
