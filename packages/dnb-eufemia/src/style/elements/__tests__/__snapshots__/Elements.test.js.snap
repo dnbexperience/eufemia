@@ -1374,8 +1374,7 @@ thead > tr > th.dnb-table--active .dnb-button:hover:focus .dnb-button__text::aft
     background-color: currentColor;
     border-radius: 0.5px; }
   .dnb-hr--fullscreen::after {
-    left: -50vw;
-    right: -50vw;
+    left: -100vw;
     width: 200vw; }
   .dnb-hr--light::after {
     border-radius: 0.25px;
