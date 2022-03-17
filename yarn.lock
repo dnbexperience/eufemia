@@ -2383,7 +2383,7 @@ __metadata:
     sass-variable-parser: 1.2.2
     semantic-release: 18.0.0
     simple-commit-message: 4.1.3
-    simple-git: 2.47.0
+    simple-git: 3.3.0
     stream-buffers: 3.0.2
     stylelint: 13.13.1
     stylelint-config-prettier: 8.0.2
@@ -29591,14 +29591,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"simple-git@npm:2.47.0":
-  version: 2.47.0
-  resolution: "simple-git@npm:2.47.0"
+"simple-git@npm:3.3.0":
+  version: 3.3.0
+  resolution: "simple-git@npm:3.3.0"
   dependencies:
     "@kwsites/file-exists": ^1.1.1
     "@kwsites/promise-deferred": ^1.1.1
-    debug: ^4.3.2
-  checksum: 0fefd12a2aaec9b27bcd13e713991769cab3eb185fcf0ad3e1afff17d34c63a7dbb80c4acd3220b2d9522dd9d171f84b237e6dedb4e17545c8bb7aadf746efb9
+    debug: ^4.3.3
+  checksum: ae4c541a8b8cdac79ed8ca6bc899877b28b475207762a41866ddd4d31be3dd82cd5ddd4c16f0536e7a9a72f13a6472300481ac64523177425955f6b4c680bd1e
   languageName: node
   linkType: hard
 
