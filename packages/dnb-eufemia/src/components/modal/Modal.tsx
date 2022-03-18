@@ -451,8 +451,8 @@ class Modal extends React.PureComponent<
 
     const render = (suffixProps) => {
       const triggerAttributes = {
-        hidden: trigger_hidden,
-        disabled: trigger_disabled,
+        hidden: isTrue(trigger_hidden),
+        disabled: isTrue(trigger_disabled),
         variant: trigger_variant,
         text: trigger_text,
         title: trigger_title,
@@ -484,26 +484,25 @@ class Modal extends React.PureComponent<
 
       return (
         <>
-          {TriggerButton &&
-            !isTrue(omit_trigger_button) && (
-              <TriggerButton
-                {...triggerAttributes}
-                id={this._id}
-                title={
-                  !triggerAttributes.text
-                    ? rest.title || fallbackTitle
-                    : null
-                }
-                onClick={this.toggleOpenClose}
-                innerRef={this._triggerRef}
-                className={classnames(
-                  'dnb-modal__trigger',
-                  createSpacingClasses(props),
-                  triggerAttributes.class,
-                  triggerAttributes.className
-                )}
-              />
-            )}
+          {TriggerButton && !isTrue(omit_trigger_button) && (
+            <TriggerButton
+              {...triggerAttributes}
+              id={this._id}
+              title={
+                !triggerAttributes.text
+                  ? rest.title || fallbackTitle
+                  : null
+              }
+              onClick={this.toggleOpenClose}
+              innerRef={this._triggerRef}
+              className={classnames(
+                'dnb-modal__trigger',
+                createSpacingClasses(props),
+                triggerAttributes.class,
+                triggerAttributes.className
+              )}
+            />
+          )}
 
           {modalActive && modal_content && (
             <ModalRoot
