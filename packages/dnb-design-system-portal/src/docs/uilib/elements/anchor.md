@@ -5,7 +5,7 @@ title: 'Anchor (Text Link)'
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import { IconPrimary } from '@dnb/eufemia/src'
 
-## Anchor (Text Link)
+# Anchor (Text Link)
 
 The Anchor, also knows as `Link` is used to navigate from one page to the next HTML page.
 
@@ -27,7 +27,7 @@ render(<Anchor href="/uilib/elements/anchor">Accessible text</Anchor>)
 </a>
 ```
 
-### Anchor states
+## Anchor states
 
 <ComponentBox>
 {`
@@ -61,7 +61,7 @@ render(<Anchor href="/uilib/elements/anchor">Accessible text</Anchor>)
 `}
 </ComponentBox>
 
-### Additional Anchor helper classes
+## Additional Anchor helper classes
 
 To force a specific state of style, use the following classes to do so:
 
@@ -112,14 +112,14 @@ To force a specific state of style, use the following classes to do so:
 `}
 </ComponentBox>
 
-### Anchor modifiers
+## Anchor modifiers
 
 - `.dnb-anchor--no-animation` <a href="/uilib/elements/anchor" class="dnb-anchor dnb-anchor--no-animation">No Animation</a>
 - `.dnb-anchor--no-style` <a href="/uilib/elements/anchor" class="dnb-anchor dnb-anchor--no-style">No Style</a>
 - `.dnb-anchor--no-hover` <a href="/uilib/elements/anchor" class="dnb-anchor dnb-anchor--no-hover">No Hover</a>
 - `.dnb-anchor--no-underline` <a href="/uilib/elements/anchor" class="dnb-anchor dnb-anchor--no-underline">No Underline</a>
 
-### Anchor with icons
+## Anchor with icons
 
 <ComponentBox hideCode>
 {`
@@ -133,7 +133,7 @@ To force a specific state of style, use the following classes to do so:
 `}
 </ComponentBox>
 
-### Anchor in headings
+## Anchor in headings
 
 <ComponentBox hideCode>
 {`
@@ -150,7 +150,7 @@ To force a specific state of style, use the following classes to do so:
 `}
 </ComponentBox>
 
-### Customize blank target graphic
+## Customize blank target graphic
 
 You may use a [tool like this url-encoder](https://yoksel.github.io/url-encoder/) to **url-encode** your SVG.
 

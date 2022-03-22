@@ -4,9 +4,9 @@ title: 'Blockquote'
 
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
-## Blockquote
+# Blockquote
 
-### Default Blockquote
+## Default Blockquote
 
 <ComponentBox hideCode>
 {`
@@ -17,7 +17,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 `}
 </ComponentBox>
 
-### Blockquote with graphics on top
+## Blockquote with graphics on top
 
 <ComponentBox hideCode>
 {`
@@ -30,7 +30,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 `}
 </ComponentBox>
 
-### Blockquote with transparent background (`no-background`)
+## Blockquote with transparent background (`no-background`)
 
 <ComponentBox hideCode>
 {`
@@ -46,7 +46,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 `}
 </ComponentBox>
 
-### Blockquote with transparent background and graphics on top
+## Blockquote with transparent background and graphics on top
 
 <ComponentBox hideCode>
 {`
