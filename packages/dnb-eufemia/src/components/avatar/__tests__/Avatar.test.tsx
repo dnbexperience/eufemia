@@ -309,6 +309,20 @@ describe('Avatar', () => {
       expect(screen.queryByTestId('elements-left')).not.toBeNull()
       expect(avatarsDisplayed.length).toBe(3)
     })
+
+    it('renders skeleton if skeleton is true', () => {
+      const skeletonClassName = 'dnb-skeleton'
+
+      render(
+        <Avatar.Group skeleton label="label">
+          <Avatar>A</Avatar>
+        </Avatar.Group>
+      )
+
+      expect(screen.queryByTestId('avatar').className).toMatch(
+        skeletonClassName
+      )
+    })
   })
 })
 

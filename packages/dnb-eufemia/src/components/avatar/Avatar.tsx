@@ -105,8 +105,8 @@ const Avatar = (localProps: AvatarProps & ISpacingProps) => {
     localProps,
     defaultProps,
     context?.Avatar,
-    avatarGroupContext,
-    { skeleton: context?.skeleton }
+    { skeleton: context?.skeleton },
+    avatarGroupContext
   )
 
   let children = null
