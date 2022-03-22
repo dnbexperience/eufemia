@@ -878,7 +878,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                                     class="dnb-modal__header__bar__close"
                                   >
                                     <button
-                                      class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-large"
+                                      class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon"
                                       type="button"
                                     >
                                       <span
@@ -935,7 +935,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                                   close_title="Lukk"
                                   icon_position="left"
                                   on_click={[Function]}
-                                  size="large"
+                                  size="default"
                                 >
                                   <Button
                                     bounding={null}
@@ -955,7 +955,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                                     innerRef={null}
                                     inner_ref={null}
                                     on_click={[Function]}
-                                    size="large"
+                                    size="default"
                                     skeleton={null}
                                     status={null}
                                     status_no_animation={null}
@@ -971,7 +971,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                                     wrap={null}
                                   >
                                     <button
-                                      className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-large"
+                                      className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon"
                                       disabled={false}
                                       onClick={[Function]}
                                       type="button"
@@ -996,7 +996,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                                         inner_ref={null}
                                         isIconOnly={false}
                                         on_click={[Function]}
-                                        size="large"
+                                        size="default"
                                         skeleton={false}
                                         status={null}
                                         status_no_animation={null}
@@ -1915,7 +1915,6 @@ button.dnb-button::-moz-focus-inner {
   --drawer-width: 40vw;
   --drawer-min-width: 25rem;
   --drawer-max-width: 40rem;
-  --drawer-header-min-height: 6rem;
   --drawer-spacing: 2rem;
   --drawer-spacing-minus: -2rem; }
 
@@ -2035,6 +2034,10 @@ button.dnb-button::-moz-focus-inner {
   .dnb-drawer__root {
     align-items: flex-start;
     justify-content: flex-start; }
+  @media screen and (max-width: 50em) {
+    .dnb-drawer__title {
+      font-size: var(--font-size-large) !important;
+      line-height: var(--line-height-medium) !important; } }
   .dnb-drawer__title ~ .dnb-drawer__content {
     padding-top: calc(var(--drawer-spacing) / 1.333333); }
   .dnb-drawer .dnb-drawer__header [class*='dnb-h--'],
@@ -2049,10 +2052,8 @@ button.dnb-button::-moz-focus-inner {
   .dnb-drawer .dnb-drawer__header::after {
     top: -500%;
     height: 600%; }
-  .dnb-drawer--spacing .dnb-drawer__header {
-    min-height: var(--drawer-header-min-height); }
-    .dnb-drawer--spacing .dnb-drawer__header .dnb-tabs {
-      margin-top: 3.5rem; }
+  .dnb-drawer--spacing .dnb-drawer__header .dnb-tabs {
+    margin-top: var(--drawer-spacing); }
   .dnb-drawer__body {
     padding-bottom: calc(var(--drawer-spacing) * 2);
     margin-bottom: calc(var(--drawer-spacing-minus) * 2); }
@@ -2067,10 +2068,7 @@ button.dnb-button::-moz-focus-inner {
     position: sticky;
     top: 0;
     z-index: 99;
-    margin: calc(var(--drawer-spacing) * 1.75) 0; }
-    @media screen and (max-width: 50em) {
-      .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section {
-        margin: var(--drawer-spacing) 0; } }
+    margin: var(--drawer-spacing) 0; }
   .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section.dnb-drawer__navigation--sticky {
     z-index: 2999; }
   .dnb-drawer .dnb-drawer__navigation--sticky::before {

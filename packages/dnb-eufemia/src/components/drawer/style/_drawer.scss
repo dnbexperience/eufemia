@@ -8,7 +8,6 @@
   --drawer-width: 40vw;
   --drawer-min-width: 25rem;
   --drawer-max-width: 40rem;
-  --drawer-header-min-height: 6rem;
   --drawer-spacing: 2rem; // should reflect --spacing-large
   --drawer-spacing-minus: -2rem; // should reflect --spacing-large
 }
@@ -172,9 +171,17 @@
     justify-content: flex-start;
   }
 
+  &__title {
+    @include allBelow(medium) {
+      font-size: var(--font-size-large) !important;
+      line-height: var(--line-height-medium) !important;
+    }
+  }
+
   &__title ~ &__content {
     padding-top: calc(var(--drawer-spacing) / 1.333333);
   }
+
   & &__header [class*='dnb-h--'],
   & &__header &__title {
     padding: 0;
@@ -193,10 +200,8 @@
   }
 
   &--spacing &__header {
-    min-height: var(--drawer-header-min-height);
-
     .dnb-tabs {
-      margin-top: 3.5rem;
+      margin-top: var(--drawer-spacing);
     }
   }
 
@@ -221,10 +226,7 @@
     z-index: 99; // below #dropdown and #date-picker
 
     // on large screens
-    margin: calc(var(--drawer-spacing) * 1.75) 0;
-    @include allBelow(medium) {
-      margin: var(--drawer-spacing) 0;
-    }
+    margin: var(--drawer-spacing) 0;
   }
   &--spacing &__navigation.dnb-section#{&}__navigation--sticky {
     z-index: 2999; // above #dropdown and #date-picker and below #modal
