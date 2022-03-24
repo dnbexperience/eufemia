@@ -2,6 +2,8 @@
 showTabs: true
 ---
 
+## Description
+
 All the [components](/uilib/components) do share a couple of common used helpers. Your application can also use these helpers, but it's totally optional.
 
 ## CSS classes
