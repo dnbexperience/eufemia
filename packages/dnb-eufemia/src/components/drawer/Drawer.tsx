@@ -40,6 +40,7 @@ function Drawer({
   openModal,
   closeModal,
   preventClose,
+  preventOverlayClose,
   openState,
   openDelay,
 
@@ -73,6 +74,7 @@ function Drawer({
     hideCloseButton,
     closeButtonAttributes,
     preventClose,
+    preventOverlayClose,
     animationDuration,
     noAnimation,
     noAnimationOnMobile,
