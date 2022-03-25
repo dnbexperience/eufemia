@@ -26,7 +26,7 @@ export interface VisuallyHiddenProps {
 
   /**
    * Root element of the component
-   * Default: div
+   * Default: span
    */
   element?: string | React.ReactNode
 }
@@ -35,7 +35,7 @@ export const defaultProps = {
   className: null,
   children: null,
   focusable: false,
-  element: 'div',
+  element: 'span',
 }
 
 const VisuallyHidden = (localProps: VisuallyHiddenProps) => {

@@ -201,7 +201,9 @@ describe('"warn" should', () => {
     jest.resetAllMocks()
   })
 
-  it('run console.log with several messages', () => {
+  it('run console.log in development', () => {
+    const env = process.env.NODE_ENV
+    process.env.NODE_ENV = 'development'
     warn('message-1', 'message-2')
 
     expect(global.console.log).toHaveBeenCalledTimes(1)
@@ -211,6 +213,24 @@ describe('"warn" should', () => {
       'message-1',
       'message-2'
     )
+
+    process.env.NODE_ENV = env
+  })
+
+  it('run console.log in test', () => {
+    const env = process.env.NODE_ENV
+    process.env.NODE_ENV = 'test'
+
+    warn('message-1', 'message-2')
+
+    expect(global.console.log).toHaveBeenCalledTimes(1)
+    expect(global.console.log).toHaveBeenCalledWith(
+      '\u001b[0m\u001b[1m\u001b[38;5;23m\u001b[48;5;152mEufemia\u001b[49m\u001b[39m\u001b[22m\u001b[0m',
+      'message-1',
+      'message-2'
+    )
+
+    process.env.NODE_ENV = env
   })
 
   it('run not log if NODE_ENV is production', () => {

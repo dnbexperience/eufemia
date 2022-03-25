@@ -434,7 +434,8 @@ export const warn = (...params) => {
     typeof console !== 'undefined' &&
     typeof console.log === 'function'
   ) {
-    const isBrowser = typeof window !== 'undefined'
+    const isBrowser =
+      typeof window !== 'undefined' && process.env.NODE_ENV !== 'test'
 
     if (isBrowser) {
       const styles = [
@@ -445,7 +446,11 @@ export const warn = (...params) => {
       ].join(';')
       console.log('%cEufemia', styles, ...params)
     } else {
-      console.log('Eufemia:', ...params)
+      console.log(
+        // How to generate it: JSON.stringify(chalk.reset.bold.hex('#00343E').bgHex('#A5E1D2')('Eufemia'))
+        '\u001b[0m\u001b[1m\u001b[38;5;23m\u001b[48;5;152mEufemia\u001b[49m\u001b[39m\u001b[22m\u001b[0m',
+        ...params
+      )
     }
   }
 }
