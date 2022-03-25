@@ -253,6 +253,11 @@ export interface ModalContentProps {
   animation_duration?: string | number
 
   /**
+   * Disable clicking the background overlay to close the modal
+   */
+  prevent_overlay_close?: ExtendedBoolean
+
+  /**
    * If set to `true`, no open/close animation will be shown. Defaults to false.
    */
   no_animation?: ExtendedBoolean

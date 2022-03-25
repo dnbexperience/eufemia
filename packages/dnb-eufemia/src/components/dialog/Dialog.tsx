@@ -58,6 +58,7 @@ function Dialog(
     openModal,
     closeModal,
     preventClose,
+    preventOverlayClose,
     openState,
     openDelay,
 
@@ -78,12 +79,15 @@ function Dialog(
   let currentHideCloseButton = hideCloseButton
   let currentOmitTriggerButton = omitTriggerButton
   let currentFullscreen = fullscreen
+  let currentPreventOverlayClose = preventOverlayClose
 
   if (variant === 'confirmation') {
     currentHideCloseButton =
       hideCloseButton !== undefined ? hideCloseButton : true
     currentOmitTriggerButton =
       triggerAttributes !== undefined ? omitTriggerButton : true
+    currentPreventOverlayClose =
+      preventOverlayClose !== undefined ? preventOverlayClose : true
   }
 
   if (fullscreen === undefined) {
@@ -104,6 +108,7 @@ function Dialog(
     hideCloseButton: currentHideCloseButton,
     closeButtonAttributes,
     preventClose,
+    preventOverlayClose: currentPreventOverlayClose,
     animationDuration,
     noAnimation,
     noAnimationOnMobile,

@@ -318,6 +318,19 @@ describe('Dialog', () => {
 
     expect(Comp.find('button.dnb-modal__close-button').length).toBe(1)
   })
+
+  it('does not close with click on overlay for variant confirmation', () => {
+    const Comp = mount(
+      <Dialog {...props} variant="confirmation" openState="opened" />
+    )
+
+    Comp.find('.dnb-modal__content').simulate('click')
+    expect(Comp.exists('.dnb-dialog__inner')).toBe(true)
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    Comp.update()
+    expect(Comp.exists('.dnb-dialog__inner')).toBe(false)
+  })
 })
 
 describe('Dialog component snapshot', () => {
