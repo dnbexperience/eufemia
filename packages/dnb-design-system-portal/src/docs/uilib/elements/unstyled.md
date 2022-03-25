@@ -1,6 +1,6 @@
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
-## Unstyled HTML Elements
+# Unstyled HTML Elements
 
 In order to use the inherited [Skeleton](/uilib/components/skeleton), there are a number of un-styled HTML elements, that do inherit and react to the Skeleton Provider.
 
@@ -11,7 +11,7 @@ import { Span, Div } from '@dnb/eufemia/elements'
 - `Span`
 - `Div`
 
-### Example usage of span
+## Example usage of span
 
 <ComponentBox data-visual-test="span-skeleton" useRender>
 {`

@@ -2,9 +2,9 @@
 title: 'Code'
 ---
 
-## Code
+# Code
 
-### Code and Syntax highlighting
+## Code and Syntax highlighting
 
 [Prism](https://prismjs.com) is a popular Syntax Highlighting tool. DNB has its own **theme** You can use:
 
@@ -12,7 +12,7 @@ title: 'Code'
 
 You find the theme and its definitions in the [GitHub repository](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/style/themes/theme-ui/prism/dnb-prism-theme.js).
 
-### Code and Pre Tag usage
+## Code and Pre Tag usage
 
 Styling for both the `<code>` and the `<pre>` tags are build in the `@dnb/eufemia`.
 
@@ -28,7 +28,7 @@ So simply use them for your code syntax:
 </pre>
 ```
 
-#### Code and Typography
+### Code and Typography
 
 When you use `<code>` or `<pre>` – the DNB _DNBMono_ font is used, like so:
 
