@@ -12,6 +12,8 @@ SelectionExample
 } from 'Docs/uilib/helpers/Examples'
 import SkipLinkExample from 'Docs/uilib/usage/accessibility/examples/skip-link-example.js'
 
+## Description
+
 Reusing classes in the markup instead of using SCSS extends or _mixins_ will prevent duplication in the `@dnb/eufemia`. So also your application will have good benefits from reusing these helper classes.
 
 ## Core style
