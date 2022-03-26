@@ -7,14 +7,14 @@
     "2:63": {
       "key": "715decca1b915c3cd62559e1dc32dce66a683397",
       "name": "Size=24",
-      "description": "notification",
+      "description": "component-tag-24,component-tag-2;component-tag-3|bell",
       "componentSetId": "3509:42",
       "documentationLinks": []
     },
     "41:2": {
       "key": "892bfdb49c0618b758a7027b41933bb2236ed429",
       "name": "Size=16",
-      "description": "notification",
+      "description": "component-tag-16,component-tag-2;component-tag-3|bell",
       "componentSetId": "3509:42",
       "documentationLinks": []
     }
@@ -23,7 +23,7 @@
     "3509:42": {
       "key": "5c58b1d3719c9d98e25a262d6d3d218e117a3b37",
       "name": "objects/bell",
-      "description": ""
+      "description": "set-tag-1,set-tag-2;set-tag-3|bell"
     }
   },
   "document": {

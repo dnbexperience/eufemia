@@ -143,6 +143,7 @@ export const extractIconsAsSVG = async ({
         return acc
       }, {}),
     })
+
     log.info(`> Figma: ${iconsLockFile} file got generated`)
 
     if (listWithNewFiles.length > 0) {
@@ -763,11 +764,42 @@ const makeMetaFile = async ({
           iconName = iconName.replace(`_${cleanSize}`, '')
         }
 
-        const { description } = figmaDoc.components[id]
-        const tags = description
+        const { description, componentSetId } = figmaDoc.components[id]
+        const componentSet = figmaDoc.componentSets?.[componentSetId]
+
+        let tags = []
+
+        // add component tags
+        tags = description
           .split(/[,;|]/g)
           .map((s) => (s ? s.trim() : null))
           .filter(Boolean)
+
+        // add set tags
+        tags = (componentSet?.description || '')
+          .split(/[,;|]/g)
+          .map((s) => (s ? s.trim() : null))
+          .filter(Boolean)
+          .reduce((tags, tag) => {
+            if (!tags.includes(tag)) {
+              tags.push(tag)
+            }
+
+            return tags
+          }, tags)
+
+        // remove duplication
+        const cleanedName = Object.values(ICON_SIZES).reduce(
+          (iconName, { suffix }) =>
+            suffix ? iconName.replace('_' + suffix, '') : iconName,
+          iconName
+        )
+        tags = tags.filter((item, index) => {
+          if (item === cleanedName) {
+            return false
+          }
+          return tags.indexOf(item) === index
+        })
 
         const foundRename = iconRenameList.find(
           ({ to }) => to === iconName
@@ -1030,13 +1062,14 @@ const iconsMetaFile = path.resolve(
   __dirname,
   '../../../src/icons/icons-meta.json'
 )
-export const saveIconsMetaFile = async (data) => {
-  const content = prettier.format(JSON.stringify(data), {
+export const formatIconsMetaFile = (data) => {
+  return prettier.format(JSON.stringify(data), {
     ...prettierrc,
     filepath: iconsMetaFile,
   })
-
-  return await saveToFile(iconsMetaFile, content)
+}
+export const saveIconsMetaFile = async (data) => {
+  return await saveToFile(iconsMetaFile, formatIconsMetaFile(data))
 }
 
 const reservedJavaScriptWords = [

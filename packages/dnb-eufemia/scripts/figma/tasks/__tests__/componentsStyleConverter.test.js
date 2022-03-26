@@ -14,7 +14,6 @@ describe.skip('ComponentsStyleConverter', () => {
   // not used anymore
   it.skip('has to convert correctly from a figma doc', async () => {
     const figmaDoc = await getFigmaDoc({
-      figmaFile: process.env.FIGMA_ICONS_FILE,
       forceRefetch: false,
       preventUpdate: true,
       localFile,
