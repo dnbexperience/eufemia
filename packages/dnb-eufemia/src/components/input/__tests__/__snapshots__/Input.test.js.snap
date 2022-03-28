@@ -419,8 +419,9 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     wrap={null}
                   >
                     <span
+                      aria-hidden={true}
                       className="dnb-button__alignment"
-                      key="button-text-empty"
+                      key="button-alignment"
                     >
                       ‌
                     </span>

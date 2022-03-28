@@ -146,6 +146,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
               type="button"
             >
               <span
+                aria-hidden="true"
                 class="dnb-button__alignment"
               >
                 ‌
@@ -210,6 +211,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                 type="button"
               >
                 <span
+                  aria-hidden="true"
                   class="dnb-button__alignment"
                 >
                   ‌
@@ -297,6 +299,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     type="button"
                   >
                     <span
+                      aria-hidden="true"
                       class="dnb-button__alignment"
                     >
                       ‌
@@ -346,8 +349,9 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
               wrap={null}
             >
               <span
+                aria-hidden={true}
                 className="dnb-button__alignment"
-                key="button-text-empty"
+                key="button-alignment"
               >
                 ‌
               </span>
@@ -445,6 +449,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                   type="button"
                 >
                   <span
+                    aria-hidden="true"
                     class="dnb-button__alignment"
                   >
                     ‌
@@ -509,6 +514,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     type="button"
                   >
                     <span
+                      aria-hidden="true"
                       class="dnb-button__alignment"
                     >
                       ‌
@@ -549,6 +555,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     type="button"
                   >
                     <span
+                      aria-hidden="true"
                       class="dnb-button__alignment"
                     >
                       ‌
@@ -614,6 +621,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     type="button"
                   >
                     <span
+                      aria-hidden="true"
                       class="dnb-button__alignment"
                     >
                       ‌
@@ -653,6 +661,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                       type="button"
                     >
                       <span
+                        aria-hidden="true"
                         class="dnb-button__alignment"
                       >
                         ‌
@@ -882,6 +891,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                                       type="button"
                                     >
                                       <span
+                                        aria-hidden="true"
                                         class="dnb-button__alignment"
                                       >
                                         ‌
@@ -1012,8 +1022,9 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                                         wrap={null}
                                       >
                                         <span
+                                          aria-hidden={true}
                                           className="dnb-button__alignment"
-                                          key="button-text-empty"
+                                          key="button-alignment"
                                         >
                                           ‌
                                         </span>

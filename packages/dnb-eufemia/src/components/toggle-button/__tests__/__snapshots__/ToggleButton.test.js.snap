@@ -378,8 +378,9 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                 </Checkbox>
               </span>
               <span
+                aria-hidden={true}
                 className="dnb-button__alignment"
-                key="button-text-empty"
+                key="button-alignment"
               >
                 ‌
               </span>
@@ -967,8 +968,9 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                   </Radio>
                                 </span>
                                 <span
+                                  aria-hidden={true}
                                   className="dnb-button__alignment"
-                                  key="button-text-empty"
+                                  key="button-alignment"
                                 >
                                   ‌
                                 </span>
@@ -1349,8 +1351,9 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                   </Radio>
                                 </span>
                                 <span
+                                  aria-hidden={true}
                                   className="dnb-button__alignment"
-                                  key="button-text-empty"
+                                  key="button-alignment"
                                 >
                                   ‌
                                 </span>

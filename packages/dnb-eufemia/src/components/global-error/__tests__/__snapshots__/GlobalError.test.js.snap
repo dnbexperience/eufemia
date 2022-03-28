@@ -767,6 +767,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                   href="href"
                 >
                   <span
+                    aria-hidden="true"
                     class="dnb-button__alignment"
                   >
                     ‌
@@ -821,6 +822,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                     href="href"
                   >
                     <span
+                      aria-hidden="true"
                       class="dnb-button__alignment"
                     >
                       ‌
@@ -877,6 +879,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                       href="href"
                     >
                       <span
+                        aria-hidden="true"
                         class="dnb-button__alignment"
                       >
                         ‌
@@ -962,8 +965,9 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                     wrap={null}
                   >
                     <span
+                      aria-hidden={true}
                       className="dnb-button__alignment"
-                      key="button-text-empty"
+                      key="button-alignment"
                     >
                       ‌
                     </span>
