@@ -125,7 +125,9 @@ const TimelineItem = (localProps: TimelineItemProps) => {
         className="dnb-timeline__item__label__icon"
         data-testid="timeline-item-label-icon"
       >
-        <span key="icon-alignment">&zwnj;</span>
+        <span key="icon-alignment" aria-hidden>
+          &zwnj;
+        </span>
         {!skeleton && currentIcon && (
           <Icon
             icon={currentIcon}

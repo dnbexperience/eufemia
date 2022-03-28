@@ -405,7 +405,11 @@ function Content({
 
       {content && (
         <>
-          <span key="button-text-empty" className="dnb-button__alignment">
+          <span
+            key="button-alignment"
+            className="dnb-button__alignment"
+            aria-hidden
+          >
             &zwnj;
           </span>
           <span
@@ -422,7 +426,11 @@ function Content({
         // so the icon button gets vertical aligned
         // we need the dnb-button__text for alignment
         !content && icon && (
-          <span key="button-text-empty" className="dnb-button__alignment">
+          <span
+            key="button-alignment"
+            className="dnb-button__alignment"
+            aria-hidden
+          >
             &zwnj;
           </span>
         )
