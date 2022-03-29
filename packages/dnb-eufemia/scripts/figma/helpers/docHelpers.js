@@ -404,10 +404,7 @@ export const saveToFile = async (file, data) => {
   const localFile = /\//.test(file)
     ? file
     : path.resolve(__dirname, `../.cache/${file}`)
-  await fs.writeFile(
-    localFile,
-    typeof data === 'string' ? data : JSON.stringify(data, null, 2)
-  )
+  await fs.writeFile(localFile, data)
 }
 
 export const getNodes = (doc, type = 'TEXT') => {
