@@ -144,6 +144,25 @@ describe('Button component', () => {
     )
   })
 
+  it('has alignment helper with aria-hidden', () => {
+    const Comp = mount(<Component text="Button" />)
+    expect(
+      Comp.find('.dnb-button__alignment')
+        .instance()
+        .getAttribute('aria-hidden')
+    ).toBe('true')
+    expect(Comp.find('.dnb-button__text').text()).toBe('Button')
+
+    Comp.setProps({ text: undefined, icon: 'bell' })
+
+    expect(
+      Comp.find('.dnb-button__alignment')
+        .instance()
+        .getAttribute('aria-hidden')
+    ).toBe('true')
+    expect(Comp.exists('.dnb-button__text')).toBe(false)
+  })
+
   it('should validate with ARIA rules as a button', async () => {
     const Comp = mount(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()

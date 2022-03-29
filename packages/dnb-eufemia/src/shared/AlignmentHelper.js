@@ -1,5 +1,7 @@
 /**
- * Spacing helper
+ * Alignment helper
+ *
+ * This helper element provides needed help when it comes to HTML inline alignment (vertically)
  *
  */
 
@@ -7,7 +9,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
-// We use the w tag so NVDA not our after with content: '\00A0' as blank
 export default function AlignmentHelper({
   className,
   children,

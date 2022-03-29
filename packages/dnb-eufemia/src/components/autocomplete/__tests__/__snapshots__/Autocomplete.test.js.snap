@@ -490,6 +490,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   <ForwardRef
                     aria-expanded={true}
                     aria-haspopup="listbox"
+                    aria-label="submit_button_title"
                     className="dnb-button--active"
                     disabled="disabled"
                     icon="submit_button_icon"
@@ -606,6 +607,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                         <ForwardRef
                           aria-expanded={true}
                           aria-haspopup="listbox"
+                          aria-label="submit_button_title"
                           className="dnb-button--active"
                           disabled="disabled"
                           icon="submit_button_icon"
@@ -622,6 +624,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           <InputSubmitButton
                             aria-expanded={true}
                             aria-haspopup="listbox"
+                            aria-label="submit_button_title"
                             className="dnb-button--active"
                             disabled="disabled"
                             icon="submit_button_icon"
@@ -651,6 +654,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                               <Button
                                 aria-expanded={true}
                                 aria-haspopup="listbox"
+                                aria-label="submit_button_title"
                                 bounding={null}
                                 class={null}
                                 className="dnb-input__submit-button__button dnb-button--input-button dnb-button--active"
@@ -691,6 +695,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 <button
                                   aria-expanded={true}
                                   aria-haspopup="listbox"
+                                  aria-label="submit_button_title"
                                   className="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--active dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
                                   disabled={false}
                                   id="autocomplete-id-submit-button"
@@ -704,6 +709,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   <Content
                                     aria-expanded={true}
                                     aria-haspopup="listbox"
+                                    aria-label="submit_button_title"
                                     bounding={null}
                                     class={null}
                                     className="dnb-input__submit-button__button dnb-button--input-button dnb-button--active"
@@ -744,8 +750,9 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     wrap={null}
                                   >
                                     <span
+                                      aria-hidden={true}
                                       className="dnb-button__alignment"
-                                      key="button-text-empty"
+                                      key="button-alignment"
                                     >
                                       ‌
                                     </span>

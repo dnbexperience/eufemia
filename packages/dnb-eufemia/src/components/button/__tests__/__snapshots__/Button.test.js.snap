@@ -25,6 +25,7 @@ exports[`Button component have to match default button snapshot 1`] = `
         type="type"
       >
         <span
+          aria-hidden="true"
           class="dnb-button__alignment"
         >
           ‌
@@ -68,6 +69,7 @@ exports[`Button component have to match default button snapshot 1`] = `
         type="type"
       >
         <span
+          aria-hidden="true"
           class="dnb-button__alignment"
         >
           ‌
@@ -151,6 +153,7 @@ exports[`Button component have to match default button snapshot 1`] = `
             type="type"
           >
             <span
+              aria-hidden="true"
               class="dnb-button__alignment"
             >
               ‌
@@ -194,6 +197,7 @@ exports[`Button component have to match default button snapshot 1`] = `
             type="type"
           >
             <span
+              aria-hidden="true"
               class="dnb-button__alignment"
             >
               ‌
@@ -246,8 +250,9 @@ exports[`Button component have to match default button snapshot 1`] = `
       wrap="wrap"
     >
       <span
+        aria-hidden={true}
         className="dnb-button__alignment"
-        key="button-text-empty"
+        key="button-alignment"
       >
         ‌
       </span>
@@ -354,6 +359,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         type="type"
       >
         <span
+          aria-hidden="true"
           class="dnb-button__alignment"
         >
           ‌
@@ -398,6 +404,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         type="type"
       >
         <span
+          aria-hidden="true"
           class="dnb-button__alignment"
         >
           ‌
@@ -479,6 +486,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
             type="type"
           >
             <span
+              aria-hidden="true"
               class="dnb-button__alignment"
             >
               ‌
@@ -539,6 +547,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
               type="type"
             >
               <span
+                aria-hidden="true"
                 class="dnb-button__alignment"
               >
                 ‌
@@ -601,6 +610,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                 type="type"
               >
                 <span
+                  aria-hidden="true"
                   class="dnb-button__alignment"
                 >
                   ‌
@@ -681,6 +691,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                     type="type"
                   >
                     <span
+                      aria-hidden="true"
                       class="dnb-button__alignment"
                     >
                       ‌
@@ -725,6 +736,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                     type="type"
                   >
                     <span
+                      aria-hidden="true"
                       class="dnb-button__alignment"
                     >
                       ‌
@@ -777,8 +789,9 @@ exports[`Button component have to match href="..." snapshot 1`] = `
               wrap="wrap"
             >
               <span
+                aria-hidden={true}
                 className="dnb-button__alignment"
-                key="button-text-empty"
+                key="button-alignment"
               >
                 ‌
               </span>

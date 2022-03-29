@@ -146,8 +146,9 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                       key="button-bounding"
                     />
                     <span
+                      aria-hidden={true}
                       className="dnb-button__alignment"
-                      key="button-text-empty"
+                      key="button-alignment"
                     >
                       ‌
                     </span>
@@ -423,8 +424,9 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                       key="button-bounding"
                     />
                     <span
+                      aria-hidden={true}
                       className="dnb-button__alignment"
-                      key="button-text-empty"
+                      key="button-alignment"
                     >
                       ‌
                     </span>
@@ -732,8 +734,9 @@ exports[`Tabs component have to match snapshot 1`] = `
                     key="button-bounding"
                   />
                   <span
+                    aria-hidden={true}
                     className="dnb-button__alignment"
-                    key="button-text-empty"
+                    key="button-alignment"
                   >
                     ‌
                   </span>
@@ -1009,8 +1012,9 @@ exports[`Tabs component have to match snapshot 1`] = `
                     key="button-bounding"
                   />
                   <span
+                    aria-hidden={true}
                     className="dnb-button__alignment"
-                    key="button-text-empty"
+                    key="button-alignment"
                   >
                     ‌
                   </span>
