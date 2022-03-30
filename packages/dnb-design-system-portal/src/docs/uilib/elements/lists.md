@@ -50,7 +50,7 @@ render(<Ul>
 
 ## Ordered Lists (nested)
 
-<ComponentBox hideCode useRender data-visual-test="lists-ol" caption="Nested ol list by using `.dnb-ol--nested`">
+<ComponentBox hideCode useRender data-visual-test="lists-ol" caption="Nested ol list by using '.dnb-ol--nested'">
 {`
 // import { Ol, Li } from '@dnb/eufemia/elements'
 // Instead of using className="dnb-ol", we use Ol (and Li)
@@ -83,7 +83,7 @@ render(<Ol nested>
 
 The list marker will be inside of wrapped text / text with newlines.
 
-<ComponentBox hideCode useRender data-visual-test="lists-ol-style-position" caption="Nested ol with inside modifier `.dnb-ol--inside`">
+<ComponentBox hideCode useRender data-visual-test="lists-ol-style-position" caption="Nested ol with inside modifier '.dnb-ol--inside'">
 {`
 // import { Ol, Li } from '@dnb/eufemia/elements'
 const WidthLimit = styled.div\`
