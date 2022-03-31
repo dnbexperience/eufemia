@@ -221,63 +221,143 @@ export function scrollToLocationHashId({
   }
 }
 
-// Credit David Walsh (https://davidwalsh.name/javascript-debounce-function)
+// copied & modified from https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L10304
 
 // Returns a function, that, as long as it continues to be invoked, will not
 // be triggered. The function will be called after it stops being called for
 // N milliseconds. If `immediate` is passed, trigger the function on the
 // leading edge, instead of the trailing.
-export function debounce(
-  func,
-  wait = 250,
-  { immediate = false, context = null } = {}
-) {
-  let timeout
-  let recall
+export function debounce(func, wait, options) {
+  var lastArgs,
+    lastThis,
+    maxWait,
+    result,
+    timerId,
+    lastCallTime,
+    lastInvokeTime = 0,
+    immediate = false,
+    maxing = false,
+    trailing = true,
+    context = null
 
-  // This is the function that is actually executed when
-  // the DOM event is triggered.
-  return function executedFunction(...args) {
-    // Store the context of this and any
-    // parameters passed to executedFunction
-    const ctx = context || this
+  if (typeof func != 'function') {
+    throw new TypeError('debounce needs to be passed a function')
+  }
+  wait = parseInt(wait) || 0
+  if (typeof options == 'object') {
+    immediate = !!options.immediate
+    maxing = 'maxWait' in options
+    maxWait = maxing
+      ? Math.max(parseInt(options.maxWait) || 0, wait)
+      : maxWait
+    trailing = 'trailing' in options ? !!options.trailing : trailing
+    context = 'context' in options ? options.context : context
+  }
 
-    if (typeof recall === 'function') {
-      recall()
+  function invokeFunc(time) {
+    var args = lastArgs,
+      thisArg = lastThis
+
+    lastArgs = lastThis = undefined
+    lastInvokeTime = time
+    result = func.apply(thisArg, args)
+    return result
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait)
+    // Invoke the leading edge.
+    return immediate ? invokeFunc(time) : result
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+      timeSinceLastInvoke = time - lastInvokeTime,
+      timeWaiting = wait - timeSinceLastCall
+
+    return maxing
+      ? Math.min(timeWaiting, maxWait - timeSinceLastInvoke)
+      : timeWaiting
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+      timeSinceLastInvoke = time - lastInvokeTime
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return (
+      lastCallTime === undefined ||
+      timeSinceLastCall >= wait ||
+      timeSinceLastCall < 0 ||
+      (maxing && timeSinceLastInvoke >= maxWait)
+    )
+  }
+
+  function timerExpired() {
+    var time = Date.now()
+    if (shouldInvoke(time)) {
+      return trailingEdge(time)
     }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time))
+  }
 
-    // The function to be called after
-    // the debounce time has elapsed
-    const later = () => {
-      // null timeout to indicate the debounce ended
-      timeout = null
+  function trailingEdge(time) {
+    timerId = undefined
 
-      // Call function now if you did not on the leading end
-      if (!immediate) {
-        recall = func.apply(ctx, args)
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time)
+    }
+    lastArgs = lastThis = undefined
+    return result
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId)
+    }
+    lastInvokeTime = 0
+    lastArgs = lastCallTime = lastThis = timerId = undefined
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(Date.now())
+  }
+
+  function debounced() {
+    var time = Date.now(),
+      isInvoking = shouldInvoke(time)
+
+    lastArgs = arguments
+    lastThis = context || this
+    lastCallTime = time
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime)
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        clearTimeout(timerId)
+        timerId = setTimeout(timerExpired, wait)
+        return invokeFunc(lastCallTime)
       }
     }
-
-    // Determine if you should call the function
-    // on the leading or trail end
-    const callNow = immediate && !timeout
-
-    // This will reset the waiting every function execution.
-    // This is the step that prevents the function from
-    // being executed because it will never reach the
-    // inside of the previous setTimeout
-    clearTimeout(timeout)
-
-    // Restart the debounce waiting period.
-    // setTimeout returns a truthy value (it differs in web vs node)
-    timeout = setTimeout(later, wait)
-
-    // Call immediately if you're dong a leading
-    // end execution
-    if (callNow) {
-      recall = func.apply(ctx, args)
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait)
     }
+    return result
   }
+  debounced.cancel = cancel
+  debounced.flush = flush
+  return debounced
 }
 
 export function insertElementBeforeSelection(elem) {

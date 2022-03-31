@@ -186,6 +186,26 @@ describe('"debounce" should', () => {
       done()
     }, 2)
   })
+
+  it('should not run debounced function when cancelled', (done) => {
+    let outside = 'one'
+
+    const debounced = debounce(
+      ({ inside }) => {
+        expect(outside).toBe('one')
+        outside = inside
+        expect(outside).toBe('two')
+      },
+      1
+    )
+    debounced({ inside: 'two' })
+    debounced.cancel();
+    
+    setTimeout(() => {
+      expect(outside).toBe('one')
+      done()
+    }, 2)
+  })
 })
 
 describe('"warn" should', () => {
