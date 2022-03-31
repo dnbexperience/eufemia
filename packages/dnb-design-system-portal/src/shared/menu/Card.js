@@ -15,6 +15,7 @@ import classnames from 'classnames'
 import { P } from '@dnb/eufemia/src/elements'
 
 const CardWrapper = styled.li`
+  list-style-type: none;
   width: calc(33.333333% - 1rem);
 
   margin: 0.5rem;
