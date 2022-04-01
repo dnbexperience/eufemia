@@ -750,6 +750,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           href="href"
           omitClass={true}
           onClick={[Function]}
+          skeleton={null}
           target={null}
           target_blank_title={null}
           to={null}
@@ -804,6 +805,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             }
             omitClass={true}
             onClick={[Function]}
+            skeleton={null}
             target={null}
             target_blank_title={null}
             to={null}
