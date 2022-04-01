@@ -27,6 +27,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   disable_reorder="disable_reorder"
   disabled="disabled"
   drawer_class="drawer_class"
+  enable_body_lock={true}
   focusable="focusable"
   global_status_id="main"
   icon="icon"
@@ -45,10 +46,12 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   label_direction="horizontal"
   label_sr_only="label_sr_only"
   max_height={1}
+  min_height="min_height"
   mode="sync"
   no_animation={true}
   no_options="no_options"
   no_scroll_animation="no_scroll_animation"
+  observer_element="observer_element"
   on_blur={[Function]}
   on_change={[Function]}
   on_focus={[Function]}
@@ -60,6 +63,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   open_on_focus="open_on_focus"
   opened={true}
   options_render={Object {}}
+  page_offset="page_offset"
   placeholder="placeholder"
   portal_class="portal_class"
   prevent_close="prevent_close"
@@ -116,6 +120,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     disable_reorder="disable_reorder"
     disabled="disabled"
     drawer_class="drawer_class"
+    enable_body_lock={true}
     fixed_position={false}
     focusable="focusable"
     global_status_id="main"
@@ -140,12 +145,12 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     label_sr_only="label_sr_only"
     list_class={null}
     max_height={1}
-    min_height={10}
+    min_height="min_height"
     mode="sync"
     no_animation={true}
     no_options="no_options"
     no_scroll_animation="no_scroll_animation"
-    observer_element={null}
+    observer_element="observer_element"
     on_blur={[Function]}
     on_change={[Function]}
     on_focus={[Function]}
@@ -159,7 +164,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     open_on_focus="open_on_focus"
     opened={null}
     options_render={Object {}}
-    page_offset={null}
+    page_offset="page_offset"
     placeholder="placeholder"
     portal_class="portal_class"
     prepared_data={null}
@@ -221,6 +226,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       disable_reorder="disable_reorder"
       disabled="disabled"
       drawer_class="drawer_class"
+      enable_body_lock={true}
       focusable="focusable"
       global_status_id="main"
       icon="icon"
@@ -239,10 +245,12 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       label_direction="horizontal"
       label_sr_only="label_sr_only"
       max_height={1}
+      min_height="min_height"
       mode="sync"
       no_animation={true}
       no_options="no_options"
       no_scroll_animation="no_scroll_animation"
+      observer_element="observer_element"
       on_blur={[Function]}
       on_change={[Function]}
       on_focus={[Function]}
@@ -254,6 +262,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       open_on_focus="open_on_focus"
       opened={true}
       options_render={Object {}}
+      page_offset="page_offset"
       placeholder="placeholder"
       portal_class="portal_class"
       prevent_close="prevent_close"
@@ -1131,6 +1140,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "disable_reorder": "disable_reorder",
                   "disabled": "disabled",
                   "drawer_class": "drawer_class",
+                  "enable_body_lock": true,
                   "focusable": "focusable",
                   "global_status_id": "main",
                   "icon": "icon",
@@ -1149,10 +1159,12 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "label_direction": "horizontal",
                   "label_sr_only": "label_sr_only",
                   "max_height": 1,
+                  "min_height": "min_height",
                   "mode": "sync",
                   "no_animation": true,
                   "no_options": "no_options",
                   "no_scroll_animation": "no_scroll_animation",
+                  "observer_element": "observer_element",
                   "on_blur": [Function],
                   "on_change": [Function],
                   "on_focus": [Function],
@@ -1164,6 +1176,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "open_on_focus": "open_on_focus",
                   "opened": true,
                   "options_render": Object {},
+                  "page_offset": "page_offset",
                   "placeholder": "placeholder",
                   "portal_class": "portal_class",
                   "prevent_close": "prevent_close",
