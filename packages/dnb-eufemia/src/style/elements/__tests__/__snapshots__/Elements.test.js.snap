@@ -208,7 +208,8 @@ a.dnb-button {
     margin-bottom: 0; }
   .dnb-p--lead {
     font-size: var(--font-size-medium);
-    line-height: calc(var(--line-height-medium) - 0.25rem); }
+    line-height: calc(var(--line-height-medium) - 0.25rem);
+    font-weight: var(--font-weight-medium); }
     .dnb-p--lead > small {
       font-size: var(--font-size-basis);
       line-height: var(--line-height-basis); }
@@ -273,7 +274,8 @@ a.dnb-button {
 .dnb-lead,
 .dnb-h--medium {
   font-size: var(--font-size-medium);
-  line-height: calc(var(--line-height-medium) - 0.25rem); }
+  line-height: calc(var(--line-height-medium) - 0.25rem);
+  font-weight: var(--font-weight-medium); }
   .dnb-lead > small,
   .dnb-h--medium > small {
     font-size: var(--font-size-basis);
@@ -1253,7 +1255,6 @@ thead > tr > th.dnb-table--active .dnb-button:hover:focus .dnb-button__text::aft
  */
 .dnb-code {
   display: inline-block;
-  margin: -0.25em 0;
   padding: 0.25em 0.25em;
   /* 2px 4px */
   font-size: inherit;
@@ -1264,6 +1265,8 @@ thead > tr > th.dnb-table--active .dnb-button:hover:focus .dnb-button__text::aft
   border-radius: 0.1875em; }
   del .dnb-code {
     text-decoration: line-through; }
+  .dnb-code:not([class*='dnb-space']) {
+    margin: -0.25em 0; }
 
 .dnb-pre {
   display: block;

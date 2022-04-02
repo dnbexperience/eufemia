@@ -51,7 +51,7 @@ export default {
   table: Table,
   // pre: (props) => <Element is="div" {...props} />,// Not needed. Makes skeletons not that good looking
   code: (...props) => CodeBlock(...props),
-  inlineCode: ({ ...props }) => {
+  inlineCode: (props) => {
     if (props.inline) {
       props.inline = props.inline.toString()
     }
