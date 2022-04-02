@@ -43,6 +43,7 @@ Anchor.propTypes = {
   ]),
   tooltip: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   children: PropTypes.node,
+  skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 }
 Anchor.defaultProps = {
   element: null,
@@ -54,6 +55,7 @@ Anchor.defaultProps = {
   className: null,
   tooltip: null,
   children: null,
+  skeleton: null,
 }
 
 class AnchorInstance extends React.PureComponent {
