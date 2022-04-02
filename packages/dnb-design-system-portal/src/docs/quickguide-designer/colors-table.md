@@ -268,3 +268,57 @@ import Table from 'dnb-design-system-portal/src/shared/tags/Table'
     </tr>
   </tbody>
 </Table>
+
+## Theme Colors
+
+<Table selectable>
+  <thead>
+    <tr>
+      <th>Sample</th>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Hex</th>
+      <th>RGB</th>
+      <th>Figma Library name</th>
+      <th>CSS Custom Properties name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td color="#89aaac"></td>
+      <td>UX Theme Eiendom</td>
+      <td>Emerald green 50%</td>
+      <td>#00343E</td>
+      <td>137 170 172</td>
+      <td>Emerald green 50%</td>
+      <td>--color-emerald-green-50</td>
+    </tr>
+    <tr>
+      <td color="#c4d4d6"></td>
+      <td>UX Theme Eiendom</td>
+      <td>Emerald green 25%</td>
+      <td>#c4d4d6</td>
+      <td>196 212 214</td>
+      <td>Emerald green 25%</td>
+      <td>--color-emerald-green-25</td>
+    </tr>
+    <tr>
+      <td color="#e8eeef"></td>
+      <td>UX Theme Eiendom</td>
+      <td>Emerald green 10%</td>
+      <td>#e8eeef</td>
+      <td>232 238 239</td>
+      <td>Emerald green 10%</td>
+      <td>--color-emerald-green-10</td>
+    </tr>
+    <tr>
+      <td color="#f4fbf9"></td>
+      <td>UX Theme Eiendom</td>
+      <td>Mint green 12%</td>
+      <td>#f4fbf9</td>
+      <td>244 251 249</td>
+      <td>Mint green 12%</td>
+      <td>--color-mint-green-12</td>
+    </tr>
+  </tbody>
+</Table>

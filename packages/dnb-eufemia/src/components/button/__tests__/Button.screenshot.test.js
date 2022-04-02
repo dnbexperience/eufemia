@@ -214,6 +214,13 @@ describe('Button tertiary screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match disabled buttons', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="button-disabled"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match button with custom content', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="button-custom-content"]',

@@ -4,31 +4,32 @@
  *
  */
 
+@mixin anchorDefaultStyleCustomisation() {
+  color: var(--color-emerald-green);
+}
+@mixin anchorHoverStyleCustomisation() {
+  color: var(--color-sea-green);
+  background-color: transparent;
+}
+@mixin anchorActiveStyleCustomisation() {
+  color: var(--color-sea-green);
+  background-color: var(--color-pistachio);
+}
+
 // change some properties
 @mixin propertiesCustomisation() {
   // eiendom colors
-  --color-eiendom-green: #a5e1d2;
-  --color-eiendom-emerald: #00343e;
+  --color-emerald-green-50: #89aaac;
+  --color-emerald-green-25: #c4d4d6;
+  --color-emerald-green-10: #e8eeef;
 
   // Overwriting UX colors, defined in properties.scss
-  --color-sea-green: fuchsia;
+  --color-mint-green-12: #f4fbf9;
 }
 
-// import additional font
-$fonts-path: '../../../../assets/fonts' !default;
-@font-face {
-  font-family: DNBMono;
-  src: url('#{$fonts-path}/DNBMono-Medium.woff2') format('woff2'),
-    url('#{$fonts-path}/DNBMono-Medium.woff') format('woff'),
-    url('#{$fonts-path}/DNBMono-Medium.ttf') format('truetype');
-  font-weight: 500; // have to be the same as: --font-weight-medium
-  font-style: normal;
-  font-display: fallback;
-}
-
-// change headings
+// change heading to not use medium
 @mixin headingDefaultsCustomisation() {
-  font-family: var(--font-family-monospace);
+  font-weight: var(--font-weight-basis);
 }
 
 // import the default theme, and go from there

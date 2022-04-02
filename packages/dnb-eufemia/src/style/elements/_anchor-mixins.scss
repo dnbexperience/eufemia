@@ -37,6 +37,10 @@ $anchorBorderRadius: 0.25em;
   .dnb-h--x-small & {
     font-size: inherit;
   }
+
+  @if mixin-exists('anchorDefaultStyleCustomisation') {
+    @include anchorDefaultStyleCustomisation();
+  }
 }
 
 // reset methods
@@ -71,12 +75,18 @@ $anchorBorderRadius: 0.25em;
   background-color: var(--color-mint-green-50);
   border-radius: $anchorBorderRadius;
   @include resetUnderlineStyle();
+  @if mixin-exists('anchorHoverStyleCustomisation') {
+    @include anchorHoverStyleCustomisation();
+  }
 }
 @mixin anchorActiveStyle() {
   color: var(--color-mint-green);
   background-color: var(--color-emerald-green);
   border-radius: $anchorBorderRadius;
   @include resetUnderlineStyle();
+  @if mixin-exists('anchorActiveStyleCustomisation') {
+    @include anchorActiveStyleCustomisation();
+  }
 }
 @mixin anchorFocusStyle($whatinput: null) {
   &:not(:active) {

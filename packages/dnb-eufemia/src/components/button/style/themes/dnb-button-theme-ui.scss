@@ -56,15 +56,6 @@
       var(--color-mint-green-50)
     );
 
-    &:not(.dnb-button--has-text) {
-      @include buttonHover(var(--color-emerald-green), var(--color-white));
-      @include buttonFocus(var(--color-emerald-green), var(--color-white));
-      @include buttonActive(
-        var(--color-emerald-green),
-        var(--color-mint-green-50)
-      );
-    }
-
     &[disabled],
     &[disabled]:focus // only because of href/anchor button
     {
@@ -89,6 +80,16 @@
         color: inherit;
       }
     }
+  }
+
+  // Icon button
+  &--secondary:not(.dnb-button--has-text) {
+    @include buttonHover(var(--color-emerald-green), var(--color-white));
+    @include buttonFocus(var(--color-emerald-green), var(--color-white));
+    @include buttonActive(
+      var(--color-emerald-green),
+      var(--color-mint-green-50)
+    );
   }
 
   // simulate active state

@@ -5,8 +5,7 @@ showTabs: true
 import {
 ButtonPrimary,
 ButtonSecondary,
-ButtonDisabledPrimary,
-ButtonDisabledSecondary,
+ButtonDisabled,
 ButtonPrimaryWithIcon,
 ButtonPrimaryWithIconLeft,
 ButtonTertiary,
@@ -31,14 +30,6 @@ UnstyledVariant,
 ### Secondary button
 
 <ButtonSecondary />
-
-### Disabled primary button
-
-<ButtonDisabledPrimary />
-
-### Disabled secondary button
-
-<ButtonDisabledSecondary />
 
 ### Primary button with icon
 
@@ -65,6 +56,10 @@ Tertiary button with long text and text `wrap` enabled.
 ### Anchor button
 
 <ButtonAnchor />
+
+### Disabled buttons
+
+<ButtonDisabled />
 
 ### Signal button
 
