@@ -111,7 +111,7 @@ const plugins = [
     options: {
       themes: {
         ui: { name: 'DNB light' }, // universal identity
-        eiendom: { name: 'DNB Eiendom (WIP)' },
+        eiendom: { name: 'DNB Eiendom' },
       },
       defaultTheme:
         process.env.GATSBY_CLOUD && currentBranch.includes('eiendom')

@@ -6,7 +6,7 @@
 import {
   testPageScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../../core/jest/jestSetupScreenshots'
 
 describe('Button with eiendom theme', () => {
   setupPageScreenshot({
@@ -34,16 +34,16 @@ describe('Button with eiendom theme', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match "dnb-button--tertiary" without icon', async () => {
+  it('have to match "dnb-button--tertiary"', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="button-tertiary-no-icon"]',
+      selector: '[data-visual-test="button-tertiary-all"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match "dnb-button--signal"', async () => {
+  it('have to match disabled button', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="button-signal"]',
+      selector: '[data-visual-test="button-disabled"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

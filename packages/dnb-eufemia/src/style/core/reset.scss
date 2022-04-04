@@ -487,48 +487,51 @@
 
 // reset ePlatform css
 @mixin resetLegacyStyles() {
-  // reset underline during hover
-  a:hover {
-    text-decoration: none;
-  }
-  .dnb-anchor--active {
-    color: var(--color-mint-green) !important;
-  }
-  .dnb-anchor--contrast:not(:hover) {
-    color: var(--color-white) !important;
-  }
-  a.dnb-button--primary {
-    color: var(--color-white);
-  }
+  html[xmlns="http://www.w3.org/1999/xhtml"]
+  {
+    // reset underline during hover
+    a:hover {
+      text-decoration: none;
+    }
+    .dnb-anchor--active {
+      color: var(--color-mint-green) !important;
+    }
+    .dnb-anchor--contrast:not(:hover) {
+      color: var(--color-white) !important;
+    }
+    a.dnb-button--primary {
+      color: var(--color-white);
+    }
 
-  // reset lists
-  ul {
-    list-style: initial;
-  }
+    // reset lists
+    ul {
+      list-style: initial;
+    }
 
-  // reset paragraphs
-  p {
-    overflow: initial;
-    text-align: inherit;
-    background-color: initial;
-  }
-  i {
-    font-style: italic;
-  }
+    // reset paragraphs
+    p {
+      overflow: initial;
+      text-align: inherit;
+      background-color: initial;
+    }
+    i {
+      font-style: italic;
+    }
 
-  // make content responsive, also for 200% in font-size
-  #column_left,
-  #root {
-    width: 100%;
-  }
-  body#dnbLayoutDefault #wrapper,
-  body#dnbLayoutDefaultStartPage #wrapper {
-    width: 100%;
-    max-width: 60rem;
-  }
+    // make content responsive, also for 200% in font-size
+    #column_left,
+    #root {
+      width: 100%;
+    }
+    body#dnbLayoutDefault #wrapper,
+    body#dnbLayoutDefaultStartPage #wrapper {
+      width: 100%;
+      max-width: 60rem;
+    }
 
-  // reset the main content shadow
-  #column_content {
-    box-shadow: none;
+    // reset the main content shadow
+    #column_content {
+      box-shadow: none;
+    }
   }
 }
