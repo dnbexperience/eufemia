@@ -7,7 +7,7 @@ const dotenv = require('dotenv')
 const { isCI } = require('repo-utils')
 const ora = require('ora')
 const path = require('path')
-const simpleGit = require('simple-git/promise') // More info: https://github.com/steveukx/git-js#readme
+const simpleGit = require('simple-git') // More info: https://github.com/steveukx/git-js#readme
 
 // import .env variables
 dotenv.config()
