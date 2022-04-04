@@ -29,6 +29,35 @@ You don't need to define the `font-family` ever, but rather use CSS Custom Prope
 - [font-size](/uilib/typography/font-size)
 - [line-height](/uilib/typography/line-height)
 
+### Typography Examples
+
+<ComponentBox data-visual-test="typography-variants" hideCode>
+{`
+<div style={{maxWidth: '30rem'}}>
+  <Code>Heading xx-large</Code>
+  <H4 size="xx-large" space={0}>Dette er en heading på over to linjer</H4>
+  <Code top="large">Heading x-large</Code>
+  <H4 size="x-large" space={0}>Og dette er en heading small tittel som også går over to linjer, nei vent, tre linjer.</H4>
+  <Code top="large">Heading large</Code>
+  <H4 size="large" space={0}>Hva har vi her, en liten heading som mot alle odds går over flere linjer.</H4>
+  <Code top="large">Text Lead</Code>
+  <Lead space={0}>Lorem ipsum dolor sit amet, sint quodsi concludaturque nam ei, appetere oporteat eam te.</Lead>
+  <Code top="large">Text basis</Code>
+  <P space={0}>Lorem ipsum dolor sit amet, sint quodsi concludaturque nam ei, appetere oporteat eam te. Vel in deleniti sensibus, officiis menandri efficiantur no cum. Per et habemus gubergren. Mundi copiosae pertinax ea pro, vidit fierent mentitum in est, ex fabellas senserit inciderint vim.</P>
+  <Code top="large">Text basis (Medium)</Code>
+  <P modifier="medium" space={0}>Lorem ipsum dolor sit amet, sint quodsi concludaturque nam ei, appetere oporteat eam te. Vel in deleniti sensibus, officiis menandri efficiantur no cum. Per et habemus gubergren. Mundi copiosae pertinax ea pro, vidit fierent mentitum in est, ex fabellas senserit inciderint vim.</P>
+  <Code top="large">Text small</Code>
+  <P size="small" space={0}>Lorem ipsum dolor sit amet, sint quodsi concludaturque nam ei, appetere oporteat eam te. Vel in deleniti sensibus, officiis menandri efficiantur no cum. Per et habemus gubergren. Mundi copiosae pertinax ea pro, vidit fierent mentitum in est, ex fabellas senserit inciderint vim.</P>
+  <Code top="large">Text small (Medium)</Code>
+  <P size="small" modifier="medium" space={0}>Lorem ipsum dolor sit amet, sint quodsi concludaturque nam ei, appetere oporteat eam te. Vel in deleniti sensibus, officiis menandri efficiantur no cum. Per et habemus gubergren. Mundi copiosae pertinax ea pro, vidit fierent mentitum in est, ex fabellas senserit inciderint vim.</P>
+  <Code top="large">Text x-small</Code>
+  <P size="x-small" space={0}>Lorem ipsum dolor sit amet, sint quodsi concludaturque nam ei.</P>
+  <Code top="large">Text x-small (Medium)</Code>
+  <P size="x-small" modifier="medium" space={0}>Lorem ipsum dolor sit amet, sint quodsi concludaturque nam ei.</P>
+</div>
+`}
+</ComponentBox>
+
 ## Font Face
 
 The DNB default Font Family is `DNB`. This font, together with it's weights is loaded and imported with `@font-face` in `/css/core/fonts.scss`. The font family is included in the library package.
