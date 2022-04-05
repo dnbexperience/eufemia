@@ -65,6 +65,16 @@ export interface SkeletonProps extends React.HTMLProps<HTMLElement> {
   figure?: SkeletonFigure;
 
   /**
+   * Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.
+   */
+  aria_busy?: string;
+
+  /**
+   * Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.
+   */
+  aria_ready?: string;
+
+  /**
    * Set any HTML element type you have to use. A couple of aria attributes will be set on this element while active. Defaults to `div`
    */
   element?: React.ReactNode;

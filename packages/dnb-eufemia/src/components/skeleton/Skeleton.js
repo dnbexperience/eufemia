@@ -35,6 +35,8 @@ export default class Skeleton extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
     ]),
+    aria_busy: PropTypes.string,
+    aria_ready: PropTypes.string,
     element: PropTypes.node,
 
     ...spacingPropTypes,
