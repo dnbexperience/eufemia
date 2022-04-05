@@ -2398,8 +2398,8 @@ __metadata:
     wait-on: 6.0.0
     what-input: 5.2.10
   peerDependencies:
-    react: ">=16.12"
-    react-dom: ">=16.12"
+    react: ^17
+    react-dom: ^17
   languageName: unknown
   linkType: soft
 
