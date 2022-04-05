@@ -106,6 +106,19 @@ const plugins = [
   },
   'gatsby-plugin-sass',
   'gatsby-plugin-emotion',
+  {
+    resolve: 'gatsby-plugin-eufemia-theme-handler',
+    options: {
+      themes: {
+        ui: { name: 'DNB light' }, // universal identity
+        eiendom: { name: 'DNB Eiendom' },
+      },
+      defaultTheme:
+        process.env.GATSBY_CLOUD && currentBranch.includes('eiendom')
+          ? 'eiendom'
+          : process.env.GATSBY_THEME_STYLE_DEV || 'ui',
+    },
+  },
 ].filter(Boolean)
 
 if (currentBranch === 'release') {
@@ -138,6 +151,11 @@ if (queries) {
 }
 
 module.exports = {
+  flags: {
+    FAST_DEV: true,
+    PRESERVE_FILE_DOWNLOAD_CACHE: true,
+    PARALLEL_SOURCING: true,
+  },
   pathPrefix,
   siteMetadata,
   plugins,

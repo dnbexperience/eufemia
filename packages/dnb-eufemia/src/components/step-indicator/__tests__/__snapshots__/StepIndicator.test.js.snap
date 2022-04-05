@@ -110,6 +110,7 @@ Array [
                         type="button"
                       >
                         <span
+                          aria-hidden="true"
                           class="dnb-button__alignment"
                         >
                           ‌
@@ -179,6 +180,7 @@ Array [
                         type="button"
                       >
                         <span
+                          aria-hidden="true"
                           class="dnb-button__alignment"
                         >
                           ‌
@@ -247,6 +249,7 @@ Array [
                         type="button"
                       >
                         <span
+                          aria-hidden="true"
                           class="dnb-button__alignment"
                         >
                           ‌
@@ -315,6 +318,7 @@ Array [
                         type="button"
                       >
                         <span
+                          aria-hidden="true"
                           class="dnb-button__alignment"
                         >
                           ‌
@@ -423,6 +427,7 @@ Array [
                               type="button"
                             >
                               <span
+                                aria-hidden="true"
                                 class="dnb-button__alignment"
                               >
                                 ‌
@@ -505,6 +510,7 @@ Array [
                                 type="button"
                               >
                                 <span
+                                  aria-hidden="true"
                                   class="dnb-button__alignment"
                                 >
                                   ‌
@@ -617,6 +623,7 @@ Array [
                                     type="button"
                                   >
                                     <span
+                                      aria-hidden="true"
                                       class="dnb-button__alignment"
                                     >
                                       ‌
@@ -689,8 +696,9 @@ Array [
                               wrap={true}
                             >
                               <span
+                                aria-hidden={true}
                                 className="dnb-button__alignment"
-                                key="button-text-empty"
+                                key="button-alignment"
                               >
                                 ‌
                               </span>
@@ -843,6 +851,7 @@ Array [
                               type="button"
                             >
                               <span
+                                aria-hidden="true"
                                 class="dnb-button__alignment"
                               >
                                 ‌
@@ -925,6 +934,7 @@ Array [
                                 type="button"
                               >
                                 <span
+                                  aria-hidden="true"
                                   class="dnb-button__alignment"
                                 >
                                   ‌
@@ -1037,6 +1047,7 @@ Array [
                                     type="button"
                                   >
                                     <span
+                                      aria-hidden="true"
                                       class="dnb-button__alignment"
                                     >
                                       ‌
@@ -1109,8 +1120,9 @@ Array [
                               wrap={true}
                             >
                               <span
+                                aria-hidden={true}
                                 className="dnb-button__alignment"
-                                key="button-text-empty"
+                                key="button-alignment"
                               >
                                 ‌
                               </span>
@@ -1262,6 +1274,7 @@ Array [
                               type="button"
                             >
                               <span
+                                aria-hidden="true"
                                 class="dnb-button__alignment"
                               >
                                 ‌
@@ -1344,6 +1357,7 @@ Array [
                                 type="button"
                               >
                                 <span
+                                  aria-hidden="true"
                                   class="dnb-button__alignment"
                                 >
                                   ‌
@@ -1456,6 +1470,7 @@ Array [
                                     type="button"
                                   >
                                     <span
+                                      aria-hidden="true"
                                       class="dnb-button__alignment"
                                     >
                                       ‌
@@ -1528,8 +1543,9 @@ Array [
                               wrap={true}
                             >
                               <span
+                                aria-hidden={true}
                                 className="dnb-button__alignment"
-                                key="button-text-empty"
+                                key="button-alignment"
                               >
                                 ‌
                               </span>
@@ -1681,6 +1697,7 @@ Array [
                               type="button"
                             >
                               <span
+                                aria-hidden="true"
                                 class="dnb-button__alignment"
                               >
                                 ‌
@@ -1763,6 +1780,7 @@ Array [
                                 type="button"
                               >
                                 <span
+                                  aria-hidden="true"
                                   class="dnb-button__alignment"
                                 >
                                   ‌
@@ -1875,6 +1893,7 @@ Array [
                                     type="button"
                                   >
                                     <span
+                                      aria-hidden="true"
                                       class="dnb-button__alignment"
                                     >
                                       ‌
@@ -1947,8 +1966,9 @@ Array [
                               wrap={true}
                             >
                               <span
+                                aria-hidden={true}
                                 className="dnb-button__alignment"
-                                key="button-text-empty"
+                                key="button-alignment"
                               >
                                 ‌
                               </span>
@@ -2174,6 +2194,7 @@ Array [
                   type="button"
                 >
                   <span
+                    aria-hidden="true"
                     class="dnb-button__alignment"
                   >
                     ‌
@@ -2290,6 +2311,7 @@ Array [
                       type="button"
                     >
                       <span
+                        aria-hidden="true"
                         class="dnb-button__alignment"
                       >
                         ‌
@@ -2403,6 +2425,7 @@ Array [
                           type="button"
                         >
                           <span
+                            aria-hidden="true"
                             class="dnb-button__alignment"
                           >
                             ‌
@@ -2475,8 +2498,9 @@ Array [
                     wrap={true}
                   >
                     <span
+                      aria-hidden={true}
                       className="dnb-button__alignment"
-                      key="button-text-empty"
+                      key="button-alignment"
                     >
                       ‌
                     </span>
@@ -2610,6 +2634,8 @@ Array [
             mode="drawer"
             no_animation={false}
             no_animation_on_mobile={false}
+            omitTriggerButton={true}
+            omit_trigger_button={false}
             on_close={[Function]}
             on_close_prevent={null}
             on_open={[Function]}
@@ -2626,7 +2652,7 @@ Array [
             trigger_attributes={null}
             trigger_class={null}
             trigger_disabled={null}
-            trigger_hidden={true}
+            trigger_hidden={false}
             trigger_icon={null}
             trigger_icon_position="left"
             trigger_size={null}
@@ -2663,6 +2689,7 @@ Array [
               mode="drawer"
               no_animation={false}
               no_animation_on_mobile={false}
+              omit_trigger_button={true}
               on_close={[Function]}
               on_close_prevent={null}
               on_open={[Function]}
@@ -2679,7 +2706,7 @@ Array [
               trigger_attributes={null}
               trigger_class={null}
               trigger_disabled={null}
-              trigger_hidden={true}
+              trigger_hidden={false}
               trigger_icon={null}
               trigger_icon_position="left"
               trigger_size={null}
@@ -2804,6 +2831,7 @@ Array [
                         class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                       >
                         <span
+                          aria-hidden="true"
                           class="dnb-button__alignment"
                         >
                           ‌
@@ -2872,6 +2900,7 @@ Array [
                         class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                       >
                         <span
+                          aria-hidden="true"
                           class="dnb-button__alignment"
                         >
                           ‌
@@ -2939,6 +2968,7 @@ Array [
                         class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                       >
                         <span
+                          aria-hidden="true"
                           class="dnb-button__alignment"
                         >
                           ‌
@@ -3006,6 +3036,7 @@ Array [
                         class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                       >
                         <span
+                          aria-hidden="true"
                           class="dnb-button__alignment"
                         >
                           ‌
@@ -3114,6 +3145,7 @@ Array [
                               class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                             >
                               <span
+                                aria-hidden="true"
                                 class="dnb-button__alignment"
                               >
                                 ‌
@@ -3195,6 +3227,7 @@ Array [
                                 class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                               >
                                 <span
+                                  aria-hidden="true"
                                   class="dnb-button__alignment"
                                 >
                                   ‌
@@ -3303,6 +3336,7 @@ Array [
                                     class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                                   >
                                     <span
+                                      aria-hidden="true"
                                       class="dnb-button__alignment"
                                     >
                                       ‌
@@ -3374,8 +3408,9 @@ Array [
                               wrap={true}
                             >
                               <span
+                                aria-hidden={true}
                                 className="dnb-button__alignment"
-                                key="button-text-empty"
+                                key="button-alignment"
                               >
                                 ‌
                               </span>
@@ -3528,6 +3563,7 @@ Array [
                               class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                             >
                               <span
+                                aria-hidden="true"
                                 class="dnb-button__alignment"
                               >
                                 ‌
@@ -3609,6 +3645,7 @@ Array [
                                 class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                               >
                                 <span
+                                  aria-hidden="true"
                                   class="dnb-button__alignment"
                                 >
                                   ‌
@@ -3717,6 +3754,7 @@ Array [
                                     class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                                   >
                                     <span
+                                      aria-hidden="true"
                                       class="dnb-button__alignment"
                                     >
                                       ‌
@@ -3788,8 +3826,9 @@ Array [
                               wrap={true}
                             >
                               <span
+                                aria-hidden={true}
                                 className="dnb-button__alignment"
-                                key="button-text-empty"
+                                key="button-alignment"
                               >
                                 ‌
                               </span>
@@ -3941,6 +3980,7 @@ Array [
                               class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                             >
                               <span
+                                aria-hidden="true"
                                 class="dnb-button__alignment"
                               >
                                 ‌
@@ -4022,6 +4062,7 @@ Array [
                                 class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                               >
                                 <span
+                                  aria-hidden="true"
                                   class="dnb-button__alignment"
                                 >
                                   ‌
@@ -4130,6 +4171,7 @@ Array [
                                     class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                                   >
                                     <span
+                                      aria-hidden="true"
                                       class="dnb-button__alignment"
                                     >
                                       ‌
@@ -4201,8 +4243,9 @@ Array [
                               wrap={true}
                             >
                               <span
+                                aria-hidden={true}
                                 className="dnb-button__alignment"
-                                key="button-text-empty"
+                                key="button-alignment"
                               >
                                 ‌
                               </span>
@@ -4354,6 +4397,7 @@ Array [
                               class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                             >
                               <span
+                                aria-hidden="true"
                                 class="dnb-button__alignment"
                               >
                                 ‌
@@ -4435,6 +4479,7 @@ Array [
                                 class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                               >
                                 <span
+                                  aria-hidden="true"
                                   class="dnb-button__alignment"
                                 >
                                   ‌
@@ -4543,6 +4588,7 @@ Array [
                                     class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                                   >
                                     <span
+                                      aria-hidden="true"
                                       class="dnb-button__alignment"
                                     >
                                       ‌
@@ -4614,8 +4660,9 @@ Array [
                               wrap={true}
                             >
                               <span
+                                aria-hidden={true}
                                 className="dnb-button__alignment"
-                                key="button-text-empty"
+                                key="button-alignment"
                               >
                                 ‌
                               </span>
@@ -4841,6 +4888,7 @@ Array [
                   type="button"
                 >
                   <span
+                    aria-hidden="true"
                     class="dnb-button__alignment"
                   >
                     ‌
@@ -4957,6 +5005,7 @@ Array [
                       type="button"
                     >
                       <span
+                        aria-hidden="true"
                         class="dnb-button__alignment"
                       >
                         ‌
@@ -5070,6 +5119,7 @@ Array [
                           type="button"
                         >
                           <span
+                            aria-hidden="true"
                             class="dnb-button__alignment"
                           >
                             ‌
@@ -5142,8 +5192,9 @@ Array [
                     wrap={true}
                   >
                     <span
+                      aria-hidden={true}
                       className="dnb-button__alignment"
-                      key="button-text-empty"
+                      key="button-alignment"
                     >
                       ‌
                     </span>
@@ -5277,6 +5328,8 @@ Array [
             mode="drawer"
             no_animation={false}
             no_animation_on_mobile={false}
+            omitTriggerButton={true}
+            omit_trigger_button={false}
             on_close={[Function]}
             on_close_prevent={null}
             on_open={[Function]}
@@ -5293,7 +5346,7 @@ Array [
             trigger_attributes={null}
             trigger_class={null}
             trigger_disabled={null}
-            trigger_hidden={true}
+            trigger_hidden={false}
             trigger_icon={null}
             trigger_icon_position="left"
             trigger_size={null}
@@ -5330,6 +5383,7 @@ Array [
               mode="drawer"
               no_animation={false}
               no_animation_on_mobile={false}
+              omit_trigger_button={true}
               on_close={[Function]}
               on_close_prevent={null}
               on_open={[Function]}
@@ -5346,7 +5400,7 @@ Array [
               trigger_attributes={null}
               trigger_class={null}
               trigger_disabled={null}
-              trigger_hidden={true}
+              trigger_hidden={false}
               trigger_icon={null}
               trigger_icon_position="left"
               trigger_size={null}
@@ -5472,6 +5526,7 @@ Array [
                         type="button"
                       >
                         <span
+                          aria-hidden="true"
                           class="dnb-button__alignment"
                         >
                           ‌
@@ -5541,6 +5596,7 @@ Array [
                         type="button"
                       >
                         <span
+                          aria-hidden="true"
                           class="dnb-button__alignment"
                         >
                           ‌
@@ -5608,6 +5664,7 @@ Array [
                         class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                       >
                         <span
+                          aria-hidden="true"
                           class="dnb-button__alignment"
                         >
                           ‌
@@ -5675,6 +5732,7 @@ Array [
                         class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                       >
                         <span
+                          aria-hidden="true"
                           class="dnb-button__alignment"
                         >
                           ‌
@@ -5783,6 +5841,7 @@ Array [
                               type="button"
                             >
                               <span
+                                aria-hidden="true"
                                 class="dnb-button__alignment"
                               >
                                 ‌
@@ -5865,6 +5924,7 @@ Array [
                                 type="button"
                               >
                                 <span
+                                  aria-hidden="true"
                                   class="dnb-button__alignment"
                                 >
                                   ‌
@@ -5977,6 +6037,7 @@ Array [
                                     type="button"
                                   >
                                     <span
+                                      aria-hidden="true"
                                       class="dnb-button__alignment"
                                     >
                                       ‌
@@ -6049,8 +6110,9 @@ Array [
                               wrap={true}
                             >
                               <span
+                                aria-hidden={true}
                                 className="dnb-button__alignment"
-                                key="button-text-empty"
+                                key="button-alignment"
                               >
                                 ‌
                               </span>
@@ -6203,6 +6265,7 @@ Array [
                               type="button"
                             >
                               <span
+                                aria-hidden="true"
                                 class="dnb-button__alignment"
                               >
                                 ‌
@@ -6285,6 +6348,7 @@ Array [
                                 type="button"
                               >
                                 <span
+                                  aria-hidden="true"
                                   class="dnb-button__alignment"
                                 >
                                   ‌
@@ -6397,6 +6461,7 @@ Array [
                                     type="button"
                                   >
                                     <span
+                                      aria-hidden="true"
                                       class="dnb-button__alignment"
                                     >
                                       ‌
@@ -6469,8 +6534,9 @@ Array [
                               wrap={true}
                             >
                               <span
+                                aria-hidden={true}
                                 className="dnb-button__alignment"
-                                key="button-text-empty"
+                                key="button-alignment"
                               >
                                 ‌
                               </span>
@@ -6622,6 +6688,7 @@ Array [
                               class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                             >
                               <span
+                                aria-hidden="true"
                                 class="dnb-button__alignment"
                               >
                                 ‌
@@ -6703,6 +6770,7 @@ Array [
                                 class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                               >
                                 <span
+                                  aria-hidden="true"
                                   class="dnb-button__alignment"
                                 >
                                   ‌
@@ -6811,6 +6879,7 @@ Array [
                                     class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                                   >
                                     <span
+                                      aria-hidden="true"
                                       class="dnb-button__alignment"
                                     >
                                       ‌
@@ -6882,8 +6951,9 @@ Array [
                               wrap={true}
                             >
                               <span
+                                aria-hidden={true}
                                 className="dnb-button__alignment"
-                                key="button-text-empty"
+                                key="button-alignment"
                               >
                                 ‌
                               </span>
@@ -7035,6 +7105,7 @@ Array [
                               class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                             >
                               <span
+                                aria-hidden="true"
                                 class="dnb-button__alignment"
                               >
                                 ‌
@@ -7116,6 +7187,7 @@ Array [
                                 class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                               >
                                 <span
+                                  aria-hidden="true"
                                   class="dnb-button__alignment"
                                 >
                                   ‌
@@ -7224,6 +7296,7 @@ Array [
                                     class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
                                   >
                                     <span
+                                      aria-hidden="true"
                                       class="dnb-button__alignment"
                                     >
                                       ‌
@@ -7295,8 +7368,9 @@ Array [
                               wrap={true}
                             >
                               <span
+                                aria-hidden={true}
                                 className="dnb-button__alignment"
-                                key="button-text-empty"
+                                key="button-alignment"
                               >
                                 ‌
                               </span>
@@ -7522,6 +7596,7 @@ Array [
                   type="button"
                 >
                   <span
+                    aria-hidden="true"
                     class="dnb-button__alignment"
                   >
                     ‌
@@ -7638,6 +7713,7 @@ Array [
                       type="button"
                     >
                       <span
+                        aria-hidden="true"
                         class="dnb-button__alignment"
                       >
                         ‌
@@ -7751,6 +7827,7 @@ Array [
                           type="button"
                         >
                           <span
+                            aria-hidden="true"
                             class="dnb-button__alignment"
                           >
                             ‌
@@ -7823,8 +7900,9 @@ Array [
                     wrap={true}
                   >
                     <span
+                      aria-hidden={true}
                       className="dnb-button__alignment"
-                      key="button-text-empty"
+                      key="button-alignment"
                     >
                       ‌
                     </span>
@@ -7958,6 +8036,8 @@ Array [
             mode="drawer"
             no_animation={false}
             no_animation_on_mobile={false}
+            omitTriggerButton={true}
+            omit_trigger_button={false}
             on_close={[Function]}
             on_close_prevent={null}
             on_open={[Function]}
@@ -7974,7 +8054,7 @@ Array [
             trigger_attributes={null}
             trigger_class={null}
             trigger_disabled={null}
-            trigger_hidden={true}
+            trigger_hidden={false}
             trigger_icon={null}
             trigger_icon_position="left"
             trigger_size={null}
@@ -8011,6 +8091,7 @@ Array [
               mode="drawer"
               no_animation={false}
               no_animation_on_mobile={false}
+              omit_trigger_button={true}
               on_close={[Function]}
               on_close_prevent={null}
               on_open={[Function]}
@@ -8027,7 +8108,7 @@ Array [
               trigger_attributes={null}
               trigger_class={null}
               trigger_disabled={null}
-              trigger_hidden={true}
+              trigger_hidden={false}
               trigger_icon={null}
               trigger_icon_position="left"
               trigger_size={null}
@@ -8359,6 +8440,11 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
     position: fixed; }
   html[data-visual-test] .dnb-tooltip--hide {
     animation: hide-tooltip 1ms ease-out 1s forwards; }
+  .dnb-tooltip__portal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0; }
   .dnb-tooltip__content {
     min-width: 2rem;
     min-height: 1.5rem;
@@ -8745,7 +8831,8 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
     -moz-appearance: none;
     -webkit-appearance: none; }
   .dnb-button[disabled] {
-    cursor: not-allowed; }
+    cursor: not-allowed;
+    outline: none; }
   .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
     align-self: flex-start; }
   .dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {

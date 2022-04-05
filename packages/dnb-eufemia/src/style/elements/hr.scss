@@ -46,8 +46,7 @@
   @include hrStyle();
 
   &--fullscreen::after {
-    left: -50vw;
-    right: -50vw;
+    left: -100vw;
     width: 200vw;
   }
 

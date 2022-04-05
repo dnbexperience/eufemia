@@ -1,0 +1,74 @@
+/*
+* Button theme
+*
+*/
+
+@import './dnb-button-theme-ui.scss';
+
+@mixin eiendomButtonDisabled() {
+  color: var(--color-black-55);
+  background-color: var(--color-white);
+
+  // only because of href/anchor button
+  @include fakeBorder(var(--color-black-55));
+}
+
+.dnb-button--primary {
+  background-color: var(--color-emerald-green);
+
+  @include buttonHover(
+    var(--color-white),
+    var(--color-sea-green),
+    var(--color-sea-green)
+  );
+  @include buttonActive(var(--color-white), var(--color-sea-green));
+
+  &[disabled] {
+    color: var(--color-black-55);
+    background-color: var(--color-black-8);
+
+    // only because of href/anchor button
+    @include fakeBorder(var(--color-black-55));
+  }
+}
+
+.dnb-button--secondary {
+  color: var(--color-emerald-green);
+  @include fakeBorder(var(--color-emerald-green));
+
+  // // This is just not good – it gives the feeling that its not clickable, as the change is almost not noticeable
+  // @include hover() {
+  //   @include fakeBorder(var(--color-sea-green), 0.0625rem);
+  // }
+  // So we could still use sea-green, but including the 2px thikness
+  // @include buttonHover(
+  //   var(--color-sea-green),
+  //   var(--color-white),
+  //   var(--color-sea-green)
+  // );
+
+  @include buttonActive(
+    var(--color-emerald-green),
+    var(--color-pistachio)
+  );
+
+  &[disabled] {
+    color: var(--color-black-55);
+    background-color: var(--color-white);
+
+    // only because of href/anchor button
+    @include fakeBorder(var(--color-black-55));
+  }
+}
+
+.dnb-button--tertiary {
+  color: var(--color-emerald-green);
+
+  &[disabled] {
+    color: var(--color-black-55);
+  }
+}
+
+// .dnb-theme--dark .dnb-button--primary {
+//   background-color: var(--color-white);
+// }

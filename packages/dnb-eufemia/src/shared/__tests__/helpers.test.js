@@ -156,21 +156,47 @@ describe('"debounce" should', () => {
   it('delay execution', (done) => {
     let outside = 'one'
 
-    debounce(({ inside }) => {
+    const debounced = debounce(({ inside }) => {
       outside = inside
       expect(outside).toBe('two')
-    }, 1)({ inside: 'two' })
+
+      return 'not accessible'
+    }, 1)
+
+    const result = debounced({ inside: 'two' })
+
+    expect(typeof debounced).toBe('function')
+    expect(typeof debounced.cancel).toBe('function')
 
     expect(outside).toBe('one')
+    expect(result).toBe(undefined)
 
-    setTimeout(() => {
-      done()
-    }, 2)
+    setTimeout(done, 2)
   })
-  it('delay execution immediate', (done) => {
+
+  it('use given instance', (done) => {
+    const instance = () => {}
+    instance.property = 'hello'
+
+    const debounced = debounce(
+      // Needs to be a function (so we can use "this")
+      function () {
+        expect(this).toBe(instance)
+        expect(this.property).toBe(instance.property)
+      },
+      1,
+      { instance }
+    )
+
+    debounced()
+
+    setTimeout(done, 2)
+  })
+
+  it('execution immediate', (done) => {
     let outside = 'one'
 
-    debounce(
+    const debounced = debounce(
       ({ inside }) => {
         expect(outside).toBe('one')
         outside = inside
@@ -178,11 +204,51 @@ describe('"debounce" should', () => {
       },
       1,
       { immediate: true }
-    )({ inside: 'two' })
+    )
+
+    debounced({ inside: 'two' })
 
     expect(outside).toBe('two')
 
+    setTimeout(done, 2)
+  })
+
+  it('execution immediate and return result', (done) => {
+    let outside = 'one'
+
+    const debounced = debounce(
+      ({ inside }) => {
+        expect(outside).toBe('one')
+        outside = inside
+        expect(outside).toBe('two')
+
+        return inside
+      },
+      1,
+      { immediate: true }
+    )
+
+    const immediateResult = debounced({ inside: 'two' })
+
+    expect(outside).toBe('two')
+    expect(immediateResult).toBe('two')
+
+    setTimeout(done, 2)
+  })
+
+  it('should not run debounced function when cancelled', (done) => {
+    let outside = 'one'
+
+    const debounced = debounce(({ inside }) => {
+      expect(outside).toBe('one')
+      outside = inside
+      expect(outside).toBe('two')
+    }, 1)
+    debounced({ inside: 'two' })
+    debounced.cancel()
+
     setTimeout(() => {
+      expect(outside).toBe('one')
       done()
     }, 2)
   })
@@ -201,7 +267,9 @@ describe('"warn" should', () => {
     jest.resetAllMocks()
   })
 
-  it('run console.log with several messages', () => {
+  it('run console.log in development', () => {
+    const env = process.env.NODE_ENV
+    process.env.NODE_ENV = 'development'
     warn('message-1', 'message-2')
 
     expect(global.console.log).toHaveBeenCalledTimes(1)
@@ -211,6 +279,24 @@ describe('"warn" should', () => {
       'message-1',
       'message-2'
     )
+
+    process.env.NODE_ENV = env
+  })
+
+  it('run console.log in test', () => {
+    const env = process.env.NODE_ENV
+    process.env.NODE_ENV = 'test'
+
+    warn('message-1', 'message-2')
+
+    expect(global.console.log).toHaveBeenCalledTimes(1)
+    expect(global.console.log).toHaveBeenCalledWith(
+      '\u001b[0m\u001b[1m\u001b[38;5;23m\u001b[48;5;152mEufemia\u001b[49m\u001b[39m\u001b[22m\u001b[0m',
+      'message-1',
+      'message-2'
+    )
+
+    process.env.NODE_ENV = env
   })
 
   it('run not log if NODE_ENV is production', () => {

@@ -28,6 +28,29 @@
     justify-content: flex-end;
   }
 
+  &__bar__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column-reverse; // because of screen readers
+  }
+  &--center &__bar__wrapper {
+    align-items: center;
+  }
+  &--right &__bar__wrapper {
+    align-items: flex-end;
+  }
+
+  &__bar__inner {
+    gap: 0.5rem;
+  }
+
+  &__button {
+    max-width: 3.5rem;
+  }
+  &__button--large-number {
+    max-width: unset;
+  }
+
   &__loadbar {
     cursor: default;
     display: flex;
@@ -49,26 +72,7 @@
   }
 
   &__dots {
-    display: flex;
     align-self: flex-end;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: nowrap;
-
-    height: 1rem;
-    width: 1.25rem;
-
-    border: none;
-    box-shadow: none;
-
-    & > div {
-      height: 3px;
-      width: 3px;
-
-      margin: 0 0.1rem;
-
-      border-radius: 1.5px;
-    }
   }
 
   // used by the infinity scroller
@@ -92,22 +96,11 @@
     }
   }
 
-  &__button:first-child,
-  &__bar__inner {
-    margin-right: 1rem;
+  &__bar__skip {
+    margin-top: 0.5rem;
+    margin-left: -0.5rem;
   }
-  &__bar__inner &__button {
-    margin-right: 0.5rem;
-  }
-  @at-root .dnb-core-style &__button,
-    &__button,
-    &__dots {
-    margin-right: 0.5rem;
-    margin-top: 0.5rem; // because of wrapping
-    margin-bottom: 0.5rem; // because of wrapping
-
-    &:last-child {
-      margin-right: 0;
-    }
+  &__bar__skip .dnb-button:first-of-type {
+    margin-right: 1.5rem;
   }
 }

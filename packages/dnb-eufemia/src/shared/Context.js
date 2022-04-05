@@ -45,7 +45,9 @@ export const prepareContext = (props = {}) => {
       }
       return context.translation
     },
+    locale: null,
     locales,
+    skeleton: null,
     // All eufemia components because of Typescript:
     Button: {},
     Avatar: {},
@@ -60,6 +62,7 @@ export const prepareContext = (props = {}) => {
     VisuallyHidden: {},
     Drawer: {},
     Dialog: {},
+    NumberFormat: {},
 
     ...props,
     translation, // make sure we set this after props, since we update this one!

@@ -64,6 +64,7 @@ export default class SkeletonArticle extends React.PureComponent {
             'dnb-skeleton--shape',
             'dnb-space__bottom--large'
           )}
+          aria-hidden
           style={{
             width: '50%',
           }}

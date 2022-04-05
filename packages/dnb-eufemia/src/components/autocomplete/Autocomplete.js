@@ -1802,6 +1802,7 @@ class AutocompleteInstance extends React.PureComponent {
       onSubmit: this.toggleVisible,
       'aria-haspopup': 'listbox',
       'aria-expanded': isExpanded,
+      'aria-label': !hidden ? submit_button_title : undefined,
       tooltip: hidden ? submit_button_title : null,
       className: opened ? 'dnb-button--active' : null,
     }

@@ -13,6 +13,34 @@ const pageViewport = {
   height: 600,
 }
 
+describe('Dialog screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/dialog/demos',
+  })
+
+  it('have to match default dialog trigger', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="dialog-default"] .dnb-modal__trigger',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match suffix dialog trigger', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="dialog-help-button"] .dnb-input',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match custom dialog trigger', async () => {
+    const screenshot = await testPageScreenshot({
+      selector:
+        '[data-visual-test="dialog-custom-trigger"] .dnb-modal__trigger',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
 describe('Dialog suffix screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/dialog/demos',
@@ -108,52 +136,6 @@ describe('Dialog custom screenshot', () => {
   })
 })
 
-describe('Dialog simple screenshot', () => {
-  setupPageScreenshot({
-    url: '/uilib/components/dialog/demos',
-    pageViewport,
-  })
-
-  it('have to match the default dialog window', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
-      simulate: 'click',
-      simulateSelector:
-        '[data-visual-test="dialog-default"] button:first-of-type',
-      screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
-
-describe('Dialog screenshot', () => {
-  setupPageScreenshot({
-    url: '/uilib/components/dialog/demos',
-  })
-
-  it('have to match default dialog trigger', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="dialog-default"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match suffix dialog trigger', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="dialog-help-button"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match custom dialog trigger', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="dialog-custom-trigger"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
-
 describe('Dialog confirmation screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/dialog/demos',
@@ -223,6 +205,26 @@ describe('Dialog confirmation screenshot', () => {
         '[data-visual-test="dialog-confirm-cookie"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
       rootClassName: 'hide-page-content',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Dialog simple screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/dialog/demos',
+    pageViewport,
+  })
+
+  it('have to match the default dialog window', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="dialog-default"] button:first-of-type',
+      screenshotSelector: '.dnb-modal__content',
+      rootClassName: 'hide-page-content',
+      waitBeforeSimulate: 200,
     })
     expect(screenshot).toMatchImageSnapshot()
   })

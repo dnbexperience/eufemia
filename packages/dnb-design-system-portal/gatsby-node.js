@@ -8,8 +8,21 @@ const path = require('path')
 const { isCI } = require('repo-utils')
 const getCurrentBranchName = require('current-git-branch')
 const { init } = require('./scripts/version.js')
+const {
+  defineSrcAddition,
+} = require('gatsby-plugin-eufemia-theme-handler/collectThemes')
+
+let prebuildExists = false
+const currentBranch = getCurrentBranchName()
 
 exports.onPreInit = async () => {
+  try {
+    prebuildExists = fs.existsSync(require.resolve('@dnb/eufemia/build'))
+  } catch (e) {
+    //
+  }
+  defineSrcAddition(isCI && prebuildExists ? 'build/' : 'src/')
+
   if (process.env.NODE_ENV === 'production') {
     await init()
   }
@@ -171,15 +184,6 @@ async function createRedirects({ graphql, actions }) {
   })
 }
 
-let prebuildExists = false
-try {
-  prebuildExists = fs.existsSync(require.resolve('@dnb/eufemia/build'))
-} catch (e) {
-  //
-}
-
-const currentBranch = getCurrentBranchName()
-
 exports.onCreateWebpackConfig = ({ actions, plugins }) => {
   const config = {
     resolve: {
@@ -189,6 +193,7 @@ exports.onCreateWebpackConfig = ({ actions, plugins }) => {
     },
     plugins: [
       plugins.define({
+        'process.env.STYLE_THEME': JSON.stringify(getStyleTheme()),
         'process.env.CURRENT_BRANCH': JSON.stringify(currentBranch),
         'process.env.PREBUILD_EXISTS': JSON.stringify(prebuildExists),
       }),
@@ -220,4 +225,22 @@ exports.onCreateDevServer = () => {
   } = require('gatsby-plugin-remove-serviceworker/gatsby-node.js')
 
   onPostBuild()
+}
+
+function getStyleTheme() {
+  let themeName = 'ui'
+  if (typeof process.env.GATSBY_THEME_STYLE_DEV !== 'undefined') {
+    themeName = process.env.GATSBY_THEME_STYLE_DEV
+  }
+
+  /**
+   * Checking for "branch name" could be interesting to have,
+   * but this requires that we have a visual testing strategy in place first.
+   *
+   */
+  if (process.env.GATSBY_CLOUD && currentBranch.includes('eiendom')) {
+    themeName = 'eiendom'
+  }
+
+  return themeName
 }

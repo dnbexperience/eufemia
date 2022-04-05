@@ -4,7 +4,7 @@ title: 'Image'
 
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
-## Image
+# Image
 
 The image element associated with the class `dnb-img` does not have much opinionated styling. It exists more to have a future possibility to optimize and add features.
 
@@ -16,7 +16,7 @@ import { Img } from '@dnb/eufemia/elements'
 render(<InlineImg alt="..." src="..." width="100" height="100" />)
 ```
 
-### Basic image element
+## Basic image element
 
 <ComponentBox data-visual-test="image-plain" useRender hideCode>
 {`
@@ -37,7 +37,7 @@ render(<CustomImage />)
 `}
 </ComponentBox>
 
-### Image with invalid source
+## Image with invalid source
 
 <ComponentBox data-visual-test="image-no-source" useRender hideCode>
 {`
@@ -53,7 +53,7 @@ render(
 `}
 </ComponentBox>
 
-### Image with caption
+## Image with caption
 
 <ComponentBox data-visual-test="image-caption" useRender hideCode>
 {`
@@ -75,7 +75,7 @@ render(<CustomImage />)
 `}
 </ComponentBox>
 
-### Image element with skeleton
+## Image element with skeleton
 
 <ComponentBox data-visual-test="image-skeleton" useRender>
 {`

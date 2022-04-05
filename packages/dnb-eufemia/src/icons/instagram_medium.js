@@ -13,20 +13,12 @@ const instagram_medium = (props) => (
   >
     <g clipPath="url(#a)">
       <path
-        d="M17.24.75H6.74a6 6 0 0 0-6 6v10.5a6 6 0 0 0 6 6h10.5a6 6 0 0 0 6-6V6.75a6 6 0 0 0-6-6Z"
+        d="M18.595 5.235h.346M6.74.75h10.5a6 6 0 0 1 6 6v10.5a6 6 0 0 1-6 6H6.74a6 6 0 0 1-6-6V6.75a6 6 0 0 1 6-6ZM16.99 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0Zm2.03-6.765c0 .183-.16.243-.248.243-.091 0-.251-.06-.251-.243 0-.197.16-.257.251-.257.089 0 .249.06.249.257Z"
         stroke="#000"
         strokeWidth={1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path
-        d="M11.99 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"
-        stroke="#000"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle cx={18.75} cy={5.25} r={1.25} fill="#000" />
     </g>
     <defs>
       <clipPath id="a">

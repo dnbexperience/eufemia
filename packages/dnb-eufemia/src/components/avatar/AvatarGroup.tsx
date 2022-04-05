@@ -6,9 +6,11 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import { AvatarSizes, AvatarVariants } from './Avatar'
 
 // Shared
+import { validateDOMAttributes } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
 import { usePropsWithContext } from '../../shared/hooks'
+import { SkeletonShow } from '../skeleton/Skeleton'
 
 export interface AvatarGroupProps {
   /**
@@ -46,6 +48,12 @@ export interface AvatarGroupProps {
    * Default: primary.
    */
   variant?: AvatarVariants
+
+  /**
+   * Skeleton should be applied when loading content
+   * Default: false
+   */
+  skeleton?: SkeletonShow
 }
 
 export const defaultProps = {
@@ -55,6 +63,7 @@ export const defaultProps = {
   size: 'medium',
   children: null,
   variant: 'primary',
+  skeleton: false,
 }
 
 export const AvatarGroupContext = React.createContext(null)
@@ -71,7 +80,9 @@ const AvatarGroup = (localProps: AvatarGroupProps & ISpacingProps) => {
     maxElements: maxElementsProp,
     variant,
     ...props
-  } = usePropsWithContext(localProps, defaultProps, context?.AvatarGroup)
+  } = usePropsWithContext(localProps, defaultProps, context?.AvatarGroup, {
+    skeleton: context?.skeleton,
+  })
 
   const maxElements =
     maxElementsProp && maxElementsProp > 0 ? maxElementsProp : 4
@@ -103,6 +114,10 @@ const AvatarGroup = (localProps: AvatarGroupProps & ISpacingProps) => {
   }
 
   const spacingClasses = createSpacingClasses(props)
+  const {
+    skeleton, // eslint-disable-line
+    ...attributes
+  } = validateDOMAttributes({}, props)
 
   return (
     <AvatarGroupContext.Provider value={props}>
@@ -113,7 +128,7 @@ const AvatarGroup = (localProps: AvatarGroupProps & ISpacingProps) => {
           className
         )}
         data-testid="avatar-group"
-        {...props}
+        {...attributes}
       >
         <span data-testid="avatar-group-label" className="dnb-sr-only">
           {label}

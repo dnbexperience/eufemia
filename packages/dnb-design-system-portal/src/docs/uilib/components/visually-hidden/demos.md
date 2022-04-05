@@ -11,21 +11,20 @@ VisuallyHiddenUseCase,
 
 ## Demos
 
-#### VisuallyHidden
+### VisuallyHidden
 
 <VisuallyHiddenDefault />
 
-#### VisuallyHidden with focusable content
-
+### VisuallyHidden with focusable content
 
 Use `VisuallyHidden` with `focusable={true}` to visually hide an element by default, but to display it when it’s focused (e.g. by a keyboard-only user). The container will be displayed when any child element of the container receives focus.
 
 <VisuallyHiddenFocusable />
 
-#### VisuallyHidden with example of use case
+### VisuallyHidden with example of use case
 
 <VisuallyHiddenUseCase />
 
-#### VisuallyHidden with custom element
+### VisuallyHidden with custom element
 
 <VisuallyHiddenSpan />

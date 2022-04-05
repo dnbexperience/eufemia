@@ -4,9 +4,9 @@ title: 'Lists'
 
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
-## Lists
+# Lists
 
-### List modifiers
+## List modifiers
 
 - `.dnb-ul--nested` / `.dnb-ol--nested` will ensure a nested structure of several lists
 - `.dnb-ol--outside` (default) defines the position of the marker
@@ -24,7 +24,7 @@ render(
 )
 ```
 
-### Unordered Lists
+## Unordered Lists
 
 <ComponentBox hideCode useRender data-visual-test="lists-ul">
 {`
@@ -48,9 +48,9 @@ render(<Ul>
 `}
 </ComponentBox>
 
-### Ordered Lists (nested)
+## Ordered Lists (nested)
 
-<ComponentBox hideCode useRender data-visual-test="lists-ol" caption="Nested ol list by using `.dnb-ol--nested`">
+<ComponentBox hideCode useRender data-visual-test="lists-ol" caption="Nested ol list by using '.dnb-ol--nested'">
 {`
 // import { Ol, Li } from '@dnb/eufemia/elements'
 // Instead of using className="dnb-ol", we use Ol (and Li)
@@ -79,11 +79,11 @@ render(<Ol nested>
 `}
 </ComponentBox>
 
-#### Ordered list style position (outside vs inside)
+### Ordered list style position (outside vs inside)
 
 The list marker will be inside of wrapped text / text with newlines.
 
-<ComponentBox hideCode useRender data-visual-test="lists-ol-style-position" caption="Nested ol with inside modifier `.dnb-ol--inside`">
+<ComponentBox hideCode useRender data-visual-test="lists-ol-style-position" caption="Nested ol with inside modifier '.dnb-ol--inside'">
 {`
 // import { Ol, Li } from '@dnb/eufemia/elements'
 const WidthLimit = styled.div\`
@@ -117,7 +117,7 @@ render(<WidthLimit>
 `}
 </ComponentBox>
 
-#### Ordered list with other types
+### Ordered list with other types
 
 Ordered lists do support natively other types, like _letters_ and _roman numerals_. You can define that by using the `type` HTML attribute.
 
@@ -142,7 +142,7 @@ Ordered lists do support natively other types, like _letters_ and _roman numeral
 `}
 </ComponentBox>
 
-### Definition Lists
+## Definition Lists
 
 Use Definition Lists when ever you have to tie together any items that have a direct relationship with each other (name/value sets).
 
@@ -170,7 +170,7 @@ render(<Dl>
 `}
 </ComponentBox>
 
-### Remove list styles
+## Remove list styles
 
 <ComponentBox hideCode data-visual-test="lists-reset">
 {`

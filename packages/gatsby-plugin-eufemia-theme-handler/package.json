@@ -1,0 +1,35 @@
+{
+  "name": "gatsby-plugin-eufemia-theme-handler",
+  "description": "Gatsby Plugin to handle visual themes for @dnb/eufemia",
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin",
+    "visual theme",
+    "eufemia",
+    "design system",
+    "dnb"
+  ],
+  "license": "SEE LICENSE IN LICENSE FILE",
+  "author": "DNB Team & Tobias Høegh",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dnbexperience/eufemia.git"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "globby": "11.0.4",
+    "terser-loader": "2.0.2"
+  },
+  "peedDependencies": {
+    "@dnb/eufemia": ">=9",
+    "react": ">=17",
+    "gatsby": ">=3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

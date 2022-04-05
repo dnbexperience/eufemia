@@ -40,31 +40,8 @@
     }
   }
 
-  &__dots > div {
-    background-color: var(--color-emerald-green);
-  }
-
-  // Do not hide the dots
-  // @media screen and (max-width: 30em) {
-  //   &__dots {
-  //     width: 0;
-  //     margin: 0;
-  //   }
-  // }
-
-  @media screen and (max-width: 40em) {
-    &--many-pages
-      &__bar__inner
-      &__button:not([aria-current]):nth-of-type(2),
-    &--many-pages
-      &__bar__inner
-      &__button:not([aria-current]):nth-last-of-type(2) {
-      width: 0;
-      overflow: hidden;
-      margin: 0;
-      padding: 0;
-      box-shadow: none; // because on iOS we force an outer "fakeBorder" on secondary button
-    }
+  &__dots {
+    color: var(--color-black-55);
   }
 }
 

@@ -12,7 +12,7 @@ const bank = (props) => (
     {...props}
   >
     <path
-      d="M1 15h14M3.5 7.5v5h3v-5m3 0v5h3v-5M15 5H1L7.46 1.16a1 1 0 0 1 1.08 0L15 5Z"
+      d="M1 15h14M3.5 7.5v5h3v-5m3 0v5h3v-5M15 5H1l6.46-3.84a1 1 0 0 1 1.08 0L15 5Z"
       stroke="#000"
       strokeWidth={1.5}
       strokeLinecap="round"

@@ -21,7 +21,7 @@ export default class CloseButton extends React.PureComponent<CloseButtonProps> {
   static contextType = Context
   static defaultProps = {
     close_title: null,
-    size: 'large',
+    size: 'default',
     icon_position: 'left',
     className: null,
   }
@@ -30,7 +30,7 @@ export default class CloseButton extends React.PureComponent<CloseButtonProps> {
     // use only the props from context, who are available here anyway
     const {
       close_title = null,
-      size = 'large',
+      size = 'default',
       icon_position = 'left',
       className = null,
       ...button_props

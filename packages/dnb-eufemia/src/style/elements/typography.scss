@@ -27,8 +27,12 @@
     padding-top: 0;
     padding-bottom: 0.03125rem;
   }
+
+  @if mixin-exists('headingDefaultsCustomisation') {
+    @include headingDefaultsCustomisation();
+  }
 }
-@mixin headingStyle_xx-large() {
+@mixin headingSize_xx-large() {
   font-size: var(--font-size-xx-large);
   line-height: var(--line-height-x-large);
 
@@ -38,8 +42,12 @@
     font-size: var(--font-size-x-large);
     line-height: var(--line-height-large);
   }
+
+  @if mixin-exists('headingSize_xx-largeCustomisation') {
+    @include headingSize_xx-largeCustomisation();
+  }
 }
-@mixin headingStyle_x-large() {
+@mixin headingSize_x-large() {
   font-size: var(--font-size-x-large);
   line-height: var(--line-height-large);
 
@@ -49,8 +57,12 @@
     font-size: var(--font-size-x-large);
     line-height: var(--line-height-large);
   }
+
+  @if mixin-exists('headingSize_x-largeCustomisation') {
+    @include headingSize_x-largeCustomisation();
+  }
 }
-@mixin headingStyle_large() {
+@mixin headingSize_large() {
   font-size: var(--font-size-large);
   line-height: var(--line-height-medium);
 
@@ -59,9 +71,13 @@
     font-size: var(--font-size-medium);
     line-height: calc(var(--line-height-medium) - 0.125rem);
   }
+
+  @if mixin-exists('headingSize_largeCustomisation') {
+    @include headingSize_largeCustomisation();
+  }
 }
 // Like Lead / --lead
-@mixin headingStyle_medium() {
+@mixin headingSize_medium() {
   font-size: var(--font-size-medium);
   line-height: calc(var(--line-height-medium) - 0.25rem);
 
@@ -70,8 +86,12 @@
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
   }
+
+  @if mixin-exists('headingSize_mediumCustomisation') {
+    @include headingSize_mediumCustomisation();
+  }
 }
-@mixin headingStyle_basis() {
+@mixin headingSize_basis() {
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
 
@@ -80,7 +100,7 @@
     line-height: var(--line-height-small);
   }
 }
-@mixin headingStyle_small() {
+@mixin headingSize_small() {
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 
@@ -89,15 +109,12 @@
     line-height: var(--line-height-small);
   }
 }
-@mixin headingStyle_x-small() {
+@mixin headingSize_x-small() {
   font-size: var(--font-size-x-small);
   line-height: var(--line-height-x-small);
-
-  // font-weight: var(--font-weight-regular);
 }
 @mixin paragraphStyle() {
   font-size: var(--font-size-basis);
-  // color: var(--color-black-80);
   color: var(--theme-color-black-80, currentColor);
 
   // if we not reset margin, the browser is using: margin-block-end: 1rem;
@@ -110,7 +127,8 @@
   padding: 0;
 
   &--lead {
-    @include headingStyle_medium();
+    @include headingSize_medium();
+    font-weight: var(--font-weight-medium);
   }
 
   &--ingress,
@@ -218,22 +236,22 @@
     @include headingDefaults();
   }
   h1 {
-    @include headingStyle_xx-large();
+    @include headingSize_xx-large();
   }
   h2 {
-    @include headingStyle_large();
+    @include headingSize_large();
   }
   h3 {
-    @include headingStyle_medium();
+    @include headingSize_medium();
   }
   h4 {
-    @include headingStyle_basis();
+    @include headingSize_basis();
   }
   h5 {
-    @include headingStyle_small();
+    @include headingSize_small();
   }
   h6 {
-    @include headingStyle_x-small();
+    @include headingSize_x-small();
   }
 
   h2 > small,
@@ -289,37 +307,38 @@
 
 // .dnb-h1,/* deprecated */
 .dnb-h--xx-large {
-  @include headingStyle_xx-large();
+  @include headingSize_xx-large();
 }
 
 .dnb-h--x-large {
-  @include headingStyle_x-large();
+  @include headingSize_x-large();
 }
 
 // .dnb-h2,/* deprecated */
 .dnb-h--large {
-  @include headingStyle_large();
+  @include headingSize_large();
 }
 
 /* dnb-h--medium looks the same as .dnb-lead */
 // .dnb-h3,/* deprecated */
 .dnb-lead,
 .dnb-h--medium {
-  @include headingStyle_medium();
+  @include headingSize_medium();
+  font-weight: var(--font-weight-medium);
 }
 
 // The rest of the Headings are nod defned by the Eufemia Typography
 // .dnb-h4,/* deprecated */
 .dnb-h--basis {
-  @include headingStyle_basis();
+  @include headingSize_basis();
 }
 // .dnb-h5,/* deprecated */
 .dnb-h--small {
-  @include headingStyle_small();
+  @include headingSize_small();
 }
 // .dnb-h6,/* deprecated */
 .dnb-h--x-small {
-  @include headingStyle_x-small();
+  @include headingSize_x-small();
 }
 
 // Headings

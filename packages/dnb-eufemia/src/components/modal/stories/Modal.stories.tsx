@@ -436,6 +436,14 @@ export const DrawerSandbox = () => (
         </Modal.Content>
       </Modal>
     </Box>
+    <Box>
+      <Modal
+        mode="drawer"
+        title="Top drawer"
+        container_placement="top"
+        modal_content="something"
+      />
+    </Box>
   </Wrapper>
 )
 

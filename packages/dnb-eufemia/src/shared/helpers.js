@@ -221,26 +221,39 @@ export function scrollToLocationHashId({
   }
 }
 
-// Credit David Walsh (https://davidwalsh.name/javascript-debounce-function)
-
-// Returns a function, that, as long as it continues to be invoked, will not
-// be triggered. The function will be called after it stops being called for
-// N milliseconds. If `immediate` is passed, trigger the function on the
-// leading edge, instead of the trailing.
+/**
+ * More or less classical debounce function
+ *
+ * Calling this function will return a new function, that, as long as it continues to be invoked, will not
+ * be triggered. The function will be called after it stops being called for
+ * N milliseconds. If `immediate` is passed, trigger the function on the
+ * leading edge, instead of the trailing.
+ *
+ * @param {function} func The function to execute
+ * @param {number} wait The time (milliseconds) before the first given function executres, if the retuned one, not got called
+ * @param {object} options The options object
+ * @property {boolean} immediate If true, the function will execute immediately. Defaults to false
+ * @property {instance} instance Defines the instance "this" to use on the executed function
+ * @returns The function to invlaidate the execution
+ */
 export function debounce(
   func,
   wait = 250,
-  { immediate = false, context = null } = {}
+  { immediate = false, instance = null } = {}
 ) {
   let timeout
   let recall
 
+  const cancel = () => clearTimeout(timeout)
+
   // This is the function that is actually executed when
   // the DOM event is triggered.
-  return function executedFunction(...args) {
-    // Store the context of this and any
+  function executedFunction(...args) {
+    // Store the instance of this and any
     // parameters passed to executedFunction
-    const ctx = context || this
+    let inst = this
+
+    // console.log('instance', instance)
 
     if (typeof recall === 'function') {
       recall()
@@ -254,7 +267,7 @@ export function debounce(
 
       // Call function now if you did not on the leading end
       if (!immediate) {
-        recall = func.apply(ctx, args)
+        recall = func.apply(instance || inst, args)
       }
     }
 
@@ -275,9 +288,15 @@ export function debounce(
     // Call immediately if you're dong a leading
     // end execution
     if (callNow) {
-      recall = func.apply(ctx, args)
+      recall = func.apply(instance || inst, args)
     }
+
+    return recall
   }
+
+  executedFunction.cancel = cancel
+
+  return executedFunction
 }
 
 export function insertElementBeforeSelection(elem) {
@@ -434,7 +453,8 @@ export const warn = (...params) => {
     typeof console !== 'undefined' &&
     typeof console.log === 'function'
   ) {
-    const isBrowser = typeof window !== 'undefined'
+    const isBrowser =
+      typeof window !== 'undefined' && process.env.NODE_ENV !== 'test'
 
     if (isBrowser) {
       const styles = [
@@ -445,7 +465,11 @@ export const warn = (...params) => {
       ].join(';')
       console.log('%cEufemia', styles, ...params)
     } else {
-      console.log('Eufemia:', ...params)
+      console.log(
+        // How to generate it: JSON.stringify(chalk.reset.bold.hex('#00343E').bgHex('#A5E1D2')('Eufemia'))
+        '\u001b[0m\u001b[1m\u001b[38;5;23m\u001b[48;5;152mEufemia\u001b[49m\u001b[39m\u001b[22m\u001b[0m',
+        ...params
+      )
     }
   }
 }

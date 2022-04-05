@@ -37,24 +37,31 @@ export const ButtonSecondary = () => (
   </ComponentBox>
 )
 
-export const ButtonDisabledPrimary = () => (
-  <ComponentBox>
+export const ButtonDisabled = () => (
+  <ComponentBox data-visual-test="button-disabled">
     {() => /* jsx */ `
 <Button
   text="Disabled primary button"
   disabled
+  right
 />
-`}
-  </ComponentBox>
-)
-
-export const ButtonDisabledSecondary = () => (
-  <ComponentBox>
-    {() => /* jsx */ `
 <Button
   text="Disabled secondary button"
   variant="secondary"
   disabled
+  right
+/>
+<Button
+  text="Disabled tertiary button"
+  variant="tertiary"
+  disabled
+  right
+/>
+<Button
+  title="Disabled Icon Button"
+  icon="calendar"
+  disabled
+  right
 />
 `}
   </ComponentBox>

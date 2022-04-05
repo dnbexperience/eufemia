@@ -5,7 +5,15 @@
 
 @mixin codeStyle() {
   display: inline-block;
-  margin: -0.25em 0;
+
+  // Used by properties tables
+  del & {
+    text-decoration: line-through;
+  }
+
+  &:not([class*='dnb-space']) {
+    margin: -0.25em 0;
+  }
   padding: 0.25em 0.25em; /* 2px 4px */
 
   font-size: inherit;
@@ -16,11 +24,6 @@
   background-color: var(--color-mint-green-25);
 
   border-radius: 0.1875em;
-
-  // Used by properties tables
-  del & {
-    text-decoration: line-through;
-  }
 }
 @mixin preStyle() {
   display: block;

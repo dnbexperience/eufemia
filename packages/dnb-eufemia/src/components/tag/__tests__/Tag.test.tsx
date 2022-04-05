@@ -61,6 +61,20 @@ describe('Tag Group', () => {
       customClassName
     )
   })
+
+  it('renders a tag with skeleton if skeleton is true', () => {
+    const skeletonClassName = 'dnb-skeleton'
+
+    render(
+      <Tag.Group skeleton label="tags">
+        <Tag>skeleton</Tag>
+      </Tag.Group>
+    )
+
+    expect(screen.queryByTestId('tag').className).toMatch(
+      skeletonClassName
+    )
+  })
 })
 
 describe('Tag', () => {
@@ -133,9 +147,26 @@ describe('Tag', () => {
 
     render(
       <Tag.Group label="tags">
-        <Tag skeleton>ClassName</Tag>
+        <Tag skeleton>skeleton</Tag>
       </Tag.Group>
     )
+
+    expect(screen.queryByTestId('tag').className).toMatch(
+      skeletonClassName
+    )
+  })
+
+  it('inherits skeleton prop from provider', () => {
+    const skeletonClassName = 'dnb-skeleton'
+
+    render(
+      <Provider skeleton>
+        <Tag.Group label="tags">
+          <Tag>skeleton</Tag>
+        </Tag.Group>
+      </Provider>
+    )
+
     expect(screen.queryByTestId('tag').className).toMatch(
       skeletonClassName
     )
@@ -245,6 +276,28 @@ describe('Tag', () => {
 
       fireEvent.click(screen.getByRole('button'))
       expect(onClick).toHaveBeenCalledTimes(1)
+    })
+
+    it('space should not be inherited by children tags', () => {
+      const { container, rerender } = render(
+        <Tag.Group label="Space" space={{ top: true }}>
+          <Tag>Tag</Tag>
+        </Tag.Group>
+      )
+
+      expect(
+        container.querySelectorAll('.dnb-space__top--small').length
+      ).toBe(1)
+
+      rerender(
+        <Tag.Group label="Space" space={{ top: true }}>
+          <Tag top={true}>Tag</Tag>
+        </Tag.Group>
+      )
+
+      expect(
+        container.querySelectorAll('.dnb-space__top--small').length
+      ).toBe(2)
     })
 
     it('renders the close button if onDelete is defined', () => {

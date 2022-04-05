@@ -20,6 +20,8 @@ const snapshotProps = {
     optional: true,
   }),
 }
+snapshotProps.page_count = 4
+snapshotProps.current_page = 2
 
 describe('Pagination bar', () => {
   const props = {
@@ -31,8 +33,8 @@ describe('Pagination bar', () => {
     const Comp = mount(<Component {...props} />)
     const innerElem = Comp.find('.dnb-pagination__bar__inner')
 
-    expect(innerElem.find('button.dnb-pagination__button').length).toBe(7)
-    expect(innerElem.find('button.dnb-button--secondary').length).toBe(6)
+    expect(innerElem.find('button.dnb-pagination__button').length).toBe(9)
+    expect(innerElem.find('button.dnb-button--secondary').length).toBe(8)
     expect(innerElem.find('button.dnb-button--primary').length).toBe(1)
   })
 
@@ -68,7 +70,7 @@ describe('Pagination bar', () => {
       false
     )
 
-    const prevNavButton = Comp.find('button.dnb-pagination__button').at(0)
+    const prevNavButton = Comp.find('.dnb-button').at(0)
     expect(prevNavButton.instance().hasAttribute('disabled')).toBe(true)
     expect(
       prevNavButton
@@ -100,8 +102,8 @@ describe('Pagination bar', () => {
     )
 
     buttonElements.at(2).simulate('click')
-    expect(currentPage).toBe(14)
-    expect(Comp.find('div#page-no').text()).toBe('14')
+    expect(currentPage).toBe(13)
+    expect(Comp.find('div#page-no').text()).toBe('13')
 
     Comp.setProps({
       current_page: 5,
@@ -110,8 +112,8 @@ describe('Pagination bar', () => {
     expect(Comp.find('div#page-no').text()).toBe('5')
 
     buttonElements.at(3).simulate('click')
-    expect(currentPage).toBe(15)
-    expect(Comp.find('div#page-no').text()).toBe('15')
+    expect(currentPage).toBe(14)
+    expect(Comp.find('div#page-no').text()).toBe('14')
 
     Comp.setProps({
       current_page: 3,
@@ -140,8 +142,8 @@ describe('Pagination bar', () => {
     expect(Comp.find('.dnb-pagination__content').text()).toBe('2')
 
     const nextButton = Comp.find('div.dnb-pagination__bar')
-      .find('button.dnb-pagination__button')
-      .find('.dnb-button--size-small')
+      .find('.dnb-pagination__bar__skip')
+      .find('.dnb-button')
       .at(1)
 
     expect(nextButton.instance().getAttribute('title')).toBe('Neste side')
@@ -186,8 +188,8 @@ describe('Pagination bar', () => {
     )
 
     const nextButton = Comp.find('div.dnb-pagination__bar')
-      .find('button.dnb-pagination__button')
-      .find('.dnb-button--size-small')
+      .find('.dnb-pagination__bar__skip')
+      .find('.dnb-button')
       .at(1)
 
     nextButton.simulate('click')
@@ -207,8 +209,8 @@ describe('Pagination bar', () => {
     const Comp = mount(<Component {...props} on_change={on_change} />)
 
     const nextButton = Comp.find('div.dnb-pagination__bar')
-      .find('button.dnb-pagination__button')
-      .find('.dnb-button--size-small')
+      .find('.dnb-pagination__bar__skip')
+      .find('.dnb-button')
       .at(1)
 
     nextButton.simulate('click')

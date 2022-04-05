@@ -60,7 +60,7 @@ export const InputExampleMedium = () => (
 <Input
   size="medium"
   type="search"
-  stretch="true"
+  stretch={true}
   value="Medium search value"
   on_change={({ value }) => {
     console.log('on_change', value)
@@ -158,7 +158,7 @@ export const InputExampleSuffix = () => (
 
 export const InputExampleStretched = () => (
   <Wrapper>
-    <ComponentBox>
+    <ComponentBox data-visual-test="input-stretch">
       {() => /* jsx */ `
 <FormRow
   label="Long label labwl Adipiscing mauris dis proin nec:"
@@ -166,7 +166,7 @@ export const InputExampleStretched = () => (
   indent_offset="large"
   wrap
 >
-  <Input value="I stretch ..." stretch />
+  <Input value="I stretch ..." stretch status="Status message" status_state="warn" />
 </FormRow>
 `}
     </ComponentBox>

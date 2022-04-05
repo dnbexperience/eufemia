@@ -4,21 +4,20 @@ import React from 'react'
 
 const information_bubble_medium = (props) => (
   <svg
-    width={25}
+    width={24}
     height={24}
-    viewBox="0 0 25 24"
+    viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
     <path
-      d="M13.75 16H13a1.5 1.5 0 0 1-1.5-1.5v-3.75a.75.75 0 0 0-.75-.75H10M11.268.75a10.485 10.485 0 0 1 8.917 16.025l3.083 6.475-6.474-3.083A10.5 10.5 0 1 1 11.268.75Z"
+      d="M13.75 16H13a1.5 1.5 0 0 1-1.5-1.5v-3.75a.75.75 0 0 0-.75-.75H10m.825-3.494h.346M11.268.75a10.485 10.485 0 0 1 8.916 16.025l3.083 6.475-6.474-3.083A10.5 10.5 0 1 1 11.268.75Zm-.018 5.756c0 .183-.16.243-.248.243-.092 0-.252-.06-.252-.243 0-.197.16-.257.252-.257.088 0 .248.06.248.257Z"
       stroke="#000"
       strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-    <circle cx={11} cy={6.5} r={1} fill="#000" />
   </svg>
 )
 

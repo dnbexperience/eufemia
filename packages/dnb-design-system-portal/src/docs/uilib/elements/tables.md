@@ -7,17 +7,17 @@ import { css, Global } from '@emotion/react'
 
 <Global styles={css`body{ .dnb-app-content { overflow: visible; } }`} />
 
-## Tables
+# Tables
 
 The following table has a default style. But in future, there will be several extensions and styles to choose from.
 
 You may consider using `table-layout: fixed;`. You can use the modifier class in doing so: `.dnb-table--fixed`
 
-### Working Demo
+## Working Demo
 
 Check out a [working example on CodeSandbox](https://codesandbox.io/embed/eufemia-react-table-x4cwc), using `react-table`.
 
-### Classes
+## Classes
 
 **NB:** Tables get their default table style by only having correct markup and the **`.dnb-table`** class assigned.
 
@@ -80,7 +80,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
 `}
 </ComponentBox>
 
-### Default Table style
+## Default Table style
 
 <ComponentBox hideCode data-visual-test="table-default">
 {`
@@ -142,7 +142,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
 `}
 </ComponentBox>
 
-### Table with sticky header
+## Table with sticky header
 
 **NB:** Keep in mind, you have to avoid using `overflow: hidden;` on any child elements to get `position: sticky;` to work. This is a know issue happening on every modern browser. There are various tricks, including [this deallocation / sync solution](https://uxdesign.cc/position-stuck-96c9f55d9526).
 
@@ -213,7 +213,7 @@ To enhance or manipulate the the table style, you can make use of a couple helpe
 `}
 </ComponentBox>
 
-### Table with long header text (wrapping)
+## Table with long header text (wrapping)
 
 Also, the table header is set to **small** font-size.
 

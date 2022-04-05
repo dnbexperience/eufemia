@@ -11,6 +11,7 @@ import account_medium from './account_medium.js'
 import account_out from './account_out.js'
 import account_out_medium from './account_out_medium.js'
 import account_percent from './account_percent.js'
+import account_percent_medium from './account_percent_medium.js'
 import add from './add.js'
 import add_circled from './add_circled.js'
 import add_circled_medium from './add_circled_medium.js'
@@ -345,6 +346,8 @@ import motorcycle from './motorcycle.js'
 import motorcycle_medium from './motorcycle_medium.js'
 import move from './move.js'
 import move_medium from './move_medium.js'
+import news from './news.js'
+import news_medium from './news_medium.js'
 import office_buildings from './office_buildings.js'
 import office_buildings_medium from './office_buildings_medium.js'
 import oil from './oil.js'
@@ -383,6 +386,8 @@ import plant from './plant.js'
 import plant_medium from './plant_medium.js'
 import play from './play.js'
 import play_medium from './play_medium.js'
+import podcast from './podcast.js'
+import podcast_medium from './podcast_medium.js'
 import printer from './printer.js'
 import printer_medium from './printer_medium.js'
 import products_account_percent_medium from './products_account_percent_medium.js'
@@ -478,6 +483,8 @@ import undo from './undo.js'
 import undo_medium from './undo_medium.js'
 import upload from './upload.js'
 import upload_medium from './upload_medium.js'
+import user_feedback from './user_feedback.js'
+import user_feedback_medium from './user_feedback_medium.js'
 import video from './video.js'
 import video_medium from './video_medium.js'
 import view from './view.js'
@@ -513,6 +520,7 @@ export {
   account_out,
   account_out_medium,
   account_percent,
+  account_percent_medium,
   add,
   add_circled,
   add_circled_medium,
@@ -847,6 +855,8 @@ export {
   motorcycle_medium,
   move,
   move_medium,
+  news,
+  news_medium,
   office_buildings,
   office_buildings_medium,
   oil,
@@ -885,6 +895,8 @@ export {
   plant_medium,
   play,
   play_medium,
+  podcast,
+  podcast_medium,
   printer,
   printer_medium,
   products_account_percent_medium,
@@ -980,6 +992,8 @@ export {
   undo_medium,
   upload,
   upload_medium,
+  user_feedback,
+  user_feedback_medium,
   video,
   video_medium,
   view,

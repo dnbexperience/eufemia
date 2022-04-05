@@ -49,6 +49,12 @@ describe('Dialog', () => {
     expect(Comp.find('button.dnb-modal__close-button').exists()).toBe(true)
   })
 
+  it('omits trigger button once we set omitTriggerButton', () => {
+    const Comp = mount(<Dialog {...props} omitTriggerButton />)
+
+    expect(Comp.find('button.dnb-modal__trigger').exists()).toBe(false)
+  })
+
   it('will close by using callback method', () => {
     const on_close = jest.fn()
     const on_open = jest.fn()
@@ -311,6 +317,19 @@ describe('Dialog', () => {
     expect(elements[2].textContent).toContain('body')
 
     expect(Comp.find('button.dnb-modal__close-button').length).toBe(1)
+  })
+
+  it('does not close with click on overlay for variant confirmation', () => {
+    const Comp = mount(
+      <Dialog {...props} variant="confirmation" openState="opened" />
+    )
+
+    Comp.find('.dnb-modal__content').simulate('click')
+    expect(Comp.exists('.dnb-dialog__inner')).toBe(true)
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    Comp.update()
+    expect(Comp.exists('.dnb-dialog__inner')).toBe(false)
   })
 })
 

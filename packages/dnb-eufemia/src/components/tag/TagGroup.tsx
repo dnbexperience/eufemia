@@ -5,10 +5,12 @@ import classnames from 'classnames'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 // Shared
+import { validateDOMAttributes } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
 import { usePropsWithContext } from '../../shared/hooks'
 import { TagGroupContext } from './TagContext'
+import { SkeletonShow } from '../skeleton/Skeleton'
 
 export interface TagGroupProps {
   /**
@@ -28,12 +30,19 @@ export interface TagGroupProps {
    * Default: null
    */
   children?: React.ReactNode
+
+  /**
+   * Skeleton should be applied when loading content
+   * Default: false
+   */
+  skeleton?: SkeletonShow
 }
 
 export const defaultProps = {
   label: null,
   className: null,
   children: null,
+  skeleton: false,
 }
 
 const TagGroup = (localProps: TagGroupProps & ISpacingProps) => {
@@ -45,7 +54,9 @@ const TagGroup = (localProps: TagGroupProps & ISpacingProps) => {
     className,
     children: childrenProp,
     ...props
-  } = usePropsWithContext(localProps, defaultProps, context?.TagGroup)
+  } = usePropsWithContext(localProps, defaultProps, context?.TagGroup, {
+    skeleton: context?.skeleton,
+  })
 
   let children = childrenProp
 
@@ -56,13 +67,17 @@ const TagGroup = (localProps: TagGroupProps & ISpacingProps) => {
   }
 
   const spacingClasses = createSpacingClasses(props)
+  const {
+    skeleton, // eslint-disable-line
+    ...attributes
+  } = validateDOMAttributes({}, props)
 
   return (
     <TagGroupContext.Provider value={props}>
       <span
         className={classnames('dnb-tag__group', spacingClasses, className)}
         data-testid="tag-group"
-        {...props}
+        {...attributes}
       >
         <span data-testid="tag-group-label" className="dnb-sr-only">
           {label}

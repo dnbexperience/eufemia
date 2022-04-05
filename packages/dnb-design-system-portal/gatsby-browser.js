@@ -21,6 +21,7 @@ function setIsTest(location) {
   if (location && location.href.includes('data-visual-test')) {
     global.IS_TEST = true
     window.IS_TEST = true
+    document.documentElement.setAttribute('data-visual-test', true)
   }
 }
 

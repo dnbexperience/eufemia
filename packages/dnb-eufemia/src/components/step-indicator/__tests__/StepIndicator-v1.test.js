@@ -63,17 +63,7 @@ describe('StepIndicator component with urls', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    expect(
-      await axeComponent(Comp)
-      // We had this as the axeComponent option util v5
-      // Can be removed in later versions
-      // , {
-      //   rules: {
-      //     // because of the role="text", we disable this rule for now
-      //     'aria-roles': { enabled: false }
-      //   }
-      // }
-    ).toHaveNoViolations()
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 
@@ -126,15 +116,7 @@ describe('StepIndicator component with buttons', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    expect(
-      await axeComponent(Comp)
-      // We had this as the axeComponent option util v5
-      // Can be removed in later versions
-      // rules: {
-      //   // because of the role="text", we disable this rule for now
-      //   'aria-roles': { enabled: false }
-      // }
-    ).toHaveNoViolations()
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 

@@ -9,6 +9,19 @@ import {
   // isCI,
 } from '../../../core/jest/jestSetupScreenshots'
 
+describe('Typography screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/typography',
+  })
+
+  it('have to match all the typography variants', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="typography-variants"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
 describe('Heading screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/typography/heading',
@@ -61,6 +74,13 @@ describe('Paragraph screenshot', () => {
   it('have to match the paragraph with modifiers', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="paragraph-modifiers"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the paragraph with additional elements', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="paragraph-additional"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

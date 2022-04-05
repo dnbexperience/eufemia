@@ -9,20 +9,13 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import { Link } from '@dnb/eufemia/src/elements'
 import NotSupportedElements from 'Docs/uilib/elements/not-supported'
 import UnstyledElementsDemos from 'Docs/uilib/elements/unstyled'
-import AnchorDemos from 'Docs/uilib/elements/anchor'
-import BlockquoteDemos from 'Docs/uilib/elements/blockquote'
-import TablesDemos from 'Docs/uilib/elements/tables'
-import ListsDemos from 'Docs/uilib/elements/lists'
-import ImageDemos from 'Docs/uilib/elements/image'
-import HrDemos from 'Docs/uilib/elements/horizontal-rule'
-import CodeDemos from 'Docs/uilib/elements/code'
 import ListSummaryFromPages from 'dnb-design-system-portal/src/shared/parts/ListSummaryFromPages'
 
 # HTML Elements
 
 The `@dnb/eufemia` contains styling for the most commonly used [HTML Elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) defined by the UX team at DNB. You may also have a look at [Typography](/uilib/typography) for headings and paragraph usage.
 
-## Overview
+## Elements
 
 <ListSummaryFromPages useAsIndex slug="uilib/elements/" />
 
@@ -69,14 +62,7 @@ render(<StyledLink href="/" target="_blank">Styled Link</StyledLink>)
 `}
 </ComponentBox>
 
-<AnchorDemos />
-<ListsDemos />
-<TablesDemos />
-<BlockquoteDemos />
-<ImageDemos />
-<HrDemos />
 <UnstyledElementsDemos />
-<CodeDemos />
 
 ---
 

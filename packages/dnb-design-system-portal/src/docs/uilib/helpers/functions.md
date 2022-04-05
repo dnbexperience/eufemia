@@ -236,19 +236,25 @@ setPageFocusElement(selectorOrElement, key*: String) // returns Void
 
 ### debounce
 
-A debounce method with a cancel invocation method on repeating calls.
+Creates a debounced function that delays invoking func until after wait milliseconds have elapsed since the last time the debounced function was invoked. The debounced function comes with a `cancel` method to cancel delayed func invocations.
 
 ```js
 import { debounce } from '@dnb/eufemia/shared/helpers'
 
-debounce(
-  ({ foo }) => { ... },
-  wait = 250,
+const debounceFunc = ({ foo }) => { ... }
+
+const debounced = debounce(
+  debounceFunc,
+  wait = 250, // milliseconds
   {
-    immediate = false,
-    context = null
+    immediate = false, // execute the debounceFunc on the leading end
+    instance = null // function or class instance for "this"
   } = {},
-)({ foo: 'bar'}) // returns Function
+)
+
+debounced({ foo: 'bar'}) // delay the execution – again
+
+debounced.cancel() // optional, cancel the execution
 ```
 
 ### copyToClipboard

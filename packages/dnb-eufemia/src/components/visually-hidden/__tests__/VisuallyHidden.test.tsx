@@ -48,11 +48,16 @@ describe('VisuallyHidden', () => {
     )
   })
 
-  it('renders with custom HTML element', () => {
-    render(<VisuallyHidden element="span">Span</VisuallyHidden>)
+  it('renders with span as the default element', () => {
+    render(<VisuallyHidden>I'm a span</VisuallyHidden>)
     expect(document.querySelector('span') instanceof HTMLElement).toBe(
       true
     )
+  })
+
+  it('renders with custom HTML element', () => {
+    render(<VisuallyHidden element="div">I'm a div</VisuallyHidden>)
+    expect(document.querySelector('div') instanceof HTMLElement).toBe(true)
   })
 
   it('renders with provider', () => {

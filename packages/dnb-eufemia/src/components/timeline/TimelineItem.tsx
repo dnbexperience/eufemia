@@ -90,7 +90,12 @@ const TimelineItem = (localProps: TimelineItemProps) => {
     state,
     skeleton,
     ...props
-  } = usePropsWithContext(localProps, defaultProps, context?.TimelineItem)
+  } = usePropsWithContext(
+    localProps,
+    defaultProps,
+    context?.TimelineItem,
+    { skeleton: context?.skeleton }
+  )
 
   const stateIsCompleted = state === 'completed'
   const stateIsCurrent = state === 'current'
@@ -120,7 +125,9 @@ const TimelineItem = (localProps: TimelineItemProps) => {
         className="dnb-timeline__item__label__icon"
         data-testid="timeline-item-label-icon"
       >
-        <span key="icon-alignment">&zwnj;</span>
+        <span key="icon-alignment" aria-hidden>
+          &zwnj;
+        </span>
         {!skeleton && currentIcon && (
           <Icon
             icon={currentIcon}

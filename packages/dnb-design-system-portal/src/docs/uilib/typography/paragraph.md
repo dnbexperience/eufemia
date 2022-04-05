@@ -4,26 +4,32 @@ showTabs: true
 
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
-## Paragraphs
+## Paragraphs and other text elements
 
-Paragraph comes in several variants. You can use these classes:
+Eufemia comes with several styles you can use on paragraphs and other HTML text elements:
 
-- `.dnb-p` (Text basis)
-- `.dnb-p--small`
+**Weights**
+
+- `.dnb-p` (Body text)
 - `.dnb-p--medium`
-- `.dnb-p--bold` (Currently not supported by DNB UX)
+<!-- - `.dnb-p--bold` (Currently not supported by DNB UX) -->
+
+**Sizes**
+
+- `.dnb-p--small`
+- `.dnb-p--x-small`
+
+**Variants**
+
+- `.dnb-p--lead`
 
 ### Paragraphs in React
 
 ```jsx
-import { Lead, P, Link, ... } from '@dnb/eufemia/elements'
-
-<Lead>Lead style medium</Lead>
-<P>Paragraph style basis</P>
-<P size="small">Paragraph style small</P>
+import { P, Lead, Link, ... } from '@dnb/eufemia/elements'
 ```
 
-<ComponentBox data-visual-test="paragraph-modifiers" caption="Default paragraph typography using React JSX">
+<ComponentBox data-visual-test="paragraph-modifiers" caption="Paragraphs using React JSX">
 {`
 <P>Default paragraph</P>
 <P modifier="medium">Medium weight paragraph</P>
@@ -37,7 +43,7 @@ import { Lead, P, Link, ... } from '@dnb/eufemia/elements'
 
 ### Paragraphs with vanilla HTML
 
-<ComponentBox hideCode data-visual-test="paragraph-default" caption="Default Paragraph styles">
+<ComponentBox hideCode data-visual-test="paragraph-default">
 {`
 <p className="dnb-p">
   Here is a paragraph text<br />
@@ -53,7 +59,9 @@ import { Lead, P, Link, ... } from '@dnb/eufemia/elements'
 `}
 </ComponentBox>
 
-<ComponentBox hideCode data-visual-test="paragraph-small" caption="Paragraph with small font-size">
+#### Paragraph with small font-size
+
+<ComponentBox hideCode data-visual-test="paragraph-small">
 {`
 <p className="dnb-p dnb-p--small">
   Here is a small paragraph text<br />
@@ -73,11 +81,14 @@ import { Lead, P, Link, ... } from '@dnb/eufemia/elements'
 `}
 </ComponentBox>
 
-<ComponentBox hideCode data-visual-test="paragraph-additional" caption="Additional Paragraph formatting (not defined yet)">
+#### Additional Paragraph formatting (not defined yet)
+
+<ComponentBox hideCode data-visual-test="paragraph-additional">
 {`
 <p className="dnb-p">
   <i>Italic paragraph</i><br />
   <u>Underline paragraph</u><br />
+  <abbr title="User Experience">UX</abbr><br />
   <del>Deleted paragraph</del><br />
   <mark>Marked paragraph</mark><br />
   <ins>Inserted paragraph</ins><br />
@@ -87,4 +98,4 @@ import { Lead, P, Link, ... } from '@dnb/eufemia/elements'
 `}
 </ComponentBox>
 
-Read more [about Fonts in the Designer Guides](/quickguide-designer/fonts/)
+Read more [about Fonts in the Designer Guides](/quickguide-designer/fonts/).

@@ -1,18 +1,17 @@
 module.exports = {
-  //   multipass: true, // boolean. false by default
+  multipass: true,
   plugins: [
     {
       name: 'preset-default',
       params: {
+        /**
+         * Customize default plugin options
+         */
         overrides: {
-          // customize default plugin options
           inlineStyles: {
             onlyMatchedOnce: false,
           },
-          //   removeElementsByAttr: {
-          //     id,
-          //   },
-          removeViewBox: false,
+          removeViewBox: false, // to ensure we can scale the svg by font-size later
           // convertPathData: false, // if we prefer to not transform any data paths, we have to disable this
         },
       },

@@ -142,6 +142,7 @@ import mobilephone from './mobilephone.js'
 import more_vertical from './more_vertical.js'
 import motorcycle from './motorcycle.js'
 import move from './move.js'
+import news from './news.js'
 import office_buildings from './office_buildings.js'
 import oil from './oil.js'
 import owl from './owl.js'
@@ -161,6 +162,7 @@ import pin from './pin.js'
 import pin_code from './pin_code.js'
 import plant from './plant.js'
 import play from './play.js'
+import podcast from './podcast.js'
 import printer from './printer.js'
 import profile from './profile.js'
 import progress from './progress.js'
@@ -204,6 +206,7 @@ import trash from './trash.js'
 import travel from './travel.js'
 import undo from './undo.js'
 import upload from './upload.js'
+import user_feedback from './user_feedback.js'
 import video from './video.js'
 import view from './view.js'
 import vintage_car from './vintage_car.js'
@@ -359,6 +362,7 @@ export {
   more_vertical,
   motorcycle,
   move,
+  news,
   office_buildings,
   oil,
   owl,
@@ -378,6 +382,7 @@ export {
   pin_code,
   plant,
   play,
+  podcast,
   printer,
   profile,
   progress,
@@ -421,6 +426,7 @@ export {
   travel,
   undo,
   upload,
+  user_feedback,
   video,
   view,
   vintage_car,

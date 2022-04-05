@@ -33,6 +33,7 @@ exports[`Modal component have to match snapshot 1`] = `
   modal_content="unique_modal_content"
   no_animation={true}
   no_animation_on_mobile={false}
+  omit_trigger_button={false}
   on_close={null}
   on_close_prevent={null}
   on_open={null}
@@ -91,6 +92,7 @@ exports[`Modal component have to match snapshot 1`] = `
     modal_content="unique_modal_content"
     no_animation={true}
     no_animation_on_mobile={false}
+    omit_trigger_button={false}
     on_close={null}
     on_close_prevent={null}
     on_open={null}
@@ -119,7 +121,7 @@ exports[`Modal component have to match snapshot 1`] = `
     <HelpButtonInstance
       class={null}
       className="dnb-modal__trigger"
-      disabled={null}
+      disabled={false}
       hidden={false}
       icon={null}
       icon_position="left"
@@ -135,6 +137,7 @@ exports[`Modal component have to match snapshot 1`] = `
             type="button"
           >
             <span
+              aria-hidden="true"
               class="dnb-button__alignment"
             >
               ‌
@@ -153,10 +156,11 @@ exports[`Modal component have to match snapshot 1`] = `
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  clip-rule="evenodd"
-                  d="M6.142 4.876c0-1.205 1.081-2.203 2.272-2.12 1.202.082 2.123 1.23 1.96 2.412A2.174 2.174 0 0 1 8.975 6.88c-.961.34-1.313 1.123-1.426 1.826-.054.34-.059.685-.053.985.002.154.007.28.011.396.005.143.01.27.01.413a.75.75 0 0 0 1.5 0c0-.15-.006-.338-.012-.516l-.01-.32a4.196 4.196 0 0 1 .036-.72c.062-.393.19-.56.444-.65a3.673 3.673 0 0 0 2.383-2.92c.283-2.038-1.267-3.972-3.341-4.115-2.053-.142-3.876 1.537-3.876 3.616a.75.75 0 1 0 1.5 0ZM8.25 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                  fill="#000"
-                  fill-rule="evenodd"
+                  d="M5.392 4.875c0-1.642 1.452-2.98 3.074-2.868 1.638.113 2.874 1.654 2.65 3.264a2.923 2.923 0 0 1-1.89 2.316c-1.216.43-.958 1.9-.958 2.913m-.177 3.004h.346m.079 0c0 .184-.16.244-.248.244-.092 0-.252-.06-.252-.244 0-.197.16-.256.252-.256.088 0 .248.06.248.256Z"
+                  stroke="#000"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
                 />
               </svg>
             </span>
@@ -178,7 +182,7 @@ exports[`Modal component have to match snapshot 1`] = `
         custom_content={null}
         custom_element={null}
         custom_method={null}
-        disabled={null}
+        disabled={false}
         element={null}
         global_status_id={null}
         hidden={false}
@@ -198,6 +202,7 @@ exports[`Modal component have to match snapshot 1`] = `
               type="button"
             >
               <span
+                aria-hidden="true"
                 class="dnb-button__alignment"
               >
                 ‌
@@ -216,10 +221,11 @@ exports[`Modal component have to match snapshot 1`] = `
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    clip-rule="evenodd"
-                    d="M6.142 4.876c0-1.205 1.081-2.203 2.272-2.12 1.202.082 2.123 1.23 1.96 2.412A2.174 2.174 0 0 1 8.975 6.88c-.961.34-1.313 1.123-1.426 1.826-.054.34-.059.685-.053.985.002.154.007.28.011.396.005.143.01.27.01.413a.75.75 0 0 0 1.5 0c0-.15-.006-.338-.012-.516l-.01-.32a4.196 4.196 0 0 1 .036-.72c.062-.393.19-.56.444-.65a3.673 3.673 0 0 0 2.383-2.92c.283-2.038-1.267-3.972-3.341-4.115-2.053-.142-3.876 1.537-3.876 3.616a.75.75 0 1 0 1.5 0ZM8.25 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                    fill="#000"
-                    fill-rule="evenodd"
+                    d="M5.392 4.875c0-1.642 1.452-2.98 3.074-2.868 1.638.113 2.874 1.654 2.65 3.264a2.923 2.923 0 0 1-1.89 2.316c-1.216.43-.958 1.9-.958 2.913m-.177 3.004h.346m.079 0c0 .184-.16.244-.248.244-.092 0-.252-.06-.252-.244 0-.197.16-.256.252-.256.088 0 .248.06.248.256Z"
+                    stroke="#000"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
                   />
                 </svg>
               </span>
@@ -264,7 +270,7 @@ exports[`Modal component have to match snapshot 1`] = `
             custom_content={null}
             custom_element={null}
             custom_method={null}
-            disabled={null}
+            disabled={false}
             element={null}
             global_status_id={null}
             hidden={false}
@@ -284,6 +290,7 @@ exports[`Modal component have to match snapshot 1`] = `
                   type="button"
                 >
                   <span
+                    aria-hidden="true"
                     class="dnb-button__alignment"
                   >
                     ‌
@@ -302,10 +309,11 @@ exports[`Modal component have to match snapshot 1`] = `
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        clip-rule="evenodd"
-                        d="M6.142 4.876c0-1.205 1.081-2.203 2.272-2.12 1.202.082 2.123 1.23 1.96 2.412A2.174 2.174 0 0 1 8.975 6.88c-.961.34-1.313 1.123-1.426 1.826-.054.34-.059.685-.053.985.002.154.007.28.011.396.005.143.01.27.01.413a.75.75 0 0 0 1.5 0c0-.15-.006-.338-.012-.516l-.01-.32a4.196 4.196 0 0 1 .036-.72c.062-.393.19-.56.444-.65a3.673 3.673 0 0 0 2.383-2.92c.283-2.038-1.267-3.972-3.341-4.115-2.053-.142-3.876 1.537-3.876 3.616a.75.75 0 1 0 1.5 0ZM8.25 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                        fill="#000"
-                        fill-rule="evenodd"
+                        d="M5.392 4.875c0-1.642 1.452-2.98 3.074-2.868 1.638.113 2.874 1.654 2.65 3.264a2.923 2.923 0 0 1-1.89 2.316c-1.216.43-.958 1.9-.958 2.913m-.177 3.004h.346m.079 0c0 .184-.16.244-.248.244-.092 0-.252-.06-.252-.244 0-.197.16-.256.252-.256.088 0 .248.06.248.256Z"
+                        stroke="#000"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.5"
                       />
                     </svg>
                   </span>
@@ -332,8 +340,9 @@ exports[`Modal component have to match snapshot 1`] = `
             wrap={null}
           >
             <span
+              aria-hidden={true}
               className="dnb-button__alignment"
-              key="button-text-empty"
+              key="button-alignment"
             >
               ‌
             </span>
@@ -369,10 +378,11 @@ exports[`Modal component have to match snapshot 1`] = `
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      clipRule="evenodd"
-                      d="M6.142 4.876c0-1.205 1.081-2.203 2.272-2.12 1.202.082 2.123 1.23 1.96 2.412A2.174 2.174 0 0 1 8.975 6.88c-.961.34-1.313 1.123-1.426 1.826-.054.34-.059.685-.053.985.002.154.007.28.011.396.005.143.01.27.01.413a.75.75 0 0 0 1.5 0c0-.15-.006-.338-.012-.516l-.01-.32a4.196 4.196 0 0 1 .036-.72c.062-.393.19-.56.444-.65a3.673 3.673 0 0 0 2.383-2.92c.283-2.038-1.267-3.972-3.341-4.115-2.053-.142-3.876 1.537-3.876 3.616a.75.75 0 1 0 1.5 0ZM8.25 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                      fill="#000"
-                      fillRule="evenodd"
+                      d="M5.392 4.875c0-1.642 1.452-2.98 3.074-2.868 1.638.113 2.874 1.654 2.65 3.264a2.923 2.923 0 0 1-1.89 2.316c-1.216.43-.958 1.9-.958 2.913m-.177 3.004h.346m.079 0c0 .184-.16.244-.248.244-.092 0-.252-.06-.252-.244 0-.197.16-.256.252-.256.088 0 .248.06.248.256Z"
+                      stroke="#000"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
                     />
                   </svg>
                 </question>
@@ -430,6 +440,7 @@ exports[`Modal component have to match snapshot 1`] = `
                 type="button"
               >
                 <span
+                  aria-hidden="true"
                   class="dnb-button__alignment"
                 >
                   ‌
@@ -448,10 +459,11 @@ exports[`Modal component have to match snapshot 1`] = `
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      clip-rule="evenodd"
-                      d="M6.142 4.876c0-1.205 1.081-2.203 2.272-2.12 1.202.082 2.123 1.23 1.96 2.412A2.174 2.174 0 0 1 8.975 6.88c-.961.34-1.313 1.123-1.426 1.826-.054.34-.059.685-.053.985.002.154.007.28.011.396.005.143.01.27.01.413a.75.75 0 0 0 1.5 0c0-.15-.006-.338-.012-.516l-.01-.32a4.196 4.196 0 0 1 .036-.72c.062-.393.19-.56.444-.65a3.673 3.673 0 0 0 2.383-2.92c.283-2.038-1.267-3.972-3.341-4.115-2.053-.142-3.876 1.537-3.876 3.616a.75.75 0 1 0 1.5 0ZM8.25 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                      fill="#000"
-                      fill-rule="evenodd"
+                      d="M5.392 4.875c0-1.642 1.452-2.98 3.074-2.868 1.638.113 2.874 1.654 2.65 3.264a2.923 2.923 0 0 1-1.89 2.316c-1.216.43-.958 1.9-.958 2.913m-.177 3.004h.346m.079 0c0 .184-.16.244-.248.244-.092 0-.252-.06-.252-.244 0-.197.16-.256.252-.256.088 0 .248.06.248.256Z"
+                      stroke="#000"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
                     />
                   </svg>
                 </span>
@@ -493,6 +505,7 @@ exports[`Modal component have to match snapshot 1`] = `
                   type="button"
                 >
                   <span
+                    aria-hidden="true"
                     class="dnb-button__alignment"
                   >
                     ‌
@@ -511,10 +524,11 @@ exports[`Modal component have to match snapshot 1`] = `
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        clip-rule="evenodd"
-                        d="M6.142 4.876c0-1.205 1.081-2.203 2.272-2.12 1.202.082 2.123 1.23 1.96 2.412A2.174 2.174 0 0 1 8.975 6.88c-.961.34-1.313 1.123-1.426 1.826-.054.34-.059.685-.053.985.002.154.007.28.011.396.005.143.01.27.01.413a.75.75 0 0 0 1.5 0c0-.15-.006-.338-.012-.516l-.01-.32a4.196 4.196 0 0 1 .036-.72c.062-.393.19-.56.444-.65a3.673 3.673 0 0 0 2.383-2.92c.283-2.038-1.267-3.972-3.341-4.115-2.053-.142-3.876 1.537-3.876 3.616a.75.75 0 1 0 1.5 0ZM8.25 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                        fill="#000"
-                        fill-rule="evenodd"
+                        d="M5.392 4.875c0-1.642 1.452-2.98 3.074-2.868 1.638.113 2.874 1.654 2.65 3.264a2.923 2.923 0 0 1-1.89 2.316c-1.216.43-.958 1.9-.958 2.913m-.177 3.004h.346m.079 0c0 .184-.16.244-.248.244-.092 0-.252-.06-.252-.244 0-.197.16-.256.252-.256.088 0 .248.06.248.256Z"
+                        stroke="#000"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.5"
                       />
                     </svg>
                   </span>
@@ -532,6 +546,7 @@ exports[`Modal component have to match snapshot 1`] = `
                   type="button"
                 >
                   <span
+                    aria-hidden="true"
                     class="dnb-button__alignment"
                   >
                     ‌
@@ -550,10 +565,11 @@ exports[`Modal component have to match snapshot 1`] = `
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        clip-rule="evenodd"
-                        d="M6.142 4.876c0-1.205 1.081-2.203 2.272-2.12 1.202.082 2.123 1.23 1.96 2.412A2.174 2.174 0 0 1 8.975 6.88c-.961.34-1.313 1.123-1.426 1.826-.054.34-.059.685-.053.985.002.154.007.28.011.396.005.143.01.27.01.413a.75.75 0 0 0 1.5 0c0-.15-.006-.338-.012-.516l-.01-.32a4.196 4.196 0 0 1 .036-.72c.062-.393.19-.56.444-.65a3.673 3.673 0 0 0 2.383-2.92c.283-2.038-1.267-3.972-3.341-4.115-2.053-.142-3.876 1.537-3.876 3.616a.75.75 0 1 0 1.5 0ZM8.25 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                        fill="#000"
-                        fill-rule="evenodd"
+                        d="M5.392 4.875c0-1.642 1.452-2.98 3.074-2.868 1.638.113 2.874 1.654 2.65 3.264a2.923 2.923 0 0 1-1.89 2.316c-1.216.43-.958 1.9-.958 2.913m-.177 3.004h.346m.079 0c0 .184-.16.244-.248.244-.092 0-.252-.06-.252-.244 0-.197.16-.256.252-.256.088 0 .248.06.248.256Z"
+                        stroke="#000"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.5"
                       />
                     </svg>
                   </span>
@@ -596,6 +612,7 @@ exports[`Modal component have to match snapshot 1`] = `
                   type="button"
                 >
                   <span
+                    aria-hidden="true"
                     class="dnb-button__alignment"
                   >
                     ‌
@@ -614,10 +631,11 @@ exports[`Modal component have to match snapshot 1`] = `
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        clip-rule="evenodd"
-                        d="M6.142 4.876c0-1.205 1.081-2.203 2.272-2.12 1.202.082 2.123 1.23 1.96 2.412A2.174 2.174 0 0 1 8.975 6.88c-.961.34-1.313 1.123-1.426 1.826-.054.34-.059.685-.053.985.002.154.007.28.011.396.005.143.01.27.01.413a.75.75 0 0 0 1.5 0c0-.15-.006-.338-.012-.516l-.01-.32a4.196 4.196 0 0 1 .036-.72c.062-.393.19-.56.444-.65a3.673 3.673 0 0 0 2.383-2.92c.283-2.038-1.267-3.972-3.341-4.115-2.053-.142-3.876 1.537-3.876 3.616a.75.75 0 1 0 1.5 0ZM8.25 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                        fill="#000"
-                        fill-rule="evenodd"
+                        d="M5.392 4.875c0-1.642 1.452-2.98 3.074-2.868 1.638.113 2.874 1.654 2.65 3.264a2.923 2.923 0 0 1-1.89 2.316c-1.216.43-.958 1.9-.958 2.913m-.177 3.004h.346m.079 0c0 .184-.16.244-.248.244-.092 0-.252-.06-.252-.244 0-.197.16-.256.252-.256.088 0 .248.06.248.256Z"
+                        stroke="#000"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.5"
                       />
                     </svg>
                   </span>
@@ -634,6 +652,7 @@ exports[`Modal component have to match snapshot 1`] = `
                     type="button"
                   >
                     <span
+                      aria-hidden="true"
                       class="dnb-button__alignment"
                     >
                       ‌
@@ -652,10 +671,11 @@ exports[`Modal component have to match snapshot 1`] = `
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          clip-rule="evenodd"
-                          d="M6.142 4.876c0-1.205 1.081-2.203 2.272-2.12 1.202.082 2.123 1.23 1.96 2.412A2.174 2.174 0 0 1 8.975 6.88c-.961.34-1.313 1.123-1.426 1.826-.054.34-.059.685-.053.985.002.154.007.28.011.396.005.143.01.27.01.413a.75.75 0 0 0 1.5 0c0-.15-.006-.338-.012-.516l-.01-.32a4.196 4.196 0 0 1 .036-.72c.062-.393.19-.56.444-.65a3.673 3.673 0 0 0 2.383-2.92c.283-2.038-1.267-3.972-3.341-4.115-2.053-.142-3.876 1.537-3.876 3.616a.75.75 0 1 0 1.5 0ZM8.25 14.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                          fill="#000"
-                          fill-rule="evenodd"
+                          d="M5.392 4.875c0-1.642 1.452-2.98 3.074-2.868 1.638.113 2.874 1.654 2.65 3.264a2.923 2.923 0 0 1-1.89 2.316c-1.216.43-.958 1.9-.958 2.913m-.177 3.004h.346m.079 0c0 .184-.16.244-.248.244-.092 0-.252-.06-.252-.244 0-.197.16-.256.252-.256.088 0 .248.06.248.256Z"
+                          stroke="#000"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.5"
                         />
                       </svg>
                     </span>
@@ -886,10 +906,11 @@ exports[`Modal component have to match snapshot 1`] = `
                                   class="dnb-modal__header__bar__close"
                                 >
                                   <button
-                                    class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-large"
+                                    class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon"
                                     type="button"
                                   >
                                     <span
+                                      aria-hidden="true"
                                       class="dnb-button__alignment"
                                     >
                                       ‌
@@ -943,7 +964,7 @@ exports[`Modal component have to match snapshot 1`] = `
                                 close_title="Lukk"
                                 icon_position="left"
                                 on_click={[Function]}
-                                size="large"
+                                size="default"
                               >
                                 <Button
                                   bounding={null}
@@ -963,7 +984,7 @@ exports[`Modal component have to match snapshot 1`] = `
                                   innerRef={null}
                                   inner_ref={null}
                                   on_click={[Function]}
-                                  size="large"
+                                  size="default"
                                   skeleton={null}
                                   status={null}
                                   status_no_animation={null}
@@ -979,7 +1000,7 @@ exports[`Modal component have to match snapshot 1`] = `
                                   wrap={null}
                                 >
                                   <button
-                                    className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-large"
+                                    className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon"
                                     disabled={false}
                                     onClick={[Function]}
                                     type="button"
@@ -1004,7 +1025,7 @@ exports[`Modal component have to match snapshot 1`] = `
                                       inner_ref={null}
                                       isIconOnly={false}
                                       on_click={[Function]}
-                                      size="large"
+                                      size="default"
                                       skeleton={false}
                                       status={null}
                                       status_no_animation={null}
@@ -1020,8 +1041,9 @@ exports[`Modal component have to match snapshot 1`] = `
                                       wrap={null}
                                     >
                                       <span
+                                        aria-hidden={true}
                                         className="dnb-button__alignment"
-                                        key="button-text-empty"
+                                        key="button-alignment"
                                       >
                                         ‌
                                       </span>
@@ -1341,6 +1363,11 @@ exports[`Modal scss have to match snapshot 1`] = `
     position: fixed; }
   html[data-visual-test] .dnb-tooltip--hide {
     animation: hide-tooltip 1ms ease-out 1s forwards; }
+  .dnb-tooltip__portal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0; }
   .dnb-tooltip__content {
     min-width: 2rem;
     min-height: 1.5rem;
@@ -1727,7 +1754,8 @@ exports[`Modal scss have to match snapshot 1`] = `
     -moz-appearance: none;
     -webkit-appearance: none; }
   .dnb-button[disabled] {
-    cursor: not-allowed; }
+    cursor: not-allowed;
+    outline: none; }
   .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
     align-self: flex-start; }
   .dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
@@ -1913,7 +1941,6 @@ button.dnb-button::-moz-focus-inner {
   --drawer-width: 40vw;
   --drawer-min-width: 25rem;
   --drawer-max-width: 40rem;
-  --drawer-header-min-height: 6rem;
   --drawer-spacing: 2rem;
   --drawer-spacing-minus: -2rem; }
 
@@ -2033,6 +2060,10 @@ button.dnb-button::-moz-focus-inner {
   .dnb-drawer__root {
     align-items: flex-start;
     justify-content: flex-start; }
+  @media screen and (max-width: 50em) {
+    .dnb-drawer__title {
+      font-size: var(--font-size-large) !important;
+      line-height: var(--line-height-medium) !important; } }
   .dnb-drawer__title ~ .dnb-drawer__content {
     padding-top: calc(var(--drawer-spacing) / 1.333333); }
   .dnb-drawer .dnb-drawer__header [class*='dnb-h--'],
@@ -2047,10 +2078,8 @@ button.dnb-button::-moz-focus-inner {
   .dnb-drawer .dnb-drawer__header::after {
     top: -500%;
     height: 600%; }
-  .dnb-drawer--spacing .dnb-drawer__header {
-    min-height: var(--drawer-header-min-height); }
-    .dnb-drawer--spacing .dnb-drawer__header .dnb-tabs {
-      margin-top: 3.5rem; }
+  .dnb-drawer--spacing .dnb-drawer__header .dnb-tabs {
+    margin-top: var(--drawer-spacing); }
   .dnb-drawer__body {
     padding-bottom: calc(var(--drawer-spacing) * 2);
     margin-bottom: calc(var(--drawer-spacing-minus) * 2); }
@@ -2065,10 +2094,7 @@ button.dnb-button::-moz-focus-inner {
     position: sticky;
     top: 0;
     z-index: 99;
-    margin: calc(var(--drawer-spacing) * 1.75) 0; }
-    @media screen and (max-width: 50em) {
-      .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section {
-        margin: var(--drawer-spacing) 0; } }
+    margin: var(--drawer-spacing) 0; }
   .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section.dnb-drawer__navigation--sticky {
     z-index: 2999; }
   .dnb-drawer .dnb-drawer__navigation--sticky::before {
@@ -2308,7 +2334,7 @@ html[data-dnb-modal-active] {
       justify-content: flex-start; }
     .dnb-modal__content--fullscreen .dnb-modal__content__content {
       height: auto; }
-    .dnb-modal__content--left {
+    .dnb-modal__content--left, .dnb-modal__content--top {
       align-items: flex-start;
       justify-content: flex-start; }
     .dnb-modal__content--right {

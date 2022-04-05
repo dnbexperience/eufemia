@@ -40,8 +40,8 @@ jobs:
         id: modules-cache
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-modules-
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
 
       - name: Install dependencies
         if: steps.modules-cache.outputs.cache-hit != 'true'
@@ -64,8 +64,8 @@ jobs:
           path: |
             ./packages/dnb-design-system-portal/.cache
             ./packages/dnb-design-system-portal/public
-          key: ${{ runner.os }}-gatsby-dev-${{ steps.date.outputs.timestamp }}
-          restore-keys: ${{ runner.os }}-gatsby-dev-
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-dev-${{ steps.date.outputs.timestamp }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-dev-
 
       - name: Build portal
         run: yarn workspace dnb-design-system-portal build

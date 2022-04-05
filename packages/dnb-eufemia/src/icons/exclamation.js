@@ -12,9 +12,7 @@ const exclamation = (props) => (
     {...props}
   >
     <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M8.75 2a.75.75 0 0 0-1.5 0v8.412a.75.75 0 0 0 1.5 0V2ZM7.444 12.668a1 1 0 1 1 1.111 1.663 1 1 0 0 1-1.11-1.662Z"
+      d="M6.998 10.412a.75.75 0 0 0 1.5 0h-1.5ZM8.498 2a.75.75 0 0 0-1.5 0h1.5Zm0 8.412V2h-1.5v8.412h1.5Z"
       fill="#000"
     />
   </svg>

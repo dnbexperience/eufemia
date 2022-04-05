@@ -61,6 +61,11 @@ export interface ModalProps extends ModalRootProps {
   children?: ReactChildType
 
   /**
+   * Omits default showing trigger button
+   */
+  omit_trigger_button?: boolean
+
+  /**
    * This event gets triggered once the modal shows up. Returns the modal id: `{ id }`.
    */
   on_open?: ({ id }: { id?: string }) => void
@@ -246,6 +251,11 @@ export interface ModalContentProps {
    */
   prevent_core_style?: ExtendedBoolean
   animation_duration?: string | number
+
+  /**
+   * Disable clicking the background overlay to close the modal
+   */
+  prevent_overlay_close?: ExtendedBoolean
 
   /**
    * If set to `true`, no open/close animation will be shown. Defaults to false.

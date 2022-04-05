@@ -147,7 +147,8 @@ const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
     localProps,
     defaultProps,
     context?.translation?.Breadcrumb,
-    context?.Breadcrumb
+    context?.Breadcrumb,
+    { skeleton: context?.skeleton }
   )
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
   const spacingClasses = createSpacingClasses(props)

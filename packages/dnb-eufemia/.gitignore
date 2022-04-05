@@ -31,6 +31,7 @@
 /docs
 /vue.js
 /index.*
+!index.js
 /lib.js
 /web-components.*
 /web-components

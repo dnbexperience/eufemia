@@ -54,7 +54,11 @@ const ListSummaryFromDocs = ({ slug, useAsIndex = false }) => {
                     <br />
                   </Li>
                 ) : (
-                  <AutoLinkHeader useSlug={'/' + slug} title={title}>
+                  <AutoLinkHeader
+                    level="2"
+                    useSlug={'/' + slug}
+                    title={title}
+                  >
                     <Anchor href={'/' + slug}>{title}</Anchor>
                   </AutoLinkHeader>
                 )}

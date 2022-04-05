@@ -107,6 +107,7 @@ class Modal extends React.PureComponent<
     direct_dom_return: false,
     class: null,
     root_id: 'root',
+    omit_trigger_button: false,
 
     className: null,
     children: null,
@@ -424,6 +425,7 @@ class Modal extends React.PureComponent<
       open_state, // eslint-disable-line
       open_delay, // eslint-disable-line
 
+      omit_trigger_button = false,
       // All "trigger_" are deprecated
       trigger = null,
       trigger_attributes = null,
@@ -449,8 +451,8 @@ class Modal extends React.PureComponent<
 
     const render = (suffixProps) => {
       const triggerAttributes = {
-        hidden: trigger_hidden,
-        disabled: trigger_disabled,
+        hidden: isTrue(trigger_hidden),
+        disabled: isTrue(trigger_disabled),
         variant: trigger_variant,
         text: trigger_text,
         title: trigger_title,
@@ -482,7 +484,7 @@ class Modal extends React.PureComponent<
 
       return (
         <>
-          {TriggerButton && !isTrue(trigger_hidden) && (
+          {TriggerButton && !isTrue(omit_trigger_button) && (
             <TriggerButton
               {...triggerAttributes}
               id={this._id}

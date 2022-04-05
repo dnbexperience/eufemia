@@ -286,16 +286,19 @@ export default class ModalContent extends React.PureComponent<
   }
 
   onContentClickHandler = (event) => {
-    this.closeModalContent(event, {
-      triggeredBy: 'overlay',
-      ifIsLatest: false,
-    })
+    const { prevent_overlay_close } = this.props
+
+    if (!isTrue(prevent_overlay_close)) {
+      this.closeModalContent(event, {
+        triggeredBy: 'overlay',
+        ifIsLatest: false,
+      })
+    }
   }
 
   onKeyDownHandler = (event) => {
     switch (keycode(event)) {
       case 'esc': {
-        // const mostCurrent = [...getListOfModalRoots()].pop()
         const mostCurrent = getModalRoot(-1)
 
         if (mostCurrent === this) {

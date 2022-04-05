@@ -1,0 +1,28 @@
+{
+  "bell_medium.svg": {
+    "iconName": "bell_medium",
+    "name": "bell",
+    "category": "objects",
+    "url": "file:./7174498d6976279f85d53855a1165429",
+    "id": "2:63",
+    "slug": "878548076e6ef92a3736f0e3597fb7be",
+    "size": "24",
+    "variant": "primary",
+    "bundleName": "primary_icons_medium",
+    "created": 1646679727764,
+    "updated": 1646679727764
+  },
+  "bell.svg": {
+    "iconName": "bell",
+    "name": "bell",
+    "category": "objects",
+    "url": "file:./12b63b85ba08cf1588a42fb69cb9654c",
+    "id": "41:2",
+    "slug": "878548076e6ef92a3736f0e3597fb7be",
+    "size": "16",
+    "variant": "primary",
+    "bundleName": "primary_icons",
+    "created": 1646679728573,
+    "updated": 1646679728573
+  }
+}

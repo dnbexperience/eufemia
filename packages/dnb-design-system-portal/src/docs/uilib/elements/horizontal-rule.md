@@ -6,7 +6,7 @@ redirect_from:
 
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
-## Horizontal Rule
+# Horizontal Rule
 
 The `<hr />` tag in HTML stands for horizontal rule and is used to insert a horizontal rule or a thematic break in an HTML page to divide or separate document sections. The `<hr />` tag is an empty tag and it does not require an end tag.
 
