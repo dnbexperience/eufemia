@@ -142,6 +142,13 @@ export default class Dropdown extends React.PureComponent {
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    observer_element: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.node,
+    ]),
+    min_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    enable_body_lock: PropTypes.bool,
     class: PropTypes.string,
 
     className: PropTypes.string,
@@ -205,6 +212,10 @@ export default class Dropdown extends React.PureComponent {
     disabled: null,
     stretch: null,
     skeleton: null,
+    page_offset: null,
+    observer_element: null,
+    min_height: null,
+    enable_body_lock: false,
     class: null,
 
     className: null,
