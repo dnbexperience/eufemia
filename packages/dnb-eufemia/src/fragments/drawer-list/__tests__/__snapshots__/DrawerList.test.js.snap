@@ -154,6 +154,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     }
     default_value={null}
     direction="bottom"
+    enable_body_lock={false}
     fixed_position={false}
     focusable={false}
     handle_dismiss_focus={null}
