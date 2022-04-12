@@ -237,7 +237,7 @@
     "sass-variable-parser": "1.2.2",
     "semantic-release": "18.0.0",
     "simple-commit-message": "4.1.3",
-    "simple-git": "3.3.0",
+    "simple-git": "3.5.0",
     "stream-buffers": "3.0.2",
     "stylelint": "13.13.1",
     "stylelint-config-prettier": "8.0.2",
