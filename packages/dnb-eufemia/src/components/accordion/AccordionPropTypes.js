@@ -39,7 +39,14 @@ export const accordionPropTypes = {
   element: PropTypes.node,
   heading: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
   heading_level: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  icon: PropTypes.node,
+  icon: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.shape({
+      closed: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+      expanded: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    }),
+  ]),
   icon_position: PropTypes.oneOf(['left', 'right']),
   icon_size: PropTypes.string,
   attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
