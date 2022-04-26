@@ -111,6 +111,24 @@ describe('Accordion component', () => {
     )
   })
 
+  it('supports default outlined variant', () => {
+    const Comp = mount(<Component />)
+    expect(
+      Comp.find('.dnb-accordion')
+        .instance()
+        .classList.contains('dnb-accordion__variant--outlined')
+    ).toBe(true)
+  })
+
+  it('supports plain variant', () => {
+    const Comp = mount(<Component {...props} variant="plain" />)
+    expect(
+      Comp.find('.dnb-accordion')
+        .instance()
+        .classList.contains('dnb-accordion__variant--plain')
+    ).toBe(true)
+  })
+
   it('should validate with ARIA rules', async () => {
     const Comp = mount(<Component {...props} />)
 

@@ -29,7 +29,7 @@ export const accordionPropTypes = {
     PropTypes.string,
     PropTypes.bool,
   ]),
-  variant: PropTypes.oneOf(['default', 'outlined', 'filled']),
+  variant: PropTypes.oneOf(['plain', 'default', 'outlined', 'filled']),
   left_component: PropTypes.node,
   allow_close_all: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
