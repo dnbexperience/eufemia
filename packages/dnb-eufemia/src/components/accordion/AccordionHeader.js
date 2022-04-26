@@ -83,24 +83,37 @@ AccordionHeaderContainer.defaultProps = {
   children: null,
 }
 
-function AccordionHeaderIcon({ icon, ...rest }) {
+function AccordionHeaderIcon({ icon, expanded, ...rest }) {
   return (
     <span className="dnb-accordion__header__icon">
-      {<IconPrimary {...rest} icon={icon || 'chevron-down'} aria-hidden />}
+      <IconPrimary
+        {...rest}
+        icon={
+          typeof icon?.expanded !== 'undefined'
+            ? icon[expanded ? 'expanded' : 'closed']
+            : icon || 'chevron-down'
+        }
+        aria-hidden
+      />
     </span>
   )
 }
 AccordionHeaderIcon.propTypes = {
   icon: PropTypes.oneOfType([
-    PropTypes.string,
     PropTypes.node,
     PropTypes.func,
+    PropTypes.shape({
+      closed: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+      expanded: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    }),
   ]),
   size: PropTypes.string,
+  expanded: PropTypes.bool,
 }
 AccordionHeaderIcon.defaultProps = {
   icon: null,
   size: 'medium',
+  expanded: null,
 }
 
 export default class AccordionHeader extends React.PureComponent {
@@ -138,9 +151,12 @@ export default class AccordionHeader extends React.PureComponent {
       PropTypes.number,
     ]),
     icon: PropTypes.oneOfType([
-      PropTypes.string,
       PropTypes.node,
       PropTypes.func,
+      PropTypes.shape({
+        closed: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+        expanded: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+      }),
     ]),
     icon_position: PropTypes.oneOf(['left', 'right']),
     icon_size: PropTypes.string,
@@ -270,7 +286,12 @@ export default class AccordionHeader extends React.PureComponent {
     let { icon_position } = props
 
     const defaultParts = [
-      <AccordionHeaderIcon key="icon" icon={icon} size={icon_size} />,
+      <AccordionHeaderIcon
+        key="icon"
+        icon={icon}
+        size={icon_size}
+        expanded={this.context.expanded}
+      />,
       <AccordionHeaderContainer key="container">
         {left_component}
       </AccordionHeaderContainer>,
