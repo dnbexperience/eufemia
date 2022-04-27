@@ -90,15 +90,15 @@ export default class HelpButtonInstance extends React.PureComponent {
           this.props
         ).HelpButton.aria_role
       }
+    }
 
-      if (!params.text && !params['aria-label']) {
-        let ariaLabel = convertJsxToString(props.title || props.children)
-        if (!ariaLabel) {
-          ariaLabel = this.context.getTranslation(this.props).HelpButton
-            .title
-        }
-        params['aria-label'] = ariaLabel
+    if (!params.text && !params['aria-label']) {
+      let ariaLabel = convertJsxToString(props.title || props.children)
+      if (!ariaLabel) {
+        ariaLabel = this.context.getTranslation(this.props).HelpButton
+          .title
       }
+      params['aria-label'] = ariaLabel
     }
 
     if (icon === 'information' && !size) {
