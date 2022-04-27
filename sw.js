@@ -28,11 +28,11 @@ workbox.core.clientsClaim();
 self.__precacheManifest = [
   {
     "url": "404.html",
-    "revision": "3d279f857b8badddfc58855bef99861c"
+    "revision": "80f0911d5fd98abdc6dd48218eaad2a5"
   },
   {
     "url": "500.html",
-    "revision": "8b3a384cde10b5aa7dd6a2a7cfe0c7f6"
+    "revision": "0dcf39b331363ce57c6e2e6c228a8549"
   },
   {
     "url": "google4f78509f2ca83a08.html",
@@ -44,7 +44,7 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "fbab8aea581a633699558319c057a33a"
+    "revision": "470236d85e544fcc9beb92369177baa0"
   },
   {
     "url": "framework-7c8f4490c71a3976984f.js"
@@ -63,7 +63,7 @@ self.__precacheManifest = [
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "403f8177cd65c1ef181c6e9de977ded9"
+    "revision": "3b102021a608fc6b8c8f2203830b558f"
   },
   {
     "url": "static/DNB-Regular-54d35ae78c18491c35feab30a836875a.woff2"
@@ -192,7 +192,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/app-ed76591912738765aee5.js`))) {
+  if (!resources || !(await caches.match(`/app-7a74764462ffb0dfbbb0.js`))) {
     return await fetch(event.request)
   }
 
