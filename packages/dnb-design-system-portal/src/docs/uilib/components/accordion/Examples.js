@@ -5,6 +5,10 @@
 
 import React from 'react'
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import {
+  add_medium as AddIcon,
+  subtract_medium as SubtractIcon,
+} from '@dnb/eufemia/src/icons'
 
 export const AccordionDefaultExample = () => (
   <ComponentBox data-visual-test="accordion-default">
@@ -215,3 +219,38 @@ export const AccordionGroupExample = () => (
 `}
   </ComponentBox>
 )
+
+export const AccordionPlainVariant = () => {
+  return typeof window !== 'undefined' && window.IS_TEST ? (
+    <ComponentBox
+      data-visual-test="accordion-variant-plain"
+      scope={{ AddIcon, SubtractIcon }}
+    >
+      {() => /* jsx */ `
+<Accordion
+  variant="plain"
+  title="Accordion with plain variant"
+  icon={{
+    closed: AddIcon,
+    expanded: SubtractIcon,
+  }}
+  icon_position="right"
+>
+  content
+</Accordion>
+<Accordion
+  variant="plain"
+  title="Accordion with plain variant"
+  icon={{
+    closed: AddIcon,
+    expanded: SubtractIcon,
+  }}
+  icon_position="right"
+  expanded
+>
+  content
+</Accordion>
+`}
+    </ComponentBox>
+  ) : null
+}

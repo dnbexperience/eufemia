@@ -109,3 +109,15 @@ describe('Accordion group screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 })
+
+describe('Accordion plain variant screenshot', () => {
+  setupPageScreenshot({ url: '/uilib/components/accordion/demos' })
+
+  it('have to match with plain variant', async () => {
+    const screenshot = await testPageScreenshot({
+      style: { width: '20rem', height: '15rem' },
+      selector: '[data-visual-test="accordion-variant-plain"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
