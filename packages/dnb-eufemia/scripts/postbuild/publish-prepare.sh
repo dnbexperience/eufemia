@@ -8,6 +8,6 @@ babel-node ./scripts/postbuild/prepareForRelease.js
 
 echo 'Testing the postbuild before publish ...'
 
-jest --ci --rootDir ./scripts/postbuild ./prepareForRelease.test.js
+jest ./prepareForRelease.test.js --ci --testPathIgnorePatterns=[]
 
 echo 'Prepare before publish is done!'

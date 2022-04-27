@@ -52,6 +52,10 @@ We get else this error:
 
 > Type Error: this.getOptions is not a function for style-loader
 
+## Babel
+
+Due to this bug: https://github.com/babel/babel/issues/11394 we add `.png,.snap` so they not get copied: `--extensions '.js,.ts,.tsx,.png,.snap'`
+
 ### Gatsby Cloud
 
 The plugin `gatsby-plugin-gatsby-cloud` relays on a newer Webpack version than other plugins. In order to let the Portal run on the latest version, we set the yarn resolutions:
