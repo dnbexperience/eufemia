@@ -5,7 +5,7 @@
 
 import { axe, toHaveNoViolations } from 'jest-axe'
 import fakeProps from 'react-fake-props'
-import { shallow, mount, render } from './enzyme'
+import { mount, render } from './enzyme'
 import ReactDOMServer from 'react-dom/server'
 import fs from 'fs-extra'
 import onceImporter from 'node-sass-once-importer'
@@ -16,7 +16,6 @@ import toJson from 'enzyme-to-json'
 
 export {
   fakeProps, // we have also our own replacement function called "fakeAllProps"
-  shallow,
   mount,
   render,
   toJson,

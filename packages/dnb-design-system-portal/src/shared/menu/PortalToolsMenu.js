@@ -18,15 +18,18 @@ export default function PortalToolsMenu({
       id="portal-tools"
       mode="drawer"
       title="Portal Tools"
-      trigger_size="default"
-      trigger_icon="more"
-      trigger_class={className}
-      trigger_attributes={{
+      triggerAttributes={{
+        size: 'default',
+        icon: 'more',
+        icon_size: 'medium',
+        class: className,
+        title: 'Portal Tools',
         skeleton: false,
-        // Use 4001 to be over header of 4000
+        left: 'x-small',
         tooltip: (
           <Tooltip
             position={tooltipPosition}
+            // Use 4001 to be over header of 4000
             style={{ zIndex: 4001 }}
             fixed_position
           >
@@ -34,9 +37,7 @@ export default function PortalToolsMenu({
           </Tooltip>
         ),
       }}
-      trigger_icon_size="default"
-      close_button_attributes={{ skeleton: false }}
-      left="x-small"
+      closeButtonAttributes={{ skeleton: false }}
       {...props}
     >
       <Modal.Content spacing>

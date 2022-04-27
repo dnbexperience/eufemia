@@ -11,6 +11,10 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../Accordion'
+import {
+  add_medium as AddIcon,
+  subtract_medium as SubtractIcon,
+} from '../../../icons'
 
 const props = {}
 props.id = 'accordion'
@@ -19,15 +23,15 @@ props.no_animation = true
 props.title = 'title'
 
 describe('Accordion component', () => {
-  // then test the state management
-  const Comp = mount(<Component {...props} />)
-
-  // mount compare the snapshot
   it('have to match snapshot', () => {
+    const Comp = mount(<Component {...props} />)
+
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('has correct state after "click" trigger', () => {
+    const Comp = mount(<Component {...props} />)
+
     // default expanded value has to be false
     expect(Comp.state().expanded).toBe(false)
     expect(
@@ -42,8 +46,6 @@ describe('Accordion component', () => {
         .instance()
         .getAttribute('aria-expanded')
     ).toBe('true')
-    // Comp.find('.dnb-accordion__header').simulate('click')
-    // expect(Comp.state().expanded).toBe(false)
     Comp.setProps({ expanded: false })
     expect(
       Comp.find('.dnb-accordion__header')
@@ -57,11 +59,13 @@ describe('Accordion component', () => {
     const myEvent = jest.fn()
     const Comp = mount(
       <Component
+        {...props}
         on_change={my_event}
         onChange={myEvent}
         expanded={false}
       />
     )
+
     // first click
     Comp.find('.dnb-accordion__header').simulate('click')
     expect(my_event).toHaveBeenCalled()
@@ -69,13 +73,15 @@ describe('Accordion component', () => {
     expect(myEvent.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls[0][0]).toHaveProperty('expanded')
     expect(myEvent.mock.calls[0][0].expanded).toBe(true)
+
     // second click
     Comp.find('.dnb-accordion__header').simulate('click')
     expect(my_event.mock.calls[1][0].expanded).toBe(false)
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    const Comp = mount(<Component />)
+    const Comp = mount(<Component {...props} />)
+
     Comp.setProps({
       disabled: true,
     })
@@ -86,7 +92,46 @@ describe('Accordion component', () => {
     ).toBe(true)
   })
 
+  it('supports an icon for expanded state ', () => {
+    const Comp = mount(
+      <Component
+        {...props}
+        icon={{
+          closed: AddIcon,
+          expanded: SubtractIcon,
+        }}
+      />
+    )
+    expect(Comp.find('.dnb-accordion').find('svg').html()).toBe(
+      mount(<AddIcon />).html()
+    )
+    Comp.setProps({ expanded: true })
+    expect(Comp.find('.dnb-accordion').find('svg').html()).toBe(
+      mount(<SubtractIcon />).html()
+    )
+  })
+
+  it('supports default outlined variant', () => {
+    const Comp = mount(<Component />)
+    expect(
+      Comp.find('.dnb-accordion')
+        .instance()
+        .classList.contains('dnb-accordion__variant--outlined')
+    ).toBe(true)
+  })
+
+  it('supports plain variant', () => {
+    const Comp = mount(<Component {...props} variant="plain" />)
+    expect(
+      Comp.find('.dnb-accordion')
+        .instance()
+        .classList.contains('dnb-accordion__variant--plain')
+    ).toBe(true)
+  })
+
   it('should validate with ARIA rules', async () => {
+    const Comp = mount(<Component {...props} />)
+
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

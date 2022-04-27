@@ -65,6 +65,7 @@ exports[`Accordion component have to match snapshot 1`] = `
         tabIndex="0"
       >
         <AccordionHeaderIcon
+          expanded={false}
           icon={null}
           key="icon"
           size="medium"

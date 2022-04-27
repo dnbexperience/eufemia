@@ -46,6 +46,7 @@ export default class DrawerListProvider extends React.PureComponent {
   static propTypes = {
     ...drawerListPropTypes,
 
+    enable_body_lock: PropTypes.bool,
     use_drawer_on_mobile: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -61,6 +62,7 @@ export default class DrawerListProvider extends React.PureComponent {
   static defaultProps = {
     ...drawerListDefaultProps,
 
+    enable_body_lock: false,
     use_drawer_on_mobile: null,
     page_offset: null,
     observer_element: null,

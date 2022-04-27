@@ -231,7 +231,7 @@ function MyComponent(props: MyComponentProps) {
     className
   )
 
-  // Spead the ...rest on your root element
+  // Spread the ...rest on your root element
 }
 ```
 
@@ -272,7 +272,7 @@ function MyComponent(props: Types) {
     className
   )
 
-  // Use skeleton and spead the ...rest
+  // Use skeleton and spread the ...rest
 }
 ```
 

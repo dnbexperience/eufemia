@@ -166,6 +166,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     default_value="default_value"
     direction="bottom"
     disabled="disabled"
+    enable_body_lock={false}
     fixed_position={false}
     focusable="focusable"
     global_status_id="main"
