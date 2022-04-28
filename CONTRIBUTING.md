@@ -2,7 +2,7 @@
 
 ![Contributors](https://img.shields.io/github/contributors/dnbexperience/eufemia?style=for-the-badge) ![Issues](https://img.shields.io/github/issues/dnbexperience/eufemia?style=for-the-badge) ![Pull Requests](https://img.shields.io/github/issues-pr/dnbexperience/eufemia?style=for-the-badge)
 
-Find more information about how to contribute in [the development](https://eufemia.dnb.no/uilib/development) section. But in short, follow along and read the rest of this short readme text.
+Find more information about how to contribute in [the development](https://eufemia.dnb.no/contribute) section. But in short, follow along and read the rest of this short readme text.
 
 ### Requirements
 

@@ -28,7 +28,7 @@ yarn add @dnb/eufemia
 
 ## Contribution
 
-Find more information about how to contribute in [Eufemia Portal - Development](https://eufemia.dnb.no/uilib/development).
+Find more information about how to contribute in [Eufemia Portal - Contribute](https://eufemia.dnb.no/contribute).
 
 ### Our contributors
 
