@@ -8,7 +8,7 @@ cross-env \
 NODE_ENV=production \
 BABEL_ENV=es \
 babel ./src \
---extensions '.js,.ts,.tsx' \
+--extensions '.js,.ts,.tsx,.png,.snap' \
 --config-file ./babel.config.js \
 --out-dir ./build/es \
 --copy-files \

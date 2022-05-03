@@ -9,10 +9,8 @@ module.exports = {
     testEnvironment: './src/core/jest/jestPuppeteerEnvironment.js',
     setupFilesAfterEnv: ['./src/core/jest/setupJestScreenshot.js'],
     reporters: ['default', 'jest-screenshot/reporter'],
-    modulePathIgnorePatterns: config.modulePathIgnorePatterns.filter(
-      (i) => {
-        return i !== 'screenshot'
-      }
-    ),
+    testPathIgnorePatterns: config.testPathIgnorePatterns.filter((i) => {
+      return i !== 'screenshot'
+    }),
   },
 }
