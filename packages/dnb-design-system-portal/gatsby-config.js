@@ -105,6 +105,7 @@ const plugins = [
     },
   },
   'gatsby-plugin-sass',
+  'gatsby-plugin-esbuild',
   'gatsby-plugin-emotion',
   {
     resolve: 'gatsby-plugin-eufemia-theme-handler',
