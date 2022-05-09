@@ -62,7 +62,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   default_value="default_value"
   direction="bottom"
   disabled="disabled"
-  enable_body_lock={true}
   focusable="focusable"
   global_status_id="main"
   icon="icon"
@@ -75,11 +74,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   label_direction="horizontal"
   label_sr_only="label_sr_only"
   max_height={1}
-  min_height="min_height"
   more_menu={null}
   no_animation={true}
   no_scroll_animation="no_scroll_animation"
-  observer_element="observer_element"
   on_change={[Function]}
   on_hide={[Function]}
   on_select={[Function]}
@@ -87,7 +84,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   on_state_update={[Function]}
   open_on_focus="open_on_focus"
   opened={true}
-  page_offset="page_offset"
   portal_class="portal_class"
   prevent_close="prevent_close"
   prevent_selection={null}
@@ -170,7 +166,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     default_value="default_value"
     direction="bottom"
     disabled="disabled"
-    enable_body_lock={true}
+    enable_body_lock={false}
     fixed_position={false}
     focusable="focusable"
     global_status_id="main"
@@ -188,11 +184,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     label_sr_only="label_sr_only"
     list_class={null}
     max_height={1}
-    min_height="min_height"
+    min_height={10}
     more_menu={null}
     no_animation={true}
     no_scroll_animation="no_scroll_animation"
-    observer_element="observer_element"
+    observer_element={null}
     on_change={[Function]}
     on_hide={[Function]}
     on_pre_change={null}
@@ -203,7 +199,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     open_on_focus="open_on_focus"
     opened={null}
     options_render={null}
-    page_offset="page_offset"
+    page_offset={null}
     portal_class="portal_class"
     prepared_data={null}
     prevent_close="prevent_close"
@@ -292,7 +288,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       default_value="default_value"
       direction="bottom"
       disabled="disabled"
-      enable_body_lock={true}
       focusable="focusable"
       global_status_id="main"
       icon="icon"
@@ -305,11 +300,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       label_direction="horizontal"
       label_sr_only="label_sr_only"
       max_height={1}
-      min_height="min_height"
       more_menu={null}
       no_animation={true}
       no_scroll_animation="no_scroll_animation"
-      observer_element="observer_element"
       on_change={[Function]}
       on_hide={[Function]}
       on_select={[Function]}
@@ -317,7 +310,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       on_state_update={[Function]}
       open_on_focus="open_on_focus"
       opened={true}
-      page_offset="page_offset"
       portal_class="portal_class"
       prevent_close="prevent_close"
       prevent_selection={null}
@@ -712,7 +704,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 default_value="default_value"
                 direction="bottom"
                 disabled="disabled"
-                enable_body_lock={true}
                 fixed_position={false}
                 focusable="focusable"
                 handle_dismiss_focus={null}
@@ -762,7 +753,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   default_value="default_value"
                   direction="bottom"
                   disabled="disabled"
-                  enable_body_lock={true}
                   fixed_position={false}
                   focusable="focusable"
                   handle_dismiss_focus={null}
@@ -1278,7 +1268,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "default_value": "default_value",
                   "direction": "bottom",
                   "disabled": "disabled",
-                  "enable_body_lock": true,
                   "focusable": "focusable",
                   "global_status_id": "main",
                   "icon": "icon",
@@ -1291,11 +1280,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "label_direction": "horizontal",
                   "label_sr_only": "label_sr_only",
                   "max_height": 1,
-                  "min_height": "min_height",
                   "more_menu": null,
                   "no_animation": true,
                   "no_scroll_animation": "no_scroll_animation",
-                  "observer_element": "observer_element",
                   "on_change": [Function],
                   "on_hide": [Function],
                   "on_select": [Function],
@@ -1303,7 +1290,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "on_state_update": [Function],
                   "open_on_focus": "open_on_focus",
                   "opened": true,
-                  "page_offset": "page_offset",
                   "portal_class": "portal_class",
                   "prevent_close": "prevent_close",
                   "prevent_selection": null,
