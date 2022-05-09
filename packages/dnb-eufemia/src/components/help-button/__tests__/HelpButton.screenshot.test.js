@@ -33,4 +33,11 @@ describe('HelpButton screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match help button used inside text', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="help-button-inline"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
