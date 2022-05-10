@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { CloseButtonProps } from './parts/CloseButton'
+import { ButtonProps } from '../button/Button'
 import { ModalRootProps } from './ModalRoot'
 
 export type ExtendedBoolean = string | boolean
@@ -339,49 +340,4 @@ export interface ModalContentProps {
   dialog_role?: 'dialog' | 'alertdialog' | 'region'
 }
 
-export type TriggerAttributes = {
-  /**
-   * If truthy, no trigger button will be show. This can be used in combination with `open_state="opened"`.
-   */
-  hidden?: string | boolean
-
-  /**
-   * If truthy, then the trigger button can&#39;t be opened.
-   */
-  disabled?: string | boolean
-
-  /**
-   * The triggering button variant. Defaults to `secondary`.
-   */
-  variant?: ModalTriggerVariant
-
-  /**
-   * If type is set to `text`, this will be the text which triggers the drawer. If set to `button` it will be the `title` attribute of the button.
-   */
-  text?: string
-
-  /**
-   * The triggering button title
-   */
-  title?: string
-
-  /**
-   * The triggering button size
-   */
-  size?: string
-
-  /**
-   * The modal/drawer triggering button icon. Can be used instead of a `trigger_text`. Defaults to `question`.
-   */
-  icon?: React.ReactNode | ((...args: any[]) => any)
-
-  /**
-   * Defines the modal/drawer triggering icon position. Defaults to `left` because of the tertiary button variant.
-   */
-  iconPosition?: ModalTriggerIconPosition
-
-  /**
-   * Adds a custom modal trigger class name.
-   */
-  class?: string
-}
+export type TriggerAttributes = ButtonProps
