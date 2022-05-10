@@ -180,7 +180,7 @@ describe('Dropdown screenshot', () => {
     },
   })
 
-  it('have to match different item direactions', async () => {
+  it('have to match different item directions', async () => {
     const screenshot = await testPageScreenshot({
       style: {
         'padding-top': '16rem',

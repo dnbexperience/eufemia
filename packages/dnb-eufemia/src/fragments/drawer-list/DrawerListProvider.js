@@ -33,6 +33,8 @@ import {
   prepareDerivedState,
   drawerListPropTypes,
   drawerListDefaultProps,
+  drawerListProviderPropTypes,
+  drawerListProviderDefaultProps,
 } from './DrawerListHelpers'
 import DrawerListContext from './DrawerListContext'
 import {
@@ -45,28 +47,13 @@ export default class DrawerListProvider extends React.PureComponent {
 
   static propTypes = {
     ...drawerListPropTypes,
-
-    enable_body_lock: PropTypes.bool,
-    use_drawer_on_mobile: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    observer_element: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-    ]),
-    min_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    ...drawerListProviderPropTypes,
+    children: PropTypes.node.isRequired,
   }
 
   static defaultProps = {
     ...drawerListDefaultProps,
-
-    enable_body_lock: false,
-    use_drawer_on_mobile: null,
-    page_offset: null,
-    observer_element: null,
-    min_height: 10, // 10rem = 10x16=160,
+    ...drawerListProviderDefaultProps,
   }
 
   static blurDelay = 201 // some ms more than "DrawerListSlideDown 200ms"

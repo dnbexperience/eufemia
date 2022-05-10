@@ -35,6 +35,7 @@ import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
   drawerListPropTypes,
+  drawerListProviderPropTypes,
   parseContentTitle,
   getCurrentData,
 } from '../../fragments/drawer-list/DrawerListHelpers'
@@ -45,6 +46,7 @@ export default class Dropdown extends React.PureComponent {
   static propTypes = {
     ...spacingPropTypes,
     ...drawerListPropTypes,
+    ...drawerListProviderPropTypes,
 
     id: PropTypes.string,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
