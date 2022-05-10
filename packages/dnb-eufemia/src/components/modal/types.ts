@@ -308,6 +308,11 @@ export interface ModalContentProps {
   overlay_class?: string
 
   /**
+   * Define an array with HTML class selectors (`['.element-selector']`) which should not get invalidated when the modal opens/closes. Use this in order to let some parts of your site still be accessible by screen readers.
+   */
+  bypass_invalidation_selectors?: Array<string>
+
+  /**
    * For internal usage
    * Will close the modal
    */

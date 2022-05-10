@@ -73,24 +73,29 @@ describe('Modal component', () => {
 
   it('should have aria-hidden and tabindex on other elements', () => {
     const Comp = mount(
-      <Component {...props}>
-        <button>button</button>
-      </Component>,
+      <>
+        <button className="bypass-me">button</button>
+        <Component no_animation>
+          <button className="but-not-me">button</button>
+        </Component>
+      </>,
       { attachTo: attachToBody() }
     )
 
-    // Check the global button
     Comp.find('Modal').find('button.dnb-modal__trigger').simulate('click')
-    expect(document.querySelector('button') instanceof HTMLElement).toBe(
-      true
-    )
+
+    // Check the global button
     expect(
-      document.querySelector('button').hasAttribute('aria-hidden')
+      document.querySelector('button.bypass-me') instanceof HTMLElement
     ).toBe(true)
-    expect(document.querySelector('button').getAttribute('tabindex')).toBe(
-      '-1'
-    )
-    Comp.update()
+    expect(
+      document
+        .querySelector('button.bypass-me')
+        .hasAttribute('aria-hidden')
+    ).toBe(true)
+    expect(
+      document.querySelector('button.bypass-me').getAttribute('tabindex')
+    ).toBe('-1')
     expect(
       Comp.find('.dnb-modal__content')
         .instance()
@@ -98,7 +103,7 @@ describe('Modal component', () => {
     ).toBe(false)
     expect(
       Comp.find('.dnb-modal__content')
-        .find('button')
+        .find('button.but-not-me')
         .instance()
         .hasAttribute('aria-hidden')
     ).toBe(false)
@@ -106,11 +111,49 @@ describe('Modal component', () => {
     // And close it again
     Comp.find('button.dnb-modal__close-button').simulate('click')
     expect(
-      document.querySelector('button').hasAttribute('aria-hidden')
+      document
+        .querySelector('button.bypass-me')
+        .hasAttribute('aria-hidden')
     ).toBe(false)
-    expect(document.querySelector('button').hasAttribute('tabindex')).toBe(
-      false
+    expect(
+      document.querySelector('button.bypass-me').hasAttribute('tabindex')
+    ).toBe(false)
+  })
+
+  it('should bypass elements defined in bypass_invalidation_selectors', () => {
+    const Comp = mount(
+      <>
+        <button className="bypass-me">button</button>
+        <button className="but-not-me">button</button>
+        <Component
+          no_animation
+          bypassInvalidationSelectors={['.bypass-me']}
+        >
+          content
+        </Component>
+      </>,
+      { attachTo: attachToBody() }
     )
+
+    Comp.find('Modal').find('button.dnb-modal__trigger').simulate('click')
+
+    expect(
+      document
+        .querySelector('button.bypass-me')
+        .hasAttribute('aria-hidden')
+    ).toBe(false)
+    expect(
+      document.querySelector('button.bypass-me').hasAttribute('tabindex')
+    ).toBe(false)
+
+    expect(
+      document
+        .querySelector('button.but-not-me')
+        .getAttribute('aria-hidden')
+    ).toBe('true')
+    expect(
+      document.querySelector('button.but-not-me').getAttribute('tabindex')
+    ).toBe('-1')
   })
 
   it('has to have the correct title', () => {
