@@ -241,7 +241,13 @@ export const ModalV2Sandbox = () => (
   <Modal
     openState={true}
     title="hellooo"
-    triggerAttributes={{ text: 'Custom' }}
+    triggerAttributes={{
+      text: 'Custom',
+      'data-testid': 'html-selector',
+    }}
+    closeButtonAttributes={{
+      'data-testid': 'html-selector',
+    }}
   >
     The informational content
   </Modal>
