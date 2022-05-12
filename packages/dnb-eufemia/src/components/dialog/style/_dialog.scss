@@ -16,15 +16,24 @@
 }
 
 .dnb-dialog {
-  position: relative;
-  max-height: 100vh;
-  border-radius: 0.5rem;
   @include defaultDropShadow();
 
   user-select: text;
   -webkit-user-select: text; // Safari / Touch fix
   border: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  position: relative;
+  border-radius: 0.5rem;
+  max-height: 100vh;
+
+  @include IS_SAFARI_MOBILE() {
+    // iOS on iPhone fix
+    @media (max-height: 40em) and (orientation: portrait) {
+      max-height: 88vh;
+      border-radius: 0;
+    }
+  }
 
   &--information {
     min-width: var(--dialog-min-width);
@@ -34,7 +43,11 @@
 
   &--confirmation {
     max-width: var(--dialog-confirm-max-width);
-    margin: 0 1rem;
+    // margin: 0 1rem; // Do not use margin in here – it makes Safari not scrollable
+
+    // @at-root .dnb-modal__content {
+    //   padding: 2rem;
+    // }
   }
 
   &--auto-fullscreen {
@@ -79,10 +92,6 @@
 
   &--spacing#{&}--confirmation &__inner {
     padding: calc(var(--dialog-spacing)); // 2rem (32px)
-
-    @include IS_SAFARI_MOBILE {
-      padding-bottom: calc(var(--dialog-spacing) * 8);
-    }
   }
 
   &__inner {
@@ -249,16 +258,6 @@
 
   &__icon ~ &__header {
     margin-top: 1.5rem;
-  }
-
-  @include IS_SAFARI_MOBILE() {
-    // iOS on iPhone fix
-    // Because Safari includes the navigation bar on the height
-    @media (max-height: 40em) and (orientation: landscape) {
-      &:not(#{&}--fullscreen) {
-        max-height: 80vh;
-      }
-    }
   }
 }
 

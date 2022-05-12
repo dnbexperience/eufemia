@@ -2134,21 +2134,25 @@ button.dnb-button::-moz-focus-inner {
   --dialog-spacing-minus: -2rem; }
 
 .dnb-dialog {
-  position: relative;
-  max-height: 100vh;
-  border-radius: 0.5rem;
   box-shadow: var(--shadow-default);
   user-select: text;
   -webkit-user-select: text;
   border: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  position: relative;
+  border-radius: 0.5rem;
+  max-height: 100vh; }
+  @supports (-webkit-touch-callout: none) {
+    @media (max-height: 40em) and (orientation: portrait) {
+      .dnb-dialog {
+        max-height: 88vh;
+        border-radius: 0; } } }
   .dnb-dialog--information {
     min-width: var(--dialog-min-width);
     width: var(--dialog-avg-width);
     max-width: var(--dialog-max-width); }
   .dnb-dialog--confirmation {
-    max-width: var(--dialog-confirm-max-width);
-    margin: 0 1rem; }
+    max-width: var(--dialog-confirm-max-width); }
   @media screen and (max-width: 40em) {
     .dnb-dialog--auto-fullscreen {
       width: 100%;
@@ -2186,9 +2190,6 @@ button.dnb-button::-moz-focus-inner {
         margin-top: calc(var(--dialog-spacing) / 2); } }
   .dnb-dialog--spacing.dnb-dialog--confirmation .dnb-dialog__inner {
     padding: calc(var(--dialog-spacing)); }
-    @supports (-webkit-touch-callout: none) {
-      .dnb-dialog--spacing.dnb-dialog--confirmation .dnb-dialog__inner {
-        padding-bottom: calc(var(--dialog-spacing) * 8); } }
   .dnb-dialog__inner {
     position: relative;
     display: flex;
@@ -2289,10 +2290,6 @@ button.dnb-button::-moz-focus-inner {
     margin-top: 3.5rem; }
   .dnb-dialog__icon ~ .dnb-dialog__header {
     margin-top: 1.5rem; }
-  @supports (-webkit-touch-callout: none) {
-    @media (max-height: 40em) and (orientation: landscape) {
-      .dnb-dialog:not(.dnb-dialog--fullscreen) {
-        max-height: 80vh; } } }
 
 [data-visual-test].hide-page-content #___gatsby {
   opacity: 0; }

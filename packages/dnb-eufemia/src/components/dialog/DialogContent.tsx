@@ -60,7 +60,7 @@ export default function DialogContent({
     alignContent = variant === 'information' ? 'left' : 'centered'
   }
 
-  const innerParams = {
+  const scrollViewParams = {
     className: classnames(
       !isTrue(preventCoreStyle) && 'dnb-core-style',
 
@@ -108,7 +108,7 @@ export default function DialogContent({
   }
 
   return (
-    <ScrollView {...innerParams}>
+    <ScrollView {...scrollViewParams}>
       <div
         tabIndex={-1}
         className="dnb-dialog__inner dnb-no-focus"
