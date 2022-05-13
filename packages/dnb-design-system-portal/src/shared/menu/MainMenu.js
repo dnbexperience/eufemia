@@ -20,7 +20,7 @@ import {
   DesignSystemSvg,
   DevelopmentSvg,
 } from './MainMenuGraphics'
-import { Logo, Button } from '@dnb/eufemia/src'
+import { Logo, Button, VisuallyHidden } from '@dnb/eufemia/src'
 import packageJson from '../../../package.json'
 import { MainMenuContext } from './MainMenuContext'
 import {
@@ -126,7 +126,10 @@ const ContentWrapper = styled.div`
   }
 `
 
-const LogoWrapper = styled.div`
+const LogoFigure = styled.figure`
+  display: flex;
+  align-items: center;
+
   color: var(--color-white);
 
   .dnb-logo {
@@ -299,8 +302,11 @@ export default class MainMenu extends React.PureComponent {
           return (
             (isActive || !enableOverlay) && (
               <>
-                <h1 className="dnb-sr-only">Welcome to Eufemia</h1>
+                <h1 id="welcome-heading" className="dnb-sr-only">
+                  Welcome to Eufemia
+                </h1>
                 <MainWrapper
+                  aria-labelledby="welcome-heading"
                   className={classnames(
                     enableOverlay && 'is-overlay',
                     isOpen && 'is-open',
@@ -336,10 +342,13 @@ export default class MainMenu extends React.PureComponent {
                     )) ||
                       (!enableOverlay && (
                         <ContentWrapper>
-                          <LogoWrapper aria-hidden>
+                          <LogoFigure>
                             <Logo size="48" />
-                            Eufemia
-                          </LogoWrapper>
+                            <figcaption>
+                              <VisuallyHidden>DNB</VisuallyHidden>
+                              Eufemia
+                            </figcaption>
+                          </LogoFigure>
                           <SearchBarInput />
                         </ContentWrapper>
                       ))}
