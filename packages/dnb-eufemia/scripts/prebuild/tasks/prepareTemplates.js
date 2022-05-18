@@ -226,6 +226,12 @@ const prepareTemplates = async () => {
     ),
     destFile: path.resolve(__dirname, '../../../src/index.js'),
     processToNamesList: [...components, ...elements],
+    processToNamesIgnoreList: [
+      '/elements/Table', // deprecated after v9
+      '/elements/Tr', // deprecated after v9
+      '/elements/Th', // deprecated after v9
+      '/elements/Td', // deprecated after v9
+    ],
     transformNamesList: ({ result }) => {
       // because elements don't have a folder, we remove the last part of the path
       if (/\/elements\//.test(result)) {
@@ -275,15 +281,22 @@ const runFactory = async ({
           return { file, ...rest }
         })
     }
-    processToNamesList = processToNamesList
-      .filter(({ file }) => {
-        if (/not_in_use|__tests__|DS_Store/g.test(file)) {
-          return false
-        }
-        return !processToNamesIgnoreList.includes(file)
-      })
-      .sort(({ file: a }, { file: b }) => (a > b ? 1 : -1))
   }
+
+  processToNamesList = processToNamesList
+    .filter(({ file, source }) => {
+      if (/not_in_use|__tests__|DS_Store/g.test(file)) {
+        return false
+      }
+
+      return !processToNamesIgnoreList.some((ignoreName) => {
+        if (ignoreName.includes('/')) {
+          return source.includes(ignoreName)
+        }
+        return file.includes(ignoreName)
+      })
+    })
+    .sort(({ file: a }, { file: b }) => (a > b ? 1 : -1))
 
   const template = await fs.readFile(srcFile, 'utf-8')
 

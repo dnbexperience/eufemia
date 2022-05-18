@@ -1,0 +1,12 @@
+/*
+* DNB Table
+*
+*/
+
+@import '../../../style/components/imports.scss';
+
+.dnb-table {
+  @include componentReset();
+}
+
+@import './_table.scss';

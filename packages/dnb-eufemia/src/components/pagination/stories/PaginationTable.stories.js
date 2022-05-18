@@ -9,7 +9,7 @@ import styled from '@emotion/styled'
 
 import { Section, Space, Button } from '../../'
 import { Table, H1, P, Ul } from '../../../elements'
-import { StickyHelper } from '../../../elements/Table'
+import { StickyHelper } from '../../../components/table/Table'
 import { hasSelectedText } from '../../../shared/helpers'
 
 import { createPagination } from '../../Pagination'

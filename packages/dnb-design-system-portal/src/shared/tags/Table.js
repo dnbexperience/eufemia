@@ -6,7 +6,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 // import Color from 'color'
-import { Table as TableElement } from '@dnb/eufemia/src/elements'
+import { Table as TableElement } from '@dnb/eufemia/src/components'
 
 export default class Table extends React.PureComponent {
   static propTypes = {

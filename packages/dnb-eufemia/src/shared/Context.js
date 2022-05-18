@@ -64,6 +64,7 @@ export const prepareContext = (props = {}) => {
     Drawer: {},
     Dialog: {},
     NumberFormat: {},
+    Table: {},
 
     ...props,
     translation, // make sure we set this after props, since we update this one!

@@ -6,12 +6,12 @@
 import {
   testPageScreenshot,
   setupPageScreenshot,
-} from '../../core/jest/jestSetupScreenshots'
+} from '../../../core/jest/jestSetupScreenshots'
 
 const styleSelector = '[data-visual-test="table-classes"] .dnb-table'
 
 describe('Table screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/elements/tables' })
+  setupPageScreenshot({ url: '/uilib/components/table' })
 
   it('have to match a sortable table header on hover', async () => {
     const selector =
@@ -98,7 +98,7 @@ describe('Table screenshot', () => {
 })
 
 describe('Table with skeleton screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/elements/tables?skeleton' })
+  setupPageScreenshot({ url: '/uilib/components/table?skeleton' })
 
   it('have to match default table', async () => {
     const screenshot = await testPageScreenshot({

@@ -21,12 +21,12 @@
   @include dlTag();
 
   // table
-  @include tableTag();
+  // @include tableTag(); // Deprecated since v10
 
   // form
   @include formTag();
   @include labelTag();
-  // @include textareaTag(); // Deprecated sice v. 3.23.0
+  // @include textareaTag(); // Deprecated since v3.23.0
 
   // additional
   @include codeTag();
