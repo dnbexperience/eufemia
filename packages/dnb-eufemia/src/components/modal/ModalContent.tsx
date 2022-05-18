@@ -65,8 +65,8 @@ export default class ModalContent extends React.PureComponent<
 
   constructor(props: ModalContentProps) {
     super(props)
-    this._contentRef = React.createRef()
-    this._scrollRef = React.createRef()
+    this._contentRef = this.props.content_ref || React.createRef()
+    this._scrollRef = this.props.scroll_ref || React.createRef()
 
     // NB: The ""._id" is used in the __modalStack as "last._id"
     this._id = props.id

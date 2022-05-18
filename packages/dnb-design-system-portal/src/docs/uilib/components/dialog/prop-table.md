@@ -1,6 +1,3 @@
----
----
-
 | Properties         | Description                                                                                                                                                                                                                                  |
 | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `variant`          | _(optional)_ The dialog variant. Can either be `information` or `confirmation`. Defaults to `information`.                                                                                                                                   |
@@ -21,3 +18,5 @@
 | `declineText`      | _(optional)_ For dialog actions, give a custom text for the decline button.                                                                                                                                                                  |
 | `confirmText`      | _(optional)_ For dialog actions, give a custom text for the confirmation button.                                                                                                                                                             |
 | `hideDecline`      | _(optional)_ For variant confirmation, hide the default decline button and only show the confirmation button.                                                                                                                                |
+| `scrollRef`        | _(optional)_ To get the scroll Element, pass in your own React ref.                                                                                                                                                                          |
+| `contentRef`       | _(optional)_ To get the inner content Element, pass in your own React ref.                                                                                                                                                                   |

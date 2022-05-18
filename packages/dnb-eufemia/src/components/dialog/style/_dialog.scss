@@ -28,7 +28,7 @@
   max-height: 100vh;
   overflow: hidden;
   .dnb-scroll-view {
-    max-height: 100vh; // make it scrollable
+    max-height: 90vh; // make it scrollable
   }
 
   &__inner {
@@ -55,17 +55,15 @@
   &--auto-fullscreen {
     @include allBelow(small) {
       @include modalFullscreen();
+      margin: auto 0;
     }
   }
   &--fullscreen {
     @include modalFullscreen();
+    margin: auto 0;
   }
   &--spacing#{&}--information &__content {
     padding-bottom: calc(var(--dialog-spacing) * 2);
-
-    @include IS_SAFARI_MOBILE {
-      padding-bottom: calc(var(--dialog-spacing) * 8);
-    }
   }
 
   &--spacing#{&}--information &__inner {
@@ -94,10 +92,6 @@
 
   &--spacing#{&}--confirmation &__inner {
     padding: calc(var(--dialog-spacing)); // 2rem (32px)
-
-    @include IS_SAFARI_MOBILE {
-      padding-bottom: calc(var(--dialog-spacing) * 8);
-    }
   }
 
   &__align--centered &__inner {
@@ -246,12 +240,12 @@
     margin-top: 1.5rem;
   }
 
+  // Fix for iOS on iPhone
+  // Because Safari includes the navigation bar on the height
   @include IS_SAFARI_MOBILE() {
-    // iOS on iPhone fix
-    // Because Safari includes the navigation bar on the height
-    @media (max-height: 40em) and (orientation: landscape) {
-      &:not(#{&}--fullscreen) {
-        max-height: 80vh;
+    @media (max-height: 40em) {
+      .dnb-scroll-view {
+        max-height: 82vh;
       }
     }
   }

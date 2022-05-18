@@ -66,6 +66,8 @@ function Dialog(
     omitTriggerButton = false,
     overlayClass,
     contentClass,
+    contentRef,
+    scrollRef,
 
     top,
     bottom,
@@ -130,6 +132,8 @@ function Dialog(
     left,
     right,
     space,
+    contentRef,
+    scrollRef,
   }
 
   const dialogProps = {
