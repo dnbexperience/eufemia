@@ -71,14 +71,25 @@ export const correctNumberValue = ({
     return value
   }
 
+  const decimalPos = value.indexOf('.')
+
+  if (
+    maskParams.integerLimit &&
+    typeof maskParams.integerLimit === 'number'
+  ) {
+    const limit = maskParams.integerLimit
+    const integers = value.slice(0, limit)
+    const decimals = decimalPos > 0 ? value.slice(decimalPos) : ''
+    value = integers + decimals
+  }
+
   const shouldHaveDecimals =
     maskParams.allowDecimal ||
     (maskParams.decimalLimit > 0 && maskParams.allowDecimal !== false)
 
   if (!shouldHaveDecimals) {
-    const indexOf = value.indexOf('.')
-    if (indexOf > -1) {
-      value = value.slice(0, indexOf)
+    if (decimalPos > -1) {
+      value = value.slice(0, decimalPos)
     }
   }
 

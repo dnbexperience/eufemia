@@ -28,7 +28,6 @@ export default function createNumberMask({
   decimalLimit = 2,
   requireDecimal = false,
   allowNegative = true,
-  integerLimit = null,
 } = {}) {
   // http://stackoverflow.com/a/10899795/604296
   function addThousandsSeparator(n, thousandsSeparatorSymbol) {
@@ -37,8 +36,6 @@ export default function createNumberMask({
 
   const prefixLength = (prefix && prefix.length) || 0
   const suffixLength = (suffix && suffix.length) || 0
-  const thousandsSeparatorSymbolLength =
-    (thousandsSeparatorSymbol && thousandsSeparatorSymbol.length) || 0
 
   function numberMask(rawValue = emptyString) {
     const rawValueLength = rawValue.length
@@ -92,22 +89,6 @@ export default function createNumberMask({
       } else {
         integer = rawValue
       }
-    }
-
-    if (integerLimit && typeof integerLimit === number) {
-      const thousandsSeparatorRegex =
-        thousandsSeparatorSymbol === '.'
-          ? '[.]'
-          : `${thousandsSeparatorSymbol}`
-      const numberOfThousandSeparators = (
-        integer.match(new RegExp(thousandsSeparatorRegex, 'g')) || []
-      ).length
-
-      integer = integer.slice(
-        0,
-        integerLimit +
-          numberOfThousandSeparators * thousandsSeparatorSymbolLength
-      )
     }
 
     integer = integer.replace(nonDigitsRegExp, emptyString)
