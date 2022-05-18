@@ -10,7 +10,7 @@ import styled from '@emotion/styled'
 
 import { Button } from '@dnb/eufemia/src/components'
 import { Table, P } from '@dnb/eufemia/src/elements'
-import { StickyHelper } from '@dnb/eufemia/src/elements/Table'
+import { StickyHelper } from '@dnb/eufemia/src/components/Table'
 import { hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 
 import { createPagination } from '@dnb/eufemia/src/components/Pagination'
