@@ -17,6 +17,7 @@ const ModalContext = React.createContext({
   setBackgroundColor: null,
   onCloseClickHandler: null,
   contentRef: null,
+  scrollRef: null,
   hide: null,
   contentId: null,
   close: null,

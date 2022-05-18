@@ -55,6 +55,7 @@ export default class ModalContent extends React.PureComponent<
   state = { triggeredBy: null, triggeredByEvent: null, color: null }
 
   _contentRef: React.RefObject<HTMLElement>
+  _scrollRef: React.RefObject<HTMLElement>
   _id: string
   _lockTimeout: NodeJS.Timeout
   _focusTimeout: NodeJS.Timeout
@@ -65,6 +66,7 @@ export default class ModalContent extends React.PureComponent<
   constructor(props: ModalContentProps) {
     super(props)
     this._contentRef = React.createRef()
+    this._scrollRef = React.createRef()
 
     // NB: The ""._id" is used in the __modalStack as "last._id"
     this._id = props.id
@@ -266,13 +268,13 @@ export default class ModalContent extends React.PureComponent<
   }
 
   removeScrollPossibility() {
-    if (this._contentRef.current) {
-      disableBodyScroll(this._contentRef.current)
+    if (this._scrollRef.current) {
+      disableBodyScroll(this._scrollRef.current)
     }
   }
 
   revertScrollPossibility() {
-    enableBodyScroll(this._contentRef.current)
+    enableBodyScroll(this._scrollRef.current)
     clearAllBodyScrollLocks()
   }
 
@@ -458,6 +460,7 @@ export default class ModalContent extends React.PureComponent<
           preventClick: this.preventClick,
           onKeyDownHandler: this.onKeyDownHandler,
           contentRef: this._contentRef,
+          scrollRef: this._scrollRef,
           contentId,
           close,
         }}

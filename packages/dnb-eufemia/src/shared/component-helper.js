@@ -685,13 +685,22 @@ export const getPreviousSibling = (className, element) => {
   return element
 }
 
-export const isChildOfElement = (element, target, cb = null) => {
+/**
+ * Check if an element exists in its children
+ * If it finds it, the child "element" of target will be returned.
+ *
+ * @param {HTMLElement} element The DOM Element to find
+ * @param {HTMLElement} target The DOM Element that should contain "element"
+ * @param {function} callback (optional)
+ * @returns {HTMLElement | null} Returns the found child of all existing dom elements inside of "target"
+ */
+export const isChildOfElement = (element, target, callback = null) => {
   try {
     const contains = (element) => {
-      if (cb) {
-        const res = cb(element)
-        if (typeof res === 'boolean') {
-          return res
+      if (callback) {
+        const res = callback(element)
+        if (res) {
+          return element
         }
       }
       return element && element === target
@@ -903,8 +912,6 @@ export class InteractionInvalidation {
         )
       ).filter((node) => !excludeSelectors.includes(node))
     }
-
-    // console.log('selector', selector)
 
     return Array.from(
       (targetElement || document.documentElement).querySelectorAll(

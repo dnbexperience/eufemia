@@ -90,7 +90,7 @@ function Dialog(
       preventOverlayClose !== undefined ? preventOverlayClose : true
   }
 
-  if (fullscreen === undefined) {
+  if (fullscreen === undefined && fullscreen !== false) {
     currentFullscreen = variant === 'information' ? 'auto' : false
   }
 
