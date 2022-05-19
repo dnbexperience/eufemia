@@ -12,7 +12,7 @@ import Img, { ImgProps } from '../../elements/Img'
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
 import { SkeletonShow } from '../skeleton/Skeleton'
-import { warn } from '../../shared/component-helper'
+import { validateDOMAttributes, warn } from '../../shared/component-helper'
 import { usePropsWithContext } from '../../shared/hooks'
 
 // Internal
@@ -90,6 +90,14 @@ const Avatar = (localProps: AvatarProps & ISpacingProps) => {
   const avatarGroupContext = React.useContext(AvatarGroupContext)
 
   // Extract additional props from global context
+  const allProps = usePropsWithContext(
+    localProps,
+    defaultProps,
+    context?.Avatar,
+    { skeleton: context?.skeleton },
+    avatarGroupContext
+  )
+
   const {
     alt,
     className,
@@ -101,13 +109,7 @@ const Avatar = (localProps: AvatarProps & ISpacingProps) => {
     imgProps,
     hasLabel,
     ...props
-  } = usePropsWithContext(
-    localProps,
-    defaultProps,
-    context?.Avatar,
-    { skeleton: context?.skeleton },
-    avatarGroupContext
-  )
+  } = allProps
 
   let children = null
 
@@ -135,6 +137,8 @@ const Avatar = (localProps: AvatarProps & ISpacingProps) => {
       `Avatar group required: An Avatar requires an Avatar.Group with label description as a parent component. This is to ensure correct semantic and accessibility.`
     )
   }
+
+  validateDOMAttributes(allProps, props)
 
   return (
     <span
