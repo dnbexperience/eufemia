@@ -244,6 +244,22 @@ describe('InfoCard', () => {
     )
   })
 
+  it('should support spacing props', () => {
+    render(<InfoCard text="text" top="2rem" />)
+
+    const element = screen.getByTestId('info-card')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['data-testid', 'class'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-info-card',
+      'dnb-space__top--large',
+      'dnb-div',
+    ])
+  })
+
   describe('InfoCard aria', () => {
     it('should validate', async () => {
       const Component = render(<InfoCard text="text" />)
