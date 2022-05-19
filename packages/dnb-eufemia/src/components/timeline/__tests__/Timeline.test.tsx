@@ -82,6 +82,31 @@ describe('Timeline', () => {
     )
   })
 
+  it('should support spacing props', () => {
+    render(
+      <Timeline
+        data={[
+          {
+            name: 'Upcoming',
+            state: 'upcoming',
+          },
+        ]}
+        top="2rem"
+      />
+    )
+
+    const element = screen.getByTestId('timeline')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class', 'data-testid'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-timeline',
+      'dnb-space__top--large',
+    ])
+  })
+
   describe('TimelineItem', () => {
     it('renders name', () => {
       const name = 'Completed'
