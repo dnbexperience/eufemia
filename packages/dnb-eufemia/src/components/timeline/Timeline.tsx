@@ -12,6 +12,7 @@ import { usePropsWithContext } from '../../shared/hooks'
 
 // Internal
 import TimelineItem, { TimelineItemProps } from './TimelineItem'
+import { validateDOMAttributes } from '../../shared/component-helper'
 
 export interface TimelineProps {
   /**
@@ -51,16 +52,23 @@ export const defaultProps = {
 const Timeline = (localProps: TimelineProps & ISpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
+
   // Extract additional props from global context
+  const allProps = usePropsWithContext(
+    localProps,
+    defaultProps,
+    context?.Timeline,
+    {
+      skeleton: context?.skeleton,
+    }
+  )
   const {
     className,
     skeleton,
     data,
     children: childrenProp,
     ...props
-  } = usePropsWithContext(localProps, defaultProps, context?.Timeline, {
-    skeleton: context?.skeleton,
-  })
+  } = allProps
 
   const spacingClasses = createSpacingClasses(props)
 
@@ -74,6 +82,8 @@ const Timeline = (localProps: TimelineProps & ISpacingProps) => {
       })
     })
   }
+
+  validateDOMAttributes(allProps, props)
 
   return (
     <div

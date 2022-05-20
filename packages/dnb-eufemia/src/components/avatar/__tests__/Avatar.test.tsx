@@ -165,6 +165,33 @@ describe('Avatar', () => {
     )
   })
 
+  it('should support spacing props', () => {
+    const img_alt = 'custom_alt_label'
+
+    render(
+      <Avatar.Group label="label" top>
+        <Avatar
+          top="2rem"
+          alt={img_alt}
+          src="/android-chrome-192x192.png"
+        />
+      </Avatar.Group>
+    )
+
+    const element = screen.getByTestId('avatar')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class', 'data-testid'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-avatar',
+      'dnb-avatar--primary',
+      'dnb-avatar--size-medium',
+      'dnb-space__top--large',
+    ])
+  })
+
   describe('AvatarGroup', () => {
     it('renders the label as string', () => {
       const label = 'avatar'
