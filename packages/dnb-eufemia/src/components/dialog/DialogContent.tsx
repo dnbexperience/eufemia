@@ -8,6 +8,7 @@ import classnames from 'classnames'
 import {
   isTrue,
   findElementInChildren,
+  validateDOMAttributes,
 } from '../../shared/component-helper'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
 import DialogHeader from './parts/DialogHeader'
@@ -60,7 +61,7 @@ export default function DialogContent({
     alignContent = variant === 'information' ? 'left' : 'centered'
   }
 
-  const innerParams = {
+  const contentParams = {
     className: classnames(
       !isTrue(preventCoreStyle) && 'dnb-core-style',
 
@@ -107,51 +108,55 @@ export default function DialogContent({
     hideDecline,
   }
 
+  validateDOMAttributes({}, contentParams)
+
   return (
-    <ScrollView {...innerParams}>
-      <div
-        tabIndex={-1}
-        className="dnb-dialog__inner dnb-no-focus"
-        ref={context?.contentRef}
-      >
-        {!navExists && <DialogNavigation>{navContent}</DialogNavigation>}
-
-        {icon && (
-          <div className="dnb-dialog__icon">
-            <IconPrimary
-              border
-              key="dialog-icon"
-              icon={icon}
-              aria-hidden
-              className={classnames(
-                'dnb-dialog__icon__primary',
-                'dnb-dialog__icon--' + confirmType
-              )}
-            />
-          </div>
-        )}
-
-        {!headerExists && (
-          <DialogHeader
-            title={context?.title}
-            size={variant === 'information' ? 'x-large' : 'large'}
-          >
-            {headerContent}
-          </DialogHeader>
-        )}
-
+    <div {...contentParams}>
+      <ScrollView ref={context?.scrollRef}>
         <div
-          id={context?.contentId + '-content'}
-          className="dnb-dialog__content"
+          tabIndex={-1}
+          className="dnb-dialog__inner dnb-no-focus"
+          ref={context?.contentRef}
         >
-          {description}
-          {content}
-        </div>
+          {!navExists && <DialogNavigation>{navContent}</DialogNavigation>}
 
-        {variant === 'confirmation' && !actionExists && (
-          <DialogAction {...dialogActionProps} />
-        )}
-      </div>
-    </ScrollView>
+          {icon && (
+            <div className="dnb-dialog__icon">
+              <IconPrimary
+                border
+                key="dialog-icon"
+                icon={icon}
+                aria-hidden
+                className={classnames(
+                  'dnb-dialog__icon__primary',
+                  'dnb-dialog__icon--' + confirmType
+                )}
+              />
+            </div>
+          )}
+
+          {!headerExists && (
+            <DialogHeader
+              title={context?.title}
+              size={variant === 'information' ? 'x-large' : 'large'}
+            >
+              {headerContent}
+            </DialogHeader>
+          )}
+
+          <div
+            id={context?.contentId + '-content'}
+            className="dnb-dialog__content"
+          >
+            {description}
+            {content}
+          </div>
+
+          {variant === 'confirmation' && !actionExists && (
+            <DialogAction {...dialogActionProps} />
+          )}
+        </div>
+      </ScrollView>
+    </div>
   )
 }

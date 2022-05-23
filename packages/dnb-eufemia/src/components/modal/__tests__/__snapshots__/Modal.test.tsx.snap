@@ -826,356 +826,390 @@ exports[`Modal component have to match snapshot 1`] = `
             style_type="button"
             title="modal_title"
           >
-            <ForwardRef(ScrollViewRef)
-              0={
-                Object {
-                  "displayName": "Modal",
-                  "props": Object {},
-                }
-              }
-              bypass_invalidation_selectors={null}
+            <div
               className="dnb-dialog dnb-dialog--auto-fullscreen dnb-core-style dnb-dialog--information dnb-dialog--spacing dnb-dialog__align--left dnb-dialog--no-animation"
-              class_name={null}
-              close_modal={null}
-              containerPlacement={null}
-              focus_selector={null}
               onClick={[Function]}
               onKeyDown={[Function]}
               onTouchStart={[Function]}
-              on_close={null}
-              on_close_prevent={null}
-              on_open={null}
-              open_modal={null}
-              prevent_close={false}
-              root_id="root"
-              style={null}
-              style_type="button"
               title="modal_title"
             >
-              <ScrollView
-                0={
-                  Object {
-                    "displayName": "Modal",
-                    "props": Object {},
-                  }
-                }
-                bypass_invalidation_selectors={null}
-                class={null}
-                className="dnb-dialog dnb-dialog--auto-fullscreen dnb-core-style dnb-dialog--information dnb-dialog--spacing dnb-dialog__align--left dnb-dialog--no-animation"
-                class_name={null}
-                close_modal={null}
-                containerPlacement={null}
-                focus_selector={null}
-                innerRef={null}
-                onClick={[Function]}
-                onKeyDown={[Function]}
-                onTouchStart={[Function]}
-                on_close={null}
-                on_close_prevent={null}
-                on_open={null}
-                open_modal={null}
-                prevent_close={false}
-                root_id="root"
-                style={null}
-                style_type="button"
-                title="modal_title"
-              >
-                <div
-                  className="dnb-scroll-view dnb-dialog dnb-dialog--auto-fullscreen dnb-core-style dnb-dialog--information dnb-dialog--spacing dnb-dialog__align--left dnb-dialog--no-animation"
-                  onClick={[Function]}
-                  onKeyDown={[Function]}
-                  onTouchStart={[Function]}
-                  title="modal_title"
-                >
-                  <div
-                    className="dnb-dialog__inner dnb-no-focus"
-                    tabIndex={-1}
-                  >
-                    <DialogNavigation>
-                      <ModalHeaderBar
-                        className="dnb-dialog__navigation"
+              <ForwardRef(ScrollViewRef)>
+                <ScrollView
+                  class={null}
+                  className={null}
+                  innerRef={
+                    Object {
+                      "current": <div
+                        class="dnb-scroll-view"
                       >
-                        <Section
-                          class={null}
-                          className="dnb-modal__header__bar dnb-dialog__navigation dnb-dialog__navigation"
-                          element="section"
-                          inner_ref={
-                            Object {
-                              "current": <section
-                                class="dnb-section dnb-section--white dnb-modal__header__bar dnb-dialog__navigation dnb-dialog__navigation"
-                              >
-                                <div
-                                  class="dnb-modal__header__bar__inner"
-                                />
-                                <div
-                                  class="dnb-modal__header__bar__close"
-                                >
-                                  <button
-                                    class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon"
-                                    type="button"
-                                  >
-                                    <span
-                                      aria-hidden="true"
-                                      class="dnb-button__alignment"
-                                    >
-                                      ‌
-                                    </span>
-                                    <span
-                                      class="dnb-button__text dnb-skeleton--show-font"
-                                    >
-                                      Lukk
-                                    </span>
-                                    <span
-                                      aria-hidden="true"
-                                      class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                                      data-test-id="close icon"
-                                      role="presentation"
-                                    >
-                                      <svg
-                                        fill="none"
-                                        height="16"
-                                        viewBox="0 0 16 16"
-                                        width="16"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M3 13 13 3m0 10L3 3"
-                                          stroke="#000"
-                                          stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                          stroke-width="1.5"
-                                        />
-                                      </svg>
-                                    </span>
-                                  </button>
-                                </div>
-                              </section>,
-                            }
-                          }
-                          spacing={null}
-                          style_type="white"
+                        <div
+                          class="dnb-dialog__inner dnb-no-focus"
+                          tabindex="-1"
                         >
                           <section
-                            className="dnb-section dnb-section--white dnb-modal__header__bar dnb-dialog__navigation dnb-dialog__navigation"
+                            class="dnb-section dnb-section--white dnb-modal__header__bar dnb-dialog__navigation dnb-dialog__navigation"
                           >
                             <div
-                              className="dnb-modal__header__bar__inner"
+                              class="dnb-modal__header__bar__inner"
                             />
                             <div
-                              className="dnb-modal__header__bar__close"
+                              class="dnb-modal__header__bar__close"
                             >
-                              <CloseButton
-                                className={null}
-                                close_title="Lukk"
-                                icon_position="left"
-                                on_click={[Function]}
-                                size="default"
+                              <button
+                                class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon"
+                                type="button"
                               >
-                                <Button
-                                  bounding={null}
-                                  class={null}
-                                  className="dnb-modal__close-button"
-                                  custom_content={null}
-                                  custom_element={null}
-                                  custom_method={null}
-                                  disabled={null}
-                                  element={null}
-                                  global_status_id={null}
-                                  href={null}
-                                  icon="close"
-                                  icon_position="left"
-                                  icon_size={null}
-                                  id={null}
-                                  innerRef={null}
-                                  inner_ref={null}
-                                  on_click={[Function]}
-                                  size="default"
-                                  skeleton={null}
-                                  status={null}
-                                  status_no_animation={null}
-                                  status_props={null}
-                                  status_state="error"
-                                  stretch={null}
-                                  text="Lukk"
-                                  title={null}
-                                  to={null}
-                                  tooltip={null}
-                                  type="button"
-                                  variant="tertiary"
-                                  wrap={null}
+                                <span
+                                  aria-hidden="true"
+                                  class="dnb-button__alignment"
                                 >
-                                  <button
-                                    className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon"
-                                    disabled={false}
-                                    onClick={[Function]}
-                                    type="button"
+                                  ‌
+                                </span>
+                                <span
+                                  class="dnb-button__text dnb-skeleton--show-font"
+                                >
+                                  Lukk
+                                </span>
+                                <span
+                                  aria-hidden="true"
+                                  class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                                  data-test-id="close icon"
+                                  role="presentation"
+                                >
+                                  <svg
+                                    fill="none"
+                                    height="16"
+                                    viewBox="0 0 16 16"
+                                    width="16"
+                                    xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <Content
-                                      bounding={null}
-                                      class={null}
-                                      className="dnb-modal__close-button"
-                                      content="Lukk"
-                                      custom_content={null}
-                                      custom_element={null}
-                                      custom_method={null}
-                                      disabled={null}
-                                      element={null}
-                                      global_status_id={null}
-                                      href={null}
-                                      icon="close"
-                                      icon_position="left"
-                                      icon_size={null}
-                                      id={null}
-                                      innerRef={null}
-                                      inner_ref={null}
-                                      isIconOnly={false}
-                                      on_click={[Function]}
-                                      size="default"
-                                      skeleton={false}
-                                      status={null}
-                                      status_no_animation={null}
-                                      status_props={null}
-                                      status_state="error"
-                                      stretch={null}
-                                      text="Lukk"
-                                      title={null}
-                                      to={null}
-                                      tooltip={null}
-                                      type="button"
-                                      variant="tertiary"
-                                      wrap={null}
-                                    >
-                                      <span
-                                        aria-hidden={true}
-                                        className="dnb-button__alignment"
-                                        key="button-alignment"
-                                      >
-                                        ‌
-                                      </span>
-                                      <span
-                                        className="dnb-button__text dnb-skeleton--show-font"
-                                        key="button-text"
-                                      >
-                                        Lukk
-                                      </span>
-                                      <IconPrimary
-                                        alt={null}
-                                        aria-hidden={true}
-                                        attributes={null}
-                                        border={null}
-                                        className="dnb-button__icon"
-                                        color={null}
-                                        height={null}
-                                        icon="close"
-                                        inherit_color={true}
-                                        key="button-icon"
-                                        modifier={null}
-                                        size={null}
-                                        skeleton={false}
-                                        title={null}
-                                        width={null}
-                                      >
-                                        <span
-                                          aria-hidden={true}
-                                          className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                                          data-test-id="close icon"
-                                          role="presentation"
-                                        >
-                                          <close>
-                                            <svg
-                                              fill="none"
-                                              height={16}
-                                              viewBox="0 0 16 16"
-                                              width={16}
-                                              xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                              <path
-                                                d="M3 13 13 3m0 10L3 3"
-                                                stroke="#000"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={1.5}
-                                              />
-                                            </svg>
-                                          </close>
-                                        </span>
-                                      </IconPrimary>
-                                    </Content>
-                                  </button>
-                                  <FormStatus
-                                    attributes={null}
-                                    class={null}
-                                    className={null}
-                                    global_status_id={null}
-                                    icon="error"
-                                    icon_size="medium"
-                                    id="null-form-status"
-                                    label="Lukk"
-                                    no_animation={null}
-                                    role={null}
-                                    show={null}
-                                    size="default"
-                                    skeleton={null}
-                                    state="error"
-                                    status="error"
-                                    stretch={null}
-                                    text={null}
-                                    text_id="null-status"
-                                    title={null}
-                                    variant={null}
-                                    width_element={null}
-                                    width_selector={null}
-                                  />
-                                </Button>
-                              </CloseButton>
+                                    <path
+                                      d="M3 13 13 3m0 10L3 3"
+                                      stroke="#000"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="1.5"
+                                    />
+                                  </svg>
+                                </span>
+                              </button>
                             </div>
                           </section>
-                        </Section>
-                      </ModalHeaderBar>
-                    </DialogNavigation>
-                    <DialogHeader
-                      size="x-large"
-                      title="modal_title"
-                    >
-                      <ModalHeader
-                        className="dnb-dialog__header"
-                        size="x-large"
-                        title="modal_title"
-                        title_class="dnb-dialog__title"
-                      >
-                        <Section
-                          class={null}
-                          className="dnb-dialog__header dnb-dialog__header"
-                          element="section"
-                          id="dnb-modal-modal_id-title"
-                          inner_ref={null}
-                          spacing={null}
-                          style_type="white"
-                        >
                           <section
-                            className="dnb-section dnb-section--white dnb-dialog__header dnb-dialog__header"
+                            class="dnb-section dnb-section--white dnb-dialog__header dnb-dialog__header"
                             id="dnb-modal-modal_id-title"
                           >
                             <h1
-                              className="dnb-modal__title dnb-space__top--zero dnb-space__bottom--small dnb-h--x-large dnb-dialog__title dnb-dialog__title"
+                              class="dnb-modal__title dnb-space__top--zero dnb-space__bottom--small dnb-h--x-large dnb-dialog__title dnb-dialog__title"
                             >
                               modal_title
                             </h1>
                             <div />
                           </section>
-                        </Section>
-                      </ModalHeader>
-                    </DialogHeader>
+                          <div
+                            class="dnb-dialog__content"
+                            id="dnb-modal-modal_id-content"
+                          >
+                            unique_modal_content
+                          </div>
+                        </div>
+                      </div>,
+                    }
+                  }
+                >
+                  <div
+                    className="dnb-scroll-view"
+                  >
                     <div
-                      className="dnb-dialog__content"
-                      id="dnb-modal-modal_id-content"
+                      className="dnb-dialog__inner dnb-no-focus"
+                      tabIndex={-1}
                     >
-                      unique_modal_content
+                      <DialogNavigation>
+                        <ModalHeaderBar
+                          className="dnb-dialog__navigation"
+                        >
+                          <Section
+                            class={null}
+                            className="dnb-modal__header__bar dnb-dialog__navigation dnb-dialog__navigation"
+                            element="section"
+                            inner_ref={
+                              Object {
+                                "current": <section
+                                  class="dnb-section dnb-section--white dnb-modal__header__bar dnb-dialog__navigation dnb-dialog__navigation"
+                                >
+                                  <div
+                                    class="dnb-modal__header__bar__inner"
+                                  />
+                                  <div
+                                    class="dnb-modal__header__bar__close"
+                                  >
+                                    <button
+                                      class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon"
+                                      type="button"
+                                    >
+                                      <span
+                                        aria-hidden="true"
+                                        class="dnb-button__alignment"
+                                      >
+                                        ‌
+                                      </span>
+                                      <span
+                                        class="dnb-button__text dnb-skeleton--show-font"
+                                      >
+                                        Lukk
+                                      </span>
+                                      <span
+                                        aria-hidden="true"
+                                        class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                                        data-test-id="close icon"
+                                        role="presentation"
+                                      >
+                                        <svg
+                                          fill="none"
+                                          height="16"
+                                          viewBox="0 0 16 16"
+                                          width="16"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <path
+                                            d="M3 13 13 3m0 10L3 3"
+                                            stroke="#000"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="1.5"
+                                          />
+                                        </svg>
+                                      </span>
+                                    </button>
+                                  </div>
+                                </section>,
+                              }
+                            }
+                            spacing={null}
+                            style_type="white"
+                          >
+                            <section
+                              className="dnb-section dnb-section--white dnb-modal__header__bar dnb-dialog__navigation dnb-dialog__navigation"
+                            >
+                              <div
+                                className="dnb-modal__header__bar__inner"
+                              />
+                              <div
+                                className="dnb-modal__header__bar__close"
+                              >
+                                <CloseButton
+                                  className={null}
+                                  close_title="Lukk"
+                                  icon_position="left"
+                                  on_click={[Function]}
+                                  size="default"
+                                >
+                                  <Button
+                                    bounding={null}
+                                    class={null}
+                                    className="dnb-modal__close-button"
+                                    custom_content={null}
+                                    custom_element={null}
+                                    custom_method={null}
+                                    disabled={null}
+                                    element={null}
+                                    global_status_id={null}
+                                    href={null}
+                                    icon="close"
+                                    icon_position="left"
+                                    icon_size={null}
+                                    id={null}
+                                    innerRef={null}
+                                    inner_ref={null}
+                                    on_click={[Function]}
+                                    size="default"
+                                    skeleton={null}
+                                    status={null}
+                                    status_no_animation={null}
+                                    status_props={null}
+                                    status_state="error"
+                                    stretch={null}
+                                    text="Lukk"
+                                    title={null}
+                                    to={null}
+                                    tooltip={null}
+                                    type="button"
+                                    variant="tertiary"
+                                    wrap={null}
+                                  >
+                                    <button
+                                      className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon"
+                                      disabled={false}
+                                      onClick={[Function]}
+                                      type="button"
+                                    >
+                                      <Content
+                                        bounding={null}
+                                        class={null}
+                                        className="dnb-modal__close-button"
+                                        content="Lukk"
+                                        custom_content={null}
+                                        custom_element={null}
+                                        custom_method={null}
+                                        disabled={null}
+                                        element={null}
+                                        global_status_id={null}
+                                        href={null}
+                                        icon="close"
+                                        icon_position="left"
+                                        icon_size={null}
+                                        id={null}
+                                        innerRef={null}
+                                        inner_ref={null}
+                                        isIconOnly={false}
+                                        on_click={[Function]}
+                                        size="default"
+                                        skeleton={false}
+                                        status={null}
+                                        status_no_animation={null}
+                                        status_props={null}
+                                        status_state="error"
+                                        stretch={null}
+                                        text="Lukk"
+                                        title={null}
+                                        to={null}
+                                        tooltip={null}
+                                        type="button"
+                                        variant="tertiary"
+                                        wrap={null}
+                                      >
+                                        <span
+                                          aria-hidden={true}
+                                          className="dnb-button__alignment"
+                                          key="button-alignment"
+                                        >
+                                          ‌
+                                        </span>
+                                        <span
+                                          className="dnb-button__text dnb-skeleton--show-font"
+                                          key="button-text"
+                                        >
+                                          Lukk
+                                        </span>
+                                        <IconPrimary
+                                          alt={null}
+                                          aria-hidden={true}
+                                          attributes={null}
+                                          border={null}
+                                          className="dnb-button__icon"
+                                          color={null}
+                                          height={null}
+                                          icon="close"
+                                          inherit_color={true}
+                                          key="button-icon"
+                                          modifier={null}
+                                          size={null}
+                                          skeleton={false}
+                                          title={null}
+                                          width={null}
+                                        >
+                                          <span
+                                            aria-hidden={true}
+                                            className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                                            data-test-id="close icon"
+                                            role="presentation"
+                                          >
+                                            <close>
+                                              <svg
+                                                fill="none"
+                                                height={16}
+                                                viewBox="0 0 16 16"
+                                                width={16}
+                                                xmlns="http://www.w3.org/2000/svg"
+                                              >
+                                                <path
+                                                  d="M3 13 13 3m0 10L3 3"
+                                                  stroke="#000"
+                                                  strokeLinecap="round"
+                                                  strokeLinejoin="round"
+                                                  strokeWidth={1.5}
+                                                />
+                                              </svg>
+                                            </close>
+                                          </span>
+                                        </IconPrimary>
+                                      </Content>
+                                    </button>
+                                    <FormStatus
+                                      attributes={null}
+                                      class={null}
+                                      className={null}
+                                      global_status_id={null}
+                                      icon="error"
+                                      icon_size="medium"
+                                      id="null-form-status"
+                                      label="Lukk"
+                                      no_animation={null}
+                                      role={null}
+                                      show={null}
+                                      size="default"
+                                      skeleton={null}
+                                      state="error"
+                                      status="error"
+                                      stretch={null}
+                                      text={null}
+                                      text_id="null-status"
+                                      title={null}
+                                      variant={null}
+                                      width_element={null}
+                                      width_selector={null}
+                                    />
+                                  </Button>
+                                </CloseButton>
+                              </div>
+                            </section>
+                          </Section>
+                        </ModalHeaderBar>
+                      </DialogNavigation>
+                      <DialogHeader
+                        size="x-large"
+                        title="modal_title"
+                      >
+                        <ModalHeader
+                          className="dnb-dialog__header"
+                          size="x-large"
+                          title="modal_title"
+                          title_class="dnb-dialog__title"
+                        >
+                          <Section
+                            class={null}
+                            className="dnb-dialog__header dnb-dialog__header"
+                            element="section"
+                            id="dnb-modal-modal_id-title"
+                            inner_ref={null}
+                            spacing={null}
+                            style_type="white"
+                          >
+                            <section
+                              className="dnb-section dnb-section--white dnb-dialog__header dnb-dialog__header"
+                              id="dnb-modal-modal_id-title"
+                            >
+                              <h1
+                                className="dnb-modal__title dnb-space__top--zero dnb-space__bottom--small dnb-h--x-large dnb-dialog__title dnb-dialog__title"
+                              >
+                                modal_title
+                              </h1>
+                              <div />
+                            </section>
+                          </Section>
+                        </ModalHeader>
+                      </DialogHeader>
+                      <div
+                        className="dnb-dialog__content"
+                        id="dnb-modal-modal_id-content"
+                      >
+                        unique_modal_content
+                      </div>
                     </div>
                   </div>
-                </div>
-              </ScrollView>
-            </ForwardRef(ScrollViewRef)>
+                </ScrollView>
+              </ForwardRef(ScrollViewRef)>
+            </div>
           </DialogContent>
         </div>
         <span
@@ -2135,20 +2169,30 @@ button.dnb-button::-moz-focus-inner {
 
 .dnb-dialog {
   position: relative;
-  max-height: 100vh;
   border-radius: 0.5rem;
   box-shadow: var(--shadow-default);
   user-select: text;
   -webkit-user-select: text;
   border: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  max-height: 100vh;
+  overflow: hidden; }
+  .dnb-dialog .dnb-scroll-view {
+    max-height: 100vh; }
+  .dnb-dialog__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%; }
   .dnb-dialog--information {
     min-width: var(--dialog-min-width);
     width: var(--dialog-avg-width);
     max-width: var(--dialog-max-width); }
   .dnb-dialog--confirmation {
     max-width: var(--dialog-confirm-max-width);
-    margin: 0 1rem; }
+    margin-left: 1rem;
+    margin-right: 1rem; }
   @media screen and (max-width: 40em) {
     .dnb-dialog--auto-fullscreen {
       width: 100%;
@@ -2189,21 +2233,6 @@ button.dnb-button::-moz-focus-inner {
     @supports (-webkit-touch-callout: none) {
       .dnb-dialog--spacing.dnb-dialog--confirmation .dnb-dialog__inner {
         padding-bottom: calc(var(--dialog-spacing) * 8); } }
-  .dnb-dialog__inner {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden; }
-    .dnb-dialog__inner::after {
-      content: '';
-      position: absolute;
-      z-index: -4;
-      left: 0;
-      top: 0;
-      width: 100vw;
-      height: 100%; }
   .dnb-dialog__align--centered .dnb-dialog__inner {
     align-items: center;
     justify-content: center; }
