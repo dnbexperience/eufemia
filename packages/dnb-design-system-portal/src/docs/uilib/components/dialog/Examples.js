@@ -3,6 +3,7 @@
  *
  */
 
+import React from 'react'
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import {
   trash_medium,
@@ -276,3 +277,81 @@ export const DialogConfirmCookies = () => (
 `}
   </ComponentBox>
 )
+
+export const DialogConfirmScrollableContent = () => {
+  const scrollRef = React.useRef(null)
+
+  if (!(typeof window !== 'undefined' && window.IS_TEST)) {
+    return <></>
+  }
+
+  return (
+    <ComponentBox
+      data-visual-test="dialog-scroll-content"
+      scope={{ scrollRef }}
+    >
+      {() => /* jsx */ `
+<Dialog
+  triggerAttributes={{
+    text: 'Show cookie dialog',
+  }}
+  variant="confirmation"
+  title="Informasjonskapsler (cookies)"
+  scrollRef={scrollRef}
+  onOpen={() => {
+    if(document.documentElement.classList.contains('scroll-to-bottom')){
+      scrollRef.current.scrollTop = 100000
+    }
+  }}
+>
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  Newline<br />
+  <br />
+  <Anchor target="_blank" href="https://www.dnb.no/cookies">
+    Les mer om cookies
+  </Anchor>
+  <Dialog.Action>
+    <Button
+      variant="tertiary"
+      text="Administrer"
+      icon_position="left"
+      on_click={({close}) => {
+        close()
+      }}
+    />
+    <Button
+      text="Jeg godtar"
+      on_click={({close}) => {
+        close()
+      }}
+    />
+  </Dialog.Action>
+</Dialog>
+`}
+    </ComponentBox>
+  )
+}

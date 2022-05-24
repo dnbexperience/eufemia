@@ -172,6 +172,16 @@ export interface ModalProps extends ModalRootProps {
    * If truthy, the drawer will not open in a new DOM but directly in current DOM. Defaults to `false`.
    */
   direct_dom_return?: string | boolean
+
+  /**
+   * To get the inner content Element, pass in your own React ref
+   */
+  content_ref?: React.RefObject<HTMLElement>
+
+  /**
+   * To get the scroll Element, pass in your own React ref
+   */
+  scroll_ref?: React.RefObject<HTMLElement>
 }
 
 export interface ModalContentProps {
@@ -338,6 +348,8 @@ export interface ModalContentProps {
    * Internal
    */
   dialog_role?: 'dialog' | 'alertdialog' | 'region'
+  content_ref?: React.RefObject<HTMLElement>
+  scroll_ref?: React.RefObject<HTMLElement>
 }
 
 export type TriggerAttributes = ButtonProps

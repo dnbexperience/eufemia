@@ -277,9 +277,14 @@ async function handleRootClassName({ page, rootClassName }) {
     await page.evaluate(
       ({ rootClassName }) => {
         const elem = document.documentElement
-        if (elem.classList.contains(rootClassName)) {
-          elem.classList.remove(rootClassName)
+        if (!Array.isArray(rootClassName)) {
+          rootClassName = [rootClassName]
         }
+        rootClassName.forEach((className) => {
+          if (elem.classList.contains(className)) {
+            elem.classList.remove(className)
+          }
+        })
       },
       {
         rootClassName: global.rootClassName,
@@ -293,9 +298,14 @@ async function handleRootClassName({ page, rootClassName }) {
     await page.evaluate(
       ({ rootClassName }) => {
         const elem = document.documentElement
-        if (!elem.classList.contains(rootClassName)) {
-          elem.classList.add(rootClassName)
+        if (!Array.isArray(rootClassName)) {
+          rootClassName = [rootClassName]
         }
+        rootClassName.forEach((className) => {
+          if (!elem.classList.contains(className)) {
+            elem.classList.add(className)
+          }
+        })
       },
       { rootClassName }
     )
