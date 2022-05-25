@@ -49,13 +49,11 @@ export const TagRemovable = () => (
 export const TagInline = () => (
   <ComponentBox data-visual-test="tag-inline">
     {() => /* jsx */ `
-Text
-<Tag.Group label="Inline:">
+Text <Tag.Group label="Inline:">
   <Tag text="First" /> between 
   <Tag text="Second" />
   <Tag text="Third" />
-</Tag.Group>
-Text
+</Tag.Group> Text
 `}
   </ComponentBox>
 )

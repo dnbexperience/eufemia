@@ -23,11 +23,9 @@ export const AvatarSizeDefault = () => (
 export const AvatarSizeSmall = () => (
   <ComponentBox hideCode data-visual-test="avatar-size-small">
     {() => /* jsx */ `
-Text
-<Avatar.Group label="Animals:">
+Text <Avatar.Group label="Animals:">
   <Avatar size="small">Duck</Avatar>
-</Avatar.Group>
-Text
+</Avatar.Group> Text
 `}
   </ComponentBox>
 )
@@ -236,8 +234,7 @@ export const AvatarImageProps = () => (
 export const GroupedAvatarsSmall = () => (
   <ComponentBox hideCode data-visual-test="avatar-grouped-small">
     {() => /* jsx */ `
-Text
-<Avatar.Group label="Friends:" size="small" variant="primary" maxElements={6}>
+Text <Avatar.Group label="Friends:" size="small" variant="primary" maxElements={6}>
   <Avatar>Anders</Avatar>
   <Avatar>Bjørnar</Avatar>
   <Avatar>Cathrine</Avatar>
@@ -245,8 +242,7 @@ Text
   <Avatar>Erlend</Avatar>
   <Avatar>Frida</Avatar>
   <Avatar>Gøril</Avatar>
-</Avatar.Group>
-Text
+</Avatar.Group> Text
 `}
   </ComponentBox>
 )

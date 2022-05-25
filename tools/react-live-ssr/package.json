@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "react-live-ssr",
+  "version": "3.0.0",
+  "description": "Temporary react-live version",
+  "license": "SEE LICENSE IN LICENSE FILE",
+  "author": "DNB Team & Tobias Høegh",
+  "main": "index.js",
+  "scripts": {
+    "prettier:package": "prettier-package-json --write ./package.json"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

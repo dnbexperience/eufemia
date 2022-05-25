@@ -196,19 +196,19 @@ export const DropdownDirections = () => {
         data-visual-test="dropdown-item-directions"
       >
         {() => /* jsx */ `
-  <Dropdown
-    label="Label:"
-    data={[
-      ['Vertical', 'text'],
-      <>
-        <span className="dnb-p--medium">Vertical</span> text
-      </>,
-      <Dropdown.HorizontalItem>
-        <span className="dnb-p--medium">Horizontal</span> text
-      </Dropdown.HorizontalItem>,
-    ]}
-    {...visualTestProps(window.IS_TEST && window.location.search.includes('item-directions'))}
-  />
+<Dropdown
+  label="Label:"
+  data={[
+    ['Vertical', 'text'],
+    <>
+      <span className="dnb-p--medium">Vertical</span> text
+    </>,
+    <Dropdown.HorizontalItem>
+      <span className="dnb-p--medium">Horizontal</span> text
+    </Dropdown.HorizontalItem>,
+  ]}
+  {...visualTestProps(typeof window !== 'undefined' && window.IS_TEST && window.location.search.includes('item-directions'))}
+/>
   `}
       </ComponentBox>
     </Wrapper>
@@ -302,7 +302,7 @@ export const DropdownMoreMenu = () => {
   title="Choose an item"
   data={() => [<Link href="/">Go to this Link</Link>, 'Or press on me', <>Custom component</>]}
   right="small"
-  {...visualTestProps(window.IS_TEST && window.location.search.includes('left-side'))}
+  {...visualTestProps(typeof window !== 'undefined' && window.IS_TEST && window.location.search.includes('left-side'))}
 />
 <Dropdown
   prevent_selection="true"
@@ -312,7 +312,7 @@ export const DropdownMoreMenu = () => {
   aria-label="Choose an item"
   data={() => [<Link href="/">Go to this Link</Link>, 'Or press on me', <>Custom component</>]}
   right="small"
-  {...visualTestProps(window.IS_TEST && window.location.search.includes('right-side'))}
+  {...visualTestProps(typeof window !== 'undefined' && window.IS_TEST && window.location.search.includes('right-side'))}
 />
 <Dropdown
   more_menu="true"
@@ -423,7 +423,7 @@ render(
       console.log('More menu:', value)
     }}
     suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
-    {...visualTestProps(window.IS_TEST && window.location.search.includes('action_menu-custom'))}
+    {...visualTestProps(typeof window !== 'undefined' && window.IS_TEST && window.location.search.includes('action_menu-custom'))}
   />
 )
   `}

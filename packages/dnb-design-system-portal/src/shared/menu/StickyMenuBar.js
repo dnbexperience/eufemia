@@ -194,7 +194,7 @@ export default function StickyMenuBar({
                 : 'Show section content menu'
             }
           />
-          <MediaQuery when={{ min: 'medium' }}>
+          <MediaQuery when={{ min: 'medium' }} matchOnSSR>
             <PortalToolsMenu />
           </MediaQuery>
         </Tools>

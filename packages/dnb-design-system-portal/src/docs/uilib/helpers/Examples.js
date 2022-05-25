@@ -24,7 +24,7 @@ export function CoreStyleExample() {
 <div className="dnb-core-style">
   <h3 className="dnb-h--medium">Wrapper with the DNB Body Style (CSS reset)</h3>
   <p className="dnb-p">
-    Read more about <code className="dnb-code">.dnb-core-style</code> 
+    Read more about <code className="dnb-code">.dnb-core-style</code>{' '}
     and <a href="/uilib/usage/customisation/styling#core-style" className="dnb-anchor">Use Eufemia Styles elsewhere</a>
   </p>
 </div>
@@ -69,7 +69,7 @@ export function UnstyledListExample() {
 <ul className="dnb-ul">
   <li>But I'm not.</li>
 </ul>
-          `}
+        `}
       </ComponentBox>
     </Wrapper>
   )
@@ -81,13 +81,13 @@ export function ScreenReaderOnlyExample() {
       <ComponentBox reactLive hideCode data-visual-test="helper-sr-only">
         {() => /* jsx */ `
 <p className="dnb-p">
-  Hidden text:
+  Hidden text
   <span className="dnb-sr-only--inline">
     I am only visible to screen readers, so you probably can't see
     me. Unless you're using a screen reader.
   </span>!
 </p>
-          `}
+        `}
       </ComponentBox>
     </Wrapper>
   )
@@ -106,7 +106,7 @@ export function NoScreenReaderExample() {
   I'm the opposite of .dnb-sr-only, so you should be able to see
   me.
 </p>
-          `}
+        `}
       </ComponentBox>
     </Wrapper>
   )
@@ -120,7 +120,7 @@ export function SelectionExample() {
 <p className="dnb-selection dnb-p__size--basis">
   If you select a part of this text, you will see the selection highlight is green.
 </p>
-          `}
+        `}
       </ComponentBox>
     </Wrapper>
   )
