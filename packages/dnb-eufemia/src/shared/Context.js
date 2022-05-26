@@ -46,6 +46,7 @@ export const prepareContext = (props = {}) => {
       return context.translation
     },
     locale: null,
+    breakpoints: null,
     locales,
     skeleton: null,
     // All eufemia components because of Typescript:

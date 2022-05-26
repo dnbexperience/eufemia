@@ -6,8 +6,14 @@ import {
   createMediaQueryListener,
   isMatchMediaSupported,
 } from './MediaQueryUtils'
+import type {
+  MediaQueryProps,
+  MediaQueryListener,
+} from './MediaQueryUtils'
 
-export default function useMediaQuery(props) {
+export type { MediaQueryProps }
+
+export default function useMediaQuery(props: MediaQueryProps) {
   const context = React.useContext(Context)
   const { query, when, not, matchOnSSR } = props
   let [matches] = React.useState(() =>
@@ -23,7 +29,7 @@ export default function useMediaQuery(props) {
 
   const [match, matchUpdate] = React.useState(matches)
 
-  const listenerRef = React.useRef()
+  const listenerRef = React.useRef<MediaQueryListener>()
   React.useEffect(() => {
     if (typeof listenerRef.current === 'function') {
       listenerRef.current()
