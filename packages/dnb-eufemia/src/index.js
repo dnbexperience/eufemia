@@ -10,6 +10,35 @@
  */
 
 // import all the available components and extensions
+import Anchor from './elements/Anchor'
+import Blockquote from './elements/Blockquote'
+import Code from './elements/Code'
+import Dd from './elements/Dd'
+import Div from './elements/Div'
+import Dl from './elements/Dl'
+import Dt from './elements/Dt'
+import H from './elements/H'
+import H1 from './elements/H1'
+import H2 from './elements/H2'
+import H3 from './elements/H3'
+import H4 from './elements/H4'
+import H5 from './elements/H5'
+import H6 from './elements/H6'
+import Hr from './elements/Hr'
+import Img from './elements/Img'
+import Ingress from './elements/Ingress'
+import Lead from './elements/Lead'
+import Li from './elements/Li'
+import Link from './elements/Link'
+import Ol from './elements/Ol'
+import P from './elements/P'
+import Paragraph from './elements/Paragraph'
+import Span from './elements/Span'
+import Table from './elements/Table'
+import Td from './elements/Td'
+import Th from './elements/Th'
+import Tr from './elements/Tr'
+import Ul from './elements/Ul'
 import Accordion from './components/accordion/Accordion'
 import Autocomplete from './components/autocomplete/Autocomplete'
 import Avatar from './components/avatar/Avatar'
@@ -52,38 +81,38 @@ import Timeline from './components/timeline/Timeline'
 import ToggleButton from './components/toggle-button/ToggleButton'
 import Tooltip from './components/tooltip/Tooltip'
 import VisuallyHidden from './components/visually-hidden/VisuallyHidden'
-import Anchor from './elements/Anchor'
-import Blockquote from './elements/Blockquote'
-import Code from './elements/Code'
-import Dd from './elements/Dd'
-import Div from './elements/Div'
-import Dl from './elements/Dl'
-import Dt from './elements/Dt'
-import H from './elements/H'
-import H1 from './elements/H1'
-import H2 from './elements/H2'
-import H3 from './elements/H3'
-import H4 from './elements/H4'
-import H5 from './elements/H5'
-import H6 from './elements/H6'
-import Hr from './elements/Hr'
-import Img from './elements/Img'
-import Ingress from './elements/Ingress'
-import Lead from './elements/Lead'
-import Li from './elements/Li'
-import Link from './elements/Link'
-import Ol from './elements/Ol'
-import P from './elements/P'
-import Paragraph from './elements/Paragraph'
-import Span from './elements/Span'
-import Table from './elements/Table'
-import Td from './elements/Td'
-import Th from './elements/Th'
-import Tr from './elements/Tr'
-import Ul from './elements/Ul'
 
 // define / export all the available components
 export {
+  Anchor,
+  Blockquote,
+  Code,
+  Dd,
+  Div,
+  Dl,
+  Dt,
+  H,
+  H1,
+  H2,
+  H3,
+  H4,
+  H5,
+  H6,
+  Hr,
+  Img,
+  Ingress,
+  Lead,
+  Li,
+  Link,
+  Ol,
+  P,
+  Paragraph,
+  Span,
+  Table,
+  Td,
+  Th,
+  Tr,
+  Ul,
   Accordion,
   Autocomplete,
   Avatar,
@@ -126,35 +155,6 @@ export {
   ToggleButton,
   Tooltip,
   VisuallyHidden,
-  Anchor,
-  Blockquote,
-  Code,
-  Dd,
-  Div,
-  Dl,
-  Dt,
-  H,
-  H1,
-  H2,
-  H3,
-  H4,
-  H5,
-  H6,
-  Hr,
-  Img,
-  Ingress,
-  Lead,
-  Li,
-  Link,
-  Ol,
-  P,
-  Paragraph,
-  Span,
-  Table,
-  Td,
-  Th,
-  Tr,
-  Ul,
 }
 
 export default {}

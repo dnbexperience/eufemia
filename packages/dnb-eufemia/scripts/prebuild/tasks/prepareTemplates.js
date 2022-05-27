@@ -47,13 +47,11 @@ const prepareTemplates = async () => {
   )
   await runFactory({
     ...componentsTemplateConfig,
-    ...{
-      srcFile: path.resolve(
-        __dirname,
-        '../../../src/core/templates/components-lib-template.js'
-      ),
-      destFile: path.resolve(__dirname, '../../../src/components/lib.js'),
-    },
+    srcFile: path.resolve(
+      __dirname,
+      '../../../src/core/templates/components-lib-template.js'
+    ),
+    destFile: path.resolve(__dirname, '../../../src/components/lib.js'),
   }).then((res) => {
     if (require.main === module) {
       log.succeed(
@@ -64,14 +62,12 @@ const prepareTemplates = async () => {
   })
   await runFactory({
     ...componentsTemplateConfig,
-    ...{
-      srcFile: path.resolve(
-        __dirname,
-        '../../../src/core/templates/component-export-template.js'
-      ),
-      destFile: false,
-      destPath: path.resolve(__dirname, '../../../src/components'),
-    },
+    srcFile: path.resolve(
+      __dirname,
+      '../../../src/core/templates/component-export-template.js'
+    ),
+    destFile: false,
+    destPath: path.resolve(__dirname, '../../../src/components'),
   }).then((res) => {
     if (require.main === module) {
       log.succeed(
@@ -105,13 +101,11 @@ const prepareTemplates = async () => {
   })
   await runFactory({
     ...fragmentsTemplateConfig,
-    ...{
-      srcFile: path.resolve(
-        __dirname,
-        '../../../src/core/templates/fragments-lib-template.js'
-      ),
-      destFile: path.resolve(__dirname, '../../../src/fragments/lib.js'),
-    },
+    srcFile: path.resolve(
+      __dirname,
+      '../../../src/core/templates/fragments-lib-template.js'
+    ),
+    destFile: path.resolve(__dirname, '../../../src/fragments/lib.js'),
   }).then((res) => {
     if (require.main === module) {
       log.succeed(
@@ -122,14 +116,12 @@ const prepareTemplates = async () => {
   })
   await runFactory({
     ...fragmentsTemplateConfig,
-    ...{
-      srcFile: path.resolve(
-        __dirname,
-        '../../../src/core/templates/component-export-template.js'
-      ),
-      destFile: false,
-      destPath: path.resolve(__dirname, '../../../src/fragments'),
-    },
+    srcFile: path.resolve(
+      __dirname,
+      '../../../src/core/templates/component-export-template.js'
+    ),
+    destFile: false,
+    destPath: path.resolve(__dirname, '../../../src/fragments'),
   }).then((res) => {
     if (require.main === module) {
       log.succeed(
@@ -161,13 +153,17 @@ const prepareTemplates = async () => {
   })
   await runFactory({
     ...elementsTemplateConfig,
-    ...{
-      srcFile: path.resolve(
-        __dirname,
-        '../../../src/core/templates/elements-lib-template.js'
-      ),
-      destFile: path.resolve(__dirname, '../../../src/elements/lib.js'),
-    },
+    srcFile: path.resolve(
+      __dirname,
+      '../../../src/core/templates/elements-lib-template.js'
+    ),
+    destFile: path.resolve(__dirname, '../../../src/elements/lib.js'),
+    processToNamesIgnoreList: [
+      'index',
+      'lib',
+      'Element',
+      // '/elements/Table', // deprecated after v9
+    ],
   }).then((res) => {
     if (require.main === module) {
       log.info('> Created the index template with all the elements')
@@ -226,6 +222,9 @@ const prepareTemplates = async () => {
     ),
     destFile: path.resolve(__dirname, '../../../src/index.js'),
     processToNamesList: [...components, ...elements],
+    processToNamesIgnoreList: [
+      // '/elements/Table', // deprecated after v9
+    ],
     transformNamesList: ({ result }) => {
       // because elements don't have a folder, we remove the last part of the path
       if (/\/elements\//.test(result)) {
@@ -251,8 +250,8 @@ const runFactory = async ({
   destFile,
   destPath = null,
   processToNamesList,
-  processToNamesIgnoreList = [],
   processToNamesListByUsingFolders = false,
+  processToNamesIgnoreList = [],
   transformNamesList = null,
 }) => {
   if (typeof processToNamesList === 'string') {
@@ -275,15 +274,22 @@ const runFactory = async ({
           return { file, ...rest }
         })
     }
-    processToNamesList = processToNamesList
-      .filter(({ file }) => {
-        if (/not_in_use|__tests__|DS_Store/g.test(file)) {
-          return false
-        }
-        return !processToNamesIgnoreList.includes(file)
-      })
-      .sort(({ file: a }, { file: b }) => (a > b ? 1 : -1))
   }
+
+  processToNamesList = processToNamesList
+    .filter(({ file, source }) => {
+      if (/not_in_use|__tests__|DS_Store/g.test(file)) {
+        return false
+      }
+
+      return !processToNamesIgnoreList.some((ignoreName) => {
+        if (ignoreName.includes('/')) {
+          return source.includes(ignoreName)
+        }
+        return file.includes(ignoreName)
+      })
+    })
+    .sort(({ file: a }, { file: b }) => (a > b ? 1 : -1))
 
   const template = await fs.readFile(srcFile, 'utf-8')
 
