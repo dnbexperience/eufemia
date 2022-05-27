@@ -271,7 +271,7 @@ const runFactory = async ({
       processToNamesList = processToNamesList
         .filter(({ source }) => fs.lstatSync(source).isFile())
         .map(({ file, ...rest }) => {
-          file = file.replace(/\.js$/, '')
+          file = file.replace(/\.js|\.tsx$/, '')
           return { file, ...rest }
         })
     }
