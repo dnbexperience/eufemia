@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types' //
 import { isTrue } from './component-helper'
 import Context from './Context'
 import {
@@ -8,30 +7,22 @@ import {
   onMediaQueryChange,
   isMatchMediaSupported,
 } from './MediaQueryUtils'
+import type {
+  MediaQueryProps,
+  MediaQueryState,
+  MediaQueryListener,
+} from './MediaQueryUtils'
+
+export type { MediaQueryProps }
 
 export { onMediaQueryChange }
 
-export default class MediaQuery extends React.PureComponent {
+export default class MediaQuery extends React.PureComponent<
+  MediaQueryProps,
+  MediaQueryState
+> {
   static contextType = Context
-  static propTypes = {
-    matchOnSSR: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    when: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.array,
-      PropTypes.object,
-    ]),
-    not: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    query: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    children: PropTypes.node,
-  }
-
-  static defaultProps = {
-    matchOnSSR: null,
-    when: null,
-    not: null,
-    query: null,
-    children: null,
-  }
+  listener: MediaQueryListener
 
   state = {
     match: null,

@@ -8,15 +8,20 @@ import { mount } from '../../core/jest/jestSetup'
 import MatchMediaMock from 'jest-matchmedia-mock'
 import MediaQuery from '../MediaQuery'
 import Provider from '../Provider'
-import { isMatchMediaSupported } from '../MediaQueryUtils'
+import { isMatchMediaSupported as _isMatchMediaSupported } from '../MediaQueryUtils'
 
-jest.mock('../MediaQueryUtils', () => ({
-  ...jest.requireActual('../MediaQueryUtils'),
-  isMatchMediaSupported: jest.fn(),
-}))
+const isMatchMediaSupported = _isMatchMediaSupported as jest.Mock
+
+jest.mock('../MediaQueryUtils', () => {
+  const orig = jest.requireActual('../MediaQueryUtils')
+  return {
+    ...orig,
+    isMatchMediaSupported: jest.fn(),
+  }
+})
 
 describe('MediaQuery', () => {
-  let matchMedia
+  let matchMedia: MatchMediaMock
 
   beforeAll(() => {
     matchMedia = new MatchMediaMock()
@@ -130,7 +135,7 @@ describe('MediaQuery', () => {
     isMatchMediaSupported.mockReturnValue(false)
 
     const Comp = mount(
-      <MediaQuery matchOnSSR when={{ someting: 'what-every' }}>
+      <MediaQuery matchOnSSR when={{ min: 'what-every' }}>
         medium
       </MediaQuery>
     )
