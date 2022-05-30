@@ -26,7 +26,7 @@ English (US) is not included in Eufemia by default. You can include it like:
 
 ```jsx
 import enUS from '@dnb/eufemia/shared/locales/en-US'
-<EufemiaProvider locales={enUS} ...>
+<EufemiaProvider locale={enUS} ...>
 	App
 </EufemiaProvider>
 ```
