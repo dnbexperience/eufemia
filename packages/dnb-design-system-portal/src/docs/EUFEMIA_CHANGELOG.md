@@ -270,7 +270,7 @@ Get more details about the `@dnb/eufemia` [v5 release](/uilib/about-the-lib/rele
 - Read more about the `@dnb/eufemia` [v4.10 release](/uilib/releases/v4.10-info)
 - New component in the `@dnb/eufemia`: [GlobalStatus](/uilib/components/global-status)
 - Updated [FormStatus](/uilib/components/form-status) with new text color and new icon
-- Added link to example usage of a [Table](/uilib/elements/tables#working-demo) styles using `react-table`
+- Added link to example usage of a [Table](/uilib/elements/tables) styles using `react-table`
 - Added info about [Custom project Icons](/uilib/components/icon#custom-project-icons)
 
 ## July, 21. 2019

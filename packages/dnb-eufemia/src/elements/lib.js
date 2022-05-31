@@ -34,7 +34,6 @@ import Ol from './Ol'
 import P from './P'
 import Paragraph from './Paragraph'
 import Span from './Span'
-import Table from './Table'
 import Td from './Td'
 import Th from './Th'
 import Tr from './Tr'
@@ -66,7 +65,6 @@ export {
   P,
   Paragraph,
   Span,
-  Table,
   Td,
   Th,
   Tr,
@@ -99,7 +97,6 @@ export const getElements = () => {
     P,
     Paragraph,
     Span,
-    Table,
     Td,
     Th,
     Tr,

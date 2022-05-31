@@ -1,0 +1,161 @@
+@import '../../../button/style/themes/button-mixins.scss';
+
+@mixin tableFocusRing() {
+  &::before {
+    content: '';
+    position: absolute;
+    top: -0.5rem;
+    bottom: -0.5rem;
+    left: -1rem;
+    right: 0.5rem;
+  }
+}
+
+@mixin basisTableSortable {
+  // sortable
+  & > thead > tr > th#{&}--sortable,
+  & &__th#{&}--sortable {
+    color: var(--color-emerald-green);
+
+    .dnb-anchor,
+    .dnb-button {
+      > .dnb-icon {
+        opacity: 0;
+        transition: opacity 200ms ease-out, transform 500ms ease-out;
+        [data-visual-test-wrapper] & {
+          transition: none;
+        }
+      }
+
+      position: relative;
+      z-index: 1;
+      align-items: flex-end;
+
+      // reset anchor
+      box-shadow: none;
+
+      line-height: var(--line-height-basis);
+
+      margin: 0;
+      padding: 0;
+      padding-right: 0.5rem;
+
+      color: inherit;
+      font-weight: var(--font-weight-medium);
+      text-align: inherit;
+      font-size: inherit;
+
+      .dnb-button__text {
+        margin: 0;
+        font-size: inherit;
+
+        // underline
+        &::after {
+          right: 1rem;
+        }
+      }
+
+      .dnb-button__icon {
+        align-self: flex-end;
+        margin-top: auto;
+        margin-bottom: 0.25rem;
+      }
+
+      // underline
+      &:not(:focus) .dnb-button__text::after {
+        opacity: 1;
+        color: var(--color-emerald-green);
+      }
+
+      @include hover() {
+        color: var(--color-sea-green);
+
+        &:not(:focus) .dnb-icon {
+          opacity: 1;
+        }
+
+        // hide underline
+        .dnb-button__text::after {
+          opacity: 0;
+        }
+      }
+
+      @include focus() {
+        @include tableFocusRing();
+
+        // focus ring
+        &::before {
+          right: -0.5rem;
+        }
+        .dnb-icon {
+          opacity: 1;
+        }
+      }
+
+      @include active() {
+        @include buttonFocusRing('mouse'); // also, make a mouse ring
+        @include buttonFocusRing('touch'); // also, make a touch ring
+
+        @include tableFocusRing();
+
+        // focus ring
+        &::before {
+          right: -0.5rem;
+        }
+
+        color: var(--color-emerald-green);
+      }
+
+      // webkit fix
+      &:hover:focus:not(:active) .dnb-button__text::after {
+        visibility: hidden;
+      }
+    }
+  }
+  & > thead > tr > th#{&}--active,
+  & &__th#{&}--active {
+    .dnb-anchor,
+    .dnb-button {
+      // hide underline
+      &:not(:hover) .dnb-button__text::after {
+        opacity: 0;
+      }
+      .dnb-icon {
+        opacity: 1;
+      }
+
+      // and underline on hover
+      @include hover() {
+        .dnb-button__text::after {
+          color: var(--color-sea-green);
+          opacity: 1;
+        }
+      }
+
+      // webkit fix
+      &:hover:focus:not(:active) .dnb-button__text::after {
+        visibility: visible;
+      }
+      html[data-whatinput='keyboard']
+        &:hover:focus
+        .dnb-button__text::after {
+        visibility: hidden;
+      }
+    }
+  }
+  & > thead > tr > th#{&}--reversed,
+  & &__th#{&}--reversed {
+    .dnb-anchor,
+    .dnb-button {
+      .dnb-icon {
+        transform: rotate(180deg);
+        transform-origin: 50% 50%;
+      }
+    }
+  }
+  & > thead > tr > th#{&}--no-wrap,
+  & > tbody > tr > th#{&}--no-wrap,
+  & &__th#{&}--no-wrap {
+    white-space: nowrap;
+  }
+}

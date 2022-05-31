@@ -34,7 +34,6 @@ import Ol from './elements/Ol'
 import P from './elements/P'
 import Paragraph from './elements/Paragraph'
 import Span from './elements/Span'
-import Table from './elements/Table'
 import Td from './elements/Td'
 import Th from './elements/Th'
 import Tr from './elements/Tr'
@@ -74,6 +73,7 @@ import Slider from './components/slider/Slider'
 import Space from './components/space/Space'
 import StepIndicator from './components/step-indicator/StepIndicator'
 import Switch from './components/switch/Switch'
+import Table from './components/table/Table'
 import Tabs from './components/tabs/Tabs'
 import Tag from './components/tag/Tag'
 import Textarea from './components/textarea/Textarea'
@@ -108,7 +108,6 @@ export {
   P,
   Paragraph,
   Span,
-  Table,
   Td,
   Th,
   Tr,
@@ -148,6 +147,7 @@ export {
   Space,
   StepIndicator,
   Switch,
+  Table,
   Tabs,
   Tag,
   Textarea,

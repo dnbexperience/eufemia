@@ -47,6 +47,7 @@ import Slider from './slider/Slider'
 import Space from './space/Space'
 import StepIndicator from './step-indicator/StepIndicator'
 import Switch from './switch/Switch'
+import Table from './table/Table'
 import Tabs from './tabs/Tabs'
 import Tag from './tag/Tag'
 import Textarea from './textarea/Textarea'
@@ -92,6 +93,7 @@ export {
   Space,
   StepIndicator,
   Switch,
+  Table,
   Tabs,
   Tag,
   Textarea,
@@ -138,6 +140,7 @@ export const getComponents = () => {
     Space,
     StepIndicator,
     Switch,
+    Table,
     Tabs,
     Tag,
     Textarea,

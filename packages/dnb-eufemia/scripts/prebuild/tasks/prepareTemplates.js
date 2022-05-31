@@ -162,7 +162,7 @@ const prepareTemplates = async () => {
       'index',
       'lib',
       'Element',
-      // '/elements/Table', // deprecated after v9
+      '/elements/Table', // deprecated after v9
     ],
   }).then((res) => {
     if (require.main === module) {
@@ -223,7 +223,7 @@ const prepareTemplates = async () => {
     destFile: path.resolve(__dirname, '../../../src/index.js'),
     processToNamesList: [...components, ...elements],
     processToNamesIgnoreList: [
-      // '/elements/Table', // deprecated after v9
+      '/elements/Table', // deprecated after v9
     ],
     transformNamesList: ({ result }) => {
       // because elements don't have a folder, we remove the last part of the path
