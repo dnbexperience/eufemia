@@ -612,6 +612,9 @@ var CodeEditor = function CodeEditor(props) {
             ),
             ref: editorRef,
             spellCheck: 'false',
+            id: props.id,
+            onFocus: props.onFocus,
+            onBlur: props.onBlur,
           },
           tokens.map(function (line, lineIndex) {
             return (

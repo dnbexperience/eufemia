@@ -197,6 +197,7 @@ class LiveCode extends React.PureComponent {
           theme={prismTheme}
           code={codeToUse}
           scope={scope}
+          language={language}
           transformCode={(code) =>
             !useRender && noFragments ? `<>${code}</>` : code
           }
@@ -262,12 +263,8 @@ class LiveCode extends React.PureComponent {
                 Code Editor
               </label>
               <LiveEditor
-                textareaId={this._id}
-                ignoreTabKey
-                padding={0}
-                style={{
-                  font: 'inherit',
-                }}
+                id={this._id}
+                className="dnb-live-editor__editable"
                 onChange={(code) => {
                   this.setState({ code })
                 }}
@@ -283,29 +280,6 @@ class LiveCode extends React.PureComponent {
                     )
                   }
                 }}
-                // make this wrap to get in the custom Prism
-                // This way we can reformat jsx css template-string
-                // language={language}
-                highlight={(code) => (
-                  <Highlight
-                    Prism={Prism}
-                    code={code}
-                    theme={prismTheme}
-                    language={language}
-                  >
-                    {({ tokens, getLineProps, getTokenProps }) => (
-                      <>
-                        {tokens.map((line, i) => (
-                          <div {...getLineProps({ line, key: i })}>
-                            {line.map((token, key) => (
-                              <span {...getTokenProps({ token, key })} />
-                            ))}
-                          </div>
-                        ))}
-                      </>
-                    )}
-                  </Highlight>
-                )}
               />
             </div>
           )}
@@ -355,7 +329,7 @@ const LiveCodeEditor = styled.div`
   }
   .dnb-live-editor {
     position: relative;
-    margin-bottom: 4rem;
+    cursor: text;
 
     transition: box-shadow 0.2s ease-out;
 
@@ -392,6 +366,10 @@ const LiveCodeEditor = styled.div`
     height: auto;
     white-space: normal;
     line-height: var(--input-height);
+  }
+
+  .prism-code {
+    padding: 0 !important; /* use important because of inline styles */
   }
 `
 
