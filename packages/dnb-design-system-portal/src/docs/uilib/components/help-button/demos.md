@@ -67,10 +67,8 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 <ComponentBox data-visual-test="help-button-inline">
     {
     () => /* jsx */ `
-Text
-<HelpButton>
+Text <HelpButton>
     Text
-</HelpButton>
-Text
+</HelpButton> Text
 `}
 </ComponentBox>

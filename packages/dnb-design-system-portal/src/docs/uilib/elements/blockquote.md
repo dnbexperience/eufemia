@@ -22,7 +22,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 <ComponentBox hideCode>
 {`
 <Blockquote data-visual-test="blockquote-top" className="dnb-blockquote--top">
-  Dis leo aliquam neque aptent nascetur metus ad ut eu Choro
+  Dis leo aliquam neque aptent nascetur metus ad ut eu Choro{' '}
   <a className="dnb-anchor" href="/uilib/elements#blockquote">
     vivendum tractatos
   </a> ei quo.
@@ -51,7 +51,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 <ComponentBox hideCode>
 {`
 <Blockquote data-visual-test="blockquote-top-no-background" className="dnb-blockquote--no-background dnb-blockquote--top">
-  Dis leo aliquam neque aptent nascetur metus ad ut eu Choro
+  Dis leo aliquam neque aptent nascetur metus ad ut eu Choro {' '}
   <a className="dnb-anchor" href="/uilib/elements#blockquote">
     vivendum tractatos
   </a> ei quo.

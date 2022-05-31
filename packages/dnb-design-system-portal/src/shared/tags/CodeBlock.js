@@ -23,7 +23,7 @@ import {
   LiveEditor,
   LiveError,
   LivePreview,
-} from 'react-live'
+} from 'react-live-ssr' // we use this temporary version of until ssr is supported https://github.com/FormidableLabs/react-live/pull/322
 
 // this theme is replaced my a css one
 import prismTheme from '@dnb/eufemia/src/style/themes/theme-ui/prism/dnb-prism-theme'

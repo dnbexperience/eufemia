@@ -15,7 +15,7 @@ export const TextareaExampleRowsCols = () => (
   label="Default:"
   rows="2"
   cols="20"
-  value="Textarea value\\nNewline"
+  value="Textarea value\nNewline"
   on_change={({ value }) => { console.log('on_change', value) }}
   on_focus={() => { console.log('on_focus') }}
   on_blur={() => { console.log('on_blur') }}
@@ -47,7 +47,7 @@ export const TextareaExampleVertical = () => (
   label_direction="vertical"
   rows="3"
   cols="33"
-  value="Textarea value with more than 3 lines\\nNewline\\nNewline\\nNewline\\nNewline"
+  value="Textarea value with more than 3 lines\nNewline\nNewline\nNewline\nNewline"
 />
 `}
     </ComponentBox>

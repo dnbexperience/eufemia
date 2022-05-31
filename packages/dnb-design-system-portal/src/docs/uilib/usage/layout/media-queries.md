@@ -154,7 +154,7 @@ const Playground = () => {
     not: true,
     when: query,
   })
-  console.log('mediaQuery:', match1, match2)
+  // console.log('mediaQuery:', match1, match2)
   return (<>
     <Button
       onClick={() => {
