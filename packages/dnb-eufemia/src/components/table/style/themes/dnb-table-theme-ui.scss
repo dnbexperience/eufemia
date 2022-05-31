@@ -5,6 +5,8 @@
 
 @import '../../../../style/themes/imports.scss';
 @import '../../../button/style/themes/button-mixins.scss';
+@import '../_table-responsive.scss';
+@import '../_table-accordion.scss';
 @import './table-basis.scss';
 
 .dnb-table {
@@ -95,3 +97,6 @@
 
   @include basisTableSortable();
 }
+
+@include responsiveTableTheme();
+@include accordionTableTheme();

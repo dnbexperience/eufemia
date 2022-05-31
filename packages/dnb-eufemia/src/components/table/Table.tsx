@@ -9,9 +9,11 @@ import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { SkeletonShow } from '../skeleton/Skeleton'
 import { ISpacingProps } from '../../shared/interfaces'
 import {
-  validateDOMAttributes,
   extendPropsWithContext,
+  validateDOMAttributes,
 } from '../../shared/component-helper'
+import TableContext from './TableContext'
+import AccordionContent from './TableAccordionContent'
 
 // Internal
 import {
@@ -20,8 +22,9 @@ import {
   StickyTableHeaderProps,
 } from './TableStickyHeader'
 
-export type TableSizes = 'medium' | 'large'
-export type TableVariants = 'basis' | 'not-defined-yet'
+export type TableSizes = 'large' | 'medium'
+export type TableVariants = 'table'
+export type TableRespnsiveVariants = 'cards' | 'lines'
 
 export { StickyHelper }
 
@@ -37,6 +40,17 @@ export interface TableProps extends StickyTableHeaderProps {
   className?: string
 
   /**
+   * Male the Table responsive to narrow/smaller screens
+   */
+  responsive?: boolean
+
+  /**
+   * The variant when responsive is true.
+   * Default: lines.
+   */
+  responsiveVariant?: TableRespnsiveVariants
+
+  /**
    * Skeleton should be applied when loading content
    */
   skeleton?: SkeletonShow
@@ -49,14 +63,15 @@ export interface TableProps extends StickyTableHeaderProps {
 
   /**
    * The variant of the component.
-   * Default: basis.
+   * Default: table.
    */
   variant?: TableVariants
 }
 
 export const defaultProps = {
   size: 'large',
-  variant: 'basis',
+  variant: 'table',
+  responsiveVariant: 'table',
 }
 
 const Table = (
@@ -81,8 +96,9 @@ const Table = (
     size,
     skeleton,
     variant,
-
-    sticky, // eslint-disable-line
+    responsiveVariant,
+    responsive,
+    sticky,
     stickyOffset, // eslint-disable-line
     ...props
   } = allProps
@@ -92,25 +108,37 @@ const Table = (
 
   const { elementRef } = useStickyHeader(allProps)
 
+  // Create this ref in order to "auto" set even/odd class in tr elements
+  const trTmpRef = React.useRef({ count: 0 })
+  React.useLayoutEffect(() => {
+    trTmpRef.current.count = 0
+  })
+
   validateDOMAttributes(allProps, props)
 
   return (
     <Provider skeleton={Boolean(skeleton)}>
-      <table
-        className={classnames(
-          'dnb-table',
-          `dnb-table__variant--${variant || 'basis'}`,
-          `dnb-table__size--${size || 'large'}`,
-          sticky && `dnb-table--sticky`,
-          spacingClasses,
-          skeletonClasses,
-          className
-        )}
-        ref={elementRef}
-        {...props}
-      >
-        {children}
-      </table>
+      <TableContext.Provider value={{ trTmpRef, responsive }}>
+        <table
+          className={classnames(
+            'dnb-table',
+            variant && `dnb-table__variant--${variant}`,
+            responsive && 'dnb-table--responsive',
+            responsive &&
+              responsiveVariant &&
+              `dnb-table__responsive-variant--${responsiveVariant}`,
+            size && `dnb-table__size--${size}`,
+            sticky && `dnb-table--sticky`,
+            spacingClasses,
+            skeletonClasses,
+            className
+          )}
+          ref={elementRef}
+          {...props}
+        >
+          {children}
+        </table>
+      </TableContext.Provider>
     </Provider>
   )
 }
@@ -118,3 +146,4 @@ const Table = (
 export default Table
 
 Table.StickyHelper = StickyHelper
+Table.AccordionContent = AccordionContent

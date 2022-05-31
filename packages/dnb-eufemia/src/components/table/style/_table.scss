@@ -3,6 +3,9 @@
 *
 */
 
+@import './_table-responsive.scss';
+@import './_table-accordion.scss';
+
 .dnb-table {
   display: table;
   table-layout: auto;
@@ -133,6 +136,9 @@
     }
   }
 }
+
+@include responsiveTable();
+@include accordionTable();
 
 // Reset Table spacing
 .dnb-spacing .dnb-table {

@@ -61,13 +61,15 @@ describe('useStickyHeader', () => {
     ])
     expect(Array.from(screen.queryByRole('table').classList)).toEqual([
       'dnb-table',
-      'dnb-table__variant--basis',
+      'dnb-table__variant--table',
       'dnb-table__size--large',
       'dnb-table--sticky',
     ])
   })
 
   it('should add/remove shadow class when interacting', () => {
+    const getClasses = () =>
+      Array.from(screen.queryByRole('table').classList)
     const getTrClasses = () =>
       Array.from(screen.queryByRole('table').querySelector('tr').classList)
 
@@ -77,19 +79,24 @@ describe('useStickyHeader', () => {
       </Table>
     )
 
-    expect(getTrClasses()).toEqual(['dnb-table__tr', 'sticky'])
+    expect(getClasses()).toEqual(
+      expect.arrayContaining(['dnb-table', 'dnb-table--sticky'])
+    )
 
     simulateEntry([{ isIntersecting: false }])
 
-    expect(getTrClasses()).toEqual([
-      'dnb-table__tr',
-      'sticky',
-      'show-shadow',
-    ])
+    expect(getClasses()).toEqual(
+      expect.arrayContaining(['dnb-table', 'dnb-table--sticky'])
+    )
+    expect(getTrClasses()).toEqual(
+      expect.arrayContaining(['dnb-table__tr', 'show-shadow'])
+    )
 
     simulateEntry([{ isIntersecting: true }])
 
-    expect(getTrClasses()).toEqual(['dnb-table__tr', 'sticky'])
+    expect(getClasses()).toEqual(
+      expect.arrayContaining(['dnb-table', 'dnb-table--sticky'])
+    )
   })
 
   it('should use default header height in rootMargin when stickyOffset is not given', () => {

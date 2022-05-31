@@ -39,21 +39,21 @@ describe('Table', () => {
 
     expect(Array.from(screen.queryByRole('table').classList)).toEqual([
       'dnb-table',
-      'dnb-table__variant--basis',
+      'dnb-table__variant--table',
       'dnb-table__size--large',
     ])
   })
 
   it('should set variant', () => {
     render(
-      <Table variant="not-defined-yet">
+      <Table variant="table">
         <BasicTable />
       </Table>
     )
 
     expect(Array.from(screen.queryByRole('table').classList)).toEqual([
       'dnb-table',
-      'dnb-table__variant--not-defined-yet',
+      'dnb-table__variant--table',
       'dnb-table__size--large',
     ])
   })
@@ -67,7 +67,7 @@ describe('Table', () => {
 
     expect(Array.from(screen.queryByRole('table').classList)).toEqual([
       'dnb-table',
-      'dnb-table__variant--basis',
+      'dnb-table__variant--table',
       'dnb-table__size--medium',
     ])
   })
@@ -79,12 +79,14 @@ describe('Table', () => {
       </Table>
     )
 
-    expect(Array.from(screen.queryByRole('table').classList)).toEqual([
-      'dnb-table',
-      'dnb-table__variant--basis',
-      'dnb-table__size--large',
-      'dnb-table--fixed',
-    ])
+    expect(Array.from(screen.queryByRole('table').classList)).toEqual(
+      expect.arrayContaining([
+        'dnb-table',
+        'dnb-table__variant--table',
+        'dnb-table__size--large',
+        'dnb-table--fixed',
+      ])
+    )
 
     expect(screen.queryByRole('table').getAttribute('aria-label')).toEqual(
       'custom-label'
@@ -104,12 +106,14 @@ describe('Table', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-table',
-      'dnb-table__variant--basis',
-      'dnb-table__size--large',
-      'dnb-space__top--large',
-    ])
+    expect(Array.from(element.classList)).toEqual(
+      expect.arrayContaining([
+        'dnb-table',
+        'dnb-table__variant--table',
+        'dnb-table__size--large',
+        'dnb-space__top--large',
+      ])
+    )
   })
 
   it('should support skeleton props', () => {
@@ -125,13 +129,15 @@ describe('Table', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-table',
-      'dnb-table__variant--basis',
-      'dnb-table__size--large',
-      'dnb-skeleton',
-      'dnb-skeleton--font',
-    ])
+    expect(Array.from(element.classList)).toEqual(
+      expect.arrayContaining([
+        'dnb-table',
+        'dnb-table__variant--table',
+        'dnb-table__size--large',
+        'dnb-skeleton',
+        'dnb-skeleton--font',
+      ])
+    )
   })
 })
 

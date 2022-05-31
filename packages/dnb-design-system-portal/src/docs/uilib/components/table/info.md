@@ -10,6 +10,8 @@ The following table has a default style. But in future, there will be several ex
 
 You may consider using `table-layout: fixed;`. You can use the modifier class in doing so: `.dnb-table--fixed`
 
+## Responsive Tables
+
 ## Data-grid driven tables
 
 You may have a look at React [Table](https://github.com/TanStack/table) (former `react-table`) including this [CodeSandbox example](https://codesandbox.io/embed/eufemia-react-table-x4cwc).

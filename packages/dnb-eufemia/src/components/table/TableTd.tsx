@@ -1,5 +1,9 @@
 import React from 'react'
 import classnames from 'classnames'
+import TableTdMainCell from './TableTdMainCell'
+
+// POC: If we would use TableToggleButton inside second td
+// import  { TableToggleButton } from './TableTdMainCell'
 
 export type TableTdProps = {
   /**
@@ -7,6 +11,8 @@ export type TableTdProps = {
    * Default: null
    */
   children?: React.ReactNode
+
+  info?: React.ReactNode
 
   /**
    * Custom className on the component root
@@ -22,6 +28,7 @@ const Td = (
   const {
     className,
     children,
+    info,
 
     ...props
   } = componentProps
@@ -32,8 +39,18 @@ const Td = (
       className={classnames('dnb-table__td', className)}
       {...props}
     >
+      {/* POC: If we would use TableToggleButton inside second td */}
+      {/* {showTableToggleButton && <TableToggleButton />} */}
+
+      <div className="dnb-table__td__vertical">
+        {/* Use CSS order to have info first in the DOM to enhance a11y */}
+        {info && <span className="dnb-table__td__info dnb-p">{info}</span>}
+        <div className="dnb-table__td__children">{children}</div>
+      </div>
     </td>
   )
 }
+
+Td.MainCell = TableTdMainCell
 
 export default Td
