@@ -88,6 +88,24 @@ describe('useStickyHeader', () => {
     expect(getTrClasses()).toEqual(['dnb-tr', 'sticky'])
   })
 
+  it('should use default stickyOffset when not given', () => {
+    render(
+      <Table sticky>
+        <BasicTable sticky />
+      </Table>
+    )
+
+    expect(screen.queryByRole('table').querySelector('tr').style.top).toBe(
+      ''
+    )
+    expect(window.IntersectionObserver).toHaveBeenCalledTimes(1)
+    expect(window.IntersectionObserver).toHaveBeenCalledWith(
+      expect.any(Function),
+      // Formula: thHeight + tdHeight + offsetTopPx = -(sum)px
+      { rootMargin: '-144px 0px 0px 0px' }
+    )
+  })
+
   it('should support stickyOffset', () => {
     const getTrElem = () => screen.queryByRole('table').querySelector('tr')
 
@@ -98,6 +116,12 @@ describe('useStickyHeader', () => {
     )
 
     expect(getTrElem().style.top).toEqual('4rem')
+    expect(window.IntersectionObserver).toHaveBeenCalledTimes(1)
+    expect(window.IntersectionObserver).toHaveBeenNthCalledWith(
+      1,
+      expect.any(Function),
+      { rootMargin: '-208px 0px 0px 0px' }
+    )
 
     // provide pixels
     rerender(
@@ -107,6 +131,12 @@ describe('useStickyHeader', () => {
     )
 
     expect(getTrElem().style.top).toEqual('4rem')
+    expect(window.IntersectionObserver).toHaveBeenCalledTimes(2)
+    expect(window.IntersectionObserver).toHaveBeenNthCalledWith(
+      2,
+      expect.any(Function),
+      { rootMargin: '-208px 0px 0px 0px' }
+    )
   })
 })
 

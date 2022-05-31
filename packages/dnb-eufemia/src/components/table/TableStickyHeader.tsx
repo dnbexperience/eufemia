@@ -52,7 +52,7 @@ export const useStickyHeader = ({
       let tdElem: HTMLTableCellElement
       let thHeight = 80
       let tdHeight = 64
-      let offsetTop = 0
+      let offsetTopPx = 0
 
       try {
         trElem = tableElem.querySelector(
@@ -61,13 +61,14 @@ export const useStickyHeader = ({
         thElem = getThElement(tableElem)
         tdElem = getTdElement(tableElem)
 
-        offsetTop = parseFloat(String(stickyOffset))
+        offsetTopPx = parseFloat(String(stickyOffset || '0'))
 
-        if (offsetTop > 0) {
+        if (offsetTopPx > 0) {
           if (String(stickyOffset).includes('em')) {
+            offsetTopPx = Math.round(offsetTopPx * 16)
             trElem.style.top = String(stickyOffset)
           } else {
-            trElem.style.top = `${offsetTop / 16}rem`
+            trElem.style.top = `${offsetTopPx / 16}rem`
           }
         }
 
@@ -81,7 +82,7 @@ export const useStickyHeader = ({
         stickyWarning(e)
       }
 
-      const marginTop = thHeight + tdHeight + offsetTop
+      const marginTop = thHeight + tdHeight + offsetTopPx
 
       intersectionObserver.current = new IntersectionObserver(
         (entries) => {
