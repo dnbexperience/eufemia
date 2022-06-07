@@ -129,6 +129,42 @@ describe('Accordion component', () => {
     ).toBe(true)
   })
 
+  it('should have hidden content when "prerender" is true but closed', () => {
+    const Comp = mount(<Component {...props} prerender={true} />)
+
+    expect(
+      Comp.find('.dnb-accordion__content')
+        .instance()
+        .classList.contains('dnb-accordion__content--hidden')
+    ).toBe(true)
+
+    expect(
+      Comp.find('.dnb-accordion')
+        .instance()
+        .querySelector('.dnb-accordion__content__inner')
+        .classList.contains(
+          'dnb-accordion__content__inner--remove-content'
+        )
+    ).toBe(true)
+
+    Comp.find('.dnb-accordion__header').simulate('click')
+
+    expect(
+      Comp.find('.dnb-accordion__content')
+        .instance()
+        .classList.contains('dnb-accordion__content--hidden')
+    ).toBe(false)
+
+    expect(
+      Comp.find('.dnb-accordion')
+        .instance()
+        .querySelector('.dnb-accordion__content__inner')
+        .classList.contains(
+          'dnb-accordion__content__inner--remove-content'
+        )
+    ).toBe(false)
+  })
+
   it('should validate with ARIA rules', async () => {
     const Comp = mount(<Component {...props} />)
 
