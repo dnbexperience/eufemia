@@ -23,17 +23,14 @@ exports[`Table scss have to match default theme snapshot 1`] = `
   .dnb-table > tr > th,
   .dnb-table > tr > td,
   .dnb-table > thead > tr > th,
-  .dnb-table > tbody > tr > td,
-  .dnb-table .dnb-table__th,
-  .dnb-table .dnb-table__td {
+  .dnb-table > tbody > tr > td, .dnb-table__th, .dnb-table__td {
     border-bottom: 1px solid transparent;
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
     border-spacing: 0;
     word-break: keep-all; }
   .dnb-table > tr > th,
-  .dnb-table > thead > tr > th,
-  .dnb-table .dnb-table__th {
+  .dnb-table > thead > tr > th, .dnb-table__th {
     padding: var(--spacing-x-large) var(--spacing-small) var(--spacing-x-small);
     font-weight: var(--font-weight-medium);
     color: var(--color-emerald-green);
@@ -41,34 +38,38 @@ exports[`Table scss have to match default theme snapshot 1`] = `
     background-color: var(--color-mint-green-50);
     border-bottom: 1px solid var(--color-mint-green); }
     .dnb-table > tr > th:not([align]):not(.dnb-table--left):not(.dnb-table--right):not(.dnb-table--center),
-    .dnb-table > thead > tr > th:not([align]):not(.dnb-table--left):not(.dnb-table--right):not(.dnb-table--center),
-    .dnb-table .dnb-table__th:not([align]):not(.dnb-table--left):not(.dnb-table--right):not(.dnb-table--center) {
+    .dnb-table > thead > tr > th:not([align]):not(.dnb-table--left):not(.dnb-table--right):not(.dnb-table--center), .dnb-table__th:not([align]):not(.dnb-table--left):not(.dnb-table--right):not(.dnb-table--center) {
       text-align: inherit; }
     @supports (-moz-appearance: meterbar) and (background-blend-mode: difference, normal) {
       .dnb-table > tr > th,
-      .dnb-table > thead > tr > th,
-      .dnb-table .dnb-table__th {
+      .dnb-table > thead > tr > th, .dnb-table__th {
         padding-bottom: calc(var(--spacing-x-small) - 0.5px); } }
   .dnb-table > tr > td,
-  .dnb-table > tbody > tr > td,
-  .dnb-table .dnb-table__td,
+  .dnb-table > tbody > tr > td, .dnb-table__td,
   .dnb-table > tr > th[scope='row'] {
     padding: var(--spacing-small);
     padding-top: calc(var(--spacing-small) * 1.25);
     padding-bottom: calc(var(--spacing-small) * 1.188);
     /* 19/16 */
     color: var(--theme-color-black-80, currentColor); }
-  .dnb-table > tbody > tr:not(.dnb-table--ignore),
-  .dnb-table .dnb-table__tr:not(.dnb-table--ignore),
-  .dnb-table .dnb-table--odd:not(.dnb-table--ignore) {
+  .dnb-table > tbody > tr,
+  .dnb-table .dnb-table__tr,
+  .dnb-table .dnb-table__tr--odd {
     background-color: var(--color-white); }
-  .dnb-table > tbody > tr:not(.dnb-table--odd):nth-of-type(2n):not(.dnb-table--ignore),
-  .dnb-table .dnb-table__tr:not(.dnb-table--odd):nth-of-type(2n):not(.dnb-table--ignore),
-  .dnb-table .dnb-table--even:not(.dnb-table--ignore) {
+  .dnb-table > tbody > tr:not(.dnb-table__tr--odd):nth-of-type(2n),
+  .dnb-table .dnb-table__tr:not(.dnb-table__tr--odd):nth-of-type(2n),
+  .dnb-table .dnb-table__tr--even {
     background-color: var(--color-mint-green-12); }
-  .dnb-table > tbody > tr:last-of-type > td,
-  .dnb-table .dnb-table__tr:last-of-type .dnb-table__td {
-    border-bottom: 1px solid var(--color-mint-green-50); }
+  .dnb-table > tbody > tr:last-of-type::after,
+  .dnb-table > tbody > .dnb-table__tr:last-of-type::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    height: 1px;
+    background-color: var(--color-mint-green-50); }
   .dnb-table > thead > tr > th.dnb-table--sortable,
   .dnb-table .dnb-table__th.dnb-table--sortable {
     color: var(--color-emerald-green); }

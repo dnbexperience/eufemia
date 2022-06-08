@@ -39,8 +39,8 @@ describe('Table', () => {
 
     expect(Array.from(screen.queryByRole('table').classList)).toEqual([
       'dnb-table',
-      'dnb-table--basis',
-      'dnb-table--size-large',
+      'dnb-table__variant--basis',
+      'dnb-table__size--large',
     ])
   })
 
@@ -53,8 +53,8 @@ describe('Table', () => {
 
     expect(Array.from(screen.queryByRole('table').classList)).toEqual([
       'dnb-table',
-      'dnb-table--not-defined-yet',
-      'dnb-table--size-large',
+      'dnb-table__variant--not-defined-yet',
+      'dnb-table__size--large',
     ])
   })
 
@@ -67,8 +67,8 @@ describe('Table', () => {
 
     expect(Array.from(screen.queryByRole('table').classList)).toEqual([
       'dnb-table',
-      'dnb-table--basis',
-      'dnb-table--size-medium',
+      'dnb-table__variant--basis',
+      'dnb-table__size--medium',
     ])
   })
 
@@ -81,8 +81,8 @@ describe('Table', () => {
 
     expect(Array.from(screen.queryByRole('table').classList)).toEqual([
       'dnb-table',
-      'dnb-table--basis',
-      'dnb-table--size-large',
+      'dnb-table__variant--basis',
+      'dnb-table__size--large',
       'dnb-table--fixed',
     ])
 
@@ -106,8 +106,8 @@ describe('Table', () => {
     expect(attributes).toEqual(['class'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-table',
-      'dnb-table--basis',
-      'dnb-table--size-large',
+      'dnb-table__variant--basis',
+      'dnb-table__size--large',
       'dnb-space__top--large',
     ])
   })
@@ -127,8 +127,8 @@ describe('Table', () => {
     expect(attributes).toEqual(['class'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-table',
-      'dnb-table--basis',
-      'dnb-table--size-large',
+      'dnb-table__variant--basis',
+      'dnb-table__size--large',
       'dnb-skeleton',
       'dnb-skeleton--font',
     ])

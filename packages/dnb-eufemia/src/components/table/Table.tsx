@@ -26,19 +26,16 @@ export { StickyHelper }
 export interface TableProps extends StickyTableHeaderProps {
   /**
    * The content of the component.
-   * Default: null
    */
-  children?: React.ReactNode
+  children: React.ReactNode
 
   /**
    * Custom className on the component root
-   * Default: null
    */
   className?: string
 
   /**
    * Skeleton should be applied when loading content
-   * Default: null
    */
   skeleton?: SkeletonShow
 
@@ -60,7 +57,11 @@ export const defaultProps = {
   variant: 'basis',
 }
 
-const Table = (componentProps: TableProps & ISpacingProps) => {
+const Table = (
+  componentProps: TableProps &
+    React.TableHTMLAttributes<HTMLTableElement> &
+    ISpacingProps
+) => {
   const context = React.useContext(Context)
 
   const allProps = usePropsWithContext(
@@ -91,33 +92,25 @@ const Table = (componentProps: TableProps & ISpacingProps) => {
 
   validateDOMAttributes(allProps, props)
 
-  const Element = () => (
-    <table
-      className={classnames(
-        'dnb-table',
-        `dnb-table--${variant || 'basis'}`,
-        `dnb-table--size-${size || 'large'}`,
-        sticky && `dnb-table--sticky`,
-        spacingClasses,
-        skeletonClasses,
-        className
-      )}
-      ref={elementRef}
-      {...props}
-    >
-      {children}
-    </table>
+  return (
+    <Provider skeleton={Boolean(skeleton)}>
+      <table
+        className={classnames(
+          'dnb-table',
+          `dnb-table__variant--${variant || 'basis'}`,
+          `dnb-table__size--${size || 'large'}`,
+          sticky && `dnb-table--sticky`,
+          spacingClasses,
+          skeletonClasses,
+          className
+        )}
+        ref={elementRef}
+        {...props}
+      >
+        {children}
+      </table>
+    </Provider>
   )
-
-  if (skeleton) {
-    return (
-      <Provider skeleton>
-        <Element />
-      </Provider>
-    )
-  }
-
-  return <Element />
 }
 
 export default Table

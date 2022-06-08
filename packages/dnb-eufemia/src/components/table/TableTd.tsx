@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 
-type TableTdProps = {
+export type TableTdProps = {
   /**
    * The content of the component.
    * Default: null
@@ -13,11 +13,12 @@ type TableTdProps = {
    * Default: null
    */
   className?: string
-} & React.TdHTMLAttributes<HTMLTableCellElement>
+}
 
-export const defaultProps = {}
-
-const Td = (componentProps: TableTdProps) => {
+const Td = (
+  componentProps: TableTdProps &
+    React.TdHTMLAttributes<HTMLTableCellElement>
+) => {
   const {
     className,
     children,
@@ -26,8 +27,11 @@ const Td = (componentProps: TableTdProps) => {
   } = componentProps
 
   return (
-    <td className={classnames('dnb-td', className)} {...props}>
-      {children}
+    <td
+      role="cell"
+      className={classnames('dnb-table__td', className)}
+      {...props}
+    >
     </td>
   )
 }

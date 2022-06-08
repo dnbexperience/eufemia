@@ -1,23 +1,24 @@
 import React from 'react'
 import classnames from 'classnames'
+import { TableTdProps } from './TableTd'
 
-type TableTrProps = {
+export type TableTrProps = {
   /**
    * The content of the component.
-   * Default: null
    */
-  children?: React.ReactNode
+  children: Array<React.ReactElement<TableTdProps>>
 
   /**
    * Custom className on the component root
    * Default: null
    */
   className?: string
-} & React.TableHTMLAttributes<HTMLTableRowElement>
+}
 
-export const defaultProps = {}
-
-const Tr = (componentProps: TableTrProps) => {
+const Tr = (
+  componentProps: TableTrProps &
+    React.TableHTMLAttributes<HTMLTableRowElement>
+) => {
   const {
     className,
     children,
@@ -26,7 +27,7 @@ const Tr = (componentProps: TableTrProps) => {
   } = componentProps
 
   return (
-    <tr className={classnames('dnb-tr', className)} {...props}>
+    <tr className={classnames('dnb-table__tr', className)} {...props}>
       {children}
     </tr>
   )
