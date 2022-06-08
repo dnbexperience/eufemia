@@ -4,7 +4,7 @@ set -e # Exit immediately if a command exits with a non-zero status.
 
 echo 'Prepare before publish has started ...'
 
-babel-node ./scripts/postbuild/prepareForRelease.js
+babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/prepareForRelease.js
 
 echo 'Testing the postbuild before publish ...'
 
