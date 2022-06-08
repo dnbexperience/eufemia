@@ -37,6 +37,8 @@ describe('Provider', () => {
   const ChangeLocale = () => {
     const { setLocale, locale } = React.useContext(Context)
 
+    expect(typeof setLocale).toBe('function')
+
     return (
       <ToggleButton.Group
         value={locale}
@@ -57,7 +59,7 @@ describe('Provider', () => {
     )
   }
 
-  const MagicProvider = ({ children, ...props }) => {
+  const MagicProvider = ({ children = null, ...props }) => {
     return (
       <LocalProvider {...props}>
         <Context.Consumer>

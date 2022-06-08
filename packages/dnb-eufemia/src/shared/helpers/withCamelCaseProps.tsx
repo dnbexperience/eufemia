@@ -57,6 +57,7 @@ export function classWithCamelCaseProps<
       if (this.props !== this._prevProps) {
         this._prevProps = this.props
         this._elem = (
+          // @ts-ignore
           <Component
             {...Object.freeze(convertCamelCaseProps(this.props))}
           />

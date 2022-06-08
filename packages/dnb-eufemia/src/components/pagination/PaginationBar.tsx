@@ -24,27 +24,28 @@ interface PaginationBarProps {
   /**
    * The title used in every button shown in the bar. Defaults to Side %s.
    */
-  button_title: string
+  button_title?: string
   /**
    *  The title used in the previous page button. Defaults to Forrige side.
    */
-  prev_title: string
+  prev_title?: string
   /**
    *  The title used in the next page button. Defaults to Neste side.
    */
-  next_title: string
+  next_title?: string
   /**
    * The title used in the dots. Relevant for screen-readers. Defaults to %s flere sider.
    */
-  more_pages: string
+  more_pages?: string
   /**
    * Reference to the parent component. Used to contain height between updates.
    */
-  contentRef: React.RefObject<any>
+  contentRef?: React.RefObject<HTMLElement>
   /**
    *  the given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
    */
-  children: React.ReactNode
+  children?: React.ReactNode
+  locale?: string
 }
 
 const defaultProps = {
@@ -134,7 +135,8 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
     extendPropsWithContext(
       { ...defaultProps, ...innerProps },
       defaultProps,
-      getTranslation(innerProps).Pagination
+      getTranslation(innerProps as Pick<PaginationBarProps, 'locale'>)
+        .Pagination
     )
 
   const prevIsDisabled = currentPage > -1 ? currentPage === 1 : true

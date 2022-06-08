@@ -20,6 +20,7 @@ import {
 } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
+import { iconCase } from './IconHelpers'
 
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {
@@ -446,11 +447,3 @@ export const prerenderIcon = ({
     return null
   }
 }
-
-// to replace icon names
-export const iconCase = (name) =>
-  name
-    .replace(/((?!^)[A-Z])/g, '_$1')
-    .toLowerCase()
-    .replace(/^[0-9]/g, '$1')
-    .replace(/[^a-z0-9_]/gi, '_')
