@@ -78,23 +78,18 @@ const props = {
 
 const mockData = [
   {
-    selected_value: 'Brukskonto - Kari Nordmann',
     content: ['1234 56 78901', 'Brukskonto - Kari Nordmann'],
   },
   {
-    selected_value: 'Sparekonto - Ole Nordmann',
     content: ['1234 56 78902', 'Sparekonto - Ole Nordmann'],
   },
   {
-    selected_value:
-      'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     content: [
       '1134 56 78962',
       'Feriekonto - Kari Nordmann med et kjempelangt etternavnsen',
     ],
   },
   {
-    selected_value: 'Oppussing - Ole Nordmann',
     content: ['1534 96 48901', 'Oppussing - Ole Nordmann'],
   },
   {

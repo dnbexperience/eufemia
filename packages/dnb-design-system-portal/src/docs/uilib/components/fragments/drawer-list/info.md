@@ -18,9 +18,6 @@ const data = [
     // (optional) can be what ever
     selected_key: 'key_0',
 
-    // (optional) is show instead of "content", once selected
-    selected_value: 'Item 1 Value',
-
     // Item content as a string or array
     content: 'Item 1 Content',
   },
@@ -32,12 +29,10 @@ const data = [
   },
   {
     selected_key: 'key_2',
-    selected_value: 'Item 3 Value',
     content: ['Item 3 Content A', 'Item 3 Content B'],
   },
   {
     selected_key: 'key_3',
-    selected_value: 'Item 4 Value',
     content: ['Item 4 Content A', <>Custom Component</>],
   },
 ]

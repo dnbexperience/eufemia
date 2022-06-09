@@ -1028,6 +1028,73 @@ describe('Autocomplete component', () => {
     )
   })
 
+  it('selects correct value and key', () => {
+    const mockData = [
+      { selected_key: 'a', content: 'A value' },
+      { selected_key: 'b', content: 'B value' },
+      { selected_key: 'c', content: 'C value' },
+      { selected_key: 'id-123', content: '123 value' },
+      { selected_key: 'id-456', content: '456 value' },
+    ]
+
+    const on_change = jest.fn()
+
+    const Comp = mount(
+      <Component
+        no_animation
+        show_submit_button
+        data={mockData}
+        on_change={on_change}
+      />
+    )
+
+    // open first
+    toggle(Comp)
+
+    const openAndSelectNext = () => {
+      // then simulate changes
+      keydown(Comp, 40) // down
+      keydown(Comp, 13) // enter
+    }
+
+    openAndSelectNext()
+
+    expect(Comp.find('.dnb-input__input').instance().value).toBe('A value')
+    expect(on_change.mock.calls[0][0].data.selected_key).toBe('a')
+
+    Comp.setProps({
+      value: 'b',
+    })
+
+    expect(Comp.find('.dnb-input__input').instance().value).toBe('B value')
+
+    openAndSelectNext()
+
+    expect(Comp.find('.dnb-input__input').instance().value).toBe('C value')
+    expect(on_change.mock.calls[1][0].data.selected_key).toBe('c')
+
+    Comp.setProps({
+      value: 'id-123',
+    })
+
+    expect(Comp.find('.dnb-input__input').instance().value).toBe(
+      '123 value'
+    )
+
+    openAndSelectNext()
+
+    expect(Comp.find('.dnb-input__input').instance().value).toBe(
+      '456 value'
+    )
+    expect(on_change.mock.calls[2][0].data.selected_key).toBe('id-456')
+
+    Comp.setProps({
+      value: 123, // invalid
+    })
+
+    expect(Comp.find('.dnb-input__input').instance().value).toBe('')
+  })
+
   const runBlurActiveItemTest = ({
     Comp,
     shouldHaveActiveItem,

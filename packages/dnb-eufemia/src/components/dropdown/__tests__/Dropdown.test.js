@@ -400,38 +400,62 @@ describe('Dropdown component', () => {
     expect(Comp.find('.dnb-dropdown__text').text()).toBe('Valgmeny')
   })
 
-  it('has correct selected value', () => {
-    let value
-    let Comp
+  it('selects correct value and key', () => {
+    const mockData = [
+      { selected_key: 'a', content: 'A value' },
+      { selected_key: 'b', content: 'B value' },
+      { selected_key: 'c', content: 'C value' },
+      { selected_key: 'id-123', content: '123 value' },
+      { selected_key: 'id-456', content: '456 value' },
+    ]
 
-    // Uses Index
-    value = 2
-    Comp = mount(<Component value={value} data={mockData} />)
-    expect(Comp.find('.dnb-dropdown__text').text()).toBe(
-      mockData[value].selected_value
+    const on_change = jest.fn()
+
+    const Comp = mount(
+      <Component no_animation data={mockData} on_change={on_change} />
     )
 
-    // Uses Index
-    value = '0'
-    Comp = mount(<Component value={value} data={mockData} />)
-    expect(Comp.find('.dnb-dropdown__text').text()).toBe(
-      mockData[parseFloat(value)].selected_value
-    )
+    // open first
+    open(Comp)
 
-    // Uses findIndex
-    value = '0x'
-    Comp = mount(<Component value={value} data={mockData} />)
-    expect(Comp.find('.dnb-dropdown__text').text()).toBe(
-      mockData.find(({ selected_key }) => selected_key === value)
-        .selected_value
-    )
+    const openAndSelectNext = () => {
+      // then simulate changes
+      keydown(Comp, 40) // down
+      keydown(Comp, 13) // enter
+    }
 
-    // Uses findIndex
-    value = '0y'
-    Comp = mount(<Component value={value} data={mockData} />)
-    expect(Comp.find('.dnb-dropdown__text').text()).toBe(
-      mockData.find((x) => x === value)
-    )
+    openAndSelectNext()
+
+    expect(Comp.find('.dnb-dropdown__text').text()).toBe('A value')
+    expect(on_change.mock.calls[0][0].data.selected_key).toBe('a')
+
+    Comp.setProps({
+      value: 'b',
+    })
+
+    expect(Comp.find('.dnb-dropdown__text').text()).toBe('B value')
+
+    openAndSelectNext()
+
+    expect(Comp.find('.dnb-dropdown__text').text()).toBe('C value')
+    expect(on_change.mock.calls[1][0].data.selected_key).toBe('c')
+
+    Comp.setProps({
+      value: 'id-123',
+    })
+
+    expect(Comp.find('.dnb-dropdown__text').text()).toBe('123 value')
+
+    openAndSelectNext()
+
+    expect(Comp.find('.dnb-dropdown__text').text()).toBe('456 value')
+    expect(on_change.mock.calls[2][0].data.selected_key).toBe('id-456')
+
+    Comp.setProps({
+      value: 123, // invalid
+    })
+
+    expect(Comp.find('.dnb-dropdown__text').text()).toBe('Valgmeny')
   })
 
   it('has no selected items on using more_menu', () => {

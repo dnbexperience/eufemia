@@ -64,7 +64,7 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
 ## Data structure
 
 ```js
-// as array
+// 1. as array
 const data = [
   // Every data item can, beside "content" - contain what ever
   {
@@ -108,7 +108,7 @@ const data = [
   },
 ]
 
-// as object
+// 2. as object
 const data = {
   a: 'A',
   b: 'B',
