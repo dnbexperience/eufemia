@@ -19,6 +19,11 @@ export default class AnimateHeight {
   }
   _callOnEnd() {
     this.isAnimating = false
+
+    if (this.state !== 'opened') {
+      delete this.__currentHeight
+    }
+
     this._removeEndEvents()
 
     this.onEndStack.forEach((fn) => {
@@ -37,6 +42,10 @@ export default class AnimateHeight {
     this.elem.style.width = ''
   }
   _removeEndEvents() {
+    if (!this.elem) {
+      return // stop here
+    }
+
     if (this.onOpenEnd) {
       this.elem.removeEventListener('transitionend', this.onOpenEnd)
       this.onOpenEnd = null
@@ -67,7 +76,7 @@ export default class AnimateHeight {
       elem ||
       (typeof document !== 'undefined' && document.createElement('div'))
 
-    // get tr element
+    // TODO: remove when responsive tables are supported
     if (String(this.elem?.nodeName).toLowerCase() === 'td') {
       this.elem = this.elem.parentElement
     }
@@ -112,6 +121,10 @@ export default class AnimateHeight {
       return null
     }
 
+    if (this.isAnimating && this.__currentHeight) {
+      return this.__currentHeight
+    }
+
     this.elem.style.width = this.getWidth()
 
     if (this.elem.parentElement) {
@@ -121,11 +134,11 @@ export default class AnimateHeight {
     this.elem.style.visibility = 'hidden'
     this.elem.style.height = 'auto'
 
-    const height = this.getHeight()
+    this.__currentHeight = this.getHeight()
 
     this._restore()
 
-    return height
+    return this.__currentHeight
   }
 
   onStart(fn) {
@@ -166,6 +179,10 @@ export default class AnimateHeight {
 
       // make the animation
       this.reqId1 = window.requestAnimationFrame(() => {
+        if (!this.elem) {
+          return // stop here
+        }
+
         this.elem.style.height = `${fromHeight}px`
 
         if (this.container) {
