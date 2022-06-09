@@ -2,11 +2,6 @@
 showTabs: true
 ---
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
-import { css, Global } from '@emotion/react'
-
-<Global styles={typeof window !== 'undefined' && window.IS_TEST ?css`body{ .dnb-app-content { overflow: visible; } }`: css``} />
-
 # Tables
 
 The following table has a default style. But in future, there will be several extensions and styles to choose from.

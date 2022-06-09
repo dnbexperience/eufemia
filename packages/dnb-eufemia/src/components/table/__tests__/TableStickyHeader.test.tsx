@@ -92,25 +92,28 @@ describe('useStickyHeader', () => {
     expect(getTrClasses()).toEqual(['dnb-table__tr', 'sticky'])
   })
 
-  it('should use default stickyOffset when not given', () => {
+  it('should use default header height in rootMargin when stickyOffset is not given', () => {
     render(
       <Table sticky>
         <BasicTable sticky />
       </Table>
     )
 
-    expect(screen.queryByRole('table').querySelector('tr').style.top).toBe(
-      ''
-    )
+    expect(
+      screen
+        .queryByRole('table')
+        .querySelector('tr')
+        .style.getPropertyValue('--table-top')
+    ).toBe('')
     expect(window.IntersectionObserver).toHaveBeenCalledTimes(1)
     expect(window.IntersectionObserver).toHaveBeenCalledWith(
       expect.any(Function),
-      // Formula: thHeight + tdHeight + offsetTopPx = -(sum)px
-      { rootMargin: '-144px 0px 0px 0px' }
+      // Formula: thHeight + offsetTopPx = -(sum)px
+      { rootMargin: '-80px 0px 0px 0px' } // we set a rootMargin to show/hide the shadow on a certain position ("show-shadow" class)
     )
   })
 
-  it('should support stickyOffset', () => {
+  it('should set correct rootMargin and --table-top with given stickyOffset', () => {
     const getTrElem = () => screen.queryByRole('table').querySelector('tr')
 
     const { rerender } = render(
@@ -119,27 +122,33 @@ describe('useStickyHeader', () => {
       </Table>
     )
 
-    expect(getTrElem().style.top).toEqual('4rem')
+    expect(getTrElem().style.getPropertyValue('--table-top')).toEqual(
+      '4rem'
+    )
     expect(window.IntersectionObserver).toHaveBeenCalledTimes(1)
     expect(window.IntersectionObserver).toHaveBeenNthCalledWith(
       1,
       expect.any(Function),
-      { rootMargin: '-208px 0px 0px 0px' }
+      // Formula: thHeight + offsetTopPx = -(sum)px
+      { rootMargin: '-144px 0px 0px 0px' } // we set a rootMargin to show/hide the shadow on a certain position ("show-shadow" class)
     )
 
-    // provide pixels
+    /** stickyOffset should support pixels as well */
     rerender(
       <Table sticky stickyOffset={64}>
         <BasicTable sticky />
       </Table>
     )
 
-    expect(getTrElem().style.top).toEqual('4rem')
+    expect(getTrElem().style.getPropertyValue('--table-top')).toEqual(
+      '4rem'
+    )
     expect(window.IntersectionObserver).toHaveBeenCalledTimes(2)
     expect(window.IntersectionObserver).toHaveBeenNthCalledWith(
       2,
       expect.any(Function),
-      { rootMargin: '-208px 0px 0px 0px' }
+      // Formula: thHeight + offsetTopPx = -(sum)px
+      { rootMargin: '-144px 0px 0px 0px' } // we set a rootMargin to show/hide the shadow on a certain position ("show-shadow" class)
     )
   })
 })

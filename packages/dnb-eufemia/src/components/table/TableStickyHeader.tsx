@@ -47,63 +47,50 @@ export const useStickyHeader = ({
 
       const tableElem = elementRef.current
 
-      let trElem: HTMLTableRowElement
-      let thElem: HTMLTableCellElement
-      let tdElem: HTMLTableCellElement
       let thHeight = 80
-      let tdHeight = 64
       let offsetTopPx = 0
 
       try {
-        trElem = tableElem.querySelector(
+        const trElem: HTMLTableRowElement = tableElem.querySelector(
           'thead > tr:first-of-type, thead > .dnb-table__tr:first-of-type'
         )
-        thElem = getThElement(tableElem)
-        tdElem = getTdElement(tableElem)
-
         offsetTopPx = parseFloat(String(stickyOffset || '0'))
 
         if (offsetTopPx > 0) {
           if (String(stickyOffset).includes('em')) {
             offsetTopPx = Math.round(offsetTopPx * 16)
-            trElem.style.top = String(stickyOffset)
+            trElem.style.setProperty('--table-top', String(stickyOffset))
           } else {
-            trElem.style.top = `${offsetTopPx / 16}rem`
+            trElem.style.setProperty(
+              '--table-top',
+              `${offsetTopPx / 16}rem`
+            )
           }
         }
 
+        const thElem = getThElement(tableElem)
         thHeight =
           (thElem && parseFloat(window.getComputedStyle(thElem).height)) ||
           thHeight
-        tdHeight =
-          (tdElem && parseFloat(window.getComputedStyle(tdElem).height)) ||
-          tdHeight
-      } catch (e) {
-        stickyWarning(e)
-      }
 
-      const marginTop = thHeight + tdHeight + offsetTopPx
-
-      intersectionObserver.current = new IntersectionObserver(
-        (entries) => {
-          const [entry] = entries
-          try {
-            if (entry.isIntersecting) {
-              trElem.classList.remove('show-shadow')
-            } else {
-              trElem.classList.add('show-shadow')
+        intersectionObserver.current = new IntersectionObserver(
+          (entries) => {
+            const [entry] = entries
+            try {
+              if (entry.isIntersecting) {
+                trElem.classList.remove('show-shadow')
+              } else {
+                trElem.classList.add('show-shadow')
+              }
+            } catch (e) {
+              stickyWarning(e)
             }
-          } catch (e) {
-            stickyWarning(e)
+          },
+          {
+            rootMargin: `-${thHeight + offsetTopPx}px 0px 0px 0px`,
           }
-        },
-        {
-          rootMargin: `-${marginTop}px 0px 0px 0px`,
-        }
-      )
+        )
 
-      try {
-        const trElem = tableElem.querySelector('thead > tr:first-of-type')
         trElem.classList.add('sticky')
         const tdElem =
           tableElem.querySelector(

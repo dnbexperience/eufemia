@@ -3,7 +3,6 @@
 *
 */
 
-
 .dnb-table {
   display: table;
   table-layout: auto;
@@ -45,16 +44,14 @@
     caption-side: bottom;
   }
 
-  tr.sticky {
-    top: 0;
-  }
   /* stylelint-disable-next-line */
+
   tr.sticky th {
     position: sticky;
-    top: inherit;
+    top: var(--table-top, 0); // is set by "stickyOffset" prop
     z-index: 2;
 
-    &::after {
+    &::before {
       content: '';
       position: absolute;
       opacity: 0;
@@ -74,7 +71,7 @@
       }
     }
   }
-  tr.sticky.show-shadow th::after {
+  tr.sticky.show-shadow th::before {
     opacity: 1;
   }
 

@@ -19,10 +19,11 @@ export default {
 export const StickyBasicTable = () => {
   return (
     <Table
+      top="5rem"
       // skeleton // toggle
       sticky
       // className="dnb-table--fixed"
-      // stickyOffset="4rem"
+      stickyOffset="4rem"
     >
       <caption className="dnb-sr-only">A Table Caption</caption>
       <thead>
@@ -80,6 +81,18 @@ export const StickyBasicTable = () => {
         </tr>
         <tr>
           <td colSpan={2}>Column which spans over two columns</td>
+          <td>Column 3</td>
+          <td>Column 4</td>
+        </tr>
+        <tr>
+          <td>Column 1</td>
+          <td>Column 2</td>
+          <td>Column 3</td>
+          <td>Column 4</td>
+        </tr>
+        <tr>
+          <td>Column 1</td>
+          <td>Column 2</td>
           <td>Column 3</td>
           <td>Column 4</td>
         </tr>
