@@ -61,8 +61,8 @@ describe('useStickyHeader', () => {
     ])
     expect(Array.from(screen.queryByRole('table').classList)).toEqual([
       'dnb-table',
-      'dnb-table--basis',
-      'dnb-table--size-large',
+      'dnb-table__variant--basis',
+      'dnb-table__size--large',
       'dnb-table--sticky',
     ])
   })
@@ -77,15 +77,19 @@ describe('useStickyHeader', () => {
       </Table>
     )
 
-    expect(getTrClasses()).toEqual(['dnb-tr', 'sticky'])
+    expect(getTrClasses()).toEqual(['dnb-table__tr', 'sticky'])
 
     simulateEntry([{ isIntersecting: false }])
 
-    expect(getTrClasses()).toEqual(['dnb-tr', 'sticky', 'show-shadow'])
+    expect(getTrClasses()).toEqual([
+      'dnb-table__tr',
+      'sticky',
+      'show-shadow',
+    ])
 
     simulateEntry([{ isIntersecting: true }])
 
-    expect(getTrClasses()).toEqual(['dnb-tr', 'sticky'])
+    expect(getTrClasses()).toEqual(['dnb-table__tr', 'sticky'])
   })
 
   it('should use default stickyOffset when not given', () => {

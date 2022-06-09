@@ -1,23 +1,23 @@
 import React from 'react'
 import classnames from 'classnames'
 
-type TableThProps = {
+export type TableThProps = {
   /**
-   * The content of the component.
-   * Default: null
+   * The content of the table header given as Tr.
    */
-  children?: React.ReactNode
+  children: React.ReactNode
 
   /**
    * Custom className on the component root
    * Default: null
    */
   className?: string
-} & React.ThHTMLAttributes<HTMLTableCellElement>
+}
 
-export const defaultProps = {}
-
-const Th = (componentProps: TableThProps) => {
+const Th = (
+  componentProps: TableThProps &
+    React.ThHTMLAttributes<HTMLTableCellElement>
+) => {
   const {
     className,
     children,
@@ -26,7 +26,14 @@ const Th = (componentProps: TableThProps) => {
   } = componentProps
 
   return (
-    <th className={classnames('dnb-th', className)} {...props}>
+    <th
+      role="columnheader"
+      className={classnames(
+        'dnb-table__th',
+        className
+      )}
+      {...props}
+    >
       {children}
     </th>
   )
