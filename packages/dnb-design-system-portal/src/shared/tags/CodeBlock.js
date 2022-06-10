@@ -253,7 +253,6 @@ class LiveCode extends React.PureComponent {
           {!global.IS_TEST && !hideCode && (
             <div
               className={classnames(
-                'dnb-pre',
                 'dnb-live-editor',
                 createSkeletonClass('code', this.context.skeleton)
               )}
@@ -264,7 +263,7 @@ class LiveCode extends React.PureComponent {
               </label>
               <LiveEditor
                 id={this._id}
-                className="dnb-live-editor__editable"
+                className="dnb-live-editor__editable dnb-pre"
                 onChange={(code) => {
                   this.setState({ code })
                 }}
@@ -370,6 +369,7 @@ const LiveCodeEditor = styled.div`
 
   .prism-code {
     padding: 0 !important; /* use important because of inline styles */
+    white-space: pre-wrap !important; /* use important because of inline styles */
   }
 `
 
