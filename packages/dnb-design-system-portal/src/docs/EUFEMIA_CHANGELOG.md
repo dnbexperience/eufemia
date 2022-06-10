@@ -1,3 +1,11 @@
+## June, 10. 2022
+
+- Change colors of [Table](/uilib/components/table):
+  - Header text gets `black`
+  - Header background gets `white`
+  - Even rows gets `lavender`
+  - Borders on table bottom and header bottom gets `black-8`
+
 ## February, 15. 2022
 
 - New components released:

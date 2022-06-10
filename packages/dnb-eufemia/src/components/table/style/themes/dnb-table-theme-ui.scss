@@ -15,9 +15,6 @@
   & > tbody > tr > td,
   &__th,
   &__td {
-    // to make sure we have the ability to have a border where ever we want
-    border-bottom: 1px solid transparent;
-
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
     border-spacing: 0;
@@ -32,7 +29,7 @@
       var(--spacing-x-small);
 
     font-weight: var(--font-weight-medium);
-    color: var(--color-emerald-green);
+    color: var(--color-black);
 
     vertical-align: bottom;
 
@@ -45,8 +42,7 @@
       padding-bottom: calc(var(--spacing-x-small) - 0.5px);
     }
 
-    background-color: var(--color-mint-green-50);
-    border-bottom: 1px solid var(--color-mint-green);
+    background-color: var(--color-white);
   }
 
   // Body part
@@ -73,20 +69,28 @@
   & > tbody > tr:not(#{&}__tr--odd):nth-of-type(2n),
   & &__tr:not(#{&}__tr--odd):nth-of-type(2n),
   & &__tr--even {
-    background-color: var(--color-mint-green-12);
+    background-color: var(--color-lavender);
   }
 
+  & > thead > tr,
+  & > tbody > tr,
+  & &__tr {
+    position: relative;
+  }
+
+  // Border
+  & > thead > tr:last-of-type::after,
   & > tbody > tr:last-of-type::after,
-  & > tbody > &__tr:last-of-type::after {
+  & > &__tr:last-of-type::after {
     content: '';
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0;
-    z-index: 2;
+    bottom: -1px;
+    z-index: 1; // lower than "tr.sticky"
 
     height: 1px;
-    background-color: var(--color-mint-green-50);
+    background-color: var(--color-black-8);
   }
 
   @include basisTableSortable();

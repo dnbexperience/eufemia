@@ -24,7 +24,6 @@ exports[`Table scss have to match default theme snapshot 1`] = `
   .dnb-table > tr > td,
   .dnb-table > thead > tr > th,
   .dnb-table > tbody > tr > td, .dnb-table__th, .dnb-table__td {
-    border-bottom: 1px solid transparent;
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
     border-spacing: 0;
@@ -33,10 +32,9 @@ exports[`Table scss have to match default theme snapshot 1`] = `
   .dnb-table > thead > tr > th, .dnb-table__th {
     padding: var(--spacing-x-large) var(--spacing-small) var(--spacing-x-small);
     font-weight: var(--font-weight-medium);
-    color: var(--color-emerald-green);
+    color: var(--color-black);
     vertical-align: bottom;
-    background-color: var(--color-mint-green-50);
-    border-bottom: 1px solid var(--color-mint-green); }
+    background-color: var(--color-white); }
     .dnb-table > tr > th:not([align]):not(.dnb-table--left):not(.dnb-table--right):not(.dnb-table--center),
     .dnb-table > thead > tr > th:not([align]):not(.dnb-table--left):not(.dnb-table--right):not(.dnb-table--center), .dnb-table__th:not([align]):not(.dnb-table--left):not(.dnb-table--right):not(.dnb-table--center) {
       text-align: inherit; }
@@ -59,17 +57,22 @@ exports[`Table scss have to match default theme snapshot 1`] = `
   .dnb-table > tbody > tr:not(.dnb-table__tr--odd):nth-of-type(2n),
   .dnb-table .dnb-table__tr:not(.dnb-table__tr--odd):nth-of-type(2n),
   .dnb-table .dnb-table__tr--even {
-    background-color: var(--color-mint-green-12); }
+    background-color: var(--color-lavender); }
+  .dnb-table > thead > tr,
+  .dnb-table > tbody > tr,
+  .dnb-table .dnb-table__tr {
+    position: relative; }
+  .dnb-table > thead > tr:last-of-type::after,
   .dnb-table > tbody > tr:last-of-type::after,
-  .dnb-table > tbody > .dnb-table__tr:last-of-type::after {
+  .dnb-table > .dnb-table__tr:last-of-type::after {
     content: '';
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0;
-    z-index: 2;
+    bottom: -1px;
+    z-index: 1;
     height: 1px;
-    background-color: var(--color-mint-green-50); }
+    background-color: var(--color-black-8); }
   .dnb-table > thead > tr > th.dnb-table--sortable,
   .dnb-table .dnb-table__th.dnb-table--sortable {
     color: var(--color-emerald-green); }
