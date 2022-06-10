@@ -91,7 +91,7 @@ This is only meant for "setup testing" purposes! In order to make faster local b
 
 - Inside `gatsby-config.js` rename all sourcing from `/docs` to `/docs_dummy`
 
-Run `yarn workspace dnb-design-system-portal build`
+Run `yarn workspace dnb-design-system-portal build-visual-test`
 
 ## I get Gatsby 404 Not Found on the pages I work on
 
