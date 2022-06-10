@@ -9,7 +9,6 @@ on:
       - '!wip/**'
       - '!experiments/**'
       - '!release'
-      - '!main'
       - '!portal'
       - '!beta'
       - '!alpha'
