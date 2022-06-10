@@ -3,6 +3,8 @@
  *
  */
 
+import React from 'react'
+import { css, Global } from '@emotion/react'
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 export const TableVariantBasic = () => (
@@ -156,9 +158,25 @@ export const TableLongHeader = () => (
 )
 
 export const TableSticky = () => (
-  <ComponentBox hideCode data-visual-test="table-sticky">
-    {
-      /* jsx */ `
+  <>
+    <Global
+      styles={css`
+        body {
+          .dnb-app-content {
+            /** Because of position: sticky; */
+            overflow: visible;
+          }
+
+          .dnb-tabbar {
+            /** Because the tabbar has an bottom border that will be whown on top of the side-menu */
+            overflow: hidden;
+          }
+        }
+      `}
+    />
+    <ComponentBox hideCode data-visual-test="table-sticky">
+      {
+        /* jsx */ `
 <Table sticky={true} sticky_offset="4rem" className="dnb-table--fixed">
   <caption className="dnb-sr-only">A Table Caption</caption>
   <thead>
@@ -220,6 +238,7 @@ export const TableSticky = () => (
   </tbody>
 </Table>
 `
-    }
-  </ComponentBox>
+      }
+    </ComponentBox>
+  </>
 )
