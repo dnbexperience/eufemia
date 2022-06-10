@@ -89,12 +89,12 @@
     opacity: 0;
   }
   to {
-    opacity: var(--modal-overlay-opacity);
+    opacity: 1;
   }
 }
 @keyframes hide-modal-overlay {
   from {
-    opacity: var(--modal-overlay-opacity);
+    opacity: 1;
   }
   to {
     opacity: 0;

@@ -1916,11 +1916,11 @@ button.dnb-button::-moz-focus-inner {
   from {
     opacity: 0; }
   to {
-    opacity: var(--modal-overlay-opacity); } }
+    opacity: 1; } }
 
 @keyframes hide-modal-overlay {
   from {
-    opacity: var(--modal-overlay-opacity); }
+    opacity: 1; }
   to {
     opacity: 0; } }
 
@@ -2282,8 +2282,7 @@ button.dnb-button::-moz-focus-inner {
 :root {
   --modal-z-index: 3000;
   --modal-animation-duration: 300ms;
-  --modal-overlay-bg: black;
-  --modal-overlay-opacity: 0.32; }
+  --modal-overlay-bg: rgba(0, 0, 0, 0.32); }
 
 html[data-dnb-modal-active] {
   user-select: none;
@@ -2335,11 +2334,11 @@ html[data-dnb-modal-active] {
     height: 100%;
     background-color: var(--modal-overlay-bg); }
   .dnb-modal-root__inner .dnb-modal__overlay {
-    animation: hide-modal-overlay var(--modal-animation-duration) ease-in-out forwards; }
+    animation: hide-modal-overlay var(--modal-animation-duration) ease-out forwards; }
   .dnb-modal-root__inner:last-of-type .dnb-modal__overlay {
-    animation: show-modal-overlay var(--modal-animation-duration) ease-out forwards 0ms; }
+    animation: show-modal-overlay var(--modal-animation-duration) ease-out forwards; }
     .dnb-modal-root__inner:last-of-type .dnb-modal__overlay--hide {
-      animation: hide-modal-overlay var(--modal-animation-duration) ease-in-out forwards; }
+      animation: hide-modal-overlay var(--modal-animation-duration) ease-out forwards; }
   html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
     animation-delay: 0ms !important;
     animation-duration: 0ms !important; }

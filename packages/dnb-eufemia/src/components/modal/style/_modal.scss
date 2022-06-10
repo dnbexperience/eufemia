@@ -8,8 +8,7 @@
 :root {
   --modal-z-index: 3000;
   --modal-animation-duration: 300ms;
-  --modal-overlay-bg: black;
-  --modal-overlay-opacity: 0.32;
+  --modal-overlay-bg: rgba(0, 0, 0, 0.32);
 }
 
 html[data-dnb-modal-active] {
@@ -84,17 +83,17 @@ html[data-dnb-modal-active] {
   }
 
   &-root__inner &__overlay {
-    animation: hide-modal-overlay var(--modal-animation-duration)
-      ease-in-out forwards;
+    animation: hide-modal-overlay var(--modal-animation-duration) ease-out
+      forwards;
   }
 
   &-root__inner:last-of-type &__overlay {
     animation: show-modal-overlay var(--modal-animation-duration) ease-out
-      forwards 0ms;
+      forwards;
 
     &--hide {
       animation: hide-modal-overlay var(--modal-animation-duration)
-        ease-in-out forwards;
+        ease-out forwards;
     }
   }
 
