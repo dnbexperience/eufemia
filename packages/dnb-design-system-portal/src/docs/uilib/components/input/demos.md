@@ -3,7 +3,7 @@ showTabs: true
 ---
 
 import {
-ScreenshotTests,
+InputScreenshotTests,
 InputExampleDefault,
 InputExampleSearch,
 InputExampleMedium,
@@ -89,4 +89,4 @@ import InputPassword from '@dnb/eufemia/components/input/InputPassword'
 
 <InputExamplePassword />
 
-<ScreenshotTests />
+<InputScreenshotTests />

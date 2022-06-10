@@ -15,6 +15,7 @@ DatePickerNoInputStatus,
 DatePickerErrorMessage,
 DatePickerErrorStatus,
 DatePickerCalendar,
+DatePickerScreenshotTests,
 } from 'Docs/uilib/components/date-picker/Examples'
 import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
 
@@ -80,3 +81,5 @@ import enUS from '@dnb/eufemia/shared/locales/en-US'
 Also used for screenshot tests.
 
 <DatePickerCalendar />
+
+<DatePickerScreenshotTests />

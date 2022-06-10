@@ -33,6 +33,13 @@ describe('DatePicker screenshot', () => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('have to match the sizes', async () => {
+      const screenshot = await testPageScreenshot({
+        selector: '[data-visual-test="date-picker-sizes"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   }
 
   it('have to match the calendar', async () => {

@@ -1096,6 +1096,21 @@ describe('DatePicker component', () => {
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  describe('size', () => {
+    it('has correct small size', () => {
+      const Comp = mount(<Component {...defaultProps} size="small" />)
+      expect(Comp.find('.dnb-date-picker--small').exists()).toBe(true)
+    })
+    it('has correct medium size', () => {
+      const Comp = mount(<Component {...defaultProps} size="medium" />)
+      expect(Comp.find('.dnb-date-picker--medium').exists()).toBe(true)
+    })
+    it('has correct large size', () => {
+      const Comp = mount(<Component {...defaultProps} size="large" />)
+      expect(Comp.find('.dnb-date-picker--large').exists()).toBe(true)
+    })
+  })
 })
 
 // for the unit calc tests

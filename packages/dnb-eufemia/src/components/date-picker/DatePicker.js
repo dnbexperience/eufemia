@@ -148,6 +148,7 @@ export default class DatePicker extends React.PureComponent {
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
     status: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -233,6 +234,7 @@ export default class DatePicker extends React.PureComponent {
     disabled: null,
     stretch: null,
     skeleton: null,
+    size: null,
     status: null,
     status_state: 'error',
     status_props: null,
@@ -297,6 +299,7 @@ export default class DatePicker extends React.PureComponent {
 
   setTrianglePosition = () => {
     const { show_input, align_picker } = this.props
+    const triangleWidth = 16
     if (
       isTrue(show_input) &&
       this._triangleRef.current &&
@@ -310,12 +313,12 @@ export default class DatePicker extends React.PureComponent {
           .querySelector('.dnb-input__submit-button__button')
           .getBoundingClientRect().width
         if (align_picker === 'right') {
-          const distance = buttonWidth / 2 - 8
+          const distance = buttonWidth / 2 - triangleWidth / 2
           this._triangleRef.current.style.marginRight = `${
             distance / 16
           }rem`
         } else {
-          const distance = shellWidth - buttonWidth / 2 - 8
+          const distance = shellWidth - buttonWidth / 2 - triangleWidth / 2
           this._triangleRef.current.style.marginLeft = `${
             distance / 16
           }rem`
@@ -510,6 +513,7 @@ export default class DatePicker extends React.PureComponent {
       disabled,
       stretch,
       skeleton,
+      size,
       status,
       status_state,
       status_props,
@@ -588,6 +592,7 @@ export default class DatePicker extends React.PureComponent {
         align_picker && `dnb-date-picker--${align_picker}`,
         isTrue(stretch) && `dnb-date-picker--stretch`,
         'dnb-form-component',
+        size && `dnb-date-picker--${size}`,
         createSpacingClasses(props),
         _className,
         className
@@ -663,6 +668,7 @@ export default class DatePicker extends React.PureComponent {
                   input_element={input_element}
                   opened={opened}
                   hidden={hidden}
+                  size={size}
                   status={status ? 'error' : null}
                   status_state={status_state}
                   locale={locale}

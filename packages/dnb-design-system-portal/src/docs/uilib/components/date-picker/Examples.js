@@ -247,3 +247,42 @@ export const DatePickerCalendar = () => (
     </ComponentBox>
   </Wrapper>
 )
+
+export const DatePickerScreenshotTests = () => {
+  if (!global.IS_TEST) {
+    return null
+  }
+  return (
+    <Wrapper>
+      <ComponentBox data-visual-test="date-picker-sizes">
+        {() => /* jsx */ `
+<FormRow vertical>
+  <DatePicker
+    label="DatePicker:"
+    date={new Date()}
+    show_input={true}
+  />
+  <DatePicker
+    size="small"
+    label="DatePicker:"
+    date={new Date()}
+    show_input={true}
+  />
+  <DatePicker
+    size="medium"
+    label="DatePicker:"
+    date={new Date()}
+    show_input={true}
+  />
+  <DatePicker
+    size="large"
+    label="DatePicker:"
+    date={new Date()}
+    show_input={true}
+  />
+</FormRow>
+ `}
+      </ComponentBox>
+    </Wrapper>
+  )
+}
