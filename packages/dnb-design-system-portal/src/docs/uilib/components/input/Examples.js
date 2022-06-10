@@ -284,8 +284,8 @@ export const InputExampleClear = () => (
   </Wrapper>
 )
 
-export const ScreenshotTests = () => {
-  if (!global.IS_TEST) {
+export const InputScreenshotTests = () => {
+  if (!globalThis.IS_TEST) {
     return null
   }
   return (
