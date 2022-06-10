@@ -7,8 +7,9 @@
   "author": "DNB Team & Tobias Høegh",
   "main": "src/docs/index.js",
   "scripts": {
-    "build": "NODE_NO_WARNINGS=1 gatsby build --no-uglify",
+    "build": "NODE_NO_WARNINGS=1 gatsby build",
     "build-ci": "yarn build:version && yarn build --prefix-paths",
+    "build-visual-test": "SKIP_IMAGE_PROCESSING=1 gatsby build --no-uglify",
     "build:version": "node ./scripts/version.js --new-version",
     "clean": "NODE_NO_WARNINGS=1 gatsby clean",
     "precommit": "yarn lint-staged",

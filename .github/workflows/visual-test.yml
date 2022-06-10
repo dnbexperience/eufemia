@@ -70,7 +70,7 @@ jobs:
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-dev-
 
       - name: Build portal
-        run: yarn workspace dnb-design-system-portal build
+        run: yarn workspace dnb-design-system-portal build-visual-test
 
       - name: Run visual tests
         run: yarn workspace @dnb/eufemia test:screenshots:ci

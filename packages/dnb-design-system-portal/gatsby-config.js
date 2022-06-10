@@ -48,8 +48,8 @@ const plugins = [
   'gatsby-plugin-meta-redirect',
   'gatsby-plugin-catch-links',
   'gatsby-plugin-react-helmet',
-  'gatsby-plugin-sharp', // is used by gatsby-remark-images
-  'gatsby-remark-images',
+  process.env.SKIP_IMAGE_PROCESSING !== '1' && 'gatsby-plugin-sharp', // is used by gatsby-remark-images
+  process.env.SKIP_IMAGE_PROCESSING !== '1' && 'gatsby-remark-images',
   {
     resolve: 'gatsby-plugin-page-creator',
     options: {
@@ -83,7 +83,7 @@ const plugins = [
       // rehypePlugins: [], // hastPlugins
       // remarkPlugins: [], // mdPlugins
       gatsbyRemarkPlugins: [
-        {
+        process.env.SKIP_IMAGE_PROCESSING !== '1' && {
           resolve: 'gatsby-remark-images',
           options: {
             maxWidth: 1024,
@@ -93,7 +93,7 @@ const plugins = [
             // wrapperStyle: {}
           },
         },
-      ],
+      ].filter(Boolean),
       // Imports in here are globally available in *.md files
       // globalScope: `
       //   import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
