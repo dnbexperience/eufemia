@@ -88,6 +88,50 @@ exports.createPages = async (params) => {
   await createRedirects(params)
 }
 
+exports.onCreatePage = ({ page, actions }) => {
+  if (deletePageWhen(page.path)) {
+    actions.deletePage(page)
+  }
+}
+
+const deletePageWhen = (path) => {
+  if (process.env.IS_VISUAL_TEST_BUILD === '1') {
+    if (path.startsWith('/404')) {
+      return false
+    }
+    if (path.startsWith('/500')) {
+      return false
+    }
+    if (path === '/') {
+      return false
+    }
+
+    if (path.startsWith('/uilib')) {
+      if (path.endsWith('/uilib/usage')) {
+        return true
+      }
+      if (path.endsWith('/uilib/demos')) {
+        return true
+      }
+      if (path.endsWith('/properties')) {
+        return true
+      }
+      if (path.endsWith('/events')) {
+        return true
+      }
+      if (path.endsWith('/info')) {
+        return true
+      }
+
+      return false
+    }
+
+    return true
+  }
+
+  return false
+}
+
 async function createPages({ graphql, actions }) {
   const mdxResult = await graphql(/* GraphQL */ `
     {
@@ -117,6 +161,10 @@ async function createPages({ graphql, actions }) {
     // check if the slug is valid, in case we deleted one during build
     if (node?.slug) {
       const slug = node.slug
+
+      if (deletePageWhen('/' + slug)) {
+        return // stop here
+      }
 
       createPage({
         path: slug,
