@@ -55,6 +55,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-helmet": "6.1.0",
+    "react-live-ssr": "workspace:*",
     "react-router-dom": "5.3.0",
     "smoothscroll-polyfill": "0.4.4"
   },
@@ -81,6 +82,7 @@
     "gatsby-plugin-algolia": "0.26.0",
     "gatsby-plugin-catch-links": "4.16.0",
     "gatsby-plugin-emotion": "7.1.0",
+    "gatsby-plugin-eufemia-theme-handler": "workspace:*",
     "gatsby-plugin-gatsby-cloud": "4.16.0",
     "gatsby-plugin-manifest": "4.16.0",
     "gatsby-plugin-mdx": "3.16.0",
@@ -110,6 +112,7 @@
     "raw-loader": "4.0.2",
     "react-live": "3.1.1",
     "react-markdown": "7.1.0",
+    "repo-utils": "workspace:*",
     "sass": "1.43.4",
     "start-server-and-test": "1.14.0",
     "storybook-utils": "workspace:*",
