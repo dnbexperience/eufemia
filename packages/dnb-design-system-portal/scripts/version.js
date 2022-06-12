@@ -5,7 +5,7 @@
 
 const fs = require('fs-extra')
 const path = require('path')
-const { isCI } = require('ci-info')
+const { isCI } = require('repo-utils')
 const {
   getNextReleaseVersion,
 } = require('@dnb/eufemia/scripts/postbuild/getNextReleaseVersion')
