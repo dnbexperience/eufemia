@@ -1,7 +1,7 @@
 import { isTrue } from '../../shared/component-helper'
 
 type FormRowProps = {
-  label_direction?: string
+  label_direction?: 'vertical' | 'horizontal'
   vertical?: string
 }
 
