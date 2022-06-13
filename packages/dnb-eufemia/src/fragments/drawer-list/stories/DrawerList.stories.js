@@ -20,7 +20,7 @@ const Drawer = styled(DrawerList)`
   margin-bottom: 4rem;
 `
 const CustomStyle = styled.div`
-  [data-visual-test='dropdown-list'].dnb-drawer-list__list {
+  [data-testid='dropdown-list'].dnb-drawer-list__list {
     display: block;
     visibility: visible;
     position: relative;

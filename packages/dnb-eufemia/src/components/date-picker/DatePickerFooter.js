@@ -116,7 +116,7 @@ export default class DatePickerFooter extends React.PureComponent {
           <Button
             text={submit_button_text}
             onClick={this.onSubmitHandler}
-            data-visual-test="submit"
+            data-testid="submit"
           />
         )) || <span />}
 
@@ -128,7 +128,7 @@ export default class DatePickerFooter extends React.PureComponent {
               icon_position="left"
               variant="tertiary"
               onClick={this.onResetHandler}
-              data-visual-test="reset"
+              data-testid="reset"
             />
           )) || <span />}
 
@@ -139,7 +139,7 @@ export default class DatePickerFooter extends React.PureComponent {
               icon_position="left"
               variant="tertiary"
               onClick={this.onCancelHandler}
-              data-visual-test="cancel"
+              data-testid="cancel"
             />
           )) || <span />}
         </span>
