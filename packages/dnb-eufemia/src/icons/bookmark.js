@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-const exclamation = (props) => (
+const bookmark = (props) => (
   <svg
     width={16}
     height={16}
@@ -12,13 +12,14 @@ const exclamation = (props) => (
     {...props}
   >
     <path
-      d="M8 10.412V2m-.177 11.519h.346m.08 0c0 .183-.16.243-.249.243-.092 0-.252-.06-.252-.243 0-.197.16-.257.252-.257.088 0 .248.06.248.257Z"
+      clipRule="evenodd"
+      d="M12.057 14.913 8 12.073l-4.057 2.84a.481.481 0 0 1-.757-.394V1.963c0-.532.43-.963.962-.963h7.704c.531 0 .962.431.962.963v12.556a.481.481 0 0 1-.757.394Z"
       stroke="#000"
       strokeWidth={1.5}
-      strokeMiterlimit={10}
       strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 )
 
-export default exclamation
+export default bookmark

@@ -2,18 +2,18 @@
 
 import React from 'react'
 
-const reply = (props) => (
+const bookmark_medium = (props) => (
   <svg
-    width={16}
-    height={16}
-    viewBox="0 0 16 16"
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
     <path
       clipRule="evenodd"
-      d="M6.389 3.028a1 1 0 0 0-1.733-.678L1.015 6.292a1 1 0 0 0 0 1.356l3.639 3.943a1 1 0 0 0 1.733-.679V8.97h4a5 5 0 0 1 5 5v-4a5 5 0 0 0-5-5h-4l.002-1.942Z"
+      d="M18.32 22.77 12 18.344 5.68 22.77a.75.75 0 0 1-1.18-.614V2.595a1.5 1.5 0 0 1 1.5-1.5h12a1.5 1.5 0 0 1 1.5 1.5v19.56a.75.75 0 0 1-1.18.614Z"
       stroke="#000"
       strokeWidth={1.5}
       strokeLinecap="round"
@@ -22,4 +22,4 @@ const reply = (props) => (
   </svg>
 )
 
-export default reply
+export default bookmark_medium

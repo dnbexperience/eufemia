@@ -20,6 +20,7 @@ import bankid_mobile from './bankid_mobile.js'
 import bankid_qr from './bankid_qr.js'
 import bicycle from './bicycle.js'
 import boat from './boat.js'
+import bookmark from './bookmark.js'
 import bowling from './bowling.js'
 import brickwall from './brickwall.js'
 import broken_chain from './broken_chain.js'
@@ -28,6 +29,7 @@ import bsu from './bsu.js'
 import bubble from './bubble.js'
 import building_construction from './building_construction.js'
 import calculator from './calculator.js'
+import calendar_cancel from './calendar_cancel.js'
 import camera from './camera.js'
 import camper_trailer from './camper_trailer.js'
 import car_1 from './car_1.js'
@@ -240,6 +242,7 @@ export {
   bankid_qr,
   bicycle,
   boat,
+  bookmark,
   bowling,
   brickwall,
   broken_chain,
@@ -248,6 +251,7 @@ export {
   bubble,
   building_construction,
   calculator,
+  calendar_cancel,
   camera,
   camper_trailer,
   car_1,
