@@ -309,15 +309,15 @@ describe('DatePicker component', () => {
       />
     )
 
-    const resetElem = Comp.find('button[data-visual-test="reset"]')
+    const resetElem = Comp.find('button[data-testid="reset"]')
     expect(resetElem.exists()).toBe(true)
     expect(resetElem.text()).toMatch('Tilbakestill')
 
-    const cancelElem = Comp.find('button[data-visual-test="cancel"]')
+    const cancelElem = Comp.find('button[data-testid="cancel"]')
     expect(cancelElem.exists()).toBe(true)
     expect(cancelElem.text()).toMatch('Avbryt')
 
-    const submitElem = Comp.find('button[data-visual-test="submit"]')
+    const submitElem = Comp.find('button[data-testid="submit"]')
     expect(submitElem.exists()).toBe(true)
     expect(submitElem.text()).toMatch('Ok')
 
@@ -368,7 +368,7 @@ describe('DatePicker component', () => {
       />
     )
 
-    const resetElem = Comp.find('button[data-visual-test="reset"]')
+    const resetElem = Comp.find('button[data-testid="reset"]')
     expect(resetElem.exists()).toBe(true)
     expect(resetElem.text()).toMatch(reset_button_text)
   })

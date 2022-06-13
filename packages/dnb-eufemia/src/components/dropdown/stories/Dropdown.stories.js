@@ -25,7 +25,7 @@ export default {
 }
 
 const CustomStyle = styled.div`
-  [data-visual-test='dropdown-list'].dnb-drawer-list__list {
+  [data-testid='dropdown-list'].dnb-drawer-list__list {
     display: block;
     visibility: visible;
     position: relative;
@@ -539,7 +539,7 @@ const DropdownStory = () => {
       </Box>
       <Box>
         <span
-          data-visual-test="dropdown-list"
+          data-testid="dropdown-list"
           className="dnb-drawer-list__list"
         >
           <ul className="dnb-drawer-list__options">
