@@ -1,11 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { css } from '@emotion/react'
 import { AnchorLink } from './Anchor'
 import { Heading } from '@dnb/eufemia/src'
 import { makeSlug } from '../../uilib/utils/slug'
-// import { convertJsxToString } from '@dnb/eufemia/src/shared/component-helper'
-import { Location } from '@reach/router'
+import { Location, WindowLocation } from '@reach/router'
 
 const anchorLinkStyle = css`
   .anchor {
@@ -74,8 +72,26 @@ const anchorLinkStyle = css`
   }
 `
 
+type AutoLinkHeaderProps = {
+  level?: number | string
+  title?: string
+  element?: string
+  useSlug?: string
+  className?: string
+  children: React.ReactNode
+  addToSearchIndex?: ({
+    location,
+    title,
+    hash,
+  }: {
+    location?: WindowLocation
+    title?: string | React.ReactNode
+    hash?: string
+  }) => void
+}
+
 const AutoLinkHeader = ({
-  level,
+  level = '1',
   element,
   useSlug,
   children,
@@ -83,7 +99,7 @@ const AutoLinkHeader = ({
   className,
   addToSearchIndex,
   ...props
-}) => {
+}: AutoLinkHeaderProps) => {
   const id = makeSlug(children, useSlug)
 
   if (typeof children === 'string' && /\{#(.*)\}/.test(children)) {
@@ -124,6 +140,7 @@ const AutoLinkHeader = ({
           #
         </AnchorLink>
       )}
+      {/* @ts-ignore */}
       <Location>
         {({ location }) => {
           if (typeof addToSearchIndex === 'function') {
@@ -138,23 +155,6 @@ const AutoLinkHeader = ({
       </Location>
     </Heading>
   )
-}
-AutoLinkHeader.propTypes = {
-  level: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  title: PropTypes.string,
-  element: PropTypes.string,
-  useSlug: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node.isRequired,
-  addToSearchIndex: PropTypes.func,
-}
-AutoLinkHeader.defaultProps = {
-  level: '1',
-  title: null,
-  element: null,
-  useSlug: null,
-  className: null,
-  addToSearchIndex: null,
 }
 
 export default AutoLinkHeader

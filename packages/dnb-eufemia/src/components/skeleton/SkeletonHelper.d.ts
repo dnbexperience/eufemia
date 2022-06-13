@@ -1,14 +1,17 @@
 import * as React from 'react';
 import { SkeletonShow } from './Skeleton';
+
 export interface AutoSizeProps {
   __element?: React.ReactNode;
   children?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
 }
+
 export class AutoSize extends React.Component<AutoSizeProps, any> {
   render(): JSX.Element;
 }
+
 export interface SkeletonContextProps {
   translation?: {
     Skeleton?: {
@@ -19,11 +22,13 @@ export interface SkeletonContextProps {
     };
   };
 }
+
 export const createSkeletonClass: (
-  method: 'shape' | 'font',
+  method: 'shape' | 'font' | 'code',
   skeleton: SkeletonShow,
   context?: SkeletonContextProps
-) => React.HTMLProps<HTMLElement>;
+) => string;
+
 export interface skeletonDOMAttributesContext {
   translation?: {
     Skeleton: {
@@ -34,8 +39,9 @@ export interface skeletonDOMAttributesContext {
     };
   };
 }
+
 export const skeletonDOMAttributes: (
   params: React.HTMLProps<HTMLElement>,
   skeleton: boolean,
   context?: SkeletonContextProps
-) => React.HTMLProps<HTMLElement>;
+) => void;
