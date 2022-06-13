@@ -338,12 +338,3 @@ Fieldset.defaultProps = {
   useFieldset: false,
   className: null,
 }
-
-export const prepareFormRowContext = (props) => {
-  if (typeof props.label_direction === 'undefined') {
-    props.label_direction = isTrue(props.vertical)
-      ? 'vertical'
-      : props.label_direction
-  }
-  return props
-}

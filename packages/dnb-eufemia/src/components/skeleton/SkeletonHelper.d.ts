@@ -11,7 +11,7 @@ export class AutoSize extends React.Component<AutoSizeProps, any> {
 }
 export interface SkeletonContextProps {
   translation?: {
-    Skeleton: {
+    Skeleton?: {
       /**
        * Is used for screen reader text translation, defined in the translation files. You can set a custom text if needed.
        */

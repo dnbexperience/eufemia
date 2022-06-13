@@ -4,27 +4,48 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import Context, { prepareContext } from './Context'
+import type { ContextProps } from './Context'
 import { makeUniqueId } from './component-helper'
+import { prepareFormRowContext } from '../components/form-row/FormRowHelpers'
 
-// fill with data
-import { prepareFormRowContext } from '../components/form-row/FormRow'
+export type ProviderProps = {
+  /**
+   * Send in an object that gets spread as properties to the Provider
+   */
+  value?: ContextProps
 
-export default class Provider extends React.PureComponent {
+  /**
+   * Define the locale used for every Eufemia components inside this Provider. Defaults to nb-NO
+   */
+  locale?: string
+
+  /**
+   * Enable skeleton of every Eufemia component inside this Provider
+   */
+  skeleton?: boolean | string // SkeletonShow
+
+  /**
+   * The content
+   */
+  children: React.ReactNode
+} & ContextProps
+
+export type ProviderState = {
+  /** For internal use */
+  isRoot?: boolean
+  _listenForPropChanges?: boolean
+  _startupProps?: ContextProps
+} & ContextProps
+
+export default class Provider extends React.PureComponent<
+  ProviderProps,
+  ProviderState
+> {
   static contextType = Context
-  static propTypes = {
-    /** Send in an object that gets spread as properties to the Provider */
-    value: PropTypes.object, // eslint-disable-line
-    /** Define the locale used for every Eufemia components inside this Provider. Defaults to nb-NO */
-    locale: PropTypes.string, // eslint-disable-line
-    /** Enable skeleton of every Eufemia component inside this Provider */
-    skeleton: PropTypes.bool, // eslint-disable-line
-    children: PropTypes.node.isRequired,
-  }
 
   // NB! Do not provide any default props, because they would overwrite inherited values in nested provider
-  static defaultProps = {}
+  static defaultProps: Record<string, unknown> = {}
 
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
@@ -33,10 +54,7 @@ export default class Provider extends React.PureComponent {
         ...updatedProps
       } = props
 
-      // 1. Set default context to be overwritten by the provider props
-      // let newContext = state
-
-      // No, it's not sure that props have been updated, so we check that here
+      // 1. It's not sure that props have been updated, so we check that here
       if (state._startupProps !== updatedProps) {
         let hasChanges = false
         for (const i in updatedProps) {
@@ -78,7 +96,7 @@ export default class Provider extends React.PureComponent {
     const merge = { ...value, ...rest }
 
     // Merge our new values with an existing context
-    let mergedContext = { ...context, ...merge }
+    const mergedContext = { ...context, ...merge }
 
     // Because we don't want to deep merge, we merge FormRow additionally
     if (context.FormRow && merge.FormRow) {
@@ -114,11 +132,12 @@ export default class Provider extends React.PureComponent {
     const pC = isRoot ? prepareContext(newContext) : newContext
 
     // change only current context
-    pC.updateCurrent = (props) => this.setNewContext(props)
-    pC.setCurrentLocale = (locale) => this.setNewContext({ locale })
+    pC.updateCurrent = (props: ContextProps) => this.setNewContext(props)
+    pC.setCurrentLocale = (locale: string) =>
+      this.setNewContext({ locale })
 
     // change both the root and the current context
-    pC.update = (props) => {
+    pC.update = (props: ContextProps) => {
       // Update the root context
       if (typeof context.update === 'function') {
         context.update(props)
@@ -126,7 +145,7 @@ export default class Provider extends React.PureComponent {
 
       this.setNewContext(props)
     }
-    pC.setLocale = (locale) => {
+    pC.setLocale = (locale: string) => {
       // Update the root context
       if (typeof context.update === 'function') {
         context.update({ locale })
@@ -135,10 +154,10 @@ export default class Provider extends React.PureComponent {
       this.setNewContext({ locale })
     }
 
+    pC.isRoot = isRoot
+    pC._listenForPropChanges = true
+    pC._startupProps = startupProps
     this.state = pC
-    this.state.isRoot = isRoot
-    this.state._listenForPropChanges = true
-    this.state._startupProps = startupProps
   }
 
   setNewContext(__newContext) {
@@ -169,6 +188,8 @@ export default class Provider extends React.PureComponent {
     this.context.updateTranslation(value.locale, value.translation)
 
     return (
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       <Context.Provider value={value}>
         {this.props.children}
       </Context.Provider>
