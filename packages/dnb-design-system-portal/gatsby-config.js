@@ -51,6 +51,14 @@ const plugins = [
   process.env.SKIP_IMAGE_PROCESSING !== '1' && 'gatsby-plugin-sharp', // is used by gatsby-remark-images
   process.env.SKIP_IMAGE_PROCESSING !== '1' && 'gatsby-remark-images',
   {
+    resolve: 'gatsby-source-filesystem',
+    options: {
+      path: `${__dirname}/src/docs`, //for .md (mdx) files
+      name: 'docs',
+      ignore: ['**/Examples.*', '**/*_not_in_use*'],
+    },
+  },
+  {
     resolve: 'gatsby-plugin-page-creator',
     options: {
       ignore: [
@@ -65,14 +73,6 @@ const plugins = [
       ],
       path: `${__dirname}/src/docs`, // for .js files
       name: 'docs',
-    },
-  },
-  {
-    resolve: 'gatsby-source-filesystem',
-    options: {
-      path: `${__dirname}/src/docs`, //for .md (mdx) files
-      name: 'docs',
-      ignore: ['**/Examples.*', '**/*_not_in_use*'],
     },
   },
   {
@@ -136,18 +136,20 @@ if (currentBranch === 'release') {
 }
 
 // Algolia search
-const queries = require('./src/uilib/search/searchQuery')
-if (queries) {
-  plugins.push({
-    resolve: 'gatsby-plugin-algolia',
-    options: {
-      appId: process.env.ALGOLIA_APP_ID,
-      apiKey: process.env.ALGOLIA_API_KEY,
-      indexName: process.env.ALGOLIA_INDEX_NAME, // for all queries
-      queries,
-      chunkSize: 10000, // default: 1000
-    },
-  })
+if (process.env.IS_VISUAL_TEST !== '1') {
+  const queries = require('./src/uilib/search/searchQuery')
+  if (queries) {
+    plugins.push({
+      resolve: 'gatsby-plugin-algolia',
+      options: {
+        appId: process.env.ALGOLIA_APP_ID,
+        apiKey: process.env.ALGOLIA_API_KEY,
+        indexName: process.env.ALGOLIA_INDEX_NAME, // for all queries
+        queries,
+        chunkSize: 10000, // default: 1000
+      },
+    })
+  }
 }
 
 module.exports = {
