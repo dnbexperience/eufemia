@@ -2953,7 +2953,7 @@ __metadata:
     stylelint-config-recommended: 5.0.0
     stylelint-config-standard: 22.0.0
     stylelint-scss: 3.21.0
-    svg2vectordrawable: 2.8.3
+    svg2vectordrawable: 2.9.1
     svgo: 2.8.0
     tar: 6.1.11
     traverse: 0.6.6
@@ -33947,15 +33947,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svg2vectordrawable@npm:2.8.3":
-  version: 2.8.3
-  resolution: "svg2vectordrawable@npm:2.8.3"
+"svg2vectordrawable@npm:2.9.1":
+  version: 2.9.1
+  resolution: "svg2vectordrawable@npm:2.9.1"
   dependencies:
     coa: ^2.0.2
     mkdirp: ^1.0.4
     svg-path-bounds: ^1.0.1
     svgo: ^2.8.0
-    svgpath: ^2.3.0
+    svgpath: ^2.5.0
   bin:
     s2v: bin/svg2vectordrawable
     svg2android: bin/svg2vectordrawable
@@ -33963,7 +33963,7 @@ __metadata:
     svg2drawable: bin/svg2vectordrawable
     svg2vector: bin/svg2vectordrawable
     svg2vectordrawable: bin/svg2vectordrawable
-  checksum: 7fbfeb817ebbe083142863db465812d5a24e33256eb8e03122705988f8b0cc579611d2a424e36f401ac7bfcd87f946afff0f618066538e10951b922b4d014c17
+  checksum: 37f83e21f6dd81a09afcbe2b01f09c9cde3f9c1614045a66e5ae82d550f2629b0bad6335913fd13e8dc1d885bcfcb184f410100419ec3ba53380ae0a2034c939
   languageName: node
   linkType: hard
 
@@ -34041,10 +34041,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svgpath@npm:^2.3.0":
-  version: 2.3.1
-  resolution: "svgpath@npm:2.3.1"
-  checksum: 3414d01c8f88258e13438be3f3108a72490aab3097233b0567aa9dce6ca86e0a78e9b99d62a47ba8908b0e3b2e0ec850ceafdd2588447c1a6d530e90813ebc73
+"svgpath@npm:^2.5.0":
+  version: 2.5.0
+  resolution: "svgpath@npm:2.5.0"
+  checksum: 90301456898dfce54a4d55755db57d4f0e5df3ee80cedce9f75fa08e1703b814daedfccd3adf87d3460b20d40310009832539e83924dc8b6151fe58ec0ec6732
   languageName: node
   linkType: hard
 

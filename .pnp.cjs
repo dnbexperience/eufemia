@@ -6209,7 +6209,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["stylelint-config-recommended", "virtual:6e04532805c52c19b5bfb720d44d72efa045e46ab5293c82627f623c23345b425bc6bf4d439604ae9e9669431bef8174bbaa0e15186f9733dd79a32efcc4b66e#npm:5.0.0"],\
             ["stylelint-config-standard", "virtual:6e04532805c52c19b5bfb720d44d72efa045e46ab5293c82627f623c23345b425bc6bf4d439604ae9e9669431bef8174bbaa0e15186f9733dd79a32efcc4b66e#npm:22.0.0"],\
             ["stylelint-scss", "virtual:6e04532805c52c19b5bfb720d44d72efa045e46ab5293c82627f623c23345b425bc6bf4d439604ae9e9669431bef8174bbaa0e15186f9733dd79a32efcc4b66e#npm:3.21.0"],\
-            ["svg2vectordrawable", "npm:2.8.3"],\
+            ["svg2vectordrawable", "npm:2.9.1"],\
             ["svgo", "npm:2.8.0"],\
             ["tar", "npm:6.1.11"],\
             ["traverse", "npm:0.6.6"],\
@@ -6374,7 +6374,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["stylelint-config-recommended", "virtual:6e04532805c52c19b5bfb720d44d72efa045e46ab5293c82627f623c23345b425bc6bf4d439604ae9e9669431bef8174bbaa0e15186f9733dd79a32efcc4b66e#npm:5.0.0"],\
             ["stylelint-config-standard", "virtual:6e04532805c52c19b5bfb720d44d72efa045e46ab5293c82627f623c23345b425bc6bf4d439604ae9e9669431bef8174bbaa0e15186f9733dd79a32efcc4b66e#npm:22.0.0"],\
             ["stylelint-scss", "virtual:6e04532805c52c19b5bfb720d44d72efa045e46ab5293c82627f623c23345b425bc6bf4d439604ae9e9669431bef8174bbaa0e15186f9733dd79a32efcc4b66e#npm:3.21.0"],\
-            ["svg2vectordrawable", "npm:2.8.3"],\
+            ["svg2vectordrawable", "npm:2.9.1"],\
             ["svgo", "npm:2.8.0"],\
             ["tar", "npm:6.1.11"],\
             ["traverse", "npm:0.6.6"],\
@@ -6535,7 +6535,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["stylelint-config-recommended", "virtual:6e04532805c52c19b5bfb720d44d72efa045e46ab5293c82627f623c23345b425bc6bf4d439604ae9e9669431bef8174bbaa0e15186f9733dd79a32efcc4b66e#npm:5.0.0"],\
             ["stylelint-config-standard", "virtual:6e04532805c52c19b5bfb720d44d72efa045e46ab5293c82627f623c23345b425bc6bf4d439604ae9e9669431bef8174bbaa0e15186f9733dd79a32efcc4b66e#npm:22.0.0"],\
             ["stylelint-scss", "virtual:6e04532805c52c19b5bfb720d44d72efa045e46ab5293c82627f623c23345b425bc6bf4d439604ae9e9669431bef8174bbaa0e15186f9733dd79a32efcc4b66e#npm:3.21.0"],\
-            ["svg2vectordrawable", "npm:2.8.3"],\
+            ["svg2vectordrawable", "npm:2.9.1"],\
             ["svgo", "npm:2.8.0"],\
             ["tar", "npm:6.1.11"],\
             ["traverse", "npm:0.6.6"],\
@@ -44583,15 +44583,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["svg2vectordrawable", [\
-        ["npm:2.8.3", {\
-          "packageLocation": "./.yarn/cache/svg2vectordrawable-npm-2.8.3-f9eefbebfc-7fbfeb817e.zip/node_modules/svg2vectordrawable/",\
+        ["npm:2.9.1", {\
+          "packageLocation": "./.yarn/cache/svg2vectordrawable-npm-2.9.1-d4332b8762-37f83e21f6.zip/node_modules/svg2vectordrawable/",\
           "packageDependencies": [\
-            ["svg2vectordrawable", "npm:2.8.3"],\
+            ["svg2vectordrawable", "npm:2.9.1"],\
             ["coa", "npm:2.0.2"],\
             ["mkdirp", "npm:1.0.4"],\
             ["svg-path-bounds", "npm:1.0.2"],\
             ["svgo", "npm:2.3.0"],\
-            ["svgpath", "npm:2.3.1"]\
+            ["svgpath", "npm:2.5.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -44661,10 +44661,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["svgpath", [\
-        ["npm:2.3.1", {\
-          "packageLocation": "./.yarn/cache/svgpath-npm-2.3.1-611351cec5-3414d01c8f.zip/node_modules/svgpath/",\
+        ["npm:2.5.0", {\
+          "packageLocation": "./.yarn/cache/svgpath-npm-2.5.0-05befb292f-9030145689.zip/node_modules/svgpath/",\
           "packageDependencies": [\
-            ["svgpath", "npm:2.3.1"]\
+            ["svgpath", "npm:2.5.0"]\
           ],\
           "linkType": "HARD"\
         }]\

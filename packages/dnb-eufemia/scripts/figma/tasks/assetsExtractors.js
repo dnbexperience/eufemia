@@ -7,7 +7,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import prettier from 'prettier'
 import { optimize, loadConfig } from 'svgo' // eslint-disable-line
-import svg2vectordrawable from 'svg2vectordrawable/src/svg-file-to-vectordrawable-file'
+import * as  svg2vectordrawable from 'svg2vectordrawable/src/svg-file-to-vectordrawable-file'
 import { asyncForEach } from '../../tools'
 import { ERROR_HARMLESS } from '../../lib/error'
 import { log, ErrorHandler } from '../../lib'
@@ -864,7 +864,7 @@ const createXMLTarBundles = async ({
         const source = path.resolve(destDir, iconFile)
         const dest = path.resolve(destDir, iconFileXML)
 
-        await svg2vectordrawable(source, dest, floatPrecision)
+        await svg2vectordrawable.convertFile(source, dest, floatPrecision)
       }
     )
   }
