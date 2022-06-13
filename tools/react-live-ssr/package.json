@@ -9,6 +9,10 @@
   "scripts": {
     "prettier:package": "prettier-package-json --write ./package.json"
   },
+  "dependencies": {
+    "prism-react-renderer": "1.3.3",
+    "sucrase": "3.21.0"
+  },
   "volta": {
     "extends": "../../package.json"
   }
