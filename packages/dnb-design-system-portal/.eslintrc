@@ -40,7 +40,7 @@
   },
   "settings": {
     "react": {
-      "version": ">=17"
+      "version": ">=16.12"
     }
   }
 }
