@@ -52,6 +52,8 @@ import bicycle from './bicycle.js'
 import bicycle_medium from './bicycle_medium.js'
 import boat from './boat.js'
 import boat_medium from './boat_medium.js'
+import bookmark from './bookmark.js'
+import bookmark_medium from './bookmark_medium.js'
 import bowling from './bowling.js'
 import bowling_medium from './bowling_medium.js'
 import brickwall from './brickwall.js'
@@ -69,6 +71,8 @@ import building_construction_medium from './building_construction_medium.js'
 import calculator from './calculator.js'
 import calculator_medium from './calculator_medium.js'
 import calendar from './calendar.js'
+import calendar_cancel from './calendar_cancel.js'
+import calendar_cancel_medium from './calendar_cancel_medium.js'
 import calendar_medium from './calendar_medium.js'
 import camera from './camera.js'
 import camera_medium from './camera_medium.js'
@@ -561,6 +565,8 @@ export {
   bicycle_medium,
   boat,
   boat_medium,
+  bookmark,
+  bookmark_medium,
   bowling,
   bowling_medium,
   brickwall,
@@ -578,6 +584,8 @@ export {
   calculator,
   calculator_medium,
   calendar,
+  calendar_cancel,
+  calendar_cancel_medium,
   calendar_medium,
   camera,
   camera_medium,
