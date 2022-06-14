@@ -14,7 +14,7 @@ const ora = require('ora')
 const log = ora()
 
 // We may use one of these: load, domcontentloaded, networkidle2
-const waitUntil = isCI ? 'load' : 'load'
+const waitUntil = isCI ? 'networkidle2' : 'load'
 
 const config = {
   DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
@@ -143,6 +143,15 @@ module.exports.testPageScreenshot = async ({
 
   if (config.delayDuringNonheadless > 0) {
     await page.waitForTimeout(config.delayDuringNonheadless)
+  }
+
+  /**
+   * After puppeteer v10.2.0 with Chromium v93.0.4577.0
+   * we need this delay to get consistent render results before making the screenshots.
+   * Else, the rendering is about 1%-2% off every time.
+   */
+  if (!isCI) {
+    await page.waitForTimeout(100)
   }
 
   const screenshot = await takeScreenshot({
