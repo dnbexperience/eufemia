@@ -53,7 +53,7 @@ describe('Drawer simple screenshot', () => {
       simulateSelector:
         '[data-visual-test="simple-drawer"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
+      rootClassName: ['hide-page-content', 'hide-tooltip'],,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -72,7 +72,7 @@ describe('Drawer full screenshot', () => {
       simulateSelector:
         '[data-visual-test="full-drawer"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
+      rootClassName: ['hide-page-content', 'hide-tooltip'],,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -91,7 +91,7 @@ describe('Drawer custom trigger screenshot', () => {
       simulateSelector:
         '[data-visual-test="callback-drawer"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
+      rootClassName: ['hide-page-content', 'hide-tooltip'],,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -110,7 +110,7 @@ describe('Drawer no animation/spacing screenshot', () => {
       simulateSelector:
         '[data-visual-test="drawer-no-animation"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
+      rootClassName: ['hide-page-content', 'hide-tooltip'],,
     })
     expect(screenshot).toMatchImageSnapshot()
   })

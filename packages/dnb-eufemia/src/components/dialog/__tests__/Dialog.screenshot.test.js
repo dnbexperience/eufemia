@@ -54,7 +54,7 @@ describe('Dialog suffix screenshot', () => {
       simulateSelector:
         '[data-visual-test="dialog-help-button"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
+      rootClassName: ['hide-page-content', 'hide-tooltip'],
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -73,7 +73,7 @@ describe('Dialog fullscreen screenshot', () => {
       simulateSelector:
         '[data-visual-test="dialog-fullscreen"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
+      rootClassName: ['hide-page-content', 'hide-tooltip'],
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -92,7 +92,7 @@ describe('Dialog custom trigger screenshot', () => {
       simulateSelector:
         '[data-visual-test="dialog-custom-trigger"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
+      rootClassName: ['hide-page-content', 'hide-tooltip'],
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -111,7 +111,7 @@ describe('Dialog progressindicator screenshot', () => {
       simulateSelector:
         '[data-visual-test="dialog-progress-indicator"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
+      rootClassName: ['hide-page-content', 'hide-tooltip'],
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -130,7 +130,7 @@ describe('Dialog custom screenshot', () => {
       simulateSelector:
         '[data-visual-test="full-dialog"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
+      rootClassName: ['hide-page-content', 'hide-tooltip'],
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -149,7 +149,7 @@ describe('Dialog confirmation screenshot', () => {
       simulateSelector:
         '[data-visual-test="dialog-confirm-default"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
+      rootClassName: ['hide-page-content', 'hide-tooltip'],
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -168,7 +168,7 @@ describe('Dialog confirmation screenshot', () => {
       simulateSelector:
         '[data-visual-test="dialog-confirm-delete"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
+      rootClassName: ['hide-page-content', 'hide-tooltip'],
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -186,7 +186,7 @@ describe('Dialog confirmation screenshot', () => {
       simulateSelector:
         '[data-visual-test="dialog-confirm-loggedout"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
+      rootClassName: ['hide-page-content', 'hide-tooltip'],
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -204,7 +204,7 @@ describe('Dialog confirmation screenshot', () => {
       simulateSelector:
         '[data-visual-test="dialog-confirm-cookie"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
+      rootClassName: ['hide-page-content', 'hide-tooltip'],
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -223,7 +223,7 @@ describe('Dialog simple screenshot', () => {
       simulateSelector:
         '[data-visual-test="dialog-default"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
+      rootClassName: ['hide-page-content', 'hide-tooltip'],
       waitBeforeSimulate: 200,
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -249,7 +249,7 @@ describe('Dialog scrollable content screenshot', () => {
       simulateSelector:
         '[data-visual-test="dialog-scroll-content"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
+      rootClassName: ['hide-page-content', 'hide-tooltip'],
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -263,7 +263,11 @@ describe('Dialog scrollable content screenshot', () => {
       simulateSelector:
         '[data-visual-test="dialog-scroll-content"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
-      rootClassName: ['hide-page-content', 'scroll-to-bottom'],
+      rootClassName: [
+        'hide-page-content',
+        'hide-tooltip',
+        'scroll-to-bottom',
+      ],
     })
     expect(screenshot).toMatchImageSnapshot()
   })

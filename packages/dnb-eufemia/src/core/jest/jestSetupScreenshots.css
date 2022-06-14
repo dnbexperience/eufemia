@@ -32,3 +32,11 @@ html[data-visual-test] .dnb-app-content {
 
   background: #fff;
 }
+
+[data-visual-test].hide-page-content #___gatsby {
+  /* NB: visibility: hidden; does not work here, because puppeteer does not find the selectors anymore */
+  opacity: 0;
+}
+[data-visual-test].hide-tooltip .dnb-tooltip__portal {
+  opacity: 0;
+}

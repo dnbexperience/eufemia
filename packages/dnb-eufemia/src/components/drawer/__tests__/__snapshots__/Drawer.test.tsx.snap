@@ -2103,9 +2103,6 @@ button.dnb-button::-moz-focus-inner {
       animation-delay: 0ms !important;
       animation-duration: 0ms !important; } }
 
-[data-visual-test].hide-page-content #___gatsby {
-  opacity: 0; }
-
 /*
  * Dialog component
  *
@@ -2272,9 +2269,6 @@ button.dnb-button::-moz-focus-inner {
       .dnb-dialog .dnb-scroll-view {
         max-height: 82vh; } } }
 
-[data-visual-test].hide-page-content #___gatsby {
-  opacity: 0; }
-
 /*
  * Modal component
  *
@@ -2364,9 +2358,6 @@ html[data-dnb-modal-active] {
   @media screen and (-ms-high-contrast: none) {
     .dnb-core-style .dnb-modal__header__bar__close {
       margin-left: auto; } }
-
-[data-visual-test].hide-page-content #___gatsby {
-  opacity: 0; }
 
 .dnb-drawer {
   font-family: var(--font-family-default);

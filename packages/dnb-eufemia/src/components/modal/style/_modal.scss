@@ -140,8 +140,3 @@ html[data-dnb-modal-active] {
     }
   }
 }
-
-[data-visual-test].hide-page-content #___gatsby {
-  // NB: visibility: hidden; does not work here, because puppeteer does not find the selectors anymore
-  opacity: 0;
-}
