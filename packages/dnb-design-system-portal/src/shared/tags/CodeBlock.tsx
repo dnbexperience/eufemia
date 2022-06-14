@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import styled from '@emotion/styled'
 import Highlight, { Prism, defaultProps } from 'prism-react-renderer'
@@ -57,6 +56,7 @@ const CodeBlock = ({
     )
   } else {
     return (
+      // @ts-ignore
       <Highlight
         {...defaultProps}
         code={String(exampleCode).trim()}
@@ -86,39 +86,36 @@ const CodeBlock = ({
 
 export default CodeBlock
 
-class LiveCode extends React.PureComponent {
+type LiveCodeProps = {
+  code: string
+  scope?: Record<string, unknown>
+  title?: string
+  description?: string
+  caption?: string
+  useRender?: boolean
+  noFragments?: boolean
+  addToSearchIndex?: () => void
+  hideToolbar?: boolean
+  hideCode?: boolean
+  hidePreview?: boolean
+  language?: string
+  'data-visual-test'?: string
+}
+
+type LiveCodeDefaultState = LiveCodeProps & {
+  language?: string
+}
+
+class LiveCode extends React.PureComponent<
+  LiveCodeProps,
+  LiveCodeDefaultState
+> {
   static contextType = Context
 
-  static propTypes = {
-    code: PropTypes.string.isRequired,
-    scope: PropTypes.object,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    caption: PropTypes.string,
-    useRender: PropTypes.bool,
-    noFragments: PropTypes.bool,
-    addToSearchIndex: PropTypes.func,
-    hideToolbar: PropTypes.bool,
-    hideCode: PropTypes.bool,
-    hidePreview: PropTypes.bool,
-    language: PropTypes.string,
-  }
+  _editorElementRef: React.RefObject<HTMLDivElement> = null
+  _id: string = null
 
-  static defaultProps = {
-    scope: {},
-    title: null,
-    description: null,
-    caption: null,
-    useRender: false,
-    noFragments: true,
-    addToSearchIndex: null,
-    hideToolbar: false,
-    hideCode: false,
-    hidePreview: false,
-    language: 'jsx',
-  }
-
-  constructor(props) {
+  constructor(props: LiveCodeProps) {
     super(props)
     const { code, hideToolbar, hideCode, hidePreview } = props
 
@@ -129,7 +126,7 @@ class LiveCode extends React.PureComponent {
       hidePreview,
     }
 
-    this._refEditor = React.createRef()
+    this._editorElementRef = React.createRef()
     this._id = makeUniqueId()
   }
 
@@ -148,13 +145,12 @@ class LiveCode extends React.PureComponent {
     }
   }
 
-  prepareCode(code) {
+  prepareCode(code: string) {
     code = String(code).trim()
     if (
       /data-visual-test/.test(code) &&
       // remove test attribute only if: we run live, and are not not test
-      typeof window !== 'undefined' &&
-      !window.IS_TEST
+      !globalThis.IS_TEST
     ) {
       code = code.replace(/\s+data-visual-test="[^"]*"/g, '') // remove test data
     }
@@ -166,10 +162,10 @@ class LiveCode extends React.PureComponent {
       title,
       description,
       caption,
-      scope,
+      scope = {},
       useRender,
-      noFragments,
-      language,
+      noFragments = true,
+      language = 'jsx',
       addToSearchIndex,
 
       code: _code, // eslint-disable-line
@@ -198,7 +194,7 @@ class LiveCode extends React.PureComponent {
           code={codeToUse}
           scope={scope}
           language={language}
-          transformCode={(code) =>
+          transformCode={(code: string) =>
             !useRender && noFragments ? `<>${code}</>` : code
           }
           noInline={useRender}
@@ -216,10 +212,12 @@ class LiveCode extends React.PureComponent {
                   <ReactMarkdown
                     // eslint-disable-next-line react/no-children-prop
                     children={title}
-                    components={{
-                      ...components,
-                      paragraph: ({ children }) => children,
-                    }}
+                    components={
+                      {
+                        ...components,
+                        paragraph: ({ children }) => children,
+                      } as Record<string, React.ReactNode>
+                    }
                   />
                 </AutoLinkHeader>
               )}
@@ -227,10 +225,12 @@ class LiveCode extends React.PureComponent {
                 <ReactMarkdown
                   // eslint-disable-next-line react/no-children-prop
                   children={description}
-                  components={{
-                    ...components,
-                    paragraph: ({ children }) => <P>{children}</P>,
-                  }}
+                  components={
+                    {
+                      ...components,
+                      paragraph: ({ children }) => <P>{children}</P>,
+                    } as Record<string, React.ReactNode>
+                  }
                 />
               )}
 
@@ -243,7 +243,9 @@ class LiveCode extends React.PureComponent {
                   <ReactMarkdown
                     // eslint-disable-next-line react/no-children-prop
                     children={caption}
-                    components={components}
+                    components={
+                      components as Record<string, React.ReactNode>
+                    }
                     className="example-caption"
                   />
                 )}
@@ -256,7 +258,7 @@ class LiveCode extends React.PureComponent {
                 'dnb-live-editor',
                 createSkeletonClass('code', this.context.skeleton)
               )}
-              ref={this._refEditor}
+              ref={this._editorElementRef}
             >
               <label className="dnb-sr-only" htmlFor={this._id}>
                 Code Editor
@@ -268,13 +270,15 @@ class LiveCode extends React.PureComponent {
                   this.setState({ code })
                 }}
                 onFocus={() => {
-                  if (this._refEditor.current) {
-                    this._refEditor.current.classList.add('dnb-pre--focus')
+                  if (this._editorElementRef.current) {
+                    this._editorElementRef.current.classList.add(
+                      'dnb-pre--focus'
+                    )
                   }
                 }}
                 onBlur={() => {
-                  if (this._refEditor.current) {
-                    this._refEditor.current.classList.remove(
+                  if (this._editorElementRef.current) {
+                    this._editorElementRef.current.classList.remove(
                       'dnb-pre--focus'
                     )
                   }
@@ -406,6 +410,7 @@ const cleanTokens = (tokens) => {
   return tokens
 }
 
+// @ts-ignore
 Prism.languages.insertBefore('jsx', 'template-string', {
   'styled-template-string': {
     pattern:

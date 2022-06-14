@@ -4,18 +4,33 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import CodeBlock from './CodeBlock'
 import styled from '@emotion/styled'
 import { getComponents } from '@dnb/eufemia/src/components/lib'
 import { getFragments } from '@dnb/eufemia/src/fragments/lib'
 import { getElements } from '@dnb/eufemia/src/elements/lib'
 
-const ComponentBox = ({ children, hideOnTest, scope = {}, ...rest }) => {
-  if (hideOnTest && global.IS_TEST) {
-    return <></>
+if (!globalThis.ComponentBoxMemo) {
+  globalThis.ComponentBoxMemo = {}
+}
+
+type ComponentBoxProps = {
+  children: string | (() => string)
+  scope?: Record<string, unknown>
+}
+
+function ComponentBox(props: ComponentBoxProps) {
+  const { children, scope = {}, ...rest } = props
+
+  const content = typeof children === 'function' ? children() : children
+
+  const hash = content
+  if (globalThis.ComponentBoxMemo[hash]) {
+    return globalThis.ComponentBoxMemo[hash]
   }
-  return (
+
+  return (globalThis.ComponentBoxMemo[hash] = (
+    // @ts-ignore
     <CodeBlock
       scope={{
         ...getComponents(),
@@ -28,19 +43,9 @@ const ComponentBox = ({ children, hideOnTest, scope = {}, ...rest }) => {
       }}
       {...rest}
     >
-      {typeof children === 'function' ? children() : children}
+      {content}
     </CodeBlock>
-  )
-}
-ComponentBox.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.func, PropTypes.node])
-    .isRequired,
-  hideOnTest: PropTypes.bool,
-  scope: PropTypes.object,
-}
-ComponentBox.defaultProps = {
-  hideOnTest: false,
-  scope: {},
+  ))
 }
 
 export default ComponentBox

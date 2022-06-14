@@ -7982,6 +7982,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/prop-types@npm:^15.0.0":
+  version: 15.7.5
+  resolution: "@types/prop-types@npm:15.7.5"
+  checksum: 5b43b8b15415e1f298243165f1d44390403bb2bd42e662bca3b5b5633fdd39c938e91b7fce3a9483699db0f7a715d08cef220c121f723a634972fdf596aec980
+  languageName: node
+  linkType: hard
+
 "@types/q@npm:^1.5.1":
   version: 1.5.5
   resolution: "@types/q@npm:1.5.5"
@@ -14613,7 +14620,7 @@ __metadata:
     postcss: 8.3.11
     postcss-preset-env: 6.7.0
     prettier-package-json: 2.6.0
-    prism-react-renderer: 1.2.1
+    prism-react-renderer: 1.3.3
     process: 0.11.10
     prop-types: 15.7.2
     raw-loader: 4.0.2
@@ -14622,7 +14629,7 @@ __metadata:
     react-helmet: 6.1.0
     react-live: 3.1.1
     react-live-ssr: "workspace:*"
-    react-markdown: 7.1.0
+    react-markdown: 8.0.3
     react-router-dom: 5.3.0
     repo-utils: "workspace:*"
     sass: 1.43.4
@@ -24349,20 +24356,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mdast-util-to-hast@npm:^11.0.0":
-  version: 11.3.0
-  resolution: "mdast-util-to-hast@npm:11.3.0"
+"mdast-util-to-hast@npm:^12.1.0":
+  version: 12.1.1
+  resolution: "mdast-util-to-hast@npm:12.1.1"
   dependencies:
     "@types/hast": ^2.0.0
     "@types/mdast": ^3.0.0
     "@types/mdurl": ^1.0.0
     mdast-util-definitions: ^5.0.0
     mdurl: ^1.0.0
+    micromark-util-sanitize-uri: ^1.0.0
     unist-builder: ^3.0.0
     unist-util-generated: ^2.0.0
     unist-util-position: ^4.0.0
     unist-util-visit: ^4.0.0
-  checksum: a968d034613aa5cfb44b9c03d8e61a08bb563bfde3a233fb3d83a28857357e2beef56b6767bab2867d3c3796dc5dd796af4d03fb83e3133aeb7f4187b5cc9327
+  checksum: 4c5a73e0463493d5ab2c033d42f8daead24d0808969bf21c3a720786784a347cedc1d3ae26b37737dbe3ea0839bc130bf7e20f3bc02e2387e6e7b0a5f94bafe4
   languageName: node
   linkType: hard
 
@@ -29305,15 +29313,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prism-react-renderer@npm:1.2.1":
-  version: 1.2.1
-  resolution: "prism-react-renderer@npm:1.2.1"
-  peerDependencies:
-    react: ">=0.14.9"
-  checksum: 66cab3d9f9f18ff5db222df74e1f326262ad093202f855ef2bd9e8001fef21b92f2242a2292caa77c36a517a7f379620417b421eaa320405deb6ecb27c18ee5e
-  languageName: node
-  linkType: hard
-
 "prism-react-renderer@npm:1.3.3, prism-react-renderer@npm:^1.3.1":
   version: 1.3.3
   resolution: "prism-react-renderer@npm:1.3.3"
@@ -30092,7 +30091,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:^16.12.0 || ^17.0.0, react-is@npm:^17.0.0, react-is@npm:^17.0.1, react-is@npm:^17.0.2":
+"react-is@npm:^16.12.0 || ^17.0.0, react-is@npm:^17.0.1, react-is@npm:^17.0.2":
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 9d6d111d8990dc98bc5402c1266a808b0459b5d54830bbea24c12d908b536df7883f268a7868cfaedde3dd9d4e0d574db456f84d2e6df9c4526f99bb4b5344d8
@@ -30140,19 +30139,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-markdown@npm:7.1.0":
-  version: 7.1.0
-  resolution: "react-markdown@npm:7.1.0"
+"react-markdown@npm:8.0.3":
+  version: 8.0.3
+  resolution: "react-markdown@npm:8.0.3"
   dependencies:
     "@types/hast": ^2.0.0
+    "@types/prop-types": ^15.0.0
     "@types/unist": ^2.0.0
     comma-separated-tokens: ^2.0.0
     hast-util-whitespace: ^2.0.0
     prop-types: ^15.0.0
     property-information: ^6.0.0
-    react-is: ^17.0.0
+    react-is: ^18.0.0
     remark-parse: ^10.0.0
-    remark-rehype: ^9.0.0
+    remark-rehype: ^10.0.0
     space-separated-tokens: ^2.0.0
     style-to-object: ^0.3.0
     unified: ^10.0.0
@@ -30161,7 +30161,7 @@ __metadata:
   peerDependencies:
     "@types/react": ">=16"
     react: ">=16"
-  checksum: 80baaef3cf0112cf7ae2ed104b17a21653b44044c848b31bf2aa36daf14c52fb3bbdf3b5436b67b754a744e5a883f6fa50b88e4e32c43797c40d592245b2cdbd
+  checksum: 66c0b45889d0262168547d9356145ced276993dac1d441c5c1cf2371fe71f347419696f9040c084c7d77c1caced21d358677c38f66edae736f942ac5964c032f
   languageName: node
   linkType: hard
 
@@ -30937,15 +30937,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"remark-rehype@npm:^9.0.0":
-  version: 9.1.0
-  resolution: "remark-rehype@npm:9.1.0"
+"remark-rehype@npm:^10.0.0":
+  version: 10.1.0
+  resolution: "remark-rehype@npm:10.1.0"
   dependencies:
     "@types/hast": ^2.0.0
     "@types/mdast": ^3.0.0
-    mdast-util-to-hast: ^11.0.0
+    mdast-util-to-hast: ^12.1.0
     unified: ^10.0.0
-  checksum: 01d8177ce1a9138ead8779ec73cfef8d06669c4ebe7c4e94e804a1ddba12dca874131330f22e3979a4e0a4132239142dc93e7cfbd5d18b9250b4cc770557aff1
+  checksum: b9ac8acff3383b204dfdc2599d0bdf86e6ca7e837033209584af2e6aaa6a9013e519a379afa3201299798cab7298c8f4b388de118c312c67234c133318aec084
   languageName: node
   linkType: hard
 
