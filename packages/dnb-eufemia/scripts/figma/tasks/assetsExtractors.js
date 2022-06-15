@@ -1056,7 +1056,7 @@ export const readIconsLockFile = async ({ file }) => {
   return {}
 }
 export const saveIconsLockFile = async ({ file, data }) =>
-  await saveToFile(file, JSON.stringify(data))
+  await saveToFile(file, formatIconsMetaFile(data))
 
 const iconsMetaFile = path.resolve(
   __dirname,

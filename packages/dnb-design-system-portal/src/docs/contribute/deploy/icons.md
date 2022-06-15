@@ -4,17 +4,36 @@ title: 'Icons Library'
 
 # Icons Library
 
-To fetch new icons from the Figma Icons file, you have to:
+Icons are getting added (more or less) automatically by extracting them from [Figma Icons Library](https://www.figma.com/file/2aNwT4Lbyt9hFmDv8k34yN/Eufemia---Icons?node-id=1%3A9).
 
-1. Re-branch `main`, and name it `eufemia-icons` (it needs to include icons in the name):
+## How to sync new icons?
+
+To fetch new icons from the [Figma Icons Library](https://www.figma.com/file/2aNwT4Lbyt9hFmDv8k34yN/Eufemia---Icons?node-id=1%3A9) file, you have to:
+
+1. Re-branch `main`, and name it `icons/{your-branch-name}` (it needs to include icons in the name):
+
    ```bash
    git checkout main && git pull origin main
    ```
+
    ```bash
-   git checkout -b eufemia-icons && git push -u origin eufemia-icons
+   git checkout -b icons/{your-branch-name} && git push -u origin
    ```
-1. After the CI/CD process and finished, make a PR back to `main`, review, and squash merge it.
-1. Depending on the icons updated, you may have to pull the changes down locally, and run all tests, to eventually update broken visual snapshots. But ideally, all of that should be handled during the CI/CD process.
+
+1. After the CI/CD process has finished it should have made a commit back to the branch including the new optimized icons.
+1. With that commit, make a PR back to `main`, review, and (squash) merge it.
+
+**Notes:**
+
+- The PR or commit needs a [appropriate title](/contribute/style-guides/git) e.g. `feat(Icons): add [icon names]` or `fix(Icon): fix cropped [icon name]`. You can either give the commit a good title during the squash merge of the PR or you may pull and rebase interactive `git pull && git rebase -i` or amend.
+- Depending on the situation, you may have to pull the changes down locally, and run all tests, to eventually [update broken visual snapshots](/contribute/getting-started#running-tests-locally). But ideally, all of that should be handled during the CI/CD process.
+
+## How to fix icons?
+
+If you need to re-fetch one or several icons that got updated or changed in the [Figma Icons Library](https://www.figma.com/file/2aNwT4Lbyt9hFmDv8k34yN/Eufemia---Icons?node-id=1%3A9) you can force the icons to get re-processed before the cache timeout of 30 days:
+
+1. Find the icon in the `icons-svg.lock` file and change the `updated` field to `0`.
+1. Commit the change – but ensure the git branch name starts with `icon/` (more details above).
 
 ## Icons CI/CD process description
 

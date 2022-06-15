@@ -206,7 +206,7 @@ describe('assetsExtractors', () => {
       1,
       expect.stringContaining('/dnb-eufemia/src/icons/icons-svg.lock'),
       expect.stringContaining(
-        JSON.stringify({
+        formatIconsMetaFile({
           'bell_medium.svg': {
             iconName: 'bell_medium',
             name: 'bell',
