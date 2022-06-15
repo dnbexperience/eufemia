@@ -7,7 +7,10 @@ import { commitToBranch } from '../../prebuild/commitToBranch'
 
 if (require.main === module) {
   commitToBranch({
-    requiredBranch: ['main', 'eufemia-icons'],
+    requiredBranch: [
+      'main',
+      '^icon', // Test if branch is part of icons-lib.yml ("eufemia-icons")
+    ],
     what: 'icons/assets',
     filePathsIncludelist: [
       '/src/icons/',
@@ -18,10 +21,7 @@ if (require.main === module) {
       'icons-pdf.lock',
       'icons-meta.json',
     ],
-    // Skip CI if files are only one or both
-    skipCI: (files) => files.length < 4, // in case we only update the "version.lock"
-    // is feature if there are more than 4 files
-    isFeature: false,
-    // isFeature: files => files.length >= 4 // of there are other files than three, mark it as a feature
+    skipCI: true, // because we have our own checks in the GitHub Action icons-lib.yml
+    isFeature: false, // because it should manually be evaluated if its a fix or feature
   })
 }
