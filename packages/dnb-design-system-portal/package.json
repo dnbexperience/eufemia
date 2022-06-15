@@ -31,6 +31,8 @@
     "test": "jest",
     "test:ci": "jest --ci --passWithNoTests",
     "test:staged": "jest --bail --findRelatedTests ",
+    "test:screenshots": "yarn workspace @dnb/eufemia test:screenshots",
+    "test:screenshots:ci": "start-server-and-test serve http://localhost:8000 'yarn workspace @dnb/eufemia test:screenshots'",
     "test:types": "tsc --noEmit",
     "test:types:watch": "tsc --noEmit --watch",
     "test:update": "jest --updateSnapshot",
