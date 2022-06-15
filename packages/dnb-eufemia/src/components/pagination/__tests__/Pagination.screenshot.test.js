@@ -50,9 +50,13 @@ describe('Pagination screenshot', () => {
   })
 })
 
-describe('Pagination screenshot small', () => {
+describe('Pagination screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/components/pagination/demos',
+    pageViewport: {
+      width: 500,
+      height: 600,
+    },
   })
 
   it('have to match the default pagination bar in small viewport', async () => {
