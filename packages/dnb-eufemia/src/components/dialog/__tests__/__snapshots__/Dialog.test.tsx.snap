@@ -818,6 +818,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
             className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-dialog__root dnb-modal__content--custom"
             id="dnb-modal-dialog_id"
             onClick={[Function]}
+            onMouseDown={[Function]}
             role="dialog"
             style={null}
           >
