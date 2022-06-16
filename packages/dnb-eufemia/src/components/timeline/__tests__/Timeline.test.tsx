@@ -126,6 +126,26 @@ describe('Timeline', () => {
       ).toBe(date)
     })
 
+    it('renders dates', () => {
+      const dates = ['10. september 2021', '11. september 2021']
+      render(
+        <TimelineItem date={dates} name="Complete" state="completed" />
+      )
+
+      expect(
+        screen.queryAllByTestId('timeline-item-content-date')
+      ).toHaveLength(2)
+
+      expect(
+        screen.queryAllByTestId('timeline-item-content-date')[0]
+          .textContent
+      ).toBe(dates[0])
+      expect(
+        screen.queryAllByTestId('timeline-item-content-date')[1]
+          .textContent
+      ).toBe(dates[1])
+    })
+
     it('renders info message', () => {
       const infoMessage = 'Info text'
       render(

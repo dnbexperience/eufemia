@@ -37,7 +37,7 @@ export interface TimelineItemProps {
   /**
    * Text displaying the date of the timeline item.
    */
-  date?: React.ReactNode
+  date?: React.ReactNode | React.ReactNode[]
 
   /**
    * Text displaying info message of the timeline item.
@@ -159,17 +159,32 @@ const TimelineItem = (localProps: TimelineItemProps) => {
     )
   }
 
+  const getDate = () => {
+    const TimelineItemDate = ({ date }: { date: React.ReactNode }) => (
+      <div
+        className="dnb-timeline__item__content__date"
+        data-testid="timeline-item-content-date"
+      >
+        {date}
+      </div>
+    )
+
+    if (!date) {
+      return null
+    }
+
+    if (Array.isArray(date)) {
+      return date.map((date, i) => (
+        <TimelineItemDate key={i} date={date} />
+      ))
+    }
+    return <TimelineItemDate date={date} />
+  }
+
   const TimelineItemContent = () => {
     return (
       <div className="dnb-timeline__item__content">
-        {date && (
-          <span
-            className="dnb-timeline__item__content__date"
-            data-testid="timeline-item-content-date"
-          >
-            {date}
-          </span>
-        )}
+        {getDate()}
         {infoMessage && (
           <FormStatus
             text={infoMessage}
