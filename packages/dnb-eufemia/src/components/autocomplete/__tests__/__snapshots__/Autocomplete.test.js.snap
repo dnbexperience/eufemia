@@ -457,6 +457,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 icon_position={null}
                 icon_size="icon_size"
                 id="autocomplete-id"
+                inner_element={null}
                 inner_ref={null}
                 input_attributes={null}
                 input_class={null}

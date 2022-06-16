@@ -438,6 +438,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   icon_position="left"
                   icon_size={null}
                   id="date-picker-id__input"
+                  inner_element={null}
                   inner_ref={null}
                   input_attributes={null}
                   input_class={null}

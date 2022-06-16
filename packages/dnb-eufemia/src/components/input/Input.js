@@ -100,6 +100,7 @@ export const inputPropTypes = {
   icon_position: PropTypes.oneOf(['left', 'right']),
   inner_ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  inner_element: PropTypes.node,
 
   // Submit button
   submit_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
@@ -168,6 +169,7 @@ export default class Input extends React.PureComponent {
     icon_size: null,
     icon_position: 'left',
     readOnly: false,
+    inner_element: null,
 
     // Submit button
     submit_element: null,
@@ -359,6 +361,7 @@ export default class Input extends React.PureComponent {
       submit_button_icon,
       submit_button_status,
       submit_element,
+      inner_element,
       autocomplete,
       readOnly,
       stretch,
@@ -520,6 +523,12 @@ export default class Input extends React.PureComponent {
           <span className="dnb-input__row">
             <span {...shellParams}>
               {InputElement || <input ref={this._ref} {...inputParams} />}
+
+              {inner_element && (
+                <span className="dnb-input__inner__element dnb-p">
+                  {inner_element}
+                </span>
+              )}
 
               {icon && (
                 <InputIcon

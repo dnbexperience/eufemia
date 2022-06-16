@@ -508,6 +508,27 @@ describe('Input with clear button', () => {
       `You can not have a clear button and icon_position="right"`
     )
   })
+
+  it('should render inner_element', () => {
+    const CustomComponent = () => <div>custom element</div>
+    const Comp = mount(
+      <Component inner_element={<CustomComponent />} icon="bell" />
+    )
+
+    expect(
+      Comp.find('.dnb-input')
+        .instance()
+        .querySelector('.dnb-input__input ~ .dnb-input__inner__element')
+        .textContent
+    ).toBe('custom element')
+
+    expect(
+      Comp.find('.dnb-input')
+        .instance()
+        .querySelector('.dnb-input__inner__element ~ .dnb-input__icon')
+        .querySelector('svg')
+    ).toBeTruthy()
+  })
 })
 
 describe('Input scss', () => {

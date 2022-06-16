@@ -21,6 +21,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "icon_position": "'left'",
         "icon_size": "icon_size",
         "id": "id",
+        "inner_element": "inner_element",
         "inner_ref": [Function],
         "input_attributes": "input_attributes",
         "input_class": "input_class",
@@ -108,6 +109,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   icon_position="left"
   icon_size={null}
   id="input"
+  inner_element={null}
   inner_ref={null}
   input_attributes={null}
   input_class={null}
@@ -227,6 +229,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "icon_position": "'left'",
                   "icon_size": "icon_size",
                   "id": "id",
+                  "inner_element": "inner_element",
                   "inner_ref": [Function],
                   "input_attributes": "input_attributes",
                   "input_class": "input_class",
@@ -521,6 +524,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "icon_position": "'left'",
         "icon_size": "icon_size",
         "id": "id",
+        "inner_element": "inner_element",
         "inner_ref": [Function],
         "input_attributes": "input_attributes",
         "input_class": "input_class",
@@ -608,6 +612,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   icon_position="left"
   icon_size={null}
   id="input"
+  inner_element={null}
   inner_ref={null}
   input_attributes={null}
   input_class={null}
