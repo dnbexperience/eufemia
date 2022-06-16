@@ -56,6 +56,7 @@ export default class ModalContent extends React.PureComponent<
 
   _contentRef: React.RefObject<HTMLElement>
   _scrollRef: React.RefObject<HTMLElement>
+  _overlayClickRef: { current: null | HTMLElement }
   _id: string
   _lockTimeout: NodeJS.Timeout
   _focusTimeout: NodeJS.Timeout
@@ -67,6 +68,7 @@ export default class ModalContent extends React.PureComponent<
     super(props)
     this._contentRef = this.props.content_ref || React.createRef()
     this._scrollRef = this.props.scroll_ref || React.createRef()
+    this._overlayClickRef = React.createRef()
 
     // NB: The ""._id" is used in the __modalStack as "last._id"
     this._id = props.id
@@ -284,11 +286,29 @@ export default class ModalContent extends React.PureComponent<
     }
   }
 
-  onCloseClickHandler = (event) => {
+  onCloseClickHandler = (event: React.SyntheticEvent) => {
     this.closeModalContent(event, { triggeredBy: 'button' })
   }
 
-  onContentClickHandler = (event) => {
+  onContentMouseDownHandler = (event: React.SyntheticEvent) => {
+    this._overlayClickRef.current =
+      event.target === event.currentTarget
+        ? (event.target as HTMLElement)
+        : null
+  }
+
+  onContentClickHandler = (event: React.SyntheticEvent) => {
+    /**
+     * Prevent false-positive Modal close,
+     * when e.g. selecting text inside and moving the mouse outside,
+     * we would still get this event fired. There we check if the current click,
+     * has the same target as where the click got initiated.
+     */
+    if (this._overlayClickRef.current !== event.target) {
+      return // stop here
+    }
+    this._overlayClickRef.current = null
+
     const { prevent_overlay_close } = this.props
 
     if (!isTrue(prevent_overlay_close)) {
@@ -424,6 +444,7 @@ export default class ModalContent extends React.PureComponent<
 
         content_class
       ),
+      onMouseDown: this.onContentMouseDownHandler,
       onClick: this.onContentClickHandler,
     }
 

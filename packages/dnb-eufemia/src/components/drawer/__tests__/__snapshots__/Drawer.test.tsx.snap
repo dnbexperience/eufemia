@@ -814,6 +814,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
             className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-modal__content--right dnb-drawer__root dnb-modal__content--custom"
             id="dnb-modal-drawer_id"
             onClick={[Function]}
+            onMouseDown={[Function]}
             role="dialog"
             style={null}
           >

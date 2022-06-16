@@ -641,6 +641,7 @@ describe('Modal component', () => {
     expect(on_close_prevent).toHaveBeenCalledTimes(1)
 
     // trigger the close on the overlay
+    Comp.find('div.dnb-modal__content').simulate('mousedown')
     Comp.find('div.dnb-modal__content').simulate('click')
 
     expect(on_close_prevent).toHaveBeenCalledTimes(2)
@@ -666,6 +667,7 @@ describe('Modal component', () => {
     preventClose = false
 
     // trigger the close on the overlay
+    Comp.find('div.dnb-modal__content').simulate('mousedown')
     Comp.find('div.dnb-modal__content').simulate('click')
 
     expect(Comp.exists('div.dnb-modal__content')).toBe(true)
@@ -691,10 +693,55 @@ describe('Modal component', () => {
     expect(testTriggeredBy).toBe(null)
 
     // trigger the close on the overlay
+    Comp.find('div.dnb-modal__content').simulate('mousedown')
     Comp.find('div.dnb-modal__content').simulate('click')
 
     expect(on_close).toHaveBeenCalledTimes(1)
     expect(testTriggeredBy).toBe('overlay')
+    expect(Comp.exists('div.dnb-modal__content')).toBe(false)
+  })
+
+  it('will omit close when no mousedown was fired', () => {
+    const on_close = jest.fn()
+    const Comp = mount(<Component {...props} on_close={on_close} />)
+    Comp.find('button').simulate('click')
+
+    // trigger the close on the overlay
+    Comp.find('div.dnb-modal__content').simulate('click')
+
+    expect(on_close).toHaveBeenCalledTimes(0)
+    expect(Comp.exists('div.dnb-modal__content')).toBe(true)
+  })
+
+  it('will only close when mousedown and click DOM targets are the same', () => {
+    const on_close = jest.fn()
+    const Comp = mount(<Component {...props} on_close={on_close} />)
+
+    Comp.find('button').simulate('click')
+
+    const contentElement = Comp.find('div.dnb-modal__content')
+    const target = contentElement.instance()
+    const currentTarget = contentElement.instance()
+    const differentTarget = document.createElement('DIV')
+
+    // trigger the close on the overlay
+    contentElement.simulate('mousedown', {
+      target,
+      currentTarget,
+    })
+    contentElement.simulate('click', { target: differentTarget }) // simulate with different target
+
+    expect(on_close).toHaveBeenCalledTimes(0)
+    expect(Comp.exists('div.dnb-modal__content')).toBe(true)
+
+    // trigger the close on the overlay
+    contentElement.simulate('mousedown', {
+      target,
+      currentTarget,
+    })
+    contentElement.simulate('click', { target })
+
+    expect(on_close).toHaveBeenCalledTimes(1)
     expect(Comp.exists('div.dnb-modal__content')).toBe(false)
   })
 
