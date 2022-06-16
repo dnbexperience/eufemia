@@ -248,6 +248,10 @@ export default class Input extends React.PureComponent {
         context.FormRow.useId()) ||
       makeUniqueId() // cause we need an id anyway
 
+    if (isTrue(props.clear) && props.icon_position === 'right') {
+      warn('You can not have a clear button and icon_position="right"')
+    }
+
     // make sure we trigger getDerivedStateFromProps on startup
   }
   componentWillUnmount() {
@@ -559,7 +563,6 @@ export default class Input extends React.PureComponent {
                 </span>
               )}
             </span>
-
             {hasSubmitButton && (
               <span className="dnb-input__submit-element">
                 {submit_element ? (
@@ -591,7 +594,6 @@ export default class Input extends React.PureComponent {
                 )}
               </span>
             )}
-
             {suffix && (
               <Suffix
                 className="dnb-input__suffix"
