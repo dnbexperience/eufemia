@@ -19,11 +19,11 @@ describe('Timeline', () => {
       <Timeline
         data={[
           {
-            name: 'Upcoming',
+            title: 'Upcoming',
             state: 'upcoming',
           },
-          { name: 'Current', state: 'current' },
-          { name: 'Completed', state: 'completed' },
+          { title: 'Current', state: 'current' },
+          { title: 'Completed', state: 'completed' },
         ]}
       />
     )
@@ -34,9 +34,9 @@ describe('Timeline', () => {
   it('renders a timeline with multiple items by children', () => {
     render(
       <Timeline>
-        <Timeline.Item name="Upcoming" state="upcoming" />
-        <Timeline.Item name="Current" state="current" />
-        <Timeline.Item name="Completed" state="completed" />
+        <Timeline.Item title="Upcoming" state="upcoming" />
+        <Timeline.Item title="Current" state="current" />
+        <Timeline.Item title="Completed" state="completed" />
       </Timeline>
     )
 
@@ -48,11 +48,11 @@ describe('Timeline', () => {
       <Timeline
         data={[
           {
-            name: 'Upcoming',
+            title: 'Upcoming',
             state: 'upcoming',
           },
-          { name: 'Completed', state: 'completed' },
-          { name: 'Current', state: 'current' },
+          { title: 'Completed', state: 'completed' },
+          { title: 'Current', state: 'current' },
         ]}
       />
     )
@@ -69,7 +69,7 @@ describe('Timeline', () => {
         <Timeline
           data={[
             {
-              name: 'Upcoming',
+              title: 'Upcoming',
               state: 'upcoming',
             },
           ]}
@@ -87,7 +87,7 @@ describe('Timeline', () => {
       <Timeline
         data={[
           {
-            name: 'Upcoming',
+            title: 'Upcoming',
             state: 'upcoming',
           },
         ]}
@@ -108,18 +108,18 @@ describe('Timeline', () => {
   })
 
   describe('TimelineItem', () => {
-    it('renders name', () => {
-      const name = 'Completed'
-      render(<TimelineItem name={name} state="completed" />)
+    it('renders title', () => {
+      const title = 'Completed'
+      render(<TimelineItem title={title} state="completed" />)
       expect(
-        screen.queryByTestId('timeline-item-label-name').textContent
-      ).toBe(name)
+        screen.queryByTestId('timeline-item-label-title').textContent
+      ).toBe(title)
     })
 
     it('renders date', () => {
       const date = '10. september 2021'
       render(
-        <TimelineItem date={date} name="Complete" state="completed" />
+        <TimelineItem date={date} title="Complete" state="completed" />
       )
       expect(
         screen.queryByTestId('timeline-item-content-date').textContent
@@ -151,7 +151,7 @@ describe('Timeline', () => {
       render(
         <TimelineItem
           infoMessage={infoMessage}
-          name="Complete"
+          title="Complete"
           state="completed"
         />
       )
@@ -167,7 +167,7 @@ describe('Timeline', () => {
       render(
         <TimelineItem
           icon={CustomIcon}
-          name="Complete"
+          title="Complete"
           state="completed"
         />
       )
@@ -181,7 +181,7 @@ describe('Timeline', () => {
       const iconAlt = 'custom_alt_label'
       render(
         <TimelineItem
-          name="Complete"
+          title="Complete"
           state="completed"
           iconAlt={iconAlt}
         />
@@ -194,7 +194,7 @@ describe('Timeline', () => {
     it('renders skeleton if skeleton is true', () => {
       const skeletonClassName = 'dnb-skeleton'
 
-      render(<TimelineItem skeleton name="name" state="completed" />)
+      render(<TimelineItem skeleton title="title" state="completed" />)
 
       expect(screen.queryByTestId('timeline-item').className).toMatch(
         skeletonClassName
@@ -206,7 +206,7 @@ describe('Timeline', () => {
 
       render(
         <Provider skeleton>
-          <TimelineItem name="name" state="completed" />
+          <TimelineItem title="name" state="completed" />
         </Provider>
       )
 
@@ -217,42 +217,42 @@ describe('Timeline', () => {
 
     describe('renders default icon based on state property', () => {
       it('renders check icon when state is completed', () => {
-        render(<TimelineItem name="Complete" state="completed" />)
+        render(<TimelineItem title="Complete" state="completed" />)
         expect(screen.queryByRole('img').getAttribute('aria-label')).toBe(
           'check icon'
         )
       })
 
       it('renders pin icon when state is current', () => {
-        render(<TimelineItem name="Current" state="current" />)
+        render(<TimelineItem title="Current" state="current" />)
         expect(screen.queryByRole('img').getAttribute('aria-label')).toBe(
           'pin icon'
         )
       })
 
       it('renders calendar icon when state is upcoming', () => {
-        render(<TimelineItem name="Upcoming" state="upcoming" />)
+        render(<TimelineItem title="Upcoming" state="upcoming" />)
         expect(screen.queryByRole('img').getAttribute('aria-label')).toBe(
           'calendar icon'
         )
       })
 
       it('renders alt label Utført when state is completed', () => {
-        render(<TimelineItem name="Complete" state="completed" />)
+        render(<TimelineItem title="Complete" state="completed" />)
         expect(screen.queryByRole('img').getAttribute('alt')).toBe(
           'Utført'
         )
       })
 
       it('renders alt label Nåværende when state is current', () => {
-        render(<TimelineItem name="Current" state="current" />)
+        render(<TimelineItem title="Current" state="current" />)
         expect(screen.queryByRole('img').getAttribute('alt')).toBe(
           'Nåværende'
         )
       })
 
       it('renders alt label Kommende when state is upcoming', () => {
-        render(<TimelineItem name="Upcoming" state="upcoming" />)
+        render(<TimelineItem title="Upcoming" state="upcoming" />)
         expect(screen.queryByRole('img').getAttribute('alt')).toBe(
           'Kommende'
         )
@@ -267,19 +267,19 @@ describe('Timeline aria', () => {
       <Timeline
         data={[
           {
-            name: 'Upcoming',
+            title: 'Upcoming',
             state: 'upcoming',
             date: '10. september 2021',
             infoMessage: 'Info message',
           },
           {
-            name: 'Current',
+            title: 'Current',
             state: 'current',
             date: '10. september 2021',
             infoMessage: 'Info message',
           },
           {
-            name: 'Completed',
+            title: 'Completed',
             state: 'completed',
             date: '10. september 2021',
             infoMessage: 'Info message',

@@ -16,7 +16,7 @@ export const TimelineSingleCompleted = () => (
   <Timeline 
     data={[
       {
-        name: "Completed event",
+        title: "Completed event",
         state: "completed"
       }
     ]}
@@ -31,7 +31,7 @@ export const TimelineSingleCurrent = () => (
   <Timeline 
     data={[
       {
-        name: "Current event",
+        title: "Current event",
         state: "current"
       }
     ]}
@@ -46,7 +46,7 @@ export const TimelineSingleUpcoming = () => (
   <Timeline 
     data={[
       {
-        name: "Upcoming event",
+        title: "Upcoming event",
         state: "upcoming"
       }
     ]}
@@ -65,17 +65,17 @@ export const TimelineMultipleData = () => (
 () => {
   const events = [
     {
-      name: "Completed event",
+      title: "Completed event",
       date: "10. september 2021", 
       state: "completed"
     },
     {
-      name: "Current event",
+      title: "Current event",
       infoMessage: "Additional information about this step if needed.",
       state: "current", 
     },
     {
-      name: "Upcoming event",
+      title: "Upcoming event",
       state: "upcoming", 
     },
   ];
@@ -98,18 +98,18 @@ export const TimelineMultipleCompletedData = () => (
 () => {
   const events = [
     {
-      name: "Completed event#1",
+      title: "Completed event#1",
       infoMessage: "Additional information about this step if needed.",
       date: "10. september 2021", 
       state: "completed"
     },
     {
-      name: "Completed event#2",
+      title: "Completed event#2",
       infoMessage: "Additional information about this step if needed.",
       state: "completed"
     },
     {
-      name: "Completed event#3",
+      title: "Completed event#3",
       date: "10. september 2021", 
       state: "completed"
     },
@@ -133,18 +133,18 @@ export const TimelineMultipleUpcomingData = () => (
 () => {
   const events = [
     {
-      name: "Upcoming event#1",
+      title: "Upcoming event#1",
       infoMessage: "Additional information about this step if needed.",
       date: "10. september 2021", 
       state: "upcoming"
     },
     {
-      name: "Upcoming event#2",
+      title: "Upcoming event#2",
       infoMessage: "Additional information about this step if needed.",
       state: "upcoming"
     },
     {
-      name: "Upcoming event#3",
+      title: "Upcoming event#3",
       date: "10. september 2021", 
       state: "upcoming"
     },
@@ -168,18 +168,18 @@ export const TimelineMultipleCurrentData = () => (
 () => {
   const events = [
     {
-      name: "Current event#1",
+      title: "Current event#1",
       infoMessage: "Additional information about this step if needed.",
       date: "10. september 2021", 
       state: "current"
     },
     {
-      name: "Current event#2",
+      title: "Current event#2",
       infoMessage: "Additional information about this step if needed.",
       state: "current"
     },
     {
-      name: "Current event#3",
+      title: "Current event#3",
       date: "10. september 2021", 
       state: "current"
     },
@@ -198,17 +198,17 @@ export const TimelineMultiple = () => (
     {() => /* jsx */ `
 <Timeline>
   <Timeline.Item 
-    name="Completed event" 
+    title="Completed event" 
     date="10. september 2021" 
     state="completed"
   />
   <Timeline.Item 
-    name="Current event" 
+    title="Current event" 
     infoMessage="Additional information about this step if needed." 
     state="current"
   />
   <Timeline.Item 
-    name="Upcoming event" 
+    title="Upcoming event" 
     state="upcoming"
   />
 </Timeline>
@@ -226,19 +226,19 @@ export const TimelineStates = () => (
 () => {
   const events = [
     {
-      name: "Completed event",
+      title: "Completed event",
       date: "10. september 2021", 
       infoMessage: "Additional information about this step if needed.",
       state: "completed"
     },
     {
-      name: "Current event",
+      title: "Current event",
       date: "10. september 2021", 
       infoMessage: "Additional information about this step if needed.",
       state: "current"
     },
     {
-      name: "Upcoming event",
+      title: "Upcoming event",
       date: "10. september 2021", 
       infoMessage: "Additional information about this step if needed.",
       state: "upcoming"
@@ -264,19 +264,19 @@ export const TimelineIcons = () => (
 () => {
   const events = [
     {
-      name: "Completed event",
+      title: "Completed event",
       state: "completed",
       icon: Confetti, 
       iconAlt: "Celebration"
     },
     {
-      name: "Current event",
+      title: "Current event",
       state: "current",
       icon: Card,
       iconAlt: "Bank card"
     },
     {
-      name: "Upcoming event",
+      title: "Upcoming event",
       state: "upcoming",
       icon: AccountCard,
       iconAlt: "Money bag & card"
@@ -298,17 +298,17 @@ export const TimelineSkeleton = () => (
     skeleton
     data={[
       {
-        name: "Upcoming",
+        title: "Upcoming",
         date: "10. september 2021", 
         state: "upcoming"
       }, 
       {
-        name: "Current",
+        title: "Current",
         date: "11. september 2021", 
         state: "current"
       }, 
       {
-        name: "Completed",
+        title: "Completed",
         date: "12. september 2021", 
         state: "completed"
       },      
@@ -323,17 +323,17 @@ export const TimelineAsChildrenSkeleton = () => (
     {() => /* jsx */ `
 <Timeline skeleton>
   <Timeline.Item 
-    name="Upcoming" 
+    title="Upcoming" 
     date="10. september 2021"
     state="upcoming"
   />
   <Timeline.Item 
-    name="Current" 
+    title="Current" 
     date="11. september 2021"
     state="current"
   />
   <Timeline.Item 
-    name="Completed" 
+    title="Completed" 
     date="11. september 2021"
     state="completed"
   />
@@ -348,13 +348,13 @@ export const TimelineItemSkeleton = () => (
   <Timeline
     data={[
       {
-        name: "Completed event#1",
+        title: "Completed event#1",
         date: "10. september 2021", 
         state: "completed", 
         skeleton: true
       }, 
       {
-        name: "Completed event#2",
+        title: "Completed event#2",
         date: "11. september 2021", 
         infoMessage: "Additional information about this step if needed.",
         state: "completed",

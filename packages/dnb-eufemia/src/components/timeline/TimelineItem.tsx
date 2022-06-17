@@ -30,9 +30,9 @@ export interface TimelineItemProps {
   iconAlt?: string
 
   /**
-   * Text displaying the name of the timeline item.
+   * Text displaying the title of the timeline item.
    */
-  name: React.ReactNode & string
+  title: React.ReactNode & string
 
   /**
    * Text displaying the date of the timeline item.
@@ -60,7 +60,7 @@ export interface TimelineItemProps {
 const defaultProps = {
   icon: null,
   iconAlt: null,
-  name: null,
+  title: null,
   date: null,
   infoMessage: null,
   state: null,
@@ -84,7 +84,7 @@ const TimelineItem = (localProps: TimelineItemProps) => {
   const {
     icon,
     iconAlt,
-    name,
+    title,
     date,
     infoMessage,
     state,
@@ -139,13 +139,13 @@ const TimelineItem = (localProps: TimelineItemProps) => {
     )
   }
 
-  const TimelineItemName = () => {
+  const TimelineItemTitle = () => {
     return (
       <span
-        className="dnb-timeline__item__label__name"
-        data-testid="timeline-item-label-name"
+        className="dnb-timeline__item__label__title"
+        data-testid="timeline-item-label-title"
       >
-        {name}
+        {title}
       </span>
     )
   }
@@ -154,7 +154,7 @@ const TimelineItem = (localProps: TimelineItemProps) => {
     return (
       <span className="dnb-timeline__item__label">
         <TimelineItemIcon />
-        <TimelineItemName />
+        <TimelineItemTitle />
       </span>
     )
   }
