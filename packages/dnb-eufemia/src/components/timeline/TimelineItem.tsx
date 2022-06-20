@@ -32,12 +32,12 @@ export interface TimelineItemProps {
   /**
    * Text displaying the title of the timeline item.
    */
-  title: React.ReactNode & string
+  title: React.ReactNode | string
 
   /**
-   * Text displaying the date of the timeline item.
+   * Text displaying the subtitle of the timeline item.
    */
-  date?: React.ReactNode | React.ReactNode[]
+  subtitle?: React.ReactNode | React.ReactNode[] | string | string[]
 
   /**
    * Text displaying info message of the timeline item.
@@ -61,7 +61,7 @@ const defaultProps = {
   icon: null,
   iconAlt: null,
   title: null,
-  date: null,
+  subtitle: null,
   infoMessage: null,
   state: null,
   skeleton: false,
@@ -85,7 +85,7 @@ const TimelineItem = (localProps: TimelineItemProps) => {
     icon,
     iconAlt,
     title,
-    date,
+    subtitle,
     infoMessage,
     state,
     skeleton,
@@ -159,32 +159,36 @@ const TimelineItem = (localProps: TimelineItemProps) => {
     )
   }
 
-  const getDate = () => {
-    const TimelineItemDate = ({ date }: { date: React.ReactNode }) => (
+  const getSubtitle = () => {
+    const TimelineItemSubtitle = ({
+      subtitle,
+    }: {
+      subtitle: React.ReactNode
+    }) => (
       <div
-        className="dnb-timeline__item__content__date"
-        data-testid="timeline-item-content-date"
+        className="dnb-timeline__item__content__subtitle"
+        data-testid="timeline-item-content-subtitle"
       >
-        {date}
+        {subtitle}
       </div>
     )
 
-    if (!date) {
+    if (!subtitle) {
       return null
     }
 
-    if (Array.isArray(date)) {
-      return date.map((date, i) => (
-        <TimelineItemDate key={i} date={date} />
+    if (Array.isArray(subtitle)) {
+      return subtitle.map((subtitle, i) => (
+        <TimelineItemSubtitle key={i} subtitle={subtitle} />
       ))
     }
-    return <TimelineItemDate date={date} />
+    return <TimelineItemSubtitle subtitle={subtitle} />
   }
 
   const TimelineItemContent = () => {
     return (
       <div className="dnb-timeline__item__content">
-        {getDate()}
+        {getSubtitle()}
         {infoMessage && (
           <FormStatus
             text={infoMessage}

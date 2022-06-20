@@ -66,7 +66,7 @@ export const TimelineMultipleData = () => (
   const events = [
     {
       title: "Completed event",
-      date: "10. september 2021", 
+      subtitle: "10. september 2021", 
       state: "completed"
     },
     {
@@ -100,7 +100,7 @@ export const TimelineMultipleCompletedData = () => (
     {
       title: "Completed event#1",
       infoMessage: "Additional information about this step if needed.",
-      date: "10. september 2021", 
+      subtitle: "10. september 2021", 
       state: "completed"
     },
     {
@@ -110,7 +110,7 @@ export const TimelineMultipleCompletedData = () => (
     },
     {
       title: "Completed event#3",
-      date: "10. september 2021", 
+      subtitle: "10. september 2021", 
       state: "completed"
     },
   ];
@@ -135,7 +135,7 @@ export const TimelineMultipleUpcomingData = () => (
     {
       title: "Upcoming event#1",
       infoMessage: "Additional information about this step if needed.",
-      date: "10. september 2021", 
+      subtitle: "10. september 2021", 
       state: "upcoming"
     },
     {
@@ -145,7 +145,7 @@ export const TimelineMultipleUpcomingData = () => (
     },
     {
       title: "Upcoming event#3",
-      date: "10. september 2021", 
+      subtitle: "10. september 2021", 
       state: "upcoming"
     },
   ];
@@ -170,7 +170,7 @@ export const TimelineMultipleCurrentData = () => (
     {
       title: "Current event#1",
       infoMessage: "Additional information about this step if needed.",
-      date: "10. september 2021", 
+      subtitle: "10. september 2021", 
       state: "current"
     },
     {
@@ -180,7 +180,7 @@ export const TimelineMultipleCurrentData = () => (
     },
     {
       title: "Current event#3",
-      date: "10. september 2021", 
+      subtitle: "10. september 2021", 
       state: "current"
     },
   ];
@@ -199,7 +199,7 @@ export const TimelineMultiple = () => (
 <Timeline>
   <Timeline.Item 
     title="Completed event" 
-    date="10. september 2021" 
+    subtitle="10. september 2021" 
     state="completed"
   />
   <Timeline.Item 
@@ -227,19 +227,19 @@ export const TimelineStates = () => (
   const events = [
     {
       title: "Completed event",
-      date: "10. september 2021", 
+      subtitle: "10. september 2021", 
       infoMessage: "Additional information about this step if needed.",
       state: "completed"
     },
     {
       title: "Current event",
-      date: "10. september 2021", 
+      subtitle: "10. september 2021", 
       infoMessage: "Additional information about this step if needed.",
       state: "current"
     },
     {
       title: "Upcoming event",
-      date: "10. september 2021", 
+      subtitle: "10. september 2021", 
       infoMessage: "Additional information about this step if needed.",
       state: "upcoming"
     },
@@ -299,17 +299,17 @@ export const TimelineSkeleton = () => (
     data={[
       {
         title: "Upcoming",
-        date: "10. september 2021", 
+        subtitle: "10. september 2021", 
         state: "upcoming"
       }, 
       {
         title: "Current",
-        date: "11. september 2021", 
+        subtitle: "11. september 2021", 
         state: "current"
       }, 
       {
         title: "Completed",
-        date: "12. september 2021", 
+        subtitle: "12. september 2021", 
         state: "completed"
       },      
     ]}
@@ -324,17 +324,17 @@ export const TimelineAsChildrenSkeleton = () => (
 <Timeline skeleton>
   <Timeline.Item 
     title="Upcoming" 
-    date="10. september 2021"
+    subtitle="10. september 2021"
     state="upcoming"
   />
   <Timeline.Item 
     title="Current" 
-    date="11. september 2021"
+    subtitle="11. september 2021"
     state="current"
   />
   <Timeline.Item 
     title="Completed" 
-    date="11. september 2021"
+    subtitle="11. september 2021"
     state="completed"
   />
 </Timeline>
@@ -349,13 +349,13 @@ export const TimelineItemSkeleton = () => (
     data={[
       {
         title: "Completed event#1",
-        date: "10. september 2021", 
+        subtitle: "10. september 2021", 
         state: "completed", 
         skeleton: true
       }, 
       {
         title: "Completed event#2",
-        date: "11. september 2021", 
+        subtitle: "11. september 2021", 
         infoMessage: "Additional information about this step if needed.",
         state: "completed",
       }

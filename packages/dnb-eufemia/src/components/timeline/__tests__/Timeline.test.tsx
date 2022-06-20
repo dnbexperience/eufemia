@@ -116,34 +116,42 @@ describe('Timeline', () => {
       ).toBe(title)
     })
 
-    it('renders date', () => {
-      const date = '10. september 2021'
+    it('renders subtitle', () => {
+      const subtitle = '10. september 2021'
       render(
-        <TimelineItem date={date} title="Complete" state="completed" />
+        <TimelineItem
+          subtitle={subtitle}
+          title="Complete"
+          state="completed"
+        />
       )
       expect(
-        screen.queryByTestId('timeline-item-content-date').textContent
-      ).toBe(date)
+        screen.queryByTestId('timeline-item-content-subtitle').textContent
+      ).toBe(subtitle)
     })
 
-    it('renders dates', () => {
-      const dates = ['10. september 2021', '11. september 2021']
+    it('renders subtitles', () => {
+      const subtitles = ['10. september 2021', '11. september 2021']
       render(
-        <TimelineItem date={dates} name="Complete" state="completed" />
+        <TimelineItem
+          subtitle={subtitles}
+          title="Complete"
+          state="completed"
+        />
       )
 
       expect(
-        screen.queryAllByTestId('timeline-item-content-date')
+        screen.queryAllByTestId('timeline-item-content-subtitle')
       ).toHaveLength(2)
 
       expect(
-        screen.queryAllByTestId('timeline-item-content-date')[0]
+        screen.queryAllByTestId('timeline-item-content-subtitle')[0]
           .textContent
-      ).toBe(dates[0])
+      ).toBe(subtitles[0])
       expect(
-        screen.queryAllByTestId('timeline-item-content-date')[1]
+        screen.queryAllByTestId('timeline-item-content-subtitle')[1]
           .textContent
-      ).toBe(dates[1])
+      ).toBe(subtitles[1])
     })
 
     it('renders info message', () => {
@@ -237,21 +245,21 @@ describe('Timeline', () => {
         )
       })
 
-      it('renders alt label Utført when state is completed', () => {
+      it('renders alt label "Utfør"t when state is completed', () => {
         render(<TimelineItem title="Complete" state="completed" />)
         expect(screen.queryByRole('img').getAttribute('alt')).toBe(
           'Utført'
         )
       })
 
-      it('renders alt label Nåværende when state is current', () => {
+      it('renders alt label "Nåværende" when state is current', () => {
         render(<TimelineItem title="Current" state="current" />)
         expect(screen.queryByRole('img').getAttribute('alt')).toBe(
           'Nåværende'
         )
       })
 
-      it('renders alt label Kommende when state is upcoming', () => {
+      it('renders alt label "Kommende" when state is upcoming', () => {
         render(<TimelineItem title="Upcoming" state="upcoming" />)
         expect(screen.queryByRole('img').getAttribute('alt')).toBe(
           'Kommende'
@@ -269,19 +277,19 @@ describe('Timeline aria', () => {
           {
             title: 'Upcoming',
             state: 'upcoming',
-            date: '10. september 2021',
+            subtitle: '10. september 2021',
             infoMessage: 'Info message',
           },
           {
             title: 'Current',
             state: 'current',
-            date: '10. september 2021',
+            subtitle: '10. september 2021',
             infoMessage: 'Info message',
           },
           {
             title: 'Completed',
             state: 'completed',
-            date: '10. september 2021',
+            subtitle: '10. september 2021',
             infoMessage: 'Info message',
           },
         ]}
