@@ -2048,9 +2048,6 @@ legend.dnb-form-label {
     word-break: normal;
     position: relative;
     z-index: 2; }
-  .dnb-input input.dnb-input__input {
-    font-size: var(--input-font-size);
-    line-height: var(--font-size-basis); }
   .dnb-input__input[disabled] {
     user-select: none;
     -webkit-user-select: none;
@@ -2061,11 +2058,15 @@ legend.dnb-form-label {
   .dnb-input__placeholder, .dnb-input__input {
     width: 100%;
     padding-left: var(--input-padding);
-    padding-right: var(--input-padding);
-    text-align: inherit;
+    padding-right: var(--input-padding); }
+  .dnb-input__placeholder, .dnb-input__input,
+  .dnb-input input.dnb-input__input {
+    padding-top: 0;
+    padding-bottom: 0;
     color: inherit;
     background-color: transparent;
-    font-size: var(--input-font-size); }
+    font-size: var(--input-font-size);
+    line-height: inherit; }
   .dnb-input__placeholder {
     pointer-events: none;
     position: absolute;
