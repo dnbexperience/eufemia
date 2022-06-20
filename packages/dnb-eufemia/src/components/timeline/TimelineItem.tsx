@@ -55,6 +55,16 @@ export interface TimelineItemProps {
    * Default: null
    */
   skeleton?: SkeletonShow
+
+  /**
+   * @deprecated Please use `title`
+   */
+  name?: unknown
+
+  /**
+   * @deprecated Please use `subtitle`
+   */
+  date?: unknown
 }
 
 const defaultProps = {
@@ -81,6 +91,24 @@ const TimelineItem = (localProps: TimelineItemProps) => {
   } = context
 
   // Extract additional props from global context
+  const allProps = usePropsWithContext(
+    localProps,
+    defaultProps,
+    context?.TimelineItem,
+    { skeleton: context?.skeleton }
+  )
+
+  // deprecated
+  if (allProps.name) {
+    delete allProps.name
+    allProps.title = allProps.name
+  }
+  // deprecated
+  if (allProps.date) {
+    delete allProps.date
+    allProps.subtitle = allProps.date
+  }
+
   const {
     icon,
     iconAlt,
@@ -90,12 +118,7 @@ const TimelineItem = (localProps: TimelineItemProps) => {
     state,
     skeleton,
     ...props
-  } = usePropsWithContext(
-    localProps,
-    defaultProps,
-    context?.TimelineItem,
-    { skeleton: context?.skeleton }
-  )
+  } = allProps
 
   const stateIsCompleted = state === 'completed'
   const stateIsCurrent = state === 'current'

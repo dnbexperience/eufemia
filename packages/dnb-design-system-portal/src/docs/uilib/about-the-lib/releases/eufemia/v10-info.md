@@ -23,6 +23,11 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 1. Find the `sticky_offset` property and replace it with `stickyOffset`.
 1. Find the `/elements/Table` property and replace it with `/components/Table`.
 
+### [Timeline](/uilib/components/timeline)
+
+1. Find the `name` property in your Timeline JSX syntax and replace it with `title`.
+1. Find the `date` property in your Timeline JSX syntax and replace it with `subtitle`.
+
 ## Install
 
 To upgrade to @dnb/eufemia v10 with NPM, use:
