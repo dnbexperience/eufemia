@@ -73,7 +73,7 @@ describe('Autocomplete component', () => {
       />
     )
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
-      /* html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">th</span>e <span class="dnb-drawer-list__option__item--highlight">g</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er</span></span></li>`
+      /* html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">th</span>e <span class="dnb-drawer-list__option__item--highlight">g</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er <span class="dnb-drawer-list__option__item--highlight">Th</span>e <span class="dnb-drawer-list__option__item--highlight">G</span>odfa<span class="dnb-drawer-list__option__item--highlight">th</span>er</span></span></span></li>`
     )
   })
 
@@ -166,7 +166,7 @@ describe('Autocomplete component', () => {
       mockData[1]
     )
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
-      /* html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight">thx</span></span></span></li>`
+      /* html */ `<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">BB</span> <span class="dnb-drawer-list__option__item--highlight">cc</span> ze<span class="dnb-drawer-list__option__item--highlight">thx</span></span></span></span></li>`
     )
 
     // check "invalid"
@@ -296,7 +296,7 @@ describe('Autocomplete component', () => {
       target: { value: 'bb' },
     })
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
-      '<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></li>'
+      '<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></span></li>'
     )
 
     // First result direction
@@ -304,7 +304,7 @@ describe('Autocomplete component', () => {
       target: { value: 'cc bb' },
     })
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
-      '<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="2" id="option-autocomplete-id-2"><span class="dnb-drawer-list__option__inner"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span></span></span></li>'
+      '<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="2" id="option-autocomplete-id-2"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span></span></span></span></li>'
     )
 
     // Second result direction
@@ -312,7 +312,7 @@ describe('Autocomplete component', () => {
       target: { value: 'bb cc' },
     })
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
-      '<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></li>'
+      '<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></span></li>'
     )
 
     // With three matches, we prioritize the second one to be on the first place
@@ -320,7 +320,7 @@ describe('Autocomplete component', () => {
       target: { value: 'cc bb more' },
     })
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
-      '<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="3" id="option-autocomplete-id-3"><span class="dnb-drawer-list__option__inner"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span> second</span></span></li>'
+      '<li class="first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="3" id="option-autocomplete-id-3"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span> second</span></span></span></li>'
     )
 
     // Do not find item, as there is defined a search_content
@@ -480,7 +480,7 @@ describe('Autocomplete component', () => {
       mockData[1]
     )
     expect(Comp.find('li.dnb-drawer-list__option').at(0).html()).toBe(
-      /* html */ `<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span><span class="dnb-drawer-list__option__item--highlight">2223</span> <span class="dnb-drawer-list__option__item--highlight">33</span> <span class="dnb-drawer-list__option__item--highlight">4442</span>5</span></span></li>`
+      /* html */ `<li class="first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span><span class="dnb-drawer-list__option__item--highlight">2223</span> <span class="dnb-drawer-list__option__item--highlight">33</span> <span class="dnb-drawer-list__option__item--highlight">4442</span>5</span></span></span></li>`
     )
 
     Comp.find('.dnb-input__input').simulate('change', {
@@ -1472,6 +1472,33 @@ describe('Autocomplete component', () => {
 
     const callThree = on_type.mock.calls[2][0]
     expect(callThree.dataList).toStrictEqual(callTwo.dataList)
+  })
+
+  it('will use selected_value as the input value when selected', () => {
+    const mockData = [
+      { selected_value: 'a value', content: '11 aa' },
+      { selected_value: 'b value', content: '22 bb' },
+      { selected_value: 'c value', content: '22 cc' },
+    ]
+
+    let index = 1
+
+    const Comp = mount(
+      <Component {...mockProps} value={index} data={mockData} />
+    )
+
+    const assert = () => {
+      expect(Comp.find('.dnb-input__input').instance().value).toBe(
+        mockData[index].selected_value
+      )
+    }
+
+    assert()
+
+    index = 2
+    Comp.setProps({ value: index })
+
+    assert()
   })
 
   it('will select correct item after updateData', () => {

@@ -1011,7 +1011,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     <ItemContent
                                       hash="option-autocomplete-id-0-0"
                                     >
-                                      AA c
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                      >
+                                        AA c
+                                      </span>
                                     </ItemContent>
                                   </span>
                                 </li>
@@ -1048,7 +1052,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     <ItemContent
                                       hash="option-autocomplete-id-1-1"
                                     >
-                                      BB cc zethx
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                      >
+                                        BB cc zethx
+                                      </span>
                                     </ItemContent>
                                   </span>
                                 </li>
@@ -1087,13 +1095,13 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                       hash="option-autocomplete-id-2-2"
                                     >
                                       <span
-                                        className="dnb-drawer-list__option__item"
+                                        className="dnb-drawer-list__option__item item-nr-1"
                                         key="option-autocomplete-id-2-20"
                                       >
                                         CC
                                       </span>
                                       <span
-                                        className="dnb-drawer-list__option__item"
+                                        className="dnb-drawer-list__option__item item-nr-2"
                                         key="option-autocomplete-id-2-21"
                                       >
                                         cc
@@ -1267,6 +1275,12 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
   color: var(--color-white);
   background-color: var(--color-sea-green);
   box-shadow: none; }
+
+.dnb-autocomplete--show-indicator .dnb-autocomplete__input .dnb-input__icon {
+  color: transparent; }
+
+.dnb-autocomplete__shell, .dnb-autocomplete__input {
+  border-radius: var(--autocomplete-border-radius); }
 
 .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-form-label:hover
 ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state='disabled']) .dnb-input__shell {
@@ -2858,6 +2872,9 @@ legend.dnb-form-label {
     justify-content: center;
     align-items: center;
     color: var(--color-sea-green); }
+    .dnb-autocomplete__show-all .dnb-drawer-list__option__inner .dnb-drawer-list__option__item {
+      display: flex;
+      flex-direction: column; }
     .dnb-autocomplete__show-all .dnb-drawer-list__option__inner .dnb-icon {
       align-self: center; }
   .dnb-autocomplete__input {
@@ -2869,15 +2886,13 @@ legend.dnb-form-label {
     .dnb-autocomplete__input .dnb-input__shell,
     .dnb-autocomplete__input .dnb-input__input {
       width: 100%; }
-  .dnb-autocomplete--show-indicator .dnb-autocomplete__input .dnb-input__icon {
-    color: transparent; }
   .dnb-autocomplete--opened .dnb-input__submit-button__button .dnb-icon {
     transform: rotate(180deg);
     transform-origin: 50% 50%; }
   .dnb-autocomplete .dnb-input__submit-button__button .dnb-icon {
     transition: transform 400ms ease-out; }
-  .dnb-autocomplete__shell, .dnb-autocomplete__input {
-    border-radius: var(--autocomplete-border-radius); }
+    html[data-visual-test] .dnb-autocomplete .dnb-input__submit-button__button .dnb-icon {
+      transition-duration: 1ms !important; }
   .dnb-autocomplete__text {
     order: 1;
     position: relative;

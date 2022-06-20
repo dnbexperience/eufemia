@@ -56,8 +56,8 @@
       pointer-events: none;
     }
 
-    // This is our border, instead of border-bottom: var(--drawer-list-option-border-width) solid
-    &::before {
+    // This is our border (separator line) instead of border-bottom: var(--drawer-list-option-border-width) solid
+    &__inner::before {
       pointer-events: none;
 
       content: '';
@@ -73,12 +73,11 @@
       background-color: var(--color-mint-green-25);
     }
 
-    &__item:nth-of-type(1) {
+    &__item.item-nr-1 {
       font-weight: var(--font-weight-medium);
     }
 
     &__inner {
-      padding-right: 2rem;
       background-color: var(--color-white);
     }
 
@@ -97,7 +96,7 @@
     }
 
     // Focus ring around item. Only for keyboard usage
-    &--focus {
+    &--focus &__inner {
       // we use the border/line and change it to a fake focus
       &::before {
         z-index: 3;
@@ -117,7 +116,12 @@
       }
     }
 
-    &--selected {
+    &--ignore &__inner {
+      color: var(--color-black-80);
+      background-color: var(--color-white);
+    }
+
+    &--selected &__inner {
       color: var(--color-white);
       background-color: var(--color-emerald-green);
       .dnb-drawer-list__option__inner {
@@ -133,12 +137,25 @@
         }
       }
 
+      // check icon
       &::after {
         content: '';
-        position: absolute;
-        z-index: 1;
-        top: calc(50% - 0.5rem);
-        right: 1rem;
+
+        // IE11 support
+        @supports not (display: grid) {
+          position: absolute;
+          z-index: 1;
+          top: calc(50% - 0.5rem);
+          right: 1rem;
+        }
+
+        @supports (display: grid) {
+          grid-column: 2;
+          grid-row: 1 / -1;
+
+          justify-self: end;
+          align-self: center;
+        }
 
         width: 1rem;
         height: 1rem;
@@ -149,51 +166,43 @@
         background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+ICA8cGF0aCAgICBmaWxsPSIjRTlGOEY0IiAgICBkPSJNMyA4LjhhLjc1Ljc1IDAgMSAwLTEuMjIuODZMMyA4Ljc5em0xLjg0IDMuOWwuNjMtLjQxdi0uMDFoLS4wMWwtLjYyLjQyem0xLjcxLjA1bC0uNTktLjQ2di4wMWwuNTkuNDV6bTguNDMtOS40NWEuNzUuNzUgMCAwIDAtMS4xOC0uOTNsMS4xOC45M3pNMS43OCA5LjY2bDIuNDUgMy40OCAxLjIzLS44N0wzIDguOGwtMS4yMy44N3ptMi40NCAzLjQ2Yy4zMi40OC44Ni43OCAxLjQ0LjhsLjA1LTEuNWEuMy4zIDAgMCAxLS4yNC0uMTNsLTEuMjUuODN6bTEuNDQuOGExLjggMS44IDAgMCAwIDEuNDktLjcxbC0xLjItLjlhLjMuMyAwIDAgMS0uMjQuMWwtLjA1IDEuNXptMS40OC0uN2w3Ljg0LTkuOTItMS4xOC0uOTMtNy44NCA5LjkyIDEuMTguOTN6Ii8+PC9zdmc+);
       }
 
-      // Remove line on selected items
+      // Remove separator line on selected items
       &::before {
         visibility: hidden;
       }
     }
 
-    html[data-whatinput='keyboard'] &--selected#{&}--focus {
-      &::before {
-        visibility: visible;
+    // show focus border when using keyboard
+    html[data-whatinput='keyboard']
+      &--selected#{&}--focus
+      &__inner::before {
+      visibility: visible;
 
-        @include fakeBorder(
-          var(--color-mint-green),
-          var(--drawer-list-focus-border-width)
-        );
-      }
-    }
-
-    &--ignore {
-      .dnb-drawer-list__option__inner {
-        color: var(--color-black-80);
-        background-color: var(--color-white);
-      }
+      @include fakeBorder(
+        var(--color-mint-green),
+        var(--drawer-list-focus-border-width)
+      );
     }
 
     // Focus ring around item. Only for keyboard usage
-    &--focus:not(#{&}--selected) {
-      .dnb-drawer-list__option__inner {
-        color: var(--color-sea-green);
-        background-color: var(--color-mint-green-12);
-      }
+    &--focus:not(#{&}--selected) &__inner {
+      color: var(--color-sea-green);
+      background-color: var(--color-mint-green-12);
     }
 
     &--focus.first-of-type &__inner,
-    &--focus.first-of-type::before {
+    &--focus.first-of-type &__inner::before {
       border-radius: var(--drawer-list-options-border-radius)
         var(--drawer-list-options-border-radius) 0 0;
     }
     &.last-of-type,/* only for the visual demo */
-    &--focus.last-of-type &__inner ,
-    &--focus.last-of-type::before {
+    &--focus.last-of-type &__inner,
+    &--focus.last-of-type &__inner::before {
       border-radius: 0 0 var(--drawer-list-options-border-radius)
         var(--drawer-list-options-border-radius);
     }
     // remove last bottom border
-    &.last-of-type:not(#{&}--focus)::before {
+    &.last-of-type:not(#{&}--focus) &__inner::before {
       content: none;
     }
 
@@ -205,24 +214,24 @@
   }
 
   // make sure we have a spacing on the right side if we have a scrollbar
-  &--scroll &__option:not(#{&}__option--focus)::before {
+  &--scroll &__option:not(#{&}__option--focus) &__option__inner::before {
     left: 0.5rem;
     right: 0.5rem;
   }
 
-  &--bottom &__option--focus.closest-to-top::before {
+  &--bottom &__option--focus.closest-to-top &__option__inner::before {
     border-radius: var(--drawer-list-options-border-radius)
       var(--drawer-list-options-border-radius) 0 0;
   }
-  &--bottom &__option--focus.closest-to-bottom::before {
+  &--bottom &__option--focus.closest-to-bottom &__option__inner::before {
     border-radius: 0 0 var(--drawer-list-options-border-radius)
       var(--drawer-list-options-border-radius);
   }
-  &--top &__option--focus.closest-to-bottom::before {
+  &--top &__option--focus.closest-to-bottom &__option__inner::before {
     border-radius: 0 0 var(--drawer-list-options-border-radius)
       var(--drawer-list-options-border-radius);
   }
-  &--top &__option--focus.closest-to-top::before {
+  &--top &__option--focus.closest-to-top &__option__inner::before {
     border-radius: var(--drawer-list-options-border-radius)
       var(--drawer-list-options-border-radius) 0 0;
   }

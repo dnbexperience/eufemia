@@ -22,6 +22,14 @@
     }
   }
 
+  &--show-indicator &__input .dnb-input__icon {
+    color: transparent;
+  }
+  &__shell,
+  &__input {
+    border-radius: var(--autocomplete-border-radius);
+  }
+
   &__status--error:not(#{&}--opened)
     .dnb-form-label:hover
     ~ &__inner
