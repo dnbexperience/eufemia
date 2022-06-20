@@ -179,6 +179,10 @@ export default class Autocomplete extends React.PureComponent {
               PropTypes.string,
               PropTypes.node,
             ]),
+            suffix_value: PropTypes.oneOfType([
+              PropTypes.string,
+              PropTypes.node,
+            ]),
             content: PropTypes.oneOfType([
               PropTypes.string,
               PropTypes.node,
@@ -1786,7 +1790,7 @@ class AutocompleteInstance extends React.PureComponent {
     }
 
     const inputParams = {
-      className: classnames('dnb-autocomplete__input'),
+      className: 'dnb-autocomplete__input',
       id,
       value: inputValue,
       autoCapitalize: 'none',
@@ -1934,6 +1938,12 @@ class AutocompleteInstance extends React.PureComponent {
                   status={status ? status_state : null}
                   status_state={status_state}
                   type={null}
+                  inner_element={
+                    getCurrentData(
+                      selected_item,
+                      this.context.drawerList.original_data
+                    )?.suffix_value
+                  }
                   submit_element={submitButton}
                   input_state={
                     this.state.skipFocusDuringChange ? 'focus' : undefined

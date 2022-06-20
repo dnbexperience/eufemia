@@ -221,6 +221,17 @@
       }
     }
 
+    &__suffix {
+      // TODO: Use CSS Container Queries when available
+      @include allAbove(small) {
+        grid-column: 2;
+        grid-row: 1 / -1;
+
+        justify-self: end;
+        align-self: center;
+      }
+    }
+
     &--ignore {
       cursor: default;
       pointer-events: none;

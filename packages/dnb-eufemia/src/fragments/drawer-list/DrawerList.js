@@ -583,7 +583,17 @@ export function ItemContent({ hash = '', children }) {
     )
   }
 
-  return content
+  return Object.prototype.hasOwnProperty.call(children, 'suffix_value') ? (
+    <>
+      {content}
+
+      <span className="dnb-drawer-list__option__item dnb-drawer-list__option__suffix">
+        {children.suffix_value}
+      </span>
+    </>
+  ) : (
+    content
+  )
 }
 ItemContent.propTypes = {
   hash: PropTypes.string,

@@ -50,6 +50,7 @@ beforeAll(() => {
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../DrawerList'), {
+    all: true,
     optional: true,
   }),
   id: 'drawer-list-id',

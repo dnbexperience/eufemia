@@ -19,6 +19,7 @@ import {
   Modal,
   // Checkbox
 } from '../../'
+import { Link } from '../../../'
 
 export default {
   title: 'Eufemia/Components/Dropdown',
@@ -101,7 +102,12 @@ const DropdownStory = () => {
             align_dropdown="left"
             variant="tertiary"
             title="Tertiary"
-            data={['Go to this Link', 'Or to this one']}
+            data={[
+              <Link key="item-1" href="/">
+                Go to this Link
+              </Link>,
+              'Or to this one',
+            ]}
           />
           <Dropdown
             size="small"
@@ -110,7 +116,12 @@ const DropdownStory = () => {
             // align_dropdown="right"
             variant="tertiary"
             title="Tertiary"
-            data={['Go to this Link', 'Or to this one']}
+            data={[
+              <Link key="item-1" href="/">
+                Go to this Link
+              </Link>,
+              'Or to this one',
+            ]}
           />
         </RightAligned>
       </Box>
@@ -160,7 +171,12 @@ const DropdownStory = () => {
             size="small"
             // opened
             more_menu
-            data={['Go to this Link', 'Or to this one']}
+            data={[
+              <Link key="item-1" href="/">
+                Go to this Link
+              </Link>,
+              'Or to this one',
+            ]}
             // skip_portal
             align_dropdown="right"
           />
@@ -168,7 +184,12 @@ const DropdownStory = () => {
             size="small"
             // opened
             more_menu
-            data={['Go to this Link', 'Or to this one']}
+            data={[
+              <Link key="item-1" href="/">
+                Go to this Link
+              </Link>,
+              'Or to this one',
+            ]}
             // skip_portal
             // align_dropdown="right"
           />
@@ -299,7 +320,12 @@ const DropdownStory = () => {
               align_dropdown={align_dropdown}
               icon_position={icon_position}
               more_menu={true}
-              data={['Go to this Link', 'Or to this one']}
+              data={[
+                <Link key="item-1" href="/">
+                  Go to this Link
+                </Link>,
+                'Or to this one',
+              ]}
               right="x-large x-large"
               skip_portal
             />
@@ -311,7 +337,12 @@ const DropdownStory = () => {
               direction={direction}
               align_dropdown={align_dropdown}
               icon_position={icon_position}
-              data={['Go to this Link', 'Or to this one']}
+              data={[
+                <Link key="item-1" href="/">
+                  Go to this Link
+                </Link>,
+                'Or to this one',
+              ]}
               right="x-large x-large"
             />
             <Dropdown
@@ -323,7 +354,12 @@ const DropdownStory = () => {
               direction={direction}
               align_dropdown={align_dropdown}
               icon_position={icon_position}
-              data={['Go to this Link', 'Or to this one']}
+              data={[
+                <Link key="item-1" href="/">
+                  Go to this Link
+                </Link>,
+                'Or to this one',
+              ]}
               right="x-large x-large"
             />
             <Dropdown
@@ -335,7 +371,12 @@ const DropdownStory = () => {
               direction={direction}
               align_dropdown={align_dropdown}
               icon_position={icon_position}
-              data={['Go to this Link', 'Or to this one']}
+              data={[
+                <Link key="item-1" href="/">
+                  Go to this Link
+                </Link>,
+                'Or to this one',
+              ]}
               right="x-large x-large"
             />
           </Box>
@@ -596,6 +637,7 @@ export const DropdownSandbox = () => (
 let dropdownData = [
   {
     selected_value: 'Brukskonto - Kari Nordmann',
+    suffix_value: 'Suffix value',
     content: (
       <>
         {/* <Checkbox checked aria-hidden />  */}
@@ -604,11 +646,14 @@ let dropdownData = [
     ),
   },
   {
+    suffix_value: 'Very long suffix value',
     content: [
       <NumberFormat key={12345678902} ban>
         12345678902
       </NumberFormat>,
       'Sparekonto - Ole Nordmann',
+      'Line 2',
+      'Line 3',
     ],
   },
   {
