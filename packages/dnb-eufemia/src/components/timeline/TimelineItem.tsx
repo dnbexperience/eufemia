@@ -30,14 +30,14 @@ export interface TimelineItemProps {
   iconAlt?: string
 
   /**
-   * Text displaying the name of the timeline item.
+   * Text displaying the title of the timeline item.
    */
-  name: React.ReactNode & string
+  title: React.ReactNode | string
 
   /**
-   * Text displaying the date of the timeline item.
+   * Text displaying the subtitle of the timeline item.
    */
-  date?: React.ReactNode | React.ReactNode[]
+  subtitle?: React.ReactNode | React.ReactNode[] | string | string[]
 
   /**
    * Text displaying info message of the timeline item.
@@ -55,13 +55,23 @@ export interface TimelineItemProps {
    * Default: null
    */
   skeleton?: SkeletonShow
+
+  /**
+   * @deprecated Please use `title`
+   */
+  name?: unknown
+
+  /**
+   * @deprecated Please use `subtitle`
+   */
+  date?: unknown
 }
 
 const defaultProps = {
   icon: null,
   iconAlt: null,
-  name: null,
-  date: null,
+  title: null,
+  subtitle: null,
   infoMessage: null,
   state: null,
   skeleton: false,
@@ -81,21 +91,34 @@ const TimelineItem = (localProps: TimelineItemProps) => {
   } = context
 
   // Extract additional props from global context
-  const {
-    icon,
-    iconAlt,
-    name,
-    date,
-    infoMessage,
-    state,
-    skeleton,
-    ...props
-  } = usePropsWithContext(
+  const allProps = usePropsWithContext(
     localProps,
     defaultProps,
     context?.TimelineItem,
     { skeleton: context?.skeleton }
   )
+
+  // deprecated
+  if (allProps.name) {
+    delete allProps.name
+    allProps.title = allProps.name
+  }
+  // deprecated
+  if (allProps.date) {
+    delete allProps.date
+    allProps.subtitle = allProps.date
+  }
+
+  const {
+    icon,
+    iconAlt,
+    title,
+    subtitle,
+    infoMessage,
+    state,
+    skeleton,
+    ...props
+  } = allProps
 
   const stateIsCompleted = state === 'completed'
   const stateIsCurrent = state === 'current'
@@ -139,13 +162,13 @@ const TimelineItem = (localProps: TimelineItemProps) => {
     )
   }
 
-  const TimelineItemName = () => {
+  const TimelineItemTitle = () => {
     return (
       <span
-        className="dnb-timeline__item__label__name"
-        data-testid="timeline-item-label-name"
+        className="dnb-timeline__item__label__title"
+        data-testid="timeline-item-label-title"
       >
-        {name}
+        {title}
       </span>
     )
   }
@@ -154,37 +177,41 @@ const TimelineItem = (localProps: TimelineItemProps) => {
     return (
       <span className="dnb-timeline__item__label">
         <TimelineItemIcon />
-        <TimelineItemName />
+        <TimelineItemTitle />
       </span>
     )
   }
 
-  const getDate = () => {
-    const TimelineItemDate = ({ date }: { date: React.ReactNode }) => (
+  const getSubtitle = () => {
+    const TimelineItemSubtitle = ({
+      subtitle,
+    }: {
+      subtitle: React.ReactNode
+    }) => (
       <div
-        className="dnb-timeline__item__content__date"
-        data-testid="timeline-item-content-date"
+        className="dnb-timeline__item__content__subtitle"
+        data-testid="timeline-item-content-subtitle"
       >
-        {date}
+        {subtitle}
       </div>
     )
 
-    if (!date) {
+    if (!subtitle) {
       return null
     }
 
-    if (Array.isArray(date)) {
-      return date.map((date, i) => (
-        <TimelineItemDate key={i} date={date} />
+    if (Array.isArray(subtitle)) {
+      return subtitle.map((subtitle, i) => (
+        <TimelineItemSubtitle key={i} subtitle={subtitle} />
       ))
     }
-    return <TimelineItemDate date={date} />
+    return <TimelineItemSubtitle subtitle={subtitle} />
   }
 
   const TimelineItemContent = () => {
     return (
       <div className="dnb-timeline__item__content">
-        {getDate()}
+        {getSubtitle()}
         {infoMessage && (
           <FormStatus
             text={infoMessage}

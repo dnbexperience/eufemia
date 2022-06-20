@@ -18,10 +18,10 @@ showTabs: true
 
 | Properties    | Description                                                                                                                                                                        |
 | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`        | _(required)_ Name/title of the Timeline item.                                                                                                                                      |
+| `title`       | _(required)_ Title of the Timeline item.                                                                                                                                           |
 | `state`       | _(required)_ The component state. Options: `completed` \| `current` \| `upcoming`.                                                                                                 |
-| `date`        | _(optional)_ Date of the Timeline item, displayed below the `name`. Also supports passing an array of dates.                                                                       |
-| `infoMessage` | _(optional)_ Info message, displayed in a [FormStatus of state info](/uilib/components/form-status#formstatus-displaying-info-status), below the `date` if it exists.              |
+| `subtitle`    | _(optional)_ Subtitle of the Timeline item, displayed below the `title`. Also supports passing an array of subtitles. The subtitle is usually a date of the timeline item.         |
+| `infoMessage` | _(optional)_ Info message, displayed in a [FormStatus of state info](/uilib/components/form-status#formstatus-displaying-info-status), below the `subtitle` if it exists.          |
 | `icon`        | _(optional)_ Override icon displaying on the left side (Not recommended). Default: `check` for state `completed`, `pin` for state `current`, and `calendar` for state `upcoming` . |
 | `iconAlt`     | _(optional)_ Alt label describing the icon provided.                                                                                                                               |
 | `skeleton`    | _(optional)_ Applies loading skeleton.                                                                                                                                             |
