@@ -53,14 +53,6 @@
     z-index: 2; // to make sure we are over the placeholder
   }
 
-  input#{&}__input {
-    // because we inherit the size on the input (reset.css)
-    font-size: var(--input-font-size);
-    line-height: var(
-      --font-size-basis
-    ); // same as font-size - Desktop Safari fix
-  }
-
   &__input[disabled] {
     user-select: none;
     -webkit-user-select: none; // Safari / Touch fix
@@ -80,14 +72,24 @@
     padding-right: var(
       --input-padding
     ); // we may expand things because of the ellipsis
+  }
 
-    text-align: inherit;
+  &__placeholder,
+  &__input,
+  input#{&}__input // Safari fix
+  {
+    // reset browser styling
+    padding-top: 0; // Safari fix
+    padding-bottom: 0; // Safari fix
 
     color: inherit;
     background-color: transparent;
 
     // because we inherit the size on the input (reset.css)
     font-size: var(--input-font-size);
+
+    // because we inherit the size on the input (reset.css)
+    line-height: inherit; // Safari fix
   }
 
   &__placeholder {
