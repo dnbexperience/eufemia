@@ -557,7 +557,7 @@ DrawerList.Item.defaultProps = {
   value: null,
 }
 
-const ItemContent = ({ hash, children }) => {
+export function ItemContent({ hash = '', children }) {
   if (Array.isArray(children.content || children)) {
     return (children.content || children).map((item, n) => (
       <span key={hash + n} className="dnb-drawer-list__option__item">
@@ -573,12 +573,8 @@ const ItemContent = ({ hash, children }) => {
   return children
 }
 ItemContent.propTypes = {
-  hash: PropTypes.string.isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.func,
-    PropTypes.object,
-  ]).isRequired,
+  hash: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
 }
 
 DrawerList.HorizontalItem = ({ className, ...props }) => (

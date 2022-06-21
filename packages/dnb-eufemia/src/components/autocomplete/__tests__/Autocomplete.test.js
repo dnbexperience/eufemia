@@ -12,6 +12,7 @@ import {
   loadScss,
   attachToBody,
 } from '../../../core/jest/jestSetup'
+import * as helpers from '../../../shared/helpers'
 import Component from '../Autocomplete'
 import { SubmitButton } from '../../../components/input/Input'
 import { format } from '../../../components/number-format/NumberUtils'
@@ -269,6 +270,56 @@ describe('Autocomplete component', () => {
     expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
       'Ingen alternativer'
     )
+  })
+
+  it('should update aria-live (for VoiceOver support) with selected item', () => {
+    // eslint-disable-next-line
+    helpers.IS_MAC = true
+
+    const Comp = mount(
+      <Component
+        id="autocomplete-id"
+        data={mockData}
+        show_submit_button
+        {...mockProps}
+      />
+    )
+
+    toggle(Comp)
+
+    expect(Comp.find('.dnb-sr-only').first().text()).toBe('')
+
+    // simulate changes
+    keydown(Comp, 40) // down
+
+    expect(Comp.find('.dnb-sr-only').first().text()).toBe('AA c')
+
+    // simulate changes
+    keydown(Comp, 40) // down
+
+    expect(Comp.find('.dnb-sr-only').first().text()).toBe('BB cc zethx')
+
+    // simulate changes
+    keydown(Comp, 40) // down
+
+    expect(Comp.find('.dnb-sr-only').first().text()).toBe('CCcc')
+
+    keydown(Comp, 13) // enter
+
+    expect(Comp.find('.dnb-sr-only').first().text()).toBe('CCcc Valgt')
+
+    // simulate changes
+    keydown(Comp, 38) // up
+
+    expect(Comp.find('.dnb-sr-only').first().text()).toBe('BB cc zethx')
+
+    // eslint-disable-next-line
+    helpers.IS_MAC = false
+
+    // simulate changes
+    keydown(Comp, 38) // up
+
+    expect(Comp.find('.dnb-sr-only').first().text()).toBe('')
   })
 
   it('can be used with regex chars', () => {

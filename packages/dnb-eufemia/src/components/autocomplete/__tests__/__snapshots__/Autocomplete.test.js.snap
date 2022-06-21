@@ -71,6 +71,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   scrollable="scrollable"
   search_in_word_index="search_in_word_index"
   search_numbers="search_numbers"
+  selected_sr="selected_sr"
   show_all="show_all"
   show_clear_button="show_clear_button"
   show_options_sr="show_options_sr"
@@ -176,6 +177,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     scrollable="scrollable"
     search_in_word_index="search_in_word_index"
     search_numbers="search_numbers"
+    selected_sr="selected_sr"
     show_all="show_all"
     show_clear_button="show_clear_button"
     show_options_sr="show_options_sr"
@@ -270,6 +272,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       scrollable="scrollable"
       search_in_word_index="search_in_word_index"
       search_numbers="search_numbers"
+      selected_sr="selected_sr"
       show_all="show_all"
       show_clear_button="show_clear_button"
       show_options_sr="show_options_sr"
@@ -1185,6 +1188,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "scrollable": "scrollable",
                   "search_in_word_index": "search_in_word_index",
                   "search_numbers": "search_numbers",
+                  "selected_sr": "selected_sr",
                   "show_all": "show_all",
                   "show_clear_button": "show_clear_button",
                   "show_options_sr": "show_options_sr",
