@@ -213,6 +213,66 @@ describe('Autocomplete component', () => {
     )
   })
 
+  it('should update aria-live with results', async () => {
+    const Comp = mount(
+      <Component
+        id="autocomplete-id"
+        data={mockData}
+        show_submit_button
+        ariaLiveDelay={1}
+        {...mockProps}
+      />
+    )
+
+    toggle(Comp)
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'bb' },
+    })
+
+    await wait(2)
+
+    expect(Comp.find('.dnb-sr-only').last().text()).toBe('1 alternativer')
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[1]
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'cc' },
+    })
+
+    await wait(2)
+
+    expect(Comp.find('.dnb-sr-only').last().text()).toBe('2 alternativer')
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[2].content.join('')
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'c' },
+    })
+
+    await wait(2)
+
+    expect(Comp.find('.dnb-sr-only').last().text()).toBe('3 alternativer')
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      mockData[2].content.join('')
+    )
+
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'invalid' },
+    })
+
+    await wait(2)
+
+    expect(Comp.find('.dnb-sr-only').last().text()).toBe(
+      'Ingen alternativer'
+    )
+    expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
+      'Ingen alternativer'
+    )
+  })
+
   it('will prefer search_content over content', () => {
     const mockData = [
       { content: 'item aa', search_content: ['AA c'] },
@@ -1738,3 +1798,5 @@ const toggle = (Comp) => {
     .not('.dnb-input__clear-button')
     .simulate('click')
 }
+
+const wait = (t) => new Promise((r) => setTimeout(r, t))
