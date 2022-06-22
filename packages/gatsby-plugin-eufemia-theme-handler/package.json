@@ -19,7 +19,7 @@
   "main": "index.js",
   "dependencies": {
     "@dnb/eufemia": "workspace:*",
-    "@emotion/react": "11.9.0"
+    "@emotion/react": "11.9.3"
   },
   "devDependencies": {
     "globby": "11.0.4",
