@@ -309,8 +309,18 @@ describe('NumberFormat component', () => {
     )
   })
 
+  it('will add visually hidden label when srLabel is given', () => {
+    const Comp = mount(
+      <Component value={-value} currency srLabel="Total:" />
+    )
+    expect(Comp.find('.dnb-sr-only').first().text()).toBe('Total: ')
+    expect(Comp.text()).toContain('Total: -12 345 678,99 kr')
+  })
+
   it('should validate with ARIA rules', async () => {
-    const Comp = mount(<Component value={-value} currency />)
+    const Comp = mount(
+      <Component value={-value} currency srLabel="Total:" />
+    )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

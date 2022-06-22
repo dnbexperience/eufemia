@@ -22,7 +22,7 @@ export const NumberDefault = () => (
     <ComponentBox data-visual-test="number-format-default">
       {() => /* jsx */ `
 <P>
-  <NumberFormat value="12345" />
+  <NumberFormat value="12345" srLabel="Total:" />
   <NumberFormat>-12345678.9</NumberFormat>
   <NumberFormat prefix={<b>prefix</b>} suffix="suffix">-12345678.9</NumberFormat>
   <NumberFormat decimals={1}>-1234.54321</NumberFormat>
