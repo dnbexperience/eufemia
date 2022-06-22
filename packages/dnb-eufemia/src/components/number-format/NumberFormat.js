@@ -86,6 +86,7 @@ export default class NumberFormat extends React.PureComponent {
     ]),
     omit_rounding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     clean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    srLabel: PropTypes.node,
     element: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     tooltip: PropTypes.oneOfType([
       PropTypes.string,
@@ -124,6 +125,7 @@ export default class NumberFormat extends React.PureComponent {
     clean_copy_value: false,
     omit_rounding: null,
     clean: null,
+    srLabel: null,
     element: 'span', // span or abbr
     tooltip: null,
     skeleton: null,
@@ -259,6 +261,7 @@ export default class NumberFormat extends React.PureComponent {
       selectall,
       copy_selection,
       clean_copy_value,
+      srLabel,
       element,
       class: _className,
       className,
@@ -400,6 +403,12 @@ export default class NumberFormat extends React.PureComponent {
      */
     return (
       <Element lang={lang} {...attributes}>
+        {srLabel && (
+          <span className="dnb-sr-only">
+            {srLabel}
+            {' '}
+          </span>
+        )}
         <span
           className={classnames(
             'dnb-number-format__visible',
