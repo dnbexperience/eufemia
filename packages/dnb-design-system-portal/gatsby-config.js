@@ -107,6 +107,17 @@ const plugins = [
   'gatsby-plugin-sass',
   'gatsby-plugin-emotion',
   {
+    resolve: 'gatsby-plugin-scroll-position',
+    options: {
+      elements: [
+        {
+          selector: '#portal-sidebar-menu',
+          ensureInView: '#portal-sidebar-menu ul li.is-active',
+        },
+      ],
+    },
+  },
+  {
     resolve: 'gatsby-plugin-eufemia-theme-handler',
     options: {
       themes: {
@@ -162,4 +173,5 @@ module.exports = {
   siteMetadata,
   plugins,
   jsxRuntime: 'automatic',
+  trailingSlash: 'always',
 }
