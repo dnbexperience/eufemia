@@ -872,13 +872,13 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                       hash="option-dropdown-id-0-0"
                                     >
                                       <span
-                                        className="dnb-drawer-list__option__item"
+                                        className="dnb-drawer-list__option__item item-nr-1"
                                         key="option-dropdown-id-0-00"
                                       >
                                         1234 56 78901
                                       </span>
                                       <span
-                                        className="dnb-drawer-list__option__item"
+                                        className="dnb-drawer-list__option__item item-nr-2"
                                         key="option-dropdown-id-0-01"
                                       >
                                         Brukskonto - Kari Nordmann
@@ -920,13 +920,13 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                       hash="option-dropdown-id-1-1"
                                     >
                                       <span
-                                        className="dnb-drawer-list__option__item"
+                                        className="dnb-drawer-list__option__item item-nr-1"
                                         key="option-dropdown-id-1-10"
                                       >
                                         1234 56 78902
                                       </span>
                                       <span
-                                        className="dnb-drawer-list__option__item"
+                                        className="dnb-drawer-list__option__item item-nr-2"
                                         key="option-dropdown-id-1-11"
                                       >
                                         Sparekonto - Ole Nordmann
@@ -969,13 +969,13 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                       hash="option-dropdown-id-2-2"
                                     >
                                       <span
-                                        className="dnb-drawer-list__option__item"
+                                        className="dnb-drawer-list__option__item item-nr-1"
                                         key="option-dropdown-id-2-20"
                                       >
                                         1134 56 78962
                                       </span>
                                       <span
-                                        className="dnb-drawer-list__option__item"
+                                        className="dnb-drawer-list__option__item item-nr-2"
                                         key="option-dropdown-id-2-21"
                                       >
                                         Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
@@ -1017,13 +1017,13 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                       hash="option-dropdown-id-3-3"
                                     >
                                       <span
-                                        className="dnb-drawer-list__option__item"
+                                        className="dnb-drawer-list__option__item item-nr-1"
                                         key="option-dropdown-id-3-30"
                                       >
                                         1534 96 48901
                                       </span>
                                       <span
-                                        className="dnb-drawer-list__option__item"
+                                        className="dnb-drawer-list__option__item item-nr-2"
                                         key="option-dropdown-id-3-31"
                                       >
                                         Oppussing - Ole Nordmann
@@ -1064,8 +1064,12 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                     <ItemContent
                                       hash="option-dropdown-id-4-4"
                                     >
-                                      Custom content 
-                                      123
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                      >
+                                        Custom content 
+                                        123
+                                      </span>
                                     </ItemContent>
                                   </span>
                                 </li>
@@ -1102,8 +1106,12 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                     <ItemContent
                                       hash="option-dropdown-id-5-5"
                                     >
-                                      Custom content 
-                                      123
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                      >
+                                        Custom content 
+                                        123
+                                      </span>
                                     </ItemContent>
                                   </span>
                                 </li>
@@ -1141,7 +1149,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                       hash="option-dropdown-id-6-6"
                                     >
                                       <span
-                                        className="dnb-drawer-list__option__item"
+                                        className="dnb-drawer-list__option__item item-nr-1"
                                         key="option-dropdown-id-6-60"
                                       >
                                         Custom content 
@@ -1183,7 +1191,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                                     <ItemContent
                                       hash="option-dropdown-id-7-7"
                                     >
-                                      0y
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                      >
+                                        0y
+                                      </span>
                                     </ItemContent>
                                   </span>
                                 </li>

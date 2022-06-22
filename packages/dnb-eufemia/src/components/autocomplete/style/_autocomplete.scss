@@ -76,6 +76,11 @@
       justify-content: center;
       align-items: center;
 
+      .dnb-drawer-list__option__item {
+        display: flex;
+        flex-direction: column;
+      }
+
       .dnb-icon {
         align-self: center;
       }
@@ -98,20 +103,17 @@
       width: 100%;
     }
   }
-  &--show-indicator &__input .dnb-input__icon {
-    color: transparent;
-  }
+
   &--opened .dnb-input__submit-button__button .dnb-icon {
     transform: rotate(180deg);
     transform-origin: 50% 50%;
   }
   .dnb-input__submit-button__button .dnb-icon {
     transition: transform 400ms ease-out;
-  }
 
-  &__shell,
-  &__input {
-    border-radius: var(--autocomplete-border-radius);
+    html[data-visual-test] & {
+      transition-duration: 1ms !important;
+    }
   }
 
   &__text {

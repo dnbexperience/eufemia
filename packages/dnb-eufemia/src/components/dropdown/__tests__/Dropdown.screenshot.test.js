@@ -147,6 +147,7 @@ describe('Dropdown screenshot', () => {
 
   it('have to match the dropdown action menu with custom items', async () => {
     const screenshot = await testPageScreenshot({
+      reload: true,
       selector: '[data-visual-test="dropdown-action_menu-custom"]',
     })
     expect(screenshot).toMatchImageSnapshot()
