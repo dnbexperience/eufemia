@@ -1214,6 +1214,39 @@ describe('Autocomplete component', () => {
     expect(on_type).toBeCalledTimes(4)
   })
 
+  it('should have a button for screen readers to open options – regardless', () => {
+    const Comp = mount(
+      <Component id="autocomplete-id" data={mockData} no_animation />,
+      { attachTo: attachToBody() }
+    )
+
+    const buttonElem = Comp.find('.dnb-sr-only').find('button')
+
+    expect(buttonElem.text()).toBe(
+      'Bla gjennom alternativer, lukk med esc knappen'
+    )
+    expect(buttonElem.exists()).toBe(true)
+    expect(buttonElem.instance().getAttribute('tabindex')).toBe('-1')
+
+    buttonElem.simulate('click')
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(true)
+    expect(Array.from(document.activeElement.classList)).toContain(
+      'dnb-drawer-list__options'
+    )
+
+    buttonElem.simulate('click')
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(false)
+    expect(Array.from(document.activeElement.classList)).toContain(
+      'dnb-input__input'
+    )
+  })
+
   it('should keep input focus when using show-all or select item', () => {
     const Comp = mount(<Component data={mockData} {...mockProps} />, {
       attachTo: attachToBody(),
@@ -1221,9 +1254,9 @@ describe('Autocomplete component', () => {
 
     Comp.find('input').simulate('change', { target: { value: 'cc' } })
 
-    expect(
-      document.activeElement.classList.contains('dnb-drawer-list__options')
-    ).toBe(true)
+    expect(Array.from(document.activeElement.classList)).toContain(
+      'dnb-input__input'
+    )
     expect(
       Comp.find(
         'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
@@ -1232,9 +1265,9 @@ describe('Autocomplete component', () => {
 
     Comp.find('input').instance().focus()
 
-    expect(
-      document.activeElement.classList.contains('dnb-input__input')
-    ).toBe(true)
+    expect(Array.from(document.activeElement.classList)).toContain(
+      'dnb-input__input'
+    )
 
     Comp.find('li.dnb-autocomplete__show-all').simulate('click')
 
@@ -1244,9 +1277,9 @@ describe('Autocomplete component', () => {
         .hasClass('dnb-drawer-list__option--focus')
     ).toBe(true)
 
-    expect(
-      document.activeElement.classList.contains('dnb-input__input')
-    ).toBe(true)
+    expect(Array.from(document.activeElement.classList)).toContain(
+      'dnb-input__input'
+    )
 
     expect(
       Comp.find(
@@ -1257,9 +1290,9 @@ describe('Autocomplete component', () => {
     Comp.find('input').instance().blur()
     Comp.find('li.dnb-drawer-list__option').at(0).simulate('click')
 
-    expect(
-      document.activeElement.classList.contains('dnb-input__input')
-    ).toBe(true)
+    expect(Array.from(document.activeElement.classList)).toContain(
+      'dnb-input__input'
+    )
   })
 
   it('will open drawer-list when open_on_focus is set to true', () => {
@@ -1643,10 +1676,6 @@ describe('Autocomplete component', () => {
     // open
     keydown(Comp, 40) // down
 
-    expect(Array.from(document.activeElement.classList)).toContain(
-      'dnb-drawer-list__options'
-    )
-
     Comp.find('input').instance().focus()
 
     // focus the first item
@@ -1680,6 +1709,24 @@ describe('Autocomplete component', () => {
 
     // run second round
     runTabs()
+  })
+
+  it('will keep focus on input when opening', () => {
+    const mockData = ['first item', 'one more item']
+
+    const Comp = mount(
+      <Component id="autocomplete-id" data={mockData} {...mockProps} />,
+      {
+        attachTo: attachToBody(),
+      }
+    )
+
+    Comp.find('input').instance().focus()
+
+    // open
+    keydown(Comp, 40) // down
+
+    expect(document.activeElement.tagName).toBe('INPUT')
   })
 
   it('submit_element will replace the internal SubmitButton', () => {
@@ -1717,36 +1764,6 @@ describe('Autocomplete component', () => {
         .instance()
         .getAttribute('data-test-id')
     ).toContain('bell')
-  })
-
-  it('should have a button for screen readers to open options – regardless', () => {
-    const Comp = mount(
-      <Component id="autocomplete-id" data={mockData} no_animation />,
-      { attachTo: attachToBody() }
-    )
-
-    const buttonElem = Comp.find('.dnb-sr-only').find('button')
-
-    expect(buttonElem.exists()).toBe(true)
-    expect(buttonElem.instance().getAttribute('tabindex')).toBe('-1')
-
-    buttonElem.simulate('click')
-
-    expect(
-      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
-    ).toBe(true)
-    expect(
-      document.activeElement.classList.contains('dnb-drawer-list__options')
-    ).toBe(true)
-
-    buttonElem.simulate('click')
-
-    expect(
-      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
-    ).toBe(false)
-    expect(
-      document.activeElement.classList.contains('dnb-input__input')
-    ).toBe(true)
   })
 })
 
