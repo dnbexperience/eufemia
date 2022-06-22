@@ -1029,6 +1029,7 @@ describe('DatePicker component', () => {
         range
         start_date={defaultProps.start_date}
         end_date={defaultProps.end_date}
+        id="unique-id"
       />,
       { attachTo: attachToBody() }
     )
