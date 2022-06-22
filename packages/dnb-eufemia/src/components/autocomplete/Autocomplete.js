@@ -41,7 +41,9 @@ import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Input, { SubmitButton } from '../input/Input'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
-import DrawerList from '../../fragments/drawer-list/DrawerList'
+import DrawerList, {
+  ItemContent,
+} from '../../fragments/drawer-list/DrawerList'
 import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
@@ -72,6 +74,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.node,
     ]),
     show_options_sr: PropTypes.string,
+    selected_sr: PropTypes.string,
     submit_button_title: PropTypes.string,
     submit_button_icon: PropTypes.oneOfType([
       PropTypes.string,
@@ -249,6 +252,7 @@ export default class Autocomplete extends React.PureComponent {
     aria_live_options: null,
     indicator_label: null,
     show_options_sr: null,
+    selected_sr: null,
     submit_button_title: null,
     submit_button_icon: 'chevron_down',
     input_ref: null,
@@ -1618,6 +1622,30 @@ class AutocompleteInstance extends React.PureComponent {
     }, 1e3) // so that the input gets read out first, and then the results
   }
 
+  getVocieOverActiveItem(selected_sr) {
+    // Add VoiceOver support to read the "selected" item
+    if (IS_MAC) {
+      const { active_item, selected_item } = this.context.drawerList
+      const currentDataItem = getCurrentData(
+        active_item,
+        this.context.drawerList.data
+      )
+
+      return (
+        <span className="dnb-sr-only" aria-live="assertive" aria-atomic>
+          {currentDataItem && (
+            <>
+              <ItemContent>{currentDataItem}</ItemContent>
+              {active_item === selected_item ? <> {selected_sr}</> : null}
+            </>
+          )}
+        </span>
+      )
+    }
+
+    return null
+  }
+
   render() {
     // use only the props from context, who are available here anyway
     const props = (this._props = extendPropsWithContext(
@@ -1665,6 +1693,7 @@ class AutocompleteInstance extends React.PureComponent {
       search_numbers, // eslint-disable-line
       search_in_word_index, // eslint-disable-line
       show_options_sr, // eslint-disable-line
+      selected_sr,
       submit_button_title,
       submit_button_icon,
       portal_class,
@@ -1963,15 +1992,8 @@ class AutocompleteInstance extends React.PureComponent {
           </span>
         </span>
 
-        {/* Help VO to read the list, as long as no input changes are made we need that (&& _input_value === inputValue) */}
-        {IS_MAC && (
-          <span className="dnb-sr-only" aria-live="assertive">
-            {AutocompleteInstance.getCurrentDataTitle(
-              active_item,
-              this.context.drawerList.original_data
-            )}
-          </span>
-        )}
+        {/* Add VoiceOver support to read the "selected" item */}
+        {this.getVocieOverActiveItem(selected_sr)}
 
         <span className="dnb-sr-only" aria-live="assertive">
           {ariaLiveUpdate}
