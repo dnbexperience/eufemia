@@ -785,7 +785,6 @@ describe('Autocomplete component', () => {
       attributes: {
         ...params,
         onMouseDown: expect.any(Function),
-        onTouchStart: expect.any(Function),
       },
       data: null,
       ulElement: null,
@@ -916,12 +915,6 @@ describe('Autocomplete component', () => {
 
     // Try to call on_blur by mousedown
     Comp.find('.dnb-drawer-list').simulate('mousedown')
-    Comp.find('input').simulate('blur')
-    expect(on_blur).toHaveBeenCalledTimes(0)
-    expect(onBlur).toHaveBeenCalledTimes(0)
-
-    // Try to call on_blur by touch
-    Comp.find('.dnb-drawer-list').simulate('touchstart')
     Comp.find('input').simulate('blur')
     expect(on_blur).toHaveBeenCalledTimes(0)
     expect(onBlur).toHaveBeenCalledTimes(0)

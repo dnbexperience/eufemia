@@ -556,7 +556,7 @@ DrawerList.Item.defaultProps = {
   value: null,
 }
 
-export function ItemContent({ hash, children }) {
+export function ItemContent({ hash = '', children }) {
   let content = null
 
   if (Array.isArray(children.content || children)) {
