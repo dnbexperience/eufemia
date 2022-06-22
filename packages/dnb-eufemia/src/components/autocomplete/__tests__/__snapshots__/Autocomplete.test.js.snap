@@ -849,7 +849,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 no_animation={true}
                 no_scroll_animation="no_scroll_animation"
                 onMouseDown={[Function]}
-                onTouchStart={[Function]}
                 on_change={[Function]}
                 on_hide={[Function]}
                 on_key_down={[Function]}
@@ -901,7 +900,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   no_animation={true}
                   no_scroll_animation="no_scroll_animation"
                   onMouseDown={[Function]}
-                  onTouchStart={[Function]}
                   on_change={[Function]}
                   on_hide={[Function]}
                   on_key_down={[Function]}
@@ -936,7 +934,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       disabled="disabled"
                       id="autocomplete-id-drawer-list"
                       onMouseDown={[Function]}
-                      onTouchStart={[Function]}
                     >
                       <span
                         className="dnb-drawer-list__list dnb-autocomplete__list dnb-drawer-list__list--no-animation"

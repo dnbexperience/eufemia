@@ -1989,7 +1989,6 @@ class AutocompleteInstance extends React.PureComponent {
                 on_pre_change={this.onPreChangeHandler}
                 on_key_down={this.onReserveActivityHandler}
                 onMouseDown={this.onReserveActivityHandler}
-                onTouchStart={this.onReserveActivityHandler}
               />
             </span>
 
