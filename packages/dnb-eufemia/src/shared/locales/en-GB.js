@@ -66,7 +66,7 @@ export default {
       show_all: 'Show everything',
       show_options_sr: 'Browse options, close with esc button',
       aria_live_options: '%s options',
-      selected_sr: 'Selected',
+      selected_sr: 'Selected:',
       indicator_label: 'Getting data ...',
     },
     Modal: {

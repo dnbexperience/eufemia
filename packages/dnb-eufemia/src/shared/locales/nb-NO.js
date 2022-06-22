@@ -66,7 +66,7 @@ export default {
       show_all: 'Vis alt',
       show_options_sr: 'Bla gjennom alternativer, lukk med esc knappen',
       aria_live_options: '%s alternativer',
-      selected_sr: 'Valgt',
+      selected_sr: 'Valgt:',
       indicator_label: 'Henter data ...',
     },
     Modal: {

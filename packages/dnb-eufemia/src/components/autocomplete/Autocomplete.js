@@ -1647,8 +1647,8 @@ class AutocompleteInstance extends React.PureComponent {
         <span className="dnb-sr-only" aria-live="assertive" aria-atomic>
           {currentDataItem && (
             <>
+              {active_item === selected_item ? <>{selected_sr} </> : null}
               <ItemContent>{currentDataItem}</ItemContent>
-              {active_item === selected_item ? <> {selected_sr}</> : null}
             </>
           )}
         </span>

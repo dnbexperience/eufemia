@@ -366,7 +366,7 @@ describe('Autocomplete component', () => {
 
     keydown(Comp, 13) // enter
 
-    expect(Comp.find('.dnb-sr-only').first().text()).toBe('CCcc Valgt')
+    expect(Comp.find('.dnb-sr-only').first().text()).toBe('Valgt: CCcc')
 
     // simulate changes
     keydown(Comp, 38) // up
