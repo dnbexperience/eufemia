@@ -3,6 +3,7 @@
 exports[`Autocomplete markup have to match snapshot 1`] = `
 <Autocomplete
   align_autocomplete={null}
+  ariaLiveDelay={1}
   aria_live_options="aria_live_options"
   class="class"
   className="className"
@@ -96,6 +97,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     action_menu={false}
     align_autocomplete={null}
     align_drawer="left"
+    ariaLiveDelay={1}
     aria_live_options="aria_live_options"
     cache_hash={null}
     class="class"
@@ -204,6 +206,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   >
     <AutocompleteInstance
       align_autocomplete={null}
+      ariaLiveDelay={1}
       aria_live_options="aria_live_options"
       class="class"
       className="className"
@@ -1121,6 +1124,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
               context={
                 Object {
                   "align_autocomplete": null,
+                  "ariaLiveDelay": 1,
                   "aria_live_options": "aria_live_options",
                   "children": "children",
                   "class": "class",

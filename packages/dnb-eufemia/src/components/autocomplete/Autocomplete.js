@@ -232,6 +232,11 @@ export default class Autocomplete extends React.PureComponent {
     custom_element: PropTypes.object,
     custom_method: PropTypes.func,
 
+    /**
+     * For internal use
+     */
+    ariaLiveDelay: PropTypes.number,
+
     on_show: PropTypes.func,
     on_type: PropTypes.func,
     on_focus: PropTypes.func,
@@ -315,6 +320,7 @@ export default class Autocomplete extends React.PureComponent {
 
     custom_element: null,
     custom_method: null,
+    ariaLiveDelay: null,
 
     on_show: null,
     on_hide: null,
@@ -1024,14 +1030,16 @@ class AutocompleteInstance extends React.PureComponent {
     }
   }
 
-  hasShowMore = (data = this.context.drawerList.data) => {
+  hasInjectedDataItem = (data = this.context.drawerList.data) => {
     const lastItem = data.slice(-1)[0]
-    return lastItem && lastItem.show_all === true
+    return lastItem
+      ? lastItem.show_all || lastItem.__id === 'no_options'
+      : false
   }
 
   countData = (data = this.context.drawerList.data) => {
     const count = data.length
-    return count > 0 && this.hasShowMore(data) ? count - 1 : count
+    return count > 0 && this.hasInjectedDataItem(data) ? count - 1 : count
   }
 
   hasValidData = (data = this.context.drawerList.data) => {
@@ -1590,12 +1598,16 @@ class AutocompleteInstance extends React.PureComponent {
 
   setAriaLiveUpdate() {
     const { opened } = this.context.drawerList
-    const { aria_live_options, no_options } = this._props
+    const {
+      aria_live_options,
+      no_options,
+      ariaLiveDelay = 1000,
+    } = this._props
 
     // this is only to make a better screen reader ux
     clearTimeout(this._ariaLiveUpdateTimeout)
-    this._ariaLiveUpdateTimeout = setTimeout(() => {
-      if (opened) {
+    if (opened) {
+      this._ariaLiveUpdateTimeout = setTimeout(() => {
         let newString = null
 
         const count = this.countData()
@@ -1616,10 +1628,10 @@ class AutocompleteInstance extends React.PureComponent {
               ariaLiveUpdate: null,
               _listenForPropChanges: false,
             })
-          }, 1e3)
+          }, 1000)
         }
-      }
-    }, 1e3) // so that the input gets read out first, and then the results
+      }, ariaLiveDelay) // so that the input gets read out first, and then the results
+    }
   }
 
   getVocieOverActiveItem(selected_sr) {
@@ -1722,6 +1734,7 @@ class AutocompleteInstance extends React.PureComponent {
       show_all, // eslint-disable-line
       aria_live_options, // eslint-disable-line
       disable_highlighting, // eslint-disable-line
+      ariaLiveDelay, // eslint-disable-line
 
       ...attributes
     } = props
