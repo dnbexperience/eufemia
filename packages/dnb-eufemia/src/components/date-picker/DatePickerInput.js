@@ -259,47 +259,54 @@ export default class DatePickerInput extends React.PureComponent {
   }
 
   prepareCounting = async ({ keyCode, target, event }) => {
-    const isDate = target
-      .getAttribute('class')
-      .match(/__input--([day|month|year]+)($|\s)/)[1]
-    const isInRange = target
-      .getAttribute('id')
-      .match(/[0-9]-([start|end]+)-/)[1]
+    try {
+      const isDate = target
+        .getAttribute('class')
+        .match(/__input--([day|month|year]+)($|\s)/)[1]
 
-    let date =
-      isInRange === 'start' ? this.context.startDate : this.context.endDate
+      const isInRange = target
+        .getAttribute('id')
+        .match(/-([start|end]+)-/)[1]
 
-    // do nothing if date is not set yet
-    if (!date) {
-      return
-    }
+      let date =
+        isInRange === 'start'
+          ? this.context.startDate
+          : this.context.endDate
 
-    const count = keyCode === 'up' ? 1 : -1
-
-    if (keyCode === 'up' || keyCode === 'down') {
-      switch (isDate) {
-        case 'day':
-          date = addDays(date, count)
-          break
-        case 'month':
-          date = addMonths(date, count)
-          break
-        case 'year':
-          date = addYears(date, count)
-          break
+      // do nothing if date is not set yet
+      if (!date) {
+        return
       }
+
+      const count = keyCode === 'up' ? 1 : -1
+
+      if (keyCode === 'up' || keyCode === 'down') {
+        switch (isDate) {
+          case 'day':
+            date = addDays(date, count)
+            break
+          case 'month':
+            date = addMonths(date, count)
+            break
+          case 'year':
+            date = addYears(date, count)
+            break
+        }
+      }
+
+      this.callOnChange({
+        [isInRange === 'start' ? 'startDate' : 'endDate']: date,
+        event,
+      })
+
+      await wait(1) // to get the correct position afterwards
+
+      const endPos = target.value.length
+      target.focus()
+      target.setSelectionRange(0, endPos)
+    } catch (e) {
+      warn(e)
     }
-
-    this.callOnChange({
-      [isInRange === 'start' ? 'startDate' : 'endDate']: date,
-      event,
-    })
-
-    await wait(1) // to get the correct position afterwards
-
-    const endPos = target.value.length
-    target.focus()
-    target.setSelectionRange(0, endPos)
   }
 
   onFocusHandler = (event) => {
