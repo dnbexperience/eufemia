@@ -64,28 +64,24 @@ exports[`DrawerList markup have to match snapshot 1`] = `
           "1234 56 78901",
           "Brukskonto - Kari Nordmann",
         ],
-        "selected_value": "Brukskonto - Kari Nordmann",
       },
       Object {
         "content": Array [
           "1234 56 78902",
           "Sparekonto - Ole Nordmann",
         ],
-        "selected_value": "Sparekonto - Ole Nordmann",
       },
       Object {
         "content": Array [
           "1134 56 78962",
           "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
         ],
-        "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
       },
       Object {
         "content": Array [
           "1534 96 48901",
           "Oppussing - Ole Nordmann",
         ],
-        "selected_value": "Oppussing - Ole Nordmann",
       },
       Object {
         "content": <React.Fragment>
@@ -207,28 +203,24 @@ exports[`DrawerList markup have to match snapshot 1`] = `
             "1234 56 78901",
             "Brukskonto - Kari Nordmann",
           ],
-          "selected_value": "Brukskonto - Kari Nordmann",
         },
         Object {
           "content": Array [
             "1234 56 78902",
             "Sparekonto - Ole Nordmann",
           ],
-          "selected_value": "Sparekonto - Ole Nordmann",
         },
         Object {
           "content": Array [
             "1134 56 78962",
             "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
           ],
-          "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
         },
         Object {
           "content": Array [
             "1534 96 48901",
             "Oppussing - Ole Nordmann",
           ],
-          "selected_value": "Oppussing - Ole Nordmann",
         },
         Object {
           "content": <React.Fragment>
@@ -354,28 +346,24 @@ exports[`DrawerList markup have to match snapshot 1`] = `
               "1234 56 78901",
               "Brukskonto - Kari Nordmann",
             ],
-            "selected_value": "Brukskonto - Kari Nordmann",
           },
           Object {
             "content": Array [
               "1234 56 78902",
               "Sparekonto - Ole Nordmann",
             ],
-            "selected_value": "Sparekonto - Ole Nordmann",
           },
           Object {
             "content": Array [
               "1134 56 78962",
               "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
             ],
-            "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
           },
           Object {
             "content": Array [
               "1534 96 48901",
               "Oppussing - Ole Nordmann",
             ],
-            "selected_value": "Oppussing - Ole Nordmann",
           },
           Object {
             "content": <React.Fragment>
