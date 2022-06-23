@@ -8,6 +8,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import { Autocomplete, IconPrimary } from '@dnb/eufemia/src/components'
 import { format } from '@dnb/eufemia/src/components/number-format/NumberUtils'
 import styled from '@emotion/styled'
+import Context from '@dnb/eufemia/src/shared/Context'
 
 const Wrapper = styled.div`
   [data-visual-test] {
@@ -228,13 +229,12 @@ export const AutocompleteDifferentSizes = () => (
 )
 
 export const AutocompleteCustomWidth = () => (
-  <Wrapper>
-    <ComponentBox
-      // data-visual-test="autocomplete-width"
-      scope={{ topMovies }}
-      useRender
-    >
-      {() => /* jsx */ `
+  <ComponentBox
+    data-visual-test="autocomplete-input-width"
+    scope={{ topMovies }}
+    useRender
+  >
+    {() => /* jsx */ `
 const CustomWidthOne = styled(Autocomplete)\`
   .dnb-autocomplete__shell {
     width: 10rem;
@@ -259,6 +259,7 @@ const CustomWidthThree = styled(Autocomplete)\`
 render(<FormRow direction="vertical">
   <CustomWidthOne
     label="Label:"
+    label_sr_only
     size="default"
     icon_position="left"
     bottom
@@ -266,24 +267,82 @@ render(<FormRow direction="vertical">
   />
   <CustomWidthTwo
     label="Label:"
+    label_sr_only
     size="medium"
     bottom
     data={topMovies}
   />
   <CustomWidthThree
     label="Label:"
+    label_sr_only
     size="large"
     align_autocomplete="right"
     icon_position="right"
-    input_icon="chevron_down"
+    input_icon="bell"
     bottom
     data={topMovies}
   />
 </FormRow>)
 `}
-    </ComponentBox>
-  </Wrapper>
+  </ComponentBox>
 )
+
+export const AutocompleteSuffix = () => {
+  const { locale } = React.useContext(Context)
+  const ban = format(20001234567, { ban: true, locale })
+  const suffix_value = format(12345678, { currency: true, locale })
+  const numbers = [
+    {
+      selected_value: `Brukskonto (${ban})`,
+      suffix_value,
+      content: ['Brukskonto', ban],
+    },
+    {
+      selected_value: `BSU (${ban})`,
+      suffix_value,
+      content: ['BSU', ban],
+    },
+    {
+      selected_value: `Sparekonto (${ban})`,
+      suffix_value,
+      content: ['Sparekonto', ban],
+    },
+    {
+      selected_value: `Brukskonto (${ban})`,
+      suffix_value,
+      content: ['Brukskonto', ban],
+    },
+  ]
+  return (
+    <ComponentBox
+      data-visual-test="autocomplete-suffix"
+      scope={{ numbers }}
+      useRender
+    >
+      {() => /* jsx */ `
+const CustomWidth = styled(Autocomplete)\`
+  .dnb-drawer-list__root,
+  .dnb-autocomplete__shell {
+    width: 50vw;
+    min-width: 15rem;
+    max-width: 30rem;
+  }
+\`
+render(
+  <CustomWidth
+    value={1}
+    data={numbers}
+    size="medium"
+    input_icon={null}
+    show_submit_button
+    label="From account"
+    label_direction="vertical"
+  />
+)
+`}
+    </ComponentBox>
+  )
+}
 
 export const AutocompleteOpened = () => {
   if (!(typeof window !== 'undefined' && window.IS_TEST)) {

@@ -172,6 +172,17 @@
       }
     }
 
+    // TODO: Use CSS Container Queries when available
+    @include allAbove(small) {
+      &--selected &__suffix {
+        z-index: 2; // over check icon
+        background-color: inherit; // to "hide" the check icon
+      }
+      &:not(#{&}--selected) &__suffix#{&}__item:nth-of-type(n + 2) {
+        color: var(--color-black-80);
+      }
+    }
+
     // show focus border when using keyboard
     html[data-whatinput='keyboard']
       &--selected#{&}--focus

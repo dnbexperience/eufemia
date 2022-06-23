@@ -79,6 +79,10 @@ export const drawerListPropTypes = {
             PropTypes.string,
             PropTypes.node,
           ]),
+          suffix_value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.node,
+          ]),
           content: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.node,

@@ -73,6 +73,7 @@ const data = [
 
     // (optional) is show instead of "content", once selected
     selected_value: 'Item 1 Value',
+    suffix_value: 'Addition 1',
 
     // Item content as a string, array or React Element
     content: 'Item 1 Content',
@@ -91,6 +92,7 @@ const data = [
   {
     selected_key: 'key_2',
     selected_value: 'Item 3 Value',
+    suffix_value: 'Addition 3',
     content: (
       <Autocomplete.HorizontalItem>
         <IconPrimary icon="bell" />
@@ -101,6 +103,7 @@ const data = [
   {
     selected_key: 'key_3',
     selected_value: 'Item 4 Value',
+    suffix_value: 'Addition 4',
     content: ['Item 4 Content A', <>Custom Component</>],
   },
 ]

@@ -2890,6 +2890,33 @@ legend.dnb-form-label {
     transition: transform 400ms ease-out; }
     html[data-visual-test] .dnb-autocomplete .dnb-input__submit-button__button .dnb-icon {
       transition-duration: 1ms !important; }
+  .dnb-autocomplete .dnb-input__inner__element {
+    position: relative;
+    z-index: 3; }
+  @media screen and (min-width: 40em) {
+    .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__placeholder,
+    .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__input {
+      padding-right: 0 !important; } }
+  @media screen and (max-width: 40em) {
+    .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__placeholder,
+    .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__input {
+      padding-right: 2.5rem !important; } }
+  .dnb-autocomplete .dnb-input__inner__element.dnb-p {
+    pointer-events: none;
+    white-space: nowrap;
+    padding: 0 0.5rem; }
+    @media screen and (max-width: 40em) {
+      .dnb-autocomplete .dnb-input__inner__element.dnb-p {
+        display: none; } }
+  .dnb-autocomplete .dnb-input__inner__element.dnb-p,
+  .dnb-spacing .dnb-autocomplete .dnb-input__inner__element.dnb-p {
+    margin: 0; }
+  .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__inner__element {
+    margin-right: 2.5rem !important; }
+  .dnb-autocomplete--icon-position-right .dnb-input__inner__element.dnb-p {
+    padding-right: 3rem; }
+  .dnb-autocomplete--icon-position-right .dnb-input--icon-position-right .dnb-autocomplete--icon-position-right .dnb-input--icon-position-right.dnb-autocomplete--icon-position-right .dnb-input--has-icon .dnb-autocomplete--icon-position-right .dnb-input__input {
+    padding-right: 1rem; }
   .dnb-autocomplete__text {
     order: 1;
     position: relative;
