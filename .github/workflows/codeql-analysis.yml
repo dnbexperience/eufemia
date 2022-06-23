@@ -14,21 +14,15 @@ name: 'CodeQL'
 on:
   push:
     branches:
-      [
-        main,
-        alpha,
-        beta,
-        beta-portal,
-        eufemia-icons,
-        gh-pages,
-        next,
-        next-major,
-        portal,
-        release
-      ]
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [main]
+      - '**'
+      - '!**--skip-ci'
+      - '!**--visual-reports'
+      - '!wip/**'
+      - '!experiments/**'
+      - '!release'
+      - '!portal'
+      - '!beta'
+      - '!alpha'
   schedule:
     - cron: '44 3 * * 5'
 

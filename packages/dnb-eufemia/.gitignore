@@ -26,6 +26,7 @@
 /style
 /icons
 /assets/icons/*.pdf
+/assets/icons/*.xml
 /dnb-ui-resources
 **/test-files/dist
 /docs

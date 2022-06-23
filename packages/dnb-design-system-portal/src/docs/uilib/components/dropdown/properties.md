@@ -10,15 +10,15 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
 
 | Properties                                                       | Description                                                                                                                                                             |
 | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `title`                                                          | _(optional)_ give a title to let the users know what they have to do. Defaults to `Valgmeny`.                                                                            |
-| `variant`                                                        | _(optional)_ defines the kind of dropdown. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `secondary`.                               |
+| `title`                                                          | _(optional)_ give a title to let the users know what they have to do. Defaults to `Valgmeny`.                                                                           |
+| `variant`                                                        | _(optional)_ defines the kind of dropdown. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `secondary`.                                |
 | `icon`                                                           | _(optional)_ icon to be included in the dropdown.                                                                                                                       |
 | `icon_size`                                                      | _(optional)_ change the size of the icon pragmatically.                                                                                                                 |
-| `icon_position`                                                  | _(optional)_ position of the icon inside the dropdown. Set to `left` or `right`. Defaults to `right`.                                                                       |
+| `icon_position`                                                  | _(optional)_ position of the icon inside the dropdown. Set to `left` or `right`. Defaults to `right`.                                                                   |
 | `triangle_position`                                              | _(optional)_ position of arrow / triangle of the drawer. Set to `left` or `right`. Defaults to `right`.                                                                 |
 | `size`                                                           | _(optional)_ define the height of the Dropdown. Can be set to `small`, `default`, `medium` and `large`. Defaults to `default`.                                          |
 | `opened`                                                         | _(optional)_ if set to `true`, the Dropdown will be rendered initially with a visible and accessible data list / options.                                               |
-| `open_on_focus`                                                  | _(optional)_ if set to `true`, the Dropdown will be opened when the users enter the trigger button with a focus action.                                                |
+| `open_on_focus`                                                  | _(optional)_ if set to `true`, the Dropdown will be opened when the users enter the trigger button with a focus action.                                                 |
 | `prevent_selection`                                              | _(optional)_ if set to `true`, no permanent selection will be made. Defaults to `false`.                                                                                |
 | `action_menu`                                                    | _(optional)_ same as `prevent_selection`, but the DrawerList will be opened from the bottom of the page for mobile devices. Defaults to `false`.                        |
 | `more_menu`                                                      | _(optional)_ same as `prevent_selection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.     |
@@ -27,7 +27,7 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
 | `skip_portal`                                                    | _(optional)_ set to `true` to disable the React Portal behavior. Defaults to `false`.                                                                                   |
 | `stretch`                                                        | _(optional)_ if set to `true`, then the dropdown will be 100% in available `width`.                                                                                     |
 | `status`                                                         | _(optional)_ text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.                    |
-| `status_state`                                                   | _(optional)_ defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.                                                    |
+| `status_state`                                                   | _(optional)_ defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.                                                   |
 | `status_props`                                                   | _(optional)_ use an object to define additional FormStatus properties.                                                                                                  |
 | `global_status_id`                                               | _(optional)_ the `status_id` used for the target [GlobalStatus](/uilib/components/global-status).                                                                       |
 | `label`                                                          | _(optional)_ prepends the Form Label component. If no ID is provided, a random ID is created.                                                                           |
@@ -44,7 +44,7 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
 ## Data structure
 
 ```js
-// as array
+// 1. as array
 const data = [
   // Every data item can, beside "content" - contain what ever
   {
@@ -53,6 +53,7 @@ const data = [
 
     // (optional) is show instead of "content", once selected
     selected_value: 'Item 1 Value',
+    suffix_value: 'Addition 1',
 
     // Item content as a string or array
     content: 'Item 1 Content',
@@ -66,16 +67,18 @@ const data = [
   {
     selected_key: 'key_2',
     selected_value: 'Item 3 Value',
+    suffix_value: 'Addition 3',
     content: ['Item 3 Content A', 'Item 3 Content B'],
   },
   {
     selected_key: 'key_3',
     selected_value: 'Item 4 Value',
+    suffix_value: 'Addition 4',
     content: ['Item 4 Content A', <>Custom Component</>],
   },
 ]
 
-// as object
+// 2. as object
 const data = {
   a: 'A',
   b: 'B',

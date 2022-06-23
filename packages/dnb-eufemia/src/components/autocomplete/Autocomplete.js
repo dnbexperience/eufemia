@@ -41,7 +41,9 @@ import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Input, { SubmitButton } from '../input/Input'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
-import DrawerList from '../../fragments/drawer-list/DrawerList'
+import DrawerList, {
+  ItemContent,
+} from '../../fragments/drawer-list/DrawerList'
 import DrawerListContext from '../../fragments/drawer-list/DrawerListContext'
 import DrawerListProvider from '../../fragments/drawer-list/DrawerListProvider'
 import {
@@ -72,6 +74,7 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.node,
     ]),
     show_options_sr: PropTypes.string,
+    selected_sr: PropTypes.string,
     submit_button_title: PropTypes.string,
     submit_button_icon: PropTypes.oneOfType([
       PropTypes.string,
@@ -176,6 +179,10 @@ export default class Autocomplete extends React.PureComponent {
               PropTypes.string,
               PropTypes.node,
             ]),
+            suffix_value: PropTypes.oneOfType([
+              PropTypes.string,
+              PropTypes.node,
+            ]),
             content: PropTypes.oneOfType([
               PropTypes.string,
               PropTypes.node,
@@ -229,6 +236,11 @@ export default class Autocomplete extends React.PureComponent {
     custom_element: PropTypes.object,
     custom_method: PropTypes.func,
 
+    /**
+     * For internal use
+     */
+    ariaLiveDelay: PropTypes.number,
+
     on_show: PropTypes.func,
     on_type: PropTypes.func,
     on_focus: PropTypes.func,
@@ -249,6 +261,7 @@ export default class Autocomplete extends React.PureComponent {
     aria_live_options: null,
     indicator_label: null,
     show_options_sr: null,
+    selected_sr: null,
     submit_button_title: null,
     submit_button_icon: 'chevron_down',
     input_ref: null,
@@ -311,6 +324,7 @@ export default class Autocomplete extends React.PureComponent {
 
     custom_element: null,
     custom_method: null,
+    ariaLiveDelay: null,
 
     on_show: null,
     on_hide: null,
@@ -1020,14 +1034,16 @@ class AutocompleteInstance extends React.PureComponent {
     }
   }
 
-  hasShowMore = (data = this.context.drawerList.data) => {
+  hasInjectedDataItem = (data = this.context.drawerList.data) => {
     const lastItem = data.slice(-1)[0]
-    return lastItem && lastItem.show_all === true
+    return lastItem
+      ? lastItem.show_all || lastItem.__id === 'no_options'
+      : false
   }
 
   countData = (data = this.context.drawerList.data) => {
     const count = data.length
-    return count > 0 && this.hasShowMore(data) ? count - 1 : count
+    return count > 0 && this.hasInjectedDataItem(data) ? count - 1 : count
   }
 
   hasValidData = (data = this.context.drawerList.data) => {
@@ -1586,12 +1602,16 @@ class AutocompleteInstance extends React.PureComponent {
 
   setAriaLiveUpdate() {
     const { opened } = this.context.drawerList
-    const { aria_live_options, no_options } = this._props
+    const {
+      aria_live_options,
+      no_options,
+      ariaLiveDelay = 1000,
+    } = this._props
 
     // this is only to make a better screen reader ux
     clearTimeout(this._ariaLiveUpdateTimeout)
-    this._ariaLiveUpdateTimeout = setTimeout(() => {
-      if (opened) {
+    if (opened) {
+      this._ariaLiveUpdateTimeout = setTimeout(() => {
         let newString = null
 
         const count = this.countData()
@@ -1612,10 +1632,34 @@ class AutocompleteInstance extends React.PureComponent {
               ariaLiveUpdate: null,
               _listenForPropChanges: false,
             })
-          }, 1e3)
+          }, 1000)
         }
-      }
-    }, 1e3) // so that the input gets read out first, and then the results
+      }, ariaLiveDelay) // so that the input gets read out first, and then the results
+    }
+  }
+
+  getVocieOverActiveItem(selected_sr) {
+    // Add VoiceOver support to read the "selected" item
+    if (IS_MAC) {
+      const { active_item, selected_item } = this.context.drawerList
+      const currentDataItem = getCurrentData(
+        active_item,
+        this.context.drawerList.data
+      )
+
+      return (
+        <span className="dnb-sr-only" aria-live="assertive" aria-atomic>
+          {currentDataItem && (
+            <>
+              {active_item === selected_item ? <>{selected_sr} </> : null}
+              <ItemContent>{currentDataItem}</ItemContent>
+            </>
+          )}
+        </span>
+      )
+    }
+
+    return null
   }
 
   render() {
@@ -1665,6 +1709,7 @@ class AutocompleteInstance extends React.PureComponent {
       search_numbers, // eslint-disable-line
       search_in_word_index, // eslint-disable-line
       show_options_sr, // eslint-disable-line
+      selected_sr,
       submit_button_title,
       submit_button_icon,
       portal_class,
@@ -1693,6 +1738,7 @@ class AutocompleteInstance extends React.PureComponent {
       show_all, // eslint-disable-line
       aria_live_options, // eslint-disable-line
       disable_highlighting, // eslint-disable-line
+      ariaLiveDelay, // eslint-disable-line
 
       ...attributes
     } = props
@@ -1744,7 +1790,7 @@ class AutocompleteInstance extends React.PureComponent {
     }
 
     const inputParams = {
-      className: classnames('dnb-autocomplete__input'),
+      className: 'dnb-autocomplete__input',
       id,
       value: inputValue,
       autoCapitalize: 'none',
@@ -1892,6 +1938,12 @@ class AutocompleteInstance extends React.PureComponent {
                   status={status ? status_state : null}
                   status_state={status_state}
                   type={null}
+                  inner_element={
+                    getCurrentData(
+                      selected_item,
+                      this.context.drawerList.original_data
+                    )?.suffix_value
+                  }
                   submit_element={submitButton}
                   input_state={
                     this.state.skipFocusDuringChange ? 'focus' : undefined
@@ -1947,7 +1999,6 @@ class AutocompleteInstance extends React.PureComponent {
                 on_pre_change={this.onPreChangeHandler}
                 on_key_down={this.onReserveActivityHandler}
                 onMouseDown={this.onReserveActivityHandler}
-                onTouchStart={this.onReserveActivityHandler}
               />
             </span>
 
@@ -1963,15 +2014,8 @@ class AutocompleteInstance extends React.PureComponent {
           </span>
         </span>
 
-        {/* Help VO to read the list, as long as no input changes are made we need that (&& _input_value === inputValue) */}
-        {IS_MAC && (
-          <span className="dnb-sr-only" aria-live="assertive">
-            {AutocompleteInstance.getCurrentDataTitle(
-              active_item,
-              this.context.drawerList.original_data
-            )}
-          </span>
-        )}
+        {/* Add VoiceOver support to read the "selected" item */}
+        {this.getVocieOverActiveItem(selected_sr)}
 
         <span className="dnb-sr-only" aria-live="assertive">
           {ariaLiveUpdate}

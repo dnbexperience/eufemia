@@ -41,7 +41,7 @@ const startStaticServer = async () => {
         })
       } else {
         throw new Error(
-          'No /public folder found. Make sure you run "yarn workspace dnb-design-system-portal build" first!'
+          'No /public folder found. Make sure you run "yarn workspace dnb-design-system-portal build-visual-test" first!'
         )
       }
     }

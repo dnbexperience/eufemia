@@ -377,7 +377,6 @@ class DrawerListInstance extends React.PureComponent {
             children && (
               <span className="dnb-drawer-list__content">
                 {children}
-                {/* <Triangle /> */}
                 <span
                   className="dnb-drawer-list__triangle"
                   ref={_refTriangle}
@@ -557,34 +556,54 @@ DrawerList.Item.defaultProps = {
   value: null,
 }
 
-const ItemContent = ({ hash, children }) => {
+export function ItemContent({ hash = '', children }) {
+  let content = null
+
   if (Array.isArray(children.content || children)) {
-    return (children.content || children).map((item, n) => (
-      <span key={hash + n} className="dnb-drawer-list__option__item">
+    content = (children.content || children).map((item, n) => (
+      <span
+        key={hash + n}
+        className={`dnb-drawer-list__option__item item-nr-${n + 1}`} // "item-nr" is used by CSS
+      >
         {children.render ? children.render(item, hash + n) : item}
       </span>
     ))
   } else if (Object.prototype.hasOwnProperty.call(children, 'content')) {
-    return children.render
+    content = children.render
       ? children.render(children.content, hash, children)
       : children.content
+    if (content) {
+      content = (
+        <span className="dnb-drawer-list__option__item">{content}</span>
+      )
+    }
+  } else {
+    content = children && (
+      <span className="dnb-drawer-list__option__item">{children}</span>
+    )
   }
 
-  return children
+  return Object.prototype.hasOwnProperty.call(children, 'suffix_value') ? (
+    <>
+      {content}
+
+      <span className="dnb-drawer-list__option__item dnb-drawer-list__option__suffix">
+        {children.suffix_value}
+      </span>
+    </>
+  ) : (
+    content
+  )
 }
 ItemContent.propTypes = {
-  hash: PropTypes.string.isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.func,
-    PropTypes.object,
-  ]).isRequired,
+  hash: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
 }
 
 DrawerList.HorizontalItem = ({ className, ...props }) => (
   <span
     className={classnames([
-      'dnb-drawer-list__option__inner__item',
+      'dnb-drawer-list__option__item dnb-drawer-list__option__item--horizontal',
       className,
     ])}
     {...props}

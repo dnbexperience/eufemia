@@ -52,19 +52,19 @@ export const DrawerListExampleOnlyToVisualize = () => (
     </li>
     <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
       <span className="dnb-drawer-list__option__inner">
-        <span className="dnb-drawer-list__option__item"><NumberFormat ban>12345678902</NumberFormat></span>
+        <span className="dnb-drawer-list__option__item item-nr-1"><NumberFormat ban>12345678902</NumberFormat></span>
         <span className="dnb-drawer-list__option__item">Sparekonto - Ole Nordmann</span>
       </span>
     </li>
     <li className="dnb-drawer-list__option">
       <span className="dnb-drawer-list__option__inner">
-        <span className="dnb-drawer-list__option__item"><NumberFormat ban>11345678962</NumberFormat></span>
+        <span className="dnb-drawer-list__option__item item-nr-1"><NumberFormat ban>11345678962</NumberFormat></span>
         <span className="dnb-drawer-list__option__item">Feriekonto - Kari Nordmann med et kjempelangt etternavnsen</span>
       </span>
     </li>
     <li className="dnb-drawer-list__option last-of-type">
       <span className="dnb-drawer-list__option__inner">
-        <span className="dnb-drawer-list__option__item"><NumberFormat ban>15349648901</NumberFormat></span>
+        <span className="dnb-drawer-list__option__item item-nr-1"><NumberFormat ban>15349648901</NumberFormat></span>
         <span className="dnb-drawer-list__option__item">Oppussing - Ole Nordmann</span>
       </span>
     </li>
@@ -224,9 +224,6 @@ const data = [
     // (optional) can be what ever
     selected_key: 'key_0',
 
-    // (optional) is show instead of "content", once selected
-    selected_value: 'Item 1 Value',
-
     // Item content as a string or array
     content: 'Item 1 Content',
   },
@@ -236,12 +233,10 @@ const data = [
   },
   {
     selected_key: 'key_2',
-    selected_value: 'Item 3 Value',
     content: ['Item 3 Content A', 'Item 3 Content B'],
   },
   {
     selected_key: 'key_3',
-    selected_value: 'Item 4 Value',
     content: ['Item 4 Content A', <>Custom Component</>],
   },
 ]

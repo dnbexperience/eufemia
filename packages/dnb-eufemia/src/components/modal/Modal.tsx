@@ -420,6 +420,7 @@ class Modal extends React.PureComponent<
       focus_selector = null,
       header_content = null,
       bar_content = null,
+      bypass_invalidation_selectors = null,
 
       id, // eslint-disable-line
       open_state, // eslint-disable-line
@@ -515,6 +516,7 @@ class Modal extends React.PureComponent<
               modal_content={modal_content}
               header_content={header_content}
               bar_content={bar_content}
+              bypass_invalidation_selectors={bypass_invalidation_selectors}
               close={this.close}
               hide={hide}
               title={rest.title || fallbackTitle}

@@ -7,8 +7,15 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import { Autocomplete, NumberFormat, IconPrimary, Button } from '../../'
+import {
+  Autocomplete,
+  NumberFormat,
+  IconPrimary,
+  Button,
+  FormRow,
+} from '../../'
 import { Anchor } from '../../../elements'
+import { Context } from '../../../shared'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'
 
@@ -830,5 +837,75 @@ function UpdateDataExample() {
         }}
       />
     </>
+  )
+}
+
+const WideStyle = styled.div`
+  .dnb-drawer-list__root,
+  .dnb-autocomplete__shell {
+    /* custom width */
+    width: 50vw;
+    min-width: 15rem;
+    max-width: 30rem;
+  }
+`
+
+export function DataSuffix() {
+  const { locale } = React.useContext(Context)
+  const ban = format(21001234567, { ban: true, locale })
+  const numbers = [
+    {
+      selected_value: `Brukskonto (${ban})`,
+      suffix_value: (
+        <NumberFormat lang="nb" currency srLabel="Total:">
+          {12345678}
+        </NumberFormat>
+      ),
+      content: ['Brukskonto', ban],
+    },
+    {
+      selected_value: `BSU (${ban})`,
+      suffix_value: (
+        <NumberFormat currency srLabel="Total:">
+          {2223}
+        </NumberFormat>
+      ),
+      content: ['BSU', ban],
+    },
+    {
+      selected_value: `Sparekonto (${ban})`,
+      suffix_value: (
+        <NumberFormat currency srLabel="Total:">
+          {876555.5}
+        </NumberFormat>
+      ),
+      content: ['Sparekonto', ban],
+    },
+    {
+      selected_value: `Brukskonto (${ban})`,
+      suffix_value: (
+        <NumberFormat currency srLabel="Total:">
+          {34999.2}
+        </NumberFormat>
+      ),
+      content: ['Brukskonto', ban],
+    },
+  ]
+
+  return (
+    <WideStyle>
+      <FormRow vertical>
+        <Autocomplete
+          lang="nb"
+          value={0}
+          data={numbers}
+          size="medium"
+          input_icon={null}
+          show_submit_button
+          label="From account"
+          label_direction="vertical"
+        />
+      </FormRow>
+    </WideStyle>
   )
 }

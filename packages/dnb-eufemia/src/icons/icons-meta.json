@@ -14,42 +14,42 @@
     "category": "essentials"
   },
   "instagram_medium": {
-    "tags": [],
+    "tags": ["social media"],
     "created": 1646679517518,
     "name": "instagram",
     "variant": "secondary",
     "category": "essentials"
   },
   "instagram": {
-    "tags": [],
+    "tags": ["social media"],
     "created": 1646679518336,
     "name": "instagram",
     "variant": "secondary",
     "category": "essentials"
   },
   "linkedin_medium": {
-    "tags": [],
+    "tags": ["social media"],
     "created": 1646679519228,
     "name": "linkedin",
     "variant": "secondary",
     "category": "essentials"
   },
   "linkedin": {
-    "tags": [],
+    "tags": ["social media"],
     "created": 1646679520047,
     "name": "linkedin",
     "variant": "secondary",
     "category": "essentials"
   },
   "facebook_medium": {
-    "tags": [],
+    "tags": ["social media"],
     "created": 1646679520969,
     "name": "facebook",
     "variant": "secondary",
     "category": "essentials"
   },
   "facebook": {
-    "tags": [],
+    "tags": ["social media"],
     "created": 1646679521887,
     "name": "facebook",
     "variant": "secondary",
@@ -84,14 +84,14 @@
     "category": "essentials"
   },
   "grabber_medium": {
-    "tags": [],
+    "tags": ["move"],
     "created": 1646679526197,
     "name": "grabber",
     "variant": "secondary",
     "category": "essentials"
   },
   "grabber": {
-    "tags": [],
+    "tags": ["move"],
     "created": 1646679527110,
     "name": "grabber",
     "variant": "secondary",
@@ -147,7 +147,7 @@
     "category": "essentials"
   },
   "above_the_line_medium": {
-    "tags": [],
+    "tags": ["Place over the line"],
     "created": 1646679532724,
     "name": "above_the_line",
     "variant": "secondary",
@@ -161,14 +161,14 @@
     "category": "essentials"
   },
   "star_medium": {
-    "tags": ["favourite", "rating"],
+    "tags": ["favourite", "rating", "favorite"],
     "created": 1646679534300,
     "name": "star",
     "variant": "secondary",
     "category": "essentials"
   },
   "star": {
-    "tags": ["favourite", "rating"],
+    "tags": ["favourite", "rating", "favorite"],
     "created": 1646679535089,
     "name": "star",
     "variant": "secondary",
@@ -189,14 +189,14 @@
     "category": "essentials"
   },
   "hand_money_medium": {
-    "tags": ["recieve"],
+    "tags": ["recieve", "receive"],
     "created": 1646679537481,
     "name": "hand_money",
     "variant": "secondary",
     "category": "essentials"
   },
   "hand_money": {
-    "tags": ["recieve"],
+    "tags": ["recieve", "receive"],
     "created": 1646679538295,
     "name": "hand_money",
     "variant": "secondary",
@@ -245,28 +245,28 @@
     "category": "essentials"
   },
   "attachment_medium": {
-    "tags": ["attachment"],
+    "tags": ["file attachment"],
     "created": 1646679543903,
     "name": "attachment",
     "variant": "secondary",
     "category": "essentials"
   },
   "attachment": {
-    "tags": ["attachment"],
+    "tags": ["file attachment"],
     "created": 1646679544682,
     "name": "attachment",
     "variant": "secondary",
     "category": "essentials"
   },
   "web_medium": {
-    "tags": ["internet", "www"],
+    "tags": ["internet", "www", "globe"],
     "created": 1646679545513,
     "name": "web",
     "variant": "secondary",
     "category": "essentials"
   },
   "web": {
-    "tags": ["internet", "www"],
+    "tags": ["internet", "www", "globe"],
     "created": 1646679546344,
     "name": "web",
     "variant": "secondary",
@@ -357,14 +357,14 @@
     "category": "essentials"
   },
   "question_circled_medium": {
-    "tags": ["?", "questionmark", "help"],
+    "tags": ["?", "questionmark", "help", "question mark"],
     "created": 1646679557070,
     "name": "question_circled",
     "variant": "secondary",
     "category": "essentials"
   },
   "question_circled": {
-    "tags": ["?", "questionmark", "help"],
+    "tags": ["?", "questionmark", "help", "question mark"],
     "created": 1646679557885,
     "name": "question_circled",
     "variant": "secondary",
@@ -441,28 +441,28 @@
     "category": "essentials"
   },
   "filter_medium": {
-    "tags": ["adjust"],
+    "tags": ["adjust", "modify"],
     "created": 1646679566947,
     "name": "filter",
     "variant": "secondary",
     "category": "essentials"
   },
   "filter": {
-    "tags": ["adjust"],
+    "tags": ["adjust", "modify"],
     "created": 1646679567775,
     "name": "filter",
     "variant": "secondary",
     "category": "essentials"
   },
   "people_2_medium": {
-    "tags": ["firend", "persons"],
+    "tags": ["firend", "persons", "friends", "people"],
     "created": 1646679568585,
     "name": "people_2",
     "variant": "secondary",
     "category": "essentials"
   },
   "people_2": {
-    "tags": ["firend", "persons"],
+    "tags": ["firend", "persons", "friends", "people"],
     "created": 1646679569407,
     "name": "people_2",
     "variant": "secondary",
@@ -511,14 +511,14 @@
     "category": "essentials"
   },
   "profile_medium": {
-    "tags": ["head", "me", "person", "profile"],
+    "tags": ["head", "me", "person"],
     "created": 1646679575525,
     "name": "profile",
     "variant": "secondary",
     "category": "essentials"
   },
   "profile": {
-    "tags": ["head", "me", "person", "profile"],
+    "tags": ["head", "me", "person"],
     "created": 1646679576327,
     "name": "profile",
     "variant": "secondary",
@@ -581,14 +581,14 @@
     "category": "essentials"
   },
   "bankid_mobile_medium": {
-    "tags": ["login", "authenticate"],
+    "tags": ["login", "authenticate", "phone"],
     "created": 1646679583473,
     "name": "bankid_mobile",
     "variant": "secondary",
     "category": "essentials"
   },
   "bankid_mobile": {
-    "tags": ["login", "authenticate"],
+    "tags": ["login", "authenticate", "phone"],
     "created": 1646679584260,
     "name": "bankid_mobile",
     "variant": "secondary",
@@ -623,14 +623,14 @@
     "category": "objects"
   },
   "news_medium": {
-    "tags": ["news", "content", "paper", "articles"],
+    "tags": ["content", "paper", "articles"],
     "created": 1646679588234,
     "name": "news",
     "variant": "secondary",
     "category": "objects"
   },
   "news": {
-    "tags": ["news", "content", "paper", "articles"],
+    "tags": ["content", "paper", "articles"],
     "created": 1646679589009,
     "name": "news",
     "variant": "secondary",
@@ -679,28 +679,28 @@
     "category": "objects"
   },
   "cloud_rain_medium": {
-    "tags": [],
+    "tags": ["weather"],
     "created": 1646679594783,
     "name": "cloud_rain",
     "variant": "secondary",
     "category": "objects"
   },
   "cloud_rain": {
-    "tags": [],
+    "tags": ["weather"],
     "created": 1646679595610,
     "name": "cloud_rain",
     "variant": "secondary",
     "category": "objects"
   },
   "cloud_sync_medium": {
-    "tags": [],
+    "tags": ["syncronize"],
     "created": 1646679596409,
     "name": "cloud_sync",
     "variant": "secondary",
     "category": "objects"
   },
   "cloud_sync": {
-    "tags": [],
+    "tags": ["syncronize"],
     "created": 1646679597240,
     "name": "cloud_sync",
     "variant": "secondary",
@@ -749,28 +749,28 @@
     "category": "objects"
   },
   "cloud_medium": {
-    "tags": [],
+    "tags": ["weather"],
     "created": 1646679603469,
     "name": "cloud",
     "variant": "secondary",
     "category": "objects"
   },
   "cloud": {
-    "tags": [],
+    "tags": ["weather"],
     "created": 1646679604280,
     "name": "cloud",
     "variant": "secondary",
     "category": "objects"
   },
   "fridge_medium": {
-    "tags": ["stable consumption"],
+    "tags": ["stable consumption", "kjøleskap"],
     "created": 1646679605046,
     "name": "fridge",
     "variant": "secondary",
     "category": "objects"
   },
   "fridge": {
-    "tags": ["stable consumption"],
+    "tags": ["stable consumption", "kjøleskap"],
     "created": 1646679605857,
     "name": "fridge",
     "variant": "secondary",
@@ -791,14 +791,14 @@
     "category": "objects"
   },
   "charger_medium": {
-    "tags": ["supply"],
+    "tags": ["supply", "energy"],
     "created": 1646679608396,
     "name": "charger",
     "variant": "secondary",
     "category": "objects"
   },
   "charger": {
-    "tags": ["supply"],
+    "tags": ["supply", "energy"],
     "created": 1646679609192,
     "name": "charger",
     "variant": "secondary",
@@ -847,14 +847,14 @@
     "category": "objects"
   },
   "megaphone_medium": {
-    "tags": ["advertising"],
+    "tags": ["advertising", "ads", "promotion"],
     "created": 1646679614700,
     "name": "megaphone",
     "variant": "secondary",
     "category": "objects"
   },
   "megaphone": {
-    "tags": ["advertising"],
+    "tags": ["advertising", "ads", "promotion"],
     "created": 1646679615473,
     "name": "megaphone",
     "variant": "secondary",
@@ -903,28 +903,28 @@
     "category": "objects"
   },
   "pin_medium": {
-    "tags": ["thumbtack"],
+    "tags": ["thumbtack", "needle"],
     "created": 1646679621051,
     "name": "pin",
     "variant": "secondary",
     "category": "objects"
   },
   "pin": {
-    "tags": ["thumbtack"],
+    "tags": ["thumbtack", "needle"],
     "created": 1646679621845,
     "name": "pin",
     "variant": "secondary",
     "category": "objects"
   },
   "video_medium": {
-    "tags": ["film", "movie", "play"],
+    "tags": ["film", "movie", "play", "watch"],
     "created": 1646679622644,
     "name": "video",
     "variant": "secondary",
     "category": "objects"
   },
   "video": {
-    "tags": ["film", "movie", "play"],
+    "tags": ["film", "movie", "play", "watch"],
     "created": 1646679623421,
     "name": "video",
     "variant": "secondary",
@@ -987,42 +987,42 @@
     "category": "objects"
   },
   "email_medium": {
-    "tags": [],
+    "tags": ["envelope"],
     "created": 1646679630492,
     "name": "email",
     "variant": "secondary",
     "category": "objects"
   },
   "email": {
-    "tags": [],
+    "tags": ["envelope"],
     "created": 1646679631264,
     "name": "email",
     "variant": "secondary",
     "category": "objects"
   },
   "paperclip_medium": {
-    "tags": ["attachment"],
+    "tags": ["attachment", "addition", "file", "vedlegg"],
     "created": 1646679632055,
     "name": "paperclip",
     "variant": "secondary",
     "category": "objects"
   },
   "paperclip": {
-    "tags": ["attachment"],
+    "tags": ["attachment", "addition", "file", "vedlegg"],
     "created": 1646679632824,
     "name": "paperclip",
     "variant": "secondary",
     "category": "objects"
   },
   "printer_medium": {
-    "tags": [],
+    "tags": ["print", "paper"],
     "created": 1646679633661,
     "name": "printer",
     "variant": "secondary",
     "category": "objects"
   },
   "printer": {
-    "tags": ["print"],
+    "tags": ["print", "paper"],
     "created": 1646679634460,
     "name": "printer",
     "variant": "secondary",
@@ -1057,42 +1057,42 @@
     "category": "objects"
   },
   "broken_chain_medium": {
-    "tags": ["broken link"],
+    "tags": ["broken link", "link", "url"],
     "created": 1646679638590,
     "name": "broken_chain",
     "variant": "secondary",
     "category": "objects"
   },
   "broken_chain": {
-    "tags": ["broken link"],
+    "tags": ["broken link", "link", "url"],
     "created": 1646679639434,
     "name": "broken_chain",
     "variant": "secondary",
     "category": "objects"
   },
   "chain_medium": {
-    "tags": ["link"],
+    "tags": ["link", "url"],
     "created": 1646679640222,
     "name": "chain",
     "variant": "secondary",
     "category": "objects"
   },
   "chain": {
-    "tags": ["link"],
+    "tags": ["link", "url"],
     "created": 1646679641069,
     "name": "chain",
     "variant": "secondary",
     "category": "objects"
   },
   "microphone_medium": {
-    "tags": ["record"],
+    "tags": ["record", "speak", "voice"],
     "created": 1646679641879,
     "name": "microphone",
     "variant": "secondary",
     "category": "objects"
   },
   "microphone": {
-    "tags": ["record"],
+    "tags": ["record", "speak", "voice"],
     "created": 1646679642657,
     "name": "microphone",
     "variant": "secondary",
@@ -1127,14 +1127,14 @@
     "category": "objects"
   },
   "widget_android_medium": {
-    "tags": [],
+    "tags": ["puzzle", "piece"],
     "created": 1646679646729,
     "name": "widget_android",
     "variant": "secondary",
     "category": "objects"
   },
   "widget_android": {
-    "tags": [],
+    "tags": ["puzzle", "piece"],
     "created": 1646679647540,
     "name": "widget_android",
     "variant": "secondary",
@@ -1155,14 +1155,14 @@
     "category": "objects"
   },
   "owl_medium": {
-    "tags": ["knowledge"],
+    "tags": ["knowledge", "guide"],
     "created": 1646679650013,
     "name": "owl",
     "variant": "secondary",
     "category": "objects"
   },
   "owl": {
-    "tags": ["knowledge"],
+    "tags": ["knowledge", "guide"],
     "created": 1646679650827,
     "name": "owl",
     "variant": "secondary",
@@ -1197,14 +1197,14 @@
     "category": "objects"
   },
   "restaurant_medium": {
-    "tags": ["food", "fork", "knife", "eat"],
+    "tags": ["food", "fork", "knife", "eat", "plate"],
     "created": 1646679654911,
     "name": "restaurant",
     "variant": "secondary",
     "category": "objects"
   },
   "restaurant": {
-    "tags": ["food", "fork", "knife", "eat"],
+    "tags": ["food", "fork", "knife", "eat", "plate"],
     "created": 1646679655827,
     "name": "restaurant",
     "variant": "secondary",
@@ -1225,14 +1225,14 @@
     "category": "objects"
   },
   "plant_medium": {
-    "tags": ["garden"],
+    "tags": ["garden", "flower"],
     "created": 1646679658257,
     "name": "plant",
     "variant": "secondary",
     "category": "objects"
   },
   "plant": {
-    "tags": ["garden"],
+    "tags": ["garden", "flower"],
     "created": 1646679659077,
     "name": "plant",
     "variant": "secondary",
@@ -1253,14 +1253,14 @@
     "category": "objects"
   },
   "bowling_medium": {
-    "tags": [],
+    "tags": ["leisure"],
     "created": 1646679661508,
     "name": "bowling",
     "variant": "secondary",
     "category": "objects"
   },
   "bowling": {
-    "tags": ["Categorization: Leisure"],
+    "tags": ["Categorization: Leisure", "leisure"],
     "created": 1646679662305,
     "name": "bowling",
     "variant": "secondary",
@@ -1309,126 +1309,132 @@
     "category": "objects"
   },
   "file_txt_medium": {
-    "tags": ["document", "text", ".txt"],
+    "tags": ["document", "text", ".txt", "txt"],
     "created": 1646679668052,
     "name": "file_txt",
     "variant": "secondary",
     "category": "objects"
   },
   "file_txt": {
-    "tags": ["document", "text", ".txt"],
+    "tags": ["document", "text", ".txt", "txt"],
     "created": 1646679668842,
     "name": "file_txt",
     "variant": "secondary",
     "category": "objects"
   },
   "file_csv_medium": {
-    "tags": ["document", "comma separated values", ".csv"],
+    "tags": [
+      "document",
+      "comma separated values",
+      ".csv",
+      "comma separated value",
+      "csv"
+    ],
     "created": 1646679669712,
     "name": "file_csv",
     "variant": "secondary",
     "category": "objects"
   },
   "file_csv": {
-    "tags": ["document", "comma separated value", ".csv"],
+    "tags": ["document", "comma separated value", ".csv", "csv"],
     "created": 1646679670577,
     "name": "file_csv",
     "variant": "secondary",
     "category": "objects"
   },
   "file_ppt_medium": {
-    "tags": ["document", "powerpoint", ".ppt"],
+    "tags": ["document", "powerpoint", ".ppt", "ppt", "keynote"],
     "created": 1646679671381,
     "name": "file_ppt",
     "variant": "secondary",
     "category": "objects"
   },
   "file_ppt": {
-    "tags": ["document", "powerpoint", ".ppt"],
+    "tags": ["document", "powerpoint", ".ppt", "ppt", "keynote"],
     "created": 1646679672187,
     "name": "file_ppt",
     "variant": "secondary",
     "category": "objects"
   },
   "file_xls_medium": {
-    "tags": ["document", "excel", ".xls"],
+    "tags": ["document", "excel", ".xls", "xls", "numbers"],
     "created": 1646679672992,
     "name": "file_xls",
     "variant": "secondary",
     "category": "objects"
   },
   "file_xls": {
-    "tags": ["document", "excel", ".xls"],
+    "tags": ["document", "excel", ".xls", "xls", "numbers"],
     "created": 1646679673805,
     "name": "file_xls",
     "variant": "secondary",
     "category": "objects"
   },
   "file_word_medium": {
-    "tags": ["document", ".doc"],
+    "tags": ["document", ".doc", "doc", "pages"],
     "created": 1646679674632,
     "name": "file_word",
     "variant": "secondary",
     "category": "objects"
   },
   "file_word": {
-    "tags": ["document", ".doc"],
+    "tags": ["document", ".doc", "doc", "pages"],
     "created": 1646679675427,
     "name": "file_word",
     "variant": "secondary",
     "category": "objects"
   },
   "file_pdf_medium": {
-    "tags": ["document", ".pdf"],
+    "tags": ["document", ".pdf", "pdf"],
     "created": 1646679676232,
     "name": "file_pdf",
     "variant": "secondary",
     "category": "objects"
   },
   "file_pdf": {
-    "tags": ["document", ".pdf"],
+    "tags": ["document", ".pdf", "pdf"],
     "created": 1646679677052,
     "name": "file_pdf",
     "variant": "secondary",
     "category": "objects"
   },
   "file_contract_medium": {
-    "tags": ["document"],
+    "tags": ["document", "signed"],
     "created": 1646679677878,
     "name": "file_contract",
     "variant": "secondary",
     "category": "objects"
   },
   "file_contract": {
-    "tags": ["document"],
+    "tags": ["document", "signed"],
     "created": 1646679678698,
     "name": "file_contract",
     "variant": "secondary",
     "category": "objects"
   },
   "file_warning_medium": {
-    "tags": ["document"],
+    "tags": ["document", "alert"],
     "created": 1646679679509,
     "name": "file_warning",
     "variant": "secondary",
     "category": "objects"
   },
   "file_warning": {
-    "tags": ["document"],
+    "tags": ["document", "alert"],
     "created": 1646679680405,
     "name": "file_warning",
     "variant": "secondary",
     "category": "objects"
   },
   "file_loupe_medium": {
-    "tags": ["document"],
+    "tags": ["document", "search", "find"],
     "created": 1646679681197,
     "name": "file_loupe",
     "variant": "secondary",
     "category": "objects"
   },
   "file_loupe": {
-    "tags": ["document"],
+    "tags": ["document", "search", "find"],
     "created": 1646679682023,
     "name": "file_loupe",
     "variant": "secondary",
@@ -1505,14 +1511,14 @@
     "category": "objects"
   },
   "padlock_medium": {
-    "tags": [],
+    "tags": ["hengelås", "lock"],
     "created": 1646679690996,
     "name": "padlock",
     "variant": "secondary",
     "category": "objects"
   },
   "padlock": {
-    "tags": [],
+    "tags": ["hengelås", "lock"],
     "created": 1646679691818,
     "name": "padlock",
     "variant": "secondary",
@@ -1533,14 +1539,14 @@
     "category": "objects"
   },
   "camera_medium": {
-    "tags": ["scanner"],
+    "tags": ["scanner", "picture", "image"],
     "created": 1646679694282,
     "name": "camera",
     "variant": "secondary",
     "category": "objects"
   },
   "camera": {
-    "tags": ["scanner"],
+    "tags": ["scanner", "picture", "image"],
     "created": 1646679695099,
     "name": "camera",
     "variant": "secondary",
@@ -1603,42 +1609,42 @@
     "category": "objects"
   },
   "coins_3_medium": {
-    "tags": [],
+    "tags": ["savings", "money"],
     "created": 1646679702363,
     "name": "coins_3",
     "variant": "secondary",
     "category": "objects"
   },
   "coins_3": {
-    "tags": ["Categorization: Other savings"],
+    "tags": ["Categorization: Other savings", "savings", "money"],
     "created": 1646679703163,
     "name": "coins_3",
     "variant": "secondary",
     "category": "objects"
   },
   "coins_2_medium": {
-    "tags": [],
+    "tags": ["savings", "money"],
     "created": 1646679703957,
     "name": "coins_2",
     "variant": "secondary",
     "category": "objects"
   },
   "coins_2": {
-    "tags": ["Other savings"],
+    "tags": ["Other savings", "savings", "money"],
     "created": 1646679704792,
     "name": "coins_2",
     "variant": "secondary",
     "category": "objects"
   },
   "coins_1_medium": {
-    "tags": ["spending"],
+    "tags": ["spending", "money"],
     "created": 1646679705699,
     "name": "coins_1",
     "variant": "secondary",
     "category": "objects"
   },
   "coins_1": {
-    "tags": ["spending"],
+    "tags": ["spending", "money"],
     "created": 1646679706509,
     "name": "coins_1",
     "variant": "secondary",
@@ -1659,14 +1665,14 @@
     "category": "objects"
   },
   "recurring_medium": {
-    "tags": ["calendar", "date"],
+    "tags": ["calendar", "date", "repeat"],
     "created": 1646679709376,
     "name": "recurring",
     "variant": "secondary",
     "category": "objects"
   },
   "recurring": {
-    "tags": ["calendar", "date"],
+    "tags": ["calendar", "date", "repeat"],
     "created": 1646679710271,
     "name": "recurring",
     "variant": "secondary",
@@ -1695,7 +1701,7 @@
   },
   "stopwatch": {
     "tags": ["timer", "countdown"],
-    "created": 1646679713568,
+    "created": 1655215520120,
     "name": "stopwatch",
     "variant": "secondary",
     "category": "objects"
@@ -1743,28 +1749,28 @@
     "category": "objects"
   },
   "bank_medium": {
-    "tags": ["pillars"],
+    "tags": ["pillars", "finance"],
     "created": 1646679719278,
     "name": "bank",
     "variant": "secondary",
     "category": "objects"
   },
   "bank": {
-    "tags": ["pillars"],
+    "tags": ["pillars", "finance"],
     "created": 1646679720091,
     "name": "bank",
     "variant": "secondary",
     "category": "objects"
   },
   "house_value_medium": {
-    "tags": [],
+    "tags": ["rental"],
     "created": 1646679720923,
     "name": "house_value",
     "variant": "secondary",
     "category": "objects"
   },
   "house_value": {
-    "tags": ["Categorization: Rental income"],
+    "tags": ["Categorization: Rental income", "rental"],
     "created": 1646679721725,
     "name": "house_value",
     "variant": "secondary",
@@ -1785,14 +1791,14 @@
     "category": "objects"
   },
   "house_1_medium": {
-    "tags": [],
+    "tags": ["property"],
     "created": 1646679724265,
     "name": "house_1",
     "variant": "secondary",
     "category": "objects"
   },
   "house_1": {
-    "tags": ["Property"],
+    "tags": ["Property", "property"],
     "created": 1646679725101,
     "name": "house_1",
     "variant": "secondary",
@@ -1862,7 +1868,7 @@
     "category": "products"
   },
   "travel": {
-    "tags": ["insurance", "plane"],
+    "tags": ["insurance", "plane", "flight"],
     "created": 1646679733487,
     "name": "travel",
     "variant": "secondary",
@@ -1911,14 +1917,14 @@
     "category": "products"
   },
   "vintage_car_medium": {
-    "tags": ["insurance", "old"],
+    "tags": ["insurance", "old", "veteran"],
     "created": 1646679744174,
     "name": "vintage_car",
     "variant": "secondary",
     "category": "products"
   },
   "vintage_car": {
-    "tags": ["insurance", "old"],
+    "tags": ["insurance", "old", "veteran"],
     "created": 1646679744999,
     "name": "vintage_car",
     "variant": "secondary",
@@ -1953,42 +1959,42 @@
     "category": "products"
   },
   "scooter_medium": {
-    "tags": ["scooter", "vehicle", "insurance"],
+    "tags": ["vehicle", "insurance", "moped"],
     "created": 1646679748963,
     "name": "scooter",
     "variant": "secondary",
     "category": "products"
   },
   "scooter": {
-    "tags": ["scooter", "vehicle", "insurance"],
+    "tags": ["vehicle", "insurance", "moped"],
     "created": 1646679749758,
     "name": "scooter",
     "variant": "secondary",
     "category": "products"
   },
   "boat_medium": {
-    "tags": ["sailboat", "insurance"],
+    "tags": ["sailboat", "insurance", "båt"],
     "created": 1646679750544,
     "name": "boat",
     "variant": "secondary",
     "category": "products"
   },
   "boat": {
-    "tags": ["sailboat", "insurance"],
+    "tags": ["sailboat", "insurance", "båt"],
     "created": 1646679751335,
     "name": "boat",
     "variant": "secondary",
     "category": "products"
   },
   "trailer_medium": {
-    "tags": ["flatbead", "insurance"],
+    "tags": ["flatbead", "insurance", "tilhenger"],
     "created": 1646679752111,
     "name": "trailer",
     "variant": "secondary",
     "category": "products"
   },
   "trailer": {
-    "tags": ["flatbead", "insurance"],
+    "tags": ["flatbead", "insurance", "tilhenger"],
     "created": 1646679752960,
     "name": "trailer",
     "variant": "secondary",
@@ -2163,14 +2169,14 @@
     "category": "products"
   },
   "insurance_medium": {
-    "tags": ["umbrella", "forsikring"],
+    "tags": ["umbrella", "forsikring", "rain"],
     "created": 1646679772961,
     "name": "insurance",
     "variant": "secondary",
     "category": "products"
   },
   "insurance": {
-    "tags": ["umbrella", "forsikring"],
+    "tags": ["umbrella", "forsikring", "rain"],
     "created": 1646679773786,
     "name": "insurance",
     "variant": "secondary",
@@ -2191,14 +2197,14 @@
     "category": "products"
   },
   "currency_medium": {
-    "tags": [],
+    "tags": ["exchange"],
     "created": 1646679776227,
     "name": "currency",
     "variant": "secondary",
     "category": "products"
   },
   "currency": {
-    "tags": ["currency"],
+    "tags": ["exchange"],
     "created": 1646679777015,
     "name": "currency",
     "variant": "secondary",
@@ -2345,14 +2351,14 @@
     "category": "products"
   },
   "card_with_padlock_medium": {
-    "tags": ["blocked"],
+    "tags": ["blocked", "card", "sperret"],
     "created": 1646679794543,
     "name": "card_with_padlock",
     "variant": "secondary",
     "category": "products"
   },
   "card_with_padlock": {
-    "tags": ["blocked"],
+    "tags": ["blocked", "card", "sperret"],
     "created": 1646679795349,
     "name": "card_with_padlock",
     "variant": "secondary",
@@ -2387,7 +2393,7 @@
     "category": "products"
   },
   "mastercard_card_medium": {
-    "tags": [],
+    "tags": ["Mastercard account with card"],
     "created": 1646679799420,
     "name": "mastercard_card",
     "variant": "secondary",
@@ -2401,7 +2407,7 @@
     "category": "products"
   },
   "mastercard_medium": {
-    "tags": [],
+    "tags": ["Mastercard account"],
     "created": 1646679801057,
     "name": "mastercard",
     "variant": "secondary",
@@ -2422,7 +2428,7 @@
     "category": "products"
   },
   "account_percent": {
-    "tags": ["moneybag"],
+    "tags": ["moneybag", "Loan value ratio"],
     "created": 1646679803586,
     "name": "account_percent",
     "variant": "secondary",
@@ -2485,84 +2491,84 @@
     "category": "actions"
   },
   "pause_medium": {
-    "tags": [],
+    "tags": ["wait"],
     "created": 1646679810986,
     "name": "pause",
     "variant": "secondary",
     "category": "actions"
   },
   "pause": {
-    "tags": [],
+    "tags": ["wait"],
     "created": 1646679811764,
     "name": "pause",
     "variant": "secondary",
     "category": "actions"
   },
   "play_medium": {
-    "tags": [],
+    "tags": ["go"],
     "created": 1646679812577,
     "name": "play",
     "variant": "secondary",
     "category": "actions"
   },
   "play": {
-    "tags": [],
+    "tags": ["go"],
     "created": 1646679813400,
     "name": "play",
     "variant": "secondary",
     "category": "actions"
   },
   "thumbs_down_medium": {
-    "tags": ["dislike"],
+    "tags": ["dislike", "disapprove"],
     "created": 1646679814209,
     "name": "thumbs_down",
     "variant": "secondary",
     "category": "actions"
   },
   "thumbs_down": {
-    "tags": ["dislike"],
+    "tags": ["dislike", "disapprove"],
     "created": 1646679815220,
     "name": "thumbs_down",
     "variant": "secondary",
     "category": "actions"
   },
   "thumbs_up_medium": {
-    "tags": ["like"],
+    "tags": ["like", "approve"],
     "created": 1646679816024,
     "name": "thumbs_up",
     "variant": "secondary",
     "category": "actions"
   },
   "thumbs_up": {
-    "tags": ["like"],
+    "tags": ["like", "approve"],
     "created": 1646679816841,
     "name": "thumbs_up",
     "variant": "secondary",
     "category": "actions"
   },
   "minimize_medium": {
-    "tags": [],
+    "tags": ["collapse"],
     "created": 1646679817676,
     "name": "minimize",
     "variant": "secondary",
     "category": "actions"
   },
   "minimize": {
-    "tags": [],
+    "tags": ["collapse"],
     "created": 1646679818479,
     "name": "minimize",
     "variant": "secondary",
     "category": "actions"
   },
   "loan_out_medium": {
-    "tags": ["graph"],
+    "tags": ["graph", "downpayment"],
     "created": 1646679819363,
     "name": "loan_out",
     "variant": "secondary",
     "category": "actions"
   },
   "loan_out": {
-    "tags": ["graph"],
+    "tags": ["graph", "downpayment"],
     "created": 1646679820183,
     "name": "loan_out",
     "variant": "secondary",
@@ -2611,98 +2617,98 @@
     "category": "actions"
   },
   "card_out_medium": {
-    "tags": [],
+    "tags": ["transaction", "card"],
     "created": 1646679826540,
     "name": "card_out",
     "variant": "secondary",
     "category": "actions"
   },
   "card_out": {
-    "tags": [],
+    "tags": ["transaction", "card"],
     "created": 1646679827340,
     "name": "card_out",
     "variant": "secondary",
     "category": "actions"
   },
   "card_in_medium": {
-    "tags": [],
+    "tags": ["transaction", "card"],
     "created": 1646679828166,
     "name": "card_in",
     "variant": "secondary",
     "category": "actions"
   },
   "card_in": {
-    "tags": [],
+    "tags": ["transaction", "card"],
     "created": 1646679828976,
     "name": "card_in",
     "variant": "secondary",
     "category": "actions"
   },
   "savings_account_in_medium": {
-    "tags": ["piggybank"],
+    "tags": ["piggybank", "sparegris", "pig", "money in"],
     "created": 1646679829779,
     "name": "savings_account_in",
     "variant": "secondary",
     "category": "actions"
   },
   "savings_account_in": {
-    "tags": ["piggybank"],
+    "tags": ["piggybank", "sparegris", "pig", "money in"],
     "created": 1646679830544,
     "name": "savings_account_in",
     "variant": "secondary",
     "category": "actions"
   },
   "savings_account_out_medium": {
-    "tags": ["piggybank"],
+    "tags": ["piggybank", "sparegris", "pig", "money out"],
     "created": 1646679831396,
     "name": "savings_account_out",
     "variant": "secondary",
     "category": "actions"
   },
   "savings_account_out": {
-    "tags": ["piggybank"],
+    "tags": ["piggybank", "sparegris", "pig", "money out"],
     "created": 1646679832170,
     "name": "savings_account_out",
     "variant": "secondary",
     "category": "actions"
   },
   "account_out_medium": {
-    "tags": ["moneybag"],
+    "tags": ["moneybag", "money out"],
     "created": 1646679832960,
     "name": "account_out",
     "variant": "secondary",
     "category": "actions"
   },
   "account_out": {
-    "tags": ["moneybag"],
+    "tags": ["moneybag", "money out"],
     "created": 1646679833758,
     "name": "account_out",
     "variant": "secondary",
     "category": "actions"
   },
   "account_in_medium": {
-    "tags": ["moneybag"],
+    "tags": ["moneybag", "money in"],
     "created": 1646679834621,
     "name": "account_in",
     "variant": "secondary",
     "category": "actions"
   },
   "account_in": {
-    "tags": ["moneybag"],
+    "tags": ["moneybag", "money in"],
     "created": 1646679835420,
     "name": "account_in",
     "variant": "secondary",
     "category": "actions"
   },
   "dismiss_keyboard_medium": {
-    "tags": [],
+    "tags": ["minimize"],
     "created": 1646679836189,
     "name": "dismiss_keyboard",
     "variant": "secondary",
     "category": "actions"
   },
   "dismiss_keyboard": {
-    "tags": [],
+    "tags": ["minimize"],
     "created": 1646679836959,
     "name": "dismiss_keyboard",
     "variant": "secondary",
@@ -2737,28 +2743,28 @@
     "category": "actions"
   },
   "fullscreen_medium": {
-    "tags": [],
+    "tags": ["full screen", "open", "expand"],
     "created": 1646679840924,
     "name": "fullscreen",
     "variant": "secondary",
     "category": "actions"
   },
   "fullscreen": {
-    "tags": ["full screen"],
+    "tags": ["full screen", "open", "expand"],
     "created": 1646679841757,
     "name": "fullscreen",
     "variant": "secondary",
     "category": "actions"
   },
   "save_medium": {
-    "tags": [],
+    "tags": ["lagre", "store"],
     "created": 1646679842593,
     "name": "save",
     "variant": "primary",
     "category": "actions"
   },
   "save": {
-    "tags": [],
+    "tags": ["lagre", "store"],
     "created": 1646679843391,
     "name": "save",
     "variant": "primary",
@@ -2807,84 +2813,84 @@
     "category": "actions"
   },
   "add_medium": {
-    "tags": ["plus"],
+    "tags": ["plus", "pluss"],
     "created": 1646679849265,
     "name": "add",
     "variant": "primary",
     "category": "actions"
   },
   "add": {
-    "tags": ["plus"],
+    "tags": ["plus", "pluss"],
     "created": 1646679850068,
     "name": "add",
     "variant": "primary",
     "category": "actions"
   },
   "add_circled_medium": {
-    "tags": ["plus"],
+    "tags": ["plus", "pluss", "add"],
     "created": 1646679850921,
     "name": "add_circled",
     "variant": "secondary",
     "category": "actions"
   },
   "add_circled": {
-    "tags": ["plus"],
+    "tags": ["plus", "pluss", "add"],
     "created": 1646679851718,
     "name": "add_circled",
     "variant": "secondary",
     "category": "actions"
   },
   "reply_medium": {
-    "tags": [],
+    "tags": ["answer"],
     "created": 1646679852514,
     "name": "reply",
     "variant": "secondary",
     "category": "actions"
   },
   "reply": {
-    "tags": [],
+    "tags": ["answer"],
     "created": 1646679853354,
     "name": "reply",
     "variant": "secondary",
     "category": "actions"
   },
   "return_1_medium": {
-    "tags": [],
+    "tags": ["return", "back", "regret"],
     "created": 1646679854152,
     "name": "return_1",
     "variant": "secondary",
     "category": "actions"
   },
   "return_1": {
-    "tags": [],
+    "tags": ["return", "back", "regret"],
     "created": 1646679854956,
     "name": "return_1",
     "variant": "secondary",
     "category": "actions"
   },
   "redo_medium": {
-    "tags": [],
+    "tags": ["restart", "start over"],
     "created": 1646679855780,
     "name": "redo",
     "variant": "secondary",
     "category": "actions"
   },
   "redo": {
-    "tags": ["Restart"],
+    "tags": ["Restart", "restart", "start over"],
     "created": 1646679856610,
     "name": "redo",
     "variant": "secondary",
     "category": "actions"
   },
   "undo_medium": {
-    "tags": ["restart"],
+    "tags": ["restart", "regret"],
     "created": 1646679857456,
     "name": "undo",
     "variant": "secondary",
     "category": "actions"
   },
   "undo": {
-    "tags": ["restart"],
+    "tags": ["restart", "regret"],
     "created": 1646679858264,
     "name": "undo",
     "variant": "secondary",
@@ -2905,56 +2911,56 @@
     "category": "actions"
   },
   "refresh_medium": {
-    "tags": ["repeat"],
+    "tags": ["repeat", "sync", "update"],
     "created": 1646679860736,
     "name": "refresh",
     "variant": "secondary",
     "category": "actions"
   },
   "refresh": {
-    "tags": ["repeat", "repeat"],
+    "tags": ["repeat", "sync", "update", "repeat"],
     "created": 1646679861570,
     "name": "refresh",
     "variant": "secondary",
     "category": "actions"
   },
   "stop_medium": {
-    "tags": [],
+    "tags": ["error", "cancel", "no entry"],
     "created": 1646679862382,
     "name": "stop",
     "variant": "secondary",
     "category": "actions"
   },
   "stop": {
-    "tags": ["Stop"],
+    "tags": ["error", "cancel", "no entry"],
     "created": 1646679863213,
     "name": "stop",
     "variant": "secondary",
     "category": "actions"
   },
   "log_out_medium": {
-    "tags": ["door"],
+    "tags": ["door", "logout", "exit"],
     "created": 1646679864070,
     "name": "log_out",
     "variant": "secondary",
     "category": "actions"
   },
   "log_out": {
-    "tags": ["door"],
+    "tags": ["door", "logout", "exit"],
     "created": 1646679864890,
     "name": "log_out",
     "variant": "secondary",
     "category": "actions"
   },
   "log_in_medium": {
-    "tags": ["door"],
+    "tags": ["door", "login", "enter"],
     "created": 1646679865746,
     "name": "log_in",
     "variant": "secondary",
     "category": "actions"
   },
   "log_in": {
-    "tags": ["door"],
+    "tags": ["door", "login", "enter"],
     "created": 1646679866573,
     "name": "log_in",
     "variant": "secondary",
@@ -3017,70 +3023,70 @@
     "category": "actions"
   },
   "edit_medium": {
-    "tags": ["pencil"],
+    "tags": ["pencil", "write", "change"],
     "created": 1646679874160,
     "name": "edit",
     "variant": "secondary",
     "category": "actions"
   },
   "edit": {
-    "tags": ["pencil"],
+    "tags": ["pencil", "write", "change"],
     "created": 1646679875009,
     "name": "edit",
     "variant": "secondary",
     "category": "actions"
   },
   "compose_medium": {
-    "tags": ["create", "write"],
+    "tags": ["create", "write", "new"],
     "created": 1646679875813,
     "name": "compose",
     "variant": "secondary",
     "category": "actions"
   },
   "compose": {
-    "tags": ["create", "write"],
+    "tags": ["create", "write", "new"],
     "created": 1646679876641,
     "name": "compose",
     "variant": "secondary",
     "category": "actions"
   },
   "hide_medium": {
-    "tags": ["eye"],
+    "tags": ["eye", "password"],
     "created": 1646679877466,
     "name": "hide",
     "variant": "secondary",
     "category": "actions"
   },
   "hide": {
-    "tags": ["eye"],
+    "tags": ["eye", "password"],
     "created": 1646679878329,
     "name": "hide",
     "variant": "secondary",
     "category": "actions"
   },
   "view_medium": {
-    "tags": ["show", "eye"],
+    "tags": ["show", "eye", "password"],
     "created": 1646679879168,
     "name": "view",
     "variant": "secondary",
     "category": "actions"
   },
   "view": {
-    "tags": ["show", "eye"],
+    "tags": ["show", "eye", "password"],
     "created": 1646679880041,
     "name": "view",
     "variant": "secondary",
     "category": "actions"
   },
   "swap_medium": {
-    "tags": ["exchange"],
+    "tags": ["exchange", "switch"],
     "created": 1646679880845,
     "name": "swap",
     "variant": "secondary",
     "category": "actions"
   },
   "swap": {
-    "tags": ["exchange"],
+    "tags": ["exchange", "switch"],
     "created": 1646679881649,
     "name": "swap",
     "variant": "secondary",
@@ -3101,42 +3107,42 @@
     "category": "actions"
   },
   "trash_medium": {
-    "tags": ["delete"],
+    "tags": ["delete", "remove", "slett", "bin", "garbage"],
     "created": 1646679884070,
     "name": "trash",
     "variant": "secondary",
     "category": "actions"
   },
   "trash": {
-    "tags": ["delete"],
+    "tags": ["delete", "remove", "slett", "bin", "garbage"],
     "created": 1646679884880,
     "name": "trash",
     "variant": "secondary",
     "category": "actions"
   },
   "graph_increase_medium": {
-    "tags": ["loan"],
+    "tags": ["loan", "up"],
     "created": 1646679885681,
     "name": "graph_increase",
     "variant": "secondary",
     "category": "actions"
   },
   "graph_increase": {
-    "tags": ["loan"],
+    "tags": ["loan", "up"],
     "created": 1646679886496,
     "name": "graph_increase",
     "variant": "secondary",
     "category": "actions"
   },
   "graph_decrease_medium": {
-    "tags": ["downpayment", "loan"],
+    "tags": ["downpayment", "loan", "down"],
     "created": 1646679887357,
     "name": "graph_decrease",
     "variant": "secondary",
     "category": "actions"
   },
   "graph_decrease": {
-    "tags": ["downpayment", "loan"],
+    "tags": ["downpayment", "loan", "down"],
     "created": 1646679888176,
     "name": "graph_decrease",
     "variant": "secondary",
@@ -3157,7 +3163,7 @@
     "category": "actions"
   },
   "transfer_to_medium": {
-    "tags": [],
+    "tags": ["Transfer to"],
     "created": 1646679890635,
     "name": "transfer_to",
     "variant": "secondary",
@@ -3171,7 +3177,7 @@
     "category": "actions"
   },
   "pay_from_medium": {
-    "tags": [],
+    "tags": ["Payment"],
     "created": 1646679892371,
     "name": "pay_from",
     "variant": "secondary",
@@ -3185,56 +3191,56 @@
     "category": "actions"
   },
   "chevron_up_medium": {
-    "tags": ["collapse"],
+    "tags": ["collapse", "close"],
     "created": 1646679894012,
     "name": "chevron_up",
     "variant": "primary",
     "category": "navigation"
   },
   "chevron_up": {
-    "tags": ["collapse"],
+    "tags": ["collapse", "close"],
     "created": 1646679894831,
     "name": "chevron_up",
     "variant": "primary",
     "category": "navigation"
   },
   "chevron_down_medium": {
-    "tags": ["expand"],
+    "tags": ["expand", "more", "open"],
     "created": 1646679895645,
     "name": "chevron_down",
     "variant": "primary",
     "category": "navigation"
   },
   "chevron_down": {
-    "tags": ["expand"],
+    "tags": ["expand", "more", "open"],
     "created": 1646679896466,
     "name": "chevron_down",
     "variant": "primary",
     "category": "navigation"
   },
   "chevron_right_medium": {
-    "tags": [],
+    "tags": ["go", "next"],
     "created": 1646679897290,
     "name": "chevron_right",
     "variant": "primary",
     "category": "navigation"
   },
   "chevron_right": {
-    "tags": [],
+    "tags": ["go", "next"],
     "created": 1646679898110,
     "name": "chevron_right",
     "variant": "primary",
     "category": "navigation"
   },
   "chevron_left_medium": {
-    "tags": [],
+    "tags": ["back"],
     "created": 1646679898928,
     "name": "chevron_left",
     "variant": "primary",
     "category": "navigation"
   },
   "chevron_left": {
-    "tags": [],
+    "tags": ["back"],
     "created": 1646679899849,
     "name": "chevron_left",
     "variant": "primary",
@@ -3365,5 +3371,33 @@
     "name": "hamburger",
     "variant": "secondary",
     "category": "navigation"
+  },
+  "calendar_cancel_medium": {
+    "tags": ["calendar", "date", "cancel", "dismiss", "disable"],
+    "created": 1655126059668,
+    "name": "calendar_cancel",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "calendar_cancel": {
+    "tags": ["calendar", "date", "cancel", "dismiss", "disable"],
+    "created": 1655126060021,
+    "name": "calendar_cancel",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "bookmark_medium": {
+    "tags": ["calendar", "date", "save", "remember", "pin"],
+    "created": 1655126060381,
+    "name": "bookmark",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "bookmark": {
+    "tags": ["calendar", "date", "save", "remember", "pin"],
+    "created": 1655126060755,
+    "name": "bookmark",
+    "variant": "secondary",
+    "category": "objects"
   }
 }

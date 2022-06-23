@@ -10,12 +10,12 @@ import Button from '../../button/Button'
 import Context from '../../../shared/Context'
 import { ButtonProps } from '../../button'
 
-export interface CloseButtonProps extends ButtonProps {
+export type CloseButtonProps = {
   /**
    * The title of the close button. Defaults to <em>Close</em> or <em>Lukk</em>.
    */
   close_title?: string
-}
+} & Partial<ButtonProps>
 
 export default class CloseButton extends React.PureComponent<CloseButtonProps> {
   static contextType = Context

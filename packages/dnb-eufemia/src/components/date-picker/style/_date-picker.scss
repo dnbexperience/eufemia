@@ -73,6 +73,17 @@
     left: -1rem;
     top: var(--date-picker-input-height);
   }
+
+  &--small &__container {
+    top: var(--input-height--small);
+  }
+  &--medium &__container {
+    top: var(--input-height--medium);
+  }
+  &--large &__container {
+    top: var(--input-height--large);
+  }
+
   &--show-input &__container {
     left: 0;
   }
@@ -150,7 +161,35 @@
         margin-right: 2.2rem;
       }
     }
+
+    &--small {
+      &#{&}--has-submit-element &__input {
+        padding-right: 0.125rem;
+      }
+      &:last-of-type:not(*:root) {
+        margin-right: 2.2rem;
+      }
+    }
+
+    &--medium {
+      &#{&}--has-submit-element &__input {
+        padding-right: 0.125rem;
+      }
+      &:last-of-type:not(*:root) {
+        margin-right: 3.2rem;
+      }
+    }
+
+    &--large {
+      &#{&}--has-submit-element &__input {
+        padding-right: 0.125rem;
+      }
+      &:last-of-type:not(*:root) {
+        margin-right: 4rem;
+      }
+    }
   }
+
   .dnb-input__input#{&}__input:first-of-type,
   &__input:first-of-type {
     margin-left: 0.8rem;
@@ -375,6 +414,7 @@
       background-color: var(--color-white);
     }
   }
+
   &--right &__triangle {
     left: auto;
     right: 0;

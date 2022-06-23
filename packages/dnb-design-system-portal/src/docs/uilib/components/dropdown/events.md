@@ -4,12 +4,12 @@ showTabs: true
 
 ## Events
 
-| Events      | Description                                                                                                                                                                                                                                                                                           |
-| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `on_change` | _(optional)_ will be called on state changes made by the user. Returns an object with the new selected `data` item `{ data, event, attributes, selected_key, value }`.                                                                                                                                |
+| Events      | Description                                                                                                                                                                                                                                                                                          |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `on_change` | _(optional)_ will be called on state changes made by the user. Returns an object with the new selected `data` item `{ data, event, attributes, selected_key, value }`.                                                                                                                               |
 | `on_select` | _(optional)_ will be called once the user selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, selected_key, value, active_item }`. The **active_item** property is the currently selected item by keyboard navigation |
-| `on_show`   | _(optional)_ will be called once the user presses the dropdown. Returns the data item `{ data, attributes }`.                                                                                                                                                                                         |
-| `on_hide`   | _(optional)_ will be called once the user presses the dropdown again, or clicks somewhere else. Returns the data item `{ data, attributes }`.                                                                                                                                                         |
+| `on_show`   | _(optional)_ will be called once the user presses the dropdown. Returns the data item `{ data, attributes }`.                                                                                                                                                                                        |
+| `on_hide`   | _(optional)_ will be called once the user presses the dropdown again, or clicks somewhere else. Returns the data item `{ data, attributes }`.                                                                                                                                                        |
 
 ### The `on_change` vs `on_select` difference
 

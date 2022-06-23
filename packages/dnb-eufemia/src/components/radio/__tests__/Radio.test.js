@@ -133,13 +133,19 @@ describe('Radio component', () => {
     )
   })
 
-  it('has a disabled attribute, once we set disabled to true', () => {
-    const Comp = mount(<Component />)
-    Comp.setProps({
-      disabled: true,
-    })
+  it('will disable a single button', () => {
+    const Comp = mount(<Component disabled />)
+
     expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
       true
+    )
+
+    Comp.setProps({
+      disabled: false,
+    })
+
+    expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
+      false
     )
   })
 
@@ -181,6 +187,46 @@ describe('Radio group component', () => {
     Comp.find('input').at(1).simulate('change')
     expect(my_event.mock.calls.length).toBe(2)
     expect(my_event.mock.calls[1][0].value).toBe('second')
+  })
+
+  it('will disable a single button within a group', () => {
+    const Comp = mount(
+      <Component.Group>
+        <Component disabled />
+      </Component.Group>
+    )
+
+    expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
+      true
+    )
+  })
+
+  it('will disable a single button, defined in the group', () => {
+    const Comp = mount(
+      <Component.Group disabled>
+        <Component />
+      </Component.Group>
+    )
+
+    expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
+      true
+    )
+  })
+
+  it('will overwrite "disable" state, defined in the group', () => {
+    const Comp = mount(
+      <Component.Group disabled>
+        <Component disabled={false} />
+        <Component disabled />
+      </Component.Group>
+    )
+
+    expect(
+      Comp.find('input').first().instance().hasAttribute('disabled')
+    ).toBe(false)
+    expect(
+      Comp.find('input').last().instance().hasAttribute('disabled')
+    ).toBe(true)
   })
 
   // mount compare the snapshot

@@ -15,6 +15,7 @@ import { usePropsWithContext } from '../../shared/hooks'
 // Internal
 import TagGroup from './TagGroup'
 import { TagGroupContext } from './TagContext'
+import { createSpacingClasses } from '../space/SpacingHelper'
 
 export interface TagProps {
   /**
@@ -83,6 +84,14 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
   const tagGroupContext = React.useContext(TagGroupContext)
 
   // Extract additional props from global context
+  const allProps = usePropsWithContext(
+    localProps,
+    defaultProps,
+    context?.translation?.Tag,
+    context?.Tag,
+    tagGroupContext
+  )
+
   const {
     className,
     skeleton,
@@ -93,25 +102,22 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
     onDelete,
     omitOnKeyUpDeleteEvent,
     ...props
-  } = usePropsWithContext(
-    localProps,
-    defaultProps,
-    context?.translation?.Tag,
-    context?.Tag,
-    tagGroupContext
-  )
+  } = allProps
 
   const content = text || children
   const isClickable = !!onClick
   const isRemovable = !!onDelete && !isClickable
   const isInteractive = isClickable || isRemovable
-
+  const spacingClasses = createSpacingClasses(props)
   const tagClassNames = classnames(
     'dnb-tag',
     className,
+    spacingClasses,
     isInteractive && 'dnb-tag--interactive',
     isRemovable && 'dnb-tag--removable'
   )
+  const buttonAttr: typeof props & Pick<ButtonProps, 'element' | 'type'> =
+    props
 
   const isDeleteKeyboardEvent = (keyboardEvent) => {
     return (
@@ -124,9 +130,6 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
       onDelete(event)
     }
   }
-
-  const buttonAttr: typeof props & Pick<ButtonProps, 'element' | 'type'> =
-    props
 
   if (!isInteractive) {
     buttonAttr.element = 'span'

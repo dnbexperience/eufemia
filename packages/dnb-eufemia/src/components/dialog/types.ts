@@ -1,5 +1,4 @@
 import { ToCamelCasePartial } from '../../shared/helpers/withCamelCaseProps'
-import { ScrollViewProps } from '../../fragments/ScrollView'
 import { ModalPropTypes } from '../modal/Modal'
 import { IconPrimaryIcon } from '../IconPrimary'
 import { DialogActionProps } from './parts/DialogAction'
@@ -13,8 +12,7 @@ export interface DialogProps extends ToCamelCasePartial<ModalPropTypes> {
 }
 
 export interface DialogContentProps
-  extends ScrollViewProps,
-    Omit<DialogActionProps, 'children'> {
+  extends Omit<DialogActionProps, 'children'> {
   /**
    * The minimum Dialog content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).
    */
@@ -29,6 +27,11 @@ export interface DialogContentProps
    * Give the Dialog content a class name (maps to `dnb-dialog`).
    */
   className?: string
+
+  /**
+   * @deprecated Please use `className`.
+   */
+  class?: string
 
   /**
    * If set to `false` then the dialog content will be shown without any spacing. Defaults to `true`.
@@ -94,4 +97,9 @@ export interface DialogContentProps
    * A description will be positioned below the title, but before the content.
    */
   description?: React.ReactNode
+
+  /**
+   * The content of the modal.
+   */
+  children?: React.ReactNode
 }

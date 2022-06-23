@@ -12,7 +12,7 @@ const stopwatch = (props) => (
     {...props}
   >
     <path
-      d="M8 3.75a6 6 0 1 1 0 12 6 6 0 0 1 0-12Zm0 0v-3m4 4.5L13.25 4M13 3.75l.5.5m-4-3.5h-3m1.5 9.5L6 8.036"
+      d="M8 3.8A5.6 5.6 0 1 1 8 15 5.6 5.6 0 0 1 8 3.8Zm0 0V1m3.733 4.2L12.9 4.033m-.233-.233.466.467M9.4 1H6.6M8 9.867 6.133 7.8"
       stroke="#000"
       strokeWidth={1.5}
       strokeLinecap="round"

@@ -3,6 +3,7 @@
 exports[`Autocomplete markup have to match snapshot 1`] = `
 <Autocomplete
   align_autocomplete={null}
+  ariaLiveDelay={1}
   aria_live_options="aria_live_options"
   class="class"
   className="className"
@@ -71,6 +72,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   scrollable="scrollable"
   search_in_word_index="search_in_word_index"
   search_numbers="search_numbers"
+  selected_sr="selected_sr"
   show_all="show_all"
   show_clear_button="show_clear_button"
   show_options_sr="show_options_sr"
@@ -95,6 +97,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     action_menu={false}
     align_autocomplete={null}
     align_drawer="left"
+    ariaLiveDelay={1}
     aria_live_options="aria_live_options"
     cache_hash={null}
     class="class"
@@ -176,6 +179,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     scrollable="scrollable"
     search_in_word_index="search_in_word_index"
     search_numbers="search_numbers"
+    selected_sr="selected_sr"
     show_all="show_all"
     show_clear_button="show_clear_button"
     show_options_sr="show_options_sr"
@@ -202,6 +206,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   >
     <AutocompleteInstance
       align_autocomplete={null}
+      ariaLiveDelay={1}
       aria_live_options="aria_live_options"
       class="class"
       className="className"
@@ -270,6 +275,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       scrollable="scrollable"
       search_in_word_index="search_in_word_index"
       search_numbers="search_numbers"
+      selected_sr="selected_sr"
       show_all="show_all"
       show_clear_button="show_clear_button"
       show_options_sr="show_options_sr"
@@ -457,6 +463,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 icon_position={null}
                 icon_size="icon_size"
                 id="autocomplete-id"
+                inner_element={null}
                 inner_ref={null}
                 input_attributes={null}
                 input_class={null}
@@ -842,7 +849,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 no_animation={true}
                 no_scroll_animation="no_scroll_animation"
                 onMouseDown={[Function]}
-                onTouchStart={[Function]}
                 on_change={[Function]}
                 on_hide={[Function]}
                 on_key_down={[Function]}
@@ -894,7 +900,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   no_animation={true}
                   no_scroll_animation="no_scroll_animation"
                   onMouseDown={[Function]}
-                  onTouchStart={[Function]}
                   on_change={[Function]}
                   on_hide={[Function]}
                   on_key_down={[Function]}
@@ -929,7 +934,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       disabled="disabled"
                       id="autocomplete-id-drawer-list"
                       onMouseDown={[Function]}
-                      onTouchStart={[Function]}
                     >
                       <span
                         className="dnb-drawer-list__list dnb-autocomplete__list dnb-drawer-list__list--no-animation"
@@ -1004,7 +1008,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     <ItemContent
                                       hash="option-autocomplete-id-0-0"
                                     >
-                                      AA c
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                      >
+                                        AA c
+                                      </span>
                                     </ItemContent>
                                   </span>
                                 </li>
@@ -1041,7 +1049,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     <ItemContent
                                       hash="option-autocomplete-id-1-1"
                                     >
-                                      BB cc zethx
+                                      <span
+                                        className="dnb-drawer-list__option__item"
+                                      >
+                                        BB cc zethx
+                                      </span>
                                     </ItemContent>
                                   </span>
                                 </li>
@@ -1080,13 +1092,13 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                       hash="option-autocomplete-id-2-2"
                                     >
                                       <span
-                                        className="dnb-drawer-list__option__item"
+                                        className="dnb-drawer-list__option__item item-nr-1"
                                         key="option-autocomplete-id-2-20"
                                       >
                                         CC
                                       </span>
                                       <span
-                                        className="dnb-drawer-list__option__item"
+                                        className="dnb-drawer-list__option__item item-nr-2"
                                         key="option-autocomplete-id-2-21"
                                       >
                                         cc
@@ -1117,6 +1129,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
               context={
                 Object {
                   "align_autocomplete": null,
+                  "ariaLiveDelay": 1,
                   "aria_live_options": "aria_live_options",
                   "children": "children",
                   "class": "class",
@@ -1184,6 +1197,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "scrollable": "scrollable",
                   "search_in_word_index": "search_in_word_index",
                   "search_numbers": "search_numbers",
+                  "selected_sr": "selected_sr",
                   "show_all": "show_all",
                   "show_clear_button": "show_clear_button",
                   "show_options_sr": "show_options_sr",
@@ -1258,6 +1272,12 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
   color: var(--color-white);
   background-color: var(--color-sea-green);
   box-shadow: none; }
+
+.dnb-autocomplete--show-indicator .dnb-autocomplete__input .dnb-input__icon {
+  color: transparent; }
+
+.dnb-autocomplete__shell, .dnb-autocomplete__input {
+  border-radius: var(--autocomplete-border-radius); }
 
 .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-form-label:hover
 ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state='disabled']) .dnb-input__shell {
@@ -2047,9 +2067,6 @@ legend.dnb-form-label {
     word-break: normal;
     position: relative;
     z-index: 2; }
-  .dnb-input input.dnb-input__input {
-    font-size: var(--input-font-size);
-    line-height: var(--font-size-basis); }
   .dnb-input__input[disabled] {
     user-select: none;
     -webkit-user-select: none;
@@ -2060,11 +2077,15 @@ legend.dnb-form-label {
   .dnb-input__placeholder, .dnb-input__input {
     width: 100%;
     padding-left: var(--input-padding);
-    padding-right: var(--input-padding);
-    text-align: inherit;
+    padding-right: var(--input-padding); }
+  .dnb-input__placeholder, .dnb-input__input,
+  .dnb-input input.dnb-input__input {
+    padding-top: 0;
+    padding-bottom: 0;
     color: inherit;
     background-color: transparent;
-    font-size: var(--input-font-size); }
+    font-size: var(--input-font-size);
+    line-height: inherit; }
   .dnb-input__placeholder {
     pointer-events: none;
     position: absolute;
@@ -2848,6 +2869,9 @@ legend.dnb-form-label {
     justify-content: center;
     align-items: center;
     color: var(--color-sea-green); }
+    .dnb-autocomplete__show-all .dnb-drawer-list__option__inner .dnb-drawer-list__option__item {
+      display: flex;
+      flex-direction: column; }
     .dnb-autocomplete__show-all .dnb-drawer-list__option__inner .dnb-icon {
       align-self: center; }
   .dnb-autocomplete__input {
@@ -2859,15 +2883,40 @@ legend.dnb-form-label {
     .dnb-autocomplete__input .dnb-input__shell,
     .dnb-autocomplete__input .dnb-input__input {
       width: 100%; }
-  .dnb-autocomplete--show-indicator .dnb-autocomplete__input .dnb-input__icon {
-    color: transparent; }
   .dnb-autocomplete--opened .dnb-input__submit-button__button .dnb-icon {
     transform: rotate(180deg);
     transform-origin: 50% 50%; }
   .dnb-autocomplete .dnb-input__submit-button__button .dnb-icon {
     transition: transform 400ms ease-out; }
-  .dnb-autocomplete__shell, .dnb-autocomplete__input {
-    border-radius: var(--autocomplete-border-radius); }
+    html[data-visual-test] .dnb-autocomplete .dnb-input__submit-button__button .dnb-icon {
+      transition-duration: 1ms !important; }
+  .dnb-autocomplete .dnb-input__inner__element {
+    position: relative;
+    z-index: 3; }
+  @media screen and (min-width: 40em) {
+    .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__placeholder,
+    .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__input {
+      padding-right: 0 !important; } }
+  @media screen and (max-width: 40em) {
+    .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__placeholder,
+    .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__input {
+      padding-right: 2.5rem !important; } }
+  .dnb-autocomplete .dnb-input__inner__element.dnb-p {
+    pointer-events: none;
+    white-space: nowrap;
+    padding: 0 0.5rem; }
+    @media screen and (max-width: 40em) {
+      .dnb-autocomplete .dnb-input__inner__element.dnb-p {
+        display: none; } }
+  .dnb-autocomplete .dnb-input__inner__element.dnb-p,
+  .dnb-spacing .dnb-autocomplete .dnb-input__inner__element.dnb-p {
+    margin: 0; }
+  .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__inner__element {
+    margin-right: 2.5rem !important; }
+  .dnb-autocomplete--icon-position-right .dnb-input__inner__element.dnb-p {
+    padding-right: 3rem; }
+  .dnb-autocomplete--icon-position-right .dnb-input--icon-position-right .dnb-autocomplete--icon-position-right .dnb-input--icon-position-right.dnb-autocomplete--icon-position-right .dnb-input--has-icon .dnb-autocomplete--icon-position-right .dnb-input__input {
+    padding-right: 1rem; }
   .dnb-autocomplete__text {
     order: 1;
     position: relative;

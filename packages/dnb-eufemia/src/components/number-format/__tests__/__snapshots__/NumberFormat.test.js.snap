@@ -32,6 +32,7 @@ exports[`NumberFormat component have to match default number-format snapshot 1`]
     prefix={null}
     selectall={true}
     skeleton={null}
+    srLabel={null}
     suffix={null}
     tooltip={null}
     value={12345678.9876}

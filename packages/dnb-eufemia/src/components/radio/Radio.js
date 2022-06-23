@@ -95,7 +95,7 @@ export default class Radio extends React.PureComponent {
     label_sr_only: null,
     label_position: null,
     checked: null,
-    disabled: false,
+    disabled: null,
     id: null,
     size: null,
     element: 'input',
@@ -316,7 +316,9 @@ export default class Radio extends React.PureComponent {
               checked = this.context.value === value
             }
             group = this.context.name
-            disabled = isTrue(this.context.disabled)
+            if (isTrue(this.context.disabled) && disabled !== false) {
+              disabled = true
+            }
           } else if (typeof rest.name !== 'undefined') {
             group = rest.name
           }

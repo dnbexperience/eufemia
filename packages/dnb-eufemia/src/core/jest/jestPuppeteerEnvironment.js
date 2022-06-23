@@ -3,7 +3,7 @@
  *
  */
 
-const NodeEnvironment = require('jest-environment-node')
+const NodeEnvironment = require('jest-environment-node').default
 const fs = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
@@ -11,8 +11,8 @@ const puppeteer = require('puppeteer')
 const { config } = require('./jestSetupScreenshots')
 
 class PuppeteerEnvironment extends NodeEnvironment {
-  constructor(config) {
-    super(config)
+  constructor({ globalConfig, projectConfig }, context) {
+    super({ globalConfig, projectConfig }, context)
 
     if (typeof global.__EVENT_FAILURE_CACHE__ === 'undefined') {
       global.__EVENT_FAILURE_CACHE__ = []

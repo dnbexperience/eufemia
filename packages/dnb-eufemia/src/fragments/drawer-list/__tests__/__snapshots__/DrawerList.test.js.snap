@@ -2,6 +2,54 @@
 
 exports[`DrawerList markup have to match snapshot 1`] = `
 <DrawerList
+  0={
+    Object {
+      "displayName": "DrawerList",
+      "props": Object {},
+    }
+  }
+  1={
+    Object {
+      "displayName": "DrawerListInstance",
+      "props": Object {},
+    }
+  }
+  2={
+    Object {
+      "displayName": undefined,
+      "props": Object {},
+    }
+  }
+  3={
+    Object {
+      "displayName": undefined,
+      "props": Object {},
+    }
+  }
+  4={
+    Object {
+      "displayName": "ItemContent",
+      "props": Object {
+        "children": "children",
+        "hash": "hash",
+      },
+    }
+  }
+  5={
+    Object {
+      "displayName": undefined,
+      "props": Object {},
+    }
+  }
+  6={
+    Object {
+      "displayName": "OnMounted",
+      "props": Object {
+        "addObservers": [Function],
+        "removeObservers": [Function],
+      },
+    }
+  }
   action_menu={false}
   align_drawer={null}
   cache_hash={null}
@@ -16,28 +64,24 @@ exports[`DrawerList markup have to match snapshot 1`] = `
           "1234 56 78901",
           "Brukskonto - Kari Nordmann",
         ],
-        "selected_value": "Brukskonto - Kari Nordmann",
       },
       Object {
         "content": Array [
           "1234 56 78902",
           "Sparekonto - Ole Nordmann",
         ],
-        "selected_value": "Sparekonto - Ole Nordmann",
       },
       Object {
         "content": Array [
           "1134 56 78962",
           "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
         ],
-        "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
       },
       Object {
         "content": Array [
           "1534 96 48901",
           "Oppussing - Ole Nordmann",
         ],
-        "selected_value": "Oppussing - Ole Nordmann",
       },
       Object {
         "content": <React.Fragment>
@@ -97,6 +141,54 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   wrapper_element={null}
 >
   <DrawerListProvider
+    0={
+      Object {
+        "displayName": "DrawerList",
+        "props": Object {},
+      }
+    }
+    1={
+      Object {
+        "displayName": "DrawerListInstance",
+        "props": Object {},
+      }
+    }
+    2={
+      Object {
+        "displayName": undefined,
+        "props": Object {},
+      }
+    }
+    3={
+      Object {
+        "displayName": undefined,
+        "props": Object {},
+      }
+    }
+    4={
+      Object {
+        "displayName": "ItemContent",
+        "props": Object {
+          "children": "children",
+          "hash": "hash",
+        },
+      }
+    }
+    5={
+      Object {
+        "displayName": undefined,
+        "props": Object {},
+      }
+    }
+    6={
+      Object {
+        "displayName": "OnMounted",
+        "props": Object {
+          "addObservers": [Function],
+          "removeObservers": [Function],
+        },
+      }
+    }
     action_menu={false}
     align_drawer={null}
     cache_hash={null}
@@ -111,28 +203,24 @@ exports[`DrawerList markup have to match snapshot 1`] = `
             "1234 56 78901",
             "Brukskonto - Kari Nordmann",
           ],
-          "selected_value": "Brukskonto - Kari Nordmann",
         },
         Object {
           "content": Array [
             "1234 56 78902",
             "Sparekonto - Ole Nordmann",
           ],
-          "selected_value": "Sparekonto - Ole Nordmann",
         },
         Object {
           "content": Array [
             "1134 56 78962",
             "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
           ],
-          "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
         },
         Object {
           "content": Array [
             "1534 96 48901",
             "Oppussing - Ole Nordmann",
           ],
-          "selected_value": "Oppussing - Ole Nordmann",
         },
         Object {
           "content": <React.Fragment>
@@ -196,6 +284,54 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     wrapper_element={null}
   >
     <DrawerListInstance
+      0={
+        Object {
+          "displayName": "DrawerList",
+          "props": Object {},
+        }
+      }
+      1={
+        Object {
+          "displayName": "DrawerListInstance",
+          "props": Object {},
+        }
+      }
+      2={
+        Object {
+          "displayName": undefined,
+          "props": Object {},
+        }
+      }
+      3={
+        Object {
+          "displayName": undefined,
+          "props": Object {},
+        }
+      }
+      4={
+        Object {
+          "displayName": "ItemContent",
+          "props": Object {
+            "children": "children",
+            "hash": "hash",
+          },
+        }
+      }
+      5={
+        Object {
+          "displayName": undefined,
+          "props": Object {},
+        }
+      }
+      6={
+        Object {
+          "displayName": "OnMounted",
+          "props": Object {
+            "addObservers": [Function],
+            "removeObservers": [Function],
+          },
+        }
+      }
       action_menu={false}
       align_drawer={null}
       cache_hash={null}
@@ -210,28 +346,24 @@ exports[`DrawerList markup have to match snapshot 1`] = `
               "1234 56 78901",
               "Brukskonto - Kari Nordmann",
             ],
-            "selected_value": "Brukskonto - Kari Nordmann",
           },
           Object {
             "content": Array [
               "1234 56 78902",
               "Sparekonto - Ole Nordmann",
             ],
-            "selected_value": "Sparekonto - Ole Nordmann",
           },
           Object {
             "content": Array [
               "1134 56 78962",
               "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
             ],
-            "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
           },
           Object {
             "content": Array [
               "1534 96 48901",
               "Oppussing - Ole Nordmann",
             ],
-            "selected_value": "Oppussing - Ole Nordmann",
           },
           Object {
             "content": <React.Fragment>
@@ -371,13 +503,13 @@ exports[`DrawerList markup have to match snapshot 1`] = `
                           hash="option-drawer-list-id-0-0"
                         >
                           <span
-                            className="dnb-drawer-list__option__item"
+                            className="dnb-drawer-list__option__item item-nr-1"
                             key="option-drawer-list-id-0-00"
                           >
                             1234 56 78901
                           </span>
                           <span
-                            className="dnb-drawer-list__option__item"
+                            className="dnb-drawer-list__option__item item-nr-2"
                             key="option-drawer-list-id-0-01"
                           >
                             Brukskonto - Kari Nordmann
@@ -419,13 +551,13 @@ exports[`DrawerList markup have to match snapshot 1`] = `
                           hash="option-drawer-list-id-1-1"
                         >
                           <span
-                            className="dnb-drawer-list__option__item"
+                            className="dnb-drawer-list__option__item item-nr-1"
                             key="option-drawer-list-id-1-10"
                           >
                             1234 56 78902
                           </span>
                           <span
-                            className="dnb-drawer-list__option__item"
+                            className="dnb-drawer-list__option__item item-nr-2"
                             key="option-drawer-list-id-1-11"
                           >
                             Sparekonto - Ole Nordmann
@@ -468,13 +600,13 @@ exports[`DrawerList markup have to match snapshot 1`] = `
                           hash="option-drawer-list-id-2-2"
                         >
                           <span
-                            className="dnb-drawer-list__option__item"
+                            className="dnb-drawer-list__option__item item-nr-1"
                             key="option-drawer-list-id-2-20"
                           >
                             1134 56 78962
                           </span>
                           <span
-                            className="dnb-drawer-list__option__item"
+                            className="dnb-drawer-list__option__item item-nr-2"
                             key="option-drawer-list-id-2-21"
                           >
                             Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
@@ -516,13 +648,13 @@ exports[`DrawerList markup have to match snapshot 1`] = `
                           hash="option-drawer-list-id-3-3"
                         >
                           <span
-                            className="dnb-drawer-list__option__item"
+                            className="dnb-drawer-list__option__item item-nr-1"
                             key="option-drawer-list-id-3-30"
                           >
                             1534 96 48901
                           </span>
                           <span
-                            className="dnb-drawer-list__option__item"
+                            className="dnb-drawer-list__option__item item-nr-2"
                             key="option-drawer-list-id-3-31"
                           >
                             Oppussing - Ole Nordmann
@@ -563,8 +695,12 @@ exports[`DrawerList markup have to match snapshot 1`] = `
                         <ItemContent
                           hash="option-drawer-list-id-4-4"
                         >
-                          Custom content 
-                          123
+                          <span
+                            className="dnb-drawer-list__option__item"
+                          >
+                            Custom content 
+                            123
+                          </span>
                         </ItemContent>
                       </span>
                     </li>
@@ -601,8 +737,12 @@ exports[`DrawerList markup have to match snapshot 1`] = `
                         <ItemContent
                           hash="option-drawer-list-id-5-5"
                         >
-                          Custom content 
-                          123
+                          <span
+                            className="dnb-drawer-list__option__item"
+                          >
+                            Custom content 
+                            123
+                          </span>
                         </ItemContent>
                       </span>
                     </li>
@@ -640,7 +780,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
                           hash="option-drawer-list-id-6-6"
                         >
                           <span
-                            className="dnb-drawer-list__option__item"
+                            className="dnb-drawer-list__option__item item-nr-1"
                             key="option-drawer-list-id-6-60"
                           >
                             Custom content 
@@ -726,7 +866,7 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
     background-color: var(--color-white); }
     .dnb-drawer-list__option.ignore-events {
       pointer-events: none; }
-    .dnb-drawer-list__option::before {
+    .dnb-drawer-list__option__inner::before {
       pointer-events: none;
       content: '';
       position: absolute;
@@ -737,10 +877,9 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
       bottom: 0;
       height: var(--drawer-list-option-border-width);
       background-color: var(--color-mint-green-25); }
-    .dnb-drawer-list__option__item:nth-of-type(1) {
+    .dnb-drawer-list__option__item.item-nr-1 {
       font-weight: var(--font-weight-medium); }
     .dnb-drawer-list__option__inner {
-      padding-right: 2rem;
       background-color: var(--color-white); }
     html:not([data-whatintent='touch']) .dnb-drawer-list__option:hover[disabled] {
       cursor: not-allowed; }
@@ -755,7 +894,7 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
     .dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner,
     html:not([data-whatintent='touch']) .dnb-drawer-list__option:active:not([disabled]) .dnb-drawer-list__option__inner {
       color: var(--color-black); }
-    .dnb-drawer-list__option--focus::before {
+    .dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
       z-index: 3;
       top: var(--drawer-list-focus-border-width);
       left: var(--drawer-list-focus-border-width);
@@ -767,54 +906,72 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
       box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
-        .dnb-drawer-list__option--focus::before {
+        .dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
           box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--color-emerald-green); } }
-    .dnb-drawer-list__option--selected {
+    .dnb-drawer-list__option--ignore .dnb-drawer-list__option__inner {
+      color: var(--color-black-80);
+      background-color: var(--color-white); }
+    .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner {
       color: var(--color-white);
       background-color: var(--color-emerald-green); }
-      .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner {
+      .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner .dnb-drawer-list__option__inner {
         color: inherit;
         background-color: inherit; }
-      html:not([data-whatintent='touch']) .dnb-drawer-list__option--selected:hover[disabled] {
+      html:not([data-whatintent='touch']) .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover[disabled] {
         cursor: not-allowed; }
-      html:not([data-whatintent='touch']) .dnb-drawer-list__option--selected:hover:not([disabled]) {
+      html:not([data-whatintent='touch']) .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover:not([disabled]) {
         color: var(--color-white);
         background-color: var(--color-emerald-green); }
-        html:not([data-whatintent='touch']) .dnb-drawer-list__option--selected:hover:not([disabled]) .dnb-drawer-list__option__inner {
+        html:not([data-whatintent='touch']) .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner:hover:not([disabled]) .dnb-drawer-list__option__inner {
           color: inherit;
           background-color: inherit; }
-      .dnb-drawer-list__option--selected::after {
+      .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::after {
         content: '';
-        position: absolute;
-        z-index: 1;
-        top: calc(50% - 0.5rem);
-        right: 1rem;
         width: 1rem;
         height: 1rem;
         background-size: cover;
         background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+ICA8cGF0aCAgICBmaWxsPSIjRTlGOEY0IiAgICBkPSJNMyA4LjhhLjc1Ljc1IDAgMSAwLTEuMjIuODZMMyA4Ljc5em0xLjg0IDMuOWwuNjMtLjQxdi0uMDFoLS4wMWwtLjYyLjQyem0xLjcxLjA1bC0uNTktLjQ2di4wMWwuNTkuNDV6bTguNDMtOS40NWEuNzUuNzUgMCAwIDAtMS4xOC0uOTNsMS4xOC45M3pNMS43OCA5LjY2bDIuNDUgMy40OCAxLjIzLS44N0wzIDguOGwtMS4yMy44N3ptMi40NCAzLjQ2Yy4zMi40OC44Ni43OCAxLjQ0LjhsLjA1LTEuNWEuMy4zIDAgMCAxLS4yNC0uMTNsLTEuMjUuODN6bTEuNDQuOGExLjggMS44IDAgMCAwIDEuNDktLjcxbC0xLjItLjlhLjMuMyAwIDAgMS0uMjQuMWwtLjA1IDEuNXptMS40OC0uN2w3Ljg0LTkuOTItMS4xOC0uOTMtNy44NCA5LjkyIDEuMTguOTN6Ii8+PC9zdmc+); }
-      .dnb-drawer-list__option--selected::before {
+        @supports not (display: grid) {
+          .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::after {
+            position: absolute;
+            z-index: 1;
+            top: calc(50% - 0.5rem);
+            right: 1rem; } }
+        @supports (display: grid) {
+          .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::after {
+            grid-column: 2;
+            grid-row: 1 / -1;
+            justify-self: end;
+            align-self: center; } }
+      .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::before {
         visibility: hidden; }
-    html[data-whatinput='keyboard'] .dnb-drawer-list__option--selected.dnb-drawer-list__option--focus::before {
+    @media screen and (min-width: 40em) {
+      .dnb-drawer-list__option--selected .dnb-drawer-list__option__suffix {
+        z-index: 2;
+        background-color: inherit; }
+      .dnb-drawer-list__option:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option__suffix.dnb-drawer-list__option__item:nth-of-type(n + 2) {
+        color: var(--color-black-80); } }
+    html[data-whatinput='keyboard']
+.dnb-drawer-list__option--selected.dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
       visibility: visible;
       --border-color: var(--color-mint-green);
       box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
-        html[data-whatinput='keyboard'] .dnb-drawer-list__option--selected.dnb-drawer-list__option--focus::before {
+        html[data-whatinput='keyboard']
+.dnb-drawer-list__option--selected.dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
           box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--color-mint-green); } }
-    .dnb-drawer-list__option--ignore .dnb-drawer-list__option__inner {
-      color: var(--color-black-80);
-      background-color: var(--color-white); }
     .dnb-drawer-list__option--focus:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option__inner {
       color: var(--color-sea-green);
       background-color: var(--color-mint-green-12); }
-    .dnb-drawer-list__option--focus.first-of-type .dnb-drawer-list__option__inner, .dnb-drawer-list__option--focus.first-of-type::before {
+    .dnb-drawer-list__option--focus.first-of-type .dnb-drawer-list__option__inner,
+    .dnb-drawer-list__option--focus.first-of-type .dnb-drawer-list__option__inner::before {
       border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
     .dnb-drawer-list__option.last-of-type,
-    .dnb-drawer-list__option--focus.last-of-type .dnb-drawer-list__option__inner, .dnb-drawer-list__option--focus.last-of-type::before {
+    .dnb-drawer-list__option--focus.last-of-type .dnb-drawer-list__option__inner,
+    .dnb-drawer-list__option--focus.last-of-type .dnb-drawer-list__option__inner::before {
       border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
-    .dnb-drawer-list__option.last-of-type:not(.dnb-drawer-list__option--focus)::before {
+    .dnb-drawer-list__option.last-of-type:not(.dnb-drawer-list__option--focus) .dnb-drawer-list__option__inner::before {
       content: none; }
     .dnb-drawer-list__option--selected .dnb-drawer-list__option__item .dnb-anchor:focus {
       outline: none; }
@@ -825,16 +982,16 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-drawer-list__option--selected .dnb-drawer-list__option__item .dnb-anchor:focus {
             box-shadow: 0 0 0 0.125rem var(--color-white); } }
-  .dnb-drawer-list--scroll .dnb-drawer-list__option:not(.dnb-drawer-list__option--focus)::before {
+  .dnb-drawer-list--scroll .dnb-drawer-list__option:not(.dnb-drawer-list__option--focus) .dnb-drawer-list__option__inner::before {
     left: 0.5rem;
     right: 0.5rem; }
-  .dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-top::before {
+  .dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner::before {
     border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
-  .dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-bottom::before {
+  .dnb-drawer-list--bottom .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner::before {
     border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
-  .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-bottom::before {
+  .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-bottom .dnb-drawer-list__option__inner::before {
     border-radius: 0 0 var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius); }
-  .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-top::before {
+  .dnb-drawer-list--top .dnb-drawer-list__option--focus.closest-to-top .dnb-drawer-list__option__inner::before {
     border-radius: var(--drawer-list-options-border-radius) var(--drawer-list-options-border-radius) 0 0; }
   @media screen and (max-width: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__option__inner {
@@ -1017,25 +1174,43 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     .dnb-drawer-list__option__inner {
       position: relative;
       z-index: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
       outline: none;
       margin: 0;
       padding: 1rem;
       color: inherit;
       background-color: var(--color-white); }
+      @supports not (display: grid) {
+        .dnb-drawer-list__option__inner {
+          display: flex;
+          flex-direction: column;
+          justify-content: center; } }
+      @supports (display: grid) {
+        .dnb-drawer-list__option__inner {
+          display: grid;
+          grid-template-columns: 1fr minmax(2rem, auto);
+          grid-template-rows: repeat(10, min-content); } }
       .dnb-drawer-list__option__inner > * {
         align-self: self-start; }
     .dnb-drawer-list__option__item {
       display: block;
-      text-overflow: ellipsis; }
+      text-overflow: ellipsis;
+      grid-column: 1; }
+      .dnb-drawer-list__option__item--horizontal {
+        display: flex; }
+      .dnb-drawer-list__option__item > .dnb-icon {
+        vertical-align: initial; }
       .dnb-drawer-list__option__item .dnb-anchor {
         display: inline-block;
         margin-right: 0.5rem;
         word-break: break-word;
         white-space: nowrap;
         font-size: inherit; }
+    @media screen and (min-width: 40em) {
+      .dnb-drawer-list__option__suffix {
+        grid-column: 2;
+        grid-row: 1 / -1;
+        justify-self: end;
+        align-self: center; } }
     .dnb-drawer-list__option--ignore {
       cursor: default;
       pointer-events: none; }
@@ -1083,7 +1258,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     .dnb-drawer-list--opened .dnb-drawer-list__list {
       animation: drawer-list-slide-top-down 200ms ease-out 1 forwards; }
     html[data-visual-test] .dnb-drawer-list--opened .dnb-drawer-list__list, .dnb-drawer-list--opened .dnb-drawer-list__list--no-animation {
-      animation: drawer-list-slide-top-down 1ms ease-out 1 forwards; }
+      animation-duration: 1ms !important; }
   @media screen and (max-width: 40em), screen and (max-height: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list--opened .dnb-drawer-list__list {
       z-index: 100;
@@ -1154,7 +1329,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
   .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list {
     animation: drawer-list-slide-top-up 150ms ease-out 1 forwards; }
   html[data-visual-test] .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list, .dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list--no-animation {
-    animation: drawer-list-slide-top-up 1ms ease-out 1 forwards; }
+    animation-duration: 1ms !important; }
   @media screen and (max-width: 40em), screen and (max-height: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view.dnb-drawer-list:not(.dnb-drawer-list--opened) .dnb-drawer-list__list {
       animation: drawer-list-scale-out 150ms ease-out 1 forwards; } }

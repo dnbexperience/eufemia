@@ -139,6 +139,30 @@ describe('Breadcrumb', () => {
     expect(screen.getByRole('button').className).toMatch(skeletonClassName)
   })
 
+  it('should support spacing props', () => {
+    render(
+      <Breadcrumb
+        data={[
+          { href: '/' },
+          { href: '/page1', text: 'Page 1' },
+          { href: '/page1/page2', text: 'Page 2' },
+        ]}
+        top="2rem"
+      />
+    )
+
+    const element = screen.getByTestId('breadcrumb-nav')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['aria-label', 'class', 'data-testid'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-breadcrumb',
+      'dnb-space__top--large',
+    ])
+  })
+
   describe('BreadcrumbItem', () => {
     it('renders breadcrumbitem as a link', () => {
       render(<BreadcrumbItem href="/url" text="Page" />)

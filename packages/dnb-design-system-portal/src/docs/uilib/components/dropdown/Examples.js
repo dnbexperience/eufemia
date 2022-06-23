@@ -196,19 +196,23 @@ export const DropdownDirections = () => {
         data-visual-test="dropdown-item-directions"
       >
         {() => /* jsx */ `
-  <Dropdown
-    label="Label:"
-    data={[
-      ['Vertical', 'text'],
-      <>
-        <span className="dnb-p--medium">Vertical</span> text
-      </>,
-      <Dropdown.HorizontalItem>
-        <span className="dnb-p--medium">Horizontal</span> text
-      </Dropdown.HorizontalItem>,
-    ]}
-    {...visualTestProps(window.IS_TEST && window.location.search.includes('item-directions'))}
-  />
+<Dropdown
+  label="Label:"
+  data={[
+    ['Vertical', 'alignment'],
+    <>
+      <P modifier="medium">Vertical</P>
+      <P>alignment</P>
+    </>,
+    <Dropdown.HorizontalItem key="item-1">
+      <P modifier="medium" right="x-small">
+        Horizontal
+      </P>
+      <P>alignment</P>
+    </Dropdown.HorizontalItem>,
+  ]}
+  {...visualTestProps(typeof window !== 'undefined' && window.IS_TEST && window.location.search.includes('item-directions'))}
+/>
   `}
       </ComponentBox>
     </Wrapper>
@@ -256,7 +260,7 @@ export const DropdownActionMenu = () => (
     </>
   ]}
 />
-`}
+ `}
     </ComponentBox>
   </Wrapper>
 )
@@ -300,9 +304,9 @@ export const DropdownMoreMenu = () => {
   more_menu="true"
   size="small"
   title="Choose an item"
-  data={() => [<Link href="/">Go to this Link</Link>, 'Or press on me', <>Custom component</>]}
+  data={() => [<Link href="/" key="item-1">Go to this Link</Link>, 'Or press on me', <>Custom component</>]}
   right="small"
-  {...visualTestProps(window.IS_TEST && window.location.search.includes('left-side'))}
+  {...visualTestProps(typeof window !== 'undefined' && window.IS_TEST && window.location.search.includes('left-side'))}
 />
 <Dropdown
   prevent_selection="true"
@@ -310,14 +314,14 @@ export const DropdownMoreMenu = () => {
   size="small"
   title={null}
   aria-label="Choose an item"
-  data={() => [<Link href="/">Go to this Link</Link>, 'Or press on me', <>Custom component</>]}
+  data={() => [<Link href="/" key="item-1">Go to this Link</Link>, 'Or press on me', <>Custom component</>]}
   right="small"
-  {...visualTestProps(window.IS_TEST && window.location.search.includes('right-side'))}
+  {...visualTestProps(typeof window !== 'undefined' && window.IS_TEST && window.location.search.includes('right-side'))}
 />
 <Dropdown
   more_menu="true"
   title="Choose an item"
-  data={[<Link href="/">Go to this Link</Link>, 'Or press on me', <>Custom component</>]}
+  data={[<Link href="/" key="item-1">Go to this Link</Link>, 'Or press on me', <>Custom component</>]}
   right="small"
 />
 <Dropdown
@@ -325,7 +329,7 @@ export const DropdownMoreMenu = () => {
   align_dropdown="right"
   title={null}
   aria-label="Choose an item"
-  data={[<Link href="/">Go to this Link</Link>, 'Or press on me', <>Custom component</>]}
+  data={[<Link href="/" key="item-1">Go to this Link</Link>, 'Or press on me', <>Custom component</>]}
   on_change={({ value }) => {
     console.log('on_change', value)
   }}
@@ -415,7 +419,7 @@ render(
     label="Label:"
     title="Choose an item"
     data={() => [
-      <Link href="/">Go to this Link</Link>,
+      <Link href="/" key="item-1">Go to this Link</Link>,
       'Or press on me',
       <CustomComponent />
     ]}
@@ -423,7 +427,7 @@ render(
       console.log('More menu:', value)
     }}
     suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
-    {...visualTestProps(window.IS_TEST && window.location.search.includes('action_menu-custom'))}
+    {...visualTestProps(typeof window !== 'undefined' && window.IS_TEST && window.location.search.includes('action_menu-custom'))}
   />
 )
   `}
@@ -567,19 +571,19 @@ export const DropdownListOpened = () => (
     </li>
     <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
       <span className="dnb-drawer-list__option__inner">
-        <span className="dnb-drawer-list__option__item"><NumberFormat always_selectall key="n-1" ban>12345678902</NumberFormat></span>
+        <span className="dnb-drawer-list__option__item item-nr-1"><NumberFormat always_selectall key="n-1" ban>12345678902</NumberFormat></span>
         <span className="dnb-drawer-list__option__item">Sparekonto - Ole Nordmann</span>
       </span>
     </li>
     <li className="dnb-drawer-list__option">
       <span className="dnb-drawer-list__option__inner">
-        <span className="dnb-drawer-list__option__item"><NumberFormat always_selectall key="n-2" ban>11345678962</NumberFormat></span>
+        <span className="dnb-drawer-list__option__item item-nr-1"><NumberFormat always_selectall key="n-2" ban>11345678962</NumberFormat></span>
         <span className="dnb-drawer-list__option__item">Feriekonto - Kari Nordmann med et kjempelangt etternavnsen</span>
       </span>
     </li>
     <li className="dnb-drawer-list__option last-of-type">
       <span className="dnb-drawer-list__option__inner">
-        <span className="dnb-drawer-list__option__item"><NumberFormat always_selectall key="n-3" ban>15349648901</NumberFormat></span>
+        <span className="dnb-drawer-list__option__item item-nr-1"><NumberFormat always_selectall key="n-3" ban>15349648901</NumberFormat></span>
         <span className="dnb-drawer-list__option__item">Oppussing - Ole Nordmann</span>
       </span>
     </li>

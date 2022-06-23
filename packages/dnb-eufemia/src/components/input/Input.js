@@ -100,6 +100,7 @@ export const inputPropTypes = {
   icon_position: PropTypes.oneOf(['left', 'right']),
   inner_ref: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  inner_element: PropTypes.node,
 
   // Submit button
   submit_element: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
@@ -168,6 +169,7 @@ export default class Input extends React.PureComponent {
     icon_size: null,
     icon_position: 'left',
     readOnly: false,
+    inner_element: null,
 
     // Submit button
     submit_element: null,
@@ -247,6 +249,10 @@ export default class Input extends React.PureComponent {
         typeof context.FormRow.useId === 'function' &&
         context.FormRow.useId()) ||
       makeUniqueId() // cause we need an id anyway
+
+    if (isTrue(props.clear) && props.icon_position === 'right') {
+      warn('You can not have a clear button and icon_position="right"')
+    }
 
     // make sure we trigger getDerivedStateFromProps on startup
   }
@@ -355,6 +361,7 @@ export default class Input extends React.PureComponent {
       submit_button_icon,
       submit_button_status,
       submit_element,
+      inner_element,
       autocomplete,
       readOnly,
       stretch,
@@ -517,6 +524,12 @@ export default class Input extends React.PureComponent {
             <span {...shellParams}>
               {InputElement || <input ref={this._ref} {...inputParams} />}
 
+              {inner_element && (
+                <span className="dnb-input__inner__element dnb-p">
+                  {inner_element}
+                </span>
+              )}
+
               {icon && (
                 <InputIcon
                   className="dnb-input__icon"
@@ -559,7 +572,6 @@ export default class Input extends React.PureComponent {
                 </span>
               )}
             </span>
-
             {hasSubmitButton && (
               <span className="dnb-input__submit-element">
                 {submit_element ? (
@@ -591,7 +603,6 @@ export default class Input extends React.PureComponent {
                 )}
               </span>
             )}
-
             {suffix && (
               <Suffix
                 className="dnb-input__suffix"

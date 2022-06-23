@@ -85,6 +85,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   show_input={true}
   show_reset_button={null}
   show_submit_button={null}
+  size={null}
   skeleton={null}
   start_date="2019-01-01T00:00:00.000Z"
   status="status"
@@ -190,6 +191,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
     show_input={true}
     show_reset_button={null}
     show_submit_button={null}
+    size={null}
     skeleton={null}
     start_date="2019-01-01T00:00:00.000Z"
     status="status"
@@ -368,6 +370,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
               selectedDateTitle=""
               separatorRexExp={/\\[-/ \\]/g}
               showInput={true}
+              size={null}
               skeleton={false}
               status="error"
               status_props={null}
@@ -435,6 +438,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                   icon_position="left"
                   icon_size={null}
                   id="date-picker-id__input"
+                  inner_element={null}
                   inner_ref={null}
                   input_attributes={null}
                   input_class={null}
@@ -476,6 +480,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       id="date-picker-id"
                       on_click={[Function]}
                       on_submit={[Function]}
+                      size={null}
                       skeleton={false}
                       status="error"
                       status_state="error"
@@ -1374,6 +1379,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                             id="date-picker-id"
                             on_click={[Function]}
                             on_submit={[Function]}
+                            size={null}
                             skeleton={false}
                             status="error"
                             status_state="error"
@@ -1430,6 +1436,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               on_submit={[Function]}
                               on_submit_blur={null}
                               on_submit_focus={null}
+                              size={null}
                               skeleton={false}
                               status="error"
                               status_props={null}
@@ -2597,9 +2604,6 @@ legend.dnb-form-label {
     word-break: normal;
     position: relative;
     z-index: 2; }
-  .dnb-input input.dnb-input__input {
-    font-size: var(--input-font-size);
-    line-height: var(--font-size-basis); }
   .dnb-input__input[disabled] {
     user-select: none;
     -webkit-user-select: none;
@@ -2610,11 +2614,15 @@ legend.dnb-form-label {
   .dnb-input__placeholder, .dnb-input__input {
     width: 100%;
     padding-left: var(--input-padding);
-    padding-right: var(--input-padding);
-    text-align: inherit;
+    padding-right: var(--input-padding); }
+  .dnb-input__placeholder, .dnb-input__input,
+  .dnb-input input.dnb-input__input {
+    padding-top: 0;
+    padding-bottom: 0;
     color: inherit;
     background-color: transparent;
-    font-size: var(--input-font-size); }
+    font-size: var(--input-font-size);
+    line-height: inherit; }
   .dnb-input__placeholder {
     pointer-events: none;
     position: absolute;
@@ -3476,6 +3484,12 @@ legend.dnb-form-label {
     z-index: 3;
     left: -1rem;
     top: var(--date-picker-input-height); }
+  .dnb-date-picker--small .dnb-date-picker__container {
+    top: var(--input-height--small); }
+  .dnb-date-picker--medium .dnb-date-picker__container {
+    top: var(--input-height--medium); }
+  .dnb-date-picker--large .dnb-date-picker__container {
+    top: var(--input-height--large); }
   .dnb-date-picker--show-input .dnb-date-picker__container {
     left: 0; }
   .dnb-date-picker--right .dnb-date-picker__container {
@@ -3540,6 +3554,42 @@ legend.dnb-form-label {
         .dnb-date-picker .dnb-input__input.dnb-date-picker__input:last-of-type:not(*:root),
         .dnb-core-style .dnb-date-picker__input:last-of-type:not(*:root) {
           margin-right: 2.2rem; } } }
+    .dnb-date-picker__input--small.dnb-date-picker__input--small, .dnb-date-picker__input--small .dnb-date-picker .dnb-input__input.dnb-date-picker__input--small, .dnb-core-style .dnb-date-picker__input--small--has-submit-element .dnb-date-picker__input--small__input,
+    .dnb-date-picker .dnb-input__input.dnb-date-picker__input--small.dnb-date-picker__input--small,
+    .dnb-date-picker .dnb-input__input.dnb-date-picker__input--small .dnb-date-picker .dnb-input__input.dnb-date-picker__input--small, .dnb-core-style .dnb-date-picker__input--small--has-submit-element
+    .dnb-date-picker .dnb-input__input.dnb-date-picker__input--small__input,
+    .dnb-core-style .dnb-date-picker__input--small.dnb-date-picker__input--small,
+    .dnb-core-style .dnb-date-picker__input--small .dnb-date-picker .dnb-input__input.dnb-date-picker__input--small, .dnb-core-style .dnb-date-picker__input--small--has-submit-element
+    .dnb-core-style .dnb-date-picker__input--small__input {
+      padding-right: 0.125rem; }
+    .dnb-date-picker__input--small:last-of-type:not(*:root),
+    .dnb-date-picker .dnb-input__input.dnb-date-picker__input--small:last-of-type:not(*:root),
+    .dnb-core-style .dnb-date-picker__input--small:last-of-type:not(*:root) {
+      margin-right: 2.2rem; }
+    .dnb-date-picker__input--medium.dnb-date-picker__input--medium, .dnb-date-picker__input--medium .dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium, .dnb-core-style .dnb-date-picker__input--medium--has-submit-element .dnb-date-picker__input--medium__input,
+    .dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium.dnb-date-picker__input--medium,
+    .dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium .dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium, .dnb-core-style .dnb-date-picker__input--medium--has-submit-element
+    .dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium__input,
+    .dnb-core-style .dnb-date-picker__input--medium.dnb-date-picker__input--medium,
+    .dnb-core-style .dnb-date-picker__input--medium .dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium, .dnb-core-style .dnb-date-picker__input--medium--has-submit-element
+    .dnb-core-style .dnb-date-picker__input--medium__input {
+      padding-right: 0.125rem; }
+    .dnb-date-picker__input--medium:last-of-type:not(*:root),
+    .dnb-date-picker .dnb-input__input.dnb-date-picker__input--medium:last-of-type:not(*:root),
+    .dnb-core-style .dnb-date-picker__input--medium:last-of-type:not(*:root) {
+      margin-right: 3.2rem; }
+    .dnb-date-picker__input--large.dnb-date-picker__input--large, .dnb-date-picker__input--large .dnb-date-picker .dnb-input__input.dnb-date-picker__input--large, .dnb-core-style .dnb-date-picker__input--large--has-submit-element .dnb-date-picker__input--large__input,
+    .dnb-date-picker .dnb-input__input.dnb-date-picker__input--large.dnb-date-picker__input--large,
+    .dnb-date-picker .dnb-input__input.dnb-date-picker__input--large .dnb-date-picker .dnb-input__input.dnb-date-picker__input--large, .dnb-core-style .dnb-date-picker__input--large--has-submit-element
+    .dnb-date-picker .dnb-input__input.dnb-date-picker__input--large__input,
+    .dnb-core-style .dnb-date-picker__input--large.dnb-date-picker__input--large,
+    .dnb-core-style .dnb-date-picker__input--large .dnb-date-picker .dnb-input__input.dnb-date-picker__input--large, .dnb-core-style .dnb-date-picker__input--large--has-submit-element
+    .dnb-core-style .dnb-date-picker__input--large__input {
+      padding-right: 0.125rem; }
+    .dnb-date-picker__input--large:last-of-type:not(*:root),
+    .dnb-date-picker .dnb-input__input.dnb-date-picker__input--large:last-of-type:not(*:root),
+    .dnb-core-style .dnb-date-picker__input--large:last-of-type:not(*:root) {
+      margin-right: 4rem; }
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input:first-of-type, .dnb-date-picker__input:first-of-type {
     margin-left: 0.8rem; }
   .dnb-date-picker .dnb-input__input.dnb-date-picker__input:last-of-type, .dnb-date-picker__input:last-of-type {

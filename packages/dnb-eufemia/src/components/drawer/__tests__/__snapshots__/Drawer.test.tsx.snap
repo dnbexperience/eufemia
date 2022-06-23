@@ -702,6 +702,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
         align_content="left"
         animation_duration={300}
         bar_content={null}
+        bypass_invalidation_selectors={null}
         class={null}
         className={null}
         class_name={null}
@@ -756,6 +757,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
           align_content="left"
           animation_duration={300}
           bar_content={null}
+          bypass_invalidation_selectors={null}
           class={null}
           className={null}
           class_name={null}
@@ -812,6 +814,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
             className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-modal__content--right dnb-drawer__root dnb-modal__content--custom"
             id="dnb-modal-drawer_id"
             onClick={[Function]}
+            onMouseDown={[Function]}
             role="dialog"
             style={null}
           >
@@ -1935,6 +1938,7 @@ button.dnb-button::-moz-focus-inner {
   width: 100%;
   height: 100vh;
   max-width: 100%;
+  max-height: 100vh;
   border-radius: 0;
   box-shadow: none;
   width: var(--drawer-width);
@@ -1955,6 +1959,7 @@ button.dnb-button::-moz-focus-inner {
       width: 100%;
       height: 100vh;
       max-width: 100%;
+      max-height: 100vh;
       border-radius: 0;
       box-shadow: none; } }
   .dnb-drawer__inner {
@@ -2016,6 +2021,7 @@ button.dnb-button::-moz-focus-inner {
     width: 100%;
     height: 100vh;
     max-width: 100%;
+    max-height: 100vh;
     border-radius: 0;
     box-shadow: none; }
   html:not([data-visual-test]) .dnb-drawer {
@@ -2115,38 +2121,49 @@ button.dnb-button::-moz-focus-inner {
 
 .dnb-dialog {
   position: relative;
-  max-height: 100vh;
   border-radius: 0.5rem;
   box-shadow: var(--shadow-default);
   user-select: text;
   -webkit-user-select: text;
   border: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  max-height: 100vh;
+  overflow: hidden; }
+  .dnb-dialog .dnb-scroll-view {
+    max-height: 90vh; }
+  .dnb-dialog__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%; }
   .dnb-dialog--information {
     min-width: var(--dialog-min-width);
     width: var(--dialog-avg-width);
     max-width: var(--dialog-max-width); }
   .dnb-dialog--confirmation {
     max-width: var(--dialog-confirm-max-width);
-    margin: 0 1rem; }
+    margin-left: 1rem;
+    margin-right: 1rem; }
   @media screen and (max-width: 40em) {
     .dnb-dialog--auto-fullscreen {
       width: 100%;
       height: 100vh;
       max-width: 100%;
+      max-height: 100vh;
       border-radius: 0;
-      box-shadow: none; } }
+      box-shadow: none;
+      margin: auto 0; } }
   .dnb-dialog--fullscreen {
     width: 100%;
     height: 100vh;
     max-width: 100%;
+    max-height: 100vh;
     border-radius: 0;
-    box-shadow: none; }
+    box-shadow: none;
+    margin: auto 0; }
   .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__content {
     padding-bottom: calc(var(--dialog-spacing) * 2); }
-    @supports (-webkit-touch-callout: none) {
-      .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__content {
-        padding-bottom: calc(var(--dialog-spacing) * 8); } }
   .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__inner {
     padding-left: calc(var(--dialog-spacing) * 1.75);
     padding-right: calc(var(--dialog-spacing) * 1.75); }
@@ -2166,24 +2183,6 @@ button.dnb-button::-moz-focus-inner {
         margin-top: calc(var(--dialog-spacing) / 2); } }
   .dnb-dialog--spacing.dnb-dialog--confirmation .dnb-dialog__inner {
     padding: calc(var(--dialog-spacing)); }
-    @supports (-webkit-touch-callout: none) {
-      .dnb-dialog--spacing.dnb-dialog--confirmation .dnb-dialog__inner {
-        padding-bottom: calc(var(--dialog-spacing) * 8); } }
-  .dnb-dialog__inner {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden; }
-    .dnb-dialog__inner::after {
-      content: '';
-      position: absolute;
-      z-index: -4;
-      left: 0;
-      top: 0;
-      width: 100vw;
-      height: 100%; }
   .dnb-dialog__align--centered .dnb-dialog__inner {
     align-items: center;
     justify-content: center; }
@@ -2270,9 +2269,9 @@ button.dnb-button::-moz-focus-inner {
   .dnb-dialog__icon ~ .dnb-dialog__header {
     margin-top: 1.5rem; }
   @supports (-webkit-touch-callout: none) {
-    @media (max-height: 40em) and (orientation: landscape) {
-      .dnb-dialog:not(.dnb-dialog--fullscreen) {
-        max-height: 80vh; } } }
+    @media (max-height: 40em) {
+      .dnb-dialog .dnb-scroll-view {
+        max-height: 82vh; } } }
 
 [data-visual-test].hide-page-content #___gatsby {
   opacity: 0; }

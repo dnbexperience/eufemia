@@ -14,6 +14,7 @@ DialogConfirmDefault,
 DialogConfirmDelete,
 DialogConfirmLoggedOut,
 DialogConfirmCookies,
+DialogConfirmScrollableContent,
 } from 'Docs/uilib/components/dialog/Examples'
 
 ## Table of contents
@@ -74,3 +75,5 @@ Use the `openState` prop to automatically trigger the Dialog, here demonstrated 
 Provide a custom set of buttons, like this cookie concent Dialog that has a `tertiary` "Administrate" button. Notice that the `close` function will be provided for every child of type [Button](/uilib/components/button) given to `Dialog.Actions`.
 
 <DialogConfirmCookies />
+
+<DialogConfirmScrollableContent />

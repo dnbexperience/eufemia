@@ -52,6 +52,14 @@ We get else this error:
 
 > Type Error: this.getOptions is not a function for style-loader
 
+### gatsby-plugin-emotion
+
+Newer versions than `7.1.0` have an issue with our Emotion setup. We may either switch complately to SASS or ensure the root (home) on the portal looks OK.
+
+## Babel
+
+Due to this bug: https://github.com/babel/babel/issues/11394 we add `.png,.snap` so they not get copied: `--extensions '.js,.ts,.tsx,.png,.snap'`
+
 ### Gatsby Cloud
 
 The plugin `gatsby-plugin-gatsby-cloud` relays on a newer Webpack version than other plugins. In order to let the Portal run on the latest version, we set the yarn resolutions:
@@ -87,7 +95,7 @@ This is only meant for "setup testing" purposes! In order to make faster local b
 
 - Inside `gatsby-config.js` rename all sourcing from `/docs` to `/docs_dummy`
 
-Run `yarn workspace dnb-design-system-portal build`
+Run `yarn workspace dnb-design-system-portal build-visual-test`
 
 ## I get Gatsby 404 Not Found on the pages I work on
 

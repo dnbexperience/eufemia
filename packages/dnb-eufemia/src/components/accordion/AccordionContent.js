@@ -192,7 +192,8 @@ export default class AccordionContent extends React.PureComponent {
       'aria-labelledby': `${id}-header`,
       className: classnames(
         'dnb-accordion__content__inner',
-        keepContentInDom === false &&
+        !expanded &&
+          !keepContentInDom &&
           'dnb-accordion__content__inner--remove-content',
         createSpacingClasses(rest)
       ),

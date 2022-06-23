@@ -328,55 +328,8 @@ export default class SidebarLayout extends React.PureComponent {
   }
 
   componentDidMount() {
-    // remember last scroll position
-    if (this._scrollRef.current) {
-      if (typeof window !== 'undefined') {
-        let delayBuff
-        this.scrollToLastPosition()
-
-        this._scrollRef.current.onscroll = (e) => {
-          if (this.busySettingNewPos) return
-          clearTimeout(delayBuff)
-          delayBuff = setTimeout(() => {
-            try {
-              window.localStorage.setItem('sidebarPos', e.target.scrollTop)
-            } catch (e) {
-              console.log('SidebarLayout error:', e)
-            }
-          }, 100)
-        }
-      }
-    }
-
     if (typeof document !== 'undefined') {
       document.addEventListener('keydown', this.handleKeyDown)
-    }
-  }
-
-  getLastPosition() {
-    if (typeof window !== 'undefined') {
-      try {
-        return window.localStorage.getItem('sidebarPos')
-          ? parseFloat(window.localStorage.getItem('sidebarPos'))
-          : this.offsetTop
-      } catch (e) {
-        return 0
-      }
-    }
-  }
-
-  scrollToLastPosition() {
-    if (this._scrollRef.current) {
-      this.busySettingNewPos = true
-      const lastPos = this.getLastPosition()
-      if (lastPos > 0) {
-        this._scrollRef.current.scrollTop = lastPos
-      } else {
-        this.scrollToActiveItem()
-      }
-      setTimeout(() => {
-        this.busySettingNewPos = false
-      }, 10)
     }
   }
 

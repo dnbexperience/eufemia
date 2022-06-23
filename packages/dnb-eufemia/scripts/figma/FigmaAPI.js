@@ -87,7 +87,7 @@ export const fetchFigmaAll = async ({
   try {
     // make sure we are on the main branch
     const branchName = await getRequiredBranchName({
-      requiredBranch: 'eufemia-icons',
+      requiredBranch: '^icon', // Test if branch is part of icons-lib.yml ("eufemia-icons")
     }) // as RegExp
 
     if (ignoreBranchCheck !== true && !branchName) {

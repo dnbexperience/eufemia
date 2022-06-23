@@ -33,6 +33,8 @@ import {
   prepareDerivedState,
   drawerListPropTypes,
   drawerListDefaultProps,
+  drawerListProviderPropTypes,
+  drawerListProviderDefaultProps,
 } from './DrawerListHelpers'
 import DrawerListContext from './DrawerListContext'
 import {
@@ -45,28 +47,13 @@ export default class DrawerListProvider extends React.PureComponent {
 
   static propTypes = {
     ...drawerListPropTypes,
-
-    enable_body_lock: PropTypes.bool,
-    use_drawer_on_mobile: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    observer_element: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.node,
-    ]),
-    min_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    ...drawerListProviderPropTypes,
+    children: PropTypes.node.isRequired,
   }
 
   static defaultProps = {
     ...drawerListDefaultProps,
-
-    enable_body_lock: false,
-    use_drawer_on_mobile: null,
-    page_offset: null,
-    observer_element: null,
-    min_height: 10, // 10rem = 10x16=160,
+    ...drawerListProviderDefaultProps,
   }
 
   static blurDelay = 201 // some ms more than "DrawerListSlideDown 200ms"
@@ -533,63 +520,57 @@ export default class DrawerListProvider extends React.PureComponent {
     }, 1) // to make sure we are after all DOM updates, else we don't get this scrolling
   }
 
+  /**
+   * During opening (Dropdown, Autocomplete),
+   * and if noting is selected,
+   * set scroll to item.
+   *
+   * @param {number} active_item The item to set as active
+   * @param {object} param1
+   * @property {boolean} fireSelectEvent Wheter the onSelect event should get emitted
+   * @property {boolean} scrollTo Wheter the list should scroll to the new active item nor not
+   * @property {event} event The event object to forward to the emitted events
+   */
   setActiveItemAndScrollToIt = (
     active_item,
     { fireSelectEvent = false, scrollTo = true, event = null } = {}
   ) => {
-    // during opening, and if noting is selected, set focus and scroll to item
-    if (parseFloat(active_item) === -1) {
-      this.setState(
-        {
-          active_item: -1,
-        },
-        () => {
-          if (this._refUl.current) {
-            this._refUl.current.focus({ preventScroll: true })
-          }
-          dispatchCustomElementEvent(this, 'on_show_focus', {
-            element: this._refUl.current,
+    this.setState({ active_item }, () => {
+      if (parseFloat(active_item) === -1) {
+        // Select the first item to NVDA is more easily navigateable,
+        // without using the alt + arrow key
+        // else we set the focus on the "ul" element
+        if (document.activeElement?.tagName !== 'INPUT') {
+          this._refUl.current?.focus({ preventScroll: true })
+        }
+
+        dispatchCustomElementEvent(this, 'on_show_focus', {
+          element: this._refUl.current,
+        })
+      } else if (parseFloat(active_item) > -1) {
+        const { selected_item } = this.state
+
+        if (fireSelectEvent) {
+          const attributes = this.attributes
+          const ret = dispatchCustomElementEvent(this.state, 'on_select', {
+            active_item,
+            value: getSelectedItemValue(selected_item, this.state),
+            data: getEventData(active_item, this.state.data),
+            event,
+            attributes,
           })
-        }
-      )
-
-      return // stop here
-    }
-
-    if (parseFloat(active_item) > -1) {
-      this.setState(
-        {
-          active_item,
-        },
-        () => {
-          const { selected_item } = this.state
-
-          if (fireSelectEvent) {
-            const attributes = this.attributes
-            const ret = dispatchCustomElementEvent(
-              this.state,
-              'on_select',
-              {
-                active_item,
-                value: getSelectedItemValue(selected_item, this.state),
-                data: getEventData(active_item, this.state.data),
-                event,
-                attributes,
-              }
-            )
-            if (ret === false) {
-              return // stop here!
-            }
+          if (ret === false) {
+            return // stop here!
           }
-
-          if (isTrue(this.props.no_animation)) {
-            scrollTo = false
-          }
-
-          this.scrollToItem(active_item, { scrollTo })
         }
-      )
-    }
+
+        if (isTrue(this.props.no_animation)) {
+          scrollTo = false
+        }
+
+        this.scrollToItem(active_item, { scrollTo })
+      }
+    })
   }
 
   removeDirectionObserver() {
@@ -1100,9 +1081,6 @@ export default class DrawerListProvider extends React.PureComponent {
         ulElement: this._refUl.current,
       })
 
-      // Select the first item to NVDA is more easily navigateable,
-      // without using the alt + arrow key
-      // else we set the focus on the "ul" element
       this.setActiveItemAndScrollToIt(
         parseFloat(active_item) > -1 ? active_item : -1,
         { scrollTo: false }

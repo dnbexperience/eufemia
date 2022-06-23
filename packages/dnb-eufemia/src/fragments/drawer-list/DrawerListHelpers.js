@@ -79,6 +79,10 @@ export const drawerListPropTypes = {
             PropTypes.string,
             PropTypes.node,
           ]),
+          suffix_value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.node,
+          ]),
           content: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.node,
@@ -171,6 +175,28 @@ export const drawerListDefaultProps = {
   on_select: null,
   on_state_update: null,
   options_render: null,
+}
+
+export const drawerListProviderPropTypes = {
+  enable_body_lock: PropTypes.bool,
+  use_drawer_on_mobile: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]),
+  page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  observer_element: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+  ]),
+  min_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+}
+
+export const drawerListProviderDefaultProps = {
+  enable_body_lock: false,
+  use_drawer_on_mobile: null,
+  page_offset: null,
+  observer_element: null,
+  min_height: 10, // 10rem = 10x16=160,
 }
 
 export const parseContentTitle = (

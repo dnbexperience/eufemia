@@ -38,7 +38,7 @@
     "node-gyp": "8.4.0"
   },
   "resolutions": {
-    "webpack": "5.61.0",
+    "@storybook/react/webpack": "5.72.1",
     "svg2vectordrawable/svgo": "2.3.0",
     "@storybook/preset-ie11@0.0.1": "patch:@storybook/preset-ie11@npm:0.0.1#.yarn/patches/@storybook-preset-ie11-npm-0.0.1-f80c765898"
   },

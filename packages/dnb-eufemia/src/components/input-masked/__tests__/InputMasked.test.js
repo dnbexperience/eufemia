@@ -692,6 +692,44 @@ describe('InputMasked component', () => {
     )
     expect(preventDefault).toBeCalledTimes(1)
   })
+
+  it('should set correct integerLimit', () => {
+    const Comp = mount(
+      <Component
+        value={1234.912345}
+        number_mask={{ integerLimit: 10, decimalLimit: 4 }}
+      />
+    )
+
+    expect(Comp.find('input').instance().value).toBe('1 234,9123')
+
+    Comp.setProps({
+      number_mask: { integerLimit: 10, decimalLimit: 0 },
+    })
+
+    expect(Comp.find('input').instance().value).toBe('1 234')
+
+    Comp.setProps({
+      value: 1234,
+      number_mask: { integerLimit: 10, decimalLimit: 0 },
+    })
+
+    expect(Comp.find('input').instance().value).toBe('1 234')
+
+    Comp.setProps({
+      value: '0.123',
+      number_mask: { integerLimit: 10, decimalLimit: 0 },
+    })
+
+    expect(Comp.find('input').instance().value).toBe('0')
+
+    Comp.setProps({
+      value: '0000.1234',
+      number_mask: { integerLimit: 4, decimalLimit: 2 },
+    })
+
+    expect(Comp.find('input').instance().value).toBe('0 000,12')
+  })
 })
 
 describe('InputMasked component with currency_mask', () => {
@@ -794,6 +832,17 @@ describe('InputMasked component with currency_mask', () => {
     })
 
     expect(Comp.find('input').instance().value).toBe('')
+  })
+
+  it('should set correct integerLimit', () => {
+    const Comp = mount(
+      <Component
+        value={12345678.912345}
+        currency_mask={{ integerLimit: 4 }}
+      />
+    )
+
+    expect(Comp.find('input').instance().value).toBe('1 234,91 kr')
   })
 })
 
@@ -1022,6 +1071,23 @@ describe('InputMasked component as_number', () => {
 
     expect(Comp.find('input').instance().value).toBe('12 345,678')
   })
+
+  it('should set correct integerLimit', () => {
+    const Comp = mount(
+      <Component
+        value={12345678.912345}
+        as_number
+        number_mask={{ integerLimit: 4, decimalLimit: 4 }}
+        locale="en-GB"
+      />
+    )
+
+    expect(Comp.find('input').instance().value).toBe('1 234.9123')
+
+    Comp.setProps({ locale: 'nb-NO' })
+
+    expect(Comp.find('input').instance().value).toBe('1 234,9123')
+  })
 })
 
 describe('InputMasked component as_currency', () => {
@@ -1065,6 +1131,23 @@ describe('InputMasked component as_currency', () => {
     )
 
     expect(Comp.find('input').instance().value).toBe('12 345 kr')
+  })
+
+  it('should set correct integerLimit', () => {
+    const Comp = mount(
+      <Component
+        value={12345678.912}
+        as_currency
+        currency_mask={{ integerLimit: 4, decimalLimit: 3 }}
+        locale="en-GB"
+      />
+    )
+
+    expect(Comp.find('input').instance().value).toBe('1 234.912 NOK')
+
+    Comp.setProps({ locale: 'nb-NO' })
+
+    expect(Comp.find('input').instance().value).toBe('1 234,912 kr')
   })
 
   it('event "on_change" gets emmited with correct value', () => {

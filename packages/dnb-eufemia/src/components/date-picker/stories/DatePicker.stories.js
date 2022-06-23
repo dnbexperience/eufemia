@@ -316,6 +316,53 @@ export const DatePickerSandbox = () => (
         only_month={true}
       />
     </Box>
+    <Box>
+      <FormRow vertical>
+        <Input label="Input Default" />
+        <DatePicker
+          label="DatePicker Default"
+          date={new Date()}
+          show_input={true}
+        />
+        <Input label="Input Default" />
+      </FormRow>
+    </Box>
+    <Box>
+      <FormRow vertical>
+        <Input size="small" label="Input Small" />
+        <DatePicker
+          size="small"
+          label="DatePicker Small"
+          date={new Date()}
+          show_input={true}
+        />
+        <Input size="small" label="Input Small" />
+      </FormRow>
+    </Box>
+    <Box>
+      <FormRow vertical>
+        <Input size="medium" label="Input Medium" />
+        <DatePicker
+          size="medium"
+          label="DatePicker Medium"
+          date={new Date()}
+          show_input={true}
+        />
+        <Input size="medium" label="Input Medium" />
+      </FormRow>
+    </Box>
+    <Box>
+      <FormRow vertical>
+        <Input size="large" label="Input Large" />
+        <DatePicker
+          size="large"
+          label="DatePicker Large"
+          date={new Date()}
+          show_input={true}
+        />
+        <Input size="large" label="Input Large" />
+      </FormRow>
+    </Box>
   </Wrapper>
 )
 

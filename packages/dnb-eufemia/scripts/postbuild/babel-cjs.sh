@@ -8,7 +8,7 @@ cross-env \
 NODE_ENV=production \
 BABEL_ENV=cjs \
 babel ./src \
---extensions '.cjs,.js,.ts,.tsx' \
+--extensions '.cjs,.js,.ts,.tsx,.png,.snap' \
 --config-file ./babel.config.js \
 --out-dir ./build/cjs \
 --copy-files \

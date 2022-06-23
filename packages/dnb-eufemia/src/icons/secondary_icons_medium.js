@@ -20,6 +20,7 @@ import bankid_mobile_medium from './bankid_mobile_medium.js'
 import bankid_qr_medium from './bankid_qr_medium.js'
 import bicycle_medium from './bicycle_medium.js'
 import boat_medium from './boat_medium.js'
+import bookmark_medium from './bookmark_medium.js'
 import bowling_medium from './bowling_medium.js'
 import brickwall_medium from './brickwall_medium.js'
 import broken_chain_medium from './broken_chain_medium.js'
@@ -28,6 +29,7 @@ import bsu_medium from './bsu_medium.js'
 import bubble_medium from './bubble_medium.js'
 import building_construction_medium from './building_construction_medium.js'
 import calculator_medium from './calculator_medium.js'
+import calendar_cancel_medium from './calendar_cancel_medium.js'
 import camera_medium from './camera_medium.js'
 import camper_trailer_medium from './camper_trailer_medium.js'
 import car_1_medium from './car_1_medium.js'
@@ -240,6 +242,7 @@ export {
   bankid_qr_medium,
   bicycle_medium,
   boat_medium,
+  bookmark_medium,
   bowling_medium,
   brickwall_medium,
   broken_chain_medium,
@@ -248,6 +251,7 @@ export {
   bubble_medium,
   building_construction_medium,
   calculator_medium,
+  calendar_cancel_medium,
   camera_medium,
   camper_trailer_medium,
   car_1_medium,

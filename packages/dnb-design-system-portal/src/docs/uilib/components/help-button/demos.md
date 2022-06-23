@@ -61,3 +61,14 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 </HelpButton>
 `}
 </ComponentBox>
+
+### Help button used inside text
+
+<ComponentBox data-visual-test="help-button-inline">
+    {
+    () => /* jsx */ `
+Text <HelpButton>
+    Text
+</HelpButton> Text
+`}
+</ComponentBox>

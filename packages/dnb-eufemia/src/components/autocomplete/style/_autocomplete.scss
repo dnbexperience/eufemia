@@ -76,6 +76,11 @@
       justify-content: center;
       align-items: center;
 
+      .dnb-drawer-list__option__item {
+        display: flex;
+        flex-direction: column;
+      }
+
       .dnb-icon {
         align-self: center;
       }
@@ -98,20 +103,66 @@
       width: 100%;
     }
   }
-  &--show-indicator &__input .dnb-input__icon {
-    color: transparent;
-  }
+
   &--opened .dnb-input__submit-button__button .dnb-icon {
     transform: rotate(180deg);
     transform-origin: 50% 50%;
   }
   .dnb-input__submit-button__button .dnb-icon {
     transition: transform 400ms ease-out;
+
+    html[data-visual-test] & {
+      transition-duration: 1ms !important;
+    }
   }
 
-  &__shell,
-  &__input {
-    border-radius: var(--autocomplete-border-radius);
+  // Support for "suffix_value"
+  .dnb-input {
+    &__inner__element {
+      position: relative;
+      z-index: 3;
+    }
+
+    &--has-submit-element .dnb-input__placeholder,
+    &--has-submit-element .dnb-input__input {
+      @include allAbove(small) {
+        // same width of submit button
+        padding-right: 0 !important; // use important so we avoid to have all sizes in addition
+      }
+      @include allBelow(small) {
+        // same width of submit button
+        padding-right: 2.5rem !important; // use important so we avoid to have all sizes in addition
+      }
+    }
+
+    &__inner__element.dnb-p {
+      pointer-events: none;
+      white-space: nowrap;
+      padding: 0 0.5rem;
+
+      @include allBelow(small) {
+        display: none;
+      }
+    }
+
+    &__inner__element.dnb-p,
+    .dnb-spacing &__inner__element.dnb-p {
+      margin: 0;
+    }
+
+    &--has-submit-element .dnb-input__inner__element {
+      // same width of submit button
+      margin-right: 2.5rem !important; // use important so we avoid to have all sizes in addition
+    }
+  }
+  &--icon-position-right .dnb-input {
+    // stylelint-disable-next-line
+    &__inner__element.dnb-p {
+      padding-right: 3rem;
+    }
+    &--icon-position-right &--icon-position-right#{&}--has-icon &__input {
+      padding-right: 1rem;
+    }
   }
 
   &__text {

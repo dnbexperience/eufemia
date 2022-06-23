@@ -30,6 +30,11 @@ props.status = null // to make sure we don't get aria-details
 props.suffix = null // to make sure we don't get aria-details
 props.type = 'text'
 
+const log = global.console.log
+afterEach(() => {
+  global.console.log = log
+})
+
 describe('Input component', () => {
   // compare the snapshot
   it('have to match type="text" snapshot', () => {
@@ -405,7 +410,7 @@ describe('Input component', () => {
 })
 
 describe('Input with clear button', () => {
-  it('should ahve the button', () => {
+  it('should have the button', () => {
     const Comp = mount(<Component clear={true} />)
     expect(Comp.exists('.dnb-input--clear')).toBe(true)
   })
@@ -466,6 +471,63 @@ describe('Input with clear button', () => {
     expect(
       Comp.find('.dnb-input').instance().getAttribute('data-input-state')
     ).toBe('focus')
+  })
+
+  it('should support icon', () => {
+    const Comp = mount(<Component clear={true} icon="bell" />)
+    expect(Comp.find('.dnb-input__icon').exists('svg')).toBe(true)
+    expect(Comp.find('.dnb-icon--default').exists()).toBe(true)
+    expect(Comp.find('.dnb-input--icon-position-right').exists()).toBe(
+      false
+    )
+
+    Comp.setProps({ icon_position: 'right' })
+
+    expect(Comp.find('.dnb-input--icon-position-right').exists()).toBe(
+      true
+    )
+
+    expect(
+      Comp.find('.dnb-input')
+        .instance()
+        .querySelector('.dnb-input__input ~ .dnb-input__icon')
+        .querySelector('svg')
+    ).toBeTruthy()
+  })
+
+  it('should warn about clear button and right icon position', () => {
+    global.console.log = jest.fn()
+    const Comp = mount(
+      <Component clear={true} icon="bell" icon_position="right" />
+    )
+    expect(Comp.exists('.dnb-input--clear')).toBe(false)
+    expect(Comp.find('.dnb-input__icon').exists('svg')).toBe(true)
+    expect(global.console.log).toHaveBeenCalledTimes(1)
+    expect(global.console.log).toHaveBeenCalledWith(
+      expect.stringContaining('Eufemia'),
+      `You can not have a clear button and icon_position="right"`
+    )
+  })
+
+  it('should render inner_element', () => {
+    const CustomComponent = () => <div>custom element</div>
+    const Comp = mount(
+      <Component inner_element={<CustomComponent />} icon="bell" />
+    )
+
+    expect(
+      Comp.find('.dnb-input')
+        .instance()
+        .querySelector('.dnb-input__input ~ .dnb-input__inner__element')
+        .textContent
+    ).toBe('custom element')
+
+    expect(
+      Comp.find('.dnb-input')
+        .instance()
+        .querySelector('.dnb-input__inner__element ~ .dnb-input__icon')
+        .querySelector('svg')
+    ).toBeTruthy()
   })
 })
 

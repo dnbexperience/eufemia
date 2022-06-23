@@ -12,6 +12,7 @@ AutocompleteToggleExample,
 AutocompletePredefinedInput,
 AutocompleteDifferentSizes,
 AutocompleteCustomWidth,
+AutocompleteSuffix,
 AutocompleteOpened
 } from 'Docs/uilib/components/autocomplete/Examples'
 
@@ -57,6 +58,27 @@ This example simulates server delay with a timeout and - if it gets debounced, w
 Four sizes are available: `small`, `default`, `medium` and `large`.
 
 <AutocompleteDifferentSizes />
+
+### Data suffix value
+
+Data is provided as such:
+
+```js
+const { locale } = React.useContext(Context)
+const data = [
+  {
+    suffix_value: (
+      <NumberFormat currency srLabel="Total:">
+        {12345678}
+      </NumberFormat>
+    ),
+    selected_value: `Brukskonto (${ban})`,
+    content: ['Brukskonto', ban],
+  },
+]
+```
+
+<AutocompleteSuffix />
 
 ### Custom width
 

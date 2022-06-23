@@ -55,6 +55,8 @@ export default class ModalContent extends React.PureComponent<
   state = { triggeredBy: null, triggeredByEvent: null, color: null }
 
   _contentRef: React.RefObject<HTMLElement>
+  _scrollRef: React.RefObject<HTMLElement>
+  _overlayClickRef: { current: null | HTMLElement }
   _id: string
   _lockTimeout: NodeJS.Timeout
   _focusTimeout: NodeJS.Timeout
@@ -64,7 +66,9 @@ export default class ModalContent extends React.PureComponent<
 
   constructor(props: ModalContentProps) {
     super(props)
-    this._contentRef = React.createRef()
+    this._contentRef = this.props.content_ref || React.createRef()
+    this._scrollRef = this.props.scroll_ref || React.createRef()
+    this._overlayClickRef = React.createRef()
 
     // NB: The ""._id" is used in the __modalStack as "last._id"
     this._id = props.id
@@ -127,7 +131,8 @@ export default class ModalContent extends React.PureComponent<
           // TODO: Eventually in future, make it possible to bypass invalidation from outside
           // '.dnb-modal--bypass_invalidation',
           // '.dnb-modal--bypass_invalidation_deep *',
-          // this.props.bypass_invalidation_selectors,
+
+          ...(this.props?.bypass_invalidation_selectors || []),
         ].filter(Boolean)
       )
       this._ii.activate()
@@ -265,13 +270,13 @@ export default class ModalContent extends React.PureComponent<
   }
 
   removeScrollPossibility() {
-    if (this._contentRef.current) {
-      disableBodyScroll(this._contentRef.current)
+    if (this._scrollRef.current) {
+      disableBodyScroll(this._scrollRef.current)
     }
   }
 
   revertScrollPossibility() {
-    enableBodyScroll(this._contentRef.current)
+    enableBodyScroll(this._scrollRef.current)
     clearAllBodyScrollLocks()
   }
 
@@ -281,11 +286,29 @@ export default class ModalContent extends React.PureComponent<
     }
   }
 
-  onCloseClickHandler = (event) => {
+  onCloseClickHandler = (event: React.SyntheticEvent) => {
     this.closeModalContent(event, { triggeredBy: 'button' })
   }
 
-  onContentClickHandler = (event) => {
+  onContentMouseDownHandler = (event: React.SyntheticEvent) => {
+    this._overlayClickRef.current =
+      event.target === event.currentTarget
+        ? (event.target as HTMLElement)
+        : null
+  }
+
+  onContentClickHandler = (event: React.SyntheticEvent) => {
+    /**
+     * Prevent false-positive Modal close,
+     * when e.g. selecting text inside and moving the mouse outside,
+     * we would still get this event fired. There we check if the current click,
+     * has the same target as where the click got initiated.
+     */
+    if (this._overlayClickRef.current !== event.target) {
+      return // stop here
+    }
+    this._overlayClickRef.current = null
+
     const { prevent_overlay_close } = this.props
 
     if (!isTrue(prevent_overlay_close)) {
@@ -421,6 +444,7 @@ export default class ModalContent extends React.PureComponent<
 
         content_class
       ),
+      onMouseDown: this.onContentMouseDownHandler,
       onClick: this.onContentClickHandler,
     }
 
@@ -457,6 +481,7 @@ export default class ModalContent extends React.PureComponent<
           preventClick: this.preventClick,
           onKeyDownHandler: this.onKeyDownHandler,
           contentRef: this._contentRef,
+          scrollRef: this._scrollRef,
           contentId,
           close,
         }}

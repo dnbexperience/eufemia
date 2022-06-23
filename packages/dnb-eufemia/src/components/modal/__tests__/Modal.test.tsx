@@ -73,24 +73,29 @@ describe('Modal component', () => {
 
   it('should have aria-hidden and tabindex on other elements', () => {
     const Comp = mount(
-      <Component {...props}>
-        <button>button</button>
-      </Component>,
+      <>
+        <button className="bypass-me">button</button>
+        <Component no_animation>
+          <button className="but-not-me">button</button>
+        </Component>
+      </>,
       { attachTo: attachToBody() }
     )
 
-    // Check the global button
     Comp.find('Modal').find('button.dnb-modal__trigger').simulate('click')
-    expect(document.querySelector('button') instanceof HTMLElement).toBe(
-      true
-    )
+
+    // Check the global button
     expect(
-      document.querySelector('button').hasAttribute('aria-hidden')
+      document.querySelector('button.bypass-me') instanceof HTMLElement
     ).toBe(true)
-    expect(document.querySelector('button').getAttribute('tabindex')).toBe(
-      '-1'
-    )
-    Comp.update()
+    expect(
+      document
+        .querySelector('button.bypass-me')
+        .hasAttribute('aria-hidden')
+    ).toBe(true)
+    expect(
+      document.querySelector('button.bypass-me').getAttribute('tabindex')
+    ).toBe('-1')
     expect(
       Comp.find('.dnb-modal__content')
         .instance()
@@ -98,7 +103,7 @@ describe('Modal component', () => {
     ).toBe(false)
     expect(
       Comp.find('.dnb-modal__content')
-        .find('button')
+        .find('button.but-not-me')
         .instance()
         .hasAttribute('aria-hidden')
     ).toBe(false)
@@ -106,11 +111,49 @@ describe('Modal component', () => {
     // And close it again
     Comp.find('button.dnb-modal__close-button').simulate('click')
     expect(
-      document.querySelector('button').hasAttribute('aria-hidden')
+      document
+        .querySelector('button.bypass-me')
+        .hasAttribute('aria-hidden')
     ).toBe(false)
-    expect(document.querySelector('button').hasAttribute('tabindex')).toBe(
-      false
+    expect(
+      document.querySelector('button.bypass-me').hasAttribute('tabindex')
+    ).toBe(false)
+  })
+
+  it('should bypass elements defined in bypass_invalidation_selectors', () => {
+    const Comp = mount(
+      <>
+        <button className="bypass-me">button</button>
+        <button className="but-not-me">button</button>
+        <Component
+          no_animation
+          bypassInvalidationSelectors={['.bypass-me']}
+        >
+          content
+        </Component>
+      </>,
+      { attachTo: attachToBody() }
     )
+
+    Comp.find('Modal').find('button.dnb-modal__trigger').simulate('click')
+
+    expect(
+      document
+        .querySelector('button.bypass-me')
+        .hasAttribute('aria-hidden')
+    ).toBe(false)
+    expect(
+      document.querySelector('button.bypass-me').hasAttribute('tabindex')
+    ).toBe(false)
+
+    expect(
+      document
+        .querySelector('button.but-not-me')
+        .getAttribute('aria-hidden')
+    ).toBe('true')
+    expect(
+      document.querySelector('button.but-not-me').getAttribute('tabindex')
+    ).toBe('-1')
   })
 
   it('has to have the correct title', () => {
@@ -598,6 +641,7 @@ describe('Modal component', () => {
     expect(on_close_prevent).toHaveBeenCalledTimes(1)
 
     // trigger the close on the overlay
+    Comp.find('div.dnb-modal__content').simulate('mousedown')
     Comp.find('div.dnb-modal__content').simulate('click')
 
     expect(on_close_prevent).toHaveBeenCalledTimes(2)
@@ -623,6 +667,7 @@ describe('Modal component', () => {
     preventClose = false
 
     // trigger the close on the overlay
+    Comp.find('div.dnb-modal__content').simulate('mousedown')
     Comp.find('div.dnb-modal__content').simulate('click')
 
     expect(Comp.exists('div.dnb-modal__content')).toBe(true)
@@ -648,10 +693,55 @@ describe('Modal component', () => {
     expect(testTriggeredBy).toBe(null)
 
     // trigger the close on the overlay
+    Comp.find('div.dnb-modal__content').simulate('mousedown')
     Comp.find('div.dnb-modal__content').simulate('click')
 
     expect(on_close).toHaveBeenCalledTimes(1)
     expect(testTriggeredBy).toBe('overlay')
+    expect(Comp.exists('div.dnb-modal__content')).toBe(false)
+  })
+
+  it('will omit close when no mousedown was fired', () => {
+    const on_close = jest.fn()
+    const Comp = mount(<Component {...props} on_close={on_close} />)
+    Comp.find('button').simulate('click')
+
+    // trigger the close on the overlay
+    Comp.find('div.dnb-modal__content').simulate('click')
+
+    expect(on_close).toHaveBeenCalledTimes(0)
+    expect(Comp.exists('div.dnb-modal__content')).toBe(true)
+  })
+
+  it('will only close when mousedown and click DOM targets are the same', () => {
+    const on_close = jest.fn()
+    const Comp = mount(<Component {...props} on_close={on_close} />)
+
+    Comp.find('button').simulate('click')
+
+    const contentElement = Comp.find('div.dnb-modal__content')
+    const target = contentElement.instance()
+    const currentTarget = contentElement.instance()
+    const differentTarget = document.createElement('DIV')
+
+    // trigger the close on the overlay
+    contentElement.simulate('mousedown', {
+      target,
+      currentTarget,
+    })
+    contentElement.simulate('click', { target: differentTarget }) // simulate with different target
+
+    expect(on_close).toHaveBeenCalledTimes(0)
+    expect(Comp.exists('div.dnb-modal__content')).toBe(true)
+
+    // trigger the close on the overlay
+    contentElement.simulate('mousedown', {
+      target,
+      currentTarget,
+    })
+    contentElement.simulate('click', { target })
+
+    expect(on_close).toHaveBeenCalledTimes(1)
     expect(Comp.exists('div.dnb-modal__content')).toBe(false)
   })
 

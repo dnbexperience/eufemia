@@ -16,7 +16,10 @@ import { usePropsWithContext } from '../../shared/hooks'
 
 // Internal
 import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem'
-import { convertJsxToString } from '../../shared/component-helper'
+import {
+  convertJsxToString,
+  validateDOMAttributes,
+} from '../../shared/component-helper'
 
 export interface BreadcrumbProps {
   /**
@@ -126,6 +129,13 @@ const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context
+  const allProps = usePropsWithContext(
+    localProps,
+    defaultProps,
+    context?.translation?.Breadcrumb,
+    context?.Breadcrumb,
+    { skeleton: context?.skeleton }
+  )
   const {
     className,
     skeleton,
@@ -143,13 +153,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
     data,
     href,
     ...props
-  } = usePropsWithContext(
-    localProps,
-    defaultProps,
-    context?.translation?.Breadcrumb,
-    context?.Breadcrumb,
-    { skeleton: context?.skeleton }
-  )
+  } = allProps
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
   const spacingClasses = createSpacingClasses(props)
 
@@ -189,6 +193,8 @@ const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
       {childrenItems}
     </ol>
   )
+
+  validateDOMAttributes(allProps, props)
 
   return (
     <nav

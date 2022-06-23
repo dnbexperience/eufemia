@@ -48,8 +48,16 @@ const plugins = [
   'gatsby-plugin-meta-redirect',
   'gatsby-plugin-catch-links',
   'gatsby-plugin-react-helmet',
-  'gatsby-plugin-sharp', // is used by gatsby-remark-images
-  'gatsby-remark-images',
+  process.env.SKIP_IMAGE_PROCESSING !== '1' && 'gatsby-plugin-sharp', // is used by gatsby-remark-images
+  process.env.SKIP_IMAGE_PROCESSING !== '1' && 'gatsby-remark-images',
+  {
+    resolve: 'gatsby-source-filesystem',
+    options: {
+      path: `${__dirname}/src/docs`, //for .md (mdx) files
+      name: 'docs',
+      ignore: ['**/Examples.*', '**/*_not_in_use*'],
+    },
+  },
   {
     resolve: 'gatsby-plugin-page-creator',
     options: {
@@ -68,14 +76,6 @@ const plugins = [
     },
   },
   {
-    resolve: 'gatsby-source-filesystem',
-    options: {
-      path: `${__dirname}/src/docs`, //for .md (mdx) files
-      name: 'docs',
-      ignore: ['**/Examples.*', '**/*_not_in_use*'],
-    },
-  },
-  {
     resolve: 'gatsby-plugin-mdx',
     options: {
       extensions: ['.md'],
@@ -83,7 +83,7 @@ const plugins = [
       // rehypePlugins: [], // hastPlugins
       // remarkPlugins: [], // mdPlugins
       gatsbyRemarkPlugins: [
-        {
+        process.env.SKIP_IMAGE_PROCESSING !== '1' && {
           resolve: 'gatsby-remark-images',
           options: {
             maxWidth: 1024,
@@ -93,7 +93,7 @@ const plugins = [
             // wrapperStyle: {}
           },
         },
-      ],
+      ].filter(Boolean),
       // Imports in here are globally available in *.md files
       // globalScope: `
       //   import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
@@ -106,6 +106,17 @@ const plugins = [
   },
   'gatsby-plugin-sass',
   'gatsby-plugin-emotion',
+  {
+    resolve: 'gatsby-plugin-scroll-position',
+    options: {
+      elements: [
+        {
+          selector: '#portal-sidebar-menu',
+          ensureInView: '#portal-sidebar-menu ul li.is-active',
+        },
+      ],
+    },
+  },
   {
     resolve: 'gatsby-plugin-eufemia-theme-handler',
     options: {
@@ -136,18 +147,20 @@ if (currentBranch === 'release') {
 }
 
 // Algolia search
-const queries = require('./src/uilib/search/searchQuery')
-if (queries) {
-  plugins.push({
-    resolve: 'gatsby-plugin-algolia',
-    options: {
-      appId: process.env.ALGOLIA_APP_ID,
-      apiKey: process.env.ALGOLIA_API_KEY,
-      indexName: process.env.ALGOLIA_INDEX_NAME, // for all queries
-      queries,
-      chunkSize: 10000, // default: 1000
-    },
-  })
+if (process.env.IS_VISUAL_TEST !== '1') {
+  const queries = require('./src/uilib/search/searchQuery')
+  if (queries) {
+    plugins.push({
+      resolve: 'gatsby-plugin-algolia',
+      options: {
+        appId: process.env.ALGOLIA_APP_ID,
+        apiKey: process.env.ALGOLIA_API_KEY,
+        indexName: process.env.ALGOLIA_INDEX_NAME, // for all queries
+        queries,
+        chunkSize: 10000, // default: 1000
+      },
+    })
+  }
 }
 
 module.exports = {
@@ -160,4 +173,5 @@ module.exports = {
   siteMetadata,
   plugins,
   jsxRuntime: 'automatic',
+  trailingSlash: 'always',
 }

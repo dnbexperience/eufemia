@@ -119,6 +119,50 @@ describe('AnimateHeight', () => {
     expect(inst.getUnknownHeight()).toBe(100)
   })
 
+  it('open should call getUnknownHeight', () => {
+    const inst = new AnimateHeight()
+
+    jest.spyOn(inst, 'getUnknownHeight').mockImplementation(jest.fn())
+
+    inst.setElement(element)
+    inst.open()
+
+    expect(inst.getUnknownHeight).toHaveBeenCalledTimes(1)
+  })
+
+  it('getUnknownHeight should use cached height during animation', () => {
+    const inst = new AnimateHeight()
+
+    jest
+      .spyOn(element, 'clientHeight', 'get')
+      .mockImplementation(() => 100)
+
+    expect(inst.__currentHeight).toBe(undefined)
+    expect(inst.isAnimating).toBe(undefined)
+
+    inst.setElement(element)
+    inst.open()
+
+    expect(inst.isAnimating).toBe(true)
+    expect(inst.__currentHeight).toBe(100)
+
+    jest
+      .spyOn(element, 'clientHeight', 'get')
+      .mockImplementation(() => 200)
+
+    inst.getUnknownHeight()
+
+    expect(inst.__currentHeight).toBe(100)
+
+    delete inst.elem
+
+    expect(inst.getUnknownHeight()).toBe(null)
+
+    inst._callOnEnd()
+
+    expect(inst.__currentHeight).toBe(undefined)
+  })
+
   it('adjustFrom should set and return height', () => {
     const inst = new AnimateHeight()
     inst.setElement(element)

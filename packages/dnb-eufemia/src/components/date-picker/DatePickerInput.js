@@ -38,6 +38,7 @@ export default class DatePickerInput extends React.PureComponent {
     separatorRexExp: PropTypes.instanceOf(RegExp),
     submitAttributes: PropTypes.object,
     isRange: PropTypes.bool,
+    size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
     status: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -70,6 +71,7 @@ export default class DatePickerInput extends React.PureComponent {
     separatorRexExp: /[-/ ]/g,
     submitAttributes: null,
     isRange: null,
+    size: null,
     status: null,
     status_state: 'error',
     status_props: null,
@@ -257,47 +259,54 @@ export default class DatePickerInput extends React.PureComponent {
   }
 
   prepareCounting = async ({ keyCode, target, event }) => {
-    const isDate = target
-      .getAttribute('class')
-      .match(/__input--([day|month|year]+)($|\s)/)[1]
-    const isInRange = target
-      .getAttribute('id')
-      .match(/[0-9]-([start|end]+)-/)[1]
+    try {
+      const isDate = target
+        .getAttribute('class')
+        .match(/__input--([day|month|year]+)($|\s)/)[1]
 
-    let date =
-      isInRange === 'start' ? this.context.startDate : this.context.endDate
+      const isInRange = target
+        .getAttribute('id')
+        .match(/-([start|end]+)-/)[1]
 
-    // do nothing if date is not set yet
-    if (!date) {
-      return
-    }
+      let date =
+        isInRange === 'start'
+          ? this.context.startDate
+          : this.context.endDate
 
-    const count = keyCode === 'up' ? 1 : -1
-
-    if (keyCode === 'up' || keyCode === 'down') {
-      switch (isDate) {
-        case 'day':
-          date = addDays(date, count)
-          break
-        case 'month':
-          date = addMonths(date, count)
-          break
-        case 'year':
-          date = addYears(date, count)
-          break
+      // do nothing if date is not set yet
+      if (!date) {
+        return
       }
+
+      const count = keyCode === 'up' ? 1 : -1
+
+      if (keyCode === 'up' || keyCode === 'down') {
+        switch (isDate) {
+          case 'day':
+            date = addDays(date, count)
+            break
+          case 'month':
+            date = addMonths(date, count)
+            break
+          case 'year':
+            date = addYears(date, count)
+            break
+        }
+      }
+
+      this.callOnChange({
+        [isInRange === 'start' ? 'startDate' : 'endDate']: date,
+        event,
+      })
+
+      await wait(1) // to get the correct position afterwards
+
+      const endPos = target.value.length
+      target.focus()
+      target.setSelectionRange(0, endPos)
+    } catch (e) {
+      warn(e)
     }
-
-    this.callOnChange({
-      [isInRange === 'start' ? 'startDate' : 'endDate']: date,
-      event,
-    })
-
-    await wait(1) // to get the correct position afterwards
-
-    const endPos = target.value.length
-    target.focus()
-    target.setSelectionRange(0, endPos)
   }
 
   onFocusHandler = (event) => {
@@ -502,7 +511,7 @@ export default class DatePickerInput extends React.PureComponent {
     return this.maskList.map((value, i) => {
       const state = value.slice(0, 1)
       const placeholderChar = this.getPlaceholderChar(value)
-      const { input_element, separatorRexExp, isRange } = this.props
+      const { input_element, separatorRexExp, isRange, size } = this.props
       const { day, month, year } = this.context.translation.DatePicker
       const isRangeLabel = isRange
         ? `${this.context.translation.DatePicker[mode]} `
@@ -530,6 +539,9 @@ export default class DatePickerInput extends React.PureComponent {
             ? input_element
             : InputElement
 
+        const inputSizeClassName =
+          size && `dnb-date-picker__input--${size}`
+
         switch (state) {
           case 'd':
             this.refList.push(this[`_${mode}DayRef`])
@@ -543,7 +555,8 @@ export default class DatePickerInput extends React.PureComponent {
                   className={classnames(
                     params.className,
                     'dnb-date-picker__input',
-                    'dnb-date-picker__input--day'
+                    'dnb-date-picker__input--day',
+                    inputSizeClassName
                   )}
                   size="2"
                   mask={[/[0-3]/, /[0-9]/]}
@@ -573,7 +586,8 @@ export default class DatePickerInput extends React.PureComponent {
                   className={classnames(
                     params.className,
                     'dnb-date-picker__input',
-                    'dnb-date-picker__input--month'
+                    'dnb-date-picker__input--month',
+                    inputSizeClassName
                   )}
                   size="2"
                   mask={[/[0-1]/, /[0-9]/]}
@@ -603,7 +617,8 @@ export default class DatePickerInput extends React.PureComponent {
                   className={classnames(
                     params.className,
                     'dnb-date-picker__input',
-                    'dnb-date-picker__input--year'
+                    'dnb-date-picker__input--year',
+                    inputSizeClassName
                   )}
                   size="4"
                   mask={[/[1-2]/, /[0-9]/, /[0-9]/, /[0-9]/]}
@@ -665,6 +680,7 @@ export default class DatePickerInput extends React.PureComponent {
       disabled,
       skeleton,
       opened,
+      size,
       status,
       status_state,
       status_props,
@@ -703,6 +719,7 @@ export default class DatePickerInput extends React.PureComponent {
           }
           disabled={disabled || skeleton}
           skeleton={skeleton}
+          size={size}
           status={!opened ? status : null}
           status_state={status_state}
           {...status_props}
@@ -717,6 +734,7 @@ export default class DatePickerInput extends React.PureComponent {
               )}
               aria-label={this.formatDate()}
               title={title}
+              size={size}
               status={status}
               status_state={status_state}
               type="button"

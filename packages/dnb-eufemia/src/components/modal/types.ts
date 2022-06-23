@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { CloseButtonProps } from './parts/CloseButton'
+import { ButtonProps } from '../button/Button'
 import { ModalRootProps } from './ModalRoot'
 
 export type ExtendedBoolean = string | boolean
@@ -171,6 +172,16 @@ export interface ModalProps extends ModalRootProps {
    * If truthy, the drawer will not open in a new DOM but directly in current DOM. Defaults to `false`.
    */
   direct_dom_return?: string | boolean
+
+  /**
+   * To get the inner content Element, pass in your own React ref
+   */
+  content_ref?: React.RefObject<HTMLElement>
+
+  /**
+   * To get the scroll Element, pass in your own React ref
+   */
+  scroll_ref?: React.RefObject<HTMLElement>
 }
 
 export interface ModalContentProps {
@@ -308,6 +319,11 @@ export interface ModalContentProps {
   overlay_class?: string
 
   /**
+   * Define an array with HTML class selectors (`['.element-selector']`) which should not get invalidated when the modal opens/closes. Use this in order to let some parts of your site still be accessible by screen readers.
+   */
+  bypass_invalidation_selectors?: Array<string>
+
+  /**
    * For internal usage
    * Will close the modal
    */
@@ -332,51 +348,8 @@ export interface ModalContentProps {
    * Internal
    */
   dialog_role?: 'dialog' | 'alertdialog' | 'region'
+  content_ref?: React.RefObject<HTMLElement>
+  scroll_ref?: React.RefObject<HTMLElement>
 }
 
-export type TriggerAttributes = {
-  /**
-   * If truthy, no trigger button will be show. This can be used in combination with `open_state="opened"`.
-   */
-  hidden?: string | boolean
-
-  /**
-   * If truthy, then the trigger button can&#39;t be opened.
-   */
-  disabled?: string | boolean
-
-  /**
-   * The triggering button variant. Defaults to `secondary`.
-   */
-  variant?: ModalTriggerVariant
-
-  /**
-   * If type is set to `text`, this will be the text which triggers the drawer. If set to `button` it will be the `title` attribute of the button.
-   */
-  text?: string
-
-  /**
-   * The triggering button title
-   */
-  title?: string
-
-  /**
-   * The triggering button size
-   */
-  size?: string
-
-  /**
-   * The modal/drawer triggering button icon. Can be used instead of a `trigger_text`. Defaults to `question`.
-   */
-  icon?: React.ReactNode | ((...args: any[]) => any)
-
-  /**
-   * Defines the modal/drawer triggering icon position. Defaults to `left` because of the tertiary button variant.
-   */
-  iconPosition?: ModalTriggerIconPosition
-
-  /**
-   * Adds a custom modal trigger class name.
-   */
-  class?: string
-}
+export type TriggerAttributes = ButtonProps

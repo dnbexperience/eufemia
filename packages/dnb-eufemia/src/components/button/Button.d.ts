@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { SkeletonShow } from '../skeleton/Skeleton';
 import { IconPrimaryIcon } from '../icon-primary/IconPrimary';
+import { DataAttributeTypes } from '../../shared/interfaces';
+
 export type ButtonText = string | React.ReactNode;
 export type ButtonVariant =
   | 'primary'
@@ -72,9 +74,10 @@ export type ButtonOnClick = string | ((...args: any[]) => any);
  */
 export interface ButtonProps
   extends Omit<
-    React.HTMLProps<HTMLElement>,
-    'disabled' | 'size' | 'title' | 'wrap'
-  > {
+      React.HTMLProps<HTMLElement>,
+      'disabled' | 'size' | 'title' | 'wrap'
+    >,
+    Partial<DataAttributeTypes> {
   /**
    * The content of the button can be a string or a React Element.
    */

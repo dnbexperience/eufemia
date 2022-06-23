@@ -17,7 +17,6 @@
 
 .dnb-dialog {
   position: relative;
-  max-height: 100vh;
   border-radius: 0.5rem;
   @include defaultDropShadow();
 
@@ -25,6 +24,21 @@
   -webkit-user-select: text; // Safari / Touch fix
   border: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  max-height: 100vh;
+  overflow: hidden;
+  .dnb-scroll-view {
+    max-height: 90vh; // make it scrollable
+  }
+
+  &__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    height: 100%;
+  }
 
   &--information {
     min-width: var(--dialog-min-width);
@@ -34,23 +48,22 @@
 
   &--confirmation {
     max-width: var(--dialog-confirm-max-width);
-    margin: 0 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
 
   &--auto-fullscreen {
     @include allBelow(small) {
       @include modalFullscreen();
+      margin: auto 0;
     }
   }
   &--fullscreen {
     @include modalFullscreen();
+    margin: auto 0;
   }
   &--spacing#{&}--information &__content {
     padding-bottom: calc(var(--dialog-spacing) * 2);
-
-    @include IS_SAFARI_MOBILE {
-      padding-bottom: calc(var(--dialog-spacing) * 8);
-    }
   }
 
   &--spacing#{&}--information &__inner {
@@ -79,30 +92,6 @@
 
   &--spacing#{&}--confirmation &__inner {
     padding: calc(var(--dialog-spacing)); // 2rem (32px)
-
-    @include IS_SAFARI_MOBILE {
-      padding-bottom: calc(var(--dialog-spacing) * 8);
-    }
-  }
-
-  &__inner {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-
-    &::after {
-      content: '';
-      position: absolute;
-      z-index: -4;
-      left: 0;
-      top: 0;
-      width: 100vw;
-      height: 100%;
-    }
   }
 
   &__align--centered &__inner {
@@ -251,12 +240,12 @@
     margin-top: 1.5rem;
   }
 
+  // Fix for iOS on iPhone
+  // Because Safari includes the navigation bar on the height
   @include IS_SAFARI_MOBILE() {
-    // iOS on iPhone fix
-    // Because Safari includes the navigation bar on the height
-    @media (max-height: 40em) and (orientation: landscape) {
-      &:not(#{&}--fullscreen) {
-        max-height: 80vh;
+    @media (max-height: 40em) {
+      .dnb-scroll-view {
+        max-height: 82vh;
       }
     }
   }

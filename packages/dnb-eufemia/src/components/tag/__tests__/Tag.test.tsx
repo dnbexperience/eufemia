@@ -75,6 +75,25 @@ describe('Tag Group', () => {
       skeletonClassName
     )
   })
+
+  it('should support spacing props', () => {
+    render(
+      <Tag.Group label="tags" top="2rem">
+        <Tag>Tag</Tag>
+      </Tag.Group>
+    )
+
+    const element = screen.getByTestId('tag-group')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class', 'data-testid'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-tag__group',
+      'dnb-space__top--large',
+    ])
+  })
 })
 
 describe('Tag', () => {
@@ -193,6 +212,29 @@ describe('Tag', () => {
     expect(
       screen.queryByTestId('tag').querySelector('.dnb-icon')
     ).toBeTruthy()
+  })
+
+  it('should support spacing props', () => {
+    render(
+      <Tag.Group label="tags">
+        <Tag left="2rem">Tag</Tag>
+      </Tag.Group>
+    )
+
+    const element = screen.getByTestId('tag')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class', 'data-testid'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-button',
+      'dnb-button--unstyled',
+      'dnb-button--has-text',
+      'dnb-space__left--large',
+      'dnb-tag',
+      'dnb-button--size-small',
+    ])
   })
 
   describe('with onClick', () => {

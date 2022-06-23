@@ -29,7 +29,7 @@
     }
     html[data-visual-test] &,
     &--no-animation {
-      animation: drawer-list-slide-top-down 1ms ease-out 1 forwards;
+      animation-duration: 1ms !important;
     }
   }
 }
@@ -44,7 +44,7 @@
     }
     html[data-visual-test] &,
     &--no-animation {
-      animation: drawer-list-slide-top-up 1ms ease-out 1 forwards;
+      animation-duration: 1ms !important;
     }
   }
 }
@@ -165,9 +165,22 @@
       position: relative;
       z-index: 1; // only to go over &__triangle
 
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      // IE11 support
+      @supports not (display: grid) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      @supports (display: grid) {
+        display: grid;
+
+        // Use two columns
+        grid-template-columns: 1fr minmax(2rem, auto);
+
+        // Use a high number in order to be able to vertically center the check icon (among others) and suffix with "grid-row: 1 / -1;"
+        grid-template-rows: repeat(10, min-content);
+      }
 
       outline: none;
 
@@ -187,6 +200,17 @@
       display: block;
       text-overflow: ellipsis;
 
+      // Place all items in the first column, but underneath
+      grid-column: 1;
+
+      &--horizontal {
+        display: flex;
+      }
+
+      > .dnb-icon {
+        vertical-align: initial;
+      }
+
       .dnb-anchor {
         display: inline-block;
         margin-right: 0.5rem;
@@ -194,6 +218,17 @@
         white-space: nowrap;
 
         font-size: inherit;
+      }
+    }
+
+    &__suffix {
+      // TODO: Use CSS Container Queries when available
+      @include allAbove(small) {
+        grid-column: 2;
+        grid-row: 1 / -1;
+
+        justify-self: end;
+        align-self: center;
       }
     }
 

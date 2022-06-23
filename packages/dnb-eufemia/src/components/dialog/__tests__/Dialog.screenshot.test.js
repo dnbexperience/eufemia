@@ -229,3 +229,42 @@ describe('Dialog simple screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 })
+
+describe('Dialog scrollable content screenshot', () => {
+  const pageViewport = {
+    width: 400,
+    height: 400,
+  }
+
+  setupPageScreenshot({
+    url: '/uilib/components/dialog/demos',
+    pageViewport,
+  })
+
+  it('have to match scrolled to top', async () => {
+    await global.__PAGE__.setUserAgent('iPhone OS 15')
+    const screenshot = await testPageScreenshot({
+      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="dialog-scroll-content"] button:first-of-type',
+      screenshotSelector: '.dnb-modal__content',
+      rootClassName: 'hide-page-content',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match scrolled to bottom', async () => {
+    await global.__PAGE__.setUserAgent('iPhone OS 15')
+    const screenshot = await testPageScreenshot({
+      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+      simulate: 'click',
+      reload: true, // reload because we add `scroll-to-bottom`
+      simulateSelector:
+        '[data-visual-test="dialog-scroll-content"] button:first-of-type',
+      screenshotSelector: '.dnb-modal__content',
+      rootClassName: ['hide-page-content', 'scroll-to-bottom'],
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
