@@ -14593,6 +14593,7 @@ __metadata:
     gatsby-plugin-react-helmet: 5.17.0
     gatsby-plugin-remove-serviceworker: 1.0.0
     gatsby-plugin-sass: 5.17.0
+    gatsby-plugin-scroll-position: 1.1.0
     gatsby-plugin-sharp: 4.17.0
     gatsby-react-router-scroll: 5.17.0
     gatsby-remark-images: 6.17.0
@@ -17987,6 +17988,17 @@ __metadata:
     gatsby: ^4.0.0-next
     sass: ^1.30.0
   checksum: b573285723dba6d97b5801ae7bb5577a699fc202fbd3ea6faaf733c67f27998d36fbe0b50c27c0bb30a61b57d2c67bf435dd0fdab97ebb4656ae48f92a77259e
+  languageName: node
+  linkType: hard
+
+"gatsby-plugin-scroll-position@npm:1.1.0":
+  version: 1.1.0
+  resolution: "gatsby-plugin-scroll-position@npm:1.1.0"
+  peerDependencies:
+    gatsby: "*"
+    react: "*"
+    react-dom: "*"
+  checksum: 159bb5a855bc4997a2e7bc96055f8878aeac7934e9423637a27fc399366ef717339ee138d79ffb908b65f7aae56c8a813cb22a52b42f7d5cb5468f3cc4e5fd14
   languageName: node
   linkType: hard
 
