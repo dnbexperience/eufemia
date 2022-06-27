@@ -94,7 +94,7 @@
     "gatsby-plugin-react-helmet": "5.17.0",
     "gatsby-plugin-remove-serviceworker": "1.0.0",
     "gatsby-plugin-sass": "5.17.0",
-    "gatsby-plugin-scroll-position": "1.1.0",
+    "gatsby-plugin-scroll-position": "1.2.1",
     "gatsby-plugin-sharp": "4.17.0",
     "gatsby-react-router-scroll": "5.17.0",
     "gatsby-remark-images": "6.17.0",
