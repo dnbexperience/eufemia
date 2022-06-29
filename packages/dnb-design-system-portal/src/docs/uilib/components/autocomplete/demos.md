@@ -68,7 +68,7 @@ const { locale } = React.useContext(Context)
 const data = [
   {
     suffix_value: (
-      <NumberFormat currency srLabel="Total:">
+      <NumberFormat currency srLabel="Total:" locale={locale}>
         {12345678}
       </NumberFormat>
     ),
