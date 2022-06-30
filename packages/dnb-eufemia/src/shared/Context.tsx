@@ -12,6 +12,7 @@ import { extend } from './component-helper'
 import type { ButtonProps } from '../components/button/Button'
 import type { AvatarProps } from '../components/avatar/Avatar'
 import type { AvatarGroupProps } from '../components/avatar/AvatarGroup'
+import type { BadgeProps } from '../components/badge/Badge'
 import type { BreadcrumbProps } from '../components/breadcrumb/Breadcrumb'
 import type { BreadcrumbItemProps } from '../components/breadcrumb/BreadcrumbItem'
 import type { InfoCardProps } from '../components/info-card/InfoCard'
@@ -29,6 +30,7 @@ export type ContextProps = {
   Button?: Partial<ButtonProps>
   Avatar?: Partial<AvatarProps>
   AvatarGroup?: Partial<AvatarGroupProps>
+  Badge?: Partial<BadgeProps>
   Breadcrumb?: Partial<BreadcrumbProps>
   BreadcrumbItem?: Partial<BreadcrumbItemProps>
   InfoCard?: Partial<InfoCardProps>
