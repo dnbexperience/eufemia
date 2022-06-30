@@ -125,6 +125,7 @@ exports[`Avatar scss have to match snapshot 1`] = `
   flex-shrink: 0;
   overflow: hidden;
   user-select: none;
+  white-space: nowrap;
   border-radius: 50%;
   font-weight: var(--font-weight-medium);
   line-height: 1; }
