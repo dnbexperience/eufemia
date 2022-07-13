@@ -1,7 +1,7 @@
 ---
 title: 'Tag'
 description: 'The Tag component'
-status: 'new'
+status: null
 showTabs: true
 ---
 
