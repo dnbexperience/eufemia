@@ -218,6 +218,7 @@ const TimelineItem = (localProps: TimelineItemProps) => {
             state="info"
             className="dnb-timeline__item__content__info"
             data-testid="timeline-item-content-info"
+            stretch
           />
         )}
       </div>
