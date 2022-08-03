@@ -30,7 +30,7 @@ Please prefer [date-fns](https://date-fns.org) over `moment` to handle your date
 
 ### Handling of React State
 
-Kent C. Dodds has a good [article on when and where to put React State](https://kentcdodds.com/blog/state-colocation-will-make-your-react-app-faster) with [this chart](https://kentcdodds.com/static/d2b50fdb8371e7ec209faacac5363111/35838/where-to-put-state.png 'This chart shows the when and where to put React State').
+Kent C. Dodds has a good [article on when and where to put React State](https://kentcdodds.com/blog/state-colocation-will-make-your-react-app-faster) with [this chart](https://res.cloudinary.com/kentcdodds-com/image/upload/v1625033349/kentcdodds.com/content/blog/state-colocation-will-make-your-react-app-faster/where-to-put-state.png 'This chart shows the when and where to put React State').
 
 Please avoid having logic in your JSX syntax. Even it is possible to have a lot of logic in JSX because of the functional architecture, rather enforce using React Context to hide logic.
 
