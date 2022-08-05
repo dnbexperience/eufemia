@@ -10,7 +10,7 @@ import ColorsTable from 'Docs/quickguide-designer/colors-table.md'
 
 All Colors are provided by CSS Custom Properties.
 
-You may have a look at the QuickStart for Designers [About Colors](/quickguide-designer/colors).
+You may have a look at the Quick Guide for Designers [About Colors](/quickguide-designer/colors).
 
 ## Polyfill
 
