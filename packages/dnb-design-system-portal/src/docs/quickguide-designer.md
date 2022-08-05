@@ -9,7 +9,7 @@ import FigmaLibraries from 'Docs/quickguide-designer/assets/figma-libraries.svg'
 import FigmaLayoutGrid from 'Docs/quickguide-designer/assets/figma-layout-grid.svg'
 import FigmaLibrary from 'Docs/quickguide-designer/assets/figma-library.svg'
 
-# QuickStart - Designers
+# Quick Guide - Designers
 
 ## Contents
 
