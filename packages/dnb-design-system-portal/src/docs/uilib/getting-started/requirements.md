@@ -6,7 +6,7 @@ order: 1
 
 # Requirements
 
-Beside the peer dependencies, there are no specific technical requirements only that it is highly recommended to use a compiling process with [tree shaking]() in place.
+Beside the peer dependencies, there are no specific technical requirements only that it is highly recommended to use a compiling process with [tree shaking](/uilib/usage/first-steps/module-formats/#tree-shaking) in place.
 
 ## Usage
 
