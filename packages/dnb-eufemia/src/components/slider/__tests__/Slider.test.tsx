@@ -14,8 +14,10 @@ import {
 import Component from '../Slider'
 
 const props = fakeProps(require.resolve('../Slider'), {
-  optional: true,
+  all: true,
+  //optional: true, // Does not work with Typescript interface props
 })
+props.id = 'slider'
 props.status = null
 props.min = 0
 props.max = 100
@@ -26,34 +28,39 @@ props.label_direction = 'horizontal'
 props.global_status_id = 'main'
 
 describe('Slider component', () => {
-  const Comp = mount(<Component {...props} />)
-
-  // compare the snapshot
   it('have to match snapshot', () => {
+    const Comp = mount(<Component {...props} />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('has correct value after mouse move', () => {
-    expect(Comp.state().value).toBe(props.value)
+    const Comp = mount(<Component {...props} />)
+    expect(
+      parseFloat(Comp.find('.dnb-slider__button-helper').instance().value)
+    ).toBe(props.value)
 
-    // Comp.find('[role="slider"]').simulate('mousedown')
     Comp.find('[type="range"]').simulate('mousedown')
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
-    expect(Comp.state().value).toBe(props.value + 10)
+    expect(
+      parseFloat(Comp.find('.dnb-slider__button-helper').instance().value)
+    ).toBe(props.value + 10)
   })
 
   it('has correct value after mouse move in vertical mode', () => {
     const Comp = mount(<Component {...props} vertical />)
 
-    expect(Comp.state().value).toBe(props.value)
+    expect(
+      parseFloat(Comp.find('.dnb-slider__button-helper').instance().value)
+    ).toBe(props.value)
 
-    // Comp.find('[role="slider"]').simulate('mousedown')
     Comp.find('[type="range"]').simulate('mousedown')
     simulateMouseMove({ pageX: 80, pageY: 80, width: 10, height: 100 })
 
     // sice we use reverse in vertical mode
-    expect(Comp.state().value).toBe(20)
+    expect(
+      parseFloat(Comp.find('.dnb-slider__button-helper').instance().value)
+    ).toBe(20)
   })
 
   it('has events that return a correct value', () => {
@@ -141,6 +148,7 @@ describe('Slider component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
+    const Comp = mount(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

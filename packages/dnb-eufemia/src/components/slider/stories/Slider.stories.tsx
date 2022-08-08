@@ -88,7 +88,7 @@ const SliderStory = () => {
             align="center"
             value={String(value)}
             on_change={({ value }) => {
-              setValue(parseFloat(value))
+              setValue(value)
             }}
           />
         </VerticalWrapper>

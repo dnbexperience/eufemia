@@ -5,8 +5,8 @@
  */
 
 /**
- * Library Index bade to autogenerate all the components and extensions
- * Used by "prepareBadge"
+ * Library Index badge to autogenerate all the components and extensions
+ * Used by "prepareBadges"
  */
 
 import Badge from './badge/Badge'
