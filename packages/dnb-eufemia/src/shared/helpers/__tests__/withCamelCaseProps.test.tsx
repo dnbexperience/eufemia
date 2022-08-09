@@ -177,6 +177,14 @@ describe('classWithCamelCaseProps', () => {
     }
     static property = 'thing'
 
+    constructor(props: IncludeCamelCase<OriginalProps>) {
+      super(props)
+    }
+
+    componentDidMount() {
+      //
+    }
+
     componentDidUpdate(prevProps: IncludeCamelCase<OriginalProps>) {
       if (
         prevProps !== this.props &&
@@ -203,9 +211,9 @@ describe('classWithCamelCaseProps', () => {
     }
   }
 
-  const Component = classWithCamelCaseProps(Original)
-
   it('will still expose a static property', () => {
+    const Component = classWithCamelCaseProps(Original)
+
     expect(Original.property).toBe('thing')
 
     expect(Component.property).toBe(Original.property)
@@ -219,10 +227,14 @@ describe('classWithCamelCaseProps', () => {
   })
 
   it('should have original name', () => {
+    const Component = classWithCamelCaseProps(Original)
+
     expect(Component.name).toBe('Original')
   })
 
   it('will render', () => {
+    const Component = classWithCamelCaseProps(Original)
+
     const { rerender, asFragment } = render(
       <Component snake_case={false} camelCase={1} />
     )
@@ -257,7 +269,29 @@ describe('classWithCamelCaseProps', () => {
           `)
   })
 
+  it('will call componentDidMount once', () => {
+    const componentDidMount = jest.fn()
+
+    class CopyOfOriginal extends Original {
+      componentDidMount() {
+        componentDidMount()
+      }
+    }
+
+    const Component = classWithCamelCaseProps(CopyOfOriginal)
+
+    const { rerender } = render(
+      <Component snake_case={false} camelCase={1} />
+    )
+
+    rerender(<Component snake_case={false} camelCase={2} />)
+
+    expect(componentDidMount).toHaveBeenCalledTimes(1)
+  })
+
   it('will render with enzyme', () => {
+    const Component = classWithCamelCaseProps(Original)
+
     const Comp = mount(<Component snake_case={false} camelCase={1} />)
 
     expect(toJson(Comp)).toMatchInlineSnapshot(`
@@ -294,6 +328,8 @@ describe('classWithCamelCaseProps', () => {
   })
 
   it('will handle contextType', () => {
+    const Component = classWithCamelCaseProps(Original)
+
     const Comp = mount(
       <Context.Provider value={{ contextProp: 'context value' }}>
         <Component snake_case={false} camelCase={1} />
@@ -337,6 +373,8 @@ describe('classWithCamelCaseProps', () => {
   })
 
   it('should setState with enzyme', () => {
+    const Component = classWithCamelCaseProps(Original)
+
     const Comp = mount(<Component />, { attachTo: attachToBody() })
     Comp.find(Original).setState({
       someState: false,
@@ -351,6 +389,8 @@ describe('classWithCamelCaseProps', () => {
   })
 
   it('should setProps with enzyme', () => {
+    const Component = classWithCamelCaseProps(Original)
+
     const Comp = mount(<Component />, { attachTo: attachToBody() })
     Comp.setProps({
       newProp: 'hello',
@@ -364,6 +404,8 @@ describe('classWithCamelCaseProps', () => {
   })
 
   it('should not update prop object when props are unchanged', () => {
+    const Component = classWithCamelCaseProps(Original)
+
     const on_update = jest.fn()
 
     const { rerender } = render(
