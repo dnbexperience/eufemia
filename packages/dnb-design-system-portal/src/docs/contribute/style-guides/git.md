@@ -24,7 +24,7 @@ If you are working on a single component update, you can use
 - `fix(ExampleComponent): an example fix message` or
 - `feat(ExampleComponent): this is a new feature`.
 
-You can also use the following decorators – but keep in mind, they wan't be included in the [releases change log](https://github.com/dnbexperience/eufemia/releases):
+You can also use the following decorators – but keep in mind, they won't be included in the [releases change log](https://github.com/dnbexperience/eufemia/releases):
 
 - `chore:`
 - `docs:`
