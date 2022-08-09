@@ -65,7 +65,7 @@ export type SliderPropTypes = {
   status_no_animation?: boolean
   global_status_id?: string
   suffix?: SuffixChildren
-  thump_title?: string
+  thumb_title?: string
   add_title?: string
   subtract_title?: string
   min?: number | string
@@ -129,7 +129,7 @@ class Slider extends React.PureComponent<
     status_no_animation: null,
     global_status_id: null,
     suffix: null,
-    thump_title: null,
+    thumb_title: null,
     add_title: '+',
     subtract_title: '−',
     min: 0,
@@ -503,7 +503,7 @@ class Slider extends React.PureComponent<
       global_status_id,
       stretch,
       suffix,
-      thump_title: title,
+      thumb_title: title,
       subtract_title,
       add_title,
       hide_buttons,
