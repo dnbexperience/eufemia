@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /**
  * Web Slider Component
  *
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   warn,
@@ -20,10 +20,8 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { classWithCamelCaseProps } from '../../shared/helpers/withCamelCaseProps'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import { format } from '../number-format/NumberUtils'
 import {
   createSkeletonClass,
@@ -36,74 +34,89 @@ import Button from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 
+import type { ToCamelCasePartial } from '../../shared/helpers/withCamelCaseProps'
+import type { ISpacingProps } from '../../shared/interfaces'
+import type { SuffixChildren } from '../../shared/helpers/Suffix'
+import type {
+  formatReturnType,
+  formatReturnValue,
+  formatOptionParams,
+  formatValue,
+} from '../number-format/NumberUtils'
+
+type onChangeEventProps = {
+  value: number
+  rawValue: number
+  number?: formatReturnType | null
+  event?: Event
+
+  /** @deprecated use rawValue instead */
+  raw_value?: number
+}
+
+export type SliderPropTypes = {
+  id?: string
+  label?: React.ReactNode
+  label_direction?: 'horizontal' | 'vertical'
+  label_sr_only?: boolean
+  status?: string | boolean
+  status_state?: 'error' | 'info'
+  status_props?: Record<string, unknown>
+  status_no_animation?: boolean
+  global_status_id?: string
+  suffix?: SuffixChildren
+  thump_title?: string
+  add_title?: string
+  subtract_title?: string
+  min?: number | string
+  max?: number | string
+  value?: number | string
+  step?: number | string
+  vertical?: boolean
+  reverse?: boolean
+  stretch?: boolean
+  number_format?: formatOptionParams
+  disabled?: boolean
+  hide_buttons?: boolean
+  use_scrollwheel?: boolean
+  skeleton?: boolean
+
+  class?: string
+  className?: string
+  children?: React.ReactNode
+
+  on_init?: (props: Omit<onChangeEventProps, 'rawValue'>) => void
+  on_change?: (props: onChangeEventProps) => void
+  on_drag_start?: (props: {
+    event: MouseEvent | TouchEvent | WheelEvent
+  }) => void
+  on_drag_end?: (props: {
+    event: MouseEvent | TouchEvent | WheelEvent
+  }) => void
+} & ISpacingProps
+
+type SliderState = {
+  currentState?: 'initial' | 'normal' | 'activated' | 'focused' | 'jumped'
+  value: number
+  _value?: number
+  __value?: number
+  _listenForPropChanges?: boolean
+  min?: number
+  max?: number
+  reverse?: boolean
+  vertical?: boolean
+  disabled?: boolean
+}
+
 /**
  * The slider component is our enhancement of the classic radio button. It acts like a slider. Example: On/off, yes/no.
  */
-export default class Slider extends React.PureComponent {
+class Slider extends React.PureComponent<
+  SliderPropTypes & ToCamelCasePartial<SliderPropTypes>,
+  SliderState
+> {
   static tagName = 'dnb-slider'
   static contextType = Context
-
-  static propTypes = {
-    id: PropTypes.string,
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    label_direction: PropTypes.oneOf(['horizontal', 'vertical']),
-    label_sr_only: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    status: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    status_state: PropTypes.string,
-    status_props: PropTypes.object,
-    status_no_animation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    global_status_id: PropTypes.string,
-    suffix: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    thump_title: PropTypes.string,
-    add_title: PropTypes.string,
-    subtract_title: PropTypes.string,
-    min: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    step: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    reverse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    number_format: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-    ]),
-    disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    hide_buttons: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    use_scrollwheel: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    ...spacingPropTypes,
-
-    class: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-
-    on_init: PropTypes.func,
-    on_change: PropTypes.func,
-    on_drag_start: PropTypes.func,
-    on_drag_end: PropTypes.func,
-    on_state_update: PropTypes.func,
-  }
 
   static defaultProps = {
     id: null,
@@ -140,10 +153,13 @@ export default class Slider extends React.PureComponent {
     on_change: null,
     on_drag_start: null,
     on_drag_end: null,
-    on_state_update: null,
   }
 
-  state = { currentState: 'initial', value: null }
+  state: SliderState = { currentState: 'initial', value: null }
+
+  _id: string
+  _trackRef: React.RefObject<HTMLElement>
+  jumpedTimeout: NodeJS.Timeout
 
   static enableWebComponent() {
     registerElement(Slider?.tagName, Slider, Slider.defaultProps)
@@ -163,16 +179,6 @@ export default class Slider extends React.PureComponent {
       const value = Slider.getValue(props)
       if (value !== state._value && value >= -1) {
         state.value = value
-
-        if (typeof props.on_state_update === 'function') {
-          const obj = {
-            value,
-          }
-          if (props.number_format) {
-            obj.number = formatNumber(value, props.number_format)
-          }
-          dispatchCustomElementEvent({ ...props }, 'on_state_update', obj)
-        }
       }
 
       state._value = value
@@ -194,19 +200,20 @@ export default class Slider extends React.PureComponent {
     return state
   }
 
-  static getValue(props) {
-    if (props.value >= -1) {
-      return props.value
+  static getValue(props: SliderPropTypes): number {
+    const num = parseFloat(String(props.value))
+    if (num >= -1) {
+      return num
     }
     return processChildren(props)
   }
 
-  constructor(props) {
+  constructor(props: SliderPropTypes) {
     super(props)
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this._trackRef = React.createRef()
 
-    const value = Slider.getValue(props) // so on_state_update not gets called
+    const value = Slider.getValue(props)
     this.state = {
       _listenForPropChanges: true,
       value,
@@ -214,62 +221,6 @@ export default class Slider extends React.PureComponent {
       __value: value,
     }
   }
-
-  /**
-   * From okt. 6 we use only the native slider for better screen reader / touch compatibility
-   * Therefore, we do not use they custom key handling anymore – for now.
-   */
-  // onKeyDownHandler = (event) => {
-  //   const { min, max, reverse, vertical, value: currentValue } = this.state
-  //   const isReverse = vertical ? !reverse : reverse
-
-  //   const onePercent = Math.abs((max - min) / 100)
-  //   const step = this.props.step || onePercent
-  //   let value = -1
-
-  //   switch (keycode(event)) {
-  //     case 'end':
-  //       value = isReverse ? max : min
-  //       break
-
-  //     case 'home':
-  //       value = isReverse ? min : max
-  //       break
-
-  //     case 'page up':
-  //       value = isReverse
-  //         ? currentValue - onePercent
-  //         : currentValue + onePercent * 10
-  //       break
-
-  //     case 'page down':
-  //       value = isReverse
-  //         ? currentValue + onePercent
-  //         : currentValue - onePercent * 10
-  //       break
-
-  //     case 'numpad +':
-  //     case 'right':
-  //     case 'up':
-  //       value = isReverse ? currentValue - step : currentValue + step
-  //       break
-
-  //     case 'numpad -':
-  //     case 'left':
-  //     case 'down':
-  //       value = isReverse ? currentValue + step : currentValue - step
-  //       break
-
-  //     default:
-  //       break
-  //   }
-
-  //   if (value !== -1) {
-  //     event.preventDefault()
-  //     value = clamp(value, min, max)
-  //     this.emitChange(event, value)
-  //   }
-  // }
 
   onFocusHandler = () => {
     this.setState({
@@ -282,7 +233,7 @@ export default class Slider extends React.PureComponent {
     this.setState({ _listenForPropChanges: false, currentState: 'normal' })
   }
 
-  onClickHandler = (event) => {
+  onClickHandler = (event: MouseEvent | TouchEvent | WheelEvent) => {
     const { min, max, reverse, vertical } = this.state
     const percent = calculatePercent(
       this._trackRef.current,
@@ -296,14 +247,16 @@ export default class Slider extends React.PureComponent {
     this.setJumpedState()
   }
 
-  onSubtractClickHandler = (event) => {
-    let { step } = this.props
-    let { min, max, value } = this.state
+  onSubtractClickHandler = (
+    event: MouseEvent | TouchEvent | WheelEvent
+  ) => {
+    const step = parseFloat(String(this.props.step))
+    const { min, max, value } = this.state
     this.emitChange(event, clamp(value - (step || 1), min, max))
   }
-  onAddClickHandler = (event) => {
-    let { step } = this.props
-    let { min, max, value } = this.state
+  onAddClickHandler = (event: MouseEvent | TouchEvent | WheelEvent) => {
+    const step = parseFloat(String(this.props.step))
+    const { min, max, value } = this.state
     this.emitChange(event, clamp(value + (step || 1), min, max))
   }
 
@@ -368,29 +321,29 @@ export default class Slider extends React.PureComponent {
     }
   }
 
-  onRangeChangeHandler = (event) => {
+  onRangeChangeHandler = (event: React.FormEvent<HTMLInputElement>) => {
     const value = parseFloat(event.currentTarget.value)
-    this.setState(
-      {
-        value,
-        _listenForPropChanges: false,
-      },
-      () => {}
-    )
-    this.emitChange(event, value)
+    this.setState({
+      value,
+      _listenForPropChanges: false,
+    })
+    const emitEvent = event as unknown
+    this.emitChange(emitEvent as MouseEvent, value)
   }
 
-  onTouchMoveHandler = (event) => this.onMouseMoveHandler(event)
-  onMouseMoveHandler = (event) => {
+  onTouchMoveHandler = (event: MouseEvent) =>
+    this.onMouseMoveHandler(event)
+  onMouseMoveHandler = (event: MouseEvent) => {
     let elem = this._trackRef.current
 
     // we have to mock this for jsdom.
     if (
-      event &&
-      event.detail &&
-      typeof event.detail.height !== 'undefined'
+      // @ts-ignore
+      typeof event?.detail?.height !== 'undefined'
     ) {
+      // @ts-ignore
       elem = createMockDiv(event.detail)
+      // @ts-ignore
       event = event.detail
     }
 
@@ -402,15 +355,19 @@ export default class Slider extends React.PureComponent {
     this.emitChange(event, value)
   }
 
-  roundValue(value) {
-    const { step } = this.props
+  roundValue(value: number) {
+    const step = parseFloat(String(this.props.step))
 
-    return parseFloat(step) > 0
+    return step > 0
       ? roundToStep(value, step)
-      : parseFloat(value).toFixed(3)
+      : parseFloat(parseFloat(String(value)).toFixed(3))
   }
 
-  emitChange(event, rawValue, callback) {
+  emitChange(
+    event: MouseEvent | TouchEvent | WheelEvent,
+    rawValue: number,
+    callback = null
+  ) {
     const { value: previousValue, disabled } = this.state
 
     if (
@@ -428,11 +385,12 @@ export default class Slider extends React.PureComponent {
         typeof this.props.on_change === 'function' &&
         value !== this.roundValue(previousValue)
       ) {
-        const obj = {
+        const obj: onChangeEventProps = {
           value,
           rawValue,
           raw_value: rawValue,
           event,
+          number: null,
         }
         if (this.props.number_format) {
           obj.number = formatNumber(value, this.props.number_format)
@@ -491,6 +449,7 @@ export default class Slider extends React.PureComponent {
       const { value } = this.state
       const obj = {
         value,
+        number: null,
       }
       if (this.props.number_format) {
         obj.number = formatNumber(value, this.props.number_format)
@@ -593,11 +552,15 @@ export default class Slider extends React.PureComponent {
     }
 
     const percent = clamp(((value - min) * 100) / (max - min))
-    const { aria: humanNumber } = formatNumber(value, {
+    const options = {
+      ...(this.props.number_format || {}),
       returnAria: true,
-      ...this.props.number_format,
-    })
-    const hasHumanNumber = value !== humanNumber
+    }
+    const { aria: humanNumber } = formatNumber(
+      value,
+      options
+    ) as formatReturnValue
+    const hasHumanNumber = Boolean(this.props.number_format && humanNumber)
 
     const inlineStyleBefore = {
       [`${vertical ? 'height' : 'width'}`]: `${percent}%`,
@@ -717,6 +680,7 @@ export default class Slider extends React.PureComponent {
 
           <span className="dnb-slider__inner">
             {showButtons && (reverse ? addButton : subtractButton)}
+            {/* @ts-ignore because of onTouchStart and onMouseDownCapture */}
             <span id={this._id} ref={this._trackRef} {...trackParams}>
               <span
                 className="dnb-slider__thumb"
@@ -730,6 +694,7 @@ export default class Slider extends React.PureComponent {
                   step={_step}
                   value={value}
                   disabled={disabled}
+                  // @ts-ignore orientation
                   orientation={vertical ? 'vertical' : 'horizontal'}
                   onChange={this.onRangeChangeHandler}
                   {...helperParams}
@@ -778,12 +743,13 @@ export default class Slider extends React.PureComponent {
   }
 }
 
-const percentToValue = (percent, min, max) =>
+const percentToValue = (percent: number, min: number, max: number) =>
   ((max - min) * percent) / 100 + min
 
-const roundToStep = (number, step) => Math.round(number / step) * step
+const roundToStep = (number: number, step: number) =>
+  Math.round(number / step) * step
 
-const getOffset = (node) => {
+const getOffset = (node: HTMLElement) => {
   const { pageYOffset, pageXOffset } =
     typeof window !== 'undefined'
       ? window
@@ -796,7 +762,7 @@ const getOffset = (node) => {
   }
 }
 
-const getMousePosition = (event) => {
+const getMousePosition = (event: MouseEvent & TouchEvent) => {
   if (event.changedTouches && event.changedTouches[0]) {
     return {
       x: event.changedTouches[0].pageX,
@@ -810,10 +776,15 @@ const getMousePosition = (event) => {
   }
 }
 
-const calculatePercent = (node, event, isVertical, isReverted) => {
+const calculatePercent = (
+  node: HTMLElement,
+  event: MouseEvent | TouchEvent | WheelEvent,
+  isVertical: boolean,
+  isReverted: boolean
+) => {
   const { width, height } = node.getBoundingClientRect()
   const { top, left } = getOffset(node)
-  const { x, y } = getMousePosition(event)
+  const { x, y } = getMousePosition(event as MouseEvent & TouchEvent)
 
   const value = isVertical ? y - top : x - left
   const onePercent = (isVertical ? height : width) / 100
@@ -823,7 +794,7 @@ const calculatePercent = (node, event, isVertical, isReverted) => {
     : clamp(value / onePercent)
 }
 
-const clamp = (value, min = 0, max = 100) =>
+const clamp = (value: number, min = 0, max = 100) =>
   Math.min(Math.max(value, min), max)
 
 const createMockDiv = ({ width, height }) => {
@@ -832,6 +803,7 @@ const createMockDiv = ({ width, height }) => {
     width: `${width}px`,
     height: `${height}px`,
   })
+  // @ts-ignore
   div.getBoundingClientRect = () => ({
     width,
     height,
@@ -843,9 +815,15 @@ const createMockDiv = ({ width, height }) => {
   return div
 }
 
-function formatNumber(value, opts = null) {
+const formatNumber = (
+  value: formatValue,
+  opts: formatOptionParams = null
+): formatReturnType => {
   if (opts) {
     return format(value, opts)
   }
   return value
 }
+
+export { Slider as OriginalComponent }
+export default classWithCamelCaseProps(Slider)

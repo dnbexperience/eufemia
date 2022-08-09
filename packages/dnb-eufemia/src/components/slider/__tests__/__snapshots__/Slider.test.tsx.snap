@@ -2,16 +2,22 @@
 
 exports[`Slider component have to match snapshot 1`] = `
 <Slider
-  add_title="add_title"
-  class="class"
-  className="className"
-  disabled="disabled"
+  0={
+    Object {
+      "displayName": "Slider",
+      "props": Object {},
+    }
+  }
+  add_title="+"
+  class={null}
+  className={null}
+  disabled={false}
   global_status_id="main"
-  hide_buttons="hide_buttons"
-  id="id"
-  label="label"
+  hide_buttons={false}
+  id="slider"
+  label={null}
   label_direction="horizontal"
-  label_sr_only="label_sr_only"
+  label_sr_only={null}
   max={100}
   min={0}
   number_format={
@@ -20,607 +26,577 @@ exports[`Slider component have to match snapshot 1`] = `
       "decimals": 0,
     }
   }
-  on_change={[Function]}
-  on_drag_end={[Function]}
-  on_drag_start={[Function]}
-  on_init={[Function]}
-  on_state_update={[Function]}
-  reverse="reverse"
-  skeleton="skeleton"
+  on_change={null}
+  on_drag_end={null}
+  on_drag_start={null}
+  on_init={null}
+  reverse={false}
+  skeleton={null}
   status={null}
-  status_no_animation="status_no_animation"
-  status_props={Object {}}
-  status_state="status_state"
+  status_no_animation={null}
+  status_props={null}
+  status_state="error"
   step={10}
-  stretch="stretch"
-  subtract_title="subtract_title"
-  suffix="suffix"
-  thump_title="thump_title"
-  use_scrollwheel="use_scrollwheel"
+  stretch={false}
+  subtract_title="−"
+  suffix={null}
+  thump_title={null}
+  use_scrollwheel={false}
   value={70}
-  vertical="vertical"
+  vertical={false}
 >
-  <span
-    className="dnb-slider dnb-form-component className class dnb-slider__label--horizontal"
+  <Slider
+    0={
+      Object {
+        "displayName": "Slider",
+        "props": Object {},
+      }
+    }
+    add_title="+"
+    class={null}
+    className={null}
+    class_name={null}
+    disabled={false}
+    global_status_id="main"
+    hide_buttons={false}
+    id="slider"
+    label={null}
+    label_direction="horizontal"
+    label_sr_only={null}
+    max={100}
+    min={0}
+    number_format={
+      Object {
+        "currency": true,
+        "decimals": 0,
+      }
+    }
+    on_change={null}
+    on_drag_end={null}
+    on_drag_start={null}
+    on_init={null}
+    reverse={false}
+    skeleton={null}
+    status={null}
+    status_no_animation={null}
+    status_props={null}
+    status_state="error"
+    step={10}
+    stretch={false}
+    subtract_title="−"
+    suffix={null}
+    thump_title={null}
+    use_scrollwheel={false}
+    value={70}
+    vertical={false}
   >
-    <FormLabel
-      class={null}
-      className={null}
-      disabled={false}
-      element="label"
-      for_id={null}
-      id="id-label"
-      label_direction="horizontal"
-      skeleton="skeleton"
-      sr_only="label_sr_only"
-      text="label"
-      title={null}
-      vertical={null}
-    >
-      <label
-        className="dnb-form-label"
-        disabled={false}
-        id="id-label"
-      >
-        label
-      </label>
-    </FormLabel>
     <span
-      className="dnb-slider__wrapper"
+      className="dnb-slider dnb-form-component"
     >
-      <AlignmentHelper
-        className={null}
-      >
-        <span
-          aria-hidden={true}
-          className="dnb-alignment-helper"
-        />
-      </AlignmentHelper>
-      <FormStatus
-        attributes={null}
-        class={null}
-        className={null}
-        global_status_id="main"
-        icon="error"
-        icon_size="medium"
-        id="id-form-status"
-        label="label"
-        no_animation="status_no_animation"
-        role={null}
-        show={null}
-        size="default"
-        skeleton="skeleton"
-        state="error"
-        status="status_state"
-        stretch={null}
-        text={null}
-        text_id="id-status"
-        title={null}
-        variant={null}
-        width_element={null}
-        width_selector={null}
-      />
       <span
-        className="dnb-slider__inner"
+        className="dnb-slider__wrapper"
       >
-        <Button
-          aria-label="subtract_title"
-          bounding={null}
+        <AlignmentHelper
+          className={null}
+        >
+          <span
+            aria-hidden={true}
+            className="dnb-alignment-helper"
+          />
+        </AlignmentHelper>
+        <FormStatus
+          attributes={null}
           class={null}
-          className="dnb-slider__button dnb-slider__button--subtract"
-          custom_content={null}
-          custom_element={null}
-          custom_method={null}
-          disabled={false}
-          element={null}
-          global_status_id={null}
-          href={null}
-          icon="subtract"
-          icon_position="right"
-          icon_size={null}
-          id={null}
-          innerRef={null}
-          inner_ref={null}
-          on_click={[Function]}
-          size="small"
-          skeleton="skeleton"
-          status={null}
-          status_no_animation={null}
-          status_props={null}
-          status_state="error"
+          className={null}
+          global_status_id="main"
+          icon="error"
+          icon_size="medium"
+          id="slider-form-status"
+          label={null}
+          no_animation={null}
+          role={null}
+          show={null}
+          size="default"
+          skeleton={null}
+          state="error"
+          status="error"
           stretch={null}
           text={null}
+          text_id="slider-status"
           title={null}
-          to={null}
-          tooltip={null}
-          type={null}
-          variant="secondary"
-          wrap={null}
+          variant={null}
+          width_element={null}
+          width_selector={null}
+        />
+        <span
+          className="dnb-slider__inner"
         >
-          <button
-            aria-label="subtract_title"
-            className="dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--subtract dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
+          <Button
+            aria-label="Reduser (70 norske kroner)"
+            bounding={null}
+            class={null}
+            className="dnb-slider__button dnb-slider__button--subtract"
+            custom_content={null}
+            custom_element={null}
+            custom_method={null}
             disabled={false}
-            onClick={[Function]}
-            type="button"
+            element={null}
+            global_status_id={null}
+            href={null}
+            icon="subtract"
+            icon_position="right"
+            icon_size={null}
+            id={null}
+            innerRef={null}
+            inner_ref={null}
+            on_click={[Function]}
+            size="small"
+            skeleton={null}
+            status={null}
+            status_no_animation={null}
+            status_props={null}
+            status_state="error"
+            stretch={null}
+            text={null}
+            title={null}
+            to={null}
+            tooltip={null}
+            type={null}
+            variant="secondary"
+            wrap={null}
           >
-            <Content
-              aria-label="subtract_title"
-              bounding={null}
-              class={null}
-              className="dnb-slider__button dnb-slider__button--subtract"
-              content={null}
-              custom_content={null}
-              custom_element={null}
-              custom_method={null}
+            <button
+              aria-label="Reduser (70 norske kroner)"
+              className="dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--subtract dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
               disabled={false}
-              element={null}
-              global_status_id={null}
-              href={null}
-              icon="subtract"
-              icon_position="right"
-              icon_size={null}
-              id={null}
-              innerRef={null}
-              inner_ref={null}
-              isIconOnly={true}
-              on_click={[Function]}
-              size="small"
-              skeleton={false}
-              status={null}
-              status_no_animation={null}
-              status_props={null}
-              status_state="error"
-              stretch={null}
-              text={null}
-              title={null}
-              to={null}
-              tooltip={null}
-              type={null}
-              variant="secondary"
-              wrap={null}
+              onClick={[Function]}
+              type="button"
             >
-              <span
-                aria-hidden={true}
-                className="dnb-button__alignment"
-                key="button-alignment"
-              >
-                ‌
-              </span>
-              <IconPrimary
-                alt={null}
-                aria-hidden={null}
-                attributes={null}
-                border={null}
-                className="dnb-button__icon"
-                color={null}
-                height={null}
+              <Content
+                aria-label="Reduser (70 norske kroner)"
+                bounding={null}
+                class={null}
+                className="dnb-slider__button dnb-slider__button--subtract"
+                content={null}
+                custom_content={null}
+                custom_element={null}
+                custom_method={null}
+                disabled={false}
+                element={null}
+                global_status_id={null}
+                href={null}
                 icon="subtract"
-                inherit_color={true}
-                key="button-icon"
-                modifier={null}
-                size={null}
+                icon_position="right"
+                icon_size={null}
+                id={null}
+                innerRef={null}
+                inner_ref={null}
+                isIconOnly={true}
+                on_click={[Function]}
+                size="small"
                 skeleton={false}
+                status={null}
+                status_no_animation={null}
+                status_props={null}
+                status_state="error"
+                stretch={null}
+                text={null}
                 title={null}
-                width={null}
+                to={null}
+                tooltip={null}
+                type={null}
+                variant="secondary"
+                wrap={null}
               >
                 <span
                   aria-hidden={true}
-                  className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                  data-test-id="subtract icon"
-                  role="presentation"
+                  className="dnb-button__alignment"
+                  key="button-alignment"
                 >
-                  <subtract>
-                    <svg
-                      fill="none"
-                      height={16}
-                      viewBox="0 0 16 16"
-                      width={16}
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M14 8.75a.75.75 0 0 0 0-1.5v1.5ZM2 7.25a.75.75 0 0 0 0 1.5v-1.5Zm12 0H2v1.5h12v-1.5Z"
-                        fill="#000"
-                      />
-                    </svg>
-                  </subtract>
+                  ‌
                 </span>
-              </IconPrimary>
-            </Content>
-          </button>
-          <FormStatus
-            attributes={null}
-            class={null}
-            className={null}
-            global_status_id={null}
-            icon="error"
-            icon_size="medium"
-            id="null-form-status"
-            label={null}
-            no_animation={null}
-            role={null}
-            show={null}
-            size="default"
-            skeleton="skeleton"
-            state="error"
-            status="error"
-            stretch={null}
-            text={null}
-            text_id="null-status"
-            title={null}
-            variant={null}
-            width_element={null}
-            width_selector={null}
-          />
-        </Button>
-        <span
-          className="dnb-slider__track"
-          id="id"
-          onMouseDown={[Function]}
-          onMouseDownCapture={[Function]}
-          onTouchStart={[Function]}
-          onTouchStartCapture={[Function]}
-        >
-          <span
-            className="dnb-slider__thumb"
-            style={
-              Object {
-                "left": "70%",
-              }
-            }
-          >
-            <input
-              aria-describedby="id-suffix"
-              aria-labelledby="id-human id-label"
-              className="dnb-slider__button-helper"
-              disabled={false}
-              max={100}
-              min={0}
-              onChange={[Function]}
-              orientation="horizontal"
-              step={10}
-              type="range"
-              value={70}
-            />
-            <Button
-              aria-hidden={true}
-              bounding={null}
+                <IconPrimary
+                  alt={null}
+                  aria-hidden={null}
+                  attributes={null}
+                  border={null}
+                  className="dnb-button__icon"
+                  color={null}
+                  height={null}
+                  icon="subtract"
+                  inherit_color={true}
+                  key="button-icon"
+                  modifier={null}
+                  size={null}
+                  skeleton={false}
+                  title={null}
+                  width={null}
+                >
+                  <span
+                    aria-hidden={true}
+                    className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                    data-test-id="subtract icon"
+                    role="presentation"
+                  >
+                    <subtract>
+                      <svg
+                        fill="none"
+                        height={16}
+                        viewBox="0 0 16 16"
+                        width={16}
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M14 8.75a.75.75 0 0 0 0-1.5v1.5ZM2 7.25a.75.75 0 0 0 0 1.5v-1.5Zm12 0H2v1.5h12v-1.5Z"
+                          fill="#000"
+                        />
+                      </svg>
+                    </subtract>
+                  </span>
+                </IconPrimary>
+              </Content>
+            </button>
+            <FormStatus
+              attributes={null}
               class={null}
               className={null}
-              custom_content={null}
-              custom_element={null}
-              custom_method={null}
-              disabled={false}
-              element={null}
               global_status_id={null}
-              href={null}
-              icon={null}
-              icon_position="right"
-              icon_size={null}
-              id={null}
-              innerRef={null}
-              inner_ref={null}
-              onBlur={[Function]}
-              onFocus={[Function]}
-              onMouseDown={[Function]}
-              on_click={null}
-              size={null}
-              skeleton="skeleton"
-              status={null}
-              status_no_animation={null}
-              status_props={null}
-              status_state="error"
+              icon="error"
+              icon_size="medium"
+              id="null-form-status"
+              label={null}
+              no_animation={null}
+              role={null}
+              show={null}
+              size="default"
+              skeleton={null}
+              state="error"
+              status="error"
               stretch={null}
-              tabIndex="-1"
               text={null}
-              title="thump_title"
-              to={null}
-              tooltip={null}
-              type={null}
-              variant="secondary"
-              wrap={null}
+              text_id="null-status"
+              title={null}
+              variant={null}
+              width_element={null}
+              width_selector={null}
+            />
+          </Button>
+          <span
+            className="dnb-slider__track"
+            id="slider"
+            onMouseDown={[Function]}
+            onMouseDownCapture={[Function]}
+            onTouchStart={[Function]}
+            onTouchStartCapture={[Function]}
+          >
+            <span
+              className="dnb-slider__thumb"
+              style={
+                Object {
+                  "left": "70%",
+                }
+              }
             >
-              <button
-                aria-hidden={true}
-                className="dnb-button dnb-button--secondary"
+              <input
+                aria-labelledby="slider-human"
+                className="dnb-slider__button-helper"
                 disabled={false}
+                max={100}
+                min={0}
+                onChange={[Function]}
+                orientation="horizontal"
+                step={10}
+                type="range"
+                value={70}
+              />
+              <Button
+                aria-hidden={true}
+                bounding={null}
+                class={null}
+                className={null}
+                custom_content={null}
+                custom_element={null}
+                custom_method={null}
+                disabled={false}
+                element={null}
+                global_status_id={null}
+                href={null}
+                icon={null}
+                icon_position="right"
+                icon_size={null}
+                id={null}
+                innerRef={null}
+                inner_ref={null}
                 onBlur={[Function]}
                 onFocus={[Function]}
                 onMouseDown={[Function]}
+                on_click={null}
+                size={null}
+                skeleton={null}
+                status={null}
+                status_no_animation={null}
+                status_props={null}
+                status_state="error"
+                stretch={null}
                 tabIndex="-1"
-                title="thump_title"
-                type="button"
+                text={null}
+                title={null}
+                to={null}
+                tooltip={null}
+                type={null}
+                variant="secondary"
+                wrap={null}
               >
-                <Content
+                <button
                   aria-hidden={true}
-                  bounding={null}
-                  class={null}
-                  className={null}
-                  content={null}
-                  custom_content={null}
-                  custom_element={null}
-                  custom_method={null}
+                  className="dnb-button dnb-button--secondary"
                   disabled={false}
-                  element={null}
-                  global_status_id={null}
-                  href={null}
-                  icon={null}
-                  icon_position="right"
-                  icon_size={null}
-                  id={null}
-                  innerRef={null}
-                  inner_ref={null}
-                  isIconOnly={false}
                   onBlur={[Function]}
                   onFocus={[Function]}
                   onMouseDown={[Function]}
-                  on_click={null}
-                  size={null}
-                  skeleton={false}
-                  status={null}
-                  status_no_animation={null}
-                  status_props={null}
-                  status_state="error"
-                  stretch={null}
                   tabIndex="-1"
+                  type="button"
+                >
+                  <Content
+                    aria-hidden={true}
+                    bounding={null}
+                    class={null}
+                    className={null}
+                    content={null}
+                    custom_content={null}
+                    custom_element={null}
+                    custom_method={null}
+                    disabled={false}
+                    element={null}
+                    global_status_id={null}
+                    href={null}
+                    icon={null}
+                    icon_position="right"
+                    icon_size={null}
+                    id={null}
+                    innerRef={null}
+                    inner_ref={null}
+                    isIconOnly={false}
+                    onBlur={[Function]}
+                    onFocus={[Function]}
+                    onMouseDown={[Function]}
+                    on_click={null}
+                    size={null}
+                    skeleton={false}
+                    status={null}
+                    status_no_animation={null}
+                    status_props={null}
+                    status_state="error"
+                    stretch={null}
+                    tabIndex="-1"
+                    text={null}
+                    title={null}
+                    to={null}
+                    tooltip={null}
+                    type={null}
+                    variant="secondary"
+                    wrap={null}
+                  />
+                </button>
+                <FormStatus
+                  attributes={null}
+                  class={null}
+                  className={null}
+                  global_status_id={null}
+                  icon="error"
+                  icon_size="medium"
+                  id="null-form-status"
+                  label={null}
+                  no_animation={null}
+                  role={null}
+                  show={null}
+                  size="default"
+                  skeleton={null}
+                  state="error"
+                  status="error"
+                  stretch={null}
                   text={null}
-                  title="thump_title"
-                  to={null}
-                  tooltip={null}
-                  type={null}
-                  variant="secondary"
-                  wrap={null}
+                  text_id="null-status"
+                  title={null}
+                  variant={null}
+                  width_element={null}
+                  width_selector={null}
                 />
-              </button>
-              <FormStatus
-                attributes={null}
+              </Button>
+            </span>
+            <span
+              className="dnb-slider__line dnb-slider__line__before"
+              style={
+                Object {
+                  "width": "70%",
+                }
+              }
+            />
+            <span
+              className="dnb-slider__line dnb-slider__line__after"
+            />
+            <span
+              aria-hidden={true}
+              className="dnb-sr-only"
+              id="slider-human"
+            >
+              70 norske kroner
+            </span>
+          </span>
+          <Button
+            aria-label="Øk (70 norske kroner)"
+            bounding={null}
+            class={null}
+            className="dnb-slider__button dnb-slider__button--add"
+            custom_content={null}
+            custom_element={null}
+            custom_method={null}
+            disabled={false}
+            element={null}
+            global_status_id={null}
+            href={null}
+            icon="add"
+            icon_position="right"
+            icon_size={null}
+            id={null}
+            innerRef={null}
+            inner_ref={null}
+            on_click={[Function]}
+            size="small"
+            skeleton={null}
+            status={null}
+            status_no_animation={null}
+            status_props={null}
+            status_state="error"
+            stretch={null}
+            text={null}
+            title={null}
+            to={null}
+            tooltip={null}
+            type={null}
+            variant="secondary"
+            wrap={null}
+          >
+            <button
+              aria-label="Øk (70 norske kroner)"
+              className="dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--add dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
+              disabled={false}
+              onClick={[Function]}
+              type="button"
+            >
+              <Content
+                aria-label="Øk (70 norske kroner)"
+                bounding={null}
                 class={null}
-                className={null}
+                className="dnb-slider__button dnb-slider__button--add"
+                content={null}
+                custom_content={null}
+                custom_element={null}
+                custom_method={null}
+                disabled={false}
+                element={null}
                 global_status_id={null}
-                icon="error"
-                icon_size="medium"
-                id="null-form-status"
-                label={null}
-                no_animation={null}
-                role={null}
-                show={null}
-                size="default"
-                skeleton="skeleton"
-                state="error"
-                status="error"
+                href={null}
+                icon="add"
+                icon_position="right"
+                icon_size={null}
+                id={null}
+                innerRef={null}
+                inner_ref={null}
+                isIconOnly={true}
+                on_click={[Function]}
+                size="small"
+                skeleton={false}
+                status={null}
+                status_no_animation={null}
+                status_props={null}
+                status_state="error"
                 stretch={null}
                 text={null}
-                text_id="null-status"
                 title={null}
-                variant={null}
-                width_element={null}
-                width_selector={null}
-              />
-            </Button>
-          </span>
-          <span
-            className="dnb-slider__line dnb-slider__line__before"
-            style={
-              Object {
-                "width": "70%",
-              }
-            }
-          />
-          <span
-            className="dnb-slider__line dnb-slider__line__after"
-          />
-          <span
-            aria-hidden={true}
-            className="dnb-sr-only"
-            id="id-human"
-          >
-            70 norske kroner
-          </span>
-        </span>
-        <Button
-          aria-label="add_title"
-          bounding={null}
-          class={null}
-          className="dnb-slider__button dnb-slider__button--add"
-          custom_content={null}
-          custom_element={null}
-          custom_method={null}
-          disabled={false}
-          element={null}
-          global_status_id={null}
-          href={null}
-          icon="add"
-          icon_position="right"
-          icon_size={null}
-          id={null}
-          innerRef={null}
-          inner_ref={null}
-          on_click={[Function]}
-          size="small"
-          skeleton="skeleton"
-          status={null}
-          status_no_animation={null}
-          status_props={null}
-          status_state="error"
-          stretch={null}
-          text={null}
-          title={null}
-          to={null}
-          tooltip={null}
-          type={null}
-          variant="secondary"
-          wrap={null}
-        >
-          <button
-            aria-label="add_title"
-            className="dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--add dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small"
-            disabled={false}
-            onClick={[Function]}
-            type="button"
-          >
-            <Content
-              aria-label="add_title"
-              bounding={null}
-              class={null}
-              className="dnb-slider__button dnb-slider__button--add"
-              content={null}
-              custom_content={null}
-              custom_element={null}
-              custom_method={null}
-              disabled={false}
-              element={null}
-              global_status_id={null}
-              href={null}
-              icon="add"
-              icon_position="right"
-              icon_size={null}
-              id={null}
-              innerRef={null}
-              inner_ref={null}
-              isIconOnly={true}
-              on_click={[Function]}
-              size="small"
-              skeleton={false}
-              status={null}
-              status_no_animation={null}
-              status_props={null}
-              status_state="error"
-              stretch={null}
-              text={null}
-              title={null}
-              to={null}
-              tooltip={null}
-              type={null}
-              variant="secondary"
-              wrap={null}
-            >
-              <span
-                aria-hidden={true}
-                className="dnb-button__alignment"
-                key="button-alignment"
-              >
-                ‌
-              </span>
-              <IconPrimary
-                alt={null}
-                aria-hidden={null}
-                attributes={null}
-                border={null}
-                className="dnb-button__icon"
-                color={null}
-                height={null}
-                icon="add"
-                inherit_color={true}
-                key="button-icon"
-                modifier={null}
-                size={null}
-                skeleton={false}
-                title={null}
-                width={null}
+                to={null}
+                tooltip={null}
+                type={null}
+                variant="secondary"
+                wrap={null}
               >
                 <span
                   aria-hidden={true}
-                  className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                  data-test-id="add icon"
-                  role="presentation"
+                  className="dnb-button__alignment"
+                  key="button-alignment"
                 >
-                  <add>
-                    <svg
-                      fill="none"
-                      height={16}
-                      viewBox="0 0 16 16"
-                      width={16}
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M7.25 14a.75.75 0 0 0 1.5 0h-1.5Zm1.5-12a.75.75 0 0 0-1.5 0h1.5ZM14 8.75a.75.75 0 0 0 0-1.5v1.5ZM2 7.25a.75.75 0 0 0 0 1.5v-1.5ZM8.75 14V2h-1.5v12h1.5ZM14 7.25H2v1.5h12v-1.5Z"
-                        fill="#000"
-                      />
-                    </svg>
-                  </add>
+                  ‌
                 </span>
-              </IconPrimary>
-            </Content>
-          </button>
-          <FormStatus
-            attributes={null}
-            class={null}
-            className={null}
-            global_status_id={null}
-            icon="error"
-            icon_size="medium"
-            id="null-form-status"
-            label={null}
-            no_animation={null}
-            role={null}
-            show={null}
-            size="default"
-            skeleton="skeleton"
-            state="error"
-            status="error"
-            stretch={null}
-            text={null}
-            text_id="null-status"
-            title={null}
-            variant={null}
-            width_element={null}
-            width_selector={null}
-          />
-        </Button>
-        <Suffix
-          className="dnb-slider__suffix"
-          context={
-            Object {
-              "add_title": "add_title",
-              "children": "children",
-              "class": "class",
-              "className": "className",
-              "disabled": "disabled",
-              "global_status_id": "main",
-              "hide_buttons": "hide_buttons",
-              "id": "id",
-              "label": "label",
-              "label_direction": "horizontal",
-              "label_sr_only": "label_sr_only",
-              "max": 100,
-              "min": 0,
-              "number_format": Object {
-                "currency": true,
-                "decimals": 0,
-              },
-              "on_change": [Function],
-              "on_drag_end": [Function],
-              "on_drag_start": [Function],
-              "on_init": [Function],
-              "on_state_update": [Function],
-              "reverse": "reverse",
-              "skeleton": "skeleton",
-              "status": null,
-              "status_no_animation": "status_no_animation",
-              "status_props": Object {},
-              "status_state": "status_state",
-              "step": 10,
-              "stretch": "stretch",
-              "subtract_title": "subtract_title",
-              "suffix": "suffix",
-              "thump_title": "thump_title",
-              "use_scrollwheel": "use_scrollwheel",
-              "value": 70,
-              "vertical": "vertical",
-            }
-          }
-          id="id-suffix"
-        >
-          <span
-            className="dnb-suffix dnb-slider__suffix"
-            id="id-suffix"
-          >
-            suffix
-          </span>
-        </Suffix>
+                <IconPrimary
+                  alt={null}
+                  aria-hidden={null}
+                  attributes={null}
+                  border={null}
+                  className="dnb-button__icon"
+                  color={null}
+                  height={null}
+                  icon="add"
+                  inherit_color={true}
+                  key="button-icon"
+                  modifier={null}
+                  size={null}
+                  skeleton={false}
+                  title={null}
+                  width={null}
+                >
+                  <span
+                    aria-hidden={true}
+                    className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                    data-test-id="add icon"
+                    role="presentation"
+                  >
+                    <add>
+                      <svg
+                        fill="none"
+                        height={16}
+                        viewBox="0 0 16 16"
+                        width={16}
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M7.25 14a.75.75 0 0 0 1.5 0h-1.5Zm1.5-12a.75.75 0 0 0-1.5 0h1.5ZM14 8.75a.75.75 0 0 0 0-1.5v1.5ZM2 7.25a.75.75 0 0 0 0 1.5v-1.5ZM8.75 14V2h-1.5v12h1.5ZM14 7.25H2v1.5h12v-1.5Z"
+                          fill="#000"
+                        />
+                      </svg>
+                    </add>
+                  </span>
+                </IconPrimary>
+              </Content>
+            </button>
+            <FormStatus
+              attributes={null}
+              class={null}
+              className={null}
+              global_status_id={null}
+              icon="error"
+              icon_size="medium"
+              id="null-form-status"
+              label={null}
+              no_animation={null}
+              role={null}
+              show={null}
+              size="default"
+              skeleton={null}
+              state="error"
+              status="error"
+              stretch={null}
+              text={null}
+              text_id="null-status"
+              title={null}
+              variant={null}
+              width_element={null}
+              width_selector={null}
+            />
+          </Button>
+        </span>
       </span>
     </span>
-  </span>
+  </Slider>
 </Slider>
 `;
 

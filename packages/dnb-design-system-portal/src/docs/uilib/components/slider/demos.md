@@ -74,7 +74,7 @@ const Component = () => {
         align="center"
         selectall
         value={String(value)}
-        on_change={({ value }) => setValue(parseFloat(value))}
+        on_change={({ value }) => setValue(value)}
       />
     </VerticalWrapper>
   </>)
