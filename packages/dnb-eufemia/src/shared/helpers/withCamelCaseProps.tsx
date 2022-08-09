@@ -53,6 +53,11 @@ export function classWithCamelCaseProps<
   class Derived extends Base {
     _prevProps: Record<string, unknown>
     _elem: React.ReactElement
+
+    componentDidMount() {
+      // ensures we do not run componentDidMount twice
+    }
+
     render() {
       if (this.props !== this._prevProps) {
         this._prevProps = this.props
