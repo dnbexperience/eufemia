@@ -47,7 +47,6 @@ const plugins = [
   },
   'gatsby-plugin-meta-redirect',
   'gatsby-plugin-catch-links',
-  'gatsby-plugin-react-helmet',
   process.env.SKIP_IMAGE_PROCESSING !== '1' && 'gatsby-plugin-sharp', // is used by gatsby-remark-images
   process.env.SKIP_IMAGE_PROCESSING !== '1' && 'gatsby-remark-images',
   {
@@ -165,9 +164,13 @@ if (process.env.IS_VISUAL_TEST !== '1') {
 
 module.exports = {
   flags: {
-    FAST_DEV: true,
     PRESERVE_FILE_DOWNLOAD_CACHE: true,
     PARALLEL_SOURCING: true,
+
+    /**
+     * FAST_DEV=true or DEV_SSR=true can be interesting when we use React v18 and the Hook useId.
+     * Because Gatsby then runs a page call as SSR, and warns when the VDOM do not match on the client.
+     */
   },
   pathPrefix,
   siteMetadata,

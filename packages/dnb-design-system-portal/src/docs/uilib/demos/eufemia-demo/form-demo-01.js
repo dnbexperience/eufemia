@@ -12,7 +12,6 @@
  */
 
 import React from 'react'
-import { Helmet as Head } from 'react-helmet'
 import styled from '@emotion/styled'
 
 // App layout wrapper
@@ -58,10 +57,6 @@ export default FormDemo
 // A dummy header
 const Header = () => (
   <>
-    <Head>
-      <html lang="en" />
-      <title>Eufemia - Form Demo #1</title>
-    </Head>
     <HeaderSection style_type="mint-green">
       <HeaderTitleWrapper top="x-large">
         <Heading size="x-large">Card complaint</Heading>
@@ -86,6 +81,10 @@ const Header = () => (
     <GlobalStatus />
   </>
 )
+
+export const Head = () => {
+  return <title>Eufemia - Form Demo #1</title>
+}
 
 // Main form markup
 const MainForm = () => {
