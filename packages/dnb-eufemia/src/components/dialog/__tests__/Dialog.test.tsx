@@ -37,6 +37,22 @@ beforeEach(() => {
 })
 
 describe('Dialog', () => {
+  it('will run bodyScrollLock with disableBodyScroll', () => {
+    const Comp = mount(
+      <Dialog {...props}>
+        <button>button</button>
+      </Dialog>
+    )
+
+    expect(document.body.getAttribute('style')).toBe(null)
+
+    Comp.find('button.dnb-modal__trigger').simulate('click')
+
+    expect(document.body.getAttribute('style')).toContain(
+      'overflow: hidden;'
+    )
+  })
+
   it('appears on trigger click', () => {
     const Comp = mount(
       <Dialog {...props}>
