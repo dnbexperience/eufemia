@@ -117,8 +117,6 @@ export default class PaginationProvider extends React.PureComponent {
           state.startupPage + (parseFloat(props.startup_count) || 1) - 1 ||
           1
       }
-      console.log('InfinityScroller: lowerPage', state.lowerPage)
-      console.log('InfinityScroller: upperPage', state.upperPage)
     }
 
     // reset content, like the resetContent method
@@ -291,8 +289,6 @@ export default class PaginationProvider extends React.PureComponent {
   }
 
   endInfinity = () => {
-    console.log('InfinityScroller: endInfinity')
-
     this.setState(
       {
         hasEndedInfinity: true,
