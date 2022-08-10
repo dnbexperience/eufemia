@@ -853,7 +853,85 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                   }
                   class={null}
                   className="dnb-drawer dnb-drawer--right dnb-drawer--auto-fullscreen dnb-core-style dnb-drawer--spacing dnb-drawer__align--left dnb-drawer--no-animation"
-                  innerRef={null}
+                  innerRef={
+                    Object {
+                      "current": <div
+                        class="dnb-scroll-view dnb-drawer dnb-drawer--right dnb-drawer--auto-fullscreen dnb-core-style dnb-drawer--spacing dnb-drawer__align--left dnb-drawer--no-animation"
+                      >
+                        <div
+                          class="dnb-drawer__inner dnb-no-focus"
+                          tabindex="-1"
+                        >
+                          <section
+                            class="dnb-section dnb-section--white dnb-modal__header__bar dnb-drawer__navigation"
+                          >
+                            <div
+                              class="dnb-modal__header__bar__inner"
+                            />
+                            <div
+                              class="dnb-modal__header__bar__close"
+                            >
+                              <button
+                                class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-modal__close-button dnb-button--icon-position-left dnb-button--has-icon"
+                                type="button"
+                              >
+                                <span
+                                  aria-hidden="true"
+                                  class="dnb-button__alignment"
+                                >
+                                  ‌
+                                </span>
+                                <span
+                                  class="dnb-button__text dnb-skeleton--show-font"
+                                >
+                                  Lukk
+                                </span>
+                                <span
+                                  aria-hidden="true"
+                                  class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                                  data-test-id="close icon"
+                                  role="presentation"
+                                >
+                                  <svg
+                                    fill="none"
+                                    height="16"
+                                    viewBox="0 0 16 16"
+                                    width="16"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M3 13 13 3m0 10L3 3"
+                                      stroke="#000"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="1.5"
+                                    />
+                                  </svg>
+                                </span>
+                              </button>
+                            </div>
+                          </section>
+                          <section
+                            class="dnb-section dnb-section--white dnb-drawer__header"
+                            id="dnb-modal-drawer_id-title"
+                          >
+                            <h1
+                              class="dnb-modal__title dnb-space__top--zero dnb-space__bottom--small dnb-h--x-large dnb-drawer__title"
+                            >
+                              drawer_title
+                            </h1>
+                            <div />
+                          </section>
+                          <div
+                            class="dnb-drawer__content"
+                            id="dnb-modal-drawer_id-content"
+                          >
+                            unique_modal_content
+                          </div>
+                        </div>
+                      </div>,
+                    }
+                  }
                   onClick={[Function]}
                   onKeyDown={[Function]}
                   onTouchStart={[Function]}

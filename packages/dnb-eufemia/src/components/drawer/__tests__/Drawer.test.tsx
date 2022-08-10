@@ -37,6 +37,22 @@ beforeEach(() => {
 })
 
 describe('Drawer', () => {
+  it('will run bodyScrollLock with disableBodyScroll', () => {
+    const Comp = mount(
+      <Drawer {...props}>
+        <button>button</button>
+      </Drawer>
+    )
+
+    expect(document.body.getAttribute('style')).toBe(null)
+
+    Comp.find('button.dnb-modal__trigger').simulate('click')
+
+    expect(document.body.getAttribute('style')).toContain(
+      'overflow: hidden;'
+    )
+  })
+
   it('appears on trigger click', () => {
     const Comp = mount(
       <Drawer {...props}>
@@ -44,7 +60,7 @@ describe('Drawer', () => {
       </Drawer>
     )
 
-    Comp.find('Modal').find('button.dnb-modal__trigger').simulate('click')
+    Comp.find('button.dnb-modal__trigger').simulate('click')
 
     expect(Comp.find('button.dnb-modal__close-button').exists()).toBe(true)
   })
