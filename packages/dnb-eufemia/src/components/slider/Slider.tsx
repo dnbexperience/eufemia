@@ -10,17 +10,15 @@ import {
   warn,
   isTrue,
   makeUniqueId,
-  registerElement,
   validateDOMAttributes,
-  processChildren,
-  extendPropsWithContext,
   getStatusState,
   combineLabelledBy,
   combineDescribedBy,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
+import { usePropsWithContext } from '../../shared/hooks'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { classWithCamelCaseProps } from '../../shared/helpers/withCamelCaseProps'
+import { withCamelCaseProps } from '../../shared/helpers/withCamelCaseProps'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { format } from '../number-format/NumberUtils'
 import {
@@ -34,7 +32,7 @@ import Button from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 
-import type { ToCamelCasePartial } from '../../shared/helpers/withCamelCaseProps'
+import type { IncludeCamelCase } from '../../shared/helpers/withCamelCaseProps'
 import type { ISpacingProps } from '../../shared/interfaces'
 import type { SuffixChildren } from '../../shared/helpers/Suffix'
 import type {
@@ -54,10 +52,10 @@ type onChangeEventProps = {
   raw_value?: number
 }
 
-export type SliderPropTypes = {
+export type SliderProps = {
   id?: string
   label?: React.ReactNode
-  label_direction?: 'horizontal' | 'vertical'
+  label_direction?: 'vertical' | 'horizontal'
   label_sr_only?: boolean
   status?: string | boolean
   status_state?: 'error' | 'info'
@@ -68,273 +66,190 @@ export type SliderPropTypes = {
   thumb_title?: string
   add_title?: string
   subtract_title?: string
-  min?: number | string
-  max?: number | string
-  value?: number | string
-  step?: number | string
+  min?: number
+  max?: number
+  value?: number
+  step?: number
   vertical?: boolean
   reverse?: boolean
   stretch?: boolean
   number_format?: formatOptionParams
   disabled?: boolean
   hide_buttons?: boolean
-  use_scrollwheel?: boolean
   skeleton?: boolean
 
   class?: string
   className?: string
-  children?: React.ReactNode
 
-  on_init?: (props: Omit<onChangeEventProps, 'rawValue'>) => void
   on_change?: (props: onChangeEventProps) => void
-  on_drag_start?: (props: {
-    event: MouseEvent | TouchEvent | WheelEvent
-  }) => void
-  on_drag_end?: (props: {
-    event: MouseEvent | TouchEvent | WheelEvent
-  }) => void
+  on_drag_start?: (props: { event: MouseEvent | TouchEvent }) => void
+  on_drag_end?: (props: { event: MouseEvent | TouchEvent }) => void
+
+  /** @deprecated */
+  on_init?: (props: Omit<onChangeEventProps, 'rawValue'>) => void
+
+  /** @deprecated The Slider does not support mouse wheel  */
+  use_scrollwheel?: boolean
 } & ISpacingProps
 
-type SliderState = {
-  currentState?: 'initial' | 'normal' | 'activated' | 'focused' | 'jumped'
-  value: number
-  _value?: number
-  __value?: number
-  _listenForPropChanges?: boolean
-  min?: number
-  max?: number
-  reverse?: boolean
-  vertical?: boolean
-  disabled?: boolean
+const defaultProps = {
+  status_state: 'error',
+  add_title: '+',
+  subtract_title: '−',
+  min: 0,
+  max: 100,
+  value: -1,
 }
 
-/**
- * The slider component is our enhancement of the classic radio button. It acts like a slider. Example: On/off, yes/no.
- */
-class Slider extends React.PureComponent<
-  SliderPropTypes & ToCamelCasePartial<SliderPropTypes>,
-  SliderState
-> {
-  static tagName = 'dnb-slider'
-  static contextType = Context
+function Slider(localProps: IncludeCamelCase<SliderProps>) {
+  const context = React.useContext(Context)
+  const allProps = usePropsWithContext(
+    localProps,
+    defaultProps,
+    context?.translation?.Slider,
+    context?.Slider,
+    { skeleton: context?.skeleton }
+  )
 
-  static defaultProps = {
-    id: null,
-    label: null,
-    label_direction: null,
-    label_sr_only: null,
-    status: null,
-    status_state: 'error',
-    status_props: null,
-    status_no_animation: null,
-    global_status_id: null,
-    suffix: null,
-    thumb_title: null,
-    add_title: '+',
-    subtract_title: '−',
-    min: 0,
-    max: 100,
-    value: -1,
-    step: null,
-    vertical: false,
-    reverse: false,
-    stretch: false,
-    number_format: null,
-    disabled: false,
-    hide_buttons: false,
-    use_scrollwheel: false,
-    skeleton: null,
-    class: null,
-
-    className: null,
-    children: null,
-
-    on_init: null,
-    on_change: null,
-    on_drag_start: null,
-    on_drag_end: null,
+  const [_id] = React.useState(makeUniqueId)
+  if (!allProps.id) {
+    allProps.id = _id
   }
 
-  state: SliderState = { currentState: 'initial', value: null }
+  const {
+    step,
+    label,
+    label_direction,
+    label_sr_only,
+    status,
+    status_state,
+    status_props,
+    status_no_animation,
+    global_status_id,
+    stretch,
+    suffix,
+    thumb_title: title,
+    subtract_title,
+    add_title,
+    hide_buttons,
+    number_format,
+    skeleton,
+    max,
+    min,
+    disabled,
+    className,
+    id,
+    on_init,
+    on_change,
+    on_drag_start,
+    on_drag_end,
+    vertical: _vertical,
+    reverse: _reverse,
+    class: _className,
+    value: _value,
 
-  _id: string
-  _trackRef: React.RefObject<HTMLElement>
-  jumpedTimeout: NodeJS.Timeout
+    ...attributes // Find a DOM element to forwards props too when multi buttons are supported
+  } = allProps
 
-  static enableWebComponent() {
-    registerElement(Slider?.tagName, Slider, Slider.defaultProps)
+  const trackRef = React.useRef<HTMLElement>()
+
+  const [value, setValue] = React.useState(_value)
+  const [currentState, setCurrentState] = React.useState('initial')
+  const [vertical] = React.useState(isTrue(_vertical))
+  const [reverse] = React.useState(
+    vertical ? !isTrue(_reverse) : isTrue(_reverse)
+  )
+
+  /**
+   * Deprecated
+   */
+  if (allProps.use_scrollwheel) {
+    warn('use_scrollwheel is not supported anymore!')
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (state._listenForPropChanges) {
-      state.reverse = isTrue(props.reverse)
-      if (isTrue(props.vertical)) {
-        state.reverse = !state.reverse
-      }
-
-      state.vertical = isTrue(props.vertical)
-      state.min = parseFloat(props.min)
-      state.max = parseFloat(props.max)
-
-      const value = Slider.getValue(props)
-      if (value !== state._value && value >= -1) {
-        state.value = value
-      }
-
-      state._value = value
-    }
-    state._listenForPropChanges = true
-
-    state.disabled = isTrue(props.disabled)
-
-    if (isTrue(props.skeleton)) {
-      state.disabled = true
-    }
-
-    if (state.disabled) {
-      state.currentState = 'disabled'
-    } else if (state.currentState === 'disabled') {
-      state.currentState = 'normal'
-    }
-
-    return state
+  const onFocusHandler = () => {
+    setCurrentState('focused')
   }
 
-  static getValue(props: SliderPropTypes): number {
-    const num = parseFloat(String(props.value))
-    if (num >= -1) {
-      return num
-    }
-    return processChildren(props)
+  const onBlurHandler = () => {
+    setCurrentState('normal')
   }
 
-  constructor(props: SliderPropTypes) {
-    super(props)
-    this._id = props.id || makeUniqueId() // cause we need an id anyway
-    this._trackRef = React.createRef()
-
-    const value = Slider.getValue(props)
-    this.state = {
-      _listenForPropChanges: true,
-      value,
-      _value: value,
-      __value: value,
-    }
-  }
-
-  onFocusHandler = () => {
-    this.setState({
-      _listenForPropChanges: false,
-      currentState: 'focused',
-    })
-  }
-
-  onBlurHandler = () => {
-    this.setState({ _listenForPropChanges: false, currentState: 'normal' })
-  }
-
-  onClickHandler = (event: MouseEvent | TouchEvent | WheelEvent) => {
-    const { min, max, reverse, vertical } = this.state
+  const onClickHandler = (event: MouseEvent | TouchEvent) => {
     const percent = calculatePercent(
-      this._trackRef.current,
+      trackRef.current,
       event,
       vertical,
       reverse
     )
 
     const value = percentToValue(percent, min, max)
-    this.emitChange(event, value)
-    this.setJumpedState()
+    emitChange(event, value)
+    setJumpedState()
   }
 
-  onSubtractClickHandler = (
-    event: MouseEvent | TouchEvent | WheelEvent
+  const onSubtractClickHandler = (event: MouseEvent | TouchEvent) => {
+    emitChange(event, clamp(value - (step || 1), min, max))
+  }
+  const onAddClickHandler = (event: MouseEvent | TouchEvent) => {
+    emitChange(event, clamp(value + (step || 1), min, max))
+  }
+
+  const onTouchEndHandler = (event: TouchEvent) => onMouseUpHandler(event)
+  const onMouseDownHandler = (event: React.SyntheticEvent) => {
+    if (typeof document !== 'undefined') {
+      try {
+        document.body.addEventListener('touchmove', onTouchMoveHandler)
+        document.body.addEventListener('touchend', onTouchEndHandler)
+        document.body.addEventListener('mousemove', onMouseMoveHandler)
+        document.body.addEventListener('mouseup', onMouseUpHandler)
+      } catch (e) {
+        warn(e)
+      }
+    }
+
+    setCurrentState('activated')
+
+    if (typeof on_drag_start === 'function') {
+      dispatchCustomElementEvent(allProps, 'on_drag_start', {
+        event,
+      })
+    }
+  }
+  const onMouseUpHandler = (event: MouseEvent | TouchEvent) => {
+    if (typeof document !== 'undefined') {
+      try {
+        document.body.removeEventListener('touchmove', onTouchMoveHandler)
+        document.body.removeEventListener('touchend', onTouchEndHandler)
+        document.body.removeEventListener('mousemove', onMouseMoveHandler)
+        document.body.removeEventListener('mouseup', onMouseUpHandler)
+      } catch (e) {
+        warn(e)
+      }
+    }
+
+    setCurrentState('normal')
+
+    if (typeof on_drag_end === 'function') {
+      dispatchCustomElementEvent(allProps, 'on_drag_end', {
+        event,
+      })
+    }
+  }
+
+  const onRangeChangeHandler = (
+    event: React.FormEvent<HTMLInputElement>
   ) => {
-    const step = parseFloat(String(this.props.step))
-    const { min, max, value } = this.state
-    this.emitChange(event, clamp(value - (step || 1), min, max))
-  }
-  onAddClickHandler = (event: MouseEvent | TouchEvent | WheelEvent) => {
-    const step = parseFloat(String(this.props.step))
-    const { min, max, value } = this.state
-    this.emitChange(event, clamp(value + (step || 1), min, max))
-  }
-
-  onMouseDownHandler = (event) => {
-    if (typeof document !== 'undefined') {
-      try {
-        document.body.addEventListener(
-          'touchmove',
-          this.onTouchMoveHandler
-        )
-        document.body.addEventListener('touchend', this.onTouchEndHandler)
-        document.body.addEventListener(
-          'mousemove',
-          this.onMouseMoveHandler
-        )
-        document.body.addEventListener('mouseup', this.onMouseUpHandler)
-      } catch (e) {
-        warn(e)
-      }
-    }
-
-    this.setState({
-      _listenForPropChanges: false,
-      currentState: 'activated',
-    })
-
-    if (typeof this.props.on_drag_start === 'function') {
-      dispatchCustomElementEvent(this, 'on_drag_start', {
-        event,
-      })
-    }
-  }
-
-  onTouchEndHandler = (event) => this.onMouseUpHandler(event)
-  onMouseUpHandler = (event) => {
-    if (typeof document !== 'undefined') {
-      try {
-        document.body.removeEventListener(
-          'touchmove',
-          this.onTouchMoveHandler
-        )
-        document.body.removeEventListener(
-          'touchend',
-          this.onTouchEndHandler
-        )
-        document.body.removeEventListener(
-          'mousemove',
-          this.onMouseMoveHandler
-        )
-        document.body.removeEventListener('mouseup', this.onMouseUpHandler)
-      } catch (e) {
-        warn(e)
-      }
-    }
-
-    this.setState({ _listenForPropChanges: false, currentState: 'normal' })
-
-    if (typeof this.props.on_drag_end === 'function') {
-      dispatchCustomElementEvent(this, 'on_drag_end', {
-        event,
-      })
-    }
-  }
-
-  onRangeChangeHandler = (event: React.FormEvent<HTMLInputElement>) => {
     const value = parseFloat(event.currentTarget.value)
-    this.setState({
-      value,
-      _listenForPropChanges: false,
-    })
+    setValue(value)
     const emitEvent = event as unknown
-    this.emitChange(emitEvent as MouseEvent, value)
+    emitChange(emitEvent as MouseEvent, value)
   }
 
-  onTouchMoveHandler = (event: MouseEvent) =>
-    this.onMouseMoveHandler(event)
-  onMouseMoveHandler = (event: MouseEvent) => {
-    let elem = this._trackRef.current
+  const onTouchMoveHandler = (event: MouseEvent) =>
+    onMouseMoveHandler(event)
+  const onMouseMoveHandler = (event: MouseEvent) => {
+    let elem = trackRef.current
 
     // we have to mock this for jsdom.
     if (
@@ -347,404 +262,311 @@ class Slider extends React.PureComponent<
       event = event.detail
     }
 
-    const { min, max, vertical, reverse } = this.state
-    const percent = calculatePercent(elem, event, vertical, reverse)
+    if (elem) {
+      const percent = calculatePercent(elem, event, vertical, reverse)
+      const value = percentToValue(percent, min, max)
 
-    const value = percentToValue(percent, min, max)
-
-    this.emitChange(event, value)
+      emitChange(event, value)
+    }
   }
 
-  roundValue(value: number) {
-    const step = parseFloat(String(this.props.step))
-
-    return step > 0
-      ? roundToStep(value, step)
-      : parseFloat(parseFloat(String(value)).toFixed(3))
-  }
-
-  emitChange(
-    event: MouseEvent | TouchEvent | WheelEvent,
-    rawValue: number,
-    callback = null
-  ) {
-    const { value: previousValue, disabled } = this.state
-
-    if (
-      disabled ||
-      isTrue(this.props.skeleton) ||
-      isTrue(this.context?.skeleton)
-    ) {
+  const emitChange = (
+    event: MouseEvent | TouchEvent,
+    rawValue: number
+  ) => {
+    if (disabled || isTrue(skeleton)) {
       return
     }
 
-    const value = this.roundValue(rawValue)
+    const currentValue = roundValue(rawValue, step)
 
-    if (value > -1) {
-      if (
-        typeof this.props.on_change === 'function' &&
-        value !== this.roundValue(previousValue)
-      ) {
+    if (currentValue > -1 && rawValue !== value) {
+      if (typeof on_change === 'function') {
         const obj: onChangeEventProps = {
-          value,
+          value: currentValue,
           rawValue,
-          raw_value: rawValue,
+          raw_value: rawValue, // deprecated
           event,
           number: null,
         }
-        if (this.props.number_format) {
-          obj.number = formatNumber(value, this.props.number_format)
+        if (number_format) {
+          obj.number = formatNumber(currentValue, number_format)
         }
-        dispatchCustomElementEvent(this, 'on_change', obj)
 
-        if (typeof callback === 'function') {
-          callback()
-        }
+        dispatchCustomElementEvent(allProps, 'on_change', obj)
       }
 
-      this.setState({ value: rawValue, _listenForPropChanges: false })
+      setValue(rawValue)
     }
   }
 
-  setJumpedState() {
-    this.setState(
-      { currentState: 'jumped', _listenForPropChanges: false },
-      () => {
-        clearTimeout(this.jumpedTimeout)
-        this.jumpedTimeout = setTimeout(
-          () =>
-            this.setState({
-              currentState: 'normal',
-              _listenForPropChanges: false,
-            }),
-          100
-        )
-      }
+  const jumpedTimeout = React.useRef<NodeJS.Timeout>()
+  const setJumpedState = () => {
+    setCurrentState('jumped')
+    clearTimeout(jumpedTimeout.current)
+    jumpedTimeout.current = setTimeout(
+      () => setCurrentState('normal'),
+      100
     )
   }
 
-  componentDidMount() {
-    if (this._trackRef.current) {
-      if (isTrue(this.props.use_scrollwheel)) {
-        const { min, max, reverse, vertical } = this.state
-        this._trackRef.current.addEventListener('wheel', (event) => {
-          event.preventDefault()
-          // Could be handy to use: Math.sign(event.deltaY)
-          this.emitChange(
-            event,
-            clamp(
-              this.state.value +
-                ((!vertical && reverse) || (vertical && !reverse)
-                  ? -event.deltaY / 10
-                  : event.deltaY / 10),
-              min,
-              max
-            )
-          )
-        })
-      }
-    }
+  React.useEffect(() => {
+    setValue(_value)
+  }, [_value])
 
-    if (typeof this.props.on_init === 'function') {
-      const { value } = this.state
+  React.useEffect(() => {
+    // on_init is deprecated
+    if (typeof on_init === 'function') {
       const obj = {
         value,
         number: null,
       }
-      if (this.props.number_format) {
-        obj.number = formatNumber(value, this.props.number_format)
+      if (number_format) {
+        obj.number = formatNumber(value, number_format)
       }
-      dispatchCustomElementEvent(this, 'on_init', obj)
+      dispatchCustomElementEvent(allProps, 'on_init', obj)
     }
+
+    return () => {
+      if (typeof document !== 'undefined') {
+        try {
+          document.body.removeEventListener(
+            'touchmove',
+            onTouchMoveHandler
+          )
+          document.body.removeEventListener('touchend', onTouchEndHandler)
+          document.body.removeEventListener(
+            'mousemove',
+            onMouseMoveHandler
+          )
+          document.body.removeEventListener('mouseup', onMouseUpHandler)
+        } catch (e) {
+          warn(e)
+        }
+      }
+      clearTimeout(jumpedTimeout.current)
+    }
+  }, [])
+
+  const percent = clamp(((value - min) * 100) / (max - min))
+
+  const inlineStyleBefore = {
+    [`${vertical ? 'height' : 'width'}`]: `${percent}%`,
+  }
+  const inlineThumbStyles = {
+    [`${vertical ? 'top' : 'left'}`]: `${percent}%`,
   }
 
-  componentWillUnmount() {
-    if (typeof document !== 'undefined') {
-      try {
-        document.body.removeEventListener(
-          'touchmove',
-          this.onTouchMoveHandler
-        )
-        document.body.removeEventListener(
-          'touchend',
-          this.onTouchEndHandler
-        )
-        document.body.removeEventListener(
-          'mousemove',
-          this.onMouseMoveHandler
-        )
-        document.body.removeEventListener('mouseup', this.onMouseUpHandler)
-      } catch (e) {
-        warn(e)
-      }
-    }
-    clearTimeout(this.jumpedTimeout)
-  }
+  const { aria: humanNumber } = (
+    number_format
+      ? formatNumber(value, {
+          ...(number_format || {}),
+          returnAria: true,
+        })
+      : { aria: null }
+  ) as formatReturnValue
+  const hasHumanNumber = Boolean(humanNumber)
 
-  render() {
-    // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
-      this.props,
-      Slider.defaultProps,
-      { skeleton: this.context?.skeleton },
-      this.context.getTranslation(this.props).Slider,
-      this.context.FormRow,
-      this.context.Slider
-    )
+  const showStatus = getStatusState(status)
+  const showButtons = !isTrue(hide_buttons)
 
-    const {
-      label,
-      label_direction,
-      label_sr_only,
-      status,
-      status_state,
-      status_props,
-      status_no_animation,
-      global_status_id,
-      stretch,
-      suffix,
-      thumb_title: title,
-      subtract_title,
-      add_title,
-      hide_buttons,
-      skeleton,
+  const mainParams = {
+    className: classnames(
+      'dnb-slider',
+      reverse && 'dnb-slider--reverse',
+      vertical && 'dnb-slider--vertical',
+      isTrue(stretch) && 'dnb-slider--stretch',
+      label && label_direction && `dnb-slider__label--${label_direction}`,
+      showStatus && 'dnb-slider__form-status',
+      status && `dnb-slider__status--${status_state}`,
+      'dnb-form-component',
+      createSkeletonClass(null, skeleton),
+      createSpacingClasses(allProps),
       className,
-      class: _className,
+      _className
+    ),
+  }
 
-      max: _max, // eslint-disable-line
-      min: _min, // eslint-disable-line
-      disabled: _disabled, // eslint-disable-line
-      reverse: _reverse, // eslint-disable-line
-      vertical: _vertical, // eslint-disable-line
-      id: _id, // eslint-disable-line
-      step: _step, // eslint-disable-line
-      value: _value, // eslint-disable-line
-      children: _children, // eslint-disable-line
-      use_scrollwheel: _use_scrollwheel, // eslint-disable-line
+  const helperParams = {}
+  const subtractParams = {}
+  const addParams = {}
 
-      ...attributes
-    } = props
+  const trackParams = {
+    className: classnames(
+      'dnb-slider__track',
+      currentState && `dnb-slider__state--${currentState}`
+    ),
+    onTouchStart: onClickHandler,
+    onTouchStartCapture: onMouseDownHandler,
+    onMouseDown: onClickHandler,
+    onMouseDownCapture: onMouseDownHandler,
+  }
 
-    const { min, max, reverse, vertical, value, currentState, disabled } =
-      this.state
+  const thumbParams = {
+    title,
+    onBlur: onBlurHandler,
+    onFocus: onFocusHandler,
+    ...(attributes as Record<string, unknown>), // Do not forwards props to button for future compatibility on multi-button slider
+  }
 
-    const showStatus = getStatusState(status)
-    const showButtons = !isTrue(hide_buttons)
-
-    const id = this._id
-    const mainParams = {
-      className: classnames(
-        'dnb-slider',
-        reverse && 'dnb-slider--reverse',
-        vertical && 'dnb-slider--vertical',
-        isTrue(stretch) && 'dnb-slider--stretch',
-        label &&
-          label_direction &&
-          `dnb-slider__label--${label_direction}`,
-        showStatus && 'dnb-slider__form-status',
-        status && `dnb-slider__status--${status_state}`,
-        'dnb-form-component',
-        createSkeletonClass(null, skeleton),
-        createSpacingClasses(props),
-        className,
-        _className
-      ),
-    }
-
-    const percent = clamp(((value - min) * 100) / (max - min))
-    const options = {
-      ...(this.props.number_format || {}),
-      returnAria: true,
-    }
-    const { aria: humanNumber } = formatNumber(
-      value,
-      options
-    ) as formatReturnValue
-    const hasHumanNumber = Boolean(this.props.number_format && humanNumber)
-
-    const inlineStyleBefore = {
-      [`${vertical ? 'height' : 'width'}`]: `${percent}%`,
-    }
-
-    const inlineThumbStyles = {
-      [`${vertical ? 'top' : 'left'}`]: `${percent}%`,
-    }
-
-    skeletonDOMAttributes(mainParams, skeleton, this.context)
-
-    const helperParams = {}
-
-    const trackParams = {
-      className: classnames(
-        'dnb-slider__track',
-        currentState && `dnb-slider__state--${currentState}`
-      ),
-      onTouchStart: this.onClickHandler,
-      onTouchStartCapture: this.onMouseDownHandler,
-      onMouseDown: this.onClickHandler,
-      onMouseDownCapture: this.onMouseDownHandler,
-    }
-
-    const thumbParams = {
-      title,
-      ...attributes,
-      onBlur: this.onBlurHandler,
-      onFocus: this.onFocusHandler,
-    }
-
-    if (label || hasHumanNumber) {
-      helperParams['aria-labelledby'] = combineLabelledBy(
-        helperParams,
-        hasHumanNumber ? id + '-human' : null,
-        label ? id + '-label' : null
-      )
-    }
-    if (showStatus || suffix) {
-      helperParams['aria-describedby'] = combineDescribedBy(
-        helperParams,
-        showStatus ? id + '-status' : null,
-        suffix ? id + '-suffix' : null
-      )
-    }
-
-    const subtractParams = {}
-    const addParams = {}
-
-    if (typeof thumbParams['aria-hidden'] !== 'undefined') {
-      helperParams['aria-hidden'] =
-        addParams['aria-hidden'] =
-        subtractParams['aria-hidden'] =
-          thumbParams['aria-hidden']
-    }
-
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, thumbParams)
-    validateDOMAttributes(null, trackParams)
-    validateDOMAttributes(null, helperParams)
-
-    const subtractButton = (
-      <Button
-        className="dnb-slider__button dnb-slider__button--subtract"
-        variant="secondary"
-        icon="subtract"
-        size="small"
-        aria-label={subtract_title.replace('%s', humanNumber)}
-        on_click={this.onSubtractClickHandler}
-        disabled={disabled}
-        skeleton={skeleton}
-      />
+  if (label || hasHumanNumber) {
+    helperParams['aria-labelledby'] = combineLabelledBy(
+      helperParams,
+      hasHumanNumber ? id + '-human' : null,
+      label ? id + '-label' : null
     )
+  }
 
-    const addButton = (
-      <Button
-        className="dnb-slider__button dnb-slider__button--add"
-        variant="secondary"
-        icon="add"
-        size="small"
-        aria-label={add_title.replace('%s', humanNumber)}
-        on_click={this.onAddClickHandler}
-        disabled={disabled}
-        skeleton={skeleton}
-      />
+  if (showStatus || suffix) {
+    helperParams['aria-describedby'] = combineDescribedBy(
+      helperParams,
+      showStatus ? id + '-status' : null,
+      suffix ? id + '-suffix' : null
     )
+  }
 
-    return (
-      <span {...mainParams}>
-        {label && (
-          // do not use "for_id" as the ID element is not a fo
-          <FormLabel
-            id={id + '-label'}
-            text={label}
-            disabled={disabled}
-            skeleton={skeleton}
-            label_direction={label_direction}
-            sr_only={label_sr_only}
-          />
-        )}
+  if (typeof thumbParams['aria-hidden'] !== 'undefined') {
+    helperParams['aria-hidden'] =
+      addParams['aria-hidden'] =
+      subtractParams['aria-hidden'] =
+        thumbParams['aria-hidden']
+  }
 
-        <span className="dnb-slider__wrapper">
-          <AlignmentHelper />
+  // also used for code markup simulation
+  validateDOMAttributes(allProps, thumbParams)
+  validateDOMAttributes(null, trackParams)
+  validateDOMAttributes(null, helperParams)
 
-          <FormStatus
-            show={showStatus}
-            id={id + '-form-status'}
-            global_status_id={global_status_id}
-            label={label}
-            text_id={id + '-status'} // used for "aria-describedby"
-            text={status}
-            status={status_state}
-            no_animation={status_no_animation}
-            skeleton={skeleton}
-            {...status_props}
-          />
+  skeletonDOMAttributes(mainParams, skeleton, context)
 
-          <span className="dnb-slider__inner">
-            {showButtons && (reverse ? addButton : subtractButton)}
-            {/* @ts-ignore because of onTouchStart and onMouseDownCapture */}
-            <span id={this._id} ref={this._trackRef} {...trackParams}>
-              <span
-                className="dnb-slider__thumb"
-                style={inlineThumbStyles}
-              >
-                <input
-                  type="range"
-                  className="dnb-slider__button-helper"
-                  min={min}
-                  max={max}
-                  step={_step}
-                  value={value}
-                  disabled={disabled}
-                  // @ts-ignore orientation
-                  orientation={vertical ? 'vertical' : 'horizontal'}
-                  onChange={this.onRangeChangeHandler}
-                  {...helperParams}
-                />
-                <Button
-                  tabIndex="-1"
-                  aria-hidden
-                  variant="secondary"
-                  disabled={disabled}
-                  skeleton={skeleton}
-                  onMouseDown={this.onMouseDownHandler}
-                  {...thumbParams}
-                />
-              </span>
-              <span
-                className="dnb-slider__line dnb-slider__line__before"
-                style={inlineStyleBefore}
+  const subtractButton = showButtons && (
+    <Button
+      className="dnb-slider__button dnb-slider__button--subtract"
+      variant="secondary"
+      icon="subtract"
+      size="small"
+      aria-label={subtract_title.replace('%s', humanNumber)}
+      on_click={onSubtractClickHandler}
+      disabled={disabled}
+      skeleton={skeleton}
+      {...subtractParams}
+    />
+  )
+
+  const addButton = showButtons && (
+    <Button
+      className="dnb-slider__button dnb-slider__button--add"
+      variant="secondary"
+      icon="add"
+      size="small"
+      aria-label={add_title.replace('%s', humanNumber)}
+      on_click={onAddClickHandler}
+      disabled={disabled}
+      skeleton={skeleton}
+      {...addParams}
+    />
+  )
+
+  return (
+    <span {...mainParams}>
+      {label && (
+        // do not use "for_id" as the ID element is not a fo
+        <FormLabel
+          id={id + '-label'}
+          text={label}
+          disabled={disabled}
+          skeleton={skeleton}
+          label_direction={label_direction}
+          sr_only={label_sr_only}
+        />
+      )}
+
+      <span className="dnb-slider__wrapper">
+        <AlignmentHelper />
+
+        <FormStatus
+          show={showStatus}
+          id={id + '-form-status'}
+          global_status_id={global_status_id}
+          label={label}
+          text_id={id + '-status'} // used for "aria-describedby"
+          text={status}
+          status={status_state}
+          no_animation={status_no_animation}
+          skeleton={skeleton}
+          {...status_props}
+        />
+
+        <span className="dnb-slider__inner">
+          {showButtons && (reverse ? addButton : subtractButton)}
+          {/* @ts-ignore because of onTouchStart and onMouseDownCapture */}
+          <span id={id} ref={trackRef} {...trackParams}>
+            <span className="dnb-slider__thumb" style={inlineThumbStyles}>
+              <input
+                type="range"
+                className="dnb-slider__button-helper"
+                min={min}
+                max={max}
+                step={step}
+                value={value}
+                disabled={disabled}
+                // @ts-ignore orientation
+                orientation={vertical ? 'vertical' : 'horizontal'}
+                onChange={onRangeChangeHandler}
+                {...helperParams}
               />
-              <span className="dnb-slider__line dnb-slider__line__after" />
-              {hasHumanNumber && (
-                <span
-                  id={id + '-human'}
-                  className="dnb-sr-only"
-                  aria-hidden
-                >
-                  {humanNumber}
-                </span>
-              )}
+
+              <Button
+                tabIndex={-1}
+                aria-hidden
+                variant="secondary"
+                disabled={disabled}
+                skeleton={skeleton}
+                onMouseDown={onMouseDownHandler}
+                {...thumbParams}
+              />
             </span>
 
-            {showButtons && (reverse ? subtractButton : addButton)}
+            <span
+              className="dnb-slider__line dnb-slider__line__before"
+              style={inlineStyleBefore}
+            />
 
-            {suffix && (
-              <Suffix
-                className="dnb-slider__suffix"
-                id={id + '-suffix'} // used for "aria-describedby"
-                context={props}
-              >
-                {suffix}
-              </Suffix>
+            <span className="dnb-slider__line dnb-slider__line__after" />
+
+            {hasHumanNumber && (
+              <span id={id + '-human'} className="dnb-sr-only" aria-hidden>
+                {humanNumber}
+              </span>
             )}
           </span>
+
+          {showButtons && (reverse ? subtractButton : addButton)}
+
+          {suffix && (
+            <Suffix
+              className="dnb-slider__suffix"
+              id={id + '-suffix'} // used for "aria-describedby"
+              context={allProps}
+            >
+              {suffix}
+            </Suffix>
+          )}
         </span>
       </span>
-    )
-  }
+    </span>
+  )
 }
 
-const percentToValue = (percent: number, min: number, max: number) =>
-  ((max - min) * percent) / 100 + min
+const percentToValue = (percent: number, min: number, max: number) => {
+  if (typeof min === 'string') {
+    min = parseFloat(min)
+  }
+  if (typeof max === 'string') {
+    max = parseFloat(max)
+  }
+  return ((max - min) * percent) / 100 + min
+}
 
 const roundToStep = (number: number, step: number) =>
   Math.round(number / step) * step
@@ -778,7 +600,7 @@ const getMousePosition = (event: MouseEvent & TouchEvent) => {
 
 const calculatePercent = (
   node: HTMLElement,
-  event: MouseEvent | TouchEvent | WheelEvent,
+  event: MouseEvent | TouchEvent,
   isVertical: boolean,
   isReverted: boolean
 ) => {
@@ -796,6 +618,12 @@ const calculatePercent = (
 
 const clamp = (value: number, min = 0, max = 100) =>
   Math.min(Math.max(value, min), max)
+
+const roundValue = (value: number, step: number) => {
+  return step > 0
+    ? roundToStep(value, step)
+    : parseFloat(parseFloat(String(value)).toFixed(3))
+}
 
 const createMockDiv = ({ width, height }) => {
   const div = document.createElement('div')
@@ -826,4 +654,4 @@ const formatNumber = (
 }
 
 export { Slider as OriginalComponent }
-export default classWithCamelCaseProps(Slider)
+export default withCamelCaseProps(Slider)
