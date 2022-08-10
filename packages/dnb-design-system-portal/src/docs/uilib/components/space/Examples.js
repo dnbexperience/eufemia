@@ -16,13 +16,15 @@ export const SpaceExamplesMethod1 = () => (
       data-visual-test="spacing-method-space"
       scope={{ RedBox }}
     >
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <RedBox>
   <Space top="large x-small">
     <Input label="Input:" />
   </Space>
 </RedBox>
-`}
+`
+      }
     </ComponentBox>
   </TestStyles>
 )
@@ -30,14 +32,16 @@ export const SpaceExamplesMethod1 = () => (
 export const SpaceExamplesMethod2 = () => (
   <TestStyles>
     <ComponentBox data-visual-test="spacing-method-form-row">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <FormRow>
   <Input label="Input A:" />
 </FormRow>
 <FormRow top="medium">
   <Input label="Input B:" />
 </FormRow>
-`}
+`
+      }
     </ComponentBox>
   </TestStyles>
 )
@@ -45,12 +49,14 @@ export const SpaceExamplesMethod2 = () => (
 export const SpaceExamplesMethod3 = () => (
   <TestStyles>
     <ComponentBox data-visual-test="spacing-method-component">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <FormRow>
   <Input label="Input A:" right="small" />
   <Input label="Input B:" />
 </FormRow>
-`}
+`
+      }
     </ComponentBox>
   </TestStyles>
 )
@@ -58,7 +64,8 @@ export const SpaceExamplesMethod3 = () => (
 export const SpaceExampleMarginCollapse = () => (
   <TestStyles>
     <ComponentBox hideCode scope={{ RedBox, Vertical }}>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <Vertical>
   <RedBox>
     <Space bottom="small">
@@ -71,7 +78,8 @@ export const SpaceExampleMarginCollapse = () => (
     </Space>
   </RedBox>
 </Vertical>
-`}
+`
+      }
     </ComponentBox>
   </TestStyles>
 )
@@ -79,7 +87,8 @@ export const SpaceExampleMarginCollapse = () => (
 export const SpaceExampleMargins = () => (
   <TestStyles>
     <ComponentBox data-visual-test="spacing-margins" hideCode>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <Space top="large x-small" right="2.5" bottom="2.5rem" left="40px" >
   <details>
     <summary>
@@ -88,7 +97,8 @@ export const SpaceExampleMargins = () => (
     And this are my CSS classes: <code className="dnb-code">dnb-space dnb-space__top--large dnb-space__top--x-small dnb-space__right--large dnb-space__right--x-small dnb-space__bottom--large dnb-space__bottom--x-small dnb-space__left--large dnb-space__left--x-small</code>
   </details>
 </Space>
-`}
+`
+      }
     </ComponentBox>
   </TestStyles>
 )
@@ -101,7 +111,8 @@ export const SpaceVisualTestPatterns = () => (
       hideCode
       useRender
     >
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 const TestCase = (props) => {
   return <CustomStyle {...props}>{listOfBoxes.map((v) => (
     <Space key={v} top={v}>
@@ -123,7 +134,8 @@ render(
     <TestCase />
   </div>
 )
-`}
+`
+      }
     </ComponentBox>
   </TestStyles>
 )
@@ -140,7 +152,8 @@ export const SpaceVisualTestElements = () =>
         hideCode
         useRender
       >
-        {() => /* jsx */ `
+        {
+          /* jsx */ `
 const listOfBoxes = []
 for (let i = 0, c = 0, l = 10; i <= l; i++) {
   listOfBoxes.push(String(c))
@@ -168,7 +181,8 @@ render(
     <TestCase />
   </div>
 )
-`}
+`
+        }
       </ComponentBox>
     </TestStyles>
   )

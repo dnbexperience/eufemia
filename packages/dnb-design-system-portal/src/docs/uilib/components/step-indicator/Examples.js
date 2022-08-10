@@ -9,7 +9,8 @@ import { createBrowserHistory } from 'history'
 
 export const StepIndicatorStatic = () => (
   <ComponentBox data-visual-test="step-indicator-static">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <StepIndicator
   sidebar_id="unique-id-static"
   mode="static"
@@ -31,13 +32,15 @@ export const StepIndicatorStatic = () => (
     }
   ]}
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const StepIndicatorStrict = () => (
   <ComponentBox data-visual-test="step-indicator-strict">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <StepIndicator.Sidebar sidebar_id="unique-id-strict" />
 <StepIndicator
   sidebar_id="unique-id-strict"
@@ -61,13 +64,15 @@ export const StepIndicatorStrict = () => (
     }
   ]}
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const StepIndicatorLoose = () => (
   <ComponentBox data-visual-test="step-indicator-loose" useRender>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 const InteractiveDemo = () => {
   const [step, setStep] = React.useState(1)
 
@@ -109,13 +114,15 @@ const InteractiveDemo = () => {
   )
 }
 render(<InteractiveDemo />)
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const StepIndicatorCustomized = () => (
   <ComponentBox useRender>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 function CustomStepIndicator({ children, ...props }) {
   const [step, setStep] = React.useState(0)
   return (
@@ -160,13 +167,15 @@ render(<CustomStepIndicator
 		}
 	}}
 </CustomStepIndicator>)
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const StepIndicatorSidebar = () => (
   <ComponentBox data-visual-test="step-indicator-sidebar">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <StepIndicator
   style={{ display: 'none' }}
   sidebar_id="unique-id-sidebar"
@@ -185,13 +194,15 @@ export const StepIndicatorSidebar = () => (
   ]}
 />
 <StepIndicator.Sidebar sidebar_id="unique-id-sidebar" top="large" />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const StepIndicatorTextOnly = () => (
   <ComponentBox>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <StepIndicator
   sidebar_id="unique-id-text"
   mode="static"
@@ -202,13 +213,15 @@ export const StepIndicatorTextOnly = () => (
     'Oppsummering'
   ]}
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const StepIndicatorCustomRenderer = () => (
   <ComponentBox>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <StepIndicator
   sidebar_id="unique-id-renderer"
   mode="strict"
@@ -247,7 +260,8 @@ export const StepIndicatorCustomRenderer = () => (
     }
   ]}
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -260,7 +274,8 @@ export const StepIndicatorUrls = () => (
     hideCode
     useRender
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 const history = createBrowserHistory()
 const StepIndicatorWithUrl = () => {
 	const [activeUrl, setActiveUrl] = React.useState(history.location.search)
@@ -301,6 +316,7 @@ render(<>
 	<StepIndicatorWithUrl />
 	<Section spacing style_type="lavender"><Anchor href="?b">Navigate to B</Anchor></Section>
 </>)
-`}
+`
+    }
   </ComponentBox>
 )

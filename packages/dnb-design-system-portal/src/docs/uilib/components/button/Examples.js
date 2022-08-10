@@ -9,7 +9,8 @@ import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 
 export const ButtonPrimary = () => (
   <ComponentBox>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Button
   text="Primary button with text only"
   on_click={() => {
@@ -17,13 +18,15 @@ export const ButtonPrimary = () => (
   }}
   data-visual-test="button-primary"
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const ButtonSecondary = () => (
   <ComponentBox>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Button
   variant="secondary"
   onClick={() => {
@@ -33,13 +36,15 @@ export const ButtonSecondary = () => (
 >
   Secondary button with text only
 </Button>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const ButtonDisabled = () => (
   <ComponentBox data-visual-test="button-disabled">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Button
   text="Disabled primary button"
   disabled
@@ -63,37 +68,43 @@ export const ButtonDisabled = () => (
   disabled
   right
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const ButtonPrimaryWithIcon = () => (
   <ComponentBox>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Button
   text="Primary button with icon"
   icon="chevron_right"
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const ButtonPrimaryWithIconLeft = () => (
   <ComponentBox>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Button
   icon_position="left"
   icon="chevron_left"
 >
   Primary button with icon on left
 </Button>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const ButtonTertiary = () => (
   <ComponentBox data-visual-test="button-tertiary-all">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Button
   variant="tertiary"
   text="Tertiary button with icon on left"
@@ -108,39 +119,45 @@ export const ButtonTertiary = () => (
   icon="chevron_left"
   right="1rem"
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const ButtonTertiaryTop = () => (
   <ComponentBox data-visual-test="button-tertiary-top">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Button
   variant="tertiary"
   icon_position="top"
   icon="close"
   text="Button text"
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const ButtonCustomContent = () => (
   <ComponentBox data-visual-test="button-custom-content">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Button
   icon="close"
   icon_position="right"
   text="Button with custom content"
   custom_content={<IconPrimary icon="check" right="small" />}
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const ButtonTertiaryWrap = () => (
   <ComponentBox data-visual-test="button-tertiary-wrap">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Button
   wrap
   variant="tertiary"
@@ -148,13 +165,15 @@ export const ButtonTertiaryWrap = () => (
   icon="chevron_left"
   icon_position="left"
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const ButtonAnchor = () => (
   <ComponentBox data-visual-test="button-anchor">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Button
   text="Primary with href"
   href="/uilib/components/button/demos"
@@ -179,26 +198,30 @@ export const ButtonAnchor = () => (
   size="default"
   right
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const ButtonSignal = () => (
   <ComponentBox scope={{ Bell }}>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Button
   variant="signal"
   text="Signal Button"
   icon={Bell}
   data-visual-test="button-signal"
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const ButtonSignalLarge = () => (
   <ComponentBox scope={{ Bell }}>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Button
   variant="signal"
   text="Large Signal Button"
@@ -206,13 +229,15 @@ export const ButtonSignalLarge = () => (
   size="large"
   icon_size="medium"
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const ButtonIcon = () => (
   <ComponentBox scope={{ question }}>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Button
   title="Disabled Icon only Button"
   icon="calendar"
@@ -239,7 +264,8 @@ export const ButtonIcon = () => (
   icon={question}
   status="error"
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -252,9 +278,11 @@ export const TertiaryWithNoIcon = () => {
       title="Tertiary button with no icon"
       data-visual-test="button-tertiary-no-icon"
     >
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <Button text="Tertiary button with no icon" variant="tertiary" />
-`}
+`
+      }
     </ComponentBox>
   )
 }
@@ -268,9 +296,11 @@ export const UnstyledVariant = () => {
       title="Unstyled button with icon"
       data-visual-test="button-unstyled"
     >
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <Button text="Unstyled button with icon" icon="bell" variant="unstyled" />
-`}
+`
+      }
     </ComponentBox>
   )
 }
@@ -281,14 +311,16 @@ export const ButtonStretch = () => {
   }
   return (
     <ComponentBox title="Button with stretch property" scope={{ Bell }}>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <Button
   text="A stretched button"
   icon={<Bell />}
   size="large"
   data-visual-test="button-stretch"
 />
-`}
+`
+      }
     </ComponentBox>
   )
 }
@@ -296,7 +328,8 @@ export const ButtonStretch = () => {
 export const PrimaryButtonSizes = () => {
   return (
     <ComponentBox scope={{ Bell }} hideCode>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <Button
   text="Default button"
   on_click={() => {
@@ -329,7 +362,8 @@ export const PrimaryButtonSizes = () => {
   icon="chevron_right"
   left
 />
-`}
+`
+      }
     </ComponentBox>
   )
 }
@@ -337,7 +371,8 @@ export const PrimaryButtonSizes = () => {
 export const SecondaryButtonSizes = () => {
   return (
     <ComponentBox scope={{ Bell }} hideCode>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <Button
   text="Default button"
   on_click={() => {
@@ -374,7 +409,8 @@ export const SecondaryButtonSizes = () => {
   variant="secondary"
   left
 />
-`}
+`
+      }
     </ComponentBox>
   )
 }
@@ -382,7 +418,8 @@ export const SecondaryButtonSizes = () => {
 export const TertiaryButtonSizes = () => {
   return (
     <ComponentBox scope={{ Bell }} hideCode>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <Button
   text="Default button"
   on_click={() => {
@@ -401,7 +438,8 @@ export const TertiaryButtonSizes = () => {
   variant="tertiary"
   left
 />
-`}
+`
+      }
     </ComponentBox>
   )
 }
@@ -409,7 +447,8 @@ export const TertiaryButtonSizes = () => {
 export const SignalButtonSizes = () => {
   return (
     <ComponentBox scope={{ Bell }} hideCode>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <Button
   text="Default button"
   on_click={() => {
@@ -446,7 +485,8 @@ export const SignalButtonSizes = () => {
   variant="signal"
   left
 />
-`}
+`
+      }
     </ComponentBox>
   )
 }
@@ -454,7 +494,8 @@ export const SignalButtonSizes = () => {
 export const IconButtonSizes = () => {
   return (
     <ComponentBox hideCode>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <Button
   title="Small sized button with add icon"
   icon="add"
@@ -478,7 +519,8 @@ export const IconButtonSizes = () => {
   size="large"
   left
 />
-`}
+`
+      }
     </ComponentBox>
   )
 }

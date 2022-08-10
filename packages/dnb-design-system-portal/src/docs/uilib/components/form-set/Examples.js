@@ -8,7 +8,8 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 export const FormSetDefault = () => (
   <ComponentBox data-visual-test="form-set-default">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <FormSet indent="true">
   <FormRow no_label>
     <H2>A semantic h2 in a FormRow without a label</H2>
@@ -23,26 +24,30 @@ export const FormSetDefault = () => (
     </Radio.Group>
   </FormRow>
 </FormSet>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const FormSetVertical = () => (
   <ComponentBox data-visual-test="form-set-vertical">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <FormSet direction="vertical">
   <FormRow label={<Space element="span" className="dnb-h--large">Custom Legend:</Space>}>
     <Input label="Label:" bottom />
     <Input label="Label:" />
   </FormRow>
 </FormSet>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const FormSetSubmit = () => (
   <ComponentBox data-visual-test="form-set-submit">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <FormSet
     direction="horizontal"
     on_submit={({ event }) => console.log('on_submit', event)}
@@ -53,6 +58,7 @@ export const FormSetSubmit = () => (
     <Button type="submit" text="Trigger submit" />
   </FormRow>
 </FormSet>
-`}
+`
+    }
   </ComponentBox>
 )

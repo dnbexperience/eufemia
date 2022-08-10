@@ -11,9 +11,11 @@ import {
 
 export const BadgeNotification = () => (
   <ComponentBox hideCode data-visual-test="badge-variant-notification">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Badge content={1} label="Notifications:" variant="notification"/>
-  `}
+  `
+    }
   </ComponentBox>
 )
 
@@ -22,9 +24,11 @@ export const BadgeNotificationInline = () => (
     hideCode
     data-visual-test="badge-variant-notification-inline"
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 Text <Badge content={1} label="Notifications:" variant="notification"/> Text
-  `}
+  `
+    }
   </ComponentBox>
 )
 
@@ -33,21 +37,25 @@ export const BadgeNotificationAvatar = () => (
     hideCode
     data-visual-test="badge-variant-notification-avatar"
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Badge content={1} label="Notifications:" variant="notification">
   <Avatar.Group label="Persons:">
     <Avatar size="large">A</Avatar>
   </Avatar.Group>
 </Badge>
-  `}
+  `
+    }
   </ComponentBox>
 )
 
 export const BadgeDefault = () => (
   <ComponentBox hideCode data-visual-test="badge-variant-default">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Badge content="New"/>
-  `}
+  `
+    }
   </ComponentBox>
 )
 
@@ -56,9 +64,11 @@ export const BadgeInformationInline = () => (
     hideCode
     data-visual-test="badge-variant-information-inline"
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 Text <Badge content="Info" variant="information"/> Text
-  `}
+  `
+    }
   </ComponentBox>
 )
 
@@ -67,61 +77,71 @@ export const BadgeInformationAvatar = () => (
     hideCode
     data-visual-test="badge-variant-information-avatar"
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Badge content="Ny" variant="information">
   <Avatar.Group label="Persons:">
     <Avatar size="large" variant="secondary">A</Avatar>
   </Avatar.Group>
 </Badge>
-  `}
+  `
+    }
   </ComponentBox>
 )
 
 export const BadgeTopLeft = () => (
   <ComponentBox hideCode data-visual-test="badge-top-left">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Badge content={66} label="Notifications:" vertical="top" horizontal="left" variant="notification">
   <Avatar.Group label="Persons:">
     <Avatar size="large">A</Avatar>
   </Avatar.Group>
 </Badge>
-  `}
+  `
+    }
   </ComponentBox>
 )
 
 export const BadgeTopRight = () => (
   <ComponentBox hideCode data-visual-test="badge-top-right">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Badge content={1} label="Notifications:" vertical="top" horizontal="right" variant="notification">
   <Avatar.Group label="Persons:">
     <Avatar size="large">A</Avatar>
   </Avatar.Group>
 </Badge>
-  `}
+  `
+    }
   </ComponentBox>
 )
 
 export const BadgeBottomLeft = () => (
   <ComponentBox hideCode data-visual-test="badge-bottom-left">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Badge content={13} label="Notifications:" vertical="bottom" horizontal="left" variant="notification">
   <Avatar.Group label="Persons:">
     <Avatar size="large">A</Avatar>
   </Avatar.Group>
 </Badge>
-      `}
+      `
+    }
   </ComponentBox>
 )
 
 export const BadgeBottomRight = () => (
   <ComponentBox hideCode data-visual-test="badge-bottom-right">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Badge content={58} label="Notifications:" vertical="bottom" horizontal="right" variant="notification">
   <Avatar.Group label="Persons:">
     <Avatar size="large">A</Avatar>
   </Avatar.Group>
 </Badge>
-  `}
+  `
+    }
   </ComponentBox>
 )
 
@@ -133,11 +153,13 @@ export const BadgeMailIcon = () => (
     scope={{ Email }}
     data-visual-test="badge-alternative-icon"
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Badge content={99} label="Notifications:" variant="notification" vertical="top" horizontal="right">
   <Icon icon={Email} size="x-large" />
 </Badge>
-  `}
+  `
+    }
   </ComponentBox>
 )
 
@@ -147,7 +169,8 @@ export const BadgeImgWithIcon = () => (
     scope={{ Confetti }}
     data-visual-test="badge-alternative-img"
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Badge content={<Icon icon={Confetti} />}>
   <Img 
   src="https://avatars.githubusercontent.com/u/1501870?v=4" 
@@ -156,6 +179,7 @@ export const BadgeImgWithIcon = () => (
   width="64"
 />
 </Badge>
-  `}
+  `
+    }
   </ComponentBox>
 )

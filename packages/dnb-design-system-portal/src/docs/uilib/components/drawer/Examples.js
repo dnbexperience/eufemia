@@ -7,7 +7,8 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 export const SimpleDrawerExample = () => (
   <ComponentBox data-visual-test="simple-drawer">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Drawer 
   title="Drawer title"
   triggerAttributes={{text: "Open drawer"}}
@@ -28,7 +29,8 @@ export const SimpleDrawerExample = () => (
     phasellus praesent justo mollis montes velit taciti gravida
   </P>
 </Drawer>    
-    `}
+    `
+    }
   </ComponentBox>
 )
 export const FullDrawerExample = () => (
@@ -36,7 +38,8 @@ export const FullDrawerExample = () => (
     data-visual-test="full-drawer"
     scope={{ handleBack: () => {} }}
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Drawer
   title="Custom title"
   >
@@ -106,13 +109,15 @@ export const FullDrawerExample = () => (
     </Tabs.Content>
   </Drawer.Body>
 </Drawer>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const DrawerCustomTriggerExample = () => (
   <ComponentBox data-visual-test="drawer-custom-trigger">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Drawer 
   title="Drawer with custom trigger"
   triggerAttributes={{
@@ -129,13 +134,15 @@ export const DrawerCustomTriggerExample = () => (
   </P>
   </Drawer.Body>
 </Drawer>    
-    `}
+    `
+    }
   </ComponentBox>
 )
 
 export const DrawerCallbackExample = () => (
   <ComponentBox data-visual-test="callback-drawer">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Drawer 
   title="Drawer title"
   triggerAttributes={{text: "Open drawer"}}
@@ -147,13 +154,15 @@ export const DrawerCallbackExample = () => (
     </>
   )}
 </Drawer>    
-    `}
+    `
+    }
   </ComponentBox>
 )
 
 export const DrawerNoAnimationNoSpacing = () => (
   <ComponentBox data-visual-test="drawer-no-animation">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Drawer 
   title="No spacing or animation"
   noAnimation
@@ -171,6 +180,7 @@ export const DrawerNoAnimationNoSpacing = () => (
     <FormStatus state="info">This is a lorem ipsum dolor</FormStatus>
 </Drawer.Body>
 </Drawer>    
-    `}
+    `
+    }
   </ComponentBox>
 )
