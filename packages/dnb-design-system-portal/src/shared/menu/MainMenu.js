@@ -4,10 +4,8 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import { css, Global } from '@emotion/react'
-import { StaticQuery, graphql } from 'gatsby'
-import { Helmet as Head } from 'react-helmet'
+import { useStaticQuery, graphql } from 'gatsby'
 import styled from '@emotion/styled'
 import classnames from 'classnames'
 import Card, { focusRing } from './Card'
@@ -29,32 +27,26 @@ import {
 } from '@dnb/eufemia/src/shared/helpers'
 import { SearchBarInput } from './SearchBar'
 
-class MainWrapper extends React.PureComponent {
-  static propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    className: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired,
-  }
-  componentDidUpdate(prevProps) {
-    if (this.props.isOpen && !prevProps.isOpen) {
+function MainWrapper({ className, isOpen, children, ...rest }) {
+  React.useEffect(() => {
+    if (isOpen) {
       applyPageFocus('mainmenu')
     }
-  }
-  componentWillUnmount() {
-    applyPageFocus('content')
-  }
-  render() {
-    const { className, ...rest } = this.props
-    return (
-      <MainWrapperStyled
-        tabIndex="-1"
-        className={classnames('main-menu', 'dnb-no-focus', className)}
-        {...rest}
-      >
-        {this.props.children}
-      </MainWrapperStyled>
-    )
-  }
+
+    return () => {
+      applyPageFocus('content')
+    }
+  }, [isOpen])
+
+  return (
+    <MainWrapperStyled
+      tabIndex="-1"
+      className={classnames('main-menu', 'dnb-no-focus', className)}
+      {...rest}
+    >
+      {children}
+    </MainWrapperStyled>
+  )
 }
 
 const MainWrapperStyled = styled.nav`
@@ -204,210 +196,174 @@ const toggleContent = css`
   }
 `
 
-export default class MainMenu extends React.PureComponent {
-  static propTypes = {
-    enableOverlay: PropTypes.bool,
-  }
-  static defaultProps = {
-    enableOverlay: false,
-  }
-  static contextType = MainMenuContext
-  constructor(props) {
-    super(props)
+function MainMenu(props) {
+  const context = React.useContext(MainMenuContext)
+  const { closeMenu, isOpen, isClosing, isActive, openAsMenu } = context
+  const { enableOverlay } = props
+
+  React.useEffect(() => {
+    const onKeyDownHandler = (e) => {
+      switch (keycode(e)) {
+        case 'esc':
+          if (context.isOpen) {
+            context.closeMenu()
+          }
+          break
+      }
+    }
+
     setPageFocusElement('a.current-card', 'mainmenu')
-  }
-  componentDidMount() {
     if (typeof document !== 'undefined') {
-      document.addEventListener('keydown', this.onKeyDownHandler)
+      document.addEventListener('keydown', onKeyDownHandler)
     }
-  }
-  componentWillUnmount() {
-    if (typeof document !== 'undefined') {
-      document.removeEventListener('keydown', this.onKeyDownHandler)
+
+    return () => {
+      if (typeof document !== 'undefined') {
+        document.removeEventListener('keydown', onKeyDownHandler)
+      }
     }
-  }
-  onKeyDownHandler = (e) => {
-    switch (keycode(e)) {
-      case 'esc':
-        if (this.context.isOpen) {
-          this.context.closeMenu()
+  }, [])
+
+  const data = useStaticQuery(graphql`
+    query {
+      categories: allMdx(
+        filter: {
+          slug: {
+            in: [
+              "uilib"
+              "quickguide-designer"
+              "icons"
+              "design-system"
+              "brand"
+              "principles"
+              "contribute"
+            ]
+          }
         }
-        break
-    }
-  }
-
-  render() {
-    const { closeMenu, isOpen, isClosing, isActive, openAsMenu } =
-      this.context
-    const { enableOverlay } = this.props
-
-    return (
-      <StaticQuery
-        query={graphql`
-          query {
-            site {
-              siteMetadata {
-                title
-                description
-              }
-            }
-            categories: allMdx(
-              filter: {
-                slug: {
-                  in: [
-                    "uilib"
-                    "quickguide-designer"
-                    "icons"
-                    "design-system"
-                    "brand"
-                    "principles"
-                    "contribute"
-                  ]
-                }
-              }
-            ) {
-              edges {
-                node {
-                  slug
-                  frontmatter {
-                    title
-                    description
-                  }
-                }
-              }
+      ) {
+        edges {
+          node {
+            slug
+            frontmatter {
+              title
+              description
             }
           }
-        `}
-        render={({
-          site: {
-            siteMetadata: {
-              title: mainTitle,
-              description: mainDescription,
-            },
-          },
-          categories: { edges },
-        }) => {
-          const items = edges.reduce(
-            (acc, { node: { slug, frontmatter } }) => {
-              acc[slug] = {
-                url: `/${slug}/`,
-                slug,
-                ...frontmatter,
-              }
-              return acc
-            },
-            {}
-          )
+        }
+      }
+    }
+  `)
 
-          return (
-            (isActive || !enableOverlay) && (
-              <>
-                <h1 id="welcome-heading" className="dnb-sr-only">
-                  Welcome to Eufemia
-                </h1>
-                <MainWrapper
-                  aria-labelledby="welcome-heading"
-                  className={classnames(
-                    enableOverlay && 'is-overlay',
-                    isOpen && 'is-open',
-                    isClosing && 'is-closing'
-                  )}
-                  {...{ isOpen }}
-                >
-                  <Head>
-                    <title>{mainTitle}</title>
-                    <meta name="description" content={mainDescription} />
-                  </Head>
+  const {
+    categories: { edges },
+  } = data
+
+  const items = edges.reduce((acc, { node: { slug, frontmatter } }) => {
+    acc[slug] = {
+      url: `/${slug}/`,
+      slug,
+      ...frontmatter,
+    }
+    return acc
+  }, {})
+
+  return (
+    (isActive || !enableOverlay) && (
+      <>
+        <h1 id="welcome-heading" className="dnb-sr-only">
+          Welcome to Eufemia
+        </h1>
+        <MainWrapper
+          aria-labelledby="welcome-heading"
+          className={classnames(
+            enableOverlay && 'is-overlay',
+            isOpen && 'is-open',
+            isClosing && 'is-closing'
+          )}
+          {...{ isOpen }}
+        >
+          <>
+            <Global styles={customBodyStyle} />
+            {isOpen && !isClosing && <Global styles={toggleContent} />}
+            {(enableOverlay && (
+              <Toolbar className={classnames(isClosing && 'is-closing')}>
+                {isOpen && !isClosing && (
+                  <Button
+                    variant="secondary"
+                    className="close-button dnb-always-focus"
+                    on_click={closeMenu}
+                    icon="close"
+                    icon_position="left"
+                    text="Close"
+                    aria-label="Close Main Menu"
+                  />
+                )}
+              </Toolbar>
+            )) ||
+              (!enableOverlay && (
+                <ContentWrapper>
+                  <LogoFigure>
+                    <Logo size="48" />
+                    <figcaption>
+                      <VisuallyHidden>DNB</VisuallyHidden>
+                      Eufemia
+                    </figcaption>
+                  </LogoFigure>
+                  <SearchBarInput />
+                </ContentWrapper>
+              ))}
+            <CardsWrapper
+              aria-labelledby={openAsMenu ? 'toggle-main-menu' : undefined}
+            >
+              <Card
+                url={items['design-system']?.url}
+                title={items['design-system']?.title}
+                about={
                   <>
-                    <Global styles={customBodyStyle} />
-                    {isOpen && !isClosing && (
-                      <Global styles={toggleContent} />
-                    )}
-                    {(enableOverlay && (
-                      <Toolbar
-                        className={classnames(isClosing && 'is-closing')}
-                      >
-                        {isOpen && !isClosing && (
-                          <Button
-                            variant="secondary"
-                            className="close-button dnb-always-focus"
-                            on_click={closeMenu}
-                            icon="close"
-                            icon_position="left"
-                            text="Close"
-                            aria-label="Close Main Menu"
-                          />
-                        )}
-                      </Toolbar>
-                    )) ||
-                      (!enableOverlay && (
-                        <ContentWrapper>
-                          <LogoFigure>
-                            <Logo size="48" />
-                            <figcaption>
-                              <VisuallyHidden>DNB</VisuallyHidden>
-                              Eufemia
-                            </figcaption>
-                          </LogoFigure>
-                          <SearchBarInput />
-                        </ContentWrapper>
-                      ))}
-                    <CardsWrapper
-                      aria-labelledby={
-                        openAsMenu ? 'toggle-main-menu' : undefined
-                      }
-                    >
-                      <Card
-                        url={items['design-system']?.url}
-                        title={items['design-system']?.title}
-                        about={
-                          <>
-                            {items['design-system']?.description}
-                            <LastUpdated title="Last Change log update">
-                              Updated: {packageJson.changelogVersion}
-                            </LastUpdated>
-                          </>
-                        }
-                        icon={DesignSystemSvg}
-                      />
-                      <Card
-                        url={items['uilib']?.url}
-                        title={items['uilib']?.title}
-                        about={items['uilib']?.description}
-                        icon={UilibSvg}
-                      />
-                      <Card
-                        url={items['quickguide-designer']?.url}
-                        title={items['quickguide-designer']?.title}
-                        about={items['quickguide-designer']?.description}
-                        icon={QuickguideDesignerSvg}
-                      />
-                      <Card
-                        url={items['icons']?.url}
-                        title={items['icons']?.title}
-                        about={items['icons']?.description}
-                        icon={IconsSvg}
-                      />
-                      <Card
-                        url={items['brand']?.url}
-                        title={items['brand']?.title}
-                        about={items['brand']?.description}
-                        icon={BrandSvg}
-                      />
-                      <Card
-                        url={items['contribute']?.url}
-                        title={items['contribute']?.title}
-                        about={items['contribute']?.description}
-                        icon={DevelopmentSvg}
-                      />
-                    </CardsWrapper>
+                    {items['design-system']?.description}
+                    <LastUpdated title="Last Change log update">
+                      Updated: {packageJson.changelogVersion}
+                    </LastUpdated>
                   </>
-                </MainWrapper>
-              </>
-            )
-          )
-        }}
-      />
+                }
+                icon={DesignSystemSvg}
+              />
+              <Card
+                url={items['uilib']?.url}
+                title={items['uilib']?.title}
+                about={items['uilib']?.description}
+                icon={UilibSvg}
+              />
+              <Card
+                url={items['quickguide-designer']?.url}
+                title={items['quickguide-designer']?.title}
+                about={items['quickguide-designer']?.description}
+                icon={QuickguideDesignerSvg}
+              />
+              <Card
+                url={items['icons']?.url}
+                title={items['icons']?.title}
+                about={items['icons']?.description}
+                icon={IconsSvg}
+              />
+              <Card
+                url={items['brand']?.url}
+                title={items['brand']?.title}
+                about={items['brand']?.description}
+                icon={BrandSvg}
+              />
+              <Card
+                url={items['contribute']?.url}
+                title={items['contribute']?.title}
+                about={items['contribute']?.description}
+                icon={DevelopmentSvg}
+              />
+            </CardsWrapper>
+          </>
+        </MainWrapper>
+      </>
     )
-  }
+  )
 }
+
+export default MainMenu
