@@ -12,7 +12,8 @@ import {
 
 export const AccordionDefaultExample = () => (
   <ComponentBox data-visual-test="accordion-default">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Accordion
   expanded
 	remember_state
@@ -34,24 +35,28 @@ export const AccordionDefaultExample = () => (
 		Accordion content
 	</Accordion>
 </Accordion.Provider>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const AccordionLargeContentExample = () => (
   <ComponentBox data-visual-test="accordion-large" hideCode>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Accordion expanded bottom="large" title="Large content with long titleScelerisque eget cubilia tempus ipsum aenean dolor suscipit egestas potenti at eleifend platea interdum magnis amet molestie sem faucibus netus "
 >
   <P>Hendrerit dictum elit facilisis aliquet eleifend potenti leo nec praesent sollicitudin elementum scelerisque ridiculus neque nisi risus et habitant torquent nam pellentesque dictumst porttitor accumsan a nibh fringilla facilisi lacus sagittis mauris libero tellus justo ultricies tempor viverra sodales vestibulum proin tempus lorem cubilia at velit sociis sit malesuada class consectetur turpis metus vulputate tortor cum nisl ornare ligula platea quam gravida sapien penatibus ad curae varius hac ultrices ipsum felis vehicula fermentum rutrum parturient congue sed vel magnis laoreet donec id consequat augue mi semper volutpat urna in condimentum luctus cursus fames dignissim magna suspendisse bibendum mus natoque diam</P>
 </Accordion>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const AccordionCustomisationExample = () => (
   <ComponentBox data-visual-test="accordion-custom">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Accordion
   group="unique-id"
   left_component={<IconPrimary icon="bell" />}
@@ -74,13 +79,15 @@ export const AccordionCustomisationExample = () => (
     </P>
   </Accordion.Content>
 </Accordion>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const AccordionContainerExample = () => (
   <ComponentBox useRender hideCode data-visual-test="accordion-container">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 function AccordionWithContainer() {
   const ref1 = React.useRef()
   const ref2 = React.useRef()
@@ -188,13 +195,15 @@ function ChangingContent({ changeHeight, children }) {
   )
 }
 render(<AccordionWithContainer />)
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const AccordionGroupExample = () => (
   <ComponentBox data-visual-test="accordion-group">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Accordion.Group expanded allow_close_all>
 	<Accordion expanded={false}>
     <Accordion.Header>Accordion title</Accordion.Header>
@@ -216,7 +225,8 @@ export const AccordionGroupExample = () => (
     </Accordion.Content>
 	</Accordion>
 </Accordion.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -226,7 +236,8 @@ export const AccordionPlainVariant = () => {
       data-visual-test="accordion-variant-plain"
       scope={{ AddIcon, SubtractIcon }}
     >
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <Accordion
   variant="plain"
   title="Accordion with plain variant"
@@ -250,7 +261,8 @@ export const AccordionPlainVariant = () => {
 >
   content
 </Accordion>
-`}
+`
+      }
     </ComponentBox>
   ) : null
 }

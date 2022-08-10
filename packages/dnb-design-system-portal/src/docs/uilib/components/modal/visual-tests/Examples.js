@@ -8,7 +8,8 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 export const ModalExampleDrawerHeader = () => (
   <ComponentBox data-visual-test="modal-drawer-header">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Modal
   mode="drawer"
   trigger_text="Open Drawer"
@@ -81,13 +82,15 @@ export const ModalExampleDrawerHeader = () => (
     </P>
   </Modal.Content>
 </Modal>
-	`}
+	`
+    }
   </ComponentBox>
 )
 
 export const ModalExampleDrawerBasic = () => (
   <ComponentBox data-visual-test="modal-drawer-basic">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Modal
   mode="drawer"
   title="Drawer Title"
@@ -97,12 +100,14 @@ export const ModalExampleDrawerBasic = () => (
     <P top>This is a left aligned Drawer content.</P>
   </Modal.Content>
 </Modal>
-	`}
+	`
+    }
   </ComponentBox>
 )
 export const DrawerWithoutSpacing = () => (
   <ComponentBox data-visual-test="drawer-no-spacing">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Modal
   mode="drawer"
   title="Drawer without spacing"
@@ -113,25 +118,29 @@ export const DrawerWithoutSpacing = () => (
     <P top>This is a left aligned Drawer content.</P>
   </Modal.Content>
 </Modal>
-  `}
+  `
+    }
   </ComponentBox>
 )
 
 export const ModalExampleDefault = () => (
   <ComponentBox data-visual-test="modal-trigger-default">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Modal title="Modal Title">
   <Modal.Content spacing style_type="mint-green">
     <P>This is the modal text.</P>
   </Modal.Content>
 </Modal>
-	`}
+	`
+    }
   </ComponentBox>
 )
 
 export const ModalExampleHelpButton = () => (
   <ComponentBox data-visual-test="modal-help-button">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Input
   label="Input"
   placeholder="Placeholder ..."
@@ -143,13 +152,15 @@ export const ModalExampleHelpButton = () => (
     </Modal>
   }
 />
-	`}
+	`
+    }
   </ComponentBox>
 )
 
 export const ModalExampleFullscreen = () => (
   <ComponentBox data-visual-test="modal-fullscreen">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Modal
   title={<span className="dnb-sr-only">"Hidden" Modal title</span>}
   fullscreen="true"
@@ -158,19 +169,22 @@ export const ModalExampleFullscreen = () => (
   trigger_icon="bell"
   modal_content="This is the modal text. Triggered by a tertiary button."
 />
-	`}
+	`
+    }
   </ComponentBox>
 )
 
 export const DrawerExamplePlacementLeft = () => (
   <ComponentBox data-visual-test="modal-drawer-leftsided">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Modal
   mode="drawer"
   title="Modal title"
   container_placement="left"
   modal_content="This is the modal text. Triggered by a tertiary button."
 />
-	`}
+	`
+    }
   </ComponentBox>
 )

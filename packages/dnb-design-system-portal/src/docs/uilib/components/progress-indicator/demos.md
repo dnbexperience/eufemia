@@ -11,7 +11,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 ### Default ProgressIndicator is Circular
 
 <ComponentBox>
-	{() => /* jsx */ `
+	{/* jsx */ `
 <ProgressIndicator />
 `}
 </ComponentBox>
@@ -19,7 +19,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 ### Default Circular ProgressIndicator
 
 <ComponentBox>
-	{() => /* jsx */ `
+	{/* jsx */ `
 <ProgressIndicator
   type="circular"
 />
@@ -29,7 +29,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 ### Circular ProgressIndicator with a label in a horizontal direction
 
 <ComponentBox>
-	{() => /* jsx */ `
+	{/* jsx */ `
 <ProgressIndicator
   // label="Custom label ..."
   type="circular"
@@ -42,7 +42,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 ### Circular ProgressIndicator with a label in a vertical direction
 
 <ComponentBox>
-	{() => /* jsx */ `
+	{/* jsx */ `
 <ProgressIndicator
   // label="Custom label ..."
   type="circular"
@@ -55,7 +55,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 ### Shows a large Circular ProgressIndicator with a static 50% in progress
 
 <ComponentBox data-visual-test="progress-indicator-circular--primary">
-	{() => /* jsx */ `
+	{/* jsx */ `
   <ProgressIndicator
     type="circular"
     progress="50"
@@ -68,7 +68,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 ### Circular ProgressIndicator with random value
 
 <ComponentBox useRender>
-	{() => /* jsx */ `
+	{/* jsx */ `
 const ChangeValue = () => {
 	const [value, setValue] = React.useState(50)
 	return (
@@ -97,7 +97,7 @@ render(<ChangeValue />)
 ### Circular ProgressIndicator with random progress value to show the transition
 
 <ComponentBox noFragments={false}>
-	{() => /* jsx */ `
+	{/* jsx */ `
 () => {
   const random = (min, max) => (Math.floor( Math.random () * (max - min + 1)) + min)
   const [progress, setProgressIndicator] = React.useState(random(1, 100))
@@ -119,7 +119,7 @@ render(<ChangeValue />)
 ### Circular ProgressIndicator with random `on_complete` callback
 
 <ComponentBox noFragments={false}>
-	{() => /* jsx */ `
+	{/* jsx */ `
 () => {
   const random = (min, max) => (Math.floor( Math.random () * (max - min + 1)) + min)
   const [visible, setVisible] = React.useState(true)
@@ -144,7 +144,7 @@ render(<ChangeValue />)
 ### Circular ProgressIndicator inside a Modal
 
 <ComponentBox>
-	{() => /* jsx */ `
+	{/* jsx */ `
 <Modal
   spacing={false}
   max_width="12rem"
@@ -169,7 +169,7 @@ render(<ChangeValue />)
 ### Default Linear ProgressIndicator
 
 <ComponentBox>
-	{() => /* jsx */ `
+	{/* jsx */ `
   <ProgressIndicator 
     type="linear" 
   />
@@ -179,7 +179,7 @@ render(<ChangeValue />)
 ### Small Linear ProgressIndicator
 
 <ComponentBox>
-	{() => /* jsx */ `
+	{/* jsx */ `
   <ProgressIndicator 
     type="linear"
     size="small"
@@ -190,7 +190,7 @@ render(<ChangeValue />)
 ### Linear ProgressIndicator with a label in a horizontal direction
 
 <ComponentBox>
-	{() => /* jsx */ `
+	{/* jsx */ `
 <ProgressIndicator
   type="linear"
   // label="Custom label ..."
@@ -203,7 +203,7 @@ render(<ChangeValue />)
 ### Linear ProgressIndicator with a label in a vertical direction
 
 <ComponentBox>
-	{() => /* jsx */ `
+	{/* jsx */ `
 <ProgressIndicator
   type="linear"
   // label="Custom label ..."
@@ -216,7 +216,7 @@ render(<ChangeValue />)
 ### Shows a large Linear ProgressIndicator with a static 50% in progress
 
 <ComponentBox data-visual-test="progress-indicator-linear--primary">
-	{() => /* jsx */ `
+	{/* jsx */ `
   <ProgressIndicator 
     type="linear" 
     progress="50"
@@ -229,7 +229,7 @@ render(<ChangeValue />)
 ### Linear ProgressIndicator with random value
 
 <ComponentBox useRender>
-	{() => /* jsx */ `
+	{/* jsx */ `
 const ChangeValue = () => {
 	const [value, setValue] = React.useState(50)
 	return (
@@ -257,7 +257,7 @@ render(<ChangeValue />)
 ### Linear ProgressIndicator with random progress value to show the transition
 
 <ComponentBox noFragments={false}>
-	{() => /* jsx */ `
+	{/* jsx */ `
 () => {
   const random = (min, max) => (Math.floor( Math.random () * (max - min + 1)) + min)
   const [progress, setProgressIndicator] = React.useState(random(1, 100))
@@ -278,7 +278,7 @@ render(<ChangeValue />)
 ### Linear ProgressIndicator with random `on_complete` callback
 
 <ComponentBox noFragments={false}>
-	{() => /* jsx */ `
+	{/* jsx */ `
 () => {
   const random = (min, max) => (Math.floor( Math.random () * (max - min + 1)) + min)
   const [visible, setVisible] = React.useState(true)
@@ -303,7 +303,7 @@ render(<ChangeValue />)
 ### Linear ProgressIndicator inside a Modal
 
 <ComponentBox>
-	{() => /* jsx */ `
+	{/* jsx */ `
 <Modal
   spacing={false}
   max_width="12rem"

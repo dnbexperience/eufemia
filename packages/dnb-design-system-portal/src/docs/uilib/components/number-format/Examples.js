@@ -20,7 +20,8 @@ const Style = styled.div`
 export const NumberDefault = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-default">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <P>
   <NumberFormat value="12345" srLabel="Total:" />
   <NumberFormat>-12345678.9</NumberFormat>
@@ -28,7 +29,8 @@ export const NumberDefault = () => (
   <NumberFormat decimals={1}>-1234.54321</NumberFormat>
   <NumberFormat decimals={2}>-1234</NumberFormat>
 </P>
-`}
+`
+      }
     </ComponentBox>
   </Style>
 )
@@ -36,13 +38,15 @@ export const NumberDefault = () => (
 export const NumberPercent = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-percent">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <P>
   <NumberFormat percent value="12.34" />
   <NumberFormat percent>-12.34</NumberFormat>
   <NumberFormat percent decimals={1}>-12.34</NumberFormat>
 </P>
-`}
+`
+      }
     </ComponentBox>
   </Style>
 )
@@ -50,7 +54,8 @@ export const NumberPercent = () => (
 export const NumberCurrency = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-currency">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <P>
   <NumberFormat currency>12345</NumberFormat>
   <NumberFormat currency currency_position="before" value={-12345678.9} />
@@ -61,7 +66,8 @@ export const NumberCurrency = () => (
     currency_display="code"
   />
 </P>
-`}
+`
+      }
     </ComponentBox>
   </Style>
 )
@@ -69,7 +75,8 @@ export const NumberCurrency = () => (
 export const NumberCompact = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-compact">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <P>
   <NumberFormat compact decimals={1}>1234</NumberFormat>
   <NumberFormat
@@ -100,7 +107,8 @@ export const NumberCompact = () => (
     decimals={3}
   />
 </P>
-`}
+`
+      }
     </ComponentBox>
   </Style>
 )
@@ -108,7 +116,8 @@ export const NumberCompact = () => (
 export const NumberPhone = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-phone">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <P>
   <NumberFormat value="99999999" phone />
   <NumberFormat value="4799999999" phone />
@@ -117,7 +126,8 @@ export const NumberPhone = () => (
   <NumberFormat value="+47116000" phone selectall="false" />
   <NumberFormat value="+4702000" phone />
 </P>
-`}
+`
+      }
     </ComponentBox>
   </Style>
 )
@@ -125,11 +135,13 @@ export const NumberPhone = () => (
 export const NumberBankAccount = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-ban">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <P>
   <NumberFormat value="20001234567" ban />
 </P>
-`}
+`
+      }
     </ComponentBox>
   </Style>
 )
@@ -137,11 +149,13 @@ export const NumberBankAccount = () => (
 export const NumberNationalIdentification = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-nin">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <P>
   <NumberFormat value="18089212345" nin />
 </P>
-`}
+`
+      }
     </ComponentBox>
   </Style>
 )
@@ -149,11 +163,13 @@ export const NumberNationalIdentification = () => (
 export const NumberOrganization = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-org">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <P>
   <NumberFormat value="123456789" org suffix="MVA" />
 </P>
-`}
+`
+      }
     </ComponentBox>
   </Style>
 )
@@ -161,7 +177,8 @@ export const NumberOrganization = () => (
 export const NumberLocales = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-locales">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <H3>Numbers</H3>
 <P>
   <NumberFormat locale="nb-NO" value="-12345678.9" />
@@ -179,7 +196,8 @@ export const NumberLocales = () => (
   <NumberFormat locale="de-CH" value="-12345.6" currency />
   <NumberFormat locale="fr-CH" value="-12345.6" currency />
 </P>
-`}
+`
+      }
     </ComponentBox>
   </Style>
 )
@@ -187,10 +205,12 @@ export const NumberLocales = () => (
 export const NumberSpacing = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-spacing">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 text <NumberFormat value="1234" currency left right />
 text <NumberFormat value="5678" currency left right /> text 
-`}
+`
+      }
     </ComponentBox>
   </Style>
 )

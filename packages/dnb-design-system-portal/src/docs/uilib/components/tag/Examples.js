@@ -12,12 +12,14 @@ import {
 
 export const TagDefault = () => (
   <ComponentBox data-visual-test="tag-default">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Tag.Group label="Payment types:">
   <Tag>Digipost</Tag>
   <Tag>AvtaleGiro</Tag>
 </Tag.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -26,41 +28,48 @@ export const TagWithIcon = () => (
     data-visual-test="tag-icon"
     scope={{ EInvoice, AInvoice, DigiPost }}
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Tag.Group label="Betalingstyper:">
   <Tag icon={AInvoice} text="AvtaleGiro" />
   <Tag icon={EInvoice} text="eFaktura" />
   <Tag icon={DigiPost} text="DigiPost" />
 </Tag.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const TagRemovable = () => (
   <ComponentBox data-visual-test="tag-removable">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Tag.Group label="Files:">
   <Tag text='Eufemia.tsx' onDelete={() => { console.log("I was deleted!")}}/>
 </Tag.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const TagInline = () => (
   <ComponentBox data-visual-test="tag-inline">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 Text <Tag.Group label="Inline:">
   <Tag text="First" /> between 
   <Tag text="Second" />
   <Tag text="Third" />
 </Tag.Group> Text
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const TagMultipleRemovable = () => (
   <ComponentBox data-visual-test="tag-removable-list" useRender>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 const Genres = () => {
   const [tagData, setTagData] = React.useState([
     { key: 0, text: 'Action' },
@@ -91,18 +100,21 @@ const Genres = () => {
   )
 }
 render(<Genres />)
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const TagSkeleton = () => (
   <ComponentBox data-visual-test="tag-skeleton">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Tag.Group label="Skeletons:">
   <Tag skeleton text="Skeleton" /> 
   <Tag skeleton text="Skeleton" />
   <Tag skeleton text="Skeleton" />
 </Tag.Group>
-`}
+`
+    }
   </ComponentBox>
 )

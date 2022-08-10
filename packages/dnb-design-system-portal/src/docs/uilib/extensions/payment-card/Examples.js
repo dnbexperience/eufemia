@@ -24,7 +24,8 @@ export function PaymentCardAllCards() {
       data-visual-test="all-cards"
       useRender
     >
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 const demoCards = [
   'VE1',
   'VL2',
@@ -49,7 +50,8 @@ const Cards = ()=>demoCards.map((product_code) => {
 	)
 })
 render(<Cards />)
-	`}
+	`
+      }
     </ComponentBox>
   )
 }

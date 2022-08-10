@@ -16,7 +16,8 @@ export const ExampleCard = ({ children }) => (
 )
 export const ModalExampleModeCustom = () => (
   <ComponentBox data-visual-test="modal-custom" scope={{ ExampleCard }}>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Modal mode="custom">
   <ExampleCard>
     <P>
@@ -24,13 +25,15 @@ export const ModalExampleModeCustom = () => (
     </P>
   </ExampleCard>
 </Modal>
-	`}
+	`
+    }
   </ComponentBox>
 )
 
 export const ModalExampleStateOnly = () => (
   <ComponentBox useRender scope={{ ExampleCard }}>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 const Component = () => {
   const [modalIsActive, setModalState] = React.useState(false)
   return (
@@ -56,13 +59,15 @@ const Component = () => {
   )
 }
 render(<Component />)
-	`}
+	`
+    }
   </ComponentBox>
 )
 
 export const ModalExampleCloseByHandler = () => (
   <ComponentBox scope={{ ExampleCard }}>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Modal
   title="Auto close"
   trigger_text="Click me"
@@ -78,6 +83,7 @@ export const ModalExampleCloseByHandler = () => (
     <P>This Modal will close in 3 seconds.</P>
   </ExampleCard>
 </Modal>
-	`}
+	`
+    }
   </ComponentBox>
 )

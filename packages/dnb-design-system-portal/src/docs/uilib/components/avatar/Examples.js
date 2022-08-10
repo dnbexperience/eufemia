@@ -12,91 +12,109 @@ import {
 
 export const AvatarSizeDefault = () => (
   <ComponentBox hideCode data-visual-test="avatar-size-default">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="Persons:">
   <Avatar>Ola Nordmann</Avatar>
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const AvatarSizeSmall = () => (
   <ComponentBox hideCode data-visual-test="avatar-size-small">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 Text <Avatar.Group label="Animals:">
   <Avatar size="small">Duck</Avatar>
 </Avatar.Group> Text
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const AvatarSizeMedium = () => (
   <ComponentBox hideCode data-visual-test="avatar-size-medium">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="Stocks:">
   <Avatar size="medium">NFLX</Avatar>
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const AvatarSizeLarge = () => (
   <ComponentBox hideCode data-visual-test="avatar-size-large">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="Companies:">
   <Avatar size="large">Amazon</Avatar>
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const AvatarSizeXLarge = () => (
   <ComponentBox hideCode data-visual-test="avatar-size-x-large">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="TV Shows:">
   <Avatar size="x-large">Friends</Avatar>
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const AvatarVariantDefault = () => (
   <ComponentBox hideCode data-visual-test="avatar-variant-default">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="Dogs:">
   <Avatar>Kleiner münsterländer</Avatar>
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const AvatarVariantPrimary = () => (
   <ComponentBox hideCode data-visual-test="avatar-variant-primary">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="Cities:">
   <Avatar variant="primary">Oslo</Avatar>
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const AvatarVariantSecondary = () => (
   <ComponentBox hideCode data-visual-test="avatar-variant-secondary">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="Countries:">
   <Avatar variant="secondary">Spain</Avatar>
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const AvatarVariantTertiary = () => (
   <ComponentBox hideCode data-visual-test="avatar-variant-tertiary">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="Cars:">
   <Avatar variant="tertiary">Tesla</Avatar>
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -106,13 +124,15 @@ export const AvatarConfettiIcon = () => (
     scope={{ Confetti }}
     data-visual-test="avatar-children-icon-primary"
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="Icons:">
   <Avatar variant="primary">
     <Icon icon={Confetti} />
   </Avatar>
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -122,13 +142,15 @@ export const AvatarCardIcon = () => (
     scope={{ Card }}
     data-visual-test="avatar-children-icon-secondary"
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="Icons:">
   <Avatar variant="secondary">
     <Icon icon={Card} />
   </Avatar>
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -138,31 +160,36 @@ export const AvatarAccountCardIcon = () => (
     scope={{ AccountCard }}
     data-visual-test="avatar-children-icon-tertiary"
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="Icons:">
   <Avatar variant="tertiary">
     <Icon icon={AccountCard} />
   </Avatar>
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const AvatarDNBLogo = () => (
   <ComponentBox hideCode data-visual-test="avatar-children-logo">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="Logos:">
   <Avatar>
     <Logo size="auto" />
   </Avatar>
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const AvatarImageDNB = () => (
   <ComponentBox hideCode data-visual-test="avatar-image-local-png">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="Banks:">
   <Avatar 
     src="/android-chrome-192x192.png" 
@@ -170,13 +197,15 @@ export const AvatarImageDNB = () => (
     size="x-large"
   />
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const AvatarImagePinnedTab = () => (
   <ComponentBox hideCode data-visual-test="avatar-image-local-svg">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="Icons:">
   <Avatar 
     variant="tertiary"
@@ -184,13 +213,15 @@ export const AvatarImagePinnedTab = () => (
     alt="DNB Logo" 
   />
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const AvatarImageTobias = () => (
   <ComponentBox hideCode data-visual-test="avatar-image-external">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="Profiles:">
   <Avatar 
     src="/images/avatars/1501870.jpg" 
@@ -198,7 +229,8 @@ export const AvatarImageTobias = () => (
     size="large"
   />
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -208,7 +240,8 @@ export const AvatarImageProps = () => (
     noFragments={false}
     data-visual-test="avatar-image-props"
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 () => {
   const imgProps = {
     width: "48", 
@@ -227,13 +260,15 @@ export const AvatarImageProps = () => (
     </Avatar.Group>
   )
 }
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const GroupedAvatarsSmall = () => (
   <ComponentBox hideCode data-visual-test="avatar-grouped-small">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 Text <Avatar.Group label="Friends:" size="small" variant="primary" maxElements={6}>
   <Avatar>Anders</Avatar>
   <Avatar>Bjørnar</Avatar>
@@ -243,13 +278,15 @@ Text <Avatar.Group label="Friends:" size="small" variant="primary" maxElements={
   <Avatar>Frida</Avatar>
   <Avatar>Gøril</Avatar>
 </Avatar.Group> Text
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const GroupedAvatarsMedium = () => (
   <ComponentBox hideCode data-visual-test="avatar-grouped-medium">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="Employees:" size="medium" maxElements={5}>
   <Avatar>Anders</Avatar>
   <Avatar>Bjørnar</Avatar>
@@ -259,13 +296,15 @@ export const GroupedAvatarsMedium = () => (
   <Avatar>Frida</Avatar>
   <Avatar>Gøril</Avatar>
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const GroupedAvatarsLarge = () => (
   <ComponentBox hideCode data-visual-test="avatar-grouped-large">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="Borrowers:" size="large" variant="tertiary" maxElements={4}>
   <Avatar>Anders</Avatar>
   <Avatar>Bjørnar</Avatar>
@@ -275,13 +314,15 @@ export const GroupedAvatarsLarge = () => (
   <Avatar>Frida</Avatar>
   <Avatar>Gøril</Avatar>
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const GroupedAvatarsXLarge = () => (
   <ComponentBox hideCode data-visual-test="avatar-grouped-x-large">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="Enemies:" size="x-large" variant="secondary" maxElements={3}>
   <Avatar>Anders</Avatar>
   <Avatar>Bjørnar</Avatar>
@@ -291,13 +332,15 @@ export const GroupedAvatarsXLarge = () => (
   <Avatar>Frida</Avatar>
   <Avatar>Gøril</Avatar>
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const GroupedAvatarsImg = () => (
   <ComponentBox hideCode data-visual-test="avatar-grouped-image">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Avatar.Group label="Eufemia contributors:" size="large" maxElements={5}>
   <Avatar src="/images/avatars/1501870.jpg" alt="Profile picture"/>
   <Avatar src="/images/avatars/35217511.jpg" alt="Profile picture"/>
@@ -307,6 +350,7 @@ export const GroupedAvatarsImg = () => (
   <Avatar src="/images/avatars/1501870.jpg" alt="Profile picture"/>
   <Avatar src="/images/avatars/1501870.jpg" alt="Profile picture"/>
 </Avatar.Group>
-`}
+`
+    }
   </ComponentBox>
 )

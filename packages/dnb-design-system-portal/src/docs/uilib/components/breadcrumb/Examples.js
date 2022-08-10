@@ -7,19 +7,22 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 export const BreadcrumbSingle = () => (
   <ComponentBox data-visual-test="breadcrumb-single">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Breadcrumb
   onClick={() => {
       console.log('Going back!')
     }}
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const BreadcrumbMultipleData = () => (
   <ComponentBox noFragments={false} data-visual-test="breadcrumb-multiple">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 () => {
   // You can also import pages from a store and only do a remapping
   const pages = [
@@ -45,25 +48,29 @@ export const BreadcrumbMultipleData = () => (
     <Breadcrumb data={pages} spacing/>
   )
 }
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const BreadcrumbMultiple = () => (
   <ComponentBox data-visual-test="breadcrumb-multiple-children">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Breadcrumb spacing>
   <Breadcrumb.Item onClick={() => {console.log("go home!")}} variant="home" />
   <Breadcrumb.Item text="Page item" onClick={() => {console.log("go to page 1")}} />
   <Breadcrumb.Item text="Page item" onClick={() => {console.log("go to page 2")}} variant="current" />
 </Breadcrumb>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const BreadcrumbVariants = () => (
   <ComponentBox noFragments={false} data-visual-test="breadcrumb-collapse">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 () => {
   const pages = [
     {
@@ -85,7 +92,8 @@ export const BreadcrumbVariants = () => (
     <Breadcrumb variant="collapse" data={pages} spacing/>
   )
 }
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -94,7 +102,8 @@ export const BreadcrumbCollapseOpen = () => (
     noFragments={false}
     data-visual-test="breadcrumb-collapse-open"
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 () => {
   const pages = [
     {
@@ -115,6 +124,7 @@ export const BreadcrumbCollapseOpen = () => (
     <Breadcrumb variant="collapse" data={pages} isCollapsed={false} spacing />
   )
 }
-`}
+`
+    }
   </ComponentBox>
 )

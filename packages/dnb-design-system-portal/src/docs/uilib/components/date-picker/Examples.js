@@ -24,7 +24,8 @@ const Wrapper = styled.div`
 export const DatePickerRange = () =>
   global.IS_TEST ? null : (
     <ComponentBox scope={{ addDays, startOfMonth, lastDayOfMonth }}>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <DatePicker
   label="DatePicker:"
   start_date="2019-04-01"
@@ -59,14 +60,16 @@ export const DatePickerRange = () =>
     }
   ]}
 />
-`}
+`
+      }
     </ComponentBox>
   )
 
 export const DatePickerWithInput = () =>
   global.IS_TEST ? null : (
     <ComponentBox>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <DatePicker
   label="DatePicker:"
   date={new Date()}
@@ -80,14 +83,16 @@ export const DatePickerWithInput = () =>
     console.log('on_cancel', date)
   }}
 />
-`}
+`
+      }
     </ComponentBox>
   )
 
 export const DatePickerTrigger = () => (
   <Wrapper>
     <ComponentBox data-visual-test="date-picker-trigger-default">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <DatePicker
   label="DatePicker:"
   date="2019-05-05"
@@ -99,7 +104,8 @@ export const DatePickerTrigger = () => (
     console.log('on_show', date)
   }}
 />
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -107,7 +113,8 @@ export const DatePickerTrigger = () => (
 export const DatePickerHiddenNav = () =>
   global.IS_TEST ? null : (
     <ComponentBox>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <DatePicker
   label="DatePicker:"
   date="2022/05/05"
@@ -124,28 +131,32 @@ export const DatePickerHiddenNav = () =>
     console.log('on_hide', date)
   }}
 />
-`}
+`
+      }
     </ComponentBox>
   )
 
 export const DatePickerMonthOnly = () =>
   global.IS_TEST ? null : (
     <ComponentBox>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <DatePicker
   label="DatePicker:"
   date="05/02/2019"
   date_format="MM/dd/yyyy"
   only_month={true}
 />
-`}
+`
+      }
     </ComponentBox>
   )
 
 export const DatePickerDisabled = () =>
   global.IS_TEST ? null : (
     <ComponentBox>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <DatePicker
   label="DatePicker:"
   date={new Date()}
@@ -153,35 +164,40 @@ export const DatePickerDisabled = () =>
   status="Please select a valid date"
   status_state="info"
 />
-`}
+`
+      }
     </ComponentBox>
   )
 
 export const DatePickerSuffix = () =>
   global.IS_TEST ? null : (
     <ComponentBox>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <DatePicker
   label="DatePicker:"
   date={new Date()}
   show_input
   suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
 />
-`}
+`
+      }
     </ComponentBox>
   )
 
 export const DatePickerLinked = () => (
   <Wrapper>
     <ComponentBox data-visual-test="date-picker-input">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <DatePicker
   label="DatePicker:"
   range
   link
   show_input
 />
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -189,14 +205,16 @@ export const DatePickerLinked = () => (
 export const DatePickerNoInputStatus = () => (
   <Wrapper>
     <ComponentBox data-visual-test="date-picker-trigger-error">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <DatePicker
   label="DatePicker:"
   date="2019-05-05"
   hide_navigation={true}
   status="Please select a valid date"
 />
- `}
+ `
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -204,7 +222,8 @@ export const DatePickerNoInputStatus = () => (
 export const DatePickerErrorMessage = () => (
   <Wrapper>
     <ComponentBox data-visual-test="date-picker-input-error">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <DatePicker
   label="DatePicker:"
   date="2019-05-05"
@@ -213,28 +232,32 @@ export const DatePickerErrorMessage = () => (
   stretch={true}
   status={<span>Status message with <b>HTML</b> inside</span>}
 />
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
 
 export const DatePickerErrorStatus = () => (
   <ComponentBox>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <DatePicker
   label="DatePicker:"
   date={new Date()}
   hide_navigation={true}
   status="error"
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const DatePickerCalendar = () => (
   <Wrapper>
     <ComponentBox data-visual-test="date-picker-calendar">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <DatePicker
   opened="true"
   prevent_close="true"
@@ -243,7 +266,8 @@ export const DatePickerCalendar = () => (
   start_date="2019-05-05"
   end_date="2019-06-05"
 />
- `}
+ `
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -255,7 +279,8 @@ export const DatePickerScreenshotTests = () => {
   return (
     <Wrapper>
       <ComponentBox data-visual-test="date-picker-sizes">
-        {() => /* jsx */ `
+        {
+          /* jsx */ `
 <FormRow vertical>
   <DatePicker
     label="DatePicker:"
@@ -281,7 +306,8 @@ export const DatePickerScreenshotTests = () => {
     show_input={true}
   />
 </FormRow>
- `}
+ `
+        }
       </ComponentBox>
     </Wrapper>
   )

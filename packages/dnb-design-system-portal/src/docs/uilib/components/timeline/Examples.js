@@ -12,7 +12,8 @@ import {
 
 export const TimelineSingleCompleted = () => (
   <ComponentBox data-visual-test="timeline-single-completed" hideCode>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
   <Timeline 
     data={[
       {
@@ -21,13 +22,15 @@ export const TimelineSingleCompleted = () => (
       }
     ]}
   />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const TimelineSingleCurrent = () => (
   <ComponentBox data-visual-test="timeline-single-current" hideCode>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
   <Timeline 
     data={[
       {
@@ -36,13 +39,15 @@ export const TimelineSingleCurrent = () => (
       }
     ]}
   />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const TimelineSingleUpcoming = () => (
   <ComponentBox data-visual-test="timeline-single-upcoming" hideCode>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
   <Timeline 
     data={[
       {
@@ -51,7 +56,8 @@ export const TimelineSingleUpcoming = () => (
       }
     ]}
   />
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -61,7 +67,8 @@ export const TimelineMultipleData = () => (
     data-visual-test="timeline-multiple"
     hideCode
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 () => {
   const events = [
     {
@@ -84,7 +91,8 @@ export const TimelineMultipleData = () => (
     <Timeline data={events}/>
   )
 }
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -94,7 +102,8 @@ export const TimelineMultipleCompletedData = () => (
     data-visual-test="timeline-multiple-completed"
     hideCode
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 () => {
   const events = [
     {
@@ -119,7 +128,8 @@ export const TimelineMultipleCompletedData = () => (
     <Timeline data={events}/>
   )
 }
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -129,7 +139,8 @@ export const TimelineMultipleUpcomingData = () => (
     data-visual-test="timeline-multiple-upcoming"
     hideCode
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 () => {
   const events = [
     {
@@ -154,7 +165,8 @@ export const TimelineMultipleUpcomingData = () => (
     <Timeline data={events}/>
   )
 }
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -164,7 +176,8 @@ export const TimelineMultipleCurrentData = () => (
     data-visual-test="timeline-multiple-current"
     hideCode
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 () => {
   const events = [
     {
@@ -189,13 +202,15 @@ export const TimelineMultipleCurrentData = () => (
     <Timeline data={events}/>
   )
 }
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const TimelineMultiple = () => (
   <ComponentBox data-visual-test="timeline-multiple-children" hideCode>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Timeline>
   <Timeline.Item 
     title="Completed event" 
@@ -212,7 +227,8 @@ export const TimelineMultiple = () => (
     state="upcoming"
   />
 </Timeline>
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -222,7 +238,8 @@ export const TimelineStates = () => (
     data-visual-test="timeline-states"
     hideCode
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 () => {
   const events = [
     {
@@ -249,7 +266,8 @@ export const TimelineStates = () => (
     <Timeline data={events}/>
   )
 }
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -260,7 +278,8 @@ export const TimelineIcons = () => (
     scope={{ Confetti, Card, AccountCard }}
     hideCode
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 () => {
   const events = [
     {
@@ -287,13 +306,15 @@ export const TimelineIcons = () => (
     <Timeline data={events}/>
   )
 }
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const TimelineSkeleton = () => (
   <ComponentBox data-visual-test="timeline-skeleton" hideCode>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
   <Timeline
     skeleton
     data={[
@@ -314,13 +335,15 @@ export const TimelineSkeleton = () => (
       },      
     ]}
   />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const TimelineAsChildrenSkeleton = () => (
   <ComponentBox data-visual-test="timeline-children-skeleton" hideCode>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Timeline skeleton>
   <Timeline.Item 
     title="Upcoming" 
@@ -338,13 +361,15 @@ export const TimelineAsChildrenSkeleton = () => (
     state="completed"
   />
 </Timeline>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const TimelineItemSkeleton = () => (
   <ComponentBox data-visual-test="timeline-item-skeleton" hideCode>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
   <Timeline
     data={[
       {
@@ -361,6 +386,7 @@ export const TimelineItemSkeleton = () => (
       }
     ]}
   />
-`}
+`
+    }
   </ComponentBox>
 )
