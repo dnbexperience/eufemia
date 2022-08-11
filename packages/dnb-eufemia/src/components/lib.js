@@ -55,6 +55,7 @@ import Textarea from './textarea/Textarea'
 import Timeline from './timeline/Timeline'
 import ToggleButton from './toggle-button/ToggleButton'
 import Tooltip from './tooltip/Tooltip'
+import Upload from './upload/Upload'
 import VisuallyHidden from './visually-hidden/VisuallyHidden'
 
 // define / export all the available components
@@ -102,6 +103,7 @@ export {
   Timeline,
   ToggleButton,
   Tooltip,
+  Upload,
   VisuallyHidden,
 }
 
@@ -150,6 +152,7 @@ export const getComponents = () => {
     Timeline,
     ToggleButton,
     Tooltip,
+    Upload,
     VisuallyHidden,
   }
 }

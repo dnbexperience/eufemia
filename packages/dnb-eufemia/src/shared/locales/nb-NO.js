@@ -119,5 +119,19 @@ export default {
     Logo: {
       alt: 'DNB Logo',
     },
+    Upload: {
+      title: 'Last opp dokumenter',
+      text: 'Dra & slipp eller velg hvilke filer du vil laste opp. Filene konverteres til PDF etter opplasing',
+      formatsDescription: 'Tilatte formater:',
+      fileSizeDescription: 'Maks filstørrelse:',
+      fileSizeContent: '%size MB',
+      uploadButtonText: 'Velg filer',
+      uploadingLoadingText: 'Laster opp dokkument',
+      errorWrongFileFormat:
+        'Vi aksepterer ikke dette fil formatet, prøv igjen med %types',
+      errorToLargeFile:
+        'Denne filen er for stor, prøv igjen med en fil som er mindre enn %fileSize MB',
+      deleteButton: 'Slett',
+    },
   },
 }

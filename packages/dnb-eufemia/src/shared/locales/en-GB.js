@@ -119,5 +119,19 @@ export default {
     Logo: {
       alt: 'DNB Logo',
     },
+    Upload: {
+      title: 'Upload documents',
+      text: 'Drag & drop your files or choose files to upload. Files are converted to PDF after upload.',
+      formatsDescription: 'Allowed formats:',
+      fileSizeDescription: 'Max. filesize:',
+      fileSizeContent: '%size MB',
+      uploadButtonText: 'Choose files',
+      uploadingLoadingText: 'Uploading document ...',
+      errorWrongFileFormat:
+        'We do not support this file format, please try again with %types',
+      errorToLargeFile:
+        'The file is too large, please try again with a file smaller then %fileSize MB',
+      deleteButton: 'Delete',
+    },
   },
 }
