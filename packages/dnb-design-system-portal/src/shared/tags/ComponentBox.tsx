@@ -17,6 +17,8 @@ if (!globalThis.ComponentBoxMemo) {
 type ComponentBoxProps = {
   children: string | (() => string)
   scope?: Record<string, unknown>
+  hideCode?: boolean
+  useRender?: boolean
 }
 
 function ComponentBox(props: ComponentBoxProps) {
