@@ -82,6 +82,7 @@ import Textarea from './components/textarea/Textarea'
 import Timeline from './components/timeline/Timeline'
 import ToggleButton from './components/toggle-button/ToggleButton'
 import Tooltip from './components/tooltip/Tooltip'
+import Upload from './components/upload/Upload'
 import VisuallyHidden from './components/visually-hidden/VisuallyHidden'
 
 // define / export all the available components
@@ -158,6 +159,7 @@ export {
   Timeline,
   ToggleButton,
   Tooltip,
+  Upload,
   VisuallyHidden,
 }
 

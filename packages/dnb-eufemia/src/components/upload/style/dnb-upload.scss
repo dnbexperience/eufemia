@@ -1,0 +1,13 @@
+/*
+* DNB Upload
+*
+*/
+
+// import dependencies
+@import '../../../style/components/imports.scss';
+
+.dnb-upload {
+  @include componentReset();
+}
+
+@import './_upload.scss';
