@@ -87,6 +87,13 @@ describe('Anchor screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match the dnb-anchor--no-underline', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="anchor-in-section"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   // "active" simulation is suddenly too unstable – no reason found
   // it('have to match the anchor-contrast "active" state', async () => {
   //   const screenshot = await testPageScreenshot({

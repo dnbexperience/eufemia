@@ -56,9 +56,11 @@ button.dnb-anchor {
     .dnb-anchor:focus:not(:active) {
       color: var(--color-sea-green);
       background-color: transparent;
-      transition: none;
-      box-shadow: none;
-      text-decoration: none; }
+      transition: none; }
+      .dnb-anchor:focus:not(:active),
+      .dnb-section .dnb-anchor:focus:not(:active).dnb-anchor {
+        box-shadow: none;
+        text-decoration: none; }
     html[data-whatinput='keyboard'] .dnb-anchor:focus {
       --border-color: var(--color-emerald-green);
       box-shadow: 0 0 0 0.125rem var(--border-color);
@@ -69,15 +71,20 @@ button.dnb-anchor {
   .dnb-anchor:hover, .dnb-anchor:active {
     color: var(--color-sea-green);
     background-color: var(--color-mint-green-50);
-    border-radius: 0.25em;
-    box-shadow: none;
-    text-decoration: none; }
+    border-radius: 0.25em; }
+    .dnb-anchor:hover,
+    .dnb-section .dnb-anchor:hover.dnb-anchor, .dnb-anchor:active,
+    .dnb-section .dnb-anchor:active.dnb-anchor {
+      box-shadow: none;
+      text-decoration: none; }
   .dnb-anchor:active {
     color: var(--color-mint-green);
     background-color: var(--color-emerald-green);
-    border-radius: 0.25em;
-    box-shadow: none;
-    text-decoration: none; }
+    border-radius: 0.25em; }
+    .dnb-anchor:active,
+    .dnb-section .dnb-anchor:active.dnb-anchor {
+      box-shadow: none;
+      text-decoration: none; }
   .dnb-anchor[target='_blank']:not(:empty):not(.dnb-anchor--no-icon) {
     position: relative;
     background-size: 0;
@@ -108,16 +115,20 @@ button.dnb-anchor {
 .dnb-anchor--hover {
   color: var(--color-sea-green);
   background-color: var(--color-mint-green-50);
-  border-radius: 0.25em;
-  box-shadow: none;
-  text-decoration: none; }
+  border-radius: 0.25em; }
+  .dnb-anchor--hover,
+  .dnb-section .dnb-anchor--hover.dnb-anchor {
+    box-shadow: none;
+    text-decoration: none; }
 
 .dnb-anchor--active {
   color: var(--color-mint-green);
   background-color: var(--color-emerald-green);
-  border-radius: 0.25em;
-  box-shadow: none;
-  text-decoration: none; }
+  border-radius: 0.25em; }
+  .dnb-anchor--active,
+  .dnb-section .dnb-anchor--active.dnb-anchor {
+    box-shadow: none;
+    text-decoration: none; }
 
 .dnb-anchor--focus {
   outline: none;
@@ -125,9 +136,11 @@ button.dnb-anchor {
   .dnb-anchor--focus:not(:active) {
     color: var(--color-sea-green);
     background-color: transparent;
-    transition: none;
-    box-shadow: none;
-    text-decoration: none; }
+    transition: none; }
+    .dnb-anchor--focus:not(:active),
+    .dnb-section .dnb-anchor--focus:not(:active).dnb-anchor {
+      box-shadow: none;
+      text-decoration: none; }
   html[data-whatinput='mouse'] .dnb-anchor--focus {
     --border-color: var(--color-emerald-green);
     box-shadow: 0 0 0 0.125rem var(--border-color);
@@ -138,14 +151,17 @@ button.dnb-anchor {
 
 .dnb-anchor--no-style {
   color: inherit;
-  box-shadow: none;
-  text-decoration: none;
   transition: none; }
+  .dnb-anchor--no-style,
+  .dnb-section .dnb-anchor--no-style.dnb-anchor {
+    box-shadow: none;
+    text-decoration: none; }
   .dnb-anchor--no-style:hover {
     color: inherit;
     background-color: transparent; }
 
-.dnb-anchor--no-underline {
+.dnb-anchor--no-underline,
+.dnb-section .dnb-anchor--no-underline.dnb-anchor {
   box-shadow: none;
   text-decoration: none; }
 

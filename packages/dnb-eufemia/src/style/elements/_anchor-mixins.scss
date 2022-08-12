@@ -45,10 +45,13 @@ $anchorBorderRadius: 0.25em;
 
 // reset methods
 @mixin resetUnderlineStyle() {
-  box-shadow: none;
+  &,
+  .dnb-section &.dnb-anchor {
+    box-shadow: none;
 
-  // legacy reset
-  text-decoration: none;
+    // legacy reset
+    text-decoration: none;
+  }
 }
 @mixin resetBorderRadius() {
   &,

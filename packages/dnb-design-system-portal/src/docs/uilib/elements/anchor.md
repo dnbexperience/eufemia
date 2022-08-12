@@ -4,6 +4,9 @@ title: 'Anchor (Text Link)'
 
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import { IconPrimary } from '@dnb/eufemia/src'
+import {
+AnchorExampleInSection,
+} from 'Docs/uilib/elements/anchor/Examples'
 
 # Anchor (Text Link)
 
@@ -186,3 +189,5 @@ AnchorElement.style = `background-image: url(data:image/svg+xml;base64,${base64}
 // ... or using Node:
 Buffer.from(svgAsString, 'utf-8').toString('base64')
 ```
+
+<AnchorExampleInSection />
