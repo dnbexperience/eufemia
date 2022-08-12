@@ -184,6 +184,33 @@ function MyComponent(props: Types) {
 }
 ```
 
+#### FormRow support with `includeValidProps`
+
+Form elements, like input, checkbox, slider etc. do support some [FormRow](/uilib/components/form-row) properties. In order to support them, you can use `includeValidProps`, so only valid properties will effected the component.
+
+```tsx
+import { Context } from '../../shared'
+import { usePropsWithContext } from '../../shared/hooks'
+import { includeValidProps } from '../../components/form-row/FormRowHelpers'
+
+const defaultProps = {
+  myParam: 'value',
+}
+
+function MyComponent(props: Types) {
+  const context = React.useContext(Context)
+
+  const { myParam, skeleton, ...rest } = usePropsWithContext(
+    props,
+    defaultProps,
+    includeValidProps(context?.FormRow)
+    context.MyComponent,
+  )
+
+  // Use myParam and spread the ...rest
+}
+```
+
 #### Spacing support
 
 It depends from case to case on how you would make [spacing](/uilib/components/space) support available. But you may always give the developer to send in the spacing properties to the very root element of your component.

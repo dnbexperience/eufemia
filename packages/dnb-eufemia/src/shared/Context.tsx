@@ -114,7 +114,7 @@ export type ContextProps = {
 export type GetTranslationProps = {
   lang?: Locale
   locale?: Locale
-}
+} & Record<string, unknown>
 
 export type Locale = string | 'nb-NO' | 'en-GB' | 'en-US'
 export type ComponentTranslationsName = string
