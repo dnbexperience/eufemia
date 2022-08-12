@@ -4,73 +4,69 @@
  */
 
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  axeComponent,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
-import Component from '../Slider'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { fireEvent, render } from '@testing-library/react'
+import Slider from '../Slider'
 
-const props = fakeProps(require.resolve('../Slider'), {
-  all: true,
-  //optional: true, // Does not work with Typescript interface props
-})
-props.id = 'slider'
-props.status = null
-props.min = 0
-props.max = 100
-props.value = 70
-props.step = 10
-props.number_format = { currency: true, decimals: 0 }
-props.label_direction = 'horizontal'
-props.global_status_id = 'main'
+import type { SliderProps } from '../Slider'
+
+const props: SliderProps = {
+  id: 'slider',
+  status: null,
+  min: 0,
+  max: 100,
+  value: 70,
+  step: 10,
+  number_format: { currency: true, decimals: 0 },
+  label_direction: 'horizontal',
+  global_status_id: 'main',
+}
 
 describe('Slider component', () => {
   it('have to match snapshot', () => {
-    const Comp = mount(<Component {...props} />)
-    expect(toJson(Comp)).toMatchSnapshot()
+    const { container } = render(<Slider {...props} />)
+    expect(container.innerHTML).toMatchSnapshot()
   })
 
-  it('has correct value after mouse move', () => {
-    const Comp = mount(<Component {...props} />)
-    expect(
-      parseFloat(Comp.find('.dnb-slider__button-helper').instance().value)
-    ).toBe(props.value)
+  it('has correct value on mouse move', () => {
+    render(<Slider {...props} />)
+    expect(parseFloat(getButtonHelper().value)).toBe(props.value)
 
-    Comp.find('[type="range"]').simulate('mousedown')
+    fireEvent.mouseDown(document.querySelector('[type="range"]'))
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
-    expect(
-      parseFloat(Comp.find('.dnb-slider__button-helper').instance().value)
-    ).toBe(props.value + 10)
+    expect(parseFloat(getButtonHelper().value)).toBe(props.value + 10)
   })
 
-  it('has correct value after mouse move in vertical mode', () => {
-    const Comp = mount(<Component {...props} vertical />)
+  it('has correct value on mouse move in vertical mode', () => {
+    render(<Slider {...props} vertical />)
 
-    expect(
-      parseFloat(Comp.find('.dnb-slider__button-helper').instance().value)
-    ).toBe(props.value)
+    expect(parseFloat(getButtonHelper().value)).toBe(props.value)
 
-    Comp.find('[type="range"]').simulate('mousedown')
+    fireEvent.mouseDown(document.querySelector('[type="range"]'))
     simulateMouseMove({ pageX: 80, pageY: 80, width: 10, height: 100 })
 
-    // sice we use reverse in vertical mode
-    expect(
-      parseFloat(Comp.find('.dnb-slider__button-helper').instance().value)
-    ).toBe(20)
+    expect(parseFloat(getButtonHelper().value)).toBe(20) // sice we use reverse in vertical mode
+  })
+
+  it('has correct value with reverse', () => {
+    render(<Slider {...props} vertical reverse />)
+
+    expect(parseFloat(getButtonHelper().value)).toBe(props.value)
+
+    fireEvent.mouseDown(document.querySelector('[type="range"]'))
+    simulateMouseMove({ pageX: 80, pageY: 80, width: 10, height: 100 })
+
+    expect(parseFloat(getButtonHelper().value)).toBe(80)
   })
 
   it('has events that return a correct value', () => {
     const on_init = jest.fn()
     const on_change = jest.fn()
-    const Comp = mount(
-      <Component {...props} on_init={on_init} on_change={on_change} />
-    )
 
-    Comp.find('[type="range"]').simulate('mousedown')
+    render(<Slider {...props} on_init={on_init} on_change={on_change} />)
+
+    fireEvent.mouseDown(document.querySelector('[type="range"]'))
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
     expect(on_init).toBeCalledTimes(1)
@@ -103,8 +99,9 @@ describe('Slider component', () => {
   it('return valid value if number_format was given', () => {
     const on_init = jest.fn()
     const on_change = jest.fn()
-    const Comp = mount(
-      <Component
+
+    render(
+      <Slider
         {...props}
         on_init={on_init}
         on_change={on_change}
@@ -112,7 +109,7 @@ describe('Slider component', () => {
       />
     )
 
-    Comp.find('[type="range"]').simulate('mousedown')
+    fireEvent.mouseDown(document.querySelector('[type="range"]'))
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
     expect(on_init).toBeCalledTimes(1)
@@ -141,15 +138,19 @@ describe('Slider component', () => {
     }
     expect(on_change).toBeCalledWith(changeObject)
 
-    expect(Comp.find('.dnb-sr-only').text()).toBe('80,0 norske kroner')
+    expect(document.querySelector('.dnb-sr-only').textContent).toBe(
+      '80,0 norske kroner'
+    )
     expect(
-      Comp.find('.dnb-slider__button-helper').props()['aria-labelledby']
-    ).toContain(Comp.find('.dnb-sr-only').props().id)
+      document
+        .querySelector('.dnb-slider__button-helper')
+        .getAttribute('aria-labelledby')
+    ).toContain(document.querySelector('.dnb-sr-only').getAttribute('id'))
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = mount(<Component {...props} />)
-    expect(await axeComponent(Comp)).toHaveNoViolations()
+    const Component = render(<Slider {...props} />)
+    expect(await axeComponent(Component)).toHaveNoViolations()
   })
 })
 
@@ -159,6 +160,10 @@ describe('Slider scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
+
+const getButtonHelper = (): HTMLInputElement => {
+  return document.querySelector('.dnb-slider__button-helper')
+}
 
 const simulateMouseMove = (props) => {
   const mouseMove = new CustomEvent('mousemove', {

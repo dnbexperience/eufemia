@@ -16,6 +16,7 @@ import type { BadgeProps } from '../components/badge/Badge'
 import type { BreadcrumbProps } from '../components/breadcrumb/Breadcrumb'
 import type { BreadcrumbItemProps } from '../components/breadcrumb/BreadcrumbItem'
 import type { InfoCardProps } from '../components/info-card/InfoCard'
+import type { SliderProps } from '../components/slider/Slider'
 import type { TagProps } from '../components/tag/Tag'
 import type { TagGroupProps } from '../components/tag/TagGroup'
 import type { TimelineProps } from '../components/timeline/Timeline'
@@ -34,6 +35,7 @@ export type ContextProps = {
   Breadcrumb?: Partial<BreadcrumbProps>
   BreadcrumbItem?: Partial<BreadcrumbItemProps>
   InfoCard?: Partial<InfoCardProps>
+  Slider?: Partial<SliderProps>
   Tag?: Partial<TagProps>
   TagGroup?: Partial<TagGroupProps>
   Timeline?: Partial<TimelineProps>

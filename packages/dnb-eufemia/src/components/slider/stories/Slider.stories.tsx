@@ -51,9 +51,9 @@ const SliderStory = () => {
           step={0.05}
           number_format={{ decimals: 2, currency: true }}
           // reverse
-          on_change={({ value, raw_value }) => {
-            console.log('on_change:', { value, raw_value })
-            setValue(raw_value)
+          on_change={({ value, number, rawValue }) => {
+            console.log('on_change:', { value, number, rawValue })
+            setValue(value)
           }}
           status="Long status message Lobortis lacus ac ligula vehicula Metus nullam ut at pellentesque"
         />
@@ -68,21 +68,12 @@ const SliderStory = () => {
             max={100}
             value={value}
             step={1}
-            // reverse
             vertical
-            on_change={({ value, raw_value }) => {
-              console.log('on_change:', value, raw_value)
+            on_change={({ value }) => {
+              console.log('on_change:', value)
               setValue(value)
             }}
             status="Long status message Lobortis lacus ac ligula vehicula"
-            // on_state_update={({ value }) => {
-            //   console.log('on_state_update:', value)
-            // }}
-            // attributes={{
-            //   'data-fake:on_change': 'SliderDemo.onChangeHandler()',
-            //   'data-fake:on_state_update':
-            //     'SliderDemo.onStateUpdateHandler()'
-            // }}
           />
           <Input
             align="center"
@@ -94,7 +85,7 @@ const SliderStory = () => {
         </VerticalWrapper>
       </Box>
       <Box>
-        <Slider label="Disabled:" value="20" reverse disabled={true} />
+        <Slider label="Disabled:" value={20} reverse disabled={true} />
       </Box>
       <Box>
         <FormRow>
@@ -103,13 +94,14 @@ const SliderStory = () => {
             for_id="range-slider"
             text="Native Range Slider"
           />
+          <Slider label="Label" value={5} />
           <input
             id="range-slider"
             type="range"
             min="0"
             max="100"
             step="5"
-            defaultValue="20"
+            defaultValue={20}
             onChange={(event) => {
               console.log('range-slider:', event.currentTarget.value)
             }}
