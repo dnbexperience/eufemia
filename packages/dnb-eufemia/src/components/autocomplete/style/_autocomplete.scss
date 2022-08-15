@@ -121,6 +121,8 @@
     &__inner__element {
       position: relative;
       z-index: 3;
+
+      cursor: text;
     }
 
     &--has-submit-element .dnb-input__placeholder,
@@ -136,7 +138,6 @@
     }
 
     &__inner__element.dnb-p {
-      pointer-events: none;
       white-space: nowrap;
       padding: 0 0.5rem;
 
@@ -162,6 +163,12 @@
     }
     &--icon-position-right &--icon-position-right#{&}--has-icon &__input {
       padding-right: 1rem;
+    }
+  }
+  &--disabled .dnb-input {
+    // stylelint-disable-next-line
+    &__inner__element {
+      cursor: not-allowed;
     }
   }
 

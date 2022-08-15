@@ -297,7 +297,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       value={2}
     >
       <span
-        className="dnb-autocomplete dnb-autocomplete--bottom dnb-form-component class className dnb-autocomplete--opened dnb-autocomplete--horizontal dnb-autocomplete__status--error dnb-autocomplete__form-status"
+        className="dnb-autocomplete dnb-form-component class className dnb-autocomplete--bottom dnb-autocomplete--disabled dnb-autocomplete--opened dnb-autocomplete--horizontal dnb-autocomplete__status--error dnb-autocomplete__form-status"
       >
         <FormLabel
           class={null}
@@ -463,7 +463,12 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 icon_position={null}
                 icon_size="icon_size"
                 id="autocomplete-id"
-                inner_element={null}
+                inner_element={
+                  <span
+                    className="dnb-autocomplete__suffix_value"
+                    onClick={null}
+                  />
+                }
                 inner_ref={null}
                 input_attributes={null}
                 input_class={null}
@@ -595,6 +600,14 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           spellCheck="false"
                           value="CC cc"
                         />
+                        <span
+                          className="dnb-input__inner__element dnb-p"
+                        >
+                          <span
+                            className="dnb-autocomplete__suffix_value"
+                            onClick={null}
+                          />
+                        </span>
                         <Component
                           className="dnb-input__icon"
                           icon="input_icon"
@@ -2892,7 +2905,8 @@ legend.dnb-form-label {
       transition-duration: 1ms !important; }
   .dnb-autocomplete .dnb-input__inner__element {
     position: relative;
-    z-index: 3; }
+    z-index: 3;
+    cursor: text; }
   @media screen and (min-width: 40em) {
     .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__placeholder,
     .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__input {
@@ -2902,7 +2916,6 @@ legend.dnb-form-label {
     .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__input {
       padding-right: 2.5rem !important; } }
   .dnb-autocomplete .dnb-input__inner__element.dnb-p {
-    pointer-events: none;
     white-space: nowrap;
     padding: 0 0.5rem; }
     @media screen and (max-width: 40em) {
@@ -2917,6 +2930,8 @@ legend.dnb-form-label {
     padding-right: 3rem; }
   .dnb-autocomplete--icon-position-right .dnb-input--icon-position-right .dnb-autocomplete--icon-position-right .dnb-input--icon-position-right.dnb-autocomplete--icon-position-right .dnb-input--has-icon .dnb-autocomplete--icon-position-right .dnb-input__input {
     padding-right: 1rem; }
+  .dnb-autocomplete--disabled .dnb-input__inner__element {
+    cursor: not-allowed; }
   .dnb-autocomplete__text {
     order: 1;
     position: relative;
