@@ -2049,14 +2049,6 @@ button.dnb-button::-moz-focus-inner {
     width: 100%;
     height: 100%;
     overflow-x: hidden; }
-    .dnb-drawer__inner::after {
-      content: '';
-      position: absolute;
-      z-index: -4;
-      left: 0;
-      top: 0;
-      width: 100vw;
-      height: 100%; }
   .dnb-drawer--spacing .dnb-drawer__inner {
     padding: 0 var(--drawer-spacing) 0; }
     @media screen and (min-width: 72em) {
