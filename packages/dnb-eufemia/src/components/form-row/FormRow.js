@@ -15,6 +15,7 @@ import {
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
+
 import Context from '../../shared/Context'
 import FormLabel from '../form-label/FormLabel'
 import {
@@ -151,8 +152,7 @@ export default class FormRow extends React.PureComponent {
       this.context.FormRow
     )
 
-    let {
-      label,
+    const {
       label_direction,
       label_sr_only,
       label_id,
@@ -172,13 +172,17 @@ export default class FormRow extends React.PureComponent {
       disabled,
       skeleton,
       wrap,
-      id: _id, // eslint-disable-line
       className,
       class: _className,
       skipContentWrapperIfNested,
 
+      id: _id, // eslint-disable-line
+      label: _label, // eslint-disable-line
+
       ...attributes
     } = props
+
+    let { label } = props
 
     const isNested =
       this.context.FormRow && this.context.FormRow.itsMeAgain
@@ -294,7 +298,6 @@ export default class FormRow extends React.PureComponent {
                     `dnb-form-row__content--${indent_offset || 'default'}`,
                   responsive && 'dnb-responsive-component'
                 )}
-                ref={this._contentRef}
               >
                 {children}
               </div>
@@ -306,7 +309,12 @@ export default class FormRow extends React.PureComponent {
   }
 }
 
-const Fieldset = ({ useFieldset, className, children, ...props }) => {
+const Fieldset = ({
+  useFieldset,
+  children,
+  className = null,
+  ...props
+}) => {
   if (useFieldset) {
     return (
       <fieldset

@@ -16,6 +16,7 @@ import {
   combineDescribedBy,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
+import { includeValidProps } from '../../components/form-row/FormRowHelpers'
 import { usePropsWithContext } from '../../shared/hooks'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { withCamelCaseProps } from '../../shared/helpers/withCamelCaseProps'
@@ -106,9 +107,19 @@ function Slider(localProps: IncludeCamelCase<SliderProps>) {
   const allProps = usePropsWithContext(
     localProps,
     defaultProps,
-    context?.translation?.Slider,
-    context?.Slider,
-    { skeleton: context?.skeleton }
+    { skeleton: context?.skeleton },
+    context?.getTranslation(localProps).Slider,
+    includeValidProps(
+      context?.FormRow,
+
+      /**
+       * Exclude some props
+       */
+      {
+        vertical: null,
+      }
+    ),
+    context?.Slider
   )
 
   const [_id] = React.useState(makeUniqueId)
@@ -445,7 +456,7 @@ function Slider(localProps: IncludeCamelCase<SliderProps>) {
       variant="secondary"
       icon="subtract"
       size="small"
-      aria-label={subtract_title.replace('%s', humanNumber)}
+      aria-label={subtract_title?.replace('%s', humanNumber)}
       on_click={onSubtractClickHandler}
       disabled={disabled}
       skeleton={skeleton}
@@ -459,7 +470,7 @@ function Slider(localProps: IncludeCamelCase<SliderProps>) {
       variant="secondary"
       icon="add"
       size="small"
-      aria-label={add_title.replace('%s', humanNumber)}
+      aria-label={add_title?.replace('%s', humanNumber)}
       on_click={onAddClickHandler}
       disabled={disabled}
       skeleton={skeleton}
