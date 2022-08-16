@@ -347,13 +347,7 @@ export default class ModalContent extends React.PureComponent<
   }
 
   setBackgroundColor = (color: string) => {
-    document.documentElement.style.setProperty(
-      '--modal-background-color',
-      color
-    )
-    this.setState({
-      color,
-    })
+    this.setState({ color })
   }
 
   render() {
@@ -488,6 +482,7 @@ export default class ModalContent extends React.PureComponent<
       >
         <div
           id={contentId}
+          /** Sets the color on scroll overflow (at the bottom) */
           style={
             (color
               ? { '--modal-background-color': `var(--color-${color})` }

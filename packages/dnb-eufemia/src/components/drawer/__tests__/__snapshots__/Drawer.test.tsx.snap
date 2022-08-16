@@ -2045,18 +2045,11 @@ button.dnb-button::-moz-focus-inner {
     display: flex;
     flex-direction: column;
     z-index: 10;
+    /** Sets the color on scroll overflow (at the bottom) */
     background-color: var(--modal-background-color, transparent);
     width: 100%;
     height: 100%;
     overflow-x: hidden; }
-    .dnb-drawer__inner::after {
-      content: '';
-      position: absolute;
-      z-index: -4;
-      left: 0;
-      top: 0;
-      width: 100vw;
-      height: 100%; }
   .dnb-drawer--spacing .dnb-drawer__inner {
     padding: 0 var(--drawer-spacing) 0; }
     @media screen and (min-width: 72em) {
@@ -2360,8 +2353,7 @@ button.dnb-button::-moz-focus-inner {
  */
 :root {
   --modal-z-index: 3000;
-  --modal-animation-duration: 300ms;
-  --modal-overlay-bg: rgba(0, 0, 0, 0.32); }
+  --modal-animation-duration: 300ms; }
 
 html[data-dnb-modal-active] {
   user-select: none;
@@ -2410,8 +2402,7 @@ html[data-dnb-modal-active] {
     left: 0;
     top: 0;
     width: 100%;
-    height: 100%;
-    background-color: var(--modal-overlay-bg); }
+    height: 100%; }
   .dnb-modal-root__inner .dnb-modal__overlay {
     animation: hide-modal-overlay var(--modal-animation-duration) ease-out forwards; }
   .dnb-modal-root__inner:last-of-type .dnb-modal__overlay {
