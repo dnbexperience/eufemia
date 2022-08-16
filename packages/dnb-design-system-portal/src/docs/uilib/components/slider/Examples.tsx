@@ -22,6 +22,34 @@ export const SliderExampleDefault = () => (
   </ComponentBox>
 )
 
+export const SliderExampleMultiButtons = () => (
+  <ComponentBox data-visual-test="slider-multi">
+    {
+      /* jsx */ `
+<FormRow vertical>
+  <Slider
+    min={0}
+    max={100}
+    value={[30, 70]}
+    step={5}
+    label="Range with steps:"
+    on_change={({ value }) => console.log('on_change:', value)}
+    bottom
+  />
+  <Slider
+    min={0}
+    max={100}
+    value={[10, 30, 50, 70]}
+    label="Multi thumbs:"
+    number_format={{ decimals: 2, currency: true }}
+    on_change={({ value, number }) => console.log('on_change:', value, number)}
+  />
+</FormRow>
+  `
+    }
+  </ComponentBox>
+)
+
 export const SliderExampleHorizontalSync = () => (
   <ComponentBox useRender>
     {

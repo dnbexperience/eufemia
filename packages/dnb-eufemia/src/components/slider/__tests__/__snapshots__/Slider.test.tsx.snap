@@ -1,7 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Slider component have to match snapshot 1`] = `"<span class=\\"dnb-slider dnb-form-component\\"><span class=\\"dnb-slider__wrapper\\"><span class=\\"dnb-alignment-helper\\" aria-hidden=\\"true\\"></span><span class=\\"dnb-slider__inner\\"><button class=\\"dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--subtract dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small\\" aria-label=\\"Reduser (70 norske kroner)\\" type=\\"button\\"><span class=\\"dnb-button__alignment\\" aria-hidden=\\"true\\">‌</span><span role=\\"presentation\\" aria-hidden=\\"true\\" data-test-id=\\"subtract icon\\" class=\\"dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color\\"><svg width=\\"16\\" height=\\"16\\" viewBox=\\"0 0 16 16\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\"><path d=\\"M14 8.75a.75.75 0 0 0 0-1.5v1.5ZM2 7.25a.75.75 0 0 0 0 1.5v-1.5Zm12 0H2v1.5h12v-1.5Z\\" fill=\\"#000\\"></path></svg></span></button><span id=\\"slider\\" class=\\"dnb-slider__track dnb-slider__state--initial\\"><span class=\\"dnb-slider__thumb\\" style=\\"left: 70%;\\"><input type=\\"range\\" class=\\"dnb-slider__button-helper\\" min=\\"0\\" max=\\"100\\" step=\\"10\\" orientation=\\"horizontal\\" aria-labelledby=\\"slider-human\\" value=\\"70\\"><button class=\\"dnb-button dnb-button--secondary\\" tabindex=\\"-1\\" aria-hidden=\\"true\\" type=\\"button\\"></button></span><span class=\\"dnb-slider__line dnb-slider__line__before\\" style=\\"width: 70%;\\"></span><span class=\\"dnb-slider__line dnb-slider__line__after\\"></span><span id=\\"slider-human\\" class=\\"dnb-sr-only\\" aria-hidden=\\"true\\">70 norske kroner</span></span><button class=\\"dnb-button dnb-button--secondary dnb-slider__button dnb-slider__button--add dnb-button--icon-position-right dnb-button--has-icon dnb-button--size-small\\" aria-label=\\"Øk (70 norske kroner)\\" type=\\"button\\"><span class=\\"dnb-button__alignment\\" aria-hidden=\\"true\\">‌</span><span role=\\"presentation\\" aria-hidden=\\"true\\" data-test-id=\\"add icon\\" class=\\"dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color\\"><svg width=\\"16\\" height=\\"16\\" viewBox=\\"0 0 16 16\\" fill=\\"none\\" xmlns=\\"http://www.w3.org/2000/svg\\"><path d=\\"M7.25 14a.75.75 0 0 0 1.5 0h-1.5Zm1.5-12a.75.75 0 0 0-1.5 0h1.5ZM14 8.75a.75.75 0 0 0 0-1.5v1.5ZM2 7.25a.75.75 0 0 0 0 1.5v-1.5ZM8.75 14V2h-1.5v12h1.5ZM14 7.25H2v1.5h12v-1.5Z\\" fill=\\"#000\\"></path></svg></span></button></span></span></span>"`;
-
 exports[`Slider scss have to match snapshot 1`] = `
 "/*
 * DNB Slider
@@ -764,40 +762,14 @@ legend.dnb-form-label {
     margin: 0 calc(var(--slider-space) * 1.5);
     min-width: 2rem;
     cursor: pointer; }
-    .dnb-slider__track::before, .dnb-slider__track::after {
-      content: '';
-      position: absolute;
-      z-index: 2;
-      left: 0;
-      top: 50%;
-      width: var(--slider-thumb-size);
-      height: var(--slider-track-height);
-      transform: translate3d(0, -50%, 0);
-      border-radius: calc(var(--slider-track-height) / 2);
-      background-color: inherit; }
-    .dnb-slider__track::before {
-      background-color: red;
-      left: calc(1px - 1px - var(--slider-space));
-      right: auto; }
-    .dnb-slider__track::after {
-      background-color: blue;
-      left: auto;
-      right: calc(1px - 1px - var(--slider-space)); }
   .dnb-slider--vertical .dnb-slider__track {
     margin: calc(var(--slider-space) * 1.5) 0;
     min-height: 2rem;
     min-width: auto; }
-    .dnb-slider--vertical .dnb-slider__track::before, .dnb-slider--vertical .dnb-slider__track::after {
-      left: 50%;
-      transform: translate3d(-50%, 0, 0);
-      width: var(--slider-track-height);
-      height: var(--slider-thumb-size); }
-    .dnb-slider--vertical .dnb-slider__track::before {
-      top: calc(1px - 1px - var(--slider-space));
-      bottom: auto; }
-    .dnb-slider--vertical .dnb-slider__track::after {
-      top: auto;
-      bottom: calc(1px - 1px - var(--slider-space)); }
+  .dnb-slider--no-buttons .dnb-slider__track {
+    margin: 0 calc(var(--slider-space)); }
+  .dnb-slider--no-buttons.dnb-slider--vertical .dnb-slider__track {
+    margin: calc(var(--slider-space)) 0; }
   .dnb-slider--vertical .dnb-slider__inner {
     flex-direction: column;
     width: var(--slider-thumb-size);
@@ -812,14 +784,17 @@ legend.dnb-form-label {
     position: absolute;
     left: 0;
     top: 50%;
+    margin: 0 calc(1px - 1px - var(--slider-space));
     height: var(--slider-track-height);
     transform: translate3d(0, -50%, 0);
-    background-color: grey; }
+    background-color: grey;
+    border-radius: var(--slider-track-height); }
   .dnb-slider--vertical .dnb-slider__line {
     width: var(--slider-track-height);
     height: auto;
     left: 50%;
     top: 0;
+    margin: calc(1px - 1px - var(--slider-space)) 0;
     transform: translate3d(-50%, 0, 0); }
   .dnb-slider__line__before {
     z-index: 2; }
@@ -828,7 +803,8 @@ legend.dnb-form-label {
     right: 0;
     background-color: #ddd; }
   .dnb-slider--vertical .dnb-slider__line__before {
-    top: 0; }
+    top: 0;
+    bottom: 0; }
   .dnb-slider--vertical .dnb-slider__line__after {
     bottom: 0; }
   .dnb-slider__button-helper, .dnb-slider__thumb {
@@ -850,14 +826,16 @@ legend.dnb-form-label {
     height: var(--slider-button-size);
     width: var(--slider-button-size);
     line-height: var(--slider-button-size);
-    transform: translateY(0.25rem); }
+    transform: translateY(0.25rem);
+    z-index: 5; }
   .dnb-slider--vertical .dnb-slider__button.dnb-button--size-small {
     transform: translateX(0.25rem); }
   .dnb-slider__state--jumped .dnb-slider__thumb,
   .dnb-slider__state--jumped .dnb-slider__line {
-    transition: width 250ms ease 0ms, height 250ms ease 0ms, left 250ms ease 0ms, top 250ms ease 0ms, box-shadow 250ms ease 0ms; }
-  .dnb-slider__state--disabled.dnb-slider__track,
-  .dnb-slider__state--disabled .dnb-slider__thumb {
+    transition: left 250ms ease, top 250ms ease, bottom 250ms ease, right 250ms ease, box-shadow 250ms ease; }
+  .dnb-slider__state--disabled .dnb-slider__track,
+  .dnb-slider__state--disabled .dnb-slider__thumb,
+  .dnb-slider__state--disabled .dnb-slider__line {
     cursor: not-allowed; }
   .dnb-slider__button-helper {
     pointer-events: none;
