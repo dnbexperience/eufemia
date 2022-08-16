@@ -7,11 +7,4 @@
 
 .dnb-dialog {
   background: var(--color-white);
-
-  &__root {
-    // Used by "setBackgroundColor"
-    &::after {
-      background-color: var(--modal-background-color);
-    }
-  }
 }

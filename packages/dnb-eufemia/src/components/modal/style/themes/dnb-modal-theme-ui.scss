@@ -5,11 +5,12 @@
 
 @import '../../../../style/themes/imports.scss';
 
+:root {
+  --modal-overlay-bg: rgba(0, 0, 0, 0.32);
+}
+
 .dnb-modal {
-  &__content {
-    // Used by "setBackgroundColor"
-    &::after {
-      background-color: var(--modal-background-color);
-    }
+  &__overlay {
+    background-color: var(--modal-overlay-bg);
   }
 }
