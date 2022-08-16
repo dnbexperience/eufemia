@@ -20,7 +20,7 @@ describe('Autocomplete screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it.only('have to match disabled state', async () => {
+  it('have to match disabled state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="autocomplete-disabled"]',
     })
