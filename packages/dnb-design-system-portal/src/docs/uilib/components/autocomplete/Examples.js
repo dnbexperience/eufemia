@@ -173,7 +173,7 @@ export const AutocompleteToggleExample = () => (
         /* jsx */ `
 <Autocomplete
   label="Label:"
-  show_submit_button="true"
+  show_submit_button={true}
   on_change={({ data }) => {
     console.log('on_change', data)
   }}
@@ -537,3 +537,36 @@ const topMovies = [
   { content: '3 Idiots', year: 2009 },
   { content: 'Monty Python and the Holy Grail', year: 1975 },
 ]
+
+export const AutocompleteDisabledExample = () =>
+  !globalThis.IS_TEST ? null : (
+    <Wrapper>
+      <ComponentBox
+        scope={{ topMovies }}
+        data-visual-test="autocomplete-disabled"
+      >
+        {
+          /* jsx */ `
+<Autocomplete
+  disabled
+  show_submit_button
+  data={topMovies}
+  value={1}
+  label="Label:"
+  bottom
+/>
+<br />
+<Autocomplete
+  disabled
+  show_submit_button
+  data={topMovies}
+  value={1}
+  label="Label:"
+  suffix="Suffix"
+  size="large"
+/>
+`
+        }
+      </ComponentBox>
+    </Wrapper>
+  )

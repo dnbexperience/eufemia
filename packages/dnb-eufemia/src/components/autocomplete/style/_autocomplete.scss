@@ -51,6 +51,7 @@
 
   &__row {
     display: inline-flex;
+    align-items: center; // centers the suffix vertically
   }
 
   &--small {
@@ -107,6 +108,14 @@
   &--opened .dnb-input__submit-button__button .dnb-icon {
     transform: rotate(180deg);
     transform-origin: 50% 50%;
+  }
+  .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
+    @include fakeBorder(
+      var(--color-black-55),
+      var(--input-border-width),
+      inset,
+      true
+    );
   }
   .dnb-input__submit-button__button .dnb-icon {
     transition: transform 400ms ease-out;

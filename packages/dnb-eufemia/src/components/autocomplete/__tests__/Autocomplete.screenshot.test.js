@@ -20,6 +20,13 @@ describe('Autocomplete screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it.only('have to match disabled state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="autocomplete-disabled"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match custom input width', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="autocomplete-input-width"]',
