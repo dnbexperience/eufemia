@@ -463,12 +463,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 icon_position={null}
                 icon_size="icon_size"
                 id="autocomplete-id"
-                inner_element={
-                  <span
-                    className="dnb-autocomplete__suffix_value"
-                    onClick={null}
-                  />
-                }
+                inner_element={null}
                 inner_ref={null}
                 input_attributes={null}
                 input_class={null}
@@ -600,14 +595,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           spellCheck="false"
                           value="CC cc"
                         />
-                        <span
-                          className="dnb-input__inner__element dnb-p"
-                        >
-                          <span
-                            className="dnb-autocomplete__suffix_value"
-                            onClick={null}
-                          />
-                        </span>
                         <Component
                           className="dnb-input__icon"
                           icon="input_icon"

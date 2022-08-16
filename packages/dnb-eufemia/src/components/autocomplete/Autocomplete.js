@@ -1890,6 +1890,11 @@ class AutocompleteInstance extends React.PureComponent {
       )
     }
 
+    const suffixValue = getCurrentData(
+      selected_item,
+      this.context.drawerList.original_data
+    )?.suffix_value
+
     // also used for code markup simulation
     validateDOMAttributes(null, mainParams)
     validateDOMAttributes(null, shellParams)
@@ -1948,20 +1953,17 @@ class AutocompleteInstance extends React.PureComponent {
                   status_state={status_state}
                   type={null}
                   inner_element={
-                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-                    <span
-                      onClick={
-                        disabled ? null : this.setVisibleAndFocusOnInput
-                      }
-                      className="dnb-autocomplete__suffix_value"
-                    >
-                      {
-                        getCurrentData(
-                          selected_item,
-                          this.context.drawerList.original_data
-                        )?.suffix_value
-                      }
-                    </span>
+                    suffixValue && (
+                      // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+                      <span
+                        onClick={
+                          disabled ? null : this.setVisibleAndFocusOnInput
+                        }
+                        className="dnb-autocomplete__suffix_value"
+                      >
+                        {suffixValue}
+                      </span>
+                    )
                   }
                   submit_element={submitButton}
                   input_state={
