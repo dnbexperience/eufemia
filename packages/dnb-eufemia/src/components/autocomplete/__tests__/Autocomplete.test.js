@@ -178,6 +178,99 @@ describe('Autocomplete component', () => {
     )
   })
 
+  describe('suffix_value', () => {
+    const mockData = [
+      {
+        selected_value: 'a selected',
+        suffix_value: 'a suffix',
+        content: '11 aa',
+      },
+      {
+        selected_value: 'b selected',
+        suffix_value: <span>b suffix</span>,
+        content: '22 bb',
+      },
+      {
+        selected_value: 'c selected',
+        suffix_value: 'c suffix',
+        content: '22 cc',
+      },
+    ]
+
+    it('will show suffix_value in options and in input when selected', () => {
+      let index = 1
+
+      const Comp = mount(
+        <Component {...mockProps} value={index} data={mockData} />
+      )
+
+      const assertInputValue = () => {
+        expect(Comp.find('.dnb-input__input').instance().value).toBe(
+          mockData[index].selected_value
+        )
+      }
+
+      assertInputValue()
+
+      index = 2
+      Comp.setProps({ value: index })
+
+      assertInputValue()
+
+      // open
+      keydown(Comp, 40) // down
+
+      const getTextContent = (itemIndex) =>
+        Comp.find('.dnb-drawer-list__option')
+          .at(itemIndex)
+          .instance()
+          .querySelector(
+            '.dnb-drawer-list__option__item.dnb-drawer-list__option__suffix'
+          ).textContent
+
+      expect(getTextContent(1)).toBe('b suffix')
+      expect(getTextContent(2)).toBe(mockData[2].suffix_value)
+    })
+
+    it('will not open drawer-list when click on suffix_value and is disabled', () => {
+      const Comp = mount(
+        <Component {...mockProps} value={1} data={mockData} disabled />,
+        {
+          attachTo: attachToBody(),
+        }
+      )
+
+      Comp.find('.dnb-autocomplete__suffix_value').simulate('click')
+
+      expect(
+        Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+      ).toBe(false)
+
+      expect(document.activeElement.tagName).toBe('BODY')
+    })
+
+    it('will open drawer-list when click on suffix_value', () => {
+      const Comp = mount(
+        <Component {...mockProps} value={1} data={mockData} />,
+        {
+          attachTo: attachToBody(),
+        }
+      )
+
+      expect(
+        Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+      ).toBe(false)
+
+      Comp.find('.dnb-autocomplete__suffix_value').simulate('click')
+
+      expect(
+        Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+      ).toBe(true)
+
+      expect(document.activeElement.tagName).toBe('INPUT')
+    })
+  })
+
   it('has correct options when search_in_word_index is set to 1', () => {
     const Comp = mount(
       <Component
@@ -1559,59 +1652,6 @@ describe('Autocomplete component', () => {
     Comp.setProps({ value: index })
 
     assert()
-  })
-
-  it('will show suffix_value in options and in input when selected', () => {
-    const mockData = [
-      {
-        selected_value: 'a selected',
-        suffix_value: 'a suffix',
-        content: '11 aa',
-      },
-      {
-        selected_value: 'b selected',
-        suffix_value: <span>b suffix</span>,
-        content: '22 bb',
-      },
-      {
-        selected_value: 'c selected',
-        suffix_value: 'c suffix',
-        content: '22 cc',
-      },
-    ]
-
-    let index = 1
-
-    const Comp = mount(
-      <Component {...mockProps} value={index} data={mockData} />
-    )
-
-    const assertInputValue = () => {
-      expect(Comp.find('.dnb-input__input').instance().value).toBe(
-        mockData[index].selected_value
-      )
-    }
-
-    assertInputValue()
-
-    index = 2
-    Comp.setProps({ value: index })
-
-    assertInputValue()
-
-    // open
-    keydown(Comp, 40) // down
-
-    const getTextContent = (itemIndex) =>
-      Comp.find('.dnb-drawer-list__option')
-        .at(itemIndex)
-        .instance()
-        .querySelector(
-          '.dnb-drawer-list__option__item.dnb-drawer-list__option__suffix'
-        ).textContent
-
-    expect(getTextContent(1)).toBe('b suffix')
-    expect(getTextContent(2)).toBe(mockData[2].suffix_value)
   })
 
   it('will select correct item after updateData', () => {

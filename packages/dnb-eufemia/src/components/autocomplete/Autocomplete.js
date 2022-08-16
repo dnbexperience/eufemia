@@ -28,6 +28,7 @@ import {
   IS_IE11,
   IS_EDGE,
   debounce,
+  hasSelectedText,
 } from '../../shared/helpers'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
@@ -1494,6 +1495,13 @@ class AutocompleteInstance extends React.PureComponent {
     return res
   }
 
+  setVisibleAndFocusOnInput = () => {
+    if (!this.state.hasFocus && !hasSelectedText()) {
+      this.setFocusOnInput()
+      this.setVisible()
+    }
+  }
+
   setFocusOnInput() {
     this.setState(
       {
@@ -1765,7 +1773,8 @@ class AutocompleteInstance extends React.PureComponent {
     const mainParams = {
       className: classnames(
         'dnb-autocomplete',
-        `dnb-autocomplete--${direction}`,
+        direction && `dnb-autocomplete--${direction}`,
+        disabled && 'dnb-autocomplete--disabled',
         opened && 'dnb-autocomplete--opened',
         label_direction && `dnb-autocomplete--${label_direction}`,
         icon_position &&
@@ -1939,10 +1948,20 @@ class AutocompleteInstance extends React.PureComponent {
                   status_state={status_state}
                   type={null}
                   inner_element={
-                    getCurrentData(
-                      selected_item,
-                      this.context.drawerList.original_data
-                    )?.suffix_value
+                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+                    <span
+                      onClick={
+                        disabled ? null : this.setVisibleAndFocusOnInput
+                      }
+                      className="dnb-autocomplete__suffix_value"
+                    >
+                      {
+                        getCurrentData(
+                          selected_item,
+                          this.context.drawerList.original_data
+                        )?.suffix_value
+                      }
+                    </span>
                   }
                   submit_element={submitButton}
                   input_state={
