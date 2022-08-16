@@ -2853,7 +2853,8 @@ legend.dnb-form-label {
     padding: 0;
     color: inherit; }
   .dnb-autocomplete__row {
-    display: inline-flex; }
+    display: inline-flex;
+    align-items: center; }
   .dnb-autocomplete--small {
     line-height: var(--autocomplete-height--small); }
   .dnb-autocomplete--medium {
@@ -2886,6 +2887,22 @@ legend.dnb-form-label {
   .dnb-autocomplete--opened .dnb-input__submit-button__button .dnb-icon {
     transform: rotate(180deg);
     transform-origin: 50% 50%; }
+  .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
+    --border-color: var(--color-black-55);
+    box-shadow: inset 0 0 0 var(--input-border-width) var(--border-color);
+    /* iOS fix - because \\"inset\\" works not fine with border-radius */
+    /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+    border-color: transparent; }
+    @supports (-webkit-touch-callout: none) {
+      .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
+        box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } }
+    @media not all and (min-resolution: 0.001dpcm) {
+      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
+        .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
+          box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } } }
+    @media screen and (-ms-high-contrast: none) {
+      .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
+        box-shadow: inset 0 0 0 1px var(--color-black-55); } }
   .dnb-autocomplete .dnb-input__submit-button__button .dnb-icon {
     transition: transform 400ms ease-out; }
     html[data-visual-test] .dnb-autocomplete .dnb-input__submit-button__button .dnb-icon {

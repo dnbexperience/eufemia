@@ -13,7 +13,8 @@ AutocompletePredefinedInput,
 AutocompleteDifferentSizes,
 AutocompleteCustomWidth,
 AutocompleteSuffix,
-AutocompleteOpened
+AutocompleteOpened,
+AutocompleteDisabledExample,
 } from 'Docs/uilib/components/autocomplete/Examples'
 
 ## Demos
@@ -85,3 +86,5 @@ const data = [
 <AutocompleteCustomWidth />
 
 <AutocompleteOpened />
+
+<AutocompleteDisabledExample />
