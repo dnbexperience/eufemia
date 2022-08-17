@@ -3,6 +3,8 @@ fullscreen: true
 search: 'Intro - Typography'
 ---
 
+import Intro, { IntroFooter } from 'dnb-design-system-portal/src/shared/tags/Intro'
+
 <Intro>
 
 # Typography

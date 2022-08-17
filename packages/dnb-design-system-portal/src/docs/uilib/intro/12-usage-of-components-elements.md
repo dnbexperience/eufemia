@@ -3,6 +3,8 @@ fullscreen: true
 search: 'Intro - Usage of components and elements'
 ---
 
+import Intro, { IntroFooter } from 'dnb-design-system-portal/src/shared/tags/Intro'
+
 <Intro>
 
 # Usage of components and elements

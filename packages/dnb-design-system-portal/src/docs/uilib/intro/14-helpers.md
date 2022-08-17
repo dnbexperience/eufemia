@@ -5,6 +5,8 @@ redirect_from:
   - /uilib/intro/14-helper-classes
 ---
 
+import Intro, { IntroFooter } from 'dnb-design-system-portal/src/shared/tags/Intro'
+
 <Intro>
 
 # Section Component

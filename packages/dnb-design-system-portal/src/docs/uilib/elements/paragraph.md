@@ -16,7 +16,6 @@ Eufemia comes with several styles you can use on paragraphs and other HTML text 
 
 - `.dnb-p` (Body text)
 - `.dnb-p--medium`
-<!-- - `.dnb-p--bold` (Currently not supported by DNB UX) -->
 
 **Sizes**
 
