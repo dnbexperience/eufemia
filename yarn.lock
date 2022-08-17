@@ -10200,7 +10200,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-preset-gatsby@npm:2.24.0, babel-preset-gatsby@npm:^2.24.0":
+"babel-preset-gatsby@npm:^2.24.0":
   version: 2.24.0
   resolution: "babel-preset-gatsby@npm:2.24.0"
   dependencies:
@@ -14041,7 +14041,6 @@ __metadata:
     "@typescript-eslint/parser": 5.43.0
     algoliasearch: 4.12.0
     babel-jest: 29.3.1
-    babel-preset-gatsby: 2.24.0
     camelcase: 6.2.0
     classnames: 2.3.1
     cross-env: 7.0.3
