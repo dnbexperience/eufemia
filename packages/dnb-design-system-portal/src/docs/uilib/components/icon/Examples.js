@@ -18,11 +18,13 @@ export const IconDefault = () => (
     data-visual-test="icon-default"
     scope={{ Bell, BellMedium }}
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Icon icon={Bell} title="Give Icons a Title, or ..." />
 <Icon icon={BellMedium} aria-hidden />
 <Bell title="I'm not responsive!" />{/* <- Not responsive! */}
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -31,7 +33,8 @@ export const IconBorder = () => (
     data-visual-test="icon-border"
     scope={{ Bell, BellMedium }}
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <P>
   <Icon border="true" icon={Bell} right />
   <Icon border="true" icon={BellMedium} size="medium" right />
@@ -42,7 +45,8 @@ export const IconBorder = () => (
     text="Button"
   />
 </P>
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -51,13 +55,15 @@ export const IconInheritSized = () => (
     data-visual-test="icon-inherit-sized"
     scope={{ Bell, BellMedium }}
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <h1 className="dnb-h--xx-large">
   h1 with auto sized{' '}
   <Icon icon={BellMedium} size="auto" aria-hidden />{' '}
   icon
 </h1>
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -72,7 +78,8 @@ export const IconMedium = () => {
       scope={{ Bell, BellMedium }}
       title="Explicit defined size: medium"
     >
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <Icon icon={BellMedium} size="16" title="force default size" />
 <Icon icon={BellMedium} title="is medium anyway" />
 <Icon icon={Bell} size="medium" title="force medium size" />
@@ -83,7 +90,8 @@ export const IconMedium = () => {
   height="24"
   title="not responsive"
 />
-`}
+`
+      }
     </ComponentBox>
   )
 }
@@ -100,7 +108,8 @@ export const IconPrimary = () => {
       title="All **primary** icons listed as medium sized icons"
       noFragments={false}
     >
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 () => {
   const Icons = () => getListOfIcons(PrimaryIconsMedium).map(
     ({iconName, Svg}) => {
@@ -119,7 +128,8 @@ export const IconPrimary = () => {
   )
   return <Icons />
 }
-`}
+`
+      }
     </ComponentBox>
   )
 }
@@ -136,7 +146,8 @@ export const IconSecondary = () => {
       title="All **secondary** icons listed as medium sized icons"
       noFragments={false}
     >
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 () => {
   const uniqueList = {}
   const Icons = () => getListOfIcons(SecondaryIconsMedium).map(
@@ -161,7 +172,8 @@ export const IconSecondary = () => {
   )
   return <Icons />
 }
-`}
+`
+      }
     </ComponentBox>
   )
 }
@@ -178,15 +190,14 @@ export default function IconTests() {
 
 export const IconColors = () => {
   return (
-    <ComponentBox
-      data-visual-test="icon-colors"
-      scope={{ BellMedium }}
-    >
-      {() => /* jsx */ `
+    <ComponentBox data-visual-test="icon-colors" scope={{ BellMedium }}>
+      {
+        /* jsx */ `
 <Icon icon={BellMedium} color="var(--color-fire-red)" title="CSS variable" />
 <Icon icon={BellMedium} color="#DC2A2A" title="Hex" />
 <Icon icon={BellMedium} color="rgb(220,42,42)" title="RGB" />
-`}
+`
+      }
     </ComponentBox>
   )
 }

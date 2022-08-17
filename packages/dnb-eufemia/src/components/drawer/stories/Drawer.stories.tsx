@@ -38,8 +38,8 @@ export const DrawerSandbox = () => (
     <Box>
       {/* <Button variant="tertiary" text="Button" /> */}
       <Drawer
-        // no_animation
-        // open_state="opened"
+        noAnimation
+        openState="opened"
         // fullscreen
         containerPlacement="right"
         //align_content="right"

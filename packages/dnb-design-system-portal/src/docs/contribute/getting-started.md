@@ -73,7 +73,7 @@ $ git checkout -b feat/my-feature
 
 Inside `./packages/dnb-eufemia` you will find the directory `/src/components`, `/src/elements` or `/src/extensions`. There you can place a new directory with all the necessary sub folders. As a reference, take a look at Component folder section in [Before getting started](/contribute/first-contribution/before-started#component-folder).
 
-Run an environment with either `yarn dev` (for Storybook) or `yarn start` (for Eufemia Portal). Make sure you follow the [Code guide](/contribute/style-guide/coding) under development.
+Run an environment with either `yarn dev` (for Storybook) or `yarn start` (for Eufemia Portal). Make sure you follow the [Code guide](/contribute/style-guides/coding) under development.
 
 ### Styling, CSS and SCSS of components
 
@@ -178,6 +178,33 @@ function MyComponent(props: Types) {
     defaultProps,
     context.MyComponent
     // ...
+  )
+
+  // Use myParam and spread the ...rest
+}
+```
+
+#### FormRow support with `includeValidProps`
+
+Form elements, like input, checkbox, slider etc. do support some [FormRow](/uilib/components/form-row) properties. In order to support them, you can use `includeValidProps`, so only valid properties will effected the component.
+
+```tsx
+import { Context } from '../../shared'
+import { usePropsWithContext } from '../../shared/hooks'
+import { includeValidProps } from '../../components/form-row/FormRowHelpers'
+
+const defaultProps = {
+  myParam: 'value',
+}
+
+function MyComponent(props: Types) {
+  const context = React.useContext(Context)
+
+  const { myParam, skeleton, ...rest } = usePropsWithContext(
+    props,
+    defaultProps,
+    includeValidProps(context?.FormRow)
+    context.MyComponent,
   )
 
   // Use myParam and spread the ...rest
@@ -393,13 +420,13 @@ describe('Breadcrumb aria', () => {
 
 ## 5. (Optional) Update change logs
 
-Changes to `@dnb/eufemia` have to be mentioned by using a [git commit messages decoration](/contribute/commit#commit-messages). During the next release, the package `CHANGELOG.md` file will be updated and changes will get listed on the [GitHub Releases](https://github.com/dnbexperience/eufemia/releases) page.
+Changes to `@dnb/eufemia` have to be mentioned by using a [git commit messages decoration](/contribute/style-guides/git/#commit-messages). During the next release, the package `CHANGELOG.md` file will be updated and changes will get listed on the [GitHub Releases](https://github.com/dnbexperience/eufemia/releases) page.
 
 General Eufemia **Design System** changes have to be written down in the `EUFEMIA_CHANGELOG.md` file, located in the docs. This file should only be updated if there is a change in the `@dnb/eufemia` package, which affects the components, elements or extensions.
 
 ## 6. Commit changes
 
-[Commit your change](/contribute/commit) and create a _Pull Request_ to the `origin/main` branch. Check out the [Git convention](/contribute/style-guides/git) for how to commit and make _Pull Request_.
+Commit your change and create a _Pull Request_ to the `origin/main` branch. Check out the [Git convention](/contribute/style-guides/git) for how to commit and make _Pull Request_.
 
 From a Fork:
 

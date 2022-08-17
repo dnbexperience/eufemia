@@ -1,7 +1,7 @@
 ---
 title: 'Avatar'
 description: 'The avatar component are identifiers that makes people and companies more scannable.'
-status: 'new'
+status: null
 showTabs: true
 ---
 

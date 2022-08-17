@@ -17,7 +17,7 @@ To support every modern front end environment, the `@dnb/eufemia` supports diffe
 
 ## Default module format
 
-The `@dnb/eufemia` uses **ESM** as the default module format. This allows us to more easily and by default [tree shaking](/uilib/usage/first-steps/es6#tree-shaking) support:
+The `@dnb/eufemia` uses **ESM** as the default module format. This allows us to more easily and by default [tree shaking](#tree-shaking) support:
 
 ```js
 // Imports only the code needed for the button

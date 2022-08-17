@@ -1,7 +1,7 @@
 ---
 title: 'Timeline'
 description: 'The Timeline component shows events in chronological order and gives a great overview of the overall process'
-status: 'new'
+status: null
 showTabs: true
 ---
 

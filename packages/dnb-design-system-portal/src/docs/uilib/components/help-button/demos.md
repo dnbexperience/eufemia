@@ -10,7 +10,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 <ComponentBox data-visual-test="help-button-default">
     {
-    () => /* jsx */ `
+    /* jsx */ `
 <HelpButton>
     Text
 </HelpButton>
@@ -21,7 +21,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 <ComponentBox data-visual-test="help-button-suffix">
     {
-    () => /* jsx */ `
+    /* jsx */ `
 <Input
     size={10}
     placeholder="Input ..."
@@ -34,7 +34,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 <ComponentBox data-visual-test="help-button-sizes">
     {
-    () => /* jsx */ `
+    /* jsx */ `
 <HelpButton title="Custom title">Text</HelpButton>
 <HelpButton
     size="small"
@@ -49,7 +49,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 ### Help button with an information icon
 
 <ComponentBox>
-    {() => /* jsx */ `
+    {/* jsx */ `
 <HelpButton icon="information" tooltip="More info">
     <Dl>
         <Dt>Term</Dt>
@@ -66,7 +66,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 <ComponentBox data-visual-test="help-button-inline">
     {
-    () => /* jsx */ `
+    /* jsx */ `
 Text <HelpButton>
     Text
 </HelpButton> Text

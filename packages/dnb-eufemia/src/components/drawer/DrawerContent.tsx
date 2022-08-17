@@ -82,7 +82,7 @@ export default function DrawerContent({
   )
 
   return (
-    <ScrollView {...innerParams}>
+    <ScrollView {...innerParams} ref={context?.scrollRef}>
       <div
         tabIndex={-1}
         className="dnb-drawer__inner dnb-no-focus"

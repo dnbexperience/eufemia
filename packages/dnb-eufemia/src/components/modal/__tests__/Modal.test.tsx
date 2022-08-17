@@ -48,6 +48,22 @@ beforeEach(() => {
 })
 
 describe('Modal component', () => {
+  it('will run bodyScrollLock with disableBodyScroll', () => {
+    const Comp = mount(
+      <Component {...props}>
+        <button>button</button>
+      </Component>
+    )
+
+    expect(document.body.getAttribute('style')).toBe(null)
+
+    Comp.find('button.dnb-modal__trigger').simulate('click')
+
+    expect(document.body.getAttribute('style')).toContain(
+      'overflow: hidden;'
+    )
+  })
+
   it('have to match snapshot', () => {
     const Comp = mount(<Component {...props} open_state={true} />)
     expect(toJson(Comp)).toMatchSnapshot()

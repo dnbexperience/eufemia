@@ -13,7 +13,8 @@ AutocompletePredefinedInput,
 AutocompleteDifferentSizes,
 AutocompleteCustomWidth,
 AutocompleteSuffix,
-AutocompleteOpened
+AutocompleteOpened,
+AutocompleteDisabledExample,
 } from 'Docs/uilib/components/autocomplete/Examples'
 
 ## Demos
@@ -68,7 +69,7 @@ const { locale } = React.useContext(Context)
 const data = [
   {
     suffix_value: (
-      <NumberFormat currency srLabel="Total:">
+      <NumberFormat currency srLabel="Total:" locale={locale}>
         {12345678}
       </NumberFormat>
     ),
@@ -85,3 +86,5 @@ const data = [
 <AutocompleteCustomWidth />
 
 <AutocompleteOpened />
+
+<AutocompleteDisabledExample />

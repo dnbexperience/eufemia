@@ -91,11 +91,21 @@ exports.createPages = async (params) => {
 async function createPages({ graphql, actions }) {
   const mdxResult = await graphql(/* GraphQL */ `
     {
+      site {
+        siteMetadata {
+          title
+          description
+        }
+      }
       allMdx {
         edges {
           node {
             id
             slug
+            frontmatter {
+              title
+              description
+            }
           }
         }
       }

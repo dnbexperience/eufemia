@@ -15,18 +15,21 @@ import {
 
 export const DialogExampleDefault = () => (
   <ComponentBox data-visual-test="dialog-default">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Dialog title="What is a Dialog?">
   <P>The Dialog component is a Modal variation that appears at the center of the screen. The Dialog has similar functionality to a traditional popup window and is mostly used for informational purposes (for example explaining a word on the page). Similar to Modal, it has to be triggered by the user to appear. Typical usage would be to read an explanation, then closing it.</P>
   <Button variant="secondary" size="large" top="large">Read more</Button>
 </Dialog>
-	`}
+	`
+    }
   </ComponentBox>
 )
 
 export const DialogExampleHelpButton = () => (
   <ComponentBox data-visual-test="dialog-help-button">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Input
   label="Input"
   placeholder="Placeholder ..."
@@ -36,13 +39,15 @@ export const DialogExampleHelpButton = () => (
     </Dialog>
   }
 />
-	`}
+	`
+    }
   </ComponentBox>
 )
 
 export const DialogExampleFullscreen = () => (
   <ComponentBox data-visual-test="dialog-fullscreen">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Dialog
   title={<span className="dnb-sr-only">"Hidden" Dialog title</span>}
   fullscreen
@@ -53,13 +58,15 @@ export const DialogExampleFullscreen = () => (
   }}
   modalContent="The Dialog component is a Modal variation that appears at the center of the screen. The Dialog has similar functionality to a traditional popup window and is mostly used for informational purposes."
 />
-	`}
+	`
+    }
   </ComponentBox>
 )
 
 export const DialogExampleDelayClose = () => (
   <ComponentBox>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Dialog
   title=".5s close delay"
   triggerAttributes={{
@@ -80,13 +87,15 @@ export const DialogExampleDelayClose = () => (
   <P>Click outside me, and I will be closed within 1 second.</P>
   <Input label="Focus:" top>Focus me with Tab key</Input>
 </Dialog>
-	`}
+	`
+    }
   </ComponentBox>
 )
 
 export const DialogExampleCustomTrigger = () => (
   <ComponentBox data-visual-test="dialog-custom-trigger">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Dialog
   title="Modal Title"
   trigger={(props) => (
@@ -95,7 +104,8 @@ export const DialogExampleCustomTrigger = () => (
 >
     <P>This Modal was opened by a custom trigger component.</P>
 </Dialog>
-	`}
+	`
+    }
   </ComponentBox>
 )
 
@@ -104,7 +114,8 @@ export const FullDialogExample = () => (
     data-visual-test="full-dialog"
     scope={{ handleBack: () => {} }}
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Dialog
   title="Custom title"
   >
@@ -122,13 +133,15 @@ export const FullDialogExample = () => (
   </Button>
   <FormStatus state="info">This is a formstatus in a Dialog</FormStatus>
 </Dialog>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const DialogExampleProgressIndicator = () => (
   <ComponentBox data-visual-test="dialog-progress-indicator">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Dialog
   spacing={false}
   fullscreen={false}
@@ -147,7 +160,8 @@ export const DialogExampleProgressIndicator = () => (
     bottom="large"
   />
 </Dialog>
-	`}
+	`
+    }
   </ComponentBox>
 )
 
@@ -156,7 +170,8 @@ export const DialogConfirmDefault = () => (
     data-visual-test="dialog-confirm-default"
     scope={{ bell_medium }}
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Dialog
   variant="confirmation"
   title="Dialog confirmation title"
@@ -166,7 +181,8 @@ export const DialogConfirmDefault = () => (
   triggerAttributes={{
     text: 'Trigger button',
   }}
-/>`}
+/>`
+    }
   </ComponentBox>
 )
 
@@ -175,7 +191,8 @@ export const DialogConfirmDelete = () => (
     data-visual-test="dialog-confirm-delete"
     scope={{ trash_medium }}
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Dialog
   variant="confirmation"
   confirmType="warning"
@@ -189,7 +206,8 @@ export const DialogConfirmDelete = () => (
     text: 'Delete record',
     icon: trash_medium,
   }}
-/>`}
+/>`
+    }
   </ComponentBox>
 )
 
@@ -201,7 +219,8 @@ export const DialogConfirmLoggedOut = () => (
     scope={{ log_out_medium, loginHandler }}
     useRender
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 const Component = () => {
   const [open, setOpen] = React.useState(false)
   return (
@@ -232,7 +251,8 @@ const Component = () => {
   )
 }
 render(<Component />)	
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -241,7 +261,8 @@ export const DialogConfirmCookies = () => (
     data-visual-test="dialog-confirm-cookie"
     scope={{ cookie_medium, edit }}
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Dialog
   triggerAttributes={{
     text: 'Show cookie dialog',
@@ -274,7 +295,8 @@ export const DialogConfirmCookies = () => (
     />
   </Dialog.Action>
 </Dialog>
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -290,7 +312,8 @@ export const DialogConfirmScrollableContent = () => {
       data-visual-test="dialog-scroll-content"
       scope={{ scrollRef }}
     >
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <Dialog
   triggerAttributes={{
     text: 'Show cookie dialog',
@@ -351,7 +374,8 @@ export const DialogConfirmScrollableContent = () => {
     />
   </Dialog.Action>
 </Dialog>
-`}
+`
+      }
     </ComponentBox>
   )
 }

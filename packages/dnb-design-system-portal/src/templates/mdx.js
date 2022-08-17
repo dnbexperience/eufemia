@@ -9,83 +9,88 @@ import { MDXRenderer } from 'gatsby-plugin-mdx'
 import { graphql } from 'gatsby'
 
 import Layout from '../shared/parts/Layout'
-import { Helmet as Head } from 'react-helmet'
 import tags from '../shared/tags'
 
 const Tabbar = tags.Tabbar
 const ContentWrapper = Tabbar.ContentWrapper
 
-export default class MdxTemplate extends React.PureComponent {
-  render() {
-    const {
-      location,
-      data: {
-        mdx,
-        site: {
-          siteMetadata: { title: mainTitle, description: mainDescription },
-        },
-      },
-    } = this.props
+export default function MdxTemplate(props) {
+  const {
+    location,
+    data: { mdx },
+  } = props
 
-    const { body, tableOfContents, siblings } = mdx
+  const { body, siblings } = mdx
 
-    const makeUseOfCategory = Boolean(
-      !mdx?.frontmatter?.title && mdx?.frontmatter?.showTabs
-    )
-    const category = siblings?.[0]
-    const categoryFm = category?.frontmatter || {}
-    const currentFm = mdx?.frontmatter || {}
+  const makeUseOfCategory = Boolean(
+    !mdx?.frontmatter?.title && mdx?.frontmatter?.showTabs
+  )
+  const category = siblings?.[0]
+  const categoryFm = category?.frontmatter || {}
+  const currentFm = mdx?.frontmatter || {}
 
-    const pageDescription = currentFm?.description || mainDescription
-    let pageTitle
-
-    // Extend the title with a sub tab title
-    if (currentFm?.title && Array.isArray(tableOfContents?.items?.[0])) {
-      pageTitle = `${currentFm.title || categoryFm?.title} – ${
-        tableOfContents.items[0]?.title
-      }`
-    } else {
-      pageTitle = currentFm?.title || categoryFm?.title || mainTitle
-    }
-
-    return (
-      <>
-        <Head>
-          <title>{pageTitle} | Eufemia</title>
-          <meta name="description" content={pageDescription} />
-        </Head>
-
-        <Layout
-          key="layout"
+  return (
+    <Layout
+      key="layout"
+      location={location}
+      fullscreen={
+        Boolean(currentFm.fullscreen || categoryFm.fullscreen) ||
+        props.pageContext.fullscreen
+      }
+    >
+      {currentFm.showTabs && (
+        <Tabbar
+          key="tabbar"
           location={location}
-          fullscreen={
-            Boolean(currentFm.fullscreen || categoryFm.fullscreen) ||
-            this.props.pageContext.fullscreen
-          }
-        >
-          {currentFm.showTabs && (
-            <Tabbar
-              key="tabbar"
-              location={location}
-              rootPath={
-                '/' + (makeUseOfCategory ? category?.slug : mdx?.slug)
-              }
-              title={currentFm.title || categoryFm.title}
-              tabs={currentFm.tabs || categoryFm.tabs}
-              defaultTabs={currentFm.defaultTabs || categoryFm.defaultTabs}
-              hideTabs={currentFm.hideTabs || categoryFm.hideTabs}
-            />
-          )}
+          rootPath={'/' + (makeUseOfCategory ? category?.slug : mdx?.slug)}
+          title={currentFm.title || categoryFm.title}
+          tabs={currentFm.tabs || categoryFm.tabs}
+          defaultTabs={currentFm.defaultTabs || categoryFm.defaultTabs}
+          hideTabs={currentFm.hideTabs || categoryFm.hideTabs}
+        />
+      )}
 
-          <ContentWrapper>
-            <MDXProvider components={tags}>
-              <MDXRenderer>{body}</MDXRenderer>
-            </MDXProvider>
-          </ContentWrapper>
-        </Layout>
-      </>
-    )
+      <ContentWrapper>
+        <MDXProvider components={tags}>
+          <MDXRenderer>{body}</MDXRenderer>
+        </MDXProvider>
+      </ContentWrapper>
+    </Layout>
+  )
+}
+
+export const Head = ({
+  data: {
+    site: {
+      siteMetadata: { title: mainTitle, description: mainDescription },
+    },
+    mdx,
+  },
+}) => {
+  const { tableOfContents, siblings } = mdx
+
+  const category = siblings?.[0]
+  const categoryFm = category?.frontmatter || {}
+  const currentFm = mdx?.frontmatter || {}
+
+  const pageDescription = currentFm?.description || mainDescription
+  let pageTitle
+
+  // Extend the title with a sub tab title
+  if (currentFm?.title && Array.isArray(tableOfContents?.items?.[0])) {
+    pageTitle = `${currentFm.title || categoryFm?.title} – ${
+      tableOfContents.items[0]?.title
+    }`
+  } else {
+    pageTitle = currentFm?.title || categoryFm?.title || mainTitle
   }
+
+  return (
+    <>
+      <title>{pageTitle} | Eufemia</title>
+      <meta name="description" content={pageDescription} />
+    </>
+  )
 }
 
 export const pageQuery = graphql`

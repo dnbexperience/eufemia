@@ -8,7 +8,8 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 export const GlobalStatusError = () => (
   <ComponentBox data-visual-test="global-status">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <GlobalStatus
   title="Custom Title"
   text="Failure text"
@@ -25,13 +26,15 @@ export const GlobalStatusError = () => (
   omit_set_focus="true"
   id="demo-1"
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const GlobalStatusInfo = () => (
   <ComponentBox data-visual-test="global-status-info">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <GlobalStatus
   state="info"
   title="Custom info title ..."
@@ -43,13 +46,15 @@ export const GlobalStatusInfo = () => (
   omit_set_focus="true"
   id="demo-4"
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const GlobalStatusCoupling = () => (
   <ComponentBox useRender>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 const InputWithError = () => {
   const [errorMessage, setErrorMessage] = React.useState(null)
   return (
@@ -68,13 +73,15 @@ const InputWithError = () => {
 render(
   <InputWithError />
 )
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const GlobalStatusAddRemoveItems = () => (
   <ComponentBox noFragments={false} hideCode>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 () => {
   const [count, toggleUpdateStatus] = React.useState(0)
   return (
@@ -127,13 +134,15 @@ export const GlobalStatusAddRemoveItems = () => (
     </>
   )
 }
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const GlobalStatusScrolling = () => (
   <ComponentBox hideCode>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Button
   text="Scroll to main GlobalStatus"
   on_click={() => {
@@ -144,13 +153,15 @@ export const GlobalStatusScrolling = () => (
     })
   }}
 />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const GlobalStatusUpdate = () => (
   <ComponentBox useRender hideCode>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 const Context = React.createContext()
 
 const UpdateDemo = () => {
@@ -286,6 +297,7 @@ const UpdateDemoTools = () => {
 }
 
 render(<UpdateDemo />)
-`}
+`
+    }
   </ComponentBox>
 )

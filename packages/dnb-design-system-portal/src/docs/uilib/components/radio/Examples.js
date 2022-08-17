@@ -8,7 +8,8 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 export const RadioExampleDefault = () => (
   <ComponentBox data-visual-test="radio-group">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Radio.Group
   label="Radio Group:"
   on_change={({ value }) => { console.log('on_change', value) }}
@@ -21,13 +22,15 @@ export const RadioExampleDefault = () => (
     value="third"
   />
 </Radio.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const RadioExampleVerticalGroup = () => (
   <ComponentBox data-visual-test="radio-group-vertical">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Radio.Group
   label="Vertical Group:"
   layout_direction="column"
@@ -41,13 +44,15 @@ export const RadioExampleVerticalGroup = () => (
     checked
   />
 </Radio.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const RadioExampleGroupStatus = () => (
   <ComponentBox data-visual-test="radio-group-status">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Radio.Group
   label="Radio Group with status:"
   layout_direction="column"
@@ -71,13 +76,15 @@ export const RadioExampleGroupStatus = () => (
     status_state="info"
   />
 </Radio.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const RadioExampleWithoutGroup = () => (
   <ComponentBox data-visual-test="radio-group-plain">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <FormRow label="Plain Radio group:">
   <Radio
     value="first"
@@ -105,22 +112,26 @@ export const RadioExampleWithoutGroup = () => (
     right
   />
 </FormRow>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const RadioExampleSizes = () => (
   <ComponentBox data-visual-test="radio-sizes">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Radio size="medium" label="Medium" right="large" checked />
 <Radio size="large" label="Large" checked />
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const RadioExampleDisabled = () => (
   <ComponentBox data-visual-test="radio-group-disabled">
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Radio.Group
   label="Disabled Group:"
   disabled
@@ -135,13 +146,15 @@ export const RadioExampleDisabled = () => (
     checked
   />
 </Radio.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
 export const RadioExampleSuffix = () => (
   <ComponentBox>
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 <Radio.Group
   label="With suffixes:"
   label_position="left"
@@ -160,7 +173,8 @@ export const RadioExampleSuffix = () => (
     checked
   />
 </Radio.Group>
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -171,23 +185,27 @@ export function RadioVisualTests() {
         title="Unchecked Radio (Single Radio buttons should not be used)"
         data-visual-test="radio-default"
       >
-        {() => /* jsx */ `
+        {
+          /* jsx */ `
 <Radio
   label="Single Radio"
 />
-`}
+`
+        }
       </ComponentBox>
       <ComponentBox
         title="Checked Radio (Single Radio buttons should not be used)"
         data-visual-test="radio-checked"
       >
-        {() => /* jsx */ `
+        {
+          /* jsx */ `
 <Radio
   label="Checked Radio"
   checked
   on_change={({ checked }) => console.log(checked)}
 />
-`}
+`
+        }
       </ComponentBox>
     </>
   )

@@ -10,7 +10,8 @@ import styled from '@emotion/styled'
 export const DrawerListExampleInteractive = () => (
   <Wrapper>
     <ComponentBox useRender scope={{ data }}>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 const DrawerListWithState = props => {
   const [opened, setOpened] = React.useState(false)
   const Relative = styled.span\`
@@ -36,7 +37,8 @@ const DrawerListWithState = props => {
   )
 }
 render(<DrawerListWithState />)
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -44,7 +46,8 @@ render(<DrawerListWithState />)
 export const DrawerListExampleOnlyToVisualize = () => (
   <Wrapper>
     <ComponentBox data-visual-test="drawer-list" scope={{ data }} hideCode>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <span className="dnb-drawer-list__list">
   <ul className="dnb-drawer-list__options">
     <li className="dnb-drawer-list__option first-of-type">
@@ -71,7 +74,8 @@ export const DrawerListExampleOnlyToVisualize = () => (
     <li className="dnb-drawer-list__triangle" />
   </ul>
 </span>
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -79,7 +83,8 @@ export const DrawerListExampleOnlyToVisualize = () => (
 export const DrawerListExampleDefault = () => (
   <Wrapper>
     <ComponentBox scope={{ data }} data-visual-test="drawer-list-default">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <DrawerList
   skip_portal
   opened
@@ -94,7 +99,8 @@ export const DrawerListExampleDefault = () => (
     console.log('on_show')
   }}
 />
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -106,7 +112,8 @@ export const DrawerListExampleSingleItem = () => (
       useRender
       data-visual-test="drawer-list-events"
     >
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 const CustomComponent = () => (
   <CustomComponentInner
     onTouchStart={preventDefault}
@@ -152,7 +159,8 @@ render(
     suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
   />
 )
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -160,7 +168,8 @@ render(
 export const DrawerListExampleMarkup = () => (
   <Wrapper>
     <ComponentBox data-visual-test="drawer-items" useRender>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 const list = [
   { value: 'A' },
   { value: 'B' },
@@ -198,7 +207,8 @@ const DrawerListWithState = props => {
   )
 }
 render(<DrawerListWithState />)
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )

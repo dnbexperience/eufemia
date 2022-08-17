@@ -15,7 +15,8 @@ import { Provider } from '@dnb/eufemia/src/shared'
 export const InputMaskedExampleNumberLocale = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-number">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <FormRow vertical>
   <InputMasked
     label="Number:"
@@ -51,7 +52,8 @@ export const InputMaskedExampleNumberLocale = () => (
     }}
   />
 </FormRow>
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -62,7 +64,8 @@ export const InputMaskedExampleCurrencyLocale = () => (
       data-visual-test="input-masked-currency"
       scope={{ Provider }}
     >
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <FormRow vertical>
   <InputMasked
     label="Currency:"
@@ -94,7 +97,8 @@ export const InputMaskedExampleCurrencyLocale = () => (
     />
   </Provider>
 </FormRow>
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -102,7 +106,8 @@ export const InputMaskedExampleCurrencyLocale = () => (
 export const InputMaskedExampleCurrencyMask = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-currency_mask">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <FormRow vertical>
   <InputMasked
     label="Left aligned (default):"
@@ -124,7 +129,8 @@ export const InputMaskedExampleCurrencyMask = () => (
     }}
   />
 </FormRow>
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -132,7 +138,8 @@ export const InputMaskedExampleCurrencyMask = () => (
 export const InputMaskedExampleCustomNumberMask = () => (
   <Wrapper>
     <ComponentBox>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <InputMasked
   label="Masked amount:"
   show_mask
@@ -145,7 +152,8 @@ export const InputMaskedExampleCustomNumberMask = () => (
     console.log(numberValue)
   }}
 />
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -153,7 +161,8 @@ export const InputMaskedExampleCustomNumberMask = () => (
 export const InputMaskedExampleNumberMask = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-number_mask">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <InputMasked
   label="Masked input:"
   value="1000000"
@@ -166,7 +175,8 @@ export const InputMaskedExampleNumberMask = () => (
     console.log(parseInt(numberValue || 0, 10))
   }}
 />
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -174,7 +184,8 @@ export const InputMaskedExampleNumberMask = () => (
 export const InputMaskedExamplePrefix = () => (
   <Wrapper>
     <ComponentBox>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <InputMasked
   label="Masked input:"
   number_mask={{
@@ -186,7 +197,8 @@ export const InputMaskedExamplePrefix = () => (
     console.log(numberValue)
   }}
 />
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -194,7 +206,8 @@ export const InputMaskedExamplePrefix = () => (
 export const InputMaskedExamplePhone = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-masked-phone">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <InputMasked
   label="Masked input:"
   mask={[
@@ -222,7 +235,8 @@ export const InputMaskedExamplePhone = () => (
     console.log(numberValue)
   }}
 />
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )

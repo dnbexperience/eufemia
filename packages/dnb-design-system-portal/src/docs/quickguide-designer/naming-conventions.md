@@ -48,7 +48,7 @@ Whereas in CSS as a custom property this is written:
 --color-fire-red-8
 </div>
 
-Colors have a naming convention across all platforms and formats. Please refer to the table in 'colors' section https://eufemia.dnb.no/quickguide-designer/colors.
+Colors have a naming convention across all platforms and formats. Please refer to the table in [colors section](/quickguide-designer/colors).
 
 **NB!** Android and iOS will have a different format for the same names. This guide is for application in **web** products.
 
@@ -78,4 +78,4 @@ Example of a Figma component name:
 date picker
 </div>
 
-If in doubt, look at the main Eufemia file **Eufemia - Web**.
+If in doubt, look at the main Eufemia file - [Eufemia - Web](https://www.figma.com/file/cdtwQD8IJ7pTeE45U148r1/Eufemia-Web?node-id=530%3A49).

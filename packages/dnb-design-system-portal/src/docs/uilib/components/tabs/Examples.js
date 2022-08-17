@@ -14,7 +14,8 @@ import { BrowserRouter, Route, withRouter } from 'react-router-dom'
 export const TabsExampleContentOutside = () => (
   <Wrapper>
     <ComponentBox>
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <Tabs
   id="unique-linked-id"
   data={[
@@ -34,7 +35,8 @@ export const TabsExampleContentOutside = () => (
     return <H2>{ key }</H2>
   }}
 </Tabs.Content>
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -46,7 +48,8 @@ export const TabsExampleContentObject = () => (
       data-visual-test="tabs-tablist"
       useRender
     >
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 const data = [
   { title: 'First', key: 'first' },
   { title: 'Second', key: 'second' },
@@ -58,7 +61,8 @@ render(
     { exampleContent /* See Example Content below */ }
   </Tabs>
 )
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -69,7 +73,8 @@ export const TabsExampleUsingData = () => (
       data-visual-test="tabs-clickhandler"
       scope={{ exampleContent }}
     >
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <Tabs
   data={{
     first: {
@@ -92,7 +97,8 @@ export const TabsExampleUsingData = () => (
     console.log('on_change', selected_key)
   }}
 />
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -103,11 +109,13 @@ export const TabsExampleScrollable = () => (
       data-visual-test="tabs-tablist-scrollable"
       scope={{ manyTabs, manyTabsContent }}
     >
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <Tabs data={manyTabs}>
   { manyTabsContent }
 </Tabs>
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -115,7 +123,8 @@ export const TabsExampleScrollable = () => (
 export const TabsExampleLeftAligned = () => (
   <Wrapper>
     <ComponentBox data-visual-test="tabs-section-styles">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <Tabs tabs_style="mint-green" content_style="black-3">
   <Tabs.Content title="First">
     <H2 top={0} bottom>First</H2>
@@ -124,7 +133,8 @@ export const TabsExampleLeftAligned = () => (
     <H2 top={0} bottom>Second</H2>
   </Tabs.Content>
 </Tabs>
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
@@ -135,7 +145,8 @@ export const TabsExampleHorizontalAligned = () => (
     scope={{ manyTabs }}
     useRender
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 
 const FlexWrapper = styled.div\`
   display: flex;
@@ -184,7 +195,8 @@ function TabsHorizontalAligned() {
 }
 
 render(<TabsHorizontalAligned />)
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -194,7 +206,8 @@ export const TabsExampleMaxWidth = () => (
     scope={{ manyTabs }}
     useRender
   >
-    {() => /* jsx */ `
+    {
+      /* jsx */ `
 
 const MaxWidthWrapper = styled.div\`
   max-width: 30rem;
@@ -216,7 +229,8 @@ function TabsMaxWidth() {
 }
 
 render(<TabsMaxWidth />)
-`}
+`
+    }
   </ComponentBox>
 )
 
@@ -228,7 +242,8 @@ export const TabsExampleReactRouterNavigation = () =>
         scope={{ BrowserRouter, Route, withRouter }}
         useRender
       >
-        {() => /* jsx */ `
+        {
+          /* jsx */ `
 // import { Router, Route, withRouter } from 'react-router-dom'
 const tabsData = [
   { title: 'Home', key: 'home' },
@@ -259,7 +274,8 @@ const TabsNav = withRouter(({ history, location }) => (
   </Tabs>
 ))
 render(<BrowserRouter><TabsNav /></BrowserRouter>)
-`}
+`
+        }
       </ComponentBox>
     </Wrapper>
   )
@@ -268,7 +284,8 @@ export const TabsExampleReachRouterNavigation = () =>
   typeof window === 'undefined' ? null : (
     <Wrapper>
       <ComponentBox scope={{ Location, Router, navigate }} useRender>
-        {() => /* jsx */ `
+        {
+          /* jsx */ `
 // import { Location, Router, navigate } from '@reach/router'
 const Home = () => <H2>Home</H2>
 const About = () => <H2>About</H2>
@@ -299,7 +316,8 @@ render(
     }}
   </Location>
 )
-`}
+`
+        }
       </ComponentBox>
     </Wrapper>
   )
@@ -342,7 +360,8 @@ const Wrapper = styled.div`
 export const TabsNoBorder = () => (
   <Wrapper>
     <ComponentBox data-visual-test="tabs-no-border">
-      {() => /* jsx */ `
+      {
+        /* jsx */ `
 <Tabs no_border={true}>
   <Tabs.Content title="First">
     <H2 top={0} bottom>First</H2>
@@ -351,7 +370,8 @@ export const TabsNoBorder = () => (
     <H2 top={0} bottom>Second</H2>
   </Tabs.Content>
 </Tabs>
-`}
+`
+      }
     </ComponentBox>
   </Wrapper>
 )
