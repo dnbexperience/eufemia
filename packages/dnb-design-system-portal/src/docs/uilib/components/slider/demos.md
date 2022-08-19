@@ -9,6 +9,7 @@ SliderVerticalWithSteps,
 SliderExampleHorizontalSync,
 SliderExampleSuffix,
 SliderExampleRange,
+SliderExampleMultiButtons,
 } from 'Docs/uilib/components/slider/Examples'
 
 ## Demos
@@ -16,6 +17,12 @@ SliderExampleRange,
 ### Default Slider
 
 <SliderExampleDefault />
+
+### Slider with multiple thumb buttons
+
+Provide the `value` property as an array with numbers. The `onChange` event will then also return the property `value` as an array. The `+` and `-` buttons will not be visible when when more than one thumb button is present.
+
+<SliderExampleMultiButtons />
 
 ### Vertical slider with steps of 10
 

@@ -7,7 +7,14 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import { Slider, ToggleButton, Input, FormRow, FormLabel } from '../../'
+import {
+  Slider,
+  ToggleButton,
+  Input,
+  FormRow,
+  FormLabel,
+  Tooltip,
+} from '../../'
 
 import '../../slider/style/dnb-range.scss'
 
@@ -31,6 +38,40 @@ const VerticalWrapper = styled.div`
     margin-top: 1rem;
   }
 `
+const FixedSizeWrapper = styled.div`
+  width: 20rem;
+  height: 20rem;
+  margin-bottom: 1rem;
+`
+
+export function MultiButtons() {
+  const [value, setValue] = React.useState<Array<number>>([10, 40, 80])
+
+  return (
+    <>
+      <FixedSizeWrapper>
+        <Tooltip active show>
+          Tooltip
+        </Tooltip>
+        <Slider
+          label="Label:"
+          value={value}
+          stretch
+          number_format={{ decimals: 2, currency: true }}
+          on_change={({ value, number }) => {
+            console.log('on_change:', number)
+            setValue(value as Array<number>)
+          }}
+        />
+        <code>{value.join(' | ')}</code>
+      </FixedSizeWrapper>
+
+      <FixedSizeWrapper>
+        <Slider value={80} step={1} stretch />
+      </FixedSizeWrapper>
+    </>
+  )
+}
 
 const SliderStory = () => {
   const [value, setValue] = React.useState(70)
@@ -53,7 +94,7 @@ const SliderStory = () => {
           // reverse
           on_change={({ value, number, rawValue }) => {
             console.log('on_change:', { value, number, rawValue })
-            setValue(value)
+            setValue(value as number)
           }}
           status="Long status message Lobortis lacus ac ligula vehicula Metus nullam ut at pellentesque"
         />
@@ -71,7 +112,7 @@ const SliderStory = () => {
             vertical
             on_change={({ value }) => {
               console.log('on_change:', value)
-              setValue(value)
+              setValue(value as number)
             }}
             status="Long status message Lobortis lacus ac ligula vehicula"
           />
@@ -79,7 +120,7 @@ const SliderStory = () => {
             align="center"
             value={String(value)}
             on_change={({ value }) => {
-              setValue(value)
+              setValue(value as number)
             }}
           />
         </VerticalWrapper>

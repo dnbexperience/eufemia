@@ -19,23 +19,6 @@
     }
   }
 
-  &__track {
-    &::before {
-      background-color: var(--color-sea-green);
-    }
-    &::after {
-      background-color: var(--color-mint-green-50);
-    }
-  }
-  &__state--disabled#{&}__track {
-    &::before {
-      background-color: var(--color-sea-green-30);
-    }
-    &::after {
-      background-color: var(--color-mint-green-25);
-    }
-  }
-
   &__thumb {
     @include defaultDropShadow();
   }

@@ -76,34 +76,6 @@
     min-width: 2rem;
 
     cursor: pointer;
-
-    &::before,
-    &::after {
-      content: '';
-      position: absolute;
-      z-index: 2;
-      left: 0;
-      top: 50%;
-
-      width: var(--slider-thumb-size);
-      height: var(--slider-track-height);
-
-      transform: translate3d(0, -50%, 0);
-
-      border-radius: calc(var(--slider-track-height) / 2);
-      background-color: inherit;
-    }
-
-    &::before {
-      background-color: red;
-      left: calc(1px - 1px - var(--slider-space));
-      right: auto;
-    }
-    &::after {
-      background-color: blue;
-      left: auto;
-      right: calc(1px - 1px - var(--slider-space));
-    }
   }
   &--vertical &__track {
     margin: calc(var(--slider-space) * 1.5) 0;
@@ -111,22 +83,12 @@
     // only to make sure we have a visible track
     min-height: 2rem;
     min-width: auto;
-
-    &::before,
-    &::after {
-      left: 50%;
-      transform: translate3d(-50%, 0, 0);
-      width: var(--slider-track-height);
-      height: var(--slider-thumb-size);
-    }
-    &::before {
-      top: calc(1px - 1px - var(--slider-space));
-      bottom: auto;
-    }
-    &::after {
-      top: auto;
-      bottom: calc(1px - 1px - var(--slider-space));
-    }
+  }
+  &--no-buttons &__track {
+    margin: 0 calc(var(--slider-space));
+  }
+  &--no-buttons#{&}--vertical &__track {
+    margin: calc(var(--slider-space)) 0;
   }
 
   &--vertical &__inner {
@@ -152,10 +114,13 @@
     left: 0;
     top: 50%;
 
+    margin: 0 calc(1px - 1px - var(--slider-space));
+
     height: var(--slider-track-height);
     transform: translate3d(0, -50%, 0);
 
     background-color: grey;
+    border-radius: var(--slider-track-height);
   }
   &--vertical &__line {
     width: var(--slider-track-height);
@@ -163,6 +128,8 @@
 
     left: 50%;
     top: 0;
+
+    margin: calc(1px - 1px - var(--slider-space)) 0;
 
     transform: translate3d(-50%, 0, 0);
   }
@@ -177,6 +144,7 @@
   }
   &--vertical &__line__before {
     top: 0;
+    bottom: 0;
   }
   &--vertical &__line__after {
     bottom: 0;
@@ -211,6 +179,8 @@
 
     line-height: var(--slider-button-size);
     transform: translateY(0.25rem);
+
+    z-index: 5;
   }
   &--vertical &__button.dnb-button--size-small {
     transform: translateX(0.25rem);
@@ -218,12 +188,13 @@
 
   &__state--jumped &__thumb,
   &__state--jumped &__line {
-    transition: width 250ms ease 0ms, height 250ms ease 0ms,
-      left 250ms ease 0ms, top 250ms ease 0ms, box-shadow 250ms ease 0ms;
+    transition: left 250ms ease, top 250ms ease, bottom 250ms ease,
+      right 250ms ease, box-shadow 250ms ease;
   }
 
-  &__state--disabled#{&}__track,
-  &__state--disabled &__thumb {
+  &__state--disabled &__track,
+  &__state--disabled &__thumb,
+  &__state--disabled &__line {
     cursor: not-allowed;
   }
 
