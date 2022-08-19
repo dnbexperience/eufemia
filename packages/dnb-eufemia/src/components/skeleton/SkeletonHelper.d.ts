@@ -23,8 +23,10 @@ export interface SkeletonContextProps {
   };
 }
 
+export type SkeletonMethods = 'shape' | 'font' | 'code';
+
 export const createSkeletonClass: (
-  method: 'shape' | 'font' | 'code',
+  method: SkeletonMethods,
   skeleton: SkeletonShow,
   context?: SkeletonContextProps
 ) => string;

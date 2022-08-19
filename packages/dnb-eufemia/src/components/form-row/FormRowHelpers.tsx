@@ -24,7 +24,7 @@ const validFormRowProps = {
 
 export const includeValidProps = (
   props: FormRowProps,
-  excludeProps: Record<string, unknown>
+  excludeProps?: Record<string, unknown>
 ) => {
   return filterValidProps(props, validFormRowProps, excludeProps)
 }

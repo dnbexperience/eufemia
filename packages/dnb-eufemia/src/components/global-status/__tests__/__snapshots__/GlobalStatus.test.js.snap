@@ -1209,23 +1209,13 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                 medium={null}
               >
                 <ForwardRef
-                  class={null}
                   className="dnb-hr--fullscreen"
-                  css={null}
-                  internalClass={null}
                   is="hr"
-                  skeleton={null}
-                  skeleton_method="font"
                 >
                   <ElementInstance
-                    class={null}
                     className="dnb-hr--fullscreen"
-                    css={null}
-                    inner_ref={null}
-                    internalClass={null}
+                    innerRef={null}
                     is="hr"
-                    skeleton={null}
-                    skeleton_method="font"
                   >
                     <hr
                       className="dnb-hr--fullscreen dnb-hr"
@@ -1578,23 +1568,13 @@ Array [
                   medium={null}
                 >
                   <ForwardRef
-                    class={null}
                     className="dnb-hr--fullscreen"
-                    css={null}
-                    internalClass={null}
                     is="hr"
-                    skeleton={null}
-                    skeleton_method="font"
                   >
                     <ElementInstance
-                      class={null}
                       className="dnb-hr--fullscreen"
-                      css={null}
-                      inner_ref={null}
-                      internalClass={null}
+                      innerRef={null}
                       is="hr"
-                      skeleton={null}
-                      skeleton_method="font"
                     >
                       <hr
                         className="dnb-hr--fullscreen dnb-hr"

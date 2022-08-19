@@ -34,7 +34,7 @@ export default {
       reset_button_text: 'Reset',
     },
     Anchor: {
-      target_blank_title: 'Opens a new Window',
+      targetBlankTitle: 'Opens a new Window',
     },
     GlobalStatus: {
       default_title: 'An error has occurred',

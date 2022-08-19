@@ -34,7 +34,7 @@ export default {
       reset_button_text: 'Tilbakestill',
     },
     Anchor: {
-      target_blank_title: 'Åpner et nytt vindu',
+      targetBlankTitle: 'Åpner et nytt vindu',
     },
     GlobalStatus: {
       default_title: 'En feil har skjedd',
