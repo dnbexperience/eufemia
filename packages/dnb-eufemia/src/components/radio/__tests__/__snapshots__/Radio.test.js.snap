@@ -165,7 +165,7 @@ exports[`Radio component have to match snapshot 1`] = `
             id="radio-suffix"
           >
             <span
-              className="dnb-suffix dnb-radio__suffix"
+              className="dnb-suffix dnb-radio__suffix dnb-skeleton dnb-skeleton--font"
               id="radio-suffix"
             >
               suffix

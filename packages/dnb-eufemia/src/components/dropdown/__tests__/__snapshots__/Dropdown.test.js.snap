@@ -1325,7 +1325,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
               id="dropdown-id-suffix"
             >
               <span
-                className="dnb-suffix dnb-dropdown__suffix"
+                className="dnb-suffix dnb-dropdown__suffix dnb-skeleton dnb-skeleton--font"
                 id="dropdown-id-suffix"
               >
                 suffix
