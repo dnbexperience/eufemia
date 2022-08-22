@@ -232,23 +232,13 @@ exports[`PaymentCard have to match snapshot 1`] = `
                     style_type={null}
                   >
                     <ForwardRef
-                      class={null}
                       className="dnb-p  dnb-p__size--x-small dnb-p--bold dnb-payment-card__card__holder"
-                      css={null}
-                      internalClass={null}
                       is="p"
-                      skeleton={null}
-                      skeleton_method="font"
                     >
                       <ElementInstance
-                        class={null}
                         className="dnb-p  dnb-p__size--x-small dnb-p--bold dnb-payment-card__card__holder"
-                        css={null}
-                        inner_ref={null}
-                        internalClass={null}
+                        innerRef={null}
                         is="p"
-                        skeleton={null}
-                        skeleton_method="font"
                       >
                         <p
                           className="dnb-p  dnb-p__size--x-small dnb-p--bold dnb-payment-card__card__holder"
@@ -269,23 +259,13 @@ exports[`PaymentCard have to match snapshot 1`] = `
                     style_type={null}
                   >
                     <ForwardRef
-                      class={null}
                       className="dnb-p dnb-payment-card__card__numbers"
-                      css={null}
-                      internalClass={null}
                       is="p"
-                      skeleton={null}
-                      skeleton_method="font"
                     >
                       <ElementInstance
-                        class={null}
                         className="dnb-p dnb-payment-card__card__numbers"
-                        css={null}
-                        inner_ref={null}
-                        internalClass={null}
+                        innerRef={null}
                         is="p"
-                        skeleton={null}
-                        skeleton_method="font"
                       >
                         <p
                           className="dnb-p dnb-payment-card__card__numbers"

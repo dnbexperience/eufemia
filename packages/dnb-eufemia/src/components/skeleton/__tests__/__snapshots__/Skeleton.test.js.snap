@@ -53,23 +53,13 @@ exports[`Skeleton component have to match snapshot 1`] = `
             style_type={null}
           >
             <ForwardRef
-              class={null}
               className="dnb-p"
-              css={null}
-              internalClass={null}
               is="p"
-              skeleton={null}
-              skeleton_method="font"
             >
               <ElementInstance
-                class={null}
                 className="dnb-p"
-                css={null}
-                inner_ref={null}
-                internalClass={null}
+                innerRef={null}
                 is="p"
-                skeleton={null}
-                skeleton_method="font"
               >
                 <p
                   className="dnb-p"

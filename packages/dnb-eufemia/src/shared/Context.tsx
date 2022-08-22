@@ -25,10 +25,14 @@ import type { VisuallyHiddenProps } from '../components/visually-hidden/Visually
 import type { DrawerProps } from '../components/drawer/types'
 import type { DialogProps } from '../components/dialog/types'
 
+// All TypeScript based Eufemia elements
+import type { AnchorProps } from '../elements/Anchor'
+
 export type ContextProps = {
   // -- All TypeScript based Eufemia components --
 
   Button?: Partial<ButtonProps>
+  Anchor?: Partial<AnchorProps>
   Avatar?: Partial<AvatarProps>
   AvatarGroup?: Partial<AvatarGroupProps>
   Badge?: Partial<BadgeProps>

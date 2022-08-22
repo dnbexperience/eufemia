@@ -32,6 +32,10 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 1. Find the `name` property in your Timeline JSX syntax and replace it with `title`.
 1. Find the `date` property in your Timeline JSX syntax and replace it with `subtitle`.
 
+### [Anchor](/uilib/elements/anchor)
+
+1. Find the `target_blank_title` property and replace it with `targetBlankTitle`.
+
 ### Deprecations
 
 - `use_scrollwheel` and `on_init` properties, as well as the `raw_value` event value from [Slider](/uilib/components/slider) was removed in order to support multiple buttons.

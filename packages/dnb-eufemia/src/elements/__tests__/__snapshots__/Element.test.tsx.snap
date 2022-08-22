@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Element have to match default Element snapshot 1`] = `
+<ForwardRef
+  class="class"
+  className="className"
+  css="css"
+  innerRef="Error, unknown type"
+  inner_ref={null}
+  internalClass={null}
+  is="p"
+  skeleton={true}
+  skeletonMethod="Error, unknown type"
+  skeleton_method="font"
+>
+  <ElementInstance
+    class="class"
+    className="className"
+    css="css"
+    innerRef="Error, unknown type"
+    inner_ref={null}
+    internalClass={null}
+    is="p"
+    skeleton={true}
+    skeletonMethod="Error, unknown type"
+    skeleton_method="font"
+  >
+    <p
+      aria-disabled={true}
+      aria-label="Behandler data ..."
+      className="className class css dnb-skeleton dnb-skeleton--font dnb-p"
+      disabled={true}
+    >
+      text
+    </p>
+  </ElementInstance>
+</ForwardRef>
+`;
