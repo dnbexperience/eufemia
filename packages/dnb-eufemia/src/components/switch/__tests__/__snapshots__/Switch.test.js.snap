@@ -171,7 +171,7 @@ exports[`Switch component have to match snapshot 1`] = `
             id="id-suffix"
           >
             <span
-              className="dnb-suffix dnb-switch__suffix"
+              className="dnb-suffix dnb-switch__suffix dnb-skeleton dnb-skeleton--font"
               id="id-suffix"
             >
               suffix

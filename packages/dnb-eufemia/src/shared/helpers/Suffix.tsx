@@ -5,6 +5,7 @@
 
 import React from 'react'
 import classnames from 'classnames'
+import { createSkeletonClass } from '../../components/skeleton/SkeletonHelper'
 
 const SuffixContext = React.createContext(null)
 
@@ -14,17 +15,27 @@ export type SuffixProps = {
   className: string
   children: SuffixChildren
   context: Record<string, unknown>
+  skeleton?: boolean
 }
 
 const Suffix = ({
   className,
   children,
   context,
+  skeleton,
   ...props
 }: SuffixProps & React.HTMLAttributes<HTMLSpanElement>) => {
   const content = (
     // The styles are as of now, set in @dnb/eufemia/src/style/components/imports.scss
-    <span className={classnames('dnb-suffix', className)} {...props}>
+    <span
+      className={classnames(
+        'dnb-suffix',
+        !React.isValidElement(children) &&
+          createSkeletonClass('font', skeleton, context),
+        className
+      )}
+      {...props}
+    >
       {children}
     </span>
   )

@@ -473,7 +473,7 @@ exports[`ToggleButton component have to match snapshot 1`] = `
           id="toggle-button-suffix"
         >
           <span
-            className="dnb-suffix dnb-toggle-button__suffix"
+            className="dnb-suffix dnb-toggle-button__suffix dnb-skeleton dnb-skeleton--font"
             id="toggle-button-suffix"
           >
             suffix
