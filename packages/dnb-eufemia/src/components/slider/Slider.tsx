@@ -4,16 +4,16 @@
  */
 
 import React from 'react'
-import { withCamelCaseProps } from '../../shared/helpers/withCamelCaseProps'
 
 import { SliderProvider } from './SliderProvider'
 import { SliderInstance } from './SliderInstance'
 
-import type { SliderProps, ValueTypes, AllSliderProps } from './types'
+import type { SliderProps, ValueTypes } from './types'
+import { ISpacingProps } from '../../shared/interfaces'
 
 export type { SliderProps, ValueTypes }
 
-function Slider(localProps: AllSliderProps) {
+function Slider(localProps: SliderProps & ISpacingProps) {
   return (
     <SliderProvider {...localProps}>
       <SliderInstance />
@@ -21,5 +21,4 @@ function Slider(localProps: AllSliderProps) {
   )
 }
 
-export { Slider as OriginalComponent }
-export default withCamelCaseProps(Slider)
+export default Slider

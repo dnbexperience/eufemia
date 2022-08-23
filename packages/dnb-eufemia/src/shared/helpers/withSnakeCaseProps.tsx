@@ -84,11 +84,11 @@ export function classWithSnakeCaseProps<
   return Derived
 }
 
-function convertSnakeCaseProps<P>(props: P) {
+export function convertSnakeCaseProps<P>(props: P) {
   const newProps = { ...props }
 
   for (const key in props) {
-    if (/^[a-z_]+/.test(key) && !/[A-Z]/.test(key)) {
+    if (key.includes('_') && /^[a-z]+/.test(key) && !/[A-Z]/.test(key)) {
       newProps[toCamelCase(key)] = props[key]
       delete newProps[key]
     }
@@ -111,16 +111,15 @@ function convertSnakeCaseProps<P>(props: P) {
 export type ToSnakeCasePartial<T> = Partial<ToSnakeCase<T>>
 export type ToSnakeCase<T> = T extends object
   ? {
-      [K in keyof T as ConvertCamelToSnakeCase<K & string>]: ToSnakeCase<
-        T[K]
-      >
+      [K in keyof T as ConvertCamelToSnakeCase<K & string>]:
+        | T[K]
+        | ToSnakeCase<T[K]>
     }
   : T
 export type IncludeSnakeCase<T> = Partial<T> & ToSnakeCasePartial<T>
-type ConvertCamelToSnakeCase<T extends string> = string extends T
-  ? string
-  : T extends `${infer C0}${infer R}`
-  ? `${C0 extends Lowercase<C0>
-      ? ''
-      : '_'}${Lowercase<C0>}${ConvertCamelToSnakeCase<R>}`
-  : ''
+type ConvertCamelToSnakeCase<S extends string> =
+  S extends `${infer T}${infer U}`
+    ? `${T extends Capitalize<T>
+        ? '_'
+        : ''}${Lowercase<T>}${ConvertCamelToSnakeCase<U>}`
+    : S

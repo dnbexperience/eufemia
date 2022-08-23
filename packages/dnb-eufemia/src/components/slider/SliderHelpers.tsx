@@ -128,13 +128,13 @@ export const formatNumber = (
 
 export const getHumanNumber = (
   value: number,
-  number_format: formatOptionParams
+  numberFormat: formatOptionParams
 ) => {
   const num = value as number
   const { aria: humanNumber } = (
-    number_format
+    numberFormat
       ? formatNumber(num, {
-          ...(number_format || {}),
+          ...(numberFormat || {}),
           returnAria: true,
         })
       : { aria: null }

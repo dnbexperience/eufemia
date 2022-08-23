@@ -24,11 +24,12 @@ import type {
   SliderContextTypes,
   ThumbStateEnums,
 } from './types'
+import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 
 const defaultProps = {
-  status_state: 'error',
-  add_title: '+',
-  subtract_title: '−',
+  statusState: 'error',
+  addTitle: '+',
+  subtractTitle: '−',
   min: 0,
   max: 100,
   value: -1,
@@ -38,22 +39,24 @@ export const SliderContext = React.createContext<SliderContextTypes>(null)
 
 export function SliderProvider(localProps: SliderProps) {
   const context = React.useContext(Context)
-  const allProps = usePropsWithContext(
-    localProps,
-    defaultProps,
-    { skeleton: context?.skeleton },
-    context?.getTranslation(localProps).Slider,
-    includeValidProps(
-      context?.FormRow,
+  const allProps = convertSnakeCaseProps(
+    usePropsWithContext(
+      localProps,
+      defaultProps,
+      { skeleton: context?.skeleton },
+      context?.getTranslation(localProps).Slider,
+      includeValidProps(
+        context?.FormRow,
 
-      /**
-       * Exclude some props
-       */
-      {
-        vertical: null,
-      }
-    ),
-    context?.Slider
+        /**
+         * Exclude some props
+         */
+        {
+          vertical: null,
+        }
+      ),
+      context?.Slider
+    )
   )
 
   const [_id] = React.useState(makeUniqueId)
@@ -64,30 +67,30 @@ export function SliderProvider(localProps: SliderProps) {
   const {
     step,
     label, // eslint-disable-line
-    label_direction, // eslint-disable-line
-    label_sr_only, // eslint-disable-line
+    labelDirection, // eslint-disable-line
+    labelSrOnly, // eslint-disable-line
     status, // eslint-disable-line
-    status_state, // eslint-disable-line
-    status_props, // eslint-disable-line
-    status_no_animation, // eslint-disable-line
-    global_status_id, // eslint-disable-line
+    statusState, // eslint-disable-line
+    statusProps, // eslint-disable-line
+    statusNoAnimation, // eslint-disable-line
+    globalStatusId, // eslint-disable-line
     stretch, // eslint-disable-line
     suffix, // eslint-disable-line
-    thumb_title: title, // eslint-disable-line
-    subtract_title, // eslint-disable-line
-    add_title, // eslint-disable-line
-    hide_buttons, // eslint-disable-line
-    number_format,
+    thumbTitle: title, // eslint-disable-line
+    subtractTitle, // eslint-disable-line
+    addTitle, // eslint-disable-line
+    hideButtons, // eslint-disable-line
+    numberFormat,
     skeleton,
     max, // eslint-disable-line
     min, // eslint-disable-line
     disabled,
     className, // eslint-disable-line
     id, // eslint-disable-line
-    on_init, // eslint-disable-line
-    on_change,
-    on_drag_start, // eslint-disable-line
-    on_drag_end, // eslint-disable-line
+    onInit, // eslint-disable-line
+    onChange,
+    onDragStart, // eslint-disable-line
+    onDragEnd, // eslint-disable-line
     vertical: _vertical,
     reverse: _reverse,
     value: _value,
@@ -150,7 +153,7 @@ export function SliderProvider(localProps: SliderProps) {
         newValue = getUpdatedValues(value, currentIndex, currentValue)
       }
 
-      if (typeof on_change === 'function') {
+      if (typeof onChange === 'function') {
         const obj: onChangeEventProps = {
           value: newValue,
           rawValue,
@@ -159,11 +162,11 @@ export function SliderProvider(localProps: SliderProps) {
           number: null,
         }
 
-        if (number_format) {
-          obj.number = formatNumber(currentValue, number_format)
+        if (numberFormat) {
+          obj.number = formatNumber(currentValue, numberFormat)
         }
 
-        dispatchCustomElementEvent(allProps, 'on_change', obj)
+        dispatchCustomElementEvent(allProps, 'onChange', obj)
       }
 
       setValue(newValue)
@@ -196,7 +199,7 @@ export function SliderProvider(localProps: SliderProps) {
   }
 
   const showStatus = getStatusState(status)
-  const showButtons = !isMulti && !isTrue(hide_buttons)
+  const showButtons = !isMulti && !isTrue(hideButtons)
   const values = (isMulti ? value : [value]) as Array<number>
 
   return (

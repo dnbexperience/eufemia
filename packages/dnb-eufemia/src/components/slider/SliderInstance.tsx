@@ -37,13 +37,13 @@ export function SliderInstance() {
   const {
     id,
     label,
-    label_sr_only,
-    label_direction,
+    labelSrOnly,
+    labelDirection,
     status,
-    status_props,
-    status_state,
-    status_no_animation,
-    global_status_id,
+    statusProps,
+    statusState,
+    statusNoAnimation,
+    globalStatusId,
     stretch,
     skeleton,
     disabled,
@@ -58,9 +58,9 @@ export function SliderInstance() {
       disabled && 'dnb-slider__state--disabled',
       !showButtons && 'dnb-slider--no-buttons',
       isTrue(stretch) && 'dnb-slider--stretch',
-      label && label_direction && `dnb-slider__label--${label_direction}`,
+      label && labelDirection && `dnb-slider__label--${labelDirection}`,
       showStatus && 'dnb-slider__form-status',
-      status && `dnb-slider__status--${status_state}`,
+      status && `dnb-slider__status--${statusState}`,
       'dnb-form-component',
       createSkeletonClass(null, skeleton),
       createSpacingClasses(allProps),
@@ -82,8 +82,8 @@ export function SliderInstance() {
           text={label}
           disabled={disabled}
           skeleton={skeleton}
-          label_direction={label_direction}
-          sr_only={label_sr_only}
+          label_direction={labelDirection}
+          sr_only={labelSrOnly}
         />
       )}
 
@@ -93,14 +93,14 @@ export function SliderInstance() {
         <FormStatus
           show={showStatus}
           id={id + '-form-status'}
-          global_status_id={global_status_id}
+          global_status_id={globalStatusId}
           label={label}
           text_id={id + '-status'} // used for "aria-describedby"
           text={status}
-          status={status_state}
-          no_animation={status_no_animation}
+          status={statusState}
+          no_animation={statusNoAnimation}
           skeleton={skeleton}
-          {...status_props}
+          {...statusProps}
         />
 
         <span className="dnb-slider__inner">
@@ -144,8 +144,8 @@ function SubtractButton() {
     max,
     disabled,
     skeleton,
-    subtract_title,
-    number_format,
+    subtractTitle,
+    numberFormat,
   } = allProps
 
   const onSubtractClickHandler = (event: MouseEvent | TouchEvent) => {
@@ -158,7 +158,7 @@ function SubtractButton() {
     subtractParams['aria-hidden'] = attributes['aria-hidden']
   }
 
-  const humanNumber = getHumanNumber(value as number, number_format)
+  const humanNumber = getHumanNumber(value as number, numberFormat)
 
   return (
     <Button
@@ -166,7 +166,7 @@ function SubtractButton() {
       variant="secondary"
       icon="subtract"
       size="small"
-      aria-label={subtract_title?.replace('%s', humanNumber)}
+      aria-label={subtractTitle?.replace('%s', humanNumber)}
       on_click={onSubtractClickHandler}
       disabled={disabled}
       skeleton={skeleton}
@@ -177,7 +177,7 @@ function SubtractButton() {
 
 function AddButton() {
   const { emitChange, value, attributes, allProps } = useSliderProps()
-  const { step, min, max, disabled, skeleton, add_title, number_format } =
+  const { step, min, max, disabled, skeleton, addTitle, numberFormat } =
     allProps
 
   const onAddClickHandler = (event: MouseEvent | TouchEvent) => {
@@ -190,7 +190,7 @@ function AddButton() {
     addParams['aria-hidden'] = attributes['aria-hidden']
   }
 
-  const humanNumber = getHumanNumber(value as number, number_format)
+  const humanNumber = getHumanNumber(value as number, numberFormat)
 
   return (
     <Button
@@ -198,7 +198,7 @@ function AddButton() {
       variant="secondary"
       icon="add"
       size="small"
-      aria-label={add_title?.replace('%s', humanNumber)}
+      aria-label={addTitle?.replace('%s', humanNumber)}
       on_click={onAddClickHandler}
       disabled={disabled}
       skeleton={skeleton}

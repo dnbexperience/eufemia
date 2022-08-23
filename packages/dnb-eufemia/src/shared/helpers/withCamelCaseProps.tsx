@@ -111,9 +111,9 @@ function convertCamelCaseProps<P>(props: P) {
 export type ToCamelCasePartial<T> = Partial<ToCamelCase<T>>
 export type ToCamelCase<T> = T extends object
   ? {
-      [K in keyof T as ConvertSnakeToCamelCase<K & string>]: ToCamelCase<
-        T[K]
-      >
+      [K in keyof T as ConvertSnakeToCamelCase<K & string>]:
+        | T[K]
+        | ToCamelCase<T[K]>
     }
   : T
 export type IncludeCamelCase<T> = Partial<T> & ToCamelCasePartial<T>

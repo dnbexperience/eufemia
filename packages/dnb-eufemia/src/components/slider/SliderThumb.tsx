@@ -30,7 +30,7 @@ export function SliderThumb() {
     skeleton,
     disabled,
     suffix,
-    number_format,
+    numberFormat,
   } = allProps
   const { onThumbMouseDownHandler } = useSliderEvents()
 
@@ -95,7 +95,7 @@ export function SliderThumb() {
           [`${isVertical ? 'top' : 'left'}`]: `${percent}%`,
         }
 
-        const humanNumber = getHumanNumber(value, number_format)
+        const humanNumber = getHumanNumber(value, numberFormat)
 
         return (
           <React.Fragment key={i}>
