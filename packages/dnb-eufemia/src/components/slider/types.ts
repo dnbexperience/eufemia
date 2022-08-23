@@ -1,12 +1,11 @@
 import React from 'react'
 
-import type { ISpacingProps } from '../../shared/interfaces'
 import type { SuffixChildren } from '../../shared/helpers/Suffix'
 import type {
   formatReturnType,
   formatOptionParams,
 } from '../number-format/NumberUtils'
-import { IncludeCamelCase } from '../../shared/helpers/withCamelCaseProps'
+import { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
 
 export type ValueTypes = number | Array<number>
 export type onChangeEventProps = {
@@ -19,20 +18,20 @@ export type onChangeEventProps = {
   raw_value?: number
 }
 
-export type SliderProps = {
+export type SliderProps = IncludeSnakeCase<{
   id?: string
   label?: React.ReactNode
-  label_direction?: 'vertical' | 'horizontal'
-  label_sr_only?: boolean
+  labelDirection?: 'vertical' | 'horizontal'
+  labelSrOnly?: boolean
   status?: string | boolean
-  status_state?: 'error' | 'info'
-  status_props?: Record<string, unknown>
-  status_no_animation?: boolean
-  global_status_id?: string
+  statusState?: 'error' | 'info'
+  statusProps?: Record<string, unknown>
+  statusNoAnimation?: boolean
+  globalStatusId?: string
   suffix?: SuffixChildren
-  thumb_title?: string
-  add_title?: string
-  subtract_title?: string
+  thumbTitle?: string
+  addTitle?: string
+  subtractTitle?: string
   min?: number
   max?: number
   value?: ValueTypes
@@ -40,26 +39,26 @@ export type SliderProps = {
   vertical?: boolean
   reverse?: boolean
   stretch?: boolean
-  number_format?: formatOptionParams
+  numberFormat?: formatOptionParams
   disabled?: boolean
-  hide_buttons?: boolean
+  hideButtons?: boolean
   skeleton?: boolean
 
   class?: string
   className?: string
 
-  on_change?: (props: onChangeEventProps) => void
-  on_drag_start?: (props: { event: MouseEvent | TouchEvent }) => void
-  on_drag_end?: (props: { event: MouseEvent | TouchEvent }) => void
+  onChange?: (props: onChangeEventProps) => void
+  onDragStart?: (props: { event: MouseEvent | TouchEvent }) => void
+  onDragEnd?: (props: { event: MouseEvent | TouchEvent }) => void
 
   /** @deprecated */
-  on_init?: (props: Omit<onChangeEventProps, 'rawValue'>) => void
+  onInit?: (props: Omit<onChangeEventProps, 'rawValue'>) => void
 
   /** @deprecated The Slider does not support mouse wheel  */
   use_scrollwheel?: boolean
 
   children?: React.ReactChild
-}
+}>
 
 export type ThumbStateEnums =
   | 'initial'
@@ -88,7 +87,3 @@ export type SliderContextTypes = {
   setJumpedState: () => void
   jumpedTimeout: React.RefObject<NodeJS.Timeout>
 }
-
-export type AllSliderProps = SliderProps &
-  IncludeCamelCase<SliderProps> &
-  ISpacingProps

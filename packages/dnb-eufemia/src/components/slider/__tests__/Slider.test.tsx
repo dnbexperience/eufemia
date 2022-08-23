@@ -13,17 +13,66 @@ import type { SliderProps } from '../Slider'
 const props: SliderProps = {
   id: 'slider',
   label: 'Label',
-  status: null,
   min: 0,
   max: 100,
   value: 70,
   step: 10,
-  number_format: { currency: true, decimals: 0 },
-  label_direction: 'horizontal',
-  global_status_id: 'main',
+  numberFormat: { currency: true, decimals: 0 },
+  labelDirection: 'horizontal',
 }
 
 describe('Slider component', () => {
+  it('supports snake_case props', () => {
+    const props: SliderProps = {
+      id: 'slider',
+      label: 'Label',
+      label_direction: 'vertical',
+      value: 70,
+      number_format: { currency: true, decimals: 0 },
+      on_change: jest.fn(),
+    }
+
+    render(<Slider {...props} />)
+
+    fireEvent.mouseDown(document.querySelector('[type="range"]'))
+    simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+
+    const value = props.value as number
+    expect(parseFloat(getButtonHelper().value)).toBe(value + 10)
+
+    expect(props.on_change).toBeCalledTimes(1)
+
+    expect(
+      Array.from(document.querySelector('.dnb-form-label').classList)
+    ).toEqual(expect.arrayContaining(['dnb-form-label--vertical']))
+
+    expect(
+      document
+        .querySelector('.dnb-slider__button-helper')
+        .getAttribute('aria-valuetext')
+    ).toBe('80 norske kroner')
+  })
+
+  it('should support spacing props', () => {
+    render(<Slider {...props} top="2rem" />)
+
+    const element = document.querySelector('.dnb-slider')
+
+    expect(Array.from(element.classList)).toEqual(
+      expect.arrayContaining(['dnb-space__top--large'])
+    )
+  })
+
+  it('should support stretch', () => {
+    render(<Slider {...props} stretch />)
+
+    const element = document.querySelector('.dnb-slider')
+
+    expect(Array.from(element.classList)).toEqual(
+      expect.arrayContaining(['dnb-slider--stretch'])
+    )
+  })
+
   it('has correct value on mouse move', () => {
     render(<Slider {...props} />)
     expect(parseFloat(getButtonHelper().value)).toBe(props.value)
@@ -61,8 +110,8 @@ describe('Slider component', () => {
     render(
       <Slider
         {...props}
-        hide_buttons={false}
-        number_format={{ currency: true, decimals: 1 }}
+        hideButtons={false}
+        numberFormat={{ currency: true, decimals: 1 }}
       />
     )
 
@@ -85,22 +134,14 @@ describe('Slider component', () => {
   })
 
   it('has events that return a correct value', () => {
-    const on_init = jest.fn()
-    const on_change = jest.fn()
+    const onChange = jest.fn()
 
-    render(<Slider {...props} on_init={on_init} on_change={on_change} />)
+    render(<Slider {...props} onChange={onChange} />)
 
     fireEvent.mouseDown(document.querySelector('[type="range"]'))
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
-    expect(on_init).toBeCalledTimes(1)
-    expect(on_change).toBeCalledTimes(1)
-
-    const initObject = {
-      value: 70,
-      number: '70 kr',
-    }
-    expect(on_init).toBeCalledWith(initObject)
+    expect(onChange).toBeCalledTimes(1)
 
     const changeObject = {
       // We may use new MouseEvent('mousedown', in future
@@ -117,33 +158,24 @@ describe('Slider component', () => {
       number: '80 kr',
       width: 100,
     }
-    expect(on_change).toBeCalledWith(changeObject)
+    expect(onChange).toBeCalledWith(changeObject)
   })
 
-  it('return valid value if number_format was given', () => {
-    const on_init = jest.fn()
-    const on_change = jest.fn()
+  it('return valid value if numberFormat was given', () => {
+    const onChange = jest.fn()
 
     render(
       <Slider
         {...props}
-        on_init={on_init}
-        on_change={on_change}
-        number_format={{ currency: true, decimals: 1 }}
+        onChange={onChange}
+        numberFormat={{ currency: true, decimals: 1 }}
       />
     )
 
     fireEvent.mouseDown(document.querySelector('[type="range"]'))
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
-    expect(on_init).toBeCalledTimes(1)
-    expect(on_change).toBeCalledTimes(1)
-
-    const initObject = {
-      value: 70,
-      number: '70,0 kr',
-    }
-    expect(on_init).toBeCalledWith(initObject)
+    expect(onChange).toBeCalledTimes(1)
 
     const changeObject = {
       // We may use new MouseEvent('mousedown', in future
@@ -160,7 +192,7 @@ describe('Slider component', () => {
       number: '80,0 kr',
       width: 100,
     }
-    expect(on_change).toBeCalledWith(changeObject)
+    expect(onChange).toBeCalledWith(changeObject)
 
     expect(
       document
@@ -175,14 +207,14 @@ describe('Slider component', () => {
     }
 
     it('supports array value', () => {
-      const on_change = jest.fn()
+      const onChange = jest.fn()
 
       props.value = [20, 30, 90]
       render(
         <Slider
           {...props}
-          number_format={{ currency: true, decimals: 1 }}
-          on_change={on_change}
+          numberFormat={{ currency: true, decimals: 1 }}
+          onChange={onChange}
         />
       )
 
@@ -197,7 +229,7 @@ describe('Slider component', () => {
 
       expect(parseFloat(getRangeElements(2).value)).toBe(80)
 
-      expect(on_change).toBeCalledWith({
+      expect(onChange).toBeCalledWith({
         event: {
           height: 10,
           pageX: 80,
@@ -217,7 +249,7 @@ describe('Slider component', () => {
 
       simulateMouseMove({ pageX: 10, width: 100, height: 10 })
 
-      expect(on_change).toBeCalledWith({
+      expect(onChange).toBeCalledWith({
         event: {
           height: 10,
           pageX: 10,
@@ -237,7 +269,7 @@ describe('Slider component', () => {
 
       simulateMouseMove({ pageX: 40, width: 100, height: 10 })
 
-      expect(on_change.mock.calls[2][0].value).toEqual([10, 40, 80])
+      expect(onChange.mock.calls[2][0].value).toEqual([10, 40, 80])
 
       resetMouseSimulation()
     })
@@ -247,7 +279,7 @@ describe('Slider component', () => {
       render(
         <Slider
           {...props}
-          number_format={{ currency: true, decimals: 1 }}
+          numberFormat={{ currency: true, decimals: 1 }}
         />
       )
 

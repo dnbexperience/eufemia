@@ -22,7 +22,7 @@ export function useSliderEvents() {
     setThumbIndex,
     allProps,
   } = React.useContext(SliderContext)
-  const { min, max, on_drag_start, on_drag_end } = allProps
+  const { min, max, onDragStart, onDragEnd } = allProps
 
   const onTrackClickHandler = (event: MouseEvent | TouchEvent) => {
     const percent = calculatePercent(
@@ -42,8 +42,8 @@ export function useSliderEvents() {
     setThumbIndex(parseFloat(target.dataset.index))
     setThumbState('activated')
 
-    if (typeof on_drag_start === 'function') {
-      dispatchCustomElementEvent(allProps, 'on_drag_start', {
+    if (typeof onDragStart === 'function') {
+      dispatchCustomElementEvent(allProps, 'onDragStart', {
         event,
       })
     }
@@ -97,8 +97,8 @@ export function useSliderEvents() {
     setThumbIndex(-1)
     setThumbState('normal')
 
-    if (typeof on_drag_end === 'function') {
-      dispatchCustomElementEvent(allProps, 'on_drag_end', {
+    if (typeof onDragEnd === 'function') {
+      dispatchCustomElementEvent(allProps, 'onDragEnd', {
         event,
       })
     }

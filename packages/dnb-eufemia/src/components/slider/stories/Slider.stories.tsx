@@ -54,12 +54,12 @@ export function MultiButtons() {
           Tooltip
         </Tooltip>
         <Slider
-          label="Label:"
+          label="Label2:"
           value={value}
           stretch
-          number_format={{ decimals: 2, currency: true }}
-          on_change={({ value, number }) => {
-            console.log('on_change:', number)
+          numberFormat={{ decimals: 2, currency: true }}
+          onChange={({ value, number }) => {
+            console.log('onChange:', value, number)
             setValue(value as Array<number>)
           }}
         />
@@ -83,17 +83,17 @@ const SliderStory = () => {
       <Box>
         Text
         <Slider
-          // hide_buttons
+          // hideButtons
           label="Label:"
           suffix="123"
           // min={'50'}
           max={100}
           value={value}
           step={0.05}
-          number_format={{ decimals: 2, currency: true }}
+          numberFormat={{ decimals: 2, currency: true }}
           // reverse
-          on_change={({ value, number, rawValue }) => {
-            console.log('on_change:', { value, number, rawValue })
+          onChange={({ value, number, rawValue }) => {
+            console.log('onChange:', { value, number, rawValue })
             setValue(value as number)
           }}
           status="Long status message Lobortis lacus ac ligula vehicula Metus nullam ut at pellentesque"
@@ -103,15 +103,15 @@ const SliderStory = () => {
         <VerticalWrapper>
           <Slider
             label="Label Lobortis lacus ac ligula vehicula Metus nullam ut at pellentesque:"
-            label_direction="vertical"
+            labelDirection="vertical"
             suffix="123"
             min={0}
             max={100}
             value={value}
             step={1}
             vertical
-            on_change={({ value }) => {
-              console.log('on_change:', value)
+            onChange={({ value }) => {
+              console.log('onChange:', value)
               setValue(value as number)
             }}
             status="Long status message Lobortis lacus ac ligula vehicula"
@@ -119,7 +119,7 @@ const SliderStory = () => {
           <Input
             align="center"
             value={String(value)}
-            on_change={({ value }) => {
+            onChange={({ value }) => {
               setValue(value as number)
             }}
           />
@@ -160,7 +160,7 @@ const DisabledState = () => {
       <ToggleButton
         checked={isDisabled}
         right
-        on_change={() => setDisabled((s) => !s)}
+        onChange={() => setDisabled((s) => !s)}
       >
         Set as disabled
       </ToggleButton>

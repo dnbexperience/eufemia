@@ -16,21 +16,21 @@ export function SliderMainTrack({
 }) {
   const { isMulti, value, allProps, trackRef, jumpedTimeout, thumbState } =
     useSliderProps()
-  const { id, number_format, on_init } = allProps
+  const { id, numberFormat, onInit } = allProps
   const { onTrackClickHandler, onThumbMouseDownHandler, removeEvents } =
     useSliderEvents()
 
   React.useEffect(() => {
-    // on_init is deprecated
-    if (typeof on_init === 'function' && !isMulti) {
+    // onInit is deprecated
+    if (typeof onInit === 'function' && !isMulti) {
       const obj = {
         value,
         number: null,
       }
-      if (number_format) {
-        obj.number = formatNumber(value as number, number_format)
+      if (numberFormat) {
+        obj.number = formatNumber(value as number, numberFormat)
       }
-      dispatchCustomElementEvent(allProps, 'on_init', obj)
+      dispatchCustomElementEvent(allProps, 'onInit', obj)
     }
 
     return () => {

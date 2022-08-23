@@ -23,9 +23,11 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 1. Find the `sticky_offset` property and replace it with `stickyOffset`.
 1. Find the `/elements/Table` property and replace it with `/components/Table`.
 
-### Slider
+### [Slider](/uilib/components/slider)
 
 1. Find the `thump_title` property and replace it with `thumb_title`.
+1. Find the snake_case `add_title` property and replace it with `addTitle`.
+1. Find the snake_case `subtract_title` property and replace it with `subtractTitle`.
 
 ### [Timeline](/uilib/components/timeline)
 
