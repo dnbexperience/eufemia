@@ -2130,15 +2130,16 @@ button.dnb-button::-moz-focus-inner {
     position: sticky;
     top: 0;
     z-index: 99;
-    margin: var(--drawer-spacing) 0; }
+    margin: var(--drawer-spacing) calc(var(--drawer-spacing) * -1);
+    padding: 0 var(--drawer-spacing); }
   .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section.dnb-drawer__navigation--sticky {
     z-index: 2999; }
   .dnb-drawer .dnb-drawer__navigation--sticky::before {
     content: '';
     position: absolute;
     z-index: -1;
-    left: -50%;
-    right: -50%;
+    left: 0;
+    right: 0;
     bottom: 0;
     height: 300%;
     box-shadow: var(--shadow-default); }
@@ -2400,8 +2401,7 @@ html[data-dnb-modal-active] {
   .dnb-modal__header__bar.dnb-section {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    width: 100%; }
+    justify-content: space-between; }
     @media screen and (-ms-high-contrast: none) {
       .dnb-modal__header__bar.dnb-section {
         align-items: center; } }

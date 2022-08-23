@@ -218,7 +218,8 @@
     z-index: 99; // below #dropdown and #date-picker
 
     // on large screens
-    margin: var(--drawer-spacing) 0;
+    margin: var(--drawer-spacing) calc(var(--drawer-spacing) * -1);
+    padding: 0 var(--drawer-spacing);
   }
   &--spacing &__navigation.dnb-section#{&}__navigation--sticky {
     z-index: 2999; // above #dropdown and #date-picker and below #modal
@@ -230,8 +231,8 @@
       content: '';
       position: absolute;
       z-index: -1;
-      left: -50%;
-      right: -50%;
+      left: 0;
+      right: 0;
       bottom: 0;
       height: 300%; // hide the top shadow
 
