@@ -10,7 +10,7 @@ import HelpButton from '../../../components/help-button/HelpButton'
 import Context from '../../Context'
 
 describe('Suffix', () => {
-  it('context works as expeted with the Modal component', () => {
+  it('context works as expected with the Modal component', () => {
     const inputValue = 'Input Value'
     const inputLabel = 'Input Label'
     const modalContent = 'Modal Content'
