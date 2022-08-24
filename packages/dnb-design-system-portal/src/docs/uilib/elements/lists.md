@@ -3,6 +3,10 @@ title: 'Lists'
 ---
 
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import {
+DefinitionListExample,
+DefinitionListInlineExample
+} from 'Docs/uilib/elements/lists/Examples'
 
 # Lists
 
@@ -152,23 +156,13 @@ You can also use block level elements in the definition description, such as the
 
 Any styling can be applied.
 
-<ComponentBox hideCode useRender data-visual-test="lists-dl">
-{`
-// import { Dl, Dt, Dd } from '@dnb/eufemia/elements'
-render(<Dl>
-  <Dt>Term</Dt>
-  <Dd>Description</Dd>
-  <Dt>Term</Dt>
-  <Dd>Description 1</Dd>
-  <Dd>Description 2</Dd>
-  <Dd>Description 3</Dd>
-  <dl className="dnb-dl">
-    <Dt>Sub Term</Dt>
-    <Dd>Sub Description</Dd>
-  </dl>
-</Dl>)
-`}
-</ComponentBox>
+<DefinitionListExample />
+
+### Definition Lists with inline styles
+
+Using CSS Grid.
+
+<DefinitionListInlineExample />
 
 ## Remove list styles
 
