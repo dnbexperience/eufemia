@@ -11,9 +11,6 @@ import { clamp, getHumanNumber } from './SliderHelpers'
 
 export function SliderThumb() {
   const {
-    setThumbState,
-    emitChange,
-    setThumbIndex,
     values,
     thumbIndex,
     isVertical,
@@ -21,6 +18,7 @@ export function SliderThumb() {
     attributes,
     allProps,
   } = useSliderProps()
+
   const {
     id,
     label,
@@ -32,31 +30,15 @@ export function SliderThumb() {
     suffix,
     numberFormat,
   } = allProps
-  const { onThumbMouseDownHandler } = useSliderEvents()
 
-  const onThumbFocusHandler = () => {
-    setThumbState('focused')
-  }
-  const onThumbBlurHandler = () => {
-    setThumbState('normal')
-  }
-
-  const onHelperChangeHandler = (
-    event: React.FormEvent<HTMLInputElement>
-  ) => {
-    const emitEvent = event as unknown
-    emitChange(
-      emitEvent as MouseEvent,
-      parseFloat(event.currentTarget.value)
-    )
-  }
-
-  const onHelperFocusHandler = (
-    event: React.FormEvent<HTMLInputElement>
-  ) => {
-    const target = event.target as HTMLInputElement
-    setThumbIndex(parseFloat(target.dataset.index))
-  }
+  const {
+    onThumbMouseDownHandler,
+    onThumbMouseUpHandler,
+    onThumbBlurHandler,
+    onThumbFocusHandler,
+    onHelperChangeHandler,
+    onHelperFocusHandler,
+  } = useSliderEvents()
 
   const thumbParams = {
     onBlur: onThumbBlurHandler,
@@ -125,8 +107,9 @@ export function SliderThumb() {
                 variant="secondary"
                 disabled={disabled}
                 skeleton={skeleton}
-                onMouseDown={onThumbMouseDownHandler}
                 data-index={i}
+                onMouseDown={onThumbMouseDownHandler}
+                onMouseUp={onThumbMouseUpHandler}
                 {...thumbParams}
               />
             </span>

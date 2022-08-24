@@ -34,7 +34,6 @@ describe('Slider component', () => {
 
     render(<Slider {...props} />)
 
-    fireEvent.mouseDown(document.querySelector('[type="range"]'))
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
     const value = props.value as number
@@ -77,7 +76,6 @@ describe('Slider component', () => {
     render(<Slider {...props} />)
     expect(parseFloat(getButtonHelper().value)).toBe(props.value)
 
-    fireEvent.mouseDown(document.querySelector('[type="range"]'))
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
     const value = props.value as number
@@ -89,7 +87,6 @@ describe('Slider component', () => {
 
     expect(parseFloat(getButtonHelper().value)).toBe(props.value)
 
-    fireEvent.mouseDown(document.querySelector('[type="range"]'))
     simulateMouseMove({ pageX: 80, pageY: 80, width: 10, height: 100 })
 
     expect(parseFloat(getButtonHelper().value)).toBe(20) // sice we use reverse in vertical mode
@@ -100,7 +97,6 @@ describe('Slider component', () => {
 
     expect(parseFloat(getButtonHelper().value)).toBe(props.value)
 
-    fireEvent.mouseDown(document.querySelector('[type="range"]'))
     simulateMouseMove({ pageX: 80, pageY: 80, width: 10, height: 100 })
 
     expect(parseFloat(getButtonHelper().value)).toBe(80)
@@ -138,7 +134,6 @@ describe('Slider component', () => {
 
     render(<Slider {...props} onChange={onChange} />)
 
-    fireEvent.mouseDown(document.querySelector('[type="range"]'))
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
     expect(onChange).toBeCalledTimes(1)
@@ -172,7 +167,6 @@ describe('Slider component', () => {
       />
     )
 
-    fireEvent.mouseDown(document.querySelector('[type="range"]'))
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
     expect(onChange).toBeCalledTimes(1)
@@ -206,7 +200,7 @@ describe('Slider component', () => {
       fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
     }
 
-    it('supports array value', () => {
+    it('tracks mousemove on track', () => {
       const onChange = jest.fn()
 
       props.value = [20, 30, 90]
@@ -222,8 +216,6 @@ describe('Slider component', () => {
         document.querySelectorAll('[type="range"]')[
           index
         ] as HTMLInputElement
-
-      fireEvent.mouseDown(document.querySelector('.dnb-slider__track'))
 
       simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
@@ -244,9 +236,6 @@ describe('Slider component', () => {
         width: 100,
       })
 
-      fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
-      fireEvent.mouseDown(document.querySelector('.dnb-slider__track'))
-
       simulateMouseMove({ pageX: 10, width: 100, height: 10 })
 
       expect(onChange).toBeCalledWith({
@@ -264,12 +253,39 @@ describe('Slider component', () => {
         width: 100,
       })
 
-      fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
       fireEvent.mouseDown(getRangeElements(1))
 
       simulateMouseMove({ pageX: 40, width: 100, height: 10 })
 
       expect(onChange.mock.calls[2][0].value).toEqual([10, 40, 80])
+
+      resetMouseSimulation()
+    })
+
+    it('updates thumb index and returns correct event value', () => {
+      const onChange = jest.fn()
+
+      props.value = [10, 30, 40]
+      render(<Slider {...props} onChange={onChange} />)
+
+      const secondThumb = document.querySelectorAll(
+        '.dnb-slider__button-helper'
+      )[1]
+      const thirdThumb = document.querySelectorAll(
+        '.dnb-slider__button-helper'
+      )[2]
+
+      fireEvent.focus(secondThumb)
+      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+
+      expect(onChange.mock.calls[0][0].value).toEqual([10, 40, 80])
+
+      resetMouseSimulation()
+
+      fireEvent.focus(thirdThumb)
+      simulateMouseMove({ pageX: 20, width: 100, height: 10 })
+
+      expect(onChange.mock.calls[1][0].value).toEqual([10, 20, 40])
 
       resetMouseSimulation()
     })
@@ -288,19 +304,10 @@ describe('Slider component', () => {
           index
         ] as HTMLElement
 
-      const activateMouse = () => {
-        fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
-        fireEvent.mouseDown(document.querySelector('.dnb-slider__track'))
-      }
-
-      activateMouse()
-
       simulateMouseMove({ pageX: 80, width: 100, height: 10 })
       expect(getThumbElements(2).getAttribute('style')).toBe(
         'z-index: 4; left: 80%;'
       )
-
-      activateMouse()
 
       simulateMouseMove({ pageX: 10, width: 100, height: 10 })
       expect(getThumbElements(0).getAttribute('style')).toBe(
@@ -309,8 +316,6 @@ describe('Slider component', () => {
       expect(getThumbElements(2).getAttribute('style')).toBe(
         'z-index: 3; left: 80%;'
       )
-
-      activateMouse()
 
       simulateMouseMove({ pageX: 50, width: 100, height: 10 })
       expect(getThumbElements(1).getAttribute('style')).toBe(
@@ -345,6 +350,8 @@ const getButtonHelper = (): HTMLInputElement => {
 }
 
 const simulateMouseMove = (props) => {
+  fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
+  fireEvent.mouseDown(document.querySelector('.dnb-slider__track'))
   const mouseMove = new CustomEvent('mousemove', {
     detail: props,
   })

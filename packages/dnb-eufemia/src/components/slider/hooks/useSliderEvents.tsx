@@ -40,7 +40,7 @@ export function useSliderEvents() {
     const target = event.target as HTMLButtonElement
 
     setThumbIndex(parseFloat(target.dataset.index))
-    setThumbState('activated')
+    setThumbState('released')
 
     if (typeof onDragStart === 'function') {
       dispatchCustomElementEvent(allProps, 'onDragStart', {
@@ -64,6 +64,10 @@ export function useSliderEvents() {
         warn(e)
       }
     }
+  }
+
+  const onThumbMouseUpHandler = () => {
+    setThumbState('activated')
   }
 
   const onTrackTouchEndHandler = (event: TouchEvent) =>
@@ -126,13 +130,38 @@ export function useSliderEvents() {
     }
   }
 
+  const onThumbFocusHandler = () => {
+    setThumbState('focused')
+  }
+  const onThumbBlurHandler = () => {
+    setThumbState('normal')
+  }
+
+  const onHelperChangeHandler = (
+    event: React.FormEvent<HTMLInputElement>
+  ) => {
+    const emitEvent = event as unknown
+    emitChange(
+      emitEvent as MouseEvent,
+      parseFloat(event.currentTarget.value)
+    )
+  }
+
+  const onHelperFocusHandler = (
+    event: React.FormEvent<HTMLInputElement>
+  ) => {
+    const target = event.target as HTMLInputElement
+    setThumbIndex(parseFloat(target.dataset.index))
+  }
+
   return {
     onThumbMouseDownHandler,
+    onThumbMouseUpHandler,
     onTrackClickHandler,
-    // onTrackTouchMoveHandler,
-    // onTrackMouseMoveHandler,
-    // onTrackTouchEndHandler,
-    // onTrackMouseUpHandler,
+    onThumbFocusHandler,
+    onThumbBlurHandler,
+    onHelperChangeHandler,
+    onHelperFocusHandler,
     removeEvents,
   }
 }

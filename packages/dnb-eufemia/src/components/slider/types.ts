@@ -64,6 +64,7 @@ export type ThumbStateEnums =
   | 'initial'
   | 'normal'
   | 'activated'
+  | 'released'
   | 'focused'
   | 'jumped'
 
