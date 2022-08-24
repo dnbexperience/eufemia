@@ -3,6 +3,23 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.29.0](https://github.com/dnbexperience/eufemia/compare/v9.28.0...v9.29.0) (2022-08-24)
+
+
+### Bug Fixes
+
+* **Anchor:** fix Link class no-underline when used in DNB Section ([#1507](https://github.com/dnbexperience/eufemia/issues/1507)) ([a78c23b](https://github.com/dnbexperience/eufemia/commit/a78c23bd454e34a7da67007eb4fec41e84656b2b)), closes [#1505](https://github.com/dnbexperience/eufemia/issues/1505)
+* **Drawer:** fix possible Safari selection causing selection scroll (horizontal) issue ([#1522](https://github.com/dnbexperience/eufemia/issues/1522)) ([7e481b2](https://github.com/dnbexperience/eufemia/commit/7e481b24cf205b6dbc25c34faaf7fd65af326427))
+* **Slider:** (multi-thumbs) ensure correct index is set when thumb positions changes ([#1523](https://github.com/dnbexperience/eufemia/issues/1523)) ([0a4055d](https://github.com/dnbexperience/eufemia/commit/0a4055d31c937388a52fc4abd90e7ebec9db0ce9))
+* **Slider:** internal re-write to camelCase props ([012573a](https://github.com/dnbexperience/eufemia/commit/012573a9bb75687a66c0b9e3c7b452e6126014f6))
+* **Suffix:** make skeleton work ([#1519](https://github.com/dnbexperience/eufemia/issues/1519)) ([4871565](https://github.com/dnbexperience/eufemia/commit/4871565ec0ee4d6a550cfe6caef9d1be2cb021ff))
+
+
+### Features
+
+* **Anchor:** rewrite to TypeScript ([#1518](https://github.com/dnbexperience/eufemia/issues/1518)) ([30c919f](https://github.com/dnbexperience/eufemia/commit/30c919fd8a362dc79a421384641ea39c2742b992)), closes [#1516](https://github.com/dnbexperience/eufemia/issues/1516)
+* **Slider:** add multi thumb button support ([#1517](https://github.com/dnbexperience/eufemia/issues/1517)) ([ddd0ea7](https://github.com/dnbexperience/eufemia/commit/ddd0ea7d8d199702125c721c7a1990b9957cc7d9))
+
 # [9.28.0](https://github.com/dnbexperience/eufemia/compare/v9.27.0...v9.28.0) (2022-08-17)
 
 
