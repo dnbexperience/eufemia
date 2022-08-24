@@ -7,7 +7,14 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import { Slider, ToggleButton, Input, FormRow, FormLabel } from '../../'
+import {
+  Slider,
+  ToggleButton,
+  Input,
+  FormRow,
+  FormLabel,
+  Tooltip,
+} from '../../'
 
 import '../../slider/style/dnb-range.scss'
 
@@ -31,6 +38,40 @@ const VerticalWrapper = styled.div`
     margin-top: 1rem;
   }
 `
+const FixedSizeWrapper = styled.div`
+  width: 20rem;
+  height: 20rem;
+  margin-bottom: 1rem;
+`
+
+export function MultiButtons() {
+  const [value, setValue] = React.useState<Array<number>>([10, 40, 80])
+
+  return (
+    <>
+      <FixedSizeWrapper>
+        <Tooltip active show>
+          Tooltip
+        </Tooltip>
+        <Slider
+          label="Label2:"
+          value={value}
+          stretch
+          numberFormat={{ decimals: 2, currency: true }}
+          onChange={({ value, number }) => {
+            console.log('onChange:', value, number)
+            setValue(value as Array<number>)
+          }}
+        />
+        <code>{value.join(' | ')}</code>
+      </FixedSizeWrapper>
+
+      <FixedSizeWrapper>
+        <Slider value={80} step={1} stretch />
+      </FixedSizeWrapper>
+    </>
+  )
+}
 
 const SliderStory = () => {
   const [value, setValue] = React.useState(70)
@@ -42,18 +83,18 @@ const SliderStory = () => {
       <Box>
         Text
         <Slider
-          // hide_buttons
+          // hideButtons
           label="Label:"
           suffix="123"
           // min={'50'}
           max={100}
           value={value}
           step={0.05}
-          number_format={{ decimals: 2, currency: true }}
+          numberFormat={{ decimals: 2, currency: true }}
           // reverse
-          on_change={({ value, number, rawValue }) => {
-            console.log('on_change:', { value, number, rawValue })
-            setValue(value)
+          onChange={({ value, number, rawValue }) => {
+            console.log('onChange:', { value, number, rawValue })
+            setValue(value as number)
           }}
           status="Long status message Lobortis lacus ac ligula vehicula Metus nullam ut at pellentesque"
         />
@@ -62,24 +103,24 @@ const SliderStory = () => {
         <VerticalWrapper>
           <Slider
             label="Label Lobortis lacus ac ligula vehicula Metus nullam ut at pellentesque:"
-            label_direction="vertical"
+            labelDirection="vertical"
             suffix="123"
             min={0}
             max={100}
             value={value}
             step={1}
             vertical
-            on_change={({ value }) => {
-              console.log('on_change:', value)
-              setValue(value)
+            onChange={({ value }) => {
+              console.log('onChange:', value)
+              setValue(value as number)
             }}
             status="Long status message Lobortis lacus ac ligula vehicula"
           />
           <Input
             align="center"
             value={String(value)}
-            on_change={({ value }) => {
-              setValue(value)
+            onChange={({ value }) => {
+              setValue(value as number)
             }}
           />
         </VerticalWrapper>
@@ -119,7 +160,7 @@ const DisabledState = () => {
       <ToggleButton
         checked={isDisabled}
         right
-        on_change={() => setDisabled((s) => !s)}
+        onChange={() => setDisabled((s) => !s)}
       >
         Set as disabled
       </ToggleButton>

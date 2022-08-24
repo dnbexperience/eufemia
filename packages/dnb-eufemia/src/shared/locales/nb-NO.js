@@ -34,7 +34,7 @@ export default {
       reset_button_text: 'Tilbakestill',
     },
     Anchor: {
-      target_blank_title: 'Åpner et nytt vindu',
+      targetBlankTitle: 'Åpner et nytt vindu',
     },
     GlobalStatus: {
       default_title: 'En feil har skjedd',
@@ -108,8 +108,8 @@ export default {
       step_title: 'Steg %step av %count',
     },
     Slider: {
-      add_title: 'Øk (%s)',
-      subtract_title: 'Reduser (%s)',
+      addTitle: 'Øk (%s)',
+      subtractTitle: 'Reduser (%s)',
     },
     PaymentCard: {
       text_card_number: 'Kortnummer',

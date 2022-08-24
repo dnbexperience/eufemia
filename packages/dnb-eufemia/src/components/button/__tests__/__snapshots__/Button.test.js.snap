@@ -354,7 +354,6 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       "current": <a
         class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
         href="https://url"
-        id="button"
         title="This is a button title"
         type="type"
       >
@@ -399,7 +398,6 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       "current": <a
         class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
         href="https://url"
-        id="button"
         title="This is a button title"
         type="type"
       >
@@ -458,23 +456,16 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   <ForwardRef
     className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
     disabled={false}
-    element={null}
     href="https://url"
     id="button"
     omitClass={true}
     onClick={[Function]}
-    skeleton={null}
-    target={null}
-    target_blank_title={null}
     title="This is a button title"
-    to={null}
-    tooltip={null}
     type="type"
   >
     <AnchorInstance
       className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
       disabled={false}
-      element={null}
       href="https://url"
       id="button"
       inner_ref={
@@ -482,7 +473,6 @@ exports[`Button component have to match href="..." snapshot 1`] = `
           "current": <a
             class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
             href="https://url"
-            id="button"
             title="This is a button title"
             type="type"
           >
@@ -524,27 +514,18 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       }
       omitClass={true}
       onClick={[Function]}
-      skeleton={null}
-      target={null}
-      target_blank_title={null}
       title="This is a button title"
-      to={null}
-      tooltip={null}
       type="type"
     >
       <ForwardRef
-        class={null}
         className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
-        css={null}
         disabled={false}
         href="https://url"
-        id="button"
-        inner_ref={
+        innerRef={
           Object {
             "current": <a
               class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
               href="https://url"
-              id="button"
               title="This is a button title"
               type="type"
             >
@@ -584,30 +565,21 @@ exports[`Button component have to match href="..." snapshot 1`] = `
             </a>,
           }
         }
-        internalClass={null}
         is="a"
         onClick={[Function]}
         skeleton={null}
-        skeleton_method="font"
-        target={null}
-        target_blank_title="Åpner et nytt vindu"
         title="This is a button title"
-        to={null}
         type="type"
       >
         <ElementInstance
-          class={null}
           className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
-          css={null}
           disabled={false}
           href="https://url"
-          id="button"
-          inner_ref={
+          innerRef={
             Object {
               "current": <a
                 class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
                 href="https://url"
-                id="button"
                 title="This is a button title"
                 type="type"
               >
@@ -647,22 +619,16 @@ exports[`Button component have to match href="..." snapshot 1`] = `
               </a>,
             }
           }
-          internalClass={null}
           is="a"
           onClick={[Function]}
           skeleton={null}
-          skeleton_method="font"
-          target={null}
-          target_blank_title="Åpner et nytt vindu"
           title="This is a button title"
-          to={null}
           type="type"
         >
           <a
             className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
             disabled={false}
             href="https://url"
-            id="button"
             onClick={[Function]}
             title="This is a button title"
             type="type"
@@ -688,7 +654,6 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                   "current": <a
                     class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
                     href="https://url"
-                    id="button"
                     title="This is a button title"
                     type="type"
                   >
@@ -733,7 +698,6 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                   "current": <a
                     class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
                     href="https://url"
-                    id="button"
                     title="This is a button title"
                     type="type"
                   >

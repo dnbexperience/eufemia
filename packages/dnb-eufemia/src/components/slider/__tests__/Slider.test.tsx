@@ -12,30 +12,74 @@ import type { SliderProps } from '../Slider'
 
 const props: SliderProps = {
   id: 'slider',
-  status: null,
+  label: 'Label',
   min: 0,
   max: 100,
   value: 70,
   step: 10,
-  number_format: { currency: true, decimals: 0 },
-  label_direction: 'horizontal',
-  global_status_id: 'main',
+  numberFormat: { currency: true, decimals: 0 },
+  labelDirection: 'horizontal',
 }
 
 describe('Slider component', () => {
-  it('have to match snapshot', () => {
-    const { container } = render(<Slider {...props} />)
-    expect(container.innerHTML).toMatchSnapshot()
+  it('supports snake_case props', () => {
+    const props: SliderProps = {
+      id: 'slider',
+      label: 'Label',
+      label_direction: 'vertical',
+      value: 70,
+      number_format: { currency: true, decimals: 0 },
+      on_change: jest.fn(),
+    }
+
+    render(<Slider {...props} />)
+
+    simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+
+    const value = props.value as number
+    expect(parseFloat(getButtonHelper().value)).toBe(value + 10)
+
+    expect(props.on_change).toBeCalledTimes(1)
+
+    expect(
+      Array.from(document.querySelector('.dnb-form-label').classList)
+    ).toEqual(expect.arrayContaining(['dnb-form-label--vertical']))
+
+    expect(
+      document
+        .querySelector('.dnb-slider__button-helper')
+        .getAttribute('aria-valuetext')
+    ).toBe('80 norske kroner')
+  })
+
+  it('should support spacing props', () => {
+    render(<Slider {...props} top="2rem" />)
+
+    const element = document.querySelector('.dnb-slider')
+
+    expect(Array.from(element.classList)).toEqual(
+      expect.arrayContaining(['dnb-space__top--large'])
+    )
+  })
+
+  it('should support stretch', () => {
+    render(<Slider {...props} stretch />)
+
+    const element = document.querySelector('.dnb-slider')
+
+    expect(Array.from(element.classList)).toEqual(
+      expect.arrayContaining(['dnb-slider--stretch'])
+    )
   })
 
   it('has correct value on mouse move', () => {
     render(<Slider {...props} />)
     expect(parseFloat(getButtonHelper().value)).toBe(props.value)
 
-    fireEvent.mouseDown(document.querySelector('[type="range"]'))
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
-    expect(parseFloat(getButtonHelper().value)).toBe(props.value + 10)
+    const value = props.value as number
+    expect(parseFloat(getButtonHelper().value)).toBe(value + 10)
   })
 
   it('has correct value on mouse move in vertical mode', () => {
@@ -43,7 +87,6 @@ describe('Slider component', () => {
 
     expect(parseFloat(getButtonHelper().value)).toBe(props.value)
 
-    fireEvent.mouseDown(document.querySelector('[type="range"]'))
     simulateMouseMove({ pageX: 80, pageY: 80, width: 10, height: 100 })
 
     expect(parseFloat(getButtonHelper().value)).toBe(20) // sice we use reverse in vertical mode
@@ -54,29 +97,46 @@ describe('Slider component', () => {
 
     expect(parseFloat(getButtonHelper().value)).toBe(props.value)
 
-    fireEvent.mouseDown(document.querySelector('[type="range"]'))
     simulateMouseMove({ pageX: 80, pageY: 80, width: 10, height: 100 })
 
     expect(parseFloat(getButtonHelper().value)).toBe(80)
   })
 
+  it('buttons add/subtract have correct labels', () => {
+    render(
+      <Slider
+        {...props}
+        hideButtons={false}
+        numberFormat={{ currency: true, decimals: 1 }}
+      />
+    )
+
+    const addElem = document.querySelector('.dnb-slider__button--add')
+    const subtractElem = document.querySelector(
+      '.dnb-slider__button--subtract'
+    )
+
+    fireEvent.click(addElem)
+    expect(parseFloat(getButtonHelper().value)).toBe(80)
+    expect(addElem.getAttribute('aria-label')).toBe(
+      'Øk (80,0 norske kroner)'
+    )
+
+    fireEvent.click(subtractElem)
+    expect(parseFloat(getButtonHelper().value)).toBe(70)
+    expect(subtractElem.getAttribute('aria-label')).toBe(
+      'Reduser (70,0 norske kroner)'
+    )
+  })
+
   it('has events that return a correct value', () => {
-    const on_init = jest.fn()
-    const on_change = jest.fn()
+    const onChange = jest.fn()
 
-    render(<Slider {...props} on_init={on_init} on_change={on_change} />)
+    render(<Slider {...props} onChange={onChange} />)
 
-    fireEvent.mouseDown(document.querySelector('[type="range"]'))
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
-    expect(on_init).toBeCalledTimes(1)
-    expect(on_change).toBeCalledTimes(1)
-
-    const initObject = {
-      value: 70,
-      number: '70 kr',
-    }
-    expect(on_init).toBeCalledWith(initObject)
+    expect(onChange).toBeCalledTimes(1)
 
     const changeObject = {
       // We may use new MouseEvent('mousedown', in future
@@ -93,33 +153,23 @@ describe('Slider component', () => {
       number: '80 kr',
       width: 100,
     }
-    expect(on_change).toBeCalledWith(changeObject)
+    expect(onChange).toBeCalledWith(changeObject)
   })
 
-  it('return valid value if number_format was given', () => {
-    const on_init = jest.fn()
-    const on_change = jest.fn()
+  it('return valid value if numberFormat was given', () => {
+    const onChange = jest.fn()
 
     render(
       <Slider
         {...props}
-        on_init={on_init}
-        on_change={on_change}
-        number_format={{ currency: true, decimals: 1 }}
+        onChange={onChange}
+        numberFormat={{ currency: true, decimals: 1 }}
       />
     )
 
-    fireEvent.mouseDown(document.querySelector('[type="range"]'))
     simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
-    expect(on_init).toBeCalledTimes(1)
-    expect(on_change).toBeCalledTimes(1)
-
-    const initObject = {
-      value: 70,
-      number: '70,0 kr',
-    }
-    expect(on_init).toBeCalledWith(initObject)
+    expect(onChange).toBeCalledTimes(1)
 
     const changeObject = {
       // We may use new MouseEvent('mousedown', in future
@@ -136,16 +186,150 @@ describe('Slider component', () => {
       number: '80,0 kr',
       width: 100,
     }
-    expect(on_change).toBeCalledWith(changeObject)
+    expect(onChange).toBeCalledWith(changeObject)
 
-    expect(document.querySelector('.dnb-sr-only').textContent).toBe(
-      '80,0 norske kroner'
-    )
     expect(
       document
         .querySelector('.dnb-slider__button-helper')
-        .getAttribute('aria-labelledby')
-    ).toContain(document.querySelector('.dnb-sr-only').getAttribute('id'))
+        .getAttribute('aria-valuetext')
+    ).toBe('80,0 norske kroner')
+  })
+
+  describe('multi thumb', () => {
+    const resetMouseSimulation = () => {
+      fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
+    }
+
+    it('tracks mousemove on track', () => {
+      const onChange = jest.fn()
+
+      props.value = [20, 30, 90]
+      render(
+        <Slider
+          {...props}
+          numberFormat={{ currency: true, decimals: 1 }}
+          onChange={onChange}
+        />
+      )
+
+      const getRangeElements = (index: number) =>
+        document.querySelectorAll('[type="range"]')[
+          index
+        ] as HTMLInputElement
+
+      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+
+      expect(parseFloat(getRangeElements(2).value)).toBe(80)
+
+      expect(onChange).toBeCalledWith({
+        event: {
+          height: 10,
+          pageX: 80,
+          width: 100,
+        },
+        height: 10,
+        pageX: 80,
+        rawValue: 80,
+        raw_value: 80,
+        value: [20, 30, 80],
+        number: '80,0 kr',
+        width: 100,
+      })
+
+      simulateMouseMove({ pageX: 10, width: 100, height: 10 })
+
+      expect(onChange).toBeCalledWith({
+        event: {
+          height: 10,
+          pageX: 10,
+          width: 100,
+        },
+        height: 10,
+        pageX: 10,
+        rawValue: 10,
+        raw_value: 10,
+        value: [10, 30, 80],
+        number: '10,0 kr',
+        width: 100,
+      })
+
+      fireEvent.mouseDown(getRangeElements(1))
+
+      simulateMouseMove({ pageX: 40, width: 100, height: 10 })
+
+      expect(onChange.mock.calls[2][0].value).toEqual([10, 40, 80])
+
+      resetMouseSimulation()
+    })
+
+    it('updates thumb index and returns correct event value', () => {
+      const onChange = jest.fn()
+
+      props.value = [10, 30, 40]
+      render(<Slider {...props} onChange={onChange} />)
+
+      const secondThumb = document.querySelectorAll(
+        '.dnb-slider__button-helper'
+      )[1]
+      const thirdThumb = document.querySelectorAll(
+        '.dnb-slider__button-helper'
+      )[2]
+
+      fireEvent.focus(secondThumb)
+      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+
+      expect(onChange.mock.calls[0][0].value).toEqual([10, 40, 80])
+
+      resetMouseSimulation()
+
+      fireEvent.focus(thirdThumb)
+      simulateMouseMove({ pageX: 20, width: 100, height: 10 })
+
+      expect(onChange.mock.calls[1][0].value).toEqual([10, 20, 40])
+
+      resetMouseSimulation()
+    })
+
+    it('sets correct inline styles', () => {
+      props.value = [20, 30, 90]
+      render(
+        <Slider
+          {...props}
+          numberFormat={{ currency: true, decimals: 1 }}
+        />
+      )
+
+      const getThumbElements = (index: number) =>
+        document.querySelectorAll('.dnb-slider__thumb')[
+          index
+        ] as HTMLElement
+
+      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+      expect(getThumbElements(2).getAttribute('style')).toBe(
+        'z-index: 4; left: 80%;'
+      )
+
+      simulateMouseMove({ pageX: 10, width: 100, height: 10 })
+      expect(getThumbElements(0).getAttribute('style')).toBe(
+        'z-index: 4; left: 10%;'
+      )
+      expect(getThumbElements(2).getAttribute('style')).toBe(
+        'z-index: 3; left: 80%;'
+      )
+
+      simulateMouseMove({ pageX: 50, width: 100, height: 10 })
+      expect(getThumbElements(1).getAttribute('style')).toBe(
+        'z-index: 4; left: 50%;'
+      )
+      expect(getThumbElements(0).getAttribute('style')).toBe(
+        'z-index: 3; left: 10%;'
+      )
+      expect(getThumbElements(2).getAttribute('style')).toBe(
+        'z-index: 3; left: 80%;'
+      )
+
+      resetMouseSimulation()
+    })
   })
 
   it('should validate with ARIA rules', async () => {
@@ -166,6 +350,8 @@ const getButtonHelper = (): HTMLInputElement => {
 }
 
 const simulateMouseMove = (props) => {
+  fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
+  fireEvent.mouseDown(document.querySelector('.dnb-slider__track'))
   const mouseMove = new CustomEvent('mousemove', {
     detail: props,
   })

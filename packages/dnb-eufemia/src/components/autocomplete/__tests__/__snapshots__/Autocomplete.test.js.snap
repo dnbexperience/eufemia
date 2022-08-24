@@ -1222,7 +1222,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
               id="autocomplete-id-suffix"
             >
               <span
-                className="dnb-suffix dnb-autocomplete__suffix"
+                className="dnb-suffix dnb-autocomplete__suffix dnb-skeleton dnb-skeleton--font"
                 id="autocomplete-id-suffix"
               >
                 suffix

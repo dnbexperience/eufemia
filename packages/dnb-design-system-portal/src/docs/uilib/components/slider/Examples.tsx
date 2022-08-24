@@ -15,8 +15,36 @@ export const SliderExampleDefault = () => (
   max={100}
   value={70}
   label="Default Slider:"
-  on_change={({ value }) => console.log('on_change:', value)}
+  onChange={({ value }) => console.log('onChange:', value)}
 />
+  `
+    }
+  </ComponentBox>
+)
+
+export const SliderExampleMultiButtons = () => (
+  <ComponentBox data-visual-test="slider-multi">
+    {
+      /* jsx */ `
+<FormRow vertical>
+  <Slider
+    min={0}
+    max={100}
+    value={[30, 70]}
+    step={5}
+    label="Range with steps:"
+    onChange={({ value }) => console.log('onChange:', value)}
+    bottom
+  />
+  <Slider
+    min={0}
+    max={100}
+    value={[10, 30, 50, 70]}
+    label="Multi thumbs:"
+    numberFormat={{ decimals: 2, currency: true }}
+    onChange={({ value, number }) => console.log('onChange:', value, number)}
+  />
+</FormRow>
   `
     }
   </ComponentBox>
@@ -32,25 +60,25 @@ const Component = () => {
     <Slider
       value={value}
       step={10}
-      hide_buttons="true"
+      hideButtons
       label="Slider A:"
-      on_change={({ value }) => setValue(value)}
+      onChange={({ value }) => setValue(value)}
     />
     <VerticalWrapper>
       <Slider
         value={value}
         vertical={true}
-        hide_buttons={true}
+        hideButtons={true}
         step={1}
         label="Slider B:"
-        label_direction="vertical"
-        on_change={({ value }) => setValue(value)}
+        labelDirection="vertical"
+        onChange={({ value }) => setValue(value)}
       />
       <Input
         align="center"
         selectall
         value={String(value)}
-        on_change={({ value }) => setValue(value)}
+        onChange={({ value }) => setValue(value)}
       />
     </VerticalWrapper>
   </>)
@@ -129,8 +157,8 @@ render(<VerticalWrapper>
     step={10}
     vertical={true}
     label="Vertical slider:"
-    label_direction="vertical"
-    on_change={({ value }) => console.log('on_change:', value)}
+    labelDirection="vertical"
+    onChange={({ value }) => console.log('onChange:', value)}
   />
 </VerticalWrapper>)
   `

@@ -24,8 +24,8 @@ describe('Slider screenshot', () => {
       style: { width: '20rem' },
       selector: '[data-visual-test="slider-default"] .dnb-slider__wrapper',
       simulateSelector:
-        '[data-visual-test="slider-default"] .dnb-slider__thumb button',
-      simulate: 'focus', // should be tested first
+        '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
+      simulate: 'focus',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -35,8 +35,19 @@ describe('Slider screenshot', () => {
       style: { width: '20rem' },
       selector: '[data-visual-test="slider-default"] .dnb-slider__wrapper',
       simulateSelector:
-        '[data-visual-test="slider-default"] .dnb-slider__thumb button',
+        '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
       simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the active state', async () => {
+    const screenshot = await testPageScreenshot({
+      style: { width: '20rem' },
+      selector: '[data-visual-test="slider-default"] .dnb-slider__wrapper',
+      simulateSelector:
+        '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
+      simulate: 'active',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -46,6 +57,14 @@ describe('Slider screenshot', () => {
       style: { height: '20rem' },
       selector:
         '[data-visual-test="slider-vertical"] .dnb-slider__wrapper',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match multi thumbs slider', async () => {
+    const screenshot = await testPageScreenshot({
+      style: { width: '20rem', height: '10rem' },
+      selector: '[data-visual-test="slider-multi"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
