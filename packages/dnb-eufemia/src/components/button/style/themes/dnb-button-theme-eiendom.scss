@@ -61,6 +61,14 @@
   }
 }
 
+// Icon button
+.dnb-button--secondary:not(.dnb-button--has-text) {
+  @include buttonActive(
+    var(--color-emerald-green),
+    var(--color-pistachio)
+  );
+}
+
 .dnb-button--tertiary {
   color: var(--color-emerald-green);
 
