@@ -8,7 +8,7 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import Slider from '../Slider'
 
-import type { SliderProps } from '../Slider'
+import type { SliderProps, onChangeEventProps } from '../Slider'
 
 const props: SliderProps = {
   id: 'slider',
@@ -60,6 +60,26 @@ describe('Slider component', () => {
     expect(Array.from(element.classList)).toEqual(
       expect.arrayContaining(['dnb-space__top--large'])
     )
+  })
+
+  it('should include className', () => {
+    render(<Slider {...props} className="custom-class" />)
+
+    const element = document.querySelector('.dnb-slider')
+
+    expect(Array.from(element.classList)).toEqual(
+      expect.arrayContaining(['custom-class'])
+    )
+  })
+
+  it('should apply custom attributes to thumb button', () => {
+    render(<Slider {...props} data-extra="property-value" />)
+
+    const element = document.querySelector(
+      '.dnb-slider__thumb .dnb-button'
+    )
+
+    expect(element.getAttribute('data-extra')).toBe('property-value')
   })
 
   it('should support stretch', () => {
@@ -196,6 +216,17 @@ describe('Slider component', () => {
   })
 
   describe('multi thumb', () => {
+    const SliderWithStateUpdate = (props: SliderProps) => {
+      const [value, setValue] = React.useState(props.value)
+      const onChangehandler = (event: onChangeEventProps) => {
+        setValue(event.value)
+        if (props.onChange) {
+          props.onChange(event)
+        }
+      }
+      return <Slider {...props} value={value} onChange={onChangehandler} />
+    }
+
     const resetMouseSimulation = () => {
       fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
     }
@@ -205,7 +236,7 @@ describe('Slider component', () => {
 
       props.value = [20, 30, 90]
       render(
-        <Slider
+        <SliderWithStateUpdate
           {...props}
           numberFormat={{ currency: true, decimals: 1 }}
           onChange={onChange}
@@ -266,7 +297,7 @@ describe('Slider component', () => {
       const onChange = jest.fn()
 
       props.value = [10, 30, 40]
-      render(<Slider {...props} onChange={onChange} />)
+      render(<SliderWithStateUpdate {...props} onChange={onChange} />)
 
       const secondThumb = document.querySelectorAll(
         '.dnb-slider__button-helper'
@@ -290,10 +321,128 @@ describe('Slider component', () => {
       resetMouseSimulation()
     })
 
+    it('will not swap thumb positions when multiThumbBehavior="omit"', () => {
+      const onChange = jest.fn()
+
+      props.value = [10, 30, 60]
+
+      render(
+        <SliderWithStateUpdate
+          {...props}
+          step={1}
+          multiThumbBehavior="omit"
+          onChange={onChange}
+        />
+      )
+
+      const getThumbElements = (index: number) =>
+        document.querySelectorAll('.dnb-slider__thumb')[
+          index
+        ] as HTMLElement
+
+      const secondThumb = document.querySelectorAll(
+        '.dnb-slider__button-helper'
+      )[1]
+      const thirdThumb = document.querySelectorAll(
+        '.dnb-slider__button-helper'
+      )[2]
+
+      fireEvent.focus(secondThumb)
+      simulateMouseMove({ pageX: 50, width: 100, height: 10 })
+
+      expect(onChange.mock.calls[0][0].value).toEqual([10, 50, 60])
+      expect(getThumbElements(0).getAttribute('style')).toBe(
+        'z-index: 3; left: 10%;'
+      )
+      expect(getThumbElements(1).getAttribute('style')).toBe(
+        'z-index: 4; left: 50%;'
+      )
+      expect(getThumbElements(2).getAttribute('style')).toBe(
+        'z-index: 3; left: 60%;'
+      )
+
+      resetMouseSimulation()
+
+      fireEvent.focus(thirdThumb)
+      simulateMouseMove({ pageX: 20, width: 100, height: 10 })
+
+      expect(onChange.mock.calls[1][0].value).toEqual([10, 50, 50])
+      expect(getThumbElements(0).getAttribute('style')).toBe(
+        'z-index: 3; left: 10%;'
+      )
+      expect(getThumbElements(1).getAttribute('style')).toBe(
+        'z-index: 3; left: 50%;'
+      )
+      expect(getThumbElements(2).getAttribute('style')).toBe(
+        'z-index: 4; left: 50%;'
+      )
+
+      resetMouseSimulation()
+    })
+
+    it('will push thumb positions when multiThumbBehavior="push"', () => {
+      const onChange = jest.fn()
+
+      props.value = [10, 30, 60]
+
+      render(
+        <SliderWithStateUpdate
+          {...props}
+          step={1}
+          onChange={onChange}
+          multiThumbBehavior="push"
+        />
+      )
+
+      const getThumbElements = (index: number) =>
+        document.querySelectorAll('.dnb-slider__thumb')[
+          index
+        ] as HTMLElement
+
+      const secondThumb = document.querySelectorAll(
+        '.dnb-slider__button-helper'
+      )[1]
+      const thirdThumb = document.querySelectorAll(
+        '.dnb-slider__button-helper'
+      )[2]
+
+      fireEvent.focus(secondThumb)
+      simulateMouseMove({ pageX: 50, width: 100, height: 10 })
+
+      expect(onChange.mock.calls[0][0].value).toEqual([10, 50, 60])
+      expect(getThumbElements(0).getAttribute('style')).toBe(
+        'z-index: 3; left: 10%;'
+      )
+      expect(getThumbElements(1).getAttribute('style')).toBe(
+        'z-index: 4; left: 50%;'
+      )
+      expect(getThumbElements(2).getAttribute('style')).toBe(
+        'z-index: 3; left: 60%;'
+      )
+
+      resetMouseSimulation()
+
+      fireEvent.focus(thirdThumb)
+      simulateMouseMove({ pageX: 20, width: 100, height: 10 })
+
+      expect(onChange.mock.calls[1][0].value).toEqual([10, 20, 20])
+      expect(getThumbElements(0).getAttribute('style')).toBe(
+        'z-index: 3; left: 10%;'
+      )
+      expect(getThumbElements(1).getAttribute('style')).toBe(
+        'z-index: 3; left: 20%;'
+      )
+      expect(getThumbElements(2).getAttribute('style')).toBe(
+        'z-index: 4; left: 20%;'
+      )
+
+      resetMouseSimulation()
+    })
+
     it('sets correct inline styles', () => {
       props.value = [20, 30, 90]
       render(
-        <Slider
+        <SliderWithStateUpdate
           {...props}
           numberFormat={{ currency: true, decimals: 1 }}
         />
