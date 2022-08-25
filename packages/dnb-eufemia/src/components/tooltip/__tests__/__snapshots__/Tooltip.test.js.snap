@@ -1,112 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Tooltip component with target_element have to match default tooltip snapshot 1`] = `
-<Component>
-  <Tooltip
-    active={null}
-    align={null}
-    animate_position={false}
-    arrow="center"
-    class={null}
-    className={null}
-    fixed_position={false}
-    group="main"
-    hide_delay={500}
-    id="tooltip"
-    no_animation={false}
-    position="top"
-    show_delay={300}
-    size="basis"
-    target_element={
-      <button>
-        Button
-      </button>
-    }
-    target_selector={null}
-    tooltip={null}
-  >
-    <TooltipWithEvents
-      align={null}
-      animate_position={false}
-      arrow="center"
-      attributes={
-        Object {
-          "children": "Text",
-          "className": "dnb-tooltip",
-        }
-      }
-      class={null}
-      className={null}
-      fixed_position={false}
-      group="tooltip"
-      hide_delay={500}
-      id="tooltip"
-      internal_id="tooltip"
-      no_animation={false}
-      position="top"
-      show_delay={300}
-      size="basis"
-      target={
-        <button>
-          Button
-        </button>
-      }
-      target_element={
-        <button>
-          Button
-        </button>
-      }
-      target_selector={null}
-      tooltip={null}
-    >
-      <button
-        aria-describedby="tooltip"
-      >
-        Button
-      </button>
-      <TooltipPortal
-        active={false}
-        align={null}
-        animate_position={false}
-        arrow="center"
-        attributes={
-          Object {
-            "children": "Text",
-            "className": "dnb-tooltip",
-          }
-        }
-        class={null}
-        className={null}
-        fixed_position={false}
-        group="tooltip"
-        hide_delay={500}
-        id="tooltip"
-        internal_id="tooltip"
-        key="tooltip"
-        no_animation={false}
-        position="top"
-        show_delay={300}
-        size="basis"
-        target={
-          <button
-            aria-describedby="tooltip"
-          >
-            Button
-          </button>
-        }
-        target_element={
-          <button>
-            Button
-          </button>
-        }
-        target_selector={null}
-        tooltip={null}
-      />
-    </TooltipWithEvents>
-  </Tooltip>
-</Component>
-`;
-
 exports[`Tooltip scss have to match default theme snapshot 1`] = `
 "/*
 * Tooltip theme
@@ -287,4 +180,138 @@ exports[`Tooltip scss have to match snapshot 1`] = `
     opacity: 0;
     visibility: hidden; } }
 "
+`;
+
+exports[`Tooltip with target will skip React Portal when skip_portal is true 1`] = `
+<span
+  aria-hidden={true}
+  className="dnb-tooltip dnb-tooltip--active"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  role="tooltip"
+  style={Object {}}
+>
+  <span
+    className="dnb-tooltip__arrow dnb-tooltip__arrow__arrow--center dnb-tooltip__arrow__position--top"
+  />
+  <span
+    className="dnb-tooltip__content"
+    id="tooltip"
+  >
+    Text
+  </span>
+</span>
+`;
+
+exports[`Tooltip with target_element have to match default tooltip snapshot 1`] = `
+<Component
+  active={true}
+>
+  <Tooltip
+    active={true}
+    align={null}
+    animate_position={false}
+    arrow="center"
+    class={null}
+    className={null}
+    fixed_position={false}
+    group="main"
+    hide_delay={0}
+    id="tooltip"
+    no_animation={false}
+    position="top"
+    show_delay={0}
+    size="basis"
+    skip_portal={null}
+    target_element={
+      <button>
+        Button
+      </button>
+    }
+    target_selector={null}
+    tooltip={null}
+  >
+    <TooltipWithEvents
+      active={true}
+      align={null}
+      animate_position={false}
+      arrow="center"
+      attributes={
+        Object {
+          "children": "Text",
+          "className": "dnb-tooltip",
+        }
+      }
+      class={null}
+      className={null}
+      fixed_position={false}
+      group="tooltip"
+      hide_delay={0}
+      id="tooltip"
+      internal_id="tooltip"
+      no_animation={false}
+      position="top"
+      show_delay={0}
+      size="basis"
+      skip_portal={null}
+      target={
+        <button>
+          Button
+        </button>
+      }
+      target_element={
+        <button>
+          Button
+        </button>
+      }
+      target_selector={null}
+      tooltip={null}
+    >
+      <button
+        aria-describedby="tooltip"
+      >
+        Button
+      </button>
+      <TooltipPortal
+        active={true}
+        align={null}
+        animate_position={false}
+        arrow="center"
+        attributes={
+          Object {
+            "children": "Text",
+            "className": "dnb-tooltip",
+          }
+        }
+        class={null}
+        className={null}
+        fixed_position={false}
+        group="tooltip"
+        hide_delay={0}
+        id="tooltip"
+        internal_id="tooltip"
+        key="tooltip"
+        no_animation={false}
+        position="top"
+        show_delay={0}
+        size="basis"
+        skip_portal={null}
+        target={
+          <button
+            aria-describedby="tooltip"
+          >
+            Button
+          </button>
+        }
+        target_element={
+          <button>
+            Button
+          </button>
+        }
+        target_selector={null}
+        tooltip={null}
+      />
+    </TooltipWithEvents>
+  </Tooltip>
+</Component>
 `;

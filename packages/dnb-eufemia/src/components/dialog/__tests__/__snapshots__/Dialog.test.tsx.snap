@@ -439,6 +439,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
             position="top"
             show_delay={300}
             size="basis"
+            skip_portal={null}
             target_element={
               Object {
                 "current": <button
@@ -504,6 +505,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
               position="top"
               show_delay={300}
               size="basis"
+              skip_portal={null}
               target={
                 Object {
                   "current": <button
@@ -612,6 +614,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                 position="top"
                 show_delay={300}
                 size="basis"
+                skip_portal={null}
                 target={
                   <button
                     aria-describedby="dialog_id-tooltip"
