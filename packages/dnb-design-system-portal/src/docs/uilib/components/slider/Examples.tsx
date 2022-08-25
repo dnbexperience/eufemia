@@ -50,6 +50,32 @@ export const SliderExampleMultiButtons = () => (
   </ComponentBox>
 )
 
+export const SliderExampleMultiButtonsThumbBehavior = () => (
+  <ComponentBox>
+    {
+      /* jsx */ `
+<FormRow vertical>
+  <Slider
+    multiThumbBehavior="omit"
+    value={[30, 70]}
+    label="Omit behavior:"
+    onChange={({ value }) => console.log('onChange:', value)}
+    bottom
+    />
+    <Slider
+    multiThumbBehavior="push"
+    value={[10,  50, 70]}
+    step={1}
+    label="Push behavior:"
+    numberFormat={{ decimals: 2, currency: true }}
+    onChange={({ value, number }) => console.log('onChange:', value, number)}
+  />
+</FormRow>
+  `
+    }
+  </ComponentBox>
+)
+
 export const SliderExampleHorizontalSync = () => (
   <ComponentBox useRender>
     {
