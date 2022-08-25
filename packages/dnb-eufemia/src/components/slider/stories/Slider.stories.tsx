@@ -8,6 +8,7 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
 import { Slider, ToggleButton, Input, FormRow, FormLabel } from '../../'
+import { format } from '../../number-format/NumberUtils'
 
 export default {
   title: 'Eufemia/Components/Slider',
@@ -49,15 +50,16 @@ export function MultiButtons() {
           multiThumbBehavior="push"
           // multiThumbBehavior="omit"
           // vertical
-          reverse
+          // reverse
           value={value}
           min={100}
           max={1000}
           step={10}
           stretch
-          numberFormat={{ decimals: 2, currency: true }}
+          numberFormat={(value) => format(value, { currency: 'USD' })}
+          tooltip
           onChange={({ value, number }) => {
-            console.log('onChange:', value, number)
+            // console.log('onChange:', value, number)
             setValue(value as Array<number>)
           }}
         />
@@ -74,15 +76,16 @@ export function MultiButtons() {
           max={1000}
           step={10}
           stretch
-          // vertical
-          reverse
+          vertical
+          // reverse
           numberFormat={{
             decimals: 2,
             currency: 'EUR',
             currency_display: 'symbol',
           }}
+          tooltip
           onChange={({ value, number }) => {
-            console.log('onChange:', value, number)
+            // console.log('onChange:', value, number)
             setValueSecond(value as number)
           }}
         />
@@ -109,7 +112,7 @@ const SliderStory = () => {
           max={100}
           value={value}
           step={0.05}
-          numberFormat={{ decimals: 2, currency: true }}
+          numberFormat={{ currency: true }}
           // reverse
           onChange={({ value, number, rawValue }) => {
             console.log('onChange:', { value, number, rawValue })

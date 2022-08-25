@@ -21,7 +21,7 @@ describe('Slider screenshot', () => {
 
   it('have to match the focus state', async () => {
     const screenshot = await testPageScreenshot({
-      style: { width: '20rem' },
+      style: { width: '20rem', 'padding-top': '3rem' },
       selector: '[data-visual-test="slider-default"] .dnb-slider__wrapper',
       simulateSelector:
         '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
@@ -32,7 +32,7 @@ describe('Slider screenshot', () => {
 
   it('have to match the hover state', async () => {
     const screenshot = await testPageScreenshot({
-      style: { width: '20rem' },
+      style: { width: '20rem', 'padding-top': '3rem' },
       selector: '[data-visual-test="slider-default"] .dnb-slider__wrapper',
       simulateSelector:
         '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
@@ -43,7 +43,7 @@ describe('Slider screenshot', () => {
 
   it('have to match the active state', async () => {
     const screenshot = await testPageScreenshot({
-      style: { width: '20rem' },
+      style: { width: '20rem', 'padding-top': '3rem' },
       selector: '[data-visual-test="slider-default"] .dnb-slider__wrapper',
       simulateSelector:
         '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',

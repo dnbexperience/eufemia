@@ -9,6 +9,8 @@ import { fireEvent, render } from '@testing-library/react'
 import Slider from '../Slider'
 
 import type { SliderProps, onChangeEventProps } from '../Slider'
+import { format } from '../../number-format/NumberUtils'
+import { wait } from '@testing-library/user-event/dist/utils'
 
 const props: SliderProps = {
   id: 'slider',
@@ -17,7 +19,7 @@ const props: SliderProps = {
   max: 100,
   value: 70,
   step: 10,
-  numberFormat: { currency: true, decimals: 0 },
+  numberFormat: null,
   labelDirection: 'horizontal',
 }
 
@@ -153,6 +155,94 @@ describe('Slider component', () => {
     )
   })
 
+  describe('Tooltip', () => {
+    it('shows always a Tooltip when alwaysShowTooltip is true', () => {
+      render(<Slider {...props} tooltip alwaysShowTooltip />)
+
+      const tooltipElem = document.querySelector('.dnb-tooltip')
+
+      expect(tooltipElem.textContent).toBe('70')
+      expect(Array.from(tooltipElem.classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
+      )
+    })
+
+    it('shows Tooltip on hover with numberFormat', async () => {
+      render(
+        <Slider {...props} numberFormat={{ currency: 'EUR' }} tooltip />
+      )
+
+      const mainElem = document.querySelector('.dnb-slider')
+      const thumbElem = mainElem.querySelector(
+        '.dnb-slider__thumb .dnb-button'
+      )
+      const tooltipElem = document.querySelector('.dnb-tooltip')
+
+      expect(tooltipElem.textContent).toBe('70,00 €')
+      expect(Array.from(tooltipElem.classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip'])
+      )
+
+      fireEvent.mouseOver(thumbElem)
+
+      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+
+      expect(Array.from(tooltipElem.classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
+      )
+
+      expect(tooltipElem.textContent).toBe('80,00 €')
+
+      fireEvent.mouseOut(thumbElem)
+
+      await wait(1)
+
+      expect(Array.from(tooltipElem.classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--hide'])
+      )
+    })
+
+    it('shows Tooltip on hover with custom formatting', async () => {
+      render(
+        <Slider
+          {...props}
+          numberFormat={(value) => format(value, { percent: true })}
+          tooltip
+          step={null}
+        />
+      )
+
+      const mainElem = document.querySelector('.dnb-slider')
+      const thumbElem = mainElem.querySelector(
+        '.dnb-slider__thumb .dnb-button'
+      )
+      const tooltipElem = document.querySelector('.dnb-tooltip')
+
+      expect(tooltipElem.textContent).toBe('70 %')
+      expect(Array.from(tooltipElem.classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip'])
+      )
+
+      fireEvent.mouseOver(thumbElem)
+
+      simulateMouseMove({ pageX: 80.5, width: 100, height: 10 })
+
+      expect(Array.from(tooltipElem.classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
+      )
+
+      expect(tooltipElem.textContent).toBe('80,5 %')
+
+      fireEvent.mouseOut(thumbElem)
+
+      await wait(1)
+
+      expect(Array.from(tooltipElem.classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--hide'])
+      )
+    })
+  })
+
   it('has events that return a correct value', () => {
     const onChange = jest.fn()
 
@@ -174,7 +264,7 @@ describe('Slider component', () => {
       rawValue: 80,
       raw_value: 80,
       value: 80,
-      number: '80 kr',
+      number: null,
       width: 100,
     }
     expect(onChange).toBeCalledWith(changeObject)
@@ -229,6 +319,15 @@ describe('Slider component', () => {
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange.mock.calls[0][0].value).toBe(80)
+  })
+
+  it('should not have type=button', () => {
+    render(<Slider {...props} />)
+    expect(
+      document
+        .querySelector('.dnb-slider__thumb .dnb-button')
+        .hasAttribute('type')
+    ).toBe(false)
   })
 
   describe('multi thumb', () => {

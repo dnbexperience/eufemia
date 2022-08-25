@@ -3,7 +3,7 @@ import React from 'react'
 import { dispatchCustomElementEvent } from '../../shared/component-helper'
 import { useSliderEvents } from './hooks/useSliderEvents'
 import { useSliderProps } from './hooks/useSliderProps'
-import { clamp, formatNumber } from './SliderHelpers'
+import { clamp, getFormattedNumber } from './SliderHelpers'
 
 export function SliderMainTrack({
   children,
@@ -13,7 +13,7 @@ export function SliderMainTrack({
   const { isMulti, value, allProps, trackRef, animationTimeout } =
     useSliderProps()
   const { id, numberFormat, onInit } = allProps
-  const { onTrackClickHandler, onThumbMouseDownHandler, removeEvents } =
+  const { onTrackMouseUpHandler, onThumbMouseDownHandler, removeEvents } =
     useSliderEvents()
 
   React.useEffect(() => {
@@ -24,7 +24,7 @@ export function SliderMainTrack({
         number: null,
       }
       if (numberFormat) {
-        obj.number = formatNumber(value as number, numberFormat)
+        obj.number = getFormattedNumber(value as number, numberFormat)
       }
       dispatchCustomElementEvent(allProps, 'onInit', obj)
     }
@@ -37,9 +37,9 @@ export function SliderMainTrack({
   }, [])
 
   const trackParams = {
-    onTouchStart: onTrackClickHandler,
+    onTouchStart: onTrackMouseUpHandler,
     onTouchStartCapture: onThumbMouseDownHandler,
-    onMouseDown: onTrackClickHandler,
+    onMouseDown: onTrackMouseUpHandler,
     onMouseDownCapture: onThumbMouseDownHandler,
   }
 
