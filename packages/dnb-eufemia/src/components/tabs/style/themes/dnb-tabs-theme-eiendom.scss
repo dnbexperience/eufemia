@@ -1,0 +1,14 @@
+/*
+* Tabs theme
+*
+*/
+
+@import './dnb-tabs-theme-ui.scss';
+
+.dnb-tabs {
+  &__button {
+    @include hover() {
+      background-color: var(--color-pistachio);
+    }
+  }
+}
