@@ -184,6 +184,12 @@ export function SliderProvider(localProps: SliderProps) {
             multiValues[currentIndex + 1] = numberValue
           }
         }
+
+        if (numberValue === realtimeValue.current[currentIndex]) {
+          return // stop here
+        }
+      } else if (numberValue === realtimeValue.current) {
+        return // stop here
       }
 
       if (typeof onChange === 'function') {
