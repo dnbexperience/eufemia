@@ -21,6 +21,10 @@ const props: SliderProps = {
   labelDirection: 'horizontal',
 }
 
+const resetMouseSimulation = () => {
+  fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
+}
+
 describe('Slider component', () => {
   it('supports snake_case props', () => {
     const props: SliderProps = {
@@ -215,6 +219,20 @@ describe('Slider component', () => {
     ).toBe('80,0 norske kroner')
   })
 
+  it('will not emit onChange with same value twice', () => {
+    const onChange = jest.fn()
+
+    render(<Slider {...props} onChange={onChange} />)
+
+    simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+    simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange.mock.calls[0][0].value).toBe(80)
+
+    resetMouseSimulation()
+  })
+
   describe('multi thumb', () => {
     const SliderWithStateUpdate = (props: SliderProps) => {
       const [value, setValue] = React.useState(props.value)
@@ -227,9 +245,26 @@ describe('Slider component', () => {
       return <Slider {...props} value={value} onChange={onChangehandler} />
     }
 
-    const resetMouseSimulation = () => {
-      fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
-    }
+    const getRangeElement = (index: number) =>
+      document.querySelectorAll('[type="range"]')[
+        index
+      ] as HTMLInputElement
+
+    it('will not emit onChange with same value twice', () => {
+      const onChange = jest.fn()
+
+      props.value = [20, 30, 90]
+      render(<SliderWithStateUpdate {...props} onChange={onChange} />)
+
+      fireEvent.mouseDown(getRangeElement(1))
+      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+
+      expect(onChange).toBeCalledTimes(1)
+      expect(onChange.mock.calls[0][0].value).toEqual([20, 30, 80])
+
+      resetMouseSimulation()
+    })
 
     it('tracks mousemove on track', () => {
       const onChange = jest.fn()
@@ -243,14 +278,9 @@ describe('Slider component', () => {
         />
       )
 
-      const getRangeElements = (index: number) =>
-        document.querySelectorAll('[type="range"]')[
-          index
-        ] as HTMLInputElement
-
       simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
-      expect(parseFloat(getRangeElements(2).value)).toBe(80)
+      expect(parseFloat(getRangeElement(2).value)).toBe(80)
 
       expect(onChange).toBeCalledWith({
         event: {
@@ -284,7 +314,7 @@ describe('Slider component', () => {
         width: 100,
       })
 
-      fireEvent.mouseDown(getRangeElements(1))
+      fireEvent.mouseDown(getRangeElement(1))
 
       simulateMouseMove({ pageX: 40, width: 100, height: 10 })
 
