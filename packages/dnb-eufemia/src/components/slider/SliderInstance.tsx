@@ -136,8 +136,7 @@ function SliderSuffix() {
 }
 
 function SubtractButton() {
-  const { emitChange, value, isReverse, attributes, allProps } =
-    useSliderProps()
+  const { emitChange, value, attributes, allProps } = useSliderProps()
   const {
     step,
     min,
@@ -149,13 +148,7 @@ function SubtractButton() {
   } = allProps
 
   const onSubtractClickHandler = (event: MouseEvent | TouchEvent) => {
-    let newValue = clamp((value as number) - (step || 1), min, max)
-
-    if (isReverse) {
-      newValue = max - newValue
-    }
-
-    emitChange(event, newValue)
+    emitChange(event, clamp((value as number) - (step || 1), min, max))
   }
 
   const subtractParams = {}
@@ -182,19 +175,12 @@ function SubtractButton() {
 }
 
 function AddButton() {
-  const { emitChange, value, isReverse, attributes, allProps } =
-    useSliderProps()
+  const { emitChange, value, attributes, allProps } = useSliderProps()
   const { step, min, max, disabled, skeleton, addTitle, numberFormat } =
     allProps
 
   const onAddClickHandler = (event: MouseEvent | TouchEvent) => {
-    let newValue = clamp((value as number) + (step || 1), min, max)
-
-    if (isReverse) {
-      newValue = max - newValue
-    }
-
-    emitChange(event, newValue)
+    emitChange(event, clamp((value as number) + (step || 1), min, max))
   }
 
   const addParams = {}

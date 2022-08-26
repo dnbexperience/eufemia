@@ -71,9 +71,7 @@ export function SliderThumb() {
     <>
       {values.map((value, i) => {
         const index = thumbIndex.current
-        let percent = clamp(
-          ((value - (isReverse ? 0 : min)) * 100) / (max - min)
-        )
+        let percent = clamp(((value - min) * 100) / (max - min))
 
         if (isReverse) {
           percent = 100 - percent
