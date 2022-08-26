@@ -101,12 +101,6 @@
     min-width: inherit;
     min-height: inherit;
   }
-  &--reverse &__track {
-    transform: scaleX(-1);
-  }
-  &--reverse#{&}--vertical &__track {
-    transform: scaleY(-1);
-  }
 
   &__line {
     position: absolute;
@@ -180,7 +174,7 @@
     line-height: var(--slider-button-size);
     transform: translateY(0.25rem);
 
-    z-index: 5;
+    z-index: 2;
   }
   &--vertical &__button.dnb-button--size-small {
     transform: translateX(0.25rem);
