@@ -7,14 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import {
-  Slider,
-  ToggleButton,
-  Input,
-  FormRow,
-  FormLabel,
-  Tooltip,
-} from '../../'
+import { Slider, ToggleButton, Input, FormRow, FormLabel } from '../../'
 
 import '../../slider/style/dnb-range.scss'
 
@@ -45,17 +38,24 @@ const FixedSizeWrapper = styled.div`
 `
 
 export function MultiButtons() {
-  const [value, setValue] = React.useState<Array<number>>([10, 40, 80])
+  const [value, setValue] = React.useState<Array<number>>([100, 400, 800])
+  const [valueSecond, setValueSecond] = React.useState<number>(800)
 
   return (
     <>
       <FixedSizeWrapper>
-        <Tooltip active show>
-          Tooltip
-        </Tooltip>
         <Slider
-          label="Label2:"
+          top="x-large"
+          label="Label with some text"
+          labelDirection="vertical"
+          multiThumbBehavior="push"
+          // multiThumbBehavior="omit"
+          // vertical
+          reverse
           value={value}
+          min={100}
+          max={1000}
+          step={10}
           stretch
           numberFormat={{ decimals: 2, currency: true }}
           onChange={({ value, number }) => {
@@ -67,7 +67,28 @@ export function MultiButtons() {
       </FixedSizeWrapper>
 
       <FixedSizeWrapper>
-        <Slider value={80} step={1} stretch />
+        <Slider
+          top="x-large"
+          label="Label with some text"
+          labelDirection="vertical"
+          value={valueSecond}
+          min={100}
+          max={1000}
+          step={10}
+          stretch
+          // vertical
+          reverse
+          numberFormat={{
+            decimals: 2,
+            currency: 'EUR',
+            currency_display: 'symbol',
+          }}
+          onChange={({ value, number }) => {
+            console.log('onChange:', value, number)
+            setValueSecond(value as number)
+          }}
+        />
+        <code>{valueSecond}</code>
       </FixedSizeWrapper>
     </>
   )

@@ -70,6 +70,7 @@ export function SliderTrackBefore() {
   const {
     values: origValues,
     isVertical,
+    isReverse,
     thumbIndex,
     allProps: { min, max },
   } = useSliderProps()
@@ -84,13 +85,13 @@ export function SliderTrackBefore() {
   const index = thumbIndex.current
   const upperValue = values[isBetween ? 0 : index > -1 ? index : 0]
   const upperPercent = isBetween
-    ? clamp(((upperValue - min) * 100) / (max - min))
+    ? clamp(((upperValue - (isReverse ? 0 : min)) * 100) / (max - min))
     : 0
 
   const lowerValue =
     values[isBetween ? values.length - 1 : index > -1 ? index : 0]
   const lowerPercent =
-    100 - clamp(((lowerValue - min) * 100) / (max - min))
+    100 - clamp(((lowerValue - (isReverse ? 0 : min)) * 100) / (max - min))
 
   const units = [
     trackObj[isVertical ? 1 : 0][0],
@@ -98,8 +99,8 @@ export function SliderTrackBefore() {
   ]
 
   const style: React.CSSProperties = {}
-  style[units[0]] = `${lowerPercent}%`
-  style[units[1]] = `${upperPercent}%`
+  style[units[isReverse ? 1 : 0]] = `${lowerPercent}%`
+  style[units[isReverse ? 0 : 1]] = `${upperPercent}%`
 
   return (
     <span

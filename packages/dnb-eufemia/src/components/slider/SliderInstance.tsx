@@ -53,7 +53,6 @@ export function SliderInstance() {
   const mainParams = {
     className: classnames(
       'dnb-slider',
-      isReverse && 'dnb-slider--reverse',
       isVertical && 'dnb-slider--vertical',
       disabled && 'dnb-slider__state--disabled',
       !showButtons && 'dnb-slider--no-buttons',
@@ -137,7 +136,8 @@ function SliderSuffix() {
 }
 
 function SubtractButton() {
-  const { emitChange, value, attributes, allProps } = useSliderProps()
+  const { emitChange, value, isReverse, attributes, allProps } =
+    useSliderProps()
   const {
     step,
     min,
@@ -149,7 +149,13 @@ function SubtractButton() {
   } = allProps
 
   const onSubtractClickHandler = (event: MouseEvent | TouchEvent) => {
-    emitChange(event, clamp((value as number) - (step || 1), min, max))
+    let newValue = clamp((value as number) - (step || 1), min, max)
+
+    if (isReverse) {
+      newValue = max - newValue
+    }
+
+    emitChange(event, newValue)
   }
 
   const subtractParams = {}
@@ -176,12 +182,19 @@ function SubtractButton() {
 }
 
 function AddButton() {
-  const { emitChange, value, attributes, allProps } = useSliderProps()
+  const { emitChange, value, isReverse, attributes, allProps } =
+    useSliderProps()
   const { step, min, max, disabled, skeleton, addTitle, numberFormat } =
     allProps
 
   const onAddClickHandler = (event: MouseEvent | TouchEvent) => {
-    emitChange(event, clamp((value as number) + (step || 1), min, max))
+    let newValue = clamp((value as number) + (step || 1), min, max)
+
+    if (isReverse) {
+      newValue = max - newValue
+    }
+
+    emitChange(event, newValue)
   }
 
   const addParams = {}
