@@ -85,13 +85,13 @@ export function SliderTrackBefore() {
   const index = thumbIndex.current
   const upperValue = values[isBetween ? 0 : index > -1 ? index : 0]
   const upperPercent = isBetween
-    ? clamp(((upperValue - (isReverse ? 0 : min)) * 100) / (max - min))
+    ? clamp(((upperValue - min) * 100) / (max - min))
     : 0
 
   const lowerValue =
     values[isBetween ? values.length - 1 : index > -1 ? index : 0]
   const lowerPercent =
-    100 - clamp(((lowerValue - (isReverse ? 0 : min)) * 100) / (max - min))
+    100 - clamp(((lowerValue - min) * 100) / (max - min))
 
   const units = [
     trackObj[isVertical ? 1 : 0][0],

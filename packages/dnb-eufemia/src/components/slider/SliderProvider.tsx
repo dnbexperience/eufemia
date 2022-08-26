@@ -150,10 +150,6 @@ export function SliderProvider(localProps: SliderProps) {
       return
     }
 
-    if (isReverse) {
-      rawValue = max - rawValue
-    }
-
     let numberValue = roundValue(rawValue, step)
     let multiValues: ValueTypes = numberValue
 

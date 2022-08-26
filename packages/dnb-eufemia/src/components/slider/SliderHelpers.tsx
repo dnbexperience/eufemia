@@ -12,7 +12,8 @@ import type { ValueTypes } from './types'
 export const percentToValue = (
   percent: number,
   min: number,
-  max: number
+  max: number,
+  isReverse: boolean
 ) => {
   // Deprecated, can be removed in v10
   if (typeof min === 'string') {
@@ -22,7 +23,13 @@ export const percentToValue = (
     max = parseFloat(max)
   }
 
-  return ((max - min) * percent) / 100 + min
+  let num = ((max - min) * percent) / 100 + min
+
+  if (isReverse) {
+    num = max + min - num
+  }
+
+  return num
 }
 
 export const roundToStep = (number: number, step: number) =>
