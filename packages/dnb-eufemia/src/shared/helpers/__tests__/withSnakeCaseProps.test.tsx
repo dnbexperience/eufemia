@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react'
 import React from 'react'
 import {
   withSnakeCaseProps,
+  convertSnakeCaseProps,
   classWithSnakeCaseProps,
   IncludeSnakeCase,
 } from '../withSnakeCaseProps'
@@ -421,5 +422,20 @@ describe('classWithSnakeCaseProps', () => {
       <Component camelCase={true} snake_case={1} updateComp={onUpdate} />
     )
     expect(onUpdate).toHaveBeenCalledTimes(2)
+  })
+})
+
+describe('convertSnakeCaseProps', () => {
+  it('will convert', () => {
+    const props = {
+      foo_bar: 'value',
+      snake_case: { foo_bar: 123 },
+    }
+    const result = convertSnakeCaseProps(props)
+
+    expect(result).toEqual({
+      fooBar: 'value',
+      snakeCase: { foo_bar: 123 },
+    })
   })
 })

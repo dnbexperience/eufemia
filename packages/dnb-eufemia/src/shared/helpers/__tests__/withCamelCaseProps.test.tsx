@@ -92,6 +92,41 @@ describe('withCamelCaseProps', () => {
     `)
   })
 
+  it('will handle className correctly', () => {
+    type ExtraTypes = {
+      className?: string
+    }
+    const Component = withCamelCaseProps(
+      (props: IncludeCamelCase<OriginalProps> & ExtraTypes) => {
+        return <Original {...props} />
+      }
+    )
+
+    const { asFragment } = render(<Component className="value" />)
+
+    expect(screen.queryByTestId('props').textContent).toMatch(
+      '{"className":"value"}'
+    )
+    expect(asFragment()).toMatchInlineSnapshot(`
+      <DocumentFragment>
+        <div
+          data-testid="content"
+        >
+          <div
+            data-testid="props"
+          >
+            {"className":"value"}
+          </div>
+          <div
+            data-testid="context"
+          >
+            {}
+          </div>
+        </div>
+      </DocumentFragment>
+    `)
+  })
+
   it('will render with enzyme', () => {
     const Comp = mount(<Component snake_case={false} camelCase={1} />)
 

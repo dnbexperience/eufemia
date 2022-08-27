@@ -2667,7 +2667,6 @@ Array [
               bar_content={null}
               class={null}
               className={null}
-              class_name={null}
               close_button_attributes={null}
               close_modal={null}
               close_title="Lukk"
@@ -5361,7 +5360,6 @@ Array [
               bar_content={null}
               class={null}
               className={null}
-              class_name={null}
               close_button_attributes={null}
               close_modal={null}
               close_title="Lukk"
@@ -8069,7 +8067,6 @@ Array [
               bar_content={null}
               class={null}
               className={null}
-              class_name={null}
               close_button_attributes={null}
               close_modal={null}
               close_title="Lukk"
