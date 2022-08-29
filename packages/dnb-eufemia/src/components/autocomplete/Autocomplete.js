@@ -221,7 +221,6 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.string,
       PropTypes.node,
     ]),
-    min_height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     enable_body_lock: PropTypes.bool,
 
     class: PropTypes.string,
@@ -316,7 +315,6 @@ export default class Autocomplete extends React.PureComponent {
     drawer_class: null,
     page_offset: null,
     observer_element: null,
-    min_height: null,
     enable_body_lock: false,
 
     class: null,

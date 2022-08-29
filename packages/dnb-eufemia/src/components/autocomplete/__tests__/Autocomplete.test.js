@@ -17,6 +17,10 @@ import Component from '../Autocomplete'
 import { SubmitButton } from '../../../components/input/Input'
 import { format } from '../../../components/number-format/NumberUtils'
 import userEvent from '@testing-library/user-event'
+import {
+  mockImplementationForDirectionObserver,
+  testDirectionObserver,
+} from '../../../fragments/drawer-list/__tests__/DrawerListTestMocks'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Autocomplete'), {
@@ -60,6 +64,8 @@ const props = {
 }
 
 const mockData = ['AA c', 'BB cc zethx', { content: ['CC', 'cc'] }]
+
+mockImplementationForDirectionObserver()
 
 describe('Autocomplete component', () => {
   it('has correct word and in-word highlighting', () => {
@@ -1944,6 +1950,15 @@ describe('Autocomplete component', () => {
         .instance()
         .getAttribute('data-test-id')
     ).toContain('bell')
+  })
+
+  it('has working direction observer', async () => {
+    const Comp = mount(<Component {...props} data={mockData} />)
+
+    // open first
+    toggle(Comp)
+
+    await testDirectionObserver(Comp)
   })
 })
 
