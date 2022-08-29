@@ -47,7 +47,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   label_direction="horizontal"
   label_sr_only="label_sr_only"
   max_height={1}
-  min_height="min_height"
   mode="sync"
   no_animation={true}
   no_options="no_options"
@@ -148,7 +147,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     label_sr_only="label_sr_only"
     list_class={null}
     max_height={1}
-    min_height="min_height"
+    min_height={10}
     mode="sync"
     no_animation={true}
     no_options="no_options"
@@ -250,7 +249,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       label_direction="horizontal"
       label_sr_only="label_sr_only"
       max_height={1}
-      min_height="min_height"
       mode="sync"
       no_animation={true}
       no_options="no_options"
@@ -1172,7 +1170,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "label_direction": "horizontal",
                   "label_sr_only": "label_sr_only",
                   "max_height": 1,
-                  "min_height": "min_height",
                   "mode": "sync",
                   "no_animation": true,
                   "no_options": "no_options",
