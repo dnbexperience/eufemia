@@ -3,6 +3,22 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.30.0](https://github.com/dnbexperience/eufemia/compare/v9.29.0...v9.30.0) (2022-08-29)
+
+
+### Bug Fixes
+
+* **Slider:** fix reverse with min and max defiend ([#1533](https://github.com/dnbexperience/eufemia/issues/1533)) ([6c169b4](https://github.com/dnbexperience/eufemia/commit/6c169b4c557ace9662f634eef8c5d3259dfae9fe))
+* **Slider:** prevent onChange being called with same value ([#1528](https://github.com/dnbexperience/eufemia/issues/1528)) ([115b056](https://github.com/dnbexperience/eufemia/commit/115b056e0564b526edeaf879d98a936b5eb20e58))
+* **Slider:** use numbers instead of css reverse when reversing slider ([#1532](https://github.com/dnbexperience/eufemia/issues/1532)) ([e2e83a0](https://github.com/dnbexperience/eufemia/commit/e2e83a03ba4b99defd45b017ba7480b1f1dd647d))
+* **Theme:** correct DNB Eiendom state colors mint-green-50 to pistachio ([#1527](https://github.com/dnbexperience/eufemia/issues/1527)) ([b7f532e](https://github.com/dnbexperience/eufemia/commit/b7f532e29a5a0a333024d466ea4a6dd9714b4d5e))
+* **withCamelCaseProps:** make exception for className ([#1534](https://github.com/dnbexperience/eufemia/issues/1534)) ([a0a0082](https://github.com/dnbexperience/eufemia/commit/a0a0082d2ed32b3436baefdc7e4f2e3b967cbca8))
+
+
+### Features
+
+* **Slider:** add multiThumbBehavior property ([#1526](https://github.com/dnbexperience/eufemia/issues/1526)) ([f835651](https://github.com/dnbexperience/eufemia/commit/f8356511cade71f0944a36dc13e24f67fb8ba154))
+
 # [9.29.0](https://github.com/dnbexperience/eufemia/compare/v9.28.0...v9.29.0) (2022-08-24)
 
 
