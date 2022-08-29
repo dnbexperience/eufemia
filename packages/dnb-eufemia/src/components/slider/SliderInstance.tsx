@@ -53,7 +53,6 @@ export function SliderInstance() {
   const mainParams = {
     className: classnames(
       'dnb-slider',
-      isReverse && 'dnb-slider--reverse',
       isVertical && 'dnb-slider--vertical',
       disabled && 'dnb-slider__state--disabled',
       !showButtons && 'dnb-slider--no-buttons',

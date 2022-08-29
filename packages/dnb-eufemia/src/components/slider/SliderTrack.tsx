@@ -70,6 +70,7 @@ export function SliderTrackBefore() {
   const {
     values: origValues,
     isVertical,
+    isReverse,
     thumbIndex,
     allProps: { min, max },
   } = useSliderProps()
@@ -98,8 +99,8 @@ export function SliderTrackBefore() {
   ]
 
   const style: React.CSSProperties = {}
-  style[units[0]] = `${lowerPercent}%`
-  style[units[1]] = `${upperPercent}%`
+  style[units[isReverse ? 1 : 0]] = `${lowerPercent}%`
+  style[units[isReverse ? 0 : 1]] = `${upperPercent}%`
 
   return (
     <span

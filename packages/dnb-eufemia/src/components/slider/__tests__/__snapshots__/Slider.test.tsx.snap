@@ -776,10 +776,6 @@ legend.dnb-form-label {
     height: inherit;
     min-width: inherit;
     min-height: inherit; }
-  .dnb-slider--reverse .dnb-slider__track {
-    transform: scaleX(-1); }
-  .dnb-slider--reverse.dnb-slider--vertical .dnb-slider__track {
-    transform: scaleY(-1); }
   .dnb-slider__line {
     position: absolute;
     left: 0;
@@ -827,7 +823,7 @@ legend.dnb-form-label {
     width: var(--slider-button-size);
     line-height: var(--slider-button-size);
     transform: translateY(0.25rem);
-    z-index: 5; }
+    z-index: 2; }
   .dnb-slider--vertical .dnb-slider__button.dnb-button--size-small {
     transform: translateX(0.25rem); }
   .dnb-slider__state--jumped .dnb-slider__thumb,

@@ -13,10 +13,10 @@ import { SliderContext } from '../SliderProvider'
 
 export function useSliderEvents() {
   const {
+    isReverse,
     emitChange,
     trackRef,
     isVertical,
-    isReverse,
     setJumpedState,
     setThumbState,
     setThumbIndex,
@@ -25,14 +25,9 @@ export function useSliderEvents() {
   const { min, max, onDragStart, onDragEnd } = allProps
 
   const onTrackClickHandler = (event: MouseEvent | TouchEvent) => {
-    const percent = calculatePercent(
-      trackRef.current,
-      event,
-      isVertical,
-      isReverse
-    )
+    const percent = calculatePercent(trackRef.current, event, isVertical)
 
-    emitChange(event, percentToValue(percent, min, max))
+    emitChange(event, percentToValue(percent, min, max, isReverse))
     setJumpedState()
   }
 
@@ -125,8 +120,8 @@ export function useSliderEvents() {
     }
 
     if (elem) {
-      const percent = calculatePercent(elem, event, isVertical, isReverse)
-      emitChange(event, percentToValue(percent, min, max))
+      const percent = calculatePercent(elem, event, isVertical)
+      emitChange(event, percentToValue(percent, min, max, isReverse))
     }
   }
 

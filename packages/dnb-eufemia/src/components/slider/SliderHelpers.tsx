@@ -12,15 +12,24 @@ import type { ValueTypes } from './types'
 export const percentToValue = (
   percent: number,
   min: number,
-  max: number
+  max: number,
+  isReverse: boolean
 ) => {
+  // Deprecated, can be removed in v10
   if (typeof min === 'string') {
     min = parseFloat(min)
   }
   if (typeof max === 'string') {
     max = parseFloat(max)
   }
-  return ((max - min) * percent) / 100 + min
+
+  let num = ((max - min) * percent) / 100 + min
+
+  if (isReverse) {
+    num = max + min - num
+  }
+
+  return num
 }
 
 export const roundToStep = (number: number, step: number) =>
@@ -56,8 +65,7 @@ export const getMousePosition = (event: MouseEvent & TouchEvent) => {
 export const calculatePercent = (
   node: HTMLElement,
   event: MouseEvent | TouchEvent,
-  isVertical: boolean,
-  isReverted: boolean
+  isVertical: boolean
 ) => {
   const { width, height } = node.getBoundingClientRect()
   const { top, left } = getOffset(node)
@@ -66,7 +74,7 @@ export const calculatePercent = (
   const value = isVertical ? y - top : x - left
   const onePercent = (isVertical ? height : width) / 100
 
-  return Math.abs((isReverted ? 100 : 0) - clamp(value / onePercent))
+  return Math.abs(clamp(value / onePercent))
 }
 
 export const clamp = (value: number, min = 0, max = 100) =>

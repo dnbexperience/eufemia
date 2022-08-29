@@ -88,6 +88,12 @@ function convertCamelCaseProps<P>(props: P) {
   const newProps = { ...props }
 
   for (const key in props) {
+    switch (key) {
+      case 'className': {
+        continue
+      }
+    }
+
     if (/^[a-z]+[A-Z]/.test(key)) {
       newProps[toSnakeCase(key)] = props[key]
       delete newProps[key]

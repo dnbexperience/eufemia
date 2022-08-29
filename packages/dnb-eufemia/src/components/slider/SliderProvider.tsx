@@ -33,6 +33,7 @@ const defaultProps = {
   min: 0,
   max: 100,
   value: -1,
+  multiThumbBehavior: 'swap',
 }
 
 export const SliderContext = React.createContext<SliderContextTypes>(null)
@@ -80,6 +81,7 @@ export function SliderProvider(localProps: SliderProps) {
     subtractTitle, // eslint-disable-line
     addTitle, // eslint-disable-line
     hideButtons, // eslint-disable-line
+    multiThumbBehavior,
     numberFormat,
     skeleton,
     max, // eslint-disable-line
@@ -99,7 +101,8 @@ export function SliderProvider(localProps: SliderProps) {
     ...attributes // Find a DOM element to forwards props too when multi buttons are supported
   } = allProps
 
-  const [value, setValue] = React.useState(_value)
+  const [value, setValue] = React.useState<ValueTypes>(_value)
+  const realtimeValue = React.useRef<ValueTypes>(_value)
   const [thumbState, setThumbState] =
     React.useState<ThumbStateEnums>('initial')
   const thumbIndex = React.useRef<number>(-1)
@@ -134,6 +137,11 @@ export function SliderProvider(localProps: SliderProps) {
     return currentIndex
   }
 
+  const updateValue = (value: ValueTypes) => {
+    setValue(value)
+    realtimeValue.current = value
+  }
+
   const emitChange = (
     event: MouseEvent | TouchEvent,
     rawValue: number
@@ -142,20 +150,51 @@ export function SliderProvider(localProps: SliderProps) {
       return
     }
 
-    const currentValue = roundValue(rawValue, step)
+    let numberValue = roundValue(rawValue, step)
+    let multiValues: ValueTypes = numberValue
 
-    if (currentValue > -1 && rawValue !== value) {
-      let newValue: ValueTypes = currentValue
-
+    if (numberValue > -1) {
       if (isMulti) {
-        const currentIndex = getAndUpdateCurrentIndex(currentValue)
+        const currentIndex = getAndUpdateCurrentIndex(numberValue)
+        const lower = realtimeValue.current[currentIndex - 1]
+        const upper = realtimeValue.current[currentIndex + 1]
 
-        newValue = getUpdatedValues(value, currentIndex, currentValue)
+        if (multiThumbBehavior === 'omit') {
+          if (numberValue < lower) {
+            numberValue = lower
+          }
+          if (numberValue > upper) {
+            numberValue = upper
+          }
+        }
+
+        multiValues = getUpdatedValues(
+          multiThumbBehavior === 'push'
+            ? (realtimeValue.current as Array<number>)
+            : value,
+          currentIndex,
+          numberValue
+        )
+
+        if (multiThumbBehavior === 'push') {
+          if (typeof lower !== 'undefined' && numberValue < lower) {
+            multiValues[currentIndex - 1] = numberValue
+          }
+          if (typeof upper !== 'undefined' && numberValue >= upper) {
+            multiValues[currentIndex + 1] = numberValue
+          }
+        }
+
+        if (numberValue === realtimeValue.current[currentIndex]) {
+          return // stop here
+        }
+      } else if (numberValue === realtimeValue.current) {
+        return // stop here
       }
 
       if (typeof onChange === 'function') {
         const obj: onChangeEventProps = {
-          value: newValue,
+          value: multiValues,
           rawValue,
           raw_value: rawValue, // deprecated
           event,
@@ -163,13 +202,13 @@ export function SliderProvider(localProps: SliderProps) {
         }
 
         if (numberFormat) {
-          obj.number = formatNumber(currentValue, numberFormat)
+          obj.number = formatNumber(numberValue, numberFormat)
         }
 
         dispatchCustomElementEvent(allProps, 'onChange', obj)
       }
 
-      setValue(newValue)
+      updateValue(multiValues)
     }
   }
 
@@ -180,10 +219,10 @@ export function SliderProvider(localProps: SliderProps) {
       })
 
       if (hasChanged) {
-        setValue(_value)
+        updateValue(_value)
       }
     } else {
-      setValue(_value)
+      updateValue(_value)
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
