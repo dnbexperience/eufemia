@@ -102,6 +102,8 @@ export function SliderProvider(localProps: SliderProps) {
   } = allProps
 
   const [value, setValue] = React.useState<ValueTypes>(_value)
+  const [externValue, updateExternValue] =
+    React.useState<ValueTypes>(_value)
   const realtimeValue = React.useRef<ValueTypes>(_value)
   const [thumbState, setThumbState] =
     React.useState<ThumbStateEnums>('initial')
@@ -215,14 +217,16 @@ export function SliderProvider(localProps: SliderProps) {
   React.useEffect(() => {
     if (isMulti) {
       const hasChanged = (_value as Array<number>).some((val, i) => {
-        return val !== value[i]
+        return val !== externValue[i]
       })
 
       if (hasChanged) {
         updateValue(_value)
+        updateExternValue(_value)
       }
-    } else {
+    } else if (_value !== externValue) {
       updateValue(_value)
+      updateExternValue(_value)
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
