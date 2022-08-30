@@ -9,8 +9,6 @@ import styled from '@emotion/styled'
 
 import { Slider, ToggleButton, Input, FormRow, FormLabel } from '../../'
 
-import '../../slider/style/dnb-range.scss'
-
 export default {
   title: 'Eufemia/Components/Slider',
 }
@@ -157,17 +155,6 @@ const SliderStory = () => {
             text="Native Range Slider"
           />
           <Slider label="Label" value={5} />
-          <input
-            id="range-slider"
-            type="range"
-            min="0"
-            max="100"
-            step="5"
-            defaultValue={20}
-            onChange={(event) => {
-              console.log('range-slider:', event.currentTarget.value)
-            }}
-          />
         </FormRow>
       </Box>
     </Wrapper>
