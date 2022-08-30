@@ -21,11 +21,11 @@ const props: SliderProps = {
   labelDirection: 'horizontal',
 }
 
-const resetMouseSimulation = () => {
-  fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
-}
-
 describe('Slider component', () => {
+  afterEach(() => {
+    resetMouseSimulation()
+  })
+
   it('supports snake_case props', () => {
     const props: SliderProps = {
       id: 'slider',
@@ -229,8 +229,6 @@ describe('Slider component', () => {
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange.mock.calls[0][0].value).toBe(80)
-
-    resetMouseSimulation()
   })
 
   describe('multi thumb', () => {
@@ -354,8 +352,6 @@ describe('Slider component', () => {
       simulateMouseMove({ pageX: 40, width: 100, height: 10 })
 
       expect(onChange.mock.calls[2][0].value).toEqual([10, 40, 80])
-
-      resetMouseSimulation()
     })
 
     it('updates thumb index and returns correct event value', () => {
@@ -382,8 +378,6 @@ describe('Slider component', () => {
       simulateMouseMove({ pageX: 20, width: 100, height: 10 })
 
       expect(onChange.mock.calls[1][0].value).toEqual([10, 20, 40])
-
-      resetMouseSimulation()
     })
 
     it('will not swap thumb positions when multiThumbBehavior="omit"', () => {
@@ -436,8 +430,6 @@ describe('Slider component', () => {
       expect(getThumbElements(2).getAttribute('style')).toBe(
         'z-index: 4; left: 50%;'
       )
-
-      resetMouseSimulation()
     })
 
     it('will push thumb positions when multiThumbBehavior="push"', () => {
@@ -495,8 +487,6 @@ describe('Slider component', () => {
       expect(getThumbElements(2).getAttribute('style')).toBe(
         'z-index: 4; left: 20%;'
       )
-
-      resetMouseSimulation()
     })
 
     it('sets correct inline styles', () => {
@@ -536,8 +526,6 @@ describe('Slider component', () => {
       expect(getThumbElements(2).getAttribute('style')).toBe(
         'z-index: 3; left: 80%;'
       )
-
-      resetMouseSimulation()
     })
   })
 
@@ -556,6 +544,13 @@ describe('Slider scss', () => {
 
 const getButtonHelper = (): HTMLInputElement => {
   return document.querySelector('.dnb-slider__button-helper')
+}
+
+const resetMouseSimulation = () => {
+  const elem = document.querySelector('.dnb-slider__track')
+  if (elem) {
+    fireEvent.mouseUp(elem)
+  }
 }
 
 const simulateMouseMove = (props) => {

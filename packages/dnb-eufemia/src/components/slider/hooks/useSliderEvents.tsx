@@ -17,7 +17,7 @@ export function useSliderEvents() {
     emitChange,
     trackRef,
     isVertical,
-    setJumpedState,
+    setShouldAnimate,
     setThumbState,
     setThumbIndex,
     allProps,
@@ -28,14 +28,15 @@ export function useSliderEvents() {
     const percent = calculatePercent(trackRef.current, event, isVertical)
 
     emitChange(event, percentToValue(percent, min, max, isReverse))
-    setJumpedState()
+    setShouldAnimate(true)
   }
 
   const onThumbMouseDownHandler = (event: React.SyntheticEvent) => {
     const target = event.target as HTMLButtonElement
 
     setThumbIndex(parseFloat(target.dataset.index))
-    setThumbState('released')
+    setThumbState('activated')
+    setShouldAnimate(false)
 
     if (typeof onDragStart === 'function') {
       dispatchCustomElementEvent(allProps, 'onDragStart', {
@@ -62,7 +63,7 @@ export function useSliderEvents() {
   }
 
   const onThumbMouseUpHandler = () => {
-    setThumbState('activated')
+    setThumbState('released')
   }
 
   const onTrackTouchEndHandler = (event: TouchEvent) =>
@@ -106,13 +107,12 @@ export function useSliderEvents() {
   const onTrackTouchMoveHandler = (event: MouseEvent) =>
     onTrackMouseMoveHandler(event)
   const onTrackMouseMoveHandler = (event: MouseEvent) => {
+    event.preventDefault() // ensures correct cursor in Safari (dekstop)
+
     let elem = trackRef.current
 
     // we have to mock this for jsdom.
-    if (
-      // @ts-ignore
-      typeof event?.detail?.height !== 'undefined'
-    ) {
+    if (process.env.NODE_ENV === 'test') {
       // @ts-ignore
       elem = createMockDiv(event.detail)
       // @ts-ignore

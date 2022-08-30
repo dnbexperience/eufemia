@@ -1,10 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import classnames from 'classnames'
 import React from 'react'
-import {
-  dispatchCustomElementEvent,
-  validateDOMAttributes,
-} from '../../shared/component-helper'
+import { dispatchCustomElementEvent } from '../../shared/component-helper'
 import { useSliderEvents } from './hooks/useSliderEvents'
 import { useSliderProps } from './hooks/useSliderProps'
 import { clamp, formatNumber } from './SliderHelpers'
@@ -14,7 +10,7 @@ export function SliderMainTrack({
 }: {
   children: React.ReactNode | React.ReactNode[]
 }) {
-  const { isMulti, value, allProps, trackRef, jumpedTimeout, thumbState } =
+  const { isMulti, value, allProps, trackRef, animationTimeout } =
     useSliderProps()
   const { id, numberFormat, onInit } = allProps
   const { onTrackClickHandler, onThumbMouseDownHandler, removeEvents } =
@@ -35,27 +31,26 @@ export function SliderMainTrack({
 
     return () => {
       removeEvents()
-      clearTimeout(jumpedTimeout.current)
+      clearTimeout(animationTimeout.current)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const trackParams = {
-    className: classnames(
-      'dnb-slider__track',
-      thumbState && `dnb-slider__state--${thumbState}`
-    ),
     onTouchStart: onTrackClickHandler,
     onTouchStartCapture: onThumbMouseDownHandler,
     onMouseDown: onTrackClickHandler,
     onMouseDownCapture: onThumbMouseDownHandler,
   }
 
-  validateDOMAttributes(null, trackParams)
-
   return (
     // @ts-ignore
-    <span id={id} ref={trackRef} {...trackParams}>
+    <span
+      id={id}
+      ref={trackRef}
+      className="dnb-slider__track"
+      {...trackParams}
+    >
       {children}
     </span>
   )
