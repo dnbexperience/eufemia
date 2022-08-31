@@ -28,6 +28,7 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 1. Find the `thump_title` property and replace it with `thumb_title`.
 1. Find the snake_case `add_title` property and replace it with `addTitle`.
 1. Find the snake_case `subtract_title` property and replace it with `subtractTitle`.
+1. Remove `@dnb/eufemia/components/slider/style/dnb-range.min.css` and use the Eufemia Slider component instead.
 
 ### [Timeline](/uilib/components/timeline)
 
