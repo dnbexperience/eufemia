@@ -173,6 +173,7 @@ export const AutocompleteToggleExample = () => (
         /* jsx */ `
 <Autocomplete
   label="Label:"
+  value={10}
   show_submit_button={true}
   on_change={({ data }) => {
     console.log('on_change', data)

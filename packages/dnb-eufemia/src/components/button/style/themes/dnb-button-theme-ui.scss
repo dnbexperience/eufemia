@@ -329,11 +329,11 @@
   }
 
   // input-button
-  // Because we can not anymore have a square, we have to trick that part
-  &--input-button#{&}--secondary:not(&--has-text),
   &--input-button#{&}--secondary:not(&--has-text):not([disabled]) {
+    // Because we can not anymore have a square, we have to trick that part
     background-color: transparent;
     box-shadow: none;
+
     &::after {
       content: '';
       position: absolute;

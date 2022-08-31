@@ -1370,10 +1370,10 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     .dnb-button--signal[disabled] {
       color: var(--color-black-20);
       background-color: var(--color-accent-yellow-30); }
-  .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text), .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]) {
+  .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]) {
     background-color: transparent;
     box-shadow: none; }
-    .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text)::after, .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled])::after {
+    .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled])::after {
       content: '';
       position: absolute;
       top: 0;

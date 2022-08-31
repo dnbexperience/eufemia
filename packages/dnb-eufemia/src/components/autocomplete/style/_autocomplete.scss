@@ -134,8 +134,8 @@
       cursor: text;
     }
 
-    &--has-submit-element .dnb-input__placeholder,
-    &--has-submit-element .dnb-input__input {
+    &--has-inner-element .dnb-input__placeholder,
+    &--has-inner-element .dnb-input__input {
       @include allAbove(small) {
         // same width of submit button
         padding-right: 0 !important; // use important so we avoid to have all sizes in addition

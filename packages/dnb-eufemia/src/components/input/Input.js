@@ -406,6 +406,7 @@ export default class Input extends React.PureComponent {
         `dnb-input--${type}`, //type_modifier
         size && !sizeIsNumber && `dnb-input--${size}`,
         hasSubmitButton && 'dnb-input--has-submit-element',
+        inner_element && 'dnb-input--has-inner-element',
         isTrue(clear) && 'dnb-input--has-clear-button',
         align && `dnb-input__align--${align}`,
         status && `dnb-input__status--${status_state}`,
