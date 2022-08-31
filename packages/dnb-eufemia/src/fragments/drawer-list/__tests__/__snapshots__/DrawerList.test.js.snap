@@ -1187,7 +1187,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       @supports (display: grid) {
         .dnb-drawer-list__option__inner {
           display: grid;
-          grid-template-columns: 1fr minmax(2rem, auto);
+          grid-template-columns: 1fr auto;
           grid-template-rows: repeat(10, min-content); } }
       .dnb-drawer-list__option__inner > * {
         align-self: self-start; }

@@ -176,7 +176,7 @@
         display: grid;
 
         // Use two columns
-        grid-template-columns: 1fr minmax(2rem, auto);
+        grid-template-columns: 1fr auto;
 
         // Use a high number in order to be able to vertically center the check icon (among others) and suffix with "grid-row: 1 / -1;"
         grid-template-rows: repeat(10, min-content);
