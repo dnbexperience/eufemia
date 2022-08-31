@@ -146,7 +146,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-input dnb-input--search dnb-form-component dnb-input--has-submit-element"
+    className="dnb-input dnb-form-component dnb-input--search dnb-input--has-submit-element"
     data-has-content="true"
     data-input-state="virgin"
   >
@@ -649,7 +649,7 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   value="test"
 >
   <span
-    className="dnb-input dnb-input--text dnb-form-component"
+    className="dnb-input dnb-form-component dnb-input--text"
     data-has-content="true"
     data-input-state="virgin"
   >

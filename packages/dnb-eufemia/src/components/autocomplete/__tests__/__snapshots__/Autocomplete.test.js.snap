@@ -523,7 +523,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 value="CC cc"
               >
                 <span
-                  className="dnb-input dnb-input--null dnb-form-component dnb-autocomplete__input dnb-input--icon-position-null dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element dnb-input__status--error"
+                  className="dnb-input dnb-form-component dnb-autocomplete__input dnb-input--icon-position-null dnb-input--has-icon dnb-input--icon-size-icon_size dnb-input--has-submit-element dnb-input__status--error"
                   data-has-content="true"
                   data-input-state="virgin"
                 >
