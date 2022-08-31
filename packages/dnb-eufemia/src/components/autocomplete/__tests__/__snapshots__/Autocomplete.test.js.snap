@@ -2907,12 +2907,12 @@ legend.dnb-form-label {
     z-index: 3;
     cursor: text; }
   @media screen and (min-width: 40em) {
-    .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__placeholder,
-    .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__input {
+    .dnb-autocomplete .dnb-input--has-inner-element .dnb-input__placeholder,
+    .dnb-autocomplete .dnb-input--has-inner-element .dnb-input__input {
       padding-right: 0 !important; } }
   @media screen and (max-width: 40em) {
-    .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__placeholder,
-    .dnb-autocomplete .dnb-input--has-submit-element .dnb-input__input {
+    .dnb-autocomplete .dnb-input--has-inner-element .dnb-input__placeholder,
+    .dnb-autocomplete .dnb-input--has-inner-element .dnb-input__input {
       padding-right: 2.5rem !important; } }
   .dnb-autocomplete .dnb-input__inner__element.dnb-p {
     white-space: nowrap;
