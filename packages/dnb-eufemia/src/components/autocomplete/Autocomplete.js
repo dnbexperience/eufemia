@@ -1814,7 +1814,6 @@ class AutocompleteInstance extends React.PureComponent {
       // 'aria-roledescription': 'autocomplete', // is not needed by now
 
       onMouseDown: this.onInputClickHandler,
-      onTouchStart: this.onInputClickHandler,
       onKeyDown: this.onInputKeyDownHandler,
       onChange: this.onInputChangeHandler,
       onFocus: this.onInputFocusHandler,

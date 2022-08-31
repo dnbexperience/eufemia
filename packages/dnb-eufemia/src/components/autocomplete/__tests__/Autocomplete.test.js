@@ -1454,6 +1454,29 @@ describe('Autocomplete component', () => {
     )
   })
 
+  it('has correct "opened" state on input mousedown', () => {
+    const Comp = mount(<Component {...props} data={mockData} />)
+
+    Comp.find('.dnb-input__input').simulate('mousedown')
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(true)
+
+    // close
+    keydown(Comp, 27) // esc
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(false)
+
+    Comp.find('.dnb-input__input').simulate('mousedown')
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(true)
+  })
+
   it('will open drawer-list when open_on_focus is set to true', () => {
     const on_focus = jest.fn()
     const on_change = jest.fn()
