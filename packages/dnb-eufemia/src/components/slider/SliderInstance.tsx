@@ -21,8 +21,8 @@ import FormStatus from '../form-status/FormStatus'
 
 import {
   SliderMainTrack,
-  SliderTrackAfter,
   SliderTrackBefore,
+  SliderTrackAfter,
 } from './SliderTrack'
 import { SliderThumb } from './SliderThumb'
 import { useSliderProps } from './hooks/useSliderProps'
@@ -31,8 +31,14 @@ import { clamp, getHumanNumber } from './SliderHelpers'
 export function SliderInstance() {
   const context = React.useContext(Context)
 
-  const { isReverse, isVertical, showButtons, showStatus, allProps } =
-    useSliderProps()
+  const {
+    isReverse,
+    isVertical,
+    showButtons,
+    showStatus,
+    shouldAnimate,
+    allProps,
+  } = useSliderProps()
 
   const {
     id,
@@ -55,6 +61,7 @@ export function SliderInstance() {
       'dnb-slider',
       isVertical && 'dnb-slider--vertical',
       disabled && 'dnb-slider__state--disabled',
+      shouldAnimate && 'dnb-slider__state--animate',
       !showButtons && 'dnb-slider--no-buttons',
       isTrue(stretch) && 'dnb-slider--stretch',
       label && labelDirection && `dnb-slider__label--${labelDirection}`,

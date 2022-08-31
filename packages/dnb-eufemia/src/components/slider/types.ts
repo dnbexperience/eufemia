@@ -114,12 +114,12 @@ export type ThumbStateEnums =
   | 'activated'
   | 'released'
   | 'focused'
-  | 'jumped'
 
 export type SliderContextTypes = {
   isMulti: boolean
   isReverse: boolean
   isVertical: boolean
+  shouldAnimate: boolean
   thumbState: ThumbStateEnums
   thumbIndex: React.RefObject<number>
   showStatus: boolean
@@ -133,6 +133,6 @@ export type SliderContextTypes = {
   setThumbIndex: (thumbIndex: number) => void
   emitChange: (emitEvent: MouseEvent | TouchEvent, value: number) => void
   trackRef: React.RefObject<HTMLElement>
-  setJumpedState: () => void
-  jumpedTimeout: React.RefObject<NodeJS.Timeout>
+  setShouldAnimate: (state: boolean) => void
+  animationTimeout: React.RefObject<NodeJS.Timeout>
 }

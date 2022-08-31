@@ -64,8 +64,7 @@ export function SliderThumb() {
     )
   }
 
-  validateDOMAttributes(null, helperParams)
-  validateDOMAttributes(allProps, thumbParams)
+  validateDOMAttributes(allProps, thumbParams) // because we send along rest attributes
 
   return (
     <>

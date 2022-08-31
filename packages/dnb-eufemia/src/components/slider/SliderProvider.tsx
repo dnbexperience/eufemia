@@ -108,6 +108,8 @@ export function SliderProvider(localProps: SliderProps) {
   const [thumbState, setThumbState] =
     React.useState<ThumbStateEnums>('initial')
   const thumbIndex = React.useRef<number>(-1)
+  const [shouldAnimate, updateAnimateState] =
+    React.useState<boolean>(false)
   const [isVertical] = React.useState(isTrue(_vertical))
   const [isReverse] = React.useState(
     isVertical ? !isTrue(_reverse) : isTrue(_reverse)
@@ -211,6 +213,7 @@ export function SliderProvider(localProps: SliderProps) {
       }
 
       updateValue(multiValues)
+      setShouldAnimate(false)
     }
   }
 
@@ -234,11 +237,16 @@ export function SliderProvider(localProps: SliderProps) {
 
   const trackRef = React.useRef<HTMLElement>()
 
-  const jumpedTimeout = React.useRef<NodeJS.Timeout>()
-  const setJumpedState = () => {
-    setThumbState('jumped')
-    clearTimeout(jumpedTimeout.current)
-    jumpedTimeout.current = setTimeout(() => setThumbState('normal'), 100)
+  const animationTimeout = React.useRef<NodeJS.Timeout>()
+  const setShouldAnimate = (state: boolean) => {
+    updateAnimateState(state)
+    clearTimeout(animationTimeout.current)
+    if (state) {
+      animationTimeout.current = setTimeout(
+        () => updateAnimateState(false),
+        250
+      )
+    }
   }
 
   const showStatus = getStatusState(status)
@@ -251,6 +259,7 @@ export function SliderProvider(localProps: SliderProps) {
         isMulti,
         isReverse,
         isVertical,
+        shouldAnimate,
         value,
         values,
         setValue,
@@ -264,8 +273,8 @@ export function SliderProvider(localProps: SliderProps) {
         emitChange,
         allProps,
         trackRef,
-        setJumpedState,
-        jumpedTimeout,
+        setShouldAnimate,
+        animationTimeout,
       }}
     >
       {localProps.children}
