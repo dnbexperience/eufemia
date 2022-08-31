@@ -114,17 +114,16 @@
   line-height: var(--line-height-basis);
   color: var(--theme-color-black-80, currentColor);
 
-  & > dt {
-    padding: 0;
-    font-weight: var(--font-weight-medium);
-  }
   & dt {
     margin-top: 1rem;
+
+    padding: 0;
+    font-weight: var(--font-weight-medium);
   }
   & dd ~ dt {
     margin-top: 1.5rem;
   }
-  & > dd {
+  & dd {
     padding: 0;
     margin: 0.5rem 0 1rem;
 
@@ -135,6 +134,29 @@
   &:not([class*='dnb-space']) > dl {
     margin-top: 1.5rem;
     margin-left: 2rem;
+  }
+
+  // Inline
+  @include allAbove(small) {
+    &__direction--horizontal {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      & dt,
+      & dd {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      & dt {
+        margin-right: 1rem;
+        max-width: 60ch;
+      }
+    }
+
+    &__line {
+      display: flex;
+    }
   }
 }
 @mixin listSpacing() {
