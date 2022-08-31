@@ -2226,7 +2226,7 @@ Array [
                   <span
                     aria-hidden="true"
                     class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                    data-test-id="chevron down medium icon"
+                    data-test-id="chevron right medium icon"
                     role="presentation"
                   >
                     <svg
@@ -2237,7 +2237,7 @@ Array [
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        d="m19 8.5-7 7-7-7"
+                        d="m9 19 7-7-7-7"
                         stroke="#000"
                         stroke-linecap="round"
                         stroke-linejoin="round"
@@ -2343,7 +2343,7 @@ Array [
                       <span
                         aria-hidden="true"
                         class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="chevron down medium icon"
+                        data-test-id="chevron right medium icon"
                         role="presentation"
                       >
                         <svg
@@ -2354,7 +2354,7 @@ Array [
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="m19 8.5-7 7-7-7"
+                            d="m9 19 7-7-7-7"
                             stroke="#000"
                             stroke-linecap="round"
                             stroke-linejoin="round"
@@ -2457,7 +2457,7 @@ Array [
                           <span
                             aria-hidden="true"
                             class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                            data-test-id="chevron down medium icon"
+                            data-test-id="chevron right medium icon"
                             role="presentation"
                           >
                             <svg
@@ -2468,7 +2468,7 @@ Array [
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                d="m19 8.5-7 7-7-7"
+                                d="m9 19 7-7-7-7"
                                 stroke="#000"
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
@@ -2555,10 +2555,10 @@ Array [
                       <span
                         aria-hidden={true}
                         className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="chevron down medium icon"
+                        data-test-id="chevron right medium icon"
                         role="presentation"
                       >
-                        <chevron_down_medium>
+                        <chevron_right_medium>
                           <svg
                             fill="none"
                             height={24}
@@ -2567,14 +2567,14 @@ Array [
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="m19 8.5-7 7-7-7"
+                              d="m9 19 7-7-7-7"
                               stroke="#000"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               strokeWidth={1.5}
                             />
                           </svg>
-                        </chevron_down_medium>
+                        </chevron_right_medium>
                       </span>
                     </IconPrimary>
                   </Content>
@@ -4919,7 +4919,7 @@ Array [
                   <span
                     aria-hidden="true"
                     class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                    data-test-id="chevron down medium icon"
+                    data-test-id="chevron right medium icon"
                     role="presentation"
                   >
                     <svg
@@ -4930,7 +4930,7 @@ Array [
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        d="m19 8.5-7 7-7-7"
+                        d="m9 19 7-7-7-7"
                         stroke="#000"
                         stroke-linecap="round"
                         stroke-linejoin="round"
@@ -5036,7 +5036,7 @@ Array [
                       <span
                         aria-hidden="true"
                         class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="chevron down medium icon"
+                        data-test-id="chevron right medium icon"
                         role="presentation"
                       >
                         <svg
@@ -5047,7 +5047,7 @@ Array [
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="m19 8.5-7 7-7-7"
+                            d="m9 19 7-7-7-7"
                             stroke="#000"
                             stroke-linecap="round"
                             stroke-linejoin="round"
@@ -5150,7 +5150,7 @@ Array [
                           <span
                             aria-hidden="true"
                             class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                            data-test-id="chevron down medium icon"
+                            data-test-id="chevron right medium icon"
                             role="presentation"
                           >
                             <svg
@@ -5161,7 +5161,7 @@ Array [
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                d="m19 8.5-7 7-7-7"
+                                d="m9 19 7-7-7-7"
                                 stroke="#000"
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
@@ -5248,10 +5248,10 @@ Array [
                       <span
                         aria-hidden={true}
                         className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="chevron down medium icon"
+                        data-test-id="chevron right medium icon"
                         role="presentation"
                       >
-                        <chevron_down_medium>
+                        <chevron_right_medium>
                           <svg
                             fill="none"
                             height={24}
@@ -5260,14 +5260,14 @@ Array [
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="m19 8.5-7 7-7-7"
+                              d="m9 19 7-7-7-7"
                               stroke="#000"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               strokeWidth={1.5}
                             />
                           </svg>
-                        </chevron_down_medium>
+                        </chevron_right_medium>
                       </span>
                     </IconPrimary>
                   </Content>
@@ -7626,7 +7626,7 @@ Array [
                   <span
                     aria-hidden="true"
                     class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                    data-test-id="chevron down medium icon"
+                    data-test-id="chevron right medium icon"
                     role="presentation"
                   >
                     <svg
@@ -7637,7 +7637,7 @@ Array [
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        d="m19 8.5-7 7-7-7"
+                        d="m9 19 7-7-7-7"
                         stroke="#000"
                         stroke-linecap="round"
                         stroke-linejoin="round"
@@ -7743,7 +7743,7 @@ Array [
                       <span
                         aria-hidden="true"
                         class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="chevron down medium icon"
+                        data-test-id="chevron right medium icon"
                         role="presentation"
                       >
                         <svg
@@ -7754,7 +7754,7 @@ Array [
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="m19 8.5-7 7-7-7"
+                            d="m9 19 7-7-7-7"
                             stroke="#000"
                             stroke-linecap="round"
                             stroke-linejoin="round"
@@ -7857,7 +7857,7 @@ Array [
                           <span
                             aria-hidden="true"
                             class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                            data-test-id="chevron down medium icon"
+                            data-test-id="chevron right medium icon"
                             role="presentation"
                           >
                             <svg
@@ -7868,7 +7868,7 @@ Array [
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                d="m19 8.5-7 7-7-7"
+                                d="m9 19 7-7-7-7"
                                 stroke="#000"
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
@@ -7955,10 +7955,10 @@ Array [
                       <span
                         aria-hidden={true}
                         className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="chevron down medium icon"
+                        data-test-id="chevron right medium icon"
                         role="presentation"
                       >
-                        <chevron_down_medium>
+                        <chevron_right_medium>
                           <svg
                             fill="none"
                             height={24}
@@ -7967,14 +7967,14 @@ Array [
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="m19 8.5-7 7-7-7"
+                              d="m9 19 7-7-7-7"
                               stroke="#000"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               strokeWidth={1.5}
                             />
                           </svg>
-                        </chevron_down_medium>
+                        </chevron_right_medium>
                       </span>
                     </IconPrimary>
                   </Content>
