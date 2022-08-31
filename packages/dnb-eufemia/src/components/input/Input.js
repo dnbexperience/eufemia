@@ -403,7 +403,7 @@ export default class Input extends React.PureComponent {
     const mainParams = {
       className: classnames(
         'dnb-input',
-        `dnb-input--${type}`, //type_modifier
+        type && `dnb-input--${type}`,
         size && !sizeIsNumber && `dnb-input--${size}`,
         hasSubmitButton && 'dnb-input--has-submit-element',
         isTrue(clear) && 'dnb-input--has-clear-button',
