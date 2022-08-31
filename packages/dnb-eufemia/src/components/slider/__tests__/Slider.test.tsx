@@ -245,6 +245,9 @@ describe('Slider component', () => {
       return <Slider {...props} value={value} onChange={onChangehandler} />
     }
 
+    const getThumbElements = (index: number) =>
+      document.querySelectorAll('.dnb-slider__thumb')[index] as HTMLElement
+
     const getRangeElement = (index: number) =>
       document.querySelectorAll('[type="range"]')[
         index
@@ -262,6 +265,38 @@ describe('Slider component', () => {
 
       expect(onChange).toBeCalledTimes(1)
       expect(onChange.mock.calls[0][0].value).toEqual([20, 30, 80])
+
+      resetMouseSimulation()
+    })
+
+    it('will net need on external prop changes', () => {
+      const WrongUsage = () => {
+        const [min, setMinVal] = React.useState(0) //eslint-disable-line
+        const [max, setMaxVal] = React.useState(200) //eslint-disable-line
+
+        return (
+          <Slider
+            max={200}
+            value={[0, 200]} // <-- Here we do not update the value
+            onChange={({ value }) => {
+              setMinVal(value[0])
+              setMaxVal(value[1])
+            }}
+          />
+        )
+      }
+
+      render(<WrongUsage />)
+
+      simulateMouseMove({ pageX: 20, width: 100, height: 10 })
+      expect(getThumbElements(0).getAttribute('style')).toBe(
+        'z-index: 4; left: 20%;'
+      )
+
+      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+      expect(getThumbElements(1).getAttribute('style')).toBe(
+        'z-index: 4; left: 80%;'
+      )
 
       resetMouseSimulation()
     })
@@ -364,11 +399,6 @@ describe('Slider component', () => {
           onChange={onChange}
         />
       )
-
-      const getThumbElements = (index: number) =>
-        document.querySelectorAll('.dnb-slider__thumb')[
-          index
-        ] as HTMLElement
 
       const secondThumb = document.querySelectorAll(
         '.dnb-slider__button-helper'
