@@ -189,41 +189,22 @@ export default class InfinityScroller extends React.PureComponent {
       // our states
       lowerPage,
       upperPage,
-      currentPage,
       pageCount,
       hasEndedInfinity,
       parallelLoadCount,
 
       // our props
-      debug,
       current_page,
       fallback_element,
       marker_element,
       indicator_element,
     } = this.context.pagination
 
-    if (debug) {
-      console.info('PaginationInfinity.render', {
-        current_page,
-        lowerPage,
-        upperPage,
-        currentPage,
-        pageCount,
-      })
-    }
-
     const Marker = () => (
       <InteractionMarker
-        debug={debug}
         pageNumber={upperPage}
         markerElement={marker_element || fallback_element}
         onVisible={(pageNumber) => {
-          if (debug) {
-            console.info('PaginationInfinity.onVisible', {
-              pageNumber,
-            })
-          }
-
           let newPageNo
           // load several pages at once
           for (let i = 0; i < parallelLoadCount; ++i) {
@@ -425,7 +406,6 @@ export default class InfinityScroller extends React.PureComponent {
 
 class InteractionMarker extends React.PureComponent {
   static propTypes = {
-    debug: PropTypes.bool,
     pageNumber: PropTypes.number.isRequired,
     onVisible: PropTypes.func.isRequired,
     markerElement: PropTypes.oneOfType([
@@ -436,7 +416,6 @@ class InteractionMarker extends React.PureComponent {
     ]),
   }
   static defaultProps = {
-    debug: null,
     markerElement: null,
   }
   state = { isConnected: false }
@@ -453,18 +432,12 @@ class InteractionMarker extends React.PureComponent {
     this._ref = React.createRef()
 
     if (typeof IntersectionObserver !== 'undefined') {
-      this.intersectionObserver = new IntersectionObserver(
-        (entries) => {
-          const [{ isIntersecting }] = entries
-          if (isIntersecting) {
-            this.callReady()
-          }
+      this.intersectionObserver = new IntersectionObserver((entries) => {
+        const [{ isIntersecting }] = entries
+        if (isIntersecting) {
+          this.callReady()
         }
-        // {
-        //   threshold: 1,
-        //   rootMargin: '0px 0px -80% 0px'
-        // }
-      )
+      })
     } else {
       warn('Pagination is missing IntersectionObserver supported!')
     }
@@ -474,11 +447,6 @@ class InteractionMarker extends React.PureComponent {
     if (this._ref.current) {
       this._isMounted = true
       this.intersectionObserver?.observe(this._ref.current)
-    }
-
-    if (this.props.debug) {
-      const height = this.getContentHeight()
-      console.info('PaginationInfinity.getContentHeight', height)
     }
   }
 

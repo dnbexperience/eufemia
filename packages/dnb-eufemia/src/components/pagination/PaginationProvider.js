@@ -98,34 +98,29 @@ export default class PaginationProvider extends React.PureComponent {
     )
 
     // reset pagination, like the resetInfinity method
-    if (
-      props.useMarkerOnly &&
-      props.reset_pagination_handler !== null &&
-      isTrue(props.reset_pagination_handler)
-    ) {
+    if (props.useMarkerOnly && isTrue(props.reset_pagination_handler)) {
       state.lowerPage = undefined
       state.upperPage = undefined
     }
 
     // only used by handleInfinityMarker
     if (props.useMarkerOnly) {
-      if (
-        typeof state.lowerPage === 'undefined' &&
-        parseFloat(props.current_page) > 0
-      ) {
-        state.lowerPage = state.startupPage
+      if (typeof state.lowerPage === 'undefined') {
+        state.lowerPage = state.startupPage || 1
+      }
+      const cur = parseFloat(props.current_page)
+      if (!isNaN(cur) && cur < state.lowerPage) {
+        state.lowerPage = cur
       }
       if (typeof state.upperPage === 'undefined') {
         state.upperPage =
-          state.startupPage + parseFloat(props.startup_count) - 1
+          state.startupPage + (parseFloat(props.startup_count) || 1) - 1 ||
+          1
       }
     }
 
     // reset content, like the resetContent method
-    if (
-      props.reset_content_handler !== null &&
-      isTrue(props.reset_content_handler)
-    ) {
+    if (isTrue(props.reset_content_handler)) {
       state.items = []
       state.pageCount = parseFloat(props.page_count) || 1
     }
@@ -135,6 +130,7 @@ export default class PaginationProvider extends React.PureComponent {
     } else if (Array.isArray(props.items)) {
       state.items = props.items
     }
+
     return state
   }
 
