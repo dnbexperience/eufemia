@@ -18,6 +18,7 @@ import {
   spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
+import TooltipContainer from './TooltipContainer'
 import TooltipWithEvents from './TooltipWithEvents'
 import TooltipPortal from './TooltipPortal'
 import { injectTooltipSemantic } from './TooltipHelpers'
@@ -51,6 +52,7 @@ export default class Tooltip extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
+    skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     show_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     hide_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -82,6 +84,7 @@ export default class Tooltip extends React.PureComponent {
     align: null,
     animate_position: false,
     fixed_position: false,
+    skip_portal: null,
     no_animation: false,
     show_delay: 300,
     hide_delay: 500,
@@ -140,6 +143,7 @@ export default class Tooltip extends React.PureComponent {
       size,
       animate_position, // eslint-disable-line
       fixed_position, // eslint-disable-line
+      skip_portal,
       no_animation, // eslint-disable-line
       show_delay, // eslint-disable-line
       hide_delay, // eslint-disable-line
@@ -178,13 +182,17 @@ export default class Tooltip extends React.PureComponent {
       delete newProps.active
     }
 
-    // React.isValidElement(target) ||
-    // (typeof target === 'object' &&
-    //   Object.prototype.hasOwnProperty.call(target, 'current'))
-
     return (
       <>
-        {target_element ? (
+        {skip_portal ? (
+          <TooltipContainer
+            target={target_element}
+            attributes={attributes}
+            {...newProps}
+          >
+            {content}
+          </TooltipContainer>
+        ) : target_element ? (
           <TooltipWithEvents
             target={target_element}
             attributes={attributes}

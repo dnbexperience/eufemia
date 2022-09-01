@@ -130,10 +130,6 @@ export default class TooltipContainer extends React.PureComponent {
   }
 
   getGlobalStyle() {
-    if (!this.props.targetElement) {
-      return { display: 'none' }
-    }
-
     return this.makeStyle(this.props.position, this.props.arrow)
   }
 
@@ -332,7 +328,7 @@ export default class TooltipContainer extends React.PureComponent {
         onMouseLeave={this.handleMouseLeave}
         {...attributes}
         className={classnames(
-          attributes.className,
+          attributes?.className,
           isTrue(animate_position) && 'dnb-tooltip--animate_position',
           isTrue(no_animation) && 'dnb-tooltip--no-animation',
           isTrue(fixed_position) && 'dnb-tooltip--fixed',

@@ -9,6 +9,7 @@ import {
   toJson,
   axeComponent,
   loadScss,
+  attachToBody,
 } from '../../../core/jest/jestSetup'
 import Tooltip from '../Tooltip'
 import Anchor from '../../../elements/Anchor'
@@ -21,107 +22,142 @@ global.ResizeObserver = class {
 }
 
 const defaultProps = {
-  target_element: null,
   id: 'tooltip',
+  show_delay: 0,
+  hide_delay: 0,
 }
 
-describe('Tooltip component with target_element', () => {
-  const Component = (props = {}) => (
-    <Tooltip
-      {...defaultProps}
-      {...props}
-      target_element={<button>Button</button>}
-    >
-      Text
-    </Tooltip>
-  )
-  it('have to match default tooltip snapshot', () => {
-    const Comp = mount(<Component />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
-  it('should validate with ARIA rules as a tooltip', async () => {
-    const Comp = mount(<Component />)
-    expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
+beforeEach(() => {
+  document.body.innerHTML = ''
 })
 
-describe('Tooltip component with target', () => {
-  const Component = (props = {}) => (
-    <>
-      <button id="button">Button</button>
-      <Tooltip {...defaultProps} {...props} target="#button">
+describe('Tooltip', () => {
+  describe('with target', () => {
+    const Component = (props = {}) => (
+      <>
+        <button id="button-id">Button</button>
+        <Tooltip {...defaultProps} {...props} target_selector="#button-id">
+          Text
+        </Tooltip>
+      </>
+    )
+
+    it('creates a React Portal', () => {
+      mount(<Component active />, {
+        attachTo: attachToBody(),
+      })
+
+      expect(
+        document.body.querySelectorAll('.dnb-tooltip__portal')
+      ).toHaveLength(1)
+      expect(document.body.querySelectorAll('.dnb-tooltip')).toHaveLength(
+        1
+      )
+    })
+
+    it('will skip React Portal when skip_portal is true', () => {
+      const Comp = mount(<Component active skip_portal />, {
+        attachTo: attachToBody(),
+      })
+
+      expect(
+        document.body.querySelectorAll('.dnb-tooltip__portal')
+      ).toHaveLength(0)
+
+      expect(toJson(Comp.find('.dnb-tooltip'))).toMatchSnapshot()
+    })
+
+    it('should validate with ARIA rules as a tooltip', async () => {
+      const Comp = mount(<Component active />)
+      expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
+  })
+
+  describe('with target_element', () => {
+    const Component = (props = {}) => (
+      <Tooltip
+        {...defaultProps}
+        {...props}
+        target_element={<button>Button</button>}
+      >
         Text
       </Tooltip>
-    </>
-  )
-
-  it('has to be in the DOM so aria-describedby is valid', () => {
-    const Comp = mount(
-      <Anchor href="/url" target="_blank" lang="en-GB">
-        text
-      </Anchor>
     )
 
-    const id = Comp.find('a').instance().getAttribute('aria-describedby')
-    expect(document.body.querySelectorAll('#' + id).length).toBe(1)
+    it('have to match default tooltip snapshot', () => {
+      const Comp = mount(<Component active />)
+      expect(toJson(Comp)).toMatchSnapshot()
+    })
+
+    it('should validate with ARIA rules as a tooltip', async () => {
+      const Comp = mount(<Component active />)
+      expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
   })
 
-  it('has to be visible on hover', async () => {
-    const Comp = mount(
-      <Anchor href="/url" target="_blank" lang="en-GB">
-        text
-      </Anchor>
-    )
+  describe('Anchor with tooltip', () => {
+    it('has to be in the DOM so aria-describedby is valid', () => {
+      const Comp = mount(
+        <Anchor href="/url" target="_blank" lang="en-GB">
+          text
+        </Anchor>
+      )
 
-    // hover
-    Comp.find('a').instance().dispatchEvent(new MouseEvent('mouseenter'))
+      const id = Comp.find('a').instance().getAttribute('aria-describedby')
+      expect(document.body.querySelectorAll('#' + id).length).toBe(1)
+    })
 
-    await wait(100)
+    it('has to be visible on hover', async () => {
+      const Comp = mount(
+        <Anchor href="/url" target="_blank" lang="en-GB">
+          text
+        </Anchor>
+      )
 
-    const id = Comp.find('a').instance().getAttribute('aria-describedby')
-    expect(
-      document.body
-        .querySelector('#' + id)
-        .parentElement.classList.contains('dnb-tooltip--active')
-    ).toBe(true)
+      // hover
+      Comp.find('a').instance().dispatchEvent(new MouseEvent('mouseenter'))
 
-    // leave hover
-    Comp.find('a').instance().dispatchEvent(new MouseEvent('mouseleave'))
+      await wait(100)
 
-    await wait(600)
+      const id = Comp.find('a').instance().getAttribute('aria-describedby')
+      expect(
+        document.body
+          .querySelector('#' + id)
+          .parentElement.classList.contains('dnb-tooltip--active')
+      ).toBe(true)
 
-    expect(
-      document.body
-        .querySelector('#' + id)
-        .parentElement.classList.contains('dnb-tooltip--active')
-    ).toBe(false)
-  })
+      // leave hover
+      Comp.find('a').instance().dispatchEvent(new MouseEvent('mouseleave'))
 
-  it('has to be visible on focus event dispatch', async () => {
-    const Comp = mount(
-      <Anchor href="/url" target="_blank" lang="en-GB">
-        text
-      </Anchor>
-    )
+      await wait(600)
 
-    document.documentElement.setAttribute('data-whatintent', 'keyboard')
-    const inst = Comp.find('a').instance()
-    inst.dispatchEvent(new Event('focus'))
+      expect(
+        document.body
+          .querySelector('#' + id)
+          .parentElement.classList.contains('dnb-tooltip--active')
+      ).toBe(false)
+    })
 
-    await wait(400) // because of visibility delay
+    it('has to be visible on focus event dispatch', async () => {
+      const Comp = mount(
+        <Anchor href="/url" target="_blank" lang="en-GB">
+          text
+        </Anchor>
+      )
 
-    const id = inst.getAttribute('aria-describedby')
-    expect(
-      document.body
-        .querySelector('#' + id)
-        .parentElement.classList.contains('dnb-tooltip--active')
-    ).toBe(true)
-  })
+      document.documentElement.setAttribute('data-whatintent', 'keyboard')
+      const inst = Comp.find('a').instance()
+      inst.dispatchEvent(new Event('focus'))
 
-  it('should validate with ARIA rules as a tooltip', async () => {
-    const Comp = mount(<Component />)
-    expect(await axeComponent(Comp)).toHaveNoViolations()
+      await wait(400) // because of visibility delay
+
+      const id = inst.getAttribute('aria-describedby')
+      expect(
+        document.body
+          .querySelector('#' + id)
+          .parentElement.classList.contains('dnb-tooltip--active')
+      ).toBe(true)
+    })
   })
 })
 
@@ -130,6 +166,7 @@ describe('Tooltip scss', () => {
     const scss = loadScss(require.resolve('../style/dnb-tooltip.scss'))
     expect(scss).toMatchSnapshot()
   })
+
   it('have to match default theme snapshot', () => {
     const scss = loadScss(
       require.resolve('../style/themes/dnb-tooltip-theme-ui.scss')
