@@ -13,12 +13,21 @@ import {
 } from '../../../core/jest/jestSetup'
 import Tooltip from '../Tooltip'
 import Anchor from '../../../elements/Anchor'
+import { TooltipProps } from '../types'
 
 global.ResizeObserver = class {
-  constructor() {}
-  disconnect() {}
-  observe() {}
-  unobserve() {}
+  constructor() {
+    //
+  }
+  disconnect() {
+    //
+  }
+  observe() {
+    //
+  }
+  unobserve() {
+    //
+  }
 }
 
 const defaultProps = {
@@ -33,7 +42,7 @@ beforeEach(() => {
 
 describe('Tooltip', () => {
   describe('with target', () => {
-    const Component = (props = {}) => (
+    const Component = (props: TooltipProps = {}) => (
       <>
         <button id="button-id">Button</button>
         <Tooltip {...defaultProps} {...props} target_selector="#button-id">
@@ -74,7 +83,7 @@ describe('Tooltip', () => {
   })
 
   describe('with target_element', () => {
-    const Component = (props = {}) => (
+    const Component = (props: TooltipProps = {}) => (
       <Tooltip
         {...defaultProps}
         {...props}
@@ -87,6 +96,55 @@ describe('Tooltip', () => {
     it('have to match default tooltip snapshot', () => {
       const Comp = mount(<Component active />)
       expect(toJson(Comp)).toMatchSnapshot()
+    })
+
+    it('should show when active prop is true', async () => {
+      const Component = () => {
+        const [active, setActive] = React.useState(false)
+
+        return (
+          <Tooltip
+            active={active}
+            show_delay={1}
+            hide_delay={1}
+            target_element={
+              <button
+                onMouseEnter={() => {
+                  setActive(true)
+                }}
+                onMouseLeave={() => {
+                  setActive(false)
+                }}
+              >
+                Text
+              </button>
+            }
+          >
+            Tooltip
+          </Tooltip>
+        )
+      }
+
+      const Comp = mount(<Component />)
+
+      const mainElem = document.body.querySelector('.dnb-tooltip')
+
+      Comp.find('button').simulate('mouseenter')
+
+      expect(mainElem.classList.contains('dnb-tooltip--active')).toBe(true)
+
+      Comp.find('button').simulate('mouseleave')
+      Comp.find('button').simulate('mouseenter')
+
+      await wait(2)
+
+      expect(mainElem.classList.contains('dnb-tooltip--active')).toBe(true)
+
+      Comp.find('button').simulate('mouseleave')
+
+      await wait(2)
+
+      expect(mainElem.classList.contains('dnb-tooltip--hide')).toBe(true)
     })
 
     it('should validate with ARIA rules as a tooltip', async () => {
@@ -224,4 +282,4 @@ describe('Tooltip scss', () => {
   })
 })
 
-const wait = (t) => new Promise((r) => setTimeout(r, t))
+const wait = (t: number) => new Promise((r) => setTimeout(r, t))

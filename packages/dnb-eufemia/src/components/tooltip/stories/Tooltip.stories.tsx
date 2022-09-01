@@ -9,7 +9,6 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
 import { NumberFormat, Button, Tooltip } from '../../'
-import { Span } from '../../../elements'
 
 const StyledTooltip = styled(Tooltip)`
   margin-bottom: 4rem;
@@ -27,11 +26,7 @@ export const TooltipSandbox = () => {
           animate_position
           group="animate_position"
           hide_delay={1e3}
-          target_element={
-            <Span role="text" right>
-              Top
-            </Span>
-          }
+          target_element={<span role="text">Top</span>}
         >
           Tooltip 1
         </Tooltip>
@@ -40,7 +35,7 @@ export const TooltipSandbox = () => {
           group="animate_position"
           position="bottom"
           size="large"
-          target_element={<Span role="text">Bottom</Span>}
+          target_element={<span role="text">Bottom</span>}
         >
           Tooltip 2
         </Tooltip>

@@ -4,101 +4,36 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
   makeUniqueId,
-  extendPropsWithContext,
   registerElement,
   validateDOMAttributes,
   processChildren,
+  isTrue,
 } from '../../shared/component-helper'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import TooltipContainer from './TooltipContainer'
 import TooltipWithEvents from './TooltipWithEvents'
 import TooltipPortal from './TooltipPortal'
-import { injectTooltipSemantic } from './TooltipHelpers'
+import { defaultProps, injectTooltipSemantic } from './TooltipHelpers'
+import { ISpacingProps } from '../../shared/interfaces'
+import { TooltipProps } from './types'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 
 export { injectTooltipSemantic }
 
-export default class Tooltip extends React.PureComponent {
+export default class Tooltip extends React.PureComponent<
+  TooltipProps & ISpacingProps
+> {
+  _id: string
+
   static tagName = 'dnb-tooltip'
   static contextType = Context
 
-  static propTypes = {
-    id: PropTypes.string,
-    group: PropTypes.string,
-    size: PropTypes.oneOf(['basis', 'large']),
-    active: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    position: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
-    arrow: PropTypes.oneOf([
-      null,
-      'center',
-      'top',
-      'right',
-      'bottom',
-      'left',
-    ]),
-    align: PropTypes.oneOf([null, 'center', 'right', 'left']),
-    animate_position: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    fixed_position: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    skip_portal: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    show_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    hide_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    target_selector: PropTypes.string,
-    target_element: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.node,
-    ]),
-
-    ...spacingPropTypes,
-
-    class: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    tooltip: PropTypes.node,
-  }
-
-  static defaultProps = {
-    id: null,
-    group: null,
-    size: 'basis',
-    active: null,
-    position: 'top',
-    arrow: 'center',
-    align: null,
-    animate_position: false,
-    fixed_position: false,
-    skip_portal: null,
-    no_animation: false,
-    show_delay: 300,
-    hide_delay: 500,
-    target_selector: null,
-    target_element: null,
-
-    class: null,
-    className: null,
-    children: null,
-    tooltip: null,
-  }
-
   static enableWebComponent() {
-    registerElement(Tooltip?.tagName, Tooltip, Tooltip.defaultProps)
+    registerElement(Tooltip?.tagName, Tooltip, defaultProps)
   }
 
   static getContent(props) {
@@ -123,19 +58,18 @@ export default class Tooltip extends React.PureComponent {
     const inherited = this.getPropsFromTooltipProp()
 
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
-      this.props,
-      Tooltip.defaultProps,
-      inherited,
-      this.context.getTranslation(this.props).Tooltip,
-      this.context.FormRow,
-      this.context.Tooltip
-    )
+    const props = {
+      ...defaultProps,
+      ...this.props,
+      ...inherited,
+      ...this.context.getTranslation(this.props).Tooltip,
+      ...includeValidProps(this.context.FormRow),
+      ...this.context.Tooltip,
+    }
 
     const {
       target_element,
       target_selector,
-      class: class_name,
       className,
       id, // eslint-disable-line
       tooltip, // eslint-disable-line
@@ -154,13 +88,15 @@ export default class Tooltip extends React.PureComponent {
       ...params
     } = props
 
+    props.internal_id = this._id
+    props.group = this.props.id || group || 'main-' + this._id
+
     const content = Tooltip.getContent(props)
 
     const classes = classnames(
       'dnb-tooltip',
       size === 'large' && 'dnb-tooltip--large',
       createSpacingClasses(props),
-      class_name,
       className
     )
 
@@ -172,14 +108,8 @@ export default class Tooltip extends React.PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, attributes)
 
-    const newProps = {
-      ...this.props,
-      ...inherited,
-      internal_id: this._id,
-      group: this.props.id || group || 'main-' + this._id,
-    }
-    if (newProps.active === null) {
-      delete newProps.active
+    if (!isTrue(props.active)) {
+      delete props.active
     }
 
     return (
@@ -188,7 +118,7 @@ export default class Tooltip extends React.PureComponent {
           <TooltipContainer
             target={target_element}
             attributes={attributes}
-            {...newProps}
+            {...props}
           >
             {content}
           </TooltipContainer>
@@ -196,7 +126,7 @@ export default class Tooltip extends React.PureComponent {
           <TooltipWithEvents
             target={target_element}
             attributes={attributes}
-            {...newProps}
+            {...props}
           >
             {content}
           </TooltipWithEvents>
@@ -205,7 +135,7 @@ export default class Tooltip extends React.PureComponent {
             <TooltipPortal
               target={target_selector}
               attributes={attributes}
-              {...newProps}
+              {...props}
             >
               {content}
             </TooltipPortal>
