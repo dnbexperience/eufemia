@@ -30,7 +30,7 @@ export default class TooltipPortal extends React.PureComponent {
   static defaultProps = {
     internal_id: null,
     active: false,
-    group: 'main',
+    group: null,
     hide_delay: 500,
   }
 
@@ -46,7 +46,7 @@ export default class TooltipPortal extends React.PureComponent {
 
     tooltipPortal[group].count++
 
-    this.setState({ isMounted: true, active }, () => {
+    this.setState({ isMounted: true, isActive: active }, () => {
       if (!this.isMainGorup()) {
         this.renderPortal()
       }
@@ -64,16 +64,22 @@ export default class TooltipPortal extends React.PureComponent {
   componentDidUpdate(prevProps) {
     const { group, active, hide_delay } = this.props
 
+    if (this.props.children !== prevProps.children) {
+      this.renderPortal()
+    }
+
     if (tooltipPortal[group] && active !== prevProps.active) {
+      clearTimeout(tooltipPortal[group].timeout)
+
       if (active && !prevProps.active) {
-        this.setState({ active: true }, () => {
+        this.setState({ isActive: true }, () => {
           if (!this.isMainGorup()) {
             this.renderPortal()
           }
         })
       } else if (!active && prevProps.active) {
-        this.timeout = tooltipPortal[group].timeout = setTimeout(() => {
-          this.setState({ active: false }, () => {
+        tooltipPortal[group].timeout = setTimeout(() => {
+          this.setState({ isActive: false }, () => {
             if (!this.isMainGorup()) {
               this.renderPortal()
             }
@@ -85,18 +91,17 @@ export default class TooltipPortal extends React.PureComponent {
 
   isMainGorup() {
     const { group } = this.props
-    return group === 'main'
+    return group.includes('main')
   }
 
   componentWillUnmount() {
     const { group } = this.props
 
-    clearTimeout(this.timeout)
-
     if (tooltipPortal[group]) {
       tooltipPortal[group].count--
 
       if (!this.isMainGorup()) {
+        clearTimeout(tooltipPortal[group].timeout)
         ReactDOM.unmountComponentAtNode(tooltipPortal[group].node)
       }
 
@@ -167,7 +172,7 @@ export default class TooltipPortal extends React.PureComponent {
         <TooltipContainer
           targetElement={targetElement}
           {...this.props}
-          active={this.state.active}
+          active={this.state.isActive}
         />,
         tooltipPortal[group].node
       )
@@ -176,7 +181,7 @@ export default class TooltipPortal extends React.PureComponent {
         <TooltipContainer
           targetElement={targetElement}
           {...this.props}
-          active={this.state.active}
+          active={this.state.isActive}
         />,
         tooltipPortal[group].node
       )
