@@ -21,9 +21,10 @@
   opacity: 0;
   visibility: hidden;
 
-  transition: opacity 200ms ease-out;
+  transition: opacity 200ms #{$defaultEasing};
   &--animate_position {
-    transition: all 300ms ease-in-out, opacity 200ms ease-out;
+    transition: all 200ms #{$defaultEasing},
+      opacity 200ms #{$defaultEasing};
   }
 
   &--active {
@@ -33,25 +34,25 @@
       because of the first "show" we also use animation
       also, use forwards because of the usage of visibility
     */
-    animation: show-tooltip 200ms ease-out forwards;
+    animation: show-tooltip 200ms #{$defaultEasing} forwards;
   }
   html[data-visual-test] &--active,
   &--active#{&}--no-animation {
-    animation: show-tooltip 1ms ease-out forwards;
+    animation: show-tooltip 1ms #{$defaultEasing} forwards;
   }
   &--hide {
     visibility: visible;
-    animation: hide-tooltip 200ms ease-in-out forwards;
+    animation: hide-tooltip 200ms #{$defaultEasing} forwards;
   }
   &--hide#{&}--no-animation {
-    animation: hide-tooltip 1ms ease-out forwards;
+    animation: hide-tooltip 1ms linear forwards;
   }
   &--fixed {
     position: fixed;
   }
   html[data-visual-test] &--hide {
     // use a delay before hiding, because of visual tests
-    animation: hide-tooltip 1ms ease-out 1s forwards;
+    animation: hide-tooltip 1ms linear 1s forwards;
   }
 
   &__portal {
