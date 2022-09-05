@@ -215,7 +215,7 @@ exports[`Tooltip with target_element have to match default tooltip snapshot 1`] 
     class={null}
     className={null}
     fixed_position={false}
-    group="main"
+    group={null}
     hide_delay={0}
     id="tooltip"
     no_animation={false}

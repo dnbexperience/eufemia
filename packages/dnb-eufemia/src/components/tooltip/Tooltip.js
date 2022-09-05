@@ -76,7 +76,7 @@ export default class Tooltip extends React.PureComponent {
 
   static defaultProps = {
     id: null,
-    group: 'main',
+    group: null,
     size: 'basis',
     active: null,
     position: 'top',
@@ -176,7 +176,7 @@ export default class Tooltip extends React.PureComponent {
       ...this.props,
       ...inherited,
       internal_id: this._id,
-      group: this.props.id || group,
+      group: this.props.id || group || 'main-' + this._id,
     }
     if (newProps.active === null) {
       delete newProps.active

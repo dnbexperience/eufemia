@@ -93,6 +93,55 @@ describe('Tooltip', () => {
       const Comp = mount(<Component active />)
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })
+
+    it('should show when active prop is true', async () => {
+      const Component = () => {
+        const [active, setActive] = React.useState(false)
+
+        return (
+          <Tooltip
+            active={active}
+            show_delay={1}
+            hide_delay={1}
+            target_element={
+              <button
+                onMouseEnter={() => {
+                  setActive(true)
+                }}
+                onMouseLeave={() => {
+                  setActive(false)
+                }}
+              >
+                Text
+              </button>
+            }
+          >
+            Tooltip
+          </Tooltip>
+        )
+      }
+
+      const Comp = mount(<Component />)
+
+      const mainElem = document.body.querySelector('.dnb-tooltip')
+
+      Comp.find('button').simulate('mouseenter')
+
+      expect(mainElem.classList.contains('dnb-tooltip--active')).toBe(true)
+
+      Comp.find('button').simulate('mouseleave')
+      Comp.find('button').simulate('mouseenter')
+
+      await wait(2)
+
+      expect(mainElem.classList.contains('dnb-tooltip--active')).toBe(true)
+
+      Comp.find('button').simulate('mouseleave')
+
+      await wait(2)
+
+      expect(mainElem.classList.contains('dnb-tooltip--hide')).toBe(true)
+    })
   })
 
   describe('Anchor with tooltip', () => {
