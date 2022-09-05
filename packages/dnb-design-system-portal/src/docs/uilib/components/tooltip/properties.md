@@ -9,7 +9,6 @@ showTabs: true
 | `children`                                  | _(optional)_ Provide a string or a React Element to be shown as the tooltip content.                                                             |
 | `active`                                    | _(optional)_ set to `true` the tooltip will show up.                                                                                             |
 | `position`                                  | _(optional)_ defines the offset position to the target element the arrow appears. Can be `top`, `right`, `left` and `bottom`. Defaults to `top`. |
-| `position`                                  | _(optional)_ defines the offset position to the target element the arrow appears. Can be `top`, `right`, `left` and `bottom`. Defaults to `top`. |
 | `align`                                     | _(optional)_ defines the offset alignment to the target element the arrow appears. Can be `center`, `right` and `left`.Defaults to `center`.     |
 | `arrow`                                     | _(optional)_ defines the direction where the arrow appears. Can be `center`, `top`, `right`, `bottom` and `left`. Defaults to `center`.          |
 | `fixed_position`                            | _(optional)_ If set to `true`, the Tooltip will be fixed in its scroll position by using CSS `position: fixed;`. Defaults to `false`.            |
