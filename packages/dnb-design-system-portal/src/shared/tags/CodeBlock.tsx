@@ -148,11 +148,12 @@ class LiveCode extends React.PureComponent<
   prepareCode(code: string) {
     code = String(code).trim()
     if (
-      /data-visual-test/.test(code) &&
+      /data-visual-test|visualTestProp/.test(code) &&
       // remove test attribute only if: we run live, and are not not test
       !globalThis.IS_TEST
     ) {
       code = code.replace(/\s+data-visual-test="[^"]*"/g, '') // remove test data
+      code = code.replace(/ +{\.+visualTestProp.*}\n/g, '') // remove test data
     }
     return code
   }
