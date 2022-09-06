@@ -4,14 +4,10 @@
  */
 
 import React from 'react'
-import {
-  mount,
-  toJson,
-  axeComponent,
-  loadScss,
-  attachToBody,
-} from '../../../core/jest/jestSetup'
-import Tooltip from '../Tooltip'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { fireEvent, render } from '@testing-library/react'
+import { wait } from '@testing-library/user-event/dist/utils'
+import OriginalTooltip from '../Tooltip'
 import Anchor from '../../../elements/Anchor'
 import { TooltipProps } from '../types'
 
@@ -41,20 +37,39 @@ beforeEach(() => {
 })
 
 describe('Tooltip', () => {
-  describe('with target', () => {
-    const Component = (props: TooltipProps = {}) => (
+  describe('with target_selector', () => {
+    const Tooltip = (props: TooltipProps = {}) => (
       <>
         <button id="button-id">Button</button>
-        <Tooltip {...defaultProps} {...props} target_selector="#button-id">
+        <OriginalTooltip
+          {...defaultProps}
+          {...props}
+          target_selector="#button-id"
+        >
           Text
-        </Tooltip>
+        </OriginalTooltip>
       </>
     )
 
+    it('should validate with ARIA rules as a tooltip', async () => {
+      const Component = render(<Tooltip active />)
+      expect(await axeComponent(Component)).toHaveNoViolations()
+    })
+  })
+
+  describe('with target_element', () => {
+    const Tooltip = (props: TooltipProps = {}) => (
+      <OriginalTooltip
+        {...defaultProps}
+        {...props}
+        target_element={<button>Button</button>}
+      >
+        Text
+      </OriginalTooltip>
+    )
+
     it('creates a React Portal', () => {
-      mount(<Component active />, {
-        attachTo: attachToBody(),
-      })
+      render(<Tooltip active />)
 
       expect(
         document.body.querySelectorAll('.dnb-tooltip__portal')
@@ -65,48 +80,21 @@ describe('Tooltip', () => {
     })
 
     it('will skip React Portal when skip_portal is true', () => {
-      const Comp = mount(<Component active skip_portal />, {
-        attachTo: attachToBody(),
-      })
+      render(<Tooltip active skip_portal />)
 
       expect(
         document.body.querySelectorAll('.dnb-tooltip__portal')
       ).toHaveLength(0)
-
-      expect(toJson(Comp.find('.dnb-tooltip'))).toMatchSnapshot()
     })
 
-    it('should validate with ARIA rules as a tooltip', async () => {
-      const Comp = mount(<Component active />)
-      expect(await axeComponent(Comp)).toHaveNoViolations()
-    })
-  })
-
-  describe('with target_element', () => {
-    const Component = (props: TooltipProps = {}) => (
-      <Tooltip
-        {...defaultProps}
-        {...props}
-        target_element={<button>Button</button>}
-      >
-        Text
-      </Tooltip>
-    )
-
-    it('have to match default tooltip snapshot', () => {
-      const Comp = mount(<Component active />)
-      expect(toJson(Comp)).toMatchSnapshot()
-    })
-
-    it('should show when active prop is true', async () => {
-      const Component = () => {
+    it('should show when active prop is true', () => {
+      const Tooltip = () => {
         const [active, setActive] = React.useState(false)
 
         return (
-          <Tooltip
+          <OriginalTooltip
             active={active}
-            show_delay={1}
-            hide_delay={1}
+            no_animation
             target_element={
               <button
                 onMouseEnter={() => {
@@ -121,112 +109,152 @@ describe('Tooltip', () => {
             }
           >
             Tooltip
-          </Tooltip>
+          </OriginalTooltip>
         )
       }
 
-      const Comp = mount(<Component />)
+      render(<Tooltip />)
+
+      const mainElem = document.body.querySelector('.dnb-tooltip')
+      const buttonElem = document.querySelector('button')
+
+      fireEvent.mouseEnter(buttonElem)
+
+      expect(mainElem.classList.contains('dnb-tooltip--active')).toBe(true)
+
+      fireEvent.mouseLeave(buttonElem)
+      fireEvent.mouseEnter(buttonElem)
+
+      expect(mainElem.classList.contains('dnb-tooltip--active')).toBe(true)
+
+      fireEvent.mouseLeave(buttonElem)
+
+      expect(mainElem.classList.contains('dnb-tooltip--hide')).toBe(true)
+    })
+
+    it('should set animate_position class', () => {
+      render(<Tooltip animate_position active />)
 
       const mainElem = document.body.querySelector('.dnb-tooltip')
 
-      Comp.find('button').simulate('mouseenter')
+      expect(Array.from(mainElem.classList)).toEqual(
+        expect.arrayContaining([
+          'dnb-tooltip',
+          'dnb-tooltip--active',
+          'dnb-tooltip--animate_position',
+        ])
+      )
+    })
 
-      expect(mainElem.classList.contains('dnb-tooltip--active')).toBe(true)
+    it('should set fixed_position class', () => {
+      render(<Tooltip fixed_position active />)
 
-      Comp.find('button').simulate('mouseleave')
-      Comp.find('button').simulate('mouseenter')
+      const mainElem = document.body.querySelector('.dnb-tooltip')
 
-      await wait(2)
+      expect(Array.from(mainElem.classList)).toEqual(
+        expect.arrayContaining([
+          'dnb-tooltip',
+          'dnb-tooltip--active',
+          'dnb-tooltip--fixed',
+        ])
+      )
+    })
 
-      expect(mainElem.classList.contains('dnb-tooltip--active')).toBe(true)
+    describe('and group', () => {
+      const commonProps: TooltipProps = {
+        group: 'unique-name',
+        no_animation: true,
+      }
 
-      Comp.find('button').simulate('mouseleave')
+      const GroupTooltip = (props) => {
+        return (
+          <>
+            <OriginalTooltip
+              target_element={<button id="a">Button A</button>}
+              {...commonProps}
+              {...props}
+            >
+              Tooltip A
+            </OriginalTooltip>
 
-      await wait(2)
+            <OriginalTooltip
+              target_element={<button id="b">Button B</button>}
+              {...commonProps}
+              {...props}
+            >
+              Tooltip B
+            </OriginalTooltip>
+          </>
+        )
+      }
 
-      expect(mainElem.classList.contains('dnb-tooltip--hide')).toBe(true)
+      it('should only have one tooltip', () => {
+        render(<GroupTooltip />)
+
+        const allElements = document.body.querySelectorAll('.dnb-tooltip')
+        const mainElem = allElements[0]
+        const buttonA = document.querySelector('button#a')
+        const buttonB = document.querySelector('button#b')
+
+        expect(allElements).toHaveLength(1)
+
+        fireEvent.mouseEnter(buttonA)
+
+        expect(mainElem.textContent).toBe('Tooltip A')
+        expect(mainElem.classList.contains('dnb-tooltip--active')).toBe(
+          true
+        )
+
+        fireEvent.mouseEnter(buttonB)
+
+        expect(mainElem.textContent).toBe('Tooltip B')
+        expect(mainElem.classList.contains('dnb-tooltip--active')).toBe(
+          true
+        )
+
+        fireEvent.mouseLeave(buttonB)
+
+        expect(mainElem.classList.contains('dnb-tooltip--hide')).toBe(true)
+      })
     })
 
     it('should validate with ARIA rules as a tooltip', async () => {
-      const Comp = mount(<Component active />)
-      expect(await axeComponent(Comp)).toHaveNoViolations()
-    })
-
-    it('should show when active prop is true', async () => {
-      const Component = () => {
-        const [active, setActive] = React.useState(false)
-
-        return (
-          <Tooltip
-            active={active}
-            show_delay={1}
-            hide_delay={1}
-            target_element={
-              <button
-                onMouseEnter={() => {
-                  setActive(true)
-                }}
-                onMouseLeave={() => {
-                  setActive(false)
-                }}
-              >
-                Text
-              </button>
-            }
-          >
-            Tooltip
-          </Tooltip>
-        )
-      }
-
-      const Comp = mount(<Component />)
-
-      const mainElem = document.body.querySelector('.dnb-tooltip')
-
-      Comp.find('button').simulate('mouseenter')
-
-      expect(mainElem.classList.contains('dnb-tooltip--active')).toBe(true)
-
-      Comp.find('button').simulate('mouseleave')
-      Comp.find('button').simulate('mouseenter')
-
-      await wait(2)
-
-      expect(mainElem.classList.contains('dnb-tooltip--active')).toBe(true)
-
-      Comp.find('button').simulate('mouseleave')
-
-      await wait(2)
-
-      expect(mainElem.classList.contains('dnb-tooltip--hide')).toBe(true)
+      const Component = render(<Tooltip active />)
+      expect(await axeComponent(Component)).toHaveNoViolations()
     })
   })
 
   describe('Anchor with tooltip', () => {
     it('has to be in the DOM so aria-describedby is valid', () => {
-      const Comp = mount(
+      render(
         <Anchor href="/url" target="_blank" lang="en-GB">
           text
         </Anchor>
       )
 
-      const id = Comp.find('a').instance().getAttribute('aria-describedby')
+      const id = document
+        .querySelector('a')
+        .getAttribute('aria-describedby')
       expect(document.body.querySelectorAll('#' + id).length).toBe(1)
     })
 
     it('has to be visible on hover', async () => {
-      const Comp = mount(
+      render(
         <Anchor href="/url" target="_blank" lang="en-GB">
           text
         </Anchor>
       )
 
       // hover
-      Comp.find('a').instance().dispatchEvent(new MouseEvent('mouseenter'))
+      document
+        .querySelector('a')
+        .dispatchEvent(new MouseEvent('mouseenter'))
 
       await wait(100)
 
-      const id = Comp.find('a').instance().getAttribute('aria-describedby')
+      const id = document
+        .querySelector('a')
+        .getAttribute('aria-describedby')
       expect(
         document.body
           .querySelector('#' + id)
@@ -234,7 +262,9 @@ describe('Tooltip', () => {
       ).toBe(true)
 
       // leave hover
-      Comp.find('a').instance().dispatchEvent(new MouseEvent('mouseleave'))
+      document
+        .querySelector('a')
+        .dispatchEvent(new MouseEvent('mouseleave'))
 
       await wait(600)
 
@@ -246,14 +276,14 @@ describe('Tooltip', () => {
     })
 
     it('has to be visible on focus event dispatch', async () => {
-      const Comp = mount(
+      render(
         <Anchor href="/url" target="_blank" lang="en-GB">
           text
         </Anchor>
       )
 
       document.documentElement.setAttribute('data-whatintent', 'keyboard')
-      const inst = Comp.find('a').instance()
+      const inst = document.querySelector('a')
       inst.dispatchEvent(new Event('focus'))
 
       await wait(400) // because of visibility delay
@@ -281,5 +311,3 @@ describe('Tooltip scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
-
-const wait = (t: number) => new Promise((r) => setTimeout(r, t))

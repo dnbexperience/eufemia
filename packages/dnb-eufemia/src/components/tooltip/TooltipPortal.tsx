@@ -83,13 +83,21 @@ export default class TooltipPortal extends React.PureComponent<
           }
         })
       } else if (!active && prevProps.active) {
-        tooltipPortal[group].timeout = setTimeout(() => {
+        const run = () => {
           this.setState({ isActive: false }, () => {
             if (!this.isMainGorup()) {
               this.renderPortal()
             }
           })
-        }, parseFloat(String(hide_delay)))
+        }
+        if (this.props.no_animation || globalThis.IS_TEST) {
+          run()
+        } else {
+          tooltipPortal[group].timeout = setTimeout(
+            run,
+            parseFloat(String(hide_delay))
+          )
+        }
       }
     }
   }
