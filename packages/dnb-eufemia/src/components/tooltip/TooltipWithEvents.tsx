@@ -4,42 +4,40 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import {
   combineDescribedBy,
   getInnerRef,
   warn,
 } from '../../shared/component-helper'
-import TooltipPortal from './TooltipPortal'
 import { injectTooltipSemantic } from './TooltipHelpers'
+import TooltipPortal from './TooltipPortal'
+import { TooltipProps } from './types'
 
-export default class TooltipWithEvents extends React.PureComponent {
-  static propTypes = {
-    internal_id: PropTypes.string,
-    show_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    target: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-  }
+type TooltipWithEventsProps = {
+  target: HTMLElement
+  active: boolean
+  clientX: number
+  internal_id: string
+}
 
-  static defaultProps = {
-    internal_id: null,
-    show_delay: 1,
-    target: null,
-    children: null,
-  }
+type TooltipWithEventsState = {
+  isActive: boolean
+  isNotSemanticElement: boolean
+  _isMounted: boolean
+  clientX: number
+}
 
-  state = {
+export default class TooltipWithEvents extends React.PureComponent<
+  TooltipProps & TooltipWithEventsProps
+> {
+  _onEnterTimeout: NodeJS.Timeout
+  _ref: HTMLElement
+
+  state: TooltipWithEventsState = {
     isActive: false,
     isNotSemanticElement: false,
+    _isMounted: false,
+    clientX: null,
   }
 
   constructor(props) {
@@ -124,11 +122,11 @@ export default class TooltipWithEvents extends React.PureComponent {
     }
   }
 
-  isTouch = (e) => {
-    return /touch/i.test(e.type)
+  isTouch = (type: string) => {
+    return /touch/i.test(type)
   }
 
-  onFocus = (e) => {
+  onFocus = (e: MouseEvent) => {
     try {
       if (
         document.documentElement.getAttribute('data-whatintent') ===
@@ -141,11 +139,11 @@ export default class TooltipWithEvents extends React.PureComponent {
     }
   }
 
-  onMouseEnter = (e) => {
+  onMouseEnter = (e: MouseEvent) => {
     try {
-      const isTouch = this.isTouch(e)
+      const isTouch = this.isTouch(e.type)
       if (isTouch) {
-        const elem = e.currentTarget
+        const elem = e.currentTarget as HTMLElement
         elem.style.userSelect = 'none'
       }
     } catch (e) {
@@ -155,19 +153,21 @@ export default class TooltipWithEvents extends React.PureComponent {
     clearTimeout(this._onEnterTimeout)
     this._onEnterTimeout = setTimeout(
       () => {
+        this.setState({ isActive: true })
+
         this.setState({ isActive: true, clientX: e.clientX })
       },
-      typeof window !== 'undefined' && !window.IS_TEST
-        ? parseFloat(this.props.show_delay) || 1
+      typeof globalThis !== 'undefined' && !globalThis.IS_TEST
+        ? parseFloat(String(this.props.show_delay)) || 1
         : 1
     ) // have min 1 to make sure we are after onMouseLeave
   }
 
-  onMouseLeave = (e) => {
+  onMouseLeave = (e: MouseEvent) => {
     try {
-      const isTouch = this.isTouch(e)
+      const isTouch = this.isTouch(e.type)
       if (isTouch) {
-        const elem = e.currentTarget
+        const elem = e.currentTarget as HTMLElement
         elem.style.userSelect = ''
       }
     } catch (e) {

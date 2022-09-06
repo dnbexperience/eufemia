@@ -425,21 +425,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
             width_selector={null}
           />
           <Tooltip
-            active={null}
-            align={null}
-            animate_position={false}
-            arrow="center"
-            class={null}
-            className={null}
-            fixed_position={false}
-            group={null}
-            hide_delay={500}
             id="dialog_id-tooltip"
-            no_animation={false}
-            position="top"
-            show_delay={300}
-            size="basis"
-            skip_portal={null}
             target_element={
               Object {
                 "current": <button
@@ -481,7 +467,6 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                 </button>,
               }
             }
-            target_selector={null}
             tooltip="dialog_title"
           >
             <TooltipWithEvents
@@ -494,7 +479,6 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                   "className": "dnb-tooltip",
                 }
               }
-              class={null}
               className={null}
               fixed_position={false}
               group="dialog_id-tooltip"
@@ -602,8 +586,8 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                     "className": "dnb-tooltip",
                   }
                 }
-                class={null}
                 className={null}
+                clientX={null}
                 fixed_position={false}
                 group="dialog_id-tooltip"
                 hide_delay={500}

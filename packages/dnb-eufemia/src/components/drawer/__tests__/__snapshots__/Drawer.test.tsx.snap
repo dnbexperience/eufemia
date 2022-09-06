@@ -423,21 +423,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
             width_selector={null}
           />
           <Tooltip
-            active={null}
-            align={null}
-            animate_position={false}
-            arrow="center"
-            class={null}
-            className={null}
-            fixed_position={false}
-            group={null}
-            hide_delay={500}
             id="drawer_id-tooltip"
-            no_animation={false}
-            position="top"
-            show_delay={300}
-            size="basis"
-            skip_portal={null}
             target_element={
               Object {
                 "current": <button
@@ -479,7 +465,6 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                 </button>,
               }
             }
-            target_selector={null}
             tooltip="drawer_title"
           >
             <TooltipWithEvents
@@ -492,7 +477,6 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                   "className": "dnb-tooltip",
                 }
               }
-              class={null}
               className={null}
               fixed_position={false}
               group="drawer_id-tooltip"
@@ -600,8 +584,8 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     "className": "dnb-tooltip",
                   }
                 }
-                class={null}
                 className={null}
+                clientX={null}
                 fixed_position={false}
                 group="drawer_id-tooltip"
                 hide_delay={500}

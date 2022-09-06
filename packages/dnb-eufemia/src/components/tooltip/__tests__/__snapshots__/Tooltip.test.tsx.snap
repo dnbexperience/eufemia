@@ -209,27 +209,14 @@ exports[`Tooltip with target_element have to match default tooltip snapshot 1`] 
 >
   <Tooltip
     active={true}
-    align={null}
-    animate_position={false}
-    arrow="center"
-    class={null}
-    className={null}
-    fixed_position={false}
-    group={null}
     hide_delay={0}
     id="tooltip"
-    no_animation={false}
-    position="top"
     show_delay={0}
-    size="basis"
-    skip_portal={null}
     target_element={
       <button>
         Button
       </button>
     }
-    target_selector={null}
-    tooltip={null}
   >
     <TooltipWithEvents
       active={true}
@@ -242,7 +229,6 @@ exports[`Tooltip with target_element have to match default tooltip snapshot 1`] 
           "className": "dnb-tooltip",
         }
       }
-      class={null}
       className={null}
       fixed_position={false}
       group="tooltip"
@@ -283,8 +269,8 @@ exports[`Tooltip with target_element have to match default tooltip snapshot 1`] 
             "className": "dnb-tooltip",
           }
         }
-        class={null}
         className={null}
+        clientX={null}
         fixed_position={false}
         group="tooltip"
         hide_delay={0}

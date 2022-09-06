@@ -4,71 +4,51 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import { isTrue } from '../../shared/component-helper'
 import { getOffsetLeft } from '../../shared/helpers'
 import classnames from 'classnames'
+import { TooltipProps } from './types'
 
-export default class TooltipContainer extends React.PureComponent {
-  static propTypes = {
-    internal_id: PropTypes.string,
-    targetElement: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.object,
-      PropTypes.node,
-    ]),
-    clientX: PropTypes.number,
-    active: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    position: PropTypes.string,
-    arrow: PropTypes.string,
-    align: PropTypes.string,
-    animate_position: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    fixed_position: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    useHover: PropTypes.bool,
-    style: PropTypes.object,
-    attributes: PropTypes.object,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-  }
+type TooltipContainerProps = {
+  targetElement: HTMLElement
+  clientX?: number
+  style?: React.CSSProperties
+  useHover?: boolean
+  internal_id?: string
+  attributes?: Record<string, unknown>
+}
 
-  static defaultProps = {
-    internal_id: null,
-    targetElement: null,
-    clientX: null,
-    active: false,
-    position: 'center',
-    arrow: null,
-    align: null,
-    animate_position: null,
-    fixed_position: null,
-    no_animation: null,
-    useHover: true,
-    style: null,
-    attributes: null,
-    children: null,
-  }
+type TooltipContainerState = {
+  width: number
+  height: number
+  hover: boolean
+  hide: boolean
+  bodyWidth?: number
+  bodyHeight?: number
+  leaveInDOM?: boolean
+}
 
-  _rootRef = React.createRef()
+export default class TooltipContainer extends React.PureComponent<
+  TooltipProps & TooltipContainerProps,
+  TooltipContainerState
+> {
+  _rootRef = React.createRef<HTMLElement>()
   offset = 16
-  state = {
+  state: TooltipContainerState = {
     hide: null,
     hover: null,
     width: 0,
     height: 0,
   }
 
-  static getDerivedStateFromProps(props, state) {
+  _ddt: NodeJS.Timeout
+  resizeObserver: ResizeObserver
+  _style: React.CSSProperties
+
+  static getDerivedStateFromProps(
+    props: TooltipProps & TooltipContainerProps,
+    state: TooltipContainerState
+  ) {
     if (state.leaveInDOM && !props.active && !state.hover) {
       state.hide = true
     }
@@ -109,8 +89,8 @@ export default class TooltipContainer extends React.PureComponent {
         this._ddt = setTimeout(() => {
           // force re-render
           this.setState({
-            w: entries[0].contentRect.width,
-            h: entries[0].contentRect.height,
+            bodyWidth: entries[0].contentRect.width,
+            bodyHeight: entries[0].contentRect.height,
           })
         }, 30)
       })
@@ -247,13 +227,15 @@ export default class TooltipContainer extends React.PureComponent {
     }
   }
 
-  checkWindowPosition(style) {
+  checkWindowPosition(style: React.CSSProperties) {
     if (style.left < 0) {
       style.left = this.offset
     } else {
       try {
         const rightOffset =
-          style.left + this.state.width - window.innerWidth
+          parseFloat(String(style.left)) +
+          this.state.width -
+          window.innerWidth
         if (rightOffset > 0) {
           style.left = window.innerWidth - this.state.width - this.offset
         }
@@ -287,13 +269,13 @@ export default class TooltipContainer extends React.PureComponent {
   }
 
   handleMouseEnter = () => {
-    if (isTrue(this.props.active) && this.props.useHover) {
+    if (isTrue(this.props.active) && this.props.useHover !== false) {
       this.setState({ hover: true })
     }
   }
 
   handleMouseLeave = () => {
-    if (this.props.useHover) {
+    if (this.props.useHover !== false) {
       this.setState({ hover: false })
     }
   }

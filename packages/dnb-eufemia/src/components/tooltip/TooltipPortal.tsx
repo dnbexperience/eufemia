@@ -5,36 +5,41 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
 import { combineDescribedBy, warn } from '../../shared/component-helper'
 import TooltipContainer from './TooltipContainer'
+import { TooltipProps } from './types'
 
-let tooltipPortal
-if (typeof window !== 'undefined') {
-  window.tooltipPortal = window.tooltipPortal || {}
-  tooltipPortal = window.tooltipPortal
+type TooltipType = {
+  node: HTMLElement
+  count: number
+  timeout?: NodeJS.Timeout
+}
+
+let tooltipPortal: Record<string, TooltipType>
+if (typeof globalThis !== 'undefined') {
+  globalThis.tooltipPortal = globalThis.tooltipPortal || {}
+  tooltipPortal = globalThis.tooltipPortal
 } else {
   tooltipPortal = {}
 }
 
-export default class TooltipPortal extends React.PureComponent {
-  static propTypes = {
-    internal_id: PropTypes.string,
-    target: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
-      .isRequired,
-    active: PropTypes.bool,
-    group: PropTypes.string,
-    hide_delay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  }
+type TooltipPortalProps = {
+  target: HTMLElement
+  active: boolean
+  group?: string
+  internal_id?: string
+}
 
-  static defaultProps = {
-    internal_id: null,
-    active: false,
-    group: null,
-    hide_delay: 500,
-  }
+type TooltipPortalState = {
+  isMounted: boolean
+  isActive: boolean
+}
 
-  state = { isMounted: false }
+export default class TooltipPortal extends React.PureComponent<
+  TooltipProps & TooltipPortalProps,
+  TooltipPortalState
+> {
+  state: TooltipPortalState = { isMounted: false, isActive: null }
 
   init = () => {
     const { group, active } = this.props
@@ -61,7 +66,7 @@ export default class TooltipPortal extends React.PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: TooltipProps & TooltipPortalProps) {
     const { group, active, hide_delay } = this.props
 
     if (this.props.children !== prevProps.children) {
@@ -84,7 +89,7 @@ export default class TooltipPortal extends React.PureComponent {
               this.renderPortal()
             }
           })
-        }, parseFloat(hide_delay))
+        }, parseFloat(String(hide_delay)))
       }
     }
   }
@@ -141,7 +146,7 @@ export default class TooltipPortal extends React.PureComponent {
     }
   }
 
-  handleAria(elem) {
+  handleAria(elem: HTMLElement) {
     try {
       if (!elem.classList.contains('dnb-tooltip__wrapper')) {
         const existing = {
@@ -193,6 +198,6 @@ export default class TooltipPortal extends React.PureComponent {
       return this.renderPortal()
     }
 
-    return null
+    return <></>
   }
 }
