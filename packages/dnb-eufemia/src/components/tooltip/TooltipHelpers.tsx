@@ -3,6 +3,7 @@
  *
  */
 
+import React from 'react'
 import classnames from 'classnames'
 
 export function injectTooltipSemantic(params) {
@@ -35,4 +36,12 @@ export const defaultProps = {
   className: null,
   children: null,
   tooltip: null,
+}
+
+export function getPropsFromTooltipProp(localProps) {
+  return localProps.tooltip
+    ? React.isValidElement(localProps.tooltip) && localProps.tooltip.props
+      ? localProps.tooltip.props
+      : { children: localProps.tooltip }
+    : null
 }

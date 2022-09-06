@@ -1,11 +1,24 @@
+export type TooltipPosition = 'top' | 'right' | 'bottom' | 'left'
+
+export type TooltipArrow =
+  | null
+  | 'center'
+  | 'top'
+  | 'right'
+  | 'bottom'
+  | 'left'
+export type TooltipAlign = null | 'center' | 'right' | 'left'
+
+export type TooltipSize = 'basis' | 'large'
+
 export type TooltipProps = {
   id?: string
   group?: string
-  size?: 'basis' | 'large'
+  size?: TooltipSize
   active?: boolean
-  position?: 'top' | 'right' | 'bottom' | 'left'
-  arrow?: null | 'center' | 'top' | 'right' | 'bottom' | 'left'
-  align?: null | 'center' | 'right' | 'left'
+  position?: TooltipPosition
+  arrow?: TooltipArrow
+  align?: TooltipAlign
   animate_position?: boolean
   fixed_position?: boolean
   skip_portal?: boolean

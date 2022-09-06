@@ -24,6 +24,7 @@ import type { TimelineItemProps } from '../components/timeline/TimelineItem'
 import type { VisuallyHiddenProps } from '../components/visually-hidden/VisuallyHidden'
 import type { DrawerProps } from '../components/drawer/types'
 import type { DialogProps } from '../components/dialog/types'
+import type { TooltipProps } from '../components/tooltip/types'
 
 // All TypeScript based Eufemia elements
 import type { AnchorProps } from '../elements/Anchor'
@@ -47,6 +48,7 @@ export type ContextProps = {
   VisuallyHidden?: Partial<VisuallyHiddenProps>
   Drawer?: Partial<DrawerProps>
   Dialog?: Partial<DialogProps>
+  Tooltip?: Partial<TooltipProps>
 
   // -- TODO: Not converted yet --
 
