@@ -119,7 +119,11 @@ export const TooltipSandbox = () => {
           Tooltip
         </Tooltip>
         <NumberFormat
-          tooltip={<Tooltip>Tooltip for this NumberFormat</Tooltip>}
+          tooltip={
+            <Tooltip position="bottom">
+              Tooltip for this NumberFormat
+            </Tooltip>
+          }
         >
           1234
         </NumberFormat>

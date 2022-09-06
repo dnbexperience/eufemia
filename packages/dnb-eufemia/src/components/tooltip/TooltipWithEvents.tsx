@@ -150,17 +150,19 @@ export default class TooltipWithEvents extends React.PureComponent<
       warn(e)
     }
 
-    clearTimeout(this._onEnterTimeout)
-    this._onEnterTimeout = setTimeout(
-      () => {
-        this.setState({ isActive: true })
+    const run = () => {
+      this.setState({ isActive: true, clientX: e.clientX })
+    }
 
-        this.setState({ isActive: true, clientX: e.clientX })
-      },
-      typeof globalThis !== 'undefined' && !globalThis.IS_TEST
-        ? parseFloat(String(this.props.show_delay)) || 1
-        : 1
-    ) // have min 1 to make sure we are after onMouseLeave
+    if (this.props.no_animation || globalThis.IS_TEST) {
+      run()
+    } else {
+      clearTimeout(this._onEnterTimeout)
+      this._onEnterTimeout = setTimeout(
+        run,
+        parseFloat(String(this.props.show_delay)) || 1
+      ) // have min 1 to make sure we are after onMouseLeave
+    }
   }
 
   onMouseLeave = (e: MouseEvent) => {
