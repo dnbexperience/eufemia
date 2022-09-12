@@ -6,7 +6,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 ## Description
 
-The FormRow component is a helper to archive more easily often used DNB form layout setups.
+The FormRow component is a helper to more easily achieve often used DNB form layout setups.
 
 ### Fieldset and Legend
 
