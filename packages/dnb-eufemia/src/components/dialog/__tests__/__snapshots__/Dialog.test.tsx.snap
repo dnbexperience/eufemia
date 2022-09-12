@@ -587,7 +587,6 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                   }
                 }
                 className={null}
-                clientX={null}
                 fixed_position={false}
                 group="dialog_id-tooltip"
                 hide_delay={500}

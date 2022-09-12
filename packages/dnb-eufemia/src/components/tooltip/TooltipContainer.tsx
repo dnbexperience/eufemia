@@ -11,7 +11,6 @@ import { TooltipProps } from './types'
 
 type TooltipContainerProps = {
   targetElement: HTMLElement
-  clientX?: number
   style?: React.CSSProperties
   useHover?: boolean
   internalId?: string

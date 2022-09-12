@@ -119,6 +119,7 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
         }
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [children, active, group, hide_delay, no_animation])
 
   const renderPortal = (isActive: boolean) => {

@@ -12,23 +12,16 @@ import { TooltipProps } from './types'
 type TooltipWithEventsProps = {
   target: React.ReactElement & React.RefObject<HTMLElement>
   active: boolean
-  clientX: number
   internalId: string
 }
 
 function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
-  const {
-    children,
-    target,
-    // internalId,// NB: Do not remove internalId from props!
-    ...restProps
-  } = props
+  const { children, target, ...restProps } = props
 
   const [isActive, setIsActive] = React.useState(false)
   const [isNotSemanticElement, setIsNotSemanticElement] =
     React.useState(false)
   const [isMounted, setIsMounted] = React.useState(false)
-  const [clientX, setClientX] = React.useState(null)
 
   const onEnterTimeout = React.useRef<NodeJS.Timeout>()
   const elementRef = React.useRef<HTMLElement>()
@@ -98,6 +91,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       element.addEventListener('focus', onFocus)
       element.addEventListener('blur', onMouseLeave)
       element.addEventListener('mouseenter', onMouseEnter)
+      element.addEventListener('mousedown', onMouseEnter)
       element.addEventListener('mouseleave', onMouseLeave)
       element.addEventListener('touchstart', onMouseEnter)
       element.addEventListener('touchend', onMouseLeave)
@@ -131,7 +125,6 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
     const run = () => {
       setIsActive(true)
-      setClientX(e.clientX)
     }
 
     if (props.no_animation || globalThis.IS_TEST) {
@@ -188,7 +181,6 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
           key="tooltip"
           active={isActive}
           target={elementRef.current}
-          clientX={clientX}
           {...restProps}
         >
           {children}

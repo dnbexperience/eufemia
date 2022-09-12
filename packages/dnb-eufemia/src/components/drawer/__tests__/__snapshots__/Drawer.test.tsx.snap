@@ -585,7 +585,6 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                   }
                 }
                 className={null}
-                clientX={null}
                 fixed_position={false}
                 group="drawer_id-tooltip"
                 hide_delay={500}
