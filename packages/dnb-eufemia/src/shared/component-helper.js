@@ -12,12 +12,13 @@ import {
   PLATFORM_WIN,
   PLATFORM_LINUX,
 } from './helpers'
+import { getPreviousSibling } from './helpers/getPreviousSibling'
 import { init } from './Eufemia'
 
 export { InteractionInvalidation } from './helpers/InteractionInvalidation'
 export { registerElement } from './custom-element'
 
-export { warn }
+export { getPreviousSibling, warn }
 
 init()
 
@@ -659,31 +660,6 @@ export const matchAll = (string, regex) => {
     matches.push(match)
   }
   return matches
-}
-
-/**
- * [getPreviousSibling traverses down the DOM tree until it finds the wanted element]
- * @param  {[string]} className [CSS class]
- * @param  {[HTMLElement]} element      [starting HTMLElement]
- * @return {[HTMLElement]}           [HTMLElement]
- */
-export const getPreviousSibling = (className, element) => {
-  try {
-    const contains = (element) =>
-      element && element.classList.contains(className)
-
-    if (contains(element)) {
-      return element
-    }
-
-    while (
-      (element = element && element.parentElement) &&
-      !contains(element)
-    );
-  } catch (e) {
-    warn(e)
-  }
-  return element
 }
 
 /**
