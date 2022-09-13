@@ -426,7 +426,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
           />
           <Tooltip
             id="dialog_id-tooltip"
-            target_element={
+            targetElement={
               Object {
                 "current": <button
                   aria-describedby="dialog_id-tooltip"
@@ -471,7 +471,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
           >
             <TooltipWithEvents
               align={null}
-              animate_position={false}
+              animatePosition={false}
               arrow="center"
               attributes={
                 Object {
@@ -480,16 +480,16 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                 }
               }
               className={null}
-              fixed_position={false}
+              fixedPosition={false}
               group="dialog_id-tooltip"
-              hide_delay={500}
+              hideDelay={500}
               id="dialog_id-tooltip"
               internalId="dialog_id-tooltip"
-              no_animation={false}
+              noAnimation={false}
               position="top"
-              show_delay={300}
+              showDelay={300}
               size="basis"
-              skip_portal={null}
+              skipPortal={null}
               target={
                 Object {
                   "current": <button
@@ -531,7 +531,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                   </button>,
                 }
               }
-              target_element={
+              targetElement={
                 Object {
                   "current": <button
                     aria-describedby="dialog_id-tooltip"
@@ -572,13 +572,13 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                   </button>,
                 }
               }
-              target_selector={null}
+              targetSelector={null}
               tooltip="dialog_title"
             >
               <TooltipPortal
                 active={false}
                 align={null}
-                animate_position={false}
+                animatePosition={false}
                 arrow="center"
                 attributes={
                   Object {
@@ -587,17 +587,17 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                   }
                 }
                 className={null}
-                fixed_position={false}
+                fixedPosition={false}
                 group="dialog_id-tooltip"
-                hide_delay={500}
+                hideDelay={500}
                 id="dialog_id-tooltip"
                 internalId="dialog_id-tooltip"
                 key="tooltip"
-                no_animation={false}
+                noAnimation={false}
                 position="top"
-                show_delay={300}
+                showDelay={300}
                 size="basis"
-                skip_portal={null}
+                skipPortal={null}
                 target={
                   <button
                     aria-describedby="dialog_id-tooltip"
@@ -637,7 +637,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                     </span>
                   </button>
                 }
-                target_element={
+                targetElement={
                   Object {
                     "current": <button
                       aria-describedby="dialog_id-tooltip"
@@ -678,7 +678,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                     </button>,
                   }
                 }
-                target_selector={null}
+                targetSelector={null}
                 tooltip="dialog_title"
               />
             </TooltipWithEvents>

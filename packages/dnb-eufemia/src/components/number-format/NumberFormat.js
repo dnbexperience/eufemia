@@ -444,7 +444,7 @@ export default class NumberFormat extends React.PureComponent {
         {tooltip && (
           <Tooltip
             id={this._id + '-tooltip'}
-            target_element={this._ref}
+            targetElement={this._ref}
             tooltip={tooltip}
           />
         )}

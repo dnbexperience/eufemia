@@ -36,8 +36,8 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
     active,
     group,
     target,
-    hide_delay,
-    no_animation,
+    hideDelay,
+    noAnimation,
     internalId,
     children,
   } = props
@@ -109,18 +109,18 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
             renderPortal(false)
           }
         }
-        if (no_animation || globalThis.IS_TEST) {
+        if (noAnimation || globalThis.IS_TEST) {
           run()
         } else {
           tooltipPortal[group].timeout = setTimeout(
             run,
-            parseFloat(String(hide_delay))
+            parseFloat(String(hideDelay))
           )
         }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [children, active, group, hide_delay, no_animation])
+  }, [children, active, group, hideDelay, noAnimation])
 
   const renderPortal = (isActive: boolean) => {
     const targetElement = getTargetElement(target)
@@ -134,8 +134,8 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
     if (isMainGorup(group)) {
       return ReactDOM.createPortal(
         <TooltipContainer
-          targetElement={targetElement}
           {...props}
+          targetElement={targetElement}
           active={isActive}
         />,
         tooltipPortal[group].node
@@ -143,8 +143,8 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
     } else {
       ReactDOM.render(
         <TooltipContainer
-          targetElement={targetElement}
           {...props}
+          targetElement={targetElement}
           active={isActive}
         />,
         tooltipPortal[group].node

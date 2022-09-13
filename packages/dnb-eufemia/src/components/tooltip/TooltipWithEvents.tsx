@@ -127,13 +127,13 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       setIsActive(true)
     }
 
-    if (props.no_animation || globalThis.IS_TEST) {
+    if (props.noAnimation || globalThis.IS_TEST) {
       run()
     } else {
       clearTimeout(onEnterTimeout.current)
       onEnterTimeout.current = setTimeout(
         run,
-        parseFloat(String(props.show_delay)) || 1
+        parseFloat(String(props.showDelay)) || 1
       ) // have min 1 to make sure we are after onMouseLeave
     }
   }

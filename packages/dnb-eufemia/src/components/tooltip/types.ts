@@ -1,3 +1,5 @@
+import { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
+
 export type TooltipPosition = 'top' | 'right' | 'bottom' | 'left'
 
 export type TooltipArrow =
@@ -11,7 +13,7 @@ export type TooltipAlign = null | 'center' | 'right' | 'left'
 
 export type TooltipSize = 'basis' | 'large'
 
-export type TooltipProps = {
+export type TooltipProps = IncludeSnakeCase<{
   id?: string
   group?: string
   size?: TooltipSize
@@ -19,15 +21,15 @@ export type TooltipProps = {
   position?: TooltipPosition
   arrow?: TooltipArrow
   align?: TooltipAlign
-  animate_position?: boolean
-  fixed_position?: boolean
-  skip_portal?: boolean
-  no_animation?: boolean
-  show_delay?: number
-  hide_delay?: number
-  target_selector?: string
-  target_element?: React.ReactNode
+  animatePosition?: boolean
+  fixedPosition?: boolean
+  skipPortal?: boolean
+  noAnimation?: boolean
+  showDelay?: number
+  hideDelay: number
+  targetSelector?: string
+  targetElement?: React.ReactNode
   tooltip?: React.ReactNode
   className?: string
   children?: React.ReactNode
-}
+}>

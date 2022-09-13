@@ -28,8 +28,8 @@ global.ResizeObserver = class {
 
 const defaultProps = {
   id: 'tooltip',
-  show_delay: 0,
-  hide_delay: 0,
+  showDelay: 0,
+  hideDelay: 0,
 }
 
 beforeEach(() => {
@@ -37,14 +37,36 @@ beforeEach(() => {
 })
 
 describe('Tooltip', () => {
-  describe('with target_selector', () => {
+  it('supports snake_case props', () => {
+    const Tooltip = (props: TooltipProps = {}) => (
+      <OriginalTooltip
+        id="tooltip"
+        showDelay={0}
+        hideDelay={0}
+        noAnimation
+        skipPortal
+        targetElement={<button>Button</button>}
+        {...props}
+      >
+        With snake_case props
+      </OriginalTooltip>
+    )
+
+    render(<Tooltip active />)
+
+    expect(document.body.querySelector('.dnb-tooltip').textContent).toBe(
+      'With snake_case props'
+    )
+  })
+
+  describe('with targetSelector', () => {
     const Tooltip = (props: TooltipProps = {}) => (
       <>
         <button id="button-id">Button</button>
         <OriginalTooltip
           {...defaultProps}
           {...props}
-          target_selector="#button-id"
+          targetSelector="#button-id"
         >
           Text
         </OriginalTooltip>
@@ -57,12 +79,12 @@ describe('Tooltip', () => {
     })
   })
 
-  describe('with target_element', () => {
+  describe('with targetElement', () => {
     const Tooltip = (props: TooltipProps = {}) => (
       <OriginalTooltip
         {...defaultProps}
         {...props}
-        target_element={<button>Button</button>}
+        targetElement={<button>Button</button>}
       >
         Text
       </OriginalTooltip>
@@ -79,8 +101,8 @@ describe('Tooltip', () => {
       )
     })
 
-    it('will skip React Portal when skip_portal is true', () => {
-      render(<Tooltip active skip_portal />)
+    it('will skip React Portal when skipPortal is true', () => {
+      render(<Tooltip active skipPortal />)
 
       expect(
         document.body.querySelectorAll('.dnb-tooltip__portal')
@@ -94,8 +116,8 @@ describe('Tooltip', () => {
         return (
           <OriginalTooltip
             active={active}
-            no_animation
-            target_element={
+            noAnimation
+            targetElement={
               <button
                 onMouseEnter={() => {
                   setActive(true)
@@ -133,7 +155,7 @@ describe('Tooltip', () => {
     })
 
     it('should set animate_position class', () => {
-      render(<Tooltip animate_position active />)
+      render(<Tooltip animatePosition active />)
 
       const mainElem = document.body.querySelector('.dnb-tooltip')
 
@@ -146,8 +168,8 @@ describe('Tooltip', () => {
       )
     })
 
-    it('should set fixed_position class', () => {
-      render(<Tooltip fixed_position active />)
+    it('should set fixed class', () => {
+      render(<Tooltip fixedPosition active />)
 
       const mainElem = document.body.querySelector('.dnb-tooltip')
 
@@ -163,14 +185,14 @@ describe('Tooltip', () => {
     describe('and group', () => {
       const commonProps: TooltipProps = {
         group: 'unique-name',
-        no_animation: true,
+        noAnimation: true,
       }
 
       const GroupTooltip = (props) => {
         return (
           <>
             <OriginalTooltip
-              target_element={<button id="a">Button A</button>}
+              targetElement={<button id="a">Button A</button>}
               {...commonProps}
               {...props}
             >
@@ -178,7 +200,7 @@ describe('Tooltip', () => {
             </OriginalTooltip>
 
             <OriginalTooltip
-              target_element={<button id="b">Button B</button>}
+              targetElement={<button id="b">Button B</button>}
               {...commonProps}
               {...props}
             >

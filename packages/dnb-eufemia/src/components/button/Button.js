@@ -266,7 +266,7 @@ export default class Button extends React.PureComponent {
         {tooltip && this._ref && (
           <Tooltip
             id={this._id + '-tooltip'}
-            target_element={this._ref}
+            targetElement={this._ref}
             tooltip={tooltip}
           />
         )}
