@@ -312,22 +312,22 @@ export const AutocompleteSuffix = () => {
   const suffix_value = format(12345678, { currency: true, locale })
   const numbers = [
     {
-      selected_value: `Brukskonto (${ban})`,
+      selected_value: 'Brukskonto',
       suffix_value,
       content: ['Brukskonto', ban],
     },
     {
-      selected_value: `BSU (${ban})`,
+      selected_value: 'BSU',
       suffix_value,
       content: ['BSU', ban],
     },
     {
-      selected_value: `Sparekonto (${ban})`,
+      selected_value: 'Sparekonto',
       suffix_value,
       content: ['Sparekonto', ban],
     },
     {
-      selected_value: `Brukskonto (${ban})`,
+      selected_value: 'Brukskonto',
       suffix_value,
       content: ['Brukskonto', ban],
     },
