@@ -23,6 +23,7 @@ import {
 import { ISpacingProps } from '../../shared/interfaces'
 import { TooltipProps } from './types'
 import { includeValidProps } from '../form-row/FormRowHelpers'
+import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 
 function Tooltip(localProps: TooltipProps & ISpacingProps) {
   const context = React.useContext(Context)
@@ -30,29 +31,29 @@ function Tooltip(localProps: TooltipProps & ISpacingProps) {
   const inherited = getPropsFromTooltipProp(localProps)
 
   // use only the props from context, who are available here anyway
-  const props = {
+  const props = convertSnakeCaseProps({
     ...defaultProps,
     ...localProps,
     ...inherited,
     ...context.getTranslation(localProps).Tooltip,
     ...includeValidProps(context.FormRow),
     ...context.Tooltip,
-  }
+  })
 
   const {
-    target_element,
-    target_selector,
+    targetElement,
+    targetSelector,
     className,
     id, // eslint-disable-line
     tooltip, // eslint-disable-line
     group,
     size,
-    animate_position, // eslint-disable-line
-    fixed_position, // eslint-disable-line
-    skip_portal,
-    no_animation, // eslint-disable-line
-    show_delay, // eslint-disable-line
-    hide_delay, // eslint-disable-line
+    animatePosition, // eslint-disable-line
+    fixedPosition, // eslint-disable-line
+    skipPortal,
+    noAnimation, // eslint-disable-line
+    showDelay, // eslint-disable-line
+    hideDelay, // eslint-disable-line
     active, // eslint-disable-line
     position, // eslint-disable-line
     arrow, // eslint-disable-line
@@ -85,26 +86,26 @@ function Tooltip(localProps: TooltipProps & ISpacingProps) {
 
   return (
     <>
-      {skip_portal ? (
+      {skipPortal ? (
         <TooltipContainer
-          target={target_element}
+          target={targetElement}
           attributes={attributes}
           {...props}
         >
           {props.children}
         </TooltipContainer>
-      ) : target_element ? (
+      ) : targetElement ? (
         <TooltipWithEvents
-          target={target_element}
+          target={targetElement}
           attributes={attributes}
           {...props}
         >
           {props.children}
         </TooltipWithEvents>
       ) : (
-        target_selector && (
+        targetSelector && (
           <TooltipPortal
-            target={target_selector}
+            target={targetSelector}
             attributes={attributes}
             {...props}
           >

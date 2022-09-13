@@ -104,9 +104,9 @@ function AnchorInstance(localProps: AnchorProps) {
 
       {showTooltip && (
         <Tooltip
-          show_delay={100}
+          showDelay={100}
           id={internalId + '-tooltip'}
-          target_element={innerRef}
+          targetElement={innerRef}
           tooltip={tooltip}
         >
           {allProps.title || targetBlankTitle}

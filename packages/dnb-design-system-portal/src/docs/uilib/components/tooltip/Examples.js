@@ -26,7 +26,7 @@ export const TooltipExampleLinked = () => (
   <ComponentBox>
     {`
 <button className="target-1">Show the Tooltip</button>
-<Tooltip id="unique" active target_selector=".target-1">Tooltip</Tooltip>
+<Tooltip id="unique" active targetSelector=".target-1">Tooltip</Tooltip>
 `}
   </ComponentBox>
 )
@@ -35,19 +35,19 @@ export const TooltipExampleAnimation = () => (
   <ComponentBox>
     {`
 <Tooltip
-  animate_position
-  group="animate_position"
-  hide_delay={1e3}
-  target_element={<Span role="text" right>Top</Span>}
+  animatePosition
+  group="animatePosition"
+  hideDelay={1e3}
+  targetElement={<Span role="text" right>Top</Span>}
 >
   Tooltip 1
 </Tooltip>
 <Tooltip
-  animate_position
-  group="animate_position"
+  animatePosition
+  group="animatePosition"
   position="bottom"
   size="large"
-  target_element={<Span role="text">Bottom</Span>}
+  targetElement={<Span role="text">Bottom</Span>}
 >
   Tooltip 2
 </Tooltip>
@@ -67,7 +67,7 @@ export const TooltipExampleNumberFormatWrapped = () => (
   <ComponentBox>
     {`
 <Tooltip
-  target_element={<NumberFormat>1234</NumberFormat>}
+  targetElement={<NumberFormat>1234</NumberFormat>}
 >
   Tooltip
 </Tooltip>

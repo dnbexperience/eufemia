@@ -23,19 +23,19 @@ export const TooltipSandbox = () => {
     <Wrapper>
       <Box>
         <Tooltip
-          animate_position
-          group="animate_position"
-          hide_delay={1e3}
-          target_element={<span role="text">Top</span>}
+          animatePosition
+          group="animatePosition"
+          hideDelay={1e3}
+          targetElement={<span role="text">Top</span>}
         >
           Tooltip 1
         </Tooltip>
         <Tooltip
-          animate_position
-          group="animate_position"
+          animatePosition
+          group="animatePosition"
           position="bottom"
           size="large"
-          target_element={<span role="text">Bottom</span>}
+          targetElement={<span role="text">Bottom</span>}
         >
           Tooltip 2
         </Tooltip>
@@ -45,24 +45,24 @@ export const TooltipSandbox = () => {
 
         <hr />
 
-        <Tooltip id="unique" active target_selector=".target-1">
+        <Tooltip id="unique" active targetSelector=".target-1">
           Tooltip
         </Tooltip>
       </Box>
       <Box>
         <Tooltip
-          group="animate_position"
-          // hide_delay={1e3}
-          animate_position
-          target_element={<Button right>Top</Button>}
+          group="animatePosition"
+          // hideDelay={1e3}
+          animatePosition
+          targetElement={<Button right>Top</Button>}
         >
           Tooltip 1
         </Tooltip>
         <Tooltip
-          group="animate_position"
+          group="animatePosition"
           position="bottom"
-          animate_position
-          target_element={<Button>Bottom</Button>}
+          animatePosition
+          targetElement={<Button>Bottom</Button>}
         >
           Tooltip 2
         </Tooltip>
@@ -75,7 +75,7 @@ export const TooltipSandbox = () => {
           position="top"
           // target="#button1"
           // active
-          target_element={<Button right>Bottom 1</Button>}
+          targetElement={<Button right>Bottom 1</Button>}
         >
           Tooltip 1
         </StyledTooltip>
@@ -84,7 +84,7 @@ export const TooltipSandbox = () => {
           position="bottom"
           // target="#button2"
           // active
-          target_element={<Button>Bottom 2</Button>}
+          targetElement={<Button>Bottom 2</Button>}
         >
           Tooltip 2
         </StyledTooltip>
@@ -115,7 +115,7 @@ export const TooltipSandbox = () => {
         </Button>
       </Box>
       <Box>
-        <Tooltip target_element={<NumberFormat>1234</NumberFormat>}>
+        <Tooltip targetElement={<NumberFormat>1234</NumberFormat>}>
           Tooltip
         </Tooltip>
         <NumberFormat

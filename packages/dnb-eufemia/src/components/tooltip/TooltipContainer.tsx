@@ -26,9 +26,9 @@ export default function TooltipContainer(
     attributes,
     arrow,
     position,
-    animate_position,
-    fixed_position,
-    no_animation,
+    animatePosition,
+    fixedPosition,
+    noAnimation,
     useHover,
     children,
   } = props
@@ -95,7 +95,7 @@ export default function TooltipContainer(
 
     let alignOffset = 0
 
-    const { targetElement: target, align, fixed_position } = props
+    const { targetElement: target, align, fixedPosition } = props
 
     const rect = target.getBoundingClientRect()
 
@@ -114,7 +114,7 @@ export default function TooltipContainer(
       window.scrollY !== undefined ? window.scrollY : window.pageYOffset
     const scrollX =
       window.scrollX !== undefined ? window.scrollX : window.pageXOffset
-    const top = (isTrue(fixed_position) ? 0 : scrollY) + rect.top
+    const top = (isTrue(fixedPosition) ? 0 : scrollY) + rect.top
 
     // Use Mouse position when target is too wide
     const useMouseWhen = targetSize.width > 400
@@ -227,9 +227,9 @@ export default function TooltipContainer(
       {...attributes}
       className={classnames(
         attributes?.className,
-        isTrue(animate_position) && 'dnb-tooltip--animate_position',
-        isTrue(no_animation) && 'dnb-tooltip--no-animation',
-        isTrue(fixed_position) && 'dnb-tooltip--fixed',
+        isTrue(animatePosition) && 'dnb-tooltip--animate_position',
+        isTrue(noAnimation) && 'dnb-tooltip--no-animation',
+        isTrue(fixedPosition) && 'dnb-tooltip--fixed',
         isActive && 'dnb-tooltip--active',
         !isActive && wasActive && 'dnb-tooltip--hide'
       )}

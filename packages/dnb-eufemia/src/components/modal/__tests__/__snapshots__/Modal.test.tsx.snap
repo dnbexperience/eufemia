@@ -415,7 +415,7 @@ exports[`Modal component have to match snapshot 1`] = `
         />
         <Tooltip
           id="modal_id-tooltip"
-          target_element={
+          targetElement={
             Object {
               "current": <button
                 aria-describedby="modal_id-tooltip"
@@ -460,7 +460,7 @@ exports[`Modal component have to match snapshot 1`] = `
         >
           <TooltipWithEvents
             align={null}
-            animate_position={false}
+            animatePosition={false}
             arrow="center"
             attributes={
               Object {
@@ -469,16 +469,16 @@ exports[`Modal component have to match snapshot 1`] = `
               }
             }
             className={null}
-            fixed_position={false}
+            fixedPosition={false}
             group="modal_id-tooltip"
-            hide_delay={500}
+            hideDelay={500}
             id="modal_id-tooltip"
             internalId="modal_id-tooltip"
-            no_animation={false}
+            noAnimation={false}
             position="top"
-            show_delay={300}
+            showDelay={300}
             size="basis"
-            skip_portal={null}
+            skipPortal={null}
             target={
               Object {
                 "current": <button
@@ -520,7 +520,7 @@ exports[`Modal component have to match snapshot 1`] = `
                 </button>,
               }
             }
-            target_element={
+            targetElement={
               Object {
                 "current": <button
                   aria-describedby="modal_id-tooltip"
@@ -561,13 +561,13 @@ exports[`Modal component have to match snapshot 1`] = `
                 </button>,
               }
             }
-            target_selector={null}
+            targetSelector={null}
             tooltip="modal_title"
           >
             <TooltipPortal
               active={false}
               align={null}
-              animate_position={false}
+              animatePosition={false}
               arrow="center"
               attributes={
                 Object {
@@ -576,17 +576,17 @@ exports[`Modal component have to match snapshot 1`] = `
                 }
               }
               className={null}
-              fixed_position={false}
+              fixedPosition={false}
               group="modal_id-tooltip"
-              hide_delay={500}
+              hideDelay={500}
               id="modal_id-tooltip"
               internalId="modal_id-tooltip"
               key="tooltip"
-              no_animation={false}
+              noAnimation={false}
               position="top"
-              show_delay={300}
+              showDelay={300}
               size="basis"
-              skip_portal={null}
+              skipPortal={null}
               target={
                 <button
                   aria-describedby="modal_id-tooltip"
@@ -626,7 +626,7 @@ exports[`Modal component have to match snapshot 1`] = `
                   </span>
                 </button>
               }
-              target_element={
+              targetElement={
                 Object {
                   "current": <button
                     aria-describedby="modal_id-tooltip"
@@ -667,7 +667,7 @@ exports[`Modal component have to match snapshot 1`] = `
                   </button>,
                 }
               }
-              target_selector={null}
+              targetSelector={null}
               tooltip="modal_title"
             />
           </TooltipWithEvents>

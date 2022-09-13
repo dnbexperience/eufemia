@@ -424,7 +424,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
           />
           <Tooltip
             id="drawer_id-tooltip"
-            target_element={
+            targetElement={
               Object {
                 "current": <button
                   aria-describedby="drawer_id-tooltip"
@@ -469,7 +469,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
           >
             <TooltipWithEvents
               align={null}
-              animate_position={false}
+              animatePosition={false}
               arrow="center"
               attributes={
                 Object {
@@ -478,16 +478,16 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                 }
               }
               className={null}
-              fixed_position={false}
+              fixedPosition={false}
               group="drawer_id-tooltip"
-              hide_delay={500}
+              hideDelay={500}
               id="drawer_id-tooltip"
               internalId="drawer_id-tooltip"
-              no_animation={false}
+              noAnimation={false}
               position="top"
-              show_delay={300}
+              showDelay={300}
               size="basis"
-              skip_portal={null}
+              skipPortal={null}
               target={
                 Object {
                   "current": <button
@@ -529,7 +529,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                   </button>,
                 }
               }
-              target_element={
+              targetElement={
                 Object {
                   "current": <button
                     aria-describedby="drawer_id-tooltip"
@@ -570,13 +570,13 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                   </button>,
                 }
               }
-              target_selector={null}
+              targetSelector={null}
               tooltip="drawer_title"
             >
               <TooltipPortal
                 active={false}
                 align={null}
-                animate_position={false}
+                animatePosition={false}
                 arrow="center"
                 attributes={
                   Object {
@@ -585,17 +585,17 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                   }
                 }
                 className={null}
-                fixed_position={false}
+                fixedPosition={false}
                 group="drawer_id-tooltip"
-                hide_delay={500}
+                hideDelay={500}
                 id="drawer_id-tooltip"
                 internalId="drawer_id-tooltip"
                 key="tooltip"
-                no_animation={false}
+                noAnimation={false}
                 position="top"
-                show_delay={300}
+                showDelay={300}
                 size="basis"
-                skip_portal={null}
+                skipPortal={null}
                 target={
                   <button
                     aria-describedby="drawer_id-tooltip"
@@ -635,7 +635,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     </span>
                   </button>
                 }
-                target_element={
+                targetElement={
                   Object {
                     "current": <button
                       aria-describedby="drawer_id-tooltip"
@@ -676,7 +676,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     </button>,
                   }
                 }
-                target_selector={null}
+                targetSelector={null}
                 tooltip="drawer_title"
               />
             </TooltipWithEvents>
