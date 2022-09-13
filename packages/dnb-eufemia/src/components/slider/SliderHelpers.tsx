@@ -1,13 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import {
-  format,
-  formatOptionParams,
-  formatValue,
-  formatReturnType,
-  formatReturnValue,
-} from '../number-format/NumberUtils'
+import { format, formatReturnValue } from '../number-format/NumberUtils'
 
-import type { ValueTypes } from './types'
+import type { NumberFormatTypes, ValueTypes } from './types'
 
 export const percentToValue = (
   percent: number,
@@ -124,29 +118,21 @@ export const closestIndex = (goal: number, array: Array<number>) => {
   return array.findIndex((num) => num === res)
 }
 
-export const formatNumber = (
-  value: formatValue,
-  opts: formatOptionParams = null
-): formatReturnType => {
-  if (opts) {
-    return format(value, opts)
-  }
-  return value
-}
-
-export const getHumanNumber = (
+export const getFormattedNumber = (
   value: number,
-  numberFormat: formatOptionParams
+  numberFormat: NumberFormatTypes
 ) => {
-  const num = value as number
-  const { aria: humanNumber } = (
-    numberFormat
-      ? formatNumber(num, {
-          ...(numberFormat || {}),
-          returnAria: true,
-        })
-      : { aria: null }
-  ) as formatReturnValue
+  if (numberFormat) {
+    if (typeof numberFormat === 'function') {
+      const number = numberFormat(value as number) as string
+      return { number, aria: number }
+    }
 
-  return String(humanNumber || value)
+    return format(value as number, {
+      ...(numberFormat || {}),
+      returnAria: true,
+    }) as formatReturnValue
+  }
+
+  return { aria: null, number: null } as formatReturnValue
 }

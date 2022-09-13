@@ -12,7 +12,7 @@ import {
 import Context from '../../shared/Context'
 import {
   closestIndex,
-  formatNumber,
+  getFormattedNumber,
   getUpdatedValues,
   roundValue,
 } from './SliderHelpers'
@@ -83,6 +83,8 @@ export function SliderProvider(localProps: SliderProps) {
     hideButtons, // eslint-disable-line
     multiThumbBehavior,
     numberFormat,
+    tooltip, // eslint-disable-line
+    alwaysShowTooltip, // eslint-disable-line
     skeleton,
     max, // eslint-disable-line
     min, // eslint-disable-line
@@ -206,14 +208,13 @@ export function SliderProvider(localProps: SliderProps) {
         }
 
         if (numberFormat) {
-          obj.number = formatNumber(numberValue, numberFormat)
+          obj.number = getFormattedNumber(numberValue, numberFormat).number
         }
 
         dispatchCustomElementEvent(allProps, 'onChange', obj)
       }
 
       updateValue(multiValues)
-      setShouldAnimate(false)
     }
   }
 

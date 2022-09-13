@@ -152,7 +152,8 @@
     top: 0;
     z-index: 3;
 
-    display: block;
+    display: flex;
+    justify-content: center;
     transform: translate3d(-50%, 0, 0);
 
     // Because of the DropShadow
@@ -183,8 +184,9 @@
 
   &__state--animate &__thumb,
   &__state--animate &__line {
-    transition: left 250ms ease, top 250ms ease, bottom 250ms ease,
-      right 250ms ease, box-shadow 250ms ease;
+    transition: left 250ms #{$defaultEasing}, top 250ms #{$defaultEasing},
+      bottom 250ms #{$defaultEasing}, right 250ms #{$defaultEasing},
+      box-shadow 250ms #{$defaultEasing};
   }
 
   &__state--disabled &__track,

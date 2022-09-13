@@ -8,6 +8,9 @@ import type {
 import { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
 
 export type ValueTypes = number | Array<number>
+export type NumberFormatTypes =
+  | formatOptionParams
+  | ((value: number) => unknown)
 export type onChangeEventProps = {
   value: ValueTypes
   rawValue: number
@@ -74,8 +77,14 @@ export type SliderProps = IncludeSnakeCase<{
   /** if set to `true`, then the slider will be 100% in `width`. */
   stretch?: boolean
 
-  /** Will extend the return object with a `number` property (from `onChange` event). You can use all the options from the [NumberFormat](/uilib/components/number-format/properties) component. It also will use that formatted number in the increase/decrease buttons. If it has to represent a currency, then use e.g. `numberFormat={{ currency: true, decimals: 0 }}` */
-  numberFormat?: formatOptionParams
+  /** provide a function callback or use the options from the [NumberFormat](/uilib/components/number-format/properties) component. It will show a formatted number in the Tooltip (`tooltip={true}`) and enhance the screen reader UX. It will also extend the `onChange` event return object with a formatted `number` property. */
+  numberFormat?: NumberFormatTypes
+
+  /** use `true` to show a tooltip on `mouseOver`, `touchStart` and `focus`, showing the current number (if `numberFormat` is given) or the raw value. Defaults to `null`. */
+  tooltip: boolean
+
+  /** use `true` to always show the tooltip, in addition to the `tooltip` property.  */
+  alwaysShowTooltip: boolean
 
   /** removes the helper buttons. Defaults to `false`. */
   hideButtons?: boolean
@@ -113,7 +122,6 @@ export type ThumbStateEnums =
   | 'normal'
   | 'activated'
   | 'released'
-  | 'focused'
 
 export type SliderContextTypes = {
   isMulti: boolean
