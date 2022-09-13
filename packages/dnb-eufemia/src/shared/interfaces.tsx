@@ -1,8 +1,8 @@
-export interface ISpacingProps extends ISpacingElementProps {
+export type ISpacingProps = ISpacingElementProps & {
   space?: SpaceTypes | ISpacingElementProps
 }
 
-export interface ISpacingElementProps {
+export type ISpacingElementProps = {
   top?: SpaceTypes
   right?: SpaceTypes
   bottom?: SpaceTypes

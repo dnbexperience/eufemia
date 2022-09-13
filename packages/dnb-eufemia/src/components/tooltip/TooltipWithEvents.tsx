@@ -4,92 +4,72 @@
  */
 
 import React from 'react'
-import {
-  combineDescribedBy,
-  getInnerRef,
-  warn,
-} from '../../shared/component-helper'
+import { combineDescribedBy, warn } from '../../shared/component-helper'
 import { injectTooltipSemantic } from './TooltipHelpers'
 import TooltipPortal from './TooltipPortal'
 import { TooltipProps } from './types'
 
 type TooltipWithEventsProps = {
-  target: HTMLElement
+  target: React.ReactElement & React.RefObject<HTMLElement>
   active: boolean
-  clientX: number
-  internal_id: string
+  internalId: string
 }
 
-type TooltipWithEventsState = {
-  isActive: boolean
-  isNotSemanticElement: boolean
-  _isMounted: boolean
-  clientX: number
-}
+function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
+  const { children, target, ...restProps } = props
 
-export default class TooltipWithEvents extends React.PureComponent<
-  TooltipProps & TooltipWithEventsProps
-> {
-  _onEnterTimeout: NodeJS.Timeout
-  _ref: HTMLElement
+  const [isActive, setIsActive] = React.useState(false)
+  const [isNotSemanticElement, setIsNotSemanticElement] =
+    React.useState(false)
+  const [isMounted, setIsMounted] = React.useState(false)
 
-  state: TooltipWithEventsState = {
-    isActive: false,
-    isNotSemanticElement: false,
-    _isMounted: false,
-    clientX: null,
-  }
+  const onEnterTimeout = React.useRef<NodeJS.Timeout>()
+  const elementRef = React.useRef<HTMLElement>()
+  const cloneRef = React.useRef<HTMLElement>()
 
-  constructor(props) {
-    super(props)
+  React.useEffect(() => {
+    elementRef.current = getRefElement(cloneRef)
 
-    this._ref = Object.prototype.hasOwnProperty.call(
-      props.target,
-      'current'
-    )
-      ? props.target
-      : React.createRef()
-  }
+    // When used internal
+    if (!elementRef.current) {
+      elementRef.current = target.current
+    }
 
-  componentDidMount() {
-    this.setState(
-      {
-        _isMounted: true,
-      },
-      () => {
-        this.addEvents()
-        this.handleSemanticElement()
-      }
-    )
-  }
+    if (elementRef.current) {
+      setIsMounted(true)
+      addEvents(elementRef.current)
+      handleSemanticElement()
+    }
 
-  componentWillUnmount() {
-    clearTimeout(this._onEnterTimeout)
+    return () => {
+      clearTimeout(onEnterTimeout.current)
 
-    const domElement = getInnerRef(this._ref).current
-    if (domElement) {
-      try {
-        domElement.removeEventListener('click', this.onMouseLeave)
-        domElement.removeEventListener('focus', this.onFocus)
-        domElement.removeEventListener('blur', this.onMouseLeave)
-        domElement.removeEventListener('mouseenter', this.onMouseEnter)
-        domElement.removeEventListener('mouseleave', this.onMouseLeave)
-        domElement.removeEventListener('touchstart', this.onMouseEnter)
-        domElement.removeEventListener('touchend', this.onMouseLeave)
-      } catch (e) {
-        warn(e)
+      const element = elementRef.current
+      if (element) {
+        try {
+          element.removeEventListener('click', onMouseLeave)
+          element.removeEventListener('focus', onFocus)
+          element.removeEventListener('blur', onMouseLeave)
+          element.removeEventListener('mouseenter', onMouseEnter)
+          element.removeEventListener('mouseleave', onMouseLeave)
+          element.removeEventListener('touchstart', onMouseEnter)
+          element.removeEventListener('touchend', onMouseLeave)
+        } catch (e) {
+          warn(e)
+        }
       }
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   /**
    * Make the element focus able by keyboard, if it is not a semantic element
    * This will enable keyboard access to the tooltip by adding focus posibility
    */
-  handleSemanticElement = () => {
+  const handleSemanticElement = () => {
     try {
       const targetElement = document.querySelector(
-        `*[aria-describedby*="${this.props.internal_id}"]`
+        `*[aria-describedby*="${props.internalId}"]`
       )
       if (targetElement) {
         const role = targetElement.getAttribute('role')
@@ -97,9 +77,7 @@ export default class TooltipWithEvents extends React.PureComponent<
           /div|p|span/i.test(targetElement?.tagName) &&
           (!role || role === 'text')
         ) {
-          this.setState({
-            isNotSemanticElement: true,
-          })
+          setIsNotSemanticElement(true)
         }
       }
     } catch (e) {
@@ -107,42 +85,37 @@ export default class TooltipWithEvents extends React.PureComponent<
     }
   }
 
-  addEvents = () => {
-    const domElement = getInnerRef(this._ref).current
+  const addEvents = (element: HTMLElement) => {
     try {
-      domElement.addEventListener('click', this.onMouseLeave)
-      domElement.addEventListener('focus', this.onFocus)
-      domElement.addEventListener('blur', this.onMouseLeave)
-      domElement.addEventListener('mouseenter', this.onMouseEnter)
-      domElement.addEventListener('mouseleave', this.onMouseLeave)
-      domElement.addEventListener('touchstart', this.onMouseEnter)
-      domElement.addEventListener('touchend', this.onMouseLeave)
+      element.addEventListener('click', onMouseLeave)
+      element.addEventListener('focus', onFocus)
+      element.addEventListener('blur', onMouseLeave)
+      element.addEventListener('mouseenter', onMouseEnter)
+      element.addEventListener('mousedown', onMouseEnter)
+      element.addEventListener('mouseleave', onMouseLeave)
+      element.addEventListener('touchstart', onMouseEnter)
+      element.addEventListener('touchend', onMouseLeave)
     } catch (e) {
       warn(e)
     }
   }
 
-  isTouch = (type: string) => {
-    return /touch/i.test(type)
-  }
-
-  onFocus = (e: MouseEvent) => {
+  const onFocus = (e: MouseEvent) => {
     try {
       if (
         document.documentElement.getAttribute('data-whatintent') ===
         'keyboard'
       ) {
-        return this.onMouseEnter(e)
+        return onMouseEnter(e)
       }
     } catch (e) {
       warn(e)
     }
   }
 
-  onMouseEnter = (e: MouseEvent) => {
+  const onMouseEnter = (e: MouseEvent) => {
     try {
-      const isTouch = this.isTouch(e.type)
-      if (isTouch) {
+      if (isTouch(e.type)) {
         const elem = e.currentTarget as HTMLElement
         elem.style.userSelect = 'none'
       }
@@ -151,24 +124,23 @@ export default class TooltipWithEvents extends React.PureComponent<
     }
 
     const run = () => {
-      this.setState({ isActive: true, clientX: e.clientX })
+      setIsActive(true)
     }
 
-    if (this.props.no_animation || globalThis.IS_TEST) {
+    if (props.no_animation || globalThis.IS_TEST) {
       run()
     } else {
-      clearTimeout(this._onEnterTimeout)
-      this._onEnterTimeout = setTimeout(
+      clearTimeout(onEnterTimeout.current)
+      onEnterTimeout.current = setTimeout(
         run,
-        parseFloat(String(this.props.show_delay)) || 1
+        parseFloat(String(props.show_delay)) || 1
       ) // have min 1 to make sure we are after onMouseLeave
     }
   }
 
-  onMouseLeave = (e: MouseEvent) => {
+  const onMouseLeave = (e: MouseEvent) => {
     try {
-      const isTouch = this.isTouch(e.type)
-      if (isTouch) {
+      if (isTouch(e.type)) {
         const elem = e.currentTarget as HTMLElement
         elem.style.userSelect = ''
       }
@@ -176,51 +148,68 @@ export default class TooltipWithEvents extends React.PureComponent<
       warn(e)
     }
 
-    clearTimeout(this._onEnterTimeout)
-    this.setState({ isActive: false })
+    clearTimeout(onEnterTimeout.current)
+    setIsActive(false)
   }
 
-  render() {
-    const {
-      children,
-      target,
-      // internal_id,// NB: Do not remove internal_id from props!
-      ...props
-    } = this.props
-
-    let componentWrapper = null
-
+  const componentWrapper = React.useMemo(() => {
     // we could also check against  && target.props && !target.props.tooltip
     if (React.isValidElement(target)) {
-      const params = this.state.isNotSemanticElement
+      const params = isNotSemanticElement
         ? injectTooltipSemantic({ className: props.className })
         : {}
 
-      componentWrapper = React.cloneElement(target, {
-        ref: this._ref,
+      return React.cloneElement(target, {
+        ref: cloneRef,
         ...params,
         'aria-describedby': combineDescribedBy(
           target.props,
-          this.props.internal_id
+          props.internalId
         ),
       })
     }
 
-    return (
-      <>
-        {componentWrapper}
-        {this.state._isMounted && (
-          <TooltipPortal
-            key="tooltip"
-            active={this.state.isActive}
-            target={getInnerRef(this._ref).current}
-            clientX={this.state.clientX}
-            {...props}
-          >
-            {children}
-          </TooltipPortal>
-        )}
-      </>
-    )
+    return null
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [target])
+
+  return (
+    <>
+      {componentWrapper}
+      {isMounted && (
+        <TooltipPortal
+          key="tooltip"
+          active={isActive}
+          target={elementRef.current}
+          {...restProps}
+        >
+          {children}
+        </TooltipPortal>
+      )}
+    </>
+  )
+}
+
+export default TooltipWithEvents
+
+const isTouch = (type: string) => {
+  return /touch/i.test(type)
+}
+
+function getRefElement(target: React.RefObject<HTMLElement>) {
+  const unknownTarget = target as unknown as React.RefObject<{
+    _ref: React.RefObject<HTMLElement>
+  }>
+  let element = target as HTMLElement | React.RefObject<HTMLElement>
+
+  // "_ref" is set inside e.g. the Button component (among many others)
+  if (unknownTarget?.current?._ref) {
+    element = getRefElement(unknownTarget.current._ref)
   }
+
+  if (Object.prototype.hasOwnProperty.call(element, 'current')) {
+    element = (element as React.RefObject<HTMLElement>).current
+  }
+
+  return element as HTMLElement
 }

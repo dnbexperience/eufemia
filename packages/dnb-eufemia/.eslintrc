@@ -132,6 +132,7 @@
           "error",
           { "args": "none", "ignoreRestSiblings": true }
         ],
+        "react/prop-types": "off",
         "react/require-default-props": "off"
       }
     }
