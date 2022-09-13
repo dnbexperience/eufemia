@@ -6,17 +6,18 @@
 import React from 'react'
 import keycode from 'keycode'
 import whatInput from 'what-input'
-import { registerElement } from './custom-element'
 import {
   warn,
-  IS_IE11,
   PLATFORM_MAC,
   PLATFORM_WIN,
   PLATFORM_LINUX,
 } from './helpers'
 import { init } from './Eufemia'
 
-export { registerElement, warn }
+export { InteractionInvalidation } from './helpers/InteractionInvalidation'
+export { registerElement } from './custom-element'
+
+export { warn }
 
 init()
 
@@ -770,155 +771,6 @@ export const convertJsxToString = (elements, separator = undefined) => {
     .filter(Boolean)
     .join(separator)
     .trim()
-}
-
-export class InteractionInvalidation {
-  constructor() {
-    this.bypassElement = null
-    this.bypassSelectors = []
-    return this
-  }
-
-  setBypassElement(bypassElement) {
-    if (bypassElement instanceof HTMLElement) {
-      this.bypassElement = bypassElement
-    }
-    return this
-  }
-
-  setBypassSelector(bypassSelector) {
-    if (!Array.isArray(bypassSelector)) {
-      bypassSelector = [bypassSelector]
-    }
-    this.bypassSelectors = bypassSelector
-    return this
-  }
-
-  activate(targetElement = null) {
-    if (!this._nodesToInvalidate) {
-      this._runInvalidaiton(targetElement)
-    }
-  }
-
-  revert() {
-    this._revertInvalidation()
-    this._nodesToInvalidate = null
-  }
-
-  _runInvalidaiton(targetElement) {
-    if (typeof document === 'undefined') {
-      return // stop here
-    }
-
-    this._nodesToInvalidate = this.getNodesToInvalidate(targetElement)
-
-    // 1. Save the previous tabindex and aria-hidden state so we can restore it on close
-    // 2. And invalidate the node
-    for (const node of this._nodesToInvalidate) {
-      if (!node) {
-        continue
-      }
-
-      const tabindex = node.getAttribute('tabindex')
-      const ariahidden = node.getAttribute('aria-hidden')
-
-      if (tabindex !== null && typeof node.__tabindex === 'undefined') {
-        node.__tabindex = tabindex
-      }
-      if (
-        ariahidden !== null &&
-        typeof node.__ariahidden === 'undefined'
-      ) {
-        node.__ariahidden = ariahidden
-      }
-
-      node.setAttribute('tabindex', '-1')
-      node.setAttribute('aria-hidden', 'true')
-    }
-  }
-
-  _revertInvalidation() {
-    if (!Array.isArray(this._nodesToInvalidate)) {
-      return // stop here
-    }
-
-    // restore or remove tabindex and aria-hidden from nodes
-    for (const node of this._nodesToInvalidate) {
-      if (!node) {
-        continue
-      }
-
-      if (typeof node.__tabindex !== 'undefined') {
-        node.setAttribute('tabindex', node.__tabindex)
-        delete node.__tabindex
-      } else {
-        node.removeAttribute('tabindex')
-      }
-      if (typeof node.__ariahidden !== 'undefined') {
-        node.setAttribute('aria-hidden', node.__ariahidden)
-        delete node.__ariahidden
-      } else {
-        node.removeAttribute('aria-hidden')
-      }
-    }
-  }
-
-  getNodesToInvalidate(targetElement = null) {
-    if (typeof document === 'undefined') {
-      return [] // stop here
-    }
-
-    if (typeof targetElement === 'string') {
-      targetElement = document.querySelector(targetElement)
-    }
-
-    // by only finding elements that do not have tabindex="-1" we ensure we don't
-    // corrupt the previous state of the element if a modal was already open
-    const rootSelector = targetElement ? '*' : 'html *'
-
-    const elementSelector = this.bypassSelectors
-      .map((s) => `:not(${s})`)
-      .join('')
-
-    const selector = `${rootSelector} ${elementSelector}:not(script):not(style):not(path):not(head *)`
-
-    // JSDOM and IE11 has issues with the selector :not(x *), so we used it only in the browser,
-    // so we remove the asterisk from the selector, but add it to the exclude selectors list and make another querySelectorAll call
-    // - so we query all bypass selectors with "asterisk" manually
-    if (IS_IE11 || process.env.NODE_ENV === 'test') {
-      const excludeSelectors = []
-
-      const testSelector = selector
-        .split(':')
-        .map((localSel) => {
-          if (localSel.endsWith(' *)')) {
-            excludeSelectors.push(
-              ...Array.from(
-                (
-                  targetElement || document.documentElement
-                ).querySelectorAll(localSel.match(/\(([^)]*)\)/)[1])
-              )
-            )
-            localSel = localSel.replace(' *', '')
-          }
-
-          return localSel
-        })
-        .join(':')
-
-      return Array.from(
-        (targetElement || document.documentElement).querySelectorAll(
-          testSelector
-        )
-      ).filter((node) => !excludeSelectors.includes(node))
-    }
-
-    return Array.from(
-      (targetElement || document.documentElement).querySelectorAll(
-        selector
-      )
-    )
-  }
 }
 
 export function convertStatusToStateOnly(status, state) {
