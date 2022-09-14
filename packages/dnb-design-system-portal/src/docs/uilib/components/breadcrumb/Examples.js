@@ -45,7 +45,7 @@ export const BreadcrumbMultipleData = () => (
   ];
   
   return (
-    <Breadcrumb data={pages} spacing/>
+    <Breadcrumb data={pages} spacing />
   )
 }
 `
@@ -89,7 +89,7 @@ export const BreadcrumbVariants = () => (
   
   return (
     // Try changing variant here
-    <Breadcrumb variant="collapse" data={pages} spacing/>
+    <Breadcrumb variant="collapse" data={pages} spacing />
   )
 }
 `

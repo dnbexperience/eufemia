@@ -51,6 +51,8 @@ export interface BreadcrumbItemProps {
    * Default: null
    */
   skeleton?: SkeletonShow
+
+  style?: React.CSSProperties
 }
 
 const defaultProps = {
@@ -72,7 +74,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   } = context
 
   // Extract additional props from global context
-  const { text, href, icon, onClick, variant, skeleton, ...props } =
+  const { text, href, icon, onClick, variant, skeleton, style, ...props } =
     usePropsWithContext(localProps, defaultProps, context?.BreadcrumbItem)
 
   const currentIcon: IconPrimaryIcon =
@@ -85,6 +87,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
       className="dnb-breadcrumb__item"
       data-testid="breadcrumb-item"
       aria-current={variant === 'current' ? 'page' : undefined}
+      style={style}
     >
       {isInteractive ? (
         <Button

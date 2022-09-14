@@ -179,9 +179,8 @@ describe('babel build', () => {
               'utf-8'
             )
             expect(content).toContain('export default Breadcrumb;')
-            expect(content).toContain('core-js/modules/es')
             expect(content).toContain(
-              'import "core-js/modules/es.array.map.js";'
+              'import _extends from "@babel/runtime/helpers/esm/extends";'
             )
           }
         }
