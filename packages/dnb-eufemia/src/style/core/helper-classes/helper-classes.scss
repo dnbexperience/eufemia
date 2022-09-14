@@ -3,6 +3,10 @@
  *
  */
 
+:root {
+  --easing-default: #{$defaultEasing};
+}
+
 // Focus management
 .dnb-no-focus {
   outline: none;
