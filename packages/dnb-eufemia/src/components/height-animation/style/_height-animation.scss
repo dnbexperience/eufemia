@@ -1,0 +1,9 @@
+/*
+* HeightAnimation component
+*
+*/
+
+.dnb-height-animation {
+  overflow: hidden;
+  transition: height var(--duration, 400ms) var(--easing-default);
+}
