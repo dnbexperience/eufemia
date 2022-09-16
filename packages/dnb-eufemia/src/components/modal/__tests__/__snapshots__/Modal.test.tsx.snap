@@ -816,10 +816,8 @@ exports[`Modal component have to match snapshot 1`] = `
               onTouchStart={[Function]}
               title="modal_title"
             >
-              <ForwardRef(ScrollViewRef)>
+              <ForwardRef>
                 <ScrollView
-                  class={null}
-                  className={null}
                   innerRef={
                     Object {
                       "current": <div
@@ -1191,7 +1189,7 @@ exports[`Modal component have to match snapshot 1`] = `
                     </div>
                   </div>
                 </ScrollView>
-              </ForwardRef(ScrollViewRef)>
+              </ForwardRef>
             </div>
           </DialogContent>
         </div>
