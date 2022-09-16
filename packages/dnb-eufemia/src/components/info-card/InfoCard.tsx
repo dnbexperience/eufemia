@@ -102,8 +102,6 @@ export const defaultProps = {
   centered: false,
   skeleton: false,
   icon: LightbulbIcon,
-  closeButtonAttributes: null,
-  acceptButtonAttributes: null,
 }
 
 const InfoCard = (localProps: InfoCardProps & ISpacingProps) => {
@@ -127,10 +125,9 @@ const InfoCard = (localProps: InfoCardProps & ISpacingProps) => {
     closeButtonAttributes,
     acceptButtonAttributes,
     ...props
-  } = usePropsWithContext(
-    { ...defaultProps, ...localProps },
-    { skeleton: context?.skeleton }
-  )
+  } = usePropsWithContext(localProps, defaultProps, {
+    skeleton: context?.skeleton,
+  })
 
   const skeletonClasses = createSkeletonClass('shape', skeleton, context)
   const spacingClasses = createSpacingClasses(props)

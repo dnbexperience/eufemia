@@ -3,7 +3,8 @@ import classnames from 'classnames'
 
 // Shared
 import Context from '../../shared/Context'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { usePropsWithContext } from '../../shared/hooks/usePropsWithContext'
+import { DynamicElement } from '../../shared/interfaces'
 
 export interface VisuallyHiddenProps {
   /**
@@ -28,12 +29,10 @@ export interface VisuallyHiddenProps {
    * Root element of the component
    * Default: span
    */
-  element?: string | React.ReactNode
+  element?: DynamicElement
 }
 
 export const defaultProps = {
-  className: null,
-  children: null,
   focusable: false,
   element: 'span',
 }
@@ -44,8 +43,8 @@ const VisuallyHidden = (localProps: VisuallyHiddenProps) => {
 
   // Extract additional props from global context
   const { element, children, className, focusable, ...props } =
-    extendPropsWithContext(
-      { ...defaultProps, ...localProps },
+    usePropsWithContext(
+      localProps,
       defaultProps,
       context?.translation?.VisuallyHidden,
       context?.VisuallyHidden
@@ -58,7 +57,7 @@ const VisuallyHidden = (localProps: VisuallyHiddenProps) => {
       : 'dnb-visually-hidden--default',
     className
   )
-  const Element = element
+  const Element = element || 'span'
 
   return (
     <Element

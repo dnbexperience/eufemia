@@ -27,7 +27,6 @@ export default function DrawerContent({
   containerPlacement = 'right',
   preventCoreStyle = false,
   className = null,
-  class: _className = null,
   spacing = true,
   fullscreen = 'auto',
   noAnimation = false,
@@ -61,8 +60,7 @@ export default function DrawerContent({
       isTrue(noAnimationOnMobile) && `dnb-drawer--no-animation-on-mobile`,
 
       `dnb-drawer--${containerPlacement || 'right'}`,
-      className,
-      _className
+      className
     ),
     style: (minWidth || maxWidth) && { minWidth, maxWidth },
     onClick: context?.preventClick,

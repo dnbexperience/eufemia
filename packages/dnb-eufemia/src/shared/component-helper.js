@@ -15,7 +15,9 @@ import {
 import { getPreviousSibling } from './helpers/getPreviousSibling'
 import { init } from './Eufemia'
 
+export { usePropsWithContext } from './hooks/usePropsWithContext'
 export { InteractionInvalidation } from './helpers/InteractionInvalidation'
+export { extendPropsWithContext } from './helpers/extendPropsWithContext'
 export { registerElement } from './custom-element'
 
 export { getPreviousSibling, warn }
@@ -275,37 +277,6 @@ export const extend = (...objects) => {
     }
     return acc1
   }, first)
-}
-
-// extends props from a given context
-// but give the context second priority only
-export const extendPropsWithContext = (
-  props,
-  defaults = {},
-  ...contexts
-) => {
-  const context = contexts.reduce((acc, cur) => {
-    if (cur) {
-      acc = { ...acc, ...cur }
-    }
-    return acc
-  }, {})
-
-  return {
-    ...props,
-    ...Object.entries(context).reduce((acc, [key, value]) => {
-      if (
-        // check if a prop of the same name exists
-        typeof props[key] !== 'undefined' &&
-        // and if it was NOT defined as a component prop, because its still the same as the defaults
-        props[key] === defaults[key]
-      ) {
-        // then we use the context value
-        acc[key] = value
-      }
-      return acc
-    }, {}),
-  }
 }
 
 // check if value is "truthy"

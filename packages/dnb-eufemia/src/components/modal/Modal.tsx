@@ -40,7 +40,9 @@ interface ModalState {
   modalActive: boolean
 }
 
-export type ModalPropTypes = ModalProps & ISpacingProps & ScrollViewProps
+export type ModalPropTypes = ModalProps &
+  ISpacingProps &
+  Omit<ScrollViewProps, 'title'>
 
 class Modal extends React.PureComponent<
   ModalPropTypes & ToCamelCasePartial<ModalPropTypes>,
@@ -481,7 +483,9 @@ class Modal extends React.PureComponent<
         fallbackTitle = this.context.translation.HelpButton.title
       }
 
-      const TriggerButton = trigger ? trigger : HelpButtonInstance
+      const TriggerButton = trigger
+        ? (trigger as React.FC)
+        : HelpButtonInstance
 
       return (
         <>

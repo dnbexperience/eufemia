@@ -30,3 +30,7 @@ export type DataAttributeTypes = {
    */
   // [property: `data-${string}`]: string
 }
+
+export type DynamicElement =
+  | keyof JSX.IntrinsicElements
+  | React.FunctionComponent
