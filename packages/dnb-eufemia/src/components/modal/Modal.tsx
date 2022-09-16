@@ -32,6 +32,7 @@ import {
   classWithCamelCaseProps,
   ToCamelCasePartial,
 } from '../../shared/helpers/withCamelCaseProps'
+import { ButtonProps } from '../button/Button'
 
 export const ANIMATION_DURATION = 300
 
@@ -464,7 +465,7 @@ class Modal extends React.PureComponent<
         icon_position: trigger_icon_position,
         class: trigger_class,
         ...trigger_attributes,
-      }
+      } as ButtonProps
       if (isTrue(disabled)) {
         triggerAttributes.disabled = true
       }
@@ -487,17 +488,17 @@ class Modal extends React.PureComponent<
         ? (trigger as React.FC)
         : HelpButtonInstance
 
+      const title = (
+        !triggerAttributes.text ? rest.title || fallbackTitle : null
+      ) as string
+
       return (
         <>
           {TriggerButton && !isTrue(omit_trigger_button) && (
             <TriggerButton
               {...triggerAttributes}
               id={this._id}
-              title={
-                !triggerAttributes.text
-                  ? rest.title || fallbackTitle
-                  : null
-              }
+              title={title}
               onClick={this.toggleOpenClose}
               innerRef={this._triggerRef}
               className={classnames(
