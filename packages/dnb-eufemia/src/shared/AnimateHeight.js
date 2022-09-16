@@ -6,6 +6,7 @@ export default class AnimateHeight {
     this.state = 'init'
     this.onStartStack = []
     this.onEndStack = []
+    this.events = []
     this.opts = opts
   }
 
@@ -41,23 +42,21 @@ export default class AnimateHeight {
     this.elem.style.height = '' // not sure about this
     this.elem.style.width = ''
   }
+  _addEndEvents(listener) {
+    this._removeEndEvents() // also, remove events on every open (but not on close!)
+
+    this.events.push(listener)
+    this.elem.addEventListener('transitionend', listener)
+  }
   _removeEndEvents() {
     if (!this.elem) {
       return // stop here
     }
 
-    if (this.onOpenEnd) {
-      this.elem.removeEventListener('transitionend', this.onOpenEnd)
-      this.onOpenEnd = null
-    }
-    if (this.onAdjustEnd) {
-      this.elem.removeEventListener('transitionend', this.onAdjustEnd)
-      this.onAdjustEnd = null
-    }
-    if (this.onCloseEnd) {
-      this.elem.removeEventListener('transitionend', this.onCloseEnd)
-      this.onCloseEnd = null
-    }
+    this.events.forEach((listener, i) => {
+      this.elem.removeEventListener('transitionend', listener)
+      this.events.splice(i, 1)
+    })
   }
   _emitTransitionEnd() {
     try {
@@ -236,24 +235,19 @@ export default class AnimateHeight {
       toHeight = this.getUnknownHeight()
     }
 
+    this._addEndEvents((e) => {
+      if (e.target === e.currentTarget) {
+        if (this.elem) {
+          this.elem.style.height = 'auto'
+        }
+
+        this.state = 'adjusted'
+        this._callOnEnd()
+        this.setContainerHeight()
+      }
+    })
+
     this.state = 'adjusting'
-    this._removeEndEvents() // also, remove events on every open (but not on close!)
-
-    if (!this.onAdjustEnd) {
-      this.elem.addEventListener(
-        'transitionend',
-        (this.onAdjustEnd = () => {
-          if (this.elem) {
-            this.elem.style.height = 'auto'
-          }
-
-          this.state = 'adjusted'
-          this._callOnEnd()
-          this.setContainerHeight()
-        })
-      )
-    }
-
     this.start(fromHeight, toHeight, { animate })
   }
   open({ animate = true } = {}) {
@@ -267,24 +261,19 @@ export default class AnimateHeight {
 
     const height = this.getUnknownHeight()
 
+    this._addEndEvents((e) => {
+      if (e.target === e.currentTarget) {
+        if (this.elem) {
+          this.elem.style.height = 'auto'
+        }
+
+        this.state = 'opened'
+        this._callOnEnd()
+        this.setContainerHeight()
+      }
+    })
+
     this.state = 'opening'
-    this._removeEndEvents() // also, remove events on every open (but not on close!)
-
-    if (!this.onOpenEnd) {
-      this.elem.addEventListener(
-        'transitionend',
-        (this.onOpenEnd = () => {
-          if (this.elem) {
-            this.elem.style.height = 'auto'
-          }
-
-          this.state = 'opened'
-          this._callOnEnd()
-          this.setContainerHeight()
-        })
-      )
-    }
-
     this.start(0, height, { animate })
   }
   close({ animate = true } = {}) {
@@ -301,23 +290,18 @@ export default class AnimateHeight {
       height = this.getUnknownHeight()
     }
 
+    this._addEndEvents((e) => {
+      if (e.target === e.currentTarget) {
+        if (this.elem) {
+          this.elem.style.visibility = 'hidden'
+        }
+
+        this.state = 'closed'
+        this._callOnEnd()
+      }
+    })
+
     this.state = 'closing'
-    this._removeEndEvents() // also, remove events on every open (but not on close!)
-
-    if (!this.onCloseEnd) {
-      this.elem.addEventListener(
-        'transitionend',
-        (this.onCloseEnd = () => {
-          if (this.elem) {
-            this.elem.style.visibility = 'hidden'
-          }
-
-          this.state = 'closed'
-          this._callOnEnd()
-        })
-      )
-    }
-
     this.start(height, 0, { animate })
   }
 }
