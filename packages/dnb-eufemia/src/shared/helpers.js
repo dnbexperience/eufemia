@@ -18,6 +18,8 @@ export let IS_MAC = false
 export let IS_ANDROID = false
 export let IS_LINUX = false
 
+export * from './helpers/useEventEmitter'
+
 export const isMac = () =>
   (IS_MAC =
     typeof navigator !== 'undefined' &&
