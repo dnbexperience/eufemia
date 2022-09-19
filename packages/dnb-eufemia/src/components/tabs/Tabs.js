@@ -33,7 +33,7 @@ import Button from '../button/Button'
 import whatInput from 'what-input'
 import CustomContent from './TabsCustomContent'
 import ContentWrapper from './TabsContentWrapper'
-import EventEmitter from '../../shared/EventEmitter'
+import EventEmitter from '../../shared/helpers/EventEmitter'
 
 export default class Tabs extends React.PureComponent {
   static tagName = 'dnb-tabs'
