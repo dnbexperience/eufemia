@@ -9,7 +9,6 @@ import { registerElement } from '../custom-element'
 import {
   isTrue,
   extend,
-  extendPropsWithContext,
   defineNavigator,
   validateDOMAttributes,
   processChildren,
@@ -334,21 +333,6 @@ describe('"extend" should', () => {
       )
     ).toEqual({
       key1: { key2: 'value', foo: 'bar' },
-    })
-  })
-})
-
-describe('"extendPropsWithContext" should', () => {
-  it('extend prop from other context object', () => {
-    expect(
-      extendPropsWithContext(
-        { key: { x: 'y' }, foo: null }, // given props
-        { key: { x: 'y' }, foo: null }, // default props
-        { key: 'I can’t replace You', foo: 'bar' }
-      )
-    ).toEqual({
-      key: { x: 'y' },
-      foo: 'bar', // because the prop was null, we get bar
     })
   })
 })

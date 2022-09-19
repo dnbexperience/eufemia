@@ -28,6 +28,7 @@ import type { TooltipProps } from '../components/tooltip/types'
 
 // All TypeScript based Eufemia elements
 import type { AnchorProps } from '../elements/Anchor'
+import type { ScrollViewProps } from '../fragments/scroll-view/ScrollView'
 
 export type ContextProps = {
   // -- All TypeScript based Eufemia components --
@@ -49,6 +50,7 @@ export type ContextProps = {
   Drawer?: Partial<DrawerProps>
   Dialog?: Partial<DialogProps>
   Tooltip?: Partial<TooltipProps>
+  ScrollView?: Partial<ScrollViewProps>
 
   // -- TODO: Not converted yet --
 

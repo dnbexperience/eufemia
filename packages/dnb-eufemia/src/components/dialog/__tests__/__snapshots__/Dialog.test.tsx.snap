@@ -824,10 +824,8 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                 onKeyDown={[Function]}
                 onTouchStart={[Function]}
               >
-                <ForwardRef(ScrollViewRef)>
+                <ForwardRef>
                   <ScrollView
-                    class={null}
-                    className={null}
                     innerRef={
                       Object {
                         "current": <div
@@ -1199,7 +1197,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                       </div>
                     </div>
                   </ScrollView>
-                </ForwardRef(ScrollViewRef)>
+                </ForwardRef>
               </div>
             </DialogContent>
           </div>

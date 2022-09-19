@@ -8,31 +8,26 @@ import {
   mount,
   fakeProps,
   axeComponent,
-  toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
-import Component from '../HelpButton'
+import Component, { HelpButtonProps } from '../HelpButton'
 import {
   question as QuestionIcon,
   information_medium as InformationIcon,
 } from '../../../icons'
+import { ModalProps } from '../../modal/types'
 
 const snapshotProps = fakeProps(require.resolve('../HelpButton'), {})
 snapshotProps.id = 'help-button'
 
-const modal_props = {}
+const modal_props: ModalProps = {}
 modal_props.content_id = null
 modal_props.no_animation = true
 
-const props = { modal_props }
+const props: HelpButtonProps = { modal_props }
 props.id = 'help-button'
 
 describe('HelpButton component', () => {
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...snapshotProps} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('should have question icon by default', () => {
     const Comp = mount(<Component {...props} />)
     expect(

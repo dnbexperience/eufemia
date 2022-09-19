@@ -6,7 +6,7 @@
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
-import { HelpButton, Modal, Button, Section, Input } from '../../'
+import { HelpButton, Modal, Button, Section, Input } from '../..'
 
 export default {
   title: 'Eufemia/Components/HelpButton',

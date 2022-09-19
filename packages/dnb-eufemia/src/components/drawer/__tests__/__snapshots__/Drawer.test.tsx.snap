@@ -814,7 +814,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
               noAnimation={true}
               spacing={true}
             >
-              <ForwardRef(ScrollViewRef)
+              <ForwardRef
                 0={
                   Object {
                     "displayName": "Drawer",
@@ -834,7 +834,6 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                       "props": Object {},
                     }
                   }
-                  class={null}
                   className="dnb-drawer dnb-drawer--right dnb-drawer--auto-fullscreen dnb-core-style dnb-drawer--spacing dnb-drawer__align--left dnb-drawer--no-animation"
                   innerRef={
                     Object {
@@ -1214,7 +1213,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     </div>
                   </div>
                 </ScrollView>
-              </ForwardRef(ScrollViewRef)>
+              </ForwardRef>
             </DrawerContent>
           </div>
           <span

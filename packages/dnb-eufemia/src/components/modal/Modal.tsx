@@ -32,6 +32,7 @@ import {
   classWithCamelCaseProps,
   ToCamelCasePartial,
 } from '../../shared/helpers/withCamelCaseProps'
+import { ButtonProps } from '../button/Button'
 
 export const ANIMATION_DURATION = 300
 
@@ -40,7 +41,9 @@ interface ModalState {
   modalActive: boolean
 }
 
-export type ModalPropTypes = ModalProps & ISpacingProps & ScrollViewProps
+export type ModalPropTypes = ModalProps &
+  ISpacingProps &
+  Omit<ScrollViewProps, 'title'>
 
 class Modal extends React.PureComponent<
   ModalPropTypes & ToCamelCasePartial<ModalPropTypes>,
@@ -462,7 +465,7 @@ class Modal extends React.PureComponent<
         icon_position: trigger_icon_position,
         class: trigger_class,
         ...trigger_attributes,
-      }
+      } as ButtonProps
       if (isTrue(disabled)) {
         triggerAttributes.disabled = true
       }
@@ -481,7 +484,13 @@ class Modal extends React.PureComponent<
         fallbackTitle = this.context.translation.HelpButton.title
       }
 
-      const TriggerButton = trigger ? trigger : HelpButtonInstance
+      const TriggerButton = trigger
+        ? (trigger as React.FC)
+        : HelpButtonInstance
+
+      const title = (
+        !triggerAttributes.text ? rest.title || fallbackTitle : null
+      ) as string
 
       return (
         <>
@@ -489,11 +498,7 @@ class Modal extends React.PureComponent<
             <TriggerButton
               {...triggerAttributes}
               id={this._id}
-              title={
-                !triggerAttributes.text
-                  ? rest.title || fallbackTitle
-                  : null
-              }
+              title={title}
               onClick={this.toggleOpenClose}
               innerRef={this._triggerRef}
               className={classnames(
