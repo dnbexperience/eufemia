@@ -1,10 +1,13 @@
 import React from 'react'
-import AnimateHeight from './AnimateHeight'
+import AnimateHeight from '../../shared/AnimateHeight'
 
 type useHeightAnimationOptions = {
   open?: boolean
   animate?: boolean
 }
+
+export type HeightAnimationOnStartTypes = 'opening' | 'closing'
+export type HeightAnimationOnEndTypes = 'opened' | 'closed'
 
 export function useHeightAnimation(
   targetRef: React.RefObject<HTMLElement>,
@@ -26,23 +29,25 @@ export function useHeightAnimation(
     animRef.current = new AnimateHeight({ animate })
 
     if (animate) {
-      animRef.current.onStart((state) => {
+      animRef.current.onStart((state: HeightAnimationOnStartTypes) => {
         switch (state) {
           case 'opening':
             setIsVisible(true)
             setParallax(true)
             break
+
           case 'closing':
             setParallax(false)
             break
         }
       })
 
-      animRef.current.onEnd((state) => {
+      animRef.current.onEnd((state: HeightAnimationOnEndTypes) => {
         switch (state) {
           case 'opened':
             setIsOpen(true)
             break
+
           case 'closed':
             setIsVisible(false)
             setIsOpen(false)
@@ -52,9 +57,7 @@ export function useHeightAnimation(
       })
     }
 
-    return () => {
-      animRef.current?.remove()
-    }
+    return () => animRef.current?.remove()
   }, [animate])
 
   React.useLayoutEffect(() => {

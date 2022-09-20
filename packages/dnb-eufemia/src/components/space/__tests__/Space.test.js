@@ -12,9 +12,7 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Space'
 
-const snapshotProps = fakeProps(require.resolve('../Space'), {
-  optional: true,
-})
+const snapshotProps = fakeProps(require.resolve('../Space'))
 snapshotProps.id = 'space'
 snapshotProps.element = 'div'
 snapshotProps.no_collapse = false

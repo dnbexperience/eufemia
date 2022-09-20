@@ -3,29 +3,28 @@
 exports[`Space component have to match snapshot 1`] = `
 <Space
   bottom={null}
-  class="class"
-  className="className"
+  className={null}
   element="div"
   id="space"
-  inline="inline"
+  inline={null}
+  innerRef={null}
   left={null}
   no_collapse={false}
   right={null}
-  skeleton="skeleton"
+  skeleton={null}
   space={null}
-  stretch="stretch"
+  stretch={null}
   top={null}
 >
   <Element
-    className="dnb-space className class"
+    className="dnb-space"
     element="div"
+    innerRef={null}
     no_collapse={false}
   >
     <div
-      className="dnb-space className class"
-    >
-      children
-    </div>
+      className="dnb-space"
+    />
   </Element>
 </Space>
 `;

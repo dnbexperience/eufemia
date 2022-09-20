@@ -15,11 +15,11 @@ exports[`Skeleton component have to match snapshot 1`] = `
 >
   <Space
     bottom={null}
-    class={null}
     className="dnb-skeleton__root"
     element="div"
     id={null}
     inline={null}
+    innerRef={null}
     lang="nb-NO"
     left={null}
     no_collapse={null}
@@ -32,6 +32,7 @@ exports[`Skeleton component have to match snapshot 1`] = `
     <Element
       className="dnb-space dnb-skeleton__root"
       element="div"
+      innerRef={null}
       lang="nb-NO"
       no_collapse={null}
     >

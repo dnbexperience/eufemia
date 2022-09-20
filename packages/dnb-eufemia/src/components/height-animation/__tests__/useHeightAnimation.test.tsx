@@ -6,9 +6,9 @@
 import React from 'react'
 import classnames from 'classnames'
 import { render, act, fireEvent } from '@testing-library/react'
-import { useHeightAnimation } from '../useHeightAnimation'
-import ToggleButton from '../../components/ToggleButton'
+import ToggleButton from '../../ToggleButton'
 import { wait } from '@testing-library/user-event/dist/utils'
+import { useHeightAnimation } from '../useHeightAnimation'
 
 beforeEach(() => {
   global.IS_TEST = false
@@ -65,8 +65,6 @@ describe('useHeightAnimation', () => {
         </ToggleButton>
 
         <AnimatedContent open={open || openState} animate={animate} />
-
-        <p>Text</p>
       </>
     )
   }
