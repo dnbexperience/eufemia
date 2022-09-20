@@ -20,6 +20,7 @@ import {
   convertJsxToString,
   validateDOMAttributes,
 } from '../../shared/component-helper'
+import { BreadcrumbMultiple } from './BreadcrumbMultiple'
 
 export interface BreadcrumbProps {
   /**
@@ -111,6 +112,12 @@ export interface BreadcrumbProps {
    * Default: false
    */
   spacing?: boolean
+
+  /**
+   * Will disable the height animation
+   * Default: false
+   */
+  noAnimation?: boolean
 }
 
 export const defaultProps = {
@@ -128,6 +135,7 @@ export const defaultProps = {
 const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
+
   // Extract additional props from global context
   const allProps = usePropsWithContext(
     localProps,
@@ -136,10 +144,11 @@ const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
     context?.Breadcrumb,
     { skeleton: context?.skeleton }
   )
+
   const {
     className,
     skeleton,
-    children: childrenItems,
+    children: items,
     variant,
     onClick,
     navText, // has a translation in context
@@ -150,6 +159,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
     collapsedStyleType,
     isCollapsed: overrideIsCollapsed,
     spacing,
+    noAnimation,
     data,
     href,
     ...props
@@ -157,7 +167,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
   const spacingClasses = createSpacingClasses(props)
 
-  const [isCollapsed, setCollapse] = useState(true)
+  const [isCollapsed, setCollapse] = useState(overrideIsCollapsed)
   const isSmallScreen = useMediaQuery({
     matchOnSSR: true,
     when: { max: 'medium' },
@@ -165,7 +175,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
 
   let currentVariant = variant
   if (!variant) {
-    if (childrenItems || data) {
+    if (items || data) {
       currentVariant = isSmallScreen ? 'collapse' : 'multiple'
     } else {
       currentVariant = 'single'
@@ -175,24 +185,6 @@ const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
   useEffect(() => {
     setCollapse(overrideIsCollapsed)
   }, [overrideIsCollapsed])
-
-  const MultipleCrumbs = () => (
-    <ol className="dnb-breadcrumb__list">
-      {data?.map((breadcrumbItem, i) => (
-        <BreadcrumbItem
-          key={`${breadcrumbItem.text}`}
-          variant={
-            (i == 0 && 'home') ||
-            (i == data.length - 1 && 'current') ||
-            null
-          }
-          {...breadcrumbItem}
-        />
-      ))}
-
-      {childrenItems}
-    </ol>
-  )
 
   validateDOMAttributes(allProps, props)
 
@@ -237,16 +229,27 @@ const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
           />
         )}
 
-        {currentVariant === 'multiple' && <MultipleCrumbs />}
+        {currentVariant === 'multiple' && (
+          <BreadcrumbMultiple
+            data={data}
+            items={items}
+            isCollapsed={false}
+            noAnimation={noAnimation}
+          />
+        )}
       </Section>
 
-      {currentVariant === 'collapse' && !isCollapsed && (
+      {currentVariant === 'collapse' && (
         <Section
           style_type={collapsedStyleType}
           className="dnb-breadcrumb__collapse"
-          data-testid="breadcrumb-collapse"
         >
-          <MultipleCrumbs />
+          <BreadcrumbMultiple
+            data={data}
+            items={items}
+            isCollapsed={isCollapsed}
+            noAnimation={noAnimation}
+          />
         </Section>
       )}
     </nav>

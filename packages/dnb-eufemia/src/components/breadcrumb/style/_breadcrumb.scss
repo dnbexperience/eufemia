@@ -42,16 +42,32 @@
     }
   }
 
+  &__animation {
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+    transition: height 400ms #{$defaultEasing};
+  }
+  &__animation &__item {
+    transition: transform 400ms #{$defaultEasing} calc(var(--delay) * 50ms);
+    transform: translateX(-1rem);
+  }
+  &__animation.dnb-height-animation--parallax &__item {
+    transform: translateX(0);
+  }
+
   &__collapse {
     display: flex;
     flex-direction: column;
-    padding: 0 var(--spacing-large);
   }
   &__collapse &__list {
     flex-direction: column;
     align-items: flex-start;
+
+    padding: 0 var(--spacing-large);
   }
-  &--spacing &__collapse {
+  &--spacing &__collapse &__list {
     padding: var(--spacing-x-small) var(--spacing-large);
   }
 }
