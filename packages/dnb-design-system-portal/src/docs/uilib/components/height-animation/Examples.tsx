@@ -12,6 +12,8 @@ export function HeightAnimationDefault() {
         /* jsx */ `
 const Example = () => {
   const [openState, setOpenState] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(openState)
+  const [contentState, setContentState] = React.useState(false)
 
   const onChangeHandler = ({ checked }) => {
     setOpenState(checked)
@@ -19,19 +21,39 @@ const Example = () => {
 
   return (
     <>
-      <ToggleButton checked={openState} onChange={onChangeHandler} bottom>
-        Toggle me
+      <ToggleButton 
+        checked={openState}
+        onChange={({ checked }) => {
+          setOpenState(checked)
+        }}
+        right
+      >
+        Open/close
+      </ToggleButton>
+      <ToggleButton
+        checked={contentState || !openState}
+        disabled={!isOpen}
+        onChange={({ checked }) => {
+          setContentState(checked)
+        }}
+        space={{ top: true, bottom: true }}
+      >
+        Change height inside
       </ToggleButton>
 
-      <Section style_type="lavender">
+      <Section style_type="lavender" top>
         <HeightAnimation
           open={openState}
+          onOpen={setIsOpen}
         >
-          <P className="content-element" top="large" bottom="large">
-            Your content
-          </P>
+        <Section spacing style_type="lavender">
+          <P space={0}>Your content</P>
+        </Section>
+          {contentState && <P space={0}>More content</P>}
         </HeightAnimation>
       </Section>
+
+      <P top>Look at me 👀</P>
     </>
   )
 }
@@ -49,7 +71,9 @@ export function HeightAnimationKeepInDOM() {
       {
         /* jsx */ `
 const Example = () => {
-  const [openState, setOpenState] = React.useState(false)
+  const [openState, setOpenState] = React.useState(true)
+  const [isOpen, setIsOpen] = React.useState(openState)
+  const [contentState, setContentState] = React.useState(false)
 
   const onChangeHandler = ({ checked }) => {
     setOpenState(checked)
@@ -57,19 +81,37 @@ const Example = () => {
 
   return (
     <>
-      <ToggleButton checked={openState} onChange={onChangeHandler} bottom>
-        Toggle me
+      <ToggleButton 
+        checked={openState}
+        onChange={({ checked }) => {
+          setOpenState(checked)
+        }}
+        right
+      >
+        Open/close
+      </ToggleButton>
+      <ToggleButton
+        checked={contentState || !openState}
+        disabled={!isOpen}
+        onChange={({ checked }) => {
+          setContentState(checked)
+        }}
+        space={{ top: true, bottom: true }}
+      >
+        Change height inside
       </ToggleButton>
 
-      <StyledSection style_type="lavender">
+      <StyledSection style_type="lavender" top>
         <HeightAnimation
           open={openState}
           keepInDOM={true}
           duration={1000}
+          onOpen={setIsOpen}
         >
-          <P className="content-element" space={0}>
-            Your content
-          </P>
+          <Section spacing style_type="lavender">
+            <P space={0}>Your content</P>
+          </Section>
+          {contentState && <P space={0}>More content</P>}
         </HeightAnimation>
       </StyledSection>
     </>

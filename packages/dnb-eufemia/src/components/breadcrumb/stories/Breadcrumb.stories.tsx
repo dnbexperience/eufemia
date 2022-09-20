@@ -9,6 +9,7 @@ import React, { useState } from 'react'
 import { Box, Wrapper } from 'storybook-utils/helpers'
 import {
   Skeleton,
+  ToggleButton,
   // ToggleButton,
   // Button,
 } from '../../'
@@ -44,19 +45,24 @@ const breadcrumbItems: BreadcrumbItemProps[] = [
 ]
 
 export const Multiple = () => {
-  // const [showHome, makeHomeVisible] = React.useState(false)
+  const list = [...breadcrumbItems]
+  const [removeLast, setRemoveLast] = React.useState(false)
+  if (removeLast) {
+    list.pop()
+  }
   return (
     <Provider>
-      {/* <ToggleButton
-        on_change={() => {
-          makeHomeVisible((s) => !s)
-        }}
-      >
-        Toggle Home
-      </ToggleButton>
-      <br /> */}
       <Skeleton>
-        <Breadcrumb data={breadcrumbItems} />
+        <ToggleButton
+          bottom
+          on_change={() => {
+            setRemoveLast((s) => !s)
+          }}
+        >
+          Toggle last item
+        </ToggleButton>
+
+        <Breadcrumb data={list} />
       </Skeleton>
     </Provider>
   )

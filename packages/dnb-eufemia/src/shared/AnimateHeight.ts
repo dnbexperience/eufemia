@@ -152,7 +152,7 @@ export default class AnimateHeight {
     }
   }
   getHeight() {
-    return parseFloat(String(this.elem.clientHeight)) || null
+    return parseFloat(String(this.elem?.clientHeight)) || null
   }
   getWidth() {
     if (!this.isInBrowser) {

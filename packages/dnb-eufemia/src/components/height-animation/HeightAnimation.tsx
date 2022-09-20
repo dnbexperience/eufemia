@@ -41,6 +41,18 @@ export type HeightAnimationProps = {
    */
   innerRef?: React.RefObject<HTMLElement>
 
+  /**
+   * Is called when fully opened or closed
+   * Default: null
+   */
+  onOpen?: (isOpen: boolean) => void
+
+  /**
+   * Is called when animation is done and the full height has reached
+   * Default: null
+   */
+  onAnimationEnd?: () => void
+
   className?: React.ReactNode
   children?: React.ReactNode | HTMLElement
 }
@@ -54,17 +66,20 @@ export default function HeightAnimation({
   className,
   innerRef,
   children,
+  onOpen = null,
+  onAnimationEnd = null,
   ...props
 }: HeightAnimationProps & ISpacingProps) {
   const ref = React.useRef<HTMLElement>()
 
-  const { isInDOM, isVisible, isVisibleParallax } = useHeightAnimation(
-    innerRef || ref,
-    {
+  const { isInDOM, isVisible, isVisibleParallax, isAnimating } =
+    useHeightAnimation(innerRef || ref, {
       open,
       animate,
-    }
-  )
+      children,
+      onOpen,
+      onAnimationEnd,
+    })
 
   if (!isInDOM && !keepInDOM) {
     return null
@@ -84,6 +99,7 @@ export default function HeightAnimation({
         isInDOM && 'dnb-height-animation--is-in-dom',
         isVisible && 'dnb-height-animation--is-visible',
         isVisibleParallax && 'dnb-height-animation--parallax',
+        isAnimating && 'dnb-height-animation--animating',
         className
       )}
       style={style}
