@@ -15,10 +15,15 @@ export type { MediaQueryProps }
 
 export default function useMediaQuery(props: MediaQueryProps) {
   const context = React.useContext(Context)
-  const { query, when, not, matchOnSSR } = props
-  let [matches] = React.useState(() =>
-    !isMatchMediaSupported() && isTrue(matchOnSSR) ? true : false
-  )
+  const { query, when, not, matchOnSSR, disabled } = props
+
+  let matches = React.useMemo(() => {
+    if (disabled) {
+      return false // stop here
+    }
+
+    return isTrue(matchOnSSR) && !isMatchMediaSupported()
+  }, [disabled, matchOnSSR])
 
   const mediaQueryList = React.useRef(
     makeMediaQueryList(props, context.breakpoints)
@@ -30,7 +35,11 @@ export default function useMediaQuery(props: MediaQueryProps) {
   const [match, matchUpdate] = React.useState(matches)
 
   const listenerRef = React.useRef<MediaQueryListener>()
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
+    if (disabled) {
+      return // stop here
+    }
+
     if (typeof listenerRef.current === 'function') {
       listenerRef.current()
 
@@ -47,8 +56,7 @@ export default function useMediaQuery(props: MediaQueryProps) {
     )
 
     return listenerRef.current
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, when, not])
+  }, [query, when, not, disabled]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return match
 }

@@ -32,11 +32,11 @@ describe('MediaQuery', () => {
   })
 
   afterEach(() => {
-    matchMedia.clear()
+    matchMedia?.clear()
   })
 
   afterAll(() => {
-    matchMedia.destroy()
+    matchMedia?.destroy()
   })
 
   it('should match for query with medium width', () => {
