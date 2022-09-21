@@ -154,7 +154,6 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
       <tbody>
         <StickyHelper />
         <InfinityMarker
-          debug
           marker_element="tr"
           fallback_element={({ className, ...props }) => (
             <TableRow className={className}>
