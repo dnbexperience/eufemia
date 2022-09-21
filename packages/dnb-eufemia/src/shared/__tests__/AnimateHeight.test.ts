@@ -64,11 +64,15 @@ describe('AnimateHeight', () => {
     inst.setElement(element)
 
     let _elem
-    window.getComputedStyle = jest.fn((elem) => {
-      _elem = elem
-      return {
-        width: 100,
-      }
+
+    Object.defineProperty(window, 'getComputedStyle', {
+      value: jest.fn((elem) => {
+        _elem = elem
+        return {
+          width: 100,
+        }
+      }),
+      writable: true,
     })
 
     expect(inst.getWidth()).toBe(100)

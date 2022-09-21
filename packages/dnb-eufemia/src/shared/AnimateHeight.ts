@@ -1,7 +1,49 @@
 import { warn } from './component-helper'
 
+export type AnimateHeightOnStartStates =
+  | 'opening'
+  | 'closing'
+  | 'adjusting'
+export type AnimateHeightOnEndStates = 'opened' | 'closed' | 'adjusted'
+export type AnimateHeightStates =
+  | AnimateHeightOnStartStates
+  | AnimateHeightOnEndStates
+  | 'init'
+export type AnimateHeightOptions = {
+  animate?: boolean
+}
+export type AnimateHeightOnStartCallback = (
+  state: AnimateHeightStates
+) => void
+export type AnimateHeightOnEndCallback = (
+  state: AnimateHeightStates
+) => void
+export type AnimateHeightOnStartStack = Array<AnimateHeightOnStartCallback>
+export type AnimateHeightOnEndStack = Array<AnimateHeightOnEndCallback>
+export type AnimateHeightEventListener = (e: Event) => void
+export type AnimateHeightEvents = Array<AnimateHeightEventListener>
+export type AnimateHeightElement = HTMLElement
+export type AnimateHeightContainer = HTMLElement
+export type AnimateHeightFromHeight = number
+export type AnimateHeightToHeight = number
+
 export default class AnimateHeight {
-  constructor(opts = {}) {
+  isInBrowser: boolean
+  state: AnimateHeightStates
+  onStartStack: AnimateHeightOnStartStack
+  onEndStack: AnimateHeightOnEndStack
+  events: AnimateHeightEvents
+  opts: AnimateHeightOptions
+  elem: AnimateHeightElement
+  container: AnimateHeightContainer
+  reqId1: number
+  reqId2: number
+  resizeTimeout: NodeJS.Timeout
+  isAnimating: boolean
+  __currentHeight: number
+  onResize: () => void
+
+  constructor(opts: AnimateHeightOptions = {}) {
     this.isInBrowser = typeof window !== 'undefined'
     this.state = 'init'
     this.onStartStack = []
@@ -42,7 +84,7 @@ export default class AnimateHeight {
     this.elem.style.height = '' // not sure about this
     this.elem.style.width = ''
   }
-  _addEndEvents(listener) {
+  _addEndEvents(listener: AnimateHeightEventListener) {
     this._removeEndEvents() // also, remove events on every open (but not on close!)
 
     this.events.push(listener)
@@ -68,7 +110,10 @@ export default class AnimateHeight {
   }
 
   // Public methods
-  setElement(elem, container = null) {
+  setElement(
+    elem: AnimateHeightElement,
+    container: AnimateHeightContainer = null
+  ) {
     this._removeEndEvents() // in case element gets set several times
 
     this.elem =
@@ -107,7 +152,7 @@ export default class AnimateHeight {
     }
   }
   getHeight() {
-    return parseFloat(this.elem.clientHeight) || null
+    return parseFloat(String(this.elem.clientHeight)) || null
   }
   getWidth() {
     if (!this.isInBrowser) {
@@ -140,13 +185,17 @@ export default class AnimateHeight {
     return this.__currentHeight
   }
 
-  onStart(fn) {
+  onStart(fn: AnimateHeightOnStartCallback) {
     this.onStartStack.push(fn)
   }
-  onEnd(fn) {
+  onEnd(fn: AnimateHeightOnEndCallback) {
     this.onEndStack.push(fn)
   }
-  start(fromHeight, toHeight, { animate = true } = {}) {
+  start(
+    fromHeight: AnimateHeightFromHeight,
+    toHeight: AnimateHeightToHeight,
+    { animate = true }: AnimateHeightOptions = {}
+  ) {
     if (window?.location?.href?.includes('data-visual-test')) {
       animate = false
     }
@@ -214,7 +263,12 @@ export default class AnimateHeight {
       window.cancelAnimationFrame(this.reqId2)
     }
   }
-  adjustFrom(height = null) {
+  /**
+   * Deprecated
+   * "adjustFrom" is only used by GlobalStatus.js
+   * it should be replaced with "useHeightAnimation"
+   */
+  adjustFrom(height: AnimateHeightFromHeight = null) {
     if (!this.elem) {
       return
     }
@@ -223,7 +277,11 @@ export default class AnimateHeight {
     this.elem.style.height = `${height}px`
     return height
   }
-  adjustTo(fromHeight = null, toHeight = null, { animate = true } = {}) {
+  adjustTo(
+    fromHeight: AnimateHeightFromHeight = null,
+    toHeight: AnimateHeightToHeight = null,
+    { animate = true }: AnimateHeightOptions = {}
+  ) {
     if (!this.elem) {
       return
     }
@@ -250,7 +308,7 @@ export default class AnimateHeight {
     this.state = 'adjusting'
     this.start(fromHeight, toHeight, { animate })
   }
-  open({ animate = true } = {}) {
+  open({ animate = true }: AnimateHeightOptions = {}) {
     if (
       !this.elem ||
       this.state === 'opened' ||
@@ -276,7 +334,7 @@ export default class AnimateHeight {
     this.state = 'opening'
     this.start(0, height, { animate })
   }
-  close({ animate = true } = {}) {
+  close({ animate = true }: AnimateHeightOptions = {}) {
     if (
       !this.elem ||
       this.state === 'closed' ||
