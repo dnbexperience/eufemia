@@ -9,8 +9,10 @@ import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
 import { SkeletonShow } from '../skeleton/Skeleton'
-import { usePropsWithContext } from '../../shared/component-helper'
-import { warn } from '../../shared/component-helper'
+import {
+  warn,
+  extendPropsWithContext,
+} from '../../shared/component-helper'
 
 export interface BadgeProps {
   /**
@@ -80,7 +82,7 @@ function Badge(localProps: BadgeAndISpacingProps) {
   const context = React.useContext(Context)
 
   // Extract additional props from global context
-  const { children, ...props } = usePropsWithContext(
+  const { children, ...props } = extendPropsWithContext(
     localProps,
     defaultProps,
     context?.Badge

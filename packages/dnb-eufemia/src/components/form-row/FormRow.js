@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   extend,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   isTrue,
   makeUniqueId,
   registerElement,
@@ -147,10 +147,10 @@ export default class FormRow extends React.PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       FormRow.defaultProps,
-      this.context.FormRow
+      this.context.FormRow // nested FormRow
     )
 
     const {

@@ -15,26 +15,53 @@ export function extendPropsWithContext<Props>(
   defaults: DefaultsProps = {},
   ...contexts: Contexts
 ) {
-  const context = contexts.reduce((acc, cur) => {
+  props = { ...defaults, ...props }
+  return {
+    ...props,
+    ...reduceContextWithValue(props, defaults, contexts),
+  }
+}
+
+export function extendPropsWithContextInClassComponent<Props>(
+  props: Props,
+  defaults: DefaultsProps = {},
+  ...contexts: Contexts
+) {
+  return {
+    ...props,
+    ...reduceContextWithValue(props, defaults, contexts, {
+      checkPropKey: true,
+    }),
+  }
+}
+
+function reduceContext(contexts: Contexts) {
+  return contexts.reduce((acc, cur) => {
     if (cur) {
       acc = { ...acc, ...cur }
     }
     return acc
   }, {})
+}
 
-  return {
-    ...props,
-    ...Object.entries(context).reduce((acc, [key, value]) => {
-      if (
-        // check if a prop of the same name exists
-        typeof props[key] !== 'undefined' &&
-        // and if it was NOT defined as a component prop, because its still the same as the defaults
-        props[key] === defaults[key]
-      ) {
-        // then we use the context value
-        acc[key] = value
-      }
-      return acc
-    }, {}),
-  }
+function reduceContextWithValue<Props>(
+  props: Props,
+  defaults: DefaultsProps,
+  contexts: Contexts,
+  { checkPropKey = false } = {}
+) {
+  const context = reduceContext(contexts)
+  return Object.entries(context).reduce((acc, [key, value]) => {
+    if (
+      // Exists in props, but is same as default prop
+      (checkPropKey
+        ? Object.prototype.hasOwnProperty.call(props, key)
+        : true) &&
+      props[key] === defaults[key]
+    ) {
+      // then we use the context value
+      acc[key] = value
+    }
+    return acc
+  }, {})
 }

@@ -12,7 +12,7 @@ import {
   registerElement,
   validateDOMAttributes,
   processChildren,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
@@ -21,6 +21,7 @@ import {
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
 import { iconCase } from './IconHelpers'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {
@@ -121,11 +122,11 @@ export default class Icon extends React.PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       Icon.defaultProps,
       { skeleton: this.context?.skeleton },
-      this.context.FormRow,
+      includeValidProps(this.context.FormRow),
       this.context.Icon
     )
 

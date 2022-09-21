@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import {
   isTrue,
   validateDOMAttributes,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
 import IconPrimary from '../../components/icon-primary/IconPrimary'
 import classnames from 'classnames'
@@ -174,7 +174,7 @@ export default class AccordionHeader extends React.PureComponent {
   }
 
   static defaultProps = {
-    id: null, // make sure we have id here, so it gets picked up by extendPropsWithContext
+    id: null, // make sure we have id here, so it gets picked up by extendPropsWithContextInClassComponent
     title: null,
     description: null,
     left_component: null,
@@ -243,7 +243,7 @@ export default class AccordionHeader extends React.PureComponent {
   }
 
   render() {
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       AccordionHeader.defaultProps,
       this.context

@@ -12,13 +12,13 @@ import { useMediaQuery } from '../../shared'
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
 import { SkeletonShow } from '../skeleton/Skeleton'
-import { usePropsWithContext } from '../../shared/hooks'
 
 // Internal
 import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem'
 import {
   convertJsxToString,
   validateDOMAttributes,
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 import { BreadcrumbMultiple } from './BreadcrumbMultiple'
 
@@ -137,7 +137,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
   const context = React.useContext(Context)
 
   // Extract additional props from global context
-  const allProps = usePropsWithContext(
+  const allProps = extendPropsWithContext(
     localProps,
     defaultProps,
     context?.translation?.Breadcrumb,

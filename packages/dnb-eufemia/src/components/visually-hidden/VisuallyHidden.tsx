@@ -3,7 +3,7 @@ import classnames from 'classnames'
 
 // Shared
 import Context from '../../shared/Context'
-import { usePropsWithContext } from '../../shared/hooks/usePropsWithContext'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import { DynamicElement } from '../../shared/interfaces'
 
 export interface VisuallyHiddenProps {
@@ -43,7 +43,7 @@ const VisuallyHidden = (localProps: VisuallyHiddenProps) => {
 
   // Extract additional props from global context
   const { element, children, className, focusable, ...props } =
-    usePropsWithContext(
+    extendPropsWithContext(
       localProps,
       defaultProps,
       context?.translation?.VisuallyHidden,

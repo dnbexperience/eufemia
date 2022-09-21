@@ -6,12 +6,13 @@
 import React from 'react'
 import classnames from 'classnames'
 import {
-  usePropsWithContext,
+  extendPropsWithContext,
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import { createSpacingClasses } from '../../components/space/SpacingHelper'
 import { ISpacingProps } from '../../shared/interfaces'
+import { includeValidProps } from '../../components/form-row/FormRowHelpers'
 
 export type ScrollViewProps = {
   className?: string
@@ -29,10 +30,10 @@ function ScrollView(localProps: ScrollViewProps) {
   const context = React.useContext(Context)
 
   // use only the props from context, who are available here anyway
-  const props = usePropsWithContext(
+  const props = extendPropsWithContext(
     localProps,
     defaultProps,
-    context.FormRow,
+    includeValidProps(context.FormRow),
     context.ScrollView
   )
 

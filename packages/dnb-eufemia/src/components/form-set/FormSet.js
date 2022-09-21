@@ -10,7 +10,7 @@ import {
   isTrue,
   makeUniqueId,
   extend,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   registerElement,
   validateDOMAttributes,
   processChildren,
@@ -78,7 +78,7 @@ export default class FormSet extends React.PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       FormSet.defaultProps,
       this.context.FormSet

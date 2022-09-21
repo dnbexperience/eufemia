@@ -29,4 +29,18 @@ describe('filterValidProps', () => {
       key: 'only-me',
     })
   })
+
+  it('should exclude unwanted props', () => {
+    type Props = {
+      key: string
+      foo: string
+    }
+    const props: Props = { key: 'only-me', foo: 'bar' }
+    const excludeKeys = { foo: null }
+
+    const result = filterValidProps(props, null, excludeKeys)
+    expect(result).toEqual({
+      key: 'only-me',
+    })
+  })
 })

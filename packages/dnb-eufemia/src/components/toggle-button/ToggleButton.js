@@ -12,13 +12,14 @@ import {
   isTrue,
   makeUniqueId,
   registerElement,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 import {
   spacingPropTypes,
   createSpacingClasses,
@@ -283,13 +284,20 @@ export default class ToggleButton extends React.PureComponent {
     return (
       <Context.Consumer>
         {(context) => {
-          // use only the props from context, who are available here anyway
-          const props = extendPropsWithContext(
+          // from internal context
+          const contextProps = extendPropsWithContextInClassComponent(
             this.props,
             ToggleButton.defaultProps,
-            this.context, // internal context
+            this.context
+          )
+
+          // use only the props from context, who are available here anyway
+          const props = extendPropsWithContextInClassComponent(
+            this.props,
+            ToggleButton.defaultProps,
+            contextProps,
             context.translation.ToggleButton,
-            context.FormRow,
+            includeValidProps(context.FormRow),
             context.ToggleButton
           )
 

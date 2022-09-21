@@ -11,7 +11,7 @@ import {
   warn,
   isTrue,
   makeUniqueId,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   registerElement,
   validateDOMAttributes,
   getStatusState,
@@ -24,6 +24,7 @@ import {
   spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 
 import Suffix from '../../shared/helpers/Suffix'
 import Icon from '../icon-primary/IconPrimary'
@@ -419,12 +420,12 @@ class DropdownInstance extends React.PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       Dropdown.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Dropdown,
-      this.context.FormRow,
+      includeValidProps(this.context.FormRow),
       this.context.Dropdown
     )
 

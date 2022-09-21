@@ -14,7 +14,7 @@ import pinIcon from '../../icons/pin'
 // Shared
 import Context from '../../shared/Context'
 import { SkeletonShow } from '../skeleton/Skeleton'
-import { usePropsWithContext } from '../../shared/hooks'
+import { extendPropsWithContext } from '../../shared/component-helper'
 
 export interface TimelineItemProps {
   /**
@@ -91,7 +91,7 @@ const TimelineItem = (localProps: TimelineItemProps) => {
   } = context
 
   // Extract additional props from global context
-  const allProps = usePropsWithContext(
+  const allProps = extendPropsWithContext(
     localProps,
     defaultProps,
     context?.TimelineItem,

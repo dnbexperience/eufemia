@@ -7,9 +7,10 @@ import React from 'react'
 import classnames from 'classnames'
 import {
   convertJsxToString,
-  usePropsWithContext,
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Button, { ButtonProps } from '../button/Button'
 
@@ -22,10 +23,10 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
   const context = React.useContext(Context)
 
   // use only the props from context, who are available here anyway
-  const props = usePropsWithContext(
+  const props = extendPropsWithContext(
     localProps,
     defaultProps,
-    context.FormRow,
+    includeValidProps(context.FormRow),
     context.HelpButton
   )
 

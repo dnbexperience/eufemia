@@ -13,7 +13,7 @@ import homeIcon from '../../icons/home'
 // Shared
 import Context from '../../shared/Context'
 import { SkeletonShow } from '../skeleton/Skeleton'
-import { usePropsWithContext } from '../../shared/hooks'
+import { extendPropsWithContext } from '../../shared/component-helper'
 
 export interface BreadcrumbItemProps {
   /**
@@ -75,7 +75,11 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
 
   // Extract additional props from global context
   const { text, href, icon, onClick, variant, skeleton, style, ...props } =
-    usePropsWithContext(localProps, defaultProps, context?.BreadcrumbItem)
+    extendPropsWithContext(
+      localProps,
+      defaultProps,
+      context?.BreadcrumbItem
+    )
 
   const currentIcon: IconPrimaryIcon =
     icon || (variant === 'home' && homeIcon) || 'chevron_left'

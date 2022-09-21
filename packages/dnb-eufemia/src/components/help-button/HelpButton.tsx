@@ -9,7 +9,7 @@ import Modal from '../modal/Modal'
 import HelpButtonInstance from './HelpButtonInstance'
 import { ButtonProps } from '../button/Button'
 import { ModalProps } from '../modal/types'
-import { usePropsWithContext } from '../../shared/hooks'
+import { extendPropsWithContext } from '../../shared/component-helper'
 
 const defaultProps = {
   variant: 'secondary',
@@ -32,7 +32,7 @@ export default function HelpButton(localProps: HelpButtonProps) {
   }
 
   const context = React.useContext(Context)
-  const props = usePropsWithContext(localProps, defaultProps)
+  const props = extendPropsWithContext(localProps, defaultProps)
   const content = getContent(props)
 
   const {

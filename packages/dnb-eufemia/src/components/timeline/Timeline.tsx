@@ -8,11 +8,13 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
 import { SkeletonShow } from '../skeleton/Skeleton'
-import { usePropsWithContext } from '../../shared/hooks'
 
 // Internal
 import TimelineItem, { TimelineItemProps } from './TimelineItem'
-import { validateDOMAttributes } from '../../shared/component-helper'
+import {
+  validateDOMAttributes,
+  extendPropsWithContext,
+} from '../../shared/component-helper'
 
 export interface TimelineProps {
   /**
@@ -54,7 +56,7 @@ const Timeline = (localProps: TimelineProps & ISpacingProps) => {
   const context = React.useContext(Context)
 
   // Extract additional props from global context
-  const allProps = usePropsWithContext(
+  const allProps = extendPropsWithContext(
     localProps,
     defaultProps,
     context?.Timeline,

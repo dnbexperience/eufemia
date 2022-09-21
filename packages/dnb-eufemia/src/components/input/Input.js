@@ -10,7 +10,7 @@ import {
   warn,
   isTrue,
   makeUniqueId,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   registerElement,
   validateDOMAttributes,
   processChildren,
@@ -28,6 +28,7 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 import Button, { buttonVariantPropType } from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -327,12 +328,12 @@ export default class Input extends React.PureComponent {
   }
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       Input.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Input,
-      this.context.FormRow,
+      includeValidProps(this.context.FormRow),
       this.context.Input
     )
 

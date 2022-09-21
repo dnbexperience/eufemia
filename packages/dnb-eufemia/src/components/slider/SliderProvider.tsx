@@ -1,12 +1,12 @@
 import React from 'react'
 import { includeValidProps } from '../../components/form-row/FormRowHelpers'
-import { usePropsWithContext } from '../../shared/hooks'
 import {
   warn,
   isTrue,
   makeUniqueId,
   dispatchCustomElementEvent,
   getStatusState,
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 
 import Context from '../../shared/Context'
@@ -41,7 +41,7 @@ export const SliderContext = React.createContext<SliderContextTypes>(null)
 export function SliderProvider(localProps: SliderProps) {
   const context = React.useContext(Context)
   const allProps = convertSnakeCaseProps(
-    usePropsWithContext(
+    extendPropsWithContext(
       localProps,
       defaultProps,
       { skeleton: context?.skeleton },

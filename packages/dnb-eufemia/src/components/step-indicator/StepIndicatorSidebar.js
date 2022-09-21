@@ -6,7 +6,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import { extendPropsWithContextInClassComponent } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import StepIndicatorList from './StepIndicatorList'
 import {
@@ -49,7 +49,7 @@ export default class StepIndicatorSidebar extends React.PureComponent {
   }
 
   getContextAndProps() {
-    const providerProps = extendPropsWithContext(
+    const providerProps = extendPropsWithContextInClassComponent(
       this.props,
       stepIndicatorDefaultProps,
       { skeleton: this.context?.skeleton },

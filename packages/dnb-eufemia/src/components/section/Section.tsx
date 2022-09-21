@@ -61,11 +61,6 @@ export type SectionProps = {
 
 const defaultProps = {
   element: 'section',
-  style_type: null,
-  spacing: null,
-  inner_ref: null,
-  className: null,
-  children: null,
 }
 
 export default function Section(localProps: SectionProps) {
@@ -75,7 +70,6 @@ export default function Section(localProps: SectionProps) {
   const props = extendPropsWithContext(
     localProps,
     defaultProps,
-    context.FormRow,
     context.Section
   )
 

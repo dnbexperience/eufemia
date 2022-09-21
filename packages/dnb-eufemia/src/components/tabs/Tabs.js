@@ -14,7 +14,7 @@ import {
   isTrue,
   makeUniqueId,
   registerElement,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   dispatchCustomElementEvent,
   getPreviousSibling,
@@ -1161,7 +1161,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
   }
 
   render() {
-    const props = (this._props = extendPropsWithContext(
+    const props = (this._props = extendPropsWithContextInClassComponent(
       this.props,
       Tabs.defaultProps,
       { skeleton: this.context?.skeleton }

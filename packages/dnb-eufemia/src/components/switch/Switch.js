@@ -10,13 +10,14 @@ import keycode from 'keycode'
 import {
   isTrue,
   makeUniqueId,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   registerElement,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   spacingPropTypes,
@@ -206,12 +207,12 @@ export default class Switch extends React.PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       Switch.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Switch,
-      this.context.FormRow,
+      includeValidProps(this.context.FormRow),
       this.context.Switch
     )
 
