@@ -935,9 +935,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                           shadow_class="dnb-drawer__navigation--sticky"
                         >
                           <Section
-                            class={null}
                             className="dnb-modal__header__bar dnb-drawer__navigation"
-                            element="section"
                             inner_ref={
                               Object {
                                 "current": <section
@@ -991,7 +989,6 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                                 </section>,
                               }
                             }
-                            spacing={null}
                             style_type="white"
                           >
                             <section
@@ -1182,12 +1179,8 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                           title_class="dnb-drawer__title"
                         >
                           <Section
-                            class={null}
                             className="dnb-drawer__header"
-                            element="section"
                             id="dnb-modal-drawer_id-title"
-                            inner_ref={null}
-                            spacing={null}
                             style_type="white"
                           >
                             <section

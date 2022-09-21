@@ -5,7 +5,7 @@
 
 @import '../../../../style/elements/_anchor-mixins.scss';
 
-@mixin SectionTheme() {
+.dnb-section {
   &--divider {
     color: var(--color-black-80);
     &::after {
@@ -135,8 +135,4 @@
       background-color: var(--color-white);
     }
   }
-}
-
-.dnb-section {
-  @include SectionTheme();
 }

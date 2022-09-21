@@ -34,14 +34,16 @@ describe('FormRow component', () => {
   it('should have vertical direction class', () => {
     const Comp = mount(<Component {...props} direction="vertical" />)
     expect(
-      Comp.find('.dnb-form-row').hasClass('dnb-form-row--vertical')
+      Comp.find('.dnb-form-row').last().hasClass('dnb-form-row--vertical')
     ).toBe(true)
   })
 
   it('should have correct indent class', () => {
     const Comp = mount(<Component {...props} indent="large" />)
     expect(
-      Comp.find('.dnb-form-row').hasClass('dnb-form-row__indent--large')
+      Comp.find('.dnb-form-row')
+        .last()
+        .hasClass('dnb-form-row__indent--large')
     ).toBe(true)
   })
 

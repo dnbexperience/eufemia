@@ -4,7 +4,7 @@ import classnames from 'classnames'
 // Components
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import Section from '../section/Section'
+import Section, { SectionStyleTypes } from '../section/Section'
 import Button from '../button/Button'
 
 // Shared
@@ -99,13 +99,13 @@ export interface BreadcrumbProps {
    * Use one of the Section component style types (style_type)
    * Default: transparent
    */
-  styleType?: string
+  styleType?: SectionStyleTypes
 
   /**
    * Use one of the Section component style types (style_type)
    * Default: pistachio
    */
-  collapsedStyleType?: string
+  collapsedStyleType?: SectionStyleTypes
 
   /**
    * Spacing around the breadcrumb
