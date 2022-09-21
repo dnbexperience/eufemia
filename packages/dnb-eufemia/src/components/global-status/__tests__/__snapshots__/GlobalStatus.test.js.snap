@@ -699,21 +699,14 @@ button.dnb-button::-moz-focus-inner {
     z-index: -8; }
   .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
     z-index: -7; }
+  .dnb-section--spacing-x-small {
+    padding: var(--spacing-x-small) 0; }
   .dnb-section--spacing-small {
-    padding-top: var(--spacing-small);
-    padding-bottom: var(--spacing-small); }
+    padding: var(--spacing-small) 0; }
   .dnb-section--spacing-medium {
-    padding-top: var(--spacing-medium);
-    padding-bottom: var(--spacing-medium); }
-  .dnb-section--spacing, .dnb-section--spacing-default, .dnb-section--spacing-large {
-    padding-top: var(--spacing-large);
-    padding-bottom: var(--spacing-large); }
-  .dnb-section--spacing-x-large {
-    padding-top: var(--spacing-x-large);
-    padding-bottom: var(--spacing-xx-large); }
-  .dnb-section--spacing-xx-large {
-    padding-top: var(--spacing-xx-large);
-    padding-bottom: calc(var(--spacing-xx-large) + var(--spacing-small)); }
+    padding: var(--spacing-medium) 0; }
+  .dnb-section--spacing, .dnb-section--spacing-large {
+    padding: var(--spacing-large) 0; }
 
 .dnb-global-status {
   font-family: var(--font-family-default);
@@ -921,11 +914,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
           className="dnb-global-status__content"
         >
           <Section
-            class={null}
-            className={null}
             element="div"
-            inner_ref={null}
-            spacing={null}
             style_type="fire-red-8"
           >
             <div
@@ -1157,11 +1146,8 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                 </Button>
               </p>
               <Section
-                class={null}
                 className="dnb-global-status__message"
                 element="div"
-                inner_ref={null}
-                spacing={null}
                 style_type="fire-red-8"
               >
                 <div
@@ -1281,11 +1267,7 @@ Array [
             className="dnb-global-status__content"
           >
             <Section
-              class={null}
-              className={null}
               element="div"
-              inner_ref={null}
-              spacing={null}
               style_type="fire-red-8"
             >
               <div
@@ -1517,11 +1499,8 @@ Array [
                   </Button>
                 </p>
                 <Section
-                  class={null}
                   className="dnb-global-status__message"
                   element="div"
-                  inner_ref={null}
-                  spacing={null}
                   style_type="fire-red-8"
                 >
                   <div

@@ -2,19 +2,20 @@
 
 exports[`Section component have to match snapshot 1`] = `
 <Section
-  class="class"
-  className="className"
+  0={
+    Object {
+      "displayName": "Section",
+      "props": Object {},
+    }
+  }
   element={null}
   inner_ref={null}
-  spacing="spacing"
   style={null}
   style_type="mint-green-12"
 >
   <section
-    className="dnb-section dnb-section--mint-green-12 dnb-section--spacing-spacing className class"
-  >
-    children
-  </section>
+    className="dnb-section dnb-section--mint-green-12"
+  />
 </Section>
 `;
 
@@ -270,20 +271,13 @@ exports[`Section scss have to match snapshot 1`] = `
     z-index: -8; }
   .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
     z-index: -7; }
+  .dnb-section--spacing-x-small {
+    padding: var(--spacing-x-small) 0; }
   .dnb-section--spacing-small {
-    padding-top: var(--spacing-small);
-    padding-bottom: var(--spacing-small); }
+    padding: var(--spacing-small) 0; }
   .dnb-section--spacing-medium {
-    padding-top: var(--spacing-medium);
-    padding-bottom: var(--spacing-medium); }
-  .dnb-section--spacing, .dnb-section--spacing-default, .dnb-section--spacing-large {
-    padding-top: var(--spacing-large);
-    padding-bottom: var(--spacing-large); }
-  .dnb-section--spacing-x-large {
-    padding-top: var(--spacing-x-large);
-    padding-bottom: var(--spacing-xx-large); }
-  .dnb-section--spacing-xx-large {
-    padding-top: var(--spacing-xx-large);
-    padding-bottom: calc(var(--spacing-xx-large) + var(--spacing-small)); }
+    padding: var(--spacing-medium) 0; }
+  .dnb-section--spacing, .dnb-section--spacing-large {
+    padding: var(--spacing-large) 0; }
 "
 `;

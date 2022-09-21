@@ -918,9 +918,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                             className="dnb-dialog__navigation"
                           >
                             <Section
-                              class={null}
                               className="dnb-modal__header__bar dnb-dialog__navigation"
-                              element="section"
                               inner_ref={
                                 Object {
                                   "current": <section
@@ -974,7 +972,6 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                                   </section>,
                                 }
                               }
-                              spacing={null}
                               style_type="white"
                             >
                               <section
@@ -1166,12 +1163,8 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                             title_class="dnb-dialog__title"
                           >
                             <Section
-                              class={null}
                               className="dnb-dialog__header"
-                              element="section"
                               id="dnb-modal-dialog_id-title"
-                              inner_ref={null}
-                              spacing={null}
                               style_type="white"
                             >
                               <section

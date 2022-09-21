@@ -18,6 +18,7 @@ import AlignmentHelper from '../../shared/AlignmentHelper'
 
 import Context from '../../shared/Context'
 import FormLabel from '../form-label/FormLabel'
+import Section from '../section/Section'
 import {
   spacingPropTypes,
   createSpacingClasses,
@@ -216,12 +217,6 @@ export default class FormRow extends React.PureComponent {
           `dnb-form-row__indent--${isTrue(indent) ? 'default' : indent}`,
         centered && 'dnb-form-row--centered',
         isNested && 'dnb-form-row--nested',
-        section_style ? `dnb-section dnb-section--${section_style}` : null,
-        section_spacing
-          ? `dnb-section--spacing-${
-              isTrue(section_spacing) ? 'default' : section_spacing
-            }`
-          : null,
         createSpacingClasses(props),
         className,
         _className
@@ -261,7 +256,12 @@ export default class FormRow extends React.PureComponent {
     return (
       <Context.Provider value={providerContext}>
         <Fieldset useFieldset={useFieldset}>
-          <div {...params}>
+          <Section
+            style_type={section_style || 'transparent'}
+            spacing={section_spacing}
+            element="div"
+            {...params}
+          >
             <AlignmentHelper />
 
             {label && (
@@ -302,7 +302,7 @@ export default class FormRow extends React.PureComponent {
                 {children}
               </div>
             )}
-          </div>
+          </Section>
         </Fieldset>
       </Context.Provider>
     )

@@ -41,7 +41,7 @@ describe('FormSet component', () => {
       </Component>
     )
     expect(
-      Comp.find('.dnb-form-row').hasClass('dnb-form-row--vertical')
+      Comp.find('.dnb-form-row').last().hasClass('dnb-form-row--vertical')
     ).toBe(true)
   })
 
@@ -84,7 +84,9 @@ describe('FormSet component', () => {
       </Component>
     )
     expect(
-      Comp.find('.dnb-form-row').hasClass('dnb-form-row__indent--large')
+      Comp.find('.dnb-form-row')
+        .last()
+        .hasClass('dnb-form-row__indent--large')
     ).toBe(true)
   })
 

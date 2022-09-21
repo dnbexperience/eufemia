@@ -25,6 +25,7 @@ import type { VisuallyHiddenProps } from '../components/visually-hidden/Visually
 import type { DrawerProps } from '../components/drawer/types'
 import type { DialogProps } from '../components/dialog/types'
 import type { TooltipProps } from '../components/tooltip/types'
+import type { SectionProps } from '../components/section/Section'
 
 // All TypeScript based Eufemia elements
 import type { AnchorProps } from '../elements/Anchor'
@@ -50,6 +51,7 @@ export type ContextProps = {
   Drawer?: Partial<DrawerProps>
   Dialog?: Partial<DialogProps>
   Tooltip?: Partial<TooltipProps>
+  Section?: Partial<SectionProps>
   ScrollView?: Partial<ScrollViewProps>
 
   // -- TODO: Not converted yet --

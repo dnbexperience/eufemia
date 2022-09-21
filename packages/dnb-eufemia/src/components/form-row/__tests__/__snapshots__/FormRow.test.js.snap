@@ -36,46 +36,53 @@ exports[`FormRow component have to match snapshot 1`] = `
     <fieldset
       className="dnb-form-row__fieldset"
     >
-      <div
-        className="dnb-form-row dnb-form-row--horizontal dnb-form-row--horizontal-label className class dnb-form-row__indent--indent dnb-form-row--centered dnb-section dnb-section--section_style dnb-section--spacing-section_spacing"
+      <Section
+        className="dnb-form-row dnb-form-row--horizontal dnb-form-row--horizontal-label className class dnb-form-row__indent--indent dnb-form-row--centered"
+        element="div"
+        spacing="section_spacing"
+        style_type="section_style"
       >
-        <AlignmentHelper
-          className={null}
-        >
-          <span
-            aria-hidden={true}
-            className="dnb-alignment-helper"
-          />
-        </AlignmentHelper>
-        <FormLabel
-          class={null}
-          className="dnb-form-row__label label_class"
-          disabled="disabled"
-          element="legend"
-          for_id={null}
-          id="label_id"
-          label_direction="horizontal"
-          skeleton="skeleton"
-          sr_only="label_sr_only"
-          text="label"
-          title={null}
-          vertical={null}
-        >
-          <legend
-            aria-disabled={true}
-            className="dnb-form-label dnb-form-row__label label_class"
-            disabled={true}
-            id="label_id"
-          >
-            label
-          </legend>
-        </FormLabel>
         <div
-          className="dnb-form-row__content dnb-form-row__content--indent_offset dnb-responsive-component"
+          className="dnb-section dnb-section--section_style dnb-form-row dnb-form-row--horizontal dnb-form-row--horizontal-label className class dnb-form-row__indent--indent dnb-form-row--centered dnb-section--spacing-section_spacing"
         >
-          children
+          <AlignmentHelper
+            className={null}
+          >
+            <span
+              aria-hidden={true}
+              className="dnb-alignment-helper"
+            />
+          </AlignmentHelper>
+          <FormLabel
+            class={null}
+            className="dnb-form-row__label label_class"
+            disabled="disabled"
+            element="legend"
+            for_id={null}
+            id="label_id"
+            label_direction="horizontal"
+            skeleton="skeleton"
+            sr_only="label_sr_only"
+            text="label"
+            title={null}
+            vertical={null}
+          >
+            <legend
+              aria-disabled={true}
+              className="dnb-form-label dnb-form-row__label label_class"
+              disabled={true}
+              id="label_id"
+            >
+              label
+            </legend>
+          </FormLabel>
+          <div
+            className="dnb-form-row__content dnb-form-row__content--indent_offset dnb-responsive-component"
+          >
+            children
+          </div>
         </div>
-      </div>
+      </Section>
     </fieldset>
   </Fieldset>
 </FormRow>
@@ -257,8 +264,9 @@ legend.dnb-form-label {
   --form-bounding-height: 0.25rem; }
 
 .dnb-form-row {
-  display: flex;
   align-items: baseline; }
+  .dnb-form-row, .dnb-form-row.dnb-section {
+    display: flex; }
   .dnb-form-row__content {
     display: inline-flex;
     flex: 1;
