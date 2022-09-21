@@ -22,7 +22,7 @@ showTabs: true
 | `collapsedStyleType`                        | _(optional)_ Use one of the Section component style types (style_type). Defaults to `pistachio`.                                                                                                        |
 | `className`                                 | _(optional)_ Custom className for the component root.                                                                                                                                                   |
 | `isCollapsed`                               | _(optional)_ For variant `collapse`, override isCollapsed for the collapsed content by updating this value using the provided property `onClick`.                                                       |
-| `spacing`                                   | _(optional)_ Include spacing in breadcrumb and collapse content by setting `spacing={true}` prop. Defaults to `false`.                                                                                  |
+| `spacing`                                   | _(optional)_ Include spacing properties from [Section](/uilib/components/section/properties) in breadcrumb. If only `true` is given, the spacing will be `small`. Defaults to `false`.                  |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                                   |
 
 ### `Breadcrumb.Item` properties

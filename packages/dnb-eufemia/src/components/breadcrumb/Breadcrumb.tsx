@@ -4,7 +4,10 @@ import classnames from 'classnames'
 // Components
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import Section, { SectionStyleTypes } from '../section/Section'
+import Section, {
+  SectionSpacing,
+  SectionStyleTypes,
+} from '../section/Section'
 import Button from '../button/Button'
 
 // Shared
@@ -17,6 +20,7 @@ import { SkeletonShow } from '../skeleton/Skeleton'
 import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem'
 import {
   convertJsxToString,
+  isTrue,
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
@@ -108,10 +112,10 @@ export interface BreadcrumbProps {
   collapsedStyleType?: SectionStyleTypes
 
   /**
-   * Spacing around the breadcrumb
+   * Include spacing properties from the Section component in breadcrumb. If only `true` is given, the spacing will be `small`.
    * Default: false
    */
-  spacing?: boolean
+  spacing?: SectionSpacing
 
   /**
    * Will disable the height animation
@@ -188,6 +192,8 @@ const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
 
   validateDOMAttributes(allProps, props)
 
+  const innerSpacing = isTrue(spacing) ? 'small' : spacing
+
   return (
     <nav
       aria-label={convertJsxToString(navText)}
@@ -195,13 +201,16 @@ const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
         'dnb-breadcrumb',
         skeletonClasses,
         spacingClasses,
-        spacing && 'dnb-breadcrumb--spacing',
         className
       )}
       data-testid="breadcrumb-nav"
       {...props}
     >
-      <Section style_type={styleType} className="dnb-breadcrumb__bar">
+      <Section
+        className="dnb-breadcrumb__bar"
+        style_type={styleType || 'transparent'}
+        spacing={isSmallScreen ? innerSpacing : false}
+      >
         {currentVariant === 'collapse' && (
           <Button
             text={backToText}
