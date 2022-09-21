@@ -12,8 +12,11 @@ const subtract_medium = (props) => (
     {...props}
   >
     <path
-      d="M21 12.75a.75.75 0 0 0 0-1.5v1.5Zm-18-1.5a.75.75 0 0 0 0 1.5v-1.5Zm18 0H3v1.5h18v-1.5Z"
-      fill="#000"
+      d="M21 12H3"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeMiterlimit={10}
+      strokeLinecap="round"
     />
   </svg>
 )

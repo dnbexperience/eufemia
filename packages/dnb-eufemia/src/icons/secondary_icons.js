@@ -82,8 +82,10 @@ import file from './file.js'
 import file_add from './file_add.js'
 import file_contract from './file_contract.js'
 import file_csv from './file_csv.js'
+import file_jpg from './file_jpg.js'
 import file_loupe from './file_loupe.js'
 import file_pdf from './file_pdf.js'
+import file_png from './file_png.js'
 import file_ppt from './file_ppt.js'
 import file_rejected from './file_rejected.js'
 import file_signing from './file_signing.js'
@@ -94,6 +96,7 @@ import file_xls from './file_xls.js'
 import file_xml from './file_xml.js'
 import filter from './filter.js'
 import first_aid from './first_aid.js'
+import fish from './fish.js'
 import flying_money from './flying_money.js'
 import folder from './folder.js'
 import fridge from './fridge.js'
@@ -145,6 +148,7 @@ import more_vertical from './more_vertical.js'
 import motorcycle from './motorcycle.js'
 import move from './move.js'
 import news from './news.js'
+import newspaper from './newspaper.js'
 import office_buildings from './office_buildings.js'
 import oil from './oil.js'
 import owl from './owl.js'
@@ -187,6 +191,7 @@ import share_ios from './share_ios.js'
 import shield from './shield.js'
 import shopping_cart from './shopping_cart.js'
 import snowmobile from './snowmobile.js'
+import sort from './sort.js'
 import speedometer from './speedometer.js'
 import split from './split.js'
 import star from './star.js'
@@ -304,8 +309,10 @@ export {
   file_add,
   file_contract,
   file_csv,
+  file_jpg,
   file_loupe,
   file_pdf,
+  file_png,
   file_ppt,
   file_rejected,
   file_signing,
@@ -316,6 +323,7 @@ export {
   file_xml,
   filter,
   first_aid,
+  fish,
   flying_money,
   folder,
   fridge,
@@ -367,6 +375,7 @@ export {
   motorcycle,
   move,
   news,
+  newspaper,
   office_buildings,
   oil,
   owl,
@@ -409,6 +418,7 @@ export {
   shield,
   shopping_cart,
   snowmobile,
+  sort,
   speedometer,
   split,
   star,
