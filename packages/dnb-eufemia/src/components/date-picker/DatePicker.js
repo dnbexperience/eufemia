@@ -40,6 +40,7 @@ import DatePickerRange from './DatePickerRange'
 import DatePickerInput from './DatePickerInput'
 import DatePickerAddon from './DatePickerAddon'
 import DatePickerFooter from './DatePickerFooter'
+import DatePickerContainer from './DatePickerContainer'
 
 export default class DatePicker extends React.PureComponent {
   static tagName = 'dnb-date-picker'
@@ -619,51 +620,6 @@ export default class DatePicker extends React.PureComponent {
     validateDOMAttributes(null, submitParams)
     validateDOMAttributes(null, pickerParams)
 
-    const container = (
-      <>
-        <div className="dnb-date-picker__container">
-          {!hidden && (
-            <>
-              <DatePickerRange
-                id={id}
-                firstDayOfWeek={first_day}
-                locale={locale}
-                resetDate={isTrue(reset_date)}
-                isRange={isTrue(range)}
-                isLink={isTrue(link)}
-                isSync={isTrue(sync)}
-                hideDays={isTrue(hide_days)}
-                hideNav={isTrue(hide_navigation)}
-                views={
-                  isTrue(hide_navigation_buttons)
-                    ? [{ nextBtn: false, prevBtn: false }]
-                    : null
-                }
-                onlyMonth={isTrue(only_month)}
-                hideNextMonthWeek={isTrue(hide_last_week)}
-                noAutofocus={isTrue(disable_autofocus)}
-                onChange={this.onPickerChange}
-              />
-              {(addon_element || shortcuts) && (
-                <DatePickerAddon
-                  {...props}
-                  renderElement={addon_element}
-                  shortcuts={shortcuts}
-                />
-              )}
-            </>
-          )}
-        </div>
-
-        <DatePickerFooter
-          isRange={isTrue(range)}
-          onSubmit={this.onSubmitHandler}
-          onCancel={this.onCancelHandler}
-          onReset={this.onResetHandler}
-        />
-      </>
-    )
-
     return (
       <DatePickerProvider
         {...this.props}
@@ -733,7 +689,16 @@ export default class DatePicker extends React.PureComponent {
                   {...status_props}
                 />
 
-                {variant === 'inline' && container}
+                {variant === 'inline' && (
+                  <DatePickerContainer
+                    {...props}
+                    hidden={hidden}
+                    onPickerChange={this.onPickerChange}
+                    onSubmitHandler={this.onSubmitHandler}
+                    onCancelHandler={this.onCancelHandler}
+                    onResetHandler={this.onResetHandler}
+                  />
+                )}
 
                 {variant === 'drawer' && (
                   <Modal
@@ -749,7 +714,16 @@ export default class DatePicker extends React.PureComponent {
                     on_close={this.hidePicker}
                     skip_portal={skip_portal}
                   >
-                    <Modal.Content>{container}</Modal.Content>
+                    <Modal.Content>
+                      <DatePickerContainer
+                        {...props}
+                        hidden={hidden}
+                        onPickerChange={this.onPickerChange}
+                        onSubmitHandler={this.onSubmitHandler}
+                        onCancelHandler={this.onCancelHandler}
+                        onResetHandler={this.onResetHandler}
+                      />
+                    </Modal.Content>
                   </Modal>
                 )}
               </span>
