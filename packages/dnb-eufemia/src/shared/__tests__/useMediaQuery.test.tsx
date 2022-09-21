@@ -4,11 +4,17 @@
  */
 
 import React from 'react'
+import { renderHook } from '@testing-library/react-hooks'
 import { mount } from '../../core/jest/jestSetup'
 import MatchMediaMock from 'jest-matchmedia-mock'
 import useMediaQuery from '../useMediaQuery'
 import Provider from '../Provider'
-import { isMatchMediaSupported } from '../MediaQueryUtils'
+import {
+  isMatchMediaSupported as _isMatchMediaSupported,
+  MediaQueryProps,
+} from '../MediaQueryUtils'
+
+const isMatchMediaSupported = _isMatchMediaSupported as jest.Mock
 
 jest.mock('../MediaQueryUtils', () => ({
   ...jest.requireActual('../MediaQueryUtils'),
@@ -16,7 +22,7 @@ jest.mock('../MediaQueryUtils', () => ({
 }))
 
 describe('useMediaQuery', () => {
-  let matchMedia
+  let matchMedia: MatchMediaMock
 
   beforeAll(() => {
     matchMedia = new MatchMediaMock()
@@ -27,16 +33,16 @@ describe('useMediaQuery', () => {
   })
 
   afterEach(() => {
-    matchMedia.clear()
+    matchMedia?.clear()
   })
 
   afterAll(() => {
-    matchMedia.destroy()
+    matchMedia?.destroy()
   })
 
-  const RenderMediaQueryHook = (props) => {
+  const RenderMediaQueryHook = (props: MediaQueryProps) => {
     const match = useMediaQuery(props)
-    return match ? props.children : null
+    return <>{match ? props.children : null}</>
   }
 
   it('should have valid strings inside render', () => {
@@ -148,5 +154,38 @@ describe('useMediaQuery', () => {
     expect(match2Handler).toHaveBeenCalledTimes(5)
     expect(match1Handler).toHaveBeenCalledWith(true)
     expect(match2Handler).toHaveBeenCalledWith(false)
+  })
+
+  it('can be disabled', () => {
+    jest
+      .spyOn(window, 'matchMedia')
+      .mockImplementationOnce(jest.fn(window.matchMedia))
+
+    matchMedia.useMediaQuery('(min-width: 0) and (max-width: 72em)')
+
+    const when = { min: '0', max: 'x-large' }
+
+    const { result: resultA } = renderHook(() =>
+      useMediaQuery({
+        when,
+      })
+    )
+
+    expect(window.matchMedia).toBeCalledTimes(2)
+    expect(resultA.current).toBe(true)
+
+    jest
+      .spyOn(window, 'matchMedia')
+      .mockImplementationOnce(jest.fn(window.matchMedia))
+
+    const { result: resultB } = renderHook(() =>
+      useMediaQuery({
+        disabled: true,
+        when,
+      })
+    )
+
+    expect(window.matchMedia).toBeCalledTimes(2)
+    expect(resultB.current).toBe(false)
   })
 })

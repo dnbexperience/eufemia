@@ -52,6 +52,11 @@ export type MediaQueryProperties = {
   not?: boolean
 
   /**
+   * If set to true, no MediaQuery will be used.
+   */
+  disabled?: boolean
+
+  /**
    * For debugging
    */
   log?: boolean
@@ -64,6 +69,7 @@ export type MediaQueryProps = {
    * If set to true, it will match and return the given children during SSR.
    */
   matchOnSSR?: boolean
+
   children?: React.ReactNode
 } & MediaQueryProperties
 
@@ -127,10 +133,16 @@ export const isMatchMediaSupported = (): boolean =>
  * @returns MediaQueryList type
  */
 export function makeMediaQueryList(
-  { query, when, not = null, log = false }: MediaQueryProperties = {},
+  {
+    query,
+    when,
+    not = null,
+    log = false,
+    disabled = false,
+  }: MediaQueryProperties = {},
   breakpoints: MediaQueryBreakpoints = null
 ): MediaQueryList {
-  if (!isMatchMediaSupported()) {
+  if (disabled || !isMatchMediaSupported()) {
     return null
   }
 
@@ -142,7 +154,7 @@ export function makeMediaQueryList(
   const mediaQueryList = window.matchMedia(mediaQueryString)
 
   if (log) {
-    console.log('mediaQueryString', mediaQueryString)
+    console.log('MediaQuery:', mediaQueryString)
   }
 
   return mediaQueryList
