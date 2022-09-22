@@ -11,13 +11,20 @@ const play = (props) => (
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
-    <path
-      d="M1.5 2.02v11.96c0 .752.831 1.26 1.488.903l10.995-5.98c.68-.37.699-1.427 0-1.808L2.988 1.115C2.345.766 1.5 1.252 1.5 2.02Z"
-      stroke="#000"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
+    <g clipPath="url(#a)">
+      <path
+        d="M1.5 2.02v11.96c0 .752.831 1.26 1.488.903l10.995-5.98c.68-.37.699-1.427 0-1.808L2.988 1.115C2.345.766 1.5 1.252 1.5 2.02Z"
+        stroke="#000"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h16v16H0z" />
+      </clipPath>
+    </defs>
   </svg>
 )
 

@@ -81,9 +81,11 @@ import factory_medium from './factory_medium.js'
 import file_add_medium from './file_add_medium.js'
 import file_contract_medium from './file_contract_medium.js'
 import file_csv_medium from './file_csv_medium.js'
+import file_jpg_medium from './file_jpg_medium.js'
 import file_loupe_medium from './file_loupe_medium.js'
 import file_medium from './file_medium.js'
 import file_pdf_medium from './file_pdf_medium.js'
+import file_png_medium from './file_png_medium.js'
 import file_ppt_medium from './file_ppt_medium.js'
 import file_rejected_medium from './file_rejected_medium.js'
 import file_signing_medium from './file_signing_medium.js'
@@ -94,6 +96,7 @@ import file_xls_medium from './file_xls_medium.js'
 import file_xml_medium from './file_xml_medium.js'
 import filter_medium from './filter_medium.js'
 import first_aid_medium from './first_aid_medium.js'
+import fish_medium from './fish_medium.js'
 import flying_money_medium from './flying_money_medium.js'
 import folder_medium from './folder_medium.js'
 import fridge_medium from './fridge_medium.js'
@@ -145,6 +148,7 @@ import more_vertical_medium from './more_vertical_medium.js'
 import motorcycle_medium from './motorcycle_medium.js'
 import move_medium from './move_medium.js'
 import news_medium from './news_medium.js'
+import newspaper_medium from './newspaper_medium.js'
 import office_buildings_medium from './office_buildings_medium.js'
 import oil_medium from './oil_medium.js'
 import owl_medium from './owl_medium.js'
@@ -187,6 +191,7 @@ import share_ios_medium from './share_ios_medium.js'
 import shield_medium from './shield_medium.js'
 import shopping_cart_medium from './shopping_cart_medium.js'
 import snowmobile_medium from './snowmobile_medium.js'
+import sort_medium from './sort_medium.js'
 import speedometer_medium from './speedometer_medium.js'
 import split_medium from './split_medium.js'
 import star_medium from './star_medium.js'
@@ -303,9 +308,11 @@ export {
   file_add_medium,
   file_contract_medium,
   file_csv_medium,
+  file_jpg_medium,
   file_loupe_medium,
   file_medium,
   file_pdf_medium,
+  file_png_medium,
   file_ppt_medium,
   file_rejected_medium,
   file_signing_medium,
@@ -316,6 +323,7 @@ export {
   file_xml_medium,
   filter_medium,
   first_aid_medium,
+  fish_medium,
   flying_money_medium,
   folder_medium,
   fridge_medium,
@@ -367,6 +375,7 @@ export {
   motorcycle_medium,
   move_medium,
   news_medium,
+  newspaper_medium,
   office_buildings_medium,
   oil_medium,
   owl_medium,
@@ -409,6 +418,7 @@ export {
   shield_medium,
   shopping_cart_medium,
   snowmobile_medium,
+  sort_medium,
   speedometer_medium,
   split_medium,
   star_medium,

@@ -12,8 +12,11 @@ const add = (props) => (
     {...props}
   >
     <path
-      d="M7.25 14a.75.75 0 0 0 1.5 0h-1.5Zm1.5-12a.75.75 0 0 0-1.5 0h1.5ZM14 8.75a.75.75 0 0 0 0-1.5v1.5ZM2 7.25a.75.75 0 0 0 0 1.5v-1.5ZM8.75 14V2h-1.5v12h1.5ZM14 7.25H2v1.5h12v-1.5Z"
-      fill="#000"
+      d="M8 14V2m6 6H2"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeMiterlimit={10}
+      strokeLinecap="round"
     />
   </svg>
 )
