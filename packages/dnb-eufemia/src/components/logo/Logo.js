@@ -28,6 +28,7 @@ export default class Logo extends React.PureComponent {
     height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     alt: PropTypes.string,
     color: PropTypes.string,
+    inherit_color: PropTypes.bool,
     class: PropTypes.string,
 
     ...spacingPropTypes,
@@ -42,8 +43,8 @@ export default class Logo extends React.PureComponent {
     height: null,
     alt: 'DNB Logo',
     color: null,
+    inherit_color: null,
     class: null,
-
     className: null,
   }
 
@@ -67,6 +68,7 @@ export default class Logo extends React.PureComponent {
       width,
       height,
       color,
+      inherit_color,
       alt,
       className,
       class: _className,
@@ -88,8 +90,9 @@ export default class Logo extends React.PureComponent {
         className,
         _className,
         createSpacingClasses(props),
-        (width > 0 || height > 0) && `dnb-logo--has-size`,
-        size === 'inherit' && `dnb-logo--inherit-size`
+        (width > 0 || height > 0) && 'dnb-logo--has-size',
+        size === 'inherit' && 'dnb-logo--inherit-size',
+        inherit_color && 'dnb-logo--inherit-color'
       ),
       role: 'img',
       alt,

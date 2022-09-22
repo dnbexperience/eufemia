@@ -31,4 +31,11 @@ describe('Logo screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match the inherited color', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="logo-inherit-color"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

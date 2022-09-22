@@ -7,6 +7,7 @@ exports[`Logo component have to match default logo snapshot 1`] = `
   className="className"
   color="color"
   height={80}
+  inherit_color={true}
   ratio={1}
   size={1}
   width={1}
@@ -14,7 +15,7 @@ exports[`Logo component have to match default logo snapshot 1`] = `
   <span
     alt="alt"
     aria-hidden={true}
-    className="dnb-logo className class dnb-logo--has-size"
+    className="dnb-logo className class dnb-logo--has-size dnb-logo--inherit-color"
     data-ratio={1}
     role="img"
   >
@@ -116,6 +117,8 @@ exports[`Logo scss have to match snapshot 1`] = `
   line-height: var(--line-height-xx-small--em);
   color: var(--color-sea-green);
   height: 1em; }
+  .dnb-logo--inherit-color {
+    color: currentColor; }
   .dnb-logo svg {
     fill: currentColor;
     shape-rendering: geometricPrecision; }
