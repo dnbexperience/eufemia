@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { useEventEmitter } from '../helpers'
+import { useEventEmitter } from '../component-helper'
 import ToggleButton from '../../components/toggle-button/ToggleButton'
 
 export default {
