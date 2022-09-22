@@ -8,10 +8,6 @@
 .dnb-avatar {
   color: var(--color-pistachio);
 
-  svg {
-    color: var(--color-pistachio);
-    fill: var(--color-pistachio);
-  }
   &--primary {
     background-color: var(--color-emerald-green);
   }
@@ -21,9 +17,5 @@
   &--tertiary {
     background-color: var(--color-mint-green);
     color: var(--color-emerald-green);
-    svg {
-      color: var(--color-emerald-green);
-      fill: var(--color-emerald-green);
-    }
   }
 }
