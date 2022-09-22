@@ -22,6 +22,13 @@ describe('Logo component', () => {
     const Comp = mount(<Component {...props} />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
+
+  it('should inherit color and vice versa when inherit_color is false', () => {
+    const Comp = mount(<Component inherit_color />)
+    expect(
+      Comp.find('.dnb-logo').hasClass('dnb-logo--inherit-color')
+    ).toBe(true)
+  })
 })
 
 describe('Logo scss', () => {

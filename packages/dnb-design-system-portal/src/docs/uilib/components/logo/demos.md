@@ -2,40 +2,33 @@
 showTabs: true
 ---
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import {
+LogoAutoSizeExample,
+LogoInheritSizeExample,
+LogoDefaultExample,
+LogoInheritColorExample,
+} from 'Docs/uilib/components/logo/Examples'
 
 ## Demos
 
 ### DNB Logo with dynamic height
 
- <ComponentBox data-visual-test="logo-auto-size">
-	{
-	/* jsx */ `
-<span style={{fontSize: '12rem'}}>
-  <Logo size="auto" />
-</span>
-	`
-	}
-</ComponentBox>
+The height will be set based on the inherited `font-size`.
+
+<LogoAutoSizeExample />
 
 ### DNB Logo with dynamic height
 
-<ComponentBox data-visual-test="logo-inherit-size">
-	{
-	/* jsx */ `
-<span style={{height: '12rem'}}>
-  <Logo size="inherit" />
-</span>
-	`
-	}
-</ComponentBox>
+The height will be set based on the parent, inherited `height`.
+
+<LogoInheritSizeExample />
 
 ### DNB Logo with fixed height
 
-<ComponentBox data-visual-test="logo-default">
-	{
-	/* jsx */ `
-<Logo height="192" />
-`
-	}
-</ComponentBox>
+<LogoDefaultExample />
+
+### DNB Logo and inherit color
+
+The color will be set based on the parent, inherited `color` by using `currentColor`.
+
+<LogoInheritColorExample />
