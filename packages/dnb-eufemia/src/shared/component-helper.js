@@ -19,6 +19,7 @@ export { usePropsWithContext } from './hooks/usePropsWithContext'
 export { InteractionInvalidation } from './helpers/InteractionInvalidation'
 export { extendPropsWithContext } from './helpers/extendPropsWithContext'
 export { registerElement } from './custom-element'
+export { useEventEmitter } from './helpers/useEventEmitter'
 
 export { getPreviousSibling, warn }
 

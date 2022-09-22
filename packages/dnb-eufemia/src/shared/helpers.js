@@ -1,6 +1,8 @@
 /**
  * Global helpers
  *
+ * NB: Do not import other deps in this file.
+ * Just to have things clean and one directional.
  */
 
 export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'
@@ -17,8 +19,6 @@ export let IS_WIN = false
 export let IS_MAC = false
 export let IS_ANDROID = false
 export let IS_LINUX = false
-
-export * from './helpers/useEventEmitter'
 
 export const isMac = () =>
   (IS_MAC =
