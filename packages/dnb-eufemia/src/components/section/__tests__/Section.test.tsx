@@ -13,6 +13,7 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import Section from '../Section'
+import Provider from '../../../shared/Provider'
 
 const props = fakeProps(require.resolve('../Section'), {
   all: true,
@@ -30,6 +31,20 @@ describe('Section component', () => {
 
   it('should have correct styles', () => {
     render(<Section style_type="divider" />)
+    expect(
+      document
+        .querySelector('section.dnb-section')
+        .classList.contains('dnb-section--divider')
+    ).toBe(true)
+  })
+
+  it('will use props from Provider', () => {
+    render(
+      <Provider Section={{ style_type: 'divider' }}>
+        <Section />
+      </Provider>
+    )
+
     expect(
       document
         .querySelector('section.dnb-section')

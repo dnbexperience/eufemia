@@ -9,9 +9,10 @@ import Context from '../../shared/Context'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
 import {
   processChildren,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
 import { onMediaQueryChange } from '../../shared/MediaQueryUtils'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 
 // We use this array to filter out unwanted
 const filterAttributes = Object.keys(stepIndicatorDefaultProps)
@@ -192,12 +193,12 @@ export class StepIndicatorProvider extends React.PureComponent {
 
   getGlobalContext(context = this.context) {
     // use only the props from context, who are available here anyway
-    const data = extendPropsWithContext(
+    const data = extendPropsWithContextInClassComponent(
       this.props,
       stepIndicatorDefaultProps,
       { skeleton: context?.skeleton },
       context.getTranslation(context).StepIndicator,
-      context.FormRow,
+      includeValidProps(context.FormRow),
       context.StepIndicator
     )
 

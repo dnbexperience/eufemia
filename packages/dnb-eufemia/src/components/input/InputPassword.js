@@ -9,9 +9,10 @@ import classnames from 'classnames'
 import Context from '../../shared/Context'
 
 import Input, { SubmitButton } from './Input'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 import {
   makeUniqueId,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   convertStatusToStateOnly,
   combineDescribedBy,
   dispatchCustomElementEvent,
@@ -69,12 +70,12 @@ export default class InputPassword extends React.PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       InputPassword.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Input,
-      this.context.FormRow,
+      includeValidProps(this.context.FormRow),
       this.context.Input,
       this.context.InputPassword
     )

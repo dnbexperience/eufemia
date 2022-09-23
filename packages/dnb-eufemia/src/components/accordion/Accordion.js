@@ -12,7 +12,7 @@ import {
   makeUniqueId,
   registerElement,
   findElementInChildren,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
@@ -244,7 +244,7 @@ export default class Accordion extends React.PureComponent {
               let { expanded } = this.state
 
               // use only the props from context, who are available here anyway
-              const props = extendPropsWithContext(
+              const props = extendPropsWithContextInClassComponent(
                 this.props,
                 Accordion.defaultProps,
                 this.context, // group context
@@ -316,7 +316,7 @@ export default class Accordion extends React.PureComponent {
               // to remove spacing props
               validateDOMAttributes(this.props, rest)
 
-              const extendProps = extendPropsWithContext(
+              const extendProps = extendPropsWithContextInClassComponent(
                 this.props,
                 Accordion.defaultProps,
                 this.state,

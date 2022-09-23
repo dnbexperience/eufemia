@@ -16,7 +16,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
   processChildren,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
 import AnimateHeight from '../../shared/AnimateHeight'
 import {
@@ -355,7 +355,7 @@ export default class GlobalStatus extends React.PureComponent {
 
   componentDidUpdate(prevProps) {
     if (prevProps !== this.props) {
-      const globalStatus = extendPropsWithContext(
+      const globalStatus = extendPropsWithContextInClassComponent(
         this.props,
         GlobalStatus.defaultProps,
         this.state.globalStatus
@@ -647,13 +647,13 @@ export default class GlobalStatus extends React.PureComponent {
   render() {
     const { isActive, isAnimating, keepContentVisible } = this.state
 
-    const fallbackProps = extendPropsWithContext(
+    const fallbackProps = extendPropsWithContextInClassComponent(
       this.props,
       GlobalStatus.defaultProps,
       this.context.getTranslation(this.props).GlobalStatus
     )
 
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       GlobalStatusProvider.combineMessages([
         this.context.globalStatus,
         this.state.globalStatus,

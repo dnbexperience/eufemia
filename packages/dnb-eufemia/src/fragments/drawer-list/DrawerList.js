@@ -10,12 +10,13 @@ import keycode from 'keycode'
 import {
   isTrue,
   makeUniqueId,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../../components/space/SpacingHelper'
+import { includeValidProps } from '../../components/form-row/FormRowHelpers'
 
 import DrawerListContext from './DrawerListContext'
 import DrawerListProvider from './DrawerListProvider'
@@ -147,11 +148,11 @@ class DrawerListInstance extends React.PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       DrawerList.defaultProps,
       this.context.getTranslation(this.props).DrawerList,
-      this.context.FormRow,
+      includeValidProps(this.context.FormRow),
       this.context.DrawerList
     )
 

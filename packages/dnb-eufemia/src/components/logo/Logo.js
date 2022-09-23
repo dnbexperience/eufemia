@@ -10,8 +10,9 @@ import Context from '../../shared/Context'
 import {
   validateDOMAttributes,
   registerElement,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 import {
   spacingPropTypes,
   createSpacingClasses,
@@ -54,11 +55,11 @@ export default class Logo extends React.PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       Logo.defaultProps,
       this.context.getTranslation(this.props).Logo,
-      this.context.FormRow,
+      includeValidProps(this.context.FormRow),
       this.context.Logo
     )
 

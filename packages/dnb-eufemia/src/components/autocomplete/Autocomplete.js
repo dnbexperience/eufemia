@@ -12,7 +12,7 @@ import {
   isTrue,
   isTouchDevice,
   makeUniqueId,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
@@ -35,6 +35,7 @@ import {
   spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 
 import Suffix from '../../shared/helpers/Suffix'
 import FormLabel from '../form-label/FormLabel'
@@ -1670,11 +1671,11 @@ class AutocompleteInstance extends React.PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = (this._props = extendPropsWithContext(
+    const props = (this._props = extendPropsWithContextInClassComponent(
       this.props,
       Autocomplete.defaultProps,
       this.context.getTranslation(this.props).Autocomplete,
-      this.context.FormRow,
+      includeValidProps(this.context.FormRow),
       this.context.Autocomplete
     ))
 

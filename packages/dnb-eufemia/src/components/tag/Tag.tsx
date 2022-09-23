@@ -9,8 +9,10 @@ import Button, { ButtonProps } from '../button/Button'
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
 import { SkeletonShow } from '../skeleton/Skeleton'
-import { warn } from '../../shared/component-helper'
-import { usePropsWithContext } from '../../shared/hooks'
+import {
+  warn,
+  extendPropsWithContext,
+} from '../../shared/component-helper'
 
 // Internal
 import TagGroup from './TagGroup'
@@ -84,7 +86,7 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
   const tagGroupContext = React.useContext(TagGroupContext)
 
   // Extract additional props from global context
-  const allProps = usePropsWithContext(
+  const allProps = extendPropsWithContext(
     localProps,
     defaultProps,
     context?.translation?.Tag,

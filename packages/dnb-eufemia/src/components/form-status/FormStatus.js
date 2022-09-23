@@ -13,7 +13,7 @@ import {
   makeUniqueId,
   validateDOMAttributes,
   processChildren,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
 import AnimateHeight from '../../shared/AnimateHeight'
 import {
@@ -26,6 +26,7 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 
 export default class FormStatus extends React.PureComponent {
   static tagName = 'dnb-form-status'
@@ -344,11 +345,11 @@ export default class FormStatus extends React.PureComponent {
     }
 
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       FormStatus.defaultProps,
       { skeleton: this.context && this.context.skeleton },
-      this.context.FormRow,
+      includeValidProps(this.context.FormRow),
       this.context.FormStatus
     )
 

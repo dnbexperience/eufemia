@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   isTrue,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   registerElement,
   processChildren,
   validateDOMAttributes,
@@ -78,7 +78,7 @@ export default class Space extends React.PureComponent {
     // consume the space context
     const props = this.context.space
       ? // use only the props from context, who are available here anyway
-        extendPropsWithContext(
+        extendPropsWithContextInClassComponent(
           this.props,
           Space.defaultProps,
           { skeleton: this.context?.skeleton },

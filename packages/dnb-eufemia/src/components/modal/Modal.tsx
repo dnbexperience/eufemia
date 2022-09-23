@@ -11,7 +11,7 @@ import {
   warn,
   isTrue,
   makeUniqueId,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   registerElement,
   processChildren,
   dispatchCustomElementEvent,
@@ -33,6 +33,7 @@ import {
   ToCamelCasePartial,
 } from '../../shared/helpers/withCamelCaseProps'
 import { ButtonProps } from '../button/Button'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 
 export const ANIMATION_DURATION = 300
 
@@ -407,11 +408,11 @@ class Modal extends React.PureComponent<
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       Modal.defaultProps,
       this.context.getTranslation(this.props).Modal,
-      this.context.FormRow,
+      includeValidProps(this.context.FormRow),
       this.context.Modal
     )
 

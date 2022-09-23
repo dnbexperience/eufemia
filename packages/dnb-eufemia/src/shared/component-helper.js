@@ -15,9 +15,11 @@ import {
 import { getPreviousSibling } from './helpers/getPreviousSibling'
 import { init } from './Eufemia'
 
-export { usePropsWithContext } from './hooks/usePropsWithContext'
 export { InteractionInvalidation } from './helpers/InteractionInvalidation'
-export { extendPropsWithContext } from './helpers/extendPropsWithContext'
+export {
+  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
+} from './helpers/extendPropsWithContext'
 export { registerElement } from './custom-element'
 export { useEventEmitter } from './helpers/useEventEmitter'
 
