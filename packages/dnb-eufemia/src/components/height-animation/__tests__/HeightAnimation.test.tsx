@@ -33,6 +33,7 @@ describe('HeightAnimation', () => {
     open = false,
     animate = true,
     element = 'div',
+    children,
     ...props
   }: Partial<HeightAnimationProps>) => {
     const [openState, setOpenState] = React.useState(open)
@@ -58,7 +59,7 @@ describe('HeightAnimation', () => {
             animate={animate} // Optional
             {...props}
           >
-            <p className="content-element">Your content</p>
+            <p className="content-element">Your content {children}</p>
           </HeightAnimation>
         </section>
       </>
@@ -112,6 +113,50 @@ describe('HeightAnimation', () => {
       expect(
         document.querySelector('.dnb-height-animation--is-visible')
       ).toBeTruthy()
+    })
+  })
+
+  it('should adjust height when content changes', async () => {
+    const { rerender } = render(<Component />)
+
+    expect(document.querySelector('.dnb-height-animation')).toBeFalsy()
+
+    rerender(<Component open />)
+
+    await act(async () => {
+      const element = document.querySelector('.dnb-height-animation')
+
+      simulateAnimationEnd()
+
+      expect(
+        document
+          .querySelector('.dnb-height-animation')
+          .getAttribute('style')
+      ).toBe('height: auto;')
+
+      rerender(<Component open>123</Component>)
+
+      await wait(1)
+
+      expect(
+        document
+          .querySelector('.dnb-height-animation')
+          .getAttribute('style')
+      ).toBe('height: 0px;')
+
+      jest
+        .spyOn(element, 'clientHeight', 'get')
+        .mockImplementationOnce(() => 100)
+
+      rerender(<Component open>456</Component>)
+
+      await wait(1)
+
+      expect(
+        document
+          .querySelector('.dnb-height-animation')
+          .getAttribute('style')
+      ).toBe('height: 100px;')
     })
   })
 
@@ -178,6 +223,7 @@ describe('HeightAnimation', () => {
         'dnb-height-animation--is-in-dom',
         'dnb-height-animation--is-visible',
         'dnb-height-animation--parallax',
+        'dnb-height-animation--animating',
       ])
 
       fireEvent.click(document.querySelector('button'))
@@ -187,6 +233,7 @@ describe('HeightAnimation', () => {
         'dnb-height-animation',
         'dnb-height-animation--is-in-dom',
         'dnb-height-animation--is-visible',
+        'dnb-height-animation--animating',
       ])
 
       simulateAnimationEnd()

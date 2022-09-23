@@ -7,7 +7,7 @@ import styled from '@emotion/styled'
 import React from 'react'
 import { P } from '../../../elements'
 import Section from '../../section/Section'
-import ToggleButton from '../../toggle-button/ToggleButton'
+import { ToggleButton, Button } from '../../'
 import HeightAnimation from '../HeightAnimation'
 
 export default {
@@ -15,30 +15,59 @@ export default {
 }
 
 export const HeightAnimationSandbox = () => {
-  const [openState, setOpenState] = React.useState(false)
-
-  const onChangeHandler = ({ checked }) => {
-    setOpenState(checked)
-  }
+  const [count, setCount] = React.useState(0)
+  const [openState, setOpenState] = React.useState(true)
+  const [isOpen, setIsOpen] = React.useState(true)
+  const [contentState, setContentState] = React.useState(false)
 
   return (
     <>
-      <ToggleButton checked={openState} onChange={onChangeHandler}>
-        Toggle me
+      <ToggleButton
+        checked={openState}
+        onChange={({ checked }) => {
+          setOpenState(checked)
+        }}
+        right
+      >
+        Open/close
       </ToggleButton>
 
-      <StyledSection style_type="lavender">
+      <ToggleButton
+        disabled={!isOpen}
+        checked={contentState}
+        onChange={({ checked }) => {
+          setContentState(checked)
+        }}
+        right
+      >
+        Change height inside
+      </ToggleButton>
+
+      <Button
+        onClick={() => {
+          setCount(count + 1)
+        }}
+      >
+        {count}
+      </Button>
+
+      <StyledSection style_type="lavender" top>
         <HeightAnimation
           open={openState}
           element="div" // Optional
           animate={true} // Optional
           keepInDOM={true} // Optional
+          duration={1000}
+          onOpen={setIsOpen}
         >
-          <P className="content-element" space={0}>
-            Your content
-          </P>
+          <Section spacing style_type="lavender">
+            <P>Your content</P>
+          </Section>
+          {contentState && <P>More content</P>}
         </HeightAnimation>
       </StyledSection>
+
+      <P top>Look at me 👀</P>
     </>
   )
 }

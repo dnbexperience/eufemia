@@ -2,20 +2,57 @@ import React from 'react'
 import AnimateHeight from '../../shared/AnimateHeight'
 
 type useHeightAnimationOptions = {
+  /**
+   * Set to `true` when the view should animate from 0px to auto.
+   * Default: false
+   */
   open?: boolean
+
+  /**
+   * Set to `false` to omit the animation.
+   * Default: true
+   */
   animate?: boolean
+
+  /**
+   * In order to let the Hook know when children has changed
+   */
+  children?: React.ReactNode
+
+  /**
+   * Is called when fully opened or closed
+   * Default: null
+   */
+  onOpen?: (isOpen: boolean) => void
+
+  /**
+   * Is called when animation is done and the full height has reached
+   * Default: null
+   */
+  onAnimationEnd?: (state: HeightAnimationOnEndTypes) => void
 }
 
-export type HeightAnimationOnStartTypes = 'opening' | 'closing'
-export type HeightAnimationOnEndTypes = 'opened' | 'closed'
+export type HeightAnimationOnStartTypes =
+  | 'opening'
+  | 'closing'
+  | 'adjusting'
+
+export type HeightAnimationOnEndTypes = 'opened' | 'closed' | 'adjusted'
 
 export function useHeightAnimation(
   targetRef: React.RefObject<HTMLElement>,
-  { open = null, animate = true }: useHeightAnimationOptions = {}
+  {
+    open = null,
+    animate = true,
+    children = null,
+    onOpen = null,
+    onAnimationEnd = null,
+  }: useHeightAnimationOptions = {}
 ) {
   const animRef = React.useRef(null)
   const [isOpen, setIsOpen] = React.useState(open)
   const [isVisible, setIsVisible] = React.useState(false)
+  const [isAnimating, setIsAnimating] = React.useState(false)
   const [isVisibleParallax, setParallax] = React.useState(open)
   const [isInitialRender, setIsMounted] = React.useState(true)
 
@@ -28,16 +65,26 @@ export function useHeightAnimation(
   React.useLayoutEffect(() => {
     animRef.current = new AnimateHeight({ animate })
 
+    if (isInitialRender && isOpen) {
+      onOpen?.(true)
+    }
+
     if (animate) {
       animRef.current.onStart((state: HeightAnimationOnStartTypes) => {
         switch (state) {
           case 'opening':
             setIsVisible(true)
             setParallax(true)
+            setIsAnimating(true)
             break
 
           case 'closing':
             setParallax(false)
+            setIsAnimating(true)
+            break
+
+          case 'adjusting':
+            setIsAnimating(true)
             break
         }
       })
@@ -46,20 +93,44 @@ export function useHeightAnimation(
         switch (state) {
           case 'opened':
             setIsOpen(true)
+            setIsAnimating(false)
+            onOpen?.(true)
             break
 
           case 'closed':
             setIsVisible(false)
             setIsOpen(false)
             setParallax(false)
+            setIsAnimating(false)
+            onOpen?.(false)
+            break
+
+          case 'adjusted':
+            setIsAnimating(false)
             break
         }
+
+        onAnimationEnd?.(state)
       })
     }
 
     return () => animRef.current?.remove()
-  }, [animate])
+  }, [animate]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  useOpenClose({ open, animRef, targetRef, isInitialRender })
+  useAdjust({ children, animRef, isInitialRender })
+
+  return {
+    open,
+    isOpen,
+    isInDOM: open || isVisible,
+    isVisible,
+    isVisibleParallax,
+    isAnimating,
+  }
+}
+
+function useOpenClose({ open, animRef, targetRef, isInitialRender }) {
   React.useLayoutEffect(() => {
     if (!targetRef.current) {
       return // stop here
@@ -77,12 +148,41 @@ export function useHeightAnimation(
       anim.close()
     }
   }, [open, targetRef, animRef]) // eslint-disable-line
+}
 
-  return {
-    open,
-    isOpen,
-    isInDOM: open || isVisible,
-    isVisible,
-    isVisibleParallax,
+function useAdjust({ children, animRef, isInitialRender }) {
+  const fromHeight = React.useRef(0)
+
+  const shouldAdjust = () => {
+    switch (animRef.current?.state) {
+      case 'opened':
+      case 'adjusted':
+      case 'adjusting':
+        return !isInitialRender
+    }
+
+    return false
   }
+
+  React.useMemo(() => {
+    if (shouldAdjust()) {
+      fromHeight.current = animRef.current?.getHeight()
+    }
+  }, [children]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  React.useLayoutEffect(() => {
+    if (shouldAdjust()) {
+      /**
+       * Ensure we don't have height, while we get the "toHeight" again
+       * We may move this inside of the AnimateHeight class later,
+       * but the "GlobalStatus" is currently relaying on "getUnknownHeight" inside of adjustTo
+       */
+      animRef.current.elem.style.height = ''
+
+      animRef.current.adjustTo(
+        fromHeight.current,
+        animRef.current.getHeight() // use getHeight instead of getUnknownHeight because of the additional, disturbing DOM manipupation
+      )
+    }
+  }, [children]) // eslint-disable-line react-hooks/exhaustive-deps
 }
