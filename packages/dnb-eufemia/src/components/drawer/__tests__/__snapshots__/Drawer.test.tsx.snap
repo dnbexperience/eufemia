@@ -2287,7 +2287,7 @@ button.dnb-button::-moz-focus-inner {
     .dnb-dialog__icon__primary.dnb-dialog__icon--info ::after {
       background-color: var(--color-pistachio); }
   html:not([data-visual-test]) .dnb-dialog {
-    animation: show-modal var(--modal-animation-duration) ease-out forwards; }
+    animation: show-modal var(--modal-animation-duration) ease-out; }
   html:not([data-visual-test]) .dnb-dialog--hide {
     animation: hide-modal 220ms ease-in-out forwards; }
   .dnb-dialog--no-animation {
@@ -2382,7 +2382,7 @@ html[data-dnb-modal-active] {
   .dnb-modal-root__inner .dnb-modal__overlay {
     animation: hide-modal-overlay var(--modal-animation-duration) ease-out forwards; }
   .dnb-modal-root__inner:last-of-type .dnb-modal__overlay {
-    animation: show-modal-overlay var(--modal-animation-duration) ease-out forwards; }
+    animation: show-modal-overlay var(--modal-animation-duration) ease-out; }
     .dnb-modal-root__inner:last-of-type .dnb-modal__overlay--hide {
       animation: hide-modal-overlay var(--modal-animation-duration) ease-out forwards; }
   html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
