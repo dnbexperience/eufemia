@@ -1820,7 +1820,7 @@ describe('Autocomplete component', () => {
         .not('.dnb-input__clear-button')
         .find('.dnb-icon')
         .instance()
-        .getAttribute('data-test-id')
+        .getAttribute('data-testid')
     ).toContain('chevron down')
   })
 
@@ -1971,7 +1971,7 @@ describe('Autocomplete component', () => {
         .not('.dnb-input__clear-button')
         .find('.dnb-icon')
         .instance()
-        .getAttribute('data-test-id')
+        .getAttribute('data-testid')
     ).toContain('bell')
   })
 

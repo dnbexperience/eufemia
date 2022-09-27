@@ -75,7 +75,7 @@ describe('Pagination bar', () => {
       prevNavButton
         .find('span.dnb-icon')
         .instance()
-        .getAttribute('data-test-id')
+        .getAttribute('data-testid')
     ).toBe('chevron left icon')
   })
 

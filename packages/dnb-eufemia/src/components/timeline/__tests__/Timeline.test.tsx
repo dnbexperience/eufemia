@@ -169,9 +169,7 @@ describe('Timeline', () => {
     })
 
     it('renders custom icon', () => {
-      const CustomIcon = (
-        <IconPrimary data-testid="timeline-item-custom-icon" icon="bell" />
-      )
+      const CustomIcon = <IconPrimary icon="bell" />
       render(
         <TimelineItem
           icon={CustomIcon}
@@ -180,9 +178,8 @@ describe('Timeline', () => {
         />
       )
 
-      const element = screen.queryByTestId('timeline-item-custom-icon')
+      const element = screen.queryByTestId('bell icon')
       expect(element).not.toBeNull()
-      expect(element.getAttribute('data-test-id')).toBe('bell icon')
     })
 
     it('renders custom alt label', () => {

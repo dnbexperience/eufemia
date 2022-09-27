@@ -153,7 +153,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
               <span
                 aria-hidden="true"
                 class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                data-test-id="question icon"
+                data-testid="question icon"
                 role="presentation"
               >
                 <svg
@@ -218,7 +218,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                 <span
                   aria-hidden="true"
                   class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                  data-test-id="question icon"
+                  data-testid="question icon"
                   role="presentation"
                 >
                   <svg
@@ -306,7 +306,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     <span
                       aria-hidden="true"
                       class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                      data-test-id="question icon"
+                      data-testid="question icon"
                       role="presentation"
                     >
                       <svg
@@ -374,7 +374,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                 <span
                   aria-hidden={true}
                   className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                  data-test-id="question icon"
+                  data-testid="question icon"
                   role="presentation"
                 >
                   <question>
@@ -443,7 +443,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                   <span
                     aria-hidden="true"
                     class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                    data-test-id="question icon"
+                    data-testid="question icon"
                     role="presentation"
                   >
                     <svg
@@ -507,7 +507,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     <span
                       aria-hidden="true"
                       class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                      data-test-id="question icon"
+                      data-testid="question icon"
                       role="presentation"
                     >
                       <svg
@@ -548,7 +548,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     <span
                       aria-hidden="true"
                       class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                      data-test-id="question icon"
+                      data-testid="question icon"
                       role="presentation"
                     >
                       <svg
@@ -614,7 +614,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     <span
                       aria-hidden="true"
                       class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                      data-test-id="question icon"
+                      data-testid="question icon"
                       role="presentation"
                     >
                       <svg
@@ -654,7 +654,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                       <span
                         aria-hidden="true"
                         class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="question icon"
+                        data-testid="question icon"
                         role="presentation"
                       >
                         <svg
@@ -871,7 +871,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                                 <span
                                   aria-hidden="true"
                                   class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="close icon"
+                                  data-testid="close icon"
                                   role="presentation"
                                 >
                                   <svg
@@ -965,7 +965,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                                       <span
                                         aria-hidden="true"
                                         class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                                        data-test-id="close icon"
+                                        data-testid="close icon"
                                         role="presentation"
                                       >
                                         <svg
@@ -1114,7 +1114,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                                           <span
                                             aria-hidden={true}
                                             className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                                            data-test-id="close icon"
+                                            data-testid="close icon"
                                             role="presentation"
                                           >
                                             <close>

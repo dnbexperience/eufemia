@@ -31,7 +31,7 @@ describe('HelpButton component', () => {
   it('should have question icon by default', () => {
     const Comp = mount(<Component {...props} />)
     expect(
-      Comp.find('.dnb-icon').instance().getAttribute('data-test-id')
+      Comp.find('.dnb-icon').instance().getAttribute('data-testid')
     ).toBe('question icon')
     expect(Comp.find('svg').html()).toBe(mount(<QuestionIcon />).html())
     expect(Comp.find('.dnb-button').text().trim()).toBe('‌')
@@ -40,7 +40,7 @@ describe('HelpButton component', () => {
   it('should use "information" icon when set', () => {
     const Comp = mount(<Component {...props} icon="information" />)
     expect(
-      Comp.find('.dnb-icon').instance().getAttribute('data-test-id')
+      Comp.find('.dnb-icon').instance().getAttribute('data-testid')
     ).toBe('information icon')
     expect(Comp.find('svg').html()).toBe(mount(<InformationIcon />).html())
     expect(Comp.find('.dnb-button').text().trim()).toBe('‌')
@@ -49,7 +49,7 @@ describe('HelpButton component', () => {
   it('should use given icon', () => {
     const Comp = mount(<Component {...props} icon={InformationIcon} />)
     expect(
-      Comp.find('.dnb-icon').instance().getAttribute('data-test-id')
+      Comp.find('.dnb-icon').instance().getAttribute('data-testid')
     ).toBe('information medium icon')
     expect(Comp.find('svg').html()).toBe(mount(<InformationIcon />).html())
     expect(Comp.find('.dnb-button').text().trim()).toBe('‌')

@@ -448,7 +448,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                       <span
                         aria-hidden={true}
                         className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="loupe icon"
+                        data-testid="loupe icon"
                         role="presentation"
                       >
                         <loupe>

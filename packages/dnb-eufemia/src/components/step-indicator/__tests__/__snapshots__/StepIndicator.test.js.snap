@@ -142,7 +142,7 @@ Array [
                         <span
                           aria-hidden="true"
                           class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                          data-test-id="check icon"
+                          data-testid="check icon"
                           role="presentation"
                         >
                           <svg
@@ -212,7 +212,7 @@ Array [
                         <span
                           aria-hidden="true"
                           class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                          data-test-id="check icon"
+                          data-testid="check icon"
                           role="presentation"
                         >
                           <svg
@@ -281,7 +281,7 @@ Array [
                         <span
                           aria-hidden="true"
                           class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                          data-test-id="check icon"
+                          data-testid="check icon"
                           role="presentation"
                         >
                           <svg
@@ -350,7 +350,7 @@ Array [
                         <span
                           aria-hidden="true"
                           class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                          data-test-id="check icon"
+                          data-testid="check icon"
                           role="presentation"
                         >
                           <svg
@@ -459,7 +459,7 @@ Array [
                               <span
                                 aria-hidden="true"
                                 class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                data-test-id="check icon"
+                                data-testid="check icon"
                                 role="presentation"
                               >
                                 <svg
@@ -542,7 +542,7 @@ Array [
                                 <span
                                   aria-hidden="true"
                                   class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <svg
@@ -655,7 +655,7 @@ Array [
                                     <span
                                       aria-hidden="true"
                                       class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                      data-test-id="check icon"
+                                      data-testid="check icon"
                                       role="presentation"
                                     >
                                       <svg
@@ -754,7 +754,7 @@ Array [
                                 <span
                                   aria-hidden={true}
                                   className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <check_medium>
@@ -883,7 +883,7 @@ Array [
                               <span
                                 aria-hidden="true"
                                 class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                data-test-id="check icon"
+                                data-testid="check icon"
                                 role="presentation"
                               >
                                 <svg
@@ -966,7 +966,7 @@ Array [
                                 <span
                                   aria-hidden="true"
                                   class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <svg
@@ -1079,7 +1079,7 @@ Array [
                                     <span
                                       aria-hidden="true"
                                       class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                      data-test-id="check icon"
+                                      data-testid="check icon"
                                       role="presentation"
                                     >
                                       <svg
@@ -1178,7 +1178,7 @@ Array [
                                 <span
                                   aria-hidden={true}
                                   className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <check_medium>
@@ -1306,7 +1306,7 @@ Array [
                               <span
                                 aria-hidden="true"
                                 class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                data-test-id="check icon"
+                                data-testid="check icon"
                                 role="presentation"
                               >
                                 <svg
@@ -1389,7 +1389,7 @@ Array [
                                 <span
                                   aria-hidden="true"
                                   class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <svg
@@ -1502,7 +1502,7 @@ Array [
                                     <span
                                       aria-hidden="true"
                                       class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                      data-test-id="check icon"
+                                      data-testid="check icon"
                                       role="presentation"
                                     >
                                       <svg
@@ -1601,7 +1601,7 @@ Array [
                                 <span
                                   aria-hidden={true}
                                   className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <check_medium>
@@ -1729,7 +1729,7 @@ Array [
                               <span
                                 aria-hidden="true"
                                 class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                data-test-id="check icon"
+                                data-testid="check icon"
                                 role="presentation"
                               >
                                 <svg
@@ -1812,7 +1812,7 @@ Array [
                                 <span
                                   aria-hidden="true"
                                   class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <svg
@@ -1925,7 +1925,7 @@ Array [
                                     <span
                                       aria-hidden="true"
                                       class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                      data-test-id="check icon"
+                                      data-testid="check icon"
                                       role="presentation"
                                     >
                                       <svg
@@ -2024,7 +2024,7 @@ Array [
                                 <span
                                   aria-hidden={true}
                                   className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <check_medium>
@@ -2226,7 +2226,7 @@ Array [
                   <span
                     aria-hidden="true"
                     class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                    data-test-id="chevron right medium icon"
+                    data-testid="chevron right medium icon"
                     role="presentation"
                   >
                     <svg
@@ -2343,7 +2343,7 @@ Array [
                       <span
                         aria-hidden="true"
                         class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="chevron right medium icon"
+                        data-testid="chevron right medium icon"
                         role="presentation"
                       >
                         <svg
@@ -2457,7 +2457,7 @@ Array [
                           <span
                             aria-hidden="true"
                             class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                            data-test-id="chevron right medium icon"
+                            data-testid="chevron right medium icon"
                             role="presentation"
                           >
                             <svg
@@ -2555,7 +2555,7 @@ Array [
                       <span
                         aria-hidden={true}
                         className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="chevron right medium icon"
+                        data-testid="chevron right medium icon"
                         role="presentation"
                       >
                         <chevron_right_medium>
@@ -2862,7 +2862,7 @@ Array [
                         <span
                           aria-hidden="true"
                           class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                          data-test-id="check icon"
+                          data-testid="check icon"
                           role="presentation"
                         >
                           <svg
@@ -2931,7 +2931,7 @@ Array [
                         <span
                           aria-hidden="true"
                           class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                          data-test-id="check icon"
+                          data-testid="check icon"
                           role="presentation"
                         >
                           <svg
@@ -2999,7 +2999,7 @@ Array [
                         <span
                           aria-hidden="true"
                           class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                          data-test-id="check icon"
+                          data-testid="check icon"
                           role="presentation"
                         >
                           <svg
@@ -3067,7 +3067,7 @@ Array [
                         <span
                           aria-hidden="true"
                           class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                          data-test-id="check icon"
+                          data-testid="check icon"
                           role="presentation"
                         >
                           <svg
@@ -3176,7 +3176,7 @@ Array [
                               <span
                                 aria-hidden="true"
                                 class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                data-test-id="check icon"
+                                data-testid="check icon"
                                 role="presentation"
                               >
                                 <svg
@@ -3258,7 +3258,7 @@ Array [
                                 <span
                                   aria-hidden="true"
                                   class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <svg
@@ -3367,7 +3367,7 @@ Array [
                                     <span
                                       aria-hidden="true"
                                       class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                      data-test-id="check icon"
+                                      data-testid="check icon"
                                       role="presentation"
                                     >
                                       <svg
@@ -3465,7 +3465,7 @@ Array [
                                 <span
                                   aria-hidden={true}
                                   className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <check_medium>
@@ -3594,7 +3594,7 @@ Array [
                               <span
                                 aria-hidden="true"
                                 class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                data-test-id="check icon"
+                                data-testid="check icon"
                                 role="presentation"
                               >
                                 <svg
@@ -3676,7 +3676,7 @@ Array [
                                 <span
                                   aria-hidden="true"
                                   class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <svg
@@ -3785,7 +3785,7 @@ Array [
                                     <span
                                       aria-hidden="true"
                                       class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                      data-test-id="check icon"
+                                      data-testid="check icon"
                                       role="presentation"
                                     >
                                       <svg
@@ -3883,7 +3883,7 @@ Array [
                                 <span
                                   aria-hidden={true}
                                   className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <check_medium>
@@ -4011,7 +4011,7 @@ Array [
                               <span
                                 aria-hidden="true"
                                 class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                data-test-id="check icon"
+                                data-testid="check icon"
                                 role="presentation"
                               >
                                 <svg
@@ -4093,7 +4093,7 @@ Array [
                                 <span
                                   aria-hidden="true"
                                   class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <svg
@@ -4202,7 +4202,7 @@ Array [
                                     <span
                                       aria-hidden="true"
                                       class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                      data-test-id="check icon"
+                                      data-testid="check icon"
                                       role="presentation"
                                     >
                                       <svg
@@ -4300,7 +4300,7 @@ Array [
                                 <span
                                   aria-hidden={true}
                                   className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <check_medium>
@@ -4428,7 +4428,7 @@ Array [
                               <span
                                 aria-hidden="true"
                                 class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                data-test-id="check icon"
+                                data-testid="check icon"
                                 role="presentation"
                               >
                                 <svg
@@ -4510,7 +4510,7 @@ Array [
                                 <span
                                   aria-hidden="true"
                                   class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <svg
@@ -4619,7 +4619,7 @@ Array [
                                     <span
                                       aria-hidden="true"
                                       class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                      data-test-id="check icon"
+                                      data-testid="check icon"
                                       role="presentation"
                                     >
                                       <svg
@@ -4717,7 +4717,7 @@ Array [
                                 <span
                                   aria-hidden={true}
                                   className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <check_medium>
@@ -4919,7 +4919,7 @@ Array [
                   <span
                     aria-hidden="true"
                     class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                    data-test-id="chevron right medium icon"
+                    data-testid="chevron right medium icon"
                     role="presentation"
                   >
                     <svg
@@ -5036,7 +5036,7 @@ Array [
                       <span
                         aria-hidden="true"
                         class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="chevron right medium icon"
+                        data-testid="chevron right medium icon"
                         role="presentation"
                       >
                         <svg
@@ -5150,7 +5150,7 @@ Array [
                           <span
                             aria-hidden="true"
                             class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                            data-test-id="chevron right medium icon"
+                            data-testid="chevron right medium icon"
                             role="presentation"
                           >
                             <svg
@@ -5248,7 +5248,7 @@ Array [
                       <span
                         aria-hidden={true}
                         className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="chevron right medium icon"
+                        data-testid="chevron right medium icon"
                         role="presentation"
                       >
                         <chevron_right_medium>
@@ -5556,7 +5556,7 @@ Array [
                         <span
                           aria-hidden="true"
                           class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                          data-test-id="check icon"
+                          data-testid="check icon"
                           role="presentation"
                         >
                           <svg
@@ -5626,7 +5626,7 @@ Array [
                         <span
                           aria-hidden="true"
                           class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                          data-test-id="check icon"
+                          data-testid="check icon"
                           role="presentation"
                         >
                           <svg
@@ -5694,7 +5694,7 @@ Array [
                         <span
                           aria-hidden="true"
                           class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                          data-test-id="check icon"
+                          data-testid="check icon"
                           role="presentation"
                         >
                           <svg
@@ -5762,7 +5762,7 @@ Array [
                         <span
                           aria-hidden="true"
                           class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                          data-test-id="check icon"
+                          data-testid="check icon"
                           role="presentation"
                         >
                           <svg
@@ -5871,7 +5871,7 @@ Array [
                               <span
                                 aria-hidden="true"
                                 class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                data-test-id="check icon"
+                                data-testid="check icon"
                                 role="presentation"
                               >
                                 <svg
@@ -5954,7 +5954,7 @@ Array [
                                 <span
                                   aria-hidden="true"
                                   class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <svg
@@ -6067,7 +6067,7 @@ Array [
                                     <span
                                       aria-hidden="true"
                                       class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                      data-test-id="check icon"
+                                      data-testid="check icon"
                                       role="presentation"
                                     >
                                       <svg
@@ -6166,7 +6166,7 @@ Array [
                                 <span
                                   aria-hidden={true}
                                   className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <check_medium>
@@ -6295,7 +6295,7 @@ Array [
                               <span
                                 aria-hidden="true"
                                 class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                data-test-id="check icon"
+                                data-testid="check icon"
                                 role="presentation"
                               >
                                 <svg
@@ -6378,7 +6378,7 @@ Array [
                                 <span
                                   aria-hidden="true"
                                   class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <svg
@@ -6491,7 +6491,7 @@ Array [
                                     <span
                                       aria-hidden="true"
                                       class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                      data-test-id="check icon"
+                                      data-testid="check icon"
                                       role="presentation"
                                     >
                                       <svg
@@ -6590,7 +6590,7 @@ Array [
                                 <span
                                   aria-hidden={true}
                                   className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <check_medium>
@@ -6718,7 +6718,7 @@ Array [
                               <span
                                 aria-hidden="true"
                                 class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                data-test-id="check icon"
+                                data-testid="check icon"
                                 role="presentation"
                               >
                                 <svg
@@ -6800,7 +6800,7 @@ Array [
                                 <span
                                   aria-hidden="true"
                                   class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <svg
@@ -6909,7 +6909,7 @@ Array [
                                     <span
                                       aria-hidden="true"
                                       class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                      data-test-id="check icon"
+                                      data-testid="check icon"
                                       role="presentation"
                                     >
                                       <svg
@@ -7007,7 +7007,7 @@ Array [
                                 <span
                                   aria-hidden={true}
                                   className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <check_medium>
@@ -7135,7 +7135,7 @@ Array [
                               <span
                                 aria-hidden="true"
                                 class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                data-test-id="check icon"
+                                data-testid="check icon"
                                 role="presentation"
                               >
                                 <svg
@@ -7217,7 +7217,7 @@ Array [
                                 <span
                                   aria-hidden="true"
                                   class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <svg
@@ -7326,7 +7326,7 @@ Array [
                                     <span
                                       aria-hidden="true"
                                       class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                      data-test-id="check icon"
+                                      data-testid="check icon"
                                       role="presentation"
                                     >
                                       <svg
@@ -7424,7 +7424,7 @@ Array [
                                 <span
                                   aria-hidden={true}
                                   className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="check icon"
+                                  data-testid="check icon"
                                   role="presentation"
                                 >
                                   <check_medium>
@@ -7626,7 +7626,7 @@ Array [
                   <span
                     aria-hidden="true"
                     class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                    data-test-id="chevron right medium icon"
+                    data-testid="chevron right medium icon"
                     role="presentation"
                   >
                     <svg
@@ -7743,7 +7743,7 @@ Array [
                       <span
                         aria-hidden="true"
                         class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="chevron right medium icon"
+                        data-testid="chevron right medium icon"
                         role="presentation"
                       >
                         <svg
@@ -7857,7 +7857,7 @@ Array [
                           <span
                             aria-hidden="true"
                             class="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                            data-test-id="chevron right medium icon"
+                            data-testid="chevron right medium icon"
                             role="presentation"
                           >
                             <svg
@@ -7955,7 +7955,7 @@ Array [
                       <span
                         aria-hidden={true}
                         className="dnb-icon dnb-icon--medium dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="chevron right medium icon"
+                        data-testid="chevron right medium icon"
                         role="presentation"
                       >
                         <chevron_right_medium>

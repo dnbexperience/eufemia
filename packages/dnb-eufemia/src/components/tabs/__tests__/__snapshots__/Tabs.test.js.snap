@@ -172,7 +172,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                       <span
                         aria-hidden={true}
                         className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="chevron left icon"
+                        data-testid="chevron left icon"
                         role="presentation"
                       >
                         <chevron_left>
@@ -450,7 +450,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                       <span
                         aria-hidden={true}
                         className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="chevron right icon"
+                        data-testid="chevron right icon"
                         role="presentation"
                       >
                         <chevron_right>
@@ -760,7 +760,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                     <span
                       aria-hidden={true}
                       className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                      data-test-id="chevron left icon"
+                      data-testid="chevron left icon"
                       role="presentation"
                     >
                       <chevron_left>
@@ -1038,7 +1038,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                     <span
                       aria-hidden={true}
                       className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                      data-test-id="chevron right icon"
+                      data-testid="chevron right icon"
                       role="presentation"
                     >
                       <chevron_right>

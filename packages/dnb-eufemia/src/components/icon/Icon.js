@@ -361,7 +361,7 @@ export const prepareIcon = (props, context) => {
       typeof process !== 'undefined' &&
       process.env.NODE_ENV === 'test'
     ) {
-      wrapperParams['data-test-id'] = wrapperParams['aria-label']
+      wrapperParams['data-testid'] = wrapperParams['aria-label']
     }
     delete wrapperParams['aria-label']
   }
