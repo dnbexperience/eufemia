@@ -190,7 +190,7 @@
 
   // Animation in
   html:not([data-visual-test]) & {
-    animation: show-modal var(--modal-animation-duration) ease-out forwards;
+    animation: show-modal var(--modal-animation-duration) ease-out;
   }
   // Animation out
   html:not([data-visual-test]) &--hide {
