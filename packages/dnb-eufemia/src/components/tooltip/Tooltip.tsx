@@ -43,7 +43,7 @@ function Tooltip(localProps: TooltipAllProps) {
     className,
     id, // eslint-disable-line
     tooltip, // eslint-disable-line
-    group,
+    group, // eslint-disable-line
     size,
     animatePosition, // eslint-disable-line
     fixedPosition, // eslint-disable-line
@@ -60,7 +60,6 @@ function Tooltip(localProps: TooltipAllProps) {
 
   const [internalId] = React.useState(() => props.id || makeUniqueId()) // cause we need an id anyway
   props.internalId = internalId
-  props.group = group || localProps.id || 'main-' + props.internalId
 
   const classes = classnames(
     'dnb-tooltip',

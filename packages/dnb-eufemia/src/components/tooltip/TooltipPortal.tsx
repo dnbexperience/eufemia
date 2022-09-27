@@ -5,14 +5,16 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { combineDescribedBy, warn } from '../../shared/component-helper'
+import { makeUniqueId, warn } from '../../shared/component-helper'
 import TooltipContainer from './TooltipContainer'
+import { getTargetElement } from './TooltipHelpers'
 import { TooltipProps } from './types'
 
 type TooltipType = {
   node: HTMLElement
-  count: number
-  timeout?: NodeJS.Timeout
+  inDOM?: boolean
+  delayTimeout?: NodeJS.Timeout
+  hiddenTimeout?: NodeJS.Timeout
 }
 
 let tooltipPortal: Record<string, TooltipType>
@@ -26,165 +28,174 @@ if (typeof globalThis !== 'undefined') {
 type TooltipPortalProps = {
   target: HTMLElement
   active: boolean
+  keepInDOM?: boolean
   group?: string
-  internalId?: string
   children?: React.ReactNode
 }
 
 function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
-  const {
-    active,
-    group,
-    target,
-    hideDelay,
-    noAnimation,
-    internalId,
-    children,
-  } = props
+  const { active, target, hideDelay, keepInDOM, noAnimation, children } =
+    props
 
   const [isMounted, setIsMounted] = React.useState(false)
+  const [isActive, setIsActive] = React.useState(active)
+  const [group] = React.useState(() => props.group || makeUniqueId())
+  const isInDOM = React.useRef(false)
+  const hasGroup = props.group
 
-  React.useLayoutEffect(() => {
-    const getRootElement = () => {
-      if (typeof document !== 'undefined') {
-        try {
-          const elem = document.createElement('div')
-          elem.classList.add('dnb-tooltip__portal')
-          elem.classList.add('dnb-core-style')
-          document.body.appendChild(elem)
+  if (tooltipPortal[group]) {
+    tooltipPortal[group].inDOM = isInDOM.current
+  }
 
-          return elem
-        } catch (e) {
-          warn(e)
-        }
+  const makePortal = () => {
+    if (!tooltipPortal[group]) {
+      tooltipPortal[group] = {
+        node: hasGroup
+          ? createGroupElement(group)
+          : createRootElement('dnb-tooltip__portal'),
       }
     }
+  }
 
-    tooltipPortal[group] = tooltipPortal[group] || {
-      node: getRootElement(),
-      count: 0,
+  const removeFromDOM = () => {
+    if (
+      !keepInDOM &&
+      hasGroup &&
+      tooltipPortal[group] &&
+      !tooltipPortal[group].inDOM
+    ) {
+      ReactDOM.unmountComponentAtNode(tooltipPortal[group].node)
     }
-
-    tooltipPortal[group].count++
-
-    setIsMounted(true)
-
-    if (!isMainGorup(group) && active) {
-      renderPortal(true)
-    }
-
-    return () => {
-      if (tooltipPortal[group]) {
-        tooltipPortal[group].count--
-
-        if (!isMainGorup(group)) {
-          clearTimeout(tooltipPortal[group].timeout)
-          ReactDOM.unmountComponentAtNode(tooltipPortal[group].node)
-        }
-
-        if (tooltipPortal[group].count === 0) {
-          try {
-            document.body.removeChild(tooltipPortal[group].node)
-          } catch (e) {
-            //
-          }
-
-          tooltipPortal[group] = null
-        }
-      }
-    }
-  }, [])
+  }
 
   React.useEffect(() => {
-    if (tooltipPortal?.[group]) {
-      clearTimeout(tooltipPortal[group].timeout)
+    setIsMounted(true)
 
-      if (active) {
-        if (!isMainGorup(group)) {
-          renderPortal(true)
-        }
-      } else if (!active) {
-        const run = () => {
-          if (!isMainGorup(group)) {
-            renderPortal(false)
-          }
-        }
-        if (noAnimation || globalThis.IS_TEST) {
-          run()
-        } else {
-          tooltipPortal[group].timeout = setTimeout(
-            run,
-            parseFloat(String(hideDelay))
-          )
+    clearTimeout(tooltipPortal[group]?.delayTimeout)
+    clearTimeout(tooltipPortal[group]?.hiddenTimeout)
+
+    if (active) {
+      makePortal()
+
+      setIsActive(true)
+      isInDOM.current = true
+
+      if (hasGroup) {
+        renderPortal(true) // re-render
+      }
+    } else if (!active && isMounted) {
+      const delayRender = () => {
+        setIsActive(false)
+
+        if (hasGroup) {
+          renderPortal(false) // re-render
         }
       }
+
+      const delayHidden = () => {
+        isInDOM.current = false
+        removeFromDOM()
+      }
+
+      if (noAnimation || globalThis.IS_TEST) {
+        delayRender()
+        delayHidden()
+      } else if (tooltipPortal[group]) {
+        const delay = parseFloat(String(hideDelay))
+        tooltipPortal[group].delayTimeout = setTimeout(delayRender, delay)
+        tooltipPortal[group].hiddenTimeout = setTimeout(
+          delayHidden,
+          delay + 300
+        )
+      }
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [children, active, group, hideDelay, noAnimation])
 
-  const renderPortal = (isActive: boolean) => {
-    const targetElement = getTargetElement(target)
-
-    if (!isMainGorup(group) && tooltipPortal[group]) {
-      clearTimeout(tooltipPortal[group].timeout)
+  React.useEffect(() => {
+    /**
+     * Because of "aria-describedby" on the target element,
+     * the Tooltip should exist in the DOM
+     */
+    if (keepInDOM) {
+      makePortal()
     }
 
-    handleAria(targetElement, internalId)
+    return removeFromDOM
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-    if (isMainGorup(group)) {
-      return ReactDOM.createPortal(
-        <TooltipContainer
-          {...props}
-          targetElement={targetElement}
-          active={isActive}
-        />,
-        tooltipPortal[group].node
-      )
-    } else {
+  const renderPortal = (isActive: boolean) => {
+    const root = tooltipPortal[group]?.node
+
+    // Ensure we only render when it should (is in DOM)
+    if (root && hasGroup && isInDOM.current) {
       ReactDOM.render(
         <TooltipContainer
           {...props}
-          targetElement={targetElement}
+          targetElement={getTargetElement(target)}
           active={isActive}
         />,
-        tooltipPortal[group].node
+        root
+      )
+    }
+
+    return null
+  }
+
+  if (!hasGroup) {
+    const root = tooltipPortal[group]?.node
+
+    if (root) {
+      return ReactDOM.createPortal(
+        isInDOM.current || keepInDOM ? (
+          <TooltipContainer
+            {...props}
+            targetElement={getTargetElement(target)}
+            active={isActive}
+          >
+            {children}
+          </TooltipContainer>
+        ) : null,
+        root
       )
     }
   }
 
-  if (isMounted && isMainGorup(group)) {
-    return renderPortal(active)
-  }
-
-  return <></>
+  return null
 }
 
 export default TooltipPortal
 
-const isMainGorup = (group) => {
-  return group.includes('main')
-}
+const createGroupElement = (id: string) => {
+  try {
+    const elem = document.createElement('div')
+    elem.classList.add('dnb-tooltip__group')
+    elem.setAttribute('id', id)
+    createRootElement('dnb-tooltip__portal').appendChild(elem)
 
-const getTargetElement = (target) => {
-  if (typeof document !== 'undefined') {
-    return typeof target === 'string'
-      ? typeof document !== 'undefined' && document.querySelector(target)
-      : target
+    return elem
+  } catch (e) {
+    warn(e)
   }
 }
 
-const handleAria = (elem: HTMLElement, internalId: string) => {
+const createRootElement = (className: string) => {
   try {
-    if (!elem.classList.contains('dnb-tooltip__wrapper')) {
-      const existing = {
-        'aria-describedby': elem.getAttribute('aria-describedby'),
-      }
-      elem.setAttribute(
-        'aria-describedby',
-        combineDescribedBy(existing, internalId)
-      )
+    const element: HTMLElement = document.querySelector(`.${className}`)
+
+    if (element) {
+      return element
     }
+
+    const elem = document.createElement('div')
+    elem.classList.add(className)
+    elem.classList.add('dnb-core-style')
+    document.body.appendChild(elem)
+
+    return elem
   } catch (e) {
-    //
+    warn(e)
   }
 }
