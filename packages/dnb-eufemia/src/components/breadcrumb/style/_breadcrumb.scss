@@ -12,16 +12,15 @@
   &__bar.dnb-section {
     display: flex;
   }
-  &--spacing &__bar.dnb-section {
-    padding: var(--spacing-x-small) 0;
-  }
 
-  &__list {
-    list-style: none;
+  &__list.dnb-section {
+    display: flex;
+
     margin: 0;
     padding: 0;
 
-    display: flex;
+    list-style: none;
+
     flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
@@ -32,7 +31,7 @@
       display: flex;
       align-items: center;
       line-height: normal;
-      padding: var(--spacing-x-small) 0;
+      padding: 0.5rem 0;
 
       // To match the other tertiary buttons
       &__icon {
@@ -61,13 +60,11 @@
     display: flex;
     flex-direction: column;
   }
-  &__collapse &__list {
+  &__collapse &__list.dnb-section {
     flex-direction: column;
     align-items: flex-start;
 
-    padding: 0 var(--spacing-large);
-  }
-  &--spacing &__collapse &__list {
-    padding: var(--spacing-x-small) var(--spacing-large);
+    margin: 0.5rem 0;
+    margin-left: 1.5rem;
   }
 }

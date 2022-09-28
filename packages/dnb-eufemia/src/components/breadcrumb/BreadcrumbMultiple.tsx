@@ -1,5 +1,6 @@
 import React from 'react'
 import HeightAnimation from '../height-animation/HeightAnimation'
+import Section from '../section/Section'
 import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem'
 
 type BreadcrumbMultipleProps = {
@@ -22,7 +23,11 @@ export const BreadcrumbMultiple = ({
       data-testid="breadcrumb-collapse"
       className="dnb-breadcrumb__animation"
     >
-      <ol className="dnb-breadcrumb__list">
+      <Section
+        className="dnb-breadcrumb__list"
+        element="ol"
+        style_type="transparent"
+      >
         {data?.map((breadcrumbItem, i) => {
           const style = { '--delay': String(i) } as React.CSSProperties
           return (
@@ -40,7 +45,7 @@ export const BreadcrumbMultiple = ({
         })}
 
         {items}
-      </ol>
+      </Section>
     </HeightAnimation>
   )
 }

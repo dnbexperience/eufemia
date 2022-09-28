@@ -5,6 +5,10 @@
 
 @import '../../../style/components/imports.scss';
 
+// import dependencies
+@import '../../button/style/dnb-button.scss';
+@import '../../section/style/dnb-section.scss';
+
 .dnb-breadcrumb {
   @include componentReset();
 }

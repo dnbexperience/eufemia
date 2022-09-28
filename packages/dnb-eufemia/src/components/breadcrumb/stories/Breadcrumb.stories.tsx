@@ -96,7 +96,11 @@ export const BreadcrumbSandbox = () => {
         <Breadcrumb data={breadcrumbItems} styleType="sea-green" />
       </Box>
       <Box>
-        <Breadcrumb data={breadcrumbItems} spacing styleType="sea-green" />
+        <Breadcrumb
+          data={breadcrumbItems}
+          spacing="medium"
+          styleType="sea-green"
+        />
       </Box>
       <Box>
         <Breadcrumb data={breadcrumbItems} spacing styleType="fire-red" />
