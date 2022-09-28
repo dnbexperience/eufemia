@@ -396,7 +396,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                       <span
                         aria-hidden="true"
                         class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="calendar icon"
+                        data-testid="calendar icon"
                         role="presentation"
                       >
                         <svg
@@ -1413,7 +1413,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                     <span
                                       aria-hidden="true"
                                       class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                                      data-test-id="calendar icon"
+                                      data-testid="calendar icon"
                                       role="presentation"
                                     >
                                       <svg
@@ -1485,7 +1485,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                         <span
                                           aria-hidden="true"
                                           class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                                          data-test-id="calendar icon"
+                                          data-testid="calendar icon"
                                           role="presentation"
                                         >
                                           <svg
@@ -1571,7 +1571,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                             <span
                                               aria-hidden="true"
                                               class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                                              data-test-id="calendar icon"
+                                              data-testid="calendar icon"
                                               role="presentation"
                                             >
                                               <svg
@@ -1638,7 +1638,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                         <span
                                           aria-hidden={true}
                                           className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                                          data-test-id="calendar icon"
+                                          data-testid="calendar icon"
                                           role="presentation"
                                         >
                                           <calendar>

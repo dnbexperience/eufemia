@@ -119,5 +119,8 @@ export default {
     Logo: {
       alt: 'DNB Logo',
     },
+    Tag: {
+      removeIconTitle: 'Remove',
+    },
   },
 }

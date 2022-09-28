@@ -354,7 +354,7 @@ describe('Dropdown component', () => {
     })
 
     expect(
-      Comp.find('.dnb-icon').instance().getAttribute('data-test-id')
+      Comp.find('.dnb-icon').instance().getAttribute('data-testid')
     ).toBe('chevron down icon')
 
     const event = on_change.mock.calls[0][0]
@@ -490,7 +490,7 @@ describe('Dropdown component', () => {
     expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(false)
 
     expect(
-      Comp.find('.dnb-icon').instance().getAttribute('data-test-id')
+      Comp.find('.dnb-icon').instance().getAttribute('data-testid')
     ).toBe('more icon')
 
     expect(Comp.exists('.dnb-dropdown__text')).toBe(false)

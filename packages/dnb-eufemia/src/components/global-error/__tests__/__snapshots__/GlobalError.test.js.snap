@@ -774,7 +774,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                   <span
                     aria-hidden="true"
                     class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                    data-test-id="chevron left icon"
+                    data-testid="chevron left icon"
                     role="presentation"
                   >
                     <svg
@@ -823,7 +823,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                     <span
                       aria-hidden="true"
                       class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                      data-test-id="chevron left icon"
+                      data-testid="chevron left icon"
                       role="presentation"
                     >
                       <svg
@@ -873,7 +873,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                       <span
                         aria-hidden="true"
                         class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="chevron left icon"
+                        data-testid="chevron left icon"
                         role="presentation"
                       >
                         <svg
@@ -973,7 +973,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                       <span
                         aria-hidden={true}
                         className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="chevron left icon"
+                        data-testid="chevron left icon"
                         role="presentation"
                       >
                         <chevron_left>

@@ -66,12 +66,7 @@ describe('InfoCard', () => {
 
     render(<InfoCard text="text" icon={icon} />)
 
-    const iconContainer = screen.queryByTestId('info-card-icon')
-
-    expect(iconContainer).not.toBeNull()
-    expect(
-      within(iconContainer).queryByTestId('custom-icon')
-    ).not.toBeNull()
+    expect(screen.queryByTestId('custom-icon')).not.toBeNull()
   })
 
   it('renders the image', () => {

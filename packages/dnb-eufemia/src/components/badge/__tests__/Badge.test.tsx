@@ -69,9 +69,7 @@ describe('Badge', () => {
 
   it('renders children as content', () => {
     render(
-      <Badge
-        content={<Icon icon={Confetti} data-testid="confetti-icon" />}
-      >
+      <Badge content={<Icon icon={Confetti} />}>
         <Avatar.Group label="children:">
           <Avatar>A</Avatar>
         </Avatar.Group>
@@ -79,7 +77,7 @@ describe('Badge', () => {
     )
 
     const badgeRoot = screen.queryByTestId('badge-root')
-    expect(within(badgeRoot).queryByTestId('confetti-icon')).not.toBeNull()
+    expect(within(badgeRoot).queryByTestId('confetti icon')).not.toBeNull()
   })
 
   it('warns when notification badge content is a string', () => {

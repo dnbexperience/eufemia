@@ -92,7 +92,7 @@ exports[`Accordion component have to match snapshot 1`] = `
               <span
                 aria-hidden={true}
                 className="dnb-icon dnb-icon--medium dnb-icon--inherit-color"
-                data-test-id="chevron-down icon"
+                data-testid="chevron-down icon"
                 role="presentation"
               >
                 <chevron_down_medium>

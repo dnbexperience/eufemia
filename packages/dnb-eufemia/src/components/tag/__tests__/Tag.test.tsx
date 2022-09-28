@@ -1,12 +1,15 @@
 import React from 'react'
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import Tag from '../Tag'
+import nbNO from '../../../shared/locales/nb-NO'
 import {
   axeComponent,
   loadScss,
   mount,
 } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
+
+const nb = nbNO['nb-NO'].Tag
 
 describe('Tag Group', () => {
   it('renders without children', () => {
@@ -376,7 +379,7 @@ describe('Tag', () => {
         </Tag.Group>
       )
 
-      expect(screen.queryByTestId('tag-delete-icon')).not.toBeNull()
+      expect(screen.getByTitle(nb.removeIconTitle)).not.toBeNull()
     })
 
     it('fires onClick event if both onClick and onDelete are defined', () => {

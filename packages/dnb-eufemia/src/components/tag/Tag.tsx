@@ -73,6 +73,12 @@ export interface TagProps {
    * Default: null
    */
   omitOnKeyUpDeleteEvent?: boolean
+
+  /**
+   * Internal property
+   * Has translation in context
+   */
+  removeIconTitle?: string
 }
 
 export const defaultProps = {
@@ -103,6 +109,7 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
     onClick,
     onDelete,
     omitOnKeyUpDeleteEvent,
+    removeIconTitle, // has a translation in context
     ...props
   } = allProps
 
@@ -170,7 +177,7 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
   function getDeleteIcon() {
     return (
       <IconPrimary
-        data-testid="tag-delete-icon"
+        title={removeIconTitle}
         inherit_color={false}
         icon={
           <svg

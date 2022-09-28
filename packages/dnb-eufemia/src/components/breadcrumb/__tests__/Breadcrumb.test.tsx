@@ -196,17 +196,11 @@ describe('Breadcrumb', () => {
     })
 
     it('will render custom icon', () => {
-      const CustomIcon = (
-        <IconPrimary
-          data-testid="breadcrumb-item-custom-icon"
-          icon="bell"
-        />
-      )
+      const CustomIcon = <IconPrimary icon="bell" />
       render(<BreadcrumbItem text="Just text" icon={CustomIcon} />)
 
-      const element = screen.queryByTestId('breadcrumb-item-custom-icon')
+      const element = screen.queryByTestId('bell icon')
       expect(element).not.toBeNull()
-      expect(element.getAttribute('data-test-id')).toBe('bell icon')
     })
 
     it('renders a skeleton if skeleton is true', () => {
