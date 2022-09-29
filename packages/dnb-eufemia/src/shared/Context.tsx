@@ -118,7 +118,7 @@ export type ContextProps = {
   locales?: Locales
   __newContext?: Record<string, string>
   updateTranslation?: (locale: Locale, translation: Translation) => void
-  getTranslation?: (props?: GetTranslationProps) => Translation
+  getTranslation?: (props: GetTranslationProps) => Translation
 }
 
 export type GetTranslationProps = {
