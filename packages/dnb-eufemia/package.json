@@ -69,7 +69,7 @@
     "test:auto-generated-types": "jest ./postTypeGeneration.test.js --ci --testPathIgnorePatterns=[]",
     "test:ci": "jest --ci",
     "test:screenshots": "jest --config=./jest.config.screenshots.js --forceExit --detectOpenHandles",
-    "test:screenshots:ci": "jest --config=./jest.config.screenshots.js --ci --forceExit --detectOpenHandles",
+    "test:screenshots:ci": "jest --config=./jest.config.screenshots.js --ci --bail",
     "test:screenshots:ci:update": "yarn test:screenshots:ci --updateSnapshot",
     "test:screenshots:recreate": "find . -name '*.snap.png' -type f|xargs rm -f && yarn test:screenshots",
     "test:screenshots:update": "jest --config=./jest.config.screenshots.js --updateSnapshot --detectOpenHandles",
