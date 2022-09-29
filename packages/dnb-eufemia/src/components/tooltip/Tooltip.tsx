@@ -22,7 +22,6 @@ import {
 } from './TooltipHelpers'
 import { ISpacingProps } from '../../shared/interfaces'
 import { TooltipProps } from './types'
-import { includeValidProps } from '../form-row/FormRowHelpers'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 
 function Tooltip(localProps: TooltipProps & ISpacingProps) {
@@ -36,7 +35,6 @@ function Tooltip(localProps: TooltipProps & ISpacingProps) {
     ...localProps,
     ...inherited,
     ...context.getTranslation(localProps).Tooltip,
-    ...includeValidProps(context.FormRow),
     ...context.Tooltip,
   })
 
