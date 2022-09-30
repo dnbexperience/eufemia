@@ -20,7 +20,7 @@ import {
 import type {
   ValueTypes,
   onChangeEventProps,
-  SliderProps,
+  SliderAllProps,
   SliderContextTypes,
   ThumbStateEnums,
 } from './types'
@@ -38,7 +38,7 @@ const defaultProps = {
 
 export const SliderContext = React.createContext<SliderContextTypes>(null)
 
-export function SliderProvider(localProps: SliderProps) {
+export function SliderProvider(localProps: SliderAllProps) {
   const context = React.useContext(Context)
   const allProps = convertSnakeCaseProps(
     extendPropsWithContext(

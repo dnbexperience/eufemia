@@ -121,10 +121,10 @@ export type ContextProps = {
   getTranslation?: (props: GetTranslationProps) => Translation
 }
 
-export type GetTranslationProps = {
+export type GetTranslationProps = Partial<{
   lang?: Locale
   locale?: Locale
-} & Record<string, unknown>
+}>
 
 export type Locale = string | 'nb-NO' | 'en-GB' | 'en-US'
 export type ComponentTranslationsName = string

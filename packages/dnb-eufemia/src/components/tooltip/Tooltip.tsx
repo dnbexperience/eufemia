@@ -20,11 +20,10 @@ import {
   getPropsFromTooltipProp,
   injectTooltipSemantic,
 } from './TooltipHelpers'
-import { ISpacingProps } from '../../shared/interfaces'
-import { TooltipProps } from './types'
+import { TooltipAllProps } from './types'
 import { convertSnakeCaseProps } from '../../shared/helpers/withSnakeCaseProps'
 
-function Tooltip(localProps: TooltipProps & ISpacingProps) {
+function Tooltip(localProps: TooltipAllProps) {
   const context = React.useContext(Context)
 
   const inherited = getPropsFromTooltipProp(localProps)
