@@ -14,7 +14,7 @@ type TooltipContainerProps = {
   style?: React.CSSProperties
   useHover?: boolean
   internalId?: string
-  attributes?: Record<string, unknown>
+  attributes?: Record<string, unknown> & { style: React.CSSProperties }
 }
 
 export default function TooltipContainer(
@@ -33,18 +33,28 @@ export default function TooltipContainer(
     children,
   } = props
 
+  const [style, setStyle] = React.useState(null)
   const [hover, setHover] = React.useState(false)
+  const isActive = isTrue(active) || hover
   const [wasActive, makeActive] = React.useState(false)
-  const [renewStyles, forceRerender] = React.useState(0)
+  const [renewStyles, forceRerender] = React.useState(getBodySize)
 
   const elementRef = React.useRef<HTMLSpanElement>(null)
   const offset = React.useRef(16)
   const debounceTimeout = React.useRef<NodeJS.Timeout>()
   const resizeObserver = React.useRef<ResizeObserver>(null)
 
-  const isActive = isTrue(active) || hover
+  function getBodySize() {
+    if (!isActive || typeof document === 'undefined') {
+      return 0 // stop here
+    }
 
-  React.useEffect(() => {
+    const { width, height } = document.body.getBoundingClientRect()
+
+    return width + height
+  }
+
+  React.useLayoutEffect(() => {
     const addPositionObserver = () => {
       if (resizeObserver.current || typeof document === 'undefined') {
         return // stop here
@@ -52,15 +62,11 @@ export default function TooltipContainer(
 
       try {
         resizeObserver.current = new ResizeObserver((entries) => {
-          const run = () => {
-            const { width, height } = entries[0].contentRect
-            forceRerender(width + height)
-          }
-          if (!renewStyles) {
-            run()
-          }
           clearTimeout(debounceTimeout.current)
-          debounceTimeout.current = setTimeout(run, 100)
+          debounceTimeout.current = setTimeout(
+            () => forceRerender(getBodySize()),
+            100
+          )
         })
 
         resizeObserver.current.observe(document.body)
@@ -85,9 +91,15 @@ export default function TooltipContainer(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive])
 
-  const style = React.useMemo(() => {
-    if (typeof window === 'undefined' || !elementRef.current) {
-      return {}
+  React.useLayoutEffect(() => {
+    const { targetElement: target, align, fixedPosition } = props
+
+    if (
+      typeof window === 'undefined' ||
+      !elementRef.current ||
+      !target?.getBoundingClientRect
+    ) {
+      return // stop here
     }
 
     const elementWidth = elementRef.current.offsetWidth
@@ -95,19 +107,17 @@ export default function TooltipContainer(
 
     let alignOffset = 0
 
-    const { targetElement: target, align, fixedPosition } = props
-
     const rect = target.getBoundingClientRect()
 
-    const targetSize = {
+    const targetBodySize = {
       width: target.offsetWidth,
       height: target.offsetHeight,
     }
 
     // fix for svg
     if (!target.offsetHeight) {
-      targetSize.width = rect.width
-      targetSize.height = rect.height
+      targetBodySize.width = rect.width
+      targetBodySize.height = rect.height
     }
 
     const scrollY =
@@ -117,26 +127,29 @@ export default function TooltipContainer(
     const top = (isTrue(fixedPosition) ? 0 : scrollY) + rect.top
 
     // Use Mouse position when target is too wide
-    const useMouseWhen = targetSize.width > 400
+    const useMouseWhen = targetBodySize.width > 400
     const mousePos =
       getOffsetLeft(target) +
       rect.left / 2 +
       (elementRef.current ? elementRef.current.offsetWidth : 0)
     const widthBased = scrollX + rect.left
     const left =
-      useMouseWhen && mousePos < targetSize.width ? mousePos : widthBased
+      useMouseWhen && mousePos < targetBodySize.width
+        ? mousePos
+        : widthBased
 
     const style = { ...props.style }
 
     if (align === 'left') {
-      alignOffset = -targetSize.width / 2
+      alignOffset = -targetBodySize.width / 2
     } else if (align === 'right') {
-      alignOffset = targetSize.width / 2
+      alignOffset = targetBodySize.width / 2
     }
 
-    const topHorizontal = top + targetSize.height / 2 - elementHeight / 2
+    const topHorizontal =
+      top + targetBodySize.height / 2 - elementHeight / 2
     const leftVertical =
-      left - elementWidth / 2 + targetSize.width / 2 + alignOffset
+      left - elementWidth / 2 + targetBodySize.width / 2 + alignOffset
 
     const stylesFromPosition = {
       left: () => {
@@ -145,7 +158,7 @@ export default function TooltipContainer(
       },
       right: () => {
         style.top = topHorizontal
-        style.left = left + targetSize.width + offset.current
+        style.left = left + targetBodySize.width + offset.current
       },
       top: () => {
         style.left = leftVertical
@@ -153,29 +166,29 @@ export default function TooltipContainer(
       },
       bottom: () => {
         style.left = leftVertical
-        style.top = top + targetSize.height + offset.current
+        style.top = top + targetBodySize.height + offset.current
       },
     }
 
     const stylesFromArrow = {
       left: () => {
         style.left =
-          left + targetSize.width / 2 - offset.current + alignOffset
+          left + targetBodySize.width / 2 - offset.current + alignOffset
       },
       right: () => {
         style.left =
           left -
           elementWidth +
-          targetSize.width / 2 +
+          targetBodySize.width / 2 +
           offset.current +
           alignOffset
       },
       top: () => {
-        style.top = top + targetSize.height / 2 - offset.current
+        style.top = top + targetBodySize.height / 2 - offset.current
       },
       bottom: () => {
         style.top =
-          top + targetSize.height / 2 - elementHeight + offset.current
+          top + targetBodySize.height / 2 - elementHeight + offset.current
       },
     }
 
@@ -199,10 +212,12 @@ export default function TooltipContainer(
       style.top = 0
     }
 
-    return style
+    if (isActive) {
+      setStyle(style)
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isActive, hover, children, elementRef, renewStyles])
+  }, [isActive, hover, arrow, position, children, renewStyles])
 
   const handleMouseEnter = () => {
     if (isTrue(active) && useHover !== false) {
@@ -220,7 +235,6 @@ export default function TooltipContainer(
     <span
       role="tooltip"
       aria-hidden // make sure SR does not find it in the DOM, because we use "aria-describedby" for that
-      style={style}
       ref={elementRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -233,6 +247,7 @@ export default function TooltipContainer(
         isActive && 'dnb-tooltip--active',
         !isActive && wasActive && 'dnb-tooltip--hide'
       )}
+      style={{ ...style, ...attributes.style }}
     >
       {arrow && (
         <span
