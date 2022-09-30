@@ -8,11 +8,11 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import Slider from '../Slider'
 
-import type { SliderProps, onChangeEventProps } from '../Slider'
+import type { SliderAllProps, onChangeEventProps } from '../Slider'
 import { format } from '../../number-format/NumberUtils'
 import { wait } from '@testing-library/user-event/dist/utils'
 
-const props: SliderProps = {
+const props: SliderAllProps = {
   id: 'slider',
   label: 'Label',
   min: 0,
@@ -29,7 +29,7 @@ describe('Slider component', () => {
   })
 
   it('supports snake_case props', () => {
-    const props: SliderProps = {
+    const props: SliderAllProps = {
       id: 'slider',
       label: 'Label',
       label_direction: 'vertical',
@@ -331,7 +331,7 @@ describe('Slider component', () => {
   })
 
   describe('multi thumb', () => {
-    const SliderWithStateUpdate = (props: SliderProps) => {
+    const SliderWithStateUpdate = (props: SliderAllProps) => {
       const [value, setValue] = React.useState(props.value)
       const onChangehandler = (event: onChangeEventProps) => {
         setValue(event.value)
