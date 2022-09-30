@@ -60,7 +60,7 @@ describe('Tooltip', () => {
   })
 
   describe('with targetSelector', () => {
-    const Tooltip = (props: TooltipProps = {}) => (
+    const Tooltip = (props: TooltipProps) => (
       <>
         <button id="button-id">Button</button>
         <OriginalTooltip
@@ -76,6 +76,88 @@ describe('Tooltip', () => {
     it('should validate with ARIA rules as a tooltip', async () => {
       const Component = render(<Tooltip active />)
       expect(await axeComponent(Component)).toHaveNoViolations()
+    })
+
+    it('should merge style prop', () => {
+      render(
+        <>
+          <a className="anchor" href="/">
+            anchor
+          </a>
+
+          {/**
+           * The ignore is only temporary
+           * and will be removed when rebasing with this PR https://github.com/dnbexperience/eufemia/pull/1590
+           *
+           * eslint-disable-line @typescript-eslint/ban-ts-comment
+           * @ts-ignore */}
+          <Tooltip active style={{ zIndex: 10 }} targetSelector=".anchor">
+            Tooltip
+          </Tooltip>
+        </>
+      )
+
+      expect(
+        document.querySelector('.dnb-tooltip').getAttribute('style')
+      ).toBe('z-index: 10; left: 0px; top: 0px;')
+    })
+
+    it('should set size class', () => {
+      render(
+        <Tooltip active size="large">
+          Tooltip
+        </Tooltip>
+      )
+
+      expect(
+        Array.from(document.querySelector('.dnb-tooltip').classList)
+      ).toEqual(expect.arrayContaining(['dnb-tooltip--large']))
+    })
+
+    it('should set fixed position class', () => {
+      render(
+        <Tooltip active fixedPosition>
+          Tooltip
+        </Tooltip>
+      )
+
+      expect(
+        Array.from(document.querySelector('.dnb-tooltip').classList)
+      ).toEqual(expect.arrayContaining(['dnb-tooltip--fixed']))
+    })
+
+    it('should set position class', () => {
+      render(
+        <Tooltip active position="right">
+          Tooltip
+        </Tooltip>
+      )
+
+      expect(
+        Array.from(document.querySelector('.dnb-tooltip__arrow').classList)
+      ).toEqual(
+        expect.arrayContaining([
+          'dnb-tooltip__arrow__arrow--center',
+          'dnb-tooltip__arrow__position--right',
+        ])
+      )
+    })
+
+    it('should set arrow class', () => {
+      render(
+        <Tooltip active arrow="right">
+          Tooltip
+        </Tooltip>
+      )
+
+      expect(
+        Array.from(document.querySelector('.dnb-tooltip__arrow').classList)
+      ).toEqual(
+        expect.arrayContaining([
+          'dnb-tooltip__arrow__arrow--right',
+          'dnb-tooltip__arrow__position--top',
+        ])
+      )
     })
   })
 
