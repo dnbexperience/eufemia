@@ -37,25 +37,90 @@ beforeEach(() => {
 })
 
 describe('Tooltip', () => {
-  it('supports snake_case props', () => {
-    const Tooltip = (props: TooltipProps = {}) => (
-      <OriginalTooltip
-        id="tooltip"
-        showDelay={0}
-        hideDelay={0}
-        noAnimation
-        skipPortal
-        targetElement={<button>Button</button>}
-        {...props}
-      >
-        With snake_case props
-      </OriginalTooltip>
-    )
+  const Tooltip = (props: TooltipProps = {}) => (
+    <OriginalTooltip
+      id="tooltip"
+      showDelay={0}
+      hideDelay={0}
+      noAnimation
+      targetElement={<button>Button</button>}
+      {...props}
+    >
+      With snake_case props
+    </OriginalTooltip>
+  )
 
-    render(<Tooltip active />)
+  it('supports snake_case props', () => {
+    render(<Tooltip active skipPortal />)
 
     expect(document.body.querySelector('.dnb-tooltip').textContent).toBe(
       'With snake_case props'
+    )
+  })
+
+  it('should have aria-hidden attribute', async () => {
+    render(<Tooltip active />)
+
+    const getMainElem = () => document.body.querySelector('.dnb-tooltip')
+
+    expect(getMainElem().getAttribute('aria-hidden')).toBe('true')
+  })
+
+  it('should set size class', () => {
+    render(
+      <Tooltip active size="large">
+        Tooltip
+      </Tooltip>
+    )
+
+    expect(
+      Array.from(document.querySelector('.dnb-tooltip').classList)
+    ).toEqual(expect.arrayContaining(['dnb-tooltip--large']))
+  })
+
+  it('should set fixed position class', () => {
+    render(
+      <Tooltip active fixedPosition>
+        Tooltip
+      </Tooltip>
+    )
+
+    expect(
+      Array.from(document.querySelector('.dnb-tooltip').classList)
+    ).toEqual(expect.arrayContaining(['dnb-tooltip--fixed']))
+  })
+
+  it('should set position class', () => {
+    render(
+      <Tooltip active position="right">
+        Tooltip
+      </Tooltip>
+    )
+
+    expect(
+      Array.from(document.querySelector('.dnb-tooltip__arrow').classList)
+    ).toEqual(
+      expect.arrayContaining([
+        'dnb-tooltip__arrow__arrow--center',
+        'dnb-tooltip__arrow__position--right',
+      ])
+    )
+  })
+
+  it('should set arrow class', () => {
+    render(
+      <Tooltip active arrow="right">
+        Tooltip
+      </Tooltip>
+    )
+
+    expect(
+      Array.from(document.querySelector('.dnb-tooltip__arrow').classList)
+    ).toEqual(
+      expect.arrayContaining([
+        'dnb-tooltip__arrow__arrow--right',
+        'dnb-tooltip__arrow__position--top',
+      ])
     )
   })
 
@@ -100,64 +165,6 @@ describe('Tooltip', () => {
       expect(
         document.querySelector('.dnb-tooltip').getAttribute('style')
       ).toBe('z-index: 10; left: 0px; top: 0px;')
-    })
-
-    it('should set size class', () => {
-      render(
-        <Tooltip active size="large">
-          Tooltip
-        </Tooltip>
-      )
-
-      expect(
-        Array.from(document.querySelector('.dnb-tooltip').classList)
-      ).toEqual(expect.arrayContaining(['dnb-tooltip--large']))
-    })
-
-    it('should set fixed position class', () => {
-      render(
-        <Tooltip active fixedPosition>
-          Tooltip
-        </Tooltip>
-      )
-
-      expect(
-        Array.from(document.querySelector('.dnb-tooltip').classList)
-      ).toEqual(expect.arrayContaining(['dnb-tooltip--fixed']))
-    })
-
-    it('should set position class', () => {
-      render(
-        <Tooltip active position="right">
-          Tooltip
-        </Tooltip>
-      )
-
-      expect(
-        Array.from(document.querySelector('.dnb-tooltip__arrow').classList)
-      ).toEqual(
-        expect.arrayContaining([
-          'dnb-tooltip__arrow__arrow--center',
-          'dnb-tooltip__arrow__position--right',
-        ])
-      )
-    })
-
-    it('should set arrow class', () => {
-      render(
-        <Tooltip active arrow="right">
-          Tooltip
-        </Tooltip>
-      )
-
-      expect(
-        Array.from(document.querySelector('.dnb-tooltip__arrow').classList)
-      ).toEqual(
-        expect.arrayContaining([
-          'dnb-tooltip__arrow__arrow--right',
-          'dnb-tooltip__arrow__position--top',
-        ])
-      )
     })
   })
 

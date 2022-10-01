@@ -24,27 +24,27 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   const [isMounted, setIsMounted] = React.useState(false)
 
   const onEnterTimeout = React.useRef<NodeJS.Timeout>()
-  const elementRef = React.useRef<HTMLElement>()
+  const targetRef = React.useRef<HTMLElement>()
   const cloneRef = React.useRef<HTMLElement>()
 
   React.useEffect(() => {
-    elementRef.current = getRefElement(cloneRef)
+    targetRef.current = getRefElement(cloneRef)
 
     // When used internal
-    if (!elementRef.current) {
-      elementRef.current = target.current
+    if (!targetRef.current) {
+      targetRef.current = target.current
     }
 
-    if (elementRef.current) {
+    if (targetRef.current) {
       setIsMounted(true)
-      addEvents(elementRef.current)
+      addEvents(targetRef.current)
       handleSemanticElement()
     }
 
     return () => {
       clearTimeout(onEnterTimeout.current)
 
-      const element = elementRef.current
+      const element = targetRef.current
       if (element) {
         try {
           element.removeEventListener('click', onMouseLeave)
@@ -180,7 +180,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         <TooltipPortal
           key="tooltip"
           active={isActive}
-          target={elementRef.current}
+          target={targetRef.current}
           {...restProps}
         >
           {children}
