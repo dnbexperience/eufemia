@@ -8,6 +8,7 @@ import { render, act, fireEvent } from '@testing-library/react'
 import ToggleButton from '../../ToggleButton'
 import { wait } from '@testing-library/user-event/dist/utils'
 import HeightAnimation, { HeightAnimationProps } from '../HeightAnimation'
+import AnimateHeight from '../../../shared/AnimateHeight'
 
 beforeEach(() => {
   global.IS_TEST = false
@@ -157,6 +158,75 @@ describe('HeightAnimation', () => {
           .querySelector('.dnb-height-animation')
           .getAttribute('style')
       ).toBe('height: 100px;')
+    })
+  })
+
+  it('should call onOpen', () => {
+    const onOpen = jest.fn()
+    const { rerender } = render(<Component onOpen={onOpen} />)
+
+    expect(document.querySelector('.dnb-height-animation')).toBeFalsy()
+
+    rerender(<Component open />)
+
+    act(() => {
+      simulateAnimationEnd()
+      expect(onOpen).toHaveBeenCalledTimes(1)
+      expect(onOpen).toHaveBeenCalledWith(true)
+    })
+
+    rerender(<Component open={false} />)
+
+    act(() => {
+      simulateAnimationEnd()
+      expect(onOpen).toHaveBeenCalledTimes(2)
+      expect(onOpen).toHaveBeenCalledWith(false)
+    })
+  })
+
+  it('should call onAnimationEnd', () => {
+    const onAnimationEnd = jest.fn()
+    const { rerender } = render(
+      <Component onAnimationEnd={onAnimationEnd} />
+    )
+
+    expect(document.querySelector('.dnb-height-animation')).toBeFalsy()
+
+    rerender(<Component open />)
+
+    act(() => {
+      simulateAnimationEnd()
+      expect(onAnimationEnd).toHaveBeenCalledTimes(1)
+      expect(onAnimationEnd).toHaveBeenCalledWith('opened')
+    })
+
+    rerender(<Component open={false} />)
+
+    act(() => {
+      simulateAnimationEnd()
+      expect(onAnimationEnd).toHaveBeenCalledWith('closed')
+    })
+  })
+
+  it('should call onInit', () => {
+    const onInit = jest.fn()
+    const { rerender } = render(<Component onInit={onInit} />)
+
+    expect(document.querySelector('.dnb-height-animation')).toBeFalsy()
+
+    rerender(<Component open />)
+
+    act(() => {
+      simulateAnimationEnd()
+      expect(onInit).toHaveBeenCalledTimes(1)
+      expect(onInit).toHaveBeenCalledWith(expect.any(AnimateHeight))
+    })
+
+    rerender(<Component open={false} />)
+
+    act(() => {
+      simulateAnimationEnd()
+      expect(onInit).toHaveBeenCalledTimes(1)
     })
   })
 
