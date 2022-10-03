@@ -36,7 +36,9 @@ module.exports = async function () {
     )
   }
 
-  const countFailures = Object.keys(global.__EVENT_FAILURE_CACHE__).length
+  const countFailures = Object.values(
+    global.__EVENT_FAILURE_CACHE__
+  ).filter(({ failed }) => failed).length
   console.log(
     chalk.green(`Jest screenshot tests had ${countFailures} failures`)
   )
