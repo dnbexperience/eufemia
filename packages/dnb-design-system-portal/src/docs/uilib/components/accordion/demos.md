@@ -8,7 +8,8 @@ AccordionLargeContentExample,
 AccordionCustomisationExample,
 AccordionContainerExample,
 AccordionGroupExample,
-AccordionPlainVariant
+AccordionNestedExample,
+AccordionPlainVariant,
 } from 'Docs/uilib/components/accordion/Examples'
 
 ## Demos
@@ -30,6 +31,10 @@ AccordionPlainVariant
 ### Customized Accordion
 
 <AccordionCustomisationExample />
+
+### Nested Accordions
+
+<AccordionNestedExample />
 
 ### Accordion with a single container
 
