@@ -3,6 +3,53 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.31.0](https://github.com/dnbexperience/eufemia/compare/v9.30.0...v9.31.0) (2022-10-03)
+
+
+### Bug Fixes
+
+* **Accordion:** support nested accordions ([#1595](https://github.com/dnbexperience/eufemia/issues/1595)) ([dc14a79](https://github.com/dnbexperience/eufemia/commit/dc14a79a5f51aa12821b0369c506e06dacacbc35))
+* **AnimateHeight:** [internal] rewrite to TypeScript ([#1570](https://github.com/dnbexperience/eufemia/issues/1570)) ([e2f0f0d](https://github.com/dnbexperience/eufemia/commit/e2f0f0d6b9c18bf2d708eb04682889444ebf8156))
+* **Autocomplete:** ensure value is not visible behind the trigger button ([#1543](https://github.com/dnbexperience/eufemia/issues/1543)) ([de65acb](https://github.com/dnbexperience/eufemia/commit/de65acb353fe697c81f18f082ce5562fc1eb56a6))
+* **Autocomplete:** make DrawerList direction observer work ([#1535](https://github.com/dnbexperience/eufemia/issues/1535)) ([fcdf9f8](https://github.com/dnbexperience/eufemia/commit/fcdf9f858d6fb196b5001ed5e4550b338b65c03a))
+* **Autocomplete:** touch device issue: ensure focus is set after second input focus ([#1540](https://github.com/dnbexperience/eufemia/issues/1540)) ([2f3b82e](https://github.com/dnbexperience/eufemia/commit/2f3b82e29624cbfc7026fc496f88cfe196d900f9))
+* **Avatar:** don't overwrite SVG color ([#1579](https://github.com/dnbexperience/eufemia/issues/1579)) ([a6b3f50](https://github.com/dnbexperience/eufemia/commit/a6b3f5031fd73b4de77e8d0dcd225e2c937a0465))
+* **DrawerList:** remove unused white area on the right side ([#1542](https://github.com/dnbexperience/eufemia/issues/1542)) ([b5575e7](https://github.com/dnbexperience/eufemia/commit/b5575e74a6402576e78b28dfb8cc72be2ee4b320)), closes [#1531](https://github.com/dnbexperience/eufemia/issues/1531)
+* **Input:** ensure dnb-input--null class will not be set ([#1544](https://github.com/dnbexperience/eufemia/issues/1544)) ([885d2d1](https://github.com/dnbexperience/eufemia/commit/885d2d1d962a9875dc6c3e0701505cc37bd1615b))
+* **Modal:** Safari Desktop fullscreen video issue ([#1582](https://github.com/dnbexperience/eufemia/issues/1582)) ([5219ccd](https://github.com/dnbexperience/eufemia/commit/5219ccd37d3423d0ee76c61f8a7b1cd879637dd0))
+* **PaginationInfinity:** ensure the load button does not appear when current_page decreases ([#1147](https://github.com/dnbexperience/eufemia/issues/1147)) ([e19a377](https://github.com/dnbexperience/eufemia/commit/e19a3779aed256fd60171f6502dd023b9ba0e534))
+* **Section:** fix spacing + rewrite to TypeScript ([#1573](https://github.com/dnbexperience/eufemia/issues/1573)) ([4352495](https://github.com/dnbexperience/eufemia/commit/4352495343436aa931151ee92190c34ae118ec62))
+* **Slider:** enhance Safari (desktop) UX ([#1539](https://github.com/dnbexperience/eufemia/issues/1539)) ([6ca785f](https://github.com/dnbexperience/eufemia/commit/6ca785f6cfb17d7b4be8cc97217fb85dcd5668c9))
+* **Slider:** make it optional to provide an updated prop value ([#1537](https://github.com/dnbexperience/eufemia/issues/1537)) ([ff1f3b7](https://github.com/dnbexperience/eufemia/commit/ff1f3b7b3f6e70eac60f2d410642eb5fd9c1fd44))
+* **StepIndicator:** change chevron icon to pointing to the right ([#1541](https://github.com/dnbexperience/eufemia/issues/1541)) ([8529d8c](https://github.com/dnbexperience/eufemia/commit/8529d8cc183767ea47af4779f8f9bf8a98a73baa))
+* **Tooltip:** convert to camelCase props with backwards compatibility ([#1557](https://github.com/dnbexperience/eufemia/issues/1557)) ([24285cb](https://github.com/dnbexperience/eufemia/commit/24285cb399baef9971e6274146b51d1a144aae8a))
+* **Tooltip:** convert to TypeScript ([#1549](https://github.com/dnbexperience/eufemia/issues/1549)) ([9789ec6](https://github.com/dnbexperience/eufemia/commit/9789ec69f9161d63e8ad85a257c96eaeb0a216ba))
+* **Tooltip:** ensure controlled active prop takes presence ([#1547](https://github.com/dnbexperience/eufemia/issues/1547)) ([ac28883](https://github.com/dnbexperience/eufemia/commit/ac28883c2fba4ac4255457d0f6c5fe2fac6c5830)), closes [#1411](https://github.com/dnbexperience/eufemia/issues/1411)
+* **Tooltip:** fix React Portal handling ([#1588](https://github.com/dnbexperience/eufemia/issues/1588)) ([26f4c61](https://github.com/dnbexperience/eufemia/commit/26f4c6185cf67cc4d0a1e78d18c59b1be5b95851))
+* **Tooltip:** merge style property with internal ([#1591](https://github.com/dnbexperience/eufemia/issues/1591)) ([b3e3901](https://github.com/dnbexperience/eufemia/commit/b3e39016ce61f256ef0e3808d065170fc9635692))
+* **Tooltip:** refactor tests from Enzyme to TestingLib ([#1553](https://github.com/dnbexperience/eufemia/issues/1553)) ([dde8576](https://github.com/dnbexperience/eufemia/commit/dde8576befcbc4c9eebf87586823e646b27dde5a))
+* **Tooltip:** remove unused FormRow integration ([#1589](https://github.com/dnbexperience/eufemia/issues/1589)) ([be37918](https://github.com/dnbexperience/eufemia/commit/be37918edd455f895fc705bf8bc42d79b932fcbe))
+* **Tooltip:** rewrite to functional components with React Hooks ([#1555](https://github.com/dnbexperience/eufemia/issues/1555)) ([8b04fc2](https://github.com/dnbexperience/eufemia/commit/8b04fc2924a318a259c41aa624a4473fd12d6e58))
+* **Tooltip:** use Eufemia cubic-bezier for animations ([#1552](https://github.com/dnbexperience/eufemia/issues/1552)) ([c60b3a6](https://github.com/dnbexperience/eufemia/commit/c60b3a6eb146ab26bf61cc44bbc286fcfc7dff9b))
+
+
+### Features
+
+* **Breadcrumb:** add animation when in collapse mode ([#1563](https://github.com/dnbexperience/eufemia/issues/1563)) ([ded90c2](https://github.com/dnbexperience/eufemia/commit/ded90c202ad0bce6e5601d451c46f672cfeddab5))
+* **Breadcumb:** align spacing and add small, medium and large ([#1574](https://github.com/dnbexperience/eufemia/issues/1574)) ([cf4c312](https://github.com/dnbexperience/eufemia/commit/cf4c31200e9d79110181e7c9c41746ed84154b0f))
+* **DefinitionList:** add horizontal direction (inline) support ([#1536](https://github.com/dnbexperience/eufemia/issues/1536)) ([59ec706](https://github.com/dnbexperience/eufemia/commit/59ec706c5fb9ae111e4b8f495c6f034370aac507))
+* **Easing:** expose default CSS easing with --easing-default ([#1562](https://github.com/dnbexperience/eufemia/issues/1562)) ([c18b021](https://github.com/dnbexperience/eufemia/commit/c18b0212df7d4bf985ecb071d6e928c83e0b4b90))
+* **HeightAnimation:** add new height animation component ([#1566](https://github.com/dnbexperience/eufemia/issues/1566)) ([72b1da5](https://github.com/dnbexperience/eufemia/commit/72b1da504ee814e8afaf8dcefda15577ca29b0d0))
+* **HeightAnimation:** add onInit to get animation instance ([#1597](https://github.com/dnbexperience/eufemia/issues/1597)) ([bf4e656](https://github.com/dnbexperience/eufemia/commit/bf4e65673654c5a6add3d234d0395c9e8bae9297))
+* **HeightAnimation:** adjust height with animation when content changes ([#1569](https://github.com/dnbexperience/eufemia/issues/1569)) ([f0779c2](https://github.com/dnbexperience/eufemia/commit/f0779c294313d8f26f0af637135004a2b15de27a))
+* **HelpButton:** rewrite to TypeScript ([#1565](https://github.com/dnbexperience/eufemia/issues/1565)) ([d4f26c3](https://github.com/dnbexperience/eufemia/commit/d4f26c3acf1f64fdcd3c0c4d0e9b2f833e39d267))
+* **icons:** add "file_jpg, file_png, fish, newspaper, sort" icon ([#1575](https://github.com/dnbexperience/eufemia/issues/1575)) ([bf3769f](https://github.com/dnbexperience/eufemia/commit/bf3769f8d6dc8bd38f672ac99fa6525e5092204d))
+* **InteractionInvalidation:** add options for partial invalidation (tabIndex and ariaHidden) ([#1559](https://github.com/dnbexperience/eufemia/issues/1559)) ([6cfc235](https://github.com/dnbexperience/eufemia/commit/6cfc2352d3d0b2012c66f535ca869b4bd75253b4))
+* **Logo:** add inherit_color prop ([#1578](https://github.com/dnbexperience/eufemia/issues/1578)) ([0983343](https://github.com/dnbexperience/eufemia/commit/09833436f9e6313dd823859fde882ff141ef60b3))
+* **Slider:** add tooltip on active thumb button ([#1529](https://github.com/dnbexperience/eufemia/issues/1529)) ([437f81c](https://github.com/dnbexperience/eufemia/commit/437f81c7fb957f39c65ac1ab2a21aeff5a2d7ef1))
+* **Tooltip:** add skip_portal property ([#1545](https://github.com/dnbexperience/eufemia/issues/1545)) ([7f492a5](https://github.com/dnbexperience/eufemia/commit/7f492a52019101fd98e72fec6c9ef3dbf8eefe98))
+* **useMediaQuery:** add disable as an option ([#1572](https://github.com/dnbexperience/eufemia/issues/1572)) ([6078cb4](https://github.com/dnbexperience/eufemia/commit/6078cb42206bb9c5552e76b72457027a9a8b20dc))
+
 # [9.30.0](https://github.com/dnbexperience/eufemia/compare/v9.29.0...v9.30.0) (2022-08-29)
 
 
