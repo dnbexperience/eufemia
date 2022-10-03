@@ -8,7 +8,7 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Section from '../section/Section'
-import EventEmitter from '../../shared/EventEmitter'
+import EventEmitter from '../../shared/helpers/EventEmitter'
 
 export default class ContentWrapper extends React.PureComponent {
   static propTypes = {

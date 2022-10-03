@@ -13,6 +13,10 @@ import {
   attachToBody, // in order to use document.activeElement properly
 } from '../../../core/jest/jestSetup'
 import Component from '../Dropdown'
+import {
+  mockImplementationForDirectionObserver,
+  testDirectionObserver,
+} from '../../../fragments/drawer-list/__tests__/DrawerListTestMocks'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Dropdown'), {
@@ -81,6 +85,8 @@ const mockData = [
   [<React.Fragment key="key1">Custom content {'123'}</React.Fragment>],
   '0y',
 ]
+
+mockImplementationForDirectionObserver()
 
 describe('Dropdown component', () => {
   const Comp = mount(<Component {...props} data={mockData} />)
@@ -348,7 +354,7 @@ describe('Dropdown component', () => {
     })
 
     expect(
-      Comp.find('.dnb-icon').instance().getAttribute('data-test-id')
+      Comp.find('.dnb-icon').instance().getAttribute('data-testid')
     ).toBe('chevron down icon')
 
     const event = on_change.mock.calls[0][0]
@@ -484,7 +490,7 @@ describe('Dropdown component', () => {
     expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(false)
 
     expect(
-      Comp.find('.dnb-icon').instance().getAttribute('data-test-id')
+      Comp.find('.dnb-icon').instance().getAttribute('data-testid')
     ).toBe('more icon')
 
     expect(Comp.exists('.dnb-dropdown__text')).toBe(false)
@@ -1006,6 +1012,51 @@ describe('Dropdown component', () => {
         .instance()
         .hasAttribute('disabled')
     ).toBe(true)
+  })
+
+  beforeAll(() => {
+    window.resizeTo = function resizeTo({
+      width = window.innerWidth,
+      height = window.innerHeight,
+    }) {
+      Object.assign(this, {
+        innerWidth: width,
+        innerHeight: height,
+      }).dispatchEvent(new this.Event('resize'))
+
+      // new setDirectionObserver implementation
+      jest
+        .spyOn(document.documentElement, 'clientWidth', 'get')
+        .mockImplementation(() => width)
+      jest
+        .spyOn(document.documentElement, 'clientHeight', 'get')
+        .mockImplementation(() => height)
+    }
+
+    window.scrollTo = function resizeTo({ top = window.pageYOffset }) {
+      Object.assign(this, {
+        pageYOffset: top,
+      }).dispatchEvent(new this.Event('scroll'))
+
+      // new setDirectionObserver implementation
+      jest
+        .spyOn(document.documentElement, 'scrollTop', 'get')
+        .mockImplementation(() => top)
+    }
+
+    // make sure we get the correct document.documentElement.clientHeight on startup
+    window.resizeTo({ height: window.innerHeight })
+  })
+
+  it('has working direction observer', async () => {
+    const Comp = mount(<Component {...props} data={mockData} />)
+
+    // open first
+    open(Comp)
+
+    expect(Comp.props().direction).toBe('auto')
+
+    await testDirectionObserver(Comp)
   })
 })
 

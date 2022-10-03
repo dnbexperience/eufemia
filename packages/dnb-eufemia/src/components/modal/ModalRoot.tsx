@@ -21,7 +21,7 @@ export interface ModalRootProps extends ModalContentProps {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  children?: string | React.ReactNode | ((...args: any[]) => any)
+  children?: React.ReactNode
 }
 
 interface ModalRootState {

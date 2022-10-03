@@ -72,12 +72,7 @@ export type ButtonOnClick = string | ((...args: any[]) => any);
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */
-export interface ButtonProps
-  extends Omit<
-      React.HTMLProps<HTMLElement>,
-      'disabled' | 'size' | 'title' | 'wrap'
-    >,
-    Partial<DataAttributeTypes> {
+export type ButtonProps = {
   /**
    * The content of the button can be a string or a React Element.
    */
@@ -230,7 +225,11 @@ export interface ButtonProps
    * Will be called on a click event. Returns an object with the native event: `{ event }`.
    */
   on_click?: ButtonOnClick;
-}
+} & Partial<
+  DataAttributeTypes &
+    Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>>
+>;
+
 export default class Button extends React.Component<ButtonProps, any> {
   render(): JSX.Element;
 }

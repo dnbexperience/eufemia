@@ -56,9 +56,9 @@ If you are able to provide the `data` to the Sidebar as well, it will use it dur
 
 The mode property is mandatory. It tells the component how it should behave.
 
-- [`strict`](/uilib/components/step-indicator#strict-mode)
-- [`loose`](/uilib/components/step-indicator#loose-mode)
-- [`static`](/uilib/components/step-indicator#static-mode)
+- [strict](/uilib/components/step-indicator#strict-mode)
+- [loose](/uilib/components/step-indicator#loose-mode)
+- [static](/uilib/components/step-indicator#static-mode)
 
 ### Strict mode
 

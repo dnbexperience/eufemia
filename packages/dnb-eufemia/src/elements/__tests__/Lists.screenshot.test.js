@@ -50,6 +50,14 @@ describe('List screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match dl list', async () => {
+    const screenshot = await testPageScreenshot({
+      style: { width: '40rem' },
+      selector: '[data-visual-test="lists-dl-horizontal"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match lists reset', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="lists-reset"]',

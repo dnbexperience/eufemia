@@ -12,7 +12,7 @@ import { DialogProps, DialogContentProps } from './types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
 import DialogAction from './parts/DialogAction'
-import { usePropsWithContext } from '../../shared/hooks'
+import { extendPropsWithContext } from '../../shared/component-helper'
 
 const defaultProps = {
   variant: 'information',
@@ -24,7 +24,7 @@ function Dialog(
 ): JSX.Element {
   const context = useContext(Context)
 
-  const propsWithContext = usePropsWithContext(
+  const propsWithContext = extendPropsWithContext(
     localProps,
     defaultProps,
     context?.Dialog

@@ -1,6 +1,8 @@
 /**
  * Global helpers
  *
+ * NB: Do not import other deps in this file.
+ * Just to have things clean and one directional.
  */
 
 export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'

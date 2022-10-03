@@ -6,87 +6,60 @@
 import React from 'react'
 import classnames from 'classnames'
 import {
-  validateDOMAttributes,
-  processChildren,
   extendPropsWithContext,
+  validateDOMAttributes,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import { createSpacingClasses } from '../../components/space/SpacingHelper'
 import { ISpacingProps } from '../../shared/interfaces'
+import { includeValidProps } from '../../components/form-row/FormRowHelpers'
 
-export interface ScrollViewProps
-  extends ISpacingProps,
-    Omit<React.HTMLAttributes<'div'>, 'title'> {
+export type ScrollViewProps = {
   className?: string
-  children?: string | React.ReactNode | ((...args: any[]) => any)
-  innerRef?: React.RefObject<HTMLElement> | React.ForwardedRef<unknown>
-  class?: string
+  children?: React.ReactNode
+  style?: React.CSSProperties
+  innerRef?: React.ForwardedRef<unknown>
+} & ISpacingProps &
+  Partial<Omit<React.HTMLAttributes<HTMLDivElement>, 'title'>>
+
+const defaultProps = {
+  children: null,
 }
 
-class ScrollView extends React.PureComponent<ScrollViewProps> {
-  static tagName = 'dnb-scroll-view'
-  static contextType = Context
-  ref: React.RefObject<HTMLElement>
+function ScrollView(localProps: ScrollViewProps) {
+  const context = React.useContext(Context)
 
-  static getContent(props) {
-    if (props.text) return props.text
-    return processChildren(props)
+  // use only the props from context, who are available here anyway
+  const props = extendPropsWithContext(
+    localProps,
+    defaultProps,
+    includeValidProps(context.FormRow),
+    context.ScrollView
+  )
+
+  const { children, className = null, innerRef, ...attributes } = props
+
+  const mainParams: React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLDivElement>,
+    HTMLDivElement
+  > = {
+    className: classnames(
+      'dnb-scroll-view',
+      createSpacingClasses(props),
+      className
+    ),
+    ...(attributes as React.HTMLAttributes<unknown>),
   }
 
-  static defaultProps = {
-    className: null,
-    children: null,
-    innerRef: null,
-
-    class: null,
+  if (innerRef) {
+    mainParams.ref = innerRef as React.RefObject<HTMLDivElement>
   }
 
-  constructor(props) {
-    super(props)
-    this.ref = props.innerRef || React.createRef()
-  }
+  validateDOMAttributes(props, mainParams)
 
-  render() {
-    // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
-      this.props,
-      ScrollView.defaultProps,
-      this.context.FormRow,
-      this.context.ScrollView
-    )
-
-    const {
-      className = null,
-      class: _className,
-      innerRef = null, // eslint-disable-line
-      ...attributes
-    } = props
-
-    const contentToRender = ScrollView.getContent(props)
-
-    const mainParams = {
-      className: classnames(
-        'dnb-scroll-view',
-        createSpacingClasses(props),
-        _className,
-        className
-      ),
-      ...attributes,
-    }
-
-    validateDOMAttributes(this.props, mainParams)
-
-    return (
-      <div {...mainParams} ref={this.ref}>
-        {contentToRender}
-      </div>
-    )
-  }
+  return <div {...mainParams}>{children}</div>
 }
 
-export default React.forwardRef(function ScrollViewRef(
-  props: ScrollViewProps,
-  ref
-) {
-  return <ScrollView innerRef={ref} {...props} />
+export default React.forwardRef((props: ScrollViewProps, ref) => {
+  return <ScrollView {...props} innerRef={ref} />
 })

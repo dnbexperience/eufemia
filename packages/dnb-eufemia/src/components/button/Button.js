@@ -11,7 +11,7 @@ import {
   warn,
   makeUniqueId,
   isTrue,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   registerElement,
   validateDOMAttributes,
   processChildren,
@@ -26,6 +26,7 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 import IconPrimary from '../icon-primary/IconPrimary'
 import { launch, launch_medium } from '../../icons'
 import FormStatus from '../form-status/FormStatus'
@@ -93,11 +94,11 @@ export default class Button extends React.PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       Button.defaultProps,
       { skeleton: this.context?.skeleton },
-      this.context.FormRow,
+      includeValidProps(this.context.FormRow),
       this.context.Button
     )
 
@@ -266,7 +267,7 @@ export default class Button extends React.PureComponent {
         {tooltip && this._ref && (
           <Tooltip
             id={this._id + '-tooltip'}
-            target_element={this._ref}
+            targetElement={this._ref}
             tooltip={tooltip}
           />
         )}

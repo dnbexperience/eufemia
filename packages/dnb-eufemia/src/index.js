@@ -56,6 +56,7 @@ import FormStatus from './components/form-status/FormStatus'
 import GlobalError from './components/global-error/GlobalError'
 import GlobalStatus from './components/global-status/GlobalStatus'
 import Heading from './components/heading/Heading'
+import HeightAnimation from './components/height-animation/HeightAnimation'
 import HelpButton from './components/help-button/HelpButton'
 import Icon from './components/icon/Icon'
 import IconPrimary from './components/icon-primary/IconPrimary'
@@ -131,6 +132,7 @@ export {
   GlobalError,
   GlobalStatus,
   Heading,
+  HeightAnimation,
   HelpButton,
   Icon,
   IconPrimary,

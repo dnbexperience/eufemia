@@ -9,8 +9,10 @@ import Button, { ButtonProps } from '../button/Button'
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
 import { SkeletonShow } from '../skeleton/Skeleton'
-import { warn } from '../../shared/component-helper'
-import { usePropsWithContext } from '../../shared/hooks'
+import {
+  warn,
+  extendPropsWithContext,
+} from '../../shared/component-helper'
 
 // Internal
 import TagGroup from './TagGroup'
@@ -71,6 +73,12 @@ export interface TagProps {
    * Default: null
    */
   omitOnKeyUpDeleteEvent?: boolean
+
+  /**
+   * Internal property
+   * Has translation in context
+   */
+  removeIconTitle?: string
 }
 
 export const defaultProps = {
@@ -84,7 +92,7 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
   const tagGroupContext = React.useContext(TagGroupContext)
 
   // Extract additional props from global context
-  const allProps = usePropsWithContext(
+  const allProps = extendPropsWithContext(
     localProps,
     defaultProps,
     context?.translation?.Tag,
@@ -101,6 +109,7 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
     onClick,
     onDelete,
     omitOnKeyUpDeleteEvent,
+    removeIconTitle, // has a translation in context
     ...props
   } = allProps
 
@@ -168,7 +177,7 @@ const Tag = (localProps: TagProps & ISpacingProps) => {
   function getDeleteIcon() {
     return (
       <IconPrimary
-        data-testid="tag-delete-icon"
+        title={removeIconTitle}
         inherit_color={false}
         icon={
           <svg

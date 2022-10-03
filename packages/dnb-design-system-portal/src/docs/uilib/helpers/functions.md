@@ -146,6 +146,13 @@ convertJsxToString(element: HTMLElement, separator*: String) // returns Boolean
 
 Invalidates DOM elements to be accessible for a keyboard or a screen reader. Is used by the [Modal](/uilib/components/modal).
 
+#### Options
+
+Use an object with these optional parameters:
+
+- `tabIndex`: boolean (defaults to true) to disable `tabindex` invalidation.
+- `ariaHidden`: boolean (defaults to true) to disable `aria-hidden` invalidation.
+
 #### Example
 
 ```js

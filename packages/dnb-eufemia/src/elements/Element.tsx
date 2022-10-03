@@ -6,14 +6,16 @@
 import React from 'react'
 import classnames from 'classnames'
 import Context from '../shared/Context'
-import { validateDOMAttributes } from '../shared/component-helper'
+import {
+  validateDOMAttributes,
+  extendPropsWithContext,
+} from '../shared/component-helper'
 import { createSpacingClasses } from '../components/space/SpacingHelper'
 import {
   createSkeletonClass,
   skeletonDOMAttributes,
   SkeletonMethods,
 } from '../components/skeleton/SkeletonHelper'
-import usePropsWithContext from '../shared/hooks/usePropsWithContext'
 import { includeValidProps } from '../components/form-row/FormRowHelpers'
 
 export type ElementProps = {
@@ -46,7 +48,7 @@ const Element = React.forwardRef((props: ElementProps, ref) => {
 
 function ElementInstance(localProps: ElementProps) {
   const context = React.useContext(Context)
-  const props = usePropsWithContext(
+  const props = extendPropsWithContext(
     localProps,
     defaultProps,
     { skeleton: context?.skeleton },

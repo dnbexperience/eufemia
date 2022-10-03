@@ -7,10 +7,12 @@ import React from 'react'
 import classnames from 'classnames'
 import E from './Element'
 import Context from '../shared/Context'
-import { makeUniqueId } from '../shared/component-helper'
+import {
+  makeUniqueId,
+  extendPropsWithContext,
+} from '../shared/component-helper'
 import Tooltip from '../components/tooltip/Tooltip'
 import { ISpacingProps } from '../shared/interfaces'
-import usePropsWithContext from '../shared/hooks/usePropsWithContext'
 
 export type AnchorProps = {
   element?: React.ReactNode
@@ -42,7 +44,7 @@ const defaultProps = {}
 
 function AnchorInstance(localProps: AnchorProps) {
   const context = React.useContext(Context)
-  const allProps = usePropsWithContext(
+  const allProps = extendPropsWithContext(
     localProps,
     defaultProps,
     { skeleton: context?.skeleton },
@@ -104,9 +106,9 @@ function AnchorInstance(localProps: AnchorProps) {
 
       {showTooltip && (
         <Tooltip
-          show_delay={100}
+          showDelay={100}
           id={internalId + '-tooltip'}
-          target_element={innerRef}
+          targetElement={innerRef}
           tooltip={tooltip}
         >
           {allProps.title || targetBlankTitle}

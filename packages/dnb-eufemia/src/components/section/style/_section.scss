@@ -3,7 +3,7 @@
  *
  */
 
-@mixin SectionStyle() {
+.dnb-section {
   position: relative;
 
   // flow-root allows content to have margin top and bottom
@@ -51,37 +51,20 @@
     z-index: -7;
   }
 
+  &--spacing-x-small {
+    padding: var(--spacing-x-small) 0;
+  }
+
   &--spacing-small {
-    padding-top: var(--spacing-small);
-    padding-bottom: var(--spacing-small);
+    padding: var(--spacing-small) 0;
   }
 
   &--spacing-medium {
-    padding-top: var(--spacing-medium);
-    padding-bottom: var(--spacing-medium);
+    padding: var(--spacing-medium) 0;
   }
 
-  // spacing-default
   &--spacing,
-  &--spacing-default,
   &--spacing-large {
-    padding-top: var(--spacing-large);
-    padding-bottom: var(--spacing-large);
+    padding: var(--spacing-large) 0;
   }
-
-  &--spacing-x-large {
-    padding-top: var(--spacing-x-large);
-    // larger than top
-    padding-bottom: var(--spacing-xx-large);
-  }
-
-  &--spacing-xx-large {
-    padding-top: var(--spacing-xx-large);
-    // larger than top
-    padding-bottom: calc(var(--spacing-xx-large) + var(--spacing-small));
-  }
-}
-
-.dnb-section {
-  @include SectionStyle();
 }

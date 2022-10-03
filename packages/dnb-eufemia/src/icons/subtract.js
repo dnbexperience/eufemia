@@ -12,8 +12,11 @@ const subtract = (props) => (
     {...props}
   >
     <path
-      d="M14 8.75a.75.75 0 0 0 0-1.5v1.5ZM2 7.25a.75.75 0 0 0 0 1.5v-1.5Zm12 0H2v1.5h12v-1.5Z"
-      fill="#000"
+      d="M14 8H2"
+      stroke="#000"
+      strokeWidth={1.5}
+      strokeMiterlimit={10}
+      strokeLinecap="round"
     />
   </svg>
 )

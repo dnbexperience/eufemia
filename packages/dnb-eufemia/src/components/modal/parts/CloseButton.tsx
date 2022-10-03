@@ -5,7 +5,7 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import { extendPropsWithContext } from '../../../shared/component-helper'
+import { extendPropsWithContextInClassComponent } from '../../../shared/component-helper'
 import Button from '../../button/Button'
 import Context from '../../../shared/Context'
 import { ButtonProps } from '../../button'
@@ -34,7 +34,7 @@ export default class CloseButton extends React.PureComponent<CloseButtonProps> {
       icon_position = 'left',
       className = null,
       ...button_props
-    } = extendPropsWithContext(
+    } = extendPropsWithContextInClassComponent(
       this.props,
       CloseButton.defaultProps,
       this.context.getTranslation(this.props).Modal

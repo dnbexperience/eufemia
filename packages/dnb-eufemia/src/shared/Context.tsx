@@ -24,9 +24,12 @@ import type { TimelineItemProps } from '../components/timeline/TimelineItem'
 import type { VisuallyHiddenProps } from '../components/visually-hidden/VisuallyHidden'
 import type { DrawerProps } from '../components/drawer/types'
 import type { DialogProps } from '../components/dialog/types'
+import type { TooltipProps } from '../components/tooltip/types'
+import type { SectionProps } from '../components/section/Section'
 
 // All TypeScript based Eufemia elements
 import type { AnchorProps } from '../elements/Anchor'
+import type { ScrollViewProps } from '../fragments/scroll-view/ScrollView'
 
 export type ContextProps = {
   // -- All TypeScript based Eufemia components --
@@ -47,6 +50,9 @@ export type ContextProps = {
   VisuallyHidden?: Partial<VisuallyHiddenProps>
   Drawer?: Partial<DrawerProps>
   Dialog?: Partial<DialogProps>
+  Tooltip?: Partial<TooltipProps>
+  Section?: Partial<SectionProps>
+  ScrollView?: Partial<ScrollViewProps>
 
   // -- TODO: Not converted yet --
 
@@ -112,13 +118,13 @@ export type ContextProps = {
   locales?: Locales
   __newContext?: Record<string, string>
   updateTranslation?: (locale: Locale, translation: Translation) => void
-  getTranslation?: (props?: GetTranslationProps) => Translation
+  getTranslation?: (props: GetTranslationProps) => Translation
 }
 
-export type GetTranslationProps = {
+export type GetTranslationProps = Partial<{
   lang?: Locale
   locale?: Locale
-} & Record<string, unknown>
+}>
 
 export type Locale = string | 'nb-NO' | 'en-GB' | 'en-US'
 export type ComponentTranslationsName = string

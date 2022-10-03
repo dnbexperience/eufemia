@@ -6,8 +6,12 @@ import type {
   formatOptionParams,
 } from '../number-format/NumberUtils'
 import { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
+import { ISpacingProps } from '../../shared/interfaces'
 
 export type ValueTypes = number | Array<number>
+export type NumberFormatTypes =
+  | formatOptionParams
+  | ((value: number) => unknown)
 export type onChangeEventProps = {
   value: ValueTypes
   rawValue: number
@@ -74,8 +78,14 @@ export type SliderProps = IncludeSnakeCase<{
   /** if set to `true`, then the slider will be 100% in `width`. */
   stretch?: boolean
 
-  /** Will extend the return object with a `number` property (from `onChange` event). You can use all the options from the [NumberFormat](/uilib/components/number-format/properties) component. It also will use that formatted number in the increase/decrease buttons. If it has to represent a currency, then use e.g. `numberFormat={{ currency: true, decimals: 0 }}` */
-  numberFormat?: formatOptionParams
+  /** provide a function callback or use the options from the [NumberFormat](/uilib/components/number-format/properties) component. It will show a formatted number in the Tooltip (`tooltip={true}`) and enhance the screen reader UX. It will also extend the `onChange` event return object with a formatted `number` property. */
+  numberFormat?: NumberFormatTypes
+
+  /** use `true` to show a tooltip on `mouseOver`, `touchStart` and `focus`, showing the current number (if `numberFormat` is given) or the raw value. Defaults to `null`. */
+  tooltip: boolean
+
+  /** use `true` to always show the tooltip, in addition to the `tooltip` property.  */
+  alwaysShowTooltip: boolean
 
   /** removes the helper buttons. Defaults to `false`. */
   hideButtons?: boolean
@@ -108,18 +118,21 @@ export type SliderProps = IncludeSnakeCase<{
   children?: React.ReactChild
 }>
 
+export type SliderAllProps = SliderProps &
+  ISpacingProps &
+  Omit<React.HTMLProps<HTMLElement>, keyof SliderProps>
+
 export type ThumbStateEnums =
   | 'initial'
   | 'normal'
   | 'activated'
   | 'released'
-  | 'focused'
-  | 'jumped'
 
 export type SliderContextTypes = {
   isMulti: boolean
   isReverse: boolean
   isVertical: boolean
+  shouldAnimate: boolean
   thumbState: ThumbStateEnums
   thumbIndex: React.RefObject<number>
   showStatus: boolean
@@ -133,6 +146,6 @@ export type SliderContextTypes = {
   setThumbIndex: (thumbIndex: number) => void
   emitChange: (emitEvent: MouseEvent | TouchEvent, value: number) => void
   trackRef: React.RefObject<HTMLElement>
-  setJumpedState: () => void
-  jumpedTimeout: React.RefObject<NodeJS.Timeout>
+  setShouldAnimate: (state: boolean) => void
+  animationTimeout: React.RefObject<NodeJS.Timeout>
 }

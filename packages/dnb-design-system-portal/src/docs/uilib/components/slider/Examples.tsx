@@ -5,6 +5,7 @@
 
 import React from 'react'
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import { format } from '@dnb/eufemia/src/components/number-format/NumberUtils'
 
 export const SliderExampleDefault = () => (
   <ComponentBox data-visual-test="slider-default">
@@ -15,6 +16,8 @@ export const SliderExampleDefault = () => (
   max={100}
   value={70}
   label="Default Slider:"
+  numberFormat={{ currency: 'EUR' }}
+  tooltip={true}
   onChange={({ value }) => console.log('onChange:', value)}
 />
   `
@@ -23,7 +26,7 @@ export const SliderExampleDefault = () => (
 )
 
 export const SliderExampleMultiButtons = () => (
-  <ComponentBox data-visual-test="slider-multi">
+  <ComponentBox data-visual-test="slider-multi" scope={{ format }}>
     {
       /* jsx */ `
 <FormRow vertical>
@@ -33,15 +36,18 @@ export const SliderExampleMultiButtons = () => (
     value={[30, 70]}
     step={5}
     label="Range with steps:"
+    numberFormat={{ currency: 'USD' }}
+    tooltip
     onChange={({ value }) => console.log('onChange:', value)}
     bottom
-  />
-  <Slider
+    />
+    <Slider
     min={0}
     max={100}
     value={[10, 30, 50, 70]}
     label="Multi thumbs:"
-    numberFormat={{ decimals: 2, currency: true }}
+    numberFormat={(value) => format(value, { percent: true, decimals: 0 })}
+    tooltip
     onChange={({ value, number }) => console.log('onChange:', value, number)}
   />
 </FormRow>
@@ -59,6 +65,8 @@ export const SliderExampleMultiButtonsThumbBehavior = () => (
     multiThumbBehavior="omit"
     value={[30, 70]}
     label="Omit behavior:"
+    numberFormat={{ currency: 'EUR' }}
+    tooltip={true}
     onChange={({ value }) => console.log('onChange:', value)}
     bottom
     />
@@ -67,7 +75,8 @@ export const SliderExampleMultiButtonsThumbBehavior = () => (
     value={[10,  50, 70]}
     step={1}
     label="Push behavior:"
-    numberFormat={{ decimals: 2, currency: true }}
+    numberFormat={{ currency: true }}
+    tooltip={true}
     onChange={({ value, number }) => console.log('onChange:', value, number)}
   />
 </FormRow>
@@ -77,7 +86,7 @@ export const SliderExampleMultiButtonsThumbBehavior = () => (
 )
 
 export const SliderExampleHorizontalSync = () => (
-  <ComponentBox useRender>
+  <ComponentBox useRender scope={{ format }}>
     {
       /* jsx */ `
 const Component = () => {
@@ -85,9 +94,11 @@ const Component = () => {
   return (<>
     <Slider
       value={value}
-      step={10}
+      step={1}
       hideButtons
       label="Slider A:"
+      numberFormat={{ currency: 'EUR' }}
+      tooltip={true}
       onChange={({ value }) => setValue(value)}
     />
     <VerticalWrapper>
@@ -95,9 +106,12 @@ const Component = () => {
         value={value}
         vertical={true}
         hideButtons={true}
-        step={1}
+        step={10}
         label="Slider B:"
         labelDirection="vertical"
+        numberFormat={(value) => format(value, { currency: 'NOK' })}
+        tooltip
+        alwaysShowTooltip
         onChange={({ value }) => setValue(value)}
       />
       <Input
@@ -138,29 +152,6 @@ export const SliderExampleSuffix = () => (
   label="Slider with suffix:"
   suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
 />
-  `
-    }
-  </ComponentBox>
-)
-
-export const SliderExampleRange = () => (
-  <ComponentBox>
-    {
-      /* jsx */ `
-<FormRow>
-  <FormLabel for_id="range-slider">
-    Native Range Slider
-  </FormLabel>
-  <input
-    id="range-slider"
-    type="range"
-    min={0}
-    max={100}
-    step={5}
-    defaultValue={20}
-    onChange={(event) => console.log(event.currentTarget.value)}
-  />
-</FormRow>
   `
     }
   </ComponentBox>

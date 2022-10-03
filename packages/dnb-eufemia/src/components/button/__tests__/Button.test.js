@@ -120,6 +120,14 @@ describe('Button component', () => {
     expect(Comp.find('button').instance().hasAttribute('type')).toBe(false)
   })
 
+  it('should use span element if defined', () => {
+    const Comp = mount(<Component element="span" />)
+    expect(Comp.find('.dnb-button').instance().tagName).toBe('SPAN')
+    expect(Comp.find('.dnb-button').instance().getAttribute('type')).toBe(
+      'button'
+    )
+  })
+
   it('has "on_click" event which will trigger on a click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()

@@ -1,23 +1,19 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import classnames from 'classnames'
 import React from 'react'
-import {
-  dispatchCustomElementEvent,
-  validateDOMAttributes,
-} from '../../shared/component-helper'
+import { dispatchCustomElementEvent } from '../../shared/component-helper'
 import { useSliderEvents } from './hooks/useSliderEvents'
 import { useSliderProps } from './hooks/useSliderProps'
-import { clamp, formatNumber } from './SliderHelpers'
+import { clamp, getFormattedNumber } from './SliderHelpers'
 
 export function SliderMainTrack({
   children,
 }: {
   children: React.ReactNode | React.ReactNode[]
 }) {
-  const { isMulti, value, allProps, trackRef, jumpedTimeout, thumbState } =
+  const { isMulti, value, allProps, trackRef, animationTimeout } =
     useSliderProps()
   const { id, numberFormat, onInit } = allProps
-  const { onTrackClickHandler, onThumbMouseDownHandler, removeEvents } =
+  const { onTrackMouseUpHandler, onThumbMouseDownHandler, removeEvents } =
     useSliderEvents()
 
   React.useEffect(() => {
@@ -28,34 +24,33 @@ export function SliderMainTrack({
         number: null,
       }
       if (numberFormat) {
-        obj.number = formatNumber(value as number, numberFormat)
+        obj.number = getFormattedNumber(value as number, numberFormat)
       }
       dispatchCustomElementEvent(allProps, 'onInit', obj)
     }
 
     return () => {
       removeEvents()
-      clearTimeout(jumpedTimeout.current)
+      clearTimeout(animationTimeout.current)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const trackParams = {
-    className: classnames(
-      'dnb-slider__track',
-      thumbState && `dnb-slider__state--${thumbState}`
-    ),
-    onTouchStart: onTrackClickHandler,
+    onTouchStart: onTrackMouseUpHandler,
     onTouchStartCapture: onThumbMouseDownHandler,
-    onMouseDown: onTrackClickHandler,
+    onMouseDown: onTrackMouseUpHandler,
     onMouseDownCapture: onThumbMouseDownHandler,
   }
 
-  validateDOMAttributes(null, trackParams)
-
   return (
     // @ts-ignore
-    <span id={id} ref={trackRef} {...trackParams}>
+    <span
+      id={id}
+      ref={trackRef}
+      className="dnb-slider__track"
+      {...trackParams}
+    >
       {children}
     </span>
   )

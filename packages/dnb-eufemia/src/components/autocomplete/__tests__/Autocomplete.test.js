@@ -17,6 +17,10 @@ import Component from '../Autocomplete'
 import { SubmitButton } from '../../../components/input/Input'
 import { format } from '../../../components/number-format/NumberUtils'
 import userEvent from '@testing-library/user-event'
+import {
+  mockImplementationForDirectionObserver,
+  testDirectionObserver,
+} from '../../../fragments/drawer-list/__tests__/DrawerListTestMocks'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Autocomplete'), {
@@ -60,6 +64,8 @@ const props = {
 }
 
 const mockData = ['AA c', 'BB cc zethx', { content: ['CC', 'cc'] }]
+
+mockImplementationForDirectionObserver()
 
 describe('Autocomplete component', () => {
   it('has correct word and in-word highlighting', () => {
@@ -1448,6 +1454,29 @@ describe('Autocomplete component', () => {
     )
   })
 
+  it('has correct "opened" state on input mousedown', () => {
+    const Comp = mount(<Component {...props} data={mockData} />)
+
+    Comp.find('.dnb-input__input').simulate('mousedown')
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(true)
+
+    // close
+    keydown(Comp, 27) // esc
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(false)
+
+    Comp.find('.dnb-input__input').simulate('mousedown')
+
+    expect(
+      Comp.find('.dnb-autocomplete').hasClass('dnb-autocomplete--opened')
+    ).toBe(true)
+  })
+
   it('will open drawer-list when open_on_focus is set to true', () => {
     const on_focus = jest.fn()
     const on_change = jest.fn()
@@ -1791,7 +1820,7 @@ describe('Autocomplete component', () => {
         .not('.dnb-input__clear-button')
         .find('.dnb-icon')
         .instance()
-        .getAttribute('data-test-id')
+        .getAttribute('data-testid')
     ).toContain('chevron down')
   })
 
@@ -1942,8 +1971,17 @@ describe('Autocomplete component', () => {
         .not('.dnb-input__clear-button')
         .find('.dnb-icon')
         .instance()
-        .getAttribute('data-test-id')
+        .getAttribute('data-testid')
     ).toContain('bell')
+  })
+
+  it('has working direction observer', async () => {
+    const Comp = mount(<Component {...props} data={mockData} />)
+
+    // open first
+    toggle(Comp)
+
+    await testDirectionObserver(Comp)
   })
 })
 

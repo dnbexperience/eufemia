@@ -7,7 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   isTrue,
   registerElement,
   validateDOMAttributes,
@@ -21,6 +21,7 @@ import {
   createSkeletonClass,
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 import Context from '../../shared/Context'
 
 export default class FormLabel extends React.PureComponent {
@@ -82,11 +83,11 @@ export default class FormLabel extends React.PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       FormLabel.defaultProps,
       { skeleton: this.context?.skeleton },
-      this.context.FormRow,
+      includeValidProps(this.context.FormRow),
       this.context.FormLabel
     )
 

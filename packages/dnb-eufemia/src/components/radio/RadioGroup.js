@@ -7,7 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   makeUniqueId,
   registerElement,
   validateDOMAttributes,
@@ -16,6 +16,7 @@ import {
   combineLabelledBy,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 import {
   spacingPropTypes,
   createSpacingClasses,
@@ -165,10 +166,10 @@ export default class RadioGroup extends React.PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       RadioGroup.defaultProps,
-      this.context.FormRow,
+      includeValidProps(this.context.FormRow),
       this.context.RadioGroup
     )
 

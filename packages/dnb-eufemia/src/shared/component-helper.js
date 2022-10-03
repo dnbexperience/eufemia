@@ -6,17 +6,24 @@
 import React from 'react'
 import keycode from 'keycode'
 import whatInput from 'what-input'
-import { registerElement } from './custom-element'
 import {
   warn,
-  IS_IE11,
   PLATFORM_MAC,
   PLATFORM_WIN,
   PLATFORM_LINUX,
 } from './helpers'
+import { getPreviousSibling } from './helpers/getPreviousSibling'
 import { init } from './Eufemia'
 
-export { registerElement, warn }
+export { InteractionInvalidation } from './helpers/InteractionInvalidation'
+export {
+  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
+} from './helpers/extendPropsWithContext'
+export { registerElement } from './custom-element'
+export { useEventEmitter } from './helpers/useEventEmitter'
+
+export { getPreviousSibling, warn }
 
 init()
 
@@ -273,37 +280,6 @@ export const extend = (...objects) => {
     }
     return acc1
   }, first)
-}
-
-// extends props from a given context
-// but give the context second priority only
-export const extendPropsWithContext = (
-  props,
-  defaults = {},
-  ...contexts
-) => {
-  const context = contexts.reduce((acc, cur) => {
-    if (cur) {
-      acc = { ...acc, ...cur }
-    }
-    return acc
-  }, {})
-
-  return {
-    ...props,
-    ...Object.entries(context).reduce((acc, [key, value]) => {
-      if (
-        // check if a prop of the same name exists
-        typeof props[key] !== 'undefined' &&
-        // and if it was NOT defined as a component prop, because its still the same as the defaults
-        props[key] === defaults[key]
-      ) {
-        // then we use the context value
-        acc[key] = value
-      }
-      return acc
-    }, {}),
-  }
 }
 
 // check if value is "truthy"
@@ -661,31 +637,6 @@ export const matchAll = (string, regex) => {
 }
 
 /**
- * [getPreviousSibling traverses down the DOM tree until it finds the wanted element]
- * @param  {[string]} className [CSS class]
- * @param  {[HTMLElement]} element      [starting HTMLElement]
- * @return {[HTMLElement]}           [HTMLElement]
- */
-export const getPreviousSibling = (className, element) => {
-  try {
-    const contains = (element) =>
-      element && element.classList.contains(className)
-
-    if (contains(element)) {
-      return element
-    }
-
-    while (
-      (element = element && element.parentElement) &&
-      !contains(element)
-    );
-  } catch (e) {
-    warn(e)
-  }
-  return element
-}
-
-/**
  * Check if an element exists in its children
  * If it finds it, the child "element" of target will be returned.
  *
@@ -772,155 +723,6 @@ export const convertJsxToString = (elements, separator = undefined) => {
     .trim()
 }
 
-export class InteractionInvalidation {
-  constructor() {
-    this.bypassElement = null
-    this.bypassSelectors = []
-    return this
-  }
-
-  setBypassElement(bypassElement) {
-    if (bypassElement instanceof HTMLElement) {
-      this.bypassElement = bypassElement
-    }
-    return this
-  }
-
-  setBypassSelector(bypassSelector) {
-    if (!Array.isArray(bypassSelector)) {
-      bypassSelector = [bypassSelector]
-    }
-    this.bypassSelectors = bypassSelector
-    return this
-  }
-
-  activate(targetElement = null) {
-    if (!this._nodesToInvalidate) {
-      this._runInvalidaiton(targetElement)
-    }
-  }
-
-  revert() {
-    this._revertInvalidation()
-    this._nodesToInvalidate = null
-  }
-
-  _runInvalidaiton(targetElement) {
-    if (typeof document === 'undefined') {
-      return // stop here
-    }
-
-    this._nodesToInvalidate = this.getNodesToInvalidate(targetElement)
-
-    // 1. Save the previous tabindex and aria-hidden state so we can restore it on close
-    // 2. And invalidate the node
-    for (const node of this._nodesToInvalidate) {
-      if (!node) {
-        continue
-      }
-
-      const tabindex = node.getAttribute('tabindex')
-      const ariahidden = node.getAttribute('aria-hidden')
-
-      if (tabindex !== null && typeof node.__tabindex === 'undefined') {
-        node.__tabindex = tabindex
-      }
-      if (
-        ariahidden !== null &&
-        typeof node.__ariahidden === 'undefined'
-      ) {
-        node.__ariahidden = ariahidden
-      }
-
-      node.setAttribute('tabindex', '-1')
-      node.setAttribute('aria-hidden', 'true')
-    }
-  }
-
-  _revertInvalidation() {
-    if (!Array.isArray(this._nodesToInvalidate)) {
-      return // stop here
-    }
-
-    // restore or remove tabindex and aria-hidden from nodes
-    for (const node of this._nodesToInvalidate) {
-      if (!node) {
-        continue
-      }
-
-      if (typeof node.__tabindex !== 'undefined') {
-        node.setAttribute('tabindex', node.__tabindex)
-        delete node.__tabindex
-      } else {
-        node.removeAttribute('tabindex')
-      }
-      if (typeof node.__ariahidden !== 'undefined') {
-        node.setAttribute('aria-hidden', node.__ariahidden)
-        delete node.__ariahidden
-      } else {
-        node.removeAttribute('aria-hidden')
-      }
-    }
-  }
-
-  getNodesToInvalidate(targetElement = null) {
-    if (typeof document === 'undefined') {
-      return [] // stop here
-    }
-
-    if (typeof targetElement === 'string') {
-      targetElement = document.querySelector(targetElement)
-    }
-
-    // by only finding elements that do not have tabindex="-1" we ensure we don't
-    // corrupt the previous state of the element if a modal was already open
-    const rootSelector = targetElement ? '*' : 'html *'
-
-    const elementSelector = this.bypassSelectors
-      .map((s) => `:not(${s})`)
-      .join('')
-
-    const selector = `${rootSelector} ${elementSelector}:not(script):not(style):not(path):not(head *)`
-
-    // JSDOM and IE11 has issues with the selector :not(x *), so we used it only in the browser,
-    // so we remove the asterisk from the selector, but add it to the exclude selectors list and make another querySelectorAll call
-    // - so we query all bypass selectors with "asterisk" manually
-    if (IS_IE11 || process.env.NODE_ENV === 'test') {
-      const excludeSelectors = []
-
-      const testSelector = selector
-        .split(':')
-        .map((localSel) => {
-          if (localSel.endsWith(' *)')) {
-            excludeSelectors.push(
-              ...Array.from(
-                (
-                  targetElement || document.documentElement
-                ).querySelectorAll(localSel.match(/\(([^)]*)\)/)[1])
-              )
-            )
-            localSel = localSel.replace(' *', '')
-          }
-
-          return localSel
-        })
-        .join(':')
-
-      return Array.from(
-        (targetElement || document.documentElement).querySelectorAll(
-          testSelector
-        )
-      ).filter((node) => !excludeSelectors.includes(node))
-    }
-
-    return Array.from(
-      (targetElement || document.documentElement).querySelectorAll(
-        selector
-      )
-    )
-  }
-}
-
 export function convertStatusToStateOnly(status, state) {
   return status ? state : null
 }
@@ -929,24 +731,6 @@ export function getStatusState(status) {
   return (
     status && status !== 'error' && status !== 'warn' && status !== 'info'
   )
-}
-
-export function getInnerRef(ref) {
-  let ret = ref
-
-  if (
-    ref &&
-    ref.current &&
-    !React.isValidElement(ref.current) &&
-    ref.current._ref
-  ) {
-    const tmp = getInnerRef(ref.current._ref)
-    if (tmp && Object.prototype.hasOwnProperty.call(tmp, 'current')) {
-      ret = tmp
-    }
-  }
-
-  return ret
 }
 
 export function combineLabelledBy(...params) {

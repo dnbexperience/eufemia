@@ -18,7 +18,7 @@ import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { SkeletonShow } from '../skeleton/Skeleton'
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
-import { usePropsWithContext } from '../../shared/hooks'
+import { extendPropsWithContext } from '../../shared/component-helper'
 
 export interface InfoCardProps {
   /**
@@ -102,8 +102,6 @@ export const defaultProps = {
   centered: false,
   skeleton: false,
   icon: LightbulbIcon,
-  closeButtonAttributes: null,
-  acceptButtonAttributes: null,
 }
 
 const InfoCard = (localProps: InfoCardProps & ISpacingProps) => {
@@ -127,10 +125,9 @@ const InfoCard = (localProps: InfoCardProps & ISpacingProps) => {
     closeButtonAttributes,
     acceptButtonAttributes,
     ...props
-  } = usePropsWithContext(
-    { ...defaultProps, ...localProps },
-    { skeleton: context?.skeleton }
-  )
+  } = extendPropsWithContext(localProps, defaultProps, {
+    skeleton: context?.skeleton,
+  })
 
   const skeletonClasses = createSkeletonClass('shape', skeleton, context)
   const spacingClasses = createSpacingClasses(props)

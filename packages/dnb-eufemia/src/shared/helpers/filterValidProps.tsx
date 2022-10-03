@@ -9,7 +9,7 @@
  */
 function filterValidProps<Props>(
   props: Props,
-  validKeys: Record<string, unknown>,
+  validKeys?: Record<string, unknown>,
   excludeKeys?: Record<string, unknown>
 ) {
   const res = {} as Props,
@@ -17,7 +17,7 @@ function filterValidProps<Props>(
 
   for (const key in props) {
     if (
-      o.call(validKeys, key) &&
+      (!validKeys || (validKeys && o.call(validKeys, key))) &&
       (!excludeKeys || (excludeKeys && !o.call(excludeKeys, key)))
     ) {
       res[key] = props[key]

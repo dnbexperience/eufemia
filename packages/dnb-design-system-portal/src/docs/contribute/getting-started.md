@@ -138,7 +138,7 @@ And use it as so:
 
 ```tsx
 import { Context } from '../../shared'
-import { usePropsWithContext } from '../../shared/hooks'
+import { extendPropsWithContext } from '../../shared/component-helper'
 
 const defaultProps = {
   myParam: 'value',
@@ -147,7 +147,7 @@ const defaultProps = {
 function MyComponent(props: Types) {
   const context = React.useContext(Context)
 
-  const { myString } = usePropsWithContext(
+  const { myString } = extendPropsWithContext(
     props,
     defaultProps,
     context.getTranslation(props).MyComponent // details below 👇
@@ -164,7 +164,7 @@ The function `getTranslation` will along with the properties support both `local
 
 ```tsx
 import { Context } from '../../shared'
-import { usePropsWithContext } from '../../shared/hooks'
+import { extendPropsWithContext } from '../../shared/component-helper'
 
 const defaultProps = {
   myParam: 'value',
@@ -173,7 +173,7 @@ const defaultProps = {
 function MyComponent(props: Types) {
   const context = React.useContext(Context)
 
-  const { myParam, ...rest } = usePropsWithContext(
+  const { myParam, ...rest } = extendPropsWithContext(
     props,
     defaultProps,
     context.MyComponent
@@ -190,7 +190,7 @@ Form elements, like input, checkbox, slider etc. do support some [FormRow](/uili
 
 ```tsx
 import { Context } from '../../shared'
-import { usePropsWithContext } from '../../shared/hooks'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import { includeValidProps } from '../../components/form-row/FormRowHelpers'
 
 const defaultProps = {
@@ -200,7 +200,7 @@ const defaultProps = {
 function MyComponent(props: Types) {
   const context = React.useContext(Context)
 
-  const { myParam, skeleton, ...rest } = usePropsWithContext(
+  const { myParam, skeleton, ...rest } = extendPropsWithContext(
     props,
     defaultProps,
     includeValidProps(context?.FormRow)
@@ -220,7 +220,7 @@ import { Context } from '../../shared'
 import classnames from 'classnames'
 import {
   validateDOMAttributes,
-  usePropsWithContext,
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes, // In case you need them as PropTypes
@@ -242,7 +242,7 @@ const defaultProps = {
 function MyComponent(props: MyComponentProps) {
   const context = React.useContext(Context)
 
-  const { myParam, className, ...rest } = usePropsWithContext(
+  const { myParam, className, ...rest } = extendPropsWithContext(
     props,
     defaultProps
     // ...
@@ -268,7 +268,7 @@ It depends from case to case on how you would make skeleton support available. T
 
 ```tsx
 import { Context } from '../../shared'
-import { usePropsWithContext } from '../../shared/hooks'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -281,7 +281,7 @@ const defaultProps = {
 function MyComponent(props: Types) {
   const context = React.useContext(Context)
 
-  const { skeleton, className, ...rest } = usePropsWithContext(
+  const { skeleton, className, ...rest } = extendPropsWithContext(
     props,
     defaultProps,
     { skeleton: context?.skeleton }

@@ -10,7 +10,7 @@ import keycode from 'keycode'
 import {
   isTrue,
   makeUniqueId,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   registerElement,
   validateDOMAttributes,
   getStatusState,
@@ -33,6 +33,7 @@ import RadioGroup from './RadioGroup'
 import RadioGroupContext from './RadioGroupContext'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 
 /**
  * The radio component is our enhancement of the classic radio button.
@@ -266,13 +267,20 @@ export default class Radio extends React.PureComponent {
     return (
       <Context.Consumer>
         {(context) => {
-          // use only the props from context, who are available here anyway
-          const props = extendPropsWithContext(
+          // from internal context
+          const contextProps = extendPropsWithContextInClassComponent(
             this.props,
             Radio.defaultProps,
-            this.context, // internal context
+            this.context
+          )
+
+          // use only the props from context, who are available here anyway
+          const props = extendPropsWithContextInClassComponent(
+            this.props,
+            Radio.defaultProps,
+            contextProps,
             { skeleton: context?.skeleton },
-            context.FormRow,
+            includeValidProps(context.FormRow),
             context.Radio
           )
 

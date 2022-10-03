@@ -153,7 +153,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
               <span
                 aria-hidden="true"
                 class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                data-test-id="question icon"
+                data-testid="question icon"
                 role="presentation"
               >
                 <svg
@@ -218,7 +218,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                 <span
                   aria-hidden="true"
                   class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                  data-test-id="question icon"
+                  data-testid="question icon"
                   role="presentation"
                 >
                   <svg
@@ -306,7 +306,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     <span
                       aria-hidden="true"
                       class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                      data-test-id="question icon"
+                      data-testid="question icon"
                       role="presentation"
                     >
                       <svg
@@ -374,7 +374,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                 <span
                   aria-hidden={true}
                   className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                  data-test-id="question icon"
+                  data-testid="question icon"
                   role="presentation"
                 >
                   <question>
@@ -423,21 +423,8 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
             width_selector={null}
           />
           <Tooltip
-            active={null}
-            align={null}
-            animate_position={false}
-            arrow="center"
-            class={null}
-            className={null}
-            fixed_position={false}
-            group="main"
-            hide_delay={500}
             id="drawer_id-tooltip"
-            no_animation={false}
-            position="top"
-            show_delay={300}
-            size="basis"
-            target_element={
+            targetElement={
               Object {
                 "current": <button
                   aria-describedby="drawer_id-tooltip"
@@ -456,7 +443,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                   <span
                     aria-hidden="true"
                     class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                    data-test-id="question icon"
+                    data-testid="question icon"
                     role="presentation"
                   >
                     <svg
@@ -478,12 +465,11 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                 </button>,
               }
             }
-            target_selector={null}
             tooltip="drawer_title"
           >
             <TooltipWithEvents
               align={null}
-              animate_position={false}
+              animatePosition={false}
               arrow="center"
               attributes={
                 Object {
@@ -491,17 +477,17 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                   "className": "dnb-tooltip",
                 }
               }
-              class={null}
               className={null}
-              fixed_position={false}
-              group="drawer_id-tooltip"
-              hide_delay={500}
+              fixedPosition={false}
+              group={null}
+              hideDelay={500}
               id="drawer_id-tooltip"
-              internal_id="drawer_id-tooltip"
-              no_animation={false}
+              internalId="drawer_id-tooltip"
+              noAnimation={false}
               position="top"
-              show_delay={300}
+              showDelay={300}
               size="basis"
+              skipPortal={null}
               target={
                 Object {
                   "current": <button
@@ -521,7 +507,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     <span
                       aria-hidden="true"
                       class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                      data-test-id="question icon"
+                      data-testid="question icon"
                       role="presentation"
                     >
                       <svg
@@ -543,7 +529,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                   </button>,
                 }
               }
-              target_element={
+              targetElement={
                 Object {
                   "current": <button
                     aria-describedby="drawer_id-tooltip"
@@ -562,7 +548,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     <span
                       aria-hidden="true"
                       class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                      data-test-id="question icon"
+                      data-testid="question icon"
                       role="presentation"
                     >
                       <svg
@@ -584,13 +570,13 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                   </button>,
                 }
               }
-              target_selector={null}
+              targetSelector={null}
               tooltip="drawer_title"
             >
               <TooltipPortal
                 active={false}
                 align={null}
-                animate_position={false}
+                animatePosition={false}
                 arrow="center"
                 attributes={
                   Object {
@@ -598,18 +584,19 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     "className": "dnb-tooltip",
                   }
                 }
-                class={null}
                 className={null}
-                fixed_position={false}
-                group="drawer_id-tooltip"
-                hide_delay={500}
+                fixedPosition={false}
+                group={null}
+                hideDelay={500}
                 id="drawer_id-tooltip"
-                internal_id="drawer_id-tooltip"
+                internalId="drawer_id-tooltip"
+                keepInDOM={true}
                 key="tooltip"
-                no_animation={false}
+                noAnimation={false}
                 position="top"
-                show_delay={300}
+                showDelay={300}
                 size="basis"
+                skipPortal={null}
                 target={
                   <button
                     aria-describedby="drawer_id-tooltip"
@@ -628,7 +615,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     <span
                       aria-hidden="true"
                       class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                      data-test-id="question icon"
+                      data-testid="question icon"
                       role="presentation"
                     >
                       <svg
@@ -649,7 +636,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     </span>
                   </button>
                 }
-                target_element={
+                targetElement={
                   Object {
                     "current": <button
                       aria-describedby="drawer_id-tooltip"
@@ -668,7 +655,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                       <span
                         aria-hidden="true"
                         class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                        data-test-id="question icon"
+                        data-testid="question icon"
                         role="presentation"
                       >
                         <svg
@@ -690,9 +677,157 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     </button>,
                   }
                 }
-                target_selector={null}
+                targetSelector={null}
                 tooltip="drawer_title"
-              />
+              >
+                <Portal
+                  containerInfo={
+                    <div
+                      class="dnb-tooltip__portal dnb-core-style"
+                    >
+                      <span
+                        aria-hidden="true"
+                        class="dnb-tooltip"
+                        role="tooltip"
+                      >
+                        <span
+                          class="dnb-tooltip__arrow dnb-tooltip__arrow__arrow--center dnb-tooltip__arrow__position--top"
+                        />
+                        <span
+                          class="dnb-tooltip__content"
+                          id="drawer_id-tooltip"
+                        >
+                          drawer_title
+                        </span>
+                      </span>
+                    </div>
+                  }
+                >
+                  <TooltipContainer
+                    active={false}
+                    align={null}
+                    animatePosition={false}
+                    arrow="center"
+                    attributes={
+                      Object {
+                        "children": "drawer_title",
+                        "className": "dnb-tooltip",
+                      }
+                    }
+                    className={null}
+                    fixedPosition={false}
+                    group={null}
+                    hideDelay={500}
+                    id="drawer_id-tooltip"
+                    internalId="drawer_id-tooltip"
+                    keepInDOM={true}
+                    noAnimation={false}
+                    position="top"
+                    showDelay={300}
+                    size="basis"
+                    skipPortal={null}
+                    target={
+                      <button
+                        aria-describedby="drawer_id-tooltip"
+                        aria-label="drawer_title"
+                        aria-roledescription="Hjelp-knapp"
+                        class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+                        id="drawer_id"
+                        type="button"
+                      >
+                        <span
+                          aria-hidden="true"
+                          class="dnb-button__alignment"
+                        >
+                          ‌
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                          data-testid="question icon"
+                          role="presentation"
+                        >
+                          <svg
+                            fill="none"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            width="16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M5.392 4.875c0-1.642 1.452-2.98 3.074-2.868 1.638.113 2.874 1.654 2.65 3.264a2.923 2.923 0 0 1-1.89 2.316c-1.216.43-.958 1.9-.958 2.913m-.177 3.004h.346m.079 0c0 .184-.16.244-.248.244-.092 0-.252-.06-.252-.244 0-.197.16-.256.252-.256.088 0 .248.06.248.256Z"
+                              stroke="#000"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="1.5"
+                            />
+                          </svg>
+                        </span>
+                      </button>
+                    }
+                    targetElement={
+                      <button
+                        aria-describedby="drawer_id-tooltip"
+                        aria-label="drawer_title"
+                        aria-roledescription="Hjelp-knapp"
+                        class="dnb-button dnb-button--secondary dnb-help-button dnb-modal__trigger dnb-button--icon-position-left dnb-button--has-icon dnb-button--size-medium"
+                        id="drawer_id"
+                        type="button"
+                      >
+                        <span
+                          aria-hidden="true"
+                          class="dnb-button__alignment"
+                        >
+                          ‌
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
+                          data-testid="question icon"
+                          role="presentation"
+                        >
+                          <svg
+                            fill="none"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            width="16"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M5.392 4.875c0-1.642 1.452-2.98 3.074-2.868 1.638.113 2.874 1.654 2.65 3.264a2.923 2.923 0 0 1-1.89 2.316c-1.216.43-.958 1.9-.958 2.913m-.177 3.004h.346m.079 0c0 .184-.16.244-.248.244-.092 0-.252-.06-.252-.244 0-.197.16-.256.252-.256.088 0 .248.06.248.256Z"
+                              stroke="#000"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="1.5"
+                            />
+                          </svg>
+                        </span>
+                      </button>
+                    }
+                    targetSelector={null}
+                    tooltip="drawer_title"
+                  >
+                    <span
+                      aria-hidden={true}
+                      className="dnb-tooltip"
+                      onMouseEnter={[Function]}
+                      onMouseLeave={[Function]}
+                      role="tooltip"
+                      style={Object {}}
+                    >
+                      <span
+                        className="dnb-tooltip__arrow dnb-tooltip__arrow__arrow--center dnb-tooltip__arrow__position--top"
+                      />
+                      <span
+                        className="dnb-tooltip__content"
+                        id="drawer_id-tooltip"
+                      >
+                        drawer_title
+                      </span>
+                    </span>
+                  </TooltipContainer>
+                </Portal>
+              </TooltipPortal>
             </TooltipWithEvents>
           </Tooltip>
         </Button>
@@ -828,7 +963,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
               noAnimation={true}
               spacing={true}
             >
-              <ForwardRef(ScrollViewRef)
+              <ForwardRef
                 0={
                   Object {
                     "displayName": "Drawer",
@@ -848,7 +983,6 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                       "props": Object {},
                     }
                   }
-                  class={null}
                   className="dnb-drawer dnb-drawer--right dnb-drawer--auto-fullscreen dnb-core-style dnb-drawer--spacing dnb-drawer__align--left dnb-drawer--no-animation"
                   innerRef={
                     Object {
@@ -886,7 +1020,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                                 <span
                                   aria-hidden="true"
                                   class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                                  data-test-id="close icon"
+                                  data-testid="close icon"
                                   role="presentation"
                                 >
                                   <svg
@@ -950,9 +1084,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                           shadow_class="dnb-drawer__navigation--sticky"
                         >
                           <Section
-                            class={null}
                             className="dnb-modal__header__bar dnb-drawer__navigation"
-                            element="section"
                             inner_ref={
                               Object {
                                 "current": <section
@@ -982,7 +1114,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                                       <span
                                         aria-hidden="true"
                                         class="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                                        data-test-id="close icon"
+                                        data-testid="close icon"
                                         role="presentation"
                                       >
                                         <svg
@@ -1006,7 +1138,6 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                                 </section>,
                               }
                             }
-                            spacing={null}
                             style_type="white"
                           >
                             <section
@@ -1132,7 +1263,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                                           <span
                                             aria-hidden={true}
                                             className="dnb-icon dnb-icon--default dnb-button__icon dnb-icon--inherit-color"
-                                            data-test-id="close icon"
+                                            data-testid="close icon"
                                             role="presentation"
                                           >
                                             <close>
@@ -1197,12 +1328,8 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                           title_class="dnb-drawer__title"
                         >
                           <Section
-                            class={null}
                             className="dnb-drawer__header"
-                            element="section"
                             id="dnb-modal-drawer_id-title"
-                            inner_ref={null}
-                            spacing={null}
                             style_type="white"
                           >
                             <section
@@ -1228,7 +1355,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     </div>
                   </div>
                 </ScrollView>
-              </ForwardRef(ScrollViewRef)>
+              </ForwardRef>
             </DrawerContent>
           </div>
           <span
@@ -1403,29 +1530,29 @@ exports[`Drawer scss have to match snapshot 1`] = `
   padding: 0 1rem;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 200ms ease-out; }
+  transition: opacity 200ms cubic-bezier(0.42, 0, 0, 1); }
   .dnb-tooltip--large {
     padding: 0.25rem 1rem; }
   .dnb-tooltip--animate_position {
-    transition: all 300ms ease-in-out, opacity 200ms ease-out; }
+    transition: all 200ms cubic-bezier(0.42, 0, 0, 1), opacity 200ms cubic-bezier(0.42, 0, 0, 1); }
   .dnb-tooltip--active {
     visibility: visible;
     /*
       because of the first \\"show\\" we also use animation
       also, use forwards because of the usage of visibility
     */
-    animation: show-tooltip 200ms ease-out forwards; }
+    animation: show-tooltip 200ms cubic-bezier(0.42, 0, 0, 1) forwards; }
   html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {
-    animation: show-tooltip 1ms ease-out forwards; }
+    animation: show-tooltip 1ms cubic-bezier(0.42, 0, 0, 1) forwards; }
   .dnb-tooltip--hide {
     visibility: visible;
-    animation: hide-tooltip 200ms ease-in-out forwards; }
+    animation: hide-tooltip 200ms cubic-bezier(0.42, 0, 0, 1) forwards; }
   .dnb-tooltip--hide.dnb-tooltip--no-animation {
-    animation: hide-tooltip 1ms ease-out forwards; }
+    animation: hide-tooltip 1ms linear forwards; }
   .dnb-tooltip--fixed {
     position: fixed; }
   html[data-visual-test] .dnb-tooltip--hide {
-    animation: hide-tooltip 1ms ease-out 1s forwards; }
+    animation: hide-tooltip 1ms linear 1s forwards; }
   .dnb-tooltip__portal {
     position: absolute;
     top: 0;
@@ -2309,7 +2436,7 @@ button.dnb-button::-moz-focus-inner {
     .dnb-dialog__icon__primary.dnb-dialog__icon--info ::after {
       background-color: var(--color-pistachio); }
   html:not([data-visual-test]) .dnb-dialog {
-    animation: show-modal var(--modal-animation-duration) ease-out forwards; }
+    animation: show-modal var(--modal-animation-duration) ease-out; }
   html:not([data-visual-test]) .dnb-dialog--hide {
     animation: hide-modal 220ms ease-in-out forwards; }
   .dnb-dialog--no-animation {
@@ -2404,7 +2531,7 @@ html[data-dnb-modal-active] {
   .dnb-modal-root__inner .dnb-modal__overlay {
     animation: hide-modal-overlay var(--modal-animation-duration) ease-out forwards; }
   .dnb-modal-root__inner:last-of-type .dnb-modal__overlay {
-    animation: show-modal-overlay var(--modal-animation-duration) ease-out forwards; }
+    animation: show-modal-overlay var(--modal-animation-duration) ease-out; }
     .dnb-modal-root__inner:last-of-type .dnb-modal__overlay--hide {
       animation: hide-modal-overlay var(--modal-animation-duration) ease-out forwards; }
   html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {

@@ -59,13 +59,13 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="label">
         <Avatar>
-          <Icon icon={Confetti} data-testid="confetti-icon" />
+          <Icon icon={Confetti} />
         </Avatar>
       </Avatar.Group>
     )
 
     const avatar = screen.queryByTestId('avatar')
-    expect(within(avatar).queryByTestId('confetti-icon')).not.toBeNull()
+    expect(within(avatar).queryByTestId('confetti icon')).not.toBeNull()
     expect(screen.queryByTestId('avatar-label')).toBeNull()
   })
 

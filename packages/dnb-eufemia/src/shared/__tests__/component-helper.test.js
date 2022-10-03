@@ -9,7 +9,6 @@ import { registerElement } from '../custom-element'
 import {
   isTrue,
   extend,
-  extendPropsWithContext,
   defineNavigator,
   validateDOMAttributes,
   processChildren,
@@ -25,7 +24,6 @@ import {
   isTouchDevice,
   slugify,
   roundToNearest,
-  InteractionInvalidation,
   findElementInChildren,
   matchAll,
   convertJsxToString,
@@ -339,21 +337,6 @@ describe('"extend" should', () => {
   })
 })
 
-describe('"extendPropsWithContext" should', () => {
-  it('extend prop from other context object', () => {
-    expect(
-      extendPropsWithContext(
-        { key: { x: 'y' }, foo: null }, // given props
-        { key: { x: 'y' }, foo: null }, // default props
-        { key: 'I can’t replace You', foo: 'bar' }
-      )
-    ).toEqual({
-      key: { x: 'y' },
-      foo: 'bar', // because the prop was null, we get bar
-    })
-  })
-})
-
 describe('"isTrue" should', () => {
   it('return true if we provide true as boolean', () => {
     expect(isTrue(true)).toBe(true)
@@ -625,135 +608,6 @@ describe('"roundToNearest" should', () => {
   })
   it('round to 0 if too much under is given', () => {
     expect(roundToNearest(7, 16)).toEqual(0)
-  })
-})
-
-describe('"InteractionInvalidation" should', () => {
-  let ii
-
-  beforeEach(() => {
-    document.body.innerHTML = /* jsx */ `
-<div class="effected">
-  <h1 tabindex="0" aria-hidden="true">h1</h1>
-  <h2 tabindex="-1" aria-hidden="false">h2</h2>
-  <h3>h3</h3>
-  <path />
-</div>
-<div class="bypass">
-  <h1 tabindex="0" aria-hidden="true">h1</h1>
-  <h2 tabindex="-1" aria-hidden="false">h2</h2>
-  <h3>h3</h3>
-  <path />
-</div>
-`
-
-    ii = new InteractionInvalidation()
-  })
-
-  const hasDefaultState = (selector) => {
-    expect(
-      document.querySelector(`${selector} h1`).getAttribute('aria-hidden')
-    ).toBe('true')
-    expect(
-      document.querySelector(`${selector} h1`).getAttribute('tabindex')
-    ).toBe('0')
-
-    expect(
-      document.querySelector(`${selector} h2`).getAttribute('aria-hidden')
-    ).toBe('false')
-    expect(
-      document.querySelector(`${selector} h2`).getAttribute('tabindex')
-    ).toBe('-1')
-
-    expect(
-      document.querySelector(`${selector} h3`).hasAttribute('aria-hidden')
-    ).toBe(false)
-    expect(
-      document.querySelector(`${selector} h3`).hasAttribute('tabindex')
-    ).toBe(false)
-
-    expect(
-      document
-        .querySelector(`${selector} path`)
-        .hasAttribute('aria-hidden')
-    ).toBe(false)
-    expect(
-      document.querySelector(`${selector} path`).hasAttribute('tabindex')
-    ).toBe(false)
-  }
-
-  const hasInvalidatedState = (selector) => {
-    expect(
-      document.querySelector(`${selector} h1`).getAttribute('aria-hidden')
-    ).toBe('true')
-    expect(
-      document.querySelector(`${selector} h1`).getAttribute('tabindex')
-    ).toBe('-1')
-
-    expect(
-      document.querySelector(`${selector} h2`).getAttribute('aria-hidden')
-    ).toBe('true')
-    expect(
-      document.querySelector(`${selector} h2`).getAttribute('tabindex')
-    ).toBe('-1')
-
-    expect(
-      document.querySelector(`${selector} h3`).getAttribute('aria-hidden')
-    ).toBe('true')
-    expect(
-      document.querySelector(`${selector} h3`).getAttribute('tabindex')
-    ).toBe('-1')
-
-    expect(
-      document
-        .querySelector(`${selector} path`)
-        .hasAttribute('aria-hidden')
-    ).toBe(false)
-    expect(
-      document.querySelector(`${selector} path`).hasAttribute('tabindex')
-    ).toBe(false)
-  }
-
-  it('be in its original state', () => {
-    hasDefaultState('.effected')
-  })
-
-  it('have invalidated everything', () => {
-    ii.activate()
-
-    hasInvalidatedState('.effected')
-  })
-
-  it('have reverted the invalidation', () => {
-    ii.activate()
-    ii.revert()
-
-    hasDefaultState('.effected')
-  })
-
-  it('have invalidated everything, even with a bypassed selector', () => {
-    ii.setBypassSelector('.bypass-invalid')
-    ii.activate()
-
-    hasInvalidatedState('.bypass')
-    hasInvalidatedState('.effected')
-  })
-
-  it('have invalidated only .effected by using setBypassSelector', () => {
-    ii.activate()
-    ii.revert()
-    ii.setBypassSelector('.bypass *')
-    ii.activate()
-
-    hasDefaultState('.bypass')
-    hasInvalidatedState('.effected')
-  })
-
-  it('have invalidated only .effected', () => {
-    ii.activate('.effected')
-
-    hasDefaultState('.bypass')
-    hasInvalidatedState('.effected')
   })
 })
 

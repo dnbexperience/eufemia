@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import { act } from '@testing-library/react'
 import {
   mount,
   fakeProps,
@@ -76,7 +75,7 @@ describe('Pagination bar', () => {
       prevNavButton
         .find('span.dnb-icon')
         .instance()
-        .getAttribute('data-test-id')
+        .getAttribute('data-testid')
     ).toBe('chevron left icon')
   })
 
@@ -377,13 +376,11 @@ describe('Infinity scroller', () => {
       const items = Object.values(localStack.current)
 
       const action = ({ pageNumber }) => {
-        act(() => {
-          setCurrentPage(pageNumber)
+        setCurrentPage(pageNumber)
 
-          if (pageNumber === 1) {
-            endInfinity()
-          }
-        })
+        if (pageNumber === 1) {
+          endInfinity()
+        }
       }
 
       return (
@@ -437,6 +434,58 @@ describe('Infinity scroller', () => {
     expect(Comp.find('div.page-item').last().text()).toBe('page-30')
   })
 
+  it('should handle re-render with decreasing current_page and not show the loadbar', async () => {
+    const perPageCount = 10
+
+    const tableItems = []
+    for (let i = 1; i <= 60; i++) {
+      tableItems.push({
+        ssn: i,
+        content: <PageItem key={i}>page-{i}</PageItem>,
+      })
+    }
+
+    const localStack = { current: {} }
+
+    const MyComponent = () => {
+      const [{ InfinityMarker }] = React.useState(createPagination)
+
+      // 1. Start with 2
+      const [currentPage, setCurrentPage] = React.useState(2)
+
+      tableItems
+        .filter((cur, idx) => {
+          const floor = (currentPage - 1) * perPageCount
+          const ceil = floor + perPageCount
+          return idx >= floor && idx < ceil
+        })
+        .forEach((item) => {
+          localStack.current[item.ssn] = item.content
+        })
+      const items = Object.values(localStack.current)
+
+      // 2. And set it back to 1
+      React.useEffect(() => {
+        setCurrentPage(1)
+      }, [])
+
+      return (
+        <InfinityMarker min_wait_time={0} current_page={currentPage}>
+          {items}
+        </InfinityMarker>
+      )
+    }
+
+    const Comp = mount(<MyComponent />)
+
+    await rerenderComponent(Comp)
+
+    expect(Comp.find('div.page-item').length).toBe(20)
+    expect(Comp.find('div.page-item').at(0).text()).toBe('page-1')
+    expect(Comp.find('div.page-item').last().text()).toBe('page-20')
+    expect(Comp.find('div.dnb-pagination__loadbar').exists()).toBe(false)
+  })
+
   it('should load pages with load more button (before)', async () => {
     const action = ({ pageNumber, setContent }) => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
@@ -449,11 +498,7 @@ describe('Infinity scroller', () => {
     const clickOnLoadMore = async () => {
       Comp.find('div.dnb-pagination__loadbar button').simulate('click')
 
-      // expect(Comp.exists('div.dnb-pagination__indicator')).toBe(true)
-
       await rerenderComponent(Comp)
-
-      // expect(Comp.exists('div.dnb-pagination__indicator')).toBe(false)
     }
 
     const Comp = mount(
@@ -513,13 +558,11 @@ describe('Infinity scroller', () => {
       resetInfinityHandler = resetInfinity
 
       const action = ({ pageNumber }) => {
-        act(() => {
-          setCurrentPage(pageNumber)
+        setCurrentPage(pageNumber)
 
-          if (pageNumber === 1) {
-            endInfinity()
-          }
-        })
+        if (pageNumber === 1) {
+          endInfinity()
+        }
       }
 
       return (

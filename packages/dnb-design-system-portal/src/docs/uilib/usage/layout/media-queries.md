@@ -125,6 +125,8 @@ function Component() {
 }
 ```
 
+You can also disable the usage of `window.matchMedia` temporally by providing `disabled: true` as an option.
+
 ### Live example
 
 This example uses the `not` property to reverse the behavior.
@@ -165,7 +167,7 @@ const Playground = () => {
       }}
       right
     >
-      Change
+      Switch
     </Button>
     <MediaQuery when={query}>
       <Code>when</Code>
@@ -252,3 +254,18 @@ You can re-use the SASS mixins from Eufemia:
 ```
 
 Based of the findings of [this article](https://zellwk.com/blog/media-query-units/) and [this webkit bug](https://bugs.webkit.org/show_bug.cgi?id=156684) Eufemia recommends to use `em` units for media query usage to meet the best overall browser support. Read [more about units](/uilib/usage/best-practices/for-styling#units).
+
+## How to deal with Jest
+
+You can mock `window.matchMedia` with e.g. [jest-matchmedia-mock](https://www.npmjs.com/package/jest-matchmedia-mock).
+
+```js
+import MatchMediaMock from 'jest-matchmedia-mock'
+
+const matchMedia = new MatchMediaMock()
+
+it('your test', () => {
+  matchMedia.useMediaQuery('(min-width: 50em) and (max-width: 60em)')
+  ...
+})
+```

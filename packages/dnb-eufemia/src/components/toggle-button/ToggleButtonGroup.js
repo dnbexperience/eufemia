@@ -9,7 +9,7 @@ import classnames from 'classnames'
 import {
   isTrue,
   makeUniqueId,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   registerElement,
   validateDOMAttributes,
   getStatusState,
@@ -27,6 +27,7 @@ import FormStatus from '../form-status/FormStatus'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 
 export default class ToggleButtonGroup extends React.PureComponent {
   static tagName = 'dnb-toggle-button-group'
@@ -200,11 +201,11 @@ export default class ToggleButtonGroup extends React.PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       ToggleButtonGroup.defaultProps,
       this.context.getTranslation(this.props).ToggleButton,
-      this.context.FormRow,
+      includeValidProps(this.context.FormRow),
       this.context.ToggleButtonGroup
     )
 

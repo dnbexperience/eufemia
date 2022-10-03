@@ -21,18 +21,24 @@ import FormStatus from '../form-status/FormStatus'
 
 import {
   SliderMainTrack,
-  SliderTrackAfter,
   SliderTrackBefore,
+  SliderTrackAfter,
 } from './SliderTrack'
 import { SliderThumb } from './SliderThumb'
 import { useSliderProps } from './hooks/useSliderProps'
-import { clamp, getHumanNumber } from './SliderHelpers'
+import { clamp, getFormattedNumber } from './SliderHelpers'
 
 export function SliderInstance() {
   const context = React.useContext(Context)
 
-  const { isReverse, isVertical, showButtons, showStatus, allProps } =
-    useSliderProps()
+  const {
+    isReverse,
+    isVertical,
+    showButtons,
+    showStatus,
+    shouldAnimate,
+    allProps,
+  } = useSliderProps()
 
   const {
     id,
@@ -55,6 +61,7 @@ export function SliderInstance() {
       'dnb-slider',
       isVertical && 'dnb-slider--vertical',
       disabled && 'dnb-slider__state--disabled',
+      shouldAnimate && 'dnb-slider__state--animate',
       !showButtons && 'dnb-slider--no-buttons',
       isTrue(stretch) && 'dnb-slider--stretch',
       label && labelDirection && `dnb-slider__label--${labelDirection}`,
@@ -157,7 +164,7 @@ function SubtractButton() {
     subtractParams['aria-hidden'] = attributes['aria-hidden']
   }
 
-  const humanNumber = getHumanNumber(value as number, numberFormat)
+  const humanNumber = getFormattedNumber(value as number, numberFormat)
 
   return (
     <Button
@@ -165,7 +172,10 @@ function SubtractButton() {
       variant="secondary"
       icon="subtract"
       size="small"
-      aria-label={subtractTitle?.replace('%s', humanNumber)}
+      aria-label={subtractTitle?.replace(
+        '%s',
+        humanNumber.aria || String(value)
+      )}
       on_click={onSubtractClickHandler}
       disabled={disabled}
       skeleton={skeleton}
@@ -189,7 +199,7 @@ function AddButton() {
     addParams['aria-hidden'] = attributes['aria-hidden']
   }
 
-  const humanNumber = getHumanNumber(value as number, numberFormat)
+  const humanNumber = getFormattedNumber(value as number, numberFormat)
 
   return (
     <Button
@@ -197,7 +207,10 @@ function AddButton() {
       variant="secondary"
       icon="add"
       size="small"
-      aria-label={addTitle?.replace('%s', humanNumber)}
+      aria-label={addTitle?.replace(
+        '%s',
+        humanNumber.aria || String(value)
+      )}
       on_click={onAddClickHandler}
       disabled={disabled}
       skeleton={skeleton}

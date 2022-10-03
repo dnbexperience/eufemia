@@ -1,8 +1,8 @@
-export interface ISpacingProps extends ISpacingElementProps {
+export type ISpacingProps = ISpacingElementProps & {
   space?: SpaceTypes | ISpacingElementProps
 }
 
-export interface ISpacingElementProps {
+export type ISpacingElementProps = {
   top?: SpaceTypes
   right?: SpaceTypes
   bottom?: SpaceTypes
@@ -30,3 +30,7 @@ export type DataAttributeTypes = {
    */
   // [property: `data-${string}`]: string
 }
+
+export type DynamicElement =
+  | keyof JSX.IntrinsicElements
+  | React.FunctionComponent

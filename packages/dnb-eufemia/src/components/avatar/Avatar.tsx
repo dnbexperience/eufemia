@@ -12,8 +12,11 @@ import Img, { ImgProps } from '../../elements/Img'
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
 import { SkeletonShow } from '../skeleton/Skeleton'
-import { validateDOMAttributes, warn } from '../../shared/component-helper'
-import { usePropsWithContext } from '../../shared/hooks'
+import {
+  validateDOMAttributes,
+  extendPropsWithContext,
+  warn,
+} from '../../shared/component-helper'
 
 // Internal
 import AvatarGroup, { AvatarGroupContext } from './AvatarGroup'
@@ -90,7 +93,7 @@ const Avatar = (localProps: AvatarProps & ISpacingProps) => {
   const avatarGroupContext = React.useContext(AvatarGroupContext)
 
   // Extract additional props from global context
-  const allProps = usePropsWithContext(
+  const allProps = extendPropsWithContext(
     localProps,
     defaultProps,
     context?.Avatar,

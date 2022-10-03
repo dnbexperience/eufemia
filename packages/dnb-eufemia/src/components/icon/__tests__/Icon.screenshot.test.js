@@ -102,4 +102,30 @@ describe('Icon screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match all primary icons with color', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        display: 'inline-flex',
+        'flex-wrap': 'wrap',
+        width: '30rem',
+        color: 'tomato',
+      },
+      selector: '[data-visual-test="icon-all-primary"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match all secondary icons with color', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        display: 'inline-flex',
+        'flex-wrap': 'wrap',
+        width: '30rem',
+        color: 'tomato',
+      },
+      selector: '[data-visual-test="icon-all-secondary"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

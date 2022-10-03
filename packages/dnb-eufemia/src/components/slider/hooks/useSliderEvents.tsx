@@ -17,25 +17,25 @@ export function useSliderEvents() {
     emitChange,
     trackRef,
     isVertical,
-    setJumpedState,
+    setShouldAnimate,
     setThumbState,
     setThumbIndex,
     allProps,
   } = React.useContext(SliderContext)
   const { min, max, onDragStart, onDragEnd } = allProps
 
-  const onTrackClickHandler = (event: MouseEvent | TouchEvent) => {
+  const onTrackMouseUpHandler = (event: MouseEvent | TouchEvent) => {
     const percent = calculatePercent(trackRef.current, event, isVertical)
 
     emitChange(event, percentToValue(percent, min, max, isReverse))
-    setJumpedState()
+    setShouldAnimate(true)
   }
 
   const onThumbMouseDownHandler = (event: React.SyntheticEvent) => {
     const target = event.target as HTMLButtonElement
 
     setThumbIndex(parseFloat(target.dataset.index))
-    setThumbState('released')
+    setThumbState('activated')
 
     if (typeof onDragStart === 'function') {
       dispatchCustomElementEvent(allProps, 'onDragStart', {
@@ -45,16 +45,10 @@ export function useSliderEvents() {
 
     if (typeof document !== 'undefined') {
       try {
-        document.body.addEventListener(
-          'touchmove',
-          onTrackTouchMoveHandler
-        )
-        document.body.addEventListener('touchend', onTrackTouchEndHandler)
-        document.body.addEventListener(
-          'mousemove',
-          onTrackMouseMoveHandler
-        )
-        document.body.addEventListener('mouseup', onTrackMouseUpHandler)
+        document.body.addEventListener('touchmove', onBodyMouseMoveHandler)
+        document.body.addEventListener('touchend', onBodyMouseUpHandler)
+        document.body.addEventListener('mousemove', onBodyMouseMoveHandler)
+        document.body.addEventListener('mouseup', onBodyMouseUpHandler)
       } catch (e) {
         warn(e)
       }
@@ -62,35 +56,29 @@ export function useSliderEvents() {
   }
 
   const onThumbMouseUpHandler = () => {
-    setThumbState('activated')
+    setThumbState('released')
   }
-
-  const onTrackTouchEndHandler = (event: TouchEvent) =>
-    onTrackMouseUpHandler(event)
 
   const removeEvents = () => {
     if (typeof document !== 'undefined') {
       try {
         document.body.removeEventListener(
           'touchmove',
-          onTrackTouchMoveHandler
+          onBodyMouseMoveHandler
         )
-        document.body.removeEventListener(
-          'touchend',
-          onTrackTouchEndHandler
-        )
+        document.body.removeEventListener('touchend', onBodyMouseUpHandler)
         document.body.removeEventListener(
           'mousemove',
-          onTrackMouseMoveHandler
+          onBodyMouseMoveHandler
         )
-        document.body.removeEventListener('mouseup', onTrackMouseUpHandler)
+        document.body.removeEventListener('mouseup', onBodyMouseUpHandler)
       } catch (e) {
         warn(e)
       }
     }
   }
 
-  const onTrackMouseUpHandler = (event: MouseEvent | TouchEvent) => {
+  const onBodyMouseUpHandler = (event: MouseEvent | TouchEvent) => {
     removeEvents()
 
     setThumbIndex(-1)
@@ -103,16 +91,13 @@ export function useSliderEvents() {
     }
   }
 
-  const onTrackTouchMoveHandler = (event: MouseEvent) =>
-    onTrackMouseMoveHandler(event)
-  const onTrackMouseMoveHandler = (event: MouseEvent) => {
+  const onBodyMouseMoveHandler = (event: MouseEvent) => {
+    event.preventDefault() // ensures correct cursor in Safari (dekstop)
+
     let elem = trackRef.current
 
     // we have to mock this for jsdom.
-    if (
-      // @ts-ignore
-      typeof event?.detail?.height !== 'undefined'
-    ) {
+    if (process.env.NODE_ENV === 'test') {
       // @ts-ignore
       elem = createMockDiv(event.detail)
       // @ts-ignore
@@ -123,13 +108,8 @@ export function useSliderEvents() {
       const percent = calculatePercent(elem, event, isVertical)
       emitChange(event, percentToValue(percent, min, max, isReverse))
     }
-  }
 
-  const onThumbFocusHandler = () => {
-    setThumbState('focused')
-  }
-  const onThumbBlurHandler = () => {
-    setThumbState('normal')
+    setShouldAnimate(false)
   }
 
   const onHelperChangeHandler = (
@@ -152,9 +132,7 @@ export function useSliderEvents() {
   return {
     onThumbMouseDownHandler,
     onThumbMouseUpHandler,
-    onTrackClickHandler,
-    onThumbFocusHandler,
-    onThumbBlurHandler,
+    onTrackMouseUpHandler,
     onHelperChangeHandler,
     onHelperFocusHandler,
     removeEvents,

@@ -5,10 +5,12 @@ import classnames from 'classnames'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
 // Shared
-import { validateDOMAttributes } from '../../shared/component-helper'
+import {
+  validateDOMAttributes,
+  extendPropsWithContext,
+} from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import { ISpacingProps } from '../../shared/interfaces'
-import { usePropsWithContext } from '../../shared/hooks'
 import { TagGroupContext } from './TagContext'
 import { SkeletonShow } from '../skeleton/Skeleton'
 
@@ -54,7 +56,7 @@ const TagGroup = (localProps: TagGroupProps & ISpacingProps) => {
     className,
     children: childrenProp,
     ...props
-  } = usePropsWithContext(localProps, defaultProps, context?.TagGroup, {
+  } = extendPropsWithContext(localProps, defaultProps, context?.TagGroup, {
     skeleton: context?.skeleton,
   })
 

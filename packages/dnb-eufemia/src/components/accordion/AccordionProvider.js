@@ -9,7 +9,7 @@ import classnames from 'classnames'
 import {
   isTrue,
   makeUniqueId,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
@@ -19,6 +19,7 @@ import {
   accordionPropTypes,
   accordionDefaultProps,
 } from './AccordionPropTypes'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 
 import Context from '../../shared/Context'
 import AccordionGroupContext from './AccordionProviderContext'
@@ -67,10 +68,10 @@ export default class AccordionGroup extends React.PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       AccordionGroup.defaultProps,
-      this.context.FormRow,
+      includeValidProps(this.context.FormRow),
       this.context.Accordion,
       this.context.getTranslation(this.props).Accordion
     )

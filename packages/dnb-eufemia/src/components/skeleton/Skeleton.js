@@ -7,7 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   isTrue,
 } from '../../shared/component-helper'
@@ -52,7 +52,7 @@ export default class Skeleton extends React.PureComponent {
 
   static defaultProps = {
     show: null,
-    skeleton: null, // only to make sure we process extendPropsWithContext
+    skeleton: null, // only to make sure we process extendPropsWithContextInClassComponent
     style_type: null,
     no_animation: null,
     figure: null,
@@ -80,7 +80,7 @@ export default class Skeleton extends React.PureComponent {
   }
 
   getProps(props = this.props, context = this.context) {
-    return extendPropsWithContext(
+    return extendPropsWithContextInClassComponent(
       props,
       Skeleton.defaultProps,
       {

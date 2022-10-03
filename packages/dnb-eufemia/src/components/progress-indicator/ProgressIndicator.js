@@ -12,8 +12,9 @@ import {
   registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 import {
   spacingPropTypes,
   createSpacingClasses,
@@ -114,11 +115,11 @@ export default class ProgressIndicator extends React.PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       ProgressIndicator.defaultProps,
       this.context.getTranslation(this.props).ProgressIndicator,
-      this.context.FormRow,
+      includeValidProps(this.context.FormRow),
       this.context.ProgressIndicator
     )
 

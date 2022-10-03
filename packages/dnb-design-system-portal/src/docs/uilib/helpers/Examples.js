@@ -15,11 +15,7 @@ const Wrapper = styled.div`
 export function CoreStyleExample() {
   return (
     <Wrapper className="dnb-spacing">
-      <ComponentBox
-        reactLive
-        hideCode
-        data-visual-test="helper-core-style"
-      >
+      <ComponentBox hideCode data-visual-test="helper-core-style">
         {
           /* jsx */ `
 <div className="dnb-core-style">
@@ -39,7 +35,7 @@ export function CoreStyleExample() {
 export function TabFocusExample() {
   return (
     <Wrapper className="dnb-spacing">
-      <ComponentBox reactLive hideCode data-visual-test="helper-tap-focus">
+      <ComponentBox hideCode data-visual-test="helper-tap-focus">
         {
           /* jsx */ `
 <details>
@@ -59,11 +55,7 @@ export function TabFocusExample() {
 export function UnstyledListExample() {
   return (
     <Wrapper className="dnb-spacing">
-      <ComponentBox
-        reactLive
-        hideCode
-        data-visual-test="helper-unstyled-list"
-      >
+      <ComponentBox hideCode data-visual-test="helper-unstyled-list">
         {
           /* jsx */ `
 <ul className="dnb-unstyled-list">
@@ -84,7 +76,7 @@ export function UnstyledListExample() {
 export function ScreenReaderOnlyExample() {
   return (
     <Wrapper className="dnb-spacing">
-      <ComponentBox reactLive hideCode data-visual-test="helper-sr-only">
+      <ComponentBox hideCode data-visual-test="helper-sr-only">
         {
           /* jsx */ `
 <p className="dnb-p">
@@ -104,11 +96,7 @@ export function ScreenReaderOnlyExample() {
 export function NoScreenReaderExample() {
   return (
     <Wrapper className="dnb-spacing">
-      <ComponentBox
-        reactLive
-        hideCode
-        data-visual-test="helper-not-sr-only"
-      >
+      <ComponentBox hideCode data-visual-test="helper-not-sr-only">
         {
           /* jsx */ `
 <p className="dnb-p dnb-sr-only dnb-not-sr-only">
@@ -125,7 +113,7 @@ export function NoScreenReaderExample() {
 export function SelectionExample() {
   return (
     <Wrapper className="dnb-spacing">
-      <ComponentBox reactLive hideCode data-visual-test="helper-selection">
+      <ComponentBox hideCode data-visual-test="helper-selection">
         {
           /* jsx */ `
 <p className="dnb-selection dnb-p__size--basis">

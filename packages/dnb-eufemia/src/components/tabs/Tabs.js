@@ -14,7 +14,7 @@ import {
   isTrue,
   makeUniqueId,
   registerElement,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   dispatchCustomElementEvent,
   getPreviousSibling,
@@ -33,7 +33,7 @@ import Button from '../button/Button'
 import whatInput from 'what-input'
 import CustomContent from './TabsCustomContent'
 import ContentWrapper from './TabsContentWrapper'
-import EventEmitter from '../../shared/EventEmitter'
+import EventEmitter from '../../shared/helpers/EventEmitter'
 
 export default class Tabs extends React.PureComponent {
   static tagName = 'dnb-tabs'
@@ -1161,7 +1161,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
   }
 
   render() {
-    const props = (this._props = extendPropsWithContext(
+    const props = (this._props = extendPropsWithContextInClassComponent(
       this.props,
       Tabs.defaultProps,
       { skeleton: this.context?.skeleton }

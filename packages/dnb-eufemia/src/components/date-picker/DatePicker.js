@@ -10,7 +10,7 @@ import {
   warn,
   isTrue,
   makeUniqueId,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   registerElement,
   dispatchCustomElementEvent,
   detectOutsideClick,
@@ -23,6 +23,7 @@ import {
   spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 
 // date-fns
@@ -477,12 +478,12 @@ export default class DatePicker extends React.PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       DatePicker.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).DatePicker,
-      this.context.FormRow,
+      includeValidProps(this.context.FormRow),
       this.context.DatePicker
     )
 

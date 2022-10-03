@@ -12,7 +12,10 @@
 }
 
 .dnb-form-row {
-  display: flex;
+  &,
+  &.dnb-section {
+    display: flex;
+  }
   align-items: baseline;
 
   &__content {

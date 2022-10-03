@@ -11,20 +11,21 @@ const tag_medium = (props) => (
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
-    <path
-      d="M1.135 2.634v6.258a3 3 0 0 0 .879 2.12l11.63 11.63c.416.418 1.153.181 1.266-.382l1.225-6.126 6.126-1.225c.578-.116.79-.86.383-1.266l-11.63-11.63a3 3 0 0 0-2.121-.88H2.635c-.817 0-1.5.684-1.5 1.5Z"
+    <g
+      clipPath="url(#a)"
       stroke="#000"
       strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"
-    />
-    <path
-      d="M6.385 7.884a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"
-      stroke="#000"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
+    >
+      <path d="M1.135 2.634v6.258a3 3 0 0 0 .879 2.12l11.63 11.63c.416.418 1.153.181 1.266-.382l1.225-6.126 6.126-1.225c.578-.116.79-.86.383-1.266l-11.63-11.63a3 3 0 0 0-2.121-.88H2.635c-.817 0-1.5.684-1.5 1.5Z" />
+      <path d="M6.385 7.884a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path fill="#fff" d="M0 0h24v24H0z" />
+      </clipPath>
+    </defs>
   </svg>
 )
 

@@ -11,7 +11,7 @@ import FormStatus from '../form-status/FormStatus'
 import {
   isTrue,
   makeUniqueId,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   registerElement,
   validateDOMAttributes,
   processChildren,
@@ -20,6 +20,7 @@ import {
   warn,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
+import { includeValidProps } from '../form-row/FormRowHelpers'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import {
   spacingPropTypes,
@@ -342,12 +343,12 @@ export default class Textarea extends React.PureComponent {
   }
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       Textarea.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Textarea,
-      this.context.FormRow,
+      includeValidProps(this.context.FormRow),
       this.context.Textarea
     )
 

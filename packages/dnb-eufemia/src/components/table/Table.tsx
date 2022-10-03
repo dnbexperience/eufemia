@@ -8,8 +8,10 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { SkeletonShow } from '../skeleton/Skeleton'
 import { ISpacingProps } from '../../shared/interfaces'
-import { usePropsWithContext } from '../../shared/hooks'
-import { validateDOMAttributes } from '../../shared/component-helper'
+import {
+  validateDOMAttributes,
+  extendPropsWithContext,
+} from '../../shared/component-helper'
 
 // Internal
 import {
@@ -64,7 +66,7 @@ const Table = (
 ) => {
   const context = React.useContext(Context)
 
-  const allProps = usePropsWithContext(
+  const allProps = extendPropsWithContext(
     componentProps,
     defaultProps,
     context?.Table,

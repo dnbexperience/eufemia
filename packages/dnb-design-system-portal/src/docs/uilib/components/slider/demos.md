@@ -2,13 +2,11 @@
 showTabs: true
 ---
 
-import '@dnb/eufemia/src/components/slider/style/dnb-range.scss'
 import {
 SliderExampleDefault,
 SliderVerticalWithSteps,
 SliderExampleHorizontalSync,
 SliderExampleSuffix,
-SliderExampleRange,
 SliderExampleMultiButtons,
 SliderExampleMultiButtonsThumbBehavior,
 } from 'Docs/uilib/components/slider/Examples'
@@ -40,9 +38,3 @@ By default, the thumbs can swap positions. You can change that behavior with `mu
 ### Slider with a suffix
 
 <SliderExampleSuffix />
-
-### Native Range Slider
-
-In order to get the styles, import also: `@dnb/eufemia/components/slider/style/dnb-range.min.css`
-
-<SliderExampleRange />

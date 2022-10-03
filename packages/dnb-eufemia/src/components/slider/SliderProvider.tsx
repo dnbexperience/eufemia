@@ -1,18 +1,18 @@
 import React from 'react'
 import { includeValidProps } from '../../components/form-row/FormRowHelpers'
-import { usePropsWithContext } from '../../shared/hooks'
 import {
   warn,
   isTrue,
   makeUniqueId,
   dispatchCustomElementEvent,
   getStatusState,
+  extendPropsWithContext,
 } from '../../shared/component-helper'
 
 import Context from '../../shared/Context'
 import {
   closestIndex,
-  formatNumber,
+  getFormattedNumber,
   getUpdatedValues,
   roundValue,
 } from './SliderHelpers'
@@ -20,7 +20,7 @@ import {
 import type {
   ValueTypes,
   onChangeEventProps,
-  SliderProps,
+  SliderAllProps,
   SliderContextTypes,
   ThumbStateEnums,
 } from './types'
@@ -38,10 +38,10 @@ const defaultProps = {
 
 export const SliderContext = React.createContext<SliderContextTypes>(null)
 
-export function SliderProvider(localProps: SliderProps) {
+export function SliderProvider(localProps: SliderAllProps) {
   const context = React.useContext(Context)
   const allProps = convertSnakeCaseProps(
-    usePropsWithContext(
+    extendPropsWithContext(
       localProps,
       defaultProps,
       { skeleton: context?.skeleton },
@@ -83,6 +83,8 @@ export function SliderProvider(localProps: SliderProps) {
     hideButtons, // eslint-disable-line
     multiThumbBehavior,
     numberFormat,
+    tooltip, // eslint-disable-line
+    alwaysShowTooltip, // eslint-disable-line
     skeleton,
     max, // eslint-disable-line
     min, // eslint-disable-line
@@ -102,10 +104,14 @@ export function SliderProvider(localProps: SliderProps) {
   } = allProps
 
   const [value, setValue] = React.useState<ValueTypes>(_value)
+  const [externValue, updateExternValue] =
+    React.useState<ValueTypes>(_value)
   const realtimeValue = React.useRef<ValueTypes>(_value)
   const [thumbState, setThumbState] =
     React.useState<ThumbStateEnums>('initial')
   const thumbIndex = React.useRef<number>(-1)
+  const [shouldAnimate, updateAnimateState] =
+    React.useState<boolean>(false)
   const [isVertical] = React.useState(isTrue(_vertical))
   const [isReverse] = React.useState(
     isVertical ? !isTrue(_reverse) : isTrue(_reverse)
@@ -202,7 +208,7 @@ export function SliderProvider(localProps: SliderProps) {
         }
 
         if (numberFormat) {
-          obj.number = formatNumber(numberValue, numberFormat)
+          obj.number = getFormattedNumber(numberValue, numberFormat).number
         }
 
         dispatchCustomElementEvent(allProps, 'onChange', obj)
@@ -215,14 +221,16 @@ export function SliderProvider(localProps: SliderProps) {
   React.useEffect(() => {
     if (isMulti) {
       const hasChanged = (_value as Array<number>).some((val, i) => {
-        return val !== value[i]
+        return val !== externValue[i]
       })
 
       if (hasChanged) {
         updateValue(_value)
+        updateExternValue(_value)
       }
-    } else {
+    } else if (_value !== externValue) {
       updateValue(_value)
+      updateExternValue(_value)
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -230,11 +238,16 @@ export function SliderProvider(localProps: SliderProps) {
 
   const trackRef = React.useRef<HTMLElement>()
 
-  const jumpedTimeout = React.useRef<NodeJS.Timeout>()
-  const setJumpedState = () => {
-    setThumbState('jumped')
-    clearTimeout(jumpedTimeout.current)
-    jumpedTimeout.current = setTimeout(() => setThumbState('normal'), 100)
+  const animationTimeout = React.useRef<NodeJS.Timeout>()
+  const setShouldAnimate = (state: boolean) => {
+    updateAnimateState(state)
+    clearTimeout(animationTimeout.current)
+    if (state) {
+      animationTimeout.current = setTimeout(
+        () => updateAnimateState(false),
+        250
+      )
+    }
   }
 
   const showStatus = getStatusState(status)
@@ -247,6 +260,7 @@ export function SliderProvider(localProps: SliderProps) {
         isMulti,
         isReverse,
         isVertical,
+        shouldAnimate,
         value,
         values,
         setValue,
@@ -260,8 +274,8 @@ export function SliderProvider(localProps: SliderProps) {
         emitChange,
         allProps,
         trackRef,
-        setJumpedState,
-        jumpedTimeout,
+        setShouldAnimate,
+        animationTimeout,
       }}
     >
       {localProps.children}

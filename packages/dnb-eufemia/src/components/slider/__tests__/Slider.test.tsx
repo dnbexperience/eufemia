@@ -8,26 +8,28 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import Slider from '../Slider'
 
-import type { SliderProps, onChangeEventProps } from '../Slider'
+import type { SliderAllProps, onChangeEventProps } from '../Slider'
+import { format } from '../../number-format/NumberUtils'
+import { wait } from '@testing-library/user-event/dist/utils'
 
-const props: SliderProps = {
+const props: SliderAllProps = {
   id: 'slider',
   label: 'Label',
   min: 0,
   max: 100,
   value: 70,
   step: 10,
-  numberFormat: { currency: true, decimals: 0 },
+  numberFormat: null,
   labelDirection: 'horizontal',
 }
 
-const resetMouseSimulation = () => {
-  fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
-}
-
 describe('Slider component', () => {
+  afterEach(() => {
+    resetMouseSimulation()
+  })
+
   it('supports snake_case props', () => {
-    const props: SliderProps = {
+    const props: SliderAllProps = {
       id: 'slider',
       label: 'Label',
       label_direction: 'vertical',
@@ -153,6 +155,111 @@ describe('Slider component', () => {
     )
   })
 
+  describe('Tooltip', () => {
+    beforeEach(() => {
+      document.body.innerHTML = ''
+    })
+
+    it('shows always a Tooltip when alwaysShowTooltip is true', () => {
+      render(
+        <Slider
+          {...props}
+          id="unique-tooltip-01"
+          tooltip
+          alwaysShowTooltip
+        />
+      )
+
+      const tooltipElem = document.querySelector('.dnb-tooltip')
+
+      expect(tooltipElem.textContent).toBe('70')
+      expect(Array.from(tooltipElem.classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
+      )
+    })
+
+    it('shows Tooltip on hover with numberFormat', async () => {
+      render(
+        <Slider
+          {...props}
+          id="unique-tooltip-02"
+          numberFormat={{ currency: 'EUR' }}
+          tooltip
+        />
+      )
+
+      const mainElem = document.querySelector('.dnb-slider')
+      const thumbElem = mainElem.querySelector(
+        '.dnb-slider__thumb .dnb-button'
+      )
+      const tooltipElem = () => document.querySelector('.dnb-tooltip')
+
+      expect(tooltipElem().textContent).toBe('70,00 €')
+      expect(Array.from(tooltipElem().classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip'])
+      )
+
+      fireEvent.mouseOver(thumbElem)
+
+      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+
+      expect(Array.from(tooltipElem().classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
+      )
+
+      expect(tooltipElem().textContent).toBe('80,00 €')
+
+      fireEvent.mouseOut(thumbElem)
+
+      await wait(1)
+
+      expect(Array.from(tooltipElem().classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--hide'])
+      )
+    })
+
+    it('shows Tooltip on hover with custom formatting', async () => {
+      render(
+        <Slider
+          {...props}
+          id="unique-tooltip-03"
+          numberFormat={(value) => format(value, { percent: true })}
+          tooltip
+          step={null}
+        />
+      )
+
+      const mainElem = document.querySelector('.dnb-slider')
+      const thumbElem = mainElem.querySelector(
+        '.dnb-slider__thumb .dnb-button'
+      )
+      const tooltipElem = () => document.querySelector('.dnb-tooltip')
+
+      expect(tooltipElem().textContent).toBe('70 %')
+      expect(Array.from(tooltipElem().classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip'])
+      )
+
+      fireEvent.mouseOver(thumbElem)
+
+      simulateMouseMove({ pageX: 80.5, width: 100, height: 10 })
+
+      expect(Array.from(tooltipElem().classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
+      )
+
+      expect(tooltipElem().textContent).toBe('80,5 %')
+
+      fireEvent.mouseOut(thumbElem)
+
+      await wait(1)
+
+      expect(Array.from(tooltipElem().classList)).toEqual(
+        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--hide'])
+      )
+    })
+  })
+
   it('has events that return a correct value', () => {
     const onChange = jest.fn()
 
@@ -174,7 +281,7 @@ describe('Slider component', () => {
       rawValue: 80,
       raw_value: 80,
       value: 80,
-      number: '80 kr',
+      number: null,
       width: 100,
     }
     expect(onChange).toBeCalledWith(changeObject)
@@ -229,12 +336,19 @@ describe('Slider component', () => {
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange.mock.calls[0][0].value).toBe(80)
+  })
 
-    resetMouseSimulation()
+  it('should not have type=button', () => {
+    render(<Slider {...props} />)
+    expect(
+      document
+        .querySelector('.dnb-slider__thumb .dnb-button')
+        .hasAttribute('type')
+    ).toBe(false)
   })
 
   describe('multi thumb', () => {
-    const SliderWithStateUpdate = (props: SliderProps) => {
+    const SliderWithStateUpdate = (props: SliderAllProps) => {
       const [value, setValue] = React.useState(props.value)
       const onChangehandler = (event: onChangeEventProps) => {
         setValue(event.value)
@@ -244,6 +358,9 @@ describe('Slider component', () => {
       }
       return <Slider {...props} value={value} onChange={onChangehandler} />
     }
+
+    const getThumbElements = (index: number) =>
+      document.querySelectorAll('.dnb-slider__thumb')[index] as HTMLElement
 
     const getRangeElement = (index: number) =>
       document.querySelectorAll('[type="range"]')[
@@ -262,6 +379,38 @@ describe('Slider component', () => {
 
       expect(onChange).toBeCalledTimes(1)
       expect(onChange.mock.calls[0][0].value).toEqual([20, 30, 80])
+
+      resetMouseSimulation()
+    })
+
+    it('will net need on external prop changes', () => {
+      const WrongUsage = () => {
+        const [min, setMinVal] = React.useState(0) //eslint-disable-line
+        const [max, setMaxVal] = React.useState(200) //eslint-disable-line
+
+        return (
+          <Slider
+            max={200}
+            value={[0, 200]} // <-- Here we do not update the value
+            onChange={({ value }) => {
+              setMinVal(value[0])
+              setMaxVal(value[1])
+            }}
+          />
+        )
+      }
+
+      render(<WrongUsage />)
+
+      simulateMouseMove({ pageX: 20, width: 100, height: 10 })
+      expect(getThumbElements(0).getAttribute('style')).toBe(
+        'z-index: 4; left: 20%;'
+      )
+
+      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
+      expect(getThumbElements(1).getAttribute('style')).toBe(
+        'z-index: 4; left: 80%;'
+      )
 
       resetMouseSimulation()
     })
@@ -319,8 +468,6 @@ describe('Slider component', () => {
       simulateMouseMove({ pageX: 40, width: 100, height: 10 })
 
       expect(onChange.mock.calls[2][0].value).toEqual([10, 40, 80])
-
-      resetMouseSimulation()
     })
 
     it('updates thumb index and returns correct event value', () => {
@@ -347,8 +494,6 @@ describe('Slider component', () => {
       simulateMouseMove({ pageX: 20, width: 100, height: 10 })
 
       expect(onChange.mock.calls[1][0].value).toEqual([10, 20, 40])
-
-      resetMouseSimulation()
     })
 
     it('will not swap thumb positions when multiThumbBehavior="omit"', () => {
@@ -364,11 +509,6 @@ describe('Slider component', () => {
           onChange={onChange}
         />
       )
-
-      const getThumbElements = (index: number) =>
-        document.querySelectorAll('.dnb-slider__thumb')[
-          index
-        ] as HTMLElement
 
       const secondThumb = document.querySelectorAll(
         '.dnb-slider__button-helper'
@@ -406,8 +546,6 @@ describe('Slider component', () => {
       expect(getThumbElements(2).getAttribute('style')).toBe(
         'z-index: 4; left: 50%;'
       )
-
-      resetMouseSimulation()
     })
 
     it('will push thumb positions when multiThumbBehavior="push"', () => {
@@ -465,8 +603,6 @@ describe('Slider component', () => {
       expect(getThumbElements(2).getAttribute('style')).toBe(
         'z-index: 4; left: 20%;'
       )
-
-      resetMouseSimulation()
     })
 
     it('sets correct inline styles', () => {
@@ -506,8 +642,6 @@ describe('Slider component', () => {
       expect(getThumbElements(2).getAttribute('style')).toBe(
         'z-index: 3; left: 80%;'
       )
-
-      resetMouseSimulation()
     })
   })
 
@@ -526,6 +660,13 @@ describe('Slider scss', () => {
 
 const getButtonHelper = (): HTMLInputElement => {
   return document.querySelector('.dnb-slider__button-helper')
+}
+
+const resetMouseSimulation = () => {
+  const elem = document.querySelector('.dnb-slider__track')
+  if (elem) {
+    fireEvent.mouseUp(elem)
+  }
 }
 
 const simulateMouseMove = (props) => {

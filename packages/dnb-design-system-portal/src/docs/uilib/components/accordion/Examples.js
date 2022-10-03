@@ -266,3 +266,38 @@ export const AccordionPlainVariant = () => {
     </ComponentBox>
   ) : null
 }
+
+export const AccordionNestedExample = () => {
+  return (
+    <ComponentBox data-visual-test="accordion-nested">
+      {
+        /* jsx */ `
+<Accordion
+  id="nested-accordion"
+  title="Accordion"
+  expanded
+  space
+>
+  <P space={0}>Content A</P>
+  <Accordion
+    id="nested-accordion-1"
+    title="Accordion nested 1"
+    space
+  >
+    <P space={0}>I'm nested 1</P>
+  </Accordion>
+  
+  <P space={0}>Content B</P>
+  <Accordion
+    id="nested-accordion-2"
+    title="Accordion nested 2"
+    space
+  >
+    <P space={0}>I'm nested 2</P>
+  </Accordion>
+</Accordion>
+`
+      }
+    </ComponentBox>
+  )
+}

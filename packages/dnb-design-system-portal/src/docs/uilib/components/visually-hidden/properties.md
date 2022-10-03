@@ -4,8 +4,6 @@ showTabs: true
 
 ## Properties
 
-### `VisuallyHidden` properties
-
 | Properties  | Description                                                                                                                                          |
 | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `children`  | _(optional)_ The content you want to be visually hidden.It can be a `string` or a `React Element`.                                                   |

@@ -14,7 +14,7 @@ import {
   validateDOMAttributes,
   registerElement,
   convertJsxToString,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
   extend,
 } from '../../shared/component-helper'
 import { hasSelectedText, IS_IOS } from '../../shared/helpers'
@@ -228,7 +228,7 @@ export default class NumberFormat extends React.PureComponent {
 
   render() {
     // consume the global context
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       NumberFormat.defaultProps,
       this.context.getTranslation(this.props).NumberFormat,
@@ -444,7 +444,7 @@ export default class NumberFormat extends React.PureComponent {
         {tooltip && (
           <Tooltip
             id={this._id + '-tooltip'}
-            target_element={this._ref}
+            targetElement={this._ref}
             tooltip={tooltip}
           />
         )}

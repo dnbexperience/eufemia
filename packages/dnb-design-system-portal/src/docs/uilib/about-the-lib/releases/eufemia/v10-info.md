@@ -25,9 +25,10 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 
 ### [Slider](/uilib/components/slider)
 
-1. Find the `thump_title` property and replace it with `thumb_title`.
+1. Find the `thump_title` property and replace it with `thumbTitle`.
 1. Find the snake_case `add_title` property and replace it with `addTitle`.
 1. Find the snake_case `subtract_title` property and replace it with `subtractTitle`.
+1. Remove `@dnb/eufemia/components/slider/style/dnb-range.min.css` and use the Eufemia Slider component instead.
 
 ### [Timeline](/uilib/components/timeline)
 
@@ -37,6 +38,17 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 ### [Anchor](/uilib/elements/anchor)
 
 1. Find the `target_blank_title` property and replace it with `targetBlankTitle`.
+
+### [Tooltip](/uilib/components/tooltip)
+
+1. Find the `target_element` property and replace it with `targetElement`.
+1. Find the `target_selector` property and replace it with `targetSelector`.
+1. Find the `animate_position` property and replace it with `animatePosition`.
+1. Find the `fixed_position` property and replace it with `fixedPosition`.
+1. Find the `skip_portal` property and replace it with `skipPortal`.
+1. Find the `no_animation` property and replace it with `noAnimation`.
+1. Find the `show_delay` property and replace it with `showDelay`.
+1. Find the `hide_delay` property and replace it with `hideDelay`.
 
 ### Deprecations
 

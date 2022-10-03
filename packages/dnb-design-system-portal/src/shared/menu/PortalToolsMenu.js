@@ -31,7 +31,7 @@ export default function PortalToolsMenu({
             position={tooltipPosition}
             // Use 4001 to be over header of 4000
             style={{ zIndex: 4001 }}
-            fixed_position
+            fixedPosition
           >
             Open the portal tools
           </Tooltip>

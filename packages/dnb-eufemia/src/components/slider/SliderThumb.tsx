@@ -5,19 +5,37 @@ import {
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import Button from '../button/Button'
+import Tooltip from '../tooltip/Tooltip'
 import { useSliderEvents } from './hooks/useSliderEvents'
 import { useSliderProps } from './hooks/useSliderProps'
-import { clamp, getHumanNumber } from './SliderHelpers'
+import { clamp, getFormattedNumber } from './SliderHelpers'
 
 export function SliderThumb() {
+  const { values } = useSliderProps()
+
+  return (
+    <>
+      {values.map((value, i) => {
+        return <Thumb key={i} value={value} currentIndex={i} />
+      })}
+    </>
+  )
+}
+
+type ThumbProps = {
+  value: number
+  currentIndex: number
+}
+
+function Thumb({ value, currentIndex }: ThumbProps) {
   const {
-    values,
     thumbIndex,
     isVertical,
     isReverse,
     showStatus,
     attributes,
     allProps,
+    shouldAnimate,
   } = useSliderProps()
 
   const {
@@ -30,24 +48,40 @@ export function SliderThumb() {
     disabled,
     suffix,
     numberFormat,
+    tooltip,
+    alwaysShowTooltip,
   } = allProps
+
+  const index = thumbIndex.current
+  let percent = clamp(((value - min) * 100) / (max - min))
+
+  if (isReverse) {
+    percent = 100 - percent
+  }
+
+  const style = {
+    zIndex: index === currentIndex ? 4 : 3,
+    [`${isVertical ? 'top' : 'left'}`]: `${percent}%`,
+  } as React.CSSProperties
+
+  const { number, aria } = getFormattedNumber(value, numberFormat)
+
+  const [showTooltip, setShowTooltip] = React.useState(false)
+  const onMouseEnterHandler = () => {
+    setShowTooltip(true)
+  }
+  const onMouseLeaveHandler = () => {
+    setShowTooltip(false)
+  }
 
   const {
     onThumbMouseDownHandler,
     onThumbMouseUpHandler,
-    onThumbBlurHandler,
-    onThumbFocusHandler,
     onHelperChangeHandler,
     onHelperFocusHandler,
   } = useSliderEvents()
 
-  const thumbParams = {
-    onBlur: onThumbBlurHandler,
-    onFocus: onThumbFocusHandler,
-    ...(attributes as Record<string, unknown>), // Do not forwards props to button for future compatibility on multi-button slider
-  }
-
-  const helperParams = {}
+  const helperParams: Record<string, unknown> = {}
 
   if (label) {
     helperParams['aria-labelledby'] = combineLabelledBy(
@@ -64,63 +98,71 @@ export function SliderThumb() {
     )
   }
 
-  validateDOMAttributes(null, helperParams)
-  validateDOMAttributes(allProps, thumbParams)
+  const thumbParams = attributes as Record<string, unknown>
+
+  if (tooltip) {
+    thumbParams.onMouseEnter = onMouseEnterHandler
+    thumbParams.onMouseLeave = onMouseLeaveHandler
+    thumbParams.onTouchStart = onMouseEnterHandler
+    thumbParams.onTouchEnd = onMouseLeaveHandler
+    helperParams.onBlur = onMouseLeaveHandler
+    helperParams.onFocus = (event) => {
+      onHelperFocusHandler(event)
+      onMouseEnterHandler()
+    }
+  }
+  validateDOMAttributes(allProps, thumbParams) // because we send along rest attributes
+
+  const elemRef = React.useRef()
 
   return (
     <>
-      {values.map((value, i) => {
-        const index = thumbIndex.current
-        let percent = clamp(((value - min) * 100) / (max - min))
+      <span className="dnb-slider__thumb" style={style} ref={elemRef}>
+        <input
+          type="range"
+          className="dnb-slider__button-helper"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          disabled={disabled}
+          onChange={onHelperChangeHandler}
+          onFocus={onHelperFocusHandler}
+          onMouseDown={onThumbMouseDownHandler}
+          onMouseUp={onThumbMouseUpHandler}
+          aria-valuemin={min}
+          aria-valuemax={max}
+          aria-valuenow={value}
+          aria-valuetext={aria ? aria : undefined}
+          aria-orientation={isVertical ? 'vertical' : 'horizontal'}
+          data-index={currentIndex}
+          {...helperParams}
+        />
 
-        if (isReverse) {
-          percent = 100 - percent
-        }
+        <Button
+          element="span"
+          type="" // avoid getting type="button"
+          variant="secondary"
+          disabled={disabled}
+          skeleton={skeleton}
+          {...thumbParams}
+        />
 
-        const style: React.CSSProperties = {
-          zIndex: index === i ? 4 : 3,
-          [`${isVertical ? 'top' : 'left'}`]: `${percent}%`,
-        }
-
-        const humanNumber = getHumanNumber(value, numberFormat)
-
-        return (
-          <React.Fragment key={i}>
-            <span className="dnb-slider__thumb" style={style}>
-              <input
-                type="range"
-                className="dnb-slider__button-helper"
-                min={min}
-                max={max}
-                step={step}
-                value={value}
-                disabled={disabled}
-                onChange={onHelperChangeHandler}
-                onFocus={onHelperFocusHandler}
-                aria-valuemin={min}
-                aria-valuemax={max}
-                aria-valuenow={value}
-                aria-valuetext={humanNumber ? humanNumber : undefined}
-                aria-orientation={isVertical ? 'vertical' : 'horizontal'}
-                data-index={i}
-                {...helperParams}
-              />
-
-              <Button
-                element="span"
-                type=""
-                variant="secondary"
-                disabled={disabled}
-                skeleton={skeleton}
-                data-index={i}
-                onMouseDown={onThumbMouseDownHandler}
-                onMouseUp={onThumbMouseUpHandler}
-                {...thumbParams}
-              />
-            </span>
-          </React.Fragment>
-        )
-      })}
+        {tooltip && (
+          <Tooltip
+            key={`group-${currentIndex}`}
+            targetElement={elemRef}
+            animatePosition={shouldAnimate}
+            active={showTooltip || alwaysShowTooltip}
+            hideDelay={300}
+          >
+            {number || value}
+            {
+              /* Use this only in order to update the position after the thumb animation */ shouldAnimate
+            }
+          </Tooltip>
+        )}
+      </span>
     </>
   )
 }

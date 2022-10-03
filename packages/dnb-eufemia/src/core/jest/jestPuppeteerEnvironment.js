@@ -8,14 +8,16 @@ const fs = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
 const puppeteer = require('puppeteer')
+const packpath = require('packpath')
 const { config } = require('./jestSetupScreenshots')
+const { slugify } = require('../../shared/component-helper')
 
 class PuppeteerEnvironment extends NodeEnvironment {
   constructor({ globalConfig, projectConfig }, context) {
     super({ globalConfig, projectConfig }, context)
 
     if (typeof global.__EVENT_FAILURE_CACHE__ === 'undefined') {
-      global.__EVENT_FAILURE_CACHE__ = []
+      global.__EVENT_FAILURE_CACHE__ = {}
     }
   }
 
@@ -39,9 +41,38 @@ class PuppeteerEnvironment extends NodeEnvironment {
     this.global.__PAGE__ = await this.global.__BROWSER__.newPage()
   }
 
-  getName(state) {
+  getCurrentTestName(state) {
     const { currentlyRunningTest } = state
-    return `${currentlyRunningTest.parent.name} / ${currentlyRunningTest.name}`
+    return `${currentlyRunningTest.parent.name} ${currentlyRunningTest.name}`
+  }
+
+  async removeUnwantedSnapshots() {
+    const list = Object.values(global.__EVENT_FAILURE_CACHE__)
+    for await (const entry of list) {
+      const { currentTestName, failed } = entry
+      if (failed === false) {
+        await this.deleteSnapshots(currentTestName)
+      }
+    }
+  }
+
+  async deleteSnapshots(currentTestName) {
+    const reportsPath = path.resolve(
+      packpath.self(),
+      './jest-screenshot-report/reports'
+    )
+
+    if (fs.existsSync(reportsPath)) {
+      const slug = slugify(currentTestName)
+      const dirs = await fs.readdir(reportsPath)
+
+      for await (const dir of dirs) {
+        if (dir.includes(slug)) {
+          const dirPath = path.resolve(reportsPath, dir)
+          await fs.rm(dirPath, { recursive: true, force: true })
+        }
+      }
+    }
   }
 
   async handleTestEvent(event, state) {
@@ -49,22 +80,29 @@ class PuppeteerEnvironment extends NodeEnvironment {
       if (event.name === 'test_fn_failure') {
         this.global.__EVENT_FAILURE__ = true
 
-        const name = this.getName(state)
-        if (!global.__EVENT_FAILURE_CACHE__.includes(name)) {
-          global.__EVENT_FAILURE_CACHE__.push(name)
+        const currentTestName = this.getCurrentTestName(state)
+        const slug = slugify(currentTestName)
+
+        global.__EVENT_FAILURE_CACHE__[slug] = {
+          currentTestName,
+          failed: true,
         }
 
+        const retryAttempt = state.currentlyRunningTest.invocations
         console.log(
           chalk.yellow(
-            `Retry attempt #${state.currentlyRunningTest.invocations}: ${name}`
+            `Retry attempt #${retryAttempt}: ${currentTestName}`
           )
         )
       }
 
       if (event.name === 'test_fn_success') {
-        const name = this.getName(state)
-        global.__EVENT_FAILURE_CACHE__ =
-          global.__EVENT_FAILURE_CACHE__.filter((n) => n !== name)
+        const currentTestName = this.getCurrentTestName(state)
+
+        const slug = slugify(currentTestName)
+        if (global.__EVENT_FAILURE_CACHE__[slug]) {
+          global.__EVENT_FAILURE_CACHE__[slug].failed = false
+        }
       }
     }
   }
@@ -72,6 +110,8 @@ class PuppeteerEnvironment extends NodeEnvironment {
   async teardown() {
     await this.global.__PAGE__.close()
     this.global.__PAGE__ = null
+
+    await this.removeUnwantedSnapshots()
 
     await super.teardown()
   }

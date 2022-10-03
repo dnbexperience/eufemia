@@ -560,302 +560,158 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
         <fieldset
           className="dnb-form-row__fieldset"
         >
-          <div
+          <Section
             className="dnb-form-row"
+            element="div"
+            spacing={null}
+            style_type="transparent"
           >
-            <AlignmentHelper
-              className={null}
-            >
-              <span
-                aria-hidden={true}
-                className="dnb-alignment-helper"
-              />
-            </AlignmentHelper>
-            <FormLabel
-              class={null}
-              className="dnb-form-row__label"
-              disabled={null}
-              element="legend"
-              for_id={null}
-              id="group-label"
-              label_direction={null}
-              skeleton={null}
-              sr_only={null}
-              text="Label"
-              title={null}
-              vertical={null}
-            >
-              <legend
-                className="dnb-form-label dnb-form-row__label"
-                disabled={false}
-                id="group-label"
-              >
-                Label
-              </legend>
-            </FormLabel>
             <div
-              className="dnb-form-row__content dnb-form-row__content--default"
+              className="dnb-section dnb-section--transparent dnb-form-row"
             >
-              <span
-                aria-labelledby="group-label"
-                className="dnb-toggle-button-group__shell"
-                id="group"
-                role="group"
+              <AlignmentHelper
+                className={null}
               >
-                <FormStatus
-                  attributes={null}
-                  class={null}
-                  className={null}
-                  global_status_id={null}
-                  icon="error"
-                  icon_size="medium"
-                  id="group-form-status"
-                  label="Label"
-                  no_animation={null}
-                  role={null}
-                  show={null}
-                  size="default"
-                  skeleton={null}
-                  state="error"
-                  status="error"
-                  stretch={null}
-                  text={null}
-                  text_id="group-status"
-                  title={null}
-                  variant={null}
-                  width_element={null}
-                  width_selector={null}
-                />
                 <span
-                  className="dnb-toggle-button-group__children"
+                  aria-hidden={true}
+                  className="dnb-alignment-helper"
+                />
+              </AlignmentHelper>
+              <FormLabel
+                class={null}
+                className="dnb-form-row__label"
+                disabled={null}
+                element="legend"
+                for_id={null}
+                id="group-label"
+                label_direction={null}
+                skeleton={null}
+                sr_only={null}
+                text="Label"
+                title={null}
+                vertical={null}
+              >
+                <legend
+                  className="dnb-form-label dnb-form-row__label"
+                  disabled={false}
+                  id="group-label"
                 >
-                  <ToggleButton
+                  Label
+                </legend>
+              </FormLabel>
+              <div
+                className="dnb-form-row__content dnb-form-row__content--default"
+              >
+                <span
+                  aria-labelledby="group-label"
+                  className="dnb-toggle-button-group__shell"
+                  id="group"
+                  role="group"
+                >
+                  <FormStatus
                     attributes={null}
                     class={null}
                     className={null}
-                    custom_element={null}
-                    custom_method={null}
-                    disabled={null}
                     global_status_id={null}
-                    icon={null}
-                    icon_position="right"
-                    icon_size={null}
-                    id="toggle-button-1"
-                    label={null}
-                    label_direction={null}
-                    label_sr_only={null}
-                    left_component={null}
-                    on_change={null}
-                    on_state_update={null}
-                    readOnly={false}
+                    icon="error"
+                    icon_size="medium"
+                    id="group-form-status"
+                    label="Label"
+                    no_animation={null}
+                    role={null}
+                    show={null}
+                    size="default"
                     skeleton={null}
-                    status={null}
-                    status_no_animation={null}
-                    status_props={null}
-                    status_state="error"
-                    suffix={null}
-                    text="ToggleButton 1"
+                    state="error"
+                    status="error"
+                    stretch={null}
+                    text={null}
+                    text_id="group-status"
                     title={null}
-                    value=""
-                    variant="radio"
+                    variant={null}
+                    width_element={null}
+                    width_selector={null}
+                  />
+                  <span
+                    className="dnb-toggle-button-group__children"
                   >
-                    <span
-                      className="dnb-toggle-button dnb-toggle-button--checked"
+                    <ToggleButton
+                      attributes={null}
+                      class={null}
+                      className={null}
+                      custom_element={null}
+                      custom_method={null}
+                      disabled={null}
+                      global_status_id={null}
+                      icon={null}
+                      icon_position="right"
+                      icon_size={null}
+                      id="toggle-button-1"
+                      label={null}
+                      label_direction={null}
+                      label_sr_only={null}
+                      left_component={null}
+                      on_change={null}
+                      on_state_update={null}
+                      readOnly={false}
+                      skeleton={null}
+                      status={null}
+                      status_no_animation={null}
+                      status_props={null}
+                      status_state="error"
+                      suffix={null}
+                      text="ToggleButton 1"
+                      title={null}
+                      value=""
+                      variant="radio"
                     >
                       <span
-                        className="dnb-toggle-button__inner"
+                        className="dnb-toggle-button dnb-toggle-button--checked"
                       >
-                        <FormStatus
-                          attributes={null}
-                          class={null}
-                          className={null}
-                          global_status_id={null}
-                          icon="error"
-                          icon_size="medium"
-                          id="toggle-button-1-form-status"
-                          label={null}
-                          no_animation={null}
-                          role={null}
-                          show={null}
-                          size="default"
-                          skeleton={null}
-                          state="error"
-                          status="error"
-                          stretch={null}
-                          text={null}
-                          text_id="toggle-button-1-status"
-                          title={null}
-                          variant={null}
-                          width_element={null}
-                          width_selector={null}
-                        />
                         <span
-                          className="dnb-toggle-button__shell"
+                          className="dnb-toggle-button__inner"
                         >
-                          <AlignmentHelper
-                            className={null}
-                          >
-                            <span
-                              aria-hidden={true}
-                              className="dnb-alignment-helper"
-                            />
-                          </AlignmentHelper>
-                          <Button
-                            aria-pressed="true"
-                            bounding={null}
+                          <FormStatus
+                            attributes={null}
                             class={null}
-                            className="dnb-toggle-button__button"
-                            custom_content={
-                              <span
-                                className="dnb-toggle-button__component"
-                              >
-                                <Radio
-                                  attributes={null}
-                                  checked={true}
-                                  class={null}
-                                  className={null}
-                                  custom_element={null}
-                                  custom_method={null}
-                                  data-checked="true"
-                                  disabled={null}
-                                  element="span"
-                                  global_status_id={null}
-                                  group={null}
-                                  id="toggle-button-1-radio"
-                                  label={null}
-                                  label_position={null}
-                                  label_sr_only={null}
-                                  name={null}
-                                  on_change={null}
-                                  on_state_update={null}
-                                  readOnly={false}
-                                  size={null}
-                                  skeleton={null}
-                                  status={null}
-                                  status_no_animation={null}
-                                  status_props={null}
-                                  status_state="error"
-                                  suffix={null}
-                                  title={null}
-                                  value=""
-                                />
-                              </span>
-                            }
-                            custom_element={null}
-                            custom_method={null}
-                            disabled={null}
-                            element={null}
+                            className={null}
                             global_status_id={null}
-                            href={null}
-                            icon={null}
-                            icon_position="right"
-                            icon_size={null}
-                            id="toggle-button-1"
-                            innerRef={null}
-                            inner_ref={null}
-                            onClick={[Function]}
-                            onKeyDown={[Function]}
-                            onKeyUp={[Function]}
-                            on_click={null}
-                            size={null}
+                            icon="error"
+                            icon_size="medium"
+                            id="toggle-button-1-form-status"
+                            label={null}
+                            no_animation={null}
+                            role={null}
+                            show={null}
+                            size="default"
                             skeleton={null}
-                            status={null}
-                            status_no_animation={null}
-                            status_props={null}
-                            status_state="error"
+                            state="error"
+                            status="error"
                             stretch={null}
-                            text="ToggleButton 1"
+                            text={null}
+                            text_id="toggle-button-1-status"
                             title={null}
-                            to={null}
-                            tooltip={null}
-                            type={null}
-                            variant="secondary"
-                            wrap={null}
+                            variant={null}
+                            width_element={null}
+                            width_selector={null}
+                          />
+                          <span
+                            className="dnb-toggle-button__shell"
                           >
-                            <button
-                              aria-pressed="true"
-                              className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button"
-                              disabled={false}
-                              id="toggle-button-1"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              onKeyUp={[Function]}
-                              type="button"
+                            <AlignmentHelper
+                              className={null}
                             >
-                              <Content
-                                aria-pressed="true"
-                                bounding={null}
-                                class={null}
-                                className="dnb-toggle-button__button"
-                                content="ToggleButton 1"
-                                custom_content={
-                                  <span
-                                    className="dnb-toggle-button__component"
-                                  >
-                                    <Radio
-                                      attributes={null}
-                                      checked={true}
-                                      class={null}
-                                      className={null}
-                                      custom_element={null}
-                                      custom_method={null}
-                                      data-checked="true"
-                                      disabled={null}
-                                      element="span"
-                                      global_status_id={null}
-                                      group={null}
-                                      id="toggle-button-1-radio"
-                                      label={null}
-                                      label_position={null}
-                                      label_sr_only={null}
-                                      name={null}
-                                      on_change={null}
-                                      on_state_update={null}
-                                      readOnly={false}
-                                      size={null}
-                                      skeleton={null}
-                                      status={null}
-                                      status_no_animation={null}
-                                      status_props={null}
-                                      status_state="error"
-                                      suffix={null}
-                                      title={null}
-                                      value=""
-                                    />
-                                  </span>
-                                }
-                                custom_element={null}
-                                custom_method={null}
-                                disabled={null}
-                                element={null}
-                                global_status_id={null}
-                                href={null}
-                                icon={null}
-                                icon_position="right"
-                                icon_size={null}
-                                id="toggle-button-1"
-                                innerRef={null}
-                                inner_ref={null}
-                                isIconOnly={false}
-                                onClick={[Function]}
-                                onKeyDown={[Function]}
-                                onKeyUp={[Function]}
-                                on_click={null}
-                                size={null}
-                                skeleton={false}
-                                status={null}
-                                status_no_animation={null}
-                                status_props={null}
-                                status_state="error"
-                                stretch={null}
-                                text="ToggleButton 1"
-                                title={null}
-                                to={null}
-                                tooltip={null}
-                                type={null}
-                                variant="secondary"
-                                wrap={null}
-                              >
+                              <span
+                                aria-hidden={true}
+                                className="dnb-alignment-helper"
+                              />
+                            </AlignmentHelper>
+                            <Button
+                              aria-pressed="true"
+                              bounding={null}
+                              class={null}
+                              className="dnb-toggle-button__button"
+                              custom_content={
                                 <span
                                   className="dnb-toggle-button__component"
                                 >
@@ -888,290 +744,124 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                     suffix={null}
                                     title={null}
                                     value=""
-                                  >
-                                    <span
-                                      className="dnb-radio"
-                                    >
-                                      <span
-                                        className="dnb-radio__order"
-                                      >
-                                        <span
-                                          className="dnb-radio__inner"
-                                        >
-                                          <AlignmentHelper
-                                            className={null}
-                                          >
-                                            <span
-                                              aria-hidden={true}
-                                              className="dnb-alignment-helper"
-                                            />
-                                          </AlignmentHelper>
-                                          <FormStatus
-                                            attributes={null}
-                                            class={null}
-                                            className={null}
-                                            global_status_id={null}
-                                            icon="error"
-                                            icon_size="medium"
-                                            id="toggle-button-1-radio-form-status"
-                                            label={null}
-                                            no_animation={null}
-                                            role={null}
-                                            show={null}
-                                            size="default"
-                                            skeleton={null}
-                                            state="error"
-                                            status="error"
-                                            stretch={null}
-                                            text={null}
-                                            text_id="toggle-button-1-radio-status"
-                                            title={null}
-                                            variant={null}
-                                            width_element={null}
-                                            width_selector="toggle-button-1-radio, toggle-button-1-radio-label"
-                                          />
-                                          <span
-                                            className="dnb-radio__row"
-                                          >
-                                            <span
-                                              className="dnb-radio__shell"
-                                            >
-                                              <span
-                                                checked={true}
-                                                className="dnb-radio__input"
-                                                data-checked="true"
-                                                disabled={false}
-                                                id="toggle-button-1-radio"
-                                                name={null}
-                                                onChange={[Function]}
-                                                onClick={[Function]}
-                                                onKeyDown={[Function]}
-                                                value=""
-                                              />
-                                              <span
-                                                aria-hidden={true}
-                                                className="dnb-radio__button"
-                                              />
-                                              <span
-                                                aria-hidden={true}
-                                                className="dnb-radio__focus"
-                                              />
-                                              <span
-                                                aria-hidden={true}
-                                                className="dnb-radio__dot"
-                                              />
-                                            </span>
-                                          </span>
-                                        </span>
-                                      </span>
-                                    </span>
-                                  </Radio>
+                                  />
                                 </span>
-                                <span
-                                  aria-hidden={true}
-                                  className="dnb-button__alignment"
-                                  key="button-alignment"
-                                >
-                                  ‌
-                                </span>
-                                <span
-                                  className="dnb-button__text dnb-skeleton--show-font"
-                                  key="button-text"
-                                >
-                                  ToggleButton 1
-                                </span>
-                              </Content>
-                            </button>
-                            <FormStatus
-                              attributes={null}
-                              class={null}
-                              className={null}
+                              }
+                              custom_element={null}
+                              custom_method={null}
+                              disabled={null}
+                              element={null}
                               global_status_id={null}
-                              icon="error"
-                              icon_size="medium"
-                              id="toggle-button-1-form-status"
-                              label="ToggleButton 1"
-                              no_animation={null}
-                              role={null}
-                              show={null}
-                              size="default"
+                              href={null}
+                              icon={null}
+                              icon_position="right"
+                              icon_size={null}
+                              id="toggle-button-1"
+                              innerRef={null}
+                              inner_ref={null}
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              onKeyUp={[Function]}
+                              on_click={null}
+                              size={null}
                               skeleton={null}
-                              state="error"
-                              status="error"
+                              status={null}
+                              status_no_animation={null}
+                              status_props={null}
+                              status_state="error"
                               stretch={null}
-                              text={null}
-                              text_id="toggle-button-1-status"
+                              text="ToggleButton 1"
                               title={null}
-                              variant={null}
-                              width_element={null}
-                              width_selector={null}
-                            />
-                          </Button>
-                        </span>
-                      </span>
-                    </span>
-                  </ToggleButton>
-                  <ToggleButton
-                    attributes={null}
-                    checked={true}
-                    class={null}
-                    className={null}
-                    custom_element={null}
-                    custom_method={null}
-                    disabled={null}
-                    global_status_id={null}
-                    icon={null}
-                    icon_position="right"
-                    icon_size={null}
-                    id="toggle-button-2"
-                    label={null}
-                    label_direction={null}
-                    label_sr_only={null}
-                    left_component={null}
-                    on_change={null}
-                    on_state_update={null}
-                    readOnly={false}
-                    skeleton={null}
-                    status={null}
-                    status_no_animation={null}
-                    status_props={null}
-                    status_state="error"
-                    suffix={null}
-                    text="ToggleButton 2"
-                    title={null}
-                    value=""
-                    variant="radio"
-                  >
-                    <span
-                      className="dnb-toggle-button dnb-toggle-button--checked"
-                    >
-                      <span
-                        className="dnb-toggle-button__inner"
-                      >
-                        <FormStatus
-                          attributes={null}
-                          class={null}
-                          className={null}
-                          global_status_id={null}
-                          icon="error"
-                          icon_size="medium"
-                          id="toggle-button-2-form-status"
-                          label={null}
-                          no_animation={null}
-                          role={null}
-                          show={null}
-                          size="default"
-                          skeleton={null}
-                          state="error"
-                          status="error"
-                          stretch={null}
-                          text={null}
-                          text_id="toggle-button-2-status"
-                          title={null}
-                          variant={null}
-                          width_element={null}
-                          width_selector={null}
-                        />
-                        <span
-                          className="dnb-toggle-button__shell"
-                        >
-                          <AlignmentHelper
-                            className={null}
-                          >
-                            <span
-                              aria-hidden={true}
-                              className="dnb-alignment-helper"
-                            />
-                          </AlignmentHelper>
-                          <Button
-                            aria-pressed="true"
-                            bounding={null}
-                            class={null}
-                            className="dnb-toggle-button__button"
-                            custom_content={
-                              <span
-                                className="dnb-toggle-button__component"
+                              to={null}
+                              tooltip={null}
+                              type={null}
+                              variant="secondary"
+                              wrap={null}
+                            >
+                              <button
+                                aria-pressed="true"
+                                className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button"
+                                disabled={false}
+                                id="toggle-button-1"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                onKeyUp={[Function]}
+                                type="button"
                               >
-                                <Radio
-                                  attributes={null}
-                                  checked={true}
+                                <Content
+                                  aria-pressed="true"
+                                  bounding={null}
                                   class={null}
-                                  className={null}
+                                  className="dnb-toggle-button__button"
+                                  content="ToggleButton 1"
+                                  custom_content={
+                                    <span
+                                      className="dnb-toggle-button__component"
+                                    >
+                                      <Radio
+                                        attributes={null}
+                                        checked={true}
+                                        class={null}
+                                        className={null}
+                                        custom_element={null}
+                                        custom_method={null}
+                                        data-checked="true"
+                                        disabled={null}
+                                        element="span"
+                                        global_status_id={null}
+                                        group={null}
+                                        id="toggle-button-1-radio"
+                                        label={null}
+                                        label_position={null}
+                                        label_sr_only={null}
+                                        name={null}
+                                        on_change={null}
+                                        on_state_update={null}
+                                        readOnly={false}
+                                        size={null}
+                                        skeleton={null}
+                                        status={null}
+                                        status_no_animation={null}
+                                        status_props={null}
+                                        status_state="error"
+                                        suffix={null}
+                                        title={null}
+                                        value=""
+                                      />
+                                    </span>
+                                  }
                                   custom_element={null}
                                   custom_method={null}
-                                  data-checked="true"
                                   disabled={null}
-                                  element="span"
+                                  element={null}
                                   global_status_id={null}
-                                  group={null}
-                                  id="toggle-button-2-radio"
-                                  label={null}
-                                  label_position={null}
-                                  label_sr_only={null}
-                                  name={null}
-                                  on_change={null}
-                                  on_state_update={null}
-                                  readOnly={false}
+                                  href={null}
+                                  icon={null}
+                                  icon_position="right"
+                                  icon_size={null}
+                                  id="toggle-button-1"
+                                  innerRef={null}
+                                  inner_ref={null}
+                                  isIconOnly={false}
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  onKeyUp={[Function]}
+                                  on_click={null}
                                   size={null}
-                                  skeleton={null}
+                                  skeleton={false}
                                   status={null}
                                   status_no_animation={null}
                                   status_props={null}
                                   status_state="error"
-                                  suffix={null}
+                                  stretch={null}
+                                  text="ToggleButton 1"
                                   title={null}
-                                  value=""
-                                />
-                              </span>
-                            }
-                            custom_element={null}
-                            custom_method={null}
-                            disabled={null}
-                            element={null}
-                            global_status_id={null}
-                            href={null}
-                            icon={null}
-                            icon_position="right"
-                            icon_size={null}
-                            id="toggle-button-2"
-                            innerRef={null}
-                            inner_ref={null}
-                            onClick={[Function]}
-                            onKeyDown={[Function]}
-                            onKeyUp={[Function]}
-                            on_click={null}
-                            size={null}
-                            skeleton={null}
-                            status={null}
-                            status_no_animation={null}
-                            status_props={null}
-                            status_state="error"
-                            stretch={null}
-                            text="ToggleButton 2"
-                            title={null}
-                            to={null}
-                            tooltip={null}
-                            type={null}
-                            variant="secondary"
-                            wrap={null}
-                          >
-                            <button
-                              aria-pressed="true"
-                              className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button"
-                              disabled={false}
-                              id="toggle-button-2"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              onKeyUp={[Function]}
-                              type="button"
-                            >
-                              <Content
-                                aria-pressed="true"
-                                bounding={null}
-                                class={null}
-                                className="dnb-toggle-button__button"
-                                content="ToggleButton 2"
-                                custom_content={
+                                  to={null}
+                                  tooltip={null}
+                                  type={null}
+                                  variant="secondary"
+                                  wrap={null}
+                                >
                                   <span
                                     className="dnb-toggle-button__component"
                                   >
@@ -1187,7 +877,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                       element="span"
                                       global_status_id={null}
                                       group={null}
-                                      id="toggle-button-2-radio"
+                                      id="toggle-button-1-radio"
                                       label={null}
                                       label_position={null}
                                       label_sr_only={null}
@@ -1204,41 +894,207 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                       suffix={null}
                                       title={null}
                                       value=""
-                                    />
+                                    >
+                                      <span
+                                        className="dnb-radio"
+                                      >
+                                        <span
+                                          className="dnb-radio__order"
+                                        >
+                                          <span
+                                            className="dnb-radio__inner"
+                                          >
+                                            <AlignmentHelper
+                                              className={null}
+                                            >
+                                              <span
+                                                aria-hidden={true}
+                                                className="dnb-alignment-helper"
+                                              />
+                                            </AlignmentHelper>
+                                            <FormStatus
+                                              attributes={null}
+                                              class={null}
+                                              className={null}
+                                              global_status_id={null}
+                                              icon="error"
+                                              icon_size="medium"
+                                              id="toggle-button-1-radio-form-status"
+                                              label={null}
+                                              no_animation={null}
+                                              role={null}
+                                              show={null}
+                                              size="default"
+                                              skeleton={null}
+                                              state="error"
+                                              status="error"
+                                              stretch={null}
+                                              text={null}
+                                              text_id="toggle-button-1-radio-status"
+                                              title={null}
+                                              variant={null}
+                                              width_element={null}
+                                              width_selector="toggle-button-1-radio, toggle-button-1-radio-label"
+                                            />
+                                            <span
+                                              className="dnb-radio__row"
+                                            >
+                                              <span
+                                                className="dnb-radio__shell"
+                                              >
+                                                <span
+                                                  checked={true}
+                                                  className="dnb-radio__input"
+                                                  data-checked="true"
+                                                  disabled={false}
+                                                  id="toggle-button-1-radio"
+                                                  name={null}
+                                                  onChange={[Function]}
+                                                  onClick={[Function]}
+                                                  onKeyDown={[Function]}
+                                                  value=""
+                                                />
+                                                <span
+                                                  aria-hidden={true}
+                                                  className="dnb-radio__button"
+                                                />
+                                                <span
+                                                  aria-hidden={true}
+                                                  className="dnb-radio__focus"
+                                                />
+                                                <span
+                                                  aria-hidden={true}
+                                                  className="dnb-radio__dot"
+                                                />
+                                              </span>
+                                            </span>
+                                          </span>
+                                        </span>
+                                      </span>
+                                    </Radio>
                                   </span>
-                                }
-                                custom_element={null}
-                                custom_method={null}
-                                disabled={null}
-                                element={null}
+                                  <span
+                                    aria-hidden={true}
+                                    className="dnb-button__alignment"
+                                    key="button-alignment"
+                                  >
+                                    ‌
+                                  </span>
+                                  <span
+                                    className="dnb-button__text dnb-skeleton--show-font"
+                                    key="button-text"
+                                  >
+                                    ToggleButton 1
+                                  </span>
+                                </Content>
+                              </button>
+                              <FormStatus
+                                attributes={null}
+                                class={null}
+                                className={null}
                                 global_status_id={null}
-                                href={null}
-                                icon={null}
-                                icon_position="right"
-                                icon_size={null}
-                                id="toggle-button-2"
-                                innerRef={null}
-                                inner_ref={null}
-                                isIconOnly={false}
-                                onClick={[Function]}
-                                onKeyDown={[Function]}
-                                onKeyUp={[Function]}
-                                on_click={null}
-                                size={null}
-                                skeleton={false}
-                                status={null}
-                                status_no_animation={null}
-                                status_props={null}
-                                status_state="error"
+                                icon="error"
+                                icon_size="medium"
+                                id="toggle-button-1-form-status"
+                                label="ToggleButton 1"
+                                no_animation={null}
+                                role={null}
+                                show={null}
+                                size="default"
+                                skeleton={null}
+                                state="error"
+                                status="error"
                                 stretch={null}
-                                text="ToggleButton 2"
+                                text={null}
+                                text_id="toggle-button-1-status"
                                 title={null}
-                                to={null}
-                                tooltip={null}
-                                type={null}
-                                variant="secondary"
-                                wrap={null}
-                              >
+                                variant={null}
+                                width_element={null}
+                                width_selector={null}
+                              />
+                            </Button>
+                          </span>
+                        </span>
+                      </span>
+                    </ToggleButton>
+                    <ToggleButton
+                      attributes={null}
+                      checked={true}
+                      class={null}
+                      className={null}
+                      custom_element={null}
+                      custom_method={null}
+                      disabled={null}
+                      global_status_id={null}
+                      icon={null}
+                      icon_position="right"
+                      icon_size={null}
+                      id="toggle-button-2"
+                      label={null}
+                      label_direction={null}
+                      label_sr_only={null}
+                      left_component={null}
+                      on_change={null}
+                      on_state_update={null}
+                      readOnly={false}
+                      skeleton={null}
+                      status={null}
+                      status_no_animation={null}
+                      status_props={null}
+                      status_state="error"
+                      suffix={null}
+                      text="ToggleButton 2"
+                      title={null}
+                      value=""
+                      variant="radio"
+                    >
+                      <span
+                        className="dnb-toggle-button dnb-toggle-button--checked"
+                      >
+                        <span
+                          className="dnb-toggle-button__inner"
+                        >
+                          <FormStatus
+                            attributes={null}
+                            class={null}
+                            className={null}
+                            global_status_id={null}
+                            icon="error"
+                            icon_size="medium"
+                            id="toggle-button-2-form-status"
+                            label={null}
+                            no_animation={null}
+                            role={null}
+                            show={null}
+                            size="default"
+                            skeleton={null}
+                            state="error"
+                            status="error"
+                            stretch={null}
+                            text={null}
+                            text_id="toggle-button-2-status"
+                            title={null}
+                            variant={null}
+                            width_element={null}
+                            width_selector={null}
+                          />
+                          <span
+                            className="dnb-toggle-button__shell"
+                          >
+                            <AlignmentHelper
+                              className={null}
+                            >
+                              <span
+                                aria-hidden={true}
+                                className="dnb-alignment-helper"
+                              />
+                            </AlignmentHelper>
+                            <Button
+                              aria-pressed="true"
+                              bounding={null}
+                              class={null}
+                              className="dnb-toggle-button__button"
+                              custom_content={
                                 <span
                                   className="dnb-toggle-button__component"
                                 >
@@ -1271,133 +1127,284 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                     suffix={null}
                                     title={null}
                                     value=""
-                                  >
+                                  />
+                                </span>
+                              }
+                              custom_element={null}
+                              custom_method={null}
+                              disabled={null}
+                              element={null}
+                              global_status_id={null}
+                              href={null}
+                              icon={null}
+                              icon_position="right"
+                              icon_size={null}
+                              id="toggle-button-2"
+                              innerRef={null}
+                              inner_ref={null}
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              onKeyUp={[Function]}
+                              on_click={null}
+                              size={null}
+                              skeleton={null}
+                              status={null}
+                              status_no_animation={null}
+                              status_props={null}
+                              status_state="error"
+                              stretch={null}
+                              text="ToggleButton 2"
+                              title={null}
+                              to={null}
+                              tooltip={null}
+                              type={null}
+                              variant="secondary"
+                              wrap={null}
+                            >
+                              <button
+                                aria-pressed="true"
+                                className="dnb-button dnb-button--secondary dnb-button--has-text dnb-toggle-button__button"
+                                disabled={false}
+                                id="toggle-button-2"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                onKeyUp={[Function]}
+                                type="button"
+                              >
+                                <Content
+                                  aria-pressed="true"
+                                  bounding={null}
+                                  class={null}
+                                  className="dnb-toggle-button__button"
+                                  content="ToggleButton 2"
+                                  custom_content={
                                     <span
-                                      className="dnb-radio"
+                                      className="dnb-toggle-button__component"
+                                    >
+                                      <Radio
+                                        attributes={null}
+                                        checked={true}
+                                        class={null}
+                                        className={null}
+                                        custom_element={null}
+                                        custom_method={null}
+                                        data-checked="true"
+                                        disabled={null}
+                                        element="span"
+                                        global_status_id={null}
+                                        group={null}
+                                        id="toggle-button-2-radio"
+                                        label={null}
+                                        label_position={null}
+                                        label_sr_only={null}
+                                        name={null}
+                                        on_change={null}
+                                        on_state_update={null}
+                                        readOnly={false}
+                                        size={null}
+                                        skeleton={null}
+                                        status={null}
+                                        status_no_animation={null}
+                                        status_props={null}
+                                        status_state="error"
+                                        suffix={null}
+                                        title={null}
+                                        value=""
+                                      />
+                                    </span>
+                                  }
+                                  custom_element={null}
+                                  custom_method={null}
+                                  disabled={null}
+                                  element={null}
+                                  global_status_id={null}
+                                  href={null}
+                                  icon={null}
+                                  icon_position="right"
+                                  icon_size={null}
+                                  id="toggle-button-2"
+                                  innerRef={null}
+                                  inner_ref={null}
+                                  isIconOnly={false}
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  onKeyUp={[Function]}
+                                  on_click={null}
+                                  size={null}
+                                  skeleton={false}
+                                  status={null}
+                                  status_no_animation={null}
+                                  status_props={null}
+                                  status_state="error"
+                                  stretch={null}
+                                  text="ToggleButton 2"
+                                  title={null}
+                                  to={null}
+                                  tooltip={null}
+                                  type={null}
+                                  variant="secondary"
+                                  wrap={null}
+                                >
+                                  <span
+                                    className="dnb-toggle-button__component"
+                                  >
+                                    <Radio
+                                      attributes={null}
+                                      checked={true}
+                                      class={null}
+                                      className={null}
+                                      custom_element={null}
+                                      custom_method={null}
+                                      data-checked="true"
+                                      disabled={null}
+                                      element="span"
+                                      global_status_id={null}
+                                      group={null}
+                                      id="toggle-button-2-radio"
+                                      label={null}
+                                      label_position={null}
+                                      label_sr_only={null}
+                                      name={null}
+                                      on_change={null}
+                                      on_state_update={null}
+                                      readOnly={false}
+                                      size={null}
+                                      skeleton={null}
+                                      status={null}
+                                      status_no_animation={null}
+                                      status_props={null}
+                                      status_state="error"
+                                      suffix={null}
+                                      title={null}
+                                      value=""
                                     >
                                       <span
-                                        className="dnb-radio__order"
+                                        className="dnb-radio"
                                       >
                                         <span
-                                          className="dnb-radio__inner"
+                                          className="dnb-radio__order"
                                         >
-                                          <AlignmentHelper
-                                            className={null}
-                                          >
-                                            <span
-                                              aria-hidden={true}
-                                              className="dnb-alignment-helper"
-                                            />
-                                          </AlignmentHelper>
-                                          <FormStatus
-                                            attributes={null}
-                                            class={null}
-                                            className={null}
-                                            global_status_id={null}
-                                            icon="error"
-                                            icon_size="medium"
-                                            id="toggle-button-2-radio-form-status"
-                                            label={null}
-                                            no_animation={null}
-                                            role={null}
-                                            show={null}
-                                            size="default"
-                                            skeleton={null}
-                                            state="error"
-                                            status="error"
-                                            stretch={null}
-                                            text={null}
-                                            text_id="toggle-button-2-radio-status"
-                                            title={null}
-                                            variant={null}
-                                            width_element={null}
-                                            width_selector="toggle-button-2-radio, toggle-button-2-radio-label"
-                                          />
                                           <span
-                                            className="dnb-radio__row"
+                                            className="dnb-radio__inner"
                                           >
-                                            <span
-                                              className="dnb-radio__shell"
+                                            <AlignmentHelper
+                                              className={null}
                                             >
                                               <span
-                                                checked={true}
-                                                className="dnb-radio__input"
-                                                data-checked="true"
-                                                disabled={false}
-                                                id="toggle-button-2-radio"
-                                                name={null}
-                                                onChange={[Function]}
-                                                onClick={[Function]}
-                                                onKeyDown={[Function]}
-                                                value=""
-                                              />
-                                              <span
                                                 aria-hidden={true}
-                                                className="dnb-radio__button"
+                                                className="dnb-alignment-helper"
                                               />
+                                            </AlignmentHelper>
+                                            <FormStatus
+                                              attributes={null}
+                                              class={null}
+                                              className={null}
+                                              global_status_id={null}
+                                              icon="error"
+                                              icon_size="medium"
+                                              id="toggle-button-2-radio-form-status"
+                                              label={null}
+                                              no_animation={null}
+                                              role={null}
+                                              show={null}
+                                              size="default"
+                                              skeleton={null}
+                                              state="error"
+                                              status="error"
+                                              stretch={null}
+                                              text={null}
+                                              text_id="toggle-button-2-radio-status"
+                                              title={null}
+                                              variant={null}
+                                              width_element={null}
+                                              width_selector="toggle-button-2-radio, toggle-button-2-radio-label"
+                                            />
+                                            <span
+                                              className="dnb-radio__row"
+                                            >
                                               <span
-                                                aria-hidden={true}
-                                                className="dnb-radio__focus"
-                                              />
-                                              <span
-                                                aria-hidden={true}
-                                                className="dnb-radio__dot"
-                                              />
+                                                className="dnb-radio__shell"
+                                              >
+                                                <span
+                                                  checked={true}
+                                                  className="dnb-radio__input"
+                                                  data-checked="true"
+                                                  disabled={false}
+                                                  id="toggle-button-2-radio"
+                                                  name={null}
+                                                  onChange={[Function]}
+                                                  onClick={[Function]}
+                                                  onKeyDown={[Function]}
+                                                  value=""
+                                                />
+                                                <span
+                                                  aria-hidden={true}
+                                                  className="dnb-radio__button"
+                                                />
+                                                <span
+                                                  aria-hidden={true}
+                                                  className="dnb-radio__focus"
+                                                />
+                                                <span
+                                                  aria-hidden={true}
+                                                  className="dnb-radio__dot"
+                                                />
+                                              </span>
                                             </span>
                                           </span>
                                         </span>
                                       </span>
-                                    </span>
-                                  </Radio>
-                                </span>
-                                <span
-                                  aria-hidden={true}
-                                  className="dnb-button__alignment"
-                                  key="button-alignment"
-                                >
-                                  ‌
-                                </span>
-                                <span
-                                  className="dnb-button__text dnb-skeleton--show-font"
-                                  key="button-text"
-                                >
-                                  ToggleButton 2
-                                </span>
-                              </Content>
-                            </button>
-                            <FormStatus
-                              attributes={null}
-                              class={null}
-                              className={null}
-                              global_status_id={null}
-                              icon="error"
-                              icon_size="medium"
-                              id="toggle-button-2-form-status"
-                              label="ToggleButton 2"
-                              no_animation={null}
-                              role={null}
-                              show={null}
-                              size="default"
-                              skeleton={null}
-                              state="error"
-                              status="error"
-                              stretch={null}
-                              text={null}
-                              text_id="toggle-button-2-status"
-                              title={null}
-                              variant={null}
-                              width_element={null}
-                              width_selector={null}
-                            />
-                          </Button>
+                                    </Radio>
+                                  </span>
+                                  <span
+                                    aria-hidden={true}
+                                    className="dnb-button__alignment"
+                                    key="button-alignment"
+                                  >
+                                    ‌
+                                  </span>
+                                  <span
+                                    className="dnb-button__text dnb-skeleton--show-font"
+                                    key="button-text"
+                                  >
+                                    ToggleButton 2
+                                  </span>
+                                </Content>
+                              </button>
+                              <FormStatus
+                                attributes={null}
+                                class={null}
+                                className={null}
+                                global_status_id={null}
+                                icon="error"
+                                icon_size="medium"
+                                id="toggle-button-2-form-status"
+                                label="ToggleButton 2"
+                                no_animation={null}
+                                role={null}
+                                show={null}
+                                size="default"
+                                skeleton={null}
+                                state="error"
+                                status="error"
+                                stretch={null}
+                                text={null}
+                                text_id="toggle-button-2-status"
+                                title={null}
+                                variant={null}
+                                width_element={null}
+                                width_selector={null}
+                              />
+                            </Button>
+                          </span>
                         </span>
                       </span>
-                    </span>
-                  </ToggleButton>
+                    </ToggleButton>
+                  </span>
                 </span>
-              </span>
+              </div>
             </div>
-          </div>
+          </Section>
         </fieldset>
       </Fieldset>
     </FormRow>
@@ -1901,29 +1908,29 @@ legend.dnb-form-label {
   padding: 0 1rem;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 200ms ease-out; }
+  transition: opacity 200ms cubic-bezier(0.42, 0, 0, 1); }
   .dnb-tooltip--large {
     padding: 0.25rem 1rem; }
   .dnb-tooltip--animate_position {
-    transition: all 300ms ease-in-out, opacity 200ms ease-out; }
+    transition: all 200ms cubic-bezier(0.42, 0, 0, 1), opacity 200ms cubic-bezier(0.42, 0, 0, 1); }
   .dnb-tooltip--active {
     visibility: visible;
     /*
       because of the first \\"show\\" we also use animation
       also, use forwards because of the usage of visibility
     */
-    animation: show-tooltip 200ms ease-out forwards; }
+    animation: show-tooltip 200ms cubic-bezier(0.42, 0, 0, 1) forwards; }
   html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {
-    animation: show-tooltip 1ms ease-out forwards; }
+    animation: show-tooltip 1ms cubic-bezier(0.42, 0, 0, 1) forwards; }
   .dnb-tooltip--hide {
     visibility: visible;
-    animation: hide-tooltip 200ms ease-in-out forwards; }
+    animation: hide-tooltip 200ms cubic-bezier(0.42, 0, 0, 1) forwards; }
   .dnb-tooltip--hide.dnb-tooltip--no-animation {
-    animation: hide-tooltip 1ms ease-out forwards; }
+    animation: hide-tooltip 1ms linear forwards; }
   .dnb-tooltip--fixed {
     position: fixed; }
   html[data-visual-test] .dnb-tooltip--hide {
-    animation: hide-tooltip 1ms ease-out 1s forwards; }
+    animation: hide-tooltip 1ms linear 1s forwards; }
   .dnb-tooltip__portal {
     position: absolute;
     top: 0;

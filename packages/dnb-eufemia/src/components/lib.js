@@ -30,6 +30,7 @@ import FormStatus from './form-status/FormStatus'
 import GlobalError from './global-error/GlobalError'
 import GlobalStatus from './global-status/GlobalStatus'
 import Heading from './heading/Heading'
+import HeightAnimation from './height-animation/HeightAnimation'
 import HelpButton from './help-button/HelpButton'
 import Icon from './icon/Icon'
 import IconPrimary from './icon-primary/IconPrimary'
@@ -77,6 +78,7 @@ export {
   GlobalError,
   GlobalStatus,
   Heading,
+  HeightAnimation,
   HelpButton,
   Icon,
   IconPrimary,
@@ -125,6 +127,7 @@ export const getComponents = () => {
     GlobalError,
     GlobalStatus,
     Heading,
+    HeightAnimation,
     HelpButton,
     Icon,
     IconPrimary,

@@ -19,8 +19,8 @@ echo 'Building cjs bundle done!'
 
 echo 'Copy additional files to cjs ...'
 
-OUT_DIR=./build/cjs babel-node ./scripts/postbuild/copyTypeScriptFiles.js
-OUT_DIR=./build/cjs babel-node ./scripts/postbuild/copyStyles.js
+OUT_DIR=./build/cjs babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/copyTypeScriptFiles.js
+OUT_DIR=./build/cjs babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/copyStyles.js
 
 echo 'Copy extra cjs package.json ...'
 

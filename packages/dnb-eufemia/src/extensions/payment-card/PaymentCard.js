@@ -12,7 +12,7 @@ import {
   isTrue,
   registerElement,
   validateDOMAttributes,
-  extendPropsWithContext,
+  extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
 import {
   spacingPropTypes,
@@ -100,7 +100,7 @@ export default class PaymentCard extends React.PureComponent {
 
   render() {
     // use only the props from context, who are available here anyway
-    const props = extendPropsWithContext(
+    const props = extendPropsWithContextInClassComponent(
       this.props,
       PaymentCard.defaultProps,
       { locale: this.context.locale },
@@ -146,7 +146,7 @@ export default class PaymentCard extends React.PureComponent {
       <Provider locale={locale}>
         <Context.Consumer>
           {({ translation }) => {
-            const translations = extendPropsWithContext(
+            const translations = extendPropsWithContextInClassComponent(
               this.props,
               translationDefaultPropsProps,
               translation.PaymentCard

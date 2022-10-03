@@ -65,6 +65,33 @@ const DidRender = ({ message }) => {
   return <></>
 }
 
+export const NestedAccordion = () => {
+  return (
+    <Wrapper>
+      <Box>
+        <Accordion id="nested-accordion" title="Accordion" expanded space>
+          <P space={0}>Content A</P>
+          <Accordion
+            id="nested-accordion-1"
+            title="Accordion nested 1"
+            space
+          >
+            <P space={0}>I'm nested 1</P>
+          </Accordion>
+          <P space={0}>Content B</P>
+          <Accordion
+            id="nested-accordion-2"
+            title="Accordion nested 2"
+            space
+          >
+            <P space={0}>I'm nested 2</P>
+          </Accordion>
+        </Accordion>
+      </Box>
+    </Wrapper>
+  )
+}
+
 export const AccordionSandbox = () => {
   return (
     <Wrapper>
@@ -324,7 +351,7 @@ function AccordionWithContainer() {
 }
 function ChangingContent({ changeHeight, children }) {
   const [contentSize, changeContentSize] = React.useState(false)
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     changeHeight.current.setContainerHeight()
   }, [changeHeight, contentSize])
   return (
@@ -338,6 +365,8 @@ function ChangingContent({ changeHeight, children }) {
       >
         Toggle content size
       </ToggleButton>
+
+      {String(contentSize)}
 
       {contentSize ? children : null}
     </>
