@@ -156,8 +156,19 @@ describe('Slider component', () => {
   })
 
   describe('Tooltip', () => {
+    beforeEach(() => {
+      document.body.innerHTML = ''
+    })
+
     it('shows always a Tooltip when alwaysShowTooltip is true', () => {
-      render(<Slider {...props} tooltip alwaysShowTooltip />)
+      render(
+        <Slider
+          {...props}
+          id="unique-tooltip-01"
+          tooltip
+          alwaysShowTooltip
+        />
+      )
 
       const tooltipElem = document.querySelector('.dnb-tooltip')
 
@@ -169,17 +180,22 @@ describe('Slider component', () => {
 
     it('shows Tooltip on hover with numberFormat', async () => {
       render(
-        <Slider {...props} numberFormat={{ currency: 'EUR' }} tooltip />
+        <Slider
+          {...props}
+          id="unique-tooltip-02"
+          numberFormat={{ currency: 'EUR' }}
+          tooltip
+        />
       )
 
       const mainElem = document.querySelector('.dnb-slider')
       const thumbElem = mainElem.querySelector(
         '.dnb-slider__thumb .dnb-button'
       )
-      const tooltipElem = document.querySelector('.dnb-tooltip')
+      const tooltipElem = () => document.querySelector('.dnb-tooltip')
 
-      expect(tooltipElem.textContent).toBe('70,00 €')
-      expect(Array.from(tooltipElem.classList)).toEqual(
+      expect(tooltipElem().textContent).toBe('70,00 €')
+      expect(Array.from(tooltipElem().classList)).toEqual(
         expect.arrayContaining(['dnb-tooltip'])
       )
 
@@ -187,17 +203,17 @@ describe('Slider component', () => {
 
       simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
-      expect(Array.from(tooltipElem.classList)).toEqual(
+      expect(Array.from(tooltipElem().classList)).toEqual(
         expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
       )
 
-      expect(tooltipElem.textContent).toBe('80,00 €')
+      expect(tooltipElem().textContent).toBe('80,00 €')
 
       fireEvent.mouseOut(thumbElem)
 
       await wait(1)
 
-      expect(Array.from(tooltipElem.classList)).toEqual(
+      expect(Array.from(tooltipElem().classList)).toEqual(
         expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--hide'])
       )
     })
@@ -206,6 +222,7 @@ describe('Slider component', () => {
       render(
         <Slider
           {...props}
+          id="unique-tooltip-03"
           numberFormat={(value) => format(value, { percent: true })}
           tooltip
           step={null}
@@ -216,10 +233,10 @@ describe('Slider component', () => {
       const thumbElem = mainElem.querySelector(
         '.dnb-slider__thumb .dnb-button'
       )
-      const tooltipElem = document.querySelector('.dnb-tooltip')
+      const tooltipElem = () => document.querySelector('.dnb-tooltip')
 
-      expect(tooltipElem.textContent).toBe('70 %')
-      expect(Array.from(tooltipElem.classList)).toEqual(
+      expect(tooltipElem().textContent).toBe('70 %')
+      expect(Array.from(tooltipElem().classList)).toEqual(
         expect.arrayContaining(['dnb-tooltip'])
       )
 
@@ -227,17 +244,17 @@ describe('Slider component', () => {
 
       simulateMouseMove({ pageX: 80.5, width: 100, height: 10 })
 
-      expect(Array.from(tooltipElem.classList)).toEqual(
+      expect(Array.from(tooltipElem().classList)).toEqual(
         expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
       )
 
-      expect(tooltipElem.textContent).toBe('80,5 %')
+      expect(tooltipElem().textContent).toBe('80,5 %')
 
       fireEvent.mouseOut(thumbElem)
 
       await wait(1)
 
-      expect(Array.from(tooltipElem.classList)).toEqual(
+      expect(Array.from(tooltipElem().classList)).toEqual(
         expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--hide'])
       )
     })

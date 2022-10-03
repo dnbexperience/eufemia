@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
 import { wait } from '@testing-library/user-event/dist/utils'
 import OriginalTooltip from '../Tooltip'
 import Anchor from '../../../elements/Anchor'
@@ -226,29 +226,38 @@ describe('Tooltip', () => {
 
       render(<Tooltip />)
 
-      const mainElem = document.body.querySelector('.dnb-tooltip')
+      const getMainElem = () => document.body.querySelector('.dnb-tooltip')
       const buttonElem = document.querySelector('button')
 
       fireEvent.mouseEnter(buttonElem)
 
-      expect(mainElem.classList.contains('dnb-tooltip--active')).toBe(true)
+      expect(getMainElem().classList.contains('dnb-tooltip--active')).toBe(
+        true
+      )
 
       fireEvent.mouseLeave(buttonElem)
       fireEvent.mouseEnter(buttonElem)
 
-      expect(mainElem.classList.contains('dnb-tooltip--active')).toBe(true)
+      expect(getMainElem().classList.contains('dnb-tooltip--active')).toBe(
+        true
+      )
 
       fireEvent.mouseLeave(buttonElem)
 
-      expect(mainElem.classList.contains('dnb-tooltip--hide')).toBe(true)
+      expect(getMainElem().classList.contains('dnb-tooltip--active')).toBe(
+        false
+      )
+      expect(getMainElem().classList.contains('dnb-tooltip--hide')).toBe(
+        true
+      )
     })
 
     it('should set animate_position class', () => {
       render(<Tooltip animatePosition active />)
 
-      const mainElem = document.body.querySelector('.dnb-tooltip')
+      const getMainElem = () => document.body.querySelector('.dnb-tooltip')
 
-      expect(Array.from(mainElem.classList)).toEqual(
+      expect(Array.from(getMainElem().classList)).toEqual(
         expect.arrayContaining([
           'dnb-tooltip',
           'dnb-tooltip--active',
@@ -260,9 +269,9 @@ describe('Tooltip', () => {
     it('should set fixed class', () => {
       render(<Tooltip fixedPosition active />)
 
-      const mainElem = document.body.querySelector('.dnb-tooltip')
+      const getMainElem = () => document.body.querySelector('.dnb-tooltip')
 
-      expect(Array.from(mainElem.classList)).toEqual(
+      expect(Array.from(getMainElem().classList)).toEqual(
         expect.arrayContaining([
           'dnb-tooltip',
           'dnb-tooltip--active',
@@ -302,30 +311,33 @@ describe('Tooltip', () => {
       it('should only have one tooltip', () => {
         render(<GroupTooltip />)
 
-        const allElements = document.body.querySelectorAll('.dnb-tooltip')
-        const mainElem = allElements[0]
+        const allElements = () =>
+          document.body.querySelectorAll('.dnb-tooltip')
+        const getMainElem = () => allElements()[0]
         const buttonA = document.querySelector('button#a')
         const buttonB = document.querySelector('button#b')
 
-        expect(allElements).toHaveLength(1)
+        expect(allElements()).toHaveLength(0)
 
         fireEvent.mouseEnter(buttonA)
 
-        expect(mainElem.textContent).toBe('Tooltip A')
-        expect(mainElem.classList.contains('dnb-tooltip--active')).toBe(
-          true
-        )
+        expect(getMainElem().textContent).toBe('Tooltip A')
+        expect(
+          getMainElem().classList.contains('dnb-tooltip--active')
+        ).toBe(true)
 
         fireEvent.mouseEnter(buttonB)
 
-        expect(mainElem.textContent).toBe('Tooltip B')
-        expect(mainElem.classList.contains('dnb-tooltip--active')).toBe(
-          true
-        )
+        expect(getMainElem().textContent).toBe('Tooltip B')
+        expect(
+          getMainElem().classList.contains('dnb-tooltip--active')
+        ).toBe(true)
 
         fireEvent.mouseLeave(buttonB)
 
-        expect(mainElem.classList.contains('dnb-tooltip--hide')).toBe(true)
+        expect(getMainElem().classList.contains('dnb-tooltip--hide')).toBe(
+          true
+        )
       })
     })
 
@@ -356,34 +368,36 @@ describe('Tooltip', () => {
         </Anchor>
       )
 
-      // hover
-      document
-        .querySelector('a')
-        .dispatchEvent(new MouseEvent('mouseenter'))
+      await act(async () => {
+        // hover
+        document
+          .querySelector('a')
+          .dispatchEvent(new MouseEvent('mouseenter'))
 
-      await wait(100)
+        await wait(100)
 
-      const id = document
-        .querySelector('a')
-        .getAttribute('aria-describedby')
-      expect(
-        document.body
-          .querySelector('#' + id)
-          .parentElement.classList.contains('dnb-tooltip--active')
-      ).toBe(true)
+        const id = document
+          .querySelector('a')
+          .getAttribute('aria-describedby')
+        expect(
+          document.body
+            .querySelector('#' + id)
+            .parentElement.classList.contains('dnb-tooltip--active')
+        ).toBe(true)
 
-      // leave hover
-      document
-        .querySelector('a')
-        .dispatchEvent(new MouseEvent('mouseleave'))
+        // leave hover
+        document
+          .querySelector('a')
+          .dispatchEvent(new MouseEvent('mouseleave'))
 
-      await wait(600)
+        await wait(600)
 
-      expect(
-        document.body
-          .querySelector('#' + id)
-          .parentElement.classList.contains('dnb-tooltip--active')
-      ).toBe(false)
+        expect(
+          document.body
+            .querySelector('#' + id)
+            .parentElement.classList.contains('dnb-tooltip--active')
+        ).toBe(false)
+      })
     })
 
     it('has to be visible on focus event dispatch', async () => {
@@ -393,18 +407,23 @@ describe('Tooltip', () => {
         </Anchor>
       )
 
-      document.documentElement.setAttribute('data-whatintent', 'keyboard')
-      const inst = document.querySelector('a')
-      inst.dispatchEvent(new Event('focus'))
+      await act(async () => {
+        document.documentElement.setAttribute(
+          'data-whatintent',
+          'keyboard'
+        )
+        const inst = document.querySelector('a')
+        inst.dispatchEvent(new Event('focus'))
 
-      await wait(400) // because of visibility delay
+        await wait(400) // because of visibility delay
 
-      const id = inst.getAttribute('aria-describedby')
-      expect(
-        document.body
-          .querySelector('#' + id)
-          .parentElement.classList.contains('dnb-tooltip--active')
-      ).toBe(true)
+        const id = inst.getAttribute('aria-describedby')
+        expect(
+          document.body
+            .querySelector('#' + id)
+            .parentElement.classList.contains('dnb-tooltip--active')
+        ).toBe(true)
+      })
     })
   })
 })

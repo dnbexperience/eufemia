@@ -5,7 +5,12 @@
 
 import React from 'react'
 import { combineDescribedBy, warn } from '../../shared/component-helper'
-import { injectTooltipSemantic } from './TooltipHelpers'
+import {
+  getRefElement,
+  injectTooltipSemantic,
+  isTouch,
+  useHandleAria,
+} from './TooltipHelpers'
 import TooltipPortal from './TooltipPortal'
 import { TooltipProps } from './types'
 
@@ -173,6 +178,8 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [target])
 
+  useHandleAria(target, props.internalId)
+
   return (
     <>
       {componentWrapper}
@@ -181,6 +188,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
           key="tooltip"
           active={isActive}
           target={targetRef.current}
+          keepInDOM // because of useHandleAria
           {...restProps}
         >
           {children}
@@ -191,25 +199,3 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 }
 
 export default TooltipWithEvents
-
-const isTouch = (type: string) => {
-  return /touch/i.test(type)
-}
-
-function getRefElement(target: React.RefObject<HTMLElement>) {
-  const unknownTarget = target as unknown as React.RefObject<{
-    _ref: React.RefObject<HTMLElement>
-  }>
-  let element = target as HTMLElement | React.RefObject<HTMLElement>
-
-  // "_ref" is set inside e.g. the Button component (among many others)
-  if (unknownTarget?.current?._ref) {
-    element = getRefElement(unknownTarget.current._ref)
-  }
-
-  if (Object.prototype.hasOwnProperty.call(element, 'current')) {
-    element = (element as React.RefObject<HTMLElement>).current
-  }
-
-  return element as HTMLElement
-}

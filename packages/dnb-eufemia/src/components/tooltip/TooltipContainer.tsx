@@ -92,18 +92,19 @@ export default function TooltipContainer(
   }, [isActive])
 
   React.useLayoutEffect(() => {
+    const element = elementRef?.current
     const { targetElement: target, align, fixedPosition } = props
 
     if (
       typeof window === 'undefined' ||
-      !elementRef.current ||
+      !element ||
       !target?.getBoundingClientRect
     ) {
       return // stop here
     }
 
-    const elementWidth = elementRef.current.offsetWidth
-    const elementHeight = elementRef.current.offsetHeight
+    const elementWidth = element.offsetWidth
+    const elementHeight = element.offsetHeight
 
     let alignOffset = 0
 
@@ -131,7 +132,7 @@ export default function TooltipContainer(
     const mousePos =
       getOffsetLeft(target) +
       rect.left / 2 +
-      (elementRef.current ? elementRef.current.offsetWidth : 0)
+      (element ? element.offsetWidth : 0)
     const widthBased = scrollX + rect.left
     const left =
       useMouseWhen && mousePos < targetBodySize.width
@@ -217,7 +218,7 @@ export default function TooltipContainer(
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isActive, hover, arrow, position, children, renewStyles])
+  }, [isActive, arrow, position, children, renewStyles])
 
   const handleMouseEnter = () => {
     if (isTrue(active) && useHover !== false) {
