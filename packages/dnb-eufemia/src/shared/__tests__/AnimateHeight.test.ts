@@ -90,6 +90,20 @@ describe('AnimateHeight', () => {
     expect(container.getAttribute('style')).toBe('min-height: 300px;')
   })
 
+  it('reset should remove CSS styles', () => {
+    const inst = new AnimateHeight()
+    inst.setElement(element)
+    inst.open({ animate: false })
+
+    expect(element.getAttribute('style')).toBe('height: auto;')
+    expect(inst.state).toBe('opened')
+
+    inst.reset()
+
+    expect(element.getAttribute('style')).toBe('')
+    expect(inst.state).toBe('init')
+  })
+
   it('_restore should remove CSS styles', () => {
     const inst = new AnimateHeight()
     inst.setElement(element)

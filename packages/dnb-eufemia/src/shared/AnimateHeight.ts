@@ -75,6 +75,12 @@ export default class AnimateHeight {
       }
     })
   }
+  reset() {
+    this.state = 'init'
+    this.isAnimating = false
+    this._removeEndEvents()
+    this._restore()
+  }
   _restore() {
     if (this.elem.parentElement) {
       this.elem.parentElement.style.position = ''
