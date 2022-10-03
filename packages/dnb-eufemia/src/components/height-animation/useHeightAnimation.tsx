@@ -20,12 +20,17 @@ export type useHeightAnimationOptions = {
   children?: React.ReactNode | HTMLElement
 
   /**
+   * Is called once before mounting the component (useLayoutEffect)
+   */
+  onInit?: (instance: AnimateHeight) => void
+
+  /**
    * Is called when fully opened or closed
    */
   onOpen?: (isOpen: boolean) => void
 
   /**
-   * Is called when animation is done and the full height has reached
+   * Is called when animation is done and the full height is reached.
    */
   onAnimationEnd?: (state: HeightAnimationOnEndTypes) => void
 }
@@ -43,11 +48,12 @@ export function useHeightAnimation(
     open = null,
     animate = true,
     children = null,
+    onInit = null,
     onOpen = null,
     onAnimationEnd = null,
   }: useHeightAnimationOptions = {}
 ) {
-  const animRef = React.useRef(null)
+  const animRef = React.useRef<AnimateHeight>(null)
   const [isOpen, setIsOpen] = React.useState(open)
   const [isVisible, setIsVisible] = React.useState(false)
   const [isAnimating, setIsAnimating] = React.useState(false)
@@ -62,6 +68,10 @@ export function useHeightAnimation(
 
   React.useLayoutEffect(() => {
     animRef.current = new AnimateHeight({ animate })
+
+    if (isInitialRender && onInit) {
+      onInit(animRef.current)
+    }
 
     if (isInitialRender && isOpen) {
       onOpen?.(true)

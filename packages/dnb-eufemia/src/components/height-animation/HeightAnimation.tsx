@@ -44,6 +44,7 @@ export default function HeightAnimation({
   className,
   innerRef,
   children,
+  onInit = null,
   onOpen = null,
   onAnimationEnd = null,
   ...props
@@ -55,6 +56,7 @@ export default function HeightAnimation({
       open,
       animate,
       children,
+      onInit,
       onOpen,
       onAnimationEnd,
     })
