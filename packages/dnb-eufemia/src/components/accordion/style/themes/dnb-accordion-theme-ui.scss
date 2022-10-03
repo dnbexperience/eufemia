@@ -9,28 +9,25 @@
 .dnb-accordion {
   &__header {
     border: none;
-
-    &__icon,
-    &__container {
-      color: var(--color-emerald-green);
-    }
-
-    &__description {
-      color: var(--color-black-55);
-    }
+  }
+  > &__header &__header__icon,
+  > &__header &__header__container {
+    color: var(--color-emerald-green);
   }
 
-  &--expanded &__header {
-    &__title {
-      font-weight: var(--font-weight-medium);
-    }
+  > &__header &__header__description {
+    color: var(--color-black-55);
+  }
+
+  &--expanded > &__header &__header__title {
+    font-weight: var(--font-weight-medium);
   }
 
   // &__variant--default {
   // }
 
   // Variant: outlined
-  &__variant--outlined &__header {
+  &__variant--outlined > &__header {
     color: var(--color-black-80);
     background-color: var(--color-white);
 
@@ -44,49 +41,52 @@
 
       @include fakeBorder(var(--color-emerald-green), 0.0625rem);
     }
-
-    &[disabled] {
-      background-color: var(--color-white);
-      @include fakeBorder(var(--color-sea-green-30), 0.0625rem);
-      * {
-        color: var(--color-sea-green-30);
-      }
+  }
+  &__variant--outlined > &__header &__header[disabled] {
+    background-color: var(--color-white);
+    @include fakeBorder(var(--color-sea-green-30), 0.0625rem);
+    * {
+      color: var(--color-sea-green-30);
     }
   }
-  &__variant--outlined#{&}--expanded &__header {
+  &__variant--outlined#{&}--expanded > &__header {
     color: var(--color-white);
     background-color: var(--color-sea-green);
 
     @include fakeBorder(transparent);
-
-    &[disabled] {
-      background-color: var(--color-sea-green-30);
-      * {
-        color: var(--color-white);
-      }
-    }
-
-    // Additional focus handling
-    html[data-whatinput='keyboard']
-      &:not([disabled]):not(:active):not(:hover):focus {
-      background-color: var(--color-mint-green);
-      * {
-        color: var(--color-emerald-green);
-      }
-    }
-    &:not([disabled]):not(:active):not(:hover):focus {
-      @include fakeFocus(null, var(--color-emerald-green), inset);
+  }
+  &__variant--outlined#{&}--expanded > &__header &__header[disabled] {
+    background-color: var(--color-sea-green-30);
+    * {
+      color: var(--color-white);
     }
   }
 
+  // Additional focus handling
   &__variant--outlined#{&}--expanded
+    > &__header
+    html[data-whatinput='keyboard']
+    &__header:not([disabled]):not(:active):not(:hover):focus {
+    background-color: var(--color-mint-green);
+    * {
+      color: var(--color-emerald-green);
+    }
+  }
+  &__variant--outlined#{&}--expanded
+    > &__header
+    &__header:not([disabled]):not(:active):not(:hover):focus {
+    @include fakeFocus(null, var(--color-emerald-green), inset);
+  }
+
+  &__variant--outlined#{&}--expanded
+    > &__header
     &__header:not(:hover):not([disabled]) {
     * {
       color: var(--color-white);
     }
   }
   // we have this hover variant, because of the default html focus/hover handling
-  &__variant--outlined#{&}--expanded &__header#{&}--hover:not(:active) {
+  &__variant--outlined#{&}--expanded > &__header#{&}--hover:not(:active) {
     @include hover {
       color: var(--color-white);
       background-color: var(--color-sea-green);

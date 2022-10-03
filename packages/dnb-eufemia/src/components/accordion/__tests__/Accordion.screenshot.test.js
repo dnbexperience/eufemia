@@ -53,6 +53,15 @@ describe('Accordion closed screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match accordion in nested accordions', async () => {
+    const screenshot = await testPageScreenshot({
+      style: { width: '20rem', height: '25rem' },
+      selector: '[data-visual-test="accordion-nested"]',
+      simulateSelector: '[data-visual-test="accordion-nested"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('Accordion container screenshot', () => {
