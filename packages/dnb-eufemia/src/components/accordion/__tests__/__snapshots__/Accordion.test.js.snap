@@ -267,15 +267,15 @@ exports[`Accordion scss have to match default theme snapshot 1`] = `
       html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined > .dnb-accordion__header:active:not([disabled]) {
         box-shadow: 0 0 0 0.0625rem var(--color-emerald-green); } }
 
-.dnb-accordion__variant--outlined > .dnb-accordion__header .dnb-accordion__header[disabled] {
+.dnb-accordion__variant--outlined > .dnb-accordion__header[disabled] {
   background-color: var(--color-white);
   --border-color: var(--color-sea-green-30);
   box-shadow: 0 0 0 0.0625rem var(--border-color);
   border-color: transparent; }
   @media screen and (-ms-high-contrast: none) {
-    .dnb-accordion__variant--outlined > .dnb-accordion__header .dnb-accordion__header[disabled] {
+    .dnb-accordion__variant--outlined > .dnb-accordion__header[disabled] {
       box-shadow: 0 0 0 0.0625rem var(--color-sea-green-30); } }
-  .dnb-accordion__variant--outlined > .dnb-accordion__header .dnb-accordion__header[disabled] * {
+  .dnb-accordion__variant--outlined > .dnb-accordion__header[disabled] * {
     color: var(--color-sea-green-30); }
 
 .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header {
@@ -288,9 +288,9 @@ exports[`Accordion scss have to match default theme snapshot 1`] = `
     .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header {
       box-shadow: 0 0 0 0.0625rem transparent; } }
 
-.dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header .dnb-accordion__header[disabled] {
+.dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header[disabled] {
   background-color: var(--color-sea-green-30); }
-  .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header .dnb-accordion__header[disabled] * {
+  .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header[disabled] * {
     color: var(--color-white); }
 
 .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header html[data-whatinput='keyboard']

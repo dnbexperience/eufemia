@@ -42,7 +42,7 @@
       @include fakeBorder(var(--color-emerald-green), 0.0625rem);
     }
   }
-  &__variant--outlined > &__header &__header[disabled] {
+  &__variant--outlined > &__header[disabled] {
     background-color: var(--color-white);
     @include fakeBorder(var(--color-sea-green-30), 0.0625rem);
     * {
@@ -55,7 +55,7 @@
 
     @include fakeBorder(transparent);
   }
-  &__variant--outlined#{&}--expanded > &__header &__header[disabled] {
+  &__variant--outlined#{&}--expanded > &__header[disabled] {
     background-color: var(--color-sea-green-30);
     * {
       color: var(--color-white);
