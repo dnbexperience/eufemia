@@ -1,7 +1,7 @@
 import React from 'react'
 import AnimateHeight from '../../shared/AnimateHeight'
 
-type useHeightAnimationOptions = {
+export type useHeightAnimationOptions = {
   /**
    * Set to `true` when the view should animate from 0px to auto.
    * Default: false
@@ -17,17 +17,15 @@ type useHeightAnimationOptions = {
   /**
    * In order to let the Hook know when children has changed
    */
-  children?: React.ReactNode
+  children?: React.ReactNode | HTMLElement
 
   /**
    * Is called when fully opened or closed
-   * Default: null
    */
   onOpen?: (isOpen: boolean) => void
 
   /**
    * Is called when animation is done and the full height has reached
-   * Default: null
    */
   onAnimationEnd?: (state: HeightAnimationOnEndTypes) => void
 }

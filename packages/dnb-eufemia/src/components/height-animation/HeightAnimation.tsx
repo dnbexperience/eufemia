@@ -1,22 +1,13 @@
 import React from 'react'
 import classnames from 'classnames'
 import { DynamicElement, ISpacingProps } from '../../shared/interfaces'
-import { useHeightAnimation } from './useHeightAnimation'
+import {
+  useHeightAnimation,
+  useHeightAnimationOptions,
+} from './useHeightAnimation'
 import Space from '../space/Space'
 
 export type HeightAnimationProps = {
-  /**
-   * Set to `true` when the view should animate from 0px to auto.
-   * Default: false
-   */
-  open: boolean
-
-  /**
-   * Set to `false` to omit the animation.
-   * Default: true
-   */
-  animate?: boolean
-
   /**
    * Wheter the nested children content should be kept in the DOM or not.
    * Default: false
@@ -41,21 +32,8 @@ export type HeightAnimationProps = {
    */
   innerRef?: React.RefObject<HTMLElement>
 
-  /**
-   * Is called when fully opened or closed
-   * Default: null
-   */
-  onOpen?: (isOpen: boolean) => void
-
-  /**
-   * Is called when animation is done and the full height has reached
-   * Default: null
-   */
-  onAnimationEnd?: () => void
-
   className?: React.ReactNode
-  children?: React.ReactNode | HTMLElement
-}
+} & useHeightAnimationOptions
 
 export default function HeightAnimation({
   open = false,
