@@ -1,7 +1,10 @@
 import React from 'react'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import Section from '../section/Section'
-import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem'
+import BreadcrumbItem from './BreadcrumbItem'
+
+// Types
+import type { BreadcrumbItemProps } from './types'
 
 type BreadcrumbMultipleProps = {
   isCollapsed: boolean
@@ -29,7 +32,6 @@ export const BreadcrumbMultiple = ({
         style_type="transparent"
       >
         {data?.map((breadcrumbItem, i) => {
-          const style = { '--delay': String(i) } as React.CSSProperties
           return (
             <BreadcrumbItem
               key={`${breadcrumbItem.text}`}
@@ -38,7 +40,6 @@ export const BreadcrumbMultiple = ({
                 (i == data.length - 1 && 'current') ||
                 null
               }
-              style={style}
               {...breadcrumbItem}
             />
           )

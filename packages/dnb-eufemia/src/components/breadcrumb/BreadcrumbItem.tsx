@@ -12,48 +12,15 @@ import homeIcon from '../../icons/home'
 
 // Shared
 import Context from '../../shared/Context'
-import { SkeletonShow } from '../skeleton/Skeleton'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
-export interface BreadcrumbItemProps {
-  /**
-   * Text displaying the title of the item's corresponding page
-   * Default: If variant='home', default is "Home". Otherwise it is required.
-   */
-  text?: React.ReactNode
+// Types
+import type {
+  BreadcrumbItemProps,
+  BreadcrumbItemProviderProps,
+} from './types'
 
-  /**
-   * Icon displaying on the left side
-   * Default: HomeIcon / chevron_left
-   */
-  icon?: IconPrimaryIcon
-
-  /**
-   * Href should be the link to the item's corresponding page.
-   * Default: null
-   */
-  href?: string
-
-  /**
-   * Set a custom click event. In this case, you should not define the prop href.
-   * Default: null
-   */
-  onClick?: React.MouseEventHandler<HTMLButtonElement>
-
-  /**
-   * The component variant. Variant 'current' should correspond to the current page and 'home' to the root page.
-   * Default: null
-   */
-  variant?: 'home' | 'previous' | 'current'
-
-  /**
-   * Skeleton should be applied when loading content
-   * Default: null
-   */
-  skeleton?: SkeletonShow
-
-  style?: React.CSSProperties
-}
+export type { BreadcrumbItemProps } from './types'
 
 const defaultProps = {
   text: null,
@@ -74,7 +41,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   } = context
 
   // Extract additional props from global context
-  const { text, href, icon, onClick, variant, skeleton, style, ...props } =
+  const { text, href, icon, onClick, variant, skeleton, ...props } =
     extendPropsWithContext(
       localProps,
       defaultProps,
@@ -86,12 +53,16 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   const currentText = text || (variant === 'home' && homeText) || ''
   const isInteractive = (href || onClick) && variant !== 'current'
 
+  const elementRef = React.useRef()
+  const style = useDelayStyle(elementRef)
+
   return (
     <li
       className="dnb-breadcrumb__item"
       data-testid="breadcrumb-item"
       aria-current={variant === 'current' ? 'page' : undefined}
       style={style}
+      ref={elementRef}
     >
       {isInteractive ? (
         <Button
@@ -117,6 +88,48 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
       )}
     </li>
   )
+}
+
+export const BreadcrumbItemContext =
+  React.createContext<BreadcrumbItemProviderProps>({
+    memoRef: { current: { count: 0 } },
+  })
+
+export function BreadcrumbItemProvider({
+  children,
+  ...props
+}: BreadcrumbItemProviderProps) {
+  const memoRef = React.useRef({ count: 0 })
+
+  return (
+    <BreadcrumbItemContext.Provider value={{ memoRef, ...props }}>
+      {children}
+    </BreadcrumbItemContext.Provider>
+  )
+}
+
+function useDelayStyle(elementRef: React.RefObject<HTMLSpanElement>) {
+  const { memoRef, currentVariant } = React.useContext(
+    BreadcrumbItemContext
+  )
+  const [style, setStyle] = React.useState<React.CSSProperties>(null)
+
+  React.useLayoutEffect(() => {
+    if (currentVariant === 'collapse') {
+      const text = elementRef.current.textContent
+      memoRef.current[text] = memoRef.current[text] || {
+        count: memoRef.current.count++,
+      }
+
+      const style = {
+        '--delay': String(memoRef.current[text].count),
+      } as React.CSSProperties
+
+      setStyle(style)
+    }
+  }, [elementRef, memoRef, currentVariant])
+
+  return style
 }
 
 export default BreadcrumbItem
