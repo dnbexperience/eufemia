@@ -80,6 +80,9 @@ const StyledSection = styled(Section)`
     padding: 4rem 0;
   }
 
+  .dnb-height-animation--hidden {
+    display: none;
+  }
   .dnb-height-animation--parallax .content-element {
     transform: translateY(0);
   }
