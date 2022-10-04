@@ -11,7 +11,7 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import { ISpacingProps } from '../../shared/interfaces'
+import { SpacingProps } from '../../shared/types'
 import { SkeletonShow } from '../skeleton/Skeleton'
 
 export interface AvatarGroupProps {
@@ -70,7 +70,7 @@ export const defaultProps = {
 
 export const AvatarGroupContext = React.createContext(null)
 
-const AvatarGroup = (localProps: AvatarGroupProps & ISpacingProps) => {
+const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context

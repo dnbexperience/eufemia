@@ -6,7 +6,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 
 // Shared
 import Context from '../../shared/Context'
-import { ISpacingProps } from '../../shared/interfaces'
+import { SpacingProps } from '../../shared/types'
 import { SkeletonShow } from '../skeleton/Skeleton'
 
 // Internal
@@ -51,7 +51,7 @@ export const defaultProps = {
   children: null,
 }
 
-const Timeline = (localProps: TimelineProps & ISpacingProps) => {
+const Timeline = (localProps: TimelineProps & SpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
 

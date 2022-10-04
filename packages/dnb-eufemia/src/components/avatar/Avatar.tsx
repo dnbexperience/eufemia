@@ -10,7 +10,7 @@ import Img, { ImgProps } from '../../elements/Img'
 
 // Shared
 import Context from '../../shared/Context'
-import { ISpacingProps } from '../../shared/interfaces'
+import { SpacingProps } from '../../shared/types'
 import { SkeletonShow } from '../skeleton/Skeleton'
 import {
   validateDOMAttributes,
@@ -87,7 +87,7 @@ export const defaultProps = {
   skeleton: false,
 }
 
-const Avatar = (localProps: AvatarProps & ISpacingProps) => {
+const Avatar = (localProps: AvatarProps & SpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   const avatarGroupContext = React.useContext(AvatarGroupContext)

@@ -11,7 +11,7 @@ import {
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import { createSpacingClasses } from '../../components/space/SpacingHelper'
-import { ISpacingProps } from '../../shared/interfaces'
+import { SpacingProps } from '../../shared/types'
 import { includeValidProps } from '../../components/form-row/FormRowHelpers'
 
 export type ScrollViewProps = {
@@ -19,7 +19,7 @@ export type ScrollViewProps = {
   children?: React.ReactNode
   style?: React.CSSProperties
   innerRef?: React.ForwardedRef<unknown>
-} & ISpacingProps &
+} & SpacingProps &
   Partial<Omit<React.HTMLAttributes<HTMLDivElement>, 'title'>>
 
 const defaultProps = {

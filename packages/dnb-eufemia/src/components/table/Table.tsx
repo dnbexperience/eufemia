@@ -7,7 +7,7 @@ import Provider from '../../shared/Provider'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { SkeletonShow } from '../skeleton/Skeleton'
-import { ISpacingProps } from '../../shared/interfaces'
+import { SpacingProps } from '../../shared/types'
 import {
   validateDOMAttributes,
   extendPropsWithContext,
@@ -62,7 +62,7 @@ export const defaultProps = {
 const Table = (
   componentProps: TableProps &
     React.TableHTMLAttributes<HTMLTableElement> &
-    ISpacingProps
+    SpacingProps
 ) => {
   const context = React.useContext(Context)
 

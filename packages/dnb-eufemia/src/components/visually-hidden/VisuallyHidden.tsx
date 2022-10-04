@@ -4,7 +4,7 @@ import classnames from 'classnames'
 // Shared
 import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
-import { DynamicElement } from '../../shared/interfaces'
+import { DynamicElement } from '../../shared/types'
 
 export interface VisuallyHiddenProps {
   /**

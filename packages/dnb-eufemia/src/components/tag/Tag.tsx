@@ -7,7 +7,7 @@ import Button, { ButtonProps } from '../button/Button'
 
 // Shared
 import Context from '../../shared/Context'
-import { ISpacingProps } from '../../shared/interfaces'
+import { SpacingProps } from '../../shared/types'
 import { SkeletonShow } from '../skeleton/Skeleton'
 import {
   warn,
@@ -86,7 +86,7 @@ export const defaultProps = {
   omitOnKeyUpDeleteEvent: false,
 }
 
-const Tag = (localProps: TagProps & ISpacingProps) => {
+const Tag = (localProps: TagProps & SpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   const tagGroupContext = React.useContext(TagGroupContext)

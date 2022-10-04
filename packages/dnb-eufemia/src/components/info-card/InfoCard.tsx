@@ -17,7 +17,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { SkeletonShow } from '../skeleton/Skeleton'
 import Context from '../../shared/Context'
-import { ISpacingProps } from '../../shared/interfaces'
+import { SpacingProps } from '../../shared/types'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
 export interface InfoCardProps {
@@ -104,7 +104,7 @@ export const defaultProps = {
   icon: LightbulbIcon,
 }
 
-const InfoCard = (localProps: InfoCardProps & ISpacingProps) => {
+const InfoCard = (localProps: InfoCardProps & SpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context
