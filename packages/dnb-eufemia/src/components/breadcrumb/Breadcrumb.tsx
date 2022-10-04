@@ -43,13 +43,13 @@ export interface BreadcrumbProps {
    * Pass in a list of your pages as objects of breadcrumbitem to render them as breadcrumbitems.
    * Default: null
    */
-  data?: BreadcrumbItemProps[]
+  data?: Array<BreadcrumbItemProps>
 
   /**
    * The content of the component. Can be used instead of prop "data".
    * Default: null
    */
-  children?: React.ReactNode // ReactNode allows multiple elements, strings, numbers, fragments, portals...
+  children?: Array<React.ReactElement<BreadcrumbItemProps>>
 
   /**
    * The variant of the component.

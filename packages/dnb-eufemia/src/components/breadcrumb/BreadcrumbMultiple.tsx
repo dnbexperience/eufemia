@@ -7,7 +7,7 @@ type BreadcrumbMultipleProps = {
   isCollapsed: boolean
   noAnimation: boolean
   data: Array<BreadcrumbItemProps>
-  items: React.ReactNode
+  items: Array<React.ReactElement<BreadcrumbItemProps>>
 }
 
 export const BreadcrumbMultiple = ({
@@ -29,7 +29,6 @@ export const BreadcrumbMultiple = ({
         style_type="transparent"
       >
         {data?.map((breadcrumbItem, i) => {
-          const style = { '--delay': String(i) } as React.CSSProperties
           return (
             <BreadcrumbItem
               key={`${breadcrumbItem.text}`}
@@ -38,13 +37,15 @@ export const BreadcrumbMultiple = ({
                 (i == data.length - 1 && 'current') ||
                 null
               }
-              style={style}
+              itemNr={i}
               {...breadcrumbItem}
             />
           )
         })}
 
-        {items}
+        {items?.map((item, i) =>
+          React.cloneElement(item, { key: i, itemNr: i })
+        )}
       </Section>
     </HeightAnimation>
   )
