@@ -210,7 +210,7 @@ describe('Accordion store API', () => {
 })
 
 describe('Accordion group component', () => {
-  it('has to inherit expanded from gorup', () => {
+  it('has to inherit expanded from group', () => {
     render(
       <Accordion.Group expanded id="group">
         <Accordion id="accordion-1" title="Accordion 1">
