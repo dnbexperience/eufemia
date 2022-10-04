@@ -37,7 +37,7 @@ describe('Accordion closed screenshot', () => {
       style: { width: '20rem', height: '20rem' },
       selector: '[data-visual-test="accordion-default"]',
       simulateSelector:
-        '[data-visual-test="accordion-default"] .dnb-accordion__header',
+        '[data-visual-test="accordion-default"] .dnb-accordion:nth-of-type(1) .dnb-accordion__header',
       simulate: 'focus',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -48,7 +48,7 @@ describe('Accordion closed screenshot', () => {
       style: { width: '20rem', height: '20rem' },
       selector: '[data-visual-test="accordion-default"]',
       simulateSelector:
-        '[data-visual-test="accordion-default"] .dnb-accordion__header',
+        '[data-visual-test="accordion-default"] .dnb-accordion:nth-of-type(1) .dnb-accordion__header',
       simulate: 'clickfocus',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -58,7 +58,14 @@ describe('Accordion closed screenshot', () => {
     const screenshot = await testPageScreenshot({
       style: { width: '20rem', height: '25rem' },
       selector: '[data-visual-test="accordion-nested"]',
-      simulateSelector: '[data-visual-test="accordion-nested"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match accordion with large content', async () => {
+    const screenshot = await testPageScreenshot({
+      style: { width: '20rem', height: '13rem' },
+      selector: '[data-visual-test="accordion-large"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
