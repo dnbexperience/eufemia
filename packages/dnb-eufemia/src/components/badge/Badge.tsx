@@ -7,7 +7,7 @@ import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
 // Shared
 import Context from '../../shared/Context'
-import { ISpacingProps } from '../../shared/interfaces'
+import { SpacingProps } from '../../shared/types'
 import { SkeletonShow } from '../skeleton/Skeleton'
 import {
   warn,
@@ -64,7 +64,7 @@ export interface BadgeProps {
   variant?: 'information' | 'notification'
 }
 
-type BadgeAndISpacingProps = BadgeProps & ISpacingProps
+type BadgeAndSpacingProps = BadgeProps & SpacingProps
 
 export const defaultProps = {
   label: null,
@@ -77,7 +77,7 @@ export const defaultProps = {
   variant: 'information',
 }
 
-function Badge(localProps: BadgeAndISpacingProps) {
+function Badge(localProps: BadgeAndSpacingProps) {
   // Every component should have a context
   const context = React.useContext(Context)
 
@@ -94,7 +94,7 @@ function Badge(localProps: BadgeAndISpacingProps) {
     </span>
   )
 
-  const BadgeElem = (localProps: BadgeAndISpacingProps) => {
+  const BadgeElem = (localProps: BadgeAndSpacingProps) => {
     const {
       label,
       className,

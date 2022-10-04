@@ -5,7 +5,7 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import { ISpacingProps } from '../shared/interfaces'
+import { SpacingProps } from '../shared/types'
 import E from './Element'
 
 export type DlProps = {
@@ -22,7 +22,7 @@ const Dl = ({
   direction,
   ...props
 }: DlProps &
-  ISpacingProps &
+  SpacingProps &
   Partial<Omit<HTMLDListElement, 'children'>>) => {
   if (direction) {
     props.className = classnames(

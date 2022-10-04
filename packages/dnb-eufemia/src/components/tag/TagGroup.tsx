@@ -10,7 +10,7 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import { ISpacingProps } from '../../shared/interfaces'
+import { SpacingProps } from '../../shared/types'
 import { TagGroupContext } from './TagContext'
 import { SkeletonShow } from '../skeleton/Skeleton'
 
@@ -47,7 +47,7 @@ export const defaultProps = {
   skeleton: false,
 }
 
-const TagGroup = (localProps: TagGroupProps & ISpacingProps) => {
+const TagGroup = (localProps: TagGroupProps & SpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   // Extract additional props from global context

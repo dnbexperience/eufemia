@@ -13,7 +13,7 @@ import {
   registerElement,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import { DynamicElement, ISpacingProps } from '../../shared/interfaces'
+import { DynamicElement, SpacingProps } from '../../shared/types'
 
 export type SectionStyleTypes =
   | 'divider'
@@ -56,7 +56,7 @@ export type SectionProps = {
   inner_ref?: React.RefObject<HTMLElement>
   className?: string
   children?: React.ReactNode
-} & ISpacingProps &
+} & SpacingProps &
   React.HTMLProps<HTMLElement>
 
 const defaultProps = {

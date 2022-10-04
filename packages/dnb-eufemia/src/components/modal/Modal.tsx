@@ -27,7 +27,7 @@ import ModalHeaderBar from './parts/ModalHeaderBar'
 import { ScrollViewProps } from '../../fragments/scroll-view/ScrollView'
 import CloseButton from './parts/CloseButton'
 import ModalRoot from './ModalRoot'
-import { ISpacingProps } from '../../shared/interfaces'
+import { SpacingProps } from '../../shared/types'
 import {
   classWithCamelCaseProps,
   ToCamelCasePartial,
@@ -43,7 +43,7 @@ interface ModalState {
 }
 
 export type ModalPropTypes = ModalProps &
-  ISpacingProps &
+  SpacingProps &
   Omit<ScrollViewProps, 'title'>
 
 class Modal extends React.PureComponent<
