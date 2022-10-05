@@ -6,7 +6,7 @@ import type {
   formatOptionParams,
 } from '../number-format/NumberUtils'
 import { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
-import { ISpacingProps } from '../../shared/interfaces'
+import { SpacingProps } from '../../shared/types'
 
 export type ValueTypes = number | Array<number>
 export type NumberFormatTypes =
@@ -119,7 +119,7 @@ export type SliderProps = IncludeSnakeCase<{
 }>
 
 export type SliderAllProps = SliderProps &
-  ISpacingProps &
+  SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, keyof SliderProps>
 
 export type ThumbStateEnums =
