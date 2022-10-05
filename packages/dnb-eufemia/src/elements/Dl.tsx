@@ -5,25 +5,20 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import { SpacingProps } from '../shared/types'
-import E from './Element'
+import E, { ElementProps } from './Element'
 
 export type DlProps = {
   /**
    * Use "true" to horizontallly align both the term and the description
    */
   direction?: 'vertical' | 'horizontal'
-
-  className?: string
-  children: React.ReactNode
 }
 
-const Dl = ({
-  direction,
-  ...props
-}: DlProps &
-  SpacingProps &
-  Partial<Omit<HTMLDListElement, 'children'>>) => {
+export type DlAllProps = DlProps &
+  React.AllHTMLAttributes<Omit<HTMLDListElement, 'children'>> &
+  ElementProps
+
+const Dl = ({ direction, ...props }: DlAllProps) => {
   if (direction) {
     props.className = classnames(
       props.className,
@@ -33,13 +28,16 @@ const Dl = ({
   return <E is="dl" {...props} skeleton={false} />
 }
 
-export type DlLineProps = {
-  children: React.ReactNode
+export type DlItemProps = {
+  //
 }
 
-Dl.Line = ({ className, children }: DlLineProps & HTMLSpanElement) => {
+Dl.Item = ({
+  className,
+  children,
+}: DlItemProps & React.AllHTMLAttributes<HTMLSpanElement>) => {
   return (
-    <span className={classnames(className, 'dnb-dl__line')}>
+    <span className={classnames(className, 'dnb-dl__item')}>
       {children}
     </span>
   )

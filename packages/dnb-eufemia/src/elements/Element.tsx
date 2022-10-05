@@ -18,8 +18,10 @@ import {
 } from '../components/skeleton/SkeletonHelper'
 import { includeValidProps } from '../components/form-row/FormRowHelpers'
 
-export type ElementProps = {
+export type ElementInternalProps = {
   is: React.ReactNode
+}
+export type ElementProps = {
   skeleton?: boolean
   skeletonMethod?: SkeletonMethods
   class?: string
@@ -35,6 +37,7 @@ export type ElementProps = {
   /** @deprecated use skeletonMethod instead */
   skeleton_method?: SkeletonMethods
 }
+type ElementAllProps = ElementInternalProps & ElementProps
 
 type Attributes = Record<string, unknown>
 
@@ -42,11 +45,11 @@ export const defaultProps = {
   skeletonMethod: 'font',
 }
 
-const Element = React.forwardRef((props: ElementProps, ref) => {
+const Element = React.forwardRef((props: ElementAllProps, ref) => {
   return <ElementInstance innerRef={ref} {...props} />
 })
 
-function ElementInstance(localProps: ElementProps) {
+function ElementInstance(localProps: ElementAllProps) {
   const context = React.useContext(Context)
   const props = extendPropsWithContext(
     localProps,
@@ -77,7 +80,7 @@ function ElementInstance(localProps: ElementProps) {
     skeletonMethod, // eslint-disable-line
 
     ...attributes
-  }: ElementProps & Attributes = props
+  }: ElementAllProps & Attributes = props
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const Tag = is as any

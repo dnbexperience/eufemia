@@ -55,6 +55,10 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 1. Find the `data-test-id` property and replace it with `data-testid`.
    The usage of `data-test-id` will most likely be found in your tests.
 
+### [Lists](/uilib/elements/lists)
+
+1. New **Definition List** layout direction: `direction="horizontal"` including `Dl.Item` [demo](https://eufemia.dnb.no/uilib/elements/lists/#definition-list-in-horizontal-direction).
+
 ### Deprecations
 
 - `use_scrollwheel` and `on_init` properties, as well as the `raw_value` event value from [Slider](/uilib/components/slider) was removed in order to support multiple buttons.

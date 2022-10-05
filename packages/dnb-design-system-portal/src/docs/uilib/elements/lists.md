@@ -131,7 +131,7 @@ Ordered lists do support natively other types, like _letters_ and _roman numeral
   <Li>Item</Li>
   <Li>
     Item
-    <Ol type="I" start="3">
+    <Ol type="I" start={3}>
       <Li>
         Item
         <Ol type="i">

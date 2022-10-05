@@ -737,7 +737,7 @@ a.dnb-button {
       .dnb-dl__direction--horizontal dt {
         margin-right: 1rem;
         max-width: 60ch; }
-    .dnb-dl__line {
+    .dnb-dl__item {
       display: flex; } }
 
 .dnb-spacing .dnb-ul:not([class*='dnb-space']),
