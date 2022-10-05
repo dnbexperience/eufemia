@@ -1,5 +1,5 @@
 import { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
-import { ISpacingProps } from '../../shared/interfaces'
+import { SpacingProps } from '../../shared/types'
 
 export type TooltipPosition = 'top' | 'right' | 'bottom' | 'left'
 
@@ -36,5 +36,5 @@ export type TooltipProps = IncludeSnakeCase<{
 }>
 
 export type TooltipAllProps = TooltipProps &
-  ISpacingProps &
+  SpacingProps &
   Omit<React.HTMLProps<HTMLElement>, keyof TooltipProps>
