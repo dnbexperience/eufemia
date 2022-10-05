@@ -4,14 +4,15 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { spacingPropTypes } from '../components/space/SpacingHelper'
-import E from './Element'
+import E, { ElementProps } from './Element'
 import Ul from './Ul'
 import Ol from './Ol'
 
-const Li = ({ className, ...p } = {}) => {
+export type LiAllProps = React.AllHTMLAttributes<HTMLLIElement> &
+  ElementProps
+
+const Li = ({ className, ...p }: LiAllProps = {}) => {
   /**
    * Check if we have a nested list,
    * then we set the class "is-nested" and give it a max-height,
@@ -27,14 +28,6 @@ const Li = ({ className, ...p } = {}) => {
   }
 
   return <E is="li" {...p} className={className} />
-}
-Li.tagName = 'dnb-li'
-Li.propTypes = {
-  ...spacingPropTypes,
-  className: PropTypes.string,
-}
-Li.defaultProps = {
-  className: null,
 }
 
 export default Li
