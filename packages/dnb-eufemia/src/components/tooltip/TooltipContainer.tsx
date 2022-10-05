@@ -61,7 +61,7 @@ export default function TooltipContainer(
       }
 
       try {
-        resizeObserver.current = new ResizeObserver((entries) => {
+        resizeObserver.current = new ResizeObserver(() => {
           clearTimeout(debounceTimeout.current)
           debounceTimeout.current = setTimeout(
             () => forceRerender(getBodySize()),
