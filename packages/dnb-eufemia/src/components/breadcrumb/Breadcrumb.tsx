@@ -209,7 +209,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
       <Section
         className="dnb-breadcrumb__bar"
         style_type={styleType || 'transparent'}
-        spacing={isSmallScreen ? innerSpacing : false}
+        spacing={innerSpacing}
       >
         {currentVariant === 'collapse' && (
           <Button
