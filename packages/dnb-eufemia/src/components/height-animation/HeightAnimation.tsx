@@ -80,6 +80,10 @@ export default function HeightAnimation({
         isVisible && 'dnb-height-animation--is-visible',
         isVisibleParallax && 'dnb-height-animation--parallax',
         isAnimating && 'dnb-height-animation--animating',
+        !isVisible &&
+          !isAnimating &&
+          !open &&
+          'dnb-height-animation--hidden',
         className
       )}
       style={style}
