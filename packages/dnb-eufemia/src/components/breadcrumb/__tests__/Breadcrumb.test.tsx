@@ -8,6 +8,10 @@ import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 
 const matchMedia = new MatchMediaMock()
 
+beforeEach(() => {
+  document.body.innerHTML = ''
+})
+
 describe('Breadcrumb', () => {
   it('renders without properties', () => {
     render(<Breadcrumb />)
@@ -227,6 +231,26 @@ describe('Breadcrumb', () => {
       expect(screen.getByRole('button').className).toMatch(
         skeletonClassName
       )
+    })
+
+    describe('will set animation style', () => {
+      render(
+        <Breadcrumb
+          data={[
+            { href: '/' },
+            { href: '/page1', text: 'Page 1' },
+            { href: '/page1/page2', text: 'Page 2' },
+          ]}
+          variant="collapse"
+          isCollapsed={false}
+        />
+      )
+
+      const items = document.querySelectorAll('.dnb-breadcrumb__item')
+
+      it.each([0, 1, 2])('--delay=%s', (item) => {
+        expect(items[item].getAttribute('style')).toBe(`--delay: ${item};`)
+      })
     })
   })
 })
