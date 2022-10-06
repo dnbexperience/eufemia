@@ -3,6 +3,22 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.32.0](https://github.com/dnbexperience/eufemia/compare/v9.31.0...v9.32.0) (2022-10-06)
+
+
+### Bug Fixes
+
+* **Accordion:** change icon color from emerald-green to sea-green ([#1600](https://github.com/dnbexperience/eufemia/issues/1600)) ([4206dfa](https://github.com/dnbexperience/eufemia/commit/4206dfa9628f993e775169d311ef908131ae342b))
+* **Breadcrumb:** ensure correct spacing when collapsed ([#1606](https://github.com/dnbexperience/eufemia/issues/1606)) ([39d53f6](https://github.com/dnbexperience/eufemia/commit/39d53f68c8a956011aad5e012c97bd50f1067f79))
+* **Breadcrumb:** make animation work when declarative declared ([#1605](https://github.com/dnbexperience/eufemia/issues/1605)) ([ab1d8eb](https://github.com/dnbexperience/eufemia/commit/ab1d8ebe791d1ddb49a201c2710ccd5772d6fb7a))
+* **Interfaces:** refactor /shared/interfaces and move to /shared/types ([#1601](https://github.com/dnbexperience/eufemia/issues/1601)) ([e10ac34](https://github.com/dnbexperience/eufemia/commit/e10ac3468a441786c87c93135263174c3b63659c))
+* **Lists:** rewrite Dl, Ol and Ul (and Li) to TypeScript ([#1610](https://github.com/dnbexperience/eufemia/issues/1610)) ([4646775](https://github.com/dnbexperience/eufemia/commit/464677598809e6a601214eeadf6c916dd6de64a7))
+
+
+### Features
+
+* **HeightAnimation:** add --hidden class when closed and keepInDOM is true ([#1607](https://github.com/dnbexperience/eufemia/issues/1607)) ([3d9313e](https://github.com/dnbexperience/eufemia/commit/3d9313e258fc00692d94e3c17bff27174d17b7d6))
+
 # [9.31.0](https://github.com/dnbexperience/eufemia/compare/v9.30.0...v9.31.0) (2022-10-03)
 
 
