@@ -9,15 +9,14 @@ import Context from '../../shared/Context'
 import {
   makeUniqueId,
   validateDOMAttributes,
-  isTrue,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import TooltipContainer from './TooltipContainer'
 import TooltipWithEvents from './TooltipWithEvents'
-import TooltipPortal from './TooltipPortal'
 import {
   defaultProps,
   getPropsFromTooltipProp,
+  getRefElement,
+  getTargetElement,
   injectTooltipSemantic,
 } from './TooltipHelpers'
 import { TooltipAllProps } from './types'
@@ -47,7 +46,7 @@ function Tooltip(localProps: TooltipAllProps) {
     size,
     animatePosition, // eslint-disable-line
     fixedPosition, // eslint-disable-line
-    skipPortal,
+    skipPortal, // eslint-disable-line
     noAnimation, // eslint-disable-line
     showDelay, // eslint-disable-line
     hideDelay, // eslint-disable-line
@@ -58,8 +57,18 @@ function Tooltip(localProps: TooltipAllProps) {
     ...params
   } = props
 
+  const target = targetElement || targetSelector
+
+  const [element, setElement] = React.useState<
+    HTMLElement | React.ReactElement
+  >()
   const [internalId] = React.useState(() => props.id || makeUniqueId()) // cause we need an id anyway
   props.internalId = internalId
+
+  React.useEffect(() => {
+    const element = getTargetElement(getRefElement(target))
+    setElement(element)
+  }, [target])
 
   const classes = classnames(
     'dnb-tooltip',
@@ -76,40 +85,14 @@ function Tooltip(localProps: TooltipAllProps) {
   // also used for code markup simulation
   validateDOMAttributes(localProps, attributes)
 
-  if (!isTrue(props.active)) {
-    delete props.active
+  if (target && !element) {
+    return null
   }
 
   return (
-    <>
-      {skipPortal ? (
-        <TooltipContainer
-          target={targetElement}
-          attributes={attributes}
-          {...props}
-        >
-          {props.children}
-        </TooltipContainer>
-      ) : targetElement ? (
-        <TooltipWithEvents
-          target={targetElement}
-          attributes={attributes}
-          {...props}
-        >
-          {props.children}
-        </TooltipWithEvents>
-      ) : (
-        targetSelector && (
-          <TooltipPortal
-            target={targetSelector}
-            attributes={attributes}
-            {...props}
-          >
-            {props.children}
-          </TooltipPortal>
-        )
-      )}
-    </>
+    <TooltipWithEvents target={element} attributes={attributes} {...props}>
+      {props.children}
+    </TooltipWithEvents>
   )
 }
 

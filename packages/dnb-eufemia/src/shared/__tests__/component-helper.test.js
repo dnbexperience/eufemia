@@ -560,6 +560,12 @@ describe('"filterProps" should', () => {
 })
 
 describe('"makeUniqueId" should', () => {
+  it('have prepended "id-" by default', () => {
+    expect(makeUniqueId()).toEqual(
+      expect.stringMatching(/^id-[a-z0-9]{8}/g)
+    )
+  })
+
   it('make unique ids', () => {
     const ids = {}
     for (let i = 1, l = 10; i <= l; ++i) {

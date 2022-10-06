@@ -33,6 +33,7 @@ export type TooltipProps = IncludeSnakeCase<{
   tooltip?: React.ReactNode
   className?: string
   children?: React.ReactNode
+  style?: React.CSSProperties
 }>
 
 export type TooltipAllProps = TooltipProps &

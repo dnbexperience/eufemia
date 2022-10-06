@@ -609,7 +609,7 @@ export const filterProps = (props, remove = null, allowed = null) => {
   }, {})
 }
 
-export const makeUniqueId = (prefix = '', length = 8) =>
+export const makeUniqueId = (prefix = 'id-', length = 8) =>
   prefix +
   String(
     Math.random().toString(36).substr(2, length) + idIncrement++

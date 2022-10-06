@@ -24,14 +24,18 @@ export function useSliderEvents() {
   } = React.useContext(SliderContext)
   const { min, max, onDragStart, onDragEnd } = allProps
 
-  const onTrackMouseUpHandler = (event: MouseEvent | TouchEvent) => {
+  const onTrackMouseDownHandler = (event: MouseEvent | TouchEvent) => {
+    onThumbMouseDownHandler(event)
+
     const percent = calculatePercent(trackRef.current, event, isVertical)
 
     emitChange(event, percentToValue(percent, min, max, isReverse))
     setShouldAnimate(true)
   }
 
-  const onThumbMouseDownHandler = (event: React.SyntheticEvent) => {
+  const onThumbMouseDownHandler = (
+    event: MouseEvent | TouchEvent | React.SyntheticEvent
+  ) => {
     const target = event.target as HTMLButtonElement
 
     setThumbIndex(parseFloat(target.dataset.index))
@@ -132,7 +136,7 @@ export function useSliderEvents() {
   return {
     onThumbMouseDownHandler,
     onThumbMouseUpHandler,
-    onTrackMouseUpHandler,
+    onTrackMouseDownHandler,
     onHelperChangeHandler,
     onHelperFocusHandler,
     removeEvents,

@@ -8,7 +8,7 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import { NumberFormat, Button, Tooltip } from '../../'
+import { NumberFormat, Button, Tooltip, P } from '../../../'
 
 const StyledTooltip = styled(Tooltip)`
   margin-bottom: 4rem;
@@ -21,6 +21,16 @@ export default {
 export const TooltipSandbox = () => {
   return (
     <Wrapper>
+      <Box>
+        <Tooltip
+          skipPortal
+          hideDelay={1e3}
+          targetElement={<Button right>Skipped Portal</Button>}
+          position="bottom"
+        >
+          Tooltip
+        </Tooltip>
+      </Box>
       <Box>
         <Tooltip
           animatePosition
@@ -42,10 +52,15 @@ export const TooltipSandbox = () => {
       </Box>
       <Box>
         <button className="target-1">Show the Tooltip</button>
+        <button className="target-2">Tooltip</button>
 
         <hr />
 
-        <Tooltip id="unique" active targetSelector=".target-1">
+        <Tooltip id="unique-1" active targetSelector=".target-1">
+          Tooltip
+        </Tooltip>
+
+        <Tooltip id="unique-2" targetSelector=".target-2">
           Tooltip
         </Tooltip>
       </Box>
@@ -115,18 +130,28 @@ export const TooltipSandbox = () => {
         </Button>
       </Box>
       <Box>
-        <Tooltip targetElement={<NumberFormat>1234</NumberFormat>}>
+        <P>
+          <Tooltip targetElement={<NumberFormat>1234</NumberFormat>}>
+            Tooltip
+          </Tooltip>
+        </P>
+
+        <P>
+          <NumberFormat
+            tooltip={
+              <Tooltip position="bottom">
+                Tooltip for this NumberFormat
+              </Tooltip>
+            }
+          >
+            5678
+          </NumberFormat>
+        </P>
+      </Box>
+      <Box>
+        <Tooltip skipPortal active>
           Tooltip
         </Tooltip>
-        <NumberFormat
-          tooltip={
-            <Tooltip position="bottom">
-              Tooltip for this NumberFormat
-            </Tooltip>
-          }
-        >
-          1234
-        </NumberFormat>
       </Box>
     </Wrapper>
   )
