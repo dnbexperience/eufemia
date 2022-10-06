@@ -34,14 +34,14 @@ export const DefinitionListHorizontalExample = () => (
       /* jsx */ `
 // import { Dl, Dt, Dd } from '@dnb/eufemia/elements'
 render(<Dl direction="horizontal">
-  <Dl.Line>
+  <Dl.Item>
     <Dt>Term</Dt>
     <Dd>Description</Dd>
-  </Dl.Line>
-  <Dl.Line>
+  </Dl.Item>
+  <Dl.Item>
     <Dt>A term with several words</Dt>
     <Dd>Description with several words lorem nulla mi posuere cubilia vel vulputate</Dd>
-  </Dl.Line>
+  </Dl.Item>
 </Dl>)
   `
     }

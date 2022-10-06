@@ -1,3 +1,11 @@
+## October, 5. 2022
+
+- New **Definition List** layout direction: `direction="horizontal"` including `Dl.Item` [demo](https://eufemia.dnb.no/uilib/elements/lists/#definition-list-in-horizontal-direction).
+- [Breadcrumb](/uilib/components/breadcrumb/)
+- New components released:
+  - [Badge](/uilib/components/badge)
+  - [HeightAnimation](/uilib/components/height-animation)
+
 ## June, 10. 2022
 
 - Change colors of [Table](/uilib/components/table):

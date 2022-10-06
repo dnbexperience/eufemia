@@ -52,7 +52,8 @@ export interface BreadcrumbItemProps {
    */
   skeleton?: SkeletonShow
 
-  style?: React.CSSProperties
+  /** Internal */
+  itemNr?: number
 }
 
 const defaultProps = {
@@ -74,17 +75,26 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   } = context
 
   // Extract additional props from global context
-  const { text, href, icon, onClick, variant, skeleton, style, ...props } =
-    extendPropsWithContext(
-      localProps,
-      defaultProps,
-      context?.BreadcrumbItem
-    )
+  const {
+    text,
+    href,
+    icon,
+    onClick,
+    variant,
+    skeleton,
+    itemNr,
+    ...props
+  } = extendPropsWithContext(
+    localProps,
+    defaultProps,
+    context?.BreadcrumbItem
+  )
 
   const currentIcon: IconPrimaryIcon =
     icon || (variant === 'home' && homeIcon) || 'chevron_left'
   const currentText = text || (variant === 'home' && homeText) || ''
   const isInteractive = (href || onClick) && variant !== 'current'
+  const style = { '--delay': String(itemNr) } as React.CSSProperties
 
   return (
     <li

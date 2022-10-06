@@ -101,16 +101,14 @@ describe('HeightAnimation', () => {
     ).toBe('--duration: 1000ms; height: auto;')
   })
 
-  it('should have element in DOM when open property is true (using ToggleButton)', async () => {
+  it('should have element in DOM when open property is true (using ToggleButton)', () => {
     render(<Component />)
 
     expect(document.querySelector('.dnb-height-animation')).toBeFalsy()
 
-    await act(async () => {
-      fireEvent.click(document.querySelector('button'))
+    fireEvent.click(document.querySelector('button'))
 
-      await wait(1)
-
+    act(() => {
       expect(
         document.querySelector('.dnb-height-animation--is-visible')
       ).toBeTruthy()
@@ -230,7 +228,7 @@ describe('HeightAnimation', () => {
     })
   })
 
-  it('should have content in DOM when keepInDOM is true', async () => {
+  it('should have content in DOM when keepInDOM is true', () => {
     const { rerender } = render(<Component keepInDOM />)
 
     expect(document.querySelector('.dnb-height-animation')).toBeTruthy()
@@ -246,7 +244,7 @@ describe('HeightAnimation', () => {
 
     rerender(<Component keepInDOM open={false} />)
 
-    await act(async () => {
+    act(() => {
       const element = document.querySelector('.dnb-height-animation')
 
       expect(element.getAttribute('style')).toBe('')
@@ -277,77 +275,152 @@ describe('HeightAnimation', () => {
     })
   })
 
-  it('should act with different states through the animation transition', async () => {
+  it('should set aria-hidden when closed and keepInDOM is true', () => {
+    const { rerender } = render(<Component keepInDOM />)
+
+    const getElem = () => document.querySelector('.dnb-height-animation')
+
+    expect(getElem().getAttribute('aria-hidden')).toBe('true')
+
+    rerender(<Component keepInDOM open />)
+
+    act(() => {
+      simulateAnimationEnd()
+
+      expect(getElem().getAttribute('aria-hidden')).toBe('false')
+    })
+
+    rerender(<Component keepInDOM open={false} />)
+
+    act(() => {
+      simulateAnimationEnd()
+
+      expect(getElem().getAttribute('aria-hidden')).toBe('true')
+      expect(getElem().getAttribute('style')).toBe(
+        'height: auto; visibility: hidden;'
+      )
+    })
+
+    rerender(<Component keepInDOM={false} open />)
+
+    act(() => {
+      simulateAnimationEnd()
+
+      expect(getElem().getAttribute('aria-hidden')).toBe(null)
+    })
+  })
+
+  it('should set className "hidden" when closed and keepInDOM is true', () => {
+    render(<Component keepInDOM />)
+
+    const getClasses = () =>
+      Array.from(
+        document.querySelector('.dnb-height-animation')?.classList || []
+      )
+
+    expect(getClasses()).toEqual([
+      'dnb-space',
+      'dnb-height-animation',
+      'dnb-height-animation--hidden',
+    ])
+
+    fireEvent.click(document.querySelector('button'))
+
+    act(simulateAnimationEnd)
+
+    act(() => {
+      expect(getClasses()).toEqual(
+        expect.arrayContaining([
+          'dnb-height-animation--is-in-dom',
+          'dnb-height-animation--is-visible',
+        ])
+      )
+    })
+
+    fireEvent.click(document.querySelector('button'))
+
+    act(simulateAnimationEnd)
+
+    act(() => {
+      expect(getClasses()).toEqual(
+        expect.arrayContaining(['dnb-height-animation--hidden'])
+      )
+    })
+  })
+
+  it('should act with different states through the animation transition', () => {
     render(<Component />)
 
-    await act(async () => {
+    act(() => {
       expect(getStates()).toEqual([])
+    })
 
-      fireEvent.click(document.querySelector('button'))
+    fireEvent.click(document.querySelector('button'))
 
-      await wait(1)
-
+    act(() => {
       expect(getStates()).toEqual([
         'dnb-space',
         'dnb-height-animation',
-        'dnb-height-animation--is-in-dom',
         'dnb-height-animation--is-visible',
+        'dnb-height-animation--is-in-dom',
         'dnb-height-animation--parallax',
         'dnb-height-animation--animating',
       ])
+    })
 
-      fireEvent.click(document.querySelector('button'))
+    fireEvent.click(document.querySelector('button'))
 
+    act(() => {
       expect(getStates()).toEqual([
         'dnb-space',
         'dnb-height-animation',
-        'dnb-height-animation--is-in-dom',
         'dnb-height-animation--is-visible',
+        'dnb-height-animation--is-in-dom',
         'dnb-height-animation--animating',
       ])
+    })
 
-      simulateAnimationEnd()
+    act(simulateAnimationEnd)
 
+    act(() => {
       expect(getStates()).toEqual([])
     })
   })
 
-  it('should only set "--is-in-dom" when animation is disabled', async () => {
+  it('should only set "--is-in-dom" when animation is disabled', () => {
     render(<Component animate={false} />)
 
-    await act(async () => {
-      fireEvent.click(document.querySelector('button'))
+    fireEvent.click(document.querySelector('button'))
 
-      await wait(1)
-
+    act(() => {
       expect(getStates()).toEqual([
         'dnb-space',
         'dnb-height-animation',
         'dnb-height-animation--is-in-dom',
       ])
+    })
 
-      fireEvent.click(document.querySelector('button'))
+    fireEvent.click(document.querySelector('button'))
 
-      await wait(1)
-
+    act(() => {
       expect(getStates()).toEqual([])
     })
   })
 
-  it('should not animate when global.IS_TEST is true', async () => {
+  it('should not animate when global.IS_TEST is true', () => {
     global.IS_TEST = true
 
     const { rerender } = render(<Component />)
 
     rerender(<Component open />)
 
-    await wait(1)
-
-    expect(getStates()).toEqual([
-      'dnb-space',
-      'dnb-height-animation',
-      'dnb-height-animation--is-in-dom',
-    ])
+    act(() => {
+      expect(getStates()).toEqual([
+        'dnb-space',
+        'dnb-height-animation',
+        'dnb-height-animation--is-in-dom',
+      ])
+    })
   })
 })
 

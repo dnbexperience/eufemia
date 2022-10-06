@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { ISpacingProps } from '../shared/interfaces'
+import { SpacingProps } from '../shared/types'
 import E from './Element'
 
 export type DtProps = {
@@ -12,7 +12,7 @@ export type DtProps = {
   children: React.ReactNode
 }
 
-const Dt = React.forwardRef((props: DtProps & ISpacingProps, ref) => (
+const Dt = React.forwardRef((props: DtProps & SpacingProps, ref) => (
   <E is="dt" inner_ref={ref} {...props} />
 ))
 

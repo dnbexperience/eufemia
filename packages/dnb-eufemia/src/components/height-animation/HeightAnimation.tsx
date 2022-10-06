@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import { DynamicElement, ISpacingProps } from '../../shared/interfaces'
+import { DynamicElement, SpacingProps } from '../../shared/types'
 import {
   useHeightAnimation,
   useHeightAnimationOptions,
@@ -48,7 +48,7 @@ export default function HeightAnimation({
   onOpen = null,
   onAnimationEnd = null,
   ...props
-}: HeightAnimationProps & ISpacingProps) {
+}: HeightAnimationProps & SpacingProps) {
   const ref = React.useRef<HTMLElement>()
 
   const { isInDOM, isVisible, isVisibleParallax, isAnimating } =
@@ -80,6 +80,10 @@ export default function HeightAnimation({
         isVisible && 'dnb-height-animation--is-visible',
         isVisibleParallax && 'dnb-height-animation--parallax',
         isAnimating && 'dnb-height-animation--animating',
+        !isVisible &&
+          !isAnimating &&
+          !open &&
+          'dnb-height-animation--hidden',
         className
       )}
       style={style}

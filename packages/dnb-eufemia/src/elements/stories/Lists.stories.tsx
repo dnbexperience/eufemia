@@ -7,7 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import { Ol, Li, Ul, Dl, Dt, Dd } from '../'
+import { Ol, Li, Ul, Dl, Dt, Dd } from '..'
 import { Provider } from '../../shared'
 
 const WidthLimit = styled.div`
@@ -75,7 +75,7 @@ export const ListSandbox = () => (
             <Li>Item</Li>
             <Li>
               Item
-              <Ol type="I" start="3">
+              <Ol type="I" start={3}>
                 <Li>
                   Item
                   <Ol type="i">
@@ -131,6 +131,21 @@ export const ListSandbox = () => (
               <Dt>Sub Term</Dt>
               <Dd>Sub Description</Dd>
             </dl>
+          </Dl>
+        </Box>
+        <Box>
+          <Dl direction="horizontal">
+            <Dl.Item>
+              <Dt>Term</Dt>
+              <Dd>Description</Dd>
+            </Dl.Item>
+            <Dl.Item>
+              <Dt>A term with several words</Dt>
+              <Dd>
+                Description with several words lorem nulla mi posuere
+                cubilia vel vulputate
+              </Dd>
+            </Dl.Item>
           </Dl>
         </Box>
       </div>

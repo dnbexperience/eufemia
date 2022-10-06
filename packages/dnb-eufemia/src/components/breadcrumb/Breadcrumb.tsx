@@ -13,7 +13,7 @@ import Button from '../button/Button'
 // Shared
 import { useMediaQuery } from '../../shared'
 import Context from '../../shared/Context'
-import { ISpacingProps } from '../../shared/interfaces'
+import { SpacingProps } from '../../shared/types'
 import { SkeletonShow } from '../skeleton/Skeleton'
 
 // Internal
@@ -43,13 +43,13 @@ export interface BreadcrumbProps {
    * Pass in a list of your pages as objects of breadcrumbitem to render them as breadcrumbitems.
    * Default: null
    */
-  data?: BreadcrumbItemProps[]
+  data?: Array<BreadcrumbItemProps>
 
   /**
    * The content of the component. Can be used instead of prop "data".
    * Default: null
    */
-  children?: React.ReactNode // ReactNode allows multiple elements, strings, numbers, fragments, portals...
+  children?: Array<React.ReactElement<BreadcrumbItemProps>>
 
   /**
    * The variant of the component.
@@ -136,7 +136,7 @@ export const defaultProps = {
   spacing: false,
 }
 
-const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
+const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
 
@@ -209,7 +209,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & ISpacingProps) => {
       <Section
         className="dnb-breadcrumb__bar"
         style_type={styleType || 'transparent'}
-        spacing={isSmallScreen ? innerSpacing : false}
+        spacing={innerSpacing}
       >
         {currentVariant === 'collapse' && (
           <Button

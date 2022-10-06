@@ -12,7 +12,7 @@ import {
   extendPropsWithContext,
 } from '../shared/component-helper'
 import Tooltip from '../components/tooltip/Tooltip'
-import { ISpacingProps } from '../shared/interfaces'
+import { SpacingProps } from '../shared/types'
 
 export type AnchorProps = {
   element?: React.ReactNode
@@ -38,7 +38,7 @@ export type AnchorProps = {
   /** @deprecated use targetBlankTitle instead */
   target_blank_title?: string
 } & Partial<Omit<HTMLAnchorElement, 'children'>> &
-  ISpacingProps
+  SpacingProps
 
 const defaultProps = {}
 

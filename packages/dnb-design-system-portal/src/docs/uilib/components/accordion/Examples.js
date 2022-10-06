@@ -20,7 +20,7 @@ export const AccordionDefaultExample = () => (
 	id="single-accordion"
 	title="Accordion title"
 >
-	Accordion content
+	<P>Accordion content</P>
 </Accordion>
 <Accordion.Provider
 	top
@@ -32,7 +32,7 @@ export const AccordionDefaultExample = () => (
 		id="single-provider-accordion"
 		title="Accordion title"
 	>
-		Accordion content
+		<P>Accordion content</P>
 	</Accordion>
 </Accordion.Provider>
 `
@@ -247,7 +247,7 @@ export const AccordionPlainVariant = () => {
   }}
   icon_position="right"
 >
-  content
+  <P>content</P>
 </Accordion>
 <Accordion
   variant="plain"
@@ -259,7 +259,7 @@ export const AccordionPlainVariant = () => {
   icon_position="right"
   expanded
 >
-  content
+  <P>content</P>
 </Accordion>
 `
       }
