@@ -51,6 +51,7 @@ const snapshotProps = {
 
 // use no_animation so we don't need to wait
 const mockProps = {
+  id: 'autocomplete-id',
   no_animation: true,
   skip_portal: true,
 }
@@ -67,11 +68,14 @@ const mockData = ['AA c', 'BB cc zethx', { content: ['CC', 'cc'] }]
 
 mockImplementationForDirectionObserver()
 
+beforeEach(() => {
+  document.body.innerHTML = ''
+})
+
 describe('Autocomplete component', () => {
   it('has correct word and in-word highlighting', () => {
     const Comp = mount(
       <Component
-        id="autocomplete-id"
         data={['aaa', 'The Godfather the godfather The Godfather', 'ccc']}
         opened
         input_value="the g th"
@@ -84,14 +88,7 @@ describe('Autocomplete component', () => {
   })
 
   it('has correct input HTML Element attributes', () => {
-    const Comp = mount(
-      <Component
-        id="autocomplete-id"
-        data={mockData}
-        opened
-        {...mockProps}
-      />
-    )
+    const Comp = mount(<Component data={mockData} opened {...mockProps} />)
 
     const elem = Comp.find('input').instance()
 
@@ -109,12 +106,7 @@ describe('Autocomplete component', () => {
 
   it('has correct options after filter', () => {
     const Comp = mount(
-      <Component
-        id="autocomplete-id"
-        data={mockData}
-        show_submit_button
-        {...mockProps}
-      />
+      <Component data={mockData} show_submit_button {...mockProps} />
     )
 
     toggle(Comp)
@@ -280,7 +272,6 @@ describe('Autocomplete component', () => {
   it('has correct options when search_in_word_index is set to 1', () => {
     const Comp = mount(
       <Component
-        id="autocomplete-id"
         data={mockData}
         search_in_word_index="1"
         show_submit_button
@@ -315,7 +306,6 @@ describe('Autocomplete component', () => {
   it('should update aria-live with results', async () => {
     const Comp = mount(
       <Component
-        id="autocomplete-id"
         data={mockData}
         show_submit_button
         ariaLiveDelay={1}
@@ -381,12 +371,7 @@ describe('Autocomplete component', () => {
     ]
 
     const Comp = mount(
-      <Component
-        id="autocomplete-id"
-        data={mockData}
-        show_submit_button
-        {...mockProps}
-      />
+      <Component data={mockData} show_submit_button {...mockProps} />
     )
 
     toggle(Comp)
@@ -436,12 +421,7 @@ describe('Autocomplete component', () => {
     helpers.IS_MAC = true
 
     const Comp = mount(
-      <Component
-        id="autocomplete-id"
-        data={mockData}
-        show_submit_button
-        {...mockProps}
-      />
+      <Component data={mockData} show_submit_button {...mockProps} />
     )
 
     toggle(Comp)
@@ -492,12 +472,7 @@ describe('Autocomplete component', () => {
     ]
 
     const Comp = mount(
-      <Component
-        id="autocomplete-id"
-        data={mockData}
-        show_submit_button
-        {...mockProps}
-      />
+      <Component data={mockData} show_submit_button {...mockProps} />
     )
 
     toggle(Comp)
@@ -562,7 +537,6 @@ describe('Autocomplete component', () => {
 
     const Comp = mount(
       <Component
-        id="autocomplete-id"
         data={mockData}
         search_numbers
         show_submit_button
@@ -609,7 +583,6 @@ describe('Autocomplete component', () => {
 
     const Comp = mount(
       <Component
-        id="autocomplete-id"
         data={mockData}
         show_submit_button
         search_numbers
@@ -669,12 +642,7 @@ describe('Autocomplete component', () => {
     let elem
 
     const Comp = mount(
-      <Component
-        id="autocomplete-id"
-        data={mockData}
-        show_submit_button
-        {...mockProps}
-      />
+      <Component data={mockData} show_submit_button {...mockProps} />
     )
 
     // check "cc"
@@ -758,7 +726,6 @@ describe('Autocomplete component', () => {
   it('has correct options after filter if filter is disabled', () => {
     const Comp = mount(
       <Component
-        id="autocomplete-id"
         disable_filter
         data={mockData}
         show_submit_button
@@ -794,7 +761,7 @@ describe('Autocomplete component', () => {
   })
 
   it('has correct "opened" state on click in input', () => {
-    const Comp = mount(<Component data={mockData} {...mockProps} />)
+    const Comp = mount(<Component {...mockProps} data={mockData} />)
 
     Comp.find('.dnb-input__input').simulate('mousedown')
 
@@ -1140,6 +1107,7 @@ describe('Autocomplete component', () => {
 
     const Comp = mount(
       <Component
+        {...mockProps}
         no_animation
         show_submit_button
         data={mockData}
@@ -1375,7 +1343,7 @@ describe('Autocomplete component', () => {
 
   it('should have a button for screen readers to open options – regardless', () => {
     const Comp = mount(
-      <Component id="autocomplete-id" data={mockData} no_animation />,
+      <Component {...mockProps} data={mockData} no_animation />,
       { attachTo: attachToBody() }
     )
 
@@ -1410,6 +1378,8 @@ describe('Autocomplete component', () => {
     const Comp = mount(<Component data={mockData} {...mockProps} />, {
       attachTo: attachToBody(),
     })
+
+    Comp.find('input').instance().focus()
 
     Comp.find('input').simulate('change', { target: { value: 'cc' } })
 
@@ -1752,7 +1722,6 @@ describe('Autocomplete component', () => {
     const title = 'Make a selection'
     const Comp = mount(
       <Component
-        id="autocomplete-id"
         data={mockData}
         title={title}
         show_submit_button
@@ -1766,7 +1735,6 @@ describe('Autocomplete component', () => {
     const value = 1
     const Comp = mount(
       <Component
-        id="autocomplete-id"
         data={mockData}
         value={value}
         show_submit_button
@@ -1799,12 +1767,7 @@ describe('Autocomplete component', () => {
 
   it('has a disabled attribute, once we set disabled to true', () => {
     const Comp = mount(
-      <Component
-        id="autocomplete-id"
-        data={mockData}
-        show_submit_button
-        {...mockProps}
-      />
+      <Component data={mockData} show_submit_button {...mockProps} />
     )
     Comp.setProps({
       disabled: true,
@@ -1875,12 +1838,9 @@ describe('Autocomplete component', () => {
       'one more item',
     ]
 
-    const Comp = mount(
-      <Component id="autocomplete-id" data={mockData} {...mockProps} />,
-      {
-        attachTo: attachToBody(),
-      }
-    )
+    const Comp = mount(<Component data={mockData} {...mockProps} />, {
+      attachTo: attachToBody(),
+    })
 
     // open
     keydown(Comp, 40) // down
@@ -1923,12 +1883,9 @@ describe('Autocomplete component', () => {
   it('will keep focus on input when opening', () => {
     const mockData = ['first item', 'one more item']
 
-    const Comp = mount(
-      <Component id="autocomplete-id" data={mockData} {...mockProps} />,
-      {
-        attachTo: attachToBody(),
-      }
-    )
+    const Comp = mount(<Component data={mockData} {...mockProps} />, {
+      attachTo: attachToBody(),
+    })
 
     Comp.find('input').instance().focus()
 
@@ -1941,7 +1898,6 @@ describe('Autocomplete component', () => {
   it('submit_element will replace the internal SubmitButton', () => {
     const Comp = mount(
       <Component
-        id="autocomplete-id"
         data={mockData}
         {...mockProps}
         submit_element={<SubmitButton icon="bell" />}
@@ -1986,16 +1942,20 @@ describe('Autocomplete component', () => {
 })
 
 describe('Autocomplete markup', () => {
-  const CheckComponent = mount(
-    <Component {...snapshotProps} data={mockData} />
-  )
-
   // compare the snapshot
   it('have to match snapshot', () => {
+    const CheckComponent = mount(
+      <Component {...snapshotProps} data={mockData} />
+    )
+
     expect(toJson(CheckComponent)).toMatchSnapshot()
   })
 
   it('should validate with ARIA rules', async () => {
+    const CheckComponent = mount(
+      <Component {...snapshotProps} data={mockData} />
+    )
+
     expect(
       await axeComponent(CheckComponent, {
         rules: {

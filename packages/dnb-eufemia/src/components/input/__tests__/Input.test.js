@@ -469,6 +469,18 @@ describe('Input with clear button', () => {
     expect(clearButton.instance().hasAttribute('disabled')).toBe(true)
   })
 
+  it('should have a disabled clear button when initially empty value is given', () => {
+    const Comp = mount(<Component id="input-id" clear={true} />)
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe('')
+
+    const clearButton = Comp.find('button#input-id-clear-button')
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe('')
+    expect(clearButton.instance().getAttribute('aria-hidden')).toBe('true')
+    expect(clearButton.instance().hasAttribute('disabled')).toBe(true)
+  })
+
   it('should clear the value on escape key press', () => {
     const Comp = mount(<Component clear={true} value="value" />)
 

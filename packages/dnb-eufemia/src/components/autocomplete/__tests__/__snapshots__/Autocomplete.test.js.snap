@@ -513,7 +513,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                     onSubmit={[Function]}
                     size={null}
                     status={null}
-                    tooltip={null}
+                    tooltip="submit_button_title"
                     type="button"
                     variant="secondary"
                   />
@@ -629,7 +629,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           onSubmit={[Function]}
                           size={null}
                           status={null}
-                          tooltip={null}
+                          tooltip="submit_button_title"
                           type="button"
                           variant="secondary"
                         >
@@ -654,7 +654,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             status_props={null}
                             status_state="error"
                             title={null}
-                            tooltip={null}
+                            tooltip="submit_button_title"
                             type="button"
                             value={null}
                             variant="secondary"
@@ -699,7 +699,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 text={null}
                                 title={null}
                                 to={null}
-                                tooltip={null}
+                                tooltip="submit_button_title"
                                 type="button"
                                 variant="secondary"
                                 wrap={null}
@@ -756,7 +756,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     text={null}
                                     title={null}
                                     to={null}
-                                    tooltip={null}
+                                    tooltip="submit_button_title"
                                     type="button"
                                     variant="secondary"
                                     wrap={null}
@@ -811,6 +811,266 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   width_element={null}
                                   width_selector={null}
                                 />
+                                <Tooltip
+                                  id="autocomplete-id-submit-button-tooltip"
+                                  targetElement={
+                                    Object {
+                                      "current": <button
+                                        aria-describedby="autocomplete-id-submit-button-tooltip"
+                                        aria-expanded="true"
+                                        aria-haspopup="listbox"
+                                        aria-label="submit_button_title"
+                                        class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--active dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
+                                        id="autocomplete-id-submit-button"
+                                        type="button"
+                                      >
+                                        <span
+                                          aria-hidden="true"
+                                          class="dnb-button__alignment"
+                                        >
+                                          ‌
+                                        </span>
+                                      </button>,
+                                    }
+                                  }
+                                  tooltip="submit_button_title"
+                                >
+                                  <TooltipWithEvents
+                                    active={null}
+                                    align={null}
+                                    animatePosition={false}
+                                    arrow="center"
+                                    attributes={
+                                      Object {
+                                        "children": "submit_button_title",
+                                        "className": "dnb-tooltip",
+                                      }
+                                    }
+                                    className={null}
+                                    fixedPosition={false}
+                                    group={null}
+                                    hideDelay={500}
+                                    id="autocomplete-id-submit-button-tooltip"
+                                    internalId="autocomplete-id-submit-button-tooltip"
+                                    noAnimation={false}
+                                    position="top"
+                                    showDelay={300}
+                                    size="basis"
+                                    skipPortal={null}
+                                    target={
+                                      <button
+                                        aria-describedby="autocomplete-id-submit-button-tooltip"
+                                        aria-expanded="true"
+                                        aria-haspopup="listbox"
+                                        aria-label="submit_button_title"
+                                        class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--active dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
+                                        id="autocomplete-id-submit-button"
+                                        type="button"
+                                      >
+                                        <span
+                                          aria-hidden="true"
+                                          class="dnb-button__alignment"
+                                        >
+                                          ‌
+                                        </span>
+                                      </button>
+                                    }
+                                    targetElement={
+                                      Object {
+                                        "current": <button
+                                          aria-describedby="autocomplete-id-submit-button-tooltip"
+                                          aria-expanded="true"
+                                          aria-haspopup="listbox"
+                                          aria-label="submit_button_title"
+                                          class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--active dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
+                                          id="autocomplete-id-submit-button"
+                                          type="button"
+                                        >
+                                          <span
+                                            aria-hidden="true"
+                                            class="dnb-button__alignment"
+                                          >
+                                            ‌
+                                          </span>
+                                        </button>,
+                                      }
+                                    }
+                                    targetSelector={null}
+                                    tooltip="submit_button_title"
+                                  >
+                                    <TooltipPortal
+                                      active={null}
+                                      align={null}
+                                      animatePosition={false}
+                                      arrow="center"
+                                      attributes={
+                                        Object {
+                                          "children": "submit_button_title",
+                                          "className": "dnb-tooltip",
+                                        }
+                                      }
+                                      className={null}
+                                      fixedPosition={false}
+                                      group={null}
+                                      hideDelay={500}
+                                      id="autocomplete-id-submit-button-tooltip"
+                                      internalId="autocomplete-id-submit-button-tooltip"
+                                      keepInDOM={true}
+                                      noAnimation={false}
+                                      position="top"
+                                      showDelay={300}
+                                      size="basis"
+                                      skipPortal={null}
+                                      target={
+                                        <button
+                                          aria-describedby="autocomplete-id-submit-button-tooltip"
+                                          aria-expanded="true"
+                                          aria-haspopup="listbox"
+                                          aria-label="submit_button_title"
+                                          class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--active dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
+                                          id="autocomplete-id-submit-button"
+                                          type="button"
+                                        >
+                                          <span
+                                            aria-hidden="true"
+                                            class="dnb-button__alignment"
+                                          >
+                                            ‌
+                                          </span>
+                                        </button>
+                                      }
+                                      targetElement={
+                                        <button
+                                          aria-describedby="autocomplete-id-submit-button-tooltip"
+                                          aria-expanded="true"
+                                          aria-haspopup="listbox"
+                                          aria-label="submit_button_title"
+                                          class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--active dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
+                                          id="autocomplete-id-submit-button"
+                                          type="button"
+                                        >
+                                          <span
+                                            aria-hidden="true"
+                                            class="dnb-button__alignment"
+                                          >
+                                            ‌
+                                          </span>
+                                        </button>
+                                      }
+                                      targetSelector={null}
+                                      tooltip="submit_button_title"
+                                    >
+                                      <Portal
+                                        containerInfo={
+                                          <div
+                                            class="dnb-tooltip__portal dnb-core-style"
+                                          >
+                                            <span
+                                              aria-hidden="true"
+                                              class="dnb-tooltip"
+                                              role="tooltip"
+                                            >
+                                              <span
+                                                class="dnb-tooltip__arrow dnb-tooltip__arrow__arrow--center dnb-tooltip__arrow__position--top"
+                                              />
+                                              <span
+                                                class="dnb-tooltip__content"
+                                                id="autocomplete-id-submit-button-tooltip"
+                                              >
+                                                submit_button_title
+                                              </span>
+                                            </span>
+                                          </div>
+                                        }
+                                      >
+                                        <TooltipContainer
+                                          active={null}
+                                          align={null}
+                                          animatePosition={false}
+                                          arrow="center"
+                                          attributes={
+                                            Object {
+                                              "children": "submit_button_title",
+                                              "className": "dnb-tooltip",
+                                            }
+                                          }
+                                          className={null}
+                                          fixedPosition={false}
+                                          group={null}
+                                          hideDelay={500}
+                                          id="autocomplete-id-submit-button-tooltip"
+                                          internalId="autocomplete-id-submit-button-tooltip"
+                                          keepInDOM={true}
+                                          noAnimation={false}
+                                          position="top"
+                                          showDelay={300}
+                                          size="basis"
+                                          skipPortal={null}
+                                          target={
+                                            <button
+                                              aria-describedby="autocomplete-id-submit-button-tooltip"
+                                              aria-expanded="true"
+                                              aria-haspopup="listbox"
+                                              aria-label="submit_button_title"
+                                              class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--active dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
+                                              id="autocomplete-id-submit-button"
+                                              type="button"
+                                            >
+                                              <span
+                                                aria-hidden="true"
+                                                class="dnb-button__alignment"
+                                              >
+                                                ‌
+                                              </span>
+                                            </button>
+                                          }
+                                          targetElement={
+                                            <button
+                                              aria-describedby="autocomplete-id-submit-button-tooltip"
+                                              aria-expanded="true"
+                                              aria-haspopup="listbox"
+                                              aria-label="submit_button_title"
+                                              class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--active dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
+                                              id="autocomplete-id-submit-button"
+                                              type="button"
+                                            >
+                                              <span
+                                                aria-hidden="true"
+                                                class="dnb-button__alignment"
+                                              >
+                                                ‌
+                                              </span>
+                                            </button>
+                                          }
+                                          targetSelector={null}
+                                          tooltip="submit_button_title"
+                                        >
+                                          <span
+                                            aria-hidden={true}
+                                            className="dnb-tooltip"
+                                            onMouseDown={[Function]}
+                                            onMouseEnter={[Function]}
+                                            onMouseLeave={[Function]}
+                                            onMouseMove={[Function]}
+                                            onTouchStart={[Function]}
+                                            role="tooltip"
+                                            style={Object {}}
+                                          >
+                                            <span
+                                              className="dnb-tooltip__arrow dnb-tooltip__arrow__arrow--center dnb-tooltip__arrow__position--top"
+                                            />
+                                            <span
+                                              className="dnb-tooltip__content"
+                                              id="autocomplete-id-submit-button-tooltip"
+                                            >
+                                              submit_button_title
+                                            </span>
+                                          </span>
+                                        </TooltipContainer>
+                                      </Portal>
+                                    </TooltipPortal>
+                                  </TooltipWithEvents>
+                                </Tooltip>
                               </Button>
                             </span>
                           </InputSubmitButton>
@@ -953,7 +1213,10 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           tabIndex="-1"
                           triangleRef={
                             Object {
-                              "current": null,
+                              "current": <li
+                                aria-hidden="true"
+                                class="dnb-drawer-list__triangle"
+                              />,
                             }
                           }
                         >

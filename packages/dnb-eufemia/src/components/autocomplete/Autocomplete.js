@@ -485,7 +485,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   setVisible = (args = null, onStateComplete = null) => {
     this.context.drawerList
-      .setWrapperElement(this._refShell.current)
+      .setWrapperElement(this._ref.current)
       .setVisible(args, onStateComplete)
   }
 
@@ -1867,7 +1867,7 @@ class AutocompleteInstance extends React.PureComponent {
       'aria-haspopup': 'listbox',
       'aria-expanded': isExpanded,
       'aria-label': !hidden ? submit_button_title : undefined,
-      tooltip: hidden ? submit_button_title : null,
+      tooltip: show_submit_button ? submit_button_title : null,
       className: opened ? 'dnb-button--active' : null,
     }
 
