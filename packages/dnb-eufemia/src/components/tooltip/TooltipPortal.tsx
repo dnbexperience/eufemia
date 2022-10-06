@@ -12,7 +12,7 @@ import { TooltipProps } from './types'
 
 type TooltipType = {
   node: HTMLElement
-  inDOM?: boolean
+  count?: number
   delayTimeout?: NodeJS.Timeout
   hiddenTimeout?: NodeJS.Timeout
 }
@@ -39,46 +39,71 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
 
   const [isMounted, setIsMounted] = React.useState(false)
   const [isActive, setIsActive] = React.useState(active)
-  const [group] = React.useState(() => props.group || makeUniqueId())
+  const [id] = React.useState(() => props.group || makeUniqueId())
   const isInDOM = React.useRef(false)
   const hasGroup = props.group
 
-  if (tooltipPortal[group]) {
-    tooltipPortal[group].inDOM = isInDOM.current
-  }
-
   const makePortal = () => {
-    if (!tooltipPortal[group]) {
-      tooltipPortal[group] = {
+    if (!tooltipPortal[id]) {
+      tooltipPortal[id] = {
+        count: 0,
         node: hasGroup
-          ? createGroupElement(group)
+          ? createGroupElement(id)
           : createRootElement('dnb-tooltip__portal'),
       }
     }
   }
 
-  const removeFromDOM = () => {
-    if (
-      !keepInDOM &&
-      hasGroup &&
-      tooltipPortal[group] &&
-      !tooltipPortal[group].inDOM
-    ) {
-      ReactDOM.unmountComponentAtNode(tooltipPortal[group].node)
+  const removeFromDOM = (hide?: boolean) => {
+    if (isActive && hide) {
+      return // stop here
+    }
+
+    const ref = tooltipPortal[id]
+    if (ref?.node) {
+      ref.count--
+      if (ref.count <= 0) {
+        /**
+         * Only use unmountComponentAtNode when used ReactDOM.render()
+         */
+        if (hasGroup) {
+          ReactDOM.unmountComponentAtNode(ref.node)
+        }
+
+        try {
+          /**
+           * Remove the parent (group) node if its empty
+           */
+          if (ref.node.innerHTML === '') {
+            ref.node.parentElement?.removeChild(ref.node)
+          }
+
+          /**
+           * Remove the referenced data
+           */
+          delete tooltipPortal[id]
+        } catch (e) {
+          warn(e)
+        }
+      }
     }
   }
 
   React.useEffect(() => {
     setIsMounted(true)
 
-    clearTimeout(tooltipPortal[group]?.delayTimeout)
-    clearTimeout(tooltipPortal[group]?.hiddenTimeout)
+    clearTimeout(tooltipPortal[id]?.delayTimeout)
+    clearTimeout(tooltipPortal[id]?.hiddenTimeout)
 
     if (active) {
       makePortal()
-
       setIsActive(true)
+
       isInDOM.current = true
+
+      if (!isMounted) {
+        tooltipPortal[id].count++
+      }
 
       if (hasGroup) {
         renderPortal(true) // re-render
@@ -94,16 +119,16 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
 
       const delayHidden = () => {
         isInDOM.current = false
-        removeFromDOM()
+        removeFromDOM(true)
       }
 
       if (noAnimation || globalThis.IS_TEST) {
         delayRender()
         delayHidden()
-      } else if (tooltipPortal[group]) {
+      } else if (tooltipPortal[id]) {
         const delay = parseFloat(String(hideDelay))
-        tooltipPortal[group].delayTimeout = setTimeout(delayRender, delay)
-        tooltipPortal[group].hiddenTimeout = setTimeout(
+        tooltipPortal[id].delayTimeout = setTimeout(delayRender, delay)
+        tooltipPortal[id].hiddenTimeout = setTimeout(
           delayHidden,
           delay + 300
         )
@@ -111,7 +136,7 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [children, active, group, hideDelay, noAnimation])
+  }, [children, active, id, hideDelay, noAnimation])
 
   React.useEffect(() => {
     /**
@@ -127,7 +152,7 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
   }, [])
 
   const renderPortal = (isActive: boolean) => {
-    const root = tooltipPortal[group]?.node
+    const root = tooltipPortal[id]?.node
 
     // Ensure we only render when it should (is in DOM)
     if (root && hasGroup && isInDOM.current) {
@@ -145,7 +170,7 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
   }
 
   if (!hasGroup) {
-    const root = tooltipPortal[group]?.node
+    const root = tooltipPortal[id]?.node
 
     if (root) {
       return ReactDOM.createPortal(
