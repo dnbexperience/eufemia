@@ -11,6 +11,7 @@ import {
   axeComponent,
   loadScss,
 } from '../../../core/jest/jestSetup'
+import { render } from '@testing-library/react'
 import Component from '../Input'
 import { format } from '../../number-format/NumberUtils'
 
@@ -327,6 +328,27 @@ describe('Input component', () => {
       <Component {...props} status="status" status_state="error" />
     )
     expect(Comp.find('.dnb-form-status__text').text()).toBe('status')
+  })
+
+  it('shows form-status with correct classes', () => {
+    render(
+      <Component
+        value="value"
+        status="status text"
+        status_state="warn"
+        status_props={{ stretch: true }}
+      />
+    )
+
+    expect(
+      Array.from(document.querySelector('.dnb-form-status').classList)
+    ).toEqual([
+      'dnb-form-status',
+      'dnb-form-status--warn',
+      'dnb-form-status__size--default',
+      'dnb-form-status--stretch',
+      'dnb-form-status--has-content',
+    ])
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {

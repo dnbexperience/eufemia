@@ -12,6 +12,7 @@ import {
   loadScss,
   attachToBody, // in order to use document.activeElement properly
 } from '../../../core/jest/jestSetup'
+import { render } from '@testing-library/react'
 import Component from '../Dropdown'
 import {
   mockImplementationForDirectionObserver,
@@ -198,6 +199,29 @@ describe('Dropdown component', () => {
         .instance()
         .getAttribute('aria-expanded')
     ).toBe('true')
+  })
+
+  it('shows form-status with correct classes', () => {
+    render(
+      <Component
+        skip_portal
+        no_animation
+        data={mockData}
+        status="status text"
+        status_state="warn"
+        status_props={{ stretch: true }}
+      />
+    )
+
+    expect(
+      Array.from(document.querySelector('.dnb-form-status').classList)
+    ).toEqual([
+      'dnb-form-status',
+      'dnb-form-status--warn',
+      'dnb-form-status__size--default',
+      'dnb-form-status--stretch',
+      'dnb-form-status--has-content',
+    ])
   })
 
   it('will stay open when keep_open and a selection is made', () => {
