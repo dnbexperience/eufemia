@@ -284,25 +284,25 @@ export const DatePickerScreenshotTests = () => {
 <FormRow vertical>
   <DatePicker
     label="DatePicker:"
-    date={new Date()}
+    date={new Date('2022/06/10')}
     show_input={true}
   />
   <DatePicker
     size="small"
     label="DatePicker:"
-    date={new Date()}
+    date={new Date('2022/06/10')}
     show_input={true}
   />
   <DatePicker
     size="medium"
     label="DatePicker:"
-    date={new Date()}
+    date={new Date('2022/06/10')}
     show_input={true}
   />
   <DatePicker
     size="large"
     label="DatePicker:"
-    date={new Date()}
+    date={new Date('2022/06/10')}
     show_input={true}
   />
 </FormRow>
