@@ -13,8 +13,7 @@ export function SliderMainTrack({
   const { isMulti, value, allProps, trackRef, animationTimeout } =
     useSliderProps()
   const { id, numberFormat, onInit } = allProps
-  const { onTrackMouseUpHandler, onThumbMouseDownHandler, removeEvents } =
-    useSliderEvents()
+  const { onTrackMouseDownHandler, removeEvents } = useSliderEvents()
 
   React.useEffect(() => {
     // onInit is deprecated
@@ -37,10 +36,8 @@ export function SliderMainTrack({
   }, [])
 
   const trackParams = {
-    onTouchStart: onTrackMouseUpHandler,
-    onTouchStartCapture: onThumbMouseDownHandler,
-    onMouseDown: onTrackMouseUpHandler,
-    onMouseDownCapture: onThumbMouseDownHandler,
+    onTouchStart: onTrackMouseDownHandler,
+    onMouseDown: onTrackMouseDownHandler,
   }
 
   return (

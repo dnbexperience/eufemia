@@ -5,10 +5,11 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import { act, fireEvent, render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import { wait } from '@testing-library/user-event/dist/utils'
 import OriginalTooltip from '../Tooltip'
 import Anchor from '../../../elements/Anchor'
+import NumberFormat from '../../number-format/NumberFormat'
 import { TooltipProps } from '../types'
 
 global.ResizeObserver = class {
@@ -47,9 +48,11 @@ describe('Tooltip', () => {
     />
   )
 
+  const getMainElem = () => document.body.querySelector('.dnb-tooltip')
+
   it('supports snake_case props', () => {
     render(
-      <Tooltip active skipPortal>
+      <Tooltip skipPortal active>
         With snake_case props
       </Tooltip>
     )
@@ -62,9 +65,13 @@ describe('Tooltip', () => {
   it('should have aria-hidden attribute', async () => {
     render(<Tooltip active />)
 
-    const getMainElem = () => document.body.querySelector('.dnb-tooltip')
-
     expect(getMainElem().getAttribute('aria-hidden')).toBe('true')
+  })
+
+  it('should have role="tooltip" attribute', async () => {
+    render(<Tooltip active />)
+
+    expect(getMainElem().getAttribute('role')).toBe('tooltip')
   })
 
   it('should set size class', () => {
@@ -103,13 +110,15 @@ describe('Tooltip', () => {
 
     render(<Component />)
 
-    expect(document.querySelector('.dnb-tooltip__portal')).toBeDefined()
-    expect(document.querySelectorAll('.dnb-tooltip')).toHaveLength(2)
+    const qS = (s: string) => document.querySelectorAll(s)
+
+    expect(qS('.dnb-tooltip__portal')).toHaveLength(1)
+    expect(qS('.dnb-tooltip')).toHaveLength(2)
 
     fireEvent.click(document.querySelector('#toggle'))
 
-    expect(document.querySelector('.dnb-tooltip__portal')).toBeDefined()
-    expect(document.querySelectorAll('.dnb-tooltip')).toHaveLength(0)
+    expect(qS('.dnb-tooltip__portal')).toHaveLength(1)
+    expect(qS('.dnb-tooltip')).toHaveLength(0)
   })
 
   it('should remove unmounted group parts', () => {
@@ -140,15 +149,17 @@ describe('Tooltip', () => {
 
     render(<Component />)
 
-    expect(document.querySelector('.dnb-tooltip__portal')).toBeDefined()
-    expect(document.querySelector('.dnb-tooltip__group')).toBeDefined()
-    expect(document.querySelectorAll('.dnb-tooltip')).toHaveLength(1)
+    const qS = (s: string) => document.querySelectorAll(s)
+
+    expect(qS('.dnb-tooltip__portal')).toHaveLength(1)
+    expect(qS('.dnb-tooltip__group')).toHaveLength(1)
+    expect(qS('.dnb-tooltip')).toHaveLength(1)
 
     fireEvent.click(document.querySelector('#toggle'))
 
-    expect(document.querySelector('.dnb-tooltip__portal')).toBeDefined()
-    expect(document.querySelector('.dnb-tooltip__group')).toBeDefined()
-    expect(document.querySelectorAll('.dnb-tooltip')).toHaveLength(0)
+    expect(qS('.dnb-tooltip__portal')).toHaveLength(1)
+    expect(qS('.dnb-tooltip__group')).toHaveLength(0)
+    expect(qS('.dnb-tooltip')).toHaveLength(0)
   })
 
   it('should set fixed position class', () => {
@@ -217,21 +228,9 @@ describe('Tooltip', () => {
 
     it('should merge style prop', () => {
       render(
-        <>
-          <a className="anchor" href="/">
-            anchor
-          </a>
-
-          {/**
-           * The ignore is only temporary
-           * and will be removed when rebasing with this PR https://github.com/dnbexperience/eufemia/pull/1590
-           *
-           * eslint-disable-line @typescript-eslint/ban-ts-comment
-           * @ts-ignore */}
-          <Tooltip active style={{ zIndex: 10 }} targetSelector=".anchor">
-            Tooltip
-          </Tooltip>
-        </>
+        <Tooltip active style={{ zIndex: 10 }}>
+          Tooltip
+        </Tooltip>
       )
 
       expect(
@@ -250,6 +249,14 @@ describe('Tooltip', () => {
       />
     )
 
+    it('should not set style when not active', () => {
+      render(<Tooltip />)
+
+      expect(
+        document.querySelector('.dnb-tooltip').getAttribute('style')
+      ).toBeFalsy()
+    })
+
     it('creates a React Portal', () => {
       render(<Tooltip active />)
 
@@ -261,12 +268,48 @@ describe('Tooltip', () => {
       )
     })
 
-    it('will skip React Portal when skipPortal is true', () => {
-      render(<Tooltip active skipPortal />)
+    describe('skipPortal', () => {
+      it('will skip React Portal', () => {
+        render(<Tooltip skipPortal active />)
 
-      expect(
-        document.body.querySelectorAll('.dnb-tooltip__portal')
-      ).toHaveLength(0)
+        expect(
+          document.body.querySelectorAll('.dnb-tooltip__portal')
+        ).toHaveLength(0)
+      })
+
+      it('will not have aria-hidden', () => {
+        render(<OriginalTooltip skipPortal active />)
+
+        expect(getMainElem().getAttribute('aria-hidden')).toBeFalsy()
+      })
+
+      it('should stay visible when mouse enters the Tooltip', async () => {
+        render(<Tooltip />)
+
+        const buttonElem = document.querySelector('button')
+
+        fireEvent.mouseEnter(buttonElem)
+        await wait(100)
+
+        fireEvent.mouseLeave(buttonElem)
+
+        // Prevent it from hiding
+        fireEvent.mouseEnter(getMainElem())
+
+        await wait(1)
+
+        expect(
+          getMainElem().classList.contains('dnb-tooltip--active')
+        ).toBe(true)
+
+        fireEvent.mouseLeave(getMainElem())
+
+        await wait(1)
+
+        expect(
+          getMainElem().classList.contains('dnb-tooltip--active')
+        ).toBe(false)
+      })
     })
 
     it('should show when active prop is true', async () => {
@@ -275,8 +318,8 @@ describe('Tooltip', () => {
 
         return (
           <OriginalTooltip
+            {...defaultProps}
             active={active}
-            hideDelay={1}
             targetElement={
               <button
                 onMouseEnter={() => {
@@ -295,10 +338,11 @@ describe('Tooltip', () => {
 
       render(<Tooltip />)
 
-      const getMainElem = () => document.body.querySelector('.dnb-tooltip')
       const buttonElem = document.querySelector('button')
 
       fireEvent.mouseEnter(buttonElem)
+
+      await wait(100)
 
       expect(getMainElem().classList.contains('dnb-tooltip--active')).toBe(
         true
@@ -323,7 +367,6 @@ describe('Tooltip', () => {
     it('should stay visible when mouse enters the Tooltip', async () => {
       render(<Tooltip />)
 
-      const getMainElem = () => document.body.querySelector('.dnb-tooltip')
       const buttonElem = document.querySelector('button')
 
       fireEvent.mouseEnter(buttonElem)
@@ -352,8 +395,6 @@ describe('Tooltip', () => {
     it('should set animate_position class', () => {
       render(<Tooltip animatePosition active />)
 
-      const getMainElem = () => document.body.querySelector('.dnb-tooltip')
-
       expect(Array.from(getMainElem().classList)).toEqual(
         expect.arrayContaining([
           'dnb-tooltip',
@@ -365,8 +406,6 @@ describe('Tooltip', () => {
 
     it('should set fixed class', () => {
       render(<Tooltip fixedPosition active />)
-
-      const getMainElem = () => document.body.querySelector('.dnb-tooltip')
 
       expect(Array.from(getMainElem().classList)).toEqual(
         expect.arrayContaining([
@@ -410,7 +449,6 @@ describe('Tooltip', () => {
 
         const allElements = () =>
           document.body.querySelectorAll('.dnb-tooltip')
-        const getMainElem = () => allElements()[0]
         const buttonA = document.querySelector('button#a')
         const buttonB = document.querySelector('button#b')
 
@@ -447,6 +485,71 @@ describe('Tooltip', () => {
     it('should validate with ARIA rules as a tooltip', async () => {
       const Component = render(<Tooltip active />)
       expect(await axeComponent(Component)).toHaveNoViolations()
+    })
+  })
+
+  describe('NumberFormat with tooltip', () => {
+    it('will get wrapped with dnb-tooltip__wrapper', () => {
+      render(
+        <NumberFormat
+          tooltip={
+            <Tooltip {...defaultProps} className="custom-class">
+              Tooltip for this NumberFormat
+            </Tooltip>
+          }
+        >
+          5678
+        </NumberFormat>
+      )
+
+      const wrapperElement = document.querySelector(
+        '.dnb-tooltip__wrapper'
+      )
+      const tooltipElement = document.querySelector('.dnb-tooltip')
+      const numberFormatElement = wrapperElement.querySelector(
+        '.dnb-number-format__visible'
+      )
+      const id = numberFormatElement.getAttribute('aria-describedby')
+
+      expect(wrapperElement.getAttribute('tabindex')).toBe('0')
+      expect(Array.from(wrapperElement.classList)).toEqual([
+        'dnb-tooltip__wrapper',
+        'dnb-tab-focus',
+      ])
+      expect(Array.from(tooltipElement.classList)).toEqual([
+        'dnb-tooltip',
+        'custom-class',
+      ])
+      expect(document.body.querySelectorAll('#' + id).length).toBe(1)
+    })
+
+    it('has to have active class on focus', async () => {
+      render(
+        <NumberFormat
+          tooltip={
+            <Tooltip {...defaultProps}>
+              Tooltip for this NumberFormat
+            </Tooltip>
+          }
+        >
+          1234
+        </NumberFormat>
+      )
+
+      fireEvent.focus(document.querySelector('.dnb-tooltip__wrapper'))
+
+      await wait(200) // because of visibility delay
+
+      const wrapperElement = document.querySelector(
+        '.dnb-tooltip__wrapper'
+      )
+      const id = wrapperElement.getAttribute('aria-describedby')
+
+      expect(
+        document.body
+          .querySelector('#' + id)
+          .parentElement.classList.contains('dnb-tooltip--active')
+      ).toBe(true)
     })
   })
 
@@ -505,23 +608,17 @@ describe('Tooltip', () => {
         </Anchor>
       )
 
-      await act(async () => {
-        document.documentElement.setAttribute(
-          'data-whatintent',
-          'keyboard'
-        )
-        const inst = document.querySelector('a')
-        inst.dispatchEvent(new Event('focus'))
+      const element = document.querySelector('a')
+      fireEvent.focus(element)
 
-        await wait(400) // because of visibility delay
+      await wait(200) // because of visibility delay
 
-        const id = inst.getAttribute('aria-describedby')
-        expect(
-          document.body
-            .querySelector('#' + id)
-            .parentElement.classList.contains('dnb-tooltip--active')
-        ).toBe(true)
-      })
+      const id = element.getAttribute('aria-describedby')
+      expect(
+        document.body
+          .querySelector('#' + id)
+          .parentElement.classList.contains('dnb-tooltip--active')
+      ).toBe(true)
     })
   })
 })

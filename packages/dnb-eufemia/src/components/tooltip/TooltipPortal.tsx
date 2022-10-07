@@ -7,7 +7,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { makeUniqueId, warn } from '../../shared/component-helper'
 import TooltipContainer from './TooltipContainer'
-import { getTargetElement } from './TooltipHelpers'
 import { TooltipProps } from './types'
 
 type TooltipType = {
@@ -26,7 +25,7 @@ if (typeof globalThis !== 'undefined') {
 }
 
 type TooltipPortalProps = {
-  target: HTMLElement
+  targetElement: HTMLElement
   active: boolean
   keepInDOM?: boolean
   group?: string
@@ -34,8 +33,14 @@ type TooltipPortalProps = {
 }
 
 function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
-  const { active, target, hideDelay, keepInDOM, noAnimation, children } =
-    props
+  const {
+    active,
+    targetElement,
+    hideDelay,
+    keepInDOM,
+    noAnimation,
+    children,
+  } = props
 
   const [isMounted, setIsMounted] = React.useState(false)
   const [isActive, setIsActive] = React.useState(active)
@@ -47,9 +52,7 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
     if (!tooltipPortal[id]) {
       tooltipPortal[id] = {
         count: 0,
-        node: hasGroup
-          ? createGroupElement(id)
-          : createRootElement('dnb-tooltip__portal'),
+        node: hasGroup ? createGroupElement(id) : createRootElement(),
       }
     }
   }
@@ -68,23 +71,13 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
          */
         if (hasGroup) {
           ReactDOM.unmountComponentAtNode(ref.node)
+          createRootElement().removeChild(ref.node)
         }
 
-        try {
-          /**
-           * Remove the parent (group) node if its empty
-           */
-          if (ref.node.innerHTML === '') {
-            ref.node.parentElement?.removeChild(ref.node)
-          }
-
-          /**
-           * Remove the referenced data
-           */
-          delete tooltipPortal[id]
-        } catch (e) {
-          warn(e)
-        }
+        /**
+         * Remove the referenced data
+         */
+        delete tooltipPortal[id]
       }
     }
   }
@@ -159,7 +152,7 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
       ReactDOM.render(
         <TooltipContainer
           {...props}
-          targetElement={getTargetElement(target)}
+          targetElement={targetElement}
           active={isActive}
         />,
         root
@@ -177,7 +170,7 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
         isInDOM.current || keepInDOM ? (
           <TooltipContainer
             {...props}
-            targetElement={getTargetElement(target)}
+            targetElement={targetElement}
             active={isActive}
           >
             {children}
@@ -193,12 +186,16 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
 
 export default TooltipPortal
 
+/**
+ * We creaete this custom wrapper, so ReactDOM.render has its "own" root. This is required by React.
+ */
 const createGroupElement = (id: string) => {
   try {
     const elem = document.createElement('div')
     elem.classList.add('dnb-tooltip__group')
     elem.setAttribute('id', id)
-    createRootElement('dnb-tooltip__portal').appendChild(elem)
+
+    createRootElement().appendChild(elem)
 
     return elem
   } catch (e) {
@@ -206,7 +203,7 @@ const createGroupElement = (id: string) => {
   }
 }
 
-const createRootElement = (className: string) => {
+const createRootElement = (className = 'dnb-tooltip__portal') => {
   try {
     const element: HTMLElement = document.querySelector(`.${className}`)
 
