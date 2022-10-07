@@ -10,7 +10,7 @@ ModalExampleCloseByHandler
 
 ## Demos
 
-The following examples are to demonstrate the functionality of Modal. Please go to [Drawer demos](/uilib/components/drawer/demos) or [Dialog demos](/uilib/components/drawer/demos) for complete component demos.
+The following examples are to demonstrate the functionality of Modal. Please go to [Drawer demos](/uilib/components/drawer/demos) or [Dialog demos](/uilib/components/dialog/demos) for complete component demos.
 
 ### Mode custom
 
