@@ -1,6 +1,6 @@
 ---
 title: 'Breadcrumb'
-description: 'The Breadcrumb component is a bar for navigation showing current web path'
+description: 'The Breadcrumb component is a bar for navigation showing current web path.'
 status: null
 showTabs: true
 ---

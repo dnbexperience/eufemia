@@ -1,6 +1,6 @@
 ---
 title: 'Table'
-description: 'Enhanced HTML Table element'
+description: 'Enhanced HTML Table element.'
 status: 'new'
 showTabs: true
 redirect_from:
