@@ -8,7 +8,7 @@ import { render, act, fireEvent } from '@testing-library/react'
 import ToggleButton from '../../ToggleButton'
 import { wait } from '@testing-library/user-event/dist/utils'
 import HeightAnimation, { HeightAnimationProps } from '../HeightAnimation'
-import AnimateHeight from '../../../shared/AnimateHeight'
+import HeightAnimationInstance from '../HeightAnimationInstance'
 
 beforeEach(() => {
   global.IS_TEST = false
@@ -217,7 +217,9 @@ describe('HeightAnimation', () => {
     act(() => {
       simulateAnimationEnd()
       expect(onInit).toHaveBeenCalledTimes(1)
-      expect(onInit).toHaveBeenCalledWith(expect.any(AnimateHeight))
+      expect(onInit).toHaveBeenCalledWith(
+        expect.any(HeightAnimationInstance)
+      )
     })
 
     rerender(<Component open={false} />)

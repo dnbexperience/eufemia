@@ -1,9 +1,9 @@
 /**
- * AnimateHeight Tests
+ * HeightAnimationInstance Tests
  *
  */
 
-import AnimateHeight from '../AnimateHeight'
+import HeightAnimationInstance from '../HeightAnimationInstance'
 
 let element: HTMLElement
 
@@ -24,20 +24,20 @@ function emulateSetContainerHeight() {
   jest.spyOn(element, 'offsetHeight', 'get').mockImplementation(() => 300)
 }
 
-describe('AnimateHeight', () => {
+describe('HeightAnimationInstance', () => {
   it('should check for window', () => {
-    expect(new AnimateHeight().isInBrowser).toBe(true)
+    expect(new HeightAnimationInstance().isInBrowser).toBe(true)
 
     const _window = window
     jest.spyOn(global, 'window', 'get').mockImplementation(() => undefined)
 
-    expect(new AnimateHeight().isInBrowser).toBe(false)
+    expect(new HeightAnimationInstance().isInBrowser).toBe(false)
 
     jest.spyOn(global, 'window', 'get').mockImplementation(() => _window)
   })
 
   it('setElement should set element and clear it again on remove call', () => {
-    const inst = new AnimateHeight()
+    const inst = new HeightAnimationInstance()
     inst.setElement(element)
     expect(inst.elem).toBe(element)
 
@@ -46,7 +46,7 @@ describe('AnimateHeight', () => {
   })
 
   it('getHeight should return height', () => {
-    const inst = new AnimateHeight()
+    const inst = new HeightAnimationInstance()
     inst.setElement(element)
 
     jest
@@ -57,7 +57,7 @@ describe('AnimateHeight', () => {
   })
 
   it('getWidth should return width', () => {
-    const inst = new AnimateHeight()
+    const inst = new HeightAnimationInstance()
     inst.setElement(element)
 
     let _elem
@@ -77,7 +77,7 @@ describe('AnimateHeight', () => {
   })
 
   it('reset should remove CSS styles', () => {
-    const inst = new AnimateHeight()
+    const inst = new HeightAnimationInstance()
     inst.setElement(element)
     inst.open({ animate: false })
 
@@ -91,7 +91,7 @@ describe('AnimateHeight', () => {
   })
 
   it('_restore should remove CSS styles', () => {
-    const inst = new AnimateHeight()
+    const inst = new HeightAnimationInstance()
     inst.setElement(element)
 
     if (element.parentElement) {
@@ -113,7 +113,7 @@ describe('AnimateHeight', () => {
   })
 
   it('getUnknownHeight should return proper height', () => {
-    const inst = new AnimateHeight()
+    const inst = new HeightAnimationInstance()
     inst.setElement(element)
 
     jest
@@ -124,7 +124,7 @@ describe('AnimateHeight', () => {
   })
 
   it('open should call getUnknownHeight', () => {
-    const inst = new AnimateHeight()
+    const inst = new HeightAnimationInstance()
 
     jest.spyOn(inst, 'getUnknownHeight').mockImplementation(jest.fn())
 
@@ -135,7 +135,7 @@ describe('AnimateHeight', () => {
   })
 
   it('getUnknownHeight should use cached height during animation', () => {
-    const inst = new AnimateHeight()
+    const inst = new HeightAnimationInstance()
 
     jest
       .spyOn(element, 'clientHeight', 'get')
@@ -168,7 +168,7 @@ describe('AnimateHeight', () => {
   })
 
   it('adjustFrom should set and return height', () => {
-    const inst = new AnimateHeight()
+    const inst = new HeightAnimationInstance()
     inst.setElement(element)
 
     jest
@@ -186,7 +186,7 @@ describe('AnimateHeight', () => {
 
   describe('start', () => {
     it('start without animation should work properly', async () => {
-      const inst = new AnimateHeight()
+      const inst = new HeightAnimationInstance()
       inst.setElement(element)
 
       const onStart = jest.fn()
@@ -212,7 +212,7 @@ describe('AnimateHeight', () => {
     })
 
     it('start with animation should work properly', async () => {
-      const inst = new AnimateHeight()
+      const inst = new HeightAnimationInstance()
       inst.setElement(element)
 
       emulateSetContainerHeight()
@@ -261,7 +261,7 @@ describe('AnimateHeight', () => {
 
   describe('adjustTo', () => {
     it('adjustTo with animation should work properly', async () => {
-      const inst = new AnimateHeight()
+      const inst = new HeightAnimationInstance()
       inst.setElement(element)
 
       emulateSetContainerHeight()
@@ -310,7 +310,7 @@ describe('AnimateHeight', () => {
     })
 
     it('adjustTo with animation and same height should call events', async () => {
-      const inst = new AnimateHeight()
+      const inst = new HeightAnimationInstance()
       inst.setElement(element)
 
       const onStart = jest.fn()
@@ -339,7 +339,7 @@ describe('AnimateHeight', () => {
 
   describe('open', () => {
     it('open without animation should work properly', async () => {
-      const inst = new AnimateHeight()
+      const inst = new HeightAnimationInstance()
       inst.setElement(element)
 
       const onStart = jest.fn()
@@ -364,7 +364,7 @@ describe('AnimateHeight', () => {
     })
 
     it('open with animation should work properly', async () => {
-      const inst = new AnimateHeight()
+      const inst = new HeightAnimationInstance()
       inst.setElement(element)
 
       const onStart = jest.fn()
@@ -400,7 +400,7 @@ describe('AnimateHeight', () => {
 
   describe('close', () => {
     it('close without animation should work properly', async () => {
-      const inst = new AnimateHeight()
+      const inst = new HeightAnimationInstance()
       inst.setElement(element)
 
       const onStart = jest.fn()
@@ -431,7 +431,7 @@ describe('AnimateHeight', () => {
     })
 
     it('close with animation should work properly', async () => {
-      const inst = new AnimateHeight()
+      const inst = new HeightAnimationInstance()
       inst.setElement(element)
 
       const onStart = jest.fn()
