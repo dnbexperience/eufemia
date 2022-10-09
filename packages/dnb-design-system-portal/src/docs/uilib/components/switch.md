@@ -1,5 +1,6 @@
 ---
 title: 'Switch'
+description: 'The Switch component (toggle) is a digital on/off switch.'
 showTabs: true
 ---
 

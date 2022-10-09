@@ -36,6 +36,22 @@ const ListSummaryFromDocs = ({ slug, useAsIndex = false }) => {
         .filter(({ node: { slug: s } }) =>
           s.includes(String(slug).replace(/^\//, ''))
         )
+        .sort(
+          (
+            {
+              node: {
+                frontmatter: { title: titleA },
+              },
+            },
+            {
+              node: {
+                frontmatter: { title: titleB },
+              },
+            }
+          ) => {
+            return (titleA > titleB) - (titleA < titleB)
+          }
+        )
         .map(
           (
             {

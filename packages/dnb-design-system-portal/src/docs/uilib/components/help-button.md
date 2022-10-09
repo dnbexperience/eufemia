@@ -1,6 +1,6 @@
 ---
 title: 'HelpButton'
-description: 'A help button with custom semantics, helping screen readers determine the meaning of that button'
+description: 'A help button with custom semantics, helping screen readers determine the meaning of that button.'
 showTabs: true
 ---
 

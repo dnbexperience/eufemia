@@ -1,5 +1,6 @@
 ---
 title: 'InfinityScroller'
+description: 'The InfinityScroller component is a mode of the Pagination component which loads content continuously as the user scrolls down the page.'
 showTabs: true
 tabs:
   - title: Info
