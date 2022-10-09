@@ -48,21 +48,19 @@ export function getTargetElement(target: HTMLElement) {
 }
 
 export function useHandleAria(
-  targetElement: React.RefObject<HTMLElement>,
+  targetElement: HTMLElement,
   internalId: string
 ) {
   React.useEffect(() => {
     try {
-      const elem = getTargetElement(getRefElement(targetElement))
-      if (!elem?.classList.contains('dnb-tooltip__wrapper')) {
-        const existing = {
-          'aria-describedby': elem.getAttribute('aria-describedby'),
-        }
-        elem.setAttribute(
-          'aria-describedby',
-          combineDescribedBy(existing, internalId)
-        )
+      // const elem = getTargetElement(getRefElement(targetElement))
+      const existing = {
+        'aria-describedby': targetElement.getAttribute('aria-describedby'),
       }
+      targetElement.setAttribute(
+        'aria-describedby',
+        combineDescribedBy(existing, internalId)
+      )
     } catch (e) {
       //
     }
@@ -88,7 +86,10 @@ export function getRefElement(target: React.RefObject<HTMLElement>) {
     element = getRefElement(unknownTarget.current._ref)
   }
 
-  if (Object.prototype.hasOwnProperty.call(element, 'current')) {
+  if (
+    element &&
+    Object.prototype.hasOwnProperty.call(element, 'current')
+  ) {
     element = (element as React.RefObject<HTMLElement>).current
   }
 

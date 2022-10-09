@@ -156,18 +156,18 @@ describe('Slider component', () => {
   })
 
   describe('Tooltip', () => {
+    const IS_TEST = globalThis.IS_TEST
     beforeEach(() => {
       document.body.innerHTML = ''
+      globalThis.IS_TEST = false
+    })
+    afterEach(() => {
+      globalThis.IS_TEST = IS_TEST
     })
 
     it('shows always a Tooltip when alwaysShowTooltip is true', () => {
       render(
-        <Slider
-          {...props}
-          id="unique-tooltip-01"
-          tooltip
-          alwaysShowTooltip
-        />
+        <Slider {...props} id="unique-tooltip" tooltip alwaysShowTooltip />
       )
 
       const tooltipElem = document.querySelector('.dnb-tooltip')
@@ -182,7 +182,7 @@ describe('Slider component', () => {
       render(
         <Slider
           {...props}
-          id="unique-tooltip-02"
+          id="unique-tooltip"
           numberFormat={{ currency: 'EUR' }}
           tooltip
         />
@@ -192,37 +192,78 @@ describe('Slider component', () => {
       const thumbElem = mainElem.querySelector(
         '.dnb-slider__thumb .dnb-button'
       )
-      const tooltipElem = () => document.querySelector('.dnb-tooltip')
+      const getTooltipElem = () => document.querySelector('.dnb-tooltip')
 
-      expect(tooltipElem().textContent).toBe('70,00 €')
-      expect(Array.from(tooltipElem().classList)).toEqual(
-        expect.arrayContaining(['dnb-tooltip'])
-      )
+      expect(getTooltipElem().textContent).toBe('70,00 €')
+      expect(Array.from(getTooltipElem().classList)).toEqual([
+        'dnb-tooltip',
+      ])
 
-      fireEvent.mouseOver(thumbElem)
+      fireEvent.mouseEnter(thumbElem)
 
       simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
-      expect(Array.from(tooltipElem().classList)).toEqual(
-        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
+      await wait(100)
+
+      expect(Array.from(getTooltipElem().classList)).toEqual([
+        'dnb-tooltip',
+        'dnb-tooltip--active',
+      ])
+
+      expect(getTooltipElem().textContent).toBe('80,00 €')
+
+      fireEvent.mouseLeave(thumbElem)
+
+      await wait(300)
+
+      expect(Array.from(getTooltipElem().classList)).toEqual([
+        'dnb-tooltip',
+        'dnb-tooltip--hide',
+      ])
+    })
+
+    it('shows Tooltip on focus', async () => {
+      render(<Slider {...props} id="unique-tooltip" tooltip />)
+
+      const mainElem = document.querySelector('.dnb-slider')
+      const thumbElem = mainElem.querySelector(
+        '.dnb-slider__thumb .dnb-button'
       )
+      const getTooltipElem = () => document.querySelector('.dnb-tooltip')
 
-      expect(tooltipElem().textContent).toBe('80,00 €')
+      expect(getTooltipElem().textContent).toBe('70')
+      expect(Array.from(getTooltipElem().classList)).toEqual([
+        'dnb-tooltip',
+      ])
 
-      fireEvent.mouseOut(thumbElem)
+      fireEvent.focus(thumbElem)
 
-      await wait(1)
+      simulateMouseMove({ pageX: 80, width: 100, height: 10 })
 
-      expect(Array.from(tooltipElem().classList)).toEqual(
-        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--hide'])
-      )
+      await wait(100)
+
+      expect(Array.from(getTooltipElem().classList)).toEqual([
+        'dnb-tooltip',
+        'dnb-tooltip--active',
+      ])
+
+      expect(getTooltipElem().textContent).toBe('80')
+
+      fireEvent.blur(thumbElem)
+
+      await wait(300)
+
+      expect(Array.from(getTooltipElem().classList)).toEqual([
+        'dnb-tooltip',
+        'dnb-tooltip--hide',
+      ])
     })
 
     it('shows Tooltip on hover with custom formatting', async () => {
       render(
         <Slider
           {...props}
-          id="unique-tooltip-03"
+          id="unique-tooltip"
           numberFormat={(value) => format(value, { percent: true })}
           tooltip
           step={null}
@@ -233,30 +274,69 @@ describe('Slider component', () => {
       const thumbElem = mainElem.querySelector(
         '.dnb-slider__thumb .dnb-button'
       )
-      const tooltipElem = () => document.querySelector('.dnb-tooltip')
+      const getTooltipElem = () => document.querySelector('.dnb-tooltip')
 
-      expect(tooltipElem().textContent).toBe('70 %')
-      expect(Array.from(tooltipElem().classList)).toEqual(
-        expect.arrayContaining(['dnb-tooltip'])
-      )
+      expect(getTooltipElem().textContent).toBe('70 %')
+      expect(Array.from(getTooltipElem().classList)).toEqual([
+        'dnb-tooltip',
+      ])
 
-      fireEvent.mouseOver(thumbElem)
+      fireEvent.mouseEnter(thumbElem)
 
       simulateMouseMove({ pageX: 80.5, width: 100, height: 10 })
 
-      expect(Array.from(tooltipElem().classList)).toEqual(
-        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
+      await wait(100)
+
+      expect(Array.from(getTooltipElem().classList)).toEqual([
+        'dnb-tooltip',
+        'dnb-tooltip--active',
+      ])
+
+      expect(getTooltipElem().textContent).toBe('80,5 %')
+
+      fireEvent.mouseLeave(thumbElem)
+
+      await wait(300)
+
+      expect(Array.from(getTooltipElem().classList)).toEqual([
+        'dnb-tooltip',
+        'dnb-tooltip--hide',
+      ])
+    })
+
+    it('text can be selected without disappearing', async () => {
+      render(<Slider {...props} id="unique-tooltip" tooltip />)
+
+      const mainElem = document.querySelector('.dnb-slider')
+      const thumbElem = mainElem.querySelector(
+        '.dnb-slider__thumb .dnb-button'
       )
+      const getTooltipElem = () => document.querySelector('.dnb-tooltip')
 
-      expect(tooltipElem().textContent).toBe('80,5 %')
+      expect(Array.from(getTooltipElem().classList)).toEqual([
+        'dnb-tooltip',
+      ])
 
-      fireEvent.mouseOut(thumbElem)
+      fireEvent.mouseEnter(thumbElem)
 
-      await wait(1)
+      await wait(100)
 
-      expect(Array.from(tooltipElem().classList)).toEqual(
-        expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--hide'])
-      )
+      expect(Array.from(getTooltipElem().classList)).toEqual([
+        'dnb-tooltip',
+        'dnb-tooltip--active',
+      ])
+
+      fireEvent.mouseLeave(thumbElem)
+
+      // Enter Tooltip, and with that, prevent it from hiding/disappearing
+      fireEvent.mouseEnter(getTooltipElem())
+
+      await wait(300)
+
+      expect(Array.from(getTooltipElem().classList)).toEqual([
+        'dnb-tooltip',
+        'dnb-tooltip--active',
+      ])
     })
   })
 

@@ -17,6 +17,12 @@ export default css`
     background-color: white;
   }
 
+  .dnb-live-preview p.dnb-p {
+    &:not([class*='dnb-space__bottom']) {
+      margin-bottom: 0;
+    }
+  }
+
   /*
     Make sure we cut the tab and section parts on the left side
     so it's not visible "over" the sidebar.

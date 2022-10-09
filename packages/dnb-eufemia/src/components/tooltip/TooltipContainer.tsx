@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { isTrue } from '../../shared/component-helper'
-import { getOffsetLeft } from '../../shared/helpers'
+import { getOffsetLeft, getOffsetTop } from '../../shared/helpers'
 import classnames from 'classnames'
 import { TooltipProps } from './types'
 
@@ -26,11 +26,16 @@ export default function TooltipContainer(
     attributes,
     arrow,
     position,
+    align,
+    group,
+    hideDelay,
     animatePosition,
     fixedPosition,
     noAnimation,
+    skipPortal,
     useHover,
     children,
+    targetElement: target,
   } = props
 
   const [style, setStyle] = React.useState(null)
@@ -61,7 +66,7 @@ export default function TooltipContainer(
       }
 
       try {
-        resizeObserver.current = new ResizeObserver((entries) => {
+        resizeObserver.current = new ResizeObserver(() => {
           clearTimeout(debounceTimeout.current)
           debounceTimeout.current = setTimeout(
             () => forceRerender(getBodySize()),
@@ -91,9 +96,26 @@ export default function TooltipContainer(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive])
 
+  const offsetLeft = React.useRef(0)
+  const offsetTop = React.useRef(0)
+
   React.useLayoutEffect(() => {
+    if (!isActive) {
+      /**
+       * This "resets" the position between elements,
+       * when not active. Else it will always first show on the older position.
+       */
+      if (group && wasActive) {
+        clearTimeout(debounceTimeout.current)
+        debounceTimeout.current = setTimeout(
+          () => setStyle(null),
+          hideDelay
+        )
+      }
+      return // stop here
+    }
+
     const element = elementRef?.current
-    const { targetElement: target, align, fixedPosition } = props
 
     if (
       typeof window === 'undefined' ||
@@ -103,13 +125,11 @@ export default function TooltipContainer(
       return // stop here
     }
 
-    const elementWidth = element.offsetWidth
-    const elementHeight = element.offsetHeight
-
     let alignOffset = 0
 
+    const elementWidth = element.offsetWidth
+    const elementHeight = element.offsetHeight
     const rect = target.getBoundingClientRect()
-
     const targetBodySize = {
       width: target.offsetWidth,
       height: target.offsetHeight,
@@ -121,11 +141,17 @@ export default function TooltipContainer(
       targetBodySize.height = rect.height
     }
 
+    if (skipPortal && (!offsetLeft.current || !offsetTop.current)) {
+      offsetLeft.current = getOffsetLeft(element) - offset.current
+      offsetTop.current = getOffsetTop(element) - offset.current
+    }
+
     const scrollY =
       window.scrollY !== undefined ? window.scrollY : window.pageYOffset
     const scrollX =
       window.scrollX !== undefined ? window.scrollX : window.pageXOffset
-    const top = (isTrue(fixedPosition) ? 0 : scrollY) + rect.top
+    const top =
+      (isTrue(fixedPosition) ? 0 : scrollY) + rect.top - offsetTop.current
 
     // Use Mouse position when target is too wide
     const useMouseWhen = targetBodySize.width > 400
@@ -135,9 +161,9 @@ export default function TooltipContainer(
       (element ? element.offsetWidth : 0)
     const widthBased = scrollX + rect.left
     const left =
-      useMouseWhen && mousePos < targetBodySize.width
+      (useMouseWhen && mousePos < targetBodySize.width
         ? mousePos
-        : widthBased
+        : widthBased) - offsetLeft.current
 
     const style = { ...props.style }
 
@@ -195,8 +221,7 @@ export default function TooltipContainer(
 
     if (stylesFromPosition[position]) {
       stylesFromPosition[position]()
-    }
-    if (stylesFromArrow[arrow]) {
+    } else if (stylesFromArrow[arrow]) {
       stylesFromArrow[arrow]()
     }
 
@@ -213,12 +238,10 @@ export default function TooltipContainer(
       style.top = 0
     }
 
-    if (isActive) {
-      setStyle(style)
-    }
+    setStyle(style)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isActive, arrow, position, children, renewStyles])
+  }, [active, arrow, position, children, renewStyles])
 
   const handleMouseEnter = () => {
     if (isTrue(active) && useHover !== false) {
@@ -232,13 +255,22 @@ export default function TooltipContainer(
     }
   }
 
+  /**
+   * By stopping propagation, we allow the user to select text when Toolip is used in the Slider component
+   */
+  const handlePropagation = (e: React.SyntheticEvent) =>
+    e.stopPropagation()
+
   return (
     <span
       role="tooltip"
-      aria-hidden // make sure SR does not find it in the DOM, because we use "aria-describedby" for that
+      aria-hidden={target ? true : undefined} // make sure SR does not find it in the DOM, because we use "aria-describedby" for that
       ref={elementRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onMouseMove={handlePropagation}
+      onMouseDown={handlePropagation}
+      onTouchStart={handlePropagation}
       {...attributes}
       className={classnames(
         attributes?.className,

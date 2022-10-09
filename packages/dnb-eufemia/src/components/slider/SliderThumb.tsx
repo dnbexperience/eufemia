@@ -3,6 +3,7 @@ import {
   combineDescribedBy,
   combineLabelledBy,
   validateDOMAttributes,
+  warn,
 } from '../../shared/component-helper'
 import Button from '../button/Button'
 import Tooltip from '../tooltip/Tooltip'
@@ -72,6 +73,11 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   }
   const onMouseLeaveHandler = () => {
     setShowTooltip(false)
+    try {
+      elemRef.current.dispatchEvent(new Event('mouseleave'))
+    } catch (e) {
+      warn(e)
+    }
   }
 
   const {
@@ -109,15 +115,20 @@ function Thumb({ value, currentIndex }: ThumbProps) {
     helperParams.onFocus = (event) => {
       onHelperFocusHandler(event)
       onMouseEnterHandler()
+      try {
+        elemRef.current.dispatchEvent(new Event('mouseenter'))
+      } catch (e) {
+        warn(e)
+      }
     }
   }
   validateDOMAttributes(allProps, thumbParams) // because we send along rest attributes
 
-  const elemRef = React.useRef()
+  const elemRef = React.useRef<HTMLElement>()
 
   return (
     <>
-      <span className="dnb-slider__thumb" style={style} ref={elemRef}>
+      <span className="dnb-slider__thumb" style={style}>
         <input
           type="range"
           className="dnb-slider__button-helper"
@@ -145,6 +156,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
           variant="secondary"
           disabled={disabled}
           skeleton={skeleton}
+          innerRef={elemRef}
           {...thumbParams}
         />
 
@@ -153,12 +165,13 @@ function Thumb({ value, currentIndex }: ThumbProps) {
             key={`group-${currentIndex}`}
             targetElement={elemRef}
             animatePosition={shouldAnimate}
-            active={showTooltip || alwaysShowTooltip}
+            active={Boolean(showTooltip || alwaysShowTooltip)}
+            showDelay={1}
             hideDelay={300}
           >
             {number || value}
             {
-              /* Use this only in order to update the position after the thumb animation */ shouldAnimate
+              shouldAnimate /* Use "shouldAnimate" only in order to update the position after the thumb animation */
             }
           </Tooltip>
         )}
