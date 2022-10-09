@@ -3,6 +3,14 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.32.1](https://github.com/dnbexperience/eufemia/compare/v9.32.0...v9.32.1) (2022-10-09)
+
+
+### Bug Fixes
+
+* **Tooltip:** make skipPortal properly inline and accessible to screen readers ([#1613](https://github.com/dnbexperience/eufemia/issues/1613)) ([0d32910](https://github.com/dnbexperience/eufemia/commit/0d32910fe64a541b6b6b99bc04f01bacdf558b0f))
+* **Tooltip:** remove left over DOM elements when component unmounts ([#1612](https://github.com/dnbexperience/eufemia/issues/1612)) ([ddd26ed](https://github.com/dnbexperience/eufemia/commit/ddd26ed9dd5ab3c858c843def8598a486d3212ea))
+
 # [9.32.0](https://github.com/dnbexperience/eufemia/compare/v9.31.0...v9.32.0) (2022-10-06)
 
 
