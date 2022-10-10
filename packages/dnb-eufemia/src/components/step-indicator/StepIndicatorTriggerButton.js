@@ -13,7 +13,7 @@ import {
   combineDescribedBy,
   isTrue,
 } from '../../shared/component-helper'
-import AnimateHeight from '../../shared/AnimateHeight'
+import HeightAnimationInstance from '../height-animation/HeightAnimationInstance'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import FormLabel from '../form-label/FormLabel'
 import StepIndicatorContext from './StepIndicatorContext'
@@ -39,7 +39,7 @@ export default class StepIndicatorTriggerButton extends React.PureComponent {
 
   constructor(props, context) {
     super(props)
-    this._heightAnim = new AnimateHeight({
+    this._heightAnim = new HeightAnimationInstance({
       animate: !isTrue(context.no_animation),
     })
     this._buttonRef = props.inner_ref || React.createRef()

@@ -15,7 +15,7 @@ import {
   processChildren,
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
-import AnimateHeight from '../../shared/AnimateHeight'
+import HeightAnimationInstance from '../height-animation/HeightAnimationInstance'
 import {
   spacingPropTypes,
   createSpacingClasses,
@@ -214,7 +214,7 @@ export default class FormStatus extends React.PureComponent {
 
     this._ref = React.createRef()
 
-    this._heightAnim = new AnimateHeight({
+    this._heightAnim = new HeightAnimationInstance({
       animate: props.no_animation === false,
 
       /** TODO: consider to enable animation by default */

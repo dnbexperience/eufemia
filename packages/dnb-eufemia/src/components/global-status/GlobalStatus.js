@@ -18,7 +18,7 @@ import {
   processChildren,
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
-import AnimateHeight from '../../shared/AnimateHeight'
+import HeightAnimationInstance from '../height-animation/HeightAnimationInstance'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -200,7 +200,7 @@ export default class GlobalStatus extends React.PureComponent {
     this._wrapperRef = React.createRef()
     this._shellRef = React.createRef()
 
-    this.anim = new AnimateHeight({
+    this.anim = new HeightAnimationInstance({
       animate: !isTrue(props.no_animation),
     })
 

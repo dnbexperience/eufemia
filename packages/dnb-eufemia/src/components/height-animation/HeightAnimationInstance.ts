@@ -1,40 +1,41 @@
-import { warn } from './component-helper'
+import { warn } from '../../shared/component-helper'
 
-export type AnimateHeightOnStartStates =
+export type HeightAnimationOnStartStates =
   | 'opening'
   | 'closing'
   | 'adjusting'
-export type AnimateHeightOnEndStates = 'opened' | 'closed' | 'adjusted'
-export type AnimateHeightStates =
-  | AnimateHeightOnStartStates
-  | AnimateHeightOnEndStates
+export type HeightAnimationOnEndStates = 'opened' | 'closed' | 'adjusted'
+export type HeightAnimationStates =
+  | HeightAnimationOnStartStates
+  | HeightAnimationOnEndStates
   | 'init'
-export type AnimateHeightOptions = {
+export type HeightAnimationOptions = {
   animate?: boolean
 }
-export type AnimateHeightOnStartCallback = (
-  state: AnimateHeightStates
+export type HeightAnimationOnStartCallback = (
+  state: HeightAnimationStates
 ) => void
-export type AnimateHeightOnEndCallback = (
-  state: AnimateHeightStates
+export type HeightAnimationOnEndCallback = (
+  state: HeightAnimationStates
 ) => void
-export type AnimateHeightOnStartStack = Array<AnimateHeightOnStartCallback>
-export type AnimateHeightOnEndStack = Array<AnimateHeightOnEndCallback>
-export type AnimateHeightEventListener = (e: Event) => void
-export type AnimateHeightEvents = Array<AnimateHeightEventListener>
-export type AnimateHeightElement = HTMLElement
-export type AnimateHeightContainer = HTMLElement
-export type AnimateHeightFromHeight = number
-export type AnimateHeightToHeight = number
+export type HeightAnimationOnStartStack =
+  Array<HeightAnimationOnStartCallback>
+export type HeightAnimationOnEndStack = Array<HeightAnimationOnEndCallback>
+export type HeightAnimationEventListener = (e: Event) => void
+export type HeightAnimationEvents = Array<HeightAnimationEventListener>
+export type HeightAnimationElement = HTMLElement
+export type HeightAnimationContainer = HTMLElement
+export type HeightAnimationFromHeight = number
+export type HeightAnimationToHeight = number
 
-export default class AnimateHeight {
+export default class HeightAnimation {
   isInBrowser: boolean
-  state: AnimateHeightStates
-  onStartStack: AnimateHeightOnStartStack
-  onEndStack: AnimateHeightOnEndStack
-  events: AnimateHeightEvents
-  opts: AnimateHeightOptions
-  elem: AnimateHeightElement
+  state: HeightAnimationStates
+  onStartStack: HeightAnimationOnStartStack
+  onEndStack: HeightAnimationOnEndStack
+  events: HeightAnimationEvents
+  opts: HeightAnimationOptions
+  elem: HeightAnimationElement
   reqId1: number
   reqId2: number
   resizeTimeout: NodeJS.Timeout
@@ -42,7 +43,7 @@ export default class AnimateHeight {
   __currentHeight: number
   onResize: () => void
 
-  constructor(opts: AnimateHeightOptions = {}) {
+  constructor(opts: HeightAnimationOptions = {}) {
     this.isInBrowser = typeof window !== 'undefined'
     this.state = 'init'
     this.onStartStack = []
@@ -89,7 +90,7 @@ export default class AnimateHeight {
     this.elem.style.height = '' // not sure about this
     this.elem.style.width = ''
   }
-  _addEndEvents(listener: AnimateHeightEventListener) {
+  _addEndEvents(listener: HeightAnimationEventListener) {
     this._removeEndEvents() // also, remove events on every open (but not on close!)
 
     this.events.push(listener)
@@ -115,7 +116,7 @@ export default class AnimateHeight {
   }
 
   // Public methods
-  setElement(elem: AnimateHeightElement) {
+  setElement(elem: HeightAnimationElement) {
     this._removeEndEvents() // in case element gets set several times
 
     this.elem =
@@ -174,16 +175,16 @@ export default class AnimateHeight {
     return this.__currentHeight
   }
 
-  onStart(fn: AnimateHeightOnStartCallback) {
+  onStart(fn: HeightAnimationOnStartCallback) {
     this.onStartStack.push(fn)
   }
-  onEnd(fn: AnimateHeightOnEndCallback) {
+  onEnd(fn: HeightAnimationOnEndCallback) {
     this.onEndStack.push(fn)
   }
   start(
-    fromHeight: AnimateHeightFromHeight,
-    toHeight: AnimateHeightToHeight,
-    { animate = true }: AnimateHeightOptions = {}
+    fromHeight: HeightAnimationFromHeight,
+    toHeight: HeightAnimationToHeight,
+    { animate = true }: HeightAnimationOptions = {}
   ) {
     if (window?.location?.href?.includes('data-visual-test')) {
       animate = false
@@ -242,7 +243,7 @@ export default class AnimateHeight {
    * "adjustFrom" is only used by GlobalStatus.js
    * it should be replaced with "useHeightAnimation"
    */
-  adjustFrom(height: AnimateHeightFromHeight = null) {
+  adjustFrom(height: HeightAnimationFromHeight = null) {
     if (!this.elem) {
       return
     }
@@ -252,9 +253,9 @@ export default class AnimateHeight {
     return height
   }
   adjustTo(
-    fromHeight: AnimateHeightFromHeight = null,
-    toHeight: AnimateHeightToHeight = null,
-    { animate = true }: AnimateHeightOptions = {}
+    fromHeight: HeightAnimationFromHeight = null,
+    toHeight: HeightAnimationToHeight = null,
+    { animate = true }: HeightAnimationOptions = {}
   ) {
     if (!this.elem) {
       return
@@ -281,7 +282,7 @@ export default class AnimateHeight {
     this.state = 'adjusting'
     this.start(fromHeight, toHeight, { animate })
   }
-  open({ animate = true }: AnimateHeightOptions = {}) {
+  open({ animate = true }: HeightAnimationOptions = {}) {
     if (
       !this.elem ||
       this.state === 'opened' ||
@@ -306,7 +307,7 @@ export default class AnimateHeight {
     this.state = 'opening'
     this.start(0, height, { animate })
   }
-  close({ animate = true }: AnimateHeightOptions = {}) {
+  close({ animate = true }: HeightAnimationOptions = {}) {
     if (
       !this.elem ||
       this.state === 'closed' ||
