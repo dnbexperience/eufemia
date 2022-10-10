@@ -5,6 +5,8 @@
 
 const { createThemesImport } = require('./collectThemes')
 
+global.themeNames = []
+
 exports.pluginOptionsSchema = ({ Joi }) => {
   return Joi.object({
     themes: Joi.object().required(),
@@ -12,9 +14,21 @@ exports.pluginOptionsSchema = ({ Joi }) => {
   })
 }
 
-exports.onPreBootstrap = (_, pluginOptions) => {
+exports.onPreBootstrap = ({ reporter }, pluginOptions) => {
   // ensure to run this after the main app has run onPreInit
-  createThemesImport(pluginOptions)
+  createThemesImport({ reporter, pluginOptions })
+}
+
+exports.onPostBuild = ({ reporter }) => {
+  if (global.themeNames.length > 0) {
+    reporter.success(
+      `Eufemia themes successfully extracted: ${global.themeNames.join(
+        ', '
+      )}`
+    )
+  } else {
+    reporter.warn('No Eufemia themes found!')
+  }
 }
 
 exports.onCreateWebpackConfig = (
@@ -38,9 +52,11 @@ exports.onCreateWebpackConfig = (
     config.optimization.splitChunks.cacheGroups.styles = {
       ...config.optimization.splitChunks.cacheGroups.styles,
       name(module) {
-        if (module.context.includes('/style/themes/')) {
+        if (module.context.includes('/style/themes')) {
           const match = module.context.match(/\/([^/]*)$/)
           const moduleName = match[1].replace('theme-', '')
+
+          global.themeNames.push(moduleName)
 
           return moduleName
         }
