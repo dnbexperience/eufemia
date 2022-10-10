@@ -2142,7 +2142,6 @@ legend.dnb-form-label {
   .dnb-dropdown__inner {
     display: inline-flex;
     flex-direction: column;
-    align-items: flex-start;
     margin: 0;
     padding: 0;
     width: auto;
