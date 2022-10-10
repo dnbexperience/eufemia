@@ -5,7 +5,7 @@
 
 import AnimateHeight from '../AnimateHeight'
 
-let element, container
+let element: HTMLElement
 
 beforeEach(() => {
   window.requestAnimationFrame = jest.fn((callback) => {
@@ -17,14 +17,11 @@ beforeEach(() => {
   })
 
   element = document.createElement('span')
-  container = document.createElement('div')
-  container.appendChild(element)
-  document.body.appendChild(container)
+  document.body.appendChild(element)
 })
 
 function emulateSetContainerHeight() {
   jest.spyOn(element, 'offsetHeight', 'get').mockImplementation(() => 300)
-  jest.spyOn(container, 'offsetTop', 'get').mockImplementation(() => 100)
 }
 
 describe('AnimateHeight', () => {
@@ -77,17 +74,6 @@ describe('AnimateHeight', () => {
 
     expect(inst.getWidth()).toBe(100)
     expect(_elem).toBe(element)
-  })
-
-  it('setContainerHeight should set correct minHeight on container', () => {
-    const inst = new AnimateHeight()
-    inst.setElement(element, container)
-
-    emulateSetContainerHeight()
-
-    inst.setContainerHeight()
-
-    expect(container.getAttribute('style')).toBe('min-height: 300px;')
   })
 
   it('reset should remove CSS styles', () => {
@@ -227,7 +213,7 @@ describe('AnimateHeight', () => {
 
     it('start with animation should work properly', async () => {
       const inst = new AnimateHeight()
-      inst.setElement(element, container)
+      inst.setElement(element)
 
       emulateSetContainerHeight()
 
@@ -259,12 +245,10 @@ describe('AnimateHeight', () => {
       await wait(1)
 
       expect(element.getAttribute('style')).toBe('height: 100px;')
-      expect(container.getAttribute('style')).toBe('min-height: 100px;')
 
       await wait(1)
 
       expect(element.getAttribute('style')).toBe('height: 200px;')
-      expect(container.getAttribute('style')).toBe('min-height: 300px;')
 
       expect(window.requestAnimationFrame).toHaveBeenCalledTimes(2)
 
@@ -278,7 +262,7 @@ describe('AnimateHeight', () => {
   describe('adjustTo', () => {
     it('adjustTo with animation should work properly', async () => {
       const inst = new AnimateHeight()
-      inst.setElement(element, container)
+      inst.setElement(element)
 
       emulateSetContainerHeight()
 
@@ -309,12 +293,10 @@ describe('AnimateHeight', () => {
       await wait(1)
 
       expect(element.getAttribute('style')).toBe('height: 100px;')
-      expect(container.getAttribute('style')).toBe('min-height: 100px;')
 
       await wait(1)
 
       expect(element.getAttribute('style')).toBe('height: 200px;')
-      expect(container.getAttribute('style')).toBe('min-height: 300px;')
 
       simulateAnimationEnd()
 

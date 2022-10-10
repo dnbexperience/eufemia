@@ -35,7 +35,6 @@ export default class AnimateHeight {
   events: AnimateHeightEvents
   opts: AnimateHeightOptions
   elem: AnimateHeightElement
-  container: AnimateHeightContainer
   reqId1: number
   reqId2: number
   resizeTimeout: NodeJS.Timeout
@@ -116,10 +115,7 @@ export default class AnimateHeight {
   }
 
   // Public methods
-  setElement(
-    elem: AnimateHeightElement,
-    container: AnimateHeightContainer = null
-  ) {
+  setElement(elem: AnimateHeightElement) {
     this._removeEndEvents() // in case element gets set several times
 
     this.elem =
@@ -129,19 +125,6 @@ export default class AnimateHeight {
     // TODO: remove when responsive tables are supported
     if (String(this.elem?.nodeName).toLowerCase() === 'td') {
       this.elem = this.elem.parentElement
-    }
-
-    this.container = container
-
-    if (this.container && this.isInBrowser) {
-      this.onResize = () => {
-        clearTimeout(this.resizeTimeout)
-        this.resizeTimeout = setTimeout(
-          () => this.setContainerHeight(),
-          300
-        )
-      }
-      window.addEventListener('resize', this.onResize)
     }
   }
   remove() {
@@ -239,25 +222,10 @@ export default class AnimateHeight {
 
         this.elem.style.height = `${fromHeight}px`
 
-        if (this.container) {
-          this.container.style.minHeight = `${fromHeight}px`
-        }
-
         this.reqId2 = window.requestAnimationFrame(() => {
           this.elem.style.height = `${toHeight}px`
-          this.setContainerHeight()
         })
       })
-    }
-  }
-  setContainerHeight() {
-    if (this.container) {
-      const contentElem = this.elem
-      if (contentElem.offsetHeight > 0) {
-        this.container.style.minHeight = `${
-          contentElem.offsetHeight + contentElem.offsetTop
-        }px`
-      }
     }
   }
   stop() {
@@ -307,7 +275,6 @@ export default class AnimateHeight {
 
         this.state = 'adjusted'
         this._callOnEnd()
-        this.setContainerHeight()
       }
     })
 
@@ -333,7 +300,6 @@ export default class AnimateHeight {
 
         this.state = 'opened'
         this._callOnEnd()
-        this.setContainerHeight()
       }
     })
 
