@@ -5,131 +5,82 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import {
+  warn,
   isTrue,
   validateDOMAttributes,
   processChildren,
   getPreviousSibling,
 } from '../../shared/component-helper'
-import AnimateHeight from '../../shared/AnimateHeight'
-import classnames from 'classnames'
+import { useMediaQuery } from '../../shared'
 import AccordionContext from './AccordionContext'
 import {
   spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
+import HeightAnimation from '../height-animation/HeightAnimation'
 
-export default class AccordionContent extends React.PureComponent {
-  static contextType = AccordionContext
+export default function AccordionContent(props) {
+  const context = React.useContext(AccordionContext)
 
-  static propTypes = {
-    instance: PropTypes.object,
-    ...spacingPropTypes,
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  const {
+    id,
+    expanded,
+    prerender,
+    prevent_rerender,
+    single_container,
+    disabled,
+    no_animation,
+    contentRef,
+  } = context
+
+  const { className, children, instance, ...rest } = props
+
+  let elementRef = React.useRef(null)
+  const cacheRef = React.useRef(null)
+
+  if (contentRef) {
+    elementRef = contentRef
   }
 
-  static defaultProps = {
-    instance: null,
-    className: null,
-    children: null,
-  }
+  const setContainerHeight = () => {
+    const { single_container } = context
 
-  static getContent(props) {
-    return processChildren(props)
-  }
+    if (single_container) {
+      const contentElem = elementRef.current
+      if (contentElem) {
+        try {
+          contentElem.style.height = ''
 
-  constructor(props, context) {
-    super(props)
-    this._ref = React.createRef()
+          const containerElement = getPreviousSibling(
+            'dnb-accordion-group--single-container',
+            contentElem
+          )
 
-    this.state = {
-      isInitial: !context.expanded,
-      isAnimating: false,
-      keepContentInDom: null,
-    }
-
-    this.anim = new AnimateHeight()
-
-    this.anim.onStart(() => {
-      this.setState({
-        isAnimating: true,
-      })
-    })
-
-    this.anim.onEnd(() => {
-      this.setState({
-        isAnimating: false,
-      })
-
-      this.setState({
-        keepContentInDom: this.context.expanded,
-      })
-    })
-
-    if (
-      props.instance &&
-      Object.prototype.hasOwnProperty.call(props.instance, 'current')
-    ) {
-      props.instance.current = this
-    }
-  }
-
-  componentDidMount() {
-    this.anim.setElement(
-      this._ref.current,
-      getPreviousSibling(
-        'dnb-accordion-group--single-container',
-        this._ref.current
-      )
-    )
-  }
-
-  componentWillUnmount() {
-    this.anim.remove()
-  }
-
-  componentDidUpdate(prevProps) {
-    const { expanded, single_container } = this.context
-    if (expanded !== this.state._expanded) {
-      const isInitial = !expanded && this.state.isInitial
-      this.setState(
-        {
-          _expanded: expanded,
-          isInitial: false,
-          keepContentInDom: true,
-        },
-        () => {
-          if (expanded) {
-            this.anim.open({ animate: !isInitial })
-          } else {
-            this.anim.close({ animate: !isInitial })
+          if (no_animation) {
+            containerElement.style.transitionDuration = '1ms'
           }
+
+          const minHeight =
+            (contentElem.offsetHeight + contentElem.offsetTop) / 16
+          containerElement.style.minHeight = `${minHeight}rem`
+        } catch (e) {
+          warn(e)
         }
-      )
-    }
-
-    if (
-      isTrue(single_container) &&
-      AccordionContent.getContent(prevProps) !==
-        AccordionContent.getContent(this.props)
-    ) {
-      this.anim.setContainerHeight()
+      }
     }
   }
 
-  setContainerHeight() {
-    this.anim?.setContainerHeight()
-  }
+  const renderContent = () => {
+    const children = processChildren(props)
 
-  renderContent() {
-    const children = AccordionContent.getContent(this.props)
     const {
       expanded,
       prerender,
       prevent_rerender,
       prevent_rerender_conditional,
-    } = this.context
+    } = context
 
     let content = children
 
@@ -137,85 +88,108 @@ export default class AccordionContent extends React.PureComponent {
       content = <p className="dnb-p">{content}</p>
     }
 
-    content =
-      expanded ||
-      prerender ||
-      this.state.keepContentInDom ||
-      this.state.isAnimating
-        ? children
-        : null
-
     if (isTrue(prevent_rerender)) {
+      /**
+       * Ensure we do not render, if it is not expanded
+       */
+      if (!(expanded || prerender)) {
+        content = null
+      }
+
       // update the cache if children is not the same anymore
       if (
         isTrue(prevent_rerender_conditional) &&
-        this._cache !== content
+        cacheRef.current !== content
       ) {
-        this._cache = content
+        cacheRef.current = content
       }
 
-      if (this._cache) {
-        content = this._cache
+      if (cacheRef.current) {
+        content = cacheRef.current
       } else {
-        this._cache = content
+        cacheRef.current = content
       }
     }
 
     return content
   }
 
-  render() {
-    const {
-      className,
-      instance, // eslint-disable-line
-      ...rest
-    } = this.props
-    const { keepContentInDom, isAnimating } = this.state
-
-    const { id, expanded, disabled } = this.context
-
-    const content = this.renderContent()
-
-    const wrapperParams = {
-      className: classnames(
-        'dnb-accordion__content',
-        !expanded && !keepContentInDom && 'dnb-accordion__content--hidden',
-        isAnimating && 'dnb-accordion__content--is-animating',
-        className
-      ),
-      ...rest,
+  React.useEffect(() => {
+    if (expanded && isTrue(single_container)) {
+      setContainerHeight()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [children, expanded, single_container])
 
-    const innerParams = {
-      id: `${id}-content`,
-      role: 'region',
-      'aria-labelledby': `${id}-header`,
-      className: classnames(
-        'dnb-accordion__content__inner',
-        !expanded &&
-          !keepContentInDom &&
-          'dnb-accordion__content__inner--remove-content',
-        createSpacingClasses(rest)
-      ),
+  React.useState(() => {
+    if (
+      instance &&
+      Object.prototype.hasOwnProperty.call(instance, 'current')
+    ) {
+      instance.current = { setContainerHeight }
     }
+  })
 
-    if (expanded) {
-      innerParams['aria-expanded'] = true
-    }
+  const isSmallScreen = useMediaQuery({
+    when: { max: 'small' },
+  })
 
-    if (!expanded || disabled) {
-      innerParams.disabled = true
-      innerParams['aria-hidden'] = true
-    }
+  const content = renderContent()
 
-    // to remove spacing props
-    validateDOMAttributes(this.props, wrapperParams)
-    validateDOMAttributes(null, innerParams)
-
-    return (
-      <div {...wrapperParams} ref={this._ref}>
-        <div {...innerParams}>{content}</div>
-      </div>
-    )
+  const wrapperParams = {
+    className: classnames('dnb-accordion__content', className),
+    ...rest,
   }
+
+  const keepInDOM = prerender || prevent_rerender
+
+  const innerParams = {
+    id: `${id}-content`,
+    'aria-labelledby': `${id}-header`,
+    className: classnames(
+      'dnb-accordion__content__inner',
+      createSpacingClasses(rest)
+    ),
+  }
+
+  if (expanded) {
+    innerParams['aria-expanded'] = true
+  }
+
+  if (!expanded || disabled) {
+    innerParams.disabled = true
+    innerParams['aria-hidden'] = true
+  }
+
+  // to remove spacing props
+  validateDOMAttributes(props, wrapperParams)
+  validateDOMAttributes(null, innerParams)
+
+  const animate =
+    !no_animation && (single_container ? isSmallScreen : true)
+
+  return (
+    <HeightAnimation
+      {...wrapperParams}
+      open={expanded}
+      animate={animate}
+      keepInDOM={keepInDOM}
+      innerRef={elementRef}
+    >
+      <section {...innerParams}>{content}</section>
+    </HeightAnimation>
+  )
+}
+
+AccordionContent.propTypes = {
+  instance: PropTypes.object,
+  ...spacingPropTypes,
+  className: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+}
+
+AccordionContent.defaultProps = {
+  instance: null,
+  className: null,
+  children: null,
 }

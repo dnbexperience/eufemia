@@ -21,6 +21,7 @@ export const accordionPropTypes = {
     PropTypes.bool,
   ]),
   remember_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  contentRef: PropTypes.object,
   flush_remembered_state: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
@@ -72,6 +73,7 @@ export const accordionDefaultProps = {
   prevent_rerender: null,
   prevent_rerender_conditional: null,
   remember_state: null,
+  contentRef: null,
   flush_remembered_state: null,
   single_container: null,
   variant: 'outlined',

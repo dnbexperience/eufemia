@@ -162,6 +162,7 @@ export default class AccordionHeader extends React.PureComponent {
     icon_size: PropTypes.string,
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
     ...spacingPropTypes,
 
@@ -186,6 +187,7 @@ export default class AccordionHeader extends React.PureComponent {
     icon_size: 'medium',
     disabled: null,
     skeleton: null,
+    no_animation: null,
 
     className: null,
     children: null,
@@ -264,6 +266,7 @@ export default class AccordionHeader extends React.PureComponent {
       icon_size,
       disabled,
       skeleton,
+      no_animation,
     } = props
 
     const {
@@ -382,6 +385,7 @@ export default class AccordionHeader extends React.PureComponent {
         hover && hadClick && 'dnb-accordion--hover',
         !this.canClick() && 'dnb-accordion__header--prevent-click',
         description && 'dnb-accordion__header--description',
+        no_animation && 'dnb-accordion__header--no-animation',
         createSkeletonClass('font', skeleton, this.context),
         createSpacingClasses(rest),
         className

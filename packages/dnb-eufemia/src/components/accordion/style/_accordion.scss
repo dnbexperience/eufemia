@@ -114,44 +114,26 @@
     }
   }
 
-  &--no-animation &__header,
-  html[data-visual-test] &__header {
-    &__icon {
-      transition-duration: 1ms !important;
-    }
-  }
-
   &--expanded > &__header &__header__icon {
     transform: rotate(-180deg);
   }
 
   &__content {
     display: flex;
-    opacity: 1;
-    visibility: visible;
     width: 100%;
 
     will-change: height;
     transition: height 400ms var(--accordion-easing),
       opacity 600ms var(--accordion-easing);
 
-    &--hidden {
-      visibility: hidden;
-      height: 0;
-      opacity: 0;
-    }
-
-    &--is-animating {
-      overflow: hidden; // Is needed in order to have a smooth animation, hiding the content nicely.
-    }
-
     &__inner {
       width: 100%;
       margin-top: 1rem;
+    }
 
-      &--remove-content {
-        display: none;
-      }
+    // When "prerender" prop is true
+    &.dnb-height-animation--hidden &__inner {
+      display: none;
     }
   }
 
@@ -193,10 +175,6 @@
       transform: rotate(-90deg);
     }
   }
-  &--no-animation &__content,
-  html[data-visual-test] &__content {
-    transition-duration: 1ms !important;
-  }
 
   &-group {
     &--single-container & {
@@ -227,6 +205,12 @@
         // }
       }
     }
+  }
+
+  // stylelint-disable-next-line
+  & > &__header--no-animation &__header__icon,
+  html[data-visual-test] & > &__header--no-animation &__header__icon {
+    transition-duration: 1ms !important;
   }
 
   // IE fix

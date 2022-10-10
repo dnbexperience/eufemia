@@ -95,7 +95,6 @@ export default class Accordion extends React.PureComponent {
           ? isTrue(props.expanded)
           : isTrue(context?.expanded),
       group: props.group || context?.group,
-      no_animation: isTrue(props.no_animation || context?.no_animation),
       _listenForPropChanges: false, // make sure to not run DerivedState
     }
 
@@ -240,7 +239,6 @@ export default class Accordion extends React.PureComponent {
         {(globalContext) => (
           <AccordionContext.Consumer>
             {(nestedContext) => {
-              const { no_animation } = this.state
               let { expanded } = this.state
 
               // use only the props from context, who are available here anyway
@@ -271,7 +269,7 @@ export default class Accordion extends React.PureComponent {
                 remember_state,
                 disabled,
                 skeleton,
-                no_animation: _no_animation, // eslint-disable-line
+                no_animation,
                 expanded_ssr: _expanded_ssr, // eslint-disable-line
                 children,
 
@@ -289,6 +287,7 @@ export default class Accordion extends React.PureComponent {
                 on_state_update, // eslint-disable-line
                 custom_method, // eslint-disable-line
                 custom_element, // eslint-disable-line
+                contentRef, // eslint-disable-line
 
                 ...rest
               } = props
@@ -300,7 +299,6 @@ export default class Accordion extends React.PureComponent {
                 className: classnames(
                   'dnb-accordion',
                   expanded && 'dnb-accordion--expanded',
-                  no_animation && 'dnb-accordion--no-animation',
                   variant && `dnb-accordion__variant--${variant}`,
                   isTrue(prerender) && 'dnb-accordion--prerender',
                   createSpacingClasses(props),
@@ -336,6 +334,7 @@ export default class Accordion extends React.PureComponent {
                 remember_state: isTrue(remember_state),
                 disabled: isTrue(disabled),
                 skeleton: isTrue(skeleton),
+                no_animation: isTrue(no_animation),
                 callOnChange: this.callOnChangeHandler,
               }
 

@@ -6,6 +6,7 @@ exports[`Accordion component have to match snapshot 1`] = `
   attributes={null}
   class={null}
   className={null}
+  contentRef={null}
   custom_element={null}
   custom_method={null}
   disabled={null}
@@ -34,7 +35,7 @@ exports[`Accordion component have to match snapshot 1`] = `
   variant="default"
 >
   <div
-    className="dnb-accordion dnb-accordion--no-animation dnb-accordion__variant--default"
+    className="dnb-accordion dnb-accordion__variant--default"
     id="accordion"
   >
     <AccordionHeader
@@ -49,13 +50,14 @@ exports[`Accordion component have to match snapshot 1`] = `
       icon_size="medium"
       id={null}
       left_component={null}
+      no_animation={null}
       skeleton={null}
       title={null}
     >
       <div
         aria-controls="accordion-content"
         aria-expanded={false}
-        className="dnb-accordion__header"
+        className="dnb-accordion__header dnb-accordion__header--no-animation"
         disabled={false}
         onClick={[Function]}
         onKeyDown={[Function]}
@@ -142,19 +144,17 @@ exports[`Accordion component have to match snapshot 1`] = `
       className={null}
       instance={null}
     >
-      <div
-        className="dnb-accordion__content dnb-accordion__content--hidden"
-      >
-        <div
-          aria-disabled={true}
-          aria-hidden={true}
-          aria-labelledby="accordion-header"
-          className="dnb-accordion__content__inner dnb-accordion__content__inner--remove-content"
-          disabled={true}
-          id="accordion-content"
-          role="region"
-        />
-      </div>
+      <HeightAnimation
+        animate={false}
+        className="dnb-accordion__content"
+        innerRef={
+          Object {
+            "current": null,
+          }
+        }
+        keepInDOM={false}
+        open={false}
+      />
     </AccordionContent>
   </div>
 </Accordion>
@@ -544,29 +544,18 @@ exports[`Accordion scss have to match snapshot 1`] = `
       margin-top: 0.25rem; }
     .dnb-accordion__header__description + .dnb-accordion__header__title {
       margin-top: 0.25rem; }
-  .dnb-accordion--no-animation .dnb-accordion__header__icon,
-  html[data-visual-test] .dnb-accordion__header__icon {
-    transition-duration: 1ms !important; }
   .dnb-accordion--expanded > .dnb-accordion__header .dnb-accordion__header__icon {
     transform: rotate(-180deg); }
   .dnb-accordion__content {
     display: flex;
-    opacity: 1;
-    visibility: visible;
     width: 100%;
     will-change: height;
     transition: height 400ms var(--accordion-easing), opacity 600ms var(--accordion-easing); }
-    .dnb-accordion__content--hidden {
-      visibility: hidden;
-      height: 0;
-      opacity: 0; }
-    .dnb-accordion__content--is-animating {
-      overflow: hidden; }
     .dnb-accordion__content__inner {
       width: 100%;
       margin-top: 1rem; }
-      .dnb-accordion__content__inner--remove-content {
-        display: none; }
+    .dnb-accordion__content.dnb-height-animation--hidden .dnb-accordion__content__inner {
+      display: none; }
   .dnb-accordion-group--single-container {
     transition: min-height 1s var(--accordion-easing); }
   .dnb-accordion-group--single-container .dnb-accordion {
@@ -583,9 +572,6 @@ exports[`Accordion scss have to match snapshot 1`] = `
   @media screen and (min-width: 40em) {
     .dnb-accordion-group--single-container .dnb-accordion > .dnb-accordion__header .dnb-accordion__header__icon {
       transform: rotate(-90deg); } }
-  .dnb-accordion--no-animation .dnb-accordion__content,
-  html[data-visual-test] .dnb-accordion__content {
-    transition-duration: 1ms !important; }
   .dnb-accordion-group--single-container .dnb-accordion-group__children {
     max-width: 60rem; }
     @media screen and (min-width: 40em) {
@@ -599,5 +585,8 @@ exports[`Accordion scss have to match snapshot 1`] = `
           top: 0;
           right: 0;
           width: 60%; } }
+  .dnb-accordion > .dnb-accordion__header--no-animation .dnb-accordion__header__icon,
+  html[data-visual-test] .dnb-accordion > .dnb-accordion__header--no-animation .dnb-accordion__header__icon {
+    transition-duration: 1ms !important; }
 "
 `;

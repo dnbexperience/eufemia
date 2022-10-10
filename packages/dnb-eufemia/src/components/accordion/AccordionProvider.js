@@ -82,6 +82,7 @@ export default class AccordionGroup extends React.PureComponent {
       prerender, // eslint-disable-line
       prevent_rerender, // eslint-disable-line
       single_container, // eslint-disable-line
+      contentRef, // eslint-disable-line
       allow_close_all, // eslint-disable-line
       remember_state, // eslint-disable-line
       flush_remembered_state, // eslint-disable-line
