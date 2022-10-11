@@ -1,7 +1,7 @@
 import React from 'react'
 import { SkeletonShow } from '../skeleton/Skeleton'
 
-export interface UploadProps {
+export type UploadProps = {
   /**
    * unique id used with the useUpload hook to manage the files
    */
@@ -49,7 +49,7 @@ export interface UploadProps {
   fileListAriaLabel?: string
 }
 
-export interface UploadFile {
+export type UploadFile = {
   file: File
   errorMessage?: React.ReactNode
   isLoading?: boolean

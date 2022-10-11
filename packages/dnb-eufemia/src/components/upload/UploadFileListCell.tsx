@@ -32,7 +32,7 @@ const images = {
   file: file_medium,
 }
 
-export interface UploadFileListCellProps {
+export type UploadFileListCellProps = {
   /**
    * Uploaded file
    */

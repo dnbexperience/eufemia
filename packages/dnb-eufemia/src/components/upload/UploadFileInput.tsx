@@ -12,7 +12,7 @@ import { format } from '../number-format/NumberUtils'
 // Internal
 import { UploadFile } from './types'
 
-export interface UploadFileInputProps {
+export type UploadFileInputProps = {
   acceptedFormats: string[]
   onUpload: (files: UploadFile[]) => void
   fileMaxSize: number
