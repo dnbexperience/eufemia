@@ -8,11 +8,13 @@ import { folder as FolderIcon } from '../../icons'
 
 // Shared
 import { format } from '../number-format/NumberUtils'
+import { makeUniqueId } from '../../shared/component-helper'
 
 // Internal
 import { UploadFile } from './types'
 
 export type UploadFileInputProps = {
+  id?: string
   acceptedFormats: string[]
   onUpload: (files: UploadFile[]) => void
   fileMaxSize: number
@@ -24,6 +26,7 @@ export type UploadFileInputProps = {
 const BYTES_IN_A_MEGA_BYTE = 1048576
 
 const UploadFileInput = ({
+  id,
   acceptedFormats,
   uploadFileButtonText,
   onUpload,
@@ -45,12 +48,15 @@ const UploadFileInput = ({
 
   const openFileDialog = () => fileInput.current?.click()
 
+  const sharedId = id || makeUniqueId()
+
   return (
     <div
       data-testid="upload-file-input"
       className="dnb-upload__button-section"
     >
       <Button
+        id={`${sharedId}-input`}
         data-testid="upload-file-input-button"
         icon={FolderIcon}
         icon_position="left"
@@ -62,6 +68,7 @@ const UploadFileInput = ({
       </Button>
 
       <input
+        aria-labelledby={`${sharedId}-input`}
         data-testid="upload-file-input-input"
         ref={fileInput}
         className="dnb-upload__file-input"

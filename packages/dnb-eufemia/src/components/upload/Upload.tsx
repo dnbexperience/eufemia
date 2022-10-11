@@ -120,6 +120,7 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
       </Dl>
 
       <UploadFileInput
+        id={id}
         acceptedFormats={acceptedFileTypes}
         onUpload={onInputUpload}
         fileMaxSize={fileMaxSize}
