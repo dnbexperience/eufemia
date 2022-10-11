@@ -12,24 +12,24 @@ import P from '../../../src/elements/P'
 import {
   trash as TrashIcon,
   exclamation_medium as ExclamationIcon,
-  file_pdf_medium,
-  file_xls_medium,
-  file_ppt_medium,
-  file_csv_medium,
-  file_txt_medium,
-  file_xml_medium,
-  file_medium,
+  file_pdf_medium as pdf,
+  file_xls_medium as xls,
+  file_ppt_medium as ppt,
+  file_csv_medium as csv,
+  file_txt_medium as txt,
+  file_xml_medium as xml,
+  file_medium as file,
 } from '../../icons'
 import { UploadFile } from './types'
 
 const images = {
-  pdf: file_pdf_medium,
-  xls: file_xls_medium,
-  ppt: file_ppt_medium,
-  csv: file_csv_medium,
-  txt: file_txt_medium,
-  xml: file_xml_medium,
-  file: file_medium,
+  pdf,
+  xls,
+  ppt,
+  csv,
+  txt,
+  xml,
+  file,
 }
 
 export type UploadFileListCellProps = {
