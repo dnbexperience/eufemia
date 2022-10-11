@@ -6,19 +6,23 @@
 .dnb-upload {
   display: flex;
   flex-direction: column;
+
+  position: relative;
   padding: var(--spacing-medium);
 
   background-color: var(--color-white);
 
-  position: relative;
-
+  // svg element
   &__outline {
     content: '';
-    inset: 0;
-    stroke: var(--color-sea-green);
+
     position: absolute;
+    inset: 0;
+
     height: 100%;
     width: 100%;
+
+    stroke: var(--color-sea-green);
     border-radius: 0.25rem;
   }
 
@@ -40,12 +44,15 @@
   }
 
   &__file-list {
+    position: relative;
+
     padding: 0;
     margin-bottom: 0;
-    position: relative;
+
     list-style: none;
   }
 
+  // Border on top/bottom of list items
   &__file-list::before,
   &__file-cell::after {
     content: '';
@@ -56,8 +63,10 @@
   }
 
   &__file-cell {
-    padding: var(--spacing-small) 0;
     position: relative;
+    padding: var(--spacing-small) 0;
+
+    // Align border to bottom
     &::after {
       top: auto;
     }
@@ -85,6 +94,7 @@
       flex-direction: column;
 
       margin-left: var(--spacing-small);
+
       &--loading {
         font-size: var(--font-size-basis);
       }
