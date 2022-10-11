@@ -15,33 +15,33 @@ It is recommended to have an application setup with a compiling/build process in
 
 ## HTML Elements and styling
 
-There are three things going on once an HTML element is displayed and up-and-running.
+There are three things going on once an HTML element is displayed and up-and-running:
 
-- syntax as HTML
-- styling by CSS
-- internal states by JavaScript
+- Syntax as HTML
+- Styling by CSS
+- Internal states by JavaScript
 
 From here we can redefine the properties of the HTML elements in order to customize them.
 We can also bind event listeners to work together with your application.
 
 ### Pixel Perfect
 
-One of the most important reasons why Eufemia exists, is to make it more easy to get a pixel perfect result on developing WEB Applications.
+One of the most important reasons why Eufemia exists, is to make it easier to get a pixel perfect result when developing WEB Applications.
 
-Therefore, You come a long way on using the `@dnb/eufemia` correctly:
+You will have come a long way to achieve this by using `@dnb/eufemia` correctly:
 
-- Make You use [import the style packages correctly](/uilib/usage/customisation/styling) (with or without CSS reset depending on your legacy code situation)
+- Make sure you [import the style packages correctly](/uilib/usage/customisation/styling) (with or without CSS reset depending on your legacy code situation)
 - Always (mostly) use `rem` to the nearest "8px" value, like **1px = 0.0625rem** (1/16)
 - Always use the [HTML Elements](/uilib/elements) or [UI Components](/uilib/components)
-- There are more [useful tips on styling](/uilib/usage/best-practices/for-styling)
+- Follow these [useful tips on styling](/uilib/usage/best-practices/for-styling)
 
 **Make sure you test your layout and styles for various conditions during and after development:**
 
 - Up two 3x times in **font-size** (change the Web Browser default font size)
 - **Zoom** the Web Browser up to 3x times
-- Makeyour layout **responsive**, either with CSS Grid or Media Queries and,
+- Make your layout **responsive**, either with CSS Grid or Media Queries
 - Check the different screen sizes
-- Testyour app on different devices and operating systems
+- Test your app on different devices and operating systems
 - Pixel perfection is good for many, for the rest, make everything [accessible for everyone](/uilib/usage/accessibility)
 
 ## States
@@ -71,11 +71,11 @@ With [Node.js](https://nodejs.org/) as our JavaScript runtime in place, we may u
 // Define the imports
 import { Button } from '@dnb/eufemia'
 
-// And consume the Component in Your markup render method
+// And consume the Component in your markup render method
 render(<Button text="Primary Button" />)
 ```
 
-You also may [import the styles](/uilib/usage/customisation/styling/consume-styles) on a higher level in Your application:
+You also may [import the styles](/uilib/usage/customisation/styling/consume-styles) on a higher level in your application:
 
 ```js
 // e.g. in the App root
