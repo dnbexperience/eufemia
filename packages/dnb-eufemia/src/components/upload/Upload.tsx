@@ -77,22 +77,6 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
       )}
       {...props}
     >
-      <svg
-        className="dnb-upload__outline"
-        aria-hidden
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-      >
-        <rect
-          width="100%"
-          height="100%"
-          rx="0.25rem"
-          ry="0.25rem"
-          stroke="%23007272"
-          strokeWidth="2.5"
-          strokeDasharray="7 7"
-        />
-      </svg>
       <Lead data-testid="upload-title" space="0">
         {title}
       </Lead>
@@ -145,6 +129,22 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
       />
 
       <UploadFileList />
+
+      <svg
+        className="dnb-upload__outline"
+        aria-hidden
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+      >
+        <rect
+          width="100%"
+          height="100%"
+          rx="0.25rem"
+          ry="0.25rem"
+          strokeWidth="2.5"
+          strokeDasharray="7 7"
+        />
+      </svg>
     </div>
   )
 
