@@ -18,10 +18,12 @@ render(<Dl>
   <Dd>Description 1</Dd>
   <Dd>Description 2</Dd>
   <Dd>Description 3</Dd>
-  <dl className="dnb-dl">
-  <Dt>Sub Term</Dt>
-  <Dd>Sub Description</Dd>
-  </dl>
+  <Dd>
+    <Dl>
+      <Dt>Sub Term</Dt>
+      <Dd>Sub Description</Dd>
+    </Dl>
+  </Dd>
   </Dl>)
   `
     }

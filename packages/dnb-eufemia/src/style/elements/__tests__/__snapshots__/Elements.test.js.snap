@@ -726,24 +726,29 @@ a.dnb-button {
   .dnb-dl dd {
     padding: 0;
     margin: 0.5rem 0 1rem; }
-  .dnb-dl > dl,
-  .dnb-dl:not([class*='dnb-space']) > dl {
+  .dnb-dl > dd > dl,
+  .dnb-dl:not([class*='dnb-space']) > dd > dl {
     margin-top: 1.5rem;
     margin-left: 2rem; }
   @media screen and (min-width: 40em) {
     .dnb-dl__direction--horizontal {
       display: flex;
-      flex-direction: column;
+      flex-wrap: wrap;
       gap: 0.5rem; }
-      .dnb-dl__direction--horizontal dt,
+      .dnb-dl__direction--horizontal dt {
+        margin-right: 0.5rem;
+        max-width: 30%; }
       .dnb-dl__direction--horizontal dd {
+        width: calc(70% - 1.5rem); }
+      .dnb-dl__direction--horizontal dt,
+      .dnb-dl__direction--horizontal dd,
+      .dnb-dl__direction--horizontal dd ~ dt {
         margin-top: 0;
         margin-bottom: 0; }
-      .dnb-dl__direction--horizontal dt {
-        margin-right: 1rem;
-        max-width: 60ch; }
-    .dnb-dl__item {
-      display: flex; } }
+    .dnb-dl dd.dnb-dl__item {
+      width: 100%;
+      height: 0;
+      overflow: hidden; } }
 
 .dnb-spacing .dnb-ul:not([class*='dnb-space__top']),
 .dnb-spacing .dnb-ol:not([class*='dnb-space__top']) {

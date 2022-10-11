@@ -52,7 +52,7 @@ describe('List screenshot', () => {
 
   it('have to match dl list', async () => {
     const screenshot = await testPageScreenshot({
-      style: { width: '40rem' },
+      style: { width: '35rem' },
       selector: '[data-visual-test="lists-dl-horizontal"]',
     })
     expect(screenshot).toMatchImageSnapshot()
