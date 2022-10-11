@@ -16,6 +16,8 @@
   &__outline {
     content: '';
 
+    pointer-events: none;
+
     position: absolute;
     inset: 0;
 
