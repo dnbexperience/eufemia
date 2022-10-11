@@ -83,7 +83,7 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
 
       <P
         data-testid="upload-text"
-        top="x-small"
+        top="xx-small"
         bottom="medium"
         className="dnb-upload__text"
       >
