@@ -135,18 +135,16 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
         </Dl.Item>
       </Dl>
 
-      <div>
-        <UploadFileInput
-          acceptedFormats={acceptedFileTypes}
-          onUpload={onInputUpload}
-          fileMaxSize={fileMaxSize}
-          uploadFileButtonText={uploadButtonText}
-          uploadErrorLargeFile={uploadErrorLargeFile}
-          multipleFiles={multipleFiles}
-        />
+      <UploadFileInput
+        acceptedFormats={acceptedFileTypes}
+        onUpload={onInputUpload}
+        fileMaxSize={fileMaxSize}
+        uploadFileButtonText={uploadButtonText}
+        uploadErrorLargeFile={uploadErrorLargeFile}
+        multipleFiles={multipleFiles}
+      />
 
-        <UploadFileList />
-      </div>
+      <UploadFileList />
     </div>
   )
 
