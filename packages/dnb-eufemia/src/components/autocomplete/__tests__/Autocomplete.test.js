@@ -1162,6 +1162,61 @@ describe('Autocomplete component', () => {
     expect(Comp.find('.dnb-input__input').instance().value).toBe('')
   })
 
+  it('uses selected_key as the value', () => {
+    const mockData = [
+      { selected_key: 'a', content: 'A value' },
+      { selected_key: 'b', content: 'B value' },
+      { selected_key: 'c', content: 'C value' },
+    ]
+
+    const WrapperMock = (props) => {
+      const [value, setValue] = React.useState('b')
+      const onChangeHandler = ({ data }) => {
+        setValue(data.selected_key)
+      }
+      return (
+        <Component
+          no_animation
+          show_submit_button
+          data={mockData}
+          on_change={onChangeHandler}
+          value={value}
+          {...props}
+        />
+      )
+    }
+
+    const Comp = mount(<WrapperMock />)
+
+    const openAndSelectNext = () => {
+      // then simulate changes
+      keydown(Comp, 40) // down
+      keydown(Comp, 13) // enter
+    }
+
+    // open first
+    toggle(Comp)
+
+    expect(Comp.find('.dnb-input__input').instance().value).toBe('B value')
+
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(1)
+        .instance()
+        .classList.contains('dnb-drawer-list__option--selected')
+    ).toBe(true)
+
+    openAndSelectNext()
+
+    expect(Comp.find('.dnb-input__input').instance().value).toBe('C value')
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(2)
+        .instance()
+        .classList.contains('dnb-drawer-list__option--selected')
+    ).toBe(true)
+  })
+
   const runBlurActiveItemTest = ({
     Comp,
     shouldHaveActiveItem,

@@ -33,6 +33,62 @@ const numbers = [
   '100 222 444,50',
 ]
 
+export const MutateData = () => {
+  const mockData = [
+    { selected_key: 'a', label: 'A value' },
+    { selected_key: 'b', label: 'B value' },
+    { selected_key: 'c', label: 'C value' },
+  ]
+
+  const WrapperMock = (props) => {
+    const getMutatedList = () => {
+      return [
+        // { selected_key: 'x', label: 'X value' },
+        ...mockData,
+      ].map(({ selected_key, label }) => ({
+        key: selected_key,
+        selected_key,
+        content: [label, `(${selected_key})`],
+        label,
+      }))
+    }
+
+    const [options, setOptions] = React.useState(getMutatedList())
+    const [value, setValue] = React.useState('b')
+
+    const onChangeHandler = ({ data }) => {
+      setValue(data?.selected_key)
+    }
+
+    const updateList = () => {
+      const updatedList = getMutatedList()
+      setOptions(updatedList)
+    }
+
+    React.useEffect(() => {
+      // updateList()
+      // setTimeout(() => {
+      // setValue('c')
+      // }, 1e3)
+    }, [])
+
+    // console.log('options', options)
+
+    return (
+      <Autocomplete
+        no_animation
+        show_submit_button
+        data={options}
+        on_change={onChangeHandler}
+        value={value}
+        {...props}
+      />
+    )
+  }
+
+  return <WrapperMock />
+}
+
 export const SearchNumbers = () => {
   return (
     <Autocomplete
