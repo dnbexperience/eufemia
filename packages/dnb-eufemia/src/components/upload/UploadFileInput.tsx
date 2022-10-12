@@ -56,6 +56,7 @@ const UploadFileInput = ({
         top="medium"
         id={`${sharedId}-input`}
         data-testid="upload-file-input-button"
+        className="dnb-upload__file-input-button"
         icon={FolderIcon}
         icon_position="left"
         variant="secondary"

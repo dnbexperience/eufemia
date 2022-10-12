@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import classnames from 'classnames'
 
 // Components
@@ -21,6 +21,9 @@ import {
   file_medium as file,
 } from '../../icons'
 import { UploadFile } from './types'
+
+// Shared
+import { getPreviousSibling, warn } from '../../shared/component-helper'
 
 const images = {
   pdf,
@@ -63,6 +66,29 @@ const UploadFileListCell = ({
 
   const imageUrl = URL.createObjectURL(file)
 
+  const cellRef = useRef<HTMLLIElement>()
+
+  const handleDisappearFocus = () => {
+    try {
+      const cellElement = cellRef.current
+      const focusElement = getPreviousSibling(
+        '.dnb-upload',
+        cellElement
+      ).querySelector(
+        '.dnb-upload__file-input-button'
+      ) as HTMLButtonElement
+      focusElement.focus()
+    } catch (e) {
+      warn(e)
+    }
+  }
+
+  const onDeleteHandler = () => {
+    handleDisappearFocus()
+
+    onDelete()
+  }
+
   return (
     <li
       data-testid="upload-file-list-cell"
@@ -70,6 +96,7 @@ const UploadFileListCell = ({
         'dnb-upload__file-cell',
         hasWarning && 'dnb-upload__file-cell--warning'
       )}
+      ref={cellRef}
     >
       <div className="dnb-upload__file-cell__content">
         <div className="dnb-upload__file-cell__content__left">
@@ -81,7 +108,7 @@ const UploadFileListCell = ({
             data-testid="upload-delete-button"
             icon={TrashIcon}
             variant="tertiary"
-            onClick={onDelete}
+            onClick={onDeleteHandler}
             icon_position="left"
           >
             {deleteButtonText}

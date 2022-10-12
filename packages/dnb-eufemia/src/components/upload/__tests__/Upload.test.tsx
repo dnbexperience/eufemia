@@ -332,6 +332,35 @@ describe('Upload', () => {
 
       expect(queryByTestId('upload-file-list-cell')).toBeNull()
     })
+
+    it('sets focus on choose button when clicking delete', () => {
+      const files = [
+        { file: createMockFile('fileName.png', 100, 'image/png') },
+      ]
+
+      const id = 'random-id3'
+
+      const { queryByTestId } = render(
+        <Upload {...defaultProps} id={id} />
+      )
+      const MockComponent = () => {
+        const { setFiles } = useUpload(id)
+
+        useEffect(() => setFiles(files), [])
+
+        return <div />
+      }
+
+      render(<MockComponent />)
+
+      const deleteButton = queryByTestId('upload-delete-button')
+
+      fireEvent.click(deleteButton)
+
+      expect(document.activeElement).toBe(
+        queryByTestId('upload-file-input-button')
+      )
+    })
   })
 })
 

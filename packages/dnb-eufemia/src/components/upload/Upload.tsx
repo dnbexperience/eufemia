@@ -158,11 +158,17 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
         aria-label={fileListAriaLabel}
       >
         {files.map((uploadFile: UploadFile, index: number) => {
+          const onDeleteFile = () => {
+            const cleanedFiles = files.filter(
+              (fileListElement) => fileListElement.file != uploadFile.file
+            )
+            setFiles(cleanedFiles)
+          }
           return (
             <UploadFileListCell
               uploadFile={uploadFile}
               key={index}
-              onDelete={() => onDeleteFile(uploadFile)}
+              onDelete={onDeleteFile}
               deleteButtonText={deleteButton}
               uploadLoadingText={uploadLoadingText}
             />
@@ -170,13 +176,6 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
         })}
       </ul>
     )
-  }
-
-  function onDeleteFile(removeFile: UploadFile) {
-    const cleanedFiles = files.filter(
-      (fileListElement) => fileListElement.file != removeFile.file
-    )
-    setFiles(cleanedFiles)
   }
 
   function onInputUpload(addedFiles: UploadFile[]) {
