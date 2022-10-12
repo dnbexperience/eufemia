@@ -17,6 +17,7 @@ import {
   SkeletonMethods,
 } from '../components/skeleton/SkeletonHelper'
 import { includeValidProps } from '../components/form-row/FormRowHelpers'
+import { SpacingProps } from '../shared/types'
 
 export type ElementInternalProps = {
   is: React.ReactNode
@@ -36,7 +37,7 @@ export type ElementProps = {
 
   /** @deprecated use skeletonMethod instead */
   skeleton_method?: SkeletonMethods
-}
+} & SpacingProps
 type ElementAllProps = ElementInternalProps & ElementProps
 
 type Attributes = Record<string, unknown>

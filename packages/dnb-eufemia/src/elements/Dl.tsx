@@ -6,6 +6,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import E, { ElementProps } from './Element'
+import { SpacingProps } from '../shared/types'
 
 export type DlProps = {
   /**
@@ -28,18 +29,20 @@ const Dl = ({ direction, ...props }: DlAllProps) => {
   return <E is="dl" {...props} skeleton={false} />
 }
 
-export type DlItemProps = {
-  //
-}
-
 Dl.Item = ({
   className,
   children,
-}: DlItemProps & React.AllHTMLAttributes<HTMLSpanElement>) => {
+  ...props
+}: React.AllHTMLAttributes<HTMLSpanElement> & SpacingProps) => {
   return (
     <>
       {children}
-      <dd aria-hidden className={classnames(className, 'dnb-dl__item')} />
+      <E
+        is="dd"
+        aria-hidden
+        className={classnames(className, 'dnb-dl__item')}
+        {...props}
+      />
     </>
   )
 }

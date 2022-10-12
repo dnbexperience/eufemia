@@ -105,9 +105,7 @@
   }
 }
 @mixin dlStyle() {
-  &:not([class*='dnb-space']) {
-    margin: 0;
-  }
+  margin: 0;
   padding: 0;
 
   font-size: var(--font-size-basis);
@@ -139,30 +137,34 @@
   // Inline
   @include allAbove(small) {
     &__direction--horizontal {
+      // We can not use gap: 0.5rem because of our wrapper "__item"
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
 
       & dt {
-        margin-right: 0.5rem;
+        margin-right: 1rem;
         max-width: 30%;
       }
+
       & dd {
-        // width: calc(70% - 1.5rem); // minus margin-right and the gap
-        width: calc(70% - 1.5rem); // minus margin-right and the gap
+        width: calc(70% - 1rem); // minus margin-right and the gap
       }
+
       & dt,
       & dd,
       & dd ~ dt {
-        margin-top: 0;
+        margin-top: 0.5rem;
         margin-bottom: 0;
+        &:first-of-type {
+          margin-top: 0;
+        }
       }
     }
 
     dd#{&}__item {
       width: 100%;
       height: 0;
-      overflow: hidden;
+      margin: 0;
     }
   }
 }
@@ -232,8 +234,6 @@
     @include dlSpacing();
   }
 }
-// *:not([class^='dnb-']) > {
-// }
 
 // Un-styled list helper
 @mixin unstyledList() {

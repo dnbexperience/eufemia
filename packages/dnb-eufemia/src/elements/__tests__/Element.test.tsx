@@ -39,6 +39,21 @@ describe('Element', () => {
     )
   })
 
+  it('should support spacing props', () => {
+    render(
+      <Element is="p" top="medium">
+        text
+      </Element>
+    )
+
+    const element = document.querySelector('.dnb-p')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-space__top--medium',
+      'dnb-p',
+    ])
+  })
+
   it('have to support skeleton', () => {
     const { container, rerender } = render(
       <Element is="p" skeleton>
