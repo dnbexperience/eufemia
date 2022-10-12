@@ -647,10 +647,6 @@ button.dnb-button::-moz-focus-inner {
     width: 100%;
     stroke: var(--color-sea-green);
     border-radius: 0.25rem; }
-  .dnb-spacing .dnb-upload__condition-list.dnb-dl:not([class*='dnb-space']) {
-    margin-top: calc(var(--spacing-small) + var(--spacing-xx-small)); }
-  .dnb-spacing .dnb-upload__condition-list.dnb-dl:not([class*='dnb-space__bottom']) {
-    margin-bottom: 0; }
   .dnb-upload__condition-list__label {
     font-weight: var(--font-weight-medium);
     margin-right: var(--spacing-x-small); }

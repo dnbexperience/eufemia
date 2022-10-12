@@ -89,7 +89,11 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
         {text}
       </P>
 
-      <Dl direction="horizontal" className="dnb-upload__condition-list">
+      <Dl
+        top="medium" // small xx-small is still not supported officially
+        direction="horizontal"
+        className="dnb-upload__condition-list"
+      >
         <Dl.Item>
           <Dt
             data-testid="upload-accepted-formats-description"
