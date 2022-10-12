@@ -20,14 +20,14 @@ describe('Upload screenshot', () => {
 
   it('have to match the loading state', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="upload-is-loading"]',
+      selector: '[data-visual-test="upload-is-loading"] .dnb-upload',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the custom accepted formats', async () => {
+  it('have to match file list', async () => {
     const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="upload-accepted-formats"]',
+      selector: '[data-visual-test="upload-file-list"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

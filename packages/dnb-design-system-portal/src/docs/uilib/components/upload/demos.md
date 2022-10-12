@@ -2,14 +2,16 @@
 showTabs: true
 ---
 
-import {UploadBasic} from 'Docs/uilib/components/upload/Examples'
-import {UploadRemoveFile} from 'Docs/uilib/components/upload/Examples'
-import {UploadMultipleFiles} from 'Docs/uilib/components/upload/Examples'
-import {UploadIsLoading} from 'Docs/uilib/components/upload/Examples'
-import {UploadErrorMessage} from 'Docs/uilib/components/upload/Examples'
-import {UploadAcceptedFormats} from 'Docs/uilib/components/upload/Examples'
-import {UploadCustomText} from 'Docs/uilib/components/upload/Examples'
-
+import {
+UploadBasic,
+UploadPrefilledFileList,
+UploadRemoveFile,
+UploadMultipleFiles,
+UploadIsLoading,
+UploadErrorMessage,
+UploadAcceptedFormats,
+UploadCustomText,
+} from 'Docs/uilib/components/upload/Examples'
 
 ## Demos
 
@@ -29,13 +31,13 @@ By using the `Upload.useUpload` you can remove or add files or the status displa
 
 ### Upload loading state
 
-When uploading the file you can set the loading state of the request using the Upload.useUpload hook and passing isLoading to the file that is being uploaded.
+When uploading the file you can set the loading state of the request using the `Upload.useUpload` hook and passing isLoading to the file that is being uploaded.
 
 <UploadIsLoading />
 
 ### Upload error message
 
-The only checks we do currently is for the file size and the file type. These errors are handled by the HTML element ´input´ so they aren't selectable. If you want any other error messages you can use the Upload.useUpload the same way as with the loading state.
+The only checks we do currently is for the file size and the file type. These errors are handled by the HTML element ´input´ so they aren't selectable. If you want any other error messages you can use the `Upload.useUpload` the same way as with the loading state.
 
 <UploadErrorMessage />
 
@@ -50,3 +52,7 @@ You can pass the file formats as a string array. This will restrict which files 
 All the text can be custom.
 
 <UploadCustomText />
+
+### Upload with prefilled error
+
+<UploadPrefilledFileList />
