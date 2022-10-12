@@ -31,11 +31,4 @@ describe('Upload screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-
-  it('have to match the custom text', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="upload-custom-text"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 })

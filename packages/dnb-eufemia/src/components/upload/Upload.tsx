@@ -92,7 +92,8 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
       </P>
 
       <Dl
-        top="medium" // small xx-small is still not supported officially
+        top="medium" // "small xx-small" (20px) is still not officially supported
+        bottom={0}
         direction="horizontal"
         className="dnb-upload__condition-list"
       >

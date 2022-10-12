@@ -209,7 +209,7 @@ render(<Component />)
 )
 
 export const UploadCustomText = () => (
-  <ComponentBox data-visual-test="upload-custom-text">
+  <ComponentBox>
     {
       /* jsx */ `
 <Upload 
