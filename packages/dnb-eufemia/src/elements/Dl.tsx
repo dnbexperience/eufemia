@@ -37,9 +37,10 @@ Dl.Item = ({
   children,
 }: DlItemProps & React.AllHTMLAttributes<HTMLSpanElement>) => {
   return (
-    <span className={classnames(className, 'dnb-dl__item')}>
+    <>
       {children}
-    </span>
+      <dd aria-hidden className={classnames(className, 'dnb-dl__item')} />
+    </>
   )
 }
 

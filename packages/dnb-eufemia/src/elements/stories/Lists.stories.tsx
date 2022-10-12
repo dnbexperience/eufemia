@@ -140,7 +140,18 @@ export const ListSandbox = () => (
               <Dd>Description</Dd>
             </Dl.Item>
             <Dl.Item>
+              <Dt>A term with several</Dt>
+              <Dd>
+                Description with several words lorem nulla mi posuere
+                cubilia vel vulputate
+              </Dd>
+            </Dl.Item>
+            <Dl.Item>
               <Dt>A term with several words</Dt>
+              <Dd>Description</Dd>
+            </Dl.Item>
+            <Dl.Item>
+              <Dt>Term word</Dt>
               <Dd>
                 Description with several words lorem nulla mi posuere
                 cubilia vel vulputate
