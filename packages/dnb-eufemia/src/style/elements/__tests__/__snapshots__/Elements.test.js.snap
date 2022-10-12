@@ -711,11 +711,14 @@ a.dnb-button {
       content: none; }
 
 .dnb-dl {
-  margin: 0;
   padding: 0;
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
   color: var(--theme-color-black-80, currentColor); }
+  .dnb-dl:not([class*='dnb-space__top']) {
+    margin-top: 0; }
+  .dnb-dl:not([class*='dnb-space__bottom']) {
+    margin-bottom: 0; }
   .dnb-dl dt {
     margin-top: 1rem;
     padding: 0;

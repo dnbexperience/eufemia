@@ -105,7 +105,12 @@
   }
 }
 @mixin dlStyle() {
-  margin: 0;
+  &:not([class*='dnb-space__top']) {
+    margin-top: 0;
+  }
+  &:not([class*='dnb-space__bottom']) {
+    margin-bottom: 0;
+  }
   padding: 0;
 
   font-size: var(--font-size-basis);
