@@ -3,10 +3,11 @@ import classnames from 'classnames'
 
 // Components
 import Lead from '../../elements/Lead'
-import P from '../../../src/elements/P'
-import Dl from '../../../src/elements/Dl'
-import Dt from '../../../src/elements/Dt'
-import Dd from '../../../src/elements/Dd'
+import P from '../../elements/P'
+import Dl from '../../elements/Dl'
+import Dt from '../../elements/Dt'
+import Dd from '../../elements/Dd'
+import HeightAnimation from '../height-animation/HeightAnimation'
 
 // Shared
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -67,7 +68,8 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
     .toUpperCase()
 
   return (
-    <div
+    <HeightAnimation
+      open
       data-testid="upload"
       className={classnames(
         'dnb-upload',
@@ -149,7 +151,7 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
           strokeDasharray="7 7"
         />
       </svg>
-    </div>
+    </HeightAnimation>
   )
 
   function UploadFileList() {
