@@ -53,7 +53,8 @@ export const MutateData = () => {
       }))
     }
 
-    const [options, setOptions] = React.useState(getMutatedList())
+    // const [options, setOptions] = React.useState(getMutatedList())
+    const [options, setOptions] = React.useState(null)
     const [value, setValue] = React.useState('b')
 
     const onChangeHandler = ({ data }) => {
@@ -66,7 +67,7 @@ export const MutateData = () => {
     }
 
     React.useEffect(() => {
-      // updateList()
+      updateList()
       // setTimeout(() => {
       // setValue('c')
       // }, 1e3)
