@@ -51,11 +51,9 @@ const UploadFileInput = ({
   const sharedId = id || makeUniqueId()
 
   return (
-    <div
-      data-testid="upload-file-input"
-      className="dnb-upload__button-section"
-    >
+    <div data-testid="upload-file-input">
       <Button
+        top="medium"
         id={`${sharedId}-input`}
         data-testid="upload-file-input-button"
         icon={FolderIcon}

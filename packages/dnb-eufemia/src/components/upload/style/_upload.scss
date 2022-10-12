@@ -29,7 +29,12 @@
   }
 
   &__condition-list {
-    margin-top: var(--spacing-small);
+    .dnb-spacing &.dnb-dl:not([class*='dnb-space']) {
+      margin-top: calc(var(--spacing-small) + var(--spacing-xx-small));
+    }
+    .dnb-spacing &.dnb-dl:not([class*='dnb-space__bottom']) {
+      margin-bottom: 0;
+    }
 
     &__label {
       font-weight: var(--font-weight-medium);
@@ -50,6 +55,7 @@
     position: relative;
 
     padding: 0;
+    margin-top: var(--spacing-medium);
     margin-bottom: 0;
 
     list-style: none;
