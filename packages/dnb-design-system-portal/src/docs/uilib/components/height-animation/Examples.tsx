@@ -65,6 +65,47 @@ render(<Example />)
   )
 }
 
+export function HeightAnimationAutosizing() {
+  return (
+    <ComponentBox useRender>
+      {
+        /* jsx */ `
+const Example = () => {
+  const [showMe, setShowMe] = React.useState(true)
+
+  return (
+    <>
+      <HeightAnimation
+        open
+        showOverflow
+      >
+        {showMe ? <Button 
+          onClick={() => {
+            setShowMe(!showMe)
+          }}
+        >
+          Click me!
+        </Button>: <Anchor
+          onClick={() => {
+            setShowMe(!showMe)
+          }}
+        >
+          No, click me!
+        </Anchor>}
+      </HeightAnimation>
+
+      <P top>Look at me 👀</P>
+    </>
+  )
+}
+
+render(<Example />)
+    `
+      }
+    </ComponentBox>
+  )
+}
+
 export function HeightAnimationKeepInDOM() {
   return (
     <ComponentBox useRender>
