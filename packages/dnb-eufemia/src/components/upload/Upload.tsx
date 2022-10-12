@@ -11,7 +11,7 @@ import HeightAnimation from '../height-animation/HeightAnimation'
 
 // Shared
 import { createSpacingClasses } from '../space/SpacingHelper'
-import { createSkeletonClass } from '../skeleton/SkeletonHelper'
+import Provider from '../../shared/Provider'
 import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import { format } from '../number-format/NumberUtils'
@@ -58,7 +58,6 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
     ...props
   } = extendedProps
 
-  const skeletonClasses = createSkeletonClass('shape', skeleton, context)
   const spacingClasses = createSpacingClasses(props)
 
   const { files, setFiles } = useUpload(id)
@@ -71,87 +70,84 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
     <HeightAnimation
       open
       data-testid="upload"
-      className={classnames(
-        'dnb-upload',
-        skeletonClasses,
-        spacingClasses,
-        className
-      )}
+      className={classnames('dnb-upload', spacingClasses, className)}
       {...props}
     >
-      <Lead data-testid="upload-title" space="0">
-        {title}
-      </Lead>
+      <Provider skeleton={skeleton}>
+        <Lead data-testid="upload-title" space="0">
+          {title}
+        </Lead>
 
-      <P
-        data-testid="upload-text"
-        top="xx-small"
-        className="dnb-upload__text"
-      >
-        {text}
-      </P>
+        <P
+          data-testid="upload-text"
+          top="xx-small"
+          className="dnb-upload__text"
+        >
+          {text}
+        </P>
 
-      <Dl
-        top="medium" // "small xx-small" (20px) is still not officially supported
-        bottom={0}
-        direction="horizontal"
-        className="dnb-upload__condition-list"
-      >
-        <Dl.Item>
-          <Dt
-            data-testid="upload-accepted-formats-description"
-            className="dnb-upload__condition-list__label"
-          >
-            {formatsDescription}
-          </Dt>
-          <Dd data-testid="upload-accepted-formats">
-            {prettyfiedAcceptedFileFormats}
-          </Dd>
-        </Dl.Item>
+        <Dl
+          top="medium" // "small xx-small" (20px) is still not officially supported
+          bottom={0}
+          direction="horizontal"
+          className="dnb-upload__condition-list"
+        >
+          <Dl.Item>
+            <Dt
+              data-testid="upload-accepted-formats-description"
+              className="dnb-upload__condition-list__label"
+            >
+              {formatsDescription}
+            </Dt>
+            <Dd data-testid="upload-accepted-formats">
+              {prettyfiedAcceptedFileFormats}
+            </Dd>
+          </Dl.Item>
 
-        <Dl.Item>
-          <Dt
-            data-testid="upload-file-size-description"
-            className="dnb-upload__condition-list__label"
-          >
-            {fileSizeDescription}
-          </Dt>
-          <Dd data-testid="upload-file-size">
-            {String(fileSizeContent).replace(
-              '%size',
-              format(fileMaxSize).toString()
-            )}
-          </Dd>
-        </Dl.Item>
-      </Dl>
+          <Dl.Item>
+            <Dt
+              data-testid="upload-file-size-description"
+              className="dnb-upload__condition-list__label"
+            >
+              {fileSizeDescription}
+            </Dt>
+            <Dd data-testid="upload-file-size">
+              {String(fileSizeContent).replace(
+                '%size',
+                format(fileMaxSize).toString()
+              )}
+            </Dd>
+          </Dl.Item>
+        </Dl>
 
-      <UploadFileInput
-        id={id}
-        acceptedFormats={acceptedFileTypes}
-        onUpload={onInputUpload}
-        fileMaxSize={fileMaxSize}
-        uploadFileButtonText={uploadButtonText}
-        uploadErrorLargeFile={uploadErrorLargeFile}
-        multipleFiles={multipleFiles}
-      />
-
-      <UploadFileList />
-
-      <svg
-        className="dnb-upload__outline"
-        aria-hidden
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-      >
-        <rect
-          width="100%"
-          height="100%"
-          rx="0.25rem"
-          ry="0.25rem"
-          strokeWidth="2.5"
-          strokeDasharray="7 7"
+        <UploadFileInput
+          id={id}
+          acceptedFormats={acceptedFileTypes}
+          onUpload={onInputUpload}
+          fileMaxSize={fileMaxSize}
+          uploadFileButtonText={uploadButtonText}
+          uploadErrorLargeFile={uploadErrorLargeFile}
+          multipleFiles={multipleFiles}
         />
-      </svg>
+
+        <UploadFileList />
+
+        <svg
+          className="dnb-upload__outline"
+          aria-hidden
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+        >
+          <rect
+            width="100%"
+            height="100%"
+            rx="0.25rem"
+            ry="0.25rem"
+            strokeWidth="2.5"
+            strokeDasharray="7 7"
+          />
+        </svg>
+      </Provider>
     </HeightAnimation>
   )
 
