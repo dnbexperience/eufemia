@@ -453,10 +453,10 @@ export const prepareDerivedState = (props, state) => {
   }
 
   if (
-    state.selected_item !== props.value &&
-    (state._value !== props.value ||
-      state._data !== props.data ||
-      isTrue(props.prevent_selection))
+    // state.selected_item !== props.value &&
+    state._value !== props.value ||
+    state._data !== props.data ||
+    isTrue(props.prevent_selection)
   ) {
     if (props.value === 'initval') {
       state.selected_item = null
