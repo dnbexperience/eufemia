@@ -114,6 +114,28 @@ describe('Icon component', () => {
     ).toBe(false)
   })
 
+  it('should set data-testid property based on the aria-label', () => {
+    const Comp = mount(
+      <Component icon={question} aria-label="question icon" />
+    )
+    expect(
+      Comp.find('span.dnb-icon').instance().getAttribute('data-testid')
+    ).toBe('question icon')
+  })
+
+  it('should set data-testid when provided', () => {
+    const Comp = mount(
+      <Component
+        icon={question}
+        aria-label="question icon"
+        data-testid="custom-data-testid-value"
+      />
+    )
+    expect(
+      Comp.find('span.dnb-icon').instance().getAttribute('data-testid')
+    ).toBe('custom-data-testid-value')
+  })
+
   it('should validate with ARIA rules', async () => {
     const Comp = mount(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
