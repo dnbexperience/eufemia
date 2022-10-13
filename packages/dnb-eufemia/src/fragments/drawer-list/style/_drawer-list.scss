@@ -137,8 +137,13 @@
   &--scroll &__options {
     min-height: 2rem;
     max-height: 70vh;
+    transition: max-height 300ms var(--easing-default);
 
     @include scrollY(auto);
+  }
+  html[data-visual-test] &--scroll &__options,
+  &--scroll#{&}--no-animation &__options {
+    animation-duration: 1ms !important;
   }
   &--opened &__options {
     scroll-behavior: smooth;

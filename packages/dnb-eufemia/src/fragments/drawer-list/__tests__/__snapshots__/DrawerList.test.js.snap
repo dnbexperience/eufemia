@@ -1149,6 +1149,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
   .dnb-drawer-list--scroll .dnb-drawer-list__options {
     min-height: 2rem;
     max-height: 70vh;
+    transition: max-height 300ms var(--easing-default);
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
@@ -1159,6 +1160,9 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       scroll-behavior: smooth; }
     html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options {
       scroll-behavior: auto !important; }
+  html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options,
+  .dnb-drawer-list--scroll.dnb-drawer-list--no-animation .dnb-drawer-list__options {
+    animation-duration: 1ms !important; }
   .dnb-drawer-list--opened .dnb-drawer-list__options {
     scroll-behavior: smooth; }
   .dnb-drawer-list--no-scroll-animation .dnb-drawer-list__options {
