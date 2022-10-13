@@ -4,6 +4,7 @@ showTabs: true
 
 import {
 HeightAnimationDefault,
+HeightAnimationAutosizing,
 HeightAnimationKeepInDOM,
 } from 'Docs/uilib/components/height-animation/Examples'
 
@@ -12,6 +13,10 @@ HeightAnimationKeepInDOM,
 ### HeightAnimation
 
 <HeightAnimationDefault />
+
+### Auto resize height
+
+<HeightAnimationAutosizing />
 
 ### Keep in DOM
 

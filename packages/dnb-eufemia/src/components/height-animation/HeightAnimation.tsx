@@ -15,6 +15,12 @@ export type HeightAnimationProps = {
   keepInDOM?: boolean
 
   /**
+   * Set to `true` to omit the usage of "overflow: hidden;"
+   * Default: false
+   */
+  showOverflow?: boolean
+
+  /**
    * Set to `true` ensure the nested children content will be kept in the DOM.
    * Default: 400
    */
@@ -39,6 +45,7 @@ export default function HeightAnimation({
   open = false,
   animate = true,
   keepInDOM = false,
+  showOverflow = false,
   element,
   duration,
   className,
@@ -84,6 +91,7 @@ export default function HeightAnimation({
           !isAnimating &&
           !open &&
           'dnb-height-animation--hidden',
+        showOverflow && 'dnb-height-animation--show-overflow',
         className
       )}
       style={style}
