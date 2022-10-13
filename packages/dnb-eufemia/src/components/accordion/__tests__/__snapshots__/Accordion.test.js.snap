@@ -477,7 +477,7 @@ exports[`Accordion scss have to match snapshot 1`] = `
 :root {
   --accordion-border-width: 0.0625rem;
   --accordion-border-radius: 0.25rem;
-  --accordion-easing: cubic-bezier(0.42, 0, 0, 1); }
+  --accordion-easing: var(--easing-default); }
 
 .dnb-accordion {
   position: relative;

@@ -13,7 +13,7 @@
   text-align: left;
 
   // no animation yet
-  // transition: background-color 300ms #{$defaultEasing}, box-shadow 300ms #{$defaultEasing};
+  // transition: background-color 300ms var(--easing-default), box-shadow 300ms var(--easing-default);
 
   &--primary {
     color: var(--color-white);

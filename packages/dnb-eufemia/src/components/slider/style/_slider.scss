@@ -184,9 +184,10 @@
 
   &__state--animate &__thumb,
   &__state--animate &__line {
-    transition: left 250ms #{$defaultEasing}, top 250ms #{$defaultEasing},
-      bottom 250ms #{$defaultEasing}, right 250ms #{$defaultEasing},
-      box-shadow 250ms #{$defaultEasing};
+    transition: left 250ms var(--easing-default),
+      top 250ms var(--easing-default), bottom 250ms var(--easing-default),
+      right 250ms var(--easing-default),
+      box-shadow 250ms var(--easing-default);
   }
 
   &__state--disabled &__track,

@@ -4,7 +4,7 @@
  */
 
 :root {
-  --global-status-easing: #{$defaultEasing};
+  --global-status-easing: var(--easing-default);
 }
 
 .dnb-global-status {

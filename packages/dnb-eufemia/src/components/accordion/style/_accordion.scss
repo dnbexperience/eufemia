@@ -7,7 +7,7 @@
   // Props
   --accordion-border-width: 0.0625rem;
   --accordion-border-radius: 0.25rem;
-  --accordion-easing: #{$defaultEasing};
+  --accordion-easing: var(--easing-default);
 }
 
 .dnb-accordion {
