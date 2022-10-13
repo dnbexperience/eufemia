@@ -21,10 +21,10 @@
   opacity: 0;
   visibility: hidden;
 
-  transition: opacity 200ms #{$defaultEasing};
+  transition: opacity 200ms var(--easing-default);
   &--animate_position {
-    transition: all 200ms #{$defaultEasing},
-      opacity 200ms #{$defaultEasing};
+    transition: all 200ms var(--easing-default),
+      opacity 200ms var(--easing-default);
   }
 
   &--active {
@@ -34,15 +34,15 @@
       because of the first "show" we also use animation
       also, use forwards because of the usage of visibility
     */
-    animation: show-tooltip 200ms #{$defaultEasing} forwards;
+    animation: show-tooltip 200ms var(--easing-default) forwards;
   }
   html[data-visual-test] &--active,
   &--active#{&}--no-animation {
-    animation: show-tooltip 1ms #{$defaultEasing} forwards;
+    animation: show-tooltip 1ms var(--easing-default) forwards;
   }
   &--hide {
     visibility: visible;
-    animation: hide-tooltip 200ms #{$defaultEasing} forwards;
+    animation: hide-tooltip 200ms var(--easing-default) forwards;
   }
   &--hide#{&}--no-animation {
     animation: hide-tooltip 1ms linear forwards;
