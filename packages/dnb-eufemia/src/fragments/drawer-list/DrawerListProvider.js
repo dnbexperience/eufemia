@@ -116,8 +116,8 @@ export default class DrawerListProvider extends React.PureComponent {
     clearTimeout(this._scrollTimeout)
     clearTimeout(this._ddTimeout)
 
-    this.setActiveState(false)
     this.removeObservers()
+    this.setActiveState(false)
   }
 
   refreshScrollObserver() {
@@ -1127,6 +1127,8 @@ export default class DrawerListProvider extends React.PureComponent {
       })
 
       const delayHandler = () => {
+        this.removeObservers()
+
         this.setState({
           hidden: true,
           isOpen: false,
@@ -1137,7 +1139,6 @@ export default class DrawerListProvider extends React.PureComponent {
         DrawerListProvider.isOpen = false
 
         this.setActiveState(false)
-        this.removeObservers()
       }
 
       if (isTrue(this.props.no_animation)) {
