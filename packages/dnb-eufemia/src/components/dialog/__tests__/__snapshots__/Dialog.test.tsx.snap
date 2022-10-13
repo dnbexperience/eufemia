@@ -1354,7 +1354,8 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
 `;
 
 exports[`Dialog scss have to match snapshot 1`] = `
-"/*
+"@charset \\"UTF-8\\";
+/*
 * DNB Drawer
 *
 */
@@ -2153,11 +2154,15 @@ button.dnb-button::-moz-focus-inner {
     display: flex;
     flex-direction: column;
     z-index: 10;
-    /** Sets the color on scroll overflow (at the bottom) */
-    background-color: var(--modal-background-color, transparent);
+    /** 
+      NB: Do not use \\"overflow-x: hidden;\\" in here,
+      (overflowing one direction, will influence the other – we can't just have one at a time) 
+      To make the Drawer scroll, we use .dnb-scroll-view
+    */
     width: 100%;
     height: 100%;
-    overflow-x: hidden; }
+    /** Sets the color on scroll overflow (at the bottom) */
+    background-color: var(--modal-background-color, transparent); }
   .dnb-drawer--spacing .dnb-drawer__inner {
     padding: 0 var(--drawer-spacing) 0; }
     @media screen and (min-width: 72em) {
@@ -2264,8 +2269,8 @@ button.dnb-button::-moz-focus-inner {
     position: sticky;
     top: 0;
     z-index: 99;
-    margin: var(--drawer-spacing) calc(var(--drawer-spacing) * -1);
-    padding: 0 var(--drawer-spacing); }
+    margin: var(--drawer-spacing) calc(var(--drawer-spacing) * -1 * 1.75);
+    padding: 0 calc(var(--drawer-spacing) * 1.5); }
   .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section.dnb-drawer__navigation--sticky {
     z-index: 2999; }
   .dnb-drawer .dnb-drawer__navigation--sticky::before {

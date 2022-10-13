@@ -7,7 +7,7 @@ SimpleDrawerExample,
 FullDrawerExample,
 DrawerCallbackExample,
 DrawerCustomTriggerExample,
-DrawerNoAnimationNoSpacing
+DrawerNoAnimationNoSpacing,
 } from 'Docs/uilib/components/drawer/Examples'
 
 ## Demos

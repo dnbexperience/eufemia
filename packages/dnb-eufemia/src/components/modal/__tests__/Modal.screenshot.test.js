@@ -63,26 +63,6 @@ describe('Modal screenshot', () => {
   })
 })
 
-describe('Drawer screenshot', () => {
-  setupPageScreenshot({
-    url: '/uilib/components/modal/visual-tests/hidden-tests',
-    pageViewport,
-  })
-
-  it('have to match the default drawer window', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
-      simulate: 'click',
-      simulateSelector:
-        '[data-visual-test="modal-drawer-basic"] button:first-of-type',
-      screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
-      waitBeforeSimulate: 200,
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
-
 describe('Additional Modal screenshot', () => {
   const pageViewport = {
     width: 400,
@@ -99,45 +79,6 @@ describe('Additional Modal screenshot', () => {
       simulate: 'click',
       simulateSelector:
         '[data-visual-test="modal-fullscreen"] button:first-of-type',
-      screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
-
-describe('Drawer without spacing', () => {
-  setupPageScreenshot({
-    url: '/uilib/components/modal/visual-tests/hidden-tests',
-    pageViewport,
-  })
-
-  it('have to match drawer without spacing', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
-      simulate: 'click',
-      simulateSelector:
-        '[data-visual-test="drawer-no-spacing"] button:first-of-type',
-      screenshotSelector: '.dnb-modal__content',
-      rootClassName: 'hide-page-content',
-      waitBeforeSimulate: 200,
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
-
-describe('Drawer left screenshot', () => {
-  setupPageScreenshot({
-    url: '/uilib/components/modal/visual-tests/hidden-tests',
-    pageViewport,
-  })
-
-  it('have to match the drawer with containerplacement left', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
-      simulate: 'click',
-      simulateSelector:
-        '[data-visual-test="modal-drawer-leftsided"] button:first-of-type',
       screenshotSelector: '.dnb-modal__content',
       rootClassName: 'hide-page-content',
     })

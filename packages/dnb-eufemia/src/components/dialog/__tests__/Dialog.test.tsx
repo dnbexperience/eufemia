@@ -11,6 +11,7 @@ import {
   attachToBody,
 } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
+import { render } from '@testing-library/react'
 
 const props = fakeProps(require.resolve('../Dialog.tsx'), {
   all: true,
@@ -91,6 +92,29 @@ describe('Dialog', () => {
 
     Comp.find('button#close-me').simulate('click')
     expect(on_close).toHaveBeenCalledTimes(1)
+  })
+
+  it('will accept custom refs', () => {
+    const contentRef = React.createRef<HTMLElement>()
+    const scrollRef = React.createRef<HTMLElement>()
+
+    const MockComponent = () => {
+      return (
+        <Dialog
+          openState
+          noAnimation
+          contentRef={contentRef}
+          scrollRef={scrollRef}
+        >
+          content
+        </Dialog>
+      )
+    }
+
+    render(<MockComponent />)
+
+    expect(contentRef.current).toBeTruthy()
+    expect(scrollRef.current).toBeTruthy()
   })
 
   it('will use props from global context', () => {
