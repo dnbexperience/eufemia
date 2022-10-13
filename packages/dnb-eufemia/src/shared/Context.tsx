@@ -26,6 +26,7 @@ import type { DrawerProps } from '../components/drawer/types'
 import type { DialogProps } from '../components/dialog/types'
 import type { TooltipProps } from '../components/tooltip/types'
 import type { SectionProps } from '../components/section/Section'
+import { UploadProps } from '../components/upload/types'
 
 // All TypeScript based Eufemia elements
 import type { AnchorProps } from '../elements/Anchor'
@@ -53,6 +54,7 @@ export type ContextProps = {
   Tooltip?: Partial<TooltipProps>
   Section?: Partial<SectionProps>
   ScrollView?: Partial<ScrollViewProps>
+  Upload?: Partial<UploadProps>
 
   // -- TODO: Not converted yet --
 

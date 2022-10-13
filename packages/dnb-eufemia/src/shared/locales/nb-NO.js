@@ -122,5 +122,18 @@ export default {
     Tag: {
       removeIconTitle: 'Fjern',
     },
+    Upload: {
+      title: 'Last opp dokumenter',
+      text: 'Dra & slipp eller velg hvilke filer du vil laste opp.',
+      formatsDescription: 'Tilatte formater:',
+      fileSizeDescription: 'Maks filstørrelse:',
+      fileSizeContent: '%size MB',
+      uploadButtonText: 'Utforsk filer',
+      uploadLoadingText: 'Laster opp',
+      uploadErrorLargeFile:
+        'Filen du prøver å laste opp er for stor, vi støtter ikke filer større enn %size MB. Vennligst prøv igjen.',
+      deleteButton: 'Slett',
+      fileListAriaLabel: 'opplastede filer',
+    },
   },
 }
