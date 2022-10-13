@@ -12,6 +12,7 @@ import {
   loadScss,
   attachToBody,
 } from '../../../core/jest/jestSetup'
+import { render } from '@testing-library/react'
 import Component from '../DrawerList'
 
 import {
@@ -248,6 +249,26 @@ describe('DrawerList component', () => {
     expect(
       document.documentElement.hasAttribute('data-dnb-drawer-list-active')
     ).toBe(false)
+  })
+
+  it('will lock body scroll when enable_body_lock is true', () => {
+    const MockComponent = (p) => (
+      <Component {...props} data={mockData} enable_body_lock {...p} />
+    )
+
+    const { rerender } = render(<MockComponent opened={false} />)
+
+    expect(document.body.getAttribute('style')).toBe(null)
+
+    rerender(<MockComponent opened />)
+
+    expect(document.body.getAttribute('style')).toBe(
+      'overflow: hidden; height: auto; box-sizing: border-box; margin-right: 0px;'
+    )
+
+    rerender(<MockComponent opened={false} />)
+
+    expect(document.body.getAttribute('style')).toBe('')
   })
 
   it('has valid on_change callback', () => {
