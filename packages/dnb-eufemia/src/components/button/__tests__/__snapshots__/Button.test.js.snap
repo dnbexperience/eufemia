@@ -1559,23 +1559,23 @@ exports[`Button scss have to match snapshot 1`] = `
   padding: 0 1rem;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 200ms cubic-bezier(0.42, 0, 0, 1); }
+  transition: opacity 200ms var(--easing-default); }
   .dnb-tooltip--large {
     padding: 0.25rem 1rem; }
   .dnb-tooltip--animate_position {
-    transition: all 200ms cubic-bezier(0.42, 0, 0, 1), opacity 200ms cubic-bezier(0.42, 0, 0, 1); }
+    transition: all 200ms var(--easing-default), opacity 200ms var(--easing-default); }
   .dnb-tooltip--active {
     visibility: visible;
     /*
       because of the first \\"show\\" we also use animation
       also, use forwards because of the usage of visibility
     */
-    animation: show-tooltip 200ms cubic-bezier(0.42, 0, 0, 1) forwards; }
+    animation: show-tooltip 200ms var(--easing-default) forwards; }
   html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {
-    animation: show-tooltip 1ms cubic-bezier(0.42, 0, 0, 1) forwards; }
+    animation: show-tooltip 1ms var(--easing-default) forwards; }
   .dnb-tooltip--hide {
     visibility: visible;
-    animation: hide-tooltip 200ms cubic-bezier(0.42, 0, 0, 1) forwards; }
+    animation: hide-tooltip 200ms var(--easing-default) forwards; }
   .dnb-tooltip--hide.dnb-tooltip--no-animation {
     animation: hide-tooltip 1ms linear forwards; }
   .dnb-tooltip--fixed {
@@ -1694,7 +1694,7 @@ exports[`Button scss have to match snapshot 1`] = `
 .dnb-form-status {
   display: flex;
   opacity: 1;
-  transition: height 400ms cubic-bezier(0.42, 0, 0, 1), opacity 400ms cubic-bezier(0.42, 0, 0, 1), margin 400ms cubic-bezier(0.42, 0, 0, 1), padding 400ms cubic-bezier(0.42, 0, 0, 1); }
+  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default); }
   .dnb-form-status--hidden {
     will-change: height, opacity, margin, padding;
     width: 0;

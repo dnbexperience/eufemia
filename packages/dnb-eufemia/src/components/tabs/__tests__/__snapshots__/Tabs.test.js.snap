@@ -1426,7 +1426,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
     display: flex;
     padding: 0 1rem 0 1.5rem;
     will-change: padding;
-    transition: padding 1s cubic-bezier(0.42, 0, 0, 1); }
+    transition: padding 1s var(--easing-default); }
     @media screen and (max-width: 40em) {
       .dnb-tabs__button__snap {
         padding: 0 1rem; } }
