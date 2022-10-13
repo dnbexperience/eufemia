@@ -7,7 +7,10 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { warn, isInsideScrollView } from '../../shared/component-helper'
+import {
+  warn,
+  getClosestScrollViewElement,
+} from '../../shared/component-helper'
 
 class DrawerListPortal extends React.PureComponent {
   static propTypes = {
@@ -203,10 +206,9 @@ class DrawerListPortal extends React.PureComponent {
       }, 30)
     }
 
-    this.customElem = isInsideScrollView(this.props.rootRef.current, true)
-    if (this.customElem) {
-      this.customElem.addEventListener('scroll', this.setPosition)
-    }
+    this.customElem =
+      getClosestScrollViewElement(this.props.rootRef.current) || window
+    this.customElem.addEventListener('scroll', this.setPosition)
 
     try {
       this.resizeObserver = new ResizeObserver(this.setPosition)

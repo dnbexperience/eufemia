@@ -11,7 +11,7 @@ import {
   warn,
   isTrue,
   roundToNearest,
-  isInsideScrollView,
+  getClosestScrollViewElement,
   detectOutsideClick,
   dispatchCustomElementEvent,
   getPreviousSibling,
@@ -254,7 +254,7 @@ export default class DrawerListProvider extends React.PureComponent {
         : null
 
     if (!customElem) {
-      customElem = isInsideScrollView(this._refRoot.current, true)
+      customElem = getClosestScrollViewElement(this._refRoot.current)
     }
 
     // In case we have one before hand
@@ -363,7 +363,7 @@ export default class DrawerListProvider extends React.PureComponent {
       }
     }
 
-    // customElem can be a modal etc.
+    // customElem can be a dnb-scroll-view
     this._rootElem = customElem || window
     this._rootElem.addEventListener('scroll', this.setDirection)
 
