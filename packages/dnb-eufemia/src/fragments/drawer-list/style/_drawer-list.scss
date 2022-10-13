@@ -68,6 +68,11 @@
 
   &__portal__style {
     position: absolute;
+    transition: all 300ms var(--easing-default);
+
+    html[data-visual-test] & {
+      animation-duration: 1ms !important;
+    }
 
     // higher than modal --modal-z-index:
     z-index: 3200;
