@@ -16,7 +16,9 @@ export interface ModalInnerProps extends SectionProps {
   className?: string
 }
 
-export default class ModalInner extends React.PureComponent<ModalInnerProps> {
+export default class ModalInner extends React.PureComponent<
+  ModalInnerProps & React.HTMLProps<HTMLElement>
+> {
   static contextType = ModalContext
 
   componentDidMount() {

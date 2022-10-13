@@ -20,7 +20,7 @@ export default function DialogBody({
   styleType,
   ref, //eslint-disable-line
   ...props
-}: DialogBodyProps) {
+}: DialogBodyProps & React.HTMLProps<HTMLElement>) {
   return (
     <ModalInner
       {...props}
