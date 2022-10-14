@@ -14,7 +14,7 @@ export default function DrawerHeader({
   size = 'x-large',
   ref, // eslint-disable-line
   ...props
-}: DrawerHeaderProps) {
+}: DrawerHeaderProps & Omit<React.HTMLProps<HTMLElement>, 'size'>) {
   return (
     <ModalHeader
       {...props}

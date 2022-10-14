@@ -20,7 +20,7 @@ export default function DrawerBody({
   styleType,
   ref, //eslint-disable-line
   ...props
-}: DrawerBodyProps) {
+}: DrawerBodyProps & React.HTMLProps<HTMLElement>) {
   return (
     <ModalInner
       {...props}

@@ -12,8 +12,7 @@ import ModalContext from '../ModalContext'
 import H1 from '../../../elements/H1'
 import { ReactChildType } from '../types'
 
-export interface ModalHeaderProps
-  extends Omit<SectionProps, 'size' | 'title'> {
+export interface ModalHeaderProps extends SectionProps {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
@@ -40,7 +39,9 @@ export interface ModalHeaderProps
   size?: 'medium' | 'large' | 'x-large' | 'xx-large'
 }
 
-export default class ModalHeader extends React.PureComponent<ModalHeaderProps> {
+export default class ModalHeader extends React.PureComponent<
+  ModalHeaderProps & Omit<React.HTMLProps<HTMLElement>, 'size' | 'title'>
+> {
   static contextType = ModalContext
   render() {
     const {
