@@ -58,7 +58,7 @@ export type SectionProps = {
   children?: React.ReactNode
 }
 
-export type AllSectionProps = SectionProps &
+export type SectionAllProps = SectionProps &
   SpacingProps &
   React.HTMLProps<HTMLElement>
 
@@ -66,7 +66,7 @@ const defaultProps = {
   element: 'section',
 }
 
-export default function Section(localProps: AllSectionProps) {
+export default function Section(localProps: SectionAllProps) {
   const context = React.useContext(Context)
 
   // use only the props from context, who are available here anyway
