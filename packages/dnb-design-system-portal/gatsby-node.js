@@ -190,7 +190,7 @@ async function createRedirects({ graphql, actions }) {
   })
 }
 
-exports.onCreateWebpackConfig = ({ actions, plugins }) => {
+exports.onCreateWebpackConfig = ({ stage, actions, plugins }) => {
   const config = {
     resolve: {
       alias: {
@@ -209,7 +209,7 @@ exports.onCreateWebpackConfig = ({ actions, plugins }) => {
     ],
   }
 
-  if (isCI && prebuildExists) {
+  if (isCI && prebuildExists &&    stage === 'build-javascript') {
     config.plugins.push(
       plugins.normalModuleReplacement(/@dnb\/eufemia\/src/, (resource) => {
         resource.request = resource.request.replace(
