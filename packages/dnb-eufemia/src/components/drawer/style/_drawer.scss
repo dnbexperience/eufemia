@@ -28,7 +28,6 @@
   }
 
   @include defaultDropShadow();
-  //border-radius: 0.5rem;
   user-select: text;
   -webkit-user-select: text; // Safari / Touch fix
   border: none;
@@ -46,12 +45,17 @@
     flex-direction: column;
     z-index: 10;
 
-    /** Sets the color on scroll overflow (at the bottom) */
-    background-color: var(--modal-background-color, transparent);
+    /** 
+      NB: Do not use "overflow-x: hidden;" in here,
+      (overflowing one direction, will influence the other – we can't just have one at a time) 
+      To make the Drawer scroll, we use .dnb-scroll-view
+    */
 
     width: 100%;
     height: 100%;
-    overflow-x: hidden;
+
+    /** Sets the color on scroll overflow (at the bottom) */
+    background-color: var(--modal-background-color, transparent);
   }
 
   &--spacing &__inner {
@@ -218,8 +222,8 @@
     z-index: 99; // below #dropdown and #date-picker
 
     // on large screens
-    margin: var(--drawer-spacing) calc(var(--drawer-spacing) * -1);
-    padding: 0 var(--drawer-spacing);
+    margin: var(--drawer-spacing) calc(var(--drawer-spacing) * -1 * 1.75);
+    padding: 0 calc(var(--drawer-spacing) * 1.5);
   }
   &--spacing &__navigation.dnb-section#{&}__navigation--sticky {
     z-index: 2999; // above #dropdown and #date-picker and below #modal

@@ -115,3 +115,22 @@ describe('Drawer no animation/spacing screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 })
+
+describe('Drawer screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/drawer/visual-tests/hidden-tests',
+    pageViewport,
+  })
+
+  it('have to match correct scroll view setup', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="drawer-scroll-view"]',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="drawer-scroll-view"] button:first-of-type',
+      screenshotSelector: '.drawer-scroll-view',
+      rootClassName: 'hide-page-content',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})

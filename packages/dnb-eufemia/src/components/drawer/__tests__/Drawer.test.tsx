@@ -11,6 +11,7 @@ import {
   axeComponent,
   attachToBody,
 } from '../../../core/jest/jestSetup'
+import { render } from '@testing-library/react'
 
 const props = fakeProps(require.resolve('../Drawer.tsx'), {
   all: true,
@@ -281,6 +282,29 @@ describe('Drawer', () => {
     expect(
       document.documentElement.hasAttribute('data-dnb-modal-active')
     ).toBe(false)
+  })
+
+  it('will accept custom refs', () => {
+    const contentRef = React.createRef<HTMLElement>()
+    const scrollRef = React.createRef<HTMLElement>()
+
+    const MockComponent = () => {
+      return (
+        <Drawer
+          openState
+          noAnimation
+          contentRef={contentRef}
+          scrollRef={scrollRef}
+        >
+          content
+        </Drawer>
+      )
+    }
+
+    render(<MockComponent />)
+
+    expect(contentRef.current).toBeTruthy()
+    expect(scrollRef.current).toBeTruthy()
   })
 
   it('can contain drawer parts', () => {
