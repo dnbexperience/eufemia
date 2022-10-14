@@ -25,11 +25,13 @@ If you are new to the repository, first check out [what I should know before get
       - [SCSS Theming](#scss-theming)
       - [SCSS utilities and properties](#scss-utilities-and-properties)
     - [Create a local build](#create-a-local-build)
-    - [Additional support](#additional-support)
+    - [Additional component support](#additional-component-support)
       - [Locale support](#locale-support)
       - [Provider support](#provider-support)
+      - [FormRow support with `includeValidProps`](#formrow-support-with-includevalidprops)
       - [Spacing support](#spacing-support)
       - [Skeleton support](#skeleton-support)
+      - [TypeScript types](#typescript-types)
     - [Write documentation](#write-documentation)
   - [4. Make and run tests](#4-make-and-run-tests)
     - [Running tests locally](#running-tests-locally)
@@ -118,7 +120,7 @@ $ yarn build
 
 You find the output in the `./packages/dnb-eufemia/build` folder.
 
-### Additional support
+### Additional component support
 
 #### Locale support
 
@@ -140,11 +142,20 @@ And use it as so:
 import { Context } from '../../shared'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
+import type { LocaleProps } from '../../shared/types'
+
+export type ComponentProps = {
+  myParam?: string
+}
+export type ComponentAllProps = ComponentProps &
+  LocaleProps &
+  React.HTMLProps<HTMLElement>
+
 const defaultProps = {
   myParam: 'value',
 }
 
-function MyComponent(props: Types) {
+function MyComponent(props: ComponentAllProps) {
   const context = React.useContext(Context)
 
   const { myString } = extendPropsWithContext(
@@ -166,11 +177,18 @@ The function `getTranslation` will along with the properties support both `local
 import { Context } from '../../shared'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
+export type ComponentProps = {
+  myParam?: string
+}
+export type ComponentAllProps = ComponentProps &
+  LocaleProps &
+  React.HTMLProps<HTMLElement>
+
 const defaultProps = {
   myParam: 'value',
 }
 
-function MyComponent(props: Types) {
+function MyComponent(props: ComponentAllProps) {
   const context = React.useContext(Context)
 
   const { myParam, ...rest } = extendPropsWithContext(
@@ -226,20 +244,19 @@ import {
   spacingPropTypes, // In case you need them as PropTypes
   createSpacingClasses,
 } from '../space/SpacingHelper'
-import {
-  SpaceProps, // TypeScript type
-  createSpacingClasses,
-} from '../space/Space'
 
-interface MyComponentProps extends SpaceProps {
+import type { SpacingProps } from '../../shared/types'
+
+export type ComponentProps = {
   myParam?: string
 }
+export type ComponentAllProps = ComponentProps & SpacingProps
 
 const defaultProps = {
   myParam: 'value',
 }
 
-function MyComponent(props: MyComponentProps) {
+function MyComponent(props: ComponentAllProps) {
   const context = React.useContext(Context)
 
   const { myParam, className, ...rest } = extendPropsWithContext(
@@ -274,11 +291,21 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 
-const defaultProps = {
-  skeleton: null,
-}
+import type { SkeletonShow } from '../skeleton/Skeleton'
 
-function MyComponent(props: Types) {
+export type ComponentProps = {
+  /**
+   * Skeleton should be applied when loading content
+   * Default: null
+   */
+  skeleton?: SkeletonShow
+}
+export type ComponentAllProps = ComponentProps &
+  React.HTMLProps<HTMLElement>
+
+const defaultProps = {}
+
+function MyComponent(props: ComponentAllProps) {
   const context = React.useContext(Context)
 
   const { skeleton, className, ...rest } = extendPropsWithContext(
@@ -301,6 +328,21 @@ function MyComponent(props: Types) {
 
   // Use skeleton and spread the ...rest
 }
+```
+
+#### TypeScript types
+
+```tsx
+import React from 'react'
+import type { SpacingProps } from '../../shared/types'
+import type { ComponentProps } from './my-component/types'
+
+export type * from './new-component/types'
+
+export type ComponentAllProps = ComponentProps &
+  React.HTMLProps<HTMLElement>
+
+function MyComponent(props: ComponentAllProps) {}
 ```
 
 ### Write documentation
