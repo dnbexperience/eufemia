@@ -141,10 +141,10 @@ export default class ModalContent extends React.PureComponent<
         if (
           modal !== this &&
           typeof modal._iiLocal === 'undefined' &&
-          typeof modal._contentRef !== 'undefined'
+          typeof modal._scrollRef !== 'undefined'
         ) {
           modal._iiLocal = new InteractionInvalidation()
-          modal._iiLocal.activate(modal._contentRef.current)
+          modal._iiLocal.activate(modal._scrollRef.current)
         }
       })
     }

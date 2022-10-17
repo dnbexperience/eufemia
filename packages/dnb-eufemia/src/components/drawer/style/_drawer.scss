@@ -12,6 +12,20 @@
   --drawer-spacing-minus: -2rem; // should reflect --spacing-large
 }
 
+@mixin drawerSpacing {
+  padding: 0 var(--drawer-spacing); // should be 56px – but then the whole width should be larger
+
+  @include allAbove(x-large) {
+    padding: 0 calc(var(--drawer-spacing) * 1.75); // 3.5rem (56px)
+  }
+  @include allBelow(medium) {
+    padding: 0 calc(var(--drawer-spacing) / 1.333333); // 2rem (32px)
+  }
+  @include allBelow(small) {
+    padding: 0 calc(var(--drawer-spacing) / 2); // 1rem (16px)
+  }
+}
+
 .dnb-drawer {
   position: relative;
   max-height: 100vh;
@@ -52,24 +66,10 @@
     */
 
     width: 100%;
-    height: 100%;
+    height: calc(100% - var(--header-height, 0));
 
     /** Sets the color on scroll overflow (at the bottom) */
     background-color: var(--modal-background-color, transparent);
-  }
-
-  &--spacing &__inner {
-    padding: 0 var(--drawer-spacing) 0; // should be 56px – but then the whole width should be larger
-
-    @include allAbove(x-large) {
-      padding: 0 calc(var(--drawer-spacing) * 1.75) 0; // 3.5rem (56px)
-    }
-    @include allBelow(medium) {
-      padding: 0 calc(var(--drawer-spacing) / 1.333333) 0; // 2rem (32px)
-    }
-    @include allBelow(small) {
-      padding: 0 calc(var(--drawer-spacing) / 2) 0; // 1rem (16px)
-    }
   }
 
   &__align--centered &__inner {
@@ -80,17 +80,10 @@
   &__content {
     position: relative;
     z-index: 1;
-    padding-bottom: calc(var(--drawer-spacing) * 2);
   }
-
   &--spacing &__content {
-    padding-bottom: calc(var(--drawer-spacing) * 2);
-
-    @include IS_SAFARI_MOBILE {
-      padding-bottom: calc(var(--drawer-spacing) * 8);
-    }
+    @include drawerSpacing();
   }
-
   &__align--center &__content {
     align-items: center;
     text-align: center;
@@ -196,6 +189,7 @@
   }
 
   &--spacing &__header {
+    @include drawerSpacing();
     .dnb-tabs {
       margin-top: var(--drawer-spacing);
     }
@@ -222,8 +216,9 @@
     z-index: 99; // below #dropdown and #date-picker
 
     // on large screens
-    margin: var(--drawer-spacing) calc(var(--drawer-spacing) * -1 * 1.75);
-    padding: 0 calc(var(--drawer-spacing) * 1.5);
+    margin: var(--drawer-spacing) 0;
+    @include drawerSpacing();
+    // padding: 0 calc(var(--drawer-spacing) / 1.5);
   }
   &--spacing &__navigation.dnb-section#{&}__navigation--sticky {
     z-index: 2999; // above #dropdown and #date-picker and below #modal
