@@ -2147,32 +2147,26 @@ button.dnb-button::-moz-focus-inner {
       To make the Drawer scroll, we use .dnb-scroll-view
     */
     width: 100%;
-    height: 100%;
+    height: calc(100% - var(--header-height, 0));
     /** Sets the color on scroll overflow (at the bottom) */
     background-color: var(--modal-background-color, transparent); }
-  .dnb-drawer--spacing .dnb-drawer__inner {
-    padding: 0 var(--drawer-spacing) 0; }
-    @media screen and (min-width: 72em) {
-      .dnb-drawer--spacing .dnb-drawer__inner {
-        padding: 0 calc(var(--drawer-spacing) * 1.75) 0; } }
-    @media screen and (max-width: 50em) {
-      .dnb-drawer--spacing .dnb-drawer__inner {
-        padding: 0 calc(var(--drawer-spacing) / 1.333333) 0; } }
-    @media screen and (max-width: 40em) {
-      .dnb-drawer--spacing .dnb-drawer__inner {
-        padding: 0 calc(var(--drawer-spacing) / 2) 0; } }
   .dnb-drawer__align--centered .dnb-drawer__inner {
     align-items: center;
     justify-content: center; }
   .dnb-drawer__content {
     position: relative;
-    z-index: 1;
-    padding-bottom: calc(var(--drawer-spacing) * 2); }
+    z-index: 1; }
   .dnb-drawer--spacing .dnb-drawer__content {
-    padding-bottom: calc(var(--drawer-spacing) * 2); }
-    @supports (-webkit-touch-callout: none) {
+    padding: 0 var(--drawer-spacing); }
+    @media screen and (min-width: 72em) {
       .dnb-drawer--spacing .dnb-drawer__content {
-        padding-bottom: calc(var(--drawer-spacing) * 8); } }
+        padding: 0 calc(var(--drawer-spacing) * 1.75); } }
+    @media screen and (max-width: 50em) {
+      .dnb-drawer--spacing .dnb-drawer__content {
+        padding: 0 calc(var(--drawer-spacing) / 1.333333); } }
+    @media screen and (max-width: 40em) {
+      .dnb-drawer--spacing .dnb-drawer__content {
+        padding: 0 calc(var(--drawer-spacing) / 2); } }
   .dnb-drawer__align--center .dnb-drawer__content {
     align-items: center;
     text-align: center; }
@@ -2240,8 +2234,19 @@ button.dnb-button::-moz-focus-inner {
   .dnb-drawer .dnb-drawer__header::after {
     top: -500%;
     height: 600%; }
-  .dnb-drawer--spacing .dnb-drawer__header .dnb-tabs {
-    margin-top: var(--drawer-spacing); }
+  .dnb-drawer--spacing .dnb-drawer__header {
+    padding: 0 var(--drawer-spacing); }
+    @media screen and (min-width: 72em) {
+      .dnb-drawer--spacing .dnb-drawer__header {
+        padding: 0 calc(var(--drawer-spacing) * 1.75); } }
+    @media screen and (max-width: 50em) {
+      .dnb-drawer--spacing .dnb-drawer__header {
+        padding: 0 calc(var(--drawer-spacing) / 1.333333); } }
+    @media screen and (max-width: 40em) {
+      .dnb-drawer--spacing .dnb-drawer__header {
+        padding: 0 calc(var(--drawer-spacing) / 2); } }
+    .dnb-drawer--spacing .dnb-drawer__header .dnb-tabs {
+      margin-top: var(--drawer-spacing); }
   .dnb-drawer__body {
     padding-bottom: calc(var(--drawer-spacing) * 2);
     margin-bottom: calc(var(--drawer-spacing-minus) * 2); }
@@ -2256,8 +2261,17 @@ button.dnb-button::-moz-focus-inner {
     position: sticky;
     top: 0;
     z-index: 99;
-    margin: var(--drawer-spacing) calc(var(--drawer-spacing) * -1 * 1.75);
-    padding: 0 calc(var(--drawer-spacing) * 1.5); }
+    margin: var(--drawer-spacing) 0;
+    padding: 0 var(--drawer-spacing); }
+    @media screen and (min-width: 72em) {
+      .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section {
+        padding: 0 calc(var(--drawer-spacing) * 1.75); } }
+    @media screen and (max-width: 50em) {
+      .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section {
+        padding: 0 calc(var(--drawer-spacing) / 1.333333); } }
+    @media screen and (max-width: 40em) {
+      .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section {
+        padding: 0 calc(var(--drawer-spacing) / 2); } }
   .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section.dnb-drawer__navigation--sticky {
     z-index: 2999; }
   .dnb-drawer .dnb-drawer__navigation--sticky::before {

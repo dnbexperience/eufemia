@@ -38,8 +38,8 @@ export const DrawerSandbox = () => (
     <Box>
       {/* <Button variant="tertiary" text="Button" /> */}
       <Drawer
-        noAnimation
-        openState="opened"
+        // noAnimation
+        // openState="opened"
         // fullscreen
         containerPlacement="right"
         //align_content="right"
@@ -220,11 +220,12 @@ export const DrawerSandbox = () => (
 
 function FillContent() {
   return (
-    <>
+    <P>
       This is the modal text. Triggered by a tertiary button. Hac eleifend
       consectetur massa lobortis diam netus congue a nibh dolor faucibus
       vivamus taciti neque accumsan urna varius dis egestas
       <Dropdown
+        label_direction="vertical"
         label="Dropdown"
         data={dropdownData}
         right
@@ -273,6 +274,7 @@ function FillContent() {
       nostra leo cum consequat sit ridiculus ad inceptos cras facilisis
       pretium natoque libero nulla interdum pellentesque viverra turpis
       <Dropdown
+        label_direction="vertical"
         label="Dropdown"
         data={dropdownData}
         right
@@ -344,12 +346,13 @@ function FillContent() {
       inceptos volutpat phasellus ornare nisi tortor lobortis ligula
       ultricies ante proin
       <Dropdown
+        label_direction="vertical"
         label="Dropdown"
         data={dropdownData}
         right
         // direction="top"
       />
-    </>
+    </P>
   )
 }
 
