@@ -39,12 +39,12 @@ export type UploadProps = {
    */
   title?: React.ReactNode
   text?: React.ReactNode
-  formatsDescription?: React.ReactNode
+  fileTypeDescription?: React.ReactNode
   fileSizeDescription?: React.ReactNode
   fileSizeContent?: React.ReactNode
-  uploadButtonText?: React.ReactNode
-  uploadErrorLargeFile?: React.ReactNode
-  uploadLoadingText?: React.ReactNode
+  buttonText?: React.ReactNode
+  errorLargeFile?: React.ReactNode
+  loadingText?: React.ReactNode
   deleteButton?: React.ReactNode
   fileListAriaLabel?: string
 }

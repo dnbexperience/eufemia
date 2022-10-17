@@ -15,7 +15,7 @@ import Provider from '../../shared/Provider'
 import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import { format } from '../number-format/NumberUtils'
-import { LocaleProps, SpacingProps } from 'src/shared/types'
+import { LocaleProps, SpacingProps } from '../../shared/types'
 
 // Internal
 import UploadFileInput from './UploadFileInput'
@@ -47,12 +47,12 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
     fileMaxSize,
     title,
     text,
-    formatsDescription,
+    fileTypeDescription,
     fileSizeDescription,
     fileSizeContent,
-    uploadButtonText,
-    uploadLoadingText,
-    uploadErrorLargeFile,
+    buttonText,
+    loadingText,
+    errorLargeFile,
     deleteButton,
     fileListAriaLabel,
     ...props
@@ -94,7 +94,7 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
         >
           <Dl.Item>
             <Dt data-testid="upload-accepted-formats-description">
-              {formatsDescription}
+              {fileTypeDescription}
             </Dt>
             <Dd data-testid="upload-accepted-formats">
               {prettyfiedAcceptedFileFormats}
@@ -119,8 +119,8 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
           acceptedFormats={acceptedFileTypes}
           onUpload={onInputUpload}
           fileMaxSize={fileMaxSize}
-          uploadFileButtonText={uploadButtonText}
-          uploadErrorLargeFile={uploadErrorLargeFile}
+          buttonText={buttonText}
+          errorLargeFile={errorLargeFile}
           multipleFiles={multipleFiles}
         />
 
@@ -167,7 +167,7 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
               key={index}
               onDelete={onDeleteFile}
               deleteButtonText={deleteButton}
-              uploadLoadingText={uploadLoadingText}
+              loadingText={loadingText}
             />
           )
         })}

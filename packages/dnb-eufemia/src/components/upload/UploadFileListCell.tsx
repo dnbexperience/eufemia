@@ -47,14 +47,14 @@ export type UploadFileListCellProps = {
   /**
    * Text
    */
-  uploadLoadingText: React.ReactNode
+  loadingText: React.ReactNode
   deleteButtonText: React.ReactNode
 }
 
 const UploadFileListCell = ({
   uploadFile,
   onDelete,
-  uploadLoadingText,
+  loadingText,
   deleteButtonText,
 }: UploadFileListCellProps) => {
   const { file, errorMessage, isLoading } = uploadFile
@@ -143,7 +143,7 @@ const UploadFileListCell = ({
           'dnb-upload__file-cell__text-container--loading'
         )}
       >
-        {uploadLoadingText}
+        {loadingText}
       </div>
     ) : (
       <div className="dnb-upload__file-cell__text-container">

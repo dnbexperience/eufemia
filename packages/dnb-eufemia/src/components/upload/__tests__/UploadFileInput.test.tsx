@@ -6,9 +6,9 @@ import createMockFile from './testHelpers'
 const defaultProps: UploadFileInputProps = {
   acceptedFormats: ['png'],
   onUpload: jest.fn(),
-  uploadFileButtonText: 'upload button text',
+  buttonText: 'upload button text',
   fileMaxSize: 1000,
-  uploadErrorLargeFile: 'error message',
+  errorLargeFile: 'error message',
   multipleFiles: false,
 }
 
@@ -26,12 +26,7 @@ describe('UploadFileInput', () => {
 
   it('renders the upload button text', () => {
     const buttonText = 'button text'
-    render(
-      <UploadFileInput
-        {...defaultProps}
-        uploadFileButtonText={buttonText}
-      />
-    )
+    render(<UploadFileInput {...defaultProps} buttonText={buttonText} />)
     expect(
       screen.queryByTestId('upload-file-input-button').textContent
     ).toMatch(buttonText)
@@ -120,7 +115,7 @@ describe('UploadFileInput', () => {
         {...defaultProps}
         onUpload={onUpload}
         fileMaxSize={fileMaxSize}
-        uploadErrorLargeFile={errorMessage}
+        errorLargeFile={errorMessage}
       />
     )
 

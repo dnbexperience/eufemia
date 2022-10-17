@@ -18,8 +18,8 @@ export type UploadFileInputProps = {
   acceptedFormats: string[]
   onUpload: (files: UploadFile[]) => void
   fileMaxSize: number
-  uploadFileButtonText: React.ReactNode
-  uploadErrorLargeFile: React.ReactNode
+  buttonText: React.ReactNode
+  errorLargeFile: React.ReactNode
   multipleFiles: boolean
 }
 
@@ -28,10 +28,10 @@ const BYTES_IN_A_MEGA_BYTE = 1048576
 const UploadFileInput = ({
   id,
   acceptedFormats,
-  uploadFileButtonText,
+  buttonText,
   onUpload,
   fileMaxSize,
-  uploadErrorLargeFile,
+  errorLargeFile,
   multipleFiles = false,
 }: UploadFileInputProps) => {
   const fileInput = useRef<HTMLInputElement>(null)
@@ -63,7 +63,7 @@ const UploadFileInput = ({
         wrap
         onClick={openFileDialog}
       >
-        {uploadFileButtonText}
+        {buttonText}
       </Button>
 
       <input
@@ -90,7 +90,7 @@ const UploadFileInput = ({
   }
 
   function getErrorMessage(fileSize: number) {
-    const errorMessage = String(uploadErrorLargeFile).replace(
+    const errorMessage = String(errorLargeFile).replace(
       '%size',
       format(fileMaxSize).toString()
     )

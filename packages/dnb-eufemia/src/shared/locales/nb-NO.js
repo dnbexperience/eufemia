@@ -125,13 +125,13 @@ export default {
     Upload: {
       title: 'Last opp dokumenter',
       text: 'Dra & slipp eller velg hvilke filer du vil laste opp.',
-      formatsDescription: 'Tilatte formater:',
+      fileTypeDescription: 'Tillatte filformater:',
       fileSizeDescription: 'Maks filstørrelse:',
       fileSizeContent: '%size MB',
-      uploadButtonText: 'Utforsk filer',
-      uploadLoadingText: 'Laster opp',
-      uploadErrorLargeFile:
-        'Filen du prøver å laste opp er for stor, vi støtter ikke filer større enn %size MB. Vennligst prøv igjen.',
+      buttonText: 'Utforsk filer',
+      loadingText: 'Laster opp',
+      errorLargeFile:
+        'Filen du prøver å laste opp er for stor, vi støtter ikke filer større enn %size MB.',
       deleteButton: 'Slett',
       fileListAriaLabel: 'opplastede filer',
     },

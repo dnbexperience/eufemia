@@ -83,7 +83,7 @@ describe('Upload', () => {
 
       expect(element).not.toBeNull()
 
-      expect(element.textContent).toMatch(nb.formatsDescription)
+      expect(element.textContent).toMatch(nb.fileTypeDescription)
     })
 
     it('renders the custom format description', () => {
@@ -92,7 +92,7 @@ describe('Upload', () => {
       render(
         <Upload
           {...defaultProps}
-          formatsDescription={customFormatDescription}
+          fileTypeDescription={customFormatDescription}
         />
       )
 
@@ -177,19 +177,17 @@ describe('Upload', () => {
 
       const element = screen.queryByTestId('upload-file-input-button')
 
-      expect(element.textContent).toMatch(nb.uploadButtonText)
+      expect(element.textContent).toMatch(nb.buttonText)
     })
 
     it('renders the upload file input section button custom text', () => {
-      const uploadButtonText = 'upload button text'
+      const buttonText = 'upload button text'
 
-      render(
-        <Upload {...defaultProps} uploadButtonText={uploadButtonText} />
-      )
+      render(<Upload {...defaultProps} buttonText={buttonText} />)
 
       const element = screen.queryByTestId('upload-file-input-button')
 
-      expect(element.textContent).toMatch(uploadButtonText)
+      expect(element.textContent).toMatch(buttonText)
     })
   })
 

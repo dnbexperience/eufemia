@@ -738,9 +738,9 @@ a.dnb-button {
       flex-wrap: wrap; }
       .dnb-dl__direction--horizontal dt {
         margin-right: 1rem;
-        max-width: 30%; }
+        max-width: 40%; }
       .dnb-dl__direction--horizontal dd {
-        width: calc(70% - 1rem); }
+        width: calc(60% - 1rem); }
       .dnb-dl__direction--horizontal dt,
       .dnb-dl__direction--horizontal dd,
       .dnb-dl__direction--horizontal dd ~ dt {
