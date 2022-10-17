@@ -59,6 +59,10 @@ export default function TooltipContainer(
     return width + height
   }
 
+  const clearTimers = () => {
+    clearTimeout(debounceTimeout.current)
+  }
+
   React.useLayoutEffect(() => {
     const addPositionObserver = () => {
       if (resizeObserver.current || typeof document === 'undefined') {
@@ -67,7 +71,7 @@ export default function TooltipContainer(
 
       try {
         resizeObserver.current = new ResizeObserver(() => {
-          clearTimeout(debounceTimeout.current)
+          clearTimers()
           debounceTimeout.current = setTimeout(
             () => forceRerender(getBodySize()),
             100
@@ -80,7 +84,7 @@ export default function TooltipContainer(
       }
     }
     const removePositionObserver = () => {
-      clearTimeout(debounceTimeout.current)
+      clearTimers()
       resizeObserver.current?.disconnect()
     }
 
