@@ -11,7 +11,7 @@ import {
   warn,
   isTrue,
   roundToNearest,
-  isInsideScrollView,
+  getClosestScrollViewElement,
   detectOutsideClick,
   dispatchCustomElementEvent,
   getPreviousSibling,
@@ -114,7 +114,7 @@ export default class DrawerListProvider extends React.PureComponent {
     clearTimeout(this._showTimeout)
     clearTimeout(this._hideTimeout)
     clearTimeout(this._scrollTimeout)
-    clearTimeout(this._ddTimeout)
+    clearTimeout(this._directionTimeout)
 
     this.removeObservers()
     this.setActiveState(false)
@@ -254,7 +254,7 @@ export default class DrawerListProvider extends React.PureComponent {
         : null
 
     if (!customElem) {
-      customElem = isInsideScrollView(this._refRoot.current, true)
+      customElem = getClosestScrollViewElement(this._refRoot.current)
     }
 
     // In case we have one before hand
@@ -339,31 +339,31 @@ export default class DrawerListProvider extends React.PureComponent {
       } catch (e) {
         warn('List could not set onResize:', e)
       }
+
+      this.correctHiddenView()
     }
 
     // debounce
     this.setDirection = (e) => {
-      clearTimeout(this._ddTimeout)
-      this._ddTimeout = setTimeout(renderDirection, 30)
-
-      if (useDrawer && e.type === 'resize') {
-        if (
-          !this._bodyLockIsEnabled &&
-          // Like @media screen and (max-width: 40em) { ...
-          (window.innerWidth / 16 <= 40 || window.innerHeight / 16 <= 40)
-        ) {
-          this.enableBodyLock()
-        } else if (this._bodyLockIsEnabled && !useBodyLock) {
-          this.disableBodyLock()
-        }
-      }
+      clearTimeout(this._directionTimeout)
+      this._directionTimeout = setTimeout(renderDirection, 50)
 
       if (e.type === 'resize') {
-        this.correctHiddenView()
+        if (useDrawer) {
+          if (
+            !this._bodyLockIsEnabled &&
+            // Like @media screen and (max-width: 40em) { ...
+            (window.innerWidth / 16 <= 40 || window.innerHeight / 16 <= 40)
+          ) {
+            this.enableBodyLock()
+          } else if (this._bodyLockIsEnabled && !useBodyLock) {
+            this.disableBodyLock()
+          }
+        }
       }
     }
 
-    // customElem can be a modal etc.
+    // customElem can be a dnb-scroll-view
     this._rootElem = customElem || window
     this._rootElem.addEventListener('scroll', this.setDirection)
 
@@ -383,38 +383,54 @@ export default class DrawerListProvider extends React.PureComponent {
       this.enableBodyLock()
     }
 
-    this.correctHiddenView()
     this.refreshScrollObserver()
 
     renderDirection()
   }
 
-  correctHiddenView() {
+  /**
+   * Deprecated
+   * We should replace all the logic of handling left/right aligned
+   * and setting the position, with a PopupMenu component,
+   * which uses the logic form Tooltip.
+   *
+   * EDS-246
+   */
+  correctHiddenView = () => {
+    // console.log('this._refShell.current', this._refShell.current)
+    // console.log('this._refUl.current', this._refUl.current)
     // We use "style.transform", because it is a independent "and quick" solution
     // we could send down spaceToLeft and spaceToRight and set it with React's "style" prop in future
-    try {
-      const ui = this._refUl.current
-      const spaceToLeft = getOffsetLeft(ui)
-      const spaceToRight =
-        window.innerWidth - (getOffsetLeft(ui) + ui.offsetWidth)
+    if (!this._refShell.current || !this._refUl.current) {
+      return // stop here
+    }
 
-      const tri = this._refTriangle.current.style
-      const shell = this._refShell.current.style
+    try {
+      const spaceToLeft = getOffsetLeft(this._refUl.current)
+      const spaceToRight =
+        window.innerWidth -
+        (getOffsetLeft(this._refUl.current) +
+          this._refUl.current.offsetWidth)
+
+      const triangleStyle = this._refTriangle.current.style
+      const shellStyle = this._refShell.current.style
 
       // correct left side
       if (spaceToLeft < 0) {
-        shell.transform = `translateX(${Math.abs(spaceToLeft)}px)`
-        tri.right = `${Math.abs(spaceToLeft)}px`
+        shellStyle.transform = `translateX(${Math.abs(
+          spaceToLeft / 16
+        )}rem)`
+        triangleStyle.right = `${Math.abs(spaceToLeft / 16)}rem`
 
         // correct right side
       } else if (spaceToRight < 0) {
-        shell.transform = `translateX(${spaceToRight}px)`
-        tri.left = `${Math.abs(spaceToRight)}px`
+        shellStyle.transform = `translateX(${spaceToRight / 16}rem)`
+        triangleStyle.left = `${Math.abs(spaceToRight / 16)}rem`
       } else {
-        if (shell.transform) {
-          shell.transform = ''
-          tri.left = 'auto'
-          tri.right = 'auto'
+        if (shellStyle.transform) {
+          shellStyle.transform = ''
+          triangleStyle.left = 'auto'
+          triangleStyle.right = 'auto'
         }
       }
     } catch (e) {
@@ -576,7 +592,7 @@ export default class DrawerListProvider extends React.PureComponent {
   removeDirectionObserver() {
     this.disableBodyLock()
 
-    clearTimeout(this._ddTimeout)
+    clearTimeout(this._directionTimeout)
     if (typeof window !== 'undefined' && this.setDirection) {
       this._rootElem?.removeEventListener('scroll', this.setDirection)
 
@@ -607,12 +623,9 @@ export default class DrawerListProvider extends React.PureComponent {
     }
 
     if (wrapper_element !== this.state.wrapper_element) {
-      this.setState(
-        {
-          wrapper_element,
-        },
-        this.setOutsideClickObserver
-      )
+      this.setState({
+        wrapper_element,
+      })
     }
 
     return this
