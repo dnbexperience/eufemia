@@ -9,6 +9,7 @@ const defaultProps: UploadFileInputProps = {
   buttonText: 'upload button text',
   fileMaxSize: 1000,
   errorLargeFile: 'error message',
+  errorUnsupportedFile: 'error message',
   multipleFiles: false,
 }
 

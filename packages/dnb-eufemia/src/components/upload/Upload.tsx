@@ -53,6 +53,7 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
     buttonText,
     loadingText,
     errorLargeFile,
+    errorUnsupportedFile,
     deleteButton,
     fileListAriaLabel,
     ...props

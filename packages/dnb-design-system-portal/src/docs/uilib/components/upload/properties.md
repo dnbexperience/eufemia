@@ -17,6 +17,7 @@ showTabs: true
 | `buttonText`                                | _(optional)_ Custom text property. Replaces the default upload button text.          |
 | `loadingText`                               | _(optional)_ Custom text property. Replaces the default loading text.                |
 | `errorLargeFile`                            | _(optional)_ Custom text property. Replaces the default file size error message.     |
+| `errorUnsupportedFile`                      | _(optional)_ Custom text property. Replaces the default file type error message.     |
 | `deleteButton`                              | _(optional)_ Custom text property. Replaces the default delete button text.          |
 | `fileListAriaLabel`                         | _(optional)_ Custom text property. Replaces the default list aria label.             |
 | `skeleton`                                  | _(optional)_ Skeleton should be applied when loading content Default: `null`.        |

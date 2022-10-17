@@ -44,6 +44,7 @@ export type UploadProps = {
   fileSizeContent?: React.ReactNode
   buttonText?: React.ReactNode
   errorLargeFile?: React.ReactNode
+  errorUnsupportedFile?: React.ReactNode
   loadingText?: React.ReactNode
   deleteButton?: React.ReactNode
   fileListAriaLabel?: string
