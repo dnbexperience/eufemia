@@ -7,36 +7,26 @@ import Button from '../button/Button'
 import { folder as FolderIcon } from '../../icons'
 
 // Shared
-import { format } from '../number-format/NumberUtils'
 import { makeUniqueId } from '../../shared/component-helper'
 
 // Internal
-import { UploadFile } from './types'
+import { UploadContextProps } from './types'
+import { UploadContext } from './UploadContext'
 
-export type UploadFileInputProps = {
-  id?: string
-  acceptedFormats: string[]
-  onUpload: (files: UploadFile[]) => void
-  fileMaxSize: number
-  buttonText: React.ReactNode
-  errorLargeFile: React.ReactNode
-  multipleFiles: boolean
-}
-
-const BYTES_IN_A_MEGA_BYTE = 1048576
-
-const UploadFileInput = ({
-  id,
-  acceptedFormats,
-  buttonText,
-  onUpload,
-  fileMaxSize,
-  errorLargeFile,
-  multipleFiles = false,
-}: UploadFileInputProps) => {
+const UploadFileInput = (props: Partial<UploadContextProps> = null) => {
   const fileInput = useRef<HTMLInputElement>(null)
 
-  const accept = acceptedFormats.reduce((accept, format, index) => {
+  const context = React.useContext(UploadContext)
+
+  const {
+    id,
+    acceptedFileTypes,
+    buttonText,
+    onInputUpload,
+    multipleFiles = false,
+  } = context || props
+
+  const accept = acceptedFileTypes.reduce((accept, format, index) => {
     const previus = index === 0 ? '' : `${accept},`
     return `${previus} .${format}`
   }, '')
@@ -78,26 +68,15 @@ const UploadFileInput = ({
     </div>
   )
 
-  function handleFileInput({ target: { files } }) {
-    const uploadFile = [...Array(files.length)].map((_item, index) => {
-      const file: UploadFile = { file: files[index] }
-      const errorMessage = getErrorMessage(file.file.size)
+  function handleFileInput(event: React.SyntheticEvent) {
+    const target = event.target as HTMLInputElement
+    const { files } = target
 
-      if (errorMessage) return { ...file, errorMessage }
-      return file
-    })
-    onUpload(uploadFile)
-  }
-
-  function getErrorMessage(fileSize: number) {
-    const errorMessage = String(errorLargeFile).replace(
-      '%size',
-      format(fileMaxSize).toString()
+    onInputUpload(
+      Array.from(files).map((file) => {
+        return { file }
+      })
     )
-    // Converts from b (binary) to MB (decimal)
-    return fileSize / BYTES_IN_A_MEGA_BYTE > fileMaxSize
-      ? errorMessage
-      : null
   }
 }
 

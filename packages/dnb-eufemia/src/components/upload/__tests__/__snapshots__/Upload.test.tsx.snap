@@ -1,5 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Upload scss have to match default theme snapshot 1`] = `
+"/*
+ * Upload theme
+ *
+ */
+.dnb-upload {
+  background-color: var(--color-white); }
+  .dnb-upload__outline {
+    stroke: var(--color-sea-green); }
+  .dnb-upload--active .dnb-upload__outline rect {
+    animation: upload-outline 100ms ease-out forwards; }
+  .dnb-upload--active {
+    background-color: var(--color-pistachio); }
+  .dnb-upload__file-cell--warning .dnb-upload__file-cell__content__left .dnb-icon {
+    color: var(--color-fire-red); }
+  .dnb-upload__text.dnb-p {
+    color: var(--color-black-55); }
+  .dnb-upload__subtitle.dnb-p {
+    color: var(--color-black-55); }
+"
+`;
+
 exports[`Upload scss have to match snapshot 1`] = `
 "/*
 * DNB Upload
@@ -645,10 +667,14 @@ button.dnb-button::-moz-focus-inner {
     inset: 0;
     height: 100%;
     width: 100%;
-    stroke: var(--color-sea-green);
     border-radius: 0.25rem; }
-  .dnb-upload__text.dnb-p {
-    color: var(--color-black-55); }
+
+@keyframes upload-outline {
+  to {
+    stroke-dasharray: 0; } }
+  .dnb-upload__condition-list__label {
+    font-weight: var(--font-weight-medium);
+    margin-right: var(--spacing-x-small); }
   .dnb-upload__file-input {
     position: absolute;
     visibility: hidden; }
@@ -678,15 +704,11 @@ button.dnb-button::-moz-focus-inner {
         display: flex;
         flex-direction: row;
         align-items: center; }
-    .dnb-upload__file-cell--warning .dnb-upload__file-cell__content__left .dnb-icon {
-      color: var(--color-fire-red); }
     .dnb-upload__file-cell__text-container {
       display: flex;
       flex-direction: column;
       margin-left: var(--spacing-small); }
       .dnb-upload__file-cell__text-container--loading {
         font-size: var(--font-size-basis); }
-    .dnb-upload__file-cell__subtitle.dnb-p {
-      color: var(--color-black-55); }
 "
 `;

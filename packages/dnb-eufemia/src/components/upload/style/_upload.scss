@@ -24,12 +24,20 @@
     height: 100%;
     width: 100%;
 
-    stroke: var(--color-sea-green);
     border-radius: 0.25rem;
   }
 
-  &__text.dnb-p {
-    color: var(--color-black-55);
+  @keyframes upload-outline {
+    to {
+      stroke-dasharray: 0;
+    }
+  }
+
+  &__condition-list {
+    &__label {
+      font-weight: var(--font-weight-medium);
+      margin-right: var(--spacing-x-small);
+    }
   }
 
   &__file-input {
@@ -80,10 +88,6 @@
       }
     }
 
-    &--warning &__content__left .dnb-icon {
-      color: var(--color-fire-red);
-    }
-
     &__text-container {
       display: flex;
       flex-direction: column;
@@ -93,10 +97,6 @@
       &--loading {
         font-size: var(--font-size-basis);
       }
-    }
-
-    &__subtitle.dnb-p {
-      color: var(--color-black-55);
     }
   }
 }

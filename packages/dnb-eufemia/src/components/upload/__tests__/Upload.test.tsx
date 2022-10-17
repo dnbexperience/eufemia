@@ -4,14 +4,14 @@ import Upload from '../Upload'
 import nbNO from '../../../shared/locales/nb-NO'
 import createMockFile from './testHelpers'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
-import { UploadProps } from '../types'
+import { UploadAllProps } from '../types'
 import useUpload from '../useUpload'
 
 const nb = nbNO['nb-NO'].Upload
 
 global.URL.createObjectURL = jest.fn(() => 'url')
 
-const defaultProps: UploadProps = {
+const defaultProps: UploadAllProps = {
   id: 'id',
   acceptedFileTypes: ['png'],
 }
@@ -359,6 +359,33 @@ describe('Upload', () => {
         queryByTestId('upload-file-input-button')
       )
     })
+
+    it('returns the file size error message', async () => {
+      const file1 = createMockFile('fileName1.png', 100000000, 'image/png')
+
+      const fileMaxSize = 1
+      const errorMessage = 'error message %size'
+
+      render(
+        <Upload
+          {...defaultProps}
+          fileMaxSize={fileMaxSize}
+          errorLargeFile={errorMessage}
+        />
+      )
+
+      const inputElement = screen.queryByTestId('upload-file-input-input')
+
+      await waitFor(() =>
+        fireEvent.change(inputElement, {
+          target: { files: [file1] },
+        })
+      )
+
+      expect(screen.queryByTestId('upload-warning').textContent).toBe(
+        `error message ${fileMaxSize}`
+      )
+    })
   })
 })
 
@@ -372,6 +399,13 @@ describe('Upload aria', () => {
 describe('Upload scss', () => {
   it('have to match snapshot', () => {
     const scss = loadScss(require.resolve('../style/dnb-upload.scss'))
+    expect(scss).toMatchSnapshot()
+  })
+
+  it('have to match default theme snapshot', () => {
+    const scss = loadScss(
+      require.resolve('../style/themes/dnb-upload-theme-ui.scss')
+    )
     expect(scss).toMatchSnapshot()
   })
 })
