@@ -38,10 +38,13 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     React.useState(false)
   const [isMounted, setIsMounted] = React.useState(!target)
 
-  const onEnterTimeout = React.useRef<NodeJS.Timeout>()
-  const onLeaveTimeout = React.useRef<NodeJS.Timeout>()
+  const delayTimeout = React.useRef<NodeJS.Timeout>()
   const cloneRef = React.useRef<HTMLElement>()
   const targetRef = React.useRef<HTMLElement>()
+
+  const clearTimers = () => {
+    clearTimeout(delayTimeout.current)
+  }
 
   React.useLayoutEffect(() => {
     targetRef.current = getRefElement(cloneRef)
@@ -57,9 +60,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
     return () => {
       clearTimers()
-      if (targetRef.current) {
-        removeEvents(targetRef.current)
-      }
+      removeEvents(targetRef.current)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -103,6 +104,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   }
 
   const removeEvents = (element: HTMLElement) => {
+    if (!element) return
     try {
       element.removeEventListener('click', onMouseLeave)
       element.removeEventListener('focus', onFocus)
@@ -114,11 +116,6 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     } catch (e) {
       warn(e)
     }
-  }
-
-  const clearTimers = () => {
-    clearTimeout(onEnterTimeout.current)
-    clearTimeout(onLeaveTimeout.current)
   }
 
   const onFocus = (e: MouseEvent) => {
@@ -146,7 +143,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       run()
     } else {
       clearTimers()
-      onEnterTimeout.current = setTimeout(
+      delayTimeout.current = setTimeout(
         run,
         parseFloat(String(showDelay)) || 1
       ) // have min 1 to make sure we are after onMouseLeave
@@ -174,10 +171,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     }
 
     if (skipPortal) {
-      onLeaveTimeout.current = setTimeout(
-        run,
-        parseFloat(String(hideDelay))
-      )
+      delayTimeout.current = setTimeout(run, parseFloat(String(hideDelay)))
     } else {
       run()
     }
