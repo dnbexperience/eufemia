@@ -87,16 +87,13 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
         </P>
 
         <Dl
-          top="medium" // "small xx-small" (20px) is still not officially supported
+          top="small"
           bottom={0}
           direction="horizontal"
           className="dnb-upload__condition-list"
         >
           <Dl.Item>
-            <Dt
-              data-testid="upload-accepted-formats-description"
-              className="dnb-upload__condition-list__label"
-            >
+            <Dt data-testid="upload-accepted-formats-description">
               {formatsDescription}
             </Dt>
             <Dd data-testid="upload-accepted-formats">
@@ -105,10 +102,7 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
           </Dl.Item>
 
           <Dl.Item>
-            <Dt
-              data-testid="upload-file-size-description"
-              className="dnb-upload__condition-list__label"
-            >
+            <Dt data-testid="upload-file-size-description">
               {fileSizeDescription}
             </Dt>
             <Dd data-testid="upload-file-size">
