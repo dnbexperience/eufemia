@@ -218,7 +218,6 @@
     // on large screens
     margin: var(--drawer-spacing) 0;
     @include drawerSpacing();
-    // padding: 0 calc(var(--drawer-spacing) / 1.5);
   }
   &--spacing &__navigation.dnb-section#{&}__navigation--sticky {
     z-index: 2999; // above #dropdown and #date-picker and below #modal
