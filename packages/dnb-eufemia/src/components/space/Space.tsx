@@ -14,20 +14,95 @@ import {
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
+import { spacingPropTypes } from './SpacingHelper'
 import {
   createSpacingClasses,
   isInline,
-  spacingPropTypes,
   spacingDefaultProps,
-} from './SpacingHelper'
+} from './SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 
+import type { DynamicElement, SpacingProps } from '../../shared/types'
+
 export { spacingPropTypes }
 
-export default class Space extends React.PureComponent {
+function Element({
+  element,
+  no_collapse,
+  children,
+  innerRef,
+  ...props
+}: SpaceAllProps) {
+  const E = element as DynamicElement<any>
+  const component = (
+    <E {...props} ref={innerRef}>
+      {children}
+    </E>
+  )
+
+  if (isTrue(no_collapse)) {
+    const R = E === 'span' || isInline(Element) ? 'span' : 'div'
+    return (
+      <R
+        className={classnames(
+          'dnb-space--no-collapse',
+          isInline(Element) && 'dnb-space--inline'
+        )}
+      >
+        {component}
+      </R>
+    )
+  }
+
+  return component
+}
+
+export type SpaceProps = {
+  /**
+   * Defines the HTML element used.
+   * Default: div
+   */
+  element?: DynamicElement
+
+  /**
+   * If set to `true`, then `display: inline-block;` is used, so the HTML elements get aligned horizontally. Defaults to `false`.
+   * Default: false
+   */
+  inline?: boolean
+
+  /**
+   * If set to `true`, then a wrapper with `display: flow-root;` is used. This way you avoid **Margin Collapsing**. Defaults to `false`. _Note:_ You can't use `inline="true"` in combination.
+   * Default: false
+   */
+  no_collapse?: boolean
+
+  /**
+   * If set to `true`, then the space element will be 100% in `width`.
+   * Default: false
+   */
+  stretch?: boolean
+
+  /**
+   * If set to `true`, a loading skeleton will be shown.
+   * Default: false
+   */
+  skeleton?: boolean
+
+  /**
+   * Send along a custom React Ref.
+   * Default: null
+   */
+  innerRef?: React.RefObject<HTMLElement>
+} & SpacingProps
+
+export type SpaceAllProps = SpaceProps & React.HTMLProps<HTMLElement>
+
+export default class Space extends React.PureComponent<
+  SpaceAllProps | React.HTMLProps<HTMLElement>
+> {
   static tagName = 'dnb-space'
   static contextType = Context
 
@@ -102,7 +177,7 @@ export default class Space extends React.PureComponent {
       className,
 
       ...attributes
-    } = props
+    } = props as SpaceAllProps
 
     // in case we have a label already, we split this out and use this one instead
     const children = Space.getContent(this.props)
@@ -135,34 +210,4 @@ export default class Space extends React.PureComponent {
       </Element>
     )
   }
-}
-
-const Element = ({
-  element: E,
-  no_collapse,
-  children,
-  innerRef,
-  ...props
-}) => {
-  const component = (
-    <E {...props} ref={innerRef}>
-      {children}
-    </E>
-  )
-
-  if (isTrue(no_collapse)) {
-    const R = E === 'span' || isInline(Element) ? 'span' : 'div'
-    return (
-      <R
-        className={classnames(
-          'dnb-space--no-collapse',
-          isInline(Element) && 'dnb-space--inline'
-        )}
-      >
-        {component}
-      </R>
-    )
-  }
-
-  return component
 }

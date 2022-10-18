@@ -15,7 +15,7 @@ import Provider from '../../shared/Provider'
 import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import { format } from '../number-format/NumberUtils'
-import { LocaleProps, SpacingProps } from 'src/shared/types'
+import { LocaleProps, SpacingProps } from '../../shared/types'
 
 // Internal
 import UploadFileInput from './UploadFileInput'

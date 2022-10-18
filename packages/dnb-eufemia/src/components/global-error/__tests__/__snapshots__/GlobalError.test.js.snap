@@ -800,6 +800,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             onClick={[Function]}
           >
             <ForwardRef
+              as="a"
               className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
               disabled={false}
               href="href"
@@ -845,11 +846,11 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                   </a>,
                 }
               }
-              is="a"
               onClick={[Function]}
               skeleton={null}
             >
               <ElementInstance
+                as="a"
                 className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
                 disabled={false}
                 href="href"
@@ -895,7 +896,6 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                     </a>,
                   }
                 }
-                is="a"
                 onClick={[Function]}
                 skeleton={null}
               >

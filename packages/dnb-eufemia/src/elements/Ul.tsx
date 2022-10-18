@@ -39,7 +39,7 @@ const Ul = ({ nested, inside, outside, ...p }: UlAllProps = {}) => {
     p.className = classnames(p.className, 'dnb-ul--outside')
   }
 
-  return <E is="ul" {...p} skeleton={false} />
+  return <E as="ul" {...p} skeleton={false} />
 }
 
 export default Ul

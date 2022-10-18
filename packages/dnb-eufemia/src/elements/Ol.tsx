@@ -39,7 +39,7 @@ const Ol = ({ nested, inside, outside, ...p }: OlAllProps = {}) => {
     p.className = classnames(p.className, 'dnb-ol--outside')
   }
 
-  return <E is="ol" {...p} skeleton={false} />
+  return <E as="ol" {...p} skeleton={false} />
 }
 
 export default Ol
