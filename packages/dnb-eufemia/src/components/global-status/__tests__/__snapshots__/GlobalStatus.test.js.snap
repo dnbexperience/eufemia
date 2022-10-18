@@ -1195,13 +1195,13 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                 medium={null}
               >
                 <ForwardRef
+                  as="hr"
                   className="dnb-hr--fullscreen"
-                  is="hr"
                 >
                   <ElementInstance
+                    as="hr"
                     className="dnb-hr--fullscreen"
                     innerRef={null}
-                    is="hr"
                   >
                     <hr
                       className="dnb-hr--fullscreen dnb-hr"
@@ -1547,13 +1547,13 @@ exports[`GlobalStatus snapshot have to match linked components snapshot 1`] = `
                   medium={null}
                 >
                   <ForwardRef
+                    as="hr"
                     className="dnb-hr--fullscreen"
-                    is="hr"
                   >
                     <ElementInstance
+                      as="hr"
                       className="dnb-hr--fullscreen"
                       innerRef={null}
-                      is="hr"
                     >
                       <hr
                         className="dnb-hr--fullscreen dnb-hr"

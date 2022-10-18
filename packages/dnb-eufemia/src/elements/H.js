@@ -15,7 +15,11 @@ export default class H extends React.PureComponent {
     ...spacingPropTypes,
 
     className: PropTypes.string,
+    as: PropTypes.string,
+
+    /** @deprecated use as instead */
     is: PropTypes.string,
+
     level: PropTypes.string,
     size: PropTypes.oneOf([
       'xx-large',
@@ -32,7 +36,7 @@ export default class H extends React.PureComponent {
   static defaultProps = {
     className: null,
     level: null,
-    is: 'h1',
+    as: 'h1',
     size: 'xx-large',
     style_type: null, // deprecated
     children: null,
@@ -41,12 +45,13 @@ export default class H extends React.PureComponent {
   constructor(props) {
     super(props)
     if (props.level === 'use') {
-      setNextLevel(parseFloat(props.is.substr(1)))
+      setNextLevel(parseFloat(String(props.as || props.is).substr(1)))
     }
   }
 
   render() {
     let {
+      as,
       is,
       level, // eslint-disable-line
       style_type,
@@ -61,7 +66,7 @@ export default class H extends React.PureComponent {
 
     return (
       <E
-        is={is}
+        as={as || is}
         internalClass={classnames(size && `dnb-h--${size}`, className)}
         {...props}
       />

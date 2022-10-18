@@ -18,7 +18,7 @@ import {
 import Table from './Table'
 // import Element from '@dnb/eufemia/src/elements/Element'
 // import Img from './Img'
-// import Tag from './Tag' // use it like so: <Tag is="p" {...props} />
+// import Tag from './Tag' // use it like so: <Tag as="p" {...props} />
 import Tabbar from './Tabbar'
 import Anchor from './Anchor'
 import Intro, { IntroFooter } from './Intro'
@@ -49,7 +49,7 @@ export default {
     }
   },
   table: Table,
-  // pre: (props) => <Element is="div" {...props} />,// Not needed. Makes skeletons not that good looking
+  // pre: (props) => <Element as="div" {...props} />,// Not needed. Makes skeletons not that good looking
   code: (...props) => CodeBlock(...props),
   inlineCode: (props) => {
     if (props.inline) {

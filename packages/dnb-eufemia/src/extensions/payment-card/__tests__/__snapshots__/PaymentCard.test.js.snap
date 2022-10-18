@@ -232,13 +232,13 @@ exports[`PaymentCard have to match snapshot 1`] = `
                     style_type={null}
                   >
                     <ForwardRef
+                      as="p"
                       className="dnb-p  dnb-p__size--x-small dnb-p--bold dnb-payment-card__card__holder"
-                      is="p"
                     >
                       <ElementInstance
+                        as="p"
                         className="dnb-p  dnb-p__size--x-small dnb-p--bold dnb-payment-card__card__holder"
                         innerRef={null}
-                        is="p"
                       >
                         <p
                           className="dnb-p  dnb-p__size--x-small dnb-p--bold dnb-payment-card__card__holder"
@@ -259,13 +259,13 @@ exports[`PaymentCard have to match snapshot 1`] = `
                     style_type={null}
                   >
                     <ForwardRef
+                      as="p"
                       className="dnb-p dnb-payment-card__card__numbers"
-                      is="p"
                     >
                       <ElementInstance
+                        as="p"
                         className="dnb-p dnb-payment-card__card__numbers"
                         innerRef={null}
-                        is="p"
                       >
                         <p
                           className="dnb-p dnb-payment-card__card__numbers"
