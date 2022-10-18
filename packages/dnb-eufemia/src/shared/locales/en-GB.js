@@ -125,13 +125,13 @@ export default {
     Upload: {
       title: 'Upload documents',
       text: 'Drag & drop your files or choose files to upload.',
-      formatsDescription: 'Allowed formats:',
+      fileTypeDescription: 'Allowed formats:',
       fileSizeDescription: 'Max. filesize:',
       fileSizeContent: '%size MB',
-      uploadButtonText: 'Browse files',
-      uploadLoadingText: 'Uploading',
-      uploadErrorLargeFile:
-        'The file you are trying to upload is too big, the maximum size supported is %size MB. Please try again.',
+      buttonText: 'Browse files',
+      loadingText: 'Uploading',
+      errorLargeFile:
+        'The file you are trying to upload is too big, the maximum size supported is %size MB.',
       deleteButton: 'Delete',
       fileListAriaLabel: 'uploaded files',
     },

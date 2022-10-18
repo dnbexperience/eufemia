@@ -48,11 +48,11 @@ export const UploadSandbox = () => {
           acceptedFileTypes={['jpg', 'pdf', 'png']}
           title="custom title"
           text="custom text"
-          formatsDescription="custom formatsDescription"
+          fileTypeDescription="custom fileTypeDescription"
           fileSizeDescription="custom fileSizeDescription"
           fileSizeContent="custom fileSizeContent"
-          uploadButtonText="custom uploadButtonText"
-          uploadLoadingText="custom uploadingLoadingText"
+          buttonText="custom buttonText"
+          loadingText="custom uploadingLoadingText"
           deleteButton="custom deleteButton"
         />
       </Box>

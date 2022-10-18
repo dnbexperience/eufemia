@@ -11,7 +11,7 @@ const defaultProps: UploadFileListCellProps = {
   deleteButtonText: 'delete',
   onDelete: jest.fn(),
   uploadFile: { file: createMockFile('file.png', 100, 'image/png') },
-  uploadLoadingText: 'loading',
+  loadingText: 'loading',
 }
 
 describe('UploadFileListCell', () => {

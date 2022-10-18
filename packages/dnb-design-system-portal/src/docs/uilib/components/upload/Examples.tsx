@@ -217,11 +217,11 @@ export const UploadCustomText = () => (
   id='upload-custom-text'
   title='custom title'
   text='custom text'
-  formatsDescription='custom formatsDescription'
+  fileTypeDescription='custom fileTypeDescription'
   fileSizeDescription='custom fileSizeDescription'
   fileSizeContent='custom fileSizeContent'
-  uploadButtonText='custom uploadButtonText'
-  uploadLoadingText='custom uploadLoadingText'
+  buttonText='custom buttonText'
+  loadingText='custom loadingText'
   deleteButton='custom deleteButton'
  />
      `

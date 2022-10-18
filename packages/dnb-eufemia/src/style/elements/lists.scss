@@ -148,11 +148,11 @@
 
       & dt {
         margin-right: 1rem;
-        max-width: 30%;
+        max-width: 40%;
       }
 
       & dd {
-        width: calc(70% - 1rem); // minus margin-right and the gap
+        width: calc(60% - 1rem); // minus margin-right and the gap
       }
 
       & dt,
