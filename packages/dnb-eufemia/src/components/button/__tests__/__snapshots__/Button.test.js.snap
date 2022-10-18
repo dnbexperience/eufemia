@@ -518,6 +518,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       type="type"
     >
       <ForwardRef
+        as="a"
         className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
         disabled={false}
         href="https://url"
@@ -565,13 +566,13 @@ exports[`Button component have to match href="..." snapshot 1`] = `
             </a>,
           }
         }
-        is="a"
         onClick={[Function]}
         skeleton={null}
         title="This is a button title"
         type="type"
       >
         <ElementInstance
+          as="a"
           className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
           disabled={false}
           href="https://url"
@@ -619,7 +620,6 @@ exports[`Button component have to match href="..." snapshot 1`] = `
               </a>,
             }
           }
-          is="a"
           onClick={[Function]}
           skeleton={null}
           title="This is a button title"

@@ -16,7 +16,7 @@ import Element, { defaultProps } from '../Element'
 const props = fakeProps(require.resolve('../Element'), {
   optional: true,
 })
-props.is = 'p'
+props.as = 'p'
 props.inner_ref = null
 props.internalClass = null
 props.skeleton_method = 'font'
@@ -41,7 +41,7 @@ describe('Element', () => {
 
   it('should support spacing props', () => {
     render(
-      <Element is="p" top="medium">
+      <Element as="p" top="medium">
         text
       </Element>
     )
@@ -56,7 +56,7 @@ describe('Element', () => {
 
   it('have to support skeleton', () => {
     const { container, rerender } = render(
-      <Element is="p" skeleton>
+      <Element as="p" skeleton>
         text
       </Element>
     )
@@ -66,7 +66,7 @@ describe('Element', () => {
     )
 
     rerender(
-      <Element is="p" skeleton skeleton_method="shape">
+      <Element as="p" skeleton skeleton_method="shape">
         text
       </Element>
     )
@@ -74,6 +74,16 @@ describe('Element', () => {
     expect(container.querySelector('p').getAttribute('class')).toBe(
       'dnb-skeleton dnb-skeleton--shape dnb-p'
     )
+  })
+
+  it('supports deprecated "is"', () => {
+    const { container } = render(
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      <Element is="p">text</Element>
+    )
+
+    expect(container.querySelector('p')).toBeTruthy()
   })
 
   it('does not have inner_ref null inside default propes', () => {

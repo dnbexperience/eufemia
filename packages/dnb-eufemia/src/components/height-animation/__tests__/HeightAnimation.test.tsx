@@ -7,7 +7,10 @@ import React from 'react'
 import { render, act, fireEvent } from '@testing-library/react'
 import ToggleButton from '../../ToggleButton'
 import { wait } from '@testing-library/user-event/dist/utils'
-import HeightAnimation, { HeightAnimationProps } from '../HeightAnimation'
+import HeightAnimation, {
+  HeightAnimationAllProps,
+  HeightAnimationProps,
+} from '../HeightAnimation'
 import HeightAnimationInstance from '../HeightAnimationInstance'
 
 beforeEach(() => {
@@ -35,7 +38,7 @@ describe('HeightAnimation', () => {
     animate = true,
     element = 'div',
     children,
-    ...props
+    ...rest
   }: Partial<HeightAnimationProps>) => {
     const [openState, setOpenState] = React.useState(open)
 
@@ -46,6 +49,8 @@ describe('HeightAnimation', () => {
     React.useEffect(() => {
       setOpenState(open)
     }, [open])
+
+    const props = rest as HeightAnimationAllProps
 
     return (
       <>

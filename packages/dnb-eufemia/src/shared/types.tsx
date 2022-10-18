@@ -1,29 +1,8 @@
-import { GetTranslationProps } from './Context'
+import React from 'react'
+import type { GetTranslationProps } from './Context'
+export * from '../components/space/types'
 
 export type LocaleProps = GetTranslationProps
-
-export type SpacingElementProps = {
-  top?: SpaceTypes
-  right?: SpaceTypes
-  bottom?: SpaceTypes
-  left?: SpaceTypes
-}
-
-/**
- * @deprecated Use SpacingElementProps instead
- */
-export type ISpacingElementProps = SpacingElementProps
-
-export type SpacingProps = SpacingElementProps & {
-  space?: SpaceTypes | SpacingElementProps
-}
-
-/**
- * @deprecated Use SpacingProps instead
- */
-export type ISpacingProps = SpacingProps
-
-export type SpaceTypes = string | boolean | number
 
 export type DataAttributeTypes = {
   /**
@@ -45,6 +24,6 @@ export type DataAttributeTypes = {
   // [property: `data-${string}`]: string
 }
 
-export type DynamicElement =
+export type DynamicElement<P = React.HTMLProps<HTMLElement>> =
   | keyof JSX.IntrinsicElements
-  | React.FunctionComponent
+  | React.FunctionComponent<P>

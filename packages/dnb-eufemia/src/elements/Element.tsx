@@ -17,28 +17,44 @@ import {
   SkeletonMethods,
 } from '../components/skeleton/SkeletonHelper'
 import { includeValidProps } from '../components/form-row/FormRowHelpers'
-import { SpacingProps } from '../shared/types'
+
+import type { DynamicElement, SpacingProps } from '../shared/types'
+
+export type ElementIsType = string | React.ReactNode // | DynamicElement
 
 export type ElementInternalProps = {
-  is: React.ReactNode
+  /**
+   * Defines the Element Type, like "div"
+   */
+  as: ElementIsType
+
+  /** @deprecated use as instead */
+  is?: ElementIsType
 }
+
 export type ElementProps = {
   skeleton?: boolean
   skeletonMethod?: SkeletonMethods
-  class?: string
-  className?: string
   internalClass?: string
-  css?: string
+  innerRef?: React.RefObject<HTMLElement> | React.ForwardedRef<unknown>
   children?: React.ReactNode
-  innerRef?: React.ForwardedRef<unknown>
+
+  /** @deprecated use className instead */
+  css?: string
+
+  /** @deprecated use className instead */
+  class?: string
 
   /** @deprecated use innerRef instead */
-  inner_ref?: React.ForwardedRef<unknown>
+  inner_ref?: React.RefObject<HTMLElement> | React.ForwardedRef<unknown>
 
   /** @deprecated use skeletonMethod instead */
   skeleton_method?: SkeletonMethods
 } & SpacingProps
-type ElementAllProps = ElementInternalProps & ElementProps
+
+export type ElementAllProps = ElementProps &
+  ElementInternalProps &
+  React.HTMLProps<HTMLElement>
 
 type Attributes = Record<string, unknown>
 
@@ -71,20 +87,20 @@ function ElementInstance(localProps: ElementAllProps) {
   }
 
   const {
-    className, // eslint-disable-line
-    class: _className, // eslint-disable-line
-    internalClass, // eslint-disable-line
-    css, // eslint-disable-line
-    is, // eslint-disable-line
-    innerRef, // eslint-disable-line
-    skeleton, // eslint-disable-line
-    skeletonMethod, // eslint-disable-line
+    className,
+    class: _className,
+    internalClass,
+    css,
+    as,
+    is, // deprecated
+    innerRef,
+    skeleton,
+    skeletonMethod,
+    ...rest
+  } = props
 
-    ...attributes
-  }: ElementAllProps & Attributes = props
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const Tag = is as any
+  const Tag = (as || is) as DynamicElement
+  const attributes = rest as Attributes
 
   const tagClass =
     internalClass || (typeof Tag === 'string' ? `dnb-${Tag}` : '')
