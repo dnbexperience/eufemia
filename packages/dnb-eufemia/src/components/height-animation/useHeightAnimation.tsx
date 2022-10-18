@@ -3,8 +3,8 @@ import HeightAnimationInstance from './HeightAnimationInstance'
 
 export type useHeightAnimationOptions = {
   /**
-   * Set to `true` when the view should animate from 0px to auto.
-   * Default: false
+   * Set to `true`, when initially `false` was given, to animate from 0px to auto.
+   * Default: true
    */
   open?: boolean
 
@@ -45,7 +45,7 @@ export type HeightAnimationOnEndTypes = 'opened' | 'closed' | 'adjusted'
 export function useHeightAnimation(
   targetRef: React.RefObject<HTMLElement>,
   {
-    open = null,
+    open = true,
     animate = true,
     children = null,
     onInit = null,

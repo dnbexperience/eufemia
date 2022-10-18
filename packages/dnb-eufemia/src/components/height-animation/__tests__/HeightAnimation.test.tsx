@@ -106,6 +106,20 @@ describe('HeightAnimation', () => {
     ).toBe('--duration: 1000ms; height: auto;')
   })
 
+  it('should be open by default', () => {
+    render(<HeightAnimation>visible content</HeightAnimation>)
+
+    expect(
+      document.querySelector('.dnb-height-animation').textContent
+    ).toBe('visible content')
+    expect(
+      document.querySelector('.dnb-height-animation--is-visible')
+    ).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-height-animation').getAttribute('style')
+    ).toBe('height: auto;')
+  })
+
   it('should have element in DOM when open property is true (using ToggleButton)', () => {
     render(<Component />)
 
