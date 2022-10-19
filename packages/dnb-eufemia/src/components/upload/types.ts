@@ -20,9 +20,10 @@ export type UploadProps = {
   skeleton?: SkeletonShow
 
   /**
-   * If set true, accepting multiple files is allowed
+   * If set true, only one file will be accepted
+   * Default: false
    */
-  multipleFiles?: boolean
+  singleFile?: boolean
 
   /**
    * fileMaxSize is max size of each file in MB
@@ -58,7 +59,7 @@ export type UploadContextProps = {
   buttonText: React.ReactNode
   errorLargeFile: React.ReactNode
   errorUnsupportedFile: React.ReactNode
-  multipleFiles: boolean
+  singleFile: boolean
 }
 
 export type UploadFile = {

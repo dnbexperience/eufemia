@@ -23,7 +23,7 @@ const UploadFileInput = (props: Partial<UploadContextProps> = null) => {
     acceptedFileTypes,
     buttonText,
     onInputUpload,
-    multipleFiles = false,
+    singleFile = false,
   } = context || props
 
   const accept = acceptedFileTypes.reduce((accept, format, index) => {
@@ -63,7 +63,7 @@ const UploadFileInput = (props: Partial<UploadContextProps> = null) => {
         className="dnb-upload__file-input"
         type="file"
         onChange={handleFileInput}
-        multiple={multipleFiles}
+        multiple={!singleFile}
       />
     </div>
   )

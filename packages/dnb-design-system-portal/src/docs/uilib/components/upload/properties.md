@@ -7,8 +7,8 @@ showTabs: true
 | Properties                                  | Description                                                                          |
 | ------------------------------------------- | ------------------------------------------------------------------------------------ |
 | `acceptedFileTypes`                         | _(required)_ List of accepted file types.                                            |
-| `fileMaxSize`                               | _(optional)_ fileMaxSize is max size of each file in MB.                             |
-| `multipleFiles`                             | _(optional)_ if set true, accepting multiple files is allowed.                       |
+| `singleFile`                                | _(optional)_ If set `true`, only one file will be accepted.                          |
+| `fileMaxSize`                               | _(optional)_ `fileMaxSize` is max size of each file in MB.                           |
 | `title`                                     | _(optional)_ Custom text property. Replaces the default title.                       |
 | `text`                                      | _(optional)_ Custom text property. Replaces the default text.                        |
 | `fileTypeDescription`                       | _(optional)_ Custom text property. Replaces the default accepted format description. |

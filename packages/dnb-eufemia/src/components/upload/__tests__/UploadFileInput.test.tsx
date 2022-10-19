@@ -11,7 +11,7 @@ const defaultProps: UploadContextProps = {
   fileMaxSize: 1000,
   errorLargeFile: 'error message',
   errorUnsupportedFile: 'error message',
-  multipleFiles: false,
+  singleFile: false,
 }
 
 describe('UploadFileInput', () => {
@@ -34,12 +34,20 @@ describe('UploadFileInput', () => {
     ).toMatch(buttonText)
   })
 
-  it('accepts multiple files when multipleFiles is true', () => {
-    render(<UploadFileInput {...defaultProps} multipleFiles={true} />)
+  it('accepts multiple files by default', () => {
+    render(<UploadFileInput {...defaultProps} />)
 
     const element = screen.queryByTestId('upload-file-input-input')
 
     expect(element.hasAttribute('multiple')).toBeTruthy()
+  })
+
+  it('accepts multiple files when singleFile is true', () => {
+    render(<UploadFileInput {...defaultProps} singleFile={true} />)
+
+    const element = screen.queryByTestId('upload-file-input-input')
+
+    expect(element.hasAttribute('multiple')).toBeFalsy()
   })
 
   it('renders the input', () => {

@@ -15,7 +15,7 @@ export default function UploadDropzone({
   const [hover, setHover] = React.useState(false)
   const hoverTimeout = React.useRef<NodeJS.Timer>()
 
-  const { onInputUpload, multipleFiles = false } = context
+  const { onInputUpload, singleFile = false } = context
 
   const dropHandler = (event: React.DragEvent) => {
     event.preventDefault()
@@ -25,7 +25,7 @@ export default function UploadDropzone({
     const files: UploadFile[] = []
 
     Array.from(fileData.files).forEach((file, i) => {
-      if (multipleFiles ? i >= 0 : i === 0) {
+      if (singleFile ? i === 0 : i >= 0) {
         files.push({ file })
       }
     })

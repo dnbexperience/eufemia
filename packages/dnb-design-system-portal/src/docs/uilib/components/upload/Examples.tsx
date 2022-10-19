@@ -72,17 +72,17 @@ render(<Component />)
   </ComponentBox>
 )
 
-export const UploadMultipleFiles = () => (
-  <ComponentBox useRender data-visual-test="upload-multiple-files">
+export const UploadSingleFile = () => (
+  <ComponentBox useRender>
     {
       /* jsx */ `
 const Component = () => {  
-  const {files, setFiles} = Upload.useUpload('upload-multiple-files')
+  const {files, setFiles} = Upload.useUpload('upload-single-file')
   return (
     <Upload
       acceptedFileTypes={['jpg', 'png']}
-      id='upload-multiple-files'
-      multipleFiles={true}
+      id='upload-single-file'
+      singleFile={true}
     />
   )
 }
@@ -91,6 +91,7 @@ render(<Component />)
     }
   </ComponentBox>
 )
+
 export const UploadRemoveFile = () => (
   <ComponentBox useRender data-visual-test="upload-remove-files">
     {

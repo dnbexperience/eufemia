@@ -29,9 +29,9 @@ export const UploadSandbox = () => {
       </Box>
       <Box>
         <Upload
-          title="Upload multiple files"
+          title="Upload single file"
           id="upload-example-3"
-          multipleFiles={true}
+          singleFile={true}
           acceptedFileTypes={['jpg', 'pdf', 'png']}
         />
       </Box>

@@ -6,7 +6,7 @@ import {
 UploadBasic,
 UploadPrefilledFileList,
 UploadRemoveFile,
-UploadMultipleFiles,
+UploadSingleFile,
 UploadIsLoading,
 UploadErrorMessage,
 UploadAcceptedFormats,
@@ -27,7 +27,7 @@ By using the `Upload.useUpload` you can remove or add files or the status displa
 
 ### Upload multiple files
 
-<UploadMultipleFiles />
+<UploadSingleFile />
 
 ### Upload loading state
 

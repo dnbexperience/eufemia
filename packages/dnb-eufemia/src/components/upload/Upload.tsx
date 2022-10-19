@@ -45,7 +45,7 @@ const Upload = (localProps: UploadAllProps) => {
     skeleton,
     className,
     acceptedFileTypes,
-    multipleFiles,
+    singleFile,
     fileMaxSize,
     title,
     text,
@@ -79,7 +79,7 @@ const Upload = (localProps: UploadAllProps) => {
         buttonText,
         errorLargeFile,
         errorUnsupportedFile,
-        multipleFiles,
+        singleFile,
       }}
     >
       <Provider skeleton={skeleton}>
