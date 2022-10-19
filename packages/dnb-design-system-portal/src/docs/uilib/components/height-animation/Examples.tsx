@@ -76,7 +76,6 @@ const Example = () => {
   return (
     <>
       <HeightAnimation
-        open
         showOverflow
       >
         {showMe ? <Button 

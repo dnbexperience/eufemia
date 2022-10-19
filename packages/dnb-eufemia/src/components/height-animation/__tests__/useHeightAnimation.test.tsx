@@ -6,6 +6,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { render, act, fireEvent } from '@testing-library/react'
+import { renderHook } from '@testing-library/react-hooks'
 import ToggleButton from '../../ToggleButton'
 import { wait } from '@testing-library/user-event/dist/utils'
 import { useHeightAnimation } from '../useHeightAnimation'
@@ -174,6 +175,40 @@ describe('useHeightAnimation', () => {
     await wait(1)
 
     expect(getStates()).toEqual(['wrapper-element', 'is-in-dom'])
+  })
+
+  it('should be open by default', () => {
+    const current: HTMLDivElement = document.createElement('div')
+    const ref: React.RefObject<HTMLDivElement> = { current }
+
+    const { result } = renderHook(() => useHeightAnimation(ref))
+
+    expect(result.current).toEqual({
+      isAnimating: false,
+      isInDOM: true,
+      isOpen: true,
+      isVisible: true,
+      isVisibleParallax: true,
+      open: true,
+    })
+  })
+
+  it('should be closed if open is false', () => {
+    const current: HTMLDivElement = document.createElement('div')
+    const ref: React.RefObject<HTMLDivElement> = { current }
+
+    const { result } = renderHook(() =>
+      useHeightAnimation(ref, { open: false })
+    )
+
+    expect(result.current).toEqual({
+      isAnimating: false,
+      isInDOM: false,
+      isOpen: false,
+      isVisible: false,
+      isVisibleParallax: false,
+      open: false,
+    })
   })
 })
 

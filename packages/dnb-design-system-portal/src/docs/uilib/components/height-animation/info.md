@@ -4,7 +4,7 @@ showTabs: true
 
 ## Description
 
-The HeightAnimation component is a helper component to animate from `0` to `height: auto` powered by CSS. It calculates the height on the fly.
+The HeightAnimation component calculates the height, and animates from `auto` to `auto` – or from `0` to `auto` in height – powered by CSS transition. It calculates the height on the fly.
 
 When the animation is done, it sets the element's height to `auto`.
 

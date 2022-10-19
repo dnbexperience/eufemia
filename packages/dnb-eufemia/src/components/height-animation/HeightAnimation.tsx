@@ -46,7 +46,7 @@ export type HeightAnimationAllProps = HeightAnimationProps &
   React.HTMLProps<HTMLElement>
 
 export default function HeightAnimation({
-  open = false,
+  open = true,
   animate = true,
   keepInDOM = false,
   showOverflow = false,
