@@ -132,6 +132,8 @@ export default {
       loadingText: 'Uploading',
       errorLargeFile:
         'The file you are trying to upload is too big, the maximum size supported is %size MB.',
+      errorUnsupportedFile:
+        'The file you are trying to upload is not supported.',
       deleteButton: 'Delete',
       fileListAriaLabel: 'uploaded files',
     },

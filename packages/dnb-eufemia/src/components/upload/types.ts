@@ -1,5 +1,6 @@
 import React from 'react'
 import { SkeletonShow } from '../skeleton/Skeleton'
+import { LocaleProps, SpacingProps } from '../../shared/types'
 
 export type UploadProps = {
   /**
@@ -11,12 +12,6 @@ export type UploadProps = {
    * list of accepted file types.
    */
   acceptedFileTypes: string[]
-
-  /**
-   * Custom className on the component root
-   * Default: null
-   */
-  className?: string
 
   /**
    * Skeleton should be applied when loading content
@@ -44,9 +39,26 @@ export type UploadProps = {
   fileSizeContent?: React.ReactNode
   buttonText?: React.ReactNode
   errorLargeFile?: React.ReactNode
+  errorUnsupportedFile?: React.ReactNode
   loadingText?: React.ReactNode
   deleteButton?: React.ReactNode
   fileListAriaLabel?: string
+}
+
+export type UploadAllProps = UploadProps &
+  SpacingProps &
+  LocaleProps &
+  React.HTMLProps<HTMLElement>
+
+export type UploadContextProps = {
+  id?: string
+  acceptedFileTypes: string[]
+  onInputUpload: (files: UploadFile[]) => void
+  fileMaxSize: number
+  buttonText: React.ReactNode
+  errorLargeFile: React.ReactNode
+  errorUnsupportedFile: React.ReactNode
+  multipleFiles: boolean
 }
 
 export type UploadFile = {

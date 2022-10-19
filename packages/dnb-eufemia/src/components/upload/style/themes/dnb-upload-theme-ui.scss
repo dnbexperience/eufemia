@@ -1,0 +1,35 @@
+/*
+ * Upload theme
+ *
+ */
+
+.dnb-upload {
+  background-color: var(--color-white);
+
+  // svg element
+  &__outline {
+    stroke: var(--color-sea-green);
+  }
+
+  &--active &__outline {
+    rect {
+      animation: upload-outline 100ms ease-out forwards;
+    }
+  }
+  &--active {
+    background-color: var(--color-pistachio);
+  }
+
+  &__file-cell {
+    &--warning &__content__left .dnb-icon {
+      color: var(--color-fire-red);
+    }
+  }
+
+  &__text.dnb-p {
+    color: var(--color-black-55);
+  }
+  &__subtitle.dnb-p {
+    color: var(--color-black-55);
+  }
+}

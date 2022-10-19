@@ -7,7 +7,6 @@ import P from '../../elements/P'
 import Dl from '../../elements/Dl'
 import Dt from '../../elements/Dt'
 import Dd from '../../elements/Dd'
-import HeightAnimation from '../height-animation/HeightAnimation'
 
 // Shared
 import { createSpacingClasses } from '../space/SpacingHelper'
@@ -15,19 +14,22 @@ import Provider from '../../shared/Provider'
 import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import { format } from '../number-format/NumberUtils'
-import { LocaleProps, SpacingProps } from '../../shared/types'
 
 // Internal
 import UploadFileInput from './UploadFileInput'
-import type { UploadFile, UploadProps } from './types'
 import UploadFileListCell from './UploadFileListCell'
 import useUpload from './useUpload'
+import UploadDropzone from './UploadDropzone'
+import { UploadContext } from './UploadContext'
+import { verifyFiles } from './UploadVerify'
+
+import type { UploadFile, UploadAllProps } from './types'
 
 export const defaultProps = {
   fileMaxSize: 5000,
 }
 
-const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
+const Upload = (localProps: UploadAllProps) => {
   const context = React.useContext(Context)
 
   const extendedProps = extendPropsWithContext(
@@ -53,6 +55,7 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
     buttonText,
     loadingText,
     errorLargeFile,
+    errorUnsupportedFile,
     deleteButton,
     fileListAriaLabel,
     ...props
@@ -67,82 +70,76 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
     .toUpperCase()
 
   return (
-    <HeightAnimation
-      open
-      data-testid="upload"
-      className={classnames('dnb-upload', spacingClasses, className)}
-      {...props}
+    <UploadContext.Provider
+      value={{
+        id,
+        acceptedFileTypes,
+        onInputUpload,
+        fileMaxSize,
+        buttonText,
+        errorLargeFile,
+        errorUnsupportedFile,
+        multipleFiles,
+      }}
     >
       <Provider skeleton={skeleton}>
-        <Lead data-testid="upload-title" space="0">
-          {title}
-        </Lead>
-
-        <P
-          data-testid="upload-text"
-          top="xx-small"
-          className="dnb-upload__text"
+        <UploadDropzone
+          data-testid="upload"
+          className={classnames('dnb-upload', spacingClasses, className)}
+          {...props}
         >
-          {text}
-        </P>
+          <Lead data-testid="upload-title" space="0">
+            {title}
+          </Lead>
 
-        <Dl
-          top="small"
-          bottom={0}
-          direction="horizontal"
-          className="dnb-upload__condition-list"
-        >
-          <Dl.Item>
-            <Dt data-testid="upload-accepted-formats-description">
-              {fileTypeDescription}
-            </Dt>
-            <Dd data-testid="upload-accepted-formats">
-              {prettyfiedAcceptedFileFormats}
-            </Dd>
-          </Dl.Item>
+          <P
+            data-testid="upload-text"
+            top="xx-small"
+            className="dnb-upload__text"
+          >
+            {text}
+          </P>
 
-          <Dl.Item>
-            <Dt data-testid="upload-file-size-description">
-              {fileSizeDescription}
-            </Dt>
-            <Dd data-testid="upload-file-size">
-              {String(fileSizeContent).replace(
-                '%size',
-                format(fileMaxSize).toString()
-              )}
-            </Dd>
-          </Dl.Item>
-        </Dl>
+          <Dl
+            top="small"
+            bottom={0}
+            direction="horizontal"
+            className="dnb-upload__condition-list"
+          >
+            <Dl.Item>
+              <Dt
+                data-testid="upload-accepted-formats-description"
+                className="dnb-upload__condition-list__label"
+              >
+                {fileTypeDescription}
+              </Dt>
+              <Dd data-testid="upload-accepted-formats">
+                {prettyfiedAcceptedFileFormats}
+              </Dd>
+            </Dl.Item>
 
-        <UploadFileInput
-          id={id}
-          acceptedFormats={acceptedFileTypes}
-          onUpload={onInputUpload}
-          fileMaxSize={fileMaxSize}
-          buttonText={buttonText}
-          errorLargeFile={errorLargeFile}
-          multipleFiles={multipleFiles}
-        />
+            <Dl.Item>
+              <Dt
+                data-testid="upload-file-size-description"
+                className="dnb-upload__condition-list__label"
+              >
+                {fileSizeDescription}
+              </Dt>
+              <Dd data-testid="upload-file-size">
+                {String(fileSizeContent).replace(
+                  '%size',
+                  format(fileMaxSize).toString()
+                )}
+              </Dd>
+            </Dl.Item>
+          </Dl>
 
-        <UploadFileList />
+          <UploadFileInput />
 
-        <svg
-          className="dnb-upload__outline"
-          aria-hidden
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-        >
-          <rect
-            width="100%"
-            height="100%"
-            rx="0.25rem"
-            ry="0.25rem"
-            strokeWidth="2.5"
-            strokeDasharray="7 7"
-          />
-        </svg>
+          <UploadFileList />
+        </UploadDropzone>
       </Provider>
-    </HeightAnimation>
+    </UploadContext.Provider>
   )
 
   function UploadFileList() {
@@ -175,10 +172,14 @@ const Upload = (localProps: UploadProps & SpacingProps & LocaleProps) => {
     )
   }
 
-  function onInputUpload(addedFiles: UploadFile[]) {
-    const newFiles = [...files, ...addedFiles]
-
-    setFiles(newFiles)
+  function onInputUpload(newFiles: UploadFile[]) {
+    const verifiedFiles = verifyFiles([...files, ...newFiles], {
+      fileMaxSize,
+      acceptedFileTypes,
+      errorUnsupportedFile,
+      errorLargeFile,
+    })
+    setFiles(verifiedFiles)
   }
 }
 

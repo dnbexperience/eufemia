@@ -1,14 +1,16 @@
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import UploadFileInput, { UploadFileInputProps } from '../UploadFileInput'
+import UploadFileInput from '../UploadFileInput'
 import createMockFile from './testHelpers'
+import { UploadContextProps } from '../types'
 
-const defaultProps: UploadFileInputProps = {
-  acceptedFormats: ['png'],
-  onUpload: jest.fn(),
+const defaultProps: UploadContextProps = {
+  acceptedFileTypes: ['png'],
+  onInputUpload: jest.fn(),
   buttonText: 'upload button text',
   fileMaxSize: 1000,
   errorLargeFile: 'error message',
+  errorUnsupportedFile: 'error message',
   multipleFiles: false,
 }
 
@@ -63,12 +65,14 @@ describe('UploadFileInput', () => {
     expect(clickEventListener).toHaveBeenCalled()
   })
 
-  it('calls the onUpload function', async () => {
+  it('calls the onInputUpload function', async () => {
     const file = createMockFile('fileName.png', 100, 'image/png')
 
-    const onUpload = jest.fn()
+    const onInputUpload = jest.fn()
 
-    render(<UploadFileInput {...defaultProps} onUpload={onUpload} />)
+    render(
+      <UploadFileInput {...defaultProps} onInputUpload={onInputUpload} />
+    )
 
     const inputElement = screen.queryByTestId('upload-file-input-input')
 
@@ -77,16 +81,18 @@ describe('UploadFileInput', () => {
         target: { files: [file] },
       })
     )
-    expect(onUpload).toHaveBeenCalledWith([{ file }])
+    expect(onInputUpload).toHaveBeenCalledWith([{ file }])
   })
 
   it('can upload multiple files', async () => {
     const file1 = createMockFile('fileName1.png', 100, 'image/png')
     const file2 = createMockFile('fileName2.png', 100, 'image/png')
 
-    const onUpload = jest.fn()
+    const onInputUpload = jest.fn()
 
-    render(<UploadFileInput {...defaultProps} onUpload={onUpload} />)
+    render(
+      <UploadFileInput {...defaultProps} onInputUpload={onInputUpload} />
+    )
 
     const inputElement = screen.queryByTestId('upload-file-input-input')
 
@@ -95,39 +101,9 @@ describe('UploadFileInput', () => {
         target: { files: [file1, file2] },
       })
     )
-    expect(onUpload).toHaveBeenCalledWith([
+    expect(onInputUpload).toHaveBeenCalledWith([
       { file: file1 },
       { file: file2 },
-    ])
-  })
-
-  it('returns the file size error message', async () => {
-    const file1 = createMockFile('fileName1.png', 100000000, 'image/png')
-
-    const fileMaxSize = 1
-    const errorMessage = 'error message %size'
-    const errorMessageFormatted = `error message ${fileMaxSize}`
-
-    const onUpload = jest.fn()
-
-    render(
-      <UploadFileInput
-        {...defaultProps}
-        onUpload={onUpload}
-        fileMaxSize={fileMaxSize}
-        errorLargeFile={errorMessage}
-      />
-    )
-
-    const inputElement = screen.queryByTestId('upload-file-input-input')
-
-    await waitFor(() =>
-      fireEvent.change(inputElement, {
-        target: { files: [file1] },
-      })
-    )
-    expect(onUpload).toHaveBeenCalledWith([
-      { file: file1, errorMessage: errorMessageFormatted },
     ])
   })
 })
