@@ -212,6 +212,7 @@
     "lodash.isequalwith": "4.4.0",
     "markdown-tables-to-json": "0.1.7",
     "mkdirp": "1.0.4",
+    "mock-match-media": "0.3.0",
     "node-sass": "5.0.0",
     "node-sass-once-importer": "5.3.2",
     "nodemon": "2.0.15",

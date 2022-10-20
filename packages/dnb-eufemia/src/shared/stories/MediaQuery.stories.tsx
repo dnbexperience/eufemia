@@ -7,10 +7,43 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import Button from '../../components/button/Button'
-import { Provider, MediaQuery, useMediaQuery } from '../'
+import { Provider, MediaQuery, useMediaQuery, useMedia } from '../'
 
 export default {
   title: 'Eufemia/Helpers/MediaQuery',
+}
+
+const useWindowWidth = () => {
+  const [innerWidth, setWidth] = React.useState(
+    typeof window !== 'undefined' ? window.innerWidth : 0
+  )
+
+  React.useEffect(() => {
+    const resizeHandler = () => {
+      setWidth(window.innerWidth)
+    }
+    window.addEventListener('resize', resizeHandler)
+    return () => window.removeEventListener('resize', resizeHandler)
+  }, [])
+
+  return { innerWidth }
+}
+
+export const UseMediaHook = () => {
+  const { isSmall, isMedium, isLarge, isSSR } = useMedia()
+  const { innerWidth } = useWindowWidth()
+
+  console.dir({ isSmall, isMedium, isLarge, isSSR, innerWidth })
+
+  return (
+    <pre>
+      {JSON.stringify(
+        { isSmall, isMedium, isLarge, isSSR, innerWidth },
+        null,
+        2
+      )}
+    </pre>
+  )
 }
 
 const Div1 = styled.div`
