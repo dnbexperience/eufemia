@@ -82,7 +82,7 @@ const Component = () => {
     <Upload
       acceptedFileTypes={['jpg', 'png']}
       id='upload-single-file'
-      singleFile={true}
+      filesAmountLimit={1}
     />
   )
 }

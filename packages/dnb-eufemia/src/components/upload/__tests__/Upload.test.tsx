@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { renderHook, act } from '@testing-library/react-hooks'
 import Upload from '../Upload'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
@@ -245,6 +246,81 @@ describe('Upload', () => {
       expect(Array.from(element.classList)).toEqual(
         expect.arrayContaining(['dnb-space', 'dnb-space__top--large'])
       )
+    })
+  })
+
+  it('will only accept one file if filesAmountLimit is 1', async () => {
+    const id = 'filesAmountLimit'
+
+    const { result } = renderHook(useUpload, { initialProps: id })
+
+    render(<Upload {...defaultProps} id={id} filesAmountLimit={1} />)
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+    const file2 = createMockFile('fileName-2.png', 100, 'image/png')
+
+    await act(async () => {
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: { files: [file1, file2] },
+        })
+      )
+
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: { files: [file2, file2] },
+        })
+      )
+
+      expect(result.current.files.length).toBe(1)
+      expect(result.current.files).toEqual([{ file: file1 }])
+      expect(element.querySelector('.dnb-form-status').textContent).toBe(
+        nb.errorAmountLimit.replace('%amount', '1')
+      )
+      expect(result.current.internalFiles.length).toBe(3)
+
+      const deleteButton = screen.queryByTestId('upload-delete-button')
+
+      fireEvent.click(deleteButton)
+
+      expect(element.querySelector('.dnb-form-status')).toBeFalsy()
+    })
+  })
+
+  it('will accept same file only once', async () => {
+    const id = 'only-once'
+
+    const { result } = renderHook(useUpload, { initialProps: id })
+
+    render(<Upload {...defaultProps} id={id} />)
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+    const file2 = createMockFile('fileName-2.png', 100, 'image/png')
+
+    await act(async () => {
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: { files: [file1] },
+        })
+      )
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: { files: [file1, file2] },
+        })
+      )
+
+      expect(result.current.files.length).toBe(2)
+      expect(result.current.files).toEqual([
+        { file: file1 },
+        { file: file2 },
+      ])
+      expect(result.current.internalFiles.length).toBe(2)
     })
   })
 

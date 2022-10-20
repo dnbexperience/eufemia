@@ -17,16 +17,17 @@ import { format } from '../number-format/NumberUtils'
 
 // Internal
 import UploadFileInput from './UploadFileInput'
-import UploadFileListCell from './UploadFileListCell'
 import useUpload from './useUpload'
 import UploadDropzone from './UploadDropzone'
 import { UploadContext } from './UploadContext'
 import { verifyFiles } from './UploadVerify'
 
 import type { UploadFile, UploadAllProps } from './types'
+import UploadFileList from './UploadFileList'
 
 export const defaultProps = {
   fileMaxSize: 5000,
+  filesAmountLimit: 100,
 }
 
 const Upload = (localProps: UploadAllProps) => {
@@ -45,25 +46,26 @@ const Upload = (localProps: UploadAllProps) => {
     skeleton,
     className,
     acceptedFileTypes,
-    singleFile,
+    filesAmountLimit,
     fileMaxSize,
     title,
     text,
     fileTypeDescription,
     fileSizeDescription,
     fileSizeContent,
-    buttonText,
-    loadingText,
+    buttonText, // eslint-disable-line
+    loadingText, // eslint-disable-line
     errorLargeFile,
     errorUnsupportedFile,
-    deleteButton,
-    fileListAriaLabel,
+    errorAmountLimit, // eslint-disable-line
+    deleteButton, // eslint-disable-line
+    fileListAriaLabel, // eslint-disable-line
     ...props
   } = extendedProps
 
   const spacingClasses = createSpacingClasses(props)
 
-  const { files, setFiles } = useUpload(id)
+  const { files, setFiles, setInternalFiles } = useUpload(id)
 
   const prettyfiedAcceptedFileFormats = acceptedFileTypes
     .join(', ')
@@ -72,14 +74,9 @@ const Upload = (localProps: UploadAllProps) => {
   return (
     <UploadContext.Provider
       value={{
+        ...extendedProps,
         id,
-        acceptedFileTypes,
         onInputUpload,
-        fileMaxSize,
-        buttonText,
-        errorLargeFile,
-        errorUnsupportedFile,
-        singleFile,
       }}
     >
       <Provider skeleton={skeleton}>
@@ -142,44 +139,33 @@ const Upload = (localProps: UploadAllProps) => {
     </UploadContext.Provider>
   )
 
-  function UploadFileList() {
-    if (files == null || files.length < 1) return null
-
-    return (
-      <ul
-        data-testid="upload-file-list"
-        className="dnb-upload__file-list"
-        aria-label={fileListAriaLabel}
-      >
-        {files.map((uploadFile: UploadFile, index: number) => {
-          const onDeleteFile = () => {
-            const cleanedFiles = files.filter(
-              (fileListElement) => fileListElement.file != uploadFile.file
-            )
-            setFiles(cleanedFiles)
-          }
-          return (
-            <UploadFileListCell
-              uploadFile={uploadFile}
-              key={index}
-              onDelete={onDeleteFile}
-              deleteButtonText={deleteButton}
-              loadingText={loadingText}
-            />
-          )
-        })}
-      </ul>
-    )
-  }
-
   function onInputUpload(newFiles: UploadFile[]) {
-    const verifiedFiles = verifyFiles([...files, ...newFiles], {
+    const uniqueFiles = [
+      ...files,
+      ...newFiles.filter(({ file }) => {
+        const foundExisting = files.some(({ file: f }) => {
+          return (
+            f.name === file.name &&
+            f.size === file.size &&
+            f.lastModified === file.lastModified
+          )
+        })
+        return !foundExisting
+      }),
+    ]
+
+    const verifiedFiles = verifyFiles(uniqueFiles, {
       fileMaxSize,
       acceptedFileTypes,
       errorUnsupportedFile,
       errorLargeFile,
     })
-    setFiles(verifiedFiles)
+
+    const validFiles = [...verifiedFiles].slice(0, filesAmountLimit)
+    setFiles(validFiles)
+    setInternalFiles(verifiedFiles)
+
+    return validFiles
   }
 }
 

@@ -132,6 +132,8 @@ export default {
       loadingText: 'Uploading',
       errorLargeFile:
         'The file you are trying to upload is too big, the maximum size supported is %size MB.',
+      errorAmountLimit:
+        'You can upload %amount files. Remove some and retry.',
       errorUnsupportedFile:
         'The file you are trying to upload is not supported.',
       deleteButton: 'Delete',

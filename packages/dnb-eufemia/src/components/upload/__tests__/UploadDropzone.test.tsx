@@ -18,7 +18,7 @@ const defaultContext: UploadContextProps = {
   fileMaxSize: 1000,
   errorLargeFile: 'error message',
   errorUnsupportedFile: 'error message',
-  singleFile: false,
+  filesAmountLimit: 2,
 }
 
 afterEach(() => {
@@ -64,28 +64,6 @@ describe('Upload', () => {
     expect(defaultContext.onInputUpload).toHaveBeenLastCalledWith([
       { file: file1 },
       { file: file2 },
-    ])
-  })
-
-  it('will only accept one file if singleFile is true', () => {
-    render(
-      <UploadContext.Provider
-        value={{ ...defaultContext, singleFile: true }}
-      >
-        <UploadDropzone {...defaultProps} />
-      </UploadContext.Provider>
-    )
-
-    const dropZone = getRootElement()
-    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
-    const file2 = createMockFile('fileName-2.png', 100, 'image/png')
-
-    fireEvent.drop(dropZone, { dataTransfer: { files: [file1, file2] } })
-    fireEvent.drop(dropZone, { dataTransfer: { files: [file2, file2] } })
-
-    expect(defaultContext.onInputUpload).toHaveBeenCalledTimes(2)
-    expect(defaultContext.onInputUpload).toHaveBeenLastCalledWith([
-      { file: file1 },
     ])
   })
 

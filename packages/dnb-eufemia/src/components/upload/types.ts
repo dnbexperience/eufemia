@@ -20,10 +20,10 @@ export type UploadProps = {
   skeleton?: SkeletonShow
 
   /**
-   * If set true, only one file will be accepted
-   * Default: false
+   * Defines the amount of files the user can select and upload
+   * Default: 100
    */
-  singleFile?: boolean
+  filesAmountLimit?: number
 
   /**
    * fileMaxSize is max size of each file in MB
@@ -41,6 +41,7 @@ export type UploadProps = {
   buttonText?: React.ReactNode
   errorLargeFile?: React.ReactNode
   errorUnsupportedFile?: React.ReactNode
+  errorAmountLimit?: React.ReactNode
   loadingText?: React.ReactNode
   deleteButton?: React.ReactNode
   fileListAriaLabel?: string
@@ -53,14 +54,8 @@ export type UploadAllProps = UploadProps &
 
 export type UploadContextProps = {
   id?: string
-  acceptedFileTypes: string[]
   onInputUpload: (files: UploadFile[]) => void
-  fileMaxSize: number
-  buttonText: React.ReactNode
-  errorLargeFile: React.ReactNode
-  errorUnsupportedFile: React.ReactNode
-  singleFile: boolean
-}
+} & Partial<UploadProps>
 
 export type UploadFile = {
   file: File

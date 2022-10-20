@@ -25,7 +25,7 @@ By using the `Upload.useUpload` you can remove or add files or the status displa
 
 <UploadRemoveFile />
 
-### Upload multiple files
+### Upload single file/fixed amount of files
 
 <UploadSingleFile />
 

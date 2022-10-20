@@ -132,6 +132,8 @@ export default {
       loadingText: 'Laster opp',
       errorLargeFile:
         'Filen du prøver å laste opp er for stor, vi støtter ikke filer større enn %size MB.',
+      errorAmountLimit:
+        'Du kan laste opp %amount filer. Fjern noen og prøv på nytt.',
       errorUnsupportedFile: 'Filen du prøver å laste opp er ikke støttet.',
       deleteButton: 'Slett',
       fileListAriaLabel: 'opplastede filer',

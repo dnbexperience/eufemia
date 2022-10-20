@@ -21,17 +21,17 @@ export const UploadSandbox = () => {
 
   return (
     <Wrapper>
-      <Box>
+      {/* <Box>
         <Upload id="upload-example-1" acceptedFileTypes={['pdf']} />
       </Box>
       <Box>
         <Upload id="upload-example-2" acceptedFileTypes={['jpg', 'pdf']} />
-      </Box>
+      </Box> */}
       <Box>
         <Upload
           title="Upload single file"
           id="upload-example-3"
-          singleFile={true}
+          filesAmountLimit={2}
           acceptedFileTypes={['jpg', 'pdf', 'png']}
         />
       </Box>

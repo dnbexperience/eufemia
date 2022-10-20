@@ -672,9 +672,6 @@ button.dnb-button::-moz-focus-inner {
 @keyframes upload-outline {
   to {
     stroke-dasharray: 0; } }
-  .dnb-upload__condition-list__label {
-    font-weight: var(--font-weight-medium);
-    margin-right: var(--spacing-x-small); }
   .dnb-upload__file-input {
     position: absolute;
     visibility: hidden; }
