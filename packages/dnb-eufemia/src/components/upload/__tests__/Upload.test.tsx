@@ -2,12 +2,15 @@ import React, { useEffect } from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import Upload from '../Upload'
 import nbNO from '../../../shared/locales/nb-NO'
+import enGB from '../../../shared/locales/en-GB'
 import createMockFile from './testHelpers'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { UploadAllProps } from '../types'
 import useUpload from '../useUpload'
+import Provider from '../../../shared/Provider'
 
 const nb = nbNO['nb-NO'].Upload
+const en = enGB['en-GB'].Upload
 
 global.URL.createObjectURL = jest.fn(() => 'url')
 
@@ -188,6 +191,60 @@ describe('Upload', () => {
       const element = screen.queryByTestId('upload-file-input-button')
 
       expect(element.textContent).toMatch(buttonText)
+    })
+
+    it('should support locale prop', () => {
+      const { rerender } = render(<Upload {...defaultProps} />)
+
+      const element = screen.queryByTestId('upload-title')
+
+      expect(element.textContent).toMatch(nb.title)
+
+      rerender(<Upload {...defaultProps} locale="en-GB" />)
+
+      expect(element.textContent).toMatch(en.title)
+    })
+
+    it('should support locale from provider', () => {
+      const { rerender } = render(
+        <Provider>
+          <Upload {...defaultProps} />
+        </Provider>
+      )
+
+      const element = screen.queryByTestId('upload-title')
+
+      expect(element.textContent).toMatch(nb.title)
+
+      rerender(
+        <Provider locale="en-GB">
+          <Upload {...defaultProps} />
+        </Provider>
+      )
+
+      expect(element.textContent).toMatch(en.title)
+
+      rerender(
+        <Provider locale="nb-NO">
+          <Upload {...defaultProps} />
+        </Provider>
+      )
+
+      expect(element.textContent).toMatch(nb.title)
+    })
+
+    it('should support spacing props', () => {
+      render(<Upload top="2rem" {...defaultProps} />)
+
+      const element = document.querySelector('.dnb-upload')
+      const attributes = Array.from(element.attributes).map(
+        (attr) => attr.name
+      )
+
+      expect(attributes).toEqual(['class', 'data-testid', 'style'])
+      expect(Array.from(element.classList)).toEqual(
+        expect.arrayContaining(['dnb-space', 'dnb-space__top--large'])
+      )
     })
   })
 
