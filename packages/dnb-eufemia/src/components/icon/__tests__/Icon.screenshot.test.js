@@ -122,7 +122,7 @@ describe('Icon screenshot', () => {
         display: 'inline-flex',
         'flex-wrap': 'wrap',
         width: '30rem',
-        color: 'tomato',
+        color: 'blue',
       },
       selector: '[data-visual-test="icon-all-secondary"]',
     })

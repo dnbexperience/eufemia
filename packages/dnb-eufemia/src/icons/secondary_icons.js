@@ -114,6 +114,7 @@ import hanger from './hanger.js'
 import heart from './heart.js'
 import heart_rate from './heart_rate.js'
 import hide from './hide.js'
+import hierarchy from './hierarchy.js'
 import history from './history.js'
 import home from './home.js'
 import horse from './horse.js'
@@ -128,6 +129,7 @@ import insurance from './insurance.js'
 import kid_number from './kid_number.js'
 import language from './language.js'
 import launch from './launch.js'
+import layout_card from './layout_card.js'
 import leaf from './leaf.js'
 import lightbulb from './lightbulb.js'
 import linkedin from './linkedin.js'
@@ -212,6 +214,7 @@ import transfer_to from './transfer_to.js'
 import trash from './trash.js'
 import travel from './travel.js'
 import undo from './undo.js'
+import unlock from './unlock.js'
 import upload from './upload.js'
 import user_feedback from './user_feedback.js'
 import video from './video.js'
@@ -341,6 +344,7 @@ export {
   heart,
   heart_rate,
   hide,
+  hierarchy,
   history,
   home,
   horse,
@@ -355,6 +359,7 @@ export {
   kid_number,
   language,
   launch,
+  layout_card,
   leaf,
   lightbulb,
   linkedin,
@@ -439,6 +444,7 @@ export {
   trash,
   travel,
   undo,
+  unlock,
   upload,
   user_feedback,
   video,

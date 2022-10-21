@@ -6420,5 +6420,83 @@
     "bundleName": "secondary_icons",
     "created": 1663767965177,
     "updated": 1663767965177
+  },
+  "layout_card_medium.svg": {
+    "iconName": "layout_card_medium",
+    "name": "layout_card",
+    "category": "essentials",
+    "url": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/43a984d2-4d83-4f91-a038-60eb3a51b3ae",
+    "id": "4744:13",
+    "slug": "878548076e6ef92a3736f0e3597fb7be",
+    "size": "24",
+    "variant": "secondary",
+    "bundleName": "secondary_icons_medium",
+    "created": 1666351885521,
+    "updated": 1666351885521
+  },
+  "layout_card.svg": {
+    "iconName": "layout_card",
+    "name": "layout_card",
+    "category": "essentials",
+    "url": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/58bc6acc-56af-4ced-93cf-bb8f5f1604bc",
+    "id": "4744:15",
+    "slug": "878548076e6ef92a3736f0e3597fb7be",
+    "size": "16",
+    "variant": "secondary",
+    "bundleName": "secondary_icons",
+    "created": 1666351885645,
+    "updated": 1666351885645
+  },
+  "unlock_medium.svg": {
+    "iconName": "unlock_medium",
+    "name": "unlock",
+    "category": "essentials",
+    "url": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/2d2e88fd-216e-47c3-9033-f76062572c95",
+    "id": "4744:21",
+    "slug": "878548076e6ef92a3736f0e3597fb7be",
+    "size": "24",
+    "variant": "secondary",
+    "bundleName": "secondary_icons_medium",
+    "created": 1666351885767,
+    "updated": 1666351885767
+  },
+  "unlock.svg": {
+    "iconName": "unlock",
+    "name": "unlock",
+    "category": "essentials",
+    "url": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/b2129ae6-bd76-468b-b145-0b3190566d31",
+    "id": "4744:23",
+    "slug": "878548076e6ef92a3736f0e3597fb7be",
+    "size": "16",
+    "variant": "secondary",
+    "bundleName": "secondary_icons",
+    "created": 1666351885890,
+    "updated": 1666351885890
+  },
+  "hierarchy_medium.svg": {
+    "iconName": "hierarchy_medium",
+    "name": "hierarchy",
+    "category": "essentials",
+    "url": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/07b979b3-820b-4614-9a4d-d20f0204cf5d",
+    "id": "4744:47",
+    "slug": "878548076e6ef92a3736f0e3597fb7be",
+    "size": "24",
+    "variant": "secondary",
+    "bundleName": "secondary_icons_medium",
+    "created": 1666351886001,
+    "updated": 1666351886001
+  },
+  "hierarchy.svg": {
+    "iconName": "hierarchy",
+    "name": "hierarchy",
+    "category": "essentials",
+    "url": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/b1ab83cf-f61b-41f4-8833-f060c6a7da8c",
+    "id": "4744:49",
+    "slug": "878548076e6ef92a3736f0e3597fb7be",
+    "size": "16",
+    "variant": "secondary",
+    "bundleName": "secondary_icons",
+    "created": 1666351886132,
+    "updated": 1666351886132
   }
 }
