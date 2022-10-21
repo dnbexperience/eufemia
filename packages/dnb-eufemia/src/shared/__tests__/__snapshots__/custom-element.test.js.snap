@@ -3,8 +3,8 @@
 exports[`"registerElement" should have to match snapshot 1`] = `
 <div
   dangerouslySetInnerHTML={
-    Object {
-      "__html": "<custom-element observed-attribute=\\"I have a rendered content\\"><div>I have a rendered content</div></custom-element>",
+    {
+      "__html": "<custom-element observed-attribute="I have a rendered content"><div>I have a rendered content</div></custom-element>",
     }
   }
 />

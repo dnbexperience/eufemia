@@ -6,41 +6,41 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   align_dropdown={null}
   class="class"
   className="className"
-  custom_element={Object {}}
+  custom_element={{}}
   custom_method={[Function]}
   data={
-    Array [
-      Object {
-        "content": Array [
+    [
+      {
+        "content": [
           "1234 56 78901",
           "Brukskonto - Kari Nordmann",
         ],
         "selected_value": "Brukskonto - Kari Nordmann",
       },
-      Object {
-        "content": Array [
+      {
+        "content": [
           "1234 56 78902",
           "Sparekonto - Ole Nordmann",
         ],
         "selected_value": "Sparekonto - Ole Nordmann",
       },
-      Object {
-        "content": Array [
+      {
+        "content": [
           "1134 56 78962",
           "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
         ],
         "selected_key": 1,
         "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
       },
-      Object {
-        "content": Array [
+      {
+        "content": [
           "1534 96 48901",
           "Oppussing - Ole Nordmann",
         ],
         "selected_key": "0x",
         "selected_value": "Oppussing - Ole Nordmann",
       },
-      Object {
+      {
         "content": <React.Fragment>
           Custom content 
           123
@@ -50,7 +50,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
         Custom content 
         123
       </React.Fragment>,
-      Array [
+      [
         <React.Fragment>
           Custom content 
           123
@@ -110,41 +110,41 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     cache_hash={null}
     class="class"
     className="className"
-    custom_element={Object {}}
+    custom_element={{}}
     custom_method={[Function]}
     data={
-      Array [
-        Object {
-          "content": Array [
+      [
+        {
+          "content": [
             "1234 56 78901",
             "Brukskonto - Kari Nordmann",
           ],
           "selected_value": "Brukskonto - Kari Nordmann",
         },
-        Object {
-          "content": Array [
+        {
+          "content": [
             "1234 56 78902",
             "Sparekonto - Ole Nordmann",
           ],
           "selected_value": "Sparekonto - Ole Nordmann",
         },
-        Object {
-          "content": Array [
+        {
+          "content": [
             "1134 56 78962",
             "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
           ],
           "selected_key": 1,
           "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
         },
-        Object {
-          "content": Array [
+        {
+          "content": [
             "1534 96 48901",
             "Oppussing - Ole Nordmann",
           ],
           "selected_key": "0x",
           "selected_value": "Oppussing - Ole Nordmann",
         },
-        Object {
+        {
           "content": <React.Fragment>
             Custom content 
             123
@@ -154,7 +154,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           Custom content 
           123
         </React.Fragment>,
-        Array [
+        [
           <React.Fragment>
             Custom content 
             123
@@ -232,41 +232,41 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       align_dropdown={null}
       class="class"
       className="className"
-      custom_element={Object {}}
+      custom_element={{}}
       custom_method={[Function]}
       data={
-        Array [
-          Object {
-            "content": Array [
+        [
+          {
+            "content": [
               "1234 56 78901",
               "Brukskonto - Kari Nordmann",
             ],
             "selected_value": "Brukskonto - Kari Nordmann",
           },
-          Object {
-            "content": Array [
+          {
+            "content": [
               "1234 56 78902",
               "Sparekonto - Ole Nordmann",
             ],
             "selected_value": "Sparekonto - Ole Nordmann",
           },
-          Object {
-            "content": Array [
+          {
+            "content": [
               "1134 56 78962",
               "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
             ],
             "selected_key": 1,
             "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
           },
-          Object {
-            "content": Array [
+          {
+            "content": [
               "1534 96 48901",
               "Oppussing - Ole Nordmann",
             ],
             "selected_key": "0x",
             "selected_value": "Oppussing - Ole Nordmann",
           },
-          Object {
+          {
             "content": <React.Fragment>
               Custom content 
               123
@@ -276,7 +276,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             Custom content 
             123
           </React.Fragment>,
-          Array [
+          [
             <React.Fragment>
               Custom content 
               123
@@ -813,13 +813,13 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                           role="listbox"
                           showFocusRing={false}
                           style={
-                            Object {
+                            {
                               "maxHeight": "1rem",
                             }
                           }
                           tabIndex="-1"
                           triangleRef={
-                            Object {
+                            {
                               "current": null,
                             }
                           }
@@ -832,7 +832,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                             id="dropdown-id-ul"
                             role="listbox"
                             style={
-                              Object {
+                              {
                                 "maxHeight": "1rem",
                               }
                             }
@@ -1220,46 +1220,46 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             <Suffix
               className="dnb-dropdown__suffix"
               context={
-                Object {
+                {
                   "action_menu": null,
                   "align_dropdown": null,
                   "children": "children",
                   "class": "class",
                   "className": "className",
-                  "custom_element": Object {},
+                  "custom_element": {},
                   "custom_method": [Function],
-                  "data": Array [
-                    Object {
-                      "content": Array [
+                  "data": [
+                    {
+                      "content": [
                         "1234 56 78901",
                         "Brukskonto - Kari Nordmann",
                       ],
                       "selected_value": "Brukskonto - Kari Nordmann",
                     },
-                    Object {
-                      "content": Array [
+                    {
+                      "content": [
                         "1234 56 78902",
                         "Sparekonto - Ole Nordmann",
                       ],
                       "selected_value": "Sparekonto - Ole Nordmann",
                     },
-                    Object {
-                      "content": Array [
+                    {
+                      "content": [
                         "1134 56 78962",
                         "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
                       ],
                       "selected_key": 1,
                       "selected_value": "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
                     },
-                    Object {
-                      "content": Array [
+                    {
+                      "content": [
                         "1534 96 48901",
                         "Oppussing - Ole Nordmann",
                       ],
                       "selected_key": "0x",
                       "selected_value": "Oppussing - Ole Nordmann",
                     },
-                    Object {
+                    {
                       "content": <React.Fragment>
                         Custom content 
                         123
@@ -1269,7 +1269,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                       Custom content 
                       123
                     </React.Fragment>,
-                    Array [
+                    [
                       <React.Fragment>
                         Custom content 
                         123
@@ -1566,7 +1566,7 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-tooltip--active {
     visibility: visible;
     /*
-      because of the first \\"show\\" we also use animation
+      because of the first "show" we also use animation
       also, use forwards because of the usage of visibility
     */
     animation: show-tooltip 200ms var(--easing-default) forwards; }

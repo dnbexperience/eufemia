@@ -6,7 +6,7 @@ exports[`Radio component have to match snapshot 1`] = `
   checked="checked"
   class="class"
   className="className"
-  custom_element={Object {}}
+  custom_element={{}}
   custom_method={[Function]}
   direction="horizontal"
   disabled="disabled"
@@ -24,7 +24,7 @@ exports[`Radio component have to match snapshot 1`] = `
   skeleton="skeleton"
   status={null}
   status_no_animation="status_no_animation"
-  status_props={Object {}}
+  status_props={{}}
   status_state="status_state"
   suffix="suffix"
   value="value"
@@ -132,13 +132,13 @@ exports[`Radio component have to match snapshot 1`] = `
           <Suffix
             className="dnb-radio__suffix"
             context={
-              Object {
+              {
                 "attributes": "attributes",
                 "checked": "checked",
                 "children": "children",
                 "class": "class",
                 "className": "className",
-                "custom_element": Object {},
+                "custom_element": {},
                 "custom_method": [Function],
                 "direction": "horizontal",
                 "disabled": "disabled",
@@ -156,7 +156,7 @@ exports[`Radio component have to match snapshot 1`] = `
                 "skeleton": "skeleton",
                 "status": null,
                 "status_no_animation": "status_no_animation",
-                "status_props": Object {},
+                "status_props": {},
                 "status_state": "status_state",
                 "suffix": "suffix",
                 "value": "value",
@@ -197,26 +197,26 @@ exports[`Radio group component have to match group snapshot 1`] = `
   no_fieldset={true}
   on_change={
     [MockFunction] {
-      "calls": Array [
-        Array [
-          Object {
+      "calls": [
+        [
+          {
             "event": undefined,
             "value": "first",
           },
         ],
-        Array [
-          Object {
+        [
+          {
             "event": undefined,
             "value": "second",
           },
         ],
       ],
-      "results": Array [
-        Object {
+      "results": [
+        {
           "type": "return",
           "value": undefined,
         },
-        Object {
+        {
           "type": "return",
           "value": undefined,
         },

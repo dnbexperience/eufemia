@@ -30,16 +30,16 @@ exports[`DatePicker component have to match snapshot 1`] = `
   label_sr_only={null}
   link={false}
   locale={
-    Object {
+    {
       "code": "nb",
       "formatDistance": [Function],
-      "formatLong": Object {
+      "formatLong": {
         "date": [Function],
         "dateTime": [Function],
         "time": [Function],
       },
       "formatRelative": [Function],
-      "localize": Object {
+      "localize": {
         "day": [Function],
         "dayPeriod": [Function],
         "era": [Function],
@@ -47,7 +47,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
         "ordinalNumber": [Function],
         "quarter": [Function],
       },
-      "match": Object {
+      "match": {
         "day": [Function],
         "dayPeriod": [Function],
         "era": [Function],
@@ -55,7 +55,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
         "ordinalNumber": [Function],
         "quarter": [Function],
       },
-      "options": Object {
+      "options": {
         "firstWeekContainsDate": 4,
         "weekStartsOn": 1,
       },
@@ -101,7 +101,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
   <DatePickerProvider
     addon_element={null}
     align_picker={null}
-    attributes={Object {}}
+    attributes={{}}
     cancel_button_text="Avbryt"
     class={null}
     className={null}
@@ -116,7 +116,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
     enable_keyboard_nav={false}
     end_date="2019-02-15T00:00:00.000Z"
     enhanceWithMethods={
-      Object {
+      {
         "hidePicker": [Function],
       }
     }
@@ -133,16 +133,16 @@ exports[`DatePicker component have to match snapshot 1`] = `
     label_sr_only={null}
     link={false}
     locale={
-      Object {
+      {
         "code": "nb",
         "formatDistance": [Function],
-        "formatLong": Object {
+        "formatLong": {
           "date": [Function],
           "dateTime": [Function],
           "time": [Function],
         },
         "formatRelative": [Function],
-        "localize": Object {
+        "localize": {
           "day": [Function],
           "dayPeriod": [Function],
           "era": [Function],
@@ -150,7 +150,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
           "ordinalNumber": [Function],
           "quarter": [Function],
         },
-        "match": Object {
+        "match": {
           "day": [Function],
           "dayPeriod": [Function],
           "era": [Function],
@@ -158,7 +158,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
           "ordinalNumber": [Function],
           "quarter": [Function],
         },
-        "options": Object {
+        "options": {
           "firstWeekContainsDate": 4,
           "weekStartsOn": 1,
         },
@@ -330,16 +330,16 @@ exports[`DatePicker component have to match snapshot 1`] = `
               input_element={null}
               isRange={true}
               locale={
-                Object {
+                {
                   "code": "nb",
                   "formatDistance": [Function],
-                  "formatLong": Object {
+                  "formatLong": {
                     "date": [Function],
                     "dateTime": [Function],
                     "time": [Function],
                   },
                   "formatRelative": [Function],
-                  "localize": Object {
+                  "localize": {
                     "day": [Function],
                     "dayPeriod": [Function],
                     "era": [Function],
@@ -347,7 +347,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                     "ordinalNumber": [Function],
                     "quarter": [Function],
                   },
-                  "match": Object {
+                  "match": {
                     "day": [Function],
                     "dayPeriod": [Function],
                     "era": [Function],
@@ -355,7 +355,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                     "ordinalNumber": [Function],
                     "quarter": [Function],
                   },
-                  "options": Object {
+                  "options": {
                     "firstWeekContainsDate": 4,
                     "weekStartsOn": 1,
                   },
@@ -377,9 +377,9 @@ exports[`DatePicker component have to match snapshot 1`] = `
               status_state="error"
               stretch={false}
               submitAttributes={
-                Object {
+                {
                   "aria-expanded": false,
-                  "ref": Object {
+                  "ref": {
                     "current": <button
                       aria-expanded="false"
                       aria-label="åpne datovelger"
@@ -551,7 +551,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               hidden={true}
                               id="date-picker-id-start-day"
                               inputRef={
-                                Object {
+                                {
                                   "current": <input
                                     aria-labelledby="date-picker-id-start-day-label"
                                     autocapitalize="none"
@@ -572,7 +572,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               key="di0"
                               lang="nb"
                               mask={
-                                Array [
+                                [
                                   /\\[0-3\\]/,
                                   /\\[0-9\\]/,
                                 ]
@@ -601,7 +601,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 id="date-picker-id-start-day"
                                 inputElement={null}
                                 inputRef={
-                                  Object {
+                                  {
                                     "current": <input
                                       aria-labelledby="date-picker-id-start-day-label"
                                       autocapitalize="none"
@@ -622,7 +622,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 keepCharPositions={false}
                                 lang="nb"
                                 mask={
-                                  Array [
+                                  [
                                     /\\[0-3\\]/,
                                     /\\[0-9\\]/,
                                   ]
@@ -688,7 +688,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               hidden={true}
                               id="date-picker-id-start-month"
                               inputRef={
-                                Object {
+                                {
                                   "current": <input
                                     aria-labelledby="date-picker-id-start-month-label"
                                     autocapitalize="none"
@@ -709,7 +709,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               key="mi2"
                               lang="nb"
                               mask={
-                                Array [
+                                [
                                   /\\[0-1\\]/,
                                   /\\[0-9\\]/,
                                 ]
@@ -738,7 +738,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 id="date-picker-id-start-month"
                                 inputElement={null}
                                 inputRef={
-                                  Object {
+                                  {
                                     "current": <input
                                       aria-labelledby="date-picker-id-start-month-label"
                                       autocapitalize="none"
@@ -759,7 +759,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 keepCharPositions={false}
                                 lang="nb"
                                 mask={
-                                  Array [
+                                  [
                                     /\\[0-1\\]/,
                                     /\\[0-9\\]/,
                                   ]
@@ -825,7 +825,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               hidden={true}
                               id="date-picker-id-start-year"
                               inputRef={
-                                Object {
+                                {
                                   "current": <input
                                     aria-labelledby="date-picker-id-start-year-label"
                                     autocapitalize="none"
@@ -846,7 +846,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               key="yi4"
                               lang="nb"
                               mask={
-                                Array [
+                                [
                                   /\\[1-2\\]/,
                                   /\\[0-9\\]/,
                                   /\\[0-9\\]/,
@@ -877,7 +877,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 id="date-picker-id-start-year"
                                 inputElement={null}
                                 inputRef={
-                                  Object {
+                                  {
                                     "current": <input
                                       aria-labelledby="date-picker-id-start-year-label"
                                       autocapitalize="none"
@@ -898,7 +898,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 keepCharPositions={false}
                                 lang="nb"
                                 mask={
-                                  Array [
+                                  [
                                     /\\[1-2\\]/,
                                     /\\[0-9\\]/,
                                     /\\[0-9\\]/,
@@ -965,7 +965,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               hidden={true}
                               id="date-picker-id-end-day"
                               inputRef={
-                                Object {
+                                {
                                   "current": <input
                                     aria-labelledby="date-picker-id-end-day-label"
                                     autocapitalize="none"
@@ -986,7 +986,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               key="di0"
                               lang="nb"
                               mask={
-                                Array [
+                                [
                                   /\\[0-3\\]/,
                                   /\\[0-9\\]/,
                                 ]
@@ -1015,7 +1015,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 id="date-picker-id-end-day"
                                 inputElement={null}
                                 inputRef={
-                                  Object {
+                                  {
                                     "current": <input
                                       aria-labelledby="date-picker-id-end-day-label"
                                       autocapitalize="none"
@@ -1036,7 +1036,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 keepCharPositions={false}
                                 lang="nb"
                                 mask={
-                                  Array [
+                                  [
                                     /\\[0-3\\]/,
                                     /\\[0-9\\]/,
                                   ]
@@ -1102,7 +1102,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               hidden={true}
                               id="date-picker-id-end-month"
                               inputRef={
-                                Object {
+                                {
                                   "current": <input
                                     aria-labelledby="date-picker-id-end-month-label"
                                     autocapitalize="none"
@@ -1123,7 +1123,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               key="mi2"
                               lang="nb"
                               mask={
-                                Array [
+                                [
                                   /\\[0-1\\]/,
                                   /\\[0-9\\]/,
                                 ]
@@ -1152,7 +1152,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 id="date-picker-id-end-month"
                                 inputElement={null}
                                 inputRef={
-                                  Object {
+                                  {
                                     "current": <input
                                       aria-labelledby="date-picker-id-end-month-label"
                                       autocapitalize="none"
@@ -1173,7 +1173,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 keepCharPositions={false}
                                 lang="nb"
                                 mask={
-                                  Array [
+                                  [
                                     /\\[0-1\\]/,
                                     /\\[0-9\\]/,
                                   ]
@@ -1239,7 +1239,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               hidden={true}
                               id="date-picker-id-end-year"
                               inputRef={
-                                Object {
+                                {
                                   "current": <input
                                     aria-labelledby="date-picker-id-end-year-label"
                                     autocapitalize="none"
@@ -1260,7 +1260,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               key="yi4"
                               lang="nb"
                               mask={
-                                Array [
+                                [
                                   /\\[1-2\\]/,
                                   /\\[0-9\\]/,
                                   /\\[0-9\\]/,
@@ -1291,7 +1291,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 id="date-picker-id-end-year"
                                 inputElement={null}
                                 inputRef={
-                                  Object {
+                                  {
                                     "current": <input
                                       aria-labelledby="date-picker-id-end-year-label"
                                       autocapitalize="none"
@@ -1312,7 +1312,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                 keepCharPositions={false}
                                 lang="nb"
                                 mask={
-                                  Array [
+                                  [
                                     /\\[1-2\\]/,
                                     /\\[0-9\\]/,
                                     /\\[0-9\\]/,
@@ -1396,7 +1396,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                               icon_size={null}
                               id="date-picker-id"
                               innerRef={
-                                Object {
+                                {
                                   "current": <button
                                     aria-expanded="false"
                                     aria-label="åpne datovelger"
@@ -1468,7 +1468,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                   icon_size={null}
                                   id="date-picker-id"
                                   innerRef={
-                                    Object {
+                                    {
                                       "current": <button
                                         aria-expanded="false"
                                         aria-label="åpne datovelger"
@@ -1554,7 +1554,7 @@ exports[`DatePicker component have to match snapshot 1`] = `
                                       icon_size={null}
                                       id="date-picker-id"
                                       innerRef={
-                                        Object {
+                                        {
                                           "current": <button
                                             aria-expanded="false"
                                             aria-label="åpne datovelger"
@@ -2010,7 +2010,7 @@ exports[`DatePicker scss have to match snapshot 1`] = `
   .dnb-tooltip--active {
     visibility: visible;
     /*
-      because of the first \\"show\\" we also use animation
+      because of the first "show" we also use animation
       also, use forwards because of the usage of visibility
     */
     animation: show-tooltip 200ms var(--easing-default) forwards; }

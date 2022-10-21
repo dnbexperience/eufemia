@@ -107,8 +107,8 @@ exports[`Space scss have to match snapshot 1`] = `
  * TODO: Set spacing in the theme file, as theme comes later in the stack
  *
  */
-/** NB: Because CSS specificity \\".dnb-core-style .dnb-space\\"
-    has to come before the next \\".dnb-space\\"
+/** NB: Because CSS specificity ".dnb-core-style .dnb-space"
+    has to come before the next ".dnb-space"
   */
 .dnb-core-style .dnb-space__top--zero {
   margin-top: 0; }

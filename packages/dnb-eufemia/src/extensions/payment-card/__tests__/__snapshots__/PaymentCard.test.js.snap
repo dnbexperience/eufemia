@@ -32,36 +32,36 @@ exports[`PaymentCard have to match snapshot 1`] = `
         cardNumber=" **** **** **** 1337 "
         cardStatus="active"
         data={
-          Object {
-            "cardDesign": Object {
-              "bankAxept": Object {
+          {
+            "cardDesign": {
+              "bankAxept": {
                 "is": [Function],
               },
-              "bankLogo": Object {
+              "bankLogo": {
                 "color": "#fff",
               },
               "cardStyle": "card--design-default",
-              "mastercard": Object {
+              "mastercard": {
                 "is": [Function],
               },
               "name": "Default",
-              "privateBanking": Object {
+              "privateBanking": {
                 "is": [Function],
               },
-              "saga": Object {
+              "saga": {
                 "is": [Function],
               },
-              "visa": Object {
+              "visa": {
                 "color": "#fff",
               },
             },
-            "cardType": Object {
+            "cardType": {
               "is": [Function],
             },
             "displayName": "DNB Kortet",
             "productCode": "NK1",
             "productName": "DNB Kortet",
-            "productType": Object {
+            "productType": {
               "is": [Function],
             },
           }
@@ -69,7 +69,7 @@ exports[`PaymentCard have to match snapshot 1`] = `
         id="id"
         skeleton={false}
         translations={
-          Object {
+          {
             "card_number": "************1337",
             "card_status": "active",
             "children": "children",
@@ -100,7 +100,7 @@ exports[`PaymentCard have to match snapshot 1`] = `
             >
               <BankLogo
                 logoType={
-                  Object {
+                  {
                     "color": "#fff",
                   }
                 }
@@ -134,31 +134,31 @@ exports[`PaymentCard have to match snapshot 1`] = `
               </BankLogo>
               <ProductLogo
                 cardDesign={
-                  Object {
-                    "bankAxept": Object {
+                  {
+                    "bankAxept": {
                       "is": [Function],
                     },
-                    "bankLogo": Object {
+                    "bankLogo": {
                       "color": "#fff",
                     },
                     "cardStyle": "card--design-default",
-                    "mastercard": Object {
+                    "mastercard": {
                       "is": [Function],
                     },
                     "name": "Default",
-                    "privateBanking": Object {
+                    "privateBanking": {
                       "is": [Function],
                     },
-                    "saga": Object {
+                    "saga": {
                       "is": [Function],
                     },
-                    "visa": Object {
+                    "visa": {
                       "color": "#fff",
                     },
                   }
                 }
                 productType={
-                  Object {
+                  {
                     "is": [Function],
                   }
                 }
@@ -199,7 +199,7 @@ exports[`PaymentCard have to match snapshot 1`] = `
                 displayName="DNB Kortet"
                 skeleton={false}
                 translations={
-                  Object {
+                  {
                     "card_number": "************1337",
                     "card_status": "active",
                     "children": "children",
@@ -279,31 +279,31 @@ exports[`PaymentCard have to match snapshot 1`] = `
               </CardText>
               <TypeLogo
                 cardDesign={
-                  Object {
-                    "bankAxept": Object {
+                  {
+                    "bankAxept": {
                       "is": [Function],
                     },
-                    "bankLogo": Object {
+                    "bankLogo": {
                       "color": "#fff",
                     },
                     "cardStyle": "card--design-default",
-                    "mastercard": Object {
+                    "mastercard": {
                       "is": [Function],
                     },
                     "name": "Default",
-                    "privateBanking": Object {
+                    "privateBanking": {
                       "is": [Function],
                     },
-                    "saga": Object {
+                    "saga": {
                       "is": [Function],
                     },
-                    "visa": Object {
+                    "visa": {
                       "color": "#fff",
                     },
                   }
                 }
                 cardType={
-                  Object {
+                  {
                     "is": [Function],
                   }
                 }
@@ -314,7 +314,7 @@ exports[`PaymentCard have to match snapshot 1`] = `
             cardStatus="active"
             skeleton={false}
             translations={
-              Object {
+              {
                 "card_number": "************1337",
                 "card_status": "active",
                 "children": "children",

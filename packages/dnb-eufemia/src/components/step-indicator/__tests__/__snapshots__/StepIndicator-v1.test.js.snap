@@ -8,14 +8,14 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
   className={null}
   current_step={null}
   data={
-    Array [
-      Object {
+    [
+      {
         "title": "Aa",
       },
-      Object {
+      {
         "title": "Bb",
       },
-      Object {
+      {
         "title": "Cc",
       },
     ]
@@ -41,14 +41,14 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
     className={null}
     current_step={null}
     data={
-      Array [
-        Object {
+      [
+        {
           "title": "Aa",
         },
-        Object {
+        {
           "title": "Bb",
         },
-        Object {
+        {
           "title": "Cc",
         },
       ]
@@ -58,21 +58,21 @@ exports[`StepIndicator component with buttons have to match snapshot 1`] = `
     isSidebar={false}
     isV1={true}
     listAttributes={
-      Object {
+      {
         "active_item": 1,
         "active_url": null,
         "children": null,
         "class": null,
         "className": null,
         "current_step": null,
-        "data": Array [
-          Object {
+        "data": [
+          {
             "title": "Aa",
           },
-          Object {
+          {
             "title": "Bb",
           },
-          Object {
+          {
             "title": "Cc",
           },
         ],
@@ -299,16 +299,16 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
   className={null}
   current_step={null}
   data={
-    Array [
-      Object {
+    [
+      {
         "title": "Aa",
         "url": "?a",
       },
-      Object {
+      {
         "title": "Bb",
         "url": "?b",
       },
-      Object {
+      {
         "title": "Cc",
         "url": "?c",
         "url_future": "",
@@ -336,16 +336,16 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
     className={null}
     current_step={null}
     data={
-      Array [
-        Object {
+      [
+        {
           "title": "Aa",
           "url": "?a",
         },
-        Object {
+        {
           "title": "Bb",
           "url": "?b",
         },
-        Object {
+        {
           "title": "Cc",
           "url": "?c",
           "url_future": "",
@@ -357,23 +357,23 @@ exports[`StepIndicator component with urls have to match snapshot 1`] = `
     isSidebar={false}
     isV1={true}
     listAttributes={
-      Object {
+      {
         "active_item": null,
         "active_url": "?b",
         "children": null,
         "class": null,
         "className": null,
         "current_step": null,
-        "data": Array [
-          Object {
+        "data": [
+          {
             "title": "Aa",
             "url": "?a",
           },
-          Object {
+          {
             "title": "Bb",
             "url": "?b",
           },
-          Object {
+          {
             "title": "Cc",
             "url": "?c",
             "url_future": "",
@@ -638,8 +638,8 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
   font-weight: var(--font-weight-medium);
   --border-color: var(--color-sea-green);
   box-shadow: inset 0 0 0 0.125rem var(--border-color);
-  /* iOS fix - because \\"inset\\" works not fine with border-radius */
-  /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+  /* iOS fix - because "inset" works not fine with border-radius */
+  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent; }
   @supports (-webkit-touch-callout: none) {
     .dnb-step-indicator-v2 .dnb-step-indicator__item--current .dnb-button {
@@ -664,8 +664,8 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
     background-color: var(--color-white);
     --border-color: var(--color-black-20);
     box-shadow: inset 0 0 0 0.0625rem var(--border-color);
-    /* iOS fix - because \\"inset\\" works not fine with border-radius */
-    /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+    /* iOS fix - because "inset" works not fine with border-radius */
+    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
     @supports (-webkit-touch-callout: none) {
       .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:active {
@@ -681,8 +681,8 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
 .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:active {
   --border-color: var(--color-black-80);
   box-shadow: inset 0 0 0 0.125rem var(--border-color);
-  /* iOS fix - because \\"inset\\" works not fine with border-radius */
-  /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+  /* iOS fix - because "inset" works not fine with border-radius */
+  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent; }
   @supports (-webkit-touch-callout: none) {
     .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:active {
@@ -890,7 +890,7 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
   .dnb-tooltip--active {
     visibility: visible;
     /*
-      because of the first \\"show\\" we also use animation
+      because of the first "show" we also use animation
       also, use forwards because of the usage of visibility
     */
     animation: show-tooltip 200ms var(--easing-default) forwards; }

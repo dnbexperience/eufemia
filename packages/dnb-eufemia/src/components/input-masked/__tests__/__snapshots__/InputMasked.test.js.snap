@@ -33,7 +33,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   label_sr_only={null}
   locale={null}
   mask={
-    Array [
+    [
       /\\[a-z\\]/,
     ]
   }
@@ -183,7 +183,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
                 id="input-masked"
                 inputElement={<input />}
                 inputRef={
-                  Object {
+                  {
                     "current": <input
                       autocomplete="off"
                       class="dnb-input__input"
@@ -196,7 +196,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
                 }
                 keepCharPositions={false}
                 mask={
-                  Array [
+                  [
                     /\\[a-z\\]/,
                   ]
                 }
@@ -405,7 +405,7 @@ exports[`InputMasked scss have to match snapshot 1`] = `
   .dnb-tooltip--active {
     visibility: visible;
     /*
-      because of the first \\"show\\" we also use animation
+      because of the first "show" we also use animation
       also, use forwards because of the usage of visibility
     */
     animation: show-tooltip 200ms var(--easing-default) forwards; }

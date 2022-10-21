@@ -6,7 +6,7 @@ exports[`Switch component have to match snapshot 1`] = `
   checked="checked"
   class="class"
   className="className"
-  custom_element={Object {}}
+  custom_element={{}}
   custom_method={[Function]}
   default_state="default_state"
   disabled="disabled"
@@ -23,7 +23,7 @@ exports[`Switch component have to match snapshot 1`] = `
   skeleton="skeleton"
   status={null}
   status_no_animation="status_no_animation"
-  status_props={Object {}}
+  status_props={{}}
   status_state="status_state"
   suffix="suffix"
   title="title"
@@ -138,13 +138,13 @@ exports[`Switch component have to match snapshot 1`] = `
           <Suffix
             className="dnb-switch__suffix"
             context={
-              Object {
+              {
                 "attributes": "attributes",
                 "checked": "checked",
                 "children": "children",
                 "class": "class",
                 "className": "className",
-                "custom_element": Object {},
+                "custom_element": {},
                 "custom_method": [Function],
                 "default_state": "default_state",
                 "disabled": "disabled",
@@ -161,7 +161,7 @@ exports[`Switch component have to match snapshot 1`] = `
                 "skeleton": "skeleton",
                 "status": null,
                 "status_no_animation": "status_no_animation",
-                "status_props": Object {},
+                "status_props": {},
                 "status_state": "status_state",
                 "suffix": "suffix",
                 "title": "title",

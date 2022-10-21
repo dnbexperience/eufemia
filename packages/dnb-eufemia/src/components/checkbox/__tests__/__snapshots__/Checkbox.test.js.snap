@@ -3,15 +3,15 @@
 exports[`Checkbox component have to match snapshot 1`] = `
 <Checkbox
   0={
-    Object {
+    {
       "displayName": "Checkbox",
-      "props": Object {
+      "props": {
         "attributes": "attributes",
         "checked": "checked",
         "children": "children",
         "class": "class",
         "className": "className",
-        "custom_element": Object {},
+        "custom_element": {},
         "custom_method": [Function],
         "default_state": "default_state",
         "disabled": "disabled",
@@ -27,7 +27,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
         "skeleton": "skeleton",
         "status": "status",
         "status_no_animation": "status_no_animation",
-        "status_props": Object {},
+        "status_props": {},
         "status_state": "status_state",
         "suffix": "suffix",
         "title": "title",
@@ -36,9 +36,9 @@ exports[`Checkbox component have to match snapshot 1`] = `
     }
   }
   1={
-    Object {
+    {
       "displayName": "CheckIcon",
-      "props": Object {
+      "props": {
         "size": "size",
       },
     }

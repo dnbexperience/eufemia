@@ -3,9 +3,9 @@
 exports[`Dialog component snapshot should match component snapshot 1`] = `
 <Dialog
   0={
-    Object {
+    {
       "displayName": "Dialog",
-      "props": Object {},
+      "props": {},
     }
   }
   contentId={null}
@@ -137,7 +137,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
         icon_position="left"
         id="dialog_id"
         innerRef={
-          Object {
+          {
             "current": <button
               aria-describedby="dialog_id-tooltip"
               aria-label="dialog_title"
@@ -202,7 +202,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
           icon_size={null}
           id="dialog_id"
           innerRef={
-            Object {
+            {
               "current": <button
                 aria-describedby="dialog_id-tooltip"
                 aria-label="dialog_title"
@@ -290,7 +290,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
               icon_size={null}
               id="dialog_id"
               innerRef={
-                Object {
+                {
                   "current": <button
                     aria-describedby="dialog_id-tooltip"
                     aria-label="dialog_title"
@@ -427,7 +427,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
           <Tooltip
             id="dialog_id-tooltip"
             targetElement={
-              Object {
+              {
                 "current": <button
                   aria-describedby="dialog_id-tooltip"
                   aria-label="dialog_title"
@@ -475,7 +475,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
               animatePosition={false}
               arrow="center"
               attributes={
-                Object {
+                {
                   "children": "dialog_title",
                   "className": "dnb-tooltip",
                 }
@@ -531,7 +531,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                 </button>
               }
               targetElement={
-                Object {
+                {
                   "current": <button
                     aria-describedby="dialog_id-tooltip"
                     aria-label="dialog_title"
@@ -580,7 +580,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                 animatePosition={false}
                 arrow="center"
                 attributes={
-                  Object {
+                  {
                     "children": "dialog_title",
                     "className": "dnb-tooltip",
                   }
@@ -707,7 +707,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                     animatePosition={false}
                     arrow="center"
                     attributes={
-                      Object {
+                      {
                         "children": "dialog_title",
                         "className": "dnb-tooltip",
                       }
@@ -814,7 +814,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                       onMouseMove={[Function]}
                       onTouchStart={[Function]}
                       role="tooltip"
-                      style={Object {}}
+                      style={{}}
                     >
                       <span
                         className="dnb-tooltip__arrow dnb-tooltip__arrow__arrow--center dnb-tooltip__arrow__position--top"
@@ -862,9 +862,9 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
         modal_content={
           <DialogContent
             0={
-              Object {
+              {
                 "displayName": "Dialog",
-                "props": Object {},
+                "props": {},
               }
             }
             fullscreen="auto"
@@ -916,9 +916,9 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
           modal_content={
             <DialogContent
               0={
-                Object {
+                {
                   "displayName": "Dialog",
-                  "props": Object {},
+                  "props": {},
                 }
               }
               fullscreen="auto"
@@ -955,9 +955,9 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
           >
             <DialogContent
               0={
-                Object {
+                {
                   "displayName": "Dialog",
-                  "props": Object {},
+                  "props": {},
                 }
               }
               fullscreen="auto"
@@ -975,7 +975,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                 <ForwardRef>
                   <ScrollView
                     innerRef={
-                      Object {
+                      {
                         "current": <div
                           class="dnb-scroll-view"
                         >
@@ -1068,7 +1068,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
                             <Section
                               className="dnb-modal__header__bar dnb-dialog__navigation"
                               inner_ref={
-                                Object {
+                                {
                                   "current": <section
                                     class="dnb-section dnb-section--white dnb-modal__header__bar dnb-dialog__navigation"
                                   >
@@ -1354,7 +1354,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
 `;
 
 exports[`Dialog scss have to match snapshot 1`] = `
-"@charset \\"UTF-8\\";
+"@charset "UTF-8";
 /*
 * DNB Drawer
 *
@@ -1523,7 +1523,7 @@ exports[`Dialog scss have to match snapshot 1`] = `
   .dnb-tooltip--active {
     visibility: visible;
     /*
-      because of the first \\"show\\" we also use animation
+      because of the first "show" we also use animation
       also, use forwards because of the usage of visibility
     */
     animation: show-tooltip 200ms var(--easing-default) forwards; }
@@ -2155,7 +2155,7 @@ button.dnb-button::-moz-focus-inner {
     flex-direction: column;
     z-index: 10;
     /** 
-      NB: Do not use \\"overflow-x: hidden;\\" in here,
+      NB: Do not use "overflow-x: hidden;" in here,
       (overflowing one direction, will influence the other – we can't just have one at a time) 
       To make the Drawer scroll, we use .dnb-scroll-view
     */

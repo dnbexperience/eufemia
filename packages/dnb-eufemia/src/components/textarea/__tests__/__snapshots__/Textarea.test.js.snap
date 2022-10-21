@@ -3,9 +3,9 @@
 exports[`Textarea component have to match snapshot 1`] = `
 <Textarea
   0={
-    Object {
+    {
       "displayName": "Textarea",
-      "props": Object {
+      "props": {
         "align": "'left'",
         "autoresize": "autoresize",
         "autoresize_max_rows": "autoresize_max_rows",
@@ -13,7 +13,7 @@ exports[`Textarea component have to match snapshot 1`] = `
         "class": "class",
         "className": "className",
         "cols": 1,
-        "custom_element": Object {},
+        "custom_element": {},
         "custom_method": [Function],
         "disabled": "disabled",
         "global_status_id": "global_status_id",
@@ -33,7 +33,7 @@ exports[`Textarea component have to match snapshot 1`] = `
         "skeleton": "skeleton",
         "status": "status",
         "status_no_animation": "status_no_animation",
-        "status_props": Object {},
+        "status_props": {},
         "status_state": "status_state",
         "stretch": "stretch",
         "suffix": "suffix",
