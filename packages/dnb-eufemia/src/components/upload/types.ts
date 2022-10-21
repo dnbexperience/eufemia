@@ -37,6 +37,7 @@ export type UploadProps = {
   text?: React.ReactNode
   fileTypeDescription?: React.ReactNode
   fileSizeDescription?: React.ReactNode
+  fileAmountDescription?: React.ReactNode
   fileSizeContent?: React.ReactNode
   buttonText?: React.ReactNode
   errorLargeFile?: React.ReactNode

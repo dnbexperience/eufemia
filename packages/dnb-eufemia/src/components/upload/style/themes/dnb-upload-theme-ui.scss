@@ -6,14 +6,25 @@
 .dnb-upload {
   background-color: var(--color-white);
 
+  border-radius: 0.5rem;
+
   // svg element
   &__outline {
     stroke: var(--color-sea-green);
+    border-radius: 0.5rem;
+    stroke-width: 0.1875rem;
   }
 
   &--active &__outline {
+    stroke: var(--color-emerald-green);
+
+    inset: -1px;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+
     rect {
-      animation: upload-outline 100ms ease-out forwards;
+      stroke-width: 0.25rem;
+      stroke-dasharray: 0;
     }
   }
   &--active {

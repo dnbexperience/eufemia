@@ -1,34 +1,24 @@
 import React from 'react'
 import classnames from 'classnames'
 
-// Components
-import Lead from '../../elements/Lead'
-import P from '../../elements/P'
-import Dl from '../../elements/Dl'
-import Dt from '../../elements/Dt'
-import Dd from '../../elements/Dd'
-
 // Shared
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Provider from '../../shared/Provider'
 import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
-import { format } from '../number-format/NumberUtils'
 
 // Internal
 import UploadFileInput from './UploadFileInput'
 import useUpload from './useUpload'
 import UploadDropzone from './UploadDropzone'
-import { UploadContext } from './UploadContext'
+import { UploadContext, defaultProps } from './UploadContext'
 import { verifyFiles } from './UploadVerify'
 
 import type { UploadFile, UploadAllProps } from './types'
 import UploadFileList from './UploadFileList'
+import UploadInfo from './UploadInfo'
 
-export const defaultProps = {
-  fileMaxSize: 5000,
-  filesAmountLimit: 100,
-}
+export { defaultProps }
 
 const Upload = (localProps: UploadAllProps) => {
   const context = React.useContext(Context)
@@ -48,11 +38,12 @@ const Upload = (localProps: UploadAllProps) => {
     acceptedFileTypes,
     filesAmountLimit,
     fileMaxSize,
-    title,
-    text,
-    fileTypeDescription,
-    fileSizeDescription,
-    fileSizeContent,
+    title, // eslint-disable-line
+    text, // eslint-disable-line
+    fileTypeDescription, // eslint-disable-line
+    fileSizeDescription, // eslint-disable-line
+    fileAmountDescription, // eslint-disable-line
+    fileSizeContent, // eslint-disable-line
     buttonText, // eslint-disable-line
     loadingText, // eslint-disable-line
     errorLargeFile,
@@ -66,10 +57,6 @@ const Upload = (localProps: UploadAllProps) => {
   const spacingClasses = createSpacingClasses(props)
 
   const { files, setFiles, setInternalFiles } = useUpload(id)
-
-  const prettyfiedAcceptedFileFormats = acceptedFileTypes
-    .join(', ')
-    .toUpperCase()
 
   return (
     <UploadContext.Provider
@@ -85,51 +72,7 @@ const Upload = (localProps: UploadAllProps) => {
           className={classnames('dnb-upload', spacingClasses, className)}
           {...props}
         >
-          <Lead data-testid="upload-title" space="0">
-            {title}
-          </Lead>
-
-          <P
-            data-testid="upload-text"
-            top="xx-small"
-            className="dnb-upload__text"
-          >
-            {text}
-          </P>
-
-          <Dl
-            top="small"
-            bottom={0}
-            direction="horizontal"
-            className="dnb-upload__condition-list"
-          >
-            <Dl.Item>
-              <Dt
-                data-testid="upload-accepted-formats-description"
-                className="dnb-upload__condition-list__label"
-              >
-                {fileTypeDescription}
-              </Dt>
-              <Dd data-testid="upload-accepted-formats">
-                {prettyfiedAcceptedFileFormats}
-              </Dd>
-            </Dl.Item>
-
-            <Dl.Item>
-              <Dt
-                data-testid="upload-file-size-description"
-                className="dnb-upload__condition-list__label"
-              >
-                {fileSizeDescription}
-              </Dt>
-              <Dd data-testid="upload-file-size">
-                {String(fileSizeContent).replace(
-                  '%size',
-                  format(fileMaxSize).toString()
-                )}
-              </Dd>
-            </Dl.Item>
-          </Dl>
+          <UploadInfo />
 
           <UploadFileInput />
 

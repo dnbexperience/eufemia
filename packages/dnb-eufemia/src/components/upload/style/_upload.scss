@@ -10,6 +10,10 @@
   position: relative;
   padding: var(--spacing-medium);
 
+  @include allBelow(small) {
+    padding: var(--spacing-medium) var(--spacing-small);
+  }
+
   background-color: var(--color-white);
 
   // svg element
@@ -23,14 +27,6 @@
 
     height: 100%;
     width: 100%;
-
-    border-radius: 0.25rem;
-  }
-
-  @keyframes upload-outline {
-    to {
-      stroke-dasharray: 0;
-    }
   }
 
   &__file-input {

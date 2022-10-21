@@ -127,13 +127,14 @@ export default {
       text: 'Dra & slipp eller velg hvilke filer du vil laste opp.',
       fileTypeDescription: 'Tillatte filformater:',
       fileSizeDescription: 'Maks filstørrelse:',
+      fileAmountDescription: 'Maks antall filer:',
       fileSizeContent: '%size MB',
-      buttonText: 'Utforsk filer',
+      buttonText: 'Velg filer',
       loadingText: 'Laster opp',
       errorLargeFile:
         'Filen du prøver å laste opp er for stor, vi støtter ikke filer større enn %size MB.',
       errorAmountLimit:
-        'Du kan laste opp %amount filer. Fjern noen og prøv på nytt.',
+        'Det er begrenset hvor mange filer du kan laste opp (%amount).',
       errorUnsupportedFile: 'Filen du prøver å laste opp er ikke støttet.',
       deleteButton: 'Slett',
       fileListAriaLabel: 'opplastede filer',

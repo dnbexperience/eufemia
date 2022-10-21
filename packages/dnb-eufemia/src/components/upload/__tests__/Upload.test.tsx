@@ -81,9 +81,7 @@ describe('Upload', () => {
     it('renders the format description', () => {
       render(<Upload {...defaultProps} />)
 
-      const element = screen.queryByTestId(
-        'upload-accepted-formats-description'
-      )
+      const element = screen.queryByTestId('upload-accepted-formats')
 
       expect(element).not.toBeNull()
 
@@ -100,9 +98,7 @@ describe('Upload', () => {
         />
       )
 
-      const element = screen.queryByTestId(
-        'upload-accepted-formats-description'
-      )
+      const element = screen.queryByTestId('upload-accepted-formats')
 
       expect(element.textContent).toMatch(customFormatDescription)
     })
@@ -114,7 +110,9 @@ describe('Upload', () => {
         <Upload {...defaultProps} acceptedFileTypes={acceptedFileTypes} />
       )
 
-      const element = screen.queryByTestId('upload-accepted-formats')
+      const element = screen.queryByTestId(
+        'upload-accepted-formats'
+      ).nextElementSibling
 
       const formattedFileTypes = acceptedFileTypes.join(', ').toUpperCase()
 
@@ -125,7 +123,7 @@ describe('Upload', () => {
     it('renders the file size description', () => {
       render(<Upload {...defaultProps} />)
 
-      const element = screen.queryByTestId('upload-file-size-description')
+      const element = screen.queryByTestId('upload-file-size')
 
       expect(element).not.toBeNull()
     })
@@ -140,7 +138,7 @@ describe('Upload', () => {
         />
       )
 
-      const element = screen.queryByTestId('upload-file-size-description')
+      const element = screen.queryByTestId('upload-file-size')
 
       expect(element.textContent).toMatch(fileSizeDescription)
     })
@@ -149,7 +147,8 @@ describe('Upload', () => {
       const fileMaxSize = 2
       render(<Upload {...defaultProps} fileMaxSize={fileMaxSize} />)
 
-      const element = screen.queryByTestId('upload-file-size')
+      const element =
+        screen.queryByTestId('upload-file-size').nextElementSibling
 
       expect(element).not.toBeNull()
       expect(element.textContent).toMatch(
@@ -169,10 +168,26 @@ describe('Upload', () => {
         />
       )
 
-      const element = screen.queryByTestId('upload-file-size')
+      const element =
+        screen.queryByTestId('upload-file-size').nextElementSibling
 
       expect(element.textContent).toMatch(
         String(fileMaxSize).replace('%size', `${fileMaxSize}`)
+      )
+    })
+
+    it('renders the file amount limit description', () => {
+      const filesAmountLimit = 2
+      render(
+        <Upload {...defaultProps} filesAmountLimit={filesAmountLimit} />
+      )
+
+      const element = screen.queryByTestId('upload-file-amount-limit')
+
+      expect(element).not.toBeNull()
+      expect(element.textContent).toBe(nb.fileAmountDescription)
+      expect(element.nextElementSibling.textContent).toMatch(
+        String(filesAmountLimit)
       )
     })
 

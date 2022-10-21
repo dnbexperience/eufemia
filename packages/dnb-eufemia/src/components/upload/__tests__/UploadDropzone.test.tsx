@@ -1,10 +1,9 @@
 import React from 'react'
-import { act, fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import UploadDropzone from '../UploadDropzone'
 import createMockFile from './testHelpers'
 import { UploadContext } from '../UploadContext'
 import type { UploadAllProps, UploadContextProps } from '../types'
-import { wait } from '@testing-library/user-event/dist/utils'
 
 const defaultProps: Partial<UploadAllProps> = {
   id: 'unique',
@@ -67,7 +66,7 @@ describe('Upload', () => {
     ])
   })
 
-  it('has "active" class on dragOver event', () => {
+  it('has "active" class on dragEnter event', async () => {
     render(<MockComponent {...defaultProps} />)
 
     const dropZone = getRootElement()
@@ -90,14 +89,12 @@ describe('Upload', () => {
       expect.arrayContaining(['dnb-upload--active'])
     )
 
-    await act(async () => {
-      fireEvent.dragLeave(dropZone)
+    fireEvent.dragLeave(dropZone)
 
-      await wait(300)
-
+    await waitFor(() =>
       expect(Array.from(getRootElement().classList)).not.toContain(
         'dnb-upload--active'
       )
-    })
+    )
   })
 })
