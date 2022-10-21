@@ -1,10 +1,9 @@
 import React from 'react'
-import { act, fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import UploadDropzone from '../UploadDropzone'
 import createMockFile from './testHelpers'
 import { UploadContext } from '../UploadContext'
 import type { UploadAllProps, UploadContextProps } from '../types'
-import { wait } from '@testing-library/user-event/dist/utils'
 
 const defaultProps: Partial<UploadAllProps> = {
   id: 'unique',
@@ -18,7 +17,7 @@ const defaultContext: UploadContextProps = {
   fileMaxSize: 1000,
   errorLargeFile: 'error message',
   errorUnsupportedFile: 'error message',
-  multipleFiles: false,
+  filesAmountLimit: 2,
 }
 
 afterEach(() => {
@@ -55,15 +54,19 @@ describe('Upload', () => {
     render(<MockComponent {...defaultProps} />)
 
     const dropZone = getRootElement()
-    const file = createMockFile('fileName.png', 100, 'image/png')
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+    const file2 = createMockFile('fileName-2.png', 100, 'image/png')
 
-    fireEvent.drop(dropZone, { dataTransfer: { files: [file] } })
+    fireEvent.drop(dropZone, { dataTransfer: { files: [file1, file2] } })
 
     expect(defaultContext.onInputUpload).toHaveBeenCalledTimes(1)
-    expect(defaultContext.onInputUpload).toHaveBeenCalledWith([{ file }])
+    expect(defaultContext.onInputUpload).toHaveBeenLastCalledWith([
+      { file: file1 },
+      { file: file2 },
+    ])
   })
 
-  it('has "active" class on dragOver event', () => {
+  it('has "active" class on dragEnter event', async () => {
     render(<MockComponent {...defaultProps} />)
 
     const dropZone = getRootElement()
@@ -86,14 +89,12 @@ describe('Upload', () => {
       expect.arrayContaining(['dnb-upload--active'])
     )
 
-    await act(async () => {
-      fireEvent.dragLeave(dropZone)
+    fireEvent.dragLeave(dropZone)
 
-      await wait(300)
-
+    await waitFor(() =>
       expect(Array.from(getRootElement().classList)).not.toContain(
         'dnb-upload--active'
       )
-    })
+    )
   })
 })

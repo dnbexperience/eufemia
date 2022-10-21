@@ -15,53 +15,53 @@ export default function UploadDropzone({
   const [hover, setHover] = React.useState(false)
   const hoverTimeout = React.useRef<NodeJS.Timer>()
 
-  const { onInputUpload, multipleFiles = false } = context
+  const { onInputUpload } = context
 
-  const dropHandler = (event: React.DragEvent) => {
-    event.preventDefault()
-
+  const getFiles = (event: React.DragEvent) => {
     const fileData = event.dataTransfer
 
     const files: UploadFile[] = []
 
     Array.from(fileData.files).forEach((file, i) => {
-      if (multipleFiles ? i >= 0 : i === 0) {
-        files.push({ file })
-      }
+      files.push({ file })
     })
 
+    return files
+  }
+
+  const hoverHandler = (event: React.DragEvent, state: boolean) => {
+    event.stopPropagation()
+    event.preventDefault()
+    clearTimers()
+    setHover(state)
+  }
+
+  const dropHandler = (event: React.DragEvent) => {
+    const files = getFiles(event)
+
     onInputUpload(files)
-
-    setHover(false)
+    hoverHandler(event, false)
   }
 
-  const dragOverHandler = (event: React.SyntheticEvent) => {
-    event.preventDefault()
-    clearTimers()
-    setHover(true)
+  const dragEnterHandler = (event: React.DragEvent) => {
+    hoverHandler(event, true)
   }
 
-  const dragLeaveHandler = (event: React.SyntheticEvent) => {
-    event.preventDefault()
-    clearTimers()
-    hoverTimeout.current = setTimeout(() => {
-      setHover(false)
-    }, 300) // prevent flickering
+  const dragLeaveHandler = (event: React.DragEvent) => {
+    hoverHandler(event, false)
   }
 
   const clearTimers = () => {
     clearTimeout(hoverTimeout.current)
   }
 
-  React.useEffect(() => {
-    return clearTimers
-  }, [])
+  React.useEffect(() => clearTimers, [])
 
   return (
     <HeightAnimation
       className={classnames(className, hover && 'dnb-upload--active')}
       onDrop={dropHandler}
-      onDragOver={dragOverHandler}
+      onDragOver={dragEnterHandler}
       onDragLeave={dragLeaveHandler}
       {...props}
     >
@@ -76,10 +76,11 @@ export default function UploadDropzone({
         <rect
           width="100%"
           height="100%"
-          rx="0.25rem"
-          ry="0.25rem"
-          strokeWidth="2.5"
-          strokeDasharray="7 7"
+          rx="0.5rem"
+          ry="0.5rem"
+          strokeWidth="3"
+          strokeDashoffset="4"
+          strokeDasharray="8 8"
         />
       </svg>
     </HeightAnimation>

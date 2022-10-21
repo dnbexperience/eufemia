@@ -3,6 +3,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import UploadFileInput from '../UploadFileInput'
 import createMockFile from './testHelpers'
 import { UploadContextProps } from '../types'
+import { UploadContext } from '../UploadContext'
 
 const defaultProps: UploadContextProps = {
   acceptedFileTypes: ['png'],
@@ -11,39 +12,77 @@ const defaultProps: UploadContextProps = {
   fileMaxSize: 1000,
   errorLargeFile: 'error message',
   errorUnsupportedFile: 'error message',
-  multipleFiles: false,
+  filesAmountLimit: 2,
 }
 
 describe('UploadFileInput', () => {
+  const makeWrapper = (props = null) => {
+    const defaultContext: UploadContextProps = {
+      ...defaultProps,
+      ...props,
+    }
+    return ({ children }) => {
+      return (
+        <UploadContext.Provider value={defaultContext}>
+          {children}
+        </UploadContext.Provider>
+      )
+    }
+  }
+
   it('renders the component', () => {
-    render(<UploadFileInput {...defaultProps} />)
+    render(<UploadFileInput />, {
+      wrapper: makeWrapper(),
+    })
 
     expect(screen.queryByTestId('upload-file-input')).not.toBeNull()
   })
 
   it('renders the upload button', () => {
-    render(<UploadFileInput {...defaultProps} />)
+    render(<UploadFileInput />, {
+      wrapper: makeWrapper(),
+    })
     expect(screen.queryByTestId('upload-file-input-button')).not.toBeNull()
   })
 
   it('renders the upload button text', () => {
     const buttonText = 'button text'
-    render(<UploadFileInput {...defaultProps} buttonText={buttonText} />)
+    render(<UploadFileInput />, {
+      wrapper: makeWrapper({
+        buttonText: buttonText,
+      }),
+    })
     expect(
       screen.queryByTestId('upload-file-input-button').textContent
     ).toMatch(buttonText)
   })
 
-  it('accepts multiple files when multipleFiles is true', () => {
-    render(<UploadFileInput {...defaultProps} multipleFiles={true} />)
+  it('accepts multiple files by default', () => {
+    render(<UploadFileInput />, {
+      wrapper: makeWrapper(),
+    })
 
     const element = screen.queryByTestId('upload-file-input-input')
 
     expect(element.hasAttribute('multiple')).toBeTruthy()
   })
 
+  it('accepts ony one file when filesAmountLimit is 1', () => {
+    render(<UploadFileInput />, {
+      wrapper: makeWrapper({
+        filesAmountLimit: 1,
+      }),
+    })
+
+    const element = screen.queryByTestId('upload-file-input-input')
+
+    expect(element.hasAttribute('multiple')).toBeFalsy()
+  })
+
   it('renders the input', () => {
-    render(<UploadFileInput {...defaultProps} />)
+    render(<UploadFileInput />, {
+      wrapper: makeWrapper(),
+    })
     const element = screen.queryByTestId('upload-file-input-input')
 
     expect(element).not.toBeNull()
@@ -51,7 +90,9 @@ describe('UploadFileInput', () => {
   })
 
   it('simulates a click on the input when clicking the button', () => {
-    render(<UploadFileInput {...defaultProps} />)
+    render(<UploadFileInput />, {
+      wrapper: makeWrapper(),
+    })
 
     const buttonElement = screen.queryByTestId('upload-file-input-button')
 
@@ -70,9 +111,9 @@ describe('UploadFileInput', () => {
 
     const onInputUpload = jest.fn()
 
-    render(
-      <UploadFileInput {...defaultProps} onInputUpload={onInputUpload} />
-    )
+    render(<UploadFileInput />, {
+      wrapper: makeWrapper({ onInputUpload }),
+    })
 
     const inputElement = screen.queryByTestId('upload-file-input-input')
 
@@ -81,6 +122,7 @@ describe('UploadFileInput', () => {
         target: { files: [file] },
       })
     )
+
     expect(onInputUpload).toHaveBeenCalledWith([{ file }])
   })
 
@@ -90,9 +132,9 @@ describe('UploadFileInput', () => {
 
     const onInputUpload = jest.fn()
 
-    render(
-      <UploadFileInput {...defaultProps} onInputUpload={onInputUpload} />
-    )
+    render(<UploadFileInput />, {
+      wrapper: makeWrapper({ onInputUpload }),
+    })
 
     const inputElement = screen.queryByTestId('upload-file-input-input')
 
@@ -101,6 +143,7 @@ describe('UploadFileInput', () => {
         target: { files: [file1, file2] },
       })
     )
+
     expect(onInputUpload).toHaveBeenCalledWith([
       { file: file1 },
       { file: file2 },

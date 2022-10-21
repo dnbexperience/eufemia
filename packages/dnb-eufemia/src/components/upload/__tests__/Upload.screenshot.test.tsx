@@ -32,3 +32,19 @@ describe('Upload screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 })
+
+describe('Upload screenshot', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/upload/demos',
+    pageViewport: {
+      width: 480, // 30rem
+    },
+  })
+
+  it('have to match small screens', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="upload-basic"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
