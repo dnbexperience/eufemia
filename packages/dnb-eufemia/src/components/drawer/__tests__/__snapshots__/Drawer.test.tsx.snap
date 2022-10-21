@@ -3,9 +3,9 @@
 exports[`Drawer component snapshot should match component snapshot 1`] = `
 <Drawer
   0={
-    Object {
+    {
       "displayName": "Drawer",
-      "props": Object {},
+      "props": {},
     }
   }
   contentId={null}
@@ -135,7 +135,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
         icon_position="left"
         id="drawer_id"
         innerRef={
-          Object {
+          {
             "current": <button
               aria-describedby="drawer_id-tooltip"
               aria-label="drawer_title"
@@ -200,7 +200,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
           icon_size={null}
           id="drawer_id"
           innerRef={
-            Object {
+            {
               "current": <button
                 aria-describedby="drawer_id-tooltip"
                 aria-label="drawer_title"
@@ -288,7 +288,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
               icon_size={null}
               id="drawer_id"
               innerRef={
-                Object {
+                {
                   "current": <button
                     aria-describedby="drawer_id-tooltip"
                     aria-label="drawer_title"
@@ -425,7 +425,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
           <Tooltip
             id="drawer_id-tooltip"
             targetElement={
-              Object {
+              {
                 "current": <button
                   aria-describedby="drawer_id-tooltip"
                   aria-label="drawer_title"
@@ -473,7 +473,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
               animatePosition={false}
               arrow="center"
               attributes={
-                Object {
+                {
                   "children": "drawer_title",
                   "className": "dnb-tooltip",
                 }
@@ -529,7 +529,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                 </button>
               }
               targetElement={
-                Object {
+                {
                   "current": <button
                     aria-describedby="drawer_id-tooltip"
                     aria-label="drawer_title"
@@ -578,7 +578,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                 animatePosition={false}
                 arrow="center"
                 attributes={
-                  Object {
+                  {
                     "children": "drawer_title",
                     "className": "dnb-tooltip",
                   }
@@ -705,7 +705,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                     animatePosition={false}
                     arrow="center"
                     attributes={
-                      Object {
+                      {
                         "children": "drawer_title",
                         "className": "dnb-tooltip",
                       }
@@ -812,7 +812,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                       onMouseMove={[Function]}
                       onTouchStart={[Function]}
                       role="tooltip"
-                      style={Object {}}
+                      style={{}}
                     >
                       <span
                         className="dnb-tooltip__arrow dnb-tooltip__arrow__arrow--center dnb-tooltip__arrow__position--top"
@@ -859,9 +859,9 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
         modal_content={
           <DrawerContent
             0={
-              Object {
+              {
                 "displayName": "Drawer",
-                "props": Object {},
+                "props": {},
               }
             }
             containerPlacement="right"
@@ -912,9 +912,9 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
           modal_content={
             <DrawerContent
               0={
-                Object {
+                {
                   "displayName": "Drawer",
-                  "props": Object {},
+                  "props": {},
                 }
               }
               containerPlacement="right"
@@ -951,9 +951,9 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
           >
             <DrawerContent
               0={
-                Object {
+                {
                   "displayName": "Drawer",
-                  "props": Object {},
+                  "props": {},
                 }
               }
               containerPlacement="right"
@@ -964,9 +964,9 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
             >
               <ForwardRef
                 0={
-                  Object {
+                  {
                     "displayName": "Drawer",
-                    "props": Object {},
+                    "props": {},
                   }
                 }
                 className="dnb-drawer dnb-drawer--right dnb-drawer--auto-fullscreen dnb-core-style dnb-drawer--spacing dnb-drawer__align--left dnb-drawer--no-animation"
@@ -977,14 +977,14 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
               >
                 <ScrollView
                   0={
-                    Object {
+                    {
                       "displayName": "Drawer",
-                      "props": Object {},
+                      "props": {},
                     }
                   }
                   className="dnb-drawer dnb-drawer--right dnb-drawer--auto-fullscreen dnb-core-style dnb-drawer--spacing dnb-drawer__align--left dnb-drawer--no-animation"
                   innerRef={
-                    Object {
+                    {
                       "current": <div
                         class="dnb-scroll-view dnb-drawer dnb-drawer--right dnb-drawer--auto-fullscreen dnb-core-style dnb-drawer--spacing dnb-drawer__align--left dnb-drawer--no-animation"
                       >
@@ -1082,7 +1082,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
                         <Section
                           className="dnb-modal__header__bar dnb-drawer__navigation"
                           inner_ref={
-                            Object {
+                            {
                               "current": <section
                                 class="dnb-section dnb-section--white dnb-modal__header__bar dnb-drawer__navigation"
                               >
@@ -1370,7 +1370,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
 `;
 
 exports[`Drawer scss have to match snapshot 1`] = `
-"@charset \\"UTF-8\\";
+"@charset "UTF-8";
 /*
 * DNB Drawer
 *
@@ -1539,7 +1539,7 @@ exports[`Drawer scss have to match snapshot 1`] = `
   .dnb-tooltip--active {
     visibility: visible;
     /*
-      because of the first \\"show\\" we also use animation
+      because of the first "show" we also use animation
       also, use forwards because of the usage of visibility
     */
     animation: show-tooltip 200ms var(--easing-default) forwards; }
@@ -2171,7 +2171,7 @@ button.dnb-button::-moz-focus-inner {
     flex-direction: column;
     z-index: 10;
     /** 
-      NB: Do not use \\"overflow-x: hidden;\\" in here,
+      NB: Do not use "overflow-x: hidden;" in here,
       (overflowing one direction, will influence the other – we can't just have one at a time) 
       To make the Drawer scroll, we use .dnb-scroll-view
     */

@@ -194,7 +194,7 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
   .dnb-tooltip--active {
     visibility: visible;
     /*
-      because of the first \\"show\\" we also use animation
+      because of the first "show" we also use animation
       also, use forwards because of the usage of visibility
     */
     animation: show-tooltip 200ms var(--easing-default) forwards; }
@@ -867,13 +867,13 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
   icon_size="icon_size"
   id="main"
   items={
-    Array [
-      Object {
+    [
+      {
         "id": "id-1",
         "item_id": "item-1",
         "text": "item #1",
       },
-      Object {
+      {
         "id": "id-2",
         "item_id": "item-2",
         "text": "item #2",
@@ -1219,7 +1219,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
 `;
 
 exports[`GlobalStatus snapshot have to match linked components snapshot 1`] = `
-Array [
+[
   <GlobalStatus
     autoclose={true}
     autoscroll={false}
@@ -1232,7 +1232,7 @@ Array [
     icon="error"
     icon_size="medium"
     id="linked"
-    items={Array []}
+    items={[]}
     no_animation={true}
     omit_set_focus={false}
     omit_set_focus_on_update={true}

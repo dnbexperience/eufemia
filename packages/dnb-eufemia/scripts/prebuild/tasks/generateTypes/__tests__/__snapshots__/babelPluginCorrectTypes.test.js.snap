@@ -6,7 +6,7 @@ exports[`babelPluginCorrectTypes has to match snapshot 1`] = `
  *
  */
 import React from 'react';
-import { PropTypes } from \\"react\\";
+import { PropTypes } from "react";
 import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
 import ClassComponent from './ClassComponent';
 export const primaryPropTypes = {

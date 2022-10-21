@@ -6,7 +6,7 @@ exports[`babelPluginIncludeDocs has to match code snapshot 1`] = `
  *
  */
 import React from 'react';
-import { PropTypes } from \\"react\\";
+import { PropTypes } from "react";
 import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
 import ClassComponent from './ClassComponent';
 export const primaryPropTypes = {
@@ -158,7 +158,7 @@ exports[`babelPluginIncludeDocs has to match code snapshot in strict mode 1`] = 
  *
  */
 import React from 'react';
-import { PropTypes } from \\"react\\";
+import { PropTypes } from "react";
 import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
 import ClassComponent from './ClassComponent';
 export const primaryPropTypes = {
@@ -310,7 +310,7 @@ exports[`babelPluginIncludeDocs has to match collectProps snapshot given by onCo
  *
  */
 import React from 'react';
-import { PropTypes } from \\"react\\";
+import { PropTypes } from "react";
 import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
 import ClassComponent from './ClassComponent';
 export const primaryPropTypes = {
@@ -457,7 +457,7 @@ Element.defaultProps = {
 `;
 
 exports[`babelPluginIncludeDocs has to match collectProps snapshot given by onComplete 2`] = `
-Array [
+[
   "boolean",
   "number",
   "spacing",
@@ -485,8 +485,8 @@ Array [
 `;
 
 exports[`babelPluginIncludeDocs has to match docs snapshot 1`] = `
-Array [
-  Object {
+[
+  {
     "bottom": "Text \`margin-bottom\`.",
     "children": "Text \`spacing\` or \`children\`.",
     "left": "Text \`margin-left\`.",

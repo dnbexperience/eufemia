@@ -6,7 +6,7 @@ exports[`Button component have to match default button snapshot 1`] = `
   class="class"
   className="className"
   custom_content={null}
-  custom_element={Object {}}
+  custom_element={{}}
   custom_method={[Function]}
   disabled="disabled"
   element={null}
@@ -17,7 +17,7 @@ exports[`Button component have to match default button snapshot 1`] = `
   icon_size="icon_size"
   id="button"
   innerRef={
-    Object {
+    {
       "current": <button
         class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
         id="button"
@@ -61,7 +61,7 @@ exports[`Button component have to match default button snapshot 1`] = `
     }
   }
   inner_ref={
-    Object {
+    {
       "current": <button
         class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
         id="button"
@@ -109,7 +109,7 @@ exports[`Button component have to match default button snapshot 1`] = `
   skeleton="skeleton"
   status={null}
   status_no_animation="status_no_animation"
-  status_props={Object {}}
+  status_props={{}}
   status_state="status_state"
   stretch="stretch"
   text={null}
@@ -134,7 +134,7 @@ exports[`Button component have to match default button snapshot 1`] = `
       className="className"
       content="children"
       custom_content={null}
-      custom_element={Object {}}
+      custom_element={{}}
       custom_method={[Function]}
       disabled="disabled"
       element={null}
@@ -145,7 +145,7 @@ exports[`Button component have to match default button snapshot 1`] = `
       icon_size="icon_size"
       id="button"
       innerRef={
-        Object {
+        {
           "current": <button
             class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
             id="button"
@@ -189,7 +189,7 @@ exports[`Button component have to match default button snapshot 1`] = `
         }
       }
       inner_ref={
-        Object {
+        {
           "current": <button
             class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
             id="button"
@@ -238,7 +238,7 @@ exports[`Button component have to match default button snapshot 1`] = `
       skeleton={false}
       status={null}
       status_no_animation="status_no_animation"
-      status_props={Object {}}
+      status_props={{}}
       status_state="status_state"
       stretch="stretch"
       text={null}
@@ -339,7 +339,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   class="class"
   className="className"
   custom_content={null}
-  custom_element={Object {}}
+  custom_element={{}}
   custom_method={[Function]}
   disabled="disabled"
   element={null}
@@ -350,7 +350,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   icon_size="icon_size"
   id="button"
   innerRef={
-    Object {
+    {
       "current": <a
         class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
         href="https://url"
@@ -394,7 +394,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
     }
   }
   inner_ref={
-    Object {
+    {
       "current": <a
         class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
         href="https://url"
@@ -442,7 +442,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   skeleton="skeleton"
   status={null}
   status_no_animation="status_no_animation"
-  status_props={Object {}}
+  status_props={{}}
   status_state="status_state"
   stretch="stretch"
   text={null}
@@ -469,7 +469,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       href="https://url"
       id="button"
       inner_ref={
-        Object {
+        {
           "current": <a
             class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
             href="https://url"
@@ -523,7 +523,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         disabled={false}
         href="https://url"
         innerRef={
-          Object {
+          {
             "current": <a
               class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
               href="https://url"
@@ -577,7 +577,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
           disabled={false}
           href="https://url"
           innerRef={
-            Object {
+            {
               "current": <a
                 class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
                 href="https://url"
@@ -639,7 +639,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
               className="className"
               content="children"
               custom_content={null}
-              custom_element={Object {}}
+              custom_element={{}}
               custom_method={[Function]}
               disabled="disabled"
               element={null}
@@ -650,7 +650,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
               icon_size="icon_size"
               id="button"
               innerRef={
-                Object {
+                {
                   "current": <a
                     class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
                     href="https://url"
@@ -694,7 +694,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                 }
               }
               inner_ref={
-                Object {
+                {
                   "current": <a
                     class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
                     href="https://url"
@@ -743,7 +743,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
               skeleton={false}
               status={null}
               status_no_animation="status_no_animation"
-              status_props={Object {}}
+              status_props={{}}
               status_state="status_state"
               stretch="stretch"
               text={null}
@@ -894,8 +894,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
         --border-color: var(--color-emerald-green);
         box-shadow: inset 0 0 0 0.125rem var(--border-color);
-        /* iOS fix - because \\"inset\\" works not fine with border-radius */
-        /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+        /* iOS fix - because "inset" works not fine with border-radius */
+        /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
         border-color: transparent; }
         @supports (-webkit-touch-callout: none) {
           html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
@@ -935,8 +935,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     background-color: var(--color-white);
     --border-color: var(--color-sea-green);
     box-shadow: inset 0 0 0 0.0625rem var(--border-color);
-    /* iOS fix - because \\"inset\\" works not fine with border-radius */
-    /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+    /* iOS fix - because "inset" works not fine with border-radius */
+    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
     @supports (-webkit-touch-callout: none) {
       .dnb-button--secondary {
@@ -976,8 +976,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
         --border-color: var(--color-emerald-green);
         box-shadow: inset 0 0 0 0.125rem var(--border-color);
-        /* iOS fix - because \\"inset\\" works not fine with border-radius */
-        /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+        /* iOS fix - because "inset" works not fine with border-radius */
+        /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
         border-color: transparent; }
         @supports (-webkit-touch-callout: none) {
           html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
@@ -1011,8 +1011,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       background-color: var(--color-white);
       --border-color: var(--color-sea-green-30);
       box-shadow: inset 0 0 0 0.0625rem var(--border-color);
-      /* iOS fix - because \\"inset\\" works not fine with border-radius */
-      /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+      /* iOS fix - because "inset" works not fine with border-radius */
+      /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
       border-color: transparent; }
       @supports (-webkit-touch-callout: none) {
         .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
@@ -1028,8 +1028,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     color: var(--color-fire-red);
     --border-color: var(--color-fire-red);
     box-shadow: inset 0 0 0 0.0625rem var(--border-color);
-    /* iOS fix - because \\"inset\\" works not fine with border-radius */
-    /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+    /* iOS fix - because "inset" works not fine with border-radius */
+    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
     @supports (-webkit-touch-callout: none) {
       .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
@@ -1071,8 +1071,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
       --border-color: var(--color-emerald-green);
       box-shadow: inset 0 0 0 0.125rem var(--border-color);
-      /* iOS fix - because \\"inset\\" works not fine with border-radius */
-      /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+      /* iOS fix - because "inset" works not fine with border-radius */
+      /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
       border-color: transparent; }
       @supports (-webkit-touch-callout: none) {
         html[data-whatinput='keyboard'] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput='keyboard']
@@ -1337,8 +1337,8 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
         --border-color: var(--color-emerald-green);
         box-shadow: inset 0 0 0 0.125rem var(--border-color);
-        /* iOS fix - because \\"inset\\" works not fine with border-radius */
-        /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+        /* iOS fix - because "inset" works not fine with border-radius */
+        /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
         border-color: transparent; }
         @supports (-webkit-touch-callout: none) {
           html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
@@ -1567,7 +1567,7 @@ exports[`Button scss have to match snapshot 1`] = `
   .dnb-tooltip--active {
     visibility: visible;
     /*
-      because of the first \\"show\\" we also use animation
+      because of the first "show" we also use animation
       also, use forwards because of the usage of visibility
     */
     animation: show-tooltip 200ms var(--easing-default) forwards; }

@@ -3,9 +3,9 @@
 exports[`Section component have to match snapshot 1`] = `
 <Section
   0={
-    Object {
+    {
       "displayName": "Section",
-      "props": Object {},
+      "props": {},
     }
   }
   element={null}

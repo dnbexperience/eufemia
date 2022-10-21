@@ -169,7 +169,7 @@ exports[`HelpButton scss have to match snapshot 1`] = `
   .dnb-tooltip--active {
     visibility: visible;
     /*
-      because of the first \\"show\\" we also use animation
+      because of the first "show" we also use animation
       also, use forwards because of the usage of visibility
     */
     animation: show-tooltip 200ms var(--easing-default) forwards; }

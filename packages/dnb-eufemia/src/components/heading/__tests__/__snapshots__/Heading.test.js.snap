@@ -5,8 +5,8 @@ exports[`Heading component have to match default heading snapshot 1`] = `
   counter={null}
   debug={
     [MockFunction] {
-      "calls": Array [
-        Array [
+      "calls": [
+        [
           "Heading levels can only be changed by factor one! Got:",
           3,
           "and had before",
@@ -18,7 +18,7 @@ NB: This warning was triggered by:",
           "",
           "Heading #3",
         ],
-        Array [
+        [
           "Heading levels can only be changed by factor one! Got:",
           4,
           "and had before",
@@ -30,7 +30,7 @@ NB: This warning was triggered by:",
           "",
           "Heading #4",
         ],
-        Array [
+        [
           "Can not decrease to heading level 1! Had before",
           2,
           "- The new level is",
@@ -40,7 +40,7 @@ NB: This warning was triggered by:",
           "",
           "Heading #7",
         ],
-        Array [
+        [
           "Can not [increment] heading level higher than 6! Got:",
           7,
           "and had before",
@@ -52,7 +52,7 @@ NB: This warning was triggered by:",
           "",
           "Heading #3",
         ],
-        Array [
+        [
           "Can not decrease to heading level 1! Had before",
           2,
           "- The new level is",
@@ -63,24 +63,24 @@ NB: This warning was triggered by:",
           "Heading #9",
         ],
       ],
-      "results": Array [
-        Object {
+      "results": [
+        {
           "type": "return",
           "value": undefined,
         },
-        Object {
+        {
           "type": "return",
           "value": undefined,
         },
-        Object {
+        {
           "type": "return",
           "value": undefined,
         },
-        Object {
+        {
           "type": "return",
           "value": undefined,
         },
-        Object {
+        {
           "type": "return",
           "value": undefined,
         },

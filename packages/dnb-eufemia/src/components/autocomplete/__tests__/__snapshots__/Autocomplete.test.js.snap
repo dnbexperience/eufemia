@@ -7,14 +7,14 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   aria_live_options="aria_live_options"
   class="class"
   className="className"
-  custom_element={Object {}}
+  custom_element={{}}
   custom_method={[Function]}
   data={
-    Array [
+    [
       "AA c",
       "BB cc zethx",
-      Object {
-        "content": Array [
+      {
+        "content": [
           "CC",
           "cc",
         ],
@@ -62,7 +62,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   on_type={[Function]}
   open_on_focus="open_on_focus"
   opened={true}
-  options_render={Object {}}
+  options_render={{}}
   page_offset="page_offset"
   placeholder="placeholder"
   portal_class="portal_class"
@@ -101,14 +101,14 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     cache_hash={null}
     class="class"
     className="className"
-    custom_element={Object {}}
+    custom_element={{}}
     custom_method={[Function]}
     data={
-      Array [
+      [
         "AA c",
         "BB cc zethx",
-        Object {
-          "content": Array [
+        {
+          "content": [
             "CC",
             "cc",
           ],
@@ -165,7 +165,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     on_type={[Function]}
     open_on_focus="open_on_focus"
     opened={null}
-    options_render={Object {}}
+    options_render={{}}
     page_offset="page_offset"
     placeholder="placeholder"
     portal_class="portal_class"
@@ -209,14 +209,14 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       aria_live_options="aria_live_options"
       class="class"
       className="className"
-      custom_element={Object {}}
+      custom_element={{}}
       custom_method={[Function]}
       data={
-        Array [
+        [
           "AA c",
           "BB cc zethx",
-          Object {
-            "content": Array [
+          {
+            "content": [
               "CC",
               "cc",
             ],
@@ -264,7 +264,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       on_type={[Function]}
       open_on_focus="open_on_focus"
       opened={true}
-      options_render={Object {}}
+      options_render={{}}
       page_offset="page_offset"
       placeholder="placeholder"
       portal_class="portal_class"
@@ -814,7 +814,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 <Tooltip
                                   id="autocomplete-id-submit-button-tooltip"
                                   targetElement={
-                                    Object {
+                                    {
                                       "current": <button
                                         aria-describedby="autocomplete-id-submit-button-tooltip"
                                         aria-expanded="true"
@@ -841,7 +841,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     animatePosition={false}
                                     arrow="center"
                                     attributes={
-                                      Object {
+                                      {
                                         "children": "submit_button_title",
                                         "className": "dnb-tooltip",
                                       }
@@ -876,7 +876,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                       </button>
                                     }
                                     targetElement={
-                                      Object {
+                                      {
                                         "current": <button
                                           aria-describedby="autocomplete-id-submit-button-tooltip"
                                           aria-expanded="true"
@@ -904,7 +904,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                       animatePosition={false}
                                       arrow="center"
                                       attributes={
-                                        Object {
+                                        {
                                           "children": "submit_button_title",
                                           "className": "dnb-tooltip",
                                         }
@@ -989,7 +989,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                           animatePosition={false}
                                           arrow="center"
                                           attributes={
-                                            Object {
+                                            {
                                               "children": "submit_button_title",
                                               "className": "dnb-tooltip",
                                             }
@@ -1054,7 +1054,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                             onMouseMove={[Function]}
                                             onTouchStart={[Function]}
                                             role="tooltip"
-                                            style={Object {}}
+                                            style={{}}
                                           >
                                             <span
                                               className="dnb-tooltip__arrow dnb-tooltip__arrow__arrow--center dnb-tooltip__arrow__position--top"
@@ -1114,7 +1114,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 on_show={null}
                 on_state_update={null}
                 opened={null}
-                options_render={Object {}}
+                options_render={{}}
                 portal_class="portal_class"
                 prepared_data={null}
                 prevent_close="prevent_close"
@@ -1165,7 +1165,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   on_show={null}
                   on_state_update={null}
                   opened={null}
-                  options_render={Object {}}
+                  options_render={{}}
                   portal_class="portal_class"
                   prepared_data={null}
                   prevent_close="prevent_close"
@@ -1206,13 +1206,13 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           role="listbox"
                           showFocusRing={false}
                           style={
-                            Object {
+                            {
                               "maxHeight": "1rem",
                             }
                           }
                           tabIndex="-1"
                           triangleRef={
-                            Object {
+                            {
                               "current": <li
                                 aria-hidden="true"
                                 class="dnb-drawer-list__triangle"
@@ -1228,7 +1228,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             id="autocomplete-id-ul"
                             role="listbox"
                             style={
-                              Object {
+                              {
                                 "maxHeight": "1rem",
                               }
                             }
@@ -1386,20 +1386,20 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             <Suffix
               className="dnb-autocomplete__suffix"
               context={
-                Object {
+                {
                   "align_autocomplete": null,
                   "ariaLiveDelay": 1,
                   "aria_live_options": "aria_live_options",
                   "children": "children",
                   "class": "class",
                   "className": "className",
-                  "custom_element": Object {},
+                  "custom_element": {},
                   "custom_method": [Function],
-                  "data": Array [
+                  "data": [
                     "AA c",
                     "BB cc zethx",
-                    Object {
-                      "content": Array [
+                    {
+                      "content": [
                         "CC",
                         "cc",
                       ],
@@ -1446,7 +1446,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "on_type": [Function],
                   "open_on_focus": "open_on_focus",
                   "opened": true,
-                  "options_render": Object {},
+                  "options_render": {},
                   "page_offset": "page_offset",
                   "placeholder": "placeholder",
                   "portal_class": "portal_class",
@@ -1731,7 +1731,7 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
   .dnb-tooltip--active {
     visibility: visible;
     /*
-      because of the first \\"show\\" we also use animation
+      because of the first "show" we also use animation
       also, use forwards because of the usage of visibility
     */
     animation: show-tooltip 200ms var(--easing-default) forwards; }
@@ -3146,8 +3146,8 @@ legend.dnb-form-label {
   .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
     --border-color: var(--color-black-55);
     box-shadow: inset 0 0 0 var(--input-border-width) var(--border-color);
-    /* iOS fix - because \\"inset\\" works not fine with border-radius */
-    /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+    /* iOS fix - because "inset" works not fine with border-radius */
+    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
     @supports (-webkit-touch-callout: none) {
       .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {

@@ -49,8 +49,8 @@ exports[`Timeline scss have to match default theme snapshot 1`] = `
     background-color: var(--color-white);
     --border-color: var(--color-black-80);
     box-shadow: inset 0 0 0 0.0625rem var(--border-color);
-    /* iOS fix - because \\"inset\\" works not fine with border-radius */
-    /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+    /* iOS fix - because "inset" works not fine with border-radius */
+    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
     @supports (-webkit-touch-callout: none) {
       .dnb-timeline__item__label__icon {
@@ -96,8 +96,8 @@ exports[`Timeline scss have to match default theme snapshot 1`] = `
     background-color: var(--color-black-3);
     --border-color: var(--color-black-3);
     box-shadow: inset 0 0 0 0.0625rem var(--border-color);
-    /* iOS fix - because \\"inset\\" works not fine with border-radius */
-    /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+    /* iOS fix - because "inset" works not fine with border-radius */
+    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
     @supports (-webkit-touch-callout: none) {
       .dnb-timeline__item--upcoming:not(.dnb-skeleton) .dnb-timeline__item__label__icon {
@@ -229,8 +229,8 @@ exports[`Timeline scss have to match snapshot 1`] = `
     background-color: var(--color-white);
     --border-color: var(--color-black-80);
     box-shadow: inset 0 0 0 0.0625rem var(--border-color);
-    /* iOS fix - because \\"inset\\" works not fine with border-radius */
-    /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+    /* iOS fix - because "inset" works not fine with border-radius */
+    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
     @supports (-webkit-touch-callout: none) {
       .dnb-timeline__item__label__icon {
@@ -276,8 +276,8 @@ exports[`Timeline scss have to match snapshot 1`] = `
     background-color: var(--color-black-3);
     --border-color: var(--color-black-3);
     box-shadow: inset 0 0 0 0.0625rem var(--border-color);
-    /* iOS fix - because \\"inset\\" works not fine with border-radius */
-    /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+    /* iOS fix - because "inset" works not fine with border-radius */
+    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
     @supports (-webkit-touch-callout: none) {
       .dnb-timeline__item--upcoming:not(.dnb-skeleton) .dnb-timeline__item__label__icon {

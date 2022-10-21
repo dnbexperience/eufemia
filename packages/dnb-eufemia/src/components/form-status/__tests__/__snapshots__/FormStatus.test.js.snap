@@ -3,9 +3,9 @@
 exports[`FormStatus component have to match snapshot 1`] = `
 <FormStatus
   0={
-    Object {
+    {
       "displayName": "FormStatus",
-      "props": Object {
+      "props": {
         "attributes": "attributes",
         "children": "children",
         "class": "class",
@@ -27,39 +27,39 @@ exports[`FormStatus component have to match snapshot 1`] = `
         "text_id": "text_id",
         "title": "title",
         "variant": "'flat'",
-        "width_element": Object {},
+        "width_element": {},
         "width_selector": "width_selector",
       },
     }
   }
   1={
-    Object {
+    {
       "displayName": "ErrorIcon",
-      "props": Object {
+      "props": {
         "title": "title",
       },
     }
   }
   2={
-    Object {
+    {
       "displayName": "WarnIcon",
-      "props": Object {
+      "props": {
         "title": "title",
       },
     }
   }
   3={
-    Object {
+    {
       "displayName": "InfoIcon",
-      "props": Object {
+      "props": {
         "title": "title",
       },
     }
   }
   4={
-    Object {
+    {
       "displayName": "MarketingIcon",
-      "props": Object {
+      "props": {
         "title": "title",
       },
     }
