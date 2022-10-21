@@ -114,6 +114,7 @@ import hanger_medium from './hanger_medium.js'
 import heart_medium from './heart_medium.js'
 import heart_rate_medium from './heart_rate_medium.js'
 import hide_medium from './hide_medium.js'
+import hierarchy_medium from './hierarchy_medium.js'
 import history_medium from './history_medium.js'
 import home_medium from './home_medium.js'
 import horse_medium from './horse_medium.js'
@@ -128,6 +129,7 @@ import insurance_medium from './insurance_medium.js'
 import kid_number_medium from './kid_number_medium.js'
 import language_medium from './language_medium.js'
 import launch_medium from './launch_medium.js'
+import layout_card_medium from './layout_card_medium.js'
 import leaf_medium from './leaf_medium.js'
 import lightbulb_medium from './lightbulb_medium.js'
 import linkedin_medium from './linkedin_medium.js'
@@ -212,6 +214,7 @@ import transfer_to_medium from './transfer_to_medium.js'
 import trash_medium from './trash_medium.js'
 import travel_medium from './travel_medium.js'
 import undo_medium from './undo_medium.js'
+import unlock_medium from './unlock_medium.js'
 import upload_medium from './upload_medium.js'
 import user_feedback_medium from './user_feedback_medium.js'
 import video_medium from './video_medium.js'
@@ -341,6 +344,7 @@ export {
   heart_medium,
   heart_rate_medium,
   hide_medium,
+  hierarchy_medium,
   history_medium,
   home_medium,
   horse_medium,
@@ -355,6 +359,7 @@ export {
   kid_number_medium,
   language_medium,
   launch_medium,
+  layout_card_medium,
   leaf_medium,
   lightbulb_medium,
   linkedin_medium,
@@ -439,6 +444,7 @@ export {
   trash_medium,
   travel_medium,
   undo_medium,
+  unlock_medium,
   upload_medium,
   user_feedback_medium,
   video_medium,
