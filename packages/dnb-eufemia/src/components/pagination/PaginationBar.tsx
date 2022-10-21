@@ -19,33 +19,54 @@ import Context from '../../shared/Context'
 import Button from '../button/Button'
 import IconPrimary from '../icon-primary/IconPrimary'
 import styleProperties from '../../style/properties'
+import { LocaleProps } from '../../shared/types'
+import { SkeletonShow } from '../Skeleton'
 
-interface PaginationBarProps {
+export type PaginationBarProps = {
   /**
    * The title used in every button shown in the bar. Defaults to Side %s.
    */
   button_title?: string
+
   /**
    *  The title used in the previous page button. Defaults to Forrige side.
    */
   prev_title?: string
+
   /**
    *  The title used in the next page button. Defaults to Neste side.
    */
   next_title?: string
+
   /**
    * The title used in the dots. Relevant for screen-readers. Defaults to %s flere sider.
    */
   more_pages?: string
+
   /**
    * Reference to the parent component. Used to contain height between updates.
    */
   contentRef?: React.RefObject<HTMLElement>
+
   /**
    *  the given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
    */
-  children?: React.ReactNode
-  locale?: string
+  children?: React.ReactNode | (() => React.ReactNode)
+
+  skeleton: SkeletonShow
+}
+
+export type PaginationBarAllProps = PaginationBarProps &
+  LocaleProps &
+  React.HTMLProps<HTMLElement>
+
+type PaginationBarContext = {
+  currentPage: number
+  pageCount: number
+  disabled: boolean
+  onPageUpdate: (cb: () => void) => void
+  setState: (state: { currentPage: number }) => void
+  updatePageContent: (currentPage: number) => void
 }
 
 const defaultProps = {
@@ -57,14 +78,20 @@ const defaultProps = {
   children: null,
 }
 
-const PaginationBar = (innerProps: PaginationBarProps) => {
+const PaginationBar = (localProps: PaginationBarAllProps) => {
   const context = useContext(PaginationContext)
-  const { currentPage, pageCount, disabled, skeleton } = context.pagination
+
+  const props = extendPropsWithContext(
+    localProps,
+    defaultProps,
+    context.pagination
+  ) as PaginationBarProps & PaginationBarContext
+
+  const { currentPage, pageCount, disabled, skeleton } = props
 
   // because of accessibility
   const focusPage = () => {
-    const { onPageUpdate } = context.pagination
-    const { contentRef } = innerProps
+    const { onPageUpdate, contentRef } = props
 
     onPageUpdate(() => {
       try {
@@ -78,7 +105,7 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
 
   const keepPageHeight = () => {
     try {
-      const elem = innerProps.contentRef.current
+      const elem = props.contentRef.current
       const pageHeight = elem.offsetHeight
       elem.style.height = `${pageHeight / 16}rem`
       elem.style.minHeight = elem.style.height // because of the "min-height: inherit;" in &__indicator
@@ -86,11 +113,11 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
       //
     }
 
-    const { onPageUpdate } = context.pagination
+    const { onPageUpdate } = props
 
     onPageUpdate(() => {
       try {
-        const elem = innerProps.contentRef.current
+        const elem = props.contentRef.current
         elem.style.height = 'auto'
         elem.style.minHeight = elem.style.height
       } catch (e) {
@@ -102,27 +129,26 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
   const setPage = (currentPage: number, event = null) => {
     keepPageHeight()
 
-    const { setState: setContextState, updatePageContent } =
-      context.pagination
+    const { setState: setContextState, updatePageContent } = props
     setContextState({
       currentPage,
     })
     updatePageContent(currentPage)
 
-    dispatchCustomElementEvent(context.pagination, 'on_change', {
+    dispatchCustomElementEvent(props, 'on_change', {
       page: currentPage, // deprecated
       pageNo: currentPage, // deprecated
       pageNumber: currentPage,
-      ...context.pagination,
+      ...props,
       event,
     })
   }
 
   const setPrevPage = () => {
-    setPage(context.pagination.currentPage - 1)
+    setPage(props.currentPage - 1)
   }
   const setNextPage = () => {
-    setPage(context.pagination.currentPage + 1)
+    setPage(props.currentPage + 1)
   }
 
   const clickHandler = ({ pageNumber, event }) => {
@@ -133,10 +159,9 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
   const { getTranslation } = useContext(Context)
   const { button_title, prev_title, next_title, more_pages } =
     extendPropsWithContext(
-      { ...defaultProps, ...innerProps },
+      props,
       defaultProps,
-      getTranslation(innerProps as Pick<PaginationBarProps, 'locale'>)
-        .Pagination
+      getTranslation(props as LocaleProps).Pagination
     )
 
   const prevIsDisabled = currentPage > -1 ? currentPage === 1 : true
@@ -193,7 +218,7 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
               key={pageNumber}
               className="dnb-pagination__button"
               text={String(pageNumber)}
-              aria-label={button_title.replace('%s', pageNumber)}
+              aria-label={button_title.replace('%s', String(pageNumber))}
               variant={
                 pageNumber === currentPage ? 'primary' : 'secondary'
               }
@@ -231,7 +256,10 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
                         : null
                     )}
                     text={String(pageNumber)}
-                    aria-label={button_title.replace('%s', pageNumber)}
+                    aria-label={button_title.replace(
+                      '%s',
+                      String(pageNumber)
+                    )}
                     variant={
                       pageNumber === currentPage ? 'primary' : 'secondary'
                     }
@@ -252,7 +280,7 @@ const PaginationBar = (innerProps: PaginationBarProps) => {
       </div>
 
       <span className="dnb-sr-only" aria-live="assertive">
-        {button_title.replace('%s', currentPage)}
+        {button_title.replace('%s', String(currentPage))}
       </span>
     </div>
   )
@@ -318,4 +346,3 @@ const getSizeInPx = (size) => {
 }
 
 export default PaginationBar
-export type { PaginationBarProps }

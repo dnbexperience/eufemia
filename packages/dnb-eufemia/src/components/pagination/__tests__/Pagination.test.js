@@ -11,7 +11,11 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
+import { render } from '@testing-library/react'
 import Component, { createPagination, Bar } from '../Pagination'
+import nbNO from '../../../shared/locales/nb-NO'
+import enGB from '../../../shared/locales/en-GB'
+import Provider from '../../../shared/Provider'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Pagination'), {
@@ -21,6 +25,9 @@ const snapshotProps = {
 }
 snapshotProps.page_count = 4
 snapshotProps.current_page = 2
+
+const nb = nbNO['nb-NO'].Pagination
+const en = enGB['en-GB'].Pagination
 
 describe('Pagination bar', () => {
   const props = {
@@ -539,6 +546,68 @@ describe('Infinity scroller', () => {
     )
 
     expect(Comp.exists('div#page-content')).toBe(true)
+  })
+
+  it('should support locale prop', () => {
+    const { rerender } = render(<Component {...props} />)
+
+    const element = document.querySelector(
+      '.dnb-pagination__bar__skip button'
+    )
+
+    expect(element.textContent).toContain(nb.prev_title)
+
+    rerender(<Component {...props} locale="en-GB" />)
+
+    expect(element.textContent).toContain(en.prev_title)
+  })
+
+  it('should support locale from provider', () => {
+    const { rerender } = render(
+      <Provider>
+        <Component {...props} />
+      </Provider>
+    )
+
+    const element = document.querySelector(
+      '.dnb-pagination__bar__skip button'
+    )
+
+    expect(element.textContent).toContain(nb.prev_title)
+
+    rerender(
+      <Provider locale="en-GB">
+        <Component {...props} />
+      </Provider>
+    )
+
+    expect(element.textContent).toContain(en.prev_title)
+
+    rerender(
+      <Provider locale="nb-NO">
+        <Component {...props} />
+      </Provider>
+    )
+
+    expect(element.textContent).toContain(nb.prev_title)
+  })
+
+  it('should support spacing props', () => {
+    render(<Component top="2rem" {...props} />)
+
+    const element = document.querySelector('.dnb-pagination')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class'])
+    expect(Array.from(element.classList)).toEqual(
+      expect.arrayContaining([
+        'dnb-pagination',
+        'dnb-space__top--large',
+        'dnb-pagination--left',
+      ])
+    )
   })
 
   it('should support InfinityMarker from createPagination', async () => {
