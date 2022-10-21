@@ -52,7 +52,7 @@ const P = ({
 
   return (
     <E
-      is={element}
+      as={element}
       {...props}
       className={classnames('dnb-p', modifier, className)}
     />

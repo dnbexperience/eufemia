@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import { spacingPropTypes } from '../components/space/SpacingHelper'
 import H from './H'
 
-const H2 = (props) => <H is="h2" {...props} />
+const H2 = (props) => <H as="h2" {...props} />
 H2.tagName = 'dnb-h2'
 H2.propTypes = {
   ...spacingPropTypes,

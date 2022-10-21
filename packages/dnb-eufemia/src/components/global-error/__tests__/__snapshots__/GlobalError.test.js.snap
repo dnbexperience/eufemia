@@ -1179,25 +1179,25 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           top="4"
         >
           <H
+            as="h1"
             bottom="large"
             className={null}
-            is="h1"
             level={null}
             size="xx-large"
             style_type={null}
             top="4"
           >
             <ForwardRef
+              as="h1"
               bottom="large"
               internalClass="dnb-h--xx-large"
-              is="h1"
               top="4"
             >
               <ElementInstance
+                as="h1"
                 bottom="large"
                 innerRef={null}
                 internalClass="dnb-h--xx-large"
-                is="h1"
                 top="4"
               >
                 <h1
@@ -1221,15 +1221,15 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           style_type={null}
         >
           <ForwardRef
+            as="p"
             bottom="large"
             className="dnb-p"
-            is="p"
           >
             <ElementInstance
+              as="p"
               bottom="large"
               className="dnb-p"
               innerRef={null}
-              is="p"
             >
               <p
                 className="dnb-p dnb-space__bottom--large"

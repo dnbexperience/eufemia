@@ -20,7 +20,7 @@ const Hr = ({ fullscreen, light, medium, ...props } = {}) => {
     props.className = classnames(props.className, 'dnb-hr--medium')
   }
 
-  return <E is="hr" {...props} />
+  return <E as="hr" {...props} />
 }
 Hr.tagName = 'dnb-hr'
 Hr.propTypes = {
