@@ -5,7 +5,10 @@ import classnames from 'classnames'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Provider from '../../shared/Provider'
 import Context from '../../shared/Context'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import {
+  extendPropsWithContext,
+  makeUniqueId,
+} from '../../shared/component-helper'
 
 // Internal
 import UploadFileInput from './UploadFileInput'
@@ -38,6 +41,8 @@ const Upload = (localProps: UploadAllProps) => {
     acceptedFileTypes,
     filesAmountLimit,
     fileMaxSize,
+    onChange,
+    onFileDelete, // eslint-disable-line
     title, // eslint-disable-line
     text, // eslint-disable-line
     fileTypeDescription, // eslint-disable-line
@@ -83,18 +88,27 @@ const Upload = (localProps: UploadAllProps) => {
   )
 
   function onInputUpload(newFiles: UploadFile[]) {
+    const existsInFiles = (file: File) =>
+      files.some(({ file: f }) => {
+        return (
+          f.name === file.name &&
+          f.size === file.size &&
+          f.lastModified === file.lastModified
+        )
+      })
+
     const uniqueFiles = [
       ...files,
-      ...newFiles.filter(({ file }) => {
-        const foundExisting = files.some(({ file: f }) => {
-          return (
-            f.name === file.name &&
-            f.size === file.size &&
-            f.lastModified === file.lastModified
-          )
+      ...newFiles
+        .filter(({ file }) => {
+          return !existsInFiles(file)
         })
-        return !foundExisting
-      }),
+        .map((fileItem) => {
+          if (!fileItem.id) {
+            fileItem.id = makeUniqueId()
+          }
+          return fileItem
+        }),
     ]
 
     const verifiedFiles = verifyFiles(uniqueFiles, {
@@ -105,8 +119,13 @@ const Upload = (localProps: UploadAllProps) => {
     })
 
     const validFiles = [...verifiedFiles].slice(0, filesAmountLimit)
+
     setFiles(validFiles)
     setInternalFiles(verifiedFiles)
+
+    if (typeof onChange === 'function') {
+      onChange({ files: validFiles })
+    }
 
     return validFiles
   }

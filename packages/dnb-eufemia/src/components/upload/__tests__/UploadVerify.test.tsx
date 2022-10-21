@@ -1,5 +1,5 @@
 import { verifyFiles } from '../UploadVerify'
-import createMockFile from './testHelpers'
+import { createMockFile } from './testHelpers'
 
 describe('verifyFiles', () => {
   it('returns the file size error message', () => {

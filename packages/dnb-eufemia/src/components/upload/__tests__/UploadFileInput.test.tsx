@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import UploadFileInput from '../UploadFileInput'
-import createMockFile from './testHelpers'
+import { createMockFile } from './testHelpers'
 import { UploadContextProps } from '../types'
 import { UploadContext } from '../UploadContext'
 

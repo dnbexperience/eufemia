@@ -31,6 +31,16 @@ export type UploadProps = {
   fileMaxSize?: number
 
   /**
+   * will be called on `files` changes made by the user. Access the files with `{ files }`.
+   */
+  onChange?: ({ files }: { files: UploadFile[] }) => void
+
+  /**
+   * will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`.
+   */
+  onFileDelete?: ({ fileItem }: { fileItem: UploadFile }) => void
+
+  /**
    * Custom text properties
    */
   title?: React.ReactNode
@@ -62,4 +72,5 @@ export type UploadFile = {
   file: File
   errorMessage?: React.ReactNode
   isLoading?: boolean
+  id?: string
 }
