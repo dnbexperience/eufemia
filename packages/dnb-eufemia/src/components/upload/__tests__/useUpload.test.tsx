@@ -1,7 +1,7 @@
 import { act, render } from '@testing-library/react'
 import useUpload from './../useUpload'
 import React, { useEffect } from 'react'
-import createMockFile from './testHelpers'
+import { createMockFile } from './testHelpers'
 import EventEmitter from '../../../../src/shared/helpers/EventEmitter'
 
 describe('useUpload', () => {

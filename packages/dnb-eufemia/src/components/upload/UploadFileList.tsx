@@ -7,7 +7,14 @@ import useUpload from './useUpload'
 function UploadFileList() {
   const context = React.useContext(UploadContext)
 
-  const { id, fileListAriaLabel, deleteButton, loadingText } = context
+  const {
+    id,
+    fileListAriaLabel,
+    deleteButton,
+    loadingText,
+    onFileDelete,
+    onChange,
+  } = context
 
   const { files, setFiles, setInternalFiles } = useUpload(id)
 
@@ -22,19 +29,28 @@ function UploadFileList() {
       aria-label={fileListAriaLabel}
     >
       {files.map((uploadFile: UploadFile, index: number) => {
-        const onDeleteFile = () => {
+        const onDeleteHandler = () => {
+          if (typeof onFileDelete === 'function') {
+            onFileDelete({ fileItem: uploadFile })
+          }
+
           const cleanedFiles = files.filter(
             (fileListElement) => fileListElement.file != uploadFile.file
           )
 
           setFiles(cleanedFiles)
           setInternalFiles(cleanedFiles)
+
+          if (typeof onChange === 'function') {
+            onChange({ files: cleanedFiles })
+          }
         }
+
         return (
           <UploadFileListCell
-            uploadFile={uploadFile}
             key={index}
-            onDelete={onDeleteFile}
+            uploadFile={uploadFile}
+            onDelete={onDeleteHandler}
             deleteButtonText={deleteButton}
             loadingText={loadingText}
           />

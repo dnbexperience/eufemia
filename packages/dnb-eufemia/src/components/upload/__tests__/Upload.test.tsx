@@ -4,7 +4,7 @@ import { renderHook, act } from '@testing-library/react-hooks'
 import Upload from '../Upload'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
-import createMockFile from './testHelpers'
+import { createMockFile } from './testHelpers'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { UploadAllProps } from '../types'
 import useUpload from '../useUpload'
@@ -291,7 +291,9 @@ describe('Upload', () => {
       )
 
       expect(result.current.files.length).toBe(1)
-      expect(result.current.files).toEqual([{ file: file1 }])
+      expect(result.current.files).toEqual([
+        { file: file1, id: expect.any(String) },
+      ])
       expect(element.querySelector('.dnb-form-status').textContent).toBe(
         nb.errorAmountLimit.replace('%amount', '1')
       )
@@ -332,8 +334,8 @@ describe('Upload', () => {
 
       expect(result.current.files.length).toBe(2)
       expect(result.current.files).toEqual([
-        { file: file1 },
-        { file: file2 },
+        { file: file1, id: expect.any(String) },
+        { file: file2, id: expect.any(String) },
       ])
       expect(result.current.internalFiles.length).toBe(2)
     })
@@ -347,7 +349,7 @@ describe('Upload', () => {
 
       const id = 'random-id'
 
-      const expectedResult = [{ file }]
+      const expectedResult = [{ file, id: expect.any(String) }]
 
       render(<Upload {...defaultProps} id={id} />)
 
@@ -533,6 +535,63 @@ describe('Upload', () => {
       expect(screen.queryByTestId('upload-warning').textContent).toBe(
         `error message ${fileMaxSize}`
       )
+    })
+  })
+
+  describe('events', () => {
+    it('will call onChange when file gets added or removed', async () => {
+      const id = 'onChange'
+      const onChange = jest.fn()
+
+      render(<Upload {...defaultProps} id={id} onChange={onChange} />)
+
+      const inputElement = screen.queryByTestId('upload-file-input-input')
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+      await waitFor(() =>
+        fireEvent.change(inputElement, {
+          target: { files: [file1] },
+        })
+      )
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledWith({
+        files: [{ file: file1, id: expect.any(String) }],
+      })
+
+      const removeButton = screen.queryByTestId('upload-delete-button')
+
+      await waitFor(() => fireEvent.click(removeButton))
+
+      expect(onChange).toHaveBeenCalledTimes(2)
+      expect(onChange).toHaveBeenCalledWith({ files: [] })
+    })
+
+    it('will call onFileDelete when file gets removed', async () => {
+      const id = 'onFileDelete'
+      const onFileDelete = jest.fn()
+
+      render(
+        <Upload {...defaultProps} id={id} onFileDelete={onFileDelete} />
+      )
+
+      const inputElement = screen.queryByTestId('upload-file-input-input')
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+      await waitFor(() =>
+        fireEvent.change(inputElement, {
+          target: { files: [file1] },
+        })
+      )
+
+      const removeButton = screen.queryByTestId('upload-delete-button')
+
+      await waitFor(() => fireEvent.click(removeButton))
+
+      expect(onFileDelete).toHaveBeenCalledTimes(1)
+      expect(onFileDelete).toHaveBeenCalledWith({
+        fileItem: { file: file1, id: expect.any(String) },
+      })
     })
   })
 })

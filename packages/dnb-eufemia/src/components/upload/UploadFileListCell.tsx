@@ -40,10 +40,12 @@ export type UploadFileListCellProps = {
    * Uploaded file
    */
   uploadFile: UploadFile
+
   /**
    * Calls onDelete when clicking the delete button
    */
   onDelete: () => void
+
   /**
    * Text
    */

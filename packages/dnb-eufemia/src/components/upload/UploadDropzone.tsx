@@ -10,7 +10,7 @@ export default function UploadDropzone({
   className,
   ...rest
 }: Partial<UploadAllProps>) {
-  const props = rest as Omit<UploadProps, 'title'>
+  const props = rest as Omit<UploadProps, 'title' | 'onChange'>
   const context = React.useContext(UploadContext)
   const [hover, setHover] = React.useState(false)
   const hoverTimeout = React.useRef<NodeJS.Timer>()
