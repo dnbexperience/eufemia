@@ -292,7 +292,7 @@ describe('Upload', () => {
 
       expect(result.current.files.length).toBe(1)
       expect(result.current.files).toEqual([
-        { file: file1, id: expect.any(String) },
+        { file: file1, id: expect.any(String), exists: false },
       ])
       expect(element.querySelector('.dnb-form-status').textContent).toBe(
         nb.errorAmountLimit.replace('%amount', '1')
@@ -304,6 +304,12 @@ describe('Upload', () => {
       fireEvent.click(deleteButton)
 
       expect(element.querySelector('.dnb-form-status')).toBeFalsy()
+
+      expect(
+        screen
+          .queryByTestId('upload-file-input-button')
+          .hasAttribute('disabled')
+      ).toBe(false)
     })
   })
 
@@ -334,10 +340,53 @@ describe('Upload', () => {
 
       expect(result.current.files.length).toBe(2)
       expect(result.current.files).toEqual([
-        { file: file1, id: expect.any(String) },
-        { file: file2, id: expect.any(String) },
+        { file: file1, id: expect.any(String), exists: false },
+        { file: file2, id: expect.any(String), exists: false },
       ])
-      expect(result.current.internalFiles.length).toBe(2)
+      expect(result.current.internalFiles.length).toBe(3)
+      expect(result.current.internalFiles).toEqual([
+        { file: file1, id: expect.any(String), exists: false },
+        { file: file1, id: expect.any(String), exists: true },
+        { file: file2, id: expect.any(String), exists: false },
+      ])
+    })
+  })
+
+  it('will highlight same file', async () => {
+    const id = 'highlight'
+
+    renderHook(useUpload, { initialProps: id })
+
+    render(<Upload {...defaultProps} id={id} />)
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+
+    const element = getRootElement()
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+    const file2 = createMockFile('fileName-2.png', 100, 'image/png')
+
+    await act(async () => {
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: { files: [file1] },
+        })
+      )
+      await waitFor(() =>
+        fireEvent.drop(element, {
+          dataTransfer: { files: [file1, file2] },
+        })
+      )
+
+      expect(
+        element.querySelectorAll('.dnb-upload__file-cell--highlight')
+      ).toHaveLength(1)
+      expect(
+        Array.from(
+          element.querySelectorAll('.dnb-upload__file-cell')[0].classList
+        )
+      ).toEqual(
+        expect.arrayContaining(['dnb-upload__file-cell--highlight'])
+      )
     })
   })
 
@@ -349,7 +398,9 @@ describe('Upload', () => {
 
       const id = 'random-id'
 
-      const expectedResult = [{ file, id: expect.any(String) }]
+      const expectedResult = [
+        { file, id: expect.any(String), exists: false },
+      ]
 
       render(<Upload {...defaultProps} id={id} />)
 
@@ -556,7 +607,7 @@ describe('Upload', () => {
 
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(onChange).toHaveBeenCalledWith({
-        files: [{ file: file1, id: expect.any(String) }],
+        files: [{ file: file1, id: expect.any(String), exists: false }],
       })
 
       const removeButton = screen.queryByTestId('upload-delete-button')
@@ -590,7 +641,7 @@ describe('Upload', () => {
 
       expect(onFileDelete).toHaveBeenCalledTimes(1)
       expect(onFileDelete).toHaveBeenCalledWith({
-        fileItem: { file: file1, id: expect.any(String) },
+        fileItem: { file: file1, id: expect.any(String), exists: false },
       })
     })
   })

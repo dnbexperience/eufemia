@@ -8,6 +8,7 @@ import React from 'react'
 global.URL.createObjectURL = jest.fn(() => 'url')
 
 const defaultProps: UploadFileListCellProps = {
+  id: 'unique',
   deleteButtonText: 'delete',
   onDelete: jest.fn(),
   uploadFile: { file: createMockFile('file.png', 100, 'image/png') },

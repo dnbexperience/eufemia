@@ -12,7 +12,6 @@ import { makeUniqueId } from '../../shared/component-helper'
 // Internal
 import { UploadContext } from './UploadContext'
 import UploadStatus from './UploadStatus'
-import useUpload from './useUpload'
 
 const UploadFileInput = () => {
   const fileInput = useRef<HTMLInputElement>(null)
@@ -26,8 +25,6 @@ const UploadFileInput = () => {
     onInputUpload,
     filesAmountLimit,
   } = context
-
-  const { internalFiles } = useUpload(id)
 
   const accept = acceptedFileTypes.reduce((accept, format, index) => {
     const previus = index === 0 ? '' : `${accept},`
@@ -55,7 +52,6 @@ const UploadFileInput = () => {
         variant="secondary"
         wrap
         onClick={openFileDialog}
-        disabled={internalFiles.length > filesAmountLimit}
       >
         {buttonText}
       </Button>
@@ -68,13 +64,14 @@ const UploadFileInput = () => {
         ref={fileInput}
         className="dnb-upload__file-input"
         type="file"
-        onChange={handleFileInput}
+        onChange={onChangeHandler}
+        onClick={onClickHandler}
         multiple={filesAmountLimit > 1}
       />
     </div>
   )
 
-  function handleFileInput(event: React.SyntheticEvent) {
+  function onChangeHandler(event: React.SyntheticEvent) {
     const target = event.target as HTMLInputElement
     const { files } = target
 
@@ -83,6 +80,19 @@ const UploadFileInput = () => {
         return { file }
       })
     )
+  }
+
+  function onClickHandler(event: React.SyntheticEvent) {
+    const target = event.target as HTMLInputElement
+
+    /**
+     * This resets the internal state.
+     * Some browsers (chromium) to check for already selected files.
+     * But we have our own logic for that.
+     * We also align the UX to be the same to all browsers,
+     * and to be same when the drag file API is used.
+     */
+    target.value = null
   }
 }
 
