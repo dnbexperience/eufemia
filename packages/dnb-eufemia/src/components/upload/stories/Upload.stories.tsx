@@ -38,7 +38,7 @@ export const UploadSandbox = () => {
       <Box>
         <Upload
           id="upload-example-4"
-          fileMaxSize={123}
+          fileMaxSize={1}
           acceptedFileTypes={['jpg', 'png']}
         />
       </Box>

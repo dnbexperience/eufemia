@@ -27,6 +27,7 @@ export type UploadProps = {
 
   /**
    * fileMaxSize is max size of each file in MB
+   * Default: 5 MB
    */
   fileMaxSize?: number
 
