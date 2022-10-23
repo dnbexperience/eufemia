@@ -3,6 +3,37 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.33.0](https://github.com/dnbexperience/eufemia/compare/v9.32.1...v9.33.0) (2022-10-23)
+
+
+### Bug Fixes
+
+* **Accordion:** replace internal animation with HeightAnimation component ([#1619](https://github.com/dnbexperience/eufemia/issues/1619)) ([2cb2d48](https://github.com/dnbexperience/eufemia/commit/2cb2d48df457bcf13838b126b6fc197feb04d453))
+* **Dl:** ensure correct spacing ([#1626](https://github.com/dnbexperience/eufemia/issues/1626)) ([5330e6d](https://github.com/dnbexperience/eufemia/commit/5330e6dc1c313ce7f3e72f0e6d57b41450e5ac47))
+* **Dl:** remove span as direct sibling for horizontal direction ([#1625](https://github.com/dnbexperience/eufemia/issues/1625)) ([6845219](https://github.com/dnbexperience/eufemia/commit/6845219f3568b1b943199ff63bcfba7820899913))
+* **Drawer:** ensure ScrollView is used for scrollable content ([#1632](https://github.com/dnbexperience/eufemia/issues/1632)) ([fea2358](https://github.com/dnbexperience/eufemia/commit/fea23585869e830d2f5c2095d5ed18a26cc635de))
+* **DrawerList:** fix auto sizing when used in Drawer component ([#1634](https://github.com/dnbexperience/eufemia/issues/1634)) ([f19d58b](https://github.com/dnbexperience/eufemia/commit/f19d58bcad58226373722e7c3cbf5529bd58e730)), closes [#1632](https://github.com/dnbexperience/eufemia/issues/1632) [#1633](https://github.com/dnbexperience/eufemia/issues/1633) [#1631](https://github.com/dnbexperience/eufemia/issues/1631)
+* **DrawerList:** reset "enable_body_lock" handlers after closing ([#1629](https://github.com/dnbexperience/eufemia/issues/1629)) ([1a90c72](https://github.com/dnbexperience/eufemia/commit/1a90c729d091074c18c807f799d83853c36eed7e))
+* **Drawer:** make spacing of header and nav robust ([#1641](https://github.com/dnbexperience/eufemia/issues/1641)) ([5454ded](https://github.com/dnbexperience/eufemia/commit/5454ded078b972de35d4942c29367845a56d8e32))
+* **FormStatus:** fix stretch when used in Dropdown and Autocomplete ([#1618](https://github.com/dnbexperience/eufemia/issues/1618)) ([a961feb](https://github.com/dnbexperience/eufemia/commit/a961feb1b06c7ddba10b3d5423c57e045e9e52b5))
+* **gatsby-plugin-eufemia-theme-handler:** support Gatsby > v4.24 ([#1623](https://github.com/dnbexperience/eufemia/issues/1623)) ([34d0f6c](https://github.com/dnbexperience/eufemia/commit/34d0f6cafa3793bd9b4763d7aad05c39201d2443))
+* **Icon:** fix override of data-testid property when provided ([#1637](https://github.com/dnbexperience/eufemia/issues/1637)) ([d335a14](https://github.com/dnbexperience/eufemia/commit/d335a14873bed46922ed9accd3e6c0d79f2e7c18))
+* **Pagination:** fix locale support ([#1651](https://github.com/dnbexperience/eufemia/issues/1651)) ([01b93ce](https://github.com/dnbexperience/eufemia/commit/01b93ce55513dcecc1fc012973a194e7e2c8f218))
+* **Section:** make style_type property accept any string ([#1636](https://github.com/dnbexperience/eufemia/issues/1636)) ([9e51565](https://github.com/dnbexperience/eufemia/commit/9e5156531b614558836ed77dcaafb9e649b69606))
+* **Section:** rename AllSectionProps to SectionAllProps ([#1640](https://github.com/dnbexperience/eufemia/issues/1640)) ([23de874](https://github.com/dnbexperience/eufemia/commit/23de87451a6a59223cbc91dd2f094cf65af6e9bc))
+* **Space:** rewrite Space component to TypeScript ([#1644](https://github.com/dnbexperience/eufemia/issues/1644)) ([c59f732](https://github.com/dnbexperience/eufemia/commit/c59f7329dfcb748240200f0d79995a47eba876ad))
+* **Tooltip:** ensure timers cleanup on unmount ([#1642](https://github.com/dnbexperience/eufemia/issues/1642)) ([6dd4b7b](https://github.com/dnbexperience/eufemia/commit/6dd4b7ba11ffc7edfe0e5640702763dc9b6e5e86))
+
+
+### Features
+
+* **DrawerList:** animate max-height when changed during scrolling ([#1631](https://github.com/dnbexperience/eufemia/issues/1631)) ([cf302f7](https://github.com/dnbexperience/eufemia/commit/cf302f7d9c04ad0cb019401ddebd268599be5275))
+* **DrawerList:** animate position when used inside dnb-scroll-view ([#1633](https://github.com/dnbexperience/eufemia/issues/1633)) ([7ed9550](https://github.com/dnbexperience/eufemia/commit/7ed9550513e8ff7a8d18c009c0023e646b187c31))
+* **HeightAnimation:** add showOverflow property ([#1627](https://github.com/dnbexperience/eufemia/issues/1627)) ([a9bbce4](https://github.com/dnbexperience/eufemia/commit/a9bbce415e8ddb4bbe2ae3935402c2347ee1d854))
+* **HeightAnimation:** make the view open by default ([#1646](https://github.com/dnbexperience/eufemia/issues/1646)) ([32aa0eb](https://github.com/dnbexperience/eufemia/commit/32aa0eb76d03a81e653c6a99c40b621813767238))
+* **icons:** hierarchy, layout_card and unlock ([#1654](https://github.com/dnbexperience/eufemia/issues/1654)) ([d8d37ba](https://github.com/dnbexperience/eufemia/commit/d8d37bacaf76e7d70c04f9447bffa63ef8b6c4f3))
+* **Upload:** add new Upload component ([#1581](https://github.com/dnbexperience/eufemia/issues/1581)) ([3304347](https://github.com/dnbexperience/eufemia/commit/330434709ddf31e3916f6fdf96d082986f0f0503)), closes [#1626](https://github.com/dnbexperience/eufemia/issues/1626)
+
 ## [9.32.1](https://github.com/dnbexperience/eufemia/compare/v9.32.0...v9.32.1) (2022-10-09)
 
 
